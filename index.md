@@ -45,7 +45,7 @@ layout: default
 * :warning: <a href="library/datastructure/lazysegtree.cpp.html">datastructure/lazysegtree.cpp</a>
 * :warning: <a href="library/datastructure/monotoniccht.cpp.html">datastructure/monotoniccht.cpp</a>
 * :warning: <a href="library/datastructure/quickfind.cpp.html">datastructure/quickfind.cpp</a>
-* :x: <a href="library/datastructure/radixheap.cpp.html">datastructure/radixheap.cpp</a>
+* :warning: <a href="library/datastructure/radixheap.cpp.html">datastructure/radixheap.cpp</a>
 * :warning: <a href="library/datastructure/segtree.cpp.html">datastructure/segtree.cpp</a>
 * :warning: <a href="library/datastructure/slidingwindow.cpp.html">datastructure/slidingwindow.cpp</a>
 * :warning: <a href="library/datastructure/sparsetable.cpp.html">datastructure/sparsetable.cpp</a>
@@ -155,7 +155,6 @@ layout: default
 
 ## Verify Files
 
-* :x: <a href="verify/test/aoj1406.test.cpp.html">test/aoj1406.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/example.test.cpp.html">test/example.test.cpp</a>

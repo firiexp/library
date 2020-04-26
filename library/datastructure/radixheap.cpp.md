@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: datastructure/radixheap.cpp
+# :warning: datastructure/radixheap.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -34,11 +34,6 @@ layout: default
     - Last commit date: 2020-04-26 17:42:59+09:00
 
 
-
-
-## Verified with
-
-* :x: <a href="../../verify/test/aoj1406.test.cpp.html">test/aoj1406.test.cpp</a>
 
 
 ## Code
