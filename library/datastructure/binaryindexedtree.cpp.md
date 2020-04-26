@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small>
+# :heavy_check_mark: BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
@@ -44,6 +44,11 @@ layout: default
 - $\mathrm{add}(k, x)$ : $k$番目の要素に$x$を加算する。
 - $\mathrm{sum}(k)$ : 閉区間$[0, k]$の和を求める。
 - $\mathrm{lower\_bound}(x)$ : $\mathrm{sum}(k)$が$x$以上になる最小の$k$を求める。
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
+
 
 ## Code
 
