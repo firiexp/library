@@ -26,3 +26,7 @@ public:
         return i;
     }
 };
+/**
+ * @brief BinaryIndexedTree (BIT)
+ * @docs _md/binaryindexedtree.md
+ */

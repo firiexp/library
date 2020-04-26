@@ -9,7 +9,7 @@ public:
     explicit AhoCorasick() : v(1) {}
     vector<Node> v;
     vector<int> ord;
-    int add(string &s, int x = 0, int cur = 0){
+    int add(string &s, int cur = 0){
         for (auto &&i : s) {
             if(!v[cur].to[i-start]) v[cur].to[i-start] = v.size(), v.emplace_back();
             cur = v[cur].to[i-start];
