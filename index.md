@@ -38,7 +38,7 @@ layout: default
 
 ### datastructure
 
-* :warning: <a href="library/datastructure/ahocorasick.cpp.html">datastructure/ahocorasick.cpp</a>
+* :warning: <a href="library/datastructure/ahocorasick.cpp.html">Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small></a>
 * :warning: <a href="library/datastructure/binaryindexedtree.cpp.html">datastructure/binaryindexedtree.cpp</a>
 * :warning: <a href="library/datastructure/binarytrie.cpp.html">datastructure/binarytrie.cpp</a>
 * :warning: <a href="library/datastructure/dualsegtree.cpp.html">datastructure/dualsegtree.cpp</a>

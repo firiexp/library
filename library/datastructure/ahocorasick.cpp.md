@@ -25,16 +25,19 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: datastructure/ahocorasick.cpp
+# :warning: Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/ahocorasick.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:26:03+09:00
+    - Last commit date: 2020-04-26 17:49:39+09:00
 
 
 
+
+## 説明
+あとで書く
 
 ## Code
 
@@ -84,7 +87,10 @@ public:
     }
     inline int next(int x, char c){ return v[x].to[c-start]; }
 };
-
+/**
+ * @brief Aho-Corasick法
+ * @docs _md/ahocorasick.md
+ */
 ```
 {% endraw %}
 
@@ -135,6 +141,10 @@ public:
     }
     inline int next(int x, char c){ return v[x].to[c-start]; }
 };
+/**
+ * @brief Aho-Corasick法
+ * @docs _md/ahocorasick.md
+ */
 
 ```
 {% endraw %}
