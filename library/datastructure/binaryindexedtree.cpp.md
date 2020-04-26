@@ -43,7 +43,7 @@ layout: default
 ## 操作
 - $\mathrm{add}(k, x)$ : $k$番目の要素に$x$を加算する。
 - $\mathrm{sum}(k)$ : 閉区間$[0, k]$の和を求める。
-- $\mathrm{lower_bound}(x)$ : $\mathrm{sum}(k)$が$x$以上になる最小の$k$を求める。
+- $\mathrm{lower\_bound}(x)$ : $\mathrm{sum}(k)$が$x$以上になる最小の$k$を求める。
 
 ## Code
 

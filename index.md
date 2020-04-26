@@ -38,7 +38,7 @@ layout: default
 
 ### datastructure
 
-* :warning: <a href="library/datastructure/ahocorasick.cpp.html">Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small></a>
+* :heavy_check_mark: <a href="library/datastructure/ahocorasick.cpp.html">Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small></a>
 * :warning: <a href="library/datastructure/binaryindexedtree.cpp.html">BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small></a>
 * :warning: <a href="library/datastructure/binarytrie.cpp.html">datastructure/binarytrie.cpp</a>
 * :warning: <a href="library/datastructure/dualsegtree.cpp.html">datastructure/dualsegtree.cpp</a>
@@ -146,7 +146,7 @@ layout: default
 * :warning: <a href="library/util/kado.cpp.html">util/kado.cpp</a>
 * :warning: <a href="library/util/makev.cpp.html">util/makev.cpp</a>
 * :warning: <a href="library/util/mo.cpp.html">util/mo.cpp</a>
-* :warning: <a href="library/util/modint.cpp.html">util/modint.cpp</a>
+* :heavy_check_mark: <a href="library/util/modint.cpp.html">util/modint.cpp</a>
 * :warning: <a href="library/util/modint_arbitrary.cpp.html">util/modint_arbitrary.cpp</a>
 * :warning: <a href="library/util/parse.cpp.html">util/parse.cpp</a>
 * :warning: <a href="library/util/uniq.cpp.html">util/uniq.cpp</a>
@@ -155,6 +155,7 @@ layout: default
 
 ## Verify Files
 
+* :heavy_check_mark: <a href="verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/example.test.cpp.html">test/example.test.cpp</a>
 
 

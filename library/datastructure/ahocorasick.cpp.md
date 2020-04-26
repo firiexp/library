@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small>
+# :heavy_check_mark: Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
@@ -42,6 +42,12 @@ Trie木に対応するパターンマッチングオートマトンを構築す�
 ## 操作
 - $\mathrm{add}(s, cur))$ : Trie木の位置$cur$に文字列$s$を追加し、そのノードを返す。
 - $\mathrm{build}()$ : パターンマッチングオートマトンを構築する。
+- $\mathrm{next}(x, c)$ : 位置xに文字$c$を与えたときの行き先を返す。
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
+
 
 ## Code
 
