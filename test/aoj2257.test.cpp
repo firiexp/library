@@ -18,7 +18,7 @@ using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
-#include "../math/modint.cpp"
+#include "../util/modint.cpp"
 #include "../datastructure/ahocorasick.cpp"
 
 mint dp[32][501][601][2];
