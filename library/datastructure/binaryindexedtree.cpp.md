@@ -25,16 +25,25 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: datastructure/binaryindexedtree.cpp
+# :warning: BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/binaryindexedtree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-04-26 18:02:42+09:00
 
 
 
+
+## 説明
+可換群(逆元が存在する群)について、区間和を$O(\log N)$で求め、更新を$O(\log N)$で行う。<br>
+可換でなくても$[0, x)$について演算した結果だけを求めたいのであれば、使うことができる。(例: LIS)
+
+## 操作
+- $\mathrm{add}(k, x)$ : $k$番目の要素に$x$を加算する。
+- $\mathrm{sum}(k)$ : 閉区間$[0, k]$の和を求める。
+- $\mathrm{lower_bound}(x)$ : $\mathrm{sum}(k)$が$x$以上になる最小の$k$を求める。
 
 ## Code
 
@@ -69,7 +78,10 @@ public:
         return i;
     }
 };
-
+/**
+ * @brief BinaryIndexedTree (BIT)
+ * @docs _md/binaryindexedtree.md
+ */
 ```
 {% endraw %}
 
@@ -105,6 +117,10 @@ public:
         return i;
     }
 };
+/**
+ * @brief BinaryIndexedTree (BIT)
+ * @docs _md/binaryindexedtree.md
+ */
 
 ```
 {% endraw %}

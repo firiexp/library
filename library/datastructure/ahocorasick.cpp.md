@@ -31,13 +31,17 @@ layout: default
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/ahocorasick.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:49:39+09:00
+    - Last commit date: 2020-04-26 18:02:42+09:00
 
 
 
 
 ## 説明
-あとで書く
+Trie木に対応するパターンマッチングオートマトンを構築する。
+
+## 操作
+- $\mathrm{add}(s, cur))$ : Trie木の位置$cur$に文字列$s$を追加し、そのノードを返す。
+- $\mathrm{build}()$ : パターンマッチングオートマトンを構築する。
 
 ## Code
 
@@ -55,7 +59,7 @@ public:
     explicit AhoCorasick() : v(1) {}
     vector<Node> v;
     vector<int> ord;
-    int add(string &s, int x = 0, int cur = 0){
+    int add(string &s, int cur = 0){
         for (auto &&i : s) {
             if(!v[cur].to[i-start]) v[cur].to[i-start] = v.size(), v.emplace_back();
             cur = v[cur].to[i-start];
@@ -109,7 +113,7 @@ public:
     explicit AhoCorasick() : v(1) {}
     vector<Node> v;
     vector<int> ord;
-    int add(string &s, int x = 0, int cur = 0){
+    int add(string &s, int cur = 0){
         for (auto &&i : s) {
             if(!v[cur].to[i-start]) v[cur].to[i-start] = v.size(), v.emplace_back();
             cur = v[cur].to[i-start];
