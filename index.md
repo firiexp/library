@@ -34,6 +34,13 @@ layout: default
 
 ## Library Files
 
+<div id="8dc87745f885a4cc532acd7b15b8b5fe"></div>
+
+### datastructure
+
+* :warning: <a href="library/datastructure/ahocorasick.cpp.html">datastructure/ahocorasick.cpp</a>
+
+
 <div id="d521f765a49c72507257a2620612ee96"></div>
 
 ### library
@@ -41,7 +48,6 @@ layout: default
 * :warning: <a href="library/library/CRT.cpp.html">library/CRT.cpp</a>
 * :warning: <a href="library/library/LCA.cpp.html">library/LCA.cpp</a>
 * :warning: <a href="library/library/SCC.cpp.html">library/SCC.cpp</a>
-* :warning: <a href="library/library/ahocorasick.cpp.html">library/ahocorasick.cpp</a>
 * :warning: <a href="library/library/bellman_ford.cpp.html">library/bellman_ford.cpp</a>
 * :warning: <a href="library/library/bellman_ford_negative_loop.cpp.html">library/bellman_ford_negative_loop.cpp</a>
 * :warning: <a href="library/library/binaryindexedtree.cpp.html">library/binaryindexedtree.cpp</a>

@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: library/ahocorasick.cpp
+# :warning: datastructure/ahocorasick.cpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#d521f765a49c72507257a2620612ee96">library</a>
-* <a href="{{ site.github.repository_url }}/blob/master/library/ahocorasick.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 16:08:15+09:00
+* category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
+* <a href="{{ site.github.repository_url }}/blob/master/datastructure/ahocorasick.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-04-26 17:26:03+09:00
 
 
 
@@ -91,7 +91,7 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "library/ahocorasick.cpp"
+#line 1 "datastructure/ahocorasick.cpp"
 template<int W, int start>
 class AhoCorasick {
 public:
