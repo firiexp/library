@@ -41,3 +41,7 @@ public:
     }
     inline int next(int x, char c){ return v[x].to[c-start]; }
 };
+/**
+ * @brief Aho-Corasick法
+ * @docs _md/ahocorasick.md
+ */
