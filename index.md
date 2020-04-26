@@ -39,82 +39,118 @@ layout: default
 ### datastructure
 
 * :warning: <a href="library/datastructure/ahocorasick.cpp.html">datastructure/ahocorasick.cpp</a>
+* :warning: <a href="library/datastructure/binaryindexedtree.cpp.html">datastructure/binaryindexedtree.cpp</a>
+* :warning: <a href="library/datastructure/binarytrie.cpp.html">datastructure/binarytrie.cpp</a>
+* :warning: <a href="library/datastructure/dualsegtree.cpp.html">datastructure/dualsegtree.cpp</a>
+* :warning: <a href="library/datastructure/lazysegtree.cpp.html">datastructure/lazysegtree.cpp</a>
+* :warning: <a href="library/datastructure/monotoniccht.cpp.html">datastructure/monotoniccht.cpp</a>
+* :warning: <a href="library/datastructure/quickfind.cpp.html">datastructure/quickfind.cpp</a>
+* :warning: <a href="library/datastructure/radixheap.cpp.html">datastructure/radixheap.cpp</a>
+* :warning: <a href="library/datastructure/segtree.cpp.html">datastructure/segtree.cpp</a>
+* :warning: <a href="library/datastructure/slidingwindow.cpp.html">datastructure/slidingwindow.cpp</a>
+* :warning: <a href="library/datastructure/sparsetable.cpp.html">datastructure/sparsetable.cpp</a>
+* :warning: <a href="library/datastructure/swag.cpp.html">datastructure/swag.cpp</a>
+* :warning: <a href="library/datastructure/swag_deque.cpp.html">datastructure/swag_deque.cpp</a>
+* :warning: <a href="library/datastructure/trie.cpp.html">datastructure/trie.cpp</a>
+* :warning: <a href="library/datastructure/undoableunionfind.cpp.html">datastructure/undoableunionfind.cpp</a>
+* :warning: <a href="library/datastructure/unionfind.cpp.html">datastructure/unionfind.cpp</a>
+* :warning: <a href="library/datastructure/weightedunionfind.cpp.html">datastructure/weightedunionfind.cpp</a>
 
 
-<div id="d521f765a49c72507257a2620612ee96"></div>
+<div id="cff5497121104c2b8e0cb41ed2083a9b"></div>
 
-### library
+### flow
 
-* :warning: <a href="library/library/CRT.cpp.html">library/CRT.cpp</a>
-* :warning: <a href="library/library/LCA.cpp.html">library/LCA.cpp</a>
-* :warning: <a href="library/library/SCC.cpp.html">library/SCC.cpp</a>
-* :warning: <a href="library/library/bellman_ford.cpp.html">library/bellman_ford.cpp</a>
-* :warning: <a href="library/library/bellman_ford_negative_loop.cpp.html">library/bellman_ford_negative_loop.cpp</a>
-* :warning: <a href="library/library/binaryindexedtree.cpp.html">library/binaryindexedtree.cpp</a>
-* :warning: <a href="library/library/binarytrie.cpp.html">library/binarytrie.cpp</a>
-* :warning: <a href="library/library/bipartite_matching.cpp.html">library/bipartite_matching.cpp</a>
-* :warning: <a href="library/library/dice.cpp.html">library/dice.cpp</a>
-* :warning: <a href="library/library/dijkstra.cpp.html">library/dijkstra.cpp</a>
-* :warning: <a href="library/library/dinic.cpp.html">library/dinic.cpp</a>
-* :warning: <a href="library/library/divisor.cpp.html">library/divisor.cpp</a>
-* :warning: <a href="library/library/dualsegtree.cpp.html">library/dualsegtree.cpp</a>
-* :warning: <a href="library/library/extgcd.cpp.html">library/extgcd.cpp</a>
-* :warning: <a href="library/library/factorial.cpp.html">library/factorial.cpp</a>
-* :warning: <a href="library/library/fastkitamasa.cpp.html">library/fastkitamasa.cpp</a>
-* :warning: <a href="library/library/fft.cpp.html">library/fft.cpp</a>
-* :warning: <a href="library/library/fft3.cpp.html">library/fft3.cpp</a>
-* :warning: <a href="library/library/garner.cpp.html">library/garner.cpp</a>
-* :warning: <a href="library/library/geometry.cpp.html">library/geometry.cpp</a>
-* :warning: <a href="library/library/geometry3d.cpp.html">library/geometry3d.cpp</a>
-* :warning: <a href="library/library/get_prime.cpp.html">library/get_prime.cpp</a>
-* :warning: <a href="library/library/get_prime2.cpp.html">library/get_prime2.cpp</a>
-* :warning: <a href="library/library/hld.cpp.html">library/hld.cpp</a>
-* :warning: <a href="library/library/independentset.cpp.html">library/independentset.cpp</a>
-* :warning: <a href="library/library/is_palindrome.cpp.html">library/is_palindrome.cpp</a>
-* :warning: <a href="library/library/jp.cpp.html">library/jp.cpp</a>
-* :warning: <a href="library/library/kado.cpp.html">library/kado.cpp</a>
-* :warning: <a href="library/library/kruskal.cpp.html">library/kruskal.cpp</a>
-* :warning: <a href="library/library/lazysegtree.cpp.html">library/lazysegtree.cpp</a>
-* :warning: <a href="library/library/makev.cpp.html">library/makev.cpp</a>
-* :warning: <a href="library/library/manacher.cpp.html">library/manacher.cpp</a>
-* :warning: <a href="library/library/matrix.cpp.html">library/matrix.cpp</a>
-* :warning: <a href="library/library/miller_rabin.cpp.html">library/miller_rabin.cpp</a>
-* :warning: <a href="library/library/mo.cpp.html">library/mo.cpp</a>
-* :warning: <a href="library/library/mobius_all.cpp.html">library/mobius_all.cpp</a>
-* :warning: <a href="library/library/modint.cpp.html">library/modint.cpp</a>
-* :warning: <a href="library/library/modint_arbitrary.cpp.html">library/modint_arbitrary.cpp</a>
-* :warning: <a href="library/library/modinv.cpp.html">library/modinv.cpp</a>
-* :warning: <a href="library/library/monotoniccht.cpp.html">library/monotoniccht.cpp</a>
-* :warning: <a href="library/library/ntt.cpp.html">library/ntt.cpp</a>
-* :warning: <a href="library/library/offlinedynamicconnectivity.cpp.html">library/offlinedynamicconnectivity.cpp</a>
-* :warning: <a href="library/library/parse.cpp.html">library/parse.cpp</a>
-* :warning: <a href="library/library/pow.cpp.html">library/pow.cpp</a>
-* :warning: <a href="library/library/primaldual.cpp.html">library/primaldual.cpp</a>
-* :warning: <a href="library/library/primefactor.cpp.html">library/primefactor.cpp</a>
-* :warning: <a href="library/library/primefactor2.cpp.html">library/primefactor2.cpp</a>
-* :warning: <a href="library/library/primefactor_ll.cpp.html">library/primefactor_ll.cpp</a>
-* :warning: <a href="library/library/primefactor_ll2.cpp.html">library/primefactor_ll2.cpp</a>
-* :warning: <a href="library/library/quickfind.cpp.html">library/quickfind.cpp</a>
-* :warning: <a href="library/library/radixheap.cpp.html">library/radixheap.cpp</a>
-* :warning: <a href="library/library/rerooting.cpp.html">library/rerooting.cpp</a>
-* :warning: <a href="library/library/rolling_hash.cpp.html">library/rolling_hash.cpp</a>
-* :warning: <a href="library/library/rolling_hash_u64.cpp.html">library/rolling_hash_u64.cpp</a>
-* :warning: <a href="library/library/segtree.cpp.html">library/segtree.cpp</a>
-* :warning: <a href="library/library/slidingwindow.cpp.html">library/slidingwindow.cpp</a>
-* :warning: <a href="library/library/sparsetable.cpp.html">library/sparsetable.cpp</a>
-* :warning: <a href="library/library/squarematrix.cpp.html">library/squarematrix.cpp</a>
-* :warning: <a href="library/library/swag.cpp.html">library/swag.cpp</a>
-* :warning: <a href="library/library/swag_deque.cpp.html">library/swag_deque.cpp</a>
-* :warning: <a href="library/library/treedfs.cpp.html">library/treedfs.cpp</a>
-* :warning: <a href="library/library/trie.cpp.html">library/trie.cpp</a>
-* :warning: <a href="library/library/twoedgeconnectedcomponents.cpp.html">library/twoedgeconnectedcomponents.cpp</a>
-* :warning: <a href="library/library/twosat.cpp.html">library/twosat.cpp</a>
-* :warning: <a href="library/library/undoableunionfind.cpp.html">library/undoableunionfind.cpp</a>
-* :warning: <a href="library/library/unionfind.cpp.html">library/unionfind.cpp</a>
-* :warning: <a href="library/library/uniq.cpp.html">library/uniq.cpp</a>
-* :warning: <a href="library/library/weightedunionfind.cpp.html">library/weightedunionfind.cpp</a>
-* :warning: <a href="library/library/xorshift.cpp.html">library/xorshift.cpp</a>
-* :warning: <a href="library/library/z-algorithm.cpp.html">library/z-algorithm.cpp</a>
+* :warning: <a href="library/flow/dinic.cpp.html">flow/dinic.cpp</a>
+* :warning: <a href="library/flow/primaldual.cpp.html">flow/primaldual.cpp</a>
+
+
+<div id="ed7daeb157cd9b31e53896ad3c771a26"></div>
+
+### geometry
+
+* :warning: <a href="library/geometry/geometry.cpp.html">geometry/geometry.cpp</a>
+* :warning: <a href="library/geometry/geometry3d.cpp.html">geometry/geometry3d.cpp</a>
+
+
+<div id="f8b0b924ebd7046dbfa85a856e4682c8"></div>
+
+### graph
+
+* :warning: <a href="library/graph/SCC.cpp.html">graph/SCC.cpp</a>
+* :warning: <a href="library/graph/bellman_ford.cpp.html">graph/bellman_ford.cpp</a>
+* :warning: <a href="library/graph/bellman_ford_negative_loop.cpp.html">graph/bellman_ford_negative_loop.cpp</a>
+* :warning: <a href="library/graph/bipartite_matching.cpp.html">graph/bipartite_matching.cpp</a>
+* :warning: <a href="library/graph/dijkstra.cpp.html">graph/dijkstra.cpp</a>
+* :warning: <a href="library/graph/independentset.cpp.html">graph/independentset.cpp</a>
+* :warning: <a href="library/graph/kruskal.cpp.html">graph/kruskal.cpp</a>
+* :warning: <a href="library/graph/offlinedynamicconnectivity.cpp.html">graph/offlinedynamicconnectivity.cpp</a>
+* :warning: <a href="library/graph/twoedgeconnectedcomponents.cpp.html">graph/twoedgeconnectedcomponents.cpp</a>
+* :warning: <a href="library/graph/twosat.cpp.html">graph/twosat.cpp</a>
+
+
+<div id="7e676e9e663beb40fd133f5ee24487c2"></div>
+
+### math
+
+* :warning: <a href="library/math/CRT.cpp.html">math/CRT.cpp</a>
+* :warning: <a href="library/math/divisor.cpp.html">math/divisor.cpp</a>
+* :warning: <a href="library/math/extgcd.cpp.html">math/extgcd.cpp</a>
+* :warning: <a href="library/math/factorial.cpp.html">math/factorial.cpp</a>
+* :warning: <a href="library/math/fastkitamasa.cpp.html">math/fastkitamasa.cpp</a>
+* :warning: <a href="library/math/fft.cpp.html">math/fft.cpp</a>
+* :warning: <a href="library/math/fft3.cpp.html">math/fft3.cpp</a>
+* :warning: <a href="library/math/garner.cpp.html">math/garner.cpp</a>
+* :warning: <a href="library/math/get_prime.cpp.html">math/get_prime.cpp</a>
+* :warning: <a href="library/math/get_prime2.cpp.html">math/get_prime2.cpp</a>
+* :warning: <a href="library/math/matrix.cpp.html">math/matrix.cpp</a>
+* :warning: <a href="library/math/miller_rabin.cpp.html">math/miller_rabin.cpp</a>
+* :warning: <a href="library/math/mobius_all.cpp.html">math/mobius_all.cpp</a>
+* :warning: <a href="library/math/modinv.cpp.html">math/modinv.cpp</a>
+* :warning: <a href="library/math/ntt.cpp.html">math/ntt.cpp</a>
+* :warning: <a href="library/math/pow.cpp.html">math/pow.cpp</a>
+* :warning: <a href="library/math/primefactor.cpp.html">math/primefactor.cpp</a>
+* :warning: <a href="library/math/primefactor2.cpp.html">math/primefactor2.cpp</a>
+* :warning: <a href="library/math/primefactor_ll.cpp.html">math/primefactor_ll.cpp</a>
+* :warning: <a href="library/math/primefactor_ll2.cpp.html">math/primefactor_ll2.cpp</a>
+* :warning: <a href="library/math/squarematrix.cpp.html">math/squarematrix.cpp</a>
+
+
+<div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
+
+### string
+
+* :warning: <a href="library/string/manacher.cpp.html">string/manacher.cpp</a>
+* :warning: <a href="library/string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
+* :warning: <a href="library/string/rolling_hash_u64.cpp.html">string/rolling_hash_u64.cpp</a>
+* :warning: <a href="library/string/z-algorithm.cpp.html">string/z-algorithm.cpp</a>
+
+
+<div id="c0af77cf8294ff93a5cdb2963ca9f038"></div>
+
+### tree
+
+* :warning: <a href="library/tree/LCA.cpp.html">tree/LCA.cpp</a>
+* :warning: <a href="library/tree/hld.cpp.html">tree/hld.cpp</a>
+* :warning: <a href="library/tree/rerooting.cpp.html">tree/rerooting.cpp</a>
+* :warning: <a href="library/tree/treedfs.cpp.html">tree/treedfs.cpp</a>
+
+
+<div id="05c7e24700502a079cdd88012b5a76d3"></div>
+
+### util
+
+* :warning: <a href="library/util/dice.cpp.html">util/dice.cpp</a>
+* :warning: <a href="library/util/is_palindrome.cpp.html">util/is_palindrome.cpp</a>
+* :warning: <a href="library/util/jp.cpp.html">util/jp.cpp</a>
+* :warning: <a href="library/util/kado.cpp.html">util/kado.cpp</a>
+* :warning: <a href="library/util/makev.cpp.html">util/makev.cpp</a>
+* :warning: <a href="library/util/mo.cpp.html">util/mo.cpp</a>
+* :warning: <a href="library/util/modint.cpp.html">util/modint.cpp</a>
+* :warning: <a href="library/util/modint_arbitrary.cpp.html">util/modint_arbitrary.cpp</a>
+* :warning: <a href="library/util/parse.cpp.html">util/parse.cpp</a>
+* :warning: <a href="library/util/uniq.cpp.html">util/uniq.cpp</a>
+* :warning: <a href="library/util/xorshift.cpp.html">util/xorshift.cpp</a>
 
 
 ## Verify Files
