@@ -1,0 +1,9 @@
+docs:
+plugins:
+- jekyll-remote-theme
+remote_theme: jekyll/minima
+theme: jekyll-theme-minimal
+
+title: TEST
+author: TESTER
+description: "TEST"
