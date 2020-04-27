@@ -31,3 +31,8 @@ struct modint{
     bool operator<(const modint a) const {return val < a.val;}
 };
 using mint = modint<MOD>;
+
+/**
+ * @brief modint(固定MOD)
+ * @docs _md/modint.md
+ */
