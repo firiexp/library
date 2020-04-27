@@ -31,9 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#7e676e9e663beb40fd133f5ee24487c2">math</a>
 * <a href="{{ site.github.repository_url }}/blob/master/math/factorial.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-04-27 22:51:41+09:00
 
 
+
+
+## Depends on
+
+* :heavy_check_mark: <a href="../util/modint.cpp.html">modint(固定MOD) <small>(util/modint.cpp)</small></a>
 
 
 ## Code
@@ -41,39 +46,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-template<u32 M = 1000000007> 
-struct modint{
-    u32 val;
-    modint(): val(0){}
-    template<typename T>
-    modint(T t){t %= (T)M; if(t < 0) t += (T)M; val = t;}
-
-    modint pow(ll k) const {
-        modint res(1), x(val);
-        while(k){
-            if(k&1) res *= x;
-            x *= x;
-            k >>= 1;
-        }
-        return res;
-    }
-    template<typename T>
-    modint& operator=(T t){t %= (T)M; if(t < 0) t += (T)M; val = t; return *this; }
-    modint inv() const {return pow(M-2);}
-    modint& operator+=(modint a){ val += a.val; if(val >= M) val -= M; return *this;}
-    modint& operator-=(modint a){ if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
-    modint& operator*=(modint a){ val = (u64)val*a.val%M; return *this;}
-    modint& operator/=(modint a){ return (*this) *= a.inv();}
-    modint operator+(modint a) const {return modint(val) +=a;}
-    modint operator-(modint a) const {return modint(val) -=a;}
-    modint operator*(modint a) const {return modint(val) *=a;}
-    modint operator/(modint a) const {return modint(val) /=a;}
-    modint operator-(){ return modint(M-val);}
-    bool operator==(const modint a) const {return val == a.val;}
-    bool operator!=(const modint a) const {return val != a.val;}
-    bool operator<(const modint a) const {return val < a.val;}
-};
-using mint = modint<MOD>;
+#include "../util/modint.cpp"
 
 class Factorial {
     vector<mint> facts, factinv;
@@ -109,8 +82,8 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "math/factorial.cpp"
-template<u32 M = 1000000007> 
+#line 1 "util/modint.cpp"
+template<u32 M = 1000000007>
 struct modint{
     u32 val;
     modint(): val(0){}
@@ -127,22 +100,28 @@ struct modint{
         return res;
     }
     template<typename T>
-    modint& operator=(T t){t %= (T)M; if(t < 0) t += (T)M; val = t; return *this; }
+    modint& operator=(T t){t %= (T)M; if(t < 0) t += (T)M; val = t; return *this;}
     modint inv() const {return pow(M-2);}
-    modint& operator+=(modint a){ val += a.val; if(val >= M) val -= M; return *this;}
-    modint& operator-=(modint a){ if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
-    modint& operator*=(modint a){ val = (u64)val*a.val%M; return *this;}
-    modint& operator/=(modint a){ return (*this) *= a.inv();}
+    modint& operator+=(modint a){val += a.val; if(val >= M) val -= M; return *this;}
+    modint& operator-=(modint a){if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
+    modint& operator*=(modint a){val = (u64)val*a.val%M; return *this;}
+    modint& operator/=(modint a){return (*this) *= a.inv();}
     modint operator+(modint a) const {return modint(val) +=a;}
     modint operator-(modint a) const {return modint(val) -=a;}
     modint operator*(modint a) const {return modint(val) *=a;}
     modint operator/(modint a) const {return modint(val) /=a;}
-    modint operator-(){ return modint(M-val);}
+    modint operator-(){return modint(M-val);}
     bool operator==(const modint a) const {return val == a.val;}
     bool operator!=(const modint a) const {return val != a.val;}
     bool operator<(const modint a) const {return val < a.val;}
 };
 using mint = modint<MOD>;
+
+/**
+ * @brief modint(固定MOD)
+ * @docs _md/modint.md
+ */
+#line 2 "math/factorial.cpp"
 
 class Factorial {
     vector<mint> facts, factinv;

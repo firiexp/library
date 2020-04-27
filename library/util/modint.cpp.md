@@ -42,6 +42,11 @@ layout: default
 ## できること
 - 四則演算、二分累乗
 
+## Required by
+
+* :warning: <a href="../math/factorial.cpp.html">math/factorial.cpp</a>
+
+
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
