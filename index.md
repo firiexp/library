@@ -61,6 +61,7 @@ layout: default
 
 ### flow
 
+* :warning: <a href="library/flow/costscalingdinic.cpp.html">flow/costscalingdinic.cpp</a>
 * :warning: <a href="library/flow/dinic.cpp.html">flow/dinic.cpp</a>
 * :warning: <a href="library/flow/primaldual.cpp.html">flow/primaldual.cpp</a>
 
