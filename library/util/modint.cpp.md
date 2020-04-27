@@ -25,16 +25,22 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: util/modint.cpp
+# :heavy_check_mark: modint(固定MOD) <small>(util/modint.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#05c7e24700502a079cdd88012b5a76d3">util</a>
 * <a href="{{ site.github.repository_url }}/blob/master/util/modint.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-04-27 22:47:20+09:00
 
 
 
+
+## 説明
+テンプレートにMODを指定すると、いちいち剰余を取ることなくMOD上の演算ができる。
+
+## できること
+- 四則演算、二分累乗
 
 ## Verified with
 
@@ -80,6 +86,11 @@ struct modint{
     bool operator<(const modint a) const {return val < a.val;}
 };
 using mint = modint<MOD>;
+
+/**
+ * @brief modint(固定MOD)
+ * @docs _md/modint.md
+ */
 ```
 {% endraw %}
 
@@ -120,6 +131,11 @@ struct modint{
     bool operator<(const modint a) const {return val < a.val;}
 };
 using mint = modint<MOD>;
+
+/**
+ * @brief modint(固定MOD)
+ * @docs _md/modint.md
+ */
 
 ```
 {% endraw %}

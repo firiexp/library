@@ -147,7 +147,7 @@ layout: default
 * :warning: <a href="library/util/kado.cpp.html">util/kado.cpp</a>
 * :warning: <a href="library/util/makev.cpp.html">util/makev.cpp</a>
 * :warning: <a href="library/util/mo.cpp.html">util/mo.cpp</a>
-* :heavy_check_mark: <a href="library/util/modint.cpp.html">util/modint.cpp</a>
+* :heavy_check_mark: <a href="library/util/modint.cpp.html">modint(固定MOD) <small>(util/modint.cpp)</small></a>
 * :warning: <a href="library/util/modint_arbitrary.cpp.html">util/modint_arbitrary.cpp</a>
 * :warning: <a href="library/util/parse.cpp.html">util/parse.cpp</a>
 * :warning: <a href="library/util/uniq.cpp.html">util/uniq.cpp</a>
