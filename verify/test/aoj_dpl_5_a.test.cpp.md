@@ -25,21 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: util/modint.cpp
+# :x: test/aoj_dpl_5_a.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#05c7e24700502a079cdd88012b5a76d3">util</a>
-* <a href="{{ site.github.repository_url }}/blob/master/util/modint.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+* category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/aoj_dpl_5_a.test.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-04-27 22:39:47+09:00
 
 
 
 
-## Verified with
+## Depends on
 
-* :heavy_check_mark: <a href="../../verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
-* :x: <a href="../../verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
+* :question: <a href="../../library/util/modint.cpp.html">util/modint.cpp</a>
 
 
 ## Code
@@ -47,45 +46,56 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-template<u32 M = 1000000007>
-struct modint{
-    u32 val;
-    modint(): val(0){}
-    template<typename T>
-    modint(T t){t %= (T)M; if(t < 0) t += (T)M; val = t;}
+#include <iostream>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <numeric>
+#include <bitset>
+#include <cmath>
 
-    modint pow(ll k) const {
-        modint res(1), x(val);
-        while(k){
-            if(k&1) res *= x;
-            x *= x;
-            k >>= 1;
-        }
-        return res;
-    }
-    template<typename T>
-    modint& operator=(T t){t %= (T)M; if(t < 0) t += (T)M; val = t; return *this;}
-    modint inv() const {return pow(M-2);}
-    modint& operator+=(modint a){val += a.val; if(val >= M) val -= M; return *this;}
-    modint& operator-=(modint a){if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
-    modint& operator*=(modint a){val = (u64)val*a.val%M; return *this;}
-    modint& operator/=(modint a){return (*this) *= a.inv();}
-    modint operator+(modint a) const {return modint(val) +=a;}
-    modint operator-(modint a) const {return modint(val) -=a;}
-    modint operator*(modint a) const {return modint(val) *=a;}
-    modint operator/(modint a) const {return modint(val) /=a;}
-    modint operator-(){return modint(M-val);}
-    bool operator==(const modint a) const {return val == a.val;}
-    bool operator!=(const modint a) const {return val != a.val;}
-    bool operator<(const modint a) const {return val < a.val;}
-};
-using mint = modint<MOD>;
+static const int MOD = 1000000007;
+using ll = long long;
+using u32 = unsigned;
+using u64 = unsigned long long;
+using namespace std;
+
+template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
+
+#include "../util/modint.cpp"
+int main() {
+    int n, k;
+    cin >> n >> k;
+    cout << mint(k).pow(n).val << "\n";
+    return 0;
+}
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/aoj_dpl_5_a.test.cpp"
+#include <iostream>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <numeric>
+#include <bitset>
+#include <cmath>
+
+static const int MOD = 1000000007;
+using ll = long long;
+using u32 = unsigned;
+using u64 = unsigned long long;
+using namespace std;
+
+template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
+
 #line 1 "util/modint.cpp"
 template<u32 M = 1000000007>
 struct modint{
@@ -120,6 +130,13 @@ struct modint{
     bool operator<(const modint a) const {return val < a.val;}
 };
 using mint = modint<MOD>;
+#line 20 "test/aoj_dpl_5_a.test.cpp"
+int main() {
+    int n, k;
+    cin >> n >> k;
+    cout << mint(k).pow(n).val << "\n";
+    return 0;
+}
 
 ```
 {% endraw %}
