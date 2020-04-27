@@ -1,3 +1,4 @@
+#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_5_A"
 #include <iostream>
 #include <algorithm>
 #include <map>
