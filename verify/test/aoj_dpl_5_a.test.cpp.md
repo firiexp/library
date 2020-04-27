@@ -25,20 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/aoj_dpl_5_a.test.cpp
+# :heavy_check_mark: test/aoj_dpl_5_a.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aoj_dpl_5_a.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-27 22:39:47+09:00
+    - Last commit date: 2020-04-27 22:42:00+09:00
 
 
+* see: <a href="http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_5_A">http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_5_A</a>
 
 
 ## Depends on
 
-* :question: <a href="../../library/util/modint.cpp.html">util/modint.cpp</a>
+* :heavy_check_mark: <a href="../../library/util/modint.cpp.html">util/modint.cpp</a>
 
 
 ## Code
@@ -46,6 +47,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_5_A"
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -78,6 +80,7 @@ int main() {
 {% raw %}
 ```cpp
 #line 1 "test/aoj_dpl_5_a.test.cpp"
+#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_5_A"
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -130,7 +133,7 @@ struct modint{
     bool operator<(const modint a) const {return val < a.val;}
 };
 using mint = modint<MOD>;
-#line 20 "test/aoj_dpl_5_a.test.cpp"
+#line 21 "test/aoj_dpl_5_a.test.cpp"
 int main() {
     int n, k;
     cin >> n >> k;

@@ -147,7 +147,7 @@ layout: default
 * :warning: <a href="library/util/kado.cpp.html">util/kado.cpp</a>
 * :warning: <a href="library/util/makev.cpp.html">util/makev.cpp</a>
 * :warning: <a href="library/util/mo.cpp.html">util/mo.cpp</a>
-* :question: <a href="library/util/modint.cpp.html">util/modint.cpp</a>
+* :heavy_check_mark: <a href="library/util/modint.cpp.html">util/modint.cpp</a>
 * :warning: <a href="library/util/modint_arbitrary.cpp.html">util/modint_arbitrary.cpp</a>
 * :warning: <a href="library/util/parse.cpp.html">util/parse.cpp</a>
 * :warning: <a href="library/util/uniq.cpp.html">util/uniq.cpp</a>
@@ -157,7 +157,7 @@ layout: default
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
-* :x: <a href="verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/example.test.cpp.html">test/example.test.cpp</a>
 
