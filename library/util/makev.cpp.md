@@ -25,15 +25,28 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: util/makev.cpp
+# :x: make_v, chmin, chmax <small>(util/makev.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#05c7e24700502a079cdd88012b5a76d3">util</a>
 * <a href="{{ site.github.repository_url }}/blob/master/util/makev.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-04-28 18:50:16+09:00
 
 
+
+
+## 説明
+vector<vector\<int\>>とか書かなくていいようにするやつ。
+
+## できること
+- make_v : 多次元vectorの作成
+- chmin(x, y) : x = min(x, y)
+- chmax(x, y) : x = max(x, y) 
+
+## Verified with
+
+* :x: <a href="../../verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
 
 
 ## Code
@@ -49,6 +62,11 @@ auto make_v(U size, Ts... rest) { return vector<decltype(make_v(rest...))>(stati
 
 template<class T> void chmin(T &a, const T &b){ a = (a < b ? a : b); }
 template<class T> void chmax(T &a, const T &b){ a = (a > b ? a : b); }
+
+/**
+ * @brief make_v, chmin, chmax
+ * @docs _md/makev.md
+ */
 ```
 {% endraw %}
 
@@ -64,6 +82,11 @@ auto make_v(U size, Ts... rest) { return vector<decltype(make_v(rest...))>(stati
 
 template<class T> void chmin(T &a, const T &b){ a = (a < b ? a : b); }
 template<class T> void chmax(T &a, const T &b){ a = (a > b ? a : b); }
+
+/**
+ * @brief make_v, chmin, chmax
+ * @docs _md/makev.md
+ */
 
 ```
 {% endraw %}
