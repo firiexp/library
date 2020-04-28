@@ -334,3 +334,8 @@ real closest_pair(Polygon &v, int l = 0, int r = -1){
     }
     return d;
 }
+
+/**
+ * @brief 幾何ライブラリ
+ * @docs _md/geometry.md
+ */

@@ -24,3 +24,8 @@ public:
     int size(int i){ return -uni[root(i)]; }
     bool same(int a, int b) { return root(a) == root(b); }
 };
+
+/**
+ * @brief UnionFind(素集合データ構造)
+ * @docs _md/unionfind.md
+ */

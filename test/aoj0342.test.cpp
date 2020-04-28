@@ -17,6 +17,7 @@ using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
+#define ERROR "1e-4"
 #include "../geometry/geometry.cpp"
 #include "../datastructure/unionfind.cpp"
 template <typename T>
