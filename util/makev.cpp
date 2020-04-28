@@ -6,3 +6,8 @@ auto make_v(U size, Ts... rest) { return vector<decltype(make_v(rest...))>(stati
 
 template<class T> void chmin(T &a, const T &b){ a = (a < b ? a : b); }
 template<class T> void chmax(T &a, const T &b){ a = (a > b ? a : b); }
+
+/**
+ * @brief make_v, chmin, chmax
+ * @docs _md/makev.md
+ */
