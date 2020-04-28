@@ -145,7 +145,7 @@ layout: default
 * :warning: <a href="library/util/is_palindrome.cpp.html">util/is_palindrome.cpp</a>
 * :warning: <a href="library/util/jp.cpp.html">util/jp.cpp</a>
 * :warning: <a href="library/util/kado.cpp.html">util/kado.cpp</a>
-* :x: <a href="library/util/makev.cpp.html">make_v, chmin, chmax <small>(util/makev.cpp)</small></a>
+* :heavy_check_mark: <a href="library/util/makev.cpp.html">make_v, chmin, chmax <small>(util/makev.cpp)</small></a>
 * :warning: <a href="library/util/mo.cpp.html">util/mo.cpp</a>
 * :heavy_check_mark: <a href="library/util/modint.cpp.html">modint(固定MOD) <small>(util/modint.cpp)</small></a>
 * :warning: <a href="library/util/modint_arbitrary.cpp.html">util/modint_arbitrary.cpp</a>
@@ -156,7 +156,7 @@ layout: default
 
 ## Verify Files
 
-* :x: <a href="verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>

@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: make_v, chmin, chmax <small>(util/makev.cpp)</small>
+# :heavy_check_mark: make_v, chmin, chmax <small>(util/makev.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
@@ -46,7 +46,7 @@ vector<vector\<int\>>とか書かなくていいようにするやつ。
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
 
 
 ## Code
