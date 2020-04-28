@@ -25,20 +25,23 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: geometry/geometry.cpp
+# :heavy_check_mark: 幾何ライブラリ <small>(geometry/geometry.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#ed7daeb157cd9b31e53896ad3c771a26">geometry</a>
 * <a href="{{ site.github.repository_url }}/blob/master/geometry/geometry.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-04-28 23:17:17+09:00
 
 
 
+
+## 説明
+幾何に関するライブラリの詰め合わせ。いろいろあります
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
 
 
 ## Code
@@ -382,6 +385,11 @@ real closest_pair(Polygon &v, int l = 0, int r = -1){
     }
     return d;
 }
+
+/**
+ * @brief 幾何ライブラリ
+ * @docs _md/geometry.md
+ */
 ```
 {% endraw %}
 
@@ -725,6 +733,11 @@ real closest_pair(Polygon &v, int l = 0, int r = -1){
     }
     return d;
 }
+
+/**
+ * @brief 幾何ライブラリ
+ * @docs _md/geometry.md
+ */
 
 ```
 {% endraw %}

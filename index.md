@@ -53,7 +53,7 @@ layout: default
 * :warning: <a href="library/datastructure/swag_deque.cpp.html">datastructure/swag_deque.cpp</a>
 * :warning: <a href="library/datastructure/trie.cpp.html">datastructure/trie.cpp</a>
 * :warning: <a href="library/datastructure/undoableunionfind.cpp.html">datastructure/undoableunionfind.cpp</a>
-* :x: <a href="library/datastructure/unionfind.cpp.html">datastructure/unionfind.cpp</a>
+* :heavy_check_mark: <a href="library/datastructure/unionfind.cpp.html">UnionFind(素集合データ構造) <small>(datastructure/unionfind.cpp)</small></a>
 * :warning: <a href="library/datastructure/weightedunionfind.cpp.html">datastructure/weightedunionfind.cpp</a>
 
 
@@ -70,7 +70,7 @@ layout: default
 
 ### geometry
 
-* :x: <a href="library/geometry/geometry.cpp.html">geometry/geometry.cpp</a>
+* :heavy_check_mark: <a href="library/geometry/geometry.cpp.html">幾何ライブラリ <small>(geometry/geometry.cpp)</small></a>
 * :warning: <a href="library/geometry/geometry3d.cpp.html">geometry/geometry3d.cpp</a>
 
 
@@ -157,7 +157,7 @@ layout: default
 ## Verify Files
 
 * :heavy_check_mark: <a href="verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
-* :x: <a href="verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>

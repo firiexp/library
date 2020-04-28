@@ -25,20 +25,31 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: datastructure/unionfind.cpp
+# :heavy_check_mark: UnionFind(素集合データ構造) <small>(datastructure/unionfind.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/unionfind.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-04-28 23:17:17+09:00
 
 
+
+
+## 説明
+頂点の併合、代表元の取得が$O(\alpha (n))$でできるデータ構造。
+
+## 操作
+- $\mathrm{root}(a)$ : 頂点$a$の代表元を取得。　
+- $\mathrm{unite}(a, b)$ : 頂点$a$と$b$の属する集合を併合する。　
+- $\mathrm{size}()$ : 集合の数を取得する。
+- $\mathrm{size}(i)$ : $i$の属する集合の大きさを取得する。
+- $\mathrm{same}(a, b)$ : $a$と$b$が同じ集合に属するかどうかを判定する。
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
 
 
 ## Code
@@ -72,6 +83,11 @@ public:
     int size(int i){ return -uni[root(i)]; }
     bool same(int a, int b) { return root(a) == root(b); }
 };
+
+/**
+ * @brief UnionFind(素集合データ構造)
+ * @docs _md/unionfind.md
+ */
 ```
 {% endraw %}
 
@@ -105,6 +121,11 @@ public:
     int size(int i){ return -uni[root(i)]; }
     bool same(int a, int b) { return root(a) == root(b); }
 };
+
+/**
+ * @brief UnionFind(素集合データ構造)
+ * @docs _md/unionfind.md
+ */
 
 ```
 {% endraw %}
