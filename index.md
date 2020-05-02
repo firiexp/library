@@ -82,7 +82,7 @@ layout: default
 * :warning: <a href="library/graph/bellman_ford.cpp.html">graph/bellman_ford.cpp</a>
 * :warning: <a href="library/graph/bellman_ford_negative_loop.cpp.html">graph/bellman_ford_negative_loop.cpp</a>
 * :warning: <a href="library/graph/bipartite_matching.cpp.html">graph/bipartite_matching.cpp</a>
-* :warning: <a href="library/graph/dijkstra.cpp.html">graph/dijkstra.cpp</a>
+* :heavy_check_mark: <a href="library/graph/dijkstra.cpp.html">graph/dijkstra.cpp</a>
 * :warning: <a href="library/graph/independentset.cpp.html">graph/independentset.cpp</a>
 * :warning: <a href="library/graph/kruskal.cpp.html">graph/kruskal.cpp</a>
 * :warning: <a href="library/graph/offlinedynamicconnectivity.cpp.html">graph/offlinedynamicconnectivity.cpp</a>
@@ -162,5 +162,6 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/example.test.cpp.html">test/example.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/yosupo_shortest_path.test.cpp.html">test/yosupo_shortest_path.test.cpp</a>
 
 
