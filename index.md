@@ -82,7 +82,7 @@ layout: default
 * :warning: <a href="library/graph/bellman_ford.cpp.html">graph/bellman_ford.cpp</a>
 * :warning: <a href="library/graph/bellman_ford_negative_loop.cpp.html">graph/bellman_ford_negative_loop.cpp</a>
 * :warning: <a href="library/graph/bipartite_matching.cpp.html">graph/bipartite_matching.cpp</a>
-* :heavy_check_mark: <a href="library/graph/dijkstra.cpp.html">graph/dijkstra.cpp</a>
+* :heavy_check_mark: <a href="library/graph/dijkstra.cpp.html">Dijkstra法 <small>(graph/dijkstra.cpp)</small></a>
 * :warning: <a href="library/graph/independentset.cpp.html">graph/independentset.cpp</a>
 * :warning: <a href="library/graph/kruskal.cpp.html">graph/kruskal.cpp</a>
 * :warning: <a href="library/graph/offlinedynamicconnectivity.cpp.html">graph/offlinedynamicconnectivity.cpp</a>

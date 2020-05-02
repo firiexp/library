@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_shortest_path.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-05-02 12:42:39+09:00
+    - Last commit date: 2020-05-02 12:45:39+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/shortest_path">https://judge.yosupo.jp/problem/shortest_path</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/graph/dijkstra.cpp.html">graph/dijkstra.cpp</a>
+* :heavy_check_mark: <a href="../../library/graph/dijkstra.cpp.html">Dijkstra法 <small>(graph/dijkstra.cpp)</small></a>
 
 
 ## Code
@@ -157,6 +157,11 @@ vector<T> dijkstra(int s,vector<vector<edge<T>>> &G){
     }
     return d;
 }
+
+/**
+ * @brief Dijkstra法
+ * @docs _md/dijkstra.md
+ */
 #line 22 "test/yosupo_shortest_path.test.cpp"
 
 int main() {

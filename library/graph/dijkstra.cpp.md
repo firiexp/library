@@ -25,16 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: graph/dijkstra.cpp
+# :heavy_check_mark: Dijkstra法 <small>(graph/dijkstra.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/dijkstra.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-05-02 12:45:39+09:00
 
 
 
+
+## 説明
+単一始点最短路を求める。負辺があると正しく動作しない。
+$O(V \log E)$
 
 ## Verified with
 
@@ -73,6 +77,11 @@ vector<T> dijkstra(int s,vector<vector<edge<T>>> &G){
     }
     return d;
 }
+
+/**
+ * @brief Dijkstra法
+ * @docs _md/dijkstra.md
+ */
 ```
 {% endraw %}
 
@@ -107,6 +116,11 @@ vector<T> dijkstra(int s,vector<vector<edge<T>>> &G){
     }
     return d;
 }
+
+/**
+ * @brief Dijkstra法
+ * @docs _md/dijkstra.md
+ */
 
 ```
 {% endraw %}
