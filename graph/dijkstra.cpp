@@ -25,3 +25,8 @@ vector<T> dijkstra(int s,vector<vector<edge<T>>> &G){
     }
     return d;
 }
+
+/**
+ * @brief Dijkstra法
+ * @docs _md/dijkstra.md
+ */
