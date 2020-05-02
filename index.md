@@ -45,7 +45,7 @@ layout: default
 * :warning: <a href="library/datastructure/lazysegtree.cpp.html">datastructure/lazysegtree.cpp</a>
 * :warning: <a href="library/datastructure/monotoniccht.cpp.html">datastructure/monotoniccht.cpp</a>
 * :warning: <a href="library/datastructure/quickfind.cpp.html">datastructure/quickfind.cpp</a>
-* :warning: <a href="library/datastructure/radixheap.cpp.html">datastructure/radixheap.cpp</a>
+* :heavy_check_mark: <a href="library/datastructure/radixheap.cpp.html">datastructure/radixheap.cpp</a>
 * :warning: <a href="library/datastructure/segtree.cpp.html">datastructure/segtree.cpp</a>
 * :warning: <a href="library/datastructure/slidingwindow.cpp.html">datastructure/slidingwindow.cpp</a>
 * :warning: <a href="library/datastructure/sparsetable.cpp.html">datastructure/sparsetable.cpp</a>
@@ -83,6 +83,7 @@ layout: default
 * :warning: <a href="library/graph/bellman_ford_negative_loop.cpp.html">graph/bellman_ford_negative_loop.cpp</a>
 * :warning: <a href="library/graph/bipartite_matching.cpp.html">graph/bipartite_matching.cpp</a>
 * :heavy_check_mark: <a href="library/graph/dijkstra.cpp.html">Dijkstra法 <small>(graph/dijkstra.cpp)</small></a>
+* :heavy_check_mark: <a href="library/graph/dijkstra_radix_heap.cpp.html">Dijkstra法(Radix Heap) <small>(graph/dijkstra_radix_heap.cpp)</small></a>
 * :warning: <a href="library/graph/independentset.cpp.html">graph/independentset.cpp</a>
 * :warning: <a href="library/graph/kruskal.cpp.html">graph/kruskal.cpp</a>
 * :warning: <a href="library/graph/offlinedynamicconnectivity.cpp.html">graph/offlinedynamicconnectivity.cpp</a>
@@ -163,5 +164,6 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/example.test.cpp.html">test/example.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_shortest_path.test.cpp.html">test/yosupo_shortest_path.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/yosupo_shortest_path_radix_heap.test.cpp.html">test/yosupo_shortest_path_radix_heap.test.cpp</a>
 
 
