@@ -5,5 +5,6 @@
 "test/aoj_dpl_5_a.test.cpp": "2020-04-27 22:47:20 +0900",
 "test/aoj_dsl_2_b.test.cpp": "2020-04-26 18:40:25 +0900",
 "test/example.test.cpp": "2020-04-26 16:08:15 +0900",
-"test/yosupo_shortest_path.test.cpp": "2020-05-02 12:45:39 +0900"
+"test/yosupo_shortest_path.test.cpp": "2020-05-02 12:45:39 +0900",
+"test/yosupo_shortest_path_radix_heap.test.cpp": "2020-05-02 12:50:18 +0900"
 }
