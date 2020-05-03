@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#c0af77cf8294ff93a5cdb2963ca9f038">tree</a>
 * <a href="{{ site.github.repository_url }}/blob/master/tree/hld.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-05-03 19:47:25+09:00
 
 
 
@@ -113,12 +113,12 @@ public:
     void query_edge(int u, int v, const F &f){
         while(true){
             if(id[u] > id[v]) swap(u, v);
-            f(max(id[head[v]], id[u]), id[v]+1);
-            if(head[u] == head[v]) {
-                if(u == v) break;
-                f(id[u], id[v]+1);
-            }else {
+            if(head[u] != head[v]) {
+                f(id[head[v]], id[v]+1);
                 v = par[head[v]];
+            }else {
+                if(u != v) f(id[u]+1, id[v]+1);
+                break;
             }
         }
     }
@@ -136,7 +136,6 @@ public:
     }
 
 };
-
 ```
 {% endraw %}
 
@@ -216,12 +215,12 @@ public:
     void query_edge(int u, int v, const F &f){
         while(true){
             if(id[u] > id[v]) swap(u, v);
-            f(max(id[head[v]], id[u]), id[v]+1);
-            if(head[u] == head[v]) {
-                if(u == v) break;
-                f(id[u], id[v]+1);
-            }else {
+            if(head[u] != head[v]) {
+                f(id[head[v]], id[v]+1);
                 v = par[head[v]];
+            }else {
+                if(u != v) f(id[u]+1, id[v]+1);
+                break;
             }
         }
     }
