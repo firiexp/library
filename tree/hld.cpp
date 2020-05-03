@@ -70,12 +70,12 @@ public:
     void query_edge(int u, int v, const F &f){
         while(true){
             if(id[u] > id[v]) swap(u, v);
-            f(max(id[head[v]], id[u]), id[v]+1);
-            if(head[u] == head[v]) {
-                if(u == v) break;
-                f(id[u], id[v]+1);
-            }else {
+            if(head[u] != head[v]) {
+                f(id[head[v]], id[v]+1);
                 v = par[head[v]];
+            }else {
+                if(u != v) f(id[u]+1, id[v]+1);
+                break;
             }
         }
     }
