@@ -46,7 +46,7 @@ layout: default
 
 ## Required by
 
-* :heavy_check_mark: <a href="dualgraph.cpp.html">geometry/dualgraph.cpp</a>
+* :heavy_check_mark: <a href="dualgraph.cpp.html">双対グラフの構築 <small>(geometry/dualgraph.cpp)</small></a>
 
 
 ## Verified with

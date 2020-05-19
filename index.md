@@ -70,7 +70,7 @@ layout: default
 
 ### geometry
 
-* :heavy_check_mark: <a href="library/geometry/dualgraph.cpp.html">geometry/dualgraph.cpp</a>
+* :heavy_check_mark: <a href="library/geometry/dualgraph.cpp.html">双対グラフの構築 <small>(geometry/dualgraph.cpp)</small></a>
 * :heavy_check_mark: <a href="library/geometry/geometry.cpp.html">幾何ライブラリ <small>(geometry/geometry.cpp)</small></a>
 * :warning: <a href="library/geometry/geometry3d.cpp.html">geometry/geometry3d.cpp</a>
 

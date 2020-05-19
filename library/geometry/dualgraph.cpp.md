@@ -25,16 +25,19 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: geometry/dualgraph.cpp
+# :heavy_check_mark: 双対グラフの構築 <small>(geometry/dualgraph.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#ed7daeb157cd9b31e53896ad3c771a26">geometry</a>
 * <a href="{{ site.github.repository_url }}/blob/master/geometry/dualgraph.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-05-19 17:36:53+09:00
+    - Last commit date: 2020-05-19 17:41:22+09:00
 
 
 
+
+## 説明
+与えられた平面グラフ(頂点が座標で表される)の双対グラフを構築する。
 
 ## Depends on
 
@@ -117,6 +120,11 @@ public:
         }
     }
 };
+
+/**
+ * @brief 双対グラフの構築
+ * @docs _md/dualgraph.md
+ */
 ```
 {% endraw %}
 
@@ -531,6 +539,11 @@ public:
         }
     }
 };
+
+/**
+ * @brief 双対グラフの構築
+ * @docs _md/dualgraph.md
+ */
 
 ```
 {% endraw %}
