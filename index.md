@@ -70,8 +70,8 @@ layout: default
 
 ### geometry
 
-* :x: <a href="library/geometry/dualgraph.cpp.html">geometry/dualgraph.cpp</a>
-* :question: <a href="library/geometry/geometry.cpp.html">幾何ライブラリ <small>(geometry/geometry.cpp)</small></a>
+* :heavy_check_mark: <a href="library/geometry/dualgraph.cpp.html">geometry/dualgraph.cpp</a>
+* :heavy_check_mark: <a href="library/geometry/geometry.cpp.html">幾何ライブラリ <small>(geometry/geometry.cpp)</small></a>
 * :warning: <a href="library/geometry/geometry3d.cpp.html">geometry/geometry3d.cpp</a>
 
 
@@ -158,7 +158,7 @@ layout: default
 
 ## Verify Files
 
-* :x: <a href="verify/test/aoj0273.test.cpp.html">test/aoj0273.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aoj0273.test.cpp.html">test/aoj0273.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0274.test.cpp.html">test/aoj0274.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>

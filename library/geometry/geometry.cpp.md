@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :question: 幾何ライブラリ <small>(geometry/geometry.cpp)</small>
+# :heavy_check_mark: 幾何ライブラリ <small>(geometry/geometry.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
@@ -46,12 +46,12 @@ layout: default
 
 ## Required by
 
-* :x: <a href="dualgraph.cpp.html">geometry/dualgraph.cpp</a>
+* :heavy_check_mark: <a href="dualgraph.cpp.html">geometry/dualgraph.cpp</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aoj0273.test.cpp.html">test/aoj0273.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aoj0273.test.cpp.html">test/aoj0273.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
 
 
