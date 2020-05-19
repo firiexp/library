@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: 幾何ライブラリ <small>(geometry/geometry.cpp)</small>
+# :question: 幾何ライブラリ <small>(geometry/geometry.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
@@ -44,8 +44,14 @@ layout: default
 - Polygon は vector\<Point> の別名
 - $\mathrm{convex-hull}(v) $ : $v$の凸包を返す。
 
+## Required by
+
+* :x: <a href="dualgraph.cpp.html">geometry/dualgraph.cpp</a>
+
+
 ## Verified with
 
+* :x: <a href="../../verify/test/aoj0273.test.cpp.html">test/aoj0273.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
 
 

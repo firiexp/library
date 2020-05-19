@@ -25,22 +25,25 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/aoj0342.test.cpp
+# :x: geometry/dualgraph.cpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/aoj0342.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-28 23:17:17+09:00
+* category: <a href="../../index.html#ed7daeb157cd9b31e53896ad3c771a26">geometry</a>
+* <a href="{{ site.github.repository_url }}/blob/master/geometry/dualgraph.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-05-19 17:36:53+09:00
 
 
-* see: <a href="http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0342">http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0342</a>
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="../../library/datastructure/unionfind.cpp.html">UnionFind(素集合データ構造) <small>(datastructure/unionfind.cpp)</small></a>
-* :question: <a href="../../library/geometry/geometry.cpp.html">幾何ライブラリ <small>(geometry/geometry.cpp)</small></a>
+* :question: <a href="geometry.cpp.html">幾何ライブラリ <small>(geometry/geometry.cpp)</small></a>
+
+
+## Verified with
+
+* :x: <a href="../../verify/test/aoj0273.test.cpp.html">test/aoj0273.test.cpp</a>
 
 
 ## Code
@@ -48,94 +51,78 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0342"
-#include <iostream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
-
-static const int MOD = 1000000007;
-using ll = long long;
-using u32 = unsigned;
-using u64 = unsigned long long;
-using namespace std;
-
-template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
-
-#define ERROR "1e-4"
 #include "../geometry/geometry.cpp"
-#include "../datastructure/unionfind.cpp"
-template <typename T>
-struct edge {
-    int from, to;
-    T cost;
 
-    edge(int to, T cost) : from(-1), to(to), cost(cost) {}
-    edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}
-
-    explicit operator int() const {return to;}
-};
-
-int main() {
+class DualGraph {
+    struct P {
+        int to, nxt, id, id2, rev;
+        P(int to = 0, int nxt = 0, int id = 0, int rev = 0) : to(to), nxt(nxt), id(id), rev(rev), id2(0) {};
+        bool operator!=(P x){ return to != x.to || nxt != x.nxt || id != x.id || rev != x.rev; }
+    };
+public:
     int n, m;
-    cin >> n >> m;
-    vector<Point> v(n);
-    map<Point, int> M;
-    UnionFind uf(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> v[i];
-        M[v[i]] = i;
+    Polygon v;
+    vector<vector<P>> G_;
+    vector<vector<int>> G;
+    vector<vector<Point>> A;
+    DualGraph(Polygon v) : v(v), n(v.size()), G_(n), m(0) {}
+
+    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back(); }
+    void add_edge(int a, int b){
+        G_[a].emplace_back(b, 0, m, 0);
+        G_[b].emplace_back(a, 0, m++, 0);
     }
-    double ans = 0;
-    auto C = convex_hull(v);
-    for (int i = 0; i < C.size(); ++i) {
-        ans += abs(C[i]-C[(i+1)%C.size()]);
-        uf.unite(M[C[i]], M[C[(i+1)%C.size()]]);
+
+    void build(){
+        vector<int> l(m), r(m);
+        for (int i = 0; i < n; ++i) {
+            sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });
+            for (int j = 0; j < G_[i].size(); ++j) {
+                G_[i][j].nxt = (j + 1) % G_[i].size();
+                if(i < G_[i][j].to) l[G_[i][j].id] = j;
+                else r[G_[i][j].id] = j;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            for (auto &&e : G_[i]) {
+                e.rev = (i < e.to ? r[e.id] : l[e.id]);
+            }
+        }
+        int cur = 1;
+        A = move(vector<vector<Point>>());
+        for (int i = 0; i < n; ++i) {
+            for (auto &&x : G_[i]) {
+                if(x.id2) continue;
+                x.id2 = cur;
+                A.emplace_back();
+                A.back().emplace_back(v[i]);
+                auto e = &x;
+                while(e->to != i){
+                    A.back().emplace_back(v[e->to]);
+                    e = &G_[e->to][G_[e->to][e->rev].nxt];
+                    e->id2 = cur;
+                }
+                cur++;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            for (auto &&e : G_[i]) {
+                (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;
+            }
+        }
+        G = move(vector<vector<int>>(A.size()));
+        for (int i = 0; i < m; ++i) {
+            G[l[i]].emplace_back(r[i]);
+            G[r[i]].emplace_back(l[i]);
+        }
     }
-    vector<edge<double>> G;
-    for (int i = 0; i < m; ++i) {
-        int a, b;
-        cin >> a >> b;
-        a--; b--;
-        G.emplace_back(a, b, abs(v[a]-v[b]));
-    }
-    sort(begin(G), end(G), [](const edge<double> &a, const edge<double> &b) { return a.cost < b.cost; });
-    for(auto &e : G) if(uf.unite(e.from, e.to)) ans += e.cost;
-    printf("%.15lf\n", ans);
-    return 0;
-}
+};
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/aoj0342.test.cpp"
-#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0342"
-#include <iostream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
-
-static const int MOD = 1000000007;
-using ll = long long;
-using u32 = unsigned;
-using u64 = unsigned long long;
-using namespace std;
-
-template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
-
-#define ERROR "1e-4"
 #line 1 "geometry/geometry.cpp"
 using real = double;
 static constexpr real EPS = 1e-10;
@@ -478,78 +465,72 @@ real closest_pair(Polygon &v, int l = 0, int r = -1){
  * @brief 幾何ライブラリ
  * @docs _md/geometry.md
  */
-#line 1 "datastructure/unionfind.cpp"
-class UnionFind {
-    int n;
-    vector<int> uni;
-    int forest_size;
+#line 2 "geometry/dualgraph.cpp"
+
+class DualGraph {
+    struct P {
+        int to, nxt, id, id2, rev;
+        P(int to = 0, int nxt = 0, int id = 0, int rev = 0) : to(to), nxt(nxt), id(id), rev(rev), id2(0) {};
+        bool operator!=(P x){ return to != x.to || nxt != x.nxt || id != x.id || rev != x.rev; }
+    };
 public:
-    explicit UnionFind(int n) : n(n), uni(static_cast<u32>(n), -1), forest_size(n) {};
-
-    int root(int a){
-        if (uni[a] < 0) return a;
-        else return (uni[a] = root(uni[a]));
-    }
-
-    bool unite(int a, int b) {
-        a = root(a);
-        b = root(b);
-        if(a == b) return false;
-        if(uni[a] > uni[b]) swap(a, b);
-        uni[a] += uni[b];
-        uni[b] = a;
-        forest_size--;
-        return true;
-    }
-    int size(){ return forest_size; }
-    int size(int i){ return -uni[root(i)]; }
-    bool same(int a, int b) { return root(a) == root(b); }
-};
-
-/**
- * @brief UnionFind(素集合データ構造)
- * @docs _md/unionfind.md
- */
-#line 23 "test/aoj0342.test.cpp"
-template <typename T>
-struct edge {
-    int from, to;
-    T cost;
-
-    edge(int to, T cost) : from(-1), to(to), cost(cost) {}
-    edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}
-
-    explicit operator int() const {return to;}
-};
-
-int main() {
     int n, m;
-    cin >> n >> m;
-    vector<Point> v(n);
-    map<Point, int> M;
-    UnionFind uf(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> v[i];
-        M[v[i]] = i;
+    Polygon v;
+    vector<vector<P>> G_;
+    vector<vector<int>> G;
+    vector<vector<Point>> A;
+    DualGraph(Polygon v) : v(v), n(v.size()), G_(n), m(0) {}
+
+    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back(); }
+    void add_edge(int a, int b){
+        G_[a].emplace_back(b, 0, m, 0);
+        G_[b].emplace_back(a, 0, m++, 0);
     }
-    double ans = 0;
-    auto C = convex_hull(v);
-    for (int i = 0; i < C.size(); ++i) {
-        ans += abs(C[i]-C[(i+1)%C.size()]);
-        uf.unite(M[C[i]], M[C[(i+1)%C.size()]]);
+
+    void build(){
+        vector<int> l(m), r(m);
+        for (int i = 0; i < n; ++i) {
+            sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });
+            for (int j = 0; j < G_[i].size(); ++j) {
+                G_[i][j].nxt = (j + 1) % G_[i].size();
+                if(i < G_[i][j].to) l[G_[i][j].id] = j;
+                else r[G_[i][j].id] = j;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            for (auto &&e : G_[i]) {
+                e.rev = (i < e.to ? r[e.id] : l[e.id]);
+            }
+        }
+        int cur = 1;
+        A = move(vector<vector<Point>>());
+        for (int i = 0; i < n; ++i) {
+            for (auto &&x : G_[i]) {
+                if(x.id2) continue;
+                x.id2 = cur;
+                A.emplace_back();
+                A.back().emplace_back(v[i]);
+                auto e = &x;
+                while(e->to != i){
+                    A.back().emplace_back(v[e->to]);
+                    e = &G_[e->to][G_[e->to][e->rev].nxt];
+                    e->id2 = cur;
+                }
+                cur++;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            for (auto &&e : G_[i]) {
+                (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;
+            }
+        }
+        G = move(vector<vector<int>>(A.size()));
+        for (int i = 0; i < m; ++i) {
+            G[l[i]].emplace_back(r[i]);
+            G[r[i]].emplace_back(l[i]);
+        }
     }
-    vector<edge<double>> G;
-    for (int i = 0; i < m; ++i) {
-        int a, b;
-        cin >> a >> b;
-        a--; b--;
-        G.emplace_back(a, b, abs(v[a]-v[b]));
-    }
-    sort(begin(G), end(G), [](const edge<double> &a, const edge<double> &b) { return a.cost < b.cost; });
-    for(auto &e : G) if(uf.unite(e.from, e.to)) ans += e.cost;
-    printf("%.15lf\n", ans);
-    return 0;
-}
+};
 
 ```
 {% endraw %}
