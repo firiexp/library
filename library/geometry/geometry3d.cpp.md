@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#ed7daeb157cd9b31e53896ad3c771a26">geometry</a>
 * <a href="{{ site.github.repository_url }}/blob/master/geometry/geometry3d.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-05-19 17:07:37+09:00
 
 
 
@@ -41,7 +41,6 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-
 using real = double;
 static constexpr real EPS = 1e-10;
 struct Point3 {
@@ -66,6 +65,21 @@ istream& operator>> (istream& s, Point3& P){
     return s;
 }
 
+struct Plane{
+    real a, b, c, d;
+    Plane(real a, real b, real c, real d) : a(a), b(b), c(c), d(d){};
+    Plane(Point3 P, Point3 Q, Point3 R){
+        auto X = cross(Q-P, R-P);
+        a = X.x, b = X.y, c = X.z;
+        d = -(P.x*a+P.y*b+P.z*c);
+    }
+};
+
+Point3 crossPoint(Point3 X, Point3 Y, Plane P){
+    Y -= X;
+    double t = -(Y.x*P.a+Y.y*P.b+Y.z*P.c)/(X.x*P.a+X.y*P.b+X.z*P.c+P.d);
+    return X + Y*t;
+}
 ```
 {% endraw %}
 
@@ -73,7 +87,6 @@ istream& operator>> (istream& s, Point3& P){
 {% raw %}
 ```cpp
 #line 1 "geometry/geometry3d.cpp"
-
 using real = double;
 static constexpr real EPS = 1e-10;
 struct Point3 {
@@ -96,6 +109,22 @@ inline Point3 cross(Point3 a, Point3 b){ return {a.y*b.z-a.z*b.y, a.z*b.x-a.x*b.
 istream& operator>> (istream& s, Point3& P){
     s >> P.x >> P.y >> P.z;
     return s;
+}
+
+struct Plane{
+    real a, b, c, d;
+    Plane(real a, real b, real c, real d) : a(a), b(b), c(c), d(d){};
+    Plane(Point3 P, Point3 Q, Point3 R){
+        auto X = cross(Q-P, R-P);
+        a = X.x, b = X.y, c = X.z;
+        d = -(P.x*a+P.y*b+P.z*c);
+    }
+};
+
+Point3 crossPoint(Point3 X, Point3 Y, Plane P){
+    Y -= X;
+    double t = -(Y.x*P.a+Y.y*P.b+Y.z*P.c)/(X.x*P.a+X.y*P.b+X.z*P.c+P.d);
+    return X + Y*t;
 }
 
 ```

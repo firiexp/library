@@ -46,6 +46,7 @@ vector<vector\<int\>>とか書かなくていいようにするやつ。
 
 ## Verified with
 
+* :heavy_check_mark: <a href="../../verify/test/aoj0274.test.cpp.html">test/aoj0274.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
 
 

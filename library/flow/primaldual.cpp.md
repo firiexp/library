@@ -25,15 +25,32 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: flow/primaldual.cpp
+# :heavy_check_mark: 最小費用流(primal-dual) <small>(flow/primaldual.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#cff5497121104c2b8e0cb41ed2083a9b">flow</a>
 * <a href="{{ site.github.repository_url }}/blob/master/flow/primaldual.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-05-19 17:07:37+09:00
 
 
+
+
+---
+layout: post
+title: Primal-Dual (最小費用流)
+date: 2019-08-31
+category: フロー
+tags: 最小費用流
+---
+
+## 説明
+あとで書く
+{% include a.html code="primaldual.cpp" %}
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/aoj0274.test.cpp.html">test/aoj0274.test.cpp</a>
 
 
 ## Code
@@ -116,6 +133,11 @@ struct PrimalDual {
     }
 };
 
+/**
+ * @brief 最小費用流(primal-dual)
+ * @docs _md/primaldual.md
+ */
+
 ```
 {% endraw %}
 
@@ -197,6 +219,11 @@ struct PrimalDual {
         return res;
     }
 };
+
+/**
+ * @brief 最小費用流(primal-dual)
+ * @docs _md/primaldual.md
+ */
 
 ```
 {% endraw %}
