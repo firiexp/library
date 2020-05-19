@@ -64,3 +64,8 @@ public:
         }
     }
 };
+
+/**
+ * @brief 双対グラフの構築
+ * @docs _md/dualgraph.md
+ */
