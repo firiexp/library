@@ -85,7 +85,7 @@ layout: default
 * :warning: <a href="library/graph/bipartite_matching.cpp.html">graph/bipartite_matching.cpp</a>
 * :heavy_check_mark: <a href="library/graph/dijkstra.cpp.html">Dijkstra法 <small>(graph/dijkstra.cpp)</small></a>
 * :heavy_check_mark: <a href="library/graph/dijkstra_radix_heap.cpp.html">Dijkstra法(Radix Heap) <small>(graph/dijkstra_radix_heap.cpp)</small></a>
-* :warning: <a href="library/graph/dominatortree.cpp.html">Dominator Tree <small>(graph/dominatortree.cpp)</small></a>
+* :heavy_check_mark: <a href="library/graph/dominatortree.cpp.html">Dominator Tree <small>(graph/dominatortree.cpp)</small></a>
 * :warning: <a href="library/graph/independentset.cpp.html">graph/independentset.cpp</a>
 * :warning: <a href="library/graph/kruskal.cpp.html">graph/kruskal.cpp</a>
 * :warning: <a href="library/graph/offlinedynamicconnectivity.cpp.html">graph/offlinedynamicconnectivity.cpp</a>
@@ -161,6 +161,7 @@ layout: default
 
 * :heavy_check_mark: <a href="verify/test/aoj0273.test.cpp.html">test/aoj0273.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0274.test.cpp.html">test/aoj0274.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aoj0294.test.cpp.html">test/aoj0294.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0349.test.cpp.html">test/aoj0349.test.cpp</a>
