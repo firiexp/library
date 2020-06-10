@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/dominatortree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-10 18:12:08+09:00
+    - Last commit date: 2020-06-10 18:46:05+09:00
 
 
 
@@ -43,6 +43,7 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/aoj0294.test.cpp.html">test/aoj0294.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/yosupo_dominator_tree.test.cpp.html">test/yosupo_dominator_tree.test.cpp</a>
 
 
 ## Code
@@ -93,7 +94,7 @@ public:
         for (int i = 0; i < n; ++i) uf_par[i] = i, m[i] = i, semi[i] = -1, idom[i] = -1;
         int cur = 0;
         dfs(root, cur);
-        for (int i = n-1; i >= 0; --i) {
+        for (int i = cur-1; i >= 0; --i) {
             int a = ord[i];
             for (auto &&b : Grev[a]) {
                 if(~semi[b]){
@@ -106,12 +107,12 @@ public:
             tmp[par[a]].clear();
             unite(par[a], a);
         }
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < cur; ++i) {
             int a = ord[i], b = U[a];
             if(semi[a] == semi[b]) idom[a] = semi[a];
             else idom[a] = idom[b];
         }
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < cur; ++i) {
             int a = ord[i];
             idom[a] = ord[idom[a]];
         }
@@ -119,6 +120,7 @@ public:
     }
 
 };
+
 
 /**
  * @brief Dominator Tree
@@ -175,7 +177,7 @@ public:
         for (int i = 0; i < n; ++i) uf_par[i] = i, m[i] = i, semi[i] = -1, idom[i] = -1;
         int cur = 0;
         dfs(root, cur);
-        for (int i = n-1; i >= 0; --i) {
+        for (int i = cur-1; i >= 0; --i) {
             int a = ord[i];
             for (auto &&b : Grev[a]) {
                 if(~semi[b]){
@@ -188,12 +190,12 @@ public:
             tmp[par[a]].clear();
             unite(par[a], a);
         }
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < cur; ++i) {
             int a = ord[i], b = U[a];
             if(semi[a] == semi[b]) idom[a] = semi[a];
             else idom[a] = idom[b];
         }
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < cur; ++i) {
             int a = ord[i];
             idom[a] = ord[idom[a]];
         }
@@ -201,6 +203,7 @@ public:
     }
 
 };
+
 
 /**
  * @brief Dominator Tree

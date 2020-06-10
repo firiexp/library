@@ -25,16 +25,16 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/aoj0294.test.cpp
+# :heavy_check_mark: test/yosupo_dominator_tree.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/aoj0294.test.cpp">View this file on GitHub</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_dominator_tree.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-06-10 18:46:05+09:00
 
 
-* see: <a href="http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0294">http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0294</a>
+* see: <a href="https://judge.yosupo.jp/problem/dominatortree">https://judge.yosupo.jp/problem/dominatortree</a>
 
 
 ## Depends on
@@ -47,7 +47,8 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0294"
+#define PROBLEM "https://judge.yosupo.jp/problem/dominatortree"
+
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -69,25 +70,20 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 #include "../graph/dominatortree.cpp"
 
 int main() {
-    int n, m;
-    cin >> n >> m;
+    int n, m, s;
+    scanf("%d %d %d", &n, &m, &s);
     DominatorTree G(n);
     for (int i = 0; i < m; ++i) {
-        int s, t;
-        cin >> s >> t;
-        s--; t--;
-        G.add_edge(s, t);
+        int a, b;
+        scanf("%d %d", &a, &b);
+        G.add_edge(a, b);
     }
-    G.build(0);
-    int q;
-    cin >> q;
-    for (int i = 0; i < q; ++i) {
-        int x;
-        cin >> x;
-        x--;
-        if(!G.idom[x]) printf("%d\n", x+1);
-        else printf("%d\n", G.idom[x]+1);
+    G.build(s);
+    for (int i = 0; i < n; ++i) {
+        if(i) printf(" ");
+        printf("%d", (i == s ? s : G.idom[i]));
     }
+    puts("");
     return 0;
 }
 ```
@@ -96,8 +92,9 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/aoj0294.test.cpp"
-#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0294"
+#line 1 "test/yosupo_dominator_tree.test.cpp"
+#define PROBLEM "https://judge.yosupo.jp/problem/dominatortree"
+
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -192,28 +189,23 @@ public:
  * @brief Dominator Tree
  * @docs _md/dominatortree.md
  */
-#line 21 "test/aoj0294.test.cpp"
+#line 22 "test/yosupo_dominator_tree.test.cpp"
 
 int main() {
-    int n, m;
-    cin >> n >> m;
+    int n, m, s;
+    scanf("%d %d %d", &n, &m, &s);
     DominatorTree G(n);
     for (int i = 0; i < m; ++i) {
-        int s, t;
-        cin >> s >> t;
-        s--; t--;
-        G.add_edge(s, t);
+        int a, b;
+        scanf("%d %d", &a, &b);
+        G.add_edge(a, b);
     }
-    G.build(0);
-    int q;
-    cin >> q;
-    for (int i = 0; i < q; ++i) {
-        int x;
-        cin >> x;
-        x--;
-        if(!G.idom[x]) printf("%d\n", x+1);
-        else printf("%d\n", G.idom[x]+1);
+    G.build(s);
+    for (int i = 0; i < n; ++i) {
+        if(i) printf(" ");
+        printf("%d", (i == s ? s : G.idom[i]));
     }
+    puts("");
     return 0;
 }
 
