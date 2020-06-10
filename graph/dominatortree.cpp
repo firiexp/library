@@ -41,7 +41,7 @@ public:
         for (int i = 0; i < n; ++i) uf_par[i] = i, m[i] = i, semi[i] = -1, idom[i] = -1;
         int cur = 0;
         dfs(root, cur);
-        for (int i = n-1; i >= 0; --i) {
+        for (int i = cur-1; i >= 0; --i) {
             int a = ord[i];
             for (auto &&b : Grev[a]) {
                 if(~semi[b]){
@@ -54,12 +54,12 @@ public:
             tmp[par[a]].clear();
             unite(par[a], a);
         }
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < cur; ++i) {
             int a = ord[i], b = U[a];
             if(semi[a] == semi[b]) idom[a] = semi[a];
             else idom[a] = idom[b];
         }
-        for (int i = 1; i < n; ++i) {
+        for (int i = 1; i < cur; ++i) {
             int a = ord[i];
             idom[a] = ord[idom[a]];
         }
@@ -67,6 +67,7 @@ public:
     }
 
 };
+
 
 /**
  * @brief Dominator Tree
