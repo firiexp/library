@@ -39,3 +39,8 @@ public:
         return ans;
     }
 };
+
+/**
+ * @brief 二部グラフの最大マッチング
+ * @docs _md/bipartite_matching.md
+ */
