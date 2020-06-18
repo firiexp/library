@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: graph/bipartite_matching.cpp
+# :heavy_check_mark: graph/bipartite_matching_lexmin.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
-* <a href="{{ site.github.repository_url }}/blob/master/graph/bipartite_matching.cpp">View this file on GitHub</a>
+* <a href="{{ site.github.repository_url }}/blob/master/graph/bipartite_matching_lexmin.cpp">View this file on GitHub</a>
     - Last commit date: 2020-06-18 18:17:52+09:00
 
 
 
 
-## Required by
+## Depends on
 
-* :heavy_check_mark: <a href="bipartite_matching_lexmin.cpp.html">graph/bipartite_matching_lexmin.cpp</a>
+* :heavy_check_mark: <a href="bipartite_matching.cpp.html">graph/bipartite_matching.cpp</a>
 
 
 ## Verified with
@@ -51,48 +51,25 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-class Bipartite_Matching {
-protected:
-    vector<vector<int>> G;
-    vector<int> used, alive;
-    int t;
-    int l, r;
+#include "./bipartite_matching.cpp"
+class Bipartite_Matching_LexMin : public Bipartite_Matching {
 public:
-    vector<int> match;
-    explicit Bipartite_Matching(int l, int r): l(l), r(r), t(0), G(l+r), used(l+r, 0), alive(l+r, -1), match(l+r, -1) {};
+    using Bipartite_Matching::Bipartite_Matching;
 
-    void add_edge(int a, int b){
-        G[a].emplace_back(b+l);
-        G[b+l].emplace_back(a);
-    }
-
-    bool dfs(int x){
-        used[x] = t;
-        for (auto &&i : G[x]) {
-            int w = match[i];
-            if(alive[i] == 0) continue;
-            if(w == -1 || (used[w] != t && dfs(w))){
-                match[x] = i;
-                match[i] = x;
-                return true;
-            }
+    int solve_LexMin() { // check sorted edge no
+        int res = matching();
+        for (int i = 0; i < l; ++i) {
+            if(!~match[i]) continue;
+            match[match[i]] = -1;
+            match[i] = -1;
+            ++t;
+            dfs(i);
+            alive[match[i]] = 0;
+            alive[i] = 0;
         }
-        return false;
-    }
-
-    int matching() {
-        int ans = 0;
-        for (int i = 0; i < G.size(); ++i) {
-            if(alive[i] == 0) continue;
-            if(match[i] == -1) {
-                ++t;
-                ans += dfs(i);
-            }
-        }
-        return ans;
+        return res;
     }
 };
-
 ```
 {% endraw %}
 
@@ -139,6 +116,25 @@ public:
             }
         }
         return ans;
+    }
+};
+#line 2 "graph/bipartite_matching_lexmin.cpp"
+class Bipartite_Matching_LexMin : public Bipartite_Matching {
+public:
+    using Bipartite_Matching::Bipartite_Matching;
+
+    int solve_LexMin() { // check sorted edge no
+        int res = matching();
+        for (int i = 0; i < l; ++i) {
+            if(!~match[i]) continue;
+            match[match[i]] = -1;
+            match[i] = -1;
+            ++t;
+            dfs(i);
+            alive[match[i]] = 0;
+            alive[i] = 0;
+        }
+        return res;
     }
 };
 
