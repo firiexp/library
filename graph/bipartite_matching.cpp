@@ -1,14 +1,16 @@
 class Bipartite_Matching {
+protected:
     vector<vector<int>> G;
     vector<int> used, alive;
     int t;
+    int l, r;
 public:
     vector<int> match;
-    explicit Bipartite_Matching(int n): t(0), G(n), used(n, 0), alive(n, -1), match(n, -1) {};
+    explicit Bipartite_Matching(int l, int r): l(l), r(r), t(0), G(l+r), used(l+r, 0), alive(l+r, -1), match(l+r, -1) {};
 
     void add_edge(int a, int b){
-        G[a].emplace_back(b);
-        G[b].emplace_back(a);
+        G[a].emplace_back(b+l);
+        G[b+l].emplace_back(a);
     }
 
     bool dfs(int x){
