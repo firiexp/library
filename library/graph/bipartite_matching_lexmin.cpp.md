@@ -31,14 +31,14 @@ layout: default
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/bipartite_matching_lexmin.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-18 18:17:52+09:00
+    - Last commit date: 2020-06-18 18:23:04+09:00
 
 
 
 
 ## Depends on
 
-* :heavy_check_mark: <a href="bipartite_matching.cpp.html">graph/bipartite_matching.cpp</a>
+* :heavy_check_mark: <a href="bipartite_matching.cpp.html">二部グラフの最大マッチング <small>(graph/bipartite_matching.cpp)</small></a>
 
 
 ## Verified with
@@ -118,6 +118,11 @@ public:
         return ans;
     }
 };
+
+/**
+ * @brief 二部グラフの最大マッチング
+ * @docs _md/bipartite_matching.md
+ */
 #line 2 "graph/bipartite_matching_lexmin.cpp"
 class Bipartite_Matching_LexMin : public Bipartite_Matching {
 public:

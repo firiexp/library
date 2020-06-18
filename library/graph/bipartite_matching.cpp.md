@@ -25,15 +25,19 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: graph/bipartite_matching.cpp
+# :heavy_check_mark: 二部グラフの最大マッチング <small>(graph/bipartite_matching.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#f8b0b924ebd7046dbfa85a856e4682c8">graph</a>
 * <a href="{{ site.github.repository_url }}/blob/master/graph/bipartite_matching.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-18 18:17:52+09:00
+    - Last commit date: 2020-06-18 18:23:04+09:00
 
 
+
+
+## 説明
+最大流アルゴリズムを応用し、二部グラフの最大マッチングを求める。$O(VE)$
 
 
 ## Required by
@@ -93,6 +97,11 @@ public:
     }
 };
 
+/**
+ * @brief 二部グラフの最大マッチング
+ * @docs _md/bipartite_matching.md
+ */
+
 ```
 {% endraw %}
 
@@ -141,6 +150,11 @@ public:
         return ans;
     }
 };
+
+/**
+ * @brief 二部グラフの最大マッチング
+ * @docs _md/bipartite_matching.md
+ */
 
 ```
 {% endraw %}

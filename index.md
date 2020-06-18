@@ -82,7 +82,7 @@ layout: default
 * :heavy_check_mark: <a href="library/graph/SCC.cpp.html">graph/SCC.cpp</a>
 * :warning: <a href="library/graph/bellman_ford.cpp.html">graph/bellman_ford.cpp</a>
 * :warning: <a href="library/graph/bellman_ford_negative_loop.cpp.html">graph/bellman_ford_negative_loop.cpp</a>
-* :heavy_check_mark: <a href="library/graph/bipartite_matching.cpp.html">graph/bipartite_matching.cpp</a>
+* :heavy_check_mark: <a href="library/graph/bipartite_matching.cpp.html">二部グラフの最大マッチング <small>(graph/bipartite_matching.cpp)</small></a>
 * :heavy_check_mark: <a href="library/graph/bipartite_matching_lexmin.cpp.html">graph/bipartite_matching_lexmin.cpp</a>
 * :heavy_check_mark: <a href="library/graph/dijkstra.cpp.html">Dijkstra法 <small>(graph/dijkstra.cpp)</small></a>
 * :heavy_check_mark: <a href="library/graph/dijkstra_radix_heap.cpp.html">Dijkstra法(Radix Heap) <small>(graph/dijkstra_radix_heap.cpp)</small></a>
