@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: util/xorshift.cpp
+# :x: util/xorshift.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -34,6 +34,16 @@ layout: default
     - Last commit date: 2020-04-26 17:42:59+09:00
 
 
+
+
+## Required by
+
+* :x: <a href="../string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
+
+
+## Verified with
+
+* :x: <a href="../../verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
 
 
 ## Code

@@ -25,15 +25,25 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: string/rolling_hash.cpp
+# :x: string/rolling_hash.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/rolling_hash.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-07-07 13:47:08+09:00
 
 
+
+
+## Depends on
+
+* :x: <a href="../util/xorshift.cpp.html">util/xorshift.cpp</a>
+
+
+## Verified with
+
+* :x: <a href="../../verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
 
 
 ## Code
@@ -41,35 +51,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-class xor_shift {
-    uint32_t x, y, z, w;
-public:
-    xor_shift() : x(static_cast<uint32_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL << 32)-1))),
-    y(1068246329), z(321908594), w(1234567890) {};
-
-    uint32_t urand(){
-        uint32_t t;
-        t = x ^ (x << 11);
-        x = y; y = z; z = w;
-        w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));
-        return w;
-    };
-
-    int rand(int n){
-        if(n < 0) return -rand(-n);
-        uint32_t t = numeric_limits<uint32_t>::max()/(n+1)*(n+1);
-        uint32_t e = urand();
-        while(e >= t) e = urand();
-        return static_cast<int>(e%(n+1));
-    }
-
-    int rand(int a, int b){
-        if(a > b) swap(a, b);
-        return a+rand(b-a);
-    }
-};
-
-
+#include "../util/xorshift.cpp"
 xor_shift rd;
 
 template<int M>
@@ -111,7 +93,8 @@ public:
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "string/rolling_hash.cpp"
+#line 1 "util/xorshift.cpp"
+#include <chrono>
 class xor_shift {
     uint32_t x, y, z, w;
 public:
@@ -140,7 +123,7 @@ public:
     }
 };
 
-
+#line 2 "string/rolling_hash.cpp"
 xor_shift rd;
 
 template<int M>

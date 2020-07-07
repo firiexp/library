@@ -42,7 +42,7 @@ layout: default
 * :heavy_check_mark: <a href="library/datastructure/binaryindexedtree.cpp.html">BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small></a>
 * :warning: <a href="library/datastructure/binarytrie.cpp.html">datastructure/binarytrie.cpp</a>
 * :warning: <a href="library/datastructure/dualsegtree.cpp.html">datastructure/dualsegtree.cpp</a>
-* :warning: <a href="library/datastructure/lazysegtree.cpp.html">datastructure/lazysegtree.cpp</a>
+* :x: <a href="library/datastructure/lazysegtree.cpp.html">datastructure/lazysegtree.cpp</a>
 * :warning: <a href="library/datastructure/monotoniccht.cpp.html">datastructure/monotoniccht.cpp</a>
 * :warning: <a href="library/datastructure/quickfind.cpp.html">datastructure/quickfind.cpp</a>
 * :heavy_check_mark: <a href="library/datastructure/radixheap.cpp.html">datastructure/radixheap.cpp</a>
@@ -126,7 +126,7 @@ layout: default
 ### string
 
 * :warning: <a href="library/string/manacher.cpp.html">string/manacher.cpp</a>
-* :warning: <a href="library/string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
+* :x: <a href="library/string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
 * :warning: <a href="library/string/rolling_hash_u64.cpp.html">string/rolling_hash_u64.cpp</a>
 * :warning: <a href="library/string/z-algorithm.cpp.html">string/z-algorithm.cpp</a>
 
@@ -155,7 +155,7 @@ layout: default
 * :warning: <a href="library/util/modint_arbitrary.cpp.html">util/modint_arbitrary.cpp</a>
 * :warning: <a href="library/util/parse.cpp.html">util/parse.cpp</a>
 * :warning: <a href="library/util/uniq.cpp.html">util/uniq.cpp</a>
-* :warning: <a href="library/util/xorshift.cpp.html">util/xorshift.cpp</a>
+* :x: <a href="library/util/xorshift.cpp.html">util/xorshift.cpp</a>
 
 
 ## Verify Files
@@ -167,6 +167,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj0349.test.cpp.html">test/aoj0349.test.cpp</a>
+* :x: <a href="verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>

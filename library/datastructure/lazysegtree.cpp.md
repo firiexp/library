@@ -25,15 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: datastructure/lazysegtree.cpp
+# :x: datastructure/lazysegtree.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/lazysegtree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+    - Last commit date: 2020-07-07 13:47:08+09:00
 
 
+
+
+## Verified with
+
+* :x: <a href="../../verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
 
 
 ## Code
@@ -94,20 +99,6 @@ struct LazySegmentTree{
     }
 };
 
-struct Monoid{
-    using T = ll;
-    using L = ll;
-    static T f(T a, T b) { return min(a, b); }
-    static T g(T a, L b) {
-        if(b == e()) return a; else return b;
-    }
-    static L h(L a, L b) {
-        if(b == e()) return a; else return b;
-    }
-    static T e() { return 0; }
-    static L l() { return 0; }
-};
-
 ```
 {% endraw %}
 
@@ -166,20 +157,6 @@ struct LazySegmentTree{
         }
         return M::f(ll, rr);
     }
-};
-
-struct Monoid{
-    using T = ll;
-    using L = ll;
-    static T f(T a, T b) { return min(a, b); }
-    static T g(T a, L b) {
-        if(b == e()) return a; else return b;
-    }
-    static L h(L a, L b) {
-        if(b == e()) return a; else return b;
-    }
-    static T e() { return 0; }
-    static L l() { return 0; }
 };
 
 ```
