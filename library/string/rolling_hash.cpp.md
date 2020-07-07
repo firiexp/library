@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#b45cffe084dd3d20d928bee85e7b0f21">string</a>
 * <a href="{{ site.github.repository_url }}/blob/master/string/rolling_hash.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-07 13:47:08+09:00
+    - Last commit date: 2020-07-07 13:49:31+09:00
 
 
 
@@ -55,7 +55,7 @@ layout: default
 xor_shift rd;
 
 template<int M>
-class rolling_hash {
+struct rolling_hash {
 
     static ll &B() {
         static ll B_ = rd.rand(2, M-1);
@@ -65,7 +65,7 @@ class rolling_hash {
         static vector<ll> p_{1, B()};
         return p_;
     }
-public:
+
     vector<ll> hash;
     explicit rolling_hash(const string &s) {
         if(p().size() <= s.size()){
@@ -127,7 +127,7 @@ public:
 xor_shift rd;
 
 template<int M>
-class rolling_hash {
+struct rolling_hash {
 
     static ll &B() {
         static ll B_ = rd.rand(2, M-1);
@@ -137,7 +137,7 @@ class rolling_hash {
         static vector<ll> p_{1, B()};
         return p_;
     }
-public:
+
     vector<ll> hash;
     explicit rolling_hash(const string &s) {
         if(p().size() <= s.size()){
