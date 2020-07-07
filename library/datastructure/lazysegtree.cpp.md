@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: datastructure/lazysegtree.cpp
+# :heavy_check_mark: datastructure/lazysegtree.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,7 +38,7 @@ layout: default
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
 
 
 ## Code

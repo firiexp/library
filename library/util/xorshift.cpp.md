@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: util/xorshift.cpp
+# :heavy_check_mark: util/xorshift.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -38,12 +38,12 @@ layout: default
 
 ## Required by
 
-* :x: <a href="../string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
+* :heavy_check_mark: <a href="../string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
 
 
 ## Code
