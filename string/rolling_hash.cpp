@@ -2,7 +2,7 @@
 xor_shift rd;
 
 template<int M>
-class rolling_hash {
+struct rolling_hash {
 
     static ll &B() {
         static ll B_ = rd.rand(2, M-1);
@@ -12,7 +12,7 @@ class rolling_hash {
         static vector<ll> p_{1, B()};
         return p_;
     }
-public:
+
     vector<ll> hash;
     explicit rolling_hash(const string &s) {
         if(p().size() <= s.size()){
