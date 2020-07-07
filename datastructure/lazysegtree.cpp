@@ -50,17 +50,3 @@ struct LazySegmentTree{
         return M::f(ll, rr);
     }
 };
-
-struct Monoid{
-    using T = ll;
-    using L = ll;
-    static T f(T a, T b) { return min(a, b); }
-    static T g(T a, L b) {
-        if(b == e()) return a; else return b;
-    }
-    static L h(L a, L b) {
-        if(b == e()) return a; else return b;
-    }
-    static T e() { return 0; }
-    static L l() { return 0; }
-};
