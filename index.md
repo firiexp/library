@@ -136,6 +136,7 @@ layout: default
 ### tree
 
 * :warning: <a href="library/tree/LCA.cpp.html">tree/LCA.cpp</a>
+* :warning: <a href="library/tree/diameter.cpp.html">tree/diameter.cpp</a>
 * :warning: <a href="library/tree/hld.cpp.html">tree/hld.cpp</a>
 * :warning: <a href="library/tree/rerooting.cpp.html">tree/rerooting.cpp</a>
 * :warning: <a href="library/tree/treedfs.cpp.html">tree/treedfs.cpp</a>
