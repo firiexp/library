@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aoj_dpl_5_a.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-27 22:47:20+09:00
+    - Last commit date: 2020-09-08 21:35:41+09:00
 
 
 * see: <a href="http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_5_A">http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_5_A</a>
@@ -100,37 +100,33 @@ using namespace std;
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
 #line 1 "util/modint.cpp"
-template<u32 M = 1000000007>
-struct modint{
+template <u32 M>
+struct modint {
     u32 val;
-    modint(): val(0){}
-    template<typename T>
-    modint(T t){t %= (T)M; if(t < 0) t += (T)M; val = t;}
-
-    modint pow(ll k) const {
-        modint res(1), x(val);
-        while(k){
-            if(k&1) res *= x;
-            x *= x;
-            k >>= 1;
-        }
-        return res;
-    }
-    template<typename T>
-    modint& operator=(T t){t %= (T)M; if(t < 0) t += (T)M; val = t; return *this;}
-    modint inv() const {return pow(M-2);}
-    modint& operator+=(modint a){val += a.val; if(val >= M) val -= M; return *this;}
-    modint& operator-=(modint a){if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
-    modint& operator*=(modint a){val = (u64)val*a.val%M; return *this;}
-    modint& operator/=(modint a){return (*this) *= a.inv();}
-    modint operator+(modint a) const {return modint(val) +=a;}
-    modint operator-(modint a) const {return modint(val) -=a;}
-    modint operator*(modint a) const {return modint(val) *=a;}
-    modint operator/(modint a) const {return modint(val) /=a;}
-    modint operator-(){return modint(M-val);}
-    bool operator==(const modint a) const {return val == a.val;}
-    bool operator!=(const modint a) const {return val != a.val;}
-    bool operator<(const modint a) const {return val < a.val;}
+public:
+    static modint raw(int v) { modint x; x.val = v; return x; }
+    modint() : val(0) {}
+    template <class T>
+    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = u32(x); }
+    modint(bool v) { val = ((unsigned int)(v) % M); }
+    modint& operator++() { val++; if (val == M) val = 0; return *this; }
+    modint& operator--() { if (val == 0) val = M; val--; return *this; }
+    modint operator++(int) { modint result = *this; ++*this; return result; }
+    modint operator--(int) { modint result = *this; --*this; return result; }
+    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val -= M; return *this; }
+    modint& operator-=(const modint& rhs) { val -= rhs.val; if (val >= M) val += M; return *this; }
+    modint& operator*=(const modint& rhs) { u64 z = val; z *= rhs.val; val = (u32)(z % M); return *this; }
+    modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }
+    modint operator+() const { return *this; }
+    modint operator-() const { return modint() - *this; }
+    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }
+    modint inv() const { return pow(M-2); }
+    friend modint operator+(const modint& lhs, const modint& rhs) { return modint(lhs) += rhs; }
+    friend modint operator-(const modint& lhs, const modint& rhs) { return modint(lhs) -= rhs; }
+    friend modint operator*(const modint& lhs, const modint& rhs) { return modint(lhs) *= rhs; }
+    friend modint operator/(const modint& lhs, const modint& rhs) { return modint(lhs) /= rhs; }
+    friend bool operator==(const modint& lhs, const modint& rhs) { return lhs.val == rhs.val; }
+    friend bool operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val; }
 };
 using mint = modint<MOD>;
 
