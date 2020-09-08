@@ -21,65 +21,77 @@ struct modint{
     template<typename T>
     modint& operator=(T t){t %= (T)M; if(t < 0) t += (T)M; val = t; return *this; }
     modint inv() const {return pow(M-2);}
-    modint& operator+=(modint a){ val += a.val; if(val >= M) val -= M; return *this;}
-    modint& operator-=(modint a){ if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
-    modint& operator*=(modint a){ val = (u64)val*a.val%M; return *this;}
-    modint& operator/=(modint a){ return (*this) *= a.inv();}
-    modint operator+(modint a) const {return modint(val) +=a;}
-    modint operator-(modint a) const {return modint(val) -=a;}
-    modint operator*(modint a) const {return modint(val) *=a;}
-    modint operator/(modint a) const {return modint(val) /=a;}
+    modint& operator+=(const modint& a){ val += a.val; if(val >= M) val -= M; return *this;}
+    modint& operator-=(const modint& a){ if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
+    modint& operator*=(const modint& a){ val = ((u64)val*a.val)%M; return *this;}
+    modint& operator/=(const modint& a){ return (*this) *= a.inv();}
+    modint operator+(modint& a) const {return modint(val) +=a;}
+    modint operator-(modint& a) const {return modint(val) -=a;}
+    modint operator*(modint& a) const {return modint(val) *=a;}
+    modint operator/(modint& a) const {return modint(val) /=a;}
     modint operator-(){ return modint(M-val);}
-    bool operator==(const modint a) const {return val == a.val;}
-    bool operator!=(const modint a) const {return val != a.val;}
-    bool operator<(const modint a) const {return val < a.val;}
+    bool operator==(const modint &a) const {return val == a.val;}
+    bool operator!=(const modint &a) const {return val != a.val;}
+    bool operator<(const modint &a) const {return val < a.val;}
 };
 
 using mint = modint<ntt_mod>;
 
 class NTT {
     static constexpr int max_base = 20, maxN = 1 << max_base; // N <= 524288 * 2
-    mint roots[maxN << 1], iroots[maxN << 1];
+    mint sum_e[30], sum_ie[30];
 public:
     NTT() {
-        for (int i = 0; i <= max_base; ++i) {
-            const int offset = (1 << i) - 1;
-            const mint g = mint(ntt_root).pow((ntt_mod)/(1 << i)), ginv = g.inv();
-            mint x = 1, y = 1;
-            for (int j = 0; j < 1 << i; ++j) {
-                roots[offset+j] = x;
-                x *= g;
-                iroots[offset+j] = y;
-                y *= ginv;
-            }
+        mint es[30], ies[30];
+        int cnt2 = __builtin_ctz(ntt_mod-1);
+        mint e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();
+        for (int i = cnt2; i >= 2; i--){
+            es[i-2] = e;
+            ies[i-2] = ie;
+            e *= e;
+            ie *= ie;
+        }
+        mint now = 1, nowi = 1;
+        for (int i = 0; i < cnt2 - 2; i++) {
+            sum_e[i] = es[i] * now;
+            now *= ies[i];
+            sum_ie[i] = ies[i] * nowi;
+            nowi *= es[i];
         }
     }
 
     void transform(vector<mint> &a, int sign){
         const int n = a.size();
+        int h = 0;
+        while ((1U << h) < (unsigned int)(n)) h++;
         if(!sign){ // fft
-            for(int k = n >> 1; k >= 1; k >>= 1){
-                for (int i = 0; i < n; i += k << 1) {
-                    for (int j = 0; j < k; ++j) {
-                        const mint tmp = a[i+j]-a[i+j+k];
-                        a[i+j] += a[i+j+k];
-                        a[i+j+k] = tmp*roots[(k << 1)-1+j];
+            for (int ph = 1; ph <= h; ph++) {
+                int w = 1 << (ph-1), p = 1 << (h-ph);
+                mint now = 1;
+                for (int s = 0; s < w; s++) {
+                    int offset = s << (h-ph+1);
+                    for (int i = 0; i < p; i++) {
+                        auto l = a[i+offset], r = a[i+offset+p]*now;
+                        a[i+offset] = l+r;
+                        a[i+offset+p] = l-r;
                     }
+                    now *= sum_e[__builtin_ctz(~(unsigned int)(s))];
                 }
             }
         }else { // ifft
-            for(int k = 1; k <= (n >> 1); k <<= 1){
-                for (int i = 0; i < n; i += k << 1) {
-                    for (int j = 0; j < k; ++j) {
-                        a[i+j+k] *= iroots[(k << 1)-1+j];
-                        const mint tmp = a[i+j]-a[i+j+k];
-                        a[i+j] += a[i+j+k];
-                        a[i+j+k] = tmp;
+            for (int ph = h; ph >= 1; ph--) {
+                int w = 1 << (ph-1), p = 1 << (h-ph);
+                mint inow = 1;
+                for (int s = 0; s < w; s++) {
+                    int offset = s << (h-ph+1);
+                    for (int i = 0; i < p; i++) {
+                        auto l = a[i+offset], r = a[i+offset+p];
+                        a[i+offset] = l+r;
+                        a[i+offset+p] = (l-r)*inow;
                     }
+                    inow *= sum_ie[__builtin_ctz(~(unsigned int)(s))];
                 }
             }
-            const mint x = mint(n).inv();
-            for (auto &&i : a) i *= x;
         }
     }
 };
@@ -117,6 +129,8 @@ struct poly {
         for(int i = 0; i < sz; ++i) this->v[i] *= a.v[i];
         ntt.transform(this->v, 1);
         this->v.resize(N);
+        mint iz = mint(sz).inv();
+        for (int i = 0; i < N; i++) this->v[i] *= iz;
         return *this;
     }
     poly& operator/=(const poly &a){ return (*this *= a.inv()); }
