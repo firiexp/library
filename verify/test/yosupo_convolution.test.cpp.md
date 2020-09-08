@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: math/ntt.cpp
+# :x: test/yosupo_convolution.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
-* category: <a href="../../index.html#7e676e9e663beb40fd133f5ee24487c2">math</a>
-* <a href="{{ site.github.repository_url }}/blob/master/math/ntt.cpp">View this file on GitHub</a>
+* category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
+* <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_convolution.test.cpp">View this file on GitHub</a>
     - Last commit date: 2020-09-08 21:49:45+09:00
 
 
 
 
-## Verified with
+## Depends on
 
-* :x: <a href="../../verify/test/yosupo_convolution.test.cpp.html">test/yosupo_convolution.test.cpp</a>
+* :x: <a href="../../library/math/ntt.cpp.html">math/ntt.cpp</a>
 
 
 ## Code
@@ -46,169 +46,73 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-constexpr int ntt_mod = 998244353, ntt_root = 3;
-// 1012924417 -> 5, 924844033 -> 5
-// 998244353  -> 3, 897581057 -> 3
-// 645922817  -> 3;
-template <u32 M>
-struct modint {
-    u32 val;
-public:
-    static modint raw(int v) { modint x; x.val = v; return x; }
-    modint() : val(0) {}
-    template <class T>
-    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = u32(x); }
-    modint(bool v) { val = ((unsigned int)(v) % M); }
-    modint& operator++() { val++; if (val == M) val = 0; return *this; }
-    modint& operator--() { if (val == 0) val = M; val--; return *this; }
-    modint operator++(int) { modint result = *this; ++*this; return result; }
-    modint operator--(int) { modint result = *this; --*this; return result; }
-    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val -= M; return *this; }
-    modint& operator-=(const modint& rhs) { val -= rhs.val; if (val >= M) val += M; return *this; }
-    modint& operator*=(const modint& rhs) { u64 z = val; z *= rhs.val; val = (u32)(z % M); return *this; }
-    modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }
-    modint operator+() const { return *this; }
-    modint operator-() const { return modint() - *this; }
-    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }
-    modint inv() const { return pow(M-2); }
-    friend modint operator+(const modint& lhs, const modint& rhs) { return modint(lhs) += rhs; }
-    friend modint operator-(const modint& lhs, const modint& rhs) { return modint(lhs) -= rhs; }
-    friend modint operator*(const modint& lhs, const modint& rhs) { return modint(lhs) *= rhs; }
-    friend modint operator/(const modint& lhs, const modint& rhs) { return modint(lhs) /= rhs; }
-    friend bool operator==(const modint& lhs, const modint& rhs) { return lhs.val == rhs.val; }
-    friend bool operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val; }
-};
-using mint = modint<998244353>;
+#include <iostream>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <numeric>
+#include <bitset>
+#include <cmath>
 
-class NTT {
-    static constexpr int max_base = 20, maxN = 1 << max_base; // N <= 524288 * 2
-    mint sum_e[30], sum_ie[30];
-public:
-    NTT() {
-        mint es[30], ies[30];
-        int cnt2 = __builtin_ctz(ntt_mod-1);
-        mint e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();
-        for (int i = cnt2; i >= 2; i--){
-            es[i-2] = e;
-            ies[i-2] = ie;
-            e *= e;
-            ie *= ie;
-        }
-        mint now = 1, nowi = 1;
-        for (int i = 0; i < cnt2 - 2; i++) {
-            sum_e[i] = es[i] * now;
-            now *= ies[i];
-            sum_ie[i] = ies[i] * nowi;
-            nowi *= es[i];
-        }
-    }
+static const int MOD = 1000000007;
+using ll = long long;
+using u32 = unsigned;
+using u64 = unsigned long long;
+using namespace std;
 
-    void transform(vector<mint> &a, int sign){
-        const int n = a.size();
-        int h = 0;
-        while ((1U << h) < (unsigned int)(n)) h++;
-        if(!sign){ // fft
-            for (int ph = 1; ph <= h; ph++) {
-                int w = 1 << (ph-1), p = 1 << (h-ph);
-                mint now = 1;
-                for (int s = 0; s < w; s++) {
-                    int offset = s << (h-ph+1);
-                    for (int i = 0; i < p; i++) {
-                        auto l = a[i+offset], r = a[i+offset+p]*now;
-                        a[i+offset] = l+r;
-                        a[i+offset+p] = l-r;
-                    }
-                    now *= sum_e[__builtin_ctz(~(unsigned int)(s))];
-                }
-            }
-        }else { // ifft
-            for (int ph = h; ph >= 1; ph--) {
-                int w = 1 << (ph-1), p = 1 << (h-ph);
-                mint inow = 1;
-                for (int s = 0; s < w; s++) {
-                    int offset = s << (h-ph+1);
-                    for (int i = 0; i < p; i++) {
-                        auto l = a[i+offset], r = a[i+offset+p];
-                        a[i+offset] = l+r;
-                        a[i+offset+p] = (l-r)*inow;
-                    }
-                    inow *= sum_ie[__builtin_ctz(~(unsigned int)(s))];
-                }
-            }
-        }
-    }
-};
+template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
-NTT ntt;
+#include "../math/ntt.cpp"
 
-struct poly {
-    vector<mint> v;
-    poly() = default;
-    explicit poly(int n) : v(n) {};
-    explicit poly(vector<mint> vv) : v(std::move(vv)) {};
-    int size() const {return (int)v.size(); }
-    poly cut(int len){
-        if(len < v.size()) v.resize(static_cast<unsigned long>(len));
-        return *this;
+int main() {
+    int n, m;
+    cin >> n >> m;
+    poly a(n), b(m);
+    for (int i = 0; i < n; ++i) {
+        int x;
+        scanf("%d", &x);
+        a[i] = x;
     }
-    inline mint& operator[] (int i) {return v[i]; }
-    poly& operator+=(const poly &a) {
-        this->v.resize(max(size(), a.size()));
-        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];
-        return *this;
+    for (int i = 0; i < m; ++i) {
+        int x;
+        scanf("%d", &x);
+        b[i] = x;
     }
-    poly& operator-=(const poly &a) {
-        this->v.resize(max(size(), a.size()));
-        for (int i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];
-        return *this;
+    a *= b;
+    for (int i = 0; i < n+m-1; ++i) {
+        if(i) printf(" ");
+        printf("%d", a[i].val);
     }
-
-    poly& operator*=(poly a) {
-        int N = size()+a.size()-1;
-        int sz = 1;
-        while(sz < N) sz <<= 1;
-        this->v.resize(sz); a.v.resize(sz);
-        ntt.transform(this->v, 0); ntt.transform(a.v, 0);
-        for(int i = 0; i < sz; ++i) this->v[i] *= a.v[i];
-        ntt.transform(this->v, 1);
-        this->v.resize(N);
-        mint iz = mint(sz).inv();
-        for (int i = 0; i < N; i++) this->v[i] *= iz;
-        return *this;
-    }
-    poly& operator/=(const poly &a){ return (*this *= a.inv()); }
-    poly operator+(const poly &a) const { return poly(*this) += a; }
-    poly operator-(const poly &a) const { return poly(*this) -= a; }
-    poly operator*(const poly &a) const { return poly(*this) *= a; }
-
-    poly inv() const {
-        int n = size();
-        poly r(1);
-        r[0] = (this->v[0]).inv();
-        int k = 1;
-        while(k < n){
-            k *= 2;
-            poly ff(k);
-            for (int i = 0; i < min(k, n); ++i) {
-                ff[i] = this->v[i];
-            }
-            poly nr = (r*r*ff).cut(k);
-            for (int i = 0; i < k/2; ++i) {
-                nr[i] = (r[i]+r[i]-nr[i]);
-                nr[i+k/2] = -nr[i+k/2];
-            }
-            r = nr;
-        }
-        r.v.resize(n);
-        return r;
-    }
-};
+    puts("");
+    return 0;
+}
 ```
 {% endraw %}
 
 <a id="bundled"></a>
 {% raw %}
 ```cpp
+#line 1 "test/yosupo_convolution.test.cpp"
+#include <iostream>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <numeric>
+#include <bitset>
+#include <cmath>
+
+static const int MOD = 1000000007;
+using ll = long long;
+using u32 = unsigned;
+using u64 = unsigned long long;
+using namespace std;
+
+template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
+
 #line 1 "math/ntt.cpp"
 constexpr int ntt_mod = 998244353, ntt_root = 3;
 // 1012924417 -> 5, 924844033 -> 5
@@ -367,6 +271,30 @@ struct poly {
         return r;
     }
 };
+#line 20 "test/yosupo_convolution.test.cpp"
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+    poly a(n), b(m);
+    for (int i = 0; i < n; ++i) {
+        int x;
+        scanf("%d", &x);
+        a[i] = x;
+    }
+    for (int i = 0; i < m; ++i) {
+        int x;
+        scanf("%d", &x);
+        b[i] = x;
+    }
+    a *= b;
+    for (int i = 0; i < n+m-1; ++i) {
+        if(i) printf(" ");
+        printf("%d", a[i].val);
+    }
+    puts("");
+    return 0;
+}
 
 ```
 {% endraw %}
