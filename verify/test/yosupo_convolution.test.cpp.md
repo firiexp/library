@@ -25,20 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/yosupo_convolution.test.cpp
+# :heavy_check_mark: test/yosupo_convolution.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_convolution.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-08 21:49:45+09:00
+    - Last commit date: 2020-09-08 21:52:30+09:00
 
 
+* see: <a href="https://judge.yosupo.jp/problem/convolution_mod">https://judge.yosupo.jp/problem/convolution_mod</a>
 
 
 ## Depends on
 
-* :x: <a href="../../library/math/ntt.cpp.html">math/ntt.cpp</a>
+* :heavy_check_mark: <a href="../../library/math/ntt.cpp.html">math/ntt.cpp</a>
 
 
 ## Code
@@ -46,6 +47,9 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod"
+
+
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -95,6 +99,9 @@ int main() {
 {% raw %}
 ```cpp
 #line 1 "test/yosupo_convolution.test.cpp"
+#define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod"
+
+
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -271,7 +278,7 @@ struct poly {
         return r;
     }
 };
-#line 20 "test/yosupo_convolution.test.cpp"
+#line 23 "test/yosupo_convolution.test.cpp"
 
 int main() {
     int n, m;
