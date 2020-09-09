@@ -12,6 +12,7 @@ pair<ll, ll> CRT(const vector<pair<ll, ll>> &a){
         ll p, q;
         ll g = extgcd(M, m, p, q); // p = inv(M') mod m'
         ll mm = m/g;
+        if((r-R)%g) return {0, 0};
         ll x = (r-R)/g % mm * p % mm;
         R += x*M;
         M *= mm;
