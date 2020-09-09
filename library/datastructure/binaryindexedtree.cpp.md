@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: datastructure/binaryindexedtree.cpp
+# :heavy_check_mark: datastructure/binaryindexedtree.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/binaryindexedtree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 23:45:54+09:00
+    - Last commit date: 2020-09-09 23:52:42+09:00
 
 
 
 
 ## Verified with
 
-* :x: <a href="../../verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
 
 
 ## Code
@@ -63,16 +63,13 @@ public:
     }
 
     void add(int k, T x){
-        for (++k; k < bit.size(); k  += (k & -k)) bit[k-1] += x;
+        for (k++; k <= bit.size(); k  += (k & -k)) bit[k-1] += x;
     }
 
     T lower_bound(T x){
-        int i = 0;
-        for (int j = m; j > 0; j >>= 1) {
-            if(i+j-1 < bit.size() && bit[i+j-1] < x) {
-                x -= bit[i+j-1];
-                i += j;
-            }
+        int i = -1;
+        for (int j = m; j; j >>= 1) {
+            if(i+j < bit.size() && bit[i+j] < x) x -= bit[i += j];
         }
         return i;
     }
@@ -101,16 +98,13 @@ public:
     }
 
     void add(int k, T x){
-        for (++k; k < bit.size(); k  += (k & -k)) bit[k-1] += x;
+        for (k++; k <= bit.size(); k  += (k & -k)) bit[k-1] += x;
     }
 
     T lower_bound(T x){
-        int i = 0;
-        for (int j = m; j > 0; j >>= 1) {
-            if(i+j-1 < bit.size() && bit[i+j-1] < x) {
-                x -= bit[i+j-1];
-                i += j;
-            }
+        int i = -1;
+        for (int j = m; j; j >>= 1) {
+            if(i+j < bit.size() && bit[i+j] < x) x -= bit[i += j];
         }
         return i;
     }

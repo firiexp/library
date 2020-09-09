@@ -39,7 +39,7 @@ layout: default
 ### datastructure
 
 * :heavy_check_mark: <a href="library/datastructure/ahocorasick.cpp.html">Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small></a>
-* :x: <a href="library/datastructure/binaryindexedtree.cpp.html">datastructure/binaryindexedtree.cpp</a>
+* :heavy_check_mark: <a href="library/datastructure/binaryindexedtree.cpp.html">datastructure/binaryindexedtree.cpp</a>
 * :warning: <a href="library/datastructure/binarytrie.cpp.html">datastructure/binarytrie.cpp</a>
 * :warning: <a href="library/datastructure/dualsegtree.cpp.html">datastructure/dualsegtree.cpp</a>
 * :heavy_check_mark: <a href="library/datastructure/lazysegtree.cpp.html">datastructure/lazysegtree.cpp</a>
@@ -174,7 +174,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
-* :x: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/example.test.cpp.html">test/example.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_convolution.test.cpp.html">test/yosupo_convolution.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_dominator_tree.test.cpp.html">test/yosupo_dominator_tree.test.cpp</a>
