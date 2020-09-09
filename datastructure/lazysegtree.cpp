@@ -31,6 +31,13 @@ struct LazySegmentTree{
     }
     void thrust(int k){ for (int i = height; i; --i) eval(k>>i); }
     void recalc(int k) { while(k >>= 1) seg[k] = M::f(reflect((k<<1)|0), reflect((k<<1)|1));}
+
+    void update(int a, const T &x){
+        thrust(a += sz);
+        seg[a] = x;
+        recalc(a);
+    }
+
     void update(int a, int b, const L &x){
         thrust(a += sz); thrust(b += sz-1);
         for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {
