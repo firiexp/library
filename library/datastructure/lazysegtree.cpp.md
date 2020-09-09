@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/lazysegtree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-07-07 13:47:08+09:00
+    - Last commit date: 2020-09-09 15:11:53+09:00
 
 
 
@@ -50,16 +50,16 @@ template <class M>
 struct LazySegmentTree{
     using T = typename M::T;
     using L = typename M::L;
-    int sz, height{};
+    int sz, n, height{};
     vector<T> seg; vector<L> lazy;
-    explicit LazySegmentTree(int n) {
+    explicit LazySegmentTree(int n) : n(n) {
         sz = 1; while(sz < n) sz <<= 1, height++;
         seg.assign(2*sz, M::e());
         lazy.assign(2*sz, M::l());
     }
 
-    void set(int k, const T &x){ 
-        seg[k + sz] = x; 
+    void set(int k, const T &x){
+        seg[k + sz] = x;
     }
 
     void build(){
@@ -70,8 +70,10 @@ struct LazySegmentTree{
 
     void eval(int k){
         if(lazy[k] == M::l()) return;
-        lazy[(k<<1)|0] = M::h(lazy[(k<<1)|0], lazy[k]);
-        lazy[(k<<1)|1] = M::h(lazy[(k<<1)|1], lazy[k]);
+        if(k < sz){
+            lazy[(k<<1)|0] = M::h(lazy[(k<<1)|0], lazy[k]);
+            lazy[(k<<1)|1] = M::h(lazy[(k<<1)|1], lazy[k]);
+        }
         seg[k] = reflect(k);
         lazy[k] = M::l();
     }
@@ -96,6 +98,53 @@ struct LazySegmentTree{
             if (r & 1) rr = M::f(reflect(--r), rr);
         }
         return M::f(ll, rr);
+    }
+
+    template<class F>
+    int search_right(int l, F cond){
+        if(l == n) return n;
+        thrust(l += sz);
+        T val = M::e();
+        do {
+            while(!(l&1)) l >>= 1;
+            if(!cond(M::f(val, seg[l]))){
+                while(l < sz) {
+                    eval(l);
+                    l <<= 1;
+                    if (cond(M::f(val, seg[l]))){
+                        val = M::f(val, seg[l]);
+                        l++;
+                    }
+                }
+                return l - sz;
+            }
+            val = M::f(val, seg[l]);
+            l++;
+        } while((l & -l) != l);
+        return n;
+    }
+
+    template<class F>
+    int search_left(int r, F cond){
+        if(r == 0) return 0;
+        thrust((r += sz)-1);
+        T val = M::e();
+        do {
+            while(r&1) r >>= 1;
+            if(!cond(M::f(val, seg[r]))){
+                while(r < sz) {
+                    eval(r);
+                    r = ((r << 1)|1);
+                    if (cond(M::f(seg[r], val))){
+                        val = M::f(seg[r], val);
+                        r--;
+                    }
+                }
+                return r + 1 - sz;
+            }
+            val = M::f(seg[r], val);
+        } while((r & -r) != r);
+        return 0;
     }
 };
 
@@ -110,16 +159,16 @@ template <class M>
 struct LazySegmentTree{
     using T = typename M::T;
     using L = typename M::L;
-    int sz, height{};
+    int sz, n, height{};
     vector<T> seg; vector<L> lazy;
-    explicit LazySegmentTree(int n) {
+    explicit LazySegmentTree(int n) : n(n) {
         sz = 1; while(sz < n) sz <<= 1, height++;
         seg.assign(2*sz, M::e());
         lazy.assign(2*sz, M::l());
     }
 
-    void set(int k, const T &x){ 
-        seg[k + sz] = x; 
+    void set(int k, const T &x){
+        seg[k + sz] = x;
     }
 
     void build(){
@@ -130,8 +179,10 @@ struct LazySegmentTree{
 
     void eval(int k){
         if(lazy[k] == M::l()) return;
-        lazy[(k<<1)|0] = M::h(lazy[(k<<1)|0], lazy[k]);
-        lazy[(k<<1)|1] = M::h(lazy[(k<<1)|1], lazy[k]);
+        if(k < sz){
+            lazy[(k<<1)|0] = M::h(lazy[(k<<1)|0], lazy[k]);
+            lazy[(k<<1)|1] = M::h(lazy[(k<<1)|1], lazy[k]);
+        }
         seg[k] = reflect(k);
         lazy[k] = M::l();
     }
@@ -156,6 +207,53 @@ struct LazySegmentTree{
             if (r & 1) rr = M::f(reflect(--r), rr);
         }
         return M::f(ll, rr);
+    }
+
+    template<class F>
+    int search_right(int l, F cond){
+        if(l == n) return n;
+        thrust(l += sz);
+        T val = M::e();
+        do {
+            while(!(l&1)) l >>= 1;
+            if(!cond(M::f(val, seg[l]))){
+                while(l < sz) {
+                    eval(l);
+                    l <<= 1;
+                    if (cond(M::f(val, seg[l]))){
+                        val = M::f(val, seg[l]);
+                        l++;
+                    }
+                }
+                return l - sz;
+            }
+            val = M::f(val, seg[l]);
+            l++;
+        } while((l & -l) != l);
+        return n;
+    }
+
+    template<class F>
+    int search_left(int r, F cond){
+        if(r == 0) return 0;
+        thrust((r += sz)-1);
+        T val = M::e();
+        do {
+            while(r&1) r >>= 1;
+            if(!cond(M::f(val, seg[r]))){
+                while(r < sz) {
+                    eval(r);
+                    r = ((r << 1)|1);
+                    if (cond(M::f(seg[r], val))){
+                        val = M::f(seg[r], val);
+                        r--;
+                    }
+                }
+                return r + 1 - sz;
+            }
+            val = M::f(seg[r], val);
+        } while((r & -r) != r);
+        return 0;
     }
 };
 

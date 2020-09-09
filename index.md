@@ -118,6 +118,7 @@ layout: default
 * :warning: <a href="library/math/primefactor2.cpp.html">math/primefactor2.cpp</a>
 * :warning: <a href="library/math/primefactor_ll.cpp.html">math/primefactor_ll.cpp</a>
 * :warning: <a href="library/math/primefactor_ll2.cpp.html">math/primefactor_ll2.cpp</a>
+* :warning: <a href="library/math/primitive_root.cpp.html">math/primitive_root.cpp</a>
 * :warning: <a href="library/math/squarematrix.cpp.html">math/squarematrix.cpp</a>
 
 

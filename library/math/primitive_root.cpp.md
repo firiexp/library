@@ -25,20 +25,20 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: math/pow.cpp
+# :warning: math/primitive_root.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#7e676e9e663beb40fd133f5ee24487c2">math</a>
-* <a href="{{ site.github.repository_url }}/blob/master/math/pow.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 17:42:59+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/math/primitive_root.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-09-09 00:00:31+09:00
 
 
 
 
-## Required by
+## Depends on
 
-* :warning: <a href="primitive_root.cpp.html">math/primitive_root.cpp</a>
+* :warning: <a href="pow.cpp.html">math/pow.cpp</a>
 
 
 ## Code
@@ -46,16 +46,28 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-template <class T>
-T pow_ (T x, T n, T M){
-    uint64_t u = 1, xx = x;
-    while (n > 0){
-        if (n&1) u = u * xx % M;
-        xx = xx * xx % M;
-        n >>= 1;
+#include "pow.cpp"
+int primitive_root(int m) {
+    if (m == 2) return 1;
+    int divs[20] = {2};
+    int cnt = 1;
+    int x = (m-1)/2;
+    while (x%2 == 0) x /= 2;
+    for (ll i = 3; i*i <= x; i += 2) {
+        if (x%i == 0) {
+            divs[cnt++] = i;
+            while (x%i == 0) x /= i;
+        }
     }
-    return static_cast<T>(u);
-};
+    if (x > 1) divs[cnt++] = x;
+    for (int g = 2;; g++) {
+        bool ok = true;
+        for (int i = 0; i < cnt && ok; i++) {
+            ok |= pow_(g, (m-1)/divs[i], m) != 1;
+        }
+        if (ok) return g;
+    }
+}
 ```
 {% endraw %}
 
@@ -73,6 +85,28 @@ T pow_ (T x, T n, T M){
     }
     return static_cast<T>(u);
 };
+#line 2 "math/primitive_root.cpp"
+int primitive_root(int m) {
+    if (m == 2) return 1;
+    int divs[20] = {2};
+    int cnt = 1;
+    int x = (m-1)/2;
+    while (x%2 == 0) x /= 2;
+    for (ll i = 3; i*i <= x; i += 2) {
+        if (x%i == 0) {
+            divs[cnt++] = i;
+            while (x%i == 0) x /= i;
+        }
+    }
+    if (x > 1) divs[cnt++] = x;
+    for (int g = 2;; g++) {
+        bool ok = true;
+        for (int i = 0; i < cnt && ok; i++) {
+            ok |= pow_(g, (m-1)/divs[i], m) != 1;
+        }
+        if (ok) return g;
+    }
+}
 
 ```
 {% endraw %}
