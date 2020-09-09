@@ -1,16 +1,13 @@
 template<class T>
 class BIT {
     vector<T> bit;
-    int m;
+    int n;
 public:
-    BIT(int n): bit(vector<T>(n+1, 0)){
-        m = 1;
-        while(m < n) m <<= 1;
-    }
+    BIT(int n): n(n), bit(n){}
 
     T sum(int k){
         T ret = 0;
-        for (++k; k > 0; k -= (k & -k)) ret += bit[k];
+        for (; k > 0; k -= (k & -k)) ret += bit[k-1];
         return ret;
     }
 
