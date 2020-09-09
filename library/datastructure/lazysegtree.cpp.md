@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/lazysegtree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 15:18:47+09:00
+    - Last commit date: 2020-09-09 21:46:42+09:00
 
 
 
@@ -58,9 +58,7 @@ struct LazySegmentTree{
         lazy.assign(2*sz, M::l());
     }
 
-    void set(int k, const T &x){
-        seg[k + sz] = x;
-    }
+    void set(int k, const T &x){ seg[k + sz] = x; }
 
     void build(){
         for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[i<<1], seg[(i<<1)|1]);
@@ -174,9 +172,7 @@ struct LazySegmentTree{
         lazy.assign(2*sz, M::l());
     }
 
-    void set(int k, const T &x){
-        seg[k + sz] = x;
-    }
+    void set(int k, const T &x){ seg[k + sz] = x; }
 
     void build(){
         for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[i<<1], seg[(i<<1)|1]);

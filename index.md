@@ -105,6 +105,7 @@ layout: default
 * :warning: <a href="library/math/fastkitamasa.cpp.html">math/fastkitamasa.cpp</a>
 * :warning: <a href="library/math/fft.cpp.html">math/fft.cpp</a>
 * :warning: <a href="library/math/fft3.cpp.html">math/fft3.cpp</a>
+* :warning: <a href="library/math/floor_sum.cpp.html">math/floor_sum.cpp</a>
 * :warning: <a href="library/math/garner.cpp.html">math/garner.cpp</a>
 * :warning: <a href="library/math/get_prime.cpp.html">math/get_prime.cpp</a>
 * :warning: <a href="library/math/get_prime2.cpp.html">math/get_prime2.cpp</a>
@@ -129,6 +130,7 @@ layout: default
 * :warning: <a href="library/string/manacher.cpp.html">string/manacher.cpp</a>
 * :heavy_check_mark: <a href="library/string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
 * :warning: <a href="library/string/rolling_hash_u64.cpp.html">string/rolling_hash_u64.cpp</a>
+* :warning: <a href="library/string/suffix_array.cpp.html">string/suffix_array.cpp</a>
 * :warning: <a href="library/string/z-algorithm.cpp.html">string/z-algorithm.cpp</a>
 
 

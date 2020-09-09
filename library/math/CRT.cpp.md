@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#7e676e9e663beb40fd133f5ee24487c2">math</a>
 * <a href="{{ site.github.repository_url }}/blob/master/math/CRT.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 19:12:23+09:00
+    - Last commit date: 2020-09-09 19:14:02+09:00
 
 
 
@@ -60,6 +60,7 @@ pair<ll, ll> CRT(const vector<pair<ll, ll>> &a){
         ll p, q;
         ll g = extgcd(M, m, p, q); // p = inv(M') mod m'
         ll mm = m/g;
+        if((r-R)%g) return {0, 0};
         ll x = (r-R)/g % mm * p % mm;
         R += x*M;
         M *= mm;
@@ -100,6 +101,7 @@ pair<ll, ll> CRT(const vector<pair<ll, ll>> &a){
         ll p, q;
         ll g = extgcd(M, m, p, q); // p = inv(M') mod m'
         ll mm = m/g;
+        if((r-R)%g) return {0, 0};
         ll x = (r-R)/g % mm * p % mm;
         R += x*M;
         M *= mm;
