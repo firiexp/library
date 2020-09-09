@@ -22,8 +22,10 @@ struct LazySegmentTree{
 
     void eval(int k){
         if(lazy[k] == M::l()) return;
-        lazy[(k<<1)|0] = M::h(lazy[(k<<1)|0], lazy[k]);
-        lazy[(k<<1)|1] = M::h(lazy[(k<<1)|1], lazy[k]);
+        if(k < sz){
+            lazy[(k<<1)|0] = M::h(lazy[(k<<1)|0], lazy[k]);
+            lazy[(k<<1)|1] = M::h(lazy[(k<<1)|1], lazy[k]);
+        }
         seg[k] = reflect(k);
         lazy[k] = M::l();
     }
