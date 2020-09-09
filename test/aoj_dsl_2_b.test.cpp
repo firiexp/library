@@ -26,8 +26,9 @@ int main() {
     for (int i = 0; i < q; ++i) {
         int c, x, y;
         scanf("%d %d %d", &c, &x, &y);
-        if(c == 0) s.add(x-1, y);
-        else printf("%d\n", s.sum(y-1) - s.sum(x-2));
+        x--;
+        if(c == 0) s.add(x, y);
+        else printf("%d\n", s.sum(y) - s.sum(x));
     }
     return 0;
 }

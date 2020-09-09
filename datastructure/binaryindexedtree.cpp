@@ -1,9 +1,12 @@
 template<class T>
 class BIT {
     vector<T> bit;
-    int n;
+    int n, m;
 public:
-    BIT(int n): n(n), bit(n){}
+    BIT(int n): n(n), bit(n){
+        m = 1;
+        while(m < n) m <<= 1;
+    }
 
     T sum(int k){
         T ret = 0;
@@ -14,7 +17,7 @@ public:
     void add(int k, T x){
         for (++k; k < bit.size(); k  += (k & -k)) bit[k] += x;
     }
-    
+
     T lower_bound(T x){
         int i = 0;
         for (int j = m; j > 0; j >>= 1) {
@@ -23,7 +26,3 @@ public:
         return i;
     }
 };
-/**
- * @brief BinaryIndexedTree (BIT)
- * @docs _md/binaryindexedtree.md
- */
