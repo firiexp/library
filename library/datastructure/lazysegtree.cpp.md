@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/lazysegtree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 15:11:53+09:00
+    - Last commit date: 2020-09-09 15:18:47+09:00
 
 
 
@@ -79,6 +79,13 @@ struct LazySegmentTree{
     }
     void thrust(int k){ for (int i = height; i; --i) eval(k>>i); }
     void recalc(int k) { while(k >>= 1) seg[k] = M::f(reflect((k<<1)|0), reflect((k<<1)|1));}
+
+    void update(int a, const T &x){
+        thrust(a += sz);
+        seg[a] = x;
+        recalc(a);
+    }
+
     void update(int a, int b, const L &x){
         thrust(a += sz); thrust(b += sz-1);
         for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {
@@ -188,6 +195,13 @@ struct LazySegmentTree{
     }
     void thrust(int k){ for (int i = height; i; --i) eval(k>>i); }
     void recalc(int k) { while(k >>= 1) seg[k] = M::f(reflect((k<<1)|0), reflect((k<<1)|1));}
+
+    void update(int a, const T &x){
+        thrust(a += sz);
+        seg[a] = x;
+        recalc(a);
+    }
+
     void update(int a, int b, const L &x){
         thrust(a += sz); thrust(b += sz-1);
         for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {
