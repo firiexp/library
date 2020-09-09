@@ -50,6 +50,7 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/yosupo_unionfind.test.cpp.html">test/yosupo_unionfind.test.cpp</a>
 
 
 ## Code
