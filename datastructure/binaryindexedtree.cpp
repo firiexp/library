@@ -15,16 +15,13 @@ public:
     }
 
     void add(int k, T x){
-        for (++k; k < bit.size(); k  += (k & -k)) bit[k-1] += x;
+        for (k++; k <= bit.size(); k  += (k & -k)) bit[k-1] += x;
     }
 
     T lower_bound(T x){
-        int i = 0;
-        for (int j = m; j > 0; j >>= 1) {
-            if(i+j-1 < bit.size() && bit[i+j-1] < x) {
-                x -= bit[i+j-1];
-                i += j;
-            }
+        int i = -1;
+        for (int j = m; j; j >>= 1) {
+            if(i+j < bit.size() && bit[i+j] < x) x -= bit[i += j];
         }
         return i;
     }
