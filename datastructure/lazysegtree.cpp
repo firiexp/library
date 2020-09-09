@@ -10,9 +10,7 @@ struct LazySegmentTree{
         lazy.assign(2*sz, M::l());
     }
 
-    void set(int k, const T &x){
-        seg[k + sz] = x;
-    }
+    void set(int k, const T &x){ seg[k + sz] = x; }
 
     void build(){
         for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[i<<1], seg[(i<<1)|1]);
