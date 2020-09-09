@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/aoj_dsl_2_b.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 23:30:26+09:00
+    - Last commit date: 2020-09-09 23:36:44+09:00
 
 
 * see: <a href="http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B">http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B</a>
@@ -39,7 +39,7 @@ layout: default
 
 ## Depends on
 
-* :x: <a href="../../library/datastructure/binaryindexedtree.cpp.html">BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small></a>
+* :x: <a href="../../library/datastructure/binaryindexedtree.cpp.html">datastructure/binaryindexedtree.cpp</a>
 
 
 ## Code
@@ -75,8 +75,9 @@ int main() {
     for (int i = 0; i < q; ++i) {
         int c, x, y;
         scanf("%d %d %d", &c, &x, &y);
-        if(c == 0) s.add(x-1, y);
-        else printf("%d\n", s.sum(y-1) - s.sum(x-2));
+        x--;
+        if(c == 0) s.add(x, y);
+        else printf("%d\n", s.sum(y) - s.sum(x));
     }
     return 0;
 }
@@ -110,9 +111,12 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 template<class T>
 class BIT {
     vector<T> bit;
-    int n;
+    int n, m;
 public:
-    BIT(int n): n(n), bit(n){}
+    BIT(int n): n(n), bit(n){
+        m = 1;
+        while(m < n) m <<= 1;
+    }
 
     T sum(int k){
         T ret = 0;
@@ -123,7 +127,7 @@ public:
     void add(int k, T x){
         for (++k; k < bit.size(); k  += (k & -k)) bit[k] += x;
     }
-    
+
     T lower_bound(T x){
         int i = 0;
         for (int j = m; j > 0; j >>= 1) {
@@ -132,10 +136,6 @@ public:
         return i;
     }
 };
-/**
- * @brief BinaryIndexedTree (BIT)
- * @docs _md/binaryindexedtree.md
- */
 #line 21 "test/aoj_dsl_2_b.test.cpp"
 
 int main() {
@@ -145,8 +145,9 @@ int main() {
     for (int i = 0; i < q; ++i) {
         int c, x, y;
         scanf("%d %d %d", &c, &x, &y);
-        if(c == 0) s.add(x-1, y);
-        else printf("%d\n", s.sum(y-1) - s.sum(x-2));
+        x--;
+        if(c == 0) s.add(x, y);
+        else printf("%d\n", s.sum(y) - s.sum(x));
     }
     return 0;
 }

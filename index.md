@@ -39,7 +39,7 @@ layout: default
 ### datastructure
 
 * :heavy_check_mark: <a href="library/datastructure/ahocorasick.cpp.html">Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small></a>
-* :x: <a href="library/datastructure/binaryindexedtree.cpp.html">BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small></a>
+* :x: <a href="library/datastructure/binaryindexedtree.cpp.html">datastructure/binaryindexedtree.cpp</a>
 * :warning: <a href="library/datastructure/binarytrie.cpp.html">datastructure/binarytrie.cpp</a>
 * :warning: <a href="library/datastructure/dualsegtree.cpp.html">datastructure/dualsegtree.cpp</a>
 * :heavy_check_mark: <a href="library/datastructure/lazysegtree.cpp.html">datastructure/lazysegtree.cpp</a>

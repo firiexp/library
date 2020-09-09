@@ -25,25 +25,16 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small>
+# :x: datastructure/binaryindexedtree.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/binaryindexedtree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-09 23:30:26+09:00
+    - Last commit date: 2020-09-09 23:36:44+09:00
 
 
 
-
-## 説明
-可換群(逆元が存在する群)について、区間和を$O(\log N)$で求め、更新を$O(\log N)$で行う。<br>
-可換でなくても$[0, x)$について演算した結果だけを求めたいのであれば、使うことができる。(例: LIS)
-
-## 操作
-- $\mathrm{add}(k, x)$ : $k$番目の要素に$x$を加算する。
-- $\mathrm{sum}(k)$ : 閉区間$[0, k]$の和を求める。
-- $\mathrm{lower\_bound}(x)$ : $\mathrm{sum}(k)$が$x$以上になる最小の$k$を求める。
 
 ## Verified with
 
@@ -58,9 +49,12 @@ layout: default
 template<class T>
 class BIT {
     vector<T> bit;
-    int n;
+    int n, m;
 public:
-    BIT(int n): n(n), bit(n){}
+    BIT(int n): n(n), bit(n){
+        m = 1;
+        while(m < n) m <<= 1;
+    }
 
     T sum(int k){
         T ret = 0;
@@ -71,7 +65,7 @@ public:
     void add(int k, T x){
         for (++k; k < bit.size(); k  += (k & -k)) bit[k] += x;
     }
-    
+
     T lower_bound(T x){
         int i = 0;
         for (int j = m; j > 0; j >>= 1) {
@@ -80,10 +74,6 @@ public:
         return i;
     }
 };
-/**
- * @brief BinaryIndexedTree (BIT)
- * @docs _md/binaryindexedtree.md
- */
 ```
 {% endraw %}
 
@@ -94,9 +84,12 @@ public:
 template<class T>
 class BIT {
     vector<T> bit;
-    int n;
+    int n, m;
 public:
-    BIT(int n): n(n), bit(n){}
+    BIT(int n): n(n), bit(n){
+        m = 1;
+        while(m < n) m <<= 1;
+    }
 
     T sum(int k){
         T ret = 0;
@@ -107,7 +100,7 @@ public:
     void add(int k, T x){
         for (++k; k < bit.size(); k  += (k & -k)) bit[k] += x;
     }
-    
+
     T lower_bound(T x){
         int i = 0;
         for (int j = m; j > 0; j >>= 1) {
@@ -116,10 +109,6 @@ public:
         return i;
     }
 };
-/**
- * @brief BinaryIndexedTree (BIT)
- * @docs _md/binaryindexedtree.md
- */
 
 ```
 {% endraw %}
