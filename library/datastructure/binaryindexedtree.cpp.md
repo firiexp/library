@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small>
+# :x: BinaryIndexedTree (BIT) <small>(datastructure/binaryindexedtree.cpp)</small>
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#8dc87745f885a4cc532acd7b15b8b5fe">datastructure</a>
 * <a href="{{ site.github.repository_url }}/blob/master/datastructure/binaryindexedtree.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-04-26 18:02:42+09:00
+    - Last commit date: 2020-09-09 23:30:26+09:00
 
 
 
@@ -47,7 +47,7 @@ layout: default
 
 ## Verified with
 
-* :heavy_check_mark: <a href="../../verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
+* :x: <a href="../../verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
 
 
 ## Code
@@ -58,16 +58,13 @@ layout: default
 template<class T>
 class BIT {
     vector<T> bit;
-    int m;
+    int n;
 public:
-    BIT(int n): bit(vector<T>(n+1, 0)){
-        m = 1;
-        while(m < n) m <<= 1;
-    }
+    BIT(int n): n(n), bit(n){}
 
     T sum(int k){
         T ret = 0;
-        for (++k; k > 0; k -= (k & -k)) ret += bit[k];
+        for (; k > 0; k -= (k & -k)) ret += bit[k-1];
         return ret;
     }
 
@@ -97,16 +94,13 @@ public:
 template<class T>
 class BIT {
     vector<T> bit;
-    int m;
+    int n;
 public:
-    BIT(int n): bit(vector<T>(n+1, 0)){
-        m = 1;
-        while(m < n) m <<= 1;
-    }
+    BIT(int n): n(n), bit(n){}
 
     T sum(int k){
         T ret = 0;
-        for (++k; k > 0; k -= (k & -k)) ret += bit[k];
+        for (; k > 0; k -= (k & -k)) ret += bit[k-1];
         return ret;
     }
 
