@@ -1,11 +1,10 @@
 template <class M>
 struct SegmentTree{
     using T = typename M::T;
-    int sz;
+    int sz, n, height{};
     vector<T> seg;
     explicit SegmentTree(int n) {
-        sz = 1;
-        while(sz < n) sz <<= 1;
+        sz = 1; while(sz < n) sz <<= 1, height++;
         seg.assign(2*sz, M::e());
     }
 
@@ -30,31 +29,47 @@ struct SegmentTree{
         return M::f(l, r);
     }
 
-    template<typename C>
-    int find(int t, C &c, T &val, int k, int l, int r){
-        if(r-l == 1){
-            val = f(val, seg[k]);
-            return c(val) ? k-sz : -1;
-        }
-        int m = (l+r) >> 1;
-        if(m <= t) return find(t, c, val, (k << 1) | 1, m, r);
-        if(t <= l && !c(val = f(val, seg[k]))) return -1;
-        int lv = find(t, c, val, (k << 1) | 0 , l, m);
-        if(~lv) return lv;
-        return find(t, c, val, (k << 1) | 1, m, r);
+    template<class F>
+    int search_right(int l, F cond){
+        if(l == n) return n;
+        T val = M::e();
+        do {
+            while(!(l&1)) l >>= 1;
+            if(!cond(M::f(val, seg[l]))){
+                while(l < sz) {
+                    l <<= 1;
+                    if (cond(M::f(val, seg[l]))){
+                        val = M::f(val, seg[l]);
+                        l++;
+                    }
+                }
+                return l - sz;
+            }
+            val = M::f(val, seg[l]);
+            l++;
+        } while((l & -l) != l);
+        return n;
     }
 
-    template<typename C>
-    int find(int t, C &c){
+    template<class F>
+    int search_left(int r, F cond){
+        if(r == 0) return 0;
         T val = M::e();
-        return find(t, c, val, 1, 0, sz);
+        do {
+            while(r&1) r >>= 1;
+            if(!cond(M::f(val, seg[r]))){
+                while(r < sz) {
+                    r = ((r << 1)|1);
+                    if (cond(M::f(seg[r], val))){
+                        val = M::f(seg[r], val);
+                        r--;
+                    }
+                }
+                return r + 1 - sz;
+            }
+            val = M::f(seg[r], val);
+        } while((r & -r) != r);
+        return 0;
     }
     T operator[](const int &k) const { return seg[k + sz]; }
-};
-
-
-struct Monoid{
-    using T = int;
-    static T f(T a, T b) { return min(a, b); }
-    static T e() { return INF<int>; }
 };
