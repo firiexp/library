@@ -25,13 +25,13 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: test/yosupo_point_set_range_composite.cpp
+# :heavy_check_mark: test/yosupo_point_set_range_composite.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_point_set_range_composite.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-10 16:24:03+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_point_set_range_composite.test.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-09-10 16:26:40+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/point_set_range_composite">https://judge.yosupo.jp/problem/point_set_range_composite</a>
@@ -39,8 +39,8 @@ layout: default
 
 ## Depends on
 
-* :warning: <a href="../datastructure/segtree.cpp.html">datastructure/segtree.cpp</a>
-* :heavy_check_mark: <a href="../util/modint.cpp.html">modint(固定MOD) <small>(util/modint.cpp)</small></a>
+* :heavy_check_mark: <a href="../../library/datastructure/segtree.cpp.html">datastructure/segtree.cpp</a>
+* :heavy_check_mark: <a href="../../library/util/modint.cpp.html">modint(固定MOD) <small>(util/modint.cpp)</small></a>
 
 
 ## Code
@@ -104,7 +104,7 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/yosupo_point_set_range_composite.cpp"
+#line 1 "test/yosupo_point_set_range_composite.test.cpp"
 #define PROBLEM "https://judge.yosupo.jp/problem/point_set_range_composite"
 #include <iostream>
 #include <algorithm>
@@ -159,7 +159,7 @@ using mint = modint<MOD>;
  * @brief modint(固定MOD)
  * @docs _md/modint.md
  */
-#line 21 "test/yosupo_point_set_range_composite.cpp"
+#line 21 "test/yosupo_point_set_range_composite.test.cpp"
 
 #line 1 "datastructure/segtree.cpp"
 template <class M>
@@ -237,7 +237,7 @@ struct SegmentTree{
     }
     T operator[](const int &k) const { return seg[k + sz]; }
 };
-#line 23 "test/yosupo_point_set_range_composite.cpp"
+#line 23 "test/yosupo_point_set_range_composite.test.cpp"
 
 struct Monoid{
     using T = array<mint, 2>;

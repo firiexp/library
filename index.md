@@ -46,7 +46,7 @@ layout: default
 * :warning: <a href="library/datastructure/monotoniccht.cpp.html">datastructure/monotoniccht.cpp</a>
 * :warning: <a href="library/datastructure/quickfind.cpp.html">datastructure/quickfind.cpp</a>
 * :heavy_check_mark: <a href="library/datastructure/radixheap.cpp.html">datastructure/radixheap.cpp</a>
-* :warning: <a href="library/datastructure/segtree.cpp.html">datastructure/segtree.cpp</a>
+* :heavy_check_mark: <a href="library/datastructure/segtree.cpp.html">datastructure/segtree.cpp</a>
 * :warning: <a href="library/datastructure/slidingwindow.cpp.html">datastructure/slidingwindow.cpp</a>
 * :warning: <a href="library/datastructure/sparsetable.cpp.html">datastructure/sparsetable.cpp</a>
 * :warning: <a href="library/datastructure/swag.cpp.html">datastructure/swag.cpp</a>
@@ -134,13 +134,6 @@ layout: default
 * :warning: <a href="library/string/z-algorithm.cpp.html">string/z-algorithm.cpp</a>
 
 
-<div id="098f6bcd4621d373cade4e832627b4f6"></div>
-
-### test
-
-* :warning: <a href="library/test/yosupo_point_set_range_composite.cpp.html">test/yosupo_point_set_range_composite.cpp</a>
-
-
 <div id="c0af77cf8294ff93a5cdb2963ca9f038"></div>
 
 ### tree
@@ -186,6 +179,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/yosupo_convolution.test.cpp.html">test/yosupo_convolution.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_dominator_tree.test.cpp.html">test/yosupo_dominator_tree.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_point_add_range_sum.test.cpp.html">test/yosupo_point_add_range_sum.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/yosupo_point_set_range_composite.test.cpp.html">test/yosupo_point_set_range_composite.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_shortest_path.test.cpp.html">test/yosupo_shortest_path.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_shortest_path_radix_heap.test.cpp.html">test/yosupo_shortest_path_radix_heap.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_unionfind.test.cpp.html">test/yosupo_unionfind.test.cpp</a>

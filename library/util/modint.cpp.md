@@ -45,13 +45,13 @@ layout: default
 ## Required by
 
 * :warning: <a href="../math/factorial.cpp.html">math/factorial.cpp</a>
-* :warning: <a href="../test/yosupo_point_set_range_composite.cpp.html">test/yosupo_point_set_range_composite.cpp</a>
 
 
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
 * :heavy_check_mark: <a href="../../verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/yosupo_point_set_range_composite.test.cpp.html">test/yosupo_point_set_range_composite.test.cpp</a>
 
 
 ## Code
