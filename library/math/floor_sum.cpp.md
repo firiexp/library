@@ -25,7 +25,7 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :warning: math/floor_sum.cpp
+# :heavy_check_mark: math/floor_sum.cpp
 
 <a href="../../index.html">Back to top page</a>
 
@@ -34,6 +34,11 @@ layout: default
     - Last commit date: 2020-09-09 21:30:52+09:00
 
 
+
+
+## Verified with
+
+* :heavy_check_mark: <a href="../../verify/test/yosupo_sum_of_floor_of_linear.test.cpp.html">test/yosupo_sum_of_floor_of_linear.test.cpp</a>
 
 
 ## Code

@@ -105,7 +105,7 @@ layout: default
 * :warning: <a href="library/math/fastkitamasa.cpp.html">math/fastkitamasa.cpp</a>
 * :warning: <a href="library/math/fft.cpp.html">math/fft.cpp</a>
 * :warning: <a href="library/math/fft3.cpp.html">math/fft3.cpp</a>
-* :warning: <a href="library/math/floor_sum.cpp.html">math/floor_sum.cpp</a>
+* :heavy_check_mark: <a href="library/math/floor_sum.cpp.html">math/floor_sum.cpp</a>
 * :warning: <a href="library/math/garner.cpp.html">math/garner.cpp</a>
 * :warning: <a href="library/math/get_prime.cpp.html">math/get_prime.cpp</a>
 * :warning: <a href="library/math/get_prime2.cpp.html">math/get_prime2.cpp</a>
@@ -183,6 +183,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/yosupo_range_affine_range_sum.test.cpp.html">test/yosupo_range_affine_range_sum.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_shortest_path.test.cpp.html">test/yosupo_shortest_path.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_shortest_path_radix_heap.test.cpp.html">test/yosupo_shortest_path_radix_heap.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/yosupo_sum_of_floor_of_linear.test.cpp.html">test/yosupo_sum_of_floor_of_linear.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_unionfind.test.cpp.html">test/yosupo_unionfind.test.cpp</a>
 
 
