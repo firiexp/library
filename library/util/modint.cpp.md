@@ -45,6 +45,7 @@ layout: default
 ## Required by
 
 * :warning: <a href="../math/factorial.cpp.html">math/factorial.cpp</a>
+* :warning: <a href="../test/yosupo_point_set_range_composite.cpp.html">test/yosupo_point_set_range_composite.cpp</a>
 
 
 ## Verified with

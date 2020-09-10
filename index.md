@@ -134,6 +134,13 @@ layout: default
 * :warning: <a href="library/string/z-algorithm.cpp.html">string/z-algorithm.cpp</a>
 
 
+<div id="098f6bcd4621d373cade4e832627b4f6"></div>
+
+### test
+
+* :warning: <a href="library/test/yosupo_point_set_range_composite.cpp.html">test/yosupo_point_set_range_composite.cpp</a>
+
+
 <div id="c0af77cf8294ff93a5cdb2963ca9f038"></div>
 
 ### tree

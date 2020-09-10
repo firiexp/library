@@ -36,6 +36,11 @@ layout: default
 
 
 
+## Required by
+
+* :warning: <a href="../test/yosupo_point_set_range_composite.cpp.html">test/yosupo_point_set_range_composite.cpp</a>
+
+
 ## Code
 
 <a id="unbundled"></a>
