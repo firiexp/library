@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#7e676e9e663beb40fd133f5ee24487c2">math</a>
 * <a href="{{ site.github.repository_url }}/blob/master/math/factorial.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-08 21:35:41+09:00
+    - Last commit date: 2020-09-10 16:12:25+09:00
 
 
 
@@ -96,20 +96,20 @@ public:
     modint& operator--() { if (val == 0) val = M; val--; return *this; }
     modint operator++(int) { modint result = *this; ++*this; return result; }
     modint operator--(int) { modint result = *this; --*this; return result; }
-    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val -= M; return *this; }
-    modint& operator-=(const modint& rhs) { val -= rhs.val; if (val >= M) val += M; return *this; }
-    modint& operator*=(const modint& rhs) { u64 z = val; z *= rhs.val; val = (u32)(z % M); return *this; }
-    modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }
+    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -= M; return *this; }
+    modint& operator-=(const modint& b) { val -= b.val; if (val >= M) val += M; return *this; }
+    modint& operator*=(const modint& b) { u64 z = val; z *= b.val; val = (u32)(z % M); return *this; }
+    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }
     modint operator+() const { return *this; }
     modint operator-() const { return modint() - *this; }
     modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }
     modint inv() const { return pow(M-2); }
-    friend modint operator+(const modint& lhs, const modint& rhs) { return modint(lhs) += rhs; }
-    friend modint operator-(const modint& lhs, const modint& rhs) { return modint(lhs) -= rhs; }
-    friend modint operator*(const modint& lhs, const modint& rhs) { return modint(lhs) *= rhs; }
-    friend modint operator/(const modint& lhs, const modint& rhs) { return modint(lhs) /= rhs; }
-    friend bool operator==(const modint& lhs, const modint& rhs) { return lhs.val == rhs.val; }
-    friend bool operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val; }
+    friend modint operator+(const modint& a, const modint& b) { return modint(a) += b; }
+    friend modint operator-(const modint& a, const modint& b) { return modint(a) -= b; }
+    friend modint operator*(const modint& a, const modint& b) { return modint(a) *= b; }
+    friend modint operator/(const modint& a, const modint& b) { return modint(a) /= b; }
+    friend bool operator==(const modint& a, const modint& b) { return a.val == b.val; }
+    friend bool operator!=(const modint& a, const modint& b) { return a.val != b.val; }
 };
 using mint = modint<MOD>;
 
