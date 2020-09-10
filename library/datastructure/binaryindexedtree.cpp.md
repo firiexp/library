@@ -39,6 +39,7 @@ layout: default
 ## Verified with
 
 * :heavy_check_mark: <a href="../../verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
+* :heavy_check_mark: <a href="../../verify/test/yosupo_point_add_range_sum.test.cpp.html">test/yosupo_point_add_range_sum.test.cpp</a>
 
 
 ## Code
