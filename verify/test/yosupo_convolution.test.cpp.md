@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_convolution.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-08 21:52:30+09:00
+    - Last commit date: 2020-09-12 12:50:53+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/convolution_mod">https://judge.yosupo.jp/problem/convolution_mod</a>
@@ -158,23 +158,25 @@ using mint = modint<998244353>;
 class NTT {
     static constexpr int max_base = 20, maxN = 1 << max_base; // N <= 524288 * 2
     mint sum_e[30], sum_ie[30];
+
 public:
+    mint es[30], ies[30];
     NTT() {
-        mint es[30], ies[30];
         int cnt2 = __builtin_ctz(ntt_mod-1);
+
         mint e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();
-        for (int i = cnt2; i >= 2; i--){
-            es[i-2] = e;
-            ies[i-2] = ie;
+        for (int i = cnt2; i >= 0; i--){
+            es[i] = e;
+            ies[i] = ie;
             e *= e;
             ie *= ie;
         }
         mint now = 1, nowi = 1;
         for (int i = 0; i < cnt2 - 2; i++) {
-            sum_e[i] = es[i] * now;
-            now *= ies[i];
-            sum_ie[i] = ies[i] * nowi;
-            nowi *= es[i];
+            sum_e[i] = es[i+2] * now;
+            now *= ies[i+2];
+            sum_ie[i] = ies[i+2] * nowi;
+            nowi *= es[i+2];
         }
     }
 
@@ -278,6 +280,49 @@ struct poly {
         return r;
     }
 };
+
+mint nth_term(poly p, poly q, ll n){
+    if(!n) return p[0]/q[0];
+    int sz = 1, h = 0;
+    int k = max(p.size(), q.size());
+    while(sz < 2*k-1) sz <<= 1, h++;
+    p.v.resize(sz); q.v.resize(sz);
+    mint x = mint(sz>>1).inv();
+    vector<mint> y(sz>>1, 0);
+    for (int j = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.ies[i];
+    y[0] = 1;
+    for (int i = 2; i < sz>>1; i <<= 1) {
+        for (int j = i+1; j < 2*i; ++j) {
+            y[j] = y[j-i]*y[i];
+        }
+    }
+    ntt.transform(p.v, 0);
+    ntt.transform(q.v, 0);
+    poly tmp(sz>>1);
+    auto up = [&](poly &A){
+        for (int i = 0; i < sz>>1; ++i) tmp[i] = A[i];
+        ntt.transform(tmp.v, 1);
+        mint now = x;
+        for (int i = 0; i < sz>>1; ++i) tmp[i] *= now, now *= ntt.es[h];
+        ntt.transform(tmp.v, 0);
+        for (int i = 0; i < sz>>1; ++i) A[i|(sz>>1)] = tmp[i];
+    };
+    int ika = h;
+    while(n){
+        for (int i = 0; i < sz; ++i) p[i] *= q[i^1];
+        if(n&1) for (int i = 0; i < sz>>1; ++i) p[i] = (p[i<<1]-p[(i<<1)|1])*y[i];
+        else for (int i = 0; i < sz>>1; ++i) p[i] = (p[i<<1]+p[(i<<1)|1]);
+        ika++;
+        if(n == 1) break;
+        up(p);
+        for (int i = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];
+        up(q);
+        n >>= 1;
+    }
+    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];
+    ntt.transform(tmp.v, 1);
+    return mint(2).pow(ntt_mod-ika)*tmp[0];
+}
 #line 23 "test/yosupo_convolution.test.cpp"
 
 int main() {
