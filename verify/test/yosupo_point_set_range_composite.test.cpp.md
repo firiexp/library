@@ -31,7 +31,7 @@ layout: default
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_point_set_range_composite.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-10 16:26:40+09:00
+    - Last commit date: 2020-09-13 19:17:06+09:00
 
 
 * see: <a href="https://judge.yosupo.jp/problem/point_set_range_composite">https://judge.yosupo.jp/problem/point_set_range_composite</a>
@@ -167,7 +167,7 @@ struct SegmentTree{
     using T = typename M::T;
     int sz, n, height{};
     vector<T> seg;
-    explicit SegmentTree(int n) {
+    explicit SegmentTree(int n) : n(n) {
         sz = 1; while(sz < n) sz <<= 1, height++;
         seg.assign(2*sz, M::e());
     }
@@ -197,6 +197,7 @@ struct SegmentTree{
     int search_right(int l, F cond){
         if(l == n) return n;
         T val = M::e();
+        l += sz;
         do {
             while(!(l&1)) l >>= 1;
             if(!cond(M::f(val, seg[l]))){
@@ -219,9 +220,10 @@ struct SegmentTree{
     int search_left(int r, F cond){
         if(r == 0) return 0;
         T val = M::e();
+        r += sz;
         do {
             while(r&1) r >>= 1;
-            if(!cond(M::f(val, seg[r]))){
+            if(!cond(M::f(seg[r], val))){
                 while(r < sz) {
                     r = ((r << 1)|1);
                     if (cond(M::f(seg[r], val))){
