@@ -1,3 +1,4 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/scc"
 #include <iostream>
 #include <algorithm>
 #include <map>
