@@ -130,7 +130,7 @@ layout: default
 * :warning: <a href="library/string/manacher.cpp.html">string/manacher.cpp</a>
 * :heavy_check_mark: <a href="library/string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
 * :warning: <a href="library/string/rolling_hash_u64.cpp.html">string/rolling_hash_u64.cpp</a>
-* :warning: <a href="library/string/suffix_array.cpp.html">string/suffix_array.cpp</a>
+* :heavy_check_mark: <a href="library/string/suffix_array.cpp.html">string/suffix_array.cpp</a>
 * :warning: <a href="library/string/z-algorithm.cpp.html">string/z-algorithm.cpp</a>
 
 
@@ -178,6 +178,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/example.test.cpp.html">test/example.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_convolution.test.cpp.html">test/yosupo_convolution.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_dominator_tree.test.cpp.html">test/yosupo_dominator_tree.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/yosupo_number_of_substrings.test.cpp.html">test/yosupo_number_of_substrings.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_point_add_range_sum.test.cpp.html">test/yosupo_point_add_range_sum.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_point_set_range_composite.test.cpp.html">test/yosupo_point_set_range_composite.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_range_affine_range_sum.test.cpp.html">test/yosupo_range_affine_range_sum.test.cpp</a>
