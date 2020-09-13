@@ -13,6 +13,7 @@
 "test/example.test.cpp": "2020-04-26 16:08:15 +0900",
 "test/yosupo_convolution.test.cpp": "2020-09-12 12:50:53 +0900",
 "test/yosupo_dominator_tree.test.cpp": "2020-06-10 18:46:05 +0900",
+"test/yosupo_number_of_substrings.test.cpp": "2020-09-13 18:15:01 +0900",
 "test/yosupo_point_add_range_sum.test.cpp": "2020-09-10 15:48:30 +0900",
 "test/yosupo_point_set_range_composite.test.cpp": "2020-09-10 16:26:40 +0900",
 "test/yosupo_range_affine_range_sum.test.cpp": "2020-09-10 17:26:17 +0900",
