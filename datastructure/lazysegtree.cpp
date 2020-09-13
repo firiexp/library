@@ -88,7 +88,7 @@ struct LazySegmentTree{
         T val = M::e();
         do {
             while(r&1) r >>= 1;
-            if(!cond(M::f(val, seg[r]))){
+            if(!cond(M::f(seg[r], val))){
                 while(r < sz) {
                     eval(r);
                     r = ((r << 1)|1);
