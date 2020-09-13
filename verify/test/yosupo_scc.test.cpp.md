@@ -25,16 +25,15 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :heavy_check_mark: test/aoj0349.test.cpp
+# :x: test/yosupo_scc.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
-* <a href="{{ site.github.repository_url }}/blob/master/test/aoj0349.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-06-09 14:40:12+09:00
+* <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_scc.test.cpp">View this file on GitHub</a>
+    - Last commit date: 2020-09-13 16:51:08+09:00
 
 
-* see: <a href="http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0349">http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0349</a>
 
 
 ## Depends on
@@ -47,7 +46,6 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
-#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0349"
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -69,22 +67,26 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 #include "../graph/SCC.cpp"
 
 int main() {
-    int n;
-    cin >> n;
+    int n, m;
+    cin >> n >> m;
     SCC G(n);
-    int ans = 0;
+    for (int i = 0; i < m; ++i) {
+        int a, b;
+        scanf("%d %d", &a, &b);
+        G.add_edge(a, b);
+    }
+    printf("%d\n", G.build());
+    vector<vector<int>> res(G.sz.size());
     for (int i = 0; i < n; ++i) {
-        int x;
-        cin >> x;
-        if(x%n == 0) ans++;
-        else G.add_edge(i, (i+x)%n);
+        res[G[i]].emplace_back(i);
     }
-    G.build();
-
-    for (auto &&j : G.sz) {
-        if(j != 1) ans += j;
+    for (int i = 0; i < G.sz.size(); ++i) {
+        printf("%d", G.sz[i]);
+        for (auto &&j : res[i]) {
+            printf(" %d", j);
+        }
+        puts("");
     }
-    cout << ans << "\n";
     return 0;
 }
 ```
@@ -93,8 +95,7 @@ int main() {
 <a id="bundled"></a>
 {% raw %}
 ```cpp
-#line 1 "test/aoj0349.test.cpp"
-#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0349"
+#line 1 "test/yosupo_scc.test.cpp"
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -166,25 +167,29 @@ public:
 
     int operator[](int k) const { return cmp[k]; }
 };
-#line 21 "test/aoj0349.test.cpp"
+#line 20 "test/yosupo_scc.test.cpp"
 
 int main() {
-    int n;
-    cin >> n;
+    int n, m;
+    cin >> n >> m;
     SCC G(n);
-    int ans = 0;
+    for (int i = 0; i < m; ++i) {
+        int a, b;
+        scanf("%d %d", &a, &b);
+        G.add_edge(a, b);
+    }
+    printf("%d\n", G.build());
+    vector<vector<int>> res(G.sz.size());
     for (int i = 0; i < n; ++i) {
-        int x;
-        cin >> x;
-        if(x%n == 0) ans++;
-        else G.add_edge(i, (i+x)%n);
+        res[G[i]].emplace_back(i);
     }
-    G.build();
-
-    for (auto &&j : G.sz) {
-        if(j != 1) ans += j;
+    for (int i = 0; i < G.sz.size(); ++i) {
+        printf("%d", G.sz[i]);
+        for (auto &&j : res[i]) {
+            printf(" %d", j);
+        }
+        puts("");
     }
-    cout << ans << "\n";
     return 0;
 }
 
