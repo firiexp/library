@@ -79,7 +79,7 @@ layout: default
 
 ### graph
 
-* :question: <a href="library/graph/SCC.cpp.html">graph/SCC.cpp</a>
+* :heavy_check_mark: <a href="library/graph/SCC.cpp.html">graph/SCC.cpp</a>
 * :warning: <a href="library/graph/bellman_ford.cpp.html">graph/bellman_ford.cpp</a>
 * :warning: <a href="library/graph/bellman_ford_negative_loop.cpp.html">graph/bellman_ford_negative_loop.cpp</a>
 * :heavy_check_mark: <a href="library/graph/bipartite_matching.cpp.html">二部グラフの最大マッチング <small>(graph/bipartite_matching.cpp)</small></a>
@@ -181,7 +181,7 @@ layout: default
 * :heavy_check_mark: <a href="verify/test/yosupo_point_add_range_sum.test.cpp.html">test/yosupo_point_add_range_sum.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_point_set_range_composite.test.cpp.html">test/yosupo_point_set_range_composite.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_range_affine_range_sum.test.cpp.html">test/yosupo_range_affine_range_sum.test.cpp</a>
-* :x: <a href="verify/test/yosupo_scc.test.cpp.html">test/yosupo_scc.test.cpp</a>
+* :heavy_check_mark: <a href="verify/test/yosupo_scc.test.cpp.html">test/yosupo_scc.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_shortest_path.test.cpp.html">test/yosupo_shortest_path.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_shortest_path_radix_heap.test.cpp.html">test/yosupo_shortest_path_radix_heap.test.cpp</a>
 * :heavy_check_mark: <a href="verify/test/yosupo_sum_of_floor_of_linear.test.cpp.html">test/yosupo_sum_of_floor_of_linear.test.cpp</a>

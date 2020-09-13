@@ -25,20 +25,21 @@ layout: default
 <link rel="stylesheet" href="../../assets/css/copy-button.css" />
 
 
-# :x: test/yosupo_scc.test.cpp
+# :heavy_check_mark: test/yosupo_scc.test.cpp
 
 <a href="../../index.html">Back to top page</a>
 
 * category: <a href="../../index.html#098f6bcd4621d373cade4e832627b4f6">test</a>
 * <a href="{{ site.github.repository_url }}/blob/master/test/yosupo_scc.test.cpp">View this file on GitHub</a>
-    - Last commit date: 2020-09-13 16:51:08+09:00
+    - Last commit date: 2020-09-13 16:56:31+09:00
 
 
+* see: <a href="https://judge.yosupo.jp/problem/scc">https://judge.yosupo.jp/problem/scc</a>
 
 
 ## Depends on
 
-* :question: <a href="../../library/graph/SCC.cpp.html">graph/SCC.cpp</a>
+* :heavy_check_mark: <a href="../../library/graph/SCC.cpp.html">graph/SCC.cpp</a>
 
 
 ## Code
@@ -46,6 +47,7 @@ layout: default
 <a id="unbundled"></a>
 {% raw %}
 ```cpp
+#define PROBLEM "https://judge.yosupo.jp/problem/scc"
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -96,6 +98,7 @@ int main() {
 {% raw %}
 ```cpp
 #line 1 "test/yosupo_scc.test.cpp"
+#define PROBLEM "https://judge.yosupo.jp/problem/scc"
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -167,7 +170,7 @@ public:
 
     int operator[](int k) const { return cmp[k]; }
 };
-#line 20 "test/yosupo_scc.test.cpp"
+#line 21 "test/yosupo_scc.test.cpp"
 
 int main() {
     int n, m;
