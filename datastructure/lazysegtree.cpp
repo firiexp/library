@@ -66,40 +66,37 @@ struct LazySegmentTree{
             while(!(l&1)) l >>= 1;
             if(!cond(M::f(val, seg[l]))){
                 while(l < sz) {
-                    eval(l);
-                    l <<= 1;
-                    if (cond(M::f(val, seg[l]))){
-                        val = M::f(val, seg[l]);
-                        l++;
+                    eval(l); l <<= 1;
+                    if (cond(M::f(val, reflect(l)))){
+                        val = M::f(val, reflect(l++));
                     }
                 }
                 return l - sz;
             }
-            val = M::f(val, seg[l]);
-            l++;
+            val = M::f(val, reflect(l++));
         } while((l & -l) != l);
         return n;
     }
 
     template<class F>
     int search_left(int r, F cond){
-        if(r == 0) return 0;
+        if(r <= 0) return 0;
         thrust((r += sz)-1);
         T val = M::e();
         do {
-            while(r&1) r >>= 1;
-            if(!cond(M::f(seg[r], val))){
+            r--;
+            while(r > 1 && r&1) r >>= 1;
+            if(!cond(M::f(reflect(r), val))){
                 while(r < sz) {
                     eval(r);
                     r = ((r << 1)|1);
-                    if (cond(M::f(seg[r], val))){
-                        val = M::f(seg[r], val);
-                        r--;
+                    if (cond(M::f(reflect(r), val))){
+                        val = M::f(reflect(r--), val);
                     }
                 }
                 return r + 1 - sz;
             }
-            val = M::f(seg[r], val);
+            val = M::f(reflect(r), val);
         } while((r & -r) != r);
         return 0;
     }
