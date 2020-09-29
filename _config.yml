@@ -3,7 +3,6 @@ description: "firi.\u306E\u30E9\u30A4\u30D6\u30E9\u30EA\u3067\u3059\u3002"
 docs: null
 plugins:
 - jekyll-remote-theme
-- jemoji
 remote_theme: jekyll/minima
 theme: jekyll-theme-minimal
 title: firiexp library

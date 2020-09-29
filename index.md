@@ -1,191 +1,337 @@
 ---
-layout: default
+data:
+  libraryCategories:
+  - name: datastructure
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: datastructure/ahocorasick.cpp
+      title: "Aho-Corasick\u6CD5"
+    - icon: ':heavy_check_mark:'
+      path: datastructure/binaryindexedtree.cpp
+      title: datastructure/binaryindexedtree.cpp
+    - icon: ':warning:'
+      path: datastructure/binarytrie.cpp
+      title: datastructure/binarytrie.cpp
+    - icon: ':warning:'
+      path: datastructure/dualsegtree.cpp
+      title: datastructure/dualsegtree.cpp
+    - icon: ':heavy_check_mark:'
+      path: datastructure/lazysegtree.cpp
+      title: datastructure/lazysegtree.cpp
+    - icon: ':warning:'
+      path: datastructure/monotoniccht.cpp
+      title: datastructure/monotoniccht.cpp
+    - icon: ':warning:'
+      path: datastructure/quickfind.cpp
+      title: datastructure/quickfind.cpp
+    - icon: ':heavy_check_mark:'
+      path: datastructure/radixheap.cpp
+      title: datastructure/radixheap.cpp
+    - icon: ':heavy_check_mark:'
+      path: datastructure/segtree.cpp
+      title: datastructure/segtree.cpp
+    - icon: ':warning:'
+      path: datastructure/slidingwindow.cpp
+      title: datastructure/slidingwindow.cpp
+    - icon: ':warning:'
+      path: datastructure/sparsetable.cpp
+      title: datastructure/sparsetable.cpp
+    - icon: ':warning:'
+      path: datastructure/swag.cpp
+      title: datastructure/swag.cpp
+    - icon: ':warning:'
+      path: datastructure/swag_deque.cpp
+      title: datastructure/swag_deque.cpp
+    - icon: ':warning:'
+      path: datastructure/trie.cpp
+      title: datastructure/trie.cpp
+    - icon: ':warning:'
+      path: datastructure/undoableunionfind.cpp
+      title: datastructure/undoableunionfind.cpp
+    - icon: ':heavy_check_mark:'
+      path: datastructure/unionfind.cpp
+      title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
+    - icon: ':warning:'
+      path: datastructure/weightedunionfind.cpp
+      title: datastructure/weightedunionfind.cpp
+  - name: flow
+    pages:
+    - icon: ':warning:'
+      path: flow/costscalingdinic.cpp
+      title: flow/costscalingdinic.cpp
+    - icon: ':warning:'
+      path: flow/dinic.cpp
+      title: flow/dinic.cpp
+    - icon: ':heavy_check_mark:'
+      path: flow/primaldual.cpp
+      title: "\u6700\u5C0F\u8CBB\u7528\u6D41(primal-dual)"
+  - name: geometry
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: geometry/dualgraph.cpp
+      title: "\u53CC\u5BFE\u30B0\u30E9\u30D5\u306E\u69CB\u7BC9"
+    - icon: ':heavy_check_mark:'
+      path: geometry/geometry.cpp
+      title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA"
+    - icon: ':warning:'
+      path: geometry/geometry3d.cpp
+      title: geometry/geometry3d.cpp
+  - name: graph
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: graph/SCC.cpp
+      title: graph/SCC.cpp
+    - icon: ':warning:'
+      path: graph/bellman_ford.cpp
+      title: graph/bellman_ford.cpp
+    - icon: ':warning:'
+      path: graph/bellman_ford_negative_loop.cpp
+      title: graph/bellman_ford_negative_loop.cpp
+    - icon: ':heavy_check_mark:'
+      path: graph/bipartite_matching.cpp
+      title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u306E\u6700\u5927\u30DE\u30C3\u30C1\u30F3\
+        \u30B0"
+    - icon: ':heavy_check_mark:'
+      path: graph/bipartite_matching_lexmin.cpp
+      title: graph/bipartite_matching_lexmin.cpp
+    - icon: ':heavy_check_mark:'
+      path: graph/dijkstra.cpp
+      title: "Dijkstra\u6CD5"
+    - icon: ':heavy_check_mark:'
+      path: graph/dijkstra_radix_heap.cpp
+      title: "Dijkstra\u6CD5(Radix Heap)"
+    - icon: ':heavy_check_mark:'
+      path: graph/dominatortree.cpp
+      title: Dominator Tree
+    - icon: ':warning:'
+      path: graph/independentset.cpp
+      title: graph/independentset.cpp
+    - icon: ':warning:'
+      path: graph/kruskal.cpp
+      title: graph/kruskal.cpp
+    - icon: ':warning:'
+      path: graph/offlinedynamicconnectivity.cpp
+      title: graph/offlinedynamicconnectivity.cpp
+    - icon: ':heavy_check_mark:'
+      path: graph/twoedgeconnectedcomponents.cpp
+      title: graph/twoedgeconnectedcomponents.cpp
+    - icon: ':warning:'
+      path: graph/twosat.cpp
+      title: graph/twosat.cpp
+  - name: math
+    pages:
+    - icon: ':warning:'
+      path: math/CRT.cpp
+      title: math/CRT.cpp
+    - icon: ':warning:'
+      path: math/divisor.cpp
+      title: math/divisor.cpp
+    - icon: ':warning:'
+      path: math/extgcd.cpp
+      title: math/extgcd.cpp
+    - icon: ':warning:'
+      path: math/factorial.cpp
+      title: math/factorial.cpp
+    - icon: ':warning:'
+      path: math/fastkitamasa.cpp
+      title: math/fastkitamasa.cpp
+    - icon: ':warning:'
+      path: math/fft.cpp
+      title: math/fft.cpp
+    - icon: ':warning:'
+      path: math/fft3.cpp
+      title: math/fft3.cpp
+    - icon: ':heavy_check_mark:'
+      path: math/floor_sum.cpp
+      title: math/floor_sum.cpp
+    - icon: ':warning:'
+      path: math/garner.cpp
+      title: math/garner.cpp
+    - icon: ':warning:'
+      path: math/get_prime.cpp
+      title: math/get_prime.cpp
+    - icon: ':warning:'
+      path: math/get_prime2.cpp
+      title: math/get_prime2.cpp
+    - icon: ':warning:'
+      path: math/matrix.cpp
+      title: math/matrix.cpp
+    - icon: ':warning:'
+      path: math/miller_rabin.cpp
+      title: math/miller_rabin.cpp
+    - icon: ':warning:'
+      path: math/mobius_all.cpp
+      title: math/mobius_all.cpp
+    - icon: ':warning:'
+      path: math/modinv.cpp
+      title: math/modinv.cpp
+    - icon: ':heavy_check_mark:'
+      path: math/ntt.cpp
+      title: math/ntt.cpp
+    - icon: ':warning:'
+      path: math/pow.cpp
+      title: math/pow.cpp
+    - icon: ':warning:'
+      path: math/primefactor.cpp
+      title: math/primefactor.cpp
+    - icon: ':warning:'
+      path: math/primefactor2.cpp
+      title: math/primefactor2.cpp
+    - icon: ':warning:'
+      path: math/primefactor_ll.cpp
+      title: math/primefactor_ll.cpp
+    - icon: ':warning:'
+      path: math/primefactor_ll2.cpp
+      title: math/primefactor_ll2.cpp
+    - icon: ':warning:'
+      path: math/primitive_root.cpp
+      title: math/primitive_root.cpp
+    - icon: ':warning:'
+      path: math/squarematrix.cpp
+      title: math/squarematrix.cpp
+  - name: string
+    pages:
+    - icon: ':warning:'
+      path: string/manacher.cpp
+      title: string/manacher.cpp
+    - icon: ':heavy_check_mark:'
+      path: string/rolling_hash.cpp
+      title: string/rolling_hash.cpp
+    - icon: ':warning:'
+      path: string/rolling_hash_u64.cpp
+      title: string/rolling_hash_u64.cpp
+    - icon: ':heavy_check_mark:'
+      path: string/suffix_array.cpp
+      title: string/suffix_array.cpp
+    - icon: ':warning:'
+      path: string/z-algorithm.cpp
+      title: string/z-algorithm.cpp
+  - name: tree
+    pages:
+    - icon: ':warning:'
+      path: tree/LCA.cpp
+      title: tree/LCA.cpp
+    - icon: ':warning:'
+      path: tree/diameter.cpp
+      title: tree/diameter.cpp
+    - icon: ':warning:'
+      path: tree/hld.cpp
+      title: tree/hld.cpp
+    - icon: ':warning:'
+      path: tree/rerooting.cpp
+      title: tree/rerooting.cpp
+    - icon: ':warning:'
+      path: tree/treedfs.cpp
+      title: tree/treedfs.cpp
+  - name: util
+    pages:
+    - icon: ':warning:'
+      path: util/dice.cpp
+      title: util/dice.cpp
+    - icon: ':warning:'
+      path: util/is_palindrome.cpp
+      title: util/is_palindrome.cpp
+    - icon: ':warning:'
+      path: util/jp.cpp
+      title: util/jp.cpp
+    - icon: ':warning:'
+      path: util/kado.cpp
+      title: util/kado.cpp
+    - icon: ':heavy_check_mark:'
+      path: util/makev.cpp
+      title: make_v, chmin, chmax
+    - icon: ':warning:'
+      path: util/mo.cpp
+      title: util/mo.cpp
+    - icon: ':heavy_check_mark:'
+      path: util/modint.cpp
+      title: "modint(\u56FA\u5B9AMOD)"
+    - icon: ':warning:'
+      path: util/modint_arbitrary.cpp
+      title: util/modint_arbitrary.cpp
+    - icon: ':warning:'
+      path: util/parse.cpp
+      title: util/parse.cpp
+    - icon: ':warning:'
+      path: util/uniq.cpp
+      title: util/uniq.cpp
+    - icon: ':heavy_check_mark:'
+      path: util/xorshift.cpp
+      title: util/xorshift.cpp
+  verificationCategories:
+  - name: test
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0273.test.cpp
+      title: test/aoj0273.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0274.test.cpp
+      title: test/aoj0274.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0294.test.cpp
+      title: test/aoj0294.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0334.test.cpp
+      title: test/aoj0334.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0335.test.cpp
+      title: test/aoj0335.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0342.test.cpp
+      title: test/aoj0342.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0349.test.cpp
+      title: test/aoj0349.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0355.test.cpp
+      title: test/aoj0355.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0415.test.cpp
+      title: test/aoj0415.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj2257.test.cpp
+      title: test/aoj2257.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_dpl_5_a.test.cpp
+      title: test/aoj_dpl_5_a.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_dsl_2_b.test.cpp
+      title: test/aoj_dsl_2_b.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/example.test.cpp
+      title: test/example.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_convolution.test.cpp
+      title: test/yosupo_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_dominator_tree.test.cpp
+      title: test/yosupo_dominator_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_number_of_substrings.test.cpp
+      title: test/yosupo_number_of_substrings.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_point_add_range_sum.test.cpp
+      title: test/yosupo_point_add_range_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_point_set_range_composite.test.cpp
+      title: test/yosupo_point_set_range_composite.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_range_affine_range_sum.test.cpp
+      title: test/yosupo_range_affine_range_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_scc.test.cpp
+      title: test/yosupo_scc.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_shortest_path.test.cpp
+      title: test/yosupo_shortest_path.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_shortest_path_radix_heap.test.cpp
+      title: test/yosupo_shortest_path_radix_heap.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_sum_of_floor_of_linear.test.cpp
+      title: test/yosupo_sum_of_floor_of_linear.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_unionfind.test.cpp
+      title: test/yosupo_unionfind.test.cpp
+layout: toppage
 ---
-
-<!-- mathjax config similar to math.stackexchange -->
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    TeX: { equationNumbers: { autoNumber: "AMS" }},
-    tex2jax: {
-      inlineMath: [ ['$','$'] ],
-      processEscapes: true
-    },
-    "HTML-CSS": { matchFontHeight: false },
-    displayAlign: "left",
-    displayIndent: "2em"
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-balloon-js@1.1.2/jquery.balloon.min.js" integrity="sha256-ZEYs9VrgAeNuPvs15E39OsyOJaIkXEEt10fzxJ20+2I=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="assets/js/copy-button.js"></script>
-<link rel="stylesheet" href="assets/css/copy-button.css" />
-
-
-# {{ site.title }}
-
-[![Actions Status]({{ site.github.repository_url }}/workflows/verify/badge.svg)]({{ site.github.repository_url }}/actions)
-<a href="{{ site.github.repository_url }}"><img src="https://img.shields.io/github/last-commit/{{ site.github.owner_name }}/{{ site.github.repository_name }}" /></a>
-
-{% if site.github.project_tagline %}{{ site.github.project_tagline }}{% else %}This documentation is automatically generated by <a href="https://github.com/online-judge-tools/verification-helper">online-judge-tools/verification-helper</a>.{% endif %}
-
-## Library Files
-
-<div id="8dc87745f885a4cc532acd7b15b8b5fe"></div>
-
-### datastructure
-
-* :heavy_check_mark: <a href="library/datastructure/ahocorasick.cpp.html">Aho-Corasick法 <small>(datastructure/ahocorasick.cpp)</small></a>
-* :heavy_check_mark: <a href="library/datastructure/binaryindexedtree.cpp.html">datastructure/binaryindexedtree.cpp</a>
-* :warning: <a href="library/datastructure/binarytrie.cpp.html">datastructure/binarytrie.cpp</a>
-* :warning: <a href="library/datastructure/dualsegtree.cpp.html">datastructure/dualsegtree.cpp</a>
-* :heavy_check_mark: <a href="library/datastructure/lazysegtree.cpp.html">datastructure/lazysegtree.cpp</a>
-* :warning: <a href="library/datastructure/monotoniccht.cpp.html">datastructure/monotoniccht.cpp</a>
-* :warning: <a href="library/datastructure/quickfind.cpp.html">datastructure/quickfind.cpp</a>
-* :heavy_check_mark: <a href="library/datastructure/radixheap.cpp.html">datastructure/radixheap.cpp</a>
-* :heavy_check_mark: <a href="library/datastructure/segtree.cpp.html">datastructure/segtree.cpp</a>
-* :warning: <a href="library/datastructure/slidingwindow.cpp.html">datastructure/slidingwindow.cpp</a>
-* :warning: <a href="library/datastructure/sparsetable.cpp.html">datastructure/sparsetable.cpp</a>
-* :warning: <a href="library/datastructure/swag.cpp.html">datastructure/swag.cpp</a>
-* :warning: <a href="library/datastructure/swag_deque.cpp.html">datastructure/swag_deque.cpp</a>
-* :warning: <a href="library/datastructure/trie.cpp.html">datastructure/trie.cpp</a>
-* :warning: <a href="library/datastructure/undoableunionfind.cpp.html">datastructure/undoableunionfind.cpp</a>
-* :heavy_check_mark: <a href="library/datastructure/unionfind.cpp.html">UnionFind(素集合データ構造) <small>(datastructure/unionfind.cpp)</small></a>
-* :warning: <a href="library/datastructure/weightedunionfind.cpp.html">datastructure/weightedunionfind.cpp</a>
-
-
-<div id="cff5497121104c2b8e0cb41ed2083a9b"></div>
-
-### flow
-
-* :warning: <a href="library/flow/costscalingdinic.cpp.html">flow/costscalingdinic.cpp</a>
-* :warning: <a href="library/flow/dinic.cpp.html">flow/dinic.cpp</a>
-* :heavy_check_mark: <a href="library/flow/primaldual.cpp.html">最小費用流(primal-dual) <small>(flow/primaldual.cpp)</small></a>
-
-
-<div id="ed7daeb157cd9b31e53896ad3c771a26"></div>
-
-### geometry
-
-* :heavy_check_mark: <a href="library/geometry/dualgraph.cpp.html">双対グラフの構築 <small>(geometry/dualgraph.cpp)</small></a>
-* :heavy_check_mark: <a href="library/geometry/geometry.cpp.html">幾何ライブラリ <small>(geometry/geometry.cpp)</small></a>
-* :warning: <a href="library/geometry/geometry3d.cpp.html">geometry/geometry3d.cpp</a>
-
-
-<div id="f8b0b924ebd7046dbfa85a856e4682c8"></div>
-
-### graph
-
-* :heavy_check_mark: <a href="library/graph/SCC.cpp.html">graph/SCC.cpp</a>
-* :warning: <a href="library/graph/bellman_ford.cpp.html">graph/bellman_ford.cpp</a>
-* :warning: <a href="library/graph/bellman_ford_negative_loop.cpp.html">graph/bellman_ford_negative_loop.cpp</a>
-* :heavy_check_mark: <a href="library/graph/bipartite_matching.cpp.html">二部グラフの最大マッチング <small>(graph/bipartite_matching.cpp)</small></a>
-* :heavy_check_mark: <a href="library/graph/bipartite_matching_lexmin.cpp.html">graph/bipartite_matching_lexmin.cpp</a>
-* :heavy_check_mark: <a href="library/graph/dijkstra.cpp.html">Dijkstra法 <small>(graph/dijkstra.cpp)</small></a>
-* :heavy_check_mark: <a href="library/graph/dijkstra_radix_heap.cpp.html">Dijkstra法(Radix Heap) <small>(graph/dijkstra_radix_heap.cpp)</small></a>
-* :heavy_check_mark: <a href="library/graph/dominatortree.cpp.html">Dominator Tree <small>(graph/dominatortree.cpp)</small></a>
-* :warning: <a href="library/graph/independentset.cpp.html">graph/independentset.cpp</a>
-* :warning: <a href="library/graph/kruskal.cpp.html">graph/kruskal.cpp</a>
-* :warning: <a href="library/graph/offlinedynamicconnectivity.cpp.html">graph/offlinedynamicconnectivity.cpp</a>
-* :warning: <a href="library/graph/twoedgeconnectedcomponents.cpp.html">graph/twoedgeconnectedcomponents.cpp</a>
-* :warning: <a href="library/graph/twosat.cpp.html">graph/twosat.cpp</a>
-
-
-<div id="7e676e9e663beb40fd133f5ee24487c2"></div>
-
-### math
-
-* :warning: <a href="library/math/CRT.cpp.html">math/CRT.cpp</a>
-* :warning: <a href="library/math/divisor.cpp.html">math/divisor.cpp</a>
-* :warning: <a href="library/math/extgcd.cpp.html">math/extgcd.cpp</a>
-* :warning: <a href="library/math/factorial.cpp.html">math/factorial.cpp</a>
-* :warning: <a href="library/math/fastkitamasa.cpp.html">math/fastkitamasa.cpp</a>
-* :warning: <a href="library/math/fft.cpp.html">math/fft.cpp</a>
-* :warning: <a href="library/math/fft3.cpp.html">math/fft3.cpp</a>
-* :heavy_check_mark: <a href="library/math/floor_sum.cpp.html">math/floor_sum.cpp</a>
-* :warning: <a href="library/math/garner.cpp.html">math/garner.cpp</a>
-* :warning: <a href="library/math/get_prime.cpp.html">math/get_prime.cpp</a>
-* :warning: <a href="library/math/get_prime2.cpp.html">math/get_prime2.cpp</a>
-* :warning: <a href="library/math/matrix.cpp.html">math/matrix.cpp</a>
-* :warning: <a href="library/math/miller_rabin.cpp.html">math/miller_rabin.cpp</a>
-* :warning: <a href="library/math/mobius_all.cpp.html">math/mobius_all.cpp</a>
-* :warning: <a href="library/math/modinv.cpp.html">math/modinv.cpp</a>
-* :heavy_check_mark: <a href="library/math/ntt.cpp.html">math/ntt.cpp</a>
-* :warning: <a href="library/math/pow.cpp.html">math/pow.cpp</a>
-* :warning: <a href="library/math/primefactor.cpp.html">math/primefactor.cpp</a>
-* :warning: <a href="library/math/primefactor2.cpp.html">math/primefactor2.cpp</a>
-* :warning: <a href="library/math/primefactor_ll.cpp.html">math/primefactor_ll.cpp</a>
-* :warning: <a href="library/math/primefactor_ll2.cpp.html">math/primefactor_ll2.cpp</a>
-* :warning: <a href="library/math/primitive_root.cpp.html">math/primitive_root.cpp</a>
-* :warning: <a href="library/math/squarematrix.cpp.html">math/squarematrix.cpp</a>
-
-
-<div id="b45cffe084dd3d20d928bee85e7b0f21"></div>
-
-### string
-
-* :warning: <a href="library/string/manacher.cpp.html">string/manacher.cpp</a>
-* :heavy_check_mark: <a href="library/string/rolling_hash.cpp.html">string/rolling_hash.cpp</a>
-* :warning: <a href="library/string/rolling_hash_u64.cpp.html">string/rolling_hash_u64.cpp</a>
-* :heavy_check_mark: <a href="library/string/suffix_array.cpp.html">string/suffix_array.cpp</a>
-* :warning: <a href="library/string/z-algorithm.cpp.html">string/z-algorithm.cpp</a>
-
-
-<div id="c0af77cf8294ff93a5cdb2963ca9f038"></div>
-
-### tree
-
-* :warning: <a href="library/tree/LCA.cpp.html">tree/LCA.cpp</a>
-* :warning: <a href="library/tree/diameter.cpp.html">tree/diameter.cpp</a>
-* :warning: <a href="library/tree/hld.cpp.html">tree/hld.cpp</a>
-* :warning: <a href="library/tree/rerooting.cpp.html">tree/rerooting.cpp</a>
-* :warning: <a href="library/tree/treedfs.cpp.html">tree/treedfs.cpp</a>
-
-
-<div id="05c7e24700502a079cdd88012b5a76d3"></div>
-
-### util
-
-* :warning: <a href="library/util/dice.cpp.html">util/dice.cpp</a>
-* :warning: <a href="library/util/is_palindrome.cpp.html">util/is_palindrome.cpp</a>
-* :warning: <a href="library/util/jp.cpp.html">util/jp.cpp</a>
-* :warning: <a href="library/util/kado.cpp.html">util/kado.cpp</a>
-* :heavy_check_mark: <a href="library/util/makev.cpp.html">make_v, chmin, chmax <small>(util/makev.cpp)</small></a>
-* :warning: <a href="library/util/mo.cpp.html">util/mo.cpp</a>
-* :heavy_check_mark: <a href="library/util/modint.cpp.html">modint(固定MOD) <small>(util/modint.cpp)</small></a>
-* :warning: <a href="library/util/modint_arbitrary.cpp.html">util/modint_arbitrary.cpp</a>
-* :warning: <a href="library/util/parse.cpp.html">util/parse.cpp</a>
-* :warning: <a href="library/util/uniq.cpp.html">util/uniq.cpp</a>
-* :heavy_check_mark: <a href="library/util/xorshift.cpp.html">util/xorshift.cpp</a>
-
-
-## Verify Files
-
-* :heavy_check_mark: <a href="verify/test/aoj0273.test.cpp.html">test/aoj0273.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj0274.test.cpp.html">test/aoj0274.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj0294.test.cpp.html">test/aoj0294.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj0334.test.cpp.html">test/aoj0334.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj0335.test.cpp.html">test/aoj0335.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj0342.test.cpp.html">test/aoj0342.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj0349.test.cpp.html">test/aoj0349.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj0355.test.cpp.html">test/aoj0355.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj2257.test.cpp.html">test/aoj2257.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj_dpl_5_a.test.cpp.html">test/aoj_dpl_5_a.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/aoj_dsl_2_b.test.cpp.html">test/aoj_dsl_2_b.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/example.test.cpp.html">test/example.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_convolution.test.cpp.html">test/yosupo_convolution.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_dominator_tree.test.cpp.html">test/yosupo_dominator_tree.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_number_of_substrings.test.cpp.html">test/yosupo_number_of_substrings.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_point_add_range_sum.test.cpp.html">test/yosupo_point_add_range_sum.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_point_set_range_composite.test.cpp.html">test/yosupo_point_set_range_composite.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_range_affine_range_sum.test.cpp.html">test/yosupo_range_affine_range_sum.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_scc.test.cpp.html">test/yosupo_scc.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_shortest_path.test.cpp.html">test/yosupo_shortest_path.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_shortest_path_radix_heap.test.cpp.html">test/yosupo_shortest_path_radix_heap.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_sum_of_floor_of_linear.test.cpp.html">test/yosupo_sum_of_floor_of_linear.test.cpp</a>
-* :heavy_check_mark: <a href="verify/test/yosupo_unionfind.test.cpp.html">test/yosupo_unionfind.test.cpp</a>
-
-
