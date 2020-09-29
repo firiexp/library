@@ -1,9 +1,0 @@
-docs:
-plugins:
-- jekyll-remote-theme
-remote_theme: jekyll/minima
-theme: jekyll-theme-minimal
-
-title: firiexp library
-author: firiexp
-description: "firi.のライブラリです。"
