@@ -7,6 +7,9 @@ data:
     path: test/aoj0342.test.cpp
     title: test/aoj0342.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj0377.test.cpp
+    title: test/aoj0377.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind.test.cpp
     title: test/yosupo_unionfind.test.cpp
   _pathExtension: cpp
@@ -45,6 +48,7 @@ data:
   verifiedWith:
   - test/yosupo_unionfind.test.cpp
   - test/aoj0342.test.cpp
+  - test/aoj0377.test.cpp
 documentation_of: datastructure/unionfind.cpp
 layout: document
 redirect_from:
