@@ -5,15 +5,15 @@ data:
   - icon: ':warning:'
     path: tree/LCA.cpp
     title: tree/LCA.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/auxtree.cpp
     title: tree/auxtree.cpp
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0439.test.cpp
     title: test/aoj0439.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct\
@@ -28,7 +28,7 @@ data:
     \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
     \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b){\n  \
     \      int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n}\n"
+    \    }\n};\n"
   code: "template <class F>\nstruct SparseTable {\n    using T = typename F::T;\n\
     \    vector<vector<T>> table;\n    vector<int> u;\n    SparseTable() = default;\n\
     \    explicit SparseTable(const vector<T> &v){ build(v); }\n \n    void build(const\
@@ -40,15 +40,15 @@ data:
     \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
     \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
     \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n}"
+    \    }\n};"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/sparsetable.cpp
   requiredBy:
   - tree/auxtree.cpp
   - tree/LCA.cpp
-  timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2020-10-13 14:23:44+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0439.test.cpp
 documentation_of: datastructure/sparsetable.cpp

@@ -1,16 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/sparsetable.cpp
     title: datastructure/sparsetable.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0439.test.cpp
     title: test/aoj0439.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct\
@@ -25,7 +25,7 @@ data:
     \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
     \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b){\n  \
     \      int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n}\n#line 2 \"tree/auxtree.cpp\"\n\nstruct F {\n    using T = pair<int,\
+    \    }\n};\n#line 2 \"tree/auxtree.cpp\"\n\nstruct F {\n    using T = pair<int,\
     \ int>;\n    static T f(T a, T b) { return min(a, b); }\n    static T e() { return\
     \ T{INF<int>, -1}; }\n};\n\nclass AuxTree {\n    SparseTable<F> table;\n    void\
     \ dfs_euler(int v, int p, int d, int &k, int &l){\n        id[v] = k;\n      \
@@ -98,8 +98,8 @@ data:
   isVerificationFile: false
   path: tree/auxtree.cpp
   requiredBy: []
-  timestamp: '2020-10-13 14:11:51+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2020-10-13 14:23:44+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0439.test.cpp
 documentation_of: tree/auxtree.cpp

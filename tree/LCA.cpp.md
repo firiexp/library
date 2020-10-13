@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/sparsetable.cpp
     title: datastructure/sparsetable.cpp
   _extendedRequiredBy: []
@@ -22,7 +22,7 @@ data:
     \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
     \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b){\n  \
     \      int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n}\n#line 2 \"tree/LCA.cpp\"\n \nstruct F {\n    using T = pair<int, int>;\n\
+    \    }\n};\n#line 2 \"tree/LCA.cpp\"\n \nstruct F {\n    using T = pair<int, int>;\n\
     \    static T f(T a, T b) { return min(a, b); }\n    static T e() { return T{INF<int>,\
     \ -1}; }\n};\n \nclass LCA {\n    SparseTable<F> table;\n    void dfs_euler(int\
     \ v, int p, int d, int &k){\n        id[v] = k;\n        vs[k] = v;\n        depth[k++]\
@@ -60,7 +60,7 @@ data:
   isVerificationFile: false
   path: tree/LCA.cpp
   requiredBy: []
-  timestamp: '2020-10-13 12:10:59+09:00'
+  timestamp: '2020-10-13 14:23:44+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: tree/LCA.cpp
