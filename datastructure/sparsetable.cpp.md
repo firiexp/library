@@ -1,7 +1,13 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: tree/LCA.cpp
+    title: tree/LCA.cpp
+  - icon: ':warning:'
+    path: tree/auxtree.cpp
+    title: tree/auxtree.cpp
   _extendedVerifiedWith: []
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
@@ -35,7 +41,9 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: datastructure/sparsetable.cpp
-  requiredBy: []
+  requiredBy:
+  - tree/auxtree.cpp
+  - tree/LCA.cpp
   timestamp: '2020-04-26 17:42:59+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

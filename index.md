@@ -212,6 +212,9 @@ data:
       path: tree/LCA.cpp
       title: tree/LCA.cpp
     - icon: ':warning:'
+      path: tree/auxtree.cpp
+      title: tree/auxtree.cpp
+    - icon: ':warning:'
       path: tree/diameter.cpp
       title: tree/diameter.cpp
     - icon: ':warning:'
