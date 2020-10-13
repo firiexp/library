@@ -12,10 +12,11 @@ class AuxTree {
         id[v] = k;
         vs[k] = v;
         depth[k++] = d;
+        dep[v] = d;
         fi[v] = l++;
         for (auto &&u : G[v]) {
             if(u != p){
-                dfs_euler(u, v, d+1, k);
+                dfs_euler(u, v, d+1, k, l);
                 vs[k] = v;
                 depth[k++] = d;
             }
@@ -24,8 +25,8 @@ class AuxTree {
 public:
     int n;
     vector<vector<int>> G, out;
-    vector<int> vs, depth, id, fi;
-    explicit AuxTree(int n) : n(n), G(n), out(n), vs(2*n-1), depth(2*n-1), id(n), fi(n), table() {};
+    vector<int> vs, depth, dep, id, fi;
+    explicit AuxTree(int n) : n(n), G(n), out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n), table() {};
     void add_edge(int a, int b){
         G[a].emplace_back(b);
         G[b].emplace_back(a);
@@ -40,7 +41,7 @@ public:
         eulertour(0);
         vector<pair<int, int>> v(2*n-1);
         for (int i = 0; i < 2*n-1; ++i) {
-            v[i] = make_pair(depth[i], i);
+            v[i] = make_pair(depth[i], vs[i]);
         }
         table.build(v);
     }
@@ -48,13 +49,14 @@ public:
     void make(vector<int> &v){
         sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b]; });
         v.erase(unique(v.begin(), v.end()), v.end());
+        int k = v.size();
         stack<int> s;
         s.emplace(v.front());
-        for (int i = 0; i+1 < v.size(); ++i) {
+        for (int i = 0; i+1 < k; ++i) {
             int w = LCA(v[i], v[i+1]);
             if(w != v[i]){
                 int u = s.top(); s.pop();
-                while(!s.empty() && depth[w] < depth[s.top()]){
+                while(!s.empty() && dep[w] < dep[s.top()]){
                     out[s.top()].emplace_back(u);
                     out[u].emplace_back(s.top());
                     u = s.top(); s.pop();
@@ -86,8 +88,8 @@ public:
         if(id[u] > id[v]) swap(u, v);
         return table.query(id[u], id[v]+1).second;
     }
-    
+
     int distance(int u, int v){
-        return depth[u]+depth[v]-2*depth[LCA(u, v)];
+        return dep[u]+dep[v]-2*dep[LCA(u, v)];
     }
 };
