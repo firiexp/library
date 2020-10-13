@@ -29,4 +29,4 @@ struct SparseTable {
         int l = b-a;
         return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);
     }
-}
+};
