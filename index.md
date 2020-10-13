@@ -33,7 +33,7 @@ data:
     - icon: ':warning:'
       path: datastructure/slidingwindow.cpp
       title: datastructure/slidingwindow.cpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: datastructure/sparsetable.cpp
       title: datastructure/sparsetable.cpp
     - icon: ':warning:'
@@ -211,7 +211,7 @@ data:
     - icon: ':warning:'
       path: tree/LCA.cpp
       title: tree/LCA.cpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: tree/auxtree.cpp
       title: tree/auxtree.cpp
     - icon: ':warning:'
@@ -294,6 +294,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0415.test.cpp
       title: test/aoj0415.test.cpp
+    - icon: ':x:'
+      path: test/aoj0439.test.cpp
+      title: test/aoj0439.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj2257.test.cpp
       title: test/aoj2257.test.cpp

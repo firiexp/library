@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':x:'
     path: datastructure/sparsetable.cpp
     title: datastructure/sparsetable.cpp
   _extendedRequiredBy: []

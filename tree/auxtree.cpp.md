@@ -1,13 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':x:'
     path: datastructure/sparsetable.cpp
     title: datastructure/sparsetable.cpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/aoj0439.test.cpp
+    title: test/aoj0439.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct\
@@ -96,8 +99,9 @@ data:
   path: tree/auxtree.cpp
   requiredBy: []
   timestamp: '2020-10-13 14:11:51+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/aoj0439.test.cpp
 documentation_of: tree/auxtree.cpp
 layout: document
 redirect_from:
