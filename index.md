@@ -186,7 +186,7 @@ data:
     - icon: ':warning:'
       path: math/primitive_root.cpp
       title: math/primitive_root.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: math/squarematrix.cpp
   - name: string
@@ -294,6 +294,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0396.test.cpp
       title: test/aoj0396.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0399.test.cpp
+      title: test/aoj0399.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj0415.test.cpp
       title: test/aoj0415.test.cpp

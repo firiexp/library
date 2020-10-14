@@ -7,6 +7,9 @@ data:
     title: math/factorial.cpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aoj0399.test.cpp
+    title: test/aoj0399.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj2257.test.cpp
     title: test/aoj2257.test.cpp
   - icon: ':heavy_check_mark:'
@@ -81,6 +84,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj2257.test.cpp
+  - test/aoj0399.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/aoj_dpl_5_a.test.cpp
