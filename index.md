@@ -144,6 +144,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/floor_sum.cpp
       title: math/floor_sum.cpp
+    - icon: ':heavy_check_mark:'
+      path: math/fwht.cpp
+      title: math/fwht.cpp
     - icon: ':warning:'
       path: math/garner.cpp
       title: math/garner.cpp
@@ -297,6 +300,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0399.test.cpp
       title: test/aoj0399.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0402.test.cpp
+      title: test/aoj0402.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj0415.test.cpp
       title: test/aoj0415.test.cpp
