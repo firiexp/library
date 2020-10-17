@@ -1,43 +1,20 @@
-struct modint {
-    ll val;
-    static ll &mod(){
-        static ll mod_ = 0;
-        return mod_;
-    }
-
-    static void set_mod(const ll x) { mod() = x; }
-    static ll M() {return mod(); }
-
-    modint(const ll x) : val(x) {
-        val = x%M();
-        while(val < 0) val += M();
-    }
-
-    modint operator+(const modint a) const { return modint(*this) += a; }
-    modint operator-(const modint a) const { return modint(*this) -= a; }
-    modint operator*(const modint a) const { return modint(*this) *= a; }
-    modint operator/(const modint a) const { return modint(*this) /= a; }
-    modint operator-() const { return {M()-val}; }
-    modint inv() const {
-        ll u = 1, v = 0, s = 0, t = 1, m = M(), x = val;
-        while (x) {ll q = M()/x; swap(s -= q*u, u); swap(t -= q*v, v); swap(m -= q*x, x); }
-        if(s < 0) s += M();
-        return modint(s);
-    }
-    modint pow(ll n){
-        ll u = 1, xx = val;
-        while (n > 0){ if (n&1) u = u * xx % M(); xx = xx * xx % M(); n >>= 1; }
-        return modint(u);
-    }
-    modint& operator+=(const modint a){ val += a.val; if(val >= M()) val -= M(); return *this; }
-    modint& operator-=(const modint a){ val += a.val; if(val < 0) val += M(); return *this; }
-    modint& operator*=(const modint a){ val = val * a.val % M(); return *this; }
-    modint& operator/=(const modint a){ val = val * a.inv().val % M(); return *this;}
-
-    modint& operator=(const int& x){
-        val = x%M();
-        while(val < 0) val += M();
-        return *this;
-    }
+class modint {
+    static u32 &mod() { static u32 mod_ = 0; return mod_; }
+public:
+    u32 val;
+    modint(const u32 x = 0) : val(x % M()) {}
+    u32 &value() noexcept { return val; }
+    const u32 &value() const noexcept { return val; }
+    modint operator+(const modint b) const { return modint(*this) += b; }
+    modint operator-(const modint b) const { return modint(*this) -= b; }
+    modint operator*(const modint b) const { return modint(*this) *= b; }
+    modint operator/(const modint b) const { return modint(*this) /= b; }
+    modint &operator+=(const modint b) { val += b.val; if (val >= M()) val -= M(); return *this; }
+    modint &operator-=(const modint b) { if (val < b.val) val += M(); val -= b.val; return *this; }
+    modint &operator*=(const modint b) { val = (u64)val * b.val % M(); return *this; }
+    modint pow(ll n) const { modint x = *this, r = 1; while(n){ if(n&1) r *= x; x *= x; n >>= 1; } return r; }
+    modint &operator/=(modint b) { return *this *= b.pow(M()-2); }
+    static void set_mod(const u32 x) { mod() = x; }
+    static int M() { return mod(); }
 };
 using mint = modint;
