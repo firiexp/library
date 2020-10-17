@@ -252,7 +252,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: util/modint_arbitrary.cpp
       title: util/modint_arbitrary.cpp
     - icon: ':warning:'
@@ -306,6 +306,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0415.test.cpp
       title: test/aoj0415.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0422.test.cpp
+      title: test/aoj0422.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj0439.test.cpp
       title: test/aoj0439.test.cpp

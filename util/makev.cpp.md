@@ -9,6 +9,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0335.test.cpp
     title: test/aoj0335.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0422.test.cpp
+    title: test/aoj0422.test.cpp
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -38,6 +41,7 @@ data:
   verifiedWith:
   - test/aoj0274.test.cpp
   - test/aoj0335.test.cpp
+  - test/aoj0422.test.cpp
 documentation_of: util/makev.cpp
 layout: document
 redirect_from:
