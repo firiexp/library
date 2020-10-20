@@ -203,7 +203,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/rolling_hash.cpp
       title: string/rolling_hash.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: string/rolling_hash_u64.cpp
       title: string/rolling_hash_u64.cpp
     - icon: ':heavy_check_mark:'
@@ -246,7 +246,7 @@ data:
     - icon: ':warning:'
       path: util/kado.cpp
       title: util/kado.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/makev.cpp
       title: make_v, chmin, chmax
     - icon: ':warning:'
@@ -312,7 +312,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0422.test.cpp
       title: test/aoj0422.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aoj0438.test.cpp
       title: test/aoj0438.test.cpp
     - icon: ':heavy_check_mark:'
