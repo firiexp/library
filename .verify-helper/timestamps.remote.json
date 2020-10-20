@@ -24,6 +24,7 @@
 "test/yosupo_point_add_range_sum.test.cpp": "2020-09-10 15:48:30 +0900",
 "test/yosupo_point_set_range_composite.test.cpp": "2020-09-13 19:17:06 +0900",
 "test/yosupo_range_affine_range_sum.test.cpp": "2020-09-15 21:59:19 +0900",
+"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp": "2020-10-20 21:27:22 +0900",
 "test/yosupo_scc.test.cpp": "2020-09-13 16:56:31 +0900",
 "test/yosupo_shortest_path.test.cpp": "2020-05-02 12:45:39 +0900",
 "test/yosupo_shortest_path_radix_heap.test.cpp": "2020-05-02 12:50:18 +0900",
