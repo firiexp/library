@@ -2,16 +2,18 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/aoj0438.test.cpp
+    title: test/aoj0438.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"string/rolling_hash_u64.cpp\"\nusing u64 = unsigned long\
-    \ long;\n\nconstexpr u64 M = (1UL << 61) - 1;\nconstexpr u64 POSITIVISER = M *\
-    \ 3;\nconstexpr u64 MASK30 = (1UL << 30) - 1;\nconstexpr u64 MASK31 = (1UL <<\
-    \ 31) - 1;\n\nclass rolling_hash_u64 {\n    static u64 get_base(){\n        u64\
-    \ z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
+  bundledCode: "#line 1 \"string/rolling_hash_u64.cpp\"\n#include <chrono>\nconstexpr\
+    \ u64 M = (1UL << 61) - 1;\nconstexpr u64 POSITIVISER = M * 3;\nconstexpr u64\
+    \ MASK30 = (1UL << 30) - 1;\nconstexpr u64 MASK31 = (1UL << 31) - 1;\n\nclass\
+    \ rolling_hash_u64 {\n    static u64 get_base(){\n        u64 z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
     \ << 32)-1)))+0x9e3779b97f4a7c15;\n        z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;\n\
     \        z = (z ^ (z >> 27)) * 0x94d049bb133111eb;\n        return z;\n    }\n\
     \n    static u64 &B() {\n        static u64 B_ = (get_base())%(M-2)+2;\n     \
@@ -29,10 +31,10 @@ data:
     \ ++i) {\n            hash[i+1] = calc_mod(mul(hash[i],B()) + s[i]);\n       \
     \ }\n    };\n\n    u64 get(int l, int r){\n        return calc_mod(hash[r] + POSITIVISER\
     \ - mul(hash[l], p()[r-l]));\n    }\n};\n\n"
-  code: "using u64 = unsigned long long;\n\nconstexpr u64 M = (1UL << 61) - 1;\nconstexpr\
-    \ u64 POSITIVISER = M * 3;\nconstexpr u64 MASK30 = (1UL << 30) - 1;\nconstexpr\
-    \ u64 MASK31 = (1UL << 31) - 1;\n\nclass rolling_hash_u64 {\n    static u64 get_base(){\n\
-    \        u64 z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
+  code: "#include <chrono>\nconstexpr u64 M = (1UL << 61) - 1;\nconstexpr u64 POSITIVISER\
+    \ = M * 3;\nconstexpr u64 MASK30 = (1UL << 30) - 1;\nconstexpr u64 MASK31 = (1UL\
+    \ << 31) - 1;\n\nclass rolling_hash_u64 {\n    static u64 get_base(){\n      \
+    \  u64 z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
     \ << 32)-1)))+0x9e3779b97f4a7c15;\n        z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;\n\
     \        z = (z ^ (z >> 27)) * 0x94d049bb133111eb;\n        return z;\n    }\n\
     \n    static u64 &B() {\n        static u64 B_ = (get_base())%(M-2)+2;\n     \
@@ -54,9 +56,10 @@ data:
   isVerificationFile: false
   path: string/rolling_hash_u64.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2020-10-20 21:30:34+09:00'
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/aoj0438.test.cpp
 documentation_of: string/rolling_hash_u64.cpp
 layout: document
 redirect_from:

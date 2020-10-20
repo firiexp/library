@@ -28,6 +28,9 @@ data:
       path: datastructure/radixheap.cpp
       title: datastructure/radixheap.cpp
     - icon: ':heavy_check_mark:'
+      path: datastructure/segbeats.cpp
+      title: datastructure/segbeats.cpp
+    - icon: ':heavy_check_mark:'
       path: datastructure/segtree.cpp
       title: datastructure/segtree.cpp
     - icon: ':warning:'
@@ -200,7 +203,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/rolling_hash.cpp
       title: string/rolling_hash.cpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: string/rolling_hash_u64.cpp
       title: string/rolling_hash_u64.cpp
     - icon: ':heavy_check_mark:'
@@ -243,7 +246,7 @@ data:
     - icon: ':warning:'
       path: util/kado.cpp
       title: util/kado.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: util/makev.cpp
       title: make_v, chmin, chmax
     - icon: ':warning:'
@@ -309,6 +312,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0422.test.cpp
       title: test/aoj0422.test.cpp
+    - icon: ':x:'
+      path: test/aoj0438.test.cpp
+      title: test/aoj0438.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj0439.test.cpp
       title: test/aoj0439.test.cpp
@@ -342,6 +348,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_range_affine_range_sum.test.cpp
       title: test/yosupo_range_affine_range_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
+      title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_scc.test.cpp
       title: test/yosupo_scc.test.cpp
