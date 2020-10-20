@@ -1,5 +1,4 @@
-using u64 = unsigned long long;
-
+#include <chrono>
 constexpr u64 M = (1UL << 61) - 1;
 constexpr u64 POSITIVISER = M * 3;
 constexpr u64 MASK30 = (1UL << 30) - 1;
