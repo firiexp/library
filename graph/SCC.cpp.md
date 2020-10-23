@@ -56,8 +56,8 @@ data:
   timestamp: '2020-06-09 14:40:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0349.test.cpp
   - test/yosupo_scc.test.cpp
+  - test/aoj0349.test.cpp
 documentation_of: graph/SCC.cpp
 layout: document
 redirect_from:
