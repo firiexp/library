@@ -12,11 +12,11 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0422.test.cpp
     title: test/aoj0422.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0438.test.cpp
     title: test/aoj0438.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/makev.md
     document_title: make_v, chmin, chmax
@@ -40,7 +40,7 @@ data:
   path: util/makev.cpp
   requiredBy: []
   timestamp: '2020-04-28 18:50:16+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0335.test.cpp
   - test/aoj0438.test.cpp
