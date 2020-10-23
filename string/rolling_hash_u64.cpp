@@ -6,7 +6,7 @@ constexpr u64 MASK31 = (1UL << 31) - 1;
 
 class rolling_hash_u64 {
     static u64 get_base(){
-        u64 z = static_cast<uint64_t>(chrono::system_clock::now().time_since_epoch().count())+0x9e3779b97f4a7c15;
+        u64 z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL << 32)-1)))+0x9e3779b97f4a7c15;
         z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
         z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
         return z;
@@ -23,6 +23,7 @@ class rolling_hash_u64 {
         return val;
     }
 public:
+    vector<u64> hash;
     static vector<u64> &p() {
         static vector<u64> p_{1, B()};
         return p_;
@@ -33,8 +34,7 @@ public:
         return (a*c << 1) + b*d + ((e & MASK30) << 31) + (e >> 30);
     }
 
-    vector<u64> hash;
-    rolling_hash_u64(const string &s) {
+    explicit rolling_hash_u64(const string &s) {
         if(p().size() <= s.size()){
             int l = p().size();
             p().resize(s.size()+1);
@@ -48,15 +48,22 @@ public:
         }
     };
 
-    rolling_hash_u64(const int& n){
-        int l = p().size();
-        p().resize(n+1);
-        for (int i = l; i < p().size(); ++i) {
-            p()[i] = calc_mod(mul(p()[i-1], p()[1]));
-        }
-    }
-
     u64 get(int l, int r){
         return calc_mod(hash[r] + POSITIVISER - mul(hash[l], p()[r-l]));
+    }
+
+    static u64 val(string &s){
+        if(p().size() <= s.size()){
+            int l = p().size();
+            p().resize(s.size()+1);
+            for (int i = l; i < p().size(); ++i) {
+                p()[i] = calc_mod(mul(p()[i-1], p()[1]));
+            }
+        }
+        u64 ret = 0;
+        for (int i = 0; i < s.size(); ++i) {
+            ret = calc_mod(mul(ret, B()) + s[i]);
+        }
+        return ret;
     }
 };

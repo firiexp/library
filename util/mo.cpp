@@ -11,3 +11,12 @@ struct Query {
         else return this->r > a.r;
     }
 };
+/*
+for (auto &&X : query) {
+    while(X.l < l) g(--l);
+    while(r < X.r) f(r++);
+    while(l < X.l) g(l++);
+    while(X.r < r) f(--r);
+    ans[X.no] = ans;
+}
+*/
