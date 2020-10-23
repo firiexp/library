@@ -12,11 +12,6 @@ class rolling_hash_u64 {
         return z;
     }
 
-    static u64 &B() {
-        static u64 B_ = (get_base())%(M-2)+2;
-        return B_;
-    }
-
     static inline u64 calc_mod(u64 val){
         val = (val & M) + (val >> 61);
         if(val > M) val -= M;
@@ -24,6 +19,12 @@ class rolling_hash_u64 {
     }
 public:
     vector<u64> hash;
+
+    static u64 &B() {
+        static u64 B_ = (get_base())%(M-2)+2;
+        return B_;
+    }
+
     static vector<u64> &p() {
         static vector<u64> p_{1, B()};
         return p_;
@@ -34,7 +35,7 @@ public:
         return (a*c << 1) + b*d + ((e & MASK30) << 31) + (e >> 30);
     }
 
-    explicit rolling_hash_u64(const string &s) {
+    rolling_hash_u64(const string &s) {
         if(p().size() <= s.size()){
             int l = p().size();
             p().resize(s.size()+1);
@@ -47,6 +48,14 @@ public:
             hash[i+1] = calc_mod(mul(hash[i],B()) + s[i]);
         }
     };
+
+    rolling_hash_u64(const int& n){
+        int l = p().size();
+        p().resize(n+1);
+        for (int i = l; i < p().size(); ++i) {
+            p()[i] = calc_mod(mul(p()[i-1], p()[1]));
+        }
+    }
 
     u64 get(int l, int r){
         return calc_mod(hash[r] + POSITIVISER - mul(hash[l], p()[r-l]));
