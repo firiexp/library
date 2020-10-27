@@ -3,11 +3,11 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0399.test.cpp
     title: test/aoj0399.test.cpp
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/squarematrix.cpp\"\ntemplate<class H, size_t SIZE>\n\
@@ -17,10 +17,10 @@ data:
     \ i < SIZE; ++i) {\n            for (int j = 0; j < SIZE; ++j) {\n           \
     \     if(i == j) X[i][j] = H::one();\n                else X[i][j] = H::zero();\n\
     \            }\n        }\n        return X;\n    }\n    static SquareMatrix O(){\n\
-    \        SquareMatrix X;\n        for (auto &&i : X) fill(i.begin(),i.end(), H::zero());\n\
-    \        return X;\n    }\n\n    friend ar operator*=(ar &x, const SquareMatrix\
-    \ &Y) {\n        ar ans;\n        fill(ans.begin(),ans.end(), H::zero());\n  \
-    \      for (int i = 0; i < SIZE; ++i) {\n            for (int j = 0; j < SIZE;\
+    \        SquareMatrix X;\n        for (auto &&i : X.A) fill(i.begin(),i.end(),\
+    \ H::zero());\n        return X;\n    }\n\n    friend ar operator*=(ar &x, const\
+    \ SquareMatrix &Y) {\n        ar ans;\n        fill(ans.begin(),ans.end(), H::zero());\n\
+    \        for (int i = 0; i < SIZE; ++i) {\n            for (int j = 0; j < SIZE;\
     \ ++j) {\n                H::add(ans[j], H::mul(x[i], Y[i][j]));\n           \
     \ }\n        }\n        x.swap(ans);\n        return x;\n    }\n    friend ar\
     \ operator*(ar x, const SquareMatrix &Y) { return x *= Y; }\n\n    inline const\
@@ -55,7 +55,7 @@ data:
     \ (int j = 0; j < SIZE; ++j) {\n                if(i == j) X[i][j] = H::one();\n\
     \                else X[i][j] = H::zero();\n            }\n        }\n       \
     \ return X;\n    }\n    static SquareMatrix O(){\n        SquareMatrix X;\n  \
-    \      for (auto &&i : X) fill(i.begin(),i.end(), H::zero());\n        return\
+    \      for (auto &&i : X.A) fill(i.begin(),i.end(), H::zero());\n        return\
     \ X;\n    }\n\n    friend ar operator*=(ar &x, const SquareMatrix &Y) {\n    \
     \    ar ans;\n        fill(ans.begin(),ans.end(), H::zero());\n        for (int\
     \ i = 0; i < SIZE; ++i) {\n            for (int j = 0; j < SIZE; ++j) {\n    \
@@ -89,8 +89,8 @@ data:
   isVerificationFile: false
   path: math/squarematrix.cpp
   requiredBy: []
-  timestamp: '2020-10-27 21:33:08+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2020-10-27 21:34:54+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0399.test.cpp
 documentation_of: math/squarematrix.cpp
