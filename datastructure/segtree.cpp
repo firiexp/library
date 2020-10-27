@@ -75,3 +75,11 @@ struct SegmentTree{
     }
     T operator[](const int &k) const { return seg[k + sz]; }
 };
+
+/*
+struct Monoid{
+    using T = array<mint, 2>;
+    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }
+    static T e() { return {1, 0}; }
+};
+*/

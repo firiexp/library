@@ -101,3 +101,19 @@ struct LazySegmentTree{
         return 0;
     }
 };
+
+/*
+struct Monoid{
+    using T = array<mint, 2>;
+    using L = array<mint, 2>;
+    static T f(T a, T b) { return {a[0]+b[0], a[1]+b[1]}; }
+    static T g(T a, L b) {
+        return {a[0] * b[0] + a[1] * b[1], a[1]};
+    }
+    static L h(L a, L b) {
+        return {a[0]*b[0], a[1]*b[0]+b[1]};
+    }
+    static T e() { return {0, 0}; }
+    static L l() { return {1, 0}; }
+};
+*/

@@ -28,9 +28,10 @@ struct DualSegmentTree{
         return lazy[k];
     }
 };
-
+/*
 struct Monoid{
     using T = ll;
     static T f(T a, T b) { return a+b; }
     static T e() { return 0; }
 };
+*/

@@ -19,7 +19,6 @@ struct QuickFind {
             v[a].emplace_back(i);
             roots[i] = a;
         }
-        dp[a] += dp[b];
         v[b].clear();
         v[b].shrink_to_fit();
         return true;

@@ -43,9 +43,10 @@ public:
         return G::f(lsum.back(), rsum.back());
     }
 };
-
+/*
 struct Monoid {
     using T = int;
     static T f(T a, T b) { return a+b; }
     static T e() { return 0; }
 };
+*/
