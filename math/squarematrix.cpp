@@ -17,7 +17,7 @@ struct SquareMatrix {
     }
     static SquareMatrix O(){
         SquareMatrix X;
-        for (auto &&i : X) fill(i.begin(),i.end(), H::zero());
+        for (auto &&i : X.A) fill(i.begin(),i.end(), H::zero());
         return X;
     }
 
