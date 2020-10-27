@@ -15,6 +15,11 @@ struct SquareMatrix {
         }
         return X;
     }
+    static SquareMatrix O(){
+        SquareMatrix X;
+        for (auto &&i : X) fill(i.begin(),i.end(), H::zero());
+        return X;
+    }
 
     friend ar operator*=(ar &x, const SquareMatrix &Y) {
         ar ans;
@@ -50,7 +55,7 @@ struct SquareMatrix {
     }
 
     SquareMatrix &operator*=(const SquareMatrix &B) {
-        SquareMatrix C = I();
+        SquareMatrix C = O();
         for (int i = 0; i < SIZE; ++i) {
             for (int k = 0; k < SIZE; ++k) {
                 for (int j = 0; j < SIZE; ++j) {
