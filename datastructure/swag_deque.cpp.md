@@ -27,8 +27,8 @@ data:
     \ l[i] = l[i + rsize], lsum[i+1] = G::f(l[i], lsum[i]);\n            l.resize(lsize);\
     \ lsum.resize(lsize + 1);\n        }\n        r.pop_back(); rsum.pop_back();\n\
     \    }\n\n    T fold(){\n        return G::f(lsum.back(), rsum.back());\n    }\n\
-    };\n\nstruct Monoid {\n    using T = int;\n    static T f(T a, T b) { return a+b;\
-    \ }\n    static T e() { return 0; }\n};\n"
+    };\n/*\nstruct Monoid {\n    using T = int;\n    static T f(T a, T b) { return\
+    \ a+b; }\n    static T e() { return 0; }\n};\n*/\n"
   code: "template<class G>\nclass TwoStackDeque {\n    using T = typename G::T;\n\
     \    vector<T> l, r, lsum, rsum;\npublic:\n    TwoStackDeque() : l(0), r(0), lsum(1,\
     \ G::e()), rsum(1, G::e()) {}\n\n    void push_front(const T& v){\n        lsum.push_back(G::f(lsum.back(),\
@@ -48,13 +48,13 @@ data:
     \ 0; i < lsize; ++i) l[i] = l[i + rsize], lsum[i+1] = G::f(l[i], lsum[i]);\n \
     \           l.resize(lsize); lsum.resize(lsize + 1);\n        }\n        r.pop_back();\
     \ rsum.pop_back();\n    }\n\n    T fold(){\n        return G::f(lsum.back(), rsum.back());\n\
-    \    }\n};\n\nstruct Monoid {\n    using T = int;\n    static T f(T a, T b) {\
-    \ return a+b; }\n    static T e() { return 0; }\n};"
+    \    }\n};\n/*\nstruct Monoid {\n    using T = int;\n    static T f(T a, T b)\
+    \ { return a+b; }\n    static T e() { return 0; }\n};\n*/"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/swag_deque.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2020-10-27 21:25:47+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: datastructure/swag_deque.cpp

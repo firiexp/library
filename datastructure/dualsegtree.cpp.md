@@ -18,9 +18,9 @@ data:
     \ += sz); thrust(b += sz-1);\n        for (int l = a, r = b+1;l < r; l >>=1, r\
     \ >>= 1) {\n            if(l&1) lazy[l] = M::f(lazy[l], x), l++;\n           \
     \ if(r&1) --r, lazy[r] = M::f(lazy[r], x);\n        }\n    }\n\n    T operator[](int\
-    \ k){\n        thrust(k += sz);\n        return lazy[k];\n    }\n};\n\nstruct\
+    \ k){\n        thrust(k += sz);\n        return lazy[k];\n    }\n};\n/*\nstruct\
     \ Monoid{\n    using T = ll;\n    static T f(T a, T b) { return a+b; }\n    static\
-    \ T e() { return 0; }\n};\n"
+    \ T e() { return 0; }\n};\n*/\n"
   code: "template <class M>\nstruct DualSegmentTree{\n    using T = typename M::T;\n\
     \    int sz, height{};\n    vector<T> lazy;\n    explicit DualSegmentTree(int\
     \ n) {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        lazy.assign(2*sz,\
@@ -32,13 +32,13 @@ data:
     \  for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {\n            if(l&1) lazy[l]\
     \ = M::f(lazy[l], x), l++;\n            if(r&1) --r, lazy[r] = M::f(lazy[r], x);\n\
     \        }\n    }\n\n    T operator[](int k){\n        thrust(k += sz);\n    \
-    \    return lazy[k];\n    }\n};\n\nstruct Monoid{\n    using T = ll;\n    static\
-    \ T f(T a, T b) { return a+b; }\n    static T e() { return 0; }\n};"
+    \    return lazy[k];\n    }\n};\n/*\nstruct Monoid{\n    using T = ll;\n    static\
+    \ T f(T a, T b) { return a+b; }\n    static T e() { return 0; }\n};\n*/"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/dualsegtree.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2020-10-27 21:25:47+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: datastructure/dualsegtree.cpp

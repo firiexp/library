@@ -52,7 +52,12 @@ data:
     \ val))){\n                        val = M::f(reflect(r--), val);\n          \
     \          }\n                }\n                return r + 1 - sz;\n        \
     \    }\n            val = M::f(reflect(r), val);\n        } while((r & -r) !=\
-    \ r);\n        return 0;\n    }\n};\n"
+    \ r);\n        return 0;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = array<mint,\
+    \ 2>;\n    using L = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]+b[0],\
+    \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
+    \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
+    \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
+    \ { return {1, 0}; }\n};\n*/\n"
   code: "template <class M>\nstruct LazySegmentTree{\n    using T = typename M::T;\n\
     \    using L = typename M::L;\n    int sz, n, height{};\n    vector<T> seg; vector<L>\
     \ lazy;\n    explicit LazySegmentTree(int n) : n(n) {\n        sz = 1; while(sz\
@@ -92,12 +97,17 @@ data:
     \                     val = M::f(reflect(r--), val);\n                    }\n\
     \                }\n                return r + 1 - sz;\n            }\n      \
     \      val = M::f(reflect(r), val);\n        } while((r & -r) != r);\n       \
-    \ return 0;\n    }\n};"
+    \ return 0;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
+    \    using L = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]+b[0],\
+    \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
+    \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
+    \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
+    \ { return {1, 0}; }\n};\n*/"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/lazysegtree.cpp
   requiredBy: []
-  timestamp: '2020-09-15 21:59:19+09:00'
+  timestamp: '2020-10-27 21:25:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_range_affine_range_sum.test.cpp

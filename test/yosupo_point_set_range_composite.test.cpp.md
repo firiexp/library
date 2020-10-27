@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/segtree.cpp
     title: datastructure/segtree.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
@@ -75,8 +75,10 @@ data:
     \                }\n                return r + 1 - sz;\n            }\n      \
     \      val = M::f(seg[r], val);\n        } while((r & -r) != r);\n        return\
     \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
-    #line 23 \"test/yosupo_point_set_range_composite.test.cpp\"\n\nstruct Monoid{\n\
-    \    using T = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0],\
+    \n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
+    \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
+    };\n*/\n#line 23 \"test/yosupo_point_set_range_composite.test.cpp\"\n\nstruct\
+    \ Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0],\
     \ a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n};\n\nint main() {\n\
     \    int n, q;\n    cin >> n >> q;\n    SegmentTree<Monoid> seg(n);\n    for (int\
     \ i = 0; i < n; ++i) {\n        int a, b;\n        scanf(\"%d %d\", &a, &b);\n\
@@ -107,7 +109,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-09-13 19:17:06+09:00'
+  timestamp: '2020-10-27 21:25:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_composite.test.cpp

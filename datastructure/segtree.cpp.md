@@ -37,7 +37,10 @@ data:
     \ M::f(seg[r], val);\n                        r--;\n                    }\n  \
     \              }\n                return r + 1 - sz;\n            }\n        \
     \    val = M::f(seg[r], val);\n        } while((r & -r) != r);\n        return\
-    \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n"
+    \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
+    \n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
+    \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
+    };\n*/\n"
   code: "template <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n \
     \   int sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n)\
     \ : n(n) {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
@@ -64,12 +67,15 @@ data:
     \ = M::f(seg[r], val);\n                        r--;\n                    }\n\
     \                }\n                return r + 1 - sz;\n            }\n      \
     \      val = M::f(seg[r], val);\n        } while((r & -r) != r);\n        return\
-    \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n"
+    \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
+    \n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
+    \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
+    };\n*/"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/segtree.cpp
   requiredBy: []
-  timestamp: '2020-09-13 19:17:06+09:00'
+  timestamp: '2020-10-27 21:25:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_set_range_composite.test.cpp
