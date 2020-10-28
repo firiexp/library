@@ -58,6 +58,7 @@ struct SegmentTree{
         T val = M::e();
         r += sz;
         do {
+            r--;
             while(r&1) r >>= 1;
             if(!cond(M::f(seg[r], val))){
                 while(r < sz) {
@@ -75,6 +76,7 @@ struct SegmentTree{
     }
     T operator[](const int &k) const { return seg[k + sz]; }
 };
+
 
 /*
 struct Monoid{
