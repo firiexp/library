@@ -112,6 +112,9 @@ data:
     - icon: ':warning:'
       path: graph/kruskal.cpp
       title: graph/kruskal.cpp
+    - icon: ':heavy_check_mark:'
+      path: graph/manhattanmst.cpp
+      title: graph/manhattanmst.cpp
     - icon: ':warning:'
       path: graph/offlinedynamicconnectivity.cpp
       title: graph/offlinedynamicconnectivity.cpp
@@ -306,6 +309,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0402.test.cpp
       title: test/aoj0402.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0403.test.cpp
+      title: test/aoj0403.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj0415.test.cpp
       title: test/aoj0415.test.cpp

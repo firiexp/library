@@ -31,14 +31,14 @@ data:
     \ seg[l]);\n            l++;\n        } while((l & -l) != l);\n        return\
     \ n;\n    }\n\n    template<class F>\n    int search_left(int r, F cond){\n  \
     \      if(r == 0) return 0;\n        T val = M::e();\n        r += sz;\n     \
-    \   do {\n            while(r&1) r >>= 1;\n            if(!cond(M::f(seg[r], val))){\n\
-    \                while(r < sz) {\n                    r = ((r << 1)|1);\n    \
-    \                if (cond(M::f(seg[r], val))){\n                        val =\
-    \ M::f(seg[r], val);\n                        r--;\n                    }\n  \
-    \              }\n                return r + 1 - sz;\n            }\n        \
-    \    val = M::f(seg[r], val);\n        } while((r & -r) != r);\n        return\
+    \   do {\n            r--;\n            while(r&1) r >>= 1;\n            if(!cond(M::f(seg[r],\
+    \ val))){\n                while(r < sz) {\n                    r = ((r << 1)|1);\n\
+    \                    if (cond(M::f(seg[r], val))){\n                        val\
+    \ = M::f(seg[r], val);\n                        r--;\n                    }\n\
+    \                }\n                return r + 1 - sz;\n            }\n      \
+    \      val = M::f(seg[r], val);\n        } while((r & -r) != r);\n        return\
     \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
-    \n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
+    \n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
     \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
     };\n*/\n"
   code: "template <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n \
@@ -61,21 +61,21 @@ data:
     \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
     \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
     \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            while(r&1) r >>= 1;\n            if(!cond(M::f(seg[r],\
-    \ val))){\n                while(r < sz) {\n                    r = ((r << 1)|1);\n\
-    \                    if (cond(M::f(seg[r], val))){\n                        val\
-    \ = M::f(seg[r], val);\n                        r--;\n                    }\n\
-    \                }\n                return r + 1 - sz;\n            }\n      \
-    \      val = M::f(seg[r], val);\n        } while((r & -r) != r);\n        return\
-    \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
-    \n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
-    \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
-    };\n*/"
+    \ sz;\n        do {\n            r--;\n            while(r&1) r >>= 1;\n     \
+    \       if(!cond(M::f(seg[r], val))){\n                while(r < sz) {\n     \
+    \               r = ((r << 1)|1);\n                    if (cond(M::f(seg[r], val))){\n\
+    \                        val = M::f(seg[r], val);\n                        r--;\n\
+    \                    }\n                }\n                return r + 1 - sz;\n\
+    \            }\n            val = M::f(seg[r], val);\n        } while((r & -r)\
+    \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
+    \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
+    \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
+    \ T e() { return {1, 0}; }\n};\n*/"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/segtree.cpp
   requiredBy: []
-  timestamp: '2020-10-27 21:25:47+09:00'
+  timestamp: '2020-10-28 23:41:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_set_range_composite.test.cpp

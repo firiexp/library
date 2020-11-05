@@ -68,24 +68,24 @@ data:
     \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
     \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
     \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            while(r&1) r >>= 1;\n            if(!cond(M::f(seg[r],\
-    \ val))){\n                while(r < sz) {\n                    r = ((r << 1)|1);\n\
-    \                    if (cond(M::f(seg[r], val))){\n                        val\
-    \ = M::f(seg[r], val);\n                        r--;\n                    }\n\
-    \                }\n                return r + 1 - sz;\n            }\n      \
-    \      val = M::f(seg[r], val);\n        } while((r & -r) != r);\n        return\
-    \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
-    \n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
-    \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
-    };\n*/\n#line 23 \"test/yosupo_point_set_range_composite.test.cpp\"\n\nstruct\
-    \ Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0],\
-    \ a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n};\n\nint main() {\n\
-    \    int n, q;\n    cin >> n >> q;\n    SegmentTree<Monoid> seg(n);\n    for (int\
-    \ i = 0; i < n; ++i) {\n        int a, b;\n        scanf(\"%d %d\", &a, &b);\n\
-    \        seg.set(i, {a, b});\n    }\n    seg.build();\n    for (int i = 0; i <\
-    \ q; ++i) {\n        int a, b, c, d;\n        scanf(\"%d %d %d %d\", &a, &b, &c,\
-    \ &d);\n        if(!a) seg.update(b, {c, d});\n        else {\n            auto\
-    \ ans = seg.query(b, c);\n            printf(\"%d\\n\", (ans[0]*d+ans[1]).val);\n\
+    \ sz;\n        do {\n            r--;\n            while(r&1) r >>= 1;\n     \
+    \       if(!cond(M::f(seg[r], val))){\n                while(r < sz) {\n     \
+    \               r = ((r << 1)|1);\n                    if (cond(M::f(seg[r], val))){\n\
+    \                        val = M::f(seg[r], val);\n                        r--;\n\
+    \                    }\n                }\n                return r + 1 - sz;\n\
+    \            }\n            val = M::f(seg[r], val);\n        } while((r & -r)\
+    \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
+    \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
+    \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
+    \ T e() { return {1, 0}; }\n};\n*/\n#line 23 \"test/yosupo_point_set_range_composite.test.cpp\"\
+    \n\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b) {\
+    \ return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
+    };\n\nint main() {\n    int n, q;\n    cin >> n >> q;\n    SegmentTree<Monoid>\
+    \ seg(n);\n    for (int i = 0; i < n; ++i) {\n        int a, b;\n        scanf(\"\
+    %d %d\", &a, &b);\n        seg.set(i, {a, b});\n    }\n    seg.build();\n    for\
+    \ (int i = 0; i < q; ++i) {\n        int a, b, c, d;\n        scanf(\"%d %d %d\
+    \ %d\", &a, &b, &c, &d);\n        if(!a) seg.update(b, {c, d});\n        else\
+    \ {\n            auto ans = seg.query(b, c);\n            printf(\"%d\\n\", (ans[0]*d+ans[1]).val);\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
@@ -109,7 +109,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-10-27 21:25:47+09:00'
+  timestamp: '2020-10-28 23:41:44+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_composite.test.cpp
