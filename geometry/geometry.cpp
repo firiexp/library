@@ -1,5 +1,6 @@
 using real = double;
 static constexpr real EPS = 1e-10;
+const real pi = acos(-1);
 struct Point {
     real x, y;
     Point& operator+=(const Point a) { x += a.x; y += a.y;  return *this; }
@@ -13,16 +14,16 @@ struct Point {
     bool operator<(const Point &a) const { return (x != a.x ? x < a.x : y < a.y); }
     explicit Point(real a = 0, real b = 0) : x(a), y(b) {};
 };
- 
+
 bool sorty(Point a, Point b){
     return (a.y != b.y ? a.y < b.y : a.x < b.x);
 }
- 
+
 istream& operator>> (istream& s, Point& P){
     s >> P.x >> P.y;
     return s;
 }
- 
+
 inline real dot(Point a, Point b){ return a.x*b.x + a.y*b.y; }
 inline real cross(Point a, Point b){ return a.x*b.y - a.y*b.x; }
 inline real abs(Point a){ return sqrt(dot(a, a)); }
@@ -39,7 +40,7 @@ static constexpr int CLOCKWISE = -1;
 static constexpr int ONLINE_BACK = 2;
 static constexpr int ONLINE_FRONT = -2;
 static constexpr int ON_SEGMENT = 0;
- 
+
 int ccw(Point a, Point b, Point c){
     b -= a; c -= a;
     if(cross(b, c) > EPS) return COUNTER_CLOCKWISE;
@@ -52,19 +53,19 @@ struct Segment {
     Point a, b;
     Segment(Point x, Point y) : a(x), b(y) {};
 };
- 
+
 struct Line {
     Point a, b;
     Line(Point x, Point y) : a(x), b(y) {};
 };
- 
+
 struct Circle{
     Point c; real r;
     Circle(Point c, real r): c(c), r(r) {};
 };
- 
+
 using Polygon = vector<Point>;
- 
+
 bool intersect(Segment s, Segment t){
     return (ccw(s.a, s.b, t.a)*ccw(s.a, s.b, t.b) <= 0 &&
             ccw(t.a, t.b, s.a)*ccw(t.a, t.b, s.b) <= 0);
@@ -78,17 +79,17 @@ bool intersect(Segment s, Line t){
 Point polar(double r, double t){
     return Point(r*cos(t), r*sin(t));
 }
- 
+
 double arg(Point p){
     return atan2(p.y, p.x);
 }
- 
+
 static constexpr int CONTAIN = 0;
 static constexpr int INSCRIBE = 1;
 static constexpr int INTERSECT = 2;
 static constexpr int CIRCUMSCRIBED = 3;
 static constexpr int SEPARATE = 4;
- 
+
 int intersect(Circle c1, Circle c2){
     if(c1.r < c2.r) swap(c1, c2);
     real d = abs(c1.c-c2.c);
@@ -99,64 +100,64 @@ int intersect(Circle c1, Circle c2){
     if(d+c2.r < c1.r) return CONTAIN;
     return INTERSECT;
 }
- 
+
 real distance(Line l, Point c){
     return abs(cross(l.b-l.a, c-l.a)/abs(l.b-l.a));
 }
- 
- 
+
+
 real distance(Segment s, Point c){
     if(dot(s.b-s.a, c-s.a) < EPS) return abs(c-s.a);
     if(dot(s.a-s.b, c-s.b) < EPS) return abs(c-s.b);
     return abs(cross(s.b-s.a, c-s.a)) / abs(s.a-s.b);
 }
- 
+
 real distance(Segment s, Segment t){
     if(intersect(s, t)) return 0.0;
     return min({distance(s, t.a), distance(s, t.b),
                 distance(t, s.a), distance(t, s.b)});
 }
- 
- 
+
+
 Point project(Line l, Point p){
     Point Q = l.b-l.a;
     return l.a + Q*(dot(p-l.a, Q) / dot(Q, Q));
 }
- 
- 
+
+
 Point project(Segment s, Point p){
     Point Q = s.b-s.a;
     return s.a + Q*(dot(p-s.a, Q) / dot(Q, Q));
 }
- 
+
 Point refrect(Segment s, Point p){
     Point Q = project(s, p);
     return Q*2-p;
 }
- 
+
 bool isOrthogonal(Segment s, Segment t){
     return fabs(dot(s.b-s.a, t.b-t.a)) < EPS;
 }
- 
+
 bool isparallel(Segment s, Segment t){
     return fabs(cross(s.b-s.a, t.b-t.a)) < EPS;
 }
- 
- 
+
+
 Point crossPoint(Segment s, Segment t){
     real d1 = cross(s.b-s.a, t.b-t.a);
     real d2 = cross(s.b-s.a, s.b-t.a);
     if(fabs(d1) < EPS && fabs(d2) < EPS) return t.a;
     return t.a+(t.b-t.a)*d2/d1;
 }
- 
+
 Point crossPoint(Line s, Line t){
     real d1 = cross(s.b-s.a, t.b-t.a);
     real d2 = cross(s.b-s.a, s.b-t.a);
     if(fabs(d1) < EPS && fabs(d2) < EPS) return t.a;
     return t.a+(t.b-t.a)*d2/d1;
 }
- 
+
 Polygon crossPoint(Circle c, Line l){
     Point p = project(l, c.c), q = (l.b-l.a)/abs(l.b-l.a);
     if(abs(distance(l, c.c)-c.r) < EPS){
@@ -165,7 +166,7 @@ Polygon crossPoint(Circle c, Line l){
     double k = sqrt(c.r*c.r-dot(p-c.c, p-c.c));
     return {p-q*k, p+q*k};
 }
- 
+
 Polygon crossPoint(Circle c, Segment s){
     auto tmp = crossPoint(c, Line(s.a, s.b));
     Polygon ret;
@@ -174,15 +175,15 @@ Polygon crossPoint(Circle c, Segment s){
     }
     return ret;
 }
- 
- 
+
+
 Polygon crossPoint(Circle c1, Circle c2){
     double d = abs(c1.c-c2.c);
     double a = acos((c1.r*c1.r+d*d-c2.r*c2.r)/(2*c1.r*d));
     double t = arg(c2.c-c1.c);
     return {c1.c+polar(c1.r, t+a), c1.c+polar(c1.r, t-a)};
 }
- 
+
 Polygon tangent(Circle c1, Point p){
     Circle c2 = Circle(p, sqrt(dot(c1.c-p, c1.c-p)-c1.r*c1.r));
     return crossPoint(c1, c2);
@@ -206,7 +207,7 @@ vector<Line> tangent(Circle c1, Circle c2){
     }
     return ret;
 }
- 
+
 real area(Polygon v){
     if(v.size() < 3) return 0.0;
     real ans = 0.0;
@@ -215,7 +216,7 @@ real area(Polygon v){
     }
     return ans/2;
 }
- 
+
 real area(Circle c, Polygon &v){
     int n = v.size();
     real ans = 0.0;
@@ -238,7 +239,16 @@ real area(Circle c, Polygon &v){
     }
     return ans;
 }
- 
+
+real area(Circle a, Circle b){
+    auto d = abs(a.c-b.c);
+    if(a.r+b.r <= d + EPS) return 0;
+    else if(d <= abs(a.r-b.r)) return pi*min(a.r, b.r)*min(a.r, b.r);
+    real p = 2*acos((a.r*a.r + d*d - b.r*b.r)/(2*a.r*d));
+    real q = 2*acos((b.r*b.r + d*d - a.r*a.r)/(2*b.r*d));
+    return a.r*a.r*(p-sin(p))/2 + b.r*b.r*(q-sin(q))/2;
+}
+
 Polygon convex_hull(Polygon v){
     int n = v.size();
     sort(v.begin(),v.end(), sorty);
@@ -255,7 +265,7 @@ Polygon convex_hull(Polygon v){
     ret.resize(k-1);
     return ret;
 }
- 
+
 bool isconvex(Polygon v){
     int n = v.size();
     for (int i = 0; i < n; ++i) {
@@ -263,7 +273,7 @@ bool isconvex(Polygon v){
     }
     return true;
 }
- 
+
 int contains(Polygon v, Point p){
     int n = v.size();
     bool x = false;
@@ -278,7 +288,7 @@ int contains(Polygon v, Point p){
     }
     return (x?IN:OUT);
 }
- 
+
 real diameter(Polygon v){
     int n = v.size();
     if(n == 2) return abs(v[0]-v[1]);
@@ -296,7 +306,7 @@ real diameter(Polygon v){
     }
     return ret;
 }
- 
+
 Polygon convexCut(Polygon v, Line l){
     Polygon q;
     int n = v.size();
@@ -309,7 +319,7 @@ Polygon convexCut(Polygon v, Line l){
     }
     return q;
 }
- 
+
 real closest_pair(Polygon &v, int l = 0, int r = -1){
     if(!(~r)){
         r = v.size();
