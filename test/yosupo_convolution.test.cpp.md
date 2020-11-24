@@ -46,30 +46,29 @@ data:
     \ lhs.val == rhs.val; }\n    friend bool operator!=(const modint& lhs, const modint&\
     \ rhs) { return lhs.val != rhs.val; }\n};\nusing mint = modint<998244353>;\n\n\
     class NTT {\n    static constexpr int max_base = 20, maxN = 1 << max_base; //\
-    \ N <= 524288 * 2\n    mint sum_e[30], sum_ie[30];\n\npublic:\n    mint es[30],\
-    \ ies[30];\n    NTT() {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n\n    \
-    \    mint e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();\n       \
-    \ for (int i = cnt2; i >= 0; i--){\n            es[i] = e;\n            ies[i]\
-    \ = ie;\n            e *= e;\n            ie *= ie;\n        }\n        mint now\
-    \ = 1, nowi = 1;\n        for (int i = 0; i < cnt2 - 2; i++) {\n            sum_e[i]\
-    \ = es[i+2] * now;\n            now *= ies[i+2];\n            sum_ie[i] = ies[i+2]\
-    \ * nowi;\n            nowi *= es[i+2];\n        }\n    }\n\n    void transform(vector<mint>\
-    \ &a, int sign){\n        const int n = a.size();\n        int h = 0;\n      \
-    \  while ((1U << h) < (unsigned int)(n)) h++;\n        if(!sign){ // fft\n   \
-    \         for (int ph = 1; ph <= h; ph++) {\n                int w = 1 << (ph-1),\
-    \ p = 1 << (h-ph);\n                mint now = 1;\n                for (int s\
-    \ = 0; s < w; s++) {\n                    int offset = s << (h-ph+1);\n      \
-    \              for (int i = 0; i < p; i++) {\n                        auto l =\
-    \ a[i+offset], r = a[i+offset+p]*now;\n                        a[i+offset] = l+r;\n\
-    \                        a[i+offset+p] = l-r;\n                    }\n       \
-    \             now *= sum_e[__builtin_ctz(~(unsigned int)(s))];\n             \
-    \   }\n            }\n        }else { // ifft\n            for (int ph = h; ph\
-    \ >= 1; ph--) {\n                int w = 1 << (ph-1), p = 1 << (h-ph);\n     \
-    \           mint inow = 1;\n                for (int s = 0; s < w; s++) {\n  \
-    \                  int offset = s << (h-ph+1);\n                    for (int i\
-    \ = 0; i < p; i++) {\n                        auto l = a[i+offset], r = a[i+offset+p];\n\
-    \                        a[i+offset] = l+r;\n                        a[i+offset+p]\
-    \ = (l-r)*inow;\n                    }\n                    inow *= sum_ie[__builtin_ctz(~(unsigned\
+    \ N <= 524288 * 2\n    mint sum_e[30], sum_ie[30];\npublic:\n    mint es[30],\
+    \ ies[30];\n    NTT() {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n      \
+    \  mint e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();\n        for\
+    \ (int i = cnt2; i >= 0; i--){\n            es[i] = e; ies[i] = ie;\n        \
+    \    e *= e; ie *= ie;\n        }\n        mint now = 1, nowi = 1;\n        for\
+    \ (int i = 0; i < cnt2 - 2; i++) {\n            sum_e[i] = es[i+2] * now; now\
+    \ *= ies[i+2];\n            sum_ie[i] = ies[i+2] * nowi; nowi *= es[i+2];\n  \
+    \      }\n    }\n\n    void transform(vector<mint> &a, int sign){\n        const\
+    \ int n = a.size();\n        int h = 0;\n        while ((1U << h) < (unsigned\
+    \ int)(n)) h++;\n        if(!sign){ // fft\n            for (int ph = 1; ph <=\
+    \ h; ph++) {\n                int w = 1 << (ph-1), p = 1 << (h-ph);\n        \
+    \        mint now = 1;\n                for (int s = 0; s < w; s++) {\n      \
+    \              int offset = s << (h-ph+1);\n                    for (int i = 0;\
+    \ i < p; i++) {\n                        auto l = a[i+offset], r = a[i+offset+p]*now;\n\
+    \                        a[i+offset] = l+r, a[i+offset+p] = l-r;\n           \
+    \         }\n                    now *= sum_e[__builtin_ctz(~(unsigned int)(s))];\n\
+    \                }\n            }\n        }else { // ifft\n            for (int\
+    \ ph = h; ph >= 1; ph--) {\n                int w = 1 << (ph-1), p = 1 << (h-ph);\n\
+    \                mint inow = 1;\n                for (int s = 0; s < w; s++) {\n\
+    \                    int offset = s << (h-ph+1);\n                    for (int\
+    \ i = 0; i < p; i++) {\n                        auto l = a[i+offset], r = a[i+offset+p];\n\
+    \                        a[i+offset] = l+r, a[i+offset+p] = (l-r)*inow;\n    \
+    \                }\n                    inow *= sum_ie[__builtin_ctz(~(unsigned\
     \ int)(s))];\n                }\n            }\n        }\n    }\n};\n\nNTT ntt;\n\
     \nstruct poly {\n    vector<mint> v;\n    poly() = default;\n    explicit poly(int\
     \ n) : v(n) {};\n    explicit poly(vector<mint> vv) : v(std::move(vv)) {};\n \
@@ -80,9 +79,9 @@ data:
     \        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];\n        return\
     \ *this;\n    }\n    poly& operator-=(const poly &a) {\n        this->v.resize(max(size(),\
     \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];\n\
-    \        return *this;\n    }\n\n    poly& operator*=(poly a) {\n        int N\
-    \ = size()+a.size()-1;\n        int sz = 1;\n        while(sz < N) sz <<= 1;\n\
-    \        this->v.resize(sz); a.v.resize(sz);\n        ntt.transform(this->v, 0);\
+    \        return *this;\n    }\n    poly& operator*=(poly a) {\n        int N =\
+    \ size()+a.size()-1;\n        int sz = 1;\n        while(sz < N) sz <<= 1;\n \
+    \       this->v.resize(sz); a.v.resize(sz);\n        ntt.transform(this->v, 0);\
     \ ntt.transform(a.v, 0);\n        for(int i = 0; i < sz; ++i) this->v[i] *= a.v[i];\n\
     \        ntt.transform(this->v, 1);\n        this->v.resize(N);\n        mint\
     \ iz = mint(sz).inv();\n        for (int i = 0; i < N; i++) this->v[i] *= iz;\n\
@@ -91,31 +90,12 @@ data:
     \ += a; }\n    poly operator-(const poly &a) const { return poly(*this) -= a;\
     \ }\n    poly operator*(const poly &a) const { return poly(*this) *= a; }\n\n\
     \    poly inv() const {\n        int n = size();\n        poly r(1);\n       \
-    \ r[0] = (this->v[0]).inv();\n        int k = 1;\n        while(k < n){\n    \
-    \        k *= 2;\n            poly ff(k);\n            for (int i = 0; i < min(k,\
-    \ n); ++i) {\n                ff[i] = this->v[i];\n            }\n           \
-    \ poly nr = (r*r*ff).cut(k);\n            for (int i = 0; i < k/2; ++i) {\n  \
-    \              nr[i] = (r[i]+r[i]-nr[i]);\n                nr[i+k/2] = -nr[i+k/2];\n\
-    \            }\n            r = nr;\n        }\n        r.v.resize(n);\n     \
-    \   return r;\n    }\n};\n\nmint nth_term(poly p, poly q, ll n){\n    if(!n) return\
-    \ p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n \
-    \   while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n  \
-    \  mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int j\
-    \ = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.ies[i];\n    y[0] = 1;\n    for\
-    \ (int i = 2; i < sz>>1; i <<= 1) {\n        for (int j = i+1; j < 2*i; ++j) {\n\
-    \            y[j] = y[j-i]*y[i];\n        }\n    }\n    ntt.transform(p.v, 0);\n\
-    \    ntt.transform(q.v, 0);\n    poly tmp(sz>>1);\n    auto up = [&](poly &A){\n\
-    \        for (int i = 0; i < sz>>1; ++i) tmp[i] = A[i];\n        ntt.transform(tmp.v,\
-    \ 1);\n        mint now = x;\n        for (int i = 0; i < sz>>1; ++i) tmp[i] *=\
-    \ now, now *= ntt.es[h];\n        ntt.transform(tmp.v, 0);\n        for (int i\
-    \ = 0; i < sz>>1; ++i) A[i|(sz>>1)] = tmp[i];\n    };\n    int ika = h;\n    while(n){\n\
-    \        for (int i = 0; i < sz; ++i) p[i] *= q[i^1];\n        if(n&1) for (int\
-    \ i = 0; i < sz>>1; ++i) p[i] = (p[i<<1]-p[(i<<1)|1])*y[i];\n        else for\
-    \ (int i = 0; i < sz>>1; ++i) p[i] = (p[i<<1]+p[(i<<1)|1]);\n        ika++;\n\
-    \        if(n == 1) break;\n        up(p);\n        for (int i = 0; i < sz>>1;\
-    \ ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n >>= 1;\n    }\n\
-    \    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
-    \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n#line 23 \"test/yosupo_convolution.test.cpp\"\
+    \ r[0] = (this->v[0]).inv();\n        for (int k = 1; k < n; k <<= 1) {\n    \
+    \        poly ff(2*k);\n            for (int i = 0; i < min(k*2, n); ++i) ff[i]\
+    \ = this->v[i];\n            poly nr = (r*r*ff).cut(k*2);\n            for (int\
+    \ i = 0; i < k; ++i) {\n                nr[i] = (r[i]+r[i]-nr[i]);\n         \
+    \       nr[i+k] = -nr[i+k];\n            }\n            r = nr;\n        }\n \
+    \       r.v.resize(n);\n        return r;\n    }\n};\n#line 23 \"test/yosupo_convolution.test.cpp\"\
     \n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    poly a(n), b(m);\n  \
     \  for (int i = 0; i < n; ++i) {\n        int x;\n        scanf(\"%d\", &x);\n\
     \        a[i] = x;\n    }\n    for (int i = 0; i < m; ++i) {\n        int x;\n\
@@ -139,7 +119,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_convolution.test.cpp
   requiredBy: []
-  timestamp: '2020-09-12 12:50:53+09:00'
+  timestamp: '2020-11-24 21:58:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_convolution.test.cpp

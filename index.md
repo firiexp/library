@@ -68,6 +68,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: flow/primaldual.cpp
       title: "\u6700\u5C0F\u8CBB\u7528\u6D41(primal-dual)"
+  - name: fps
+    pages:
+    - icon: ':warning:'
+      path: fps/nth_term.cpp
+      title: fps/nth_term.cpp
   - name: geometry
     pages:
     - icon: ':heavy_check_mark:'
