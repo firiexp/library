@@ -228,6 +228,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/auxtree.cpp
       title: tree/auxtree.cpp
+    - icon: ':heavy_check_mark:'
+      path: tree/centroid_decomposition.cpp
+      title: tree/centroid_decomposition.cpp
     - icon: ':warning:'
       path: tree/diameter.cpp
       title: tree/diameter.cpp
@@ -329,6 +332,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0439.test.cpp
       title: test/aoj0439.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj0452.test.cpp
+      title: test/aoj0452.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj2257.test.cpp
       title: test/aoj2257.test.cpp

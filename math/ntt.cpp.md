@@ -7,6 +7,9 @@ data:
     title: fps/nth_term.cpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aoj0452.test.cpp
+    title: test/aoj0452.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution.test.cpp
     title: test/yosupo_convolution.test.cpp
   _pathExtension: cpp
@@ -175,6 +178,7 @@ data:
   timestamp: '2020-11-24 21:58:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/aoj0452.test.cpp
   - test/yosupo_convolution.test.cpp
 documentation_of: math/ntt.cpp
 layout: document
