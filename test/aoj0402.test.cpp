@@ -33,7 +33,7 @@ int main() {
     fwht(A);
     for (int i = 0; i < 1<<20; ++i) A[i] *= A[i];
     ifwht(A);
-    for (int i = (1<<20); i >= 0; --i) {
+    for (int i = (1<<20) - 1; i >= 0; --i) {
         k -= A[i]/2;
         if(k <= 0){
             cout << i << "\n";
