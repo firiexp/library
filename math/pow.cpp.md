@@ -6,6 +6,7 @@ data:
     path: math/primitive_root.cpp
     title: math/primitive_root.cpp
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:

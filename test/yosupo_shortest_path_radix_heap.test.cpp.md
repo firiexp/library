@@ -9,6 +9,7 @@ data:
     title: "Dijkstra\u6CD5(Radix Heap)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:

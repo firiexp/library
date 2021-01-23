@@ -9,6 +9,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_scc.test.cpp
     title: test/yosupo_scc.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -56,8 +57,8 @@ data:
   timestamp: '2020-06-09 14:40:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0349.test.cpp
   - test/yosupo_scc.test.cpp
+  - test/aoj0349.test.cpp
 documentation_of: graph/SCC.cpp
 layout: document
 redirect_from:

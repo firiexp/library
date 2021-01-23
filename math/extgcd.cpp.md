@@ -5,9 +5,13 @@ data:
   - icon: ':warning:'
     path: math/CRT.cpp
     title: math/CRT.cpp
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/yuki1358.test.cpp
+    title: test/yuki1358.test.cpp
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/extgcd.cpp\"\ntemplate<typename T>\nT extgcd(T a, T\
@@ -24,8 +28,9 @@ data:
   requiredBy:
   - math/CRT.cpp
   timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/yuki1358.test.cpp
 documentation_of: math/extgcd.cpp
 layout: document
 redirect_from:

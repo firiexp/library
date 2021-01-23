@@ -9,6 +9,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0415.test.cpp
     title: test/aoj0415.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -62,8 +63,8 @@ data:
   timestamp: '2020-04-26 17:42:59+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0415.test.cpp
   - test/aoj0377.test.cpp
+  - test/aoj0415.test.cpp
 documentation_of: graph/twoedgeconnectedcomponents.cpp
 layout: document
 redirect_from:

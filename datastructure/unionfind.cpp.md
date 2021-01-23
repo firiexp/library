@@ -15,6 +15,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind.test.cpp
     title: test/yosupo_unionfind.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
@@ -49,10 +50,10 @@ data:
   timestamp: '2020-04-28 23:17:17+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/aoj0377.test.cpp
+  - test/aoj0342.test.cpp
   - test/aoj0403.test.cpp
   - test/yosupo_unionfind.test.cpp
-  - test/aoj0342.test.cpp
-  - test/aoj0377.test.cpp
 documentation_of: datastructure/unionfind.cpp
 layout: document
 redirect_from:
