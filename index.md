@@ -137,7 +137,7 @@ data:
     - icon: ':warning:'
       path: math/divisor.cpp
       title: math/divisor.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/extgcd.cpp
       title: math/extgcd.cpp
     - icon: ':warning:'
@@ -248,7 +248,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: util/ifloor.cpp
       title: util/ifloor.cpp
     - icon: ':warning:'
@@ -386,7 +386,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind.test.cpp
       title: test/yosupo_unionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yuki1358.test.cpp
       title: test/yuki1358.test.cpp
 layout: toppage
