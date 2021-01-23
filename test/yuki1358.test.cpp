@@ -32,7 +32,7 @@ void solve(){
     for (ll x2 = y; x2 >= 0; x2 -= c) {
         if(x2 % g) continue;
         ll x = x2/g;
-        ans += max(0LL, divfloor(q*x, a)-divceil(-p*x, b)+1);
+        ans += max(0LL, ifloor(q*x, a)-iceil(-p*x, b)+1);
     }
     cout << ans%MOD << "\n";
 }
