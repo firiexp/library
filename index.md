@@ -137,6 +137,9 @@ data:
     - icon: ':warning:'
       path: math/divisor.cpp
       title: math/divisor.cpp
+    - icon: ':warning:'
+      path: math/eulerphi.cpp
+      title: math/eulerphi.cpp
     - icon: ':heavy_check_mark:'
       path: math/extgcd.cpp
       title: math/extgcd.cpp
@@ -167,6 +170,9 @@ data:
     - icon: ':warning:'
       path: math/get_prime2.cpp
       title: math/get_prime2.cpp
+    - icon: ':warning:'
+      path: math/get_prime_wheel.cpp
+      title: math/get_prime_wheel.cpp
     - icon: ':warning:'
       path: math/matrix.cpp
       title: math/matrix.cpp
@@ -383,6 +389,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_floor_of_linear.test.cpp
       title: test/yosupo_sum_of_floor_of_linear.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_sum_of_totient.test.cpp
+      title: test/yosupo_sum_of_totient.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind.test.cpp
       title: test/yosupo_unionfind.test.cpp

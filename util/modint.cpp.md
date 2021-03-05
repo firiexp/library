@@ -21,6 +21,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_sum_of_totient.test.cpp
+    title: test/yosupo_sum_of_totient.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -85,10 +88,11 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_range_affine_range_sum.test.cpp
+  - test/aoj0399.test.cpp
   - test/aoj_dpl_5_a.test.cpp
+  - test/yosupo_sum_of_totient.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/aoj2257.test.cpp
-  - test/aoj0399.test.cpp
 documentation_of: util/modint.cpp
 layout: document
 redirect_from:
