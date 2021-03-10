@@ -1,3 +1,5 @@
+#include "./isqrt.cpp"
+
 vector<ll> sqrt_fraction(ll n){
     set<tuple<ll, ll, ll>> s;
     vector<ll> ret;
