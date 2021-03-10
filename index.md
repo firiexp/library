@@ -189,6 +189,9 @@ data:
       path: math/ntt.cpp
       title: math/ntt.cpp
     - icon: ':warning:'
+      path: math/pell_equation.cpp
+      title: math/pell_equation.cpp
+    - icon: ':warning:'
       path: math/pow.cpp
       title: math/pow.cpp
     - icon: ':warning:'
