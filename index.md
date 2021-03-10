@@ -174,6 +174,9 @@ data:
       path: math/get_prime_wheel.cpp
       title: math/get_prime_wheel.cpp
     - icon: ':warning:'
+      path: math/isqrt.cpp
+      title: math/isqrt.cpp
+    - icon: ':warning:'
       path: math/matrix.cpp
       title: math/matrix.cpp
     - icon: ':warning:'
