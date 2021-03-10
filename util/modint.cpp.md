@@ -5,6 +5,9 @@ data:
   - icon: ':warning:'
     path: math/factorial.cpp
     title: math/factorial.cpp
+  - icon: ':warning:'
+    path: math/gauss_jordan_mint.cpp
+    title: math/gauss_jordan_mint.cpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0399.test.cpp
@@ -83,6 +86,7 @@ data:
   isVerificationFile: false
   path: util/modint.cpp
   requiredBy:
+  - math/gauss_jordan_mint.cpp
   - math/factorial.cpp
   timestamp: '2020-09-10 16:12:25+09:00'
   verificationStatus: LIBRARY_ALL_AC

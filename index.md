@@ -165,6 +165,9 @@ data:
       path: math/garner.cpp
       title: math/garner.cpp
     - icon: ':warning:'
+      path: math/gauss_jordan_mint.cpp
+      title: math/gauss_jordan_mint.cpp
+    - icon: ':warning:'
       path: math/get_prime.cpp
       title: math/get_prime.cpp
     - icon: ':warning:'
