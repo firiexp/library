@@ -1,4 +1,4 @@
-vector<ll> fraction_expantion(ll n){
+vector<ll> sqrt_fraction(ll n){
     set<tuple<ll, ll, ll>> s;
     vector<ll> ret;
     ll sq = Isqrt(n);
@@ -17,7 +17,7 @@ vector<ll> fraction_expantion(ll n){
 }
 
 pair<ll, ll> pell_equation(ll d){ // solve x^2 - dy^2 = 1
-    auto li = fraction_expantion(d);
+    auto li = sqrt_fraction(d);
     if(li.size() <= 1) return {0, 0};
     li.pop_back();
     ll p = li.back(), q = 1;
