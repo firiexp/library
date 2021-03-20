@@ -291,6 +291,9 @@ data:
       path: util/parse.cpp
       title: util/parse.cpp
     - icon: ':warning:'
+      path: util/rle.cpp
+      title: util/rle.cpp
+    - icon: ':warning:'
       path: util/uniq.cpp
       title: util/uniq.cpp
     - icon: ':heavy_check_mark:'
