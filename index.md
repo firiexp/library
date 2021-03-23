@@ -218,6 +218,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: math/squarematrix.cpp
+    - icon: ':warning:'
+      path: math/tetration.cpp
+      title: math/tetration.cpp
   - name: string
     pages:
     - icon: ':warning:'
