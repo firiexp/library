@@ -182,7 +182,7 @@ data:
     - icon: ':warning:'
       path: math/matrix.cpp
       title: math/matrix.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/miller_rabin.cpp
       title: math/miller_rabin.cpp
     - icon: ':warning:'
@@ -413,5 +413,8 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yuki1358.test.cpp
       title: test/yuki1358.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yuki3030.test.cpp
+      title: test/yuki3030.test.cpp
 layout: toppage
 ---

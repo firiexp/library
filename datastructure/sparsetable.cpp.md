@@ -46,8 +46,8 @@ data:
   isVerificationFile: false
   path: datastructure/sparsetable.cpp
   requiredBy:
-  - tree/LCA.cpp
   - tree/auxtree.cpp
+  - tree/LCA.cpp
   timestamp: '2020-10-13 14:23:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
