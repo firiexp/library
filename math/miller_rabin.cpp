@@ -26,7 +26,7 @@ bool miller_rabin(T m){
     uint64_t d = n - 1, s = 0;
     while (!(d&1)) {++s; d >>= 1;}
     vector<uint64_t> v = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};
-    if(n <= 4759123141LL) v = {2, 7, 61};
+    if(n < 4759123141LL) v = {2, 7, 61};
     for (auto &&p : v) {
         if(p >= n) break;
         if(!suspect(p, s, d, n)) return false;
