@@ -186,6 +186,9 @@ data:
       path: math/miller_rabin.cpp
       title: math/miller_rabin.cpp
     - icon: ':warning:'
+      path: math/miller_rabin_fast.cpp
+      title: math/miller_rabin_fast.cpp
+    - icon: ':warning:'
       path: math/mobius_all.cpp
       title: math/mobius_all.cpp
     - icon: ':warning:'
