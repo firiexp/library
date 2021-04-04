@@ -35,18 +35,19 @@ int main() {
     for (int i = 0; i < k; ++i) {
         a[i+1] = a[i] + dp[i+1];
     }
-    map<ll, mint> memo;
+    vector<mint> memo(n/k+1);
+    vector<bool> calced(n/k+1);
     mint pp = mint(2).inv();
     auto rec = [&](ll x, auto &&f) -> mint {
         if(x <= k) return a[x];
-        if(memo.count(x)) return memo[x];
+        if(calced[n/x]) return memo[n/x];
         auto res = mint(x)*mint(x+1)*pp;
         for (ll i = 2; i <= x; ++i) {
             ll j = x/i, newi = (i > j ? x/j : i);
             res -= mint(newi-i+1)*f(x/i, f);
             i = newi;
         }
-        return memo[x] = res;
+        return calced[n/x] = 1, memo[n/x] = res;
     };
     cout << rec(n, rec).val << "\n";
     return 0;
