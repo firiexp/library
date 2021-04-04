@@ -51,13 +51,13 @@ data:
     \ if(dp[i] != i) continue;\n        for (int j = i; j <= k; j += i) {\n      \
     \      dp[j] = dp[j]/i*(i-1);\n        }\n    }\n    vector<mint> a(k+1);\n  \
     \  for (int i = 0; i < k; ++i) {\n        a[i+1] = a[i] + dp[i+1];\n    }\n  \
-    \  vector<mint> memo(n/k+1);\n    vector<bool> calced(n/k+1);\n    mint pp = mint(2).inv();\n\
-    \    auto rec = [&](ll x, auto &&f) -> mint {\n        if(x <= k) return a[x];\n\
-    \        if(calced[n/x]) return memo[n/x];\n        auto res = mint(x)*mint(x+1)*pp;\n\
-    \        for (ll i = 2; i <= x; ++i) {\n            ll j = x/i, newi = (i > j\
-    \ ? x/j : i);\n            res -= mint(newi-i+1)*f(x/i, f);\n            i = newi;\n\
-    \        }\n        return calced[n/x] = 1, memo[n/x] = res;\n    };\n    cout\
-    \ << rec(n, rec).val << \"\\n\";\n    return 0;\n}\n"
+    \  map<ll, mint> memo;\n    mint pp = mint(2).inv();\n    auto rec = [&](ll x,\
+    \ auto &&f) -> mint {\n        if(x <= k) return a[x];\n        if(memo.count(x))\
+    \ return memo[x];\n        auto res = mint(x)*mint(x+1)*pp;\n        for (ll i\
+    \ = 2; i <= x; ++i) {\n            ll j = x/i, newi = (i > j ? x/j : i);\n   \
+    \         res -= mint(newi-i+1)*f(x/i, f);\n            i = newi;\n        }\n\
+    \        return memo[x] = res;\n    };\n    cout << rec(n, rec).val << \"\\n\"\
+    ;\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sum_of_totient_function\"\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
@@ -69,20 +69,19 @@ data:
     \ 0);\n    for (int i = 2; i <= k; ++i) {\n        if(dp[i] != i) continue;\n\
     \        for (int j = i; j <= k; j += i) {\n            dp[j] = dp[j]/i*(i-1);\n\
     \        }\n    }\n    vector<mint> a(k+1);\n    for (int i = 0; i < k; ++i) {\n\
-    \        a[i+1] = a[i] + dp[i+1];\n    }\n    vector<mint> memo(n/k+1);\n    vector<bool>\
-    \ calced(n/k+1);\n    mint pp = mint(2).inv();\n    auto rec = [&](ll x, auto\
-    \ &&f) -> mint {\n        if(x <= k) return a[x];\n        if(calced[n/x]) return\
-    \ memo[n/x];\n        auto res = mint(x)*mint(x+1)*pp;\n        for (ll i = 2;\
-    \ i <= x; ++i) {\n            ll j = x/i, newi = (i > j ? x/j : i);\n        \
-    \    res -= mint(newi-i+1)*f(x/i, f);\n            i = newi;\n        }\n    \
-    \    return calced[n/x] = 1, memo[n/x] = res;\n    };\n    cout << rec(n, rec).val\
-    \ << \"\\n\";\n    return 0;\n}"
+    \        a[i+1] = a[i] + dp[i+1];\n    }\n    map<ll, mint> memo;\n    mint pp\
+    \ = mint(2).inv();\n    auto rec = [&](ll x, auto &&f) -> mint {\n        if(x\
+    \ <= k) return a[x];\n        if(memo.count(x)) return memo[x];\n        auto\
+    \ res = mint(x)*mint(x+1)*pp;\n        for (ll i = 2; i <= x; ++i) {\n       \
+    \     ll j = x/i, newi = (i > j ? x/j : i);\n            res -= mint(newi-i+1)*f(x/i,\
+    \ f);\n            i = newi;\n        }\n        return memo[x] = res;\n    };\n\
+    \    cout << rec(n, rec).val << \"\\n\";\n    return 0;\n}"
   dependsOn:
   - util/modint.cpp
   isVerificationFile: true
   path: test/yosupo_sum_of_totient.test.cpp
   requiredBy: []
-  timestamp: '2021-04-04 13:04:08+09:00'
+  timestamp: '2021-03-05 23:15:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_sum_of_totient.test.cpp
