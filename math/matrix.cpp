@@ -1,5 +1,6 @@
-template<class T>
+template<class H>
 struct matrix {
+    using T = typename H::T;
     vector<vector<T>> A;
     matrix() = default;
     matrix(size_t n, size_t m) : A(n, vector<T>(m)) {}
@@ -20,7 +21,7 @@ struct matrix {
         size_t h = height(), w = width();
         for (int i = 0; i < h; ++i) {
             for (int j = 0; j < w; ++j) {
-                (*this)[i][j] += B[i][j];
+                add((*this)[i][j], B[i][j]);
             }
         }
     }
@@ -29,19 +30,18 @@ struct matrix {
         size_t h = height(), w = width();
         for (int i = 0; i < h; ++i) {
             for (int j = 0; j < w; ++j) {
-                (*this)[i][j] -= B[i][j];
+                add((*this)[i][j], -B[i][j]);
             }
         }
     }
 
-    matrix &operator*=(const matrix &B)
-    {
+    matrix &operator*=(const matrix &B) {
         size_t n = height(), m = B.width(), p = width();
-        matrix C (n, m);
+        matrix C(n, m);
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < m; ++j) {
                 for (int k = 0; k < p; ++k) {
-                    C[i][j] = (C[i][j] + (*this)[i][k] * B[k][j]);
+                    add(C[i][j], mul((*this)[i][k],B[k][j]));
                 }
             }
         }
@@ -49,28 +49,56 @@ struct matrix {
         return (*this);
     }
 
-    template <class U>
-    matrix &operator%= (const U &m){
-        for (int i = 0; i < height(); ++i) {
-            for (int j = 0; j < width(); ++j) {
-                (*this)[i][j] %= m;
-            }
-        }
-    }
-
     matrix pow(ll n) const {
         matrix a = (*this), res = I(height());
         while(n > 0){
-            if(n & 1) res *= a;
-            a *= a;
+            if(n & 1) mul(res, a);
+            mul(a, a);
             n >>= 1;
         }
         return res;
     }
-    matrix operator+(const matrix &A) const {return matrix(*this) += A;}
-    matrix operator-(const matrix &A) const {return matrix(*this) -= A;}
-    matrix operator*(const matrix &A) const {return matrix(*this) *= A;}
-    template <class U>
-    matrix operator%(const U &m) const {return matrix(*this) %= m;}
+    matrix operator+(const matrix &B) const {return matrix(*this) += B;}
+    matrix operator-(const matrix &B) const {return matrix(*this) -= B;}
+    matrix operator*(const matrix &B) const {return matrix(*this) *= B;}
 
+    mint detarminant(){
+        mint res = 1;
+        int rank = 0;
+        for (int c = 0; c < width(); ++c) {
+            int k = -1;
+            for (int i = rank; i < height(); ++i) {
+                if(A[i][c] != H::zero()){
+                    k = i;
+                    break;
+                }
+            }
+            if(!~k) continue;
+            swap(A[k], A[rank]);
+            res *= A[rank][c];
+            T x = T(1)/A[rank][c];
+            for (int j = 0; j < width(); ++j) A[rank][j] *= x;
+            for (int i = 0; i < height(); ++i) {
+                if(i != rank && A[i][c] != H::zero()){
+                    T coeff = A[i][c];
+                    for (int j = 0; j < width(); ++j) {
+                        A[i][j] -= A[rank][j]*coeff;
+                    }
+                }
+            }
+            rank++;
+        }
+        for (int i = 0; i < min(width(), height()); ++i) {
+            res *= A[i][i];
+        }
+        return res;
+    }
+};
+
+struct SemiRing {
+    using T = mint;
+    static inline T mul(T x, T y){ return x * y; }
+    static inline void add(T &x, T y){ x += y; }
+    static inline T one(){ return 1; }
+    static inline T zero(){ return 0; }
 };
