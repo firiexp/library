@@ -75,6 +75,9 @@ data:
       title: fps/nth_term.cpp
   - name: geometry
     pages:
+    - icon: ':warning:'
+      path: geometry/argsort.cpp
+      title: geometry/argsort.cpp
     - icon: ':heavy_check_mark:'
       path: geometry/dualgraph.cpp
       title: "\u53CC\u5BFE\u30B0\u30E9\u30D5\u306E\u69CB\u7BC9"
