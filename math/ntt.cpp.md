@@ -179,8 +179,8 @@ data:
   timestamp: '2020-11-24 21:58:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0452.test.cpp
   - test/yosupo_convolution.test.cpp
+  - test/aoj0452.test.cpp
 documentation_of: math/ntt.cpp
 layout: document
 redirect_from:

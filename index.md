@@ -6,6 +6,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/ahocorasick.cpp
       title: "Aho-Corasick\u6CD5"
+    - icon: ':warning:'
+      path: datastructure/binaryheap.cpp
+      title: datastructure/binaryheap.cpp
     - icon: ':heavy_check_mark:'
       path: datastructure/binaryindexedtree.cpp
       title: datastructure/binaryindexedtree.cpp
