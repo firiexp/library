@@ -4,7 +4,13 @@ struct SquareMatrix {
     using ar = array<T, SIZE>;
     using mat = array<ar, SIZE>;
     mat A;
-    SquareMatrix() = default;
+    SquareMatrix() {
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+                A[i][j] = H::zero();
+            }
+        }
+    }
     static SquareMatrix I(){
         SquareMatrix X;
         for (int i = 0; i < SIZE; ++i) {
@@ -15,18 +21,13 @@ struct SquareMatrix {
         }
         return X;
     }
-    static SquareMatrix O(){
-        SquareMatrix X;
-        for (auto &&i : X.A) fill(i.begin(),i.end(), H::zero());
-        return X;
-    }
 
     friend ar operator*=(ar &x, const SquareMatrix &Y) {
         ar ans;
-        fill(ans.begin(),ans.end(), H::zero());
+        fill(begin(ans), end(ans), mint(0));
         for (int i = 0; i < SIZE; ++i) {
             for (int j = 0; j < SIZE; ++j) {
-                H::add(ans[j], H::mul(x[i], Y[i][j]));
+                 H::add(ans[j], H::mul(x[i], Y[i][j]));
             }
         }
         x.swap(ans);
@@ -55,7 +56,7 @@ struct SquareMatrix {
     }
 
     SquareMatrix &operator*=(const SquareMatrix &B) {
-        SquareMatrix C = O();
+        SquareMatrix C{};
         for (int i = 0; i < SIZE; ++i) {
             for (int k = 0; k < SIZE; ++k) {
                 for (int j = 0; j < SIZE; ++j) {
@@ -69,6 +70,7 @@ struct SquareMatrix {
 
     SquareMatrix pow(ll n) const {
         SquareMatrix a = (*this), res = I();
+
         while(n > 0){
             if(n & 1) res *= a;
             a *= a;
@@ -80,15 +82,14 @@ struct SquareMatrix {
     SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this) -= B;}
     SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this) *= B;}
 };
-/*
+
 struct SemiRing {
-    using T = double;
+    using T = mint;
     static inline T mul(T x, T y){ return x * y; }
     static inline void add(T &x, T y){ x += y; }
-    static inline T one(){ return 1.0; }
-    static inline T zero(){ return 0.0; }
+    static inline T one(){ return 1; }
+    static inline T zero(){ return 0; }
 };
 
-using ar = array<SemiRing::T, 2>;
-using mat = SquareMatrix<SemiRing, 2>;
-*/
+using ar = array<SemiRing::T, 64>;
+using mat = SquareMatrix<SemiRing, 64>;
