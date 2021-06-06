@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0399.test.cpp
     title: test/aoj0399.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/squarematrix.cpp\"\ntemplate<class H, size_t SIZE>\n\
@@ -22,7 +22,7 @@ data:
     \    }\n        }\n        return X;\n    }\n\n    friend ar operator*=(ar &x,\
     \ const SquareMatrix &Y) {\n        ar ans;\n        fill(begin(ans), end(ans),\
     \ mint(0));\n        for (int i = 0; i < SIZE; ++i) {\n            for (int j\
-    \ = 0; j < SIZE; ++j) {\n                 H::add(ans[j], H::mul(x[i], Y[i][j]));\n\
+    \ = 0; j < SIZE; ++j) {\n                H::add(ans[j], H::mul(x[i], Y[i][j]));\n\
     \            }\n        }\n        x.swap(ans);\n        return x;\n    }\n  \
     \  friend ar operator*(ar x, const SquareMatrix &Y) { return x *= Y; }\n\n   \
     \ inline const ar &operator[](int k) const{ return (A.at(k)); }\n    inline ar\
@@ -44,11 +44,7 @@ data:
     \ operator+(const SquareMatrix &B) const {return SquareMatrix(*this) += B;}\n\
     \    SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this)\
     \ -= B;}\n    SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this)\
-    \ *= B;}\n};\n\nstruct SemiRing {\n    using T = mint;\n    static inline T mul(T\
-    \ x, T y){ return x * y; }\n    static inline void add(T &x, T y){ x += y; }\n\
-    \    static inline T one(){ return 1; }\n    static inline T zero(){ return 0;\
-    \ }\n};\n\nusing ar = array<SemiRing::T, 64>;\nusing mat = SquareMatrix<SemiRing,\
-    \ 64>;\n"
+    \ *= B;}\n};\n"
   code: "template<class H, size_t SIZE>\nstruct SquareMatrix {\n    using T = typename\
     \ H::T;\n    using ar = array<T, SIZE>;\n    using mat = array<ar, SIZE>;\n  \
     \  mat A;\n    SquareMatrix() {\n        for (int i = 0; i < SIZE; ++i) {\n  \
@@ -60,8 +56,8 @@ data:
     \    }\n\n    friend ar operator*=(ar &x, const SquareMatrix &Y) {\n        ar\
     \ ans;\n        fill(begin(ans), end(ans), mint(0));\n        for (int i = 0;\
     \ i < SIZE; ++i) {\n            for (int j = 0; j < SIZE; ++j) {\n           \
-    \      H::add(ans[j], H::mul(x[i], Y[i][j]));\n            }\n        }\n    \
-    \    x.swap(ans);\n        return x;\n    }\n    friend ar operator*(ar x, const\
+    \     H::add(ans[j], H::mul(x[i], Y[i][j]));\n            }\n        }\n     \
+    \   x.swap(ans);\n        return x;\n    }\n    friend ar operator*(ar x, const\
     \ SquareMatrix &Y) { return x *= Y; }\n\n    inline const ar &operator[](int k)\
     \ const{ return (A.at(k)); }\n    inline ar &operator[](int k) { return (A.at(k));\
     \ }\n    SquareMatrix &operator+= (const SquareMatrix &B){\n        for (int i\
@@ -81,17 +77,13 @@ data:
     \        return res;\n    }\n    SquareMatrix operator+(const SquareMatrix &B)\
     \ const {return SquareMatrix(*this) += B;}\n    SquareMatrix operator-(const SquareMatrix\
     \ &B) const {return SquareMatrix(*this) -= B;}\n    SquareMatrix operator*(const\
-    \ SquareMatrix &B) const {return SquareMatrix(*this) *= B;}\n};\n\nstruct SemiRing\
-    \ {\n    using T = mint;\n    static inline T mul(T x, T y){ return x * y; }\n\
-    \    static inline void add(T &x, T y){ x += y; }\n    static inline T one(){\
-    \ return 1; }\n    static inline T zero(){ return 0; }\n};\n\nusing ar = array<SemiRing::T,\
-    \ 64>;\nusing mat = SquareMatrix<SemiRing, 64>;\n"
+    \ SquareMatrix &B) const {return SquareMatrix(*this) *= B;}\n};"
   dependsOn: []
   isVerificationFile: false
   path: math/squarematrix.cpp
   requiredBy: []
-  timestamp: '2021-06-06 22:51:17+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2021-06-06 22:54:13+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0399.test.cpp
 documentation_of: math/squarematrix.cpp

@@ -224,7 +224,7 @@ data:
     - icon: ':warning:'
       path: math/primitive_root.cpp
       title: math/primitive_root.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: math/squarematrix.cpp
     - icon: ':warning:'
@@ -293,7 +293,7 @@ data:
     - icon: ':warning:'
       path: util/mo.cpp
       title: util/mo.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
@@ -344,7 +344,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0396.test.cpp
       title: test/aoj0396.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aoj0399.test.cpp
       title: test/aoj0399.test.cpp
     - icon: ':heavy_check_mark:'

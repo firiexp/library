@@ -9,7 +9,7 @@ data:
     path: math/gauss_jordan_mint.cpp
     title: math/gauss_jordan_mint.cpp
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0399.test.cpp
     title: test/aoj0399.test.cpp
   - icon: ':heavy_check_mark:'
@@ -27,9 +27,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_totient.test.cpp
     title: test/yosupo_sum_of_totient.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/modint.md
     document_title: "modint(\u56FA\u5B9AMOD)"
@@ -89,7 +89,7 @@ data:
   - math/factorial.cpp
   - math/gauss_jordan_mint.cpp
   timestamp: '2020-09-10 16:12:25+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_sum_of_totient.test.cpp
   - test/aoj0399.test.cpp
