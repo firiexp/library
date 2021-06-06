@@ -27,7 +27,7 @@ struct SquareMatrix {
         fill(begin(ans), end(ans), mint(0));
         for (int i = 0; i < SIZE; ++i) {
             for (int j = 0; j < SIZE; ++j) {
-                 H::add(ans[j], H::mul(x[i], Y[i][j]));
+                H::add(ans[j], H::mul(x[i], Y[i][j]));
             }
         }
         x.swap(ans);
@@ -82,14 +82,3 @@ struct SquareMatrix {
     SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this) -= B;}
     SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this) *= B;}
 };
-
-struct SemiRing {
-    using T = mint;
-    static inline T mul(T x, T y){ return x * y; }
-    static inline void add(T &x, T y){ x += y; }
-    static inline T one(){ return 1; }
-    static inline T zero(){ return 0; }
-};
-
-using ar = array<SemiRing::T, 64>;
-using mat = SquareMatrix<SemiRing, 64>;
