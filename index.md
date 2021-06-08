@@ -411,6 +411,9 @@ data:
       path: test/yosupo_shortest_path_radix_heap.test.cpp
       title: test/yosupo_shortest_path_radix_heap.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_suffix_array.test.cpp
+      title: test/yosupo_suffix_array.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_floor_of_linear.test.cpp
       title: test/yosupo_sum_of_floor_of_linear.test.cpp
     - icon: ':heavy_check_mark:'

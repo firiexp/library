@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_number_of_substrings.test.cpp
     title: test/yosupo_number_of_substrings.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_suffix_array.test.cpp
+    title: test/yosupo_suffix_array.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -115,6 +118,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_number_of_substrings.test.cpp
+  - test/yosupo_suffix_array.test.cpp
 documentation_of: string/suffix_array.cpp
 layout: document
 redirect_from:
