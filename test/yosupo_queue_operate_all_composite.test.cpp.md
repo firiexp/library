@@ -1,21 +1,24 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/swag.cpp
     title: datastructure/swag.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    links: []
-  bundledCode: "#line 1 \"test/yosupo_queue_operate_all_composite.test.cpp\"\n#include\
+    PROBLEM: https://judge.yosupo.jp/problem/queue_operate_all_composite
+    links:
+    - https://judge.yosupo.jp/problem/queue_operate_all_composite
+  bundledCode: "#line 1 \"test/yosupo_queue_operate_all_composite.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/queue_operate_all_composite\"\n#include\
     \ <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n#include\
     \ <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n\
     #include <cmath>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\n\
@@ -44,7 +47,7 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 21\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 22\
     \ \"test/yosupo_queue_operate_all_composite.test.cpp\"\n\n#line 1 \"datastructure/swag.cpp\"\
     \ntemplate<class G>\nclass SWAG {\n    using T = typename G::T;\n    vector<T>\
     \ in, out, insum, outsum;\npublic:\n    SWAG() : in(0), out(0), insum(1, G::e()),\
@@ -56,7 +59,7 @@ data:
     \ outsum.pop_back();\n    }\n\n    T fold(){\n        return G::f(outsum.back(),\
     \ insum.back());\n    }\n};\n/*\nstruct Monoid {\n    using T = int;\n    static\
     \ T f(T a, T b) { return a+b; }\n    static T e() { return 0; }\n};\n*/\n#line\
-    \ 23 \"test/yosupo_queue_operate_all_composite.test.cpp\"\n\nstruct SemiGroup\
+    \ 24 \"test/yosupo_queue_operate_all_composite.test.cpp\"\n\nstruct SemiGroup\
     \ {\n    using T = pair<mint, mint>;\n    static T f(T a, T b) { return {a.first*b.first,\
     \ a.second*b.first + b.second}; }\n    static T e() { return {1, 0}; }\n};\n\n\
     int main() {\n    int q;\n    cin >> q;\n    SWAG<SemiGroup> Q;\n    while(q--){\n\
@@ -66,7 +69,8 @@ data:
     \   int x; scanf(\"%d\", &x);\n            auto ret = Q.fold();\n            printf(\"\
     %d\\n\", (ret.first*mint(x) + ret.second).val);\n        }\n    }\n    return\
     \ 0;\n}\n"
-  code: "#include <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n\
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/queue_operate_all_composite\"\
+    \n#include <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n\
     #include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include\
     \ <bitset>\n#include <cmath>\n\nstatic const int MOD = 998244353;\nusing ll =\
     \ long long;\nusing u32 = unsigned;\nusing u64 = unsigned long long;\nusing namespace\
@@ -87,8 +91,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2021-06-09 00:15:20+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-06-09 00:17:00+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_queue_operate_all_composite.test.cpp
 layout: document

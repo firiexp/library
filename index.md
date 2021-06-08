@@ -42,7 +42,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/sparsetable.cpp
       title: datastructure/sparsetable.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/swag.cpp
       title: datastructure/swag.cpp
     - icon: ':warning:'
@@ -293,7 +293,7 @@ data:
     - icon: ':warning:'
       path: util/mo.cpp
       title: util/mo.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
@@ -395,7 +395,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_queue_operate_all_composite.test.cpp
       title: test/yosupo_queue_operate_all_composite.test.cpp
     - icon: ':heavy_check_mark:'
