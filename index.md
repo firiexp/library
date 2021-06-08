@@ -132,7 +132,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/twoedgeconnectedcomponents.cpp
       title: graph/twoedgeconnectedcomponents.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: graph/twosat.cpp
       title: graph/twosat.cpp
   - name: math
@@ -419,6 +419,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_totient.test.cpp
       title: test/yosupo_sum_of_totient.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_twosat.test.cpp
+      title: test/yosupo_twosat.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind.test.cpp
       title: test/yosupo_unionfind.test.cpp
