@@ -21,15 +21,18 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_queue_operate_all_composite.test.cpp
+    title: test/yosupo_queue_operate_all_composite.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_totient.test.cpp
     title: test/yosupo_sum_of_totient.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     _deprecated_at_docs: _md/modint.md
     document_title: "modint(\u56FA\u5B9AMOD)"
@@ -89,7 +92,7 @@ data:
   - math/factorial.cpp
   - math/gauss_jordan_mint.cpp
   timestamp: '2020-09-10 16:12:25+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_sum_of_totient.test.cpp
   - test/aoj0399.test.cpp
@@ -97,6 +100,7 @@ data:
   - test/aoj2257.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
+  - test/yosupo_queue_operate_all_composite.test.cpp
 documentation_of: util/modint.cpp
 layout: document
 redirect_from:
