@@ -227,7 +227,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: math/squarematrix.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/tetration.cpp
       title: math/tetration.cpp
   - name: string
@@ -422,6 +422,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_totient.test.cpp
       title: test/yosupo_sum_of_totient.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_tetration_mod.test.cpp
+      title: test/yosupo_tetration_mod.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_twosat.test.cpp
       title: test/yosupo_twosat.test.cpp

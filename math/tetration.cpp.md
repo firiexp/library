@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_tetration_mod.test.cpp
+    title: test/yosupo_tetration_mod.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/tetration.cpp\"\nll totient(ll n){\n    ll res = n;\n\
@@ -41,8 +44,9 @@ data:
   path: math/tetration.cpp
   requiredBy: []
   timestamp: '2021-03-23 22:28:05+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_tetration_mod.test.cpp
 documentation_of: math/tetration.cpp
 layout: document
 redirect_from:
