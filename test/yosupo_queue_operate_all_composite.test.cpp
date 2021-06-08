@@ -1,3 +1,4 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/queue_operate_all_composite"
 #include <iostream>
 #include <algorithm>
 #include <iomanip>
