@@ -31,6 +31,7 @@
 "test/yosupo_scc.test.cpp": "2020-09-13 16:56:31 +0900",
 "test/yosupo_shortest_path.test.cpp": "2020-05-02 12:45:39 +0900",
 "test/yosupo_shortest_path_radix_heap.test.cpp": "2020-05-02 12:50:18 +0900",
+"test/yosupo_suffix_array.test.cpp": "2021-06-08 23:33:29 +0900",
 "test/yosupo_sum_of_floor_of_linear.test.cpp": "2020-09-10 21:23:43 +0900",
 "test/yosupo_sum_of_totient.test.cpp": "2021-04-04 13:48:01 +0900",
 "test/yosupo_unionfind.test.cpp": "2020-09-09 23:04:12 +0900",
