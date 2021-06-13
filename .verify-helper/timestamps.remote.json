@@ -35,6 +35,7 @@
 "test/yosupo_suffix_array.test.cpp": "2021-06-08 23:33:29 +0900",
 "test/yosupo_sum_of_floor_of_linear.test.cpp": "2020-09-10 21:23:43 +0900",
 "test/yosupo_sum_of_totient.test.cpp": "2021-04-04 13:48:01 +0900",
+"test/yosupo_tetration_mod.test.cpp": "2021-06-09 00:29:05 +0900",
 "test/yosupo_twosat.test.cpp": "2021-06-09 00:02:19 +0900",
 "test/yosupo_unionfind.test.cpp": "2020-09-09 23:04:12 +0900",
 "test/yuki1358.test.cpp": "2021-01-23 19:32:23 +0900",
