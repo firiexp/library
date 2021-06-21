@@ -8,8 +8,8 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"math/fft3.cpp\"\ntemplate<u32 M = 1000000007>\nstruct modint{\n\
-    \    u32 val;\n    modint(): val(0){}\n    template<typename T>\n    modint(T\
+  bundledCode: "#line 1 \"math/fft3.cpp\"\ntemplate<uint M = 1000000007>\nstruct modint{\n\
+    \    uint val;\n    modint(): val(0){}\n    template<typename T>\n    modint(T\
     \ t){t %= (T)M; if(t < 0) t += (T)M; val = t;}\n\n    modint pow(ll k) const {\n\
     \        modint res(1), x(val);\n        while(k){\n            if(k&1) res *=\
     \ x;\n            x *= x;\n            k >>= 1;\n        }\n        return res;\n\
@@ -17,7 +17,7 @@ data:
     \ 0) t += (T)M; val = t; return *this; }\n    modint inv() const {return pow(M-2);}\n\
     \    modint& operator+=(modint a){ val += a.val; if(val >= M) val -= M; return\
     \ *this;}\n    modint& operator-=(modint a){ if(val < a.val) val += M-a.val; else\
-    \ val -= a.val; return *this;}\n    modint& operator*=(modint a){ val = (u64)val*a.val%M;\
+    \ val -= a.val; return *this;}\n    modint& operator*=(modint a){ val = (ull)val*a.val%M;\
     \ return *this;}\n    modint& operator/=(modint a){ return (*this) *= a.inv();}\n\
     \    modint operator+(modint a) const {return modint(val) +=a;}\n    modint operator-(modint\
     \ a) const {return modint(val) -=a;}\n    modint operator*(modint a) const {return\
@@ -97,7 +97,7 @@ data:
     \ = 0; i < k/2; ++i) {\n                nr[i] = (r[i]+r[i]-nr[i]);\n         \
     \       nr[i+k/2] = -nr[i+k/2];\n            }\n            r = nr;\n        }\n\
     \        r.v.resize(n);\n        return r;\n    }\n};\n"
-  code: "template<u32 M = 1000000007>\nstruct modint{\n    u32 val;\n    modint():\
+  code: "template<uint M = 1000000007>\nstruct modint{\n    uint val;\n    modint():\
     \ val(0){}\n    template<typename T>\n    modint(T t){t %= (T)M; if(t < 0) t +=\
     \ (T)M; val = t;}\n\n    modint pow(ll k) const {\n        modint res(1), x(val);\n\
     \        while(k){\n            if(k&1) res *= x;\n            x *= x;\n     \
@@ -106,7 +106,7 @@ data:
     \ *this; }\n    modint inv() const {return pow(M-2);}\n    modint& operator+=(modint\
     \ a){ val += a.val; if(val >= M) val -= M; return *this;}\n    modint& operator-=(modint\
     \ a){ if(val < a.val) val += M-a.val; else val -= a.val; return *this;}\n    modint&\
-    \ operator*=(modint a){ val = (u64)val*a.val%M; return *this;}\n    modint& operator/=(modint\
+    \ operator*=(modint a){ val = (ull)val*a.val%M; return *this;}\n    modint& operator/=(modint\
     \ a){ return (*this) *= a.inv();}\n    modint operator+(modint a) const {return\
     \ modint(val) +=a;}\n    modint operator-(modint a) const {return modint(val)\
     \ -=a;}\n    modint operator*(modint a) const {return modint(val) *=a;}\n    modint\
@@ -190,7 +190,7 @@ data:
   isVerificationFile: false
   path: math/fft3.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: math/fft3.cpp

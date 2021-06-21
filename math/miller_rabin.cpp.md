@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki3030.test.cpp
     title: test/yuki3030.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/miller_rabin.cpp\"\ntemplate< class T>\nT pow_ (T x,\
@@ -41,7 +41,7 @@ data:
   path: math/miller_rabin.cpp
   requiredBy: []
   timestamp: '2021-03-26 19:37:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yuki3030.test.cpp
 documentation_of: math/miller_rabin.cpp

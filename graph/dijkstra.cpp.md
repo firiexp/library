@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/dijkstra.md
     document_title: "Dijkstra\u6CD5"
@@ -41,7 +41,7 @@ data:
   path: graph/dijkstra.cpp
   requiredBy: []
   timestamp: '2020-05-02 12:45:39+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_shortest_path.test.cpp
 documentation_of: graph/dijkstra.cpp

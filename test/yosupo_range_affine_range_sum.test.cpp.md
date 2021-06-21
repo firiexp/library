@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/lazysegtree.cpp
     title: datastructure/lazysegtree.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
@@ -21,7 +21,7 @@ data:
     \ \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\n#include <iostream>\n\
     #include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n#include\
     \ <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\nstatic const\
-    \ int MOD = 998244353;\nusing ll = long long;\nusing u32 = unsigned;\nusing u64\
+    \ int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\nusing namespace std;\n#line 1 \"datastructure/lazysegtree.cpp\"\
     \ntemplate <class M>\nstruct LazySegmentTree{\n    using T = typename M::T;\n\
     \    using L = typename M::L;\n    int sz, n, height{};\n    vector<T> seg; vector<L>\
@@ -67,10 +67,10 @@ data:
     \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
     \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
     \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
-    \ { return {1, 0}; }\n};\n*/\n#line 1 \"util/modint.cpp\"\ntemplate <u32 M>\n\
-    struct modint {\n    u32 val;\npublic:\n    static modint raw(int v) { modint\
+    \ { return {1, 0}; }\n};\n*/\n#line 1 \"util/modint.cpp\"\ntemplate <uint M>\n\
+    struct modint {\n    uint val;\npublic:\n    static modint raw(int v) { modint\
     \ x; x.val = v; return x; }\n    modint() : val(0) {}\n    template <class T>\n\
-    \    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = u32(x); }\n\
+    \    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n\
     \    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
     \ { val++; if (val == M) val = 0; return *this; }\n    modint& operator--() {\
     \ if (val == 0) val = M; val--; return *this; }\n    modint operator++(int) {\
@@ -78,8 +78,8 @@ data:
     \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
     \ modint& b) { val += b.val; if (val >= M) val -= M; return *this; }\n    modint&\
     \ operator-=(const modint& b) { val -= b.val; if (val >= M) val += M; return *this;\
-    \ }\n    modint& operator*=(const modint& b) { u64 z = val; z *= b.val; val =\
-    \ (u32)(z % M); return *this; }\n    modint& operator/=(const modint& b) { return\
+    \ }\n    modint& operator*=(const modint& b) { ull z = val; z *= b.val; val =\
+    \ (uint)(z % M); return *this; }\n    modint& operator/=(const modint& b) { return\
     \ *this = *this * b.inv(); }\n    modint operator+() const { return *this; }\n\
     \    modint operator-() const { return modint() - *this; }\n    modint pow(long\
     \ long n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *=\
@@ -109,8 +109,8 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
-    \ <cmath>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing u32\
-    \ = unsigned;\nusing u64 = unsigned long long;\nusing namespace std;\n#include\
+    \ <cmath>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint\
+    \ = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n#include\
     \ \"../datastructure/lazysegtree.cpp\"\n#include \"../util/modint.cpp\"\n\nstruct\
     \ Monoid{\n    using T = array<mint, 2>;\n    using L = array<mint, 2>;\n    static\
     \ T f(T a, T b) { return {a[0]+b[0], a[1]+b[1]}; }\n    static T g(T a, L b) {\n\
@@ -131,7 +131,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2020-10-27 21:25:47+09:00'
+  timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_range_sum.test.cpp

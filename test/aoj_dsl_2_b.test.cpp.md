@@ -18,7 +18,7 @@ data:
     \n#include <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n\
     #include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include\
     \ <bitset>\n#include <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll =\
-    \ long long;\nusing u32 = uint32_t;\nusing namespace std;\n\ntemplate<class T>\
+    \ long long;\nusing uint = uint32_t;\nusing namespace std;\n\ntemplate<class T>\
     \ constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
     \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int n, m;\npublic:\n\
     \    BIT(int n): n(n), bit(n){\n        m = 1;\n        while(m < n) m <<= 1;\n\
@@ -36,7 +36,7 @@ data:
     \n#include <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n\
     #include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include\
     \ <bitset>\n#include <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll =\
-    \ long long;\nusing u32 = uint32_t;\nusing namespace std;\n\ntemplate<class T>\
+    \ long long;\nusing uint = uint32_t;\nusing namespace std;\n\ntemplate<class T>\
     \ constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#include \"../datastructure/binaryindexedtree.cpp\"\
     \n\nint main() {\n    int n, q;\n    cin >> n >> q;\n    BIT<int> s(n);\n    for\
     \ (int i = 0; i < q; ++i) {\n        int c, x, y;\n        scanf(\"%d %d %d\"\
@@ -47,7 +47,7 @@ data:
   isVerificationFile: true
   path: test/aoj_dsl_2_b.test.cpp
   requiredBy: []
-  timestamp: '2020-09-09 23:52:42+09:00'
+  timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_2_b.test.cpp

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/swag.cpp
     title: datastructure/swag.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
@@ -22,12 +22,12 @@ data:
     \ <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n#include\
     \ <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n\
     #include <cmath>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\n\
-    using u32 = unsigned;\nusing u64 = unsigned long long;\nusing namespace std;\n\
+    using uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\
     \ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\
-    #line 1 \"util/modint.cpp\"\ntemplate <u32 M>\nstruct modint {\n    u32 val;\n\
+    #line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n    uint val;\n\
     public:\n    static modint raw(int v) { modint x; x.val = v; return x; }\n   \
     \ modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = u32(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
     \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
     \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
     \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
@@ -35,7 +35,7 @@ data:
     \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
     \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
     \ if (val >= M) val += M; return *this; }\n    modint& operator*=(const modint&\
-    \ b) { u64 z = val; z *= b.val; val = (u32)(z % M); return *this; }\n    modint&\
+    \ b) { ull z = val; z *= b.val; val = (uint)(z % M); return *this; }\n    modint&\
     \ operator/=(const modint& b) { return *this = *this * b.inv(); }\n    modint\
     \ operator+() const { return *this; }\n    modint operator-() const { return modint()\
     \ - *this; }\n    modint pow(long long n) const { modint x = *this, r = 1; while\
@@ -73,7 +73,7 @@ data:
     \n#include <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n\
     #include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include\
     \ <bitset>\n#include <cmath>\n\nstatic const int MOD = 998244353;\nusing ll =\
-    \ long long;\nusing u32 = unsigned;\nusing u64 = unsigned long long;\nusing namespace\
+    \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
     \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
     \n#include \"../util/modint.cpp\"\n\n#include \"../datastructure/swag.cpp\"\n\n\
     struct SemiGroup {\n    using T = pair<mint, mint>;\n    static T f(T a, T b)\
@@ -91,7 +91,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2021-06-09 00:17:00+09:00'
+  timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_queue_operate_all_composite.test.cpp

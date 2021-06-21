@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/floor_sum.cpp
     title: math/floor_sum.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/sum_of_floor_of_linear
@@ -18,9 +18,9 @@ data:
     \ \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\n#include <iostream>\n\
     #include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n#include\
     \ <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\nstatic const\
-    \ int MOD = 1000000007;\nusing ll = long long;\nusing u32 = unsigned;\nusing u64\
-    \ = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr T\
-    \ INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"math/floor_sum.cpp\"\
+    \ int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\nusing\
+    \ ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"math/floor_sum.cpp\"\
     \nll floor_sum(ll n, ll m, ll a, ll b){\n    ll ans = 0;\n    if(a >= m) {\n \
     \       ans += (n-1)*n/2*(a/m);\n        a %= m;\n    }\n    if (b >= m){\n  \
     \      ans += n*(b/m);\n        b %= m;\n    }\n    ll y = (a*n+b)/m, x = (y*m\
@@ -33,18 +33,19 @@ data:
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
     \ <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
-    \ u32 = unsigned;\nusing u64 = unsigned long long;\nusing namespace std;\n\ntemplate<class\
-    \ T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#include \"../math/floor_sum.cpp\"\
-    \n\nint main() {\n    int t;\n    cin >> t;\n    while(t--) {\n        ll n, m,\
-    \ a, b;\n        scanf(\"%lld %lld %lld %lld\", &n, &m, &a, &b);\n        printf(\"\
-    %lld\\n\", floor_sum(n, m, a, b));\n    }\n    return 0;\n}"
+    \ uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n\
+    template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\
+    #include \"../math/floor_sum.cpp\"\n\nint main() {\n    int t;\n    cin >> t;\n\
+    \    while(t--) {\n        ll n, m, a, b;\n        scanf(\"%lld %lld %lld %lld\"\
+    , &n, &m, &a, &b);\n        printf(\"%lld\\n\", floor_sum(n, m, a, b));\n    }\n\
+    \    return 0;\n}"
   dependsOn:
   - math/floor_sum.cpp
   isVerificationFile: true
   path: test/yosupo_sum_of_floor_of_linear.test.cpp
   requiredBy: []
-  timestamp: '2020-09-10 21:23:43+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2021-06-21 15:24:20+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_sum_of_floor_of_linear.test.cpp
 layout: document

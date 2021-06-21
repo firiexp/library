@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_sum_of_floor_of_linear.test.cpp
     title: test/yosupo_sum_of_floor_of_linear.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/floor_sum.cpp\"\nll floor_sum(ll n, ll m, ll a, ll\
@@ -27,7 +27,7 @@ data:
   path: math/floor_sum.cpp
   requiredBy: []
   timestamp: '2020-09-09 21:30:52+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_sum_of_floor_of_linear.test.cpp
 documentation_of: math/floor_sum.cpp

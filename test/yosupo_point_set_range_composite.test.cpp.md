@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/segtree.cpp
     title: datastructure/segtree.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
@@ -21,29 +21,29 @@ data:
     \ PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\n#include\
     \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
     #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
-    static const int MOD = 998244353;\nusing ll = long long;\nusing u32 = unsigned;\n\
-    using u64 = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    static const int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"util/modint.cpp\"\
-    \ntemplate <u32 M>\nstruct modint {\n    u32 val;\npublic:\n    static modint\
+    \ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
     \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
     \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
-    \ += M; val = u32(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M); }\n\
-    \    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n  \
-    \  modint& operator--() { if (val == 0) val = M; val--; return *this; }\n    modint\
-    \ operator++(int) { modint result = *this; ++*this; return result; }\n    modint\
-    \ operator--(int) { modint result = *this; --*this; return result; }\n    modint&\
-    \ operator+=(const modint& b) { val += b.val; if (val >= M) val -= M; return *this;\
-    \ }\n    modint& operator-=(const modint& b) { val -= b.val; if (val >= M) val\
-    \ += M; return *this; }\n    modint& operator*=(const modint& b) { u64 z = val;\
-    \ z *= b.val; val = (u32)(z % M); return *this; }\n    modint& operator/=(const\
-    \ modint& b) { return *this = *this * b.inv(); }\n    modint operator+() const\
-    \ { return *this; }\n    modint operator-() const { return modint() - *this; }\n\
-    \    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n\
-    \ & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const { return\
-    \ pow(M-2); }\n    friend modint operator+(const modint& a, const modint& b) {\
-    \ return modint(a) += b; }\n    friend modint operator-(const modint& a, const\
-    \ modint& b) { return modint(a) -= b; }\n    friend modint operator*(const modint&\
-    \ a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
+    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
+    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
+    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
+    \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
+    \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
+    \ if (val >= M) val += M; return *this; }\n    modint& operator*=(const modint&\
+    \ b) { ull z = val; z *= b.val; val = (uint)(z % M); return *this; }\n    modint&\
+    \ operator/=(const modint& b) { return *this = *this * b.inv(); }\n    modint\
+    \ operator+() const { return *this; }\n    modint operator-() const { return modint()\
+    \ - *this; }\n    modint pow(long long n) const { modint x = *this, r = 1; while\
+    \ (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const\
+    \ { return pow(M-2); }\n    friend modint operator+(const modint& a, const modint&\
+    \ b) { return modint(a) += b; }\n    friend modint operator-(const modint& a,\
+    \ const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
@@ -91,8 +91,8 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
-    \ <cmath>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing u32\
-    \ = unsigned;\nusing u64 = unsigned long long;\nusing namespace std;\n\ntemplate<class\
+    \ <cmath>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint\
+    \ = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\ntemplate<class\
     \ T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#include \"../util/modint.cpp\"\
     \n\n#include \"../datastructure/segtree.cpp\"\n\nstruct Monoid{\n    using T =\
     \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
@@ -110,7 +110,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2020-10-28 23:41:44+09:00'
+  timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_composite.test.cpp

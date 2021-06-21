@@ -6,12 +6,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_number_of_substrings.test.cpp
     title: test/yosupo_number_of_substrings.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_suffix_array.test.cpp
     title: test/yosupo_suffix_array.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 1 \"string/suffix_array.cpp\"\nvector<int> convert(string const&\
@@ -115,7 +115,7 @@ data:
   path: string/suffix_array.cpp
   requiredBy: []
   timestamp: '2020-09-13 18:15:01+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_number_of_substrings.test.cpp
   - test/yosupo_suffix_array.test.cpp

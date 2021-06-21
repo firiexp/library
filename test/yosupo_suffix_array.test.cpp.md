@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: string/suffix_array.cpp
     title: string/suffix_array.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/suffixarray
@@ -18,7 +18,7 @@ data:
     https://judge.yosupo.jp/problem/suffixarray\"\n#include <iostream>\n#include <algorithm>\n\
     #include <map>\n#include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n\
     #include <bitset>\n#include <cmath>\n\nstatic const int MOD = 1000000007;\nusing\
-    \ ll = long long;\nusing u32 = unsigned;\nusing u64 = unsigned long long;\nusing\
+    \ ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing\
     \ namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
     \n\n#line 1 \"string/suffix_array.cpp\"\nvector<int> convert(string const& s){\n\
     \    int n = s.size();\n    std::vector<int> s2(n);\n    for (int i = 0; i < n;\
@@ -74,8 +74,8 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/suffixarray\"\n#include\
     \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
     #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
-    static const int MOD = 1000000007;\nusing ll = long long;\nusing u32 = unsigned;\n\
-    using u64 = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    static const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\n#include \"../string/suffix_array.cpp\"\
     \n\nint main() {\n    string s;\n    cin >> s;\n    auto ans = suffix_array(s);\n\
     \    for (int i = 0; i < ans.size(); ++i) {\n        if(i) printf(\" \");\n  \
@@ -85,8 +85,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_suffix_array.test.cpp
   requiredBy: []
-  timestamp: '2021-06-08 23:33:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2021-06-21 15:24:20+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_suffix_array.test.cpp
 layout: document

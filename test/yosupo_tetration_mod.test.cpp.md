@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/tetration.cpp
     title: math/tetration.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/tetration_mod
@@ -18,7 +18,7 @@ data:
     https://judge.yosupo.jp/problem/tetration_mod\"\n#include <iostream>\n#include\
     \ <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n#include <stack>\n\
     #include <numeric>\n#include <bitset>\n#include <cmath>\n\nstatic const int MOD\
-    \ = 1000000007;\nusing ll = long long;\nusing u32 = unsigned;\nusing u64 = unsigned\
+    \ = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\nusing ull = unsigned\
     \ long long;\nusing namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
     \ / 32 * 15 + 208;\n\n#line 1 \"math/tetration.cpp\"\nll totient(ll n){\n    ll\
     \ res = n;\n    for (ll i = 2; i*i <= n; ++i) {\n        if(n%i == 0){\n     \
@@ -41,8 +41,8 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/tetration_mod\"\n#include\
     \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
     #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
-    static const int MOD = 1000000007;\nusing ll = long long;\nusing u32 = unsigned;\n\
-    using u64 = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    static const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include \"../math/tetration.cpp\"\
     \nint main() {\n    int t;\n    cin >> t;\n    while(t--){\n        int a, b,\
     \ m;\n        scanf(\"%d %d %d\", &a, &b, &m);\n        printf(\"%lld\\n\", tetration(a,\
@@ -52,8 +52,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_tetration_mod.test.cpp
   requiredBy: []
-  timestamp: '2021-06-09 00:29:05+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2021-06-21 15:24:20+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_tetration_mod.test.cpp
 layout: document

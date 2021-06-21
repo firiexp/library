@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
@@ -11,10 +11,10 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"util/modint.cpp\"\ntemplate <u32 M>\nstruct modint {\n \
-    \   u32 val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
+  bundledCode: "#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n\
+    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
     \ x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll\
-    \ x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = u32(x); }\n    modint(bool v)\
+    \ x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool v)\
     \ { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if (val\
     \ == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0) val\
     \ = M; val--; return *this; }\n    modint operator++(int) { modint result = *this;\
@@ -22,12 +22,12 @@ data:
     \ --*this; return result; }\n    modint& operator+=(const modint& b) { val +=\
     \ b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
     \ modint& b) { val -= b.val; if (val >= M) val += M; return *this; }\n    modint&\
-    \ operator*=(const modint& b) { u64 z = val; z *= b.val; val = (u32)(z % M); return\
-    \ *this; }\n    modint& operator/=(const modint& b) { return *this = *this * b.inv();\
-    \ }\n    modint operator+() const { return *this; }\n    modint operator-() const\
-    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
-    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
-    \    modint inv() const { return pow(M-2); }\n    friend modint operator+(const\
+    \ operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M);\
+    \ return *this; }\n    modint& operator/=(const modint& b) { return *this = *this\
+    \ * b.inv(); }\n    modint operator+() const { return *this; }\n    modint operator-()\
+    \ const { return modint() - *this; }\n    modint pow(long long n) const { modint\
+    \ x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r;\
+    \ }\n    modint inv() const { return pow(M-2); }\n    friend modint operator+(const\
     \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
     \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
     \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
@@ -66,7 +66,7 @@ data:
   isVerificationFile: false
   path: math/factorial.cpp
   requiredBy: []
-  timestamp: '2020-09-10 16:12:25+09:00'
+  timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: math/factorial.cpp

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/extgcd.cpp
     title: math/extgcd.cpp
   _extendedRequiredBy: []

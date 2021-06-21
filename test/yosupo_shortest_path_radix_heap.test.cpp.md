@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/radixheap.cpp
     title: datastructure/radixheap.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/dijkstra_radix_heap.cpp
     title: "Dijkstra\u6CD5(Radix Heap)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/shortest_path
@@ -21,9 +21,9 @@ data:
     \ PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include <iostream>\n\
     #include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n#include\
     \ <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\nstatic const\
-    \ int MOD = 1000000007;\nusing ll = long long;\nusing u32 = unsigned;\nusing u64\
-    \ = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr T\
-    \ INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"graph/dijkstra_radix_heap.cpp\"\
+    \ int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\nusing\
+    \ ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"graph/dijkstra_radix_heap.cpp\"\
     \ntemplate <typename T>\nstruct edge {\n    int from, to; T cost;\n    edge(int\
     \ to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T\
     \ cost) : from(from), to(to), cost(cost) {}\n};\n\n#line 1 \"datastructure/radixheap.cpp\"\
@@ -63,8 +63,8 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
     #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
-    static const int MOD = 1000000007;\nusing ll = long long;\nusing u32 = unsigned;\n\
-    using u64 = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    static const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#include \"../graph/dijkstra_radix_heap.cpp\"\
     \n\nint main() {\n    int n, m, s, t;\n    cin >> n >> m >> s >> t;\n    vector<vector<edge<ll>>>\
     \ G(n), Ginv(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b, c;\n  \
@@ -84,8 +84,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path_radix_heap.test.cpp
   requiredBy: []
-  timestamp: '2020-05-02 12:50:18+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2021-06-21 15:24:20+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path_radix_heap.test.cpp
 layout: document

@@ -10,7 +10,7 @@ data:
     links: []
   bundledCode: "#line 1 \"datastructure/weightedunionfind.cpp\"\ntemplate <class T>\n\
     class WeightedUnionFind {\n    vector<int> uni;\n    vector<T> weights;\n    int\
-    \ n;\npublic:\n    explicit WeightedUnionFind(int n, T SUM_UNITY = 0) :\n    uni(static_cast<u32>(n),\
+    \ n;\npublic:\n    explicit WeightedUnionFind(int n, T SUM_UNITY = 0) :\n    uni(static_cast<uint>(n),\
     \ -1) , n(n), weights(n,  SUM_UNITY){};\n\n    int root(int a) {\n        if (uni[a]\
     \ < 0) return a;\n        else {\n            int r = root(uni[a]);\n        \
     \    weights[a] += weights[uni[a]];\n            return (uni[a] = r);\n      \
@@ -23,8 +23,8 @@ data:
     \ x, int y){\n        return weight(y) - weight(x);\n    }\n};\n"
   code: "template <class T>\nclass WeightedUnionFind {\n    vector<int> uni;\n   \
     \ vector<T> weights;\n    int n;\npublic:\n    explicit WeightedUnionFind(int\
-    \ n, T SUM_UNITY = 0) :\n    uni(static_cast<u32>(n), -1) , n(n), weights(n, \
-    \ SUM_UNITY){};\n\n    int root(int a) {\n        if (uni[a] < 0) return a;\n\
+    \ n, T SUM_UNITY = 0) :\n    uni(static_cast<uint>(n), -1) , n(n), weights(n,\
+    \  SUM_UNITY){};\n\n    int root(int a) {\n        if (uni[a] < 0) return a;\n\
     \        else {\n            int r = root(uni[a]);\n            weights[a] +=\
     \ weights[uni[a]];\n            return (uni[a] = r);\n        }\n    }\n\n   \
     \ bool unite(int a, int b, T w) {\n        w += weight(a); w -= weight(b);\n \
@@ -38,7 +38,7 @@ data:
   isVerificationFile: false
   path: datastructure/weightedunionfind.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: datastructure/weightedunionfind.cpp

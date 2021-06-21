@@ -18,7 +18,7 @@ data:
     https://judge.yosupo.jp/problem/dominatortree\"\n\n#include <iostream>\n#include\
     \ <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n#include <stack>\n\
     #include <numeric>\n#include <bitset>\n#include <cmath>\n\nstatic const int MOD\
-    \ = 1000000007;\nusing ll = long long;\nusing u32 = unsigned;\nusing u64 = unsigned\
+    \ = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\nusing ull = unsigned\
     \ long long;\nusing namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
     \n#line 1 \"graph/dominatortree.cpp\"\nclass DominatorTree {\n    int n;\n   \
     \ void unite(int x, int y){\n        uf_par[y] = x;\n    }\n\n    int compress(int\
@@ -54,8 +54,8 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/dominatortree\"\n\n#include\
     \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
     #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
-    static const int MOD = 1000000007;\nusing ll = long long;\nusing u32 = unsigned;\n\
-    using u64 = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    static const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#include \"../graph/dominatortree.cpp\"\
     \n\nint main() {\n    int n, m, s;\n    scanf(\"%d %d %d\", &n, &m, &s);\n   \
     \ DominatorTree G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n\
@@ -67,7 +67,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_dominator_tree.test.cpp
   requiredBy: []
-  timestamp: '2020-06-10 18:46:05+09:00'
+  timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dominator_tree.test.cpp
