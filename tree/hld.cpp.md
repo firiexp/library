@@ -41,7 +41,7 @@ data:
     \ F &f){\n        T l = e, r = e;\n        while(true){\n            if(id[u]\
     \ > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(max(id[head[v]], id[u]),\
     \ id[v]+1));\n            if(head[u] != head[v]) v = par[head[v]];\n         \
-    \   else break;\n        }\n        return f(l, r);\n    }\n\n};\n"
+    \   else break;\n        }\n        return f(l, r);\n    }\n};\n"
   code: "class HeavyLightDecomposition {\n    void dfs_sz(int v){\n        for (auto\
     \ &&u : G[v]) {\n            if(u == par[v]) continue;\n            par[u] = v;\
     \ dep[u] = dep[v] + 1;\n            dfs_sz(u);\n            sub_size[v] += sub_size[u];\n\
@@ -75,12 +75,12 @@ data:
     \ F &f){\n        T l = e, r = e;\n        while(true){\n            if(id[u]\
     \ > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(max(id[head[v]], id[u]),\
     \ id[v]+1));\n            if(head[u] != head[v]) v = par[head[v]];\n         \
-    \   else break;\n        }\n        return f(l, r);\n    }\n\n};"
+    \   else break;\n        }\n        return f(l, r);\n    }\n};"
   dependsOn: []
   isVerificationFile: false
   path: tree/hld.cpp
   requiredBy: []
-  timestamp: '2020-05-03 19:47:25+09:00'
+  timestamp: '2021-06-21 15:49:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: tree/hld.cpp
