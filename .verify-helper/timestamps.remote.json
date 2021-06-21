@@ -27,5 +27,16 @@
 "test/yosupo_point_set_range_composite.test.cpp": "2021-06-21 15:24:20 +0900",
 "test/yosupo_queue_operate_all_composite.test.cpp": "2021-06-21 15:24:20 +0900",
 "test/yosupo_range_affine_range_sum.test.cpp": "2021-06-21 15:24:20 +0900",
-"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp": "2021-06-21 15:24:20 +0900"
+"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_scc.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_shortest_path.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_shortest_path_radix_heap.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_suffix_array.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_sum_of_floor_of_linear.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_sum_of_totient.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_tetration_mod.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_twosat.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yosupo_unionfind.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yuki1358.test.cpp": "2021-06-21 15:24:20 +0900",
+"test/yuki3030.test.cpp": "2021-06-21 15:24:20 +0900"
 }
