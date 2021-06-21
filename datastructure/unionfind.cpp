@@ -3,7 +3,7 @@ class UnionFind {
     vector<int> uni;
     int forest_size;
 public:
-    explicit UnionFind(int n) : n(n), uni(static_cast<u32>(n), -1), forest_size(n) {};
+    explicit UnionFind(int n) : n(n), uni(static_cast<uint>(n), -1), forest_size(n) {};
 
     int root(int a){
         if (uni[a] < 0) return a;

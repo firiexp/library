@@ -5,7 +5,7 @@ class WeightedUnionFind {
     int n;
 public:
     explicit WeightedUnionFind(int n, T SUM_UNITY = 0) :
-    uni(static_cast<u32>(n), -1) , n(n), weights(n,  SUM_UNITY){};
+    uni(static_cast<uint>(n), -1) , n(n), weights(n,  SUM_UNITY){};
 
     int root(int a) {
         if (uni[a] < 0) return a;

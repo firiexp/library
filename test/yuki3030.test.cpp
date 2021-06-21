@@ -8,8 +8,8 @@
 
 static const int MOD = 1000000007;
 using ll = long long;
-using u32 = unsigned;
-using u64 = unsigned long long;
+using uint = unsigned;
+using ull = unsigned long long;
 using namespace std;
 
 template<class T>
@@ -20,7 +20,7 @@ int main() {
     ll n;
     cin >> n;
     for (int i = 0; i < n; ++i) {
-        u64 k; scanf("%lld", &k);
+        ull k; scanf("%lld", &k);
         printf("%lld %d\n", k, miller_rabin(k));
     }
     return 0;

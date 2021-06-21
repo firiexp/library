@@ -11,8 +11,8 @@
 
 static const int MOD = 998244353;
 using ll = long long;
-using u32 = unsigned;
-using u64 = unsigned long long;
+using uint = unsigned;
+using ull = unsigned long long;
 using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;

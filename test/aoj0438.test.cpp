@@ -11,13 +11,13 @@
 
 static const int MOD = 1000000007;
 using ll = long long;
-using u32 = unsigned;
-using u64 = unsigned long long;
+using uint = unsigned;
+using ull = unsigned long long;
 using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
-#include "../string/rolling_hash_u64.cpp"
+#include "../string/rolling_hash_ull.cpp"
 #include "../util/makev.cpp"
 
 int main() {
@@ -32,9 +32,9 @@ int main() {
         a--; b--;
         G[a].emplace_back(b);
     }
-    rolling_hash_u64 ro(n);
+    rolling_hash_ull ro(n);
     int B = 19;
-    auto dp = make_v(B, n, u64(0));
+    auto dp = make_v(B, n, ull(0));
     auto to = make_v(B, n, -1);
     for (int i = 0; i+1 < n; ++i) {
         G[i].emplace_back(i+1);

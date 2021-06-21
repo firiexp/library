@@ -1,6 +1,6 @@
-template<u32 M = 1000000007>
+template<uint M = 1000000007>
 struct modint{
-    u32 val;
+    uint val;
     modint(): val(0){}
     template<typename T>
     modint(T t){t %= (T)M; if(t < 0) t += (T)M; val = t;}
@@ -19,7 +19,7 @@ struct modint{
     modint inv() const {return pow(M-2);}
     modint& operator+=(modint a){ val += a.val; if(val >= M) val -= M; return *this;}
     modint& operator-=(modint a){ if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
-    modint& operator*=(modint a){ val = (u64)val*a.val%M; return *this;}
+    modint& operator*=(modint a){ val = (ull)val*a.val%M; return *this;}
     modint& operator/=(modint a){ return (*this) *= a.inv();}
     modint operator+(modint a) const {return modint(val) +=a;}
     modint operator-(modint a) const {return modint(val) -=a;}

@@ -12,8 +12,8 @@
 
 static const int MOD1 = 1000000861, MOD2 = 1000000933;
 using ll = long long;
-using u32 = unsigned;
-using u64 = unsigned long long;
+using uint = unsigned;
+using ull = unsigned long long;
 using namespace std;
 
 #include "../string/rolling_hash.cpp"

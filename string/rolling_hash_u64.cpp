@@ -1,41 +1,41 @@
 #include <chrono>
-constexpr u64 M = (1UL << 61) - 1;
-constexpr u64 POSITIVISER = M * 3;
-constexpr u64 MASK30 = (1UL << 30) - 1;
-constexpr u64 MASK31 = (1UL << 31) - 1;
+constexpr ull M = (1UL << 61) - 1;
+constexpr ull POSITIVISER = M * 3;
+constexpr ull MASK30 = (1UL << 30) - 1;
+constexpr ull MASK31 = (1UL << 31) - 1;
 
-class rolling_hash_u64 {
-    static u64 get_base(){
-        u64 z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL << 32)-1)))+0x9e3779b97f4a7c15;
+class rolling_hash_ull {
+    static ull get_base(){
+        ull z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL << 32)-1)))+0x9e3779b97f4a7c15;
         z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
         z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
         return z;
     }
 
-    static inline u64 calc_mod(u64 val){
+    static inline ull calc_mod(ull val){
         val = (val & M) + (val >> 61);
         if(val > M) val -= M;
         return val;
     }
 public:
-    vector<u64> hash;
+    vector<ull> hash;
 
-    static u64 &B() {
-        static u64 B_ = (get_base())%(M-2)+2;
+    static ull &B() {
+        static ull B_ = (get_base())%(M-2)+2;
         return B_;
     }
 
-    static vector<u64> &p() {
-        static vector<u64> p_{1, B()};
+    static vector<ull> &p() {
+        static vector<ull> p_{1, B()};
         return p_;
     }
 
-    static inline u64 mul(u64 x, u64 y){
-        u64 a = x >> 31, b = x & MASK31, c = y >> 31, d = y & MASK31, e = b*c+a*d;
+    static inline ull mul(ull x, ull y){
+        ull a = x >> 31, b = x & MASK31, c = y >> 31, d = y & MASK31, e = b*c+a*d;
         return (a*c << 1) + b*d + ((e & MASK30) << 31) + (e >> 30);
     }
 
-    rolling_hash_u64(const string &s) {
+    rolling_hash_ull(const string &s) {
         if(p().size() <= s.size()){
             int l = p().size();
             p().resize(s.size()+1);
@@ -49,7 +49,7 @@ public:
         }
     };
 
-    rolling_hash_u64(const int& n){
+    rolling_hash_ull(const int& n){
         int l = p().size();
         p().resize(n+1);
         for (int i = l; i < p().size(); ++i) {
@@ -57,11 +57,11 @@ public:
         }
     }
 
-    u64 get(int l, int r){
+    ull get(int l, int r){
         return calc_mod(hash[r] + POSITIVISER - mul(hash[l], p()[r-l]));
     }
 
-    static u64 val(string &s){
+    static ull val(string &s){
         if(p().size() <= s.size()){
             int l = p().size();
             p().resize(s.size()+1);
@@ -69,7 +69,7 @@ public:
                 p()[i] = calc_mod(mul(p()[i-1], p()[1]));
             }
         }
-        u64 ret = 0;
+        ull ret = 0;
         for (int i = 0; i < s.size(); ++i) {
             ret = calc_mod(mul(ret, B()) + s[i]);
         }

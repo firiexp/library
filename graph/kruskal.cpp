@@ -13,7 +13,7 @@ class UnionFind {
     vector<int> uni;
     int n;
 public:
-    explicit UnionFind(int n) : uni(static_cast<u32>(n), -1) , n(n){};
+    explicit UnionFind(int n) : uni(static_cast<uint>(n), -1) , n(n){};
 
     int root(int a){
         if (uni[a] < 0) return a;

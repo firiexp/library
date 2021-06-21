@@ -1,11 +1,11 @@
-template <u32 M>
+template <uint M>
 struct modint {
-    u32 val;
+    uint val;
 public:
     static modint raw(int v) { modint x; x.val = v; return x; }
     modint() : val(0) {}
     template <class T>
-    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = u32(x); }
+    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }
     modint(bool v) { val = ((unsigned int)(v) % M); }
     modint& operator++() { val++; if (val == M) val = 0; return *this; }
     modint& operator--() { if (val == 0) val = M; val--; return *this; }
@@ -13,7 +13,7 @@ public:
     modint operator--(int) { modint result = *this; --*this; return result; }
     modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -= M; return *this; }
     modint& operator-=(const modint& b) { val -= b.val; if (val >= M) val += M; return *this; }
-    modint& operator*=(const modint& b) { u64 z = val; z *= b.val; val = (u32)(z % M); return *this; }
+    modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M); return *this; }
     modint& operator/=(const modint& b) { return *this = *this * b.inv(); }
     modint operator+() const { return *this; }
     modint operator-() const { return modint() - *this; }

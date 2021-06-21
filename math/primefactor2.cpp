@@ -1,4 +1,4 @@
-using u32 = uint32_t;
+using uint = uint32_t;
 
 template<typename T>
 struct ExactDiv {
@@ -16,10 +16,10 @@ struct ExactDiv {
     }
 };
 
-vector<ExactDiv<u32>> get_prime(int n){
-    if(n <= 1) return vector<ExactDiv<u32>>();
+vector<ExactDiv<uint>> get_prime(int n){
+    if(n <= 1) return vector<ExactDiv<uint>>();
     vector<bool> is_prime(n+1, true);
-    vector<ExactDiv<u32>> prime;
+    vector<ExactDiv<uint>> prime;
     is_prime[0] = is_prime[1] = false;
     for (int i = 2; i <= n; ++i) {
         if(is_prime[i]) prime.emplace_back(i);

@@ -2,14 +2,14 @@ constexpr int ntt_mod = 998244353, ntt_root = 3;
 // 1012924417 -> 5, 924844033 -> 5
 // 998244353  -> 3, 897581057 -> 3
 // 645922817  -> 3;
-template <u32 M>
+template <uint M>
 struct modint {
-    u32 val;
+    uint val;
 public:
     static modint raw(int v) { modint x; x.val = v; return x; }
     modint() : val(0) {}
     template <class T>
-    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = u32(x); }
+    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }
     modint(bool v) { val = ((unsigned int)(v) % M); }
     modint& operator++() { val++; if (val == M) val = 0; return *this; }
     modint& operator--() { if (val == 0) val = M; val--; return *this; }
@@ -17,7 +17,7 @@ public:
     modint operator--(int) { modint result = *this; --*this; return result; }
     modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val -= M; return *this; }
     modint& operator-=(const modint& rhs) { val -= rhs.val; if (val >= M) val += M; return *this; }
-    modint& operator*=(const modint& rhs) { u64 z = val; z *= rhs.val; val = (u32)(z % M); return *this; }
+    modint& operator*=(const modint& rhs) { ull z = val; z *= rhs.val; val = (uint)(z % M); return *this; }
     modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }
     modint operator+() const { return *this; }
     modint operator-() const { return modint() - *this; }
