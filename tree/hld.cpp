@@ -91,5 +91,4 @@ public:
         }
         return f(l, r);
     }
-
 };
