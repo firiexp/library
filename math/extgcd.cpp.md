@@ -6,12 +6,12 @@ data:
     path: math/CRT.cpp
     title: math/CRT.cpp
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki1358.test.cpp
     title: test/yuki1358.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/extgcd.cpp\"\ntemplate<typename T>\nT extgcd(T a, T\
@@ -28,7 +28,7 @@ data:
   requiredBy:
   - math/CRT.cpp
   timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki1358.test.cpp
 documentation_of: math/extgcd.cpp

@@ -12,12 +12,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0403.test.cpp
     title: test/aoj0403.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind.test.cpp
     title: test/yosupo_unionfind.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/unionfind.md
     document_title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
@@ -49,7 +49,7 @@ data:
   path: datastructure/unionfind.cpp
   requiredBy: []
   timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0342.test.cpp
   - test/yosupo_unionfind.test.cpp

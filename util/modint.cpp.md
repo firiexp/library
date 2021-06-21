@@ -27,12 +27,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_totient.test.cpp
     title: test/yosupo_sum_of_totient.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/modint.md
     document_title: "modint(\u56FA\u5B9AMOD)"
@@ -92,7 +92,7 @@ data:
   - math/factorial.cpp
   - math/gauss_jordan_mint.cpp
   timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_sum_of_totient.test.cpp

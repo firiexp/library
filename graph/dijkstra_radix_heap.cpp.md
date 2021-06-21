@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/radixheap.cpp
     title: datastructure/radixheap.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path_radix_heap.test.cpp
     title: test/yosupo_shortest_path_radix_heap.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/dijkstra.md
     document_title: "Dijkstra\u6CD5(Radix Heap)"
@@ -58,7 +58,7 @@ data:
   path: graph/dijkstra_radix_heap.cpp
   requiredBy: []
   timestamp: '2020-05-02 12:50:18+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shortest_path_radix_heap.test.cpp
 documentation_of: graph/dijkstra_radix_heap.cpp

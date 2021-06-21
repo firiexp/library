@@ -27,7 +27,7 @@ data:
     - icon: ':warning:'
       path: datastructure/quickfind.cpp
       title: datastructure/quickfind.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/radixheap.cpp
       title: datastructure/radixheap.cpp
     - icon: ':heavy_check_mark:'
@@ -54,7 +54,7 @@ data:
     - icon: ':warning:'
       path: datastructure/undoableunionfind.cpp
       title: datastructure/undoableunionfind.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/unionfind.cpp
       title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
     - icon: ':warning:'
@@ -92,7 +92,7 @@ data:
       title: geometry/geometry3d.cpp
   - name: graph
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: graph/SCC.cpp
       title: graph/SCC.cpp
     - icon: ':warning:'
@@ -108,10 +108,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/bipartite_matching_lexmin.cpp
       title: graph/bipartite_matching_lexmin.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/dijkstra.cpp
       title: "Dijkstra\u6CD5"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/dijkstra_radix_heap.cpp
       title: "Dijkstra\u6CD5(Radix Heap)"
     - icon: ':heavy_check_mark:'
@@ -132,7 +132,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/twoedgeconnectedcomponents.cpp
       title: graph/twoedgeconnectedcomponents.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/twosat.cpp
       title: graph/twosat.cpp
   - name: math
@@ -146,7 +146,7 @@ data:
     - icon: ':warning:'
       path: math/eulerphi.cpp
       title: math/eulerphi.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/extgcd.cpp
       title: math/extgcd.cpp
     - icon: ':warning:'
@@ -161,7 +161,7 @@ data:
     - icon: ':warning:'
       path: math/fft3.cpp
       title: math/fft3.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/floor_sum.cpp
       title: math/floor_sum.cpp
     - icon: ':heavy_check_mark:'
@@ -188,7 +188,7 @@ data:
     - icon: ':warning:'
       path: math/matrix.cpp
       title: math/matrix.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/miller_rabin.cpp
       title: math/miller_rabin.cpp
     - icon: ':warning:'
@@ -227,7 +227,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: math/squarematrix.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/tetration.cpp
       title: math/tetration.cpp
   - name: string
@@ -241,7 +241,7 @@ data:
     - icon: ':warning:'
       path: string/rolling_hash_u64.cpp
       title: string/rolling_hash_u64.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: string/suffix_array.cpp
       title: string/suffix_array.cpp
     - icon: ':warning:'
@@ -275,7 +275,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: util/ifloor.cpp
       title: util/ifloor.cpp
     - icon: ':warning:'
@@ -293,7 +293,7 @@ data:
     - icon: ':warning:'
       path: util/mo.cpp
       title: util/mo.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
@@ -404,37 +404,37 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
       title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_scc.test.cpp
       title: test/yosupo_scc.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path.test.cpp
       title: test/yosupo_shortest_path.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path_radix_heap.test.cpp
       title: test/yosupo_shortest_path_radix_heap.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_suffix_array.test.cpp
       title: test/yosupo_suffix_array.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_floor_of_linear.test.cpp
       title: test/yosupo_sum_of_floor_of_linear.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_totient.test.cpp
       title: test/yosupo_sum_of_totient.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_tetration_mod.test.cpp
       title: test/yosupo_tetration_mod.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_twosat.test.cpp
       title: test/yosupo_twosat.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind.test.cpp
       title: test/yosupo_unionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yuki1358.test.cpp
       title: test/yuki1358.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yuki3030.test.cpp
       title: test/yuki3030.test.cpp
 layout: toppage
