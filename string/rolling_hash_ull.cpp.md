@@ -2,13 +2,16 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0438.test.cpp
+    title: test/aoj0438.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"string/rolling_hash_u64.cpp\"\n#include <chrono>\nconstexpr\
+  bundledCode: "#line 1 \"string/rolling_hash_ull.cpp\"\n#include <chrono>\nconstexpr\
     \ ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER = M * 3;\nconstexpr ull\
     \ MASK30 = (1UL << 30) - 1;\nconstexpr ull MASK31 = (1UL << 31) - 1;\n\nclass\
     \ rolling_hash_ull {\n    static ull get_base(){\n        ull z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
@@ -66,15 +69,16 @@ data:
     \ B()) + s[i]);\n        }\n        return ret;\n    }\n};"
   dependsOn: []
   isVerificationFile: false
-  path: string/rolling_hash_u64.cpp
+  path: string/rolling_hash_ull.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
-documentation_of: string/rolling_hash_u64.cpp
+  timestamp: '2021-06-21 15:51:55+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aoj0438.test.cpp
+documentation_of: string/rolling_hash_ull.cpp
 layout: document
 redirect_from:
-- /library/string/rolling_hash_u64.cpp
-- /library/string/rolling_hash_u64.cpp.html
-title: string/rolling_hash_u64.cpp
+- /library/string/rolling_hash_ull.cpp
+- /library/string/rolling_hash_ull.cpp.html
+title: string/rolling_hash_ull.cpp
 ---

@@ -238,9 +238,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/rolling_hash.cpp
       title: string/rolling_hash.cpp
-    - icon: ':warning:'
-      path: string/rolling_hash_u64.cpp
-      title: string/rolling_hash_u64.cpp
+    - icon: ':heavy_check_mark:'
+      path: string/rolling_hash_ull.cpp
+      title: string/rolling_hash_ull.cpp
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.cpp
       title: string/suffix_array.cpp
@@ -359,7 +359,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0422.test.cpp
       title: test/aoj0422.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aoj0438.test.cpp
       title: test/aoj0438.test.cpp
     - icon: ':heavy_check_mark:'

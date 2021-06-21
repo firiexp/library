@@ -12,6 +12,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0422.test.cpp
     title: test/aoj0422.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0438.test.cpp
+    title: test/aoj0438.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -41,6 +44,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0335.test.cpp
+  - test/aoj0438.test.cpp
   - test/aoj0422.test.cpp
   - test/aoj0274.test.cpp
 documentation_of: util/makev.cpp
