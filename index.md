@@ -232,6 +232,9 @@ data:
       title: math/tetration.cpp
   - name: string
     pages:
+    - icon: ':heavy_check_mark:'
+      path: string/lcs_bit.cpp
+      title: string/lcs_bit.cpp
     - icon: ':warning:'
       path: string/manacher.cpp
       title: string/manacher.cpp
@@ -371,6 +374,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj2257.test.cpp
       title: test/aoj2257.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_alds1_10_c.test.cpp
+      title: test/aoj_alds1_10_c.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj_dpl_5_a.test.cpp
       title: test/aoj_dpl_5_a.test.cpp
