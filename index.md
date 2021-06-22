@@ -174,6 +174,9 @@ data:
       path: math/gauss_jordan_mint.cpp
       title: math/gauss_jordan_mint.cpp
     - icon: ':warning:'
+      path: math/gcd_transform.cpp
+      title: math/gcd_transform.cpp
+    - icon: ':warning:'
       path: math/get_prime.cpp
       title: math/get_prime.cpp
     - icon: ':warning:'
