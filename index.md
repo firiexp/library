@@ -117,7 +117,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/dominatortree.cpp
       title: Dominator Tree
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: graph/independentset.cpp
       title: graph/independentset.cpp
     - icon: ':warning:'
@@ -140,6 +140,9 @@ data:
     - icon: ':warning:'
       path: math/CRT.cpp
       title: math/CRT.cpp
+    - icon: ':warning:'
+      path: math/comb_table.cpp
+      title: math/comb_table.cpp
     - icon: ':warning:'
       path: math/divisor.cpp
       title: math/divisor.cpp
@@ -401,6 +404,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_maximum_independent_set.test.cpp
+      title: test/yosupo_maximum_independent_set.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_number_of_substrings.test.cpp
       title: test/yosupo_number_of_substrings.test.cpp
