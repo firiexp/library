@@ -146,6 +146,9 @@ data:
     - icon: ':warning:'
       path: math/eulerphi.cpp
       title: math/eulerphi.cpp
+    - icon: ':warning:'
+      path: math/eulerphi_all.cpp
+      title: math/eulerphi_all.cpp
     - icon: ':heavy_check_mark:'
       path: math/extgcd.cpp
       title: math/extgcd.cpp
@@ -200,6 +203,9 @@ data:
     - icon: ':warning:'
       path: math/mobius_all.cpp
       title: math/mobius_all.cpp
+    - icon: ':warning:'
+      path: math/mobius_mu.cpp
+      title: math/mobius_mu.cpp
     - icon: ':warning:'
       path: math/modinv.cpp
       title: math/modinv.cpp
