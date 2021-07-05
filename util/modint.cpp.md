@@ -8,6 +8,9 @@ data:
   - icon: ':warning:'
     path: math/gauss_jordan_mint.cpp
     title: math/gauss_jordan_mint.cpp
+  - icon: ':warning:'
+    path: math/powk_all.cpp
+    title: math/powk_all.cpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0399.test.cpp
@@ -89,18 +92,19 @@ data:
   isVerificationFile: false
   path: util/modint.cpp
   requiredBy:
-  - math/factorial.cpp
   - math/gauss_jordan_mint.cpp
+  - math/powk_all.cpp
+  - math/factorial.cpp
   timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_sum_of_totient.test.cpp
-  - test/yosupo_queue_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
-  - test/aoj0399.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/aoj_dpl_5_a.test.cpp
+  - test/aoj0399.test.cpp
+  - test/yosupo_range_affine_range_sum.test.cpp
+  - test/yosupo_queue_operate_all_composite.test.cpp
 documentation_of: util/modint.cpp
 layout: document
 redirect_from:

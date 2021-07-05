@@ -183,6 +183,9 @@ data:
       path: math/gcd_transform.cpp
       title: math/gcd_transform.cpp
     - icon: ':warning:'
+      path: math/get_min_factor.cpp
+      title: math/get_min_factor.cpp
+    - icon: ':warning:'
       path: math/get_prime.cpp
       title: math/get_prime.cpp
     - icon: ':warning:'
@@ -221,6 +224,9 @@ data:
     - icon: ':warning:'
       path: math/pow.cpp
       title: math/pow.cpp
+    - icon: ':warning:'
+      path: math/powk_all.cpp
+      title: math/powk_all.cpp
     - icon: ':warning:'
       path: math/primefactor.cpp
       title: math/primefactor.cpp
