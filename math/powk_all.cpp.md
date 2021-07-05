@@ -48,12 +48,12 @@ data:
     \  }\n    return min_factor;\n}\n#line 4 \"math/powk_all.cpp\"\nvector<mint> powk_all(int\
     \ n, ll k) {\n    auto min_factor = get_min_factor(n);\n    vector<mint> res(n+1);\n\
     \    res[1] = 1;\n    for (int i = 2; i <= n; ++i) {\n        if(min_factor[i]\
-    \ == i) res[i] = mint(i).pow(k);\n        else res[i] = res[i/min_factor[i]]*res[i];\n\
+    \ == i) res[i] = mint(i).pow(k);\n        else res[i] = res[i/min_factor[i]]*res[min_factor[i]];\n\
     \    }\n    return res;\n}\n"
   code: "#include \"../util/modint.cpp\"\n\n#include \"./get_min_factor.cpp\"\nvector<mint>\
     \ powk_all(int n, ll k) {\n    auto min_factor = get_min_factor(n);\n    vector<mint>\
     \ res(n+1);\n    res[1] = 1;\n    for (int i = 2; i <= n; ++i) {\n        if(min_factor[i]\
-    \ == i) res[i] = mint(i).pow(k);\n        else res[i] = res[i/min_factor[i]]*res[i];\n\
+    \ == i) res[i] = mint(i).pow(k);\n        else res[i] = res[i/min_factor[i]]*res[min_factor[i]];\n\
     \    }\n    return res;\n}"
   dependsOn:
   - util/modint.cpp
@@ -61,7 +61,7 @@ data:
   isVerificationFile: false
   path: math/powk_all.cpp
   requiredBy: []
-  timestamp: '2021-07-05 11:51:17+09:00'
+  timestamp: '2021-07-05 13:06:44+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: math/powk_all.cpp
