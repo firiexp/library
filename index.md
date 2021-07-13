@@ -282,7 +282,7 @@ data:
     - icon: ':warning:'
       path: tree/diameter.cpp
       title: tree/diameter.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: tree/hld.cpp
       title: tree/hld.cpp
     - icon: ':warning:'
@@ -458,6 +458,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind.test.cpp
       title: test/yosupo_unionfind.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_vertex_set_path_composite.test.cpp
+      title: test/yosupo_vertex_set_path_composite.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yuki1358.test.cpp
       title: test/yuki1358.test.cpp
