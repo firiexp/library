@@ -8,7 +8,6 @@ class HeavyLightDecomposition {
             if(sub_size[u] > sub_size[G[v][0]]) swap(u, G[v][0]);
         }
     }
-
     void dfs_hld(int v, int c, int &pos){
         id[v] = pos++;
         id_inv[id[v]]= v;
@@ -19,15 +18,12 @@ class HeavyLightDecomposition {
             dfs_hld(u, c, pos);
         }
     }
-
 public:
     int n;
     vector<vector<int>> G;
     vector<int> par, dep, sub_size, id, id_inv, tree_id, head;
-    explicit HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1),
-    id(n), id_inv(n), tree_id(n), head(n){}
-    explicit HeavyLightDecomposition(vector<vector<int>> &G) :
-    G(G), n(G.size()), par(n), dep(n) , sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n) {}
+    explicit HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n){}
+    explicit HeavyLightDecomposition(vector<vector<int>> &G) :G(G), n(G.size()), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n) {}
 
     void add_edge(int u, int v){
         G[u].emplace_back(v);
@@ -51,44 +47,42 @@ public:
         }
     }
 
-    int distance(int u, int v){
-        return dep[u] + dep[v] - 2*dep[lca(u, v)];
-    }
-
+    int distance(int u, int v){ return dep[u] + dep[v] - 2*dep[lca(u, v)]; }
 
     template<typename F>
-    void query(int u, int v, const F &f){
-        while(true){
+    void add(int u, int v, const F &f, bool edge){
+        while (head[u] != head[v]){
             if(id[u] > id[v]) swap(u, v);
-            f(max(id[head[v]], id[u]), id[v]+1);
-            if(head[u] == head[v]) break;
+            f(id[head[v]], id[v]+1);
             v = par[head[v]];
         }
-    }
-
-    template<typename F>
-    void query_edge(int u, int v, const F &f){
-        while(true){
-            if(id[u] > id[v]) swap(u, v);
-            if(head[u] != head[v]) {
-                f(id[head[v]], id[v]+1);
-                v = par[head[v]];
-            }else {
-                if(u != v) f(id[u]+1, id[v]+1);
-                break;
-            }
-        }
+        f(id[u]+edge, id[v]+1);
     }
 
     template<typename T, typename Q, typename F>
-    T query(int u, int v, const T &e, const Q &q, const F &f){
+    T query(int u, int v, const T &e, const Q &q, const F &f, bool edge){
         T l = e, r = e;
-        while(true){
+        while(head[u] != head[v]){
             if(id[u] > id[v]) swap(u, v), swap(l, r);
-            l = f(l, q(max(id[head[v]], id[u]), id[v]+1));
-            if(head[u] != head[v]) v = par[head[v]];
-            else break;
+            l = f(l, q(id[head[v]], id[v]+1));
+            v = par[head[v]];
         }
-        return f(l, r);
+        return f(q(id[u]+edge, id[v]+1), f(l, r));
+    }
+
+    template<typename T, typename QL, typename QR, typename F>
+    T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F &f, bool edge){
+        T l = e, r = e;
+        while(head[u] != head[v]){
+            if(id[u] > id[v]) {
+                l = f(l, qr(id[head[u]], id[u]+1));
+                u = par[head[u]];
+            }else {
+                r = f(ql(id[head[v]], id[v]+1), r);
+                v = par[head[v]];
+            }
+        }
+        T mid = (id[u] > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));
+        return f(f(l, mid), r);
     }
 };
