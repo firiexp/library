@@ -1,3 +1,4 @@
+
 class HeavyLightDecomposition {
     void dfs_sz(int v){
         for (auto &&u : G[v]) {
@@ -56,6 +57,7 @@ public:
             f(id[head[v]], id[v]+1);
             v = par[head[v]];
         }
+        if(id[u] > id[v]) swap(u, v);
         f(id[u]+edge, id[v]+1);
     }
 
@@ -67,6 +69,7 @@ public:
             l = f(l, q(id[head[v]], id[v]+1));
             v = par[head[v]];
         }
+        if(id[u] > id[v]) swap(u, v), swap(l, r);
         return f(q(id[u]+edge, id[v]+1), f(l, r));
     }
 
