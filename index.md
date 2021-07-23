@@ -86,7 +86,7 @@ data:
       title: "\u53CC\u5BFE\u30B0\u30E9\u30D5\u306E\u69CB\u7BC9"
     - icon: ':heavy_check_mark:'
       path: geometry/geometry.cpp
-      title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA"
+      title: geometry/geometry.cpp
     - icon: ':warning:'
       path: geometry/geometry3d.cpp
       title: geometry/geometry3d.cpp

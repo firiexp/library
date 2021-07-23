@@ -16,8 +16,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/geometry.md
-    document_title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA"
     links: []
   bundledCode: "#line 1 \"geometry/geometry.cpp\"\nusing real = double;\nstatic constexpr\
     \ real EPS = 1e-10;\nconst real pi = acos(-1);\nstruct Point {\n    real x, y;\n\
@@ -117,16 +115,23 @@ data:
     \ ret;\n}\n\nbool isconvex(Polygon v){\n    int n = v.size();\n    for (int i\
     \ = 0; i < n; ++i) {\n        if(ccw(v[(i+n-1)%n], v[i], v[(i+1)%n]) == CLOCKWISE)\
     \ return false;\n    }\n    return true;\n}\n\nint contains(Polygon v, Point p){\n\
-    \    int n = v.size();\n    bool x = false;\n    static constexpr int IN = 2;\n\
-    \    static constexpr int ON = 1;\n    static constexpr int OUT = 0;\n    for\
-    \ (int i = 0; i < n; ++i) {\n        Point a = v[i]-p, b = v[(i+1)%n]-p;\n   \
-    \     if(fabs(cross(a, b)) < EPS && dot(a, b) < EPS) return ON;\n        if(a.y\
-    \ > b.y) swap(a, b);\n        if(a.y < EPS && EPS < b.y && cross(a, b) > EPS)\
-    \ x = !x;\n    }\n    return (x?IN:OUT);\n}\n\nreal diameter(Polygon v){\n   \
-    \ int n = v.size();\n    if(n == 2) return abs(v[0]-v[1]);\n    int i = 0, j =\
-    \ 0;\n    for (int k = 0; k < n; ++k) {\n        if(v[i] < v[k]) i = k;\n    \
-    \    if(!(v[j] < v[k])) j = k;\n    }\n    real ret = 0;\n    int si = i, sj =\
-    \ j;\n    while(i != sj || j != si){\n        ret = max(ret, abs(v[i]-v[j]));\n\
+    \    int n = v.size();\n    bool x = false;\n    static constexpr int IN = 2,\
+    \ ON = 1, OUT = 0;\n    for (int i = 0; i < n; ++i) {\n        Point a = v[i]-p,\
+    \ b = v[(i+1)%n]-p;\n        if(fabs(cross(a, b)) < EPS && dot(a, b) < EPS) return\
+    \ ON;\n        if(a.y > b.y) swap(a, b);\n        if(a.y < EPS && EPS < b.y &&\
+    \ cross(a, b) > EPS) x = !x;\n    }\n    return (x?IN:OUT);\n}\n\nint contains_convex(Polygon&\
+    \ v, Point p){\n    int a = 1, b = v.size()-1;\n    static constexpr int IN =\
+    \ 2, ON = 1, OUT = 0;\n    if(v.size() < 3) return (ccw(v.front(), v.back(), p)&1)\
+    \ == 0 ? ON : OUT;\n    if(ccw(v[0], v[a], v[b]) > 0) swap(a, b);\n    int la\
+    \ = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n    if((la&1) == 0 || (lb&1)\
+    \ == 0) return ON;\n    if(la > 0 || lb < 0) return OUT;\n    while(abs(a-b) >\
+    \ 1){\n        int c = (a+b)/2;\n        int val = ccw(v[0], v[c], p);\n     \
+    \   (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if((res&1)\
+    \ == 0) return ON;\n    return res < 0 ? IN : OUT;\n}\n\nreal diameter(Polygon\
+    \ v){\n    int n = v.size();\n    if(n == 2) return abs(v[0]-v[1]);\n    int i\
+    \ = 0, j = 0;\n    for (int k = 0; k < n; ++k) {\n        if(v[i] < v[k]) i =\
+    \ k;\n        if(!(v[j] < v[k])) j = k;\n    }\n    real ret = 0;\n    int si\
+    \ = i, sj = j;\n    while(i != sj || j != si){\n        ret = max(ret, abs(v[i]-v[j]));\n\
     \        if(cross(v[(i+1)%n]-v[i], v[(j+1)%n]-v[j]) < 0.0) i = (i+1)%n;\n    \
     \    else j = (j+1)%n;\n    }\n    return ret;\n}\n\nPolygon convexCut(Polygon\
     \ v, Line l){\n    Polygon q;\n    int n = v.size();\n    for (int i = 0; i <\
@@ -142,8 +147,7 @@ data:
     \ >= d) continue;\n        for (int j = 0; j < u.size(); ++j) {\n            real\
     \ dy = v[i].y-next(u.rbegin(), j)->y;\n            if(dy >= d) break;\n      \
     \      d = min(d, abs(v[i]-*next(u.rbegin(), j)));\n        }\n        u.emplace_back(v[i]);\n\
-    \    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\
-    \u30EA\n * @docs _md/geometry.md\n */\n"
+    \    }\n    return d;\n}\n"
   code: "using real = double;\nstatic constexpr real EPS = 1e-10;\nconst real pi =\
     \ acos(-1);\nstruct Point {\n    real x, y;\n    Point& operator+=(const Point\
     \ a) { x += a.x; y += a.y;  return *this; }\n    Point& operator-=(const Point\
@@ -242,16 +246,23 @@ data:
     \ ret;\n}\n\nbool isconvex(Polygon v){\n    int n = v.size();\n    for (int i\
     \ = 0; i < n; ++i) {\n        if(ccw(v[(i+n-1)%n], v[i], v[(i+1)%n]) == CLOCKWISE)\
     \ return false;\n    }\n    return true;\n}\n\nint contains(Polygon v, Point p){\n\
-    \    int n = v.size();\n    bool x = false;\n    static constexpr int IN = 2;\n\
-    \    static constexpr int ON = 1;\n    static constexpr int OUT = 0;\n    for\
-    \ (int i = 0; i < n; ++i) {\n        Point a = v[i]-p, b = v[(i+1)%n]-p;\n   \
-    \     if(fabs(cross(a, b)) < EPS && dot(a, b) < EPS) return ON;\n        if(a.y\
-    \ > b.y) swap(a, b);\n        if(a.y < EPS && EPS < b.y && cross(a, b) > EPS)\
-    \ x = !x;\n    }\n    return (x?IN:OUT);\n}\n\nreal diameter(Polygon v){\n   \
-    \ int n = v.size();\n    if(n == 2) return abs(v[0]-v[1]);\n    int i = 0, j =\
-    \ 0;\n    for (int k = 0; k < n; ++k) {\n        if(v[i] < v[k]) i = k;\n    \
-    \    if(!(v[j] < v[k])) j = k;\n    }\n    real ret = 0;\n    int si = i, sj =\
-    \ j;\n    while(i != sj || j != si){\n        ret = max(ret, abs(v[i]-v[j]));\n\
+    \    int n = v.size();\n    bool x = false;\n    static constexpr int IN = 2,\
+    \ ON = 1, OUT = 0;\n    for (int i = 0; i < n; ++i) {\n        Point a = v[i]-p,\
+    \ b = v[(i+1)%n]-p;\n        if(fabs(cross(a, b)) < EPS && dot(a, b) < EPS) return\
+    \ ON;\n        if(a.y > b.y) swap(a, b);\n        if(a.y < EPS && EPS < b.y &&\
+    \ cross(a, b) > EPS) x = !x;\n    }\n    return (x?IN:OUT);\n}\n\nint contains_convex(Polygon&\
+    \ v, Point p){\n    int a = 1, b = v.size()-1;\n    static constexpr int IN =\
+    \ 2, ON = 1, OUT = 0;\n    if(v.size() < 3) return (ccw(v.front(), v.back(), p)&1)\
+    \ == 0 ? ON : OUT;\n    if(ccw(v[0], v[a], v[b]) > 0) swap(a, b);\n    int la\
+    \ = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n    if((la&1) == 0 || (lb&1)\
+    \ == 0) return ON;\n    if(la > 0 || lb < 0) return OUT;\n    while(abs(a-b) >\
+    \ 1){\n        int c = (a+b)/2;\n        int val = ccw(v[0], v[c], p);\n     \
+    \   (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if((res&1)\
+    \ == 0) return ON;\n    return res < 0 ? IN : OUT;\n}\n\nreal diameter(Polygon\
+    \ v){\n    int n = v.size();\n    if(n == 2) return abs(v[0]-v[1]);\n    int i\
+    \ = 0, j = 0;\n    for (int k = 0; k < n; ++k) {\n        if(v[i] < v[k]) i =\
+    \ k;\n        if(!(v[j] < v[k])) j = k;\n    }\n    real ret = 0;\n    int si\
+    \ = i, sj = j;\n    while(i != sj || j != si){\n        ret = max(ret, abs(v[i]-v[j]));\n\
     \        if(cross(v[(i+1)%n]-v[i], v[(j+1)%n]-v[j]) < 0.0) i = (i+1)%n;\n    \
     \    else j = (j+1)%n;\n    }\n    return ret;\n}\n\nPolygon convexCut(Polygon\
     \ v, Line l){\n    Polygon q;\n    int n = v.size();\n    for (int i = 0; i <\
@@ -267,14 +278,13 @@ data:
     \ >= d) continue;\n        for (int j = 0; j < u.size(); ++j) {\n            real\
     \ dy = v[i].y-next(u.rbegin(), j)->y;\n            if(dy >= d) break;\n      \
     \      d = min(d, abs(v[i]-*next(u.rbegin(), j)));\n        }\n        u.emplace_back(v[i]);\n\
-    \    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\
-    \u30EA\n * @docs _md/geometry.md\n */"
+    \    }\n    return d;\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/geometry.cpp
   requiredBy:
   - geometry/dualgraph.cpp
-  timestamp: '2020-11-23 18:34:52+09:00'
+  timestamp: '2021-07-23 12:53:43+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0273.test.cpp
@@ -284,12 +294,5 @@ layout: document
 redirect_from:
 - /library/geometry/geometry.cpp
 - /library/geometry/geometry.cpp.html
-title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA"
+title: geometry/geometry.cpp
 ---
-## 説明
-幾何に関するライブラリの詰め合わせ。いろいろあります
-
-## verifyされた機能
-- Point 構造体 (Point同士の加減、Pointのスカラー倍、比較(デフォルトは$x$座標)、入力)
-- Polygon は vector\<Point> の別名
-- $\mathrm{convex-hull}(v) $ : $v$の凸包を返す。
