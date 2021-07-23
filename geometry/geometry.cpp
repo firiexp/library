@@ -277,9 +277,7 @@ bool isconvex(Polygon v){
 int contains(Polygon v, Point p){
     int n = v.size();
     bool x = false;
-    static constexpr int IN = 2;
-    static constexpr int ON = 1;
-    static constexpr int OUT = 0;
+    static constexpr int IN = 2, ON = 1, OUT = 0;
     for (int i = 0; i < n; ++i) {
         Point a = v[i]-p, b = v[(i+1)%n]-p;
         if(fabs(cross(a, b)) < EPS && dot(a, b) < EPS) return ON;
@@ -287,6 +285,24 @@ int contains(Polygon v, Point p){
         if(a.y < EPS && EPS < b.y && cross(a, b) > EPS) x = !x;
     }
     return (x?IN:OUT);
+}
+
+int contains_convex(Polygon& v, Point p){
+    int a = 1, b = v.size()-1;
+    static constexpr int IN = 2, ON = 1, OUT = 0;
+    if(v.size() < 3) return (ccw(v.front(), v.back(), p)&1) == 0 ? ON : OUT;
+    if(ccw(v[0], v[a], v[b]) > 0) swap(a, b);
+    int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);
+    if((la&1) == 0 || (lb&1) == 0) return ON;
+    if(la > 0 || lb < 0) return OUT;
+    while(abs(a-b) > 1){
+        int c = (a+b)/2;
+        int val = ccw(v[0], v[c], p);
+        (val > 0 ? b : a) = c;
+    }
+    int res = ccw(v[a], v[b], p);
+    if((res&1) == 0) return ON;
+    return res < 0 ? IN : OUT;
 }
 
 real diameter(Polygon v){
@@ -344,8 +360,3 @@ real closest_pair(Polygon &v, int l = 0, int r = -1){
     }
     return d;
 }
-
-/**
- * @brief 幾何ライブラリ
- * @docs _md/geometry.md
- */
