@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void\
@@ -30,22 +30,25 @@ data:
     \            head[i] = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\
     \n    int lca(int u, int v){\n        while(true){\n            if(id[u] > id[v])\
     \ swap(u, v);\n            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int distance(int u, int v){ return dep[u] + dep[v] -\
-    \ 2*dep[lca(u, v)]; }\n\n    template<typename F>\n    void add(int u, int v,\
-    \ const F &f, bool edge){\n        while (head[u] != head[v]){\n            if(id[u]\
-    \ > id[v]) swap(u, v);\n            f(id[head[v]], id[v]+1);\n            v =\
-    \ par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge,\
-    \ id[v]+1);\n    }\n\n    template<typename T, typename Q, typename F>\n    T\
-    \ query(int u, int v, const T &e, const Q &q, const F &f, bool edge){\n      \
-    \  T l = e, r = e;\n        while(head[u] != head[v]){\n            if(id[u] >\
-    \ id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]], id[v]+1));\n\
-    \            v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v),\
-    \ swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n    }\n\n \
-    \   template<typename T, typename QL, typename QR, typename F>\n    T query_order(int\
-    \ u, int v, const T &e, const QL &ql, const QR &qr, const F &f, bool edge){\n\
-    \        T l = e, r = e;\n        while(head[u] != head[v]){\n            if(id[u]\
-    \ > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n          \
-    \      u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
+    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(G.dep[v] < k)\
+    \ return -1;\n        while(true) {\n            int u = head[v];\n          \
+    \  if(id[v] - k >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n\
+    \            v = par[u];\n        }\n    }\n\n    int distance(int u, int v){\
+    \ return dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    template<typename F>\n \
+    \   void add(int u, int v, const F &f, bool edge){\n        while (head[u] !=\
+    \ head[v]){\n            if(id[u] > id[v]) swap(u, v);\n            f(id[head[v]],\
+    \ id[v]+1);\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
+    \ swap(u, v);\n        f(id[u]+edge, id[v]+1);\n    }\n\n    template<typename\
+    \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
+    \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
+    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
+    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
+    \    }\n\n    template<typename T, typename QL, typename QR, typename F>\n   \
+    \ T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F\
+    \ &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n\
+    \                u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
     \ id[v]+1), r);\n                v = par[head[v]];\n            }\n        }\n\
     \        T mid = (id[u] > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n\
     \        return f(f(l, mid), r);\n    }\n};\n"
@@ -68,22 +71,25 @@ data:
     \ = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\n    int lca(int\
     \ u, int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n\
     \            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int distance(int u, int v){ return dep[u] + dep[v] -\
-    \ 2*dep[lca(u, v)]; }\n\n    template<typename F>\n    void add(int u, int v,\
-    \ const F &f, bool edge){\n        while (head[u] != head[v]){\n            if(id[u]\
-    \ > id[v]) swap(u, v);\n            f(id[head[v]], id[v]+1);\n            v =\
-    \ par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge,\
-    \ id[v]+1);\n    }\n\n    template<typename T, typename Q, typename F>\n    T\
-    \ query(int u, int v, const T &e, const Q &q, const F &f, bool edge){\n      \
-    \  T l = e, r = e;\n        while(head[u] != head[v]){\n            if(id[u] >\
-    \ id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]], id[v]+1));\n\
-    \            v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v),\
-    \ swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n    }\n\n \
-    \   template<typename T, typename QL, typename QR, typename F>\n    T query_order(int\
-    \ u, int v, const T &e, const QL &ql, const QR &qr, const F &f, bool edge){\n\
-    \        T l = e, r = e;\n        while(head[u] != head[v]){\n            if(id[u]\
-    \ > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n          \
-    \      u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
+    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(G.dep[v] < k)\
+    \ return -1;\n        while(true) {\n            int u = head[v];\n          \
+    \  if(id[v] - k >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n\
+    \            v = par[u];\n        }\n    }\n\n    int distance(int u, int v){\
+    \ return dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    template<typename F>\n \
+    \   void add(int u, int v, const F &f, bool edge){\n        while (head[u] !=\
+    \ head[v]){\n            if(id[u] > id[v]) swap(u, v);\n            f(id[head[v]],\
+    \ id[v]+1);\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
+    \ swap(u, v);\n        f(id[u]+edge, id[v]+1);\n    }\n\n    template<typename\
+    \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
+    \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
+    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
+    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
+    \    }\n\n    template<typename T, typename QL, typename QR, typename F>\n   \
+    \ T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F\
+    \ &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n\
+    \                u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
     \ id[v]+1), r);\n                v = par[head[v]];\n            }\n        }\n\
     \        T mid = (id[u] > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n\
     \        return f(f(l, mid), r);\n    }\n};"
@@ -91,8 +97,8 @@ data:
   isVerificationFile: false
   path: tree/hld.cpp
   requiredBy: []
-  timestamp: '2021-07-22 12:32:48+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2021-08-01 18:07:10+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_vertex_set_path_composite.test.cpp
 documentation_of: tree/hld.cpp
