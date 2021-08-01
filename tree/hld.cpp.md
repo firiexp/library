@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void\
@@ -30,7 +30,7 @@ data:
     \            head[i] = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\
     \n    int lca(int u, int v){\n        while(true){\n            if(id[u] > id[v])\
     \ swap(u, v);\n            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(G.dep[v] < k)\
+    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k)\
     \ return -1;\n        while(true) {\n            int u = head[v];\n          \
     \  if(id[v] - k >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n\
     \            v = par[u];\n        }\n    }\n\n    int distance(int u, int v){\
@@ -71,7 +71,7 @@ data:
     \ = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\n    int lca(int\
     \ u, int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n\
     \            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(G.dep[v] < k)\
+    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k)\
     \ return -1;\n        while(true) {\n            int u = head[v];\n          \
     \  if(id[v] - k >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n\
     \            v = par[u];\n        }\n    }\n\n    int distance(int u, int v){\
@@ -97,8 +97,8 @@ data:
   isVerificationFile: false
   path: tree/hld.cpp
   requiredBy: []
-  timestamp: '2021-08-01 18:07:10+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2021-08-01 18:22:52+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_vertex_set_path_composite.test.cpp
 documentation_of: tree/hld.cpp

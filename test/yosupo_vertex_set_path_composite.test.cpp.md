@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/segtree.cpp
     title: datastructure/segtree.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: tree/hld.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/vertex_set_path_composite
@@ -70,7 +70,7 @@ data:
     \ = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\n    int lca(int\
     \ u, int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n\
     \            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(G.dep[v] < k)\
+    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k)\
     \ return -1;\n        while(true) {\n            int u = head[v];\n          \
     \  if(id[v] - k >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n\
     \            v = par[u];\n        }\n    }\n\n    int distance(int u, int v){\
@@ -178,8 +178,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite.test.cpp
   requiredBy: []
-  timestamp: '2021-08-01 18:07:10+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2021-08-01 18:22:52+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite.test.cpp
 layout: document

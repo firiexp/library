@@ -4,7 +4,7 @@ data:
   - icon: ':warning:'
     path: math/get_min_factor.cpp
     title: math/get_min_factor.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []

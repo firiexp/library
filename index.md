@@ -33,7 +33,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/segbeats.cpp
       title: datastructure/segbeats.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/segtree.cpp
       title: datastructure/segtree.cpp
     - icon: ':warning:'
@@ -282,7 +282,7 @@ data:
     - icon: ':warning:'
       path: tree/diameter.cpp
       title: tree/diameter.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: tree/hld.cpp
       title: tree/hld.cpp
     - icon: ':warning:'
@@ -314,7 +314,7 @@ data:
     - icon: ':warning:'
       path: util/mo.cpp
       title: util/mo.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
@@ -458,7 +458,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind.test.cpp
       title: test/yosupo_unionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_set_path_composite.test.cpp
       title: test/yosupo_vertex_set_path_composite.test.cpp
     - icon: ':heavy_check_mark:'
