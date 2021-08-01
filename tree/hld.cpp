@@ -48,6 +48,16 @@ public:
         }
     }
 
+    int ancestor(int v, int k) {
+        if(G.dep[v] < k) return -1;
+        while(true) {
+            int u = head[v];
+            if(id[v] - k >= id[u]) return id_inv[id[v] - k];
+            k -= id[v]-id[u]+1;
+            v = par[u];
+        }
+    }
+
     int distance(int u, int v){ return dep[u] + dep[v] - 2*dep[lca(u, v)]; }
 
     template<typename F>
