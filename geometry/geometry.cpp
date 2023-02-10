@@ -1,39 +1,61 @@
+// 凸包は同じ頂点が含まれているとバグる
 using real = double;
 static constexpr real EPS = 1e-10;
 const real pi = acos(-1);
-struct Point {
+struct Point
+{
     real x, y;
-    Point& operator+=(const Point a) { x += a.x; y += a.y;  return *this; }
-    Point& operator-=(const Point a) { x -= a.x; y -= a.y;  return *this; }
-    Point& operator*=(const real k) { x *= k; y *= k;  return *this; }
-    Point& operator/=(const real k) { x /= k; y /= k;  return *this; }
-    Point operator+(const Point a) const {return Point(*this) += a; }
-    Point operator-(const Point a) const {return Point(*this) -= a; }
-    Point operator*(const real k) const {return Point(*this) *= k; }
-    Point operator/(const real k) const {return Point(*this) /= k; }
+    Point &operator+=(const Point a)
+    {
+        x += a.x;
+        y += a.y;
+        return *this;
+    }
+    Point &operator-=(const Point a)
+    {
+        x -= a.x;
+        y -= a.y;
+        return *this;
+    }
+    Point &operator*=(const real k)
+    {
+        x *= k;
+        y *= k;
+        return *this;
+    }
+    Point &operator/=(const real k)
+    {
+        x /= k;
+        y /= k;
+        return *this;
+    }
+    Point operator+(const Point a) const { return Point(*this) += a; }
+    Point operator-(const Point a) const { return Point(*this) -= a; }
+    Point operator*(const real k) const { return Point(*this) *= k; }
+    Point operator/(const real k) const { return Point(*this) /= k; }
     bool operator<(const Point &a) const { return (x != a.x ? x < a.x : y < a.y); }
-    explicit Point(real a = 0, real b = 0) : x(a), y(b) {};
+    explicit Point(real a = 0, real b = 0) : x(a), y(b){};
 };
 
-bool sorty(Point a, Point b){
+bool sorty(Point a, Point b)
+{
     return (a.y != b.y ? a.y < b.y : a.x < b.x);
 }
 
-istream& operator>> (istream& s, Point& P){
+istream &operator>>(istream &s, Point &P)
+{
     s >> P.x >> P.y;
     return s;
 }
 
-inline real dot(Point a, Point b){ return a.x*b.x + a.y*b.y; }
-inline real cross(Point a, Point b){ return a.x*b.y - a.y*b.x; }
-inline real abs(Point a){ return sqrt(dot(a, a)); }
+inline real dot(Point a, Point b) { return a.x * b.x + a.y * b.y; }
+inline real cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }
+inline real abs(Point a) { return sqrt(dot(a, a)); }
 
-
-real angle(Point A, Point B){
-    return acos(dot(A, B)/abs(A)/abs(B));
+real angle(Point A, Point B)
+{
+    return acos(dot(A, B) / abs(A) / abs(B));
 }
-
-
 
 static constexpr int COUNTER_CLOCKWISE = 1;
 static constexpr int CLOCKWISE = -1;
@@ -41,46 +63,60 @@ static constexpr int ONLINE_BACK = 2;
 static constexpr int ONLINE_FRONT = -2;
 static constexpr int ON_SEGMENT = 0;
 
-int ccw(Point a, Point b, Point c){
-    b -= a; c -= a;
-    if(cross(b, c) > EPS) return COUNTER_CLOCKWISE;
-    if(cross(b, c) < -EPS) return CLOCKWISE;
-    if(dot(b, c) < 0) return ONLINE_BACK;
-    if(abs(b) < abs(c)) return ONLINE_FRONT;
+int ccw(Point a, Point b, Point c)
+{
+    b -= a;
+    c -= a;
+    if (cross(b, c) > EPS)
+        return COUNTER_CLOCKWISE;
+    if (cross(b, c) < -EPS)
+        return CLOCKWISE;
+    if (dot(b, c) < 0)
+        return ONLINE_BACK;
+    if (abs(b) < abs(c))
+        return ONLINE_FRONT;
     return ON_SEGMENT;
 }
-struct Segment {
+struct Segment
+{
     Point a, b;
-    Segment(Point x, Point y) : a(x), b(y) {};
+    Segment(Point x, Point y) : a(x), b(y){};
 };
 
-struct Line {
+struct Line
+{
     Point a, b;
-    Line(Point x, Point y) : a(x), b(y) {};
+    Line(Point x, Point y) : a(x), b(y){};
 };
 
-struct Circle{
-    Point c; real r;
-    Circle(Point c, real r): c(c), r(r) {};
+struct Circle
+{
+    Point c;
+    real r;
+    Circle(Point c, real r) : c(c), r(r){};
 };
 
 using Polygon = vector<Point>;
 
-bool intersect(Segment s, Segment t){
-    return (ccw(s.a, s.b, t.a)*ccw(s.a, s.b, t.b) <= 0 &&
-            ccw(t.a, t.b, s.a)*ccw(t.a, t.b, s.b) <= 0);
+bool intersect(Segment s, Segment t)
+{
+    return (ccw(s.a, s.b, t.a) * ccw(s.a, s.b, t.b) <= 0 &&
+            ccw(t.a, t.b, s.a) * ccw(t.a, t.b, s.b) <= 0);
 }
 
-bool intersect(Segment s, Line t){
+bool intersect(Segment s, Line t)
+{
     int a = ccw(t.a, t.b, s.a), b = ccw(t.a, t.b, s.b);
-    return (!(a&1) || !(b&1) || a != b);
+    return (!(a & 1) || !(b & 1) || a != b);
 }
 
-Point polar(double r, double t){
-    return Point(r*cos(t), r*sin(t));
+Point polar(double r, double t)
+{
+    return Point(r * cos(t), r * sin(t));
 }
 
-double arg(Point p){
+double arg(Point p)
+{
     return atan2(p.y, p.x);
 }
 
@@ -90,271 +126,353 @@ static constexpr int INTERSECT = 2;
 static constexpr int CIRCUMSCRIBED = 3;
 static constexpr int SEPARATE = 4;
 
-int intersect(Circle c1, Circle c2){
-    if(c1.r < c2.r) swap(c1, c2);
-    real d = abs(c1.c-c2.c);
+int intersect(Circle c1, Circle c2)
+{
+    if (c1.r < c2.r)
+        swap(c1, c2);
+    real d = abs(c1.c - c2.c);
     real r = c1.r + c2.r;
-    if(fabs(d-r) < EPS) return CIRCUMSCRIBED;
-    if(d > r) return SEPARATE;
-    if(fabs(d+c2.r-c1.r) < EPS) return INSCRIBE;
-    if(d+c2.r < c1.r) return CONTAIN;
+    if (fabs(d - r) < EPS)
+        return CIRCUMSCRIBED;
+    if (d > r)
+        return SEPARATE;
+    if (fabs(d + c2.r - c1.r) < EPS)
+        return INSCRIBE;
+    if (d + c2.r < c1.r)
+        return CONTAIN;
     return INTERSECT;
 }
 
-real distance(Line l, Point c){
-    return abs(cross(l.b-l.a, c-l.a)/abs(l.b-l.a));
+real distance(Line l, Point c)
+{
+    return abs(cross(l.b - l.a, c - l.a) / abs(l.b - l.a));
 }
 
-
-real distance(Segment s, Point c){
-    if(dot(s.b-s.a, c-s.a) < EPS) return abs(c-s.a);
-    if(dot(s.a-s.b, c-s.b) < EPS) return abs(c-s.b);
-    return abs(cross(s.b-s.a, c-s.a)) / abs(s.a-s.b);
+real distance(Segment s, Point c)
+{
+    if (dot(s.b - s.a, c - s.a) < EPS)
+        return abs(c - s.a);
+    if (dot(s.a - s.b, c - s.b) < EPS)
+        return abs(c - s.b);
+    return abs(cross(s.b - s.a, c - s.a)) / abs(s.a - s.b);
 }
 
-real distance(Segment s, Segment t){
-    if(intersect(s, t)) return 0.0;
+real distance(Segment s, Segment t)
+{
+    if (intersect(s, t))
+        return 0.0;
     return min({distance(s, t.a), distance(s, t.b),
                 distance(t, s.a), distance(t, s.b)});
 }
 
-
-Point project(Line l, Point p){
-    Point Q = l.b-l.a;
-    return l.a + Q*(dot(p-l.a, Q) / dot(Q, Q));
+Point project(Line l, Point p)
+{
+    Point Q = l.b - l.a;
+    return l.a + Q * (dot(p - l.a, Q) / dot(Q, Q));
 }
 
-
-Point project(Segment s, Point p){
-    Point Q = s.b-s.a;
-    return s.a + Q*(dot(p-s.a, Q) / dot(Q, Q));
+Point project(Segment s, Point p)
+{
+    Point Q = s.b - s.a;
+    return s.a + Q * (dot(p - s.a, Q) / dot(Q, Q));
 }
 
-Point refrect(Segment s, Point p){
+Point refrect(Segment s, Point p)
+{
     Point Q = project(s, p);
-    return Q*2-p;
+    return Q * 2 - p;
 }
 
-bool isOrthogonal(Segment s, Segment t){
-    return fabs(dot(s.b-s.a, t.b-t.a)) < EPS;
+bool isOrthogonal(Segment s, Segment t)
+{
+    return fabs(dot(s.b - s.a, t.b - t.a)) < EPS;
 }
 
-bool isparallel(Segment s, Segment t){
-    return fabs(cross(s.b-s.a, t.b-t.a)) < EPS;
+bool isparallel(Segment s, Segment t)
+{
+    return fabs(cross(s.b - s.a, t.b - t.a)) < EPS;
 }
 
-
-Point crossPoint(Segment s, Segment t){
-    real d1 = cross(s.b-s.a, t.b-t.a);
-    real d2 = cross(s.b-s.a, s.b-t.a);
-    if(fabs(d1) < EPS && fabs(d2) < EPS) return t.a;
-    return t.a+(t.b-t.a)*d2/d1;
+Point crossPoint(Segment s, Segment t)
+{
+    real d1 = cross(s.b - s.a, t.b - t.a);
+    real d2 = cross(s.b - s.a, s.b - t.a);
+    if (fabs(d1) < EPS && fabs(d2) < EPS)
+        return t.a;
+    return t.a + (t.b - t.a) * d2 / d1;
 }
 
-Point crossPoint(Line s, Line t){
-    real d1 = cross(s.b-s.a, t.b-t.a);
-    real d2 = cross(s.b-s.a, s.b-t.a);
-    if(fabs(d1) < EPS && fabs(d2) < EPS) return t.a;
-    return t.a+(t.b-t.a)*d2/d1;
+Point crossPoint(Line s, Line t)
+{
+    real d1 = cross(s.b - s.a, t.b - t.a);
+    real d2 = cross(s.b - s.a, s.b - t.a);
+    if (fabs(d1) < EPS && fabs(d2) < EPS)
+        return t.a;
+    return t.a + (t.b - t.a) * d2 / d1;
 }
 
-Polygon crossPoint(Circle c, Line l){
-    Point p = project(l, c.c), q = (l.b-l.a)/abs(l.b-l.a);
-    if(abs(distance(l, c.c)-c.r) < EPS){
+Polygon crossPoint(Circle c, Line l)
+{
+    Point p = project(l, c.c), q = (l.b - l.a) / abs(l.b - l.a);
+    if (abs(distance(l, c.c) - c.r) < EPS)
+    {
         return {p};
     }
-    double k = sqrt(c.r*c.r-dot(p-c.c, p-c.c));
-    return {p-q*k, p+q*k};
+    double k = sqrt(c.r * c.r - dot(p - c.c, p - c.c));
+    return {p - q * k, p + q * k};
 }
 
-Polygon crossPoint(Circle c, Segment s){
+Polygon crossPoint(Circle c, Segment s)
+{
     auto tmp = crossPoint(c, Line(s.a, s.b));
     Polygon ret;
-    for (auto &&i : tmp) {
-        if(distance(s, i) < EPS) ret.emplace_back(i);
+    for (auto &&i : tmp)
+    {
+        if (distance(s, i) < EPS)
+            ret.emplace_back(i);
     }
     return ret;
 }
 
-
-Polygon crossPoint(Circle c1, Circle c2){
-    double d = abs(c1.c-c2.c);
-    double a = acos((c1.r*c1.r+d*d-c2.r*c2.r)/(2*c1.r*d));
-    double t = arg(c2.c-c1.c);
-    return {c1.c+polar(c1.r, t+a), c1.c+polar(c1.r, t-a)};
+Polygon crossPoint(Circle c1, Circle c2)
+{
+    double d = abs(c1.c - c2.c);
+    double a = acos((c1.r * c1.r + d * d - c2.r * c2.r) / (2 * c1.r * d));
+    double t = arg(c2.c - c1.c);
+    return {c1.c + polar(c1.r, t + a), c1.c + polar(c1.r, t - a)};
 }
 
-Polygon tangent(Circle c1, Point p){
-    Circle c2 = Circle(p, sqrt(dot(c1.c-p, c1.c-p)-c1.r*c1.r));
+Polygon tangent(Circle c1, Point p)
+{
+    Circle c2 = Circle(p, sqrt(dot(c1.c - p, c1.c - p) - c1.r * c1.r));
     return crossPoint(c1, c2);
 }
-vector<Line> tangent(Circle c1, Circle c2){
+vector<Line> tangent(Circle c1, Circle c2)
+{
     vector<Line> ret;
-    if(c1.r < c2.r) swap(c1, c2);
-    double k = dot(c1.c-c2.c, c1.c-c2.c);
-    if(abs(k) < EPS) return {};
-    Point u = (c2.c-c1.c)/sqrt(k);
+    if (c1.r < c2.r)
+        swap(c1, c2);
+    double k = dot(c1.c - c2.c, c1.c - c2.c);
+    if (abs(k) < EPS)
+        return {};
+    Point u = (c2.c - c1.c) / sqrt(k);
     Point v(-u.y, u.x);
-    for (auto &&i : {-1, 1}) {
-        double h = (c1.r+i*c2.r)/sqrt(k);
-        if(abs(h*h-1) < EPS){
-            ret.emplace_back(c1.c+u*c1.r, c1.c+(u+v)*c1.r);
-        }else if(h*h < 1){
-            Point u2 = u*h, v2 = v*sqrt(1-h*h);
-            ret.emplace_back(c1.c+(u2+v2)*c1.r, c2.c-(u2+v2)*c2.r*i);
-            ret.emplace_back(c1.c+(u2-v2)*c1.r, c2.c-(u2-v2)*c2.r*i);
+    for (auto &&i : {-1, 1})
+    {
+        double h = (c1.r + i * c2.r) / sqrt(k);
+        if (abs(h * h - 1) < EPS)
+        {
+            ret.emplace_back(c1.c + u * c1.r, c1.c + (u + v) * c1.r);
+        }
+        else if (h * h < 1)
+        {
+            Point u2 = u * h, v2 = v * sqrt(1 - h * h);
+            ret.emplace_back(c1.c + (u2 + v2) * c1.r, c2.c - (u2 + v2) * c2.r * i);
+            ret.emplace_back(c1.c + (u2 - v2) * c1.r, c2.c - (u2 - v2) * c2.r * i);
         }
     }
     return ret;
 }
 
-real area(Polygon v){
-    if(v.size() < 3) return 0.0;
+real area(Polygon v)
+{
+    if (v.size() < 3)
+        return 0.0;
     real ans = 0.0;
-    for (int i = 0; i < v.size(); ++i) {
-        ans += cross(v[i], v[(i+1)%v.size()]);
+    for (int i = 0; i < v.size(); ++i)
+    {
+        ans += cross(v[i], v[(i + 1) % v.size()]);
     }
-    return ans/2;
+    return ans / 2;
 }
 
-real area(Circle c, Polygon &v){
+real area(Circle c, Polygon &v)
+{
     int n = v.size();
     real ans = 0.0;
     Polygon u;
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i)
+    {
         u.emplace_back(v[i]);
-        auto q = crossPoint(c, Segment(v[i], v[(i+1)%n]));
-        for (auto &&j : q) {
+        auto q = crossPoint(c, Segment(v[i], v[(i + 1) % n]));
+        for (auto &&j : q)
+        {
             u.emplace_back(j);
         }
     }
-    for (int i = 0; i < u.size(); ++i) {
-        Point A = u[i]-c.c, B = u[(i+1)%u.size()]-c.c;
-        if(abs(A) >= c.r+EPS || abs(B) >= c.r+EPS){
-            Point C = polar(1, arg(B)-arg(A));
-            ans += c.r*c.r*arg(C)/2;
-        }else {
-            ans += cross(A, B)/2;
+    for (int i = 0; i < u.size(); ++i)
+    {
+        Point A = u[i] - c.c, B = u[(i + 1) % u.size()] - c.c;
+        if (abs(A) >= c.r + EPS || abs(B) >= c.r + EPS)
+        {
+            Point C = polar(1, arg(B) - arg(A));
+            ans += c.r * c.r * arg(C) / 2;
+        }
+        else
+        {
+            ans += cross(A, B) / 2;
         }
     }
     return ans;
 }
 
-real area(Circle a, Circle b){
-    auto d = abs(a.c-b.c);
-    if(a.r+b.r <= d + EPS) return 0;
-    else if(d <= abs(a.r-b.r)) return pi*min(a.r, b.r)*min(a.r, b.r);
-    real p = 2*acos((a.r*a.r + d*d - b.r*b.r)/(2*a.r*d));
-    real q = 2*acos((b.r*b.r + d*d - a.r*a.r)/(2*b.r*d));
-    return a.r*a.r*(p-sin(p))/2 + b.r*b.r*(q-sin(q))/2;
+real area(Circle a, Circle b)
+{
+    auto d = abs(a.c - b.c);
+    if (a.r + b.r <= d + EPS)
+        return 0;
+    else if (d <= abs(a.r - b.r))
+        return pi * min(a.r, b.r) * min(a.r, b.r);
+    real p = 2 * acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d));
+    real q = 2 * acos((b.r * b.r + d * d - a.r * a.r) / (2 * b.r * d));
+    return a.r * a.r * (p - sin(p)) / 2 + b.r * b.r * (q - sin(q)) / 2;
 }
 
-Polygon convex_hull(Polygon v){
+Polygon convex_hull(Polygon v)
+{
     int n = v.size();
-    sort(v.begin(),v.end(), sorty);
+    sort(v.begin(), v.end(), sorty);
     int k = 0;
-    Polygon ret(n*2);
-    for (int i = 0; i < n; ++i) {
-        while(k > 1 && cross(ret[k-1]-ret[k-2], v[i]-ret[k-1]) < 0) k--;
+    Polygon ret(n * 2);
+    for (int i = 0; i < n; ++i)
+    {
+        while (k > 1 && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)
+            k--;
         ret[k++] = v[i];
     }
-    for(int i = n-2, t=k; i >= 0; i--){
-        while(k > t && cross(ret[k-1]-ret[k-2], v[i]-ret[k-1]) < 0) k--;
+    for (int i = n - 2, t = k; i >= 0; i--)
+    {
+        while (k > t && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)
+            k--;
         ret[k++] = v[i];
     }
-    ret.resize(k-1);
+    ret.resize(k - 1);
     return ret;
 }
 
-bool isconvex(Polygon v){
+bool isconvex(Polygon v)
+{
     int n = v.size();
-    for (int i = 0; i < n; ++i) {
-        if(ccw(v[(i+n-1)%n], v[i], v[(i+1)%n]) == CLOCKWISE) return false;
+    for (int i = 0; i < n; ++i)
+    {
+        if (ccw(v[(i + n - 1) % n], v[i], v[(i + 1) % n]) == CLOCKWISE)
+            return false;
     }
     return true;
 }
 
-int contains(Polygon v, Point p){
+int contains(Polygon v, Point p)
+{
     int n = v.size();
     bool x = false;
     static constexpr int IN = 2, ON = 1, OUT = 0;
-    for (int i = 0; i < n; ++i) {
-        Point a = v[i]-p, b = v[(i+1)%n]-p;
-        if(fabs(cross(a, b)) < EPS && dot(a, b) < EPS) return ON;
-        if(a.y > b.y) swap(a, b);
-        if(a.y < EPS && EPS < b.y && cross(a, b) > EPS) x = !x;
+    for (int i = 0; i < n; ++i)
+    {
+        Point a = v[i] - p, b = v[(i + 1) % n] - p;
+        if (fabs(cross(a, b)) < EPS && dot(a, b) < EPS)
+            return ON;
+        if (a.y > b.y)
+            swap(a, b);
+        if (a.y < EPS && EPS < b.y && cross(a, b) > EPS)
+            x = !x;
     }
-    return (x?IN:OUT);
+    return (x ? IN : OUT);
 }
 
-int contains_convex(Polygon& v, Point p){
-    int a = 1, b = v.size()-1;
+int contains_convex(Polygon &v, Point p)
+{
+    int a = 1, b = v.size() - 1;
     static constexpr int IN = 2, ON = 1, OUT = 0;
-    if(v.size() < 3) return (ccw(v.front(), v.back(), p)&1) == 0 ? ON : OUT;
-    if(ccw(v[0], v[a], v[b]) > 0) swap(a, b);
+    if (v.size() < 3)
+        return (ccw(v.front(), v.back(), p) & 1) == 0 ? ON : OUT;
+    if (ccw(v[0], v[a], v[b]) > 0)
+        swap(a, b);
     int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);
-    if((la&1) == 0 || (lb&1) == 0) return ON;
-    if(la > 0 || lb < 0) return OUT;
-    while(abs(a-b) > 1){
-        int c = (a+b)/2;
+    if ((la & 1) == 0 || (lb & 1) == 0)
+        return ON;
+    if (la > 0 || lb < 0)
+        return OUT;
+    while (abs(a - b) > 1)
+    {
+        int c = (a + b) / 2;
         int val = ccw(v[0], v[c], p);
         (val > 0 ? b : a) = c;
     }
     int res = ccw(v[a], v[b], p);
-    if((res&1) == 0) return ON;
+    if ((res & 1) == 0)
+        return ON;
     return res < 0 ? IN : OUT;
 }
 
-real diameter(Polygon v){
+real diameter(Polygon v)
+{
     int n = v.size();
-    if(n == 2) return abs(v[0]-v[1]);
+    if (n == 2)
+        return abs(v[0] - v[1]);
     int i = 0, j = 0;
-    for (int k = 0; k < n; ++k) {
-        if(v[i] < v[k]) i = k;
-        if(!(v[j] < v[k])) j = k;
+    for (int k = 0; k < n; ++k)
+    {
+        if (v[i] < v[k])
+            i = k;
+        if (!(v[j] < v[k]))
+            j = k;
     }
     real ret = 0;
     int si = i, sj = j;
-    while(i != sj || j != si){
-        ret = max(ret, abs(v[i]-v[j]));
-        if(cross(v[(i+1)%n]-v[i], v[(j+1)%n]-v[j]) < 0.0) i = (i+1)%n;
-        else j = (j+1)%n;
+    while (i != sj || j != si)
+    {
+        ret = max(ret, abs(v[i] - v[j]));
+        if (cross(v[(i + 1) % n] - v[i], v[(j + 1) % n] - v[j]) < 0.0)
+            i = (i + 1) % n;
+        else
+            j = (j + 1) % n;
     }
     return ret;
 }
 
-Polygon convexCut(Polygon v, Line l){
+Polygon convexCut(Polygon v, Line l)
+{
     Polygon q;
     int n = v.size();
-    for (int i = 0; i < n; ++i) {
-        Point a = v[i], b = v[(i+1)%n];
-        if(ccw(l.a, l.b, a) != -1) q.push_back(a);
-        if(ccw(l.a, l.b, a)*ccw(l.a, l.b, b) < 0){
+    for (int i = 0; i < n; ++i)
+    {
+        Point a = v[i], b = v[(i + 1) % n];
+        if (ccw(l.a, l.b, a) != -1)
+            q.push_back(a);
+        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0)
+        {
             q.push_back(crossPoint(Line(a, b), l));
         }
     }
     return q;
 }
 
-real closest_pair(Polygon &v, int l = 0, int r = -1){
-    if(!(~r)){
+real closest_pair(Polygon &v, int l = 0, int r = -1)
+{
+    if (!(~r))
+    {
         r = v.size();
-        sort(v.begin(),v.end());
+        sort(v.begin(), v.end());
     }
-    if(r - l < 2) {
-        return abs(v.front()-v.back());
+    if (r - l < 2)
+    {
+        return abs(v.front() - v.back());
     }
-    int mid = (l+r)/2;
+    int mid = (l + r) / 2;
     real p = v[mid].x;
     real d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));
-    inplace_merge(v.begin()+l, v.begin()+mid, v.begin()+r, sorty);
+    inplace_merge(v.begin() + l, v.begin() + mid, v.begin() + r, sorty);
     Polygon u;
-    for (int i = l; i < r; ++i) {
-        if(fabs(v[i].x-p) >= d) continue;
-        for (int j = 0; j < u.size(); ++j) {
-            real dy = v[i].y-next(u.rbegin(), j)->y;
-            if(dy >= d) break;
-            d = min(d, abs(v[i]-*next(u.rbegin(), j)));
+    for (int i = l; i < r; ++i)
+    {
+        if (fabs(v[i].x - p) >= d)
+            continue;
+        for (int j = 0; j < u.size(); ++j)
+        {
+            real dy = v[i].y - next(u.rbegin(), j)->y;
+            if (dy >= d)
+                break;
+            d = min(d, abs(v[i] - *next(u.rbegin(), j)));
         }
         u.emplace_back(v[i]);
     }
