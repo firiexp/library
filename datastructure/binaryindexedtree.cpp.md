@@ -38,8 +38,8 @@ data:
   timestamp: '2020-09-09 23:52:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_dsl_2_b.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
+  - test/aoj_dsl_2_b.test.cpp
 documentation_of: datastructure/binaryindexedtree.cpp
 layout: document
 redirect_from:

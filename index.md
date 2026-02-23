@@ -327,6 +327,9 @@ data:
       path: util/rle.cpp
       title: util/rle.cpp
     - icon: ':warning:'
+      path: util/template.cpp
+      title: util/template.cpp
+    - icon: ':warning:'
       path: util/uniq.cpp
       title: util/uniq.cpp
     - icon: ':heavy_check_mark:'
