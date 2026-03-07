@@ -8,4 +8,4 @@ tags: テンプレート
 
 ## 説明
 テンプレート
-{% include a.html code="template.txt" %}
+`snippets/template.cpp` にコンテスト用テンプレートを置く。

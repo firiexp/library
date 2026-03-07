@@ -17,7 +17,7 @@ public:
 
     void pop_front(){
         if(l.empty()){
-            if(r.empty()) r.pop_back();
+            if(r.empty()) return;
             int lsize = (r.size() + 1) / 2, rsize = r.size() - lsize;
             l.resize(lsize); lsum.resize(lsize + 1);
             for (int i = 0; i < lsize; ++i) l[i] = r[lsize - i - 1], lsum[i+1] = G::f(l[i], lsum[i]);
@@ -29,7 +29,7 @@ public:
 
     void pop_back(){
         if(r.empty()){
-            if(l.empty()) l.pop_back();
+            if(l.empty()) return;
             int rsize = (l.size() + 1) / 2, lsize = l.size() - rsize;
             r.resize(rsize); rsum.resize(rsize + 1);
             for (int i = 0; i < rsize; ++i) r[i] = l[rsize - i - 1], rsum[i+1] = G::f(rsum[i], r[i]);

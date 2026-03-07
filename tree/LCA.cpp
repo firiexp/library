@@ -24,7 +24,7 @@ public:
     int n;
     vector<vector<int>> G;
     vector<int> vs, depth, id;
-    explicit Graph(int n) : n(n), G(n), vs(2*n-1), depth(2*n-1), id(n), table() {};
+    explicit LCA(int n) : n(n), G(n), vs(2*n-1), depth(2*n-1), id(n), table() {};
     void add_edge(int a, int b){
         G[a].emplace_back(b);
         G[b].emplace_back(a);
@@ -44,8 +44,8 @@ public:
         table.build(v);
     }
  
-    int LCA(int u, int v){
+    int lca(int u, int v){
         if(id[u] > id[v]) swap(u, v);
-        return table.query(id[u], id[v]+1).second;
+        return vs[table.query(id[u], id[v]+1).second];
     }
 };

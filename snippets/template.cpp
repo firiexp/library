@@ -1,6 +1,3 @@
-// Contest template helper pieces (no main function).
-// Full submission template lives in snippets/template.cpp.
-
 #include <algorithm>
 #include <array>
 #include <bitset>
@@ -13,6 +10,7 @@
 #include <set>
 #include <stack>
 #include <unordered_map>
+#include <vector>
 
 static const int MOD = 1000000007;
 using ll = long long;
@@ -64,4 +62,8 @@ vector<pair<T, int>> RLE(const vector<T> &a){
         else p.emplace_back(a[j], 1);
     }
     return p;
+}
+
+int main() {
+    return 0;
 }

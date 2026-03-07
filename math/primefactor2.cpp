@@ -37,7 +37,7 @@ template<class T>
 vector<T> prime_factor(T n){
     vector<T> res;
     for (auto &&i : primes) {
-        while (i.divides(n)){
+        while (i.divide(n)){
             res.emplace_back(i.val);
             n /= i.val;
         }
