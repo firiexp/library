@@ -21,8 +21,8 @@ data:
     \     is_prime[i*j.val] = false;\n            if(j.divide(i)) break;\n       \
     \ }\n    }\n    return prime;\n}\nconst auto primes = get_prime(32000);\n\ntemplate<class\
     \ T>\nvector<T> prime_factor(T n){\n    vector<T> res;\n    for (auto &&i : primes)\
-    \ {\n        while (i.divides(n)){\n            res.emplace_back(i.val);\n   \
-    \         n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
+    \ {\n        while (i.divide(n)){\n            res.emplace_back(i.val);\n    \
+    \        n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
     \    return res;\n}\n"
   code: "using uint = uint32_t;\n\ntemplate<typename T>\nstruct ExactDiv {\n    T\
     \ t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n))\
@@ -37,14 +37,14 @@ data:
     \     is_prime[i*j.val] = false;\n            if(j.divide(i)) break;\n       \
     \ }\n    }\n    return prime;\n}\nconst auto primes = get_prime(32000);\n\ntemplate<class\
     \ T>\nvector<T> prime_factor(T n){\n    vector<T> res;\n    for (auto &&i : primes)\
-    \ {\n        while (i.divides(n)){\n            res.emplace_back(i.val);\n   \
-    \         n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
-    \    return res;\n}"
+    \ {\n        while (i.divide(n)){\n            res.emplace_back(i.val);\n    \
+    \        n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
+    \    return res;\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: math/primefactor2.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
+  timestamp: '2026-03-07 20:03:13+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: math/primefactor2.cpp

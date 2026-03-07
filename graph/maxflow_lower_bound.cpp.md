@@ -1,0 +1,171 @@
+---
+data:
+  _extendedDependsOn: []
+  _extendedRequiredBy: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
+    title: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
+  _isVerificationFailed: false
+  _pathExtension: cpp
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    _deprecated_at_docs: _md/maxflow_lower_bound.md
+    document_title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304D s-t \u6700\u5927\u6D41"
+    links: []
+  bundledCode: "#line 1 \"graph/maxflow_lower_bound.cpp\"\ntemplate<class T>\nclass\
+    \ MaxFlowLowerBound {\n    struct Dinic {\n        struct edge {\n           \
+    \ int to{};\n            T cap{};\n            int rev{};\n            edge()\
+    \ = default;\n            edge(int to, T cap, int rev) : to(to), cap(cap), rev(rev)\
+    \ {}\n        };\n\n        vector<vector<edge>> G;\n        vector<int> level,\
+    \ iter;\n\n        Dinic() = default;\n        explicit Dinic(int n) : G(n), level(n),\
+    \ iter(n) {}\n\n        pair<int, int> add_edge(int from, int to, T cap) {\n \
+    \           int fi = (int)G[from].size();\n            int ti = (int)G[to].size();\n\
+    \            G[from].emplace_back(to, cap, ti);\n            G[to].emplace_back(from,\
+    \ 0, fi);\n            return {from, fi};\n        }\n\n        void bfs(int s)\
+    \ {\n            fill(level.begin(), level.end(), -1);\n            queue<int>\
+    \ q;\n            level[s] = 0;\n            q.emplace(s);\n            while(!q.empty())\
+    \ {\n                int v = q.front();\n                q.pop();\n          \
+    \      for(auto &&e : G[v]) {\n                    if(e.cap > 0 && level[e.to]\
+    \ < 0) {\n                        level[e.to] = level[v] + 1;\n              \
+    \          q.emplace(e.to);\n                    }\n                }\n      \
+    \      }\n        }\n\n        T dfs(int v, int t, T f) {\n            if(v ==\
+    \ t) return f;\n            for(int &i = iter[v]; i < (int)G[v].size(); ++i) {\n\
+    \                edge &e = G[v][i];\n                if(e.cap > 0 && level[v]\
+    \ < level[e.to]) {\n                    T d = dfs(e.to, t, min(f, e.cap));\n \
+    \                   if(d == 0) continue;\n                    e.cap -= d;\n  \
+    \                  G[e.to][e.rev].cap += d;\n                    return d;\n \
+    \               }\n            }\n            return 0;\n        }\n\n       \
+    \ T flow(int s, int t, T lim = INF<T>) {\n            T ret = 0;\n           \
+    \ while(lim > 0) {\n                bfs(s);\n                if(level[t] < 0)\
+    \ break;\n                fill(iter.begin(), iter.end(), 0);\n               \
+    \ while(lim > 0) {\n                    T f = dfs(s, t, lim);\n              \
+    \      if(f == 0) break;\n                    ret += f;\n                    lim\
+    \ -= f;\n                }\n            }\n            return ret;\n        }\n\
+    \    };\n\n    struct raw_edge {\n        int from{}, to{};\n        T lower{},\
+    \ upper{};\n    };\n\npublic:\n    int n;\n    vector<raw_edge> edges;\n    MaxFlowLowerBound()\
+    \ = default;\n    explicit MaxFlowLowerBound(int n) : n(n) {}\n\n    void add_edge(int\
+    \ from, int to, T lower, T upper) {\n        edges.push_back({from, to, lower,\
+    \ upper});\n    }\n\n    pair<bool, T> max_flow(int s, int t) {\n        int ss\
+    \ = n, tt = n + 1;\n        Dinic mf(n + 2);\n        vector<T> b(n, 0);\n\n \
+    \       for(auto &&e : edges) {\n            mf.add_edge(e.from, e.to, e.upper\
+    \ - e.lower);\n            b[e.from] -= e.lower;\n            b[e.to] += e.lower;\n\
+    \        }\n\n        auto ts = mf.add_edge(t, s, INF<T>);\n        T req = 0;\n\
+    \        vector<pair<int, int>> super_edges;\n        for(int v = 0; v < n; ++v)\
+    \ {\n            if(b[v] > 0) {\n                req += b[v];\n              \
+    \  super_edges.emplace_back(mf.add_edge(ss, v, b[v]));\n            } else if(b[v]\
+    \ < 0) {\n                mf.add_edge(v, tt, -b[v]);\n            }\n        }\n\
+    \n        if(mf.flow(ss, tt) != req) return {false, 0};\n\n        for(auto &&id\
+    \ : super_edges) {\n            if(mf.G[id.first][id.second].cap != 0) return\
+    \ {false, 0};\n        }\n\n        int to = mf.G[ts.first][ts.second].to;\n \
+    \       int rev = mf.G[ts.first][ts.second].rev;\n        T base = mf.G[to][rev].cap;\n\
+    \        mf.G[ts.first][ts.second].cap = 0;\n        mf.G[to][rev].cap = 0;\n\n\
+    \        T add = mf.flow(s, t);\n        return {true, base + add};\n    }\n};\n\
+    \n/**\n * @brief \u4E0B\u9650\u5236\u7D04\u4ED8\u304D s-t \u6700\u5927\u6D41\n\
+    \ * @docs _md/maxflow_lower_bound.md\n */\n"
+  code: "template<class T>\nclass MaxFlowLowerBound {\n    struct Dinic {\n      \
+    \  struct edge {\n            int to{};\n            T cap{};\n            int\
+    \ rev{};\n            edge() = default;\n            edge(int to, T cap, int rev)\
+    \ : to(to), cap(cap), rev(rev) {}\n        };\n\n        vector<vector<edge>>\
+    \ G;\n        vector<int> level, iter;\n\n        Dinic() = default;\n       \
+    \ explicit Dinic(int n) : G(n), level(n), iter(n) {}\n\n        pair<int, int>\
+    \ add_edge(int from, int to, T cap) {\n            int fi = (int)G[from].size();\n\
+    \            int ti = (int)G[to].size();\n            G[from].emplace_back(to,\
+    \ cap, ti);\n            G[to].emplace_back(from, 0, fi);\n            return\
+    \ {from, fi};\n        }\n\n        void bfs(int s) {\n            fill(level.begin(),\
+    \ level.end(), -1);\n            queue<int> q;\n            level[s] = 0;\n  \
+    \          q.emplace(s);\n            while(!q.empty()) {\n                int\
+    \ v = q.front();\n                q.pop();\n                for(auto &&e : G[v])\
+    \ {\n                    if(e.cap > 0 && level[e.to] < 0) {\n                \
+    \        level[e.to] = level[v] + 1;\n                        q.emplace(e.to);\n\
+    \                    }\n                }\n            }\n        }\n\n      \
+    \  T dfs(int v, int t, T f) {\n            if(v == t) return f;\n            for(int\
+    \ &i = iter[v]; i < (int)G[v].size(); ++i) {\n                edge &e = G[v][i];\n\
+    \                if(e.cap > 0 && level[v] < level[e.to]) {\n                 \
+    \   T d = dfs(e.to, t, min(f, e.cap));\n                    if(d == 0) continue;\n\
+    \                    e.cap -= d;\n                    G[e.to][e.rev].cap += d;\n\
+    \                    return d;\n                }\n            }\n           \
+    \ return 0;\n        }\n\n        T flow(int s, int t, T lim = INF<T>) {\n   \
+    \         T ret = 0;\n            while(lim > 0) {\n                bfs(s);\n\
+    \                if(level[t] < 0) break;\n                fill(iter.begin(), iter.end(),\
+    \ 0);\n                while(lim > 0) {\n                    T f = dfs(s, t, lim);\n\
+    \                    if(f == 0) break;\n                    ret += f;\n      \
+    \              lim -= f;\n                }\n            }\n            return\
+    \ ret;\n        }\n    };\n\n    struct raw_edge {\n        int from{}, to{};\n\
+    \        T lower{}, upper{};\n    };\n\npublic:\n    int n;\n    vector<raw_edge>\
+    \ edges;\n    MaxFlowLowerBound() = default;\n    explicit MaxFlowLowerBound(int\
+    \ n) : n(n) {}\n\n    void add_edge(int from, int to, T lower, T upper) {\n  \
+    \      edges.push_back({from, to, lower, upper});\n    }\n\n    pair<bool, T>\
+    \ max_flow(int s, int t) {\n        int ss = n, tt = n + 1;\n        Dinic mf(n\
+    \ + 2);\n        vector<T> b(n, 0);\n\n        for(auto &&e : edges) {\n     \
+    \       mf.add_edge(e.from, e.to, e.upper - e.lower);\n            b[e.from] -=\
+    \ e.lower;\n            b[e.to] += e.lower;\n        }\n\n        auto ts = mf.add_edge(t,\
+    \ s, INF<T>);\n        T req = 0;\n        vector<pair<int, int>> super_edges;\n\
+    \        for(int v = 0; v < n; ++v) {\n            if(b[v] > 0) {\n          \
+    \      req += b[v];\n                super_edges.emplace_back(mf.add_edge(ss,\
+    \ v, b[v]));\n            } else if(b[v] < 0) {\n                mf.add_edge(v,\
+    \ tt, -b[v]);\n            }\n        }\n\n        if(mf.flow(ss, tt) != req)\
+    \ return {false, 0};\n\n        for(auto &&id : super_edges) {\n            if(mf.G[id.first][id.second].cap\
+    \ != 0) return {false, 0};\n        }\n\n        int to = mf.G[ts.first][ts.second].to;\n\
+    \        int rev = mf.G[ts.first][ts.second].rev;\n        T base = mf.G[to][rev].cap;\n\
+    \        mf.G[ts.first][ts.second].cap = 0;\n        mf.G[to][rev].cap = 0;\n\n\
+    \        T add = mf.flow(s, t);\n        return {true, base + add};\n    }\n};\n\
+    \n/**\n * @brief \u4E0B\u9650\u5236\u7D04\u4ED8\u304D s-t \u6700\u5927\u6D41\n\
+    \ * @docs _md/maxflow_lower_bound.md\n */\n"
+  dependsOn: []
+  isVerificationFile: false
+  path: graph/maxflow_lower_bound.cpp
+  requiredBy: []
+  timestamp: '2026-03-07 19:18:33+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
+documentation_of: graph/maxflow_lower_bound.cpp
+layout: document
+redirect_from:
+- /library/graph/maxflow_lower_bound.cpp
+- /library/graph/maxflow_lower_bound.cpp.html
+title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304D s-t \u6700\u5927\u6D41"
+---
+---
+layout: post
+title: MaxFlowLowerBound
+date: 2026-03-07
+category: フロー
+tags: 最大流
+---
+
+## 説明
+
+有向グラフの各辺に下限制約 `lower` と上限制約 `upper` を持つ
+`s-t` 最大流を求める。
+
+各辺 `e=(u,v)` の流量 `f_e` は
+
+- `lower_e <= f_e <= upper_e`
+
+を満たす。さらに（`s`,`t` 以外で）フロー保存を満たす中で、`s` から `t` への流量を最大化する。
+
+## 計算量
+
+- `max_flow(s, t)` : `O(V^2 E)`（Dinic ベース）
+
+## 使い方
+
+1. `MaxFlowLowerBound<long long> g(n);`
+2. `add_edge(from, to, lower, upper)` で辺を追加
+3. `auto [ok, ans] = g.max_flow(s, t);`
+4. `ok == false` なら制約を満たす流れが存在しない
+
+## 公開メンバ
+
+- `int n` : 頂点数
+- `void add_edge(int from, int to, T lower, T upper)` : 下限付き有向辺を追加
+- `pair<bool, T> max_flow(int s, int t)` : 実行可能性判定と最大流量を返す
+
+## 実装メモ
+
+- 下限を需要に変換し、超始点 `ss`・超終点 `tt` と `t -> s` の無限辺を加えた可行循環で可否判定。
+- 可行解が得られた後、`t -> s` 辺を消して残余グラフで `s -> t` の追加増加分を流し、最大流を得る。
+
+{% include a.html code="maxflow_lower_bound.cpp" %}

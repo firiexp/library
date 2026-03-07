@@ -8,4 +8,4 @@ title: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
 
 ## 説明
 テンプレート
-{% include a.html code="template.txt" %}
+`snippets/template.cpp` にコンテスト用テンプレートを置く。

@@ -22,6 +22,9 @@ data:
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_find_linear_recurrence.test.cpp
+    title: test/yosupo_find_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -105,6 +108,7 @@ data:
   - test/yosupo_queue_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
   - test/aoj0399.test.cpp
+  - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/aoj_dpl_5_a.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp

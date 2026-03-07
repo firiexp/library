@@ -2,7 +2,10 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
+    path: fps/linear_recurrence.cpp
+    title: linear recurrence
+  - icon: ':heavy_check_mark:'
     path: fps/nth_term.cpp
     title: fps/nth_term.cpp
   _extendedVerifiedWith:
@@ -12,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution.test.cpp
     title: test/yosupo_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+    title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -175,10 +181,12 @@ data:
   isVerificationFile: false
   path: math/ntt.cpp
   requiredBy:
+  - fps/linear_recurrence.cpp
   - fps/nth_term.cpp
   timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/aoj0452.test.cpp
   - test/yosupo_convolution.test.cpp
 documentation_of: math/ntt.cpp

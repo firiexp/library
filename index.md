@@ -60,6 +60,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/unionfind.cpp
       title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
+    - icon: ':heavy_check_mark:'
+      path: datastructure/wavelet_matrix.cpp
+      title: datastructure/wavelet_matrix.cpp
     - icon: ':warning:'
       path: datastructure/weightedunionfind.cpp
       title: datastructure/weightedunionfind.cpp
@@ -76,7 +79,10 @@ data:
       title: "\u6700\u5C0F\u8CBB\u7528\u6D41(primal-dual)"
   - name: fps
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
+      path: fps/linear_recurrence.cpp
+      title: linear recurrence
+    - icon: ':heavy_check_mark:'
       path: fps/nth_term.cpp
       title: fps/nth_term.cpp
   - name: geometry
@@ -132,6 +138,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/manhattanmst.cpp
       title: graph/manhattanmst.cpp
+    - icon: ':heavy_check_mark:'
+      path: graph/maxflow_lower_bound.cpp
+      title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304D s-t \u6700\u5927\u6D41"
     - icon: ':warning:'
       path: graph/offlinedynamicconnectivity.cpp
       title: graph/offlinedynamicconnectivity.cpp
@@ -146,6 +155,9 @@ data:
     - icon: ':warning:'
       path: math/CRT.cpp
       title: math/CRT.cpp
+    - icon: ':heavy_check_mark:'
+      path: math/berlekamp_massey.cpp
+      title: Berlekamp-Massey algorithm
     - icon: ':warning:'
       path: math/comb_table.cpp
       title: math/comb_table.cpp
@@ -254,6 +266,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/tetration.cpp
       title: math/tetration.cpp
+  - name: snippets
+    pages:
+    - icon: ':warning:'
+      path: snippets/template.cpp
+      title: snippets/template.cpp
   - name: string
     pages:
     - icon: ':heavy_check_mark:'
@@ -414,6 +431,9 @@ data:
       path: test/aoj_grl_3_b.test.cpp
       title: test/aoj_grl_3_b.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
+      title: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/example.test.cpp
       title: test/example.test.cpp
     - icon: ':heavy_check_mark:'
@@ -422,6 +442,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_find_linear_recurrence.test.cpp
+      title: test/yosupo_find_linear_recurrence.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+      title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_line_add_get_min.test.cpp
       title: test/yosupo_line_add_get_min.test.cpp
@@ -458,6 +484,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path_radix_heap.test.cpp
       title: test/yosupo_shortest_path_radix_heap.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_static_range_frequency.test.cpp
+      title: test/yosupo_static_range_frequency.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_suffix_array.test.cpp
       title: test/yosupo_suffix_array.test.cpp
