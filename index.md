@@ -21,6 +21,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/lazysegtree.cpp
       title: datastructure/lazysegtree.cpp
+    - icon: ':heavy_check_mark:'
+      path: datastructure/li_chao_tree.cpp
+      title: datastructure/li_chao_tree.cpp
     - icon: ':warning:'
       path: datastructure/monotoniccht.cpp
       title: datastructure/monotoniccht.cpp
@@ -123,6 +126,9 @@ data:
     - icon: ':warning:'
       path: graph/kruskal.cpp
       title: graph/kruskal.cpp
+    - icon: ':heavy_check_mark:'
+      path: graph/lowlink.cpp
+      title: graph/lowlink.cpp
     - icon: ':heavy_check_mark:'
       path: graph/manhattanmst.cpp
       title: graph/manhattanmst.cpp
@@ -405,6 +411,9 @@ data:
       path: test/aoj_dsl_2_b.test.cpp
       title: test/aoj_dsl_2_b.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_3_b.test.cpp
+      title: test/aoj_grl_3_b.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/example.test.cpp
       title: test/example.test.cpp
     - icon: ':heavy_check_mark:'
@@ -413,6 +422,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_line_add_get_min.test.cpp
+      title: test/yosupo_line_add_get_min.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_maximum_independent_set.test.cpp
       title: test/yosupo_maximum_independent_set.test.cpp
@@ -437,6 +449,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_scc.test.cpp
       title: test/yosupo_scc.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_segment_add_get_min.test.cpp
+      title: test/yosupo_segment_add_get_min.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path.test.cpp
       title: test/yosupo_shortest_path.test.cpp

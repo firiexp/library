@@ -52,9 +52,9 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0403.test.cpp
-  - test/aoj0377.test.cpp
-  - test/aoj0342.test.cpp
   - test/yosupo_unionfind.test.cpp
+  - test/aoj0342.test.cpp
+  - test/aoj0377.test.cpp
 documentation_of: datastructure/unionfind.cpp
 layout: document
 redirect_from:

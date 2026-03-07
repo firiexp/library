@@ -316,8 +316,8 @@ data:
   timestamp: '2023-03-10 12:27:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0342.test.cpp
   - test/aoj0273.test.cpp
+  - test/aoj0342.test.cpp
 documentation_of: geometry/geometry.cpp
 layout: document
 redirect_from:
