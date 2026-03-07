@@ -12,7 +12,7 @@ ll totient(ll n){
 
 template <class T>
 T pow_tetration(T x, T n, T M, bool &yojo){
-    uint64_t u = 1, xx = x;
+    ull u = 1, xx = x;
     if(x >= M) yojo = true;
     while (n > 0){
         if (n&1) {
