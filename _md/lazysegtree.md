@@ -40,4 +40,3 @@ $
 - $ h(x, y) = a ( b = e ),  b ( b \neq e )$
 
 
-{% include a.html code="lazysegtree.cpp" %}

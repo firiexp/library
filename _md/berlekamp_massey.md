@@ -23,4 +23,3 @@ title: Berlekamp-Massey
 - 返り値の長さが最小次数 `L`。
 - 返り値 `c[i]` は上式の係数 `c_i`。
 
-{% include a.html code="berlekamp_massey.cpp" %}

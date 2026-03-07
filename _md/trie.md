@@ -12,4 +12,3 @@ title: "Trie \u6728"
 ##  機能
 - add(s, x) : sという文字列をxというidで挿入する。
 - find(s) : sを検索し、見つかればid, 見つからなければ-1を返す。
-{% include a.html code="trie.cpp" %}

@@ -8,4 +8,3 @@ title: "Undo\u53EF\u80FDUnion-Find"
 
 ## 説明
 UndoできるUnion-Find
-{% include a.html code="undoableunionfind.cpp" %}

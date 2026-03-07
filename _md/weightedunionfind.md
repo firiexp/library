@@ -9,4 +9,3 @@ title: "\u30DD\u30C6\u30F3\u30B7\u30E3\u30EB\u3064\u304D\u7D20\u96C6\u5408\u30C7
 
 ## 説明
 あとで書く
-{% include a.html code="weightedunionfind.cpp" %}

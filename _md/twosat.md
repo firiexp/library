@@ -8,4 +8,3 @@ title: 2-SAT
 
 ## 説明
 あとで書く
-{% include a.html code="twosat.cpp" %}

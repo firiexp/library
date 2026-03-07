@@ -13,4 +13,3 @@ title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570 (1\u304B\u3089M\u307E\u3067)"
 - $\mu (p^{2} k) = 0 $ ($p$ は素数, $k$は正整数)
 - 上のどちらでもなく、$n$が$k$ 個の素数の積ならば$ \mu (n) = (-1)^k $
 
-{% include a.html code="mobius_all.cpp" %}

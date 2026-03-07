@@ -12,4 +12,3 @@ title: Radix-Heap
 - $\mathrm{emplace}(x, val)$ : キーxで値valの要素をpushする
 - $\mathrm{top}()$ : 最小の要素を返す
 - $\mathrm{pop}()$ : 最小の要素を取り除く
-{% include a.html code="radixheap.cpp" %}

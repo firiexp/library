@@ -8,4 +8,3 @@ title: "\u884C\u5217"
 
 ## 説明
 一般的なサイズの行列について演算子を定義したもの。
-{% include a.html code="matrix.cpp" %}

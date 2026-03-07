@@ -8,4 +8,3 @@ title: SparseTable
 
 ## 説明
 あとで書く
-{% include a.html code="sparsetable.cpp" %}

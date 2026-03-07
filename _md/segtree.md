@@ -8,4 +8,3 @@ title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
 
 ## 説明
 
-{% include a.html code="dualsegtree.cpp" %}

@@ -8,4 +8,3 @@ title: "\u6728\u4E0A\u306Edfs"
 
 ## 説明
 あとで書く
-{% include a.html code="treedfs.cpp" %}

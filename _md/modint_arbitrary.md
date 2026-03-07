@@ -8,4 +8,3 @@ title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
 
 ## 説明
 テンプレートにMODを指定すると、いちいち剰余を取ることなくMOD上の演算ができる。
-{% include a.html code="modint_arbitrary.cpp" %}

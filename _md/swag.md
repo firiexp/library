@@ -8,7 +8,5 @@ title: Sliding Window Aggregation
 
 ## 説明
 Queueをstack2つで表現することで、Queue内の和を求めることを高速に行う。
-{% include a.html code="swag.cpp" %}
 
 popするときに半分だけ持ってくるようにすると、Dequeにも対応できる。
-{% include a.html code="swag_deque.cpp" %}

@@ -8,4 +8,3 @@ title: Binary Trie
 
 ## 説明
 あとで書く
-{% include a.html code="binarytrie.cpp" %}

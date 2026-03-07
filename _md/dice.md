@@ -8,4 +8,3 @@ title: "\u30B5\u30A4\u30B3\u30ED"
 
 ## 説明
 サイコロ
-{% include a.html code="dice.cpp" %}

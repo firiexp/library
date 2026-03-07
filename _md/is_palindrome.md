@@ -8,4 +8,3 @@ title: "\u56DE\u6587\u5224\u5B9A"
 
 ## 説明
 文字列が回文であるかどうかを判定する。$O(N)$。
-{% include a.html code="is_palindrome.cpp" %}

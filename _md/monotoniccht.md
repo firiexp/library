@@ -8,4 +8,3 @@ title: "Convex-Hull Trick (\u30AF\u30A8\u30EA\u5358\u8ABF)"
 
 ## 説明
 あとで書く
-{% include a.html code="monotoniccht.cpp" %}
