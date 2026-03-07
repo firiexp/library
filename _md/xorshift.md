@@ -8,4 +8,3 @@ tags: 乱数
 
 ## 説明
 あとで書く
-{% include a.html code="xorshift.cpp" %}

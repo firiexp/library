@@ -8,4 +8,3 @@ tags: 整数論
 
 ## 説明
 $x^{-1} \bmod M$を $O(\log M)$で求める。
-{% include a.html code="modinv.cpp" %}

@@ -8,4 +8,3 @@ tags: 数学
 
 ## 説明
 $x^K  \mod \ f(x)$を$O(N \log N \log K)$で求める。(Nはf(x)の最大次数)
-{% include a.html code="fastkitamasa.cpp" %}

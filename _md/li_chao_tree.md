@@ -17,4 +17,3 @@ tags: データ構造
 - `query(x)` : 座標 `x` での最小値を返す
 
 `LiChaoTree<T, true>` / `OnlineLiChaoTree<T, true>` を使うと最大値クエリになる。
-{% include a.html code="li_chao_tree.cpp" %}

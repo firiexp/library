@@ -8,4 +8,3 @@ tags: 幾何
 
 ## 説明
 一応置いておく
-{% include a.html code="geometry3d.cpp" %}

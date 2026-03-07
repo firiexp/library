@@ -13,4 +13,3 @@ tags: 数学
 - $\mu (p^{2} k) = 0 $ ($p$ は素数, $k$は正整数)
 - 上のどちらでもなく、$n$が$k$ 個の素数の積ならば$ \mu (n) = (-1)^k $
 
-{% include a.html code="mobius_all.cpp" %}

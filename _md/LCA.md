@@ -8,4 +8,3 @@ tags: 木
 
 ## 説明
 ライブラリにしたら遅くなってしまった。
-{% include a.html code="LCA.cpp" %}

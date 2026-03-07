@@ -39,4 +39,3 @@ $N$ は配列長、$\sigma$ は異なる値の個数。
 ## 実装上の補足
 - 値は内部で座標圧縮して扱う。
 - クエリはすべて静的配列前提。
-{% include a.html code="wavelet_matrix.cpp" %}

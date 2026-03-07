@@ -17,4 +17,3 @@ tags: 数学
 
 `linear_recurrence(a, n)` は Berlekamp-Massey で `a` の最小線形漸化式を復元して第 `n` 項を返す。
 
-{% include a.html code="linear_recurrence.cpp" %}

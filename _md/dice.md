@@ -8,4 +8,3 @@ tags: 謎
 
 ## 説明
 サイコロ
-{% include a.html code="dice.cpp" %}

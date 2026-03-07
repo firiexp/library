@@ -8,4 +8,3 @@ tags: データ構造
 
 ## 説明
 
-{% include a.html code="dualsegtree.cpp" %}

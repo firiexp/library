@@ -8,4 +8,3 @@ tags: データ構造
 
 ## 説明
 あとで書く.$O(\log (N))$
-{% include a.html code="quickfind.cpp" %}

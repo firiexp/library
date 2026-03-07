@@ -8,4 +8,3 @@ tags: グラフ
 
 ## 説明
 MSTを求める。入力は隣接リストで与える。ソートがボトルネックで$O(E \log V)$。
-{% include a.html code="kruskal.cpp" %}

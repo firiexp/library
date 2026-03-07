@@ -8,4 +8,3 @@ tags: データ構造
 
 ## 説明
 あとで書く
-{% include a.html code="slidingwindow.cpp" %}

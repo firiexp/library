@@ -8,4 +8,3 @@ tags: 整数論
 
 ## 説明
 $a, b$が与えられる時、$ax+by= \gcd (a, b)$を満たす$x, y$を計算する。返り値は$\gcd (a, b)$である。
-{% include a.html code="extgcd.cpp" %}

@@ -8,4 +8,3 @@ tags: 約数
 
 ## 説明
 $N$の約数を列挙する。$O(\sqrt N )$
-{% include a.html code="divisor.cpp" %}

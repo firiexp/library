@@ -8,4 +8,3 @@ tags: 有向グラフ
 
 ## 説明
 あとで書く
-{% include a.html code="SCC.cpp" %}

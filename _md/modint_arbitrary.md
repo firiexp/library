@@ -8,4 +8,3 @@ tags: テンプレート
 
 ## 説明
 テンプレートにMODを指定すると、いちいち剰余を取ることなくMOD上の演算ができる。
-{% include a.html code="modint_arbitrary.cpp" %}
