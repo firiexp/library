@@ -443,6 +443,9 @@ data:
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_exp_of_formal_power_series.test.cpp
+      title: test/yosupo_exp_of_formal_power_series.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_find_linear_recurrence.test.cpp
       title: test/yosupo_find_linear_recurrence.test.cpp
     - icon: ':heavy_check_mark:'
@@ -451,6 +454,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_line_add_get_min.test.cpp
       title: test/yosupo_line_add_get_min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_log_of_formal_power_series.test.cpp
+      title: test/yosupo_log_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_maximum_independent_set.test.cpp
       title: test/yosupo_maximum_independent_set.test.cpp
@@ -463,6 +469,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_pow_of_formal_power_series.test.cpp
+      title: test/yosupo_pow_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_queue_operate_all_composite.test.cpp
       title: test/yosupo_queue_operate_all_composite.test.cpp
@@ -484,6 +493,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path_radix_heap.test.cpp
       title: test/yosupo_shortest_path_radix_heap.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_sqrt_of_formal_power_series.test.cpp
+      title: test/yosupo_sqrt_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_static_range_frequency.test.cpp
       title: test/yosupo_static_range_frequency.test.cpp

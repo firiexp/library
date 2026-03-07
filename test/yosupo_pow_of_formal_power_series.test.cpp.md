@@ -4,9 +4,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: math/ntt.cpp
-  - icon: ':heavy_check_mark:'
-    path: tree/centroid_decomposition.cpp
-    title: tree/centroid_decomposition.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -14,60 +11,48 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/0452
+    PROBLEM: https://judge.yosupo.jp/problem/pow_of_formal_power_series
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/0452
-  bundledCode: "#line 1 \"test/aoj0452.test.cpp\"\n#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/0452\"\
-    \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
-    #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
-    \ <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
-    \ uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n\
-    template<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\
-    \n#line 1 \"tree/centroid_decomposition.cpp\"\nclass CentroidDecomposition {\n\
-    \    int dfs(int x, int par){\n        sz[x] = 1;\n        for (auto &&i : G[x])\
-    \ {\n            if(i == par || v[i]) continue;\n            sz[x] += dfs(i, x);\n\
-    \        }\n        return sz[x];\n    }\n\n    int search_centroid(int x, int\
-    \ p, const int mid){\n        for (auto &&i : G[x]) {\n            if(i == p ||\
-    \ v[i]) continue;\n            if(sz[i] > mid) return search_centroid(i, x, mid);\n\
-    \        }\n        return x;\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G, out;\n    vector<int> sz, v;\n    CentroidDecomposition(int n) : n(n), G(n),\
-    \ out(n), sz(n), v(n) {}\n    void add_edge(int l, int r){\n        G[l].emplace_back(r);\n\
-    \        G[r].emplace_back(l);\n    }\n    int get(int x){\n        int centroid\
-    \ = search_centroid(x, -1, dfs(x, -1)/2);\n        v[centroid] = true;\n     \
-    \   for (auto &&i : G[centroid]) {\n            if(!v[i]) out[centroid].emplace_back(get(i));\n\
-    \        }\n        v[centroid] = false;\n        return centroid;\n    }\n};\n\
-    #line 21 \"test/aoj0452.test.cpp\"\n\n#line 1 \"math/ntt.cpp\"\n#include <cassert>\n\
-    \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
-    #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
-    #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n\
-    // 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct\
-    \ modint {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val\
-    \ = v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
-    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
-    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
-    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
-    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
-    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
-    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& rhs)\
-    \ { val += rhs.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
-    \ modint& rhs) { val -= rhs.val; if (val >= M) val += M; return *this; }\n   \
-    \ modint& operator*=(const modint& rhs) { ull z = val; z *= rhs.val; val = (uint)(z\
-    \ % M); return *this; }\n    modint& operator/=(const modint& rhs) { return *this\
-    \ = *this * rhs.inv(); }\n    modint operator+() const { return *this; }\n   \
-    \ modint operator-() const { return modint() - *this; }\n    modint pow(long long\
-    \ n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n\
-    \ >>= 1; } return r; }\n    modint inv() const { return pow(M-2); }\n    friend\
-    \ modint operator+(const modint& lhs, const modint& rhs) { return modint(lhs)\
-    \ += rhs; }\n    friend modint operator-(const modint& lhs, const modint& rhs)\
-    \ { return modint(lhs) -= rhs; }\n    friend modint operator*(const modint& lhs,\
-    \ const modint& rhs) { return modint(lhs) *= rhs; }\n    friend modint operator/(const\
-    \ modint& lhs, const modint& rhs) { return modint(lhs) /= rhs; }\n    friend bool\
-    \ operator==(const modint& lhs, const modint& rhs) { return lhs.val == rhs.val;\
-    \ }\n    friend bool operator!=(const modint& lhs, const modint& rhs) { return\
-    \ lhs.val != rhs.val; }\n};\nusing mint = modint<998244353>;\n\nclass NTT {\n\
-    \    static constexpr int max_base = 20, maxN = 1 << max_base; // N <= 524288\
-    \ * 2\n    mint sum_e[30], sum_ie[30];\npublic:\n    mint es[30], ies[30];\n \
-    \   NTT() {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n        mint e = mint(ntt_root).pow((ntt_mod-1)\
+    - https://judge.yosupo.jp/problem/pow_of_formal_power_series
+  bundledCode: "#line 1 \"test/yosupo_pow_of_formal_power_series.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/pow_of_formal_power_series\"\n\n#include\
+    \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
+    #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
+    static const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"math/ntt.cpp\"\n\
+    #include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef\
+    \ NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef\
+    \ NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
+    \ -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\n\
+    template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
+    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
+    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
+    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
+    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
+    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
+    \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
+    \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
+    \ if (val >= M) val += M; return *this; }\n    modint& operator*=(const modint&\
+    \ rhs) { ull z = val; z *= rhs.val; val = (uint)(z % M); return *this; }\n   \
+    \ modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }\n\
+    \    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(M-2); }\n    friend modint operator+(const\
+    \ modint& lhs, const modint& rhs) { return modint(lhs) += rhs; }\n    friend modint\
+    \ operator-(const modint& lhs, const modint& rhs) { return modint(lhs) -= rhs;\
+    \ }\n    friend modint operator*(const modint& lhs, const modint& rhs) { return\
+    \ modint(lhs) *= rhs; }\n    friend modint operator/(const modint& lhs, const\
+    \ modint& rhs) { return modint(lhs) /= rhs; }\n    friend bool operator==(const\
+    \ modint& lhs, const modint& rhs) { return lhs.val == rhs.val; }\n    friend bool\
+    \ operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val;\
+    \ }\n};\nusing mint = modint<998244353>;\n\nclass NTT {\n    static constexpr\
+    \ int max_base = 20, maxN = 1 << max_base; // N <= 524288 * 2\n    mint sum_e[30],\
+    \ sum_ie[30];\npublic:\n    mint es[30], ies[30];\n    NTT() {\n        int cnt2\
+    \ = __builtin_ctz(ntt_mod-1);\n        mint e = mint(ntt_root).pow((ntt_mod-1)\
     \ >> cnt2), ie = e.inv();\n        for (int i = cnt2; i >= 0; i--){\n        \
     \    es[i] = e; ies[i] = ie;\n            e *= e; ie *= ie;\n        }\n     \
     \   mint now = 1, nowi = 1;\n        for (int i = 0; i < cnt2 - 2; i++) {\n  \
@@ -196,89 +181,35 @@ data:
     \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n};\n#line 23 \"test/aoj0452.test.cpp\"\n\nclass Factorial {\n    vector<mint>\
-    \ facts, factinv;\npublic:\n    explicit Factorial(int n) : facts(n+1), factinv(n+1)\
-    \ {\n        facts[0] = 1;\n        for (int i = 1; i < n+1; ++i) facts[i] = facts[i-1]\
-    \ * mint(i);\n        factinv[n] = facts[n].inv();\n        for (int i = n-1;\
-    \ i >= 0; --i) factinv[i] = factinv[i+1] * mint(i+1);\n    }\n    mint fact(int\
-    \ k) const {\n        if(k >= 0) return facts[k]; else return factinv[-k];\n \
-    \   }\n    mint operator[](const int &k) const {\n        if(k >= 0) return facts[k];\
-    \ else return factinv[-k];\n    }\n    mint C(int p, int q) const {\n        if(q\
-    \ < 0 || p < q) return 0;\n        return facts[p] * factinv[q] * factinv[p-q];\n\
-    \    }\n    mint P(int p, int q) const {\n        if(q < 0 || p < q) return 0;\n\
-    \        return facts[p] * factinv[p-q];\n    }\n    mint H(int p, int q) const\
-    \ {\n        if(p < 0 || q < 0) return 0;\n        return q == 0 ? 1 : C(p+q-1,\
-    \ q);\n    }\n};\n\n\nint main() {\n    int n;\n    cin >> n;\n    CentroidDecomposition\
-    \ G(n);\n    for (int i = 0; i < n-1; ++i) {\n        int u, v;\n        scanf(\"\
-    %d %d\", &u, &v);\n        u--; v--;\n        G.add_edge(u, v);\n    }\n    int\
-    \ root = G.get(0);\n    vector<int> bad(n);\n    poly val;\n    auto dfs = [&](int\
-    \ centroid, auto &&f) -> void {\n        bad[centroid] = 1;\n        poly all(1);\n\
-    \        all[0] = 1;\n        for (auto &&i : G.G[centroid]) {\n            if(bad[i])\
-    \ continue;\n            poly a;\n            queue<tuple<int, int, int>> Q;\n\
-    \            Q.emplace(i, centroid, 1);\n            while(!Q.empty()){\n    \
-    \            auto [x, par, dep] = Q.front(); Q.pop();\n                while(a.size()\
-    \ <= dep) a.v.emplace_back();\n                while(all.size() <= dep) all.v.emplace_back();\n\
-    \                a[dep]++; all[dep]++;\n                for (auto &&y : G.G[x])\
-    \ {\n                    if(y != par && !bad[y]) Q.emplace(y, x, dep+1);\n   \
-    \             }\n            }\n            val -= a * a;\n        }\n       \
-    \ val += all * all;\n        for (auto &&i : G.out[centroid]) f(i, f);\n    };\n\
-    \    dfs(root, dfs);\n    Factorial f(n);\n    for (int i = 1; i < val.size();\
-    \ ++i) {\n        val[i-1] = val[i]*mint(499122177)*f[i-1];\n    }\n    val.v.pop_back();\n\
-    \    poly fact(n);\n    for (int i = 0; i < n; ++i) {\n        fact[i] = f[-(n-1-i)];\n\
-    \    }\n    val *= fact;\n    for (int i = 0; i < n-1; ++i) {\n        if(n+i\
-    \ < val.size()+1) printf(\"%d\\n\", (val[n-1+i]*f[-i]).val);\n        else printf(\"\
-    %d\\n\", 0);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/0452\"\n#include\
-    \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
-    #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
-    static const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
-    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include \"../tree/centroid_decomposition.cpp\"\
-    \n\n#include \"../math/ntt.cpp\"\n\nclass Factorial {\n    vector<mint> facts,\
-    \ factinv;\npublic:\n    explicit Factorial(int n) : facts(n+1), factinv(n+1)\
-    \ {\n        facts[0] = 1;\n        for (int i = 1; i < n+1; ++i) facts[i] = facts[i-1]\
-    \ * mint(i);\n        factinv[n] = facts[n].inv();\n        for (int i = n-1;\
-    \ i >= 0; --i) factinv[i] = factinv[i+1] * mint(i+1);\n    }\n    mint fact(int\
-    \ k) const {\n        if(k >= 0) return facts[k]; else return factinv[-k];\n \
-    \   }\n    mint operator[](const int &k) const {\n        if(k >= 0) return facts[k];\
-    \ else return factinv[-k];\n    }\n    mint C(int p, int q) const {\n        if(q\
-    \ < 0 || p < q) return 0;\n        return facts[p] * factinv[q] * factinv[p-q];\n\
-    \    }\n    mint P(int p, int q) const {\n        if(q < 0 || p < q) return 0;\n\
-    \        return facts[p] * factinv[p-q];\n    }\n    mint H(int p, int q) const\
-    \ {\n        if(p < 0 || q < 0) return 0;\n        return q == 0 ? 1 : C(p+q-1,\
-    \ q);\n    }\n};\n\n\nint main() {\n    int n;\n    cin >> n;\n    CentroidDecomposition\
-    \ G(n);\n    for (int i = 0; i < n-1; ++i) {\n        int u, v;\n        scanf(\"\
-    %d %d\", &u, &v);\n        u--; v--;\n        G.add_edge(u, v);\n    }\n    int\
-    \ root = G.get(0);\n    vector<int> bad(n);\n    poly val;\n    auto dfs = [&](int\
-    \ centroid, auto &&f) -> void {\n        bad[centroid] = 1;\n        poly all(1);\n\
-    \        all[0] = 1;\n        for (auto &&i : G.G[centroid]) {\n            if(bad[i])\
-    \ continue;\n            poly a;\n            queue<tuple<int, int, int>> Q;\n\
-    \            Q.emplace(i, centroid, 1);\n            while(!Q.empty()){\n    \
-    \            auto [x, par, dep] = Q.front(); Q.pop();\n                while(a.size()\
-    \ <= dep) a.v.emplace_back();\n                while(all.size() <= dep) all.v.emplace_back();\n\
-    \                a[dep]++; all[dep]++;\n                for (auto &&y : G.G[x])\
-    \ {\n                    if(y != par && !bad[y]) Q.emplace(y, x, dep+1);\n   \
-    \             }\n            }\n            val -= a * a;\n        }\n       \
-    \ val += all * all;\n        for (auto &&i : G.out[centroid]) f(i, f);\n    };\n\
-    \    dfs(root, dfs);\n    Factorial f(n);\n    for (int i = 1; i < val.size();\
-    \ ++i) {\n        val[i-1] = val[i]*mint(499122177)*f[i-1];\n    }\n    val.v.pop_back();\n\
-    \    poly fact(n);\n    for (int i = 0; i < n; ++i) {\n        fact[i] = f[-(n-1-i)];\n\
-    \    }\n    val *= fact;\n    for (int i = 0; i < n-1; ++i) {\n        if(n+i\
-    \ < val.size()+1) printf(\"%d\\n\", (val[n-1+i]*f[-i]).val);\n        else printf(\"\
-    %d\\n\", 0);\n    }\n    return 0;\n}"
+    \    }\n};\n#line 22 \"test/yosupo_pow_of_formal_power_series.test.cpp\"\n\nint\
+    \ main() {\n    int n;\n    long long m;\n    cin >> n >> m;\n    poly f(n);\n\
+    \    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n      \
+    \  f[i] = x;\n    }\n    poly g = f.pow(m, n);\n    for (int i = 0; i < n; ++i)\
+    \ {\n        if (i) cout << ' ';\n        cout << g[i].val;\n    }\n    cout <<\
+    \ '\\n';\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/pow_of_formal_power_series\"\
+    \n\n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
+    #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
+    \ <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
+    \ uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n\
+    template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\
+    #include \"../math/ntt.cpp\"\n\nint main() {\n    int n;\n    long long m;\n \
+    \   cin >> n >> m;\n    poly f(n);\n    for (int i = 0; i < n; ++i) {\n      \
+    \  int x;\n        cin >> x;\n        f[i] = x;\n    }\n    poly g = f.pow(m,\
+    \ n);\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n      \
+    \  cout << g[i].val;\n    }\n    cout << '\\n';\n    return 0;\n}\n"
   dependsOn:
-  - tree/centroid_decomposition.cpp
   - math/ntt.cpp
   isVerificationFile: true
-  path: test/aoj0452.test.cpp
+  path: test/yosupo_pow_of_formal_power_series.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 00:47:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj0452.test.cpp
+documentation_of: test/yosupo_pow_of_formal_power_series.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj0452.test.cpp
-- /verify/test/aoj0452.test.cpp.html
-title: test/aoj0452.test.cpp
+- /verify/test/yosupo_pow_of_formal_power_series.test.cpp
+- /verify/test/yosupo_pow_of_formal_power_series.test.cpp.html
+title: test/yosupo_pow_of_formal_power_series.test.cpp
 ---
