@@ -1,32 +1,28 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/segment_add_get_min"
 
-#include <iostream>
 #include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
+#include <deque>
+#include <limits>
 #include <vector>
 
 using ll = long long;
-using uint = unsigned;
-using ull = unsigned long long;
 using namespace std;
 
+#include "../util/fastio.cpp"
 #include "../datastructure/li_chao_tree.cpp"
 
 int main() {
+    Scanner in;
+    Printer out;
+
     int n, q;
-    cin >> n >> q;
+    in.read(n, q);
     struct Segment {
         ll l, r, a, b;
     };
     vector<Segment> init(n);
     for (int i = 0; i < n; ++i) {
-        scanf("%lld %lld %lld %lld", &init[i].l, &init[i].r, &init[i].a, &init[i].b);
+        in.read(init[i].l, init[i].r, init[i].a, init[i].b);
     }
 
     struct Query {
@@ -40,14 +36,14 @@ int main() {
 
     for (int i = 0; i < q; ++i) {
         int t;
-        scanf("%d", &t);
+        in.read(t);
         if (!t) {
             ll l, r, a, b;
-            scanf("%lld %lld %lld %lld", &l, &r, &a, &b);
+            in.read(l, r, a, b);
             qs.push_back({0, l, r, a, b, 0});
         } else {
             ll p;
-            scanf("%lld", &p);
+            in.read(p);
             qs.push_back({1, 0, 0, 0, 0, p});
             xs.push_back(p);
         }
@@ -62,8 +58,8 @@ int main() {
             li.add_segment(qu.a, qu.b, qu.l, qu.r);
         } else {
             ll ans = li.query(qu.p);
-            if (ans == INF) puts("INFINITY");
-            else printf("%lld\n", ans);
+            if (ans == INF) out.writeln("INFINITY");
+            else out.writeln(ans);
         }
     }
     return 0;

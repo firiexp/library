@@ -1,29 +1,26 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/line_add_get_min"
 
-#include <iostream>
 #include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
+#include <deque>
+#include <limits>
+#include <utility>
 #include <vector>
 
 using ll = long long;
-using uint = unsigned;
-using ull = unsigned long long;
 using namespace std;
 
+#include "../util/fastio.cpp"
 #include "../datastructure/li_chao_tree.cpp"
 
 int main() {
+    Scanner in;
+    Printer out;
+
     int n, q;
-    cin >> n >> q;
+    in.read(n, q);
     vector<pair<ll, ll>> init(n);
     for (int i = 0; i < n; ++i) {
-        scanf("%lld %lld", &init[i].first, &init[i].second);
+        in.read(init[i].first, init[i].second);
     }
 
     struct Query {
@@ -37,14 +34,14 @@ int main() {
 
     for (int i = 0; i < q; ++i) {
         int t;
-        scanf("%d", &t);
+        in.read(t);
         if (!t) {
             ll a, b;
-            scanf("%lld %lld", &a, &b);
+            in.read(a, b);
             qs.push_back({0, a, b, 0});
         } else {
             ll p;
-            scanf("%lld", &p);
+            in.read(p);
             qs.push_back({1, 0, 0, p});
             xs.push_back(p);
         }
@@ -55,7 +52,7 @@ int main() {
 
     for (auto qu : qs) {
         if (qu.t == 0) li.add_line(qu.a, qu.b);
-        else printf("%lld\n", li.query(qu.p));
+        else out.writeln(li.query(qu.p));
     }
     return 0;
 }

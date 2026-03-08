@@ -1,19 +1,15 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/range_affine_range_sum"
-#include <iostream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
+
+#include <array>
+#include <vector>
 
 static const int MOD = 998244353;
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 using namespace std;
+
+#include "../util/fastio.cpp"
 #include "../datastructure/lazysegtree.cpp"
 #include "../util/modint.cpp"
 
@@ -31,24 +27,27 @@ struct Monoid{
     static L l() { return {1, 0}; }
 };
 int main() {
+    Scanner in;
+    Printer out;
+
     int n, q;
-    cin >> n >> q;
+    in.read(n, q);
     vector<int> v(n);
-    for (auto &&i : v) scanf("%d", &i);
+    for (auto &&i : v) in.read(i);
     LazySegmentTree<Monoid> seg(n);
     for (int i = 0; i < n; ++i) seg.set(i, {v[i], 1});
     seg.build();
     for (int i = 0; i < q; ++i) {
         int t;
-        scanf("%d", &t);
+        in.read(t);
         if(!t){
             int l, r, b, c;
-            scanf("%d %d %d %d\n", &l, &r, &b, &c);
+            in.read(l, r, b, c);
             seg.update(l, r, {b, c});
         }else {
             int l, r;
-            scanf("%d %d", &l, &r);
-            printf("%d\n", seg.query(l, r)[0].val);
+            in.read(l, r);
+            out.writeln(seg.query(l, r)[0].val);
         }
     }
     return 0;
