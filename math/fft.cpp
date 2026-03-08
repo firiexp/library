@@ -1,6 +1,7 @@
 template<uint M = 1000000007>
 struct modint{
     uint val;
+    static constexpr uint mod() { return M; }
     modint(): val(0){}
     template<typename T>
     modint(T t){t %= (T)M; if(t < 0) t += (T)M; val = t;}
@@ -111,7 +112,7 @@ namespace FFT {
             ll aa = f[i].x + 0.5;
             ll bb = g[i].x + 0.5;
             ll cc = f[i].y + 0.5;
-            C[i] = (aa + bb % MOD * (1LL << 15) + cc % MOD *(1LL << 30)) % MOD;
+            C[i] = (aa + bb % mint::mod() * (1LL << 15) + cc % mint::mod() * (1LL << 30)) % mint::mod();
         }
     }
 
@@ -188,4 +189,3 @@ struct poly {
         return r;
     }
 };
-

@@ -1,6 +1,7 @@
 template<uint M = 1000000007>
 struct modint{
     uint val;
+    static constexpr uint mod() { return M; }
     modint(): val(0){}
     template<typename T>
     modint(T t){t %= (T)M; if(t < 0) t += (T)M; val = t;}
@@ -121,7 +122,7 @@ namespace FFT {
             ll k3 = f2[i].x + 0.5;
             ll k4 = f2[i].y + 0.5;
             ll k5 = f3[i].x + 0.5;
-            C[i] = (k1 + ((k2 + ((k3 + ((k4 + (k5 << 11) % MOD) << 11) % MOD) << 11) % MOD) << 11)) % MOD;
+            C[i] = (k1 + ((k2 + ((k3 + ((k4 + (k5 << 11) % mint::mod()) << 11) % mint::mod()) << 11) % mint::mod()) << 11)) % mint::mod();
         }
     }
 
