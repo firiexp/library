@@ -7,7 +7,7 @@ mint nth_term(poly p, poly q, ll n){
     p.v.resize(sz); q.v.resize(sz);
     mint x = mint(sz>>1).inv();
     vector<mint> y(sz>>1, 0);
-    for (int j = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.ies[i];
+    for (int j = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);
     y[0] = 1;
     for (int i = 2; i < sz>>1; i <<= 1) {
         for (int j = i+1; j < 2*i; ++j) {
@@ -21,7 +21,7 @@ mint nth_term(poly p, poly q, ll n){
         for (int i = 0; i < sz>>1; ++i) tmp[i] = A[i];
         ntt.transform(tmp.v, 1);
         mint now = x;
-        for (int i = 0; i < sz>>1; ++i) tmp[i] *= now, now *= ntt.es[h];
+        for (int i = 0; i < sz>>1; ++i) tmp[i] *= now, now *= ntt.root_pow2(h);
         ntt.transform(tmp.v, 0);
         for (int i = 0; i < sz>>1; ++i) A[i|(sz>>1)] = tmp[i];
     };

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cassert>
 
 constexpr int ntt_mod = 998244353, ntt_root = 3;
@@ -67,6 +68,9 @@ public:
             iprod *= root[i + 3];
         }
     }
+
+    mint root_pow2(int k) const { return root[k]; }
+    mint iroot_pow2(int k) const { return iroot[k]; }
 
     void transform(vector<mint> &a, int sign){
         const int n = a.size();
