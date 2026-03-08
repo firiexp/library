@@ -5,10 +5,13 @@ data:
   - icon: ':warning:'
     path: math/pell_equation.cpp
     title: math/pell_equation.cpp
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_isqrt.test.cpp
+    title: test/yosupo_many_aplusb_isqrt.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/isqrt.cpp\"\null Isqrt(ull const &x){\n    ull ret\
@@ -23,8 +26,9 @@ data:
   requiredBy:
   - math/pell_equation.cpp
   timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_many_aplusb_isqrt.test.cpp
 documentation_of: math/isqrt.cpp
 layout: document
 redirect_from:

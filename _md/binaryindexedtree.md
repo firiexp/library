@@ -5,4 +5,8 @@
 ## 操作
 - $\mathrm{add}(k, x)$ : $k$番目の要素に$x$を加算する。
 - $\mathrm{sum}(k)$ : 半開区間$[0, k)$の和を求める。
-- $\mathrm{lower\_bound}(x)$ : $\mathrm{sum}(k)$が$x$以上になる最小の$k$を求める。
+- $\mathrm{lower\_bound}(x)$ : $\mathrm{sum}(k)$が$x$以上になる最小の$k$を求める。存在しなければ$N$を返す。
+
+## 使い方
+`lower_bound` は累積和が単調になる状況で使う。
+典型的には各要素が非負のときに使える。

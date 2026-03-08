@@ -1,0 +1,89 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':question:'
+    path: datastructure/binaryindexedtree.cpp
+    title: datastructure/binaryindexedtree.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/yosupo_static_rectangle_sum.test.cpp
+    title: test/yosupo_static_rectangle_sum.test.cpp
+  _isVerificationFailed: true
+  _pathExtension: cpp
+  _verificationStatusIcon: ':x:'
+  attributes:
+    links: []
+  bundledCode: "#line 1 \"datastructure/static_rectangle_sum.cpp\"\n#include <algorithm>\n\
+    #include <vector>\nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
+    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
+    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
+    \n    T sum(int k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k))\
+    \ ret += bit[k - 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n\
+    \        for (k++; k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T\
+    \ x) {\n        if (x <= 0) return 0;\n        int i = 0;\n        for (int j\
+    \ = m; j; j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i\
+    \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n#line\
+    \ 6 \"datastructure/static_rectangle_sum.cpp\"\n\ntemplate<class T>\nstruct StaticRectangleSum\
+    \ {\n    struct Point {\n        int x, y;\n        T w;\n    };\n\n    struct\
+    \ Event {\n        int x, d, u, id, sign;\n\n        bool operator<(const Event&\
+    \ other) const {\n            return x < other.x;\n        }\n    };\n\n    vector<Point>\
+    \ points;\n    vector<Event> events;\n    vector<int> ys;\n\n    void add_point(int\
+    \ x, int y, T w) {\n        points.push_back({x, y, w});\n        ys.push_back(y);\n\
+    \    }\n\n    void add_query(int l, int d, int r, int u) {\n        int id = (int)events.size()\
+    \ / 2;\n        events.push_back({r, d, u, id, 1});\n        events.push_back({l,\
+    \ d, u, id, -1});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\
+    \n    vector<T> solve() {\n        vector<int> ord_y = ys;\n        sort(ord_y.begin(),\
+    \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
+    \n        auto get_y = [&](int y) {\n            return (int)(lower_bound(ord_y.begin(),\
+    \ ord_y.end(), y) - ord_y.begin());\n        };\n\n        vector<Point> ps =\
+    \ points;\n        for (auto& p : ps) p.y = get_y(p.y);\n        for (auto& e\
+    \ : events) {\n            e.d = get_y(e.d);\n            e.u = get_y(e.u);\n\
+    \        }\n\n        sort(ps.begin(), ps.end(), [](const Point& a, const Point&\
+    \ b) {\n            return a.x < b.x;\n        });\n        sort(events.begin(),\
+    \ events.end());\n\n        int q = (int)events.size() / 2;\n        vector<T>\
+    \ ans(q, 0);\n        BIT<T> bit((int)ord_y.size());\n        int i = 0;\n   \
+    \     for (auto e : events) {\n            while (i < (int)ps.size() && ps[i].x\
+    \ < e.x) {\n                bit.add(ps[i].y, ps[i].w);\n                ++i;\n\
+    \            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d)) * e.sign;\n\
+    \        }\n        return ans;\n    }\n};\n"
+  code: "#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
+    \ \"binaryindexedtree.cpp\"\n\ntemplate<class T>\nstruct StaticRectangleSum {\n\
+    \    struct Point {\n        int x, y;\n        T w;\n    };\n\n    struct Event\
+    \ {\n        int x, d, u, id, sign;\n\n        bool operator<(const Event& other)\
+    \ const {\n            return x < other.x;\n        }\n    };\n\n    vector<Point>\
+    \ points;\n    vector<Event> events;\n    vector<int> ys;\n\n    void add_point(int\
+    \ x, int y, T w) {\n        points.push_back({x, y, w});\n        ys.push_back(y);\n\
+    \    }\n\n    void add_query(int l, int d, int r, int u) {\n        int id = (int)events.size()\
+    \ / 2;\n        events.push_back({r, d, u, id, 1});\n        events.push_back({l,\
+    \ d, u, id, -1});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\
+    \n    vector<T> solve() {\n        vector<int> ord_y = ys;\n        sort(ord_y.begin(),\
+    \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
+    \n        auto get_y = [&](int y) {\n            return (int)(lower_bound(ord_y.begin(),\
+    \ ord_y.end(), y) - ord_y.begin());\n        };\n\n        vector<Point> ps =\
+    \ points;\n        for (auto& p : ps) p.y = get_y(p.y);\n        for (auto& e\
+    \ : events) {\n            e.d = get_y(e.d);\n            e.u = get_y(e.u);\n\
+    \        }\n\n        sort(ps.begin(), ps.end(), [](const Point& a, const Point&\
+    \ b) {\n            return a.x < b.x;\n        });\n        sort(events.begin(),\
+    \ events.end());\n\n        int q = (int)events.size() / 2;\n        vector<T>\
+    \ ans(q, 0);\n        BIT<T> bit((int)ord_y.size());\n        int i = 0;\n   \
+    \     for (auto e : events) {\n            while (i < (int)ps.size() && ps[i].x\
+    \ < e.x) {\n                bit.add(ps[i].y, ps[i].w);\n                ++i;\n\
+    \            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d)) * e.sign;\n\
+    \        }\n        return ans;\n    }\n};\n"
+  dependsOn:
+  - datastructure/binaryindexedtree.cpp
+  isVerificationFile: false
+  path: datastructure/static_rectangle_sum.cpp
+  requiredBy: []
+  timestamp: '2026-03-08 18:50:59+09:00'
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/yosupo_static_rectangle_sum.test.cpp
+documentation_of: datastructure/static_rectangle_sum.cpp
+layout: document
+redirect_from:
+- /library/datastructure/static_rectangle_sum.cpp
+- /library/datastructure/static_rectangle_sum.cpp.html
+title: datastructure/static_rectangle_sum.cpp
+---

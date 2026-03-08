@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_parse.test.cpp
+    title: test/yosupo_many_aplusb_parse.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"util/parse.cpp\"\nusing state = string::const_iterator;\n\
@@ -42,8 +45,9 @@ data:
   path: util/parse.cpp
   requiredBy: []
   timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_many_aplusb_parse.test.cpp
 documentation_of: util/parse.cpp
 layout: document
 redirect_from:

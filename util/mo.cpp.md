@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/yosupo_static_range_inversions_query.test.cpp
+    title: test/yosupo_static_range_inversions_query.test.cpp
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"util/mo.cpp\"\nconst int B = 400;\n\nstruct Query {\n  \
@@ -29,8 +32,9 @@ data:
   path: util/mo.cpp
   requiredBy: []
   timestamp: '2020-10-23 13:30:16+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/yosupo_static_range_inversions_query.test.cpp
 documentation_of: util/mo.cpp
 layout: document
 redirect_from:

@@ -4,14 +4,26 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_hld_edge.test.cpp
+    title: test/yosupo_many_aplusb_hld_edge.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
+    path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+    title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  _isVerificationFailed: false
+  - icon: ':x:'
+    path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+    title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+  - icon: ':x:'
+    path: test/yuki650_hld_edge.test.cpp
+    title: test/yuki650_hld_edge.test.cpp
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/segtree.cpp\"\ntemplate <class M>\nstruct\
@@ -80,9 +92,13 @@ data:
   path: datastructure/segtree.cpp
   requiredBy: []
   timestamp: '2020-10-28 23:41:44+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/yosupo_many_aplusb_hld_edge.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
+  - test/yuki650_hld_edge.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
 documentation_of: datastructure/segtree.cpp
 layout: document

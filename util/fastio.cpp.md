@@ -13,14 +13,23 @@ data:
     path: test/aoj0439.test.cpp
     title: test/aoj0439.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj0439_virtual_tree_helper.test.cpp
+    title: test/aoj0439_virtual_tree_helper.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj2945_bfs01.test.cpp
+    title: test/aoj2945_bfs01.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_9_c_binaryheap.test.cpp
     title: test/aoj_alds1_9_c_binaryheap.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
     title: test/aoj_dsl_1_b_weightedunionfind.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_dsl_2_b.test.cpp
+    title: test/aoj_dsl_2_b.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_b_bellman_ford.test.cpp
     title: test/aoj_grl_1_b_bellman_ford.test.cpp
@@ -34,11 +43,23 @@ data:
     path: test/aoj_grl_6_a_costscalingdinic.test.cpp
     title: test/aoj_grl_6_a_costscalingdinic.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_assignment_hungarian.test.cpp
+    title: test/yosupo_assignment_hungarian.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
     title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_cartesian_tree.test.cpp
     title: test/yosupo_cartesian_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_counting_primes.test.cpp
+    title: test/yosupo_counting_primes.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_cycle_detection_directed.test.cpp
+    title: test/yosupo_cycle_detection_directed.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_cycle_detection_undirected.test.cpp
+    title: test/yosupo_cycle_detection_undirected.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
@@ -55,20 +76,68 @@ data:
     path: test/yosupo_eulerian_trail_undirected.test.cpp
     title: test/yosupo_eulerian_trail_undirected.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_general_matching.test.cpp
+    title: test/yosupo_general_matching.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_kth_root_integer.test.cpp
+    title: test/yosupo_kth_root_integer.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_line_add_get_min.test.cpp
+    title: test/yosupo_line_add_get_min.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb.test.cpp
     title: test/yosupo_many_aplusb.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_argsort.test.cpp
+    title: test/yosupo_many_aplusb_argsort.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
+    title: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_bipartite_matching.test.cpp
+    title: test/yosupo_many_aplusb_bipartite_matching.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
     title: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
+    title: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_eulerphi.test.cpp
+    title: test/yosupo_many_aplusb_eulerphi.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_hld_edge.test.cpp
+    title: test/yosupo_many_aplusb_hld_edge.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_isqrt.test.cpp
+    title: test/yosupo_many_aplusb_isqrt.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_parse.test.cpp
+    title: test/yosupo_many_aplusb_parse.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_rle.test.cpp
+    title: test/yosupo_many_aplusb_rle.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_slope_trick.test.cpp
+    title: test/yosupo_many_aplusb_slope_trick.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_tree_center.test.cpp
+    title: test/yosupo_many_aplusb_tree_center.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_z_algorithm.test.cpp
+    title: test/yosupo_many_aplusb_z_algorithm.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_min_cost_b_flow.test.cpp
     title: test/yosupo_min_cost_b_flow.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_minimum_spanning_tree.test.cpp
+    title: test/yosupo_minimum_spanning_tree.test.cpp
   - icon: ':x:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
@@ -76,38 +145,101 @@ data:
     path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
     title: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   - icon: ':x:'
+    path: test/yosupo_point_add_range_sum.test.cpp
+    title: test/yosupo_point_add_range_sum.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
+    title: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_point_add_rectangle_sum.test.cpp
+    title: test/yosupo_point_add_rectangle_sum.test.cpp
+  - icon: ':x:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
   - icon: ':x:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
   - icon: ':x:'
+    path: test/yosupo_primitive_root.test.cpp
+    title: test/yosupo_primitive_root.test.cpp
+  - icon: ':x:'
     path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
     title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_range_affine_range_sum.test.cpp
+    title: test/yosupo_range_affine_range_sum.test.cpp
   - icon: ':x:'
     path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
     title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   - icon: ':x:'
+    path: test/yosupo_segment_add_get_min.test.cpp
+    title: test/yosupo_segment_add_get_min.test.cpp
+  - icon: ':x:'
     path: test/yosupo_set_xor_min_binarytrie.test.cpp
     title: test/yosupo_set_xor_min_binarytrie.test.cpp
   - icon: ':x:'
+    path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
+    title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_shortest_path.test.cpp
+    title: test/yosupo_shortest_path.test.cpp
+  - icon: ':x:'
     path: test/yosupo_shortest_path_radix_heap.test.cpp
     title: test/yosupo_shortest_path_radix_heap.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_sqrt_mod.test.cpp
+    title: test/yosupo_sqrt_mod.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_frequency.test.cpp
     title: test/yosupo_static_range_frequency.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_static_range_inversions_query.test.cpp
+    title: test/yosupo_static_range_inversions_query.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_static_rectangle_sum.test.cpp
+    title: test/yosupo_static_rectangle_sum.test.cpp
   - icon: ':x:'
     path: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
     title: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   - icon: ':x:'
     path: test/yosupo_staticrmq_sparsetable.test.cpp
     title: test/yosupo_staticrmq_sparsetable.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_stern_brocot_tree.test.cpp
+    title: test/yosupo_stern_brocot_tree.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_sum_of_floor_of_linear.test.cpp
+    title: test/yosupo_sum_of_floor_of_linear.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_system_of_linear_equations.test.cpp
+    title: test/yosupo_system_of_linear_equations.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_tetration_mod.test.cpp
+    title: test/yosupo_tetration_mod.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_topological_sort.test.cpp
+    title: test/yosupo_topological_sort.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind.test.cpp
     title: test/yosupo_unionfind.test.cpp
   - icon: ':x:'
+    path: test/yosupo_unionfind_quickfind.test.cpp
+    title: test/yosupo_unionfind_quickfind.test.cpp
+  - icon: ':x:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+    title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+    title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+  - icon: ':x:'
+    path: test/yuki650_hld_edge.test.cpp
+    title: test/yuki650_hld_edge.test.cpp
+  - icon: ':x:'
+    path: test/yuki957.test.cpp
+    title: test/yuki957.test.cpp
   _isVerificationFailed: true
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
@@ -253,40 +385,84 @@ data:
   timestamp: '2026-03-08 12:02:06+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   - test/yosupo_static_range_frequency.test.cpp
   - test/aoj0439.test.cpp
+  - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_set_xor_min_binarytrie.test.cpp
   - test/aoj0403.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
+  - test/yosupo_range_affine_range_sum.test.cpp
+  - test/yosupo_many_aplusb_z_algorithm.test.cpp
+  - test/yosupo_many_aplusb_isqrt.test.cpp
+  - test/yosupo_many_aplusb_hld_edge.test.cpp
+  - test/yosupo_point_add_range_sum.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
+  - test/aoj_dsl_2_b.test.cpp
+  - test/yosupo_general_matching.test.cpp
+  - test/yosupo_unionfind_quickfind.test.cpp
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  - test/yosupo_many_aplusb_dynamic_bitset.test.cpp
+  - test/yuki957.test.cpp
   - test/yosupo_shortest_path_radix_heap.test.cpp
+  - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_eulerian_trail_directed.test.cpp
+  - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+  - test/yosupo_stern_brocot_tree.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
+  - test/yosupo_many_aplusb_parse.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - test/aoj0334.test.cpp
+  - test/yosupo_minimum_spanning_tree.test.cpp
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
+  - test/yosupo_primitive_root.test.cpp
+  - test/aoj2945_bfs01.test.cpp
+  - test/yosupo_sum_of_floor_of_linear.test.cpp
+  - test/yosupo_topological_sort.test.cpp
+  - test/yosupo_many_aplusb_tree_center.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_many_aplusb.test.cpp
   - test/yosupo_many_aplusb_diameter_unweighted.test.cpp
+  - test/yosupo_kth_root_integer.test.cpp
+  - test/yosupo_shortest_path.test.cpp
+  - test/aoj0439_virtual_tree_helper.test.cpp
+  - test/yosupo_system_of_linear_equations.test.cpp
+  - test/yuki650_hld_edge.test.cpp
+  - test/yosupo_many_aplusb_eulerphi.test.cpp
+  - test/yosupo_cycle_detection_directed.test.cpp
+  - test/yosupo_cycle_detection_undirected.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
+  - test/yosupo_counting_primes.test.cpp
   - test/yosupo_unionfind.test.cpp
+  - test/yosupo_tetration_mod.test.cpp
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   - test/aoj_grl_5_a_diameter.test.cpp
+  - test/yosupo_segment_add_get_min.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
+  - test/yosupo_assignment_hungarian.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
+  - test/yosupo_sqrt_mod.test.cpp
+  - test/yosupo_many_aplusb_rle.test.cpp
   - test/yosupo_lca.test.cpp
   - test/yosupo_eertree.test.cpp
+  - test/yosupo_many_aplusb_bipartite_matching.test.cpp
   - test/aoj0452.test.cpp
+  - test/yosupo_point_add_rectangle_sum.test.cpp
   - test/aoj_grl_1_b_bellman_ford.test.cpp
+  - test/yosupo_many_aplusb_argsort.test.cpp
+  - test/yosupo_many_aplusb_binaryindexedtree.test.cpp
   - test/aoj_dsl_1_b_weightedunionfind.test.cpp
+  - test/yosupo_static_rectangle_sum.test.cpp
   - test/aoj_alds1_9_c_binaryheap.test.cpp
+  - test/yosupo_static_range_inversions_query.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
+  - test/yosupo_many_aplusb_slope_trick.test.cpp
   - test/yosupo_directedmst.test.cpp
 documentation_of: util/fastio.cpp
 layout: document

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/segtree.cpp
     title: datastructure/segtree.cpp
   - icon: ':question:'

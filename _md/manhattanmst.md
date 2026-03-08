@@ -19,7 +19,7 @@ for (auto [u, v] : es) {
     long long w = abs(xs[u] - xs[v]) + abs(ys[u] - ys[v]);
     g.emplace_back(u, v, w);
 }
-long long ans = kruskal(g, n);
+long long ans = kruskal(g, n).cost;
 ```
 
 ## 実装上の補足

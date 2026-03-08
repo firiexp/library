@@ -8,10 +8,16 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/auxtree.cpp
     title: tree/auxtree.cpp
+  - icon: ':heavy_check_mark:'
+    path: tree/virtual_tree_helper.cpp
+    title: Virtual Tree Helper
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0439.test.cpp
     title: test/aoj0439.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0439_virtual_tree_helper.test.cpp
+    title: test/aoj0439_virtual_tree_helper.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
@@ -54,10 +60,12 @@ data:
   requiredBy:
   - tree/auxtree.cpp
   - tree/LCA.cpp
+  - tree/virtual_tree_helper.cpp
   timestamp: '2020-10-13 14:23:44+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/aoj0439.test.cpp
+  - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_lca.test.cpp
 documentation_of: datastructure/sparsetable.cpp

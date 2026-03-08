@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_argsort.test.cpp
+    title: test/yosupo_many_aplusb_argsort.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"geometry/argsort.cpp\"\nusing Ar2 = array<int, 2>;\nvoid\
@@ -23,8 +26,9 @@ data:
   path: geometry/argsort.cpp
   requiredBy: []
   timestamp: '2023-03-07 12:28:13+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_many_aplusb_argsort.test.cpp
 documentation_of: geometry/argsort.cpp
 layout: document
 redirect_from:

@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/segtree.cpp
     title: datastructure/segtree.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: tree/hld.cpp
     title: tree/hld.cpp
   - icon: ':question:'
@@ -12,9 +12,9 @@ data:
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/vertex_set_path_composite
@@ -51,47 +51,66 @@ data:
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
     \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 19\
     \ \"test/yosupo_vertex_set_path_composite.test.cpp\"\n\n#line 1 \"tree/hld.cpp\"\
-    \n\nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n        for (auto\
-    \ &&u : G[v]) {\n            if(u == par[v]) continue;\n            par[u] = v;\
-    \ dep[u] = dep[v] + 1;\n            dfs_sz(u);\n            sub_size[v] += sub_size[u];\n\
-    \            if(sub_size[u] > sub_size[G[v][0]]) swap(u, G[v][0]);\n        }\n\
-    \    }\n    void dfs_hld(int v, int c, int &pos){\n        id[v] = pos++;\n  \
-    \      id_inv[id[v]]= v;\n        tree_id[v] = c;\n        for (auto &&u : G[v])\
-    \ {\n            if(u == par[v]) continue;\n            head[u] = (u == G[v][0]\
-    \ ? head[v] : u);\n            dfs_hld(u, c, pos);\n        }\n    }\npublic:\n\
-    \    int n;\n    vector<vector<int>> G;\n    vector<int> par, dep, sub_size, id,\
-    \ id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int n) : n(n),\
-    \ G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n){}\n\
-    \    explicit HeavyLightDecomposition(vector<vector<int>> &G) :G(G), n(G.size()),\
-    \ par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n) {}\n\n\
-    \    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n        G[v].emplace_back(u);\n\
-    \    }\n\n    void build(vector<int> roots = {0}){\n        int c = 0, pos = 0;\n\
-    \        for (auto &&i : roots) {\n            dfs_sz(i);\n            head[i]\
-    \ = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\n    int lca(int\
-    \ u, int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n\
-    \            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k)\
-    \ return -1;\n        while(true) {\n            int u = head[v];\n          \
-    \  if(id[v] - k >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n\
-    \            v = par[u];\n        }\n    }\n\n    int distance(int u, int v){\
-    \ return dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    template<typename F>\n \
-    \   void add(int u, int v, const F &f, bool edge){\n        while (head[u] !=\
-    \ head[v]){\n            if(id[u] > id[v]) swap(u, v);\n            f(id[head[v]],\
-    \ id[v]+1);\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
-    \ swap(u, v);\n        f(id[u]+edge, id[v]+1);\n    }\n\n    template<typename\
+    \n\nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy\
+    \ = -1;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
+    \            par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n      \
+    \      sub_size[v] += sub_size[u];\n            if(heavy == -1 || sub_size[u]\
+    \ > sub_size[heavy]) heavy = u;\n        }\n        if (heavy != -1 && G[v][0]\
+    \ != heavy) {\n            for (auto &&u : G[v]) {\n                if (u == heavy)\
+    \ {\n                    swap(u, G[v][0]);\n                    break;\n     \
+    \           }\n            }\n        }\n    }\n    void dfs_hld(int v, int c,\
+    \ int &pos){\n        id[v] = pos++;\n        id_inv[id[v]]= v;\n        tree_id[v]\
+    \ = c;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
+    \            head[u] = (u == G[v][0] ? head[v] : u);\n            dfs_hld(u, c,\
+    \ pos);\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>> G;\n \
+    \   vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int\
+    \ n) : n(n), G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
+    \ head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>> &G) : n(G.size()),\
+    \ G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n)\
+    \ {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n    \
+    \    G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
+    \        fill(par.begin(), par.end(), -1);\n        fill(dep.begin(), dep.end(),\
+    \ 0);\n        fill(sub_size.begin(), sub_size.end(), 1);\n        int c = 0,\
+    \ pos = 0;\n        for (auto &&i : roots) {\n            dfs_sz(i);\n       \
+    \     head[i] = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\n  \
+    \  int lca(int u, int v){\n        while(true){\n            if(id[u] > id[v])\
+    \ swap(u, v);\n            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
+    \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
+    \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
+    \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
+    \ >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n     \
+    \       v = par[u];\n        }\n    }\n\n    int distance(int u, int v){ return\
+    \ dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    pair<int, int> subtree(int v, bool\
+    \ edge = false) const {\n        return {id[v] + edge, id[v] + sub_size[v]};\n\
+    \    }\n\n    template<typename F>\n    void add(int u, int v, const F &f, bool\
+    \ edge){\n        while (head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
+    \ v);\n            f(id[head[v]], id[v]+1);\n            v = par[head[v]];\n \
+    \       }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge, id[v]+1);\n\
+    \    }\n\n    template<typename F>\n    void path(int u, int v, const F &f, bool\
+    \ edge = false){\n        add(u, v, f, edge);\n    }\n\n    template<typename\
+    \ F>\n    void apply_subtree(int v, const F &f, bool edge = false){\n        auto\
+    \ [l, r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename\
     \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
     \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
     \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
     \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
     \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
-    \    }\n\n    template<typename T, typename QL, typename QR, typename F>\n   \
-    \ T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F\
-    \ &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n\
-    \                u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
-    \ id[v]+1), r);\n                v = par[head[v]];\n            }\n        }\n\
-    \        T mid = (id[u] > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n\
-    \        return f(f(l, mid), r);\n    }\n};\n#line 21 \"test/yosupo_vertex_set_path_composite.test.cpp\"\
+    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
+    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
+    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
+    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
+    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
+    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
+    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
+    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
+    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
+    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
+    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
+    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
+    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
+    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
+    \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
+    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n#line 21 \"test/yosupo_vertex_set_path_composite.test.cpp\"\
     \n\n#line 1 \"datastructure/segtree.cpp\"\ntemplate <class M>\nstruct SegmentTree{\n\
     \    using T = typename M::T;\n    int sz, n, height{};\n    vector<T> seg;\n\
     \    explicit SegmentTree(int n) : n(n) {\n        sz = 1; while(sz < n) sz <<=\
@@ -178,8 +197,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite.test.cpp
   requiredBy: []
-  timestamp: '2021-08-01 18:22:52+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 17:42:36+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite.test.cpp
 layout: document

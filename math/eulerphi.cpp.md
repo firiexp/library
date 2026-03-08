@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_eulerphi.test.cpp
+    title: test/yosupo_many_aplusb_eulerphi.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/eulerphi.cpp\"\nint eulerphi(int x){\n    int phi =\
@@ -21,8 +24,9 @@ data:
   path: math/eulerphi.cpp
   requiredBy: []
   timestamp: '2021-02-19 21:44:59+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_many_aplusb_eulerphi.test.cpp
 documentation_of: math/eulerphi.cpp
 layout: document
 redirect_from:

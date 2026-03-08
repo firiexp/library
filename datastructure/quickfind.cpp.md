@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/yosupo_unionfind_quickfind.test.cpp
+    title: test/yosupo_unionfind_quickfind.test.cpp
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/quickfind.cpp\"\nstruct QuickFind {\n    int\
@@ -36,8 +39,9 @@ data:
   path: datastructure/quickfind.cpp
   requiredBy: []
   timestamp: '2020-10-27 21:25:47+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/yosupo_unionfind_quickfind.test.cpp
 documentation_of: datastructure/quickfind.cpp
 layout: document
 redirect_from:

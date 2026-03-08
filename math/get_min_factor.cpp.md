@@ -5,10 +5,13 @@ data:
   - icon: ':warning:'
     path: math/powk_all.cpp
     title: math/powk_all.cpp
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_eulerphi.test.cpp
+    title: test/yosupo_many_aplusb_eulerphi.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/get_min_factor.cpp\"\nvector<int> get_min_factor(int\
@@ -32,8 +35,9 @@ data:
   requiredBy:
   - math/powk_all.cpp
   timestamp: '2021-07-05 11:47:21+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_many_aplusb_eulerphi.test.cpp
 documentation_of: math/get_min_factor.cpp
 layout: document
 redirect_from:

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: math/isqrt.cpp
     title: math/isqrt.cpp
   _extendedRequiredBy: []

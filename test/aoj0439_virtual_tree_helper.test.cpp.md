@@ -1,0 +1,240 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':question:'
+    path: datastructure/sparsetable.cpp
+    title: datastructure/sparsetable.cpp
+  - icon: ':heavy_check_mark:'
+    path: tree/auxtree.cpp
+    title: tree/auxtree.cpp
+  - icon: ':heavy_check_mark:'
+    path: tree/virtual_tree_helper.cpp
+    title: Virtual Tree Helper
+  - icon: ':question:'
+    path: util/fastio.cpp
+    title: util/fastio.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
+  _pathExtension: cpp
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/0439
+    links:
+    - https://onlinejudge.u-aizu.ac.jp/problems/0439
+  bundledCode: "#line 1 \"test/aoj0439_virtual_tree_helper.test.cpp\"\n#define PROBLEM\
+    \ \"https://onlinejudge.u-aizu.ac.jp/problems/0439\"\n\n#include <algorithm>\n\
+    #include <functional>\n#include <limits>\n#include <queue>\n#include <vector>\n\
+    using namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
+    \ / 32 * 15 + 208;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\nusing namespace std;\n\
+    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
+    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
+    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
+    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
+    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
+    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
+    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
+    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
+    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
+    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
+    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
+    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
+    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
+    \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
+    \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
+    \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
+    \            while (buf[idx] > ' ') ++idx;\n            s.append(buf + start,\
+    \ idx - start);\n            if (buf[idx] <= ' ') break;\n            load();\n\
+    \        }\n        ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr\
+    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n\
+    \    int idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
+    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
+    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
+    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
+    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
+    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
+    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
+    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
+    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
+    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
+    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
+    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
+    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
+    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
+    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
+    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
+    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
+    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
+    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
+    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
+    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
+    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
+    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
+    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
+    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
+    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
+    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
+    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
+    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
+    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
+    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
+    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
+    tree/auxtree.cpp\"\n#include <stack>\n\n#line 1 \"datastructure/sparsetable.cpp\"\
+    \ntemplate <class F>\nstruct SparseTable {\n    using T = typename F::T;\n   \
+    \ vector<vector<T>> table;\n    vector<int> u;\n    SparseTable() = default;\n\
+    \    explicit SparseTable(const vector<T> &v){ build(v); }\n \n    void build(const\
+    \ vector<T> &v){\n        int n = v.size(), m = 1;\n        while((1<<m) <= n)\
+    \ m++;\n        table.assign(m, vector<T>(n));\n        u.assign(n+1, 0);\n  \
+    \      for (int i = 2; i <= n; ++i) {\n            u[i] = u[i>>1] + 1;\n     \
+    \   }\n        for (int i = 0; i < n; ++i) {\n            table[0][i] = v[i];\n\
+    \        }\n        for (int i = 1; i < m; ++i) {\n            int x = (1<<(i-1));\n\
+    \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
+    \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
+    \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
+    \    }\n};\n#line 4 \"tree/auxtree.cpp\"\n\nstruct F {\n    using T = pair<int,\
+    \ int>;\n    static T f(T a, T b) { return min(a, b); }\n    static T e() { return\
+    \ T{INF<int>, -1}; }\n};\n\nclass AuxTree {\n    SparseTable<F> table;\n    void\
+    \ dfs_euler(int v, int p, int d, int &k, int &l){\n        id[v] = k;\n      \
+    \  vs[k] = v;\n        depth[k++] = d;\n        dep[v] = d;\n        fi[v] = l++;\n\
+    \        for (auto &&u : G[v]) {\n            if(u != p){\n                dfs_euler(u,\
+    \ v, d+1, k, l);\n                vs[k] = v;\n                depth[k++] = d;\n\
+    \            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
+    \ G, out;\n    vector<int> vs, depth, dep, id, fi;\n    explicit AuxTree(int n)\
+    \ : table(), n(n), G(n), out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n)\
+    \ {};\n    void add_edge(int a, int b){\n        G[a].emplace_back(b);\n     \
+    \   G[b].emplace_back(a);\n    }\n\n    void eulertour(int root) {\n        int\
+    \ k = 0, l = 0;\n        dfs_euler(root, -1, 0, k, l);\n    }\n\n    void buildLCA(int\
+    \ root = 0){\n        eulertour(root);\n        vector<pair<int, int>> v(2*n-1);\n\
+    \        for (int i = 0; i < 2*n-1; ++i) {\n            v[i] = make_pair(depth[i],\
+    \ vs[i]);\n        }\n        table.build(v);\n    }\n\n    void make(vector<int>\
+    \ &v){\n        sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b];\
+    \ });\n        v.erase(unique(v.begin(), v.end()), v.end());\n        int k =\
+    \ v.size();\n        stack<int> s;\n        s.emplace(v.front());\n        for\
+    \ (int i = 0; i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n      \
+    \      if(w != v[i]){\n                int u = s.top(); s.pop();\n           \
+    \     while(!s.empty() && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
+    \                    out[u].emplace_back(s.top());\n                    u = s.top();\
+    \ s.pop();\n                }\n                if(s.empty() || s.top() != w){\n\
+    \                    s.emplace(w);\n                    v.emplace_back(w);\n \
+    \               }\n                out[w].emplace_back(u);\n                out[u].emplace_back(w);\n\
+    \            }\n            s.emplace(v[i+1]);\n        }\n        while(s.size()\
+    \ > 1){\n            int u = s.top(); s.pop();\n            out[s.top()].emplace_back(u);\n\
+    \            out[u].emplace_back(s.top());\n        }\n    }\n\n    void clear(vector<int>\
+    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n          \
+    \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
+    \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
+    \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
+    \ v)];\n    }\n};\n#line 2 \"tree/virtual_tree_helper.cpp\"\n\nstruct VirtualTree\
+    \ {\n    int root;\n    vector<int> vertices;\n    vector<int> parent;\n};\n\n\
+    class VirtualTreeHelper {\n    AuxTree aux;\n    vector<int> mark, parent_buf;\n\
+    \    int stamp = 0;\n\npublic:\n    explicit VirtualTreeHelper(int n) : aux(n),\
+    \ mark(n, 0), parent_buf(n, -1) {}\n\n    void add_edge(int u, int v) {\n    \
+    \    aux.add_edge(u, v);\n    }\n\n    void build(int root = 0) {\n        aux.buildLCA(root);\n\
+    \    }\n\n    int lca(int u, int v) {\n        return aux.LCA(u, v);\n    }\n\n\
+    \    int distance(int u, int v) {\n        return aux.distance(u, v);\n    }\n\
+    \n    VirtualTree make(vector<int> vertices) {\n        aux.make(vertices);\n\
+    \        sort(vertices.begin(), vertices.end(), [&](int a, int b) { return aux.fi[a]\
+    \ < aux.fi[b]; });\n        vertices.erase(unique(vertices.begin(), vertices.end()),\
+    \ vertices.end());\n\n        VirtualTree res;\n        res.root = vertices.front();\n\
+    \        ++stamp;\n        vector<int> st = {res.root};\n        mark[res.root]\
+    \ = stamp;\n        parent_buf[res.root] = -1;\n\n        while (!st.empty())\
+    \ {\n            int v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
+    \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
+    \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
+    \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
+    \ st.emplace_back(u);\n            }\n        }\n\n        aux.clear(vertices);\n\
+    \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n * @docs\
+    \ _md/virtual_tree_helper.md\n */\n#line 14 \"test/aoj0439_virtual_tree_helper.test.cpp\"\
+    \n\ntemplate <typename T>\nusing GPQ = priority_queue<T, vector<T>, greater<T>>;\n\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    vector<vector<int>> color(n);\n    VirtualTreeHelper vt(n);\n    for (int\
+    \ i = 0; i < n; ++i) {\n        int x;\n        sc.read(x);\n        color[x -\
+    \ 1].emplace_back(i);\n    }\n    for (int i = 0; i < n - 1; ++i) {\n        int\
+    \ u, v;\n        sc.read(u, v);\n        --u;\n        --v;\n        vt.add_edge(u,\
+    \ v);\n    }\n    vt.build();\n\n    vector<int> ans(n, INF<int>);\n    vector<int>\
+    \ cmp(n), dist(n);\n    vector<vector<int>> g(n);\n    vector<int> is_target(n,\
+    \ 0);\n    for (auto &&vs : color) {\n        if (vs.empty()) continue;\n    \
+    \    for (int v : vs) is_target[v] = 1;\n        auto tree = vt.make(vs);\n  \
+    \      for (int v : tree.vertices) g[v].clear();\n        for (int i = 1; i <\
+    \ (int)tree.vertices.size(); ++i) {\n            int v = tree.vertices[i];\n \
+    \           int p = tree.parent[i];\n            g[v].emplace_back(p);\n     \
+    \       g[p].emplace_back(v);\n        }\n\n        GPQ<pair<int, int>> q;\n \
+    \       for (int i = 0; i < (int)tree.vertices.size(); ++i) {\n            int\
+    \ v = tree.vertices[i];\n            if (is_target[v]) {\n                dist[v]\
+    \ = 0;\n                cmp[v] = v;\n                q.emplace(0, v);\n      \
+    \      } else {\n                dist[v] = INF<int>;\n            }\n        }\n\
+    \        while (!q.empty()) {\n            auto [d, v] = q.top();\n          \
+    \  q.pop();\n            if (d != dist[v]) continue;\n            for (auto &&u\
+    \ : g[v]) {\n                if (dist[u] > dist[v] + vt.distance(v, u)) {\n  \
+    \                  dist[u] = dist[v] + vt.distance(v, u);\n                  \
+    \  cmp[u] = cmp[v];\n                    q.emplace(dist[u], u);\n            \
+    \    }\n            }\n        }\n        for (int v : tree.vertices) {\n    \
+    \        for (auto &&u : g[v]) {\n                int a = cmp[v], b = cmp[u];\n\
+    \                if (a != b) ans[a] = min(ans[a], vt.distance(a, b));\n      \
+    \      }\n        }\n        for (int v : vs) is_target[v] = 0;\n    }\n\n   \
+    \ for (auto &&x : ans) pr.writeln(x);\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/0439\"\n\n#include\
+    \ <algorithm>\n#include <functional>\n#include <limits>\n#include <queue>\n#include\
+    \ <vector>\nusing namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
+    \ / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\n#include \"../tree/virtual_tree_helper.cpp\"\
+    \n\ntemplate <typename T>\nusing GPQ = priority_queue<T, vector<T>, greater<T>>;\n\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    vector<vector<int>> color(n);\n    VirtualTreeHelper vt(n);\n    for (int\
+    \ i = 0; i < n; ++i) {\n        int x;\n        sc.read(x);\n        color[x -\
+    \ 1].emplace_back(i);\n    }\n    for (int i = 0; i < n - 1; ++i) {\n        int\
+    \ u, v;\n        sc.read(u, v);\n        --u;\n        --v;\n        vt.add_edge(u,\
+    \ v);\n    }\n    vt.build();\n\n    vector<int> ans(n, INF<int>);\n    vector<int>\
+    \ cmp(n), dist(n);\n    vector<vector<int>> g(n);\n    vector<int> is_target(n,\
+    \ 0);\n    for (auto &&vs : color) {\n        if (vs.empty()) continue;\n    \
+    \    for (int v : vs) is_target[v] = 1;\n        auto tree = vt.make(vs);\n  \
+    \      for (int v : tree.vertices) g[v].clear();\n        for (int i = 1; i <\
+    \ (int)tree.vertices.size(); ++i) {\n            int v = tree.vertices[i];\n \
+    \           int p = tree.parent[i];\n            g[v].emplace_back(p);\n     \
+    \       g[p].emplace_back(v);\n        }\n\n        GPQ<pair<int, int>> q;\n \
+    \       for (int i = 0; i < (int)tree.vertices.size(); ++i) {\n            int\
+    \ v = tree.vertices[i];\n            if (is_target[v]) {\n                dist[v]\
+    \ = 0;\n                cmp[v] = v;\n                q.emplace(0, v);\n      \
+    \      } else {\n                dist[v] = INF<int>;\n            }\n        }\n\
+    \        while (!q.empty()) {\n            auto [d, v] = q.top();\n          \
+    \  q.pop();\n            if (d != dist[v]) continue;\n            for (auto &&u\
+    \ : g[v]) {\n                if (dist[u] > dist[v] + vt.distance(v, u)) {\n  \
+    \                  dist[u] = dist[v] + vt.distance(v, u);\n                  \
+    \  cmp[u] = cmp[v];\n                    q.emplace(dist[u], u);\n            \
+    \    }\n            }\n        }\n        for (int v : tree.vertices) {\n    \
+    \        for (auto &&u : g[v]) {\n                int a = cmp[v], b = cmp[u];\n\
+    \                if (a != b) ans[a] = min(ans[a], vt.distance(a, b));\n      \
+    \      }\n        }\n        for (int v : vs) is_target[v] = 0;\n    }\n\n   \
+    \ for (auto &&x : ans) pr.writeln(x);\n    return 0;\n}\n"
+  dependsOn:
+  - util/fastio.cpp
+  - tree/virtual_tree_helper.cpp
+  - tree/auxtree.cpp
+  - datastructure/sparsetable.cpp
+  isVerificationFile: true
+  path: test/aoj0439_virtual_tree_helper.test.cpp
+  requiredBy: []
+  timestamp: '2026-03-08 17:42:36+09:00'
+  verificationStatus: TEST_ACCEPTED
+  verifiedWith: []
+documentation_of: test/aoj0439_virtual_tree_helper.test.cpp
+layout: document
+redirect_from:
+- /verify/test/aoj0439_virtual_tree_helper.test.cpp
+- /verify/test/aoj0439_virtual_tree_helper.test.cpp.html
+title: test/aoj0439_virtual_tree_helper.test.cpp
+---

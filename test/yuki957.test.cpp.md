@@ -1,0 +1,198 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':question:'
+    path: flow/dinic.cpp
+    title: flow/dinic.cpp
+  - icon: ':x:'
+    path: flow/project_selection_problem.cpp
+    title: Project Selection Problem
+  - icon: ':question:'
+    path: util/fastio.cpp
+    title: util/fastio.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
+  _isVerificationFailed: true
+  _pathExtension: cpp
+  _verificationStatusIcon: ':x:'
+  attributes:
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://yukicoder.me/problems/no/957
+    links:
+    - https://yukicoder.me/problems/no/957
+  bundledCode: "#line 1 \"test/yuki957.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/no/957\"\
+    \n\n#include <algorithm>\n#include <limits>\n#include <queue>\n#include <tuple>\n\
+    #include <vector>\nusing namespace std;\n\nusing ll = long long;\ntemplate<class\
+    \ T>\nconstexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 1\
+    \ \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
+    \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
+    \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
+    \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
+    \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
+    \ {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\n    Scanner() : idx(0),\
+    \ size(0) {}\n\n    inline void load() {\n        int len = size - idx;\n    \
+    \    memmove(buf, buf + idx, len);\n        size = len + (int)fread(buf + len,\
+    \ 1, BUFSIZE - len, stdin);\n        idx = 0;\n        buf[size] = 0;\n    }\n\
+    \n    inline void ensure() {\n        if (idx + OFFSET > size) load();\n    }\n\
+    \n    inline char skip() {\n        ensure();\n        while (buf[idx] && buf[idx]\
+    \ <= ' ') {\n            ++idx;\n            ensure();\n        }\n        return\
+    \ buf[idx++];\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value,\
+    \ int>::type = 0>\n    void read(T &x) {\n        char c = skip();\n        bool\
+    \ neg = false;\n        if constexpr (is_signed<T>::value) {\n            if (c\
+    \ == '-') {\n                neg = true;\n                c = buf[idx++];\n  \
+    \          }\n        }\n        x = 0;\n        while (c >= '0') {\n        \
+    \    x = x * 10 + (c & 15);\n            c = buf[idx++];\n        }\n        if\
+    \ constexpr (is_signed<T>::value) {\n            if (neg) x = -x;\n        }\n\
+    \    }\n\n    template<class Head, class... Tail>\n    void read(Head &head, Tail\
+    \ &...tail) {\n        read(head);\n        (read(tail), ...);\n    }\n\n    void\
+    \ read(char &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n\
+    \        s.clear();\n        ensure();\n        while (buf[idx] && buf[idx] <=\
+    \ ' ') {\n            ++idx;\n            ensure();\n        }\n        while\
+    \ (true) {\n            int start = idx;\n            while (buf[idx] > ' ') ++idx;\n\
+    \            s.append(buf + start, idx - start);\n            if (buf[idx] <=\
+    \ ' ') break;\n            load();\n        }\n        ++idx;\n    }\n};\n\nstruct\
+    \ Printer {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
+    \ int OFFSET = 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr\
+    \ FastIoDigitTable table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush();\
+    \ }\n\n    inline void flush() {\n        if (idx) {\n            fwrite(buf,\
+    \ 1, idx, stdout);\n            idx = 0;\n        }\n    }\n\n    inline void\
+    \ pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++]\
+    \ = c;\n    }\n\n    inline void write_range(const char *s, size_t n) {\n    \
+    \    size_t pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE)\
+    \ flush();\n            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n\
+    \            memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n\
+    \            pos += chunk;\n        }\n    }\n\n    void write(const char *s)\
+    \ {\n        write_range(s, strlen(s));\n    }\n\n    void write(const string\
+    \ &s) {\n        write_range(s.data(), s.size());\n    }\n\n    void write(char\
+    \ c) {\n        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0'\
+    \ + (b ? 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
+    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
+    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
+    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
+    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \            } else {\n                y = static_cast<U>(x);\n            }\n\
+    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
+    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
+    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
+    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
+    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
+    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
+    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
+    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
+    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
+    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
+    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
+    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
+    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
+    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
+    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
+    \    }\n};\n#line 1 \"flow/dinic.cpp\"\ntemplate<class T, bool directed>\nclass\
+    \ Dinic {\n    void bfs(int s){\n        fill(level.begin(),level.end(), -1);\n\
+    \        queue<int> Q;\n        level[s] = 0;\n        Q.emplace(s);\n       \
+    \ while(!Q.empty()){\n            int v = Q.front(); Q.pop();\n            for\
+    \ (auto &&e : G[v]){\n                if(e.cap > 0 && level[e.to] < 0){\n    \
+    \                level[e.to] = level[v] + 1;\n                    Q.emplace(e.to);\n\
+    \                }\n            }\n        }\n    }\n \n    T dfs(int v, int t,\
+    \ T f){\n        if(v == t) return f;\n        for(int &i = iter[v]; i < G[v].size();\
+    \ i++){\n            edge &e = G[v][i];\n            if(e.cap > 0 && level[v]\
+    \ < level[e.to]){\n                T d = dfs(e.to, t, min(f,  e.cap));\n     \
+    \           if(d == 0) continue;\n                e.cap -= d;\n              \
+    \  G[e.to][e.rev].cap += d;\n                return d;\n            }\n      \
+    \  }\n        return 0;\n    }\npublic:\n    struct edge {\n        int to{};\
+    \ T cap; int rev{};\n        edge() = default;\n        edge(int to, T cap, int\
+    \ rev) : to(to), cap(cap), rev(rev) {}\n    };\n \n    vector<vector<edge>> G;\n\
+    \    vector<int> level, iter;\n    Dinic() = default;\n    explicit Dinic(int\
+    \ n) : G(n), level(n), iter(n) {}\n \n    void add_edge(int from, int to, T cap){\n\
+    \        G[from].emplace_back(to, cap, G[to].size());\n        G[to].emplace_back(from,\
+    \ directed ? 0 : cap,  G[from].size()-1);\n    }\n \n \n    T flow(int s, int\
+    \ t, T lim = INF<T>){\n        T ret = 0;\n        while(true) {\n           \
+    \ bfs(s);\n            if(level[t] < 0 || lim == 0) break;\n            fill(iter.begin(),iter.end(),\
+    \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
+    \           if(f == 0) break;\n                ret += f;\n                lim\
+    \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n#line 2 \"\
+    flow/project_selection_problem.cpp\"\n\ntemplate<class T>\nclass ProjectSelectionProblem\
+    \ {\n    int n;\n    T base_score{};\n    vector<T> weight;\n    vector<tuple<int,\
+    \ int, T>> penalty;\n    vector<int> selected;\n\npublic:\n    ProjectSelectionProblem()\
+    \ : n(0) {}\n    explicit ProjectSelectionProblem(int n) : n(n), base_score(0),\
+    \ weight(n, 0), selected(n, 0) {}\n\n    int add_vertex() {\n        weight.emplace_back(0);\n\
+    \        selected.emplace_back(0);\n        return n++;\n    }\n\n    int size()\
+    \ const {\n        return n;\n    }\n\n    void add_true_profit(int v, T x) {\n\
+    \        weight[v] += x;\n    }\n\n    void add_false_profit(int v, T x) {\n \
+    \       base_score += x;\n        weight[v] -= x;\n    }\n\n    void add_penalty(int\
+    \ x, int y, T cost) {\n        penalty.emplace_back(x, y, cost);\n    }\n\n  \
+    \  void add_if_then(int x, int y) {\n        add_penalty(x, y, INF<T>);\n    }\n\
+    \n    void force_true(int v) {\n        add_true_profit(v, INF<T>);\n    }\n\n\
+    \    void force_false(int v) {\n        add_false_profit(v, INF<T>);\n    }\n\n\
+    \    T solve() {\n        int s = n, t = n + 1;\n        Dinic<T, true> mf(n +\
+    \ 2);\n        T offset = base_score;\n        for (int v = 0; v < n; ++v) {\n\
+    \            if (weight[v] >= 0) {\n                offset += weight[v];\n   \
+    \             mf.add_edge(s, v, weight[v]);\n            } else {\n          \
+    \      mf.add_edge(v, t, -weight[v]);\n            }\n        }\n        for (auto&&\
+    \ [x, y, cost] : penalty) {\n            mf.add_edge(x, y, cost);\n        }\n\
+    \        T cut = mf.flow(s, t);\n\n        fill(selected.begin(), selected.end(),\
+    \ 0);\n        queue<int> q;\n        q.emplace(s);\n        vector<int> vis(n\
+    \ + 2, 0);\n        vis[s] = 1;\n        while (!q.empty()) {\n            int\
+    \ v = q.front();\n            q.pop();\n            for (auto&& e : mf.G[v]) {\n\
+    \                if (e.cap <= 0 || vis[e.to]) continue;\n                vis[e.to]\
+    \ = 1;\n                q.emplace(e.to);\n            }\n        }\n        for\
+    \ (int v = 0; v < n; ++v) {\n            selected[v] = vis[v];\n        }\n  \
+    \      return offset - cut;\n    }\n\n    const vector<int>& get_selected() const\
+    \ {\n        return selected;\n    }\n};\n\n/**\n * @brief Project Selection Problem\n\
+    \ * @docs _md/project_selection_problem.md\n */\n#line 16 \"test/yuki957.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int h, w;\n    in.read(h,\
+    \ w);\n\n    vector<vector<ll>> g(h, vector<ll>(w));\n    for (int i = 0; i <\
+    \ h; ++i) {\n        for (int j = 0; j < w; ++j) {\n            in.read(g[i][j]);\n\
+    \        }\n    }\n    vector<ll> row(h), col(w);\n    for (int i = 0; i < h;\
+    \ ++i) in.read(row[i]);\n    for (int j = 0; j < w; ++j) in.read(col[j]);\n\n\
+    \    ProjectSelectionProblem<ll> psp(h * w);\n    vector<int> row_id(h), col_id(w);\n\
+    \    for (int i = 0; i < h; ++i) row_id[i] = psp.add_vertex();\n    for (int j\
+    \ = 0; j < w; ++j) col_id[j] = psp.add_vertex();\n\n    auto cell = [&](int i,\
+    \ int j) {\n        return i * w + j;\n    };\n\n    for (int i = 0; i < h; ++i)\
+    \ {\n        psp.add_true_profit(row_id[i], row[i]);\n        for (int j = 0;\
+    \ j < w; ++j) {\n            psp.add_if_then(row_id[i], cell(i, j));\n       \
+    \ }\n    }\n    for (int j = 0; j < w; ++j) {\n        psp.add_true_profit(col_id[j],\
+    \ col[j]);\n        for (int i = 0; i < h; ++i) {\n            psp.add_if_then(col_id[j],\
+    \ cell(i, j));\n        }\n    }\n    for (int i = 0; i < h; ++i) {\n        for\
+    \ (int j = 0; j < w; ++j) {\n            psp.add_false_profit(cell(i, j), g[i][j]);\n\
+    \        }\n    }\n\n    out.writeln(psp.solve());\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n\
+    #include <limits>\n#include <queue>\n#include <tuple>\n#include <vector>\nusing\
+    \ namespace std;\n\nusing ll = long long;\ntemplate<class T>\nconstexpr T INF\
+    \ = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../flow/project_selection_problem.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n    int h, w;\n    in.read(h, w);\n\n    vector<vector<ll>>\
+    \ g(h, vector<ll>(w));\n    for (int i = 0; i < h; ++i) {\n        for (int j\
+    \ = 0; j < w; ++j) {\n            in.read(g[i][j]);\n        }\n    }\n    vector<ll>\
+    \ row(h), col(w);\n    for (int i = 0; i < h; ++i) in.read(row[i]);\n    for (int\
+    \ j = 0; j < w; ++j) in.read(col[j]);\n\n    ProjectSelectionProblem<ll> psp(h\
+    \ * w);\n    vector<int> row_id(h), col_id(w);\n    for (int i = 0; i < h; ++i)\
+    \ row_id[i] = psp.add_vertex();\n    for (int j = 0; j < w; ++j) col_id[j] = psp.add_vertex();\n\
+    \n    auto cell = [&](int i, int j) {\n        return i * w + j;\n    };\n\n \
+    \   for (int i = 0; i < h; ++i) {\n        psp.add_true_profit(row_id[i], row[i]);\n\
+    \        for (int j = 0; j < w; ++j) {\n            psp.add_if_then(row_id[i],\
+    \ cell(i, j));\n        }\n    }\n    for (int j = 0; j < w; ++j) {\n        psp.add_true_profit(col_id[j],\
+    \ col[j]);\n        for (int i = 0; i < h; ++i) {\n            psp.add_if_then(col_id[j],\
+    \ cell(i, j));\n        }\n    }\n    for (int i = 0; i < h; ++i) {\n        for\
+    \ (int j = 0; j < w; ++j) {\n            psp.add_false_profit(cell(i, j), g[i][j]);\n\
+    \        }\n    }\n\n    out.writeln(psp.solve());\n    return 0;\n}\n"
+  dependsOn:
+  - util/fastio.cpp
+  - flow/project_selection_problem.cpp
+  - flow/dinic.cpp
+  isVerificationFile: true
+  path: test/yuki957.test.cpp
+  requiredBy: []
+  timestamp: '2026-03-08 17:42:36+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
+  verifiedWith: []
+documentation_of: test/yuki957.test.cpp
+layout: document
+redirect_from:
+- /verify/test/yuki957.test.cpp
+- /verify/test/yuki957.test.cpp.html
+title: test/yuki957.test.cpp
+---
