@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
     title: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\n\
@@ -77,7 +77,7 @@ data:
   path: datastructure/dynamic_segtree.cpp
   requiredBy: []
   timestamp: '2026-03-08 16:18:09+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
 documentation_of: datastructure/dynamic_segtree.cpp

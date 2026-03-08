@@ -5,19 +5,19 @@ data:
     path: math/ntt.cpp
     title: math/ntt.cpp
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
     title: polynomial interpolation
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/multipoint_evaluation.md
     document_title: multipoint evaluation
@@ -322,7 +322,7 @@ data:
   requiredBy:
   - fps/polynomial_interpolation.cpp
   timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp

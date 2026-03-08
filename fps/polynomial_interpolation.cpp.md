@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/multipoint_evaluation.cpp
     title: multipoint evaluation
   - icon: ':question:'
@@ -9,12 +9,12 @@ data:
     title: math/ntt.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/polynomial_interpolation.md
     document_title: polynomial interpolation
@@ -331,7 +331,7 @@ data:
   path: fps/polynomial_interpolation.cpp
   requiredBy: []
   timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_polynomial_interpolation.test.cpp
 documentation_of: fps/polynomial_interpolation.cpp

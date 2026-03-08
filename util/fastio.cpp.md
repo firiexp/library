@@ -46,6 +46,9 @@ data:
     path: test/yosupo_assignment_hungarian.test.cpp
     title: test/yosupo_assignment_hungarian.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_binomial_coefficient.test.cpp
+    title: test/yosupo_binomial_coefficient.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
     title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   - icon: ':heavy_check_mark:'
@@ -138,55 +141,55 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_minimum_spanning_tree.test.cpp
     title: test/yosupo_minimum_spanning_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
     title: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum.test.cpp
     title: test/yosupo_point_add_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
     title: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_rectangle_sum.test.cpp
     title: test/yosupo_point_add_rectangle_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_primitive_root.test.cpp
     title: test/yosupo_primitive_root.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
     title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
     title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_segment_add_get_min.test.cpp
     title: test/yosupo_segment_add_get_min.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_set_xor_min_binarytrie.test.cpp
     title: test/yosupo_set_xor_min_binarytrie.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path_radix_heap.test.cpp
     title: test/yosupo_shortest_path_radix_heap.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_sqrt_mod.test.cpp
     title: test/yosupo_sqrt_mod.test.cpp
   - icon: ':heavy_check_mark:'
@@ -419,6 +422,7 @@ data:
   - test/yosupo_minimum_spanning_tree.test.cpp
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   - test/yosupo_primitive_root.test.cpp
+  - test/yosupo_binomial_coefficient.test.cpp
   - test/aoj2945_bfs01.test.cpp
   - test/yosupo_sum_of_floor_of_linear.test.cpp
   - test/yosupo_topological_sort.test.cpp

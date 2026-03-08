@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binarytrie.cpp
     title: Binary Trie
   - icon: ':question:'
@@ -9,9 +9,9 @@ data:
     title: util/fastio.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/set_xor_min
@@ -132,7 +132,7 @@ data:
   path: test/yosupo_set_xor_min_binarytrie.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 15:26:50+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_set_xor_min_binarytrie.test.cpp
 layout: document

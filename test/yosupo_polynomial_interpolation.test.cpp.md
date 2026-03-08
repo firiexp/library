@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/multipoint_evaluation.cpp
     title: multipoint evaluation
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
     title: polynomial interpolation
   - icon: ':question:'
@@ -15,9 +15,9 @@ data:
     title: util/fastio.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/polynomial_interpolation
@@ -410,7 +410,7 @@ data:
   path: test/yosupo_polynomial_interpolation.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_polynomial_interpolation.test.cpp
 layout: document

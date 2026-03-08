@@ -12,25 +12,25 @@ data:
     - icon: ':question:'
       path: datastructure/binaryindexedtree.cpp
       title: datastructure/binaryindexedtree.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/binarytrie.cpp
       title: Binary Trie
     - icon: ':x:'
       path: datastructure/disjoint_sparse_table.cpp
       title: Disjoint Sparse Table
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/dualsegtree.cpp
       title: datastructure/dualsegtree.cpp
     - icon: ':heavy_check_mark:'
       path: datastructure/dynamic_bitset.cpp
       title: DynamicBitset
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/dynamic_segtree.cpp
       title: datastructure/dynamic_segtree.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/lazysegtree.cpp
       title: datastructure/lazysegtree.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/li_chao_tree.cpp
       title: datastructure/li_chao_tree.cpp
     - icon: ':warning:'
@@ -39,16 +39,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/persistent_segtree.cpp
       title: datastructure/persistent_segtree.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/point_add_rectangle_sum.cpp
       title: datastructure/point_add_rectangle_sum.cpp
     - icon: ':x:'
       path: datastructure/quickfind.cpp
       title: datastructure/quickfind.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/radixheap.cpp
       title: datastructure/radixheap.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/segbeats.cpp
       title: datastructure/segbeats.cpp
     - icon: ':question:'
@@ -75,7 +75,7 @@ data:
     - icon: ':warning:'
       path: datastructure/trie.cpp
       title: datastructure/trie.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/undoableunionfind.cpp
       title: Undoable Union Find
     - icon: ':heavy_check_mark:'
@@ -109,19 +109,19 @@ data:
     - icon: ':heavy_check_mark:'
       path: fps/linear_recurrence.cpp
       title: linear recurrence
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: fps/multipoint_evaluation.cpp
       title: multipoint evaluation
     - icon: ':heavy_check_mark:'
       path: fps/nth_term.cpp
       title: fps/nth_term.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: fps/polynomial_interpolation.cpp
       title: polynomial interpolation
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: fps/sample_point_shift.cpp
       title: shift of sampling points of polynomial
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: fps/taylor_shift.cpp
       title: polynomial taylor shift
   - name: geometry
@@ -171,13 +171,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/cycle_detection_undirected.cpp
       title: Cycle detection (undirected)
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/dijkstra.cpp
       title: "Dijkstra\u6CD5"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/dijkstra_radix_heap.cpp
       title: "Dijkstra\u6CD5(Radix Heap)"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/dijkstra_restore.cpp
       title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
     - icon: ':heavy_check_mark:'
@@ -224,12 +224,15 @@ data:
       title: graph/twosat.cpp
   - name: math
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/CRT.cpp
       title: math/CRT.cpp
     - icon: ':heavy_check_mark:'
       path: math/berlekamp_massey.cpp
       title: Berlekamp-Massey algorithm
+    - icon: ':heavy_check_mark:'
+      path: math/binom_mod_prime_power.cpp
+      title: "\u4E8C\u9805\u4FC2\u6570 mod p^q"
     - icon: ':warning:'
       path: math/comb_table.cpp
       title: math/comb_table.cpp
@@ -308,10 +311,10 @@ data:
     - icon: ':warning:'
       path: math/mobius_mu.cpp
       title: math/mobius_mu.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/mod_sqrt.cpp
       title: Modular square root
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/modinv.cpp
       title: math/modinv.cpp
     - icon: ':question:'
@@ -329,16 +332,16 @@ data:
     - icon: ':warning:'
       path: math/primefactor.cpp
       title: math/primefactor.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/primefactor2.cpp
       title: math/primefactor2.cpp
     - icon: ':warning:'
       path: math/primefactor_ll.cpp
       title: math/primefactor_ll.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/primefactor_ll2.cpp
       title: math/primefactor_ll2.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/primitive_root.cpp
       title: math/primitive_root.cpp
     - icon: ':heavy_check_mark:'
@@ -587,6 +590,9 @@ data:
       path: test/yosupo_biconnected_components.test.cpp
       title: test/yosupo_biconnected_components.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_binomial_coefficient.test.cpp
+      title: test/yosupo_binomial_coefficient.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
       title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
     - icon: ':heavy_check_mark:'
@@ -703,7 +709,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_minimum_spanning_tree.test.cpp
       title: test/yosupo_minimum_spanning_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_multipoint_evaluation.test.cpp
       title: test/yosupo_multipoint_evaluation.test.cpp
     - icon: ':heavy_check_mark:'
@@ -712,67 +718,67 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
       title: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
       title: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_range_sum.test.cpp
       title: test/yosupo_point_add_range_sum.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
       title: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_range_sum_persistent.test.cpp
       title: test/yosupo_point_add_range_sum_persistent.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_rectangle_sum.test.cpp
       title: test/yosupo_point_add_rectangle_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_polynomial_interpolation.test.cpp
       title: test/yosupo_polynomial_interpolation.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_polynomial_taylor_shift.test.cpp
       title: test/yosupo_polynomial_taylor_shift.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_pow_of_formal_power_series.test.cpp
       title: test/yosupo_pow_of_formal_power_series.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_primitive_root.test.cpp
       title: test/yosupo_primitive_root.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_queue_operate_all_composite.test.cpp
       title: test/yosupo_queue_operate_all_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
       title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_range_affine_range_sum.test.cpp
       title: test/yosupo_range_affine_range_sum.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
       title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_scc.test.cpp
       title: test/yosupo_scc.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_segment_add_get_min.test.cpp
       title: test/yosupo_segment_add_get_min.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_set_xor_min_binarytrie.test.cpp
       title: test/yosupo_set_xor_min_binarytrie.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
       title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path.test.cpp
       title: test/yosupo_shortest_path.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path_radix_heap.test.cpp
       title: test/yosupo_shortest_path_radix_heap.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_sqrt_mod.test.cpp
       title: test/yosupo_sqrt_mod.test.cpp
     - icon: ':x:'

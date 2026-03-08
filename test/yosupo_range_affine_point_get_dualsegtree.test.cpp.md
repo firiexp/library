@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/dualsegtree.cpp
     title: datastructure/dualsegtree.cpp
   - icon: ':question:'
@@ -12,9 +12,9 @@ data:
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_point_get
@@ -162,7 +162,7 @@ data:
   path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
 layout: document

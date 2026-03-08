@@ -5,10 +5,13 @@ data:
     path: math/extgcd.cpp
     title: math/extgcd.cpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_binomial_coefficient.test.cpp
+    title: test/yosupo_binomial_coefficient.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/extgcd.cpp\"\ntemplate<typename T>\nT extgcd(T a, T\
@@ -36,8 +39,9 @@ data:
   path: math/CRT.cpp
   requiredBy: []
   timestamp: '2020-09-09 19:14:02+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_binomial_coefficient.test.cpp
 documentation_of: math/CRT.cpp
 layout: document
 redirect_from:

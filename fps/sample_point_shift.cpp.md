@@ -6,12 +6,12 @@ data:
     title: math/ntt.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/sample_point_shift.md
     document_title: shift of sampling points of polynomial
@@ -341,7 +341,7 @@ data:
   path: fps/sample_point_shift.cpp
   requiredBy: []
   timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
 documentation_of: fps/sample_point_shift.cpp

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/li_chao_tree.cpp
     title: datastructure/li_chao_tree.cpp
   - icon: ':question:'

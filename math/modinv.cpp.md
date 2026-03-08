@@ -1,11 +1,17 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: math/binom_mod_prime_power.cpp
+    title: "\u4E8C\u9805\u4FC2\u6570 mod p^q"
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_binomial_coefficient.test.cpp
+    title: test/yosupo_binomial_coefficient.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/modinv.cpp\"\ntemplate<typename T>  \nT mod_inv(T x,\
@@ -18,10 +24,12 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: math/modinv.cpp
-  requiredBy: []
+  requiredBy:
+  - math/binom_mod_prime_power.cpp
   timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_binomial_coefficient.test.cpp
 documentation_of: math/modinv.cpp
 layout: document
 redirect_from:

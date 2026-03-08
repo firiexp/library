@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: math/CRT.cpp
     title: math/CRT.cpp
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_binomial_coefficient.test.cpp
+    title: test/yosupo_binomial_coefficient.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yuki1358.test.cpp
     title: test/yuki1358.test.cpp
@@ -30,6 +33,7 @@ data:
   timestamp: '2020-04-26 17:42:59+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_binomial_coefficient.test.cpp
   - test/yuki1358.test.cpp
 documentation_of: math/extgcd.cpp
 layout: document

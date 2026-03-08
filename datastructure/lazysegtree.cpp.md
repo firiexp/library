@@ -6,12 +6,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0355.test.cpp
     title: test/aoj0355.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/lazysegtree.cpp\"\ntemplate <class M>\nstruct\
@@ -109,7 +109,7 @@ data:
   path: datastructure/lazysegtree.cpp
   requiredBy: []
   timestamp: '2020-10-27 21:25:47+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/aoj0355.test.cpp

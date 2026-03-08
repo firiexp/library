@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/sample_point_shift.cpp
     title: shift of sampling points of polynomial
   - icon: ':question:'
@@ -12,9 +12,9 @@ data:
     title: util/fastio.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/shift_of_sampling_points_of_polynomial
@@ -404,7 +404,7 @@ data:
   path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
 layout: document

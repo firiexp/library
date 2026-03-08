@@ -6,12 +6,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_line_add_get_min.test.cpp
     title: test/yosupo_line_add_get_min.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_segment_add_get_min.test.cpp
     title: test/yosupo_segment_add_get_min.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/li_chao_tree.cpp\"\ntemplate<class T, bool\
@@ -146,7 +146,7 @@ data:
   path: datastructure/li_chao_tree.cpp
   requiredBy: []
   timestamp: '2026-03-07 18:39:01+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_segment_add_get_min.test.cpp

@@ -5,19 +5,19 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/linear_recurrence.cpp
     title: linear recurrence
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/multipoint_evaluation.cpp
     title: multipoint evaluation
   - icon: ':heavy_check_mark:'
     path: fps/nth_term.cpp
     title: fps/nth_term.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
     title: polynomial interpolation
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/sample_point_shift.cpp
     title: shift of sampling points of polynomial
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/taylor_shift.cpp
     title: polynomial taylor shift
   _extendedVerifiedWith:
@@ -39,19 +39,19 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_log_of_formal_power_series.test.cpp
     title: test/yosupo_log_of_formal_power_series.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_pow_of_formal_power_series.test.cpp
     title: test/yosupo_pow_of_formal_power_series.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - icon: ':x:'

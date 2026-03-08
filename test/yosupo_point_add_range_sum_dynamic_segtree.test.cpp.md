@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/dynamic_segtree.cpp
     title: datastructure/dynamic_segtree.cpp
   - icon: ':question:'
@@ -9,9 +9,9 @@ data:
     title: util/fastio.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
@@ -144,7 +144,7 @@ data:
   path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 16:18:09+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
 layout: document

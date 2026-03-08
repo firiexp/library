@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/point_add_rectangle_sum.cpp
     title: datastructure/point_add_rectangle_sum.cpp
   - icon: ':x:'
@@ -15,10 +15,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
     title: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum.test.cpp
     title: test/yosupo_point_add_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_rectangle_sum.test.cpp
     title: test/yosupo_point_add_rectangle_sum.test.cpp
   - icon: ':x:'
