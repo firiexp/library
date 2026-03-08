@@ -1,8 +1,9 @@
 int LCS_bit(string &s, string &t){
     const int n = s.size(), m = t.size(), bit_sz = (m+63)>>6;
+    if(n == 0 || m == 0) return 0;
     vector<vector<ull>> p(256, vector<ull>(bit_sz, 0));
     for (int i = 0; i < m; ++i) {
-        p[t[i]][i>>6] |= (1ULL << (i&63));
+        p[(unsigned char)t[i]][i>>6] |= (1ULL << (i&63));
     }
     vector<ull> dp(bit_sz);
     for (int i = 0; i < m; ++i) {
@@ -14,7 +15,7 @@ int LCS_bit(string &s, string &t){
     for (int i = 1; i < n; ++i) {
         ull shift = 1, sub = 0, tmp_sub = 0;
         for (int j = 0; j < bit_sz; ++j) {
-            ull x = dp[j] | p[s[i]][j], y = (dp[j] << 1)|shift, z = x;
+            ull x = dp[j] | p[(unsigned char)s[i]][j], y = (dp[j] << 1)|shift, z = x;
             shift = dp[j] >> 63;
             tmp_sub = z < sub;
             z -= sub;
@@ -23,7 +24,7 @@ int LCS_bit(string &s, string &t){
             z -= y;
             dp[j] = (z^x)&x;
         }
-        dp[m>>6] &= (1LLU << (m&63))-1;
+        if(m & 63) dp.back() &= (1ULL << (m & 63)) - 1;
     }
     int ans = 0;
     for (int i = 0; i < bit_sz; ++i) {

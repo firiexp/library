@@ -1,44 +1,64 @@
-template <typename T>
+template <class T>
 struct edge {
-    int from, to;
+    int from, to, idx;
     T cost;
 
-    edge(int to, T cost) : from(-1), to(to), cost(cost) {}
-    edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}
-
-    explicit operator int() const {return to;}
+    edge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx), cost(cost) {}
 };
 
-class UnionFind {
-    vector<int> uni;
-    int n;
-public:
-    explicit UnionFind(int n) : uni(static_cast<uint>(n), -1) , n(n){};
+class KruskalUnionFind {
+    vector<int> p;
 
-    int root(int a){
-        if (uni[a] < 0) return a;
-        else return (uni[a] = root(uni[a]));
+public:
+    explicit KruskalUnionFind(int n) : p(n, -1) {}
+
+    int root(int x) {
+        if (p[x] < 0) return x;
+        return p[x] = root(p[x]);
     }
 
     bool unite(int a, int b) {
         a = root(a);
         b = root(b);
-        if(a == b) return false;
-        if(uni[a] > uni[b]) swap(a, b);
-        uni[a] += uni[b];
-        uni[b] = a;
+        if (a == b) return false;
+        if (p[a] > p[b]) swap(a, b);
+        p[a] += p[b];
+        p[b] = a;
         return true;
     }
 };
 
-template< typename T >
-T kruskal(vector<edge<T>> &G, int V)
-{
-    sort(begin(G), end(G), [](const edge< T > &a, const edge< T > &b) { return (a.cost < b.cost); });
-    UnionFind tree(V);
-    T ret = 0;
-    for(auto &e : G) {
-        if(tree.unite(e.from, e.to)) ret += e.cost;
+template <class T>
+struct KruskalResult {
+    bool exists;
+    T cost;
+    vector<int> edge_id;
+};
+
+template <class T>
+KruskalResult<T> kruskal(vector<edge<T>> edges, int n) {
+    for (int i = 0; i < (int)edges.size(); ++i) {
+        if (edges[i].idx == -1) edges[i].idx = i;
     }
-    return (ret);
+    sort(edges.begin(), edges.end(), [](const edge<T> &a, const edge<T> &b) {
+        if (a.cost != b.cost) return a.cost < b.cost;
+        return a.idx < b.idx;
+    });
+
+    KruskalUnionFind uf(n);
+    T cost = T(0);
+    vector<int> edge_id;
+    edge_id.reserve(max(0, n - 1));
+    for (auto &&e : edges) {
+        if (!uf.unite(e.from, e.to)) continue;
+        cost += e.cost;
+        edge_id.push_back(e.idx);
+    }
+    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};
+    return {true, cost, edge_id};
 }
+
+/**
+ * @brief Kruskal 法
+ * @docs _md/kruskal.md
+ */
