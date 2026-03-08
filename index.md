@@ -82,10 +82,10 @@ data:
       title: "\u6700\u5C0F\u8CBB\u7528\u6D41(primal-dual)"
   - name: fps
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: fps/linear_recurrence.cpp
       title: linear recurrence
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: fps/nth_term.cpp
       title: fps/nth_term.cpp
   - name: geometry
@@ -164,7 +164,7 @@ data:
     - icon: ':warning:'
       path: math/CRT.cpp
       title: math/CRT.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: math/berlekamp_massey.cpp
       title: Berlekamp-Massey algorithm
     - icon: ':warning:'
@@ -242,7 +242,7 @@ data:
     - icon: ':warning:'
       path: math/modinv.cpp
       title: math/modinv.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: math/ntt.cpp
       title: math/ntt.cpp
     - icon: ':warning:'
@@ -478,7 +478,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_find_linear_recurrence.test.cpp
       title: test/yosupo_find_linear_recurrence.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
       title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     - icon: ':heavy_check_mark:'
