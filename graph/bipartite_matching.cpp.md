@@ -10,14 +10,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0334.test.cpp
     title: test/aoj0334.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_bipartite_matching.test.cpp
     title: test/yosupo_many_aplusb_bipartite_matching.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/bipartite_matching.md
     document_title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\
       \u30B0(Bipartite Matching)"
     links: []
@@ -38,8 +37,7 @@ data:
     \ int>> res;\n        for (int i = 0; i < l; ++i) {\n            if (match[i]\
     \ == -1) continue;\n            res.emplace_back(i, match[i] - l);\n        }\n\
     \        return res;\n    }\n};\n\n/**\n * @brief \u4E8C\u90E8\u30B0\u30E9\u30D5\
-    \u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite Matching)\n * @docs _md/bipartite_matching.md\n\
-    \ */\n"
+    \u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite Matching)\n */\n"
   code: "class Bipartite_Matching {\nprotected:\n    vector<vector<int>> G;\n    vector<int>\
     \ used, alive;\n    int t;\n    int l, r;\n\npublic:\n    vector<int> match;\n\
     \n    explicit Bipartite_Matching(int l, int r)\n        : G(l), used(l, 0), alive(l\
@@ -57,22 +55,19 @@ data:
     \ ++i) {\n            if (match[i] == -1) continue;\n            res.emplace_back(i,\
     \ match[i] - l);\n        }\n        return res;\n    }\n};\n\n/**\n * @brief\
     \ \u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite\
-    \ Matching)\n * @docs _md/bipartite_matching.md\n */\n"
+    \ Matching)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/bipartite_matching.cpp
   requiredBy:
   - graph/bipartite_matching_lexmin.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/aoj0334.test.cpp
   - test/yosupo_many_aplusb_bipartite_matching.test.cpp
 documentation_of: graph/bipartite_matching.cpp
 layout: document
-redirect_from:
-- /library/graph/bipartite_matching.cpp
-- /library/graph/bipartite_matching.cpp.html
 title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite\
   \ Matching)"
 ---

@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/diameter_weighted.md
     document_title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"
     links: []
   bundledCode: "#line 1 \"tree/diameter_weighted.cpp\"\ntemplate<class T>\npair<T,\
@@ -23,7 +22,7 @@ data:
     \     f(to, v, f);\n        }\n    };\n\n    dist[0] = T();\n    dfs(0, -1, dfs);\n\
     \    int s = far;\n    dist[s] = T();\n    dfs(s, -1, dfs);\n    return {dist[far],\
     \ {s, far}};\n}\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D\
-    )\n * @docs _md/diameter_weighted.md\n */\n"
+    )\n */\n"
   code: "template<class T>\npair<T, pair<int, int>> tree_diameter_weighted(const vector<vector<pair<int,\
     \ T>>> &G) {\n    int n = G.size();\n    if (n == 0) return {T(), {-1, -1}};\n\
     \n    vector<T> dist(n);\n    int far = 0;\n    auto dfs = [&](int v, int p, auto\
@@ -33,20 +32,17 @@ data:
     \            f(to, v, f);\n        }\n    };\n\n    dist[0] = T();\n    dfs(0,\
     \ -1, dfs);\n    int s = far;\n    dist[s] = T();\n    dfs(s, -1, dfs);\n    return\
     \ {dist[far], {s, far}};\n}\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(\u91CD\u307F\
-    \u4ED8\u304D)\n * @docs _md/diameter_weighted.md\n */\n"
+    \u4ED8\u304D)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/diameter_weighted.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_5_a_diameter.test.cpp
 documentation_of: tree/diameter_weighted.cpp
 layout: document
-redirect_from:
-- /library/tree/diameter_weighted.cpp
-- /library/tree/diameter_weighted.cpp.html
 title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"
 ---
 ## 説明

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/counting_primes.cpp
-    title: "\u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)"
+    title: Counting Primes
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/counting_primes
@@ -85,18 +85,18 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"math/counting_primes.cpp\"\n#include <cmath>\n\
-    #include <cstdint>\n#include <vector>\nusing namespace std;\n\nnamespace counting_primes_internal\
-    \ {\n\nusing ll = long long;\n\nconstexpr int MAX = 5000000;\nconstexpr int PHI_N\
-    \ = 100000;\nconstexpr int PHI_S = 100;\n\nbool initialized = false;\nvector<int>\
-    \ primes;\nvector<int> prime_pi;\nint phi_dp[PHI_S + 1][PHI_N + 1];\n\nll isqrt(ll\
-    \ x) {\n    ll r = sqrtl((long double)x);\n    while ((r + 1) * (r + 1) <= x)\
-    \ ++r;\n    while (r * r > x) --r;\n    return r;\n}\n\nll icbrt(ll x) {\n   \
-    \ ll r = powl((long double)x, 1.0L / 3.0L);\n    while ((__int128)(r + 1) * (r\
-    \ + 1) * (r + 1) <= x) ++r;\n    while ((__int128)r * r * r > x) --r;\n    return\
-    \ r;\n}\n\nll iroot4(ll x) {\n    return isqrt(isqrt(x));\n}\n\nvoid init() {\n\
-    \    if (initialized) return;\n    initialized = true;\n\n    vector<int> min_factor(MAX\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"math/counting_primes.cpp\"\n#include <cmath>\n#include <cstdint>\n#include\
+    \ <vector>\nusing namespace std;\n\nnamespace counting_primes_internal {\n\nusing\
+    \ ll = long long;\n\nconstexpr int MAX = 5000000;\nconstexpr int PHI_N = 100000;\n\
+    constexpr int PHI_S = 100;\n\nbool initialized = false;\nvector<int> primes;\n\
+    vector<int> prime_pi;\nint phi_dp[PHI_S + 1][PHI_N + 1];\n\nll isqrt(ll x) {\n\
+    \    ll r = sqrtl((long double)x);\n    while ((r + 1) * (r + 1) <= x) ++r;\n\
+    \    while (r * r > x) --r;\n    return r;\n}\n\nll icbrt(ll x) {\n    ll r =\
+    \ powl((long double)x, 1.0L / 3.0L);\n    while ((__int128)(r + 1) * (r + 1) *\
+    \ (r + 1) <= x) ++r;\n    while ((__int128)r * r * r > x) --r;\n    return r;\n\
+    }\n\nll iroot4(ll x) {\n    return isqrt(isqrt(x));\n}\n\nvoid init() {\n    if\
+    \ (initialized) return;\n    initialized = true;\n\n    vector<int> min_factor(MAX\
     \ + 1);\n    prime_pi.assign(MAX + 1, 0);\n    for (int i = 2; i <= MAX; ++i)\
     \ {\n        if (min_factor[i] == 0) {\n            min_factor[i] = i;\n     \
     \       primes.push_back(i);\n        }\n        for (int p : primes) {\n    \
@@ -118,10 +118,9 @@ data:
     \     }\n    }\n    return sum;\n}\n\n}  // namespace counting_primes_internal\n\
     \nlong long counting_primes(long long n) {\n    counting_primes_internal::init();\n\
     \    return counting_primes_internal::lehmer_pi(n);\n}\n\n/**\n * @brief \u7D20\
-    \u6570\u6570\u3048\u4E0A\u3052(Prime Counting)\n * @docs _md/counting_primes.md\n\
-    \ */\n#line 5 \"test/yosupo_counting_primes.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    long long n;\n    sc.read(n);\n    pr.writeln(counting_primes(n));\n\
-    \    return 0;\n}\n"
+    \u6570\u6570\u3048\u4E0A\u3052(Prime Counting)\n */\n#line 5 \"test/yosupo_counting_primes.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    long long n;\n    sc.read(n);\n\
+    \    pr.writeln(counting_primes(n));\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/counting_primes\"\n\n#include\
     \ \"../util/fastio.cpp\"\n#include \"../math/counting_primes.cpp\"\n\nint main()\
     \ {\n    Scanner sc;\n    Printer pr;\n    long long n;\n    sc.read(n);\n   \
@@ -132,8 +131,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_counting_primes.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_counting_primes.test.cpp
 layout: document

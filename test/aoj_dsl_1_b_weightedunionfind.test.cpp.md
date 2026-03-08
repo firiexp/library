@@ -6,7 +6,7 @@ data:
     title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -85,23 +85,22 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"datastructure/weightedunionfind.cpp\"\ntemplate\
-    \ <class T>\nclass WeightedUnionFind {\n    vector<int> uni;\n    vector<T> weights;\n\
-    \npublic:\n    explicit WeightedUnionFind(int n, T sum_unity = 0) : uni(n, -1),\
-    \ weights(n, sum_unity) {}\n\n    int root(int a) {\n        if (uni[a] < 0) return\
-    \ a;\n        int p = uni[a];\n        int r = root(p);\n        weights[a] +=\
-    \ weights[p];\n        return uni[a] = r;\n    }\n\n    T weight(int a) {\n  \
-    \      root(a);\n        return weights[a];\n    }\n\n    bool same(int a, int\
-    \ b) {\n        return root(a) == root(b);\n    }\n\n    bool unite(int a, int\
-    \ b, T w) {\n        w += weight(a);\n        w -= weight(b);\n        a = root(a);\n\
-    \        b = root(b);\n        if (a == b) return false;\n        if (uni[a] >\
-    \ uni[b]) {\n            swap(a, b);\n            w = -w;\n        }\n       \
-    \ uni[a] += uni[b];\n        uni[b] = a;\n        weights[b] = w;\n        return\
-    \ true;\n    }\n\n    int size(int a) {\n        return -uni[root(a)];\n    }\n\
-    \n    T diff(int x, int y) {\n        return weight(y) - weight(x);\n    }\n};\n\
-    \n/**\n * @brief \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)\n * @docs\
-    \ _md/weightedunionfind.md\n */\n#line 9 \"test/aoj_dsl_1_b_weightedunionfind.test.cpp\"\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"datastructure/weightedunionfind.cpp\"\ntemplate <class T>\nclass WeightedUnionFind\
+    \ {\n    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
+    \ n, T sum_unity = 0) : uni(n, -1), weights(n, sum_unity) {}\n\n    int root(int\
+    \ a) {\n        if (uni[a] < 0) return a;\n        int p = uni[a];\n        int\
+    \ r = root(p);\n        weights[a] += weights[p];\n        return uni[a] = r;\n\
+    \    }\n\n    T weight(int a) {\n        root(a);\n        return weights[a];\n\
+    \    }\n\n    bool same(int a, int b) {\n        return root(a) == root(b);\n\
+    \    }\n\n    bool unite(int a, int b, T w) {\n        w += weight(a);\n     \
+    \   w -= weight(b);\n        a = root(a);\n        b = root(b);\n        if (a\
+    \ == b) return false;\n        if (uni[a] > uni[b]) {\n            swap(a, b);\n\
+    \            w = -w;\n        }\n        uni[a] += uni[b];\n        uni[b] = a;\n\
+    \        weights[b] = w;\n        return true;\n    }\n\n    int size(int a) {\n\
+    \        return -uni[root(a)];\n    }\n\n    T diff(int x, int y) {\n        return\
+    \ weight(y) - weight(x);\n    }\n};\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304D\
+    UnionFind(Weighted Union Find)\n */\n#line 9 \"test/aoj_dsl_1_b_weightedunionfind.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
     \ q);\n    WeightedUnionFind<long long> uf(n);\n    while (q--) {\n        int\
     \ t, x, y;\n        long long z;\n        sc.read(t, x, y);\n        if (t ==\
@@ -123,7 +122,7 @@ data:
   isVerificationFile: true
   path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_1_b_weightedunionfind.test.cpp

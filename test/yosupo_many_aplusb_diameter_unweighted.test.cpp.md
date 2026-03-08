@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/diameter.cpp
     title: "\u6728\u306E\u76F4\u5F84(Tree Diameter)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -85,23 +85,22 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"tree/diameter.cpp\"\npair<int, pair<int, int>>\
-    \ tree_diameter(const vector<vector<int>> &G) {\n    int n = G.size();\n    if\
-    \ (n == 0) return {0, {-1, -1}};\n\n    vector<int> dist(n);\n    int far = 0;\n\
-    \    auto dfs = [&](int v, int p, auto &&f) -> void {\n        for (auto &&to\
-    \ : G[v]) {\n            if (to == p) continue;\n            dist[to] = dist[v]\
-    \ + 1;\n            if (dist[far] < dist[to]) far = to;\n            f(to, v,\
-    \ f);\n        }\n    };\n\n    dist[0] = 0;\n    dfs(0, -1, dfs);\n    int s\
-    \ = far;\n    dist[s] = 0;\n    dfs(s, -1, dfs);\n    return {dist[far], {s, far}};\n\
-    }\n\nint diameter(const vector<vector<int>> &G) {\n    return tree_diameter(G).first;\n\
-    }\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(Tree Diameter)\n * @docs _md/diameter.md\n\
-    \ */\n#line 9 \"test/yosupo_many_aplusb_diameter_unweighted.test.cpp\"\n\nint\
-    \ main() {\n    {\n        mt19937 rng(123456789);\n        for (int n = 1; n\
-    \ <= 40; ++n) {\n            for (int trial = 0; trial < 200; ++trial) {\n   \
-    \             vector<vector<int>> g(n);\n                for (int v = 1; v < n;\
-    \ ++v) {\n                    int p = uniform_int_distribution<int>(0, v - 1)(rng);\n\
-    \                    g[v].push_back(p);\n                    g[p].push_back(v);\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"tree/diameter.cpp\"\npair<int, pair<int, int>> tree_diameter(const vector<vector<int>>\
+    \ &G) {\n    int n = G.size();\n    if (n == 0) return {0, {-1, -1}};\n\n    vector<int>\
+    \ dist(n);\n    int far = 0;\n    auto dfs = [&](int v, int p, auto &&f) -> void\
+    \ {\n        for (auto &&to : G[v]) {\n            if (to == p) continue;\n  \
+    \          dist[to] = dist[v] + 1;\n            if (dist[far] < dist[to]) far\
+    \ = to;\n            f(to, v, f);\n        }\n    };\n\n    dist[0] = 0;\n   \
+    \ dfs(0, -1, dfs);\n    int s = far;\n    dist[s] = 0;\n    dfs(s, -1, dfs);\n\
+    \    return {dist[far], {s, far}};\n}\n\nint diameter(const vector<vector<int>>\
+    \ &G) {\n    return tree_diameter(G).first;\n}\n\n/**\n * @brief \u6728\u306E\u76F4\
+    \u5F84(Tree Diameter)\n */\n#line 9 \"test/yosupo_many_aplusb_diameter_unweighted.test.cpp\"\
+    \n\nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int n =\
+    \ 1; n <= 40; ++n) {\n            for (int trial = 0; trial < 200; ++trial) {\n\
+    \                vector<vector<int>> g(n);\n                for (int v = 1; v\
+    \ < n; ++v) {\n                    int p = uniform_int_distribution<int>(0, v\
+    \ - 1)(rng);\n                    g[v].push_back(p);\n                    g[p].push_back(v);\n\
     \                }\n\n                int brute = 0;\n                for (int\
     \ s = 0; s < n; ++s) {\n                    vector<int> dist(n, -1);\n       \
     \             queue<int> q;\n                    dist[s] = 0;\n              \
@@ -157,8 +156,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
 layout: document

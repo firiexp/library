@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':x:'
     path: datastructure/persistent_segtree.cpp
-    title: "\u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Persistent Segment Tree)"
+    title: Persistent Segment Tree
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -66,14 +66,14 @@ data:
     \ query_(node[id].r, a, b, m, r));\n    }\n};\n\n/*\nstruct Monoid{\n    using\
     \ T = long long;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
     \ { return 0; }\n};\n*/\n\n/**\n * @brief \u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Persistent Segment Tree)\n * @docs _md/persistent_segtree.md\n */\n\
-    #line 22 \"test/yosupo_point_add_range_sum_persistent.test.cpp\"\n\nstruct Monoid{\n\
-    \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n\nint main() {\n    int n, q;\n    cin >> n >> q;\n\
-    \    vector<ll> a(n);\n    for (auto &&i : a) scanf(\"%lld\", &i);\n\n    PersistentSegmentTree<Monoid>\
-    \ seg(a);\n    for (int i = 0; i < q; ++i) {\n        int t, x, y;\n        scanf(\"\
-    %d %d %d\", &t, &x, &y);\n        if(t == 0) seg.add(x, y);\n        else printf(\"\
-    %lld\\n\", seg.query(x, y));\n    }\n    return 0;\n}\n"
+    \u30C8\u6728(Persistent Segment Tree)\n */\n#line 22 \"test/yosupo_point_add_range_sum_persistent.test.cpp\"\
+    \n\nstruct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return\
+    \ a + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    int n, q;\n\
+    \    cin >> n >> q;\n    vector<ll> a(n);\n    for (auto &&i : a) scanf(\"%lld\"\
+    , &i);\n\n    PersistentSegmentTree<Monoid> seg(a);\n    for (int i = 0; i < q;\
+    \ ++i) {\n        int t, x, y;\n        scanf(\"%d %d %d\", &t, &x, &y);\n   \
+    \     if(t == 0) seg.add(x, y);\n        else printf(\"%lld\\n\", seg.query(x,\
+    \ y));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
@@ -92,7 +92,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_persistent.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_persistent.test.cpp

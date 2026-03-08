@@ -1,12 +1,13 @@
 ---
+category: "\u6728"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':question:'
+  - icon: ':x:'
     path: tree/hld_edge.cpp
-    title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
+    title: HLD Edge
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_hld_edge.test.cpp
     title: test/yosupo_many_aplusb_hld_edge.test.cpp
   - icon: ':x:'
@@ -23,9 +24,8 @@ data:
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/hld.md
     document_title: "HL\u5206\u89E3(HL Decomposition)"
     links: []
   bundledCode: "#line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void\
@@ -88,7 +88,7 @@ data:
     \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename\
     \ Q>\n    T subtree_query(int v, const Q &q, bool edge = false){\n        auto\
     \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief\
-    \ HL\u5206\u89E3(HL Decomposition)\n * @docs _md/hld.md\n */\n"
+    \ HL\u5206\u89E3(HL Decomposition)\n */\n"
   code: "\nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy\
     \ = -1;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
     \            par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n      \
@@ -149,33 +149,25 @@ data:
     \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
     \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
     \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n * @docs _md/hld.md\n */\n"
+    \u89E3(HL Decomposition)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/hld.cpp
   requiredBy:
   - tree/hld_edge.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_hld_edge.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
-documentation_of: tree/hld.cpp
-layout: document
-redirect_from:
-- /library/tree/hld.cpp
-- /library/tree/hld.cpp.html
-title: "HL\u5206\u89E3(HL Decomposition)"
----
----
-layout: post
-title: 重軽分解
 date: 2019-10-10
-category: 木
-tags: 木
+documentation_of: tree/hld.cpp
+layout: post
+tags: "\u6728"
+title: "\u91CD\u8EFD\u5206\u89E3"
 ---
 
 ## 説明

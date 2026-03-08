@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/eulerian_trail.cpp
-    title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
+    title: Eulerian Trail
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/eulerian_trail_undirected
@@ -86,61 +86,60 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"graph/eulerian_trail.cpp\"\ntemplate<bool directed>\n\
-    struct EulerianTrail {\n    struct Edge {\n        int from, to;\n    };\n\n \
-    \   struct Result {\n        bool exists;\n        vector<int> vertices;\n   \
-    \     vector<int> edge_ids;\n    };\n\n    int n;\n    vector<Edge> edges;\n \
-    \   vector<vector<pair<int, int>>> g;\n\n    explicit EulerianTrail(int n) : n(n),\
-    \ g(n) {}\n\n    int add_edge(int from, int to) {\n        int id = (int)edges.size();\n\
-    \        edges.push_back({from, to});\n        g[from].push_back({to, id});\n\
-    \        if constexpr (!directed) g[to].push_back({from, id});\n        return\
-    \ id;\n    }\n\n    Result solve() const {\n        int m = edges.size();\n  \
-    \      if (m == 0) {\n            return {true, {0}, {}};\n        }\n\n     \
-    \   vector<int> indeg(n), outdeg(n), deg(n);\n        for (auto&& e : edges) {\n\
-    \            ++outdeg[e.from];\n            ++indeg[e.to];\n            ++deg[e.from];\n\
-    \            ++deg[e.to];\n        }\n\n        int start = -1, plus = 0, minus\
-    \ = 0;\n        if constexpr (directed) {\n            for (int v = 0; v < n;\
-    \ ++v) {\n                int diff = outdeg[v] - indeg[v];\n                if\
-    \ (diff == 1) {\n                    start = v;\n                    ++plus;\n\
-    \                } else if (diff == -1) {\n                    ++minus;\n    \
-    \            } else if (diff != 0) {\n                    return {false, {}, {}};\n\
-    \                }\n            }\n            if (!((plus == 1 && minus == 1)\
-    \ || (plus == 0 && minus == 0))) {\n                return {false, {}, {}};\n\
-    \            }\n            if (start == -1) {\n                for (int v = 0;\
-    \ v < n; ++v) {\n                    if (outdeg[v] > 0) {\n                  \
-    \      start = v;\n                        break;\n                    }\n   \
-    \             }\n            }\n        } else {\n            int odd = 0;\n \
-    \           for (int v = 0; v < n; ++v) {\n                if (deg[v] & 1) {\n\
-    \                    start = v;\n                    ++odd;\n                }\n\
-    \            }\n            if (!(odd == 0 || odd == 2)) return {false, {}, {}};\n\
-    \            if (start == -1) {\n                for (int v = 0; v < n; ++v) {\n\
-    \                    if (deg[v] > 0) {\n                        start = v;\n \
-    \                       break;\n                    }\n                }\n   \
-    \         }\n        }\n\n        vector<int> ptr(n), used(m);\n        vector<int>\
-    \ st_v{start}, st_e{-1};\n        vector<int> vs, es;\n        while (!st_v.empty())\
-    \ {\n            int v = st_v.back();\n            while (ptr[v] < (int)g[v].size()\
-    \ && used[g[v][ptr[v]].second]) ++ptr[v];\n            if (ptr[v] == (int)g[v].size())\
-    \ {\n                vs.push_back(v);\n                st_v.pop_back();\n    \
-    \            int id = st_e.back();\n                st_e.pop_back();\n       \
-    \         if (id != -1) es.push_back(id);\n                continue;\n       \
-    \     }\n            auto [to, id] = g[v][ptr[v]++];\n            if (used[id])\
-    \ continue;\n            used[id] = 1;\n            st_v.push_back(to);\n    \
-    \        st_e.push_back(id);\n        }\n\n        if ((int)es.size() != m) return\
-    \ {false, {}, {}};\n        reverse(vs.begin(), vs.end());\n        reverse(es.begin(),\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"graph/eulerian_trail.cpp\"\ntemplate<bool directed>\nstruct EulerianTrail\
+    \ {\n    struct Edge {\n        int from, to;\n    };\n\n    struct Result {\n\
+    \        bool exists;\n        vector<int> vertices;\n        vector<int> edge_ids;\n\
+    \    };\n\n    int n;\n    vector<Edge> edges;\n    vector<vector<pair<int, int>>>\
+    \ g;\n\n    explicit EulerianTrail(int n) : n(n), g(n) {}\n\n    int add_edge(int\
+    \ from, int to) {\n        int id = (int)edges.size();\n        edges.push_back({from,\
+    \ to});\n        g[from].push_back({to, id});\n        if constexpr (!directed)\
+    \ g[to].push_back({from, id});\n        return id;\n    }\n\n    Result solve()\
+    \ const {\n        int m = edges.size();\n        if (m == 0) {\n            return\
+    \ {true, {0}, {}};\n        }\n\n        vector<int> indeg(n), outdeg(n), deg(n);\n\
+    \        for (auto&& e : edges) {\n            ++outdeg[e.from];\n           \
+    \ ++indeg[e.to];\n            ++deg[e.from];\n            ++deg[e.to];\n     \
+    \   }\n\n        int start = -1, plus = 0, minus = 0;\n        if constexpr (directed)\
+    \ {\n            for (int v = 0; v < n; ++v) {\n                int diff = outdeg[v]\
+    \ - indeg[v];\n                if (diff == 1) {\n                    start = v;\n\
+    \                    ++plus;\n                } else if (diff == -1) {\n     \
+    \               ++minus;\n                } else if (diff != 0) {\n          \
+    \          return {false, {}, {}};\n                }\n            }\n       \
+    \     if (!((plus == 1 && minus == 1) || (plus == 0 && minus == 0))) {\n     \
+    \           return {false, {}, {}};\n            }\n            if (start == -1)\
+    \ {\n                for (int v = 0; v < n; ++v) {\n                    if (outdeg[v]\
+    \ > 0) {\n                        start = v;\n                        break;\n\
+    \                    }\n                }\n            }\n        } else {\n \
+    \           int odd = 0;\n            for (int v = 0; v < n; ++v) {\n        \
+    \        if (deg[v] & 1) {\n                    start = v;\n                 \
+    \   ++odd;\n                }\n            }\n            if (!(odd == 0 || odd\
+    \ == 2)) return {false, {}, {}};\n            if (start == -1) {\n           \
+    \     for (int v = 0; v < n; ++v) {\n                    if (deg[v] > 0) {\n \
+    \                       start = v;\n                        break;\n         \
+    \           }\n                }\n            }\n        }\n\n        vector<int>\
+    \ ptr(n), used(m);\n        vector<int> st_v{start}, st_e{-1};\n        vector<int>\
+    \ vs, es;\n        while (!st_v.empty()) {\n            int v = st_v.back();\n\
+    \            while (ptr[v] < (int)g[v].size() && used[g[v][ptr[v]].second]) ++ptr[v];\n\
+    \            if (ptr[v] == (int)g[v].size()) {\n                vs.push_back(v);\n\
+    \                st_v.pop_back();\n                int id = st_e.back();\n   \
+    \             st_e.pop_back();\n                if (id != -1) es.push_back(id);\n\
+    \                continue;\n            }\n            auto [to, id] = g[v][ptr[v]++];\n\
+    \            if (used[id]) continue;\n            used[id] = 1;\n            st_v.push_back(to);\n\
+    \            st_e.push_back(id);\n        }\n\n        if ((int)es.size() != m)\
+    \ return {false, {}, {}};\n        reverse(vs.begin(), vs.end());\n        reverse(es.begin(),\
     \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief \u30AA\
-    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n * @docs _md/eulerian_trail.md\n */\n\
-    #line 9 \"test/yosupo_eulerian_trail_undirected.test.cpp\"\n\nint main() {\n \
-    \   Scanner in;\n    Printer out;\n    int t;\n    in.read(t);\n    while (t--)\
-    \ {\n        int n, m;\n        in.read(n, m);\n        EulerianTrail<false> g(n);\n\
-    \        for (int i = 0; i < m; ++i) {\n            int a, b;\n            in.read(a,\
-    \ b);\n            g.add_edge(a, b);\n        }\n        auto res = g.solve();\n\
-    \        if (!res.exists) {\n            out.writeln(\"No\");\n            continue;\n\
-    \        }\n        out.writeln(\"Yes\");\n        for (int i = 0; i < (int)res.vertices.size();\
-    \ ++i) {\n            if (i) out.write(' ');\n            out.write(res.vertices[i]);\n\
-    \        }\n        out.writeln();\n        for (int i = 0; i < (int)res.edge_ids.size();\
-    \ ++i) {\n            if (i) out.write(' ');\n            out.write(res.edge_ids[i]);\n\
-    \        }\n        out.writeln();\n    }\n    return 0;\n}\n"
+    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n */\n#line 9 \"test/yosupo_eulerian_trail_undirected.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int t;\n    in.read(t);\n\
+    \    while (t--) {\n        int n, m;\n        in.read(n, m);\n        EulerianTrail<false>\
+    \ g(n);\n        for (int i = 0; i < m; ++i) {\n            int a, b;\n      \
+    \      in.read(a, b);\n            g.add_edge(a, b);\n        }\n        auto\
+    \ res = g.solve();\n        if (!res.exists) {\n            out.writeln(\"No\"\
+    );\n            continue;\n        }\n        out.writeln(\"Yes\");\n        for\
+    \ (int i = 0; i < (int)res.vertices.size(); ++i) {\n            if (i) out.write('\
+    \ ');\n            out.write(res.vertices[i]);\n        }\n        out.writeln();\n\
+    \        for (int i = 0; i < (int)res.edge_ids.size(); ++i) {\n            if\
+    \ (i) out.write(' ');\n            out.write(res.edge_ids[i]);\n        }\n  \
+    \      out.writeln();\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/eulerian_trail_undirected\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
     \ \"../util/fastio.cpp\"\n#include \"../graph/eulerian_trail.cpp\"\n\nint main()\
@@ -161,8 +160,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_eulerian_trail_undirected.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_eulerian_trail_undirected.test.cpp
 layout: document

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/isqrt.cpp
-    title: "\u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)"
+    title: ISqrt
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -87,28 +87,27 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"math/isqrt.cpp\"\null Isqrt(ull const &x){\n    ull ret = (ull)sqrtl(x);\n\
-    \    while(ret > 0 && ret*ret > x) --ret;\n    while(x - ret*ret > 2*ret) ++ret;\n\
-    \    return ret;\n}\n\n/**\n * @brief \u6574\u6570\u5E73\u65B9\u6839(Integer Square\
-    \ Root)\n * @docs _md/isqrt.md\n */\n#line 11 \"test/yosupo_many_aplusb_isqrt.test.cpp\"\
-    \n\nbool check_isqrt(ull x) {\n    ull y = Isqrt(x);\n    __uint128_t yy = (__uint128_t)y\
-    \ * y;\n    __uint128_t zz = (__uint128_t)(y + 1) * (y + 1);\n    return yy <=\
-    \ x && x < zz;\n}\n\nint main() {\n    {\n        vector<ull> xs = {\n       \
-    \     0, 1, 2, 3, 4, 7, 8, 9, 10,\n            (1ULL << 32) - 1,\n           \
-    \ 1ULL << 32,\n            (1ULL << 32) + 1,\n            4294967295ULL * 4294967295ULL,\n\
-    \            numeric_limits<ull>::max() - 1,\n            numeric_limits<ull>::max()\n\
-    \        };\n        for (ull x : xs) {\n            if (!check_isqrt(x)) return\
-    \ 1;\n        }\n\n        for (ull y : {0ULL, 1ULL, 2ULL, 3ULL, 10ULL, 1000ULL,\
-    \ 65535ULL, 123456789ULL, 4294967295ULL}) {\n            ull sq = y * y;\n   \
-    \         if (!check_isqrt(sq)) return 1;\n            if (sq > 0 && !check_isqrt(sq\
-    \ - 1)) return 1;\n            if (sq != numeric_limits<ull>::max() && !check_isqrt(sq\
-    \ + 1)) return 1;\n        }\n\n        mt19937_64 rng(123456789);\n        for\
-    \ (int trial = 0; trial < 200000; ++trial) {\n            ull x = rng();\n   \
-    \         if (!check_isqrt(x)) return 1;\n        }\n    }\n\n    Scanner sc;\n\
-    \    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        long\
-    \ long a, b;\n        sc.read(a, b);\n        pr.writeln(a + b);\n    }\n    return\
-    \ 0;\n}\n"
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/isqrt.cpp\"\
+    \null Isqrt(ull const &x){\n    ull ret = (ull)sqrtl(x);\n    while(ret > 0 &&\
+    \ ret*ret > x) --ret;\n    while(x - ret*ret > 2*ret) ++ret;\n    return ret;\n\
+    }\n\n/**\n * @brief \u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)\n */\n\
+    #line 11 \"test/yosupo_many_aplusb_isqrt.test.cpp\"\n\nbool check_isqrt(ull x)\
+    \ {\n    ull y = Isqrt(x);\n    __uint128_t yy = (__uint128_t)y * y;\n    __uint128_t\
+    \ zz = (__uint128_t)(y + 1) * (y + 1);\n    return yy <= x && x < zz;\n}\n\nint\
+    \ main() {\n    {\n        vector<ull> xs = {\n            0, 1, 2, 3, 4, 7, 8,\
+    \ 9, 10,\n            (1ULL << 32) - 1,\n            1ULL << 32,\n           \
+    \ (1ULL << 32) + 1,\n            4294967295ULL * 4294967295ULL,\n            numeric_limits<ull>::max()\
+    \ - 1,\n            numeric_limits<ull>::max()\n        };\n        for (ull x\
+    \ : xs) {\n            if (!check_isqrt(x)) return 1;\n        }\n\n        for\
+    \ (ull y : {0ULL, 1ULL, 2ULL, 3ULL, 10ULL, 1000ULL, 65535ULL, 123456789ULL, 4294967295ULL})\
+    \ {\n            ull sq = y * y;\n            if (!check_isqrt(sq)) return 1;\n\
+    \            if (sq > 0 && !check_isqrt(sq - 1)) return 1;\n            if (sq\
+    \ != numeric_limits<ull>::max() && !check_isqrt(sq + 1)) return 1;\n        }\n\
+    \n        mt19937_64 rng(123456789);\n        for (int trial = 0; trial < 200000;\
+    \ ++trial) {\n            ull x = rng();\n            if (!check_isqrt(x)) return\
+    \ 1;\n        }\n    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
+    \    while (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
+    \ + b);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
     \ <cmath>\n#include <limits>\n#include <random>\nusing namespace std;\nusing ull\
     \ = unsigned long long;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/isqrt.cpp\"\
@@ -135,8 +134,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_isqrt.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_isqrt.test.cpp
 layout: document

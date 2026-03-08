@@ -4,15 +4,15 @@ data:
   _extendedRequiredBy:
   - icon: ':x:'
     path: datastructure/point_add_rectangle_sum.cpp
-    title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
+    title: Point Add Rectangle Sum
   - icon: ':x:'
     path: datastructure/static_rectangle_sum.cpp
-    title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
+    title: Static Rectangle Sum
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj_dsl_2_b.test.cpp
     title: test/aoj_dsl_2_b.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
     title: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
   - icon: ':x:'
@@ -34,7 +34,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/binaryindexedtree.md
     document_title: Binary Indexed Tree(BIT)
     links: []
   bundledCode: "#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\n\
@@ -46,7 +45,7 @@ data:
     \        if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j;\
     \ j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j\
     \ - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n"
+    \ * @brief Binary Indexed Tree(BIT)\n */\n"
   code: "template<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
     \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
     \n    T sum(int k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k))\
@@ -55,14 +54,14 @@ data:
     \ x) {\n        if (x <= 0) return 0;\n        int i = 0;\n        for (int j\
     \ = m; j; j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i\
     \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n"
+    \ * @brief Binary Indexed Tree(BIT)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/binaryindexedtree.cpp
   requiredBy:
   - datastructure/point_add_rectangle_sum.cpp
   - datastructure/static_rectangle_sum.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum.test.cpp
@@ -74,9 +73,6 @@ data:
   - test/yosupo_static_range_inversions_query.test.cpp
 documentation_of: datastructure/binaryindexedtree.cpp
 layout: document
-redirect_from:
-- /library/datastructure/binaryindexedtree.cpp
-- /library/datastructure/binaryindexedtree.cpp.html
 title: Binary Indexed Tree(BIT)
 ---
 ## 説明

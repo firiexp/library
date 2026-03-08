@@ -16,7 +16,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/geometry.md
     document_title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     links: []
   bundledCode: "#line 1 \"geometry/geometry.cpp\"\n// \u51F8\u5305\u306F\u540C\u3058\
@@ -165,7 +164,7 @@ data:
     \ j)->y;\n            if (dy >= d)\n                break;\n            d = min(d,\
     \ abs(v[i] - *next(u.rbegin(), j)));\n        }\n        u.emplace_back(v[i]);\n\
     \    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\
-    \u30EA(Geometry)\n * @docs _md/geometry.md\n */\n"
+    \u30EA(Geometry)\n */\n"
   code: "// \u51F8\u5305\u306F\u540C\u3058\u9802\u70B9\u304C\u542B\u307E\u308C\u3066\
     \u3044\u308B\u3068\u30D0\u30B0\u308B\nusing real = double;\nstatic constexpr real\
     \ EPS = 1e-10;\nconst real pi = acos(-1);\n\nstruct Point {\n    real x, y;\n\
@@ -311,22 +310,19 @@ data:
     \ j)->y;\n            if (dy >= d)\n                break;\n            d = min(d,\
     \ abs(v[i] - *next(u.rbegin(), j)));\n        }\n        u.emplace_back(v[i]);\n\
     \    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\
-    \u30EA(Geometry)\n * @docs _md/geometry.md\n */\n"
+    \u30EA(Geometry)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/geometry.cpp
   requiredBy:
   - geometry/dualgraph.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0273.test.cpp
   - test/aoj0342.test.cpp
 documentation_of: geometry/geometry.cpp
 layout: document
-redirect_from:
-- /library/geometry/geometry.cpp
-- /library/geometry/geometry.cpp.html
 title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
 ---
 ## 説明

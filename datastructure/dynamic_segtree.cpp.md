@@ -1,4 +1,5 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/dynamic_segtree.md
     document_title: "\u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
     links: []
   bundledCode: "#line 1 \"datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\n\
@@ -44,7 +44,7 @@ data:
     \     return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n\
     \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
     \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u52D5\u7684\u30BB\u30B0\u30E1\
-    \u30F3\u30C8\u6728\n * @docs _md/dynamic_segtree.md\n */\n"
+    \u30F3\u30C8\u6728\n */\n"
   code: "template <class M>\nstruct DynamicSegmentTree{\n    using T = typename M::T;\n\
     \    struct Node{\n        T val;\n        int l, r;\n    };\n\n    long long\
     \ n{};\n    vector<Node> node;\n    int root;\n\n    explicit DynamicSegmentTree(long\
@@ -75,28 +75,20 @@ data:
     \ const {\n        return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\n\
     struct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return a\
     \ + b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u52D5\u7684\
-    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n * @docs _md/dynamic_segtree.md\n */\n"
+    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/dynamic_segtree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
-documentation_of: datastructure/dynamic_segtree.cpp
-layout: document
-redirect_from:
-- /library/datastructure/dynamic_segtree.cpp
-- /library/datastructure/dynamic_segtree.cpp.html
-title: "\u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
----
----
-layout: post
-title: Dynamic Segment Tree
 date: 2026-03-08
-category: データ構造
-tags: データ構造
+documentation_of: datastructure/dynamic_segtree.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: Dynamic Segment Tree
 ---
 
 ## 説明

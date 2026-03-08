@@ -3,15 +3,15 @@ data:
   _extendedDependsOn:
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
-  - icon: ':heavy_check_mark:'
+    title: Fast IO
+  - icon: ':x:'
     path: util/rle.cpp
-    title: "\u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)"
+    title: RLE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -86,17 +86,16 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"util/rle.cpp\"\ntemplate<class T>\nvector<pair<T,\
-    \ int>> RLE(const vector<T> &a){\n    vector<pair<T, int>> p;\n    if(a.empty())\
-    \ return p;\n    p.emplace_back(a[0], 1);\n    for (int j = 1; j < (int)a.size();\
-    \ ++j) {\n        if(p.back().first == a[j]) p.back().second++;\n        else\
-    \ p.emplace_back(a[j], 1);\n    }\n    return p;\n}\n\n/**\n * @brief \u30E9\u30F3\
-    \u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)\n * @docs _md/rle.md\n */\n#line 10\
-    \ \"test/yosupo_many_aplusb_rle.test.cpp\"\n\ntemplate<class T>\nvector<pair<T,\
-    \ int>> brute_rle(const vector<T> &a) {\n    vector<pair<T, int>> res;\n    for\
-    \ (const auto &x : a) {\n        if (!res.empty() && res.back().first == x) {\n\
-    \            res.back().second++;\n        } else {\n            res.emplace_back(x,\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"util/rle.cpp\"\ntemplate<class T>\nvector<pair<T, int>> RLE(const vector<T>\
+    \ &a){\n    vector<pair<T, int>> p;\n    if(a.empty()) return p;\n    p.emplace_back(a[0],\
+    \ 1);\n    for (int j = 1; j < (int)a.size(); ++j) {\n        if(p.back().first\
+    \ == a[j]) p.back().second++;\n        else p.emplace_back(a[j], 1);\n    }\n\
+    \    return p;\n}\n\n/**\n * @brief \u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\
+    \u7E2E(RLE)\n */\n#line 10 \"test/yosupo_many_aplusb_rle.test.cpp\"\n\ntemplate<class\
+    \ T>\nvector<pair<T, int>> brute_rle(const vector<T> &a) {\n    vector<pair<T,\
+    \ int>> res;\n    for (const auto &x : a) {\n        if (!res.empty() && res.back().first\
+    \ == x) {\n            res.back().second++;\n        } else {\n            res.emplace_back(x,\
     \ 1);\n        }\n    }\n    return res;\n}\n\nint main() {\n    {\n        mt19937\
     \ rng(123456789);\n        for (int n = 0; n <= 80; ++n) {\n            for (int\
     \ trial = 0; trial < 200; ++trial) {\n                vector<int> a(n);\n    \
@@ -135,8 +134,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_rle.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_rle.test.cpp
 layout: document

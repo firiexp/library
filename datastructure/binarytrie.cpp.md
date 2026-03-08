@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/binarytrie.md
     document_title: Binary Trie
     links: []
   bundledCode: "#line 1 \"datastructure/binarytrie.cpp\"\ntemplate<class T, size_t\
@@ -37,7 +36,7 @@ data:
     \            p = p->nxt[f];\n        }\n        return ret;\n    }\n\n    T min_element(T\
     \ x = 0) const {\n        return xor_min(x) ^ x;\n    }\n\n    T max_element(T\
     \ x = 0) const {\n        return xor_min(~x) ^ x;\n    }\n};\n\n/**\n * @brief\
-    \ Binary Trie\n * @docs _md/binarytrie.md\n */\n"
+    \ Binary Trie\n */\n"
   code: "template<class T, size_t X>\nstruct Binarytrie {\n    struct Node {\n   \
     \     int cnt;\n        Node *nxt[2];\n        Node() : cnt(0), nxt{nullptr, nullptr}\
     \ {}\n    };\n\n    Node *root;\n\n    Binarytrie() : root(new Node) {}\n\n  \
@@ -61,21 +60,17 @@ data:
     \ << i;\n            }\n            p = p->nxt[f];\n        }\n        return\
     \ ret;\n    }\n\n    T min_element(T x = 0) const {\n        return xor_min(x)\
     \ ^ x;\n    }\n\n    T max_element(T x = 0) const {\n        return xor_min(~x)\
-    \ ^ x;\n    }\n};\n\n/**\n * @brief Binary Trie\n * @docs _md/binarytrie.md\n\
-    \ */\n"
+    \ ^ x;\n    }\n};\n\n/**\n * @brief Binary Trie\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/binarytrie.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:26:50+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_set_xor_min_binarytrie.test.cpp
 documentation_of: datastructure/binarytrie.cpp
 layout: document
-redirect_from:
-- /library/datastructure/binarytrie.cpp
-- /library/datastructure/binarytrie.cpp.html
 title: Binary Trie
 ---
 ## 説明

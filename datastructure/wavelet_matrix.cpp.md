@@ -1,4 +1,5 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/wavelet_matrix.md
     document_title: Wavelet Matrix
     links: []
   bundledCode: "#line 1 \"datastructure/wavelet_matrix.cpp\"\ntemplate <class T>\n\
@@ -65,7 +65,7 @@ data:
     \ true;\n    }\n\n    bool next_value(int l, int r, const T &lower, T &res) const\
     \ {\n        int cnt = count_less(l, r, lower);\n        if (cnt == r - l) return\
     \ false;\n        res = kth_smallest(l, r, cnt);\n        return true;\n    }\n\
-    };\n\n/**\n * @brief Wavelet Matrix\n * @docs _md/wavelet_matrix.md\n */\n"
+    };\n\n/**\n * @brief Wavelet Matrix\n */\n"
   code: "template <class T>\nstruct WaveletMatrix {\n    int n, lg;\n    vector<int>\
     \ mid;\n    vector<vector<int>> bit;\n    vector<T> vals;\n\n    WaveletMatrix()\
     \ : n(0), lg(0) {}\n    explicit WaveletMatrix(const vector<T> &v) { build(v);\
@@ -118,28 +118,20 @@ data:
     \ true;\n    }\n\n    bool next_value(int l, int r, const T &lower, T &res) const\
     \ {\n        int cnt = count_less(l, r, lower);\n        if (cnt == r - l) return\
     \ false;\n        res = kth_smallest(l, r, cnt);\n        return true;\n    }\n\
-    };\n\n/**\n * @brief Wavelet Matrix\n * @docs _md/wavelet_matrix.md\n */\n"
+    };\n\n/**\n * @brief Wavelet Matrix\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/wavelet_matrix.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_static_range_frequency.test.cpp
-documentation_of: datastructure/wavelet_matrix.cpp
-layout: document
-redirect_from:
-- /library/datastructure/wavelet_matrix.cpp
-- /library/datastructure/wavelet_matrix.cpp.html
-title: Wavelet Matrix
----
----
-layout: post
-title: Wavelet Matrix
 date: 2026-03-07
-category: データ構造
-tags: データ構造
+documentation_of: datastructure/wavelet_matrix.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: Wavelet Matrix
 ---
 
 ## 概要

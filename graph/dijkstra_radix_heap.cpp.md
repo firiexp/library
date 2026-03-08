@@ -13,7 +13,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/dijkstra_radix_heap.md
     document_title: "Dijkstra\u6CD5(Radix Heap)"
     links: []
   bundledCode: "#line 1 \"graph/dijkstra_radix_heap.cpp\"\ntemplate <typename T>\n\
@@ -40,7 +39,7 @@ data:
     \ : G[i]) {\n            auto cost2 = cost + e.cost;\n            if(d[e.to] <=\
     \ cost2) continue;\n            d[e.to] = cost2;\n            Q.emplace(d[e.to],\
     \ e.to);\n        }\n    }\n    return d;\n}\n\n/**\n * @brief Dijkstra\u6CD5\
-    (Radix Heap)\n * @docs _md/dijkstra_radix_heap.md\n */\n"
+    (Radix Heap)\n */\n"
   code: "template <typename T>\nstruct edge {\n    int from, to; T cost;\n    edge(int\
     \ to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T\
     \ cost) : from(from), to(to), cost(cost) {}\n};\n\n#include \"../datastructure/radixheap.cpp\"\
@@ -51,21 +50,18 @@ data:
     \        for (auto &&e : G[i]) {\n            auto cost2 = cost + e.cost;\n  \
     \          if(d[e.to] <= cost2) continue;\n            d[e.to] = cost2;\n    \
     \        Q.emplace(d[e.to], e.to);\n        }\n    }\n    return d;\n}\n\n/**\n\
-    \ * @brief Dijkstra\u6CD5(Radix Heap)\n * @docs _md/dijkstra_radix_heap.md\n */\n"
+    \ * @brief Dijkstra\u6CD5(Radix Heap)\n */\n"
   dependsOn:
   - datastructure/radixheap.cpp
   isVerificationFile: false
   path: graph/dijkstra_radix_heap.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:58:00+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_shortest_path_radix_heap.test.cpp
 documentation_of: graph/dijkstra_radix_heap.cpp
 layout: document
-redirect_from:
-- /library/graph/dijkstra_radix_heap.cpp
-- /library/graph/dijkstra_radix_heap.cpp.html
 title: "Dijkstra\u6CD5(Radix Heap)"
 ---
 ## 説明

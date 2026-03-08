@@ -3,23 +3,22 @@ data:
   _extendedDependsOn:
   - icon: ':question:'
     path: math/ntt.cpp
-    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+    title: Number Theoretic Transform
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/linear_recurrence.cpp
-    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/nth_term.md
     document_title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
@@ -285,12 +284,12 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
-    \ _md/ntt.md\n */\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q,\
-    \ ll n){\n    if(!n) return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(),\
-    \ q.size());\n    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n\
-    \    mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int\
-    \ j = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    #line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
+    \ return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n\
+    \    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n \
+    \   mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int j\
+    \ = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n\
     \    for (int i = 2; i < sz>>1; i <<= 1) {\n        for (int j = i+1; j < 2*i;\
     \ ++j) {\n            y[j] = y[j-i]*y[i];\n        }\n    }\n    ntt.transform(p.v,\
     \ 0);\n    ntt.transform(q.v, 0);\n    poly tmp(sz>>1);\n    auto up = [&](poly\
@@ -305,8 +304,7 @@ data:
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
     \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
-    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n * @docs _md/nth_term.md\n\
-    \ */\n"
+    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n */\n"
   code: "#include \"../math/ntt.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
     \ return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n\
     \    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n \
@@ -326,24 +324,20 @@ data:
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
     \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
-    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n * @docs _md/nth_term.md\n\
-    \ */\n"
+    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n */\n"
   dependsOn:
   - math/ntt.cpp
   isVerificationFile: false
   path: fps/nth_term.cpp
   requiredBy:
   - fps/linear_recurrence.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
 documentation_of: fps/nth_term.cpp
 layout: document
-redirect_from:
-- /library/fps/nth_term.cpp
-- /library/fps/nth_term.cpp.html
 title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
 ---
 ## 説明

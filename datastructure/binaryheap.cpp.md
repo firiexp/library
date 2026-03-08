@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/binaryheap.md
     document_title: "\u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)"
     links: []
   bundledCode: "#line 1 \"datastructure/binaryheap.cpp\"\ntemplate<typename T>\nstruct\
@@ -20,29 +19,24 @@ data:
     \        Q.pop_back();\n    }\n    void emplace(T x) {\n        S += x;\n    \
     \    Q.emplace_back(x);\n        push_heap(Q.begin(),Q.end());\n    }\n    bool\
     \ empty() { return Q.empty(); }\n    ll sum() const { return S; }\n};\n\n/**\n\
-    \ * @brief \u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)\n * @docs _md/binaryheap.md\n\
-    \ */\n"
+    \ * @brief \u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)\n */\n"
   code: "template<typename T>\nstruct binary_heap {\n    ll S;\n    vector<T> Q;\n\
     \    binary_heap() : S(0), Q() {}\n\n    T top() const { return Q.front(); }\n\
     \    size_t size() const { return Q.size(); }\n    void pop() {\n        pop_heap(Q.begin(),Q.end());\n\
     \        S -= Q.back();\n        Q.pop_back();\n    }\n    void emplace(T x) {\n\
     \        S += x;\n        Q.emplace_back(x);\n        push_heap(Q.begin(),Q.end());\n\
     \    }\n    bool empty() { return Q.empty(); }\n    ll sum() const { return S;\
-    \ }\n};\n\n/**\n * @brief \u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)\n * @docs\
-    \ _md/binaryheap.md\n */\n"
+    \ }\n};\n\n/**\n * @brief \u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/binaryheap.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_9_c_binaryheap.test.cpp
 documentation_of: datastructure/binaryheap.cpp
 layout: document
-redirect_from:
-- /library/datastructure/binaryheap.cpp
-- /library/datastructure/binaryheap.cpp.html
 title: "\u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)"
 ---
 ## 説明

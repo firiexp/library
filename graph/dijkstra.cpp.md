@@ -4,7 +4,7 @@ data:
   _extendedRequiredBy:
   - icon: ':x:'
     path: graph/dijkstra_restore.cpp
-    title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
+    title: Dijkstra Restore
   _extendedVerifiedWith:
   - icon: ':x:'
     path: test/yosupo_shortest_path.test.cpp
@@ -13,7 +13,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/dijkstra.md
     document_title: "Dijkstra\u6CD5"
     links: []
   bundledCode: "#line 1 \"graph/dijkstra.cpp\"\ntemplate <typename T>\nstruct edge\
@@ -26,8 +25,7 @@ data:
     \ Q.pop();\n        if(d[i] < cost) continue;\n        for (auto &&e : G[i]) {\n\
     \            auto cost2 = cost + e.cost;\n            if(d[e.to] <= cost2) continue;\n\
     \            d[e.to] = cost2;\n            Q.emplace(d[e.to], e.to);\n       \
-    \ }\n    }\n    return d;\n}\n\n/**\n * @brief Dijkstra\u6CD5\n * @docs _md/dijkstra.md\n\
-    \ */\n"
+    \ }\n    }\n    return d;\n}\n\n/**\n * @brief Dijkstra\u6CD5\n */\n"
   code: "template <typename T>\nstruct edge {\n    int from, to; T cost;\n    edge(int\
     \ to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T\
     \ cost) : from(from), to(to), cost(cost) {}\n};\n\ntemplate <typename T>\nvector<T>\
@@ -38,21 +36,18 @@ data:
     \        for (auto &&e : G[i]) {\n            auto cost2 = cost + e.cost;\n  \
     \          if(d[e.to] <= cost2) continue;\n            d[e.to] = cost2;\n    \
     \        Q.emplace(d[e.to], e.to);\n        }\n    }\n    return d;\n}\n\n/**\n\
-    \ * @brief Dijkstra\u6CD5\n * @docs _md/dijkstra.md\n */"
+    \ * @brief Dijkstra\u6CD5\n */"
   dependsOn: []
   isVerificationFile: false
   path: graph/dijkstra.cpp
   requiredBy:
   - graph/dijkstra_restore.cpp
-  timestamp: '2020-05-02 12:45:39+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_shortest_path.test.cpp
 documentation_of: graph/dijkstra.cpp
 layout: document
-redirect_from:
-- /library/graph/dijkstra.cpp
-- /library/graph/dijkstra.cpp.html
 title: "Dijkstra\u6CD5"
 ---
 ## 説明

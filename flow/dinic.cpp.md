@@ -1,14 +1,14 @@
 ---
+category: "\u30D5\u30ED\u30FC"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
     path: flow/project_selection_problem.cpp
-    title: Project Selection Problem
+    title: ProjectSelectionProblem
   - icon: ':heavy_check_mark:'
     path: graph/maxflow_lower_bound.cpp
-    title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max Flow with\
-      \ Lower Bounds)"
+    title: MaxFlowLowerBound
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0396.test.cpp
@@ -23,7 +23,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/dinic.md
     document_title: "Dinic\u6CD5(Dinic)"
     links: []
   bundledCode: "#line 1 \"flow/dinic.cpp\"\ntemplate<class T, bool directed>\nclass\
@@ -50,7 +49,7 @@ data:
     \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
     \           if(f == 0) break;\n                ret += f;\n                lim\
     \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Dinic\u6CD5(Dinic)\n * @docs _md/dinic.md\n */\n"
+    \ Dinic\u6CD5(Dinic)\n */\n"
   code: "template<class T, bool directed>\nclass Dinic {\n    void bfs(int s){\n \
     \       fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n        level[s]\
     \ = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n            int v =\
@@ -74,32 +73,24 @@ data:
     \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
     \           if(f == 0) break;\n                ret += f;\n                lim\
     \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Dinic\u6CD5(Dinic)\n * @docs _md/dinic.md\n */\n"
+    \ Dinic\u6CD5(Dinic)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: flow/dinic.cpp
   requiredBy:
   - graph/maxflow_lower_bound.cpp
   - flow/project_selection_problem.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yuki957.test.cpp
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
   - test/aoj0396.test.cpp
-documentation_of: flow/dinic.cpp
-layout: document
-redirect_from:
-- /library/flow/dinic.cpp
-- /library/flow/dinic.cpp.html
-title: "Dinic\u6CD5(Dinic)"
----
----
-layout: post
-title: Dinic(最大流)
 date: 2019-07-31
-category: フロー
-tags: 最大流
+documentation_of: flow/dinic.cpp
+layout: post
+tags: "\u6700\u5927\u6D41"
+title: "Dinic(\u6700\u5927\u6D41)"
 ---
 
 ## 説明

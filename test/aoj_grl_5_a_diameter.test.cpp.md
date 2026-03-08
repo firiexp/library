@@ -6,7 +6,7 @@ data:
     title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -85,23 +85,23 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"tree/diameter_weighted.cpp\"\ntemplate<class T>\n\
-    pair<T, pair<int, int>> tree_diameter_weighted(const vector<vector<pair<int, T>>>\
-    \ &G) {\n    int n = G.size();\n    if (n == 0) return {T(), {-1, -1}};\n\n  \
-    \  vector<T> dist(n);\n    int far = 0;\n    auto dfs = [&](int v, int p, auto\
-    \ &&f) -> void {\n        for (auto &&e : G[v]) {\n            int to = e.first;\n\
-    \            T cost = e.second;\n            if (to == p) continue;\n        \
-    \    dist[to] = dist[v] + cost;\n            if (dist[far] < dist[to]) far = to;\n\
-    \            f(to, v, f);\n        }\n    };\n\n    dist[0] = T();\n    dfs(0,\
-    \ -1, dfs);\n    int s = far;\n    dist[s] = T();\n    dfs(s, -1, dfs);\n    return\
-    \ {dist[far], {s, far}};\n}\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(\u91CD\u307F\
-    \u4ED8\u304D)\n * @docs _md/diameter_weighted.md\n */\n#line 9 \"test/aoj_grl_5_a_diameter.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    vector<vector<pair<int, long long>>> g(n);\n    for (int i = 0; i < n - 1;\
-    \ ++i) {\n        int s, t, w;\n        sc.read(s, t, w);\n        g[s].push_back({t,\
-    \ w});\n        g[t].push_back({s, w});\n    }\n\n    pr.writeln(tree_diameter_weighted(g).first);\n\
-    \    return 0;\n}\n"
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"tree/diameter_weighted.cpp\"\ntemplate<class T>\npair<T, pair<int, int>>\
+    \ tree_diameter_weighted(const vector<vector<pair<int, T>>> &G) {\n    int n =\
+    \ G.size();\n    if (n == 0) return {T(), {-1, -1}};\n\n    vector<T> dist(n);\n\
+    \    int far = 0;\n    auto dfs = [&](int v, int p, auto &&f) -> void {\n    \
+    \    for (auto &&e : G[v]) {\n            int to = e.first;\n            T cost\
+    \ = e.second;\n            if (to == p) continue;\n            dist[to] = dist[v]\
+    \ + cost;\n            if (dist[far] < dist[to]) far = to;\n            f(to,\
+    \ v, f);\n        }\n    };\n\n    dist[0] = T();\n    dfs(0, -1, dfs);\n    int\
+    \ s = far;\n    dist[s] = T();\n    dfs(s, -1, dfs);\n    return {dist[far], {s,\
+    \ far}};\n}\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D\
+    )\n */\n#line 9 \"test/aoj_grl_5_a_diameter.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int,\
+    \ long long>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int s, t,\
+    \ w;\n        sc.read(s, t, w);\n        g[s].push_back({t, w});\n        g[t].push_back({s,\
+    \ w});\n    }\n\n    pr.writeln(tree_diameter_weighted(g).first);\n    return\
+    \ 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A\"\n\n\
     #include <bits/stdc++.h>\n\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../tree/diameter_weighted.cpp\"\n\nint main() {\n    Scanner sc;\n\
@@ -116,7 +116,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_5_a_diameter.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_5_a_diameter.test.cpp

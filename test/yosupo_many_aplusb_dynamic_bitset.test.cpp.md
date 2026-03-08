@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/dynamic_bitset.cpp
-    title: "\u52D5\u7684bitset(Dynamic Bitset)"
+    title: Dynamic Bitset
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -86,47 +86,46 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"datastructure/dynamic_bitset.cpp\"\nclass DynamicBitset\
-    \ {\n    using ull = unsigned long long;\n    static constexpr int B = 64;\n\n\
-    \    int n;\n    vector<ull> a;\n\n    static int popcount(ull x) {\n        return\
-    \ __builtin_popcountll(x);\n    }\n    static int ctz(ull x) {\n        return\
-    \ __builtin_ctzll(x);\n    }\n\n    ull tail_mask() const {\n        int rem =\
-    \ n & (B - 1);\n        return rem ? ((1ULL << rem) - 1) : ~0ULL;\n    }\n\n \
-    \   void normalize() {\n        if (!a.empty()) a.back() &= tail_mask();\n   \
-    \ }\n\npublic:\n    DynamicBitset() : n(0) {}\n    explicit DynamicBitset(int\
-    \ n, bool x = false) : n(n), a((n + B - 1) >> 6, x ? ~0ULL : 0ULL) {\n       \
-    \ normalize();\n    }\n\n    int size() const { return n; }\n    bool empty()\
-    \ const { return n == 0; }\n\n    void reset() {\n        fill(a.begin(), a.end(),\
-    \ 0);\n    }\n    void set() {\n        fill(a.begin(), a.end(), ~0ULL);\n   \
-    \     normalize();\n    }\n    void flip() {\n        for (auto &x : a) x = ~x;\n\
-    \        normalize();\n    }\n\n    bool test(int k) const {\n        return (a[k\
-    \ >> 6] >> (k & 63)) & 1ULL;\n    }\n    void set(int k) {\n        a[k >> 6]\
-    \ |= 1ULL << (k & 63);\n    }\n    void reset(int k) {\n        a[k >> 6] &= ~(1ULL\
-    \ << (k & 63));\n    }\n    void flip(int k) {\n        a[k >> 6] ^= 1ULL << (k\
-    \ & 63);\n    }\n    void assign(int k, bool x) {\n        if (x) set(k);\n  \
-    \      else reset(k);\n    }\n\n    bool any() const {\n        for (auto x :\
-    \ a) if (x) return true;\n        return false;\n    }\n    bool none() const\
-    \ { return !any(); }\n    bool all() const {\n        if (a.empty()) return true;\n\
-    \        for (int i = 0; i + 1 < (int)a.size(); ++i) {\n            if (a[i] !=\
-    \ ~0ULL) return false;\n        }\n        return a.back() == tail_mask();\n \
-    \   }\n    int count() const {\n        int res = 0;\n        for (auto x : a)\
-    \ res += popcount(x);\n        return res;\n    }\n\n    int find_first() const\
-    \ {\n        for (int i = 0; i < (int)a.size(); ++i) {\n            if (a[i])\
-    \ return (i << 6) + ctz(a[i]);\n        }\n        return -1;\n    }\n    int\
-    \ find_next(int k) const {\n        ++k;\n        if (k >= n) return -1;\n   \
-    \     int i = k >> 6;\n        ull x = a[i] & (~0ULL << (k & 63));\n        if\
-    \ (x) return (i << 6) + ctz(x);\n        for (++i; i < (int)a.size(); ++i) {\n\
-    \            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n        return\
-    \ -1;\n    }\n\n    DynamicBitset& operator&=(const DynamicBitset &r) {\n    \
-    \    for (int i = 0; i < (int)a.size(); ++i) a[i] &= r.a[i];\n        return *this;\n\
-    \    }\n    DynamicBitset& operator|=(const DynamicBitset &r) {\n        for (int\
-    \ i = 0; i < (int)a.size(); ++i) a[i] |= r.a[i];\n        return *this;\n    }\n\
-    \    DynamicBitset& operator^=(const DynamicBitset &r) {\n        for (int i =\
-    \ 0; i < (int)a.size(); ++i) a[i] ^= r.a[i];\n        normalize();\n        return\
-    \ *this;\n    }\n\n    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset\
-    \ &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset l,\
-    \ const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"datastructure/dynamic_bitset.cpp\"\nclass DynamicBitset {\n    using ull\
+    \ = unsigned long long;\n    static constexpr int B = 64;\n\n    int n;\n    vector<ull>\
+    \ a;\n\n    static int popcount(ull x) {\n        return __builtin_popcountll(x);\n\
+    \    }\n    static int ctz(ull x) {\n        return __builtin_ctzll(x);\n    }\n\
+    \n    ull tail_mask() const {\n        int rem = n & (B - 1);\n        return\
+    \ rem ? ((1ULL << rem) - 1) : ~0ULL;\n    }\n\n    void normalize() {\n      \
+    \  if (!a.empty()) a.back() &= tail_mask();\n    }\n\npublic:\n    DynamicBitset()\
+    \ : n(0) {}\n    explicit DynamicBitset(int n, bool x = false) : n(n), a((n +\
+    \ B - 1) >> 6, x ? ~0ULL : 0ULL) {\n        normalize();\n    }\n\n    int size()\
+    \ const { return n; }\n    bool empty() const { return n == 0; }\n\n    void reset()\
+    \ {\n        fill(a.begin(), a.end(), 0);\n    }\n    void set() {\n        fill(a.begin(),\
+    \ a.end(), ~0ULL);\n        normalize();\n    }\n    void flip() {\n        for\
+    \ (auto &x : a) x = ~x;\n        normalize();\n    }\n\n    bool test(int k) const\
+    \ {\n        return (a[k >> 6] >> (k & 63)) & 1ULL;\n    }\n    void set(int k)\
+    \ {\n        a[k >> 6] |= 1ULL << (k & 63);\n    }\n    void reset(int k) {\n\
+    \        a[k >> 6] &= ~(1ULL << (k & 63));\n    }\n    void flip(int k) {\n  \
+    \      a[k >> 6] ^= 1ULL << (k & 63);\n    }\n    void assign(int k, bool x) {\n\
+    \        if (x) set(k);\n        else reset(k);\n    }\n\n    bool any() const\
+    \ {\n        for (auto x : a) if (x) return true;\n        return false;\n   \
+    \ }\n    bool none() const { return !any(); }\n    bool all() const {\n      \
+    \  if (a.empty()) return true;\n        for (int i = 0; i + 1 < (int)a.size();\
+    \ ++i) {\n            if (a[i] != ~0ULL) return false;\n        }\n        return\
+    \ a.back() == tail_mask();\n    }\n    int count() const {\n        int res =\
+    \ 0;\n        for (auto x : a) res += popcount(x);\n        return res;\n    }\n\
+    \n    int find_first() const {\n        for (int i = 0; i < (int)a.size(); ++i)\
+    \ {\n            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n        return\
+    \ -1;\n    }\n    int find_next(int k) const {\n        ++k;\n        if (k >=\
+    \ n) return -1;\n        int i = k >> 6;\n        ull x = a[i] & (~0ULL << (k\
+    \ & 63));\n        if (x) return (i << 6) + ctz(x);\n        for (++i; i < (int)a.size();\
+    \ ++i) {\n            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n    \
+    \    return -1;\n    }\n\n    DynamicBitset& operator&=(const DynamicBitset &r)\
+    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] &= r.a[i];\n       \
+    \ return *this;\n    }\n    DynamicBitset& operator|=(const DynamicBitset &r)\
+    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] |= r.a[i];\n       \
+    \ return *this;\n    }\n    DynamicBitset& operator^=(const DynamicBitset &r)\
+    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] ^= r.a[i];\n       \
+    \ normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator&(DynamicBitset\
+    \ l, const DynamicBitset &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset\
+    \ l, const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
     \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset& operator<<=(int\
     \ s) {\n        if (s <= 0) return *this;\n        if (s >= n) {\n           \
     \ reset();\n            return *this;\n        }\n        int block = s >> 6,\
@@ -143,8 +142,8 @@ data:
     \    normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset\
     \ l, int s) { return l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset\
     \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
-    \ Bitset)\n * @docs _md/dynamic_bitset.md\n */\n#line 10 \"test/yosupo_many_aplusb_dynamic_bitset.test.cpp\"\
-    \n\nint brute_find_first(const vector<int> &v) {\n    for (int i = 0; i < (int)v.size();\
+    \ Bitset)\n */\n#line 10 \"test/yosupo_many_aplusb_dynamic_bitset.test.cpp\"\n\
+    \nint brute_find_first(const vector<int> &v) {\n    for (int i = 0; i < (int)v.size();\
     \ ++i) if (v[i]) return i;\n    return -1;\n}\n\nint brute_find_next(const vector<int>\
     \ &v, int k) {\n    for (int i = k + 1; i < (int)v.size(); ++i) if (v[i]) return\
     \ i;\n    return -1;\n}\n\nint brute_count(const vector<int> &v) {\n    int res\
@@ -275,8 +274,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
 layout: document

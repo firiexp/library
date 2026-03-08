@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':x:'
     path: datastructure/swag.cpp
-    title: SWAG
+    title: Sliding Window Aggregation
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
@@ -47,22 +47,22 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 22\
-    \ \"test/yosupo_queue_operate_all_composite.test.cpp\"\n\n#line 1 \"datastructure/swag.cpp\"\
-    \ntemplate<class G>\nclass SWAG {\n    using T = typename G::T;\n    vector<T>\
-    \ in, out, insum, outsum;\npublic:\n    SWAG() : in(0), out(0), insum(1, G::e()),\
-    \ outsum(1, G::e()) {}\n\n    void push(const T& v){\n        insum.push_back(G::f(insum.back(),\
-    \ v));\n        in.push_back(v);\n    }\n\n    void pop(){\n        if(out.empty()){\n\
-    \            do {\n                out.emplace_back(in.back());\n            \
-    \    outsum.emplace_back(G::f(in.back(), outsum.back()));\n                in.pop_back();\
-    \ insum.pop_back();\n            }while(!in.empty());\n        }\n        out.pop_back();\
-    \ outsum.pop_back();\n    }\n\n    T fold(){\n        return G::f(outsum.back(),\
-    \ insum.back());\n    }\n};\n/*\nstruct Monoid {\n    using T = int;\n    static\
-    \ T f(T a, T b) { return a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n\
-    \ * @brief SWAG\n * @docs _md/swag.md\n */\n#line 24 \"test/yosupo_queue_operate_all_composite.test.cpp\"\
-    \n\nstruct SemiGroup {\n    using T = pair<mint, mint>;\n    static T f(T a, T\
-    \ b) { return {a.first*b.first, a.second*b.first + b.second}; }\n    static T\
-    \ e() { return {1, 0}; }\n};\n\nint main() {\n    int q;\n    cin >> q;\n    SWAG<SemiGroup>\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 22 \"test/yosupo_queue_operate_all_composite.test.cpp\"\
+    \n\n#line 1 \"datastructure/swag.cpp\"\ntemplate<class G>\nclass SWAG {\n    using\
+    \ T = typename G::T;\n    vector<T> in, out, insum, outsum;\npublic:\n    SWAG()\
+    \ : in(0), out(0), insum(1, G::e()), outsum(1, G::e()) {}\n\n    void push(const\
+    \ T& v){\n        insum.push_back(G::f(insum.back(), v));\n        in.push_back(v);\n\
+    \    }\n\n    void pop(){\n        if(out.empty()){\n            do {\n      \
+    \          out.emplace_back(in.back());\n                outsum.emplace_back(G::f(in.back(),\
+    \ outsum.back()));\n                in.pop_back(); insum.pop_back();\n       \
+    \     }while(!in.empty());\n        }\n        out.pop_back(); outsum.pop_back();\n\
+    \    }\n\n    T fold(){\n        return G::f(outsum.back(), insum.back());\n \
+    \   }\n};\n/*\nstruct Monoid {\n    using T = int;\n    static T f(T a, T b) {\
+    \ return a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief SWAG\n\
+    \ */\n#line 24 \"test/yosupo_queue_operate_all_composite.test.cpp\"\n\nstruct\
+    \ SemiGroup {\n    using T = pair<mint, mint>;\n    static T f(T a, T b) { return\
+    \ {a.first*b.first, a.second*b.first + b.second}; }\n    static T e() { return\
+    \ {1, 0}; }\n};\n\nint main() {\n    int q;\n    cin >> q;\n    SWAG<SemiGroup>\
     \ Q;\n    while(q--){\n        int no; scanf(\"%d\", &no);\n        if(no == 0){\n\
     \            int a, b; scanf(\"%d %d\", &a, &b);\n            Q.push(make_pair(mint(a),\
     \ mint(b)));\n        }else if(no == 1){\n            Q.pop();\n        }else\
@@ -91,7 +91,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_queue_operate_all_composite.test.cpp

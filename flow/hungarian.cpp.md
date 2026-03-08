@@ -1,4 +1,5 @@
 ---
+category: "\u30D5\u30ED\u30FC"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/hungarian.md
     document_title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)"
     links: []
   bundledCode: "#line 1 \"flow/hungarian.cpp\"\ntemplate<class T, bool Minimize =\
@@ -43,7 +43,7 @@ data:
     \    if (!Minimize) {\n        ans = -ans;\n        for (int i = 0; i < n; ++i)\
     \ row[i] = -row[i];\n        for (int j = 0; j < m; ++j) col[j] = -col[j];\n \
     \   }\n    return {ans, match, row, col};\n}\n\n/**\n * @brief \u30CF\u30F3\u30AC\
-    \u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)\n * @docs _md/hungarian.md\n */\n"
+    \u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)\n */\n"
   code: "template<class T, bool Minimize = true>\ntuple<T, vector<int>, vector<T>,\
     \ vector<T>> hungarian(const vector<vector<T>> &cost) {\n    int n = cost.size();\n\
     \    if (n == 0) return {T(0), {}, {}, {}};\n    int m = cost[0].size();\n   \
@@ -73,29 +73,20 @@ data:
     \ 1];\n    T ans = -v[0];\n    if (!Minimize) {\n        ans = -ans;\n       \
     \ for (int i = 0; i < n; ++i) row[i] = -row[i];\n        for (int j = 0; j < m;\
     \ ++j) col[j] = -col[j];\n    }\n    return {ans, match, row, col};\n}\n\n/**\n\
-    \ * @brief \u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)\n *\
-    \ @docs _md/hungarian.md\n */\n"
+    \ * @brief \u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: flow/hungarian.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_assignment_hungarian.test.cpp
-documentation_of: flow/hungarian.cpp
-layout: document
-redirect_from:
-- /library/flow/hungarian.cpp
-- /library/flow/hungarian.cpp.html
-title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)"
----
----
-layout: post
-title: Hungarian
 date: 2026-03-08
-category: フロー
-tags: フロー
+documentation_of: flow/hungarian.cpp
+layout: post
+tags: "\u30D5\u30ED\u30FC"
+title: Hungarian
 ---
 
 ## 説明

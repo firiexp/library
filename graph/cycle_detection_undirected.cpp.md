@@ -1,16 +1,16 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_cycle_detection_undirected.test.cpp
     title: test/yosupo_cycle_detection_undirected.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/cycle_detection_undirected.md
     document_title: "\u7121\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
     links: []
   bundledCode: "#line 1 \"graph/cycle_detection_undirected.cpp\"\nstruct CycleDetectionUndirectedResult\
@@ -30,8 +30,7 @@ data:
     \ vs = {b}, es;\n        while (vs.back() != a) {\n            es.emplace_back(par_e[vs.back()]);\n\
     \            vs.emplace_back(par_v[vs.back()]);\n        }\n        es.emplace_back(id);\n\
     \        return {vs, es};\n    }\n    return {{}, {}};\n}\n\n/**\n * @brief \u7121\
-    \u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)\n * @docs _md/cycle_detection_undirected.md\n\
-    \ */\n"
+    \u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)\n */\n"
   code: "struct CycleDetectionUndirectedResult {\n    vector<int> vertices;\n    vector<int>\
     \ edge_ids;\n};\n\nCycleDetectionUndirectedResult cycle_detection_undirected(const\
     \ vector<pair<int, int>> &edges, int n) {\n    int m = edges.size();\n    vector<vector<pair<int,\
@@ -49,28 +48,20 @@ data:
     \     es.emplace_back(par_e[vs.back()]);\n            vs.emplace_back(par_v[vs.back()]);\n\
     \        }\n        es.emplace_back(id);\n        return {vs, es};\n    }\n  \
     \  return {{}, {}};\n}\n\n/**\n * @brief \u7121\u5411\u9589\u8DEF\u691C\u51FA\
-    (Cycle Detection)\n * @docs _md/cycle_detection_undirected.md\n */\n"
+    (Cycle Detection)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/cycle_detection_undirected.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_cycle_detection_undirected.test.cpp
-documentation_of: graph/cycle_detection_undirected.cpp
-layout: document
-redirect_from:
-- /library/graph/cycle_detection_undirected.cpp
-- /library/graph/cycle_detection_undirected.cpp.html
-title: "\u7121\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
----
----
-layout: post
-title: Cycle Detection Undirected
 date: 2026-03-08
-category: グラフ
-tags: グラフ
+documentation_of: graph/cycle_detection_undirected.cpp
+layout: post
+tags: "\u30B0\u30E9\u30D5"
+title: Cycle Detection Undirected
 ---
 
 ## 説明

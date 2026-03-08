@@ -3,7 +3,8 @@ data:
   _extendedDependsOn:
   - icon: ':question:'
     path: graph/SCC.cpp
-    title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
+    title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(Strongly-Connected-Components,\
+      \ SCC)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -38,15 +39,15 @@ data:
     \        }\n        for (auto &&l : G_out) {\n            sort(l.begin(), l.end());\n\
     \            l.erase(unique(l.begin(), l.end()), l.end());\n        }\n      \
     \  return k;\n    }\n\n    int operator[](int k) const { return cmp[k]; }\n};\n\
-    \n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)\n * @docs _md/SCC.md\n\
-    \ */\n#line 21 \"test/yosupo_scc.test.cpp\"\n\nint main() {\n    int n, m;\n \
-    \   cin >> n >> m;\n    SCC G(n);\n    for (int i = 0; i < m; ++i) {\n       \
-    \ int a, b;\n        scanf(\"%d %d\", &a, &b);\n        G.add_edge(a, b);\n  \
-    \  }\n    printf(\"%d\\n\", G.build());\n    vector<vector<int>> res(G.sz.size());\n\
-    \    for (int i = 0; i < n; ++i) {\n        res[G[i]].emplace_back(i);\n    }\n\
-    \    for (int i = 0; i < G.sz.size(); ++i) {\n        printf(\"%d\", G.sz[i]);\n\
-    \        for (auto &&j : res[i]) {\n            printf(\" %d\", j);\n        }\n\
-    \        puts(\"\");\n    }\n    return 0;\n}\n"
+    \n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)\n */\n#line 21\
+    \ \"test/yosupo_scc.test.cpp\"\n\nint main() {\n    int n, m;\n    cin >> n >>\
+    \ m;\n    SCC G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n  \
+    \      scanf(\"%d %d\", &a, &b);\n        G.add_edge(a, b);\n    }\n    printf(\"\
+    %d\\n\", G.build());\n    vector<vector<int>> res(G.sz.size());\n    for (int\
+    \ i = 0; i < n; ++i) {\n        res[G[i]].emplace_back(i);\n    }\n    for (int\
+    \ i = 0; i < G.sz.size(); ++i) {\n        printf(\"%d\", G.sz[i]);\n        for\
+    \ (auto &&j : res[i]) {\n            printf(\" %d\", j);\n        }\n        puts(\"\
+    \");\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/scc\"\n#include <iostream>\n\
     #include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n#include\
     \ <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\nstatic const\
@@ -65,7 +66,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_scc.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_scc.test.cpp

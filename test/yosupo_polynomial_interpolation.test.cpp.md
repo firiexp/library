@@ -3,16 +3,16 @@ data:
   _extendedDependsOn:
   - icon: ':x:'
     path: fps/multipoint_evaluation.cpp
-    title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
+    title: Multipoint Evaluation
   - icon: ':x:'
     path: fps/polynomial_interpolation.cpp
-    title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
+    title: Polynomial Interpolation
   - icon: ':question:'
     path: math/ntt.cpp
-    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+    title: Number Theoretic Transform
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -94,18 +94,18 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 2 \"math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod = 998244353,\
-    \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
-    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
-    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
-    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
-    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
-    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 2 \"math/ntt.cpp\"\
+    \n#include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef\
+    \ NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef\
+    \ NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
+    \ -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\n\
+    template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
+    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
+    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
+    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
+    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
+    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
     \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
@@ -358,8 +358,8 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
-    \ _md/ntt.md\n */\n#line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    #line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
     \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
     \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
     \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
@@ -372,8 +372,8 @@ data:
     \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
     \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
     \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
-    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n * @docs _md/multipoint_evaluation.md\n\
-    \ */\n#line 2 \"fps/polynomial_interpolation.cpp\"\n\npoly polynomial_interpolation(const\
+    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n */\n#line 2\
+    \ \"fps/polynomial_interpolation.cpp\"\n\npoly polynomial_interpolation(const\
     \ vector<mint> &xs, const vector<mint> &ys) {\n    int n = (int)xs.size();\n \
     \   assert(n == (int)ys.size());\n    if (n == 0) return poly();\n    if (n ==\
     \ 1) return poly(vector<mint>{ys[0]});\n    int sz = 1;\n    while (sz < n) sz\
@@ -386,7 +386,7 @@ data:
     \        cur[i] = cur[i << 1] * prod[i << 1 | 1] + cur[i << 1 | 1] * prod[i <<\
     \ 1];\n    }\n    cur[1].shrink();\n    if (cur[1].size() < n) cur[1].v.resize(n);\n\
     \    return cur[1];\n}\n\n/**\n * @brief \u591A\u9805\u5F0F\u88DC\u9593(Polynomial\
-    \ Interpolation)\n * @docs _md/polynomial_interpolation.md\n */\n#line 13 \"test/yosupo_polynomial_interpolation.test.cpp\"\
+    \ Interpolation)\n */\n#line 13 \"test/yosupo_polynomial_interpolation.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
     \    vector<mint> xs(n), ys(n);\n    for (int i = 0; i < n; ++i) {\n        int\
     \ x;\n        in.read(x);\n        xs[i] = x;\n    }\n    for (int i = 0; i <\
@@ -413,7 +413,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_polynomial_interpolation.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_polynomial_interpolation.test.cpp

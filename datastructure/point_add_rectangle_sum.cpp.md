@@ -1,4 +1,5 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn:
   - icon: ':question:'
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/point_add_rectangle_sum.md
     document_title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle\
       \ Sum)"
     links: []
@@ -27,18 +27,17 @@ data:
     \ x) {\n        if (x <= 0) return 0;\n        int i = 0;\n        for (int j\
     \ = m; j; j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i\
     \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n\
-    #line 6 \"datastructure/point_add_rectangle_sum.cpp\"\n\ntemplate<class T>\nstruct\
-    \ PointAddRectangleSum {\n    struct Operation {\n        int type;\n        int\
-    \ x, y, z;\n        T w;\n    };\n\n    vector<Operation> ops;\n    vector<int>\
-    \ xs;\n\n    void add_point(int x, int y, T w) {\n        ops.push_back({0, x,\
-    \ y, 0, w});\n        xs.push_back(x);\n    }\n\n    void add_query(int l, int\
-    \ d, int r, int u) {\n        ops.push_back({1, l, d, r, u});\n    }\n\n    vector<T>\
-    \ solve() const {\n        vector<int> ord_x = xs;\n        sort(ord_x.begin(),\
-    \ ord_x.end());\n        ord_x.erase(unique(ord_x.begin(), ord_x.end()), ord_x.end());\n\
-    \n        int m = (int)ord_x.size();\n        vector<vector<int>> ys(m + 1);\n\
-    \        for (auto op : ops) {\n            if (op.type != 0) continue;\n    \
-    \        int xi = (int)(lower_bound(ord_x.begin(), ord_x.end(), op.x) - ord_x.begin())\
+    \ * @brief Binary Indexed Tree(BIT)\n */\n#line 6 \"datastructure/point_add_rectangle_sum.cpp\"\
+    \n\ntemplate<class T>\nstruct PointAddRectangleSum {\n    struct Operation {\n\
+    \        int type;\n        int x, y, z;\n        T w;\n    };\n\n    vector<Operation>\
+    \ ops;\n    vector<int> xs;\n\n    void add_point(int x, int y, T w) {\n     \
+    \   ops.push_back({0, x, y, 0, w});\n        xs.push_back(x);\n    }\n\n    void\
+    \ add_query(int l, int d, int r, int u) {\n        ops.push_back({1, l, d, r,\
+    \ u});\n    }\n\n    vector<T> solve() const {\n        vector<int> ord_x = xs;\n\
+    \        sort(ord_x.begin(), ord_x.end());\n        ord_x.erase(unique(ord_x.begin(),\
+    \ ord_x.end()), ord_x.end());\n\n        int m = (int)ord_x.size();\n        vector<vector<int>>\
+    \ ys(m + 1);\n        for (auto op : ops) {\n            if (op.type != 0) continue;\n\
+    \            int xi = (int)(lower_bound(ord_x.begin(), ord_x.end(), op.x) - ord_x.begin())\
     \ + 1;\n            for (int x = xi; x <= m; x += x & -x) ys[x].push_back(op.y);\n\
     \        }\n        for (int i = 1; i <= m; ++i) {\n            sort(ys[i].begin(),\
     \ ys[i].end());\n            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());\n\
@@ -58,7 +57,7 @@ data:
     \  } else {\n                ans.push_back(sum(op.z, op.w) - sum(op.z, op.y) -\
     \ sum(op.x, op.w) + sum(op.x, op.y));\n            }\n        }\n        return\
     \ ans;\n    }\n};\n\n/**\n * @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C\
-    (Point Add Rectangle Sum)\n * @docs _md/point_add_rectangle_sum.md\n */\n"
+    (Point Add Rectangle Sum)\n */\n"
   code: "#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
     \ \"binaryindexedtree.cpp\"\n\ntemplate<class T>\nstruct PointAddRectangleSum\
     \ {\n    struct Operation {\n        int type;\n        int x, y, z;\n       \
@@ -90,29 +89,21 @@ data:
     \  } else {\n                ans.push_back(sum(op.z, op.w) - sum(op.z, op.y) -\
     \ sum(op.x, op.w) + sum(op.x, op.y));\n            }\n        }\n        return\
     \ ans;\n    }\n};\n\n/**\n * @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C\
-    (Point Add Rectangle Sum)\n * @docs _md/point_add_rectangle_sum.md\n */\n"
+    (Point Add Rectangle Sum)\n */\n"
   dependsOn:
   - datastructure/binaryindexedtree.cpp
   isVerificationFile: false
   path: datastructure/point_add_rectangle_sum.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_rectangle_sum.test.cpp
-documentation_of: datastructure/point_add_rectangle_sum.cpp
-layout: document
-redirect_from:
-- /library/datastructure/point_add_rectangle_sum.cpp
-- /library/datastructure/point_add_rectangle_sum.cpp.html
-title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
----
----
-layout: post
-title: Point Add Rectangle Sum
 date: 2026-03-08
-category: データ構造
-tags: データ構造
+documentation_of: datastructure/point_add_rectangle_sum.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: Point Add Rectangle Sum
 ---
 
 ## 説明

@@ -1,16 +1,16 @@
 ---
+category: util
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_rle.test.cpp
     title: test/yosupo_many_aplusb_rle.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/rle.md
     document_title: "\u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)"
     links: []
   bundledCode: "#line 1 \"util/rle.cpp\"\ntemplate<class T>\nvector<pair<T, int>>\
@@ -18,34 +18,25 @@ data:
     \ p;\n    p.emplace_back(a[0], 1);\n    for (int j = 1; j < (int)a.size(); ++j)\
     \ {\n        if(p.back().first == a[j]) p.back().second++;\n        else p.emplace_back(a[j],\
     \ 1);\n    }\n    return p;\n}\n\n/**\n * @brief \u30E9\u30F3\u30EC\u30F3\u30B0\
-    \u30B9\u5727\u7E2E(RLE)\n * @docs _md/rle.md\n */\n"
+    \u30B9\u5727\u7E2E(RLE)\n */\n"
   code: "template<class T>\nvector<pair<T, int>> RLE(const vector<T> &a){\n    vector<pair<T,\
     \ int>> p;\n    if(a.empty()) return p;\n    p.emplace_back(a[0], 1);\n    for\
     \ (int j = 1; j < (int)a.size(); ++j) {\n        if(p.back().first == a[j]) p.back().second++;\n\
     \        else p.emplace_back(a[j], 1);\n    }\n    return p;\n}\n\n/**\n * @brief\
-    \ \u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)\n * @docs _md/rle.md\n\
-    \ */\n"
+    \ \u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/rle.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_rle.test.cpp
-documentation_of: util/rle.cpp
-layout: document
-redirect_from:
-- /library/util/rle.cpp
-- /library/util/rle.cpp.html
-title: "\u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)"
----
----
-layout: post
-title: RLE
 date: 2026-03-08
-category: util
+documentation_of: util/rle.cpp
+layout: post
 tags: util
+title: RLE
 ---
 
 ## 説明

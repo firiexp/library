@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':x:'
     path: math/gauss_jordan_mint.cpp
-    title: "Gauss-Jordan\u6D88\u53BB(modint)"
+    title: Gauss Jordan Mint
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
@@ -91,14 +91,14 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n    uint val;\n\
-    public:\n    static modint raw(int v) { modint x; x.val = v; return x; }\n   \
-    \ modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
-    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint.cpp\"\
+    \ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
+    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
+    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
+    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
+    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
+    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
     \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
@@ -115,21 +115,20 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 2\
-    \ \"math/gauss_jordan_mint.cpp\"\n\nint gauss_jordan(vector<vector<mint>> &A,\
-    \ bool is_extended = false) {\n    int m = A.size(), n = A[0].size();\n    int\
-    \ rank = 0;\n    for (int col = 0; col < n; ++col) {\n        if (is_extended\
-    \ && col == n-1) break;\n        int pivot = -1;\n        for (int row = rank;\
-    \ row < m; ++row) {\n            if (A[row][col].val) {\n                pivot\
-    \ = row;\n                break;\n            }\n        }\n        if (pivot\
-    \ == -1) continue;\n        swap(A[pivot], A[rank]);\n        auto d = A[rank][col].inv();\n\
-    \        for (int col2 = 0; col2 < n; ++col2) A[rank][col2] *= d;\n        for\
-    \ (int row = 0; row < m; ++row) {\n            if (row != rank && A[row][col].val)\
-    \ {\n                auto fac = A[row][col];\n                for (int col2 =\
-    \ 0; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2] *\
-    \ fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
-    \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n * @docs\
-    \ _md/gauss_jordan_mint.md\n */\n#line 13 \"test/yosupo_system_of_linear_equations.test.cpp\"\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 2 \"math/gauss_jordan_mint.cpp\"\
+    \n\nint gauss_jordan(vector<vector<mint>> &A, bool is_extended = false) {\n  \
+    \  int m = A.size(), n = A[0].size();\n    int rank = 0;\n    for (int col = 0;\
+    \ col < n; ++col) {\n        if (is_extended && col == n-1) break;\n        int\
+    \ pivot = -1;\n        for (int row = rank; row < m; ++row) {\n            if\
+    \ (A[row][col].val) {\n                pivot = row;\n                break;\n\
+    \            }\n        }\n        if (pivot == -1) continue;\n        swap(A[pivot],\
+    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = 0;\
+    \ col2 < n; ++col2) A[rank][col2] *= d;\n        for (int row = 0; row < m; ++row)\
+    \ {\n            if (row != rank && A[row][col].val) {\n                auto fac\
+    \ = A[row][col];\n                for (int col2 = 0; col2 < n; ++col2) {\n   \
+    \                 A[row][col2] -= A[rank][col2] * fac;\n                }\n  \
+    \          }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
+    \ * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n#line 13 \"test/yosupo_system_of_linear_equations.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
     \ m);\n    vector<vector<mint>> a(n, vector<mint>(m + 1));\n    for (int i = 0;\
     \ i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            int x;\n \
@@ -187,7 +186,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_system_of_linear_equations.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_system_of_linear_equations.test.cpp

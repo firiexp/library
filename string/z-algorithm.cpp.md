@@ -1,16 +1,16 @@
 ---
+category: "\u6587\u5B57\u5217"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_z_algorithm.test.cpp
     title: test/yosupo_many_aplusb_z_algorithm.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/z-algorithm.md
     document_title: Z-Algorithm
     links: []
   bundledCode: "#line 1 \"string/z-algorithm.cpp\"\nvector<int> Z_algorithm(const\
@@ -19,34 +19,26 @@ data:
     \        int &k = res[i];\n        if (j + res[j] > i) k = min(res[i - j], j +\
     \ res[j] - i);\n        while (i + k < n && s[k] == s[i + k]) ++k;\n        if\
     \ (i + k > j + res[j]) j = i;\n    }\n    return res;\n}\n\n/**\n * @brief Z-Algorithm\n\
-    \ * @docs _md/z-algorithm.md\n */\n"
+    \ */\n"
   code: "vector<int> Z_algorithm(const string &s){\n    int n = (int)s.size();\n \
     \   vector<int> res(n);\n    if (n == 0) return res;\n    res[0] = n;\n    for\
     \ (int i = 1, j = 0; i < n; ++i) {\n        int &k = res[i];\n        if (j +\
     \ res[j] > i) k = min(res[i - j], j + res[j] - i);\n        while (i + k < n &&\
     \ s[k] == s[i + k]) ++k;\n        if (i + k > j + res[j]) j = i;\n    }\n    return\
-    \ res;\n}\n\n/**\n * @brief Z-Algorithm\n * @docs _md/z-algorithm.md\n */\n"
+    \ res;\n}\n\n/**\n * @brief Z-Algorithm\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/z-algorithm.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_z_algorithm.test.cpp
-documentation_of: string/z-algorithm.cpp
-layout: document
-redirect_from:
-- /library/string/z-algorithm.cpp
-- /library/string/z-algorithm.cpp.html
-title: Z-Algorithm
----
----
-layout: post
-title: Z-algorithm
 date: 2026-03-08
-category: 文字列
-tags: 文字列
+documentation_of: string/z-algorithm.cpp
+layout: post
+tags: "\u6587\u5B57\u5217"
+title: Z-algorithm
 ---
 
 ## 説明

@@ -41,16 +41,15 @@ data:
     \    void add_if(int u, int v){ // u -> v\n        scc.add_edge(u, v);\n     \
     \   scc.add_edge(negate(v), negate(u));\n    }\n\n    void add_or(int u, int v){\
     \ // u || v\n        add_if(negate(u), v);\n    }\n};\n\n/**\n * @brief 2-SAT\n\
-    \ * @docs _md/twosat.md\n */\n#line 21 \"test/yosupo_twosat.test.cpp\"\n\nint\
-    \ main() {\n    string s, t;\n    int n, m;\n    cin >> s >> t >> n >> m;\n  \
-    \  TwoSAT G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b; char x;\n\
-    \        scanf(\" %d %d %c\", &a, &b, &x);\n        if(a < 0) a = n-a;\n     \
-    \   if(b < 0) b = n-b;\n        G.add_or(a-1, b-1);\n    }\n    auto ans = G.build();\n\
-    \    if(ans.empty()){\n        puts(\"s UNSATISFIABLE\");\n    }else {\n     \
-    \   puts(\"s SATISFIABLE\");\n        printf(\"v \");\n        for (int i = 0;\
-    \ i < ans.size(); ++i) {\n            if(ans[i]) printf(\"%d \", i+1);\n     \
-    \       else printf(\"%d \", -(i+1));\n        }\n        puts(\"0\");\n    }\n\
-    \    return 0;\n}\n"
+    \ */\n#line 21 \"test/yosupo_twosat.test.cpp\"\n\nint main() {\n    string s,\
+    \ t;\n    int n, m;\n    cin >> s >> t >> n >> m;\n    TwoSAT G(n);\n    for (int\
+    \ i = 0; i < m; ++i) {\n        int a, b; char x;\n        scanf(\" %d %d %c\"\
+    , &a, &b, &x);\n        if(a < 0) a = n-a;\n        if(b < 0) b = n-b;\n     \
+    \   G.add_or(a-1, b-1);\n    }\n    auto ans = G.build();\n    if(ans.empty()){\n\
+    \        puts(\"s UNSATISFIABLE\");\n    }else {\n        puts(\"s SATISFIABLE\"\
+    );\n        printf(\"v \");\n        for (int i = 0; i < ans.size(); ++i) {\n\
+    \            if(ans[i]) printf(\"%d \", i+1);\n            else printf(\"%d \"\
+    , -(i+1));\n        }\n        puts(\"0\");\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/two_sat\"\n#include <iostream>\n\
     #include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n#include\
     \ <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\nstatic const\
@@ -71,7 +70,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_twosat.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_twosat.test.cpp

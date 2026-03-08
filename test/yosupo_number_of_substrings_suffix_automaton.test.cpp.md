@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: string/suffix_automaton.cpp
-    title: Suffix Automaton
+    title: suffix automaton
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/number_of_substrings
@@ -58,9 +58,8 @@ data:
     \ - 1; i >= 1; --i) {\n            int v = ord[i];\n            cnt[cnt[v].link].occ\
     \ += cnt[v].occ;\n        }\n        vector<int> res(nodes.size());\n        for\
     \ (int i = 0; i < (int)nodes.size(); ++i) res[i] = cnt[i].occ;\n        return\
-    \ res;\n    }\n};\n/**\n * @brief Suffix Automaton\n * @docs _md/suffix_automaton.md\n\
-    \ */\n#line 21 \"test/yosupo_number_of_substrings_suffix_automaton.test.cpp\"\n\
-    \nint main() {\n    string s;\n    cin >> s;\n    SuffixAutomaton<26> sam(s);\n\
+    \ res;\n    }\n};\n/**\n * @brief Suffix Automaton\n */\n#line 21 \"test/yosupo_number_of_substrings_suffix_automaton.test.cpp\"\
+    \n\nint main() {\n    string s;\n    cin >> s;\n    SuffixAutomaton<26> sam(s);\n\
     \    cout << sam.count_distinct_substrings() << \"\\n\";\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/number_of_substrings\"\n\
     #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
@@ -75,8 +74,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 11:03:32+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
 layout: document

@@ -7,7 +7,7 @@ data:
       \ Dinic)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -89,39 +89,38 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"flow/costscalingdinic.cpp\"\ntemplate<class T,\
-    \ bool directed>\nclass CostScalingDinic {\n    void bfs(int s, T x){\n      \
-    \  fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n        level[s]\
-    \ = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n            int v =\
-    \ Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n                if(e.cap\
-    \ >= x && level[e.to] < 0){\n                    level[e.to] = level[v] + 1;\n\
-    \                    Q.emplace(e.to);\n                }\n            }\n    \
-    \    }\n    }\n\n    T dfs(int v, int t, T x, T f){\n        if(v == t) return\
-    \ f;\n        T res = 0;\n        for(int &i = iter[v]; i < G[v].size(); i++){\n\
-    \            edge &e = G[v][i];\n            if(e.cap >= x && level[v] < level[e.to]){\n\
-    \                T d = dfs(e.to, t, x, min(f-res,  e.cap));\n                if(d\
-    \ == 0) continue;\n                e.cap -= d;\n                G[e.to][e.rev].cap\
-    \ += d;\n                res += d;\n                if(f - res < x) break;\n \
-    \           }\n        }\n        return res;\n    }\npublic:\n    struct edge\
-    \ {\n        int to{}; T cap; int rev{};\n        edge() = default;\n        edge(int\
-    \ to, T cap, int rev) : to(to), cap(cap), rev(rev) {}\n    };\n\n    vector<vector<edge>>\
-    \ G;\n    vector<int> level, iter;\n    CostScalingDinic() = default;\n    explicit\
-    \ CostScalingDinic(int n) : G(n), level(n), iter(n) {}\n\n    void add_edge(int\
-    \ from, int to, int cap){\n        if(!cap) return;\n        G[from].emplace_back(to,\
-    \ cap, G[to].size());\n        G[to].emplace_back(from, directed ? 0 : cap,  G[from].size()-1);\n\
-    \    }\n\n    T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n    \
-    \    T cap = 1; while(cap<<1 <= lim) cap <<= 1;\n        while(cap) {\n      \
-    \      bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"flow/costscalingdinic.cpp\"\ntemplate<class T, bool directed>\nclass CostScalingDinic\
+    \ {\n    void bfs(int s, T x){\n        fill(level.begin(),level.end(), -1);\n\
+    \        queue<int> Q;\n        level[s] = 0;\n        Q.emplace(s);\n       \
+    \ while(!Q.empty()){\n            int v = Q.front(); Q.pop();\n            for\
+    \ (auto &&e : G[v]){\n                if(e.cap >= x && level[e.to] < 0){\n   \
+    \                 level[e.to] = level[v] + 1;\n                    Q.emplace(e.to);\n\
+    \                }\n            }\n        }\n    }\n\n    T dfs(int v, int t,\
+    \ T x, T f){\n        if(v == t) return f;\n        T res = 0;\n        for(int\
+    \ &i = iter[v]; i < G[v].size(); i++){\n            edge &e = G[v][i];\n     \
+    \       if(e.cap >= x && level[v] < level[e.to]){\n                T d = dfs(e.to,\
+    \ t, x, min(f-res,  e.cap));\n                if(d == 0) continue;\n         \
+    \       e.cap -= d;\n                G[e.to][e.rev].cap += d;\n              \
+    \  res += d;\n                if(f - res < x) break;\n            }\n        }\n\
+    \        return res;\n    }\npublic:\n    struct edge {\n        int to{}; T cap;\
+    \ int rev{};\n        edge() = default;\n        edge(int to, T cap, int rev)\
+    \ : to(to), cap(cap), rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n   \
+    \ vector<int> level, iter;\n    CostScalingDinic() = default;\n    explicit CostScalingDinic(int\
+    \ n) : G(n), level(n), iter(n) {}\n\n    void add_edge(int from, int to, int cap){\n\
+    \        if(!cap) return;\n        G[from].emplace_back(to, cap, G[to].size());\n\
+    \        G[to].emplace_back(from, directed ? 0 : cap,  G[from].size()-1);\n  \
+    \  }\n\n    T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n      \
+    \  T cap = 1; while(cap<<1 <= lim) cap <<= 1;\n        while(cap) {\n        \
+    \    bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
     \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
-    Dinic(Capacity Scaling Dinic)\n * @docs _md/costscalingdinic.md\n */\n#line 14\
-    \ \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n, m);\n    CostScalingDinic<int,\
-    \ true> mf(n);\n    for (int i = 0; i < m; ++i) {\n        int u, v, c;\n    \
-    \    sc.read(u, v, c);\n        mf.add_edge(u, v, c);\n    }\n    pr.writeln(mf.flow(0,\
-    \ n - 1));\n    return 0;\n}\n"
+    Dinic(Capacity Scaling Dinic)\n */\n#line 14 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
+    \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
+    \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
+    \ c);\n    }\n    pr.writeln(mf.flow(0, n - 1));\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n\
     #include <algorithm>\n#include <limits>\n#include <queue>\n#include <vector>\n\
     using namespace std;\n\nusing ll = long long;\ntemplate<class T> constexpr T INF\
@@ -137,7 +136,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_6_a_costscalingdinic.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_6_a_costscalingdinic.test.cpp

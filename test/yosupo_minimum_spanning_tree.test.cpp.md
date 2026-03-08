@@ -6,7 +6,7 @@ data:
     title: "Kruskal\u6CD5"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -87,35 +87,34 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"graph/kruskal.cpp\"\ntemplate <class T>\nstruct edge {\n    int from,\
-    \ to, idx;\n    T cost;\n\n    edge(int from, int to, T cost, int idx = -1) :\
-    \ from(from), to(to), idx(idx), cost(cost) {}\n};\n\nclass KruskalUnionFind {\n\
-    \    vector<int> p;\n\npublic:\n    explicit KruskalUnionFind(int n) : p(n, -1)\
-    \ {}\n\n    int root(int x) {\n        if (p[x] < 0) return x;\n        return\
-    \ p[x] = root(p[x]);\n    }\n\n    bool unite(int a, int b) {\n        a = root(a);\n\
-    \        b = root(b);\n        if (a == b) return false;\n        if (p[a] > p[b])\
-    \ swap(a, b);\n        p[a] += p[b];\n        p[b] = a;\n        return true;\n\
-    \    }\n};\n\ntemplate <class T>\nstruct KruskalResult {\n    bool exists;\n \
-    \   T cost;\n    vector<int> edge_id;\n};\n\ntemplate <class T>\nKruskalResult<T>\
-    \ kruskal(vector<edge<T>> edges, int n) {\n    for (int i = 0; i < (int)edges.size();\
-    \ ++i) {\n        if (edges[i].idx == -1) edges[i].idx = i;\n    }\n    sort(edges.begin(),\
-    \ edges.end(), [](const edge<T> &a, const edge<T> &b) {\n        if (a.cost !=\
-    \ b.cost) return a.cost < b.cost;\n        return a.idx < b.idx;\n    });\n\n\
-    \    KruskalUnionFind uf(n);\n    T cost = T(0);\n    vector<int> edge_id;\n \
-    \   edge_id.reserve(max(0, n - 1));\n    for (auto &&e : edges) {\n        if\
-    \ (!uf.unite(e.from, e.to)) continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n\
-    \    }\n    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n\
-    \    return {true, cost, edge_id};\n}\n\n/**\n * @brief Kruskal\u6CD5\n * @docs\
-    \ _md/kruskal.md\n */\n#line 11 \"test/yosupo_minimum_spanning_tree.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
-    \ m);\n    vector<edge<ll>> edges;\n    edges.reserve(m);\n    for (int i = 0;\
-    \ i < m; ++i) {\n        int u, v;\n        ll w;\n        in.read(u, v, w);\n\
-    \        edges.emplace_back(u, v, w, i);\n    }\n    auto res = kruskal(edges,\
-    \ n);\n    if (!res.exists) return 0;\n    out.writeln(res.cost);\n    for (int\
-    \ i = 0; i < (int)res.edge_id.size(); ++i) {\n        if (i) out.write(' ');\n\
-    \        out.write(res.edge_id[i]);\n    }\n    out.writeln();\n    return 0;\n\
-    }\n"
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/kruskal.cpp\"\
+    \ntemplate <class T>\nstruct edge {\n    int from, to, idx;\n    T cost;\n\n \
+    \   edge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx),\
+    \ cost(cost) {}\n};\n\nclass KruskalUnionFind {\n    vector<int> p;\n\npublic:\n\
+    \    explicit KruskalUnionFind(int n) : p(n, -1) {}\n\n    int root(int x) {\n\
+    \        if (p[x] < 0) return x;\n        return p[x] = root(p[x]);\n    }\n\n\
+    \    bool unite(int a, int b) {\n        a = root(a);\n        b = root(b);\n\
+    \        if (a == b) return false;\n        if (p[a] > p[b]) swap(a, b);\n   \
+    \     p[a] += p[b];\n        p[b] = a;\n        return true;\n    }\n};\n\ntemplate\
+    \ <class T>\nstruct KruskalResult {\n    bool exists;\n    T cost;\n    vector<int>\
+    \ edge_id;\n};\n\ntemplate <class T>\nKruskalResult<T> kruskal(vector<edge<T>>\
+    \ edges, int n) {\n    for (int i = 0; i < (int)edges.size(); ++i) {\n       \
+    \ if (edges[i].idx == -1) edges[i].idx = i;\n    }\n    sort(edges.begin(), edges.end(),\
+    \ [](const edge<T> &a, const edge<T> &b) {\n        if (a.cost != b.cost) return\
+    \ a.cost < b.cost;\n        return a.idx < b.idx;\n    });\n\n    KruskalUnionFind\
+    \ uf(n);\n    T cost = T(0);\n    vector<int> edge_id;\n    edge_id.reserve(max(0,\
+    \ n - 1));\n    for (auto &&e : edges) {\n        if (!uf.unite(e.from, e.to))\
+    \ continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n    }\n\
+    \    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n   \
+    \ return {true, cost, edge_id};\n}\n\n/**\n * @brief Kruskal\u6CD5\n */\n#line\
+    \ 11 \"test/yosupo_minimum_spanning_tree.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n\n    int n, m;\n    in.read(n, m);\n    vector<edge<ll>>\
+    \ edges;\n    edges.reserve(m);\n    for (int i = 0; i < m; ++i) {\n        int\
+    \ u, v;\n        ll w;\n        in.read(u, v, w);\n        edges.emplace_back(u,\
+    \ v, w, i);\n    }\n    auto res = kruskal(edges, n);\n    if (!res.exists) return\
+    \ 0;\n    out.writeln(res.cost);\n    for (int i = 0; i < (int)res.edge_id.size();\
+    \ ++i) {\n        if (i) out.write(' ');\n        out.write(res.edge_id[i]);\n\
+    \    }\n    out.writeln();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/minimum_spanning_tree\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\nusing ll\
     \ = long long;\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/kruskal.cpp\"\
@@ -133,7 +132,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_minimum_spanning_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_minimum_spanning_tree.test.cpp

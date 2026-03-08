@@ -1,22 +1,23 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/linear_recurrence.cpp
-    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
   - icon: ':x:'
     path: fps/multipoint_evaluation.cpp
-    title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
-  - icon: ':heavy_check_mark:'
+    title: Multipoint Evaluation
+  - icon: ':x:'
     path: fps/nth_term.cpp
     title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
   - icon: ':x:'
     path: fps/polynomial_interpolation.cpp
-    title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
+    title: Polynomial Interpolation
   - icon: ':x:'
     path: fps/sample_point_shift.cpp
-    title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
+    title: Sample Point Shift
   - icon: ':x:'
     path: fps/taylor_shift.cpp
     title: Taylor Shift
@@ -24,19 +25,19 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_convolution.test.cpp
     title: test/yosupo_convolution.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_exp_of_formal_power_series.test.cpp
     title: test/yosupo_exp_of_formal_power_series.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_log_of_formal_power_series.test.cpp
     title: test/yosupo_log_of_formal_power_series.test.cpp
   - icon: ':x:'
@@ -61,7 +62,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/ntt.md
     document_title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
@@ -327,8 +327,7 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
-    \ _md/ntt.md\n */\n"
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n"
   code: "#include <algorithm>\n#include <cassert>\n\nconstexpr int ntt_mod = 998244353,\
     \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
     \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
@@ -592,8 +591,7 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
-    \ _md/ntt.md\n */\n"
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/ntt.cpp
@@ -604,7 +602,7 @@ data:
   - fps/taylor_shift.cpp
   - fps/sample_point_shift.cpp
   - fps/nth_term.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
@@ -619,19 +617,11 @@ data:
   - test/aoj0452.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/yosupo_convolution.test.cpp
-documentation_of: math/ntt.cpp
-layout: document
-redirect_from:
-- /library/math/ntt.cpp
-- /library/math/ntt.cpp.html
-title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
----
----
-layout: post
-title: Number Theoretic Transform
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/ntt.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Number Theoretic Transform
 ---
 
 ## 説明

@@ -1,4 +1,5 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/minimum_cost_b_flow.md
     document_title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
     links: []
   bundledCode: "#line 1 \"graph/minimum_cost_b_flow.cpp\"\ntemplate<class Flow, class\
@@ -98,7 +98,7 @@ data:
     \     for (int i = 0; i < (int)edges.size(); ++i) {\n            auto&& e = get_edge(i);\n\
     \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
     \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
-    \ b-Flow)\n * @docs _md/minimum_cost_b_flow.md\n */\n"
+    \ b-Flow)\n */\n"
   code: "template<class Flow, class Cost>\nstruct MinimumCostBFlow {\n    using Sum\
     \ = __int128_t;\n    struct Edge {\n        int from, to, rev;\n        Flow flow,\
     \ cap;\n        Cost cost;\n\n        Flow residual_cap() const {\n          \
@@ -184,28 +184,20 @@ data:
     \     for (int i = 0; i < (int)edges.size(); ++i) {\n            auto&& e = get_edge(i);\n\
     \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
     \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
-    \ b-Flow)\n * @docs _md/minimum_cost_b_flow.md\n */\n"
+    \ b-Flow)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/minimum_cost_b_flow.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_min_cost_b_flow.test.cpp
-documentation_of: graph/minimum_cost_b_flow.cpp
-layout: document
-redirect_from:
-- /library/graph/minimum_cost_b_flow.cpp
-- /library/graph/minimum_cost_b_flow.cpp.html
-title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
----
----
-layout: post
-title: Minimum Cost B-Flow
 date: 2026-03-08
-category: グラフ
-tags: 最小費用流
+documentation_of: graph/minimum_cost_b_flow.cpp
+layout: post
+tags: "\u6700\u5C0F\u8CBB\u7528\u6D41"
+title: Minimum Cost B-Flow
 ---
 
 ## 説明

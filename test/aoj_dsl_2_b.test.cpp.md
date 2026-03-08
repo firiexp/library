@@ -6,7 +6,7 @@ data:
     title: Binary Indexed Tree(BIT)
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -85,22 +85,21 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class\
-    \ T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n):\
-    \ bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int\
-    \ k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k -\
-    \ 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++;\
-    \ k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
-    \        if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j;\
-    \ j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j\
-    \ - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n\
-    #line 8 \"test/aoj_dsl_2_b.test.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
-    \ out;\n\n    int n, q;\n    in.read(n, q);\n    BIT<int> s(n);\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n    \
-    \    x--;\n        if (c == 0) s.add(x, y);\n        else out.writeln(s.sum(y)\
-    \ - s.sum(x));\n    }\n    return 0;\n}\n"
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT {\n\
+    \    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1), n(n)\
+    \ {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n        T ret\
+    \ = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
+    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
+    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
+    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
+    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
+    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
+    \ Indexed Tree(BIT)\n */\n#line 8 \"test/aoj_dsl_2_b.test.cpp\"\n\nint main()\
+    \ {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n\
+    \    BIT<int> s(n);\n    for (int i = 0; i < q; ++i) {\n        int c, x, y;\n\
+    \        in.read(c, x, y);\n        x--;\n        if (c == 0) s.add(x, y);\n \
+    \       else out.writeln(s.sum(y) - s.sum(x));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B\"\
     \n\n#include <vector>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../datastructure/binaryindexedtree.cpp\"\n\nint main() {\n    Scanner\
@@ -114,7 +113,7 @@ data:
   isVerificationFile: true
   path: test/aoj_dsl_2_b.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_2_b.test.cpp

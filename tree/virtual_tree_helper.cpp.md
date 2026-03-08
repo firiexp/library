@@ -1,4 +1,5 @@
 ---
+category: "\u6728"
 data:
   _extendedDependsOn:
   - icon: ':question:'
@@ -16,7 +17,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/virtual_tree_helper.md
     document_title: Virtual Tree Helper
     links: []
   bundledCode: "#line 1 \"tree/auxtree.cpp\"\n#include <stack>\n\n#line 1 \"datastructure/sparsetable.cpp\"\
@@ -31,29 +31,28 @@ data:
     \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
     \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
     \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n\n/**\n * @brief Sparse Table\n * @docs _md/sparsetable.md\n */\n\
-    #line 4 \"tree/auxtree.cpp\"\n\nstruct F {\n    using T = pair<int, int>;\n  \
-    \  static T f(T a, T b) { return min(a, b); }\n    static T e() { return T{INF<int>,\
-    \ -1}; }\n};\n\nclass AuxTree {\n    SparseTable<F> table;\n    void dfs_euler(int\
-    \ v, int p, int d, int &k, int &l){\n        id[v] = k;\n        vs[k] = v;\n\
-    \        depth[k++] = d;\n        dep[v] = d;\n        fi[v] = l++;\n        for\
-    \ (auto &&u : G[v]) {\n            if(u != p){\n                dfs_euler(u, v,\
-    \ d+1, k, l);\n                vs[k] = v;\n                depth[k++] = d;\n \
-    \           }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G, out;\n    vector<int> vs, depth, dep, id, fi;\n    explicit AuxTree(int n)\
-    \ : table(), n(n), G(n), out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n)\
-    \ {};\n    void add_edge(int a, int b){\n        G[a].emplace_back(b);\n     \
-    \   G[b].emplace_back(a);\n    }\n\n    void eulertour(int root) {\n        int\
-    \ k = 0, l = 0;\n        dfs_euler(root, -1, 0, k, l);\n    }\n\n    void buildLCA(int\
-    \ root = 0){\n        eulertour(root);\n        vector<pair<int, int>> v(2*n-1);\n\
-    \        for (int i = 0; i < 2*n-1; ++i) {\n            v[i] = make_pair(depth[i],\
-    \ vs[i]);\n        }\n        table.build(v);\n    }\n\n    void make(vector<int>\
-    \ &v){\n        sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b];\
-    \ });\n        v.erase(unique(v.begin(), v.end()), v.end());\n        int k =\
-    \ v.size();\n        stack<int> s;\n        s.emplace(v.front());\n        for\
-    \ (int i = 0; i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n      \
-    \      if(w != v[i]){\n                int u = s.top(); s.pop();\n           \
-    \     while(!s.empty() && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
+    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n#line 4 \"tree/auxtree.cpp\"\n\
+    \nstruct F {\n    using T = pair<int, int>;\n    static T f(T a, T b) { return\
+    \ min(a, b); }\n    static T e() { return T{INF<int>, -1}; }\n};\n\nclass AuxTree\
+    \ {\n    SparseTable<F> table;\n    void dfs_euler(int v, int p, int d, int &k,\
+    \ int &l){\n        id[v] = k;\n        vs[k] = v;\n        depth[k++] = d;\n\
+    \        dep[v] = d;\n        fi[v] = l++;\n        for (auto &&u : G[v]) {\n\
+    \            if(u != p){\n                dfs_euler(u, v, d+1, k, l);\n      \
+    \          vs[k] = v;\n                depth[k++] = d;\n            }\n      \
+    \  }\n    }\npublic:\n    int n;\n    vector<vector<int>> G, out;\n    vector<int>\
+    \ vs, depth, dep, id, fi;\n    explicit AuxTree(int n) : table(), n(n), G(n),\
+    \ out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n) {};\n    void add_edge(int\
+    \ a, int b){\n        G[a].emplace_back(b);\n        G[b].emplace_back(a);\n \
+    \   }\n\n    void eulertour(int root) {\n        int k = 0, l = 0;\n        dfs_euler(root,\
+    \ -1, 0, k, l);\n    }\n\n    void buildLCA(int root = 0){\n        eulertour(root);\n\
+    \        vector<pair<int, int>> v(2*n-1);\n        for (int i = 0; i < 2*n-1;\
+    \ ++i) {\n            v[i] = make_pair(depth[i], vs[i]);\n        }\n        table.build(v);\n\
+    \    }\n\n    void make(vector<int> &v){\n        sort(v.begin(),v.end(), [&](int\
+    \ a, int b){ return fi[a] < fi[b]; });\n        v.erase(unique(v.begin(), v.end()),\
+    \ v.end());\n        int k = v.size();\n        stack<int> s;\n        s.emplace(v.front());\n\
+    \        for (int i = 0; i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n\
+    \            if(w != v[i]){\n                int u = s.top(); s.pop();\n     \
+    \           while(!s.empty() && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
     \                    out[u].emplace_back(s.top());\n                    u = s.top();\
     \ s.pop();\n                }\n                if(s.empty() || s.top() != w){\n\
     \                    s.emplace(w);\n                    v.emplace_back(w);\n \
@@ -65,9 +64,9 @@ data:
     \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
     \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
     \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
-    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n * @docs _md/auxtree.md\n\
-    \ */\n#line 2 \"tree/virtual_tree_helper.cpp\"\n\nstruct VirtualTree {\n    int\
-    \ root;\n    vector<int> vertices;\n    vector<int> parent;\n};\n\nclass VirtualTreeHelper\
+    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 2\
+    \ \"tree/virtual_tree_helper.cpp\"\n\nstruct VirtualTree {\n    int root;\n  \
+    \  vector<int> vertices;\n    vector<int> parent;\n};\n\nclass VirtualTreeHelper\
     \ {\n    AuxTree aux;\n    vector<int> mark, parent_buf;\n    int stamp = 0;\n\
     \npublic:\n    explicit VirtualTreeHelper(int n) : aux(n), mark(n, 0), parent_buf(n,\
     \ -1) {}\n\n    void add_edge(int u, int v) {\n        aux.add_edge(u, v);\n \
@@ -85,8 +84,7 @@ data:
     \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
     \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
     \ st.emplace_back(u);\n            }\n        }\n\n        aux.clear(vertices);\n\
-    \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n * @docs\
-    \ _md/virtual_tree_helper.md\n */\n"
+    \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n */\n"
   code: "#include \"./auxtree.cpp\"\n\nstruct VirtualTree {\n    int root;\n    vector<int>\
     \ vertices;\n    vector<int> parent;\n};\n\nclass VirtualTreeHelper {\n    AuxTree\
     \ aux;\n    vector<int> mark, parent_buf;\n    int stamp = 0;\n\npublic:\n   \
@@ -106,30 +104,22 @@ data:
     \ continue;\n                mark[u] = stamp;\n                parent_buf[u] =\
     \ v;\n                st.emplace_back(u);\n            }\n        }\n\n      \
     \  aux.clear(vertices);\n        return res;\n    }\n};\n\n/**\n * @brief Virtual\
-    \ Tree Helper\n * @docs _md/virtual_tree_helper.md\n */\n"
+    \ Tree Helper\n */\n"
   dependsOn:
   - tree/auxtree.cpp
   - datastructure/sparsetable.cpp
   isVerificationFile: false
   path: tree/virtual_tree_helper.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0439_virtual_tree_helper.test.cpp
-documentation_of: tree/virtual_tree_helper.cpp
-layout: document
-redirect_from:
-- /library/tree/virtual_tree_helper.cpp
-- /library/tree/virtual_tree_helper.cpp.html
-title: Virtual Tree Helper
----
----
-layout: post
-title: virtual_tree_helper
 date: 2026-03-08
-category: 木
-tags: 木
+documentation_of: tree/virtual_tree_helper.cpp
+layout: post
+tags: "\u6728"
+title: virtual_tree_helper
 ---
 
 ## 説明

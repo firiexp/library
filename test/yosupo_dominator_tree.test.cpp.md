@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: graph/dominatortree.cpp
     title: Dominator Tree
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/dominatortree
@@ -45,12 +45,12 @@ data:
     \ = semi[a];\n            else idom[a] = idom[b];\n        }\n        for (int\
     \ i = 1; i < cur; ++i) {\n            int a = ord[i];\n            idom[a] = ord[idom[a]];\n\
     \        }\n        idom[root] = -1;\n    }\n\n};\n\n\n/**\n * @brief Dominator\
-    \ Tree\n * @docs _md/dominatortree.md\n */\n#line 22 \"test/yosupo_dominator_tree.test.cpp\"\
-    \n\nint main() {\n    int n, m, s;\n    scanf(\"%d %d %d\", &n, &m, &s);\n   \
-    \ DominatorTree G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n\
-    \        scanf(\"%d %d\", &a, &b);\n        G.add_edge(a, b);\n    }\n    G.build(s);\n\
-    \    for (int i = 0; i < n; ++i) {\n        if(i) printf(\" \");\n        printf(\"\
-    %d\", (i == s ? s : G.idom[i]));\n    }\n    puts(\"\");\n    return 0;\n}\n"
+    \ Tree\n */\n#line 22 \"test/yosupo_dominator_tree.test.cpp\"\n\nint main() {\n\
+    \    int n, m, s;\n    scanf(\"%d %d %d\", &n, &m, &s);\n    DominatorTree G(n);\n\
+    \    for (int i = 0; i < m; ++i) {\n        int a, b;\n        scanf(\"%d %d\"\
+    , &a, &b);\n        G.add_edge(a, b);\n    }\n    G.build(s);\n    for (int i\
+    \ = 0; i < n; ++i) {\n        if(i) printf(\" \");\n        printf(\"%d\", (i\
+    \ == s ? s : G.idom[i]));\n    }\n    puts(\"\");\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/dominatortree\"\n\n#include\
     \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
     #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
@@ -67,8 +67,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_dominator_tree.test.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_dominator_tree.test.cpp
 layout: document

@@ -3,23 +3,22 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/CRT.cpp
-    title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(CRT)"
+    title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
   - icon: ':heavy_check_mark:'
     path: math/binom_mod_prime_power.cpp
-    title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
+    title: binom_mod_prime_power
   - icon: ':question:'
     path: math/extgcd.cpp
-    title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended\
-      \ GCD)"
+    title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
   - icon: ':heavy_check_mark:'
     path: math/modinv.cpp
     title: math/modinv.cpp
   - icon: ':heavy_check_mark:'
     path: math/primefactor2.cpp
-    title: "\u524D\u8A08\u7B97\u4ED8\u304D\u7D20\u56E0\u6570\u5206\u89E3(Prime Factorization)"
+    title: primefactor2
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -101,38 +100,36 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"math/extgcd.cpp\"\ntemplate<typename T>\nT extgcd(T a, T b, T &x ,T\
-    \ &y){\n    for (T u = y = 1, v = x = 0; a; ) {\n        ll q = b/a;\n       \
-    \ swap(x -= q*u, u);\n        swap(y -= q*v, v);\n        swap(b -= q*a, a);\n\
-    \    }\n    return b;\n}\n \n\n/**\n * @brief \u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\
-    \u30C3\u30C9\u4E92\u9664\u6CD5(Extended GCD)\n * @docs _md/extgcd.md\n */\n#line\
-    \ 2 \"math/CRT.cpp\"\n\npair<ll, ll> CRT(const vector<pair<ll, ll>> &a){\n   \
-    \ ll R = 0, M = 1;\n    for (auto &&i : a) {\n        ll r = (i.first+i.second)%i.second,\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/extgcd.cpp\"\
+    \ntemplate<typename T>\nT extgcd(T a, T b, T &x ,T &y){\n    for (T u = y = 1,\
+    \ v = x = 0; a; ) {\n        ll q = b/a;\n        swap(x -= q*u, u);\n       \
+    \ swap(y -= q*v, v);\n        swap(b -= q*a, a);\n    }\n    return b;\n}\n \n\
+    \n/**\n * @brief \u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5\
+    (Extended GCD)\n */\n#line 2 \"math/CRT.cpp\"\n\npair<ll, ll> CRT(const vector<pair<ll,\
+    \ ll>> &a){\n    ll R = 0, M = 1;\n    for (auto &&i : a) {\n        ll r = (i.first+i.second)%i.second,\
     \ m = i.second;\n        if(m < M) swap(r, R), swap(m, M);\n        if(M%m ==\
     \ 0){\n            if(R % m != r) return {};\n            continue;\n        }\n\
     \        ll p, q;\n        ll g = extgcd(M, m, p, q); // p = inv(M') mod m'\n\
     \        ll mm = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g\
     \ % mm * p % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R +=\
     \ M;\n    }\n    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\
-    \u7406(CRT)\n * @docs _md/CRT.md\n */\n#line 1 \"math/primefactor2.cpp\"\nusing\
-    \ uint = uint32_t;\n\ntemplate<typename T>\nstruct ExactDiv {\n    T t, i, val;\n\
-    \    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n\
-    \    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0; i < 5; ++i) x\
-    \ *= 2 - n * x;\n        return x;\n    }\n    bool divide(T n) const {\n    \
-    \    if(val == 2) return !(n & 1);\n        return n * this->i <= this->t;\n \
-    \   }\n};\n\nvector<ExactDiv<uint>> get_prime(int n){\n    if(n <= 1) return vector<ExactDiv<uint>>();\n\
-    \    vector<bool> is_prime(n+1, true);\n    vector<ExactDiv<uint>> prime;\n  \
-    \  is_prime[0] = is_prime[1] = false;\n    for (int i = 2; i <= n; ++i) {\n  \
-    \      if(is_prime[i]) prime.emplace_back(i);\n        for (auto &&j : prime){\n\
-    \            if(i*j.val > n) break;\n            is_prime[i*j.val] = false;\n\
-    \            if(j.divide(i)) break;\n        }\n    }\n    return prime;\n}\n\
-    const auto primes = get_prime(32000);\n\ntemplate<class T>\nvector<T> prime_factor(T\
-    \ n){\n    vector<T> res;\n    for (auto &&i : primes) {\n        while (i.divide(n)){\n\
-    \            res.emplace_back(i.val);\n            n /= i.val;\n        }\n  \
-    \  }\n    if(n != 1) res.emplace_back(n);\n    return res;\n}\n\n/**\n * @brief\
-    \ \u524D\u8A08\u7B97\u4ED8\u304D\u7D20\u56E0\u6570\u5206\u89E3(Prime Factorization)\n\
-    \ * @docs _md/primefactor2.md\n */\n#line 1 \"math/modinv.cpp\"\ntemplate<typename\
+    \u7406(CRT)\n */\n#line 1 \"math/primefactor2.cpp\"\nusing uint = uint32_t;\n\n\
+    template<typename T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n\
+    \    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T\
+    \ n) {\n        T x = n;\n        for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n\
+    \        return x;\n    }\n    bool divide(T n) const {\n        if(val == 2)\
+    \ return !(n & 1);\n        return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<uint>>\
+    \ get_prime(int n){\n    if(n <= 1) return vector<ExactDiv<uint>>();\n    vector<bool>\
+    \ is_prime(n+1, true);\n    vector<ExactDiv<uint>> prime;\n    is_prime[0] = is_prime[1]\
+    \ = false;\n    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
+    \        for (auto &&j : prime){\n            if(i*j.val > n) break;\n       \
+    \     is_prime[i*j.val] = false;\n            if(j.divide(i)) break;\n       \
+    \ }\n    }\n    return prime;\n}\nconst auto primes = get_prime(32000);\n\ntemplate<class\
+    \ T>\nvector<T> prime_factor(T n){\n    vector<T> res;\n    for (auto &&i : primes)\
+    \ {\n        while (i.divide(n)){\n            res.emplace_back(i.val);\n    \
+    \        n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
+    \    return res;\n}\n\n/**\n * @brief \u524D\u8A08\u7B97\u4ED8\u304D\u7D20\u56E0\
+    \u6570\u5206\u89E3(Prime Factorization)\n */\n#line 1 \"math/modinv.cpp\"\ntemplate<typename\
     \ T>  \nT mod_inv(T x, T M){  \n   T u = 1, t = 1, v = 0, s = 0, m = M;  \n  \
     \ while (x) { T q = m/x; swap(s -= q*u, u); swap(t -= q*v, v); swap(m -= q*x,\
     \ x); }  \n   if(s < 0) s += M;  \n   return s;  \n}\n#line 2 \"math/binom_mod_prime_power.cpp\"\
@@ -153,8 +150,8 @@ data:
     \    if (e >= q) return 0;\n        ll x = (ull)b * c % mod;\n        return (ull)a\
     \ * mod_inv(x, mod) % mod * ppow[e] % mod;\n    }\n\n    ll modulus() const {\n\
     \        return mod;\n    }\n};\n\n/**\n * @brief \u4E8C\u9805\u4FC2\u6570(mod\
-    \ p^q)\n * @docs _md/binom_mod_prime_power.md\n */\n#line 16 \"test/yosupo_binomial_coefficient.test.cpp\"\
-    \n\nll brute(ll n, ll k, ll mod) {\n    if (k < 0 || k > n) return 0;\n    vector<vector<ll>>\
+    \ p^q)\n */\n#line 16 \"test/yosupo_binomial_coefficient.test.cpp\"\n\nll brute(ll\
+    \ n, ll k, ll mod) {\n    if (k < 0 || k > n) return 0;\n    vector<vector<ll>>\
     \ dp(n + 1, vector<ll>(k + 1));\n    dp[0][0] = 1 % mod;\n    for (ll i = 0; i\
     \ < n; ++i) {\n        for (ll j = 0; j <= min(i, k); ++j) {\n            dp[i\
     \ + 1][j] += dp[i][j];\n            dp[i + 1][j] %= mod;\n            if (j !=\
@@ -227,7 +224,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_binomial_coefficient.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_binomial_coefficient.test.cpp

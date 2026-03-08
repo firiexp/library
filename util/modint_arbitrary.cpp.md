@@ -1,4 +1,5 @@
 ---
+category: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/modint_arbitrary.md
     document_title: "modint(\u4EFB\u610FMOD)"
     links: []
   bundledCode: "#line 1 \"util/modint_arbitrary.cpp\"\nclass modint {\n    static\
@@ -28,7 +28,7 @@ data:
     \ *= x; x *= x; n >>= 1; } return r; }\n    modint &operator/=(modint b) { return\
     \ *this *= b.pow(M()-2); }\n    static void set_mod(const uint x) { mod() = x;\
     \ }\n    static int M() { return mod(); }\n};\nusing mint = modint;\n\n/**\n *\
-    \ @brief modint(\u4EFB\u610FMOD)\n * @docs _md/modint_arbitrary.md\n */\n"
+    \ @brief modint(\u4EFB\u610FMOD)\n */\n"
   code: "class modint {\n    static uint &mod() { static uint mod_ = 0; return mod_;\
     \ }\npublic:\n    uint val;\n    modint(const uint x = 0) : val(x % M()) {}\n\
     \    uint &value() noexcept { return val; }\n    const uint &value() const noexcept\
@@ -44,28 +44,20 @@ data:
     \ r; }\n    modint &operator/=(modint b) { return *this *= b.pow(M()-2); }\n \
     \   static void set_mod(const uint x) { mod() = x; }\n    static int M() { return\
     \ mod(); }\n};\nusing mint = modint;\n\n/**\n * @brief modint(\u4EFB\u610FMOD)\n\
-    \ * @docs _md/modint_arbitrary.md\n */\n"
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/modint_arbitrary.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0422.test.cpp
-documentation_of: util/modint_arbitrary.cpp
-layout: document
-redirect_from:
-- /library/util/modint_arbitrary.cpp
-- /library/util/modint_arbitrary.cpp.html
-title: "modint(\u4EFB\u610FMOD)"
----
----
-layout: post
-title: modint構造体(実行時MOD)
 date: 2019-06-21
-category: テンプレート
-tags: テンプレート
+documentation_of: util/modint_arbitrary.cpp
+layout: post
+tags: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
+title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
 ---
 
 ## 説明

@@ -3,14 +3,13 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj2257.test.cpp
     title: test/aoj2257.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/ahocorasick.md
     document_title: "Aho-Corasick\u6CD5"
     links: []
   bundledCode: "#line 1 \"datastructure/ahocorasick.cpp\"\ntemplate<int W, int start>\n\
@@ -29,7 +28,7 @@ data:
     \  for (int c = 0; c < W; ++c) {\n                    if(!v[i].to[c]) v[i].to[c]\
     \ = v[v[i].fail].to[c];\n                }\n            }\n        }\n    }\n\
     \    inline int next(int x, char c){ return v[x].to[c-start]; }\n};\n/**\n * @brief\
-    \ Aho-Corasick\u6CD5\n * @docs _md/ahocorasick.md\n */\n"
+    \ Aho-Corasick\u6CD5\n */\n"
   code: "template<int W, int start>\nclass AhoCorasick {\npublic:\n    struct Node\
     \ {\n        array<int, W> to;\n        int fail;\n        int val;\n    };\n\
     \    explicit AhoCorasick() : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n\
@@ -46,20 +45,17 @@ data:
     \ = 0; c < W; ++c) {\n                    if(!v[i].to[c]) v[i].to[c] = v[v[i].fail].to[c];\n\
     \                }\n            }\n        }\n    }\n    inline int next(int x,\
     \ char c){ return v[x].to[c-start]; }\n};\n/**\n * @brief Aho-Corasick\u6CD5\n\
-    \ * @docs _md/ahocorasick.md\n */"
+    \ */"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/ahocorasick.cpp
   requiredBy: []
-  timestamp: '2020-04-26 18:02:42+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aoj2257.test.cpp
 documentation_of: datastructure/ahocorasick.cpp
 layout: document
-redirect_from:
-- /library/datastructure/ahocorasick.cpp
-- /library/datastructure/ahocorasick.cpp.html
 title: "Aho-Corasick\u6CD5"
 ---
 ## 説明

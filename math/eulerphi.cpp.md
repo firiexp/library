@@ -1,50 +1,41 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_eulerphi.test.cpp
     title: test/yosupo_many_aplusb_eulerphi.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/eulerphi.md
     document_title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
     links: []
   bundledCode: "#line 1 \"math/eulerphi.cpp\"\nint eulerphi(int x){\n    int phi =\
     \ x, xx = x;\n    for (int i = 2; i * i <= x; ++i) {\n        if (xx % i == 0)\
     \ {\n            phi -= phi / i;\n            while(xx % i == 0) xx /= i;\n  \
     \      }\n    }\n    if(xx > 1) phi -= phi/xx;\n    return phi;\n}\n\n/**\n *\
-    \ @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n * @docs\
-    \ _md/eulerphi.md\n */\n"
+    \ @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n */\n"
   code: "int eulerphi(int x){\n    int phi = x, xx = x;\n    for (int i = 2; i * i\
     \ <= x; ++i) {\n        if (xx % i == 0) {\n            phi -= phi / i;\n    \
     \        while(xx % i == 0) xx /= i;\n        }\n    }\n    if(xx > 1) phi -=\
     \ phi/xx;\n    return phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\
-    \u03C6\u95A2\u6570(Euler Phi)\n * @docs _md/eulerphi.md\n */\n"
+    \u03C6\u95A2\u6570(Euler Phi)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/eulerphi.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_eulerphi.test.cpp
-documentation_of: math/eulerphi.cpp
-layout: document
-redirect_from:
-- /library/math/eulerphi.cpp
-- /library/math/eulerphi.cpp.html
-title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
----
----
-layout: post
-title: Euler Phi
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/eulerphi.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Euler Phi
 ---
 
 ## 説明

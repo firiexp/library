@@ -1,16 +1,16 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_cycle_detection_directed.test.cpp
     title: test/yosupo_cycle_detection_directed.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/cycle_detection_directed.md
     document_title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
     links: []
   bundledCode: "#line 1 \"graph/cycle_detection_directed.cpp\"\nvector<int> cycle_detection_directed(const\
@@ -27,7 +27,7 @@ data:
     \        state[v] = 2;\n        return false;\n    };\n    for (int i = 0; i <\
     \ n; ++i) {\n        if (state[i] == 0 && dfs(dfs, i)) return cycle;\n    }\n\
     \    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle\
-    \ Detection)\n * @docs _md/cycle_detection_directed.md\n */\n"
+    \ Detection)\n */\n"
   code: "vector<int> cycle_detection_directed(const vector<vector<pair<int, int>>>\
     \ &g) {\n    int n = g.size();\n    vector<int> state(n), st_v, st_e;\n    vector<int>\
     \ cycle;\n    auto dfs = [&](auto &&self, int v) -> bool {\n        state[v] =\
@@ -41,29 +41,20 @@ data:
     \       }\n        st_v.pop_back();\n        state[v] = 2;\n        return false;\n\
     \    };\n    for (int i = 0; i < n; ++i) {\n        if (state[i] == 0 && dfs(dfs,\
     \ i)) return cycle;\n    }\n    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\
-    \u8DEF\u691C\u51FA(Cycle Detection)\n * @docs _md/cycle_detection_directed.md\n\
-    \ */\n"
+    \u8DEF\u691C\u51FA(Cycle Detection)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/cycle_detection_directed.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_cycle_detection_directed.test.cpp
-documentation_of: graph/cycle_detection_directed.cpp
-layout: document
-redirect_from:
-- /library/graph/cycle_detection_directed.cpp
-- /library/graph/cycle_detection_directed.cpp.html
-title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
----
----
-layout: post
-title: Cycle Detection Directed
 date: 2026-03-08
-category: グラフ
-tags: グラフ
+documentation_of: graph/cycle_detection_directed.cpp
+layout: post
+tags: "\u30B0\u30E9\u30D5"
+title: Cycle Detection Directed
 ---
 
 ## 説明

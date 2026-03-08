@@ -3,14 +3,13 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/swag_deque.md
     document_title: SWAG Deque
     links: []
   bundledCode: "#line 1 \"datastructure/swag_deque.cpp\"\ntemplate<class G>\nclass\
@@ -39,8 +38,7 @@ data:
     \        }\n        r.pop_back(); rsum.pop_back();\n    }\n\n    T fold(){\n \
     \       return G::f(lsum.back(), rsum.back());\n    }\n};\n/*\nstruct Monoid {\n\
     \    using T = int;\n    static T f(T a, T b) { return a+b; }\n    static T e()\
-    \ { return 0; }\n};\n*/\n\n/**\n * @brief SWAG Deque\n * @docs _md/swag_deque.md\n\
-    \ */\n"
+    \ { return 0; }\n};\n*/\n\n/**\n * @brief SWAG Deque\n */\n"
   code: "template<class G>\nclass TwoStackDeque {\n    using T = typename G::T;\n\
     \    vector<T> l, r, lsum, rsum;\n    void rebuild_left_sum() {\n        lsum.assign(1,\
     \ G::e());\n        for (int i = 0; i < (int)l.size(); ++i) {\n            lsum.push_back(G::f(l[i],\
@@ -66,21 +64,17 @@ data:
     \        }\n        r.pop_back(); rsum.pop_back();\n    }\n\n    T fold(){\n \
     \       return G::f(lsum.back(), rsum.back());\n    }\n};\n/*\nstruct Monoid {\n\
     \    using T = int;\n    static T f(T a, T b) { return a+b; }\n    static T e()\
-    \ { return 0; }\n};\n*/\n\n/**\n * @brief SWAG Deque\n * @docs _md/swag_deque.md\n\
-    \ */\n"
+    \ { return 0; }\n};\n*/\n\n/**\n * @brief SWAG Deque\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/swag_deque.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_deque_operate_all_composite.test.cpp
 documentation_of: datastructure/swag_deque.cpp
 layout: document
-redirect_from:
-- /library/datastructure/swag_deque.cpp
-- /library/datastructure/swag_deque.cpp.html
 title: SWAG Deque
 ---
 ## 説明

@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: graph/biconnected_components.cpp
-    title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
+    title: "\u4E8C\u91CD\u9802\u70B9\u9023\u7D50\u6210\u5206\u5206\u89E3"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -54,14 +54,14 @@ data:
     \                bcc_edges.emplace_back();\n                bcc_vertices.push_back({i});\n\
     \            }\n        }\n        return bcc_vertices.size();\n    }\n};\n\n\
     /**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)\n\
-    \ * @docs _md/biconnected_components.md\n */\n#line 21 \"test/yosupo_biconnected_components.test.cpp\"\
-    \n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    BiconnectedComponents\
-    \ G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        scanf(\"\
-    %d %d\", &a, &b);\n        G.add_edge(a, b);\n    }\n    G.build();\n    auto\
-    \ res = G.bcc_vertices;\n    for (auto &&v : res) sort(v.begin(), v.end());\n\
-    \    sort(res.begin(), res.end());\n    cout << res.size() << \"\\n\";\n    for\
-    \ (auto &&v : res) {\n        cout << v.size();\n        for (auto &&x : v) cout\
-    \ << \" \" << x;\n        cout << \"\\n\";\n    }\n    return 0;\n}\n"
+    \ */\n#line 21 \"test/yosupo_biconnected_components.test.cpp\"\n\nint main() {\n\
+    \    int n, m;\n    cin >> n >> m;\n    BiconnectedComponents G(n);\n    for (int\
+    \ i = 0; i < m; ++i) {\n        int a, b;\n        scanf(\"%d %d\", &a, &b);\n\
+    \        G.add_edge(a, b);\n    }\n    G.build();\n    auto res = G.bcc_vertices;\n\
+    \    for (auto &&v : res) sort(v.begin(), v.end());\n    sort(res.begin(), res.end());\n\
+    \    cout << res.size() << \"\\n\";\n    for (auto &&v : res) {\n        cout\
+    \ << v.size();\n        for (auto &&x : v) cout << \" \" << x;\n        cout <<\
+    \ \"\\n\";\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/biconnected_components\"\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
@@ -81,7 +81,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_biconnected_components.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_biconnected_components.test.cpp

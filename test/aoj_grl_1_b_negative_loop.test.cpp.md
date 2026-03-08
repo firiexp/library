@@ -6,7 +6,7 @@ data:
     title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -88,33 +88,32 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"graph/bellman_ford_negative_loop.cpp\"\ntemplate <typename T>\nstruct\
-    \ edge {\n    int from, to;\n    T cost;\n \n    edge(int to, T cost) : from(-1),\
-    \ to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to),\
-    \ cost(cost) {}\n \n    explicit operator int() const {return to;}\n};\n \ntemplate\
-    \ <typename T>\nvector<T> bellman_ford(int s, int N,vector<edge<T> > &G){\n  \
-    \  vector<T> dist(N, INF<T>);\n    vector<bool> negative(N);\n    dist[s] = 0;\n\
-    \    for (int i = 0; i < N - 1; ++ i) {\n        for (auto &&e : G) {\n      \
-    \      if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] > dist[e.from]+\
-    \ e.cost){\n                dist[e.to] = dist[e.from]+ e.cost;\n            }\n\
-    \        }\n    }\n \n    ll ans = dist[N - 1];\n \n    for (int i = 0; i < N\
-    \ ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>)\
-    \ continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n           \
-    \     dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to] = true;\n\
-    \            }\n            if(negative[e.from]) negative[e.to] = true;\n    \
-    \    }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i]) dist[i]\
-    \ = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
-    (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n * @docs _md/bellman_ford_negative_loop.md\n\
-    \ */\n#line 12 \"test/aoj_grl_1_b_negative_loop.test.cpp\"\n\nint main() {\n \
-    \   Scanner sc;\n    Printer pr;\n\n    int n, m, s;\n    sc.read(n, m, s);\n\
-    \    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
-    \ b, c);\n    }\n\n    auto dist = bellman_ford(s, n, es);\n    for (int i = 0;\
-    \ i < n; ++i) {\n        if (dist[i] == -INF<ll>) {\n            pr.writeln(\"\
-    NEGATIVE CYCLE\");\n            return 0;\n        }\n    }\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (dist[i] == INF<ll>) pr.writeln(\"INF\");\n   \
-    \     else pr.writeln(dist[i]);\n    }\n    return 0;\n}\n"
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/bellman_ford_negative_loop.cpp\"\
+    \ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n \n  \
+    \  edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
+    \ int to, T cost) : from(from), to(to), cost(cost) {}\n \n    explicit operator\
+    \ int() const {return to;}\n};\n \ntemplate <typename T>\nvector<T> bellman_ford(int\
+    \ s, int N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    vector<bool>\
+    \ negative(N);\n    dist[s] = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n   \
+    \     for (auto &&e : G) {\n            if(dist[e.from] == INF<T>) continue;\n\
+    \            if(dist[e.to] > dist[e.from]+ e.cost){\n                dist[e.to]\
+    \ = dist[e.from]+ e.cost;\n            }\n        }\n    }\n \n    ll ans = dist[N\
+    \ - 1];\n \n    for (int i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n\
+    \            if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] >\
+    \ dist[e.from] + e.cost){\n                dist[e.to] = dist[e.from] + e.cost;\n\
+    \                negative[e.to] = true;\n            }\n            if(negative[e.from])\
+    \ negative[e.to] = true;\n        }\n    }\n    for (int i = 0; i < N; ++i) {\n\
+    \        if(negative[i]) dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n\
+    \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 12 \"\
+    test/aoj_grl_1_b_negative_loop.test.cpp\"\n\nint main() {\n    Scanner sc;\n \
+    \   Printer pr;\n\n    int n, m, s;\n    sc.read(n, m, s);\n    vector<edge<ll>>\
+    \ es;\n    es.reserve(m);\n    for (int i = 0; i < m; ++i) {\n        int a, b,\
+    \ c;\n        sc.read(a, b, c);\n        es.emplace_back(a, b, c);\n    }\n\n\
+    \    auto dist = bellman_ford(s, n, es);\n    for (int i = 0; i < n; ++i) {\n\
+    \        if (dist[i] == -INF<ll>) {\n            pr.writeln(\"NEGATIVE CYCLE\"\
+    );\n            return 0;\n        }\n    }\n    for (int i = 0; i < n; ++i) {\n\
+    \        if (dist[i] == INF<ll>) pr.writeln(\"INF\");\n        else pr.writeln(dist[i]);\n\
+    \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n\
     #include <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
     \ long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 *\
@@ -133,7 +132,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_1_b_negative_loop.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_b_negative_loop.test.cpp

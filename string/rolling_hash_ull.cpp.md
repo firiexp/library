@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/rolling_hash_ull.md
     document_title: Rolling Hash(mod 2^61-1)
     links: []
   bundledCode: "#line 1 \"string/rolling_hash_ull.cpp\"\n#include <chrono>\nconstexpr\
@@ -41,7 +40,7 @@ data:
     \ calc_mod(mul(p()[i-1], p()[1]));\n            }\n        }\n        ull ret\
     \ = 0;\n        for (int i = 0; i < s.size(); ++i) {\n            ret = calc_mod(mul(ret,\
     \ B()) + s[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Rolling\
-    \ Hash(mod 2^61-1)\n * @docs _md/rolling_hash_ull.md\n */\n"
+    \ Hash(mod 2^61-1)\n */\n"
   code: "#include <chrono>\nconstexpr ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER\
     \ = M * 3;\nconstexpr ull MASK30 = (1UL << 30) - 1;\nconstexpr ull MASK31 = (1UL\
     \ << 31) - 1;\n\nclass rolling_hash_ull {\n    static ull get_base(){\n      \
@@ -70,20 +69,17 @@ data:
     \ calc_mod(mul(p()[i-1], p()[1]));\n            }\n        }\n        ull ret\
     \ = 0;\n        for (int i = 0; i < s.size(); ++i) {\n            ret = calc_mod(mul(ret,\
     \ B()) + s[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Rolling\
-    \ Hash(mod 2^61-1)\n * @docs _md/rolling_hash_ull.md\n */\n"
+    \ Hash(mod 2^61-1)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/rolling_hash_ull.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0438.test.cpp
 documentation_of: string/rolling_hash_ull.cpp
 layout: document
-redirect_from:
-- /library/string/rolling_hash_ull.cpp
-- /library/string/rolling_hash_ull.cpp.html
 title: Rolling Hash(mod 2^61-1)
 ---
 ## 説明

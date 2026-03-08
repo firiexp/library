@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/jump_on_tree.cpp
     title: Jump on Tree
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/jump_on_tree
@@ -87,11 +87,11 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"tree/jump_on_tree.cpp\"\nclass JumpOnTree {\n    int logn;\n    vector<vector<int>>\
-    \ up;\n\npublic:\n    int n;\n    vector<vector<int>> G;\n    vector<int> depth;\n\
-    \n    explicit JumpOnTree(int n) : logn(0), n(n), G(n), depth(n, -1) {}\n\n  \
-    \  void add_edge(int u, int v) {\n        G[u].emplace_back(v);\n        G[v].emplace_back(u);\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/jump_on_tree.cpp\"\
+    \nclass JumpOnTree {\n    int logn;\n    vector<vector<int>> up;\n\npublic:\n\
+    \    int n;\n    vector<vector<int>> G;\n    vector<int> depth;\n\n    explicit\
+    \ JumpOnTree(int n) : logn(0), n(n), G(n), depth(n, -1) {}\n\n    void add_edge(int\
+    \ u, int v) {\n        G[u].emplace_back(v);\n        G[v].emplace_back(u);\n\
     \    }\n\n    void build(int root = 0) {\n        logn = 1;\n        while ((1\
     \ << logn) <= n) ++logn;\n        up.assign(logn, vector<int>(n, -1));\n     \
     \   vector<int> st = {root};\n        depth[root] = 0;\n        while (!st.empty())\
@@ -114,11 +114,11 @@ data:
     \        int a = depth[s] - depth[w];\n        int b = depth[t] - depth[w];\n\
     \        if (k > a + b) return -1;\n        if (k <= a) return ancestor(s, k);\n\
     \        return ancestor(t, a + b - k);\n    }\n};\n\n/**\n * @brief Jump on Tree\n\
-    \ * @docs _md/jump_on_tree.md\n */\n#line 11 \"test/yosupo_jump_on_tree.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
-    \ q);\n    JumpOnTree jt(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int\
-    \ u, v;\n        sc.read(u, v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n\
-    \    while (q--) {\n        int s, t, k;\n        sc.read(s, t, k);\n        pr.writeln(jt.jump(s,\
+    \ */\n#line 11 \"test/yosupo_jump_on_tree.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    JumpOnTree jt(n);\n\
+    \    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        sc.read(u,\
+    \ v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n    while (q--) {\n\
+    \        int s, t, k;\n        sc.read(s, t, k);\n        pr.writeln(jt.jump(s,\
     \ t, k));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/jump_on_tree\"\n\n#include\
     \ <algorithm>\n#include <queue>\n#include <random>\n#include <vector>\nusing namespace\
@@ -134,8 +134,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_jump_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_jump_on_tree.test.cpp
 layout: document

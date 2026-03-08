@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':x:'
     path: graph/minimum_cost_b_flow.cpp
-    title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
+    title: Minimum Cost B-Flow
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -86,34 +86,34 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"graph/minimum_cost_b_flow.cpp\"\ntemplate<class Flow, class Cost>\n\
-    struct MinimumCostBFlow {\n    using Sum = __int128_t;\n    struct Edge {\n  \
-    \      int from, to, rev;\n        Flow flow, cap;\n        Cost cost;\n\n   \
-    \     Flow residual_cap() const {\n            return cap - flow;\n        }\n\
-    \    };\n\n    struct EdgeRef {\n        int from, idx;\n    };\n\n    int n;\n\
-    \    vector<vector<Edge>> g;\n    vector<Flow> b;\n    vector<EdgeRef> edges;\n\
-    \    vector<Cost> potential;\n\n    explicit MinimumCostBFlow(int n) : n(n), g(n),\
-    \ b(n, 0), potential(n, 0) {}\n\n    void add_supply(int v, Flow x) {\n      \
-    \  b[v] += x;\n    }\n\n    void add_demand(int v, Flow x) {\n        b[v] -=\
-    \ x;\n    }\n\n    int add_edge(int from, int to, Flow lower, Flow upper, Cost\
-    \ cost) {\n        assert(lower <= upper);\n        int idx = (int)g[from].size();\n\
-    \        int rev = from == to ? idx + 1 : (int)g[to].size();\n        g[from].push_back({from,\
-    \ to, rev, 0, upper, cost});\n        g[to].push_back({to, from, idx, 0, -lower,\
-    \ -cost});\n        edges.push_back({from, idx});\n        return (int)edges.size()\
-    \ - 1;\n    }\n\n    Edge& rev_edge(const Edge& e) {\n        return g[e.to][e.rev];\n\
-    \    }\n\n    const Edge& get_edge(int i) const {\n        return g[edges[i].from][edges[i].idx];\n\
-    \    }\n\n    vector<Flow> get_flows() const {\n        vector<Flow> ret(edges.size());\n\
-    \        for (int i = 0; i < (int)edges.size(); ++i) ret[i] = get_edge(i).flow;\n\
-    \        return ret;\n    }\n\n    vector<Cost> get_potential() const {\n    \
-    \    vector<Cost> ret(n, 0);\n        for (int iter = 0; iter < n; ++iter) {\n\
-    \            bool updated = false;\n            for (int v = 0; v < n; ++v) {\n\
-    \                for (auto&& e : g[v]) {\n                    if(e.residual_cap()\
-    \ <= 0) continue;\n                    if(ret[e.to] > ret[e.from] + e.cost) {\n\
-    \                        ret[e.to] = ret[e.from] + e.cost;\n                 \
-    \       updated = true;\n                    }\n                }\n          \
-    \  }\n            if(!updated) break;\n        }\n        return ret;\n    }\n\
-    \n    pair<bool, Sum> solve() {\n        const Cost unreachable = numeric_limits<Cost>::max();\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/minimum_cost_b_flow.cpp\"\
+    \ntemplate<class Flow, class Cost>\nstruct MinimumCostBFlow {\n    using Sum =\
+    \ __int128_t;\n    struct Edge {\n        int from, to, rev;\n        Flow flow,\
+    \ cap;\n        Cost cost;\n\n        Flow residual_cap() const {\n          \
+    \  return cap - flow;\n        }\n    };\n\n    struct EdgeRef {\n        int\
+    \ from, idx;\n    };\n\n    int n;\n    vector<vector<Edge>> g;\n    vector<Flow>\
+    \ b;\n    vector<EdgeRef> edges;\n    vector<Cost> potential;\n\n    explicit\
+    \ MinimumCostBFlow(int n) : n(n), g(n), b(n, 0), potential(n, 0) {}\n\n    void\
+    \ add_supply(int v, Flow x) {\n        b[v] += x;\n    }\n\n    void add_demand(int\
+    \ v, Flow x) {\n        b[v] -= x;\n    }\n\n    int add_edge(int from, int to,\
+    \ Flow lower, Flow upper, Cost cost) {\n        assert(lower <= upper);\n    \
+    \    int idx = (int)g[from].size();\n        int rev = from == to ? idx + 1 :\
+    \ (int)g[to].size();\n        g[from].push_back({from, to, rev, 0, upper, cost});\n\
+    \        g[to].push_back({to, from, idx, 0, -lower, -cost});\n        edges.push_back({from,\
+    \ idx});\n        return (int)edges.size() - 1;\n    }\n\n    Edge& rev_edge(const\
+    \ Edge& e) {\n        return g[e.to][e.rev];\n    }\n\n    const Edge& get_edge(int\
+    \ i) const {\n        return g[edges[i].from][edges[i].idx];\n    }\n\n    vector<Flow>\
+    \ get_flows() const {\n        vector<Flow> ret(edges.size());\n        for (int\
+    \ i = 0; i < (int)edges.size(); ++i) ret[i] = get_edge(i).flow;\n        return\
+    \ ret;\n    }\n\n    vector<Cost> get_potential() const {\n        vector<Cost>\
+    \ ret(n, 0);\n        for (int iter = 0; iter < n; ++iter) {\n            bool\
+    \ updated = false;\n            for (int v = 0; v < n; ++v) {\n              \
+    \  for (auto&& e : g[v]) {\n                    if(e.residual_cap() <= 0) continue;\n\
+    \                    if(ret[e.to] > ret[e.from] + e.cost) {\n                \
+    \        ret[e.to] = ret[e.from] + e.cost;\n                        updated =\
+    \ true;\n                    }\n                }\n            }\n           \
+    \ if(!updated) break;\n        }\n        return ret;\n    }\n\n    pair<bool,\
+    \ Sum> solve() {\n        const Cost unreachable = numeric_limits<Cost>::max();\n\
     \        vector<Cost> dist(n);\n        vector<Edge*> parent(n);\n        vector<int>\
     \ excess, deficit;\n        priority_queue<pair<Cost, int>, vector<pair<Cost,\
     \ int>>, greater<pair<Cost, int>>> pq;\n        Cost farthest = 0;\n\n       \
@@ -172,18 +172,18 @@ data:
     \     for (int i = 0; i < (int)edges.size(); ++i) {\n            auto&& e = get_edge(i);\n\
     \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
     \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
-    \ b-Flow)\n * @docs _md/minimum_cost_b_flow.md\n */\n#line 9 \"test/yosupo_min_cost_b_flow.test.cpp\"\
-    \n\nvoid write_i128(Printer& pr, __int128_t x) {\n    if(x == 0) {\n        pr.write('0');\n\
-    \        return;\n    }\n    if(x < 0) {\n        pr.write('-');\n        x =\
-    \ -x;\n    }\n    string s;\n    while(x > 0) {\n        s.push_back(char('0'\
-    \ + x % 10));\n        x /= 10;\n    }\n    reverse(s.begin(), s.end());\n   \
-    \ pr.write(s);\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n,\
-    \ m;\n    sc.read(n, m);\n    MinimumCostBFlow<ll, ll> mcf(n);\n    for (int i\
-    \ = 0; i < n; ++i) {\n        ll b;\n        sc.read(b);\n        mcf.add_supply(i,\
-    \ b);\n    }\n    for (int i = 0; i < m; ++i) {\n        int s, t;\n        ll\
-    \ lower, upper, cost;\n        sc.read(s, t, lower, upper, cost);\n        mcf.add_edge(s,\
-    \ t, lower, upper, cost);\n    }\n\n    auto [ok, cost] = mcf.solve();\n    if(!ok)\
-    \ {\n        pr.writeln(\"infeasible\");\n        return 0;\n    }\n\n    write_i128(pr,\
+    \ b-Flow)\n */\n#line 9 \"test/yosupo_min_cost_b_flow.test.cpp\"\n\nvoid write_i128(Printer&\
+    \ pr, __int128_t x) {\n    if(x == 0) {\n        pr.write('0');\n        return;\n\
+    \    }\n    if(x < 0) {\n        pr.write('-');\n        x = -x;\n    }\n    string\
+    \ s;\n    while(x > 0) {\n        s.push_back(char('0' + x % 10));\n        x\
+    \ /= 10;\n    }\n    reverse(s.begin(), s.end());\n    pr.write(s);\n}\n\nint\
+    \ main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n\
+    \    MinimumCostBFlow<ll, ll> mcf(n);\n    for (int i = 0; i < n; ++i) {\n   \
+    \     ll b;\n        sc.read(b);\n        mcf.add_supply(i, b);\n    }\n    for\
+    \ (int i = 0; i < m; ++i) {\n        int s, t;\n        ll lower, upper, cost;\n\
+    \        sc.read(s, t, lower, upper, cost);\n        mcf.add_edge(s, t, lower,\
+    \ upper, cost);\n    }\n\n    auto [ok, cost] = mcf.solve();\n    if(!ok) {\n\
+    \        pr.writeln(\"infeasible\");\n        return 0;\n    }\n\n    write_i128(pr,\
     \ cost);\n    pr.writeln();\n    auto potential = mcf.get_potential();\n    for\
     \ (int i = 0; i < n; ++i) {\n        pr.write(potential[i]);\n        pr.write(i\
     \ + 1 == n ? '\\n' : ' ');\n    }\n    auto flow = mcf.get_flows();\n    for (int\
@@ -212,7 +212,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_min_cost_b_flow.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_min_cost_b_flow.test.cpp

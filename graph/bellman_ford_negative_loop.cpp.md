@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/bellman_ford_negative_loop.md
     document_title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
     links: []
   bundledCode: "#line 1 \"graph/bellman_ford_negative_loop.cpp\"\ntemplate <typename\
@@ -29,8 +28,7 @@ data:
     \ = true;\n            }\n            if(negative[e.from]) negative[e.to] = true;\n\
     \        }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i])\
     \ dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
-    (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n * @docs _md/bellman_ford_negative_loop.md\n\
-    \ */\n"
+    (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n"
   code: "template <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n \n\
     \    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
     \ int to, T cost) : from(from), to(to), cost(cost) {}\n \n    explicit operator\
@@ -46,21 +44,17 @@ data:
     \                negative[e.to] = true;\n            }\n            if(negative[e.from])\
     \ negative[e.to] = true;\n        }\n    }\n    for (int i = 0; i < N; ++i) {\n\
     \        if(negative[i]) dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n\
-    \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n * @docs _md/bellman_ford_negative_loop.md\n\
-    \ */\n"
+    \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/bellman_ford_negative_loop.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_1_b_negative_loop.test.cpp
 documentation_of: graph/bellman_ford_negative_loop.cpp
 layout: document
-redirect_from:
-- /library/graph/bellman_ford_negative_loop.cpp
-- /library/graph/bellman_ford_negative_loop.cpp.html
 title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
 ---
 ## 説明

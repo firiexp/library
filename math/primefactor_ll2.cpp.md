@@ -4,7 +4,7 @@ data:
   _extendedRequiredBy:
   - icon: ':x:'
     path: math/primitive_root.cpp
-    title: "\u539F\u59CB\u6839(Primitive Root)"
+    title: Primitive Root
   _extendedVerifiedWith:
   - icon: ':x:'
     path: test/yosupo_primitive_root.test.cpp

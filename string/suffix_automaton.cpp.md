@@ -1,16 +1,16 @@
 ---
+category: "\u6587\u5B57\u5217"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
     title: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/suffix_automaton.md
     document_title: Suffix Automaton
     links: []
   bundledCode: "#line 1 \"string/suffix_automaton.cpp\"\ntemplate<int W, char start\
@@ -51,7 +51,7 @@ data:
     \ ord[i];\n            cnt[cnt[v].link].occ += cnt[v].occ;\n        }\n      \
     \  vector<int> res(nodes.size());\n        for (int i = 0; i < (int)nodes.size();\
     \ ++i) res[i] = cnt[i].occ;\n        return res;\n    }\n};\n/**\n * @brief Suffix\
-    \ Automaton\n * @docs _md/suffix_automaton.md\n */\n"
+    \ Automaton\n */\n"
   code: "template<int W, char start = 'a'>\nstruct SuffixAutomaton {\n    struct Node\
     \ {\n        int link;\n        int len;\n        int occ;\n        int next[W];\n\
     \        Node(int link = -1, int len = 0, int occ = 0): link(link), len(len),\
@@ -89,29 +89,20 @@ data:
     \ - 1; i >= 1; --i) {\n            int v = ord[i];\n            cnt[cnt[v].link].occ\
     \ += cnt[v].occ;\n        }\n        vector<int> res(nodes.size());\n        for\
     \ (int i = 0; i < (int)nodes.size(); ++i) res[i] = cnt[i].occ;\n        return\
-    \ res;\n    }\n};\n/**\n * @brief Suffix Automaton\n * @docs _md/suffix_automaton.md\n\
-    \ */\n"
+    \ res;\n    }\n};\n/**\n * @brief Suffix Automaton\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/suffix_automaton.cpp
   requiredBy: []
-  timestamp: '2026-03-08 11:03:32+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_number_of_substrings_suffix_automaton.test.cpp
-documentation_of: string/suffix_automaton.cpp
-layout: document
-redirect_from:
-- /library/string/suffix_automaton.cpp
-- /library/string/suffix_automaton.cpp.html
-title: Suffix Automaton
----
----
-layout: post
-title: suffix automaton
 date: 2026-03-08
-category: 文字列
-tags: 文字列
+documentation_of: string/suffix_automaton.cpp
+layout: post
+tags: "\u6587\u5B57\u5217"
+title: suffix automaton
 ---
 
 ## 概要

@@ -1,19 +1,19 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eulerian_trail_directed.test.cpp
     title: test/yosupo_eulerian_trail_directed.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eulerian_trail_undirected.test.cpp
     title: test/yosupo_eulerian_trail_undirected.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/eulerian_trail.md
     document_title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
     links: []
   bundledCode: "#line 1 \"graph/eulerian_trail.cpp\"\ntemplate<bool directed>\nstruct\
@@ -57,7 +57,7 @@ data:
     \            st_e.push_back(id);\n        }\n\n        if ((int)es.size() != m)\
     \ return {false, {}, {}};\n        reverse(vs.begin(), vs.end());\n        reverse(es.begin(),\
     \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief \u30AA\
-    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n * @docs _md/eulerian_trail.md\n */\n"
+    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n */\n"
   code: "template<bool directed>\nstruct EulerianTrail {\n    struct Edge {\n    \
     \    int from, to;\n    };\n\n    struct Result {\n        bool exists;\n    \
     \    vector<int> vertices;\n        vector<int> edge_ids;\n    };\n\n    int n;\n\
@@ -99,29 +99,21 @@ data:
     \            st_e.push_back(id);\n        }\n\n        if ((int)es.size() != m)\
     \ return {false, {}, {}};\n        reverse(vs.begin(), vs.end());\n        reverse(es.begin(),\
     \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief \u30AA\
-    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n * @docs _md/eulerian_trail.md\n */\n"
+    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/eulerian_trail.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_eulerian_trail_directed.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
-documentation_of: graph/eulerian_trail.cpp
-layout: document
-redirect_from:
-- /library/graph/eulerian_trail.cpp
-- /library/graph/eulerian_trail.cpp.html
-title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
----
----
-layout: post
-title: Eulerian Trail
 date: 2026-03-08
-category: グラフ
-tags: グラフ
+documentation_of: graph/eulerian_trail.cpp
+layout: post
+tags: "\u30B0\u30E9\u30D5"
+title: Eulerian Trail
 ---
 
 ## 説明

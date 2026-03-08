@@ -1,9 +1,10 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_line_add_get_min.test.cpp
     title: test/yosupo_line_add_get_min.test.cpp
   - icon: ':x:'
@@ -11,9 +12,8 @@ data:
     title: test/yosupo_segment_add_get_min.test.cpp
   _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/li_chao_tree.md
     document_title: Li Chao Tree
     links: []
   bundledCode: "#line 1 \"datastructure/li_chao_tree.cpp\"\ntemplate<class T, bool\
@@ -80,7 +80,7 @@ data:
     \        if (x < m) {\n                t = node.l;\n                r = m;\n \
     \           } else {\n                t = node.r;\n                l = m;\n  \
     \          }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Li Chao\
-    \ Tree\n * @docs _md/li_chao_tree.md\n */\n"
+    \ Tree\n */\n"
   code: "template<class T, bool get_max = false>\nstruct LiChaoTree {\n    struct\
     \ Line {\n        T a, b;\n        Line(T a = 0, T b = inf()) : a(a), b(b) {}\n\
     \        T get(T x) const { return a * x + b; }\n    };\n\n    vector<T> xs;\n\
@@ -144,29 +144,21 @@ data:
     \        if (x < m) {\n                t = node.l;\n                r = m;\n \
     \           } else {\n                t = node.r;\n                l = m;\n  \
     \          }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Li Chao\
-    \ Tree\n * @docs _md/li_chao_tree.md\n */\n"
+    \ Tree\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/li_chao_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_segment_add_get_min.test.cpp
-documentation_of: datastructure/li_chao_tree.cpp
-layout: document
-redirect_from:
-- /library/datastructure/li_chao_tree.cpp
-- /library/datastructure/li_chao_tree.cpp.html
-title: Li Chao Tree
----
----
-layout: post
-title: Li Chao Tree
 date: 2026-03-07
-category: データ構造
-tags: データ構造
+documentation_of: datastructure/li_chao_tree.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: Li Chao Tree
 ---
 
 ## 説明

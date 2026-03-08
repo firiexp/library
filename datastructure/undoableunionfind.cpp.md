@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/undoableunionfind.md
     document_title: Undoable Union Find
     links: []
   bundledCode: "#line 1 \"datastructure/undoableunionfind.cpp\"\nclass UndoableUnionFind\
@@ -31,7 +30,7 @@ data:
     \        uni[b] = ub;\n    }\n\n    void snapshot() {\n        snap = get_state();\n\
     \    }\n\n    void rollback(int state = -1) {\n        if (state == -1) state\
     \ = snap;\n        while (get_state() > state) undo();\n    }\n};\n\n/**\n * @brief\
-    \ Undoable Union Find\n * @docs _md/undoableunionfind.md\n */\n"
+    \ Undoable Union Find\n */\n"
   code: "class UndoableUnionFind {\n    stack<pair<int, int>> hist;\n    int forest_size;\n\
     \    int snap;\n\npublic:\n    vector<int> uni;\n\n    explicit UndoableUnionFind(int\
     \ sz) : forest_size(sz), snap(0), uni(sz, -1) {}\n\n    int root(int a) {\n  \
@@ -49,21 +48,17 @@ data:
     \ forest_size++;\n        uni[a] = ua;\n        uni[b] = ub;\n    }\n\n    void\
     \ snapshot() {\n        snap = get_state();\n    }\n\n    void rollback(int state\
     \ = -1) {\n        if (state == -1) state = snap;\n        while (get_state()\
-    \ > state) undo();\n    }\n};\n\n/**\n * @brief Undoable Union Find\n * @docs\
-    \ _md/undoableunionfind.md\n */\n"
+    \ > state) undo();\n    }\n};\n\n/**\n * @brief Undoable Union Find\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/undoableunionfind.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:26:50+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
 documentation_of: datastructure/undoableunionfind.cpp
 layout: document
-redirect_from:
-- /library/datastructure/undoableunionfind.cpp
-- /library/datastructure/undoableunionfind.cpp.html
 title: Undoable Union Find
 ---
 ## 説明

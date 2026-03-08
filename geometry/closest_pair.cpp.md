@@ -3,14 +3,13 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/closest_pair.md
     document_title: Closest Pair
     links: []
   bundledCode: "#line 1 \"geometry/closest_pair.cpp\"\npair<int, int> closest_pair(const\
@@ -41,7 +40,7 @@ data:
     \  if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
     \            }\n            near.push_back(idx);\n        }\n        return ord;\n\
     \    };\n    dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n\
-    \ * @docs _md/closest_pair.md\n */\n"
+    \ */\n"
   code: "pair<int, int> closest_pair(const vector<pair<long long, long long>> &points)\
     \ {\n    using Dist = __int128_t;\n    struct P {\n        long long x;\n    \
     \    long long y;\n        int idx;\n    };\n\n    int n = points.size();\n  \
@@ -70,20 +69,17 @@ data:
     \  if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
     \            }\n            near.push_back(idx);\n        }\n        return ord;\n\
     \    };\n    dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n\
-    \ * @docs _md/closest_pair.md\n */\n"
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/closest_pair.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:33:35+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_closest_pair.test.cpp
 documentation_of: geometry/closest_pair.cpp
 layout: document
-redirect_from:
-- /library/geometry/closest_pair.cpp
-- /library/geometry/closest_pair.cpp.html
 title: Closest Pair
 ---
 ## 説明

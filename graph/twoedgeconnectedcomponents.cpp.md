@@ -1,4 +1,5 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/twoedgeconnectedcomponents.md
     document_title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected\
       \ Components)"
     links: []
@@ -39,7 +39,7 @@ data:
     \                bridge[i] = k++;\n                out.emplace_back();\n     \
     \           dfs2(i);\n            }\n        }\n        return k;\n    }\n};\n\
     \n/**\n * @brief \u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected\
-    \ Components)\n * @docs _md/twoedgeconnectedcomponents.md\n */\n"
+    \ Components)\n */\n"
   code: "class TwoEdgeConnectedComponents {\n    void dfs(int i, int &pos){\n    \
     \    ord[i] = low[i] = pos++;\n        int mul = 0;\n        for (auto &&j : G[i])\
     \ {\n            if(j == par[i] && !mul){\n                mul = 1;\n        \
@@ -61,30 +61,21 @@ data:
     \ (int i = 0; i < n; ++i) {\n            if(!~bridge[i]){\n                bridge[i]\
     \ = k++;\n                out.emplace_back();\n                dfs2(i);\n    \
     \        }\n        }\n        return k;\n    }\n};\n\n/**\n * @brief \u4E8C\u8FBA\
-    \u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected Components)\n * @docs\
-    \ _md/twoedgeconnectedcomponents.md\n */\n"
+    \u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected Components)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/twoedgeconnectedcomponents.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0415.test.cpp
   - test/aoj0377.test.cpp
-documentation_of: graph/twoedgeconnectedcomponents.cpp
-layout: document
-redirect_from:
-- /library/graph/twoedgeconnectedcomponents.cpp
-- /library/graph/twoedgeconnectedcomponents.cpp.html
-title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected Components)"
----
----
-layout: post
-title: 二辺連結成分分解
 date: 2020-03-25
-category: グラフ
-tags: グラフ
+documentation_of: graph/twoedgeconnectedcomponents.cpp
+layout: post
+tags: "\u30B0\u30E9\u30D5"
+title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3"
 ---
 
 ## 説明

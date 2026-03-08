@@ -1,4 +1,5 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/fwht.md
     document_title: "\u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)"
     links: []
   bundledCode: "#line 1 \"math/fwht.cpp\"\ntemplate<class T>\nvoid fwht(vector<T>\
@@ -24,7 +24,7 @@ data:
     \ (i<<1)) {\n            for (int k = 0; k < i; ++k) {\n                T x =\
     \ v[j+k], y = v[j+k+i];\n                v[j+k] = (x+y)>>1, v[j+k+i] = (x-y)>>1;\n\
     \            }\n        }\n    }\n}\n\n/**\n * @brief \u9AD8\u901FWalsh-Hadamard\u5909\
-    \u63DB(FWHT)\n * @docs _md/fwht.md\n */\n"
+    \u63DB(FWHT)\n */\n"
   code: "template<class T>\nvoid fwht(vector<T> &v){\n    int sz = 1;\n    while(sz\
     \ < v.size()) sz <<= 1;\n    v.resize(sz);\n    for (int i = 1; i < sz; i <<=\
     \ 1) {\n        for (int j = 0; j < sz; j += (i<<1)) {\n            for (int k\
@@ -35,29 +35,20 @@ data:
     \ 1) {\n        for (int j = 0; j < sz; j += (i<<1)) {\n            for (int k\
     \ = 0; k < i; ++k) {\n                T x = v[j+k], y = v[j+k+i];\n          \
     \      v[j+k] = (x+y)>>1, v[j+k+i] = (x-y)>>1;\n            }\n        }\n   \
-    \ }\n}\n\n/**\n * @brief \u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)\n * @docs\
-    \ _md/fwht.md\n */\n"
+    \ }\n}\n\n/**\n * @brief \u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/fwht.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0402.test.cpp
-documentation_of: math/fwht.cpp
-layout: document
-redirect_from:
-- /library/math/fwht.cpp
-- /library/math/fwht.cpp.html
-title: "\u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)"
----
----
-layout: post
-title: FWHT
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/fwht.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: FWHT
 ---
 
 ## 説明

@@ -1,4 +1,5 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/tetration.md
     document_title: Tetration Mod
     links: []
   bundledCode: "#line 1 \"math/tetration.cpp\"\nll totient(ll n){\n    ll res = n;\n\
@@ -26,8 +26,7 @@ data:
     \  if(a == 1 || n == 0) return 1;\n    ll expo = tetration(a, n-1, totient(M),\
     \ yojo);\n    ll res = pow_tetration(a, expo, M, yojo);\n    return res + (yojo\
     \ ? M : 0);\n}\n\nll tetration(ll a, ll n, const ll M){\n    bool yojo = false;\n\
-    \    return tetration(a, n, M, yojo)%M;\n}\n\n/**\n * @brief Tetration Mod\n *\
-    \ @docs _md/tetration.md\n */\n"
+    \    return tetration(a, n, M, yojo)%M;\n}\n\n/**\n * @brief Tetration Mod\n */\n"
   code: "ll totient(ll n){\n    ll res = n;\n    for (ll i = 2; i*i <= n; ++i) {\n\
     \        if(n%i == 0){\n            res = res/i*(i-1);\n            while(n%i\
     \ == 0) n /= i;\n        }\n    }\n    if(n > 1) res = res/n*(n-1);\n    return\
@@ -41,28 +40,20 @@ data:
     \ 1;\n    ll expo = tetration(a, n-1, totient(M), yojo);\n    ll res = pow_tetration(a,\
     \ expo, M, yojo);\n    return res + (yojo ? M : 0);\n}\n\nll tetration(ll a, ll\
     \ n, const ll M){\n    bool yojo = false;\n    return tetration(a, n, M, yojo)%M;\n\
-    }\n\n/**\n * @brief Tetration Mod\n * @docs _md/tetration.md\n */\n"
+    }\n\n/**\n * @brief Tetration Mod\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/tetration.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_tetration_mod.test.cpp
-documentation_of: math/tetration.cpp
-layout: document
-redirect_from:
-- /library/math/tetration.cpp
-- /library/math/tetration.cpp.html
-title: Tetration Mod
----
----
-layout: post
-title: Tetration
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/tetration.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Tetration
 ---
 
 ## 説明

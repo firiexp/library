@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/centroid_decomposition.md
     document_title: "\u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)"
     links: []
   bundledCode: "#line 1 \"tree/centroid_decomposition.cpp\"\nclass CentroidDecomposition\
@@ -26,8 +25,7 @@ data:
     \ = search_centroid(x, -1, dfs(x, -1)/2);\n        v[centroid] = true;\n     \
     \   for (auto &&i : G[centroid]) {\n            if(!v[i]) out[centroid].emplace_back(get(i));\n\
     \        }\n        v[centroid] = false;\n        return centroid;\n    }\n};\n\
-    \n/**\n * @brief \u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)\n * @docs _md/centroid_decomposition.md\n\
-    \ */\n"
+    \n/**\n * @brief \u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)\n */\n"
   code: "class CentroidDecomposition {\n    int dfs(int x, int par){\n        sz[x]\
     \ = 1;\n        for (auto &&i : G[x]) {\n            if(i == par || v[i]) continue;\n\
     \            sz[x] += dfs(i, x);\n        }\n        return sz[x];\n    }\n\n\
@@ -41,21 +39,17 @@ data:
     \ -1)/2);\n        v[centroid] = true;\n        for (auto &&i : G[centroid]) {\n\
     \            if(!v[i]) out[centroid].emplace_back(get(i));\n        }\n      \
     \  v[centroid] = false;\n        return centroid;\n    }\n};\n\n/**\n * @brief\
-    \ \u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)\n * @docs _md/centroid_decomposition.md\n\
-    \ */\n"
+    \ \u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/centroid_decomposition.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0452.test.cpp
 documentation_of: tree/centroid_decomposition.cpp
 layout: document
-redirect_from:
-- /library/tree/centroid_decomposition.cpp
-- /library/tree/centroid_decomposition.cpp.html
 title: "\u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)"
 ---
 ## 説明

@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/weightedunionfind.md
     document_title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
     links: []
   bundledCode: "#line 1 \"datastructure/weightedunionfind.cpp\"\ntemplate <class T>\n\
@@ -27,8 +26,7 @@ data:
     \       uni[b] = a;\n        weights[b] = w;\n        return true;\n    }\n\n\
     \    int size(int a) {\n        return -uni[root(a)];\n    }\n\n    T diff(int\
     \ x, int y) {\n        return weight(y) - weight(x);\n    }\n};\n\n/**\n * @brief\
-    \ \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)\n * @docs _md/weightedunionfind.md\n\
-    \ */\n"
+    \ \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)\n */\n"
   code: "template <class T>\nclass WeightedUnionFind {\n    vector<int> uni;\n   \
     \ vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int n, T sum_unity\
     \ = 0) : uni(n, -1), weights(n, sum_unity) {}\n\n    int root(int a) {\n     \
@@ -43,20 +41,17 @@ data:
     \ = w;\n        return true;\n    }\n\n    int size(int a) {\n        return -uni[root(a)];\n\
     \    }\n\n    T diff(int x, int y) {\n        return weight(y) - weight(x);\n\
     \    }\n};\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union\
-    \ Find)\n * @docs _md/weightedunionfind.md\n */\n"
+    \ Find)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/weightedunionfind.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_dsl_1_b_weightedunionfind.test.cpp
 documentation_of: datastructure/weightedunionfind.cpp
 layout: document
-redirect_from:
-- /library/datastructure/weightedunionfind.cpp
-- /library/datastructure/weightedunionfind.cpp.html
 title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
 ---
 ## 説明

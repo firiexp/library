@@ -1,16 +1,16 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_slope_trick.test.cpp
     title: test/yosupo_many_aplusb_slope_trick.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/slope_trick.md
     document_title: Slope Trick
     links: []
   bundledCode: "#line 1 \"datastructure/slope_trick.cpp\"\ntemplate<class T>\nstruct\
@@ -41,7 +41,7 @@ data:
     \   return res;\n    }\n\n    void merge(SlopeTrick &st) {\n        if (st.size()\
     \ > size()) swap(*this, st);\n        while (!st.L.empty()) add_a_minus_x(st.pop_L());\n\
     \        while (!st.R.empty()) add_x_minus_a(st.pop_R());\n        min_f += st.min_f;\n\
-    \    }\n};\n\n/**\n * @brief Slope Trick\n * @docs _md/slope_trick.md\n */\n"
+    \    }\n};\n\n/**\n * @brief Slope Trick\n */\n"
   code: "template<class T>\nstruct SlopeTrick {\n    static constexpr T INF = numeric_limits<T>::max()\
     \ / 4;\n\n    T min_f = 0;\n    priority_queue<T> L;\n    priority_queue<T, vector<T>,\
     \ greater<T>> R;\n    T add_l = 0, add_r = 0;\n\n    struct Query {\n        T\
@@ -69,28 +69,20 @@ data:
     \   return res;\n    }\n\n    void merge(SlopeTrick &st) {\n        if (st.size()\
     \ > size()) swap(*this, st);\n        while (!st.L.empty()) add_a_minus_x(st.pop_L());\n\
     \        while (!st.R.empty()) add_x_minus_a(st.pop_R());\n        min_f += st.min_f;\n\
-    \    }\n};\n\n/**\n * @brief Slope Trick\n * @docs _md/slope_trick.md\n */\n"
+    \    }\n};\n\n/**\n * @brief Slope Trick\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/slope_trick.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_slope_trick.test.cpp
-documentation_of: datastructure/slope_trick.cpp
-layout: document
-redirect_from:
-- /library/datastructure/slope_trick.cpp
-- /library/datastructure/slope_trick.cpp.html
-title: Slope Trick
----
----
-layout: post
-title: Slope Trick
 date: 2026-03-08
-category: データ構造
-tags: データ構造
+documentation_of: datastructure/slope_trick.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: Slope Trick
 ---
 
 ## 説明

@@ -6,7 +6,7 @@ data:
     title: Floor Sum
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -86,16 +86,16 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"math/floor_sum.cpp\"\nll floor_sum(ll n, ll m, ll a, ll b){\n    ll\
-    \ ans = 0;\n    if(a >= m) {\n        ans += (n-1)*n/2*(a/m);\n        a %= m;\n\
-    \    }\n    if (b >= m){\n        ans += n*(b/m);\n        b %= m;\n    }\n  \
-    \  ll y = (a*n+b)/m, x = (y*m - b);\n    if(!y) return ans;\n    ans += (n-(x+a-1)/a)*y;\n\
-    \    ans += floor_sum(y, a, m, (a - x%a)%a);\n    return ans;\n}\n\n/**\n * @brief\
-    \ Floor Sum\n * @docs _md/floor_sum.md\n */\n#line 6 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int t;\n    in.read(t);\n\
-    \    while (t--) {\n        ll n, m, a, b;\n        in.read(n, m, a, b);\n   \
-    \     out.writeln(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/floor_sum.cpp\"\
+    \nll floor_sum(ll n, ll m, ll a, ll b){\n    ll ans = 0;\n    if(a >= m) {\n \
+    \       ans += (n-1)*n/2*(a/m);\n        a %= m;\n    }\n    if (b >= m){\n  \
+    \      ans += n*(b/m);\n        b %= m;\n    }\n    ll y = (a*n+b)/m, x = (y*m\
+    \ - b);\n    if(!y) return ans;\n    ans += (n-(x+a-1)/a)*y;\n    ans += floor_sum(y,\
+    \ a, m, (a - x%a)%a);\n    return ans;\n}\n\n/**\n * @brief Floor Sum\n */\n#line\
+    \ 6 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n\n    int t;\n    in.read(t);\n    while (t--) {\n  \
+    \      ll n, m, a, b;\n        in.read(n, m, a, b);\n        out.writeln(floor_sum(n,\
+    \ m, a, b));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\
     \nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/floor_sum.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int t;\n    in.read(t);\n\
@@ -107,7 +107,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_sum_of_floor_of_linear.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_sum_of_floor_of_linear.test.cpp

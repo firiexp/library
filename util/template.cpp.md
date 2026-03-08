@@ -1,4 +1,5 @@
 ---
+category: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/template.md
     document_title: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8(Template)"
     links: []
   bundledCode: "#line 1 \"util/template.cpp\"\n// Contest template helper pieces (no\
@@ -32,7 +32,7 @@ data:
     \ return p;\n    p.emplace_back(a[0], 1);\n    for (int j = 1; j < (int)a.size();\
     \ ++j) {\n        if(p.back().first == a[j]) p.back().second++;\n        else\
     \ p.emplace_back(a[j], 1);\n    }\n    return p;\n}\n\n/**\n * @brief \u30C6\u30F3\
-    \u30D7\u30EC\u30FC\u30C8(Template)\n * @docs _md/template.md\n */\n"
+    \u30D7\u30EC\u30FC\u30C8(Template)\n */\n"
   code: "// Contest template helper pieces (no main function).\n// Full submission\
     \ template lives in snippets/template.cpp.\n\n#include <algorithm>\n#include <array>\n\
     #include <bitset>\n#include <cmath>\n#include <iostream>\n#include <limits>\n\
@@ -52,28 +52,20 @@ data:
     \ 1);\n    for (int j = 1; j < (int)a.size(); ++j) {\n        if(p.back().first\
     \ == a[j]) p.back().second++;\n        else p.emplace_back(a[j], 1);\n    }\n\
     \    return p;\n}\n\n/**\n * @brief \u30C6\u30F3\u30D7\u30EC\u30FC\u30C8(Template)\n\
-    \ * @docs _md/template.md\n */\n"
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/template.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj2945_bfs01.test.cpp
-documentation_of: util/template.cpp
-layout: document
-redirect_from:
-- /library/util/template.cpp
-- /library/util/template.cpp.html
-title: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8(Template)"
----
----
-layout: post
-title: テンプレート
 date: 2018-04-29
-category: テンプレート
-tags: テンプレート
+documentation_of: util/template.cpp
+layout: post
+tags: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
+title: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
 ---
 
 ## 説明

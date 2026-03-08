@@ -1,4 +1,5 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/lazysegtree.md
     document_title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment\
       \ Tree)"
     links: []
@@ -63,7 +63,7 @@ data:
     \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
     \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
     \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Lazy Segment Tree)\n * @docs _md/lazysegtree.md\n */\n"
+    \u30C8\u6728(Lazy Segment Tree)\n */\n"
   code: "#include <array>\n#include <vector>\n\ntemplate <class M>\nstruct LazySegmentTree{\n\
     \    using T = typename M::T;\n    using L = typename M::L;\n    int sz, n, height{};\n\
     \    vector<T> seg; vector<L> lazy;\n    explicit LazySegmentTree(int n) : n(n)\
@@ -109,29 +109,21 @@ data:
     \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
     \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
     \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Lazy Segment Tree)\n * @docs _md/lazysegtree.md\n */\n"
+    \u30C8\u6728(Lazy Segment Tree)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/lazysegtree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:59:46+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/aoj0355.test.cpp
-documentation_of: datastructure/lazysegtree.cpp
-layout: document
-redirect_from:
-- /library/datastructure/lazysegtree.cpp
-- /library/datastructure/lazysegtree.cpp.html
-title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)"
----
----
-layout: post
-title: 遅延伝播SegmentTree
 date: 2018-05-01
-category: データ構造
-tags: データ構造
+documentation_of: datastructure/lazysegtree.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
 ---
 
 ## 説明

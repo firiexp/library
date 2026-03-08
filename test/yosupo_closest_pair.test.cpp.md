@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: geometry/closest_pair.cpp
     title: Closest Pair
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/closest_pair
@@ -85,15 +85,15 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"geometry/closest_pair.cpp\"\npair<int, int> closest_pair(const\
-    \ vector<pair<long long, long long>> &points) {\n    using Dist = __int128_t;\n\
-    \    struct P {\n        long long x;\n        long long y;\n        int idx;\n\
-    \    };\n\n    int n = points.size();\n    assert(n >= 2);\n    vector<P> ps(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        ps[i] = {points[i].first, points[i].second,\
-    \ i};\n    }\n    sort(ps.begin(), ps.end(), [](const P &a, const P &b) {\n  \
-    \      if (a.x != b.x) return a.x < b.x;\n        if (a.y != b.y) return a.y <\
-    \ b.y;\n        return a.idx < b.idx;\n    });\n\n    Dist best = -1;\n    pair<int,\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"geometry/closest_pair.cpp\"\npair<int, int> closest_pair(const vector<pair<long\
+    \ long, long long>> &points) {\n    using Dist = __int128_t;\n    struct P {\n\
+    \        long long x;\n        long long y;\n        int idx;\n    };\n\n    int\
+    \ n = points.size();\n    assert(n >= 2);\n    vector<P> ps(n);\n    for (int\
+    \ i = 0; i < n; ++i) {\n        ps[i] = {points[i].first, points[i].second, i};\n\
+    \    }\n    sort(ps.begin(), ps.end(), [](const P &a, const P &b) {\n        if\
+    \ (a.x != b.x) return a.x < b.x;\n        if (a.y != b.y) return a.y < b.y;\n\
+    \        return a.idx < b.idx;\n    });\n\n    Dist best = -1;\n    pair<int,\
     \ int> ans = {-1, -1};\n    auto update = [&](const P &a, const P &b) {\n    \
     \    Dist dx = Dist(a.x) - Dist(b.x);\n        Dist dy = Dist(a.y) - Dist(b.y);\n\
     \        Dist d = dx * dx + dy * dy;\n        pair<int, int> cand = {a.idx, b.idx};\n\
@@ -114,12 +114,12 @@ data:
     \  if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
     \            }\n            near.push_back(idx);\n        }\n        return ord;\n\
     \    };\n    dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n\
-    \ * @docs _md/closest_pair.md\n */\n#line 9 \"test/yosupo_closest_pair.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        int n;\n        sc.read(n);\n        vector<pair<long\
-    \ long, long long>> ps(n);\n        for (int i = 0; i < n; ++i) {\n          \
-    \  sc.read(ps[i].first, ps[i].second);\n        }\n        auto [a, b] = closest_pair(ps);\n\
-    \        pr.writeln(a, b);\n    }\n    return 0;\n}\n"
+    \ */\n#line 9 \"test/yosupo_closest_pair.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int t;\n    sc.read(t);\n    while (t--) {\n   \
+    \     int n;\n        sc.read(n);\n        vector<pair<long long, long long>>\
+    \ ps(n);\n        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first,\
+    \ ps[i].second);\n        }\n        auto [a, b] = closest_pair(ps);\n       \
+    \ pr.writeln(a, b);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/closest_pair\"\n\n#include\
     \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\n\
     #include \"../geometry/closest_pair.cpp\"\n\nint main() {\n    Scanner sc;\n \
@@ -134,8 +134,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_closest_pair.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_closest_pair.test.cpp
 layout: document

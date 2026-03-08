@@ -1,4 +1,5 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/stern_brocot_tree.md
     document_title: "Stern-Brocot\u6728"
     links: []
   bundledCode: "#line 1 \"math/stern_brocot_tree.cpp\"\n#include <cassert>\n#include\
@@ -45,8 +45,7 @@ data:
     \ != 0) return {};\n    return ret;\n}\n\nNode range(ll a, ll b) {\n    return\
     \ decode_path(encode_path(a, b));\n}\n\nNode lca(ll a, ll b, ll c, ll d) {\n \
     \   return decode_path(lca_path(encode_path(a, b), encode_path(c, d)));\n}\n\n\
-    }  // namespace SternBrocotTree\n\n/**\n * @brief Stern-Brocot\u6728\n * @docs\
-    \ _md/stern_brocot_tree.md\n */\n"
+    }  // namespace SternBrocotTree\n\n/**\n * @brief Stern-Brocot\u6728\n */\n"
   code: "#include <cassert>\n#include <utility>\n#include <vector>\nusing namespace\
     \ std;\n\nnamespace SternBrocotTree {\n\nusing ll = long long;\n\nenum Direction\
     \ {\n    Left,\n    Right\n};\n\nstruct Move {\n    Direction dir;\n    ll steps;\n\
@@ -78,29 +77,20 @@ data:
     \ != 0) return {};\n    return ret;\n}\n\nNode range(ll a, ll b) {\n    return\
     \ decode_path(encode_path(a, b));\n}\n\nNode lca(ll a, ll b, ll c, ll d) {\n \
     \   return decode_path(lca_path(encode_path(a, b), encode_path(c, d)));\n}\n\n\
-    }  // namespace SternBrocotTree\n\n/**\n * @brief Stern-Brocot\u6728\n * @docs\
-    \ _md/stern_brocot_tree.md\n */\n"
+    }  // namespace SternBrocotTree\n\n/**\n * @brief Stern-Brocot\u6728\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/stern_brocot_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_stern_brocot_tree.test.cpp
-documentation_of: math/stern_brocot_tree.cpp
-layout: document
-redirect_from:
-- /library/math/stern_brocot_tree.cpp
-- /library/math/stern_brocot_tree.cpp.html
-title: "Stern-Brocot\u6728"
----
----
-layout: post
-title: Stern Brocot Tree
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/stern_brocot_tree.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Stern Brocot Tree
 ---
 
 ## 説明

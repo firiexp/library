@@ -3,15 +3,15 @@ data:
   _extendedDependsOn:
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
-  - icon: ':heavy_check_mark:'
+    title: Fast IO
+  - icon: ':x:'
     path: util/parse.cpp
-    title: "\u5F0F\u30D1\u30FC\u30B5(Parse)"
+    title: "\u56DB\u5247\u6F14\u7B97\u30D1\u30FC\u30B5"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -87,60 +87,59 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"util/parse.cpp\"\nusing state = string::const_iterator;\n\
-    \ \nint num(state &cur);\nint factor(state &cur);\nint muldiv(state &cur);\nint\
-    \ addsub(state &cur);\nint expr(state &cur);\n \nint factor(state &cur) {\n  \
-    \  if(isdigit(*cur)) return num(cur);\n    cur++;\n    int ans = addsub(cur);\n\
-    \    cur++;\n    return ans;\n}\n \nint num(state &cur) {\n    int ans = *cur\
-    \ -'0';\n    while(isdigit(*++cur)) ans = ans*10 + (*cur-'0');\n    return ans;\n\
-    }\n \nint muldiv(state &cur) {\n    int ans = factor(cur);\n    while(true){\n\
-    \        if(*cur == '*'){\n            cur++;\n            ans *= factor(cur);\n\
-    \        }else if(*cur == '/'){\n            cur++;\n            ans /= factor(cur);\n\
-    \        }else break;\n    }\n    return ans;\n}\n \nint addsub(state &cur){\n\
-    \    int ans = muldiv(cur);\n    while(true){\n        if(*cur == '+'){\n    \
-    \        cur++;\n            ans += muldiv(cur);\n        }else if(*cur == '-'){\n\
-    \            cur++;\n            ans -= muldiv(cur);\n        }else break;\n \
-    \   }\n    return ans;\n}\n \nint expr(state &cur){\n    return addsub(cur);\n\
-    }\n\n/**\n * @brief \u5F0F\u30D1\u30FC\u30B5(Parse)\n * @docs _md/parse.md\n */\n\
-    #line 12 \"test/yosupo_many_aplusb_parse.test.cpp\"\n\nnamespace {\n\nint precedence(char\
-    \ op) {\n    if (op == '+' || op == '-') return 1;\n    if (op == '*' || op ==\
-    \ '/') return 2;\n    return -1;\n}\n\nbool apply_top(stack<int> &values, stack<char>\
-    \ &ops) {\n    if (values.size() < 2 || ops.empty()) return false;\n    int rhs\
-    \ = values.top();\n    values.pop();\n    int lhs = values.top();\n    values.pop();\n\
-    \    char op = ops.top();\n    ops.pop();\n    if (op == '+') values.push(lhs\
-    \ + rhs);\n    else if (op == '-') values.push(lhs - rhs);\n    else if (op ==\
-    \ '*') values.push(lhs * rhs);\n    else {\n        if (rhs == 0) return false;\n\
-    \        values.push(lhs / rhs);\n    }\n    return true;\n}\n\nbool eval_bruteforce(const\
-    \ string &s, int &res) {\n    stack<int> values;\n    stack<char> ops;\n    int\
-    \ n = (int)s.size();\n    for (int i = 0; i < n; ) {\n        if (isdigit(s[i]))\
-    \ {\n            int x = 0;\n            while (i < n && isdigit(s[i])) {\n  \
-    \              x = x * 10 + (s[i] - '0');\n                ++i;\n            }\n\
-    \            values.push(x);\n            continue;\n        }\n        if (s[i]\
-    \ == '(') {\n            ops.push(s[i]);\n            ++i;\n            continue;\n\
-    \        }\n        if (s[i] == ')') {\n            while (!ops.empty() && ops.top()\
-    \ != '(') {\n                if (!apply_top(values, ops)) return false;\n    \
-    \        }\n            if (ops.empty() || ops.top() != '(') return false;\n \
-    \           ops.pop();\n            ++i;\n            continue;\n        }\n \
-    \       while (!ops.empty() && precedence(ops.top()) >= precedence(s[i])) {\n\
-    \            if (!apply_top(values, ops)) return false;\n        }\n        ops.push(s[i]);\n\
-    \        ++i;\n    }\n    while (!ops.empty()) {\n        if (ops.top() == '(')\
-    \ return false;\n        if (!apply_top(values, ops)) return false;\n    }\n \
-    \   if (values.size() != 1) return false;\n    res = values.top();\n    return\
-    \ true;\n}\n\nstring gen_expr(mt19937 &rng, int depth);\n\nstring gen_number(mt19937\
-    \ &rng) {\n    return to_string(uniform_int_distribution<int>(0, 30)(rng));\n\
-    }\n\nstring gen_factor(mt19937 &rng, int depth) {\n    if (depth == 0 || uniform_int_distribution<int>(0,\
-    \ 3)(rng) == 0) {\n        return gen_number(rng);\n    }\n    return \"(\" +\
-    \ gen_expr(rng, depth - 1) + \")\";\n}\n\nstring gen_muldiv(mt19937 &rng, int\
-    \ depth) {\n    int cnt = uniform_int_distribution<int>(1, 3)(rng);\n    string\
-    \ s = gen_factor(rng, depth);\n    for (int i = 1; i < cnt; ++i) {\n        char\
-    \ op = uniform_int_distribution<int>(0, 1)(rng) ? '*' : '/';\n        s += op;\n\
-    \        s += gen_factor(rng, depth);\n    }\n    return s;\n}\n\nstring gen_expr(mt19937\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"util/parse.cpp\"\nusing state = string::const_iterator;\n \nint num(state\
+    \ &cur);\nint factor(state &cur);\nint muldiv(state &cur);\nint addsub(state &cur);\n\
+    int expr(state &cur);\n \nint factor(state &cur) {\n    if(isdigit(*cur)) return\
+    \ num(cur);\n    cur++;\n    int ans = addsub(cur);\n    cur++;\n    return ans;\n\
+    }\n \nint num(state &cur) {\n    int ans = *cur -'0';\n    while(isdigit(*++cur))\
+    \ ans = ans*10 + (*cur-'0');\n    return ans;\n}\n \nint muldiv(state &cur) {\n\
+    \    int ans = factor(cur);\n    while(true){\n        if(*cur == '*'){\n    \
+    \        cur++;\n            ans *= factor(cur);\n        }else if(*cur == '/'){\n\
+    \            cur++;\n            ans /= factor(cur);\n        }else break;\n \
+    \   }\n    return ans;\n}\n \nint addsub(state &cur){\n    int ans = muldiv(cur);\n\
+    \    while(true){\n        if(*cur == '+'){\n            cur++;\n            ans\
+    \ += muldiv(cur);\n        }else if(*cur == '-'){\n            cur++;\n      \
+    \      ans -= muldiv(cur);\n        }else break;\n    }\n    return ans;\n}\n\
+    \ \nint expr(state &cur){\n    return addsub(cur);\n}\n\n/**\n * @brief \u5F0F\
+    \u30D1\u30FC\u30B5(Parse)\n */\n#line 12 \"test/yosupo_many_aplusb_parse.test.cpp\"\
+    \n\nnamespace {\n\nint precedence(char op) {\n    if (op == '+' || op == '-')\
+    \ return 1;\n    if (op == '*' || op == '/') return 2;\n    return -1;\n}\n\n\
+    bool apply_top(stack<int> &values, stack<char> &ops) {\n    if (values.size()\
+    \ < 2 || ops.empty()) return false;\n    int rhs = values.top();\n    values.pop();\n\
+    \    int lhs = values.top();\n    values.pop();\n    char op = ops.top();\n  \
+    \  ops.pop();\n    if (op == '+') values.push(lhs + rhs);\n    else if (op ==\
+    \ '-') values.push(lhs - rhs);\n    else if (op == '*') values.push(lhs * rhs);\n\
+    \    else {\n        if (rhs == 0) return false;\n        values.push(lhs / rhs);\n\
+    \    }\n    return true;\n}\n\nbool eval_bruteforce(const string &s, int &res)\
+    \ {\n    stack<int> values;\n    stack<char> ops;\n    int n = (int)s.size();\n\
+    \    for (int i = 0; i < n; ) {\n        if (isdigit(s[i])) {\n            int\
+    \ x = 0;\n            while (i < n && isdigit(s[i])) {\n                x = x\
+    \ * 10 + (s[i] - '0');\n                ++i;\n            }\n            values.push(x);\n\
+    \            continue;\n        }\n        if (s[i] == '(') {\n            ops.push(s[i]);\n\
+    \            ++i;\n            continue;\n        }\n        if (s[i] == ')')\
+    \ {\n            while (!ops.empty() && ops.top() != '(') {\n                if\
+    \ (!apply_top(values, ops)) return false;\n            }\n            if (ops.empty()\
+    \ || ops.top() != '(') return false;\n            ops.pop();\n            ++i;\n\
+    \            continue;\n        }\n        while (!ops.empty() && precedence(ops.top())\
+    \ >= precedence(s[i])) {\n            if (!apply_top(values, ops)) return false;\n\
+    \        }\n        ops.push(s[i]);\n        ++i;\n    }\n    while (!ops.empty())\
+    \ {\n        if (ops.top() == '(') return false;\n        if (!apply_top(values,\
+    \ ops)) return false;\n    }\n    if (values.size() != 1) return false;\n    res\
+    \ = values.top();\n    return true;\n}\n\nstring gen_expr(mt19937 &rng, int depth);\n\
+    \nstring gen_number(mt19937 &rng) {\n    return to_string(uniform_int_distribution<int>(0,\
+    \ 30)(rng));\n}\n\nstring gen_factor(mt19937 &rng, int depth) {\n    if (depth\
+    \ == 0 || uniform_int_distribution<int>(0, 3)(rng) == 0) {\n        return gen_number(rng);\n\
+    \    }\n    return \"(\" + gen_expr(rng, depth - 1) + \")\";\n}\n\nstring gen_muldiv(mt19937\
     \ &rng, int depth) {\n    int cnt = uniform_int_distribution<int>(1, 3)(rng);\n\
-    \    string s = gen_muldiv(rng, depth);\n    for (int i = 1; i < cnt; ++i) {\n\
-    \        char op = uniform_int_distribution<int>(0, 1)(rng) ? '+' : '-';\n   \
-    \     s += op;\n        s += gen_muldiv(rng, depth);\n    }\n    return s;\n}\n\
-    \nbool check_parse(const string &s) {\n    int expected;\n    if (!eval_bruteforce(s,\
+    \    string s = gen_factor(rng, depth);\n    for (int i = 1; i < cnt; ++i) {\n\
+    \        char op = uniform_int_distribution<int>(0, 1)(rng) ? '*' : '/';\n   \
+    \     s += op;\n        s += gen_factor(rng, depth);\n    }\n    return s;\n}\n\
+    \nstring gen_expr(mt19937 &rng, int depth) {\n    int cnt = uniform_int_distribution<int>(1,\
+    \ 3)(rng);\n    string s = gen_muldiv(rng, depth);\n    for (int i = 1; i < cnt;\
+    \ ++i) {\n        char op = uniform_int_distribution<int>(0, 1)(rng) ? '+' : '-';\n\
+    \        s += op;\n        s += gen_muldiv(rng, depth);\n    }\n    return s;\n\
+    }\n\nbool check_parse(const string &s) {\n    int expected;\n    if (!eval_bruteforce(s,\
     \ expected)) return true;\n    string t = s;\n    t.push_back('\\0');\n    state\
     \ cur = t.begin();\n    int actual = expr(cur);\n    return actual == expected\
     \ && *cur == '\\0';\n}\n\n}  // namespace\n\nint main() {\n    {\n        mt19937\
@@ -213,8 +212,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_parse.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_parse.test.cpp
 layout: document

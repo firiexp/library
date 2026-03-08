@@ -1,4 +1,5 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/binom_mod_prime_power.md
     document_title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
     links: []
   bundledCode: "#line 1 \"math/modinv.cpp\"\ntemplate<typename T>  \nT mod_inv(T x,\
@@ -37,7 +37,7 @@ data:
     \    if (e >= q) return 0;\n        ll x = (ull)b * c % mod;\n        return (ull)a\
     \ * mod_inv(x, mod) % mod * ppow[e] % mod;\n    }\n\n    ll modulus() const {\n\
     \        return mod;\n    }\n};\n\n/**\n * @brief \u4E8C\u9805\u4FC2\u6570(mod\
-    \ p^q)\n * @docs _md/binom_mod_prime_power.md\n */\n"
+    \ p^q)\n */\n"
   code: "#include \"modinv.cpp\"\n\nstruct BinomModPrimePower {\n    ll p, mod;\n\
     \    int q;\n    ll block_prod;\n    vector<ll> ppow;\n    vector<int> prod;\n\
     \n    explicit BinomModPrimePower(ll prime, int exponent) : p(prime), mod(1),\
@@ -55,30 +55,21 @@ data:
     \        ll e = ea - eb - ec;\n        if (e >= q) return 0;\n        ll x = (ull)b\
     \ * c % mod;\n        return (ull)a * mod_inv(x, mod) % mod * ppow[e] % mod;\n\
     \    }\n\n    ll modulus() const {\n        return mod;\n    }\n};\n\n/**\n *\
-    \ @brief \u4E8C\u9805\u4FC2\u6570(mod p^q)\n * @docs _md/binom_mod_prime_power.md\n\
-    \ */\n"
+    \ @brief \u4E8C\u9805\u4FC2\u6570(mod p^q)\n */\n"
   dependsOn:
   - math/modinv.cpp
   isVerificationFile: false
   path: math/binom_mod_prime_power.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
-documentation_of: math/binom_mod_prime_power.cpp
-layout: document
-redirect_from:
-- /library/math/binom_mod_prime_power.cpp
-- /library/math/binom_mod_prime_power.cpp.html
-title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
----
----
-layout: post
-title: binom_mod_prime_power
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/binom_mod_prime_power.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: binom_mod_prime_power
 ---
 
 ## 説明

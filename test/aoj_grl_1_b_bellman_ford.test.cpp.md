@@ -6,7 +6,7 @@ data:
     title: "Bellman-Ford\u6CD5"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -87,18 +87,18 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"graph/bellman_ford.cpp\"\ntemplate <typename T>\nstruct edge {\n   \
-    \ int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1), to(to), cost(cost)\
-    \ {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}\n\
-    \n    explicit operator int() const {return to;}\n};\n\ntemplate <typename T>\n\
-    vector<T> bellman_ford(int s, int V,vector<edge<T> > &G){\n    const T INF = numeric_limits<T>::max();\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/bellman_ford.cpp\"\
+    \ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\n   \
+    \ edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int\
+    \ to, T cost) : from(from), to(to), cost(cost) {}\n\n    explicit operator int()\
+    \ const {return to;}\n};\n\ntemplate <typename T>\nvector<T> bellman_ford(int\
+    \ s, int V,vector<edge<T> > &G){\n    const T INF = numeric_limits<T>::max();\n\
     \    vector<T> d(V, INF);\n    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i)\
     \ {\n        for (auto &&e : G) {\n            if (d[e.from] == INF) continue;\n\
     \            d[e.to] = min(d[e.to], d[e.from] + e.cost);\n        }\n    }\n \
     \   for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n        if(d[e.from]\
     \ + e.cost < d[e.to]) return vector<T> ();\n    }\n    return d;\n}\n\n/**\n *\
-    \ @brief Bellman-Ford\u6CD5\n * @docs _md/bellman_ford.md\n */\n#line 11 \"test/aoj_grl_1_b_bellman_ford.test.cpp\"\
+    \ @brief Bellman-Ford\u6CD5\n */\n#line 11 \"test/aoj_grl_1_b_bellman_ford.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s;\n    sc.read(n,\
     \ m, s);\n    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i\
     \ < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
@@ -124,7 +124,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_1_b_bellman_ford.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_b_bellman_ford.test.cpp

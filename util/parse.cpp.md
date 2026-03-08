@@ -1,16 +1,16 @@
 ---
+category: "\u6587\u5B57\u5217"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_parse.test.cpp
     title: test/yosupo_many_aplusb_parse.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/parse.md
     document_title: "\u5F0F\u30D1\u30FC\u30B5(Parse)"
     links: []
   bundledCode: "#line 1 \"util/parse.cpp\"\nusing state = string::const_iterator;\n\
@@ -27,7 +27,7 @@ data:
     \        cur++;\n            ans += muldiv(cur);\n        }else if(*cur == '-'){\n\
     \            cur++;\n            ans -= muldiv(cur);\n        }else break;\n \
     \   }\n    return ans;\n}\n \nint expr(state &cur){\n    return addsub(cur);\n\
-    }\n\n/**\n * @brief \u5F0F\u30D1\u30FC\u30B5(Parse)\n * @docs _md/parse.md\n */\n"
+    }\n\n/**\n * @brief \u5F0F\u30D1\u30FC\u30B5(Parse)\n */\n"
   code: "using state = string::const_iterator;\n \nint num(state &cur);\nint factor(state\
     \ &cur);\nint muldiv(state &cur);\nint addsub(state &cur);\nint expr(state &cur);\n\
     \ \nint factor(state &cur) {\n    if(isdigit(*cur)) return num(cur);\n    cur++;\n\
@@ -42,28 +42,20 @@ data:
     \        }else if(*cur == '-'){\n            cur++;\n            ans -= muldiv(cur);\n\
     \        }else break;\n    }\n    return ans;\n}\n \nint expr(state &cur){\n \
     \   return addsub(cur);\n}\n\n/**\n * @brief \u5F0F\u30D1\u30FC\u30B5(Parse)\n\
-    \ * @docs _md/parse.md\n */\n"
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/parse.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_parse.test.cpp
-documentation_of: util/parse.cpp
-layout: document
-redirect_from:
-- /library/util/parse.cpp
-- /library/util/parse.cpp.html
-title: "\u5F0F\u30D1\u30FC\u30B5(Parse)"
----
----
-layout: post
-title: 四則演算パーサ
 date: 2026-03-08
-category: 文字列
-tags: 文字列
+documentation_of: util/parse.cpp
+layout: post
+tags: "\u6587\u5B57\u5217"
+title: "\u56DB\u5247\u6F14\u7B97\u30D1\u30FC\u30B5"
 ---
 
 ## 説明

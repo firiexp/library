@@ -3,14 +3,13 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_cartesian_tree.test.cpp
     title: test/yosupo_cartesian_tree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/cartesian_tree.md
     document_title: Cartesian Tree
     links: []
   bundledCode: "#line 1 \"tree/cartesian_tree.cpp\"\ntemplate<class T>\npair<vector<vector<int>>,\
@@ -22,7 +21,7 @@ data:
     \ parent[i] = st.back();\n        st.push_back(i);\n    }\n    int root = -1;\n\
     \    for (int i = 0; i < n; ++i) {\n        if (parent[i] == -1) root = i;\n \
     \       else g[parent[i]].push_back(i);\n    }\n    return {g, root};\n}\n\n/**\n\
-    \ * @brief Cartesian Tree\n * @docs _md/cartesian_tree.md\n */\n"
+    \ * @brief Cartesian Tree\n */\n"
   code: "template<class T>\npair<vector<vector<int>>, int> CartesianTree(const vector<T>\
     \ &a) {\n    int n = a.size();\n    vector<vector<int>> g(n);\n    vector<int>\
     \ parent(n, -1), st;\n    st.reserve(n);\n    for (int i = 0; i < n; ++i) {\n\
@@ -31,21 +30,17 @@ data:
     \  if (last != -1) parent[last] = i;\n        if (!st.empty()) parent[i] = st.back();\n\
     \        st.push_back(i);\n    }\n    int root = -1;\n    for (int i = 0; i <\
     \ n; ++i) {\n        if (parent[i] == -1) root = i;\n        else g[parent[i]].push_back(i);\n\
-    \    }\n    return {g, root};\n}\n\n/**\n * @brief Cartesian Tree\n * @docs _md/cartesian_tree.md\n\
-    \ */\n"
+    \    }\n    return {g, root};\n}\n\n/**\n * @brief Cartesian Tree\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/cartesian_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_cartesian_tree.test.cpp
 documentation_of: tree/cartesian_tree.cpp
 layout: document
-redirect_from:
-- /library/tree/cartesian_tree.cpp
-- /library/tree/cartesian_tree.cpp.html
 title: Cartesian Tree
 ---
 ## 説明

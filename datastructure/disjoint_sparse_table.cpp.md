@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/disjoint_sparse_table.md
     document_title: Disjoint Sparse Table
     links: []
   bundledCode: "#line 1 \"datastructure/disjoint_sparse_table.cpp\"\ntemplate<class\
@@ -32,7 +31,7 @@ data:
     \ {\n        if (l >= r) return F::e();\n        --r;\n        if (l == r) return\
     \ table[0][l];\n        int k = 31 - __builtin_clz(l ^ r);\n        return F::f(table[k\
     \ + 1][l], table[k + 1][r]);\n    }\n};\n\n/**\n * @brief Disjoint Sparse Table\n\
-    \ * @docs _md/disjoint_sparse_table.md\n */\n"
+    \ */\n"
   code: "template<class F>\nstruct DisjointSparseTable {\n    using T = typename F::T;\n\
     \    int n, lg;\n    vector<vector<T>> table;\n\n    DisjointSparseTable(): n(0),\
     \ lg(0), table() {}\n    explicit DisjointSparseTable(const vector<T> &v) { build(v);\
@@ -51,20 +50,17 @@ data:
     \ l, int r) const {\n        if (l >= r) return F::e();\n        --r;\n      \
     \  if (l == r) return table[0][l];\n        int k = 31 - __builtin_clz(l ^ r);\n\
     \        return F::f(table[k + 1][l], table[k + 1][r]);\n    }\n};\n\n/**\n *\
-    \ @brief Disjoint Sparse Table\n * @docs _md/disjoint_sparse_table.md\n */\n"
+    \ @brief Disjoint Sparse Table\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/disjoint_sparse_table.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
 documentation_of: datastructure/disjoint_sparse_table.cpp
 layout: document
-redirect_from:
-- /library/datastructure/disjoint_sparse_table.cpp
-- /library/datastructure/disjoint_sparse_table.cpp.html
 title: Disjoint Sparse Table
 ---
 ## 説明

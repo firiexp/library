@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/bellman_ford.md
     document_title: "Bellman-Ford\u6CD5"
     links: []
   bundledCode: "#line 1 \"graph/bellman_ford.cpp\"\ntemplate <typename T>\nstruct\
@@ -23,8 +22,7 @@ data:
     \            if (d[e.from] == INF) continue;\n            d[e.to] = min(d[e.to],\
     \ d[e.from] + e.cost);\n        }\n    }\n    for (auto &&e : G) {\n        if(d[e.from]\
     \ == INF) continue;\n        if(d[e.from] + e.cost < d[e.to]) return vector<T>\
-    \ ();\n    }\n    return d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n * @docs\
-    \ _md/bellman_ford.md\n */\n"
+    \ ();\n    }\n    return d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n */\n"
   code: "template <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\n\
     \    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
     \ int to, T cost) : from(from), to(to), cost(cost) {}\n\n    explicit operator\
@@ -35,20 +33,17 @@ data:
     \            d[e.to] = min(d[e.to], d[e.from] + e.cost);\n        }\n    }\n \
     \   for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n        if(d[e.from]\
     \ + e.cost < d[e.to]) return vector<T> ();\n    }\n    return d;\n}\n\n/**\n *\
-    \ @brief Bellman-Ford\u6CD5\n * @docs _md/bellman_ford.md\n */\n"
+    \ @brief Bellman-Ford\u6CD5\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/bellman_ford.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_1_b_bellman_ford.test.cpp
 documentation_of: graph/bellman_ford.cpp
 layout: document
-redirect_from:
-- /library/graph/bellman_ford.cpp
-- /library/graph/bellman_ford.cpp.html
 title: "Bellman-Ford\u6CD5"
 ---
 ## 説明

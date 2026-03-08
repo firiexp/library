@@ -6,9 +6,9 @@ data:
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/sum_of_totient_function
@@ -44,20 +44,19 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 21\
-    \ \"test/yosupo_sum_of_totient.test.cpp\"\n\nint main() {\n    ll n;\n    cin\
-    \ >> n;\n    const ll k = 20000000; // 20000000\n    vector<int> dp(k+1);\n  \
-    \  iota(dp.begin(),dp.end(), 0);\n    for (int i = 2; i <= k; ++i) {\n       \
-    \ if(dp[i] != i) continue;\n        for (int j = i; j <= k; j += i) {\n      \
-    \      dp[j] = dp[j]/i*(i-1);\n        }\n    }\n    vector<mint> a(k+1);\n  \
-    \  for (int i = 0; i < k; ++i) {\n        a[i+1] = a[i] + dp[i+1];\n    }\n  \
-    \  vector<mint> memo(n/k+1);\n    vector<bool> calced(n/k+1);\n    mint pp = mint(2).inv();\n\
-    \    auto rec = [&](ll x, auto &&f) -> mint {\n        if(x <= k) return a[x];\n\
-    \        if(calced[n/x]) return memo[n/x];\n        auto res = mint(x)*mint(x+1)*pp;\n\
-    \        for (ll i = 2; i <= x; ++i) {\n            ll j = x/i, newi = (i > j\
-    \ ? x/j : i);\n            res -= mint(newi-i+1)*f(x/i, f);\n            i = newi;\n\
-    \        }\n        return calced[n/x] = 1, memo[n/x] = res;\n    };\n    cout\
-    \ << rec(n, rec).val << \"\\n\";\n    return 0;\n}\n"
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 21 \"test/yosupo_sum_of_totient.test.cpp\"\
+    \n\nint main() {\n    ll n;\n    cin >> n;\n    const ll k = 20000000; // 20000000\n\
+    \    vector<int> dp(k+1);\n    iota(dp.begin(),dp.end(), 0);\n    for (int i =\
+    \ 2; i <= k; ++i) {\n        if(dp[i] != i) continue;\n        for (int j = i;\
+    \ j <= k; j += i) {\n            dp[j] = dp[j]/i*(i-1);\n        }\n    }\n  \
+    \  vector<mint> a(k+1);\n    for (int i = 0; i < k; ++i) {\n        a[i+1] = a[i]\
+    \ + dp[i+1];\n    }\n    vector<mint> memo(n/k+1);\n    vector<bool> calced(n/k+1);\n\
+    \    mint pp = mint(2).inv();\n    auto rec = [&](ll x, auto &&f) -> mint {\n\
+    \        if(x <= k) return a[x];\n        if(calced[n/x]) return memo[n/x];\n\
+    \        auto res = mint(x)*mint(x+1)*pp;\n        for (ll i = 2; i <= x; ++i)\
+    \ {\n            ll j = x/i, newi = (i > j ? x/j : i);\n            res -= mint(newi-i+1)*f(x/i,\
+    \ f);\n            i = newi;\n        }\n        return calced[n/x] = 1, memo[n/x]\
+    \ = res;\n    };\n    cout << rec(n, rec).val << \"\\n\";\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sum_of_totient_function\"\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
@@ -82,8 +81,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_sum_of_totient.test.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_sum_of_totient.test.cpp
 layout: document

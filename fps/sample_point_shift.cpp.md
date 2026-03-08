@@ -1,9 +1,10 @@
 ---
+category: FPS
 data:
   _extendedDependsOn:
   - icon: ':question:'
     path: math/ntt.cpp
-    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+    title: Number Theoretic Transform
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':x:'
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/sample_point_shift.md
     document_title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
@@ -279,8 +279,8 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
-    \ _md/ntt.md\n */\n#line 2 \"fps/sample_point_shift.cpp\"\n\nvector<mint> sample_point_shift(const\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    #line 2 \"fps/sample_point_shift.cpp\"\n\nvector<mint> sample_point_shift(const\
     \ vector<mint> &ys, mint c, int m = -1) {\n    int n = ys.size();\n    if (m ==\
     \ -1) m = n;\n    if (m <= 0) return {};\n    if (n == 0) return vector<mint>(m,\
     \ mint(0));\n\n    int k = n - 1;\n    long long t = c.val;\n    if (t <= k) {\n\
@@ -306,8 +306,7 @@ data:
     \ (int i = 0; i <= k; ++i) coef *= c - mint(i);\n    for (int i = 0; i < m; ++i)\
     \ {\n        res[i] = conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n\
     \        coef /= c - mint(k) + mint(i);\n    }\n    return res;\n}\n\n/**\n *\
-    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n * @docs _md/sample_point_shift.md\n\
-    \ */\n"
+    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n */\n"
   code: "#include \"../math/ntt.cpp\"\n\nvector<mint> sample_point_shift(const vector<mint>\
     \ &ys, mint c, int m = -1) {\n    int n = ys.size();\n    if (m == -1) m = n;\n\
     \    if (m <= 0) return {};\n    if (n == 0) return vector<mint>(m, mint(0));\n\
@@ -334,30 +333,21 @@ data:
     \ (int i = 0; i <= k; ++i) coef *= c - mint(i);\n    for (int i = 0; i < m; ++i)\
     \ {\n        res[i] = conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n\
     \        coef /= c - mint(k) + mint(i);\n    }\n    return res;\n}\n\n/**\n *\
-    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n * @docs _md/sample_point_shift.md\n\
-    \ */\n"
+    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n */\n"
   dependsOn:
   - math/ntt.cpp
   isVerificationFile: false
   path: fps/sample_point_shift.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-documentation_of: fps/sample_point_shift.cpp
-layout: document
-redirect_from:
-- /library/fps/sample_point_shift.cpp
-- /library/fps/sample_point_shift.cpp.html
-title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
----
----
-layout: post
-title: Sample Point Shift
 date: 2026-03-08
-category: FPS
+documentation_of: fps/sample_point_shift.cpp
+layout: post
 tags: FPS
+title: Sample Point Shift
 ---
 
 ## 説明

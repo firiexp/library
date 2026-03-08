@@ -1,16 +1,16 @@
 ---
+category: "\u6728"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/link_cut_tree.md
     document_title: Link-Cut Tree
     links: []
   bundledCode: "#line 1 \"tree/link_cut_tree.cpp\"\ntemplate <class M>\nstruct LinkCutTree\
@@ -72,7 +72,7 @@ data:
     \ int v) {\n        evert(u);\n        expose(v);\n        return nodes[v].sum;\n\
     \    }\n\n    int dist(int u, int v) {\n        evert(u);\n        expose(v);\n\
     \        return nodes[v].sz - 1;\n    }\n};\n\n/**\n * @brief Link-Cut Tree\n\
-    \ * @docs _md/link_cut_tree.md\n */\n"
+    \ */\n"
   code: "template <class M>\nstruct LinkCutTree {\n    using T = typename M::T;\n\n\
     \    struct Node {\n        int l, r, p, sz;\n        bool rev;\n        T val,\
     \ sum, rsum;\n        Node() : l(-1), r(-1), p(-1), sz(1), rev(false), val(M::e()),\
@@ -131,28 +131,20 @@ data:
     \ nodes[x].val;\n    }\n\n    T fold(int u, int v) {\n        evert(u);\n    \
     \    expose(v);\n        return nodes[v].sum;\n    }\n\n    int dist(int u, int\
     \ v) {\n        evert(u);\n        expose(v);\n        return nodes[v].sz - 1;\n\
-    \    }\n};\n\n/**\n * @brief Link-Cut Tree\n * @docs _md/link_cut_tree.md\n */\n"
+    \    }\n};\n\n/**\n * @brief Link-Cut Tree\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/link_cut_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 11:18:29+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-documentation_of: tree/link_cut_tree.cpp
-layout: document
-redirect_from:
-- /library/tree/link_cut_tree.cpp
-- /library/tree/link_cut_tree.cpp.html
-title: Link-Cut Tree
----
----
-layout: post
-title: Link-Cut Tree
 date: 2026-03-08
-category: 木
-tags: 木
+documentation_of: tree/link_cut_tree.cpp
+layout: post
+tags: "\u6728"
+title: Link-Cut Tree
 ---
 
 ## 説明

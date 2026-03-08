@@ -1,4 +1,5 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/twosat.md
     document_title: 2-SAT
     links: []
   bundledCode: "#line 1 \"graph/twosat.cpp\"\nstruct SCC {\n    vector<vector<int>>\
@@ -34,7 +34,7 @@ data:
     \    void add_if(int u, int v){ // u -> v\n        scc.add_edge(u, v);\n     \
     \   scc.add_edge(negate(v), negate(u));\n    }\n\n    void add_or(int u, int v){\
     \ // u || v\n        add_if(negate(u), v);\n    }\n};\n\n/**\n * @brief 2-SAT\n\
-    \ * @docs _md/twosat.md\n */\n"
+    \ */\n"
   code: "struct SCC {\n    vector<vector<int>> G, G_r, G_out;\n    vector<int> vs,\
     \ used, cmp;\n    SCC() = default;\n    explicit SCC(int n) : G(n), G_r(n), used(n),\
     \ cmp(n) {}\n\n    void add_edge(int a, int b){\n        G[a].emplace_back(b);\n\
@@ -55,28 +55,20 @@ data:
     \ scc[i] > scc[n+i];\n        }\n        return res;\n    }\n\n    void add_if(int\
     \ u, int v){ // u -> v\n        scc.add_edge(u, v);\n        scc.add_edge(negate(v),\
     \ negate(u));\n    }\n\n    void add_or(int u, int v){ // u || v\n        add_if(negate(u),\
-    \ v);\n    }\n};\n\n/**\n * @brief 2-SAT\n * @docs _md/twosat.md\n */\n"
+    \ v);\n    }\n};\n\n/**\n * @brief 2-SAT\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/twosat.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_twosat.test.cpp
-documentation_of: graph/twosat.cpp
-layout: document
-redirect_from:
-- /library/graph/twosat.cpp
-- /library/graph/twosat.cpp.html
-title: 2-SAT
----
----
-layout: post
-title: 2-SAT
 date: 2019-12-03
-category: グラフ
-tags: 有向グラフ
+documentation_of: graph/twosat.cpp
+layout: post
+tags: "\u6709\u5411\u30B0\u30E9\u30D5"
+title: 2-SAT
 ---
 
 ## 説明

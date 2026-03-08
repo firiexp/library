@@ -1,4 +1,5 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/biconnected_components.md
     document_title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected\
       \ Components)"
     links: []
@@ -47,7 +47,7 @@ data:
     \                bcc_edges.emplace_back();\n                bcc_vertices.push_back({i});\n\
     \            }\n        }\n        return bcc_vertices.size();\n    }\n};\n\n\
     /**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)\n\
-    \ * @docs _md/biconnected_components.md\n */\n"
+    \ */\n"
   code: "class BiconnectedComponents {\n    vector<int> st;\n    void dfs(int i, int\
     \ pe, int &pos){\n        ord[i] = low[i] = pos++;\n        for (auto &&e : G[i])\
     \ {\n            int j = e.first, id = e.second;\n            if(id == pe) continue;\n\
@@ -81,28 +81,20 @@ data:
     \                bcc_edges.emplace_back();\n                bcc_vertices.push_back({i});\n\
     \            }\n        }\n        return bcc_vertices.size();\n    }\n};\n\n\
     /**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)\n\
-    \ * @docs _md/biconnected_components.md\n */\n"
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/biconnected_components.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_biconnected_components.test.cpp
-documentation_of: graph/biconnected_components.cpp
-layout: document
-redirect_from:
-- /library/graph/biconnected_components.cpp
-- /library/graph/biconnected_components.cpp.html
-title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
----
----
-layout: post
-title: 二重頂点連結成分分解
 date: 2026-03-08
-category: グラフ
-tags: グラフ
+documentation_of: graph/biconnected_components.cpp
+layout: post
+tags: "\u30B0\u30E9\u30D5"
+title: "\u4E8C\u91CD\u9802\u70B9\u9023\u7D50\u6210\u5206\u5206\u89E3"
 ---
 
 ## 概要

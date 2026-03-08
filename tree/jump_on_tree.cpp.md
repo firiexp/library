@@ -1,16 +1,16 @@
 ---
+category: "\u6728"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_jump_on_tree.test.cpp
     title: test/yosupo_jump_on_tree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/jump_on_tree.md
     document_title: Jump on Tree
     links: []
   bundledCode: "#line 1 \"tree/jump_on_tree.cpp\"\nclass JumpOnTree {\n    int logn;\n\
@@ -39,7 +39,7 @@ data:
     \ {\n        int w = lca(s, t);\n        int a = depth[s] - depth[w];\n      \
     \  int b = depth[t] - depth[w];\n        if (k > a + b) return -1;\n        if\
     \ (k <= a) return ancestor(s, k);\n        return ancestor(t, a + b - k);\n  \
-    \  }\n};\n\n/**\n * @brief Jump on Tree\n * @docs _md/jump_on_tree.md\n */\n"
+    \  }\n};\n\n/**\n * @brief Jump on Tree\n */\n"
   code: "class JumpOnTree {\n    int logn;\n    vector<vector<int>> up;\n\npublic:\n\
     \    int n;\n    vector<vector<int>> G;\n    vector<int> depth;\n\n    explicit\
     \ JumpOnTree(int n) : logn(0), n(n), G(n), depth(n, -1) {}\n\n    void add_edge(int\
@@ -66,28 +66,20 @@ data:
     \        int a = depth[s] - depth[w];\n        int b = depth[t] - depth[w];\n\
     \        if (k > a + b) return -1;\n        if (k <= a) return ancestor(s, k);\n\
     \        return ancestor(t, a + b - k);\n    }\n};\n\n/**\n * @brief Jump on Tree\n\
-    \ * @docs _md/jump_on_tree.md\n */\n"
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/jump_on_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 19:26:24+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_jump_on_tree.test.cpp
-documentation_of: tree/jump_on_tree.cpp
-layout: document
-redirect_from:
-- /library/tree/jump_on_tree.cpp
-- /library/tree/jump_on_tree.cpp.html
-title: Jump on Tree
----
----
-layout: post
-title: Jump on Tree
 date: 2026-03-08
-category: 木
-tags: 木
+documentation_of: tree/jump_on_tree.cpp
+layout: post
+tags: "\u6728"
+title: Jump on Tree
 ---
 
 ## 説明

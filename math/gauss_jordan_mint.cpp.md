@@ -1,4 +1,5 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':question:'
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/gauss_jordan_mint.md
     document_title: "Gauss-Jordan\u6D88\u53BB(modint)"
     links: []
   bundledCode: "#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n\
@@ -39,21 +39,20 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 2\
-    \ \"math/gauss_jordan_mint.cpp\"\n\nint gauss_jordan(vector<vector<mint>> &A,\
-    \ bool is_extended = false) {\n    int m = A.size(), n = A[0].size();\n    int\
-    \ rank = 0;\n    for (int col = 0; col < n; ++col) {\n        if (is_extended\
-    \ && col == n-1) break;\n        int pivot = -1;\n        for (int row = rank;\
-    \ row < m; ++row) {\n            if (A[row][col].val) {\n                pivot\
-    \ = row;\n                break;\n            }\n        }\n        if (pivot\
-    \ == -1) continue;\n        swap(A[pivot], A[rank]);\n        auto d = A[rank][col].inv();\n\
-    \        for (int col2 = 0; col2 < n; ++col2) A[rank][col2] *= d;\n        for\
-    \ (int row = 0; row < m; ++row) {\n            if (row != rank && A[row][col].val)\
-    \ {\n                auto fac = A[row][col];\n                for (int col2 =\
-    \ 0; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2] *\
-    \ fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
-    \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n * @docs\
-    \ _md/gauss_jordan_mint.md\n */\n"
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 2 \"math/gauss_jordan_mint.cpp\"\
+    \n\nint gauss_jordan(vector<vector<mint>> &A, bool is_extended = false) {\n  \
+    \  int m = A.size(), n = A[0].size();\n    int rank = 0;\n    for (int col = 0;\
+    \ col < n; ++col) {\n        if (is_extended && col == n-1) break;\n        int\
+    \ pivot = -1;\n        for (int row = rank; row < m; ++row) {\n            if\
+    \ (A[row][col].val) {\n                pivot = row;\n                break;\n\
+    \            }\n        }\n        if (pivot == -1) continue;\n        swap(A[pivot],\
+    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = 0;\
+    \ col2 < n; ++col2) A[rank][col2] *= d;\n        for (int row = 0; row < m; ++row)\
+    \ {\n            if (row != rank && A[row][col].val) {\n                auto fac\
+    \ = A[row][col];\n                for (int col2 = 0; col2 < n; ++col2) {\n   \
+    \                 A[row][col2] -= A[rank][col2] * fac;\n                }\n  \
+    \          }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
+    \ * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n"
   code: "#include \"../util/modint.cpp\"\n\nint gauss_jordan(vector<vector<mint>>\
     \ &A, bool is_extended = false) {\n    int m = A.size(), n = A[0].size();\n  \
     \  int rank = 0;\n    for (int col = 0; col < n; ++col) {\n        if (is_extended\
@@ -66,30 +65,21 @@ data:
     \ {\n                auto fac = A[row][col];\n                for (int col2 =\
     \ 0; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2] *\
     \ fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
-    \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n * @docs\
-    \ _md/gauss_jordan_mint.md\n */\n"
+    \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n"
   dependsOn:
   - util/modint.cpp
   isVerificationFile: false
   path: math/gauss_jordan_mint.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_system_of_linear_equations.test.cpp
-documentation_of: math/gauss_jordan_mint.cpp
-layout: document
-redirect_from:
-- /library/math/gauss_jordan_mint.cpp
-- /library/math/gauss_jordan_mint.cpp.html
-title: "Gauss-Jordan\u6D88\u53BB(modint)"
----
----
-layout: post
-title: Gauss Jordan Mint
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/gauss_jordan_mint.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Gauss Jordan Mint
 ---
 
 ## 説明

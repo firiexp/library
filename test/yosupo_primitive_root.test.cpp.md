@@ -6,10 +6,10 @@ data:
     title: math/primefactor_ll2.cpp
   - icon: ':x:'
     path: math/primitive_root.cpp
-    title: "\u539F\u59CB\u6839(Primitive Root)"
+    title: Primitive Root
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -90,46 +90,46 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"math/primefactor_ll2.cpp\"\n#include <algorithm>\n\
-    #include <numeric>\n#include <random>\n\nusing ull = unsigned long long;\nusing\
-    \ u128 = __uint128_t;\n\ntemplate< class T>\nT pow_ (T x, ull n, ull M){\n   \
-    \ T u = 1;\n    if(n > 0){\n        u = pow_(x, n/2, M);\n        if (n % 2 ==\
-    \ 0) u = (u*u) % M;\n        else u = (((u * u)% M) * x) % M;\n    }\n    return\
-    \ u;\n};\n\nbool suspect(__uint128_t a, ull s, ull d, ull n){\n    __uint128_t\
-    \ x = pow_(a, d, n);\n    if (x == 1) return true;\n    for (int r = 0; r < s;\
-    \ ++r) {\n        if(x == n-1) return true;\n        x = x * x % n;\n    }\n \
-    \   return false;\n}\n\ntemplate<class T>\nbool miller_rabin(T m){\n    ull n\
-    \ = m;\n    if (n <= 1 || (n > 2 && n % 2 == 0)) return false;\n    ull d = n\
-    \ - 1, s = 0;\n    while (!(d&1)) {++s; d >>= 1;}\n    vector<ull> v = {2, 325,\
-    \ 9375, 28178, 450775, 9780504, 1795265022};\n    if(n <= 4759123141LL) v = {2,\
-    \ 7, 61};\n    for (auto &&p : v) {\n        if(p >= n) break;\n        if(!suspect(p,\
-    \ s, d, n)) return false;\n    }\n    return true;\n}\n\n\ntemplate<typename T>\n\
-    struct ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1)\
-    \ / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n \
-    \       for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n\
-    \    bool divide(T n) const {\n        if(val == 2) return !(n & 1);\n       \
-    \ return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<ull>> get_prime(int\
-    \ n){\n    if(n <= 1) return vector<ExactDiv<ull>>();\n    vector<bool> is_prime(n+1,\
-    \ true);\n    vector<ExactDiv<ull>> prime;\n    is_prime[0] = is_prime[1] = false;\n\
-    \    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
-    \        for (auto &&j : prime){\n            if(i*j.val > n) break;\n       \
-    \     is_prime[i*j.val] = false;\n            if(j.divide(i)) break;\n       \
-    \ }\n    }\n    return prime;\n}\nconst auto primes = get_prime(50000);\n\nrandom_device\
-    \ rng;\n\nstruct mod64 {\n    ull n;\n    static ull mod, inv, r2;\n    mod64()\
-    \ : n(0) {}\n    mod64(ull x) : n(init(x)) {}\n    static ull init(ull w) { return\
-    \ reduce(u128(w) * r2); }\n    static void set_mod(ull m) {\n        mod = inv\
-    \ = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        r2 =\
-    \ -u128(m) % m;\n    }\n    static ull reduce(u128 x) {\n        ull y = ull(x\
-    \ >> 64) - ull((u128(ull(x) * inv) * mod) >> 64);\n        return ll(y) < 0 ?\
-    \ y + mod : y;\n    };\n    mod64& operator+=(mod64 x) { n += x.n - mod; if(ll(n)\
-    \ < 0) n += mod; return *this; }\n    mod64 operator+(mod64 x) const { return\
-    \ mod64(*this) += x; }\n    mod64& operator*=(mod64 x) { n = reduce(u128(n) *\
-    \ x.n);  return *this; }\n    mod64 operator*(mod64 x) const { return mod64(*this)\
-    \ *= x; }\n    ull val() const { return reduce(n); }\n};\n\null mod64::mod, mod64::inv,\
-    \ mod64::r2;\n\ntemplate<class T>\nT pollard_rho2(T n) {\n    uniform_int_distribution<T>\
-    \ ra(1, n-1);\n    mod64::set_mod(n);\n    while(true){\n        ull c_ = ra(rng),\
-    \ g = 1, r = 1, m = 500;\n        while(c_ == n-2) c_ = ra(rng);\n        mod64\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"math/primefactor_ll2.cpp\"\n#include <algorithm>\n#include <numeric>\n#include\
+    \ <random>\n\nusing ull = unsigned long long;\nusing u128 = __uint128_t;\n\ntemplate<\
+    \ class T>\nT pow_ (T x, ull n, ull M){\n    T u = 1;\n    if(n > 0){\n      \
+    \  u = pow_(x, n/2, M);\n        if (n % 2 == 0) u = (u*u) % M;\n        else\
+    \ u = (((u * u)% M) * x) % M;\n    }\n    return u;\n};\n\nbool suspect(__uint128_t\
+    \ a, ull s, ull d, ull n){\n    __uint128_t x = pow_(a, d, n);\n    if (x == 1)\
+    \ return true;\n    for (int r = 0; r < s; ++r) {\n        if(x == n-1) return\
+    \ true;\n        x = x * x % n;\n    }\n    return false;\n}\n\ntemplate<class\
+    \ T>\nbool miller_rabin(T m){\n    ull n = m;\n    if (n <= 1 || (n > 2 && n %\
+    \ 2 == 0)) return false;\n    ull d = n - 1, s = 0;\n    while (!(d&1)) {++s;\
+    \ d >>= 1;}\n    vector<ull> v = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};\n\
+    \    if(n <= 4759123141LL) v = {2, 7, 61};\n    for (auto &&p : v) {\n       \
+    \ if(p >= n) break;\n        if(!suspect(p, s, d, n)) return false;\n    }\n \
+    \   return true;\n}\n\n\ntemplate<typename T>\nstruct ExactDiv {\n    T t, i,\
+    \ val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n)\
+    \ {};\n    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0; i < 5;\
+    \ ++i) x *= 2 - n * x;\n        return x;\n    }\n    bool divide(T n) const {\n\
+    \        if(val == 2) return !(n & 1);\n        return n * this->i <= this->t;\n\
+    \    }\n};\n\nvector<ExactDiv<ull>> get_prime(int n){\n    if(n <= 1) return vector<ExactDiv<ull>>();\n\
+    \    vector<bool> is_prime(n+1, true);\n    vector<ExactDiv<ull>> prime;\n   \
+    \ is_prime[0] = is_prime[1] = false;\n    for (int i = 2; i <= n; ++i) {\n   \
+    \     if(is_prime[i]) prime.emplace_back(i);\n        for (auto &&j : prime){\n\
+    \            if(i*j.val > n) break;\n            is_prime[i*j.val] = false;\n\
+    \            if(j.divide(i)) break;\n        }\n    }\n    return prime;\n}\n\
+    const auto primes = get_prime(50000);\n\nrandom_device rng;\n\nstruct mod64 {\n\
+    \    ull n;\n    static ull mod, inv, r2;\n    mod64() : n(0) {}\n    mod64(ull\
+    \ x) : n(init(x)) {}\n    static ull init(ull w) { return reduce(u128(w) * r2);\
+    \ }\n    static void set_mod(ull m) {\n        mod = inv = m;\n        for (int\
+    \ i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        r2 = -u128(m) % m;\n    }\n\
+    \    static ull reduce(u128 x) {\n        ull y = ull(x >> 64) - ull((u128(ull(x)\
+    \ * inv) * mod) >> 64);\n        return ll(y) < 0 ? y + mod : y;\n    };\n   \
+    \ mod64& operator+=(mod64 x) { n += x.n - mod; if(ll(n) < 0) n += mod; return\
+    \ *this; }\n    mod64 operator+(mod64 x) const { return mod64(*this) += x; }\n\
+    \    mod64& operator*=(mod64 x) { n = reduce(u128(n) * x.n);  return *this; }\n\
+    \    mod64 operator*(mod64 x) const { return mod64(*this) *= x; }\n    ull val()\
+    \ const { return reduce(n); }\n};\n\null mod64::mod, mod64::inv, mod64::r2;\n\n\
+    template<class T>\nT pollard_rho2(T n) {\n    uniform_int_distribution<T> ra(1,\
+    \ n-1);\n    mod64::set_mod(n);\n    while(true){\n        ull c_ = ra(rng), g\
+    \ = 1, r = 1, m = 500;\n        while(c_ == n-2) c_ = ra(rng);\n        mod64\
     \ y(ra(rng)), xx(0), c(c_), ys(0), q(1);\n        while(g == 1){\n           \
     \ xx.n = y.n;\n            for (int i = 1; i <= r; ++i) {\n                y *=\
     \ y; y += c;\n            }\n            T k = 0; g = 1;\n            while(k\
@@ -160,11 +160,10 @@ data:
     \  bool ok = true;\n        for (auto &&d : divs) {\n            if (mod_pow(g,\
     \ (m - 1) / d) == 1) {\n                ok = false;\n                break;\n\
     \            }\n        }\n        if (ok) return g;\n    }\n}\n\n/**\n * @brief\
-    \ \u539F\u59CB\u6839(Primitive Root)\n * @docs _md/primitive_root.md\n */\n#line\
-    \ 12 \"test/yosupo_primitive_root.test.cpp\"\n\nint main() {\n    Scanner in;\n\
-    \    Printer out;\n    int q;\n    in.read(q);\n    while (q--) {\n        ll\
-    \ p;\n        in.read(p);\n        out.writeln(primitive_root(p));\n    }\n  \
-    \  return 0;\n}\n"
+    \ \u539F\u59CB\u6839(Primitive Root)\n */\n#line 12 \"test/yosupo_primitive_root.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int q;\n    in.read(q);\n\
+    \    while (q--) {\n        ll p;\n        in.read(p);\n        out.writeln(primitive_root(p));\n\
+    \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primitive_root\"\n\n#include\
     \ <cstdint>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
     \ uint = unsigned;\nusing ull = unsigned long long;\n\n#include \"../util/fastio.cpp\"\
@@ -179,7 +178,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_primitive_root.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_primitive_root.test.cpp

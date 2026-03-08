@@ -1,16 +1,16 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_counting_primes.test.cpp
     title: test/yosupo_counting_primes.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/counting_primes.md
     document_title: "\u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)"
     links: []
   bundledCode: "#line 1 \"math/counting_primes.cpp\"\n#include <cmath>\n#include <cstdint>\n\
@@ -45,8 +45,7 @@ data:
     \     }\n    }\n    return sum;\n}\n\n}  // namespace counting_primes_internal\n\
     \nlong long counting_primes(long long n) {\n    counting_primes_internal::init();\n\
     \    return counting_primes_internal::lehmer_pi(n);\n}\n\n/**\n * @brief \u7D20\
-    \u6570\u6570\u3048\u4E0A\u3052(Prime Counting)\n * @docs _md/counting_primes.md\n\
-    \ */\n"
+    \u6570\u6570\u3048\u4E0A\u3052(Prime Counting)\n */\n"
   code: "#include <cmath>\n#include <cstdint>\n#include <vector>\nusing namespace\
     \ std;\n\nnamespace counting_primes_internal {\n\nusing ll = long long;\n\nconstexpr\
     \ int MAX = 5000000;\nconstexpr int PHI_N = 100000;\nconstexpr int PHI_S = 100;\n\
@@ -78,29 +77,20 @@ data:
     \ - 1]) - (j - 1);\n            }\n        }\n    }\n    return sum;\n}\n\n} \
     \ // namespace counting_primes_internal\n\nlong long counting_primes(long long\
     \ n) {\n    counting_primes_internal::init();\n    return counting_primes_internal::lehmer_pi(n);\n\
-    }\n\n/**\n * @brief \u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)\n * @docs\
-    \ _md/counting_primes.md\n */\n"
+    }\n\n/**\n * @brief \u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/counting_primes.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_counting_primes.test.cpp
-documentation_of: math/counting_primes.cpp
-layout: document
-redirect_from:
-- /library/math/counting_primes.cpp
-- /library/math/counting_primes.cpp.html
-title: "\u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)"
----
----
-layout: post
-title: Counting Primes
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/counting_primes.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Counting Primes
 ---
 
 ## 説明

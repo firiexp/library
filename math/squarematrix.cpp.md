@@ -1,4 +1,5 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/squarematrix.md
     document_title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
     links: []
   bundledCode: "#line 1 \"math/squarematrix.cpp\"\n#include <algorithm>\n#include\
@@ -47,8 +47,7 @@ data:
     \ const {return SquareMatrix(*this) += B;}\n    SquareMatrix operator-(const SquareMatrix\
     \ &B) const {return SquareMatrix(*this) -= B;}\n    SquareMatrix operator*(const\
     \ SquareMatrix &B) const {return SquareMatrix(*this) *= B;}\n};\n\n/**\n * @brief\
-    \ \u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)\n * @docs _md/squarematrix.md\n\
-    \ */\n"
+    \ \u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)\n */\n"
   code: "#include <algorithm>\n#include <array>\n\ntemplate<class H, size_t SIZE>\n\
     struct SquareMatrix {\n    using T = typename H::T;\n    using ar = array<T, SIZE>;\n\
     \    using mat = array<ar, SIZE>;\n    mat A;\n    SquareMatrix() {\n        for\
@@ -83,28 +82,20 @@ data:
     \    SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this)\
     \ -= B;}\n    SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this)\
     \ *= B;}\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square\
-    \ Matrix)\n * @docs _md/squarematrix.md\n */\n"
+    \ Matrix)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/squarematrix.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:59:46+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0399.test.cpp
-documentation_of: math/squarematrix.cpp
-layout: document
-redirect_from:
-- /library/math/squarematrix.cpp
-- /library/math/squarematrix.cpp.html
-title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
----
----
-layout: post
-title: 正方行列
 date: 2019-06-21
-category: データ構造
-tags: データ構造
+documentation_of: math/squarematrix.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: "\u6B63\u65B9\u884C\u5217"
 ---
 
 ## 説明

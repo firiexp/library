@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/persistent_unionfind.md
     document_title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
     links: []
   bundledCode: "#line 1 \"datastructure/persistent_unionfind.cpp\"\nclass PersistentUnionFind\
@@ -50,8 +49,7 @@ data:
     \  int m = (l + r) >> 1;\n        int nl = node[id].l;\n        int nr = node[id].r;\n\
     \        if (k < m) nl = set(nl, k, val, l, m);\n        else nr = set(nr, k,\
     \ val, m, r);\n        return make_node(0, nl, nr);\n    }\n};\n\n/**\n * @brief\
-    \ \u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)\n * @docs _md/persistent_unionfind.md\n\
-    \ */\n"
+    \ \u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)\n */\n"
   code: "class PersistentUnionFind {\n    struct Node {\n        int val;\n      \
     \  int l;\n        int r;\n    };\n\n    int n;\n    vector<Node> node;\n    vector<pair<int,\
     \ int>> roots;\n\npublic:\n    explicit PersistentUnionFind(int sz) : n(sz) {\n\
@@ -89,20 +87,17 @@ data:
     \    int nr = node[id].r;\n        if (k < m) nl = set(nl, k, val, l, m);\n  \
     \      else nr = set(nr, k, val, m, r);\n        return make_node(0, nl, nr);\n\
     \    }\n};\n\n/**\n * @brief \u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent\
-    \ Union Find)\n * @docs _md/persistent_unionfind.md\n */\n"
+    \ Union Find)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/persistent_unionfind.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
 documentation_of: datastructure/persistent_unionfind.cpp
 layout: document
-redirect_from:
-- /library/datastructure/persistent_unionfind.cpp
-- /library/datastructure/persistent_unionfind.cpp.html
 title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
 ---
 ## 説明

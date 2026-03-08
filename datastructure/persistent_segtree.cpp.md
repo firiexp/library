@@ -1,4 +1,5 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/persistent_segtree.md
     document_title: "\u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Persistent Segment\
       \ Tree)"
     links: []
@@ -60,7 +60,7 @@ data:
     \ query_(node[id].r, a, b, m, r));\n    }\n};\n\n/*\nstruct Monoid{\n    using\
     \ T = long long;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
     \ { return 0; }\n};\n*/\n\n/**\n * @brief \u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Persistent Segment Tree)\n * @docs _md/persistent_segtree.md\n */\n"
+    \u30C8\u6728(Persistent Segment Tree)\n */\n"
   code: "template <class M>\nstruct PersistentSegmentTree{\n    using T = typename\
     \ M::T;\n    struct Node{\n        T val;\n        int l, r;\n    };\n\n    int\
     \ n{};\n    vector<Node> node;\n    vector<int> root;\n\n    explicit PersistentSegmentTree(int\
@@ -106,28 +106,20 @@ data:
     \ query_(node[id].r, a, b, m, r));\n    }\n};\n\n/*\nstruct Monoid{\n    using\
     \ T = long long;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
     \ { return 0; }\n};\n*/\n\n/**\n * @brief \u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Persistent Segment Tree)\n * @docs _md/persistent_segtree.md\n */\n"
+    \u30C8\u6728(Persistent Segment Tree)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/persistent_segtree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum_persistent.test.cpp
-documentation_of: datastructure/persistent_segtree.cpp
-layout: document
-redirect_from:
-- /library/datastructure/persistent_segtree.cpp
-- /library/datastructure/persistent_segtree.cpp.html
-title: "\u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Persistent Segment Tree)"
----
----
-layout: post
-title: Persistent Segment Tree
 date: 2026-03-08
-category: データ構造
-tags: データ構造
+documentation_of: datastructure/persistent_segtree.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: Persistent Segment Tree
 ---
 
 ## 概要

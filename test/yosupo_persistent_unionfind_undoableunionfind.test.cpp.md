@@ -6,7 +6,7 @@ data:
     title: Undoable Union Find
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -86,28 +86,28 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"datastructure/undoableunionfind.cpp\"\nclass UndoableUnionFind {\n \
-    \   stack<pair<int, int>> hist;\n    int forest_size;\n    int snap;\n\npublic:\n\
-    \    vector<int> uni;\n\n    explicit UndoableUnionFind(int sz) : forest_size(sz),\
-    \ snap(0), uni(sz, -1) {}\n\n    int root(int a) {\n        if (uni[a] < 0) return\
-    \ a;\n        return root(uni[a]);\n    }\n\n    bool same(int a, int b) {\n \
-    \       return root(a) == root(b);\n    }\n\n    bool unite(int a, int b) {\n\
-    \        a = root(a);\n        b = root(b);\n        hist.emplace(a, uni[a]);\n\
-    \        hist.emplace(b, uni[b]);\n        if (a == b) return false;\n       \
-    \ if (uni[a] > uni[b]) swap(a, b);\n        uni[a] += uni[b];\n        uni[b]\
-    \ = a;\n        forest_size--;\n        return true;\n    }\n\n    int size()\
-    \ { return forest_size; }\n    int size(int i) { return -uni[root(i)]; }\n\n \
-    \   int get_state() const {\n        return int(hist.size() >> 1);\n    }\n\n\
-    \    void undo() {\n        int a = hist.top().first;\n        int ua = hist.top().second;\n\
-    \        hist.pop();\n        int b = hist.top().first;\n        int ub = hist.top().second;\n\
-    \        hist.pop();\n        if (a != b) forest_size++;\n        uni[a] = ua;\n\
-    \        uni[b] = ub;\n    }\n\n    void snapshot() {\n        snap = get_state();\n\
-    \    }\n\n    void rollback(int state = -1) {\n        if (state == -1) state\
-    \ = snap;\n        while (get_state() > state) undo();\n    }\n};\n\n/**\n * @brief\
-    \ Undoable Union Find\n * @docs _md/undoableunionfind.md\n */\n#line 9 \"test/yosupo_persistent_unionfind_undoableunionfind.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
-    \ q);\n    using A = array<int, 4>;\n    vector<vector<A>> g(q + 1);\n    vector<int>\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/undoableunionfind.cpp\"\
+    \nclass UndoableUnionFind {\n    stack<pair<int, int>> hist;\n    int forest_size;\n\
+    \    int snap;\n\npublic:\n    vector<int> uni;\n\n    explicit UndoableUnionFind(int\
+    \ sz) : forest_size(sz), snap(0), uni(sz, -1) {}\n\n    int root(int a) {\n  \
+    \      if (uni[a] < 0) return a;\n        return root(uni[a]);\n    }\n\n    bool\
+    \ same(int a, int b) {\n        return root(a) == root(b);\n    }\n\n    bool\
+    \ unite(int a, int b) {\n        a = root(a);\n        b = root(b);\n        hist.emplace(a,\
+    \ uni[a]);\n        hist.emplace(b, uni[b]);\n        if (a == b) return false;\n\
+    \        if (uni[a] > uni[b]) swap(a, b);\n        uni[a] += uni[b];\n       \
+    \ uni[b] = a;\n        forest_size--;\n        return true;\n    }\n\n    int\
+    \ size() { return forest_size; }\n    int size(int i) { return -uni[root(i)];\
+    \ }\n\n    int get_state() const {\n        return int(hist.size() >> 1);\n  \
+    \  }\n\n    void undo() {\n        int a = hist.top().first;\n        int ua =\
+    \ hist.top().second;\n        hist.pop();\n        int b = hist.top().first;\n\
+    \        int ub = hist.top().second;\n        hist.pop();\n        if (a != b)\
+    \ forest_size++;\n        uni[a] = ua;\n        uni[b] = ub;\n    }\n\n    void\
+    \ snapshot() {\n        snap = get_state();\n    }\n\n    void rollback(int state\
+    \ = -1) {\n        if (state == -1) state = snap;\n        while (get_state()\
+    \ > state) undo();\n    }\n};\n\n/**\n * @brief Undoable Union Find\n */\n#line\
+    \ 9 \"test/yosupo_persistent_unionfind_undoableunionfind.test.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n \
+    \   using A = array<int, 4>;\n    vector<vector<A>> g(q + 1);\n    vector<int>\
     \ ans(q + 1, -1);\n    for (int i = 1; i <= q; ++i) {\n        int t, k, u, v;\n\
     \        sc.read(t, k, u, v);\n        ++k;\n        g[k].push_back({t, i, u,\
     \ v});\n    }\n\n    UndoableUnionFind uf(n);\n    auto dfs = [&](auto &&f, A\
@@ -136,7 +136,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp

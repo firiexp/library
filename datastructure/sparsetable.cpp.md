@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/LCA.cpp
     title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
   - icon: ':heavy_check_mark:'
@@ -10,7 +10,7 @@ data:
     title: "\u88DC\u52A9\u6728(Aux Tree)"
   - icon: ':heavy_check_mark:'
     path: tree/virtual_tree_helper.cpp
-    title: Virtual Tree Helper
+    title: virtual_tree_helper
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0439.test.cpp
@@ -18,7 +18,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0439_virtual_tree_helper.test.cpp
     title: test/aoj0439_virtual_tree_helper.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
   - icon: ':x:'
@@ -28,7 +28,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/sparsetable.md
     document_title: Sparse Table
     links: []
   bundledCode: "#line 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct\
@@ -43,7 +42,7 @@ data:
     \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
     \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b){\n  \
     \      int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n\n/**\n * @brief Sparse Table\n * @docs _md/sparsetable.md\n */\n"
+    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n"
   code: "template <class F>\nstruct SparseTable {\n    using T = typename F::T;\n\
     \    vector<vector<T>> table;\n    vector<int> u;\n    SparseTable() = default;\n\
     \    explicit SparseTable(const vector<T> &v){ build(v); }\n \n    void build(const\
@@ -55,7 +54,7 @@ data:
     \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
     \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
     \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n\n/**\n * @brief Sparse Table\n * @docs _md/sparsetable.md\n */\n"
+    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/sparsetable.cpp
@@ -63,7 +62,7 @@ data:
   - tree/auxtree.cpp
   - tree/LCA.cpp
   - tree/virtual_tree_helper.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/aoj0439.test.cpp
@@ -72,9 +71,6 @@ data:
   - test/yosupo_lca.test.cpp
 documentation_of: datastructure/sparsetable.cpp
 layout: document
-redirect_from:
-- /library/datastructure/sparsetable.cpp
-- /library/datastructure/sparsetable.cpp.html
 title: Sparse Table
 ---
 ## 説明

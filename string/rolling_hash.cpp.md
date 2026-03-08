@@ -1,4 +1,5 @@
 ---
+category: "\u6587\u5B57\u5217"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/rolling_hash.md
     document_title: Rolling Hash
     links: []
   bundledCode: "#line 1 \"util/xorshift.cpp\"\n#include <chrono>\nclass xor_shift\
@@ -36,7 +36,7 @@ data:
     \ 0);\n        for (int i = 0; i < s.size(); ++i) {\n            hash[i+1] = (hash[i]*B()\
     \ + s[i]) % M;\n        }\n    };\n\n    ll get(int l, int r){\n        ll res\
     \ = hash[r]+M-hash[l]*p()[r-l]%M;\n        return res >= M ? res-M : res;\n  \
-    \  }\n};\n\n/**\n * @brief Rolling Hash\n * @docs _md/rolling_hash.md\n */\n"
+    \  }\n};\n\n/**\n * @brief Rolling Hash\n */\n"
   code: "#include \"../util/xorshift.cpp\"\nxor_shift rd;\n\ntemplate<int M>\nstruct\
     \ rolling_hash {\n\n    static ll &B() {\n        static ll B_ = rd.rand(2, M-1);\n\
     \        return B_;\n    }\n    static vector<ll> &p() {\n        static vector<ll>\
@@ -48,29 +48,21 @@ data:
     \ i = 0; i < s.size(); ++i) {\n            hash[i+1] = (hash[i]*B() + s[i]) %\
     \ M;\n        }\n    };\n\n    ll get(int l, int r){\n        ll res = hash[r]+M-hash[l]*p()[r-l]%M;\n\
     \        return res >= M ? res-M : res;\n    }\n};\n\n/**\n * @brief Rolling Hash\n\
-    \ * @docs _md/rolling_hash.md\n */\n"
+    \ */\n"
   dependsOn:
   - util/xorshift.cpp
   isVerificationFile: false
   path: string/rolling_hash.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0355.test.cpp
-documentation_of: string/rolling_hash.cpp
-layout: document
-redirect_from:
-- /library/string/rolling_hash.cpp
-- /library/string/rolling_hash.cpp.html
-title: Rolling Hash
----
----
-layout: post
-title: Rolling-Hash
 date: 2019-09-16
-category: 文字列
-tags: 文字列
+documentation_of: string/rolling_hash.cpp
+layout: post
+tags: "\u6587\u5B57\u5217"
+title: Rolling-Hash
 ---
 
 ## 説明

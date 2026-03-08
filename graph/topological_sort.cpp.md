@@ -1,4 +1,5 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/topological_sort.md
     document_title: "\u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological\
       \ Sort)"
     links: []
@@ -23,7 +23,7 @@ data:
     \     return true;\n    };\n    for (int i = 0; i < n; ++i) {\n        if (state[i]\
     \ == 0 && !dfs(dfs, i)) return {};\n    }\n    reverse(ord.begin(), ord.end());\n\
     \    return ord;\n}\n\n/**\n * @brief \u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\
-    \u30FC\u30C8(Topological Sort)\n * @docs _md/topological_sort.md\n */\n"
+    \u30FC\u30C8(Topological Sort)\n */\n"
   code: "vector<int> topological_sort(const vector<vector<int>> &g) {\n    int n =\
     \ g.size();\n    vector<int> state(n), ord;\n    ord.reserve(n);\n    auto dfs\
     \ = [&](auto &&self, int v) -> bool {\n        state[v] = 1;\n        for (auto\
@@ -32,29 +32,20 @@ data:
     \ = 2;\n        ord.emplace_back(v);\n        return true;\n    };\n    for (int\
     \ i = 0; i < n; ++i) {\n        if (state[i] == 0 && !dfs(dfs, i)) return {};\n\
     \    }\n    reverse(ord.begin(), ord.end());\n    return ord;\n}\n\n/**\n * @brief\
-    \ \u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological Sort)\n *\
-    \ @docs _md/topological_sort.md\n */\n"
+    \ \u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological Sort)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/topological_sort.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_topological_sort.test.cpp
-documentation_of: graph/topological_sort.cpp
-layout: document
-redirect_from:
-- /library/graph/topological_sort.cpp
-- /library/graph/topological_sort.cpp.html
-title: "\u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological Sort)"
----
----
-layout: post
-title: Topological Sort
 date: 2026-03-08
-category: グラフ
-tags: グラフ
+documentation_of: graph/topological_sort.cpp
+layout: post
+tags: "\u30B0\u30E9\u30D5"
+title: Topological Sort
 ---
 
 ## 説明

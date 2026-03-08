@@ -1,9 +1,10 @@
 ---
+category: "\u30D5\u30ED\u30FC"
 data:
   _extendedDependsOn:
   - icon: ':question:'
     path: flow/dinic.cpp
-    title: "Dinic\u6CD5(Dinic)"
+    title: "Dinic(\u6700\u5927\u6D41)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/maxflow_lower_bound.md
     document_title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max\
       \ Flow with Lower Bounds)"
     links: []
@@ -41,16 +41,16 @@ data:
     \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
     \           if(f == 0) break;\n                ret += f;\n                lim\
     \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Dinic\u6CD5(Dinic)\n * @docs _md/dinic.md\n */\n#line 2 \"graph/maxflow_lower_bound.cpp\"\
-    \n\ntemplate<class T>\nclass MaxFlowLowerBound {\n\n    struct raw_edge {\n  \
-    \      int from{}, to{};\n        T lower{}, upper{};\n    };\n\npublic:\n   \
-    \ int n;\n    vector<raw_edge> edges;\n    MaxFlowLowerBound() = default;\n  \
-    \  explicit MaxFlowLowerBound(int n) : n(n) {}\n\n    void add_edge(int from,\
-    \ int to, T lower, T upper) {\n        edges.push_back({from, to, lower, upper});\n\
-    \    }\n\n    pair<bool, T> max_flow(int s, int t) {\n        int ss = n, tt =\
-    \ n + 1;\n        Dinic<T, true> mf(n + 2);\n        vector<T> b(n, 0);\n    \
-    \    auto add_edge = [&](int from, int to, T cap) {\n            int idx = (int)mf.G[from].size();\n\
-    \            mf.add_edge(from, to, cap);\n            return pair<int, int>{from,\
+    \ Dinic\u6CD5(Dinic)\n */\n#line 2 \"graph/maxflow_lower_bound.cpp\"\n\ntemplate<class\
+    \ T>\nclass MaxFlowLowerBound {\n\n    struct raw_edge {\n        int from{},\
+    \ to{};\n        T lower{}, upper{};\n    };\n\npublic:\n    int n;\n    vector<raw_edge>\
+    \ edges;\n    MaxFlowLowerBound() = default;\n    explicit MaxFlowLowerBound(int\
+    \ n) : n(n) {}\n\n    void add_edge(int from, int to, T lower, T upper) {\n  \
+    \      edges.push_back({from, to, lower, upper});\n    }\n\n    pair<bool, T>\
+    \ max_flow(int s, int t) {\n        int ss = n, tt = n + 1;\n        Dinic<T,\
+    \ true> mf(n + 2);\n        vector<T> b(n, 0);\n        auto add_edge = [&](int\
+    \ from, int to, T cap) {\n            int idx = (int)mf.G[from].size();\n    \
+    \        mf.add_edge(from, to, cap);\n            return pair<int, int>{from,\
     \ idx};\n        };\n\n        for(auto &&e : edges) {\n            mf.add_edge(e.from,\
     \ e.to, e.upper - e.lower);\n            b[e.from] -= e.lower;\n            b[e.to]\
     \ += e.lower;\n        }\n\n        auto ts = add_edge(t, s, INF<T>);\n      \
@@ -65,7 +65,7 @@ data:
     \        mf.G[ts.first][ts.second].cap = 0;\n        mf.G[to][rev].cap = 0;\n\n\
     \        T add = mf.flow(s, t);\n        return {true, base + add};\n    }\n};\n\
     \n/**\n * @brief \u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max\
-    \ Flow with Lower Bounds)\n * @docs _md/maxflow_lower_bound.md\n */\n"
+    \ Flow with Lower Bounds)\n */\n"
   code: "#include \"../flow/dinic.cpp\"\n\ntemplate<class T>\nclass MaxFlowLowerBound\
     \ {\n\n    struct raw_edge {\n        int from{}, to{};\n        T lower{}, upper{};\n\
     \    };\n\npublic:\n    int n;\n    vector<raw_edge> edges;\n    MaxFlowLowerBound()\
@@ -89,30 +89,21 @@ data:
     \        mf.G[ts.first][ts.second].cap = 0;\n        mf.G[to][rev].cap = 0;\n\n\
     \        T add = mf.flow(s, t);\n        return {true, base + add};\n    }\n};\n\
     \n/**\n * @brief \u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max\
-    \ Flow with Lower Bounds)\n * @docs _md/maxflow_lower_bound.md\n */\n"
+    \ Flow with Lower Bounds)\n */\n"
   dependsOn:
   - flow/dinic.cpp
   isVerificationFile: false
   path: graph/maxflow_lower_bound.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
-documentation_of: graph/maxflow_lower_bound.cpp
-layout: document
-redirect_from:
-- /library/graph/maxflow_lower_bound.cpp
-- /library/graph/maxflow_lower_bound.cpp.html
-title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max Flow with Lower\
-  \ Bounds)"
----
----
-layout: post
-title: MaxFlowLowerBound
 date: 2026-03-07
-category: フロー
-tags: 最大流
+documentation_of: graph/maxflow_lower_bound.cpp
+layout: post
+tags: "\u6700\u5927\u6D41"
+title: MaxFlowLowerBound
 ---
 
 ## 説明

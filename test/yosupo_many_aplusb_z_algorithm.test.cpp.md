@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: string/z-algorithm.cpp
-    title: Z-Algorithm
+    title: Z-algorithm
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -86,14 +86,13 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"string/z-algorithm.cpp\"\nvector<int> Z_algorithm(const\
-    \ string &s){\n    int n = (int)s.size();\n    vector<int> res(n);\n    if (n\
-    \ == 0) return res;\n    res[0] = n;\n    for (int i = 1, j = 0; i < n; ++i) {\n\
-    \        int &k = res[i];\n        if (j + res[j] > i) k = min(res[i - j], j +\
-    \ res[j] - i);\n        while (i + k < n && s[k] == s[i + k]) ++k;\n        if\
-    \ (i + k > j + res[j]) j = i;\n    }\n    return res;\n}\n\n/**\n * @brief Z-Algorithm\n\
-    \ * @docs _md/z-algorithm.md\n */\n#line 10 \"test/yosupo_many_aplusb_z_algorithm.test.cpp\"\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"string/z-algorithm.cpp\"\nvector<int> Z_algorithm(const string &s){\n  \
+    \  int n = (int)s.size();\n    vector<int> res(n);\n    if (n == 0) return res;\n\
+    \    res[0] = n;\n    for (int i = 1, j = 0; i < n; ++i) {\n        int &k = res[i];\n\
+    \        if (j + res[j] > i) k = min(res[i - j], j + res[j] - i);\n        while\
+    \ (i + k < n && s[k] == s[i + k]) ++k;\n        if (i + k > j + res[j]) j = i;\n\
+    \    }\n    return res;\n}\n\n/**\n * @brief Z-Algorithm\n */\n#line 10 \"test/yosupo_many_aplusb_z_algorithm.test.cpp\"\
     \n\nvector<int> brute_z(const string &s) {\n    int n = (int)s.size();\n    vector<int>\
     \ res(n);\n    for (int i = 0; i < n; ++i) {\n        while (i + res[i] < n &&\
     \ s[res[i]] == s[i + res[i]]) ++res[i];\n    }\n    return res;\n}\n\nint main()\
@@ -133,8 +132,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_z_algorithm.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_z_algorithm.test.cpp
 layout: document

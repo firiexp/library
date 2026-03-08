@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/costscalingdinic.md
     document_title: "\u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity\
       \ Scaling Dinic)"
     links: []
@@ -40,7 +39,7 @@ data:
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
     \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
-    Dinic(Capacity Scaling Dinic)\n * @docs _md/costscalingdinic.md\n */\n"
+    Dinic(Capacity Scaling Dinic)\n */\n"
   code: "template<class T, bool directed>\nclass CostScalingDinic {\n    void bfs(int\
     \ s, T x){\n        fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n\
     \        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n  \
@@ -67,20 +66,17 @@ data:
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
     \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
-    Dinic(Capacity Scaling Dinic)\n * @docs _md/costscalingdinic.md\n */\n"
+    Dinic(Capacity Scaling Dinic)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: flow/costscalingdinic.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
 documentation_of: flow/costscalingdinic.cpp
 layout: document
-redirect_from:
-- /library/flow/costscalingdinic.cpp
-- /library/flow/costscalingdinic.cpp.html
 title: "\u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity Scaling Dinic)"
 ---
 ## 説明

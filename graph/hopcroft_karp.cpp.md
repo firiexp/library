@@ -1,4 +1,5 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/hopcroft_karp.md
     document_title: "Hopcroft-Karp\u6CD5"
     links: []
   bundledCode: "#line 1 \"graph/hopcroft_karp.cpp\"\nclass HopcroftKarp {\n    int\
@@ -37,7 +37,7 @@ data:
     \ get_pairs() const {\n        vector<pair<int, int>> ret;\n        for (int i\
     \ = 0; i < l; ++i) {\n            if (match_left[i] != -1) ret.emplace_back(i,\
     \ match_left[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Hopcroft-Karp\u6CD5\n * @docs _md/hopcroft_karp.md\n */\n"
+    \ Hopcroft-Karp\u6CD5\n */\n"
   code: "class HopcroftKarp {\n    int l, r;\n    vector<vector<int>> g;\n    vector<int>\
     \ dist;\n\npublic:\n    vector<int> match_left, match_right;\n\n    explicit HopcroftKarp(int\
     \ l, int r) : l(l), r(r), g(l), dist(l), match_left(l, -1), match_right(r, -1)\
@@ -61,29 +61,20 @@ data:
     \ }\n\n    vector<pair<int, int>> get_pairs() const {\n        vector<pair<int,\
     \ int>> ret;\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
     \ != -1) ret.emplace_back(i, match_left[i]);\n        }\n        return ret;\n\
-    \    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\n * @docs _md/hopcroft_karp.md\n\
-    \ */\n"
+    \    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/hopcroft_karp.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp
-documentation_of: graph/hopcroft_karp.cpp
-layout: document
-redirect_from:
-- /library/graph/hopcroft_karp.cpp
-- /library/graph/hopcroft_karp.cpp.html
-title: "Hopcroft-Karp\u6CD5"
----
----
-layout: post
-title: Hopcroft Karp
 date: 2026-03-08
-category: グラフ
-tags: グラフ
+documentation_of: graph/hopcroft_karp.cpp
+layout: post
+tags: "\u30B0\u30E9\u30D5"
+title: Hopcroft Karp
 ---
 
 ## 説明

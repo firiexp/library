@@ -6,14 +6,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0294.test.cpp
     title: test/aoj0294.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_dominator_tree.test.cpp
     title: test/yosupo_dominator_tree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/dominatortree.md
     document_title: Dominator Tree
     links: []
   bundledCode: "#line 1 \"graph/dominatortree.cpp\"\nclass DominatorTree {\n    int\
@@ -41,7 +40,7 @@ data:
     \ = semi[a];\n            else idom[a] = idom[b];\n        }\n        for (int\
     \ i = 1; i < cur; ++i) {\n            int a = ord[i];\n            idom[a] = ord[idom[a]];\n\
     \        }\n        idom[root] = -1;\n    }\n\n};\n\n\n/**\n * @brief Dominator\
-    \ Tree\n * @docs _md/dominatortree.md\n */\n"
+    \ Tree\n */\n"
   code: "class DominatorTree {\n    int n;\n    void unite(int x, int y){\n      \
     \  uf_par[y] = x;\n    }\n\n    int compress(int x){\n        if(uf_par[x] ==\
     \ x) return x;\n        int r = compress(uf_par[x]);\n        if(semi[m[x]] >\
@@ -66,21 +65,18 @@ data:
     \ idom[a] = semi[a];\n            else idom[a] = idom[b];\n        }\n       \
     \ for (int i = 1; i < cur; ++i) {\n            int a = ord[i];\n            idom[a]\
     \ = ord[idom[a]];\n        }\n        idom[root] = -1;\n    }\n\n};\n\n\n/**\n\
-    \ * @brief Dominator Tree\n * @docs _md/dominatortree.md\n */\n"
+    \ * @brief Dominator Tree\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/dominatortree.cpp
   requiredBy: []
-  timestamp: '2020-06-10 18:46:05+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/aoj0294.test.cpp
   - test/yosupo_dominator_tree.test.cpp
 documentation_of: graph/dominatortree.cpp
 layout: document
-redirect_from:
-- /library/graph/dominatortree.cpp
-- /library/graph/dominatortree.cpp.html
 title: Dominator Tree
 ---
 ## 説明

@@ -13,7 +13,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/dualgraph.md
     document_title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
     links: []
   bundledCode: "#line 1 \"geometry/geometry.cpp\"\n// \u51F8\u5305\u306F\u540C\u3058\
@@ -162,36 +161,36 @@ data:
     \ j)->y;\n            if (dy >= d)\n                break;\n            d = min(d,\
     \ abs(v[i] - *next(u.rbegin(), j)));\n        }\n        u.emplace_back(v[i]);\n\
     \    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\
-    \u30EA(Geometry)\n * @docs _md/geometry.md\n */\n#line 2 \"geometry/dualgraph.cpp\"\
-    \n\nclass DualGraph {\n    struct P {\n        int to, nxt, id, id2, rev;\n  \
-    \      P(int to = 0, int nxt = 0, int id = 0, int rev = 0) : to(to), nxt(nxt),\
-    \ id(id), rev(rev), id2(0) {};\n        bool operator!=(P x){ return to != x.to\
-    \ || nxt != x.nxt || id != x.id || rev != x.rev; }\n    };\npublic:\n    int n,\
-    \ m;\n    Polygon v;\n    vector<vector<P>> G_;\n    vector<vector<int>> G;\n\
-    \    vector<vector<Point>> A;\n    DualGraph(Polygon v) : v(v), n(v.size()), G_(n),\
-    \ m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
-    \ }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n\
-    \        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n     \
-    \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
-    \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
-    \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                if(i\
-    \ < G_[i][j].to) l[G_[i][j].id] = j;\n                else r[G_[i][j].id] = j;\n\
-    \            }\n        }\n        for (int i = 0; i < n; ++i) {\n           \
-    \ for (auto &&e : G_[i]) {\n                e.rev = (i < e.to ? r[e.id] : l[e.id]);\n\
-    \            }\n        }\n        int cur = 1;\n        A = move(vector<vector<Point>>());\n\
-    \        for (int i = 0; i < n; ++i) {\n            for (auto &&x : G_[i]) {\n\
-    \                if(x.id2) continue;\n                x.id2 = cur;\n         \
-    \       A.emplace_back();\n                A.back().emplace_back(v[i]);\n    \
-    \            auto e = &x;\n                while(e->to != i){\n              \
-    \      A.back().emplace_back(v[e->to]);\n                    e = &G_[e->to][G_[e->to][e->rev].nxt];\n\
+    \u30EA(Geometry)\n */\n#line 2 \"geometry/dualgraph.cpp\"\n\nclass DualGraph {\n\
+    \    struct P {\n        int to, nxt, id, id2, rev;\n        P(int to = 0, int\
+    \ nxt = 0, int id = 0, int rev = 0) : to(to), nxt(nxt), id(id), rev(rev), id2(0)\
+    \ {};\n        bool operator!=(P x){ return to != x.to || nxt != x.nxt || id !=\
+    \ x.id || rev != x.rev; }\n    };\npublic:\n    int n, m;\n    Polygon v;\n  \
+    \  vector<vector<P>> G_;\n    vector<vector<int>> G;\n    vector<vector<Point>>\
+    \ A;\n    DualGraph(Polygon v) : v(v), n(v.size()), G_(n), m(0) {}\n\n    void\
+    \ add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back(); }\n    void add_edge(int\
+    \ a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n        G_[b].emplace_back(a,\
+    \ 0, m++, 0);\n    }\n\n    void build(){\n        vector<int> l(m), r(m);\n \
+    \       for (int i = 0; i < n; ++i) {\n            sort(G_[i].begin(), G_[i].end(),\
+    \ [&](P &a, P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });\n       \
+    \     for (int j = 0; j < G_[i].size(); ++j) {\n                G_[i][j].nxt =\
+    \ (j + 1) % G_[i].size();\n                if(i < G_[i][j].to) l[G_[i][j].id]\
+    \ = j;\n                else r[G_[i][j].id] = j;\n            }\n        }\n \
+    \       for (int i = 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n\
+    \                e.rev = (i < e.to ? r[e.id] : l[e.id]);\n            }\n    \
+    \    }\n        int cur = 1;\n        A = move(vector<vector<Point>>());\n   \
+    \     for (int i = 0; i < n; ++i) {\n            for (auto &&x : G_[i]) {\n  \
+    \              if(x.id2) continue;\n                x.id2 = cur;\n           \
+    \     A.emplace_back();\n                A.back().emplace_back(v[i]);\n      \
+    \          auto e = &x;\n                while(e->to != i){\n                \
+    \    A.back().emplace_back(v[e->to]);\n                    e = &G_[e->to][G_[e->to][e->rev].nxt];\n\
     \                    e->id2 = cur;\n                }\n                cur++;\n\
     \            }\n        }\n        for (int i = 0; i < n; ++i) {\n           \
     \ for (auto &&e : G_[i]) {\n                (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n\
     \            }\n        }\n        G = move(vector<vector<int>>(A.size()));\n\
     \        for (int i = 0; i < m; ++i) {\n            G[l[i]].emplace_back(r[i]);\n\
     \            G[r[i]].emplace_back(l[i]);\n        }\n    }\n};\n\n/**\n * @brief\
-    \ \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n * @docs _md/dualgraph.md\n */\n"
+    \ \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n */\n"
   code: "#include \"../geometry/geometry.cpp\"\n\nclass DualGraph {\n    struct P\
     \ {\n        int to, nxt, id, id2, rev;\n        P(int to = 0, int nxt = 0, int\
     \ id = 0, int rev = 0) : to(to), nxt(nxt), id(id), rev(rev), id2(0) {};\n    \
@@ -220,21 +219,18 @@ data:
     \            }\n        }\n        G = move(vector<vector<int>>(A.size()));\n\
     \        for (int i = 0; i < m; ++i) {\n            G[l[i]].emplace_back(r[i]);\n\
     \            G[r[i]].emplace_back(l[i]);\n        }\n    }\n};\n\n/**\n * @brief\
-    \ \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n * @docs _md/dualgraph.md\n */"
+    \ \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n */"
   dependsOn:
   - geometry/geometry.cpp
   isVerificationFile: false
   path: geometry/dualgraph.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0273.test.cpp
 documentation_of: geometry/dualgraph.cpp
 layout: document
-redirect_from:
-- /library/geometry/dualgraph.cpp
-- /library/geometry/dualgraph.cpp.html
 title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
 ---
 ## 説明

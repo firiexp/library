@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/nth_term.cpp
     title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
   - icon: ':question:'
     path: math/ntt.cpp
-    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+    title: Number Theoretic Transform
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
@@ -91,18 +91,18 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 2 \"math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod = 998244353,\
-    \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
-    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
-    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
-    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
-    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
-    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 2 \"math/ntt.cpp\"\
+    \n#include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef\
+    \ NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef\
+    \ NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
+    \ -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\n\
+    template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
+    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
+    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
+    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
+    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
+    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
     \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
@@ -355,12 +355,12 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
-    \ _md/ntt.md\n */\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q,\
-    \ ll n){\n    if(!n) return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(),\
-    \ q.size());\n    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n\
-    \    mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int\
-    \ j = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    #line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
+    \ return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n\
+    \    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n \
+    \   mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int j\
+    \ = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n\
     \    for (int i = 2; i < sz>>1; i <<= 1) {\n        for (int j = i+1; j < 2*i;\
     \ ++j) {\n            y[j] = y[j-i]*y[i];\n        }\n    }\n    ntt.transform(p.v,\
     \ 0);\n    ntt.transform(q.v, 0);\n    poly tmp(sz>>1);\n    auto up = [&](poly\
@@ -375,8 +375,7 @@ data:
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
     \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
-    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n * @docs _md/nth_term.md\n\
-    \ */\n#line 13 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
+    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n */\n#line 13 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int d;\n    ll n;\n\
     \    sc.read(d, n);\n    vector<mint> a(d), c(d);\n    for (int i = 0; i < d;\
     \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
@@ -402,8 +401,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
 layout: document

@@ -19,7 +19,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/unionfind.md
     document_title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
     links: []
   bundledCode: "#line 1 \"datastructure/unionfind.cpp\"\nclass UnionFind {\n    int\
@@ -32,7 +31,7 @@ data:
     \   return true;\n    }\n    int size(){ return forest_size; }\n    int size(int\
     \ i){ return -uni[root(i)]; }\n    bool same(int a, int b) { return root(a) ==\
     \ root(b); }\n};\n\n/**\n * @brief UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\
-    \u69CB\u9020)\n * @docs _md/unionfind.md\n */\n"
+    \u69CB\u9020)\n */\n"
   code: "class UnionFind {\n    int n;\n    vector<int> uni;\n    int forest_size;\n\
     public:\n    explicit UnionFind(int n) : n(n), uni(static_cast<uint>(n), -1),\
     \ forest_size(n) {};\n\n    int root(int a){\n        if (uni[a] < 0) return a;\n\
@@ -42,13 +41,12 @@ data:
     \        uni[b] = a;\n        forest_size--;\n        return true;\n    }\n  \
     \  int size(){ return forest_size; }\n    int size(int i){ return -uni[root(i)];\
     \ }\n    bool same(int a, int b) { return root(a) == root(b); }\n};\n\n/**\n *\
-    \ @brief UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)\n * @docs\
-    \ _md/unionfind.md\n */"
+    \ @brief UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)\n */"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/unionfind.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/aoj0403.test.cpp
@@ -57,9 +55,6 @@ data:
   - test/aoj0377.test.cpp
 documentation_of: datastructure/unionfind.cpp
 layout: document
-redirect_from:
-- /library/datastructure/unionfind.cpp
-- /library/datastructure/unionfind.cpp.html
 title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
 ---
 ## 説明

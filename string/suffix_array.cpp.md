@@ -13,7 +13,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/suffix_array.md
     document_title: Suffix Array
     links: []
   bundledCode: "#line 1 \"string/suffix_array.cpp\"\nvector<int> convert(string const&\
@@ -63,7 +62,7 @@ data:
     \ j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h < n && s[j+h] == s[i+h])\
     \ h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return lcp;\n}\n\nvector<int>\
     \ lcp(string const& s, vector<int> const& sa){\n    return lcp(convert(s), sa);\n\
-    }\n\n/**\n * @brief Suffix Array\n * @docs _md/suffix_array.md\n */\n"
+    }\n\n/**\n * @brief Suffix Array\n */\n"
   code: "vector<int> convert(string const& s){\n    int n = s.size();\n    std::vector<int>\
     \ s2(n);\n    for (int i = 0; i < n; i++) s2[i] = s[i];\n    return s2;\n}\n\n\
     vector<int> suffix_array(const vector<int> &s, int upper){\n    int n = s.size();\n\
@@ -111,21 +110,18 @@ data:
     \ j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h < n && s[j+h] == s[i+h])\
     \ h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return lcp;\n}\n\nvector<int>\
     \ lcp(string const& s, vector<int> const& sa){\n    return lcp(convert(s), sa);\n\
-    }\n\n/**\n * @brief Suffix Array\n * @docs _md/suffix_array.md\n */\n"
+    }\n\n/**\n * @brief Suffix Array\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/suffix_array.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_number_of_substrings.test.cpp
   - test/yosupo_suffix_array.test.cpp
 documentation_of: string/suffix_array.cpp
 layout: document
-redirect_from:
-- /library/string/suffix_array.cpp
-- /library/string/suffix_array.cpp.html
 title: Suffix Array
 ---
 ## 説明

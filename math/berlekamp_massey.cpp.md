@@ -1,22 +1,22 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/linear_recurrence.cpp
-    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/berlekamp_massey.md
     document_title: "Berlekamp-Massey\u6CD5"
     links: []
   bundledCode: "#line 1 \"math/berlekamp_massey.cpp\"\ntemplate<class T>\nvector<T>\
@@ -30,7 +30,7 @@ data:
     \ n) {\n            l = n + 1 - l;\n            b = t;\n            y = d;\n \
     \           m = 1;\n        } else {\n            ++m;\n        }\n    }\n   \
     \ c.erase(c.begin());\n    for (auto &x : c) x = -x;\n    return c;\n}\n\n/**\n\
-    \ * @brief Berlekamp-Massey\u6CD5\n * @docs _md/berlekamp_massey.md\n */\n"
+    \ * @brief Berlekamp-Massey\u6CD5\n */\n"
   code: "template<class T>\nvector<T> berlekamp_massey(const vector<T> &s) {\n   \
     \ vector<T> c(1, T(1)), b(1, T(1));\n    int l = 0, m = 1;\n    T y = T(1);\n\
     \    for (int n = 0; n < (int)s.size(); ++n) {\n        T d = T(0);\n        for\
@@ -41,31 +41,22 @@ data:
     \ * b[i];\n        if (2 * l <= n) {\n            l = n + 1 - l;\n           \
     \ b = t;\n            y = d;\n            m = 1;\n        } else {\n         \
     \   ++m;\n        }\n    }\n    c.erase(c.begin());\n    for (auto &x : c) x =\
-    \ -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\u6CD5\n * @docs _md/berlekamp_massey.md\n\
-    \ */\n"
+    \ -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\u6CD5\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/berlekamp_massey.cpp
   requiredBy:
   - fps/linear_recurrence.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
-documentation_of: math/berlekamp_massey.cpp
-layout: document
-redirect_from:
-- /library/math/berlekamp_massey.cpp
-- /library/math/berlekamp_massey.cpp.html
-title: "Berlekamp-Massey\u6CD5"
----
----
-layout: post
-title: Berlekamp-Massey
 date: 2026-03-07
-category: 数学
-tags: 数学
+documentation_of: math/berlekamp_massey.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Berlekamp-Massey
 ---
 
 ## 概要

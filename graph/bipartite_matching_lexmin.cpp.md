@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: graph/bipartite_matching.cpp
     title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\
       (Bipartite Matching)"
@@ -14,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/bipartite_matching_lexmin.md
     document_title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\
       \u30B0(Lexicographically Minimum)"
     links: []
@@ -35,16 +34,16 @@ data:
     \ int>> res;\n        for (int i = 0; i < l; ++i) {\n            if (match[i]\
     \ == -1) continue;\n            res.emplace_back(i, match[i] - l);\n        }\n\
     \        return res;\n    }\n};\n\n/**\n * @brief \u4E8C\u90E8\u30B0\u30E9\u30D5\
-    \u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite Matching)\n * @docs _md/bipartite_matching.md\n\
-    \ */\n#line 2 \"graph/bipartite_matching_lexmin.cpp\"\nclass Bipartite_Matching_LexMin\
-    \ : public Bipartite_Matching {\npublic:\n    using Bipartite_Matching::Bipartite_Matching;\n\
+    \u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite Matching)\n */\n#line 2 \"\
+    graph/bipartite_matching_lexmin.cpp\"\nclass Bipartite_Matching_LexMin : public\
+    \ Bipartite_Matching {\npublic:\n    using Bipartite_Matching::Bipartite_Matching;\n\
     \n    int solve_LexMin() { // check sorted edge no\n        int res = matching();\n\
     \        for (int i = 0; i < l; ++i) {\n            if(!~match[i]) continue;\n\
     \            match[match[i]] = -1;\n            match[i] = -1;\n            ++t;\n\
     \            dfs(i);\n            alive[match[i]] = 0;\n            alive[i] =\
     \ 0;\n        }\n        return res;\n    }\n};\n\n/**\n * @brief \u8F9E\u66F8\
     \u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0(Lexicographically\
-    \ Minimum)\n * @docs _md/bipartite_matching_lexmin.md\n */\n"
+    \ Minimum)\n */\n"
   code: "#include \"./bipartite_matching.cpp\"\nclass Bipartite_Matching_LexMin :\
     \ public Bipartite_Matching {\npublic:\n    using Bipartite_Matching::Bipartite_Matching;\n\
     \n    int solve_LexMin() { // check sorted edge no\n        int res = matching();\n\
@@ -53,21 +52,18 @@ data:
     \            dfs(i);\n            alive[match[i]] = 0;\n            alive[i] =\
     \ 0;\n        }\n        return res;\n    }\n};\n\n/**\n * @brief \u8F9E\u66F8\
     \u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0(Lexicographically\
-    \ Minimum)\n * @docs _md/bipartite_matching_lexmin.md\n */\n"
+    \ Minimum)\n */\n"
   dependsOn:
   - graph/bipartite_matching.cpp
   isVerificationFile: false
   path: graph/bipartite_matching_lexmin.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0334.test.cpp
 documentation_of: graph/bipartite_matching_lexmin.cpp
 layout: document
-redirect_from:
-- /library/graph/bipartite_matching_lexmin.cpp
-- /library/graph/bipartite_matching_lexmin.cpp.html
 title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0(Lexicographically\
   \ Minimum)"
 ---

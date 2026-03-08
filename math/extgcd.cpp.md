@@ -1,10 +1,11 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: math/CRT.cpp
-    title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(CRT)"
+    title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_binomial_coefficient.test.cpp
@@ -16,7 +17,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/extgcd.md
     document_title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5\
       (Extended GCD)"
     links: []
@@ -24,36 +24,27 @@ data:
     \ b, T &x ,T &y){\n    for (T u = y = 1, v = x = 0; a; ) {\n        ll q = b/a;\n\
     \        swap(x -= q*u, u);\n        swap(y -= q*v, v);\n        swap(b -= q*a,\
     \ a);\n    }\n    return b;\n}\n \n\n/**\n * @brief \u62E1\u5F35\u30E6\u30FC\u30AF\
-    \u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended GCD)\n * @docs _md/extgcd.md\n */\n"
+    \u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended GCD)\n */\n"
   code: "template<typename T>\nT extgcd(T a, T b, T &x ,T &y){\n    for (T u = y =\
     \ 1, v = x = 0; a; ) {\n        ll q = b/a;\n        swap(x -= q*u, u);\n    \
     \    swap(y -= q*v, v);\n        swap(b -= q*a, a);\n    }\n    return b;\n}\n\
     \ \n\n/**\n * @brief \u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\
-    \u6CD5(Extended GCD)\n * @docs _md/extgcd.md\n */\n"
+    \u6CD5(Extended GCD)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/extgcd.cpp
   requiredBy:
   - math/CRT.cpp
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
   - test/yuki1358.test.cpp
-documentation_of: math/extgcd.cpp
-layout: document
-redirect_from:
-- /library/math/extgcd.cpp
-- /library/math/extgcd.cpp.html
-title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended\
-  \ GCD)"
----
----
-layout: post
-title: 拡張ユークリッド互除法
 date: 2018-04-28
-category: 数学
-tags: 整数論
+documentation_of: math/extgcd.cpp
+layout: post
+tags: "\u6574\u6570\u8AD6"
+title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
 ---
 
 ## 説明

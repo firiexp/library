@@ -1,4 +1,5 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/miller_rabin.md
     document_title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
     links: []
   bundledCode: "#line 1 \"math/miller_rabin.cpp\"\ntemplate< class T>\nT pow_ (T x,\
@@ -26,7 +26,7 @@ data:
     \ 1795265022};\n    if(n < 4759123141LL) v = {2, 7, 61};\n    for (auto &&p :\
     \ v) {\n        if(p >= n) break;\n        if(!suspect(p, s, d, n)) return false;\n\
     \    }\n    return true;\n}\n\n/**\n * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\
-    \n * @docs _md/miller_rabin.md\n */\n"
+    \n */\n"
   code: "template< class T>\nT pow_ (T x, uint64_t n, uint64_t M){\n    T u = 1;\n\
     \    if(n > 0){\n        u = pow_(x, n/2, M);\n        if (n % 2 == 0) u = (u*u)\
     \ % M;\n        else u = (((u * u)% M) * x) % M;\n    }\n    return u;\n};\n\n\
@@ -39,29 +39,20 @@ data:
     \ v = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};\n    if(n < 4759123141LL)\
     \ v = {2, 7, 61};\n    for (auto &&p : v) {\n        if(p >= n) break;\n     \
     \   if(!suspect(p, s, d, n)) return false;\n    }\n    return true;\n}\n\n/**\n\
-    \ * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\n * @docs _md/miller_rabin.md\n\
-    \ */\n"
+    \ * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/miller_rabin.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yuki3030.test.cpp
-documentation_of: math/miller_rabin.cpp
-layout: document
-redirect_from:
-- /library/math/miller_rabin.cpp
-- /library/math/miller_rabin.cpp.html
-title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
----
----
-layout: post
-title: Miller-Rabin法(確率的素数判定)
 date: 2018-04-28
-category: 数学
-tags: 数学
+documentation_of: math/miller_rabin.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
 ---
 
 ## 説明

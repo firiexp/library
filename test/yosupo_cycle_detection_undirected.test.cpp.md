@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/cycle_detection_undirected.cpp
-    title: "\u7121\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
+    title: Cycle Detection Undirected
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/cycle_detection_undirected
@@ -86,33 +86,31 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"graph/cycle_detection_undirected.cpp\"\nstruct\
-    \ CycleDetectionUndirectedResult {\n    vector<int> vertices;\n    vector<int>\
-    \ edge_ids;\n};\n\nCycleDetectionUndirectedResult cycle_detection_undirected(const\
-    \ vector<pair<int, int>> &edges, int n) {\n    int m = edges.size();\n    vector<vector<pair<int,\
-    \ int>>> g(n);\n    for (int i = 0; i < m; ++i) {\n        auto [u, v] = edges[i];\n\
-    \        g[u].push_back({v, i});\n        g[v].push_back({u, i});\n    }\n\n \
-    \   vector<int> dep(n, -1), par_v(n, -1), par_e(n, -1);\n    vector<char> used_e(m,\
-    \ 0);\n    auto dfs = [&](auto &&self, int v, int d) -> void {\n        dep[v]\
-    \ = d;\n        for (auto &&[to, id] : g[v]) {\n            if (dep[to] != -1)\
-    \ continue;\n            used_e[id] = 1;\n            par_v[to] = v;\n       \
-    \     par_e[to] = id;\n            self(self, to, d + 1);\n        }\n    };\n\
-    \    for (int i = 0; i < n; ++i) {\n        if (dep[i] == -1) dfs(dfs, i, 0);\n\
-    \    }\n\n    for (int id = 0; id < m; ++id) {\n        if (used_e[id]) continue;\n\
-    \        auto [a, b] = edges[id];\n        if (dep[a] > dep[b]) swap(a, b);\n\
-    \        vector<int> vs = {b}, es;\n        while (vs.back() != a) {\n       \
-    \     es.emplace_back(par_e[vs.back()]);\n            vs.emplace_back(par_v[vs.back()]);\n\
-    \        }\n        es.emplace_back(id);\n        return {vs, es};\n    }\n  \
-    \  return {{}, {}};\n}\n\n/**\n * @brief \u7121\u5411\u9589\u8DEF\u691C\u51FA\
-    (Cycle Detection)\n * @docs _md/cycle_detection_undirected.md\n */\n#line 9 \"\
-    test/yosupo_cycle_detection_undirected.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n    vector<pair<int,\
-    \ int>> edges(m);\n    for (int i = 0; i < m; ++i) {\n        sc.read(edges[i].first,\
-    \ edges[i].second);\n    }\n    auto res = cycle_detection_undirected(edges, n);\n\
-    \    if (res.vertices.empty()) {\n        pr.writeln(-1);\n        return 0;\n\
-    \    }\n    int l = res.vertices.size();\n    pr.writeln(l);\n    for (int i =\
-    \ 0; i < l; ++i) {\n        if (i) pr.write(' ');\n        pr.write(res.vertices[i]);\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"graph/cycle_detection_undirected.cpp\"\nstruct CycleDetectionUndirectedResult\
+    \ {\n    vector<int> vertices;\n    vector<int> edge_ids;\n};\n\nCycleDetectionUndirectedResult\
+    \ cycle_detection_undirected(const vector<pair<int, int>> &edges, int n) {\n \
+    \   int m = edges.size();\n    vector<vector<pair<int, int>>> g(n);\n    for (int\
+    \ i = 0; i < m; ++i) {\n        auto [u, v] = edges[i];\n        g[u].push_back({v,\
+    \ i});\n        g[v].push_back({u, i});\n    }\n\n    vector<int> dep(n, -1),\
+    \ par_v(n, -1), par_e(n, -1);\n    vector<char> used_e(m, 0);\n    auto dfs =\
+    \ [&](auto &&self, int v, int d) -> void {\n        dep[v] = d;\n        for (auto\
+    \ &&[to, id] : g[v]) {\n            if (dep[to] != -1) continue;\n           \
+    \ used_e[id] = 1;\n            par_v[to] = v;\n            par_e[to] = id;\n \
+    \           self(self, to, d + 1);\n        }\n    };\n    for (int i = 0; i <\
+    \ n; ++i) {\n        if (dep[i] == -1) dfs(dfs, i, 0);\n    }\n\n    for (int\
+    \ id = 0; id < m; ++id) {\n        if (used_e[id]) continue;\n        auto [a,\
+    \ b] = edges[id];\n        if (dep[a] > dep[b]) swap(a, b);\n        vector<int>\
+    \ vs = {b}, es;\n        while (vs.back() != a) {\n            es.emplace_back(par_e[vs.back()]);\n\
+    \            vs.emplace_back(par_v[vs.back()]);\n        }\n        es.emplace_back(id);\n\
+    \        return {vs, es};\n    }\n    return {{}, {}};\n}\n\n/**\n * @brief \u7121\
+    \u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)\n */\n#line 9 \"test/yosupo_cycle_detection_undirected.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
+    \ m);\n    vector<pair<int, int>> edges(m);\n    for (int i = 0; i < m; ++i) {\n\
+    \        sc.read(edges[i].first, edges[i].second);\n    }\n    auto res = cycle_detection_undirected(edges,\
+    \ n);\n    if (res.vertices.empty()) {\n        pr.writeln(-1);\n        return\
+    \ 0;\n    }\n    int l = res.vertices.size();\n    pr.writeln(l);\n    for (int\
+    \ i = 0; i < l; ++i) {\n        if (i) pr.write(' ');\n        pr.write(res.vertices[i]);\n\
     \    }\n    pr.writeln();\n    for (int i = 0; i < l; ++i) {\n        if (i) pr.write('\
     \ ');\n        pr.write(res.edge_ids[i]);\n    }\n    pr.writeln();\n    return\
     \ 0;\n}\n"
@@ -134,8 +132,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_cycle_detection_undirected.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_cycle_detection_undirected.test.cpp
 layout: document

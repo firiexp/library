@@ -7,7 +7,7 @@ data:
     title: math/factorial.cpp
   - icon: ':x:'
     path: math/gauss_jordan_mint.cpp
-    title: "Gauss-Jordan\u6D88\u53BB(modint)"
+    title: Gauss Jordan Mint
   - icon: ':warning:'
     path: math/powk_all.cpp
     title: math/powk_all.cpp
@@ -15,19 +15,19 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0399.test.cpp
     title: test/aoj0399.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj2257.test.cpp
     title: test/aoj2257.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
   - icon: ':x:'
@@ -42,7 +42,7 @@ data:
   - icon: ':x:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_sum_of_totient.test.cpp
     title: test/yosupo_sum_of_totient.test.cpp
   - icon: ':x:'
@@ -61,7 +61,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/modint.md
     document_title: "modint(\u56FA\u5B9AMOD)"
     links: []
   bundledCode: "#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n\
@@ -87,7 +86,7 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n"
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n"
   code: "template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
     \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
     \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
@@ -111,7 +110,7 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */"
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */"
   dependsOn: []
   isVerificationFile: false
   path: util/modint.cpp
@@ -119,7 +118,7 @@ data:
   - math/gauss_jordan_mint.cpp
   - math/factorial.cpp
   - math/powk_all.cpp
-  timestamp: '2021-06-21 15:24:20+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
@@ -139,9 +138,6 @@ data:
   - test/yosupo_sum_of_totient.test.cpp
 documentation_of: util/modint.cpp
 layout: document
-redirect_from:
-- /library/util/modint.cpp
-- /library/util/modint.cpp.html
 title: "modint(\u56FA\u5B9AMOD)"
 ---
 ## 説明

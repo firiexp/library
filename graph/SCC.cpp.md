@@ -1,4 +1,5 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/SCC.md
     document_title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
     links: []
   bundledCode: "#line 1 \"graph/SCC.cpp\"\nclass SCC {\n    void dfs(int v){\n   \
@@ -34,8 +34,7 @@ data:
     \        }\n        for (auto &&l : G_out) {\n            sort(l.begin(), l.end());\n\
     \            l.erase(unique(l.begin(), l.end()), l.end());\n        }\n      \
     \  return k;\n    }\n\n    int operator[](int k) const { return cmp[k]; }\n};\n\
-    \n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)\n * @docs _md/SCC.md\n\
-    \ */\n"
+    \n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)\n */\n"
   code: "class SCC {\n    void dfs(int v){\n        used[v] = 1;\n        for (auto\
     \ &&u : G[v]) if(!used[u]) dfs(u);\n        vs.emplace_back(v);\n    }\n\n   \
     \ void dfs_r(int v, int k){\n        used[v] = 1;\n        cmp[v] = k;\n     \
@@ -54,29 +53,22 @@ data:
     \            sort(l.begin(), l.end());\n            l.erase(unique(l.begin(),\
     \ l.end()), l.end());\n        }\n        return k;\n    }\n\n    int operator[](int\
     \ k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\
-    \u5206\u89E3(SCC)\n * @docs _md/SCC.md\n */\n"
+    \u5206\u89E3(SCC)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/SCC.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_scc.test.cpp
   - test/aoj0349.test.cpp
-documentation_of: graph/SCC.cpp
-layout: document
-redirect_from:
-- /library/graph/SCC.cpp
-- /library/graph/SCC.cpp.html
-title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
----
----
-layout: post
-title: 強連結成分分解(Strongly-Connected-Components, SCC)
 date: 2019-12-03
-category: グラフ
-tags: 有向グラフ
+documentation_of: graph/SCC.cpp
+layout: post
+tags: "\u6709\u5411\u30B0\u30E9\u30D5"
+title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(Strongly-Connected-Components,\
+  \ SCC)"
 ---
 
 ## 説明

@@ -6,12 +6,12 @@ data:
     title: Binary Indexed Tree(BIT)
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -86,22 +86,21 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class\
-    \ T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n):\
-    \ bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int\
-    \ k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k -\
-    \ 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++;\
-    \ k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
-    \        if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j;\
-    \ j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j\
-    \ - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n\
-    #line 9 \"test/yosupo_many_aplusb_binaryindexedtree.test.cpp\"\n\nint main() {\n\
-    \    {\n        mt19937 rng(123456789);\n        for (int n = 1; n <= 80; ++n)\
-    \ {\n            for (int trial = 0; trial < 200; ++trial) {\n               \
-    \ vector<int> a(n), b(n);\n                BIT<int> bit(n), bit_nonneg(n);\n \
-    \               for (int i = 0; i < n; ++i) {\n                    a[i] = uniform_int_distribution<int>(0,\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT {\n\
+    \    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1), n(n)\
+    \ {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n        T ret\
+    \ = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
+    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
+    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
+    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
+    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
+    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
+    \ Indexed Tree(BIT)\n */\n#line 9 \"test/yosupo_many_aplusb_binaryindexedtree.test.cpp\"\
+    \n\nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int n =\
+    \ 1; n <= 80; ++n) {\n            for (int trial = 0; trial < 200; ++trial) {\n\
+    \                vector<int> a(n), b(n);\n                BIT<int> bit(n), bit_nonneg(n);\n\
+    \                for (int i = 0; i < n; ++i) {\n                    a[i] = uniform_int_distribution<int>(0,\
     \ 4)(rng);\n                    b[i] = uniform_int_distribution<int>(0, 4)(rng);\n\
     \                    bit.add(i, a[i]);\n                    bit_nonneg.add(i,\
     \ b[i]);\n                }\n                for (int iter = 0; iter < 200; ++iter)\
@@ -163,8 +162,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
 layout: document

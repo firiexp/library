@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/cycle_detection_directed.cpp
-    title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
+    title: Cycle Detection Directed
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/cycle_detection
@@ -86,28 +86,27 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"graph/cycle_detection_directed.cpp\"\nvector<int>\
-    \ cycle_detection_directed(const vector<vector<pair<int, int>>> &g) {\n    int\
-    \ n = g.size();\n    vector<int> state(n), st_v, st_e;\n    vector<int> cycle;\n\
-    \    auto dfs = [&](auto &&self, int v) -> bool {\n        state[v] = 1;\n   \
-    \     st_v.emplace_back(v);\n        for (auto &&[to, id] : g[v]) {\n        \
-    \    st_e.emplace_back(id);\n            if (state[to] == 0) {\n             \
-    \   if (self(self, to)) return true;\n            } else if (state[to] == 1) {\n\
-    \                cycle.emplace_back(id);\n                for (int i = (int)st_v.size()\
-    \ - 1; st_v[i] != to; --i) {\n                    cycle.emplace_back(st_e[i -\
-    \ 1]);\n                }\n                reverse(cycle.begin(), cycle.end());\n\
-    \                return true;\n            }\n            st_e.pop_back();\n \
-    \       }\n        st_v.pop_back();\n        state[v] = 2;\n        return false;\n\
-    \    };\n    for (int i = 0; i < n; ++i) {\n        if (state[i] == 0 && dfs(dfs,\
-    \ i)) return cycle;\n    }\n    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\
-    \u8DEF\u691C\u51FA(Cycle Detection)\n * @docs _md/cycle_detection_directed.md\n\
-    \ */\n#line 10 \"test/yosupo_cycle_detection_directed.test.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n   \
-    \ vector<vector<pair<int, int>>> g(n);\n    for (int i = 0; i < m; ++i) {\n  \
-    \      int u, v;\n        sc.read(u, v);\n        g[u].push_back({v, i});\n  \
-    \  }\n    auto cyc = cycle_detection_directed(g);\n    if (cyc.empty()) {\n  \
-    \      pr.writeln(-1);\n        return 0;\n    }\n    pr.writeln((int)cyc.size());\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"graph/cycle_detection_directed.cpp\"\nvector<int> cycle_detection_directed(const\
+    \ vector<vector<pair<int, int>>> &g) {\n    int n = g.size();\n    vector<int>\
+    \ state(n), st_v, st_e;\n    vector<int> cycle;\n    auto dfs = [&](auto &&self,\
+    \ int v) -> bool {\n        state[v] = 1;\n        st_v.emplace_back(v);\n   \
+    \     for (auto &&[to, id] : g[v]) {\n            st_e.emplace_back(id);\n   \
+    \         if (state[to] == 0) {\n                if (self(self, to)) return true;\n\
+    \            } else if (state[to] == 1) {\n                cycle.emplace_back(id);\n\
+    \                for (int i = (int)st_v.size() - 1; st_v[i] != to; --i) {\n  \
+    \                  cycle.emplace_back(st_e[i - 1]);\n                }\n     \
+    \           reverse(cycle.begin(), cycle.end());\n                return true;\n\
+    \            }\n            st_e.pop_back();\n        }\n        st_v.pop_back();\n\
+    \        state[v] = 2;\n        return false;\n    };\n    for (int i = 0; i <\
+    \ n; ++i) {\n        if (state[i] == 0 && dfs(dfs, i)) return cycle;\n    }\n\
+    \    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle\
+    \ Detection)\n */\n#line 10 \"test/yosupo_cycle_detection_directed.test.cpp\"\n\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
+    \ m);\n    vector<vector<pair<int, int>>> g(n);\n    for (int i = 0; i < m; ++i)\
+    \ {\n        int u, v;\n        sc.read(u, v);\n        g[u].push_back({v, i});\n\
+    \    }\n    auto cyc = cycle_detection_directed(g);\n    if (cyc.empty()) {\n\
+    \        pr.writeln(-1);\n        return 0;\n    }\n    pr.writeln((int)cyc.size());\n\
     \    for (int id : cyc) pr.writeln(id);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/cycle_detection\"\n\n#include\
     \ <algorithm>\n#include <utility>\n#include <vector>\nusing namespace std;\n\n\
@@ -124,8 +123,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_cycle_detection_directed.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_cycle_detection_directed.test.cpp
 layout: document

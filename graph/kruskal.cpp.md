@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/kruskal.md
     document_title: "Kruskal\u6CD5"
     links: []
   bundledCode: "#line 1 \"graph/kruskal.cpp\"\ntemplate <class T>\nstruct edge {\n\
@@ -31,8 +30,7 @@ data:
     \   edge_id.reserve(max(0, n - 1));\n    for (auto &&e : edges) {\n        if\
     \ (!uf.unite(e.from, e.to)) continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n\
     \    }\n    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n\
-    \    return {true, cost, edge_id};\n}\n\n/**\n * @brief Kruskal\u6CD5\n * @docs\
-    \ _md/kruskal.md\n */\n"
+    \    return {true, cost, edge_id};\n}\n\n/**\n * @brief Kruskal\u6CD5\n */\n"
   code: "template <class T>\nstruct edge {\n    int from, to, idx;\n    T cost;\n\n\
     \    edge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx),\
     \ cost(cost) {}\n};\n\nclass KruskalUnionFind {\n    vector<int> p;\n\npublic:\n\
@@ -51,21 +49,17 @@ data:
     \ n - 1));\n    for (auto &&e : edges) {\n        if (!uf.unite(e.from, e.to))\
     \ continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n    }\n\
     \    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n   \
-    \ return {true, cost, edge_id};\n}\n\n/**\n * @brief Kruskal\u6CD5\n * @docs _md/kruskal.md\n\
-    \ */\n"
+    \ return {true, cost, edge_id};\n}\n\n/**\n * @brief Kruskal\u6CD5\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/kruskal.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_minimum_spanning_tree.test.cpp
 documentation_of: graph/kruskal.cpp
 layout: document
-redirect_from:
-- /library/graph/kruskal.cpp
-- /library/graph/kruskal.cpp.html
 title: "Kruskal\u6CD5"
 ---
 ## 説明

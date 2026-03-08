@@ -43,9 +43,9 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 21\
-    \ \"test/aoj_dpl_5_a.test.cpp\"\nint main() {\n    int n, k;\n    cin >> n >>\
-    \ k;\n    cout << mint(k).pow(n).val << \"\\n\";\n    return 0;\n}\n"
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 21 \"test/aoj_dpl_5_a.test.cpp\"\
+    \nint main() {\n    int n, k;\n    cin >> n >> k;\n    cout << mint(k).pow(n).val\
+    \ << \"\\n\";\n    return 0;\n}\n"
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DPL_5_A\"\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
@@ -59,7 +59,7 @@ data:
   isVerificationFile: true
   path: test/aoj_dpl_5_a.test.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dpl_5_a.test.cpp

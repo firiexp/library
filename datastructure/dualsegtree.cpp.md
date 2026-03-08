@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/dualsegtree.md
     document_title: "\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment\
       \ Tree)"
     links: []
@@ -28,7 +27,7 @@ data:
     \ k){\n        thrust(k += sz);\n        return lazy[k];\n    }\n};\n/*\nstruct\
     \ Monoid{\n    using T = ll;\n    static T f(T a, T b) { return a+b; }\n    static\
     \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\u5BFE\u30BB\u30B0\u30E1\
-    \u30F3\u30C8\u6728(Dual Segment Tree)\n * @docs _md/dualsegtree.md\n */\n"
+    \u30F3\u30C8\u6728(Dual Segment Tree)\n */\n"
   code: "template <class M>\nstruct DualSegmentTree{\n    using T = typename M::T;\n\
     \    int sz, height{};\n    vector<T> lazy;\n    explicit DualSegmentTree(int\
     \ n) {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        lazy.assign(2*sz,\
@@ -43,20 +42,17 @@ data:
     \    return lazy[k];\n    }\n};\n/*\nstruct Monoid{\n    using T = ll;\n    static\
     \ T f(T a, T b) { return a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n\
     \ * @brief \u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)\n\
-    \ * @docs _md/dualsegtree.md\n */\n"
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/dualsegtree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
 documentation_of: datastructure/dualsegtree.cpp
 layout: document
-redirect_from:
-- /library/datastructure/dualsegtree.cpp
-- /library/datastructure/dualsegtree.cpp.html
 title: "\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)"
 ---
 ## 説明

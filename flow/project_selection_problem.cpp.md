@@ -1,16 +1,16 @@
 ---
+category: "\u30D5\u30ED\u30FC"
 data:
   _extendedDependsOn:
   - icon: ':question:'
     path: flow/dinic.cpp
-    title: "Dinic\u6CD5(Dinic)"
+    title: "Dinic(\u6700\u5927\u6D41)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    _deprecated_at_docs: _md/project_selection_problem.md
     document_title: Project Selection Problem
     links: []
   bundledCode: "#line 1 \"flow/dinic.cpp\"\ntemplate<class T, bool directed>\nclass\
@@ -37,8 +37,8 @@ data:
     \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
     \           if(f == 0) break;\n                ret += f;\n                lim\
     \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Dinic\u6CD5(Dinic)\n * @docs _md/dinic.md\n */\n#line 2 \"flow/project_selection_problem.cpp\"\
-    \n\ntemplate<class T>\nclass ProjectSelectionProblem {\n    int n;\n    T base_score{};\n\
+    \ Dinic\u6CD5(Dinic)\n */\n#line 2 \"flow/project_selection_problem.cpp\"\n\n\
+    template<class T>\nclass ProjectSelectionProblem {\n    int n;\n    T base_score{};\n\
     \    vector<T> weight;\n    vector<tuple<int, int, T>> penalty;\n    vector<int>\
     \ selected;\n\npublic:\n    ProjectSelectionProblem() : n(0) {}\n    explicit\
     \ ProjectSelectionProblem(int n) : n(n), base_score(0), weight(n, 0), selected(n,\
@@ -65,7 +65,7 @@ data:
     \ (int v = 0; v < n; ++v) {\n            selected[v] = vis[v];\n        }\n  \
     \      return offset - cut;\n    }\n\n    const vector<int>& get_selected() const\
     \ {\n        return selected;\n    }\n};\n\n/**\n * @brief Project Selection Problem\n\
-    \ * @docs _md/project_selection_problem.md\n */\n"
+    \ */\n"
   code: "#include \"./dinic.cpp\"\n\ntemplate<class T>\nclass ProjectSelectionProblem\
     \ {\n    int n;\n    T base_score{};\n    vector<T> weight;\n    vector<tuple<int,\
     \ int, T>> penalty;\n    vector<int> selected;\n\npublic:\n    ProjectSelectionProblem()\
@@ -94,28 +94,20 @@ data:
     \ (int v = 0; v < n; ++v) {\n            selected[v] = vis[v];\n        }\n  \
     \      return offset - cut;\n    }\n\n    const vector<int>& get_selected() const\
     \ {\n        return selected;\n    }\n};\n\n/**\n * @brief Project Selection Problem\n\
-    \ * @docs _md/project_selection_problem.md\n */\n"
+    \ */\n"
   dependsOn:
   - flow/dinic.cpp
   isVerificationFile: false
   path: flow/project_selection_problem.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: flow/project_selection_problem.cpp
-layout: document
-redirect_from:
-- /library/flow/project_selection_problem.cpp
-- /library/flow/project_selection_problem.cpp.html
-title: Project Selection Problem
----
----
-layout: post
-title: ProjectSelectionProblem
 date: 2026-03-08
-category: フロー
-tags: フロー
+documentation_of: flow/project_selection_problem.cpp
+layout: post
+tags: "\u30D5\u30ED\u30FC"
+title: ProjectSelectionProblem
 ---
 
 ## 説明

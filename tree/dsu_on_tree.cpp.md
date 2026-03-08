@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/dsu_on_tree.md
     document_title: DSU on Tree
     links: []
   bundledCode: "#line 1 \"tree/dsu_on_tree.cpp\"\ntemplate<class G>\nstruct DSUonTree\
@@ -41,7 +40,7 @@ data:
     \   }\n\n    void dfs_euler(int v, int p) {\n        down[v] = ord;\n        euler[ord++]\
     \ = v;\n        for (auto &&u : g[v]) {\n            if (u == p) continue;\n \
     \           dfs_euler(u, v);\n        }\n        up[v] = ord;\n    }\n};\n\n/**\n\
-    \ * @brief DSU on Tree\n * @docs _md/dsu_on_tree.md\n */\n"
+    \ * @brief DSU on Tree\n */\n"
   code: "template<class G>\nstruct DSUonTree {\n    G &g;\n    int n, root, ord;\n\
     \    vector<int> sub_size, euler, down, up;\n\n    explicit DSUonTree(G &g, int\
     \ root = 0)\n        : g(g), n(g.size()), root(root), ord(0),\n          sub_size(n),\
@@ -69,21 +68,17 @@ data:
     \ swap(g[v][0], g[v][heavy_idx]);\n    }\n\n    void dfs_euler(int v, int p) {\n\
     \        down[v] = ord;\n        euler[ord++] = v;\n        for (auto &&u : g[v])\
     \ {\n            if (u == p) continue;\n            dfs_euler(u, v);\n       \
-    \ }\n        up[v] = ord;\n    }\n};\n\n/**\n * @brief DSU on Tree\n * @docs _md/dsu_on_tree.md\n\
-    \ */\n"
+    \ }\n        up[v] = ord;\n    }\n};\n\n/**\n * @brief DSU on Tree\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/dsu_on_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
 documentation_of: tree/dsu_on_tree.cpp
 layout: document
-redirect_from:
-- /library/tree/dsu_on_tree.cpp
-- /library/tree/dsu_on_tree.cpp.html
 title: DSU on Tree
 ---
 ## 説明

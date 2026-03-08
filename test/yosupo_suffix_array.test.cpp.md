@@ -67,11 +67,10 @@ data:
     \ j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h < n && s[j+h] == s[i+h])\
     \ h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return lcp;\n}\n\nvector<int>\
     \ lcp(string const& s, vector<int> const& sa){\n    return lcp(convert(s), sa);\n\
-    }\n\n/**\n * @brief Suffix Array\n * @docs _md/suffix_array.md\n */\n#line 22\
-    \ \"test/yosupo_suffix_array.test.cpp\"\n\nint main() {\n    string s;\n    cin\
-    \ >> s;\n    auto ans = suffix_array(s);\n    for (int i = 0; i < ans.size();\
-    \ ++i) {\n        if(i) printf(\" \");\n        printf(\"%d\", ans[i]);\n    }\n\
-    \    puts(\"\");\n    return 0;\n}\n"
+    }\n\n/**\n * @brief Suffix Array\n */\n#line 22 \"test/yosupo_suffix_array.test.cpp\"\
+    \n\nint main() {\n    string s;\n    cin >> s;\n    auto ans = suffix_array(s);\n\
+    \    for (int i = 0; i < ans.size(); ++i) {\n        if(i) printf(\" \");\n  \
+    \      printf(\"%d\", ans[i]);\n    }\n    puts(\"\");\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/suffixarray\"\n#include\
     \ <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n\
     #include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\n\
@@ -86,7 +85,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_suffix_array.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_suffix_array.test.cpp

@@ -1,16 +1,16 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_discrete_logarithm_mod.test.cpp
     title: test/yosupo_discrete_logarithm_mod.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/discrete_logarithm.md
     document_title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
     links: []
   bundledCode: "#line 1 \"math/discrete_logarithm.cpp\"\n#include <cmath>\n#include\
@@ -34,8 +34,7 @@ data:
     \ != baby.end()) {\n            long long cand = it->second * n - q + add;\n \
     \           if (cand < ans) ans = cand;\n        }\n        cur = discrete_logarithm_mul(cur,\
     \ x, mod);\n    }\n    return ans == std::numeric_limits<long long>::max() ? -1\
-    \ : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete Logarithm)\n *\
-    \ @docs _md/discrete_logarithm.md\n */\n"
+    \ : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete Logarithm)\n */\n"
   code: "#include <cmath>\n#include <limits>\n#include <numeric>\n#include <unordered_map>\n\
     \nlong long discrete_logarithm_mul(long long a, long long b, long long mod) {\n\
     \    using i128 = __int128_t;\n    return (long long)((i128)a * b % mod);\n}\n\
@@ -57,28 +56,20 @@ data:
     \ - q + add;\n            if (cand < ans) ans = cand;\n        }\n        cur\
     \ = discrete_logarithm_mul(cur, x, mod);\n    }\n    return ans == std::numeric_limits<long\
     \ long>::max() ? -1 : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete\
-    \ Logarithm)\n * @docs _md/discrete_logarithm.md\n */\n"
+    \ Logarithm)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/discrete_logarithm.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_discrete_logarithm_mod.test.cpp
-documentation_of: math/discrete_logarithm.cpp
-layout: document
-redirect_from:
-- /library/math/discrete_logarithm.cpp
-- /library/math/discrete_logarithm.cpp.html
-title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
----
----
-layout: post
-title: Discrete Logarithm
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/discrete_logarithm.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Discrete Logarithm
 ---
 
 ## 説明

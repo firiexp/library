@@ -9,7 +9,7 @@ data:
     title: "Dijkstra\u6CD5(Radix Heap)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -91,14 +91,14 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"graph/dijkstra_radix_heap.cpp\"\ntemplate <typename\
-    \ T>\nstruct edge {\n    int from, to; T cost;\n    edge(int to, T cost) : from(-1),\
-    \ to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to),\
-    \ cost(cost) {}\n};\n\n#line 1 \"datastructure/radixheap.cpp\"\ntemplate <class\
-    \ K, class V>\nclass RadixHeap {\n    static constexpr int bit_length = sizeof(K)*8;\n\
-    \    K last;\n    size_t sz, cnt;\n    \n    array<vector<pair<K, V>>, bit_length>\
-    \ v;\n    static inline int bsr(int x){\n        return x ? bit_length-__builtin_clz(x)\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"graph/dijkstra_radix_heap.cpp\"\ntemplate <typename T>\nstruct edge {\n\
+    \    int from, to; T cost;\n    edge(int to, T cost) : from(-1), to(to), cost(cost)\
+    \ {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}\n\
+    };\n\n#line 1 \"datastructure/radixheap.cpp\"\ntemplate <class K, class V>\nclass\
+    \ RadixHeap {\n    static constexpr int bit_length = sizeof(K)*8;\n    K last;\n\
+    \    size_t sz, cnt;\n    \n    array<vector<pair<K, V>>, bit_length> v;\n   \
+    \ static inline int bsr(int x){\n        return x ? bit_length-__builtin_clz(x)\
     \ : 0;\n    }\n    static inline int bsr(ll x){\n        return x ? bit_length-__builtin_clzll(x)\
     \ : 0;\n    }\n\n    void pull() {\n        if(cnt < v[0].size()) return;;\n \
     \       int i = 1;\n        while(v[i].empty()) i++;\n        last = min_element(v[i].begin(),v[i].end())->first;\n\
@@ -116,19 +116,19 @@ data:
     \ : G[i]) {\n            auto cost2 = cost + e.cost;\n            if(d[e.to] <=\
     \ cost2) continue;\n            d[e.to] = cost2;\n            Q.emplace(d[e.to],\
     \ e.to);\n        }\n    }\n    return d;\n}\n\n/**\n * @brief Dijkstra\u6CD5\
-    (Radix Heap)\n * @docs _md/dijkstra_radix_heap.md\n */\n#line 15 \"test/yosupo_shortest_path_radix_heap.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s, t;\n  \
-    \  sc.read(n, m, s, t);\n    vector<vector<edge<ll>>> G(n), Ginv(n);\n    for\
-    \ (int i = 0; i < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n\
-    \        G[a].emplace_back(b, c);\n        Ginv[b].emplace_back(a, c);\n    }\n\
-    \    auto d = dijkstra(s, G);\n    if (d[t] == INF<ll>) {\n        pr.writeln(-1);\n\
-    \        return 0;\n    }\n    vector<int> ans{t};\n    vector<int> visited(n);\n\
-    \    visited[t] = 1;\n    while (ans.back() != s) {\n        for (auto &&i : Ginv[ans.back()])\
-    \ {\n            if (d[i.to] + i.cost == d[ans.back()] && !visited[i.to]) {\n\
-    \                ans.emplace_back(i.to);\n                visited[i.to] = 1;\n\
-    \                break;\n            }\n        }\n    }\n    pr.writeln(d[t],\
-    \ (int)ans.size() - 1);\n    for (int i = (int)ans.size()-1; i > 0; --i) {\n \
-    \       pr.writeln(ans[i], ans[i - 1]);\n    }\n    return 0;\n}\n"
+    (Radix Heap)\n */\n#line 15 \"test/yosupo_shortest_path_radix_heap.test.cpp\"\n\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s, t;\n    sc.read(n,\
+    \ m, s, t);\n    vector<vector<edge<ll>>> G(n), Ginv(n);\n    for (int i = 0;\
+    \ i < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        G[a].emplace_back(b,\
+    \ c);\n        Ginv[b].emplace_back(a, c);\n    }\n    auto d = dijkstra(s, G);\n\
+    \    if (d[t] == INF<ll>) {\n        pr.writeln(-1);\n        return 0;\n    }\n\
+    \    vector<int> ans{t};\n    vector<int> visited(n);\n    visited[t] = 1;\n \
+    \   while (ans.back() != s) {\n        for (auto &&i : Ginv[ans.back()]) {\n \
+    \           if (d[i.to] + i.cost == d[ans.back()] && !visited[i.to]) {\n     \
+    \           ans.emplace_back(i.to);\n                visited[i.to] = 1;\n    \
+    \            break;\n            }\n        }\n    }\n    pr.writeln(d[t], (int)ans.size()\
+    \ - 1);\n    for (int i = (int)ans.size()-1; i > 0; --i) {\n        pr.writeln(ans[i],\
+    \ ans[i - 1]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ <algorithm>\n#include <array>\n#include <limits>\n#include <tuple>\n#include\
     \ <vector>\nusing namespace std;\n\nusing ll = long long;\ntemplate<class T> constexpr\
@@ -153,7 +153,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path_radix_heap.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path_radix_heap.test.cpp

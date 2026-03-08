@@ -1,4 +1,5 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':x:'
@@ -13,7 +14,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/primitive_root.md
     document_title: "\u539F\u59CB\u6839(Primitive Root)"
     links: []
   bundledCode: "#line 1 \"math/primefactor_ll2.cpp\"\n#include <algorithm>\n#include\
@@ -85,7 +85,7 @@ data:
     \  bool ok = true;\n        for (auto &&d : divs) {\n            if (mod_pow(g,\
     \ (m - 1) / d) == 1) {\n                ok = false;\n                break;\n\
     \            }\n        }\n        if (ok) return g;\n    }\n}\n\n/**\n * @brief\
-    \ \u539F\u59CB\u6839(Primitive Root)\n * @docs _md/primitive_root.md\n */\n"
+    \ \u539F\u59CB\u6839(Primitive Root)\n */\n"
   code: "#include \"primefactor_ll2.cpp\"\nll primitive_root(ll m) {\n    if (m ==\
     \ 2) return 1;\n    auto divs = prime_factor(m - 1);\n    divs.erase(unique(divs.begin(),\
     \ divs.end()), divs.end());\n    auto mod_pow = [&](ll x, ll n) {\n        ull\
@@ -95,29 +95,21 @@ data:
     \  bool ok = true;\n        for (auto &&d : divs) {\n            if (mod_pow(g,\
     \ (m - 1) / d) == 1) {\n                ok = false;\n                break;\n\
     \            }\n        }\n        if (ok) return g;\n    }\n}\n\n/**\n * @brief\
-    \ \u539F\u59CB\u6839(Primitive Root)\n * @docs _md/primitive_root.md\n */\n"
+    \ \u539F\u59CB\u6839(Primitive Root)\n */\n"
   dependsOn:
   - math/primefactor_ll2.cpp
   isVerificationFile: false
   path: math/primitive_root.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_primitive_root.test.cpp
-documentation_of: math/primitive_root.cpp
-layout: document
-redirect_from:
-- /library/math/primitive_root.cpp
-- /library/math/primitive_root.cpp.html
-title: "\u539F\u59CB\u6839(Primitive Root)"
----
----
-layout: post
-title: Primitive Root
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/primitive_root.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: Primitive Root
 ---
 
 ## 説明

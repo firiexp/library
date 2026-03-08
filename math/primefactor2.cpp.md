@@ -1,4 +1,5 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/primefactor2.md
     document_title: "\u524D\u8A08\u7B97\u4ED8\u304D\u7D20\u56E0\u6570\u5206\u89E3\
       (Prime Factorization)"
     links: []
@@ -30,7 +30,7 @@ data:
     \ {\n        while (i.divide(n)){\n            res.emplace_back(i.val);\n    \
     \        n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
     \    return res;\n}\n\n/**\n * @brief \u524D\u8A08\u7B97\u4ED8\u304D\u7D20\u56E0\
-    \u6570\u5206\u89E3(Prime Factorization)\n * @docs _md/primefactor2.md\n */\n"
+    \u6570\u5206\u89E3(Prime Factorization)\n */\n"
   code: "using uint = uint32_t;\n\ntemplate<typename T>\nstruct ExactDiv {\n    T\
     \ t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n))\
     \ , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0;\
@@ -47,28 +47,20 @@ data:
     \ {\n        while (i.divide(n)){\n            res.emplace_back(i.val);\n    \
     \        n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
     \    return res;\n}\n\n/**\n * @brief \u524D\u8A08\u7B97\u4ED8\u304D\u7D20\u56E0\
-    \u6570\u5206\u89E3(Prime Factorization)\n * @docs _md/primefactor2.md\n */\n"
+    \u6570\u5206\u89E3(Prime Factorization)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/primefactor2.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
-documentation_of: math/primefactor2.cpp
-layout: document
-redirect_from:
-- /library/math/primefactor2.cpp
-- /library/math/primefactor2.cpp.html
-title: "\u524D\u8A08\u7B97\u4ED8\u304D\u7D20\u56E0\u6570\u5206\u89E3(Prime Factorization)"
----
----
-layout: post
-title: primefactor2
 date: 2026-03-08
-category: 数学
-tags: 数学
+documentation_of: math/primefactor2.cpp
+layout: post
+tags: "\u6570\u5B66"
+title: primefactor2
 ---
 
 ## 説明

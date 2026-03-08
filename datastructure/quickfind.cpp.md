@@ -1,4 +1,5 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -10,7 +11,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/quickfind.md
     document_title: Quick Find
     links: []
   bundledCode: "#line 1 \"datastructure/quickfind.cpp\"\nstruct QuickFind {\n    int\
@@ -24,7 +24,7 @@ data:
     \    roots[i] = a;\n        }\n        v[b].clear();\n        v[b].shrink_to_fit();\n\
     \        return true;\n    }\n    bool same(int a, int b){ return roots[a] ==\
     \ roots[b]; }\n    const vector<int>& components(int x){ return v[roots[x]];}\n\
-    };\n\n/**\n * @brief Quick Find\n * @docs _md/quickfind.md\n */\n"
+    };\n\n/**\n * @brief Quick Find\n */\n"
   code: "struct QuickFind {\n    int n;\n    vector<int> roots;\n    vector<vector<int>>\
     \ v;\n    explicit QuickFind(int n) : n(n) {\n        v.resize(n);\n        for\
     \ (int i = 0; i < n; ++i) v[i].emplace_back(i);\n        roots.resize(n);\n  \
@@ -36,28 +36,20 @@ data:
     \      }\n        v[b].clear();\n        v[b].shrink_to_fit();\n        return\
     \ true;\n    }\n    bool same(int a, int b){ return roots[a] == roots[b]; }\n\
     \    const vector<int>& components(int x){ return v[roots[x]];}\n};\n\n/**\n *\
-    \ @brief Quick Find\n * @docs _md/quickfind.md\n */\n"
+    \ @brief Quick Find\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/quickfind.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_unionfind_quickfind.test.cpp
-documentation_of: datastructure/quickfind.cpp
-layout: document
-redirect_from:
-- /library/datastructure/quickfind.cpp
-- /library/datastructure/quickfind.cpp.html
-title: Quick Find
----
----
-layout: post
-title: 素集合データ構造 (Quick-Find)
 date: 2026-03-08
-category: データ構造
-tags: データ構造
+documentation_of: datastructure/quickfind.cpp
+layout: post
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: "\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020 (Quick-Find)"
 ---
 
 ## 説明

@@ -1,18 +1,18 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: graph/bipartite_matching.cpp
     title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\
       (Bipartite Matching)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -88,29 +88,28 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"graph/bipartite_matching.cpp\"\nclass Bipartite_Matching {\nprotected:\n\
-    \    vector<vector<int>> G;\n    vector<int> used, alive;\n    int t;\n    int\
-    \ l, r;\n\npublic:\n    vector<int> match;\n\n    explicit Bipartite_Matching(int\
-    \ l, int r)\n        : G(l), used(l, 0), alive(l + r, -1), t(0), l(l), r(r), match(l\
-    \ + r, -1) {}\n\n    void add_edge(int a, int b) {\n        G[a].push_back(b);\n\
-    \    }\n\n    bool dfs(int x) {\n        used[x] = t;\n        for (int y : G[x])\
-    \ {\n            int ry = y + l;\n            if (alive[ry] == 0) continue;\n\
-    \            int w = match[ry];\n            if (w != -1 && (alive[w] == 0 ||\
-    \ used[w] == t || !dfs(w))) continue;\n            match[x] = ry;\n          \
-    \  match[ry] = x;\n            return true;\n        }\n        return false;\n\
-    \    }\n\n    int matching() {\n        int ans = 0;\n        for (int i = 0;\
-    \ i < l; ++i) {\n            if (alive[i] == 0 || match[i] != -1) continue;\n\
-    \            ++t;\n            ans += dfs(i);\n        }\n        return ans;\n\
-    \    }\n\n    vector<pair<int, int>> get_pairs() const {\n        vector<pair<int,\
-    \ int>> res;\n        for (int i = 0; i < l; ++i) {\n            if (match[i]\
-    \ == -1) continue;\n            res.emplace_back(i, match[i] - l);\n        }\n\
-    \        return res;\n    }\n};\n\n/**\n * @brief \u4E8C\u90E8\u30B0\u30E9\u30D5\
-    \u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite Matching)\n * @docs _md/bipartite_matching.md\n\
-    \ */\n#line 11 \"test/yosupo_many_aplusb_bipartite_matching.test.cpp\"\n\nint\
-    \ main() {\n    {\n        mt19937 rng(123456789);\n        for (int l = 0; l\
-    \ <= 8; ++l) {\n            for (int r = 0; r <= 8; ++r) {\n                for\
-    \ (int trial = 0; trial < 200; ++trial) {\n                    vector<vector<int>>\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/bipartite_matching.cpp\"\
+    \nclass Bipartite_Matching {\nprotected:\n    vector<vector<int>> G;\n    vector<int>\
+    \ used, alive;\n    int t;\n    int l, r;\n\npublic:\n    vector<int> match;\n\
+    \n    explicit Bipartite_Matching(int l, int r)\n        : G(l), used(l, 0), alive(l\
+    \ + r, -1), t(0), l(l), r(r), match(l + r, -1) {}\n\n    void add_edge(int a,\
+    \ int b) {\n        G[a].push_back(b);\n    }\n\n    bool dfs(int x) {\n     \
+    \   used[x] = t;\n        for (int y : G[x]) {\n            int ry = y + l;\n\
+    \            if (alive[ry] == 0) continue;\n            int w = match[ry];\n \
+    \           if (w != -1 && (alive[w] == 0 || used[w] == t || !dfs(w))) continue;\n\
+    \            match[x] = ry;\n            match[ry] = x;\n            return true;\n\
+    \        }\n        return false;\n    }\n\n    int matching() {\n        int\
+    \ ans = 0;\n        for (int i = 0; i < l; ++i) {\n            if (alive[i] ==\
+    \ 0 || match[i] != -1) continue;\n            ++t;\n            ans += dfs(i);\n\
+    \        }\n        return ans;\n    }\n\n    vector<pair<int, int>> get_pairs()\
+    \ const {\n        vector<pair<int, int>> res;\n        for (int i = 0; i < l;\
+    \ ++i) {\n            if (match[i] == -1) continue;\n            res.emplace_back(i,\
+    \ match[i] - l);\n        }\n        return res;\n    }\n};\n\n/**\n * @brief\
+    \ \u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite\
+    \ Matching)\n */\n#line 11 \"test/yosupo_many_aplusb_bipartite_matching.test.cpp\"\
+    \n\nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int l =\
+    \ 0; l <= 8; ++l) {\n            for (int r = 0; r <= 8; ++r) {\n            \
+    \    for (int trial = 0; trial < 200; ++trial) {\n                    vector<vector<int>>\
     \ g(l);\n                    for (int i = 0; i < l; ++i) {\n                 \
     \       for (int j = 0; j < r; ++j) {\n                            if (uniform_int_distribution<int>(0,\
     \ 1)(rng)) g[i].push_back(j);\n                        }\n                   \
@@ -179,8 +178,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_bipartite_matching.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_bipartite_matching.test.cpp
 layout: document

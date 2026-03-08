@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':x:'
     path: datastructure/quickfind.cpp
-    title: Quick Find
+    title: "\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020 (Quick-Find)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -31,27 +31,27 @@ data:
     \    roots[i] = a;\n        }\n        v[b].clear();\n        v[b].shrink_to_fit();\n\
     \        return true;\n    }\n    bool same(int a, int b){ return roots[a] ==\
     \ roots[b]; }\n    const vector<int>& components(int x){ return v[roots[x]];}\n\
-    };\n\n/**\n * @brief Quick Find\n * @docs _md/quickfind.md\n */\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
-    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
-    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
-    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
-    \ + 1];\n    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n\
-    \        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n          \
-    \  ++idx;\n            ensure();\n        }\n        return buf[idx++];\n    }\n\
-    \n    template<class T, typename enable_if<is_integral<T>::value, int>::type =\
-    \ 0>\n    void read(T &x) {\n        char c = skip();\n        bool neg = false;\n\
-    \        if constexpr (is_signed<T>::value) {\n            if (c == '-') {\n \
-    \               neg = true;\n                c = buf[idx++];\n            }\n\
-    \        }\n        x = 0;\n        while (c >= '0') {\n            x = x * 10\
-    \ + (c & 15);\n            c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    };\n\n/**\n * @brief Quick Find\n */\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\nusing namespace\
+    \ std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
+    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
+    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
+    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
+    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
+    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
+    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
+    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
+    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
+    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
+    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
+    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
+    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
     \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
     \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
@@ -98,12 +98,12 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 11 \"test/yosupo_unionfind_quickfind.test.cpp\"\n\n\
-    int main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    QuickFind uf(n);\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ u, v;\n        in.read(t, u, v);\n        if (t) out.writeln(uf.same(u, v));\n\
-    \        else uf.unite(u, v);\n    }\n    return 0;\n}\n"
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 11 \"test/yosupo_unionfind_quickfind.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    QuickFind uf(n);\n\
+    \    for (int i = 0; i < q; ++i) {\n        int t, u, v;\n        in.read(t, u,\
+    \ v);\n        if (t) out.writeln(uf.same(u, v));\n        else uf.unite(u, v);\n\
+    \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/unionfind\"\n\n#include\
     \ <algorithm>\n#include <cstddef>\n#include <numeric>\n#include <vector>\nusing\
     \ namespace std;\n\n#include \"../datastructure/quickfind.cpp\"\n#include \"../util/fastio.cpp\"\
@@ -117,7 +117,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_unionfind_quickfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_unionfind_quickfind.test.cpp

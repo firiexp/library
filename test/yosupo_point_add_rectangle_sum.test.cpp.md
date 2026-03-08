@@ -6,10 +6,10 @@ data:
     title: Binary Indexed Tree(BIT)
   - icon: ':x:'
     path: datastructure/point_add_rectangle_sum.cpp
-    title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
+    title: Point Add Rectangle Sum
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -89,25 +89,24 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"datastructure/point_add_rectangle_sum.cpp\"\n#include <algorithm>\n\
-    #include <vector>\nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
-    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
-    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
-    \n    T sum(int k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k))\
-    \ ret += bit[k - 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n\
-    \        for (k++; k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T\
-    \ x) {\n        if (x <= 0) return 0;\n        int i = 0;\n        for (int j\
-    \ = m; j; j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i\
-    \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n\
-    #line 6 \"datastructure/point_add_rectangle_sum.cpp\"\n\ntemplate<class T>\nstruct\
-    \ PointAddRectangleSum {\n    struct Operation {\n        int type;\n        int\
-    \ x, y, z;\n        T w;\n    };\n\n    vector<Operation> ops;\n    vector<int>\
-    \ xs;\n\n    void add_point(int x, int y, T w) {\n        ops.push_back({0, x,\
-    \ y, 0, w});\n        xs.push_back(x);\n    }\n\n    void add_query(int l, int\
-    \ d, int r, int u) {\n        ops.push_back({1, l, d, r, u});\n    }\n\n    vector<T>\
-    \ solve() const {\n        vector<int> ord_x = xs;\n        sort(ord_x.begin(),\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/point_add_rectangle_sum.cpp\"\
+    \n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#line 1 \"\
+    datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT {\n    vector<T>\
+    \ bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1), n(n) {\n       \
+    \ while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n        T ret = 0;\n   \
+    \     for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return ret;\n \
+    \   }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k & -k)) bit[k\
+    \ - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x <= 0) return\
+    \ 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n            if\
+    \ (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n        }\n\
+    \        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary Indexed Tree(BIT)\n\
+    \ */\n#line 6 \"datastructure/point_add_rectangle_sum.cpp\"\n\ntemplate<class\
+    \ T>\nstruct PointAddRectangleSum {\n    struct Operation {\n        int type;\n\
+    \        int x, y, z;\n        T w;\n    };\n\n    vector<Operation> ops;\n  \
+    \  vector<int> xs;\n\n    void add_point(int x, int y, T w) {\n        ops.push_back({0,\
+    \ x, y, 0, w});\n        xs.push_back(x);\n    }\n\n    void add_query(int l,\
+    \ int d, int r, int u) {\n        ops.push_back({1, l, d, r, u});\n    }\n\n \
+    \   vector<T> solve() const {\n        vector<int> ord_x = xs;\n        sort(ord_x.begin(),\
     \ ord_x.end());\n        ord_x.erase(unique(ord_x.begin(), ord_x.end()), ord_x.end());\n\
     \n        int m = (int)ord_x.size();\n        vector<vector<int>> ys(m + 1);\n\
     \        for (auto op : ops) {\n            if (op.type != 0) continue;\n    \
@@ -131,17 +130,17 @@ data:
     \  } else {\n                ans.push_back(sum(op.z, op.w) - sum(op.z, op.y) -\
     \ sum(op.x, op.w) + sum(op.x, op.y));\n            }\n        }\n        return\
     \ ans;\n    }\n};\n\n/**\n * @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C\
-    (Point Add Rectangle Sum)\n * @docs _md/point_add_rectangle_sum.md\n */\n#line\
-    \ 5 \"test/yosupo_point_add_rectangle_sum.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n\n    PointAddRectangleSum<long\
-    \ long> solver;\n    for (int i = 0; i < n; ++i) {\n        int x, y;\n      \
-    \  long long w;\n        sc.read(x, y, w);\n        solver.add_point(x, y, w);\n\
-    \    }\n    for (int i = 0; i < q; ++i) {\n        int t;\n        sc.read(t);\n\
-    \        if (t == 0) {\n            int x, y;\n            long long w;\n    \
-    \        sc.read(x, y, w);\n            solver.add_point(x, y, w);\n        }\
-    \ else {\n            int l, d, r, u;\n            sc.read(l, d, r, u);\n    \
-    \        solver.add_query(l, d, r, u);\n        }\n    }\n\n    auto ans = solver.solve();\n\
-    \    for (auto x : ans) pr.writeln(x);\n    return 0;\n}\n"
+    (Point Add Rectangle Sum)\n */\n#line 5 \"test/yosupo_point_add_rectangle_sum.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
+    \ q);\n\n    PointAddRectangleSum<long long> solver;\n    for (int i = 0; i <\
+    \ n; ++i) {\n        int x, y;\n        long long w;\n        sc.read(x, y, w);\n\
+    \        solver.add_point(x, y, w);\n    }\n    for (int i = 0; i < q; ++i) {\n\
+    \        int t;\n        sc.read(t);\n        if (t == 0) {\n            int x,\
+    \ y;\n            long long w;\n            sc.read(x, y, w);\n            solver.add_point(x,\
+    \ y, w);\n        } else {\n            int l, d, r, u;\n            sc.read(l,\
+    \ d, r, u);\n            solver.add_query(l, d, r, u);\n        }\n    }\n\n \
+    \   auto ans = solver.solve();\n    for (auto x : ans) pr.writeln(x);\n    return\
+    \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_rectangle_sum\"\
     \n\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/point_add_rectangle_sum.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
@@ -161,7 +160,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_rectangle_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_point_add_rectangle_sum.test.cpp

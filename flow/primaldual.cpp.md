@@ -10,7 +10,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    _deprecated_at_docs: _md/primaldual.md
     document_title: "\u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)"
     links: []
   bundledCode: "#line 1 \"flow/primaldual.cpp\"\ntemplate<typename F, typename C>\n\
@@ -43,8 +42,7 @@ data:
     \   res += potential[t]*d;\n            for(int v = t; v != s; v = prevv[v]){\n\
     \                G[prevv[v]][preve[v]].cap -= d;\n                G[v][G[prevv[v]][preve[v]].rev].cap\
     \ += d;\n            }\n        }\n        ok = 1;\n        return res;\n    }\n\
-    };\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)\n * @docs _md/primaldual.md\n\
-    \ */\n"
+    };\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)\n */\n"
   code: "template<typename F, typename C>\nstruct PrimalDual {\n    struct edge {\n\
     \        int to; F cap; C cost; int rev;\n        edge() = default;\n        edge(int\
     \ to, F cap, C cost, int rev):to(to), cap(cap), cost(cost), rev(rev) {};\n   \
@@ -75,21 +73,17 @@ data:
     \   res += potential[t]*d;\n            for(int v = t; v != s; v = prevv[v]){\n\
     \                G[prevv[v]][preve[v]].cap -= d;\n                G[v][G[prevv[v]][preve[v]].rev].cap\
     \ += d;\n            }\n        }\n        ok = 1;\n        return res;\n    }\n\
-    };\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)\n * @docs _md/primaldual.md\n\
-    \ */\n"
+    };\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: flow/primaldual.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0274.test.cpp
 documentation_of: flow/primaldual.cpp
 layout: document
-redirect_from:
-- /library/flow/primaldual.cpp
-- /library/flow/primaldual.cpp.html
 title: "\u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)"
 ---
 ## 説明

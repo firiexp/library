@@ -3,13 +3,13 @@ data:
   _extendedDependsOn:
   - icon: ':x:'
     path: fps/sample_point_shift.cpp
-    title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
+    title: Sample Point Shift
   - icon: ':question:'
     path: math/ntt.cpp
-    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+    title: Number Theoretic Transform
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -90,14 +90,14 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include\
-    \ <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
-    #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
-    #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n\
-    // 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct\
-    \ modint {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val\
-    \ = v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\nconstexpr int\
+    \ ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define\
+    \ NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define\
+    \ NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353\
+    \  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
     \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
     \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
     \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
@@ -354,8 +354,8 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
-    \ _md/ntt.md\n */\n#line 2 \"fps/sample_point_shift.cpp\"\n\nvector<mint> sample_point_shift(const\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    #line 2 \"fps/sample_point_shift.cpp\"\n\nvector<mint> sample_point_shift(const\
     \ vector<mint> &ys, mint c, int m = -1) {\n    int n = ys.size();\n    if (m ==\
     \ -1) m = n;\n    if (m <= 0) return {};\n    if (n == 0) return vector<mint>(m,\
     \ mint(0));\n\n    int k = n - 1;\n    long long t = c.val;\n    if (t <= k) {\n\
@@ -381,14 +381,14 @@ data:
     \ (int i = 0; i <= k; ++i) coef *= c - mint(i);\n    for (int i = 0; i < m; ++i)\
     \ {\n        res[i] = conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n\
     \        coef /= c - mint(k) + mint(i);\n    }\n    return res;\n}\n\n/**\n *\
-    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n * @docs _md/sample_point_shift.md\n\
-    \ */\n#line 11 \"test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, m, c;\n    in.read(n,\
-    \ m, c);\n    vector<mint> ys(n);\n    for (int i = 0; i < n; ++i) {\n       \
-    \ int x;\n        in.read(x);\n        ys[i] = x;\n    }\n    vector<mint> ans\
-    \ = sample_point_shift(ys, mint(c), m);\n    for (int i = 0; i < m; ++i) {\n \
-    \       if (i) out.write(' ');\n        out.write(ans[i].val);\n    }\n    out.writeln();\n\
-    \    return 0;\n}\n"
+    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n */\n#line\
+    \ 11 \"test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp\"\n\nint main()\
+    \ {\n    Scanner in;\n    Printer out;\n    int n, m, c;\n    in.read(n, m, c);\n\
+    \    vector<mint> ys(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n\
+    \        in.read(x);\n        ys[i] = x;\n    }\n    vector<mint> ans = sample_point_shift(ys,\
+    \ mint(c), m);\n    for (int i = 0; i < m; ++i) {\n        if (i) out.write('\
+    \ ');\n        out.write(ans[i].val);\n    }\n    out.writeln();\n    return 0;\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shift_of_sampling_points_of_polynomial\"\
     \n\n#include <vector>\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
@@ -405,7 +405,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp

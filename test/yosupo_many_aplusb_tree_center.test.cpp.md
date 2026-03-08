@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/tree_center.cpp
-    title: "\u6728\u306E\u4E2D\u5FC3(Tree Center)"
+    title: Tree Center
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -87,12 +87,12 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"tree/tree_center.cpp\"\npair<int, vector<int>> tree_center(const vector<vector<int>>\
-    \ &G) {\n    int n = G.size();\n    if (n == 0) return {0, {}};\n\n    auto bfs\
-    \ = [&](int s, vector<int> &par) {\n        vector<int> dist(n, -1);\n       \
-    \ queue<int> q;\n        dist[s] = 0;\n        par.assign(n, -1);\n        q.push(s);\n\
-    \        int far = s;\n        while (!q.empty()) {\n            int v = q.front();\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/tree_center.cpp\"\
+    \npair<int, vector<int>> tree_center(const vector<vector<int>> &G) {\n    int\
+    \ n = G.size();\n    if (n == 0) return {0, {}};\n\n    auto bfs = [&](int s,\
+    \ vector<int> &par) {\n        vector<int> dist(n, -1);\n        queue<int> q;\n\
+    \        dist[s] = 0;\n        par.assign(n, -1);\n        q.push(s);\n      \
+    \  int far = s;\n        while (!q.empty()) {\n            int v = q.front();\n\
     \            q.pop();\n            if (dist[far] < dist[v]) far = v;\n       \
     \     for (auto &&to : G[v]) {\n                if (dist[to] != -1) continue;\n\
     \                dist[to] = dist[v] + 1;\n                par[to] = v;\n     \
@@ -103,12 +103,12 @@ data:
     \n    int diam = dist[t];\n    vector<int> centers;\n    centers.push_back(path[diam\
     \ / 2]);\n    if (diam & 1) centers.push_back(path[diam / 2 + 1]);\n    return\
     \ {(diam + 1) / 2, centers};\n}\n\n/**\n * @brief \u6728\u306E\u4E2D\u5FC3(Tree\
-    \ Center)\n * @docs _md/tree_center.md\n */\n#line 11 \"test/yosupo_many_aplusb_tree_center.test.cpp\"\
-    \n\nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int n =\
-    \ 0; n <= 40; ++n) {\n            for (int trial = 0; trial < 200; ++trial) {\n\
-    \                vector<vector<int>> g(n);\n                for (int v = 1; v\
-    \ < n; ++v) {\n                    int p = uniform_int_distribution<int>(0, v\
-    \ - 1)(rng);\n                    g[v].push_back(p);\n                    g[p].push_back(v);\n\
+    \ Center)\n */\n#line 11 \"test/yosupo_many_aplusb_tree_center.test.cpp\"\n\n\
+    int main() {\n    {\n        mt19937 rng(123456789);\n        for (int n = 0;\
+    \ n <= 40; ++n) {\n            for (int trial = 0; trial < 200; ++trial) {\n \
+    \               vector<vector<int>> g(n);\n                for (int v = 1; v <\
+    \ n; ++v) {\n                    int p = uniform_int_distribution<int>(0, v -\
+    \ 1)(rng);\n                    g[v].push_back(p);\n                    g[p].push_back(v);\n\
     \                }\n\n                int brute_radius = 0;\n                vector<int>\
     \ brute_centers;\n                if (n > 0) {\n                    vector<int>\
     \ ecc(n);\n                    for (int s = 0; s < n; ++s) {\n               \
@@ -165,8 +165,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_tree_center.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_tree_center.test.cpp
 layout: document

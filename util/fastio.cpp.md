@@ -1,4 +1,5 @@
 ---
+category: "\u30E6\u30FC\u30C6\u30A3\u30EA\u30C6\u30A3"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -51,97 +52,97 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
     title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_cartesian_tree.test.cpp
     title: test/yosupo_cartesian_tree.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_counting_primes.test.cpp
     title: test/yosupo_counting_primes.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_cycle_detection_directed.test.cpp
     title: test/yosupo_cycle_detection_directed.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_cycle_detection_undirected.test.cpp
     title: test/yosupo_cycle_detection_undirected.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_directedmst.test.cpp
     title: test/yosupo_directedmst.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_discrete_logarithm_mod.test.cpp
     title: test/yosupo_discrete_logarithm_mod.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eertree.test.cpp
     title: test/yosupo_eertree.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eulerian_trail_directed.test.cpp
     title: test/yosupo_eulerian_trail_directed.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eulerian_trail_undirected.test.cpp
     title: test/yosupo_eulerian_trail_undirected.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_jump_on_tree.test.cpp
     title: test/yosupo_jump_on_tree.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_root_integer.test.cpp
     title: test/yosupo_kth_root_integer.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_line_add_get_min.test.cpp
     title: test/yosupo_line_add_get_min.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb.test.cpp
     title: test/yosupo_many_aplusb.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_argsort.test.cpp
     title: test/yosupo_many_aplusb_argsort.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
     title: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_bipartite_matching.test.cpp
     title: test/yosupo_many_aplusb_bipartite_matching.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
     title: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
     title: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_eulerphi.test.cpp
     title: test/yosupo_many_aplusb_eulerphi.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_hld_edge.test.cpp
     title: test/yosupo_many_aplusb_hld_edge.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_isqrt.test.cpp
     title: test/yosupo_many_aplusb_isqrt.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_parse.test.cpp
     title: test/yosupo_many_aplusb_parse.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_rle.test.cpp
     title: test/yosupo_many_aplusb_rle.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_slope_trick.test.cpp
     title: test/yosupo_many_aplusb_slope_trick.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_tree_center.test.cpp
     title: test/yosupo_many_aplusb_tree_center.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_z_algorithm.test.cpp
     title: test/yosupo_many_aplusb_z_algorithm.test.cpp
   - icon: ':x:'
@@ -265,7 +266,6 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':question:'
   attributes:
-    _deprecated_at_docs: _md/fastio.md
     document_title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     links: []
   bundledCode: "#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n\
@@ -335,7 +335,7 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n"
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n"
   code: "#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
     using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
     \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
@@ -402,13 +402,12 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n"
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/fastio.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
@@ -497,19 +496,11 @@ data:
   - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/yosupo_many_aplusb_slope_trick.test.cpp
   - test/yosupo_directedmst.test.cpp
-documentation_of: util/fastio.cpp
-layout: document
-redirect_from:
-- /library/util/fastio.cpp
-- /library/util/fastio.cpp.html
-title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
----
----
-layout: post
-title: Fast IO
 date: 2026-03-08
-category: ユーティリティ
-tags: ユーティリティ
+documentation_of: util/fastio.cpp
+layout: post
+tags: "\u30E6\u30FC\u30C6\u30A3\u30EA\u30C6\u30A3"
+title: Fast IO
 ---
 
 ## 説明

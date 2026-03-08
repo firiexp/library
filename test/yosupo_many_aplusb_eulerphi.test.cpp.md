@@ -1,24 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/eulerphi.cpp
-    title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
-  - icon: ':heavy_check_mark:'
+    title: Euler Phi
+  - icon: ':x:'
     path: math/eulerphi_all.cpp
-    title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\
-      (Euler Phi Table)"
-  - icon: ':heavy_check_mark:'
+    title: Euler Phi All
+  - icon: ':x:'
     path: math/get_min_factor.cpp
-    title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
+    title: Get Min Factor
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -94,49 +93,47 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"math/eulerphi.cpp\"\nint eulerphi(int x){\n  \
-    \  int phi = x, xx = x;\n    for (int i = 2; i * i <= x; ++i) {\n        if (xx\
-    \ % i == 0) {\n            phi -= phi / i;\n            while(xx % i == 0) xx\
-    \ /= i;\n        }\n    }\n    if(xx > 1) phi -= phi/xx;\n    return phi;\n}\n\
-    \n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n\
-    \ * @docs _md/eulerphi.md\n */\n#line 1 \"math/eulerphi_all.cpp\"\nvector<int>\
-    \ eulerphi_all(int M){\n    vector<int> phi(M);\n    vector<bool> isprime(M);\n\
-    \    for (int i = 0; i < M; ++i) {\n        phi[i] = i;\n        isprime[i] =\
-    \ 1;\n    }\n    for (int i = 2; i < M; ++i) {\n        if(isprime[i]){\n    \
-    \        for (int j = i; j < M; j += i) {\n                phi[j] -= phi[j]/i;\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"math/eulerphi.cpp\"\nint eulerphi(int x){\n    int phi = x, xx = x;\n  \
+    \  for (int i = 2; i * i <= x; ++i) {\n        if (xx % i == 0) {\n          \
+    \  phi -= phi / i;\n            while(xx % i == 0) xx /= i;\n        }\n    }\n\
+    \    if(xx > 1) phi -= phi/xx;\n    return phi;\n}\n\n/**\n * @brief \u30AA\u30A4\
+    \u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n */\n#line 1 \"math/eulerphi_all.cpp\"\
+    \nvector<int> eulerphi_all(int M){\n    vector<int> phi(M);\n    vector<bool>\
+    \ isprime(M);\n    for (int i = 0; i < M; ++i) {\n        phi[i] = i;\n      \
+    \  isprime[i] = 1;\n    }\n    for (int i = 2; i < M; ++i) {\n        if(isprime[i]){\n\
+    \            for (int j = i; j < M; j += i) {\n                phi[j] -= phi[j]/i;\n\
     \                isprime[j] = 0;\n            }\n            isprime[i] = 1;\n\
     \        }\n    }\n    return phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\
-    \u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Euler Phi Table)\n * @docs _md/eulerphi_all.md\n\
-    \ */\n#line 1 \"math/get_min_factor.cpp\"\nvector<int> get_min_factor(int n) {\n\
-    \    if(n <= 1) return vector<int>{0, 1};\n    vector<bool> prime(n+1, true);\n\
-    \    vector<int> min_factor(n+1, 0);\n    min_factor[0] = 0, min_factor[1] = 1;\n\
-    \    prime[0] = false; prime[1] = false;\n    for(ll i = 2; i <= n; i++){\n  \
-    \      if(prime[i]) {\n            min_factor[i] = i;\n            for(ll j =\
-    \ i << 1; j <= n; j += i) {\n                prime[j] = false;\n             \
-    \   if(min_factor[j] == 0) min_factor[j] = i;\n            }\n        }\n    }\n\
-    \    return min_factor;\n}\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\u30C6\
-    \u30FC\u30D6\u30EB(Min Factor Table)\n * @docs _md/get_min_factor.md\n */\n#line\
-    \ 14 \"test/yosupo_many_aplusb_eulerphi.test.cpp\"\n\nint brute_phi(int x) {\n\
-    \    int res = 0;\n    for (int i = 1; i <= x; ++i) {\n        if (gcd(i, x) ==\
-    \ 1) ++res;\n    }\n    return res;\n}\n\nint brute_min_factor(int x) {\n    if\
-    \ (x == 0) return 0;\n    if (x == 1) return 1;\n    for (int p = 2; p <= x; ++p)\
-    \ {\n        if (x % p == 0) return p;\n    }\n    return x;\n}\n\nint main()\
-    \ {\n    {\n        for (int n = 1; n <= 300; ++n) {\n            if (eulerphi(n)\
-    \ != brute_phi(n)) return 1;\n        }\n\n        for (int m = 1; m <= 300; ++m)\
-    \ {\n            auto phi = eulerphi_all(m);\n            if ((int)phi.size()\
-    \ != m) return 1;\n            for (int i = 0; i < m; ++i) {\n               \
-    \ if (phi[i] != (i == 0 ? 0 : brute_phi(i))) return 1;\n            }\n      \
-    \  }\n\n        for (int n = 0; n <= 300; ++n) {\n            auto min_factor\
-    \ = get_min_factor(n);\n            if ((int)min_factor.size() != max(2, n + 1))\
-    \ return 1;\n            for (int i = 0; i <= n; ++i) {\n                if (min_factor[i]\
-    \ != brute_min_factor(i)) return 1;\n            }\n        }\n\n        mt19937\
-    \ rng(123456789);\n        for (int trial = 0; trial < 1000; ++trial) {\n    \
-    \        int n = uniform_int_distribution<int>(1, 10000)(rng);\n            if\
-    \ (eulerphi(n) != brute_phi(n)) return 1;\n        }\n    }\n\n    Scanner sc;\n\
-    \    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        long\
-    \ long a, b;\n        sc.read(a, b);\n        pr.writeln(a + b);\n    }\n    return\
-    \ 0;\n}\n"
+    \u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Euler Phi Table)\n */\n#line\
+    \ 1 \"math/get_min_factor.cpp\"\nvector<int> get_min_factor(int n) {\n    if(n\
+    \ <= 1) return vector<int>{0, 1};\n    vector<bool> prime(n+1, true);\n    vector<int>\
+    \ min_factor(n+1, 0);\n    min_factor[0] = 0, min_factor[1] = 1;\n    prime[0]\
+    \ = false; prime[1] = false;\n    for(ll i = 2; i <= n; i++){\n        if(prime[i])\
+    \ {\n            min_factor[i] = i;\n            for(ll j = i << 1; j <= n; j\
+    \ += i) {\n                prime[j] = false;\n                if(min_factor[j]\
+    \ == 0) min_factor[j] = i;\n            }\n        }\n    }\n    return min_factor;\n\
+    }\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min\
+    \ Factor Table)\n */\n#line 14 \"test/yosupo_many_aplusb_eulerphi.test.cpp\"\n\
+    \nint brute_phi(int x) {\n    int res = 0;\n    for (int i = 1; i <= x; ++i) {\n\
+    \        if (gcd(i, x) == 1) ++res;\n    }\n    return res;\n}\n\nint brute_min_factor(int\
+    \ x) {\n    if (x == 0) return 0;\n    if (x == 1) return 1;\n    for (int p =\
+    \ 2; p <= x; ++p) {\n        if (x % p == 0) return p;\n    }\n    return x;\n\
+    }\n\nint main() {\n    {\n        for (int n = 1; n <= 300; ++n) {\n         \
+    \   if (eulerphi(n) != brute_phi(n)) return 1;\n        }\n\n        for (int\
+    \ m = 1; m <= 300; ++m) {\n            auto phi = eulerphi_all(m);\n         \
+    \   if ((int)phi.size() != m) return 1;\n            for (int i = 0; i < m; ++i)\
+    \ {\n                if (phi[i] != (i == 0 ? 0 : brute_phi(i))) return 1;\n  \
+    \          }\n        }\n\n        for (int n = 0; n <= 300; ++n) {\n        \
+    \    auto min_factor = get_min_factor(n);\n            if ((int)min_factor.size()\
+    \ != max(2, n + 1)) return 1;\n            for (int i = 0; i <= n; ++i) {\n  \
+    \              if (min_factor[i] != brute_min_factor(i)) return 1;\n         \
+    \   }\n        }\n\n        mt19937 rng(123456789);\n        for (int trial =\
+    \ 0; trial < 1000; ++trial) {\n            int n = uniform_int_distribution<int>(1,\
+    \ 10000)(rng);\n            if (eulerphi(n) != brute_phi(n)) return 1;\n     \
+    \   }\n    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
+    \    while (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
+    \ + b);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
     \ <algorithm>\n#include <numeric>\n#include <random>\n#include <vector>\nusing\
     \ namespace std;\nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\n#include\
@@ -168,8 +165,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_eulerphi.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_eulerphi.test.cpp
 layout: document

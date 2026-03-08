@@ -1,16 +1,16 @@
 ---
+category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_maximum_independent_set.test.cpp
     title: test/yosupo_maximum_independent_set.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/independentset.md
     document_title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
     links: []
   bundledCode: "#line 1 \"graph/independentset.cpp\"\nclass IndependentSet {\n   \
@@ -27,7 +27,7 @@ data:
     \ v){\n        G[u] &= ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n \
     \   pair<int, ull> maximum_independent_set() {\n        return dfs(0, (1ull <<\
     \ n)-1, 0);\n    }\n};\n\n/**\n * @brief \u6700\u5927\u72EC\u7ACB\u96C6\u5408\
-    (Maximum Independent Set)\n * @docs _md/independentset.md\n */\n"
+    (Maximum Independent Set)\n */\n"
   code: "class IndependentSet {\n    int n;\n    vector<ull> G;\n    pair<int, ull>\
     \ dfs(ull R, ull P, ull X){\n        if(!P && !X){\n            return {__builtin_popcountll(R),\
     \ R};\n        }\n        if(!P) return {-1, 0};\n        pair<int, ull> res =\
@@ -41,28 +41,20 @@ data:
     \ v){\n        G[u] &= ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n \
     \   pair<int, ull> maximum_independent_set() {\n        return dfs(0, (1ull <<\
     \ n)-1, 0);\n    }\n};\n\n/**\n * @brief \u6700\u5927\u72EC\u7ACB\u96C6\u5408\
-    (Maximum Independent Set)\n * @docs _md/independentset.md\n */\n"
+    (Maximum Independent Set)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/independentset.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_maximum_independent_set.test.cpp
-documentation_of: graph/independentset.cpp
-layout: document
-redirect_from:
-- /library/graph/independentset.cpp
-- /library/graph/independentset.cpp.html
-title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
----
----
-layout: post
-title: 最大独立集合
 date: 2018-04-28
-category: グラフ
-tags: グラフ
+documentation_of: graph/independentset.cpp
+layout: post
+tags: "\u30B0\u30E9\u30D5"
+title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408"
 ---
 
 ## 説明

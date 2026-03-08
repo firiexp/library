@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/discrete_logarithm.cpp
-    title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
+    title: Discrete Logarithm
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/discrete_logarithm_mod
@@ -85,9 +85,9 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"math/discrete_logarithm.cpp\"\n#include <cmath>\n\
-    #include <limits>\n#include <numeric>\n#include <unordered_map>\n\nlong long discrete_logarithm_mul(long\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"math/discrete_logarithm.cpp\"\n#include <cmath>\n#include <limits>\n#include\
+    \ <numeric>\n#include <unordered_map>\n\nlong long discrete_logarithm_mul(long\
     \ long a, long long b, long long mod) {\n    using i128 = __int128_t;\n    return\
     \ (long long)((i128)a * b % mod);\n}\n\nlong long discrete_logarithm(long long\
     \ x, long long y, long long mod) {\n    if (mod == 1) return 0;\n    x %= mod;\n\
@@ -107,11 +107,11 @@ data:
     \ != baby.end()) {\n            long long cand = it->second * n - q + add;\n \
     \           if (cand < ans) ans = cand;\n        }\n        cur = discrete_logarithm_mul(cur,\
     \ x, mod);\n    }\n    return ans == std::numeric_limits<long long>::max() ? -1\
-    \ : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete Logarithm)\n *\
-    \ @docs _md/discrete_logarithm.md\n */\n#line 5 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        long long x, y, mod;\n        sc.read(x, y, mod);\n\
-    \        pr.writeln(discrete_logarithm(x, y, mod));\n    }\n    return 0;\n}\n"
+    \ : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete Logarithm)\n */\n\
+    #line 5 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n     \
+    \   long long x, y, mod;\n        sc.read(x, y, mod);\n        pr.writeln(discrete_logarithm(x,\
+    \ y, mod));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\
     \n\n#include \"../util/fastio.cpp\"\n#include \"../math/discrete_logarithm.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
@@ -123,8 +123,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_discrete_logarithm_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_discrete_logarithm_mod.test.cpp
 layout: document

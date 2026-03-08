@@ -6,10 +6,10 @@ data:
     title: Binary Indexed Tree(BIT)
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   - icon: ':x:'
     path: util/mo.cpp
-    title: Mo's Algorithm
+    title: Mo's algorithm
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -89,26 +89,25 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class\
-    \ T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n):\
-    \ bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int\
-    \ k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k -\
-    \ 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++;\
-    \ k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
-    \        if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j;\
-    \ j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j\
-    \ - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n\
-    #line 1 \"util/mo.cpp\"\nconst int B = 400;\n\nstruct Query {\n    int l, r, no;\n\
-    \    Query(int l, int r, int no) : l(l), r(r), no(no) {}\n    Query() : l(0),\
-    \ r(0), no(0) {}\n    bool operator<(const Query &a) const {\n        int ablock\
-    \ = this->l / B, bblock = a.l / B;\n        if(ablock != bblock) return ablock\
-    \ < bblock;\n        if(ablock & 1) return this->r < a.r;\n        else return\
-    \ this->r > a.r;\n    }\n};\n/*\nfor (auto &&X : query) {\n    while(X.l < l)\
-    \ g(--l);\n    while(r < X.r) f(r++);\n    while(l < X.l) g(l++);\n    while(X.r\
-    \ < r) f(--r);\n    ans[X.no] = ans;\n}\n*/\n\n/**\n * @brief Mo's Algorithm\n\
-    \ * @docs _md/mo.md\n */\n#line 9 \"test/yosupo_static_range_inversions_query.test.cpp\"\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT {\n\
+    \    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1), n(n)\
+    \ {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n        T ret\
+    \ = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
+    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
+    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
+    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
+    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
+    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
+    \ Indexed Tree(BIT)\n */\n#line 1 \"util/mo.cpp\"\nconst int B = 400;\n\nstruct\
+    \ Query {\n    int l, r, no;\n    Query(int l, int r, int no) : l(l), r(r), no(no)\
+    \ {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const Query &a) const\
+    \ {\n        int ablock = this->l / B, bblock = a.l / B;\n        if(ablock !=\
+    \ bblock) return ablock < bblock;\n        if(ablock & 1) return this->r < a.r;\n\
+    \        else return this->r > a.r;\n    }\n};\n/*\nfor (auto &&X : query) {\n\
+    \    while(X.l < l) g(--l);\n    while(r < X.r) f(r++);\n    while(l < X.l) g(l++);\n\
+    \    while(X.r < r) f(--r);\n    ans[X.no] = ans;\n}\n*/\n\n/**\n * @brief Mo's\
+    \ Algorithm\n */\n#line 9 \"test/yosupo_static_range_inversions_query.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) sc.read(a[i]);\n\
     \    vector<int> xs = a;\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(),\
@@ -159,7 +158,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_static_range_inversions_query.test.cpp

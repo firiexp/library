@@ -4,7 +4,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash.cpp
-    title: Rolling Hash
+    title: Rolling-Hash
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0355.test.cpp

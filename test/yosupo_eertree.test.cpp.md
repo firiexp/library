@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: string/palindromic_tree.cpp
     title: "\u56DE\u6587\u6728(Palindromic Tree)"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/eertree
@@ -85,27 +85,26 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"string/palindromic_tree.cpp\"\ntemplate<int W, char start = 'a'>\nstruct\
-    \ PalindromicTree {\n    struct Node {\n        int link;\n        int len;\n\
-    \        int first_pos;\n        int occ;\n        int next[W];\n\n        Node(int\
-    \ link = 0, int len = 0, int first_pos = -1)\n            : link(link), len(len),\
-    \ first_pos(first_pos), occ(0) {\n            fill(next, next + W, -1);\n    \
-    \    }\n    };\n\n    vector<Node> nodes;\n    vector<int> path;\n    string s;\n\
-    \    int last;\n\n    PalindromicTree(): nodes(), path(), s(), last(1) {\n   \
-    \     nodes.reserve(2);\n        nodes.emplace_back(0, -1, -1);\n        nodes.emplace_back(0,\
-    \ 0, -1);\n    }\n\n    explicit PalindromicTree(const string &t): PalindromicTree()\
-    \ {\n        reserve(t.size());\n        build(t);\n    }\n\n    void reserve(int\
-    \ n) {\n        nodes.reserve(n + 2);\n        path.reserve(n);\n        s.reserve(n);\n\
-    \    }\n\n    static int ord(char c) {\n        return c - start;\n    }\n\n \
-    \   int suffix_link(int v, int pos, int c) const {\n        while (true) {\n \
-    \           int j = pos - 1 - nodes[v].len;\n            if (j >= 0 && ord(s[j])\
-    \ == c) return v;\n            v = nodes[v].link;\n        }\n    }\n\n    int\
-    \ add(char ch) {\n        int c = ord(ch);\n        int pos = s.size();\n    \
-    \    s.push_back(ch);\n\n        int p = suffix_link(last, pos, c);\n        if\
-    \ (nodes[p].next[c] != -1) {\n            last = nodes[p].next[c];\n         \
-    \   ++nodes[last].occ;\n            path.push_back(last);\n            return\
-    \ last;\n        }\n\n        int cur = nodes.size();\n        nodes.emplace_back(0,\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"string/palindromic_tree.cpp\"\
+    \ntemplate<int W, char start = 'a'>\nstruct PalindromicTree {\n    struct Node\
+    \ {\n        int link;\n        int len;\n        int first_pos;\n        int\
+    \ occ;\n        int next[W];\n\n        Node(int link = 0, int len = 0, int first_pos\
+    \ = -1)\n            : link(link), len(len), first_pos(first_pos), occ(0) {\n\
+    \            fill(next, next + W, -1);\n        }\n    };\n\n    vector<Node>\
+    \ nodes;\n    vector<int> path;\n    string s;\n    int last;\n\n    PalindromicTree():\
+    \ nodes(), path(), s(), last(1) {\n        nodes.reserve(2);\n        nodes.emplace_back(0,\
+    \ -1, -1);\n        nodes.emplace_back(0, 0, -1);\n    }\n\n    explicit PalindromicTree(const\
+    \ string &t): PalindromicTree() {\n        reserve(t.size());\n        build(t);\n\
+    \    }\n\n    void reserve(int n) {\n        nodes.reserve(n + 2);\n        path.reserve(n);\n\
+    \        s.reserve(n);\n    }\n\n    static int ord(char c) {\n        return\
+    \ c - start;\n    }\n\n    int suffix_link(int v, int pos, int c) const {\n  \
+    \      while (true) {\n            int j = pos - 1 - nodes[v].len;\n         \
+    \   if (j >= 0 && ord(s[j]) == c) return v;\n            v = nodes[v].link;\n\
+    \        }\n    }\n\n    int add(char ch) {\n        int c = ord(ch);\n      \
+    \  int pos = s.size();\n        s.push_back(ch);\n\n        int p = suffix_link(last,\
+    \ pos, c);\n        if (nodes[p].next[c] != -1) {\n            last = nodes[p].next[c];\n\
+    \            ++nodes[last].occ;\n            path.push_back(last);\n         \
+    \   return last;\n        }\n\n        int cur = nodes.size();\n        nodes.emplace_back(0,\
     \ nodes[p].len + 2, pos);\n        nodes[p].next[c] = cur;\n        if (nodes[cur].len\
     \ == 1) {\n            nodes[cur].link = 1;\n        } else {\n            int\
     \ q = suffix_link(nodes[p].link, pos, c);\n            nodes[cur].link = nodes[q].next[c];\n\
@@ -117,18 +116,18 @@ data:
     \ ord.end(), 0);\n        sort(ord.begin(), ord.end(), [&](int a, int b) { return\
     \ nodes[a].len > nodes[b].len; });\n        for (auto &&v : ord) {\n         \
     \   if (v >= 2) res[nodes[v].link] += res[v];\n        }\n        return res;\n\
-    \    }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n * @docs _md/palindromic_tree.md\n\
-    \ */\n#line 9 \"test/yosupo_eertree.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    string s;\n    char c = sc.skip();\n    while (true) {\n\
-    \        s.push_back(c);\n        sc.ensure();\n        if (sc.buf[sc.idx] <=\
-    \ ' ') break;\n        c = sc.buf[sc.idx++];\n    }\n\n    PalindromicTree<26>\
-    \ pt(s);\n    int n = pt.nodes.size();\n    vector<int> parent(n, -1);\n    for\
-    \ (int v = 0; v < n; ++v) {\n        for (int c = 0; c < 26; ++c) {\n        \
-    \    int u = pt.nodes[v].next[c];\n            if (u != -1) parent[u] = v;\n \
-    \       }\n    }\n\n    pr.writeln(n - 2);\n    for (int v = 2; v < n; ++v) {\n\
-    \        pr.writeln(parent[v] - 1, pt.nodes[v].link - 1);\n    }\n    for (int\
-    \ i = 0; i < (int)pt.path.size(); ++i) {\n        if (i) pr.write(' ');\n    \
-    \    pr.write(pt.path[i] - 1);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \    }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n#line\
+    \ 9 \"test/yosupo_eertree.test.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
+    \ pr;\n\n    string s;\n    char c = sc.skip();\n    while (true) {\n        s.push_back(c);\n\
+    \        sc.ensure();\n        if (sc.buf[sc.idx] <= ' ') break;\n        c =\
+    \ sc.buf[sc.idx++];\n    }\n\n    PalindromicTree<26> pt(s);\n    int n = pt.nodes.size();\n\
+    \    vector<int> parent(n, -1);\n    for (int v = 0; v < n; ++v) {\n        for\
+    \ (int c = 0; c < 26; ++c) {\n            int u = pt.nodes[v].next[c];\n     \
+    \       if (u != -1) parent[u] = v;\n        }\n    }\n\n    pr.writeln(n - 2);\n\
+    \    for (int v = 2; v < n; ++v) {\n        pr.writeln(parent[v] - 1, pt.nodes[v].link\
+    \ - 1);\n    }\n    for (int i = 0; i < (int)pt.path.size(); ++i) {\n        if\
+    \ (i) pr.write(' ');\n        pr.write(pt.path[i] - 1);\n    }\n    pr.writeln();\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/eertree\"\n\n#include <bits/stdc++.h>\n\
     \nusing namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../string/palindromic_tree.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    char\
@@ -148,8 +147,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_eertree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_eertree.test.cpp
 layout: document

@@ -6,10 +6,10 @@ data:
     title: Taylor Shift
   - icon: ':question:'
     path: math/ntt.cpp
-    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+    title: Number Theoretic Transform
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -91,18 +91,18 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 2 \"math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod = 998244353,\
-    \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
-    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
-    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
-    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
-    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
-    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 2 \"math/ntt.cpp\"\
+    \n#include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef\
+    \ NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef\
+    \ NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
+    \ -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\n\
+    template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
+    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
+    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
+    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
+    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
+    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
     \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
@@ -355,23 +355,22 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
-    \ _md/ntt.md\n */\n#line 2 \"fps/taylor_shift.cpp\"\n\npoly taylor_shift(const\
-    \ poly &f, mint c) {\n    int n = f.size();\n    if (n == 0) return poly();\n\
-    \    static vector<mint> fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact\
-    \ = [&](int m) {\n        if ((int)fact.size() > m) return;\n        int old =\
-    \ fact.size();\n        fact.resize(m + 1);\n        for (int i = old; i <= m;\
-    \ ++i) fact[i] = fact[i - 1] * mint(i);\n        ifact.resize(m + 1);\n      \
-    \  ifact[m] = fact[m].inv();\n        for (int i = m; i > old; --i) ifact[i -\
-    \ 1] = ifact[i] * mint(i);\n        if (old == 1) ifact[0] = mint(1);\n    };\n\
-    \    ensure_fact(n);\n    poly a(n), b(n);\n    mint pow_c = 1;\n    for (int\
-    \ i = 0; i < n; ++i) {\n        a[n - 1 - i] = f[i] * fact[i];\n        b[i] =\
-    \ pow_c * ifact[i];\n        pow_c *= c;\n    }\n    poly d = a * b;\n    poly\
-    \ g(n);\n    for (int i = 0; i < n; ++i) g[i] = d[n - 1 - i] * ifact[i];\n   \
-    \ return g;\n}\n\n/**\n * @brief Taylor Shift\n * @docs _md/taylor_shift.md\n\
-    \ */\n#line 13 \"test/yosupo_polynomial_taylor_shift.test.cpp\"\n\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n    int n, c;\n    in.read(n, c);\n  \
-    \  poly f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    #line 2 \"fps/taylor_shift.cpp\"\n\npoly taylor_shift(const poly &f, mint c) {\n\
+    \    int n = f.size();\n    if (n == 0) return poly();\n    static vector<mint>\
+    \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int m) {\n\
+    \        if ((int)fact.size() > m) return;\n        int old = fact.size();\n \
+    \       fact.resize(m + 1);\n        for (int i = old; i <= m; ++i) fact[i] =\
+    \ fact[i - 1] * mint(i);\n        ifact.resize(m + 1);\n        ifact[m] = fact[m].inv();\n\
+    \        for (int i = m; i > old; --i) ifact[i - 1] = ifact[i] * mint(i);\n  \
+    \      if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(n);\n    poly\
+    \ a(n), b(n);\n    mint pow_c = 1;\n    for (int i = 0; i < n; ++i) {\n      \
+    \  a[n - 1 - i] = f[i] * fact[i];\n        b[i] = pow_c * ifact[i];\n        pow_c\
+    \ *= c;\n    }\n    poly d = a * b;\n    poly g(n);\n    for (int i = 0; i < n;\
+    \ ++i) g[i] = d[n - 1 - i] * ifact[i];\n    return g;\n}\n\n/**\n * @brief Taylor\
+    \ Shift\n */\n#line 13 \"test/yosupo_polynomial_taylor_shift.test.cpp\"\n\nint\
+    \ main() {\n    Scanner in;\n    Printer out;\n    int n, c;\n    in.read(n, c);\n\
+    \    poly f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
     \        f[i] = x;\n    }\n    poly g = taylor_shift(f, mint(c));\n    for (int\
     \ i = 0; i < n; ++i) {\n        if (i) out.write(' ');\n        out.write(g[i].val);\n\
     \    }\n    out.writeln();\n    return 0;\n}\n"
@@ -391,7 +390,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_polynomial_taylor_shift.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_polynomial_taylor_shift.test.cpp

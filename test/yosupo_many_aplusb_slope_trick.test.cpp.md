@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/slope_trick.cpp
     title: Slope Trick
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -87,36 +87,35 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"datastructure/slope_trick.cpp\"\ntemplate<class\
-    \ T>\nstruct SlopeTrick {\n    static constexpr T INF = numeric_limits<T>::max()\
-    \ / 4;\n\n    T min_f = 0;\n    priority_queue<T> L;\n    priority_queue<T, vector<T>,\
-    \ greater<T>> R;\n    T add_l = 0, add_r = 0;\n\n    struct Query {\n        T\
-    \ lx, rx, min_f;\n    };\n\nprivate:\n    void push_L(T a) { L.push(a - add_l);\
-    \ }\n    void push_R(T a) { R.push(a - add_r); }\n    T top_L() const { return\
-    \ L.empty() ? -INF : L.top() + add_l; }\n    T top_R() const { return R.empty()\
-    \ ? INF : R.top() + add_r; }\n    T pop_L() {\n        T x = top_L();\n      \
-    \  if (!L.empty()) L.pop();\n        return x;\n    }\n    T pop_R() {\n     \
-    \   T x = top_R();\n        if (!R.empty()) R.pop();\n        return x;\n    }\n\
-    \    size_t size() const { return L.size() + R.size(); }\n\npublic:\n    Query\
-    \ query() const {\n        return {top_L(), top_R(), min_f};\n    }\n\n    void\
-    \ add_all(T a) {\n        min_f += a;\n    }\n\n    void add_a_minus_x(T a) {\n\
-    \        min_f += max<T>(0, a - top_R());\n        push_R(a);\n        push_L(pop_R());\n\
-    \    }\n\n    void add_x_minus_a(T a) {\n        min_f += max<T>(0, top_L() -\
-    \ a);\n        push_L(a);\n        push_R(pop_L());\n    }\n\n    void add_abs(T\
-    \ a) {\n        add_a_minus_x(a);\n        add_x_minus_a(a);\n    }\n\n    void\
-    \ clear_right() {\n        decltype(R){}.swap(R);\n    }\n\n    void clear_left()\
-    \ {\n        decltype(L){}.swap(L);\n    }\n\n    void shift(T a, T b) {\n   \
-    \     assert(a <= b);\n        add_l += a;\n        add_r += b;\n    }\n\n   \
-    \ void shift(T a) {\n        shift(a, a);\n    }\n\n    T eval(T x) const {\n\
-    \        T res = min_f;\n        auto lq = L;\n        auto rq = R;\n        while\
-    \ (!lq.empty()) {\n            res += max<T>(0, lq.top() + add_l - x);\n     \
-    \       lq.pop();\n        }\n        while (!rq.empty()) {\n            res +=\
-    \ max<T>(0, x - (rq.top() + add_r));\n            rq.pop();\n        }\n     \
-    \   return res;\n    }\n\n    void merge(SlopeTrick &st) {\n        if (st.size()\
-    \ > size()) swap(*this, st);\n        while (!st.L.empty()) add_a_minus_x(st.pop_L());\n\
-    \        while (!st.R.empty()) add_x_minus_a(st.pop_R());\n        min_f += st.min_f;\n\
-    \    }\n};\n\n/**\n * @brief Slope Trick\n * @docs _md/slope_trick.md\n */\n#line\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"datastructure/slope_trick.cpp\"\ntemplate<class T>\nstruct SlopeTrick {\n\
+    \    static constexpr T INF = numeric_limits<T>::max() / 4;\n\n    T min_f = 0;\n\
+    \    priority_queue<T> L;\n    priority_queue<T, vector<T>, greater<T>> R;\n \
+    \   T add_l = 0, add_r = 0;\n\n    struct Query {\n        T lx, rx, min_f;\n\
+    \    };\n\nprivate:\n    void push_L(T a) { L.push(a - add_l); }\n    void push_R(T\
+    \ a) { R.push(a - add_r); }\n    T top_L() const { return L.empty() ? -INF : L.top()\
+    \ + add_l; }\n    T top_R() const { return R.empty() ? INF : R.top() + add_r;\
+    \ }\n    T pop_L() {\n        T x = top_L();\n        if (!L.empty()) L.pop();\n\
+    \        return x;\n    }\n    T pop_R() {\n        T x = top_R();\n        if\
+    \ (!R.empty()) R.pop();\n        return x;\n    }\n    size_t size() const { return\
+    \ L.size() + R.size(); }\n\npublic:\n    Query query() const {\n        return\
+    \ {top_L(), top_R(), min_f};\n    }\n\n    void add_all(T a) {\n        min_f\
+    \ += a;\n    }\n\n    void add_a_minus_x(T a) {\n        min_f += max<T>(0, a\
+    \ - top_R());\n        push_R(a);\n        push_L(pop_R());\n    }\n\n    void\
+    \ add_x_minus_a(T a) {\n        min_f += max<T>(0, top_L() - a);\n        push_L(a);\n\
+    \        push_R(pop_L());\n    }\n\n    void add_abs(T a) {\n        add_a_minus_x(a);\n\
+    \        add_x_minus_a(a);\n    }\n\n    void clear_right() {\n        decltype(R){}.swap(R);\n\
+    \    }\n\n    void clear_left() {\n        decltype(L){}.swap(L);\n    }\n\n \
+    \   void shift(T a, T b) {\n        assert(a <= b);\n        add_l += a;\n   \
+    \     add_r += b;\n    }\n\n    void shift(T a) {\n        shift(a, a);\n    }\n\
+    \n    T eval(T x) const {\n        T res = min_f;\n        auto lq = L;\n    \
+    \    auto rq = R;\n        while (!lq.empty()) {\n            res += max<T>(0,\
+    \ lq.top() + add_l - x);\n            lq.pop();\n        }\n        while (!rq.empty())\
+    \ {\n            res += max<T>(0, x - (rq.top() + add_r));\n            rq.pop();\n\
+    \        }\n        return res;\n    }\n\n    void merge(SlopeTrick &st) {\n \
+    \       if (st.size() > size()) swap(*this, st);\n        while (!st.L.empty())\
+    \ add_a_minus_x(st.pop_L());\n        while (!st.R.empty()) add_x_minus_a(st.pop_R());\n\
+    \        min_f += st.min_f;\n    }\n};\n\n/**\n * @brief Slope Trick\n */\n#line\
     \ 13 \"test/yosupo_many_aplusb_slope_trick.test.cpp\"\n\nint main() {\n    {\n\
     \        mt19937 rng(123456789);\n        constexpr long long INF = (1LL << 60);\n\
     \        constexpr int LIM = 200;\n        auto idx = [&](int x) { return x +\
@@ -248,8 +247,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_slope_trick.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 22:25:54+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_slope_trick.test.cpp
 layout: document

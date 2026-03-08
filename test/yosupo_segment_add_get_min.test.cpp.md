@@ -1,12 +1,12 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':x:'
     path: datastructure/li_chao_tree.cpp
     title: Li Chao Tree
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: true
@@ -87,28 +87,28 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"datastructure/li_chao_tree.cpp\"\ntemplate<class\
-    \ T, bool get_max = false>\nstruct LiChaoTree {\n    struct Line {\n        T\
-    \ a, b;\n        Line(T a = 0, T b = inf()) : a(a), b(b) {}\n        T get(T x)\
-    \ const { return a * x + b; }\n    };\n\n    vector<T> xs;\n    vector<Line> seg;\n\
-    \    int n;\n\n    explicit LiChaoTree(vector<T> xs) : xs(xs) {\n        sort(this->xs.begin(),\
-    \ this->xs.end());\n        this->xs.erase(unique(this->xs.begin(), this->xs.end()),\
-    \ this->xs.end());\n        n = (int)this->xs.size();\n        seg.assign(max(1,\
-    \ 4 * n), Line());\n    }\n\n    void add_line(T a, T b) {\n        if (n == 0)\
-    \ return;\n        if (get_max) a = -a, b = -b;\n        add_line_node(1, 0, n,\
-    \ Line(a, b));\n    }\n\n    void add_segment(T a, T b, T l, T r) {\n        if\
-    \ (n == 0 || l >= r) return;\n        if (get_max) a = -a, b = -b;\n        int\
-    \ L = lower_bound(xs.begin(), xs.end(), l) - xs.begin();\n        int R = lower_bound(xs.begin(),\
-    \ xs.end(), r) - xs.begin();\n        if (L >= R) return;\n        add_segment_node(1,\
-    \ 0, n, L, R, Line(a, b));\n    }\n\n    T query(T x) const {\n        if (n ==\
-    \ 0) return get_max ? -inf() : inf();\n        int i = lower_bound(xs.begin(),\
-    \ xs.end(), x) - xs.begin();\n        if (i == n || xs[i] != x) return get_max\
-    \ ? -inf() : inf();\n        T ret = query_node(1, 0, n, i, x);\n        return\
-    \ get_max ? -ret : ret;\n    }\n\nprivate:\n    static constexpr T inf() {\n \
-    \       return numeric_limits<T>::max() / 4;\n    }\n\n    void add_line_node(int\
-    \ k, int l, int r, Line x) {\n        int m = (l + r) / 2;\n        bool lef =\
-    \ x.get(xs[l]) < seg[k].get(xs[l]);\n        bool mid = x.get(xs[m]) < seg[k].get(xs[m]);\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"datastructure/li_chao_tree.cpp\"\ntemplate<class T, bool get_max = false>\n\
+    struct LiChaoTree {\n    struct Line {\n        T a, b;\n        Line(T a = 0,\
+    \ T b = inf()) : a(a), b(b) {}\n        T get(T x) const { return a * x + b; }\n\
+    \    };\n\n    vector<T> xs;\n    vector<Line> seg;\n    int n;\n\n    explicit\
+    \ LiChaoTree(vector<T> xs) : xs(xs) {\n        sort(this->xs.begin(), this->xs.end());\n\
+    \        this->xs.erase(unique(this->xs.begin(), this->xs.end()), this->xs.end());\n\
+    \        n = (int)this->xs.size();\n        seg.assign(max(1, 4 * n), Line());\n\
+    \    }\n\n    void add_line(T a, T b) {\n        if (n == 0) return;\n       \
+    \ if (get_max) a = -a, b = -b;\n        add_line_node(1, 0, n, Line(a, b));\n\
+    \    }\n\n    void add_segment(T a, T b, T l, T r) {\n        if (n == 0 || l\
+    \ >= r) return;\n        if (get_max) a = -a, b = -b;\n        int L = lower_bound(xs.begin(),\
+    \ xs.end(), l) - xs.begin();\n        int R = lower_bound(xs.begin(), xs.end(),\
+    \ r) - xs.begin();\n        if (L >= R) return;\n        add_segment_node(1, 0,\
+    \ n, L, R, Line(a, b));\n    }\n\n    T query(T x) const {\n        if (n == 0)\
+    \ return get_max ? -inf() : inf();\n        int i = lower_bound(xs.begin(), xs.end(),\
+    \ x) - xs.begin();\n        if (i == n || xs[i] != x) return get_max ? -inf()\
+    \ : inf();\n        T ret = query_node(1, 0, n, i, x);\n        return get_max\
+    \ ? -ret : ret;\n    }\n\nprivate:\n    static constexpr T inf() {\n        return\
+    \ numeric_limits<T>::max() / 4;\n    }\n\n    void add_line_node(int k, int l,\
+    \ int r, Line x) {\n        int m = (l + r) / 2;\n        bool lef = x.get(xs[l])\
+    \ < seg[k].get(xs[l]);\n        bool mid = x.get(xs[m]) < seg[k].get(xs[m]);\n\
     \        if (mid) swap(seg[k], x);\n        if (r - l == 1) return;\n        if\
     \ (lef != mid) add_line_node(k * 2, l, m, x);\n        else add_line_node(k *\
     \ 2 + 1, m, r, x);\n    }\n\n    void add_segment_node(int k, int l, int r, int\
@@ -152,16 +152,16 @@ data:
     \        if (x < m) {\n                t = node.l;\n                r = m;\n \
     \           } else {\n                t = node.r;\n                l = m;\n  \
     \          }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Li Chao\
-    \ Tree\n * @docs _md/li_chao_tree.md\n */\n#line 13 \"test/yosupo_segment_add_get_min.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    struct Segment {\n        ll l, r, a, b;\n    };\n    vector<Segment>\
-    \ init(n);\n    for (int i = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r,\
-    \ init[i].a, init[i].b);\n    }\n\n    struct Query {\n        int t;\n      \
-    \  ll l, r, a, b, p;\n    };\n    vector<Query> qs;\n    qs.reserve(q);\n    vector<ll>\
-    \ xs;\n    xs.reserve(q);\n\n    for (int i = 0; i < q; ++i) {\n        int t;\n\
-    \        in.read(t);\n        if (!t) {\n            ll l, r, a, b;\n        \
-    \    in.read(l, r, a, b);\n            qs.push_back({0, l, r, a, b, 0});\n   \
-    \     } else {\n            ll p;\n            in.read(p);\n            qs.push_back({1,\
+    \ Tree\n */\n#line 13 \"test/yosupo_segment_add_get_min.test.cpp\"\n\nint main()\
+    \ {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n\
+    \    struct Segment {\n        ll l, r, a, b;\n    };\n    vector<Segment> init(n);\n\
+    \    for (int i = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r, init[i].a,\
+    \ init[i].b);\n    }\n\n    struct Query {\n        int t;\n        ll l, r, a,\
+    \ b, p;\n    };\n    vector<Query> qs;\n    qs.reserve(q);\n    vector<ll> xs;\n\
+    \    xs.reserve(q);\n\n    for (int i = 0; i < q; ++i) {\n        int t;\n   \
+    \     in.read(t);\n        if (!t) {\n            ll l, r, a, b;\n           \
+    \ in.read(l, r, a, b);\n            qs.push_back({0, l, r, a, b, 0});\n      \
+    \  } else {\n            ll p;\n            in.read(p);\n            qs.push_back({1,\
     \ 0, 0, 0, 0, p});\n            xs.push_back(p);\n        }\n    }\n\n    LiChaoTree<ll>\
     \ li(xs);\n    for (auto s : init) li.add_segment(s.a, s.b, s.l, s.r);\n\n   \
     \ const ll INF = numeric_limits<ll>::max() / 4;\n    for (auto qu : qs) {\n  \
@@ -195,7 +195,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_segment_add_get_min.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_segment_add_get_min.test.cpp

@@ -42,12 +42,12 @@ data:
     \        for (int i = 0; i < n; ++i) {\n            if(cut[i]) articulation.emplace_back(i);\n\
     \        }\n        sort(bridge.begin(), bridge.end());\n    }\n\n    inline bool\
     \ is_bridge(int i, int j){\n        if(ord[i] > ord[j]) swap(i, j);\n        return\
-    \ ord[i] < low[j];\n    }\n};\n\n/**\n * @brief LowLink\n * @docs _md/lowlink.md\n\
-    \ */\n#line 21 \"test/aoj_grl_3_b.test.cpp\"\n\nint main() {\n    int n, m;\n\
-    \    cin >> n >> m;\n    LowLink G(n);\n    for (int i = 0; i < m; ++i) {\n  \
-    \      int s, t;\n        scanf(\"%d %d\", &s, &t);\n        G.add_edge(s, t);\n\
-    \    }\n    G.build();\n    for (auto &&e : G.bridge) {\n        printf(\"%d %d\\\
-    n\", e.first, e.second);\n    }\n    return 0;\n}\n"
+    \ ord[i] < low[j];\n    }\n};\n\n/**\n * @brief LowLink\n */\n#line 21 \"test/aoj_grl_3_b.test.cpp\"\
+    \n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    LowLink G(n);\n    for\
+    \ (int i = 0; i < m; ++i) {\n        int s, t;\n        scanf(\"%d %d\", &s, &t);\n\
+    \        G.add_edge(s, t);\n    }\n    G.build();\n    for (auto &&e : G.bridge)\
+    \ {\n        printf(\"%d %d\\n\", e.first, e.second);\n    }\n    return 0;\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=GRL_3_B\"\
     \n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
@@ -64,7 +64,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_3_b.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_3_b.test.cpp

@@ -1,15 +1,15 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':x:'
     path: datastructure/segtree.cpp
-    title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
-  - icon: ':question:'
+    title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
+  - icon: ':x:'
     path: tree/hld.cpp
-    title: "HL\u5206\u89E3(HL Decomposition)"
+    title: "\u91CD\u8EFD\u5206\u89E3"
   - icon: ':question:'
     path: util/fastio.cpp
-    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+    title: Fast IO
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
@@ -95,49 +95,49 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint\
-    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
-    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
-    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
-    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
-    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
-    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
-    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
-    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
-    \ { val += b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
-    \ modint& b) { val -= b.val; if (val >= M) val += M; return *this; }\n    modint&\
-    \ operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M);\
-    \ return *this; }\n    modint& operator/=(const modint& b) { return *this = *this\
-    \ * b.inv(); }\n    modint operator+() const { return *this; }\n    modint operator-()\
-    \ const { return modint() - *this; }\n    modint pow(long long n) const { modint\
-    \ x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r;\
-    \ }\n    modint inv() const { return pow(M-2); }\n    friend modint operator+(const\
-    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
-    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
+    \ 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
+    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
+    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
+    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
+    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
+    \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
+    \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
+    \ if (val >= M) val += M; return *this; }\n    modint& operator*=(const modint&\
+    \ b) { ull z = val; z *= b.val; val = (uint)(z % M); return *this; }\n    modint&\
+    \ operator/=(const modint& b) { return *this = *this * b.inv(); }\n    modint\
+    \ operator+() const { return *this; }\n    modint operator-() const { return modint()\
+    \ - *this; }\n    modint pow(long long n) const { modint x = *this, r = 1; while\
+    \ (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const\
+    \ { return pow(M-2); }\n    friend modint operator+(const modint& a, const modint&\
+    \ b) { return modint(a) += b; }\n    friend modint operator-(const modint& a,\
+    \ const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
     \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n * @docs _md/modint.md\n */\n#line 1\
-    \ \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n\
-    \        int heavy = -1;\n        for (auto &&u : G[v]) {\n            if(u ==\
-    \ par[v]) continue;\n            par[u] = v; dep[u] = dep[v] + 1;\n          \
-    \  dfs_sz(u);\n            sub_size[v] += sub_size[u];\n            if(heavy ==\
-    \ -1 || sub_size[u] > sub_size[heavy]) heavy = u;\n        }\n        if (heavy\
-    \ != -1 && G[v][0] != heavy) {\n            for (auto &&u : G[v]) {\n        \
-    \        if (u == heavy) {\n                    swap(u, G[v][0]);\n          \
-    \          break;\n                }\n            }\n        }\n    }\n    void\
-    \ dfs_hld(int v, int c, int &pos){\n        id[v] = pos++;\n        id_inv[id[v]]=\
-    \ v;\n        tree_id[v] = c;\n        for (auto &&u : G[v]) {\n            if(u\
-    \ == par[v]) continue;\n            head[u] = (u == G[v][0] ? head[v] : u);\n\
-    \            dfs_hld(u, c, pos);\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G;\n    vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit\
-    \ HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1),\
-    \ id(n), id_inv(n), tree_id(n), head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>>\
-    \ &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
-    \ head(n) {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n\
-    \        G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 1 \"tree/hld.cpp\"\n\nclass\
+    \ HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy = -1;\n\
+    \        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n    \
+    \        par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n          \
+    \  sub_size[v] += sub_size[u];\n            if(heavy == -1 || sub_size[u] > sub_size[heavy])\
+    \ heavy = u;\n        }\n        if (heavy != -1 && G[v][0] != heavy) {\n    \
+    \        for (auto &&u : G[v]) {\n                if (u == heavy) {\n        \
+    \            swap(u, G[v][0]);\n                    break;\n                }\n\
+    \            }\n        }\n    }\n    void dfs_hld(int v, int c, int &pos){\n\
+    \        id[v] = pos++;\n        id_inv[id[v]]= v;\n        tree_id[v] = c;\n\
+    \        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n    \
+    \        head[u] = (u == G[v][0] ? head[v] : u);\n            dfs_hld(u, c, pos);\n\
+    \        }\n    }\npublic:\n    int n;\n    vector<vector<int>> G;\n    vector<int>\
+    \ par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int\
+    \ n) : n(n), G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
+    \ head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>> &G) : n(G.size()),\
+    \ G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n)\
+    \ {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n    \
+    \    G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
     \        fill(par.begin(), par.end(), -1);\n        fill(dep.begin(), dep.end(),\
     \ 0);\n        fill(sub_size.begin(), sub_size.end(), 1);\n        int c = 0,\
     \ pos = 0;\n        for (auto &&i : roots) {\n            dfs_sz(i);\n       \
@@ -180,20 +180,20 @@ data:
     \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
     \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
     \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n * @docs _md/hld.md\n */\n#line 1 \"datastructure/segtree.cpp\"\
-    \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
-    \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
-    \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
-    \ M::e());\n    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n \
-    \   void build(){\n        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i],\
-    \ seg[2*i+1]);\n    }\n\n    void update(int k, const T &x){\n        k += sz;\n\
-    \        seg[k] = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n\
-    \    }\n\n    T query(int a, int b){\n        T l = M::e(), r = M::e();\n    \
-    \    for(a += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l,\
-    \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
-    \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
-    \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
-    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
+    \u89E3(HL Decomposition)\n */\n#line 1 \"datastructure/segtree.cpp\"\ntemplate\
+    \ <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int sz, n,\
+    \ height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n) {\n  \
+    \      sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz, M::e());\n\
+    \    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n    void build(){\n\
+    \        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i], seg[2*i+1]);\n\
+    \    }\n\n    void update(int k, const T &x){\n        k += sz;\n        seg[k]\
+    \ = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n    }\n\n\
+    \    T query(int a, int b){\n        T l = M::e(), r = M::e();\n        for(a\
+    \ += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l, seg[a++]);\n\
+    \            if(b & 1) r = M::f(seg[--b], r);\n        }\n        return M::f(l,\
+    \ r);\n    }\n\n    template<class F>\n    int search_right(int l, F cond){\n\
+    \        if(l == n) return n;\n        T val = M::e();\n        l += sz;\n   \
+    \     do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
     \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
     \                    if (cond(M::f(val, seg[l]))){\n                        val\
     \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
@@ -211,7 +211,7 @@ data:
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
     \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
-    \u6728(Segment Tree)\n * @docs _md/segtree.md\n */\n#line 18 \"test/yosupo_vertex_set_path_composite.test.cpp\"\
+    \u6728(Segment Tree)\n */\n#line 18 \"test/yosupo_vertex_set_path_composite.test.cpp\"\
     \n\nstruct Ml {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return\
     \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
     };\n\nstruct Mr {\n    using T = array<mint, 2>;\n    static T f(T b, T a) { return\
@@ -266,7 +266,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite.test.cpp
