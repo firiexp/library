@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/mod_sqrt.cpp
-    title: Modular square root
-  - icon: ':heavy_check_mark:'
+    title: "\u5E73\u65B9\u6839(mod p)(Modular Square Root)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/sqrt_mod
@@ -84,24 +84,25 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"math/mod_sqrt.cpp\"\nlong long mod_pow(long long a, long\
-    \ long n, long long mod) {\n    long long r = 1;\n    while (n) {\n        if\
-    \ (n & 1) r = (unsigned long long)r * a % mod;\n        a = (unsigned long long)a\
-    \ * a % mod;\n        n >>= 1;\n    }\n    return r;\n}\n\nlong long mod_sqrt(long\
-    \ long a, long long p) {\n    a %= p;\n    if (a < 0) a += p;\n    if (a == 0\
-    \ || p == 2) return a;\n    if (mod_pow(a, (p - 1) >> 1, p) != 1) return -1;\n\
-    \    if (p % 4 == 3) return mod_pow(a, (p + 1) >> 2, p);\n\n    long long q =\
-    \ p - 1;\n    int s = 0;\n    while ((q & 1) == 0) {\n        ++s;\n        q\
-    \ >>= 1;\n    }\n    long long z = 2;\n    while (mod_pow(z, (p - 1) >> 1, p)\
-    \ == 1) ++z;\n    long long c = mod_pow(z, q, p);\n    long long t = mod_pow(a,\
-    \ q, p);\n    long long r = mod_pow(a, (q + 1) >> 1, p);\n    int m = s;\n   \
-    \ while (t != 1) {\n        int i = 1;\n        long long tt = (unsigned long\
-    \ long)t * t % p;\n        while (i < m && tt != 1) {\n            tt = (unsigned\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"math/mod_sqrt.cpp\"\nlong long mod_pow(long long\
+    \ a, long long n, long long mod) {\n    long long r = 1;\n    while (n) {\n  \
+    \      if (n & 1) r = (unsigned long long)r * a % mod;\n        a = (unsigned\
+    \ long long)a * a % mod;\n        n >>= 1;\n    }\n    return r;\n}\n\nlong long\
+    \ mod_sqrt(long long a, long long p) {\n    a %= p;\n    if (a < 0) a += p;\n\
+    \    if (a == 0 || p == 2) return a;\n    if (mod_pow(a, (p - 1) >> 1, p) != 1)\
+    \ return -1;\n    if (p % 4 == 3) return mod_pow(a, (p + 1) >> 2, p);\n\n    long\
+    \ long q = p - 1;\n    int s = 0;\n    while ((q & 1) == 0) {\n        ++s;\n\
+    \        q >>= 1;\n    }\n    long long z = 2;\n    while (mod_pow(z, (p - 1)\
+    \ >> 1, p) == 1) ++z;\n    long long c = mod_pow(z, q, p);\n    long long t =\
+    \ mod_pow(a, q, p);\n    long long r = mod_pow(a, (q + 1) >> 1, p);\n    int m\
+    \ = s;\n    while (t != 1) {\n        int i = 1;\n        long long tt = (unsigned\
+    \ long long)t * t % p;\n        while (i < m && tt != 1) {\n            tt = (unsigned\
     \ long long)tt * tt % p;\n            ++i;\n        }\n        long long b = mod_pow(c,\
     \ 1LL << (m - i - 1), p);\n        r = (unsigned long long)r * b % p;\n      \
     \  c = (unsigned long long)b * b % p;\n        t = (unsigned long long)t * c %\
-    \ p;\n        m = i;\n    }\n    return r;\n}\n\n/**\n * @brief Modular square\
-    \ root\n * @docs _md/mod_sqrt.md\n */\n#line 5 \"test/yosupo_sqrt_mod.test.cpp\"\
+    \ p;\n        m = i;\n    }\n    return r;\n}\n\n/**\n * @brief \u5E73\u65B9\u6839\
+    (mod p)(Modular Square Root)\n * @docs _md/mod_sqrt.md\n */\n#line 5 \"test/yosupo_sqrt_mod.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
     \    while (t--) {\n        long long y, p;\n        sc.read(y, p);\n        pr.writeln(mod_sqrt(y,\
     \ p));\n    }\n    return 0;\n}\n"
@@ -116,8 +117,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_sqrt_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_sqrt_mod.test.cpp
 layout: document

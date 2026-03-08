@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: math/ntt.cpp
-    title: math/ntt.cpp
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/taylor_shift.md
-    document_title: polynomial taylor shift
+    document_title: Taylor Shift
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
     \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
@@ -279,19 +279,21 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 2 \"fps/taylor_shift.cpp\"\n\npoly taylor_shift(const poly &f, mint c) {\n\
-    \    int n = f.size();\n    if (n == 0) return poly();\n    static vector<mint>\
-    \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int m) {\n\
-    \        if ((int)fact.size() > m) return;\n        int old = fact.size();\n \
-    \       fact.resize(m + 1);\n        for (int i = old; i <= m; ++i) fact[i] =\
-    \ fact[i - 1] * mint(i);\n        ifact.resize(m + 1);\n        ifact[m] = fact[m].inv();\n\
-    \        for (int i = m; i > old; --i) ifact[i - 1] = ifact[i] * mint(i);\n  \
-    \      if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(n);\n    poly\
-    \ a(n), b(n);\n    mint pow_c = 1;\n    for (int i = 0; i < n; ++i) {\n      \
-    \  a[n - 1 - i] = f[i] * fact[i];\n        b[i] = pow_c * ifact[i];\n        pow_c\
-    \ *= c;\n    }\n    poly d = a * b;\n    poly g(n);\n    for (int i = 0; i < n;\
-    \ ++i) g[i] = d[n - 1 - i] * ifact[i];\n    return g;\n}\n\n/**\n * @brief polynomial\
-    \ taylor shift\n * @docs _md/taylor_shift.md\n */\n"
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n#line 2 \"fps/taylor_shift.cpp\"\n\npoly taylor_shift(const\
+    \ poly &f, mint c) {\n    int n = f.size();\n    if (n == 0) return poly();\n\
+    \    static vector<mint> fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact\
+    \ = [&](int m) {\n        if ((int)fact.size() > m) return;\n        int old =\
+    \ fact.size();\n        fact.resize(m + 1);\n        for (int i = old; i <= m;\
+    \ ++i) fact[i] = fact[i - 1] * mint(i);\n        ifact.resize(m + 1);\n      \
+    \  ifact[m] = fact[m].inv();\n        for (int i = m; i > old; --i) ifact[i -\
+    \ 1] = ifact[i] * mint(i);\n        if (old == 1) ifact[0] = mint(1);\n    };\n\
+    \    ensure_fact(n);\n    poly a(n), b(n);\n    mint pow_c = 1;\n    for (int\
+    \ i = 0; i < n; ++i) {\n        a[n - 1 - i] = f[i] * fact[i];\n        b[i] =\
+    \ pow_c * ifact[i];\n        pow_c *= c;\n    }\n    poly d = a * b;\n    poly\
+    \ g(n);\n    for (int i = 0; i < n; ++i) g[i] = d[n - 1 - i] * ifact[i];\n   \
+    \ return g;\n}\n\n/**\n * @brief Taylor Shift\n * @docs _md/taylor_shift.md\n\
+    \ */\n"
   code: "#include \"../math/ntt.cpp\"\n\npoly taylor_shift(const poly &f, mint c)\
     \ {\n    int n = f.size();\n    if (n == 0) return poly();\n    static vector<mint>\
     \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int m) {\n\
@@ -303,15 +305,15 @@ data:
     \ a(n), b(n);\n    mint pow_c = 1;\n    for (int i = 0; i < n; ++i) {\n      \
     \  a[n - 1 - i] = f[i] * fact[i];\n        b[i] = pow_c * ifact[i];\n        pow_c\
     \ *= c;\n    }\n    poly d = a * b;\n    poly g(n);\n    for (int i = 0; i < n;\
-    \ ++i) g[i] = d[n - 1 - i] * ifact[i];\n    return g;\n}\n\n/**\n * @brief polynomial\
-    \ taylor shift\n * @docs _md/taylor_shift.md\n */\n"
+    \ ++i) g[i] = d[n - 1 - i] * ifact[i];\n    return g;\n}\n\n/**\n * @brief Taylor\
+    \ Shift\n * @docs _md/taylor_shift.md\n */\n"
   dependsOn:
   - math/ntt.cpp
   isVerificationFile: false
   path: fps/taylor_shift.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_polynomial_taylor_shift.test.cpp
 documentation_of: fps/taylor_shift.cpp
@@ -319,7 +321,7 @@ layout: document
 redirect_from:
 - /library/fps/taylor_shift.cpp
 - /library/fps/taylor_shift.cpp.html
-title: polynomial taylor shift
+title: Taylor Shift
 ---
 ---
 layout: post

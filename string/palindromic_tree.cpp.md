@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eertree.test.cpp
     title: test/yosupo_eertree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/palindromic_tree.md
-    document_title: Palindromic Tree
+    document_title: "\u56DE\u6587\u6728(Palindromic Tree)"
     links: []
   bundledCode: "#line 1 \"string/palindromic_tree.cpp\"\ntemplate<int W, char start\
     \ = 'a'>\nstruct PalindromicTree {\n    struct Node {\n        int link;\n   \
@@ -44,7 +44,7 @@ data:
     \ ord.end(), 0);\n        sort(ord.begin(), ord.end(), [&](int a, int b) { return\
     \ nodes[a].len > nodes[b].len; });\n        for (auto &&v : ord) {\n         \
     \   if (v >= 2) res[nodes[v].link] += res[v];\n        }\n        return res;\n\
-    \    }\n};\n\n/**\n * @brief Palindromic Tree\n * @docs _md/palindromic_tree.md\n\
+    \    }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n * @docs _md/palindromic_tree.md\n\
     \ */\n"
   code: "template<int W, char start = 'a'>\nstruct PalindromicTree {\n    struct Node\
     \ {\n        int link;\n        int len;\n        int first_pos;\n        int\
@@ -76,14 +76,14 @@ data:
     \ ord.end(), 0);\n        sort(ord.begin(), ord.end(), [&](int a, int b) { return\
     \ nodes[a].len > nodes[b].len; });\n        for (auto &&v : ord) {\n         \
     \   if (v >= 2) res[nodes[v].link] += res[v];\n        }\n        return res;\n\
-    \    }\n};\n\n/**\n * @brief Palindromic Tree\n * @docs _md/palindromic_tree.md\n\
+    \    }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n * @docs _md/palindromic_tree.md\n\
     \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/palindromic_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_eertree.test.cpp
 documentation_of: string/palindromic_tree.cpp
@@ -91,7 +91,7 @@ layout: document
 redirect_from:
 - /library/string/palindromic_tree.cpp
 - /library/string/palindromic_tree.cpp.html
-title: Palindromic Tree
+title: "\u56DE\u6587\u6728(Palindromic Tree)"
 ---
 ## 説明
 文字列の異なる回文部分文字列を管理する eertree である。

@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: datastructure/weightedunionfind.cpp
-    title: Weighted Union Find
-  - icon: ':heavy_check_mark:'
+    title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -84,8 +84,9 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/weightedunionfind.cpp\"\ntemplate <class T>\nclass WeightedUnionFind\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/weightedunionfind.cpp\"\ntemplate <class T>\nclass WeightedUnionFind\
     \ {\n    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
     \ n, T sum_unity = 0) : uni(n, -1), weights(n, sum_unity) {}\n\n    int root(int\
     \ a) {\n        if (uni[a] < 0) return a;\n        int p = uni[a];\n        int\
@@ -98,14 +99,15 @@ data:
     \            w = -w;\n        }\n        uni[a] += uni[b];\n        uni[b] = a;\n\
     \        weights[b] = w;\n        return true;\n    }\n\n    int size(int a) {\n\
     \        return -uni[root(a)];\n    }\n\n    T diff(int x, int y) {\n        return\
-    \ weight(y) - weight(x);\n    }\n};\n\n/**\n * @brief Weighted Union Find\n *\
-    \ @docs _md/weightedunionfind.md\n */\n#line 9 \"test/aoj_dsl_1_b_weightedunionfind.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
-    \ q);\n    WeightedUnionFind<long long> uf(n);\n    while (q--) {\n        int\
-    \ t, x, y;\n        long long z;\n        sc.read(t, x, y);\n        if (t ==\
-    \ 0) {\n            sc.read(z);\n            uf.unite(x, y, z);\n        } else\
-    \ {\n            if (!uf.same(x, y)) pr.writeln('?');\n            else pr.writeln(uf.diff(x,\
-    \ y));\n        }\n    }\n    return 0;\n}\n"
+    \ weight(y) - weight(x);\n    }\n};\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304D\
+    UnionFind(Weighted Union Find)\n * @docs _md/weightedunionfind.md\n */\n#line\
+    \ 9 \"test/aoj_dsl_1_b_weightedunionfind.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    WeightedUnionFind<long\
+    \ long> uf(n);\n    while (q--) {\n        int t, x, y;\n        long long z;\n\
+    \        sc.read(t, x, y);\n        if (t == 0) {\n            sc.read(z);\n \
+    \           uf.unite(x, y, z);\n        } else {\n            if (!uf.same(x,\
+    \ y)) pr.writeln('?');\n            else pr.writeln(uf.diff(x, y));\n        }\n\
+    \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_1_B\"\n\n\
     #include <bits/stdc++.h>\n\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../datastructure/weightedunionfind.cpp\"\n\nint main() {\n    Scanner\
@@ -121,7 +123,7 @@ data:
   isVerificationFile: true
   path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:26:50+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_1_b_weightedunionfind.test.cpp

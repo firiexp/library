@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/dynamic_bitset.cpp
-    title: DynamicBitset
-  - icon: ':heavy_check_mark:'
+    title: "\u52D5\u7684bitset(Dynamic Bitset)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -85,10 +85,11 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/dynamic_bitset.cpp\"\nclass DynamicBitset {\n    using ull = unsigned\
-    \ long long;\n    static constexpr int B = 64;\n\n    int n;\n    vector<ull>\
-    \ a;\n\n    static int popcount(ull x) {\n        return __builtin_popcountll(x);\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/dynamic_bitset.cpp\"\nclass DynamicBitset {\n    using\
+    \ ull = unsigned long long;\n    static constexpr int B = 64;\n\n    int n;\n\
+    \    vector<ull> a;\n\n    static int popcount(ull x) {\n        return __builtin_popcountll(x);\n\
     \    }\n    static int ctz(ull x) {\n        return __builtin_ctzll(x);\n    }\n\
     \n    ull tail_mask() const {\n        int rem = n & (B - 1);\n        return\
     \ rem ? ((1ULL << rem) - 1) : ~0ULL;\n    }\n\n    void normalize() {\n      \
@@ -140,8 +141,8 @@ data:
     \ b[i] |= a[i + block + 1] << (B - rem);\n        }\n        a.swap(b);\n    \
     \    normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset\
     \ l, int s) { return l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset\
-    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief DynamicBitset\n * @docs\
-    \ _md/dynamic_bitset.md\n */\n#line 10 \"test/yosupo_many_aplusb_dynamic_bitset.test.cpp\"\
+    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
+    \ Bitset)\n * @docs _md/dynamic_bitset.md\n */\n#line 10 \"test/yosupo_many_aplusb_dynamic_bitset.test.cpp\"\
     \n\nint brute_find_first(const vector<int> &v) {\n    for (int i = 0; i < (int)v.size();\
     \ ++i) if (v[i]) return i;\n    return -1;\n}\n\nint brute_find_next(const vector<int>\
     \ &v, int k) {\n    for (int i = k + 1; i < (int)v.size(); ++i) if (v[i]) return\
@@ -273,8 +274,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
 layout: document

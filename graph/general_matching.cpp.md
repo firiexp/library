@@ -3,16 +3,16 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/general_matching.md
     document_title: "\u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\
-      \u30B0"
+      \u30B0(General Matching)"
     links: []
   bundledCode: "#line 1 \"graph/general_matching.cpp\"\nclass GeneralMatching {\n\
     \    int n;\n    vector<vector<int>> g;\n    vector<int> match, parent, base,\
@@ -57,7 +57,7 @@ data:
     \ = 0; i < n; ++i) {\n            if (match[i] == -1 || i > match[i]) continue;\n\
     \            res.emplace_back(i, match[i]);\n        }\n        return res;\n\
     \    }\n};\n\n/**\n * @brief \u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\
-    \u30C1\u30F3\u30B0\n * @docs _md/general_matching.md\n */\n"
+    \u30C1\u30F3\u30B0(General Matching)\n * @docs _md/general_matching.md\n */\n"
   code: "class GeneralMatching {\n    int n;\n    vector<vector<int>> g;\n    vector<int>\
     \ match, parent, base, q;\n    vector<bool> used, blossom;\n\n    int lca(int\
     \ a, int b) {\n        vector<bool> seen(n, false);\n        while (true) {\n\
@@ -100,13 +100,13 @@ data:
     \ = 0; i < n; ++i) {\n            if (match[i] == -1 || i > match[i]) continue;\n\
     \            res.emplace_back(i, match[i]);\n        }\n        return res;\n\
     \    }\n};\n\n/**\n * @brief \u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\
-    \u30C1\u30F3\u30B0\n * @docs _md/general_matching.md\n */\n"
+    \u30C1\u30F3\u30B0(General Matching)\n * @docs _md/general_matching.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/general_matching.cpp
   requiredBy: []
-  timestamp: '2026-03-08 17:20:56+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_general_matching.test.cpp
 documentation_of: graph/general_matching.cpp
@@ -114,7 +114,8 @@ layout: document
 redirect_from:
 - /library/graph/general_matching.cpp
 - /library/graph/general_matching.cpp.html
-title: "\u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0"
+title: "\u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(General\
+  \ Matching)"
 ---
 ---
 layout: post

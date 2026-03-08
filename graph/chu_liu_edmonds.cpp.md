@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_directedmst.test.cpp
     title: test/yosupo_directedmst.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/chu_liu_edmonds.md
-    document_title: "Chu-Liu/Edmonds \u6CD5"
+    document_title: "\u6700\u5C0F\u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)"
     links: []
   bundledCode: "#line 1 \"graph/chu_liu_edmonds.cpp\"\ntemplate<class T>\nstruct ChuLiuEdmonds\
     \ {\n    struct Edge {\n        int from, to;\n        T cost;\n    };\n\n   \
@@ -78,8 +78,8 @@ data:
     \            parent[v] = edges[idx].from;\n            int x = stem[v];\n    \
     \        while (x != idx) {\n                used_edge[x] = 1;\n             \
     \   x = parent_edge[x];\n            }\n        }\n        return {true, total,\
-    \ parent, edge_id};\n    }\n};\n\n/**\n * @brief Chu-Liu/Edmonds \u6CD5\n * @docs\
-    \ _md/chu_liu_edmonds.md\n */\n"
+    \ parent, edge_id};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u5168\u57DF\u6709\
+    \u5411\u6728(Chu-Liu/Edmonds)\n * @docs _md/chu_liu_edmonds.md\n */\n"
   code: "template<class T>\nstruct ChuLiuEdmonds {\n    struct Edge {\n        int\
     \ from, to;\n        T cost;\n    };\n\n    struct Result {\n        bool exists;\n\
     \        T cost;\n        vector<int> parent;\n        vector<int> edge_id;\n\
@@ -144,14 +144,14 @@ data:
     \            parent[v] = edges[idx].from;\n            int x = stem[v];\n    \
     \        while (x != idx) {\n                used_edge[x] = 1;\n             \
     \   x = parent_edge[x];\n            }\n        }\n        return {true, total,\
-    \ parent, edge_id};\n    }\n};\n\n/**\n * @brief Chu-Liu/Edmonds \u6CD5\n * @docs\
-    \ _md/chu_liu_edmonds.md\n */\n"
+    \ parent, edge_id};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u5168\u57DF\u6709\
+    \u5411\u6728(Chu-Liu/Edmonds)\n * @docs _md/chu_liu_edmonds.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/chu_liu_edmonds.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_directedmst.test.cpp
 documentation_of: graph/chu_liu_edmonds.cpp
@@ -159,7 +159,7 @@ layout: document
 redirect_from:
 - /library/graph/chu_liu_edmonds.cpp
 - /library/graph/chu_liu_edmonds.cpp.html
-title: "Chu-Liu/Edmonds \u6CD5"
+title: "\u6700\u5C0F\u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)"
 ---
 ---
 layout: post

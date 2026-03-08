@@ -5,14 +5,14 @@ data:
   - icon: ':warning:'
     path: math/factorial.cpp
     title: math/factorial.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/gauss_jordan_mint.cpp
-    title: math/gauss_jordan_mint.cpp
+    title: "Gauss-Jordan\u6D88\u53BB(modint)"
   - icon: ':warning:'
     path: math/powk_all.cpp
     title: math/powk_all.cpp
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj0399.test.cpp
     title: test/aoj0399.test.cpp
   - icon: ':heavy_check_mark:'
@@ -21,40 +21,40 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_queue_operate_all_composite.test.cpp
     title: test/yosupo_queue_operate_all_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
     title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_totient.test.cpp
     title: test/yosupo_sum_of_totient.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_system_of_linear_equations.test.cpp
     title: test/yosupo_system_of_linear_equations.test.cpp
   - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: true

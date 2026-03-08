@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/binarytrie.cpp
     title: Binary Trie
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/set_xor_min
@@ -84,32 +84,33 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/binarytrie.cpp\"\ntemplate<class T, size_t X>\nstruct Binarytrie\
-    \ {\n    struct Node {\n        int cnt;\n        Node *nxt[2];\n        Node()\
-    \ : cnt(0), nxt{nullptr, nullptr} {}\n    };\n\n    Node *root;\n\n    Binarytrie()\
-    \ : root(new Node) {}\n\n    int size() const {\n        return root->cnt;\n \
-    \   }\n\n    bool empty() const {\n        return root->cnt == 0;\n    }\n\n \
-    \   int count(const T &x) const {\n        Node *p = root;\n        for (int i\
-    \ = int(X) - 1; i >= 0; --i) {\n            int f = (x >> i) & 1;\n          \
-    \  if (!p->nxt[f]) return 0;\n            p = p->nxt[f];\n        }\n        return\
-    \ p->cnt;\n    }\n\n    bool contains(const T &x) const {\n        return count(x)\
-    \ > 0;\n    }\n\n    void add(const T &x, int k = 1) {\n        Node *p = root;\n\
-    \        p->cnt += k;\n        for (int i = int(X) - 1; i >= 0; --i) {\n     \
-    \       int f = (x >> i) & 1;\n            if (!p->nxt[f]) p->nxt[f] = new Node;\n\
-    \            p = p->nxt[f];\n            p->cnt += k;\n        }\n    }\n\n  \
-    \  bool erase(const T &x, int k = 1) {\n        if (count(x) < k) return false;\n\
-    \        Node *p = root;\n        p->cnt -= k;\n        for (int i = int(X) -\
-    \ 1; i >= 0; --i) {\n            int f = (x >> i) & 1;\n            p = p->nxt[f];\n\
-    \            p->cnt -= k;\n        }\n        return true;\n    }\n\n    T xor_min(const\
-    \ T &x) const {\n        Node *p = root;\n        T ret = 0;\n        for (int\
-    \ i = int(X) - 1; i >= 0; --i) {\n            int f = (x >> i) & 1;\n        \
-    \    if (!p->nxt[f] || p->nxt[f]->cnt == 0) {\n                f ^= 1;\n     \
-    \           ret |= T(1) << i;\n            }\n            p = p->nxt[f];\n   \
-    \     }\n        return ret;\n    }\n\n    T min_element(T x = 0) const {\n  \
-    \      return xor_min(x) ^ x;\n    }\n\n    T max_element(T x = 0) const {\n \
-    \       return xor_min(~x) ^ x;\n    }\n};\n\n/**\n * @brief Binary Trie\n * @docs\
-    \ _md/binarytrie.md\n */\n#line 9 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/binarytrie.cpp\"\ntemplate<class T, size_t X>\nstruct\
+    \ Binarytrie {\n    struct Node {\n        int cnt;\n        Node *nxt[2];\n \
+    \       Node() : cnt(0), nxt{nullptr, nullptr} {}\n    };\n\n    Node *root;\n\
+    \n    Binarytrie() : root(new Node) {}\n\n    int size() const {\n        return\
+    \ root->cnt;\n    }\n\n    bool empty() const {\n        return root->cnt == 0;\n\
+    \    }\n\n    int count(const T &x) const {\n        Node *p = root;\n       \
+    \ for (int i = int(X) - 1; i >= 0; --i) {\n            int f = (x >> i) & 1;\n\
+    \            if (!p->nxt[f]) return 0;\n            p = p->nxt[f];\n        }\n\
+    \        return p->cnt;\n    }\n\n    bool contains(const T &x) const {\n    \
+    \    return count(x) > 0;\n    }\n\n    void add(const T &x, int k = 1) {\n  \
+    \      Node *p = root;\n        p->cnt += k;\n        for (int i = int(X) - 1;\
+    \ i >= 0; --i) {\n            int f = (x >> i) & 1;\n            if (!p->nxt[f])\
+    \ p->nxt[f] = new Node;\n            p = p->nxt[f];\n            p->cnt += k;\n\
+    \        }\n    }\n\n    bool erase(const T &x, int k = 1) {\n        if (count(x)\
+    \ < k) return false;\n        Node *p = root;\n        p->cnt -= k;\n        for\
+    \ (int i = int(X) - 1; i >= 0; --i) {\n            int f = (x >> i) & 1;\n   \
+    \         p = p->nxt[f];\n            p->cnt -= k;\n        }\n        return\
+    \ true;\n    }\n\n    T xor_min(const T &x) const {\n        Node *p = root;\n\
+    \        T ret = 0;\n        for (int i = int(X) - 1; i >= 0; --i) {\n       \
+    \     int f = (x >> i) & 1;\n            if (!p->nxt[f] || p->nxt[f]->cnt == 0)\
+    \ {\n                f ^= 1;\n                ret |= T(1) << i;\n            }\n\
+    \            p = p->nxt[f];\n        }\n        return ret;\n    }\n\n    T min_element(T\
+    \ x = 0) const {\n        return xor_min(x) ^ x;\n    }\n\n    T max_element(T\
+    \ x = 0) const {\n        return xor_min(~x) ^ x;\n    }\n};\n\n/**\n * @brief\
+    \ Binary Trie\n * @docs _md/binarytrie.md\n */\n#line 9 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int q;\n    sc.read(q);\n\
     \    Binarytrie<unsigned int, 30> trie;\n    while (q--) {\n        int t;\n \
     \       unsigned int x;\n        sc.read(t, x);\n        if (t == 0) {\n     \
@@ -131,8 +132,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_set_xor_min_binarytrie.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:26:50+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_set_xor_min_binarytrie.test.cpp
 layout: document

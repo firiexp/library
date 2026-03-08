@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: math/ntt.cpp
-    title: math/ntt.cpp
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/convolution_mod
@@ -283,13 +283,14 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 23 \"test/yosupo_convolution.test.cpp\"\n\nint main() {\n    int n, m;\n\
-    \    cin >> n >> m;\n    poly a(n), b(m);\n    for (int i = 0; i < n; ++i) {\n\
-    \        int x;\n        scanf(\"%d\", &x);\n        a[i] = x;\n    }\n    for\
-    \ (int i = 0; i < m; ++i) {\n        int x;\n        scanf(\"%d\", &x);\n    \
-    \    b[i] = x;\n    }\n    a *= b;\n    for (int i = 0; i < n+m-1; ++i) {\n  \
-    \      if(i) printf(\" \");\n        printf(\"%d\", a[i].val);\n    }\n    puts(\"\
-    \");\n    return 0;\n}\n"
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n#line 23 \"test/yosupo_convolution.test.cpp\"\n\nint main()\
+    \ {\n    int n, m;\n    cin >> n >> m;\n    poly a(n), b(m);\n    for (int i =\
+    \ 0; i < n; ++i) {\n        int x;\n        scanf(\"%d\", &x);\n        a[i] =\
+    \ x;\n    }\n    for (int i = 0; i < m; ++i) {\n        int x;\n        scanf(\"\
+    %d\", &x);\n        b[i] = x;\n    }\n    a *= b;\n    for (int i = 0; i < n+m-1;\
+    \ ++i) {\n        if(i) printf(\" \");\n        printf(\"%d\", a[i].val);\n  \
+    \  }\n    puts(\"\");\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/convolution_mod\"\n\n\n\
     #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
     \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
@@ -307,8 +308,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_convolution.test.cpp
 layout: document

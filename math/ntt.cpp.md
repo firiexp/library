@@ -2,65 +2,67 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/linear_recurrence.cpp
-    title: linear recurrence
-  - icon: ':heavy_check_mark:'
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
+  - icon: ':x:'
     path: fps/multipoint_evaluation.cpp
-    title: multipoint evaluation
-  - icon: ':heavy_check_mark:'
+    title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
+  - icon: ':x:'
     path: fps/nth_term.cpp
-    title: fps/nth_term.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
+  - icon: ':x:'
     path: fps/polynomial_interpolation.cpp
-    title: polynomial interpolation
-  - icon: ':heavy_check_mark:'
+    title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
+  - icon: ':x:'
     path: fps/sample_point_shift.cpp
-    title: shift of sampling points of polynomial
-  - icon: ':heavy_check_mark:'
+    title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
+  - icon: ':x:'
     path: fps/taylor_shift.cpp
-    title: polynomial taylor shift
+    title: Taylor Shift
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_convolution.test.cpp
     title: test/yosupo_convolution.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_exp_of_formal_power_series.test.cpp
     title: test/yosupo_exp_of_formal_power_series.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_log_of_formal_power_series.test.cpp
     title: test/yosupo_log_of_formal_power_series.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_pow_of_formal_power_series.test.cpp
     title: test/yosupo_pow_of_formal_power_series.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_sqrt_of_formal_power_series.test.cpp
     title: test/yosupo_sqrt_of_formal_power_series.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
+    _deprecated_at_docs: _md/ntt.md
+    document_title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
     \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
@@ -324,7 +326,9 @@ data:
     \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n"
+    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n"
   code: "#include <algorithm>\n#include <cassert>\n\nconstexpr int ntt_mod = 998244353,\
     \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
     \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
@@ -587,7 +591,9 @@ data:
     \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n"
+    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/ntt.cpp
@@ -598,8 +604,8 @@ data:
   - fps/taylor_shift.cpp
   - fps/sample_point_shift.cpp
   - fps/nth_term.cpp
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp
@@ -618,5 +624,47 @@ layout: document
 redirect_from:
 - /library/math/ntt.cpp
 - /library/math/ntt.cpp.html
-title: math/ntt.cpp
+title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
 ---
+---
+layout: post
+title: Number Theoretic Transform
+date: 2026-03-08
+category: 数学
+tags: 数学
+---
+
+## 説明
+`998244353` 上の NTT と、形式的冪級数 `poly` の基本演算をまとめた実装。
+多項式積、逆数、対数、指数、冪、平方根を扱う。
+
+## できること
+- `poly(vector<mint> a)`
+  係数列から多項式を作る
+- `poly operator+(const poly& g)`, `poly operator-(const poly& g)`, `poly operator*(const poly& g)`
+  和・差・積を返す
+- `poly diff()`, `poly integral()`
+  微分・積分を返す
+- `poly inv(int deg = -1)`
+  逆数を `x^deg` 未満で返す。定数項が `0` なら使えない
+- `poly log(int deg = -1)`
+  対数を `x^deg` 未満で返す。定数項が `1` である必要がある
+- `poly exp(int deg = -1)`
+  指数を `x^deg` 未満で返す。定数項が `0` である必要がある
+- `poly pow(long long k, int deg = -1)`
+  `k` 乗を `x^deg` 未満で返す
+- `poly sqrt(int deg = -1)`
+  平方根を `x^deg` 未満で返す。存在しなければ空多項式を返す
+- `mint eval(mint x)`
+  1 点での値を返す
+
+## 使い方
+`#include "../math/ntt.cpp"` を読み込み、`poly` に係数列を入れて使う。
+`poly` の `i` 番目は `x^i` の係数を表す。
+
+畳み込みだけなら `f * g` を使う。
+FPS 演算は必要な次数だけ `deg` を指定して切り詰める。
+
+## 実装上の補足
+`transform` は長さが 2 冪であることを前提にする。
+内部 mod は `998244353` 固定。

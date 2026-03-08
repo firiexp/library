@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/unionfind.cpp
     title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/unionfind
@@ -99,10 +99,11 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 23 \"\
-    test/yosupo_unionfind.test.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
-    \ out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n    UnionFind uf(n);\n\
-    \    for (int i = 0; i < q; ++i) {\n        int t, u, v;\n        in.read(t);\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 23 \"test/yosupo_unionfind.test.cpp\"\n\nint main() {\n    Scanner in;\n\
+    \    Printer out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n    UnionFind\
+    \ uf(n);\n    for (int i = 0; i < q; ++i) {\n        int t, u, v;\n        in.read(t);\n\
     \        in.read(u);\n        in.read(v);\n        if(t) out.writeln(uf.same(u,\
     \ v));\n        else uf.unite(u, v);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/unionfind\"\n\n#include\
@@ -122,8 +123,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_unionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 12:02:06+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_unionfind.test.cpp
 layout: document

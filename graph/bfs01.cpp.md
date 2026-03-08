@@ -11,7 +11,7 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/bfs01.md
-    document_title: 0-1 BFS
+    document_title: 01-BFS
     links: []
   bundledCode: "#line 1 \"graph/bfs01.cpp\"\n#include <deque>\n\ntemplate <typename\
     \ T>\nstruct edge {\n    int from, to; T cost;\n    edge(int to, T cost) : from(-1),\
@@ -24,7 +24,7 @@ data:
     \         d[e.to] = nd;\n            if (e.cost == T(0)) {\n                q.push_front(e.to);\n\
     \            } else {\n                assert(e.cost == T(1));\n             \
     \   q.push_back(e.to);\n            }\n        }\n    }\n    return d;\n}\n\n\
-    /**\n * @brief 0-1 BFS\n * @docs _md/bfs01.md\n */\n"
+    /**\n * @brief 01-BFS\n * @docs _md/bfs01.md\n */\n"
   code: "#include <deque>\n\ntemplate <typename T>\nstruct edge {\n    int from, to;\
     \ T cost;\n    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int\
     \ from, int to, T cost) : from(from), to(to), cost(cost) {}\n};\n\ntemplate <typename\
@@ -35,13 +35,13 @@ data:
     \    if (d[e.to] <= nd) continue;\n            d[e.to] = nd;\n            if (e.cost\
     \ == T(0)) {\n                q.push_front(e.to);\n            } else {\n    \
     \            assert(e.cost == T(1));\n                q.push_back(e.to);\n   \
-    \         }\n        }\n    }\n    return d;\n}\n\n/**\n * @brief 0-1 BFS\n *\
-    \ @docs _md/bfs01.md\n */\n"
+    \         }\n        }\n    }\n    return d;\n}\n\n/**\n * @brief 01-BFS\n * @docs\
+    \ _md/bfs01.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/bfs01.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj2945_bfs01.test.cpp
@@ -50,7 +50,7 @@ layout: document
 redirect_from:
 - /library/graph/bfs01.cpp
 - /library/graph/bfs01.cpp.html
-title: 0-1 BFS
+title: 01-BFS
 ---
 ---
 layout: post

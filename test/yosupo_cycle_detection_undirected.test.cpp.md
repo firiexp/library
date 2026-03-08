@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/cycle_detection_undirected.cpp
-    title: Cycle detection (undirected)
-  - icon: ':heavy_check_mark:'
+    title: "\u7121\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/cycle_detection_undirected
@@ -85,8 +85,9 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    graph/cycle_detection_undirected.cpp\"\nstruct CycleDetectionUndirectedResult\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"graph/cycle_detection_undirected.cpp\"\nstruct CycleDetectionUndirectedResult\
     \ {\n    vector<int> vertices;\n    vector<int> edge_ids;\n};\n\nCycleDetectionUndirectedResult\
     \ cycle_detection_undirected(const vector<pair<int, int>> &edges, int n) {\n \
     \   int m = edges.size();\n    vector<vector<pair<int, int>>> g(n);\n    for (int\
@@ -102,15 +103,15 @@ data:
     \ b] = edges[id];\n        if (dep[a] > dep[b]) swap(a, b);\n        vector<int>\
     \ vs = {b}, es;\n        while (vs.back() != a) {\n            es.emplace_back(par_e[vs.back()]);\n\
     \            vs.emplace_back(par_v[vs.back()]);\n        }\n        es.emplace_back(id);\n\
-    \        return {vs, es};\n    }\n    return {{}, {}};\n}\n\n/**\n * @brief Cycle\
-    \ detection (undirected)\n * @docs _md/cycle_detection_undirected.md\n */\n#line\
-    \ 9 \"test/yosupo_cycle_detection_undirected.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n    vector<pair<int,\
-    \ int>> edges(m);\n    for (int i = 0; i < m; ++i) {\n        sc.read(edges[i].first,\
-    \ edges[i].second);\n    }\n    auto res = cycle_detection_undirected(edges, n);\n\
-    \    if (res.vertices.empty()) {\n        pr.writeln(-1);\n        return 0;\n\
-    \    }\n    int l = res.vertices.size();\n    pr.writeln(l);\n    for (int i =\
-    \ 0; i < l; ++i) {\n        if (i) pr.write(' ');\n        pr.write(res.vertices[i]);\n\
+    \        return {vs, es};\n    }\n    return {{}, {}};\n}\n\n/**\n * @brief \u7121\
+    \u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)\n * @docs _md/cycle_detection_undirected.md\n\
+    \ */\n#line 9 \"test/yosupo_cycle_detection_undirected.test.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n   \
+    \ vector<pair<int, int>> edges(m);\n    for (int i = 0; i < m; ++i) {\n      \
+    \  sc.read(edges[i].first, edges[i].second);\n    }\n    auto res = cycle_detection_undirected(edges,\
+    \ n);\n    if (res.vertices.empty()) {\n        pr.writeln(-1);\n        return\
+    \ 0;\n    }\n    int l = res.vertices.size();\n    pr.writeln(l);\n    for (int\
+    \ i = 0; i < l; ++i) {\n        if (i) pr.write(' ');\n        pr.write(res.vertices[i]);\n\
     \    }\n    pr.writeln();\n    for (int i = 0; i < l; ++i) {\n        if (i) pr.write('\
     \ ');\n        pr.write(res.edge_ids[i]);\n    }\n    pr.writeln();\n    return\
     \ 0;\n}\n"
@@ -132,8 +133,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_cycle_detection_undirected.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_cycle_detection_undirected.test.cpp
 layout: document

@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/multipoint_evaluation.cpp
-    title: multipoint evaluation
-  - icon: ':heavy_check_mark:'
+    title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
+  - icon: ':question:'
     path: math/ntt.cpp
-    title: math/ntt.cpp
-  - icon: ':heavy_check_mark:'
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/multipoint_evaluation
@@ -89,15 +89,16 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 2 \"\
-    math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root\
-    \ = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n\
-    #endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n\
-    // 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817\
-    \  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
-    \ modint raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0)\
-    \ {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x\
-    \ < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 2 \"math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod = 998244353,\
+    \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
+    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
+    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
+    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
+    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
+    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
+    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
     \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
     \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
     \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
@@ -353,7 +354,8 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n#line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
     \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
     \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
     \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
@@ -366,7 +368,7 @@ data:
     \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
     \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
     \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
-    \n/**\n * @brief multipoint evaluation\n * @docs _md/multipoint_evaluation.md\n\
+    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n * @docs _md/multipoint_evaluation.md\n\
     \ */\n#line 13 \"test/yosupo_multipoint_evaluation.test.cpp\"\n\nint main() {\n\
     \    Scanner in;\n    Printer out;\n    int n, m;\n    in.read(n, m);\n    poly\
     \ f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
@@ -393,8 +395,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_multipoint_evaluation.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_multipoint_evaluation.test.cpp
 layout: document

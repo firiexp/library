@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/berlekamp_massey.cpp
-    title: Berlekamp-Massey algorithm
+    title: "Berlekamp-Massey\u6CD5"
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/find_linear_recurrence
@@ -58,8 +58,8 @@ data:
     \ ++i) c[i + m] -= coef * b[i];\n        if (2 * l <= n) {\n            l = n\
     \ + 1 - l;\n            b = t;\n            y = d;\n            m = 1;\n     \
     \   } else {\n            ++m;\n        }\n    }\n    c.erase(c.begin());\n  \
-    \  for (auto &x : c) x = -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\
-    \ algorithm\n * @docs _md/berlekamp_massey.md\n */\n#line 23 \"test/yosupo_find_linear_recurrence.test.cpp\"\
+    \  for (auto &x : c) x = -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\u6CD5\
+    \n * @docs _md/berlekamp_massey.md\n */\n#line 23 \"test/yosupo_find_linear_recurrence.test.cpp\"\
     \n\nint main() {\n    int n;\n    cin >> n;\n    vector<mint> a(n);\n    for (int\
     \ i = 0; i < n; ++i) {\n        int x;\n        scanf(\"%d\", &x);\n        a[i]\
     \ = x;\n    }\n    auto c = berlekamp_massey(a);\n    printf(\"%d\\n\", (int)c.size());\n\
@@ -83,8 +83,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_find_linear_recurrence.test.cpp
   requiredBy: []
-  timestamp: '2026-03-07 19:18:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_find_linear_recurrence.test.cpp
 layout: document

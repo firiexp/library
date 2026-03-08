@@ -2,29 +2,31 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/hld_edge.cpp
-    title: "\u8FBA\u30AF\u30A8\u30EA\u5411\u3051\u91CD\u8EFD\u5206\u89E3"
+    title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_hld_edge.test.cpp
     title: test/yosupo_many_aplusb_hld_edge.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/hld.md
+    document_title: "HL\u5206\u89E3(HL Decomposition)"
     links: []
   bundledCode: "#line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void\
     \ dfs_sz(int v){\n        int heavy = -1;\n        for (auto &&u : G[v]) {\n \
@@ -85,7 +87,8 @@ data:
     \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
     \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename\
     \ Q>\n    T subtree_query(int v, const Q &q, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n"
+    \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief\
+    \ HL\u5206\u89E3(HL Decomposition)\n * @docs _md/hld.md\n */\n"
   code: "\nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy\
     \ = -1;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
     \            par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n      \
@@ -145,14 +148,15 @@ data:
     \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
     \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
     \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
-    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n"
+    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
+    \u89E3(HL Decomposition)\n * @docs _md/hld.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/hld.cpp
   requiredBy:
   - tree/hld_edge.cpp
-  timestamp: '2026-03-08 17:42:36+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_hld_edge.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
@@ -164,5 +168,64 @@ layout: document
 redirect_from:
 - /library/tree/hld.cpp
 - /library/tree/hld.cpp.html
-title: tree/hld.cpp
+title: "HL\u5206\u89E3(HL Decomposition)"
 ---
+---
+layout: post
+title: 重軽分解
+date: 2019-10-10
+category: 木
+tags: 木
+---
+
+## 説明
+根つき木を Euler Tour 順の連続区間へ写し、パスや部分木を少数個の区間に分解する。
+パスクエリ・パス更新は `O(log^2 N)`、部分木クエリは `O(f(N))` で扱える。
+
+## できること
+- `HeavyLightDecomposition hld(n)`
+  頂点数 `n` の木を作る
+- `void add_edge(int u, int v)`
+  木辺を張る
+- `void build(vector<int> roots = {0})`
+  前処理をする。森にも対応する
+- `int lca(int u, int v)`
+  最近共通祖先を返す
+- `int parent(int v)`
+  親を返す。根なら `-1`
+- `int ancestor(int v, int k)`
+  `k` 個上の祖先を返す。存在しなければ `-1`
+- `int distance(int u, int v)`
+  木上距離を返す
+- `pair<int, int> subtree(int v, bool edge = false)`
+  部分木に対応する半開区間 `[l, r)` を返す
+- `void path(int u, int v, F f, bool edge = false)`
+  パスを被覆する各区間へ `f(l, r)` を呼ぶ
+- `T path_query(int u, int v, T e, Q q, F f, bool edge = false)`
+  可換向けパスクエリ
+- `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f, bool edge = false)`
+  非可換向け順序付きパスクエリ
+- `void apply_subtree(int v, F f, bool edge = false)`
+  部分木区間へ `f(l, r)` を呼ぶ
+- `T subtree_query(int v, Q q, bool edge = false)`
+  部分木区間クエリ
+
+## 使い方
+`id[v]` を頂点 `v` の 1 次元位置としてセグ木や BIT に載せる。
+部分木は `subtree(v)` の区間 1 本で取れる。
+パスは `path` / `path_query` / `path_query_ordered` を使う。
+
+```cpp
+HeavyLightDecomposition hld(n);
+hld.add_edge(u, v);
+hld.build();
+
+auto [l, r] = hld.subtree(v);
+auto sub = seg.query(l, r);
+
+auto ans = hld.path_query_ordered(a, b, Monoid::e(), ql, qr, Monoid::f, false);
+```
+
+## 実装上の補足
+`edge = true` にすると、LCA 側の頂点を除いた辺クエリ区間になる。
+`path_query_ordered` は `u -> v` の向きを保つ。

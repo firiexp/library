@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/li_chao_tree.cpp
-    title: datastructure/li_chao_tree.cpp
-  - icon: ':heavy_check_mark:'
+    title: Li Chao Tree
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/line_add_get_min
@@ -86,11 +86,12 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/li_chao_tree.cpp\"\ntemplate<class T, bool get_max = false>\nstruct\
-    \ LiChaoTree {\n    struct Line {\n        T a, b;\n        Line(T a = 0, T b\
-    \ = inf()) : a(a), b(b) {}\n        T get(T x) const { return a * x + b; }\n \
-    \   };\n\n    vector<T> xs;\n    vector<Line> seg;\n    int n;\n\n    explicit\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/li_chao_tree.cpp\"\ntemplate<class T, bool get_max = false>\n\
+    struct LiChaoTree {\n    struct Line {\n        T a, b;\n        Line(T a = 0,\
+    \ T b = inf()) : a(a), b(b) {}\n        T get(T x) const { return a * x + b; }\n\
+    \    };\n\n    vector<T> xs;\n    vector<Line> seg;\n    int n;\n\n    explicit\
     \ LiChaoTree(vector<T> xs) : xs(xs) {\n        sort(this->xs.begin(), this->xs.end());\n\
     \        this->xs.erase(unique(this->xs.begin(), this->xs.end()), this->xs.end());\n\
     \        n = (int)this->xs.size();\n        seg.assign(max(1, 4 * n), Line());\n\
@@ -150,7 +151,8 @@ data:
     \            if (r - l == 1) break;\n            T m = l + (r - l) / 2;\n    \
     \        if (x < m) {\n                t = node.l;\n                r = m;\n \
     \           } else {\n                t = node.r;\n                l = m;\n  \
-    \          }\n        }\n        return ret;\n    }\n};\n#line 14 \"test/yosupo_line_add_get_min.test.cpp\"\
+    \          }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Li Chao\
+    \ Tree\n * @docs _md/li_chao_tree.md\n */\n#line 14 \"test/yosupo_line_add_get_min.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
     \ q);\n    vector<pair<ll, ll>> init(n);\n    for (int i = 0; i < n; ++i) {\n\
     \        in.read(init[i].first, init[i].second);\n    }\n\n    struct Query {\n\
@@ -185,8 +187,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_line_add_get_min.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 18:19:15+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_line_add_get_min.test.cpp
 layout: document

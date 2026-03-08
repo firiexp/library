@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/gauss_jordan_mint.cpp
-    title: math/gauss_jordan_mint.cpp
-  - icon: ':heavy_check_mark:'
+    title: "Gauss-Jordan\u6D88\u53BB(modint)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/system_of_linear_equations
@@ -90,16 +90,17 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n\
-    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
-    \ x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll\
-    \ x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool v)\
-    \ { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if (val\
-    \ == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0) val\
-    \ = M; val--; return *this; }\n    modint operator++(int) { modint result = *this;\
-    \ ++*this; return result; }\n    modint operator--(int) { modint result = *this;\
-    \ --*this; return result; }\n    modint& operator+=(const modint& b) { val +=\
-    \ b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
+    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
+    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
+    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
     \ modint& b) { val -= b.val; if (val >= M) val += M; return *this; }\n    modint&\
     \ operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M);\
     \ return *this; }\n    modint& operator/=(const modint& b) { return *this = *this\
@@ -126,7 +127,8 @@ data:
     \ {\n                auto fac = A[row][col];\n                for (int col2 =\
     \ 0; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2] *\
     \ fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
-    \    return rank;\n}\n#line 13 \"test/yosupo_system_of_linear_equations.test.cpp\"\
+    \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n * @docs\
+    \ _md/gauss_jordan_mint.md\n */\n#line 13 \"test/yosupo_system_of_linear_equations.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
     \ m);\n    vector<vector<mint>> a(n, vector<mint>(m + 1));\n    for (int i = 0;\
     \ i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            int x;\n \
@@ -184,8 +186,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_system_of_linear_equations.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:38:39+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_system_of_linear_equations.test.cpp
 layout: document

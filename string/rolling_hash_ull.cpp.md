@@ -10,6 +10,8 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/rolling_hash_ull.md
+    document_title: Rolling Hash(mod 2^61-1)
     links: []
   bundledCode: "#line 1 \"string/rolling_hash_ull.cpp\"\n#include <chrono>\nconstexpr\
     \ ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER = M * 3;\nconstexpr ull\
@@ -38,7 +40,8 @@ data:
     \            for (int i = l; i < p().size(); ++i) {\n                p()[i] =\
     \ calc_mod(mul(p()[i-1], p()[1]));\n            }\n        }\n        ull ret\
     \ = 0;\n        for (int i = 0; i < s.size(); ++i) {\n            ret = calc_mod(mul(ret,\
-    \ B()) + s[i]);\n        }\n        return ret;\n    }\n};\n"
+    \ B()) + s[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Rolling\
+    \ Hash(mod 2^61-1)\n * @docs _md/rolling_hash_ull.md\n */\n"
   code: "#include <chrono>\nconstexpr ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER\
     \ = M * 3;\nconstexpr ull MASK30 = (1UL << 30) - 1;\nconstexpr ull MASK31 = (1UL\
     \ << 31) - 1;\n\nclass rolling_hash_ull {\n    static ull get_base(){\n      \
@@ -66,12 +69,13 @@ data:
     \            for (int i = l; i < p().size(); ++i) {\n                p()[i] =\
     \ calc_mod(mul(p()[i-1], p()[1]));\n            }\n        }\n        ull ret\
     \ = 0;\n        for (int i = 0; i < s.size(); ++i) {\n            ret = calc_mod(mul(ret,\
-    \ B()) + s[i]);\n        }\n        return ret;\n    }\n};"
+    \ B()) + s[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Rolling\
+    \ Hash(mod 2^61-1)\n * @docs _md/rolling_hash_ull.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/rolling_hash_ull.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:51:55+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0438.test.cpp
@@ -80,5 +84,34 @@ layout: document
 redirect_from:
 - /library/string/rolling_hash_ull.cpp
 - /library/string/rolling_hash_ull.cpp.html
-title: string/rolling_hash_ull.cpp
+title: Rolling Hash(mod 2^61-1)
 ---
+## 説明
+`mod 2^61 - 1` の Rolling Hash。
+前計算した prefix hash から部分文字列ハッシュを `O(1)` で取れる。
+
+## できること
+- `rolling_hash_ull rh(s)`
+  文字列 `s` の prefix hash を構築する
+- `rolling_hash_ull rh(n)`
+  長さ `n` までのべきだけ前計算する
+- `ull get(int l, int r)`
+  `s[l, r)` のハッシュを返す
+- `static ull val(string& s)`
+  文字列全体のハッシュを返す
+- `static ull& B()`
+  使用中の base を返す
+- `static vector<ull>& p()`
+  base のべき列を返す
+
+## 使い方
+```cpp
+rolling_hash_ull rh(s);
+if (rh.get(l1, r1) == rh.get(l2, r2)) {
+    // 高確率で同じ文字列
+}
+```
+
+## 実装上の補足
+base は初回利用時に乱択で 1 回だけ決まる。
+比較は高確率一致であり、理論上は衝突しうる。

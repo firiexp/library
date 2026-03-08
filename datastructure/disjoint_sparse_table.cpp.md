@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
     title: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/disjoint_sparse_table.md
     document_title: Disjoint Sparse Table
@@ -57,7 +57,7 @@ data:
   path: datastructure/disjoint_sparse_table.cpp
   requiredBy: []
   timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
 documentation_of: datastructure/disjoint_sparse_table.cpp

@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/independentset.cpp
-    title: graph/independentset.cpp
+    title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/maximum_independent_set
@@ -33,7 +33,8 @@ data:
     \ ((1ull << n)-1)^(1ull << i);\n        }\n    }\n    void add_edge(int u, int\
     \ v){\n        G[u] &= ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n \
     \   pair<int, ull> maximum_independent_set() {\n        return dfs(0, (1ull <<\
-    \ n)-1, 0);\n    }\n};\n#line 21 \"test/yosupo_maximum_independent_set.test.cpp\"\
+    \ n)-1, 0);\n    }\n};\n\n/**\n * @brief \u6700\u5927\u72EC\u7ACB\u96C6\u5408\
+    (Maximum Independent Set)\n * @docs _md/independentset.md\n */\n#line 21 \"test/yosupo_maximum_independent_set.test.cpp\"\
     \n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    IndependentSet G(n);\n\
     \    for (int i = 0; i < m; ++i) {\n        int l, r;\n        cin >> l >> r;\n\
     \        G.add_edge(l, r);\n    }\n    auto res = G.maximum_independent_set();\n\
@@ -59,8 +60,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_maximum_independent_set.test.cpp
   requiredBy: []
-  timestamp: '2021-06-23 00:43:23+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_maximum_independent_set.test.cpp
 layout: document

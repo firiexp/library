@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
     title: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/dynamic_bitset.md
-    document_title: DynamicBitset
+    document_title: "\u52D5\u7684bitset(Dynamic Bitset)"
     links: []
   bundledCode: "#line 1 \"datastructure/dynamic_bitset.cpp\"\nclass DynamicBitset\
     \ {\n    using ull = unsigned long long;\n    static constexpr int B = 64;\n\n\
@@ -68,8 +68,8 @@ data:
     \ b[i] |= a[i + block + 1] << (B - rem);\n        }\n        a.swap(b);\n    \
     \    normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset\
     \ l, int s) { return l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset\
-    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief DynamicBitset\n * @docs\
-    \ _md/dynamic_bitset.md\n */\n"
+    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
+    \ Bitset)\n * @docs _md/dynamic_bitset.md\n */\n"
   code: "class DynamicBitset {\n    using ull = unsigned long long;\n    static constexpr\
     \ int B = 64;\n\n    int n;\n    vector<ull> a;\n\n    static int popcount(ull\
     \ x) {\n        return __builtin_popcountll(x);\n    }\n    static int ctz(ull\
@@ -124,14 +124,14 @@ data:
     \ b[i] |= a[i + block + 1] << (B - rem);\n        }\n        a.swap(b);\n    \
     \    normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset\
     \ l, int s) { return l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset\
-    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief DynamicBitset\n * @docs\
-    \ _md/dynamic_bitset.md\n */\n"
+    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
+    \ Bitset)\n * @docs _md/dynamic_bitset.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/dynamic_bitset.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_dynamic_bitset.test.cpp
 documentation_of: datastructure/dynamic_bitset.cpp
@@ -139,7 +139,7 @@ layout: document
 redirect_from:
 - /library/datastructure/dynamic_bitset.cpp
 - /library/datastructure/dynamic_bitset.cpp.html
-title: DynamicBitset
+title: "\u52D5\u7684bitset(Dynamic Bitset)"
 ---
 ---
 layout: post

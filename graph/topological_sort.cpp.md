@@ -3,15 +3,16 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_topological_sort.test.cpp
     title: test/yosupo_topological_sort.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/topological_sort.md
-    document_title: Topological sort
+    document_title: "\u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological\
+      \ Sort)"
     links: []
   bundledCode: "#line 1 \"graph/topological_sort.cpp\"\nvector<int> topological_sort(const\
     \ vector<vector<int>> &g) {\n    int n = g.size();\n    vector<int> state(n),\
@@ -21,8 +22,8 @@ data:
     \ false;\n        }\n        state[v] = 2;\n        ord.emplace_back(v);\n   \
     \     return true;\n    };\n    for (int i = 0; i < n; ++i) {\n        if (state[i]\
     \ == 0 && !dfs(dfs, i)) return {};\n    }\n    reverse(ord.begin(), ord.end());\n\
-    \    return ord;\n}\n\n/**\n * @brief Topological sort\n * @docs _md/topological_sort.md\n\
-    \ */\n"
+    \    return ord;\n}\n\n/**\n * @brief \u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\
+    \u30FC\u30C8(Topological Sort)\n * @docs _md/topological_sort.md\n */\n"
   code: "vector<int> topological_sort(const vector<vector<int>> &g) {\n    int n =\
     \ g.size();\n    vector<int> state(n), ord;\n    ord.reserve(n);\n    auto dfs\
     \ = [&](auto &&self, int v) -> bool {\n        state[v] = 1;\n        for (auto\
@@ -31,13 +32,14 @@ data:
     \ = 2;\n        ord.emplace_back(v);\n        return true;\n    };\n    for (int\
     \ i = 0; i < n; ++i) {\n        if (state[i] == 0 && !dfs(dfs, i)) return {};\n\
     \    }\n    reverse(ord.begin(), ord.end());\n    return ord;\n}\n\n/**\n * @brief\
-    \ Topological sort\n * @docs _md/topological_sort.md\n */\n"
+    \ \u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological Sort)\n *\
+    \ @docs _md/topological_sort.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/topological_sort.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_topological_sort.test.cpp
 documentation_of: graph/topological_sort.cpp
@@ -45,7 +47,7 @@ layout: document
 redirect_from:
 - /library/graph/topological_sort.cpp
 - /library/graph/topological_sort.cpp.html
-title: Topological sort
+title: "\u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological Sort)"
 ---
 ---
 layout: post

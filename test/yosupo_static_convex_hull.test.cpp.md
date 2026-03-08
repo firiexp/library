@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: geometry/convex_hull.cpp
-    title: Convex Hull
-  - icon: ':heavy_check_mark:'
+    title: "\u51F8\u5305(Convex Hull)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_convex_hull
@@ -86,8 +86,9 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    geometry/convex_hull.cpp\"\nusing IntPoint = pair<ll, ll>;\n\nll cross(IntPoint\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"geometry/convex_hull.cpp\"\nusing IntPoint = pair<ll, ll>;\n\nll cross(IntPoint\
     \ a, IntPoint b, IntPoint c) {\n    b.first -= a.first;\n    b.second -= a.second;\n\
     \    c.first -= a.first;\n    c.second -= a.second;\n    return b.first * c.second\
     \ - b.second * c.first;\n}\n\nvector<IntPoint> convex_hull(vector<IntPoint> ps)\
@@ -97,8 +98,8 @@ data:
     \ (k >= 2 && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
     \ ps[i];\n    }\n    for (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while\
     \ (k >= t && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
-    \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n/**\n * @brief Convex\
-    \ Hull\n * @docs _md/convex_hull.md\n */\n#line 12 \"test/yosupo_static_convex_hull.test.cpp\"\
+    \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\
+    \u5305(Convex Hull)\n * @docs _md/convex_hull.md\n */\n#line 12 \"test/yosupo_static_convex_hull.test.cpp\"\
     \n\n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
     \    while (t--) {\n        int n;\n        sc.read(n);\n        vector<IntPoint>\
     \ ps(n);\n        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first,\
@@ -119,8 +120,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_convex_hull.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 19:26:24+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_static_convex_hull.test.cpp
 layout: document

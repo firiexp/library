@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_static_convex_hull.test.cpp
     title: test/yosupo_static_convex_hull.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/convex_hull.md
-    document_title: Convex Hull
+    document_title: "\u51F8\u5305(Convex Hull)"
     links: []
   bundledCode: "#line 1 \"geometry/convex_hull.cpp\"\nusing IntPoint = pair<ll, ll>;\n\
     \nll cross(IntPoint a, IntPoint b, IntPoint c) {\n    b.first -= a.first;\n  \
@@ -23,8 +23,8 @@ data:
     \ (k >= 2 && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
     \ ps[i];\n    }\n    for (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while\
     \ (k >= t && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
-    \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n/**\n * @brief Convex\
-    \ Hull\n * @docs _md/convex_hull.md\n */\n"
+    \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\
+    \u5305(Convex Hull)\n * @docs _md/convex_hull.md\n */\n"
   code: "using IntPoint = pair<ll, ll>;\n\nll cross(IntPoint a, IntPoint b, IntPoint\
     \ c) {\n    b.first -= a.first;\n    b.second -= a.second;\n    c.first -= a.first;\n\
     \    c.second -= a.second;\n    return b.first * c.second - b.second * c.first;\n\
@@ -35,14 +35,14 @@ data:
     \ - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] = ps[i];\n    }\n    for\
     \ (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while (k >= t && cross(ch[k\
     \ - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] = ps[i];\n    }\n    ch.resize(k\
-    \ - 1);\n    return ch;\n}\n\n/**\n * @brief Convex Hull\n * @docs _md/convex_hull.md\n\
-    \ */\n"
+    \ - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\u5305(Convex Hull)\n * @docs\
+    \ _md/convex_hull.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/convex_hull.cpp
   requiredBy: []
-  timestamp: '2026-03-08 19:26:24+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_static_convex_hull.test.cpp
 documentation_of: geometry/convex_hull.cpp
@@ -50,7 +50,7 @@ layout: document
 redirect_from:
 - /library/geometry/convex_hull.cpp
 - /library/geometry/convex_hull.cpp.html
-title: Convex Hull
+title: "\u51F8\u5305(Convex Hull)"
 ---
 ---
 layout: post

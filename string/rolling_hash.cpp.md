@@ -1,18 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: util/xorshift.cpp
     title: util/xorshift.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj0355.test.cpp
     title: test/aoj0355.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/rolling_hash.md
+    document_title: Rolling Hash
     links: []
   bundledCode: "#line 1 \"util/xorshift.cpp\"\n#include <chrono>\nclass xor_shift\
     \ {\n    uint32_t x, y, z, w;\npublic:\n    xor_shift() : x(static_cast<uint32_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
@@ -34,7 +36,7 @@ data:
     \ 0);\n        for (int i = 0; i < s.size(); ++i) {\n            hash[i+1] = (hash[i]*B()\
     \ + s[i]) % M;\n        }\n    };\n\n    ll get(int l, int r){\n        ll res\
     \ = hash[r]+M-hash[l]*p()[r-l]%M;\n        return res >= M ? res-M : res;\n  \
-    \  }\n};\n"
+    \  }\n};\n\n/**\n * @brief Rolling Hash\n * @docs _md/rolling_hash.md\n */\n"
   code: "#include \"../util/xorshift.cpp\"\nxor_shift rd;\n\ntemplate<int M>\nstruct\
     \ rolling_hash {\n\n    static ll &B() {\n        static ll B_ = rd.rand(2, M-1);\n\
     \        return B_;\n    }\n    static vector<ll> &p() {\n        static vector<ll>\
@@ -45,14 +47,15 @@ data:
     \            }\n        }\n        hash.resize(s.size()+1, 0);\n        for (int\
     \ i = 0; i < s.size(); ++i) {\n            hash[i+1] = (hash[i]*B() + s[i]) %\
     \ M;\n        }\n    };\n\n    ll get(int l, int r){\n        ll res = hash[r]+M-hash[l]*p()[r-l]%M;\n\
-    \        return res >= M ? res-M : res;\n    }\n};\n"
+    \        return res >= M ? res-M : res;\n    }\n};\n\n/**\n * @brief Rolling Hash\n\
+    \ * @docs _md/rolling_hash.md\n */\n"
   dependsOn:
   - util/xorshift.cpp
   isVerificationFile: false
   path: string/rolling_hash.cpp
   requiredBy: []
-  timestamp: '2020-07-07 13:49:31+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aoj0355.test.cpp
 documentation_of: string/rolling_hash.cpp
@@ -60,5 +63,16 @@ layout: document
 redirect_from:
 - /library/string/rolling_hash.cpp
 - /library/string/rolling_hash.cpp.html
-title: string/rolling_hash.cpp
+title: Rolling Hash
 ---
+---
+layout: post
+title: Rolling-Hash
+date: 2019-09-16
+category: 文字列
+tags: 文字列
+---
+
+## 説明
+
+

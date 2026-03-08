@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_sqrt_mod.test.cpp
     title: test/yosupo_sqrt_mod.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/mod_sqrt.md
-    document_title: Modular square root
+    document_title: "\u5E73\u65B9\u6839(mod p)(Modular Square Root)"
     links: []
   bundledCode: "#line 1 \"math/mod_sqrt.cpp\"\nlong long mod_pow(long long a, long\
     \ long n, long long mod) {\n    long long r = 1;\n    while (n) {\n        if\
@@ -29,8 +29,8 @@ data:
     \ long long)tt * tt % p;\n            ++i;\n        }\n        long long b = mod_pow(c,\
     \ 1LL << (m - i - 1), p);\n        r = (unsigned long long)r * b % p;\n      \
     \  c = (unsigned long long)b * b % p;\n        t = (unsigned long long)t * c %\
-    \ p;\n        m = i;\n    }\n    return r;\n}\n\n/**\n * @brief Modular square\
-    \ root\n * @docs _md/mod_sqrt.md\n */\n"
+    \ p;\n        m = i;\n    }\n    return r;\n}\n\n/**\n * @brief \u5E73\u65B9\u6839\
+    (mod p)(Modular Square Root)\n * @docs _md/mod_sqrt.md\n */\n"
   code: "long long mod_pow(long long a, long long n, long long mod) {\n    long long\
     \ r = 1;\n    while (n) {\n        if (n & 1) r = (unsigned long long)r * a %\
     \ mod;\n        a = (unsigned long long)a * a % mod;\n        n >>= 1;\n    }\n\
@@ -47,13 +47,14 @@ data:
     \        }\n        long long b = mod_pow(c, 1LL << (m - i - 1), p);\n       \
     \ r = (unsigned long long)r * b % p;\n        c = (unsigned long long)b * b %\
     \ p;\n        t = (unsigned long long)t * c % p;\n        m = i;\n    }\n    return\
-    \ r;\n}\n\n/**\n * @brief Modular square root\n * @docs _md/mod_sqrt.md\n */\n"
+    \ r;\n}\n\n/**\n * @brief \u5E73\u65B9\u6839(mod p)(Modular Square Root)\n * @docs\
+    \ _md/mod_sqrt.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/mod_sqrt.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_sqrt_mod.test.cpp
 documentation_of: math/mod_sqrt.cpp
@@ -61,7 +62,7 @@ layout: document
 redirect_from:
 - /library/math/mod_sqrt.cpp
 - /library/math/mod_sqrt.cpp.html
-title: Modular square root
+title: "\u5E73\u65B9\u6839(mod p)(Modular Square Root)"
 ---
 ---
 layout: post

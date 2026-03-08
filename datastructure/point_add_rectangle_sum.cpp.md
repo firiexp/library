@@ -1,18 +1,21 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/binaryindexedtree.cpp
-    title: datastructure/binaryindexedtree.cpp
+    title: Binary Indexed Tree(BIT)
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_add_rectangle_sum.test.cpp
     title: test/yosupo_point_add_rectangle_sum.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/point_add_rectangle_sum.md
+    document_title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle\
+      \ Sum)"
     links: []
   bundledCode: "#line 1 \"datastructure/point_add_rectangle_sum.cpp\"\n#include <algorithm>\n\
     #include <vector>\nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
@@ -23,8 +26,9 @@ data:
     \        for (k++; k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T\
     \ x) {\n        if (x <= 0) return 0;\n        int i = 0;\n        for (int j\
     \ = m; j; j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i\
-    \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n#line\
-    \ 6 \"datastructure/point_add_rectangle_sum.cpp\"\n\ntemplate<class T>\nstruct\
+    \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
+    \ * @brief Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n\
+    #line 6 \"datastructure/point_add_rectangle_sum.cpp\"\n\ntemplate<class T>\nstruct\
     \ PointAddRectangleSum {\n    struct Operation {\n        int type;\n        int\
     \ x, y, z;\n        T w;\n    };\n\n    vector<Operation> ops;\n    vector<int>\
     \ xs;\n\n    void add_point(int x, int y, T w) {\n        ops.push_back({0, x,\
@@ -53,7 +57,8 @@ data:
     \  if (op.type == 0) {\n                add(op.x, op.y, (T)op.w);\n          \
     \  } else {\n                ans.push_back(sum(op.z, op.w) - sum(op.z, op.y) -\
     \ sum(op.x, op.w) + sum(op.x, op.y));\n            }\n        }\n        return\
-    \ ans;\n    }\n};\n"
+    \ ans;\n    }\n};\n\n/**\n * @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C\
+    (Point Add Rectangle Sum)\n * @docs _md/point_add_rectangle_sum.md\n */\n"
   code: "#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
     \ \"binaryindexedtree.cpp\"\n\ntemplate<class T>\nstruct PointAddRectangleSum\
     \ {\n    struct Operation {\n        int type;\n        int x, y, z;\n       \
@@ -84,14 +89,15 @@ data:
     \  if (op.type == 0) {\n                add(op.x, op.y, (T)op.w);\n          \
     \  } else {\n                ans.push_back(sum(op.z, op.w) - sum(op.z, op.y) -\
     \ sum(op.x, op.w) + sum(op.x, op.y));\n            }\n        }\n        return\
-    \ ans;\n    }\n};\n"
+    \ ans;\n    }\n};\n\n/**\n * @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C\
+    (Point Add Rectangle Sum)\n * @docs _md/point_add_rectangle_sum.md\n */\n"
   dependsOn:
   - datastructure/binaryindexedtree.cpp
   isVerificationFile: false
   path: datastructure/point_add_rectangle_sum.cpp
   requiredBy: []
-  timestamp: '2026-03-08 18:50:59+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_rectangle_sum.test.cpp
 documentation_of: datastructure/point_add_rectangle_sum.cpp
@@ -99,5 +105,30 @@ layout: document
 redirect_from:
 - /library/datastructure/point_add_rectangle_sum.cpp
 - /library/datastructure/point_add_rectangle_sum.cpp.html
-title: datastructure/point_add_rectangle_sum.cpp
+title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
 ---
+---
+layout: post
+title: Point Add Rectangle Sum
+date: 2026-03-08
+category: データ構造
+tags: データ構造
+---
+
+## 説明
+点追加と長方形和クエリをまとめて処理する。
+全追加点を先に集めて、座圧済み 2 次元 BIT を offline 構築する。
+
+## できること
+- `PointAddRectangleSum<T> solver`
+  空の solver を作る
+- `void add_point(int x, int y, T w)`
+  点 `(x, y)` に重み `w` を追加する操作を積む
+- `void add_query(int l, int d, int r, int u)`
+  半開長方形 `[l, r) x [d, u)` の和クエリを積む
+- `vector<T> solve()`
+  追加順に各クエリの答えを返す
+
+## 使い方
+初期点も更新点も `add_point` で順に積む。
+`solve()` はそれまでに現れる全追加点の座標から 2 次元 BIT を構築し、操作列を先頭から再生する。

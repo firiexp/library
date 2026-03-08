@@ -10,6 +10,8 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/bellman_ford_negative_loop.md
+    document_title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
     links: []
   bundledCode: "#line 1 \"graph/bellman_ford_negative_loop.cpp\"\ntemplate <typename\
     \ T>\nstruct edge {\n    int from, to;\n    T cost;\n \n    edge(int to, T cost)\
@@ -26,7 +28,9 @@ data:
     \                dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to]\
     \ = true;\n            }\n            if(negative[e.from]) negative[e.to] = true;\n\
     \        }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i])\
-    \ dist[i] = -INF<T>;\n    }\n    return dist;\n}\n"
+    \ dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
+    (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n * @docs _md/bellman_ford_negative_loop.md\n\
+    \ */\n"
   code: "template <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n \n\
     \    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
     \ int to, T cost) : from(from), to(to), cost(cost) {}\n \n    explicit operator\
@@ -41,12 +45,14 @@ data:
     \ dist[e.from] + e.cost){\n                dist[e.to] = dist[e.from] + e.cost;\n\
     \                negative[e.to] = true;\n            }\n            if(negative[e.from])\
     \ negative[e.to] = true;\n        }\n    }\n    for (int i = 0; i < N; ++i) {\n\
-    \        if(negative[i]) dist[i] = -INF<T>;\n    }\n    return dist;\n}"
+    \        if(negative[i]) dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n\
+    \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n * @docs _md/bellman_ford_negative_loop.md\n\
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/bellman_ford_negative_loop.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_1_b_negative_loop.test.cpp
@@ -55,5 +61,31 @@ layout: document
 redirect_from:
 - /library/graph/bellman_ford_negative_loop.cpp
 - /library/graph/bellman_ford_negative_loop.cpp.html
-title: graph/bellman_ford_negative_loop.cpp
+title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
 ---
+## 説明
+負辺を含む単一始点最短路を求め、始点から到達できる負閉路の影響下にある頂点を `-INF` にする。
+計算量は `O(VE)`。
+
+## できること
+- `vector<T> bellman_ford(int s, int n, vector<edge<T>>& es)`
+  始点 `s` から各頂点への距離を返す。未到達は `INF<T>`、負閉路の影響下は `-INF<T>`
+
+## 使い方
+`edge<T>` の列を用意して呼ぶ。
+`T` は加算と比較ができる数値型を想定している。
+
+```cpp
+vector<edge<long long>> es;
+es.emplace_back(u, v, w);
+auto dist = bellman_ford(0, n, es);
+if (dist[v] == INF<long long>) {
+    // unreachable
+} else if (dist[v] == -INF<long long>) {
+    // affected by a negative cycle
+}
+```
+
+## 実装上の補足
+負閉路そのものに乗る頂点だけでなく、そこから到達できる頂点も `-INF` にする。
+このファイル単体では `INF<T>`、`ll`、`vector` を外側で用意する前提である。

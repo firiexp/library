@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/sparsetable.cpp
-    title: datastructure/sparsetable.cpp
-  - icon: ':heavy_check_mark:'
+    title: Sparse Table
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/staticrmq
@@ -84,25 +84,27 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct SparseTable {\n  \
-    \  using T = typename F::T;\n    vector<vector<T>> table;\n    vector<int> u;\n\
-    \    SparseTable() = default;\n    explicit SparseTable(const vector<T> &v){ build(v);\
-    \ }\n \n    void build(const vector<T> &v){\n        int n = v.size(), m = 1;\n\
-    \        while((1<<m) <= n) m++;\n        table.assign(m, vector<T>(n));\n   \
-    \     u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i) {\n            u[i]\
-    \ = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n; ++i) {\n         \
-    \   table[0][i] = v[i];\n        }\n        for (int i = 1; i < m; ++i) {\n  \
-    \          int x = (1<<(i-1));\n            for (int j = 0; j < n; ++j) {\n  \
-    \              table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x, n-1)]);\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct SparseTable\
+    \ {\n    using T = typename F::T;\n    vector<vector<T>> table;\n    vector<int>\
+    \ u;\n    SparseTable() = default;\n    explicit SparseTable(const vector<T> &v){\
+    \ build(v); }\n \n    void build(const vector<T> &v){\n        int n = v.size(),\
+    \ m = 1;\n        while((1<<m) <= n) m++;\n        table.assign(m, vector<T>(n));\n\
+    \        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i) {\n         \
+    \   u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n; ++i) {\n  \
+    \          table[0][i] = v[i];\n        }\n        for (int i = 1; i < m; ++i)\
+    \ {\n            int x = (1<<(i-1));\n            for (int j = 0; j < n; ++j)\
+    \ {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x, n-1)]);\n\
     \            }\n        }\n    }\n \n    T query(int a, int b){\n        int l\
     \ = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n   \
-    \ }\n};\n#line 9 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\n\nstruct F {\n\
-    \    using T = int;\n    static T f(T a, T b) { return min(a, b); }\n};\n\nint\
-    \ main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
-    \ q);\n    vector<int> a(n);\n    for (auto &&x : a) sc.read(x);\n\n    SparseTable<F>\
-    \ st(a);\n    while (q--) {\n        int l, r;\n        sc.read(l, r);\n     \
-    \   pr.writeln(st.query(l, r));\n    }\n    return 0;\n}\n"
+    \ }\n};\n\n/**\n * @brief Sparse Table\n * @docs _md/sparsetable.md\n */\n#line\
+    \ 9 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\n\nstruct F {\n    using T\
+    \ = int;\n    static T f(T a, T b) { return min(a, b); }\n};\n\nint main() {\n\
+    \    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<int>\
+    \ a(n);\n    for (auto &&x : a) sc.read(x);\n\n    SparseTable<F> st(a);\n   \
+    \ while (q--) {\n        int l, r;\n        sc.read(l, r);\n        pr.writeln(st.query(l,\
+    \ r));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/staticrmq\"\n\n#include\
     \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\n\
     #include \"../datastructure/sparsetable.cpp\"\n\nstruct F {\n    using T = int;\n\
@@ -117,8 +119,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_staticrmq_sparsetable.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:26:50+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_staticrmq_sparsetable.test.cpp
 layout: document

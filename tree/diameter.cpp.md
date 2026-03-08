@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
     title: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/diameter.md
-    document_title: Tree Diameter
+    document_title: "\u6728\u306E\u76F4\u5F84(Tree Diameter)"
     links: []
   bundledCode: "#line 1 \"tree/diameter.cpp\"\npair<int, pair<int, int>> tree_diameter(const\
     \ vector<vector<int>> &G) {\n    int n = G.size();\n    if (n == 0) return {0,\
@@ -22,7 +22,7 @@ data:
     \n    dist[0] = 0;\n    dfs(0, -1, dfs);\n    int s = far;\n    dist[s] = 0;\n\
     \    dfs(s, -1, dfs);\n    return {dist[far], {s, far}};\n}\n\nint diameter(const\
     \ vector<vector<int>> &G) {\n    return tree_diameter(G).first;\n}\n\n/**\n *\
-    \ @brief Tree Diameter\n * @docs _md/diameter.md\n */\n"
+    \ @brief \u6728\u306E\u76F4\u5F84(Tree Diameter)\n * @docs _md/diameter.md\n */\n"
   code: "pair<int, pair<int, int>> tree_diameter(const vector<vector<int>> &G) {\n\
     \    int n = G.size();\n    if (n == 0) return {0, {-1, -1}};\n\n    vector<int>\
     \ dist(n);\n    int far = 0;\n    auto dfs = [&](int v, int p, auto &&f) -> void\
@@ -31,14 +31,14 @@ data:
     \ = to;\n            f(to, v, f);\n        }\n    };\n\n    dist[0] = 0;\n   \
     \ dfs(0, -1, dfs);\n    int s = far;\n    dist[s] = 0;\n    dfs(s, -1, dfs);\n\
     \    return {dist[far], {s, far}};\n}\n\nint diameter(const vector<vector<int>>\
-    \ &G) {\n    return tree_diameter(G).first;\n}\n\n/**\n * @brief Tree Diameter\n\
-    \ * @docs _md/diameter.md\n */\n"
+    \ &G) {\n    return tree_diameter(G).first;\n}\n\n/**\n * @brief \u6728\u306E\u76F4\
+    \u5F84(Tree Diameter)\n * @docs _md/diameter.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/diameter.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:15:51+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_diameter_unweighted.test.cpp
 documentation_of: tree/diameter.cpp
@@ -46,7 +46,7 @@ layout: document
 redirect_from:
 - /library/tree/diameter.cpp
 - /library/tree/diameter.cpp.html
-title: Tree Diameter
+title: "\u6728\u306E\u76F4\u5F84(Tree Diameter)"
 ---
 ## 説明
 重みなし木の直径長とその両端点を `O(N)` で求める。

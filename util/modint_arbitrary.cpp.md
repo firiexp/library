@@ -10,6 +10,8 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/modint_arbitrary.md
+    document_title: "modint(\u4EFB\u610FMOD)"
     links: []
   bundledCode: "#line 1 \"util/modint_arbitrary.cpp\"\nclass modint {\n    static\
     \ uint &mod() { static uint mod_ = 0; return mod_; }\npublic:\n    uint val;\n\
@@ -25,7 +27,8 @@ data:
     \ }\n    modint pow(ll n) const { modint x = *this, r = 1; while(n){ if(n&1) r\
     \ *= x; x *= x; n >>= 1; } return r; }\n    modint &operator/=(modint b) { return\
     \ *this *= b.pow(M()-2); }\n    static void set_mod(const uint x) { mod() = x;\
-    \ }\n    static int M() { return mod(); }\n};\nusing mint = modint;\n"
+    \ }\n    static int M() { return mod(); }\n};\nusing mint = modint;\n\n/**\n *\
+    \ @brief modint(\u4EFB\u610FMOD)\n * @docs _md/modint_arbitrary.md\n */\n"
   code: "class modint {\n    static uint &mod() { static uint mod_ = 0; return mod_;\
     \ }\npublic:\n    uint val;\n    modint(const uint x = 0) : val(x % M()) {}\n\
     \    uint &value() noexcept { return val; }\n    const uint &value() const noexcept\
@@ -40,12 +43,13 @@ data:
     \ { modint x = *this, r = 1; while(n){ if(n&1) r *= x; x *= x; n >>= 1; } return\
     \ r; }\n    modint &operator/=(modint b) { return *this *= b.pow(M()-2); }\n \
     \   static void set_mod(const uint x) { mod() = x; }\n    static int M() { return\
-    \ mod(); }\n};\nusing mint = modint;"
+    \ mod(); }\n};\nusing mint = modint;\n\n/**\n * @brief modint(\u4EFB\u610FMOD)\n\
+    \ * @docs _md/modint_arbitrary.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/modint_arbitrary.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0422.test.cpp
@@ -54,5 +58,15 @@ layout: document
 redirect_from:
 - /library/util/modint_arbitrary.cpp
 - /library/util/modint_arbitrary.cpp.html
-title: util/modint_arbitrary.cpp
+title: "modint(\u4EFB\u610FMOD)"
 ---
+---
+layout: post
+title: modint構造体(実行時MOD)
+date: 2019-06-21
+category: テンプレート
+tags: テンプレート
+---
+
+## 説明
+テンプレートにMODを指定すると、いちいち剰余を取ることなくMOD上の演算ができる。

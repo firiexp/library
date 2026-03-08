@@ -6,13 +6,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0349.test.cpp
     title: test/aoj0349.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_scc.test.cpp
     title: test/yosupo_scc.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
+    _deprecated_at_docs: _md/SCC.md
+    document_title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
     links: []
   bundledCode: "#line 1 \"graph/SCC.cpp\"\nclass SCC {\n    void dfs(int v){\n   \
     \     used[v] = 1;\n        for (auto &&u : G[v]) if(!used[u]) dfs(u);\n     \
@@ -31,7 +33,9 @@ data:
     \     G_out[cmp[i]].emplace_back(cmp[j]);\n                }\n            }\n\
     \        }\n        for (auto &&l : G_out) {\n            sort(l.begin(), l.end());\n\
     \            l.erase(unique(l.begin(), l.end()), l.end());\n        }\n      \
-    \  return k;\n    }\n\n    int operator[](int k) const { return cmp[k]; }\n};\n"
+    \  return k;\n    }\n\n    int operator[](int k) const { return cmp[k]; }\n};\n\
+    \n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)\n * @docs _md/SCC.md\n\
+    \ */\n"
   code: "class SCC {\n    void dfs(int v){\n        used[v] = 1;\n        for (auto\
     \ &&u : G[v]) if(!used[u]) dfs(u);\n        vs.emplace_back(v);\n    }\n\n   \
     \ void dfs_r(int v, int k){\n        used[v] = 1;\n        cmp[v] = k;\n     \
@@ -49,13 +53,14 @@ data:
     \                }\n            }\n        }\n        for (auto &&l : G_out) {\n\
     \            sort(l.begin(), l.end());\n            l.erase(unique(l.begin(),\
     \ l.end()), l.end());\n        }\n        return k;\n    }\n\n    int operator[](int\
-    \ k) const { return cmp[k]; }\n};\n"
+    \ k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\
+    \u5206\u89E3(SCC)\n * @docs _md/SCC.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/SCC.cpp
   requiredBy: []
-  timestamp: '2020-06-09 14:40:12+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_scc.test.cpp
   - test/aoj0349.test.cpp
@@ -64,5 +69,15 @@ layout: document
 redirect_from:
 - /library/graph/SCC.cpp
 - /library/graph/SCC.cpp.html
-title: graph/SCC.cpp
+title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
 ---
+---
+layout: post
+title: 強連結成分分解(Strongly-Connected-Components, SCC)
+date: 2019-12-03
+category: グラフ
+tags: 有向グラフ
+---
+
+## 説明
+あとで書く

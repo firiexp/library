@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/binaryindexedtree.cpp
-    title: datastructure/binaryindexedtree.cpp
-  - icon: ':heavy_check_mark:'
+    title: Binary Indexed Tree(BIT)
+  - icon: ':x:'
     path: tree/dsu_on_tree.cpp
     title: DSU on Tree
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
@@ -88,49 +88,51 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT {\n    vector<T>\
-    \ bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1), n(n) {\n       \
-    \ while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n        T ret = 0;\n   \
-    \     for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return ret;\n \
-    \   }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k & -k)) bit[k\
-    \ - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x <= 0) return\
-    \ 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n            if\
-    \ (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n        }\n\
-    \        return min(i + 1, n);\n    }\n};\n#line 1 \"tree/dsu_on_tree.cpp\"\n\
-    template<class G>\nstruct DSUonTree {\n    G &g;\n    int n, root, ord;\n    vector<int>\
-    \ sub_size, euler, down, up;\n\n    explicit DSUonTree(G &g, int root = 0)\n \
-    \       : g(g), n(g.size()), root(root), ord(0),\n          sub_size(n), euler(n),\
-    \ down(n), up(n) {\n        dfs_sz(root, -1);\n        dfs_euler(root, -1);\n\
-    \    }\n\n    int idx(int v) const {\n        return down[v];\n    }\n\n    int\
-    \ begin(int v) const {\n        return down[v];\n    }\n\n    int end(int v) const\
-    \ {\n        return up[v];\n    }\n\n    template<class UPDATE, class QUERY, class\
-    \ CLEAR, class RESET>\n    void run(UPDATE update, QUERY query, CLEAR clear, RESET\
-    \ reset) {\n        auto dfs = [&](auto &&self, int v, int p, bool keep) -> void\
-    \ {\n            int heavy = (g[v].empty() || g[v][0] == p ? -1 : g[v][0]);\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT\
+    \ {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1),\
+    \ n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n       \
+    \ T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n      \
+    \  return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n;\
+    \ k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n     \
+    \   if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>=\
+    \ 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1],\
+    \ i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief\
+    \ Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n#line 1 \"\
+    tree/dsu_on_tree.cpp\"\ntemplate<class G>\nstruct DSUonTree {\n    G &g;\n   \
+    \ int n, root, ord;\n    vector<int> sub_size, euler, down, up;\n\n    explicit\
+    \ DSUonTree(G &g, int root = 0)\n        : g(g), n(g.size()), root(root), ord(0),\n\
+    \          sub_size(n), euler(n), down(n), up(n) {\n        dfs_sz(root, -1);\n\
+    \        dfs_euler(root, -1);\n    }\n\n    int idx(int v) const {\n        return\
+    \ down[v];\n    }\n\n    int begin(int v) const {\n        return down[v];\n \
+    \   }\n\n    int end(int v) const {\n        return up[v];\n    }\n\n    template<class\
+    \ UPDATE, class QUERY, class CLEAR, class RESET>\n    void run(UPDATE update,\
+    \ QUERY query, CLEAR clear, RESET reset) {\n        auto dfs = [&](auto &&self,\
+    \ int v, int p, bool keep) -> void {\n            int heavy = (g[v].empty() ||\
+    \ g[v][0] == p ? -1 : g[v][0]);\n            for (auto &&u : g[v]) {\n       \
+    \         if (u == p || u == heavy) continue;\n                self(self, u, v,\
+    \ false);\n            }\n            if (heavy != -1) self(self, heavy, v, true);\n\
     \            for (auto &&u : g[v]) {\n                if (u == p || u == heavy)\
-    \ continue;\n                self(self, u, v, false);\n            }\n       \
-    \     if (heavy != -1) self(self, heavy, v, true);\n            for (auto &&u\
-    \ : g[v]) {\n                if (u == p || u == heavy) continue;\n           \
-    \     for (int i = down[u]; i < up[u]; ++i) update(euler[i]);\n            }\n\
-    \            update(v);\n            query(v);\n            if (!keep) {\n   \
-    \             for (int i = down[v]; i < up[v]; ++i) clear(euler[i]);\n       \
-    \         reset();\n            }\n        };\n        dfs(dfs, root, -1, false);\n\
-    \    }\n\nprivate:\n    void dfs_sz(int v, int p) {\n        sub_size[v] = 1;\n\
-    \        int heavy_idx = -1;\n        for (int i = 0; i < (int)g[v].size(); ++i)\
-    \ {\n            int u = g[v][i];\n            if (u == p) continue;\n       \
-    \     dfs_sz(u, v);\n            sub_size[v] += sub_size[u];\n            if (heavy_idx\
-    \ == -1 || sub_size[u] > sub_size[g[v][heavy_idx]]) {\n                heavy_idx\
-    \ = i;\n            }\n        }\n        if (heavy_idx > 0) swap(g[v][0], g[v][heavy_idx]);\n\
-    \    }\n\n    void dfs_euler(int v, int p) {\n        down[v] = ord;\n       \
-    \ euler[ord++] = v;\n        for (auto &&u : g[v]) {\n            if (u == p)\
-    \ continue;\n            dfs_euler(u, v);\n        }\n        up[v] = ord;\n \
-    \   }\n};\n\n/**\n * @brief DSU on Tree\n * @docs _md/dsu_on_tree.md\n */\n#line\
-    \ 11 \"test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp\"\n\nstruct Query\
-    \ {\n    int time, type;\n    ll x;\n};\n\nint main() {\n    Scanner sc;\n   \
-    \ Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n   \
-    \ for (auto &&x : a) sc.read(x);\n\n    vector<vector<int>> g(n);\n    for (int\
-    \ v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n        g[p].push_back(v);\n\
+    \ continue;\n                for (int i = down[u]; i < up[u]; ++i) update(euler[i]);\n\
+    \            }\n            update(v);\n            query(v);\n            if\
+    \ (!keep) {\n                for (int i = down[v]; i < up[v]; ++i) clear(euler[i]);\n\
+    \                reset();\n            }\n        };\n        dfs(dfs, root, -1,\
+    \ false);\n    }\n\nprivate:\n    void dfs_sz(int v, int p) {\n        sub_size[v]\
+    \ = 1;\n        int heavy_idx = -1;\n        for (int i = 0; i < (int)g[v].size();\
+    \ ++i) {\n            int u = g[v][i];\n            if (u == p) continue;\n  \
+    \          dfs_sz(u, v);\n            sub_size[v] += sub_size[u];\n          \
+    \  if (heavy_idx == -1 || sub_size[u] > sub_size[g[v][heavy_idx]]) {\n       \
+    \         heavy_idx = i;\n            }\n        }\n        if (heavy_idx > 0)\
+    \ swap(g[v][0], g[v][heavy_idx]);\n    }\n\n    void dfs_euler(int v, int p) {\n\
+    \        down[v] = ord;\n        euler[ord++] = v;\n        for (auto &&u : g[v])\
+    \ {\n            if (u == p) continue;\n            dfs_euler(u, v);\n       \
+    \ }\n        up[v] = ord;\n    }\n};\n\n/**\n * @brief DSU on Tree\n * @docs _md/dsu_on_tree.md\n\
+    \ */\n#line 11 \"test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp\"\n\n\
+    struct Query {\n    int time, type;\n    ll x;\n};\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
+    \    for (auto &&x : a) sc.read(x);\n\n    vector<vector<int>> g(n);\n    for\
+    \ (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n        g[p].push_back(v);\n\
     \        g[v].push_back(p);\n    }\n\n    vector<vector<Query>> qs(n);\n    vector<ll>\
     \ ans(q, -1);\n    for (int i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t,\
     \ v);\n        if (t == 0) {\n            ll x;\n            sc.read(x);\n   \
@@ -176,8 +178,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 18:50:59+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
 layout: document

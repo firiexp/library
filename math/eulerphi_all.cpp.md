@@ -3,13 +3,16 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_eulerphi.test.cpp
     title: test/yosupo_many_aplusb_eulerphi.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/eulerphi_all.md
+    document_title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\
+      \u30EB(Euler Phi Table)"
     links: []
   bundledCode: "#line 1 \"math/eulerphi_all.cpp\"\nvector<int> eulerphi_all(int M){\n\
     \    vector<int> phi(M);\n    vector<bool> isprime(M);\n    for (int i = 0; i\
@@ -17,19 +20,22 @@ data:
     \ i = 2; i < M; ++i) {\n        if(isprime[i]){\n            for (int j = i; j\
     \ < M; j += i) {\n                phi[j] -= phi[j]/i;\n                isprime[j]\
     \ = 0;\n            }\n            isprime[i] = 1;\n        }\n    }\n    return\
-    \ phi;\n}\n"
+    \ phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\
+    \u30FC\u30D6\u30EB(Euler Phi Table)\n * @docs _md/eulerphi_all.md\n */\n"
   code: "vector<int> eulerphi_all(int M){\n    vector<int> phi(M);\n    vector<bool>\
     \ isprime(M);\n    for (int i = 0; i < M; ++i) {\n        phi[i] = i;\n      \
     \  isprime[i] = 1;\n    }\n    for (int i = 2; i < M; ++i) {\n        if(isprime[i]){\n\
     \            for (int j = i; j < M; j += i) {\n                phi[j] -= phi[j]/i;\n\
     \                isprime[j] = 0;\n            }\n            isprime[i] = 1;\n\
-    \        }\n    }\n    return phi;\n}\n"
+    \        }\n    }\n    return phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\
+    \u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Euler Phi Table)\n * @docs _md/eulerphi_all.md\n\
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/eulerphi_all.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:38:39+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_eulerphi.test.cpp
 documentation_of: math/eulerphi_all.cpp
@@ -37,5 +43,26 @@ layout: document
 redirect_from:
 - /library/math/eulerphi_all.cpp
 - /library/math/eulerphi_all.cpp.html
-title: math/eulerphi_all.cpp
+title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Euler\
+  \ Phi Table)"
 ---
+---
+layout: post
+title: Euler Phi All
+date: 2026-03-08
+category: 数学
+tags: 数学
+---
+
+## 説明
+`0..M-1` の Euler の totient function をまとめて求める。
+篩で各素数の倍数に `phi[j] -= phi[j] / p` を入れる。
+計算量は `O(M log log M)`。
+
+## できること
+- `vector<int> eulerphi_all(int M)`
+  `phi[i] = phi(i)` を満たす長さ `M` の配列を返す
+
+## 使い方
+`phi[0] = 0`, `phi[1] = 1` になる。
+前計算して prefix sum を取れば totient の総和にも使える。

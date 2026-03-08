@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/stern_brocot_tree.cpp
-    title: math/stern_brocot_tree.cpp
-  - icon: ':heavy_check_mark:'
+    title: "Stern-Brocot\u6728"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/stern_brocot_tree
@@ -84,12 +84,13 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    math/stern_brocot_tree.cpp\"\n#include <cassert>\n#include <utility>\n#include\
-    \ <vector>\nusing namespace std;\n\nnamespace SternBrocotTree {\n\nusing ll =\
-    \ long long;\n\nenum Direction {\n    Left,\n    Right\n};\n\nstruct Move {\n\
-    \    Direction dir;\n    ll steps;\n};\n\nstruct Node {\n    ll p, q, r, s;\n\n\
-    \    Node() : p(0), q(1), r(1), s(0) {}\n    Node(ll p, ll q, ll r, ll s) : p(p),\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"math/stern_brocot_tree.cpp\"\n#include <cassert>\n#include <utility>\n\
+    #include <vector>\nusing namespace std;\n\nnamespace SternBrocotTree {\n\nusing\
+    \ ll = long long;\n\nenum Direction {\n    Left,\n    Right\n};\n\nstruct Move\
+    \ {\n    Direction dir;\n    ll steps;\n};\n\nstruct Node {\n    ll p, q, r, s;\n\
+    \n    Node() : p(0), q(1), r(1), s(0) {}\n    Node(ll p, ll q, ll r, ll s) : p(p),\
     \ q(q), r(r), s(s) {}\n\n    ll num() const { return p + r; }\n    ll den() const\
     \ { return q + s; }\n};\n\nNode apply(Node node, Move move) {\n    if (move.steps\
     \ == 0) return node;\n    if (move.dir == Left) {\n        node.r += node.p *\
@@ -116,7 +117,8 @@ data:
     \        k -= steps;\n    }\n    if (k != 0) return {};\n    return ret;\n}\n\n\
     Node range(ll a, ll b) {\n    return decode_path(encode_path(a, b));\n}\n\nNode\
     \ lca(ll a, ll b, ll c, ll d) {\n    return decode_path(lca_path(encode_path(a,\
-    \ b), encode_path(c, d)));\n}\n\n}  // namespace SternBrocotTree\n#line 5 \"test/yosupo_stern_brocot_tree.test.cpp\"\
+    \ b), encode_path(c, d)));\n}\n\n}  // namespace SternBrocotTree\n\n/**\n * @brief\
+    \ Stern-Brocot\u6728\n * @docs _md/stern_brocot_tree.md\n */\n#line 5 \"test/yosupo_stern_brocot_tree.test.cpp\"\
     \n\nint main() {\n    using namespace SternBrocotTree;\n\n    Scanner sc;\n  \
     \  Printer pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n        string\
     \ op;\n        sc.read(op);\n        if (op == \"ENCODE_PATH\") {\n          \
@@ -171,8 +173,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_stern_brocot_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_stern_brocot_tree.test.cpp
 layout: document

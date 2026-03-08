@@ -4,21 +4,22 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: graph/bipartite_matching_lexmin.cpp
-    title: graph/bipartite_matching_lexmin.cpp
+    title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
+      (Lexicographically Minimum)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0334.test.cpp
     title: test/aoj0334.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_bipartite_matching.test.cpp
     title: test/yosupo_many_aplusb_bipartite_matching.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     _deprecated_at_docs: _md/bipartite_matching.md
-    document_title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u306E\u6700\u5927\u30DE\u30C3\u30C1\
-      \u30F3\u30B0"
+    document_title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\
+      \u30B0(Bipartite Matching)"
     links: []
   bundledCode: "#line 1 \"graph/bipartite_matching.cpp\"\nclass Bipartite_Matching\
     \ {\nprotected:\n    vector<vector<int>> G;\n    vector<int> used, alive;\n  \
@@ -37,7 +38,7 @@ data:
     \ int>> res;\n        for (int i = 0; i < l; ++i) {\n            if (match[i]\
     \ == -1) continue;\n            res.emplace_back(i, match[i] - l);\n        }\n\
     \        return res;\n    }\n};\n\n/**\n * @brief \u4E8C\u90E8\u30B0\u30E9\u30D5\
-    \u306E\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\n * @docs _md/bipartite_matching.md\n\
+    \u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite Matching)\n * @docs _md/bipartite_matching.md\n\
     \ */\n"
   code: "class Bipartite_Matching {\nprotected:\n    vector<vector<int>> G;\n    vector<int>\
     \ used, alive;\n    int t;\n    int l, r;\n\npublic:\n    vector<int> match;\n\
@@ -55,15 +56,15 @@ data:
     \ const {\n        vector<pair<int, int>> res;\n        for (int i = 0; i < l;\
     \ ++i) {\n            if (match[i] == -1) continue;\n            res.emplace_back(i,\
     \ match[i] - l);\n        }\n        return res;\n    }\n};\n\n/**\n * @brief\
-    \ \u4E8C\u90E8\u30B0\u30E9\u30D5\u306E\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\
-    \n * @docs _md/bipartite_matching.md\n */\n"
+    \ \u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite\
+    \ Matching)\n * @docs _md/bipartite_matching.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/bipartite_matching.cpp
   requiredBy:
   - graph/bipartite_matching_lexmin.cpp
-  timestamp: '2026-03-08 16:18:09+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/aoj0334.test.cpp
   - test/yosupo_many_aplusb_bipartite_matching.test.cpp
@@ -72,7 +73,8 @@ layout: document
 redirect_from:
 - /library/graph/bipartite_matching.cpp
 - /library/graph/bipartite_matching.cpp.html
-title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u306E\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0"
+title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite\
+  \ Matching)"
 ---
 ## 説明
 二部グラフの最大マッチングを単純 DFS で求める。

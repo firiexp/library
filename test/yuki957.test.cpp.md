@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: flow/dinic.cpp
-    title: flow/dinic.cpp
-  - icon: ':heavy_check_mark:'
+    title: "Dinic\u6CD5(Dinic)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/957
@@ -86,12 +86,13 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    flow/dinic.cpp\"\ntemplate<class T, bool directed>\nclass Dinic {\n    void bfs(int\
-    \ s){\n        fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n \
-    \       level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n   \
-    \         int v = Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n  \
-    \              if(e.cap > 0 && level[e.to] < 0){\n                    level[e.to]\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"flow/dinic.cpp\"\ntemplate<class T, bool directed>\nclass Dinic {\n\
+    \    void bfs(int s){\n        fill(level.begin(),level.end(), -1);\n        queue<int>\
+    \ Q;\n        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n\
+    \            int v = Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n\
+    \                if(e.cap > 0 && level[e.to] < 0){\n                    level[e.to]\
     \ = level[v] + 1;\n                    Q.emplace(e.to);\n                }\n \
     \           }\n        }\n    }\n \n    T dfs(int v, int t, T f){\n        if(v\
     \ == t) return f;\n        for(int &i = iter[v]; i < G[v].size(); i++){\n    \
@@ -110,22 +111,23 @@ data:
     \ == 0) break;\n            fill(iter.begin(),iter.end(), 0);\n            while(true){\n\
     \                T f = dfs(s, t, lim);\n                if(f == 0) break;\n  \
     \              ret += f;\n                lim -= f;\n            }\n        }\n\
-    \        return ret;\n    }\n};\n#line 15 \"test/yuki957.test.cpp\"\n\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n    int h, w;\n    in.read(h, w);\n\n\
-    \    vector<vector<ll>> g(h, vector<ll>(w));\n    for (int i = 0; i < h; ++i)\
-    \ {\n        for (int j = 0; j < w; ++j) {\n            in.read(g[i][j]);\n  \
-    \      }\n    }\n    vector<ll> row(h), col(w);\n    for (int i = 0; i < h; ++i)\
-    \ in.read(row[i]);\n    for (int j = 0; j < w; ++j) in.read(col[j]);\n\n    int\
-    \ s = h + w;\n    int t = s + 1;\n    Dinic<ll, true> mf(h + w + 2);\n    ll base\
-    \ = 0;\n    auto add_cost_if_true = [&](int v, ll cost) {\n        if (cost >=\
-    \ 0) mf.add_edge(s, v, cost);\n        else {\n            base += cost;\n   \
-    \         mf.add_edge(v, t, -cost);\n        }\n    };\n\n    for (int i = 0;\
-    \ i < h; ++i) {\n        ll cost = -row[i];\n        for (int j = 0; j < w; ++j)\
-    \ cost += g[i][j];\n        add_cost_if_true(i, cost);\n    }\n    for (int j\
-    \ = 0; j < w; ++j) {\n        add_cost_if_true(h + j, -col[j]);\n    }\n    for\
-    \ (int i = 0; i < h; ++i) {\n        for (int j = 0; j < w; ++j) {\n         \
-    \   mf.add_edge(i, h + j, g[i][j]);\n        }\n    }\n\n    ll min_cost = base\
-    \ + mf.flow(s, t);\n    out.writeln(-min_cost);\n    return 0;\n}\n"
+    \        return ret;\n    }\n};\n\n/**\n * @brief Dinic\u6CD5(Dinic)\n * @docs\
+    \ _md/dinic.md\n */\n#line 15 \"test/yuki957.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n    int h, w;\n    in.read(h, w);\n\n    vector<vector<ll>>\
+    \ g(h, vector<ll>(w));\n    for (int i = 0; i < h; ++i) {\n        for (int j\
+    \ = 0; j < w; ++j) {\n            in.read(g[i][j]);\n        }\n    }\n    vector<ll>\
+    \ row(h), col(w);\n    for (int i = 0; i < h; ++i) in.read(row[i]);\n    for (int\
+    \ j = 0; j < w; ++j) in.read(col[j]);\n\n    int s = h + w;\n    int t = s + 1;\n\
+    \    Dinic<ll, true> mf(h + w + 2);\n    ll base = 0;\n    auto add_cost_if_true\
+    \ = [&](int v, ll cost) {\n        if (cost >= 0) mf.add_edge(s, v, cost);\n \
+    \       else {\n            base += cost;\n            mf.add_edge(v, t, -cost);\n\
+    \        }\n    };\n\n    for (int i = 0; i < h; ++i) {\n        ll cost = -row[i];\n\
+    \        for (int j = 0; j < w; ++j) cost += g[i][j];\n        add_cost_if_true(i,\
+    \ cost);\n    }\n    for (int j = 0; j < w; ++j) {\n        add_cost_if_true(h\
+    \ + j, -col[j]);\n    }\n    for (int i = 0; i < h; ++i) {\n        for (int j\
+    \ = 0; j < w; ++j) {\n            mf.add_edge(i, h + j, g[i][j]);\n        }\n\
+    \    }\n\n    ll min_cost = base + mf.flow(s, t);\n    out.writeln(-min_cost);\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n\
     #include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
     \nusing ll = long long;\ntemplate<class T>\nconstexpr T INF = ::numeric_limits<T>::max()\
@@ -151,8 +153,8 @@ data:
   isVerificationFile: true
   path: test/yuki957.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:00:34+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yuki957.test.cpp
 layout: document

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: string/z-algorithm.cpp
-    title: string/z-algorithm.cpp
-  - icon: ':heavy_check_mark:'
+    title: Z-Algorithm
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -85,23 +85,25 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    string/z-algorithm.cpp\"\nvector<int> Z_algorithm(const string &s){\n    int n\
-    \ = (int)s.size();\n    vector<int> res(n);\n    if (n == 0) return res;\n   \
-    \ res[0] = n;\n    for (int i = 1, j = 0; i < n; ++i) {\n        int &k = res[i];\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"string/z-algorithm.cpp\"\nvector<int> Z_algorithm(const string &s){\n\
+    \    int n = (int)s.size();\n    vector<int> res(n);\n    if (n == 0) return res;\n\
+    \    res[0] = n;\n    for (int i = 1, j = 0; i < n; ++i) {\n        int &k = res[i];\n\
     \        if (j + res[j] > i) k = min(res[i - j], j + res[j] - i);\n        while\
     \ (i + k < n && s[k] == s[i + k]) ++k;\n        if (i + k > j + res[j]) j = i;\n\
-    \    }\n    return res;\n}\n#line 10 \"test/yosupo_many_aplusb_z_algorithm.test.cpp\"\
-    \n\nvector<int> brute_z(const string &s) {\n    int n = (int)s.size();\n    vector<int>\
-    \ res(n);\n    for (int i = 0; i < n; ++i) {\n        while (i + res[i] < n &&\
-    \ s[res[i]] == s[i + res[i]]) ++res[i];\n    }\n    return res;\n}\n\nint main()\
-    \ {\n    {\n        mt19937 rng(123456789);\n        vector<string> samples =\
-    \ {\n            \"a\",\n            \"aaaaa\",\n            \"ababa\",\n    \
-    \        \"aabcaabxaaaz\",\n            \"abracadabra\"\n        };\n        for\
-    \ (const string &s : samples) {\n            if (Z_algorithm(s) != brute_z(s))\
-    \ return 1;\n        }\n        for (int n = 1; n <= 120; ++n) {\n           \
-    \ for (int trial = 0; trial < 400; ++trial) {\n                string s(n, 'a');\n\
-    \                for (int i = 0; i < n; ++i) {\n                    s[i] = char('a'\
+    \    }\n    return res;\n}\n\n/**\n * @brief Z-Algorithm\n * @docs _md/z-algorithm.md\n\
+    \ */\n#line 10 \"test/yosupo_many_aplusb_z_algorithm.test.cpp\"\n\nvector<int>\
+    \ brute_z(const string &s) {\n    int n = (int)s.size();\n    vector<int> res(n);\n\
+    \    for (int i = 0; i < n; ++i) {\n        while (i + res[i] < n && s[res[i]]\
+    \ == s[i + res[i]]) ++res[i];\n    }\n    return res;\n}\n\nint main() {\n   \
+    \ {\n        mt19937 rng(123456789);\n        vector<string> samples = {\n   \
+    \         \"a\",\n            \"aaaaa\",\n            \"ababa\",\n           \
+    \ \"aabcaabxaaaz\",\n            \"abracadabra\"\n        };\n        for (const\
+    \ string &s : samples) {\n            if (Z_algorithm(s) != brute_z(s)) return\
+    \ 1;\n        }\n        for (int n = 1; n <= 120; ++n) {\n            for (int\
+    \ trial = 0; trial < 400; ++trial) {\n                string s(n, 'a');\n    \
+    \            for (int i = 0; i < n; ++i) {\n                    s[i] = char('a'\
     \ + uniform_int_distribution<int>(0, 3)(rng));\n                }\n          \
     \      if (Z_algorithm(s) != brute_z(s)) return 1;\n            }\n        }\n\
     \    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while\
@@ -131,8 +133,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_z_algorithm.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 18:06:48+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_z_algorithm.test.cpp
 layout: document

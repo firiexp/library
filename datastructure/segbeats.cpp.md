@@ -3,13 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
     title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/segbeats.md
+    document_title: Segment Tree Beats
     links: []
   bundledCode: "#line 1 \"datastructure/segbeats.cpp\"\ntemplate<class T>\nclass SegmentTreeBeats\
     \ {\n    void add_(int x, T val){\n        if(!val) return;\n        auto& now\
@@ -58,7 +60,7 @@ data:
     \ 1, height++;\n        seg.resize(2*n);\n        for (int i = 0; i < v.size();\
     \ ++i) {\n            seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];\n     \
     \       seg[i+n].len = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n"
+    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n * @docs _md/segbeats.md\n */\n"
   code: "template<class T>\nclass SegmentTreeBeats {\n    void add_(int x, T val){\n\
     \        if(!val) return;\n        auto& now = seg[x];\n        now.sum += val*now.len;\n\
     \        now.mn += val; now.mx += val; now.add += val;\n        if(now.mn2 !=\
@@ -105,13 +107,13 @@ data:
     \ 1, height++;\n        seg.resize(2*n);\n        for (int i = 0; i < v.size();\
     \ ++i) {\n            seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];\n     \
     \       seg[i+n].len = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n"
+    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n * @docs _md/segbeats.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/segbeats.cpp
   requiredBy: []
-  timestamp: '2020-10-20 21:27:22+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
 documentation_of: datastructure/segbeats.cpp
@@ -119,5 +121,35 @@ layout: document
 redirect_from:
 - /library/datastructure/segbeats.cpp
 - /library/datastructure/segbeats.cpp.html
-title: datastructure/segbeats.cpp
+title: Segment Tree Beats
 ---
+## 説明
+`range chmin`、`range chmax`、`range add`、`range sum` をまとめて処理する Segment Tree Beats である。
+各操作は償却 `O(log N)`。
+
+## できること
+- `SegmentTreeBeats<T> seg(v)`
+  配列 `v` から構築する
+- `void chmin(int l, int r, T x)`
+  半開区間 `[l, r)` の各値を `min(a_i, x)` にする
+- `void chmax(int l, int r, T x)`
+  半開区間 `[l, r)` の各値を `max(a_i, x)` にする
+- `void add(int l, int r, T x)`
+  半開区間 `[l, r)` に `x` を加える
+- `T sum(int l, int r)`
+  半開区間 `[l, r)` の総和を返す
+
+## 使い方
+```cpp
+vector<long long> a(n);
+SegmentTreeBeats<long long> seg(a);
+
+seg.chmin(l, r, x);
+seg.chmax(l, r, x);
+seg.add(l, r, x);
+long long ans = seg.sum(l, r);
+```
+
+## 実装上の補足
+最小値・次小値・最大値・次大値とその個数を持つ典型的な Segment Tree Beats 実装である。
+`INF<T>` を使うので、利用側で `template<class T> constexpr T INF = ...;` を定義しておく必要がある。

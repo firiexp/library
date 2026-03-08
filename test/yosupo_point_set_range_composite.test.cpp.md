@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':x:'
     path: datastructure/segtree.cpp
-    title: datastructure/segtree.cpp
+    title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_set_range_composite
@@ -78,7 +78,8 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n#line 23 \"test/yosupo_point_set_range_composite.test.cpp\"\
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
+    \u6728(Segment Tree)\n * @docs _md/segtree.md\n */\n#line 23 \"test/yosupo_point_set_range_composite.test.cpp\"\
     \n\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b) {\
     \ return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
     };\n\nint main() {\n    int n, q;\n    cin >> n >> q;\n    SegmentTree<Monoid>\
@@ -110,8 +111,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_composite.test.cpp
 layout: document

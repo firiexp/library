@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':x:'
     path: datastructure/segtree.cpp
-    title: datastructure/segtree.cpp
-  - icon: ':question:'
+    title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
+  - icon: ':x:'
     path: tree/hld.cpp
-    title: tree/hld.cpp
-  - icon: ':heavy_check_mark:'
+    title: "HL\u5206\u89E3(HL Decomposition)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/vertex_set_path_composite
@@ -94,10 +94,11 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
-    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n    uint val;\n\
+    public:\n    static modint raw(int v) { modint x; x.val = v; return x; }\n   \
+    \ modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
     \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
     \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
     \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
@@ -178,7 +179,8 @@ data:
     \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
     \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
     \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
-    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n#line 1 \"datastructure/segtree.cpp\"\
+    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
+    \u89E3(HL Decomposition)\n * @docs _md/hld.md\n */\n#line 1 \"datastructure/segtree.cpp\"\
     \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
     \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
     \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
@@ -208,7 +210,8 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n#line 18 \"test/yosupo_vertex_set_path_composite_hld_helper.test.cpp\"\
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
+    \u6728(Segment Tree)\n * @docs _md/segtree.md\n */\n#line 18 \"test/yosupo_vertex_set_path_composite_hld_helper.test.cpp\"\
     \n\nstruct Ml {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return\
     \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
     };\n\nstruct Mr {\n    using T = array<mint, 2>;\n    static T f(T b, T a) { return\
@@ -263,8 +266,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 17:42:36+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
 layout: document

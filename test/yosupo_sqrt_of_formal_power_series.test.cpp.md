@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: math/ntt.cpp
-    title: math/ntt.cpp
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/sqrt_of_formal_power_series
@@ -284,12 +284,14 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 22 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n\nint main() {\n\
-    \    int n;\n    cin >> n;\n    poly f(n);\n    for (int i = 0; i < n; ++i) {\n\
-    \        int x;\n        cin >> x;\n        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n\
-    \    if ((int)g.size() == 0) {\n        cout << -1 << '\\n';\n        return 0;\n\
-    \    }\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n     \
-    \   cout << g[i].val;\n    }\n    cout << '\\n';\n    return 0;\n}\n"
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n#line 22 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\
+    \n\nint main() {\n    int n;\n    cin >> n;\n    poly f(n);\n    for (int i =\
+    \ 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        f[i] = x;\n   \
+    \ }\n    poly g = f.sqrt(n);\n    if ((int)g.size() == 0) {\n        cout << -1\
+    \ << '\\n';\n        return 0;\n    }\n    for (int i = 0; i < n; ++i) {\n   \
+    \     if (i) cout << ' ';\n        cout << g[i].val;\n    }\n    cout << '\\n';\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\
     \n\n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
     #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
@@ -307,8 +309,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_sqrt_of_formal_power_series.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_sqrt_of_formal_power_series.test.cpp
 layout: document

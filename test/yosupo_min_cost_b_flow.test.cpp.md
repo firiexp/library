@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/minimum_cost_b_flow.cpp
-    title: "\u6700\u5C0F\u8CBB\u7528 b-flow"
-  - icon: ':heavy_check_mark:'
+    title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/min_cost_b_flow
@@ -85,17 +85,18 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"graph/minimum_cost_b_flow.cpp\"\ntemplate<class Flow, class\
-    \ Cost>\nstruct MinimumCostBFlow {\n    using Sum = __int128_t;\n    struct Edge\
-    \ {\n        int from, to, rev;\n        Flow flow, cap;\n        Cost cost;\n\
-    \n        Flow residual_cap() const {\n            return cap - flow;\n      \
-    \  }\n    };\n\n    struct EdgeRef {\n        int from, idx;\n    };\n\n    int\
-    \ n;\n    vector<vector<Edge>> g;\n    vector<Flow> b;\n    vector<EdgeRef> edges;\n\
-    \    vector<Cost> potential;\n\n    explicit MinimumCostBFlow(int n) : n(n), g(n),\
-    \ b(n, 0), potential(n, 0) {}\n\n    void add_supply(int v, Flow x) {\n      \
-    \  b[v] += x;\n    }\n\n    void add_demand(int v, Flow x) {\n        b[v] -=\
-    \ x;\n    }\n\n    int add_edge(int from, int to, Flow lower, Flow upper, Cost\
-    \ cost) {\n        assert(lower <= upper);\n        int idx = (int)g[from].size();\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"graph/minimum_cost_b_flow.cpp\"\ntemplate<class\
+    \ Flow, class Cost>\nstruct MinimumCostBFlow {\n    using Sum = __int128_t;\n\
+    \    struct Edge {\n        int from, to, rev;\n        Flow flow, cap;\n    \
+    \    Cost cost;\n\n        Flow residual_cap() const {\n            return cap\
+    \ - flow;\n        }\n    };\n\n    struct EdgeRef {\n        int from, idx;\n\
+    \    };\n\n    int n;\n    vector<vector<Edge>> g;\n    vector<Flow> b;\n    vector<EdgeRef>\
+    \ edges;\n    vector<Cost> potential;\n\n    explicit MinimumCostBFlow(int n)\
+    \ : n(n), g(n), b(n, 0), potential(n, 0) {}\n\n    void add_supply(int v, Flow\
+    \ x) {\n        b[v] += x;\n    }\n\n    void add_demand(int v, Flow x) {\n  \
+    \      b[v] -= x;\n    }\n\n    int add_edge(int from, int to, Flow lower, Flow\
+    \ upper, Cost cost) {\n        assert(lower <= upper);\n        int idx = (int)g[from].size();\n\
     \        int rev = from == to ? idx + 1 : (int)g[to].size();\n        g[from].push_back({from,\
     \ to, rev, 0, upper, cost});\n        g[to].push_back({to, from, idx, 0, -lower,\
     \ -cost});\n        edges.push_back({from, idx});\n        return (int)edges.size()\
@@ -169,8 +170,8 @@ data:
     \ v = 0; v < n; ++v) {\n            if(b[v] != 0) ok = false;\n        }\n   \
     \     for (int i = 0; i < (int)edges.size(); ++i) {\n            auto&& e = get_edge(i);\n\
     \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
-    \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528 b-flow\n * @docs\
-    \ _md/minimum_cost_b_flow.md\n */\n#line 9 \"test/yosupo_min_cost_b_flow.test.cpp\"\
+    \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
+    \ b-Flow)\n * @docs _md/minimum_cost_b_flow.md\n */\n#line 9 \"test/yosupo_min_cost_b_flow.test.cpp\"\
     \n\nvoid write_i128(Printer& pr, __int128_t x) {\n    if(x == 0) {\n        pr.write('0');\n\
     \        return;\n    }\n    if(x < 0) {\n        pr.write('-');\n        x =\
     \ -x;\n    }\n    string s;\n    while(x > 0) {\n        s.push_back(char('0'\
@@ -210,8 +211,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_min_cost_b_flow.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 12:19:53+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_min_cost_b_flow.test.cpp
 layout: document

@@ -1,23 +1,24 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/eulerphi.cpp
-    title: math/eulerphi.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
+  - icon: ':x:'
     path: math/eulerphi_all.cpp
-    title: math/eulerphi_all.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\
+      (Euler Phi Table)"
+  - icon: ':x:'
     path: math/get_min_factor.cpp
-    title: math/get_min_factor.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -92,24 +93,30 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    math/eulerphi.cpp\"\nint eulerphi(int x){\n    int phi = x, xx = x;\n    for (int\
-    \ i = 2; i * i <= x; ++i) {\n        if (xx % i == 0) {\n            phi -= phi\
-    \ / i;\n            while(xx % i == 0) xx /= i;\n        }\n    }\n    if(xx >\
-    \ 1) phi -= phi/xx;\n    return phi;\n}\n#line 1 \"math/eulerphi_all.cpp\"\nvector<int>\
-    \ eulerphi_all(int M){\n    vector<int> phi(M);\n    vector<bool> isprime(M);\n\
-    \    for (int i = 0; i < M; ++i) {\n        phi[i] = i;\n        isprime[i] =\
-    \ 1;\n    }\n    for (int i = 2; i < M; ++i) {\n        if(isprime[i]){\n    \
-    \        for (int j = i; j < M; j += i) {\n                phi[j] -= phi[j]/i;\n\
-    \                isprime[j] = 0;\n            }\n            isprime[i] = 1;\n\
-    \        }\n    }\n    return phi;\n}\n#line 1 \"math/get_min_factor.cpp\"\nvector<int>\
-    \ get_min_factor(int n) {\n    if(n <= 1) return vector<int>{0, 1};\n    vector<bool>\
-    \ prime(n+1, true);\n    vector<int> min_factor(n+1, 0);\n    min_factor[0] =\
-    \ 0, min_factor[1] = 1;\n    prime[0] = false; prime[1] = false;\n    for(ll i\
-    \ = 2; i <= n; i++){\n        if(prime[i]) {\n            min_factor[i] = i;\n\
-    \            for(ll j = i << 1; j <= n; j += i) {\n                prime[j] =\
-    \ false;\n                if(min_factor[j] == 0) min_factor[j] = i;\n        \
-    \    }\n        }\n    }\n    return min_factor;\n}\n#line 14 \"test/yosupo_many_aplusb_eulerphi.test.cpp\"\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"math/eulerphi.cpp\"\nint eulerphi(int x){\n    int phi = x, xx = x;\n\
+    \    for (int i = 2; i * i <= x; ++i) {\n        if (xx % i == 0) {\n        \
+    \    phi -= phi / i;\n            while(xx % i == 0) xx /= i;\n        }\n   \
+    \ }\n    if(xx > 1) phi -= phi/xx;\n    return phi;\n}\n\n/**\n * @brief \u30AA\
+    \u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n * @docs _md/eulerphi.md\n\
+    \ */\n#line 1 \"math/eulerphi_all.cpp\"\nvector<int> eulerphi_all(int M){\n  \
+    \  vector<int> phi(M);\n    vector<bool> isprime(M);\n    for (int i = 0; i <\
+    \ M; ++i) {\n        phi[i] = i;\n        isprime[i] = 1;\n    }\n    for (int\
+    \ i = 2; i < M; ++i) {\n        if(isprime[i]){\n            for (int j = i; j\
+    \ < M; j += i) {\n                phi[j] -= phi[j]/i;\n                isprime[j]\
+    \ = 0;\n            }\n            isprime[i] = 1;\n        }\n    }\n    return\
+    \ phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\
+    \u30FC\u30D6\u30EB(Euler Phi Table)\n * @docs _md/eulerphi_all.md\n */\n#line\
+    \ 1 \"math/get_min_factor.cpp\"\nvector<int> get_min_factor(int n) {\n    if(n\
+    \ <= 1) return vector<int>{0, 1};\n    vector<bool> prime(n+1, true);\n    vector<int>\
+    \ min_factor(n+1, 0);\n    min_factor[0] = 0, min_factor[1] = 1;\n    prime[0]\
+    \ = false; prime[1] = false;\n    for(ll i = 2; i <= n; i++){\n        if(prime[i])\
+    \ {\n            min_factor[i] = i;\n            for(ll j = i << 1; j <= n; j\
+    \ += i) {\n                prime[j] = false;\n                if(min_factor[j]\
+    \ == 0) min_factor[j] = i;\n            }\n        }\n    }\n    return min_factor;\n\
+    }\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min\
+    \ Factor Table)\n * @docs _md/get_min_factor.md\n */\n#line 14 \"test/yosupo_many_aplusb_eulerphi.test.cpp\"\
     \n\nint brute_phi(int x) {\n    int res = 0;\n    for (int i = 1; i <= x; ++i)\
     \ {\n        if (gcd(i, x) == 1) ++res;\n    }\n    return res;\n}\n\nint brute_min_factor(int\
     \ x) {\n    if (x == 0) return 0;\n    if (x == 1) return 1;\n    for (int p =\
@@ -160,8 +167,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_eulerphi.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_eulerphi.test.cpp
 layout: document

@@ -3,13 +3,16 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_add_range_sum_persistent.test.cpp
     title: test/yosupo_point_add_range_sum_persistent.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/persistent_segtree.md
+    document_title: "\u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Persistent Segment\
+      \ Tree)"
     links: []
   bundledCode: "#line 1 \"datastructure/persistent_segtree.cpp\"\ntemplate <class\
     \ M>\nstruct PersistentSegmentTree{\n    using T = typename M::T;\n    struct\
@@ -56,7 +59,8 @@ data:
     \        int m = (l+r)>>1;\n        return M::f(query_(node[id].l, a, b, l, m),\
     \ query_(node[id].r, a, b, m, r));\n    }\n};\n\n/*\nstruct Monoid{\n    using\
     \ T = long long;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n*/\n"
+    \ { return 0; }\n};\n*/\n\n/**\n * @brief \u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\
+    \u30C8\u6728(Persistent Segment Tree)\n * @docs _md/persistent_segtree.md\n */\n"
   code: "template <class M>\nstruct PersistentSegmentTree{\n    using T = typename\
     \ M::T;\n    struct Node{\n        T val;\n        int l, r;\n    };\n\n    int\
     \ n{};\n    vector<Node> node;\n    vector<int> root;\n\n    explicit PersistentSegmentTree(int\
@@ -101,13 +105,14 @@ data:
     \        int m = (l+r)>>1;\n        return M::f(query_(node[id].l, a, b, l, m),\
     \ query_(node[id].r, a, b, m, r));\n    }\n};\n\n/*\nstruct Monoid{\n    using\
     \ T = long long;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n*/\n"
+    \ { return 0; }\n};\n*/\n\n/**\n * @brief \u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\
+    \u30C8\u6728(Persistent Segment Tree)\n * @docs _md/persistent_segtree.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/persistent_segtree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 01:01:19+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum_persistent.test.cpp
 documentation_of: datastructure/persistent_segtree.cpp
@@ -115,5 +120,39 @@ layout: document
 redirect_from:
 - /library/datastructure/persistent_segtree.cpp
 - /library/datastructure/persistent_segtree.cpp.html
-title: datastructure/persistent_segtree.cpp
+title: "\u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Persistent Segment Tree)"
 ---
+---
+layout: post
+title: Persistent Segment Tree
+date: 2026-03-08
+category: データ構造
+tags: データ構造
+---
+
+## 概要
+
+永続セグメント木。
+各更新は新しいバージョンを生成し、過去バージョンへのクエリも可能。
+
+## 計算量
+
+- 構築 : `O(n)`
+- `update/add` (1点更新) : `O(log n)`
+- `query` (区間積) : `O(log n)`
+
+## 使い方
+
+1. `PersistentSegmentTree<Monoid> seg(n)` または `seg(v)` で初期化
+2. `update(version, k, x)` または `add(version, k, x)` で新バージョンを生成
+3. `query(version, l, r)` で任意バージョンの区間クエリ
+
+## 提供された機能
+
+- `latest_version()` : 最新バージョン番号
+- `versions()` : 保持中バージョン数
+- `update(...)` : 点代入で新バージョン作成
+- `add(...)` : 点加算（`f(old, x)`）で新バージョン作成
+- `query(...)` : 区間クエリ
+- `get(t, k)` : バージョン `t` の `k` 番目の値
+

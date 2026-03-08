@@ -7,7 +7,8 @@ data:
     title: Project Selection Problem
   - icon: ':heavy_check_mark:'
     path: graph/maxflow_lower_bound.cpp
-    title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304D s-t \u6700\u5927\u6D41"
+    title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max Flow with\
+      \ Lower Bounds)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0396.test.cpp
@@ -15,13 +16,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
     title: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki957.test.cpp
     title: test/yuki957.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
+    _deprecated_at_docs: _md/dinic.md
+    document_title: "Dinic\u6CD5(Dinic)"
     links: []
   bundledCode: "#line 1 \"flow/dinic.cpp\"\ntemplate<class T, bool directed>\nclass\
     \ Dinic {\n    void bfs(int s){\n        fill(level.begin(),level.end(), -1);\n\
@@ -46,7 +49,8 @@ data:
     \ bfs(s);\n            if(level[t] < 0 || lim == 0) break;\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
     \           if(f == 0) break;\n                ret += f;\n                lim\
-    \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n"
+    \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
+    \ Dinic\u6CD5(Dinic)\n * @docs _md/dinic.md\n */\n"
   code: "template<class T, bool directed>\nclass Dinic {\n    void bfs(int s){\n \
     \       fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n        level[s]\
     \ = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n            int v =\
@@ -69,15 +73,16 @@ data:
     \ bfs(s);\n            if(level[t] < 0 || lim == 0) break;\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
     \           if(f == 0) break;\n                ret += f;\n                lim\
-    \ -= f;\n            }\n        }\n        return ret;\n    }\n};"
+    \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
+    \ Dinic\u6CD5(Dinic)\n * @docs _md/dinic.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: flow/dinic.cpp
   requiredBy:
   - graph/maxflow_lower_bound.cpp
   - flow/project_selection_problem.cpp
-  timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yuki957.test.cpp
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
@@ -87,5 +92,15 @@ layout: document
 redirect_from:
 - /library/flow/dinic.cpp
 - /library/flow/dinic.cpp.html
-title: flow/dinic.cpp
+title: "Dinic\u6CD5(Dinic)"
 ---
+---
+layout: post
+title: Dinic(最大流)
+date: 2019-07-31
+category: フロー
+tags: 最大流
+---
+
+## 説明
+Dinicによる最大流。$O(EV^2)$だがほとんどの場合で高速に動作する。

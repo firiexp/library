@@ -4,7 +4,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: geometry/dualgraph.cpp
-    title: "\u53CC\u5BFE\u30B0\u30E9\u30D5\u306E\u69CB\u7BC9"
+    title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0273.test.cpp
@@ -16,6 +16,8 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/geometry.md
+    document_title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     links: []
   bundledCode: "#line 1 \"geometry/geometry.cpp\"\n// \u51F8\u5305\u306F\u540C\u3058\
     \u9802\u70B9\u304C\u542B\u307E\u308C\u3066\u3044\u308B\u3068\u30D0\u30B0\u308B\
@@ -162,7 +164,8 @@ data:
     \ j = 0; j < u.size(); ++j) {\n            real dy = v[i].y - next(u.rbegin(),\
     \ j)->y;\n            if (dy >= d)\n                break;\n            d = min(d,\
     \ abs(v[i] - *next(u.rbegin(), j)));\n        }\n        u.emplace_back(v[i]);\n\
-    \    }\n    return d;\n}\n"
+    \    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\
+    \u30EA(Geometry)\n * @docs _md/geometry.md\n */\n"
   code: "// \u51F8\u5305\u306F\u540C\u3058\u9802\u70B9\u304C\u542B\u307E\u308C\u3066\
     \u3044\u308B\u3068\u30D0\u30B0\u308B\nusing real = double;\nstatic constexpr real\
     \ EPS = 1e-10;\nconst real pi = acos(-1);\n\nstruct Point {\n    real x, y;\n\
@@ -307,13 +310,14 @@ data:
     \ j = 0; j < u.size(); ++j) {\n            real dy = v[i].y - next(u.rbegin(),\
     \ j)->y;\n            if (dy >= d)\n                break;\n            d = min(d,\
     \ abs(v[i] - *next(u.rbegin(), j)));\n        }\n        u.emplace_back(v[i]);\n\
-    \    }\n    return d;\n}"
+    \    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\
+    \u30EA(Geometry)\n * @docs _md/geometry.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/geometry.cpp
   requiredBy:
   - geometry/dualgraph.cpp
-  timestamp: '2023-03-10 12:27:38+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0273.test.cpp
@@ -323,5 +327,12 @@ layout: document
 redirect_from:
 - /library/geometry/geometry.cpp
 - /library/geometry/geometry.cpp.html
-title: geometry/geometry.cpp
+title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
 ---
+## 説明
+幾何に関するライブラリの詰め合わせ。いろいろあります
+
+## verifyされた機能
+- Point 構造体 (Point同士の加減、Pointのスカラー倍、比較(デフォルトは$x$座標)、入力)
+- Polygon は vector\<Point> の別名
+- $\mathrm{convex-hull}(v) $ : $v$の凸包を返す。

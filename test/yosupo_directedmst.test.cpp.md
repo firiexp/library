@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/chu_liu_edmonds.cpp
-    title: "Chu-Liu/Edmonds \u6CD5"
-  - icon: ':heavy_check_mark:'
+    title: "\u6700\u5C0F\u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/directedmst
@@ -85,14 +85,15 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"graph/chu_liu_edmonds.cpp\"\ntemplate<class T>\nstruct ChuLiuEdmonds\
-    \ {\n    struct Edge {\n        int from, to;\n        T cost;\n    };\n\n   \
-    \ struct Result {\n        bool exists;\n        T cost;\n        vector<int>\
-    \ parent;\n        vector<int> edge_id;\n    };\n\n    struct UnionFind {\n  \
-    \      vector<int> p;\n\n        explicit UnionFind(int n) : p(n, -1) {}\n\n \
-    \       int root(int x) {\n            if (p[x] < 0) return x;\n            return\
-    \ p[x] = root(p[x]);\n        }\n\n        bool unite(int a, int b) {\n      \
-    \      a = root(a);\n            b = root(b);\n            if (a == b) return\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"graph/chu_liu_edmonds.cpp\"\ntemplate<class T>\n\
+    struct ChuLiuEdmonds {\n    struct Edge {\n        int from, to;\n        T cost;\n\
+    \    };\n\n    struct Result {\n        bool exists;\n        T cost;\n      \
+    \  vector<int> parent;\n        vector<int> edge_id;\n    };\n\n    struct UnionFind\
+    \ {\n        vector<int> p;\n\n        explicit UnionFind(int n) : p(n, -1) {}\n\
+    \n        int root(int x) {\n            if (p[x] < 0) return x;\n           \
+    \ return p[x] = root(p[x]);\n        }\n\n        bool unite(int a, int b) {\n\
+    \            a = root(a);\n            b = root(b);\n            if (a == b) return\
     \ false;\n            if (p[a] > p[b]) swap(a, b);\n            p[a] += p[b];\n\
     \            p[b] = a;\n            return true;\n        }\n    };\n\n    struct\
     \ SkewHeapNode {\n        T key, lazy;\n        int idx;\n        SkewHeapNode\
@@ -150,15 +151,15 @@ data:
     \            parent[v] = edges[idx].from;\n            int x = stem[v];\n    \
     \        while (x != idx) {\n                used_edge[x] = 1;\n             \
     \   x = parent_edge[x];\n            }\n        }\n        return {true, total,\
-    \ parent, edge_id};\n    }\n};\n\n/**\n * @brief Chu-Liu/Edmonds \u6CD5\n * @docs\
-    \ _md/chu_liu_edmonds.md\n */\n#line 9 \"test/yosupo_directedmst.test.cpp\"\n\n\
-    int main() {\n    Scanner in;\n    Printer out;\n    int n, m, r;\n    in.read(n,\
-    \ m, r);\n    ChuLiuEdmonds<ll> dmst(n, r);\n    for (int i = 0; i < m; ++i) {\n\
-    \        int a, b;\n        ll c;\n        in.read(a, b, c);\n        dmst.add_edge(a,\
-    \ b, c);\n    }\n    auto res = dmst.solve();\n    if (!res.exists) return 0;\n\
-    \    out.writeln(res.cost);\n    for (int i = 0; i < n; ++i) {\n        if (i)\
-    \ out.write(' ');\n        out.write(res.parent[i]);\n    }\n    out.writeln();\n\
-    \    return 0;\n}\n\n"
+    \ parent, edge_id};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u5168\u57DF\u6709\
+    \u5411\u6728(Chu-Liu/Edmonds)\n * @docs _md/chu_liu_edmonds.md\n */\n#line 9 \"\
+    test/yosupo_directedmst.test.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
+    \ out;\n    int n, m, r;\n    in.read(n, m, r);\n    ChuLiuEdmonds<ll> dmst(n,\
+    \ r);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        ll c;\n \
+    \       in.read(a, b, c);\n        dmst.add_edge(a, b, c);\n    }\n    auto res\
+    \ = dmst.solve();\n    if (!res.exists) return 0;\n    out.writeln(res.cost);\n\
+    \    for (int i = 0; i < n; ++i) {\n        if (i) out.write(' ');\n        out.write(res.parent[i]);\n\
+    \    }\n    out.writeln();\n    return 0;\n}\n\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/directedmst\"\n\n#include\
     \ <vector>\nusing ll = long long;\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../graph/chu_liu_edmonds.cpp\"\n\nint main() {\n    Scanner in;\n\
@@ -174,8 +175,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_directedmst.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_directedmst.test.cpp
 layout: document

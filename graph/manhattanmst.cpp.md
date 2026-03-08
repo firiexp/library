@@ -10,6 +10,8 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/manhattanmst.md
+    document_title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"
     links: []
   bundledCode: "#line 1 \"graph/manhattanmst.cpp\"\ntemplate<typename T>\nvector<pair<int,\
     \ int>> manhattanMST(vector<T> xs, vector<T> ys) {\n    using P = pair<int, int>;\n\
@@ -23,7 +25,8 @@ data:
     \                if (xs[i] - xs[it->second] < ys[i] - ys[it->second]) break;\n\
     \                es.emplace_back(i, it->second);\n            }\n            idx[p]\
     \ = i;\n        }\n        swap(xs, ys);\n        if(s&1) for(auto &&i : xs) i\
-    \ = -i;\n    }\n    return es;\n}\n"
+    \ = -i;\n    }\n    return es;\n}\n\n/**\n * @brief \u30DE\u30F3\u30CF\u30C3\u30BF\
+    \u30F3MST(Manhattan MST)\n * @docs _md/manhattanmst.md\n */\n"
   code: "template<typename T>\nvector<pair<int, int>> manhattanMST(vector<T> xs, vector<T>\
     \ ys) {\n    using P = pair<int, int>;\n    vector<P> es;\n    vector<int> ord(xs.size());\n\
     \    for (int s = 0; s < 4; s++) {\n        iota(ord.begin(), ord.end(), 0);\n\
@@ -35,12 +38,14 @@ data:
     \ != idx.end(); it = idx.erase(it)) {\n                if (xs[i] - xs[it->second]\
     \ < ys[i] - ys[it->second]) break;\n                es.emplace_back(i, it->second);\n\
     \            }\n            idx[p] = i;\n        }\n        swap(xs, ys);\n  \
-    \      if(s&1) for(auto &&i : xs) i = -i;\n    }\n    return es;\n}"
+    \      if(s&1) for(auto &&i : xs) i = -i;\n    }\n    return es;\n}\n\n/**\n *\
+    \ @brief \u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)\n * @docs _md/manhattanmst.md\n\
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/manhattanmst.cpp
   requiredBy: []
-  timestamp: '2020-11-06 00:00:19+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0403.test.cpp
@@ -49,5 +54,32 @@ layout: document
 redirect_from:
 - /library/graph/manhattanmst.cpp
 - /library/graph/manhattanmst.cpp.html
-title: graph/manhattanmst.cpp
+title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"
 ---
+## 説明
+マンハッタン距離に対する最小全域木の候補辺集合を `O(N log N)` で列挙する。
+返る辺だけに Kruskal をかければ、元の完全グラフの最小全域木が求まる。
+
+## できること
+- `vector<pair<int, int>> manhattanMST(vector<T> xs, vector<T> ys)`
+  点列 `(xs[i], ys[i])` に対する候補辺集合を返す
+
+## 使い方
+返り値は頂点番号の組 `(u, v)` の列で、辺重みは自分でマンハッタン距離を計算して使う。
+`T` には加減算と比較が必要である。
+
+```cpp
+vector<long long> xs(n), ys(n);
+auto es = manhattanMST(xs, ys);
+
+vector<edge<long long>> g;
+for (auto [u, v] : es) {
+    long long w = abs(xs[u] - xs[v]) + abs(ys[u] - ys[v]);
+    g.emplace_back(u, v, w);
+}
+long long ans = kruskal(g, n).cost;
+```
+
+## 実装上の補足
+返る辺数は `O(N)` 本で、重複辺を含むことがある。
+最小全域木そのものは返さないので、別に MST を構成する処理が必要である。

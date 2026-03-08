@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: graph/hopcroft_karp.cpp
-    title: "Hopcroft-Karp \u6CD5"
-  - icon: ':heavy_check_mark:'
+    title: "Hopcroft-Karp\u6CD5"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -86,32 +86,34 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"graph/hopcroft_karp.cpp\"\nclass HopcroftKarp {\n    int\
-    \ l, r;\n    vector<vector<int>> g;\n    vector<int> dist;\n\npublic:\n    vector<int>\
-    \ match_left, match_right;\n\n    explicit HopcroftKarp(int l, int r) : l(l),\
-    \ r(r), g(l), dist(l), match_left(l, -1), match_right(r, -1) {}\n\n    void add_edge(int\
-    \ a, int b) {\n        g[a].push_back(b);\n    }\n\n    bool bfs() {\n       \
-    \ queue<int> q;\n        fill(dist.begin(), dist.end(), -1);\n        for (int\
-    \ i = 0; i < l; ++i) {\n            if (match_left[i] != -1) continue;\n     \
-    \       dist[i] = 0;\n            q.push(i);\n        }\n        bool found =\
-    \ false;\n        while (!q.empty()) {\n            int v = q.front();\n     \
-    \       q.pop();\n            for (int to : g[v]) {\n                int u = match_right[to];\n\
-    \                if (u == -1) {\n                    found = true;\n         \
-    \           continue;\n                }\n                if (dist[u] != -1) continue;\n\
-    \                dist[u] = dist[v] + 1;\n                q.push(u);\n        \
-    \    }\n        }\n        return found;\n    }\n\n    bool dfs(int v) {\n   \
-    \     for (int to : g[v]) {\n            int u = match_right[to];\n          \
-    \  if (u != -1 && (dist[u] != dist[v] + 1 || !dfs(u))) continue;\n           \
-    \ match_left[v] = to;\n            match_right[to] = v;\n            return true;\n\
-    \        }\n        dist[v] = -1;\n        return false;\n    }\n\n    int max_matching()\
-    \ {\n        int ret = 0;\n        while (bfs()) {\n            for (int i = 0;\
-    \ i < l; ++i) {\n                if (match_left[i] == -1 && dfs(i)) ++ret;\n \
-    \           }\n        }\n        return ret;\n    }\n\n    vector<pair<int, int>>\
-    \ get_pairs() const {\n        vector<pair<int, int>> ret;\n        for (int i\
-    \ = 0; i < l; ++i) {\n            if (match_left[i] != -1) ret.emplace_back(i,\
-    \ match_left[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Hopcroft-Karp \u6CD5\n * @docs _md/hopcroft_karp.md\n */\n#line 10 \"test/yosupo_bipartitematching_hopcroft_karp.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l,\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"graph/hopcroft_karp.cpp\"\nclass HopcroftKarp\
+    \ {\n    int l, r;\n    vector<vector<int>> g;\n    vector<int> dist;\n\npublic:\n\
+    \    vector<int> match_left, match_right;\n\n    explicit HopcroftKarp(int l,\
+    \ int r) : l(l), r(r), g(l), dist(l), match_left(l, -1), match_right(r, -1) {}\n\
+    \n    void add_edge(int a, int b) {\n        g[a].push_back(b);\n    }\n\n   \
+    \ bool bfs() {\n        queue<int> q;\n        fill(dist.begin(), dist.end(),\
+    \ -1);\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i] !=\
+    \ -1) continue;\n            dist[i] = 0;\n            q.push(i);\n        }\n\
+    \        bool found = false;\n        while (!q.empty()) {\n            int v\
+    \ = q.front();\n            q.pop();\n            for (int to : g[v]) {\n    \
+    \            int u = match_right[to];\n                if (u == -1) {\n      \
+    \              found = true;\n                    continue;\n                }\n\
+    \                if (dist[u] != -1) continue;\n                dist[u] = dist[v]\
+    \ + 1;\n                q.push(u);\n            }\n        }\n        return found;\n\
+    \    }\n\n    bool dfs(int v) {\n        for (int to : g[v]) {\n            int\
+    \ u = match_right[to];\n            if (u != -1 && (dist[u] != dist[v] + 1 ||\
+    \ !dfs(u))) continue;\n            match_left[v] = to;\n            match_right[to]\
+    \ = v;\n            return true;\n        }\n        dist[v] = -1;\n        return\
+    \ false;\n    }\n\n    int max_matching() {\n        int ret = 0;\n        while\
+    \ (bfs()) {\n            for (int i = 0; i < l; ++i) {\n                if (match_left[i]\
+    \ == -1 && dfs(i)) ++ret;\n            }\n        }\n        return ret;\n   \
+    \ }\n\n    vector<pair<int, int>> get_pairs() const {\n        vector<pair<int,\
+    \ int>> ret;\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
+    \ != -1) ret.emplace_back(i, match_left[i]);\n        }\n        return ret;\n\
+    \    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\n * @docs _md/hopcroft_karp.md\n\
+    \ */\n#line 10 \"test/yosupo_bipartitematching_hopcroft_karp.test.cpp\"\n\nint\
+    \ main() {\n    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l,\
     \ r, m);\n    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n    \
     \    int a, b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n  \
     \  int ans = hk.max_matching();\n    out.writeln(ans);\n    auto pairs = hk.get_pairs();\n\
@@ -132,7 +134,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_bipartitematching_hopcroft_karp.test.cpp

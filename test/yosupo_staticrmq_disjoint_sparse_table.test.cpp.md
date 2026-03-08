@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/disjoint_sparse_table.cpp
     title: Disjoint Sparse Table
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/staticrmq
@@ -85,10 +85,11 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/disjoint_sparse_table.cpp\"\ntemplate<class F>\nstruct DisjointSparseTable\
-    \ {\n    using T = typename F::T;\n    int n, lg;\n    vector<vector<T>> table;\n\
-    \n    DisjointSparseTable(): n(0), lg(0), table() {}\n    explicit DisjointSparseTable(const\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/disjoint_sparse_table.cpp\"\ntemplate<class F>\nstruct\
+    \ DisjointSparseTable {\n    using T = typename F::T;\n    int n, lg;\n    vector<vector<T>>\
+    \ table;\n\n    DisjointSparseTable(): n(0), lg(0), table() {}\n    explicit DisjointSparseTable(const\
     \ vector<T> &v) { build(v); }\n\n    void build(const vector<T> &v) {\n      \
     \  n = v.size();\n        lg = 0;\n        while ((1 << lg) < max(1, n)) ++lg;\n\
     \        table.assign(lg + 1, vector<T>(n));\n        if (n == 0) return;\n  \
@@ -127,8 +128,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
 layout: document

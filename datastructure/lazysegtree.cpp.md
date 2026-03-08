@@ -3,16 +3,19 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj0355.test.cpp
     title: test/aoj0355.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/lazysegtree.md
+    document_title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment\
+      \ Tree)"
     links: []
   bundledCode: "#line 1 \"datastructure/lazysegtree.cpp\"\ntemplate <class M>\nstruct\
     \ LazySegmentTree{\n    using T = typename M::T;\n    using L = typename M::L;\n\
@@ -58,7 +61,8 @@ data:
     \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
     \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
     \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
-    \ { return {1, 0}; }\n};\n*/\n"
+    \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
+    \u30C8\u6728(Lazy Segment Tree)\n * @docs _md/lazysegtree.md\n */\n"
   code: "template <class M>\nstruct LazySegmentTree{\n    using T = typename M::T;\n\
     \    using L = typename M::L;\n    int sz, n, height{};\n    vector<T> seg; vector<L>\
     \ lazy;\n    explicit LazySegmentTree(int n) : n(n) {\n        sz = 1; while(sz\
@@ -103,13 +107,14 @@ data:
     \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
     \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
     \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
-    \ { return {1, 0}; }\n};\n*/"
+    \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
+    \u30C8\u6728(Lazy Segment Tree)\n * @docs _md/lazysegtree.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/lazysegtree.cpp
   requiredBy: []
-  timestamp: '2020-10-27 21:25:47+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/aoj0355.test.cpp
@@ -118,5 +123,47 @@ layout: document
 redirect_from:
 - /library/datastructure/lazysegtree.cpp
 - /library/datastructure/lazysegtree.cpp.html
-title: datastructure/lazysegtree.cpp
+title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)"
 ---
+---
+layout: post
+title: 遅延伝播SegmentTree
+date: 2018-05-01
+category: データ構造
+tags: データ構造
+---
+
+## 説明
+2つ配列を持つことで、セグメント木を区間に対する操作に対応させたもの。<br>
+区間に操作をする際には、普通のセグメント木と同様に区間を下ろしていって、区間全体を覆うならそこにとどめておく。クエリのときに必要に応じて分割する。すると、更新と取得が$O(\log N)$回の演算で可能になる。<br>
+実装では、モノイド構造体を渡すようにしている。構造体には、次のようなものを定義する。
+- 要素の型 $T$
+- $T$の単位元$e$
+- 作用素の型 $L$
+- $L$の単位元$l$
+- $f(T, T) \rightarrow T$ 要素同士のマージ
+- $g(T, L) \rightarrow T$ 要素と作用素のマージ
+- $h(L, L) \rightarrow L$ 作用素同士のマージ
+
+以下にモノイドの例をあげておく。
+#### 区間加算-区間min
+- $e = \infty$
+- $l = 0$
+- $f(x, y) = \min(x, y), g(x, y) = x + y, h(x, y) = x + y$
+
+#### 区間更新-区間max
+- $e = 0$
+- $l = 0$
+- $f(x, y) = \max(x, y)$
+- $ \displaystyle g(x, y) = h(x, y) = a ( b = e ),  b ( b \neq e )
+$
+
+#### 区間更新-区間sum
+要素を(部分木の和, サイズ)としてもつ。範囲内は事前にサイズ1としておく。
+- $e = (0, 0)$　
+- $l = 0$
+- $ f((x_1, y_1), (x_2, y_2)) = (x_1+x_2, y_1+y_2)$
+- $ g((x, y), z) = (zy, y)$
+- $ h(x, y) = a ( b = e ),  b ( b \neq e )$
+
+

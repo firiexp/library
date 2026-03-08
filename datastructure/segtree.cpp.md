@@ -3,28 +3,30 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_hld_edge.test.cpp
     title: test/yosupo_many_aplusb_hld_edge.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/segtree.md
+    document_title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
     links: []
   bundledCode: "#line 1 \"datastructure/segtree.cpp\"\ntemplate <class M>\nstruct\
     \ SegmentTree{\n    using T = typename M::T;\n    int sz, n, height{};\n    vector<T>\
@@ -56,7 +58,8 @@ data:
     \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
     \n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
     \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
-    };\n*/\n"
+    };\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)\n\
+    \ * @docs _md/segtree.md\n */\n"
   code: "template <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n \
     \   int sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n)\
     \ : n(n) {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
@@ -86,13 +89,14 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/"
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
+    \u6728(Segment Tree)\n * @docs _md/segtree.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/segtree.cpp
   requiredBy: []
-  timestamp: '2020-10-28 23:41:44+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_hld_edge.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
@@ -105,5 +109,15 @@ layout: document
 redirect_from:
 - /library/datastructure/segtree.cpp
 - /library/datastructure/segtree.cpp.html
-title: datastructure/segtree.cpp
+title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
 ---
+---
+layout: post
+title: DualSegmentTree (双対セグメント木)
+date: 2020-03-07
+category: データ構造
+tags: データ構造
+---
+
+## 説明
+

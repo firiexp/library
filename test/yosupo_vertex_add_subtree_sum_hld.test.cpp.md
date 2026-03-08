@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':x:'
     path: datastructure/segtree.cpp
-    title: datastructure/segtree.cpp
-  - icon: ':question:'
+    title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
+  - icon: ':x:'
     path: tree/hld.cpp
-    title: tree/hld.cpp
-  - icon: ':heavy_check_mark:'
+    title: "HL\u5206\u89E3(HL Decomposition)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
@@ -88,12 +88,13 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n \
-    \       int heavy = -1;\n        for (auto &&u : G[v]) {\n            if(u ==\
-    \ par[v]) continue;\n            par[u] = v; dep[u] = dep[v] + 1;\n          \
-    \  dfs_sz(u);\n            sub_size[v] += sub_size[u];\n            if(heavy ==\
-    \ -1 || sub_size[u] > sub_size[heavy]) heavy = u;\n        }\n        if (heavy\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int\
+    \ v){\n        int heavy = -1;\n        for (auto &&u : G[v]) {\n            if(u\
+    \ == par[v]) continue;\n            par[u] = v; dep[u] = dep[v] + 1;\n       \
+    \     dfs_sz(u);\n            sub_size[v] += sub_size[u];\n            if(heavy\
+    \ == -1 || sub_size[u] > sub_size[heavy]) heavy = u;\n        }\n        if (heavy\
     \ != -1 && G[v][0] != heavy) {\n            for (auto &&u : G[v]) {\n        \
     \        if (u == heavy) {\n                    swap(u, G[v][0]);\n          \
     \          break;\n                }\n            }\n        }\n    }\n    void\
@@ -148,7 +149,8 @@ data:
     \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
     \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
     \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
-    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n#line 1 \"datastructure/segtree.cpp\"\
+    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
+    \u89E3(HL Decomposition)\n * @docs _md/hld.md\n */\n#line 1 \"datastructure/segtree.cpp\"\
     \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
     \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
     \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
@@ -178,7 +180,8 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n#line 11 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
+    \u6728(Segment Tree)\n * @docs _md/segtree.md\n */\n#line 11 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\
     \n\nstruct SumMonoid {\n    using T = ll;\n    static T f(T a, T b) { return a\
     \ + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
@@ -213,8 +216,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 17:42:36+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
 layout: document

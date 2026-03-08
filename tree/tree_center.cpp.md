@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_tree_center.test.cpp
     title: test/yosupo_many_aplusb_tree_center.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/tree_center.md
-    document_title: Tree Center
+    document_title: "\u6728\u306E\u4E2D\u5FC3(Tree Center)"
     links: []
   bundledCode: "#line 1 \"tree/tree_center.cpp\"\npair<int, vector<int>> tree_center(const\
     \ vector<vector<int>> &G) {\n    int n = G.size();\n    if (n == 0) return {0,\
@@ -27,8 +27,8 @@ data:
     \    vector<int> path;\n    for (int v = t; v != -1; v = par[v]) path.push_back(v);\n\
     \    reverse(path.begin(), path.end());\n\n    int diam = dist[t];\n    vector<int>\
     \ centers;\n    centers.push_back(path[diam / 2]);\n    if (diam & 1) centers.push_back(path[diam\
-    \ / 2 + 1]);\n    return {(diam + 1) / 2, centers};\n}\n\n/**\n * @brief Tree\
-    \ Center\n * @docs _md/tree_center.md\n */\n"
+    \ / 2 + 1]);\n    return {(diam + 1) / 2, centers};\n}\n\n/**\n * @brief \u6728\
+    \u306E\u4E2D\u5FC3(Tree Center)\n * @docs _md/tree_center.md\n */\n"
   code: "pair<int, vector<int>> tree_center(const vector<vector<int>> &G) {\n    int\
     \ n = G.size();\n    if (n == 0) return {0, {}};\n\n    auto bfs = [&](int s,\
     \ vector<int> &par) {\n        vector<int> dist(n, -1);\n        queue<int> q;\n\
@@ -43,14 +43,14 @@ data:
     \ v != -1; v = par[v]) path.push_back(v);\n    reverse(path.begin(), path.end());\n\
     \n    int diam = dist[t];\n    vector<int> centers;\n    centers.push_back(path[diam\
     \ / 2]);\n    if (diam & 1) centers.push_back(path[diam / 2 + 1]);\n    return\
-    \ {(diam + 1) / 2, centers};\n}\n\n/**\n * @brief Tree Center\n * @docs _md/tree_center.md\n\
-    \ */\n"
+    \ {(diam + 1) / 2, centers};\n}\n\n/**\n * @brief \u6728\u306E\u4E2D\u5FC3(Tree\
+    \ Center)\n * @docs _md/tree_center.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/tree_center.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_tree_center.test.cpp
 documentation_of: tree/tree_center.cpp
@@ -58,7 +58,7 @@ layout: document
 redirect_from:
 - /library/tree/tree_center.cpp
 - /library/tree/tree_center.cpp.html
-title: Tree Center
+title: "\u6728\u306E\u4E2D\u5FC3(Tree Center)"
 ---
 ---
 layout: post

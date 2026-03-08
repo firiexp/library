@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/radixheap.cpp
     title: datastructure/radixheap.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/dijkstra_radix_heap.cpp
     title: "Dijkstra\u6CD5(Radix Heap)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/shortest_path
@@ -90,15 +90,16 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    graph/dijkstra_radix_heap.cpp\"\ntemplate <typename T>\nstruct edge {\n    int\
-    \ from, to; T cost;\n    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n\
-    \    edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}\n};\n\n\
-    #line 1 \"datastructure/radixheap.cpp\"\ntemplate <class K, class V>\nclass RadixHeap\
-    \ {\n    static constexpr int bit_length = sizeof(K)*8;\n    K last;\n    size_t\
-    \ sz, cnt;\n    \n    array<vector<pair<K, V>>, bit_length> v;\n    static inline\
-    \ int bsr(int x){\n        return x ? bit_length-__builtin_clz(x) : 0;\n    }\n\
-    \    static inline int bsr(ll x){\n        return x ? bit_length-__builtin_clzll(x)\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"graph/dijkstra_radix_heap.cpp\"\ntemplate <typename T>\nstruct edge\
+    \ {\n    int from, to; T cost;\n    edge(int to, T cost) : from(-1), to(to), cost(cost)\
+    \ {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}\n\
+    };\n\n#line 1 \"datastructure/radixheap.cpp\"\ntemplate <class K, class V>\nclass\
+    \ RadixHeap {\n    static constexpr int bit_length = sizeof(K)*8;\n    K last;\n\
+    \    size_t sz, cnt;\n    \n    array<vector<pair<K, V>>, bit_length> v;\n   \
+    \ static inline int bsr(int x){\n        return x ? bit_length-__builtin_clz(x)\
+    \ : 0;\n    }\n    static inline int bsr(ll x){\n        return x ? bit_length-__builtin_clzll(x)\
     \ : 0;\n    }\n\n    void pull() {\n        if(cnt < v[0].size()) return;;\n \
     \       int i = 1;\n        while(v[i].empty()) i++;\n        last = min_element(v[i].begin(),v[i].end())->first;\n\
     \        for (auto &&x : v[i]) v[bsr(x.first ^ last)].push_back(x);\n        v[i].clear();\n\
@@ -152,8 +153,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path_radix_heap.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:58:00+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path_radix_heap.test.cpp
 layout: document

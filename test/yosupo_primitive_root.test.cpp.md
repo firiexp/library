@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/primefactor_ll2.cpp
     title: math/primefactor_ll2.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/primitive_root.cpp
-    title: math/primitive_root.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u539F\u59CB\u6839(Primitive Root)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/primitive_root
@@ -89,12 +89,13 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    math/primefactor_ll2.cpp\"\n#include <algorithm>\n#include <numeric>\n#include\
-    \ <random>\n\nusing ull = unsigned long long;\nusing u128 = __uint128_t;\n\ntemplate<\
-    \ class T>\nT pow_ (T x, ull n, ull M){\n    T u = 1;\n    if(n > 0){\n      \
-    \  u = pow_(x, n/2, M);\n        if (n % 2 == 0) u = (u*u) % M;\n        else\
-    \ u = (((u * u)% M) * x) % M;\n    }\n    return u;\n};\n\nbool suspect(__uint128_t\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"math/primefactor_ll2.cpp\"\n#include <algorithm>\n#include <numeric>\n\
+    #include <random>\n\nusing ull = unsigned long long;\nusing u128 = __uint128_t;\n\
+    \ntemplate< class T>\nT pow_ (T x, ull n, ull M){\n    T u = 1;\n    if(n > 0){\n\
+    \        u = pow_(x, n/2, M);\n        if (n % 2 == 0) u = (u*u) % M;\n      \
+    \  else u = (((u * u)% M) * x) % M;\n    }\n    return u;\n};\n\nbool suspect(__uint128_t\
     \ a, ull s, ull d, ull n){\n    __uint128_t x = pow_(a, d, n);\n    if (x == 1)\
     \ return true;\n    for (int r = 0; r < s; ++r) {\n        if(x == n-1) return\
     \ true;\n        x = x * x % n;\n    }\n    return false;\n}\n\ntemplate<class\
@@ -158,10 +159,12 @@ data:
     \        }\n        return (ll)r;\n    };\n    for (ll g = 2;; g++) {\n      \
     \  bool ok = true;\n        for (auto &&d : divs) {\n            if (mod_pow(g,\
     \ (m - 1) / d) == 1) {\n                ok = false;\n                break;\n\
-    \            }\n        }\n        if (ok) return g;\n    }\n}\n#line 12 \"test/yosupo_primitive_root.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int q;\n    in.read(q);\n\
-    \    while (q--) {\n        ll p;\n        in.read(p);\n        out.writeln(primitive_root(p));\n\
-    \    }\n    return 0;\n}\n"
+    \            }\n        }\n        if (ok) return g;\n    }\n}\n\n/**\n * @brief\
+    \ \u539F\u59CB\u6839(Primitive Root)\n * @docs _md/primitive_root.md\n */\n#line\
+    \ 12 \"test/yosupo_primitive_root.test.cpp\"\n\nint main() {\n    Scanner in;\n\
+    \    Printer out;\n    int q;\n    in.read(q);\n    while (q--) {\n        ll\
+    \ p;\n        in.read(p);\n        out.writeln(primitive_root(p));\n    }\n  \
+    \  return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primitive_root\"\n\n#include\
     \ <cstdint>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
     \ uint = unsigned;\nusing ull = unsigned long long;\n\n#include \"../util/fastio.cpp\"\
@@ -176,8 +179,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_primitive_root.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:38:39+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_primitive_root.test.cpp
 layout: document

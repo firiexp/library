@@ -1,24 +1,26 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: math/ntt.cpp
-    title: math/ntt.cpp
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/linear_recurrence.cpp
-    title: linear recurrence
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/nth_term.md
+    document_title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
     \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
@@ -283,11 +285,12 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
-    \ return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n\
-    \    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n \
-    \   mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int j\
-    \ = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q,\
+    \ ll n){\n    if(!n) return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(),\
+    \ q.size());\n    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n\
+    \    mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int\
+    \ j = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n\
     \    for (int i = 2; i < sz>>1; i <<= 1) {\n        for (int j = i+1; j < 2*i;\
     \ ++j) {\n            y[j] = y[j-i]*y[i];\n        }\n    }\n    ntt.transform(p.v,\
     \ 0);\n    ntt.transform(q.v, 0);\n    poly tmp(sz>>1);\n    auto up = [&](poly\
@@ -301,7 +304,9 @@ data:
     \        ika++;\n        if(n == 1) break;\n        up(p);\n        for (int i\
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
-    \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n"
+    \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
+    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n * @docs _md/nth_term.md\n\
+    \ */\n"
   code: "#include \"../math/ntt.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
     \ return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n\
     \    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n \
@@ -320,15 +325,17 @@ data:
     \        ika++;\n        if(n == 1) break;\n        up(p);\n        for (int i\
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
-    \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n"
+    \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
+    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n * @docs _md/nth_term.md\n\
+    \ */\n"
   dependsOn:
   - math/ntt.cpp
   isVerificationFile: false
   path: fps/nth_term.cpp
   requiredBy:
   - fps/linear_recurrence.cpp
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
@@ -337,5 +344,28 @@ layout: document
 redirect_from:
 - /library/fps/nth_term.cpp
 - /library/fps/nth_term.cpp.html
-title: fps/nth_term.cpp
+title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
 ---
+## 説明
+有理型母関数 `P(x) / Q(x)` の `x^n` の係数を求める。
+線形漸化式の第 `n` 項計算を Bostan-Mori 法で処理する低レベル部品である。
+
+## できること
+- `mint nth_term(poly p, poly q, ll n)`
+  `P(x) / Q(x)` の `x^n` 係数を返す
+
+## 使い方
+`q[0] != 0` を満たす多項式 `p`, `q` を渡す。
+線形漸化式 `a_n = c_0 a_{n-1} + ... + c_{k-1} a_{n-k}` なら、`Q(x) = 1 - c_0 x - ... - c_{k-1} x^k` を作って使う。
+
+```cpp
+poly q(k + 1);
+q[0] = 1;
+for (int i = 0; i < k; ++i) q[i + 1] = -c[i];
+poly p = (poly(a) * q).cut(k);
+mint ans = nth_term(p, q, n);
+```
+
+## 実装上の補足
+NTT を使うので法は `998244353` 固定である。
+`p` と `q` は関数内で破壊的に変更されるため、値渡しになっている。

@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: string/kmp.cpp
-    title: string/kmp.cpp
+    title: "KMP\u6CD5"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -30,10 +30,11 @@ data:
     \ res;\n    }\n    auto table = kmp_table(pattern);\n    for (int i = 0, j = 0;\
     \ i < n;) {\n        while(j >= 0 && text[i] != pattern[j]) j = table[j];\n  \
     \      i++, j++;\n        if(j == m){\n            res.emplace_back(i - j);\n\
-    \            j = table[j];\n        }\n    }\n    return res;\n}\n#line 21 \"\
-    test/aoj_alds1_14_b.test.cpp\"\n\nint main() {\n    string text, pattern;\n  \
-    \  cin >> text >> pattern;\n    auto res = kmp_search(text, pattern);\n    for\
-    \ (auto &&i : res) {\n        cout << i << \"\\n\";\n    }\n    return 0;\n}\n"
+    \            j = table[j];\n        }\n    }\n    return res;\n}\n\n/**\n * @brief\
+    \ KMP\u6CD5\n * @docs _md/kmp.md\n */\n#line 21 \"test/aoj_alds1_14_b.test.cpp\"\
+    \n\nint main() {\n    string text, pattern;\n    cin >> text >> pattern;\n   \
+    \ auto res = kmp_search(text, pattern);\n    for (auto &&i : res) {\n        cout\
+    \ << i << \"\\n\";\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B\"\n\
     #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
     \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
@@ -48,7 +49,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_14_b.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 01:01:19+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_14_b.test.cpp

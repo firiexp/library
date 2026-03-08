@@ -13,6 +13,9 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/twoedgeconnectedcomponents.md
+    document_title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected\
+      \ Components)"
     links: []
   bundledCode: "#line 1 \"graph/twoedgeconnectedcomponents.cpp\"\nclass TwoEdgeConnectedComponents\
     \ {\n    void dfs(int i, int &pos){\n        ord[i] = low[i] = pos++;\n      \
@@ -34,7 +37,9 @@ data:
     \ i = 0; i < n; ++i) {\n            if(ord[i] < 0) dfs(i, pos);\n        }\n \
     \       int k = 0;\n        for (int i = 0; i < n; ++i) {\n            if(!~bridge[i]){\n\
     \                bridge[i] = k++;\n                out.emplace_back();\n     \
-    \           dfs2(i);\n            }\n        }\n        return k;\n    }\n};\n"
+    \           dfs2(i);\n            }\n        }\n        return k;\n    }\n};\n\
+    \n/**\n * @brief \u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected\
+    \ Components)\n * @docs _md/twoedgeconnectedcomponents.md\n */\n"
   code: "class TwoEdgeConnectedComponents {\n    void dfs(int i, int &pos){\n    \
     \    ord[i] = low[i] = pos++;\n        int mul = 0;\n        for (auto &&j : G[i])\
     \ {\n            if(j == par[i] && !mul){\n                mul = 1;\n        \
@@ -55,12 +60,14 @@ data:
     \        if(ord[i] < 0) dfs(i, pos);\n        }\n        int k = 0;\n        for\
     \ (int i = 0; i < n; ++i) {\n            if(!~bridge[i]){\n                bridge[i]\
     \ = k++;\n                out.emplace_back();\n                dfs2(i);\n    \
-    \        }\n        }\n        return k;\n    }\n};\n"
+    \        }\n        }\n        return k;\n    }\n};\n\n/**\n * @brief \u4E8C\u8FBA\
+    \u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected Components)\n * @docs\
+    \ _md/twoedgeconnectedcomponents.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/twoedgeconnectedcomponents.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0415.test.cpp
@@ -70,5 +77,16 @@ layout: document
 redirect_from:
 - /library/graph/twoedgeconnectedcomponents.cpp
 - /library/graph/twoedgeconnectedcomponents.cpp.html
-title: graph/twoedgeconnectedcomponents.cpp
+title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected Components)"
 ---
+---
+layout: post
+title: 二辺連結成分分解
+date: 2020-03-25
+category: グラフ
+tags: グラフ
+---
+
+## 説明
+
+無向グラフを二辺連結成分分解する。

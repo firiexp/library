@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_slope_trick.test.cpp
     title: test/yosupo_many_aplusb_slope_trick.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/slope_trick.md
     document_title: Slope Trick
@@ -75,7 +75,7 @@ data:
   path: datastructure/slope_trick.cpp
   requiredBy: []
   timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_slope_trick.test.cpp
 documentation_of: datastructure/slope_trick.cpp

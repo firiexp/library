@@ -1,9 +1,9 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/sparsetable.cpp
-    title: datastructure/sparsetable.cpp
+    title: Sparse Table
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: tree/virtual_tree_helper.cpp
@@ -19,6 +19,8 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/auxtree.md
+    document_title: "\u88DC\u52A9\u6728(Aux Tree)"
     links: []
   bundledCode: "#line 1 \"tree/auxtree.cpp\"\n#include <stack>\n\n#line 1 \"datastructure/sparsetable.cpp\"\
     \ntemplate <class F>\nstruct SparseTable {\n    using T = typename F::T;\n   \
@@ -32,14 +34,15 @@ data:
     \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
     \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
     \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n#line 4 \"tree/auxtree.cpp\"\n\nstruct F {\n    using T = pair<int,\
-    \ int>;\n    static T f(T a, T b) { return min(a, b); }\n    static T e() { return\
-    \ T{INF<int>, -1}; }\n};\n\nclass AuxTree {\n    SparseTable<F> table;\n    void\
-    \ dfs_euler(int v, int p, int d, int &k, int &l){\n        id[v] = k;\n      \
-    \  vs[k] = v;\n        depth[k++] = d;\n        dep[v] = d;\n        fi[v] = l++;\n\
-    \        for (auto &&u : G[v]) {\n            if(u != p){\n                dfs_euler(u,\
-    \ v, d+1, k, l);\n                vs[k] = v;\n                depth[k++] = d;\n\
-    \            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
+    \    }\n};\n\n/**\n * @brief Sparse Table\n * @docs _md/sparsetable.md\n */\n\
+    #line 4 \"tree/auxtree.cpp\"\n\nstruct F {\n    using T = pair<int, int>;\n  \
+    \  static T f(T a, T b) { return min(a, b); }\n    static T e() { return T{INF<int>,\
+    \ -1}; }\n};\n\nclass AuxTree {\n    SparseTable<F> table;\n    void dfs_euler(int\
+    \ v, int p, int d, int &k, int &l){\n        id[v] = k;\n        vs[k] = v;\n\
+    \        depth[k++] = d;\n        dep[v] = d;\n        fi[v] = l++;\n        for\
+    \ (auto &&u : G[v]) {\n            if(u != p){\n                dfs_euler(u, v,\
+    \ d+1, k, l);\n                vs[k] = v;\n                depth[k++] = d;\n \
+    \           }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
     \ G, out;\n    vector<int> vs, depth, dep, id, fi;\n    explicit AuxTree(int n)\
     \ : table(), n(n), G(n), out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n)\
     \ {};\n    void add_edge(int a, int b){\n        G[a].emplace_back(b);\n     \
@@ -65,7 +68,8 @@ data:
     \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
     \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
     \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
-    \ v)];\n    }\n};\n"
+    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n * @docs _md/auxtree.md\n\
+    \ */\n"
   code: "#include <stack>\n\n#include \"../datastructure/sparsetable.cpp\"\n\nstruct\
     \ F {\n    using T = pair<int, int>;\n    static T f(T a, T b) { return min(a,\
     \ b); }\n    static T e() { return T{INF<int>, -1}; }\n};\n\nclass AuxTree {\n\
@@ -99,14 +103,15 @@ data:
     \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
     \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
     \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
-    \ v)];\n    }\n};\n"
+    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n * @docs _md/auxtree.md\n\
+    \ */\n"
   dependsOn:
   - datastructure/sparsetable.cpp
   isVerificationFile: false
   path: tree/auxtree.cpp
   requiredBy:
   - tree/virtual_tree_helper.cpp
-  timestamp: '2026-03-08 17:42:36+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0439.test.cpp
@@ -116,5 +121,47 @@ layout: document
 redirect_from:
 - /library/tree/auxtree.cpp
 - /library/tree/auxtree.cpp.html
-title: tree/auxtree.cpp
+title: "\u88DC\u52A9\u6728(Aux Tree)"
 ---
+## 説明
+必要な頂点集合だけを含む virtual tree を構築する。
+LCA を自動で補い、元の木上での親子関係を保ったまま補助木 `out` に辺を張る。
+
+## できること
+- `AuxTree tr(n)`
+  頂点数 `n` の木を作る
+- `void add_edge(int a, int b)`
+  木辺を張る
+- `void buildLCA()`
+  LCA と距離計算の前処理をする
+- `void make(vector<int>& v)`
+  頂点集合 `v` から補助木を作る。必要なら LCA 頂点も `v` に追加される
+- `void clear(vector<int>& v)`
+  `make` で使った頂点の `out` を消す
+- `int LCA(int u, int v)`
+  最近共通祖先を返す
+- `int distance(int u, int v)`
+  木上距離を返す
+
+## 使い方
+`buildLCA()` を先に呼び、その後でクエリごとに対象頂点を `v` に入れて `make(v)` を呼ぶ。
+補助木の辺は `out` に無向辺として入る。
+
+```cpp
+AuxTree tr(n);
+tr.add_edge(u, v);
+tr.buildLCA();
+
+vector<int> vs = query_vertices;
+tr.make(vs);
+for (int x : vs) {
+    for (int y : tr.out[x]) {
+        // virtual tree 上の辺
+    }
+}
+tr.clear(vs);
+```
+
+## 実装上の補足
+`make(v)` は引数 `v` を破壊的に変更し、LCA 頂点を追加する。
+`clear(v)` は `make` 後の `v` をそのまま渡す前提である。

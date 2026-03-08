@@ -4,7 +4,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: math/binom_mod_prime_power.cpp
-    title: "\u4E8C\u9805\u4FC2\u6570 mod p^q"
+    title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_binomial_coefficient.test.cpp

@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':x:'
     path: tree/hld.cpp
-    title: tree/hld.cpp
+    title: "HL\u5206\u89E3(HL Decomposition)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_aplusb_hld_edge.test.cpp
     title: test/yosupo_many_aplusb_hld_edge.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/hld_edge.md
-    document_title: "\u8FBA\u30AF\u30A8\u30EA\u5411\u3051\u91CD\u8EFD\u5206\u89E3"
+    document_title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
     links: []
   bundledCode: "#line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void\
     \ dfs_sz(int v){\n        int heavy = -1;\n        for (auto &&u : G[v]) {\n \
@@ -78,7 +78,8 @@ data:
     \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
     \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename\
     \ Q>\n    T subtree_query(int v, const Q &q, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n#line 2 \"tree/hld_edge.cpp\"\
+    \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief\
+    \ HL\u5206\u89E3(HL Decomposition)\n * @docs _md/hld.md\n */\n#line 2 \"tree/hld_edge.cpp\"\
     \n\nstruct HeavyLightDecompositionEdge {\n    HeavyLightDecomposition hld;\n\n\
     \    explicit HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
     \ &g) : hld(g) {}\n\n    void add_edge(int u, int v) {\n        hld.add_edge(u,\
@@ -99,8 +100,8 @@ data:
     \ v, const T &e, const QL &ql, const QR &qr, const F &f) {\n        return hld.path_query_ordered(u,\
     \ v, e, ql, qr, f, true);\n    }\n\n    template<typename T, typename Q>\n   \
     \ T subtree_query(int v, const Q &q) {\n        return hld.subtree_query<T>(v,\
-    \ q, true);\n    }\n};\n\n/**\n * @brief \u8FBA\u30AF\u30A8\u30EA\u5411\u3051\u91CD\
-    \u8EFD\u5206\u89E3\n * @docs _md/hld_edge.md\n */\n"
+    \ q, true);\n    }\n};\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA\
+    )\n * @docs _md/hld_edge.md\n */\n"
   code: "#include \"hld.cpp\"\n\nstruct HeavyLightDecompositionEdge {\n    HeavyLightDecomposition\
     \ hld;\n\n    explicit HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit\
     \ HeavyLightDecompositionEdge(vector<vector<int>> &g) : hld(g) {}\n\n    void\
@@ -122,15 +123,15 @@ data:
     \ &ql, const QR &qr, const F &f) {\n        return hld.path_query_ordered(u, v,\
     \ e, ql, qr, f, true);\n    }\n\n    template<typename T, typename Q>\n    T subtree_query(int\
     \ v, const Q &q) {\n        return hld.subtree_query<T>(v, q, true);\n    }\n\
-    };\n\n/**\n * @brief \u8FBA\u30AF\u30A8\u30EA\u5411\u3051\u91CD\u8EFD\u5206\u89E3\
-    \n * @docs _md/hld_edge.md\n */\n"
+    };\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)\n * @docs _md/hld_edge.md\n\
+    \ */\n"
   dependsOn:
   - tree/hld.cpp
   isVerificationFile: false
   path: tree/hld_edge.cpp
   requiredBy: []
-  timestamp: '2026-03-08 18:33:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_many_aplusb_hld_edge.test.cpp
   - test/yuki650_hld_edge.test.cpp
@@ -139,7 +140,7 @@ layout: document
 redirect_from:
 - /library/tree/hld_edge.cpp
 - /library/tree/hld_edge.cpp.html
-title: "\u8FBA\u30AF\u30A8\u30EA\u5411\u3051\u91CD\u8EFD\u5206\u89E3"
+title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
 ---
 ---
 layout: post

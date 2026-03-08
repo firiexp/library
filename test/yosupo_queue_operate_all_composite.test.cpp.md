@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/swag.cpp
-    title: datastructure/swag.cpp
+    title: SWAG
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/queue_operate_all_composite
@@ -58,17 +58,17 @@ data:
     \ insum.pop_back();\n            }while(!in.empty());\n        }\n        out.pop_back();\
     \ outsum.pop_back();\n    }\n\n    T fold(){\n        return G::f(outsum.back(),\
     \ insum.back());\n    }\n};\n/*\nstruct Monoid {\n    using T = int;\n    static\
-    \ T f(T a, T b) { return a+b; }\n    static T e() { return 0; }\n};\n*/\n#line\
-    \ 24 \"test/yosupo_queue_operate_all_composite.test.cpp\"\n\nstruct SemiGroup\
-    \ {\n    using T = pair<mint, mint>;\n    static T f(T a, T b) { return {a.first*b.first,\
-    \ a.second*b.first + b.second}; }\n    static T e() { return {1, 0}; }\n};\n\n\
-    int main() {\n    int q;\n    cin >> q;\n    SWAG<SemiGroup> Q;\n    while(q--){\n\
-    \        int no; scanf(\"%d\", &no);\n        if(no == 0){\n            int a,\
-    \ b; scanf(\"%d %d\", &a, &b);\n            Q.push(make_pair(mint(a), mint(b)));\n\
-    \        }else if(no == 1){\n            Q.pop();\n        }else {\n         \
-    \   int x; scanf(\"%d\", &x);\n            auto ret = Q.fold();\n            printf(\"\
-    %d\\n\", (ret.first*mint(x) + ret.second).val);\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    \ T f(T a, T b) { return a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n\
+    \ * @brief SWAG\n * @docs _md/swag.md\n */\n#line 24 \"test/yosupo_queue_operate_all_composite.test.cpp\"\
+    \n\nstruct SemiGroup {\n    using T = pair<mint, mint>;\n    static T f(T a, T\
+    \ b) { return {a.first*b.first, a.second*b.first + b.second}; }\n    static T\
+    \ e() { return {1, 0}; }\n};\n\nint main() {\n    int q;\n    cin >> q;\n    SWAG<SemiGroup>\
+    \ Q;\n    while(q--){\n        int no; scanf(\"%d\", &no);\n        if(no == 0){\n\
+    \            int a, b; scanf(\"%d %d\", &a, &b);\n            Q.push(make_pair(mint(a),\
+    \ mint(b)));\n        }else if(no == 1){\n            Q.pop();\n        }else\
+    \ {\n            int x; scanf(\"%d\", &x);\n            auto ret = Q.fold();\n\
+    \            printf(\"%d\\n\", (ret.first*mint(x) + ret.second).val);\n      \
+    \  }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/queue_operate_all_composite\"\
     \n#include <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n\
     #include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include\
@@ -91,8 +91,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_queue_operate_all_composite.test.cpp
 layout: document

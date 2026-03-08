@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/undoableunionfind.cpp
     title: Undoable Union Find
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/persistent_unionfind
@@ -85,7 +85,8 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"datastructure/undoableunionfind.cpp\"\nclass UndoableUnionFind\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"datastructure/undoableunionfind.cpp\"\nclass UndoableUnionFind\
     \ {\n    stack<pair<int, int>> hist;\n    int forest_size;\n    int snap;\n\n\
     public:\n    vector<int> uni;\n\n    explicit UndoableUnionFind(int sz) : forest_size(sz),\
     \ snap(0), uni(sz, -1) {}\n\n    int root(int a) {\n        if (uni[a] < 0) return\
@@ -134,8 +135,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:26:50+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
 layout: document

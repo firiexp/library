@@ -3,18 +3,18 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eulerian_trail_directed.test.cpp
     title: test/yosupo_eulerian_trail_directed.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eulerian_trail_undirected.test.cpp
     title: test/yosupo_eulerian_trail_undirected.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/eulerian_trail.md
-    document_title: Eulerian trail
+    document_title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
     links: []
   bundledCode: "#line 1 \"graph/eulerian_trail.cpp\"\ntemplate<bool directed>\nstruct\
     \ EulerianTrail {\n    struct Edge {\n        int from, to;\n    };\n\n    struct\
@@ -56,8 +56,8 @@ data:
     \            if (used[id]) continue;\n            used[id] = 1;\n            st_v.push_back(to);\n\
     \            st_e.push_back(id);\n        }\n\n        if ((int)es.size() != m)\
     \ return {false, {}, {}};\n        reverse(vs.begin(), vs.end());\n        reverse(es.begin(),\
-    \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief Eulerian\
-    \ trail\n * @docs _md/eulerian_trail.md\n */\n"
+    \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief \u30AA\
+    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n * @docs _md/eulerian_trail.md\n */\n"
   code: "template<bool directed>\nstruct EulerianTrail {\n    struct Edge {\n    \
     \    int from, to;\n    };\n\n    struct Result {\n        bool exists;\n    \
     \    vector<int> vertices;\n        vector<int> edge_ids;\n    };\n\n    int n;\n\
@@ -98,14 +98,14 @@ data:
     \            if (used[id]) continue;\n            used[id] = 1;\n            st_v.push_back(to);\n\
     \            st_e.push_back(id);\n        }\n\n        if ((int)es.size() != m)\
     \ return {false, {}, {}};\n        reverse(vs.begin(), vs.end());\n        reverse(es.begin(),\
-    \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief Eulerian\
-    \ trail\n * @docs _md/eulerian_trail.md\n */\n"
+    \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief \u30AA\
+    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n * @docs _md/eulerian_trail.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/eulerian_trail.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_eulerian_trail_directed.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
@@ -114,7 +114,7 @@ layout: document
 redirect_from:
 - /library/graph/eulerian_trail.cpp
 - /library/graph/eulerian_trail.cpp.html
-title: Eulerian trail
+title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
 ---
 ---
 layout: post

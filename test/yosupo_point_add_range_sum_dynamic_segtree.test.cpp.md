@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/dynamic_segtree.cpp
-    title: datastructure/dynamic_segtree.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
@@ -85,8 +85,9 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\nstruct DynamicSegmentTree{\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\nstruct DynamicSegmentTree{\n\
     \    using T = typename M::T;\n    struct Node{\n        T val;\n        int l,\
     \ r;\n    };\n\n    long long n{};\n    vector<Node> node;\n    int root;\n\n\
     \    explicit DynamicSegmentTree(long long n): n(n), root(-1) {}\n\n    void update(long\
@@ -115,9 +116,11 @@ data:
     \  return M::f(query_(node[id].l, a, b, l, m), query_(node[id].r, a, b, m, r));\n\
     \    }\n\n    T value(int id) const {\n        return id == -1 ? M::e() : node[id].val;\n\
     \    }\n};\n\n/*\nstruct Monoid{\n    using T = long long;\n    static T f(T a,\
-    \ T b) { return a + b; }\n    static T e() { return 0; }\n};\n*/\n#line 8 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\
-    \n\nstruct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return\
-    \ a + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
+    \ T b) { return a + b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief\
+    \ \u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n * @docs _md/dynamic_segtree.md\n\
+    \ */\n#line 8 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\n\n\
+    struct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return a\
+    \ + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid>\
     \ seg(n);\n    for (int i = 0; i < n; ++i) {\n        long long a;\n        sc.read(a);\n\
     \        seg.add(i, a);\n    }\n\n    while (q--) {\n        int t;\n        sc.read(t);\n\
@@ -143,8 +146,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:18:09+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
 layout: document

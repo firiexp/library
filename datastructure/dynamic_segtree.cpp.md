@@ -3,13 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
     title: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/dynamic_segtree.md
+    document_title: "\u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
     links: []
   bundledCode: "#line 1 \"datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\n\
     struct DynamicSegmentTree{\n    using T = typename M::T;\n    struct Node{\n \
@@ -41,7 +43,8 @@ data:
     \ query_(node[id].r, a, b, m, r));\n    }\n\n    T value(int id) const {\n   \
     \     return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n\
     \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n*/\n"
+    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u52D5\u7684\u30BB\u30B0\u30E1\
+    \u30F3\u30C8\u6728\n * @docs _md/dynamic_segtree.md\n */\n"
   code: "template <class M>\nstruct DynamicSegmentTree{\n    using T = typename M::T;\n\
     \    struct Node{\n        T val;\n        int l, r;\n    };\n\n    long long\
     \ n{};\n    vector<Node> node;\n    int root;\n\n    explicit DynamicSegmentTree(long\
@@ -71,13 +74,14 @@ data:
     \ a, b, l, m), query_(node[id].r, a, b, m, r));\n    }\n\n    T value(int id)\
     \ const {\n        return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\n\
     struct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return a\
-    \ + b; }\n    static T e() { return 0; }\n};\n*/\n"
+    \ + b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u52D5\u7684\
+    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n * @docs _md/dynamic_segtree.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/dynamic_segtree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:18:09+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
 documentation_of: datastructure/dynamic_segtree.cpp
@@ -85,5 +89,51 @@ layout: document
 redirect_from:
 - /library/datastructure/dynamic_segtree.cpp
 - /library/datastructure/dynamic_segtree.cpp.html
-title: datastructure/dynamic_segtree.cpp
+title: "\u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
 ---
+---
+layout: post
+title: Dynamic Segment Tree
+date: 2026-03-08
+category: データ構造
+tags: データ構造
+---
+
+## 説明
+必要なノードだけ作る動的セグメント木。
+大きい座標範囲に対する 1 点更新と区間積を扱う。
+各操作は生成ノード数に応じて `O(log N)`。
+
+## できること
+- `DynamicSegmentTree<M> seg(n)`
+  長さ `n`、初期値がすべて `M::e()` の動的セグメント木を作る
+- `void update(long long k, T x)`
+  位置 `k` を `x` に置き換える
+- `void add(long long k, T x)`
+  位置 `k` を `M::f(old, x)` で更新する
+- `T query(long long l, long long r)`
+  半開区間 `[l, r)` の積を返す。空区間なら `M::e()`
+- `T get(long long k)`
+  位置 `k` の値を返す
+- `T operator[](long long k)`
+  `get(k)` の短縮形
+
+## 使い方
+`M` に `using T`、`static T f(T, T)`、`static T e()` を定義して使う。
+
+```cpp
+struct Monoid {
+    using T = long long;
+    static T f(T a, T b) { return a + b; }
+    static T e() { return 0; }
+};
+
+DynamicSegmentTree<Monoid> seg((long long)1e9);
+seg.add(123456789, 5);
+seg.update(987654321, 7);
+long long ans = seg.query(100000000, 900000000);
+```
+
+## 実装上の補足
+未生成ノードは単位元として扱う。
+この実装は初期配列をまとめて与える構築は持たず、必要な位置だけ更新して使う。

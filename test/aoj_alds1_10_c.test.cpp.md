@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: string/lcs_bit.cpp
-    title: string/lcs_bit.cpp
+    title: LCS(bitset)
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -34,10 +34,10 @@ data:
     \ z < y;\n            z -= y;\n            dp[j] = (z^x)&x;\n        }\n     \
     \   if(m & 63) dp.back() &= (1ULL << (m & 63)) - 1;\n    }\n    int ans = 0;\n\
     \    for (int i = 0; i < bit_sz; ++i) {\n        ans += __builtin_popcountll(dp[i]);\n\
-    \    }\n    return ans;\n}\n#line 21 \"test/aoj_alds1_10_c.test.cpp\"\n\nint main()\
-    \ {\n    int n;\n    cin >> n;\n    while(n--){\n        string s, t;\n      \
-    \  cin >> s >> t;\n        cout << LCS_bit(s, t) << \"\\n\";\n    }\n    return\
-    \ 0;\n}\n"
+    \    }\n    return ans;\n}\n\n/**\n * @brief LCS(bitset)\n * @docs _md/lcs_bit.md\n\
+    \ */\n#line 21 \"test/aoj_alds1_10_c.test.cpp\"\n\nint main() {\n    int n;\n\
+    \    cin >> n;\n    while(n--){\n        string s, t;\n        cin >> s >> t;\n\
+    \        cout << LCS_bit(s, t) << \"\\n\";\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_C\"\n\
     #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
     \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
@@ -52,7 +52,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_10_c.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:18:09+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_10_c.test.cpp

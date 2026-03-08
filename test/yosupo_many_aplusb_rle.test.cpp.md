@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':x:'
     path: util/rle.cpp
-    title: util/rle.cpp
+    title: "\u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -85,21 +85,24 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    util/rle.cpp\"\ntemplate<class T>\nvector<pair<T, int>> RLE(const vector<T> &a){\n\
-    \    vector<pair<T, int>> p;\n    if(a.empty()) return p;\n    p.emplace_back(a[0],\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"util/rle.cpp\"\ntemplate<class T>\nvector<pair<T, int>> RLE(const vector<T>\
+    \ &a){\n    vector<pair<T, int>> p;\n    if(a.empty()) return p;\n    p.emplace_back(a[0],\
     \ 1);\n    for (int j = 1; j < (int)a.size(); ++j) {\n        if(p.back().first\
     \ == a[j]) p.back().second++;\n        else p.emplace_back(a[j], 1);\n    }\n\
-    \    return p;\n}\n#line 10 \"test/yosupo_many_aplusb_rle.test.cpp\"\n\ntemplate<class\
-    \ T>\nvector<pair<T, int>> brute_rle(const vector<T> &a) {\n    vector<pair<T,\
-    \ int>> res;\n    for (const auto &x : a) {\n        if (!res.empty() && res.back().first\
-    \ == x) {\n            res.back().second++;\n        } else {\n            res.emplace_back(x,\
-    \ 1);\n        }\n    }\n    return res;\n}\n\nint main() {\n    {\n        mt19937\
-    \ rng(123456789);\n        for (int n = 0; n <= 80; ++n) {\n            for (int\
-    \ trial = 0; trial < 200; ++trial) {\n                vector<int> a(n);\n    \
-    \            for (int i = 0; i < n; ++i) {\n                    a[i] = uniform_int_distribution<int>(0,\
-    \ 6)(rng);\n                }\n                if (RLE(a) != brute_rle(a)) return\
-    \ 1;\n            }\n        }\n\n        vector<int> empty;\n        if (!RLE(empty).empty())\
+    \    return p;\n}\n\n/**\n * @brief \u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\
+    \u7E2E(RLE)\n * @docs _md/rle.md\n */\n#line 10 \"test/yosupo_many_aplusb_rle.test.cpp\"\
+    \n\ntemplate<class T>\nvector<pair<T, int>> brute_rle(const vector<T> &a) {\n\
+    \    vector<pair<T, int>> res;\n    for (const auto &x : a) {\n        if (!res.empty()\
+    \ && res.back().first == x) {\n            res.back().second++;\n        } else\
+    \ {\n            res.emplace_back(x, 1);\n        }\n    }\n    return res;\n\
+    }\n\nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int n\
+    \ = 0; n <= 80; ++n) {\n            for (int trial = 0; trial < 200; ++trial)\
+    \ {\n                vector<int> a(n);\n                for (int i = 0; i < n;\
+    \ ++i) {\n                    a[i] = uniform_int_distribution<int>(0, 6)(rng);\n\
+    \                }\n                if (RLE(a) != brute_rle(a)) return 1;\n  \
+    \          }\n        }\n\n        vector<int> empty;\n        if (!RLE(empty).empty())\
     \ return 1;\n        if (RLE(vector<int>{5, 5, 5}) != vector<pair<int, int>>{{5,\
     \ 3}}) return 1;\n        if (RLE(vector<int>{1, 2, 3, 4}) != vector<pair<int,\
     \ int>>{{1, 1}, {2, 1}, {3, 1}, {4, 1}}) return 1;\n        if (RLE(vector<int>{2,\
@@ -132,8 +135,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_rle.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_rle.test.cpp
 layout: document

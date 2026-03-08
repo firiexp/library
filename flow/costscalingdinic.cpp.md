@@ -10,6 +10,9 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/costscalingdinic.md
+    document_title: "\u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity\
+      \ Scaling Dinic)"
     links: []
   bundledCode: "#line 1 \"flow/costscalingdinic.cpp\"\ntemplate<class T, bool directed>\n\
     class CostScalingDinic {\n    void bfs(int s, T x){\n        fill(level.begin(),level.end(),\
@@ -36,7 +39,8 @@ data:
     \    bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
-    \    }\n};\n"
+    \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
+    Dinic(Capacity Scaling Dinic)\n * @docs _md/costscalingdinic.md\n */\n"
   code: "template<class T, bool directed>\nclass CostScalingDinic {\n    void bfs(int\
     \ s, T x){\n        fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n\
     \        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n  \
@@ -62,12 +66,13 @@ data:
     \    bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
-    \    }\n};\n"
+    \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
+    Dinic(Capacity Scaling Dinic)\n * @docs _md/costscalingdinic.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: flow/costscalingdinic.cpp
   requiredBy: []
-  timestamp: '2020-04-27 18:41:45+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
@@ -76,5 +81,29 @@ layout: document
 redirect_from:
 - /library/flow/costscalingdinic.cpp
 - /library/flow/costscalingdinic.cpp.html
-title: flow/costscalingdinic.cpp
+title: "\u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity Scaling Dinic)"
 ---
+## 説明
+capacity scaling を入れた Dinic 法による最大流である。
+大きい容量から順に流すことで、容量が大きいケースで定数倍を改善する。
+
+## できること
+- `CostScalingDinic<T, directed> mf(n)`
+  頂点数 `n` のフローグラフを作る
+- `void add_edge(int from, int to, int cap)`
+  容量 `cap` の辺を張る。`directed=false` なら無向辺
+- `T flow(int s, int t, T lim = INF<T>)`
+  `s` から `t` への最大流を返す
+
+## 使い方
+容量型 `T` と有向・無向の別をテンプレート引数で与える。
+
+```cpp
+CostScalingDinic<long long, true> mf(n);
+mf.add_edge(u, v, c);
+long long ans = mf.flow(s, t);
+```
+
+## 実装上の補足
+辺容量 0 は追加しない。
+`flow` の `lim` は初期 scaling 幅の上限にも使うので、必要なら流量上限を渡すとよい。

@@ -3,13 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_maximum_independent_set.test.cpp
     title: test/yosupo_maximum_independent_set.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/independentset.md
+    document_title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
     links: []
   bundledCode: "#line 1 \"graph/independentset.cpp\"\nclass IndependentSet {\n   \
     \ int n;\n    vector<ull> G;\n    pair<int, ull> dfs(ull R, ull P, ull X){\n \
@@ -24,7 +26,8 @@ data:
     \ ((1ull << n)-1)^(1ull << i);\n        }\n    }\n    void add_edge(int u, int\
     \ v){\n        G[u] &= ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n \
     \   pair<int, ull> maximum_independent_set() {\n        return dfs(0, (1ull <<\
-    \ n)-1, 0);\n    }\n};\n"
+    \ n)-1, 0);\n    }\n};\n\n/**\n * @brief \u6700\u5927\u72EC\u7ACB\u96C6\u5408\
+    (Maximum Independent Set)\n * @docs _md/independentset.md\n */\n"
   code: "class IndependentSet {\n    int n;\n    vector<ull> G;\n    pair<int, ull>\
     \ dfs(ull R, ull P, ull X){\n        if(!P && !X){\n            return {__builtin_popcountll(R),\
     \ R};\n        }\n        if(!P) return {-1, 0};\n        pair<int, ull> res =\
@@ -37,13 +40,14 @@ data:
     \ ((1ull << n)-1)^(1ull << i);\n        }\n    }\n    void add_edge(int u, int\
     \ v){\n        G[u] &= ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n \
     \   pair<int, ull> maximum_independent_set() {\n        return dfs(0, (1ull <<\
-    \ n)-1, 0);\n    }\n};"
+    \ n)-1, 0);\n    }\n};\n\n/**\n * @brief \u6700\u5927\u72EC\u7ACB\u96C6\u5408\
+    (Maximum Independent Set)\n * @docs _md/independentset.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/independentset.cpp
   requiredBy: []
-  timestamp: '2021-06-23 00:43:23+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_maximum_independent_set.test.cpp
 documentation_of: graph/independentset.cpp
@@ -51,5 +55,15 @@ layout: document
 redirect_from:
 - /library/graph/independentset.cpp
 - /library/graph/independentset.cpp.html
-title: graph/independentset.cpp
+title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
 ---
+---
+layout: post
+title: 最大独立集合
+date: 2018-04-28
+category: グラフ
+tags: グラフ
+---
+
+## 説明
+グラフの最大独立集合(補グラフの最大クリーク)を$O(1.381^V)$で求める。

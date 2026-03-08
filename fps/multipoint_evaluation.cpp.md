@@ -1,26 +1,26 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: math/ntt.cpp
-    title: math/ntt.cpp
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/polynomial_interpolation.cpp
-    title: polynomial interpolation
+    title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/multipoint_evaluation.md
-    document_title: multipoint evaluation
+    document_title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
     \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
@@ -285,7 +285,8 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n#line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
     \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
     \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
     \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
@@ -298,7 +299,7 @@ data:
     \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
     \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
     \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
-    \n/**\n * @brief multipoint evaluation\n * @docs _md/multipoint_evaluation.md\n\
+    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n * @docs _md/multipoint_evaluation.md\n\
     \ */\n"
   code: "#include \"../math/ntt.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
     \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
@@ -313,7 +314,7 @@ data:
     \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
     \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
     \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
-    \n/**\n * @brief multipoint evaluation\n * @docs _md/multipoint_evaluation.md\n\
+    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n * @docs _md/multipoint_evaluation.md\n\
     \ */\n"
   dependsOn:
   - math/ntt.cpp
@@ -321,8 +322,8 @@ data:
   path: fps/multipoint_evaluation.cpp
   requiredBy:
   - fps/polynomial_interpolation.cpp
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
@@ -331,7 +332,7 @@ layout: document
 redirect_from:
 - /library/fps/multipoint_evaluation.cpp
 - /library/fps/multipoint_evaluation.cpp.html
-title: multipoint evaluation
+title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
 ---
 ---
 layout: post

@@ -1,9 +1,9 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/get_min_factor.cpp
-    title: math/get_min_factor.cpp
+    title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
@@ -45,11 +45,13 @@ data:
     \        if(prime[i]) {\n            min_factor[i] = i;\n            for(ll j\
     \ = i << 1; j <= n; j += i) {\n                prime[j] = false;\n           \
     \     if(min_factor[j] == 0) min_factor[j] = i;\n            }\n        }\n  \
-    \  }\n    return min_factor;\n}\n#line 4 \"math/powk_all.cpp\"\nvector<mint> powk_all(int\
-    \ n, ll k) {\n    auto min_factor = get_min_factor(n);\n    vector<mint> res(n+1);\n\
-    \    res[1] = 1;\n    for (int i = 2; i <= n; ++i) {\n        if(min_factor[i]\
-    \ == i) res[i] = mint(i).pow(k);\n        else res[i] = res[i/min_factor[i]]*res[min_factor[i]];\n\
-    \    }\n    return res;\n}\n"
+    \  }\n    return min_factor;\n}\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\
+    \u30C6\u30FC\u30D6\u30EB(Min Factor Table)\n * @docs _md/get_min_factor.md\n */\n\
+    #line 4 \"math/powk_all.cpp\"\nvector<mint> powk_all(int n, ll k) {\n    auto\
+    \ min_factor = get_min_factor(n);\n    vector<mint> res(n+1);\n    res[1] = 1;\n\
+    \    for (int i = 2; i <= n; ++i) {\n        if(min_factor[i] == i) res[i] = mint(i).pow(k);\n\
+    \        else res[i] = res[i/min_factor[i]]*res[min_factor[i]];\n    }\n    return\
+    \ res;\n}\n"
   code: "#include \"../util/modint.cpp\"\n\n#include \"./get_min_factor.cpp\"\nvector<mint>\
     \ powk_all(int n, ll k) {\n    auto min_factor = get_min_factor(n);\n    vector<mint>\
     \ res(n+1);\n    res[1] = 1;\n    for (int i = 2; i <= n; ++i) {\n        if(min_factor[i]\
@@ -61,7 +63,7 @@ data:
   isVerificationFile: false
   path: math/powk_all.cpp
   requiredBy: []
-  timestamp: '2021-07-05 13:06:44+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: math/powk_all.cpp

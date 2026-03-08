@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/tetration.cpp
-    title: math/tetration.cpp
-  - icon: ':heavy_check_mark:'
+    title: Tetration Mod
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/tetration_mod
@@ -85,10 +85,11 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    math/tetration.cpp\"\nll totient(ll n){\n    ll res = n;\n    for (ll i = 2; i*i\
-    \ <= n; ++i) {\n        if(n%i == 0){\n            res = res/i*(i-1);\n      \
-    \      while(n%i == 0) n /= i;\n        }\n    }\n    if(n > 1) res = res/n*(n-1);\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"math/tetration.cpp\"\nll totient(ll n){\n    ll res = n;\n    for (ll\
+    \ i = 2; i*i <= n; ++i) {\n        if(n%i == 0){\n            res = res/i*(i-1);\n\
+    \            while(n%i == 0) n /= i;\n        }\n    }\n    if(n > 1) res = res/n*(n-1);\n\
     \    return res;\n}\n\ntemplate <class T>\nT pow_tetration(T x, T n, T M, bool\
     \ &yojo){\n    ull u = 1, xx = x;\n    if(x >= M) yojo = true;\n    while (n >\
     \ 0){\n        if (n&1) {\n            u = u * xx;  \n            if(u >= M) yojo\
@@ -99,10 +100,11 @@ data:
     \ 1;\n    ll expo = tetration(a, n-1, totient(M), yojo);\n    ll res = pow_tetration(a,\
     \ expo, M, yojo);\n    return res + (yojo ? M : 0);\n}\n\nll tetration(ll a, ll\
     \ n, const ll M){\n    bool yojo = false;\n    return tetration(a, n, M, yojo)%M;\n\
-    }\n#line 7 \"test/yosupo_tetration_mod.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n     \
-    \   int a, b, m;\n        sc.read(a, b, m);\n        pr.writeln(tetration(a, b,\
-    \ m));\n    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief Tetration Mod\n * @docs _md/tetration.md\n */\n#line 7 \"\
+    test/yosupo_tetration_mod.test.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
+    \ pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        int a, b, m;\n\
+    \        sc.read(a, b, m);\n        pr.writeln(tetration(a, b, m));\n    }\n \
+    \   return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/tetration_mod\"\nusing\
     \ ll = long long;\nusing ull = unsigned long long;\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../math/tetration.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
@@ -115,8 +117,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_tetration_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 17:53:01+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_tetration_mod.test.cpp
 layout: document

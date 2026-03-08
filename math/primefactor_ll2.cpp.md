@@ -2,16 +2,16 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/primitive_root.cpp
-    title: math/primitive_root.cpp
+    title: "\u539F\u59CB\u6839(Primitive Root)"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_primitive_root.test.cpp
     title: test/yosupo_primitive_root.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/primefactor_ll2.cpp\"\n#include <algorithm>\n#include\
@@ -139,7 +139,7 @@ data:
   requiredBy:
   - math/primitive_root.cpp
   timestamp: '2026-03-08 16:38:39+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_primitive_root.test.cpp
 documentation_of: math/primefactor_ll2.cpp

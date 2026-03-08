@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/kth_root_integer.cpp
-    title: K-th root integer
-  - icon: ':heavy_check_mark:'
+    title: "\u6574\u6570k\u4E57\u6839(K-th Root Integer)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/kth_root_integer
@@ -84,19 +84,20 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    math/kth_root_integer.cpp\"\nusing ull = unsigned long long;\n\nbool kth_root_integer_leq(ull\
-    \ x, int k, ull a) {\n    __uint128_t p = 1;\n    for (int i = 0; i < k; ++i)\
-    \ {\n        p *= x;\n        if (p > a) return false;\n    }\n    return true;\n\
-    }\n\null kth_root_integer(ull a, int k) {\n    if (k == 1 || a <= 1) return a;\n\
-    \    ull ng = min<ull>(a, (1ULL << 32)) + 1, ok = 0;\n    while (ng - ok > 1)\
-    \ {\n        ull mid = ok + (ng - ok) / 2;\n        if (kth_root_integer_leq(mid,\
-    \ k, a)) ok = mid;\n        else ng = mid;\n    }\n    return ok;\n}\n\n/**\n\
-    \ * @brief K-th root integer\n * @docs _md/kth_root_integer.md\n */\n#line 5 \"\
-    test/yosupo_kth_root_integer.test.cpp\"\n\nint main() {\n    Scanner sc;\n   \
-    \ Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        unsigned\
-    \ long long a;\n        int k;\n        sc.read(a, k);\n        pr.writeln(kth_root_integer(a,\
-    \ k));\n    }\n    return 0;\n}\n"
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"math/kth_root_integer.cpp\"\nusing ull = unsigned long long;\n\nbool\
+    \ kth_root_integer_leq(ull x, int k, ull a) {\n    __uint128_t p = 1;\n    for\
+    \ (int i = 0; i < k; ++i) {\n        p *= x;\n        if (p > a) return false;\n\
+    \    }\n    return true;\n}\n\null kth_root_integer(ull a, int k) {\n    if (k\
+    \ == 1 || a <= 1) return a;\n    ull ng = min<ull>(a, (1ULL << 32)) + 1, ok =\
+    \ 0;\n    while (ng - ok > 1) {\n        ull mid = ok + (ng - ok) / 2;\n     \
+    \   if (kth_root_integer_leq(mid, k, a)) ok = mid;\n        else ng = mid;\n \
+    \   }\n    return ok;\n}\n\n/**\n * @brief \u6574\u6570k\u4E57\u6839(K-th Root\
+    \ Integer)\n * @docs _md/kth_root_integer.md\n */\n#line 5 \"test/yosupo_kth_root_integer.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
+    \    while (t--) {\n        unsigned long long a;\n        int k;\n        sc.read(a,\
+    \ k);\n        pr.writeln(kth_root_integer(a, k));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/kth_root_integer\"\n\n\
     #include \"../util/fastio.cpp\"\n#include \"../math/kth_root_integer.cpp\"\n\n\
     int main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
@@ -108,8 +109,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_kth_root_integer.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_kth_root_integer.test.cpp
 layout: document

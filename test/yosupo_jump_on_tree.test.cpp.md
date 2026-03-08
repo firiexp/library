@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/jump_on_tree.cpp
     title: Jump on Tree
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/jump_on_tree
@@ -86,10 +86,11 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"tree/jump_on_tree.cpp\"\nclass JumpOnTree {\n    int logn;\n\
-    \    vector<vector<int>> up;\n\npublic:\n    int n;\n    vector<vector<int>> G;\n\
-    \    vector<int> depth;\n\n    explicit JumpOnTree(int n) : logn(0), n(n), G(n),\
-    \ depth(n, -1) {}\n\n    void add_edge(int u, int v) {\n        G[u].emplace_back(v);\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"tree/jump_on_tree.cpp\"\nclass JumpOnTree {\n\
+    \    int logn;\n    vector<vector<int>> up;\n\npublic:\n    int n;\n    vector<vector<int>>\
+    \ G;\n    vector<int> depth;\n\n    explicit JumpOnTree(int n) : logn(0), n(n),\
+    \ G(n), depth(n, -1) {}\n\n    void add_edge(int u, int v) {\n        G[u].emplace_back(v);\n\
     \        G[v].emplace_back(u);\n    }\n\n    void build(int root = 0) {\n    \
     \    logn = 1;\n        while ((1 << logn) <= n) ++logn;\n        up.assign(logn,\
     \ vector<int>(n, -1));\n        vector<int> st = {root};\n        depth[root]\
@@ -133,8 +134,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_jump_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 19:26:24+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_jump_on_tree.test.cpp
 layout: document

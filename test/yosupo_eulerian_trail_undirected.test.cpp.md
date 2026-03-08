@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/eulerian_trail.cpp
-    title: Eulerian trail
-  - icon: ':heavy_check_mark:'
+    title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/eulerian_trail_undirected
@@ -85,10 +85,11 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    graph/eulerian_trail.cpp\"\ntemplate<bool directed>\nstruct EulerianTrail {\n\
-    \    struct Edge {\n        int from, to;\n    };\n\n    struct Result {\n   \
-    \     bool exists;\n        vector<int> vertices;\n        vector<int> edge_ids;\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"graph/eulerian_trail.cpp\"\ntemplate<bool directed>\nstruct EulerianTrail\
+    \ {\n    struct Edge {\n        int from, to;\n    };\n\n    struct Result {\n\
+    \        bool exists;\n        vector<int> vertices;\n        vector<int> edge_ids;\n\
     \    };\n\n    int n;\n    vector<Edge> edges;\n    vector<vector<pair<int, int>>>\
     \ g;\n\n    explicit EulerianTrail(int n) : n(n), g(n) {}\n\n    int add_edge(int\
     \ from, int to) {\n        int id = (int)edges.size();\n        edges.push_back({from,\
@@ -126,19 +127,19 @@ data:
     \            if (used[id]) continue;\n            used[id] = 1;\n            st_v.push_back(to);\n\
     \            st_e.push_back(id);\n        }\n\n        if ((int)es.size() != m)\
     \ return {false, {}, {}};\n        reverse(vs.begin(), vs.end());\n        reverse(es.begin(),\
-    \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief Eulerian\
-    \ trail\n * @docs _md/eulerian_trail.md\n */\n#line 9 \"test/yosupo_eulerian_trail_undirected.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int t;\n    in.read(t);\n\
-    \    while (t--) {\n        int n, m;\n        in.read(n, m);\n        EulerianTrail<false>\
-    \ g(n);\n        for (int i = 0; i < m; ++i) {\n            int a, b;\n      \
-    \      in.read(a, b);\n            g.add_edge(a, b);\n        }\n        auto\
-    \ res = g.solve();\n        if (!res.exists) {\n            out.writeln(\"No\"\
-    );\n            continue;\n        }\n        out.writeln(\"Yes\");\n        for\
-    \ (int i = 0; i < (int)res.vertices.size(); ++i) {\n            if (i) out.write('\
-    \ ');\n            out.write(res.vertices[i]);\n        }\n        out.writeln();\n\
-    \        for (int i = 0; i < (int)res.edge_ids.size(); ++i) {\n            if\
-    \ (i) out.write(' ');\n            out.write(res.edge_ids[i]);\n        }\n  \
-    \      out.writeln();\n    }\n    return 0;\n}\n"
+    \ es.end());\n        return {true, vs, es};\n    }\n};\n\n/**\n * @brief \u30AA\
+    \u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)\n * @docs _md/eulerian_trail.md\n */\n\
+    #line 9 \"test/yosupo_eulerian_trail_undirected.test.cpp\"\n\nint main() {\n \
+    \   Scanner in;\n    Printer out;\n    int t;\n    in.read(t);\n    while (t--)\
+    \ {\n        int n, m;\n        in.read(n, m);\n        EulerianTrail<false> g(n);\n\
+    \        for (int i = 0; i < m; ++i) {\n            int a, b;\n            in.read(a,\
+    \ b);\n            g.add_edge(a, b);\n        }\n        auto res = g.solve();\n\
+    \        if (!res.exists) {\n            out.writeln(\"No\");\n            continue;\n\
+    \        }\n        out.writeln(\"Yes\");\n        for (int i = 0; i < (int)res.vertices.size();\
+    \ ++i) {\n            if (i) out.write(' ');\n            out.write(res.vertices[i]);\n\
+    \        }\n        out.writeln();\n        for (int i = 0; i < (int)res.edge_ids.size();\
+    \ ++i) {\n            if (i) out.write(' ');\n            out.write(res.edge_ids[i]);\n\
+    \        }\n        out.writeln();\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/eulerian_trail_undirected\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
     \ \"../util/fastio.cpp\"\n#include \"../graph/eulerian_trail.cpp\"\n\nint main()\
@@ -159,8 +160,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_eulerian_trail_undirected.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_eulerian_trail_undirected.test.cpp
 layout: document

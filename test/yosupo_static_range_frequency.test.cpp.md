@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/wavelet_matrix.cpp
-    title: datastructure/wavelet_matrix.cpp
-  - icon: ':heavy_check_mark:'
+    title: Wavelet Matrix
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_range_frequency
@@ -72,21 +72,22 @@ data:
     \ true;\n    }\n\n    bool next_value(int l, int r, const T &lower, T &res) const\
     \ {\n        int cnt = count_less(l, r, lower);\n        if (cnt == r - l) return\
     \ false;\n        res = kth_smallest(l, r, cnt);\n        return true;\n    }\n\
-    };\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
-    \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
-    \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
-    \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
-    \ 10);\n                x /= 10;\n            }\n        }\n    }\n};\n\nstruct\
-    \ Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
-    \ int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\n    Scanner()\
-    \ : idx(0), size(0) {}\n\n    inline void load() {\n        int len = size - idx;\n\
-    \        memmove(buf, buf + idx, len);\n        size = len + (int)fread(buf +\
-    \ len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n        buf[size] = 0;\n \
-    \   }\n\n    inline void ensure() {\n        if (idx + OFFSET > size) load();\n\
-    \    }\n\n    inline char skip() {\n        ensure();\n        while (buf[idx]\
-    \ && buf[idx] <= ' ') {\n            ++idx;\n            ensure();\n        }\n\
-    \        return buf[idx++];\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value,\
+    };\n\n/**\n * @brief Wavelet Matrix\n * @docs _md/wavelet_matrix.md\n */\n#line\
+    \ 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
+    \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
+    \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
+    \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
+    \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
+    \ {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\n    Scanner() : idx(0),\
+    \ size(0) {}\n\n    inline void load() {\n        int len = size - idx;\n    \
+    \    memmove(buf, buf + idx, len);\n        size = len + (int)fread(buf + len,\
+    \ 1, BUFSIZE - len, stdin);\n        idx = 0;\n        buf[size] = 0;\n    }\n\
+    \n    inline void ensure() {\n        if (idx + OFFSET > size) load();\n    }\n\
+    \n    inline char skip() {\n        ensure();\n        while (buf[idx] && buf[idx]\
+    \ <= ' ') {\n            ++idx;\n            ensure();\n        }\n        return\
+    \ buf[idx++];\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value,\
     \ int>::type = 0>\n    void read(T &x) {\n        char c = skip();\n        bool\
     \ neg = false;\n        if constexpr (is_signed<T>::value) {\n            if (c\
     \ == '-') {\n                neg = true;\n                c = buf[idx++];\n  \
@@ -138,11 +139,12 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 9 \"test/yosupo_static_range_frequency.test.cpp\"\n\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n\
-    \    vector<int> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\n   \
-    \ WaveletMatrix<int> wm(a);\n    while (q--) {\n        int l, r, x;\n       \
-    \ in.read(l);\n        in.read(r);\n        in.read(x);\n        out.writeln(wm.freq(l,\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 9 \"test/yosupo_static_range_frequency.test.cpp\"\n\
+    \nint main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n\
+    \    in.read(q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
+    \n    WaveletMatrix<int> wm(a);\n    while (q--) {\n        int l, r, x;\n   \
+    \     in.read(l);\n        in.read(r);\n        in.read(x);\n        out.writeln(wm.freq(l,\
     \ r, x));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_frequency\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
@@ -158,8 +160,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_frequency.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 12:02:06+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_static_range_frequency.test.cpp
 layout: document

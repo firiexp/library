@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/binaryindexedtree.cpp
-    title: datastructure/binaryindexedtree.cpp
-  - icon: ':heavy_check_mark:'
+    title: Binary Indexed Tree(BIT)
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
@@ -85,22 +85,24 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT {\n    vector<T>\
-    \ bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1), n(n) {\n       \
-    \ while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n        T ret = 0;\n   \
-    \     for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return ret;\n \
-    \   }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k & -k)) bit[k\
-    \ - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x <= 0) return\
-    \ 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n            if\
-    \ (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n        }\n\
-    \        return min(i + 1, n);\n    }\n};\n#line 10 \"test/yosupo_point_add_range_sum.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) in.read(i);\n    BIT<ll> S(n);\n\
-    \    for (int i = 0; i < n; ++i) S.add(i, v[i]);\n\n    for (int i = 0; i < q;\
-    \ ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n        if(c == 0)\
-    \ S.add(x, y);\n        else out.writeln(S.sum(y) - S.sum(x));\n    }\n    return\
-    \ 0;\n}\n"
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT\
+    \ {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1),\
+    \ n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n       \
+    \ T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n      \
+    \  return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n;\
+    \ k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n     \
+    \   if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>=\
+    \ 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1],\
+    \ i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief\
+    \ Binary Indexed Tree(BIT)\n * @docs _md/binaryindexedtree.md\n */\n#line 10 \"\
+    test/yosupo_point_add_range_sum.test.cpp\"\n\nint main() {\n    Scanner in;\n\
+    \    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    vector<ll> v(n);\n\
+    \    for (auto &&i : v) in.read(i);\n    BIT<ll> S(n);\n    for (int i = 0; i\
+    \ < n; ++i) S.add(i, v[i]);\n\n    for (int i = 0; i < q; ++i) {\n        int\
+    \ c, x, y;\n        in.read(c, x, y);\n        if(c == 0) S.add(x, y);\n     \
+    \   else out.writeln(S.sum(y) - S.sum(x));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n#include\
     \ \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\n\
@@ -116,8 +118,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 18:50:59+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum.test.cpp
 layout: document

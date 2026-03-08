@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/segbeats.cpp
-    title: datastructure/segbeats.cpp
-  - icon: ':heavy_check_mark:'
+    title: Segment Tree Beats
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum
@@ -87,19 +87,20 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"datastructure/segbeats.cpp\"\ntemplate<class T>\nclass SegmentTreeBeats\
-    \ {\n    void add_(int x, T val){\n        if(!val) return;\n        auto& now\
-    \ = seg[x];\n        now.sum += val*now.len;\n        now.mn += val; now.mx +=\
-    \ val; now.add += val;\n        if(now.mn2 != INF<T>) now.mn2 += val;\n      \
-    \  if(now.mx2 != -INF<T>) now.mx2 += val;\n    }\n    void chmin_(int x, T val){\n\
-    \        if(val >= seg[x].mx) return;\n        auto& now = seg[x];\n        now.sum\
-    \ += now.mxc*(val-now.mx);\n        if(now.mn == now.mx) now.mn = val;\n     \
-    \   else if(now.mn2 == now.mx) now.mn2 = val;\n        now.mx = val;\n    }\n\
-    \    void chmax_(int x, T val){\n        if(val <= seg[x].mn) return;\n      \
-    \  auto& now = seg[x];\n        now.sum += now.mnc*(val-now.mn);\n        if(now.mx\
-    \ == now.mn) now.mx = val;\n        else if(now.mx2 == now.mn) now.mx2 = val;\n\
-    \        now.mn = val;\n    }\n    void get(int x){\n        M& now = seg[x],\
-    \ &l = seg[(x<<1)|0], &r = seg[(x<<1)|1];\n        now.sum = l.sum + r.sum;\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"datastructure/segbeats.cpp\"\ntemplate<class T>\n\
+    class SegmentTreeBeats {\n    void add_(int x, T val){\n        if(!val) return;\n\
+    \        auto& now = seg[x];\n        now.sum += val*now.len;\n        now.mn\
+    \ += val; now.mx += val; now.add += val;\n        if(now.mn2 != INF<T>) now.mn2\
+    \ += val;\n        if(now.mx2 != -INF<T>) now.mx2 += val;\n    }\n    void chmin_(int\
+    \ x, T val){\n        if(val >= seg[x].mx) return;\n        auto& now = seg[x];\n\
+    \        now.sum += now.mxc*(val-now.mx);\n        if(now.mn == now.mx) now.mn\
+    \ = val;\n        else if(now.mn2 == now.mx) now.mn2 = val;\n        now.mx =\
+    \ val;\n    }\n    void chmax_(int x, T val){\n        if(val <= seg[x].mn) return;\n\
+    \        auto& now = seg[x];\n        now.sum += now.mnc*(val-now.mn);\n     \
+    \   if(now.mx == now.mn) now.mx = val;\n        else if(now.mx2 == now.mn) now.mx2\
+    \ = val;\n        now.mn = val;\n    }\n    void get(int x){\n        M& now =\
+    \ seg[x], &l = seg[(x<<1)|0], &r = seg[(x<<1)|1];\n        now.sum = l.sum + r.sum;\n\
     \        now.mn = min(l.mn, r.mn);\n        now.mx = max(l.mx, r.mx);\n      \
     \  now.len = l.len + r.len;\n        if(l.mn < r.mn) now.mnc = l.mnc, now.mn2\
     \ = min(l.mn2, r.mn);\n        else if(r.mn < l.mn) now.mnc = r.mnc, now.mn2 =\
@@ -134,9 +135,10 @@ data:
     \ 1, height++;\n        seg.resize(2*n);\n        for (int i = 0; i < v.size();\
     \ ++i) {\n            seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];\n     \
     \       seg[i+n].len = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n#line 12 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
-    \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
+    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n * @docs _md/segbeats.md\n */\n\
+    #line 12 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n   \
+    \ vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
     \ seg(v);\n    while(q--){\n        int t;\n        sc.read(t);\n        if(t\
     \ == 0){\n            int l, r;\n            ll b;\n            sc.read(l, r,\
     \ b);\n            seg.chmin(l, r, b);\n        }else if(t == 1){\n          \
@@ -165,8 +167,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:58:00+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
 layout: document

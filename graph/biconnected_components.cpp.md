@@ -10,6 +10,9 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/biconnected_components.md
+    document_title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected\
+      \ Components)"
     links: []
   bundledCode: "#line 1 \"graph/biconnected_components.cpp\"\nclass BiconnectedComponents\
     \ {\n    vector<int> st;\n    void dfs(int i, int pe, int &pos){\n        ord[i]\
@@ -42,7 +45,9 @@ data:
     \               }\n            }\n            bcc_vertices.emplace_back(now);\n\
     \        }\n        for (int i = 0; i < n; ++i) {\n            if(G[i].empty()){\n\
     \                bcc_edges.emplace_back();\n                bcc_vertices.push_back({i});\n\
-    \            }\n        }\n        return bcc_vertices.size();\n    }\n};\n"
+    \            }\n        }\n        return bcc_vertices.size();\n    }\n};\n\n\
+    /**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)\n\
+    \ * @docs _md/biconnected_components.md\n */\n"
   code: "class BiconnectedComponents {\n    vector<int> st;\n    void dfs(int i, int\
     \ pe, int &pos){\n        ord[i] = low[i] = pos++;\n        for (auto &&e : G[i])\
     \ {\n            int j = e.first, id = e.second;\n            if(id == pe) continue;\n\
@@ -74,12 +79,14 @@ data:
     \               }\n            }\n            bcc_vertices.emplace_back(now);\n\
     \        }\n        for (int i = 0; i < n; ++i) {\n            if(G[i].empty()){\n\
     \                bcc_edges.emplace_back();\n                bcc_vertices.push_back({i});\n\
-    \            }\n        }\n        return bcc_vertices.size();\n    }\n};\n"
+    \            }\n        }\n        return bcc_vertices.size();\n    }\n};\n\n\
+    /**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)\n\
+    \ * @docs _md/biconnected_components.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/biconnected_components.cpp
   requiredBy: []
-  timestamp: '2026-03-08 01:01:19+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_biconnected_components.test.cpp
@@ -88,5 +95,39 @@ layout: document
 redirect_from:
 - /library/graph/biconnected_components.cpp
 - /library/graph/biconnected_components.cpp.html
-title: graph/biconnected_components.cpp
+title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
 ---
+---
+layout: post
+title: 二重頂点連結成分分解
+date: 2026-03-08
+category: グラフ
+tags: グラフ
+---
+
+## 概要
+
+無向グラフを二重頂点連結成分 (biconnected components) に分解する。
+`build()` 後に、各成分の辺集合 `bcc_edges` と頂点集合 `bcc_vertices` を参照できる。
+
+- `bcc_edges[i]` : `i` 番目の二重頂点連結成分に含まれる辺の一覧。各辺は `(min(u, v), max(u, v))` の形で入る。
+- `bcc_vertices[i]` : `bcc_edges[i]` に含まれる辺の端点として現れる頂点を重複なく集めたもの。
+
+特に、孤立頂点については対応する成分の `bcc_edges[i]` は空で、`bcc_vertices[i] = {v}` となる。
+
+## 計算量
+
+- `build()` : `O(V + E)`
+
+## 使い方
+
+1. `BiconnectedComponents g(n);`
+2. `add_edge(u, v)` で無向辺を追加
+3. `build()` を呼ぶ
+4. 結果を `bcc_vertices` / `bcc_edges` から参照
+
+## 実装上の補足
+
+- 多重辺を考慮している。
+- 自己ループは `add_edge` で無視する。
+- 孤立頂点は 1 頂点のみの成分として `bcc_vertices` に含める。

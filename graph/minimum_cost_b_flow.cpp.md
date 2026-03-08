@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_min_cost_b_flow.test.cpp
     title: test/yosupo_min_cost_b_flow.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/minimum_cost_b_flow.md
-    document_title: "\u6700\u5C0F\u8CBB\u7528 b-flow"
+    document_title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
     links: []
   bundledCode: "#line 1 \"graph/minimum_cost_b_flow.cpp\"\ntemplate<class Flow, class\
     \ Cost>\nstruct MinimumCostBFlow {\n    using Sum = __int128_t;\n    struct Edge\
@@ -97,8 +97,8 @@ data:
     \ v = 0; v < n; ++v) {\n            if(b[v] != 0) ok = false;\n        }\n   \
     \     for (int i = 0; i < (int)edges.size(); ++i) {\n            auto&& e = get_edge(i);\n\
     \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
-    \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528 b-flow\n * @docs\
-    \ _md/minimum_cost_b_flow.md\n */\n"
+    \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
+    \ b-Flow)\n * @docs _md/minimum_cost_b_flow.md\n */\n"
   code: "template<class Flow, class Cost>\nstruct MinimumCostBFlow {\n    using Sum\
     \ = __int128_t;\n    struct Edge {\n        int from, to, rev;\n        Flow flow,\
     \ cap;\n        Cost cost;\n\n        Flow residual_cap() const {\n          \
@@ -183,14 +183,14 @@ data:
     \ v = 0; v < n; ++v) {\n            if(b[v] != 0) ok = false;\n        }\n   \
     \     for (int i = 0; i < (int)edges.size(); ++i) {\n            auto&& e = get_edge(i);\n\
     \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
-    \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528 b-flow\n * @docs\
-    \ _md/minimum_cost_b_flow.md\n */\n"
+    \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
+    \ b-Flow)\n * @docs _md/minimum_cost_b_flow.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/minimum_cost_b_flow.cpp
   requiredBy: []
-  timestamp: '2026-03-08 12:19:53+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_min_cost_b_flow.test.cpp
 documentation_of: graph/minimum_cost_b_flow.cpp
@@ -198,7 +198,7 @@ layout: document
 redirect_from:
 - /library/graph/minimum_cost_b_flow.cpp
 - /library/graph/minimum_cost_b_flow.cpp.html
-title: "\u6700\u5C0F\u8CBB\u7528 b-flow"
+title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
 ---
 ---
 layout: post

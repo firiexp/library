@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/dualsegtree.cpp
-    title: datastructure/dualsegtree.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_point_get
@@ -90,16 +90,17 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n\
-    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
-    \ x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll\
-    \ x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool v)\
-    \ { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if (val\
-    \ == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0) val\
-    \ = M; val--; return *this; }\n    modint operator++(int) { modint result = *this;\
-    \ ++*this; return result; }\n    modint operator--(int) { modint result = *this;\
-    \ --*this; return result; }\n    modint& operator+=(const modint& b) { val +=\
-    \ b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
+    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
+    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
+    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
     \ modint& b) { val -= b.val; if (val >= M) val += M; return *this; }\n    modint&\
     \ operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M);\
     \ return *this; }\n    modint& operator/=(const modint& b) { return *this = *this\
@@ -127,18 +128,20 @@ data:
     \ if(r&1) --r, lazy[r] = M::f(lazy[r], x);\n        }\n    }\n\n    T operator[](int\
     \ k){\n        thrust(k += sz);\n        return lazy[k];\n    }\n};\n/*\nstruct\
     \ Monoid{\n    using T = ll;\n    static T f(T a, T b) { return a+b; }\n    static\
-    \ T e() { return 0; }\n};\n*/\n#line 14 \"test/yosupo_range_affine_point_get_dualsegtree.test.cpp\"\
-    \n\nstruct Monoid {\n    using T = pair<mint, mint>;\n    static T f(T a, T b)\
-    \ {\n        return {b.first * a.first, b.first * a.second + b.second};\n    }\n\
-    \    static T e() { return {1, 0}; }\n};\n\nint main() {\n    Scanner sc;\n  \
-    \  Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<mint> a(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        int x;\n        sc.read(x);\n    \
-    \    a[i] = x;\n    }\n\n    DualSegmentTree<Monoid> seg(n);\n    while (q--)\
-    \ {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n            int\
-    \ l, r, b, c;\n            sc.read(l, r, b, c);\n            seg.update(l, r,\
-    \ {b, c});\n        } else {\n            int i;\n            sc.read(i);\n  \
-    \          auto [mul, add] = seg[i];\n            pr.writeln((mul * a[i] + add).val);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\u5BFE\u30BB\u30B0\u30E1\
+    \u30F3\u30C8\u6728(Dual Segment Tree)\n * @docs _md/dualsegtree.md\n */\n#line\
+    \ 14 \"test/yosupo_range_affine_point_get_dualsegtree.test.cpp\"\n\nstruct Monoid\
+    \ {\n    using T = pair<mint, mint>;\n    static T f(T a, T b) {\n        return\
+    \ {b.first * a.first, b.first * a.second + b.second};\n    }\n    static T e()\
+    \ { return {1, 0}; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
+    \    int n, q;\n    sc.read(n, q);\n    vector<mint> a(n);\n    for (int i = 0;\
+    \ i < n; ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n\
+    \n    DualSegmentTree<Monoid> seg(n);\n    while (q--) {\n        int t;\n   \
+    \     sc.read(t);\n        if (t == 0) {\n            int l, r, b, c;\n      \
+    \      sc.read(l, r, b, c);\n            seg.update(l, r, {b, c});\n        }\
+    \ else {\n            int i;\n            sc.read(i);\n            auto [mul,\
+    \ add] = seg[i];\n            pr.writeln((mul * a[i] + add).val);\n        }\n\
+    \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_point_get\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
@@ -161,8 +164,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:46:28+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
 layout: document

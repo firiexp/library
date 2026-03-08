@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/multipoint_evaluation.cpp
-    title: multipoint evaluation
-  - icon: ':heavy_check_mark:'
+    title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
+  - icon: ':question:'
     path: math/ntt.cpp
-    title: math/ntt.cpp
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/polynomial_interpolation.md
-    document_title: polynomial interpolation
+    document_title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
     \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
@@ -282,7 +282,8 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n * @docs\
+    \ _md/ntt.md\n */\n#line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
     \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
     \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
     \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
@@ -295,7 +296,7 @@ data:
     \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
     \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
     \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
-    \n/**\n * @brief multipoint evaluation\n * @docs _md/multipoint_evaluation.md\n\
+    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n * @docs _md/multipoint_evaluation.md\n\
     \ */\n#line 2 \"fps/polynomial_interpolation.cpp\"\n\npoly polynomial_interpolation(const\
     \ vector<mint> &xs, const vector<mint> &ys) {\n    int n = (int)xs.size();\n \
     \   assert(n == (int)ys.size());\n    if (n == 0) return poly();\n    if (n ==\
@@ -308,8 +309,8 @@ data:
     \ poly(vector<mint>{ys[i] / w[i]});\n    for (int i = sz - 1; i >= 1; --i) {\n\
     \        cur[i] = cur[i << 1] * prod[i << 1 | 1] + cur[i << 1 | 1] * prod[i <<\
     \ 1];\n    }\n    cur[1].shrink();\n    if (cur[1].size() < n) cur[1].v.resize(n);\n\
-    \    return cur[1];\n}\n\n/**\n * @brief polynomial interpolation\n * @docs _md/polynomial_interpolation.md\n\
-    \ */\n"
+    \    return cur[1];\n}\n\n/**\n * @brief \u591A\u9805\u5F0F\u88DC\u9593(Polynomial\
+    \ Interpolation)\n * @docs _md/polynomial_interpolation.md\n */\n"
   code: "#include \"multipoint_evaluation.cpp\"\n\npoly polynomial_interpolation(const\
     \ vector<mint> &xs, const vector<mint> &ys) {\n    int n = (int)xs.size();\n \
     \   assert(n == (int)ys.size());\n    if (n == 0) return poly();\n    if (n ==\
@@ -322,16 +323,16 @@ data:
     \ poly(vector<mint>{ys[i] / w[i]});\n    for (int i = sz - 1; i >= 1; --i) {\n\
     \        cur[i] = cur[i << 1] * prod[i << 1 | 1] + cur[i << 1 | 1] * prod[i <<\
     \ 1];\n    }\n    cur[1].shrink();\n    if (cur[1].size() < n) cur[1].v.resize(n);\n\
-    \    return cur[1];\n}\n\n/**\n * @brief polynomial interpolation\n * @docs _md/polynomial_interpolation.md\n\
-    \ */\n"
+    \    return cur[1];\n}\n\n/**\n * @brief \u591A\u9805\u5F0F\u88DC\u9593(Polynomial\
+    \ Interpolation)\n * @docs _md/polynomial_interpolation.md\n */\n"
   dependsOn:
   - fps/multipoint_evaluation.cpp
   - math/ntt.cpp
   isVerificationFile: false
   path: fps/polynomial_interpolation.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_polynomial_interpolation.test.cpp
 documentation_of: fps/polynomial_interpolation.cpp
@@ -339,7 +340,7 @@ layout: document
 redirect_from:
 - /library/fps/polynomial_interpolation.cpp
 - /library/fps/polynomial_interpolation.cpp.html
-title: polynomial interpolation
+title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
 ---
 ---
 layout: post

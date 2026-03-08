@@ -3,16 +3,18 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_line_add_get_min.test.cpp
     title: test/yosupo_line_add_get_min.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_segment_add_get_min.test.cpp
     title: test/yosupo_segment_add_get_min.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/li_chao_tree.md
+    document_title: Li Chao Tree
     links: []
   bundledCode: "#line 1 \"datastructure/li_chao_tree.cpp\"\ntemplate<class T, bool\
     \ get_max = false>\nstruct LiChaoTree {\n    struct Line {\n        T a, b;\n\
@@ -77,7 +79,8 @@ data:
     \            if (r - l == 1) break;\n            T m = l + (r - l) / 2;\n    \
     \        if (x < m) {\n                t = node.l;\n                r = m;\n \
     \           } else {\n                t = node.r;\n                l = m;\n  \
-    \          }\n        }\n        return ret;\n    }\n};\n"
+    \          }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Li Chao\
+    \ Tree\n * @docs _md/li_chao_tree.md\n */\n"
   code: "template<class T, bool get_max = false>\nstruct LiChaoTree {\n    struct\
     \ Line {\n        T a, b;\n        Line(T a = 0, T b = inf()) : a(a), b(b) {}\n\
     \        T get(T x) const { return a * x + b; }\n    };\n\n    vector<T> xs;\n\
@@ -140,13 +143,14 @@ data:
     \            if (r - l == 1) break;\n            T m = l + (r - l) / 2;\n    \
     \        if (x < m) {\n                t = node.l;\n                r = m;\n \
     \           } else {\n                t = node.r;\n                l = m;\n  \
-    \          }\n        }\n        return ret;\n    }\n};\n"
+    \          }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Li Chao\
+    \ Tree\n * @docs _md/li_chao_tree.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/li_chao_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-07 18:39:01+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_segment_add_get_min.test.cpp
@@ -155,5 +159,24 @@ layout: document
 redirect_from:
 - /library/datastructure/li_chao_tree.cpp
 - /library/datastructure/li_chao_tree.cpp.html
-title: datastructure/li_chao_tree.cpp
+title: Li Chao Tree
 ---
+---
+layout: post
+title: Li Chao Tree
+date: 2026-03-07
+category: データ構造
+tags: データ構造
+---
+
+## 説明
+直線集合に対して、1点での最小値(または最大値)クエリを処理する。
+
+## 機能
+- `LiChaoTree<T, false>(xs)` : オフライン版（`xs` に含まれる座標でのみクエリ可能）
+- `OnlineLiChaoTree<T, false>(low, high)` : オンライン版（区間 `[low, high)`）
+- `add_line(a, b)` : 直線 `y = ax + b` を追加
+- `add_segment(a, b, l, r)` : 区間 `[l, r)` のみ有効な直線 `y = ax + b` を追加
+- `query(x)` : 座標 `x` での最小値を返す
+
+`LiChaoTree<T, true>` / `OnlineLiChaoTree<T, true>` を使うと最大値クエリになる。

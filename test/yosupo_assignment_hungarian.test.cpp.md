@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: flow/hungarian.cpp
-    title: Hungarian algorithm
-  - icon: ':heavy_check_mark:'
+    title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -86,8 +86,9 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"flow/hungarian.cpp\"\ntemplate<class T, bool Minimize =\
-    \ true>\ntuple<T, vector<int>, vector<T>, vector<T>> hungarian(const vector<vector<T>>\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"flow/hungarian.cpp\"\ntemplate<class T, bool Minimize\
+    \ = true>\ntuple<T, vector<int>, vector<T>, vector<T>> hungarian(const vector<vector<T>>\
     \ &cost) {\n    int n = cost.size();\n    if (n == 0) return {T(0), {}, {}, {}};\n\
     \    int m = cost[0].size();\n    assert(n <= m);\n    for (int i = 0; i < n;\
     \ ++i) assert((int)cost[i].size() == m);\n\n    vector<vector<T>> a(n + 1, vector<T>(m\
@@ -115,19 +116,19 @@ data:
     \ 1];\n    for (int j = 0; j < m; ++j) col[j] = v[j + 1];\n    T ans = -v[0];\n\
     \    if (!Minimize) {\n        ans = -ans;\n        for (int i = 0; i < n; ++i)\
     \ row[i] = -row[i];\n        for (int j = 0; j < m; ++j) col[j] = -col[j];\n \
-    \   }\n    return {ans, match, row, col};\n}\n\n/**\n * @brief Hungarian algorithm\n\
-    \ * @docs _md/hungarian.md\n */\n#line 12 \"test/yosupo_assignment_hungarian.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
-    \    vector<vector<long long>> a(n, vector<long long>(n));\n    for (int i = 0;\
-    \ i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            in.read(a[i][j]);\n\
-    \        }\n    }\n    auto [ans, match, row, col] = hungarian<long long>(a);\n\
-    \    out.writeln(ans);\n    for (int i = 0; i < n; ++i) {\n        if (i) out.write('\
-    \ ');\n        out.write(match[i]);\n    }\n    out.writeln();\n\n    long long\
-    \ dual_sum = 0;\n    for (int i = 0; i < n; ++i) dual_sum += row[i];\n    for\
-    \ (int j = 0; j < n; ++j) dual_sum += col[j];\n    assert(dual_sum == ans);\n\
-    \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n  \
-    \          assert(row[i] + col[j] <= a[i][j]);\n        }\n    }\n    return 0;\n\
-    }\n"
+    \   }\n    return {ans, match, row, col};\n}\n\n/**\n * @brief \u30CF\u30F3\u30AC\
+    \u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)\n * @docs _md/hungarian.md\n */\n\
+    #line 12 \"test/yosupo_assignment_hungarian.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n    int n;\n    in.read(n);\n    vector<vector<long long>>\
+    \ a(n, vector<long long>(n));\n    for (int i = 0; i < n; ++i) {\n        for\
+    \ (int j = 0; j < n; ++j) {\n            in.read(a[i][j]);\n        }\n    }\n\
+    \    auto [ans, match, row, col] = hungarian<long long>(a);\n    out.writeln(ans);\n\
+    \    for (int i = 0; i < n; ++i) {\n        if (i) out.write(' ');\n        out.write(match[i]);\n\
+    \    }\n    out.writeln();\n\n    long long dual_sum = 0;\n    for (int i = 0;\
+    \ i < n; ++i) dual_sum += row[i];\n    for (int j = 0; j < n; ++j) dual_sum +=\
+    \ col[j];\n    assert(dual_sum == ans);\n    for (int i = 0; i < n; ++i) {\n \
+    \       for (int j = 0; j < n; ++j) {\n            assert(row[i] + col[j] <= a[i][j]);\n\
+    \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/assignment\"\n\n#include\
     \ <algorithm>\n#include <cassert>\n#include <limits>\n#include <tuple>\n#include\
     \ <vector>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\n#include\
@@ -148,7 +149,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_assignment_hungarian.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:57:21+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_assignment_hungarian.test.cpp

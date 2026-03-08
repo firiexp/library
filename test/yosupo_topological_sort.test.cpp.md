@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/topological_sort.cpp
-    title: Topological sort
-  - icon: ':heavy_check_mark:'
+    title: "\u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological Sort)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_B
@@ -85,8 +85,9 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    graph/topological_sort.cpp\"\nvector<int> topological_sort(const vector<vector<int>>\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"graph/topological_sort.cpp\"\nvector<int> topological_sort(const vector<vector<int>>\
     \ &g) {\n    int n = g.size();\n    vector<int> state(n), ord;\n    ord.reserve(n);\n\
     \    auto dfs = [&](auto &&self, int v) -> bool {\n        state[v] = 1;\n   \
     \     for (auto &&to : g[v]) {\n            if (state[to] == 1) return false;\n\
@@ -94,12 +95,13 @@ data:
     \        state[v] = 2;\n        ord.emplace_back(v);\n        return true;\n \
     \   };\n    for (int i = 0; i < n; ++i) {\n        if (state[i] == 0 && !dfs(dfs,\
     \ i)) return {};\n    }\n    reverse(ord.begin(), ord.end());\n    return ord;\n\
-    }\n\n/**\n * @brief Topological sort\n * @docs _md/topological_sort.md\n */\n\
-    #line 10 \"test/yosupo_topological_sort.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n    vector<vector<int>>\
-    \ g(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        sc.read(a,\
-    \ b);\n        g[a].push_back(b);\n    }\n    auto ord = topological_sort(g);\n\
-    \    for (auto &&x : ord) pr.writeln(x);\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological\
+    \ Sort)\n * @docs _md/topological_sort.md\n */\n#line 10 \"test/yosupo_topological_sort.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
+    \ m);\n    vector<vector<int>> g(n);\n    for (int i = 0; i < m; ++i) {\n    \
+    \    int a, b;\n        sc.read(a, b);\n        g[a].push_back(b);\n    }\n  \
+    \  auto ord = topological_sort(g);\n    for (auto &&x : ord) pr.writeln(x);\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_B\"\n\n\
     #include <algorithm>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
     \n#include \"../util/fastio.cpp\"\n#include \"../graph/topological_sort.cpp\"\n\
@@ -114,8 +116,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_topological_sort.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_topological_sort.test.cpp
 layout: document

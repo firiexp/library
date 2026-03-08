@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: datastructure/binaryheap.cpp
-    title: datastructure/binaryheap.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)"
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -86,18 +86,21 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    datastructure/binaryheap.cpp\"\ntemplate<typename T>\nstruct binary_heap {\n \
-    \   ll S;\n    vector<T> Q;\n    binary_heap() : S(0), Q() {}\n\n    T top() const\
-    \ { return Q.front(); }\n    size_t size() const { return Q.size(); }\n    void\
-    \ pop() {\n        pop_heap(Q.begin(),Q.end());\n        S -= Q.back();\n    \
-    \    Q.pop_back();\n    }\n    void emplace(T x) {\n        S += x;\n        Q.emplace_back(x);\n\
-    \        push_heap(Q.begin(),Q.end());\n    }\n    bool empty() { return Q.empty();\
-    \ }\n    ll sum() const { return S; }\n};\n#line 12 \"test/aoj_alds1_9_c_binaryheap.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    binary_heap<int> pq;\n\
-    \    string op;\n    while (true) {\n        sc.read(op);\n        if (op == \"\
-    end\") break;\n        if (op == \"insert\") {\n            int x;\n         \
-    \   sc.read(x);\n            pq.emplace(x);\n        } else {\n            pr.writeln(pq.top());\n\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"datastructure/binaryheap.cpp\"\ntemplate<typename T>\nstruct binary_heap\
+    \ {\n    ll S;\n    vector<T> Q;\n    binary_heap() : S(0), Q() {}\n\n    T top()\
+    \ const { return Q.front(); }\n    size_t size() const { return Q.size(); }\n\
+    \    void pop() {\n        pop_heap(Q.begin(),Q.end());\n        S -= Q.back();\n\
+    \        Q.pop_back();\n    }\n    void emplace(T x) {\n        S += x;\n    \
+    \    Q.emplace_back(x);\n        push_heap(Q.begin(),Q.end());\n    }\n    bool\
+    \ empty() { return Q.empty(); }\n    ll sum() const { return S; }\n};\n\n/**\n\
+    \ * @brief \u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)\n * @docs _md/binaryheap.md\n\
+    \ */\n#line 12 \"test/aoj_alds1_9_c_binaryheap.test.cpp\"\n\nint main() {\n  \
+    \  Scanner sc;\n    Printer pr;\n\n    binary_heap<int> pq;\n    string op;\n\
+    \    while (true) {\n        sc.read(op);\n        if (op == \"end\") break;\n\
+    \        if (op == \"insert\") {\n            int x;\n            sc.read(x);\n\
+    \            pq.emplace(x);\n        } else {\n            pr.writeln(pq.top());\n\
     \            pq.pop();\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_9_C\"\n\
     \n#include <algorithm>\n#include <string>\n#include <vector>\nusing namespace\
@@ -114,7 +117,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_9_c_binaryheap.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 14:58:00+09:00'
+  timestamp: '2026-03-08 20:56:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_9_c_binaryheap.test.cpp

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
-    title: util/fastio.cpp
-  - icon: ':heavy_check_mark:'
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':x:'
     path: util/parse.cpp
-    title: util/parse.cpp
+    title: "\u5F0F\u30D1\u30FC\u30B5(Parse)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -86,10 +86,11 @@ data:
     \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
-    util/parse.cpp\"\nusing state = string::const_iterator;\n \nint num(state &cur);\n\
-    int factor(state &cur);\nint muldiv(state &cur);\nint addsub(state &cur);\nint\
-    \ expr(state &cur);\n \nint factor(state &cur) {\n    if(isdigit(*cur)) return\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"util/parse.cpp\"\nusing state = string::const_iterator;\n \nint num(state\
+    \ &cur);\nint factor(state &cur);\nint muldiv(state &cur);\nint addsub(state &cur);\n\
+    int expr(state &cur);\n \nint factor(state &cur) {\n    if(isdigit(*cur)) return\
     \ num(cur);\n    cur++;\n    int ans = addsub(cur);\n    cur++;\n    return ans;\n\
     }\n \nint num(state &cur) {\n    int ans = *cur -'0';\n    while(isdigit(*++cur))\
     \ ans = ans*10 + (*cur-'0');\n    return ans;\n}\n \nint muldiv(state &cur) {\n\
@@ -100,7 +101,8 @@ data:
     \    while(true){\n        if(*cur == '+'){\n            cur++;\n            ans\
     \ += muldiv(cur);\n        }else if(*cur == '-'){\n            cur++;\n      \
     \      ans -= muldiv(cur);\n        }else break;\n    }\n    return ans;\n}\n\
-    \ \nint expr(state &cur){\n    return addsub(cur);\n}\n#line 12 \"test/yosupo_many_aplusb_parse.test.cpp\"\
+    \ \nint expr(state &cur){\n    return addsub(cur);\n}\n\n/**\n * @brief \u5F0F\
+    \u30D1\u30FC\u30B5(Parse)\n * @docs _md/parse.md\n */\n#line 12 \"test/yosupo_many_aplusb_parse.test.cpp\"\
     \n\nnamespace {\n\nint precedence(char op) {\n    if (op == '+' || op == '-')\
     \ return 1;\n    if (op == '*' || op == '/') return 2;\n    return -1;\n}\n\n\
     bool apply_top(stack<int> &values, stack<char> &ops) {\n    if (values.size()\
@@ -210,8 +212,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_parse.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 17:53:01+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_parse.test.cpp
 layout: document

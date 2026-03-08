@@ -6,13 +6,15 @@ data:
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_system_of_linear_equations.test.cpp
     title: test/yosupo_system_of_linear_equations.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/gauss_jordan_mint.md
+    document_title: "Gauss-Jordan\u6D88\u53BB(modint)"
     links: []
   bundledCode: "#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n\
     \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
@@ -50,7 +52,8 @@ data:
     \ {\n                auto fac = A[row][col];\n                for (int col2 =\
     \ 0; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2] *\
     \ fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
-    \    return rank;\n}\n"
+    \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n * @docs\
+    \ _md/gauss_jordan_mint.md\n */\n"
   code: "#include \"../util/modint.cpp\"\n\nint gauss_jordan(vector<vector<mint>>\
     \ &A, bool is_extended = false) {\n    int m = A.size(), n = A[0].size();\n  \
     \  int rank = 0;\n    for (int col = 0; col < n; ++col) {\n        if (is_extended\
@@ -63,14 +66,15 @@ data:
     \ {\n                auto fac = A[row][col];\n                for (int col2 =\
     \ 0; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2] *\
     \ fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
-    \    return rank;\n}"
+    \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n * @docs\
+    \ _md/gauss_jordan_mint.md\n */\n"
   dependsOn:
   - util/modint.cpp
   isVerificationFile: false
   path: math/gauss_jordan_mint.cpp
   requiredBy: []
-  timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 20:56:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_system_of_linear_equations.test.cpp
 documentation_of: math/gauss_jordan_mint.cpp
@@ -78,5 +82,28 @@ layout: document
 redirect_from:
 - /library/math/gauss_jordan_mint.cpp
 - /library/math/gauss_jordan_mint.cpp.html
-title: math/gauss_jordan_mint.cpp
+title: "Gauss-Jordan\u6D88\u53BB(modint)"
 ---
+---
+layout: post
+title: Gauss Jordan Mint
+date: 2026-03-08
+category: 数学
+tags: 数学
+---
+
+## 説明
+`mint` 上で Gauss-Jordan 消去を行う。
+行列を簡約行基本形に変形し、階数を返す。
+計算量は `O(HWmin(H, W))`。
+
+## できること
+- `int gauss_jordan(vector<vector<mint>>& A, bool is_extended = false)`
+  行列 `A` を破壊的に簡約行基本形へ変形し、rank を返す。`is_extended = true` なら最後の列を拡大係数列として pivot 候補から除く
+
+## 使い方
+`A` を `vector<vector<mint>>` で渡す。
+連立一次方程式 `Ax = b` を扱うときは、拡大行列 `[A | b]` を作って `is_extended = true` を指定する。
+
+返り値の rank と、変形後の末尾行を見れば解の有無を判定できる。
+自由変数の基底や特解は、変形後の pivot 列を拾って復元する。
