@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Biconnected Components
+title: 二重頂点連結成分分解
 date: 2026-03-08
 category: グラフ
 tags: グラフ
@@ -10,6 +10,11 @@ tags: グラフ
 
 無向グラフを二重頂点連結成分 (biconnected components) に分解する。
 `build()` 後に、各成分の辺集合 `bcc_edges` と頂点集合 `bcc_vertices` を参照できる。
+
+- `bcc_edges[i]` : `i` 番目の二重頂点連結成分に含まれる辺の一覧。各辺は `(min(u, v), max(u, v))` の形で入る。
+- `bcc_vertices[i]` : `bcc_edges[i]` に含まれる辺の端点として現れる頂点を重複なく集めたもの。
+
+特に、孤立頂点については対応する成分の `bcc_edges[i]` は空で、`bcc_vertices[i] = {v}` となる。
 
 ## 計算量
 
