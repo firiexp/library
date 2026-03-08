@@ -238,11 +238,15 @@ struct poly {
     explicit poly(int n) : v(n) {};
     explicit poly(vector<mint> vv) : v(std::move(vv)) {};
     int size() const {return (int)v.size(); }
+    void shrink() {
+        while (!v.empty() && v.back() == mint(0)) v.pop_back();
+    }
     poly cut(int len){
-        if(len < v.size()) v.resize(static_cast<unsigned long>(len));
+        if (len < (int)v.size()) v.resize(static_cast<unsigned long>(len));
         return *this;
     }
     inline mint& operator[] (int i) {return v[i]; }
+    inline const mint& operator[] (int i) const {return v[i]; }
     poly& operator+=(const poly &a) {
         this->v.resize(max(size(), a.size()));
         for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];
@@ -300,6 +304,36 @@ struct poly {
     poly operator+(const mint &v) const { return poly(*this) += v; }
     poly operator-(const poly &a) const { return poly(*this) -= a; }
     poly operator*(const poly &a) const { return poly(*this) *= a; }
+    poly rev(int deg = -1) const {
+        poly ret(*this);
+        if (deg != -1) ret.v.resize(deg);
+        reverse(ret.v.begin(), ret.v.end());
+        return ret;
+    }
+
+    pair<poly, poly> divmod(const poly &a) const {
+        poly f(*this), g(a);
+        f.shrink();
+        g.shrink();
+        assert(!g.v.empty());
+        if (f.size() < g.size()) return {poly(), f};
+        int need = f.size() - g.size() + 1;
+        poly q = (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();
+        poly r = f - g * q;
+        r = r.pre(g.size() - 1);
+        r.shrink();
+        return {q, r};
+    }
+
+    poly mod(const poly &a) const {
+        return divmod(a).second;
+    }
+
+    mint eval(mint x) const {
+        mint y = 0;
+        for (int i = size() - 1; i >= 0; --i) y = y * x + v[i];
+        return y;
+    }
 
     poly pre(int sz) const {
         poly ret(sz);
@@ -503,4 +537,6 @@ struct poly {
         for (int i = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;
         return ret;
     }
+
+    vector<mint> multipoint_eval(const vector<mint> &xs) const;
 };
