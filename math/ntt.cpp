@@ -42,51 +42,127 @@ using mint = modint<998244353>;
 
 class NTT {
     static constexpr int max_base = 20, maxN = 1 << max_base; // N <= 524288 * 2
-    mint sum_e[30], sum_ie[30];
+    mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];
 public:
-    mint es[30], ies[30];
     NTT() {
         int cnt2 = __builtin_ctz(ntt_mod-1);
         mint e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();
         for (int i = cnt2; i >= 0; i--){
-            es[i] = e; ies[i] = ie;
+            root[i] = e;
+            iroot[i] = ie;
             e *= e; ie *= ie;
         }
-        mint now = 1, nowi = 1;
-        for (int i = 0; i < cnt2 - 2; i++) {
-            sum_e[i] = es[i+2] * now; now *= ies[i+2];
-            sum_ie[i] = ies[i+2] * nowi; nowi *= es[i+2];
+        mint prod = 1, iprod = 1;
+        for (int i = 0; i <= cnt2 - 2; i++) {
+            rate2[i] = root[i + 2] * prod;
+            irate2[i] = iroot[i + 2] * iprod;
+            prod *= iroot[i + 2];
+            iprod *= root[i + 2];
+        }
+        prod = 1, iprod = 1;
+        for (int i = 0; i <= cnt2 - 3; i++) {
+            rate3[i] = root[i + 3] * prod;
+            irate3[i] = iroot[i + 3] * iprod;
+            prod *= iroot[i + 3];
+            iprod *= root[i + 3];
         }
     }
 
     void transform(vector<mint> &a, int sign){
         const int n = a.size();
+        assert(n > 0);
+        assert((n & (n - 1)) == 0);
+        assert(n <= maxN);
         int h = 0;
         while ((1U << h) < (unsigned int)(n)) h++;
         if(!sign){ // fft
-            for (int ph = 1; ph <= h; ph++) {
-                int w = 1 << (ph-1), p = 1 << (h-ph);
-                mint now = 1;
-                for (int s = 0; s < w; s++) {
-                    int offset = s << (h-ph+1);
-                    for (int i = 0; i < p; i++) {
-                        auto l = a[i+offset], r = a[i+offset+p]*now;
-                        a[i+offset] = l+r, a[i+offset+p] = l-r;
+            int len = 0;
+            while (len < h) {
+                if (h - len == 1) {
+                    int p = 1 << (h - len - 1);
+                    mint rot = 1;
+                    for (int s = 0; s < (1 << len); s++) {
+                        int offset = s << (h - len);
+                        for (int i = 0; i < p; i++) {
+                            auto l = a[i + offset];
+                            auto r = a[i + offset + p] * rot;
+                            a[i + offset] = l + r;
+                            a[i + offset + p] = l - r;
+                        }
+                        if (s + 1 != (1 << len)) {
+                            rot *= rate2[__builtin_ctz(~(unsigned int)(s))];
+                        }
                     }
-                    now *= sum_e[__builtin_ctz(~(unsigned int)(s))];
+                    len++;
+                } else {
+                    int p = 1 << (h - len - 2);
+                    mint rot = 1, imag = root[2];
+                    for (int s = 0; s < (1 << len); s++) {
+                        mint rot2 = rot * rot;
+                        mint rot3 = rot2 * rot;
+                        int offset = s << (h - len);
+                        for (int i = 0; i < p; i++) {
+                            ull mod2 = 1ULL * ntt_mod * ntt_mod;
+                            ull a0 = a[i + offset].val;
+                            ull a1 = 1ULL * a[i + offset + p].val * rot.val;
+                            ull a2 = 1ULL * a[i + offset + 2 * p].val * rot2.val;
+                            ull a3 = 1ULL * a[i + offset + 3 * p].val * rot3.val;
+                            ull a1na3imag = 1ULL * mint(a1 + mod2 - a3).val * imag.val;
+                            ull na2 = mod2 - a2;
+                            a[i + offset] = mint(a0 + a2 + a1 + a3);
+                            a[i + offset + p] = mint(a0 + a2 + (2 * mod2 - (a1 + a3)));
+                            a[i + offset + 2 * p] = mint(a0 + na2 + a1na3imag);
+                            a[i + offset + 3 * p] = mint(a0 + na2 + (mod2 - a1na3imag));
+                        }
+                        if (s + 1 != (1 << len)) {
+                            rot *= rate3[__builtin_ctz(~(unsigned int)(s))];
+                        }
+                    }
+                    len += 2;
                 }
             }
         }else { // ifft
-            for (int ph = h; ph >= 1; ph--) {
-                int w = 1 << (ph-1), p = 1 << (h-ph);
-                mint inow = 1;
-                for (int s = 0; s < w; s++) {
-                    int offset = s << (h-ph+1);
-                    for (int i = 0; i < p; i++) {
-                        auto l = a[i+offset], r = a[i+offset+p];
-                        a[i+offset] = l+r, a[i+offset+p] = (l-r)*inow;
+            int len = h;
+            while (len) {
+                if (len == 1) {
+                    int p = 1 << (h - len);
+                    mint irot = 1;
+                    for (int s = 0; s < (1 << (len - 1)); s++) {
+                        int offset = s << (h - len + 1);
+                        for (int i = 0; i < p; i++) {
+                            auto l = a[i + offset];
+                            auto r = a[i + offset + p];
+                            a[i + offset] = l + r;
+                            a[i + offset + p] = mint(1ULL * (ntt_mod + l.val - r.val) * irot.val);
+                        }
+                        if (s + 1 != (1 << (len - 1))) {
+                            irot *= irate2[__builtin_ctz(~(unsigned int)(s))];
+                        }
                     }
-                    inow *= sum_ie[__builtin_ctz(~(unsigned int)(s))];
+                    len--;
+                } else {
+                    int p = 1 << (h - len);
+                    mint irot = 1, iimag = iroot[2];
+                    for (int s = 0; s < (1 << (len - 2)); s++) {
+                        mint irot2 = irot * irot;
+                        mint irot3 = irot2 * irot;
+                        int offset = s << (h - len + 2);
+                        for (int i = 0; i < p; i++) {
+                            ull a0 = a[i + offset].val;
+                            ull a1 = a[i + offset + p].val;
+                            ull a2 = a[i + offset + 2 * p].val;
+                            ull a3 = a[i + offset + 3 * p].val;
+                            ull a2na3iimag = 1ULL * mint(1ULL * (ntt_mod + a2 - a3) * iimag.val).val;
+                            a[i + offset] = mint(a0 + a1 + a2 + a3);
+                            a[i + offset + p] = mint(a0 + (ntt_mod - a1) + a2na3iimag) * irot;
+                            a[i + offset + 2 * p] = mint(a0 + a1 + (ntt_mod - a2) + (ntt_mod - a3)) * irot2;
+                            a[i + offset + 3 * p] = mint(a0 + (ntt_mod - a1) + (ntt_mod - a2na3iimag)) * irot3;
+                        }
+                        if (s + 1 != (1 << (len - 2))) {
+                            irot *= irate3[__builtin_ctz(~(unsigned int)(s))];
+                        }
+                    }
+                    len -= 2;
                 }
             }
         }
@@ -94,6 +170,28 @@ public:
 };
 
 NTT ntt;
+
+void ntt_ifft(vector<mint>& a) {
+    ntt.transform(a, 1);
+    static vector<mint> inv_pow2 = []() {
+        vector<mint> t(31, mint(1));
+        mint inv2 = mint(2).inv();
+        for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i - 1] * inv2;
+        return t;
+    }();
+    mint iz = inv_pow2[__builtin_ctz((unsigned)a.size())];
+    for (auto& x : a) x *= iz;
+}
+
+mint ntt_inv_size(int n) {
+    static vector<mint> inv_pow2 = []() {
+        vector<mint> t(31, mint(1));
+        mint inv2 = mint(2).inv();
+        for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i - 1] * inv2;
+        return t;
+    }();
+    return inv_pow2[__builtin_ctz((unsigned)n)];
+}
 
 bool mod_sqrt(mint a, mint &x) {
     if (a == mint(0)) {
@@ -185,20 +283,15 @@ struct poly {
         if (this == &a) {
             for (int i = 0; i < sz; ++i) this->v[i] *= this->v[i];
         } else {
-            vector<mint> b = a.v;
+            static thread_local vector<mint> b;
+            b.assign(a.v.begin(), a.v.end());
             b.resize(sz);
             ntt.transform(b, 0);
             for(int i = 0; i < sz; ++i) this->v[i] *= b[i];
         }
         ntt.transform(this->v, 1);
         this->v.resize(N);
-        static vector<mint> inv_pow2 = []() {
-            vector<mint> t(31, mint(1));
-            mint inv2 = mint(2).inv();
-            for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i - 1] * inv2;
-            return t;
-        }();
-        mint iz = inv_pow2[__builtin_ctz((unsigned)sz)];
+        mint iz = ntt_inv_size(sz);
         for (int i = 0; i < N; i++) this->v[i] *= iz;
         return *this;
     }
@@ -242,21 +335,25 @@ struct poly {
     }
 
     poly inv(int deg = -1) const {
-        int n = size();
-        if(deg == -1) deg = v.size();
-        poly r(1);
-        r[0] = (this->v[0]).inv();
-        for (int k = 1; k < deg; k <<= 1) {
-            poly ff(2*k);
-            for (int i = 0; i < min(k*2, n); ++i) ff[i] = this->v[i];
-            poly nr = (r*r*ff).cut(k*2);
-            for (int i = 0; i < k; ++i) {
-                nr[i] = (r[i]+r[i]-nr[i]);
-                nr[i+k] = -nr[i+k];
-            }
-            r = nr;
+        assert(!v.empty() && v[0] != mint(0));
+        if (deg == -1) deg = size();
+        poly res(deg);
+        res[0] = v[0].inv();
+        for (int d = 1; d < deg; d <<= 1) {
+            vector<mint> f(2 * d), g(2 * d);
+            for (int i = 0; i < min(size(), 2 * d); ++i) f[i] = v[i];
+            for (int i = 0; i < d; ++i) g[i] = res[i];
+            ntt.transform(f, 0);
+            ntt.transform(g, 0);
+            for (int i = 0; i < 2 * d; ++i) f[i] *= g[i];
+            ntt_ifft(f);
+            fill(f.begin(), f.begin() + d, mint(0));
+            ntt.transform(f, 0);
+            for (int i = 0; i < 2 * d; ++i) f[i] *= g[i];
+            ntt_ifft(f);
+            for (int i = d; i < min(2 * d, deg); ++i) res[i] = -f[i];
         }
-        return r.pre(deg);
+        return res.pre(deg);
     }
 
     poly log(int deg = -1) const {
@@ -268,11 +365,64 @@ struct poly {
     poly exp(int deg = -1) const {
         assert(v.size() == 0 || v[0] == mint(0));
         if (deg == -1) deg = v.size();
-        poly ret(1); ret[0] = 1;
-        for (int i = 1; i < deg; i <<= 1) {
-            ret = (ret * (pre(i << 1) + mint(1) - ret.log(i << 1))).pre(i << 1);
+        static vector<mint> invs = {mint(0), mint(1)};
+        auto ensure_invs = [&](int n) {
+            if ((int)invs.size() <= n) {
+                int old = (int)invs.size();
+                invs.resize(n + 1);
+                for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];
+            }
+        };
+        auto inplace_integral = [&](poly& f) {
+            int n = f.size();
+            ensure_invs(n);
+            f.v.insert(f.v.begin(), mint(0));
+            for (int i = 1; i <= n; ++i) f[i] *= invs[i];
+        };
+        poly b(vector<mint>{mint(1), (1 < size() ? v[1] : mint(0))});
+        poly c(vector<mint>{mint(1)}), z1, z2(vector<mint>{mint(1), mint(1)});
+        for (int m = 2; m < deg; m <<= 1) {
+            poly y = b;
+            y.v.resize(2 * m);
+            ntt.transform(y.v, 0);
+            z1 = z2;
+            poly z(m);
+            for (int i = 0; i < m; ++i) z[i] = y[i] * z1[i];
+            ntt_ifft(z.v);
+            fill(z.v.begin(), z.v.begin() + m / 2, mint(0));
+            ntt.transform(z.v, 0);
+            for (int i = 0; i < m; ++i) z[i] *= -z1[i];
+            ntt_ifft(z.v);
+            c.v.insert(c.v.end(), z.v.begin() + m / 2, z.v.end());
+            z2 = c;
+            z2.v.resize(2 * m);
+            ntt.transform(z2.v, 0);
+
+            poly x(m);
+            for (int i = 0; i + 1 < m && i + 1 < size(); ++i) x[i] = v[i + 1] * mint(i + 1);
+            x[m - 1] = mint(0);
+            ntt.transform(x.v, 0);
+            for (int i = 0; i < m; ++i) x[i] *= y[i];
+            ntt_ifft(x.v);
+            for (int i = 0; i + 1 < m; ++i) x[i] -= b[i + 1] * mint(i + 1);
+            x.v.resize(2 * m);
+            for (int i = 0; i + 1 < m; ++i) {
+                x[m + i] = x[i];
+                x[i] = mint(0);
+            }
+            ntt.transform(x.v, 0);
+            for (int i = 0; i < 2 * m; ++i) x[i] *= z2[i];
+            ntt_ifft(x.v);
+            x.v.pop_back();
+            inplace_integral(x);
+            for (int i = m; i < min(size(), 2 * m); ++i) x[i] += v[i];
+            fill(x.v.begin(), x.v.begin() + m, mint(0));
+            ntt.transform(x.v, 0);
+            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];
+            ntt_ifft(x.v);
+            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());
         }
-        return ret.pre(deg);
+        return b.pre(deg);
     }
 
     poly pow(long long k, int deg = -1) const {
