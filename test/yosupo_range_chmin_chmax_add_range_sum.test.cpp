@@ -1,47 +1,44 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum"
-#include <iostream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
+#include <limits>
+#include <vector>
 
-static const int MOD = 1000000007;
 using ll = long long;
-using uint = unsigned;
-using ull = unsigned long long;
 using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
+#include "../util/fastio.cpp"
 #include "../datastructure/segbeats.cpp"
 int main() {
+    Scanner sc;
+    Printer pr;
     int n, q;
-    cin >> n >> q;
+    sc.read(n, q);
     vector<ll> v(n);
-    for (auto &&i : v) scanf("%lld", &i);
-    SegmentTreeBeats seg(v);
+    for (auto &&i : v) sc.read(i);
+    SegmentTreeBeats<ll> seg(v);
     while(q--){
-        int t; scanf("%d", &t);
+        int t;
+        sc.read(t);
         if(t == 0){
-            int l, r; ll b;
-            scanf("%d %d %lld", &l, &r, &b);
+            int l, r;
+            ll b;
+            sc.read(l, r, b);
             seg.chmin(l, r, b);
         }else if(t == 1){
-            int l, r; ll b;
-            scanf("%d %d %lld", &l, &r, &b);
+            int l, r;
+            ll b;
+            sc.read(l, r, b);
             seg.chmax(l, r, b);
         }else if(t == 2){
-            int l, r; ll b;
-            scanf("%d %d %lld", &l, &r, &b);
+            int l, r;
+            ll b;
+            sc.read(l, r, b);
             seg.add(l, r, b);
         }else {
             int l, r;
-            scanf("%d %d", &l, &r);
-            printf("%lld\n", seg.sum(l, r));
+            sc.read(l, r);
+            pr.writeln(seg.sum(l, r));
         }
     }
     return 0;

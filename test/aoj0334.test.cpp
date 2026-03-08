@@ -1,45 +1,36 @@
-#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0334"
-#include <iostream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/0334"
 
-static const int MOD = 1000000007;
-using ll = long long;
-using uint = unsigned;
-using ull = unsigned long long;
+#include <vector>
 using namespace std;
 
-template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
-
+#include "../util/fastio.cpp"
 #include "../graph/bipartite_matching_lexmin.cpp"
 
 int main() {
+    Scanner sc;
+    Printer pr;
+
     int n;
-    scanf("%d", &n); n--;
+    sc.read(n);
+    n--;
     Bipartite_Matching_LexMin G(n, n);
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             int x;
-            scanf("%d", &x);
-            if(x){
+            sc.read(x);
+            if (x) {
                 G.add_edge(j, i);
             }
         }
     }
     auto matching = G.solve_LexMin();
-    if(matching != n) {
-        puts("no");
+    if (matching != n) {
+        pr.writeln("no");
         return 0;
     }
-    puts("yes");
+    pr.writeln("yes");
     for (int i = 0; i < n; ++i) {
-        printf("%d\n", G.match[i]-n+1);
+        pr.writeln(G.match[i] - n + 1);
     }
     return 0;
 }

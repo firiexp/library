@@ -30,5 +30,5 @@ vector<T> dijkstra(int s,vector<vector<edge<T>>> &G){
 
 /**
  * @brief Dijkstra法(Radix Heap)
- * @docs _md/dijkstra.md
+ * @docs _md/dijkstra_radix_heap.md
  */
