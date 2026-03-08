@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\
       \u30B0(General Matching)"
@@ -106,7 +106,7 @@ data:
   path: graph/general_matching.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_general_matching.test.cpp
 date: 2026-03-08

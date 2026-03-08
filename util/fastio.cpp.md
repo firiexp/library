@@ -52,55 +52,55 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
     title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cartesian_tree.test.cpp
     title: test/yosupo_cartesian_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_counting_primes.test.cpp
     title: test/yosupo_counting_primes.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cycle_detection_directed.test.cpp
     title: test/yosupo_cycle_detection_directed.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cycle_detection_undirected.test.cpp
     title: test/yosupo_cycle_detection_undirected.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_directedmst.test.cpp
     title: test/yosupo_directedmst.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_discrete_logarithm_mod.test.cpp
     title: test/yosupo_discrete_logarithm_mod.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eertree.test.cpp
     title: test/yosupo_eertree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eulerian_trail_directed.test.cpp
     title: test/yosupo_eulerian_trail_directed.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eulerian_trail_undirected.test.cpp
     title: test/yosupo_eulerian_trail_undirected.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_jump_on_tree.test.cpp
     title: test/yosupo_jump_on_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_root_integer.test.cpp
     title: test/yosupo_kth_root_integer.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_line_add_get_min.test.cpp
     title: test/yosupo_line_add_get_min.test.cpp
   - icon: ':x:'

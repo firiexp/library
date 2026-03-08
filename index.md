@@ -3,7 +3,7 @@ data:
   libraryCategories:
   - name: datastructure
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/ahocorasick.cpp
       title: "Aho-Corasick\u6CD5"
     - icon: ':heavy_check_mark:'
@@ -30,7 +30,7 @@ data:
     - icon: ':question:'
       path: datastructure/lazysegtree.cpp
       title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
-    - icon: ':x:'
+    - icon: ':question:'
       path: datastructure/li_chao_tree.cpp
       title: Li Chao Tree
     - icon: ':warning:'
@@ -72,7 +72,7 @@ data:
     - icon: ':x:'
       path: datastructure/swag.cpp
       title: Sliding Window Aggregation
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/swag_deque.cpp
       title: SWAG Deque
     - icon: ':warning:'
@@ -110,13 +110,13 @@ data:
       title: ProjectSelectionProblem
   - name: fps
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: fps/linear_recurrence.cpp
       title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
     - icon: ':x:'
       path: fps/multipoint_evaluation.cpp
       title: Multipoint Evaluation
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: fps/nth_term.cpp
       title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
     - icon: ':x:'
@@ -133,7 +133,7 @@ data:
     - icon: ':x:'
       path: geometry/argsort.cpp
       title: Arg Sort
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: geometry/closest_pair.cpp
       title: Closest Pair
     - icon: ':x:'
@@ -174,13 +174,13 @@ data:
       path: graph/bipartite_matching_lexmin.cpp
       title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
         (Lexicographically Minimum)"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/chu_liu_edmonds.cpp
       title: Chu-Liu Edmonds
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/cycle_detection_directed.cpp
       title: Cycle Detection Directed
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/cycle_detection_undirected.cpp
       title: Cycle Detection Undirected
     - icon: ':x:'
@@ -192,13 +192,13 @@ data:
     - icon: ':x:'
       path: graph/dijkstra_restore.cpp
       title: Dijkstra Restore
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: graph/dominatortree.cpp
       title: Dominator Tree
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/eulerian_trail.cpp
       title: Eulerian Trail
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/general_matching.cpp
       title: general_matching
     - icon: ':heavy_check_mark:'
@@ -239,7 +239,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/CRT.cpp
       title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/berlekamp_massey.cpp
       title: Berlekamp-Massey
     - icon: ':heavy_check_mark:'
@@ -248,10 +248,10 @@ data:
     - icon: ':warning:'
       path: math/comb_table.cpp
       title: math/comb_table.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/counting_primes.cpp
       title: Counting Primes
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/discrete_logarithm.cpp
       title: Discrete Logarithm
     - icon: ':warning:'
@@ -308,7 +308,7 @@ data:
     - icon: ':x:'
       path: math/isqrt.cpp
       title: ISqrt
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/kth_root_integer.cpp
       title: Kth Root Integer
     - icon: ':warning:'
@@ -384,7 +384,7 @@ data:
     - icon: ':warning:'
       path: string/manacher.cpp
       title: string/manacher.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: string/palindromic_tree.cpp
       title: "\u56DE\u6587\u6728(Palindromic Tree)"
     - icon: ':heavy_check_mark:'
@@ -404,13 +404,13 @@ data:
       title: Z-algorithm
   - name: tree
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: tree/LCA.cpp
       title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
     - icon: ':heavy_check_mark:'
       path: tree/auxtree.cpp
       title: "\u88DC\u52A9\u6728(Aux Tree)"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: tree/cartesian_tree.cpp
       title: Cartesian Tree
     - icon: ':heavy_check_mark:'
@@ -431,10 +431,10 @@ data:
     - icon: ':x:'
       path: tree/hld_edge.cpp
       title: HLD Edge
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: tree/jump_on_tree.cpp
       title: Jump on Tree
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: tree/link_cut_tree.cpp
       title: Link-Cut Tree
     - icon: ':warning:'
@@ -556,7 +556,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0452.test.cpp
       title: test/aoj0452.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aoj2257.test.cpp
       title: test/aoj2257.test.cpp
     - icon: ':heavy_check_mark:'
@@ -613,73 +613,73 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
       title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_cartesian_tree.test.cpp
       title: test/yosupo_cartesian_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_closest_pair.test.cpp
       title: test/yosupo_closest_pair.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution.test.cpp
       title: test/yosupo_convolution.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_counting_primes.test.cpp
       title: test/yosupo_counting_primes.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_cycle_detection_directed.test.cpp
       title: test/yosupo_cycle_detection_directed.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_cycle_detection_undirected.test.cpp
       title: test/yosupo_cycle_detection_undirected.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_deque_operate_all_composite.test.cpp
       title: test/yosupo_deque_operate_all_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_directedmst.test.cpp
       title: test/yosupo_directedmst.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_discrete_logarithm_mod.test.cpp
       title: test/yosupo_discrete_logarithm_mod.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
       title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_eertree.test.cpp
       title: test/yosupo_eertree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_eulerian_trail_directed.test.cpp
       title: test/yosupo_eulerian_trail_directed.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_eulerian_trail_undirected.test.cpp
       title: test/yosupo_eulerian_trail_undirected.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_exp_of_formal_power_series.test.cpp
       title: test/yosupo_exp_of_formal_power_series.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_find_linear_recurrence.test.cpp
       title: test/yosupo_find_linear_recurrence.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_general_matching.test.cpp
       title: test/yosupo_general_matching.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_jump_on_tree.test.cpp
       title: test/yosupo_jump_on_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_root_integer.test.cpp
       title: test/yosupo_kth_root_integer.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
       title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
       title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_lca.test.cpp
       title: test/yosupo_lca.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_line_add_get_min.test.cpp
       title: test/yosupo_line_add_get_min.test.cpp
     - icon: ':x:'

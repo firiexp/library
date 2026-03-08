@@ -4,7 +4,7 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_line_add_get_min.test.cpp
     title: test/yosupo_line_add_get_min.test.cpp
   - icon: ':x:'
@@ -12,7 +12,7 @@ data:
     title: test/yosupo_segment_add_get_min.test.cpp
   _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: Li Chao Tree
     links: []
@@ -150,7 +150,7 @@ data:
   path: datastructure/li_chao_tree.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_segment_add_get_min.test.cpp

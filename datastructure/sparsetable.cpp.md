@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/LCA.cpp
     title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
   - icon: ':heavy_check_mark:'
@@ -18,7 +18,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0439_virtual_tree_helper.test.cpp
     title: test/aoj0439_virtual_tree_helper.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
   - icon: ':x:'
