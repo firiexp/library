@@ -93,6 +93,6 @@ struct PalindromicTree {
 };
 
 /**
- * @brief Palindromic Tree
+ * @brief 回文木(Palindromic Tree)
  * @docs _md/palindromic_tree.md
  */

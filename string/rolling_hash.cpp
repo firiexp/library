@@ -33,3 +33,8 @@ struct rolling_hash {
         return res >= M ? res-M : res;
     }
 };
+
+/**
+ * @brief Rolling Hash
+ * @docs _md/rolling_hash.md
+ */

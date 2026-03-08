@@ -65,3 +65,8 @@ vector<pair<T, int>> RLE(const vector<T> &a){
     }
     return p;
 }
+
+/**
+ * @brief テンプレート(Template)
+ * @docs _md/template.md
+ */

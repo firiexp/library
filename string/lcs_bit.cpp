@@ -32,3 +32,8 @@ int LCS_bit(string &s, string &t){
     }
     return ans;
 }
+
+/**
+ * @brief LCS(bitset)
+ * @docs _md/lcs_bit.md
+ */

@@ -35,3 +35,8 @@ struct Monoid{
     static T e() { return 0; }
 };
 */
+
+/**
+ * @brief 双対セグメント木(Dual Segment Tree)
+ * @docs _md/dualsegtree.md
+ */

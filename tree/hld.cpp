@@ -146,3 +146,8 @@ public:
         return q(l, r);
     }
 };
+
+/**
+ * @brief HL分解(HL Decomposition)
+ * @docs _md/hld.md
+ */

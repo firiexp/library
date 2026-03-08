@@ -26,3 +26,8 @@ vector<T> bellman_ford(int s, int V,vector<edge<T> > &G){
     }
     return d;
 }
+
+/**
+ * @brief Bellman-Ford法
+ * @docs _md/bellman_ford.md
+ */

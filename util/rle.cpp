@@ -9,3 +9,8 @@ vector<pair<T, int>> RLE(const vector<T> &a){
     }
     return p;
 }
+
+/**
+ * @brief ランレングス圧縮(RLE)
+ * @docs _md/rle.md
+ */

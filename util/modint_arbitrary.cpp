@@ -18,3 +18,8 @@ public:
     static int M() { return mod(); }
 };
 using mint = modint;
+
+/**
+ * @brief modint(任意MOD)
+ * @docs _md/modint_arbitrary.md
+ */

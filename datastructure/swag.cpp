@@ -32,3 +32,8 @@ struct Monoid {
     static T e() { return 0; }
 };
 */
+
+/**
+ * @brief SWAG
+ * @docs _md/swag.md
+ */

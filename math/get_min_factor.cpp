@@ -15,3 +15,8 @@ vector<int> get_min_factor(int n) {
     }
     return min_factor;
 }
+
+/**
+ * @brief 最小素因数テーブル(Min Factor Table)
+ * @docs _md/get_min_factor.md
+ */

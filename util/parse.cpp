@@ -51,3 +51,8 @@ int addsub(state &cur){
 int expr(state &cur){
     return addsub(cur);
 }
+
+/**
+ * @brief 式パーサ(Parse)
+ * @docs _md/parse.md
+ */

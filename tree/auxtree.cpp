@@ -95,3 +95,8 @@ public:
         return dep[u]+dep[v]-2*dep[LCA(u, v)];
     }
 };
+
+/**
+ * @brief 補助木(Aux Tree)
+ * @docs _md/auxtree.md
+ */

@@ -65,3 +65,8 @@ public:
         return ret;
     }
 };
+
+/**
+ * @brief 容量スケーリングDinic(Capacity Scaling Dinic)
+ * @docs _md/costscalingdinic.md
+ */

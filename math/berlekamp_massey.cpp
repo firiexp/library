@@ -29,6 +29,6 @@ vector<T> berlekamp_massey(const vector<T> &s) {
 }
 
 /**
- * @brief Berlekamp-Massey algorithm
+ * @brief Berlekamp-Massey法
  * @docs _md/berlekamp_massey.md
  */

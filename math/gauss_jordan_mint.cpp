@@ -28,3 +28,8 @@ int gauss_jordan(vector<vector<mint>> &A, bool is_extended = false) {
     }
     return rank;
 }
+
+/**
+ * @brief Gauss-Jordan消去(modint)
+ * @docs _md/gauss_jordan_mint.md
+ */

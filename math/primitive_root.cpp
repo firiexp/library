@@ -23,3 +23,8 @@ ll primitive_root(ll m) {
         if (ok) return g;
     }
 }
+
+/**
+ * @brief 原始根(Primitive Root)
+ * @docs _md/primitive_root.md
+ */

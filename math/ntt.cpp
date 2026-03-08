@@ -544,3 +544,8 @@ struct poly {
 
     vector<mint> multipoint_eval(const vector<mint> &xs) const;
 };
+
+/**
+ * @brief NTT・形式的冪級数(NTT/FPS)
+ * @docs _md/ntt.md
+ */

@@ -33,3 +33,8 @@ bool miller_rabin(T m){
     }
     return true;
 }
+
+/**
+ * @brief Miller-Rabin素数判定
+ * @docs _md/miller_rabin.md
+ */

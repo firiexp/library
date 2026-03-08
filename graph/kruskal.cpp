@@ -59,6 +59,6 @@ KruskalResult<T> kruskal(vector<edge<T>> edges, int n) {
 }
 
 /**
- * @brief Kruskal 法
+ * @brief Kruskal法
  * @docs _md/kruskal.md
  */

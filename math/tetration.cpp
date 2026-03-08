@@ -39,3 +39,8 @@ ll tetration(ll a, ll n, const ll M){
     bool yojo = false;
     return tetration(a, n, M, yojo)%M;
 }
+
+/**
+ * @brief Tetration Mod
+ * @docs _md/tetration.md
+ */

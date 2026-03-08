@@ -66,6 +66,6 @@ public:
 };
 
 /**
- * @brief 双対グラフの構築
+ * @brief 双対グラフ(Dual Graph)
  * @docs _md/dualgraph.md
  */

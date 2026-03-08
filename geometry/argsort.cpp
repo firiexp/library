@@ -8,3 +8,8 @@ void argsort(vector<Ar2> &v)
         if(pos(a) != pos(b)) return pos(a) < pos(b);
         return (ll)a[0]*b[1] > (ll)a[1]*b[0]; });
 }
+
+/**
+ * @brief 偏角ソート(Argument Sort)
+ * @docs _md/argsort.md
+ */

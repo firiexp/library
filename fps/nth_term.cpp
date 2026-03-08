@@ -41,3 +41,8 @@ mint nth_term(poly p, poly q, ll n){
     ntt.transform(tmp.v, 1);
     return mint(2).pow(ntt_mod-ika)*tmp[0];
 }
+
+/**
+ * @brief 有理型母関数のn項(N-th Term)
+ * @docs _md/nth_term.md
+ */

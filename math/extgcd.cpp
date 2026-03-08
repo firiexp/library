@@ -9,3 +9,8 @@ T extgcd(T a, T b, T &x ,T &y){
     return b;
 }
  
+
+/**
+ * @brief 拡張ユークリッド互除法(Extended GCD)
+ * @docs _md/extgcd.md
+ */

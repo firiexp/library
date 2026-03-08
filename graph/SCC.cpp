@@ -50,3 +50,8 @@ public:
 
     int operator[](int k) const { return cmp[k]; }
 };
+
+/**
+ * @brief 強連結成分分解(SCC)
+ * @docs _md/SCC.md
+ */

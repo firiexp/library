@@ -4,3 +4,8 @@ ull Isqrt(ull const &x){
     while(x - ret*ret > 2*ret) ++ret;
     return ret;
 }
+
+/**
+ * @brief 整数平方根(Integer Square Root)
+ * @docs _md/isqrt.md
+ */

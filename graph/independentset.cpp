@@ -34,3 +34,8 @@ public:
         return dfs(0, (1ull << n)-1, 0);
     }
 };
+
+/**
+ * @brief 最大独立集合(Maximum Independent Set)
+ * @docs _md/independentset.md
+ */

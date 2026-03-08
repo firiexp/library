@@ -19,3 +19,8 @@ struct binary_heap {
     bool empty() { return Q.empty(); }
     ll sum() const { return S; }
 };
+
+/**
+ * @brief 二分ヒープ(Binary Heap)
+ * @docs _md/binaryheap.md
+ */

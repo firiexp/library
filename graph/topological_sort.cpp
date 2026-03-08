@@ -20,6 +20,6 @@ vector<int> topological_sort(const vector<vector<int>> &g) {
 }
 
 /**
- * @brief Topological sort
+ * @brief トポロジカルソート(Topological Sort)
  * @docs _md/topological_sort.md
  */

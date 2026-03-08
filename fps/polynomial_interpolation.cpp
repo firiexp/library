@@ -24,6 +24,6 @@ poly polynomial_interpolation(const vector<mint> &xs, const vector<mint> &ys) {
 }
 
 /**
- * @brief polynomial interpolation
+ * @brief 多項式補間(Polynomial Interpolation)
  * @docs _md/polynomial_interpolation.md
  */

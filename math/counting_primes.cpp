@@ -96,3 +96,8 @@ long long counting_primes(long long n) {
     counting_primes_internal::init();
     return counting_primes_internal::lehmer_pi(n);
 }
+
+/**
+ * @brief 素数数え上げ(Prime Counting)
+ * @docs _md/counting_primes.md
+ */

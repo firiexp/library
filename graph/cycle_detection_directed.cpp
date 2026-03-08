@@ -30,6 +30,6 @@ vector<int> cycle_detection_directed(const vector<vector<pair<int, int>>> &g) {
 }
 
 /**
- * @brief Cycle detection (directed)
+ * @brief 有向閉路検出(Cycle Detection)
  * @docs _md/cycle_detection_directed.md
  */

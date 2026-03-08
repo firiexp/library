@@ -30,3 +30,8 @@ struct SparseTable {
         return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);
     }
 };
+
+/**
+ * @brief Sparse Table
+ * @docs _md/sparsetable.md
+ */

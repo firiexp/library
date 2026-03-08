@@ -45,3 +45,8 @@ vector<T> prime_factor(T n){
     if(n != 1) res.emplace_back(n);
     return res;
 }
+
+/**
+ * @brief 前計算付き素因数分解(Prime Factorization)
+ * @docs _md/primefactor2.md
+ */

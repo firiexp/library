@@ -9,3 +9,8 @@ int eulerphi(int x){
     if(xx > 1) phi -= phi/xx;
     return phi;
 }
+
+/**
+ * @brief オイラーのφ関数(Euler Phi)
+ * @docs _md/eulerphi.md
+ */

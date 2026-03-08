@@ -59,3 +59,8 @@ public:
         return k;
     }
 };
+
+/**
+ * @brief 二辺連結成分分解(Two-Edge-Connected Components)
+ * @docs _md/twoedgeconnectedcomponents.md
+ */

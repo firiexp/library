@@ -17,3 +17,8 @@ public:
         return res;
     }
 };
+
+/**
+ * @brief 辞書順最小二部マッチング(Lexicographically Minimum)
+ * @docs _md/bipartite_matching_lexmin.md
+ */

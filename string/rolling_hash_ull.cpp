@@ -76,3 +76,8 @@ public:
         return ret;
     }
 };
+
+/**
+ * @brief Rolling Hash(mod 2^61-1)
+ * @docs _md/rolling_hash_ull.md
+ */

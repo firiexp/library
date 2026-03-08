@@ -108,3 +108,8 @@ vector<int> lcp(const vector<T> &s, const vector<int> &sa){
 vector<int> lcp(string const& s, vector<int> const& sa){
     return lcp(convert(s), sa);
 }
+
+/**
+ * @brief Suffix Array
+ * @docs _md/suffix_array.md
+ */

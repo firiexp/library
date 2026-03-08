@@ -58,6 +58,6 @@ public:
 };
 
 /**
- * @brief Lowest Common Ancestor
+ * @brief 最近共通祖先(LCA)
  * @docs _md/LCA.md
  */

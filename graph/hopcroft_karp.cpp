@@ -70,6 +70,6 @@ public:
 };
 
 /**
- * @brief Hopcroft-Karp 法
+ * @brief Hopcroft-Karp法
  * @docs _md/hopcroft_karp.md
  */

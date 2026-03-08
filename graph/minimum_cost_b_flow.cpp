@@ -213,6 +213,6 @@ struct MinimumCostBFlow {
 };
 
 /**
- * @brief 最小費用 b-flow
+ * @brief 最小費用b-flow(Min-Cost b-Flow)
  * @docs _md/minimum_cost_b_flow.md
  */

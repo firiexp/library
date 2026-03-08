@@ -85,3 +85,8 @@ struct Monoid{
     static T e() { return {1, 0}; }
 };
 */
+
+/**
+ * @brief セグメント木(Segment Tree)
+ * @docs _md/segtree.md
+ */

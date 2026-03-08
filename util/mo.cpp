@@ -20,3 +20,8 @@ for (auto &&X : query) {
     ans[X.no] = ans;
 }
 */
+
+/**
+ * @brief Mo's Algorithm
+ * @docs _md/mo.md
+ */

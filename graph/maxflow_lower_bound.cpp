@@ -64,6 +64,6 @@ public:
 };
 
 /**
- * @brief 下限制約付き s-t 最大流
+ * @brief 下限制約付きs-t最大流(Max Flow with Lower Bounds)
  * @docs _md/maxflow_lower_bound.md
  */

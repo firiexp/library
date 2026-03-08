@@ -44,6 +44,6 @@ CycleDetectionUndirectedResult cycle_detection_undirected(const vector<pair<int,
 }
 
 /**
- * @brief Cycle detection (undirected)
+ * @brief 無向閉路検出(Cycle Detection)
  * @docs _md/cycle_detection_undirected.md
  */

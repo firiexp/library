@@ -66,3 +66,8 @@ struct TwoSAT {
         add_if(negate(u), v);
     }
 };
+
+/**
+ * @brief 2-SAT
+ * @docs _md/twosat.md
+ */

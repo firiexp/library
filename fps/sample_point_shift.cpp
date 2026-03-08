@@ -61,6 +61,6 @@ vector<mint> sample_point_shift(const vector<mint> &ys, mint c, int m = -1) {
 }
 
 /**
- * @brief shift of sampling points of polynomial
+ * @brief 標本点シフト(Sample Point Shift)
  * @docs _md/sample_point_shift.md
  */

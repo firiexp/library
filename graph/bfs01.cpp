@@ -33,6 +33,6 @@ vector<T> bfs01(int s, vector<vector<edge<T>>> &G) {
 }
 
 /**
- * @brief 0-1 BFS
+ * @brief 01-BFS
  * @docs _md/bfs01.md
  */

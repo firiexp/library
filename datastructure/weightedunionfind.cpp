@@ -49,6 +49,6 @@ public:
 };
 
 /**
- * @brief Weighted Union Find
+ * @brief 重み付きUnionFind(Weighted Union Find)
  * @docs _md/weightedunionfind.md
  */

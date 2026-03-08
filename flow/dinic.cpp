@@ -64,3 +64,8 @@ public:
         return ret;
     }
 };
+
+/**
+ * @brief Dinic法(Dinic)
+ * @docs _md/dinic.md
+ */

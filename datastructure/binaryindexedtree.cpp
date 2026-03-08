@@ -26,3 +26,8 @@ public:
         return min(i + 1, n);
     }
 };
+
+/**
+ * @brief Binary Indexed Tree(BIT)
+ * @docs _md/binaryindexedtree.md
+ */

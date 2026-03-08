@@ -98,6 +98,6 @@ private:
 };
 
 /**
- * @brief Fully Persistent Union Find
+ * @brief 完全永続UnionFind(Fully Persistent Union Find)
  * @docs _md/persistent_unionfind.md
  */

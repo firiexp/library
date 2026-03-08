@@ -73,6 +73,6 @@ tuple<T, vector<int>, vector<T>, vector<T>> hungarian(const vector<vector<T>> &c
 }
 
 /**
- * @brief Hungarian algorithm
+ * @brief ハンガリアン法(Hungarian Algorithm)
  * @docs _md/hungarian.md
  */

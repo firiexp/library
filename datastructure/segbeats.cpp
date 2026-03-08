@@ -111,3 +111,8 @@ void NAME(int a, int b, T val) { \
         for (int i = n-1; i >= 1; --i) get(i);
     }
 };
+
+/**
+ * @brief Segment Tree Beats
+ * @docs _md/segbeats.md
+ */

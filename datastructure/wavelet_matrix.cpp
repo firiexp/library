@@ -136,3 +136,8 @@ struct WaveletMatrix {
         return true;
     }
 };
+
+/**
+ * @brief Wavelet Matrix
+ * @docs _md/wavelet_matrix.md
+ */

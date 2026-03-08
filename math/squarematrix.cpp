@@ -82,3 +82,8 @@ struct SquareMatrix {
     SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this) -= B;}
     SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this) *= B;}
 };
+
+/**
+ * @brief 固定長正方行列(Square Matrix)
+ * @docs _md/squarematrix.md
+ */

@@ -77,3 +77,8 @@ struct Monoid {
     static T e() { return 0; }
 };
 */
+
+/**
+ * @brief SWAG Deque
+ * @docs _md/swag_deque.md
+ */

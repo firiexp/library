@@ -26,3 +26,8 @@ struct QuickFind {
     bool same(int a, int b){ return roots[a] == roots[b]; }
     const vector<int>& components(int x){ return v[roots[x]];}
 };
+
+/**
+ * @brief Quick Find
+ * @docs _md/quickfind.md
+ */

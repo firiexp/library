@@ -74,6 +74,6 @@ struct PrimalDual {
 };
 
 /**
- * @brief 最小費用流(primal-dual)
+ * @brief 最小費用流(Primal-Dual)
  * @docs _md/primaldual.md
  */

@@ -117,3 +117,8 @@ struct Monoid{
     static L l() { return {1, 0}; }
 };
 */
+
+/**
+ * @brief 遅延セグメント木(Lazy Segment Tree)
+ * @docs _md/lazysegtree.md
+ */

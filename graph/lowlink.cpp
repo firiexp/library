@@ -58,3 +58,8 @@ public:
         return ord[i] < low[j];
     }
 };
+
+/**
+ * @brief LowLink
+ * @docs _md/lowlink.md
+ */

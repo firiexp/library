@@ -75,3 +75,8 @@ struct Monoid{
     static T e() { return 0; }
 };
 */
+
+/**
+ * @brief 動的セグメント木
+ * @docs _md/dynamic_segtree.md
+ */

@@ -26,6 +26,6 @@ int diameter(const vector<vector<int>> &G) {
 }
 
 /**
- * @brief Tree Diameter
+ * @brief 木の直径(Tree Diameter)
  * @docs _md/diameter.md
  */

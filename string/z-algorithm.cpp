@@ -11,3 +11,8 @@ vector<int> Z_algorithm(const string &s){
     }
     return res;
 }
+
+/**
+ * @brief Z-Algorithm
+ * @docs _md/z-algorithm.md
+ */

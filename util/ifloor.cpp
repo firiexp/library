@@ -5,3 +5,8 @@ template<class T>T ifloor(T x, T y){
 template<class T>inline T iceil(T x, T y){
     return x/y+(x%y ? (x >= 0)^(y < 0) : 0);
 }
+
+/**
+ * @brief 床除算・天井除算(Floor/Ceil Division)
+ * @docs _md/ifloor.md
+ */

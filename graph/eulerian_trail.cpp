@@ -110,6 +110,6 @@ struct EulerianTrail {
 };
 
 /**
- * @brief Eulerian trail
+ * @brief オイラー路(Eulerian Trail)
  * @docs _md/eulerian_trail.md
  */

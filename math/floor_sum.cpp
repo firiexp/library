@@ -14,3 +14,8 @@ ll floor_sum(ll n, ll m, ll a, ll b){
     ans += floor_sum(y, a, m, (a - x%a)%a);
     return ans;
 }
+
+/**
+ * @brief Floor Sum
+ * @docs _md/floor_sum.md
+ */

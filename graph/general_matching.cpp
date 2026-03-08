@@ -107,6 +107,6 @@ public:
 };
 
 /**
- * @brief 一般グラフ最大マッチング
+ * @brief 一般グラフ最大マッチング(General Matching)
  * @docs _md/general_matching.md
  */
