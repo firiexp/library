@@ -1,5 +1,4 @@
 ---
-layout: post
 title: MOD逆元(拡張ユークリッド互除法)
 date: 2018-04-28
 category: 数学

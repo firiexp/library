@@ -1,5 +1,4 @@
 ---
-layout: post
 title: primefactor_ll2
 date: 2026-03-08
 category: 数学

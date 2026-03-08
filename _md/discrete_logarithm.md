@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Discrete Logarithm
 documentation_of: //math/discrete_logarithm.cpp
 date: 2026-03-08

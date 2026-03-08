@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 幾何ライブラリ 3次元(未完成)
 date: 2019-07-02
 category: 幾何

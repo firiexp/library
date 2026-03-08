@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Jump on Tree
 documentation_of: //tree/jump_on_tree.cpp
 date: 2026-03-08

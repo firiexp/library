@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 素数列挙
 date: 2019-08-18
 category: 数学

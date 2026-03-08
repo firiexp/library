@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Z-algorithm
 documentation_of: //string/z-algorithm.cpp
 date: 2026-03-08

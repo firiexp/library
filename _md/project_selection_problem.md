@@ -1,5 +1,4 @@
 ---
-layout: post
 title: ProjectSelectionProblem
 documentation_of: //flow/project_selection_problem.cpp
 date: 2026-03-08

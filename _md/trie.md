@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Trie 木
 date: 2018-04-28
 category: 文字列

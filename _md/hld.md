@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 重軽分解
 documentation_of: //tree/hld.cpp
 date: 2019-10-10

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 高速多項式剰余(高速kitamasa法)
 date: 2018-04-28
 category: 数学

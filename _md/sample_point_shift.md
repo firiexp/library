@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Sample Point Shift
 documentation_of: //fps/sample_point_shift.cpp
 date: 2026-03-08

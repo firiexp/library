@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 遅延伝播SegmentTree
 documentation_of: //datastructure/lazysegtree.cpp
 date: 2018-05-01
@@ -39,5 +38,4 @@ $
 - $ f((x_1, y_1), (x_2, y_2)) = (x_1+x_2, y_1+y_2)$
 - $ g((x, y), z) = (zy, y)$
 - $ h(x, y) = a ( b = e ),  b ( b \neq e )$
-
 

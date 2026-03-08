@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 四則演算パーサ
 documentation_of: //util/parse.cpp
 date: 2026-03-08

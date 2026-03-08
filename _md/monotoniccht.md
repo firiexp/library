@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Convex-Hull Trick (クエリ単調)
 date: 2018-04-28
 category: データ構造

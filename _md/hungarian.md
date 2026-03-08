@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Hungarian
 documentation_of: //flow/hungarian.cpp
 date: 2026-03-08

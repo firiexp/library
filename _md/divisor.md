@@ -1,5 +1,4 @@
 ---
-layout: post
 title: divisor(約数列挙)
 date: 2018-04-28
 category: 数学

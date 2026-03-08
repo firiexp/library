@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Mo's algorithm
 documentation_of: //util/mo.cpp
 date: 2020-02-17

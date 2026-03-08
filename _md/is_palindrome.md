@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 回文判定
 date: 2018-04-28
 category: 謎

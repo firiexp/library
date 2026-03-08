@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 素集合データ構造 (Quick-Find)
 documentation_of: //datastructure/quickfind.cpp
 date: 2026-03-08

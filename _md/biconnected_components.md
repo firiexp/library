@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 二重頂点連結成分分解
 documentation_of: //graph/biconnected_components.cpp
 date: 2026-03-08

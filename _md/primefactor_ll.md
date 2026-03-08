@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 素因数分解(Pollard's rho法)
 date: 2018-04-28
 category: 数学

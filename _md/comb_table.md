@@ -1,5 +1,4 @@
 ---
-layout: post
 title: comb_table
 date: 2026-03-08
 category: 数学

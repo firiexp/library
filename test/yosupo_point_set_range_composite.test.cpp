@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_set_range_composite"
-#include <iostream>
 #include <algorithm>
+#include <array>
 #include <map>
 #include <set>
 #include <queue>
@@ -17,6 +17,7 @@ using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
+#include "../util/fastio.cpp"
 #include "../util/modint.cpp"
 
 #include "../datastructure/segtree.cpp"
@@ -28,22 +29,24 @@ struct Monoid{
 };
 
 int main() {
+    Scanner sc;
+    Printer pr;
     int n, q;
-    cin >> n >> q;
+    sc.read(n, q);
     SegmentTree<Monoid> seg(n);
     for (int i = 0; i < n; ++i) {
         int a, b;
-        scanf("%d %d", &a, &b);
-        seg.set(i, {a, b});
+        sc.read(a, b);
+        seg.set(i, Monoid::T{a, b});
     }
     seg.build();
     for (int i = 0; i < q; ++i) {
         int a, b, c, d;
-        scanf("%d %d %d %d", &a, &b, &c, &d);
-        if(!a) seg.update(b, {c, d});
+        sc.read(a, b, c, d);
+        if(!a) seg.update(b, Monoid::T{c, d});
         else {
             auto ans = seg.query(b, c);
-            printf("%d\n", (ans[0]*d+ans[1]).val);
+            pr.writeln((ans[0] * d + ans[1]).val);
         }
     }
     return 0;

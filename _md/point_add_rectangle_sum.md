@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Point Add Rectangle Sum
 documentation_of: //datastructure/point_add_rectangle_sum.cpp
 date: 2026-03-08

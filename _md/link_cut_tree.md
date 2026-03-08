@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Link-Cut Tree
 documentation_of: //tree/link_cut_tree.cpp
 date: 2026-03-08

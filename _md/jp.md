@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 日本語入力
 date: 2018-04-28
 category: 謎

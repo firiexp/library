@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Miller-Rabin法(確率的素数判定)
 documentation_of: //math/miller_rabin.cpp
 date: 2018-04-28

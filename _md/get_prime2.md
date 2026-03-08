@@ -1,5 +1,4 @@
 ---
-layout: post
 title: get_prime2
 date: 2026-03-08
 category: 数学

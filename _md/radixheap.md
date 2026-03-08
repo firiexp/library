@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Radix-Heap
 date: 2019-10-20
 category: データ構造

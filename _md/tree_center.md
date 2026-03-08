@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Tree Center
 documentation_of: //tree/tree_center.cpp
 date: 2026-03-08

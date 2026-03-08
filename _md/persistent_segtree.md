@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Persistent Segment Tree
 documentation_of: //datastructure/persistent_segtree.cpp
 date: 2026-03-08
@@ -32,4 +31,3 @@ tags: データ構造
 - `add(...)` : 点加算（`f(old, x)`）で新バージョン作成
 - `query(...)` : 区間クエリ
 - `get(t, k)` : バージョン `t` の `k` 番目の値
-

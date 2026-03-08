@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 線形漸化式
 documentation_of: //fps/linear_recurrence.cpp
 date: 2026-03-07
@@ -17,4 +16,3 @@ tags: 数学
 `linear_recurrence(a, c, n)` は初項 `a` と係数 `c` が与えられたときの第 `n` 項を返す。
 
 `linear_recurrence(a, n)` は Berlekamp-Massey で `a` の最小線形漸化式を復元して第 `n` 項を返す。
-

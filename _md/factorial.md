@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 階乗ライブラリ
 date: 2018-04-28
 category: 数学

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 素因数分解(試し割り)
 date: 2018-04-28
 category: 数学

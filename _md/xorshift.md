@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Xor-Shift
 date: 2018-04-28
 category: 乱数

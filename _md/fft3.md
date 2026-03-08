@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 高速フーリエ変換 (任意MOD, 11bit分割)
 date: 2026-03-08
 category: 数学

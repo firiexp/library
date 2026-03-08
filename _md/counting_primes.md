@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Counting Primes
 documentation_of: //math/counting_primes.cpp
 date: 2026-03-08

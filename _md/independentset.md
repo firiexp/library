@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 最大独立集合
 documentation_of: //graph/independentset.cpp
 date: 2018-04-28

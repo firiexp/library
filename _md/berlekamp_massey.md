@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Berlekamp-Massey
 documentation_of: //math/berlekamp_massey.cpp
 date: 2026-03-07
@@ -23,4 +22,3 @@ tags: 数学
 - `T` は加減乗除と `T(0)`, `T(1)` が使える体上の型を想定。
 - 返り値の長さが最小次数 `L`。
 - 返り値 `c[i]` は上式の係数 `c_i`。
-

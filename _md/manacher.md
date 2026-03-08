@@ -1,5 +1,4 @@
 ---
-layout: post
 title: manacher
 date: 2019-12-07
 category: 文字列

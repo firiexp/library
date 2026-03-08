@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Minimum Cost B-Flow
 documentation_of: //graph/minimum_cost_b_flow.cpp
 date: 2026-03-08

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: suffix automaton
 documentation_of: //string/suffix_automaton.cpp
 date: 2026-03-08

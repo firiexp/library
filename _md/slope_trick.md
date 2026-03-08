@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Slope Trick
 documentation_of: //datastructure/slope_trick.cpp
 date: 2026-03-08

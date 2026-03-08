@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Dynamic Connectivity (オフライン)
 date: 2020-02-26
 category: グラフ

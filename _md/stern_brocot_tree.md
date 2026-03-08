@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Stern Brocot Tree
 documentation_of: //math/stern_brocot_tree.cpp
 date: 2026-03-08

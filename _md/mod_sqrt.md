@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Mod Sqrt
 documentation_of: //math/mod_sqrt.cpp
 date: 2026-03-08

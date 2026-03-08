@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Dinic(最大流)
 documentation_of: //flow/dinic.cpp
 date: 2019-07-31

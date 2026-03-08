@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 木上のdfs
 date: 2019-11-12
 category: 木

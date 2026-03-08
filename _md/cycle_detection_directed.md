@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Cycle Detection Directed
 documentation_of: //graph/cycle_detection_directed.cpp
 date: 2026-03-08

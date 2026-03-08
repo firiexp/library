@@ -1,5 +1,4 @@
 ---
-layout: post
 title: modint構造体(実行時MOD)
 documentation_of: //util/modint_arbitrary.cpp
 date: 2019-06-21

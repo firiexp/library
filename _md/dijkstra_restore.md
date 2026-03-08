@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Dijkstra Restore
 documentation_of: //graph/dijkstra_restore.cpp
 date: 2026-03-08

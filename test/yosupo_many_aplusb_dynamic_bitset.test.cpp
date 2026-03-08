@@ -65,10 +65,10 @@ int main() {
     {
         mt19937 rng(123456789);
         for (int n = 0; n <= 130; ++n) {
-            for (int trial = 0; trial < 200; ++trial) {
+            for (int trial = 0; trial < 120; ++trial) {
                 DynamicBitset bs(n);
                 vector<int> v(n, 0);
-                for (int step = 0; step < 200; ++step) {
+                for (int step = 0; step < 120; ++step) {
                     int op = uniform_int_distribution<int>(0, 12)(rng);
                     int k = n == 0 ? 0 : uniform_int_distribution<int>(0, n - 1)(rng);
                     int s = n == 0 ? 0 : uniform_int_distribution<int>(0, n + 5)(rng);

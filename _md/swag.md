@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Sliding Window Aggregation
 documentation_of: //datastructure/swag.cpp
 date: 2020-02-19

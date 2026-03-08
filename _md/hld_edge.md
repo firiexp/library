@@ -1,5 +1,4 @@
 ---
-layout: post
 title: HLD Edge
 documentation_of: //tree/hld_edge.cpp
 date: 2026-03-08

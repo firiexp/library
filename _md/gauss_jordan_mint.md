@@ -1,5 +1,4 @@
 ---
-layout: post
 title: Gauss Jordan Mint
 documentation_of: //math/gauss_jordan_mint.cpp
 date: 2026-03-08

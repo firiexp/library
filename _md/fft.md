@@ -1,5 +1,4 @@
 ---
-layout: post
 title: 高速フーリエ変換 (任意MOD)
 date: 2019-10-14
 category: 数学
