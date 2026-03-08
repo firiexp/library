@@ -1,3 +1,5 @@
+#include <stack>
+
 #include "../datastructure/sparsetable.cpp"
 
 struct F {
@@ -26,7 +28,7 @@ public:
     int n;
     vector<vector<int>> G, out;
     vector<int> vs, depth, dep, id, fi;
-    explicit AuxTree(int n) : n(n), G(n), out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n), table() {};
+    explicit AuxTree(int n) : table(), n(n), G(n), out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n) {};
     void add_edge(int a, int b){
         G[a].emplace_back(b);
         G[b].emplace_back(a);
@@ -37,8 +39,8 @@ public:
         dfs_euler(root, -1, 0, k, l);
     }
 
-    void buildLCA(){
-        eulertour(0);
+    void buildLCA(int root = 0){
+        eulertour(root);
         vector<pair<int, int>> v(2*n-1);
         for (int i = 0; i < 2*n-1; ++i) {
             v[i] = make_pair(depth[i], vs[i]);
