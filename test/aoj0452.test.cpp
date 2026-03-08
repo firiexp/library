@@ -1,22 +1,18 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/0452"
-#include <iostream>
 #include <algorithm>
-#include <map>
-#include <set>
+#include <limits>
 #include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
+#include <tuple>
+#include <vector>
+using namespace std;
 
-static const int MOD = 1000000007;
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
-using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;
 
+#include "../util/fastio.cpp"
 #include "../tree/centroid_decomposition.cpp"
 
 #include "../math/ntt.cpp"
@@ -52,12 +48,15 @@ public:
 
 
 int main() {
+    Scanner sc;
+    Printer pr;
+
     int n;
-    cin >> n;
+    sc.read(n);
     CentroidDecomposition G(n);
     for (int i = 0; i < n-1; ++i) {
         int u, v;
-        scanf("%d %d", &u, &v);
+        sc.read(u, v);
         u--; v--;
         G.add_edge(u, v);
     }
@@ -99,8 +98,8 @@ int main() {
     }
     val *= fact;
     for (int i = 0; i < n-1; ++i) {
-        if(n+i < val.size()+1) printf("%d\n", (val[n-1+i]*f[-i]).val);
-        else printf("%d\n", 0);
+        if (n + i < (int)val.size() + 1) pr.writeln((val[n - 1 + i] * f[-i]).val);
+        else pr.writeln(0);
     }
     return 0;
 }

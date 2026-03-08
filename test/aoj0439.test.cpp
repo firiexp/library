@@ -1,39 +1,36 @@
-#define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0439"
-#include <iostream>
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/0439"
+
 #include <algorithm>
-#include <map>
-#include <set>
+#include <functional>
+#include <limits>
 #include <queue>
 #include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
-
-static const int MOD = 1000000007;
-using ll = long long;
-using uint = unsigned;
-using ull = unsigned long long;
+#include <vector>
 using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
+#include "../util/fastio.cpp"
 #include "../tree/auxtree.cpp"
 
 template <typename T>
 using GPQ = priority_queue<T, vector<T>, greater<T>>;
 int main() {
+    Scanner sc;
+    Printer pr;
+
     int n;
-    cin >> n;
+    sc.read(n);
     vector<vector<int>> color(n);
     AuxTree G(n);
     for (int i = 0; i < n; ++i) {
         int x;
-        scanf("%d", &x);
+        sc.read(x);
         color[x-1].emplace_back(i);
     }
     for (int i = 0; i < n-1; ++i) {
         int u, v;
-        scanf("%d %d", &u, &v);
+        sc.read(u, v);
         u--; v--;
         G.add_edge(u, v);
     }
@@ -45,7 +42,7 @@ int main() {
         int k = v.size();
         G.make(v);
         GPQ<pair<int, int>> Q;
-        for (int i = 0; i < v.size(); ++i) {
+        for (int i = 0; i < (int)v.size(); ++i) {
             if(i < k) dist[v[i]] = 0, cmp[v[i]] = v[i], Q.emplace(0, v[i]);
             else dist[v[i]] = INF<int>;
         }
@@ -69,7 +66,7 @@ int main() {
         G.clear(v);
     }
     for (auto &&i : ans) {
-        printf("%d\n", i);
+        pr.writeln(i);
     }
     return 0;
 }
