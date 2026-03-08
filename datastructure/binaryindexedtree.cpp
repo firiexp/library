@@ -29,5 +29,4 @@ public:
 
 /**
  * @brief Binary Indexed Tree(BIT)
- * @docs _md/binaryindexedtree.md
  */

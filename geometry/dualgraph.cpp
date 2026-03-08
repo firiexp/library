@@ -67,5 +67,4 @@ public:
 
 /**
  * @brief 双対グラフ(Dual Graph)
- * @docs _md/dualgraph.md
  */

@@ -1,3 +1,7 @@
+---
+title: 最近共通祖先(LCA)
+documentation_of: //tree/LCA.cpp
+---
 ## 説明
 Euler Tour + Sparse Table で木上の LCA を求める。
 前処理 `O(N log N)`、クエリ `O(1)`。

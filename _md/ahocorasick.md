@@ -1,3 +1,7 @@
+---
+title: Aho-Corasick法
+documentation_of: //datastructure/ahocorasick.cpp
+---
 ## 説明
 Trie木に対応するパターンマッチングオートマトンを構築する。
 

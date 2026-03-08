@@ -114,5 +114,4 @@ void NAME(int a, int b, T val) { \
 
 /**
  * @brief Segment Tree Beats
- * @docs _md/segbeats.md
  */

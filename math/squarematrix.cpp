@@ -88,5 +88,4 @@ struct SquareMatrix {
 
 /**
  * @brief 固定長正方行列(Square Matrix)
- * @docs _md/squarematrix.md
  */

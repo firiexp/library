@@ -1,3 +1,7 @@
+---
+title: 有理型母関数のn項(N-th Term)
+documentation_of: //fps/nth_term.cpp
+---
 ## 説明
 有理型母関数 `P(x) / Q(x)` の `x^n` の係数を求める。
 線形漸化式の第 `n` 項計算を Bostan-Mori 法で処理する低レベル部品である。

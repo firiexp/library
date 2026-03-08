@@ -78,5 +78,4 @@ struct Monoid{
 
 /**
  * @brief 動的セグメント木
- * @docs _md/dynamic_segtree.md
  */

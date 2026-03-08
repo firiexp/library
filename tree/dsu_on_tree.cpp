@@ -75,5 +75,4 @@ private:
 
 /**
  * @brief DSU on Tree
- * @docs _md/dsu_on_tree.md
  */

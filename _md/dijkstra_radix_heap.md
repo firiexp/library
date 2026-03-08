@@ -1,3 +1,7 @@
+---
+title: Dijkstra法(Radix Heap)
+documentation_of: //graph/dijkstra_radix_heap.cpp
+---
 ## 説明
 Radix Heap を使った Dijkstra 法である。
 非負整数重みの単一始点最短路を高速に求める。

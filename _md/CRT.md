@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 中国剰余定理
+documentation_of: //math/CRT.cpp
 date: 2019-08-18
 category: 数学
 tags: 数学

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: IFloor
+documentation_of: //util/ifloor.cpp
 date: 2026-03-08
 category: util
 tags: util

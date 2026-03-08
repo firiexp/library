@@ -1,6 +1,7 @@
 ---
 layout: post
 title: primefactor2
+documentation_of: //math/primefactor2.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

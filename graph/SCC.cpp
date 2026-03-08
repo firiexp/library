@@ -53,5 +53,4 @@ public:
 
 /**
  * @brief 強連結成分分解(SCC)
- * @docs _md/SCC.md
  */

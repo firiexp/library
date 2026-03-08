@@ -1,3 +1,7 @@
+---
+title: 完全永続UnionFind(Fully Persistent Union Find)
+documentation_of: //datastructure/persistent_unionfind.cpp
+---
 ## 説明
 各操作で新しい版を作る fully persistent な Union-Find である。
 任意の過去版に対して `same` や `size` を呼べて、過去版からさらに `unite` して別の分岐を作れる。

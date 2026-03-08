@@ -139,5 +139,4 @@ struct WaveletMatrix {
 
 /**
  * @brief Wavelet Matrix
- * @docs _md/wavelet_matrix.md
  */

@@ -62,5 +62,4 @@ public:
 
 /**
  * @brief Virtual Tree Helper
- * @docs _md/virtual_tree_helper.md
  */

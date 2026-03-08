@@ -77,5 +77,4 @@ struct PointAddRectangleSum {
 
 /**
  * @brief 点加算長方形和(Point Add Rectangle Sum)
- * @docs _md/point_add_rectangle_sum.md
  */

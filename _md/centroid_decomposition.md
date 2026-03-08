@@ -1,3 +1,7 @@
+---
+title: 重心分解(Centroid Decomposition)
+documentation_of: //tree/centroid_decomposition.cpp
+---
 ## 説明
 木を重心分解し、重心木を構築する。
 各部分木を重心で再帰的に分割し、`out` に重心木の子を持つ。

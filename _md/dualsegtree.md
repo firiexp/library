@@ -1,3 +1,7 @@
+---
+title: 双対セグメント木(Dual Segment Tree)
+documentation_of: //datastructure/dualsegtree.cpp
+---
 ## 説明
 区間更新・一点取得を扱う双対セグメント木である。
 演算は結合則を満たせばよく、各操作は `O(log N)`。

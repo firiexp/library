@@ -22,5 +22,4 @@ ull kth_root_integer(ull a, int k) {
 
 /**
  * @brief 整数k乗根(K-th Root Integer)
- * @docs _md/kth_root_integer.md
  */

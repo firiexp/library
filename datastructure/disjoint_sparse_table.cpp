@@ -43,5 +43,4 @@ struct DisjointSparseTable {
 
 /**
  * @brief Disjoint Sparse Table
- * @docs _md/disjoint_sparse_table.md
  */

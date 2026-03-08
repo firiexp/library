@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Fast IO
+documentation_of: //util/fastio.cpp
 date: 2026-03-08
 category: ユーティリティ
 tags: ユーティリティ

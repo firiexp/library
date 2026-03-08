@@ -44,5 +44,4 @@ mint nth_term(poly p, poly q, ll n){
 
 /**
  * @brief 有理型母関数のn項(N-th Term)
- * @docs _md/nth_term.md
  */

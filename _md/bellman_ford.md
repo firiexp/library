@@ -1,3 +1,7 @@
+---
+title: Bellman-Ford法
+documentation_of: //graph/bellman_ford.cpp
+---
 ## 説明
 Bellman-Ford 法で単一始点最短路を求める。
 負辺があっても使え、計算量は `O(VE)`。

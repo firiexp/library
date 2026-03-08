@@ -26,5 +26,4 @@ ll primitive_root(ll m) {
 
 /**
  * @brief 原始根(Primitive Root)
- * @docs _md/primitive_root.md
  */

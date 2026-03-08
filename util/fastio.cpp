@@ -209,5 +209,4 @@ struct Printer {
 
 /**
  * @brief 高速入出力(Fast IO)
- * @docs _md/fastio.md
  */

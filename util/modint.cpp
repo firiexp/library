@@ -30,5 +30,4 @@ using mint = modint<MOD>;
 
 /**
  * @brief modint(固定MOD)
- * @docs _md/modint.md
  */

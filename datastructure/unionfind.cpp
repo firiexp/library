@@ -27,5 +27,4 @@ public:
 
 /**
  * @brief UnionFind(素集合データ構造)
- * @docs _md/unionfind.md
  */

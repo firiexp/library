@@ -42,5 +42,4 @@ ll tetration(ll a, ll n, const ll M){
 
 /**
  * @brief Tetration Mod
- * @docs _md/tetration.md
  */

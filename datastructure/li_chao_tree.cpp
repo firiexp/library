@@ -170,5 +170,4 @@ private:
 
 /**
  * @brief Li Chao Tree
- * @docs _md/li_chao_tree.md
  */

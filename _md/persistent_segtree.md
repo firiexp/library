@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Persistent Segment Tree
+documentation_of: //datastructure/persistent_segtree.cpp
 date: 2026-03-08
 category: データ構造
 tags: データ構造

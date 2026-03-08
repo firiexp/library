@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Convex Hull
+documentation_of: //geometry/convex_hull.cpp
 date: 2026-03-08
 category: 幾何
 tags: 幾何

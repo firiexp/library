@@ -28,5 +28,4 @@ vector<T> dijkstra(int s,vector<vector<edge<T>>> &G){
 
 /**
  * @brief Dijkstra法
- * @docs _md/dijkstra.md
  */

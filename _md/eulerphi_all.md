@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Euler Phi All
+documentation_of: //math/eulerphi_all.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

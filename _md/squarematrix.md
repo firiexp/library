@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 正方行列
+documentation_of: //math/squarematrix.cpp
 date: 2019-06-21
 category: データ構造
 tags: データ構造

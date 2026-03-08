@@ -75,5 +75,4 @@ public:
 
 /**
  * @brief Jump on Tree
- * @docs _md/jump_on_tree.md
  */

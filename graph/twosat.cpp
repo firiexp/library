@@ -69,5 +69,4 @@ struct TwoSAT {
 
 /**
  * @brief 2-SAT
- * @docs _md/twosat.md
  */

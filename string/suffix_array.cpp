@@ -111,5 +111,4 @@ vector<int> lcp(string const& s, vector<int> const& sa){
 
 /**
  * @brief Suffix Array
- * @docs _md/suffix_array.md
  */

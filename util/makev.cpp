@@ -9,5 +9,4 @@ template<class T> void chmax(T &a, const T &b){ a = (a > b ? a : b); }
 
 /**
  * @brief make_v, chmin, chmax
- * @docs _md/makev.md
  */

@@ -67,5 +67,4 @@ struct HeavyLightDecompositionEdge {
 
 /**
  * @brief HL分解(辺クエリ)
- * @docs _md/hld_edge.md
  */

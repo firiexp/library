@@ -27,5 +27,4 @@ vector<pair<int, int>> manhattanMST(vector<T> xs, vector<T> ys) {
 
 /**
  * @brief マンハッタンMST(Manhattan MST)
- * @docs _md/manhattanmst.md
  */

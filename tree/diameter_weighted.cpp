@@ -26,5 +26,4 @@ pair<T, pair<int, int>> tree_diameter_weighted(const vector<vector<pair<int, T>>
 
 /**
  * @brief 木の直径(重み付き)
- * @docs _md/diameter_weighted.md
  */

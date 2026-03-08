@@ -1,3 +1,7 @@
+---
+title: マンハッタンMST(Manhattan MST)
+documentation_of: //graph/manhattanmst.cpp
+---
 ## 説明
 マンハッタン距離に対する最小全域木の候補辺集合を `O(N log N)` で列挙する。
 返る辺だけに Kruskal をかければ、元の完全グラフの最小全域木が求まる。

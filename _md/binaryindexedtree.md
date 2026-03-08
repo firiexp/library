@@ -1,3 +1,7 @@
+---
+title: Binary Indexed Tree(BIT)
+documentation_of: //datastructure/binaryindexedtree.cpp
+---
 ## 説明
 可換群(逆元が存在する群)について、区間和を$O(\log N)$で求め、更新を$O(\log N)$で行う。<br>
 可換でなくても$[0, x)$について演算した結果だけを求めたいのであれば、使うことができる。(例: LIS)

@@ -67,5 +67,4 @@ public:
 
 /**
  * @brief Dinic法(Dinic)
- * @docs _md/dinic.md
  */

@@ -91,5 +91,4 @@ public:
 
 /**
  * @brief Project Selection Problem
- * @docs _md/project_selection_problem.md
  */

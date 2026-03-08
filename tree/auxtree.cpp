@@ -98,5 +98,4 @@ public:
 
 /**
  * @brief 補助木(Aux Tree)
- * @docs _md/auxtree.md
  */

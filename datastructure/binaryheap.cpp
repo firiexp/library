@@ -22,5 +22,4 @@ struct binary_heap {
 
 /**
  * @brief 二分ヒープ(Binary Heap)
- * @docs _md/binaryheap.md
  */

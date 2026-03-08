@@ -49,5 +49,4 @@ vector<int> restore_path(int s, int t, const vector<int> &parent) {
 
 /**
  * @brief 経路復元付きDijkstra法
- * @docs _md/dijkstra_restore.md
  */

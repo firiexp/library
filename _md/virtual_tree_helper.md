@@ -1,6 +1,7 @@
 ---
 layout: post
 title: virtual_tree_helper
+documentation_of: //tree/virtual_tree_helper.cpp
 date: 2026-03-08
 category: 木
 tags: 木

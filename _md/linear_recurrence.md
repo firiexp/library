@@ -1,6 +1,7 @@
 ---
 layout: post
 title: 線形漸化式
+documentation_of: //fps/linear_recurrence.cpp
 date: 2026-03-07
 category: 数学
 tags: 数学

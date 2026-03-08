@@ -1,3 +1,7 @@
+---
+title: SWAG Deque
+documentation_of: //datastructure/swag_deque.cpp
+---
 ## 説明
 両端キューに対する sliding window aggregation である。
 結合則を満たす演算なら、両端への追加・削除と全体積の取得を償却 `O(1)` で処理する。

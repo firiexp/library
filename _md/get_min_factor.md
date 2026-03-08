@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Get Min Factor
+documentation_of: //math/get_min_factor.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

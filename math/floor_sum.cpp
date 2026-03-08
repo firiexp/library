@@ -17,5 +17,4 @@ ll floor_sum(ll n, ll m, ll a, ll b){
 
 /**
  * @brief Floor Sum
- * @docs _md/floor_sum.md
  */

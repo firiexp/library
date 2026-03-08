@@ -99,5 +99,4 @@ long long counting_primes(long long n) {
 
 /**
  * @brief 素数数え上げ(Prime Counting)
- * @docs _md/counting_primes.md
  */

@@ -43,5 +43,4 @@ public:
 };
 /**
  * @brief Aho-Corasick法
- * @docs _md/ahocorasick.md
  */

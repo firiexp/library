@@ -190,5 +190,4 @@ struct LinkCutTree {
 
 /**
  * @brief Link-Cut Tree
- * @docs _md/link_cut_tree.md
  */

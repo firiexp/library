@@ -1,3 +1,7 @@
+---
+title: 辞書順最小二部マッチング(Lexicographically Minimum)
+documentation_of: //graph/bipartite_matching_lexmin.cpp
+---
 ## 説明
 二部グラフの最大マッチングのうち、左側頂点の対応先列を辞書順最小にしたものを求める。
 先に通常の最大マッチングを作り、その後に左側を小さい順に確定していく。

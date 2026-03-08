@@ -1,3 +1,7 @@
+---
+title: 重み付きUnionFind(Weighted Union Find)
+documentation_of: //datastructure/weightedunionfind.cpp
+---
 ## 説明
 各頂点にポテンシャルを持たせた Union-Find である。
 併合と差分取得をほぼ償却 `O(alpha(N))` で扱う。

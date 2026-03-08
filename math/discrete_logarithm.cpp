@@ -59,5 +59,4 @@ long long discrete_logarithm(long long x, long long y, long long mod) {
 
 /**
  * @brief 離散対数(Discrete Logarithm)
- * @docs _md/discrete_logarithm.md
  */

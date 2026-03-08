@@ -40,5 +40,4 @@ pair<int, vector<int>> tree_center(const vector<vector<int>> &G) {
 
 /**
  * @brief 木の中心(Tree Center)
- * @docs _md/tree_center.md
  */

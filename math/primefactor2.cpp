@@ -48,5 +48,4 @@ vector<T> prime_factor(T n){
 
 /**
  * @brief 前計算付き素因数分解(Prime Factorization)
- * @docs _md/primefactor2.md
  */

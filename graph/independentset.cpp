@@ -37,5 +37,4 @@ public:
 
 /**
  * @brief 最大独立集合(Maximum Independent Set)
- * @docs _md/independentset.md
  */

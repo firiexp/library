@@ -29,5 +29,4 @@ struct QuickFind {
 
 /**
  * @brief Quick Find
- * @docs _md/quickfind.md
  */

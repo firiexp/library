@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Eulerian Trail
+documentation_of: //graph/eulerian_trail.cpp
 date: 2026-03-08
 category: グラフ
 tags: グラフ

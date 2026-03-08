@@ -51,5 +51,4 @@ public:
 
 /**
  * @brief 二部グラフ最大マッチング(Bipartite Matching)
- * @docs _md/bipartite_matching.md
  */

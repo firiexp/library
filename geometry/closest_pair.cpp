@@ -69,5 +69,4 @@ pair<int, int> closest_pair(const vector<pair<long long, long long>> &points) {
 
 /**
  * @brief Closest Pair
- * @docs _md/closest_pair.md
  */

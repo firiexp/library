@@ -1,3 +1,7 @@
+---
+title: Kruskal法
+documentation_of: //graph/kruskal.cpp
+---
 ## 説明
 無向重み付きグラフの最小全域木を求める。
 辺を重み順にソートし、閉路にならないものだけ採用する。計算量は `O(M log M)`。

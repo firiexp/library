@@ -1,3 +1,7 @@
+---
+title: 二部グラフ最大マッチング(Bipartite Matching)
+documentation_of: //graph/bipartite_matching.cpp
+---
 ## 説明
 二部グラフの最大マッチングを単純 DFS で求める。
 左頂点数を `L`、右頂点数を `R`、辺数を `M` とすると計算量は `O(LM)`。

@@ -59,5 +59,4 @@ public:
 
 /**
  * @brief 最近共通祖先(LCA)
- * @docs _md/LCA.md
  */

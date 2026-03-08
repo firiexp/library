@@ -547,5 +547,4 @@ struct poly {
 
 /**
  * @brief NTT・形式的冪級数(NTT/FPS)
- * @docs _md/ntt.md
  */

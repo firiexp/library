@@ -35,5 +35,4 @@ struct Monoid {
 
 /**
  * @brief SWAG
- * @docs _md/swag.md
  */

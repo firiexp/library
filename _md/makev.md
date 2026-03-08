@@ -1,3 +1,7 @@
+---
+title: make_v, chmin, chmax
+documentation_of: //util/makev.cpp
+---
 ## 説明
 vector<vector\<int\>>とか書かなくていいようにするやつ。
 

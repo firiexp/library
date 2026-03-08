@@ -152,5 +152,4 @@ public:
 
 /**
  * @brief 動的bitset(Dynamic Bitset)
- * @docs _md/dynamic_bitset.md
  */

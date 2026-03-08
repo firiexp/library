@@ -24,5 +24,4 @@ pair<vector<vector<int>>, int> CartesianTree(const vector<T> &a) {
 
 /**
  * @brief Cartesian Tree
- * @docs _md/cartesian_tree.md
  */

@@ -110,5 +110,4 @@ Node lca(ll a, ll b, ll c, ll d) {
 
 /**
  * @brief Stern-Brocot木
- * @docs _md/stern_brocot_tree.md
  */

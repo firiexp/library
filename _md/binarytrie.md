@@ -1,3 +1,7 @@
+---
+title: Binary Trie
+documentation_of: //datastructure/binarytrie.cpp
+---
 ## 説明
 非負整数集合に対する binary trie である。
 挿入、削除、存在判定、`xor` をかけたあとの最小値取得を `O(X)` で扱う。

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Polynomial Interpolation
+documentation_of: //fps/polynomial_interpolation.cpp
 date: 2026-03-08
 category: FPS
 tags: FPS

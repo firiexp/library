@@ -36,5 +36,4 @@ struct rolling_hash {
 
 /**
  * @brief Rolling Hash
- * @docs _md/rolling_hash.md
  */

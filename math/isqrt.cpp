@@ -7,5 +7,4 @@ ull Isqrt(ull const &x){
 
 /**
  * @brief 整数平方根(Integer Square Root)
- * @docs _md/isqrt.md
  */

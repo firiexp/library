@@ -1,3 +1,7 @@
+---
+title: 容量スケーリングDinic(Capacity Scaling Dinic)
+documentation_of: //flow/costscalingdinic.cpp
+---
 ## 説明
 capacity scaling を入れた Dinic 法による最大流である。
 大きい容量から順に流すことで、容量が大きいケースで定数倍を改善する。

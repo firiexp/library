@@ -35,5 +35,4 @@ int LCS_bit(string &s, string &t){
 
 /**
  * @brief LCS(bitset)
- * @docs _md/lcs_bit.md
  */

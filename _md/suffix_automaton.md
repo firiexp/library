@@ -1,6 +1,7 @@
 ---
 layout: post
 title: suffix automaton
+documentation_of: //string/suffix_automaton.cpp
 date: 2026-03-08
 category: 文字列
 tags: 文字列

@@ -71,5 +71,4 @@ public:
 
 /**
  * @brief Dominator Tree
- * @docs _md/dominatortree.md
  */

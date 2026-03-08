@@ -1,6 +1,7 @@
 ---
 layout: post
 title: MaxFlowLowerBound
+documentation_of: //graph/maxflow_lower_bound.cpp
 date: 2026-03-07
 category: フロー
 tags: 最大流

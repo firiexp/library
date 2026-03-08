@@ -97,5 +97,4 @@ public:
 
 /**
  * @brief Slope Trick
- * @docs _md/slope_trick.md
  */

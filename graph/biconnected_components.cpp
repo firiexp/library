@@ -79,5 +79,4 @@ public:
 
 /**
  * @brief 二重連結成分分解(Biconnected Components)
- * @docs _md/biconnected_components.md
  */

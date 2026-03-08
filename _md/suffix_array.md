@@ -1,3 +1,7 @@
+---
+title: Suffix Array
+documentation_of: //string/suffix_array.cpp
+---
 ## 説明
 文字列や整数列の suffix array と LCP 配列を構築する。
 suffix array は SA-IS、LCP は Kasai 法で、どちらも `O(N)` で動く。

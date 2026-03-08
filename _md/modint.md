@@ -1,3 +1,7 @@
+---
+title: modint(固定MOD)
+documentation_of: //util/modint.cpp
+---
 ## 説明
 テンプレートにMODを指定すると、いちいち剰余を取ることなくMOD上の演算ができる。
 

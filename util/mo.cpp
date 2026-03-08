@@ -23,5 +23,4 @@ for (auto &&X : query) {
 
 /**
  * @brief Mo's Algorithm
- * @docs _md/mo.md
  */

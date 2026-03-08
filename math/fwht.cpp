@@ -30,5 +30,4 @@ void ifwht(vector<T> &v){
 
 /**
  * @brief 高速Walsh-Hadamard変換(FWHT)
- * @docs _md/fwht.md
  */

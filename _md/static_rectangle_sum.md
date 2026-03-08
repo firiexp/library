@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Static Rectangle Sum
+documentation_of: //datastructure/static_rectangle_sum.cpp
 date: 2026-03-08
 category: データ構造
 tags: データ構造

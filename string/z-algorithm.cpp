@@ -14,5 +14,4 @@ vector<int> Z_algorithm(const string &s){
 
 /**
  * @brief Z-Algorithm
- * @docs _md/z-algorithm.md
  */

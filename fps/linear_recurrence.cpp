@@ -20,5 +20,4 @@ mint linear_recurrence(const vector<mint> &a, ll n) {
 
 /**
  * @brief 線形漸化式(Linear Recurrence)
- * @docs _md/linear_recurrence.md
  */

@@ -74,5 +74,4 @@ struct StaticRectangleSum {
 
 /**
  * @brief 静的長方形和(Static Rectangle Sum)
- * @docs _md/static_rectangle_sum.md
  */

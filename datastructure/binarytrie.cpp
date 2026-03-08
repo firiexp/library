@@ -80,5 +80,4 @@ struct Binarytrie {
 
 /**
  * @brief Binary Trie
- * @docs _md/binarytrie.md
  */

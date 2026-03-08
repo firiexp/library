@@ -80,5 +80,4 @@ struct Monoid {
 
 /**
  * @brief SWAG Deque
- * @docs _md/swag_deque.md
  */

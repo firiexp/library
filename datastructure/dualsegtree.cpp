@@ -38,5 +38,4 @@ struct Monoid{
 
 /**
  * @brief 双対セグメント木(Dual Segment Tree)
- * @docs _md/dualsegtree.md
  */

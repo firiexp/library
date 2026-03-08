@@ -12,5 +12,4 @@ int eulerphi(int x){
 
 /**
  * @brief オイラーのφ関数(Euler Phi)
- * @docs _md/eulerphi.md
  */

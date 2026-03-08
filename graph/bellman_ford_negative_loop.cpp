@@ -43,5 +43,4 @@ vector<T> bellman_ford(int s, int N,vector<edge<T> > &G){
 
 /**
  * @brief Bellman-Ford法(負閉路伝播)
- * @docs _md/bellman_ford_negative_loop.md
  */

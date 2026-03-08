@@ -45,5 +45,4 @@ long long mod_sqrt(long long a, long long p) {
 
 /**
  * @brief 平方根(mod p)(Modular Square Root)
- * @docs _md/mod_sqrt.md
  */

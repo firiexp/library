@@ -32,5 +32,4 @@ vector<int> kmp_search(const string &text, const string &pattern){
 
 /**
  * @brief KMP法
- * @docs _md/kmp.md
  */

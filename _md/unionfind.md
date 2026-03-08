@@ -1,3 +1,7 @@
+---
+title: UnionFind(素集合データ構造)
+documentation_of: //datastructure/unionfind.cpp
+---
 ## 説明
 頂点の併合、代表元の取得が$O(\alpha (n))$でできるデータ構造。
 

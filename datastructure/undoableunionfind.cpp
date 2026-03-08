@@ -61,5 +61,4 @@ public:
 
 /**
  * @brief Undoable Union Find
- * @docs _md/undoableunionfind.md
  */

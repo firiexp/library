@@ -49,5 +49,4 @@ struct BinomModPrimePower {
 
 /**
  * @brief 二項係数(mod p^q)
- * @docs _md/binom_mod_prime_power.md
  */

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Number Theoretic Transform
+documentation_of: //math/ntt.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

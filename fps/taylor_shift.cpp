@@ -30,5 +30,4 @@ poly taylor_shift(const poly &f, mint c) {
 
 /**
  * @brief Taylor Shift
- * @docs _md/taylor_shift.md
  */

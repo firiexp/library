@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Taylor Shift
+documentation_of: //fps/taylor_shift.cpp
 date: 2026-03-08
 category: FPS
 tags: FPS

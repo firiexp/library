@@ -23,5 +23,4 @@ pair<ll, ll> CRT(const vector<pair<ll, ll>> &a){
 
 /**
  * @brief 中国剰余定理(CRT)
- * @docs _md/CRT.md
  */

@@ -30,5 +30,4 @@ vector<IntPoint> convex_hull(vector<IntPoint> ps) {
 
 /**
  * @brief 凸包(Convex Hull)
- * @docs _md/convex_hull.md
  */

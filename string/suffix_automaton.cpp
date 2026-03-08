@@ -103,5 +103,4 @@ struct SuffixAutomaton {
 };
 /**
  * @brief Suffix Automaton
- * @docs _md/suffix_automaton.md
  */

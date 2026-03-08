@@ -166,5 +166,4 @@ struct ChuLiuEdmonds {
 
 /**
  * @brief 最小全域有向木(Chu-Liu/Edmonds)
- * @docs _md/chu_liu_edmonds.md
  */

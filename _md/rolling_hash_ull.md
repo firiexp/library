@@ -1,3 +1,7 @@
+---
+title: Rolling Hash(mod 2^61-1)
+documentation_of: //string/rolling_hash_ull.cpp
+---
 ## 説明
 `mod 2^61 - 1` の Rolling Hash。
 前計算した prefix hash から部分文字列ハッシュを `O(1)` で取れる。

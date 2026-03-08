@@ -37,5 +37,4 @@ public:
 
 /**
  * @brief 重心分解(Centroid Decomposition)
- * @docs _md/centroid_decomposition.md
  */

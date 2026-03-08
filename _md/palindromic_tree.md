@@ -1,3 +1,7 @@
+---
+title: 回文木(Palindromic Tree)
+documentation_of: //string/palindromic_tree.cpp
+---
 ## 説明
 文字列の異なる回文部分文字列を管理する eertree である。
 1 文字ずつ追加しながら構築でき、全体 `O(NW)` ではなく遷移参照込みで `O(N)`、固定アルファベットなら実用上ほぼ線形で動く。

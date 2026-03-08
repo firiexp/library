@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Hopcroft Karp
+documentation_of: //graph/hopcroft_karp.cpp
 date: 2026-03-08
 category: グラフ
 tags: グラフ

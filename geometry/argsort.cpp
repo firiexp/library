@@ -11,5 +11,4 @@ void argsort(vector<Ar2> &v)
 
 /**
  * @brief 偏角ソート(Argument Sort)
- * @docs _md/argsort.md
  */

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Wavelet Matrix
+documentation_of: //datastructure/wavelet_matrix.cpp
 date: 2026-03-07
 category: データ構造
 tags: データ構造

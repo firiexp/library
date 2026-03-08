@@ -114,5 +114,4 @@ struct Monoid{
 
 /**
  * @brief 永続セグメント木(Persistent Segment Tree)
- * @docs _md/persistent_segtree.md
  */

@@ -123,5 +123,4 @@ struct Monoid{
 
 /**
  * @brief 遅延セグメント木(Lazy Segment Tree)
- * @docs _md/lazysegtree.md
  */

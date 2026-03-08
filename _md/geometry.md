@@ -1,3 +1,7 @@
+---
+title: 幾何ライブラリ(Geometry)
+documentation_of: //geometry/geometry.cpp
+---
 ## 説明
 幾何に関するライブラリの詰め合わせ。いろいろあります
 

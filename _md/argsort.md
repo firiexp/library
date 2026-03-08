@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Arg Sort
+documentation_of: //geometry/argsort.cpp
 date: 2026-03-08
 category: 幾何
 tags: 幾何

@@ -29,5 +29,4 @@ vector<mint> poly::multipoint_eval(const vector<mint> &xs) const {
 
 /**
  * @brief 多点評価(Multipoint Evaluation)
- * @docs _md/multipoint_evaluation.md
  */

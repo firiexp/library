@@ -1,6 +1,7 @@
 ---
 layout: post
 title: binom_mod_prime_power
+documentation_of: //math/binom_mod_prime_power.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

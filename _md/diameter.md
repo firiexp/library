@@ -1,3 +1,7 @@
+---
+title: 木の直径(Tree Diameter)
+documentation_of: //tree/diameter.cpp
+---
 ## 説明
 重みなし木の直径長とその両端点を `O(N)` で求める。
 

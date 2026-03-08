@@ -1,3 +1,7 @@
+---
+title: 補助木(Aux Tree)
+documentation_of: //tree/auxtree.cpp
+---
 ## 説明
 必要な頂点集合だけを含む virtual tree を構築する。
 LCA を自動で補い、元の木上での親子関係を保ったまま補助木 `out` に辺を張る。

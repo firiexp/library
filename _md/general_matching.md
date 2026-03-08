@@ -1,6 +1,7 @@
 ---
 layout: post
 title: general_matching
+documentation_of: //graph/general_matching.cpp
 date: 2026-03-08
 category: グラフ
 tags: グラフ
