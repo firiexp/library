@@ -42,7 +42,7 @@ public:
 using mint = modint<998244353>;
 
 class NTT {
-    static constexpr int max_base = 20, maxN = 1 << max_base; // N <= 524288 * 2
+    static constexpr int max_base = 23, maxN = 1 << max_base; // 998244353 supports up to 2^23-th roots
     mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];
 public:
     NTT() {
