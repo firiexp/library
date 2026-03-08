@@ -4,3 +4,5 @@ plugins:
 - jemoji
 - jekyll-redirect-from
 theme: jekyll-theme-minimal
+exclude:
+- scripts
