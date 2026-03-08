@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':question:'
     path: datastructure/lazysegtree.cpp
     title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)"
   - icon: ':question:'
@@ -92,7 +92,7 @@ data:
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
     \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"datastructure/lazysegtree.cpp\"\ntemplate <class M>\nstruct LazySegmentTree{\n\
+    #line 3 \"datastructure/lazysegtree.cpp\"\n\ntemplate <class M>\nstruct LazySegmentTree{\n\
     \    using T = typename M::T;\n    using L = typename M::L;\n    int sz, n, height{};\n\
     \    vector<T> seg; vector<L> lazy;\n    explicit LazySegmentTree(int n) : n(n)\
     \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
@@ -201,7 +201,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 21:12:29+09:00'
+  timestamp: '2026-03-08 21:59:46+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_range_sum.test.cpp

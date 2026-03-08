@@ -6,12 +6,12 @@ data:
     title: Sparse Table
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     _deprecated_at_docs: _md/LCA.md
     document_title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
@@ -72,7 +72,7 @@ data:
   path: tree/LCA.cpp
   requiredBy: []
   timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_lca.test.cpp
 documentation_of: tree/LCA.cpp

@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/dynamic_bitset.cpp
     title: "\u52D5\u7684bitset(Dynamic Bitset)"
   - icon: ':question:'
@@ -9,9 +9,9 @@ data:
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -276,7 +276,7 @@ data:
   path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
 layout: document

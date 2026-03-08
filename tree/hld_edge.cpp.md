@@ -1,12 +1,12 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':question:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb_hld_edge.test.cpp
     title: test/yosupo_many_aplusb_hld_edge.test.cpp
   - icon: ':x:'
@@ -14,7 +14,7 @@ data:
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':question:'
   attributes:
     _deprecated_at_docs: _md/hld_edge.md
     document_title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
@@ -131,7 +131,7 @@ data:
   path: tree/hld_edge.cpp
   requiredBy: []
   timestamp: '2026-03-08 20:56:26+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_many_aplusb_hld_edge.test.cpp
   - test/yuki650_hld_edge.test.cpp

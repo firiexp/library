@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':question:'
     path: datastructure/segtree.cpp
     title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
-  - icon: ':x:'
+  - icon: ':question:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
-  - icon: ':x:'
+  - icon: ':question:'
     path: tree/hld_edge.cpp
     title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
   - icon: ':question:'
@@ -15,9 +15,9 @@ data:
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -379,7 +379,7 @@ data:
   path: test/yosupo_many_aplusb_hld_edge.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 21:12:29+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_hld_edge.test.cpp
 layout: document

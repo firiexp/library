@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':question:'
     path: datastructure/segtree.cpp
     title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
-  - icon: ':x:'
+  - icon: ':question:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
   - icon: ':question:'
