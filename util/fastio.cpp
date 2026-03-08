@@ -86,12 +86,12 @@ struct Scanner {
         }
         while (true) {
             int start = idx;
-            while (buf[idx] > ' ') ++idx;
+            while (idx < size && buf[idx] > ' ') ++idx;
             s.append(buf + start, idx - start);
-            if (buf[idx] <= ' ') break;
+            if (idx < size) break;
             load();
         }
-        ++idx;
+        if (idx < size) ++idx;
     }
 };
 
