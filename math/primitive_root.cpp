@@ -1,21 +1,24 @@
-#include "pow.cpp"
-int primitive_root(int m) {
+#include "primefactor_ll2.cpp"
+ll primitive_root(ll m) {
     if (m == 2) return 1;
-    int divs[20] = {2};
-    int cnt = 1;
-    int x = (m-1)/2;
-    while (x%2 == 0) x /= 2;
-    for (ll i = 3; i*i <= x; i += 2) {
-        if (x%i == 0) {
-            divs[cnt++] = i;
-            while (x%i == 0) x /= i;
+    auto divs = prime_factor(m - 1);
+    divs.erase(unique(divs.begin(), divs.end()), divs.end());
+    auto mod_pow = [&](ll x, ll n) {
+        ull a = x, r = 1, mod = m;
+        while (n > 0) {
+            if (n & 1) r = (u128)r * a % mod;
+            a = (u128)a * a % mod;
+            n >>= 1;
         }
-    }
-    if (x > 1) divs[cnt++] = x;
-    for (int g = 2;; g++) {
+        return (ll)r;
+    };
+    for (ll g = 2;; g++) {
         bool ok = true;
-        for (int i = 0; i < cnt && ok; i++) {
-            ok |= pow_(g, (m-1)/divs[i], m) != 1;
+        for (auto &&d : divs) {
+            if (mod_pow(g, (m - 1) / d) == 1) {
+                ok = false;
+                break;
+            }
         }
         if (ok) return g;
     }

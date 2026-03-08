@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <numeric>
 #include <random>
 
 using ull = unsigned long long;
@@ -120,7 +122,7 @@ T pollard_rho2(T n) {
                     ull xxx = xx.val(), yyy = y.val();
                     q *= mod64(xxx > yyy ? xxx - yyy : yyy - xxx);
                 }
-                g = __gcd<ll>(q.val(), n);
+                g = gcd<ull>(q.val(), (ull)n);
                 k += m;
             }
             r *= 2;
@@ -129,7 +131,7 @@ T pollard_rho2(T n) {
         while (g == 1){
             ys *= ys; ys += c;
             ull xxx = xx.val(), yyy = ys.val();
-            g = __gcd<ll>(xxx > yyy ? xxx - yyy : yyy - xxx, n);
+            g = gcd<ull>(xxx > yyy ? xxx - yyy : yyy - xxx, (ull)n);
         }
         if (g != n && miller_rabin(g)) return g;
     }
