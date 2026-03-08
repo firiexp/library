@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/berlekamp_massey.cpp
     title: Berlekamp-Massey algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: math/ntt.cpp
   _extendedRequiredBy: []

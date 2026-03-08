@@ -2,11 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/sparsetable.cpp
-    title: datastructure/sparsetable.cpp
-  - icon: ':heavy_check_mark:'
-    path: tree/LCA.cpp
-    title: Lowest Common Ancestor
+    path: tree/jump_on_tree.cpp
+    title: Jump on Tree
   - icon: ':question:'
     path: util/fastio.cpp
     title: util/fastio.cpp
@@ -17,14 +14,15 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/lca
+    PROBLEM: https://judge.yosupo.jp/problem/jump_on_tree
     links:
-    - https://judge.yosupo.jp/problem/lca
-  bundledCode: "#line 1 \"test/yosupo_lca.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/lca\"\
-    \n\n#include <bits/stdc++.h>\n\nusing namespace std;\n\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 4 \"util/fastio.cpp\"\
-    \n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n\
-    \    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
+    - https://judge.yosupo.jp/problem/jump_on_tree
+  bundledCode: "#line 1 \"test/yosupo_jump_on_tree.test.cpp\"\n#define PROBLEM \"\
+    https://judge.yosupo.jp/problem/jump_on_tree\"\n\n#include <algorithm>\n#include\
+    \ <queue>\n#include <random>\n#include <vector>\nusing namespace std;\n\n#line\
+    \ 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
+    \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
     \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
     \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
     \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
@@ -88,64 +86,60 @@ data:
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n#line 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct\
-    \ SparseTable {\n    using T = typename F::T;\n    vector<vector<T>> table;\n\
-    \    vector<int> u;\n    SparseTable() = default;\n    explicit SparseTable(const\
-    \ vector<T> &v){ build(v); }\n \n    void build(const vector<T> &v){\n       \
-    \ int n = v.size(), m = 1;\n        while((1<<m) <= n) m++;\n        table.assign(m,\
-    \ vector<T>(n));\n        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i)\
-    \ {\n            u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n;\
-    \ ++i) {\n            table[0][i] = v[i];\n        }\n        for (int i = 1;\
-    \ i < m; ++i) {\n            int x = (1<<(i-1));\n            for (int j = 0;\
-    \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
-    \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b){\n  \
-    \      int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n#line 2 \"tree/LCA.cpp\"\n\nstruct LCA_MinDepth {\n    using T = pair<int,\
-    \ int>;\n    static T f(T a, T b) { return min(a, b); }\n    static T e() { return\
-    \ T{INF<int>, -1}; }\n};\n\nclass LCA {\n    SparseTable<LCA_MinDepth> table;\n\
-    \n    void dfs_euler(int v, int p, int d, int &k) {\n        id[v] = k;\n    \
-    \    vs[k] = v;\n        depth[k++] = d;\n        for (auto &&u : G[v]) {\n  \
-    \          if (u == p) continue;\n            dfs_euler(u, v, d + 1, k);\n   \
-    \         vs[k] = v;\n            depth[k++] = d;\n        }\n    }\n\npublic:\n\
-    \    int n;\n    vector<vector<int>> G;\n    vector<int> vs, depth, id;\n\n  \
-    \  explicit LCA(int n) : table(), n(n), G(n), vs(2 * n - 1), depth(2 * n - 1),\
-    \ id(n) {}\n\n    void add_edge(int a, int b) {\n        G[a].emplace_back(b);\n\
-    \        G[b].emplace_back(a);\n    }\n\n    void eulertour(int root = 0) {\n\
-    \        int k = 0;\n        dfs_euler(root, -1, 0, k);\n    }\n\n    void build(int\
-    \ root = 0) {\n        eulertour(root);\n        vector<pair<int, int>> v(2 *\
-    \ n - 1);\n        for (int i = 0; i < 2 * n - 1; ++i) {\n            v[i] = make_pair(depth[i],\
-    \ i);\n        }\n        table.build(v);\n    }\n\n    void buildLCA(int root\
-    \ = 0) {\n        build(root);\n    }\n\n    int lca(int u, int v) {\n       \
-    \ if (id[u] > id[v]) swap(u, v);\n        return vs[table.query(id[u], id[v] +\
-    \ 1).second];\n    }\n};\n\n/**\n * @brief Lowest Common Ancestor\n * @docs _md/LCA.md\n\
-    \ */\n#line 11 \"test/yosupo_lca.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    LCA lca(n);\n    for\
-    \ (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n        lca.add_edge(p,\
-    \ v);\n    }\n    lca.build(0);\n\n    while (q--) {\n        int u, v;\n    \
-    \    sc.read(u, v);\n        pr.writeln(lca.lca(u, v));\n    }\n    return 0;\n\
-    }\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lca\"\n\n#include <bits/stdc++.h>\n\
-    \nusing namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\n#include \"../tree/LCA.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
-    \ q);\n    LCA lca(n);\n    for (int v = 1; v < n; ++v) {\n        int p;\n  \
-    \      sc.read(p);\n        lca.add_edge(p, v);\n    }\n    lca.build(0);\n\n\
-    \    while (q--) {\n        int u, v;\n        sc.read(u, v);\n        pr.writeln(lca.lca(u,\
-    \ v));\n    }\n    return 0;\n}\n"
+    \    }\n};\n#line 1 \"tree/jump_on_tree.cpp\"\nclass JumpOnTree {\n    int logn;\n\
+    \    vector<vector<int>> up;\n\npublic:\n    int n;\n    vector<vector<int>> G;\n\
+    \    vector<int> depth;\n\n    explicit JumpOnTree(int n) : logn(0), n(n), G(n),\
+    \ depth(n, -1) {}\n\n    void add_edge(int u, int v) {\n        G[u].emplace_back(v);\n\
+    \        G[v].emplace_back(u);\n    }\n\n    void build(int root = 0) {\n    \
+    \    logn = 1;\n        while ((1 << logn) <= n) ++logn;\n        up.assign(logn,\
+    \ vector<int>(n, -1));\n        vector<int> st = {root};\n        depth[root]\
+    \ = 0;\n        while (!st.empty()) {\n            int v = st.back();\n      \
+    \      st.pop_back();\n            for (int to : G[v]) {\n                if (to\
+    \ == up[0][v]) continue;\n                up[0][to] = v;\n                depth[to]\
+    \ = depth[v] + 1;\n                st.push_back(to);\n            }\n        }\n\
+    \        for (int k = 0; k + 1 < logn; ++k) {\n            for (int v = 0; v <\
+    \ n; ++v) {\n                int p = up[k][v];\n                up[k + 1][v] =\
+    \ (p == -1 ? -1 : up[k][p]);\n            }\n        }\n    }\n\n    int ancestor(int\
+    \ v, int k) const {\n        if (k > depth[v]) return -1;\n        for (int i\
+    \ = 0; i < logn; ++i) {\n            if (k >> i & 1) v = up[i][v];\n        }\n\
+    \        return v;\n    }\n\n    int lca(int u, int v) const {\n        if (depth[u]\
+    \ < depth[v]) swap(u, v);\n        u = ancestor(u, depth[u] - depth[v]);\n   \
+    \     if (u == v) return u;\n        for (int k = logn - 1; k >= 0; --k) {\n \
+    \           if (up[k][u] == up[k][v]) continue;\n            u = up[k][u];\n \
+    \           v = up[k][v];\n        }\n        return up[0][u];\n    }\n\n    int\
+    \ dist(int u, int v) const {\n        int w = lca(u, v);\n        return depth[u]\
+    \ + depth[v] - 2 * depth[w];\n    }\n\n    int jump(int s, int t, int k) const\
+    \ {\n        int w = lca(s, t);\n        int a = depth[s] - depth[w];\n      \
+    \  int b = depth[t] - depth[w];\n        if (k > a + b) return -1;\n        if\
+    \ (k <= a) return ancestor(s, k);\n        return ancestor(t, a + b - k);\n  \
+    \  }\n};\n\n/**\n * @brief Jump on Tree\n * @docs _md/jump_on_tree.md\n */\n#line\
+    \ 11 \"test/yosupo_jump_on_tree.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    JumpOnTree jt(n);\n \
+    \   for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        sc.read(u, v);\n\
+    \        jt.add_edge(u, v);\n    }\n    jt.build(0);\n    while (q--) {\n    \
+    \    int s, t, k;\n        sc.read(s, t, k);\n        pr.writeln(jt.jump(s, t,\
+    \ k));\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/jump_on_tree\"\n\n#include\
+    \ <algorithm>\n#include <queue>\n#include <random>\n#include <vector>\nusing namespace\
+    \ std;\n\n#include \"../util/fastio.cpp\"\n#include \"../tree/jump_on_tree.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
+    \ q);\n    JumpOnTree jt(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int\
+    \ u, v;\n        sc.read(u, v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n\
+    \    while (q--) {\n        int s, t, k;\n        sc.read(s, t, k);\n        pr.writeln(jt.jump(s,\
+    \ t, k));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - tree/LCA.cpp
-  - datastructure/sparsetable.cpp
+  - tree/jump_on_tree.cpp
   isVerificationFile: true
-  path: test/yosupo_lca.test.cpp
+  path: test/yosupo_jump_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 15:17:18+09:00'
+  timestamp: '2026-03-08 19:26:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_lca.test.cpp
+documentation_of: test/yosupo_jump_on_tree.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_lca.test.cpp
-- /verify/test/yosupo_lca.test.cpp.html
-title: test/yosupo_lca.test.cpp
+- /verify/test/yosupo_jump_on_tree.test.cpp
+- /verify/test/yosupo_jump_on_tree.test.cpp.html
+title: test/yosupo_jump_on_tree.test.cpp
 ---

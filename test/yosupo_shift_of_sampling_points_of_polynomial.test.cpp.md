@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/sample_point_shift.cpp
     title: shift of sampling points of polynomial
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: math/ntt.cpp
   - icon: ':question:'

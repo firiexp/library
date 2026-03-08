@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/nth_term.cpp
     title: fps/nth_term.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: math/ntt.cpp
   - icon: ':question:'

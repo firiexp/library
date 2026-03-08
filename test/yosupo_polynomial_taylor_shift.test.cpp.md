@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/taylor_shift.cpp
     title: polynomial taylor shift
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: math/ntt.cpp
   - icon: ':question:'

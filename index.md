@@ -9,13 +9,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/binaryheap.cpp
       title: datastructure/binaryheap.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/binaryindexedtree.cpp
       title: datastructure/binaryindexedtree.cpp
     - icon: ':heavy_check_mark:'
       path: datastructure/binarytrie.cpp
       title: Binary Trie
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/disjoint_sparse_table.cpp
       title: Disjoint Sparse Table
     - icon: ':heavy_check_mark:'
@@ -42,7 +42,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/point_add_rectangle_sum.cpp
       title: datastructure/point_add_rectangle_sum.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/quickfind.cpp
       title: datastructure/quickfind.cpp
     - icon: ':heavy_check_mark:'
@@ -60,10 +60,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/slope_trick.cpp
       title: Slope Trick
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/sparsetable.cpp
       title: datastructure/sparsetable.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/static_rectangle_sum.cpp
       title: datastructure/static_rectangle_sum.cpp
     - icon: ':heavy_check_mark:'
@@ -129,6 +129,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: geometry/argsort.cpp
       title: geometry/argsort.cpp
+    - icon: ':heavy_check_mark:'
+      path: geometry/convex_hull.cpp
+      title: Convex Hull
     - icon: ':heavy_check_mark:'
       path: geometry/dualgraph.cpp
       title: "\u53CC\u5BFE\u30B0\u30E9\u30D5\u306E\u69CB\u7BC9"
@@ -213,7 +216,7 @@ data:
     - icon: ':warning:'
       path: graph/offlinedynamicconnectivity.cpp
       title: graph/offlinedynamicconnectivity.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/topological_sort.cpp
       title: Topological sort
     - icon: ':heavy_check_mark:'
@@ -263,7 +266,7 @@ data:
     - icon: ':warning:'
       path: math/fft3.cpp
       title: math/fft3.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/floor_sum.cpp
       title: math/floor_sum.cpp
     - icon: ':heavy_check_mark:'
@@ -272,7 +275,7 @@ data:
     - icon: ':warning:'
       path: math/garner.cpp
       title: math/garner.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/gauss_jordan_mint.cpp
       title: math/gauss_jordan_mint.cpp
     - icon: ':warning:'
@@ -317,7 +320,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/modinv.cpp
       title: math/modinv.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: math/ntt.cpp
       title: math/ntt.cpp
     - icon: ':warning:'
@@ -347,10 +350,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: math/squarematrix.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/stern_brocot_tree.cpp
       title: math/stern_brocot_tree.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/tetration.cpp
       title: math/tetration.cpp
   - name: snippets
@@ -407,15 +410,18 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/diameter_weighted.cpp
       title: Tree Diameter (Weighted)
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: tree/dsu_on_tree.cpp
       title: DSU on Tree
     - icon: ':question:'
       path: tree/hld.cpp
       title: tree/hld.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: tree/hld_edge.cpp
       title: "\u8FBA\u30AF\u30A8\u30EA\u5411\u3051\u91CD\u8EFD\u5206\u89E3"
+    - icon: ':heavy_check_mark:'
+      path: tree/jump_on_tree.cpp
+      title: Jump on Tree
     - icon: ':heavy_check_mark:'
       path: tree/link_cut_tree.cpp
       title: Link-Cut Tree
@@ -454,7 +460,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/makev.cpp
       title: make_v, chmin, chmax
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: util/mo.cpp
       title: util/mo.cpp
     - icon: ':question:'
@@ -641,6 +647,9 @@ data:
       path: test/yosupo_general_matching.test.cpp
       title: test/yosupo_general_matching.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_jump_on_tree.test.cpp
+      title: test/yosupo_jump_on_tree.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_root_integer.test.cpp
       title: test/yosupo_kth_root_integer.test.cpp
     - icon: ':heavy_check_mark:'
@@ -781,43 +790,46 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_sqrt_mod.test.cpp
       title: test/yosupo_sqrt_mod.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_sqrt_of_formal_power_series.test.cpp
       title: test/yosupo_sqrt_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_static_convex_hull.test.cpp
+      title: test/yosupo_static_convex_hull.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_static_range_frequency.test.cpp
       title: test/yosupo_static_range_frequency.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_static_range_inversions_query.test.cpp
       title: test/yosupo_static_range_inversions_query.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_static_rectangle_sum.test.cpp
       title: test/yosupo_static_rectangle_sum.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
       title: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_staticrmq_sparsetable.test.cpp
       title: test/yosupo_staticrmq_sparsetable.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_stern_brocot_tree.test.cpp
       title: test/yosupo_stern_brocot_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_suffix_array.test.cpp
       title: test/yosupo_suffix_array.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_floor_of_linear.test.cpp
       title: test/yosupo_sum_of_floor_of_linear.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_totient.test.cpp
       title: test/yosupo_sum_of_totient.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_system_of_linear_equations.test.cpp
       title: test/yosupo_system_of_linear_equations.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_tetration_mod.test.cpp
       title: test/yosupo_tetration_mod.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_topological_sort.test.cpp
       title: test/yosupo_topological_sort.test.cpp
     - icon: ':heavy_check_mark:'
@@ -826,19 +838,19 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind.test.cpp
       title: test/yosupo_unionfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind_quickfind.test.cpp
       title: test/yosupo_unionfind_quickfind.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     - icon: ':x:'
       path: test/yosupo_vertex_set_path_composite.test.cpp
       title: test/yosupo_vertex_set_path_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
       title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     - icon: ':heavy_check_mark:'
@@ -847,7 +859,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yuki3030.test.cpp
       title: test/yuki3030.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yuki650_hld_edge.test.cpp
       title: test/yuki650_hld_edge.test.cpp
     - icon: ':x:'

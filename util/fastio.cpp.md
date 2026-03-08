@@ -82,6 +82,9 @@ data:
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_jump_on_tree.test.cpp
+    title: test/yosupo_jump_on_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_root_integer.test.cpp
     title: test/yosupo_kth_root_integer.test.cpp
   - icon: ':heavy_check_mark:'
@@ -193,51 +196,54 @@ data:
     path: test/yosupo_sqrt_mod.test.cpp
     title: test/yosupo_sqrt_mod.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_static_convex_hull.test.cpp
+    title: test/yosupo_static_convex_hull.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_frequency.test.cpp
     title: test/yosupo_static_range_frequency.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_inversions_query.test.cpp
     title: test/yosupo_static_range_inversions_query.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_rectangle_sum.test.cpp
     title: test/yosupo_static_rectangle_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
     title: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_staticrmq_sparsetable.test.cpp
     title: test/yosupo_staticrmq_sparsetable.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_stern_brocot_tree.test.cpp
     title: test/yosupo_stern_brocot_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_floor_of_linear.test.cpp
     title: test/yosupo_sum_of_floor_of_linear.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_system_of_linear_equations.test.cpp
     title: test/yosupo_system_of_linear_equations.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_tetration_mod.test.cpp
     title: test/yosupo_tetration_mod.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_topological_sort.test.cpp
     title: test/yosupo_topological_sort.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind.test.cpp
     title: test/yosupo_unionfind.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind_quickfind.test.cpp
     title: test/yosupo_unionfind_quickfind.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
   - icon: ':x:'
@@ -394,6 +400,7 @@ data:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_set_xor_min_binarytrie.test.cpp
   - test/aoj0403.test.cpp
+  - test/yosupo_jump_on_tree.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
@@ -456,6 +463,7 @@ data:
   - test/yosupo_lca.test.cpp
   - test/yosupo_eertree.test.cpp
   - test/yosupo_many_aplusb_bipartite_matching.test.cpp
+  - test/yosupo_static_convex_hull.test.cpp
   - test/aoj0452.test.cpp
   - test/yosupo_point_add_rectangle_sum.test.cpp
   - test/aoj_grl_1_b_bellman_ford.test.cpp

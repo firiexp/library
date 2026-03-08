@@ -54,12 +54,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_sqrt_of_formal_power_series.test.cpp
     title: test/yosupo_sqrt_of_formal_power_series.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
@@ -599,7 +599,7 @@ data:
   - fps/sample_point_shift.cpp
   - fps/nth_term.cpp
   timestamp: '2026-03-08 15:57:21+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp

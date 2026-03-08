@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
     title: polynomial interpolation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: math/ntt.cpp
   - icon: ':question:'

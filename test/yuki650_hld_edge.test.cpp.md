@@ -7,7 +7,7 @@ data:
   - icon: ':question:'
     path: tree/hld.cpp
     title: tree/hld.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld_edge.cpp
     title: "\u8FBA\u30AF\u30A8\u30EA\u5411\u3051\u91CD\u8EFD\u5206\u89E3"
   - icon: ':question:'
@@ -18,9 +18,9 @@ data:
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/650
@@ -307,7 +307,7 @@ data:
   path: test/yuki650_hld_edge.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 18:33:26+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki650_hld_edge.test.cpp
 layout: document

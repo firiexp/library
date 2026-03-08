@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/stern_brocot_tree.cpp
     title: math/stern_brocot_tree.cpp
   - icon: ':question:'
@@ -9,9 +9,9 @@ data:
     title: util/fastio.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/stern_brocot_tree
@@ -172,7 +172,7 @@ data:
   path: test/yosupo_stern_brocot_tree.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 16:57:33+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_stern_brocot_tree.test.cpp
 layout: document
