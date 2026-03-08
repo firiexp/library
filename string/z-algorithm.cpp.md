@@ -36,7 +36,7 @@ data:
   - test/yosupo_many_aplusb_z_algorithm.test.cpp
 date: 2026-03-08
 documentation_of: string/z-algorithm.cpp
-layout: post
+layout: document
 tags: "\u6587\u5B57\u5217"
 title: Z-algorithm
 ---

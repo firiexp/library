@@ -31,7 +31,7 @@ data:
   - test/yuki1358.test.cpp
 date: 2026-03-08
 documentation_of: util/ifloor.cpp
-layout: post
+layout: document
 tags: util
 title: IFloor
 ---

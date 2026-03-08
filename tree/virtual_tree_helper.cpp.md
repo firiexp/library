@@ -117,7 +117,7 @@ data:
   - test/aoj0439_virtual_tree_helper.test.cpp
 date: 2026-03-08
 documentation_of: tree/virtual_tree_helper.cpp
-layout: post
+layout: document
 tags: "\u6728"
 title: virtual_tree_helper
 ---

@@ -77,7 +77,7 @@ data:
   - test/yosupo_jump_on_tree.test.cpp
 date: 2026-03-08
 documentation_of: tree/jump_on_tree.cpp
-layout: post
+layout: document
 tags: "\u6728"
 title: Jump on Tree
 ---

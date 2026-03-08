@@ -2,7 +2,7 @@
 category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
@@ -77,7 +77,7 @@ data:
   - test/yosupo_system_of_linear_equations.test.cpp
 date: 2026-03-08
 documentation_of: math/gauss_jordan_mint.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Gauss Jordan Mint
 ---

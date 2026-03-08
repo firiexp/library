@@ -170,11 +170,17 @@ data:
     path: test/yosupo_point_add_rectangle_sum.test.cpp
     title: test/yosupo_point_add_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_point_set_range_composite.test.cpp
+    title: test/yosupo_point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_primality_test.test.cpp
+    title: test/yosupo_primality_test.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_primitive_root.test.cpp
     title: test/yosupo_primitive_root.test.cpp
@@ -429,6 +435,7 @@ data:
   - test/yosupo_general_matching.test.cpp
   - test/yosupo_unionfind_quickfind.test.cpp
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
+  - test/yosupo_primality_test.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_closest_pair.test.cpp
   - test/yosupo_many_aplusb_dynamic_bitset.test.cpp
@@ -457,6 +464,7 @@ data:
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_many_aplusb.test.cpp
   - test/yosupo_many_aplusb_diameter_unweighted.test.cpp
+  - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_kth_root_integer.test.cpp
   - test/yosupo_shortest_path.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
@@ -498,7 +506,7 @@ data:
   - test/yosupo_directedmst.test.cpp
 date: 2026-03-08
 documentation_of: util/fastio.cpp
-layout: post
+layout: document
 tags: "\u30E6\u30FC\u30C6\u30A3\u30EA\u30C6\u30A3"
 title: Fast IO
 ---

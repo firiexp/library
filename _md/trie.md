@@ -1,7 +1,6 @@
 ---
 category: "\u6587\u5B57\u5217"
 date: 2018-04-28
-layout: post
 tags: "\u6587\u5B57\u5217"
 title: "Trie \u6728"
 ---

@@ -93,7 +93,7 @@ data:
   - test/aoj0399.test.cpp
 date: 2019-06-21
 documentation_of: math/squarematrix.cpp
-layout: post
+layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: "\u6B63\u65B9\u884C\u5217"
 ---

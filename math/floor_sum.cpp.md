@@ -34,7 +34,7 @@ data:
   - test/yosupo_sum_of_floor_of_linear.test.cpp
 date: 2026-03-08
 documentation_of: math/floor_sum.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Floor Sum
 ---

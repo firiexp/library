@@ -1,7 +1,6 @@
 ---
 category: "\u6570\u5B66"
 date: 2018-04-28
-layout: post
 tags: "\u6570\u5B66"
 title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard's rho\u6CD5)"
 ---

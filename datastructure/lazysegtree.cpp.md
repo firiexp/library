@@ -121,7 +121,7 @@ data:
   - test/aoj0355.test.cpp
 date: 2018-05-01
 documentation_of: datastructure/lazysegtree.cpp
-layout: post
+layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
 ---
@@ -158,5 +158,4 @@ $
 - $ f((x_1, y_1), (x_2, y_2)) = (x_1+x_2, y_1+y_2)$
 - $ g((x, y), z) = (zy, y)$
 - $ h(x, y) = a ( b = e ),  b ( b \neq e )$
-
 

@@ -54,7 +54,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/segbeats.cpp
       title: Segment Tree Beats
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/segtree.cpp
       title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
     - icon: ':warning:'
@@ -314,7 +314,7 @@ data:
     - icon: ':warning:'
       path: math/matrix.cpp
       title: math/matrix.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/miller_rabin.cpp
       title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
     - icon: ':warning:'
@@ -475,7 +475,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/mo.cpp
       title: Mo's algorithm
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
@@ -763,7 +763,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_rectangle_sum.test.cpp
       title: test/yosupo_point_add_rectangle_sum.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp
     - icon: ':heavy_check_mark:'
@@ -775,6 +775,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_pow_of_formal_power_series.test.cpp
       title: test/yosupo_pow_of_formal_power_series.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_primality_test.test.cpp
+      title: test/yosupo_primality_test.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_primitive_root.test.cpp
       title: test/yosupo_primitive_root.test.cpp
@@ -877,9 +880,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yuki1358.test.cpp
       title: test/yuki1358.test.cpp
-    - icon: ':x:'
-      path: test/yuki3030.test.cpp
-      title: test/yuki3030.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yuki650_hld_edge.test.cpp
       title: test/yuki650_hld_edge.test.cpp

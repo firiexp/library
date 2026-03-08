@@ -53,7 +53,7 @@ data:
   - test/yosupo_many_aplusb_parse.test.cpp
 date: 2026-03-08
 documentation_of: util/parse.cpp
-layout: post
+layout: document
 tags: "\u6587\u5B57\u5217"
 title: "\u56DB\u5247\u6F14\u7B97\u30D1\u30FC\u30B5"
 ---

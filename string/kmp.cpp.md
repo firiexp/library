@@ -46,7 +46,7 @@ data:
   - test/aoj_alds1_14_b.test.cpp
 date: 2026-03-08
 documentation_of: string/kmp.cpp
-layout: post
+layout: document
 tags: "\u6587\u5B57\u5217"
 title: KMP
 ---

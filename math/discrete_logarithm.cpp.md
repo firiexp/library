@@ -67,7 +67,7 @@ data:
   - test/yosupo_discrete_logarithm_mod.test.cpp
 date: 2026-03-08
 documentation_of: math/discrete_logarithm.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Discrete Logarithm
 ---

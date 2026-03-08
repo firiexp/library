@@ -40,7 +40,7 @@ data:
   - test/yosupo_static_range_inversions_query.test.cpp
 date: 2020-02-17
 documentation_of: util/mo.cpp
-layout: post
+layout: document
 tags: "\u30AF\u30A8\u30EA"
 title: Mo's algorithm
 ---

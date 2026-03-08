@@ -156,7 +156,7 @@ data:
   - test/yosupo_segment_add_get_min.test.cpp
 date: 2026-03-07
 documentation_of: datastructure/li_chao_tree.cpp
-layout: post
+layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: Li Chao Tree
 ---

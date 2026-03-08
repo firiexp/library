@@ -1,7 +1,6 @@
 ---
 category: util
 date: 2026-03-08
-layout: post
 tags: util
 title: Uniq
 ---

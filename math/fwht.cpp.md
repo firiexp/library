@@ -46,7 +46,7 @@ data:
   - test/aoj0402.test.cpp
 date: 2026-03-08
 documentation_of: math/fwht.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: FWHT
 ---

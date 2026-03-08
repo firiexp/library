@@ -1,7 +1,6 @@
 ---
 category: "\u6570\u5B66"
 date: 2026-03-08
-layout: post
 tags: "\u6570\u5B66"
 title: "\u9AD8\u901F\u30D5\u30FC\u30EA\u30A8\u5909\u63DB (\u4EFB\u610FMOD, 11bit\u5206\
   \u5272)"

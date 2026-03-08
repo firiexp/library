@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
-    path: test/yuki3030.test.cpp
-    title: test/yuki3030.test.cpp
-  _isVerificationFailed: true
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_primality_test.test.cpp
+    title: test/yosupo_primality_test.test.cpp
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
     links: []
@@ -45,12 +45,12 @@ data:
   path: math/miller_rabin.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yuki3030.test.cpp
+  - test/yosupo_primality_test.test.cpp
 date: 2018-04-28
 documentation_of: math/miller_rabin.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
 ---

@@ -43,7 +43,7 @@ data:
   - test/yosupo_topological_sort.test.cpp
 date: 2026-03-08
 documentation_of: graph/topological_sort.cpp
-layout: post
+layout: document
 tags: "\u30B0\u30E9\u30D5"
 title: Topological Sort
 ---

@@ -105,7 +105,7 @@ data:
   verifiedWith: []
 date: 2026-03-08
 documentation_of: flow/project_selection_problem.cpp
-layout: post
+layout: document
 tags: "\u30D5\u30ED\u30FC"
 title: ProjectSelectionProblem
 ---

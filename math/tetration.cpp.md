@@ -51,7 +51,7 @@ data:
   - test/yosupo_tetration_mod.test.cpp
 date: 2026-03-08
 documentation_of: math/tetration.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Tetration
 ---

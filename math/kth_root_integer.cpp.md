@@ -40,7 +40,7 @@ data:
   - test/yosupo_kth_root_integer.test.cpp
 date: 2026-03-08
 documentation_of: math/kth_root_integer.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Kth Root Integer
 ---

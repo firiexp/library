@@ -136,7 +136,7 @@ data:
   - test/yuki650_hld_edge.test.cpp
 date: 2026-03-08
 documentation_of: tree/hld_edge.cpp
-layout: post
+layout: document
 tags: "\u6728"
 title: HLD Edge
 ---

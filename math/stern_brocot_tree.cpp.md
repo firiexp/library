@@ -88,7 +88,7 @@ data:
   - test/yosupo_stern_brocot_tree.test.cpp
 date: 2026-03-08
 documentation_of: math/stern_brocot_tree.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Stern Brocot Tree
 ---

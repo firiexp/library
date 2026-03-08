@@ -317,7 +317,7 @@ data:
   - test/yosupo_polynomial_taylor_shift.test.cpp
 date: 2026-03-08
 documentation_of: fps/taylor_shift.cpp
-layout: post
+layout: document
 tags: FPS
 title: Taylor Shift
 ---

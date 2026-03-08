@@ -34,7 +34,7 @@ data:
   - test/yosupo_many_aplusb_rle.test.cpp
 date: 2026-03-08
 documentation_of: util/rle.cpp
-layout: post
+layout: document
 tags: util
 title: RLE
 ---

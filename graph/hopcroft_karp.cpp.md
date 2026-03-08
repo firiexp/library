@@ -72,7 +72,7 @@ data:
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp
 date: 2026-03-08
 documentation_of: graph/hopcroft_karp.cpp
-layout: post
+layout: document
 tags: "\u30B0\u30E9\u30D5"
 title: Hopcroft Karp
 ---

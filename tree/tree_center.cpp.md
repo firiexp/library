@@ -55,7 +55,7 @@ data:
   - test/yosupo_many_aplusb_tree_center.test.cpp
 date: 2026-03-08
 documentation_of: tree/tree_center.cpp
-layout: post
+layout: document
 tags: "\u6728"
 title: Tree Center
 ---

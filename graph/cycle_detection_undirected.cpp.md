@@ -59,7 +59,7 @@ data:
   - test/yosupo_cycle_detection_undirected.test.cpp
 date: 2026-03-08
 documentation_of: graph/cycle_detection_undirected.cpp
-layout: post
+layout: document
 tags: "\u30B0\u30E9\u30D5"
 title: Cycle Detection Undirected
 ---

@@ -88,7 +88,7 @@ data:
   - test/aoj0396.test.cpp
 date: 2019-07-31
 documentation_of: flow/dinic.cpp
-layout: post
+layout: document
 tags: "\u6700\u5927\u6D41"
 title: "Dinic(\u6700\u5927\u6D41)"
 ---

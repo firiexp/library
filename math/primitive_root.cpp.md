@@ -107,7 +107,7 @@ data:
   - test/yosupo_primitive_root.test.cpp
 date: 2026-03-08
 documentation_of: math/primitive_root.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Primitive Root
 ---

@@ -1,7 +1,6 @@
 ---
 category: "\u6570\u5B66"
 date: 2026-03-08
-layout: post
 tags: "\u6570\u5B66"
 title: primefactor_ll2
 ---

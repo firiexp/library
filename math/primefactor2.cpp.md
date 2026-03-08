@@ -58,7 +58,7 @@ data:
   - test/yosupo_binomial_coefficient.test.cpp
 date: 2026-03-08
 documentation_of: math/primefactor2.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: primefactor2
 ---

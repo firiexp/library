@@ -86,7 +86,7 @@ data:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
 date: 2026-03-08
 documentation_of: datastructure/dynamic_segtree.cpp
-layout: post
+layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: Dynamic Segment Tree
 ---

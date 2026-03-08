@@ -52,7 +52,7 @@ data:
   - test/yosupo_maximum_independent_set.test.cpp
 date: 2018-04-28
 documentation_of: graph/independentset.cpp
-layout: post
+layout: document
 tags: "\u30B0\u30E9\u30D5"
 title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408"
 ---

@@ -100,7 +100,7 @@ data:
   - test/yosupo_number_of_substrings_suffix_automaton.test.cpp
 date: 2026-03-08
 documentation_of: string/suffix_automaton.cpp
-layout: post
+layout: document
 tags: "\u6587\u5B57\u5217"
 title: suffix automaton
 ---

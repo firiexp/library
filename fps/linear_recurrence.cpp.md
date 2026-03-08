@@ -349,7 +349,7 @@ data:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
 date: 2026-03-07
 documentation_of: fps/linear_recurrence.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
 ---
@@ -364,4 +364,3 @@ title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
 `linear_recurrence(a, c, n)` は初項 `a` と係数 `c` が与えられたときの第 `n` 項を返す。
 
 `linear_recurrence(a, n)` は Berlekamp-Massey で `a` の最小線形漸化式を復元して第 `n` 項を返す。
-

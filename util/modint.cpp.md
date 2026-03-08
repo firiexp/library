@@ -30,7 +30,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -57,9 +57,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "modint(\u56FA\u5B9AMOD)"
     links: []
@@ -119,7 +119,7 @@ data:
   - math/factorial.cpp
   - math/powk_all.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp

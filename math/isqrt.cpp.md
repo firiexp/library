@@ -34,7 +34,7 @@ data:
   - test/yosupo_many_aplusb_isqrt.test.cpp
 date: 2026-03-08
 documentation_of: math/isqrt.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: ISqrt
 ---

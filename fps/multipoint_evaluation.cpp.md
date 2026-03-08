@@ -327,7 +327,7 @@ data:
   - test/yosupo_polynomial_interpolation.test.cpp
 date: 2026-03-08
 documentation_of: fps/multipoint_evaluation.cpp
-layout: post
+layout: document
 tags: FPS
 title: Multipoint Evaluation
 ---

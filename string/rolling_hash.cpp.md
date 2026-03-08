@@ -60,11 +60,10 @@ data:
   - test/aoj0355.test.cpp
 date: 2019-09-16
 documentation_of: string/rolling_hash.cpp
-layout: post
+layout: document
 tags: "\u6587\u5B57\u5217"
 title: Rolling-Hash
 ---
 
 ## 説明
-
 

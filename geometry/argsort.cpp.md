@@ -35,7 +35,7 @@ data:
   - test/yosupo_many_aplusb_argsort.test.cpp
 date: 2026-03-08
 documentation_of: geometry/argsort.cpp
-layout: post
+layout: document
 tags: "\u5E7E\u4F55"
 title: Arg Sort
 ---

@@ -111,7 +111,7 @@ data:
   - test/yosupo_general_matching.test.cpp
 date: 2026-03-08
 documentation_of: graph/general_matching.cpp
-layout: post
+layout: document
 tags: "\u30B0\u30E9\u30D5"
 title: general_matching
 ---

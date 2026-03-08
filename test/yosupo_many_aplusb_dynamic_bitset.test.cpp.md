@@ -164,9 +164,9 @@ data:
     \ != -1) {\n        cur = bs.find_next(cur);\n        want = brute_find_next(v,\
     \ want);\n        if (cur != want) return false;\n    }\n    return true;\n}\n\
     \nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int n = 0;\
-    \ n <= 130; ++n) {\n            for (int trial = 0; trial < 200; ++trial) {\n\
+    \ n <= 130; ++n) {\n            for (int trial = 0; trial < 120; ++trial) {\n\
     \                DynamicBitset bs(n);\n                vector<int> v(n, 0);\n\
-    \                for (int step = 0; step < 200; ++step) {\n                  \
+    \                for (int step = 0; step < 120; ++step) {\n                  \
     \  int op = uniform_int_distribution<int>(0, 12)(rng);\n                    int\
     \ k = n == 0 ? 0 : uniform_int_distribution<int>(0, n - 1)(rng);\n           \
     \         int s = n == 0 ? 0 : uniform_int_distribution<int>(0, n + 5)(rng);\n\
@@ -228,9 +228,9 @@ data:
     \ != -1) {\n        cur = bs.find_next(cur);\n        want = brute_find_next(v,\
     \ want);\n        if (cur != want) return false;\n    }\n    return true;\n}\n\
     \nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int n = 0;\
-    \ n <= 130; ++n) {\n            for (int trial = 0; trial < 200; ++trial) {\n\
+    \ n <= 130; ++n) {\n            for (int trial = 0; trial < 120; ++trial) {\n\
     \                DynamicBitset bs(n);\n                vector<int> v(n, 0);\n\
-    \                for (int step = 0; step < 200; ++step) {\n                  \
+    \                for (int step = 0; step < 120; ++step) {\n                  \
     \  int op = uniform_int_distribution<int>(0, 12)(rng);\n                    int\
     \ k = n == 0 ? 0 : uniform_int_distribution<int>(0, n - 1)(rng);\n           \
     \         int s = n == 0 ? 0 : uniform_int_distribution<int>(0, n + 5)(rng);\n\
@@ -274,7 +274,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-09 00:04:49+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_dynamic_bitset.test.cpp

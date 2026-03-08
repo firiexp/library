@@ -1,7 +1,6 @@
 ---
 category: "\u30B0\u30E9\u30D5"
 date: 2020-02-26
-layout: post
 tags: "\u30B0\u30E9\u30D5"
 title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
 ---

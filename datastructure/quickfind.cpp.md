@@ -47,7 +47,7 @@ data:
   - test/yosupo_unionfind_quickfind.test.cpp
 date: 2026-03-08
 documentation_of: datastructure/quickfind.cpp
-layout: post
+layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: "\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020 (Quick-Find)"
 ---

@@ -55,7 +55,7 @@ data:
   - test/aoj0422.test.cpp
 date: 2019-06-21
 documentation_of: util/modint_arbitrary.cpp
-layout: post
+layout: document
 tags: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
 title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
 ---

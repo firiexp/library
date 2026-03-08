@@ -45,7 +45,7 @@ data:
   - test/yosupo_many_aplusb_eulerphi.test.cpp
 date: 2026-03-08
 documentation_of: math/get_min_factor.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Get Min Factor
 ---

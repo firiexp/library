@@ -88,7 +88,7 @@ data:
   - test/yosupo_counting_primes.test.cpp
 date: 2026-03-08
 documentation_of: math/counting_primes.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Counting Primes
 ---

@@ -1,7 +1,6 @@
 ---
 category: "\u6570\u5B66"
 date: 2019-08-18
-layout: post
 tags: "\u6570\u5B66"
 title: "\u7D20\u6570\u5217\u6319"
 ---

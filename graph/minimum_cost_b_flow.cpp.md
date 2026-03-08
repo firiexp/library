@@ -195,7 +195,7 @@ data:
   - test/yosupo_min_cost_b_flow.test.cpp
 date: 2026-03-08
 documentation_of: graph/minimum_cost_b_flow.cpp
-layout: post
+layout: document
 tags: "\u6700\u5C0F\u8CBB\u7528\u6D41"
 title: Minimum Cost B-Flow
 ---

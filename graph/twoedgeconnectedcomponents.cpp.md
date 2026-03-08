@@ -73,7 +73,7 @@ data:
   - test/aoj0377.test.cpp
 date: 2020-03-25
 documentation_of: graph/twoedgeconnectedcomponents.cpp
-layout: post
+layout: document
 tags: "\u30B0\u30E9\u30D5"
 title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3"
 ---

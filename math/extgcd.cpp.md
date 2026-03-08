@@ -42,7 +42,7 @@ data:
   - test/yuki1358.test.cpp
 date: 2018-04-28
 documentation_of: math/extgcd.cpp
-layout: post
+layout: document
 tags: "\u6574\u6570\u8AD6"
 title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
 ---

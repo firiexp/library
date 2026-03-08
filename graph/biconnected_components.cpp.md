@@ -92,7 +92,7 @@ data:
   - test/yosupo_biconnected_components.test.cpp
 date: 2026-03-08
 documentation_of: graph/biconnected_components.cpp
-layout: post
+layout: document
 tags: "\u30B0\u30E9\u30D5"
 title: "\u4E8C\u91CD\u9802\u70B9\u9023\u7D50\u6210\u5206\u5206\u89E3"
 ---

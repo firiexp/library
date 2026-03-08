@@ -101,7 +101,7 @@ data:
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
 date: 2026-03-07
 documentation_of: graph/maxflow_lower_bound.cpp
-layout: post
+layout: document
 tags: "\u6700\u5927\u6D41"
 title: MaxFlowLowerBound
 ---
@@ -138,4 +138,3 @@ title: MaxFlowLowerBound
 
 - 下限を需要に変換し、超始点 `ss`・超終点 `tt` と `t -> s` の無限辺を加えた可行循環で可否判定。
 - 可行解が得られた後、`t -> s` 辺を消して残余グラフで `s -> t` の追加増加分を流し、最大流を得る。
-

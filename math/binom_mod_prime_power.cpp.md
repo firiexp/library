@@ -67,7 +67,7 @@ data:
   - test/yosupo_binomial_coefficient.test.cpp
 date: 2026-03-08
 documentation_of: math/binom_mod_prime_power.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: binom_mod_prime_power
 ---

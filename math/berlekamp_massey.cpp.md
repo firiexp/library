@@ -54,7 +54,7 @@ data:
   - test/yosupo_find_linear_recurrence.test.cpp
 date: 2026-03-07
 documentation_of: math/berlekamp_massey.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Berlekamp-Massey
 ---
@@ -75,4 +75,3 @@ title: Berlekamp-Massey
 - `T` は加減乗除と `T(0)`, `T(1)` が使える体上の型を想定。
 - 返り値の長さが最小次数 `L`。
 - 返り値 `c[i]` は上式の係数 `c_i`。
-

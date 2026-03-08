@@ -1,7 +1,6 @@
 ---
 category: "\u8B0E"
 date: 2018-04-28
-layout: post
 tags: "\u8B0E"
 title: "\u65E5\u672C\u8A9E\u5165\u529B"
 ---

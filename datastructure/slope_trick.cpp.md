@@ -80,7 +80,7 @@ data:
   - test/yosupo_many_aplusb_slope_trick.test.cpp
 date: 2026-03-08
 documentation_of: datastructure/slope_trick.cpp
-layout: post
+layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: Slope Trick
 ---

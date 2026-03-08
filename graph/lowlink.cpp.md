@@ -69,7 +69,7 @@ data:
   - test/aoj_grl_3_b.test.cpp
 date: 2026-03-07
 documentation_of: graph/lowlink.cpp
-layout: post
+layout: document
 tags: "\u30B0\u30E9\u30D5"
 title: LowLink
 ---

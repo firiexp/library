@@ -165,7 +165,7 @@ data:
   - test/yosupo_vertex_set_path_composite.test.cpp
 date: 2019-10-10
 documentation_of: tree/hld.cpp
-layout: post
+layout: document
 tags: "\u6728"
 title: "\u91CD\u8EFD\u5206\u89E3"
 ---

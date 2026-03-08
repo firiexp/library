@@ -58,7 +58,7 @@ data:
   - test/yosupo_sqrt_mod.test.cpp
 date: 2026-03-08
 documentation_of: math/mod_sqrt.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Mod Sqrt
 ---

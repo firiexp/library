@@ -66,7 +66,7 @@ data:
   - test/yosupo_twosat.test.cpp
 date: 2019-12-03
 documentation_of: graph/twosat.cpp
-layout: post
+layout: document
 tags: "\u6709\u5411\u30B0\u30E9\u30D5"
 title: 2-SAT
 ---

@@ -619,7 +619,7 @@ data:
   - test/yosupo_convolution.test.cpp
 date: 2026-03-08
 documentation_of: math/ntt.cpp
-layout: post
+layout: document
 tags: "\u6570\u5B66"
 title: Number Theoretic Transform
 ---

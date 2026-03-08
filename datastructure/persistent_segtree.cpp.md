@@ -117,7 +117,7 @@ data:
   - test/yosupo_point_add_range_sum_persistent.test.cpp
 date: 2026-03-08
 documentation_of: datastructure/persistent_segtree.cpp
-layout: post
+layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: Persistent Segment Tree
 ---
@@ -147,4 +147,3 @@ title: Persistent Segment Tree
 - `add(...)` : 点加算（`f(old, x)`）で新バージョン作成
 - `query(...)` : 区間クエリ
 - `get(t, k)` : バージョン `t` の `k` 番目の値
-

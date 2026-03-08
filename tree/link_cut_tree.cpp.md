@@ -142,7 +142,7 @@ data:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
 date: 2026-03-08
 documentation_of: tree/link_cut_tree.cpp
-layout: post
+layout: document
 tags: "\u6728"
 title: Link-Cut Tree
 ---

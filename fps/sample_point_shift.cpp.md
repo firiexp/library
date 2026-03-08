@@ -345,7 +345,7 @@ data:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
 date: 2026-03-08
 documentation_of: fps/sample_point_shift.cpp
-layout: post
+layout: document
 tags: FPS
 title: Sample Point Shift
 ---
