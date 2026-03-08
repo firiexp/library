@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
     title: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
     links: []
@@ -93,7 +93,7 @@ data:
   path: datastructure/persistent_unionfind.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
 documentation_of: datastructure/persistent_unionfind.cpp

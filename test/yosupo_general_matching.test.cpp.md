@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/general_matching.cpp
     title: general_matching
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

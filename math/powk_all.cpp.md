@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/get_min_factor.cpp
     title: Get Min Factor
   - icon: ':question:'

@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/berlekamp_massey.cpp
     title: Berlekamp-Massey
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
   _extendedRequiredBy: []

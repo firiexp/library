@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/hopcroft_karp.cpp
     title: Hopcroft Karp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

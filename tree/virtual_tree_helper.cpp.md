@@ -2,7 +2,7 @@
 category: "\u6728"
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/sparsetable.cpp
     title: Sparse Table
   - icon: ':heavy_check_mark:'

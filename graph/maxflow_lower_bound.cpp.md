@@ -2,7 +2,7 @@
 category: "\u30D5\u30ED\u30FC"
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
     title: "Dinic(\u6700\u5927\u6D41)"
   _extendedRequiredBy: []
