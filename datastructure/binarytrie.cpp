@@ -1,35 +1,84 @@
-struct Node {
-    int val;
-    Node *nxt[2];
-    Node() : val(0), nxt{nullptr, nullptr} {}
-    static int cnt;
-    /* void *operator new(size_t){
-        static Node pool[6000000];
-        return pool + cnt++;
-    }*/
-};
-int Node::cnt = 0;
-
 template<class T, size_t X>
 struct Binarytrie {
-    Node *root;
-    Binarytrie() { root = new Node; }
+    struct Node {
+        int cnt;
+        Node *nxt[2];
+        Node() : cnt(0), nxt{nullptr, nullptr} {}
+    };
 
-    void add(const T b, T x = 1){
+    Node *root;
+
+    Binarytrie() : root(new Node) {}
+
+    int size() const {
+        return root->cnt;
+    }
+
+    bool empty() const {
+        return root->cnt == 0;
+    }
+
+    int count(const T &x) const {
         Node *p = root;
-        for (int i = X-1; i >= 0; --i) {
-            bool f = (b >> i) & 1;
-            if(!p->nxt[f]) p->nxt[f] = new Node;
+        for (int i = int(X) - 1; i >= 0; --i) {
+            int f = (x >> i) & 1;
+            if (!p->nxt[f]) return 0;
             p = p->nxt[f];
         }
-        p->val += x;
+        return p->cnt;
     }
 
-    T xor_min(Node* t, const T &x, int dep = X-1){
-        if(dep < 0) return 0;
-        T f = (x >> dep) & 1; f ^= !t->nxt[f];
-        return xor_min(t->nxt[f], x, dep-1) | (f << dep);
+    bool contains(const T &x) const {
+        return count(x) > 0;
     }
-    T max_element(T x = 0) { return xor_min(root, ~x)^x; }
-    T min_element(T x = 0){ return xor_min(root, x)^x; }
+
+    void add(const T &x, int k = 1) {
+        Node *p = root;
+        p->cnt += k;
+        for (int i = int(X) - 1; i >= 0; --i) {
+            int f = (x >> i) & 1;
+            if (!p->nxt[f]) p->nxt[f] = new Node;
+            p = p->nxt[f];
+            p->cnt += k;
+        }
+    }
+
+    bool erase(const T &x, int k = 1) {
+        if (count(x) < k) return false;
+        Node *p = root;
+        p->cnt -= k;
+        for (int i = int(X) - 1; i >= 0; --i) {
+            int f = (x >> i) & 1;
+            p = p->nxt[f];
+            p->cnt -= k;
+        }
+        return true;
+    }
+
+    T xor_min(const T &x) const {
+        Node *p = root;
+        T ret = 0;
+        for (int i = int(X) - 1; i >= 0; --i) {
+            int f = (x >> i) & 1;
+            if (!p->nxt[f] || p->nxt[f]->cnt == 0) {
+                f ^= 1;
+                ret |= T(1) << i;
+            }
+            p = p->nxt[f];
+        }
+        return ret;
+    }
+
+    T min_element(T x = 0) const {
+        return xor_min(x) ^ x;
+    }
+
+    T max_element(T x = 0) const {
+        return xor_min(~x) ^ x;
+    }
 };
+
+/**
+ * @brief Binary Trie
+ * @docs _md/binarytrie.md
+ */
