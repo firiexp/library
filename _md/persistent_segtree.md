@@ -23,7 +23,7 @@ tags: データ構造
 2. `update(version, k, x)` または `add(version, k, x)` で新バージョンを生成
 3. `query(version, l, r)` で任意バージョンの区間クエリ
 
-## 公開メンバ関数
+## 提供された機能
 
 - `latest_version()` : 最新バージョン番号
 - `versions()` : 保持中バージョン数
