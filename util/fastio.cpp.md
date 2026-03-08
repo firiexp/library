@@ -10,6 +10,15 @@ data:
     path: test/yosupo_min_cost_b_flow.test.cpp
     title: test/yosupo_min_cost_b_flow.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_multipoint_evaluation.test.cpp
+    title: test/yosupo_multipoint_evaluation.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_polynomial_interpolation.test.cpp
+    title: test/yosupo_polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_polynomial_taylor_shift.test.cpp
+    title: test/yosupo_polynomial_taylor_shift.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_frequency.test.cpp
     title: test/yosupo_static_range_frequency.test.cpp
   - icon: ':heavy_check_mark:'
@@ -161,9 +170,12 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_static_range_frequency.test.cpp
+  - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_many_aplusb.test.cpp
+  - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_unionfind.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
+  - test/yosupo_polynomial_taylor_shift.test.cpp
 documentation_of: util/fastio.cpp
 layout: document
 redirect_from:

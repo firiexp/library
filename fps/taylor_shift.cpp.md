@@ -5,33 +5,28 @@ data:
     path: math/ntt.cpp
     title: math/ntt.cpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_polynomial_taylor_shift.test.cpp
+    title: test/yosupo_polynomial_taylor_shift.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/sqrt_of_formal_power_series
-    links:
-    - https://judge.yosupo.jp/problem/sqrt_of_formal_power_series
-  bundledCode: "#line 1 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\n\n\
-    #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
-    \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
-    \nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
-    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"math/ntt.cpp\"\n\
-    #include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef\
-    \ NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef\
-    \ NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
-    \ -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\n\
-    template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
-    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
-    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
-    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
-    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
-    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
-    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    _deprecated_at_docs: _md/taylor_shift.md
+    document_title: polynomial taylor shift
+    links: []
+  bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod\
+    \ = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
+    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
+    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
+    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
+    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
+    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
+    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
+    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
     \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
@@ -282,36 +277,67 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 22 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n\nint main() {\n\
-    \    int n;\n    cin >> n;\n    poly f(n);\n    for (int i = 0; i < n; ++i) {\n\
-    \        int x;\n        cin >> x;\n        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n\
-    \    if ((int)g.size() == 0) {\n        cout << -1 << '\\n';\n        return 0;\n\
-    \    }\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n     \
-    \   cout << g[i].val;\n    }\n    cout << '\\n';\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\
-    \n\n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
-    #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
-    \ <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
-    \ uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n\
-    template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\
-    #include \"../math/ntt.cpp\"\n\nint main() {\n    int n;\n    cin >> n;\n    poly\
-    \ f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n\
-    \        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n    if ((int)g.size() == 0)\
-    \ {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << g[i].val;\n \
-    \   }\n    cout << '\\n';\n    return 0;\n}\n"
+    #line 2 \"fps/taylor_shift.cpp\"\n\npoly taylor_shift(const poly &f, mint c) {\n\
+    \    int n = f.size();\n    if (n == 0) return poly();\n    static vector<mint>\
+    \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int m) {\n\
+    \        if ((int)fact.size() > m) return;\n        int old = fact.size();\n \
+    \       fact.resize(m + 1);\n        for (int i = old; i <= m; ++i) fact[i] =\
+    \ fact[i - 1] * mint(i);\n        ifact.resize(m + 1);\n        ifact[m] = fact[m].inv();\n\
+    \        for (int i = m; i > old; --i) ifact[i - 1] = ifact[i] * mint(i);\n  \
+    \      if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(n);\n    poly\
+    \ a(n), b(n);\n    mint pow_c = 1;\n    for (int i = 0; i < n; ++i) {\n      \
+    \  a[n - 1 - i] = f[i] * fact[i];\n        b[i] = pow_c * ifact[i];\n        pow_c\
+    \ *= c;\n    }\n    poly d = a * b;\n    poly g(n);\n    for (int i = 0; i < n;\
+    \ ++i) g[i] = d[n - 1 - i] * ifact[i];\n    return g;\n}\n\n/**\n * @brief polynomial\
+    \ taylor shift\n * @docs _md/taylor_shift.md\n */\n"
+  code: "#include \"../math/ntt.cpp\"\n\npoly taylor_shift(const poly &f, mint c)\
+    \ {\n    int n = f.size();\n    if (n == 0) return poly();\n    static vector<mint>\
+    \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int m) {\n\
+    \        if ((int)fact.size() > m) return;\n        int old = fact.size();\n \
+    \       fact.resize(m + 1);\n        for (int i = old; i <= m; ++i) fact[i] =\
+    \ fact[i - 1] * mint(i);\n        ifact.resize(m + 1);\n        ifact[m] = fact[m].inv();\n\
+    \        for (int i = m; i > old; --i) ifact[i - 1] = ifact[i] * mint(i);\n  \
+    \      if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(n);\n    poly\
+    \ a(n), b(n);\n    mint pow_c = 1;\n    for (int i = 0; i < n; ++i) {\n      \
+    \  a[n - 1 - i] = f[i] * fact[i];\n        b[i] = pow_c * ifact[i];\n        pow_c\
+    \ *= c;\n    }\n    poly d = a * b;\n    poly g(n);\n    for (int i = 0; i < n;\
+    \ ++i) g[i] = d[n - 1 - i] * ifact[i];\n    return g;\n}\n\n/**\n * @brief polynomial\
+    \ taylor shift\n * @docs _md/taylor_shift.md\n */\n"
   dependsOn:
   - math/ntt.cpp
-  isVerificationFile: true
-  path: test/yosupo_sqrt_of_formal_power_series.test.cpp
+  isVerificationFile: false
+  path: fps/taylor_shift.cpp
   requiredBy: []
   timestamp: '2026-03-08 13:56:05+09:00'
-  verificationStatus: TEST_ACCEPTED
-  verifiedWith: []
-documentation_of: test/yosupo_sqrt_of_formal_power_series.test.cpp
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_polynomial_taylor_shift.test.cpp
+documentation_of: fps/taylor_shift.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_sqrt_of_formal_power_series.test.cpp
-- /verify/test/yosupo_sqrt_of_formal_power_series.test.cpp.html
-title: test/yosupo_sqrt_of_formal_power_series.test.cpp
+- /library/fps/taylor_shift.cpp
+- /library/fps/taylor_shift.cpp.html
+title: polynomial taylor shift
 ---
+---
+layout: post
+title: Taylor Shift
+date: 2026-03-08
+category: FPS
+tags: FPS
+---
+
+## 説明
+多項式 `f(x)` から `f(x + c)` の係数列を計算する。
+`998244353` 上の `poly` を前提にし、計算量は `O(n log n)`。
+
+## できること
+- `poly taylor_shift(const poly& f, mint c)`
+  `f(x + c)` の係数列を返す
+
+## 使い方
+`#include "../fps/taylor_shift.cpp"` を読み込む。
+`taylor_shift(f, c)` を呼ぶ。
+
+## 実装上の補足
+階乗と逆階乗で重み付けして 1 回の畳み込みに帰着する。

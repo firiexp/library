@@ -1,37 +1,35 @@
 ---
 data:
   _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: fps/multipoint_evaluation.cpp
+    title: multipoint evaluation
   - icon: ':question:'
     path: math/ntt.cpp
     title: math/ntt.cpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_polynomial_interpolation.test.cpp
+    title: test/yosupo_polynomial_interpolation.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/sqrt_of_formal_power_series
-    links:
-    - https://judge.yosupo.jp/problem/sqrt_of_formal_power_series
-  bundledCode: "#line 1 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\n\n\
-    #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
-    \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
-    \nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
-    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"math/ntt.cpp\"\n\
-    #include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef\
-    \ NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef\
-    \ NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
-    \ -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\n\
-    template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
-    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
-    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
-    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
-    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
-    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
-    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    _deprecated_at_docs: _md/polynomial_interpolation.md
+    document_title: polynomial interpolation
+    links: []
+  bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod\
+    \ = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
+    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
+    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
+    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
+    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
+    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
+    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
+    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
     \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
@@ -282,36 +280,85 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 22 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n\nint main() {\n\
-    \    int n;\n    cin >> n;\n    poly f(n);\n    for (int i = 0; i < n; ++i) {\n\
-    \        int x;\n        cin >> x;\n        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n\
-    \    if ((int)g.size() == 0) {\n        cout << -1 << '\\n';\n        return 0;\n\
-    \    }\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n     \
-    \   cout << g[i].val;\n    }\n    cout << '\\n';\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\
-    \n\n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
-    #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
-    \ <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
-    \ uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n\
-    template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\
-    #include \"../math/ntt.cpp\"\n\nint main() {\n    int n;\n    cin >> n;\n    poly\
-    \ f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n\
-    \        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n    if ((int)g.size() == 0)\
-    \ {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << g[i].val;\n \
-    \   }\n    cout << '\\n';\n    return 0;\n}\n"
+    #line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
+    \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
+    \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
+    \ ++i) ys[i] = eval(xs[i]);\n        return ys;\n    }\n    int n = 1;\n    while\
+    \ (n < m) n <<= 1;\n    vector<poly> prod(2 * n);\n    for (int i = 0; i < m;\
+    \ ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = m;\
+    \ i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});\n    for (int i = n -\
+    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    vector<poly>\
+    \ rem(2 * n);\n    rem[1] = mod(prod[1]);\n    for (int i = 1; i < n; ++i) {\n\
+    \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
+    \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
+    \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
+    \n/**\n * @brief multipoint evaluation\n * @docs _md/multipoint_evaluation.md\n\
+    \ */\n#line 2 \"fps/polynomial_interpolation.cpp\"\n\npoly polynomial_interpolation(const\
+    \ vector<mint> &xs, const vector<mint> &ys) {\n    int n = (int)xs.size();\n \
+    \   assert(n == (int)ys.size());\n    if (n == 0) return poly();\n    if (n ==\
+    \ 1) return poly(vector<mint>{ys[0]});\n    int sz = 1;\n    while (sz < n) sz\
+    \ <<= 1;\n    vector<poly> prod(2 * sz);\n    for (int i = 0; i < n; ++i) prod[sz\
+    \ + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = n; i < sz; ++i)\
+    \ prod[sz + i] = poly(vector<mint>{mint(1)});\n    for (int i = sz - 1; i >= 1;\
+    \ --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    vector<mint> w = prod[1].diff().multipoint_eval(xs);\n\
+    \    vector<poly> cur(2 * sz);\n    for (int i = 0; i < n; ++i) cur[sz + i] =\
+    \ poly(vector<mint>{ys[i] / w[i]});\n    for (int i = sz - 1; i >= 1; --i) {\n\
+    \        cur[i] = cur[i << 1] * prod[i << 1 | 1] + cur[i << 1 | 1] * prod[i <<\
+    \ 1];\n    }\n    cur[1].shrink();\n    if (cur[1].size() < n) cur[1].v.resize(n);\n\
+    \    return cur[1];\n}\n\n/**\n * @brief polynomial interpolation\n * @docs _md/polynomial_interpolation.md\n\
+    \ */\n"
+  code: "#include \"multipoint_evaluation.cpp\"\n\npoly polynomial_interpolation(const\
+    \ vector<mint> &xs, const vector<mint> &ys) {\n    int n = (int)xs.size();\n \
+    \   assert(n == (int)ys.size());\n    if (n == 0) return poly();\n    if (n ==\
+    \ 1) return poly(vector<mint>{ys[0]});\n    int sz = 1;\n    while (sz < n) sz\
+    \ <<= 1;\n    vector<poly> prod(2 * sz);\n    for (int i = 0; i < n; ++i) prod[sz\
+    \ + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = n; i < sz; ++i)\
+    \ prod[sz + i] = poly(vector<mint>{mint(1)});\n    for (int i = sz - 1; i >= 1;\
+    \ --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    vector<mint> w = prod[1].diff().multipoint_eval(xs);\n\
+    \    vector<poly> cur(2 * sz);\n    for (int i = 0; i < n; ++i) cur[sz + i] =\
+    \ poly(vector<mint>{ys[i] / w[i]});\n    for (int i = sz - 1; i >= 1; --i) {\n\
+    \        cur[i] = cur[i << 1] * prod[i << 1 | 1] + cur[i << 1 | 1] * prod[i <<\
+    \ 1];\n    }\n    cur[1].shrink();\n    if (cur[1].size() < n) cur[1].v.resize(n);\n\
+    \    return cur[1];\n}\n\n/**\n * @brief polynomial interpolation\n * @docs _md/polynomial_interpolation.md\n\
+    \ */\n"
   dependsOn:
+  - fps/multipoint_evaluation.cpp
   - math/ntt.cpp
-  isVerificationFile: true
-  path: test/yosupo_sqrt_of_formal_power_series.test.cpp
+  isVerificationFile: false
+  path: fps/polynomial_interpolation.cpp
   requiredBy: []
   timestamp: '2026-03-08 13:56:05+09:00'
-  verificationStatus: TEST_ACCEPTED
-  verifiedWith: []
-documentation_of: test/yosupo_sqrt_of_formal_power_series.test.cpp
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_polynomial_interpolation.test.cpp
+documentation_of: fps/polynomial_interpolation.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_sqrt_of_formal_power_series.test.cpp
-- /verify/test/yosupo_sqrt_of_formal_power_series.test.cpp.html
-title: test/yosupo_sqrt_of_formal_power_series.test.cpp
+- /library/fps/polynomial_interpolation.cpp
+- /library/fps/polynomial_interpolation.cpp.html
+title: polynomial interpolation
 ---
+---
+layout: post
+title: Polynomial Interpolation
+date: 2026-03-08
+category: FPS
+tags: FPS
+---
+
+## 説明
+相異なる点列 `(x_i, y_i)` を通る次数 `n - 1` 以下の多項式を復元する。
+`998244353` 上の `poly` を前提にし、計算量は `O(n log^2 n)`。
+
+## できること
+- `poly polynomial_interpolation(const vector<mint>& xs, const vector<mint>& ys)`
+  `f(xs[i]) = ys[i]` を満たす多項式を返す
+
+## 使い方
+`#include "../fps/polynomial_interpolation.cpp"` を読み込む。
+`xs`, `ys` を渡して `polynomial_interpolation(xs, ys)` を呼ぶ。
+
+## 実装上の補足
+`multipoint_evaluation.cpp` を内部で使う。
+点 `xs[i]` は相異なることを前提にする。

@@ -85,9 +85,18 @@ data:
     - icon: ':x:'
       path: fps/linear_recurrence.cpp
       title: linear recurrence
+    - icon: ':heavy_check_mark:'
+      path: fps/multipoint_evaluation.cpp
+      title: multipoint evaluation
     - icon: ':x:'
       path: fps/nth_term.cpp
       title: fps/nth_term.cpp
+    - icon: ':heavy_check_mark:'
+      path: fps/polynomial_interpolation.cpp
+      title: polynomial interpolation
+    - icon: ':heavy_check_mark:'
+      path: fps/taylor_shift.cpp
+      title: polynomial taylor shift
   - name: geometry
     pages:
     - icon: ':warning:'
@@ -497,6 +506,9 @@ data:
       path: test/yosupo_min_cost_b_flow.test.cpp
       title: test/yosupo_min_cost_b_flow.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_multipoint_evaluation.test.cpp
+      title: test/yosupo_multipoint_evaluation.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_number_of_substrings.test.cpp
       title: test/yosupo_number_of_substrings.test.cpp
     - icon: ':heavy_check_mark:'
@@ -511,6 +523,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_polynomial_interpolation.test.cpp
+      title: test/yosupo_polynomial_interpolation.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_polynomial_taylor_shift.test.cpp
+      title: test/yosupo_polynomial_taylor_shift.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_pow_of_formal_power_series.test.cpp
       title: test/yosupo_pow_of_formal_power_series.test.cpp

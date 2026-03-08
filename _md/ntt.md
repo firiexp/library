@@ -1,15 +1,42 @@
 ---
 category: "\u6570\u5B66"
-date: 2019-08-16
+date: 2026-03-08
 layout: post
 tags: "\u6570\u5B66"
 title: Number Theoretic Transform
 ---
 
 ## 説明
-素数$p$が$p = q \cdot 2^{k}+1$の形で表され、原始根$g$が存在するとき、$g^q$が1の$2^k$乗根となる。それゆえ、$i \le k$について、$2^i$乗根が簡単に求められるので、$2^i$要素の数列について$\mod p$でFFTと同様にして畳み込みができる。
-原始根は、よく使われるものに関してはコードに記載したが、例にないものが必要なら、Wolfram|Alphaなどで計算すればよい。 
+`998244353` 上の NTT と、形式的冪級数 `poly` の基本演算をまとめた実装。
+多項式積、逆数、対数、指数、冪、平方根を扱う。
 
-この実装は `mod = 998244353`, `root = 3` を使った NTT と、形式的冪級数 (FPS) の基本演算を提供する。
-`poly::pow(long long k, int deg)` により、FPS の k 乗（切り詰め次数付き）も扱える。
-`poly::sqrt(int deg)` は Newton 法で FPS の平方根（存在しない場合は空多項式）を返す。
+## できること
+- `poly(vector<mint> a)`
+  係数列から多項式を作る
+- `poly operator+(const poly& g)`, `poly operator-(const poly& g)`, `poly operator*(const poly& g)`
+  和・差・積を返す
+- `poly diff()`, `poly integral()`
+  微分・積分を返す
+- `poly inv(int deg = -1)`
+  逆数を `x^deg` 未満で返す。定数項が `0` なら使えない
+- `poly log(int deg = -1)`
+  対数を `x^deg` 未満で返す。定数項が `1` である必要がある
+- `poly exp(int deg = -1)`
+  指数を `x^deg` 未満で返す。定数項が `0` である必要がある
+- `poly pow(long long k, int deg = -1)`
+  `k` 乗を `x^deg` 未満で返す
+- `poly sqrt(int deg = -1)`
+  平方根を `x^deg` 未満で返す。存在しなければ空多項式を返す
+- `mint eval(mint x)`
+  1 点での値を返す
+
+## 使い方
+`#include "../math/ntt.cpp"` を読み込み、`poly` に係数列を入れて使う。
+`poly` の `i` 番目は `x^i` の係数を表す。
+
+畳み込みだけなら `f * g` を使う。
+FPS 演算は必要な次数だけ `deg` を指定して切り詰める。
+
+## 実装上の補足
+`transform` は長さが 2 冪であることを前提にする。
+内部 mod は `998244353` 固定。

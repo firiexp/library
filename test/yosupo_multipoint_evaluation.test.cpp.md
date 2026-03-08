@@ -1,9 +1,15 @@
 ---
 data:
   _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: fps/multipoint_evaluation.cpp
+    title: multipoint evaluation
   - icon: ':question:'
     path: math/ntt.cpp
     title: math/ntt.cpp
+  - icon: ':heavy_check_mark:'
+    path: util/fastio.cpp
+    title: util/fastio.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -11,27 +17,90 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/sqrt_of_formal_power_series
+    PROBLEM: https://judge.yosupo.jp/problem/multipoint_evaluation
     links:
-    - https://judge.yosupo.jp/problem/sqrt_of_formal_power_series
-  bundledCode: "#line 1 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\n\n\
-    #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
-    \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
-    \nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
-    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"math/ntt.cpp\"\n\
-    #include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef\
-    \ NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef\
-    \ NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
-    \ -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\n\
-    template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
-    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
-    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
-    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
-    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
-    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
-    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    - https://judge.yosupo.jp/problem/multipoint_evaluation
+  bundledCode: "#line 1 \"test/yosupo_multipoint_evaluation.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/multipoint_evaluation\"\n\n#include <algorithm>\n\
+    #include <utility>\n#include <vector>\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
+    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
+    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
+    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
+    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
+    \ + 1];\n    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n\
+    \        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n          \
+    \  ++idx;\n            ensure();\n        }\n        return buf[idx++];\n    }\n\
+    \n    template<class T, typename enable_if<is_integral<T>::value, int>::type =\
+    \ 0>\n    void read(T &x) {\n        char c = skip();\n        bool neg = false;\n\
+    \        if constexpr (is_signed<T>::value) {\n            if (c == '-') {\n \
+    \               neg = true;\n                c = buf[idx++];\n            }\n\
+    \        }\n        x = 0;\n        while (c >= '0') {\n            x = x * 10\
+    \ + (c & 15);\n            c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
+    \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
+    \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
+    \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
+    \            while (buf[idx] > ' ') ++idx;\n            s.append(buf + start,\
+    \ idx - start);\n            if (buf[idx] <= ' ') break;\n            load();\n\
+    \        }\n        ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr\
+    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n\
+    \    int idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
+    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
+    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
+    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
+    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
+    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
+    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
+    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
+    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
+    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
+    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
+    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
+    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
+    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
+    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
+    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
+    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
+    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
+    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
+    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
+    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
+    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
+    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
+    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
+    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
+    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
+    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
+    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
+    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
+    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
+    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
+    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n#line 1 \"\
+    math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root\
+    \ = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n\
+    #endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n\
+    // 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817\
+    \  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
+    \ modint raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0)\
+    \ {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x\
+    \ < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
+    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
     \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
@@ -282,36 +351,53 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    #line 22 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n\nint main() {\n\
-    \    int n;\n    cin >> n;\n    poly f(n);\n    for (int i = 0; i < n; ++i) {\n\
-    \        int x;\n        cin >> x;\n        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n\
-    \    if ((int)g.size() == 0) {\n        cout << -1 << '\\n';\n        return 0;\n\
-    \    }\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n     \
-    \   cout << g[i].val;\n    }\n    cout << '\\n';\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\
-    \n\n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
-    #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
-    \ <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
-    \ uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n\
-    template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\
-    #include \"../math/ntt.cpp\"\n\nint main() {\n    int n;\n    cin >> n;\n    poly\
-    \ f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n\
-    \        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n    if ((int)g.size() == 0)\
-    \ {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << g[i].val;\n \
-    \   }\n    cout << '\\n';\n    return 0;\n}\n"
+    #line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
+    \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
+    \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
+    \ ++i) ys[i] = eval(xs[i]);\n        return ys;\n    }\n    int n = 1;\n    while\
+    \ (n < m) n <<= 1;\n    vector<poly> prod(2 * n);\n    for (int i = 0; i < m;\
+    \ ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = m;\
+    \ i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});\n    for (int i = n -\
+    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    vector<poly>\
+    \ rem(2 * n);\n    rem[1] = mod(prod[1]);\n    for (int i = 1; i < n; ++i) {\n\
+    \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
+    \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
+    \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
+    \n/**\n * @brief multipoint evaluation\n * @docs _md/multipoint_evaluation.md\n\
+    \ */\n#line 13 \"test/yosupo_multipoint_evaluation.test.cpp\"\n\nint main() {\n\
+    \    Scanner in;\n    Printer out;\n    int n, m;\n    in.read(n, m);\n    poly\
+    \ f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
+    \        f[i] = x;\n    }\n    vector<mint> xs(m);\n    for (int i = 0; i < m;\
+    \ ++i) {\n        int x;\n        in.read(x);\n        xs[i] = x;\n    }\n   \
+    \ vector<mint> ys = f.multipoint_eval(xs);\n    for (int i = 0; i < m; ++i) {\n\
+    \        if (i) out.write(' ');\n        out.write(ys[i].val);\n    }\n    out.writeln();\n\
+    \    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/multipoint_evaluation\"\
+    \n\n#include <algorithm>\n#include <utility>\n#include <vector>\nusing ll = long\
+    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
+    \ std;\n\n#include \"../util/fastio.cpp\"\n#include \"../fps/multipoint_evaluation.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, m;\n    in.read(n,\
+    \ m);\n    poly f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n   \
+    \     in.read(x);\n        f[i] = x;\n    }\n    vector<mint> xs(m);\n    for\
+    \ (int i = 0; i < m; ++i) {\n        int x;\n        in.read(x);\n        xs[i]\
+    \ = x;\n    }\n    vector<mint> ys = f.multipoint_eval(xs);\n    for (int i =\
+    \ 0; i < m; ++i) {\n        if (i) out.write(' ');\n        out.write(ys[i].val);\n\
+    \    }\n    out.writeln();\n    return 0;\n}\n"
   dependsOn:
+  - util/fastio.cpp
+  - fps/multipoint_evaluation.cpp
   - math/ntt.cpp
   isVerificationFile: true
-  path: test/yosupo_sqrt_of_formal_power_series.test.cpp
+  path: test/yosupo_multipoint_evaluation.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 13:56:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_sqrt_of_formal_power_series.test.cpp
+documentation_of: test/yosupo_multipoint_evaluation.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_sqrt_of_formal_power_series.test.cpp
-- /verify/test/yosupo_sqrt_of_formal_power_series.test.cpp.html
-title: test/yosupo_sqrt_of_formal_power_series.test.cpp
+- /verify/test/yosupo_multipoint_evaluation.test.cpp
+- /verify/test/yosupo_multipoint_evaluation.test.cpp.html
+title: test/yosupo_multipoint_evaluation.test.cpp
 ---

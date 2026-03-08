@@ -5,9 +5,18 @@ data:
   - icon: ':x:'
     path: fps/linear_recurrence.cpp
     title: linear recurrence
+  - icon: ':heavy_check_mark:'
+    path: fps/multipoint_evaluation.cpp
+    title: multipoint evaluation
   - icon: ':x:'
     path: fps/nth_term.cpp
     title: fps/nth_term.cpp
+  - icon: ':heavy_check_mark:'
+    path: fps/polynomial_interpolation.cpp
+    title: polynomial interpolation
+  - icon: ':heavy_check_mark:'
+    path: fps/taylor_shift.cpp
+    title: polynomial taylor shift
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
@@ -24,6 +33,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_log_of_formal_power_series.test.cpp
     title: test/yosupo_log_of_formal_power_series.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_multipoint_evaluation.test.cpp
+    title: test/yosupo_multipoint_evaluation.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_polynomial_interpolation.test.cpp
+    title: test/yosupo_polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_polynomial_taylor_shift.test.cpp
+    title: test/yosupo_polynomial_taylor_shift.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_pow_of_formal_power_series.test.cpp
     title: test/yosupo_pow_of_formal_power_series.test.cpp
@@ -160,65 +178,78 @@ data:
     \     c = b * b;\n        t *= c;\n        m = i;\n    }\n    x = r;\n    return\
     \ true;\n}\n\nstruct poly {\n    vector<mint> v;\n    poly() = default;\n    explicit\
     \ poly(int n) : v(n) {};\n    explicit poly(vector<mint> vv) : v(std::move(vv))\
-    \ {};\n    int size() const {return (int)v.size(); }\n    poly cut(int len){\n\
-    \        if(len < v.size()) v.resize(static_cast<unsigned long>(len));\n     \
-    \   return *this;\n    }\n    inline mint& operator[] (int i) {return v[i]; }\n\
-    \    poly& operator+=(const poly &a) {\n        this->v.resize(max(size(), a.size()));\n\
-    \        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];\n        return\
-    \ *this;\n    }\n    poly &operator+=(const mint &r) {\n        if (v.empty())\
-    \ v.resize(1);\n        v[0] += r;\n        return *this;\n    }\n    poly& operator-=(const\
-    \ poly &a) {\n        this->v.resize(max(size(), a.size()));\n        for (int\
-    \ i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];\n        return *this;\n   \
-    \ }\n    poly& operator*=(const poly &a) {\n        const int n = size();\n  \
-    \      const int m = a.size();\n        if (n == 0 || m == 0) {\n            v.clear();\n\
-    \            return *this;\n        }\n        if (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD\
-    \ && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM) {\n            vector<mint> res(n + m\
-    \ - 1);\n            for (int i = 0; i < n; ++i) {\n                for (int j\
-    \ = 0; j < m; ++j) {\n                    res[i + j] += v[i] * a.v[j];\n     \
-    \           }\n            }\n            v = std::move(res);\n            return\
-    \ *this;\n        }\n        int N = n + m - 1;\n        int sz = 1;\n       \
-    \ while(sz < N) sz <<= 1;\n        this->v.resize(sz);\n        ntt.transform(this->v,\
-    \ 0);\n        if (this == &a) {\n            for (int i = 0; i < sz; ++i) this->v[i]\
-    \ *= this->v[i];\n        } else {\n            static thread_local vector<mint>\
-    \ b;\n            b.assign(a.v.begin(), a.v.end());\n            b.resize(sz);\n\
-    \            ntt.transform(b, 0);\n            for(int i = 0; i < sz; ++i) this->v[i]\
-    \ *= b[i];\n        }\n        ntt.transform(this->v, 1);\n        this->v.resize(N);\n\
-    \        mint iz = ntt_inv_size(sz);\n        for (int i = 0; i < N; i++) this->v[i]\
-    \ *= iz;\n        return *this;\n    }\n    poly& operator/=(const poly &a){ return\
-    \ (*this *= a.inv()); }\n    poly operator+(const poly &a) const { return poly(*this)\
+    \ {};\n    int size() const {return (int)v.size(); }\n    void shrink() {\n  \
+    \      while (!v.empty() && v.back() == mint(0)) v.pop_back();\n    }\n    poly\
+    \ cut(int len){\n        if (len < (int)v.size()) v.resize(static_cast<unsigned\
+    \ long>(len));\n        return *this;\n    }\n    inline mint& operator[] (int\
+    \ i) {return v[i]; }\n    inline const mint& operator[] (int i) const {return\
+    \ v[i]; }\n    poly& operator+=(const poly &a) {\n        this->v.resize(max(size(),\
+    \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];\n\
+    \        return *this;\n    }\n    poly &operator+=(const mint &r) {\n       \
+    \ if (v.empty()) v.resize(1);\n        v[0] += r;\n        return *this;\n   \
+    \ }\n    poly& operator-=(const poly &a) {\n        this->v.resize(max(size(),\
+    \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];\n\
+    \        return *this;\n    }\n    poly& operator*=(const poly &a) {\n       \
+    \ const int n = size();\n        const int m = a.size();\n        if (n == 0 ||\
+    \ m == 0) {\n            v.clear();\n            return *this;\n        }\n  \
+    \      if (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM)\
+    \ {\n            vector<mint> res(n + m - 1);\n            for (int i = 0; i <\
+    \ n; ++i) {\n                for (int j = 0; j < m; ++j) {\n                 \
+    \   res[i + j] += v[i] * a.v[j];\n                }\n            }\n         \
+    \   v = std::move(res);\n            return *this;\n        }\n        int N =\
+    \ n + m - 1;\n        int sz = 1;\n        while(sz < N) sz <<= 1;\n        this->v.resize(sz);\n\
+    \        ntt.transform(this->v, 0);\n        if (this == &a) {\n            for\
+    \ (int i = 0; i < sz; ++i) this->v[i] *= this->v[i];\n        } else {\n     \
+    \       static thread_local vector<mint> b;\n            b.assign(a.v.begin(),\
+    \ a.v.end());\n            b.resize(sz);\n            ntt.transform(b, 0);\n \
+    \           for(int i = 0; i < sz; ++i) this->v[i] *= b[i];\n        }\n     \
+    \   ntt.transform(this->v, 1);\n        this->v.resize(N);\n        mint iz =\
+    \ ntt_inv_size(sz);\n        for (int i = 0; i < N; i++) this->v[i] *= iz;\n \
+    \       return *this;\n    }\n    poly& operator/=(const poly &a){ return (*this\
+    \ *= a.inv()); }\n    poly operator+(const poly &a) const { return poly(*this)\
     \ += a; }\n    poly operator+(const mint &v) const { return poly(*this) += v;\
     \ }\n    poly operator-(const poly &a) const { return poly(*this) -= a; }\n  \
-    \  poly operator*(const poly &a) const { return poly(*this) *= a; }\n\n    poly\
-    \ pre(int sz) const {\n        poly ret(sz);\n        for (int i = 0; i < min<int>(sz,\
-    \ v.size()); ++i) {\n            ret[i] = v[i];\n        }\n        return ret;\n\
-    \    }\n\n    poly diff() const {\n        const int n = (int)this->size();\n\
-    \        poly ret(max(0, n - 1));\n        mint one(1), coeff(1);\n        for\
-    \ (int i = 1; i < n; i++) {\n            ret[i - 1] = v[i] * coeff;\n        \
-    \    coeff += one;\n        }\n        return ret;\n    }\n\n    poly integral()\
-    \ const {\n        const int n = (int)this->size();\n        poly ret(n + 1);\n\
-    \        ret[0] = mint(0);\n        static vector<mint> invs = {mint(0), mint(1)};\n\
-    \        if ((int)invs.size() <= n) {\n            int old = (int)invs.size();\n\
-    \            invs.resize(n + 1);\n            for (int i = old; i <= n; ++i) invs[i]\
-    \ = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];\n        }\n        for (int\
-    \ i = 0; i < n; i++) ret[i + 1] = v[i] * invs[i + 1];\n        return ret;\n \
-    \   }\n\n    poly inv(int deg = -1) const {\n        assert(!v.empty() && v[0]\
-    \ != mint(0));\n        if (deg == -1) deg = size();\n        poly res(deg);\n\
-    \        res[0] = v[0].inv();\n        for (int d = 1; d < deg; d <<= 1) {\n \
-    \           vector<mint> f(2 * d), g(2 * d);\n            for (int i = 0; i <\
-    \ min(size(), 2 * d); ++i) f[i] = v[i];\n            for (int i = 0; i < d; ++i)\
-    \ g[i] = res[i];\n            ntt.transform(f, 0);\n            ntt.transform(g,\
-    \ 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *= g[i];\n           \
-    \ ntt_ifft(f);\n            fill(f.begin(), f.begin() + d, mint(0));\n       \
-    \     ntt.transform(f, 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *=\
-    \ g[i];\n            ntt_ifft(f);\n            for (int i = d; i < min(2 * d,\
-    \ deg); ++i) res[i] = -f[i];\n        }\n        return res.pre(deg);\n    }\n\
-    \n    poly log(int deg = -1) const {\n        assert(!v.empty() && v[0] == mint(1));\n\
-    \        if (deg == -1) deg = (int)this->size();\n        return (this->diff()\
-    \ * this->inv(deg)).pre(deg - 1).integral();\n    }\n\n    poly exp(int deg =\
-    \ -1) const {\n        assert(v.size() == 0 || v[0] == mint(0));\n        if (deg\
-    \ == -1) deg = v.size();\n        static vector<mint> invs = {mint(0), mint(1)};\n\
-    \        auto ensure_invs = [&](int n) {\n            if ((int)invs.size() <=\
-    \ n) {\n                int old = (int)invs.size();\n                invs.resize(n\
+    \  poly operator*(const poly &a) const { return poly(*this) *= a; }\n    poly\
+    \ rev(int deg = -1) const {\n        poly ret(*this);\n        if (deg != -1)\
+    \ ret.v.resize(deg);\n        reverse(ret.v.begin(), ret.v.end());\n        return\
+    \ ret;\n    }\n\n    pair<poly, poly> divmod(const poly &a) const {\n        poly\
+    \ f(*this), g(a);\n        f.shrink();\n        g.shrink();\n        assert(!g.v.empty());\n\
+    \        if (f.size() < g.size()) return {poly(), f};\n        int need = f.size()\
+    \ - g.size() + 1;\n        poly q = (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();\n\
+    \        poly r = f - g * q;\n        r = r.pre(g.size() - 1);\n        r.shrink();\n\
+    \        return {q, r};\n    }\n\n    poly mod(const poly &a) const {\n      \
+    \  return divmod(a).second;\n    }\n\n    mint eval(mint x) const {\n        mint\
+    \ y = 0;\n        for (int i = size() - 1; i >= 0; --i) y = y * x + v[i];\n  \
+    \      return y;\n    }\n\n    poly pre(int sz) const {\n        poly ret(sz);\n\
+    \        for (int i = 0; i < min<int>(sz, v.size()); ++i) {\n            ret[i]\
+    \ = v[i];\n        }\n        return ret;\n    }\n\n    poly diff() const {\n\
+    \        const int n = (int)this->size();\n        poly ret(max(0, n - 1));\n\
+    \        mint one(1), coeff(1);\n        for (int i = 1; i < n; i++) {\n     \
+    \       ret[i - 1] = v[i] * coeff;\n            coeff += one;\n        }\n   \
+    \     return ret;\n    }\n\n    poly integral() const {\n        const int n =\
+    \ (int)this->size();\n        poly ret(n + 1);\n        ret[0] = mint(0);\n  \
+    \      static vector<mint> invs = {mint(0), mint(1)};\n        if ((int)invs.size()\
+    \ <= n) {\n            int old = (int)invs.size();\n            invs.resize(n\
+    \ + 1);\n            for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod - ntt_mod\
+    \ / i) * invs[ntt_mod % i];\n        }\n        for (int i = 0; i < n; i++) ret[i\
+    \ + 1] = v[i] * invs[i + 1];\n        return ret;\n    }\n\n    poly inv(int deg\
+    \ = -1) const {\n        assert(!v.empty() && v[0] != mint(0));\n        if (deg\
+    \ == -1) deg = size();\n        poly res(deg);\n        res[0] = v[0].inv();\n\
+    \        for (int d = 1; d < deg; d <<= 1) {\n            vector<mint> f(2 * d),\
+    \ g(2 * d);\n            for (int i = 0; i < min(size(), 2 * d); ++i) f[i] = v[i];\n\
+    \            for (int i = 0; i < d; ++i) g[i] = res[i];\n            ntt.transform(f,\
+    \ 0);\n            ntt.transform(g, 0);\n            for (int i = 0; i < 2 * d;\
+    \ ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            fill(f.begin(), f.begin()\
+    \ + d, mint(0));\n            ntt.transform(f, 0);\n            for (int i = 0;\
+    \ i < 2 * d; ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            for (int\
+    \ i = d; i < min(2 * d, deg); ++i) res[i] = -f[i];\n        }\n        return\
+    \ res.pre(deg);\n    }\n\n    poly log(int deg = -1) const {\n        assert(!v.empty()\
+    \ && v[0] == mint(1));\n        if (deg == -1) deg = (int)this->size();\n    \
+    \    return (this->diff() * this->inv(deg)).pre(deg - 1).integral();\n    }\n\n\
+    \    poly exp(int deg = -1) const {\n        assert(v.size() == 0 || v[0] == mint(0));\n\
+    \        if (deg == -1) deg = v.size();\n        static vector<mint> invs = {mint(0),\
+    \ mint(1)};\n        auto ensure_invs = [&](int n) {\n            if ((int)invs.size()\
+    \ <= n) {\n                int old = (int)invs.size();\n                invs.resize(n\
     \ + 1);\n                for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod\
     \ - ntt_mod / i) * invs[ntt_mod % i];\n            }\n        };\n        auto\
     \ inplace_integral = [&](poly& f) {\n            int n = f.size();\n         \
@@ -282,7 +313,7 @@ data:
     \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n};\n"
+    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n"
   code: "#include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n\
     #ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n\
     #ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
@@ -408,65 +439,78 @@ data:
     \     c = b * b;\n        t *= c;\n        m = i;\n    }\n    x = r;\n    return\
     \ true;\n}\n\nstruct poly {\n    vector<mint> v;\n    poly() = default;\n    explicit\
     \ poly(int n) : v(n) {};\n    explicit poly(vector<mint> vv) : v(std::move(vv))\
-    \ {};\n    int size() const {return (int)v.size(); }\n    poly cut(int len){\n\
-    \        if(len < v.size()) v.resize(static_cast<unsigned long>(len));\n     \
-    \   return *this;\n    }\n    inline mint& operator[] (int i) {return v[i]; }\n\
-    \    poly& operator+=(const poly &a) {\n        this->v.resize(max(size(), a.size()));\n\
-    \        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];\n        return\
-    \ *this;\n    }\n    poly &operator+=(const mint &r) {\n        if (v.empty())\
-    \ v.resize(1);\n        v[0] += r;\n        return *this;\n    }\n    poly& operator-=(const\
-    \ poly &a) {\n        this->v.resize(max(size(), a.size()));\n        for (int\
-    \ i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];\n        return *this;\n   \
-    \ }\n    poly& operator*=(const poly &a) {\n        const int n = size();\n  \
-    \      const int m = a.size();\n        if (n == 0 || m == 0) {\n            v.clear();\n\
-    \            return *this;\n        }\n        if (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD\
-    \ && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM) {\n            vector<mint> res(n + m\
-    \ - 1);\n            for (int i = 0; i < n; ++i) {\n                for (int j\
-    \ = 0; j < m; ++j) {\n                    res[i + j] += v[i] * a.v[j];\n     \
-    \           }\n            }\n            v = std::move(res);\n            return\
-    \ *this;\n        }\n        int N = n + m - 1;\n        int sz = 1;\n       \
-    \ while(sz < N) sz <<= 1;\n        this->v.resize(sz);\n        ntt.transform(this->v,\
-    \ 0);\n        if (this == &a) {\n            for (int i = 0; i < sz; ++i) this->v[i]\
-    \ *= this->v[i];\n        } else {\n            static thread_local vector<mint>\
-    \ b;\n            b.assign(a.v.begin(), a.v.end());\n            b.resize(sz);\n\
-    \            ntt.transform(b, 0);\n            for(int i = 0; i < sz; ++i) this->v[i]\
-    \ *= b[i];\n        }\n        ntt.transform(this->v, 1);\n        this->v.resize(N);\n\
-    \        mint iz = ntt_inv_size(sz);\n        for (int i = 0; i < N; i++) this->v[i]\
-    \ *= iz;\n        return *this;\n    }\n    poly& operator/=(const poly &a){ return\
-    \ (*this *= a.inv()); }\n    poly operator+(const poly &a) const { return poly(*this)\
+    \ {};\n    int size() const {return (int)v.size(); }\n    void shrink() {\n  \
+    \      while (!v.empty() && v.back() == mint(0)) v.pop_back();\n    }\n    poly\
+    \ cut(int len){\n        if (len < (int)v.size()) v.resize(static_cast<unsigned\
+    \ long>(len));\n        return *this;\n    }\n    inline mint& operator[] (int\
+    \ i) {return v[i]; }\n    inline const mint& operator[] (int i) const {return\
+    \ v[i]; }\n    poly& operator+=(const poly &a) {\n        this->v.resize(max(size(),\
+    \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];\n\
+    \        return *this;\n    }\n    poly &operator+=(const mint &r) {\n       \
+    \ if (v.empty()) v.resize(1);\n        v[0] += r;\n        return *this;\n   \
+    \ }\n    poly& operator-=(const poly &a) {\n        this->v.resize(max(size(),\
+    \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];\n\
+    \        return *this;\n    }\n    poly& operator*=(const poly &a) {\n       \
+    \ const int n = size();\n        const int m = a.size();\n        if (n == 0 ||\
+    \ m == 0) {\n            v.clear();\n            return *this;\n        }\n  \
+    \      if (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM)\
+    \ {\n            vector<mint> res(n + m - 1);\n            for (int i = 0; i <\
+    \ n; ++i) {\n                for (int j = 0; j < m; ++j) {\n                 \
+    \   res[i + j] += v[i] * a.v[j];\n                }\n            }\n         \
+    \   v = std::move(res);\n            return *this;\n        }\n        int N =\
+    \ n + m - 1;\n        int sz = 1;\n        while(sz < N) sz <<= 1;\n        this->v.resize(sz);\n\
+    \        ntt.transform(this->v, 0);\n        if (this == &a) {\n            for\
+    \ (int i = 0; i < sz; ++i) this->v[i] *= this->v[i];\n        } else {\n     \
+    \       static thread_local vector<mint> b;\n            b.assign(a.v.begin(),\
+    \ a.v.end());\n            b.resize(sz);\n            ntt.transform(b, 0);\n \
+    \           for(int i = 0; i < sz; ++i) this->v[i] *= b[i];\n        }\n     \
+    \   ntt.transform(this->v, 1);\n        this->v.resize(N);\n        mint iz =\
+    \ ntt_inv_size(sz);\n        for (int i = 0; i < N; i++) this->v[i] *= iz;\n \
+    \       return *this;\n    }\n    poly& operator/=(const poly &a){ return (*this\
+    \ *= a.inv()); }\n    poly operator+(const poly &a) const { return poly(*this)\
     \ += a; }\n    poly operator+(const mint &v) const { return poly(*this) += v;\
     \ }\n    poly operator-(const poly &a) const { return poly(*this) -= a; }\n  \
-    \  poly operator*(const poly &a) const { return poly(*this) *= a; }\n\n    poly\
-    \ pre(int sz) const {\n        poly ret(sz);\n        for (int i = 0; i < min<int>(sz,\
-    \ v.size()); ++i) {\n            ret[i] = v[i];\n        }\n        return ret;\n\
-    \    }\n\n    poly diff() const {\n        const int n = (int)this->size();\n\
-    \        poly ret(max(0, n - 1));\n        mint one(1), coeff(1);\n        for\
-    \ (int i = 1; i < n; i++) {\n            ret[i - 1] = v[i] * coeff;\n        \
-    \    coeff += one;\n        }\n        return ret;\n    }\n\n    poly integral()\
-    \ const {\n        const int n = (int)this->size();\n        poly ret(n + 1);\n\
-    \        ret[0] = mint(0);\n        static vector<mint> invs = {mint(0), mint(1)};\n\
-    \        if ((int)invs.size() <= n) {\n            int old = (int)invs.size();\n\
-    \            invs.resize(n + 1);\n            for (int i = old; i <= n; ++i) invs[i]\
-    \ = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];\n        }\n        for (int\
-    \ i = 0; i < n; i++) ret[i + 1] = v[i] * invs[i + 1];\n        return ret;\n \
-    \   }\n\n    poly inv(int deg = -1) const {\n        assert(!v.empty() && v[0]\
-    \ != mint(0));\n        if (deg == -1) deg = size();\n        poly res(deg);\n\
-    \        res[0] = v[0].inv();\n        for (int d = 1; d < deg; d <<= 1) {\n \
-    \           vector<mint> f(2 * d), g(2 * d);\n            for (int i = 0; i <\
-    \ min(size(), 2 * d); ++i) f[i] = v[i];\n            for (int i = 0; i < d; ++i)\
-    \ g[i] = res[i];\n            ntt.transform(f, 0);\n            ntt.transform(g,\
-    \ 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *= g[i];\n           \
-    \ ntt_ifft(f);\n            fill(f.begin(), f.begin() + d, mint(0));\n       \
-    \     ntt.transform(f, 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *=\
-    \ g[i];\n            ntt_ifft(f);\n            for (int i = d; i < min(2 * d,\
-    \ deg); ++i) res[i] = -f[i];\n        }\n        return res.pre(deg);\n    }\n\
-    \n    poly log(int deg = -1) const {\n        assert(!v.empty() && v[0] == mint(1));\n\
-    \        if (deg == -1) deg = (int)this->size();\n        return (this->diff()\
-    \ * this->inv(deg)).pre(deg - 1).integral();\n    }\n\n    poly exp(int deg =\
-    \ -1) const {\n        assert(v.size() == 0 || v[0] == mint(0));\n        if (deg\
-    \ == -1) deg = v.size();\n        static vector<mint> invs = {mint(0), mint(1)};\n\
-    \        auto ensure_invs = [&](int n) {\n            if ((int)invs.size() <=\
-    \ n) {\n                int old = (int)invs.size();\n                invs.resize(n\
+    \  poly operator*(const poly &a) const { return poly(*this) *= a; }\n    poly\
+    \ rev(int deg = -1) const {\n        poly ret(*this);\n        if (deg != -1)\
+    \ ret.v.resize(deg);\n        reverse(ret.v.begin(), ret.v.end());\n        return\
+    \ ret;\n    }\n\n    pair<poly, poly> divmod(const poly &a) const {\n        poly\
+    \ f(*this), g(a);\n        f.shrink();\n        g.shrink();\n        assert(!g.v.empty());\n\
+    \        if (f.size() < g.size()) return {poly(), f};\n        int need = f.size()\
+    \ - g.size() + 1;\n        poly q = (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();\n\
+    \        poly r = f - g * q;\n        r = r.pre(g.size() - 1);\n        r.shrink();\n\
+    \        return {q, r};\n    }\n\n    poly mod(const poly &a) const {\n      \
+    \  return divmod(a).second;\n    }\n\n    mint eval(mint x) const {\n        mint\
+    \ y = 0;\n        for (int i = size() - 1; i >= 0; --i) y = y * x + v[i];\n  \
+    \      return y;\n    }\n\n    poly pre(int sz) const {\n        poly ret(sz);\n\
+    \        for (int i = 0; i < min<int>(sz, v.size()); ++i) {\n            ret[i]\
+    \ = v[i];\n        }\n        return ret;\n    }\n\n    poly diff() const {\n\
+    \        const int n = (int)this->size();\n        poly ret(max(0, n - 1));\n\
+    \        mint one(1), coeff(1);\n        for (int i = 1; i < n; i++) {\n     \
+    \       ret[i - 1] = v[i] * coeff;\n            coeff += one;\n        }\n   \
+    \     return ret;\n    }\n\n    poly integral() const {\n        const int n =\
+    \ (int)this->size();\n        poly ret(n + 1);\n        ret[0] = mint(0);\n  \
+    \      static vector<mint> invs = {mint(0), mint(1)};\n        if ((int)invs.size()\
+    \ <= n) {\n            int old = (int)invs.size();\n            invs.resize(n\
+    \ + 1);\n            for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod - ntt_mod\
+    \ / i) * invs[ntt_mod % i];\n        }\n        for (int i = 0; i < n; i++) ret[i\
+    \ + 1] = v[i] * invs[i + 1];\n        return ret;\n    }\n\n    poly inv(int deg\
+    \ = -1) const {\n        assert(!v.empty() && v[0] != mint(0));\n        if (deg\
+    \ == -1) deg = size();\n        poly res(deg);\n        res[0] = v[0].inv();\n\
+    \        for (int d = 1; d < deg; d <<= 1) {\n            vector<mint> f(2 * d),\
+    \ g(2 * d);\n            for (int i = 0; i < min(size(), 2 * d); ++i) f[i] = v[i];\n\
+    \            for (int i = 0; i < d; ++i) g[i] = res[i];\n            ntt.transform(f,\
+    \ 0);\n            ntt.transform(g, 0);\n            for (int i = 0; i < 2 * d;\
+    \ ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            fill(f.begin(), f.begin()\
+    \ + d, mint(0));\n            ntt.transform(f, 0);\n            for (int i = 0;\
+    \ i < 2 * d; ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            for (int\
+    \ i = d; i < min(2 * d, deg); ++i) res[i] = -f[i];\n        }\n        return\
+    \ res.pre(deg);\n    }\n\n    poly log(int deg = -1) const {\n        assert(!v.empty()\
+    \ && v[0] == mint(1));\n        if (deg == -1) deg = (int)this->size();\n    \
+    \    return (this->diff() * this->inv(deg)).pre(deg - 1).integral();\n    }\n\n\
+    \    poly exp(int deg = -1) const {\n        assert(v.size() == 0 || v[0] == mint(0));\n\
+    \        if (deg == -1) deg = v.size();\n        static vector<mint> invs = {mint(0),\
+    \ mint(1)};\n        auto ensure_invs = [&](int n) {\n            if ((int)invs.size()\
+    \ <= n) {\n                int old = (int)invs.size();\n                invs.resize(n\
     \ + 1);\n                for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod\
     \ - ntt_mod / i) * invs[ntt_mod % i];\n            }\n        };\n        auto\
     \ inplace_integral = [&](poly& f) {\n            int n = f.size();\n         \
@@ -530,22 +574,28 @@ data:
     \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n};\n"
+    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n"
   dependsOn: []
   isVerificationFile: false
   path: math/ntt.cpp
   requiredBy:
+  - fps/polynomial_interpolation.cpp
   - fps/linear_recurrence.cpp
+  - fps/multipoint_evaluation.cpp
+  - fps/taylor_shift.cpp
   - fps/nth_term.cpp
-  timestamp: '2026-03-08 12:37:45+09:00'
+  timestamp: '2026-03-08 13:56:05+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_log_of_formal_power_series.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_exp_of_formal_power_series.test.cpp
   - test/yosupo_sqrt_of_formal_power_series.test.cpp
+  - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_pow_of_formal_power_series.test.cpp
+  - test/yosupo_polynomial_interpolation.test.cpp
   - test/aoj0452.test.cpp
+  - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/yosupo_convolution.test.cpp
 documentation_of: math/ntt.cpp
 layout: document
