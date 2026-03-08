@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/dynamic_segtree.cpp
     title: datastructure/dynamic_segtree.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/jump_on_tree.cpp
     title: Jump on Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

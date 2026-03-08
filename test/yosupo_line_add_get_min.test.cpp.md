@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/li_chao_tree.cpp
     title: datastructure/li_chao_tree.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

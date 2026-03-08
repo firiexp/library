@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/bellman_ford_negative_loop.cpp
     title: graph/bellman_ford_negative_loop.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

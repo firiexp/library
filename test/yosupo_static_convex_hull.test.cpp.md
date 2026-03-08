@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: geometry/convex_hull.cpp
     title: Convex Hull
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

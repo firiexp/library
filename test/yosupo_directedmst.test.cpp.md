@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/chu_liu_edmonds.cpp
     title: "Chu-Liu/Edmonds \u6CD5"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

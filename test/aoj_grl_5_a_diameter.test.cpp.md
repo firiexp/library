@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/diameter_weighted.cpp
     title: Tree Diameter (Weighted)
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

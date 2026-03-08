@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/palindromic_tree.cpp
     title: Palindromic Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

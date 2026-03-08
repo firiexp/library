@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/general_matching.cpp
     title: "\u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

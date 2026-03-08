@@ -1,17 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
     title: flow/dinic.cpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':x:'
-    path: test/yuki957.test.cpp
-    title: test/yuki957.test.cpp
-  _isVerificationFailed: true
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     _deprecated_at_docs: _md/project_selection_problem.md
     document_title: Project Selection Problem
@@ -104,9 +101,8 @@ data:
   path: flow/project_selection_problem.cpp
   requiredBy: []
   timestamp: '2026-03-08 17:42:36+09:00'
-  verificationStatus: LIBRARY_ALL_WA
-  verifiedWith:
-  - test/yuki957.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: flow/project_selection_problem.cpp
 layout: document
 redirect_from:

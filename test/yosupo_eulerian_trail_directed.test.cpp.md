@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/eulerian_trail.cpp
     title: Eulerian trail
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

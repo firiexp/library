@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/virtual_tree_helper.cpp
     title: Virtual Tree Helper
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

@@ -7,7 +7,7 @@ data:
   - icon: ':question:'
     path: tree/hld.cpp
     title: tree/hld.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

@@ -246,12 +246,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki957.test.cpp
     title: test/yuki957.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n\
@@ -392,7 +392,7 @@ data:
   path: util/fastio.cpp
   requiredBy: []
   timestamp: '2026-03-08 12:02:06+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   - test/yosupo_static_range_frequency.test.cpp

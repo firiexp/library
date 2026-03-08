@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
     title: flow/dinic.cpp
   _extendedRequiredBy: []

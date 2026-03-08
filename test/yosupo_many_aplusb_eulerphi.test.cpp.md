@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/get_min_factor.cpp
     title: math/get_min_factor.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

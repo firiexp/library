@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/topological_sort.cpp
     title: Topological sort
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

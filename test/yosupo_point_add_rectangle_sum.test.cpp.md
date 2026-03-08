@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/point_add_rectangle_sum.cpp
     title: datastructure/point_add_rectangle_sum.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

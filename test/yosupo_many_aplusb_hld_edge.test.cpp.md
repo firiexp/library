@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/hld_edge.cpp
     title: "\u8FBA\u30AF\u30A8\u30EA\u5411\u3051\u91CD\u8EFD\u5206\u89E3"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

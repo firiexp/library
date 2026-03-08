@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/LCA.cpp
     title: Lowest Common Ancestor
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

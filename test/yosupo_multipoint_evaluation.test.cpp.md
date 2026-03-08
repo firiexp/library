@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: math/ntt.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

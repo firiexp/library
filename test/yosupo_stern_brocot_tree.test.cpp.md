@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/stern_brocot_tree.cpp
     title: math/stern_brocot_tree.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

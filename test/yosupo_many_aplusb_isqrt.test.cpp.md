@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/isqrt.cpp
     title: math/isqrt.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

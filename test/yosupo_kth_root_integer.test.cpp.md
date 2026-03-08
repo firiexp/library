@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/kth_root_integer.cpp
     title: K-th root integer
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

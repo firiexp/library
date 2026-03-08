@@ -92,7 +92,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: flow/costscalingdinic.cpp
       title: flow/costscalingdinic.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: flow/dinic.cpp
       title: flow/dinic.cpp
     - icon: ':heavy_check_mark:'
@@ -101,7 +101,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: flow/primaldual.cpp
       title: "\u6700\u5C0F\u8CBB\u7528\u6D41(primal-dual)"
-    - icon: ':x:'
+    - icon: ':warning:'
       path: flow/project_selection_problem.cpp
       title: Project Selection Problem
   - name: fps
@@ -442,7 +442,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/fastio.cpp
       title: util/fastio.cpp
     - icon: ':heavy_check_mark:'
@@ -862,7 +862,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yuki650_hld_edge.test.cpp
       title: test/yuki650_hld_edge.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yuki957.test.cpp
       title: test/yuki957.test.cpp
 layout: toppage
