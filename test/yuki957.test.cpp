@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <limits>
 #include <queue>
-#include <tuple>
 #include <vector>
 using namespace std;
 
@@ -12,7 +11,7 @@ template<class T>
 constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;
 
 #include "../util/fastio.cpp"
-#include "../flow/project_selection_problem.cpp"
+#include "../flow/dinic.cpp"
 
 int main() {
     Scanner in;
@@ -30,33 +29,33 @@ int main() {
     for (int i = 0; i < h; ++i) in.read(row[i]);
     for (int j = 0; j < w; ++j) in.read(col[j]);
 
-    ProjectSelectionProblem<ll> psp(h * w);
-    vector<int> row_id(h), col_id(w);
-    for (int i = 0; i < h; ++i) row_id[i] = psp.add_vertex();
-    for (int j = 0; j < w; ++j) col_id[j] = psp.add_vertex();
-
-    auto cell = [&](int i, int j) {
-        return i * w + j;
+    int s = h + w;
+    int t = s + 1;
+    Dinic<ll, true> mf(h + w + 2);
+    ll base = 0;
+    auto add_cost_if_true = [&](int v, ll cost) {
+        if (cost >= 0) mf.add_edge(s, v, cost);
+        else {
+            base += cost;
+            mf.add_edge(v, t, -cost);
+        }
     };
 
     for (int i = 0; i < h; ++i) {
-        psp.add_true_profit(row_id[i], row[i]);
-        for (int j = 0; j < w; ++j) {
-            psp.add_if_then(row_id[i], cell(i, j));
-        }
+        ll cost = -row[i];
+        for (int j = 0; j < w; ++j) cost += g[i][j];
+        add_cost_if_true(i, cost);
     }
     for (int j = 0; j < w; ++j) {
-        psp.add_true_profit(col_id[j], col[j]);
-        for (int i = 0; i < h; ++i) {
-            psp.add_if_then(col_id[j], cell(i, j));
-        }
+        add_cost_if_true(h + j, -col[j]);
     }
     for (int i = 0; i < h; ++i) {
         for (int j = 0; j < w; ++j) {
-            psp.add_false_profit(cell(i, j), g[i][j]);
+            mf.add_edge(i, h + j, g[i][j]);
         }
     }
 
-    out.writeln(psp.solve());
+    ll min_cost = base + mf.flow(s, t);
+    out.writeln(-min_cost);
     return 0;
 }

@@ -17,10 +17,6 @@ tags: 幾何
 ## 使い方
 点列を `vector<pair<ll, ll>>` で渡して使う。
 
-```cpp
-vector<pair<ll, ll>> ps = {{0, 0}, {1, 0}, {0, 1}};
-auto ch = convex_hull(ps);
-```
 
 ## 実装上の補足
 返り値は辞書順最小の点から始まる反時計回り順になる。
