@@ -9,9 +9,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum.test.cpp
     title: test/yosupo_point_add_range_sum.test.cpp
-  _isVerificationFailed: false
+  - icon: ':x:'
+    path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
+    title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\n\
@@ -36,10 +39,11 @@ data:
   path: datastructure/binaryindexedtree.cpp
   requiredBy: []
   timestamp: '2020-09-09 23:52:42+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum.test.cpp
   - test/aoj_dsl_2_b.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
 documentation_of: datastructure/binaryindexedtree.cpp
 layout: document
 redirect_from:

@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
+    title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/dualsegtree.cpp\"\ntemplate <class M>\nstruct\
@@ -40,8 +43,9 @@ data:
   path: datastructure/dualsegtree.cpp
   requiredBy: []
   timestamp: '2020-10-27 21:25:47+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
 documentation_of: datastructure/dualsegtree.cpp
 layout: document
 redirect_from:

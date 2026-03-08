@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/multipoint_evaluation.cpp
     title: multipoint evaluation
   - icon: ':question:'
@@ -9,124 +9,126 @@ data:
     title: math/ntt.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     _deprecated_at_docs: _md/polynomial_interpolation.md
     document_title: polynomial interpolation
     links: []
-  bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <cassert>\n\nconstexpr int ntt_mod\
-    \ = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
-    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
-    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
-    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
-    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
-    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
-    \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
-    \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
-    \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
-    \ if (val >= M) val += M; return *this; }\n    modint& operator*=(const modint&\
-    \ rhs) { ull z = val; z *= rhs.val; val = (uint)(z % M); return *this; }\n   \
-    \ modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }\n\
-    \    modint operator+() const { return *this; }\n    modint operator-() const\
-    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
-    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
-    \    modint inv() const { return pow(M-2); }\n    friend modint operator+(const\
-    \ modint& lhs, const modint& rhs) { return modint(lhs) += rhs; }\n    friend modint\
-    \ operator-(const modint& lhs, const modint& rhs) { return modint(lhs) -= rhs;\
-    \ }\n    friend modint operator*(const modint& lhs, const modint& rhs) { return\
-    \ modint(lhs) *= rhs; }\n    friend modint operator/(const modint& lhs, const\
-    \ modint& rhs) { return modint(lhs) /= rhs; }\n    friend bool operator==(const\
-    \ modint& lhs, const modint& rhs) { return lhs.val == rhs.val; }\n    friend bool\
-    \ operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val;\
-    \ }\n};\nusing mint = modint<998244353>;\n\nclass NTT {\n    static constexpr\
-    \ int max_base = 20, maxN = 1 << max_base; // N <= 524288 * 2\n    mint root[30],\
-    \ iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];\npublic:\n    NTT()\
-    \ {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n        mint e = mint(ntt_root).pow((ntt_mod-1)\
-    \ >> cnt2), ie = e.inv();\n        for (int i = cnt2; i >= 0; i--){\n        \
-    \    root[i] = e;\n            iroot[i] = ie;\n            e *= e; ie *= ie;\n\
-    \        }\n        mint prod = 1, iprod = 1;\n        for (int i = 0; i <= cnt2\
-    \ - 2; i++) {\n            rate2[i] = root[i + 2] * prod;\n            irate2[i]\
-    \ = iroot[i + 2] * iprod;\n            prod *= iroot[i + 2];\n            iprod\
-    \ *= root[i + 2];\n        }\n        prod = 1, iprod = 1;\n        for (int i\
-    \ = 0; i <= cnt2 - 3; i++) {\n            rate3[i] = root[i + 3] * prod;\n   \
-    \         irate3[i] = iroot[i + 3] * iprod;\n            prod *= iroot[i + 3];\n\
-    \            iprod *= root[i + 3];\n        }\n    }\n\n    void transform(vector<mint>\
-    \ &a, int sign){\n        const int n = a.size();\n        assert(n > 0);\n  \
-    \      assert((n & (n - 1)) == 0);\n        assert(n <= maxN);\n        int h\
-    \ = 0;\n        while ((1U << h) < (unsigned int)(n)) h++;\n        if(!sign){\
-    \ // fft\n            int len = 0;\n            while (len < h) {\n          \
-    \      if (h - len == 1) {\n                    int p = 1 << (h - len - 1);\n\
-    \                    mint rot = 1;\n                    for (int s = 0; s < (1\
-    \ << len); s++) {\n                        int offset = s << (h - len);\n    \
-    \                    for (int i = 0; i < p; i++) {\n                         \
-    \   auto l = a[i + offset];\n                            auto r = a[i + offset\
-    \ + p] * rot;\n                            a[i + offset] = l + r;\n          \
-    \                  a[i + offset + p] = l - r;\n                        }\n   \
-    \                     if (s + 1 != (1 << len)) {\n                           \
-    \ rot *= rate2[__builtin_ctz(~(unsigned int)(s))];\n                        }\n\
-    \                    }\n                    len++;\n                } else {\n\
-    \                    int p = 1 << (h - len - 2);\n                    mint rot\
-    \ = 1, imag = root[2];\n                    for (int s = 0; s < (1 << len); s++)\
-    \ {\n                        mint rot2 = rot * rot;\n                        mint\
-    \ rot3 = rot2 * rot;\n                        int offset = s << (h - len);\n \
-    \                       for (int i = 0; i < p; i++) {\n                      \
-    \      ull mod2 = 1ULL * ntt_mod * ntt_mod;\n                            ull a0\
-    \ = a[i + offset].val;\n                            ull a1 = 1ULL * a[i + offset\
-    \ + p].val * rot.val;\n                            ull a2 = 1ULL * a[i + offset\
-    \ + 2 * p].val * rot2.val;\n                            ull a3 = 1ULL * a[i +\
-    \ offset + 3 * p].val * rot3.val;\n                            ull a1na3imag =\
-    \ 1ULL * mint(a1 + mod2 - a3).val * imag.val;\n                            ull\
-    \ na2 = mod2 - a2;\n                            a[i + offset] = mint(a0 + a2 +\
-    \ a1 + a3);\n                            a[i + offset + p] = mint(a0 + a2 + (2\
-    \ * mod2 - (a1 + a3)));\n                            a[i + offset + 2 * p] = mint(a0\
-    \ + na2 + a1na3imag);\n                            a[i + offset + 3 * p] = mint(a0\
-    \ + na2 + (mod2 - a1na3imag));\n                        }\n                  \
-    \      if (s + 1 != (1 << len)) {\n                            rot *= rate3[__builtin_ctz(~(unsigned\
+  bundledCode: "#line 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\
+    \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
+    #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
+    #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n\
+    // 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct\
+    \ modint {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val\
+    \ = v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
+    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
+    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
+    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& rhs)\
+    \ { val += rhs.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
+    \ modint& rhs) { val -= rhs.val; if (val >= M) val += M; return *this; }\n   \
+    \ modint& operator*=(const modint& rhs) { ull z = val; z *= rhs.val; val = (uint)(z\
+    \ % M); return *this; }\n    modint& operator/=(const modint& rhs) { return *this\
+    \ = *this * rhs.inv(); }\n    modint operator+() const { return *this; }\n   \
+    \ modint operator-() const { return modint() - *this; }\n    modint pow(long long\
+    \ n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n\
+    \ >>= 1; } return r; }\n    modint inv() const { return pow(M-2); }\n    friend\
+    \ modint operator+(const modint& lhs, const modint& rhs) { return modint(lhs)\
+    \ += rhs; }\n    friend modint operator-(const modint& lhs, const modint& rhs)\
+    \ { return modint(lhs) -= rhs; }\n    friend modint operator*(const modint& lhs,\
+    \ const modint& rhs) { return modint(lhs) *= rhs; }\n    friend modint operator/(const\
+    \ modint& lhs, const modint& rhs) { return modint(lhs) /= rhs; }\n    friend bool\
+    \ operator==(const modint& lhs, const modint& rhs) { return lhs.val == rhs.val;\
+    \ }\n    friend bool operator!=(const modint& lhs, const modint& rhs) { return\
+    \ lhs.val != rhs.val; }\n};\nusing mint = modint<998244353>;\n\nclass NTT {\n\
+    \    static constexpr int max_base = 20, maxN = 1 << max_base; // N <= 524288\
+    \ * 2\n    mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];\n\
+    public:\n    NTT() {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n        mint\
+    \ e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();\n        for (int\
+    \ i = cnt2; i >= 0; i--){\n            root[i] = e;\n            iroot[i] = ie;\n\
+    \            e *= e; ie *= ie;\n        }\n        mint prod = 1, iprod = 1;\n\
+    \        for (int i = 0; i <= cnt2 - 2; i++) {\n            rate2[i] = root[i\
+    \ + 2] * prod;\n            irate2[i] = iroot[i + 2] * iprod;\n            prod\
+    \ *= iroot[i + 2];\n            iprod *= root[i + 2];\n        }\n        prod\
+    \ = 1, iprod = 1;\n        for (int i = 0; i <= cnt2 - 3; i++) {\n           \
+    \ rate3[i] = root[i + 3] * prod;\n            irate3[i] = iroot[i + 3] * iprod;\n\
+    \            prod *= iroot[i + 3];\n            iprod *= root[i + 3];\n      \
+    \  }\n    }\n\n    mint root_pow2(int k) const { return root[k]; }\n    mint iroot_pow2(int\
+    \ k) const { return iroot[k]; }\n\n    void transform(vector<mint> &a, int sign){\n\
+    \        const int n = a.size();\n        assert(n > 0);\n        assert((n &\
+    \ (n - 1)) == 0);\n        assert(n <= maxN);\n        int h = 0;\n        while\
+    \ ((1U << h) < (unsigned int)(n)) h++;\n        if(!sign){ // fft\n          \
+    \  int len = 0;\n            while (len < h) {\n                if (h - len ==\
+    \ 1) {\n                    int p = 1 << (h - len - 1);\n                    mint\
+    \ rot = 1;\n                    for (int s = 0; s < (1 << len); s++) {\n     \
+    \                   int offset = s << (h - len);\n                        for\
+    \ (int i = 0; i < p; i++) {\n                            auto l = a[i + offset];\n\
+    \                            auto r = a[i + offset + p] * rot;\n             \
+    \               a[i + offset] = l + r;\n                            a[i + offset\
+    \ + p] = l - r;\n                        }\n                        if (s + 1\
+    \ != (1 << len)) {\n                            rot *= rate2[__builtin_ctz(~(unsigned\
     \ int)(s))];\n                        }\n                    }\n             \
-    \       len += 2;\n                }\n            }\n        }else { // ifft\n\
-    \            int len = h;\n            while (len) {\n                if (len\
-    \ == 1) {\n                    int p = 1 << (h - len);\n                    mint\
-    \ irot = 1;\n                    for (int s = 0; s < (1 << (len - 1)); s++) {\n\
-    \                        int offset = s << (h - len + 1);\n                  \
-    \      for (int i = 0; i < p; i++) {\n                            auto l = a[i\
-    \ + offset];\n                            auto r = a[i + offset + p];\n      \
-    \                      a[i + offset] = l + r;\n                            a[i\
-    \ + offset + p] = mint(1ULL * (ntt_mod + l.val - r.val) * irot.val);\n       \
-    \                 }\n                        if (s + 1 != (1 << (len - 1))) {\n\
-    \                            irot *= irate2[__builtin_ctz(~(unsigned int)(s))];\n\
-    \                        }\n                    }\n                    len--;\n\
-    \                } else {\n                    int p = 1 << (h - len);\n     \
-    \               mint irot = 1, iimag = iroot[2];\n                    for (int\
-    \ s = 0; s < (1 << (len - 2)); s++) {\n                        mint irot2 = irot\
-    \ * irot;\n                        mint irot3 = irot2 * irot;\n              \
-    \          int offset = s << (h - len + 2);\n                        for (int\
-    \ i = 0; i < p; i++) {\n                            ull a0 = a[i + offset].val;\n\
-    \                            ull a1 = a[i + offset + p].val;\n               \
-    \             ull a2 = a[i + offset + 2 * p].val;\n                          \
-    \  ull a3 = a[i + offset + 3 * p].val;\n                            ull a2na3iimag\
-    \ = 1ULL * mint(1ULL * (ntt_mod + a2 - a3) * iimag.val).val;\n               \
-    \             a[i + offset] = mint(a0 + a1 + a2 + a3);\n                     \
-    \       a[i + offset + p] = mint(a0 + (ntt_mod - a1) + a2na3iimag) * irot;\n \
-    \                           a[i + offset + 2 * p] = mint(a0 + a1 + (ntt_mod -\
-    \ a2) + (ntt_mod - a3)) * irot2;\n                            a[i + offset + 3\
-    \ * p] = mint(a0 + (ntt_mod - a1) + (ntt_mod - a2na3iimag)) * irot3;\n       \
-    \                 }\n                        if (s + 1 != (1 << (len - 2))) {\n\
-    \                            irot *= irate3[__builtin_ctz(~(unsigned int)(s))];\n\
-    \                        }\n                    }\n                    len -=\
-    \ 2;\n                }\n            }\n        }\n    }\n};\n\nNTT ntt;\n\nvoid\
-    \ ntt_ifft(vector<mint>& a) {\n    ntt.transform(a, 1);\n    static vector<mint>\
-    \ inv_pow2 = []() {\n        vector<mint> t(31, mint(1));\n        mint inv2 =\
-    \ mint(2).inv();\n        for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i -\
-    \ 1] * inv2;\n        return t;\n    }();\n    mint iz = inv_pow2[__builtin_ctz((unsigned)a.size())];\n\
+    \       len++;\n                } else {\n                    int p = 1 << (h\
+    \ - len - 2);\n                    mint rot = 1, imag = root[2];\n           \
+    \         for (int s = 0; s < (1 << len); s++) {\n                        mint\
+    \ rot2 = rot * rot;\n                        mint rot3 = rot2 * rot;\n       \
+    \                 int offset = s << (h - len);\n                        for (int\
+    \ i = 0; i < p; i++) {\n                            ull mod2 = 1ULL * ntt_mod\
+    \ * ntt_mod;\n                            ull a0 = a[i + offset].val;\n      \
+    \                      ull a1 = 1ULL * a[i + offset + p].val * rot.val;\n    \
+    \                        ull a2 = 1ULL * a[i + offset + 2 * p].val * rot2.val;\n\
+    \                            ull a3 = 1ULL * a[i + offset + 3 * p].val * rot3.val;\n\
+    \                            ull a1na3imag = 1ULL * mint(a1 + mod2 - a3).val *\
+    \ imag.val;\n                            ull na2 = mod2 - a2;\n              \
+    \              a[i + offset] = mint(a0 + a2 + a1 + a3);\n                    \
+    \        a[i + offset + p] = mint(a0 + a2 + (2 * mod2 - (a1 + a3)));\n       \
+    \                     a[i + offset + 2 * p] = mint(a0 + na2 + a1na3imag);\n  \
+    \                          a[i + offset + 3 * p] = mint(a0 + na2 + (mod2 - a1na3imag));\n\
+    \                        }\n                        if (s + 1 != (1 << len)) {\n\
+    \                            rot *= rate3[__builtin_ctz(~(unsigned int)(s))];\n\
+    \                        }\n                    }\n                    len +=\
+    \ 2;\n                }\n            }\n        }else { // ifft\n            int\
+    \ len = h;\n            while (len) {\n                if (len == 1) {\n     \
+    \               int p = 1 << (h - len);\n                    mint irot = 1;\n\
+    \                    for (int s = 0; s < (1 << (len - 1)); s++) {\n          \
+    \              int offset = s << (h - len + 1);\n                        for (int\
+    \ i = 0; i < p; i++) {\n                            auto l = a[i + offset];\n\
+    \                            auto r = a[i + offset + p];\n                   \
+    \         a[i + offset] = l + r;\n                            a[i + offset + p]\
+    \ = mint(1ULL * (ntt_mod + l.val - r.val) * irot.val);\n                     \
+    \   }\n                        if (s + 1 != (1 << (len - 1))) {\n            \
+    \                irot *= irate2[__builtin_ctz(~(unsigned int)(s))];\n        \
+    \                }\n                    }\n                    len--;\n      \
+    \          } else {\n                    int p = 1 << (h - len);\n           \
+    \         mint irot = 1, iimag = iroot[2];\n                    for (int s = 0;\
+    \ s < (1 << (len - 2)); s++) {\n                        mint irot2 = irot * irot;\n\
+    \                        mint irot3 = irot2 * irot;\n                        int\
+    \ offset = s << (h - len + 2);\n                        for (int i = 0; i < p;\
+    \ i++) {\n                            ull a0 = a[i + offset].val;\n          \
+    \                  ull a1 = a[i + offset + p].val;\n                         \
+    \   ull a2 = a[i + offset + 2 * p].val;\n                            ull a3 =\
+    \ a[i + offset + 3 * p].val;\n                            ull a2na3iimag = 1ULL\
+    \ * mint(1ULL * (ntt_mod + a2 - a3) * iimag.val).val;\n                      \
+    \      a[i + offset] = mint(a0 + a1 + a2 + a3);\n                            a[i\
+    \ + offset + p] = mint(a0 + (ntt_mod - a1) + a2na3iimag) * irot;\n           \
+    \                 a[i + offset + 2 * p] = mint(a0 + a1 + (ntt_mod - a2) + (ntt_mod\
+    \ - a3)) * irot2;\n                            a[i + offset + 3 * p] = mint(a0\
+    \ + (ntt_mod - a1) + (ntt_mod - a2na3iimag)) * irot3;\n                      \
+    \  }\n                        if (s + 1 != (1 << (len - 2))) {\n             \
+    \               irot *= irate3[__builtin_ctz(~(unsigned int)(s))];\n         \
+    \               }\n                    }\n                    len -= 2;\n    \
+    \            }\n            }\n        }\n    }\n};\n\nNTT ntt;\n\nvoid ntt_ifft(vector<mint>&\
+    \ a) {\n    ntt.transform(a, 1);\n    static vector<mint> inv_pow2 = []() {\n\
+    \        vector<mint> t(31, mint(1));\n        mint inv2 = mint(2).inv();\n  \
+    \      for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i - 1] * inv2;\n     \
+    \   return t;\n    }();\n    mint iz = inv_pow2[__builtin_ctz((unsigned)a.size())];\n\
     \    for (auto& x : a) x *= iz;\n}\n\nmint ntt_inv_size(int n) {\n    static vector<mint>\
     \ inv_pow2 = []() {\n        vector<mint> t(31, mint(1));\n        mint inv2 =\
     \ mint(2).inv();\n        for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i -\
@@ -328,8 +330,8 @@ data:
   isVerificationFile: false
   path: fps/polynomial_interpolation.cpp
   requiredBy: []
-  timestamp: '2026-03-08 13:56:05+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 14:15:07+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_polynomial_interpolation.test.cpp
 documentation_of: fps/polynomial_interpolation.cpp

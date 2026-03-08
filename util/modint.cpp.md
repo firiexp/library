@@ -22,6 +22,9 @@ data:
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_deque_operate_all_composite.test.cpp
+    title: test/yosupo_deque_operate_all_composite.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -33,6 +36,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_queue_operate_all_composite.test.cpp
     title: test/yosupo_queue_operate_all_composite.test.cpp
+  - icon: ':x:'
+    path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
+    title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
@@ -42,9 +48,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     _deprecated_at_docs: _md/modint.md
     document_title: "modint(\u56FA\u5B9AMOD)"
@@ -105,14 +111,16 @@ data:
   - math/factorial.cpp
   - math/powk_all.cpp
   timestamp: '2021-06-21 15:24:20+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_queue_operate_all_composite.test.cpp
+  - test/yosupo_deque_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
   - test/aoj0399.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
+  - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/aoj_dpl_5_a.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp

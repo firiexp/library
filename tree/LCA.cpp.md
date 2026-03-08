@@ -1,15 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/sparsetable.cpp
     title: datastructure/sparsetable.cpp
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_lca.test.cpp
+    title: test/yosupo_lca.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    _deprecated_at_docs: _md/LCA.md
+    document_title: Lowest Common Ancestor
     links: []
   bundledCode: "#line 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct\
     \ SparseTable {\n    using T = typename F::T;\n    vector<vector<T>> table;\n\
@@ -23,51 +28,89 @@ data:
     \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
     \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b){\n  \
     \      int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n#line 2 \"tree/LCA.cpp\"\n \nstruct F {\n    using T = pair<int, int>;\n\
-    \    static T f(T a, T b) { return min(a, b); }\n    static T e() { return T{INF<int>,\
-    \ -1}; }\n};\n \nclass LCA {\n    SparseTable<F> table;\n    void dfs_euler(int\
-    \ v, int p, int d, int &k){\n        id[v] = k;\n        vs[k] = v;\n        depth[k++]\
-    \ = d;\n        for (auto &&u : G[v]) {\n            if(u != p){\n           \
-    \     dfs_euler(u, v, d+1, k);\n                vs[k] = v;\n                depth[k++]\
-    \ = d;\n            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G;\n    vector<int> vs, depth, id;\n    explicit LCA(int n) : n(n), G(n), vs(2*n-1),\
-    \ depth(2*n-1), id(n), table() {};\n    void add_edge(int a, int b){\n       \
-    \ G[a].emplace_back(b);\n        G[b].emplace_back(a);\n    }\n \n    void eulertour(int\
-    \ root) {\n        int k = 0;\n        dfs_euler(root, -1, 0, k);\n    }\n \n\
-    \    void buildLCA(){\n        eulertour(0);\n        vector<pair<int, int>> v(2*n-1);\n\
-    \        for (int i = 0; i < 2*n-1; ++i) {\n            v[i] = make_pair(depth[i],\
-    \ i);\n        }\n        table.build(v);\n    }\n \n    int lca(int u, int v){\n\
-    \        if(id[u] > id[v]) swap(u, v);\n        return vs[table.query(id[u], id[v]+1).second];\n\
-    \    }\n};\n"
-  code: "#include \"../datastructure/sparsetable.cpp\"\n \nstruct F {\n    using T\
-    \ = pair<int, int>;\n    static T f(T a, T b) { return min(a, b); }\n    static\
-    \ T e() { return T{INF<int>, -1}; }\n};\n \nclass LCA {\n    SparseTable<F> table;\n\
-    \    void dfs_euler(int v, int p, int d, int &k){\n        id[v] = k;\n      \
-    \  vs[k] = v;\n        depth[k++] = d;\n        for (auto &&u : G[v]) {\n    \
-    \        if(u != p){\n                dfs_euler(u, v, d+1, k);\n             \
-    \   vs[k] = v;\n                depth[k++] = d;\n            }\n        }\n  \
-    \  }\npublic:\n    int n;\n    vector<vector<int>> G;\n    vector<int> vs, depth,\
-    \ id;\n    explicit LCA(int n) : n(n), G(n), vs(2*n-1), depth(2*n-1), id(n), table()\
-    \ {};\n    void add_edge(int a, int b){\n        G[a].emplace_back(b);\n     \
-    \   G[b].emplace_back(a);\n    }\n \n    void eulertour(int root) {\n        int\
-    \ k = 0;\n        dfs_euler(root, -1, 0, k);\n    }\n \n    void buildLCA(){\n\
-    \        eulertour(0);\n        vector<pair<int, int>> v(2*n-1);\n        for\
-    \ (int i = 0; i < 2*n-1; ++i) {\n            v[i] = make_pair(depth[i], i);\n\
-    \        }\n        table.build(v);\n    }\n \n    int lca(int u, int v){\n  \
-    \      if(id[u] > id[v]) swap(u, v);\n        return vs[table.query(id[u], id[v]+1).second];\n\
-    \    }\n};\n"
+    \    }\n};\n#line 2 \"tree/LCA.cpp\"\n\nstruct LCA_MinDepth {\n    using T = pair<int,\
+    \ int>;\n    static T f(T a, T b) { return min(a, b); }\n    static T e() { return\
+    \ T{INF<int>, -1}; }\n};\n\nclass LCA {\n    SparseTable<LCA_MinDepth> table;\n\
+    \n    void dfs_euler(int v, int p, int d, int &k) {\n        id[v] = k;\n    \
+    \    vs[k] = v;\n        depth[k++] = d;\n        for (auto &&u : G[v]) {\n  \
+    \          if (u == p) continue;\n            dfs_euler(u, v, d + 1, k);\n   \
+    \         vs[k] = v;\n            depth[k++] = d;\n        }\n    }\n\npublic:\n\
+    \    int n;\n    vector<vector<int>> G;\n    vector<int> vs, depth, id;\n\n  \
+    \  explicit LCA(int n) : table(), n(n), G(n), vs(2 * n - 1), depth(2 * n - 1),\
+    \ id(n) {}\n\n    void add_edge(int a, int b) {\n        G[a].emplace_back(b);\n\
+    \        G[b].emplace_back(a);\n    }\n\n    void eulertour(int root = 0) {\n\
+    \        int k = 0;\n        dfs_euler(root, -1, 0, k);\n    }\n\n    void build(int\
+    \ root = 0) {\n        eulertour(root);\n        vector<pair<int, int>> v(2 *\
+    \ n - 1);\n        for (int i = 0; i < 2 * n - 1; ++i) {\n            v[i] = make_pair(depth[i],\
+    \ i);\n        }\n        table.build(v);\n    }\n\n    void buildLCA(int root\
+    \ = 0) {\n        build(root);\n    }\n\n    int lca(int u, int v) {\n       \
+    \ if (id[u] > id[v]) swap(u, v);\n        return vs[table.query(id[u], id[v] +\
+    \ 1).second];\n    }\n};\n\n/**\n * @brief Lowest Common Ancestor\n * @docs _md/LCA.md\n\
+    \ */\n"
+  code: "#include \"../datastructure/sparsetable.cpp\"\n\nstruct LCA_MinDepth {\n\
+    \    using T = pair<int, int>;\n    static T f(T a, T b) { return min(a, b); }\n\
+    \    static T e() { return T{INF<int>, -1}; }\n};\n\nclass LCA {\n    SparseTable<LCA_MinDepth>\
+    \ table;\n\n    void dfs_euler(int v, int p, int d, int &k) {\n        id[v] =\
+    \ k;\n        vs[k] = v;\n        depth[k++] = d;\n        for (auto &&u : G[v])\
+    \ {\n            if (u == p) continue;\n            dfs_euler(u, v, d + 1, k);\n\
+    \            vs[k] = v;\n            depth[k++] = d;\n        }\n    }\n\npublic:\n\
+    \    int n;\n    vector<vector<int>> G;\n    vector<int> vs, depth, id;\n\n  \
+    \  explicit LCA(int n) : table(), n(n), G(n), vs(2 * n - 1), depth(2 * n - 1),\
+    \ id(n) {}\n\n    void add_edge(int a, int b) {\n        G[a].emplace_back(b);\n\
+    \        G[b].emplace_back(a);\n    }\n\n    void eulertour(int root = 0) {\n\
+    \        int k = 0;\n        dfs_euler(root, -1, 0, k);\n    }\n\n    void build(int\
+    \ root = 0) {\n        eulertour(root);\n        vector<pair<int, int>> v(2 *\
+    \ n - 1);\n        for (int i = 0; i < 2 * n - 1; ++i) {\n            v[i] = make_pair(depth[i],\
+    \ i);\n        }\n        table.build(v);\n    }\n\n    void buildLCA(int root\
+    \ = 0) {\n        build(root);\n    }\n\n    int lca(int u, int v) {\n       \
+    \ if (id[u] > id[v]) swap(u, v);\n        return vs[table.query(id[u], id[v] +\
+    \ 1).second];\n    }\n};\n\n/**\n * @brief Lowest Common Ancestor\n * @docs _md/LCA.md\n\
+    \ */\n"
   dependsOn:
   - datastructure/sparsetable.cpp
   isVerificationFile: false
   path: tree/LCA.cpp
   requiredBy: []
-  timestamp: '2026-03-07 20:03:13+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2026-03-08 15:17:18+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_lca.test.cpp
 documentation_of: tree/LCA.cpp
 layout: document
 redirect_from:
 - /library/tree/LCA.cpp
 - /library/tree/LCA.cpp.html
-title: tree/LCA.cpp
+title: Lowest Common Ancestor
 ---
+## 説明
+Euler Tour + Sparse Table で木上の LCA を求める。
+前処理 `O(N log N)`、クエリ `O(1)`。
+
+## できること
+- `LCA lca(n)`
+  頂点数 `n` の木を作る
+- `void add_edge(int u, int v)`
+  木辺を張る
+- `void build(int root = 0)`
+  根 `root` で前処理をする
+- `void buildLCA(int root = 0)`
+  `build(root)` の別名
+- `int lca(int u, int v)`
+  `u` と `v` の最近共通祖先を返す
+
+## 使い方
+木を張ったあと `build(root)` を 1 回呼び、以降 `lca(u, v)` を使う。
+
+```cpp
+LCA lca(n);
+for (auto [u, v] : edges) {
+    lca.add_edge(u, v);
+}
+lca.build(0);
+
+int w = lca.lca(u, v);
+```
+
+## 実装上の補足
+`id[v]` は Euler Tour 上での最初の出現位置を持つ。
+RMQ には `SparseTable` を使うので、`INF<T>` が見える位置で include する必要がある。

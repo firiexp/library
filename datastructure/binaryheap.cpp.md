@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_alds1_9_c_binaryheap.test.cpp
+    title: test/aoj_alds1_9_c_binaryheap.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/binaryheap.cpp\"\ntemplate<typename T>\nstruct\
@@ -27,8 +30,9 @@ data:
   path: datastructure/binaryheap.cpp
   requiredBy: []
   timestamp: '2026-03-07 20:03:13+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aoj_alds1_9_c_binaryheap.test.cpp
 documentation_of: datastructure/binaryheap.cpp
 layout: document
 redirect_from:

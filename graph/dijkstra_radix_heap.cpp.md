@@ -1,19 +1,19 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/radixheap.cpp
     title: datastructure/radixheap.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_shortest_path_radix_heap.test.cpp
     title: test/yosupo_shortest_path_radix_heap.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
-    _deprecated_at_docs: _md/dijkstra.md
+    _deprecated_at_docs: _md/dijkstra_radix_heap.md
     document_title: "Dijkstra\u6CD5(Radix Heap)"
     links: []
   bundledCode: "#line 1 \"graph/dijkstra_radix_heap.cpp\"\ntemplate <typename T>\n\
@@ -40,7 +40,7 @@ data:
     \ : G[i]) {\n            auto cost2 = cost + e.cost;\n            if(d[e.to] <=\
     \ cost2) continue;\n            d[e.to] = cost2;\n            Q.emplace(d[e.to],\
     \ e.to);\n        }\n    }\n    return d;\n}\n\n/**\n * @brief Dijkstra\u6CD5\
-    (Radix Heap)\n * @docs _md/dijkstra.md\n */\n"
+    (Radix Heap)\n * @docs _md/dijkstra_radix_heap.md\n */\n"
   code: "template <typename T>\nstruct edge {\n    int from, to; T cost;\n    edge(int\
     \ to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T\
     \ cost) : from(from), to(to), cost(cost) {}\n};\n\n#include \"../datastructure/radixheap.cpp\"\
@@ -51,14 +51,14 @@ data:
     \        for (auto &&e : G[i]) {\n            auto cost2 = cost + e.cost;\n  \
     \          if(d[e.to] <= cost2) continue;\n            d[e.to] = cost2;\n    \
     \        Q.emplace(d[e.to], e.to);\n        }\n    }\n    return d;\n}\n\n/**\n\
-    \ * @brief Dijkstra\u6CD5(Radix Heap)\n * @docs _md/dijkstra.md\n */"
+    \ * @brief Dijkstra\u6CD5(Radix Heap)\n * @docs _md/dijkstra_radix_heap.md\n */\n"
   dependsOn:
   - datastructure/radixheap.cpp
   isVerificationFile: false
   path: graph/dijkstra_radix_heap.cpp
   requiredBy: []
-  timestamp: '2020-05-02 12:50:18+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-03-08 14:58:00+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_shortest_path_radix_heap.test.cpp
 documentation_of: graph/dijkstra_radix_heap.cpp
@@ -69,5 +69,23 @@ redirect_from:
 title: "Dijkstra\u6CD5(Radix Heap)"
 ---
 ## 説明
-単一始点最短路を求める。負辺があると正しく動作しない。
-$O(V \log E)$
+Radix Heap を使った Dijkstra 法である。
+非負整数重みの単一始点最短路を高速に求める。
+
+## できること
+- `vector<T> dijkstra(int s, vector<vector<edge<T>>>& g)`
+  始点 `s` から各頂点への最短距離を返す。未到達は `INF<T>`
+
+## 使い方
+辺重みは非負である必要がある。
+`edge<T>` の隣接リストを作って呼ぶ。
+
+```cpp
+vector<vector<edge<long long>>> g(n);
+g[u].emplace_back(v, w);
+auto dist = dijkstra(0, g);
+```
+
+## 実装上の補足
+内部で `RadixHeap<ll, int>` を使うため、キーは `ll` に収まる非負整数を想定している。
+通常の priority queue 版 Dijkstra より、距離が整数で増加する性質を利用して定数倍を削る。

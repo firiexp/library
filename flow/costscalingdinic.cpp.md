@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_grl_6_a_costscalingdinic.test.cpp
+    title: test/aoj_grl_6_a_costscalingdinic.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"flow/costscalingdinic.cpp\"\ntemplate<class T, bool directed>\n\
@@ -65,8 +68,9 @@ data:
   path: flow/costscalingdinic.cpp
   requiredBy: []
   timestamp: '2020-04-27 18:41:45+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aoj_grl_6_a_costscalingdinic.test.cpp
 documentation_of: flow/costscalingdinic.cpp
 layout: document
 redirect_from:

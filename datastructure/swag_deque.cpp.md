@@ -2,62 +2,76 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_deque_operate_all_composite.test.cpp
+    title: test/yosupo_deque_operate_all_composite.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/swag_deque.cpp\"\ntemplate<class G>\nclass\
     \ TwoStackDeque {\n    using T = typename G::T;\n    vector<T> l, r, lsum, rsum;\n\
-    public:\n    TwoStackDeque() : l(0), r(0), lsum(1, G::e()), rsum(1, G::e()) {}\n\
-    \n    void push_front(const T& v){\n        lsum.push_back(G::f(lsum.back(), v));\n\
-    \        l.push_back(v);\n    }\n\n    void push_back(const T& v){\n        rsum.push_back(G::f(v,\
-    \ rsum.back()));\n        r.push_back(v);\n    }\n\n    void pop_front(){\n  \
-    \      if(l.empty()){\n            if(r.empty()) return;\n            int lsize\
-    \ = (r.size() + 1) / 2, rsize = r.size() - lsize;\n            l.resize(lsize);\
-    \ lsum.resize(lsize + 1);\n            for (int i = 0; i < lsize; ++i) l[i] =\
-    \ r[lsize - i - 1], lsum[i+1] = G::f(l[i], lsum[i]);\n            for (int i =\
-    \ 0; i < rsize; ++i) r[i] = r[i + lsize], rsum[i+1] = G::f(rsum[i], r[i]);\n \
-    \           r.resize(rsize); rsum.resize(rsize + 1);\n        }\n        l.pop_back();\
-    \ lsum.pop_back();\n    }\n\n    void pop_back(){\n        if(r.empty()){\n  \
-    \          if(l.empty()) return;\n            int rsize = (l.size() + 1) / 2,\
-    \ lsize = l.size() - rsize;\n            r.resize(rsize); rsum.resize(rsize +\
-    \ 1);\n            for (int i = 0; i < rsize; ++i) r[i] = l[rsize - i - 1], rsum[i+1]\
-    \ = G::f(rsum[i], r[i]);\n            for (int i = 0; i < lsize; ++i) l[i] = l[i\
-    \ + rsize], lsum[i+1] = G::f(l[i], lsum[i]);\n            l.resize(lsize); lsum.resize(lsize\
-    \ + 1);\n        }\n        r.pop_back(); rsum.pop_back();\n    }\n\n    T fold(){\n\
-    \        return G::f(lsum.back(), rsum.back());\n    }\n};\n/*\nstruct Monoid\
-    \ {\n    using T = int;\n    static T f(T a, T b) { return a+b; }\n    static\
-    \ T e() { return 0; }\n};\n*/\n"
+    \    void rebuild_left_sum() {\n        lsum.assign(1, G::e());\n        for (int\
+    \ i = 0; i < (int)l.size(); ++i) {\n            lsum.push_back(G::f(l[i], lsum.back()));\n\
+    \        }\n    }\n\n    void rebuild_right_sum() {\n        rsum.assign(1, G::e());\n\
+    \        for (int i = 0; i < (int)r.size(); ++i) {\n            rsum.push_back(G::f(rsum.back(),\
+    \ r[i]));\n        }\n    }\n\n    void rebalance_from_right() {\n        int\
+    \ lsize = ((int)r.size() + 1) / 2;\n        int rsize = (int)r.size() - lsize;\n\
+    \        l.resize(lsize);\n        for (int i = 0; i < lsize; ++i) l[i] = r[lsize\
+    \ - i - 1];\n        for (int i = 0; i < rsize; ++i) r[i] = r[i + lsize];\n  \
+    \      r.resize(rsize);\n        rebuild_left_sum();\n        rebuild_right_sum();\n\
+    \    }\n\n    void rebalance_from_left() {\n        int rsize = ((int)l.size()\
+    \ + 1) / 2;\n        int lsize = (int)l.size() - rsize;\n        r.resize(rsize);\n\
+    \        for (int i = 0; i < rsize; ++i) r[i] = l[rsize - i - 1];\n        for\
+    \ (int i = 0; i < lsize; ++i) l[i] = l[i + rsize];\n        l.resize(lsize);\n\
+    \        rebuild_left_sum();\n        rebuild_right_sum();\n    }\npublic:\n \
+    \   TwoStackDeque() : l(0), r(0), lsum(1, G::e()), rsum(1, G::e()) {}\n\n    void\
+    \ push_front(const T& v){\n        lsum.push_back(G::f(v, lsum.back()));\n   \
+    \     l.push_back(v);\n    }\n\n    void push_back(const T& v){\n        rsum.push_back(G::f(rsum.back(),\
+    \ v));\n        r.push_back(v);\n    }\n\n    void pop_front(){\n        if(l.empty()){\n\
+    \            if(r.empty()) return;\n            rebalance_from_right();\n    \
+    \    }\n        l.pop_back(); lsum.pop_back();\n    }\n\n    void pop_back(){\n\
+    \        if(r.empty()){\n            if(l.empty()) return;\n            rebalance_from_left();\n\
+    \        }\n        r.pop_back(); rsum.pop_back();\n    }\n\n    T fold(){\n \
+    \       return G::f(lsum.back(), rsum.back());\n    }\n};\n/*\nstruct Monoid {\n\
+    \    using T = int;\n    static T f(T a, T b) { return a+b; }\n    static T e()\
+    \ { return 0; }\n};\n*/\n"
   code: "template<class G>\nclass TwoStackDeque {\n    using T = typename G::T;\n\
-    \    vector<T> l, r, lsum, rsum;\npublic:\n    TwoStackDeque() : l(0), r(0), lsum(1,\
-    \ G::e()), rsum(1, G::e()) {}\n\n    void push_front(const T& v){\n        lsum.push_back(G::f(lsum.back(),\
-    \ v));\n        l.push_back(v);\n    }\n\n    void push_back(const T& v){\n  \
-    \      rsum.push_back(G::f(v, rsum.back()));\n        r.push_back(v);\n    }\n\
-    \n    void pop_front(){\n        if(l.empty()){\n            if(r.empty()) return;\n\
-    \            int lsize = (r.size() + 1) / 2, rsize = r.size() - lsize;\n     \
-    \       l.resize(lsize); lsum.resize(lsize + 1);\n            for (int i = 0;\
-    \ i < lsize; ++i) l[i] = r[lsize - i - 1], lsum[i+1] = G::f(l[i], lsum[i]);\n\
-    \            for (int i = 0; i < rsize; ++i) r[i] = r[i + lsize], rsum[i+1] =\
-    \ G::f(rsum[i], r[i]);\n            r.resize(rsize); rsum.resize(rsize + 1);\n\
-    \        }\n        l.pop_back(); lsum.pop_back();\n    }\n\n    void pop_back(){\n\
-    \        if(r.empty()){\n            if(l.empty()) return;\n            int rsize\
-    \ = (l.size() + 1) / 2, lsize = l.size() - rsize;\n            r.resize(rsize);\
-    \ rsum.resize(rsize + 1);\n            for (int i = 0; i < rsize; ++i) r[i] =\
-    \ l[rsize - i - 1], rsum[i+1] = G::f(rsum[i], r[i]);\n            for (int i =\
-    \ 0; i < lsize; ++i) l[i] = l[i + rsize], lsum[i+1] = G::f(l[i], lsum[i]);\n \
-    \           l.resize(lsize); lsum.resize(lsize + 1);\n        }\n        r.pop_back();\
-    \ rsum.pop_back();\n    }\n\n    T fold(){\n        return G::f(lsum.back(), rsum.back());\n\
-    \    }\n};\n/*\nstruct Monoid {\n    using T = int;\n    static T f(T a, T b)\
-    \ { return a+b; }\n    static T e() { return 0; }\n};\n*/\n"
+    \    vector<T> l, r, lsum, rsum;\n    void rebuild_left_sum() {\n        lsum.assign(1,\
+    \ G::e());\n        for (int i = 0; i < (int)l.size(); ++i) {\n            lsum.push_back(G::f(l[i],\
+    \ lsum.back()));\n        }\n    }\n\n    void rebuild_right_sum() {\n       \
+    \ rsum.assign(1, G::e());\n        for (int i = 0; i < (int)r.size(); ++i) {\n\
+    \            rsum.push_back(G::f(rsum.back(), r[i]));\n        }\n    }\n\n  \
+    \  void rebalance_from_right() {\n        int lsize = ((int)r.size() + 1) / 2;\n\
+    \        int rsize = (int)r.size() - lsize;\n        l.resize(lsize);\n      \
+    \  for (int i = 0; i < lsize; ++i) l[i] = r[lsize - i - 1];\n        for (int\
+    \ i = 0; i < rsize; ++i) r[i] = r[i + lsize];\n        r.resize(rsize);\n    \
+    \    rebuild_left_sum();\n        rebuild_right_sum();\n    }\n\n    void rebalance_from_left()\
+    \ {\n        int rsize = ((int)l.size() + 1) / 2;\n        int lsize = (int)l.size()\
+    \ - rsize;\n        r.resize(rsize);\n        for (int i = 0; i < rsize; ++i)\
+    \ r[i] = l[rsize - i - 1];\n        for (int i = 0; i < lsize; ++i) l[i] = l[i\
+    \ + rsize];\n        l.resize(lsize);\n        rebuild_left_sum();\n        rebuild_right_sum();\n\
+    \    }\npublic:\n    TwoStackDeque() : l(0), r(0), lsum(1, G::e()), rsum(1, G::e())\
+    \ {}\n\n    void push_front(const T& v){\n        lsum.push_back(G::f(v, lsum.back()));\n\
+    \        l.push_back(v);\n    }\n\n    void push_back(const T& v){\n        rsum.push_back(G::f(rsum.back(),\
+    \ v));\n        r.push_back(v);\n    }\n\n    void pop_front(){\n        if(l.empty()){\n\
+    \            if(r.empty()) return;\n            rebalance_from_right();\n    \
+    \    }\n        l.pop_back(); lsum.pop_back();\n    }\n\n    void pop_back(){\n\
+    \        if(r.empty()){\n            if(l.empty()) return;\n            rebalance_from_left();\n\
+    \        }\n        r.pop_back(); rsum.pop_back();\n    }\n\n    T fold(){\n \
+    \       return G::f(lsum.back(), rsum.back());\n    }\n};\n/*\nstruct Monoid {\n\
+    \    using T = int;\n    static T f(T a, T b) { return a+b; }\n    static T e()\
+    \ { return 0; }\n};\n*/\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/swag_deque.cpp
   requiredBy: []
-  timestamp: '2026-03-07 20:03:13+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2026-03-08 14:58:00+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_deque_operate_all_composite.test.cpp
 documentation_of: datastructure/swag_deque.cpp
 layout: document
 redirect_from:

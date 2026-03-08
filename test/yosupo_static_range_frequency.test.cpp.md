@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/wavelet_matrix.cpp
     title: datastructure/wavelet_matrix.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: util/fastio.cpp
   _extendedRequiredBy: []

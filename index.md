@@ -6,16 +6,19 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/ahocorasick.cpp
       title: "Aho-Corasick\u6CD5"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/binaryheap.cpp
       title: datastructure/binaryheap.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: datastructure/binaryindexedtree.cpp
       title: datastructure/binaryindexedtree.cpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: datastructure/binarytrie.cpp
-      title: datastructure/binarytrie.cpp
-    - icon: ':warning:'
+      title: Binary Trie
+    - icon: ':x:'
+      path: datastructure/disjoint_sparse_table.cpp
+      title: Disjoint Sparse Table
+    - icon: ':x:'
       path: datastructure/dualsegtree.cpp
       title: datastructure/dualsegtree.cpp
     - icon: ':heavy_check_mark:'
@@ -33,10 +36,10 @@ data:
     - icon: ':warning:'
       path: datastructure/quickfind.cpp
       title: datastructure/quickfind.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: datastructure/radixheap.cpp
       title: datastructure/radixheap.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: datastructure/segbeats.cpp
       title: datastructure/segbeats.cpp
     - icon: ':heavy_check_mark:'
@@ -45,33 +48,33 @@ data:
     - icon: ':warning:'
       path: datastructure/slidingwindow.cpp
       title: datastructure/slidingwindow.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: datastructure/sparsetable.cpp
       title: datastructure/sparsetable.cpp
     - icon: ':heavy_check_mark:'
       path: datastructure/swag.cpp
       title: datastructure/swag.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/swag_deque.cpp
       title: datastructure/swag_deque.cpp
     - icon: ':warning:'
       path: datastructure/trie.cpp
       title: datastructure/trie.cpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: datastructure/undoableunionfind.cpp
-      title: datastructure/undoableunionfind.cpp
+      title: Undoable Union Find
     - icon: ':heavy_check_mark:'
       path: datastructure/unionfind.cpp
       title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
     - icon: ':heavy_check_mark:'
       path: datastructure/wavelet_matrix.cpp
       title: datastructure/wavelet_matrix.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/weightedunionfind.cpp
-      title: datastructure/weightedunionfind.cpp
+      title: Weighted Union Find
   - name: flow
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: flow/costscalingdinic.cpp
       title: flow/costscalingdinic.cpp
     - icon: ':heavy_check_mark:'
@@ -82,19 +85,19 @@ data:
       title: "\u6700\u5C0F\u8CBB\u7528\u6D41(primal-dual)"
   - name: fps
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: fps/linear_recurrence.cpp
       title: linear recurrence
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: fps/multipoint_evaluation.cpp
       title: multipoint evaluation
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: fps/nth_term.cpp
       title: fps/nth_term.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: fps/polynomial_interpolation.cpp
       title: polynomial interpolation
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: fps/taylor_shift.cpp
       title: polynomial taylor shift
   - name: geometry
@@ -116,10 +119,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/SCC.cpp
       title: graph/SCC.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: graph/bellman_ford.cpp
       title: graph/bellman_ford.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: graph/bellman_ford_negative_loop.cpp
       title: graph/bellman_ford_negative_loop.cpp
     - icon: ':heavy_check_mark:'
@@ -133,14 +136,23 @@ data:
       path: graph/bipartite_matching_lexmin.cpp
       title: graph/bipartite_matching_lexmin.cpp
     - icon: ':heavy_check_mark:'
+      path: graph/chu_liu_edmonds.cpp
+      title: "Chu-Liu/Edmonds \u6CD5"
+    - icon: ':heavy_check_mark:'
       path: graph/dijkstra.cpp
       title: "Dijkstra\u6CD5"
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: graph/dijkstra_radix_heap.cpp
       title: "Dijkstra\u6CD5(Radix Heap)"
     - icon: ':heavy_check_mark:'
       path: graph/dominatortree.cpp
       title: Dominator Tree
+    - icon: ':heavy_check_mark:'
+      path: graph/eulerian_trail.cpp
+      title: Eulerian trail
+    - icon: ':heavy_check_mark:'
+      path: graph/hopcroft_karp.cpp
+      title: "Hopcroft-Karp \u6CD5"
     - icon: ':heavy_check_mark:'
       path: graph/independentset.cpp
       title: graph/independentset.cpp
@@ -173,7 +185,7 @@ data:
     - icon: ':warning:'
       path: math/CRT.cpp
       title: math/CRT.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: math/berlekamp_massey.cpp
       title: Berlekamp-Massey algorithm
     - icon: ':warning:'
@@ -301,6 +313,9 @@ data:
       path: string/manacher.cpp
       title: string/manacher.cpp
     - icon: ':heavy_check_mark:'
+      path: string/palindromic_tree.cpp
+      title: Palindromic Tree
+    - icon: ':heavy_check_mark:'
       path: string/rolling_hash.cpp
       title: string/rolling_hash.cpp
     - icon: ':heavy_check_mark:'
@@ -317,18 +332,27 @@ data:
       title: string/z-algorithm.cpp
   - name: tree
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: tree/LCA.cpp
-      title: tree/LCA.cpp
+      title: Lowest Common Ancestor
     - icon: ':heavy_check_mark:'
       path: tree/auxtree.cpp
       title: tree/auxtree.cpp
     - icon: ':heavy_check_mark:'
+      path: tree/cartesian_tree.cpp
+      title: Cartesian Tree
+    - icon: ':heavy_check_mark:'
       path: tree/centroid_decomposition.cpp
       title: tree/centroid_decomposition.cpp
-    - icon: ':warning:'
+    - icon: ':x:'
       path: tree/diameter.cpp
-      title: tree/diameter.cpp
+      title: Tree Diameter
+    - icon: ':heavy_check_mark:'
+      path: tree/diameter_weighted.cpp
+      title: Tree Diameter (Weighted)
+    - icon: ':x:'
+      path: tree/dsu_on_tree.cpp
+      title: DSU on Tree
     - icon: ':heavy_check_mark:'
       path: tree/hld.cpp
       title: tree/hld.cpp
@@ -346,7 +370,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: util/fastio.cpp
       title: util/fastio.cpp
     - icon: ':heavy_check_mark:'
@@ -367,7 +391,7 @@ data:
     - icon: ':warning:'
       path: util/mo.cpp
       title: util/mo.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
@@ -455,14 +479,32 @@ data:
       path: test/aoj_alds1_14_b.test.cpp
       title: test/aoj_alds1_14_b.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_alds1_9_c_binaryheap.test.cpp
+      title: test/aoj_alds1_9_c_binaryheap.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_dpl_5_a.test.cpp
       title: test/aoj_dpl_5_a.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
+      title: test/aoj_dsl_1_b_weightedunionfind.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj_dsl_2_b.test.cpp
       title: test/aoj_dsl_2_b.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_1_b_bellman_ford.test.cpp
+      title: test/aoj_grl_1_b_bellman_ford.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_1_b_negative_loop.test.cpp
+      title: test/aoj_grl_1_b_negative_loop.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_grl_3_b.test.cpp
       title: test/aoj_grl_3_b.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_5_a_diameter.test.cpp
+      title: test/aoj_grl_5_a_diameter.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_6_a_costscalingdinic.test.cpp
+      title: test/aoj_grl_6_a_costscalingdinic.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
       title: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
@@ -473,8 +515,20 @@ data:
       path: test/yosupo_biconnected_components.test.cpp
       title: test/yosupo_biconnected_components.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
+      title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_cartesian_tree.test.cpp
+      title: test/yosupo_cartesian_tree.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution.test.cpp
       title: test/yosupo_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_deque_operate_all_composite.test.cpp
+      title: test/yosupo_deque_operate_all_composite.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_directedmst.test.cpp
+      title: test/yosupo_directedmst.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
@@ -482,14 +536,29 @@ data:
       path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
       title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_eertree.test.cpp
+      title: test/yosupo_eertree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_eulerian_trail_directed.test.cpp
+      title: test/yosupo_eulerian_trail_directed.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_eulerian_trail_undirected.test.cpp
+      title: test/yosupo_eulerian_trail_undirected.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_exp_of_formal_power_series.test.cpp
       title: test/yosupo_exp_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_find_linear_recurrence.test.cpp
       title: test/yosupo_find_linear_recurrence.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
       title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+      title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_lca.test.cpp
+      title: test/yosupo_lca.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_line_add_get_min.test.cpp
       title: test/yosupo_line_add_get_min.test.cpp
@@ -499,13 +568,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_many_aplusb.test.cpp
       title: test/yosupo_many_aplusb.test.cpp
+    - icon: ':x:'
+      path: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
+      title: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_maximum_independent_set.test.cpp
       title: test/yosupo_maximum_independent_set.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_min_cost_b_flow.test.cpp
       title: test/yosupo_min_cost_b_flow.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_multipoint_evaluation.test.cpp
       title: test/yosupo_multipoint_evaluation.test.cpp
     - icon: ':heavy_check_mark:'
@@ -514,6 +586,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
       title: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
+    - icon: ':x:'
+      path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
+      title: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_range_sum.test.cpp
       title: test/yosupo_point_add_range_sum.test.cpp
@@ -523,22 +598,25 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_polynomial_interpolation.test.cpp
       title: test/yosupo_polynomial_interpolation.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_polynomial_taylor_shift.test.cpp
       title: test/yosupo_polynomial_taylor_shift.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_pow_of_formal_power_series.test.cpp
       title: test/yosupo_pow_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_queue_operate_all_composite.test.cpp
       title: test/yosupo_queue_operate_all_composite.test.cpp
+    - icon: ':x:'
+      path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
+      title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_range_affine_range_sum.test.cpp
       title: test/yosupo_range_affine_range_sum.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
       title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
@@ -547,18 +625,27 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_segment_add_get_min.test.cpp
       title: test/yosupo_segment_add_get_min.test.cpp
+    - icon: ':x:'
+      path: test/yosupo_set_xor_min_binarytrie.test.cpp
+      title: test/yosupo_set_xor_min_binarytrie.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path.test.cpp
       title: test/yosupo_shortest_path.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_shortest_path_radix_heap.test.cpp
       title: test/yosupo_shortest_path_radix_heap.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_sqrt_of_formal_power_series.test.cpp
       title: test/yosupo_sqrt_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_static_range_frequency.test.cpp
       title: test/yosupo_static_range_frequency.test.cpp
+    - icon: ':x:'
+      path: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
+      title: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
+    - icon: ':x:'
+      path: test/yosupo_staticrmq_sparsetable.test.cpp
+      title: test/yosupo_staticrmq_sparsetable.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_suffix_array.test.cpp
       title: test/yosupo_suffix_array.test.cpp
@@ -577,6 +664,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind.test.cpp
       title: test/yosupo_unionfind.test.cpp
+    - icon: ':x:'
+      path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
+      title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_set_path_composite.test.cpp
       title: test/yosupo_vertex_set_path_composite.test.cpp

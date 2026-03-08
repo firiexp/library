@@ -2,48 +2,107 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
+    title: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':x:'
   attributes:
+    _deprecated_at_docs: _md/undoableunionfind.md
+    document_title: Undoable Union Find
     links: []
   bundledCode: "#line 1 \"datastructure/undoableunionfind.cpp\"\nclass UndoableUnionFind\
-    \ {\n    stack<pair<int, int>> hist;\n    int forest_size;\npublic:\n    vector<int>\
-    \ uni;\n    explicit UndoableUnionFind(int sz) : uni(sz, -1), forest_size(sz)\
-    \ {}\n\n    int root(int a){\n        if(uni[a] < 0) return a;\n        return\
-    \ root(uni[a]);\n    }\n\n    bool unite(int a, int b){\n        a = root(a),\
-    \ b = root(b);\n        hist.emplace(a, uni[a]);\n        hist.emplace(b, uni[b]);\n\
-    \        if(a == b) return false;\n        if(uni[a] > uni[b]) swap(a, b);\n \
-    \       uni[a] += uni[b];\n        uni[b] = a;\n        forest_size--;\n     \
-    \   return true;\n    }\n\n    int size(){ return forest_size; }\n    int size(int\
-    \ i){ return -uni[root(i)]; }\n\n    void undo(){\n        uni[hist.top().first]\
-    \ = hist.top().second;\n        hist.pop();\n        uni[hist.top().first] = hist.top().second;\n\
-    \        hist.pop();\n    }\n\n    void snapshot(){ while(!hist.empty()) hist.pop();\
-    \ }\n    void rollback(){ while(!hist.empty()) undo(); }\n};\n"
+    \ {\n    stack<pair<int, int>> hist;\n    int forest_size;\n    int snap;\n\n\
+    public:\n    vector<int> uni;\n\n    explicit UndoableUnionFind(int sz) : forest_size(sz),\
+    \ snap(0), uni(sz, -1) {}\n\n    int root(int a) {\n        if (uni[a] < 0) return\
+    \ a;\n        return root(uni[a]);\n    }\n\n    bool same(int a, int b) {\n \
+    \       return root(a) == root(b);\n    }\n\n    bool unite(int a, int b) {\n\
+    \        a = root(a);\n        b = root(b);\n        hist.emplace(a, uni[a]);\n\
+    \        hist.emplace(b, uni[b]);\n        if (a == b) return false;\n       \
+    \ if (uni[a] > uni[b]) swap(a, b);\n        uni[a] += uni[b];\n        uni[b]\
+    \ = a;\n        forest_size--;\n        return true;\n    }\n\n    int size()\
+    \ { return forest_size; }\n    int size(int i) { return -uni[root(i)]; }\n\n \
+    \   int get_state() const {\n        return int(hist.size() >> 1);\n    }\n\n\
+    \    void undo() {\n        int a = hist.top().first;\n        int ua = hist.top().second;\n\
+    \        hist.pop();\n        int b = hist.top().first;\n        int ub = hist.top().second;\n\
+    \        hist.pop();\n        if (a != b) forest_size++;\n        uni[a] = ua;\n\
+    \        uni[b] = ub;\n    }\n\n    void snapshot() {\n        snap = get_state();\n\
+    \    }\n\n    void rollback(int state = -1) {\n        if (state == -1) state\
+    \ = snap;\n        while (get_state() > state) undo();\n    }\n};\n\n/**\n * @brief\
+    \ Undoable Union Find\n * @docs _md/undoableunionfind.md\n */\n"
   code: "class UndoableUnionFind {\n    stack<pair<int, int>> hist;\n    int forest_size;\n\
-    public:\n    vector<int> uni;\n    explicit UndoableUnionFind(int sz) : uni(sz,\
-    \ -1), forest_size(sz) {}\n\n    int root(int a){\n        if(uni[a] < 0) return\
-    \ a;\n        return root(uni[a]);\n    }\n\n    bool unite(int a, int b){\n \
-    \       a = root(a), b = root(b);\n        hist.emplace(a, uni[a]);\n        hist.emplace(b,\
-    \ uni[b]);\n        if(a == b) return false;\n        if(uni[a] > uni[b]) swap(a,\
-    \ b);\n        uni[a] += uni[b];\n        uni[b] = a;\n        forest_size--;\n\
-    \        return true;\n    }\n\n    int size(){ return forest_size; }\n    int\
-    \ size(int i){ return -uni[root(i)]; }\n\n    void undo(){\n        uni[hist.top().first]\
-    \ = hist.top().second;\n        hist.pop();\n        uni[hist.top().first] = hist.top().second;\n\
-    \        hist.pop();\n    }\n\n    void snapshot(){ while(!hist.empty()) hist.pop();\
-    \ }\n    void rollback(){ while(!hist.empty()) undo(); }\n};"
+    \    int snap;\n\npublic:\n    vector<int> uni;\n\n    explicit UndoableUnionFind(int\
+    \ sz) : forest_size(sz), snap(0), uni(sz, -1) {}\n\n    int root(int a) {\n  \
+    \      if (uni[a] < 0) return a;\n        return root(uni[a]);\n    }\n\n    bool\
+    \ same(int a, int b) {\n        return root(a) == root(b);\n    }\n\n    bool\
+    \ unite(int a, int b) {\n        a = root(a);\n        b = root(b);\n        hist.emplace(a,\
+    \ uni[a]);\n        hist.emplace(b, uni[b]);\n        if (a == b) return false;\n\
+    \        if (uni[a] > uni[b]) swap(a, b);\n        uni[a] += uni[b];\n       \
+    \ uni[b] = a;\n        forest_size--;\n        return true;\n    }\n\n    int\
+    \ size() { return forest_size; }\n    int size(int i) { return -uni[root(i)];\
+    \ }\n\n    int get_state() const {\n        return int(hist.size() >> 1);\n  \
+    \  }\n\n    void undo() {\n        int a = hist.top().first;\n        int ua =\
+    \ hist.top().second;\n        hist.pop();\n        int b = hist.top().first;\n\
+    \        int ub = hist.top().second;\n        hist.pop();\n        if (a != b)\
+    \ forest_size++;\n        uni[a] = ua;\n        uni[b] = ub;\n    }\n\n    void\
+    \ snapshot() {\n        snap = get_state();\n    }\n\n    void rollback(int state\
+    \ = -1) {\n        if (state == -1) state = snap;\n        while (get_state()\
+    \ > state) undo();\n    }\n};\n\n/**\n * @brief Undoable Union Find\n * @docs\
+    \ _md/undoableunionfind.md\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/undoableunionfind.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2026-03-08 15:26:50+09:00'
+  verificationStatus: LIBRARY_ALL_WA
+  verifiedWith:
+  - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
 documentation_of: datastructure/undoableunionfind.cpp
 layout: document
 redirect_from:
 - /library/datastructure/undoableunionfind.cpp
 - /library/datastructure/undoableunionfind.cpp.html
-title: datastructure/undoableunionfind.cpp
+title: Undoable Union Find
 ---
+## 説明
+undo / rollback ができる Union-Find である。
+併合 1 回あたりの変更点を保存し、`undo()` を `O(1)` で行う。
+
+## できること
+- `UndoableUnionFind uf(n)`
+  頂点数 `n` の Union-Find を作る
+- `int root(int v)`
+  頂点 `v` の代表元を返す
+- `bool same(int u, int v)`
+  `u` と `v` が同じ集合かを返す
+- `bool unite(int u, int v)`
+  `u` と `v` を併合する。すでに同じ集合なら `false`
+- `int size()`
+  連結成分数を返す
+- `int size(int v)`
+  `v` が属する集合サイズを返す
+- `void undo()`
+  直前の `unite` 1 回を取り消す
+- `void snapshot()`
+  現在状態を保存する
+- `int get_state()`
+  現在の履歴深さを返す
+- `void rollback(int state = -1)`
+  指定状態まで巻き戻す。`-1` なら直前の `snapshot()` に戻す
+
+## 使い方
+分岐探索や offline dynamic connectivity の DFS で、辺を追加して潜ってから `rollback(state)` で戻す形で使う。
+
+```cpp
+UndoableUnionFind uf(n);
+int state = uf.get_state();
+uf.unite(u, v);
+bool ok = uf.same(a, b);
+uf.rollback(state);
+```
+
+## 実装上の補足
+経路圧縮をしない Union-Find にしているので、`unite` 1 回で変わる配列要素は高々 2 か所である。
+`rollback()` は `undo()` を必要回数だけ繰り返す。

@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_grl_1_b_negative_loop.test.cpp
+    title: test/aoj_grl_1_b_negative_loop.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"graph/bellman_ford_negative_loop.cpp\"\ntemplate <typename\
@@ -44,8 +47,9 @@ data:
   path: graph/bellman_ford_negative_loop.cpp
   requiredBy: []
   timestamp: '2020-04-26 17:42:59+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aoj_grl_1_b_negative_loop.test.cpp
 documentation_of: graph/bellman_ford_negative_loop.cpp
 layout: document
 redirect_from:
