@@ -1,11 +1,17 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: graph/maxflow_lower_bound.cpp
+    title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304D s-t \u6700\u5927\u6D41"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0396.test.cpp
     title: test/aoj0396.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
+    title: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -61,10 +67,12 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: flow/dinic.cpp
-  requiredBy: []
+  requiredBy:
+  - graph/maxflow_lower_bound.cpp
   timestamp: '2020-04-26 17:42:59+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
   - test/aoj0396.test.cpp
 documentation_of: flow/dinic.cpp
 layout: document

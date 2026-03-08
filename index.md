@@ -27,6 +27,9 @@ data:
     - icon: ':warning:'
       path: datastructure/monotoniccht.cpp
       title: datastructure/monotoniccht.cpp
+    - icon: ':heavy_check_mark:'
+      path: datastructure/persistent_segtree.cpp
+      title: datastructure/persistent_segtree.cpp
     - icon: ':warning:'
       path: datastructure/quickfind.cpp
       title: datastructure/quickfind.cpp
@@ -111,6 +114,9 @@ data:
       path: graph/bellman_ford_negative_loop.cpp
       title: graph/bellman_ford_negative_loop.cpp
     - icon: ':heavy_check_mark:'
+      path: graph/biconnected_components.cpp
+      title: graph/biconnected_components.cpp
+    - icon: ':heavy_check_mark:'
       path: graph/bipartite_matching.cpp
       title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u306E\u6700\u5927\u30DE\u30C3\u30C1\u30F3\
         \u30B0"
@@ -141,6 +147,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/maxflow_lower_bound.cpp
       title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304D s-t \u6700\u5927\u6D41"
+    - icon: ':heavy_check_mark:'
+      path: graph/minimum_cost_b_flow.cpp
+      title: "\u6700\u5C0F\u8CBB\u7528 b-flow"
     - icon: ':warning:'
       path: graph/offlinedynamicconnectivity.cpp
       title: graph/offlinedynamicconnectivity.cpp
@@ -274,6 +283,9 @@ data:
   - name: string
     pages:
     - icon: ':heavy_check_mark:'
+      path: string/kmp.cpp
+      title: string/kmp.cpp
+    - icon: ':heavy_check_mark:'
       path: string/lcs_bit.cpp
       title: string/lcs_bit.cpp
     - icon: ':warning:'
@@ -288,6 +300,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.cpp
       title: string/suffix_array.cpp
+    - icon: ':heavy_check_mark:'
+      path: string/suffix_automaton.cpp
+      title: Suffix Automaton
     - icon: ':warning:'
       path: string/z-algorithm.cpp
       title: string/z-algorithm.cpp
@@ -308,6 +323,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/hld.cpp
       title: tree/hld.cpp
+    - icon: ':heavy_check_mark:'
+      path: tree/link_cut_tree.cpp
+      title: Link-Cut Tree
     - icon: ':warning:'
       path: tree/rerooting.cpp
       title: tree/rerooting.cpp
@@ -319,6 +337,9 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
+    - icon: ':heavy_check_mark:'
+      path: util/fastio.cpp
+      title: util/fastio.cpp
     - icon: ':heavy_check_mark:'
       path: util/ifloor.cpp
       title: util/ifloor.cpp
@@ -422,6 +443,9 @@ data:
       path: test/aoj_alds1_10_c.test.cpp
       title: test/aoj_alds1_10_c.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_alds1_14_b.test.cpp
+      title: test/aoj_alds1_14_b.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_dpl_5_a.test.cpp
       title: test/aoj_dpl_5_a.test.cpp
     - icon: ':heavy_check_mark:'
@@ -437,11 +461,17 @@ data:
       path: test/example.test.cpp
       title: test/example.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_biconnected_components.test.cpp
+      title: test/yosupo_biconnected_components.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution.test.cpp
       title: test/yosupo_convolution.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+      title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_exp_of_formal_power_series.test.cpp
       title: test/yosupo_exp_of_formal_power_series.test.cpp
@@ -458,14 +488,26 @@ data:
       path: test/yosupo_log_of_formal_power_series.test.cpp
       title: test/yosupo_log_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_many_aplusb.test.cpp
+      title: test/yosupo_many_aplusb.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_maximum_independent_set.test.cpp
       title: test/yosupo_maximum_independent_set.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_min_cost_b_flow.test.cpp
+      title: test/yosupo_min_cost_b_flow.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_number_of_substrings.test.cpp
       title: test/yosupo_number_of_substrings.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
+      title: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_range_sum.test.cpp
       title: test/yosupo_point_add_range_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_point_add_range_sum_persistent.test.cpp
+      title: test/yosupo_point_add_range_sum_persistent.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp

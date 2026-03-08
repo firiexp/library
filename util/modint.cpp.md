@@ -22,6 +22,9 @@ data:
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+    title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
   - icon: ':heavy_check_mark:'
@@ -104,6 +107,7 @@ data:
   timestamp: '2021-06-21 15:24:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_queue_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
