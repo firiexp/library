@@ -46,86 +46,87 @@ data:
     \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
-    \            while (buf[idx] > ' ') ++idx;\n            s.append(buf + start,\
-    \ idx - start);\n            if (buf[idx] <= ' ') break;\n            load();\n\
-    \        }\n        ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n\
-    \    int idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
-    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
-    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
-    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
-    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
-    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
-    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
-    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
-    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
-    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
-    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
-    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
-    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
-    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
-    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
-    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
-    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
-    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
-    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
-    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
-    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
-    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
-    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
-    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
-    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
-    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
-    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
-    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
-    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
-    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
-    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
-    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"datastructure/dynamic_bitset.cpp\"\nclass DynamicBitset {\n    using\
-    \ ull = unsigned long long;\n    static constexpr int B = 64;\n\n    int n;\n\
-    \    vector<ull> a;\n\n    static int popcount(ull x) {\n        return __builtin_popcountll(x);\n\
-    \    }\n    static int ctz(ull x) {\n        return __builtin_ctzll(x);\n    }\n\
-    \n    ull tail_mask() const {\n        int rem = n & (B - 1);\n        return\
-    \ rem ? ((1ULL << rem) - 1) : ~0ULL;\n    }\n\n    void normalize() {\n      \
-    \  if (!a.empty()) a.back() &= tail_mask();\n    }\n\npublic:\n    DynamicBitset()\
-    \ : n(0) {}\n    explicit DynamicBitset(int n, bool x = false) : n(n), a((n +\
-    \ B - 1) >> 6, x ? ~0ULL : 0ULL) {\n        normalize();\n    }\n\n    int size()\
-    \ const { return n; }\n    bool empty() const { return n == 0; }\n\n    void reset()\
-    \ {\n        fill(a.begin(), a.end(), 0);\n    }\n    void set() {\n        fill(a.begin(),\
-    \ a.end(), ~0ULL);\n        normalize();\n    }\n    void flip() {\n        for\
-    \ (auto &x : a) x = ~x;\n        normalize();\n    }\n\n    bool test(int k) const\
-    \ {\n        return (a[k >> 6] >> (k & 63)) & 1ULL;\n    }\n    void set(int k)\
-    \ {\n        a[k >> 6] |= 1ULL << (k & 63);\n    }\n    void reset(int k) {\n\
-    \        a[k >> 6] &= ~(1ULL << (k & 63));\n    }\n    void flip(int k) {\n  \
-    \      a[k >> 6] ^= 1ULL << (k & 63);\n    }\n    void assign(int k, bool x) {\n\
-    \        if (x) set(k);\n        else reset(k);\n    }\n\n    bool any() const\
-    \ {\n        for (auto x : a) if (x) return true;\n        return false;\n   \
-    \ }\n    bool none() const { return !any(); }\n    bool all() const {\n      \
-    \  if (a.empty()) return true;\n        for (int i = 0; i + 1 < (int)a.size();\
-    \ ++i) {\n            if (a[i] != ~0ULL) return false;\n        }\n        return\
-    \ a.back() == tail_mask();\n    }\n    int count() const {\n        int res =\
-    \ 0;\n        for (auto x : a) res += popcount(x);\n        return res;\n    }\n\
-    \n    int find_first() const {\n        for (int i = 0; i < (int)a.size(); ++i)\
-    \ {\n            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n        return\
-    \ -1;\n    }\n    int find_next(int k) const {\n        ++k;\n        if (k >=\
-    \ n) return -1;\n        int i = k >> 6;\n        ull x = a[i] & (~0ULL << (k\
-    \ & 63));\n        if (x) return (i << 6) + ctz(x);\n        for (++i; i < (int)a.size();\
-    \ ++i) {\n            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n    \
-    \    return -1;\n    }\n\n    DynamicBitset& operator&=(const DynamicBitset &r)\
-    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] &= r.a[i];\n       \
-    \ return *this;\n    }\n    DynamicBitset& operator|=(const DynamicBitset &r)\
-    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] |= r.a[i];\n       \
-    \ return *this;\n    }\n    DynamicBitset& operator^=(const DynamicBitset &r)\
-    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] ^= r.a[i];\n       \
-    \ normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator&(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
+    \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
+    \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
+    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
+    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
+    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
+    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
+    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
+    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
+    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
+    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
+    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
+    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
+    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
+    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
+    \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
+    \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
+    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
+    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
+    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
+    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \            } else {\n                y = static_cast<U>(x);\n            }\n\
+    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
+    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
+    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
+    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
+    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
+    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
+    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
+    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
+    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
+    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
+    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
+    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
+    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
+    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
+    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"datastructure/dynamic_bitset.cpp\"\nclass DynamicBitset\
+    \ {\n    using ull = unsigned long long;\n    static constexpr int B = 64;\n\n\
+    \    int n;\n    vector<ull> a;\n\n    static int popcount(ull x) {\n        return\
+    \ __builtin_popcountll(x);\n    }\n    static int ctz(ull x) {\n        return\
+    \ __builtin_ctzll(x);\n    }\n\n    ull tail_mask() const {\n        int rem =\
+    \ n & (B - 1);\n        return rem ? ((1ULL << rem) - 1) : ~0ULL;\n    }\n\n \
+    \   void normalize() {\n        if (!a.empty()) a.back() &= tail_mask();\n   \
+    \ }\n\npublic:\n    DynamicBitset() : n(0) {}\n    explicit DynamicBitset(int\
+    \ n, bool x = false) : n(n), a((n + B - 1) >> 6, x ? ~0ULL : 0ULL) {\n       \
+    \ normalize();\n    }\n\n    int size() const { return n; }\n    bool empty()\
+    \ const { return n == 0; }\n\n    void reset() {\n        fill(a.begin(), a.end(),\
+    \ 0);\n    }\n    void set() {\n        fill(a.begin(), a.end(), ~0ULL);\n   \
+    \     normalize();\n    }\n    void flip() {\n        for (auto &x : a) x = ~x;\n\
+    \        normalize();\n    }\n\n    bool test(int k) const {\n        return (a[k\
+    \ >> 6] >> (k & 63)) & 1ULL;\n    }\n    void set(int k) {\n        a[k >> 6]\
+    \ |= 1ULL << (k & 63);\n    }\n    void reset(int k) {\n        a[k >> 6] &= ~(1ULL\
+    \ << (k & 63));\n    }\n    void flip(int k) {\n        a[k >> 6] ^= 1ULL << (k\
+    \ & 63);\n    }\n    void assign(int k, bool x) {\n        if (x) set(k);\n  \
+    \      else reset(k);\n    }\n\n    bool any() const {\n        for (auto x :\
+    \ a) if (x) return true;\n        return false;\n    }\n    bool none() const\
+    \ { return !any(); }\n    bool all() const {\n        if (a.empty()) return true;\n\
+    \        for (int i = 0; i + 1 < (int)a.size(); ++i) {\n            if (a[i] !=\
+    \ ~0ULL) return false;\n        }\n        return a.back() == tail_mask();\n \
+    \   }\n    int count() const {\n        int res = 0;\n        for (auto x : a)\
+    \ res += popcount(x);\n        return res;\n    }\n\n    int find_first() const\
+    \ {\n        for (int i = 0; i < (int)a.size(); ++i) {\n            if (a[i])\
+    \ return (i << 6) + ctz(a[i]);\n        }\n        return -1;\n    }\n    int\
+    \ find_next(int k) const {\n        ++k;\n        if (k >= n) return -1;\n   \
+    \     int i = k >> 6;\n        ull x = a[i] & (~0ULL << (k & 63));\n        if\
+    \ (x) return (i << 6) + ctz(x);\n        for (++i; i < (int)a.size(); ++i) {\n\
+    \            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n        return\
+    \ -1;\n    }\n\n    DynamicBitset& operator&=(const DynamicBitset &r) {\n    \
+    \    for (int i = 0; i < (int)a.size(); ++i) a[i] &= r.a[i];\n        return *this;\n\
+    \    }\n    DynamicBitset& operator|=(const DynamicBitset &r) {\n        for (int\
+    \ i = 0; i < (int)a.size(); ++i) a[i] |= r.a[i];\n        return *this;\n    }\n\
+    \    DynamicBitset& operator^=(const DynamicBitset &r) {\n        for (int i =\
+    \ 0; i < (int)a.size(); ++i) a[i] ^= r.a[i];\n        normalize();\n        return\
+    \ *this;\n    }\n\n    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset\
+    \ &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset l,\
+    \ const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
     \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset& operator<<=(int\
     \ s) {\n        if (s <= 0) return *this;\n        if (s >= n) {\n           \
     \ reset();\n            return *this;\n        }\n        int block = s >> 6,\
@@ -274,7 +275,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_dynamic_bitset.test.cpp

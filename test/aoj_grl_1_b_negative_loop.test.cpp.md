@@ -47,63 +47,64 @@ data:
     \ read(char &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n\
     \        s.clear();\n        ensure();\n        while (buf[idx] && buf[idx] <=\
     \ ' ') {\n            ++idx;\n            ensure();\n        }\n        while\
-    \ (true) {\n            int start = idx;\n            while (buf[idx] > ' ') ++idx;\n\
-    \            s.append(buf + start, idx - start);\n            if (buf[idx] <=\
-    \ ' ') break;\n            load();\n        }\n        ++idx;\n    }\n};\n\nstruct\
-    \ Printer {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
-    \ int OFFSET = 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr\
-    \ FastIoDigitTable table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush();\
-    \ }\n\n    inline void flush() {\n        if (idx) {\n            fwrite(buf,\
-    \ 1, idx, stdout);\n            idx = 0;\n        }\n    }\n\n    inline void\
-    \ pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++]\
-    \ = c;\n    }\n\n    inline void write_range(const char *s, size_t n) {\n    \
-    \    size_t pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE)\
-    \ flush();\n            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n\
-    \            memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n\
-    \            pos += chunk;\n        }\n    }\n\n    void write(const char *s)\
-    \ {\n        write_range(s, strlen(s));\n    }\n\n    void write(const string\
-    \ &s) {\n        write_range(s.data(), s.size());\n    }\n\n    void write(char\
-    \ c) {\n        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0'\
-    \ + (b ? 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
-    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
-    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
-    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
-    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
-    \            } else {\n                y = static_cast<U>(x);\n            }\n\
-    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
-    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
-    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
-    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
-    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
-    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
-    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
-    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
-    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
-    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
-    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
-    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
-    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
-    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
-    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
-    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"graph/bellman_ford_negative_loop.cpp\"\ntemplate\
-    \ <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n \n    edge(int\
-    \ to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T\
-    \ cost) : from(from), to(to), cost(cost) {}\n \n    explicit operator int() const\
-    \ {return to;}\n};\n \ntemplate <typename T>\nvector<T> bellman_ford(int s, int\
-    \ N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    vector<bool> negative(N);\n\
-    \    dist[s] = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n        for (auto &&e\
-    \ : G) {\n            if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to]\
-    \ > dist[e.from]+ e.cost){\n                dist[e.to] = dist[e.from]+ e.cost;\n\
-    \            }\n        }\n    }\n \n    ll ans = dist[N - 1];\n \n    for (int\
-    \ i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from]\
-    \ == INF<T>) continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n\
-    \                dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to]\
-    \ = true;\n            }\n            if(negative[e.from]) negative[e.to] = true;\n\
-    \        }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i])\
-    \ dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
+    \ (true) {\n            int start = idx;\n            while (idx < size && buf[idx]\
+    \ > ' ') ++idx;\n            s.append(buf + start, idx - start);\n           \
+    \ if (idx < size) break;\n            load();\n        }\n        if (idx < size)\
+    \ ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr int BUFSIZE = 1\
+    \ << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n    int\
+    \ idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
+    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
+    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
+    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
+    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
+    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
+    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
+    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
+    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
+    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
+    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
+    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
+    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
+    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
+    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
+    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
+    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
+    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
+    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
+    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
+    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
+    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
+    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
+    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
+    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
+    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
+    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
+    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
+    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
+    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
+    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
+    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"graph/bellman_ford_negative_loop.cpp\"\ntemplate <typename T>\nstruct\
+    \ edge {\n    int from, to;\n    T cost;\n \n    edge(int to, T cost) : from(-1),\
+    \ to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to),\
+    \ cost(cost) {}\n \n    explicit operator int() const {return to;}\n};\n \ntemplate\
+    \ <typename T>\nvector<T> bellman_ford(int s, int N,vector<edge<T> > &G){\n  \
+    \  vector<T> dist(N, INF<T>);\n    vector<bool> negative(N);\n    dist[s] = 0;\n\
+    \    for (int i = 0; i < N - 1; ++ i) {\n        for (auto &&e : G) {\n      \
+    \      if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] > dist[e.from]+\
+    \ e.cost){\n                dist[e.to] = dist[e.from]+ e.cost;\n            }\n\
+    \        }\n    }\n \n    ll ans = dist[N - 1];\n \n    for (int i = 0; i < N\
+    \ ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>)\
+    \ continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n           \
+    \     dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to] = true;\n\
+    \            }\n            if(negative[e.from]) negative[e.to] = true;\n    \
+    \    }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i]) dist[i]\
+    \ = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
     (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n * @docs _md/bellman_ford_negative_loop.md\n\
     \ */\n#line 12 \"test/aoj_grl_1_b_negative_loop.test.cpp\"\n\nint main() {\n \
     \   Scanner sc;\n    Printer pr;\n\n    int n, m, s;\n    sc.read(n, m, s);\n\
@@ -132,7 +133,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_1_b_negative_loop.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_b_negative_loop.test.cpp

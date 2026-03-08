@@ -45,58 +45,59 @@ data:
     \ read(char &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n\
     \        s.clear();\n        ensure();\n        while (buf[idx] && buf[idx] <=\
     \ ' ') {\n            ++idx;\n            ensure();\n        }\n        while\
-    \ (true) {\n            int start = idx;\n            while (buf[idx] > ' ') ++idx;\n\
-    \            s.append(buf + start, idx - start);\n            if (buf[idx] <=\
-    \ ' ') break;\n            load();\n        }\n        ++idx;\n    }\n};\n\nstruct\
-    \ Printer {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
-    \ int OFFSET = 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr\
-    \ FastIoDigitTable table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush();\
-    \ }\n\n    inline void flush() {\n        if (idx) {\n            fwrite(buf,\
-    \ 1, idx, stdout);\n            idx = 0;\n        }\n    }\n\n    inline void\
-    \ pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++]\
-    \ = c;\n    }\n\n    inline void write_range(const char *s, size_t n) {\n    \
-    \    size_t pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE)\
-    \ flush();\n            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n\
-    \            memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n\
-    \            pos += chunk;\n        }\n    }\n\n    void write(const char *s)\
-    \ {\n        write_range(s, strlen(s));\n    }\n\n    void write(const string\
-    \ &s) {\n        write_range(s.data(), s.size());\n    }\n\n    void write(char\
-    \ c) {\n        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0'\
-    \ + (b ? 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
-    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
-    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
-    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
-    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
-    \            } else {\n                y = static_cast<U>(x);\n            }\n\
-    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
-    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
-    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
-    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
-    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
-    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
-    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
-    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
-    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
-    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
-    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
-    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
-    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
-    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
-    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
-    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"graph/minimum_cost_b_flow.cpp\"\ntemplate<class\
-    \ Flow, class Cost>\nstruct MinimumCostBFlow {\n    using Sum = __int128_t;\n\
-    \    struct Edge {\n        int from, to, rev;\n        Flow flow, cap;\n    \
-    \    Cost cost;\n\n        Flow residual_cap() const {\n            return cap\
-    \ - flow;\n        }\n    };\n\n    struct EdgeRef {\n        int from, idx;\n\
-    \    };\n\n    int n;\n    vector<vector<Edge>> g;\n    vector<Flow> b;\n    vector<EdgeRef>\
-    \ edges;\n    vector<Cost> potential;\n\n    explicit MinimumCostBFlow(int n)\
-    \ : n(n), g(n), b(n, 0), potential(n, 0) {}\n\n    void add_supply(int v, Flow\
-    \ x) {\n        b[v] += x;\n    }\n\n    void add_demand(int v, Flow x) {\n  \
-    \      b[v] -= x;\n    }\n\n    int add_edge(int from, int to, Flow lower, Flow\
-    \ upper, Cost cost) {\n        assert(lower <= upper);\n        int idx = (int)g[from].size();\n\
+    \ (true) {\n            int start = idx;\n            while (idx < size && buf[idx]\
+    \ > ' ') ++idx;\n            s.append(buf + start, idx - start);\n           \
+    \ if (idx < size) break;\n            load();\n        }\n        if (idx < size)\
+    \ ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr int BUFSIZE = 1\
+    \ << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n    int\
+    \ idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
+    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
+    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
+    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
+    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
+    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
+    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
+    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
+    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
+    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
+    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
+    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
+    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
+    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
+    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
+    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
+    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
+    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
+    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
+    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
+    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
+    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
+    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
+    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
+    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
+    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
+    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
+    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
+    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
+    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
+    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
+    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"graph/minimum_cost_b_flow.cpp\"\ntemplate<class Flow, class Cost>\n\
+    struct MinimumCostBFlow {\n    using Sum = __int128_t;\n    struct Edge {\n  \
+    \      int from, to, rev;\n        Flow flow, cap;\n        Cost cost;\n\n   \
+    \     Flow residual_cap() const {\n            return cap - flow;\n        }\n\
+    \    };\n\n    struct EdgeRef {\n        int from, idx;\n    };\n\n    int n;\n\
+    \    vector<vector<Edge>> g;\n    vector<Flow> b;\n    vector<EdgeRef> edges;\n\
+    \    vector<Cost> potential;\n\n    explicit MinimumCostBFlow(int n) : n(n), g(n),\
+    \ b(n, 0), potential(n, 0) {}\n\n    void add_supply(int v, Flow x) {\n      \
+    \  b[v] += x;\n    }\n\n    void add_demand(int v, Flow x) {\n        b[v] -=\
+    \ x;\n    }\n\n    int add_edge(int from, int to, Flow lower, Flow upper, Cost\
+    \ cost) {\n        assert(lower <= upper);\n        int idx = (int)g[from].size();\n\
     \        int rev = from == to ? idx + 1 : (int)g[to].size();\n        g[from].push_back({from,\
     \ to, rev, 0, upper, cost});\n        g[to].push_back({to, from, idx, 0, -lower,\
     \ -cost});\n        edges.push_back({from, idx});\n        return (int)edges.size()\
@@ -211,7 +212,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_min_cost_b_flow.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_min_cost_b_flow.test.cpp

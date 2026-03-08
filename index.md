@@ -73,7 +73,7 @@ data:
     - icon: ':x:'
       path: datastructure/swag.cpp
       title: SWAG
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/swag_deque.cpp
       title: SWAG Deque
     - icon: ':warning:'
@@ -134,7 +134,7 @@ data:
     - icon: ':x:'
       path: geometry/argsort.cpp
       title: "\u504F\u89D2\u30BD\u30FC\u30C8(Argument Sort)"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: geometry/closest_pair.cpp
       title: Closest Pair
     - icon: ':x:'
@@ -174,13 +174,13 @@ data:
       path: graph/bipartite_matching_lexmin.cpp
       title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
         (Lexicographically Minimum)"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/chu_liu_edmonds.cpp
       title: "\u6700\u5C0F\u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/cycle_detection_directed.cpp
       title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: graph/cycle_detection_undirected.cpp
       title: "\u7121\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
     - icon: ':x:'
@@ -251,9 +251,12 @@ data:
     - icon: ':warning:'
       path: math/comb_table.cpp
       title: math/comb_table.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: math/counting_primes.cpp
       title: "\u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)"
+    - icon: ':heavy_check_mark:'
+      path: math/discrete_logarithm.cpp
+      title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
     - icon: ':warning:'
       path: math/divisor.cpp
       title: math/divisor.cpp
@@ -391,7 +394,7 @@ data:
     - icon: ':warning:'
       path: string/manacher.cpp
       title: string/manacher.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: string/palindromic_tree.cpp
       title: "\u56DE\u6587\u6728(Palindromic Tree)"
     - icon: ':x:'
@@ -623,34 +626,37 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_cartesian_tree.test.cpp
       title: test/yosupo_cartesian_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_closest_pair.test.cpp
       title: test/yosupo_closest_pair.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution.test.cpp
       title: test/yosupo_convolution.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_counting_primes.test.cpp
       title: test/yosupo_counting_primes.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_cycle_detection_directed.test.cpp
       title: test/yosupo_cycle_detection_directed.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_cycle_detection_undirected.test.cpp
       title: test/yosupo_cycle_detection_undirected.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_deque_operate_all_composite.test.cpp
       title: test/yosupo_deque_operate_all_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_directedmst.test.cpp
       title: test/yosupo_directedmst.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_discrete_logarithm_mod.test.cpp
+      title: test/yosupo_discrete_logarithm_mod.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
       title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_eertree.test.cpp
       title: test/yosupo_eertree.test.cpp
     - icon: ':x:'

@@ -46,76 +46,76 @@ data:
     \ read(char &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n\
     \        s.clear();\n        ensure();\n        while (buf[idx] && buf[idx] <=\
     \ ' ') {\n            ++idx;\n            ensure();\n        }\n        while\
-    \ (true) {\n            int start = idx;\n            while (buf[idx] > ' ') ++idx;\n\
-    \            s.append(buf + start, idx - start);\n            if (buf[idx] <=\
-    \ ' ') break;\n            load();\n        }\n        ++idx;\n    }\n};\n\nstruct\
-    \ Printer {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
-    \ int OFFSET = 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr\
-    \ FastIoDigitTable table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush();\
-    \ }\n\n    inline void flush() {\n        if (idx) {\n            fwrite(buf,\
-    \ 1, idx, stdout);\n            idx = 0;\n        }\n    }\n\n    inline void\
-    \ pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++]\
-    \ = c;\n    }\n\n    inline void write_range(const char *s, size_t n) {\n    \
-    \    size_t pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE)\
-    \ flush();\n            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n\
-    \            memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n\
-    \            pos += chunk;\n        }\n    }\n\n    void write(const char *s)\
-    \ {\n        write_range(s, strlen(s));\n    }\n\n    void write(const string\
-    \ &s) {\n        write_range(s.data(), s.size());\n    }\n\n    void write(char\
-    \ c) {\n        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0'\
-    \ + (b ? 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
-    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
-    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
-    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
-    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
-    \            } else {\n                y = static_cast<U>(x);\n            }\n\
-    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
-    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
-    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
-    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
-    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
-    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
-    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
-    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
-    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
-    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
-    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
-    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
-    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
-    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
-    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
-    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"geometry/argsort.cpp\"\nusing Ar2 = array<int,\
-    \ 2>;\nvoid argsort(vector<Ar2> &v)\n{\n    auto pos = [&](Ar2 &x) -> int\n  \
-    \  { if(x[1]) return x[1] < 0 ? -1 : 1; else return x[0] < 0; };\n    sort(v.begin(),\
-    \ v.end(), [&](Ar2 a, Ar2 b)\n         {\n        if(pos(a) != pos(b)) return\
-    \ pos(a) < pos(b);\n        return (ll)a[0]*b[1] > (ll)a[1]*b[0]; });\n}\n\n/**\n\
-    \ * @brief \u504F\u89D2\u30BD\u30FC\u30C8(Argument Sort)\n * @docs _md/argsort.md\n\
-    \ */\n#line 12 \"test/yosupo_many_aplusb_argsort.test.cpp\"\n\nint pos(const Ar2\
-    \ &x) {\n    if (x[1] != 0) return x[1] < 0 ? -1 : 1;\n    return x[0] < 0;\n\
-    }\n\nll cross(const Ar2 &a, const Ar2 &b) {\n    return (ll)a[0] * b[1] - (ll)a[1]\
-    \ * b[0];\n}\n\nbool same_dir(const Ar2 &a, const Ar2 &b) {\n    return cross(a,\
-    \ b) == 0 && pos(a) == pos(b);\n}\n\nint main() {\n    {\n        mt19937 rng(123456789);\n\
-    \        for (int n = 0; n <= 80; ++n) {\n            for (int trial = 0; trial\
-    \ < 200; ++trial) {\n                vector<Ar2> v;\n                while ((int)v.size()\
-    \ < n) {\n                    int x = uniform_int_distribution<int>(-6, 6)(rng);\n\
-    \                    int y = uniform_int_distribution<int>(-6, 6)(rng);\n    \
-    \                if (x == 0 && y == 0) continue;\n                    v.push_back({x,\
-    \ y});\n                }\n                argsort(v);\n                for (int\
-    \ i = 0; i + 1 < n; ++i) {\n                    if (pos(v[i]) > pos(v[i + 1]))\
-    \ return 1;\n                    if (pos(v[i]) == pos(v[i + 1]) && cross(v[i],\
-    \ v[i + 1]) < 0) return 1;\n                }\n            }\n        }\n\n  \
-    \      vector<Ar2> v = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};\n        argsort(v);\n\
-    \        if (v != vector<Ar2>{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}) return 1;\n\n\
-    \        v = {{2, 2}, {1, 1}, {-3, -3}, {-1, -1}, {0, 2}, {0, -5}};\n        argsort(v);\n\
-    \        for (int i = 0; i + 1 < (int)v.size(); ++i) {\n            if (same_dir(v[i],\
-    \ v[i + 1])) continue;\n            if (pos(v[i]) > pos(v[i + 1])) return 1;\n\
-    \            if (pos(v[i]) == pos(v[i + 1]) && cross(v[i], v[i + 1]) < 0) return\
-    \ 1;\n        }\n    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
-    \ + b);\n    }\n    return 0;\n}\n"
+    \ (true) {\n            int start = idx;\n            while (idx < size && buf[idx]\
+    \ > ' ') ++idx;\n            s.append(buf + start, idx - start);\n           \
+    \ if (idx < size) break;\n            load();\n        }\n        if (idx < size)\
+    \ ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr int BUFSIZE = 1\
+    \ << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n    int\
+    \ idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
+    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
+    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
+    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
+    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
+    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
+    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
+    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
+    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
+    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
+    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
+    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
+    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
+    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
+    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
+    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
+    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
+    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
+    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
+    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
+    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
+    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
+    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
+    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
+    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
+    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
+    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
+    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
+    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
+    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
+    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
+    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
+    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
+    #line 1 \"geometry/argsort.cpp\"\nusing Ar2 = array<int, 2>;\nvoid argsort(vector<Ar2>\
+    \ &v)\n{\n    auto pos = [&](Ar2 &x) -> int\n    { if(x[1]) return x[1] < 0 ?\
+    \ -1 : 1; else return x[0] < 0; };\n    sort(v.begin(), v.end(), [&](Ar2 a, Ar2\
+    \ b)\n         {\n        if(pos(a) != pos(b)) return pos(a) < pos(b);\n     \
+    \   return (ll)a[0]*b[1] > (ll)a[1]*b[0]; });\n}\n\n/**\n * @brief \u504F\u89D2\
+    \u30BD\u30FC\u30C8(Argument Sort)\n * @docs _md/argsort.md\n */\n#line 12 \"test/yosupo_many_aplusb_argsort.test.cpp\"\
+    \n\nint pos(const Ar2 &x) {\n    if (x[1] != 0) return x[1] < 0 ? -1 : 1;\n  \
+    \  return x[0] < 0;\n}\n\nll cross(const Ar2 &a, const Ar2 &b) {\n    return (ll)a[0]\
+    \ * b[1] - (ll)a[1] * b[0];\n}\n\nbool same_dir(const Ar2 &a, const Ar2 &b) {\n\
+    \    return cross(a, b) == 0 && pos(a) == pos(b);\n}\n\nint main() {\n    {\n\
+    \        mt19937 rng(123456789);\n        for (int n = 0; n <= 80; ++n) {\n  \
+    \          for (int trial = 0; trial < 200; ++trial) {\n                vector<Ar2>\
+    \ v;\n                while ((int)v.size() < n) {\n                    int x =\
+    \ uniform_int_distribution<int>(-6, 6)(rng);\n                    int y = uniform_int_distribution<int>(-6,\
+    \ 6)(rng);\n                    if (x == 0 && y == 0) continue;\n            \
+    \        v.push_back({x, y});\n                }\n                argsort(v);\n\
+    \                for (int i = 0; i + 1 < n; ++i) {\n                    if (pos(v[i])\
+    \ > pos(v[i + 1])) return 1;\n                    if (pos(v[i]) == pos(v[i + 1])\
+    \ && cross(v[i], v[i + 1]) < 0) return 1;\n                }\n            }\n\
+    \        }\n\n        vector<Ar2> v = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};\n  \
+    \      argsort(v);\n        if (v != vector<Ar2>{{0, -1}, {1, 0}, {0, 1}, {-1,\
+    \ 0}}) return 1;\n\n        v = {{2, 2}, {1, 1}, {-3, -3}, {-1, -1}, {0, 2}, {0,\
+    \ -5}};\n        argsort(v);\n        for (int i = 0; i + 1 < (int)v.size(); ++i)\
+    \ {\n            if (same_dir(v[i], v[i + 1])) continue;\n            if (pos(v[i])\
+    \ > pos(v[i + 1])) return 1;\n            if (pos(v[i]) == pos(v[i + 1]) && cross(v[i],\
+    \ v[i + 1]) < 0) return 1;\n        }\n    }\n\n    Scanner sc;\n    Printer pr;\n\
+    \    int t;\n    sc.read(t);\n    while (t--) {\n        long long a, b;\n   \
+    \     sc.read(a, b);\n        pr.writeln(a + b);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
     \ <algorithm>\n#include <array>\n#include <random>\n#include <vector>\nusing namespace\
     \ std;\nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\n#include \"\
@@ -148,7 +148,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_argsort.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_argsort.test.cpp

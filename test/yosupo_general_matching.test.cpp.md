@@ -47,65 +47,66 @@ data:
     \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
-    \            while (buf[idx] > ' ') ++idx;\n            s.append(buf + start,\
-    \ idx - start);\n            if (buf[idx] <= ' ') break;\n            load();\n\
-    \        }\n        ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n\
-    \    int idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
-    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
-    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
-    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
-    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
-    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
-    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
-    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
-    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
-    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
-    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
-    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
-    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
-    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
-    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
-    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
-    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
-    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
-    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
-    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
-    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
-    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
-    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
-    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
-    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
-    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
-    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
-    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
-    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
-    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
-    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
-    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"graph/general_matching.cpp\"\nclass GeneralMatching {\n    int n;\n\
-    \    vector<vector<int>> g;\n    vector<int> match, parent, base, q;\n    vector<bool>\
-    \ used, blossom;\n\n    int lca(int a, int b) {\n        vector<bool> seen(n,\
-    \ false);\n        while (true) {\n            a = base[a];\n            seen[a]\
-    \ = true;\n            if (match[a] == -1) break;\n            a = parent[match[a]];\n\
-    \        }\n        while (true) {\n            b = base[b];\n            if (seen[b])\
-    \ return b;\n            if (match[b] == -1) break;\n            b = parent[match[b]];\n\
-    \        }\n        return -1;\n    }\n\n    void mark_path(int v, int b, int\
-    \ child) {\n        while (base[v] != b) {\n            blossom[base[v]] = blossom[base[match[v]]]\
-    \ = true;\n            parent[v] = child;\n            child = match[v];\n   \
-    \         v = parent[match[v]];\n        }\n    }\n\n    int find_path(int root)\
-    \ {\n        fill(used.begin(), used.end(), false);\n        fill(parent.begin(),\
-    \ parent.end(), -1);\n        for (int i = 0; i < n; ++i) base[i] = i;\n     \
-    \   int head = 0, tail = 0;\n        q[tail++] = root;\n        used[root] = true;\n\
-    \        while (head < tail) {\n            int v = q[head++];\n            for\
-    \ (int to : g[v]) {\n                if (base[v] == base[to] || match[v] == to)\
-    \ continue;\n                if (to == root || (match[to] != -1 && parent[match[to]]\
-    \ != -1)) {\n                    int cur = lca(v, to);\n                    fill(blossom.begin(),\
+    \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
+    \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
+    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
+    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
+    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
+    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
+    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
+    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
+    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
+    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
+    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
+    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
+    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
+    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
+    \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
+    \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
+    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
+    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
+    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
+    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \            } else {\n                y = static_cast<U>(x);\n            }\n\
+    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
+    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
+    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
+    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
+    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
+    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
+    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
+    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
+    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
+    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
+    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
+    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
+    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
+    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
+    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"graph/general_matching.cpp\"\nclass GeneralMatching\
+    \ {\n    int n;\n    vector<vector<int>> g;\n    vector<int> match, parent, base,\
+    \ q;\n    vector<bool> used, blossom;\n\n    int lca(int a, int b) {\n       \
+    \ vector<bool> seen(n, false);\n        while (true) {\n            a = base[a];\n\
+    \            seen[a] = true;\n            if (match[a] == -1) break;\n       \
+    \     a = parent[match[a]];\n        }\n        while (true) {\n            b\
+    \ = base[b];\n            if (seen[b]) return b;\n            if (match[b] ==\
+    \ -1) break;\n            b = parent[match[b]];\n        }\n        return -1;\n\
+    \    }\n\n    void mark_path(int v, int b, int child) {\n        while (base[v]\
+    \ != b) {\n            blossom[base[v]] = blossom[base[match[v]]] = true;\n  \
+    \          parent[v] = child;\n            child = match[v];\n            v =\
+    \ parent[match[v]];\n        }\n    }\n\n    int find_path(int root) {\n     \
+    \   fill(used.begin(), used.end(), false);\n        fill(parent.begin(), parent.end(),\
+    \ -1);\n        for (int i = 0; i < n; ++i) base[i] = i;\n        int head = 0,\
+    \ tail = 0;\n        q[tail++] = root;\n        used[root] = true;\n        while\
+    \ (head < tail) {\n            int v = q[head++];\n            for (int to : g[v])\
+    \ {\n                if (base[v] == base[to] || match[v] == to) continue;\n  \
+    \              if (to == root || (match[to] != -1 && parent[match[to]] != -1))\
+    \ {\n                    int cur = lca(v, to);\n                    fill(blossom.begin(),\
     \ blossom.end(), false);\n                    mark_path(v, cur, to);\n       \
     \             mark_path(to, cur, v);\n                    for (int i = 0; i <\
     \ n; ++i) {\n                        if (!blossom[base[i]]) continue;\n      \
@@ -151,7 +152,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_general_matching.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_general_matching.test.cpp

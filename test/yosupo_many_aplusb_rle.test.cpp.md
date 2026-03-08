@@ -46,63 +46,63 @@ data:
     \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
-    \            while (buf[idx] > ' ') ++idx;\n            s.append(buf + start,\
-    \ idx - start);\n            if (buf[idx] <= ' ') break;\n            load();\n\
-    \        }\n        ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n\
-    \    int idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
-    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
-    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
-    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
-    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
-    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
-    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
-    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
-    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
-    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
-    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
-    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
-    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
-    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
-    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
-    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
-    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
-    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
-    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
-    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
-    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
-    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
-    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
-    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
-    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
-    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
-    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
-    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
-    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
-    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
-    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
-    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"util/rle.cpp\"\ntemplate<class T>\nvector<pair<T, int>> RLE(const vector<T>\
-    \ &a){\n    vector<pair<T, int>> p;\n    if(a.empty()) return p;\n    p.emplace_back(a[0],\
-    \ 1);\n    for (int j = 1; j < (int)a.size(); ++j) {\n        if(p.back().first\
-    \ == a[j]) p.back().second++;\n        else p.emplace_back(a[j], 1);\n    }\n\
-    \    return p;\n}\n\n/**\n * @brief \u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\
-    \u7E2E(RLE)\n * @docs _md/rle.md\n */\n#line 10 \"test/yosupo_many_aplusb_rle.test.cpp\"\
-    \n\ntemplate<class T>\nvector<pair<T, int>> brute_rle(const vector<T> &a) {\n\
-    \    vector<pair<T, int>> res;\n    for (const auto &x : a) {\n        if (!res.empty()\
-    \ && res.back().first == x) {\n            res.back().second++;\n        } else\
-    \ {\n            res.emplace_back(x, 1);\n        }\n    }\n    return res;\n\
-    }\n\nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int n\
-    \ = 0; n <= 80; ++n) {\n            for (int trial = 0; trial < 200; ++trial)\
-    \ {\n                vector<int> a(n);\n                for (int i = 0; i < n;\
-    \ ++i) {\n                    a[i] = uniform_int_distribution<int>(0, 6)(rng);\n\
-    \                }\n                if (RLE(a) != brute_rle(a)) return 1;\n  \
-    \          }\n        }\n\n        vector<int> empty;\n        if (!RLE(empty).empty())\
+    \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
+    \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
+    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
+    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
+    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
+    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
+    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
+    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
+    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
+    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
+    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
+    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
+    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
+    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
+    \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
+    \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
+    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
+    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
+    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
+    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \            } else {\n                y = static_cast<U>(x);\n            }\n\
+    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
+    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
+    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
+    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
+    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
+    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
+    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
+    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
+    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
+    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
+    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
+    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
+    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
+    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
+    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"util/rle.cpp\"\ntemplate<class T>\nvector<pair<T,\
+    \ int>> RLE(const vector<T> &a){\n    vector<pair<T, int>> p;\n    if(a.empty())\
+    \ return p;\n    p.emplace_back(a[0], 1);\n    for (int j = 1; j < (int)a.size();\
+    \ ++j) {\n        if(p.back().first == a[j]) p.back().second++;\n        else\
+    \ p.emplace_back(a[j], 1);\n    }\n    return p;\n}\n\n/**\n * @brief \u30E9\u30F3\
+    \u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)\n * @docs _md/rle.md\n */\n#line 10\
+    \ \"test/yosupo_many_aplusb_rle.test.cpp\"\n\ntemplate<class T>\nvector<pair<T,\
+    \ int>> brute_rle(const vector<T> &a) {\n    vector<pair<T, int>> res;\n    for\
+    \ (const auto &x : a) {\n        if (!res.empty() && res.back().first == x) {\n\
+    \            res.back().second++;\n        } else {\n            res.emplace_back(x,\
+    \ 1);\n        }\n    }\n    return res;\n}\n\nint main() {\n    {\n        mt19937\
+    \ rng(123456789);\n        for (int n = 0; n <= 80; ++n) {\n            for (int\
+    \ trial = 0; trial < 200; ++trial) {\n                vector<int> a(n);\n    \
+    \            for (int i = 0; i < n; ++i) {\n                    a[i] = uniform_int_distribution<int>(0,\
+    \ 6)(rng);\n                }\n                if (RLE(a) != brute_rle(a)) return\
+    \ 1;\n            }\n        }\n\n        vector<int> empty;\n        if (!RLE(empty).empty())\
     \ return 1;\n        if (RLE(vector<int>{5, 5, 5}) != vector<pair<int, int>>{{5,\
     \ 3}}) return 1;\n        if (RLE(vector<int>{1, 2, 3, 4}) != vector<pair<int,\
     \ int>>{{1, 1}, {2, 1}, {3, 1}, {4, 1}}) return 1;\n        if (RLE(vector<int>{2,\
@@ -135,7 +135,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_rle.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_rle.test.cpp

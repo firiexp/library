@@ -47,68 +47,68 @@ data:
     \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
-    \            while (buf[idx] > ' ') ++idx;\n            s.append(buf + start,\
-    \ idx - start);\n            if (buf[idx] <= ' ') break;\n            load();\n\
-    \        }\n        ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n\
-    \    int idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
-    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
-    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
-    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
-    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
-    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
-    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
-    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
-    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
-    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
-    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
-    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
-    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
-    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
-    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
-    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
-    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
-    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
-    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
-    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
-    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
-    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
-    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
-    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
-    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
-    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
-    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
-    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
-    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
-    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
-    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
-    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"datastructure/li_chao_tree.cpp\"\ntemplate<class T, bool get_max = false>\n\
-    struct LiChaoTree {\n    struct Line {\n        T a, b;\n        Line(T a = 0,\
-    \ T b = inf()) : a(a), b(b) {}\n        T get(T x) const { return a * x + b; }\n\
-    \    };\n\n    vector<T> xs;\n    vector<Line> seg;\n    int n;\n\n    explicit\
-    \ LiChaoTree(vector<T> xs) : xs(xs) {\n        sort(this->xs.begin(), this->xs.end());\n\
-    \        this->xs.erase(unique(this->xs.begin(), this->xs.end()), this->xs.end());\n\
-    \        n = (int)this->xs.size();\n        seg.assign(max(1, 4 * n), Line());\n\
-    \    }\n\n    void add_line(T a, T b) {\n        if (n == 0) return;\n       \
-    \ if (get_max) a = -a, b = -b;\n        add_line_node(1, 0, n, Line(a, b));\n\
-    \    }\n\n    void add_segment(T a, T b, T l, T r) {\n        if (n == 0 || l\
-    \ >= r) return;\n        if (get_max) a = -a, b = -b;\n        int L = lower_bound(xs.begin(),\
-    \ xs.end(), l) - xs.begin();\n        int R = lower_bound(xs.begin(), xs.end(),\
-    \ r) - xs.begin();\n        if (L >= R) return;\n        add_segment_node(1, 0,\
-    \ n, L, R, Line(a, b));\n    }\n\n    T query(T x) const {\n        if (n == 0)\
-    \ return get_max ? -inf() : inf();\n        int i = lower_bound(xs.begin(), xs.end(),\
-    \ x) - xs.begin();\n        if (i == n || xs[i] != x) return get_max ? -inf()\
-    \ : inf();\n        T ret = query_node(1, 0, n, i, x);\n        return get_max\
-    \ ? -ret : ret;\n    }\n\nprivate:\n    static constexpr T inf() {\n        return\
-    \ numeric_limits<T>::max() / 4;\n    }\n\n    void add_line_node(int k, int l,\
-    \ int r, Line x) {\n        int m = (l + r) / 2;\n        bool lef = x.get(xs[l])\
-    \ < seg[k].get(xs[l]);\n        bool mid = x.get(xs[m]) < seg[k].get(xs[m]);\n\
+    \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
+    \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
+    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
+    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
+    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
+    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
+    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
+    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
+    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
+    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
+    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
+    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
+    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
+    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
+    \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
+    \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
+    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
+    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
+    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
+    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \            } else {\n                y = static_cast<U>(x);\n            }\n\
+    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
+    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
+    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
+    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
+    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
+    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
+    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
+    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
+    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
+    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
+    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
+    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
+    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
+    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
+    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"datastructure/li_chao_tree.cpp\"\ntemplate<class\
+    \ T, bool get_max = false>\nstruct LiChaoTree {\n    struct Line {\n        T\
+    \ a, b;\n        Line(T a = 0, T b = inf()) : a(a), b(b) {}\n        T get(T x)\
+    \ const { return a * x + b; }\n    };\n\n    vector<T> xs;\n    vector<Line> seg;\n\
+    \    int n;\n\n    explicit LiChaoTree(vector<T> xs) : xs(xs) {\n        sort(this->xs.begin(),\
+    \ this->xs.end());\n        this->xs.erase(unique(this->xs.begin(), this->xs.end()),\
+    \ this->xs.end());\n        n = (int)this->xs.size();\n        seg.assign(max(1,\
+    \ 4 * n), Line());\n    }\n\n    void add_line(T a, T b) {\n        if (n == 0)\
+    \ return;\n        if (get_max) a = -a, b = -b;\n        add_line_node(1, 0, n,\
+    \ Line(a, b));\n    }\n\n    void add_segment(T a, T b, T l, T r) {\n        if\
+    \ (n == 0 || l >= r) return;\n        if (get_max) a = -a, b = -b;\n        int\
+    \ L = lower_bound(xs.begin(), xs.end(), l) - xs.begin();\n        int R = lower_bound(xs.begin(),\
+    \ xs.end(), r) - xs.begin();\n        if (L >= R) return;\n        add_segment_node(1,\
+    \ 0, n, L, R, Line(a, b));\n    }\n\n    T query(T x) const {\n        if (n ==\
+    \ 0) return get_max ? -inf() : inf();\n        int i = lower_bound(xs.begin(),\
+    \ xs.end(), x) - xs.begin();\n        if (i == n || xs[i] != x) return get_max\
+    \ ? -inf() : inf();\n        T ret = query_node(1, 0, n, i, x);\n        return\
+    \ get_max ? -ret : ret;\n    }\n\nprivate:\n    static constexpr T inf() {\n \
+    \       return numeric_limits<T>::max() / 4;\n    }\n\n    void add_line_node(int\
+    \ k, int l, int r, Line x) {\n        int m = (l + r) / 2;\n        bool lef =\
+    \ x.get(xs[l]) < seg[k].get(xs[l]);\n        bool mid = x.get(xs[m]) < seg[k].get(xs[m]);\n\
     \        if (mid) swap(seg[k], x);\n        if (r - l == 1) return;\n        if\
     \ (lef != mid) add_line_node(k * 2, l, m, x);\n        else add_line_node(k *\
     \ 2 + 1, m, r, x);\n    }\n\n    void add_segment_node(int k, int l, int r, int\
@@ -187,7 +187,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_line_add_get_min.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_line_add_get_min.test.cpp

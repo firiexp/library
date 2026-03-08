@@ -50,86 +50,86 @@ data:
     \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
-    \            while (buf[idx] > ' ') ++idx;\n            s.append(buf + start,\
-    \ idx - start);\n            if (buf[idx] <= ' ') break;\n            load();\n\
-    \        }\n        ++idx;\n    }\n};\n\nstruct Printer {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE];\n\
-    \    int idx;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
-    \ : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n    \
-    \    if (idx) {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n\
-    \        }\n    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE -\
-    \ OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n    inline void write_range(const\
-    \ char *s, size_t n) {\n        size_t pos = 0;\n        while (pos < n) {\n \
-    \           if (idx == BUFSIZE) flush();\n            size_t chunk = min(n - pos,\
-    \ (size_t)(BUFSIZE - idx));\n            memcpy(buf + idx, s + pos, chunk);\n\
-    \            idx += (int)chunk;\n            pos += chunk;\n        }\n    }\n\
-    \n    void write(const char *s) {\n        write_range(s, strlen(s));\n    }\n\
-    \n    void write(const string &s) {\n        write_range(s.data(), s.size());\n\
-    \    }\n\n    void write(char c) {\n        pc(c);\n    }\n\n    void write(bool\
-    \ b) {\n        pc(char('0' + (b ? 1 : 0)));\n    }\n\n    template<class T, typename\
-    \ enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>\n\
-    \    void write(T x) {\n        if (idx > BUFSIZE - 100) flush();\n        using\
-    \ U = typename make_unsigned<T>::type;\n        U y;\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (x < 0) {\n                buf[idx++] = '-';\n           \
-    \     y = U(0) - static_cast<U>(x);\n            } else {\n                y =\
-    \ static_cast<U>(x);\n            }\n        } else {\n            y = x;\n  \
-    \      }\n        if (y == 0) {\n            buf[idx++] = '0';\n            return;\n\
-    \        }\n        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n    \
-    \    char tmp[TMP_SIZE];\n        int pos = TMP_SIZE;\n        while (y >= 10000)\
-    \ {\n            pos -= 4;\n            memcpy(tmp + pos, table.num + (y % 10000)\
-    \ * 4, 4);\n            y /= 10000;\n        }\n        if (y >= 1000) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2), 4);\n            idx += 4;\n\
-    \        } else if (y >= 100) {\n            memcpy(buf + idx, table.num + (y\
-    \ << 2) + 1, 3);\n            idx += 3;\n        } else if (y >= 10) {\n     \
-    \       unsigned q = (unsigned(y) * 205) >> 11;\n            buf[idx] = char('0'\
-    \ + q);\n            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));\n    \
-    \        idx += 2;\n        } else {\n            buf[idx++] = char('0' + y);\n\
-    \        }\n        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);\n        idx\
-    \ += TMP_SIZE - pos;\n    }\n\n    template<class T>\n    void writeln(const T\
-    \ &x) {\n        write(x);\n        pc('\\n');\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
-    \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs _md/fastio.md\n */\n\
-    #line 1 \"math/primefactor_ll2.cpp\"\n#include <algorithm>\n#include <numeric>\n\
-    #include <random>\n\nusing ull = unsigned long long;\nusing u128 = __uint128_t;\n\
-    \ntemplate< class T>\nT pow_ (T x, ull n, ull M){\n    T u = 1;\n    if(n > 0){\n\
-    \        u = pow_(x, n/2, M);\n        if (n % 2 == 0) u = (u*u) % M;\n      \
-    \  else u = (((u * u)% M) * x) % M;\n    }\n    return u;\n};\n\nbool suspect(__uint128_t\
-    \ a, ull s, ull d, ull n){\n    __uint128_t x = pow_(a, d, n);\n    if (x == 1)\
-    \ return true;\n    for (int r = 0; r < s; ++r) {\n        if(x == n-1) return\
-    \ true;\n        x = x * x % n;\n    }\n    return false;\n}\n\ntemplate<class\
-    \ T>\nbool miller_rabin(T m){\n    ull n = m;\n    if (n <= 1 || (n > 2 && n %\
-    \ 2 == 0)) return false;\n    ull d = n - 1, s = 0;\n    while (!(d&1)) {++s;\
-    \ d >>= 1;}\n    vector<ull> v = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};\n\
-    \    if(n <= 4759123141LL) v = {2, 7, 61};\n    for (auto &&p : v) {\n       \
-    \ if(p >= n) break;\n        if(!suspect(p, s, d, n)) return false;\n    }\n \
-    \   return true;\n}\n\n\ntemplate<typename T>\nstruct ExactDiv {\n    T t, i,\
-    \ val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n)\
-    \ {};\n    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0; i < 5;\
-    \ ++i) x *= 2 - n * x;\n        return x;\n    }\n    bool divide(T n) const {\n\
-    \        if(val == 2) return !(n & 1);\n        return n * this->i <= this->t;\n\
-    \    }\n};\n\nvector<ExactDiv<ull>> get_prime(int n){\n    if(n <= 1) return vector<ExactDiv<ull>>();\n\
-    \    vector<bool> is_prime(n+1, true);\n    vector<ExactDiv<ull>> prime;\n   \
-    \ is_prime[0] = is_prime[1] = false;\n    for (int i = 2; i <= n; ++i) {\n   \
-    \     if(is_prime[i]) prime.emplace_back(i);\n        for (auto &&j : prime){\n\
-    \            if(i*j.val > n) break;\n            is_prime[i*j.val] = false;\n\
-    \            if(j.divide(i)) break;\n        }\n    }\n    return prime;\n}\n\
-    const auto primes = get_prime(50000);\n\nrandom_device rng;\n\nstruct mod64 {\n\
-    \    ull n;\n    static ull mod, inv, r2;\n    mod64() : n(0) {}\n    mod64(ull\
-    \ x) : n(init(x)) {}\n    static ull init(ull w) { return reduce(u128(w) * r2);\
-    \ }\n    static void set_mod(ull m) {\n        mod = inv = m;\n        for (int\
-    \ i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        r2 = -u128(m) % m;\n    }\n\
-    \    static ull reduce(u128 x) {\n        ull y = ull(x >> 64) - ull((u128(ull(x)\
-    \ * inv) * mod) >> 64);\n        return ll(y) < 0 ? y + mod : y;\n    };\n   \
-    \ mod64& operator+=(mod64 x) { n += x.n - mod; if(ll(n) < 0) n += mod; return\
-    \ *this; }\n    mod64 operator+(mod64 x) const { return mod64(*this) += x; }\n\
-    \    mod64& operator*=(mod64 x) { n = reduce(u128(n) * x.n);  return *this; }\n\
-    \    mod64 operator*(mod64 x) const { return mod64(*this) *= x; }\n    ull val()\
-    \ const { return reduce(n); }\n};\n\null mod64::mod, mod64::inv, mod64::r2;\n\n\
-    template<class T>\nT pollard_rho2(T n) {\n    uniform_int_distribution<T> ra(1,\
-    \ n-1);\n    mod64::set_mod(n);\n    while(true){\n        ull c_ = ra(rng), g\
-    \ = 1, r = 1, m = 500;\n        while(c_ == n-2) c_ = ra(rng);\n        mod64\
+    \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
+    \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
+    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
+    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
+    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
+    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
+    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
+    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
+    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
+    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
+    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
+    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
+    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
+    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
+    \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
+    \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
+    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
+    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
+    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
+    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \            } else {\n                y = static_cast<U>(x);\n            }\n\
+    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
+    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
+    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
+    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
+    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
+    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
+    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
+    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
+    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
+    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
+    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
+    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
+    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
+    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
+    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
+    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
+    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
+    \ _md/fastio.md\n */\n#line 1 \"math/primefactor_ll2.cpp\"\n#include <algorithm>\n\
+    #include <numeric>\n#include <random>\n\nusing ull = unsigned long long;\nusing\
+    \ u128 = __uint128_t;\n\ntemplate< class T>\nT pow_ (T x, ull n, ull M){\n   \
+    \ T u = 1;\n    if(n > 0){\n        u = pow_(x, n/2, M);\n        if (n % 2 ==\
+    \ 0) u = (u*u) % M;\n        else u = (((u * u)% M) * x) % M;\n    }\n    return\
+    \ u;\n};\n\nbool suspect(__uint128_t a, ull s, ull d, ull n){\n    __uint128_t\
+    \ x = pow_(a, d, n);\n    if (x == 1) return true;\n    for (int r = 0; r < s;\
+    \ ++r) {\n        if(x == n-1) return true;\n        x = x * x % n;\n    }\n \
+    \   return false;\n}\n\ntemplate<class T>\nbool miller_rabin(T m){\n    ull n\
+    \ = m;\n    if (n <= 1 || (n > 2 && n % 2 == 0)) return false;\n    ull d = n\
+    \ - 1, s = 0;\n    while (!(d&1)) {++s; d >>= 1;}\n    vector<ull> v = {2, 325,\
+    \ 9375, 28178, 450775, 9780504, 1795265022};\n    if(n <= 4759123141LL) v = {2,\
+    \ 7, 61};\n    for (auto &&p : v) {\n        if(p >= n) break;\n        if(!suspect(p,\
+    \ s, d, n)) return false;\n    }\n    return true;\n}\n\n\ntemplate<typename T>\n\
+    struct ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1)\
+    \ / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n \
+    \       for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n\
+    \    bool divide(T n) const {\n        if(val == 2) return !(n & 1);\n       \
+    \ return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<ull>> get_prime(int\
+    \ n){\n    if(n <= 1) return vector<ExactDiv<ull>>();\n    vector<bool> is_prime(n+1,\
+    \ true);\n    vector<ExactDiv<ull>> prime;\n    is_prime[0] = is_prime[1] = false;\n\
+    \    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
+    \        for (auto &&j : prime){\n            if(i*j.val > n) break;\n       \
+    \     is_prime[i*j.val] = false;\n            if(j.divide(i)) break;\n       \
+    \ }\n    }\n    return prime;\n}\nconst auto primes = get_prime(50000);\n\nrandom_device\
+    \ rng;\n\nstruct mod64 {\n    ull n;\n    static ull mod, inv, r2;\n    mod64()\
+    \ : n(0) {}\n    mod64(ull x) : n(init(x)) {}\n    static ull init(ull w) { return\
+    \ reduce(u128(w) * r2); }\n    static void set_mod(ull m) {\n        mod = inv\
+    \ = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        r2 =\
+    \ -u128(m) % m;\n    }\n    static ull reduce(u128 x) {\n        ull y = ull(x\
+    \ >> 64) - ull((u128(ull(x) * inv) * mod) >> 64);\n        return ll(y) < 0 ?\
+    \ y + mod : y;\n    };\n    mod64& operator+=(mod64 x) { n += x.n - mod; if(ll(n)\
+    \ < 0) n += mod; return *this; }\n    mod64 operator+(mod64 x) const { return\
+    \ mod64(*this) += x; }\n    mod64& operator*=(mod64 x) { n = reduce(u128(n) *\
+    \ x.n);  return *this; }\n    mod64 operator*(mod64 x) const { return mod64(*this)\
+    \ *= x; }\n    ull val() const { return reduce(n); }\n};\n\null mod64::mod, mod64::inv,\
+    \ mod64::r2;\n\ntemplate<class T>\nT pollard_rho2(T n) {\n    uniform_int_distribution<T>\
+    \ ra(1, n-1);\n    mod64::set_mod(n);\n    while(true){\n        ull c_ = ra(rng),\
+    \ g = 1, r = 1, m = 500;\n        while(c_ == n-2) c_ = ra(rng);\n        mod64\
     \ y(ra(rng)), xx(0), c(c_), ys(0), q(1);\n        while(g == 1){\n           \
     \ xx.n = y.n;\n            for (int i = 1; i <= r; ++i) {\n                y *=\
     \ y; y += c;\n            }\n            T k = 0; g = 1;\n            while(k\
@@ -179,7 +179,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_primitive_root.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 20:56:26+09:00'
+  timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_primitive_root.test.cpp

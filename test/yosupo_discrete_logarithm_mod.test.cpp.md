@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: tree/cartesian_tree.cpp
-    title: Cartesian Tree
+    path: math/discrete_logarithm.cpp
+    title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
   - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,12 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/cartesian_tree
+    PROBLEM: https://judge.yosupo.jp/problem/discrete_logarithm_mod
     links:
-    - https://judge.yosupo.jp/problem/cartesian_tree
-  bundledCode: "#line 1 \"test/yosupo_cartesian_tree.test.cpp\"\n#define PROBLEM \"\
-    https://judge.yosupo.jp/problem/cartesian_tree\"\n\n#include <bits/stdc++.h>\n\
-    \nusing namespace std;\n\n#line 4 \"util/fastio.cpp\"\n#include <type_traits>\n\
+    - https://judge.yosupo.jp/problem/discrete_logarithm_mod
+  bundledCode: "#line 1 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\n\n#line 1 \"util/fastio.cpp\"\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
     using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
     \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
@@ -86,45 +86,50 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n * @docs\
-    \ _md/fastio.md\n */\n#line 1 \"tree/cartesian_tree.cpp\"\ntemplate<class T>\n\
-    pair<vector<vector<int>>, int> CartesianTree(const vector<T> &a) {\n    int n\
-    \ = a.size();\n    vector<vector<int>> g(n);\n    vector<int> parent(n, -1), st;\n\
-    \    st.reserve(n);\n    for (int i = 0; i < n; ++i) {\n        int last = -1;\n\
-    \        while (!st.empty() && a[i] < a[st.back()]) {\n            last = st.back();\n\
-    \            st.pop_back();\n        }\n        if (last != -1) parent[last] =\
-    \ i;\n        if (!st.empty()) parent[i] = st.back();\n        st.push_back(i);\n\
-    \    }\n    int root = -1;\n    for (int i = 0; i < n; ++i) {\n        if (parent[i]\
-    \ == -1) root = i;\n        else g[parent[i]].push_back(i);\n    }\n    return\
-    \ {g, root};\n}\n\n/**\n * @brief Cartesian Tree\n * @docs _md/cartesian_tree.md\n\
-    \ */\n#line 9 \"test/yosupo_cartesian_tree.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<long long> a(n);\n\
-    \    for (auto &&x : a) sc.read(x);\n\n    auto [g, root] = CartesianTree(a);\n\
-    \    vector<int> parent(n, -1);\n    parent[root] = root;\n    for (int v = 0;\
-    \ v < n; ++v) {\n        for (auto &&u : g[v]) parent[u] = v;\n    }\n\n    for\
-    \ (int i = 0; i < n; ++i) {\n        if (i) pr.write(' ');\n        pr.write(parent[i]);\n\
-    \    }\n    pr.writeln();\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/cartesian_tree\"\n\n#include\
-    \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\n\
-    #include \"../tree/cartesian_tree.cpp\"\n\nint main() {\n    Scanner sc;\n   \
-    \ Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<long long> a(n);\n  \
-    \  for (auto &&x : a) sc.read(x);\n\n    auto [g, root] = CartesianTree(a);\n\
-    \    vector<int> parent(n, -1);\n    parent[root] = root;\n    for (int v = 0;\
-    \ v < n; ++v) {\n        for (auto &&u : g[v]) parent[u] = v;\n    }\n\n    for\
-    \ (int i = 0; i < n; ++i) {\n        if (i) pr.write(' ');\n        pr.write(parent[i]);\n\
-    \    }\n    pr.writeln();\n    return 0;\n}\n"
+    \ _md/fastio.md\n */\n#line 1 \"math/discrete_logarithm.cpp\"\n#include <cmath>\n\
+    #include <limits>\n#include <numeric>\n#include <unordered_map>\n\nlong long discrete_logarithm_mul(long\
+    \ long a, long long b, long long mod) {\n    using i128 = __int128_t;\n    return\
+    \ (long long)((i128)a * b % mod);\n}\n\nlong long discrete_logarithm(long long\
+    \ x, long long y, long long mod) {\n    if (mod == 1) return 0;\n    x %= mod;\n\
+    \    y %= mod;\n    if (x < 0) x += mod;\n    if (y < 0) y += mod;\n    if (y\
+    \ == 1) return 0;\n\n    long long add = 0;\n    long long k = 1 % mod;\n    while\
+    \ (true) {\n        long long g = std::gcd(x, mod);\n        if (g == 1) break;\n\
+    \        if (y == k) return add;\n        if (y % g != 0) return -1;\n       \
+    \ y /= g;\n        mod /= g;\n        ++add;\n        k = discrete_logarithm_mul(k,\
+    \ x / g, mod);\n    }\n\n    long long n = (long long)std::sqrt((long double)mod)\
+    \ + 1;\n    std::unordered_map<long long, long long> baby;\n    baby.reserve((size_t)n\
+    \ * 2 + 1);\n\n    long long giant = 1;\n    for (long long i = 0; i < n; ++i)\
+    \ {\n        giant = discrete_logarithm_mul(giant, x, mod);\n    }\n\n    long\
+    \ long cur = k;\n    for (long long p = 1; p <= n; ++p) {\n        cur = discrete_logarithm_mul(cur,\
+    \ giant, mod);\n        if (!baby.count(cur)) baby[cur] = p;\n    }\n\n    long\
+    \ long ans = std::numeric_limits<long long>::max();\n    cur = y;\n    for (long\
+    \ long q = 0; q <= n; ++q) {\n        auto it = baby.find(cur);\n        if (it\
+    \ != baby.end()) {\n            long long cand = it->second * n - q + add;\n \
+    \           if (cand < ans) ans = cand;\n        }\n        cur = discrete_logarithm_mul(cur,\
+    \ x, mod);\n    }\n    return ans == std::numeric_limits<long long>::max() ? -1\
+    \ : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete Logarithm)\n *\
+    \ @docs _md/discrete_logarithm.md\n */\n#line 5 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
+    \    while (t--) {\n        long long x, y, mod;\n        sc.read(x, y, mod);\n\
+    \        pr.writeln(discrete_logarithm(x, y, mod));\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\
+    \n\n#include \"../util/fastio.cpp\"\n#include \"../math/discrete_logarithm.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
+    \    while (t--) {\n        long long x, y, mod;\n        sc.read(x, y, mod);\n\
+    \        pr.writeln(discrete_logarithm(x, y, mod));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - tree/cartesian_tree.cpp
+  - math/discrete_logarithm.cpp
   isVerificationFile: true
-  path: test/yosupo_cartesian_tree.test.cpp
+  path: test/yosupo_discrete_logarithm_mod.test.cpp
   requiredBy: []
   timestamp: '2026-03-08 21:12:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_cartesian_tree.test.cpp
+documentation_of: test/yosupo_discrete_logarithm_mod.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_cartesian_tree.test.cpp
-- /verify/test/yosupo_cartesian_tree.test.cpp.html
-title: test/yosupo_cartesian_tree.test.cpp
+- /verify/test/yosupo_discrete_logarithm_mod.test.cpp
+- /verify/test/yosupo_discrete_logarithm_mod.test.cpp.html
+title: test/yosupo_discrete_logarithm_mod.test.cpp
 ---
