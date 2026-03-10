@@ -36,7 +36,7 @@ date: 2026-03-08
 documentation_of: math/isqrt.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: ISqrt
+title: "\u6574\u6570sqrt"
 ---
 
 ## 説明
@@ -49,4 +49,3 @@ title: ISqrt
 
 ## 使い方
 `unsigned long long` 範囲で使う。
-平方判定や Pell 方程式の前処理で使う。

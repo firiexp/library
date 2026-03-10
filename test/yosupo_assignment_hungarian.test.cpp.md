@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: flow/hungarian.cpp
-    title: Hungarian
+    title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO

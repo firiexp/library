@@ -342,7 +342,7 @@ title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
 ---
 ## 説明
 有理型母関数 `P(x) / Q(x)` の `x^n` の係数を求める。
-線形漸化式の第 `n` 項計算を Bostan-Mori 法で処理する低レベル部品である。
+線形漸化式の第 `n` 項計算を Bostan-Mori 法で処理する。
 
 ## できること
 - `mint nth_term(poly p, poly q, ll n)`

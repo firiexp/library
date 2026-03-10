@@ -6,6 +6,9 @@ data:
     path: math/factorial.cpp
     title: math/factorial.cpp
   - icon: ':heavy_check_mark:'
+    path: math/fft.cpp
+    title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
+  - icon: ':heavy_check_mark:'
     path: math/gauss_jordan_mint.cpp
     title: Gauss Jordan Mint
   - icon: ':warning:'
@@ -21,6 +24,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_bitwise_and_convolution.test.cpp
+    title: test/yosupo_bitwise_and_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_bitwise_or_convolution.test.cpp
+    title: test/yosupo_bitwise_or_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
+    title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
@@ -42,6 +54,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_subset_convolution.test.cpp
+    title: test/yosupo_subset_convolution.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_totient.test.cpp
     title: test/yosupo_sum_of_totient.test.cpp
@@ -116,6 +131,7 @@ data:
   path: util/modint.cpp
   requiredBy:
   - math/gauss_jordan_mint.cpp
+  - math/fft.cpp
   - math/factorial.cpp
   - math/powk_all.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
@@ -126,14 +142,18 @@ data:
   - test/yosupo_queue_operate_all_composite.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
+  - test/yosupo_bitwise_or_convolution.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/aoj0399.test.cpp
+  - test/yosupo_subset_convolution.test.cpp
+  - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/aoj_dpl_5_a.test.cpp
+  - test/yosupo_bitwise_and_convolution.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_sum_of_totient.test.cpp
 documentation_of: util/modint.cpp

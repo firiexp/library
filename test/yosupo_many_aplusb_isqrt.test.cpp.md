@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/isqrt.cpp
-    title: ISqrt
+    title: "\u6574\u6570sqrt"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO

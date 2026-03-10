@@ -5,6 +5,9 @@ data:
     path: math/miller_rabin.cpp
     title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
   - icon: ':heavy_check_mark:'
+    path: math/primefactor_ll.cpp
+    title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
@@ -14,13 +17,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/primality_test
+    PROBLEM: https://judge.yosupo.jp/problem/factorize
     links:
-    - https://judge.yosupo.jp/problem/primality_test
-  bundledCode: "#line 1 \"test/yosupo_primality_test.test.cpp\"\n#define PROBLEM \"\
-    https://judge.yosupo.jp/problem/primality_test\"\n\n#include <cstdint>\n#include\
-    \ <vector>\n\nusing ull = unsigned long long;\nusing namespace std;\n\n#line 1\
-    \ \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    - https://judge.yosupo.jp/problem/factorize
+  bundledCode: "#line 1 \"test/yosupo_factorize.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/factorize\"\
+    \n\n#include <cstdint>\n#include <vector>\nusing namespace std;\nusing ll = long\
+    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#line 1 \"\
+    util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
     \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
     \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
@@ -87,15 +90,17 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/miller_rabin.cpp\"\
-    \nusing u128 = __uint128_t;\n\nstruct mod64 {\n    unsigned long long n;\n   \
-    \ static unsigned long long mod, inv, r2;\n    mod64() : n(0) {}\n    mod64(unsigned\
-    \ long long x) : n(init(x)) {}\n    static unsigned long long init(unsigned long\
-    \ long w) {\n        return reduce(u128(w) * r2);\n    }\n    static void set_mod(unsigned\
-    \ long long m) {\n        mod = inv = m;\n        for (int i = 0; i < 5; ++i)\
-    \ inv *= 2 - inv * m;\n        r2 = -u128(m) % m;\n    }\n    static unsigned\
-    \ long long reduce(u128 x) {\n        unsigned long long y =\n            static_cast<unsigned\
-    \ long long>(x >> 64)\n            - static_cast<unsigned long long>((u128(static_cast<unsigned\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/primefactor_ll.cpp\"\
+    \n#include <algorithm>\n#include <numeric>\n#include <random>\n\nusing ull = unsigned\
+    \ long long;\n#line 1 \"math/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\n\
+    struct mod64 {\n    unsigned long long n;\n    static unsigned long long mod,\
+    \ inv, r2;\n    mod64() : n(0) {}\n    mod64(unsigned long long x) : n(init(x))\
+    \ {}\n    static unsigned long long init(unsigned long long w) {\n        return\
+    \ reduce(u128(w) * r2);\n    }\n    static void set_mod(unsigned long long m)\
+    \ {\n        mod = inv = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv\
+    \ * m;\n        r2 = -u128(m) % m;\n    }\n    static unsigned long long reduce(u128\
+    \ x) {\n        unsigned long long y =\n            static_cast<unsigned long\
+    \ long>(x >> 64)\n            - static_cast<unsigned long long>((u128(static_cast<unsigned\
     \ long long>(x) * inv) * mod) >> 64);\n        return (long long)y < 0 ? y + mod\
     \ : y;\n    }\n    mod64& operator*=(mod64 x) {\n        n = reduce(u128(n) *\
     \ x.n);\n        return *this;\n    }\n    mod64 operator*(mod64 x) const {\n\
@@ -121,29 +126,71 @@ data:
     \        }\n    } else {\n        for (auto p : large) {\n            if(p >=\
     \ n) break;\n            if(!suspect(p, s, d, n)) return false;\n        }\n \
     \   }\n    return true;\n}\n\n/**\n * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\
-    \n */\n#line 11 \"test/yosupo_primality_test.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n     \
-    \   ull n;\n        sc.read(n);\n        pr.writeln(miller_rabin(n) ? \"Yes\"\
-    \ : \"No\");\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primality_test\"\n\n#include\
-    \ <cstdint>\n#include <vector>\n\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/miller_rabin.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n\
-    \    while (q--) {\n        ull n;\n        sc.read(n);\n        pr.writeln(miller_rabin(n)\
-    \ ? \"Yes\" : \"No\");\n    }\n    return 0;\n}\n"
+    \n */\n#line 7 \"math/primefactor_ll.cpp\"\n\ntemplate<typename T>\nstruct ExactDiv\
+    \ {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n))\
+    \ , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0;\
+    \ i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n    bool divide(T n)\
+    \ const {\n        if(val == 2) return !(n & 1);\n        return n * this->i <=\
+    \ this->t;\n    }\n};\n\nvector<ExactDiv<ull>> get_prime(int n){\n    if(n <=\
+    \ 1) return vector<ExactDiv<ull>>();\n    vector<bool> is_prime(n+1, true);\n\
+    \    vector<ExactDiv<ull>> prime;\n    is_prime[0] = is_prime[1] = false;\n  \
+    \  for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
+    \        for (auto &&j : prime){\n            ull v = (ull)i * j.val;\n      \
+    \      if(v > (ull)n) break;\n            is_prime[v] = false;\n            if(j.divide(i))\
+    \ break;\n        }\n    }\n    return prime;\n}\nconst auto primes = get_prime(50000);\n\
+    \nmt19937_64 rng(0x8a5cd789635d2dffULL);\n\ntemplate<class T>\nT pollard_rho2(T\
+    \ n) {\n    ull nn = n;\n    if ((nn & 1) == 0) return 2;\n    uniform_int_distribution<ull>\
+    \ ra(1, nn - 1);\n    mod64::set_mod(nn);\n    while(true){\n        ull c_ =\
+    \ ra(rng), g = 1, r = 1, m = 500;\n        while(c_ == nn - 2) c_ = ra(rng);\n\
+    \        mod64 y(ra(rng)), xx(0), c(c_), ys(0), q(1);\n        while(g == 1){\n\
+    \            xx.n = y.n;\n            for (ull i = 0; i < r; ++i) {\n        \
+    \        y *= y; y += c;\n            }\n            ull k = 0; g = 1;\n     \
+    \       while(k < r && g == 1){\n                ull lim = min(m, r - k);\n  \
+    \              for (ull i = 0; i < lim; ++i) {\n                    ys.n = y.n;\n\
+    \                    y *= y; y += c;\n                    ull xxx = xx.val(),\
+    \ yyy = y.val();\n                    q *= mod64(xxx > yyy ? xxx - yyy : yyy -\
+    \ xxx);\n                }\n                g = gcd<ull>(q.val(), nn);\n     \
+    \           k += m;\n            }\n            r *= 2;\n        }\n        if(g\
+    \ == nn) g = 1;\n        while (g == 1){\n            ys *= ys; ys += c;\n   \
+    \         ull xxx = xx.val(), yyy = ys.val();\n            g = gcd<ull>(xxx >\
+    \ yyy ? xxx - yyy : yyy - xxx, nn);\n        }\n        if (g != nn && miller_rabin(g))\
+    \ return (T)g;\n    }\n}\n\ntemplate<class T>\nvoid prime_factor_impl(T n, vector<T>\
+    \ &res, bool trial){\n    if(trial) {\n        for (auto &&i : primes) {\n   \
+    \         while (i.divide(n)){\n                res.emplace_back(i.val);\n   \
+    \             n /= i.val;\n            }\n        }\n    }\n    if(n == 1) return;\n\
+    \    if(miller_rabin(n)) {\n        res.emplace_back(n);\n        return;\n  \
+    \  }\n    T x = pollard_rho2(n);\n    prime_factor_impl(x, res, false);\n    prime_factor_impl(n\
+    \ / x, res, false);\n}\n\ntemplate<class T>\nvector<T> prime_factor(T n){\n  \
+    \  vector<T> res;\n    prime_factor_impl(n, res, true);\n    sort(res.begin(),res.end());\n\
+    \    return res;\n}\n\n/**\n * @brief \u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)\n\
+    \ */\n#line 12 \"test/yosupo_factorize.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n    int q;\n    in.read(q);\n    while (q--) {\n    \
+    \    ull a;\n        in.read(a);\n        auto fac = prime_factor(a);\n      \
+    \  out.write((int)fac.size());\n        for (auto &x : fac) {\n            out.write('\
+    \ ');\n            out.write(x);\n        }\n        out.writeln();\n    }\n \
+    \   return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/factorize\"\n\n#include\
+    \ <cstdint>\n#include <vector>\nusing namespace std;\nusing ll = long long;\n\
+    using uint = unsigned;\nusing ull = unsigned long long;\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../math/primefactor_ll.cpp\"\n\nint main() {\n    Scanner in;\n \
+    \   Printer out;\n    int q;\n    in.read(q);\n    while (q--) {\n        ull\
+    \ a;\n        in.read(a);\n        auto fac = prime_factor(a);\n        out.write((int)fac.size());\n\
+    \        for (auto &x : fac) {\n            out.write(' ');\n            out.write(x);\n\
+    \        }\n        out.writeln();\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
+  - math/primefactor_ll.cpp
   - math/miller_rabin.cpp
   isVerificationFile: true
-  path: test/yosupo_primality_test.test.cpp
+  path: test/yosupo_factorize.test.cpp
   requiredBy: []
   timestamp: '2026-03-11 00:38:22+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_primality_test.test.cpp
+documentation_of: test/yosupo_factorize.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_primality_test.test.cpp
-- /verify/test/yosupo_primality_test.test.cpp.html
-title: test/yosupo_primality_test.test.cpp
+- /verify/test/yosupo_factorize.test.cpp
+- /verify/test/yosupo_factorize.test.cpp.html
+title: test/yosupo_factorize.test.cpp
 ---

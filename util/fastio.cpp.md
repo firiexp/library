@@ -53,11 +53,20 @@ data:
     path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
     title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_bitwise_and_convolution.test.cpp
+    title: test/yosupo_bitwise_and_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_bitwise_or_convolution.test.cpp
+    title: test/yosupo_bitwise_or_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cartesian_tree.test.cpp
     title: test/yosupo_cartesian_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
+    title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_counting_primes.test.cpp
     title: test/yosupo_counting_primes.test.cpp
@@ -85,6 +94,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_eulerian_trail_undirected.test.cpp
     title: test/yosupo_eulerian_trail_undirected.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_factorize.test.cpp
+    title: test/yosupo_factorize.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
@@ -232,6 +244,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_stern_brocot_tree.test.cpp
     title: test/yosupo_stern_brocot_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_subset_convolution.test.cpp
+    title: test/yosupo_subset_convolution.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_floor_of_linear.test.cpp
     title: test/yosupo_sum_of_floor_of_linear.test.cpp
@@ -434,6 +449,7 @@ data:
   - test/aoj_dsl_2_b.test.cpp
   - test/yosupo_general_matching.test.cpp
   - test/yosupo_unionfind_quickfind.test.cpp
+  - test/yosupo_bitwise_or_convolution.test.cpp
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
   - test/yosupo_primality_test.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
@@ -445,6 +461,7 @@ data:
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_eulerian_trail_directed.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+  - test/yosupo_factorize.test.cpp
   - test/yosupo_stern_brocot_tree.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
   - test/yosupo_many_aplusb_parse.test.cpp
@@ -455,6 +472,8 @@ data:
   - test/yosupo_minimum_spanning_tree.test.cpp
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   - test/yosupo_primitive_root.test.cpp
+  - test/yosupo_subset_convolution.test.cpp
+  - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_binomial_coefficient.test.cpp
   - test/aoj2945_bfs01.test.cpp
   - test/yosupo_sum_of_floor_of_linear.test.cpp
@@ -485,6 +504,7 @@ data:
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
+  - test/yosupo_bitwise_and_convolution.test.cpp
   - test/yosupo_sqrt_mod.test.cpp
   - test/yosupo_many_aplusb_rle.test.cpp
   - test/yosupo_lca.test.cpp

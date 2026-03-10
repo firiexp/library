@@ -101,7 +101,7 @@ data:
       title: "Dinic(\u6700\u5927\u6D41)"
     - icon: ':heavy_check_mark:'
       path: flow/hungarian.cpp
-      title: Hungarian
+      title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5"
     - icon: ':heavy_check_mark:'
       path: flow/primaldual.cpp
       title: "\u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)"
@@ -240,6 +240,9 @@ data:
       path: math/CRT.cpp
       title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
     - icon: ':heavy_check_mark:'
+      path: math/and_convolution.cpp
+      title: Bitwise AND Convolution
+    - icon: ':heavy_check_mark:'
       path: math/berlekamp_massey.cpp
       title: Berlekamp-Massey
     - icon: ':heavy_check_mark:'
@@ -272,12 +275,9 @@ data:
     - icon: ':warning:'
       path: math/fastkitamasa.cpp
       title: math/fastkitamasa.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/fft.cpp
-      title: math/fft.cpp
-    - icon: ':warning:'
-      path: math/fft3.cpp
-      title: math/fft3.cpp
+      title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
     - icon: ':heavy_check_mark:'
       path: math/floor_sum.cpp
       title: Floor Sum
@@ -307,7 +307,7 @@ data:
       title: math/get_prime_wheel.cpp
     - icon: ':heavy_check_mark:'
       path: math/isqrt.cpp
-      title: ISqrt
+      title: "\u6574\u6570sqrt"
     - icon: ':heavy_check_mark:'
       path: math/kth_root_integer.cpp
       title: Kth Root Integer
@@ -317,9 +317,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/miller_rabin.cpp
       title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
-    - icon: ':warning:'
-      path: math/miller_rabin_fast.cpp
-      title: math/miller_rabin_fast.cpp
     - icon: ':warning:'
       path: math/mobius_all.cpp
       title: math/mobius_all.cpp
@@ -335,6 +332,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/ntt.cpp
       title: Number Theoretic Transform
+    - icon: ':heavy_check_mark:'
+      path: math/or_convolution.cpp
+      title: Bitwise OR Convolution
     - icon: ':warning:'
       path: math/pell_equation.cpp
       title: math/pell_equation.cpp
@@ -344,18 +344,12 @@ data:
     - icon: ':warning:'
       path: math/powk_all.cpp
       title: math/powk_all.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/primefactor.cpp
-      title: math/primefactor.cpp
+      title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
     - icon: ':heavy_check_mark:'
-      path: math/primefactor2.cpp
-      title: primefactor2
-    - icon: ':warning:'
       path: math/primefactor_ll.cpp
-      title: math/primefactor_ll.cpp
-    - icon: ':heavy_check_mark:'
-      path: math/primefactor_ll2.cpp
-      title: math/primefactor_ll2.cpp
+      title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
     - icon: ':heavy_check_mark:'
       path: math/primitive_root.cpp
       title: Primitive Root
@@ -365,6 +359,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/stern_brocot_tree.cpp
       title: Stern Brocot Tree
+    - icon: ':heavy_check_mark:'
+      path: math/subset_convolution.cpp
+      title: Subset Convolution
     - icon: ':heavy_check_mark:'
       path: math/tetration.cpp
       title: Tetration
@@ -614,6 +611,12 @@ data:
       path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
       title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_bitwise_and_convolution.test.cpp
+      title: test/yosupo_bitwise_and_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_bitwise_or_convolution.test.cpp
+      title: test/yosupo_bitwise_or_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_cartesian_tree.test.cpp
       title: test/yosupo_cartesian_tree.test.cpp
     - icon: ':heavy_check_mark:'
@@ -622,6 +625,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution.test.cpp
       title: test/yosupo_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
+      title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_counting_primes.test.cpp
       title: test/yosupo_counting_primes.test.cpp
@@ -658,6 +664,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_exp_of_formal_power_series.test.cpp
       title: test/yosupo_exp_of_formal_power_series.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_factorize.test.cpp
+      title: test/yosupo_factorize.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_find_linear_recurrence.test.cpp
       title: test/yosupo_find_linear_recurrence.test.cpp
@@ -838,6 +847,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_stern_brocot_tree.test.cpp
       title: test/yosupo_stern_brocot_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_subset_convolution.test.cpp
+      title: test/yosupo_subset_convolution.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_suffix_array.test.cpp
       title: test/yosupo_suffix_array.test.cpp

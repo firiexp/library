@@ -14,8 +14,8 @@ data:
     path: math/modinv.cpp
     title: math/modinv.cpp
   - icon: ':heavy_check_mark:'
-    path: math/primefactor2.cpp
-    title: primefactor2
+    path: math/primefactor.cpp
+    title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -113,7 +113,7 @@ data:
     \        ll mm = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g\
     \ % mm * p % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R +=\
     \ M;\n    }\n    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\
-    \u7406(CRT)\n */\n#line 1 \"math/primefactor2.cpp\"\nusing uint = uint32_t;\n\n\
+    \u7406(CRT)\n */\n#line 1 \"math/primefactor.cpp\"\nusing uint = uint32_t;\n\n\
     template<typename T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n\
     \    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T\
     \ n) {\n        T x = n;\n        for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n\
@@ -128,12 +128,12 @@ data:
     \ T>\nvector<T> prime_factor(T n){\n    vector<T> res;\n    for (auto &&i : primes)\
     \ {\n        while (i.divide(n)){\n            res.emplace_back(i.val);\n    \
     \        n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
-    \    return res;\n}\n\n/**\n * @brief \u524D\u8A08\u7B97\u4ED8\u304D\u7D20\u56E0\
-    \u6570\u5206\u89E3(Prime Factorization)\n */\n#line 1 \"math/modinv.cpp\"\ntemplate<typename\
-    \ T>  \nT mod_inv(T x, T M){  \n   T u = 1, t = 1, v = 0, s = 0, m = M;  \n  \
-    \ while (x) { T q = m/x; swap(s -= q*u, u); swap(t -= q*v, v); swap(m -= q*x,\
-    \ x); }  \n   if(s < 0) s += M;  \n   return s;  \n}\n#line 2 \"math/binom_mod_prime_power.cpp\"\
-    \n\nstruct BinomModPrimePower {\n    ll p, mod;\n    int q;\n    ll block_prod;\n\
+    \    return res;\n}\n\n/**\n * @brief \u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\
+    \u5272\u308A)\n */\n#line 1 \"math/modinv.cpp\"\ntemplate<typename T>  \nT mod_inv(T\
+    \ x, T M){  \n   T u = 1, t = 1, v = 0, s = 0, m = M;  \n   while (x) { T q =\
+    \ m/x; swap(s -= q*u, u); swap(t -= q*v, v); swap(m -= q*x, x); }  \n   if(s <\
+    \ 0) s += M;  \n   return s;  \n}\n#line 2 \"math/binom_mod_prime_power.cpp\"\n\
+    \nstruct BinomModPrimePower {\n    ll p, mod;\n    int q;\n    ll block_prod;\n\
     \    vector<ll> ppow;\n    vector<int> prod;\n\n    explicit BinomModPrimePower(ll\
     \ prime, int exponent) : p(prime), mod(1), q(exponent), ppow(exponent + 1, 1)\
     \ {\n        for (int i = 0; i < q; ++i) {\n            mod *= p;\n          \
@@ -184,7 +184,7 @@ data:
     \n#include <cstdint>\n#include <map>\n#include <numeric>\n#include <vector>\n\
     using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/CRT.cpp\"\
-    \n#include \"../math/primefactor2.cpp\"\n#include \"../math/binom_mod_prime_power.cpp\"\
+    \n#include \"../math/primefactor.cpp\"\n#include \"../math/binom_mod_prime_power.cpp\"\
     \n\nll brute(ll n, ll k, ll mod) {\n    if (k < 0 || k > n) return 0;\n    vector<vector<ll>>\
     \ dp(n + 1, vector<ll>(k + 1));\n    dp[0][0] = 1 % mod;\n    for (ll i = 0; i\
     \ < n; ++i) {\n        for (ll j = 0; j <= min(i, k); ++j) {\n            dp[i\
@@ -218,13 +218,13 @@ data:
   - util/fastio.cpp
   - math/CRT.cpp
   - math/extgcd.cpp
-  - math/primefactor2.cpp
+  - math/primefactor.cpp
   - math/binom_mod_prime_power.cpp
   - math/modinv.cpp
   isVerificationFile: true
   path: test/yosupo_binomial_coefficient.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 00:32:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_binomial_coefficient.test.cpp
