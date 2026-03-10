@@ -21,13 +21,13 @@ data:
     \ int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr T\
     \ INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 1 \"util/modint.cpp\"\
-    \ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
-    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
-    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
-    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
-    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
-    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
-    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \n\n\n\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
+    \ modint raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0)\
+    \ {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x\
+    \ < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
+    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
     \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
@@ -44,7 +44,7 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 21 \"test/yosupo_sum_of_totient.test.cpp\"\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 21 \"test/yosupo_sum_of_totient.test.cpp\"\
     \n\nint main() {\n    ll n;\n    cin >> n;\n    const ll k = 20000000; // 20000000\n\
     \    vector<int> dp(k+1);\n    iota(dp.begin(),dp.end(), 0);\n    for (int i =\
     \ 2; i <= k; ++i) {\n        if(dp[i] != i) continue;\n        for (int j = i;\
@@ -81,7 +81,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_sum_of_totient.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_sum_of_totient.test.cpp

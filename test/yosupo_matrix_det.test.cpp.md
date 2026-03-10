@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/subset_convolution.cpp
-    title: Subset Convolution
+    path: math/matrix_determinant.cpp
+    title: "\u884C\u5217\u5F0F(Matrix Determinant)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -17,27 +17,27 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/subset_convolution
+    PROBLEM: https://judge.yosupo.jp/problem/matrix_det
     links:
-    - https://judge.yosupo.jp/problem/subset_convolution
-  bundledCode: "#line 1 \"test/yosupo_subset_convolution.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/subset_convolution\"\n\n#include <bits/stdc++.h>\n\
-    \nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\n\
-    using ull = unsigned long long;\nusing namespace std;\n\n#line 4 \"util/fastio.cpp\"\
-    \n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n\
-    \    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
-    \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
-    \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
-    \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
-    \ {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\n    Scanner() : idx(0),\
-    \ size(0) {}\n\n    inline void load() {\n        int len = size - idx;\n    \
-    \    memmove(buf, buf + idx, len);\n        size = len + (int)fread(buf + len,\
-    \ 1, BUFSIZE - len, stdin);\n        idx = 0;\n        buf[size] = 0;\n    }\n\
-    \n    inline void ensure() {\n        if (idx + OFFSET > size) load();\n    }\n\
-    \n    inline char skip() {\n        ensure();\n        while (buf[idx] && buf[idx]\
-    \ <= ' ') {\n            ++idx;\n            ensure();\n        }\n        return\
-    \ buf[idx++];\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value,\
+    - https://judge.yosupo.jp/problem/matrix_det
+  bundledCode: "#line 1 \"test/yosupo_matrix_det.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_det\"\
+    \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
+    using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
+    \n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
+    \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
+    \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
+    \ 10);\n                x /= 10;\n            }\n        }\n    }\n};\n\nstruct\
+    \ Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
+    \ int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\n    Scanner()\
+    \ : idx(0), size(0) {}\n\n    inline void load() {\n        int len = size - idx;\n\
+    \        memmove(buf, buf + idx, len);\n        size = len + (int)fread(buf +\
+    \ len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n        buf[size] = 0;\n \
+    \   }\n\n    inline void ensure() {\n        if (idx + OFFSET > size) load();\n\
+    \    }\n\n    inline char skip() {\n        ensure();\n        while (buf[idx]\
+    \ && buf[idx] <= ' ') {\n            ++idx;\n            ensure();\n        }\n\
+    \        return buf[idx++];\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value,\
     \ int>::type = 0>\n    void read(T &x) {\n        char c = skip();\n        bool\
     \ neg = false;\n        if constexpr (is_signed<T>::value) {\n            if (c\
     \ == '-') {\n                neg = true;\n                c = buf[idx++];\n  \
@@ -114,64 +114,46 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/subset_convolution.cpp\"\
-    \ntemplate<class T>\nvector<T> subset_convolution(vector<T> a, vector<T> b){\n\
-    \    int n = 1;\n    while (n < (int)a.size() || n < (int)b.size()) n <<= 1;\n\
-    \    a.resize(n);\n    b.resize(n);\n    int lg = 0;\n    while ((1 << lg) < n)\
-    \ ++lg;\n    int w = lg + 1;\n    vector<int> pc(n);\n    for (int s = 1; s <\
-    \ n; ++s) pc[s] = pc[s >> 1] + (s & 1);\n\n    vector<T> fa(n * w), fb(n * w),\
-    \ fc(n * w);\n    for (int s = 0; s < n; ++s) {\n        int base = s * w;\n \
-    \       fa[base + pc[s]] = a[s];\n        fb[base + pc[s]] = b[s];\n    }\n\n\
-    \    for (int i = 0; i < lg; ++i) {\n        for (int s = 0; s < n; ++s) {\n \
-    \           if (((s >> i) & 1) == 0) {\n                int t = s | (1 << i);\n\
-    \                int sb = s * w, tb = t * w;\n                for (int k = 0;\
-    \ k <= pc[s]; ++k) {\n                    fa[tb + k] += fa[sb + k];\n        \
-    \            fb[tb + k] += fb[sb + k];\n                }\n            }\n   \
-    \     }\n    }\n    for (int s = 0; s < n; ++s) {\n        int base = s * w;\n\
-    \        int lim = min(lg, pc[s] * 2);\n        for (int k = 0; k <= lim; ++k)\
-    \ {\n            for (int i = 0; i <= k; ++i) {\n                if (i <= pc[s]\
-    \ && k - i <= pc[s]) {\n                    fc[base + k] += fa[base + i] * fb[base\
-    \ + k - i];\n                }\n            }\n        }\n    }\n    for (int\
-    \ i = 0; i < lg; ++i) {\n        for (int s = 0; s < n; ++s) {\n            if\
-    \ (((s >> i) & 1) == 0) {\n                int t = s | (1 << i);\n           \
-    \     int sb = s * w, tb = t * w;\n                int lim = min(lg, pc[s] * 2);\n\
-    \                for (int k = 0; k <= lim; ++k) {\n                    fc[tb +\
-    \ k] -= fc[sb + k];\n                }\n            }\n        }\n    }\n\n  \
-    \  vector<T> c(n);\n    for (int s = 0; s < n; ++s) {\n        c[s] = fc[s * w\
-    \ + pc[s]];\n    }\n    return c;\n}\n\n/**\n * @brief \u90E8\u5206\u96C6\u5408\
-    \u7573\u307F\u8FBC\u307F(Subset Convolution)\n */\n#line 14 \"test/yosupo_subset_convolution.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    int m = 1 << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m;\
-    \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
-    \ (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i]\
-    \ = x;\n    }\n    auto c = subset_convolution(a, b);\n    for (int i = 0; i <\
-    \ m; ++i) {\n        if (i) pr.write(' ');\n        pr.write(c[i].val);\n    }\n\
-    \    pr.writeln();\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n\n\
-    #include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll = long\
-    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\n#include\
-    \ \"../math/subset_convolution.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    sc.read(n);\n    int m = 1 << n;\n    vector<mint> a(m),\
-    \ b(m);\n    for (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n\
-    \        a[i] = x;\n    }\n    for (int i = 0; i < m; ++i) {\n        int x;\n\
-    \        sc.read(x);\n        b[i] = x;\n    }\n    auto c = subset_convolution(a,\
-    \ b);\n    for (int i = 0; i < m; ++i) {\n        if (i) pr.write(' ');\n    \
-    \    pr.write(c[i].val);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/matrix_determinant.cpp\"\
+    \n\nmint matrix_determinant(vector<vector<mint>> A) {\n    int n = A.size();\n\
+    \    mint det = 1;\n    for (int col = 0; col < n; ++col) {\n        int pivot\
+    \ = col;\n        while (pivot < n && !A[pivot][col].val) ++pivot;\n        if\
+    \ (pivot == n) return 0;\n        if (pivot != col) {\n            swap(A[pivot],\
+    \ A[col]);\n            det = -det;\n        }\n        det *= A[col][col];\n\
+    \        mint inv = A[col][col].inv();\n        for (int row = col + 1; row <\
+    \ n; ++row) {\n            if (!A[row][col].val) continue;\n            mint coeff\
+    \ = A[row][col] * inv;\n            for (int j = col; j < n; ++j) {\n        \
+    \        A[row][j] -= A[col][j] * coeff;\n            }\n        }\n    }\n  \
+    \  return det;\n}\n\n/**\n * @brief \u884C\u5217\u5F0F(Matrix Determinant)\n */\n\
+    #line 13 \"test/yosupo_matrix_det.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<mint>> A(n,\
+    \ vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0;\
+    \ j < n; ++j) {\n            int x;\n            sc.read(x);\n            A[i][j]\
+    \ = x;\n        }\n    }\n    pr.writeln(matrix_determinant(A).val);\n    return\
+    \ 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_det\"\n\n#include\
+    \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
+    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
+    \ \"../util/fastio.cpp\"\n#include \"../math/matrix_determinant.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<mint>>\
+    \ A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
+    \ j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n        \
+    \    A[i][j] = x;\n        }\n    }\n    pr.writeln(matrix_determinant(A).val);\n\
+    \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
+  - math/matrix_determinant.cpp
   - util/modint.cpp
-  - math/subset_convolution.cpp
   isVerificationFile: true
-  path: test/yosupo_subset_convolution.test.cpp
+  path: test/yosupo_matrix_det.test.cpp
   requiredBy: []
   timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_subset_convolution.test.cpp
+documentation_of: test/yosupo_matrix_det.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_subset_convolution.test.cpp
-- /verify/test/yosupo_subset_convolution.test.cpp.html
-title: test/yosupo_subset_convolution.test.cpp
+- /verify/test/yosupo_matrix_det.test.cpp
+- /verify/test/yosupo_matrix_det.test.cpp.html
+title: test/yosupo_matrix_det.test.cpp
 ---

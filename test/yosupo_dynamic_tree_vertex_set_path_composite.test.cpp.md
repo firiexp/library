@@ -21,16 +21,16 @@ data:
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/dynamic_tree_vertex_set_path_composite\"\
     \n#include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll = long\
     \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n  \
-    \  uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
-    \ x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll\
-    \ x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool v)\
-    \ { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if (val\
-    \ == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0) val\
-    \ = M; val--; return *this; }\n    modint operator++(int) { modint result = *this;\
-    \ ++*this; return result; }\n    modint operator--(int) { modint result = *this;\
-    \ --*this; return result; }\n    modint& operator+=(const modint& b) { val +=\
-    \ b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
+    \ std;\n\n#line 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint M>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
+    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
+    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
+    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
     \ modint& b) { val -= b.val; if (val >= M) val += M; return *this; }\n    modint&\
     \ operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M);\
     \ return *this; }\n    modint& operator/=(const modint& b) { return *this = *this\
@@ -44,7 +44,7 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 1 \"tree/link_cut_tree.cpp\"\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"tree/link_cut_tree.cpp\"\
     \ntemplate <class M>\nstruct LinkCutTree {\n    using T = typename M::T;\n\n \
     \   struct Node {\n        int l, r, p, sz;\n        bool rev;\n        T val,\
     \ sum, rsum;\n        Node() : l(-1), r(-1), p(-1), sz(1), rev(false), val(M::e()),\
@@ -142,7 +142,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp

@@ -96,9 +96,9 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
-    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
+    \ 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint M>\nstruct modint {\n    uint val;\n\
+    public:\n    static modint raw(int v) { modint x; x.val = v; return x; }\n   \
+    \ modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
     \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
     \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
     \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
@@ -119,20 +119,20 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 1 \"tree/hld.cpp\"\n\nclass\
-    \ HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy = -1;\n\
-    \        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n    \
-    \        par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n          \
-    \  sub_size[v] += sub_size[u];\n            if(heavy == -1 || sub_size[u] > sub_size[heavy])\
-    \ heavy = u;\n        }\n        if (heavy != -1 && G[v][0] != heavy) {\n    \
-    \        for (auto &&u : G[v]) {\n                if (u == heavy) {\n        \
-    \            swap(u, G[v][0]);\n                    break;\n                }\n\
-    \            }\n        }\n    }\n    void dfs_hld(int v, int c, int &pos){\n\
-    \        id[v] = pos++;\n        id_inv[id[v]]= v;\n        tree_id[v] = c;\n\
-    \        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n    \
-    \        head[u] = (u == G[v][0] ? head[v] : u);\n            dfs_hld(u, c, pos);\n\
-    \        }\n    }\npublic:\n    int n;\n    vector<vector<int>> G;\n    vector<int>\
-    \ par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"tree/hld.cpp\"\n\n\
+    class HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy =\
+    \ -1;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
+    \            par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n      \
+    \      sub_size[v] += sub_size[u];\n            if(heavy == -1 || sub_size[u]\
+    \ > sub_size[heavy]) heavy = u;\n        }\n        if (heavy != -1 && G[v][0]\
+    \ != heavy) {\n            for (auto &&u : G[v]) {\n                if (u == heavy)\
+    \ {\n                    swap(u, G[v][0]);\n                    break;\n     \
+    \           }\n            }\n        }\n    }\n    void dfs_hld(int v, int c,\
+    \ int &pos){\n        id[v] = pos++;\n        id_inv[id[v]]= v;\n        tree_id[v]\
+    \ = c;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
+    \            head[u] = (u == G[v][0] ? head[v] : u);\n            dfs_hld(u, c,\
+    \ pos);\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>> G;\n \
+    \   vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int\
     \ n) : n(n), G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
     \ head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>> &G) : n(G.size()),\
     \ G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n)\
@@ -266,7 +266,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp

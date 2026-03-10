@@ -16,16 +16,16 @@ data:
   attributes:
     document_title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
     links: []
-  bundledCode: "#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n\
-    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
-    \ x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll\
-    \ x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool v)\
-    \ { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if (val\
-    \ == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0) val\
-    \ = M; val--; return *this; }\n    modint operator++(int) { modint result = *this;\
-    \ ++*this; return result; }\n    modint operator--(int) { modint result = *this;\
-    \ --*this; return result; }\n    modint& operator+=(const modint& b) { val +=\
-    \ b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
+  bundledCode: "#line 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint M>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
+    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
+    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
+    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
     \ modint& b) { val -= b.val; if (val >= M) val += M; return *this; }\n    modint&\
     \ operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M);\
     \ return *this; }\n    modint& operator/=(const modint& b) { return *this = *this\
@@ -39,18 +39,18 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 2 \"math/fft.cpp\"\n\n#include\
-    \ <algorithm>\n#include <cassert>\n\nnamespace ArbitraryConvolution {\n    template<uint\
-    \ M>\n    struct StaticModInt {\n        uint val;\n        StaticModInt() : val(0)\
-    \ {}\n        template<class T>\n        StaticModInt(T v) {\n            long\
-    \ long x = (long long)(v % (long long)M);\n            if (x < 0) x += M;\n  \
-    \          val = (uint)x;\n        }\n        static StaticModInt raw(uint v)\
-    \ {\n            StaticModInt x;\n            x.val = v;\n            return x;\n\
-    \        }\n        StaticModInt& operator+=(const StaticModInt& rhs) {\n    \
-    \        val += rhs.val;\n            if (val >= M) val -= M;\n            return\
-    \ *this;\n        }\n        StaticModInt& operator-=(const StaticModInt& rhs)\
-    \ {\n            val -= rhs.val;\n            if (val >= M) val += M;\n      \
-    \      return *this;\n        }\n        StaticModInt& operator*=(const StaticModInt&\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/fft.cpp\"\n\n\
+    #include <algorithm>\n#include <cassert>\n\nnamespace ArbitraryConvolution {\n\
+    \    template<uint M>\n    struct StaticModInt {\n        uint val;\n        StaticModInt()\
+    \ : val(0) {}\n        template<class T>\n        StaticModInt(T v) {\n      \
+    \      long long x = (long long)(v % (long long)M);\n            if (x < 0) x\
+    \ += M;\n            val = (uint)x;\n        }\n        static StaticModInt raw(uint\
+    \ v) {\n            StaticModInt x;\n            x.val = v;\n            return\
+    \ x;\n        }\n        StaticModInt& operator+=(const StaticModInt& rhs) {\n\
+    \            val += rhs.val;\n            if (val >= M) val -= M;\n          \
+    \  return *this;\n        }\n        StaticModInt& operator-=(const StaticModInt&\
+    \ rhs) {\n            val -= rhs.val;\n            if (val >= M) val += M;\n \
+    \           return *this;\n        }\n        StaticModInt& operator*=(const StaticModInt&\
     \ rhs) {\n            val = (uint)((unsigned long long)val * rhs.val % M);\n \
     \           return *this;\n        }\n        StaticModInt pow(long long n) const\
     \ {\n            StaticModInt x = *this, r = 1;\n            while (n) {\n   \
@@ -241,7 +241,7 @@ data:
   isVerificationFile: false
   path: math/fft.cpp
   requiredBy: []
-  timestamp: '2026-03-10 23:54:42+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp

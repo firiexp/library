@@ -92,13 +92,13 @@ data:
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
     \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint.cpp\"\
-    \ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
-    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
-    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
-    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
-    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
-    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
-    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \n\n\n\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
+    \ modint raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0)\
+    \ {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x\
+    \ < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
+    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
     \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
@@ -115,7 +115,7 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 1 \"datastructure/dualsegtree.cpp\"\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"datastructure/dualsegtree.cpp\"\
     \ntemplate <class M>\nstruct DualSegmentTree{\n    using T = typename M::T;\n\
     \    int sz, height{};\n    vector<T> lazy;\n    explicit DualSegmentTree(int\
     \ n) {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        lazy.assign(2*sz,\
@@ -164,7 +164,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_point_get_dualsegtree.test.cpp

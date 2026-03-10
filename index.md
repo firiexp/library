@@ -52,6 +52,10 @@ data:
       path: datastructure/radixheap.cpp
       title: datastructure/radixheap.cpp
     - icon: ':heavy_check_mark:'
+      path: datastructure/rectangle_add_point_get.cpp
+      title: "\u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point\
+        \ Get)"
+    - icon: ':heavy_check_mark:'
       path: datastructure/segbeats.cpp
       title: Segment Tree Beats
     - icon: ':heavy_check_mark:'
@@ -196,6 +200,10 @@ data:
       path: graph/dominatortree.cpp
       title: Dominator Tree
     - icon: ':heavy_check_mark:'
+      path: graph/dynamic_graph_vertex_add_component_sum.cpp
+      title: "\u52D5\u7684\u30B0\u30E9\u30D5\u9023\u7D50\u6210\u5206\u548C(Dynamic\
+        \ Graph Vertex Add Component Sum)"
+    - icon: ':heavy_check_mark:'
       path: graph/eulerian_trail.cpp
       title: Eulerian Trail
     - icon: ':heavy_check_mark:'
@@ -306,6 +314,9 @@ data:
       path: math/get_prime_wheel.cpp
       title: math/get_prime_wheel.cpp
     - icon: ':heavy_check_mark:'
+      path: math/inverse_matrix.cpp
+      title: "\u9006\u884C\u5217(Inverse Matrix)"
+    - icon: ':heavy_check_mark:'
       path: math/isqrt.cpp
       title: "\u6574\u6570sqrt"
     - icon: ':heavy_check_mark:'
@@ -315,8 +326,14 @@ data:
       path: math/matrix.cpp
       title: math/matrix.cpp
     - icon: ':heavy_check_mark:'
+      path: math/matrix_determinant.cpp
+      title: "\u884C\u5217\u5F0F(Matrix Determinant)"
+    - icon: ':heavy_check_mark:'
       path: math/miller_rabin.cpp
       title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
+    - icon: ':heavy_check_mark:'
+      path: math/min_plus_convolution.cpp
+      title: "min-plus\u7573\u307F\u8FBC\u307F(Min-Plus Convolution)"
     - icon: ':warning:'
       path: math/mobius_all.cpp
       title: math/mobius_all.cpp
@@ -650,6 +667,9 @@ data:
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
+      title: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
       title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     - icon: ':heavy_check_mark:'
@@ -673,6 +693,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_general_matching.test.cpp
       title: test/yosupo_general_matching.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_inverse_matrix.test.cpp
+      title: test/yosupo_inverse_matrix.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_jump_on_tree.test.cpp
       title: test/yosupo_jump_on_tree.test.cpp
@@ -737,11 +760,23 @@ data:
       path: test/yosupo_many_aplusb_z_algorithm.test.cpp
       title: test/yosupo_many_aplusb_z_algorithm.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_matrix_det.test.cpp
+      title: test/yosupo_matrix_det.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_maximum_independent_set.test.cpp
       title: test/yosupo_maximum_independent_set.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_min_cost_b_flow.test.cpp
       title: test/yosupo_min_cost_b_flow.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
+      title: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
+      title: test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_min_plus_convolution_convex_convex.test.cpp
+      title: test/yosupo_min_plus_convolution_convex_convex.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_minimum_spanning_tree.test.cpp
       title: test/yosupo_minimum_spanning_tree.test.cpp
@@ -802,6 +837,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
       title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_rectangle_add_point_get.test.cpp
+      title: test/yosupo_rectangle_add_point_get.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_scc.test.cpp
       title: test/yosupo_scc.test.cpp

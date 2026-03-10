@@ -94,9 +94,9 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
-    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
+    \ 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint M>\nstruct modint {\n    uint val;\n\
+    public:\n    static modint raw(int v) { modint x; x.val = v; return x; }\n   \
+    \ modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
     \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
     \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
     \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
@@ -117,7 +117,7 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 22 \"test/yosupo_point_set_range_composite.test.cpp\"\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 22 \"test/yosupo_point_set_range_composite.test.cpp\"\
     \n\n#line 1 \"datastructure/segtree.cpp\"\ntemplate <class M>\nstruct SegmentTree{\n\
     \    using T = typename M::T;\n    int sz, n, height{};\n    vector<T> seg;\n\
     \    explicit SegmentTree(int n) : n(n) {\n        sz = 1; while(sz < n) sz <<=\
@@ -182,7 +182,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-09 00:04:49+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_composite.test.cpp

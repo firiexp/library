@@ -86,6 +86,9 @@ data:
     path: test/yosupo_discrete_logarithm_mod.test.cpp
     title: test/yosupo_discrete_logarithm_mod.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
+    title: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eertree.test.cpp
     title: test/yosupo_eertree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -100,6 +103,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_inverse_matrix.test.cpp
+    title: test/yosupo_inverse_matrix.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_jump_on_tree.test.cpp
     title: test/yosupo_jump_on_tree.test.cpp
@@ -158,8 +164,20 @@ data:
     path: test/yosupo_many_aplusb_z_algorithm.test.cpp
     title: test/yosupo_many_aplusb_z_algorithm.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_det.test.cpp
+    title: test/yosupo_matrix_det.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_min_cost_b_flow.test.cpp
     title: test/yosupo_min_cost_b_flow.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
+    title: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
+    title: test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_min_plus_convolution_convex_convex.test.cpp
+    title: test/yosupo_min_plus_convolution_convex_convex.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_minimum_spanning_tree.test.cpp
     title: test/yosupo_minimum_spanning_tree.test.cpp
@@ -205,6 +223,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
     title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_rectangle_add_point_get.test.cpp
+    title: test/yosupo_rectangle_add_point_get.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_segment_add_get_min.test.cpp
     title: test/yosupo_segment_add_get_min.test.cpp
@@ -431,6 +452,7 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_min_plus_convolution_convex_convex.test.cpp
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   - test/yosupo_static_range_frequency.test.cpp
   - test/aoj0439.test.cpp
@@ -444,8 +466,10 @@ data:
   - test/yosupo_many_aplusb_z_algorithm.test.cpp
   - test/yosupo_many_aplusb_isqrt.test.cpp
   - test/yosupo_many_aplusb_hld_edge.test.cpp
+  - test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
+  - test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
   - test/aoj_dsl_2_b.test.cpp
   - test/yosupo_general_matching.test.cpp
   - test/yosupo_unionfind_quickfind.test.cpp
@@ -488,6 +512,7 @@ data:
   - test/yosupo_shortest_path.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
+  - test/yosupo_inverse_matrix.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_many_aplusb_eulerphi.test.cpp
   - test/yosupo_cycle_detection_directed.test.cpp
@@ -501,6 +526,7 @@ data:
   - test/yosupo_segment_add_get_min.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   - test/yosupo_assignment_hungarian.test.cpp
+  - test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
@@ -508,6 +534,7 @@ data:
   - test/yosupo_sqrt_mod.test.cpp
   - test/yosupo_many_aplusb_rle.test.cpp
   - test/yosupo_lca.test.cpp
+  - test/yosupo_matrix_det.test.cpp
   - test/yosupo_eertree.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_many_aplusb_bipartite_matching.test.cpp
@@ -523,6 +550,7 @@ data:
   - test/yosupo_static_range_inversions_query.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/yosupo_many_aplusb_slope_trick.test.cpp
+  - test/yosupo_rectangle_add_point_get.test.cpp
   - test/yosupo_directedmst.test.cpp
 date: 2026-03-08
 documentation_of: util/fastio.cpp

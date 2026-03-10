@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/and_convolution.cpp
-    title: Bitwise AND Convolution
+    path: math/inverse_matrix.cpp
+    title: "\u9006\u884C\u5217(Inverse Matrix)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -17,33 +17,33 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/bitwise_and_convolution
+    PROBLEM: https://judge.yosupo.jp/problem/inverse_matrix
     links:
-    - https://judge.yosupo.jp/problem/bitwise_and_convolution
-  bundledCode: "#line 1 \"test/yosupo_bitwise_and_convolution.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/bitwise_and_convolution\"\n\n#include\
-    \ <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\n\
-    using uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\
-    \n#line 4 \"util/fastio.cpp\"\n#include <type_traits>\nusing namespace std;\n\n\
-    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
-    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
-    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
-    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
-    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
-    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
-    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
-    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
-    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
-    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
-    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
-    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
-    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
-    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
-    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
-    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
-    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
-    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
-    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    - https://judge.yosupo.jp/problem/inverse_matrix
+  bundledCode: "#line 1 \"test/yosupo_inverse_matrix.test.cpp\"\n#define PROBLEM \"\
+    https://judge.yosupo.jp/problem/inverse_matrix\"\n\n#include <vector>\nusing namespace\
+    \ std;\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint\
+    \ = unsigned;\nusing ull = unsigned long long;\n\n#line 1 \"util/fastio.cpp\"\n\
+    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
+    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
+    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
+    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
+    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
+    \ + 1];\n    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n\
+    \        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n          \
+    \  ++idx;\n            ensure();\n        }\n        return buf[idx++];\n    }\n\
+    \n    template<class T, typename enable_if<is_integral<T>::value, int>::type =\
+    \ 0>\n    void read(T &x) {\n        char c = skip();\n        bool neg = false;\n\
+    \        if constexpr (is_signed<T>::value) {\n            if (c == '-') {\n \
+    \               neg = true;\n                c = buf[idx++];\n            }\n\
+    \        }\n        x = 0;\n        while (c >= '0') {\n            x = x * 10\
+    \ + (c & 15);\n            c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
     \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
     \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
@@ -114,52 +114,57 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/and_convolution.cpp\"\
-    \ntemplate<class T>\nvoid superset_zeta_transform(vector<T> &v){\n    int n =\
-    \ 1;\n    while (n < (int)v.size()) n <<= 1;\n    v.resize(n);\n    for (int i\
-    \ = 1; i < n; i <<= 1) {\n        for (int s = 0; s < n; ++s) {\n            if\
-    \ (s & i) v[s ^ i] += v[s];\n        }\n    }\n}\n\ntemplate<class T>\nvoid superset_mobius_transform(vector<T>\
-    \ &v){\n    int n = 1;\n    while (n < (int)v.size()) n <<= 1;\n    v.resize(n);\n\
-    \    for (int i = 1; i < n; i <<= 1) {\n        for (int s = 0; s < n; ++s) {\n\
-    \            if (s & i) v[s ^ i] -= v[s];\n        }\n    }\n}\n\ntemplate<class\
-    \ T>\nvector<T> and_convolution(vector<T> a, vector<T> b){\n    int n = 1;\n \
-    \   while (n < (int)a.size() || n < (int)b.size()) n <<= 1;\n    a.resize(n);\n\
-    \    b.resize(n);\n    superset_zeta_transform(a);\n    superset_zeta_transform(b);\n\
-    \    for (int i = 0; i < n; ++i) a[i] *= b[i];\n    superset_mobius_transform(a);\n\
-    \    return a;\n}\n\n/**\n * @brief AND\u7573\u307F\u8FBC\u307F(Bitwise AND Convolution)\n\
-    \ */\n#line 14 \"test/yosupo_bitwise_and_convolution.test.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    int\
-    \ m = 1 << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m; ++i) {\n\
-    \        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for (int i\
-    \ = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i] = x;\n\
-    \    }\n    auto c = and_convolution(a, b);\n    for (int i = 0; i < m; ++i) {\n\
-    \        if (i) pr.write(' ');\n        pr.write(c[i].val);\n    }\n    pr.writeln();\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_and_convolution\"\
-    \n\n#include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll =\
-    \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\n#include\
-    \ \"../math/and_convolution.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    sc.read(n);\n    int m = 1 << n;\n    vector<mint> a(m),\
-    \ b(m);\n    for (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n\
-    \        a[i] = x;\n    }\n    for (int i = 0; i < m; ++i) {\n        int x;\n\
-    \        sc.read(x);\n        b[i] = x;\n    }\n    auto c = and_convolution(a,\
-    \ b);\n    for (int i = 0; i < m; ++i) {\n        if (i) pr.write(' ');\n    \
-    \    pr.write(c[i].val);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/inverse_matrix.cpp\"\
+    \n\nvector<vector<mint>> inverse_matrix(const vector<vector<mint>> &A) {\n   \
+    \ int n = A.size();\n    vector<vector<mint>> B(n, vector<mint>(2 * n));\n   \
+    \ for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) B[i][j] =\
+    \ A[i][j];\n        B[i][n + i] = 1;\n    }\n    int rank = 0;\n    for (int col\
+    \ = 0; col < n; ++col) {\n        int pivot = -1;\n        for (int row = rank;\
+    \ row < n; ++row) {\n            if (B[row][col].val) {\n                pivot\
+    \ = row;\n                break;\n            }\n        }\n        if (pivot\
+    \ == -1) return {};\n        swap(B[pivot], B[rank]);\n        mint inv = B[rank][col].inv();\n\
+    \        for (int j = 0; j < 2 * n; ++j) B[rank][j] *= inv;\n        for (int\
+    \ row = 0; row < n; ++row) {\n            if (row != rank && B[row][col].val)\
+    \ {\n                mint coeff = B[row][col];\n                for (int j = 0;\
+    \ j < 2 * n; ++j) {\n                    B[row][j] -= B[rank][j] * coeff;\n  \
+    \              }\n            }\n        }\n        ++rank;\n    }\n    vector<vector<mint>>\
+    \ res(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
+    \ j = 0; j < n; ++j) res[i][j] = B[i][n + j];\n    }\n    return res;\n}\n\n/**\n\
+    \ * @brief \u9006\u884C\u5217(Inverse Matrix)\n */\n#line 13 \"test/yosupo_inverse_matrix.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    vector<vector<mint>> A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i)\
+    \ {\n        for (int j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n\
+    \            A[i][j] = x;\n        }\n    }\n\n    auto B = inverse_matrix(A);\n\
+    \    if (B.empty()) {\n        pr.writeln(-1);\n        return 0;\n    }\n   \
+    \ for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n     \
+    \       pr.write(B[i][j].val);\n            pr.write(j + 1 == n ? '\\n' : ' ');\n\
+    \        }\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/inverse_matrix\"\n\n#include\
+    \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
+    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
+    \ \"../util/fastio.cpp\"\n#include \"../math/inverse_matrix.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<mint>>\
+    \ A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
+    \ j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n        \
+    \    A[i][j] = x;\n        }\n    }\n\n    auto B = inverse_matrix(A);\n    if\
+    \ (B.empty()) {\n        pr.writeln(-1);\n        return 0;\n    }\n    for (int\
+    \ i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            pr.write(B[i][j].val);\n\
+    \            pr.write(j + 1 == n ? '\\n' : ' ');\n        }\n    }\n    return\
+    \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
+  - math/inverse_matrix.cpp
   - util/modint.cpp
-  - math/and_convolution.cpp
   isVerificationFile: true
-  path: test/yosupo_bitwise_and_convolution.test.cpp
+  path: test/yosupo_inverse_matrix.test.cpp
   requiredBy: []
   timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_bitwise_and_convolution.test.cpp
+documentation_of: test/yosupo_inverse_matrix.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_bitwise_and_convolution.test.cpp
-- /verify/test/yosupo_bitwise_and_convolution.test.cpp.html
-title: test/yosupo_bitwise_and_convolution.test.cpp
+- /verify/test/yosupo_inverse_matrix.test.cpp
+- /verify/test/yosupo_inverse_matrix.test.cpp.html
+title: test/yosupo_inverse_matrix.test.cpp
 ---

@@ -137,14 +137,14 @@ data:
     \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
     \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
     \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Lazy Segment Tree)\n */\n#line 1 \"util/modint.cpp\"\ntemplate <uint\
-    \ M>\nstruct modint {\n    uint val;\npublic:\n    static modint raw(int v) {\
-    \ modint x; x.val = v; return x; }\n    modint() : val(0) {}\n    template <class\
-    \ T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x);\
-    \ }\n    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
-    \ { val++; if (val == M) val = 0; return *this; }\n    modint& operator--() {\
-    \ if (val == 0) val = M; val--; return *this; }\n    modint operator++(int) {\
-    \ modint result = *this; ++*this; return result; }\n    modint operator--(int)\
+    \u30C8\u6728(Lazy Segment Tree)\n */\n#line 1 \"util/modint.cpp\"\n\n\n\ntemplate\
+    \ <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint raw(int\
+    \ v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n    template\
+    \ <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val\
+    \ = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint&\
+    \ operator++() { val++; if (val == M) val = 0; return *this; }\n    modint& operator--()\
+    \ { if (val == 0) val = M; val--; return *this; }\n    modint operator++(int)\
+    \ { modint result = *this; ++*this; return result; }\n    modint operator--(int)\
     \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
     \ modint& b) { val += b.val; if (val >= M) val -= M; return *this; }\n    modint&\
     \ operator-=(const modint& b) { val -= b.val; if (val >= M) val += M; return *this;\
@@ -161,7 +161,7 @@ data:
     \ const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 15 \"test/yosupo_range_affine_range_sum.test.cpp\"\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 15 \"test/yosupo_range_affine_range_sum.test.cpp\"\
     \n\nstruct Monoid{\n    using T = array<mint, 2>;\n    using L = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]+b[0], a[1]+b[1]}; }\n    static T g(T\
     \ a, L b) {\n        return {a[0] * b[0] + a[1] * b[1], a[1]};\n    }\n    static\
@@ -200,7 +200,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_range_sum.test.cpp

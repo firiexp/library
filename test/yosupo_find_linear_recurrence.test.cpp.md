@@ -24,13 +24,13 @@ data:
     \ int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr T\
     \ INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 1 \"util/modint.cpp\"\
-    \ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
-    \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
-    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
-    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
-    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
-    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
-    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \n\n\n\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
+    \ modint raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0)\
+    \ {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x\
+    \ < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
+    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
     \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
@@ -47,7 +47,7 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n#line 1 \"math/berlekamp_massey.cpp\"\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/berlekamp_massey.cpp\"\
     \ntemplate<class T>\nvector<T> berlekamp_massey(const vector<T> &s) {\n    vector<T>\
     \ c(1, T(1)), b(1, T(1));\n    int l = 0, m = 1;\n    T y = T(1);\n    for (int\
     \ n = 0; n < (int)s.size(); ++n) {\n        T d = T(0);\n        for (int i =\
@@ -83,7 +83,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_find_linear_recurrence.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_find_linear_recurrence.test.cpp

@@ -11,6 +11,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/gauss_jordan_mint.cpp
     title: Gauss Jordan Mint
+  - icon: ':heavy_check_mark:'
+    path: math/inverse_matrix.cpp
+    title: "\u9006\u884C\u5217(Inverse Matrix)"
+  - icon: ':heavy_check_mark:'
+    path: math/matrix_determinant.cpp
+    title: "\u884C\u5217\u5F0F(Matrix Determinant)"
   - icon: ':warning:'
     path: math/powk_all.cpp
     title: math/powk_all.cpp
@@ -42,6 +48,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_inverse_matrix.test.cpp
+    title: test/yosupo_inverse_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_det.test.cpp
+    title: test/yosupo_matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
@@ -78,16 +90,16 @@ data:
   attributes:
     document_title: "modint(\u56FA\u5B9AMOD)"
     links: []
-  bundledCode: "#line 1 \"util/modint.cpp\"\ntemplate <uint M>\nstruct modint {\n\
-    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
-    \ x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll\
-    \ x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool v)\
-    \ { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if (val\
-    \ == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0) val\
-    \ = M; val--; return *this; }\n    modint operator++(int) { modint result = *this;\
-    \ ++*this; return result; }\n    modint operator--(int) { modint result = *this;\
-    \ --*this; return result; }\n    modint& operator+=(const modint& b) { val +=\
-    \ b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
+  bundledCode: "#line 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint M>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
+    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
+    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
+    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
     \ modint& b) { val -= b.val; if (val >= M) val += M; return *this; }\n    modint&\
     \ operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M);\
     \ return *this; }\n    modint& operator/=(const modint& b) { return *this = *this\
@@ -101,8 +113,9 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n"
-  code: "template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_UTIL_MODINT_CPP\n#define FIRIEXP_LIBRARY_UTIL_MODINT_CPP\n\
+    \ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
     \ raw(int v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n  \
     \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
     \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
@@ -125,16 +138,18 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */"
+    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: util/modint.cpp
   requiredBy:
   - math/gauss_jordan_mint.cpp
+  - math/inverse_matrix.cpp
   - math/fft.cpp
+  - math/matrix_determinant.cpp
   - math/factorial.cpp
   - math/powk_all.cpp
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 00:57:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
@@ -151,9 +166,11 @@ data:
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
+  - test/yosupo_inverse_matrix.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/aoj_dpl_5_a.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp
+  - test/yosupo_matrix_det.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_sum_of_totient.test.cpp
 documentation_of: util/modint.cpp
