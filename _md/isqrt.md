@@ -1,5 +1,5 @@
 ---
-title: ISqrt
+title: 整数sqrt
 documentation_of: //math/isqrt.cpp
 date: 2026-03-08
 category: 数学
@@ -16,4 +16,3 @@ tags: 数学
 
 ## 使い方
 `unsigned long long` 範囲で使う。
-平方判定や Pell 方程式の前処理で使う。

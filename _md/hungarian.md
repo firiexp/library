@@ -1,5 +1,5 @@
 ---
-title: Hungarian
+title: ハンガリアン法
 documentation_of: //flow/hungarian.cpp
 date: 2026-03-08
 category: フロー
