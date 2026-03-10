@@ -1,168 +1,186 @@
-template<uint M = 1000000007>
-struct modint{
-    uint val;
-    static constexpr uint mod() { return M; }
-    modint(): val(0){}
-    template<typename T>
-    modint(T t){t %= (T)M; if(t < 0) t += (T)M; val = t;}
+#include "../util/modint.cpp"
 
-    modint pow(ll k) const {
-        modint res(1), x(val);
-        while(k){
-            if(k&1) res *= x;
-            x *= x;
-            k >>= 1;
+#include <algorithm>
+#include <cassert>
+
+namespace ArbitraryConvolution {
+    template<uint M>
+    struct StaticModInt {
+        uint val;
+        StaticModInt() : val(0) {}
+        template<class T>
+        StaticModInt(T v) {
+            long long x = (long long)(v % (long long)M);
+            if (x < 0) x += M;
+            val = (uint)x;
         }
-        return res;
-    }
-    template<typename T>
-    modint& operator=(T t){t %= (T)M; if(t < 0) t += (T)M; val = t; return *this; }
-    modint inv() const {return pow(M-2);}
-    modint& operator+=(modint a){ val += a.val; if(val >= M) val -= M; return *this;}
-    modint& operator-=(modint a){ if(val < a.val) val += M-a.val; else val -= a.val; return *this;}
-    modint& operator*=(modint a){ val = (ull)val*a.val%M; return *this;}
-    modint& operator/=(modint a){ return (*this) *= a.inv();}
-    modint operator+(modint a) const {return modint(val) +=a;}
-    modint operator-(modint a) const {return modint(val) -=a;}
-    modint operator*(modint a) const {return modint(val) *=a;}
-    modint operator/(modint a) const {return modint(val) /=a;}
-    modint operator-(){ return modint(M-val);}
-    bool operator==(const modint a) const {return val == a.val;}
-    bool operator!=(const modint a) const {return val != a.val;}
-    bool operator<(const modint a) const {return val < a.val;}
-};
-
-using mint = modint<>;
-
-namespace FFT {
-    const int max_base = 19, maxN = 1 << max_base; // N <= 2e5
-    const double PI = acos(-1);
-    struct num {
-        double x{}, y{};
-        num() = default;
-        num(double x, double y): x(x), y(y) {}
-        explicit num(double r): x(cos(r)), y(sin(r)) {}
-    };
-    num operator+(num a, num b) { return {a.x + b.x, a.y + b.y}; }
-    num operator-(num a, num b) { return {a.x - b.x, a.y - b.y}; }
-    num operator*(num a, num b) { return {a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x}; }
-    num conj(num a) {return {a.x, -a.y}; }
-    num root[maxN];
-    int rev[maxN];
-    bool is_root_prepared = false;
-
-    void prepare_root(){
-        if(is_root_prepared) return;
-        is_root_prepared = true;
-        root[1] = num(1, 0);
-        for (int i = 1; i < max_base; ++i) {
-            num x(2*PI / (1LL << (i+1)));
-            for (ll j = (1LL << (i-1)); j < (1LL << (i)); ++j) {
-                root[2*j] = root[j];
-                root[2*j+1] = root[j]*x;
+        static StaticModInt raw(uint v) {
+            StaticModInt x;
+            x.val = v;
+            return x;
+        }
+        StaticModInt& operator+=(const StaticModInt& rhs) {
+            val += rhs.val;
+            if (val >= M) val -= M;
+            return *this;
+        }
+        StaticModInt& operator-=(const StaticModInt& rhs) {
+            val -= rhs.val;
+            if (val >= M) val += M;
+            return *this;
+        }
+        StaticModInt& operator*=(const StaticModInt& rhs) {
+            val = (uint)((unsigned long long)val * rhs.val % M);
+            return *this;
+        }
+        StaticModInt pow(long long n) const {
+            StaticModInt x = *this, r = 1;
+            while (n) {
+                if (n & 1) r *= x;
+                x *= x;
+                n >>= 1;
             }
+            return r;
         }
-    }
+        StaticModInt inv() const { return pow(M - 2); }
+        friend StaticModInt operator+(StaticModInt lhs, const StaticModInt& rhs) { return lhs += rhs; }
+        friend StaticModInt operator-(StaticModInt lhs, const StaticModInt& rhs) { return lhs -= rhs; }
+        friend StaticModInt operator*(StaticModInt lhs, const StaticModInt& rhs) { return lhs *= rhs; }
+        friend bool operator==(const StaticModInt& lhs, const StaticModInt& rhs) { return lhs.val == rhs.val; }
+        friend bool operator!=(const StaticModInt& lhs, const StaticModInt& rhs) { return lhs.val != rhs.val; }
+    };
 
-    int base, N;
-    int lastN = -1;
+    template<uint MOD_, uint PRIMITIVE_ROOT_>
+    struct NTT {
+        using mint = StaticModInt<MOD_>;
+        static constexpr uint MODV = MOD_;
+        static constexpr uint G = PRIMITIVE_ROOT_;
 
-    void prepare_rev(){
-        if(lastN == N) return;
-        lastN = N;
-        for (int i = 0; i < N; ++i) rev[i] = (rev[i >> 1] >> 1) + ((i & 1) << (base - 1));
-    }
-
-    void fft(num *a, num *f){
-        for (int i = 0; i < N; ++i) f[i] = a[rev[i]];
-        for (int k = 1; k < N; k <<= 1) {
-            for (int i = 0; i < N; i += 2*k) {
-                for (int j = 0; j < k; ++j) {
-                    num z = f[i+j+k]* root[j+k];
-                    f[i+j+k] = f[i+j] - z;
-                    f[i+j] = f[i+j] + z;
+        void ntt(vector<mint> &a, bool invert) const {
+            int n = (int)a.size();
+            for (int i = 1, j = 0; i < n; ++i) {
+                int bit = n >> 1;
+                for (; j & bit; bit >>= 1) j ^= bit;
+                j ^= bit;
+                if (i < j) swap(a[i], a[j]);
+            }
+            for (int len = 2; len <= n; len <<= 1) {
+                mint wlen = mint(G).pow((MODV - 1) / len);
+                if (invert) wlen = wlen.inv();
+                for (int i = 0; i < n; i += len) {
+                    mint w = 1;
+                    for (int j = 0; j < len / 2; ++j) {
+                        mint u = a[i + j];
+                        mint v = a[i + j + len / 2] * w;
+                        a[i + j] = u + v;
+                        a[i + j + len / 2] = u - v;
+                        w *= wlen;
+                    }
                 }
             }
+            if (invert) {
+                mint inv_n = mint(n).inv();
+                for (auto &x : a) x *= inv_n;
+            }
         }
-    }
-    num a[maxN], b[maxN], f[maxN], g[maxN];
-    ll A[maxN], B[maxN], C[maxN];
 
-    void multi_mod(){
-        for (int i = 0; i < N; ++i) {
-            a[i] = num( A[i] & ((1LL << 15)-1),  A[i] >> 15);
+        vector<uint> convolution(const vector<uint> &a, const vector<uint> &b) const {
+            if (a.empty() || b.empty()) return {};
+            int need = (int)a.size() + (int)b.size() - 1;
+            int n = 1;
+            while (n < need) n <<= 1;
+            vector<mint> fa(n), fb(n);
+            for (int i = 0; i < (int)a.size(); ++i) fa[i] = a[i];
+            for (int i = 0; i < (int)b.size(); ++i) fb[i] = b[i];
+            ntt(fa, false);
+            ntt(fb, false);
+            for (int i = 0; i < n; ++i) fa[i] *= fb[i];
+            ntt(fa, true);
+            vector<uint> res(need);
+            for (int i = 0; i < need; ++i) res[i] = fa[i].val;
+            return res;
         }
-        for (int i = 0; i < N; ++i) {
-            b[i] = num(B[i] & ((1LL << 15)-1), B[i] >> 15);
-        }
-        fft(a, f);
-        fft(b, g);
-        for (int i = 0; i < N; ++i) {
-            int j = (N-i) &(N-1);
-            num a1 = (f[i] + conj(f[j])) * num(0.5, 0);
-            num a2 = (f[i] - conj(f[j])) * num(0, -0.5);
-            num b1 = (g[i] + conj(g[j])) * num(0.5/N, 0);
-            num b2 = (g[i] - conj(g[j])) * num(0, -0.5/N);
-            a[j] = a1*b1 + a2*b2 * num(0, 1);
-            b[j] = a1*b2 + a2*b1;
-        }
-        fft(a, f);
-        fft(b, g);
-        for (int i = 0; i < N; ++i) {
-            ll aa = f[i].x + 0.5;
-            ll bb = g[i].x + 0.5;
-            ll cc = f[i].y + 0.5;
-            C[i] = (aa + bb % mint::mod() * (1LL << 15) + cc % mint::mod() * (1LL << 30)) % mint::mod();
-        }
-    }
+    };
 
-    void prepare_AB(int n1, int n2){
-        base = 1;
-        N = 2;
-        while(N < n1+n2) base++, N <<= 1;
-        for (int i = n1; i < N; ++i) A[i] = 0;
-        for (int i = n2; i < N; ++i) B[i] = 0;
-        prepare_root();
-        prepare_rev();
-    }
+    using NTT1 = NTT<167772161, 3>;
+    using NTT2 = NTT<469762049, 3>;
+    using NTT3 = NTT<1224736769, 3>;
 
-    void multi_mod(int n1, int n2){
-        prepare_AB(n1, n2);
-        multi_mod();
+    vector<uint> convolution_mod(const vector<uint> &a, const vector<uint> &b) {
+        if (a.empty() || b.empty()) return {};
+        static const NTT1 ntt1;
+        static const NTT2 ntt2;
+        static const NTT3 ntt3;
+        static const long long m1 = 167772161LL;
+        static const long long m2 = 469762049LL;
+        static const long long m3 = 1224736769LL;
+        static const long long m1_inv_m2 = StaticModInt<469762049>(m1).inv().val;
+        static const long long m12_mod_m3 = (m1 % m3) * (m2 % m3) % m3;
+        static const long long m12_inv_m3 = StaticModInt<1224736769>((long long)m12_mod_m3).inv().val;
+        static const unsigned long long m12 = (unsigned long long)m1 * (unsigned long long)m2;
+        static const long long m1_mod = m1 % MOD;
+        static const long long m12_mod = m12 % MOD;
+
+        auto c1 = ntt1.convolution(a, b);
+        auto c2 = ntt2.convolution(a, b);
+        auto c3 = ntt3.convolution(a, b);
+        vector<uint> res(c1.size());
+        for (int i = 0; i < (int)res.size(); ++i) {
+            long long x1 = c1[i];
+            long long x2 = c2[i];
+            long long x3 = c3[i];
+            long long t = (x2 - x1) % m2;
+            if (t < 0) t += m2;
+            t = t * m1_inv_m2 % m2;
+            long long x12 = (long long)(((__int128)x1 + (__int128)m1 * t) % m3);
+            long long u = (x3 - x12) % m3;
+            if (u < 0) u += m3;
+            u = u * m12_inv_m3 % m3;
+            __int128 value = x1 % MOD;
+            value += (__int128)m1_mod * t;
+            value += (__int128)m12_mod * u;
+            res[i] = (uint)(value % MOD);
+        }
+        return res;
     }
 }
 
 struct poly {
     vector<mint> v;
     poly() = default;
-    explicit poly(int n) : v(n) {};
-    explicit poly(vector<mint> vv) : v(std::move(vv)) {};
-    int size() const {return (int)v.size(); }
-    poly cut(int len){
-        if(len < v.size()) v.resize(static_cast<unsigned long>(len));
+    explicit poly(int n) : v(n) {}
+    explicit poly(vector<mint> vv) : v(std::move(vv)) {}
+    int size() const { return (int)v.size(); }
+    poly cut(int len) {
+        if (len < (int)v.size()) v.resize((size_t)len);
         return *this;
     }
-    inline mint& operator[] (int i) {return v[i]; }
+    mint& operator[](int i) { return v[i]; }
+    const mint& operator[](int i) const { return v[i]; }
     poly& operator+=(const poly &a) {
-        this->v.resize(max(size(), a.size()));
-        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];
+        v.resize(max(size(), a.size()));
+        for (int i = 0; i < a.size(); ++i) v[i] += a.v[i];
         return *this;
     }
     poly& operator-=(const poly &a) {
-        this->v.resize(max(size(), a.size()));
-        for (int i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];
+        v.resize(max(size(), a.size()));
+        for (int i = 0; i < a.size(); ++i) v[i] -= a.v[i];
         return *this;
     }
-
-    poly& operator*=(poly a) {
-        for (int i = 0; i < size(); ++i) FFT::A[i] = this->v[i].val;
-        for (int i = 0; i < a.size(); ++i) FFT::B[i] = a.v[i].val;
-        FFT::multi_mod(size(), a.size());
-        this->v.resize(size() + a.size()-1);
-        for (int i = 0; i < size(); ++i) this->v[i] = FFT::C[i];
+    poly& operator*=(const poly &a) {
+        if (size() == 0 || a.size() == 0) {
+            v.clear();
+            return *this;
+        }
+        vector<uint> x(size()), y(a.size());
+        for (int i = 0; i < size(); ++i) x[i] = v[i].val;
+        for (int i = 0; i < a.size(); ++i) y[i] = a.v[i].val;
+        auto z = ArbitraryConvolution::convolution_mod(x, y);
+        v.resize(z.size());
+        for (int i = 0; i < (int)z.size(); ++i) v[i] = z[i];
         return *this;
     }
-    poly& operator/=(const poly &a){ return (*this *= a.inv()); }
+    poly& operator/=(const poly &a) { return (*this) *= a.inv(); }
     poly operator+(const poly &a) const { return poly(*this) += a; }
     poly operator-(const poly &a) const { return poly(*this) -= a; }
     poly operator*(const poly &a) const { return poly(*this) *= a; }
@@ -170,18 +188,16 @@ struct poly {
     poly inv() const {
         int n = size();
         poly r(1);
-        r[0] = (this->v[0]).inv();
+        r[0] = v[0].inv();
         int k = 1;
-        while(k < n){
-            k *= 2;
-            poly ff(k);
-            for (int i = 0; i < min(k, n); ++i) {
-                ff[i] = this->v[i];
-            }
-            poly nr = (r*r*ff).cut(k);
-            for (int i = 0; i < k/2; ++i) {
-                nr[i] = (r[i]+r[i]-nr[i]);
-                nr[i+k/2] = -nr[i+k/2];
+        while (k < n) {
+            k <<= 1;
+            poly f(k);
+            for (int i = 0; i < min(k, n); ++i) f[i] = v[i];
+            poly nr = (r * r * f).cut(k);
+            for (int i = 0; i < k / 2; ++i) {
+                nr[i] = r[i] + r[i] - nr[i];
+                nr[i + k / 2] = -nr[i + k / 2];
             }
             r = nr;
         }
@@ -189,3 +205,7 @@ struct poly {
         return r;
     }
 };
+
+/**
+ * @brief 任意MOD畳み込み(3 NTT + Garner)
+ */
