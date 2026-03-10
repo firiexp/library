@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_UTIL_MODINT_CPP
+#define FIRIEXP_LIBRARY_UTIL_MODINT_CPP
+
 template <uint M>
 struct modint {
     uint val;
@@ -31,3 +34,5 @@ using mint = modint<MOD>;
 /**
  * @brief modint(固定MOD)
  */
+
+#endif
