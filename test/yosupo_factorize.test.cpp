@@ -1,0 +1,30 @@
+#define PROBLEM "https://judge.yosupo.jp/problem/factorize"
+
+#include <cstdint>
+#include <vector>
+using namespace std;
+using ll = long long;
+using uint = unsigned;
+using ull = unsigned long long;
+
+#include "../util/fastio.cpp"
+#include "../math/primefactor_ll.cpp"
+
+int main() {
+    Scanner in;
+    Printer out;
+    int q;
+    in.read(q);
+    while (q--) {
+        ull a;
+        in.read(a);
+        auto fac = prime_factor(a);
+        out.write((int)fac.size());
+        for (auto &x : fac) {
+            out.write(' ');
+            out.write(x);
+        }
+        out.writeln();
+    }
+    return 0;
+}

@@ -11,7 +11,7 @@ using ull = unsigned long long;
 
 #include "../util/fastio.cpp"
 #include "../math/CRT.cpp"
-#include "../math/primefactor2.cpp"
+#include "../math/primefactor.cpp"
 #include "../math/binom_mod_prime_power.cpp"
 
 ll brute(ll n, ll k, ll mod) {

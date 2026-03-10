@@ -1,4 +1,4 @@
-#include "primefactor_ll2.cpp"
+#include "primefactor_ll.cpp"
 ll primitive_root(ll m) {
     if (m == 2) return 1;
     auto divs = prime_factor(m - 1);
