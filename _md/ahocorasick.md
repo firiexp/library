@@ -6,6 +6,6 @@ documentation_of: //datastructure/ahocorasick.cpp
 Trie木に対応するパターンマッチングオートマトンを構築する。
 
 ## 操作
-- $\mathrm{add}(s, cur))$ : Trie木の位置$cur$に文字列$s$を追加し、そのノードを返す。
-- $\mathrm{build}()$ : パターンマッチングオートマトンを構築する。
-- $\mathrm{next}(x, c)$ : 位置xに文字$c$を与えたときの行き先を返す。
+- $\operatorname{add}(s, \mathrm{cur})$ : Trie 木の位置 `cur` に文字列 $s$ を追加し、そのノードを返す
+- $\operatorname{build}()$ : パターンマッチングオートマトンを構築する
+- $\operatorname{next}(x, c)$ : 位置 $x$ に文字 $c$ を与えたときの行き先を返す

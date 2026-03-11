@@ -8,4 +8,8 @@ tags: 数学
 
 ## 説明
 
-$ x = a_i \mod M_i (1 \le i \le N)$ という情報から、$\mod \mathrm{lcm} (M_1 , M_2 , \cdots , M_N)$での$x$を復元する。
+$$
+x \equiv a_i \pmod{M_i} \quad (1 \le i \le N)
+$$
+
+という情報から、$\operatorname{lcm}(M_1, M_2, \dots, M_N)$ を法とする $x$ を復元する。
