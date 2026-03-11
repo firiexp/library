@@ -1,19 +1,28 @@
 ---
+category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0452.test.cpp
+    title: test/aoj0452.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_factorial.test.cpp
+    title: test/yosupo_many_aplusb_factorial.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    document_title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
     links: []
-  bundledCode: "#line 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint M>\nstruct modint\
-    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
-    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+  bundledCode: "#line 1 \"math/factorial.cpp\"\n\n#line 1 \"util/modint.cpp\"\n\n\n\
+    \ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod()\
+    \ { return M; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
     \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
     \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
     \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
@@ -34,44 +43,102 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/factorial.cpp\"\
-    \n\nclass Factorial {\n    vector<mint> facts, factinv;\npublic:\n    explicit\
-    \ Factorial(int n) : facts(n+1), factinv(n+1) {\n        facts[0] = 1;\n     \
-    \   for (int i = 1; i < n+1; ++i) facts[i] = facts[i-1] * mint(i);\n        factinv[n]\
-    \ = facts[n].inv();\n        for (int i = n-1; i >= 0; --i) factinv[i] = factinv[i+1]\
-    \ * mint(i+1);\n    }\n    mint fact(int k) const {\n        if(k >= 0) return\
-    \ facts[k]; else return factinv[-k];\n    }\n    mint operator[](const int &k)\
-    \ const {\n        if(k >= 0) return facts[k]; else return factinv[-k];\n    }\n\
-    \    mint C(int p, int q) const {\n        if(q < 0 || p < q) return 0;\n    \
-    \    return facts[p] * factinv[q] * factinv[p-q];\n    }\n    mint P(int p, int\
-    \ q) const {\n        if(q < 0 || p < q) return 0;\n        return facts[p] *\
-    \ factinv[p-q];\n    }\n    mint H(int p, int q) const {\n        if(p < 0 ||\
-    \ q < 0) return 0;\n        return q == 0 ? 1 : C(p+q-1, q);\n    }\n};\n"
-  code: "#include \"../util/modint.cpp\"\n\nclass Factorial {\n    vector<mint> facts,\
-    \ factinv;\npublic:\n    explicit Factorial(int n) : facts(n+1), factinv(n+1)\
-    \ {\n        facts[0] = 1;\n        for (int i = 1; i < n+1; ++i) facts[i] = facts[i-1]\
-    \ * mint(i);\n        factinv[n] = facts[n].inv();\n        for (int i = n-1;\
-    \ i >= 0; --i) factinv[i] = factinv[i+1] * mint(i+1);\n    }\n    mint fact(int\
-    \ k) const {\n        if(k >= 0) return facts[k]; else return factinv[-k];\n \
-    \   }\n    mint operator[](const int &k) const {\n        if(k >= 0) return facts[k];\
-    \ else return factinv[-k];\n    }\n    mint C(int p, int q) const {\n        if(q\
-    \ < 0 || p < q) return 0;\n        return facts[p] * factinv[q] * factinv[p-q];\n\
-    \    }\n    mint P(int p, int q) const {\n        if(q < 0 || p < q) return 0;\n\
-    \        return facts[p] * factinv[p-q];\n    }\n    mint H(int p, int q) const\
-    \ {\n        if(p < 0 || q < 0) return 0;\n        return q == 0 ? 1 : C(p+q-1,\
-    \ q);\n    }\n};"
+    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
+    MOD)\n */\n\n\n#line 3 \"math/factorial.cpp\"\n#endif\n\ntemplate <class Mint\
+    \ = mint>\nclass Factorial {\n    inline static vector<Mint> facts, factinv, invs;\n\
+    \n    static void init() {\n        if (!facts.empty()) return;\n        facts.push_back(Mint(1));\n\
+    \        factinv.push_back(Mint(1));\n        invs.push_back(Mint(0));\n     \
+    \   invs.push_back(Mint(1));\n    }\n\n    static void expand(int n) {\n     \
+    \   init();\n        if (n < (int)facts.size()) return;\n        int old = facts.size();\n\
+    \        int mod = Mint::get_mod();\n        facts.resize(n + 1);\n        factinv.resize(n\
+    \ + 1);\n        invs.resize(n + 1);\n        for (int i = max(2, old); i <= n;\
+    \ ++i) {\n            invs[i] = -Mint(mod / i) * invs[mod % i];\n        }\n \
+    \       for (int i = old; i <= n; ++i) {\n            facts[i] = facts[i - 1]\
+    \ * Mint(i);\n            factinv[i] = factinv[i - 1] * invs[i];\n        }\n\
+    \    }\npublic:\n    explicit Factorial(int n = 0) {\n        expand(n);\n   \
+    \ }\n    void ensure(int n) const {\n        if (n >= 0) expand(n);\n    }\n \
+    \   int max_n() const {\n        init();\n        return (int)facts.size() - 1;\n\
+    \    }\n    Mint fact(int k) const {\n        if (k < 0) return inv_fact(-k);\n\
+    \        expand(k);\n        return facts[k];\n    }\n    Mint inv_fact(int k)\
+    \ const {\n        if (k < 0) return 0;\n        expand(k);\n        return factinv[k];\n\
+    \    }\n    Mint inv(int k) const {\n        if (k < 0) return 0;\n        expand(k);\n\
+    \        return invs[k];\n    }\n    Mint operator[](int k) const {\n        return\
+    \ k >= 0 ? fact(k) : inv_fact(-k);\n    }\n    Mint C(int n, int k) const {\n\
+    \        if (n < 0 || k < 0 || n < k) return 0;\n        expand(n);\n        return\
+    \ facts[n] * factinv[k] * factinv[n - k];\n    }\n    Mint P(int n, int k) const\
+    \ {\n        if (n < 0 || k < 0 || n < k) return 0;\n        expand(n);\n    \
+    \    return facts[n] * factinv[n - k];\n    }\n    Mint H(int n, int k) const\
+    \ {\n        if (n < 0 || k < 0) return 0;\n        if (k == 0) return 1;\n  \
+    \      if (n == 0) return 0;\n        return C(n + k - 1, k);\n    }\n};\n\n/**\n\
+    \ * @brief \u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)\n */\n"
+  code: "#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#include \"../util/modint.cpp\"\
+    \n#endif\n\ntemplate <class Mint = mint>\nclass Factorial {\n    inline static\
+    \ vector<Mint> facts, factinv, invs;\n\n    static void init() {\n        if (!facts.empty())\
+    \ return;\n        facts.push_back(Mint(1));\n        factinv.push_back(Mint(1));\n\
+    \        invs.push_back(Mint(0));\n        invs.push_back(Mint(1));\n    }\n\n\
+    \    static void expand(int n) {\n        init();\n        if (n < (int)facts.size())\
+    \ return;\n        int old = facts.size();\n        int mod = Mint::get_mod();\n\
+    \        facts.resize(n + 1);\n        factinv.resize(n + 1);\n        invs.resize(n\
+    \ + 1);\n        for (int i = max(2, old); i <= n; ++i) {\n            invs[i]\
+    \ = -Mint(mod / i) * invs[mod % i];\n        }\n        for (int i = old; i <=\
+    \ n; ++i) {\n            facts[i] = facts[i - 1] * Mint(i);\n            factinv[i]\
+    \ = factinv[i - 1] * invs[i];\n        }\n    }\npublic:\n    explicit Factorial(int\
+    \ n = 0) {\n        expand(n);\n    }\n    void ensure(int n) const {\n      \
+    \  if (n >= 0) expand(n);\n    }\n    int max_n() const {\n        init();\n \
+    \       return (int)facts.size() - 1;\n    }\n    Mint fact(int k) const {\n \
+    \       if (k < 0) return inv_fact(-k);\n        expand(k);\n        return facts[k];\n\
+    \    }\n    Mint inv_fact(int k) const {\n        if (k < 0) return 0;\n     \
+    \   expand(k);\n        return factinv[k];\n    }\n    Mint inv(int k) const {\n\
+    \        if (k < 0) return 0;\n        expand(k);\n        return invs[k];\n \
+    \   }\n    Mint operator[](int k) const {\n        return k >= 0 ? fact(k) : inv_fact(-k);\n\
+    \    }\n    Mint C(int n, int k) const {\n        if (n < 0 || k < 0 || n < k)\
+    \ return 0;\n        expand(n);\n        return facts[n] * factinv[k] * factinv[n\
+    \ - k];\n    }\n    Mint P(int n, int k) const {\n        if (n < 0 || k < 0 ||\
+    \ n < k) return 0;\n        expand(n);\n        return facts[n] * factinv[n -\
+    \ k];\n    }\n    Mint H(int n, int k) const {\n        if (n < 0 || k < 0) return\
+    \ 0;\n        if (k == 0) return 1;\n        if (n == 0) return 0;\n        return\
+    \ C(n + k - 1, k);\n    }\n};\n\n/**\n * @brief \u968E\u4E57\u30FB\u4E8C\u9805\
+    \u4FC2\u6570(Factorial)\n */\n"
   dependsOn:
   - util/modint.cpp
   isVerificationFile: false
   path: math/factorial.cpp
   requiredBy: []
-  timestamp: '2026-03-11 00:57:12+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2026-03-11 21:27:09+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_many_aplusb_factorial.test.cpp
+  - test/aoj0452.test.cpp
+date: 2026-03-11
 documentation_of: math/factorial.cpp
 layout: document
-redirect_from:
-- /library/math/factorial.cpp
-- /library/math/factorial.cpp.html
-title: math/factorial.cpp
+tags: "\u6570\u5B66"
+title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
 ---
+
+## 説明
+階乗 `n!`、逆元 `n^{-1}`、階乗逆元 `(n!)^{-1}` を必要になったところまで遅延計算する。
+`C(n, k)`、`P(n, k)`、`H(n, k)` を `O(1)` で返す。
+
+
+## できること
+- `Factorial<Mint = mint> f(int n = 0)`
+  `0` から `n` まで前計算して作る
+- `void ensure(int n)`
+  `n` まで前計算を広げる
+- `int max_n()`
+  現在前計算済みの最大添字を返す
+- `mint fact(int k)`
+  `k >= 0` なら `k!`、`k < 0` なら `(-k)!^{-1}` を返す
+- `mint inv(int k)`
+  `k^{-1}` を返す。`k < 0` なら `0`
+- `mint inv_fact(int k)`
+  `(k!)^{-1}` を返す。`k < 0` なら `0`
+- `mint operator[](int k)`
+  `k >= 0` なら `k!`、`k < 0` なら `(-k)!^{-1}` を返す
+- `mint C(int n, int k)`
+  二項係数を返す。
+- `mint P(int n, int k)`
+  順列数を返す。
+- `mint H(int n, int k)`
+  重複組合せを返す。

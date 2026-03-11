@@ -100,11 +100,12 @@ data:
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
     \ 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint M>\nstruct modint {\n    uint val;\n\
     public:\n    static modint raw(int v) { modint x; x.val = v; return x; }\n   \
-    \ modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
-    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \ static constexpr uint get_mod() { return M; }\n    modint() : val(0) {}\n  \
+    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
+    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
+    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
+    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
+    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
     \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
@@ -121,70 +122,70 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"tree/hld.cpp\"\n\n\
-    class HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy =\
-    \ -1;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
-    \            par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n      \
-    \      sub_size[v] += sub_size[u];\n            if(heavy == -1 || sub_size[u]\
-    \ > sub_size[heavy]) heavy = u;\n        }\n        if (heavy != -1 && G[v][0]\
-    \ != heavy) {\n            for (auto &&u : G[v]) {\n                if (u == heavy)\
-    \ {\n                    swap(u, G[v][0]);\n                    break;\n     \
-    \           }\n            }\n        }\n    }\n    void dfs_hld(int v, int c,\
-    \ int &pos){\n        id[v] = pos++;\n        id_inv[id[v]]= v;\n        tree_id[v]\
-    \ = c;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
-    \            head[u] = (u == G[v][0] ? head[v] : u);\n            dfs_hld(u, c,\
-    \ pos);\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>> G;\n \
-    \   vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int\
-    \ n) : n(n), G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
-    \ head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>> &G) : n(G.size()),\
-    \ G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n)\
-    \ {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n    \
-    \    G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
-    \        fill(par.begin(), par.end(), -1);\n        fill(dep.begin(), dep.end(),\
-    \ 0);\n        fill(sub_size.begin(), sub_size.end(), 1);\n        int c = 0,\
-    \ pos = 0;\n        for (auto &&i : roots) {\n            dfs_sz(i);\n       \
-    \     head[i] = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\n  \
-    \  int lca(int u, int v){\n        while(true){\n            if(id[u] > id[v])\
-    \ swap(u, v);\n            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
-    \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
-    \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
-    \ >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n     \
-    \       v = par[u];\n        }\n    }\n\n    int distance(int u, int v){ return\
-    \ dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    pair<int, int> subtree(int v, bool\
-    \ edge = false) const {\n        return {id[v] + edge, id[v] + sub_size[v]};\n\
-    \    }\n\n    template<typename F>\n    void add(int u, int v, const F &f, bool\
-    \ edge){\n        while (head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
-    \ v);\n            f(id[head[v]], id[v]+1);\n            v = par[head[v]];\n \
-    \       }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge, id[v]+1);\n\
-    \    }\n\n    template<typename F>\n    void path(int u, int v, const F &f, bool\
-    \ edge = false){\n        add(u, v, f, edge);\n    }\n\n    template<typename\
-    \ F>\n    void apply_subtree(int v, const F &f, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename\
-    \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
-    \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
-    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
-    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
-    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
-    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
-    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
-    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
-    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
-    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
-    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
-    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
-    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
-    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
-    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
-    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
-    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
-    \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
-    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n#line 2 \"tree/hld_edge.cpp\"\n\nstruct HeavyLightDecompositionEdge\
-    \ {\n    HeavyLightDecomposition hld;\n\n    explicit HeavyLightDecompositionEdge(int\
-    \ n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
+    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
+    MOD)\n */\n\n\n#line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n \
+    \   void dfs_sz(int v){\n        int heavy = -1;\n        for (auto &&u : G[v])\
+    \ {\n            if(u == par[v]) continue;\n            par[u] = v; dep[u] = dep[v]\
+    \ + 1;\n            dfs_sz(u);\n            sub_size[v] += sub_size[u];\n    \
+    \        if(heavy == -1 || sub_size[u] > sub_size[heavy]) heavy = u;\n       \
+    \ }\n        if (heavy != -1 && G[v][0] != heavy) {\n            for (auto &&u\
+    \ : G[v]) {\n                if (u == heavy) {\n                    swap(u, G[v][0]);\n\
+    \                    break;\n                }\n            }\n        }\n   \
+    \ }\n    void dfs_hld(int v, int c, int &pos){\n        id[v] = pos++;\n     \
+    \   id_inv[id[v]]= v;\n        tree_id[v] = c;\n        for (auto &&u : G[v])\
+    \ {\n            if(u == par[v]) continue;\n            head[u] = (u == G[v][0]\
+    \ ? head[v] : u);\n            dfs_hld(u, c, pos);\n        }\n    }\npublic:\n\
+    \    int n;\n    vector<vector<int>> G;\n    vector<int> par, dep, sub_size, id,\
+    \ id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int n) : n(n),\
+    \ G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n){}\n\
+    \    explicit HeavyLightDecomposition(vector<vector<int>> &G) : n(G.size()), G(G),\
+    \ par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n) {}\n\n\
+    \    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n        G[v].emplace_back(u);\n\
+    \    }\n\n    void build(vector<int> roots = {0}){\n        fill(par.begin(),\
+    \ par.end(), -1);\n        fill(dep.begin(), dep.end(), 0);\n        fill(sub_size.begin(),\
+    \ sub_size.end(), 1);\n        int c = 0, pos = 0;\n        for (auto &&i : roots)\
+    \ {\n            dfs_sz(i);\n            head[i] = i;\n            dfs_hld(i,\
+    \ c++, pos);\n        }\n    }\n\n    int lca(int u, int v){\n        while(true){\n\
+    \            if(id[u] > id[v]) swap(u, v);\n            if(head[u] == head[v])\
+    \ return u;\n            v = par[head[v]];\n        }\n    }\n\n    int parent(int\
+    \ v) const {\n        return par[v];\n    }\n\n    int ancestor(int v, int k)\
+    \ {\n        if(dep[v] < k) return -1;\n        while(true) {\n            int\
+    \ u = head[v];\n            if(id[v] - k >= id[u]) return id_inv[id[v] - k];\n\
+    \            k -= id[v]-id[u]+1;\n            v = par[u];\n        }\n    }\n\n\
+    \    int distance(int u, int v){ return dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\
+    \n    pair<int, int> subtree(int v, bool edge = false) const {\n        return\
+    \ {id[v] + edge, id[v] + sub_size[v]};\n    }\n\n    template<typename F>\n  \
+    \  void add(int u, int v, const F &f, bool edge){\n        while (head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) swap(u, v);\n            f(id[head[v]], id[v]+1);\n\
+    \            v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v);\n\
+    \        f(id[u]+edge, id[v]+1);\n    }\n\n    template<typename F>\n    void\
+    \ path(int u, int v, const F &f, bool edge = false){\n        add(u, v, f, edge);\n\
+    \    }\n\n    template<typename F>\n    void apply_subtree(int v, const F &f,\
+    \ bool edge = false){\n        auto [l, r] = subtree(v, edge);\n        f(l, r);\n\
+    \    }\n\n    template<typename T, typename Q, typename F>\n    T query(int u,\
+    \ int v, const T &e, const Q &q, const F &f, bool edge){\n        T l = e, r =\
+    \ e;\n        while(head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
+    \ v), swap(l, r);\n            l = f(l, q(id[head[v]], id[v]+1));\n          \
+    \  v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v), swap(l,\
+    \ r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n    }\n\n    template<typename\
+    \ T, typename Q, typename F>\n    T path_query(int u, int v, const T &e, const\
+    \ Q &q, const F &f, bool edge = false){\n        return query(u, v, e, q, f, edge);\n\
+    \    }\n\n    template<typename T, typename QL, typename QR, typename F>\n   \
+    \ T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F\
+    \ &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n\
+    \                u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
+    \ id[v]+1), r);\n                v = par[head[v]];\n            }\n        }\n\
+    \        T mid = (id[u] > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n\
+    \        return f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL,\
+    \ typename QR, typename F>\n    T path_query_ordered(int u, int v, const T &e,\
+    \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
+    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename\
+    \ Q>\n    T subtree_query(int v, const Q &q, bool edge = false){\n        auto\
+    \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief\
+    \ HL\u5206\u89E3(HL Decomposition)\n */\n#line 2 \"tree/hld_edge.cpp\"\n\nstruct\
+    \ HeavyLightDecompositionEdge {\n    HeavyLightDecomposition hld;\n\n    explicit\
+    \ HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
     \ &g) : hld(g) {}\n\n    void add_edge(int u, int v) {\n        hld.add_edge(u,\
     \ v);\n    }\n\n    void build(vector<int> roots = {0}) {\n        hld.build(roots);\n\
     \    }\n\n    int lca(int u, int v) {\n        return hld.lca(u, v);\n    }\n\n\
@@ -309,7 +310,7 @@ data:
   isVerificationFile: true
   path: test/yuki650_hld_edge.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 00:57:12+09:00'
+  timestamp: '2026-03-11 21:27:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki650_hld_edge.test.cpp

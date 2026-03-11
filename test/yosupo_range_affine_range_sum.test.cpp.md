@@ -139,40 +139,41 @@ data:
     \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
     \u30C8\u6728(Lazy Segment Tree)\n */\n#line 1 \"util/modint.cpp\"\n\n\n\ntemplate\
     \ <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint raw(int\
-    \ v) { modint x; x.val = v; return x; }\n    modint() : val(0) {}\n    template\
-    \ <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val\
-    \ = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint&\
-    \ operator++() { val++; if (val == M) val = 0; return *this; }\n    modint& operator--()\
-    \ { if (val == 0) val = M; val--; return *this; }\n    modint operator++(int)\
-    \ { modint result = *this; ++*this; return result; }\n    modint operator--(int)\
-    \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
-    \ modint& b) { val += b.val; if (val >= M) val -= M; return *this; }\n    modint&\
-    \ operator-=(const modint& b) { val -= b.val; if (val >= M) val += M; return *this;\
-    \ }\n    modint& operator*=(const modint& b) { ull z = val; z *= b.val; val =\
-    \ (uint)(z % M); return *this; }\n    modint& operator/=(const modint& b) { return\
-    \ *this = *this * b.inv(); }\n    modint operator+() const { return *this; }\n\
-    \    modint operator-() const { return modint() - *this; }\n    modint pow(long\
-    \ long n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *=\
-    \ x; n >>= 1; } return r; }\n    modint inv() const { return pow(M-2); }\n   \
-    \ friend modint operator+(const modint& a, const modint& b) { return modint(a)\
-    \ += b; }\n    friend modint operator-(const modint& a, const modint& b) { return\
-    \ modint(a) -= b; }\n    friend modint operator*(const modint& a, const modint&\
-    \ b) { return modint(a) *= b; }\n    friend modint operator/(const modint& a,\
-    \ const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod() {\
+    \ return M; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n    modint(bool\
+    \ v) { val = ((unsigned int)(v) % M); }\n    modint& operator++() { val++; if\
+    \ (val == M) val = 0; return *this; }\n    modint& operator--() { if (val == 0)\
+    \ val = M; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= M) val -= M; return *this; }\n    modint& operator-=(const\
+    \ modint& b) { val -= b.val; if (val >= M) val += M; return *this; }\n    modint&\
+    \ operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z % M);\
+    \ return *this; }\n    modint& operator/=(const modint& b) { return *this = *this\
+    \ * b.inv(); }\n    modint operator+() const { return *this; }\n    modint operator-()\
+    \ const { return modint() - *this; }\n    modint pow(long long n) const { modint\
+    \ x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r;\
+    \ }\n    modint inv() const { return pow(M-2); }\n    friend modint operator+(const\
+    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
+    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 15 \"test/yosupo_range_affine_range_sum.test.cpp\"\
-    \n\nstruct Monoid{\n    using T = array<mint, 2>;\n    using L = array<mint, 2>;\n\
-    \    static T f(T a, T b) { return {a[0]+b[0], a[1]+b[1]}; }\n    static T g(T\
-    \ a, L b) {\n        return {a[0] * b[0] + a[1] * b[1], a[1]};\n    }\n    static\
-    \ L h(L a, L b) {\n        return {a[0]*b[0], a[1]*b[0]+b[1]};\n    }\n    static\
-    \ T e() { return {0, 0}; }\n    static L l() { return {1, 0}; }\n};\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n\
-    \    vector<int> v(n);\n    for (auto &&i : v) in.read(i);\n    LazySegmentTree<Monoid>\
-    \ seg(n);\n    for (int i = 0; i < n; ++i) seg.set(i, {v[i], 1});\n    seg.build();\n\
-    \    for (int i = 0; i < q; ++i) {\n        int t;\n        in.read(t);\n    \
-    \    if(!t){\n            int l, r, b, c;\n            in.read(l, r, b, c);\n\
-    \            seg.update(l, r, {b, c});\n        }else {\n            int l, r;\n\
+    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
+    MOD)\n */\n\n\n#line 15 \"test/yosupo_range_affine_range_sum.test.cpp\"\n\nstruct\
+    \ Monoid{\n    using T = array<mint, 2>;\n    using L = array<mint, 2>;\n    static\
+    \ T f(T a, T b) { return {a[0]+b[0], a[1]+b[1]}; }\n    static T g(T a, L b) {\n\
+    \        return {a[0] * b[0] + a[1] * b[1], a[1]};\n    }\n    static L h(L a,\
+    \ L b) {\n        return {a[0]*b[0], a[1]*b[0]+b[1]};\n    }\n    static T e()\
+    \ { return {0, 0}; }\n    static L l() { return {1, 0}; }\n};\nint main() {\n\
+    \    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    vector<int>\
+    \ v(n);\n    for (auto &&i : v) in.read(i);\n    LazySegmentTree<Monoid> seg(n);\n\
+    \    for (int i = 0; i < n; ++i) seg.set(i, {v[i], 1});\n    seg.build();\n  \
+    \  for (int i = 0; i < q; ++i) {\n        int t;\n        in.read(t);\n      \
+    \  if(!t){\n            int l, r, b, c;\n            in.read(l, r, b, c);\n  \
+    \          seg.update(l, r, {b, c});\n        }else {\n            int l, r;\n\
     \            in.read(l, r);\n            out.writeln(seg.query(l, r)[0].val);\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
@@ -200,7 +201,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 00:57:12+09:00'
+  timestamp: '2026-03-11 21:27:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_range_sum.test.cpp

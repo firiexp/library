@@ -131,12 +131,12 @@ title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
 区間に操作をする際には、普通のセグメント木と同様に区間を下ろしていって、区間全体を覆うならそこにとどめておく。クエリのときに必要に応じて分割する。すると、更新と取得が$O(\log N)$回の演算で可能になる。<br>
 実装では、モノイド構造体を渡すようにしている。構造体には、次のようなものを定義する。
 - 要素の型 $T$
-- $T$の単位元$e$
+- $T$の単位元 $e$
 - 作用素の型 $L$
-- $L$の単位元$l$
-- $f(T, T) \rightarrow T$ 要素同士のマージ
-- $g(T, L) \rightarrow T$ 要素と作用素のマージ
-- $h(L, L) \rightarrow L$ 作用素同士のマージ
+- $L$の単位元 $l$
+- $f : T \times T \to T$ 要素同士のマージ
+- $g : T \times L \to T$ 要素と作用素のマージ
+- $h : L \times L \to L$ 作用素同士のマージ
 
 以下にモノイドの例をあげておく。
 #### 区間加算-区間min
@@ -148,14 +148,28 @@ title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
 - $e = 0$
 - $l = 0$
 - $f(x, y) = \max(x, y)$
-- $ \displaystyle g(x, y) = h(x, y) = a ( b = e ),  b ( b \neq e )
-$
+- $g(x, y) = h(x, y)$
+
+$$
+g(x, y) = h(x, y) =
+\begin{cases}
+x & (y = e) \\
+y & (y \ne e)
+\end{cases}
+$$
 
 #### 区間更新-区間sum
 要素を(部分木の和, サイズ)としてもつ。範囲内は事前にサイズ1としておく。
-- $e = (0, 0)$　
+- $e = (0, 0)$
 - $l = 0$
-- $ f((x_1, y_1), (x_2, y_2)) = (x_1+x_2, y_1+y_2)$
-- $ g((x, y), z) = (zy, y)$
-- $ h(x, y) = a ( b = e ),  b ( b \neq e )$
+- $f((x_1, y_1), (x_2, y_2)) = (x_1 + x_2, y_1 + y_2)$
+- $g((x, y), z) = (zy, y)$
+- $h(x, y)$
 
+$$
+h(x, y) =
+\begin{cases}
+x & (y = e) \\
+y & (y \ne e)
+\end{cases}
+$$

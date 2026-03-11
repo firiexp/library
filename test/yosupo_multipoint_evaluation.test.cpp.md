@@ -96,32 +96,33 @@ data:
     \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
     #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
     // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
-    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
-    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
-    \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
-    \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
-    \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
-    \ if (val >= M) val += M; return *this; }\n    modint& operator*=(const modint&\
-    \ rhs) { ull z = val; z *= rhs.val; val = (uint)(z % M); return *this; }\n   \
-    \ modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }\n\
-    \    modint operator+() const { return *this; }\n    modint operator-() const\
-    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
-    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
-    \    modint inv() const { return pow(M-2); }\n    friend modint operator+(const\
-    \ modint& lhs, const modint& rhs) { return modint(lhs) += rhs; }\n    friend modint\
-    \ operator-(const modint& lhs, const modint& rhs) { return modint(lhs) -= rhs;\
-    \ }\n    friend modint operator*(const modint& lhs, const modint& rhs) { return\
-    \ modint(lhs) *= rhs; }\n    friend modint operator/(const modint& lhs, const\
-    \ modint& rhs) { return modint(lhs) /= rhs; }\n    friend bool operator==(const\
-    \ modint& lhs, const modint& rhs) { return lhs.val == rhs.val; }\n    friend bool\
-    \ operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val;\
-    \ }\n};\nusing mint = modint<998244353>;\n\nclass NTT {\n    static constexpr\
-    \ int max_base = 23, maxN = 1 << max_base; // 998244353 supports up to 2^23-th\
-    \ roots\n    mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];\n\
+    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr\
+    \ uint get_mod() { return M; }\n    modint() : val(0) {}\n    template <class\
+    \ T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x);\
+    \ }\n    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
+    \ { val++; if (val == M) val = 0; return *this; }\n    modint& operator--() {\
+    \ if (val == 0) val = M; val--; return *this; }\n    modint operator++(int) {\
+    \ modint result = *this; ++*this; return result; }\n    modint operator--(int)\
+    \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
+    \ modint& rhs) { val += rhs.val; if (val >= M) val -= M; return *this; }\n   \
+    \ modint& operator-=(const modint& rhs) { val -= rhs.val; if (val >= M) val +=\
+    \ M; return *this; }\n    modint& operator*=(const modint& rhs) { ull z = val;\
+    \ z *= rhs.val; val = (uint)(z % M); return *this; }\n    modint& operator/=(const\
+    \ modint& rhs) { return *this = *this * rhs.inv(); }\n    modint operator+() const\
+    \ { return *this; }\n    modint operator-() const { return modint() - *this; }\n\
+    \    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n\
+    \ & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const { return\
+    \ pow(M-2); }\n    friend modint operator+(const modint& lhs, const modint& rhs)\
+    \ { return modint(lhs) += rhs; }\n    friend modint operator-(const modint& lhs,\
+    \ const modint& rhs) { return modint(lhs) -= rhs; }\n    friend modint operator*(const\
+    \ modint& lhs, const modint& rhs) { return modint(lhs) *= rhs; }\n    friend modint\
+    \ operator/(const modint& lhs, const modint& rhs) { return modint(lhs) /= rhs;\
+    \ }\n    friend bool operator==(const modint& lhs, const modint& rhs) { return\
+    \ lhs.val == rhs.val; }\n    friend bool operator!=(const modint& lhs, const modint&\
+    \ rhs) { return lhs.val != rhs.val; }\n};\nusing mint = modint<998244353>;\n#define\
+    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\nclass NTT {\n    static constexpr int\
+    \ max_base = 23, maxN = 1 << max_base; // 998244353 supports up to 2^23-th roots\n\
+    \    mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];\n\
     public:\n    NTT() {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n        mint\
     \ e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();\n        for (int\
     \ i = cnt2; i >= 0; i--){\n            root[i] = e;\n            iroot[i] = ie;\n\
@@ -395,7 +396,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_multipoint_evaluation.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-11 21:27:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_multipoint_evaluation.test.cpp

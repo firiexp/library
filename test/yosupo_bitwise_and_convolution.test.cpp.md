@@ -93,11 +93,12 @@ data:
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
     \ 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint M>\nstruct modint {\n    uint val;\n\
     public:\n    static modint raw(int v) { modint x; x.val = v; return x; }\n   \
-    \ modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
-    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
-    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \ static constexpr uint get_mod() { return M; }\n    modint() : val(0) {}\n  \
+    \  template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x\
+    \ += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % M);\
+    \ }\n    modint& operator++() { val++; if (val == M) val = 0; return *this; }\n\
+    \    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n  \
+    \  modint operator++(int) { modint result = *this; ++*this; return result; }\n\
     \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
     \    modint& operator+=(const modint& b) { val += b.val; if (val >= M) val -=\
     \ M; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
@@ -114,27 +115,27 @@ data:
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    \n/**\n * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/and_convolution.cpp\"\
-    \ntemplate<class T>\nvoid superset_zeta_transform(vector<T> &v){\n    int n =\
-    \ 1;\n    while (n < (int)v.size()) n <<= 1;\n    v.resize(n);\n    for (int i\
-    \ = 1; i < n; i <<= 1) {\n        for (int s = 0; s < n; ++s) {\n            if\
-    \ (s & i) v[s ^ i] += v[s];\n        }\n    }\n}\n\ntemplate<class T>\nvoid superset_mobius_transform(vector<T>\
+    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
+    MOD)\n */\n\n\n#line 1 \"math/and_convolution.cpp\"\ntemplate<class T>\nvoid superset_zeta_transform(vector<T>\
     \ &v){\n    int n = 1;\n    while (n < (int)v.size()) n <<= 1;\n    v.resize(n);\n\
     \    for (int i = 1; i < n; i <<= 1) {\n        for (int s = 0; s < n; ++s) {\n\
-    \            if (s & i) v[s ^ i] -= v[s];\n        }\n    }\n}\n\ntemplate<class\
-    \ T>\nvector<T> and_convolution(vector<T> a, vector<T> b){\n    int n = 1;\n \
-    \   while (n < (int)a.size() || n < (int)b.size()) n <<= 1;\n    a.resize(n);\n\
-    \    b.resize(n);\n    superset_zeta_transform(a);\n    superset_zeta_transform(b);\n\
-    \    for (int i = 0; i < n; ++i) a[i] *= b[i];\n    superset_mobius_transform(a);\n\
-    \    return a;\n}\n\n/**\n * @brief AND\u7573\u307F\u8FBC\u307F(Bitwise AND Convolution)\n\
-    \ */\n#line 14 \"test/yosupo_bitwise_and_convolution.test.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    int\
-    \ m = 1 << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m; ++i) {\n\
-    \        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for (int i\
-    \ = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i] = x;\n\
-    \    }\n    auto c = and_convolution(a, b);\n    for (int i = 0; i < m; ++i) {\n\
-    \        if (i) pr.write(' ');\n        pr.write(c[i].val);\n    }\n    pr.writeln();\n\
-    \    return 0;\n}\n"
+    \            if (s & i) v[s ^ i] += v[s];\n        }\n    }\n}\n\ntemplate<class\
+    \ T>\nvoid superset_mobius_transform(vector<T> &v){\n    int n = 1;\n    while\
+    \ (n < (int)v.size()) n <<= 1;\n    v.resize(n);\n    for (int i = 1; i < n; i\
+    \ <<= 1) {\n        for (int s = 0; s < n; ++s) {\n            if (s & i) v[s\
+    \ ^ i] -= v[s];\n        }\n    }\n}\n\ntemplate<class T>\nvector<T> and_convolution(vector<T>\
+    \ a, vector<T> b){\n    int n = 1;\n    while (n < (int)a.size() || n < (int)b.size())\
+    \ n <<= 1;\n    a.resize(n);\n    b.resize(n);\n    superset_zeta_transform(a);\n\
+    \    superset_zeta_transform(b);\n    for (int i = 0; i < n; ++i) a[i] *= b[i];\n\
+    \    superset_mobius_transform(a);\n    return a;\n}\n\n/**\n * @brief AND\u7573\
+    \u307F\u8FBC\u307F(Bitwise AND Convolution)\n */\n#line 14 \"test/yosupo_bitwise_and_convolution.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    int m = 1 << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m;\
+    \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
+    \ (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i]\
+    \ = x;\n    }\n    auto c = and_convolution(a, b);\n    for (int i = 0; i < m;\
+    \ ++i) {\n        if (i) pr.write(' ');\n        pr.write(c[i].val);\n    }\n\
+    \    pr.writeln();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_and_convolution\"\
     \n\n#include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll =\
     \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
@@ -153,7 +154,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_bitwise_and_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 00:57:12+09:00'
+  timestamp: '2026-03-11 21:27:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_bitwise_and_convolution.test.cpp

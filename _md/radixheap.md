@@ -6,8 +6,8 @@ title: Radix-Heap
 ---
 
 ## 説明
-最大値$D$で、popされた数より小さな数がpushされないとき、優先度付きキューの各操作を$O(\log D)$で行う。
+最大値 $D$ で、`pop` された数より小さな数が `push` されないとき、優先度付きキューの各操作を $O(\log D)$ で行う。
 ## 機能
-- $\mathrm{emplace}(x, val)$ : キーxで値valの要素をpushする
-- $\mathrm{top}()$ : 最小の要素を返す
-- $\mathrm{pop}()$ : 最小の要素を取り除く
+- $\operatorname{emplace}(x, \mathrm{val})$ : キー $x$、値 `val` の要素を `push` する
+- $\operatorname{top}()$ : 最小の要素を返す
+- $\operatorname{pop}()$ : 最小の要素を取り除く

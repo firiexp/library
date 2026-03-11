@@ -143,6 +143,9 @@ data:
     path: test/yosupo_many_aplusb_eulerphi.test.cpp
     title: test/yosupo_many_aplusb_eulerphi.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_aplusb_factorial.test.cpp
+    title: test/yosupo_many_aplusb_factorial.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb_hld_edge.test.cpp
     title: test/yosupo_many_aplusb_hld_edge.test.cpp
   - icon: ':heavy_check_mark:'
@@ -524,6 +527,7 @@ data:
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   - test/aoj_grl_5_a_diameter.test.cpp
   - test/yosupo_segment_add_get_min.test.cpp
+  - test/yosupo_many_aplusb_factorial.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   - test/yosupo_assignment_hungarian.test.cpp
   - test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
