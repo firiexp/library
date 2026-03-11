@@ -1,52 +1,36 @@
 #define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0377"
-#include <iostream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
 
-static const int MOD = 1000000007;
-using ll = long long;
-using uint = unsigned;
-using ull = unsigned long long;
+#include <algorithm>
+#include <vector>
 using namespace std;
 
-template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
-
-#include "../graph/twoedgeconnectedcomponents.cpp"
-
+#include "../util/fastio.cpp"
+#include "../graph/bridge_tree.cpp"
 #include "../datastructure/unionfind.cpp"
 
 int main() {
+    Scanner sc;
+    Printer pr;
+
     int n, m;
-    cin >> n >> m;
-    TwoEdgeConnectedComponents G(n);
+    sc.read(n, m);
+    BridgeTree g(n);
     for (int i = 0; i < m; ++i) {
         int a, b;
-        scanf("%d %d", &a, &b);
-        G.add_edge(a, b);
+        sc.read(a, b);
+        g.add_edge(a, b);
     }
-    int k = G.build();
-    vector<vector<int>> g(k);
+    int k = g.build();
     vector<int> v(k);
     UnionFind uf(k);
-    for (int i = 0; i < k; ++i) v[i] = G.out[i].size();
-    for (int i = 0; i < n; ++i) {
-        for (auto &&j : G.G[i]) {
-            if(G.is_bridge(i, j)){
-                g[G.bridge[i]].emplace_back(G.bridge[j]);
-                uf.unite(G.bridge[i], G.bridge[j]);
-            }
-        }
+    for (int i = 0; i < k; ++i) v[i] = g.nodes[i].size();
+    for (auto &&e : g.edges) {
+        uf.unite(e.first, e.second);
     }
     int ans = 0;
     vector<int> dp1(v), dp2(k);
     auto dfs = [&](int x, int par, auto &&f) -> void{
-        for (auto &&y : g[x]) {
+        for (auto &&y : g.tree[x]) {
             if(y == par) continue;
             f(y, x, f);
             dp2[x] += max(dp1[y], dp2[y]);
@@ -59,6 +43,6 @@ int main() {
             ans += max(dp1[i], dp2[i]);
         }
     }
-    cout << ans << "\n";
+    pr.writeln(ans);
     return 0;
 }
