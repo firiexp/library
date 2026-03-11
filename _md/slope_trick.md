@@ -47,3 +47,4 @@ auto q = st.query();
 ## 実装上の補足
 左右の折れ点を priority queue で持つ典型実装である。
 `merge` は `other` を破壊する。
+`eval` は heap を丸ごとコピーして走査するので `O(N)`。単発の確認や debug 向けで、各 query ごとに多用する用途には向かない。
