@@ -1,39 +1,98 @@
-using real = double;
-static constexpr real EPS = 1e-10;
+#include <cmath>
+#include <istream>
+
+using Real3 = double;
+static constexpr Real3 EPS3 = 1e-10;
+
 struct Point3 {
-    real x, y, z;
-    Point3& operator+=(const Point3 a) { x += a.x; y += a.y; z += a.z;  return *this; }
-    Point3& operator-=(const Point3 a) { x -= a.x; y -= a.y; z -= a.z; return *this; }
-    Point3& operator*=(const real k) { x *= k; y *= k; z *= k;  return *this; }
-    Point3& operator/=(const real k) { x /= k; y /= k; z /= k; return *this; }
-    Point3 operator+(const Point3 a) const {return Point3(*this) += a; }
-    Point3 operator-(const Point3 a) const {return Point3(*this) -= a; }
-    Point3 operator*(const real k) const {return Point3(*this) *= k; }
-    Point3 operator/(const real k) const {return Point3(*this) /= k; }
-    Point3 (real a = 0, real b = 0, real c = 0) : x(a), y(b), z(c) {};
+    Real3 x, y, z;
+
+    Point3 &operator+=(const Point3 &a) {
+        x += a.x;
+        y += a.y;
+        z += a.z;
+        return *this;
+    }
+
+    Point3 &operator-=(const Point3 &a) {
+        x -= a.x;
+        y -= a.y;
+        z -= a.z;
+        return *this;
+    }
+
+    Point3 &operator*=(Real3 k) {
+        x *= k;
+        y *= k;
+        z *= k;
+        return *this;
+    }
+
+    Point3 &operator/=(Real3 k) {
+        x /= k;
+        y /= k;
+        z /= k;
+        return *this;
+    }
+
+    Point3 operator+(const Point3 &a) const { return Point3(*this) += a; }
+    Point3 operator-(const Point3 &a) const { return Point3(*this) -= a; }
+    Point3 operator*(Real3 k) const { return Point3(*this) *= k; }
+    Point3 operator/(Real3 k) const { return Point3(*this) /= k; }
+
+    Point3(Real3 x = 0, Real3 y = 0, Real3 z = 0) : x(x), y(y), z(z) {}
 };
 
-inline real dot(Point3 a, Point3 b){ return a.x*b.x + a.y*b.y + a.z*b.z; }
-inline real abs(Point3 a){ return sqrt(dot(a, a)); }
-inline Point3 cross(Point3 a, Point3 b){ return {a.y*b.z-a.z*b.y, a.z*b.x-a.x*b.z, a.x*b.y-a.y*b.x};  }
+inline Real3 dot(Point3 a, Point3 b) {
+    return a.x * b.x + a.y * b.y + a.z * b.z;
+}
 
-istream& operator>> (istream& s, Point3& P){
-    s >> P.x >> P.y >> P.z;
+inline Real3 norm(Point3 a) {
+    return dot(a, a);
+}
+
+inline Real3 abs(Point3 a) {
+    return std::sqrt(norm(a));
+}
+
+inline Point3 cross(Point3 a, Point3 b) {
+    return {
+        a.y * b.z - a.z * b.y,
+        a.z * b.x - a.x * b.z,
+        a.x * b.y - a.y * b.x,
+    };
+}
+
+std::istream &operator>>(std::istream &s, Point3 &p) {
+    s >> p.x >> p.y >> p.z;
     return s;
 }
 
-struct Plane{
-    real a, b, c, d;
-    Plane(real a, real b, real c, real d) : a(a), b(b), c(c), d(d){};
-    Plane(Point3 P, Point3 Q, Point3 R){
-        auto X = cross(Q-P, R-P);
-        a = X.x, b = X.y, c = X.z;
-        d = -(P.x*a+P.y*b+P.z*c);
+struct Plane {
+    Real3 a, b, c, d;
+
+    Plane(Real3 a, Real3 b, Real3 c, Real3 d) : a(a), b(b), c(c), d(d) {}
+
+    Plane(Point3 p, Point3 q, Point3 r) {
+        Point3 n = cross(q - p, r - p);
+        a = n.x;
+        b = n.y;
+        c = n.z;
+        d = -dot(n, p);
     }
 };
 
-Point3 crossPoint(Point3 X, Point3 Y, Plane P){
-    Y -= X;
-    double t = -(Y.x*P.a+Y.y*P.b+Y.z*P.c)/(X.x*P.a+X.y*P.b+X.z*P.c+P.d);
-    return X + Y*t;
+inline Real3 eval(Plane p, Point3 x) {
+    return p.a * x.x + p.b * x.y + p.c * x.z + p.d;
 }
+
+inline Point3 crossPoint(Point3 s, Point3 t, Plane p) {
+    Point3 dir = t - s;
+    Real3 den = p.a * dir.x + p.b * dir.y + p.c * dir.z;
+    Real3 num = eval(p, s);
+    return s - dir * (num / den);
+}
+
+/**
+ * @brief 3次元幾何(Geometry 3D)
+ */

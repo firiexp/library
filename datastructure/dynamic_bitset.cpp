@@ -1,3 +1,7 @@
+#include <algorithm>
+#include <vector>
+using namespace std;
+
 class DynamicBitset {
     using ull = unsigned long long;
     static constexpr int B = 64;
