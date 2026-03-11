@@ -11,6 +11,8 @@ jobs:
     name: shard ${{ matrix.name }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
+      max-parallel: 4
       matrix:
         include:
           - shard: 0
