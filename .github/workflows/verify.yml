@@ -8,21 +8,7 @@ concurrency:
 
 jobs:
   build:
-    name: shard ${{ matrix.name }}
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        include:
-          - shard: 0
-            name: 1/4
-          - shard: 1
-            name: 2/4
-          - shard: 2
-            name: 3/4
-          - shard: 3
-            name: 4/4
 
     steps:
     - uses: actions/checkout@v4
@@ -41,20 +27,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
         GH_PAT: ${{ secrets.GH_PAT }}
-        SHARD_INDEX: ${{ matrix.shard }}
-        SHARD_TOTAL: 4
-      run: |
-        mapfile -t all_tests < <(find test -name '*.test.cpp' | sort)
-        shard_tests=()
-        for i in "${!all_tests[@]}"; do
-          if (( i % SHARD_TOTAL == SHARD_INDEX )); then
-            shard_tests+=("${all_tests[i]}")
-          fi
-        done
-        if (( ${#shard_tests[@]} == 0 )); then
-          echo "No tests assigned to this shard"
-          exit 0
-        fi
-        printf 'Shard %s/%s\n' "$((SHARD_INDEX + 1))" "$SHARD_TOTAL"
-        printf '%s\n' "${shard_tests[@]}"
-        oj-verify run -j 2 --timeout 3600 "${shard_tests[@]}"
+      run: oj-verify all --timeout 3600
