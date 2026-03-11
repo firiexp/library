@@ -1,15 +1,33 @@
 #define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2945"
 
 #include <cassert>
+#include <array>
+#include <bitset>
+#include <cmath>
 #include <deque>
+#include <iostream>
+#include <limits>
+#include <map>
+#include <numeric>
+#include <queue>
+#include <set>
+#include <stack>
+#include <unordered_map>
 #include <vector>
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 using namespace std;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
+template<class T>
+constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;
+
 #include "../util/fastio.cpp"
-#include "../util/template.cpp"
 #include "../graph/bfs01.cpp"
 
 int main() {

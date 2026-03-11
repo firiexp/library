@@ -1,4 +1,3 @@
-#include <chrono>
 class xor_shift {
     uint32_t x, y, z, w;
 public:
@@ -26,4 +25,3 @@ public:
         return a+rand(b-a);
     }
 };
-

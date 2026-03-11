@@ -1,5 +1,15 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/discrete_logarithm_mod"
 
+#include <cmath>
+#include <limits>
+#include <numeric>
+#include <unordered_map>
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../math/discrete_logarithm.cpp"
 

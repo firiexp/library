@@ -1,6 +1,3 @@
-#include <cassert>
-#include <utility>
-#include <vector>
 using namespace std;
 
 namespace SternBrocotTree {

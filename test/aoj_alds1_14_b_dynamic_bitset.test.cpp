@@ -1,8 +1,14 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B"
 
+#include <algorithm>
 #include <string>
 #include <vector>
 using namespace std;
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
 
 #include "../util/fastio.cpp"
 #include "../datastructure/dynamic_bitset.cpp"

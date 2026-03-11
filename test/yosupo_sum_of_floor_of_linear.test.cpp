@@ -1,6 +1,11 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/sum_of_floor_of_linear"
 using ll = long long;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../math/floor_sum.cpp"
 

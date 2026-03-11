@@ -1,6 +1,3 @@
-#include <cmath>
-#include <istream>
-
 using Real3 = double;
 static constexpr Real3 EPS3 = 1e-10;
 

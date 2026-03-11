@@ -1,4 +1,6 @@
 #define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0438"
+#include <chrono>
+#include <cstdint>
 #include <iostream>
 #include <algorithm>
 #include <map>
@@ -8,6 +10,8 @@
 #include <numeric>
 #include <bitset>
 #include <cmath>
+#include <string>
+#include <vector>
 
 static const int MOD = 1000000007;
 using ll = long long;

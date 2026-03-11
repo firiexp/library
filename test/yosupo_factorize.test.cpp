@@ -1,11 +1,19 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/factorize"
 
+#include <algorithm>
 #include <cstdint>
+#include <numeric>
+#include <random>
 #include <vector>
 using namespace std;
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
 
 #include "../util/fastio.cpp"
 #include "../math/primefactor_ll.cpp"

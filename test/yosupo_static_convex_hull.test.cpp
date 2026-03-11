@@ -7,6 +7,11 @@
 using namespace std;
 using ll = long long;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../geometry/convex_hull.cpp"
 

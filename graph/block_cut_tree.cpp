@@ -1,5 +1,3 @@
-#include <algorithm>
-#include <vector>
 using namespace std;
 
 #include "biconnected_components.cpp"

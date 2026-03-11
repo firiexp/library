@@ -5,6 +5,11 @@ using namespace std;
 
 using ll = long long;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../tree/hld.cpp"
 #include "../datastructure/segtree.cpp"

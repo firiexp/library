@@ -1,5 +1,13 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/rectangle_add_point_get"
 
+#include <algorithm>
+#include <vector>
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../datastructure/rectangle_add_point_get.cpp"
 

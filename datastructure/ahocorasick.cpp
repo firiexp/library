@@ -1,5 +1,3 @@
-#include <array>
-
 template<int W, int start>
 class AhoCorasick {
 public:

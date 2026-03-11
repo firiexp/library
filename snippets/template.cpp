@@ -1,16 +1,4 @@
-#include <algorithm>
-#include <array>
-#include <bitset>
-#include <cmath>
-#include <iostream>
-#include <limits>
-#include <map>
-#include <numeric>
-#include <queue>
-#include <set>
-#include <stack>
-#include <unordered_map>
-#include <vector>
+#include <bits/stdc++.h>
 
 static const int MOD = 1000000007;
 using ll = long long;

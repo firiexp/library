@@ -1,8 +1,5 @@
 #include "../util/modint.cpp"
 
-#include <algorithm>
-#include <cassert>
-
 namespace ArbitraryConvolution {
     template<uint M>
     struct StaticModInt {

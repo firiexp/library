@@ -5,6 +5,11 @@
 using namespace std;
 
 #include "../datastructure/wavelet_matrix.cpp"
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 
 int main() {

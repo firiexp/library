@@ -1,5 +1,10 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/sqrt_mod"
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../math/mod_sqrt.cpp"
 

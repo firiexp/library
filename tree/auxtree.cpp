@@ -1,5 +1,3 @@
-#include <stack>
-
 #include "../datastructure/sparsetable.cpp"
 
 struct F {

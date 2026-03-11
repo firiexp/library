@@ -1,7 +1,15 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum"
 
+#include <algorithm>
+#include <map>
+#include <utility>
 #include <vector>
 using namespace std;
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
 
 #include "../util/fastio.cpp"
 #include "../graph/dynamic_graph_vertex_add_component_sum.cpp"

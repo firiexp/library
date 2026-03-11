@@ -2,6 +2,11 @@
 using ll = long long;
 using ull = unsigned long long;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../math/tetration.cpp"
 

@@ -10,6 +10,11 @@ using namespace std;
 using ll = long long;
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../graph/dijkstra_radix_heap.cpp"
 

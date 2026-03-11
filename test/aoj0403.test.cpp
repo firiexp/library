@@ -9,6 +9,11 @@ using namespace std;
 
 using ll = long long;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../graph/manhattanmst.cpp"
 #include "../datastructure/unionfind.cpp"

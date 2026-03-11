@@ -1,7 +1,13 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/min_plus_convolution_convex_arbitrary"
 
+#include <algorithm>
 #include <vector>
 using namespace std;
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
 
 #include "../util/fastio.cpp"
 #include "../math/min_plus_convolution.cpp"

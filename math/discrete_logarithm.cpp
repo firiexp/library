@@ -1,8 +1,3 @@
-#include <cmath>
-#include <limits>
-#include <numeric>
-#include <unordered_map>
-
 long long discrete_logarithm_mul(long long a, long long b, long long mod) {
     using i128 = __int128_t;
     return (long long)((i128)a * b % mod);

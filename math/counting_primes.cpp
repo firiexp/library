@@ -1,6 +1,3 @@
-#include <cmath>
-#include <cstdint>
-#include <vector>
 using namespace std;
 
 namespace counting_primes_internal {

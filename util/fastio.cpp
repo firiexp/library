@@ -1,7 +1,3 @@
-#include <cstdio>
-#include <cstring>
-#include <string>
-#include <type_traits>
 using namespace std;
 
 struct FastIoDigitTable {

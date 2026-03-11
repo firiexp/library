@@ -1,6 +1,3 @@
-#include <string>
-#include <utility>
-#include <vector>
 using namespace std;
 
 vector<pair<int, int>> lyndon_factorization(const string &s) {

@@ -8,6 +8,11 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../util/modint.cpp"
 #include "../datastructure/dualsegtree.cpp"

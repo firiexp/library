@@ -1,4 +1,5 @@
 #define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2257"
+#include <array>
 #include <iostream>
 #include <algorithm>
 #include <iomanip>

@@ -1,7 +1,3 @@
-#include <algorithm>
-#include <map>
-#include <utility>
-#include <vector>
 using namespace std;
 
 struct RollbackUnionFindComponentSum {

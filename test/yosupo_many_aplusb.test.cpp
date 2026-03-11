@@ -1,5 +1,10 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/many_aplusb"
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 
 int main() {

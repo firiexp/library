@@ -8,6 +8,11 @@ using uint = unsigned;
 using ull = unsigned long long;
 using namespace std;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../util/modint.cpp"
 #include "../math/and_convolution.cpp"

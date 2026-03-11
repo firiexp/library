@@ -3,6 +3,11 @@
 #include <vector>
 using namespace std;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../graph/bipartite_matching_lexmin.cpp"
 

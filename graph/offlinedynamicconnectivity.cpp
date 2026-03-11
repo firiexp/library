@@ -1,9 +1,3 @@
-#include <algorithm>
-#include <map>
-#include <stack>
-#include <type_traits>
-#include <utility>
-#include <vector>
 using namespace std;
 
 #include "../datastructure/undoableunionfind.cpp"

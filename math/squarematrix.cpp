@@ -1,6 +1,3 @@
-#include <algorithm>
-#include <array>
-
 template<class H, size_t SIZE>
 struct SquareMatrix {
     using T = typename H::T;

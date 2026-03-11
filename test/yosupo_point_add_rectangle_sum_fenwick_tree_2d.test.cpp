@@ -1,5 +1,15 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_add_rectangle_sum"
 
+#include <algorithm>
+#include <cassert>
+#include <utility>
+#include <vector>
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../datastructure/fenwick_tree_2d.cpp"
 

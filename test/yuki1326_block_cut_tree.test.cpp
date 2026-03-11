@@ -1,5 +1,13 @@
 #define PROBLEM "https://yukicoder.me/problems/no/1326"
 
+#include <algorithm>
+#include <vector>
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../graph/block_cut_tree.cpp"
 #include "../tree/hld.cpp"

@@ -4,6 +4,11 @@
 
 using namespace std;
 
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../tree/diameter_weighted.cpp"
 

@@ -1,7 +1,3 @@
-#include <algorithm>
-#include <cassert>
-#include <utility>
-#include <vector>
 using namespace std;
 
 #include "binaryindexedtree.cpp"

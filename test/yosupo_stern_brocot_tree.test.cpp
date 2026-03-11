@@ -1,5 +1,14 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/stern_brocot_tree"
 
+#include <cassert>
+#include <utility>
+#include <vector>
+
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
+
 #include "../util/fastio.cpp"
 #include "../math/stern_brocot_tree.cpp"
 
