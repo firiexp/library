@@ -16,6 +16,7 @@ struct modint {
     uint val;
 public:
     static modint raw(int v) { modint x; x.val = v; return x; }
+    static constexpr uint get_mod() { return M; }
     modint() : val(0) {}
     template <class T>
     modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }
@@ -40,6 +41,7 @@ public:
     friend bool operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val; }
 };
 using mint = modint<998244353>;
+#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
 
 class NTT {
     static constexpr int max_base = 23, maxN = 1 << max_base; // 998244353 supports up to 2^23-th roots

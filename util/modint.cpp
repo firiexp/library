@@ -6,6 +6,7 @@ struct modint {
     uint val;
 public:
     static modint raw(int v) { modint x; x.val = v; return x; }
+    static constexpr uint get_mod() { return M; }
     modint() : val(0) {}
     template <class T>
     modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }
@@ -30,6 +31,7 @@ public:
     friend bool operator!=(const modint& a, const modint& b) { return a.val != b.val; }
 };
 using mint = modint<MOD>;
+#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
 
 /**
  * @brief modint(固定MOD)

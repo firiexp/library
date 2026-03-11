@@ -3,6 +3,7 @@ class modint {
 public:
     uint val;
     modint(const uint x = 0) : val(x % M()) {}
+    static int get_mod() { return M(); }
     uint &value() noexcept { return val; }
     const uint &value() const noexcept { return val; }
     modint operator+(const modint b) const { return modint(*this) += b; }
@@ -18,6 +19,7 @@ public:
     static int M() { return mod(); }
 };
 using mint = modint;
+#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
 
 /**
  * @brief modint(任意MOD)
