@@ -28,6 +28,9 @@ data:
       path: datastructure/dynamic_segtree.cpp
       title: Dynamic Segment Tree
     - icon: ':heavy_check_mark:'
+      path: datastructure/fenwick_tree_2d.cpp
+      title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
+    - icon: ':heavy_check_mark:'
       path: datastructure/lazysegtree.cpp
       title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
     - icon: ':heavy_check_mark:'
@@ -35,7 +38,7 @@ data:
       title: Li Chao Tree
     - icon: ':warning:'
       path: datastructure/monotoniccht.cpp
-      title: datastructure/monotoniccht.cpp
+      title: "Convex-Hull Trick (\u30AF\u30A8\u30EA\u5358\u8ABF)"
     - icon: ':heavy_check_mark:'
       path: datastructure/persistent_segtree.cpp
       title: Persistent Segment Tree
@@ -63,8 +66,8 @@ data:
       title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
     - icon: ':warning:'
       path: datastructure/slidingwindow.cpp
-      title: datastructure/slidingwindow.cpp
-    - icon: ':heavy_check_mark:'
+      title: "\u30B9\u30E9\u30A4\u30C9\u6700\u5C0F\u5024(\u6700\u5927\u5024)"
+    - icon: ':warning:'
       path: datastructure/slope_trick.cpp
       title: Slope Trick
     - icon: ':heavy_check_mark:'
@@ -109,7 +112,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: flow/primaldual.cpp
       title: "\u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: flow/project_selection_problem.cpp
       title: ProjectSelectionProblem
   - name: fps
@@ -134,7 +137,7 @@ data:
       title: Taylor Shift
   - name: geometry
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: geometry/argsort.cpp
       title: Arg Sort
     - icon: ':heavy_check_mark:'
@@ -151,7 +154,7 @@ data:
       title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     - icon: ':warning:'
       path: geometry/geometry3d.cpp
-      title: geometry/geometry3d.cpp
+      title: "3\u6B21\u5143\u5E7E\u4F55(Geometry 3D)"
   - name: graph
     pages:
     - icon: ':heavy_check_mark:'
@@ -179,6 +182,12 @@ data:
       title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
         (Lexicographically Minimum)"
     - icon: ':heavy_check_mark:'
+      path: graph/block_cut_tree.cpp
+      title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
+    - icon: ':heavy_check_mark:'
+      path: graph/bridge_tree.cpp
+      title: "\u6A4B\u6728(Bridge Tree)"
+    - icon: ':heavy_check_mark:'
       path: graph/chu_liu_edmonds.cpp
       title: Chu-Liu Edmonds
     - icon: ':heavy_check_mark:'
@@ -191,11 +200,14 @@ data:
       path: graph/dijkstra.cpp
       title: "Dijkstra\u6CD5"
     - icon: ':heavy_check_mark:'
+      path: graph/dijkstra_common.cpp
+      title: graph/dijkstra_common.cpp
+    - icon: ':heavy_check_mark:'
       path: graph/dijkstra_radix_heap.cpp
       title: "Dijkstra\u6CD5(Radix Heap)"
     - icon: ':heavy_check_mark:'
       path: graph/dijkstra_restore.cpp
-      title: Dijkstra Restore
+      title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
     - icon: ':heavy_check_mark:'
       path: graph/dominatortree.cpp
       title: Dominator Tree
@@ -230,9 +242,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/minimum_cost_b_flow.cpp
       title: Minimum Cost B-Flow
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: graph/offlinedynamicconnectivity.cpp
-      title: graph/offlinedynamicconnectivity.cpp
+      title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
     - icon: ':heavy_check_mark:'
       path: graph/topological_sort.cpp
       title: Topological Sort
@@ -271,9 +283,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/eulerphi.cpp
       title: Euler Phi
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: math/eulerphi_all.cpp
-      title: Euler Phi All
+      title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\
+        (Euler Phi Table)"
     - icon: ':heavy_check_mark:'
       path: math/extgcd.cpp
       title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
@@ -301,27 +314,30 @@ data:
     - icon: ':warning:'
       path: math/gcd_transform.cpp
       title: math/gcd_transform.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: math/get_min_factor.cpp
       title: Get Min Factor
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/get_prime.cpp
-      title: math/get_prime.cpp
-    - icon: ':warning:'
+      title: "\u7D20\u6570\u5217\u6319"
+    - icon: ':heavy_check_mark:'
       path: math/get_prime2.cpp
-      title: math/get_prime2.cpp
-    - icon: ':warning:'
+      title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
+    - icon: ':heavy_check_mark:'
       path: math/get_prime_wheel.cpp
       title: math/get_prime_wheel.cpp
     - icon: ':heavy_check_mark:'
       path: math/inverse_matrix.cpp
       title: "\u9006\u884C\u5217(Inverse Matrix)"
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: math/isqrt.cpp
       title: "\u6574\u6570sqrt"
     - icon: ':heavy_check_mark:'
       path: math/kth_root_integer.cpp
       title: Kth Root Integer
+    - icon: ':heavy_check_mark:'
+      path: math/linear_sieve.cpp
+      title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
     - icon: ':warning:'
       path: math/matrix.cpp
       title: math/matrix.cpp
@@ -336,7 +352,8 @@ data:
       title: "min-plus\u7573\u307F\u8FBC\u307F(Min-Plus Convolution)"
     - icon: ':warning:'
       path: math/mobius_all.cpp
-      title: math/mobius_all.cpp
+      title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Mobius\
+        \ Table)"
     - icon: ':warning:'
       path: math/mobius_mu.cpp
       title: math/mobius_mu.cpp
@@ -385,8 +402,17 @@ data:
   - name: snippets
     pages:
     - icon: ':warning:'
+      path: snippets/jp.cpp
+      title: snippets/jp.cpp
+    - icon: ':warning:'
       path: snippets/template.cpp
       title: snippets/template.cpp
+    - icon: ':warning:'
+      path: snippets/treedfs.cpp
+      title: snippets/treedfs.cpp
+    - icon: ':warning:'
+      path: snippets/uniq.cpp
+      title: snippets/uniq.cpp
   - name: string
     pages:
     - icon: ':heavy_check_mark:'
@@ -395,7 +421,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/lcs_bit.cpp
       title: LCS(bitset)
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
+      path: string/lyndon_factorization.cpp
+      title: "Lyndon\u5206\u89E3(Lyndon Factorization)"
+    - icon: ':heavy_check_mark:'
       path: string/manacher.cpp
       title: string/manacher.cpp
     - icon: ':heavy_check_mark:'
@@ -430,7 +459,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/centroid_decomposition.cpp
       title: "\u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)"
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
+      path: tree/centroid_decomposition_query_helper.cpp
+      title: "\u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\u88DC\u52A9(Centroid Query\
+        \ Helper)"
+    - icon: ':warning:'
       path: tree/diameter.cpp
       title: "\u6728\u306E\u76F4\u5F84(Tree Diameter)"
     - icon: ':heavy_check_mark:'
@@ -451,15 +484,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/link_cut_tree.cpp
       title: Link-Cut Tree
-    - icon: ':warning:'
-      path: tree/rerooting.cpp
-      title: tree/rerooting.cpp
     - icon: ':heavy_check_mark:'
+      path: tree/rerooting.cpp
+      title: "ReRooting(\u5168\u65B9\u4F4D\u6728DP)"
+    - icon: ':warning:'
       path: tree/tree_center.cpp
       title: Tree Center
-    - icon: ':warning:'
-      path: tree/treedfs.cpp
-      title: tree/treedfs.cpp
     - icon: ':heavy_check_mark:'
       path: tree/virtual_tree_helper.cpp
       title: virtual_tree_helper
@@ -478,9 +508,6 @@ data:
       path: util/is_palindrome.cpp
       title: util/is_palindrome.cpp
     - icon: ':warning:'
-      path: util/jp.cpp
-      title: util/jp.cpp
-    - icon: ':warning:'
       path: util/kado.cpp
       title: util/kado.cpp
     - icon: ':heavy_check_mark:'
@@ -495,21 +522,15 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/modint_arbitrary.cpp
       title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: util/parse.cpp
       title: "\u56DB\u5247\u6F14\u7B97\u30D1\u30FC\u30B5"
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: util/rle.cpp
       title: RLE
     - icon: ':heavy_check_mark:'
-      path: util/template.cpp
-      title: "\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
-    - icon: ':warning:'
-      path: util/uniq.cpp
-      title: util/uniq.cpp
-    - icon: ':heavy_check_mark:'
       path: util/xorshift.cpp
-      title: util/xorshift.cpp
+      title: Xor-Shift
   verificationCategories:
   - name: test
     pages:
@@ -583,6 +604,9 @@ data:
       path: test/aoj_alds1_14_b.test.cpp
       title: test/aoj_alds1_14_b.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
+      title: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_alds1_9_c_binaryheap.test.cpp
       title: test/aoj_alds1_9_c_binaryheap.test.cpp
     - icon: ':heavy_check_mark:'
@@ -594,6 +618,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj_dsl_2_b.test.cpp
       title: test/aoj_dsl_2_b.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_1_a_dijkstra.test.cpp
+      title: test/aoj_grl_1_a_dijkstra.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj_grl_1_b_bellman_ford.test.cpp
       title: test/aoj_grl_1_b_bellman_ford.test.cpp
@@ -607,11 +634,20 @@ data:
       path: test/aoj_grl_5_a_diameter.test.cpp
       title: test/aoj_grl_5_a_diameter.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_5_a_rerooting.test.cpp
+      title: test/aoj_grl_5_a_rerooting.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_grl_6_a_costscalingdinic.test.cpp
       title: test/aoj_grl_6_a_costscalingdinic.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
       title: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_7_a_bipartite_matching.test.cpp
+      title: test/aoj_grl_7_a_bipartite_matching.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_ntl_1_d_eulerphi.test.cpp
+      title: test/aoj_ntl_1_d_eulerphi.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/example.test.cpp
       title: test/example.test.cpp
@@ -670,11 +706,29 @@ data:
       path: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
       title: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
+      title: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
       title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_eertree.test.cpp
       title: test/yosupo_eertree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_enumerate_palindromes_manacher.test.cpp
+      title: test/yosupo_enumerate_palindromes_manacher.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_enumerate_primes_get_prime.test.cpp
+      title: test/yosupo_enumerate_primes_get_prime.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_enumerate_primes_get_prime2.test.cpp
+      title: test/yosupo_enumerate_primes_get_prime2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
+      title: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_enumerate_primes_linear_sieve.test.cpp
+      title: test/yosupo_enumerate_primes_linear_sieve.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_eulerian_trail_directed.test.cpp
       title: test/yosupo_eulerian_trail_directed.test.cpp
@@ -718,50 +772,11 @@ data:
       path: test/yosupo_log_of_formal_power_series.test.cpp
       title: test/yosupo_log_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_lyndon_factorization.test.cpp
+      title: test/yosupo_lyndon_factorization.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_many_aplusb.test.cpp
       title: test/yosupo_many_aplusb.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_argsort.test.cpp
-      title: test/yosupo_many_aplusb_argsort.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
-      title: test/yosupo_many_aplusb_binaryindexedtree.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_bipartite_matching.test.cpp
-      title: test/yosupo_many_aplusb_bipartite_matching.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
-      title: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
-      title: test/yosupo_many_aplusb_dynamic_bitset.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_eulerphi.test.cpp
-      title: test/yosupo_many_aplusb_eulerphi.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_factorial.test.cpp
-      title: test/yosupo_many_aplusb_factorial.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_hld_edge.test.cpp
-      title: test/yosupo_many_aplusb_hld_edge.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_isqrt.test.cpp
-      title: test/yosupo_many_aplusb_isqrt.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_parse.test.cpp
-      title: test/yosupo_many_aplusb_parse.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_rle.test.cpp
-      title: test/yosupo_many_aplusb_rle.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_slope_trick.test.cpp
-      title: test/yosupo_many_aplusb_slope_trick.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_tree_center.test.cpp
-      title: test/yosupo_many_aplusb_tree_center.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_z_algorithm.test.cpp
-      title: test/yosupo_many_aplusb_z_algorithm.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_matrix_det.test.cpp
       title: test/yosupo_matrix_det.test.cpp
@@ -810,6 +825,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_rectangle_sum.test.cpp
       title: test/yosupo_point_add_rectangle_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
+      title: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp
@@ -910,6 +928,9 @@ data:
       path: test/yosupo_topological_sort.test.cpp
       title: test/yosupo_topological_sort.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_two_edge_connected_components.test.cpp
+      title: test/yosupo_two_edge_connected_components.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_twosat.test.cpp
       title: test/yosupo_twosat.test.cpp
     - icon: ':heavy_check_mark:'
@@ -931,6 +952,12 @@ data:
       path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
       title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_zalgorithm.test.cpp
+      title: test/yosupo_zalgorithm.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yuki1326_block_cut_tree.test.cpp
+      title: test/yuki1326_block_cut_tree.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yuki1358.test.cpp
       title: test/yuki1358.test.cpp
     - icon: ':heavy_check_mark:'
@@ -939,5 +966,8 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yuki957.test.cpp
       title: test/yuki957.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yuki957_project_selection_problem.test.cpp
+      title: test/yuki957_project_selection_problem.test.cpp
 layout: toppage
 ---

@@ -5,8 +5,8 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_z_algorithm.test.cpp
-    title: test/yosupo_many_aplusb_z_algorithm.test.cpp
+    path: test/yosupo_zalgorithm.test.cpp
+    title: test/yosupo_zalgorithm.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -15,25 +15,26 @@ data:
     links: []
   bundledCode: "#line 1 \"string/z-algorithm.cpp\"\nvector<int> Z_algorithm(const\
     \ string &s){\n    int n = (int)s.size();\n    vector<int> res(n);\n    if (n\
-    \ == 0) return res;\n    res[0] = n;\n    for (int i = 1, j = 0; i < n; ++i) {\n\
-    \        int &k = res[i];\n        if (j + res[j] > i) k = min(res[i - j], j +\
-    \ res[j] - i);\n        while (i + k < n && s[k] == s[i + k]) ++k;\n        if\
-    \ (i + k > j + res[j]) j = i;\n    }\n    return res;\n}\n\n/**\n * @brief Z-Algorithm\n\
-    \ */\n"
+    \ == 0) return res;\n    res[0] = n;\n    for (int i = 1, l = 0, r = 0; i < n;\
+    \ ++i) {\n        if (i < r) res[i] = min(r - i, res[i - l]);\n        while (i\
+    \ + res[i] < n && s[res[i]] == s[i + res[i]]) ++res[i];\n        if (r < i + res[i])\
+    \ {\n            l = i;\n            r = i + res[i];\n        }\n    }\n    return\
+    \ res;\n}\n\n/**\n * @brief Z-Algorithm\n */\n"
   code: "vector<int> Z_algorithm(const string &s){\n    int n = (int)s.size();\n \
     \   vector<int> res(n);\n    if (n == 0) return res;\n    res[0] = n;\n    for\
-    \ (int i = 1, j = 0; i < n; ++i) {\n        int &k = res[i];\n        if (j +\
-    \ res[j] > i) k = min(res[i - j], j + res[j] - i);\n        while (i + k < n &&\
-    \ s[k] == s[i + k]) ++k;\n        if (i + k > j + res[j]) j = i;\n    }\n    return\
-    \ res;\n}\n\n/**\n * @brief Z-Algorithm\n */\n"
+    \ (int i = 1, l = 0, r = 0; i < n; ++i) {\n        if (i < r) res[i] = min(r -\
+    \ i, res[i - l]);\n        while (i + res[i] < n && s[res[i]] == s[i + res[i]])\
+    \ ++res[i];\n        if (r < i + res[i]) {\n            l = i;\n            r\
+    \ = i + res[i];\n        }\n    }\n    return res;\n}\n\n/**\n * @brief Z-Algorithm\n\
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/z-algorithm.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 01:21:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_many_aplusb_z_algorithm.test.cpp
+  - test/yosupo_zalgorithm.test.cpp
 date: 2026-03-08
 documentation_of: string/z-algorithm.cpp
 layout: document
@@ -42,7 +43,7 @@ title: Z-algorithm
 ---
 
 ## 説明
-文字列 `s` の各位置 `i` について、`s` と `s[i, |s|)` の最長共通接頭辞長を `O(|s|)` で求める。
+文字列 `s` の各位置 `i` について、`s` と `s[i, |s|)` の最長共通接頭辞長を $O(|s|)$ で求める。
 `res[i]` は `s[0..)` と `s[i..)` の LCP 長になる。
 
 ## できること

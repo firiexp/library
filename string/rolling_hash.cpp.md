@@ -4,7 +4,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: util/xorshift.cpp
-    title: util/xorshift.cpp
+    title: Xor-Shift
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -16,8 +16,8 @@ data:
   attributes:
     document_title: Rolling Hash
     links: []
-  bundledCode: "#line 1 \"util/xorshift.cpp\"\n#include <chrono>\nclass xor_shift\
-    \ {\n    uint32_t x, y, z, w;\npublic:\n    xor_shift() : x(static_cast<uint32_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
+  bundledCode: "#line 1 \"util/xorshift.cpp\"\nclass xor_shift {\n    uint32_t x,\
+    \ y, z, w;\npublic:\n    xor_shift() : x(static_cast<uint32_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
     \ << 32)-1))),\n    y(1068246329), z(321908594), w(1234567890) {};\n\n    uint32_t\
     \ urand(){\n        uint32_t t;\n        t = x ^ (x << 11);\n        x = y; y\
     \ = z; z = w;\n        w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));\n        return w;\n\
@@ -25,7 +25,7 @@ data:
     \ uint32_t t = numeric_limits<uint32_t>::max()/(n+1)*(n+1);\n        uint32_t\
     \ e = urand();\n        while(e >= t) e = urand();\n        return static_cast<int>(e%(n+1));\n\
     \    }\n\n    int rand(int a, int b){\n        if(a > b) swap(a, b);\n       \
-    \ return a+rand(b-a);\n    }\n};\n\n#line 2 \"string/rolling_hash.cpp\"\nxor_shift\
+    \ return a+rand(b-a);\n    }\n};\n#line 2 \"string/rolling_hash.cpp\"\nxor_shift\
     \ rd;\n\ntemplate<int M>\nstruct rolling_hash {\n\n    static ll &B() {\n    \
     \    static ll B_ = rd.rand(2, M-1);\n        return B_;\n    }\n    static vector<ll>\
     \ &p() {\n        static vector<ll> p_{1, B()};\n        return p_;\n    }\n\n\
@@ -54,7 +54,7 @@ data:
   isVerificationFile: false
   path: string/rolling_hash.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0355.test.cpp

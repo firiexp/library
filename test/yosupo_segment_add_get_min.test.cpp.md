@@ -20,9 +20,9 @@ data:
   bundledCode: "#line 1 \"test/yosupo_segment_add_get_min.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\n#include <algorithm>\n\
     #include <deque>\n#include <limits>\n#include <vector>\n\nusing ll = long long;\n\
-    using namespace std;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\nusing namespace std;\n\
-    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -152,7 +152,7 @@ data:
     \        if (x < m) {\n                t = node.l;\n                r = m;\n \
     \           } else {\n                t = node.r;\n                l = m;\n  \
     \          }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Li Chao\
-    \ Tree\n */\n#line 13 \"test/yosupo_segment_add_get_min.test.cpp\"\n\nint main()\
+    \ Tree\n */\n#line 18 \"test/yosupo_segment_add_get_min.test.cpp\"\n\nint main()\
     \ {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n\
     \    struct Segment {\n        ll l, r, a, b;\n    };\n    vector<Segment> init(n);\n\
     \    for (int i = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r, init[i].a,\
@@ -171,11 +171,12 @@ data:
     \  }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\
     \n#include <algorithm>\n#include <deque>\n#include <limits>\n#include <vector>\n\
-    \nusing ll = long long;\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../datastructure/li_chao_tree.cpp\"\n\nint main() {\n    Scanner\
-    \ in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    struct Segment\
-    \ {\n        ll l, r, a, b;\n    };\n    vector<Segment> init(n);\n    for (int\
-    \ i = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r, init[i].a, init[i].b);\n\
+    \nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
+    #include \"../datastructure/li_chao_tree.cpp\"\n\nint main() {\n    Scanner in;\n\
+    \    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    struct Segment {\n\
+    \        ll l, r, a, b;\n    };\n    vector<Segment> init(n);\n    for (int i\
+    \ = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r, init[i].a, init[i].b);\n\
     \    }\n\n    struct Query {\n        int t;\n        ll l, r, a, b, p;\n    };\n\
     \    vector<Query> qs;\n    qs.reserve(q);\n    vector<ll> xs;\n    xs.reserve(q);\n\
     \n    for (int i = 0; i < q; ++i) {\n        int t;\n        in.read(t);\n   \
@@ -195,7 +196,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_segment_add_get_min.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_segment_add_get_min.test.cpp

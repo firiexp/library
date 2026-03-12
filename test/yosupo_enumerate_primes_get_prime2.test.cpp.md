@@ -2,11 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: math/get_prime2.cpp
+    title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
+  - icon: ':heavy_check_mark:'
+    path: math/linear_sieve.cpp
+    title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':heavy_check_mark:'
-    path: util/rle.cpp
-    title: RLE
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -14,15 +17,15 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
+    PROBLEM: https://judge.yosupo.jp/problem/enumerate_primes
     links:
-    - https://judge.yosupo.jp/problem/many_aplusb
-  bundledCode: "#line 1 \"test/yosupo_many_aplusb_rle.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include <random>\n#include\
-    \ <utility>\n#include <vector>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    - https://judge.yosupo.jp/problem/enumerate_primes
+  bundledCode: "#line 1 \"test/yosupo_enumerate_primes_get_prime2.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n#include <cstdint>\n\
+    #include <vector>\nusing namespace std;\nusing uint = unsigned;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
+    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
     \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
     \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
@@ -87,60 +90,72 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"util/rle.cpp\"\ntemplate<class T>\nvector<pair<T, int>> RLE(const vector<T>\
-    \ &a){\n    vector<pair<T, int>> p;\n    if(a.empty()) return p;\n    p.emplace_back(a[0],\
-    \ 1);\n    for (int j = 1; j < (int)a.size(); ++j) {\n        if(p.back().first\
-    \ == a[j]) p.back().second++;\n        else p.emplace_back(a[j], 1);\n    }\n\
-    \    return p;\n}\n\n/**\n * @brief \u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\
-    \u7E2E(RLE)\n */\n#line 10 \"test/yosupo_many_aplusb_rle.test.cpp\"\n\ntemplate<class\
-    \ T>\nvector<pair<T, int>> brute_rle(const vector<T> &a) {\n    vector<pair<T,\
-    \ int>> res;\n    for (const auto &x : a) {\n        if (!res.empty() && res.back().first\
-    \ == x) {\n            res.back().second++;\n        } else {\n            res.emplace_back(x,\
-    \ 1);\n        }\n    }\n    return res;\n}\n\nint main() {\n    {\n        mt19937\
-    \ rng(123456789);\n        for (int n = 0; n <= 80; ++n) {\n            for (int\
-    \ trial = 0; trial < 200; ++trial) {\n                vector<int> a(n);\n    \
-    \            for (int i = 0; i < n; ++i) {\n                    a[i] = uniform_int_distribution<int>(0,\
-    \ 6)(rng);\n                }\n                if (RLE(a) != brute_rle(a)) return\
-    \ 1;\n            }\n        }\n\n        vector<int> empty;\n        if (!RLE(empty).empty())\
-    \ return 1;\n        if (RLE(vector<int>{5, 5, 5}) != vector<pair<int, int>>{{5,\
-    \ 3}}) return 1;\n        if (RLE(vector<int>{1, 2, 3, 4}) != vector<pair<int,\
-    \ int>>{{1, 1}, {2, 1}, {3, 1}, {4, 1}}) return 1;\n        if (RLE(vector<int>{2,\
-    \ 2, 1, 1, 1, 3, 2, 2}) != vector<pair<int, int>>{{2, 2}, {1, 3}, {3, 1}, {2,\
-    \ 2}}) return 1;\n    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
-    \ + b);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
-    \ <random>\n#include <utility>\n#include <vector>\nusing namespace std;\n\n#include\
-    \ \"../util/fastio.cpp\"\n#include \"../util/rle.cpp\"\n\ntemplate<class T>\n\
-    vector<pair<T, int>> brute_rle(const vector<T> &a) {\n    vector<pair<T, int>>\
-    \ res;\n    for (const auto &x : a) {\n        if (!res.empty() && res.back().first\
-    \ == x) {\n            res.back().second++;\n        } else {\n            res.emplace_back(x,\
-    \ 1);\n        }\n    }\n    return res;\n}\n\nint main() {\n    {\n        mt19937\
-    \ rng(123456789);\n        for (int n = 0; n <= 80; ++n) {\n            for (int\
-    \ trial = 0; trial < 200; ++trial) {\n                vector<int> a(n);\n    \
-    \            for (int i = 0; i < n; ++i) {\n                    a[i] = uniform_int_distribution<int>(0,\
-    \ 6)(rng);\n                }\n                if (RLE(a) != brute_rle(a)) return\
-    \ 1;\n            }\n        }\n\n        vector<int> empty;\n        if (!RLE(empty).empty())\
-    \ return 1;\n        if (RLE(vector<int>{5, 5, 5}) != vector<pair<int, int>>{{5,\
-    \ 3}}) return 1;\n        if (RLE(vector<int>{1, 2, 3, 4}) != vector<pair<int,\
-    \ int>>{{1, 1}, {2, 1}, {3, 1}, {4, 1}}) return 1;\n        if (RLE(vector<int>{2,\
-    \ 2, 1, 1, 1, 3, 2, 2}) != vector<pair<int, int>>{{2, 2}, {1, 3}, {3, 1}, {2,\
-    \ 2}}) return 1;\n    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
-    \ + b);\n    }\n    return 0;\n}\n"
+    \ 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n    int n;\n    vector<int>\
+    \ primes;\n    vector<int> min_factor;\n    vector<int> phi;\n    vector<int>\
+    \ mobius;\n    vector<bool> prime_table;\n\n    explicit LinearSieve(int n, bool\
+    \ need_min_factor = false, bool need_phi = false, bool need_mobius = false)\n\
+    \        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor ? this->n +\
+    \ 1 : 0),\n          phi(need_phi ? this->n + 1 : 0),\n          mobius(need_mobius\
+    \ ? this->n + 1 : 0),\n          prime_table(need_min_factor ? 0 : this->n + 1,\
+    \ true) {\n        if (!prime_table.empty()) {\n            prime_table[0] = false;\n\
+    \            if (this->n >= 1) prime_table[1] = false;\n        }\n        if\
+    \ (!min_factor.empty() && this->n >= 1) min_factor[1] = 1;\n        if (!phi.empty())\
+    \ {\n            phi[0] = 0;\n            if (this->n >= 1) phi[1] = 1;\n    \
+    \    }\n        if (!mobius.empty()) {\n            mobius[0] = 0;\n         \
+    \   if (this->n >= 1) mobius[1] = 1;\n        }\n        for (int i = 2; i <=\
+    \ this->n; ++i) {\n            bool prime = min_factor.empty() ? prime_table[i]\
+    \ : min_factor[i] == 0;\n            if (prime) {\n                if (!min_factor.empty())\
+    \ min_factor[i] = i;\n                if (!phi.empty()) phi[i] = i - 1;\n    \
+    \            if (!mobius.empty()) mobius[i] = -1;\n                primes.emplace_back(i);\n\
+    \            }\n            for (auto &&p : primes) {\n                long long\
+    \ x = 1LL * i * p;\n                if (x > this->n) break;\n                if\
+    \ (!prime_table.empty()) prime_table[x] = false;\n                if (!min_factor.empty())\
+    \ min_factor[x] = p;\n                bool same = i % p == 0;\n              \
+    \  if (!phi.empty()) phi[x] = same ? phi[i] * p : phi[i] * (p - 1);\n        \
+    \        if (!mobius.empty()) mobius[x] = same ? 0 : -mobius[i];\n           \
+    \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
+    \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
+    \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/get_prime2.cpp\"\
+    \n\ntemplate<typename T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv()\
+    \ {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T\
+    \ n) {\n        T x = n;\n        for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n\
+    \        return x;\n    }\n    bool divide(T n) const {\n        if(val == 2)\
+    \ return !(n & 1);\n        return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<uint>>\
+    \ get_prime_exact_div(int n) {\n    vector<ExactDiv<uint>> res;\n    auto primes\
+    \ = LinearSieve(n).primes;\n    res.reserve(primes.size());\n    for (auto &&p\
+    \ : primes) res.emplace_back((uint)p);\n    return res;\n}\nconst auto primes\
+    \ = get_prime_exact_div(32000);\n#line 15 \"test/yosupo_enumerate_primes_get_prime2.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n,\
+    \ a, b);\n    auto prime = get_prime_exact_div(n);\n    int m = prime.size();\n\
+    \    pr.writeln(m, (m + a - 1 - b) / a);\n    bool first = true;\n    for (int\
+    \ i = b; i < m; i += a) {\n        if (!first) pr.write(' ');\n        first =\
+    \ false;\n        pr.write(prime[i].val);\n    }\n    pr.writeln();\n    return\
+    \ 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n\
+    #include <cstdint>\n#include <vector>\nusing namespace std;\nusing uint = unsigned;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../math/get_prime2.cpp\"\n\nint\
+    \ main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n,\
+    \ a, b);\n    auto prime = get_prime_exact_div(n);\n    int m = prime.size();\n\
+    \    pr.writeln(m, (m + a - 1 - b) / a);\n    bool first = true;\n    for (int\
+    \ i = b; i < m; i += a) {\n        if (!first) pr.write(' ');\n        first =\
+    \ false;\n        pr.write(prime[i].val);\n    }\n    pr.writeln();\n    return\
+    \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - util/rle.cpp
+  - math/get_prime2.cpp
+  - math/linear_sieve.cpp
   isVerificationFile: true
-  path: test/yosupo_many_aplusb_rle.test.cpp
+  path: test/yosupo_enumerate_primes_get_prime2.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_many_aplusb_rle.test.cpp
+documentation_of: test/yosupo_enumerate_primes_get_prime2.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_many_aplusb_rle.test.cpp
-- /verify/test/yosupo_many_aplusb_rle.test.cpp.html
-title: test/yosupo_many_aplusb_rle.test.cpp
+- /verify/test/yosupo_enumerate_primes_get_prime2.test.cpp
+- /verify/test/yosupo_enumerate_primes_get_prime2.test.cpp.html
+title: test/yosupo_enumerate_primes_get_prime2.test.cpp
 ---

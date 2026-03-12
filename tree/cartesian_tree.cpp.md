@@ -44,7 +44,7 @@ layout: document
 title: Cartesian Tree
 ---
 ## 説明
-数列から Cartesian tree を `O(N)` で構築する。
+数列から Cartesian tree を $O(N)$ で構築する。
 各区間の最小値の位置を根にした木で、同じ値があるときは左にある添字を優先する。
 
 ## できること

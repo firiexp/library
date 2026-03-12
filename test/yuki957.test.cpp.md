@@ -20,10 +20,10 @@ data:
   bundledCode: "#line 1 \"test/yuki957.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/no/957\"\
     \n\n#include <algorithm>\n#include <limits>\n#include <queue>\n#include <vector>\n\
     using namespace std;\n\nusing ll = long long;\ntemplate<class T>\nconstexpr T\
-    \ INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    \ INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
+    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
     \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
     \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
@@ -112,7 +112,7 @@ data:
     \                T f = dfs(s, t, lim);\n                if(f == 0) break;\n  \
     \              ret += f;\n                lim -= f;\n            }\n        }\n\
     \        return ret;\n    }\n};\n\n/**\n * @brief Dinic\u6CD5(Dinic)\n */\n#line\
-    \ 15 \"test/yuki957.test.cpp\"\n\nint main() {\n    Scanner in;\n    Printer out;\n\
+    \ 20 \"test/yuki957.test.cpp\"\n\nint main() {\n    Scanner in;\n    Printer out;\n\
     \    int h, w;\n    in.read(h, w);\n\n    vector<vector<ll>> g(h, vector<ll>(w));\n\
     \    for (int i = 0; i < h; ++i) {\n        for (int j = 0; j < w; ++j) {\n  \
     \          in.read(g[i][j]);\n        }\n    }\n    vector<ll> row(h), col(w);\n\
@@ -131,7 +131,8 @@ data:
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n\
     #include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
     \nusing ll = long long;\ntemplate<class T>\nconstexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\n#include \"../flow/dinic.cpp\"\
+    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../flow/dinic.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int h, w;\n    in.read(h,\
     \ w);\n\n    vector<vector<ll>> g(h, vector<ll>(w));\n    for (int i = 0; i <\
     \ h; ++i) {\n        for (int j = 0; j < w; ++j) {\n            in.read(g[i][j]);\n\
@@ -153,7 +154,7 @@ data:
   isVerificationFile: true
   path: test/yuki957.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki957.test.cpp

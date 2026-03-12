@@ -3,13 +3,10 @@ category: "\u6728"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_tree_center.test.cpp
-    title: test/yosupo_many_aplusb_tree_center.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: "\u6728\u306E\u4E2D\u5FC3(Tree Center)"
     links: []
@@ -50,9 +47,8 @@ data:
   path: tree/tree_center.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/yosupo_many_aplusb_tree_center.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 date: 2026-03-08
 documentation_of: tree/tree_center.cpp
 layout: document
@@ -61,7 +57,7 @@ title: Tree Center
 ---
 
 ## 説明
-重みなし木の中心と半径を `O(N)` で求める。
+重みなし木の中心と半径を $O(N)$ で求める。
 中心は 1 頂点または隣接する 2 頂点になる。
 
 ## できること

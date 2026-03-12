@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: string/z-algorithm.cpp
-    title: Z-algorithm
+    path: graph/twoedgeconnectedcomponents.cpp
+    title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -14,15 +14,15 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
+    PROBLEM: https://judge.yosupo.jp/problem/two_edge_connected_components
     links:
-    - https://judge.yosupo.jp/problem/many_aplusb
-  bundledCode: "#line 1 \"test/yosupo_many_aplusb_z_algorithm.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include <random>\n\
-    #include <string>\n#include <vector>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#line 4 \"util/fastio.cpp\"\n#include\
-    \ <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\
-    \n    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    - https://judge.yosupo.jp/problem/two_edge_connected_components
+  bundledCode: "#line 1 \"test/yosupo_two_edge_connected_components.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/two_edge_connected_components\"\n\n\
+    #include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
+    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
     \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
     \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
@@ -87,58 +87,62 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"string/z-algorithm.cpp\"\nvector<int> Z_algorithm(const string &s){\n  \
-    \  int n = (int)s.size();\n    vector<int> res(n);\n    if (n == 0) return res;\n\
-    \    res[0] = n;\n    for (int i = 1, j = 0; i < n; ++i) {\n        int &k = res[i];\n\
-    \        if (j + res[j] > i) k = min(res[i - j], j + res[j] - i);\n        while\
-    \ (i + k < n && s[k] == s[i + k]) ++k;\n        if (i + k > j + res[j]) j = i;\n\
-    \    }\n    return res;\n}\n\n/**\n * @brief Z-Algorithm\n */\n#line 10 \"test/yosupo_many_aplusb_z_algorithm.test.cpp\"\
-    \n\nvector<int> brute_z(const string &s) {\n    int n = (int)s.size();\n    vector<int>\
-    \ res(n);\n    for (int i = 0; i < n; ++i) {\n        while (i + res[i] < n &&\
-    \ s[res[i]] == s[i + res[i]]) ++res[i];\n    }\n    return res;\n}\n\nint main()\
-    \ {\n    {\n        mt19937 rng(123456789);\n        vector<string> samples =\
-    \ {\n            \"a\",\n            \"aaaaa\",\n            \"ababa\",\n    \
-    \        \"aabcaabxaaaz\",\n            \"abracadabra\"\n        };\n        for\
-    \ (const string &s : samples) {\n            if (Z_algorithm(s) != brute_z(s))\
-    \ return 1;\n        }\n        for (int n = 1; n <= 120; ++n) {\n           \
-    \ for (int trial = 0; trial < 400; ++trial) {\n                string s(n, 'a');\n\
-    \                for (int i = 0; i < n; ++i) {\n                    s[i] = char('a'\
-    \ + uniform_int_distribution<int>(0, 3)(rng));\n                }\n          \
-    \      if (Z_algorithm(s) != brute_z(s)) return 1;\n            }\n        }\n\
-    \    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while\
-    \ (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
-    \ + b);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
-    \ <random>\n#include <string>\n#include <vector>\nusing namespace std;\n\n#include\
-    \ \"../util/fastio.cpp\"\n#include \"../string/z-algorithm.cpp\"\n\nvector<int>\
-    \ brute_z(const string &s) {\n    int n = (int)s.size();\n    vector<int> res(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        while (i + res[i] < n && s[res[i]]\
-    \ == s[i + res[i]]) ++res[i];\n    }\n    return res;\n}\n\nint main() {\n   \
-    \ {\n        mt19937 rng(123456789);\n        vector<string> samples = {\n   \
-    \         \"a\",\n            \"aaaaa\",\n            \"ababa\",\n           \
-    \ \"aabcaabxaaaz\",\n            \"abracadabra\"\n        };\n        for (const\
-    \ string &s : samples) {\n            if (Z_algorithm(s) != brute_z(s)) return\
-    \ 1;\n        }\n        for (int n = 1; n <= 120; ++n) {\n            for (int\
-    \ trial = 0; trial < 400; ++trial) {\n                string s(n, 'a');\n    \
-    \            for (int i = 0; i < n; ++i) {\n                    s[i] = char('a'\
-    \ + uniform_int_distribution<int>(0, 3)(rng));\n                }\n          \
-    \      if (Z_algorithm(s) != brute_z(s)) return 1;\n            }\n        }\n\
-    \    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while\
-    \ (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
-    \ + b);\n    }\n    return 0;\n}\n"
+    \ 1 \"graph/twoedgeconnectedcomponents.cpp\"\nclass TwoEdgeConnectedComponents\
+    \ {\n    void dfs(int i, int &pos){\n        ord[i] = low[i] = pos++;\n      \
+    \  int mul = 0;\n        for (auto &&j : G[i]) {\n            if(j == par[i] &&\
+    \ !mul){\n                mul = 1;\n                continue;\n            }\n\
+    \            if(~ord[j]){\n                low[i] = min(low[i], ord[j]);\n   \
+    \             continue;\n            }\n            par[j] = i;\n            dfs(j,\
+    \ pos);\n            size[i] += size[j];\n            low[i] = min(low[i], low[j]);\n\
+    \        }\n    }\n\n    void dfs2(int i){\n        out[bridge[i]].emplace_back(i);\n\
+    \        for (auto &&j : G[i]) {\n            if(~bridge[j] || is_bridge(i, j))\
+    \ continue;\n            bridge[j] = bridge[i];\n            dfs2(j);\n      \
+    \  }\n    }\npublic:\n    vector<int> ord, low, par, bridge, size;\n    vector<vector<int>>\
+    \ G, out;\n    explicit TwoEdgeConnectedComponents(int n): ord(n, -1), low(n),\
+    \ par(n, -1), bridge(n, -1), size(n, 1), G(n){}\n\n    inline bool is_bridge(int\
+    \ i, int j){\n        if(ord[i] > ord[j]) swap(i, j);\n        return ord[i] <\
+    \ low[j];\n    }\n\n    void add_edge(int u, int v){\n        if(u != v){\n  \
+    \          G[u].emplace_back(v);\n            G[v].emplace_back(u);\n        }\n\
+    \    }\n\n    int build(){\n        int n = G.size(), pos = 0;\n        for (int\
+    \ i = 0; i < n; ++i) {\n            if(ord[i] < 0) dfs(i, pos);\n        }\n \
+    \       int k = 0;\n        for (int i = 0; i < n; ++i) {\n            if(!~bridge[i]){\n\
+    \                bridge[i] = k++;\n                out.emplace_back();\n     \
+    \           dfs2(i);\n            }\n        }\n        return k;\n    }\n};\n\
+    \n/**\n * @brief \u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected\
+    \ Components)\n */\n#line 14 \"test/yosupo_two_edge_connected_components.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
+    \ m);\n    TwoEdgeConnectedComponents g(n);\n    for (int i = 0; i < m; ++i) {\n\
+    \        int u, v;\n        sc.read(u, v);\n        g.add_edge(u, v);\n    }\n\
+    \n    int k = g.build();\n    auto comp = g.out;\n    for (auto &&v : comp) sort(v.begin(),\
+    \ v.end());\n    sort(comp.begin(), comp.end());\n\n    pr.writeln(k);\n    for\
+    \ (auto &&v : comp) {\n        pr.write((int)v.size());\n        for (auto &&x\
+    \ : v) {\n            pr.write(' ');\n            pr.write(x);\n        }\n  \
+    \      pr.writeln();\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/two_edge_connected_components\"\
+    \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #include \"../util/fastio.cpp\"\n#include \"../graph/twoedgeconnectedcomponents.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
+    \ m);\n    TwoEdgeConnectedComponents g(n);\n    for (int i = 0; i < m; ++i) {\n\
+    \        int u, v;\n        sc.read(u, v);\n        g.add_edge(u, v);\n    }\n\
+    \n    int k = g.build();\n    auto comp = g.out;\n    for (auto &&v : comp) sort(v.begin(),\
+    \ v.end());\n    sort(comp.begin(), comp.end());\n\n    pr.writeln(k);\n    for\
+    \ (auto &&v : comp) {\n        pr.write((int)v.size());\n        for (auto &&x\
+    \ : v) {\n            pr.write(' ');\n            pr.write(x);\n        }\n  \
+    \      pr.writeln();\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - string/z-algorithm.cpp
+  - graph/twoedgeconnectedcomponents.cpp
   isVerificationFile: true
-  path: test/yosupo_many_aplusb_z_algorithm.test.cpp
+  path: test/yosupo_two_edge_connected_components.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 01:21:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_many_aplusb_z_algorithm.test.cpp
+documentation_of: test/yosupo_two_edge_connected_components.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_many_aplusb_z_algorithm.test.cpp
-- /verify/test/yosupo_many_aplusb_z_algorithm.test.cpp.html
-title: test/yosupo_many_aplusb_z_algorithm.test.cpp
+- /verify/test/yosupo_two_edge_connected_components.test.cpp
+- /verify/test/yosupo_two_edge_connected_components.test.cpp.html
+title: test/yosupo_two_edge_connected_components.test.cpp
 ---

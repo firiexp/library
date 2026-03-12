@@ -55,7 +55,7 @@ title: LCS(bitset)
 ---
 ## 説明
 bitset を使って 2 文字列の LCS 長を求める。
-文字列長を `N`, `M` とすると計算量は `O(256 * ceil(M / 64) + N * ceil(M / 64))`。
+文字列長を `N`, `M` とすると計算量は $O(256 * ceil(M / 64) + N * ceil(M / 64))$。
 
 ## できること
 - `int LCS_bit(string& s, string& t)`

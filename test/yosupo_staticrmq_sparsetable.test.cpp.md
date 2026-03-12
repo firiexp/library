@@ -19,26 +19,27 @@ data:
     - https://judge.yosupo.jp/problem/staticrmq
   bundledCode: "#line 1 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/staticrmq\"\n\n#include <bits/stdc++.h>\n\n\
-    using namespace std;\n\n#line 4 \"util/fastio.cpp\"\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
-    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
-    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
-    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
-    \ + 1];\n    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n\
-    \        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n          \
-    \  ++idx;\n            ensure();\n        }\n        return buf[idx++];\n    }\n\
-    \n    template<class T, typename enable_if<is_integral<T>::value, int>::type =\
-    \ 0>\n    void read(T &x) {\n        char c = skip();\n        bool neg = false;\n\
-    \        if constexpr (is_signed<T>::value) {\n            if (c == '-') {\n \
-    \               neg = true;\n                c = buf[idx++];\n            }\n\
-    \        }\n        x = 0;\n        while (c >= '0') {\n            x = x * 10\
-    \ + (c & 15);\n            c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    using namespace std;\n\n#line 10 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\
+    \n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\
+    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
+    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
+    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
+    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
+    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
+    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
+    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
+    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
+    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
+    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
+    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
+    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
+    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
     \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
     \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
@@ -98,14 +99,15 @@ data:
     \ {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x, n-1)]);\n\
     \            }\n        }\n    }\n \n    T query(int a, int b){\n        int l\
     \ = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n   \
-    \ }\n};\n\n/**\n * @brief Sparse Table\n */\n#line 9 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\
+    \ }\n};\n\n/**\n * @brief Sparse Table\n */\n#line 14 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\
     \n\nstruct F {\n    using T = int;\n    static T f(T a, T b) { return min(a, b);\
     \ }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n \
     \   sc.read(n, q);\n    vector<int> a(n);\n    for (auto &&x : a) sc.read(x);\n\
     \n    SparseTable<F> st(a);\n    while (q--) {\n        int l, r;\n        sc.read(l,\
     \ r);\n        pr.writeln(st.query(l, r));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/staticrmq\"\n\n#include\
-    \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\n\
+    \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
     #include \"../datastructure/sparsetable.cpp\"\n\nstruct F {\n    using T = int;\n\
     \    static T f(T a, T b) { return min(a, b); }\n};\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<int> a(n);\n\
@@ -118,7 +120,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_staticrmq_sparsetable.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_staticrmq_sparsetable.test.cpp

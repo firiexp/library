@@ -5,8 +5,8 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_eulerphi.test.cpp
-    title: test/yosupo_many_aplusb_eulerphi.test.cpp
+    path: test/aoj_ntl_1_d_eulerphi.test.cpp
+    title: test/aoj_ntl_1_d_eulerphi.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -30,7 +30,7 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_many_aplusb_eulerphi.test.cpp
+  - test/aoj_ntl_1_d_eulerphi.test.cpp
 date: 2026-03-08
 documentation_of: math/eulerphi.cpp
 layout: document
@@ -41,7 +41,7 @@ title: Euler Phi
 ## 説明
 Euler の totient function `phi(n)` を 1 点で求める。
 `1` 以上の整数 `n` と互いに素な `1..n` の個数を返す。
-計算量は `O(sqrt(n))`。
+計算量は $O(sqrt(n))$。
 
 ## できること
 - `int eulerphi(int x)`

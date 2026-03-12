@@ -8,7 +8,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: '#line 1 "util/jp.cpp"
+  bundledCode: '#line 1 "snippets/jp.cpp"
 
     locale::global(locale("ja_JP.UTF-8"));
 
@@ -21,18 +21,20 @@ data:
 
     wcout.imbue(std::locale("ja_JP.UTF-8"));
 
-    wcin.imbue(std::locale("ja_JP.UTF-8"));'
+    wcin.imbue(std::locale("ja_JP.UTF-8"));
+
+    '
   dependsOn: []
   isVerificationFile: false
-  path: util/jp.cpp
+  path: snippets/jp.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2026-03-12 00:17:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: util/jp.cpp
+documentation_of: snippets/jp.cpp
 layout: document
 redirect_from:
-- /library/util/jp.cpp
-- /library/util/jp.cpp.html
-title: util/jp.cpp
+- /library/snippets/jp.cpp
+- /library/snippets/jp.cpp.html
+title: snippets/jp.cpp
 ---

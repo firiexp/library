@@ -3,13 +3,10 @@ category: "\u6587\u5B57\u5217"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_parse.test.cpp
-    title: test/yosupo_many_aplusb_parse.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: "\u5F0F\u30D1\u30FC\u30B5(Parse)"
     links: []
@@ -48,9 +45,8 @@ data:
   path: util/parse.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/yosupo_many_aplusb_parse.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 date: 2026-03-08
 documentation_of: util/parse.cpp
 layout: document

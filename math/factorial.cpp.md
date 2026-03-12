@@ -10,9 +10,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_factorial.test.cpp
-    title: test/yosupo_many_aplusb_factorial.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -107,7 +104,6 @@ data:
   timestamp: '2026-03-11 21:27:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_many_aplusb_factorial.test.cpp
   - test/aoj0452.test.cpp
 date: 2026-03-11
 documentation_of: math/factorial.cpp
@@ -118,7 +114,7 @@ title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
 
 ## 説明
 階乗 `n!`、逆元 `n^{-1}`、階乗逆元 `(n!)^{-1}` を必要になったところまで遅延計算する。
-`C(n, k)`、`P(n, k)`、`H(n, k)` を `O(1)` で返す。
+`C(n, k)`、`P(n, k)`、`H(n, k)` を $O(1)$ で返す。
 
 
 ## できること

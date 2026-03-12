@@ -18,8 +18,8 @@ data:
     links:
     - https://judge.yosupo.jp/problem/sqrt_mod
   bundledCode: "#line 1 \"test/yosupo_sqrt_mod.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/sqrt_mod\"\
-    \n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -103,14 +103,15 @@ data:
     \ r = (unsigned long long)r * b % p;\n        c = (unsigned long long)b * b %\
     \ p;\n        t = (unsigned long long)t * c % p;\n        m = i;\n    }\n    return\
     \ r;\n}\n\n/**\n * @brief \u5E73\u65B9\u6839(mod p)(Modular Square Root)\n */\n\
-    #line 5 \"test/yosupo_sqrt_mod.test.cpp\"\n\nint main() {\n    Scanner sc;\n \
-    \   Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        long\
+    #line 10 \"test/yosupo_sqrt_mod.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        long\
     \ long y, p;\n        sc.read(y, p);\n        pr.writeln(mod_sqrt(y, p));\n  \
     \  }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sqrt_mod\"\n\n#include\
-    \ \"../util/fastio.cpp\"\n#include \"../math/mod_sqrt.cpp\"\n\nint main() {\n\
-    \    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--)\
-    \ {\n        long long y, p;\n        sc.read(y, p);\n        pr.writeln(mod_sqrt(y,\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #include \"../util/fastio.cpp\"\n#include \"../math/mod_sqrt.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while\
+    \ (t--) {\n        long long y, p;\n        sc.read(y, p);\n        pr.writeln(mod_sqrt(y,\
     \ p));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -118,7 +119,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_sqrt_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_sqrt_mod.test.cpp

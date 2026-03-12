@@ -8,7 +8,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: '#line 1 "util/uniq.cpp"
+  bundledCode: '#line 1 "snippets/uniq.cpp"
 
     sort(v.begin(), v.end());
 
@@ -17,18 +17,20 @@ data:
     '
   code: 'sort(v.begin(), v.end());
 
-    v.erase(unique(v.begin(), v.end()), v.end());'
+    v.erase(unique(v.begin(), v.end()), v.end());
+
+    '
   dependsOn: []
   isVerificationFile: false
-  path: util/uniq.cpp
+  path: snippets/uniq.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2026-03-12 00:17:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: util/uniq.cpp
+documentation_of: snippets/uniq.cpp
 layout: document
 redirect_from:
-- /library/util/uniq.cpp
-- /library/util/uniq.cpp.html
-title: util/uniq.cpp
+- /library/snippets/uniq.cpp
+- /library/snippets/uniq.cpp.html
+title: snippets/uniq.cpp
 ---

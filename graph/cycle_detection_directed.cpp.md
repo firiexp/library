@@ -60,7 +60,7 @@ title: Cycle Detection Directed
 ## 説明
 有向グラフから 1 つサイクルを見つける。
 見つからなければ空配列を返す。
-計算量は `O(N + M)`。
+計算量は $O(N + M)$。
 
 ## できること
 - `vector<int> cycle_detection_directed(const vector<vector<pair<int, int>>>& g)`

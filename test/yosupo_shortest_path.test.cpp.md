@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: graph/dijkstra.cpp
-    title: "Dijkstra\u6CD5"
+    path: graph/dijkstra_common.cpp
+    title: graph/dijkstra_common.cpp
   - icon: ':heavy_check_mark:'
     path: graph/dijkstra_restore.cpp
-    title: Dijkstra Restore
+    title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -24,9 +24,9 @@ data:
     https://judge.yosupo.jp/problem/shortest_path\"\n\n#include <algorithm>\n#include\
     \ <limits>\n#include <queue>\n#include <tuple>\n#include <vector>\n\nusing ll\
     \ = long long;\nusing namespace std;\n\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\nusing namespace std;\n\
-    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -92,46 +92,49 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"graph/dijkstra.cpp\"\ntemplate <typename T>\nstruct edge {\n    int from,\
-    \ to; T cost;\n    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n  \
-    \  edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}\n};\n\n\
-    template <typename T>\nvector<T> dijkstra(int s,vector<vector<edge<T>>> &G){\n\
-    \    auto n = G.size();\n    vector<T> d(n, INF<T>);\n    priority_queue<pair<T,\
-    \ int>,vector<pair<T, int>>,greater<>> Q;\n    d[s] = 0;\n    Q.emplace(0, s);\n\
-    \    while(!Q.empty()){\n        T cost; int i;\n        tie(cost, i) = Q.top();\
-    \ Q.pop();\n        if(d[i] < cost) continue;\n        for (auto &&e : G[i]) {\n\
-    \            auto cost2 = cost + e.cost;\n            if(d[e.to] <= cost2) continue;\n\
-    \            d[e.to] = cost2;\n            Q.emplace(d[e.to], e.to);\n       \
-    \ }\n    }\n    return d;\n}\n\n/**\n * @brief Dijkstra\u6CD5\n */\n#line 2 \"\
-    graph/dijkstra_restore.cpp\"\n\ntemplate <typename T>\nstruct DijkstraRestoreResult\
-    \ {\n    vector<T> dist;\n    vector<int> parent;\n};\n\ntemplate <typename T>\n\
-    DijkstraRestoreResult<T> dijkstra_restore(int s, vector<vector<edge<T>>> &G) {\n\
-    \    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n    vector<int> parent(n,\
-    \ -1);\n    priority_queue<pair<T, int>, vector<pair<T, int>>, greater<>> Q;\n\
-    \    dist[s] = 0;\n    Q.emplace(0, s);\n    while (!Q.empty()) {\n        T cost;\n\
-    \        int v;\n        tie(cost, v) = Q.top();\n        Q.pop();\n        if\
-    \ (dist[v] < cost) continue;\n        for (auto &&e : G[v]) {\n            T nxt\
-    \ = cost + e.cost;\n            if (dist[e.to] <= nxt) continue;\n           \
-    \ dist[e.to] = nxt;\n            parent[e.to] = v;\n            Q.emplace(nxt,\
-    \ e.to);\n        }\n    }\n    return {dist, parent};\n}\n\nvector<int> restore_path(int\
-    \ s, int t, const vector<int> &parent) {\n    vector<int> path;\n    if (t < 0\
-    \ || t >= (int)parent.size()) return path;\n    int v = t;\n    while (v != -1)\
-    \ {\n        path.push_back(v);\n        if (v == s) {\n            reverse(path.begin(),\
-    \ path.end());\n            return path;\n        }\n        v = parent[v];\n\
-    \    }\n    path.clear();\n    return path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\
-    \u5143\u4ED8\u304DDijkstra\u6CD5\n */\n#line 16 \"test/yosupo_shortest_path.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m, s, t;\n \
-    \   in.read(n, m, s, t);\n    vector<vector<edge<ll>>> G(n);\n    for (int i =\
-    \ 0; i < m; ++i) {\n        int a, b, c;\n        in.read(a, b, c);\n        G[a].emplace_back(b,\
-    \ c);\n    }\n    auto res = dijkstra_restore(s, G);\n    if (res.dist[t] == INF<ll>)\
-    \ {\n        out.writeln(-1);\n        return 0;\n    }\n    auto path = restore_path(s,\
+    \ 1 \"graph/dijkstra_common.cpp\"\n\n\n\ntemplate <typename T>\nstruct edge {\n\
+    \    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1), to(to),\
+    \ cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost)\
+    \ {}\n};\n\ntemplate <typename T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T,\
+    \ int>, vector<pair<T, int>>, greater<>> q;\n\n    bool empty() const { return\
+    \ q.empty(); }\n\n    void push(T cost, int v) {\n        q.emplace(cost, v);\n\
+    \    }\n\n    pair<T, int> pop() {\n        auto res = q.top();\n        q.pop();\n\
+    \        return res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\n\
+    vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q,\
+    \ OnRelax on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n\
+    \    dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
+    \ [cost, v] = Q.pop();\n        if (dist[v] < cost) continue;\n        for (auto\
+    \ &&e : G[v]) {\n            T nxt = cost + e.cost;\n            if (dist[e.to]\
+    \ <= nxt) continue;\n            dist[e.to] = nxt;\n            on_relax(v, e);\n\
+    \            Q.push(nxt, e.to);\n        }\n    }\n    return dist;\n}\n\ntemplate\
+    \ <typename T, class Queue>\nvector<T> dijkstra_internal(int s, const vector<vector<edge<T>>>\
+    \ &G, Queue &Q) {\n    return dijkstra_internal(s, G, Q, [](int, const edge<T>\
+    \ &) {});\n}\n\n\n#line 2 \"graph/dijkstra_restore.cpp\"\n\ntemplate <typename\
+    \ T>\nstruct DijkstraRestoreResult {\n    vector<T> dist;\n    vector<int> parent;\n\
+    };\n\ntemplate <typename T>\nDijkstraRestoreResult<T> dijkstra_restore(int s,\
+    \ const vector<vector<edge<T>>> &G) {\n    vector<int> parent((int)G.size(), -1);\n\
+    \    DijkstraPriorityQueue<T> Q;\n    auto dist = dijkstra_internal(s, G, Q, [&](int\
+    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {dist,\
+    \ parent};\n}\n\nvector<int> restore_path(int s, int t, const vector<int> &parent)\
+    \ {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size()) return path;\n\
+    \    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n        if\
+    \ (v == s) {\n            reverse(path.begin(), path.end());\n            return\
+    \ path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n    return\
+    \ path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
+    \n */\n#line 21 \"test/yosupo_shortest_path.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n\n    int n, m, s, t;\n    in.read(n, m, s, t);\n   \
+    \ vector<vector<edge<ll>>> G(n);\n    for (int i = 0; i < m; ++i) {\n        int\
+    \ a, b, c;\n        in.read(a, b, c);\n        G[a].emplace_back(b, c);\n    }\n\
+    \    auto res = dijkstra_restore(s, G);\n    if (res.dist[t] == INF<ll>) {\n \
+    \       out.writeln(-1);\n        return 0;\n    }\n    auto path = restore_path(s,\
     \ t, res.parent);\n    out.writeln(res.dist[t], (int)path.size() - 1);\n    for\
     \ (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.writeln(path[i], path[i\
     \ + 1]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ <algorithm>\n#include <limits>\n#include <queue>\n#include <tuple>\n#include\
     \ <vector>\n\nusing ll = long long;\nusing namespace std;\n\ntemplate<class T>\
-    \ constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\
+    \ constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../graph/dijkstra_restore.cpp\"\n\nint main() {\n    Scanner in;\n\
     \    Printer out;\n\n    int n, m, s, t;\n    in.read(n, m, s, t);\n    vector<vector<edge<ll>>>\
     \ G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b, c;\n        in.read(a,\
@@ -143,11 +146,11 @@ data:
   dependsOn:
   - util/fastio.cpp
   - graph/dijkstra_restore.cpp
-  - graph/dijkstra.cpp
+  - graph/dijkstra_common.cpp
   isVerificationFile: true
   path: test/yosupo_shortest_path.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path.test.cpp

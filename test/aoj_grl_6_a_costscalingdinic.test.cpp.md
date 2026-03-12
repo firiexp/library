@@ -22,9 +22,9 @@ data:
     \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n#include <algorithm>\n\
     #include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
     \nusing ll = long long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\nusing namespace std;\n\
-    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -116,7 +116,7 @@ data:
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
     \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
-    Dinic(Capacity Scaling Dinic)\n */\n#line 14 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
+    Dinic(Capacity Scaling Dinic)\n */\n#line 19 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
     \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
@@ -124,7 +124,8 @@ data:
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n\
     #include <algorithm>\n#include <limits>\n#include <queue>\n#include <vector>\n\
     using namespace std;\n\nusing ll = long long;\ntemplate<class T> constexpr T INF\
-    \ = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\
+    \ = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../flow/costscalingdinic.cpp\"\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n, m;\n    sc.read(n, m);\n    CostScalingDinic<int,\
     \ true> mf(n);\n    for (int i = 0; i < m; ++i) {\n        int u, v, c;\n    \
@@ -136,7 +137,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_6_a_costscalingdinic.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_6_a_costscalingdinic.test.cpp

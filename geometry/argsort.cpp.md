@@ -3,13 +3,10 @@ category: "\u5E7E\u4F55"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_argsort.test.cpp
-    title: test/yosupo_many_aplusb_argsort.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: "\u504F\u89D2\u30BD\u30FC\u30C8(Argument Sort)"
     links: []
@@ -30,9 +27,8 @@ data:
   path: geometry/argsort.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/yosupo_many_aplusb_argsort.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 date: 2026-03-08
 documentation_of: geometry/argsort.cpp
 layout: document
@@ -43,7 +39,7 @@ title: Arg Sort
 ## 説明
 整数ベクトルを偏角順に並べる。
 下半平面から始めて反時計回りになる順で sort する。
-計算量は `O(N log N)`。
+計算量は $O(N log N)$。
 
 ## できること
 - `void argsort(vector<array<int, 2>>& v)`

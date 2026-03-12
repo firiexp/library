@@ -84,7 +84,7 @@ title: Closest Pair
 ---
 ## 説明
 平面上の整数点集合から、距離が最小の 2 点の元の添字を返す。
-分割統治で解き、計算量は `O(N log N)`。
+分割統治で解き、計算量は $O(N log N)$。
 
 ## できること
 - `pair<int, int> closest_pair(const vector<pair<long long, long long>>& points)`

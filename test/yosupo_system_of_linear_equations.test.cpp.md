@@ -23,10 +23,10 @@ data:
   bundledCode: "#line 1 \"test/yosupo_system_of_linear_equations.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/system_of_linear_equations\"\n\n#include\
     \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
-    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#line\
-    \ 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
-    \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
+    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable {\n\
+    \    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
     \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
     \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
     \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
@@ -130,7 +130,7 @@ data:
     \ 0; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2] *\
     \ fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
     \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n\
-    #line 13 \"test/yosupo_system_of_linear_equations.test.cpp\"\n\nint main() {\n\
+    #line 18 \"test/yosupo_system_of_linear_equations.test.cpp\"\n\nint main() {\n\
     \    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n, m);\n    vector<vector<mint>>\
     \ a(n, vector<mint>(m + 1));\n    for (int i = 0; i < n; ++i) {\n        for (int\
     \ j = 0; j < m; ++j) {\n            int x;\n            in.read(x);\n        \
@@ -156,6 +156,7 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/system_of_linear_equations\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
     \n#include \"../util/fastio.cpp\"\n#include \"../math/gauss_jordan_mint.cpp\"\n\
     \nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
     \ m);\n    vector<vector<mint>> a(n, vector<mint>(m + 1));\n    for (int i = 0;\
@@ -187,7 +188,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_system_of_linear_equations.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_system_of_linear_equations.test.cpp

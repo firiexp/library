@@ -25,21 +25,21 @@ data:
     - https://onlinejudge.u-aizu.ac.jp/problems/0439
   bundledCode: "#line 1 \"test/aoj0439_virtual_tree_helper.test.cpp\"\n#define PROBLEM\
     \ \"https://onlinejudge.u-aizu.ac.jp/problems/0439\"\n\n#include <algorithm>\n\
-    #include <functional>\n#include <limits>\n#include <queue>\n#include <vector>\n\
-    using namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\nusing namespace std;\n\
-    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
-    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
-    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
-    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
-    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
-    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
-    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
-    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
-    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
-    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
-    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
+    #include <functional>\n#include <limits>\n#include <queue>\n#include <stack>\n\
+    #include <vector>\nusing namespace std;\n\ntemplate<class T> constexpr T INF =\
+    \ ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n\
+    \    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load()\
+    \ {\n        int len = size - idx;\n        memmove(buf, buf + idx, len);\n  \
+    \      size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
     \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
@@ -95,27 +95,27 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"tree/auxtree.cpp\"\n#include <stack>\n\n#line 1 \"datastructure/sparsetable.cpp\"\
-    \ntemplate <class F>\nstruct SparseTable {\n    using T = typename F::T;\n   \
-    \ vector<vector<T>> table;\n    vector<int> u;\n    SparseTable() = default;\n\
-    \    explicit SparseTable(const vector<T> &v){ build(v); }\n \n    void build(const\
-    \ vector<T> &v){\n        int n = v.size(), m = 1;\n        while((1<<m) <= n)\
-    \ m++;\n        table.assign(m, vector<T>(n));\n        u.assign(n+1, 0);\n  \
-    \      for (int i = 2; i <= n; ++i) {\n            u[i] = u[i>>1] + 1;\n     \
-    \   }\n        for (int i = 0; i < n; ++i) {\n            table[0][i] = v[i];\n\
-    \        }\n        for (int i = 1; i < m; ++i) {\n            int x = (1<<(i-1));\n\
-    \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
-    \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
-    \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n#line 4 \"tree/auxtree.cpp\"\n\
-    \nstruct F {\n    using T = pair<int, int>;\n    static T f(T a, T b) { return\
-    \ min(a, b); }\n    static T e() { return T{INF<int>, -1}; }\n};\n\nclass AuxTree\
-    \ {\n    SparseTable<F> table;\n    void dfs_euler(int v, int p, int d, int &k,\
-    \ int &l){\n        id[v] = k;\n        vs[k] = v;\n        depth[k++] = d;\n\
-    \        dep[v] = d;\n        fi[v] = l++;\n        for (auto &&u : G[v]) {\n\
-    \            if(u != p){\n                dfs_euler(u, v, d+1, k, l);\n      \
-    \          vs[k] = v;\n                depth[k++] = d;\n            }\n      \
-    \  }\n    }\npublic:\n    int n;\n    vector<vector<int>> G, out;\n    vector<int>\
+    \ 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct SparseTable\
+    \ {\n    using T = typename F::T;\n    vector<vector<T>> table;\n    vector<int>\
+    \ u;\n    SparseTable() = default;\n    explicit SparseTable(const vector<T> &v){\
+    \ build(v); }\n \n    void build(const vector<T> &v){\n        int n = v.size(),\
+    \ m = 1;\n        while((1<<m) <= n) m++;\n        table.assign(m, vector<T>(n));\n\
+    \        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i) {\n         \
+    \   u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n; ++i) {\n  \
+    \          table[0][i] = v[i];\n        }\n        for (int i = 1; i < m; ++i)\
+    \ {\n            int x = (1<<(i-1));\n            for (int j = 0; j < n; ++j)\
+    \ {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x, n-1)]);\n\
+    \            }\n        }\n    }\n \n    T query(int a, int b){\n        int l\
+    \ = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n   \
+    \ }\n};\n\n/**\n * @brief Sparse Table\n */\n#line 2 \"tree/auxtree.cpp\"\n\n\
+    struct F {\n    using T = pair<int, int>;\n    static T f(T a, T b) { return min(a,\
+    \ b); }\n    static T e() { return T{INF<int>, -1}; }\n};\n\nclass AuxTree {\n\
+    \    SparseTable<F> table;\n    void dfs_euler(int v, int p, int d, int &k, int\
+    \ &l){\n        id[v] = k;\n        vs[k] = v;\n        depth[k++] = d;\n    \
+    \    dep[v] = d;\n        fi[v] = l++;\n        for (auto &&u : G[v]) {\n    \
+    \        if(u != p){\n                dfs_euler(u, v, d+1, k, l);\n          \
+    \      vs[k] = v;\n                depth[k++] = d;\n            }\n        }\n\
+    \    }\npublic:\n    int n;\n    vector<vector<int>> G, out;\n    vector<int>\
     \ vs, depth, dep, id, fi;\n    explicit AuxTree(int n) : table(), n(n), G(n),\
     \ out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n) {};\n    void add_edge(int\
     \ a, int b){\n        G[a].emplace_back(b);\n        G[b].emplace_back(a);\n \
@@ -161,7 +161,7 @@ data:
     \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
     \ st.emplace_back(u);\n            }\n        }\n\n        aux.clear(vertices);\n\
     \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n */\n#line\
-    \ 14 \"test/aoj0439_virtual_tree_helper.test.cpp\"\n\ntemplate <typename T>\n\
+    \ 20 \"test/aoj0439_virtual_tree_helper.test.cpp\"\n\ntemplate <typename T>\n\
     using GPQ = priority_queue<T, vector<T>, greater<T>>;\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<int>>\
     \ color(n);\n    VirtualTreeHelper vt(n);\n    for (int i = 0; i < n; ++i) {\n\
@@ -191,23 +191,24 @@ data:
     \ for (auto &&x : ans) pr.writeln(x);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/0439\"\n\n#include\
     \ <algorithm>\n#include <functional>\n#include <limits>\n#include <queue>\n#include\
-    \ <vector>\nusing namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\n#include \"../tree/virtual_tree_helper.cpp\"\
-    \n\ntemplate <typename T>\nusing GPQ = priority_queue<T, vector<T>, greater<T>>;\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    vector<vector<int>> color(n);\n    VirtualTreeHelper vt(n);\n    for (int\
-    \ i = 0; i < n; ++i) {\n        int x;\n        sc.read(x);\n        color[x -\
-    \ 1].emplace_back(i);\n    }\n    for (int i = 0; i < n - 1; ++i) {\n        int\
-    \ u, v;\n        sc.read(u, v);\n        --u;\n        --v;\n        vt.add_edge(u,\
-    \ v);\n    }\n    vt.build();\n\n    vector<int> ans(n, INF<int>);\n    vector<int>\
-    \ cmp(n), dist(n);\n    vector<vector<int>> g(n);\n    vector<int> is_target(n,\
-    \ 0);\n    for (auto &&vs : color) {\n        if (vs.empty()) continue;\n    \
-    \    for (int v : vs) is_target[v] = 1;\n        auto tree = vt.make(vs);\n  \
-    \      for (int v : tree.vertices) g[v].clear();\n        for (int i = 1; i <\
-    \ (int)tree.vertices.size(); ++i) {\n            int v = tree.vertices[i];\n \
-    \           int p = tree.parent[i];\n            g[v].emplace_back(p);\n     \
-    \       g[p].emplace_back(v);\n        }\n\n        GPQ<pair<int, int>> q;\n \
-    \       for (int i = 0; i < (int)tree.vertices.size(); ++i) {\n            int\
+    \ <stack>\n#include <vector>\nusing namespace std;\n\ntemplate<class T> constexpr\
+    \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../tree/virtual_tree_helper.cpp\"\n\ntemplate <typename T>\nusing\
+    \ GPQ = priority_queue<T, vector<T>, greater<T>>;\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<int>>\
+    \ color(n);\n    VirtualTreeHelper vt(n);\n    for (int i = 0; i < n; ++i) {\n\
+    \        int x;\n        sc.read(x);\n        color[x - 1].emplace_back(i);\n\
+    \    }\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        sc.read(u,\
+    \ v);\n        --u;\n        --v;\n        vt.add_edge(u, v);\n    }\n    vt.build();\n\
+    \n    vector<int> ans(n, INF<int>);\n    vector<int> cmp(n), dist(n);\n    vector<vector<int>>\
+    \ g(n);\n    vector<int> is_target(n, 0);\n    for (auto &&vs : color) {\n   \
+    \     if (vs.empty()) continue;\n        for (int v : vs) is_target[v] = 1;\n\
+    \        auto tree = vt.make(vs);\n        for (int v : tree.vertices) g[v].clear();\n\
+    \        for (int i = 1; i < (int)tree.vertices.size(); ++i) {\n            int\
+    \ v = tree.vertices[i];\n            int p = tree.parent[i];\n            g[v].emplace_back(p);\n\
+    \            g[p].emplace_back(v);\n        }\n\n        GPQ<pair<int, int>> q;\n\
+    \        for (int i = 0; i < (int)tree.vertices.size(); ++i) {\n            int\
     \ v = tree.vertices[i];\n            if (is_target[v]) {\n                dist[v]\
     \ = 0;\n                cmp[v] = v;\n                q.emplace(0, v);\n      \
     \      } else {\n                dist[v] = INF<int>;\n            }\n        }\n\
@@ -229,7 +230,7 @@ data:
   isVerificationFile: true
   path: test/aoj0439_virtual_tree_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 10:16:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0439_virtual_tree_helper.test.cpp

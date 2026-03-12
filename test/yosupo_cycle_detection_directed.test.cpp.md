@@ -19,10 +19,10 @@ data:
     - https://judge.yosupo.jp/problem/cycle_detection
   bundledCode: "#line 1 \"test/yosupo_cycle_detection_directed.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/cycle_detection\"\n\n#include <algorithm>\n\
-    #include <utility>\n#include <vector>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    #include <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
+    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
     \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
     \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
@@ -101,7 +101,7 @@ data:
     \        state[v] = 2;\n        return false;\n    };\n    for (int i = 0; i <\
     \ n; ++i) {\n        if (state[i] == 0 && dfs(dfs, i)) return cycle;\n    }\n\
     \    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle\
-    \ Detection)\n */\n#line 10 \"test/yosupo_cycle_detection_directed.test.cpp\"\n\
+    \ Detection)\n */\n#line 15 \"test/yosupo_cycle_detection_directed.test.cpp\"\n\
     \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<vector<pair<int, int>>> g(n);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int u, v;\n        sc.read(u, v);\n        g[u].push_back({v, i});\n\
@@ -110,7 +110,8 @@ data:
     \    for (int id : cyc) pr.writeln(id);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/cycle_detection\"\n\n#include\
     \ <algorithm>\n#include <utility>\n#include <vector>\nusing namespace std;\n\n\
-    #include \"../util/fastio.cpp\"\n#include \"../graph/cycle_detection_directed.cpp\"\
+    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../graph/cycle_detection_directed.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<vector<pair<int, int>>> g(n);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int u, v;\n        sc.read(u, v);\n        g[u].push_back({v, i});\n\
@@ -123,7 +124,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_cycle_detection_directed.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_cycle_detection_directed.test.cpp

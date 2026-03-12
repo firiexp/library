@@ -21,8 +21,8 @@ data:
     #define PROBLEM \"https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum\"\
     \n#include <limits>\n#include <vector>\n\nusing ll = long long;\nusing namespace\
     \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
-    \n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -135,7 +135,7 @@ data:
     \ 1, height++;\n        seg.resize(2*n);\n        for (int i = 0; i < v.size();\
     \ ++i) {\n            seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];\n     \
     \       seg[i+n].len = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n */\n#line 12 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\
+    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n */\n#line 17 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\
     \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
     \ seg(v);\n    while(q--){\n        int t;\n        sc.read(t);\n        if(t\
@@ -149,6 +149,7 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum\"\
     \n#include <limits>\n#include <vector>\n\nusing ll = long long;\nusing namespace\
     \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
     \n#include \"../util/fastio.cpp\"\n#include \"../datastructure/segbeats.cpp\"\n\
     int main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
@@ -166,7 +167,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp

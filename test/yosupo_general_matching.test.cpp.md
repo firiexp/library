@@ -19,8 +19,8 @@ data:
     - https://judge.yosupo.jp/problem/general_matching
   bundledCode: "#line 1 \"test/yosupo_general_matching.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/general_matching\"\n\n#include <utility>\n\
-    #include <vector>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\nusing\
+    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing\
     \ namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
     \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
     \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
@@ -129,14 +129,15 @@ data:
     \ = 0; i < n; ++i) {\n            if (match[i] == -1 || i > match[i]) continue;\n\
     \            res.emplace_back(i, match[i]);\n        }\n        return res;\n\
     \    }\n};\n\n/**\n * @brief \u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\
-    \u30C1\u30F3\u30B0(General Matching)\n */\n#line 9 \"test/yosupo_general_matching.test.cpp\"\
+    \u30C1\u30F3\u30B0(General Matching)\n */\n#line 14 \"test/yosupo_general_matching.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, m;\n    in.read(n,\
     \ m);\n    GeneralMatching gm(n);\n    for (int i = 0; i < m; ++i) {\n       \
     \ int u, v;\n        in.read(u, v);\n        gm.add_edge(u, v);\n    }\n    int\
     \ ans = gm.max_matching();\n    out.writeln(ans);\n    for (auto&& [u, v] : gm.get_pairs())\
     \ {\n        out.writeln(u, v);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/general_matching\"\n\n\
-    #include <utility>\n#include <vector>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
+    #include <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../graph/general_matching.cpp\"\n\nint main() {\n    Scanner in;\n\
     \    Printer out;\n    int n, m;\n    in.read(n, m);\n    GeneralMatching gm(n);\n\
     \    for (int i = 0; i < m; ++i) {\n        int u, v;\n        in.read(u, v);\n\
@@ -149,7 +150,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_general_matching.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_general_matching.test.cpp

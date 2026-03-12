@@ -57,7 +57,7 @@ title: "\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)"
 ---
 ## 説明
 区間更新・一点取得を扱う双対セグメント木である。
-演算は結合則を満たせばよく、各操作は `O(log N)`。
+演算は結合則を満たせばよく、各操作は $O(log N)$。
 
 ## できること
 - `DualSegmentTree<M> seg(n)`

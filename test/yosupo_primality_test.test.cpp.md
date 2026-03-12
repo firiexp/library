@@ -19,10 +19,10 @@ data:
     - https://judge.yosupo.jp/problem/primality_test
   bundledCode: "#line 1 \"test/yosupo_primality_test.test.cpp\"\n#define PROBLEM \"\
     https://judge.yosupo.jp/problem/primality_test\"\n\n#include <cstdint>\n#include\
-    \ <vector>\n\nusing ull = unsigned long long;\nusing namespace std;\n\n#line 1\
-    \ \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
-    \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
+    \ <vector>\n\nusing ull = unsigned long long;\nusing namespace std;\n\n#include\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable {\n\
+    \    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
     \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
     \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
     \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
@@ -121,15 +121,16 @@ data:
     \        }\n    } else {\n        for (auto p : large) {\n            if(p >=\
     \ n) break;\n            if(!suspect(p, s, d, n)) return false;\n        }\n \
     \   }\n    return true;\n}\n\n/**\n * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\
-    \n */\n#line 11 \"test/yosupo_primality_test.test.cpp\"\n\nint main() {\n    Scanner\
+    \n */\n#line 16 \"test/yosupo_primality_test.test.cpp\"\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n     \
     \   ull n;\n        sc.read(n);\n        pr.writeln(miller_rabin(n) ? \"Yes\"\
     \ : \"No\");\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primality_test\"\n\n#include\
     \ <cstdint>\n#include <vector>\n\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/miller_rabin.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n\
-    \    while (q--) {\n        ull n;\n        sc.read(n);\n        pr.writeln(miller_rabin(n)\
+    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../math/miller_rabin.cpp\"\n\nint\
+    \ main() {\n    Scanner sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n  \
+    \  while (q--) {\n        ull n;\n        sc.read(n);\n        pr.writeln(miller_rabin(n)\
     \ ? \"Yes\" : \"No\");\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -137,7 +138,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_primality_test.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 00:38:22+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_primality_test.test.cpp

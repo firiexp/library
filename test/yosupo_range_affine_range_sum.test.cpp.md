@@ -24,8 +24,8 @@ data:
     \ \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\n\n#include <array>\n\
     #include <vector>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\n\
     using uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\
-    \n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -91,8 +91,8 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 3 \"datastructure/lazysegtree.cpp\"\
-    \n\ntemplate <class M>\nstruct LazySegmentTree{\n    using T = typename M::T;\n\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/lazysegtree.cpp\"\
+    \ntemplate <class M>\nstruct LazySegmentTree{\n    using T = typename M::T;\n\
     \    using L = typename M::L;\n    int sz, n, height{};\n    vector<T> seg; vector<L>\
     \ lazy;\n    explicit LazySegmentTree(int n) : n(n) {\n        sz = 1; while(sz\
     \ < n) sz <<= 1, height++;\n        seg.assign(2*sz, M::e());\n        lazy.assign(2*sz,\
@@ -162,7 +162,7 @@ data:
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
     #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 15 \"test/yosupo_range_affine_range_sum.test.cpp\"\n\nstruct\
+    MOD)\n */\n\n\n#line 20 \"test/yosupo_range_affine_range_sum.test.cpp\"\n\nstruct\
     \ Monoid{\n    using T = array<mint, 2>;\n    using L = array<mint, 2>;\n    static\
     \ T f(T a, T b) { return {a[0]+b[0], a[1]+b[1]}; }\n    static T g(T a, L b) {\n\
     \        return {a[0] * b[0] + a[1] * b[1], a[1]};\n    }\n    static L h(L a,\
@@ -179,7 +179,8 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
     \n\n#include <array>\n#include <vector>\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
-    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/lazysegtree.cpp\"\
+    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/lazysegtree.cpp\"\
     \n#include \"../util/modint.cpp\"\n\nstruct Monoid{\n    using T = array<mint,\
     \ 2>;\n    using L = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]+b[0],\
     \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
@@ -201,7 +202,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_range_sum.test.cpp

@@ -24,8 +24,9 @@ data:
     #define PROBLEM \"https://judge.yosupo.jp/problem/convolution_mod_1000000007\"\
     \n\n#include <bits/stdc++.h>\n\nstatic const int MOD = 1000000007;\nusing ll =\
     \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#line 4 \"util/fastio.cpp\"\n#include <type_traits>\nusing namespace\
-    \ std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ std;\n\n#line 14 \"test/yosupo_convolution_mod_1000000007_fft.test.cpp\"\n#include\
+    \ <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct\
+    \ FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -116,31 +117,31 @@ data:
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
     #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 2 \"math/fft.cpp\"\n\n#line 5 \"math/fft.cpp\"\n\nnamespace\
-    \ ArbitraryConvolution {\n    template<uint M>\n    struct StaticModInt {\n  \
-    \      uint val;\n        StaticModInt() : val(0) {}\n        template<class T>\n\
-    \        StaticModInt(T v) {\n            long long x = (long long)(v % (long\
-    \ long)M);\n            if (x < 0) x += M;\n            val = (uint)x;\n     \
-    \   }\n        static StaticModInt raw(uint v) {\n            StaticModInt x;\n\
-    \            x.val = v;\n            return x;\n        }\n        StaticModInt&\
-    \ operator+=(const StaticModInt& rhs) {\n            val += rhs.val;\n       \
-    \     if (val >= M) val -= M;\n            return *this;\n        }\n        StaticModInt&\
-    \ operator-=(const StaticModInt& rhs) {\n            val -= rhs.val;\n       \
-    \     if (val >= M) val += M;\n            return *this;\n        }\n        StaticModInt&\
-    \ operator*=(const StaticModInt& rhs) {\n            val = (uint)((unsigned long\
-    \ long)val * rhs.val % M);\n            return *this;\n        }\n        StaticModInt\
-    \ pow(long long n) const {\n            StaticModInt x = *this, r = 1;\n     \
-    \       while (n) {\n                if (n & 1) r *= x;\n                x *=\
-    \ x;\n                n >>= 1;\n            }\n            return r;\n       \
-    \ }\n        StaticModInt inv() const { return pow(M - 2); }\n        friend StaticModInt\
-    \ operator+(StaticModInt lhs, const StaticModInt& rhs) { return lhs += rhs; }\n\
-    \        friend StaticModInt operator-(StaticModInt lhs, const StaticModInt& rhs)\
-    \ { return lhs -= rhs; }\n        friend StaticModInt operator*(StaticModInt lhs,\
-    \ const StaticModInt& rhs) { return lhs *= rhs; }\n        friend bool operator==(const\
-    \ StaticModInt& lhs, const StaticModInt& rhs) { return lhs.val == rhs.val; }\n\
-    \        friend bool operator!=(const StaticModInt& lhs, const StaticModInt& rhs)\
-    \ { return lhs.val != rhs.val; }\n    };\n\n    template<uint MOD_, uint PRIMITIVE_ROOT_>\n\
-    \    struct NTT {\n        using mint = StaticModInt<MOD_>;\n        static constexpr\
+    MOD)\n */\n\n\n#line 2 \"math/fft.cpp\"\n\nnamespace ArbitraryConvolution {\n\
+    \    template<uint M>\n    struct StaticModInt {\n        uint val;\n        StaticModInt()\
+    \ : val(0) {}\n        template<class T>\n        StaticModInt(T v) {\n      \
+    \      long long x = (long long)(v % (long long)M);\n            if (x < 0) x\
+    \ += M;\n            val = (uint)x;\n        }\n        static StaticModInt raw(uint\
+    \ v) {\n            StaticModInt x;\n            x.val = v;\n            return\
+    \ x;\n        }\n        StaticModInt& operator+=(const StaticModInt& rhs) {\n\
+    \            val += rhs.val;\n            if (val >= M) val -= M;\n          \
+    \  return *this;\n        }\n        StaticModInt& operator-=(const StaticModInt&\
+    \ rhs) {\n            val -= rhs.val;\n            if (val >= M) val += M;\n \
+    \           return *this;\n        }\n        StaticModInt& operator*=(const StaticModInt&\
+    \ rhs) {\n            val = (uint)((unsigned long long)val * rhs.val % M);\n \
+    \           return *this;\n        }\n        StaticModInt pow(long long n) const\
+    \ {\n            StaticModInt x = *this, r = 1;\n            while (n) {\n   \
+    \             if (n & 1) r *= x;\n                x *= x;\n                n >>=\
+    \ 1;\n            }\n            return r;\n        }\n        StaticModInt inv()\
+    \ const { return pow(M - 2); }\n        friend StaticModInt operator+(StaticModInt\
+    \ lhs, const StaticModInt& rhs) { return lhs += rhs; }\n        friend StaticModInt\
+    \ operator-(StaticModInt lhs, const StaticModInt& rhs) { return lhs -= rhs; }\n\
+    \        friend StaticModInt operator*(StaticModInt lhs, const StaticModInt& rhs)\
+    \ { return lhs *= rhs; }\n        friend bool operator==(const StaticModInt& lhs,\
+    \ const StaticModInt& rhs) { return lhs.val == rhs.val; }\n        friend bool\
+    \ operator!=(const StaticModInt& lhs, const StaticModInt& rhs) { return lhs.val\
+    \ != rhs.val; }\n    };\n\n    template<uint MOD_, uint PRIMITIVE_ROOT_>\n   \
+    \ struct NTT {\n        using mint = StaticModInt<MOD_>;\n        static constexpr\
     \ uint MODV = MOD_;\n        static constexpr uint G = PRIMITIVE_ROOT_;\n\n  \
     \      void ntt(vector<mint> &a, bool invert) const {\n            int n = (int)a.size();\n\
     \            for (int i = 1, j = 0; i < n; ++i) {\n                int bit = n\
@@ -214,7 +215,7 @@ data:
     \                nr[i + k / 2] = -nr[i + k / 2];\n            }\n            r\
     \ = nr;\n        }\n        r.v.resize(n);\n        return r;\n    }\n};\n\n/**\n\
     \ * @brief \u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)\n */\n#line\
-    \ 13 \"test/yosupo_convolution_mod_1000000007_fft.test.cpp\"\n\nint main() {\n\
+    \ 18 \"test/yosupo_convolution_mod_1000000007_fft.test.cpp\"\n\nint main() {\n\
     \    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n, m);\n    poly\
     \ a(n), b(m);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        sc.read(x);\n\
     \        a[i] = x;\n    }\n    for (int i = 0; i < m; ++i) {\n        int x;\n\
@@ -224,11 +225,12 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/convolution_mod_1000000007\"\
     \n\n#include <bits/stdc++.h>\n\nstatic const int MOD = 1000000007;\nusing ll =\
     \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/fft.cpp\"\n\nint\
-    \ main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    poly a(n), b(m);\n    for (int i = 0; i < n; ++i) {\n        int x;\n\
-    \        sc.read(x);\n        a[i] = x;\n    }\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int x;\n        sc.read(x);\n        b[i] = x;\n    }\n    a *= b;\n\
+    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../math/fft.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n, m);\n \
+    \   poly a(n), b(m);\n    for (int i = 0; i < n; ++i) {\n        int x;\n    \
+    \    sc.read(x);\n        a[i] = x;\n    }\n    for (int i = 0; i < m; ++i) {\n\
+    \        int x;\n        sc.read(x);\n        b[i] = x;\n    }\n    a *= b;\n\
     \    for (int i = 0; i < n + m - 1; ++i) {\n        if (i) pr.write(' ');\n  \
     \      pr.write(a[i].val);\n    }\n    pr.writeln();\n    return 0;\n}\n"
   dependsOn:
@@ -238,7 +240,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_convolution_mod_1000000007_fft.test.cpp

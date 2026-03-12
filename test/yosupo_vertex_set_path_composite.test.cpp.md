@@ -28,9 +28,9 @@ data:
     \ <array>\n#include <limits>\n#include <vector>\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
     using namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\nusing namespace std;\n\
-    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -212,7 +212,7 @@ data:
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
     \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
-    \u6728(Segment Tree)\n */\n#line 18 \"test/yosupo_vertex_set_path_composite.test.cpp\"\
+    \u6728(Segment Tree)\n */\n#line 23 \"test/yosupo_vertex_set_path_composite.test.cpp\"\
     \n\nstruct Ml {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return\
     \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
     };\n\nstruct Mr {\n    using T = array<mint, 2>;\n    static T f(T b, T a) { return\
@@ -237,7 +237,8 @@ data:
     \n#include <array>\n#include <limits>\n#include <vector>\n\nstatic const int MOD\
     \ = 998244353;\nusing ll = long long;\nusing uint = unsigned;\nusing ull = unsigned\
     \ long long;\nusing namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
+    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
     \n#include \"../tree/hld.cpp\"\n#include \"../datastructure/segtree.cpp\"\n\n\
     struct Ml {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return\
     \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
@@ -267,7 +268,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite.test.cpp

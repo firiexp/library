@@ -121,7 +121,7 @@ title: Segment Tree Beats
 ---
 ## 説明
 `range chmin`、`range chmax`、`range add`、`range sum` をまとめて処理する Segment Tree Beats である。
-各操作は償却 `O(log N)`。
+各操作は償却 $O(log N)$。
 
 ## できること
 - `SegmentTreeBeats<T> seg(v)`

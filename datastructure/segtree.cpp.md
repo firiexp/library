@@ -5,9 +5,6 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_hld_edge.test.cpp
-    title: test/yosupo_many_aplusb_hld_edge.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -98,7 +95,6 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_many_aplusb_hld_edge.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp

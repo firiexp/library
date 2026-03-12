@@ -20,8 +20,8 @@ data:
   bundledCode: "#line 1 \"test/yosupo_assignment_hungarian.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/assignment\"\n\n#include <algorithm>\n#include\
     \ <cassert>\n#include <limits>\n#include <tuple>\n#include <vector>\nusing namespace\
-    \ std;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -118,7 +118,7 @@ data:
     \ for (int i = 0; i < n; ++i) row[i] = -row[i];\n        for (int j = 0; j < m;\
     \ ++j) col[j] = -col[j];\n    }\n    return {ans, match, row, col};\n}\n\n/**\n\
     \ * @brief \u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)\n */\n\
-    #line 12 \"test/yosupo_assignment_hungarian.test.cpp\"\n\nint main() {\n    Scanner\
+    #line 17 \"test/yosupo_assignment_hungarian.test.cpp\"\n\nint main() {\n    Scanner\
     \ in;\n    Printer out;\n    int n;\n    in.read(n);\n    vector<vector<long long>>\
     \ a(n, vector<long long>(n));\n    for (int i = 0; i < n; ++i) {\n        for\
     \ (int j = 0; j < n; ++j) {\n            in.read(a[i][j]);\n        }\n    }\n\
@@ -131,7 +131,8 @@ data:
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/assignment\"\n\n#include\
     \ <algorithm>\n#include <cassert>\n#include <limits>\n#include <tuple>\n#include\
-    \ <vector>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\n#include\
+    \ <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include\
     \ \"../flow/hungarian.cpp\"\n\nint main() {\n    Scanner in;\n    Printer out;\n\
     \    int n;\n    in.read(n);\n    vector<vector<long long>> a(n, vector<long long>(n));\n\
     \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n  \
@@ -149,7 +150,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_assignment_hungarian.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_assignment_hungarian.test.cpp

@@ -8,9 +8,6 @@ data:
     title: HLD Edge
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_hld_edge.test.cpp
-    title: test/yosupo_many_aplusb_hld_edge.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - icon: ':heavy_check_mark:'
@@ -19,6 +16,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yuki1326_block_cut_tree.test.cpp
+    title: test/yuki1326_block_cut_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
@@ -158,7 +158,7 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_many_aplusb_hld_edge.test.cpp
+  - test/yuki1326_block_cut_tree.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yuki650_hld_edge.test.cpp
@@ -172,7 +172,7 @@ title: "\u91CD\u8EFD\u5206\u89E3"
 
 ## 説明
 根つき木を Euler Tour 順の連続区間へ写し、パスや部分木を少数個の区間に分解する。
-パスクエリ・パス更新は `O(log^2 N)`、部分木クエリは `O(f(N))` で扱える。
+パスクエリ・パス更新は $O(log^2 N)$、部分木クエリは $O(f(N))$ で扱える。
 
 ## できること
 - `HeavyLightDecomposition hld(n)`

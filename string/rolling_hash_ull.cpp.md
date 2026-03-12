@@ -12,10 +12,10 @@ data:
   attributes:
     document_title: Rolling Hash(mod 2^61-1)
     links: []
-  bundledCode: "#line 1 \"string/rolling_hash_ull.cpp\"\n#include <chrono>\nconstexpr\
-    \ ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER = M * 3;\nconstexpr ull\
-    \ MASK30 = (1UL << 30) - 1;\nconstexpr ull MASK31 = (1UL << 31) - 1;\n\nclass\
-    \ rolling_hash_ull {\n    static ull get_base(){\n        ull z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
+  bundledCode: "#line 1 \"string/rolling_hash_ull.cpp\"\nconstexpr ull M = (1UL <<\
+    \ 61) - 1;\nconstexpr ull POSITIVISER = M * 3;\nconstexpr ull MASK30 = (1UL <<\
+    \ 30) - 1;\nconstexpr ull MASK31 = (1UL << 31) - 1;\n\nclass rolling_hash_ull\
+    \ {\n    static ull get_base(){\n        ull z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
     \ << 32)-1)))+0x9e3779b97f4a7c15;\n        z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;\n\
     \        z = (z ^ (z >> 27)) * 0x94d049bb133111eb;\n        return z;\n    }\n\
     \n    static inline ull calc_mod(ull val){\n        val = (val & M) + (val >>\
@@ -41,10 +41,10 @@ data:
     \ = 0;\n        for (int i = 0; i < s.size(); ++i) {\n            ret = calc_mod(mul(ret,\
     \ B()) + s[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief Rolling\
     \ Hash(mod 2^61-1)\n */\n"
-  code: "#include <chrono>\nconstexpr ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER\
-    \ = M * 3;\nconstexpr ull MASK30 = (1UL << 30) - 1;\nconstexpr ull MASK31 = (1UL\
-    \ << 31) - 1;\n\nclass rolling_hash_ull {\n    static ull get_base(){\n      \
-    \  ull z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
+  code: "constexpr ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER = M * 3;\n\
+    constexpr ull MASK30 = (1UL << 30) - 1;\nconstexpr ull MASK31 = (1UL << 31) -\
+    \ 1;\n\nclass rolling_hash_ull {\n    static ull get_base(){\n        ull z =\
+    \ (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
     \ << 32)-1)))+0x9e3779b97f4a7c15;\n        z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;\n\
     \        z = (z ^ (z >> 27)) * 0x94d049bb133111eb;\n        return z;\n    }\n\
     \n    static inline ull calc_mod(ull val){\n        val = (val & M) + (val >>\
@@ -74,7 +74,7 @@ data:
   isVerificationFile: false
   path: string/rolling_hash_ull.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0438.test.cpp
@@ -84,7 +84,7 @@ title: Rolling Hash(mod 2^61-1)
 ---
 ## 説明
 `mod 2^61 - 1` の Rolling Hash。
-前計算した prefix hash から部分文字列ハッシュを `O(1)` で取れる。
+前計算した prefix hash から部分文字列ハッシュを $O(1)$ で取れる。
 
 ## できること
 - `rolling_hash_ull rh(s)`

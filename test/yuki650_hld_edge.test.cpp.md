@@ -30,9 +30,9 @@ data:
     \n\n#include <array>\n#include <limits>\n#include <vector>\nusing namespace std;\n\
     \nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
     using ull = unsigned long long;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\nusing namespace std;\n\
-    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -236,7 +236,7 @@ data:
     \n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
     \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
     };\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)\n\
-    \ */\n#line 18 \"test/yuki650_hld_edge.test.cpp\"\n\nstruct MatMonoidL {\n   \
+    \ */\n#line 23 \"test/yuki650_hld_edge.test.cpp\"\n\nstruct MatMonoidL {\n   \
     \ using T = array<mint, 4>;\n    static T f(T a, T b) {\n        return {\n  \
     \          a[0] * b[0] + a[1] * b[2],\n            a[0] * b[1] + a[1] * b[3],\n\
     \            a[2] * b[0] + a[3] * b[2],\n            a[2] * b[1] + a[3] * b[3]\n\
@@ -270,7 +270,8 @@ data:
     #include <limits>\n#include <vector>\nusing namespace std;\n\nstatic const int\
     \ MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
+    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
     \n#include \"../tree/hld_edge.cpp\"\n#include \"../datastructure/segtree.cpp\"\
     \n\nstruct MatMonoidL {\n    using T = array<mint, 4>;\n    static T f(T a, T\
     \ b) {\n        return {\n            a[0] * b[0] + a[1] * b[2],\n           \
@@ -310,7 +311,7 @@ data:
   isVerificationFile: true
   path: test/yuki650_hld_edge.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki650_hld_edge.test.cpp

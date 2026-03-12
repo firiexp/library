@@ -2,13 +2,10 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
-    title: test/yosupo_many_aplusb_diameter_unweighted.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: "\u6728\u306E\u76F4\u5F84(Tree Diameter)"
     links: []
@@ -37,15 +34,14 @@ data:
   path: tree/diameter.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/yosupo_many_aplusb_diameter_unweighted.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: tree/diameter.cpp
 layout: document
 title: "\u6728\u306E\u76F4\u5F84(Tree Diameter)"
 ---
 ## 説明
-重みなし木の直径長とその両端点を `O(N)` で求める。
+重みなし木の直径長とその両端点を $O(N)$ で求める。
 
 ## できること
 - `pair<int, pair<int, int>> tree_diameter(const vector<vector<int>> &g)`

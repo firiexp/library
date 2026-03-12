@@ -129,9 +129,9 @@ title: Persistent Segment Tree
 
 ## 計算量
 
-- 構築 : `O(n)`
-- `update/add` (1点更新) : `O(log n)`
-- `query` (区間積) : `O(log n)`
+- 構築 : $O(n)$
+- `update/add` (1点更新) : $O(log n)$
+- `query` (区間積) : $O(log n)$
 
 ## 使い方
 

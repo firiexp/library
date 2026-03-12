@@ -8,9 +8,6 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_hld_edge.test.cpp
-    title: test/yosupo_many_aplusb_hld_edge.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: false
@@ -132,7 +129,6 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_many_aplusb_hld_edge.test.cpp
   - test/yuki650_hld_edge.test.cpp
 date: 2026-03-08
 documentation_of: tree/hld_edge.cpp
@@ -144,7 +140,7 @@ title: HLD Edge
 ## 説明
 辺を子頂点側の位置に載せる重軽分解である。
 根の位置には辺がないので、`edge_index(root)` は `-1` を返す。
-パスクエリ・パス更新は `O(log^2 N)`。
+パスクエリ・パス更新は $O(log^2 N)$。
 
 ## できること
 - `HeavyLightDecompositionEdge hld(n)`

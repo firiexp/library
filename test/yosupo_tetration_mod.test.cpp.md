@@ -19,8 +19,8 @@ data:
     - https://judge.yosupo.jp/problem/tetration_mod
   bundledCode: "#line 1 \"test/yosupo_tetration_mod.test.cpp\"\n#define PROBLEM \"\
     https://judge.yosupo.jp/problem/tetration_mod\"\nusing ll = long long;\nusing\
-    \ ull = unsigned long long;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\nusing namespace\
+    \ ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace\
     \ std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
@@ -100,12 +100,13 @@ data:
     \ 1;\n    ll expo = tetration(a, n-1, totient(M), yojo);\n    ll res = pow_tetration(a,\
     \ expo, M, yojo);\n    return res + (yojo ? M : 0);\n}\n\nll tetration(ll a, ll\
     \ n, const ll M){\n    bool yojo = false;\n    return tetration(a, n, M, yojo)%M;\n\
-    }\n\n/**\n * @brief Tetration Mod\n */\n#line 7 \"test/yosupo_tetration_mod.test.cpp\"\
+    }\n\n/**\n * @brief Tetration Mod\n */\n#line 12 \"test/yosupo_tetration_mod.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
     \    while (t--) {\n        int a, b, m;\n        sc.read(a, b, m);\n        pr.writeln(tetration(a,\
     \ b, m));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/tetration_mod\"\nusing\
-    \ ll = long long;\nusing ull = unsigned long long;\n\n#include \"../util/fastio.cpp\"\
+    \ ll = long long;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../math/tetration.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
     \ pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        int a, b, m;\n\
     \        sc.read(a, b, m);\n        pr.writeln(tetration(a, b, m));\n    }\n \
@@ -116,7 +117,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_tetration_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_tetration_mod.test.cpp

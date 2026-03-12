@@ -41,7 +41,7 @@ title: "\u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)"
 ---
 ## 説明
 最大値を取り出す二分ヒープである。
-`push`、`pop`、`top` を `O(log N)` で扱い、要素和も同時に管理する。
+`push`、`pop`、`top` を $O(log N)$ で扱い、要素和も同時に管理する。
 
 ## できること
 - `binary_heap<T> pq`

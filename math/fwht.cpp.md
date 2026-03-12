@@ -54,7 +54,7 @@ title: FWHT
 ## 説明
 XOR 畳み込みで使う Walsh-Hadamard 変換。
 長さを 2 冪に拡張してその場変換する。
-計算量は `O(N log N)`。
+計算量は $O(N log N)$。
 
 ## できること
 - `void fwht(vector<T>& v)`

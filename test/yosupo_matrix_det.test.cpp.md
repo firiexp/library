@@ -23,8 +23,8 @@ data:
   bundledCode: "#line 1 \"test/yosupo_matrix_det.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_det\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
-    \n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -126,7 +126,7 @@ data:
     \            mint coeff = A[row][col] * inv;\n            for (int j = col; j\
     \ < n; ++j) {\n                A[row][j] -= A[col][j] * coeff;\n            }\n\
     \        }\n    }\n    return det;\n}\n\n/**\n * @brief \u884C\u5217\u5F0F(Matrix\
-    \ Determinant)\n */\n#line 13 \"test/yosupo_matrix_det.test.cpp\"\n\nint main()\
+    \ Determinant)\n */\n#line 18 \"test/yosupo_matrix_det.test.cpp\"\n\nint main()\
     \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<mint>>\
     \ A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
     \ j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n        \
@@ -135,11 +135,12 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_det\"\n\n#include\
     \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
     \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
-    \ \"../util/fastio.cpp\"\n#include \"../math/matrix_determinant.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<mint>>\
-    \ A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
-    \ j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n        \
-    \    A[i][j] = x;\n        }\n    }\n    pr.writeln(matrix_determinant(A).val);\n\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #include \"../util/fastio.cpp\"\n#include \"../math/matrix_determinant.cpp\"\n\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    vector<vector<mint>> A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i)\
+    \ {\n        for (int j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n\
+    \            A[i][j] = x;\n        }\n    }\n    pr.writeln(matrix_determinant(A).val);\n\
     \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -148,7 +149,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_matrix_det.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_matrix_det.test.cpp

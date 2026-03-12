@@ -19,25 +19,23 @@ data:
   attributes:
     document_title: "\u539F\u59CB\u6839(Primitive Root)"
     links: []
-  bundledCode: "#line 1 \"math/primefactor_ll.cpp\"\n#include <algorithm>\n#include\
-    \ <numeric>\n#include <random>\n\nusing ull = unsigned long long;\n#line 1 \"\
-    math/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\nstruct mod64 {\n    unsigned\
-    \ long long n;\n    static unsigned long long mod, inv, r2;\n    mod64() : n(0)\
-    \ {}\n    mod64(unsigned long long x) : n(init(x)) {}\n    static unsigned long\
-    \ long init(unsigned long long w) {\n        return reduce(u128(w) * r2);\n  \
-    \  }\n    static void set_mod(unsigned long long m) {\n        mod = inv = m;\n\
-    \        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        r2 = -u128(m)\
-    \ % m;\n    }\n    static unsigned long long reduce(u128 x) {\n        unsigned\
-    \ long long y =\n            static_cast<unsigned long long>(x >> 64)\n      \
-    \      - static_cast<unsigned long long>((u128(static_cast<unsigned long long>(x)\
-    \ * inv) * mod) >> 64);\n        return (long long)y < 0 ? y + mod : y;\n    }\n\
-    \    mod64& operator*=(mod64 x) {\n        n = reduce(u128(n) * x.n);\n      \
-    \  return *this;\n    }\n    mod64 operator*(mod64 x) const {\n        return\
-    \ mod64(*this) *= x;\n    }\n    mod64& operator+=(mod64 x) {\n        n += x.n\
-    \ - mod;\n        if((long long)n < 0) n += mod;\n        return *this;\n    }\n\
-    \    mod64 operator+(mod64 x) const {\n        return mod64(*this) += x;\n   \
-    \ }\n    unsigned long long val() const {\n        return reduce(n);\n    }\n\
-    };\n\nunsigned long long mod64::mod, mod64::inv, mod64::r2;\n\nbool suspect(unsigned\
+  bundledCode: "#line 1 \"math/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\nstruct\
+    \ mod64 {\n    unsigned long long n;\n    static unsigned long long mod, inv,\
+    \ r2;\n    mod64() : n(0) {}\n    mod64(unsigned long long x) : n(init(x)) {}\n\
+    \    static unsigned long long init(unsigned long long w) {\n        return reduce(u128(w)\
+    \ * r2);\n    }\n    static void set_mod(unsigned long long m) {\n        mod\
+    \ = inv = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n      \
+    \  r2 = -u128(m) % m;\n    }\n    static unsigned long long reduce(u128 x) {\n\
+    \        unsigned long long y =\n            static_cast<unsigned long long>(x\
+    \ >> 64)\n            - static_cast<unsigned long long>((u128(static_cast<unsigned\
+    \ long long>(x) * inv) * mod) >> 64);\n        return (long long)y < 0 ? y + mod\
+    \ : y;\n    }\n    mod64& operator*=(mod64 x) {\n        n = reduce(u128(n) *\
+    \ x.n);\n        return *this;\n    }\n    mod64 operator*(mod64 x) const {\n\
+    \        return mod64(*this) *= x;\n    }\n    mod64& operator+=(mod64 x) {\n\
+    \        n += x.n - mod;\n        if((long long)n < 0) n += mod;\n        return\
+    \ *this;\n    }\n    mod64 operator+(mod64 x) const {\n        return mod64(*this)\
+    \ += x;\n    }\n    unsigned long long val() const {\n        return reduce(n);\n\
+    \    }\n};\n\nunsigned long long mod64::mod, mod64::inv, mod64::r2;\n\nbool suspect(unsigned\
     \ long long a, unsigned long long s, unsigned long long d, unsigned long long\
     \ n){\n    if(mod64::mod != n) mod64::set_mod(n);\n    mod64 x(1), xx(a), one(1),\
     \ minusone(n - 1);\n    while(d > 0){\n        if(d & 1) x *= xx;\n        xx\
@@ -55,7 +53,7 @@ data:
     \        }\n    } else {\n        for (auto p : large) {\n            if(p >=\
     \ n) break;\n            if(!suspect(p, s, d, n)) return false;\n        }\n \
     \   }\n    return true;\n}\n\n/**\n * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\
-    \n */\n#line 7 \"math/primefactor_ll.cpp\"\n\ntemplate<typename T>\nstruct ExactDiv\
+    \n */\n#line 2 \"math/primefactor_ll.cpp\"\n\ntemplate<typename T>\nstruct ExactDiv\
     \ {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n))\
     \ , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0;\
     \ i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n    bool divide(T n)\
@@ -118,7 +116,7 @@ data:
   isVerificationFile: false
   path: math/primitive_root.cpp
   requiredBy: []
-  timestamp: '2026-03-11 00:38:22+09:00'
+  timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_primitive_root.test.cpp
@@ -132,7 +130,7 @@ title: Primitive Root
 ## 説明
 素数 `p` に対する原始根を 1 つ返す。
 `p - 1` の素因数を使って候補を判定する。
-計算量はおおむね `O(sqrt(p) + k log p)`。
+計算量はおおむね $O(sqrt(p) + k log p)$。
 
 ## できること
 - `ll primitive_root(ll p)`

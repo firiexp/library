@@ -16,14 +16,14 @@ data:
     - https://judge.yosupo.jp/problem/sqrt_of_formal_power_series
   bundledCode: "#line 1 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\n\n\
-    #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
-    \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
-    \nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
-    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 2 \"math/ntt.cpp\"\n\
-    #include <cassert>\n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef\
-    \ NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef\
-    \ NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
+    #include <iostream>\n#include <algorithm>\n#include <cassert>\n#include <map>\n\
+    #include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include\
+    \ <bitset>\n#include <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll =\
+    \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
+    \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
+    \n#line 1 \"math/ntt.cpp\"\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n\
+    #ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n\
+    #ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417\
     \ -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\n\
     template <uint M>\nstruct modint {\n    uint val;\npublic:\n    static modint\
     \ raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod()\
@@ -286,30 +286,30 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    #line 22 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n\nint main() {\n\
+    #line 23 \"test/yosupo_sqrt_of_formal_power_series.test.cpp\"\n\nint main() {\n\
     \    int n;\n    cin >> n;\n    poly f(n);\n    for (int i = 0; i < n; ++i) {\n\
     \        int x;\n        cin >> x;\n        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n\
     \    if ((int)g.size() == 0) {\n        cout << -1 << '\\n';\n        return 0;\n\
     \    }\n    for (int i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n     \
     \   cout << g[i].val;\n    }\n    cout << '\\n';\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sqrt_of_formal_power_series\"\
-    \n\n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
-    #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
-    \ <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
-    \ uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n\
-    template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\
-    #include \"../math/ntt.cpp\"\n\nint main() {\n    int n;\n    cin >> n;\n    poly\
-    \ f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n\
-    \        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n    if ((int)g.size() == 0)\
-    \ {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << g[i].val;\n \
-    \   }\n    cout << '\\n';\n    return 0;\n}\n"
+    \n\n#include <iostream>\n#include <algorithm>\n#include <cassert>\n#include <map>\n\
+    #include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include\
+    \ <bitset>\n#include <cmath>\n\nstatic const int MOD = 1000000007;\nusing ll =\
+    \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
+    \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
+    \n#include \"../math/ntt.cpp\"\n\nint main() {\n    int n;\n    cin >> n;\n  \
+    \  poly f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin\
+    \ >> x;\n        f[i] = x;\n    }\n    poly g = f.sqrt(n);\n    if ((int)g.size()\
+    \ == 0) {\n        cout << -1 << '\\n';\n        return 0;\n    }\n    for (int\
+    \ i = 0; i < n; ++i) {\n        if (i) cout << ' ';\n        cout << g[i].val;\n\
+    \    }\n    cout << '\\n';\n    return 0;\n}\n"
   dependsOn:
   - math/ntt.cpp
   isVerificationFile: true
   path: test/yosupo_sqrt_of_formal_power_series.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_sqrt_of_formal_power_series.test.cpp

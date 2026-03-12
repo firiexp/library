@@ -20,9 +20,9 @@ data:
   bundledCode: "#line 1 \"test/yosupo_static_convex_hull.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/static_convex_hull\"\n\n#include <algorithm>\n\
     #include <random>\n#include <set>\n#include <vector>\nusing namespace std;\nusing\
-    \ ll = long long;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\nusing namespace std;\n\
-    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -99,7 +99,7 @@ data:
     \ ps[i];\n    }\n    for (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while\
     \ (k >= t && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
     \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\
-    \u5305(Convex Hull)\n */\n#line 12 \"test/yosupo_static_convex_hull.test.cpp\"\
+    \u5305(Convex Hull)\n */\n#line 17 \"test/yosupo_static_convex_hull.test.cpp\"\
     \n\n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
     \    while (t--) {\n        int n;\n        sc.read(n);\n        vector<IntPoint>\
     \ ps(n);\n        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first,\
@@ -107,20 +107,21 @@ data:
     \        for (auto [x, y] : ch) pr.writeln(x, y);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_convex_hull\"\n\n\
     #include <algorithm>\n#include <random>\n#include <set>\n#include <vector>\nusing\
-    \ namespace std;\nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\n#include\
-    \ \"../geometry/convex_hull.cpp\"\n\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        int n;\n      \
-    \  sc.read(n);\n        vector<IntPoint> ps(n);\n        for (int i = 0; i < n;\
-    \ ++i) {\n            sc.read(ps[i].first, ps[i].second);\n        }\n       \
-    \ auto ch = convex_hull(ps);\n        pr.writeln((int)ch.size());\n        for\
-    \ (auto [x, y] : ch) pr.writeln(x, y);\n    }\n    return 0;\n}\n"
+    \ namespace std;\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
+    #include \"../geometry/convex_hull.cpp\"\n\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        int\
+    \ n;\n        sc.read(n);\n        vector<IntPoint> ps(n);\n        for (int i\
+    \ = 0; i < n; ++i) {\n            sc.read(ps[i].first, ps[i].second);\n      \
+    \  }\n        auto ch = convex_hull(ps);\n        pr.writeln((int)ch.size());\n\
+    \        for (auto [x, y] : ch) pr.writeln(x, y);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - geometry/convex_hull.cpp
   isVerificationFile: true
   path: test/yosupo_static_convex_hull.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_convex_hull.test.cpp

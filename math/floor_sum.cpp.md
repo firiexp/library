@@ -41,7 +41,7 @@ title: Floor Sum
 
 ## 説明
 `sum_{i=0}^{n-1} floor((a i + b) / m)` を返す。
-計算量は償却 `O(log m + log a)`。
+計算量は償却 $O(log m + log a)$。
 
 ## できること
 - `ll floor_sum(ll n, ll m, ll a, ll b)`

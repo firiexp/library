@@ -19,26 +19,27 @@ data:
     - https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A
   bundledCode: "#line 1 \"test/aoj_grl_5_a_diameter.test.cpp\"\n#define PROBLEM \"\
     https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A\"\n\n#include <bits/stdc++.h>\n\
-    \nusing namespace std;\n\n#line 4 \"util/fastio.cpp\"\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
-    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
-    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
-    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
-    \ + 1];\n    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n\
-    \        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n          \
-    \  ++idx;\n            ensure();\n        }\n        return buf[idx++];\n    }\n\
-    \n    template<class T, typename enable_if<is_integral<T>::value, int>::type =\
-    \ 0>\n    void read(T &x) {\n        char c = skip();\n        bool neg = false;\n\
-    \        if constexpr (is_signed<T>::value) {\n            if (c == '-') {\n \
-    \               neg = true;\n                c = buf[idx++];\n            }\n\
-    \        }\n        x = 0;\n        while (c >= '0') {\n            x = x * 10\
-    \ + (c & 15);\n            c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    \nusing namespace std;\n\n#line 10 \"test/aoj_grl_5_a_diameter.test.cpp\"\n#include\
+    \ <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct\
+    \ FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
+    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
+    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
+    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
+    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
+    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
+    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
+    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
+    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
+    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
+    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
+    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
+    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
     \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
     \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
@@ -96,14 +97,15 @@ data:
     \ v, f);\n        }\n    };\n\n    dist[0] = T();\n    dfs(0, -1, dfs);\n    int\
     \ s = far;\n    dist[s] = T();\n    dfs(s, -1, dfs);\n    return {dist[far], {s,\
     \ far}};\n}\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D\
-    )\n */\n#line 9 \"test/aoj_grl_5_a_diameter.test.cpp\"\n\nint main() {\n    Scanner\
+    )\n */\n#line 14 \"test/aoj_grl_5_a_diameter.test.cpp\"\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int,\
     \ long long>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int s, t,\
     \ w;\n        sc.read(s, t, w);\n        g[s].push_back({t, w});\n        g[t].push_back({s,\
     \ w});\n    }\n\n    pr.writeln(tree_diameter_weighted(g).first);\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A\"\n\n\
-    #include <bits/stdc++.h>\n\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
+    #include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../tree/diameter_weighted.cpp\"\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int, long\
     \ long>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int s, t, w;\n\
@@ -116,7 +118,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_5_a_diameter.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_5_a_diameter.test.cpp

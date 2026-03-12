@@ -19,10 +19,10 @@ data:
     - https://judge.yosupo.jp/problem/jump_on_tree
   bundledCode: "#line 1 \"test/yosupo_jump_on_tree.test.cpp\"\n#define PROBLEM \"\
     https://judge.yosupo.jp/problem/jump_on_tree\"\n\n#include <algorithm>\n#include\
-    \ <queue>\n#include <random>\n#include <vector>\nusing namespace std;\n\n#line\
-    \ 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
-    \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
+    \ <queue>\n#include <random>\n#include <vector>\nusing namespace std;\n\n#include\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable {\n\
+    \    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
     \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
     \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
     \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
@@ -114,7 +114,7 @@ data:
     \        int a = depth[s] - depth[w];\n        int b = depth[t] - depth[w];\n\
     \        if (k > a + b) return -1;\n        if (k <= a) return ancestor(s, k);\n\
     \        return ancestor(t, a + b - k);\n    }\n};\n\n/**\n * @brief Jump on Tree\n\
-    \ */\n#line 11 \"test/yosupo_jump_on_tree.test.cpp\"\n\nint main() {\n    Scanner\
+    \ */\n#line 16 \"test/yosupo_jump_on_tree.test.cpp\"\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    JumpOnTree jt(n);\n\
     \    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        sc.read(u,\
     \ v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n    while (q--) {\n\
@@ -122,10 +122,11 @@ data:
     \ t, k));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/jump_on_tree\"\n\n#include\
     \ <algorithm>\n#include <queue>\n#include <random>\n#include <vector>\nusing namespace\
-    \ std;\n\n#include \"../util/fastio.cpp\"\n#include \"../tree/jump_on_tree.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
-    \ q);\n    JumpOnTree jt(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int\
-    \ u, v;\n        sc.read(u, v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n\
+    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../tree/jump_on_tree.cpp\"\n\nint\
+    \ main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n\
+    \    JumpOnTree jt(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int u,\
+    \ v;\n        sc.read(u, v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n\
     \    while (q--) {\n        int s, t, k;\n        sc.read(s, t, k);\n        pr.writeln(jt.jump(s,\
     \ t, k));\n    }\n    return 0;\n}\n"
   dependsOn:
@@ -134,7 +135,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_jump_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_jump_on_tree.test.cpp

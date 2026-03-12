@@ -113,9 +113,9 @@ Suffix Automaton を構築する。
 
 ## 計算量
 
-- 構築 : `O(|S|)`
-- `count_distinct_substrings()` : `O(|states|)`
-- `substring_occurrences()` : `O(|states| + max_len)`
+- 構築 : $O(|S|)$
+- `count_distinct_substrings()` : $O(|states|)$
+- `substring_occurrences()` : $O(|states| + max_len)$
 
 文字種数 `W` はテンプレート引数。各状態の遷移は固定長配列 `int next[W]` で保持する。
 

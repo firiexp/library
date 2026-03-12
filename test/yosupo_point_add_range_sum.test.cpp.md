@@ -19,27 +19,27 @@ data:
     - https://judge.yosupo.jp/problem/point_add_range_sum
   bundledCode: "#line 1 \"test/yosupo_point_add_range_sum.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\n#include <vector>\n\
-    \nusing ll = long long;\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\n\
-    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
-    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
-    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
-    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
-    \ + 1];\n    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n\
-    \        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n          \
-    \  ++idx;\n            ensure();\n        }\n        return buf[idx++];\n    }\n\
-    \n    template<class T, typename enable_if<is_integral<T>::value, int>::type =\
-    \ 0>\n    void read(T &x) {\n        char c = skip();\n        bool neg = false;\n\
-    \        if constexpr (is_signed<T>::value) {\n            if (c == '-') {\n \
-    \               neg = true;\n                c = buf[idx++];\n            }\n\
-    \        }\n        x = 0;\n        while (c >= '0') {\n            x = x * 10\
-    \ + (c & 15);\n            c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    \nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n\
+    \    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load()\
+    \ {\n        int len = size - idx;\n        memmove(buf, buf + idx, len);\n  \
+    \      size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
+    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
+    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
+    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
     \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
     \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
     \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
@@ -96,7 +96,7 @@ data:
     \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
     \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
     \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n#line 10 \"test/yosupo_point_add_range_sum.test.cpp\"\
+    \ Indexed Tree(BIT)\n */\n#line 15 \"test/yosupo_point_add_range_sum.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
     \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) in.read(i);\n    BIT<ll> S(n);\n\
     \    for (int i = 0; i < n; ++i) S.add(i, v[i]);\n\n    for (int i = 0; i < q;\
@@ -105,8 +105,9 @@ data:
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n#include\
-    \ \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\n\
-    \nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #include \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
     \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) in.read(i);\n    BIT<ll> S(n);\n\
     \    for (int i = 0; i < n; ++i) S.add(i, v[i]);\n\n    for (int i = 0; i < q;\
     \ ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n        if(c == 0)\
@@ -118,7 +119,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum.test.cpp

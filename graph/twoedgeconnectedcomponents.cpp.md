@@ -2,7 +2,10 @@
 category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: graph/bridge_tree.cpp
+    title: "\u6A4B\u6728(Bridge Tree)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0377.test.cpp
@@ -10,6 +13,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0415.test.cpp
     title: test/aoj0415.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_two_edge_connected_components.test.cpp
+    title: test/yosupo_two_edge_connected_components.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -65,10 +71,12 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: graph/twoedgeconnectedcomponents.cpp
-  requiredBy: []
+  requiredBy:
+  - graph/bridge_tree.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_two_edge_connected_components.test.cpp
   - test/aoj0415.test.cpp
   - test/aoj0377.test.cpp
 date: 2020-03-25

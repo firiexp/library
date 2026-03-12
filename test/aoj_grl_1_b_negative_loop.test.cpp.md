@@ -20,10 +20,10 @@ data:
   bundledCode: "#line 1 \"test/aoj_grl_1_b_negative_loop.test.cpp\"\n#define PROBLEM\
     \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n#include <limits>\n\
     #include <vector>\nusing namespace std;\n\nusing ll = long long;\ntemplate<class\
-    \ T> constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 1\
-    \ \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
-    \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
+    \ T> constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable {\n\
+    \    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
     \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
     \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
     \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
@@ -104,7 +104,7 @@ data:
     \                negative[e.to] = true;\n            }\n            if(negative[e.from])\
     \ negative[e.to] = true;\n        }\n    }\n    for (int i = 0; i < N; ++i) {\n\
     \        if(negative[i]) dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n\
-    \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 12 \"\
+    \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 17 \"\
     test/aoj_grl_1_b_negative_loop.test.cpp\"\n\nint main() {\n    Scanner sc;\n \
     \   Printer pr;\n\n    int n, m, s;\n    sc.read(n, m, s);\n    vector<edge<ll>>\
     \ es;\n    es.reserve(m);\n    for (int i = 0; i < m; ++i) {\n        int a, b,\
@@ -117,7 +117,8 @@ data:
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n\
     #include <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
     \ long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 *\
-    \ 15 + 208;\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/bellman_ford_negative_loop.cpp\"\
+    \ 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
+    \ <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/bellman_ford_negative_loop.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s;\n    sc.read(n,\
     \ m, s);\n    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i\
     \ < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
@@ -132,7 +133,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_1_b_negative_loop.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_b_negative_loop.test.cpp

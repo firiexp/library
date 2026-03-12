@@ -18,8 +18,8 @@ data:
     links:
     - http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
   bundledCode: "#line 1 \"test/aoj_dsl_2_b.test.cpp\"\n#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B\"\
-    \n\n#include <vector>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\nusing\
+    \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing\
     \ namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
     \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
     \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
@@ -95,14 +95,15 @@ data:
     \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
     \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
     \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n#line 8 \"test/aoj_dsl_2_b.test.cpp\"\n\nint main()\
+    \ Indexed Tree(BIT)\n */\n#line 13 \"test/aoj_dsl_2_b.test.cpp\"\n\nint main()\
     \ {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n\
     \    BIT<int> s(n);\n    for (int i = 0; i < q; ++i) {\n        int c, x, y;\n\
     \        in.read(c, x, y);\n        x--;\n        if (c == 0) s.add(x, y);\n \
     \       else out.writeln(s.sum(y) - s.sum(x));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B\"\
-    \n\n#include <vector>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../datastructure/binaryindexedtree.cpp\"\n\nint main() {\n    Scanner\
+    \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
+    #include \"../datastructure/binaryindexedtree.cpp\"\n\nint main() {\n    Scanner\
     \ in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    BIT<int> s(n);\n\
     \    for (int i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x,\
     \ y);\n        x--;\n        if (c == 0) s.add(x, y);\n        else out.writeln(s.sum(y)\
@@ -113,7 +114,7 @@ data:
   isVerificationFile: true
   path: test/aoj_dsl_2_b.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_2_b.test.cpp

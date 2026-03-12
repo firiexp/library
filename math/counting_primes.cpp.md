@@ -13,9 +13,8 @@ data:
   attributes:
     document_title: "\u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)"
     links: []
-  bundledCode: "#line 1 \"math/counting_primes.cpp\"\n#include <cmath>\n#include <cstdint>\n\
-    #include <vector>\nusing namespace std;\n\nnamespace counting_primes_internal\
-    \ {\n\nusing ll = long long;\n\nconstexpr int MAX = 5000000;\nconstexpr int PHI_N\
+  bundledCode: "#line 1 \"math/counting_primes.cpp\"\nusing namespace std;\n\nnamespace\
+    \ counting_primes_internal {\n\nconstexpr int MAX = 5000000;\nconstexpr int PHI_N\
     \ = 100000;\nconstexpr int PHI_S = 100;\n\nbool initialized = false;\nvector<int>\
     \ primes;\nvector<int> prime_pi;\nint phi_dp[PHI_S + 1][PHI_N + 1];\n\nll isqrt(ll\
     \ x) {\n    ll r = sqrtl((long double)x);\n    while ((r + 1) * (r + 1) <= x)\
@@ -46,8 +45,7 @@ data:
     \nlong long counting_primes(long long n) {\n    counting_primes_internal::init();\n\
     \    return counting_primes_internal::lehmer_pi(n);\n}\n\n/**\n * @brief \u7D20\
     \u6570\u6570\u3048\u4E0A\u3052(Prime Counting)\n */\n"
-  code: "#include <cmath>\n#include <cstdint>\n#include <vector>\nusing namespace\
-    \ std;\n\nnamespace counting_primes_internal {\n\nusing ll = long long;\n\nconstexpr\
+  code: "using namespace std;\n\nnamespace counting_primes_internal {\n\nconstexpr\
     \ int MAX = 5000000;\nconstexpr int PHI_N = 100000;\nconstexpr int PHI_S = 100;\n\
     \nbool initialized = false;\nvector<int> primes;\nvector<int> prime_pi;\nint phi_dp[PHI_S\
     \ + 1][PHI_N + 1];\n\nll isqrt(ll x) {\n    ll r = sqrtl((long double)x);\n  \
@@ -82,7 +80,7 @@ data:
   isVerificationFile: false
   path: math/counting_primes.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_counting_primes.test.cpp

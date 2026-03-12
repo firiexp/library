@@ -1,4 +1,5 @@
 ---
+category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
@@ -75,10 +76,35 @@ data:
   timestamp: '2020-04-26 17:42:59+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
+date: 2018-04-28
 documentation_of: datastructure/monotoniccht.cpp
 layout: document
-redirect_from:
-- /library/datastructure/monotoniccht.cpp
-- /library/datastructure/monotoniccht.cpp.html
-title: datastructure/monotoniccht.cpp
+tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
+title: "Convex-Hull Trick (\u30AF\u30A8\u30EA\u5358\u8ABF)"
 ---
+
+## 説明
+傾き単調な直線追加と、`x` の単調クエリを高速に処理する Convex Hull Trick。
+最小値版と最大値版を template 引数で切り替える。
+
+## できること
+- `CHT<T, false> cht`
+  最小値を取る CHT を作る
+- `CHT<T, true> cht`
+  最大値を取る CHT を作る
+- `void add_line(T a, T b)`
+  直線 `y = ax + b` を追加する
+- `T query(T x)`
+  任意順クエリで最良値を返す
+- `T query_increase(T x)`
+  `x` が単調増加するときの最良値を返す
+- `T query_decrease(T x)`
+  `x` が単調減少するときの最良値を返す
+
+## 使い方
+追加する直線の傾きは単調である必要がある。
+クエリだけ単調なら `query_increase` または `query_decrease` を使うと償却 $O(1)$、任意順なら `query` で $O(\log N)$。
+
+## 実装上の補足
+交点判定は `long double` を使っている。
+整数型でも定数倍や境界判定が気になる場面では注意が必要。

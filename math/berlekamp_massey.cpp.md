@@ -67,7 +67,7 @@ title: Berlekamp-Massey
 の係数列 `c` を求める。
 
 ## 計算量
-`O(N^2)` (`N = s.size()`)
+$O(N^2)$ (`N = s.size()`)
 
 ## 使い方
 `vector<T> c = berlekamp_massey(s);`

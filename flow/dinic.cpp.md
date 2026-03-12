@@ -3,7 +3,7 @@ category: "\u30D5\u30ED\u30FC"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: flow/project_selection_problem.cpp
     title: ProjectSelectionProblem
   - icon: ':heavy_check_mark:'
@@ -19,6 +19,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki957.test.cpp
     title: test/yuki957.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yuki957_project_selection_problem.test.cpp
+    title: test/yuki957_project_selection_problem.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -86,6 +89,7 @@ data:
   - test/yuki957.test.cpp
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
   - test/aoj0396.test.cpp
+  - test/yuki957_project_selection_problem.test.cpp
 date: 2019-07-31
 documentation_of: flow/dinic.cpp
 layout: document
@@ -94,4 +98,5 @@ title: "Dinic(\u6700\u5927\u6D41)"
 ---
 
 ## 説明
-Dinicによる最大流。$O(EV^2)$だがほとんどの場合で高速に動作する。
+Dinic による最大流。
+理論計算量は $O(EV^2)$ だが、ほとんどの場合で高速に動作する。

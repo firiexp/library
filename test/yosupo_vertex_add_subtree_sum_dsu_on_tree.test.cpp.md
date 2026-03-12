@@ -23,8 +23,9 @@ data:
   bundledCode: "#line 1 \"test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp\"\
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\n\
     \n#include <bits/stdc++.h>\n\nusing namespace std;\nusing ll = long long;\n\n\
-    #line 4 \"util/fastio.cpp\"\n#include <type_traits>\nusing namespace std;\n\n\
-    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    #line 11 \"test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp\"\n#include\
+    \ <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct\
+    \ FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -127,7 +128,7 @@ data:
     \    }\n\n    void dfs_euler(int v, int p) {\n        down[v] = ord;\n       \
     \ euler[ord++] = v;\n        for (auto &&u : g[v]) {\n            if (u == p)\
     \ continue;\n            dfs_euler(u, v);\n        }\n        up[v] = ord;\n \
-    \   }\n};\n\n/**\n * @brief DSU on Tree\n */\n#line 11 \"test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp\"\
+    \   }\n};\n\n/**\n * @brief DSU on Tree\n */\n#line 16 \"test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp\"\
     \n\nstruct Query {\n    int time, type;\n    ll x;\n};\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
     \    for (auto &&x : a) sc.read(x);\n\n    vector<vector<int>> g(n);\n    for\
@@ -149,7 +150,8 @@ data:
     \     if (x != -1) pr.writeln(x);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
     \n\n#include <bits/stdc++.h>\n\nusing namespace std;\nusing ll = long long;\n\n\
-    #include \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\
+    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\
     \n#include \"../tree/dsu_on_tree.cpp\"\n\nstruct Query {\n    int time, type;\n\
     \    ll x;\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n,\
     \ q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
@@ -177,7 +179,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp

@@ -20,9 +20,9 @@ data:
   bundledCode: "#line 1 \"test/aoj_alds1_9_c_binaryheap.test.cpp\"\n#define PROBLEM\
     \ \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_9_C\"\n\n#include <algorithm>\n\
     #include <string>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
-    \ long;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n\
-    #line 4 \"util/fastio.cpp\"\n#include <type_traits>\nusing namespace std;\n\n\
-    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ long;\n\n#include <cstdio>\n#include <cstring>\n#line 13 \"test/aoj_alds1_9_c_binaryheap.test.cpp\"\
+    \n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\
+    \nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -95,7 +95,7 @@ data:
     \        Q.pop_back();\n    }\n    void emplace(T x) {\n        S += x;\n    \
     \    Q.emplace_back(x);\n        push_heap(Q.begin(),Q.end());\n    }\n    bool\
     \ empty() { return Q.empty(); }\n    ll sum() const { return S; }\n};\n\n/**\n\
-    \ * @brief \u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)\n */\n#line 12 \"test/aoj_alds1_9_c_binaryheap.test.cpp\"\
+    \ * @brief \u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)\n */\n#line 17 \"test/aoj_alds1_9_c_binaryheap.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    binary_heap<int> pq;\n\
     \    string op;\n    while (true) {\n        sc.read(op);\n        if (op == \"\
     end\") break;\n        if (op == \"insert\") {\n            int x;\n         \
@@ -103,8 +103,9 @@ data:
     \            pq.pop();\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_9_C\"\n\
     \n#include <algorithm>\n#include <string>\n#include <vector>\nusing namespace\
-    \ std;\n\nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\n#include \"\
-    ../datastructure/binaryheap.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
+    \ std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include\
+    \ \"../datastructure/binaryheap.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
     \ pr;\n\n    binary_heap<int> pq;\n    string op;\n    while (true) {\n      \
     \  sc.read(op);\n        if (op == \"end\") break;\n        if (op == \"insert\"\
     ) {\n            int x;\n            sc.read(x);\n            pq.emplace(x);\n\
@@ -116,7 +117,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_9_c_binaryheap.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_9_c_binaryheap.test.cpp

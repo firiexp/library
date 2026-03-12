@@ -22,8 +22,8 @@ data:
     - https://judge.yosupo.jp/problem/static_range_inversions_query
   bundledCode: "#line 1 \"test/yosupo_static_range_inversions_query.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\n\n\
-    #include <algorithm>\n#include <vector>\n\n#line 1 \"util/fastio.cpp\"\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\nusing\
+    #include <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing\
     \ namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
     \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
     \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
@@ -107,7 +107,7 @@ data:
     \        else return this->r > a.r;\n    }\n};\n/*\nfor (auto &&X : query) {\n\
     \    while(X.l < l) g(--l);\n    while(r < X.r) f(r++);\n    while(l < X.l) g(l++);\n\
     \    while(X.r < r) f(--r);\n    ans[X.no] = ans;\n}\n*/\n\n/**\n * @brief Mo's\
-    \ Algorithm\n */\n#line 9 \"test/yosupo_static_range_inversions_query.test.cpp\"\
+    \ Algorithm\n */\n#line 14 \"test/yosupo_static_range_inversions_query.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) sc.read(a[i]);\n\
     \    vector<int> xs = a;\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(),\
@@ -129,8 +129,9 @@ data:
     \        ans[qu.no] = inv;\n    }\n    for (auto x : ans) pr.writeln(x);\n   \
     \ return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
-    \n\n#include <algorithm>\n#include <vector>\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../datastructure/binaryindexedtree.cpp\"\n#include \"../util/mo.cpp\"\
+    \n\n#include <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
+    #include \"../datastructure/binaryindexedtree.cpp\"\n#include \"../util/mo.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) sc.read(a[i]);\n\
     \    vector<int> xs = a;\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(),\
@@ -158,7 +159,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_range_inversions_query.test.cpp

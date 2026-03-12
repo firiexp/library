@@ -52,9 +52,6 @@ data:
     path: test/yosupo_inverse_matrix.test.cpp
     title: test/yosupo_inverse_matrix.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_factorial.test.cpp
-    title: test/yosupo_many_aplusb_factorial.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_det.test.cpp
     title: test/yosupo_matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
@@ -175,7 +172,6 @@ data:
   - test/yosupo_inverse_matrix.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/aoj_dpl_5_a.test.cpp
-  - test/yosupo_many_aplusb_factorial.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp
   - test/yosupo_matrix_det.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp

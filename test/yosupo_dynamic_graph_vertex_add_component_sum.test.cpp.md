@@ -20,19 +20,20 @@ data:
     - https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum
   bundledCode: "#line 1 \"test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp\"\
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum\"\
-    \n\n#include <vector>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\nusing\
-    \ namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n\
-    \    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load()\
-    \ {\n        int len = size - idx;\n        memmove(buf, buf + idx, len);\n  \
-    \      size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
+    \n\n#include <algorithm>\n#include <map>\n#include <utility>\n#include <vector>\n\
+    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
+    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
+    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
+    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
+    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
+    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
+    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
+    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
+    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
+    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
     \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
@@ -88,49 +89,48 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"graph/dynamic_graph_vertex_add_component_sum.cpp\"\n#include <algorithm>\n\
-    #include <map>\n#include <utility>\n#line 5 \"graph/dynamic_graph_vertex_add_component_sum.cpp\"\
-    \nusing namespace std;\n\nstruct RollbackUnionFindComponentSum {\n    struct History\
-    \ {\n        int child, parent;\n        int parent_size, child_size;\n      \
-    \  long long parent_sum, child_sum;\n    };\n\n    vector<int> parent_or_size;\n\
-    \    vector<long long> comp_sum;\n    vector<History> history;\n\n    explicit\
-    \ RollbackUnionFindComponentSum(int n, const vector<long long> &a)\n        :\
-    \ parent_or_size(n, -1), comp_sum(a) {}\n\n    int root(int v) const {\n     \
-    \   while (parent_or_size[v] >= 0) v = parent_or_size[v];\n        return v;\n\
-    \    }\n\n    int snapshot() const {\n        return (int)history.size();\n  \
-    \  }\n\n    void rollback(int snap) {\n        while ((int)history.size() > snap)\
-    \ {\n            auto h = history.back();\n            history.pop_back();\n \
-    \           if (h.parent == -1) continue;\n            parent_or_size[h.parent]\
-    \ = h.parent_size;\n            parent_or_size[h.child] = h.child_size;\n    \
-    \        comp_sum[h.parent] = h.parent_sum;\n            comp_sum[h.child] = h.child_sum;\n\
-    \        }\n    }\n\n    void unite(int a, int b) {\n        a = root(a), b =\
-    \ root(b);\n        if (a == b) {\n            history.push_back({-1, -1, 0, 0,\
-    \ 0, 0});\n            return;\n        }\n        if (parent_or_size[a] > parent_or_size[b])\
-    \ swap(a, b);\n        history.push_back({b, a, parent_or_size[a], parent_or_size[b],\
-    \ comp_sum[a], comp_sum[b]});\n        parent_or_size[a] += parent_or_size[b];\n\
-    \        parent_or_size[b] = a;\n        comp_sum[a] += comp_sum[b];\n    }\n\n\
-    \    void add_value(int v, long long x) {\n        int r = root(v);\n        history.push_back({r,\
-    \ r, parent_or_size[r], parent_or_size[r], comp_sum[r], comp_sum[r]});\n     \
-    \   comp_sum[r] += x;\n    }\n\n    long long get_sum(int v) const {\n       \
-    \ return comp_sum[root(v)];\n    }\n};\n\nstruct DynamicGraphVertexAddComponentSum\
-    \ {\n    struct Query {\n        int type, u, v;\n        long long x;\n    };\n\
-    \    struct EdgeEvent {\n        int u, v;\n    };\n    struct AddEvent {\n  \
-    \      int v;\n        long long x;\n    };\n\n    int n, q, sz;\n    vector<Query>\
-    \ queries;\n    vector<vector<EdgeEvent>> seg_edges;\n    vector<vector<AddEvent>>\
-    \ seg_adds;\n    vector<long long> initial;\n\n    DynamicGraphVertexAddComponentSum(const\
-    \ vector<long long> &a, int q)\n        : n((int)a.size()), q(q), initial(a) {\n\
-    \        sz = 1;\n        while (sz < q) sz <<= 1;\n        seg_edges.resize(2\
-    \ * sz);\n        seg_adds.resize(2 * sz);\n        queries.reserve(q);\n    }\n\
-    \n    void add_edge(int u, int v) {\n        queries.push_back({0, u, v, 0});\n\
-    \    }\n\n    void erase_edge(int u, int v) {\n        queries.push_back({1, u,\
-    \ v, 0});\n    }\n\n    void add_vertex(int v, long long x) {\n        queries.push_back({2,\
-    \ v, 0, x});\n    }\n\n    void add_component_query(int v) {\n        queries.push_back({3,\
-    \ v, 0, 0});\n    }\n\n    template<class T>\n    void add_segment(vector<vector<T>>\
-    \ &seg, int l, int r, const T &event) {\n        for (l += sz, r += sz; l < r;\
-    \ l >>= 1, r >>= 1) {\n            if (l & 1) seg[l++].push_back(event);\n   \
-    \         if (r & 1) seg[--r].push_back(event);\n        }\n    }\n\n    vector<long\
-    \ long> solve() {\n        map<pair<int, int>, int> appear;\n        for (int\
-    \ t = 0; t < q; ++t) {\n            auto query = queries[t];\n            if (query.type\
+    \ 1 \"graph/dynamic_graph_vertex_add_component_sum.cpp\"\nusing namespace std;\n\
+    \nstruct RollbackUnionFindComponentSum {\n    struct History {\n        int child,\
+    \ parent;\n        int parent_size, child_size;\n        long long parent_sum,\
+    \ child_sum;\n    };\n\n    vector<int> parent_or_size;\n    vector<long long>\
+    \ comp_sum;\n    vector<History> history;\n\n    explicit RollbackUnionFindComponentSum(int\
+    \ n, const vector<long long> &a)\n        : parent_or_size(n, -1), comp_sum(a)\
+    \ {}\n\n    int root(int v) const {\n        while (parent_or_size[v] >= 0) v\
+    \ = parent_or_size[v];\n        return v;\n    }\n\n    int snapshot() const {\n\
+    \        return (int)history.size();\n    }\n\n    void rollback(int snap) {\n\
+    \        while ((int)history.size() > snap) {\n            auto h = history.back();\n\
+    \            history.pop_back();\n            if (h.parent == -1) continue;\n\
+    \            parent_or_size[h.parent] = h.parent_size;\n            parent_or_size[h.child]\
+    \ = h.child_size;\n            comp_sum[h.parent] = h.parent_sum;\n          \
+    \  comp_sum[h.child] = h.child_sum;\n        }\n    }\n\n    void unite(int a,\
+    \ int b) {\n        a = root(a), b = root(b);\n        if (a == b) {\n       \
+    \     history.push_back({-1, -1, 0, 0, 0, 0});\n            return;\n        }\n\
+    \        if (parent_or_size[a] > parent_or_size[b]) swap(a, b);\n        history.push_back({b,\
+    \ a, parent_or_size[a], parent_or_size[b], comp_sum[a], comp_sum[b]});\n     \
+    \   parent_or_size[a] += parent_or_size[b];\n        parent_or_size[b] = a;\n\
+    \        comp_sum[a] += comp_sum[b];\n    }\n\n    void add_value(int v, long\
+    \ long x) {\n        int r = root(v);\n        history.push_back({r, r, parent_or_size[r],\
+    \ parent_or_size[r], comp_sum[r], comp_sum[r]});\n        comp_sum[r] += x;\n\
+    \    }\n\n    long long get_sum(int v) const {\n        return comp_sum[root(v)];\n\
+    \    }\n};\n\nstruct DynamicGraphVertexAddComponentSum {\n    struct Query {\n\
+    \        int type, u, v;\n        long long x;\n    };\n    struct EdgeEvent {\n\
+    \        int u, v;\n    };\n    struct AddEvent {\n        int v;\n        long\
+    \ long x;\n    };\n\n    int n, q, sz;\n    vector<Query> queries;\n    vector<vector<EdgeEvent>>\
+    \ seg_edges;\n    vector<vector<AddEvent>> seg_adds;\n    vector<long long> initial;\n\
+    \n    DynamicGraphVertexAddComponentSum(const vector<long long> &a, int q)\n \
+    \       : n((int)a.size()), q(q), initial(a) {\n        sz = 1;\n        while\
+    \ (sz < q) sz <<= 1;\n        seg_edges.resize(2 * sz);\n        seg_adds.resize(2\
+    \ * sz);\n        queries.reserve(q);\n    }\n\n    void add_edge(int u, int v)\
+    \ {\n        queries.push_back({0, u, v, 0});\n    }\n\n    void erase_edge(int\
+    \ u, int v) {\n        queries.push_back({1, u, v, 0});\n    }\n\n    void add_vertex(int\
+    \ v, long long x) {\n        queries.push_back({2, v, 0, x});\n    }\n\n    void\
+    \ add_component_query(int v) {\n        queries.push_back({3, v, 0, 0});\n   \
+    \ }\n\n    template<class T>\n    void add_segment(vector<vector<T>> &seg, int\
+    \ l, int r, const T &event) {\n        for (l += sz, r += sz; l < r; l >>= 1,\
+    \ r >>= 1) {\n            if (l & 1) seg[l++].push_back(event);\n            if\
+    \ (r & 1) seg[--r].push_back(event);\n        }\n    }\n\n    vector<long long>\
+    \ solve() {\n        map<pair<int, int>, int> appear;\n        for (int t = 0;\
+    \ t < q; ++t) {\n            auto query = queries[t];\n            if (query.type\
     \ == 0) {\n                appear[minmax(query.u, query.v)] = t;\n           \
     \ } else if (query.type == 1) {\n                auto e = minmax(query.u, query.v);\n\
     \                add_segment(seg_edges, appear[e], t, {e.first, e.second});\n\
@@ -147,7 +147,7 @@ data:
     \ queries[t].type == 3) ans.push_back(uf.get_sum(queries[t].u));\n           \
     \ }\n            uf.rollback(snap);\n        };\n        dfs(dfs, 1);\n      \
     \  return ans;\n    }\n};\n\n/**\n * @brief \u52D5\u7684\u30B0\u30E9\u30D5\u9023\
-    \u7D50\u6210\u5206\u548C(Dynamic Graph Vertex Add Component Sum)\n */\n#line 8\
+    \u7D50\u6210\u5206\u548C(Dynamic Graph Vertex Add Component Sum)\n */\n#line 16\
     \ \"test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp\"\n\nint main()\
     \ {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n \
     \   vector<long long> a(n);\n    for (auto &x : a) sc.read(x);\n\n    DynamicGraphVertexAddComponentSum\
@@ -161,10 +161,11 @@ data:
     \        }\n    }\n\n    auto ans = solver.solve();\n    for (auto &&x : ans)\
     \ pr.writeln(x);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum\"\
-    \n\n#include <vector>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../graph/dynamic_graph_vertex_add_component_sum.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n \
-    \   vector<long long> a(n);\n    for (auto &x : a) sc.read(x);\n\n    DynamicGraphVertexAddComponentSum\
+    \n\n#include <algorithm>\n#include <map>\n#include <utility>\n#include <vector>\n\
+    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/dynamic_graph_vertex_add_component_sum.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
+    \ q);\n    vector<long long> a(n);\n    for (auto &x : a) sc.read(x);\n\n    DynamicGraphVertexAddComponentSum\
     \ solver(a, q);\n    for (int i = 0; i < q; ++i) {\n        int t;\n        sc.read(t);\n\
     \        if (t == 0) {\n            int u, v;\n            sc.read(u, v);\n  \
     \          solver.add_edge(u, v);\n        } else if (t == 1) {\n            int\
@@ -180,7 +181,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 01:07:24+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp

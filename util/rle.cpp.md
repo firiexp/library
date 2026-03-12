@@ -3,13 +3,10 @@ category: util
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_rle.test.cpp
-    title: test/yosupo_many_aplusb_rle.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: "\u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)"
     links: []
@@ -29,9 +26,8 @@ data:
   path: util/rle.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/yosupo_many_aplusb_rle.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 date: 2026-03-08
 documentation_of: util/rle.cpp
 layout: document
@@ -42,7 +38,7 @@ title: RLE
 ## 説明
 列を run-length encoding する。
 連続する同じ値を `(値, 個数)` にまとめる。
-計算量は `O(N)`。
+計算量は $O(N)$。
 
 ## できること
 - `vector<pair<T, int>> RLE(const vector<T>& a)`

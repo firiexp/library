@@ -22,10 +22,10 @@ data:
     - https://judge.yosupo.jp/problem/vertex_add_subtree_sum
   bundledCode: "#line 1 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
+    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
     \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
     \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
@@ -181,7 +181,7 @@ data:
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
     \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
-    \u6728(Segment Tree)\n */\n#line 11 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\
+    \u6728(Segment Tree)\n */\n#line 16 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\
     \n\nstruct SumMonoid {\n    using T = ll;\n    static T f(T a, T b) { return a\
     \ + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
@@ -196,7 +196,8 @@ data:
     \ seg.query(l, r); }));\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
     \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
-    \ \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\n#include \"../datastructure/segtree.cpp\"\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\n#include \"../datastructure/segtree.cpp\"\
     \n\nstruct SumMonoid {\n    using T = ll;\n    static T f(T a, T b) { return a\
     \ + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
@@ -216,7 +217,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp

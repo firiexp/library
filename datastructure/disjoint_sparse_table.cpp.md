@@ -65,7 +65,7 @@ title: Disjoint Sparse Table
 ---
 ## 説明
 結合則だけを満たす演算に対する静的区間クエリを処理する。
-前計算 `O(N log N)`、クエリ `O(1)`。
+前計算 $O(N log N)$、クエリ $O(1)$。
 
 ## できること
 - `DisjointSparseTable<F> dst(v)`

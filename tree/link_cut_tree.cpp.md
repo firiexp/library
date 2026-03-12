@@ -149,7 +149,7 @@ title: Link-Cut Tree
 
 ## 説明
 動的森に対して、辺の追加・削除、根の付け替え、パス上の集約を扱う。
-各操作は償却 `O(log N)`。
+各操作は償却 $O(log N)$。
 
 ## できること
 - `LinkCutTree<M> lct(n)`

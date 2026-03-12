@@ -82,7 +82,7 @@ title: Subset Convolution
 ## 説明
 部分集合畳み込みを計算する。
 `c[S] = Σ_{T ⊆ S} a[T] b[S \ T]` を返す。
-計算量は `N = 2^n` として `O(n^2 N)`。
+計算量は `N = 2^n` として $O(n^2 N)$。
 
 ## できること
 - `vector<T> subset_convolution(vector<T> a, vector<T> b)`

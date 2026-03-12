@@ -11,8 +11,8 @@ data:
     path: test/aoj0334.test.cpp
     title: test/aoj0334.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_bipartite_matching.test.cpp
-    title: test/yosupo_many_aplusb_bipartite_matching.test.cpp
+    path: test/aoj_grl_7_a_bipartite_matching.test.cpp
+    title: test/aoj_grl_7_a_bipartite_matching.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -64,8 +64,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/aoj_grl_7_a_bipartite_matching.test.cpp
   - test/aoj0334.test.cpp
-  - test/yosupo_many_aplusb_bipartite_matching.test.cpp
 documentation_of: graph/bipartite_matching.cpp
 layout: document
 title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite\
@@ -73,7 +73,7 @@ title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0
 ---
 ## 説明
 二部グラフの最大マッチングを単純 DFS で求める。
-左頂点数を `L`、右頂点数を `R`、辺数を `M` とすると計算量は `O(LM)`。
+左頂点数を `L`、右頂点数を `R`、辺数を `M` とすると計算量は $O(LM)$。
 
 ## できること
 - `Bipartite_Matching bm(l, r)`

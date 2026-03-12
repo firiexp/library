@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/isqrt.cpp
-    title: "\u6574\u6570sqrt"
+    path: string/z-algorithm.cpp
+    title: Z-algorithm
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -14,14 +14,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
+    PROBLEM: https://judge.yosupo.jp/problem/zalgorithm
     links:
-    - https://judge.yosupo.jp/problem/many_aplusb
-  bundledCode: "#line 1 \"test/yosupo_many_aplusb_isqrt.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include <cmath>\n#include\
-    \ <limits>\n#include <random>\nusing namespace std;\nusing ull = unsigned long\
-    \ long;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    - https://judge.yosupo.jp/problem/zalgorithm
+  bundledCode: "#line 1 \"test/yosupo_zalgorithm.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/zalgorithm\"\
+    \n\n#include <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#line 10 \"test/yosupo_zalgorithm.test.cpp\"\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -87,60 +86,37 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/isqrt.cpp\"\
-    \null Isqrt(ull const &x){\n    ull ret = (ull)sqrtl(x);\n    while(ret > 0 &&\
-    \ ret*ret > x) --ret;\n    while(x - ret*ret > 2*ret) ++ret;\n    return ret;\n\
-    }\n\n/**\n * @brief \u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)\n */\n\
-    #line 11 \"test/yosupo_many_aplusb_isqrt.test.cpp\"\n\nbool check_isqrt(ull x)\
-    \ {\n    ull y = Isqrt(x);\n    __uint128_t yy = (__uint128_t)y * y;\n    __uint128_t\
-    \ zz = (__uint128_t)(y + 1) * (y + 1);\n    return yy <= x && x < zz;\n}\n\nint\
-    \ main() {\n    {\n        vector<ull> xs = {\n            0, 1, 2, 3, 4, 7, 8,\
-    \ 9, 10,\n            (1ULL << 32) - 1,\n            1ULL << 32,\n           \
-    \ (1ULL << 32) + 1,\n            4294967295ULL * 4294967295ULL,\n            numeric_limits<ull>::max()\
-    \ - 1,\n            numeric_limits<ull>::max()\n        };\n        for (ull x\
-    \ : xs) {\n            if (!check_isqrt(x)) return 1;\n        }\n\n        for\
-    \ (ull y : {0ULL, 1ULL, 2ULL, 3ULL, 10ULL, 1000ULL, 65535ULL, 123456789ULL, 4294967295ULL})\
-    \ {\n            ull sq = y * y;\n            if (!check_isqrt(sq)) return 1;\n\
-    \            if (sq > 0 && !check_isqrt(sq - 1)) return 1;\n            if (sq\
-    \ != numeric_limits<ull>::max() && !check_isqrt(sq + 1)) return 1;\n        }\n\
-    \n        mt19937_64 rng(123456789);\n        for (int trial = 0; trial < 200000;\
-    \ ++trial) {\n            ull x = rng();\n            if (!check_isqrt(x)) return\
-    \ 1;\n        }\n    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
-    \ + b);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
-    \ <cmath>\n#include <limits>\n#include <random>\nusing namespace std;\nusing ull\
-    \ = unsigned long long;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/isqrt.cpp\"\
-    \n\nbool check_isqrt(ull x) {\n    ull y = Isqrt(x);\n    __uint128_t yy = (__uint128_t)y\
-    \ * y;\n    __uint128_t zz = (__uint128_t)(y + 1) * (y + 1);\n    return yy <=\
-    \ x && x < zz;\n}\n\nint main() {\n    {\n        vector<ull> xs = {\n       \
-    \     0, 1, 2, 3, 4, 7, 8, 9, 10,\n            (1ULL << 32) - 1,\n           \
-    \ 1ULL << 32,\n            (1ULL << 32) + 1,\n            4294967295ULL * 4294967295ULL,\n\
-    \            numeric_limits<ull>::max() - 1,\n            numeric_limits<ull>::max()\n\
-    \        };\n        for (ull x : xs) {\n            if (!check_isqrt(x)) return\
-    \ 1;\n        }\n\n        for (ull y : {0ULL, 1ULL, 2ULL, 3ULL, 10ULL, 1000ULL,\
-    \ 65535ULL, 123456789ULL, 4294967295ULL}) {\n            ull sq = y * y;\n   \
-    \         if (!check_isqrt(sq)) return 1;\n            if (sq > 0 && !check_isqrt(sq\
-    \ - 1)) return 1;\n            if (sq != numeric_limits<ull>::max() && !check_isqrt(sq\
-    \ + 1)) return 1;\n        }\n\n        mt19937_64 rng(123456789);\n        for\
-    \ (int trial = 0; trial < 200000; ++trial) {\n            ull x = rng();\n   \
-    \         if (!check_isqrt(x)) return 1;\n        }\n    }\n\n    Scanner sc;\n\
-    \    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        long\
-    \ long a, b;\n        sc.read(a, b);\n        pr.writeln(a + b);\n    }\n    return\
-    \ 0;\n}\n"
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"string/z-algorithm.cpp\"\
+    \nvector<int> Z_algorithm(const string &s){\n    int n = (int)s.size();\n    vector<int>\
+    \ res(n);\n    if (n == 0) return res;\n    res[0] = n;\n    for (int i = 1, l\
+    \ = 0, r = 0; i < n; ++i) {\n        if (i < r) res[i] = min(r - i, res[i - l]);\n\
+    \        while (i + res[i] < n && s[res[i]] == s[i + res[i]]) ++res[i];\n    \
+    \    if (r < i + res[i]) {\n            l = i;\n            r = i + res[i];\n\
+    \        }\n    }\n    return res;\n}\n\n/**\n * @brief Z-Algorithm\n */\n#line\
+    \ 14 \"test/yosupo_zalgorithm.test.cpp\"\n\nint main() {\n    Scanner sc;\n  \
+    \  Printer pr;\n\n    string s;\n    sc.read(s);\n    auto z = Z_algorithm(s);\n\
+    \    for (int i = 0; i < (int)z.size(); ++i) {\n        if (i) pr.write(' ');\n\
+    \        pr.write(z[i]);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/zalgorithm\"\n\n#include\
+    \ <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../string/z-algorithm.cpp\"\n\nint main() {\n    Scanner sc;\n  \
+    \  Printer pr;\n\n    string s;\n    sc.read(s);\n    auto z = Z_algorithm(s);\n\
+    \    for (int i = 0; i < (int)z.size(); ++i) {\n        if (i) pr.write(' ');\n\
+    \        pr.write(z[i]);\n    }\n    pr.writeln();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/isqrt.cpp
+  - string/z-algorithm.cpp
   isVerificationFile: true
-  path: test/yosupo_many_aplusb_isqrt.test.cpp
+  path: test/yosupo_zalgorithm.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 01:21:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_many_aplusb_isqrt.test.cpp
+documentation_of: test/yosupo_zalgorithm.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_many_aplusb_isqrt.test.cpp
-- /verify/test/yosupo_many_aplusb_isqrt.test.cpp.html
-title: test/yosupo_many_aplusb_isqrt.test.cpp
+- /verify/test/yosupo_zalgorithm.test.cpp
+- /verify/test/yosupo_zalgorithm.test.cpp.html
+title: test/yosupo_zalgorithm.test.cpp
 ---

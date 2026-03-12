@@ -24,8 +24,8 @@ data:
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_point_get\"\n\
     \n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
-    \n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -131,7 +131,7 @@ data:
     \  T operator[](int k){\n        thrust(k += sz);\n        return lazy[k];\n \
     \   }\n};\n/*\nstruct Monoid{\n    using T = ll;\n    static T f(T a, T b) { return\
     \ a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\u5BFE\
-    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)\n */\n#line 14 \"test/yosupo_range_affine_point_get_dualsegtree.test.cpp\"\
+    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)\n */\n#line 19 \"test/yosupo_range_affine_point_get_dualsegtree.test.cpp\"\
     \n\nstruct Monoid {\n    using T = pair<mint, mint>;\n    static T f(T a, T b)\
     \ {\n        return {b.first * a.first, b.first * a.second + b.second};\n    }\n\
     \    static T e() { return {1, 0}; }\n};\n\nint main() {\n    Scanner sc;\n  \
@@ -146,6 +146,7 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_point_get\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
     \n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\n#include \"\
     ../datastructure/dualsegtree.cpp\"\n\nstruct Monoid {\n    using T = pair<mint,\
     \ mint>;\n    static T f(T a, T b) {\n        return {b.first * a.first, b.first\
@@ -165,7 +166,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_point_get_dualsegtree.test.cpp

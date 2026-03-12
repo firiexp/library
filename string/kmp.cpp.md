@@ -59,8 +59,8 @@ Knuth-Morris-Pratt 法。
 
 ## 計算量
 
-- `kmp_table(s)` : `O(|s|)`
-- `kmp_search(text, pattern)` : `O(|text| + |pattern|)`
+- `kmp_table(s)` : $O(|s|)$
+- `kmp_search(text, pattern)` : $O(|text| + |pattern|)$
 
 ## 使い方
 

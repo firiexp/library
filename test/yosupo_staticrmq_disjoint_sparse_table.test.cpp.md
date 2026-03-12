@@ -19,8 +19,8 @@ data:
     - https://judge.yosupo.jp/problem/staticrmq
   bundledCode: "#line 1 \"test/yosupo_staticrmq_disjoint_sparse_table.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/staticrmq\"\n\n#include <algorithm>\n\
-    #include <vector>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\nusing\
+    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing\
     \ namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
     \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
     \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
@@ -105,16 +105,17 @@ data:
     \   }\n    }\n\n    T query(int l, int r) const {\n        if (l >= r) return\
     \ F::e();\n        --r;\n        if (l == r) return table[0][l];\n        int\
     \ k = 31 - __builtin_clz(l ^ r);\n        return F::f(table[k + 1][l], table[k\
-    \ + 1][r]);\n    }\n};\n\n/**\n * @brief Disjoint Sparse Table\n */\n#line 9 \"\
-    test/yosupo_staticrmq_disjoint_sparse_table.test.cpp\"\n\nstruct F {\n    using\
-    \ T = int;\n    static T f(T a, T b) { return min(a, b); }\n    static T e() {\
-    \ return 1 << 30; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n  \
-    \  int n, q;\n    sc.read(n, q);\n    vector<int> a(n);\n    for (auto &&x : a)\
-    \ sc.read(x);\n\n    DisjointSparseTable<F> dst(a);\n    while (q--) {\n     \
-    \   int l, r;\n        sc.read(l, r);\n        pr.writeln(dst.query(l, r));\n\
+    \ + 1][r]);\n    }\n};\n\n/**\n * @brief Disjoint Sparse Table\n */\n#line 14\
+    \ \"test/yosupo_staticrmq_disjoint_sparse_table.test.cpp\"\n\nstruct F {\n   \
+    \ using T = int;\n    static T f(T a, T b) { return min(a, b); }\n    static T\
+    \ e() { return 1 << 30; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\
+    \    int n, q;\n    sc.read(n, q);\n    vector<int> a(n);\n    for (auto &&x :\
+    \ a) sc.read(x);\n\n    DisjointSparseTable<F> dst(a);\n    while (q--) {\n  \
+    \      int l, r;\n        sc.read(l, r);\n        pr.writeln(dst.query(l, r));\n\
     \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/staticrmq\"\n\n#include\
-    \ <algorithm>\n#include <vector>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
+    \ <algorithm>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../datastructure/disjoint_sparse_table.cpp\"\n\nstruct F {\n    using\
     \ T = int;\n    static T f(T a, T b) { return min(a, b); }\n    static T e() {\
     \ return 1 << 30; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n  \
@@ -128,7 +129,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp

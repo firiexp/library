@@ -33,8 +33,8 @@ data:
     \ \"https://judge.yosupo.jp/problem/binomial_coefficient\"\n\n#include <cstdint>\n\
     #include <map>\n#include <numeric>\n#include <vector>\nusing namespace std;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
-    \n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -113,15 +113,15 @@ data:
     \        ll mm = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g\
     \ % mm * p % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R +=\
     \ M;\n    }\n    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\
-    \u7406(CRT)\n */\n#line 1 \"math/primefactor.cpp\"\nusing uint = uint32_t;\n\n\
-    template<typename T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n\
-    \    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T\
-    \ n) {\n        T x = n;\n        for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n\
-    \        return x;\n    }\n    bool divide(T n) const {\n        if(val == 2)\
-    \ return !(n & 1);\n        return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<uint>>\
-    \ get_prime(int n){\n    if(n <= 1) return vector<ExactDiv<uint>>();\n    vector<bool>\
-    \ is_prime(n+1, true);\n    vector<ExactDiv<uint>> prime;\n    is_prime[0] = is_prime[1]\
-    \ = false;\n    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
+    \u7406(CRT)\n */\n#line 1 \"math/primefactor.cpp\"\ntemplate<typename T>\nstruct\
+    \ ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1)\
+    \ / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n \
+    \       for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n\
+    \    bool divide(T n) const {\n        if(val == 2) return !(n & 1);\n       \
+    \ return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<uint>> get_prime(int\
+    \ n){\n    if(n <= 1) return vector<ExactDiv<uint>>();\n    vector<bool> is_prime(n+1,\
+    \ true);\n    vector<ExactDiv<uint>> prime;\n    is_prime[0] = is_prime[1] = false;\n\
+    \    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
     \        for (auto &&j : prime){\n            if(i*j.val > n) break;\n       \
     \     is_prime[i*j.val] = false;\n            if(j.divide(i)) break;\n       \
     \ }\n    }\n    return prime;\n}\nconst auto primes = get_prime(32000);\n\ntemplate<class\
@@ -150,7 +150,7 @@ data:
     \    if (e >= q) return 0;\n        ll x = (ull)b * c % mod;\n        return (ull)a\
     \ * mod_inv(x, mod) % mod * ppow[e] % mod;\n    }\n\n    ll modulus() const {\n\
     \        return mod;\n    }\n};\n\n/**\n * @brief \u4E8C\u9805\u4FC2\u6570(mod\
-    \ p^q)\n */\n#line 16 \"test/yosupo_binomial_coefficient.test.cpp\"\n\nll brute(ll\
+    \ p^q)\n */\n#line 21 \"test/yosupo_binomial_coefficient.test.cpp\"\n\nll brute(ll\
     \ n, ll k, ll mod) {\n    if (k < 0 || k > n) return 0;\n    vector<vector<ll>>\
     \ dp(n + 1, vector<ll>(k + 1));\n    dp[0][0] = 1 % mod;\n    for (ll i = 0; i\
     \ < n; ++i) {\n        for (ll j = 0; j <= min(i, k); ++j) {\n            dp[i\
@@ -183,7 +183,8 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/binomial_coefficient\"\n\
     \n#include <cstdint>\n#include <map>\n#include <numeric>\n#include <vector>\n\
     using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
-    \ = unsigned long long;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/CRT.cpp\"\
+    \ = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../math/CRT.cpp\"\
     \n#include \"../math/primefactor.cpp\"\n#include \"../math/binom_mod_prime_power.cpp\"\
     \n\nll brute(ll n, ll k, ll mod) {\n    if (k < 0 || k > n) return 0;\n    vector<vector<ll>>\
     \ dp(n + 1, vector<ll>(k + 1));\n    dp[0][0] = 1 % mod;\n    for (ll i = 0; i\
@@ -224,7 +225,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_binomial_coefficient.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 00:32:05+09:00'
+  timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_binomial_coefficient.test.cpp

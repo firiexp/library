@@ -83,7 +83,7 @@ title: DSU on Tree
 ---
 ## 説明
 各頂点を根とする部分木について、追加・削除可能なデータ構造を使ってクエリを処理する。
-全体計算量は、`update` と `clear` が `O(1)` なら `O(N log N)`。
+全体計算量は、`update` と `clear` が $O(1)$ なら $O(N log N)$。
 
 ## できること
 - `DSUonTree<G> dsu(g, root)`

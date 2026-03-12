@@ -15,8 +15,8 @@ data:
     links:
     - https://judge.yosupo.jp/problem/many_aplusb
   bundledCode: "#line 1 \"test/yosupo_many_aplusb.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\
-    \n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    \n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -82,20 +82,21 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 4 \"test/yosupo_many_aplusb.test.cpp\"\
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 9 \"test/yosupo_many_aplusb.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int t;\n    in.read(t);\n\
     \    while (t--) {\n        long long a, b;\n        in.read(a, b);\n        out.writeln(a\
     \ + b);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
-    \ \"../util/fastio.cpp\"\n\nint main() {\n    Scanner in;\n    Printer out;\n\
-    \    int t;\n    in.read(t);\n    while (t--) {\n        long long a, b;\n   \
-    \     in.read(a, b);\n        out.writeln(a + b);\n    }\n    return 0;\n}\n"
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #include \"../util/fastio.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
+    \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        long long a, b;\n\
+    \        in.read(a, b);\n        out.writeln(a + b);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   isVerificationFile: true
   path: test/yosupo_many_aplusb.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb.test.cpp

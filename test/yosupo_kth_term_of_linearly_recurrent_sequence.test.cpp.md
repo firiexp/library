@@ -25,10 +25,10 @@ data:
     - https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
   bundledCode: "#line 1 \"test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp\"\
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
-    \n\n#include <iostream>\n#include <vector>\n\nusing ll = long long;\nusing uint\
-    \ = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n#line\
-    \ 1 \"math/ntt.cpp\"\n#include <algorithm>\n#include <cassert>\n\nconstexpr int\
-    \ ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define\
+    \n\n#include <algorithm>\n#include <cassert>\n#include <iostream>\n#include <utility>\n\
+    #include <vector>\n\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\nusing namespace std;\n\n#line 1 \"math/ntt.cpp\"\nconstexpr\
+    \ int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define\
     \ NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define\
     \ NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353\
     \  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct modint\
@@ -332,21 +332,21 @@ data:
     \ a[i];\n    poly p = (poly(aa) * q).cut(k);\n    return nth_term(p, q, n);\n\
     }\n\nmint linear_recurrence(const vector<mint> &a, ll n) {\n    return linear_recurrence(a,\
     \ berlekamp_massey(a), n);\n}\n\n/**\n * @brief \u7DDA\u5F62\u6F38\u5316\u5F0F\
-    (Linear Recurrence)\n */\n#line 12 \"test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp\"\
+    (Linear Recurrence)\n */\n#line 15 \"test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp\"\
     \n\nint main() {\n    int d;\n    ll n;\n    cin >> d >> n;\n    vector<mint>\
     \ a(d), c(d);\n    for (int i = 0; i < d; ++i) {\n        int x;\n        cin\
     \ >> x;\n        a[i] = x;\n    }\n    for (int i = 0; i < d; ++i) {\n       \
     \ int x;\n        cin >> x;\n        c[i] = x;\n    }\n    cout << linear_recurrence(a,\
     \ c, n).val << '\\n';\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
-    \n\n#include <iostream>\n#include <vector>\n\nusing ll = long long;\nusing uint\
-    \ = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\n#include\
-    \ \"../fps/linear_recurrence.cpp\"\n\nint main() {\n    int d;\n    ll n;\n  \
-    \  cin >> d >> n;\n    vector<mint> a(d), c(d);\n    for (int i = 0; i < d; ++i)\
-    \ {\n        int x;\n        cin >> x;\n        a[i] = x;\n    }\n    for (int\
-    \ i = 0; i < d; ++i) {\n        int x;\n        cin >> x;\n        c[i] = x;\n\
-    \    }\n    cout << linear_recurrence(a, c, n).val << '\\n';\n    return 0;\n\
-    }\n"
+    \n\n#include <algorithm>\n#include <cassert>\n#include <iostream>\n#include <utility>\n\
+    #include <vector>\n\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\nusing namespace std;\n\n#include \"../fps/linear_recurrence.cpp\"\
+    \n\nint main() {\n    int d;\n    ll n;\n    cin >> d >> n;\n    vector<mint>\
+    \ a(d), c(d);\n    for (int i = 0; i < d; ++i) {\n        int x;\n        cin\
+    \ >> x;\n        a[i] = x;\n    }\n    for (int i = 0; i < d; ++i) {\n       \
+    \ int x;\n        cin >> x;\n        c[i] = x;\n    }\n    cout << linear_recurrence(a,\
+    \ c, n).val << '\\n';\n    return 0;\n}\n"
   dependsOn:
   - fps/linear_recurrence.cpp
   - fps/nth_term.cpp
@@ -355,7 +355,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   requiredBy: []
-  timestamp: '2026-03-11 21:27:09+09:00'
+  timestamp: '2026-03-12 14:37:11+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp

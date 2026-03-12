@@ -80,7 +80,7 @@ title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
 ---
 ## 説明
 Euler Tour + Sparse Table で木上の LCA を求める。
-前処理 `O(N log N)`、クエリ `O(1)`。
+前処理 $O(N log N)$、クエリ $O(1)$。
 
 ## できること
 - `LCA lca(n)`

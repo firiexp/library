@@ -18,10 +18,11 @@ data:
     links:
     - https://judge.yosupo.jp/problem/discrete_logarithm_mod
   bundledCode: "#line 1 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\n\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    \ \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\n\n#include <cmath>\n\
+    #include <limits>\n#include <numeric>\n#include <unordered_map>\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
+    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
     \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
     \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
@@ -86,16 +87,15 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"math/discrete_logarithm.cpp\"\n#include <cmath>\n#include <limits>\n#include\
-    \ <numeric>\n#include <unordered_map>\n\nlong long discrete_logarithm_mul(long\
-    \ long a, long long b, long long mod) {\n    using i128 = __int128_t;\n    return\
-    \ (long long)((i128)a * b % mod);\n}\n\nlong long discrete_logarithm(long long\
-    \ x, long long y, long long mod) {\n    if (mod == 1) return 0;\n    x %= mod;\n\
-    \    y %= mod;\n    if (x < 0) x += mod;\n    if (y < 0) y += mod;\n    if (y\
-    \ == 1) return 0;\n\n    long long add = 0;\n    long long k = 1 % mod;\n    while\
-    \ (true) {\n        long long g = std::gcd(x, mod);\n        if (g == 1) break;\n\
-    \        if (y == k) return add;\n        if (y % g != 0) return -1;\n       \
-    \ y /= g;\n        mod /= g;\n        ++add;\n        k = discrete_logarithm_mul(k,\
+    \ 1 \"math/discrete_logarithm.cpp\"\nlong long discrete_logarithm_mul(long long\
+    \ a, long long b, long long mod) {\n    using i128 = __int128_t;\n    return (long\
+    \ long)((i128)a * b % mod);\n}\n\nlong long discrete_logarithm(long long x, long\
+    \ long y, long long mod) {\n    if (mod == 1) return 0;\n    x %= mod;\n    y\
+    \ %= mod;\n    if (x < 0) x += mod;\n    if (y < 0) y += mod;\n    if (y == 1)\
+    \ return 0;\n\n    long long add = 0;\n    long long k = 1 % mod;\n    while (true)\
+    \ {\n        long long g = std::gcd(x, mod);\n        if (g == 1) break;\n   \
+    \     if (y == k) return add;\n        if (y % g != 0) return -1;\n        y /=\
+    \ g;\n        mod /= g;\n        ++add;\n        k = discrete_logarithm_mul(k,\
     \ x / g, mod);\n    }\n\n    long long n = (long long)std::sqrt((long double)mod)\
     \ + 1;\n    std::unordered_map<long long, long long> baby;\n    baby.reserve((size_t)n\
     \ * 2 + 1);\n\n    long long giant = 1;\n    for (long long i = 0; i < n; ++i)\
@@ -108,12 +108,14 @@ data:
     \           if (cand < ans) ans = cand;\n        }\n        cur = discrete_logarithm_mul(cur,\
     \ x, mod);\n    }\n    return ans == std::numeric_limits<long long>::max() ? -1\
     \ : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete Logarithm)\n */\n\
-    #line 5 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n     \
-    \   long long x, y, mod;\n        sc.read(x, y, mod);\n        pr.writeln(discrete_logarithm(x,\
+    #line 15 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\n\nint main() {\n   \
+    \ Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n\
+    \        long long x, y, mod;\n        sc.read(x, y, mod);\n        pr.writeln(discrete_logarithm(x,\
     \ y, mod));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\
-    \n\n#include \"../util/fastio.cpp\"\n#include \"../math/discrete_logarithm.cpp\"\
+    \n\n#include <cmath>\n#include <limits>\n#include <numeric>\n#include <unordered_map>\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../math/discrete_logarithm.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
     \    while (t--) {\n        long long x, y, mod;\n        sc.read(x, y, mod);\n\
     \        pr.writeln(discrete_logarithm(x, y, mod));\n    }\n    return 0;\n}\n"
@@ -123,7 +125,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_discrete_logarithm_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_discrete_logarithm_mod.test.cpp

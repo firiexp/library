@@ -94,7 +94,7 @@ title: Dynamic Segment Tree
 ## 説明
 必要なノードだけ作る動的セグメント木。
 大きい座標範囲に対する 1 点更新と区間積を扱う。
-各操作は生成ノード数に応じて `O(log N)`。
+各操作は生成ノード数に応じて $O(log N)$。
 
 ## できること
 - `DynamicSegmentTree<M> seg(n)`

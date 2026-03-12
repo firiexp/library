@@ -1,8 +1,14 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: graph/offlinedynamicconnectivity.cpp
+    title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
+    title: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
     title: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
@@ -52,10 +58,12 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: datastructure/undoableunionfind.cpp
-  requiredBy: []
+  requiredBy:
+  - graph/offlinedynamicconnectivity.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
 documentation_of: datastructure/undoableunionfind.cpp
 layout: document
@@ -63,7 +71,7 @@ title: Undoable Union Find
 ---
 ## 説明
 undo / rollback ができる Union-Find である。
-併合 1 回あたりの変更点を保存し、`undo()` を `O(1)` で行う。
+併合 1 回あたりの変更点を保存し、`undo()` を $O(1)$ で行う。
 
 ## できること
 - `UndoableUnionFind uf(n)`

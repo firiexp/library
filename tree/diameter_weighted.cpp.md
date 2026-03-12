@@ -46,7 +46,7 @@ layout: document
 title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"
 ---
 ## 説明
-重み付き木の直径長とその両端点を `O(N)` で求める。
+重み付き木の直径長とその両端点を $O(N)$ で求める。
 
 ## できること
 - `pair<T, pair<int, int>> tree_diameter_weighted(const vector<vector<pair<int, T>>> &g)`

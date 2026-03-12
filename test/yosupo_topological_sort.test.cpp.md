@@ -19,10 +19,10 @@ data:
     - https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_B
   bundledCode: "#line 1 \"test/yosupo_topological_sort.test.cpp\"\n#define PROBLEM\
     \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_B\"\n\n#include <algorithm>\n\
-    #include <queue>\n#include <vector>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    #include <queue>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
+    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
     \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
     \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
@@ -96,7 +96,7 @@ data:
     \   };\n    for (int i = 0; i < n; ++i) {\n        if (state[i] == 0 && !dfs(dfs,\
     \ i)) return {};\n    }\n    reverse(ord.begin(), ord.end());\n    return ord;\n\
     }\n\n/**\n * @brief \u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological\
-    \ Sort)\n */\n#line 10 \"test/yosupo_topological_sort.test.cpp\"\n\nint main()\
+    \ Sort)\n */\n#line 15 \"test/yosupo_topological_sort.test.cpp\"\n\nint main()\
     \ {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n   \
     \ vector<vector<int>> g(n);\n    for (int i = 0; i < m; ++i) {\n        int a,\
     \ b;\n        sc.read(a, b);\n        g[a].push_back(b);\n    }\n    auto ord\
@@ -104,6 +104,7 @@ data:
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_B\"\n\n\
     #include <algorithm>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
     \n#include \"../util/fastio.cpp\"\n#include \"../graph/topological_sort.cpp\"\n\
     \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<vector<int>> g(n);\n    for (int i = 0; i < m; ++i) {\n    \
@@ -116,7 +117,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_topological_sort.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_topological_sort.test.cpp

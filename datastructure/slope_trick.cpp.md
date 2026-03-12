@@ -3,13 +3,10 @@ category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_slope_trick.test.cpp
-    title: test/yosupo_many_aplusb_slope_trick.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: Slope Trick
     links: []
@@ -75,9 +72,8 @@ data:
   path: datastructure/slope_trick.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/yosupo_many_aplusb_slope_trick.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 date: 2026-03-08
 documentation_of: datastructure/slope_trick.cpp
 layout: document
@@ -87,7 +83,7 @@ title: Slope Trick
 
 ## 説明
 下に凸な区分線形関数を保ちながら、`max(a - x, 0)` や `max(x - a, 0)` の加算、平行移動、片側累積 min を扱う。
-各操作は償却 `O(log N)`。
+各操作は償却 $O(log N)$。
 
 ## できること
 - `SlopeTrick<T> st`
@@ -126,3 +122,4 @@ auto q = st.query();
 ## 実装上の補足
 左右の折れ点を priority queue で持つ典型実装である。
 `merge` は `other` を破壊する。
+`eval` は heap を丸ごとコピーして走査するので $O(N)$。単発の確認や debug 向けで、各 query ごとに多用する用途には向かない。

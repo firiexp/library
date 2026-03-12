@@ -6,10 +6,13 @@ data:
     path: flow/dinic.cpp
     title: "Dinic(\u6700\u5927\u6D41)"
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yuki957_project_selection_problem.test.cpp
+    title: test/yuki957_project_selection_problem.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Project Selection Problem
     links: []
@@ -101,8 +104,9 @@ data:
   path: flow/project_selection_problem.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yuki957_project_selection_problem.test.cpp
 date: 2026-03-08
 documentation_of: flow/project_selection_problem.cpp
 layout: document

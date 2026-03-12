@@ -18,10 +18,11 @@ data:
     links:
     - https://judge.yosupo.jp/problem/stern_brocot_tree
   bundledCode: "#line 1 \"test/yosupo_stern_brocot_tree.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/stern_brocot_tree\"\n\n#line 1 \"util/fastio.cpp\"\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    using namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n  \
-    \  constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    \ \"https://judge.yosupo.jp/problem/stern_brocot_tree\"\n\n#include <cassert>\n\
+    #include <utility>\n#include <vector>\nusing ll = long long;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
+    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
     \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
     \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
@@ -86,22 +87,21 @@ data:
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
     \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"math/stern_brocot_tree.cpp\"\n#include <cassert>\n#include <utility>\n#include\
-    \ <vector>\nusing namespace std;\n\nnamespace SternBrocotTree {\n\nusing ll =\
-    \ long long;\n\nenum Direction {\n    Left,\n    Right\n};\n\nstruct Move {\n\
-    \    Direction dir;\n    ll steps;\n};\n\nstruct Node {\n    ll p, q, r, s;\n\n\
-    \    Node() : p(0), q(1), r(1), s(0) {}\n    Node(ll p, ll q, ll r, ll s) : p(p),\
-    \ q(q), r(r), s(s) {}\n\n    ll num() const { return p + r; }\n    ll den() const\
-    \ { return q + s; }\n};\n\nNode apply(Node node, Move move) {\n    if (move.steps\
-    \ == 0) return node;\n    if (move.dir == Left) {\n        node.r += node.p *\
-    \ move.steps;\n        node.s += node.q * move.steps;\n    } else {\n        node.p\
-    \ += node.r * move.steps;\n        node.q += node.s * move.steps;\n    }\n   \
-    \ return node;\n}\n\nNode decode_path(const vector<Move>& path) {\n    Node node;\n\
-    \    for (auto move : path) node = apply(node, move);\n    return node;\n}\n\n\
-    vector<Move> encode_path(ll a, ll b) {\n    assert(a > 0 && b > 0);\n    vector<Move>\
-    \ path;\n    while (a != b) {\n        if (a < b) {\n            ll steps = (b\
-    \ - 1) / a;\n            path.push_back({Left, steps});\n            b -= steps\
-    \ * a;\n        } else {\n            ll steps = (a - 1) / b;\n            path.push_back({Right,\
+    \ 1 \"math/stern_brocot_tree.cpp\"\nusing namespace std;\n\nnamespace SternBrocotTree\
+    \ {\n\nenum Direction {\n    Left,\n    Right\n};\n\nstruct Move {\n    Direction\
+    \ dir;\n    ll steps;\n};\n\nstruct Node {\n    ll p, q, r, s;\n\n    Node() :\
+    \ p(0), q(1), r(1), s(0) {}\n    Node(ll p, ll q, ll r, ll s) : p(p), q(q), r(r),\
+    \ s(s) {}\n\n    ll num() const { return p + r; }\n    ll den() const { return\
+    \ q + s; }\n};\n\nNode apply(Node node, Move move) {\n    if (move.steps == 0)\
+    \ return node;\n    if (move.dir == Left) {\n        node.r += node.p * move.steps;\n\
+    \        node.s += node.q * move.steps;\n    } else {\n        node.p += node.r\
+    \ * move.steps;\n        node.q += node.s * move.steps;\n    }\n    return node;\n\
+    }\n\nNode decode_path(const vector<Move>& path) {\n    Node node;\n    for (auto\
+    \ move : path) node = apply(node, move);\n    return node;\n}\n\nvector<Move>\
+    \ encode_path(ll a, ll b) {\n    assert(a > 0 && b > 0);\n    vector<Move> path;\n\
+    \    while (a != b) {\n        if (a < b) {\n            ll steps = (b - 1) /\
+    \ a;\n            path.push_back({Left, steps});\n            b -= steps * a;\n\
+    \        } else {\n            ll steps = (a - 1) / b;\n            path.push_back({Right,\
     \ steps});\n            a -= steps * b;\n        }\n    }\n    return path;\n\
     }\n\nll depth(const vector<Move>& path) {\n    ll ret = 0;\n    for (auto move\
     \ : path) ret += move.steps;\n    return ret;\n}\n\nvector<Move> lca_path(const\
@@ -118,14 +118,14 @@ data:
     Node range(ll a, ll b) {\n    return decode_path(encode_path(a, b));\n}\n\nNode\
     \ lca(ll a, ll b, ll c, ll d) {\n    return decode_path(lca_path(encode_path(a,\
     \ b), encode_path(c, d)));\n}\n\n}  // namespace SternBrocotTree\n\n/**\n * @brief\
-    \ Stern-Brocot\u6728\n */\n#line 5 \"test/yosupo_stern_brocot_tree.test.cpp\"\n\
-    \nint main() {\n    using namespace SternBrocotTree;\n\n    Scanner sc;\n    Printer\
-    \ pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n        string op;\n  \
-    \      sc.read(op);\n        if (op == \"ENCODE_PATH\") {\n            ll a, b;\n\
-    \            sc.read(a, b);\n            auto path = encode_path(a, b);\n    \
-    \        pr.write((int)path.size());\n            for (auto move : path) {\n \
-    \               pr.write(' ');\n                pr.write(move.dir == Left ? 'L'\
-    \ : 'R');\n                pr.write(' ');\n                pr.write(move.steps);\n\
+    \ Stern-Brocot\u6728\n */\n#line 15 \"test/yosupo_stern_brocot_tree.test.cpp\"\
+    \n\nint main() {\n    using namespace SternBrocotTree;\n\n    Scanner sc;\n  \
+    \  Printer pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n        string\
+    \ op;\n        sc.read(op);\n        if (op == \"ENCODE_PATH\") {\n          \
+    \  ll a, b;\n            sc.read(a, b);\n            auto path = encode_path(a,\
+    \ b);\n            pr.write((int)path.size());\n            for (auto move : path)\
+    \ {\n                pr.write(' ');\n                pr.write(move.dir == Left\
+    \ ? 'L' : 'R');\n                pr.write(' ');\n                pr.write(move.steps);\n\
     \            }\n            pr.writeln();\n        } else if (op == \"DECODE_PATH\"\
     ) {\n            int k;\n            sc.read(k);\n            vector<Move> path(k);\n\
     \            for (int i = 0; i < k; ++i) {\n                char c;\n        \
@@ -143,8 +143,10 @@ data:
     \ b);\n            pr.writeln(node.p, node.q, node.r, node.s);\n        }\n  \
     \  }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/stern_brocot_tree\"\n\n\
-    #include \"../util/fastio.cpp\"\n#include \"../math/stern_brocot_tree.cpp\"\n\n\
-    int main() {\n    using namespace SternBrocotTree;\n\n    Scanner sc;\n    Printer\
+    #include <cassert>\n#include <utility>\n#include <vector>\nusing ll = long long;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../math/stern_brocot_tree.cpp\"\n\
+    \nint main() {\n    using namespace SternBrocotTree;\n\n    Scanner sc;\n    Printer\
     \ pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n        string op;\n  \
     \      sc.read(op);\n        if (op == \"ENCODE_PATH\") {\n            ll a, b;\n\
     \            sc.read(a, b);\n            auto path = encode_path(a, b);\n    \
@@ -173,7 +175,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_stern_brocot_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_stern_brocot_tree.test.cpp

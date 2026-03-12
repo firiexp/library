@@ -18,10 +18,10 @@ data:
     links:
     - https://judge.yosupo.jp/problem/directedmst
   bundledCode: "#line 1 \"test/yosupo_directedmst.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/directedmst\"\
-    \n\n#include <vector>\nusing ll = long long;\nusing namespace std;\n\n#line 1\
-    \ \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable {\n  \
-    \  char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
+    \n\n#include <vector>\nusing ll = long long;\nusing namespace std;\n\n#include\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable {\n\
+    \    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for\
     \ (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int\
     \ j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n\
     \                x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner\
@@ -152,7 +152,7 @@ data:
     \        while (x != idx) {\n                used_edge[x] = 1;\n             \
     \   x = parent_edge[x];\n            }\n        }\n        return {true, total,\
     \ parent, edge_id};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u5168\u57DF\u6709\
-    \u5411\u6728(Chu-Liu/Edmonds)\n */\n#line 9 \"test/yosupo_directedmst.test.cpp\"\
+    \u5411\u6728(Chu-Liu/Edmonds)\n */\n#line 14 \"test/yosupo_directedmst.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, m, r;\n    in.read(n,\
     \ m, r);\n    ChuLiuEdmonds<ll> dmst(n, r);\n    for (int i = 0; i < m; ++i) {\n\
     \        int a, b;\n        ll c;\n        in.read(a, b, c);\n        dmst.add_edge(a,\
@@ -161,7 +161,8 @@ data:
     \ out.write(' ');\n        out.write(res.parent[i]);\n    }\n    out.writeln();\n\
     \    return 0;\n}\n\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/directedmst\"\n\n#include\
-    \ <vector>\nusing ll = long long;\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
+    \ <vector>\nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../graph/chu_liu_edmonds.cpp\"\n\nint main() {\n    Scanner in;\n\
     \    Printer out;\n    int n, m, r;\n    in.read(n, m, r);\n    ChuLiuEdmonds<ll>\
     \ dmst(n, r);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        ll\
@@ -175,7 +176,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_directedmst.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_directedmst.test.cpp

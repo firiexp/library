@@ -6,13 +6,10 @@ data:
   - icon: ':warning:'
     path: math/pell_equation.cpp
     title: math/pell_equation.cpp
-  _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_isqrt.test.cpp
-    title: test/yosupo_many_aplusb_isqrt.test.cpp
+  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     document_title: "\u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)"
     links: []
@@ -29,9 +26,8 @@ data:
   requiredBy:
   - math/pell_equation.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
-  verifiedWith:
-  - test/yosupo_many_aplusb_isqrt.test.cpp
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 date: 2026-03-08
 documentation_of: math/isqrt.cpp
 layout: document

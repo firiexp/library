@@ -93,7 +93,7 @@ title: "\u9006\u884C\u5217(Inverse Matrix)"
 
 ## 説明
 `modint` 行列の逆行列を計算する。
-Gauss-Jordan 消去を使い、計算量は `O(N^3)`。
+Gauss-Jordan 消去を使い、計算量は $O(N^3)$。
 
 ## できること
 - `vector<vector<mint>> inverse_matrix(const vector<vector<mint>>& A)`

@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: geometry/argsort.cpp
-    title: Arg Sort
+    path: string/lyndon_factorization.cpp
+    title: "Lyndon\u5206\u89E3(Lyndon Factorization)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -14,14 +14,14 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
+    PROBLEM: https://judge.yosupo.jp/problem/lyndon_factorization
     links:
-    - https://judge.yosupo.jp/problem/many_aplusb
-  bundledCode: "#line 1 \"test/yosupo_many_aplusb_argsort.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include <algorithm>\n#include\
-    \ <array>\n#include <random>\n#include <vector>\nusing namespace std;\nusing ll\
-    \ = long long;\n\n#line 1 \"util/fastio.cpp\"\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\nusing namespace std;\n\nstruct FastIoDigitTable\
+    - https://judge.yosupo.jp/problem/lyndon_factorization
+  bundledCode: "#line 1 \"test/yosupo_lyndon_factorization.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\n#include <string>\n\
+    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #line 10 \"test/yosupo_lyndon_factorization.test.cpp\"\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nstruct FastIoDigitTable\
     \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
     \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
     \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
@@ -87,74 +87,39 @@ data:
     \ class... Tail>\n    void writeln(const Head &head, const Tail &...tail) {\n\
     \        write(head);\n        ((pc(' '), write(tail)), ...);\n        pc('\\\
     n');\n    }\n\n    void writeln() {\n        pc('\\n');\n    }\n};\n\n/**\n *\
-    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/argsort.cpp\"\
-    \nusing Ar2 = array<int, 2>;\nvoid argsort(vector<Ar2> &v)\n{\n    auto pos =\
-    \ [&](Ar2 &x) -> int\n    { if(x[1]) return x[1] < 0 ? -1 : 1; else return x[0]\
-    \ < 0; };\n    sort(v.begin(), v.end(), [&](Ar2 a, Ar2 b)\n         {\n      \
-    \  if(pos(a) != pos(b)) return pos(a) < pos(b);\n        return (ll)a[0]*b[1]\
-    \ > (ll)a[1]*b[0]; });\n}\n\n/**\n * @brief \u504F\u89D2\u30BD\u30FC\u30C8(Argument\
-    \ Sort)\n */\n#line 12 \"test/yosupo_many_aplusb_argsort.test.cpp\"\n\nint pos(const\
-    \ Ar2 &x) {\n    if (x[1] != 0) return x[1] < 0 ? -1 : 1;\n    return x[0] < 0;\n\
-    }\n\nll cross(const Ar2 &a, const Ar2 &b) {\n    return (ll)a[0] * b[1] - (ll)a[1]\
-    \ * b[0];\n}\n\nbool same_dir(const Ar2 &a, const Ar2 &b) {\n    return cross(a,\
-    \ b) == 0 && pos(a) == pos(b);\n}\n\nint main() {\n    {\n        mt19937 rng(123456789);\n\
-    \        for (int n = 0; n <= 80; ++n) {\n            for (int trial = 0; trial\
-    \ < 200; ++trial) {\n                vector<Ar2> v;\n                while ((int)v.size()\
-    \ < n) {\n                    int x = uniform_int_distribution<int>(-6, 6)(rng);\n\
-    \                    int y = uniform_int_distribution<int>(-6, 6)(rng);\n    \
-    \                if (x == 0 && y == 0) continue;\n                    v.push_back({x,\
-    \ y});\n                }\n                argsort(v);\n                for (int\
-    \ i = 0; i + 1 < n; ++i) {\n                    if (pos(v[i]) > pos(v[i + 1]))\
-    \ return 1;\n                    if (pos(v[i]) == pos(v[i + 1]) && cross(v[i],\
-    \ v[i + 1]) < 0) return 1;\n                }\n            }\n        }\n\n  \
-    \      vector<Ar2> v = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};\n        argsort(v);\n\
-    \        if (v != vector<Ar2>{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}) return 1;\n\n\
-    \        v = {{2, 2}, {1, 1}, {-3, -3}, {-1, -1}, {0, 2}, {0, -5}};\n        argsort(v);\n\
-    \        for (int i = 0; i + 1 < (int)v.size(); ++i) {\n            if (same_dir(v[i],\
-    \ v[i + 1])) continue;\n            if (pos(v[i]) > pos(v[i + 1])) return 1;\n\
-    \            if (pos(v[i]) == pos(v[i + 1]) && cross(v[i], v[i + 1]) < 0) return\
-    \ 1;\n        }\n    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
-    \ + b);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
-    \ <algorithm>\n#include <array>\n#include <random>\n#include <vector>\nusing namespace\
-    \ std;\nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\n#include \"\
-    ../geometry/argsort.cpp\"\n\nint pos(const Ar2 &x) {\n    if (x[1] != 0) return\
-    \ x[1] < 0 ? -1 : 1;\n    return x[0] < 0;\n}\n\nll cross(const Ar2 &a, const\
-    \ Ar2 &b) {\n    return (ll)a[0] * b[1] - (ll)a[1] * b[0];\n}\n\nbool same_dir(const\
-    \ Ar2 &a, const Ar2 &b) {\n    return cross(a, b) == 0 && pos(a) == pos(b);\n\
-    }\n\nint main() {\n    {\n        mt19937 rng(123456789);\n        for (int n\
-    \ = 0; n <= 80; ++n) {\n            for (int trial = 0; trial < 200; ++trial)\
-    \ {\n                vector<Ar2> v;\n                while ((int)v.size() < n)\
-    \ {\n                    int x = uniform_int_distribution<int>(-6, 6)(rng);\n\
-    \                    int y = uniform_int_distribution<int>(-6, 6)(rng);\n    \
-    \                if (x == 0 && y == 0) continue;\n                    v.push_back({x,\
-    \ y});\n                }\n                argsort(v);\n                for (int\
-    \ i = 0; i + 1 < n; ++i) {\n                    if (pos(v[i]) > pos(v[i + 1]))\
-    \ return 1;\n                    if (pos(v[i]) == pos(v[i + 1]) && cross(v[i],\
-    \ v[i + 1]) < 0) return 1;\n                }\n            }\n        }\n\n  \
-    \      vector<Ar2> v = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};\n        argsort(v);\n\
-    \        if (v != vector<Ar2>{{0, -1}, {1, 0}, {0, 1}, {-1, 0}}) return 1;\n\n\
-    \        v = {{2, 2}, {1, 1}, {-3, -3}, {-1, -1}, {0, 2}, {0, -5}};\n        argsort(v);\n\
-    \        for (int i = 0; i + 1 < (int)v.size(); ++i) {\n            if (same_dir(v[i],\
-    \ v[i + 1])) continue;\n            if (pos(v[i]) > pos(v[i + 1])) return 1;\n\
-    \            if (pos(v[i]) == pos(v[i + 1]) && cross(v[i], v[i + 1]) < 0) return\
-    \ 1;\n        }\n    }\n\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        long long a, b;\n        sc.read(a, b);\n        pr.writeln(a\
-    \ + b);\n    }\n    return 0;\n}\n"
+    \ @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"string/lyndon_factorization.cpp\"\
+    \nusing namespace std;\n\nvector<pair<int, int>> lyndon_factorization(const string\
+    \ &s) {\n    int n = (int)s.size();\n    vector<pair<int, int>> res;\n    for\
+    \ (int i = 0; i < n;) {\n        int j = i + 1, k = i;\n        while (j < n &&\
+    \ s[k] <= s[j]) {\n            if (s[k] < s[j]) k = i;\n            else ++k;\n\
+    \            ++j;\n        }\n        int len = j - k;\n        while (i <= k)\
+    \ {\n            res.emplace_back(i, i + len);\n            i += len;\n      \
+    \  }\n    }\n    return res;\n}\n\n/**\n * @brief Lyndon\u5206\u89E3(Lyndon Factorization)\n\
+    \ */\n#line 14 \"test/yosupo_lyndon_factorization.test.cpp\"\n\nint main() {\n\
+    \    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n    auto\
+    \ seg = lyndon_factorization(s);\n    pr.write(0);\n    for (auto &&p : seg) {\n\
+    \        pr.write(' ');\n        pr.write(p.second);\n    }\n    pr.writeln();\n\
+    \    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\
+    \n#include <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../string/lyndon_factorization.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n    auto seg = lyndon_factorization(s);\n\
+    \    pr.write(0);\n    for (auto &&p : seg) {\n        pr.write(' ');\n      \
+    \  pr.write(p.second);\n    }\n    pr.writeln();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - geometry/argsort.cpp
+  - string/lyndon_factorization.cpp
   isVerificationFile: true
-  path: test/yosupo_many_aplusb_argsort.test.cpp
+  path: test/yosupo_lyndon_factorization.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-12 01:21:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_many_aplusb_argsort.test.cpp
+documentation_of: test/yosupo_lyndon_factorization.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_many_aplusb_argsort.test.cpp
-- /verify/test/yosupo_many_aplusb_argsort.test.cpp.html
-title: test/yosupo_many_aplusb_argsort.test.cpp
+- /verify/test/yosupo_lyndon_factorization.test.cpp
+- /verify/test/yosupo_lyndon_factorization.test.cpp.html
+title: test/yosupo_lyndon_factorization.test.cpp
 ---

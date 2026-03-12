@@ -79,7 +79,7 @@ title: Hopcroft Karp
 
 ## 説明
 二部グラフの最大マッチングを Hopcroft-Karp 法で求める。
-左頂点数を `L`、右頂点数を `R`、辺数を `M` とすると計算量は `O(M sqrt(L + R))`。
+左頂点数を `L`、右頂点数を `R`、辺数を `M` とすると計算量は $O(M sqrt(L + R))$。
 
 ## できること
 - `HopcroftKarp hk(l, r)`
