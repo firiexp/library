@@ -39,6 +39,10 @@ measurement dashboard は `oj test` の出力から各 verify テストの実行
 
 - `.verify-helper/measure-dashboard.html`
 - `.verify-helper/measure-dashboard.json`
+- `.verify-helper/docs/static/measure-dashboard.html`
+- `.verify-helper/docs/static/measure-dashboard.json`
+
+既定の `python3 scripts/measure_verify.py` / `python3 scripts/generate_verify_dashboard.py --render-only` は docs デプロイ用の `.verify-helper/docs/static/` にも同じ内容を同期する。トップページの `verify measurement dashboard` リンクから開ける。
 
 ローカルで見る手順:
 

@@ -25,6 +25,9 @@ import onlinejudge_verify.languages.list
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DEFAULT_JSON_PATH = ROOT / ".verify-helper" / "measure-dashboard.json"
 DEFAULT_HTML_PATH = ROOT / ".verify-helper" / "measure-dashboard.html"
+DEFAULT_DOCS_STATIC_DIR = ROOT / ".verify-helper" / "docs" / "static"
+DEFAULT_DOCS_STATIC_JSON_PATH = DEFAULT_DOCS_STATIC_DIR / DEFAULT_JSON_PATH.name
+DEFAULT_DOCS_STATIC_HTML_PATH = DEFAULT_DOCS_STATIC_DIR / DEFAULT_HTML_PATH.name
 DASHBOARD_ASSET_DIR = ROOT / "scripts" / "measure_dashboard_assets"
 DEFAULT_WORKERS = max(1, os.cpu_count() or 1)
 _problem_locks_guard = threading.Lock()
@@ -264,11 +267,29 @@ def make_report(entries: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def write_report(report: dict[str, Any], *, json_path: pathlib.Path, html_path: pathlib.Path) -> None:
+def write_one_report(report: dict[str, Any], *, json_path: pathlib.Path, html_path: pathlib.Path) -> None:
     json_path.parent.mkdir(parents=True, exist_ok=True)
     html_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     html_path.write_text(render_html(report, json_path=json_path))
+
+
+def write_report(report: dict[str, Any], *, json_path: pathlib.Path, html_path: pathlib.Path) -> None:
+    write_one_report(report, json_path=json_path, html_path=html_path)
+    if json_path == DEFAULT_JSON_PATH and html_path == DEFAULT_HTML_PATH:
+        write_one_report(
+            report,
+            json_path=DEFAULT_DOCS_STATIC_JSON_PATH,
+            html_path=DEFAULT_DOCS_STATIC_HTML_PATH,
+        )
+
+
+def print_output_paths(*, json_path: pathlib.Path, html_path: pathlib.Path) -> None:
+    print(f"json: {json_path.relative_to(ROOT)}")
+    print(f"html: {html_path.relative_to(ROOT)}")
+    if json_path == DEFAULT_JSON_PATH and html_path == DEFAULT_HTML_PATH:
+        print(f"docs json: {DEFAULT_DOCS_STATIC_JSON_PATH.relative_to(ROOT)}")
+        print(f"docs html: {DEFAULT_DOCS_STATIC_HTML_PATH.relative_to(ROOT)}")
 
 
 def ensure_testcases(problem_url: str, *, testcase_dir: pathlib.Path) -> None:
@@ -433,8 +454,7 @@ def main() -> int:
             raise FileNotFoundError(f"json report not found: {args.json_path}")
         report = json.loads(args.json_path.read_text())
         write_report(report, json_path=args.json_path, html_path=args.html_path)
-        print(f"json: {args.json_path.relative_to(ROOT)}")
-        print(f"html: {args.html_path.relative_to(ROOT)}")
+        print_output_paths(json_path=args.json_path, html_path=args.html_path)
         return 0
 
     tests = list_test_paths(args.paths)
@@ -448,8 +468,7 @@ def main() -> int:
     if args.compile_jobs <= 0:
         raise ValueError("--compile-jobs must be positive")
     if not tests:
-        print(f"json: {args.json_path.relative_to(ROOT)}")
-        print(f"html: {args.html_path.relative_to(ROOT)}")
+        print_output_paths(json_path=args.json_path, html_path=args.html_path)
         return 0
 
     worker_count = min(args.jobs, len(tests))
@@ -514,8 +533,7 @@ def main() -> int:
         write_report(make_report(report_tests), json_path=args.json_path, html_path=args.html_path)
         raise
 
-    print(f"json: {args.json_path.relative_to(ROOT)}")
-    print(f"html: {args.html_path.relative_to(ROOT)}")
+    print_output_paths(json_path=args.json_path, html_path=args.html_path)
     return 0
 
 
