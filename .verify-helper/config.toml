@@ -1,0 +1,3 @@
+[languages.cpp]
+[[languages.cpp.environments]]
+CXX = "g++"

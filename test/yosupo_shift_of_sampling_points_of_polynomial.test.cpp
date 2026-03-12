@@ -1,5 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/shift_of_sampling_points_of_polynomial"
 
+#include <algorithm>
+#include <cassert>
 #include <vector>
 using ll = long long;
 using uint = unsigned;
