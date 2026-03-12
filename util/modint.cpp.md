@@ -43,6 +43,9 @@ data:
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
+    title: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -161,6 +164,7 @@ data:
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
+  - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/aoj0399.test.cpp
   - test/yosupo_subset_convolution.test.cpp

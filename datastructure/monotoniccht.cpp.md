@@ -11,17 +11,17 @@ data:
     links: []
   bundledCode: "#line 1 \"datastructure/monotoniccht.cpp\"\ntemplate<class T, bool\
     \ get_max>\nclass CHT {\n    using P = pair<T, T>;\n    deque<P> lines;\npublic:\n\
-    \    CHT() = default;\n    int sgn(T x) { return x == 0 ? 0 : (x > 0 ? 1 : -1);\
-    \ }\n    bool check(P l1, P l2, P l3){\n        if(l1.second == l2.second || l2.second\
-    \ == l3.second){\n            return sgn(l1.first - l2.first)*sgn(l2.second -\
-    \ l3.second)\n                >= sgn(l2.first - l3.first)*sgn(l1.second - l2.second);\n\
-    \        }else {\n            return (l1.first - l2.first)*sgn(l2.second - l3.second)/\
-    \ static_cast<long double>(abs(l1.second - l2.second))\n                   >=\
-    \ (l2.first - l3.first)*sgn(l1.second - l2.second)/ static_cast<long double>(abs(l2.second\
-    \ - l3.second));\n        }\n    }\n\n    void add_line(T a, T b) { // add ax\
-    \ + b\n        if(get_max) a = -a, b = -b;\n        P L(a, b);\n        if(lines.empty()){\n\
-    \            lines.emplace_back(L);\n            return;\n        }\n        if(lines.front().first\
-    \ <= a){\n            if(lines.front().first == a){\n                if(lines.front().second\
+    \    CHT() = default;\n    bool check(P l1, P l2, P l3){\n        if constexpr\
+    \ (is_integral_v<T>) {\n            return (((__int128)l2.second - l1.second)\
+    \ * ((__int128)l2.first - l3.first)\n                 >= ((__int128)l3.second\
+    \ - l2.second) * ((__int128)l1.first - l2.first));\n        } else {\n       \
+    \     return ((static_cast<long double>(l2.second) - l1.second) * (static_cast<long\
+    \ double>(l2.first) - l3.first)\n                 >= (static_cast<long double>(l3.second)\
+    \ - l2.second) * (static_cast<long double>(l1.first) - l2.first));\n        }\n\
+    \    }\n\n    void add_line(T a, T b) { // add ax + b\n        if(get_max) a =\
+    \ -a, b = -b;\n        P L(a, b);\n        if(lines.empty()){\n            lines.emplace_back(L);\n\
+    \            return;\n        }\n        if(lines.front().first <= a){\n     \
+    \       if(lines.front().first == a){\n                if(lines.front().second\
     \ <= b) return;\n                else lines.pop_front();\n            }\n    \
     \        while(lines.size() >= 2 && check(L, lines.front(), lines[1])) lines.pop_front();\n\
     \            lines.emplace_front(L);\n        }else {\n            if(lines.back().first\
@@ -40,20 +40,19 @@ data:
     \ x) >= val(lines[lines.size() - 2], x)) lines.pop_back();\n        return get_max\
     \ ? -val(lines.back(), x) : val(lines.back(), x);\n    }\n};\n"
   code: "template<class T, bool get_max>\nclass CHT {\n    using P = pair<T, T>;\n\
-    \    deque<P> lines;\npublic:\n    CHT() = default;\n    int sgn(T x) { return\
-    \ x == 0 ? 0 : (x > 0 ? 1 : -1); }\n    bool check(P l1, P l2, P l3){\n      \
-    \  if(l1.second == l2.second || l2.second == l3.second){\n            return sgn(l1.first\
-    \ - l2.first)*sgn(l2.second - l3.second)\n                >= sgn(l2.first - l3.first)*sgn(l1.second\
-    \ - l2.second);\n        }else {\n            return (l1.first - l2.first)*sgn(l2.second\
-    \ - l3.second)/ static_cast<long double>(abs(l1.second - l2.second))\n       \
-    \            >= (l2.first - l3.first)*sgn(l1.second - l2.second)/ static_cast<long\
-    \ double>(abs(l2.second - l3.second));\n        }\n    }\n\n    void add_line(T\
-    \ a, T b) { // add ax + b\n        if(get_max) a = -a, b = -b;\n        P L(a,\
-    \ b);\n        if(lines.empty()){\n            lines.emplace_back(L);\n      \
-    \      return;\n        }\n        if(lines.front().first <= a){\n           \
-    \ if(lines.front().first == a){\n                if(lines.front().second <= b)\
-    \ return;\n                else lines.pop_front();\n            }\n          \
-    \  while(lines.size() >= 2 && check(L, lines.front(), lines[1])) lines.pop_front();\n\
+    \    deque<P> lines;\npublic:\n    CHT() = default;\n    bool check(P l1, P l2,\
+    \ P l3){\n        if constexpr (is_integral_v<T>) {\n            return (((__int128)l2.second\
+    \ - l1.second) * ((__int128)l2.first - l3.first)\n                 >= ((__int128)l3.second\
+    \ - l2.second) * ((__int128)l1.first - l2.first));\n        } else {\n       \
+    \     return ((static_cast<long double>(l2.second) - l1.second) * (static_cast<long\
+    \ double>(l2.first) - l3.first)\n                 >= (static_cast<long double>(l3.second)\
+    \ - l2.second) * (static_cast<long double>(l1.first) - l2.first));\n        }\n\
+    \    }\n\n    void add_line(T a, T b) { // add ax + b\n        if(get_max) a =\
+    \ -a, b = -b;\n        P L(a, b);\n        if(lines.empty()){\n            lines.emplace_back(L);\n\
+    \            return;\n        }\n        if(lines.front().first <= a){\n     \
+    \       if(lines.front().first == a){\n                if(lines.front().second\
+    \ <= b) return;\n                else lines.pop_front();\n            }\n    \
+    \        while(lines.size() >= 2 && check(L, lines.front(), lines[1])) lines.pop_front();\n\
     \            lines.emplace_front(L);\n        }else {\n            if(lines.back().first\
     \ == a){\n                if(lines.back().second <= b) return;\n             \
     \   else lines.pop_back();\n            }\n            while(lines.size() >= 2\
@@ -73,7 +72,7 @@ data:
   isVerificationFile: false
   path: datastructure/monotoniccht.cpp
   requiredBy: []
-  timestamp: '2020-04-26 17:42:59+09:00'
+  timestamp: '2026-03-12 19:34:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 date: 2018-04-28
@@ -106,5 +105,5 @@ title: "Convex-Hull Trick (\u30AF\u30A8\u30EA\u5358\u8ABF)"
 クエリだけ単調なら `query_increase` または `query_decrease` を使うと償却 $O(1)$、任意順なら `query` で $O(\log N)$。
 
 ## 実装上の補足
-交点判定は `long double` を使っている。
-整数型でも定数倍や境界判定が気になる場面では注意が必要。
+不要直線判定は、整数型なら `__int128` の交差積比較で処理する。
+浮動小数点型では `long double` で比較する。

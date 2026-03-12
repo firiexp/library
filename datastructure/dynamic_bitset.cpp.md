@@ -14,66 +14,12 @@ data:
     document_title: "\u52D5\u7684bitset(Dynamic Bitset)"
     links: []
   bundledCode: "#line 1 \"datastructure/dynamic_bitset.cpp\"\nusing namespace std;\n\
-    \nclass DynamicBitset {\n    static constexpr int B = 64;\n\n    int n;\n    vector<ull>\
-    \ a;\n\n    static int popcount(ull x) {\n        return __builtin_popcountll(x);\n\
-    \    }\n    static int ctz(ull x) {\n        return __builtin_ctzll(x);\n    }\n\
-    \n    ull tail_mask() const {\n        int rem = n & (B - 1);\n        return\
-    \ rem ? ((1ULL << rem) - 1) : ~0ULL;\n    }\n\n    void normalize() {\n      \
-    \  if (!a.empty()) a.back() &= tail_mask();\n    }\n\npublic:\n    DynamicBitset()\
-    \ : n(0) {}\n    explicit DynamicBitset(int n, bool x = false) : n(n), a((n +\
-    \ B - 1) >> 6, x ? ~0ULL : 0ULL) {\n        normalize();\n    }\n\n    int size()\
-    \ const { return n; }\n    bool empty() const { return n == 0; }\n\n    void reset()\
-    \ {\n        fill(a.begin(), a.end(), 0);\n    }\n    void set() {\n        fill(a.begin(),\
-    \ a.end(), ~0ULL);\n        normalize();\n    }\n    void flip() {\n        for\
-    \ (auto &x : a) x = ~x;\n        normalize();\n    }\n\n    bool test(int k) const\
-    \ {\n        return (a[k >> 6] >> (k & 63)) & 1ULL;\n    }\n    void set(int k)\
-    \ {\n        a[k >> 6] |= 1ULL << (k & 63);\n    }\n    void reset(int k) {\n\
-    \        a[k >> 6] &= ~(1ULL << (k & 63));\n    }\n    void flip(int k) {\n  \
-    \      a[k >> 6] ^= 1ULL << (k & 63);\n    }\n    void assign(int k, bool x) {\n\
-    \        if (x) set(k);\n        else reset(k);\n    }\n\n    bool any() const\
-    \ {\n        for (auto x : a) if (x) return true;\n        return false;\n   \
-    \ }\n    bool none() const { return !any(); }\n    bool all() const {\n      \
-    \  if (a.empty()) return true;\n        for (int i = 0; i + 1 < (int)a.size();\
-    \ ++i) {\n            if (a[i] != ~0ULL) return false;\n        }\n        return\
-    \ a.back() == tail_mask();\n    }\n    int count() const {\n        int res =\
-    \ 0;\n        for (auto x : a) res += popcount(x);\n        return res;\n    }\n\
-    \n    int find_first() const {\n        for (int i = 0; i < (int)a.size(); ++i)\
-    \ {\n            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n        return\
-    \ -1;\n    }\n    int find_next(int k) const {\n        ++k;\n        if (k >=\
-    \ n) return -1;\n        int i = k >> 6;\n        ull x = a[i] & (~0ULL << (k\
-    \ & 63));\n        if (x) return (i << 6) + ctz(x);\n        for (++i; i < (int)a.size();\
-    \ ++i) {\n            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n    \
-    \    return -1;\n    }\n\n    DynamicBitset& operator&=(const DynamicBitset &r)\
-    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] &= r.a[i];\n       \
-    \ return *this;\n    }\n    DynamicBitset& operator|=(const DynamicBitset &r)\
-    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] |= r.a[i];\n       \
-    \ return *this;\n    }\n    DynamicBitset& operator^=(const DynamicBitset &r)\
-    \ {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] ^= r.a[i];\n       \
-    \ normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator&(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset& operator<<=(int\
-    \ s) {\n        if (s <= 0) return *this;\n        if (s >= n) {\n           \
-    \ reset();\n            return *this;\n        }\n        int block = s >> 6,\
-    \ rem = s & 63;\n        vector<ull> b(a.size(), 0);\n        for (int i = (int)a.size()\
-    \ - 1; i >= block; --i) {\n            b[i] |= a[i - block] << rem;\n        \
-    \    if (rem && i - block - 1 >= 0) b[i] |= a[i - block - 1] >> (B - rem);\n \
-    \       }\n        a.swap(b);\n        normalize();\n        return *this;\n \
-    \   }\n    DynamicBitset& operator>>=(int s) {\n        if (s <= 0) return *this;\n\
-    \        if (s >= n) {\n            reset();\n            return *this;\n    \
-    \    }\n        int block = s >> 6, rem = s & 63;\n        vector<ull> b(a.size(),\
-    \ 0);\n        for (int i = 0; i + block < (int)a.size(); ++i) {\n           \
-    \ b[i] |= a[i + block] >> rem;\n            if (rem && i + block + 1 < (int)a.size())\
-    \ b[i] |= a[i + block + 1] << (B - rem);\n        }\n        a.swap(b);\n    \
-    \    normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset\
-    \ l, int s) { return l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset\
-    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
-    \ Bitset)\n */\n"
-  code: "using namespace std;\n\nclass DynamicBitset {\n    static constexpr int B\
-    \ = 64;\n\n    int n;\n    vector<ull> a;\n\n    static int popcount(ull x) {\n\
-    \        return __builtin_popcountll(x);\n    }\n    static int ctz(ull x) {\n\
-    \        return __builtin_ctzll(x);\n    }\n\n    ull tail_mask() const {\n  \
-    \      int rem = n & (B - 1);\n        return rem ? ((1ULL << rem) - 1) : ~0ULL;\n\
+    \nclass DynamicBitset {\n    static constexpr int B = 64;\n    using Word = unsigned\
+    \ long long;\n\n    int n;\n    vector<Word> a;\n\n    static int popcount(Word\
+    \ x) {\n        return __builtin_popcountll(x);\n    }\n    static int ctz(Word\
+    \ x) {\n        return __builtin_ctzll(x);\n    }\n    static int clz(Word x)\
+    \ {\n        return __builtin_clzll(x);\n    }\n\n    Word tail_mask() const {\n\
+    \        int rem = n & (B - 1);\n        return rem ? ((1ULL << rem) - 1) : ~0ULL;\n\
     \    }\n\n    void normalize() {\n        if (!a.empty()) a.back() &= tail_mask();\n\
     \    }\n\npublic:\n    DynamicBitset() : n(0) {}\n    explicit DynamicBitset(int\
     \ n, bool x = false) : n(n), a((n + B - 1) >> 6, x ? ~0ULL : 0ULL) {\n       \
@@ -95,12 +41,91 @@ data:
     \ res += popcount(x);\n        return res;\n    }\n\n    int find_first() const\
     \ {\n        for (int i = 0; i < (int)a.size(); ++i) {\n            if (a[i])\
     \ return (i << 6) + ctz(a[i]);\n        }\n        return -1;\n    }\n    int\
-    \ find_next(int k) const {\n        ++k;\n        if (k >= n) return -1;\n   \
-    \     int i = k >> 6;\n        ull x = a[i] & (~0ULL << (k & 63));\n        if\
-    \ (x) return (i << 6) + ctz(x);\n        for (++i; i < (int)a.size(); ++i) {\n\
-    \            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n        return\
-    \ -1;\n    }\n\n    DynamicBitset& operator&=(const DynamicBitset &r) {\n    \
-    \    for (int i = 0; i < (int)a.size(); ++i) a[i] &= r.a[i];\n        return *this;\n\
+    \ find_last() const {\n        for (int i = (int)a.size() - 1; i >= 0; --i) {\n\
+    \            if (a[i]) return (i << 6) + (B - 1 - clz(a[i]));\n        }\n   \
+    \     return -1;\n    }\n    int find_next(int k) const {\n        ++k;\n    \
+    \    if (k >= n) return -1;\n        int i = k >> 6;\n        Word x = a[i] &\
+    \ (~0ULL << (k & 63));\n        if (x) return (i << 6) + ctz(x);\n        for\
+    \ (++i; i < (int)a.size(); ++i) {\n            if (a[i]) return (i << 6) + ctz(a[i]);\n\
+    \        }\n        return -1;\n    }\n    int find_prev(int k) const {\n    \
+    \    --k;\n        if (k < 0) return -1;\n        int i = k >> 6;\n        int\
+    \ rem = k & 63;\n        Word mask = rem == B - 1 ? ~0ULL : ((1ULL << (rem + 1))\
+    \ - 1);\n        Word x = a[i] & mask;\n        if (x) return (i << 6) + (B -\
+    \ 1 - clz(x));\n        for (--i; i >= 0; --i) {\n            if (a[i]) return\
+    \ (i << 6) + (B - 1 - clz(a[i]));\n        }\n        return -1;\n    }\n\n  \
+    \  DynamicBitset& operator&=(const DynamicBitset &r) {\n        for (int i = 0;\
+    \ i < (int)a.size(); ++i) a[i] &= r.a[i];\n        return *this;\n    }\n    DynamicBitset&\
+    \ operator|=(const DynamicBitset &r) {\n        for (int i = 0; i < (int)a.size();\
+    \ ++i) a[i] |= r.a[i];\n        return *this;\n    }\n    DynamicBitset& operator^=(const\
+    \ DynamicBitset &r) {\n        for (int i = 0; i < (int)a.size(); ++i) a[i] ^=\
+    \ r.a[i];\n        normalize();\n        return *this;\n    }\n\n    friend DynamicBitset\
+    \ operator&(DynamicBitset l, const DynamicBitset &r) { return l &= r; }\n    friend\
+    \ DynamicBitset operator|(DynamicBitset l, const DynamicBitset &r) { return l\
+    \ |= r; }\n    friend DynamicBitset operator^(DynamicBitset l, const DynamicBitset\
+    \ &r) { return l ^= r; }\n\n    DynamicBitset& operator<<=(int s) {\n        if\
+    \ (s <= 0) return *this;\n        if (s >= n) {\n            reset();\n      \
+    \      return *this;\n        }\n        int block = s >> 6, rem = s & 63;\n \
+    \       if (rem == 0) {\n            for (int i = (int)a.size() - 1; i >= 0; --i)\
+    \ {\n                a[i] = i >= block ? a[i - block] : 0;\n            }\n  \
+    \      } else {\n            for (int i = (int)a.size() - 1; i >= 0; --i) {\n\
+    \                Word x = 0;\n                if (i >= block) {\n            \
+    \        x = a[i - block] << rem;\n                    if (i - block - 1 >= 0)\
+    \ x |= a[i - block - 1] >> (B - rem);\n                }\n                a[i]\
+    \ = x;\n            }\n        }\n        normalize();\n        return *this;\n\
+    \    }\n    DynamicBitset& operator>>=(int s) {\n        if (s <= 0) return *this;\n\
+    \        if (s >= n) {\n            reset();\n            return *this;\n    \
+    \    }\n        int block = s >> 6, rem = s & 63;\n        if (rem == 0) {\n \
+    \           for (int i = 0; i < (int)a.size(); ++i) {\n                a[i] =\
+    \ i + block < (int)a.size() ? a[i + block] : 0;\n            }\n        } else\
+    \ {\n            for (int i = 0; i < (int)a.size(); ++i) {\n                Word\
+    \ x = 0;\n                if (i + block < (int)a.size()) {\n                 \
+    \   x = a[i + block] >> rem;\n                    if (i + block + 1 < (int)a.size())\
+    \ x |= a[i + block + 1] << (B - rem);\n                }\n                a[i]\
+    \ = x;\n            }\n        }\n        normalize();\n        return *this;\n\
+    \    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { return\
+    \ l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { return\
+    \ l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n */\n"
+  code: "using namespace std;\n\nclass DynamicBitset {\n    static constexpr int B\
+    \ = 64;\n    using Word = unsigned long long;\n\n    int n;\n    vector<Word>\
+    \ a;\n\n    static int popcount(Word x) {\n        return __builtin_popcountll(x);\n\
+    \    }\n    static int ctz(Word x) {\n        return __builtin_ctzll(x);\n   \
+    \ }\n    static int clz(Word x) {\n        return __builtin_clzll(x);\n    }\n\
+    \n    Word tail_mask() const {\n        int rem = n & (B - 1);\n        return\
+    \ rem ? ((1ULL << rem) - 1) : ~0ULL;\n    }\n\n    void normalize() {\n      \
+    \  if (!a.empty()) a.back() &= tail_mask();\n    }\n\npublic:\n    DynamicBitset()\
+    \ : n(0) {}\n    explicit DynamicBitset(int n, bool x = false) : n(n), a((n +\
+    \ B - 1) >> 6, x ? ~0ULL : 0ULL) {\n        normalize();\n    }\n\n    int size()\
+    \ const { return n; }\n    bool empty() const { return n == 0; }\n\n    void reset()\
+    \ {\n        fill(a.begin(), a.end(), 0);\n    }\n    void set() {\n        fill(a.begin(),\
+    \ a.end(), ~0ULL);\n        normalize();\n    }\n    void flip() {\n        for\
+    \ (auto &x : a) x = ~x;\n        normalize();\n    }\n\n    bool test(int k) const\
+    \ {\n        return (a[k >> 6] >> (k & 63)) & 1ULL;\n    }\n    void set(int k)\
+    \ {\n        a[k >> 6] |= 1ULL << (k & 63);\n    }\n    void reset(int k) {\n\
+    \        a[k >> 6] &= ~(1ULL << (k & 63));\n    }\n    void flip(int k) {\n  \
+    \      a[k >> 6] ^= 1ULL << (k & 63);\n    }\n    void assign(int k, bool x) {\n\
+    \        if (x) set(k);\n        else reset(k);\n    }\n\n    bool any() const\
+    \ {\n        for (auto x : a) if (x) return true;\n        return false;\n   \
+    \ }\n    bool none() const { return !any(); }\n    bool all() const {\n      \
+    \  if (a.empty()) return true;\n        for (int i = 0; i + 1 < (int)a.size();\
+    \ ++i) {\n            if (a[i] != ~0ULL) return false;\n        }\n        return\
+    \ a.back() == tail_mask();\n    }\n    int count() const {\n        int res =\
+    \ 0;\n        for (auto x : a) res += popcount(x);\n        return res;\n    }\n\
+    \n    int find_first() const {\n        for (int i = 0; i < (int)a.size(); ++i)\
+    \ {\n            if (a[i]) return (i << 6) + ctz(a[i]);\n        }\n        return\
+    \ -1;\n    }\n    int find_last() const {\n        for (int i = (int)a.size()\
+    \ - 1; i >= 0; --i) {\n            if (a[i]) return (i << 6) + (B - 1 - clz(a[i]));\n\
+    \        }\n        return -1;\n    }\n    int find_next(int k) const {\n    \
+    \    ++k;\n        if (k >= n) return -1;\n        int i = k >> 6;\n        Word\
+    \ x = a[i] & (~0ULL << (k & 63));\n        if (x) return (i << 6) + ctz(x);\n\
+    \        for (++i; i < (int)a.size(); ++i) {\n            if (a[i]) return (i\
+    \ << 6) + ctz(a[i]);\n        }\n        return -1;\n    }\n    int find_prev(int\
+    \ k) const {\n        --k;\n        if (k < 0) return -1;\n        int i = k >>\
+    \ 6;\n        int rem = k & 63;\n        Word mask = rem == B - 1 ? ~0ULL : ((1ULL\
+    \ << (rem + 1)) - 1);\n        Word x = a[i] & mask;\n        if (x) return (i\
+    \ << 6) + (B - 1 - clz(x));\n        for (--i; i >= 0; --i) {\n            if\
+    \ (a[i]) return (i << 6) + (B - 1 - clz(a[i]));\n        }\n        return -1;\n\
+    \    }\n\n    DynamicBitset& operator&=(const DynamicBitset &r) {\n        for\
+    \ (int i = 0; i < (int)a.size(); ++i) a[i] &= r.a[i];\n        return *this;\n\
     \    }\n    DynamicBitset& operator|=(const DynamicBitset &r) {\n        for (int\
     \ i = 0; i < (int)a.size(); ++i) a[i] |= r.a[i];\n        return *this;\n    }\n\
     \    DynamicBitset& operator^=(const DynamicBitset &r) {\n        for (int i =\
@@ -111,17 +136,24 @@ data:
     \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset& operator<<=(int\
     \ s) {\n        if (s <= 0) return *this;\n        if (s >= n) {\n           \
     \ reset();\n            return *this;\n        }\n        int block = s >> 6,\
-    \ rem = s & 63;\n        vector<ull> b(a.size(), 0);\n        for (int i = (int)a.size()\
-    \ - 1; i >= block; --i) {\n            b[i] |= a[i - block] << rem;\n        \
-    \    if (rem && i - block - 1 >= 0) b[i] |= a[i - block - 1] >> (B - rem);\n \
-    \       }\n        a.swap(b);\n        normalize();\n        return *this;\n \
-    \   }\n    DynamicBitset& operator>>=(int s) {\n        if (s <= 0) return *this;\n\
-    \        if (s >= n) {\n            reset();\n            return *this;\n    \
-    \    }\n        int block = s >> 6, rem = s & 63;\n        vector<ull> b(a.size(),\
-    \ 0);\n        for (int i = 0; i + block < (int)a.size(); ++i) {\n           \
-    \ b[i] |= a[i + block] >> rem;\n            if (rem && i + block + 1 < (int)a.size())\
-    \ b[i] |= a[i + block + 1] << (B - rem);\n        }\n        a.swap(b);\n    \
-    \    normalize();\n        return *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset\
+    \ rem = s & 63;\n        if (rem == 0) {\n            for (int i = (int)a.size()\
+    \ - 1; i >= 0; --i) {\n                a[i] = i >= block ? a[i - block] : 0;\n\
+    \            }\n        } else {\n            for (int i = (int)a.size() - 1;\
+    \ i >= 0; --i) {\n                Word x = 0;\n                if (i >= block)\
+    \ {\n                    x = a[i - block] << rem;\n                    if (i -\
+    \ block - 1 >= 0) x |= a[i - block - 1] >> (B - rem);\n                }\n   \
+    \             a[i] = x;\n            }\n        }\n        normalize();\n    \
+    \    return *this;\n    }\n    DynamicBitset& operator>>=(int s) {\n        if\
+    \ (s <= 0) return *this;\n        if (s >= n) {\n            reset();\n      \
+    \      return *this;\n        }\n        int block = s >> 6, rem = s & 63;\n \
+    \       if (rem == 0) {\n            for (int i = 0; i < (int)a.size(); ++i) {\n\
+    \                a[i] = i + block < (int)a.size() ? a[i + block] : 0;\n      \
+    \      }\n        } else {\n            for (int i = 0; i < (int)a.size(); ++i)\
+    \ {\n                Word x = 0;\n                if (i + block < (int)a.size())\
+    \ {\n                    x = a[i + block] >> rem;\n                    if (i +\
+    \ block + 1 < (int)a.size()) x |= a[i + block + 1] << (B - rem);\n           \
+    \     }\n                a[i] = x;\n            }\n        }\n        normalize();\n\
+    \        return *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset\
     \ l, int s) { return l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset\
     \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
     \ Bitset)\n */\n"
@@ -129,7 +161,7 @@ data:
   isVerificationFile: false
   path: datastructure/dynamic_bitset.cpp
   requiredBy: []
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-12 19:34:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
@@ -161,8 +193,12 @@ title: Dynamic Bitset
   1 の個数を返す
 - `int find_first() const`
   最初に立っている bit の位置を返す。なければ `-1`
+- `int find_last() const`
+  最後に立っている bit の位置を返す。なければ `-1`
 - `int find_next(int k) const`
   `k` より右で最初に立っている bit の位置を返す。なければ `-1`
+- `int find_prev(int k) const`
+  `k` より左で最初に立っている bit の位置を返す。なければ `-1`
 - `bs &= other`, `bs |= other`, `bs ^= other`
   bitset 同士の演算をその場で行う
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`
@@ -170,4 +206,9 @@ title: Dynamic Bitset
 
 ## 使い方
 長さが同じ bitset 同士で演算する。
-`find_first`, `find_next` を使うと立っている bit だけを走査できる。
+`find_first`, `find_next` を使うと立っている bit だけを前から走査できる。
+`find_last`, `find_prev` を使うと後ろからも走査できる。
+
+## 実装上の補足
+shift はブロック列をその場でずらす。
+`find_*` は `ctz` / `clz` を使って立っている bit を探す。

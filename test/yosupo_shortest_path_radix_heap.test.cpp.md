@@ -125,31 +125,26 @@ data:
     \  }\n\n    pair<K, V> top() {\n        pull();\n        return v[0][cnt];\n \
     \   }\n\n    void pop() {\n        pull();\n        sz--;\n        cnt++;\n  \
     \  }\n\n    size_t size() const { return sz; }\n    bool empty() const { return\
-    \ !sz; }\n};\n#line 3 \"graph/dijkstra_radix_heap.cpp\"\n\ntemplate <typename\
-    \ T>\nstruct DijkstraRadixHeapQueue {\n    static_assert(numeric_limits<T>::is_integer,\
-    \ \"dijkstra_radix_heap requires integer costs\");\n    static_assert(numeric_limits<T>::is_signed,\
-    \ \"dijkstra_radix_heap requires signed integer costs\");\n    static_assert(sizeof(T)\
-    \ <= sizeof(ll), \"dijkstra_radix_heap requires costs that fit in long long\"\
-    );\n\n    RadixHeap<ll, int> Q;\n\n    bool empty() const { return Q.empty();\
-    \ }\n\n    void push(T cost, int v) {\n        Q.emplace((ll)cost, v);\n    }\n\
-    \n    pair<T, int> pop() {\n        auto [cost, v] = Q.top();\n        Q.pop();\n\
-    \        return {static_cast<T>(cost), v};\n    }\n};\n\ntemplate <typename T>\n\
-    vector<T> dijkstra_radix_heap(int s, const vector<vector<edge<T>>> &G) {\n   \
-    \ DijkstraRadixHeapQueue<T> Q;\n    return dijkstra_internal(s, G, Q);\n}\n\n\
-    /**\n * @brief Dijkstra\u6CD5(Radix Heap)\n */\n#line 21 \"test/yosupo_shortest_path_radix_heap.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s, t;\n  \
-    \  sc.read(n, m, s, t);\n    vector<vector<edge<ll>>> G(n), Ginv(n);\n    for\
-    \ (int i = 0; i < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n\
-    \        G[a].emplace_back(b, c);\n        Ginv[b].emplace_back(a, c);\n    }\n\
-    \    auto d = dijkstra_radix_heap(s, G);\n    if (d[t] == INF<ll>) {\n       \
-    \ pr.writeln(-1);\n        return 0;\n    }\n    vector<int> ans{t};\n    vector<int>\
-    \ visited(n);\n    visited[t] = 1;\n    while (ans.back() != s) {\n        for\
-    \ (auto &&i : Ginv[ans.back()]) {\n            if (d[i.to] + i.cost == d[ans.back()]\
-    \ && !visited[i.to]) {\n                ans.emplace_back(i.to);\n            \
-    \    visited[i.to] = 1;\n                break;\n            }\n        }\n  \
-    \  }\n    pr.writeln(d[t], (int)ans.size() - 1);\n    for (int i = (int)ans.size()-1;\
-    \ i > 0; --i) {\n        pr.writeln(ans[i], ans[i - 1]);\n    }\n    return 0;\n\
-    }\n"
+    \ !sz; }\n};\n#line 3 \"graph/dijkstra_radix_heap.cpp\"\n\nstruct DijkstraRadixHeapQueue\
+    \ {\n    RadixHeap<long long, int> Q;\n\n    bool empty() const { return Q.empty();\
+    \ }\n\n    void push(long long cost, int v) {\n        Q.emplace(cost, v);\n \
+    \   }\n\n    pair<long long, int> pop() {\n        auto [cost, v] = Q.top();\n\
+    \        Q.pop();\n        return {cost, v};\n    }\n};\n\nvector<long long> dijkstra_radix_heap(int\
+    \ s, const vector<vector<edge<long long>>> &G) {\n    DijkstraRadixHeapQueue Q;\n\
+    \    return dijkstra_internal(s, G, Q);\n}\n\n/**\n * @brief Dijkstra\u6CD5(Radix\
+    \ Heap)\n */\n#line 21 \"test/yosupo_shortest_path_radix_heap.test.cpp\"\n\nint\
+    \ main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s, t;\n    sc.read(n,\
+    \ m, s, t);\n    vector<vector<edge<ll>>> G(n), Ginv(n);\n    for (int i = 0;\
+    \ i < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        G[a].emplace_back(b,\
+    \ c);\n        Ginv[b].emplace_back(a, c);\n    }\n    auto d = dijkstra_radix_heap(s,\
+    \ G);\n    if (d[t] == INF<ll>) {\n        pr.writeln(-1);\n        return 0;\n\
+    \    }\n    vector<int> ans{t};\n    vector<int> visited(n);\n    visited[t] =\
+    \ 1;\n    while (ans.back() != s) {\n        for (auto &&i : Ginv[ans.back()])\
+    \ {\n            if (d[i.to] + i.cost == d[ans.back()] && !visited[i.to]) {\n\
+    \                ans.emplace_back(i.to);\n                visited[i.to] = 1;\n\
+    \                break;\n            }\n        }\n    }\n    pr.writeln(d[t],\
+    \ (int)ans.size() - 1);\n    for (int i = (int)ans.size()-1; i > 0; --i) {\n \
+    \       pr.writeln(ans[i], ans[i - 1]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ <algorithm>\n#include <array>\n#include <limits>\n#include <queue>\n#include\
     \ <tuple>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\
@@ -177,7 +172,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path_radix_heap.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-12 19:34:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path_radix_heap.test.cpp

@@ -31,6 +31,9 @@ data:
       path: datastructure/fenwick_tree_2d.cpp
       title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
     - icon: ':heavy_check_mark:'
+      path: datastructure/implicit_treap.cpp
+      title: Implicit Treap
+    - icon: ':heavy_check_mark:'
       path: datastructure/lazysegtree.cpp
       title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
     - icon: ':heavy_check_mark:'
@@ -155,6 +158,9 @@ data:
     - icon: ':warning:'
       path: geometry/geometry3d.cpp
       title: "3\u6B21\u5143\u5E7E\u4F55(Geometry 3D)"
+    - icon: ':heavy_check_mark:'
+      path: geometry/half_plane_intersection.cpp
+      title: "\u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)"
   - name: graph
     pages:
     - icon: ':heavy_check_mark:'
@@ -218,6 +224,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/eulerian_trail.cpp
       title: Eulerian Trail
+    - icon: ':heavy_check_mark:'
+      path: graph/functional_graph.cpp
+      title: "\u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)"
     - icon: ':heavy_check_mark:'
       path: graph/general_matching.cpp
       title: general_matching
@@ -399,6 +408,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/tetration.cpp
       title: Tetration
+    - icon: ':heavy_check_mark:'
+      path: math/xor_basis.cpp
+      title: "XOR\u57FA\u5E95(Linear Basis)"
   - name: snippets
     pages:
     - icon: ':warning:'
@@ -490,6 +502,9 @@ data:
     - icon: ':warning:'
       path: tree/tree_center.cpp
       title: Tree Center
+    - icon: ':heavy_check_mark:'
+      path: tree/tree_hash.cpp
+      title: "\u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)"
     - icon: ':heavy_check_mark:'
       path: tree/virtual_tree_helper.cpp
       title: virtual_tree_helper
@@ -610,6 +625,9 @@ data:
       path: test/aoj_alds1_9_c_binaryheap.test.cpp
       title: test/aoj_alds1_9_c_binaryheap.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+      title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_dpl_5_a.test.cpp
       title: test/aoj_dpl_5_a.test.cpp
     - icon: ':heavy_check_mark:'
@@ -651,6 +669,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/example.test.cpp
       title: test/example.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_functional_graph.test.cpp
+      title: test/yosupo_aplusb_functional_graph.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_assignment_hungarian.test.cpp
       title: test/yosupo_assignment_hungarian.test.cpp
@@ -708,6 +729,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
       title: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
+      title: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
       title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
@@ -862,6 +886,9 @@ data:
       path: test/yosupo_rectangle_add_point_get.test.cpp
       title: test/yosupo_rectangle_add_point_get.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
+      title: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_scc.test.cpp
       title: test/yosupo_scc.test.cpp
     - icon: ':heavy_check_mark:'
@@ -960,6 +987,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yuki1358.test.cpp
       title: test/yuki1358.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yuki2672_xor_basis.test.cpp
+      title: test/yuki2672_xor_basis.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yuki650_hld_edge.test.cpp
       title: test/yuki650_hld_edge.test.cpp

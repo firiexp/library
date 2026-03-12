@@ -35,6 +35,9 @@ data:
     path: test/aoj_alds1_9_c_binaryheap.test.cpp
     title: test/aoj_alds1_9_c_binaryheap.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+    title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
     title: test/aoj_dsl_1_b_weightedunionfind.test.cpp
   - icon: ':heavy_check_mark:'
@@ -64,6 +67,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_ntl_1_d_eulerphi.test.cpp
     title: test/aoj_ntl_1_d_eulerphi.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_functional_graph.test.cpp
+    title: test/yosupo_aplusb_functional_graph.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_assignment_hungarian.test.cpp
     title: test/yosupo_assignment_hungarian.test.cpp
@@ -112,6 +118,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
     title: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
+    title: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_eertree.test.cpp
     title: test/yosupo_eertree.test.cpp
@@ -233,6 +242,9 @@ data:
     path: test/yosupo_rectangle_add_point_get.test.cpp
     title: test/yosupo_rectangle_add_point_get.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
+    title: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_segment_add_get_min.test.cpp
     title: test/yosupo_segment_add_get_min.test.cpp
   - icon: ':heavy_check_mark:'
@@ -313,6 +325,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yuki2672_xor_basis.test.cpp
+    title: test/yuki2672_xor_basis.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
@@ -496,6 +511,7 @@ data:
   - test/yosupo_primality_test.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_closest_pair.test.cpp
+  - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yuki957.test.cpp
   - test/yosupo_discrete_logarithm_mod.test.cpp
   - test/aoj_grl_5_a_rerooting.test.cpp
@@ -525,13 +541,16 @@ data:
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_many_aplusb.test.cpp
+  - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_kth_root_integer.test.cpp
   - test/yosupo_shortest_path.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
+  - test/yosupo_aplusb_functional_graph.test.cpp
   - test/yosupo_inverse_matrix.test.cpp
   - test/yuki650_hld_edge.test.cpp
+  - test/yuki2672_xor_basis.test.cpp
   - test/aoj_ntl_1_d_eulerphi.test.cpp
   - test/yosupo_cycle_detection_directed.test.cpp
   - test/yosupo_cycle_detection_undirected.test.cpp
@@ -556,6 +575,7 @@ data:
   - test/yosupo_enumerate_primes_get_prime.test.cpp
   - test/yosupo_lca.test.cpp
   - test/yosupo_matrix_det.test.cpp
+  - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   - test/aoj0415.test.cpp
   - test/yosupo_eertree.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp

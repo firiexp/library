@@ -48,37 +48,29 @@ data:
     \  }\n\n    pair<K, V> top() {\n        pull();\n        return v[0][cnt];\n \
     \   }\n\n    void pop() {\n        pull();\n        sz--;\n        cnt++;\n  \
     \  }\n\n    size_t size() const { return sz; }\n    bool empty() const { return\
-    \ !sz; }\n};\n#line 3 \"graph/dijkstra_radix_heap.cpp\"\n\ntemplate <typename\
-    \ T>\nstruct DijkstraRadixHeapQueue {\n    static_assert(numeric_limits<T>::is_integer,\
-    \ \"dijkstra_radix_heap requires integer costs\");\n    static_assert(numeric_limits<T>::is_signed,\
-    \ \"dijkstra_radix_heap requires signed integer costs\");\n    static_assert(sizeof(T)\
-    \ <= sizeof(ll), \"dijkstra_radix_heap requires costs that fit in long long\"\
-    );\n\n    RadixHeap<ll, int> Q;\n\n    bool empty() const { return Q.empty();\
-    \ }\n\n    void push(T cost, int v) {\n        Q.emplace((ll)cost, v);\n    }\n\
-    \n    pair<T, int> pop() {\n        auto [cost, v] = Q.top();\n        Q.pop();\n\
-    \        return {static_cast<T>(cost), v};\n    }\n};\n\ntemplate <typename T>\n\
-    vector<T> dijkstra_radix_heap(int s, const vector<vector<edge<T>>> &G) {\n   \
-    \ DijkstraRadixHeapQueue<T> Q;\n    return dijkstra_internal(s, G, Q);\n}\n\n\
-    /**\n * @brief Dijkstra\u6CD5(Radix Heap)\n */\n"
+    \ !sz; }\n};\n#line 3 \"graph/dijkstra_radix_heap.cpp\"\n\nstruct DijkstraRadixHeapQueue\
+    \ {\n    RadixHeap<long long, int> Q;\n\n    bool empty() const { return Q.empty();\
+    \ }\n\n    void push(long long cost, int v) {\n        Q.emplace(cost, v);\n \
+    \   }\n\n    pair<long long, int> pop() {\n        auto [cost, v] = Q.top();\n\
+    \        Q.pop();\n        return {cost, v};\n    }\n};\n\nvector<long long> dijkstra_radix_heap(int\
+    \ s, const vector<vector<edge<long long>>> &G) {\n    DijkstraRadixHeapQueue Q;\n\
+    \    return dijkstra_internal(s, G, Q);\n}\n\n/**\n * @brief Dijkstra\u6CD5(Radix\
+    \ Heap)\n */\n"
   code: "#include \"dijkstra_common.cpp\"\n#include \"../datastructure/radixheap.cpp\"\
-    \n\ntemplate <typename T>\nstruct DijkstraRadixHeapQueue {\n    static_assert(numeric_limits<T>::is_integer,\
-    \ \"dijkstra_radix_heap requires integer costs\");\n    static_assert(numeric_limits<T>::is_signed,\
-    \ \"dijkstra_radix_heap requires signed integer costs\");\n    static_assert(sizeof(T)\
-    \ <= sizeof(ll), \"dijkstra_radix_heap requires costs that fit in long long\"\
-    );\n\n    RadixHeap<ll, int> Q;\n\n    bool empty() const { return Q.empty();\
-    \ }\n\n    void push(T cost, int v) {\n        Q.emplace((ll)cost, v);\n    }\n\
-    \n    pair<T, int> pop() {\n        auto [cost, v] = Q.top();\n        Q.pop();\n\
-    \        return {static_cast<T>(cost), v};\n    }\n};\n\ntemplate <typename T>\n\
-    vector<T> dijkstra_radix_heap(int s, const vector<vector<edge<T>>> &G) {\n   \
-    \ DijkstraRadixHeapQueue<T> Q;\n    return dijkstra_internal(s, G, Q);\n}\n\n\
-    /**\n * @brief Dijkstra\u6CD5(Radix Heap)\n */\n"
+    \n\nstruct DijkstraRadixHeapQueue {\n    RadixHeap<long long, int> Q;\n\n    bool\
+    \ empty() const { return Q.empty(); }\n\n    void push(long long cost, int v)\
+    \ {\n        Q.emplace(cost, v);\n    }\n\n    pair<long long, int> pop() {\n\
+    \        auto [cost, v] = Q.top();\n        Q.pop();\n        return {cost, v};\n\
+    \    }\n};\n\nvector<long long> dijkstra_radix_heap(int s, const vector<vector<edge<long\
+    \ long>>> &G) {\n    DijkstraRadixHeapQueue Q;\n    return dijkstra_internal(s,\
+    \ G, Q);\n}\n\n/**\n * @brief Dijkstra\u6CD5(Radix Heap)\n */\n"
   dependsOn:
   - graph/dijkstra_common.cpp
   - datastructure/radixheap.cpp
   isVerificationFile: false
   path: graph/dijkstra_radix_heap.cpp
   requiredBy: []
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-12 19:34:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shortest_path_radix_heap.test.cpp
@@ -91,13 +83,12 @@ Radix Heap を使った Dijkstra 法である。
 非負整数重みの単一始点最短路を高速に求める。
 
 ## できること
-- `vector<T> dijkstra_radix_heap(int s, const vector<vector<edge<T>>>& g)`
-  始点 `s` から各頂点への最短距離を返す。未到達は `INF<T>`
+- `vector<long long> dijkstra_radix_heap(int s, const vector<vector<edge<long long>>>& g)`
+  始点 `s` から各頂点への最短距離を返す。未到達は `INF<long long>`
 
 ## 使い方
-辺重みは非負である必要がある。
-`T` は `long long` に収まる符号付き整数型を想定する。
-`edge<T>` の隣接リストを作って呼ぶ。
+辺重みは非負整数である必要がある。
+`edge<long long>` の隣接リストを作って呼ぶ。
 
 ```cpp
 vector<vector<edge<long long>>> g(n);
@@ -106,5 +97,5 @@ auto dist = dijkstra_radix_heap(0, g);
 ```
 
 ## 実装上の補足
-内部で `RadixHeap<ll, int>` を使う。
+内部で `RadixHeap<long long, int>` を使う。
 通常の priority queue 版 Dijkstra より、距離が整数で増加する性質を利用して定数倍を削る。

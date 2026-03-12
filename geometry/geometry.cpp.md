@@ -5,6 +5,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: geometry/dualgraph.cpp
     title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
+  - icon: ':heavy_check_mark:'
+    path: geometry/half_plane_intersection.cpp
+    title: "\u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0273.test.cpp
@@ -12,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0342.test.cpp
     title: test/aoj0342.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+    title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -315,11 +321,13 @@ data:
   isVerificationFile: false
   path: geometry/geometry.cpp
   requiredBy:
+  - geometry/half_plane_intersection.cpp
   - geometry/dualgraph.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0273.test.cpp
+  - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - test/aoj0342.test.cpp
 documentation_of: geometry/geometry.cpp
 layout: document
