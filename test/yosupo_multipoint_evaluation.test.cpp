@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/multipoint_evaluation"
 
 #include <algorithm>
+#include <cassert>
 #include <utility>
 #include <vector>
 using ll = long long;

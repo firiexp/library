@@ -1,6 +1,9 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence"
 
+#include <algorithm>
+#include <cassert>
 #include <iostream>
+#include <utility>
 #include <vector>
 
 using ll = long long;

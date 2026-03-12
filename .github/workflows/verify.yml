@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v6
@@ -20,6 +22,9 @@ jobs:
 
     - name: Install dependencies
       run: pip3 install -U online-judge-verify-helper
+
+    - name: Fetch gh-pages
+      run: git fetch origin gh-pages:refs/remotes/origin/gh-pages
 
     - name: Run tests
       shell: bash

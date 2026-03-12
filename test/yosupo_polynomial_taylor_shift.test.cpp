@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/polynomial_taylor_shift"
 
 #include <algorithm>
+#include <cassert>
 #include <utility>
 #include <vector>
 using ll = long long;

@@ -1,6 +1,10 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/primitive_root"
 
+#include <algorithm>
 #include <cstdint>
+#include <numeric>
+#include <random>
+#include <vector>
 
 static const int MOD = 1000000007;
 using ll = long long;
