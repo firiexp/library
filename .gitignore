@@ -4,6 +4,7 @@
 /performance/
 .verify-helper/verify-timing.html
 .verify-helper/verify-timing.json
+.verify-helper/measure-dashboard-regression/
 scripts/__pycache__/
 AGENTS.md
 TODO.md

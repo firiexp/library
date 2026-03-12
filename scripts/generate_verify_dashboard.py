@@ -389,14 +389,14 @@ def render_template(template: str, replacements: dict[str, str]) -> str:
     return template
 
 
-def render_html(report: dict[str, Any], *, json_path: pathlib.Path) -> str:
+def render_html(report: dict[str, Any], *, json_path: pathlib.Path, bootstrap_full_report: bool = False) -> str:
     bootstrap_json = json.dumps(
         {
             "generatedAt": report.get("generatedAt"),
             "root": report.get("root"),
             "testCount": report.get("testCount", 0),
             "summary": report.get("summary", {}),
-            "tests": [],
+            "tests": report.get("tests", []) if bootstrap_full_report else [],
         },
         ensure_ascii=False,
     )

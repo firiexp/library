@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import shutil
 import subprocess
 import sys
 from importlib import util as importlib_util
@@ -135,9 +136,47 @@ def check_measure_dashboard_html() -> list[str]:
     return problems
 
 
+def check_measure_dashboard_screenshots() -> list[str]:
+    if shutil.which("chromium-browser") is None:
+        return ["measure dashboard screenshots: chromium-browser not found"]
+
+    command = [sys.executable, str(ROOT / "scripts" / "capture_measure_dashboard_screenshots.py")]
+    proc = subprocess.run(
+        command,
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    if proc.returncode != 0:
+        detail = (proc.stderr or proc.stdout).strip()
+        if "snap-confine is packaged without necessary permissions" in detail:
+            print("skip: measure dashboard screenshots (chromium sandbox restriction)")
+            return []
+        suffix = f": {detail}" if detail else ""
+        return [f"measure dashboard screenshots: capture failed{suffix}"]
+
+    output_dir = ROOT / ".verify-helper" / "measure-dashboard-regression"
+    expected = (
+        output_dir / "desktop-top.png",
+        output_dir / "desktop-scroll.png",
+        output_dir / "mobile-top.png",
+        output_dir / "skeleton-top.png",
+    )
+    problems: list[str] = []
+    for path in expected:
+        if not path.exists():
+            problems.append(f"measure dashboard screenshots: missing output {path.relative_to(ROOT).as_posix()}")
+    return problems
+
+
 def main() -> int:
     ok = run_sync_doc_titles()
-    problems = check_library_files() + check_markdown_files() + check_measure_dashboard_html()
+    problems = (
+        check_library_files()
+        + check_markdown_files()
+        + check_measure_dashboard_html()
+        + check_measure_dashboard_screenshots()
+    )
     if problems:
         for problem in problems:
             print(problem, file=sys.stderr)

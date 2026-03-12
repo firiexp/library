@@ -68,6 +68,86 @@ __SORT_HEADER_CELLS__
         </div>
     </div>
 </main>
+<template id="dashboard-chip-template">
+    <div class="chip"></div>
+</template>
+<template id="dashboard-live-chip-template">
+    <span class="live-dot" aria-hidden="true"></span>
+    <span class="chip-label">live</span>
+    <span class="chip-meta"></span>
+</template>
+<template id="dashboard-empty-row-template">
+    <tr>
+        <td colspan="6"><div class="empty-state"></div></td>
+    </tr>
+</template>
+<template id="dashboard-skeleton-row-template">
+    <tr class="skeleton-row" aria-hidden="true">
+        <td>
+            <div class="skeleton-stack">
+                <span class="skeleton-line"></span>
+                <span class="skeleton-line mid"></span>
+            </div>
+        </td>
+        <td><span class="skeleton-line short"></span></td>
+        <td><span class="skeleton-line short"></span></td>
+        <td>
+            <div class="skeleton-stack">
+                <span class="skeleton-line short"></span>
+                <span class="skeleton-line mid"></span>
+            </div>
+        </td>
+        <td><span class="skeleton-line short"></span></td>
+        <td><span class="skeleton-line short"></span></td>
+    </tr>
+</template>
+<template id="dashboard-row-template">
+    <tr class="dashboard-row" aria-selected="false">
+        <td>
+            <div class="test-main">
+                <div class="test-head">
+                    <button class="expander" type="button" data-expand-path="" aria-expanded="false">+</button>
+                    <div class="path test-path"></div>
+                </div>
+                <div class="test-problem"></div>
+            </div>
+        </td>
+        <td data-label="status"><span class="status-badge"></span></td>
+        <td class="num cell-compile" data-label="compile"></td>
+        <td class="num" data-label="slowest">
+            <div class="cell-slowest-value"></div>
+            <div class="muted metric-sub cell-slowest-case"></div>
+        </td>
+        <td class="num cell-average" data-label="average"></td>
+        <td class="num cell-memory" data-label="memory"></td>
+    </tr>
+</template>
+<template id="detail-row-template">
+    <tr class="detail-row">
+        <td colspan="6">
+            <div class="detail-panel">
+                <div class="detail-head">
+                    <div class="detail-head-main">
+                        <div>
+                            <div class="eyebrow">expanded test</div>
+                            <h2 class="detail-title"></h2>
+                            <div class="detail-problem-compact"></div>
+                            <div class="detail-problem-full muted"></div>
+                        </div>
+                    </div>
+                    <div class="detail-head-side">
+                        <div class="detail-chips"></div>
+                    </div>
+                </div>
+                <div class="detail-tabs">
+                    <button class="detail-tab" type="button" data-detail-tab="case">case detail</button>
+                    <button class="detail-tab" type="button" data-detail-tab="raw">raw log</button>
+                </div>
+                <div class="detail-content"></div>
+            </div>
+        </td>
+    </tr>
+</template>
 <script>
 __SCRIPT__
 </script>

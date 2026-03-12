@@ -806,6 +806,86 @@ pre {
         </div>
     </div>
 </main>
+<template id="dashboard-chip-template">
+    <div class="chip"></div>
+</template>
+<template id="dashboard-live-chip-template">
+    <span class="live-dot" aria-hidden="true"></span>
+    <span class="chip-label">live</span>
+    <span class="chip-meta"></span>
+</template>
+<template id="dashboard-empty-row-template">
+    <tr>
+        <td colspan="6"><div class="empty-state"></div></td>
+    </tr>
+</template>
+<template id="dashboard-skeleton-row-template">
+    <tr class="skeleton-row" aria-hidden="true">
+        <td>
+            <div class="skeleton-stack">
+                <span class="skeleton-line"></span>
+                <span class="skeleton-line mid"></span>
+            </div>
+        </td>
+        <td><span class="skeleton-line short"></span></td>
+        <td><span class="skeleton-line short"></span></td>
+        <td>
+            <div class="skeleton-stack">
+                <span class="skeleton-line short"></span>
+                <span class="skeleton-line mid"></span>
+            </div>
+        </td>
+        <td><span class="skeleton-line short"></span></td>
+        <td><span class="skeleton-line short"></span></td>
+    </tr>
+</template>
+<template id="dashboard-row-template">
+    <tr class="dashboard-row" aria-selected="false">
+        <td>
+            <div class="test-main">
+                <div class="test-head">
+                    <button class="expander" type="button" data-expand-path="" aria-expanded="false">+</button>
+                    <div class="path test-path"></div>
+                </div>
+                <div class="test-problem"></div>
+            </div>
+        </td>
+        <td data-label="status"><span class="status-badge"></span></td>
+        <td class="num cell-compile" data-label="compile"></td>
+        <td class="num" data-label="slowest">
+            <div class="cell-slowest-value"></div>
+            <div class="muted metric-sub cell-slowest-case"></div>
+        </td>
+        <td class="num cell-average" data-label="average"></td>
+        <td class="num cell-memory" data-label="memory"></td>
+    </tr>
+</template>
+<template id="detail-row-template">
+    <tr class="detail-row">
+        <td colspan="6">
+            <div class="detail-panel">
+                <div class="detail-head">
+                    <div class="detail-head-main">
+                        <div>
+                            <div class="eyebrow">expanded test</div>
+                            <h2 class="detail-title"></h2>
+                            <div class="detail-problem-compact"></div>
+                            <div class="detail-problem-full muted"></div>
+                        </div>
+                    </div>
+                    <div class="detail-head-side">
+                        <div class="detail-chips"></div>
+                    </div>
+                </div>
+                <div class="detail-tabs">
+                    <button class="detail-tab" type="button" data-detail-tab="case">case detail</button>
+                    <button class="detail-tab" type="button" data-detail-tab="raw">raw log</button>
+                </div>
+                <div class="detail-content"></div>
+            </div>
+        </td>
+    </tr>
+</template>
 <script>
 const jsonUrl = "measure-dashboard.json";
 const sortColumns = [{"key": "path", "label": "test", "defaultDirection": "asc", "numeric": false}, {"key": "status", "label": "status", "defaultDirection": "asc", "numeric": false}, {"key": "compileWallSec", "label": "compile", "defaultDirection": "desc", "numeric": true}, {"key": "slowestSec", "label": "slowest", "defaultDirection": "desc", "numeric": true}, {"key": "averageSec", "label": "average", "defaultDirection": "desc", "numeric": true}, {"key": "maxMemoryMb", "label": "memory", "defaultDirection": "desc", "numeric": true}];
@@ -826,6 +906,12 @@ const sortSummary = document.getElementById("sort-summary");
 const controls = document.getElementById("controls");
 const tableScroll = document.getElementById("table-scroll");
 const tableHeaderWrap = document.getElementById("table-header-wrap");
+const chipTemplate = document.getElementById("dashboard-chip-template");
+const liveChipTemplate = document.getElementById("dashboard-live-chip-template");
+const emptyRowTemplate = document.getElementById("dashboard-empty-row-template");
+const skeletonRowTemplate = document.getElementById("dashboard-skeleton-row-template");
+const dashboardRowTemplate = document.getElementById("dashboard-row-template");
+const detailRowTemplate = document.getElementById("detail-row-template");
 let currentSort = "slowestSec";
 let currentSortDirection = "desc";
 let selectedPath = null;
@@ -878,12 +964,57 @@ function compactProblemLabel(problem) {
     }
 }
 
-function renderProblem(problem, { compact = true, muted = true } = {}) {
-    if (!problem) return `<span class="muted">problem url is unavailable</span>`;
-    const url = esc(problem);
-    const label = esc(compact ? compactProblemLabel(problem) : problem);
-    const className = muted ? "problem-link muted" : "problem-link";
-    return `<a class="${className}" href="${url}" title="${url}" target="_blank" rel="noreferrer noopener">${label}</a>`;
+function describeProblem(problem, { compact = true } = {}) {
+    if (!problem) {
+        return {
+            available: false,
+            label: "problem url is unavailable",
+            url: "",
+        };
+    }
+    return {
+        available: true,
+        label: compact ? compactProblemLabel(problem) : problem,
+        url: problem,
+    };
+}
+
+function cloneTemplate(template) {
+    return template.content.firstElementChild.cloneNode(true);
+}
+
+function cloneTemplateContent(template) {
+    return template.content.cloneNode(true);
+}
+
+function buildProblemNode(problem, { compact = true, muted = true } = {}) {
+    const view = describeProblem(problem, { compact });
+    if (!view.available) {
+        const missing = document.createElement("span");
+        missing.className = "muted";
+        missing.textContent = view.label;
+        return missing;
+    }
+    const link = document.createElement("a");
+    link.className = muted ? "problem-link muted" : "problem-link";
+    link.href = view.url;
+    link.title = view.url;
+    link.target = "_blank";
+    link.rel = "noreferrer noopener";
+    link.textContent = view.label;
+    return link;
+}
+
+function setMetricText(element, value) {
+    element.textContent = value;
+    element.title = value;
+}
+
+function buildChip(text, ...states) {
+    const chip = cloneTemplate(chipTemplate);
+    applyChipState(chip, ...states);
+    chip.textContent = text;
+    return chip;
 }
 
 function statusClass(entry) {
@@ -934,26 +1065,17 @@ function isLoadingInitialReport(totalTests) {
 }
 
 function buildLoadingSkeleton() {
-    return Array.from({ length: skeletonRows }, () => `
-        <tr class="skeleton-row" aria-hidden="true">
-            <td>
-                <div class="skeleton-stack">
-                    <span class="skeleton-line"></span>
-                    <span class="skeleton-line mid"></span>
-                </div>
-            </td>
-            <td><span class="skeleton-line short"></span></td>
-            <td><span class="skeleton-line short"></span></td>
-            <td>
-                <div class="skeleton-stack">
-                    <span class="skeleton-line short"></span>
-                    <span class="skeleton-line mid"></span>
-                </div>
-            </td>
-            <td><span class="skeleton-line short"></span></td>
-            <td><span class="skeleton-line short"></span></td>
-        </tr>
-    `).join("");
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < skeletonRows; i += 1) {
+        fragment.append(cloneTemplate(skeletonRowTemplate));
+    }
+    return fragment;
+}
+
+function buildEmptyRow(message) {
+    const row = cloneTemplate(emptyRowTemplate);
+    row.querySelector(".empty-state").textContent = message;
+    return row;
 }
 
 function syncSortUi() {
@@ -1082,96 +1204,87 @@ function ensureSelection(filtered) {
     return null;
 }
 
-function bindSelection() {
-    rows.querySelectorAll("[data-expand-path]").forEach((button) => {
-        const select = () => {
-            selectedPath = selectedPath === button.dataset.expandPath ? null : button.dataset.expandPath;
-            render();
-        };
-        button.addEventListener("click", select);
-    });
+function toggleSelection(path) {
+    selectedPath = selectedPath === path ? null : path;
 }
 
-function buildDetailPanel(entry) {
-    const chips = [
-        `<div class="chip ${statusClass(entry)}">status: ${statusLabel(entry)}</div>`,
-        `<div class="chip">compile: ${fmtDurationMs(entry.compiler.wallSec)}</div>`,
-        `<div class="chip">slowest: ${fmtDurationMs(entry.run.parsed.slowestSec)}</div>`,
-        `<div class="chip">average: ${fmtDurationMs(entry.run.parsed.averageSec)}</div>`,
-        `<div class="chip">memory: ${fmtMb(entry.run.parsed.maxMemoryMb)}</div>`,
-        `<div class="chip">cases: ${entry.run.parsed.caseCount} / cached ${entry.testcases.cachedCaseCount}</div>`,
-    ].join("");
-    const content = currentDetailTab === "raw" ? buildRawLog(entry) : buildCaseTable(entry);
-    return `
-        <div class="detail-panel">
-            <div class="detail-head">
-                <div class="detail-head-main">
-                    <div>
-                        <div class="eyebrow">expanded test</div>
-                        <h2 class="detail-title">${esc(entry.path)}</h2>
-                        <div>${renderProblem(entry.problem, { compact: true, muted: false })}</div>
-                        <div class="detail-problem-full muted">${renderProblem(entry.problem, { compact: false })}</div>
-                    </div>
-                </div>
-                <div class="detail-head-side">
-                    <div class="detail-chips">${chips}</div>
-                </div>
-            </div>
-            <div class="detail-tabs">
-                <button class="detail-tab${currentDetailTab === "case" ? " is-active" : ""}" type="button" data-detail-tab="case">case detail</button>
-                <button class="detail-tab${currentDetailTab === "raw" ? " is-active" : ""}" type="button" data-detail-tab="raw">raw log</button>
-            </div>
-            <div class="detail-content">${content}</div>
-        </div>
-    `;
+function buildDashboardRow(entry, isSelected) {
+    const slowest = entry.run.parsed.slowestSec;
+    const row = cloneTemplate(dashboardRowTemplate);
+    const expander = row.querySelector("[data-expand-path]");
+    const pathLabel = row.querySelector(".test-path");
+    const statusBadge = row.querySelector(".status-badge");
+    const compileCell = row.querySelector(".cell-compile");
+    const slowestValue = row.querySelector(".cell-slowest-value");
+    const slowestCase = row.querySelector(".cell-slowest-case");
+    const averageCell = row.querySelector(".cell-average");
+    const memoryCell = row.querySelector(".cell-memory");
+
+    row.dataset.entryPath = entry.path;
+    row.setAttribute("aria-selected", isSelected ? "true" : "false");
+    row.classList.toggle("is-selected", isSelected);
+
+    expander.dataset.expandPath = entry.path;
+    expander.setAttribute("aria-expanded", isSelected ? "true" : "false");
+    expander.classList.toggle("is-open", isSelected);
+    expander.textContent = isSelected ? "−" : "+";
+
+    pathLabel.textContent = entry.path;
+    pathLabel.title = entry.path;
+    row.querySelector(".test-problem").replaceChildren(buildProblemNode(entry.problem));
+
+    statusBadge.className = `status-badge ${statusClass(entry)}`;
+    statusBadge.textContent = statusLabel(entry);
+
+    setMetricText(compileCell, fmtDurationMs(entry.compiler.wallSec));
+    setMetricText(slowestValue, fmtDurationMs(slowest));
+    slowestCase.textContent = entry.run.parsed.slowestCase ?? "-";
+    slowestCase.title = entry.run.parsed.slowestCase ?? "-";
+    setMetricText(averageCell, fmtDurationMs(entry.run.parsed.averageSec));
+    setMetricText(memoryCell, fmtMb(entry.run.parsed.maxMemoryMb));
+
+    return row;
 }
 
-function bindDetailTabs() {
-    rows.querySelectorAll("[data-detail-tab]").forEach((button) => {
-        button.addEventListener("click", (event) => {
-            event.stopPropagation();
-            currentDetailTab = button.dataset.detailTab;
-            render();
-        });
+function buildDetailRow(entry) {
+    const detailRow = cloneTemplate(detailRowTemplate);
+    const compactProblem = detailRow.querySelector(".detail-problem-compact");
+    const fullProblem = detailRow.querySelector(".detail-problem-full");
+    const chipContainer = detailRow.querySelector(".detail-chips");
+    const detailContent = detailRow.querySelector(".detail-content");
+
+    detailRow.querySelector(".detail-title").textContent = entry.path;
+    compactProblem.replaceChildren(buildProblemNode(entry.problem, { compact: true, muted: false }));
+    fullProblem.replaceChildren(buildProblemNode(entry.problem, { compact: false }));
+    chipContainer.replaceChildren(
+        buildChip(`status: ${statusLabel(entry)}`, statusClass(entry)),
+        buildChip(`compile: ${fmtDurationMs(entry.compiler.wallSec)}`),
+        buildChip(`slowest: ${fmtDurationMs(entry.run.parsed.slowestSec)}`),
+        buildChip(`average: ${fmtDurationMs(entry.run.parsed.averageSec)}`),
+        buildChip(`memory: ${fmtMb(entry.run.parsed.maxMemoryMb)}`),
+        buildChip(`cases: ${entry.run.parsed.caseCount} / cached ${entry.testcases.cachedCaseCount}`),
+    );
+    detailRow.querySelectorAll("[data-detail-tab]").forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.detailTab === currentDetailTab);
     });
-    rows.querySelectorAll("[data-case-filter]").forEach((select) => {
-        select.addEventListener("change", () => {
-            currentCaseFilter = select.value;
-            render();
-        });
-    });
-    rows.querySelectorAll("[data-case-sort]").forEach((select) => {
-        select.addEventListener("change", () => {
-            currentCaseSort = select.value;
-            render();
-        });
-    });
+    detailContent.innerHTML = currentDetailTab === "raw" ? buildRawLog(entry) : buildCaseTable(entry);
+    return detailRow;
 }
 
-function updateLiveChip() {
-    const meta = pendingReport != null ? "update pending" : "auto";
-    summaryLive.innerHTML = `<span class="live-dot" aria-hidden="true"></span><span class="chip-label">live</span><span class="chip-meta">${meta}</span>`;
-    applyChipState(summaryLive, "chip-action", pendingReport != null ? "is-active" : "is-ok");
-    summaryLive.disabled = false;
-    summaryLive.title = pendingReport != null
-        ? "apply pending update now"
-        : (refreshLock ? "refresh in progress" : "refresh now");
-}
-
-function render() {
+function applyPendingReportIfIdle() {
     if (selectedPath == null && pendingReport != null) {
         report = pendingReport;
         pendingReport = null;
     }
-    const query = filterInput.value.trim().toLowerCase();
-    const totalTests = report.testCount ?? report.tests.length;
-    const loadingInitial = isLoadingInitialReport(totalTests);
-    const filtered = report.tests
+}
+
+function getVisibleEntries(query, statusValue) {
+    return report.tests
         .filter((entry) => {
             const haystack = `${entry.path} ${entry.problem}`.toLowerCase();
             if (query && !haystack.includes(query)) return false;
-            if (statusFilter.value === "ok" && !entry.run.ok) return false;
-            if (statusFilter.value === "failed" && !isFailedEntry(entry)) return false;
+            if (statusValue === "ok" && !entry.run.ok) return false;
+            if (statusValue === "failed" && !isFailedEntry(entry)) return false;
             return true;
         })
         .sort((lhs, rhs) => {
@@ -1183,73 +1296,89 @@ function render() {
             }
             return direction * (a - b);
         });
-    ensureSelection(filtered);
-    syncSortUi();
+}
 
+function renderRows(filtered, { loadingInitial }) {
     if (!filtered.length) {
         if (loadingInitial) {
-            rows.innerHTML = buildLoadingSkeleton();
+            rows.replaceChildren(buildLoadingSkeleton());
         } else {
-            rows.innerHTML = `<tr><td colspan="6"><div class="empty-state">current filter に一致する test はない</div></td></tr>`;
+            rows.replaceChildren(buildEmptyRow("current filter に一致する test はない"));
         }
-    } else {
-        rows.innerHTML = filtered.map((entry) => {
-            const slowest = entry.run.parsed.slowestSec;
-            const isSelected = selectedPath === entry.path;
-            const detailRow = isSelected
-                ? `
-                <tr class="detail-row">
-                    <td colspan="6">${buildDetailPanel(entry)}</td>
-                </tr>
-                `
-                : "";
-            return `
-                <tr class="dashboard-row${isSelected ? " is-selected" : ""}" data-entry-path="${esc(entry.path)}" aria-selected="${isSelected ? "true" : "false"}">
-                    <td>
-                        <div class="test-main">
-                            <div class="test-head">
-                                <button class="expander${isSelected ? " is-open" : ""}" type="button" data-expand-path="${esc(entry.path)}" aria-expanded="${isSelected ? "true" : "false"}">${isSelected ? "−" : "+"}</button>
-                                <div class="path test-path" title="${esc(entry.path)}">${esc(entry.path)}</div>
-                            </div>
-                            <div class="test-problem">${renderProblem(entry.problem)}</div>
-                        </div>
-                    </td>
-                    <td data-label="status"><span class="status-badge ${statusClass(entry)}">${statusLabel(entry)}</span></td>
-                    <td class="num" data-label="compile" title="${fmtDurationMs(entry.compiler.wallSec)}">${fmtDurationMs(entry.compiler.wallSec)}</td>
-                    <td class="num" data-label="slowest" title="${fmtDurationMs(slowest)}">
-                        <div>${fmtDurationMs(slowest)}</div>
-                        <div class="muted metric-sub" title="${esc(entry.run.parsed.slowestCase ?? "-")}">${esc(entry.run.parsed.slowestCase ?? "-")}</div>
-                    </td>
-                    <td class="num" data-label="average" title="${fmtDurationMs(entry.run.parsed.averageSec)}">${fmtDurationMs(entry.run.parsed.averageSec)}</td>
-                    <td class="num" data-label="memory" title="${fmtMb(entry.run.parsed.maxMemoryMb)}">${fmtMb(entry.run.parsed.maxMemoryMb)}</td>
-                </tr>
-                ${detailRow}
-            `;
-        }).join("");
+        return;
     }
 
+    const fragment = document.createDocumentFragment();
+    filtered.forEach((entry) => {
+        const isSelected = selectedPath === entry.path;
+        fragment.append(buildDashboardRow(entry, isSelected));
+        if (isSelected) fragment.append(buildDetailRow(entry));
+    });
+    rows.replaceChildren(fragment);
+}
+
+function getSummaryState(filtered, { totalTests, loadingInitial, query, statusValue }) {
     const summary = report.summary ?? {};
     const pending = summary.pending ?? 0;
     const running = summary.running ?? 0;
     const done = summary.done ?? 0;
     const failed = summary.failed ?? report.tests.filter((entry) => isFailedEntry(entry)).length;
-    summaryGenerated.textContent = `generated: ${report.generatedAt}`;
-    summaryTotal.textContent = `tests: ${totalTests}`;
-    summaryProgress.textContent = `done: ${done} / running: ${running} / pending: ${pending}`;
-    summaryFailed.textContent = statusFilter.value === "failed" ? `failed: ${failed} (filtered)` : `failed: ${failed}`;
-    summaryVisible.textContent = loadingInitial ? "visible: loading" : `visible: ${filtered.length}`;
+
+    return {
+        generatedText: `generated: ${report.generatedAt}`,
+        totalText: `tests: ${totalTests}`,
+        progressText: `done: ${done} / running: ${running} / pending: ${pending}`,
+        failedText: statusValue === "failed" ? `failed: ${failed} (filtered)` : `failed: ${failed}`,
+        visibleText: loadingInitial ? "visible: loading" : `visible: ${filtered.length}`,
+        resultCountText: filtered.length
+            ? `displaying ${filtered.length} / ${totalTests} tests`
+            : (loadingInitial ? `loading dashboard... ${totalTests} tests queued` : "displaying 0 tests"),
+        progressStates: [running > 0 || pending > 0 ? "is-warn" : "is-ok"],
+        failedStates: ["chip-action", failed > 0 ? "is-bad" : "is-ok", statusValue === "failed" ? "is-active" : ""],
+        visibleStates: [loadingInitial || query || statusValue !== "all" ? "is-active" : ""],
+        failedDisabled: failed === 0 && statusValue !== "failed",
+        failedTitle: statusValue === "failed" ? "clear failed filter" : "show failed tests only",
+    };
+}
+
+function updateSummary(filtered, options) {
+    const state = getSummaryState(filtered, options);
+    summaryGenerated.textContent = state.generatedText;
+    summaryTotal.textContent = state.totalText;
+    summaryProgress.textContent = state.progressText;
+    summaryFailed.textContent = state.failedText;
+    summaryVisible.textContent = state.visibleText;
+    resultCount.textContent = state.resultCountText;
     updateLiveChip();
     applyChipState(summaryTotal);
-    applyChipState(summaryProgress, running > 0 || pending > 0 ? "is-warn" : "is-ok");
-    applyChipState(summaryFailed, "chip-action", failed > 0 ? "is-bad" : "is-ok", statusFilter.value === "failed" ? "is-active" : "");
-    applyChipState(summaryVisible, loadingInitial || query || statusFilter.value !== "all" ? "is-active" : "");
-    summaryFailed.disabled = failed === 0 && statusFilter.value !== "failed";
-    summaryFailed.title = statusFilter.value === "failed" ? "clear failed filter" : "show failed tests only";
-    resultCount.textContent = filtered.length
-        ? `displaying ${filtered.length} / ${totalTests} tests`
-        : (loadingInitial ? `loading dashboard... ${totalTests} tests queued` : "displaying 0 tests");
-    bindSelection();
-    bindDetailTabs();
+    applyChipState(summaryProgress, ...state.progressStates);
+    applyChipState(summaryFailed, ...state.failedStates);
+    applyChipState(summaryVisible, ...state.visibleStates);
+    summaryFailed.disabled = state.failedDisabled;
+    summaryFailed.title = state.failedTitle;
+}
+
+function updateLiveChip() {
+    const meta = pendingReport != null ? "update pending" : "auto";
+    summaryLive.replaceChildren(cloneTemplateContent(liveChipTemplate));
+    summaryLive.querySelector(".chip-meta").textContent = meta;
+    applyChipState(summaryLive, "chip-action", pendingReport != null ? "is-active" : "is-ok");
+    summaryLive.disabled = false;
+    summaryLive.title = pendingReport != null
+        ? "apply pending update now"
+        : (refreshLock ? "refresh in progress" : "refresh now");
+}
+
+function render() {
+    applyPendingReportIfIdle();
+    const query = filterInput.value.trim().toLowerCase();
+    const totalTests = report.testCount ?? report.tests.length;
+    const loadingInitial = isLoadingInitialReport(totalTests);
+    const filtered = getVisibleEntries(query, statusFilter.value);
+    ensureSelection(filtered);
+    syncSortUi();
+    renderRows(filtered, { loadingInitial });
+    updateSummary(filtered, { totalTests, loadingInitial, query, statusValue: statusFilter.value });
 }
 
 let refreshLock = false;
@@ -1290,6 +1419,38 @@ document.querySelectorAll("[data-sort]").forEach((button) => {
         }
         render();
     });
+});
+rows.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const detailTab = event.target.closest("[data-detail-tab]");
+    if (detailTab && rows.contains(detailTab)) {
+        currentDetailTab = detailTab.dataset.detailTab;
+        render();
+        return;
+    }
+
+    const expandButton = event.target.closest("[data-expand-path]");
+    if (expandButton && rows.contains(expandButton)) {
+        toggleSelection(expandButton.dataset.expandPath);
+        render();
+    }
+});
+rows.addEventListener("change", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const caseFilter = event.target.closest("[data-case-filter]");
+    if (caseFilter && rows.contains(caseFilter)) {
+        currentCaseFilter = caseFilter.value;
+        render();
+        return;
+    }
+
+    const caseSort = event.target.closest("[data-case-sort]");
+    if (caseSort && rows.contains(caseSort)) {
+        currentCaseSort = caseSort.value;
+        render();
+    }
 });
 filterInput.addEventListener("input", render);
 statusFilter.addEventListener("change", render);

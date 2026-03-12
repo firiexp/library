@@ -1,0 +1,474 @@
+{
+    "generatedAt": "2026-03-13T00:00:00+09:00",
+    "root": "/home/firiexp/library",
+    "testCount": 8,
+    "summary": {
+        "pending": 0,
+        "running": 1,
+        "done": 7,
+        "error": 0,
+        "ok": 6,
+        "failed": 1
+    },
+    "tests": [
+        {
+            "path": "test/yosupo_point_add_range_sum_segtree.test.cpp",
+            "phase": "done",
+            "problem": "https://judge.yosupo.jp/problem/point_add_range_sum",
+            "compiler": {
+                "command": [
+                    "g++",
+                    "-std=gnu++17",
+                    "-O2"
+                ],
+                "wallSec": 0.411
+            },
+            "testcases": {
+                "directory": ".verify-helper/cache/fixture/point_add_range_sum",
+                "cachedCaseCount": 4
+            },
+            "run": {
+                "command": [
+                    "oj",
+                    "test"
+                ],
+                "returnCode": 0,
+                "wallSec": 1.904,
+                "ok": true,
+                "parsed": {
+                    "cases": [
+                        {
+                            "name": "example_00",
+                            "timeSec": 0.109,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "random_small_03",
+                            "timeSec": 0.441,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "random_large_07",
+                            "timeSec": 0.682,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "max_01",
+                            "timeSec": 0.568,
+                            "status": "AC"
+                        }
+                    ],
+                    "caseCount": 4,
+                    "timedCaseCount": 4,
+                    "passedCaseCount": 4,
+                    "slowestSec": 0.682,
+                    "slowestCase": "random_large_07",
+                    "averageSec": 0.45,
+                    "maxMemoryMb": 97,
+                    "maxMemoryCase": "max_01",
+                    "summary": "test success: 4 cases"
+                },
+                "output": "[INFO] example_00\n[SUCCESS] AC\n[INFO] time: 0.109 sec\n[INFO] random_small_03\n[SUCCESS] AC\n[INFO] time: 0.441 sec\n[INFO] random_large_07\n[SUCCESS] AC\n[INFO] time: 0.682 sec\n[INFO] max_01\n[SUCCESS] AC\n[INFO] time: 0.568 sec\n[SUCCESS] test success: 4 cases\n[INFO] slowest: 0.682 sec (for random_large_07)\n[INFO] max memory: 97 MB (for max_01)"
+            }
+        },
+        {
+            "path": "test/yosupo_convolution_ntt.test.cpp",
+            "phase": "done",
+            "problem": "https://judge.yosupo.jp/problem/convolution_mod",
+            "compiler": {
+                "command": [
+                    "g++",
+                    "-std=gnu++17",
+                    "-O2"
+                ],
+                "wallSec": 0.593
+            },
+            "testcases": {
+                "directory": ".verify-helper/cache/fixture/convolution_mod",
+                "cachedCaseCount": 3
+            },
+            "run": {
+                "command": [
+                    "oj",
+                    "test"
+                ],
+                "returnCode": 0,
+                "wallSec": 3.402,
+                "ok": true,
+                "parsed": {
+                    "cases": [
+                        {
+                            "name": "sample_00",
+                            "timeSec": 0.188,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "dense_04",
+                            "timeSec": 1.234,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "dense_05",
+                            "timeSec": 1.246,
+                            "status": "AC"
+                        }
+                    ],
+                    "caseCount": 3,
+                    "timedCaseCount": 3,
+                    "passedCaseCount": 3,
+                    "slowestSec": 1.246,
+                    "slowestCase": "dense_05",
+                    "averageSec": 0.889,
+                    "maxMemoryMb": 256,
+                    "maxMemoryCase": "dense_05",
+                    "summary": "test success: 3 cases"
+                },
+                "output": "[INFO] sample_00\n[SUCCESS] AC\n[INFO] time: 0.188 sec\n[INFO] dense_04\n[SUCCESS] AC\n[INFO] time: 1.234 sec\n[INFO] dense_05\n[SUCCESS] AC\n[INFO] time: 1.246 sec\n[SUCCESS] test success: 3 cases\n[INFO] slowest: 1.246 sec (for dense_05)\n[INFO] max memory: 256 MB (for dense_05)"
+            }
+        },
+        {
+            "path": "test/aoj_dsl_2_a_sparse_table.test.cpp",
+            "phase": "done",
+            "problem": "https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_A",
+            "compiler": {
+                "command": [
+                    "g++",
+                    "-std=gnu++17",
+                    "-O2"
+                ],
+                "wallSec": 0.361
+            },
+            "testcases": {
+                "directory": ".verify-helper/cache/fixture/dsl_2_a",
+                "cachedCaseCount": 3
+            },
+            "run": {
+                "command": [
+                    "oj",
+                    "test"
+                ],
+                "returnCode": 1,
+                "wallSec": 2.981,
+                "ok": false,
+                "parsed": {
+                    "cases": [
+                        {
+                            "name": "sample_00",
+                            "timeSec": 0.034,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "stress_11",
+                            "timeSec": 0.802,
+                            "status": "WA"
+                        },
+                        {
+                            "name": "stress_12",
+                            "timeSec": 0.818,
+                            "status": "WA"
+                        }
+                    ],
+                    "caseCount": 3,
+                    "timedCaseCount": 3,
+                    "passedCaseCount": 1,
+                    "slowestSec": 0.818,
+                    "slowestCase": "stress_12",
+                    "averageSec": 0.551,
+                    "maxMemoryMb": 88,
+                    "maxMemoryCase": "stress_11",
+                    "summary": "test failed: 2 cases"
+                },
+                "output": "[INFO] sample_00\n[SUCCESS] AC\n[INFO] time: 0.034 sec\n[INFO] stress_11\n[FAILURE] WA\n[INFO] time: 0.802 sec\n[INFO] stress_12\n[FAILURE] WA\n[INFO] time: 0.818 sec\n[FAILURE] test failed: 2 cases\n[INFO] slowest: 0.818 sec (for stress_12)\n[INFO] max memory: 88 MB (for stress_11)"
+            }
+        },
+        {
+            "path": "test/yukicoder_no_1120_wavelet_matrix.test.cpp",
+            "phase": "done",
+            "problem": "https://yukicoder.me/problems/no/1120",
+            "compiler": {
+                "command": [
+                    "g++",
+                    "-std=gnu++17",
+                    "-O2"
+                ],
+                "wallSec": 0.642
+            },
+            "testcases": {
+                "directory": ".verify-helper/cache/fixture/yukicoder_1120",
+                "cachedCaseCount": 5
+            },
+            "run": {
+                "command": [
+                    "oj",
+                    "test"
+                ],
+                "returnCode": 0,
+                "wallSec": 2.423,
+                "ok": true,
+                "parsed": {
+                    "cases": [
+                        {
+                            "name": "sample_00",
+                            "timeSec": 0.095,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "corner_03",
+                            "timeSec": 0.201,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "dense_08",
+                            "timeSec": 0.493,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "dense_09",
+                            "timeSec": 0.521,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "max_00",
+                            "timeSec": 0.544,
+                            "status": "AC"
+                        }
+                    ],
+                    "caseCount": 5,
+                    "timedCaseCount": 5,
+                    "passedCaseCount": 5,
+                    "slowestSec": 0.544,
+                    "slowestCase": "max_00",
+                    "averageSec": 0.371,
+                    "maxMemoryMb": 164,
+                    "maxMemoryCase": "max_00",
+                    "summary": "test success: 5 cases"
+                },
+                "output": "[SUCCESS] test success: 5 cases\n[INFO] slowest: 0.544 sec (for max_00)\n[INFO] max memory: 164 MB (for max_00)"
+            }
+        },
+        {
+            "path": "test/yosupo_suffixarray.test.cpp",
+            "phase": "done",
+            "problem": "https://judge.yosupo.jp/problem/suffixarray",
+            "compiler": {
+                "command": [
+                    "g++",
+                    "-std=gnu++17",
+                    "-O2"
+                ],
+                "wallSec": 0.458
+            },
+            "testcases": {
+                "directory": ".verify-helper/cache/fixture/suffixarray",
+                "cachedCaseCount": 4
+            },
+            "run": {
+                "command": [
+                    "oj",
+                    "test"
+                ],
+                "returnCode": 0,
+                "wallSec": 2.103,
+                "ok": true,
+                "parsed": {
+                    "cases": [
+                        {
+                            "name": "sample_00",
+                            "timeSec": 0.072,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "random_18",
+                            "timeSec": 0.613,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "random_19",
+                            "timeSec": 0.622,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "max_02",
+                            "timeSec": 0.577,
+                            "status": "AC"
+                        }
+                    ],
+                    "caseCount": 4,
+                    "timedCaseCount": 4,
+                    "passedCaseCount": 4,
+                    "slowestSec": 0.622,
+                    "slowestCase": "random_19",
+                    "averageSec": 0.471,
+                    "maxMemoryMb": 143,
+                    "maxMemoryCase": "max_02",
+                    "summary": "test success: 4 cases"
+                },
+                "output": "[SUCCESS] test success: 4 cases\n[INFO] slowest: 0.622 sec (for random_19)\n[INFO] max memory: 143 MB (for max_02)"
+            }
+        },
+        {
+            "path": "test/yosupo_minimum_cost_b_flow.test.cpp",
+            "phase": "running",
+            "problem": "https://judge.yosupo.jp/problem/minimum_cost_b_flow",
+            "compiler": {
+                "command": [
+                    "g++",
+                    "-std=gnu++17",
+                    "-O2"
+                ],
+                "wallSec": 0.887
+            },
+            "testcases": {
+                "directory": ".verify-helper/cache/fixture/minimum_cost_b_flow",
+                "cachedCaseCount": 6
+            },
+            "run": {
+                "command": [
+                    "oj",
+                    "test"
+                ],
+                "returnCode": null,
+                "wallSec": null,
+                "ok": false,
+                "parsed": {
+                    "cases": [],
+                    "caseCount": 0,
+                    "timedCaseCount": 0,
+                    "passedCaseCount": 0,
+                    "slowestSec": null,
+                    "slowestCase": null,
+                    "averageSec": null,
+                    "maxMemoryMb": null,
+                    "maxMemoryCase": null,
+                    "summary": null
+                },
+                "output": ""
+            }
+        },
+        {
+            "path": "test/yosupo_link_cut_tree.test.cpp",
+            "phase": "done",
+            "problem": "https://judge.yosupo.jp/problem/dynamic_tree_vertex_add_path_sum",
+            "compiler": {
+                "command": [
+                    "g++",
+                    "-std=gnu++17",
+                    "-O2"
+                ],
+                "wallSec": 0.704
+            },
+            "testcases": {
+                "directory": ".verify-helper/cache/fixture/link_cut_tree",
+                "cachedCaseCount": 4
+            },
+            "run": {
+                "command": [
+                    "oj",
+                    "test"
+                ],
+                "returnCode": 0,
+                "wallSec": 4.202,
+                "ok": true,
+                "parsed": {
+                    "cases": [
+                        {
+                            "name": "sample_00",
+                            "timeSec": 0.224,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "random_ops_12",
+                            "timeSec": 1.031,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "random_ops_13",
+                            "timeSec": 1.118,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "max_01",
+                            "timeSec": 1.084,
+                            "status": "AC"
+                        }
+                    ],
+                    "caseCount": 4,
+                    "timedCaseCount": 4,
+                    "passedCaseCount": 4,
+                    "slowestSec": 1.118,
+                    "slowestCase": "random_ops_13",
+                    "averageSec": 0.864,
+                    "maxMemoryMb": 211,
+                    "maxMemoryCase": "max_01",
+                    "summary": "test success: 4 cases"
+                },
+                "output": "[SUCCESS] test success: 4 cases\n[INFO] slowest: 1.118 sec (for random_ops_13)\n[INFO] max memory: 211 MB (for max_01)"
+            }
+        },
+        {
+            "path": "test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp",
+            "phase": "done",
+            "problem": "https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum",
+            "compiler": {
+                "command": [
+                    "g++",
+                    "-std=gnu++17",
+                    "-O2"
+                ],
+                "wallSec": 0.781
+            },
+            "testcases": {
+                "directory": ".verify-helper/cache/fixture/dynamic_graph_vertex_add_component_sum",
+                "cachedCaseCount": 5
+            },
+            "run": {
+                "command": [
+                    "oj",
+                    "test"
+                ],
+                "returnCode": 0,
+                "wallSec": 4.884,
+                "ok": true,
+                "parsed": {
+                    "cases": [
+                        {
+                            "name": "sample_00",
+                            "timeSec": 0.241,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "random_16",
+                            "timeSec": 0.996,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "random_17",
+                            "timeSec": 1.204,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "max_02",
+                            "timeSec": 1.188,
+                            "status": "AC"
+                        },
+                        {
+                            "name": "max_03",
+                            "timeSec": 1.155,
+                            "status": "AC"
+                        }
+                    ],
+                    "caseCount": 5,
+                    "timedCaseCount": 5,
+                    "passedCaseCount": 5,
+                    "slowestSec": 1.204,
+                    "slowestCase": "random_17",
+                    "averageSec": 0.957,
+                    "maxMemoryMb": 302,
+                    "maxMemoryCase": "max_03",
+                    "summary": "test success: 5 cases"
+                },
+                "output": "[SUCCESS] test success: 5 cases\n[INFO] slowest: 1.204 sec (for random_17)\n[INFO] max memory: 302 MB (for max_03)"
+            }
+        }
+    ]
+}
