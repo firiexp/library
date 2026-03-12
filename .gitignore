@@ -2,5 +2,8 @@
 /.idea/
 /.vscode/
 /performance/
+.verify-helper/verify-timing.html
+.verify-helper/verify-timing.json
+scripts/__pycache__/
 AGENTS.md
 TODO.md
