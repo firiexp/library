@@ -14,6 +14,9 @@ const summaryFailed = document.getElementById("summary-failed");
 const summaryVisible = document.getElementById("summary-visible");
 const resultCount = document.getElementById("result-count");
 const sortSummary = document.getElementById("sort-summary");
+const controls = document.getElementById("controls");
+const tableScroll = document.getElementById("table-scroll");
+const tableHeaderWrap = document.getElementById("table-header-wrap");
 let currentSort = "slowestSec";
 let currentSortDirection = "desc";
 let selectedPath = null;
@@ -23,31 +26,28 @@ let currentCaseSort = "timeDesc";
 let pendingReport = null;
 const skeletonRows = 6;
 
-function fmtSec(value) {
-    return value == null ? "-" : `${value.toFixed(6)} s`;
+function syncStickyHeaderOffset() {
+    if (!controls) return;
+    const controlsStyle = window.getComputedStyle(controls);
+    const top = Number.parseFloat(controlsStyle.top) || 0;
+    const gap = 8;
+    const offset = Math.ceil(top + controls.getBoundingClientRect().height + gap);
+    document.documentElement.style.setProperty("--dashboard-header-top", `${offset}px`);
 }
 
-function fmtSecCompact(value) {
+function syncHeaderScroll() {
+    if (!tableScroll || !tableHeaderWrap) return;
+    tableHeaderWrap.scrollLeft = tableScroll.scrollLeft;
+}
+
+function fmtDurationMs(value) {
     if (value == null) return "-";
-    if (value < 1) {
-        const ms = value * 1000;
-        const digits = ms >= 100 ? 0 : ms >= 10 ? 1 : 2;
-        return `${ms.toFixed(digits)} ms`;
-    }
-    const digits = value >= 100 ? 0 : value >= 10 ? 2 : 3;
-    return `${value.toFixed(digits)} s`;
+    return `${Math.round(value * 1000)} ms`;
 }
 
 function fmtMb(value) {
-    return value == null ? "-" : `${value.toFixed(3)} MB`;
-}
-
-function fmtMbCompact(value) {
     if (value == null) return "-";
-    if (value >= 1024) return `${(value / 1024).toFixed(2)} GB`;
-    if (value >= 100) return `${value.toFixed(0)} MB`;
-    if (value >= 10) return `${value.toFixed(1)} MB`;
-    return `${value.toFixed(2)} MB`;
+    return `${Math.round(value)} MB`;
 }
 
 function esc(value) {
@@ -226,7 +226,7 @@ function buildCaseTable(entry) {
                                 </div>
                             </div>
                         </td>
-                        <td class="num" title="${fmtSec(testcase.timeSec ?? null)}">${fmtSecCompact(testcase.timeSec ?? null)}</td>
+                        <td class="num" title="${fmtDurationMs(testcase.timeSec ?? null)}">${fmtDurationMs(testcase.timeSec ?? null)}</td>
                         <td>${esc(testcase.status ?? "-")}</td>
                     </tr>
                 `).join("") : '<tr><td colspan="3"><div class="empty-state">current case filter に一致する case はない</div></td></tr>'}
@@ -286,10 +286,10 @@ function bindSelection() {
 function buildDetailPanel(entry) {
     const chips = [
         `<div class="chip ${statusClass(entry)}">status: ${statusLabel(entry)}</div>`,
-        `<div class="chip">compile: ${fmtSecCompact(entry.compiler.wallSec)}</div>`,
-        `<div class="chip">slowest: ${fmtSecCompact(entry.run.parsed.slowestSec)}</div>`,
-        `<div class="chip">average: ${fmtSecCompact(entry.run.parsed.averageSec)}</div>`,
-        `<div class="chip">memory: ${fmtMbCompact(entry.run.parsed.maxMemoryMb)}</div>`,
+        `<div class="chip">compile: ${fmtDurationMs(entry.compiler.wallSec)}</div>`,
+        `<div class="chip">slowest: ${fmtDurationMs(entry.run.parsed.slowestSec)}</div>`,
+        `<div class="chip">average: ${fmtDurationMs(entry.run.parsed.averageSec)}</div>`,
+        `<div class="chip">memory: ${fmtMb(entry.run.parsed.maxMemoryMb)}</div>`,
         `<div class="chip">cases: ${entry.run.parsed.caseCount} / cached ${entry.testcases.cachedCaseCount}</div>`,
     ].join("");
     const content = currentDetailTab === "raw" ? buildRawLog(entry) : buildCaseTable(entry);
@@ -400,19 +400,19 @@ function render() {
                         <div class="test-main">
                             <div class="test-head">
                                 <button class="expander${isSelected ? " is-open" : ""}" type="button" data-expand-path="${esc(entry.path)}" aria-expanded="${isSelected ? "true" : "false"}">${isSelected ? "−" : "+"}</button>
-                                <div class="path" title="${esc(entry.path)}">${esc(entry.path)}</div>
+                                <div class="path test-path" title="${esc(entry.path)}">${esc(entry.path)}</div>
                             </div>
-                            <div>${renderProblem(entry.problem)}</div>
+                            <div class="test-problem">${renderProblem(entry.problem)}</div>
                         </div>
                     </td>
                     <td data-label="status"><span class="status-badge ${statusClass(entry)}">${statusLabel(entry)}</span></td>
-                    <td class="num" data-label="compile" title="${fmtSec(entry.compiler.wallSec)}">${fmtSecCompact(entry.compiler.wallSec)}</td>
-                    <td class="num" data-label="slowest" title="${fmtSec(slowest)}">
-                        <div>${fmtSecCompact(slowest)}</div>
+                    <td class="num" data-label="compile" title="${fmtDurationMs(entry.compiler.wallSec)}">${fmtDurationMs(entry.compiler.wallSec)}</td>
+                    <td class="num" data-label="slowest" title="${fmtDurationMs(slowest)}">
+                        <div>${fmtDurationMs(slowest)}</div>
                         <div class="muted metric-sub" title="${esc(entry.run.parsed.slowestCase ?? "-")}">${esc(entry.run.parsed.slowestCase ?? "-")}</div>
                     </td>
-                    <td class="num" data-label="average" title="${fmtSec(entry.run.parsed.averageSec)}">${fmtSecCompact(entry.run.parsed.averageSec)}</td>
-                    <td class="num" data-label="memory" title="${fmtMb(entry.run.parsed.maxMemoryMb)}">${fmtMbCompact(entry.run.parsed.maxMemoryMb)}</td>
+                    <td class="num" data-label="average" title="${fmtDurationMs(entry.run.parsed.averageSec)}">${fmtDurationMs(entry.run.parsed.averageSec)}</td>
+                    <td class="num" data-label="memory" title="${fmtMb(entry.run.parsed.maxMemoryMb)}">${fmtMb(entry.run.parsed.maxMemoryMb)}</td>
                 </tr>
                 ${detailRow}
             `;
@@ -506,5 +506,15 @@ sortDirection.addEventListener("change", () => {
     render();
 });
 render();
+syncStickyHeaderOffset();
+syncHeaderScroll();
 refreshReport();
 setInterval(refreshReport, 2000);
+window.addEventListener("resize", syncStickyHeaderOffset);
+window.addEventListener("load", syncStickyHeaderOffset);
+if (tableScroll) {
+    tableScroll.addEventListener("scroll", syncHeaderScroll, { passive: true });
+}
+if ("ResizeObserver" in window && controls) {
+    new ResizeObserver(syncStickyHeaderOffset).observe(controls);
+}

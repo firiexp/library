@@ -52,14 +52,20 @@ __SORT_KEY_OPTIONS__
         <div class="muted desktop-only" id="sort-summary"></div>
     </div>
     <div class="table-wrap">
-        <table class="dashboard-table">
-            <thead>
-                <tr>
+        <div class="table-header-wrap desktop-only" id="table-header-wrap">
+            <table class="dashboard-table dashboard-table-head">
+                <thead>
+                    <tr>
 __SORT_HEADER_CELLS__
-                </tr>
-            </thead>
-            <tbody id="rows"></tbody>
-        </table>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-scroll" id="table-scroll">
+            <table class="dashboard-table dashboard-table-body">
+                <tbody id="rows"></tbody>
+            </table>
+        </div>
     </div>
 </main>
 <script>
