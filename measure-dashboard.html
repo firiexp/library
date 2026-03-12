@@ -1,0 +1,1494 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>verify measurement dashboard</title>
+<style>
+:root {
+    --bg: #f6f3ee;
+    --panel: #fffdf8;
+    --panel-2: #f0e7d8;
+    --panel-3: #f7efe2;
+    --line: #d8ccb8;
+    --text: #1f1d1a;
+    --muted: #685f54;
+    --ok: #1a7f45;
+    --bad: #b42318;
+    --warn: #b7791f;
+    --accent: #9a3412;
+    --dashboard-header-top: 84px;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: "Iosevka Web", "IBM Plex Sans JP", sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(circle at top left, #f0d9b5 0, transparent 35%),
+        linear-gradient(180deg, #f9f5ed 0%, var(--bg) 100%);
+}
+main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+}
+h1 {
+    margin: 0;
+    font-size: clamp(28px, 5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+}
+.lede {
+    margin: 10px 0 0;
+    color: var(--muted);
+}
+.meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 22px 0 28px;
+}
+.chip {
+    border: 1px solid var(--line);
+    background: rgba(255, 253, 248, 0.75);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 14px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-variant-numeric: tabular-nums;
+}
+.chip-label {
+    font-weight: 700;
+}
+.chip-meta {
+    color: var(--muted);
+    min-width: 12ch;
+}
+.live-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: currentColor;
+    flex: none;
+}
+.chip.is-ok {
+    color: var(--ok);
+    border-color: rgba(26, 127, 69, 0.22);
+    background: rgba(26, 127, 69, 0.08);
+}
+.chip.is-warn {
+    color: var(--warn);
+    border-color: rgba(183, 121, 31, 0.24);
+    background: rgba(183, 121, 31, 0.11);
+}
+.chip.is-bad {
+    color: var(--bad);
+    border-color: rgba(180, 35, 24, 0.24);
+    background: rgba(180, 35, 24, 0.09);
+}
+.chip.is-active {
+    color: var(--accent);
+    border-color: rgba(154, 52, 18, 0.3);
+    background: rgba(154, 52, 18, 0.1);
+}
+.chip-action {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.chip-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(76, 52, 24, 0.08);
+}
+.chip-action:focus-visible {
+    outline: 2px solid rgba(154, 52, 18, 0.35);
+    outline-offset: 2px;
+}
+.chip-action:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
+}
+.controls {
+    display: grid;
+    grid-template-columns: minmax(260px, 1.3fr) repeat(2, minmax(180px, 0.7fr)) minmax(220px, auto);
+    gap: 12px;
+    margin-bottom: 18px;
+    position: sticky;
+    top: 12px;
+    z-index: 24;
+    padding: 12px;
+    border: 1px solid rgba(216, 204, 184, 0.85);
+    border-radius: 18px;
+    background: rgba(255, 249, 240, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 14px 28px rgba(76, 52, 24, 0.08);
+}
+.control-field {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+}
+.control-label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.control-cluster {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+}
+.controls input,
+.controls select {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: var(--panel);
+    color: var(--text);
+}
+.controls input:focus-visible,
+.controls select:focus-visible,
+.expander:focus-visible,
+.detail-tab:focus-visible,
+.detail-toolbar select:focus-visible,
+.problem-link:focus-visible,
+.sort-button:focus-visible,
+.log-block > summary:focus-visible {
+    outline: 2px solid rgba(154, 52, 18, 0.35);
+    outline-offset: 2px;
+}
+.control-hint {
+    align-self: end;
+    padding: 0 4px 4px 0;
+    text-align: right;
+}
+.desktop-only {
+    display: block;
+}
+.mobile-only {
+    display: none;
+}
+.result-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+.table-wrap {
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: rgba(255, 253, 248, 0.9);
+    box-shadow: 0 16px 40px rgba(76, 52, 24, 0.08);
+}
+.table-header-wrap {
+    position: sticky;
+    top: var(--dashboard-header-top);
+    z-index: 16;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    border-radius: 22px 22px 0 0;
+    background: var(--panel-2);
+}
+.table-scroll {
+    overflow-x: auto;
+    overflow-y: visible;
+    border-radius: 0 0 inherit inherit;
+}
+table {
+    width: 100%;
+    min-width: 920px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.dashboard-table-head > thead {
+    background: var(--panel-2);
+}
+.dashboard-table-head > thead > tr > th {
+    background: var(--panel-2);
+}
+th, td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+}
+th {
+    vertical-align: middle;
+}
+th.is-active {
+    color: var(--accent);
+}
+.sort-button {
+    border: 0;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    font-weight: 600;
+    width: 100%;
+    min-height: 28px;
+    line-height: 1.2;
+}
+.sort-label {
+    min-width: 0;
+}
+.sort-indicator {
+    width: 1.25em;
+    flex: none;
+    text-align: center;
+    color: var(--accent);
+}
+.num {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+.dashboard-table th.num .sort-button {
+    justify-content: flex-end;
+    width: 100%;
+}
+.dashboard-table-head th {
+    border-bottom: 0;
+    box-shadow: inset 0 -1px 0 var(--line);
+}
+.metric-sub {
+    margin-top: 4px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.skeleton-row td {
+    padding-block: 14px;
+}
+.skeleton-stack {
+    display: grid;
+    gap: 8px;
+}
+.skeleton-line {
+    display: block;
+    width: 100%;
+    height: 12px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(216, 204, 184, 0.45), rgba(240, 231, 216, 0.95), rgba(216, 204, 184, 0.45));
+    background-size: 220% 100%;
+    animation: skeleton-shimmer 1.4s linear infinite;
+}
+.skeleton-line.short {
+    width: 38%;
+}
+.skeleton-line.mid {
+    width: 62%;
+}
+@keyframes skeleton-shimmer {
+    from { background-position: 200% 0; }
+    to { background-position: -20% 0; }
+}
+tbody tr:hover {
+    background: rgba(154, 52, 18, 0.04);
+}
+.dashboard-row {
+    transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+.dashboard-row.is-selected {
+    background: rgba(154, 52, 18, 0.1);
+    box-shadow: inset 4px 0 0 var(--accent), inset 0 -1px 0 rgba(154, 52, 18, 0.18);
+}
+.dashboard-row.is-selected:hover {
+    background: rgba(154, 52, 18, 0.12);
+}
+.dashboard-row:focus-visible {
+    outline: 2px solid rgba(154, 52, 18, 0.35);
+    outline-offset: -2px;
+}
+.test-main {
+    display: grid;
+    gap: 6px;
+}
+.test-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+.expander {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(255, 253, 248, 0.82);
+    flex: none;
+    cursor: pointer;
+}
+.expander.is-open {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff7ed;
+}
+.expander:hover {
+    transform: translateY(-1px);
+}
+.path {
+    font-family: "Iosevka Web", "SFMono-Regular", monospace;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+    min-width: 0;
+}
+.test-path {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.test-problem {
+    min-width: 0;
+}
+.test-problem .problem-link {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.problem-link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(154, 52, 18, 0.35);
+    text-underline-offset: 0.15em;
+}
+.problem-link:hover {
+    color: var(--accent);
+}
+.muted {
+    color: var(--muted);
+    overflow-wrap: anywhere;
+}
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: rgba(104, 95, 84, 0.08);
+}
+.status-ok { color: var(--ok); font-weight: 700; }
+.status-bad { color: var(--bad); font-weight: 700; }
+.status-warn { color: var(--warn); font-weight: 700; }
+.empty-state {
+    padding: 24px 18px;
+    color: var(--muted);
+}
+.detail-row > td {
+    padding: 0;
+    border-bottom: 1px solid rgba(154, 52, 18, 0.18);
+    background: rgba(255, 249, 240, 0.6);
+}
+.detail-panel {
+    margin: 0;
+    padding: 22px 20px 20px;
+    background: rgba(255, 249, 240, 0.96);
+    border-top: 0;
+    box-shadow: inset 4px 0 0 rgba(154, 52, 18, 0.16);
+}
+.detail-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 16px;
+}
+.detail-head-main {
+    display: grid;
+    gap: 10px;
+}
+.eyebrow {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+.detail-title {
+    margin: 6px 0 0;
+    font-size: clamp(20px, 3vw, 30px);
+    line-height: 1.1;
+}
+.detail-head-side {
+    min-width: min(100%, 260px);
+}
+.detail-problem-full {
+    margin-top: 6px;
+    font-size: 12px;
+}
+.detail-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.detail-tabs {
+    display: inline-flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+.detail-toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.detail-toolbar select {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--text);
+    padding: 8px 12px;
+    font: inherit;
+}
+.detail-tab {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--muted);
+    padding: 9px 14px;
+    font: inherit;
+    cursor: pointer;
+}
+.detail-tab.is-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff7ed;
+}
+.detail-content {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel-3);
+    padding: 18px;
+}
+.detail-block-title {
+    margin: 0 0 12px;
+    font-size: 15px;
+}
+.case-table {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255, 253, 248, 0.88);
+    table-layout: auto;
+}
+.case-table th,
+.case-table td {
+    padding: 8px 10px;
+    font-size: 13px;
+}
+.case-row.is-hot {
+    background: rgba(183, 121, 31, 0.08);
+}
+.case-row.is-failed {
+    background: rgba(180, 35, 24, 0.08);
+}
+.case-name {
+    display: grid;
+    gap: 6px;
+}
+.case-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.case-tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: rgba(104, 95, 84, 0.1);
+    color: var(--muted);
+}
+.case-tag.is-hot {
+    background: rgba(183, 121, 31, 0.15);
+    color: var(--warn);
+}
+.case-tag.is-failed {
+    background: rgba(180, 35, 24, 0.14);
+    color: var(--bad);
+}
+.log-block {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(255, 253, 248, 0.72);
+    padding: 12px 14px;
+}
+.log-block + .log-block {
+    margin-top: 12px;
+}
+.log-block > summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--accent);
+}
+pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #201d18;
+    color: #f8f3ea;
+    padding: 12px 14px;
+    border-radius: 14px;
+    overflow: auto;
+}
+.dashboard-table > thead > tr > th:nth-child(1),
+.dashboard-table > tbody > tr > td:nth-child(1) {
+    width: 34%;
+}
+.dashboard-table > thead > tr > th:nth-child(2),
+.dashboard-table > tbody > tr > td:nth-child(2) {
+    width: 10%;
+}
+.dashboard-table > thead > tr > th:nth-child(3),
+.dashboard-table > tbody > tr > td:nth-child(3),
+.dashboard-table > thead > tr > th:nth-child(4),
+.dashboard-table > tbody > tr > td:nth-child(4),
+.dashboard-table > thead > tr > th:nth-child(5),
+.dashboard-table > tbody > tr > td:nth-child(5),
+.dashboard-table > thead > tr > th:nth-child(6),
+.dashboard-table > tbody > tr > td:nth-child(6) {
+    width: 12%;
+}
+@media (max-width: 860px) {
+    main {
+        padding-inline: 14px;
+    }
+    .controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        top: 8px;
+        padding: 8px;
+    }
+    .desktop-only {
+        display: none;
+    }
+    .mobile-only {
+        display: block;
+    }
+    .controls label[for="filter"] {
+        grid-column: 1 / -1;
+    }
+    .control-cluster {
+        grid-template-columns: minmax(0, 1fr) 88px;
+        gap: 6px;
+    }
+    .control-label {
+        font-size: 10px;
+    }
+    .controls input,
+    .controls select {
+        padding: 8px 10px;
+        border-radius: 10px;
+    }
+    .result-meta {
+        flex-direction: column;
+        gap: 6px;
+    }
+    .table-wrap {
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+    .table-header-wrap {
+        display: none;
+    }
+    .table-scroll {
+        overflow: visible;
+        border-radius: 0;
+    }
+    .dashboard-table {
+        min-width: 0;
+        display: block;
+    }
+    .dashboard-table thead {
+        display: none;
+    }
+    .dashboard-table tbody {
+        display: block;
+    }
+    .dashboard-table tr {
+        display: block;
+    }
+    .dashboard-table td {
+        display: block;
+        width: 100%;
+    }
+    .dashboard-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-bottom: 12px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(255, 253, 248, 0.92);
+        box-shadow: 0 12px 28px rgba(76, 52, 24, 0.08);
+    }
+    .dashboard-row td {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: start;
+        min-width: 0;
+        width: auto;
+        padding: 8px 12px;
+        border-top: 1px solid rgba(216, 204, 184, 0.7);
+        text-align: left;
+        white-space: normal;
+    }
+    .dashboard-row td::before {
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        flex: none;
+    }
+    .dashboard-row td:first-child {
+        grid-column: 1 / -1;
+        display: block;
+        min-width: 0;
+        padding-top: 14px;
+        padding-bottom: 12px;
+        border-top: 0;
+    }
+    .dashboard-row .path {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+    }
+    .dashboard-row .test-problem,
+    .dashboard-row .metric-sub {
+        display: none;
+    }
+    .dashboard-row td > * {
+        min-width: 0;
+    }
+    .test-problem .problem-link {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+    .dashboard-row td:first-child::before {
+        content: none;
+    }
+    .dashboard-row td:nth-child(odd):not(:first-child):not(:last-child) {
+        box-shadow: inset 1px 0 0 rgba(216, 204, 184, 0.7);
+    }
+    .dashboard-row td:last-child {
+        grid-column: 1 / -1;
+        padding-bottom: 14px;
+    }
+    .dashboard-row .metric-sub {
+        text-align: left;
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+    }
+    .detail-row {
+        margin: -6px 0 14px;
+    }
+    .detail-row > td {
+        display: block;
+        padding: 0;
+        border-bottom: 0;
+    }
+    .detail-head {
+        grid-template-columns: 1fr;
+    }
+    .detail-panel {
+        padding: 18px 14px 16px;
+    }
+}
+
+</style>
+</head>
+<body>
+<main>
+    <h1>Verify Measurement Dashboard</h1>
+    <p class="lede">`oj test` を再実行しながら JSON を逐次更新し、テストごとの最遅ケースとケース別実行時間を一覧する。</p>
+    <div class="meta">
+        <button class="chip chip-action" id="summary-live" type="button"></button>
+        <div class="chip" id="summary-generated">generated: 2026-03-12T21:52:10+09:00</div>
+        <div class="chip" id="summary-total"></div>
+        <div class="chip" id="summary-progress"></div>
+        <button class="chip chip-action" id="summary-failed" type="button"></button>
+        <div class="chip" id="summary-visible"></div>
+    </div>
+    <div class="controls" id="controls">
+        <label class="control-field" for="filter">
+            <span class="control-label">filter</span>
+            <input id="filter" type="search" placeholder="test path / url で絞り込み">
+        </label>
+        <label class="control-field" for="status-filter">
+            <span class="control-label">status</span>
+            <select id="status-filter">
+                <option value="all">all</option>
+                <option value="ok">ok only</option>
+                <option value="failed">failed only</option>
+            </select>
+        </label>
+        <div class="control-field mobile-only">
+            <span class="control-label">sort</span>
+            <div class="control-cluster">
+                <select id="sort-key">
+                    <option value="path">test</option>
+                    <option value="status">status</option>
+                    <option value="compileWallSec">compile</option>
+                    <option value="slowestSec">slowest</option>
+                    <option value="averageSec">average</option>
+                    <option value="maxMemoryMb">memory</option>
+                </select>
+                <select id="sort-direction">
+                    <option value="desc">desc</option>
+                    <option value="asc">asc</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-hint muted desktop-only">header click で sort / expander で detail 開閉</div>
+    </div>
+    <div class="result-meta">
+        <div class="muted" id="result-count"></div>
+        <div class="muted desktop-only" id="sort-summary"></div>
+    </div>
+    <div class="table-wrap">
+        <div class="table-header-wrap desktop-only" id="table-header-wrap">
+            <table class="dashboard-table dashboard-table-head">
+                <thead>
+                    <tr>
+                    <th><button class="sort-button" type="button" data-sort="path" data-label="test"><span class="sort-label">test</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th><button class="sort-button" type="button" data-sort="status" data-label="status"><span class="sort-label">status</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th class="num"><button class="sort-button" type="button" data-sort="compileWallSec" data-label="compile"><span class="sort-label">compile</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th class="num"><button class="sort-button" type="button" data-sort="slowestSec" data-label="slowest"><span class="sort-label">slowest</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th class="num"><button class="sort-button" type="button" data-sort="averageSec" data-label="average"><span class="sort-label">average</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th class="num"><button class="sort-button" type="button" data-sort="maxMemoryMb" data-label="memory"><span class="sort-label">memory</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-scroll" id="table-scroll">
+            <table class="dashboard-table dashboard-table-body">
+                <tbody id="rows"></tbody>
+            </table>
+        </div>
+    </div>
+</main>
+<template id="dashboard-chip-template">
+    <div class="chip"></div>
+</template>
+<template id="dashboard-live-chip-template">
+    <span class="live-dot" aria-hidden="true"></span>
+    <span class="chip-label">live</span>
+    <span class="chip-meta"></span>
+</template>
+<template id="dashboard-empty-row-template">
+    <tr>
+        <td colspan="6"><div class="empty-state"></div></td>
+    </tr>
+</template>
+<template id="dashboard-skeleton-row-template">
+    <tr class="skeleton-row" aria-hidden="true">
+        <td>
+            <div class="skeleton-stack">
+                <span class="skeleton-line"></span>
+                <span class="skeleton-line mid"></span>
+            </div>
+        </td>
+        <td><span class="skeleton-line short"></span></td>
+        <td><span class="skeleton-line short"></span></td>
+        <td>
+            <div class="skeleton-stack">
+                <span class="skeleton-line short"></span>
+                <span class="skeleton-line mid"></span>
+            </div>
+        </td>
+        <td><span class="skeleton-line short"></span></td>
+        <td><span class="skeleton-line short"></span></td>
+    </tr>
+</template>
+<template id="dashboard-row-template">
+    <tr class="dashboard-row" aria-selected="false">
+        <td>
+            <div class="test-main">
+                <div class="test-head">
+                    <button class="expander" type="button" data-expand-path="" aria-expanded="false">+</button>
+                    <div class="path test-path"></div>
+                </div>
+                <div class="test-problem"></div>
+            </div>
+        </td>
+        <td data-label="status"><span class="status-badge"></span></td>
+        <td class="num cell-compile" data-label="compile"></td>
+        <td class="num" data-label="slowest">
+            <div class="cell-slowest-value"></div>
+            <div class="muted metric-sub cell-slowest-case"></div>
+        </td>
+        <td class="num cell-average" data-label="average"></td>
+        <td class="num cell-memory" data-label="memory"></td>
+    </tr>
+</template>
+<template id="detail-row-template">
+    <tr class="detail-row">
+        <td colspan="6">
+            <div class="detail-panel">
+                <div class="detail-head">
+                    <div class="detail-head-main">
+                        <div>
+                            <div class="eyebrow">expanded test</div>
+                            <h2 class="detail-title"></h2>
+                            <div class="detail-problem-compact"></div>
+                            <div class="detail-problem-full muted"></div>
+                        </div>
+                    </div>
+                    <div class="detail-head-side">
+                        <div class="detail-chips"></div>
+                    </div>
+                </div>
+                <div class="detail-tabs">
+                    <button class="detail-tab" type="button" data-detail-tab="case">case detail</button>
+                    <button class="detail-tab" type="button" data-detail-tab="raw">raw log</button>
+                </div>
+                <div class="detail-content"></div>
+            </div>
+        </td>
+    </tr>
+</template>
+<script>
+const jsonUrl = "measure-dashboard.json";
+const sortColumns = [{"key": "path", "label": "test", "defaultDirection": "asc", "numeric": false}, {"key": "status", "label": "status", "defaultDirection": "asc", "numeric": false}, {"key": "compileWallSec", "label": "compile", "defaultDirection": "desc", "numeric": true}, {"key": "slowestSec", "label": "slowest", "defaultDirection": "desc", "numeric": true}, {"key": "averageSec", "label": "average", "defaultDirection": "desc", "numeric": true}, {"key": "maxMemoryMb", "label": "memory", "defaultDirection": "desc", "numeric": true}];
+let report = {"generatedAt": "2026-03-12T21:52:10+09:00", "root": "/home/firiexp/library", "testCount": 150, "summary": {"pending": 0, "running": 0, "done": 147, "error": 3, "ok": 134, "failed": 16}, "tests": []};
+const rows = document.getElementById("rows");
+const filterInput = document.getElementById("filter");
+const statusFilter = document.getElementById("status-filter");
+const sortKey = document.getElementById("sort-key");
+const sortDirection = document.getElementById("sort-direction");
+const summaryLive = document.getElementById("summary-live");
+const summaryGenerated = document.getElementById("summary-generated");
+const summaryTotal = document.getElementById("summary-total");
+const summaryProgress = document.getElementById("summary-progress");
+const summaryFailed = document.getElementById("summary-failed");
+const summaryVisible = document.getElementById("summary-visible");
+const resultCount = document.getElementById("result-count");
+const sortSummary = document.getElementById("sort-summary");
+const controls = document.getElementById("controls");
+const tableScroll = document.getElementById("table-scroll");
+const tableHeaderWrap = document.getElementById("table-header-wrap");
+const chipTemplate = document.getElementById("dashboard-chip-template");
+const liveChipTemplate = document.getElementById("dashboard-live-chip-template");
+const emptyRowTemplate = document.getElementById("dashboard-empty-row-template");
+const skeletonRowTemplate = document.getElementById("dashboard-skeleton-row-template");
+const dashboardRowTemplate = document.getElementById("dashboard-row-template");
+const detailRowTemplate = document.getElementById("detail-row-template");
+let currentSort = "slowestSec";
+let currentSortDirection = "desc";
+let selectedPath = null;
+let currentDetailTab = "case";
+let currentCaseFilter = "all";
+let currentCaseSort = "timeDesc";
+let pendingReport = null;
+const skeletonRows = 6;
+
+function syncStickyHeaderOffset() {
+    if (!controls) return;
+    const controlsStyle = window.getComputedStyle(controls);
+    const top = Number.parseFloat(controlsStyle.top) || 0;
+    const gap = 8;
+    const offset = Math.ceil(top + controls.getBoundingClientRect().height + gap);
+    document.documentElement.style.setProperty("--dashboard-header-top", `${offset}px`);
+}
+
+function syncHeaderScroll() {
+    if (!tableScroll || !tableHeaderWrap) return;
+    tableHeaderWrap.scrollLeft = tableScroll.scrollLeft;
+}
+
+function fmtDurationMs(value) {
+    if (value == null) return "-";
+    return `${Math.round(value * 1000)} ms`;
+}
+
+function fmtMb(value) {
+    if (value == null) return "-";
+    return `${Math.round(value)} MB`;
+}
+
+function esc(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+}
+
+function compactProblemLabel(problem) {
+    try {
+        const url = new URL(problem);
+        const segments = url.pathname.split("/").filter(Boolean);
+        const tail = segments.slice(-2).join(" / ");
+        return tail ? `${url.hostname} / ${tail}` : url.hostname;
+    } catch (_error) {
+        return problem;
+    }
+}
+
+function describeProblem(problem, { compact = true } = {}) {
+    if (!problem) {
+        return {
+            available: false,
+            label: "problem url is unavailable",
+            url: "",
+        };
+    }
+    return {
+        available: true,
+        label: compact ? compactProblemLabel(problem) : problem,
+        url: problem,
+    };
+}
+
+function cloneTemplate(template) {
+    return template.content.firstElementChild.cloneNode(true);
+}
+
+function cloneTemplateContent(template) {
+    return template.content.cloneNode(true);
+}
+
+function buildProblemNode(problem, { compact = true, muted = true } = {}) {
+    const view = describeProblem(problem, { compact });
+    if (!view.available) {
+        const missing = document.createElement("span");
+        missing.className = "muted";
+        missing.textContent = view.label;
+        return missing;
+    }
+    const link = document.createElement("a");
+    link.className = muted ? "problem-link muted" : "problem-link";
+    link.href = view.url;
+    link.title = view.url;
+    link.target = "_blank";
+    link.rel = "noreferrer noopener";
+    link.textContent = view.label;
+    return link;
+}
+
+function setMetricText(element, value) {
+    element.textContent = value;
+    element.title = value;
+}
+
+function buildChip(text, ...states) {
+    const chip = cloneTemplate(chipTemplate);
+    applyChipState(chip, ...states);
+    chip.textContent = text;
+    return chip;
+}
+
+function statusClass(entry) {
+    if (entry.phase === "running" || entry.phase === "pending") return "status-warn";
+    if (entry.phase === "error") return "status-bad";
+    if (entry.run.ok) return "status-ok";
+    if (entry.run.parsed.caseCount > 0) return "status-bad";
+    return "status-bad";
+}
+
+function statusLabel(entry) {
+    if (entry.phase === "pending") return "PENDING";
+    if (entry.phase === "running") return "RUNNING";
+    if (entry.phase === "error") return "ERROR";
+    if (entry.run.ok) return "OK";
+    if (entry.run.parsed.caseCount > 0) return "FAILED";
+    return "ERROR";
+}
+
+function isFailedEntry(entry) {
+    return entry.phase === "error" || (entry.phase === "done" && !entry.run.ok);
+}
+
+function normalized(entry, key) {
+    if (key === "path") return entry.path;
+    if (key === "status") return statusLabel(entry);
+    if (key === "compileWallSec") return entry.compiler.wallSec ?? -1;
+    if (key === "slowestSec") return entry.run.parsed.slowestSec ?? -1;
+    if (key === "averageSec") return entry.run.parsed.averageSec ?? -1;
+    if (key === "maxMemoryMb") return entry.run.parsed.maxMemoryMb ?? -1;
+    return -1;
+}
+
+function defaultSortDirection(key) {
+    return sortColumns.find((column) => column.key === key)?.defaultDirection ?? "desc";
+}
+
+function sortLabel(key) {
+    return sortColumns.find((column) => column.key === key)?.label ?? "slowest";
+}
+
+function applyChipState(element, ...states) {
+    element.className = ["chip", ...states.filter(Boolean)].join(" ");
+}
+
+function isLoadingInitialReport(totalTests) {
+    return report.tests.length === 0 && totalTests > 0;
+}
+
+function buildLoadingSkeleton() {
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < skeletonRows; i += 1) {
+        fragment.append(cloneTemplate(skeletonRowTemplate));
+    }
+    return fragment;
+}
+
+function buildEmptyRow(message) {
+    const row = cloneTemplate(emptyRowTemplate);
+    row.querySelector(".empty-state").textContent = message;
+    return row;
+}
+
+function syncSortUi() {
+    if (sortKey) sortKey.value = currentSort;
+    if (sortDirection) sortDirection.value = currentSortDirection;
+    document.querySelectorAll("[data-sort]").forEach((button) => {
+        const active = button.dataset.sort === currentSort;
+        const indicator = button.querySelector(".sort-indicator");
+        const header = button.closest("th");
+        if (header) {
+            header.classList.toggle("is-active", active);
+            header.setAttribute("aria-sort", active ? (currentSortDirection === "asc" ? "ascending" : "descending") : "none");
+        }
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+        button.title = active
+            ? `${button.dataset.label} (${currentSortDirection === "asc" ? "ascending" : "descending"})`
+            : `sort by ${button.dataset.label}`;
+        if (indicator) indicator.textContent = active ? (currentSortDirection === "asc" ? "↑" : "↓") : "";
+    });
+    if (sortSummary) {
+        sortSummary.textContent = `sort: ${sortLabel(currentSort)} / ${currentSortDirection}`;
+    }
+}
+
+function buildCaseTable(entry) {
+    const cases = entry.run.parsed.cases.map((testcase) => {
+        const isSlowest = testcase.name === entry.run.parsed.slowestCase;
+        const isMaxMemory = testcase.name === entry.run.parsed.maxMemoryCase;
+        const isFailed = testcase.status != null && testcase.status !== "AC";
+        return {
+            ...testcase,
+            isSlowest,
+            isMaxMemory,
+            isFailed,
+            isHot: isSlowest || isMaxMemory || isFailed,
+        };
+    });
+    if (!cases.length) return "<div class=\"muted\">case detail is unavailable</div>";
+    const filteredCases = cases
+        .filter((testcase) => {
+            if (currentCaseFilter === "failed") return testcase.isFailed;
+            if (currentCaseFilter === "hot") return testcase.isHot;
+            return true;
+        })
+        .sort((lhs, rhs) => {
+            if (currentCaseSort === "timeAsc") return (lhs.timeSec ?? Number.POSITIVE_INFINITY) - (rhs.timeSec ?? Number.POSITIVE_INFINITY);
+            if (currentCaseSort === "nameAsc") return lhs.name.localeCompare(rhs.name);
+            return (rhs.timeSec ?? -1) - (lhs.timeSec ?? -1);
+        });
+    return `
+        <h3 class="detail-block-title">case detail</h3>
+        <div class="detail-toolbar">
+            <select data-case-filter>
+                <option value="all"${currentCaseFilter === "all" ? " selected" : ""}>cases: all</option>
+                <option value="hot"${currentCaseFilter === "hot" ? " selected" : ""}>cases: hot only</option>
+                <option value="failed"${currentCaseFilter === "failed" ? " selected" : ""}>cases: failed only</option>
+            </select>
+            <select data-case-sort>
+                <option value="timeDesc"${currentCaseSort === "timeDesc" ? " selected" : ""}>sort: time desc</option>
+                <option value="timeAsc"${currentCaseSort === "timeAsc" ? " selected" : ""}>sort: time asc</option>
+                <option value="nameAsc"${currentCaseSort === "nameAsc" ? " selected" : ""}>sort: case name</option>
+            </select>
+            <div class="muted">showing ${filteredCases.length} / ${cases.length} cases</div>
+        </div>
+        <table class="case-table">
+            <thead>
+                <tr><th>case</th><th class="num">time</th><th>status</th></tr>
+            </thead>
+            <tbody>
+                ${filteredCases.length ? filteredCases.map((testcase) => `
+                    <tr class="case-row${testcase.isHot ? " is-hot" : ""}${testcase.isFailed ? " is-failed" : ""}">
+                        <td>
+                            <div class="case-name">
+                                <div class="path">${esc(testcase.name)}</div>
+                                <div class="case-tags">
+                                    ${testcase.isSlowest ? '<span class="case-tag is-hot">slowest</span>' : ""}
+                                    ${testcase.isMaxMemory ? '<span class="case-tag is-hot">max memory</span>' : ""}
+                                    ${testcase.isFailed ? '<span class="case-tag is-failed">failed</span>' : ""}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="num" title="${fmtDurationMs(testcase.timeSec ?? null)}">${fmtDurationMs(testcase.timeSec ?? null)}</td>
+                        <td>${esc(testcase.status ?? "-")}</td>
+                    </tr>
+                `).join("") : '<tr><td colspan="3"><div class="empty-state">current case filter に一致する case はない</div></td></tr>'}
+            </tbody>
+        </table>
+    `;
+}
+
+function buildRawLog(entry) {
+    if (!entry.run.output) return "<div class=\"muted\">raw log is unavailable</div>";
+    const lines = entry.run.output.split("\n");
+    const failureIndex = lines.findIndex((line) => line.startsWith("[FAILURE]") || line.startsWith("[ERROR]"));
+    const excerpt = failureIndex >= 0
+        ? lines.slice(Math.max(0, failureIndex - 2), Math.min(lines.length, failureIndex + 12)).join("\n").trim()
+        : "";
+    const summary = entry.run.parsed.summary ?? (entry.run.ok ? "test success" : statusLabel(entry));
+    return `
+        <h3 class="detail-block-title">raw log</h3>
+        <div class="detail-toolbar">
+            <div class="chip ${statusClass(entry)}">summary: ${esc(summary ?? "-")}</div>
+            <div class="muted">${failureIndex >= 0 ? "first failure excerpt を先に表示する" : "full log のみ利用できる"}</div>
+        </div>
+        ${excerpt ? `
+            <details class="log-block" open>
+                <summary>first failure excerpt</summary>
+                <pre>${esc(excerpt)}</pre>
+            </details>
+        ` : ""}
+        <details class="log-block"${excerpt ? "" : " open"}>
+            <summary>full log</summary>
+            <pre>${esc(entry.run.output)}</pre>
+        </details>
+    `;
+}
+
+function findEntry(path) {
+    return report.tests.find((entry) => entry.path === path) ?? null;
+}
+
+function ensureSelection(filtered) {
+    if (!filtered.length || selectedPath == null) return null;
+    if (filtered.some((entry) => entry.path === selectedPath)) return findEntry(selectedPath);
+    selectedPath = null;
+    return null;
+}
+
+function toggleSelection(path) {
+    selectedPath = selectedPath === path ? null : path;
+}
+
+function buildDashboardRow(entry, isSelected) {
+    const slowest = entry.run.parsed.slowestSec;
+    const row = cloneTemplate(dashboardRowTemplate);
+    const expander = row.querySelector("[data-expand-path]");
+    const pathLabel = row.querySelector(".test-path");
+    const statusBadge = row.querySelector(".status-badge");
+    const compileCell = row.querySelector(".cell-compile");
+    const slowestValue = row.querySelector(".cell-slowest-value");
+    const slowestCase = row.querySelector(".cell-slowest-case");
+    const averageCell = row.querySelector(".cell-average");
+    const memoryCell = row.querySelector(".cell-memory");
+
+    row.dataset.entryPath = entry.path;
+    row.setAttribute("aria-selected", isSelected ? "true" : "false");
+    row.classList.toggle("is-selected", isSelected);
+
+    expander.dataset.expandPath = entry.path;
+    expander.setAttribute("aria-expanded", isSelected ? "true" : "false");
+    expander.classList.toggle("is-open", isSelected);
+    expander.textContent = isSelected ? "−" : "+";
+
+    pathLabel.textContent = entry.path;
+    pathLabel.title = entry.path;
+    row.querySelector(".test-problem").replaceChildren(buildProblemNode(entry.problem));
+
+    statusBadge.className = `status-badge ${statusClass(entry)}`;
+    statusBadge.textContent = statusLabel(entry);
+
+    setMetricText(compileCell, fmtDurationMs(entry.compiler.wallSec));
+    setMetricText(slowestValue, fmtDurationMs(slowest));
+    slowestCase.textContent = entry.run.parsed.slowestCase ?? "-";
+    slowestCase.title = entry.run.parsed.slowestCase ?? "-";
+    setMetricText(averageCell, fmtDurationMs(entry.run.parsed.averageSec));
+    setMetricText(memoryCell, fmtMb(entry.run.parsed.maxMemoryMb));
+
+    return row;
+}
+
+function buildDetailRow(entry) {
+    const detailRow = cloneTemplate(detailRowTemplate);
+    const compactProblem = detailRow.querySelector(".detail-problem-compact");
+    const fullProblem = detailRow.querySelector(".detail-problem-full");
+    const chipContainer = detailRow.querySelector(".detail-chips");
+    const detailContent = detailRow.querySelector(".detail-content");
+
+    detailRow.querySelector(".detail-title").textContent = entry.path;
+    compactProblem.replaceChildren(buildProblemNode(entry.problem, { compact: true, muted: false }));
+    fullProblem.replaceChildren(buildProblemNode(entry.problem, { compact: false }));
+    chipContainer.replaceChildren(
+        buildChip(`status: ${statusLabel(entry)}`, statusClass(entry)),
+        buildChip(`compile: ${fmtDurationMs(entry.compiler.wallSec)}`),
+        buildChip(`slowest: ${fmtDurationMs(entry.run.parsed.slowestSec)}`),
+        buildChip(`average: ${fmtDurationMs(entry.run.parsed.averageSec)}`),
+        buildChip(`memory: ${fmtMb(entry.run.parsed.maxMemoryMb)}`),
+        buildChip(`cases: ${entry.run.parsed.caseCount} / cached ${entry.testcases.cachedCaseCount}`),
+    );
+    detailRow.querySelectorAll("[data-detail-tab]").forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.detailTab === currentDetailTab);
+    });
+    detailContent.innerHTML = currentDetailTab === "raw" ? buildRawLog(entry) : buildCaseTable(entry);
+    return detailRow;
+}
+
+function applyPendingReportIfIdle() {
+    if (selectedPath == null && pendingReport != null) {
+        report = pendingReport;
+        pendingReport = null;
+    }
+}
+
+function getVisibleEntries(query, statusValue) {
+    return report.tests
+        .filter((entry) => {
+            const haystack = `${entry.path} ${entry.problem}`.toLowerCase();
+            if (query && !haystack.includes(query)) return false;
+            if (statusValue === "ok" && !entry.run.ok) return false;
+            if (statusValue === "failed" && !isFailedEntry(entry)) return false;
+            return true;
+        })
+        .sort((lhs, rhs) => {
+            const a = normalized(lhs, currentSort);
+            const b = normalized(rhs, currentSort);
+            const direction = currentSortDirection === "asc" ? 1 : -1;
+            if (typeof a === "string" || typeof b === "string") {
+                return direction * String(a).localeCompare(String(b));
+            }
+            return direction * (a - b);
+        });
+}
+
+function renderRows(filtered, { loadingInitial }) {
+    if (!filtered.length) {
+        if (loadingInitial) {
+            rows.replaceChildren(buildLoadingSkeleton());
+        } else {
+            rows.replaceChildren(buildEmptyRow("current filter に一致する test はない"));
+        }
+        return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    filtered.forEach((entry) => {
+        const isSelected = selectedPath === entry.path;
+        fragment.append(buildDashboardRow(entry, isSelected));
+        if (isSelected) fragment.append(buildDetailRow(entry));
+    });
+    rows.replaceChildren(fragment);
+}
+
+function getSummaryState(filtered, { totalTests, loadingInitial, query, statusValue }) {
+    const summary = report.summary ?? {};
+    const pending = summary.pending ?? 0;
+    const running = summary.running ?? 0;
+    const done = summary.done ?? 0;
+    const failed = summary.failed ?? report.tests.filter((entry) => isFailedEntry(entry)).length;
+
+    return {
+        generatedText: `generated: ${report.generatedAt}`,
+        totalText: `tests: ${totalTests}`,
+        progressText: `done: ${done} / running: ${running} / pending: ${pending}`,
+        failedText: statusValue === "failed" ? `failed: ${failed} (filtered)` : `failed: ${failed}`,
+        visibleText: loadingInitial ? "visible: loading" : `visible: ${filtered.length}`,
+        resultCountText: filtered.length
+            ? `displaying ${filtered.length} / ${totalTests} tests`
+            : (loadingInitial ? `loading dashboard... ${totalTests} tests queued` : "displaying 0 tests"),
+        progressStates: [running > 0 || pending > 0 ? "is-warn" : "is-ok"],
+        failedStates: ["chip-action", failed > 0 ? "is-bad" : "is-ok", statusValue === "failed" ? "is-active" : ""],
+        visibleStates: [loadingInitial || query || statusValue !== "all" ? "is-active" : ""],
+        failedDisabled: failed === 0 && statusValue !== "failed",
+        failedTitle: statusValue === "failed" ? "clear failed filter" : "show failed tests only",
+    };
+}
+
+function updateSummary(filtered, options) {
+    const state = getSummaryState(filtered, options);
+    summaryGenerated.textContent = state.generatedText;
+    summaryTotal.textContent = state.totalText;
+    summaryProgress.textContent = state.progressText;
+    summaryFailed.textContent = state.failedText;
+    summaryVisible.textContent = state.visibleText;
+    resultCount.textContent = state.resultCountText;
+    updateLiveChip();
+    applyChipState(summaryTotal);
+    applyChipState(summaryProgress, ...state.progressStates);
+    applyChipState(summaryFailed, ...state.failedStates);
+    applyChipState(summaryVisible, ...state.visibleStates);
+    summaryFailed.disabled = state.failedDisabled;
+    summaryFailed.title = state.failedTitle;
+}
+
+function updateLiveChip() {
+    const meta = pendingReport != null ? "update pending" : "auto";
+    summaryLive.replaceChildren(cloneTemplateContent(liveChipTemplate));
+    summaryLive.querySelector(".chip-meta").textContent = meta;
+    applyChipState(summaryLive, "chip-action", pendingReport != null ? "is-active" : "is-ok");
+    summaryLive.disabled = false;
+    summaryLive.title = pendingReport != null
+        ? "apply pending update now"
+        : (refreshLock ? "refresh in progress" : "refresh now");
+}
+
+function render() {
+    applyPendingReportIfIdle();
+    const query = filterInput.value.trim().toLowerCase();
+    const totalTests = report.testCount ?? report.tests.length;
+    const loadingInitial = isLoadingInitialReport(totalTests);
+    const filtered = getVisibleEntries(query, statusFilter.value);
+    ensureSelection(filtered);
+    syncSortUi();
+    renderRows(filtered, { loadingInitial });
+    updateSummary(filtered, { totalTests, loadingInitial, query, statusValue: statusFilter.value });
+}
+
+let refreshLock = false;
+async function refreshReport() {
+    if (refreshLock) return;
+    refreshLock = true;
+    updateLiveChip();
+    try {
+        const response = await fetch(`${jsonUrl}?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) return;
+        const nextReport = await response.json();
+        if (selectedPath != null) {
+            pendingReport = nextReport;
+            updateLiveChip();
+        } else {
+            report = nextReport;
+            pendingReport = null;
+            render();
+        }
+    } catch (_error) {
+    } finally {
+        refreshLock = false;
+        if (selectedPath != null || pendingReport != null) {
+            updateLiveChip();
+        } else if (!document.hidden) {
+            updateLiveChip();
+        }
+    }
+}
+
+document.querySelectorAll("[data-sort]").forEach((button) => {
+    button.addEventListener("click", () => {
+        if (currentSort === button.dataset.sort) {
+            currentSortDirection = currentSortDirection === "asc" ? "desc" : "asc";
+        } else {
+            currentSort = button.dataset.sort;
+            currentSortDirection = defaultSortDirection(currentSort);
+        }
+        render();
+    });
+});
+rows.addEventListener("click", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const detailTab = event.target.closest("[data-detail-tab]");
+    if (detailTab && rows.contains(detailTab)) {
+        currentDetailTab = detailTab.dataset.detailTab;
+        render();
+        return;
+    }
+
+    const expandButton = event.target.closest("[data-expand-path]");
+    if (expandButton && rows.contains(expandButton)) {
+        toggleSelection(expandButton.dataset.expandPath);
+        render();
+    }
+});
+rows.addEventListener("change", (event) => {
+    if (!(event.target instanceof Element)) return;
+
+    const caseFilter = event.target.closest("[data-case-filter]");
+    if (caseFilter && rows.contains(caseFilter)) {
+        currentCaseFilter = caseFilter.value;
+        render();
+        return;
+    }
+
+    const caseSort = event.target.closest("[data-case-sort]");
+    if (caseSort && rows.contains(caseSort)) {
+        currentCaseSort = caseSort.value;
+        render();
+    }
+});
+filterInput.addEventListener("input", render);
+statusFilter.addEventListener("change", render);
+summaryFailed.addEventListener("click", () => {
+    statusFilter.value = statusFilter.value === "failed" ? "all" : "failed";
+    render();
+});
+summaryLive.addEventListener("click", () => {
+    if (pendingReport != null) {
+        report = pendingReport;
+        pendingReport = null;
+        render();
+        return;
+    }
+    refreshReport();
+});
+sortKey.addEventListener("change", () => {
+    currentSort = sortKey.value;
+    render();
+});
+sortDirection.addEventListener("change", () => {
+    currentSortDirection = sortDirection.value;
+    render();
+});
+render();
+syncStickyHeaderOffset();
+syncHeaderScroll();
+refreshReport();
+setInterval(refreshReport, 2000);
+window.addEventListener("resize", syncStickyHeaderOffset);
+window.addEventListener("load", syncStickyHeaderOffset);
+if (tableScroll) {
+    tableScroll.addEventListener("scroll", syncHeaderScroll, { passive: true });
+}
+if ("ResizeObserver" in window && controls) {
+    new ResizeObserver(syncStickyHeaderOffset).observe(controls);
+}
+
+</script>
+</body>
+</html>

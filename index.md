@@ -1001,3 +1001,5 @@ data:
       title: test/yuki957_project_selection_problem.test.cpp
 layout: toppage
 ---
+[verify実行結果ダッシュボード (BETA)](./measure-dashboard.html)
+
