@@ -346,7 +346,16 @@ def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int, compile_slots:
 
 
 def render_html(report: dict[str, Any], *, json_path: pathlib.Path) -> str:
-    bootstrap_json = json.dumps(report, ensure_ascii=False)
+    bootstrap_json = json.dumps(
+        {
+            "generatedAt": report.get("generatedAt"),
+            "root": report.get("root"),
+            "testCount": report.get("testCount", 0),
+            "summary": report.get("summary", {}),
+            "tests": [],
+        },
+        ensure_ascii=False,
+    )
     json_filename = html.escape(json_path.name)
     generated_at = html.escape(report["generatedAt"])
     title = "verify measurement dashboard"
@@ -406,12 +415,65 @@ h1 {{
     padding: 8px 12px;
     border-radius: 999px;
     font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-variant-numeric: tabular-nums;
+}}
+.chip.is-ok {{
+    color: var(--ok);
+    border-color: rgba(26, 127, 69, 0.22);
+    background: rgba(26, 127, 69, 0.08);
+}}
+.chip.is-warn {{
+    color: var(--warn);
+    border-color: rgba(183, 121, 31, 0.24);
+    background: rgba(183, 121, 31, 0.11);
+}}
+.chip.is-bad {{
+    color: var(--bad);
+    border-color: rgba(180, 35, 24, 0.24);
+    background: rgba(180, 35, 24, 0.09);
+}}
+.chip.is-active {{
+    color: var(--accent);
+    border-color: rgba(154, 52, 18, 0.3);
+    background: rgba(154, 52, 18, 0.1);
+}}
+.chip-action {{
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}}
+.chip-action:hover {{
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(76, 52, 24, 0.08);
+}}
+.chip-action:focus-visible {{
+    outline: 2px solid rgba(154, 52, 18, 0.35);
+    outline-offset: 2px;
+}}
+.chip-action:disabled {{
+    cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
 }}
 .controls {{
     display: grid;
-    grid-template-columns: minmax(240px, 1fr) auto auto;
+    grid-template-columns: minmax(240px, 1fr) auto auto auto;
     gap: 12px;
     margin-bottom: 18px;
+    position: sticky;
+    top: 12px;
+    z-index: 24;
+    padding: 12px;
+    border: 1px solid rgba(216, 204, 184, 0.85);
+    border-radius: 18px;
+    background: rgba(255, 249, 240, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 14px 28px rgba(76, 52, 24, 0.08);
 }}
 .controls input,
 .controls select {{
@@ -428,6 +490,12 @@ h1 {{
     gap: 12px;
     flex-wrap: wrap;
     margin-bottom: 12px;
+}}
+.detail-dock[hidden] {{
+    display: none;
+}}
+.detail-dock {{
+    margin-bottom: 18px;
 }}
 .table-wrap {{
     border: 1px solid var(--line);
@@ -446,11 +514,23 @@ table {{
 thead {{
     background: var(--panel-2);
 }}
+thead th {{
+    position: sticky;
+    top: 92px;
+    z-index: 12;
+    background: var(--panel-2);
+}}
 th, td {{
     padding: 12px 14px;
     text-align: left;
     border-bottom: 1px solid var(--line);
     vertical-align: top;
+}}
+th {{
+    vertical-align: middle;
+}}
+th.is-active {{
+    color: var(--accent);
 }}
 th button {{
     border: 0;
@@ -459,12 +539,37 @@ th button {{
     color: inherit;
     padding: 0;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    font-weight: 600;
+    width: 100%;
+    min-height: 20px;
+    line-height: 1.2;
+}}
+.sort-indicator {{
+    width: 1em;
+    text-align: center;
+    color: var(--accent);
+}}
+.num {{
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}}
+.dashboard-table th.num button {{
+    justify-content: flex-end;
+    width: 100%;
+}}
+.metric-sub {{
+    margin-top: 4px;
+    font-size: 12px;
 }}
 tbody tr:hover {{
     background: rgba(154, 52, 18, 0.04);
 }}
 .dashboard-row {{
-    cursor: pointer;
     transition: background-color 120ms ease, box-shadow 120ms ease;
 }}
 .dashboard-row.is-selected {{
@@ -500,6 +605,7 @@ tbody tr:hover {{
     font-weight: 700;
     background: rgba(255, 253, 248, 0.82);
     flex: none;
+    cursor: pointer;
 }}
 .expander.is-open {{
     background: var(--accent);
@@ -539,6 +645,9 @@ tbody tr:hover {{
     margin: 0;
     padding: 22px 20px 20px;
     background: rgba(255, 249, 240, 0.96);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 16px 34px rgba(76, 52, 24, 0.1);
 }}
 .detail-head {{
     display: grid;
@@ -546,6 +655,23 @@ tbody tr:hover {{
     gap: 16px;
     align-items: start;
     margin-bottom: 16px;
+}}
+.detail-head-main {{
+    display: grid;
+    gap: 10px;
+}}
+.detail-actions {{
+    display: flex;
+    justify-content: flex-start;
+}}
+.detail-close {{
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--text);
+    padding: 8px 12px;
+    font: inherit;
+    cursor: pointer;
 }}
 .eyebrow {{
     color: var(--accent);
@@ -572,6 +698,21 @@ tbody tr:hover {{
     gap: 8px;
     flex-wrap: wrap;
     margin-bottom: 14px;
+}}
+.detail-toolbar {{
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 12px;
+}}
+.detail-toolbar select {{
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--text);
+    padding: 8px 12px;
+    font: inherit;
 }}
 .detail-tab {{
     border: 1px solid var(--line);
@@ -610,6 +751,54 @@ tbody tr:hover {{
     padding: 8px 10px;
     font-size: 13px;
 }}
+.case-row.is-hot {{
+    background: rgba(183, 121, 31, 0.08);
+}}
+.case-row.is-failed {{
+    background: rgba(180, 35, 24, 0.08);
+}}
+.case-name {{
+    display: grid;
+    gap: 6px;
+}}
+.case-tags {{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}}
+.case-tag {{
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    background: rgba(104, 95, 84, 0.1);
+    color: var(--muted);
+}}
+.case-tag.is-hot {{
+    background: rgba(183, 121, 31, 0.15);
+    color: var(--warn);
+}}
+.case-tag.is-failed {{
+    background: rgba(180, 35, 24, 0.14);
+    color: var(--bad);
+}}
+.log-block {{
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(255, 253, 248, 0.72);
+    padding: 12px 14px;
+}}
+.log-block + .log-block {{
+    margin-top: 12px;
+}}
+.log-block > summary {{
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--accent);
+}}
 pre {{
     white-space: pre-wrap;
     word-break: break-word;
@@ -643,9 +832,83 @@ pre {{
     }}
     .controls {{
         grid-template-columns: 1fr;
+        top: 10px;
+        padding: 10px;
     }}
     .result-meta {{
         flex-direction: column;
+    }}
+    .table-wrap {{
+        overflow: visible;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        box-shadow: none;
+    }}
+    .dashboard-table {{
+        min-width: 0;
+        display: block;
+    }}
+    .dashboard-table thead {{
+        display: none;
+    }}
+    .dashboard-table tbody {{
+        display: block;
+    }}
+    .dashboard-table tr {{
+        display: block;
+    }}
+    .dashboard-table td {{
+        display: block;
+        width: 100%;
+    }}
+    .dashboard-row {{
+        margin-bottom: 12px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(255, 253, 248, 0.92);
+        box-shadow: 0 12px 28px rgba(76, 52, 24, 0.08);
+    }}
+    .dashboard-row td {{
+        display: grid;
+        grid-template-columns: 88px minmax(0, 1fr);
+        gap: 12px;
+        align-items: start;
+        padding: 8px 14px;
+        border-bottom: 1px solid rgba(216, 204, 184, 0.7);
+        text-align: left;
+        white-space: normal;
+    }}
+    .dashboard-row td::before {{
+        content: attr(data-label);
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }}
+    .dashboard-row td:first-child {{
+        display: block;
+        padding-top: 14px;
+        padding-bottom: 12px;
+    }}
+    .dashboard-row td:first-child::before {{
+        content: none;
+    }}
+    .dashboard-row td:last-child {{
+        border-bottom: 0;
+        padding-bottom: 14px;
+    }}
+    .dashboard-row .metric-sub {{
+        text-align: left;
+    }}
+    .detail-row {{
+        margin: -6px 0 14px;
+    }}
+    .detail-row > td {{
+        display: block;
+        padding: 0;
+        border-bottom: 0;
     }}
     .detail-head {{
         grid-template-columns: 1fr;
@@ -661,10 +924,11 @@ pre {{
     <h1>Verify Measurement Dashboard</h1>
     <p class="lede">`oj test` を再実行しながら JSON を逐次更新し、テストごとの最遅ケースとケース別実行時間を一覧する。</p>
     <div class="meta">
+        <button class="chip chip-action" id="summary-live" type="button"></button>
         <div class="chip" id="summary-generated">generated: {generated_at}</div>
         <div class="chip" id="summary-total"></div>
         <div class="chip" id="summary-progress"></div>
-        <div class="chip" id="summary-failed"></div>
+        <button class="chip chip-action" id="summary-failed" type="button"></button>
         <div class="chip" id="summary-visible"></div>
     </div>
     <div class="controls">
@@ -680,21 +944,26 @@ pre {{
             <option value="compileWallSec">sort: compile</option>
             <option value="path">sort: path</option>
         </select>
+        <select id="sort-direction">
+            <option value="desc">order: desc</option>
+            <option value="asc">order: asc</option>
+        </select>
     </div>
     <div class="result-meta">
         <div class="muted" id="result-count"></div>
-        <div class="muted">test row をクリックすると detail を展開する</div>
+        <div class="muted">expander button で detail drawer を開く</div>
     </div>
+    <section class="detail-dock" id="detail-dock" hidden></section>
     <div class="table-wrap">
         <table class="dashboard-table">
             <thead>
                 <tr>
-                    <th><button data-sort="path">test</button></th>
-                    <th><button data-sort="status">status</button></th>
-                    <th><button data-sort="compileWallSec">compile</button></th>
-                    <th><button data-sort="slowestSec">slowest</button></th>
-                    <th><button data-sort="averageSec">average</button></th>
-                    <th><button data-sort="maxMemoryMb">memory</button></th>
+                    <th><button type="button" data-sort="path" data-label="test"><span>test</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th><button type="button" data-sort="status" data-label="status"><span>status</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th class="num"><button type="button" data-sort="compileWallSec" data-label="compile"><span>compile</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th class="num"><button type="button" data-sort="slowestSec" data-label="slowest"><span>slowest</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th class="num"><button type="button" data-sort="averageSec" data-label="average"><span>average</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+                    <th class="num"><button type="button" data-sort="maxMemoryMb" data-label="memory"><span>memory</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
                 </tr>
             </thead>
             <tbody id="rows"></tbody>
@@ -708,22 +977,47 @@ const rows = document.getElementById("rows");
 const filterInput = document.getElementById("filter");
 const statusFilter = document.getElementById("status-filter");
 const sortKey = document.getElementById("sort-key");
+const sortDirection = document.getElementById("sort-direction");
+const summaryLive = document.getElementById("summary-live");
 const summaryGenerated = document.getElementById("summary-generated");
 const summaryTotal = document.getElementById("summary-total");
 const summaryProgress = document.getElementById("summary-progress");
 const summaryFailed = document.getElementById("summary-failed");
 const summaryVisible = document.getElementById("summary-visible");
 const resultCount = document.getElementById("result-count");
+const detailDock = document.getElementById("detail-dock");
 let currentSort = "slowestSec";
+let currentSortDirection = "desc";
 let selectedPath = null;
 let currentDetailTab = "case";
-
+let currentCaseFilter = "all";
+let currentCaseSort = "timeDesc";
+let pendingReport = null;
 function fmtSec(value) {{
     return value == null ? "-" : `${{value.toFixed(6)}} s`;
 }}
 
+function fmtSecCompact(value) {{
+    if (value == null) return "-";
+    if (value < 1) {{
+        const ms = value * 1000;
+        const digits = ms >= 100 ? 0 : ms >= 10 ? 1 : 2;
+        return `${{ms.toFixed(digits)}} ms`;
+    }}
+    const digits = value >= 100 ? 0 : value >= 10 ? 2 : 3;
+    return `${{value.toFixed(digits)}} s`;
+}}
+
 function fmtMb(value) {{
     return value == null ? "-" : `${{value.toFixed(3)}} MB`;
+}}
+
+function fmtMbCompact(value) {{
+    if (value == null) return "-";
+    if (value >= 1024) return `${{(value / 1024).toFixed(2)}} GB`;
+    if (value >= 100) return `${{value.toFixed(0)}} MB`;
+    if (value >= 10) return `${{value.toFixed(1)}} MB`;
+    return `${{value.toFixed(2)}} MB`;
 }}
 
 function esc(value) {{
@@ -767,23 +1061,96 @@ function normalized(entry, key) {{
     return -1;
 }}
 
+function defaultSortDirection(key) {{
+    return key === "path" || key === "status" ? "asc" : "desc";
+}}
+
+function applyChipState(element, ...states) {{
+    element.className = ["chip", ...states.filter(Boolean)].join(" ");
+}}
+
+function syncSortUi() {{
+    sortKey.value = currentSort;
+    sortDirection.value = currentSortDirection;
+    document.querySelectorAll("[data-sort]").forEach((button) => {{
+        const active = button.dataset.sort === currentSort;
+        const indicator = button.querySelector(".sort-indicator");
+        const header = button.closest("th");
+        if (header) {{
+            header.classList.toggle("is-active", active);
+            header.setAttribute("aria-sort", active ? (currentSortDirection === "asc" ? "ascending" : "descending") : "none");
+        }}
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+        button.title = active
+            ? `${{button.dataset.label}} (${{
+                currentSortDirection === "asc" ? "ascending" : "descending"
+            }})`
+            : `sort by ${{button.dataset.label}}`;
+        if (indicator) indicator.textContent = active ? (currentSortDirection === "asc" ? "↑" : "↓") : "";
+    }});
+}}
+
 function buildCaseTable(entry) {{
-    const cases = entry.run.parsed.cases;
+    const cases = entry.run.parsed.cases.map((testcase) => {{
+        const isSlowest = testcase.name === entry.run.parsed.slowestCase;
+        const isMaxMemory = testcase.name === entry.run.parsed.maxMemoryCase;
+        const isFailed = testcase.status != null && testcase.status !== "AC";
+        return {{
+            ...testcase,
+            isSlowest,
+            isMaxMemory,
+            isFailed,
+            isHot: isSlowest || isMaxMemory || isFailed,
+        }};
+    }});
     if (!cases.length) return "<div class=\\"muted\\">case detail is unavailable</div>";
+    const filteredCases = cases
+        .filter((testcase) => {{
+            if (currentCaseFilter === "failed") return testcase.isFailed;
+            if (currentCaseFilter === "hot") return testcase.isHot;
+            return true;
+        }})
+        .sort((lhs, rhs) => {{
+            if (currentCaseSort === "timeAsc") return (lhs.timeSec ?? Number.POSITIVE_INFINITY) - (rhs.timeSec ?? Number.POSITIVE_INFINITY);
+            if (currentCaseSort === "nameAsc") return lhs.name.localeCompare(rhs.name);
+            return (rhs.timeSec ?? -1) - (lhs.timeSec ?? -1);
+        }});
     return `
         <h3 class="detail-block-title">case detail</h3>
+        <div class="detail-toolbar">
+            <select data-case-filter>
+                <option value="all"${{currentCaseFilter === "all" ? " selected" : ""}}>cases: all</option>
+                <option value="hot"${{currentCaseFilter === "hot" ? " selected" : ""}}>cases: hot only</option>
+                <option value="failed"${{currentCaseFilter === "failed" ? " selected" : ""}}>cases: failed only</option>
+            </select>
+            <select data-case-sort>
+                <option value="timeDesc"${{currentCaseSort === "timeDesc" ? " selected" : ""}}>sort: time desc</option>
+                <option value="timeAsc"${{currentCaseSort === "timeAsc" ? " selected" : ""}}>sort: time asc</option>
+                <option value="nameAsc"${{currentCaseSort === "nameAsc" ? " selected" : ""}}>sort: case name</option>
+            </select>
+            <div class="muted">showing ${{filteredCases.length}} / ${{cases.length}} cases</div>
+        </div>
         <table class="case-table">
             <thead>
-                <tr><th>case</th><th>time</th><th>status</th></tr>
+                <tr><th>case</th><th class="num">time</th><th>status</th></tr>
             </thead>
             <tbody>
-                ${{cases.map((testcase) => `
-                    <tr>
-                        <td class="path">${{esc(testcase.name)}}</td>
-                        <td>${{fmtSec(testcase.timeSec ?? null)}}</td>
+                ${{filteredCases.length ? filteredCases.map((testcase) => `
+                    <tr class="case-row${{testcase.isHot ? " is-hot" : ""}}${{testcase.isFailed ? " is-failed" : ""}}">
+                        <td>
+                            <div class="case-name">
+                                <div class="path">${{esc(testcase.name)}}</div>
+                                <div class="case-tags">
+                                    ${{testcase.isSlowest ? '<span class="case-tag is-hot">slowest</span>' : ""}}
+                                    ${{testcase.isMaxMemory ? '<span class="case-tag is-hot">max memory</span>' : ""}}
+                                    ${{testcase.isFailed ? '<span class="case-tag is-failed">failed</span>' : ""}}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="num" title="${{fmtSec(testcase.timeSec ?? null)}}">${{fmtSecCompact(testcase.timeSec ?? null)}}</td>
                         <td>${{esc(testcase.status ?? "-")}}</td>
                     </tr>
-                `).join("")}}
+                `).join("") : '<tr><td colspan="3"><div class="empty-state">current case filter に一致する case はない</div></td></tr>'}}
             </tbody>
         </table>
     `;
@@ -791,9 +1158,28 @@ function buildCaseTable(entry) {{
 
 function buildRawLog(entry) {{
     if (!entry.run.output) return "<div class=\\"muted\\">raw log is unavailable</div>";
+    const lines = entry.run.output.split("\\n");
+    const failureIndex = lines.findIndex((line) => line.startsWith("[FAILURE]") || line.startsWith("[ERROR]"));
+    const excerpt = failureIndex >= 0
+        ? lines.slice(Math.max(0, failureIndex - 2), Math.min(lines.length, failureIndex + 12)).join("\\n").trim()
+        : "";
+    const summary = entry.run.parsed.summary ?? (entry.run.ok ? "test success" : statusLabel(entry));
     return `
         <h3 class="detail-block-title">raw log</h3>
-        <pre>${{esc(entry.run.output)}}</pre>
+        <div class="detail-toolbar">
+            <div class="chip ${{statusClass(entry)}}">summary: ${{esc(summary ?? "-")}}</div>
+            <div class="muted">${{failureIndex >= 0 ? "first failure excerpt を先に表示する" : "full log のみ利用できる"}}</div>
+        </div>
+        ${{excerpt ? `
+            <details class="log-block" open>
+                <summary>first failure excerpt</summary>
+                <pre>${{esc(excerpt)}}</pre>
+            </details>
+        ` : ""}}
+        <details class="log-block"${{excerpt ? "" : " open"}}>
+            <summary>full log</summary>
+            <pre>${{esc(entry.run.output)}}</pre>
+        </details>
     `;
 }}
 
@@ -809,38 +1195,37 @@ function ensureSelection(filtered) {{
 }}
 
 function bindSelection() {{
-    rows.querySelectorAll("tr[data-entry-path]").forEach((row) => {{
+    rows.querySelectorAll("[data-expand-path]").forEach((button) => {{
         const select = () => {{
-            selectedPath = selectedPath === row.dataset.entryPath ? null : row.dataset.entryPath;
+            selectedPath = selectedPath === button.dataset.expandPath ? null : button.dataset.expandPath;
             render();
         }};
-        row.addEventListener("click", select);
-        row.addEventListener("keydown", (event) => {{
-            if (event.key === "Enter" || event.key === " ") {{
-                event.preventDefault();
-                select();
-            }}
-        }});
+        button.addEventListener("click", select);
     }});
 }}
 
 function buildDetailPanel(entry) {{
     const chips = [
         `<div class="chip ${{statusClass(entry)}}">status: ${{statusLabel(entry)}}</div>`,
-        `<div class="chip">compile: ${{fmtSec(entry.compiler.wallSec)}}</div>`,
-        `<div class="chip">slowest: ${{fmtSec(entry.run.parsed.slowestSec)}}</div>`,
-        `<div class="chip">average: ${{fmtSec(entry.run.parsed.averageSec)}}</div>`,
-        `<div class="chip">memory: ${{fmtMb(entry.run.parsed.maxMemoryMb)}}</div>`,
+        `<div class="chip">compile: ${{fmtSecCompact(entry.compiler.wallSec)}}</div>`,
+        `<div class="chip">slowest: ${{fmtSecCompact(entry.run.parsed.slowestSec)}}</div>`,
+        `<div class="chip">average: ${{fmtSecCompact(entry.run.parsed.averageSec)}}</div>`,
+        `<div class="chip">memory: ${{fmtMbCompact(entry.run.parsed.maxMemoryMb)}}</div>`,
         `<div class="chip">cases: ${{entry.run.parsed.caseCount}} / cached ${{entry.testcases.cachedCaseCount}}</div>`,
     ].join("");
     const content = currentDetailTab === "raw" ? buildRawLog(entry) : buildCaseTable(entry);
     return `
         <div class="detail-panel">
             <div class="detail-head">
-                <div>
-                    <div class="eyebrow">expanded test</div>
-                    <h2 class="detail-title">${{esc(entry.path)}}</h2>
-                    <div>${{renderProblem(entry.problem)}}</div>
+                <div class="detail-head-main">
+                    <div>
+                        <div class="eyebrow">expanded test</div>
+                        <h2 class="detail-title">${{esc(entry.path)}}</h2>
+                        <div>${{renderProblem(entry.problem)}}</div>
+                    </div>
+                    <div class="detail-actions">
+                        <button class="detail-close" type="button" data-close-detail>close detail</button>
+                    </div>
                 </div>
                 <div class="detail-head-side">
                     <div class="detail-chips">${{chips}}</div>
@@ -856,17 +1241,53 @@ function buildDetailPanel(entry) {{
 }}
 
 function bindDetailTabs() {{
-    rows.querySelectorAll("[data-detail-tab]").forEach((button) => {{
+    detailDock.querySelectorAll("[data-detail-tab]").forEach((button) => {{
         button.addEventListener("click", (event) => {{
             event.stopPropagation();
             currentDetailTab = button.dataset.detailTab;
             render();
         }});
     }});
+    detailDock.querySelectorAll("[data-case-filter]").forEach((select) => {{
+        select.addEventListener("change", () => {{
+            currentCaseFilter = select.value;
+            render();
+        }});
+    }});
+    detailDock.querySelectorAll("[data-case-sort]").forEach((select) => {{
+        select.addEventListener("change", () => {{
+            currentCaseSort = select.value;
+            render();
+        }});
+    }});
+    detailDock.querySelectorAll("[data-close-detail]").forEach((button) => {{
+        button.addEventListener("click", () => {{
+            selectedPath = null;
+            render();
+        }});
+    }});
+}}
+
+function updateLiveChip() {{
+    if (refreshLock) {{
+        summaryLive.textContent = "live: refreshing...";
+    }} else if (pendingReport != null) {{
+        summaryLive.textContent = "live: paused (update pending)";
+    }} else {{
+        summaryLive.textContent = "live: auto";
+    }}
+    applyChipState(summaryLive, "chip-action", refreshLock ? "is-warn" : (pendingReport != null ? "is-active" : "is-ok"));
+    summaryLive.disabled = false;
+    summaryLive.title = pendingReport != null ? "apply pending update now" : "refresh now";
 }}
 
 function render() {{
+    if (selectedPath == null && pendingReport != null) {{
+        report = pendingReport;
+        pendingReport = null;
+    }}
     const query = filterInput.value.trim().toLowerCase();
+    const totalTests = report.testCount ?? report.tests.length;
     const filtered = report.tests
         .filter((entry) => {{
             const haystack = `${{entry.path}} ${{entry.problem}}`.toLowerCase();
@@ -878,52 +1299,76 @@ function render() {{
         .sort((lhs, rhs) => {{
             const a = normalized(lhs, currentSort);
             const b = normalized(rhs, currentSort);
+            const direction = currentSortDirection === "asc" ? 1 : -1;
             if (typeof a === "string" || typeof b === "string") {{
-                return String(a).localeCompare(String(b));
+                return direction * String(a).localeCompare(String(b));
             }}
-            return b - a;
+            return direction * (a - b);
         }});
-    ensureSelection(filtered);
+    const selectedEntry = ensureSelection(filtered);
+    syncSortUi();
 
     if (!filtered.length) {{
-        rows.innerHTML = `<tr><td colspan="6"><div class="empty-state">current filter に一致する test はない</div></td></tr>`;
+        const emptyMessage = report.tests.length === 0 && totalTests > 0
+            ? "loading dashboard data..."
+            : "current filter に一致する test はない";
+        rows.innerHTML = `<tr><td colspan="6"><div class="empty-state">${{emptyMessage}}</div></td></tr>`;
     }} else {{
         rows.innerHTML = filtered.map((entry) => {{
             const slowest = entry.run.parsed.slowestSec;
             const isSelected = selectedPath === entry.path;
             return `
-                <tr class="dashboard-row${{isSelected ? " is-selected" : ""}}" data-entry-path="${{esc(entry.path)}}" tabindex="0" aria-selected="${{isSelected ? "true" : "false"}}">
+                <tr class="dashboard-row${{isSelected ? " is-selected" : ""}}" data-entry-path="${{esc(entry.path)}}" aria-selected="${{isSelected ? "true" : "false"}}">
                     <td>
                         <div class="test-main">
                             <div class="test-head">
-                                <span class="expander${{isSelected ? " is-open" : ""}}">${{isSelected ? "−" : "+"}}</span>
+                                <button class="expander${{isSelected ? " is-open" : ""}}" type="button" data-expand-path="${{esc(entry.path)}}" aria-controls="detail-dock" aria-expanded="${{isSelected ? "true" : "false"}}">${{isSelected ? "−" : "+"}}</button>
                                 <div class="path">${{esc(entry.path)}}</div>
                             </div>
                             <div>${{renderProblem(entry.problem)}}</div>
                         </div>
                     </td>
-                    <td><span class="${{statusClass(entry)}}">${{statusLabel(entry)}}</span></td>
-                    <td>${{fmtSec(entry.compiler.wallSec)}}</td>
-                    <td>
-                        <div>${{fmtSec(slowest)}}</div>
-                        <div class="muted">${{esc(entry.run.parsed.slowestCase ?? "-")}}</div>
+                    <td data-label="status"><span class="${{statusClass(entry)}}">${{statusLabel(entry)}}</span></td>
+                    <td class="num" data-label="compile" title="${{fmtSec(entry.compiler.wallSec)}}">${{fmtSecCompact(entry.compiler.wallSec)}}</td>
+                    <td class="num" data-label="slowest" title="${{fmtSec(slowest)}}">
+                        <div>${{fmtSecCompact(slowest)}}</div>
+                        <div class="muted metric-sub">${{esc(entry.run.parsed.slowestCase ?? "-")}}</div>
                     </td>
-                    <td>${{fmtSec(entry.run.parsed.averageSec)}}</td>
-                    <td>${{fmtMb(entry.run.parsed.maxMemoryMb)}}</td>
+                    <td class="num" data-label="average" title="${{fmtSec(entry.run.parsed.averageSec)}}">${{fmtSecCompact(entry.run.parsed.averageSec)}}</td>
+                    <td class="num" data-label="memory" title="${{fmtMb(entry.run.parsed.maxMemoryMb)}}">${{fmtMbCompact(entry.run.parsed.maxMemoryMb)}}</td>
                 </tr>
-                ${{isSelected ? `<tr class="detail-row"><td colspan="6">${{buildDetailPanel(entry)}}</td></tr>` : ""}}
             `;
         }}).join("");
     }}
 
+    if (selectedEntry) {{
+        detailDock.hidden = false;
+        detailDock.innerHTML = buildDetailPanel(selectedEntry);
+    }} else {{
+        detailDock.hidden = true;
+        detailDock.innerHTML = "";
+    }}
+
     const summary = report.summary ?? {{}};
+    const pending = summary.pending ?? 0;
+    const running = summary.running ?? 0;
+    const done = summary.done ?? 0;
     const failed = summary.failed ?? report.tests.filter((entry) => !entry.run.ok && entry.phase !== "pending" && entry.phase !== "running").length;
     summaryGenerated.textContent = `generated: ${{report.generatedAt}}`;
-    summaryTotal.textContent = `tests: ${{report.tests.length}}`;
-    summaryProgress.textContent = `done: ${{summary.done ?? 0}} / running: ${{summary.running ?? 0}} / pending: ${{summary.pending ?? 0}}`;
-    summaryFailed.textContent = `failed: ${{failed}}`;
+    summaryTotal.textContent = `tests: ${{totalTests}}`;
+    summaryProgress.textContent = `done: ${{done}} / running: ${{running}} / pending: ${{pending}}`;
+    summaryFailed.textContent = statusFilter.value === "failed" ? `failed: ${{failed}} (filtered)` : `failed: ${{failed}}`;
     summaryVisible.textContent = `visible: ${{filtered.length}}`;
-    resultCount.textContent = filtered.length ? `displaying ${{filtered.length}} / ${{report.tests.length}} tests` : "displaying 0 tests";
+    updateLiveChip();
+    applyChipState(summaryTotal);
+    applyChipState(summaryProgress, running > 0 || pending > 0 ? "is-warn" : "is-ok");
+    applyChipState(summaryFailed, "chip-action", failed > 0 ? "is-bad" : "is-ok", statusFilter.value === "failed" ? "is-active" : "");
+    applyChipState(summaryVisible, query || statusFilter.value !== "all" ? "is-active" : "");
+    summaryFailed.disabled = failed === 0 && statusFilter.value !== "failed";
+    summaryFailed.title = statusFilter.value === "failed" ? "clear failed filter" : "show failed tests only";
+    resultCount.textContent = filtered.length
+        ? `displaying ${{filtered.length}} / ${{totalTests}} tests`
+        : (report.tests.length === 0 && totalTests > 0 ? `loading 0 / ${{totalTests}} tests` : "displaying 0 tests");
     bindSelection();
     bindDetailTabs();
 }}
@@ -932,28 +1377,62 @@ let refreshLock = false;
 async function refreshReport() {{
     if (refreshLock) return;
     refreshLock = true;
+    updateLiveChip();
     try {{
         const response = await fetch(`${{jsonUrl}}?t=${{Date.now()}}`, {{ cache: "no-store" }});
         if (!response.ok) return;
-        report = await response.json();
-        render();
+        const nextReport = await response.json();
+        if (selectedPath != null) {{
+            pendingReport = nextReport;
+            updateLiveChip();
+        }} else {{
+            report = nextReport;
+            pendingReport = null;
+            render();
+        }}
     }} catch (_error) {{
     }} finally {{
         refreshLock = false;
+        if (selectedPath != null || pendingReport != null) {{
+            updateLiveChip();
+        }} else if (!document.hidden) {{
+            updateLiveChip();
+        }}
     }}
 }}
 
 document.querySelectorAll("[data-sort]").forEach((button) => {{
     button.addEventListener("click", () => {{
-        currentSort = button.dataset.sort;
-        sortKey.value = currentSort;
+        if (currentSort === button.dataset.sort) {{
+            currentSortDirection = currentSortDirection === "asc" ? "desc" : "asc";
+        }} else {{
+            currentSort = button.dataset.sort;
+            currentSortDirection = defaultSortDirection(currentSort);
+        }}
         render();
     }});
 }});
 filterInput.addEventListener("input", render);
 statusFilter.addEventListener("change", render);
+summaryFailed.addEventListener("click", () => {{
+    statusFilter.value = statusFilter.value === "failed" ? "all" : "failed";
+    render();
+}});
+summaryLive.addEventListener("click", () => {{
+    if (pendingReport != null) {{
+        report = pendingReport;
+        pendingReport = null;
+        render();
+        return;
+    }}
+    refreshReport();
+}});
 sortKey.addEventListener("change", () => {{
     currentSort = sortKey.value;
+    render();
+}});
+sortDirection.addEventListener("change", () => {{
+    currentSortDirection = sortDirection.value;
     render();
 }});
 render();
