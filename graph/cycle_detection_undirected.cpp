@@ -14,18 +14,25 @@ CycleDetectionUndirectedResult cycle_detection_undirected(const vector<pair<int,
 
     vector<int> dep(n, -1), par_v(n, -1), par_e(n, -1);
     vector<char> used_e(m, 0);
-    auto dfs = [&](auto &&self, int v, int d) -> void {
-        dep[v] = d;
-        for (auto &&[to, id] : g[v]) {
+    for (int i = 0; i < n; ++i) {
+        if (dep[i] != -1) continue;
+        dep[i] = 0;
+        vector<pair<int, int>> st = {{i, 0}};
+        while (!st.empty()) {
+            int v = st.back().first;
+            int &it = st.back().second;
+            if (it == (int)g[v].size()) {
+                st.pop_back();
+                continue;
+            }
+            auto [to, id] = g[v][it++];
             if (dep[to] != -1) continue;
             used_e[id] = 1;
+            dep[to] = dep[v] + 1;
             par_v[to] = v;
             par_e[to] = id;
-            self(self, to, d + 1);
+            st.emplace_back(to, 0);
         }
-    };
-    for (int i = 0; i < n; ++i) {
-        if (dep[i] == -1) dfs(dfs, i, 0);
     }
 
     for (int id = 0; id < m; ++id) {

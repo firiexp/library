@@ -1,30 +1,40 @@
 vector<int> cycle_detection_directed(const vector<vector<pair<int, int>>> &g) {
     int n = g.size();
-    vector<int> state(n), st_v, st_e;
-    vector<int> cycle;
-    auto dfs = [&](auto &&self, int v) -> bool {
-        state[v] = 1;
-        st_v.emplace_back(v);
-        for (auto &&[to, id] : g[v]) {
-            st_e.emplace_back(id);
-            if (state[to] == 0) {
-                if (self(self, to)) return true;
-            } else if (state[to] == 1) {
-                cycle.emplace_back(id);
-                for (int i = (int)st_v.size() - 1; st_v[i] != to; --i) {
-                    cycle.emplace_back(st_e[i - 1]);
-                }
-                reverse(cycle.begin(), cycle.end());
-                return true;
+    vector<int> state(n), pos(n, -1), parent_edge(n, -1), path_v;
+    for (int s = 0; s < n; ++s) {
+        if (state[s] != 0) continue;
+        vector<pair<int, int>> st = {{s, 0}};
+        state[s] = 1;
+        pos[s] = 0;
+        path_v.emplace_back(s);
+        while (!st.empty()) {
+            int v = st.back().first;
+            int &it = st.back().second;
+            if (it == (int)g[v].size()) {
+                state[v] = 2;
+                pos[v] = -1;
+                path_v.pop_back();
+                st.pop_back();
+                continue;
             }
-            st_e.pop_back();
+            auto [to, id] = g[v][it++];
+            if (state[to] == 0) {
+                parent_edge[to] = id;
+                state[to] = 1;
+                pos[to] = path_v.size();
+                path_v.emplace_back(to);
+                st.emplace_back(to, 0);
+                continue;
+            }
+            if (state[to] == 1) {
+                vector<int> cycle;
+                for (int i = pos[to] + 1; i < (int)path_v.size(); ++i) {
+                    cycle.emplace_back(parent_edge[path_v[i]]);
+                }
+                cycle.emplace_back(id);
+                return cycle;
+            }
         }
-        st_v.pop_back();
-        state[v] = 2;
-        return false;
-    };
-    for (int i = 0; i < n; ++i) {
-        if (state[i] == 0 && dfs(dfs, i)) return cycle;
     }
     return {};
 }

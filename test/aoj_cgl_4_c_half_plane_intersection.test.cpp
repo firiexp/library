@@ -91,7 +91,7 @@ int main() {
         vector<Line> ls = base;
         ls.emplace_back(Point(x1, y1), Point(x2, y2));
         Polygon ans = half_plane_intersection(ls);
-        printf("%.15f\n", fabs(area(ans)));
+        printf("%.8f\n", fabs(area(ans)));
     }
     return 0;
 }

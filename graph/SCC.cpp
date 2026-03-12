@@ -1,16 +1,4 @@
 class SCC {
-    void dfs(int v){
-        used[v] = 1;
-        for (auto &&u : G[v]) if(!used[u]) dfs(u);
-        vs.emplace_back(v);
-    }
-
-    void dfs_r(int v, int k){
-        used[v] = 1;
-        cmp[v] = k;
-        sz[k]++;
-        for (auto &&u : G_r[v]) if(!used[u]) dfs_r(u, k);
-    }
 public:
     vector<vector<int>> G, G_r, G_out;
     vector<int> vs, used, cmp, sz;
@@ -24,15 +12,48 @@ public:
 
     int build() {
         int n = G.size();
-        for (int i = 0; i < n; ++i) if(!used[i]) dfs(i);
-        fill(used.begin(),used.end(), 0);
-        int k = 0;
-        for (int i = n - 1; i >= 0; --i) {
-            if(!used[vs[i]]){
-                dfs_r(vs[i], k++);
+        vs.clear();
+        fill(used.begin(), used.end(), 0);
+        for (int i = 0; i < n; ++i) {
+            if (used[i]) continue;
+            vector<pair<int, int>> st = {{i, 0}};
+            used[i] = 1;
+            while (!st.empty()) {
+                int v = st.back().first;
+                int &it = st.back().second;
+                if (it == (int)G[v].size()) {
+                    vs.emplace_back(v);
+                    st.pop_back();
+                    continue;
+                }
+                int u = G[v][it++];
+                if (used[u]) continue;
+                used[u] = 1;
+                st.emplace_back(u, 0);
             }
         }
-        G_out.resize(k);
+        fill(used.begin(),used.end(), 0);
+        int k = 0;
+        sz.assign(n, 0);
+        for (int i = n - 1; i >= 0; --i) {
+            if(!used[vs[i]]){
+                vector<int> st = {vs[i]};
+                used[vs[i]] = 1;
+                while (!st.empty()) {
+                    int v = st.back();
+                    st.pop_back();
+                    cmp[v] = k;
+                    sz[k]++;
+                    for (auto &&u : G_r[v]) {
+                        if (used[u]) continue;
+                        used[u] = 1;
+                        st.emplace_back(u);
+                    }
+                }
+                ++k;
+            }
+        }
+        G_out.assign(k, {});
         sz.resize(k);
         for (int i = 0; i < n; ++i) {
             for (auto &&j : G[i]) {

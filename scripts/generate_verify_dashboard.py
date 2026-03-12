@@ -32,6 +32,7 @@ DASHBOARD_ASSET_DIR = ROOT / "scripts" / "measure_dashboard_assets"
 DEFAULT_WORKERS = max(1, os.cpu_count() or 1)
 _problem_locks_guard = threading.Lock()
 _problem_locks: dict[str, threading.Lock] = {}
+_library_checker_lock = threading.Lock()
 SORT_COLUMNS = [
     {"key": "path", "label": "test", "defaultDirection": "asc", "numeric": False},
     {"key": "status", "label": "status", "defaultDirection": "asc", "numeric": False},
@@ -108,6 +109,10 @@ def list_test_paths(paths: list[str]) -> list[pathlib.Path]:
     if paths:
         return [ROOT / pathlib.Path(path) for path in paths]
     return sorted((ROOT / "test").glob("*.test.cpp"))
+
+
+def relative_test_path(path: pathlib.Path) -> str:
+    return str(path.resolve().relative_to(ROOT))
 
 
 def run_command(command: list[str], *, cwd: pathlib.Path) -> subprocess.CompletedProcess[str]:
@@ -203,9 +208,9 @@ def get_problem_lock(problem_url: str) -> threading.Lock:
 
 
 def make_empty_entry(path: pathlib.Path) -> dict[str, Any]:
-    relative_path = path.resolve().relative_to(ROOT)
+    relative_path = relative_test_path(path)
     return {
-        "path": str(relative_path),
+        "path": relative_path,
         "phase": "pending",
         "problem": None,
         "compiler": {
@@ -236,6 +241,16 @@ def make_empty_entry(path: pathlib.Path) -> dict[str, Any]:
             "output": "",
         },
     }
+
+
+def load_existing_entries(json_path: pathlib.Path) -> list[dict[str, Any]]:
+    if not json_path.exists():
+        return []
+    report = json.loads(json_path.read_text())
+    tests = report.get("tests")
+    if not isinstance(tests, list):
+        return []
+    return tests
 
 
 def make_report(entries: list[dict[str, Any]]) -> dict[str, Any]:
@@ -311,7 +326,7 @@ def ensure_testcases(problem_url: str, *, testcase_dir: pathlib.Path) -> None:
 
 
 def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int, compile_slots: threading.Semaphore) -> dict[str, Any]:
-    relative_path = path.resolve().relative_to(ROOT)
+    relative_path = pathlib.Path(relative_test_path(path))
     language = onlinejudge_verify.languages.list.get(relative_path)
     if language is None:
         raise RuntimeError(f"unsupported language: {relative_path}")
@@ -320,6 +335,7 @@ def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int, compile_slots:
     problem_url = attributes.get("PROBLEM")
     if not problem_url:
         raise RuntimeError(f"PROBLEM is not specified: {relative_path}")
+    error_tolerance = attributes.get("ERROR")
 
     cache_dir = build_cache_dir(problem_url)
     testcase_dir = cache_dir / "test"
@@ -327,10 +343,23 @@ def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int, compile_slots:
 
     problem = onlinejudge.dispatch.problem_from_url(problem_url)
     judge_command = None
-    with get_problem_lock(problem_url):
-        ensure_testcases(problem_url, testcase_dir=testcase_dir)
-        if isinstance(problem, onlinejudge.service.library_checker.LibraryCheckerProblem):
-            judge_command = str(problem.download_checker_binary())
+    if isinstance(problem, onlinejudge.service.library_checker.LibraryCheckerProblem):
+        with get_problem_lock(problem_url):
+            ensure_testcases(problem_url, testcase_dir=testcase_dir)
+        checker_path = None
+        try:
+            candidate = problem._get_problem_directory_path() / "checker"
+            if candidate.exists():
+                checker_path = candidate
+        except RuntimeError:
+            checker_path = None
+        if checker_path is None:
+            with _library_checker_lock:
+                checker_path = problem.download_checker_binary()
+        judge_command = str(checker_path)
+    else:
+        with get_problem_lock(problem_url):
+            ensure_testcases(problem_url, testcase_dir=testcase_dir)
 
     environments = language.list_environments(relative_path, basedir=ROOT)
     if not environments:
@@ -348,6 +377,8 @@ def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int, compile_slots:
         command = ["oj", "test", "-c", shlex.join(execute), "-d", str(testcase_dir), "--tle", str(tle)]
         if judge_command is not None:
             command += ["--judge-command", judge_command]
+        if error_tolerance:
+            command += ["-e", str(error_tolerance)]
         if oj_jobs != 1:
             command += ["-j", str(oj_jobs)]
 
@@ -458,7 +489,25 @@ def main() -> int:
         return 0
 
     tests = list_test_paths(args.paths)
-    report_tests = [make_empty_entry(path) for path in tests]
+    onlinejudge_verify.languages.list.get(pathlib.Path("dummy.cpp"))
+    if args.paths:
+        report_tests = load_existing_entries(args.json_path)
+        index_by_path = {
+            entry.get("path"): index
+            for index, entry in enumerate(report_tests)
+            if isinstance(entry, dict) and isinstance(entry.get("path"), str)
+        }
+        for path in tests:
+            relative_path = relative_test_path(path)
+            index = index_by_path.get(relative_path)
+            if index is None:
+                index_by_path[relative_path] = len(report_tests)
+                report_tests.append(make_empty_entry(path))
+            else:
+                report_tests[index] = make_empty_entry(path)
+    else:
+        report_tests = [make_empty_entry(path) for path in tests]
+        index_by_path = {entry["path"]: index for index, entry in enumerate(report_tests)}
     write_report(make_report(report_tests), json_path=args.json_path, html_path=args.html_path)
 
     if args.jobs <= 0:
@@ -478,7 +527,8 @@ def main() -> int:
     futures: dict[concurrent.futures.Future[dict[str, Any]], int] = {}
 
     def submit_one(executor: concurrent.futures.Executor, index: int) -> None:
-        report_tests[index]["phase"] = "running"
+        report_index = index_by_path[relative_test_path(tests[index])]
+        report_tests[report_index]["phase"] = "running"
         future = executor.submit(
             run_one_test,
             tests[index],
@@ -505,11 +555,12 @@ def main() -> int:
                     return_when=concurrent.futures.FIRST_COMPLETED,
                 )
                 for future in done:
-                    index = futures.pop(future)
-                    path = tests[index]
+                    test_index = futures.pop(future)
+                    path = tests[test_index]
+                    report_index = index_by_path[relative_test_path(path)]
                     try:
                         entry = future.result()
-                        report_tests[index] = entry
+                        report_tests[report_index] = entry
                         status = "ok" if entry["run"]["ok"] else "failed"
                         slowest = entry["run"]["parsed"]["slowestSec"]
                         print(f"{entry['path']}: {status}, slowest={slowest}")
@@ -518,12 +569,12 @@ def main() -> int:
                             for pending in futures:
                                 pending.cancel()
                             raise
-                        relative_path = path.resolve().relative_to(ROOT)
+                        relative_path = relative_test_path(path)
                         entry = make_empty_entry(path)
                         entry["phase"] = "error"
                         entry["run"]["output"] = str(exc)
                         print(f"{relative_path}: error: {exc}", file=sys.stderr)
-                        report_tests[index] = entry
+                        report_tests[report_index] = entry
 
                 while next_index < len(tests) and len(futures) < worker_count:
                     submit_one(executor, next_index)

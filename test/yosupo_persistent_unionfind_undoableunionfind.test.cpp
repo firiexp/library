@@ -29,17 +29,35 @@ int main() {
     }
 
     UndoableUnionFind uf(n);
-    auto dfs = [&](auto &&f, A cur) -> void {
-        int t = cur[0], idx = cur[1], u = cur[2], v = cur[3];
-        if (t == 1) {
-            ans[idx] = uf.same(u, v);
-            return;
-        }
-        if (t == 0) uf.unite(u, v);
-        for (auto &&nxt : g[idx]) f(f, nxt);
-        if (t == 0) uf.undo();
+    struct Frame {
+        A cur;
+        int child_idx;
+        bool entered;
+        bool united;
     };
-    dfs(dfs, A{-1, 0, -1, -1});
+    vector<Frame> st = {{A{-1, 0, -1, -1}, 0, false, false}};
+    while (!st.empty()) {
+        auto &cur = st.back();
+        int t = cur.cur[0], idx = cur.cur[1], u = cur.cur[2], v = cur.cur[3];
+        if (!cur.entered) {
+            cur.entered = true;
+            if (t == 1) {
+                ans[idx] = uf.same(u, v);
+                st.pop_back();
+                continue;
+            }
+            if (t == 0) {
+                uf.unite(u, v);
+                cur.united = true;
+            }
+        }
+        if (cur.child_idx < (int)g[idx].size()) {
+            st.push_back({g[idx][cur.child_idx++], 0, false, false});
+            continue;
+        }
+        if (cur.united) uf.undo();
+        st.pop_back();
+    }
 
     for (int i = 1; i <= q; ++i) {
         if (ans[i] != -1) pr.writeln(ans[i]);

@@ -56,6 +56,6 @@ int main() {
     }
     sort(begin(G), end(G), [](const edge<double> &a, const edge<double> &b) { return a.cost < b.cost; });
     for(auto &e : G) if(uf.unite(e.from, e.to)) ans += e.cost;
-    printf("%.15lf\n", ans);
+    printf("%.8f\n", ans);
     return 0;
 }
