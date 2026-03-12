@@ -9,7 +9,7 @@ tags: グラフ
 ## 説明
 無向グラフから 1 つサイクルを見つける。
 多重辺を含んでもよい。
-計算量は `O(N + M)`。
+計算量は $O(N + M)$。
 
 ## できること
 - `CycleDetectionUndirectedResult cycle_detection_undirected(const vector<pair<int, int>>& edges, int n)`

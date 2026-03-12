@@ -15,4 +15,4 @@ tags: 数学
 
 ## 使い方
 `mint` は `util/modint.cpp` の modint を使う。
-`get_min_factor` を内部で呼ぶので、全体計算量は `O(n log log n)` 程度。
+`get_min_factor` を内部で呼ぶので、全体計算量は $O(n log log n)$ 程度。

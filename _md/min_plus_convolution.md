@@ -14,11 +14,11 @@ tags: 数学
 
 ## できること
 - `vector<T> min_plus_convolution_arbitrary_convex(const vector<T>& a, const vector<T>& b)`
-  `a` を任意列、`b` を凸列として min-plus 畳み込みを返す。計算量は `O((N + M) log(N + M))`
+  `a` を任意列、`b` を凸列として min-plus 畳み込みを返す。計算量は $O((N + M) log(N + M))$
 - `vector<T> min_plus_convolution_convex_arbitrary(const vector<T>& a, const vector<T>& b)`
-  `a` を凸列、`b` を任意列として min-plus 畳み込みを返す。計算量は `O((N + M) log(N + M))`
+  `a` を凸列、`b` を任意列として min-plus 畳み込みを返す。計算量は $O((N + M) log(N + M))$
 - `vector<T> min_plus_convolution_convex_convex(const vector<T>& a, const vector<T>& b)`
-  `a, b` を凸列として min-plus 畳み込みを返す。計算量は `O(N + M)`
+  `a, b` を凸列として min-plus 畳み込みを返す。計算量は $O(N + M)$
 
 ## 使い方
 凸性がある側に応じて関数を選ぶ。

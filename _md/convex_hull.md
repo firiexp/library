@@ -8,7 +8,7 @@ tags: 幾何
 
 ## 説明
 整数座標点集合の凸包を Andrew's monotone chain で求める。
-計算量は `O(N log N)`。
+計算量は $O(N log N)$。
 
 ## できること
 - `vector<pair<ll, ll>> convex_hull(vector<pair<ll, ll>> ps)`

@@ -9,7 +9,7 @@ tags: 幾何
 ## 説明
 整数ベクトルを偏角順に並べる。
 下半平面から始めて反時計回りになる順で sort する。
-計算量は `O(N log N)`。
+計算量は $O(N log N)$。
 
 ## できること
 - `void argsort(vector<array<int, 2>>& v)`

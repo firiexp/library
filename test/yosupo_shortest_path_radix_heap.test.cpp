@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <limits>
+#include <queue>
 #include <tuple>
 #include <vector>
 using namespace std;
@@ -31,7 +32,7 @@ int main() {
         G[a].emplace_back(b, c);
         Ginv[b].emplace_back(a, c);
     }
-    auto d = dijkstra(s, G);
+    auto d = dijkstra_radix_heap(s, G);
     if (d[t] == INF<ll>) {
         pr.writeln(-1);
         return 0;

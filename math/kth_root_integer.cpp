@@ -1,5 +1,3 @@
-using ull = unsigned long long;
-
 bool kth_root_integer_leq(ull x, int k, ull a) {
     __uint128_t p = 1;
     for (int i = 0; i < k; ++i) {

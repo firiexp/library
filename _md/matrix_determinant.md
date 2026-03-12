@@ -8,7 +8,7 @@ tags: 数学
 
 ## 説明
 `modint` 行列の行列式を計算する。
-Gaussian elimination を使い、計算量は `O(N^3)`。
+Gaussian elimination を使い、計算量は $O(N^3)$。
 
 ## できること
 - `mint matrix_determinant(vector<vector<mint>> A)`

@@ -1,4 +1,4 @@
-using uint = uint32_t;
+#include "linear_sieve.cpp"
 
 template<typename T>
 struct ExactDiv {
@@ -16,19 +16,11 @@ struct ExactDiv {
     }
 };
 
-vector<ExactDiv<uint>> get_prime(int n){
-    if(n <= 1) return vector<ExactDiv<uint>>();
-    vector<bool> is_prime(n+1, true);
-    vector<ExactDiv<uint>> prime;
-    is_prime[0] = is_prime[1] = false;
-    for (int i = 2; i <= n; ++i) {
-        if(is_prime[i]) prime.emplace_back(i);
-        for (auto &&j : prime){
-            if(i*j.val > n) break;
-            is_prime[i*j.val] = false;
-            if(j.divide(i)) break;
-        }
-    }
-    return prime;
+vector<ExactDiv<uint>> get_prime_exact_div(int n) {
+    vector<ExactDiv<uint>> res;
+    auto primes = LinearSieve(n).primes;
+    res.reserve(primes.size());
+    for (auto &&p : primes) res.emplace_back((uint)p);
+    return res;
 }
-const auto primes = get_prime(32000);
+const auto primes = get_prime_exact_div(32000);

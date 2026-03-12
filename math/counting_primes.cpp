@@ -2,8 +2,6 @@ using namespace std;
 
 namespace counting_primes_internal {
 
-using ll = long long;
-
 constexpr int MAX = 5000000;
 constexpr int PHI_N = 100000;
 constexpr int PHI_S = 100;

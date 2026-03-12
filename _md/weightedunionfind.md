@@ -4,7 +4,7 @@ documentation_of: //datastructure/weightedunionfind.cpp
 ---
 ## 説明
 各頂点にポテンシャルを持たせた Union-Find である。
-併合と差分取得をほぼ償却 `O(alpha(N))` で扱う。
+併合と差分取得をほぼ償却 $O(alpha(N))$ で扱う。
 
 ## できること
 - `WeightedUnionFind<T> uf(n)`

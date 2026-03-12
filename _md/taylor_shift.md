@@ -8,7 +8,7 @@ tags: FPS
 
 ## 説明
 多項式 `f(x)` から `f(x + c)` の係数列を計算する。
-`998244353` 上の `poly` を前提にし、計算量は `O(n log n)`。
+`998244353` 上の `poly` を前提にし、計算量は $O(n log n)$。
 
 ## できること
 - `poly taylor_shift(const poly& f, mint c)`

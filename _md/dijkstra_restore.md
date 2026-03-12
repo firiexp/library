@@ -1,5 +1,5 @@
 ---
-title: Dijkstra Restore
+title: 経路復元付きDijkstra法
 documentation_of: //graph/dijkstra_restore.cpp
 date: 2026-03-08
 category: グラフ
@@ -9,10 +9,10 @@ tags: グラフ
 ## 説明
 単一始点最短路と最短路木の親を求める。
 辺重みが非負のときに使う。
-計算量は `O((V + E) log V)`。
+計算量は $O((V + E) log V)$。
 
 ## できること
-- `DijkstraRestoreResult<T> dijkstra_restore(int s, vector<vector<edge<T>>>& g)`
+- `DijkstraRestoreResult<T> dijkstra_restore(int s, const vector<vector<edge<T>>>& g)`
   始点 `s` からの最短距離と親配列を返す。未到達頂点の距離は `INF<T>`、親は `-1`
 - `vector<int> restore_path(int s, int t, const vector<int>& parent)`
   親配列から `s -> t` の頂点列を復元して返す。復元できなければ空配列

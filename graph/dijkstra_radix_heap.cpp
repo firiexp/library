@@ -1,31 +1,31 @@
-template <typename T>
-struct edge {
-    int from, to; T cost;
-    edge(int to, T cost) : from(-1), to(to), cost(cost) {}
-    edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}
-};
-
+#include "dijkstra_common.cpp"
 #include "../datastructure/radixheap.cpp"
 
 template <typename T>
-vector<T> dijkstra(int s,vector<vector<edge<T>>> &G){
-    auto n = G.size();
-    vector<T> d(n, INF<T>);
+struct DijkstraRadixHeapQueue {
+    static_assert(numeric_limits<T>::is_integer, "dijkstra_radix_heap requires integer costs");
+    static_assert(numeric_limits<T>::is_signed, "dijkstra_radix_heap requires signed integer costs");
+    static_assert(sizeof(T) <= sizeof(ll), "dijkstra_radix_heap requires costs that fit in long long");
+
     RadixHeap<ll, int> Q;
-    d[s] = 0;
-    Q.emplace(0, s);
-    while(!Q.empty()){
-        T cost; int i;
-        tie(cost, i) = Q.top(); Q.pop();
-        if(d[i] < cost) continue;
-        for (auto &&e : G[i]) {
-            auto cost2 = cost + e.cost;
-            if(d[e.to] <= cost2) continue;
-            d[e.to] = cost2;
-            Q.emplace(d[e.to], e.to);
-        }
+
+    bool empty() const { return Q.empty(); }
+
+    void push(T cost, int v) {
+        Q.emplace((ll)cost, v);
     }
-    return d;
+
+    pair<T, int> pop() {
+        auto [cost, v] = Q.top();
+        Q.pop();
+        return {static_cast<T>(cost), v};
+    }
+};
+
+template <typename T>
+vector<T> dijkstra_radix_heap(int s, const vector<vector<edge<T>>> &G) {
+    DijkstraRadixHeapQueue<T> Q;
+    return dijkstra_internal(s, G, Q);
 }
 
 /**

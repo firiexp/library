@@ -2,8 +2,6 @@ using namespace std;
 
 namespace SternBrocotTree {
 
-using ll = long long;
-
 enum Direction {
     Left,
     Right

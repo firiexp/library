@@ -8,7 +8,7 @@ tags: 数学
 
 ## 説明
 3 つの NTT 友好素数で畳み込み、Garner で任意 MOD に復元する。
-複素 FFT を使わないので誤差がなく、計算量は `O(N log N)`。
+複素 FFT を使わないので誤差がなく、計算量は $O(N log N)$。
 
 ## できること
 - `poly operator*(const poly& a, const poly& b)`

@@ -4,7 +4,7 @@ documentation_of: //graph/bellman_ford_negative_loop.cpp
 ---
 ## 説明
 負辺を含む単一始点最短路を求め、始点から到達できる負閉路の影響下にある頂点を `-INF` にする。
-計算量は `O(VE)`。
+計算量は $O(VE)$。
 
 ## できること
 - `vector<T> bellman_ford(int s, int n, vector<edge<T>>& es)`

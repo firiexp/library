@@ -9,7 +9,7 @@ tags: 木
 ## 説明
 辺を子頂点側の位置に載せる重軽分解である。
 根の位置には辺がないので、`edge_index(root)` は `-1` を返す。
-パスクエリ・パス更新は `O(log^2 N)`。
+パスクエリ・パス更新は $O(log^2 N)$。
 
 ## できること
 - `HeavyLightDecompositionEdge hld(n)`

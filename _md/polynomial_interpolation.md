@@ -8,7 +8,7 @@ tags: FPS
 
 ## 説明
 相異なる点列 `(x_i, y_i)` を通る次数 `n - 1` 以下の多項式を復元する。
-`998244353` 上の `poly` を前提にし、計算量は `O(n log^2 n)`。
+`998244353` 上の `poly` を前提にし、計算量は $O(n log^2 n)$。
 
 ## できること
 - `poly polynomial_interpolation(const vector<mint>& xs, const vector<mint>& ys)`

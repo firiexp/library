@@ -8,7 +8,7 @@ tags: FPS
 
 ## 説明
 多項式 `f` の値 `f(x_i)` を複数点でまとめて計算する。
-`998244353` 上の `poly` を前提にし、計算量は `O(n log^2 n)`。
+`998244353` 上の `poly` を前提にし、計算量は $O(n log^2 n)$。
 
 ## できること
 - `vector<mint> poly::multipoint_eval(const vector<mint>& xs) const`

@@ -8,7 +8,7 @@ tags: FPS
 
 ## 説明
 多項式 `f` の値 `f(0), f(1), ..., f(n-1)` から、連続する別区間 `f(c), f(c+1), ..., f(c+m-1)` をまとめて計算する。
-`998244353` 上で動き、計算量は `O((n + m) log (n + m))`。
+`998244353` 上で動き、計算量は $O((n + m) log (n + m))$。
 
 ## できること
 - `vector<mint> sample_point_shift(const vector<mint>& ys, mint c, int m = -1)`

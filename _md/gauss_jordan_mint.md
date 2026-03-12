@@ -9,7 +9,7 @@ tags: 数学
 ## 説明
 `mint` 上で Gauss-Jordan 消去を行う。
 行列を簡約行基本形に変形し、階数を返す。
-計算量は `O(HWmin(H, W))`。
+計算量は $O(HWmin(H, W))$。
 
 ## できること
 - `int gauss_jordan(vector<vector<mint>>& A, bool is_extended = false)`

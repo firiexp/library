@@ -3,6 +3,7 @@
 #include <cassert>
 #include <utility>
 #include <vector>
+using ll = long long;
 
 #include <cstdio>
 #include <cstring>

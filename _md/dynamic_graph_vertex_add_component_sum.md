@@ -26,4 +26,4 @@ tags: グラフ
 
 ## 使い方
 クエリを時系列順に積み、最後に `solve()` を呼ぶ。
-計算量は `O((N + Q) log Q log^* N)` 相当で、rollback により経路圧縮は使わない。
+計算量は $O((N + Q) log Q log^* N)$ 相当で、rollback により経路圧縮は使わない。

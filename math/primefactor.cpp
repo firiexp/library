@@ -1,5 +1,3 @@
-using uint = uint32_t;
-
 template<typename T>
 struct ExactDiv {
     T t, i, val;

@@ -1,4 +1,4 @@
-#include "dijkstra.cpp"
+#include "dijkstra_common.cpp"
 
 template <typename T>
 struct DijkstraRestoreResult {
@@ -7,27 +7,12 @@ struct DijkstraRestoreResult {
 };
 
 template <typename T>
-DijkstraRestoreResult<T> dijkstra_restore(int s, vector<vector<edge<T>>> &G) {
-    int n = (int)G.size();
-    vector<T> dist(n, INF<T>);
-    vector<int> parent(n, -1);
-    priority_queue<pair<T, int>, vector<pair<T, int>>, greater<>> Q;
-    dist[s] = 0;
-    Q.emplace(0, s);
-    while (!Q.empty()) {
-        T cost;
-        int v;
-        tie(cost, v) = Q.top();
-        Q.pop();
-        if (dist[v] < cost) continue;
-        for (auto &&e : G[v]) {
-            T nxt = cost + e.cost;
-            if (dist[e.to] <= nxt) continue;
-            dist[e.to] = nxt;
-            parent[e.to] = v;
-            Q.emplace(nxt, e.to);
-        }
-    }
+DijkstraRestoreResult<T> dijkstra_restore(int s, const vector<vector<edge<T>>> &G) {
+    vector<int> parent((int)G.size(), -1);
+    DijkstraPriorityQueue<T> Q;
+    auto dist = dijkstra_internal(s, G, Q, [&](int v, const edge<T> &e) {
+        parent[e.to] = v;
+    });
     return {dist, parent};
 }
 

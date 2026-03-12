@@ -9,7 +9,7 @@ tags: 数学
 ## 説明
 Euler の totient function `phi(n)` を 1 点で求める。
 `1` 以上の整数 `n` と互いに素な `1..n` の個数を返す。
-計算量は `O(sqrt(n))`。
+計算量は $O(sqrt(n))$。
 
 ## できること
 - `int eulerphi(int x)`

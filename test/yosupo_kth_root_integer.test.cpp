@@ -4,6 +4,7 @@
 #include <cstring>
 #include <string>
 #include <type_traits>
+using ull = unsigned long long;
 
 #include "../util/fastio.cpp"
 #include "../math/kth_root_integer.cpp"
@@ -14,7 +15,7 @@ int main() {
     int t;
     sc.read(t);
     while (t--) {
-        unsigned long long a;
+        ull a;
         int k;
         sc.read(a, k);
         pr.writeln(kth_root_integer(a, k));

@@ -8,7 +8,7 @@ tags: グラフ
 
 ## 説明
 辺重みが `0` または `1` のグラフで単一始点最短路を求める。
-計算量は `O(V + E)`。
+計算量は $O(V + E)$。
 
 ## できること
 - `vector<T> bfs01(int s, vector<vector<edge<T>>>& G)`

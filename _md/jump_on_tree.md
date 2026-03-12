@@ -8,7 +8,7 @@ tags: 木
 
 ## 説明
 木上の `k` 個先の頂点、LCA、祖先を doubling で求める。
-前処理 `O(N log N)`、各クエリ `O(log N)`。
+前処理 $O(N log N)$、各クエリ $O(log N)$。
 
 ## できること
 - `JumpOnTree jt(n)`

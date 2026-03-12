@@ -4,7 +4,7 @@ documentation_of: //datastructure/undoableunionfind.cpp
 ---
 ## 説明
 undo / rollback ができる Union-Find である。
-併合 1 回あたりの変更点を保存し、`undo()` を `O(1)` で行う。
+併合 1 回あたりの変更点を保存し、`undo()` を $O(1)$ で行う。
 
 ## できること
 - `UndoableUnionFind uf(n)`

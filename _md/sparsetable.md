@@ -4,7 +4,7 @@ documentation_of: //datastructure/sparsetable.cpp
 ---
 ## 説明
 idempotent な演算に対する静的 RMQ/区間クエリを扱う Sparse Table である。
-前処理 `O(N log N)`、クエリ `O(1)`。
+前処理 $O(N log N)$、クエリ $O(1)$。
 
 ## できること
 - `SparseTable<F> st`

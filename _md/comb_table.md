@@ -8,7 +8,7 @@ tags: 数学
 ## 説明
 パスカルの三角形で二項係数表を作る。
 `0 <= i <= n`, `0 <= j <= min(i, m)` の範囲で `res[i][j] = C(i, j)` を持つ。
-計算量は `O(n * min(n, m))`、返り値のサイズは `O(nm)`。
+計算量は $O(n * min(n, m))$、返り値のサイズは $O(nm)$。
 
 ## できること
 - `vector<vector<mint>> comb_table(int n, int m)`

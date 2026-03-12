@@ -1,7 +1,6 @@
 using namespace std;
 
 class DynamicBitset {
-    using ull = unsigned long long;
     static constexpr int B = 64;
 
     int n;

@@ -1,4 +1,3 @@
-using ull = unsigned long long;
 #include "miller_rabin.cpp"
 
 template<typename T>

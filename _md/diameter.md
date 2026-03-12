@@ -3,7 +3,7 @@ title: 木の直径(Tree Diameter)
 documentation_of: //tree/diameter.cpp
 ---
 ## 説明
-重みなし木の直径長とその両端点を `O(N)` で求める。
+重みなし木の直径長とその両端点を $O(N)$ で求める。
 
 ## できること
 - `pair<int, pair<int, int>> tree_diameter(const vector<vector<int>> &g)`

@@ -8,7 +8,7 @@ tags: 数学
 ## 説明
 添字を約数半順序とみなした zeta 変換と mobius 反転を行う。
 `v[i]` に対して、変換後は `sum_{k>=1} v[i*k]` になる。
-計算量は `O(n log log n)`。
+計算量は $O(n log log n)$。
 
 ## できること
 - `void gcd_transform(vector<T>& v)`

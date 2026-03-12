@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdint>
 #include <vector>
+using ll = long long;
 
 #include <cstdio>
 #include <cstring>

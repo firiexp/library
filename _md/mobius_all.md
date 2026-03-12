@@ -1,19 +1,19 @@
 ---
-title: メビウス関数 (1からMまで)
-date: 2020-01-12
+title: メビウス関数テーブル(Mobius Table)
+documentation_of: //math/mobius_all.cpp
+date: 2026-03-12
 category: 数学
 tags: 数学
 ---
 
 ## 説明
+`0..M-1` のメビウス関数を線形篩でまとめて求める。
+計算量は $O(M)$。
 
-次のように定義されるメビウス関数 $\mu(n)$ を、$1 \le n \le M$ のすべての $n$ に対して $\Theta(M \log \log M)$ で求める。
+## できること
+- `vector<int> mobius_all(int M)`
+  `mobius[i] = μ(i)` を満たす長さ `M` の配列を返す
 
-$$
-\mu(n)=
-\begin{cases}
-1 & (n = 1) \\
-0 & (p^2 \mid n \text{ となる素数 } p \text{ が存在}) \\
-(-1)^k & (n \text{ が } k \text{ 個の相異なる素数の積})
-\end{cases}
-$$
+## 使い方
+`mobius[0] = 0`, `mobius[1] = 1` になる。
+包除や約数和の反転でまとめて使う前計算向けである。

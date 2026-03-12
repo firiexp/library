@@ -8,7 +8,7 @@ tags: 文字列
 
 ## 説明
 文字列を Lyndon word の非増加列に一意に分解する。
-Duval algorithm により `O(|s|)`。
+Duval algorithm により $O(|s|)$。
 
 ## できること
 - `vector<pair<int, int>> lyndon_factorization(const string& s)`

@@ -35,4 +35,4 @@ tags: グラフ
 
 ## 実装上の補足
 Skew heap + Union-Find による Chu-Liu/Edmonds 法。
-計算量は償却 `O(M log N)`。
+計算量は償却 $O(M log N)$。

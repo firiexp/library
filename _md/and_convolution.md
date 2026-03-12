@@ -9,7 +9,7 @@ tags: 数学
 ## 説明
 bitwise AND 畳み込みを計算する。
 `c[S] = Σ_{A & B = S} a[A] b[B]` を返す。
-計算量は `O(N log N)`。
+計算量は $O(N log N)$。
 
 ## できること
 - `void superset_zeta_transform(vector<T>& v)`

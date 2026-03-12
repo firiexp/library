@@ -9,7 +9,7 @@ tags: 数学
 ## 説明
 素数 `p` に対する原始根を 1 つ返す。
 `p - 1` の素因数を使って候補を判定する。
-計算量はおおむね `O(sqrt(p) + k log p)`。
+計算量はおおむね $O(sqrt(p) + k log p)$。
 
 ## できること
 - `ll primitive_root(ll p)`

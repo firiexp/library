@@ -8,7 +8,7 @@ tags: データ構造
 
 ## 説明
 下に凸な区分線形関数を保ちながら、`max(a - x, 0)` や `max(x - a, 0)` の加算、平行移動、片側累積 min を扱う。
-各操作は償却 `O(log N)`。
+各操作は償却 $O(log N)$。
 
 ## できること
 - `SlopeTrick<T> st`
@@ -47,4 +47,4 @@ auto q = st.query();
 ## 実装上の補足
 左右の折れ点を priority queue で持つ典型実装である。
 `merge` は `other` を破壊する。
-`eval` は heap を丸ごとコピーして走査するので `O(N)`。単発の確認や debug 向けで、各 query ごとに多用する用途には向かない。
+`eval` は heap を丸ごとコピーして走査するので $O(N)$。単発の確認や debug 向けで、各 query ごとに多用する用途には向かない。

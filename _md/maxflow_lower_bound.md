@@ -19,7 +19,7 @@ tags: 最大流
 
 ## 計算量
 
-- `max_flow(s, t)` : `O(V^2 E)`（Dinic ベース）
+- `max_flow(s, t)` : $O(V^2 E)$（Dinic ベース）
 
 ## 使い方
 

@@ -4,7 +4,7 @@ documentation_of: //datastructure/binaryheap.cpp
 ---
 ## 説明
 最大値を取り出す二分ヒープである。
-`push`、`pop`、`top` を `O(log N)` で扱い、要素和も同時に管理する。
+`push`、`pop`、`top` を $O(log N)$ で扱い、要素和も同時に管理する。
 
 ## できること
 - `binary_heap<T> pq`

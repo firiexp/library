@@ -1,5 +1,5 @@
 ---
-title: Euler Phi All
+title: オイラーのφ関数テーブル(Euler Phi Table)
 documentation_of: //math/eulerphi_all.cpp
 date: 2026-03-08
 category: 数学
@@ -8,8 +8,7 @@ tags: 数学
 
 ## 説明
 `0..M-1` の Euler の totient function をまとめて求める。
-篩で各素数の倍数に `phi[j] -= phi[j] / p` を入れる。
-計算量は `O(M log log M)`。
+線形篩ベースの wrapper で、計算量は $O(M)$。
 
 ## できること
 - `vector<int> eulerphi_all(int M)`
