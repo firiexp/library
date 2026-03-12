@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 import subprocess
 import sys
+from importlib import util as importlib_util
 from pathlib import Path
 
 
@@ -77,9 +78,66 @@ def check_markdown_files() -> list[str]:
     return problems
 
 
+def check_measure_dashboard_html() -> list[str]:
+    problems: list[str] = []
+    module_path = ROOT / "scripts" / "generate_verify_dashboard.py"
+    spec = importlib_util.spec_from_file_location("generate_verify_dashboard", module_path)
+    if spec is None or spec.loader is None:
+        return [f"{module_path.relative_to(ROOT).as_posix()}: failed to load module spec"]
+    module = importlib_util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    report = {
+        "generatedAt": "2026-03-12T00:00:00+09:00",
+        "root": str(ROOT),
+        "testCount": 1,
+        "summary": {"pending": 0, "running": 0, "done": 1, "error": 0, "ok": 1, "failed": 0},
+        "tests": [],
+    }
+    html_text = module.render_html(report, json_path=ROOT / ".verify-helper" / "measure-dashboard.json")
+
+    ids = re.findall(r'id="([^"]+)"', html_text)
+    duplicates = sorted({element_id for element_id in ids if ids.count(element_id) > 1})
+    for element_id in duplicates:
+        problems.append(f"measure dashboard html: duplicate id={element_id}")
+
+    required_ids = (
+        "rows",
+        "filter",
+        "status-filter",
+        "sort-key",
+        "sort-direction",
+        "summary-live",
+        "summary-failed",
+        "summary-visible",
+    )
+    for element_id in required_ids:
+        if f'id="{element_id}"' not in html_text:
+            problems.append(f"measure dashboard html: missing id={element_id}")
+
+    for column in module.SORT_COLUMNS:
+        key = column["key"]
+        label = column["label"]
+        if f'data-sort="{key}"' not in html_text:
+            problems.append(f"measure dashboard html: missing data-sort={key}")
+        if f'<option value="{key}">{label}</option>' not in html_text:
+            problems.append(f"measure dashboard html: missing mobile sort option={key}")
+
+    required_inline_tokens = (
+        'data-detail-tab="case"',
+        'data-detail-tab="raw"',
+        "data-case-filter",
+        "data-case-sort",
+    )
+    for token in required_inline_tokens:
+        if token not in html_text:
+            problems.append(f"measure dashboard html: missing token {token}")
+    return problems
+
+
 def main() -> int:
     ok = run_sync_doc_titles()
-    problems = check_library_files() + check_markdown_files()
+    problems = check_library_files() + check_markdown_files() + check_measure_dashboard_html()
     if problems:
         for problem in problems:
             print(problem, file=sys.stderr)

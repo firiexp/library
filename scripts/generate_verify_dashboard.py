@@ -28,6 +28,14 @@ DEFAULT_HTML_PATH = ROOT / ".verify-helper" / "measure-dashboard.html"
 DEFAULT_WORKERS = max(1, os.cpu_count() or 1)
 _problem_locks_guard = threading.Lock()
 _problem_locks: dict[str, threading.Lock] = {}
+SORT_COLUMNS = [
+    {"key": "path", "label": "test", "defaultDirection": "asc", "numeric": False},
+    {"key": "status", "label": "status", "defaultDirection": "asc", "numeric": False},
+    {"key": "compileWallSec", "label": "compile", "defaultDirection": "desc", "numeric": True},
+    {"key": "slowestSec", "label": "slowest", "defaultDirection": "desc", "numeric": True},
+    {"key": "averageSec", "label": "average", "defaultDirection": "desc", "numeric": True},
+    {"key": "maxMemoryMb", "label": "memory", "defaultDirection": "desc", "numeric": True},
+]
 
 
 def parse_args() -> argparse.Namespace:
@@ -350,27 +358,28 @@ def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int, compile_slots:
     }
 
 
-def render_html(report: dict[str, Any], *, json_path: pathlib.Path) -> str:
-    bootstrap_json = json.dumps(
-        {
-            "generatedAt": report.get("generatedAt"),
-            "root": report.get("root"),
-            "testCount": report.get("testCount", 0),
-            "summary": report.get("summary", {}),
-            "tests": [],
-        },
-        ensure_ascii=False,
+def render_sort_key_options() -> str:
+    return "\n".join(
+        f'                    <option value="{column["key"]}">{column["label"]}</option>'
+        for column in SORT_COLUMNS
     )
-    json_filename = html.escape(json_path.name)
-    generated_at = html.escape(report["generatedAt"])
-    title = "verify measurement dashboard"
-    return f"""<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<style>
+
+
+def render_sort_header_cells() -> str:
+    cells = []
+    for column in SORT_COLUMNS:
+        class_name = ' class="num"' if column["numeric"] else ""
+        cells.append(
+            f'                    <th{class_name}><button class="sort-button" type="button" '
+            f'data-sort="{column["key"]}" data-label="{column["label"]}">'
+            f'<span class="sort-label">{column["label"]}</span>'
+            f'<span class="sort-indicator" aria-hidden="true"></span></button></th>'
+        )
+    return "\n".join(cells)
+
+
+def render_dashboard_style() -> str:
+    return f"""
 :root {{
     --bg: #f6f3ee;
     --panel: #fffdf8;
@@ -383,8 +392,6 @@ def render_html(report: dict[str, Any], *, json_path: pathlib.Path) -> str:
     --bad: #b42318;
     --warn: #b7791f;
     --accent: #9a3412;
-    --controls-top: 12px;
-    --table-sticky-top: 96px;
 }}
 * {{ box-sizing: border-box; }}
 body {{
@@ -488,7 +495,7 @@ h1 {{
     gap: 12px;
     margin-bottom: 18px;
     position: sticky;
-    top: var(--controls-top);
+    top: 12px;
     z-index: 24;
     padding: 12px;
     border: 1px solid rgba(216, 204, 184, 0.85);
@@ -570,9 +577,6 @@ thead {{
     background: var(--panel-2);
 }}
 thead th {{
-    position: sticky;
-    top: var(--table-sticky-top);
-    z-index: 12;
     background: var(--panel-2);
 }}
 th, td {{
@@ -624,6 +628,35 @@ th.is-active {{
 .metric-sub {{
     margin-top: 4px;
     font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}}
+.skeleton-row td {{
+    padding-block: 14px;
+}}
+.skeleton-stack {{
+    display: grid;
+    gap: 8px;
+}}
+.skeleton-line {{
+    display: block;
+    width: 100%;
+    height: 12px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(216, 204, 184, 0.45), rgba(240, 231, 216, 0.95), rgba(216, 204, 184, 0.45));
+    background-size: 220% 100%;
+    animation: skeleton-shimmer 1.4s linear infinite;
+}}
+.skeleton-line.short {{
+    width: 38%;
+}}
+.skeleton-line.mid {{
+    width: 62%;
+}}
+@keyframes skeleton-shimmer {{
+    from {{ background-position: 200% 0; }}
+    to {{ background-position: -20% 0; }}
 }}
 tbody tr:hover {{
     background: rgba(154, 52, 18, 0.04);
@@ -650,6 +683,7 @@ tbody tr:hover {{
     display: flex;
     align-items: center;
     gap: 8px;
+    min-width: 0;
 }}
 .expander {{
     display: inline-flex;
@@ -678,6 +712,7 @@ tbody tr:hover {{
     font-family: "Iosevka Web", "SFMono-Regular", monospace;
     font-size: 13px;
     overflow-wrap: anywhere;
+    min-width: 0;
 }}
 .problem-link {{
     color: inherit;
@@ -935,6 +970,8 @@ pre {{
         width: 100%;
     }}
     .dashboard-row {{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         margin-bottom: 12px;
         border: 1px solid var(--line);
         border-radius: 22px;
@@ -943,11 +980,11 @@ pre {{
     }}
     .dashboard-row td {{
         display: grid;
-        grid-template-columns: 88px minmax(0, 1fr);
-        gap: 12px;
+        gap: 6px;
         align-items: start;
-        padding: 8px 14px;
-        border-bottom: 1px solid rgba(216, 204, 184, 0.7);
+        min-width: 0;
+        padding: 10px 14px;
+        border-top: 1px solid rgba(216, 204, 184, 0.7);
         text-align: left;
         white-space: normal;
     }}
@@ -960,19 +997,34 @@ pre {{
         text-transform: uppercase;
     }}
     .dashboard-row td:first-child {{
+        grid-column: 1 / -1;
         display: block;
+        min-width: 0;
         padding-top: 14px;
         padding-bottom: 12px;
+        border-top: 0;
+    }}
+    .dashboard-row .path {{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
     }}
     .dashboard-row td:first-child::before {{
         content: none;
     }}
+    .dashboard-row td:nth-child(odd):not(:first-child):not(:last-child) {{
+        box-shadow: inset 1px 0 0 rgba(216, 204, 184, 0.7);
+    }}
     .dashboard-row td:last-child {{
-        border-bottom: 0;
+        grid-column: 1 / -1;
         padding-bottom: 14px;
     }}
     .dashboard-row .metric-sub {{
         text-align: left;
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
     }}
     .detail-row {{
         margin: -6px 0 14px;
@@ -989,9 +1041,11 @@ pre {{
         padding: 18px 14px 16px;
     }}
 }}
-</style>
-</head>
-<body>
+"""
+
+
+def render_dashboard_markup(*, generated_at: str, sort_key_options: str, sort_header_cells: str) -> str:
+    return f"""
 <main>
     <h1>Verify Measurement Dashboard</h1>
     <p class="lede">`oj test` を再実行しながら JSON を逐次更新し、テストごとの最遅ケースとケース別実行時間を一覧する。</p>
@@ -1020,12 +1074,7 @@ pre {{
             <span class="control-label">sort</span>
             <div class="control-cluster">
                 <select id="sort-key">
-                    <option value="slowestSec">slowest</option>
-                    <option value="averageSec">average</option>
-                    <option value="compileWallSec">compile</option>
-                    <option value="path">path</option>
-                    <option value="status">status</option>
-                    <option value="maxMemoryMb">memory</option>
+{sort_key_options}
                 </select>
                 <select id="sort-direction">
                     <option value="desc">desc</option>
@@ -1043,20 +1092,20 @@ pre {{
         <table class="dashboard-table">
             <thead>
                 <tr>
-                    <th><button class="sort-button" type="button" data-sort="path" data-label="test"><span class="sort-label">test</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                    <th><button class="sort-button" type="button" data-sort="status" data-label="status"><span class="sort-label">status</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                    <th class="num"><button class="sort-button" type="button" data-sort="compileWallSec" data-label="compile"><span class="sort-label">compile</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                    <th class="num"><button class="sort-button" type="button" data-sort="slowestSec" data-label="slowest"><span class="sort-label">slowest</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                    <th class="num"><button class="sort-button" type="button" data-sort="averageSec" data-label="average"><span class="sort-label">average</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
-                    <th class="num"><button class="sort-button" type="button" data-sort="maxMemoryMb" data-label="memory"><span class="sort-label">memory</span><span class="sort-indicator" aria-hidden="true"></span></button></th>
+{sort_header_cells}
                 </tr>
             </thead>
             <tbody id="rows"></tbody>
         </table>
     </div>
 </main>
-<script>
+"""
+
+
+def render_dashboard_script(*, bootstrap_json: str, json_filename: str) -> str:
+    return f"""
 const jsonUrl = {json.dumps(json_filename)};
+const sortColumns = {json.dumps(SORT_COLUMNS, ensure_ascii=False)};
 let report = {bootstrap_json};
 const rows = document.getElementById("rows");
 const controls = document.getElementById("controls");
@@ -1079,6 +1128,7 @@ let currentDetailTab = "case";
 let currentCaseFilter = "all";
 let currentCaseSort = "timeDesc";
 let pendingReport = null;
+const skeletonRows = 6;
 function fmtSec(value) {{
     return value == null ? "-" : `${{value.toFixed(6)}} s`;
 }}
@@ -1165,28 +1215,42 @@ function normalized(entry, key) {{
 }}
 
 function defaultSortDirection(key) {{
-    return key === "path" || key === "status" ? "asc" : "desc";
+    return sortColumns.find((column) => column.key === key)?.defaultDirection ?? "desc";
 }}
 
 function sortLabel(key) {{
-    if (key === "path") return "path";
-    if (key === "status") return "status";
-    if (key === "compileWallSec") return "compile";
-    if (key === "averageSec") return "average";
-    if (key === "maxMemoryMb") return "memory";
-    return "slowest";
+    return sortColumns.find((column) => column.key === key)?.label ?? "slowest";
 }}
 
 function applyChipState(element, ...states) {{
     element.className = ["chip", ...states.filter(Boolean)].join(" ");
 }}
 
-function syncStickyOffset() {{
-    if (!controls) return;
-    const top = Number.parseFloat(window.getComputedStyle(controls).top) || 0;
-    const gap = 14;
-    document.documentElement.style.setProperty("--controls-top", `${{top}}px`);
-    document.documentElement.style.setProperty("--table-sticky-top", `${{Math.round(top + controls.offsetHeight + gap)}}px`);
+function isLoadingInitialReport(totalTests) {{
+    return report.tests.length === 0 && totalTests > 0;
+}}
+
+function buildLoadingSkeleton() {{
+    return Array.from({{ length: skeletonRows }}, () => `
+        <tr class="skeleton-row" aria-hidden="true">
+            <td>
+                <div class="skeleton-stack">
+                    <span class="skeleton-line"></span>
+                    <span class="skeleton-line mid"></span>
+                </div>
+            </td>
+            <td><span class="skeleton-line short"></span></td>
+            <td><span class="skeleton-line short"></span></td>
+            <td>
+                <div class="skeleton-stack">
+                    <span class="skeleton-line short"></span>
+                    <span class="skeleton-line mid"></span>
+                </div>
+            </td>
+            <td><span class="skeleton-line short"></span></td>
+            <td><span class="skeleton-line short"></span></td>
+        </tr>
+    `).join("");
 }}
 
 function syncSortUi() {{
@@ -1400,6 +1464,7 @@ function render() {{
     }}
     const query = filterInput.value.trim().toLowerCase();
     const totalTests = report.testCount ?? report.tests.length;
+    const loadingInitial = isLoadingInitialReport(totalTests);
     const filtered = report.tests
         .filter((entry) => {{
             const haystack = `${{entry.path}} ${{entry.problem}}`.toLowerCase();
@@ -1419,13 +1484,13 @@ function render() {{
         }});
     ensureSelection(filtered);
     syncSortUi();
-    syncStickyOffset();
 
     if (!filtered.length) {{
-        const emptyMessage = report.tests.length === 0 && totalTests > 0
-            ? "loading dashboard data..."
-            : "current filter に一致する test はない";
-        rows.innerHTML = `<tr><td colspan="6"><div class="empty-state">${{emptyMessage}}</div></td></tr>`;
+        if (loadingInitial) {{
+            rows.innerHTML = buildLoadingSkeleton();
+        }} else {{
+            rows.innerHTML = `<tr><td colspan="6"><div class="empty-state">current filter に一致する test はない</div></td></tr>`;
+        }}
     }} else {{
         rows.innerHTML = filtered.map((entry) => {{
             const slowest = entry.run.parsed.slowestSec;
@@ -1443,7 +1508,7 @@ function render() {{
                         <div class="test-main">
                             <div class="test-head">
                                 <button class="expander${{isSelected ? " is-open" : ""}}" type="button" data-expand-path="${{esc(entry.path)}}" aria-expanded="${{isSelected ? "true" : "false"}}">${{isSelected ? "−" : "+"}}</button>
-                                <div class="path">${{esc(entry.path)}}</div>
+                                <div class="path" title="${{esc(entry.path)}}">${{esc(entry.path)}}</div>
                             </div>
                             <div>${{renderProblem(entry.problem)}}</div>
                         </div>
@@ -1452,7 +1517,7 @@ function render() {{
                     <td class="num" data-label="compile" title="${{fmtSec(entry.compiler.wallSec)}}">${{fmtSecCompact(entry.compiler.wallSec)}}</td>
                     <td class="num" data-label="slowest" title="${{fmtSec(slowest)}}">
                         <div>${{fmtSecCompact(slowest)}}</div>
-                        <div class="muted metric-sub">${{esc(entry.run.parsed.slowestCase ?? "-")}}</div>
+                        <div class="muted metric-sub" title="${{esc(entry.run.parsed.slowestCase ?? "-")}}">${{esc(entry.run.parsed.slowestCase ?? "-")}}</div>
                     </td>
                     <td class="num" data-label="average" title="${{fmtSec(entry.run.parsed.averageSec)}}">${{fmtSecCompact(entry.run.parsed.averageSec)}}</td>
                     <td class="num" data-label="memory" title="${{fmtMb(entry.run.parsed.maxMemoryMb)}}">${{fmtMbCompact(entry.run.parsed.maxMemoryMb)}}</td>
@@ -1471,17 +1536,17 @@ function render() {{
     summaryTotal.textContent = `tests: ${{totalTests}}`;
     summaryProgress.textContent = `done: ${{done}} / running: ${{running}} / pending: ${{pending}}`;
     summaryFailed.textContent = statusFilter.value === "failed" ? `failed: ${{failed}} (filtered)` : `failed: ${{failed}}`;
-    summaryVisible.textContent = `visible: ${{filtered.length}}`;
+    summaryVisible.textContent = loadingInitial ? "visible: loading" : `visible: ${{filtered.length}}`;
     updateLiveChip();
     applyChipState(summaryTotal);
     applyChipState(summaryProgress, running > 0 || pending > 0 ? "is-warn" : "is-ok");
     applyChipState(summaryFailed, "chip-action", failed > 0 ? "is-bad" : "is-ok", statusFilter.value === "failed" ? "is-active" : "");
-    applyChipState(summaryVisible, query || statusFilter.value !== "all" ? "is-active" : "");
+    applyChipState(summaryVisible, loadingInitial || query || statusFilter.value !== "all" ? "is-active" : "");
     summaryFailed.disabled = failed === 0 && statusFilter.value !== "failed";
     summaryFailed.title = statusFilter.value === "failed" ? "clear failed filter" : "show failed tests only";
     resultCount.textContent = filtered.length
         ? `displaying ${{filtered.length}} / ${{totalTests}} tests`
-        : (report.tests.length === 0 && totalTests > 0 ? `loading 0 / ${{totalTests}} tests` : "displaying 0 tests");
+        : (loadingInitial ? `loading dashboard... ${{totalTests}} tests queued` : "displaying 0 tests");
     bindSelection();
     bindDetailTabs();
 }}
@@ -1548,10 +1613,49 @@ sortDirection.addEventListener("change", () => {{
     currentSortDirection = sortDirection.value;
     render();
 }});
-window.addEventListener("resize", syncStickyOffset);
 render();
 refreshReport();
 setInterval(refreshReport, 2000);
+"""
+
+
+def render_html(report: dict[str, Any], *, json_path: pathlib.Path) -> str:
+    bootstrap_json = json.dumps(
+        {
+            "generatedAt": report.get("generatedAt"),
+            "root": report.get("root"),
+            "testCount": report.get("testCount", 0),
+            "summary": report.get("summary", {}),
+            "tests": [],
+        },
+        ensure_ascii=False,
+    )
+    json_filename = json_path.name
+    generated_at = html.escape(report["generatedAt"])
+    title = "verify measurement dashboard"
+    style = render_dashboard_style()
+    sort_key_options = render_sort_key_options()
+    sort_header_cells = render_sort_header_cells()
+    markup = render_dashboard_markup(
+        generated_at=generated_at,
+        sort_key_options=sort_key_options,
+        sort_header_cells=sort_header_cells,
+    )
+    script = render_dashboard_script(bootstrap_json=bootstrap_json, json_filename=json_filename)
+    return f"""<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<style>
+{style}
+</style>
+</head>
+<body>
+{markup}
+<script>
+{script}
 </script>
 </body>
 </html>
