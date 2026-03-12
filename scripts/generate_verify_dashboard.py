@@ -74,6 +74,12 @@ def parse_args() -> argparse.Namespace:
         help="oj test -j value for each measured test",
     )
     parser.add_argument(
+        "--compile-jobs",
+        type=int,
+        default=1,
+        help="number of compilations to run in parallel",
+    )
+    parser.add_argument(
         "--keep-going",
         action="store_true",
         help="continue even if some tests fail to compile or run",
@@ -269,7 +275,7 @@ def ensure_testcases(problem_url: str, *, testcase_dir: pathlib.Path) -> None:
         raise RuntimeError(f"downloaded testcase directory is empty: {testcase_dir}")
 
 
-def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int) -> dict[str, Any]:
+def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int, compile_slots: threading.Semaphore) -> dict[str, Any]:
     relative_path = path.resolve().relative_to(ROOT)
     language = onlinejudge_verify.languages.list.get(relative_path)
     if language is None:
@@ -296,11 +302,12 @@ def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int) -> dict[str, A
         raise RuntimeError(f"no compiler environment found: {relative_path}")
     environment = environments[0]
 
-    compile_started_at = time.perf_counter()
     with tempfile.TemporaryDirectory(prefix="verify-dashboard-", dir=cache_dir) as tempdir_str:
         tempdir = pathlib.Path(tempdir_str)
-        environment.compile(relative_path, basedir=ROOT, tempdir=tempdir)
-        compile_wall_sec = time.perf_counter() - compile_started_at
+        with compile_slots:
+            compile_started_at = time.perf_counter()
+            environment.compile(relative_path, basedir=ROOT, tempdir=tempdir)
+            compile_wall_sec = time.perf_counter() - compile_started_at
 
         execute = environment.get_execute_command(relative_path, basedir=ROOT, tempdir=tempdir)
         command = ["oj", "test", "-c", shlex.join(execute), "-d", str(testcase_dir), "--tle", str(tle)]
@@ -417,13 +424,16 @@ h1 {{
 .table-wrap {{
     border: 1px solid var(--line);
     border-radius: 22px;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     background: rgba(255, 253, 248, 0.9);
     box-shadow: 0 16px 40px rgba(76, 52, 24, 0.08);
 }}
 table {{
     width: 100%;
+    min-width: 1120px;
     border-collapse: collapse;
+    table-layout: fixed;
 }}
 thead {{
     background: var(--panel-2);
@@ -448,9 +458,11 @@ tbody tr:hover {{
 .path {{
     font-family: "Iosevka Web", "SFMono-Regular", monospace;
     font-size: 13px;
+    overflow-wrap: anywhere;
 }}
 .muted {{
     color: var(--muted);
+    overflow-wrap: anywhere;
 }}
 .status-ok {{ color: var(--ok); font-weight: 700; }}
 .status-bad {{ color: var(--bad); font-weight: 700; }}
@@ -470,17 +482,42 @@ tbody tr:hover {{
     background: linear-gradient(90deg, #d97706, var(--accent));
 }}
 details {{
-    margin-top: 10px;
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(240, 231, 216, 0.45);
 }}
 summary {{
+    display: block;
     cursor: pointer;
     color: var(--accent);
+    font-weight: 700;
+    padding: 10px 12px;
+}}
+.detail-stack {{
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+}}
+.detail-meta {{
+    margin-bottom: 2px;
+}}
+.detail-body {{
+    padding: 0 12px 12px;
+}}
+.detail-body > :first-child {{
+    margin-top: 0;
+}}
+.detail-body > :last-child {{
+    margin-bottom: 0;
 }}
 .case-table {{
-    margin-top: 12px;
+    width: 100%;
     border: 1px solid var(--line);
     border-radius: 14px;
     overflow: hidden;
+    background: rgba(255, 253, 248, 0.88);
+    table-layout: auto;
 }}
 .case-table th,
 .case-table td {{
@@ -492,19 +529,38 @@ pre {{
     word-break: break-word;
     background: #201d18;
     color: #f8f3ea;
-    padding: 14px;
+    padding: 12px 14px;
     border-radius: 14px;
     overflow: auto;
 }}
+.dashboard-table > thead > tr > th:nth-child(1),
+.dashboard-table > tbody > tr > td:nth-child(1) {{
+    width: 28%;
+}}
+.dashboard-table > thead > tr > th:nth-child(2),
+.dashboard-table > tbody > tr > td:nth-child(2) {{
+    width: 10%;
+}}
+.dashboard-table > thead > tr > th:nth-child(3),
+.dashboard-table > tbody > tr > td:nth-child(3),
+.dashboard-table > thead > tr > th:nth-child(4),
+.dashboard-table > tbody > tr > td:nth-child(4),
+.dashboard-table > thead > tr > th:nth-child(5),
+.dashboard-table > tbody > tr > td:nth-child(5),
+.dashboard-table > thead > tr > th:nth-child(6),
+.dashboard-table > tbody > tr > td:nth-child(6) {{
+    width: 11%;
+}}
+.dashboard-table > thead > tr > th:nth-child(7),
+.dashboard-table > tbody > tr > td:nth-child(7) {{
+    width: 29%;
+}}
 @media (max-width: 860px) {{
+    main {{
+        padding-inline: 14px;
+    }}
     .controls {{
         grid-template-columns: 1fr;
-    }}
-    th:nth-child(3),
-    td:nth-child(3),
-    th:nth-child(6),
-    td:nth-child(6) {{
-        display: none;
     }}
     .bar {{
         width: 120px;
@@ -537,7 +593,7 @@ pre {{
         </select>
     </div>
     <div class="table-wrap">
-        <table>
+        <table class="dashboard-table">
             <thead>
                 <tr>
                     <th><button data-sort="path">test</button></th>
@@ -692,15 +748,19 @@ function render() {{
                 <td>${{fmtSec(entry.run.parsed.averageSec)}}</td>
                 <td>${{fmtMb(entry.run.parsed.maxMemoryMb)}}</td>
                 <td>
-                    <div class="muted">${{entry.run.parsed.caseCount}} cases / cached ${{entry.testcases.cachedCaseCount}}</div>
-                    <details data-entry-path="${{esc(entry.path)}}" data-detail-kind="case"${{detailOpenAttr(entry.path, "case")}}>
-                        <summary>case detail</summary>
-                        ${{buildCaseTable(entry)}}
-                    </details>
-                    <details data-entry-path="${{esc(entry.path)}}" data-detail-kind="raw"${{detailOpenAttr(entry.path, "raw")}}>
-                        <summary>raw log</summary>
-                        <pre>${{esc(entry.run.output)}}</pre>
-                    </details>
+                    <div class="detail-stack">
+                        <div class="muted detail-meta">${{entry.run.parsed.caseCount}} cases / cached ${{entry.testcases.cachedCaseCount}}</div>
+                        <details data-entry-path="${{esc(entry.path)}}" data-detail-kind="case"${{detailOpenAttr(entry.path, "case")}}>
+                            <summary>case detail</summary>
+                            <div class="detail-body">${{buildCaseTable(entry)}}</div>
+                        </details>
+                        <details data-entry-path="${{esc(entry.path)}}" data-detail-kind="raw"${{detailOpenAttr(entry.path, "raw")}}>
+                            <summary>raw log</summary>
+                            <div class="detail-body">
+                                <pre>${{esc(entry.run.output)}}</pre>
+                            </div>
+                        </details>
+                    </div>
                 </td>
             </tr>
         `;
@@ -762,22 +822,36 @@ def main() -> int:
         raise ValueError("--jobs must be positive")
     if args.oj_jobs <= 0:
         raise ValueError("--oj-jobs must be positive")
+    if args.compile_jobs <= 0:
+        raise ValueError("--compile-jobs must be positive")
     if not tests:
         print(f"json: {args.json_path.relative_to(ROOT)}")
         print(f"html: {args.html_path.relative_to(ROOT)}")
         return 0
 
     worker_count = min(args.jobs, len(tests))
+    compile_worker_count = min(args.compile_jobs, worker_count)
+    compile_slots = threading.Semaphore(compile_worker_count)
     next_index = 0
     futures: dict[concurrent.futures.Future[dict[str, Any]], int] = {}
 
     def submit_one(executor: concurrent.futures.Executor, index: int) -> None:
         report_tests[index]["phase"] = "running"
-        future = executor.submit(run_one_test, tests[index], tle=args.tle, oj_jobs=args.oj_jobs)
+        future = executor.submit(
+            run_one_test,
+            tests[index],
+            tle=args.tle,
+            oj_jobs=args.oj_jobs,
+            compile_slots=compile_slots,
+        )
         futures[future] = index
 
     try:
         with concurrent.futures.ThreadPoolExecutor(max_workers=worker_count) as executor:
+            print(
+                f"parallel tests={worker_count}, compile slots={compile_worker_count}, oj jobs/test={args.oj_jobs}",
+                flush=True,
+            )
             while next_index < len(tests) and len(futures) < worker_count:
                 submit_one(executor, next_index)
                 next_index += 1

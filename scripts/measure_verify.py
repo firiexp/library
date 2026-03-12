@@ -20,6 +20,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("paths", nargs="*", help="verification test paths; omit to run all")
     parser.add_argument("-j", "--jobs", type=int, default=DEFAULT_WORKERS, help="number of tests to measure in parallel")
+    parser.add_argument("--compile-jobs", type=int, default=1, help="number of compilations to run in parallel")
     parser.add_argument("--oj-jobs", type=int, default=1, help="oj test -j value for each measured test")
     parser.add_argument("--tle", type=float, default=60.0, help="oj test --tle value")
     parser.add_argument("--skip-self-check", action="store_true", help="skip scripts/codex_self_check.py")
@@ -56,6 +57,8 @@ def main() -> int:
         str(args.tle),
         "-j",
         str(args.jobs),
+        "--compile-jobs",
+        str(args.compile_jobs),
         "--oj-jobs",
         str(args.oj_jobs),
         *args.paths,
