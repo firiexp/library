@@ -50,7 +50,7 @@ python3 -m http.server -d .verify-helper 8000
 python3 scripts/measure_verify.py
 ```
 
-先に `http://127.0.0.1:8000/measure-dashboard.html` を開いておけば、`python3 scripts/measure_verify.py` の実行中に 2 秒ごとに自動更新される。更新中も開いていた `details` は維持する。
+先に `http://127.0.0.1:8000/measure-dashboard.html` を開いておけば、`python3 scripts/measure_verify.py` の実行中に 2 秒ごとに自動更新される。更新中も選択中 test と detail tab は維持する。
 
 単体確認なら次でよい。
 
@@ -64,5 +64,5 @@ python3 scripts/measure_verify.py test/aoj0273.test.cpp
 - テストごとの最遅ケース時間
 - 平均時間
 - メモリ使用量
-- ケースごとの実行時間
-- `oj test` の生ログ
+- 選択中 test のケースごとの実行時間
+- 選択中 test の `oj test` 生ログ

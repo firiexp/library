@@ -361,6 +361,7 @@ def render_html(report: dict[str, Any], *, json_path: pathlib.Path) -> str:
     --bg: #f6f3ee;
     --panel: #fffdf8;
     --panel-2: #f0e7d8;
+    --panel-3: #f7efe2;
     --line: #d8ccb8;
     --text: #1f1d1a;
     --muted: #685f54;
@@ -379,7 +380,7 @@ body {{
         linear-gradient(180deg, #f9f5ed 0%, var(--bg) 100%);
 }}
 main {{
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 32px 20px 80px;
 }}
@@ -421,6 +422,13 @@ h1 {{
     background: var(--panel);
     color: var(--text);
 }}
+.result-meta {{
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}}
 .table-wrap {{
     border: 1px solid var(--line);
     border-radius: 22px;
@@ -431,7 +439,7 @@ h1 {{
 }}
 table {{
     width: 100%;
-    min-width: 1120px;
+    min-width: 920px;
     border-collapse: collapse;
     table-layout: fixed;
 }}
@@ -455,10 +463,62 @@ th button {{
 tbody tr:hover {{
     background: rgba(154, 52, 18, 0.04);
 }}
+.dashboard-row {{
+    cursor: pointer;
+    transition: background-color 120ms ease, box-shadow 120ms ease;
+}}
+.dashboard-row.is-selected {{
+    background: rgba(154, 52, 18, 0.1);
+    box-shadow: inset 4px 0 0 var(--accent);
+}}
+.dashboard-row.is-selected:hover {{
+    background: rgba(154, 52, 18, 0.12);
+}}
+.dashboard-row:focus-visible {{
+    outline: 2px solid rgba(154, 52, 18, 0.35);
+    outline-offset: -2px;
+}}
+.test-main {{
+    display: grid;
+    gap: 6px;
+}}
+.test-head {{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}}
+.expander {{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(255, 253, 248, 0.82);
+    flex: none;
+}}
+.expander.is-open {{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff7ed;
+}}
 .path {{
     font-family: "Iosevka Web", "SFMono-Regular", monospace;
     font-size: 13px;
     overflow-wrap: anywhere;
+}}
+.problem-link {{
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(154, 52, 18, 0.35);
+    text-underline-offset: 0.15em;
+}}
+.problem-link:hover {{
+    color: var(--accent);
 }}
 .muted {{
     color: var(--muted);
@@ -467,49 +527,75 @@ tbody tr:hover {{
 .status-ok {{ color: var(--ok); font-weight: 700; }}
 .status-bad {{ color: var(--bad); font-weight: 700; }}
 .status-warn {{ color: var(--warn); font-weight: 700; }}
-.bar {{
-    width: 160px;
-    height: 10px;
-    background: #eadfce;
-    border-radius: 999px;
-    overflow: hidden;
-    margin-top: 6px;
+.empty-state {{
+    padding: 24px 18px;
+    color: var(--muted);
 }}
-.bar > span {{
-    display: block;
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, #d97706, var(--accent));
+.detail-row > td {{
+    padding: 0;
+    border-bottom: 1px solid var(--line);
 }}
-details {{
+.detail-panel {{
     margin: 0;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background: rgba(240, 231, 216, 0.45);
+    padding: 22px 20px 20px;
+    background: rgba(255, 249, 240, 0.96);
 }}
-summary {{
-    display: block;
-    cursor: pointer;
-    color: var(--accent);
-    font-weight: 700;
-    padding: 10px 12px;
-}}
-.detail-stack {{
+.detail-head {{
     display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: start;
+    margin-bottom: 16px;
+}}
+.eyebrow {{
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}}
+.detail-title {{
+    margin: 6px 0 0;
+    font-size: clamp(20px, 3vw, 30px);
+    line-height: 1.1;
+}}
+.detail-head-side {{
+    min-width: min(100%, 260px);
+}}
+.detail-chips {{
+    display: flex;
     gap: 10px;
-    min-width: 0;
+    flex-wrap: wrap;
 }}
-.detail-meta {{
-    margin-bottom: 2px;
+.detail-tabs {{
+    display: inline-flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
 }}
-.detail-body {{
-    padding: 0 12px 12px;
+.detail-tab {{
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--muted);
+    padding: 9px 14px;
+    font: inherit;
+    cursor: pointer;
 }}
-.detail-body > :first-child {{
-    margin-top: 0;
+.detail-tab.is-active {{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff7ed;
 }}
-.detail-body > :last-child {{
-    margin-bottom: 0;
+.detail-content {{
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--panel-3);
+    padding: 18px;
+}}
+.detail-block-title {{
+    margin: 0 0 12px;
+    font-size: 15px;
 }}
 .case-table {{
     width: 100%;
@@ -535,7 +621,7 @@ pre {{
 }}
 .dashboard-table > thead > tr > th:nth-child(1),
 .dashboard-table > tbody > tr > td:nth-child(1) {{
-    width: 28%;
+    width: 34%;
 }}
 .dashboard-table > thead > tr > th:nth-child(2),
 .dashboard-table > tbody > tr > td:nth-child(2) {{
@@ -549,11 +635,7 @@ pre {{
 .dashboard-table > tbody > tr > td:nth-child(5),
 .dashboard-table > thead > tr > th:nth-child(6),
 .dashboard-table > tbody > tr > td:nth-child(6) {{
-    width: 11%;
-}}
-.dashboard-table > thead > tr > th:nth-child(7),
-.dashboard-table > tbody > tr > td:nth-child(7) {{
-    width: 29%;
+    width: 12%;
 }}
 @media (max-width: 860px) {{
     main {{
@@ -562,8 +644,14 @@ pre {{
     .controls {{
         grid-template-columns: 1fr;
     }}
-    .bar {{
-        width: 120px;
+    .result-meta {{
+        flex-direction: column;
+    }}
+    .detail-head {{
+        grid-template-columns: 1fr;
+    }}
+    .detail-panel {{
+        padding: 18px 14px 16px;
     }}
 }}
 </style>
@@ -577,6 +665,7 @@ pre {{
         <div class="chip" id="summary-total"></div>
         <div class="chip" id="summary-progress"></div>
         <div class="chip" id="summary-failed"></div>
+        <div class="chip" id="summary-visible"></div>
     </div>
     <div class="controls">
         <input id="filter" type="search" placeholder="test path / url で絞り込み">
@@ -592,6 +681,10 @@ pre {{
             <option value="path">sort: path</option>
         </select>
     </div>
+    <div class="result-meta">
+        <div class="muted" id="result-count"></div>
+        <div class="muted">test row をクリックすると detail を展開する</div>
+    </div>
     <div class="table-wrap">
         <table class="dashboard-table">
             <thead>
@@ -602,7 +695,6 @@ pre {{
                     <th><button data-sort="slowestSec">slowest</button></th>
                     <th><button data-sort="averageSec">average</button></th>
                     <th><button data-sort="maxMemoryMb">memory</button></th>
-                    <th>details</th>
                 </tr>
             </thead>
             <tbody id="rows"></tbody>
@@ -620,8 +712,11 @@ const summaryGenerated = document.getElementById("summary-generated");
 const summaryTotal = document.getElementById("summary-total");
 const summaryProgress = document.getElementById("summary-progress");
 const summaryFailed = document.getElementById("summary-failed");
+const summaryVisible = document.getElementById("summary-visible");
+const resultCount = document.getElementById("result-count");
 let currentSort = "slowestSec";
-const openDetails = new Map();
+let selectedPath = null;
+let currentDetailTab = "case";
 
 function fmtSec(value) {{
     return value == null ? "-" : `${{value.toFixed(6)}} s`;
@@ -637,6 +732,12 @@ function esc(value) {{
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;");
+}}
+
+function renderProblem(problem) {{
+    if (!problem) return `<span class="muted">problem url is unavailable</span>`;
+    const url = esc(problem);
+    return `<a class="problem-link muted" href="${{url}}" target="_blank" rel="noreferrer noopener">${{url}}</a>`;
 }}
 
 function statusClass(entry) {{
@@ -670,6 +771,7 @@ function buildCaseTable(entry) {{
     const cases = entry.run.parsed.cases;
     if (!cases.length) return "<div class=\\"muted\\">case detail is unavailable</div>";
     return `
+        <h3 class="detail-block-title">case detail</h3>
         <table class="case-table">
             <thead>
                 <tr><th>case</th><th>time</th><th>status</th></tr>
@@ -687,30 +789,83 @@ function buildCaseTable(entry) {{
     `;
 }}
 
-function detailStateKey(path, kind) {{
-    return `${{path}}::${{kind}}`;
+function buildRawLog(entry) {{
+    if (!entry.run.output) return "<div class=\\"muted\\">raw log is unavailable</div>";
+    return `
+        <h3 class="detail-block-title">raw log</h3>
+        <pre>${{esc(entry.run.output)}}</pre>
+    `;
 }}
 
-function rememberOpenDetails() {{
-    rows.querySelectorAll("details[data-entry-path][data-detail-kind]").forEach((detail) => {{
-        openDetails.set(detailStateKey(detail.dataset.entryPath, detail.dataset.detailKind), detail.open);
+function findEntry(path) {{
+    return report.tests.find((entry) => entry.path === path) ?? null;
+}}
+
+function ensureSelection(filtered) {{
+    if (!filtered.length || selectedPath == null) return null;
+    if (filtered.some((entry) => entry.path === selectedPath)) return findEntry(selectedPath);
+    selectedPath = null;
+    return null;
+}}
+
+function bindSelection() {{
+    rows.querySelectorAll("tr[data-entry-path]").forEach((row) => {{
+        const select = () => {{
+            selectedPath = selectedPath === row.dataset.entryPath ? null : row.dataset.entryPath;
+            render();
+        }};
+        row.addEventListener("click", select);
+        row.addEventListener("keydown", (event) => {{
+            if (event.key === "Enter" || event.key === " ") {{
+                event.preventDefault();
+                select();
+            }}
+        }});
     }});
 }}
 
-function detailOpenAttr(path, kind) {{
-    return openDetails.get(detailStateKey(path, kind)) ? " open" : "";
+function buildDetailPanel(entry) {{
+    const chips = [
+        `<div class="chip ${{statusClass(entry)}}">status: ${{statusLabel(entry)}}</div>`,
+        `<div class="chip">compile: ${{fmtSec(entry.compiler.wallSec)}}</div>`,
+        `<div class="chip">slowest: ${{fmtSec(entry.run.parsed.slowestSec)}}</div>`,
+        `<div class="chip">average: ${{fmtSec(entry.run.parsed.averageSec)}}</div>`,
+        `<div class="chip">memory: ${{fmtMb(entry.run.parsed.maxMemoryMb)}}</div>`,
+        `<div class="chip">cases: ${{entry.run.parsed.caseCount}} / cached ${{entry.testcases.cachedCaseCount}}</div>`,
+    ].join("");
+    const content = currentDetailTab === "raw" ? buildRawLog(entry) : buildCaseTable(entry);
+    return `
+        <div class="detail-panel">
+            <div class="detail-head">
+                <div>
+                    <div class="eyebrow">expanded test</div>
+                    <h2 class="detail-title">${{esc(entry.path)}}</h2>
+                    <div>${{renderProblem(entry.problem)}}</div>
+                </div>
+                <div class="detail-head-side">
+                    <div class="detail-chips">${{chips}}</div>
+                </div>
+            </div>
+            <div class="detail-tabs">
+                <button class="detail-tab${{currentDetailTab === "case" ? " is-active" : ""}}" type="button" data-detail-tab="case">case detail</button>
+                <button class="detail-tab${{currentDetailTab === "raw" ? " is-active" : ""}}" type="button" data-detail-tab="raw">raw log</button>
+            </div>
+            <div class="detail-content">${{content}}</div>
+        </div>
+    `;
 }}
 
-function bindDetailState() {{
-    rows.querySelectorAll("details[data-entry-path][data-detail-kind]").forEach((detail) => {{
-        detail.addEventListener("toggle", () => {{
-            openDetails.set(detailStateKey(detail.dataset.entryPath, detail.dataset.detailKind), detail.open);
+function bindDetailTabs() {{
+    rows.querySelectorAll("[data-detail-tab]").forEach((button) => {{
+        button.addEventListener("click", (event) => {{
+            event.stopPropagation();
+            currentDetailTab = button.dataset.detailTab;
+            render();
         }});
     }});
 }}
 
 function render() {{
-    rememberOpenDetails();
     const query = filterInput.value.trim().toLowerCase();
     const filtered = report.tests
         .filter((entry) => {{
@@ -728,43 +883,38 @@ function render() {{
             }}
             return b - a;
         }});
+    ensureSelection(filtered);
 
-    const peak = Math.max(0.000001, ...filtered.map((entry) => entry.run.parsed.slowestSec ?? 0));
-    rows.innerHTML = filtered.map((entry) => {{
-        const slowest = entry.run.parsed.slowestSec;
-        const barWidth = slowest == null ? 0 : (slowest / peak) * 100;
-        return `
-            <tr>
-                <td>
-                    <div class="path">${{esc(entry.path)}}</div>
-                    <div class="muted">${{esc(entry.problem)}}</div>
-                </td>
-                <td><span class="${{statusClass(entry)}}">${{statusLabel(entry)}}</span></td>
-                <td>${{fmtSec(entry.compiler.wallSec)}}</td>
-                <td>
-                    <div>${{fmtSec(slowest)}}</div>
-                    <div class="bar"><span style="width:${{barWidth}}%"></span></div>
-                </td>
-                <td>${{fmtSec(entry.run.parsed.averageSec)}}</td>
-                <td>${{fmtMb(entry.run.parsed.maxMemoryMb)}}</td>
-                <td>
-                    <div class="detail-stack">
-                        <div class="muted detail-meta">${{entry.run.parsed.caseCount}} cases / cached ${{entry.testcases.cachedCaseCount}}</div>
-                        <details data-entry-path="${{esc(entry.path)}}" data-detail-kind="case"${{detailOpenAttr(entry.path, "case")}}>
-                            <summary>case detail</summary>
-                            <div class="detail-body">${{buildCaseTable(entry)}}</div>
-                        </details>
-                        <details data-entry-path="${{esc(entry.path)}}" data-detail-kind="raw"${{detailOpenAttr(entry.path, "raw")}}>
-                            <summary>raw log</summary>
-                            <div class="detail-body">
-                                <pre>${{esc(entry.run.output)}}</pre>
+    if (!filtered.length) {{
+        rows.innerHTML = `<tr><td colspan="6"><div class="empty-state">current filter に一致する test はない</div></td></tr>`;
+    }} else {{
+        rows.innerHTML = filtered.map((entry) => {{
+            const slowest = entry.run.parsed.slowestSec;
+            const isSelected = selectedPath === entry.path;
+            return `
+                <tr class="dashboard-row${{isSelected ? " is-selected" : ""}}" data-entry-path="${{esc(entry.path)}}" tabindex="0" aria-selected="${{isSelected ? "true" : "false"}}">
+                    <td>
+                        <div class="test-main">
+                            <div class="test-head">
+                                <span class="expander${{isSelected ? " is-open" : ""}}">${{isSelected ? "−" : "+"}}</span>
+                                <div class="path">${{esc(entry.path)}}</div>
                             </div>
-                        </details>
-                    </div>
-                </td>
-            </tr>
-        `;
-    }}).join("");
+                            <div>${{renderProblem(entry.problem)}}</div>
+                        </div>
+                    </td>
+                    <td><span class="${{statusClass(entry)}}">${{statusLabel(entry)}}</span></td>
+                    <td>${{fmtSec(entry.compiler.wallSec)}}</td>
+                    <td>
+                        <div>${{fmtSec(slowest)}}</div>
+                        <div class="muted">${{esc(entry.run.parsed.slowestCase ?? "-")}}</div>
+                    </td>
+                    <td>${{fmtSec(entry.run.parsed.averageSec)}}</td>
+                    <td>${{fmtMb(entry.run.parsed.maxMemoryMb)}}</td>
+                </tr>
+                ${{isSelected ? `<tr class="detail-row"><td colspan="6">${{buildDetailPanel(entry)}}</td></tr>` : ""}}
+            `;
+        }}).join("");
+    }}
 
     const summary = report.summary ?? {{}};
     const failed = summary.failed ?? report.tests.filter((entry) => !entry.run.ok && entry.phase !== "pending" && entry.phase !== "running").length;
@@ -772,7 +922,10 @@ function render() {{
     summaryTotal.textContent = `tests: ${{report.tests.length}}`;
     summaryProgress.textContent = `done: ${{summary.done ?? 0}} / running: ${{summary.running ?? 0}} / pending: ${{summary.pending ?? 0}}`;
     summaryFailed.textContent = `failed: ${{failed}}`;
-    bindDetailState();
+    summaryVisible.textContent = `visible: ${{filtered.length}}`;
+    resultCount.textContent = filtered.length ? `displaying ${{filtered.length}} / ${{report.tests.length}} tests` : "displaying 0 tests";
+    bindSelection();
+    bindDetailTabs();
 }}
 
 let refreshLock = false;
