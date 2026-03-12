@@ -2,18 +2,22 @@ using namespace std;
 
 class DynamicBitset {
     static constexpr int B = 64;
+    using Word = unsigned long long;
 
     int n;
-    vector<ull> a;
+    vector<Word> a;
 
-    static int popcount(ull x) {
+    static int popcount(Word x) {
         return __builtin_popcountll(x);
     }
-    static int ctz(ull x) {
+    static int ctz(Word x) {
         return __builtin_ctzll(x);
     }
+    static int clz(Word x) {
+        return __builtin_clzll(x);
+    }
 
-    ull tail_mask() const {
+    Word tail_mask() const {
         int rem = n & (B - 1);
         return rem ? ((1ULL << rem) - 1) : ~0ULL;
     }
@@ -84,14 +88,33 @@ public:
         }
         return -1;
     }
+    int find_last() const {
+        for (int i = (int)a.size() - 1; i >= 0; --i) {
+            if (a[i]) return (i << 6) + (B - 1 - clz(a[i]));
+        }
+        return -1;
+    }
     int find_next(int k) const {
         ++k;
         if (k >= n) return -1;
         int i = k >> 6;
-        ull x = a[i] & (~0ULL << (k & 63));
+        Word x = a[i] & (~0ULL << (k & 63));
         if (x) return (i << 6) + ctz(x);
         for (++i; i < (int)a.size(); ++i) {
             if (a[i]) return (i << 6) + ctz(a[i]);
+        }
+        return -1;
+    }
+    int find_prev(int k) const {
+        --k;
+        if (k < 0) return -1;
+        int i = k >> 6;
+        int rem = k & 63;
+        Word mask = rem == B - 1 ? ~0ULL : ((1ULL << (rem + 1)) - 1);
+        Word x = a[i] & mask;
+        if (x) return (i << 6) + (B - 1 - clz(x));
+        for (--i; i >= 0; --i) {
+            if (a[i]) return (i << 6) + (B - 1 - clz(a[i]));
         }
         return -1;
     }
@@ -121,12 +144,20 @@ public:
             return *this;
         }
         int block = s >> 6, rem = s & 63;
-        vector<ull> b(a.size(), 0);
-        for (int i = (int)a.size() - 1; i >= block; --i) {
-            b[i] |= a[i - block] << rem;
-            if (rem && i - block - 1 >= 0) b[i] |= a[i - block - 1] >> (B - rem);
+        if (rem == 0) {
+            for (int i = (int)a.size() - 1; i >= 0; --i) {
+                a[i] = i >= block ? a[i - block] : 0;
+            }
+        } else {
+            for (int i = (int)a.size() - 1; i >= 0; --i) {
+                Word x = 0;
+                if (i >= block) {
+                    x = a[i - block] << rem;
+                    if (i - block - 1 >= 0) x |= a[i - block - 1] >> (B - rem);
+                }
+                a[i] = x;
+            }
         }
-        a.swap(b);
         normalize();
         return *this;
     }
@@ -137,12 +168,20 @@ public:
             return *this;
         }
         int block = s >> 6, rem = s & 63;
-        vector<ull> b(a.size(), 0);
-        for (int i = 0; i + block < (int)a.size(); ++i) {
-            b[i] |= a[i + block] >> rem;
-            if (rem && i + block + 1 < (int)a.size()) b[i] |= a[i + block + 1] << (B - rem);
+        if (rem == 0) {
+            for (int i = 0; i < (int)a.size(); ++i) {
+                a[i] = i + block < (int)a.size() ? a[i + block] : 0;
+            }
+        } else {
+            for (int i = 0; i < (int)a.size(); ++i) {
+                Word x = 0;
+                if (i + block < (int)a.size()) {
+                    x = a[i + block] >> rem;
+                    if (i + block + 1 < (int)a.size()) x |= a[i + block + 1] << (B - rem);
+                }
+                a[i] = x;
+            }
         }
-        a.swap(b);
         normalize();
         return *this;
     }

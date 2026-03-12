@@ -4,14 +4,13 @@ class CHT {
     deque<P> lines;
 public:
     CHT() = default;
-    int sgn(T x) { return x == 0 ? 0 : (x > 0 ? 1 : -1); }
     bool check(P l1, P l2, P l3){
-        if(l1.second == l2.second || l2.second == l3.second){
-            return sgn(l1.first - l2.first)*sgn(l2.second - l3.second)
-                >= sgn(l2.first - l3.first)*sgn(l1.second - l2.second);
-        }else {
-            return (l1.first - l2.first)*sgn(l2.second - l3.second)/ static_cast<long double>(abs(l1.second - l2.second))
-                   >= (l2.first - l3.first)*sgn(l1.second - l2.second)/ static_cast<long double>(abs(l2.second - l3.second));
+        if constexpr (is_integral_v<T>) {
+            return (((__int128)l2.second - l1.second) * ((__int128)l2.first - l3.first)
+                 >= ((__int128)l3.second - l2.second) * ((__int128)l1.first - l2.first));
+        } else {
+            return ((static_cast<long double>(l2.second) - l1.second) * (static_cast<long double>(l2.first) - l3.first)
+                 >= (static_cast<long double>(l3.second) - l2.second) * (static_cast<long double>(l1.first) - l2.first));
         }
     }
 

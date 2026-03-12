@@ -27,8 +27,12 @@ tags: データ構造
   1 の個数を返す
 - `int find_first() const`
   最初に立っている bit の位置を返す。なければ `-1`
+- `int find_last() const`
+  最後に立っている bit の位置を返す。なければ `-1`
 - `int find_next(int k) const`
   `k` より右で最初に立っている bit の位置を返す。なければ `-1`
+- `int find_prev(int k) const`
+  `k` より左で最初に立っている bit の位置を返す。なければ `-1`
 - `bs &= other`, `bs |= other`, `bs ^= other`
   bitset 同士の演算をその場で行う
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`
@@ -36,4 +40,9 @@ tags: データ構造
 
 ## 使い方
 長さが同じ bitset 同士で演算する。
-`find_first`, `find_next` を使うと立っている bit だけを走査できる。
+`find_first`, `find_next` を使うと立っている bit だけを前から走査できる。
+`find_last`, `find_prev` を使うと後ろからも走査できる。
+
+## 実装上の補足
+shift はブロック列をその場でずらす。
+`find_*` は `ctz` / `clz` を使って立っている bit を探す。
