@@ -43,6 +43,7 @@ int main() {
     }
 
     ImplicitTreap<AffineSumMonoid> tr(init);
+    tr.reserve(n + q);
     while (q--) {
         int t;
         sc.read(t);

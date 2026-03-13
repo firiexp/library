@@ -28,7 +28,7 @@ struct ImplicitTreap {
     }
 
     int size() const {
-        return subtree_size(root);
+        return root == -1 ? 0 : nodes[root].sz;
     }
 
     bool empty() const {
@@ -85,12 +85,12 @@ struct ImplicitTreap {
     void set(int k, const T &x) {
         auto [a, bc] = split(root, k);
         auto [b, c] = split(bc, 1);
-        nodes[b].val = x;
-        nodes[b].sum = x;
-        nodes[b].rsum = x;
-        nodes[b].rev = false;
-        nodes[b].has_lazy = false;
-        nodes[b].lazy = M::l();
+        Node &node = nodes[b];
+        node.val = x;
+        node.sum = x;
+        node.rsum = x;
+        node.rev = false;
+        node.has_lazy = false;
         pull(b);
         root = merge(merge(a, b), c);
     }
@@ -115,10 +115,6 @@ struct ImplicitTreap {
     }
 
 private:
-    int subtree_size(int x) const {
-        return x == -1 ? 0 : nodes[x].sz;
-    }
-
     unsigned next_rand() {
         rng_state ^= rng_state << 7;
         rng_state ^= rng_state >> 9;
@@ -175,53 +171,56 @@ private:
 
     void apply_node(int x, const L &lazy) {
         if (x == -1) return;
-        nodes[x].val = M::g(nodes[x].val, lazy);
-        nodes[x].sum = M::g(nodes[x].sum, lazy);
-        nodes[x].rsum = M::g(nodes[x].rsum, lazy);
-        if (nodes[x].has_lazy) nodes[x].lazy = M::h(nodes[x].lazy, lazy);
+        Node &node = nodes[x];
+        node.val = M::g(node.val, lazy);
+        node.sum = M::g(node.sum, lazy);
+        node.rsum = M::g(node.rsum, lazy);
+        if (node.has_lazy) node.lazy = M::h(node.lazy, lazy);
         else {
-            nodes[x].lazy = lazy;
-            nodes[x].has_lazy = true;
+            node.lazy = lazy;
+            node.has_lazy = true;
         }
     }
 
     void toggle(int x) {
         if (x == -1) return;
-        swap(nodes[x].l, nodes[x].r);
-        swap(nodes[x].sum, nodes[x].rsum);
-        nodes[x].rev ^= 1;
+        Node &node = nodes[x];
+        swap(node.l, node.r);
+        swap(node.sum, node.rsum);
+        node.rev ^= 1;
     }
 
     void push(int x) {
         if (x == -1) return;
-        if (nodes[x].rev) {
-            toggle(nodes[x].l);
-            toggle(nodes[x].r);
-            nodes[x].rev = false;
+        Node &node = nodes[x];
+        if (node.rev) {
+            toggle(node.l);
+            toggle(node.r);
+            node.rev = false;
         }
-        if (nodes[x].has_lazy) {
-            apply_node(nodes[x].l, nodes[x].lazy);
-            apply_node(nodes[x].r, nodes[x].lazy);
-            nodes[x].has_lazy = false;
-            nodes[x].lazy = M::l();
+        if (node.has_lazy) {
+            apply_node(node.l, node.lazy);
+            apply_node(node.r, node.lazy);
+            node.has_lazy = false;
         }
     }
 
     void pull(int x) {
-        nodes[x].sz = 1;
-        nodes[x].sum = nodes[x].val;
-        nodes[x].rsum = nodes[x].val;
-        if (nodes[x].l != -1) {
-            int y = nodes[x].l;
-            nodes[x].sz += nodes[y].sz;
-            nodes[x].sum = M::f(nodes[y].sum, nodes[x].sum);
-            nodes[x].rsum = M::f(nodes[x].rsum, nodes[y].rsum);
+        Node &node = nodes[x];
+        node.sz = 1;
+        node.sum = node.val;
+        node.rsum = node.val;
+        if (node.l != -1) {
+            const Node &left = nodes[node.l];
+            node.sz += left.sz;
+            node.sum = M::f(left.sum, node.sum);
+            node.rsum = M::f(node.rsum, left.rsum);
         }
-        if (nodes[x].r != -1) {
-            int y = nodes[x].r;
-            nodes[x].sz += nodes[y].sz;
-            nodes[x].sum = M::f(nodes[x].sum, nodes[y].sum);
-            nodes[x].rsum = M::f(nodes[y].rsum, nodes[x].rsum);
+        if (node.r != -1) {
+            const Node &right = nodes[node.r];
+            node.sz += right.sz;
+            node.sum = M::f(node.sum, right.sum);
+            node.rsum = M::f(right.rsum, node.rsum);
         }
     }
 
@@ -242,13 +241,14 @@ private:
     pair<int, int> split(int x, int k) {
         if (x == -1) return {-1, -1};
         push(x);
-        if (k <= subtree_size(nodes[x].l)) {
+        int left_size = nodes[x].l == -1 ? 0 : nodes[nodes[x].l].sz;
+        if (k <= left_size) {
             auto [a, b] = split(nodes[x].l, k);
             nodes[x].l = b;
             pull(x);
             return {a, x};
         }
-        auto [a, b] = split(nodes[x].r, k - subtree_size(nodes[x].l) - 1);
+        auto [a, b] = split(nodes[x].r, k - left_size - 1);
         nodes[x].r = a;
         pull(x);
         return {x, b};
