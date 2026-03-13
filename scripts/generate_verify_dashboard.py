@@ -253,6 +253,20 @@ def load_existing_entries(json_path: pathlib.Path) -> list[dict[str, Any]]:
     return tests
 
 
+def prune_missing_entries(entries: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    pruned: list[dict[str, Any]] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        path = entry.get("path")
+        if not isinstance(path, str):
+            continue
+        if not (ROOT / path).exists():
+            continue
+        pruned.append(entry)
+    return pruned
+
+
 def make_report(entries: list[dict[str, Any]]) -> dict[str, Any]:
     phase_counts = {
         "pending": 0,
@@ -483,15 +497,15 @@ def main() -> int:
     if args.render_only:
         if not args.json_path.exists():
             raise FileNotFoundError(f"json report not found: {args.json_path}")
-        report = json.loads(args.json_path.read_text())
-        write_report(report, json_path=args.json_path, html_path=args.html_path)
+        entries = prune_missing_entries(load_existing_entries(args.json_path))
+        write_report(make_report(entries), json_path=args.json_path, html_path=args.html_path)
         print_output_paths(json_path=args.json_path, html_path=args.html_path)
         return 0
 
     tests = list_test_paths(args.paths)
     onlinejudge_verify.languages.list.get(pathlib.Path("dummy.cpp"))
     if args.paths:
-        report_tests = load_existing_entries(args.json_path)
+        report_tests = prune_missing_entries(load_existing_entries(args.json_path))
         index_by_path = {
             entry.get("path"): index
             for index, entry in enumerate(report_tests)

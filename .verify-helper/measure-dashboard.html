@@ -742,7 +742,7 @@ pre {
     <p class="lede">`oj test` を再実行しながら JSON を逐次更新し、テストごとの最遅ケースとケース別実行時間を一覧する。</p>
     <div class="meta">
         <button class="chip chip-action" id="summary-live" type="button"></button>
-        <div class="chip" id="summary-generated">generated: 2026-03-13T21:14:50+09:00</div>
+        <div class="chip" id="summary-generated">generated: 2026-03-13T21:37:27+09:00</div>
         <div class="chip" id="summary-total"></div>
         <div class="chip" id="summary-progress"></div>
         <button class="chip chip-action" id="summary-failed" type="button"></button>
@@ -889,7 +889,7 @@ pre {
 <script>
 const jsonUrl = "measure-dashboard.json";
 const sortColumns = [{"key": "path", "label": "test", "defaultDirection": "asc", "numeric": false}, {"key": "status", "label": "status", "defaultDirection": "asc", "numeric": false}, {"key": "compileWallSec", "label": "compile", "defaultDirection": "desc", "numeric": true}, {"key": "slowestSec", "label": "slowest", "defaultDirection": "desc", "numeric": true}, {"key": "averageSec", "label": "average", "defaultDirection": "desc", "numeric": true}, {"key": "maxMemoryMb", "label": "memory", "defaultDirection": "desc", "numeric": true}];
-let report = {"generatedAt": "2026-03-13T21:14:50+09:00", "root": "/home/firiexp/library", "testCount": 150, "summary": {"pending": 0, "running": 0, "done": 150, "error": 0, "ok": 150, "failed": 0}, "tests": []};
+let report = {"generatedAt": "2026-03-13T21:37:27+09:00", "root": "/home/firiexp/library", "testCount": 147, "summary": {"pending": 0, "running": 0, "done": 147, "error": 0, "ok": 147, "failed": 0}, "tests": []};
 const rows = document.getElementById("rows");
 const filterInput = document.getElementById("filter");
 const statusFilter = document.getElementById("status-filter");

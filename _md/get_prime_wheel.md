@@ -1,6 +1,6 @@
 ---
 title: get_prime_wheel
-date: 2026-03-08
+date: 2026-03-13
 category: 数学
 tags: 数学
 ---
@@ -12,7 +12,7 @@ tags: 数学
 ## できること
 - `Prime p(int M)`
   `M` 以下の素数を列挙する
-- `vector<ll> primes`
+- `vector<int> primes`
   列挙結果を昇順で持つ
 
 ## 使い方
