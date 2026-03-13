@@ -1,5 +1,29 @@
 class BiconnectedComponents {
     vector<int> st;
+    void dfs(int i, int pe, int &pos){
+        ord[i] = low[i] = pos++;
+        for (auto &&e : G[i]) {
+            int j = e.first, id = e.second;
+            if(id == pe) continue;
+            if(ord[j] < ord[i]) st.emplace_back(id);
+            if(~ord[j]){
+                low[i] = min(low[i], ord[j]);
+                continue;
+            }
+            par[j] = i;
+            dfs(j, id, pos);
+            low[i] = min(low[i], low[j]);
+            if(ord[i] <= low[j]){
+                bcc_edges.emplace_back();
+                while(true){
+                    int k = st.back();
+                    st.pop_back();
+                    bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second), max(edges[k].first, edges[k].second));
+                    if(k == id) break;
+                }
+            }
+        }
+    }
 public:
     vector<int> ord, low, par;
     vector<pair<int, int>> edges;
@@ -25,39 +49,7 @@ public:
         bcc_vertices.clear();
         st.clear();
         for (int i = 0; i < n; ++i) {
-            if (ord[i] >= 0) continue;
-            vector<tuple<int, int, int>> dfs_st = {{i, -1, 0}};
-            ord[i] = low[i] = pos++;
-            while (!dfs_st.empty()) {
-                auto &[v, pe, it] = dfs_st.back();
-                if (it == (int)G[v].size()) {
-                    dfs_st.pop_back();
-                    if (pe != -1) {
-                        int p = par[v];
-                        low[p] = min(low[p], low[v]);
-                        if (ord[p] <= low[v]) {
-                            bcc_edges.emplace_back();
-                            while (true) {
-                                int k = st.back();
-                                st.pop_back();
-                                bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second), max(edges[k].first, edges[k].second));
-                                if (k == pe) break;
-                            }
-                        }
-                    }
-                    continue;
-                }
-                auto [j, id] = G[v][it++];
-                if (id == pe) continue;
-                if (ord[j] < ord[v]) st.emplace_back(id);
-                if (~ord[j]) {
-                    low[v] = min(low[v], ord[j]);
-                    continue;
-                }
-                par[j] = v;
-                ord[j] = low[j] = pos++;
-                dfs_st.emplace_back(j, id, 0);
-            }
+            if(ord[i] < 0) dfs(i, -1, pos);
         }
         vector<int> seen(n, -1);
         bcc_vertices.reserve(bcc_edges.size());

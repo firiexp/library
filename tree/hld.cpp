@@ -1,5 +1,33 @@
 
 class HeavyLightDecomposition {
+    void dfs_sz(int v){
+        int heavy = -1;
+        for (auto &&u : G[v]) {
+            if(u == par[v]) continue;
+            par[u] = v; dep[u] = dep[v] + 1;
+            dfs_sz(u);
+            sub_size[v] += sub_size[u];
+            if(heavy == -1 || sub_size[u] > sub_size[heavy]) heavy = u;
+        }
+        if (heavy != -1 && G[v][0] != heavy) {
+            for (auto &&u : G[v]) {
+                if (u == heavy) {
+                    swap(u, G[v][0]);
+                    break;
+                }
+            }
+        }
+    }
+    void dfs_hld(int v, int c, int &pos){
+        id[v] = pos++;
+        id_inv[id[v]]= v;
+        tree_id[v] = c;
+        for (auto &&u : G[v]) {
+            if(u == par[v]) continue;
+            head[u] = (u == G[v][0] ? head[v] : u);
+            dfs_hld(u, c, pos);
+        }
+    }
 public:
     int n;
     vector<vector<int>> G;
@@ -17,56 +45,10 @@ public:
         fill(dep.begin(), dep.end(), 0);
         fill(sub_size.begin(), sub_size.end(), 1);
         int c = 0, pos = 0;
-        vector<int> order;
-        for (auto &&root : roots) {
-            order.clear();
-            vector<int> st = {root};
-            par[root] = -1;
-            while (!st.empty()) {
-                int v = st.back();
-                st.pop_back();
-                order.emplace_back(v);
-                for (auto &&u : G[v]) {
-                    if (u == par[v]) continue;
-                    par[u] = v;
-                    dep[u] = dep[v] + 1;
-                    st.emplace_back(u);
-                }
-            }
-            for (int i = (int)order.size() - 1; i >= 0; --i) {
-                int v = order[i];
-                int heavy = -1;
-                for (int j = 0; j < (int)G[v].size(); ++j) {
-                    int u = G[v][j];
-                    if (u == par[v]) continue;
-                    sub_size[v] += sub_size[u];
-                    if (heavy == -1 || sub_size[u] > sub_size[heavy]) heavy = u;
-                }
-                if (heavy != -1 && G[v][0] != heavy) {
-                    for (auto &&u : G[v]) {
-                        if (u == heavy) {
-                            swap(u, G[v][0]);
-                            break;
-                        }
-                    }
-                }
-            }
-            head[root] = root;
-            st = {root};
-            while (!st.empty()) {
-                int v = st.back();
-                st.pop_back();
-                id[v] = pos++;
-                id_inv[id[v]] = v;
-                tree_id[v] = c;
-                for (int i = (int)G[v].size() - 1; i >= 0; --i) {
-                    int u = G[v][i];
-                    if (u == par[v]) continue;
-                    head[u] = (u == G[v][0] ? head[v] : u);
-                    st.emplace_back(u);
-                }
-            }
-            ++c;
+        for (auto &&i : roots) {
+            dfs_sz(i);
+            head[i] = i;
+            dfs_hld(i, c++, pos);
         }
     }
 

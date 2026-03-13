@@ -9,6 +9,18 @@ struct LCA_MinDepth {
 class LCA {
     SparseTable<LCA_MinDepth> table;
 
+    void dfs_euler(int v, int p, int d, int &k) {
+        id[v] = k;
+        vs[k] = v;
+        depth[k++] = d;
+        for (auto &&u : G[v]) {
+            if (u == p) continue;
+            dfs_euler(u, v, d + 1, k);
+            vs[k] = v;
+            depth[k++] = d;
+        }
+    }
+
 public:
     int n;
     vector<vector<int>> G;
@@ -23,32 +35,7 @@ public:
 
     void eulertour(int root = 0) {
         int k = 0;
-        vector<int> parent(n, -2), dep(n);
-        vector<int> it(n);
-        vector<int> st = {root};
-        parent[root] = -1;
-        while (!st.empty()) {
-            int v = st.back();
-            if (it[v] == 0) {
-                id[v] = k;
-                vs[k] = v;
-                depth[k++] = dep[v];
-            }
-            if (it[v] == (int)G[v].size()) {
-                st.pop_back();
-                if (!st.empty()) {
-                    int p = st.back();
-                    vs[k] = p;
-                    depth[k++] = dep[p];
-                }
-                continue;
-            }
-            int u = G[v][it[v]++];
-            if (u == parent[v]) continue;
-            parent[u] = v;
-            dep[u] = dep[v] + 1;
-            st.push_back(u);
-        }
+        dfs_euler(root, -1, 0, k);
     }
 
     void build(int root = 0) {

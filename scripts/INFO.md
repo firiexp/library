@@ -17,12 +17,26 @@ python3 scripts/codex_self_check.py
 oj-verify run test/aoj0273.test.cpp
 ```
 
+再帰が深い verify をローカルで回すときは、stack size を上げて実行するとよい。
+
+```bash
+python3 scripts/codex_self_check.py
+scripts/with_unlimited_stack.sh oj-verify run test/yosupo_scc.test.cpp
+scripts/with_unlimited_stack.sh oj-verify all
+```
+
 性能計測と可視化は verify とは分け、以下を使う。
 
 ```bash
 python3 scripts/measure_verify.py
 python3 scripts/measure_verify.py test/aoj0273.test.cpp
 python3 scripts/measure_verify.py -j 16 --oj-jobs 1
+```
+
+計測も同様に wrapper 経由でよい。
+
+```bash
+scripts/with_unlimited_stack.sh python3 scripts/measure_verify.py test/yosupo_scc.test.cpp
 ```
 
 `python3 scripts/measure_verify.py test/...` は指定した test だけを対象に measurement dashboard を更新する。ローカルでの改善サイクル用。
