@@ -8,8 +8,8 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_enumerate_primes_get_prime2.test.cpp
-    title: test/yosupo_enumerate_primes_get_prime2.test.cpp
+    path: test/aoj_alds1_1_c_get_prime2.test.cpp
+    title: test/aoj_alds1_1_c_get_prime2.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -68,7 +68,7 @@ data:
   timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_enumerate_primes_get_prime2.test.cpp
+  - test/aoj_alds1_1_c_get_prime2.test.cpp
 date: 2026-03-08
 documentation_of: math/get_prime2.cpp
 layout: document

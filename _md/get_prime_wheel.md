@@ -1,6 +1,6 @@
 ---
 category: "\u6570\u5B66"
-date: 2026-03-08
+date: 2026-03-13
 tags: "\u6570\u5B66"
 title: get_prime_wheel
 ---
@@ -12,7 +12,7 @@ title: get_prime_wheel
 ## できること
 - `Prime p(int M)`
   `M` 以下の素数を列挙する
-- `vector<ll> primes`
+- `vector<int> primes`
   列挙結果を昇順で持つ
 
 ## 使い方

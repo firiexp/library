@@ -93,23 +93,27 @@ data:
     \ 11, 13, 17, 19, 23, 29, 31},\n            wheel_sum[] = {0, 0, 0, 0, 0, 0, 1,\
     \ 1, 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7};\n    static\
     \ inline int f(int n){ return (n-1)/30*8 + wheel_sum[(n-1)%30]; }\n    static\
-    \ inline int g(int n){ return ((n-1) >> 3)*30 + wheel2[(n-1)&7]; }\n    vector<ll>\
-    \ primes;\n\n    Prime(int M) {\n        primes = {2, 3, 5};\n        if(M < 7){\n\
-    \            while(!primes.empty() && M < primes.back()) primes.pop_back();\n\
-    \            return;\n        }\n        int n = f(M), m = g(n), k = f(int(floor(sqrt(M))));\n\
-    \        primes.reserve(3+max(0, (int)(n/(log(n)-1.12))));\n        vector<bool>\
-    \ sieve(n+1, true);\n        for (int i = 1; i <= k; ++i) {\n            if(sieve[i]){\n\
-    \                ll p = g(i), q = p*p;\n                int j = (i-1)&7;\n   \
-    \             while(q <= m){\n                    sieve[f(q)] = false;\n     \
-    \               q += wheel[j] * p;\n                    j = (j+1)&7;\n       \
-    \         }\n            }\n        }\n        for (int i = 1; i <= n; ++i) {\n\
-    \            if(sieve[i]) primes.emplace_back(g(i));\n        }\n    }\n};\nconstexpr\
-    \ int Prime::wheel[], Prime::wheel2[], Prime::wheel_sum[];\n\n#line 16 \"test/yosupo_enumerate_primes_get_prime_wheel.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n,\
-    \ a, b);\n    Prime prime(n);\n    int m = prime.primes.size();\n    pr.writeln(m,\
-    \ (m + a - 1 - b) / a);\n    bool first = true;\n    for (int i = b; i < m; i\
-    \ += a) {\n        if (!first) pr.write(' ');\n        first = false;\n      \
-    \  pr.write(prime.primes[i]);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \ inline int g(int n){ return ((n-1) >> 3)*30 + wheel2[(n-1)&7]; }\n    vector<int>\
+    \ primes;\n\n    Prime(int M) {\n        if (M >= 2) primes.emplace_back(2);\n\
+    \        if (M >= 3) primes.emplace_back(3);\n        if (M >= 5) primes.emplace_back(5);\n\
+    \        if(M < 7){\n            return;\n        }\n        int n = f(M), m =\
+    \ g(n), k = f((int)floor(sqrt((long double)M)));\n        primes.reserve(3 + max(0,\
+    \ (int)(M / (log((double)M) - 1.12))));\n        vector<unsigned long long> sieve((n\
+    \ + 64) >> 6, ~0ULL);\n        auto *sv = sieve.data();\n        for (int i =\
+    \ 1; i <= k; ++i) {\n            if ((sv[i >> 6] >> (i & 63)) & 1ULL) {\n    \
+    \            int p = g(i);\n                int q = p * p;\n                int\
+    \ j = (i - 1) & 7;\n                while (q <= m) {\n                    int\
+    \ idx = f(q);\n                    sv[idx >> 6] &= ~(1ULL << (idx & 63));\n  \
+    \                  q += wheel[j] * p;\n                    j = (j + 1) & 7;\n\
+    \                }\n            }\n        }\n        for (int i = 1; i <= n;\
+    \ ++i) {\n            if ((sv[i >> 6] >> (i & 63)) & 1ULL) primes.emplace_back(g(i));\n\
+    \        }\n    }\n};\nconstexpr int Prime::wheel[], Prime::wheel2[], Prime::wheel_sum[];\n\
+    #line 16 \"test/yosupo_enumerate_primes_get_prime_wheel.test.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n, a, b);\n\
+    \    Prime prime(n);\n    int m = prime.primes.size();\n    pr.writeln(m, (m +\
+    \ a - 1 - b) / a);\n    bool first = true;\n    for (int i = b; i < m; i += a)\
+    \ {\n        if (!first) pr.write(' ');\n        first = false;\n        pr.write(prime.primes[i]);\n\
+    \    }\n    pr.writeln();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n\
     #include <algorithm>\n#include <cmath>\n#include <vector>\nusing namespace std;\n\
     using ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
@@ -125,7 +129,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 01:21:06+09:00'
+  timestamp: '2026-03-13 22:14:25+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp

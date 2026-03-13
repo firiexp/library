@@ -17,14 +17,14 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/enumerate_primes
+    PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C
     links:
-    - https://judge.yosupo.jp/problem/enumerate_primes
-  bundledCode: "#line 1 \"test/yosupo_enumerate_primes_get_prime.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n#include <vector>\n\
-    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
-    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    - http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C
+  bundledCode: "#line 1 \"test/aoj_alds1_1_c_get_prime.test.cpp\"\n#define PROBLEM\
+    \ \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C\"\n\n#include\
+    \ <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace\
+    \ std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
     \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
     \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
     \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
@@ -118,35 +118,38 @@ data:
     \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
     \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/get_prime.cpp\"\
     \n\nvector<int> get_prime(int n) {\n    return LinearSieve(n).primes;\n}\n#line\
-    \ 13 \"test/yosupo_enumerate_primes_get_prime.test.cpp\"\n\nint main() {\n   \
-    \ Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n, a, b);\n  \
-    \  auto primes = get_prime(n);\n    int m = primes.size();\n    pr.writeln(m,\
-    \ (m + a - 1 - b) / a);\n    bool first = true;\n    for (int i = b; i < m; i\
-    \ += a) {\n        if (!first) pr.write(' ');\n        first = false;\n      \
-    \  pr.write(primes[i]);\n    }\n    pr.writeln();\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n\
-    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    \ 13 \"test/aoj_alds1_1_c_get_prime.test.cpp\"\n\nbool is_prime_number(int x,\
+    \ const vector<int> &primes) {\n    if (x < 2) return false;\n    for (int p :\
+    \ primes) {\n        if (1LL * p * p > x) break;\n        if (x % p == 0) return\
+    \ false;\n    }\n    return true;\n}\n\nint main() {\n    Scanner sc;\n    Printer\
+    \ pr;\n\n    int n;\n    sc.read(n);\n    auto primes = get_prime(100000);\n \
+    \   int ans = 0;\n    while (n--) {\n        int x;\n        sc.read(x);\n   \
+    \     ans += is_prime_number(x, primes);\n    }\n    pr.writeln(ans);\n    return\
+    \ 0;\n}\n"
+  code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C\"\
+    \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
-    #include \"../math/get_prime.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n, a, b;\n    sc.read(n, a, b);\n    auto primes = get_prime(n);\n\
-    \    int m = primes.size();\n    pr.writeln(m, (m + a - 1 - b) / a);\n    bool\
-    \ first = true;\n    for (int i = b; i < m; i += a) {\n        if (!first) pr.write('\
-    \ ');\n        first = false;\n        pr.write(primes[i]);\n    }\n    pr.writeln();\n\
-    \    return 0;\n}\n"
+    #include \"../math/get_prime.cpp\"\n\nbool is_prime_number(int x, const vector<int>\
+    \ &primes) {\n    if (x < 2) return false;\n    for (int p : primes) {\n     \
+    \   if (1LL * p * p > x) break;\n        if (x % p == 0) return false;\n    }\n\
+    \    return true;\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n   \
+    \ int n;\n    sc.read(n);\n    auto primes = get_prime(100000);\n    int ans =\
+    \ 0;\n    while (n--) {\n        int x;\n        sc.read(x);\n        ans += is_prime_number(x,\
+    \ primes);\n    }\n    pr.writeln(ans);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/get_prime.cpp
   - math/linear_sieve.cpp
   isVerificationFile: true
-  path: test/yosupo_enumerate_primes_get_prime.test.cpp
+  path: test/aoj_alds1_1_c_get_prime.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-13 21:37:59+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_enumerate_primes_get_prime.test.cpp
+documentation_of: test/aoj_alds1_1_c_get_prime.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_enumerate_primes_get_prime.test.cpp
-- /verify/test/yosupo_enumerate_primes_get_prime.test.cpp.html
-title: test/yosupo_enumerate_primes_get_prime.test.cpp
+- /verify/test/aoj_alds1_1_c_get_prime.test.cpp
+- /verify/test/aoj_alds1_1_c_get_prime.test.cpp.html
+title: test/aoj_alds1_1_c_get_prime.test.cpp
 ---

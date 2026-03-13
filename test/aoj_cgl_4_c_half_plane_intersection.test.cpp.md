@@ -296,7 +296,7 @@ data:
     \    while (q--) {\n        ll x1, y1, x2, y2;\n        sc.read(x1, y1, x2, y2);\n\
     \        vector<Line> ls = base;\n        ls.emplace_back(Point(x1, y1), Point(x2,\
     \ y2));\n        Polygon ans = half_plane_intersection(ls);\n        printf(\"\
-    %.15f\\n\", fabs(area(ans)));\n    }\n    return 0;\n}\n"
+    %.8f\\n\", fabs(area(ans)));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_C\"\
     \n#define ERROR \"1e-8\"\n\n#include <algorithm>\n#include <cassert>\n#include\
     \ <cmath>\n#include <deque>\n#include <iostream>\n#include <vector>\nusing namespace\
@@ -325,7 +325,7 @@ data:
     \    while (q--) {\n        ll x1, y1, x2, y2;\n        sc.read(x1, y1, x2, y2);\n\
     \        vector<Line> ls = base;\n        ls.emplace_back(Point(x1, y1), Point(x2,\
     \ y2));\n        Polygon ans = half_plane_intersection(ls);\n        printf(\"\
-    %.15f\\n\", fabs(area(ans)));\n    }\n    return 0;\n}\n"
+    %.8f\\n\", fabs(area(ans)));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - geometry/half_plane_intersection.cpp
@@ -333,7 +333,7 @@ data:
   isVerificationFile: true
   path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 19:34:31+09:00'
+  timestamp: '2026-03-13 00:55:11+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_cgl_4_c_half_plane_intersection.test.cpp

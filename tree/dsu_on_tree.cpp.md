@@ -73,7 +73,7 @@ data:
   isVerificationFile: false
   path: tree/dsu_on_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-13 21:29:59+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp

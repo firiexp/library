@@ -32,6 +32,12 @@ data:
     path: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
     title: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_alds1_1_c_get_prime.test.cpp
+    title: test/aoj_alds1_1_c_get_prime.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_alds1_1_c_get_prime2.test.cpp
+    title: test/aoj_alds1_1_c_get_prime2.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_9_c_binaryheap.test.cpp
     title: test/aoj_alds1_9_c_binaryheap.test.cpp
   - icon: ':heavy_check_mark:'
@@ -122,23 +128,17 @@ data:
     path: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
     title: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+    title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eertree.test.cpp
     title: test/yosupo_eertree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_enumerate_palindromes_manacher.test.cpp
     title: test/yosupo_enumerate_palindromes_manacher.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_enumerate_primes_get_prime.test.cpp
-    title: test/yosupo_enumerate_primes_get_prime.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_enumerate_primes_get_prime2.test.cpp
-    title: test/yosupo_enumerate_primes_get_prime2.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
     title: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_enumerate_primes_linear_sieve.test.cpp
-    title: test/yosupo_enumerate_primes_linear_sieve.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_eulerian_trail_directed.test.cpp
     title: test/yosupo_eulerian_trail_directed.test.cpp
@@ -492,6 +492,7 @@ data:
   - test/aoj0403.test.cpp
   - test/yuki1326_block_cut_tree.test.cpp
   - test/yosupo_jump_on_tree.test.cpp
+  - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
@@ -502,11 +503,9 @@ data:
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
   - test/aoj_dsl_2_b.test.cpp
   - test/yosupo_general_matching.test.cpp
-  - test/yosupo_enumerate_primes_linear_sieve.test.cpp
   - test/yosupo_unionfind_quickfind.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
-  - test/yosupo_enumerate_primes_get_prime2.test.cpp
   - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
   - test/yosupo_primality_test.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
@@ -541,6 +540,7 @@ data:
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_many_aplusb.test.cpp
+  - test/aoj_alds1_1_c_get_prime.test.cpp
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_kth_root_integer.test.cpp
@@ -557,6 +557,7 @@ data:
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_counting_primes.test.cpp
   - test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
+  - test/aoj_alds1_1_c_get_prime2.test.cpp
   - test/yosupo_unionfind.test.cpp
   - test/yosupo_tetration_mod.test.cpp
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp
@@ -572,7 +573,6 @@ data:
   - test/yosupo_bitwise_and_convolution.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
   - test/yosupo_sqrt_mod.test.cpp
-  - test/yosupo_enumerate_primes_get_prime.test.cpp
   - test/yosupo_lca.test.cpp
   - test/yosupo_matrix_det.test.cpp
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp

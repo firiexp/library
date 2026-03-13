@@ -120,35 +120,42 @@ data:
     \ subset_convolution(vector<T> a, vector<T> b){\n    int n = 1;\n    while (n\
     \ < (int)a.size() || n < (int)b.size()) n <<= 1;\n    a.resize(n);\n    b.resize(n);\n\
     \    int lg = 0;\n    while ((1 << lg) < n) ++lg;\n    int w = lg + 1;\n    vector<int>\
-    \ pc(n);\n    for (int s = 1; s < n; ++s) pc[s] = pc[s >> 1] + (s & 1);\n\n  \
-    \  vector<T> fa(n * w), fb(n * w), fc(n * w);\n    for (int s = 0; s < n; ++s)\
+    \ pc(n);\n    for (int s = 1; s < n; ++s) pc[s] = pc[s >> 1] + (s & 1);\n    vector<int>\
+    \ lim2(w);\n    for (int k = 0; k < w; ++k) lim2[k] = min(lg, k << 1);\n\n   \
+    \ vector<T> fa(n * w), fb(n * w), fc(n * w);\n    for (int s = 0; s < n; ++s)\
     \ {\n        int base = s * w;\n        fa[base + pc[s]] = a[s];\n        fb[base\
-    \ + pc[s]] = b[s];\n    }\n\n    for (int i = 0; i < lg; ++i) {\n        for (int\
-    \ s = 0; s < n; ++s) {\n            if (((s >> i) & 1) == 0) {\n             \
-    \   int t = s | (1 << i);\n                int sb = s * w, tb = t * w;\n     \
-    \           for (int k = 0; k <= pc[s]; ++k) {\n                    fa[tb + k]\
-    \ += fa[sb + k];\n                    fb[tb + k] += fb[sb + k];\n            \
-    \    }\n            }\n        }\n    }\n    for (int s = 0; s < n; ++s) {\n \
-    \       int base = s * w;\n        int lim = min(lg, pc[s] * 2);\n        for\
-    \ (int k = 0; k <= lim; ++k) {\n            for (int i = 0; i <= k; ++i) {\n \
-    \               if (i <= pc[s] && k - i <= pc[s]) {\n                    fc[base\
-    \ + k] += fa[base + i] * fb[base + k - i];\n                }\n            }\n\
-    \        }\n    }\n    for (int i = 0; i < lg; ++i) {\n        for (int s = 0;\
-    \ s < n; ++s) {\n            if (((s >> i) & 1) == 0) {\n                int t\
-    \ = s | (1 << i);\n                int sb = s * w, tb = t * w;\n             \
-    \   int lim = min(lg, pc[s] * 2);\n                for (int k = 0; k <= lim; ++k)\
-    \ {\n                    fc[tb + k] -= fc[sb + k];\n                }\n      \
-    \      }\n        }\n    }\n\n    vector<T> c(n);\n    for (int s = 0; s < n;\
-    \ ++s) {\n        c[s] = fc[s * w + pc[s]];\n    }\n    return c;\n}\n\n/**\n\
-    \ * @brief \u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset Convolution)\n\
-    \ */\n#line 19 \"test/yosupo_subset_convolution.test.cpp\"\n\nint main() {\n \
-    \   Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    int m = 1\
-    \ << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m; ++i) {\n   \
-    \     int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for (int i =\
-    \ 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i] = x;\n \
-    \   }\n    auto c = subset_convolution(a, b);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        if (i) pr.write(' ');\n        pr.write(c[i].val);\n    }\n    pr.writeln();\n\
-    \    return 0;\n}\n"
+    \ + pc[s]] = b[s];\n    }\n\n    for (int i = 0; i < lg; ++i) {\n        int step\
+    \ = 1 << i;\n        int span = step << 1;\n        for (int block = 0; block\
+    \ < n; block += span) {\n            for (int j = 0; j < step; ++j) {\n      \
+    \          int s = block + j;\n                int t = s + step;\n           \
+    \     T *as = fa.data() + s * w;\n                T *at = fa.data() + t * w;\n\
+    \                T *bs = fb.data() + s * w;\n                T *bt = fb.data()\
+    \ + t * w;\n                for (int k = 0, lim = pc[s]; k <= lim; ++k) {\n  \
+    \                  at[k] += as[k];\n                    bt[k] += bs[k];\n    \
+    \            }\n            }\n        }\n    }\n    for (int s = 0; s < n; ++s)\
+    \ {\n        const T *as = fa.data() + s * w;\n        const T *bs = fb.data()\
+    \ + s * w;\n        T *cs = fc.data() + s * w;\n        int p = pc[s];\n     \
+    \   int lim = lim2[p];\n        for (int k = 0; k <= lim; ++k) {\n           \
+    \ int l = max(0, k - p);\n            int r = min(k, p);\n            T sum =\
+    \ 0;\n            for (int i = l; i <= r; ++i) {\n                sum += as[i]\
+    \ * bs[k - i];\n            }\n            cs[k] = sum;\n        }\n    }\n  \
+    \  for (int i = 0; i < lg; ++i) {\n        int step = 1 << i;\n        int span\
+    \ = step << 1;\n        for (int block = 0; block < n; block += span) {\n    \
+    \        for (int j = 0; j < step; ++j) {\n                int s = block + j;\n\
+    \                int t = s + step;\n                T *cs = fc.data() + s * w;\n\
+    \                T *ct = fc.data() + t * w;\n                for (int k = 0, lim\
+    \ = lim2[pc[s]]; k <= lim; ++k) {\n                    ct[k] -= cs[k];\n     \
+    \           }\n            }\n        }\n    }\n\n    vector<T> c(n);\n    for\
+    \ (int s = 0; s < n; ++s) {\n        c[s] = fc[s * w + pc[s]];\n    }\n    return\
+    \ c;\n}\n\n/**\n * @brief \u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset\
+    \ Convolution)\n */\n#line 19 \"test/yosupo_subset_convolution.test.cpp\"\n\n\
+    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    int m = 1 << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m;\
+    \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
+    \ (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i]\
+    \ = x;\n    }\n    auto c = subset_convolution(a, b);\n    for (int i = 0; i <\
+    \ m; ++i) {\n        if (i) pr.write(' ');\n        pr.write(c[i].val);\n    }\n\
+    \    pr.writeln();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n\n\
     #include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll = long\
     \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
@@ -168,7 +175,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-13 22:39:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_subset_convolution.test.cpp

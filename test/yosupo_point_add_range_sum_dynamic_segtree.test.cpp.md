@@ -90,63 +90,71 @@ data:
     \ 1 \"datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\nstruct DynamicSegmentTree{\n\
     \    using T = typename M::T;\n    struct Node{\n        T val;\n        int l,\
     \ r;\n    };\n\n    long long n{};\n    vector<Node> node;\n    int root;\n\n\
-    \    explicit DynamicSegmentTree(long long n): n(n), root(-1) {}\n\n    void update(long\
-    \ long k, const T &x){\n        if(n == 0) return;\n        root = update_(root,\
-    \ k, x, 0, n);\n    }\n\n    void add(long long k, const T &x){\n        if(n\
-    \ == 0) return;\n        root = add_(root, k, x, 0, n);\n    }\n\n    T query(long\
-    \ long a, long long b) const {\n        if(n == 0 || b <= a) return M::e();\n\
-    \        return query_(root, a, b, 0, n);\n    }\n\n    T get(long long k) const\
-    \ { return query(k, k+1); }\n    T operator[](const long long &k) const { return\
-    \ get(k); }\n\nprivate:\n    int make_node(const T &v, int l, int r){\n      \
-    \  node.push_back({v, l, r});\n        return node.size()-1;\n    }\n\n    int\
-    \ update_(int id, long long k, const T &x, long long l, long long r){\n      \
-    \  if(l+1 == r) return make_node(x, -1, -1);\n        if(id == -1) id = make_node(M::e(),\
-    \ -1, -1);\n        long long m = l + ((r-l)>>1);\n        int ll = node[id].l,\
-    \ rr = node[id].r;\n        if(k < m) ll = update_(ll, k, x, l, m);\n        else\
-    \ rr = update_(rr, k, x, m, r);\n        return make_node(M::f(value(ll), value(rr)),\
-    \ ll, rr);\n    }\n\n    int add_(int id, long long k, const T &x, long long l,\
-    \ long long r){\n        if(l+1 == r) return make_node(M::f(value(id), x), -1,\
-    \ -1);\n        if(id == -1) id = make_node(M::e(), -1, -1);\n        long long\
-    \ m = l + ((r-l)>>1);\n        int ll = node[id].l, rr = node[id].r;\n       \
-    \ if(k < m) ll = add_(ll, k, x, l, m);\n        else rr = add_(rr, k, x, m, r);\n\
-    \        return make_node(M::f(value(ll), value(rr)), ll, rr);\n    }\n\n    T\
-    \ query_(int id, long long a, long long b, long long l, long long r) const {\n\
-    \        if(id == -1 || r <= a || b <= l) return M::e();\n        if(a <= l &&\
-    \ r <= b) return node[id].val;\n        long long m = l + ((r-l)>>1);\n      \
-    \  return M::f(query_(node[id].l, a, b, l, m), query_(node[id].r, a, b, m, r));\n\
-    \    }\n\n    T value(int id) const {\n        return id == -1 ? M::e() : node[id].val;\n\
-    \    }\n};\n\n/*\nstruct Monoid{\n    using T = long long;\n    static T f(T a,\
-    \ T b) { return a + b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief\
-    \ \u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n#line 13 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\
-    \n\nstruct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return\
-    \ a + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid>\
-    \ seg(n);\n    for (int i = 0; i < n; ++i) {\n        long long a;\n        sc.read(a);\n\
-    \        seg.add(i, a);\n    }\n\n    while (q--) {\n        int t;\n        sc.read(t);\n\
-    \        if (t == 0) {\n            int p;\n            long long x;\n       \
-    \     sc.read(p, x);\n            seg.add(p, x);\n        } else {\n         \
-    \   int l, r;\n            sc.read(l, r);\n            pr.writeln(seg.query(l,\
-    \ r));\n        }\n    }\n    return 0;\n}\n"
+    \    explicit DynamicSegmentTree(long long n): n(n), root(-1) {}\n\n    void reserve(size_t\
+    \ sz){\n        node.reserve(sz);\n    }\n\n    void update(long long k, const\
+    \ T &x){\n        if(n == 0) return;\n        update_(root, k, x, 0, n);\n   \
+    \ }\n\n    void add(long long k, const T &x){\n        if(n == 0) return;\n  \
+    \      add_(root, k, x, 0, n);\n    }\n\n    T query(long long a, long long b)\
+    \ const {\n        if(n == 0 || b <= a) return M::e();\n        return query_(root,\
+    \ a, b, 0, n);\n    }\n\n    T get(long long k) const { return query(k, k+1);\
+    \ }\n    T operator[](const long long &k) const { return get(k); }\n\nprivate:\n\
+    \    int make_node(const T &v, int l, int r){\n        node.push_back({v, l, r});\n\
+    \        return (int)node.size()-1;\n    }\n\n    void update_(int &id, long long\
+    \ k, const T &x, long long l, long long r){\n        if(id == -1) id = make_node(M::e(),\
+    \ -1, -1);\n        if(l+1 == r){\n            node[id].val = x;\n           \
+    \ return;\n        }\n        long long m = l + ((r-l)>>1);\n        if(k < m){\n\
+    \            int child = node[id].l;\n            update_(child, k, x, l, m);\n\
+    \            node[id].l = child;\n        }else{\n            int child = node[id].r;\n\
+    \            update_(child, k, x, m, r);\n            node[id].r = child;\n  \
+    \      }\n        node[id].val = M::f(value(node[id].l), value(node[id].r));\n\
+    \    }\n\n    void add_(int &id, long long k, const T &x, long long l, long long\
+    \ r){\n        if(id == -1) id = make_node(M::e(), -1, -1);\n        if(l+1 ==\
+    \ r){\n            node[id].val = M::f(node[id].val, x);\n            return;\n\
+    \        }\n        long long m = l + ((r-l)>>1);\n        if(k < m){\n      \
+    \      int child = node[id].l;\n            add_(child, k, x, l, m);\n       \
+    \     node[id].l = child;\n        }else{\n            int child = node[id].r;\n\
+    \            add_(child, k, x, m, r);\n            node[id].r = child;\n     \
+    \   }\n        node[id].val = M::f(value(node[id].l), value(node[id].r));\n  \
+    \  }\n\n    T query_(int id, long long a, long long b, long long l, long long\
+    \ r) const {\n        if(id == -1 || r <= a || b <= l) return M::e();\n      \
+    \  if(a <= l && r <= b) return node[id].val;\n        long long m = l + ((r-l)>>1);\n\
+    \        return M::f(query_(node[id].l, a, b, l, m), query_(node[id].r, a, b,\
+    \ m, r));\n    }\n\n    T value(int id) const {\n        return id == -1 ? M::e()\
+    \ : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = long long;\n\
+    \    static T f(T a, T b) { return a + b; }\n    static T e() { return 0; }\n\
+    };\n*/\n\n/**\n * @brief \u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\
+    #line 13 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\n\nstruct\
+    \ Monoid{\n    using T = long long;\n    static T f(T a, T b) { return a + b;\
+    \ }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n   \
+    \ Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid>\
+    \ seg(n);\n    if (n > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i <\
+    \ n; ++i) {\n        long long a;\n        sc.read(a);\n        seg.add(i, a);\n\
+    \    }\n\n    while (q--) {\n        int t;\n        sc.read(t);\n        if (t\
+    \ == 0) {\n            int p;\n            long long x;\n            sc.read(p,\
+    \ x);\n            seg.add(p, x);\n        } else {\n            int l, r;\n \
+    \           sc.read(l, r);\n            pr.writeln(seg.query(l, r));\n       \
+    \ }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
     #include \"../datastructure/dynamic_segtree.cpp\"\n\nstruct Monoid{\n    using\
     \ T = long long;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
     \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid> seg(n);\n    for (int\
-    \ i = 0; i < n; ++i) {\n        long long a;\n        sc.read(a);\n        seg.add(i,\
-    \ a);\n    }\n\n    while (q--) {\n        int t;\n        sc.read(t);\n     \
-    \   if (t == 0) {\n            int p;\n            long long x;\n            sc.read(p,\
-    \ x);\n            seg.add(p, x);\n        } else {\n            int l, r;\n \
-    \           sc.read(l, r);\n            pr.writeln(seg.query(l, r));\n       \
-    \ }\n    }\n    return 0;\n}\n"
+    \ n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid> seg(n);\n    if (n\
+    \ > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i < n; ++i) {\n      \
+    \  long long a;\n        sc.read(a);\n        seg.add(i, a);\n    }\n\n    while\
+    \ (q--) {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n      \
+    \      int p;\n            long long x;\n            sc.read(p, x);\n        \
+    \    seg.add(p, x);\n        } else {\n            int l, r;\n            sc.read(l,\
+    \ r);\n            pr.writeln(seg.query(l, r));\n        }\n    }\n    return\
+    \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/dynamic_segtree.cpp
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-13 22:14:25+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp

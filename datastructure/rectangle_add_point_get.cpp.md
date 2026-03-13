@@ -21,8 +21,9 @@ data:
     \ u, T w) {\n        ops.push_back({0, l, d, r, u, w});\n        xs.push_back(l);\n\
     \        xs.push_back(r);\n    }\n\n    void add_query(int x, int y) {\n     \
     \   ops.push_back({1, x, y, 0, 0, 0});\n    }\n\n    vector<T> solve() const {\n\
-    \        vector<int> ord_x = xs;\n        ord_x.reserve(ord_x.size() + ops.size());\n\
-    \        for (auto &&op : ops) {\n            if (op.type == 1) ord_x.push_back(op.l);\n\
+    \        struct RectInfo {\n            int start[4];\n        };\n        vector<int>\
+    \ ord_x = xs;\n        ord_x.reserve(ord_x.size() + ops.size());\n        for\
+    \ (auto &&op : ops) {\n            if (op.type == 1) ord_x.push_back(op.l);\n\
     \        }\n        sort(ord_x.begin(), ord_x.end());\n        ord_x.erase(unique(ord_x.begin(),\
     \ ord_x.end()), ord_x.end());\n\n        int m = (int)ord_x.size();\n        vector<int>\
     \ x_index_lower(ops.size());\n        vector<int> x_index_upper(ops.size());\n\
@@ -49,33 +50,62 @@ data:
     \            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());\n \
     \       }\n\n        vector<int> offset(m + 2, 0);\n        for (int i = 1; i\
     \ <= m; ++i) offset[i + 1] = offset[i] + (int)ys[i].size();\n        vector<T>\
-    \ bit(offset[m + 1], 0);\n\n        auto add_point = [&](int xi, int y, T w) {\n\
-    \            for (int i = xi; i <= m; i += i & -i) {\n                int yi =\
-    \ (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n       \
-    \         int sz = (int)ys[i].size();\n                int base = offset[i];\n\
-    \                for (++yi; yi <= sz; yi += yi & -yi) bit[base + yi - 1] += w;\n\
-    \            }\n        };\n        auto prefix_sum = [&](int xi, int y) {\n \
-    \           T ret = 0;\n            for (int i = xi; i > 0; i -= i & -i) {\n \
-    \               int yi = (int)(upper_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
-    \                int base = offset[i];\n                for (; yi > 0; yi -= yi\
-    \ & -yi) ret += bit[base + yi - 1];\n            }\n            return ret;\n\
-    \        };\n\n        vector<T> ans;\n        for (int idx = 0; idx < (int)ops.size();\
+    \ bit(offset[m + 1], 0);\n        auto path_len_add = [&](int xi) {\n        \
+    \    int len = 0;\n            for (int i = xi; i <= m; i += i & -i) ++len;\n\
+    \            return len;\n        };\n        auto path_len_sum = [&](int xi)\
+    \ {\n            int len = 0;\n            for (int i = xi; i > 0; i -= i & -i)\
+    \ ++len;\n            return len;\n        };\n        vector<RectInfo> rect_info(ops.size());\n\
+    \        vector<int> query_start(ops.size(), -1);\n        int total_add_visits\
+    \ = 0, total_sum_visits = 0;\n        for (int idx = 0; idx < (int)ops.size();\
+    \ ++idx) {\n            if (ops[idx].type == 0) {\n                total_add_visits\
+    \ += path_len_add(x_index_lower[idx]) * 2;\n                total_add_visits +=\
+    \ path_len_add(x_index_upper[idx]) * 2;\n            } else {\n              \
+    \  total_sum_visits += path_len_sum(x_index_upper[idx]);\n            }\n    \
+    \    }\n        vector<int> add_yi(total_add_visits);\n        vector<int> sum_yi(total_sum_visits);\n\
+    \        int add_ptr = 0, sum_ptr = 0;\n        auto encode_add = [&](int xi,\
+    \ int y) {\n            int start = add_ptr;\n            for (int i = xi; i <=\
+    \ m; i += i & -i) {\n                add_yi[add_ptr++] = (int)(lower_bound(ys[i].begin(),\
+    \ ys[i].end(), y) - ys[i].begin()) + 1;\n            }\n            return start;\n\
+    \        };\n        auto encode_sum = [&](int xi, int y) {\n            int start\
+    \ = sum_ptr;\n            for (int i = xi; i > 0; i -= i & -i) {\n           \
+    \     sum_yi[sum_ptr++] = (int)(upper_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
+    \            }\n            return start;\n        };\n        for (int idx =\
+    \ 0; idx < (int)ops.size(); ++idx) {\n            auto &&op = ops[idx];\n    \
+    \        if (op.type == 0) {\n                rect_info[idx].start[0] = encode_add(x_index_lower[idx],\
+    \ op.d);\n                rect_info[idx].start[1] = encode_add(x_index_lower[idx],\
+    \ op.u);\n                rect_info[idx].start[2] = encode_add(x_index_upper[idx],\
+    \ op.d);\n                rect_info[idx].start[3] = encode_add(x_index_upper[idx],\
+    \ op.u);\n            } else {\n                query_start[idx] = encode_sum(x_index_upper[idx],\
+    \ op.d);\n            }\n        }\n\n        auto add_point = [&](int xi, int\
+    \ start, T w) {\n            int ptr = start;\n            for (int i = xi; i\
+    \ <= m; i += i & -i) {\n                int yi = add_yi[ptr++];\n            \
+    \    int sz = (int)ys[i].size();\n                int base = offset[i];\n    \
+    \            for (; yi <= sz; yi += yi & -yi) bit[base + yi - 1] += w;\n     \
+    \       }\n        };\n        auto prefix_sum = [&](int xi, int start) {\n  \
+    \          T ret = 0;\n            int ptr = start;\n            for (int i =\
+    \ xi; i > 0; i -= i & -i) {\n                int yi = sum_yi[ptr++];\n       \
+    \         int base = offset[i];\n                for (; yi > 0; yi -= yi & -yi)\
+    \ ret += bit[base + yi - 1];\n            }\n            return ret;\n       \
+    \ };\n\n        vector<T> ans;\n        for (int idx = 0; idx < (int)ops.size();\
     \ ++idx) {\n            auto &&op = ops[idx];\n            if (op.type == 0) {\n\
-    \                add_point(x_index_lower[idx], op.d, op.w);\n                add_point(x_index_lower[idx],\
-    \ op.u, -op.w);\n                add_point(x_index_upper[idx], op.d, -op.w);\n\
-    \                add_point(x_index_upper[idx], op.u, op.w);\n            } else\
-    \ {\n                ans.push_back(prefix_sum(x_index_upper[idx], op.d));\n  \
-    \          }\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9577\
-    \u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point Get)\n */\n"
+    \                add_point(x_index_lower[idx], rect_info[idx].start[0], op.w);\n\
+    \                add_point(x_index_lower[idx], rect_info[idx].start[1], -op.w);\n\
+    \                add_point(x_index_upper[idx], rect_info[idx].start[2], -op.w);\n\
+    \                add_point(x_index_upper[idx], rect_info[idx].start[3], op.w);\n\
+    \            } else {\n                ans.push_back(prefix_sum(x_index_upper[idx],\
+    \ query_start[idx]));\n            }\n        }\n        return ans;\n    }\n\
+    };\n\n/**\n * @brief \u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle\
+    \ Add Point Get)\n */\n"
   code: "using namespace std;\n\ntemplate<class T>\nstruct RectangleAddPointGet {\n\
     \    struct Operation {\n        int type;\n        int l, d, r, u;\n        T\
     \ w;\n    };\n\n    vector<Operation> ops;\n    vector<int> xs;\n\n    void add_rectangle(int\
     \ l, int d, int r, int u, T w) {\n        ops.push_back({0, l, d, r, u, w});\n\
     \        xs.push_back(l);\n        xs.push_back(r);\n    }\n\n    void add_query(int\
     \ x, int y) {\n        ops.push_back({1, x, y, 0, 0, 0});\n    }\n\n    vector<T>\
-    \ solve() const {\n        vector<int> ord_x = xs;\n        ord_x.reserve(ord_x.size()\
-    \ + ops.size());\n        for (auto &&op : ops) {\n            if (op.type ==\
-    \ 1) ord_x.push_back(op.l);\n        }\n        sort(ord_x.begin(), ord_x.end());\n\
+    \ solve() const {\n        struct RectInfo {\n            int start[4];\n    \
+    \    };\n        vector<int> ord_x = xs;\n        ord_x.reserve(ord_x.size() +\
+    \ ops.size());\n        for (auto &&op : ops) {\n            if (op.type == 1)\
+    \ ord_x.push_back(op.l);\n        }\n        sort(ord_x.begin(), ord_x.end());\n\
     \        ord_x.erase(unique(ord_x.begin(), ord_x.end()), ord_x.end());\n\n   \
     \     int m = (int)ord_x.size();\n        vector<int> x_index_lower(ops.size());\n\
     \        vector<int> x_index_upper(ops.size());\n        for (int idx = 0; idx\
@@ -102,29 +132,57 @@ data:
     \            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());\n \
     \       }\n\n        vector<int> offset(m + 2, 0);\n        for (int i = 1; i\
     \ <= m; ++i) offset[i + 1] = offset[i] + (int)ys[i].size();\n        vector<T>\
-    \ bit(offset[m + 1], 0);\n\n        auto add_point = [&](int xi, int y, T w) {\n\
-    \            for (int i = xi; i <= m; i += i & -i) {\n                int yi =\
-    \ (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n       \
-    \         int sz = (int)ys[i].size();\n                int base = offset[i];\n\
-    \                for (++yi; yi <= sz; yi += yi & -yi) bit[base + yi - 1] += w;\n\
-    \            }\n        };\n        auto prefix_sum = [&](int xi, int y) {\n \
-    \           T ret = 0;\n            for (int i = xi; i > 0; i -= i & -i) {\n \
-    \               int yi = (int)(upper_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
-    \                int base = offset[i];\n                for (; yi > 0; yi -= yi\
-    \ & -yi) ret += bit[base + yi - 1];\n            }\n            return ret;\n\
-    \        };\n\n        vector<T> ans;\n        for (int idx = 0; idx < (int)ops.size();\
+    \ bit(offset[m + 1], 0);\n        auto path_len_add = [&](int xi) {\n        \
+    \    int len = 0;\n            for (int i = xi; i <= m; i += i & -i) ++len;\n\
+    \            return len;\n        };\n        auto path_len_sum = [&](int xi)\
+    \ {\n            int len = 0;\n            for (int i = xi; i > 0; i -= i & -i)\
+    \ ++len;\n            return len;\n        };\n        vector<RectInfo> rect_info(ops.size());\n\
+    \        vector<int> query_start(ops.size(), -1);\n        int total_add_visits\
+    \ = 0, total_sum_visits = 0;\n        for (int idx = 0; idx < (int)ops.size();\
+    \ ++idx) {\n            if (ops[idx].type == 0) {\n                total_add_visits\
+    \ += path_len_add(x_index_lower[idx]) * 2;\n                total_add_visits +=\
+    \ path_len_add(x_index_upper[idx]) * 2;\n            } else {\n              \
+    \  total_sum_visits += path_len_sum(x_index_upper[idx]);\n            }\n    \
+    \    }\n        vector<int> add_yi(total_add_visits);\n        vector<int> sum_yi(total_sum_visits);\n\
+    \        int add_ptr = 0, sum_ptr = 0;\n        auto encode_add = [&](int xi,\
+    \ int y) {\n            int start = add_ptr;\n            for (int i = xi; i <=\
+    \ m; i += i & -i) {\n                add_yi[add_ptr++] = (int)(lower_bound(ys[i].begin(),\
+    \ ys[i].end(), y) - ys[i].begin()) + 1;\n            }\n            return start;\n\
+    \        };\n        auto encode_sum = [&](int xi, int y) {\n            int start\
+    \ = sum_ptr;\n            for (int i = xi; i > 0; i -= i & -i) {\n           \
+    \     sum_yi[sum_ptr++] = (int)(upper_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
+    \            }\n            return start;\n        };\n        for (int idx =\
+    \ 0; idx < (int)ops.size(); ++idx) {\n            auto &&op = ops[idx];\n    \
+    \        if (op.type == 0) {\n                rect_info[idx].start[0] = encode_add(x_index_lower[idx],\
+    \ op.d);\n                rect_info[idx].start[1] = encode_add(x_index_lower[idx],\
+    \ op.u);\n                rect_info[idx].start[2] = encode_add(x_index_upper[idx],\
+    \ op.d);\n                rect_info[idx].start[3] = encode_add(x_index_upper[idx],\
+    \ op.u);\n            } else {\n                query_start[idx] = encode_sum(x_index_upper[idx],\
+    \ op.d);\n            }\n        }\n\n        auto add_point = [&](int xi, int\
+    \ start, T w) {\n            int ptr = start;\n            for (int i = xi; i\
+    \ <= m; i += i & -i) {\n                int yi = add_yi[ptr++];\n            \
+    \    int sz = (int)ys[i].size();\n                int base = offset[i];\n    \
+    \            for (; yi <= sz; yi += yi & -yi) bit[base + yi - 1] += w;\n     \
+    \       }\n        };\n        auto prefix_sum = [&](int xi, int start) {\n  \
+    \          T ret = 0;\n            int ptr = start;\n            for (int i =\
+    \ xi; i > 0; i -= i & -i) {\n                int yi = sum_yi[ptr++];\n       \
+    \         int base = offset[i];\n                for (; yi > 0; yi -= yi & -yi)\
+    \ ret += bit[base + yi - 1];\n            }\n            return ret;\n       \
+    \ };\n\n        vector<T> ans;\n        for (int idx = 0; idx < (int)ops.size();\
     \ ++idx) {\n            auto &&op = ops[idx];\n            if (op.type == 0) {\n\
-    \                add_point(x_index_lower[idx], op.d, op.w);\n                add_point(x_index_lower[idx],\
-    \ op.u, -op.w);\n                add_point(x_index_upper[idx], op.d, -op.w);\n\
-    \                add_point(x_index_upper[idx], op.u, op.w);\n            } else\
-    \ {\n                ans.push_back(prefix_sum(x_index_upper[idx], op.d));\n  \
-    \          }\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9577\
-    \u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point Get)\n */\n"
+    \                add_point(x_index_lower[idx], rect_info[idx].start[0], op.w);\n\
+    \                add_point(x_index_lower[idx], rect_info[idx].start[1], -op.w);\n\
+    \                add_point(x_index_upper[idx], rect_info[idx].start[2], -op.w);\n\
+    \                add_point(x_index_upper[idx], rect_info[idx].start[3], op.w);\n\
+    \            } else {\n                ans.push_back(prefix_sum(x_index_upper[idx],\
+    \ query_start[idx]));\n            }\n        }\n        return ans;\n    }\n\
+    };\n\n/**\n * @brief \u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle\
+    \ Add Point Get)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/rectangle_add_point_get.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-13 22:39:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_rectangle_add_point_get.test.cpp

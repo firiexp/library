@@ -110,13 +110,19 @@ data:
     \ q);\n    using A = array<int, 4>;\n    vector<vector<A>> g(q + 1);\n    vector<int>\
     \ ans(q + 1, -1);\n    for (int i = 1; i <= q; ++i) {\n        int t, k, u, v;\n\
     \        sc.read(t, k, u, v);\n        ++k;\n        g[k].push_back({t, i, u,\
-    \ v});\n    }\n\n    UndoableUnionFind uf(n);\n    auto dfs = [&](auto &&f, A\
-    \ cur) -> void {\n        int t = cur[0], idx = cur[1], u = cur[2], v = cur[3];\n\
-    \        if (t == 1) {\n            ans[idx] = uf.same(u, v);\n            return;\n\
-    \        }\n        if (t == 0) uf.unite(u, v);\n        for (auto &&nxt : g[idx])\
-    \ f(f, nxt);\n        if (t == 0) uf.undo();\n    };\n    dfs(dfs, A{-1, 0, -1,\
-    \ -1});\n\n    for (int i = 1; i <= q; ++i) {\n        if (ans[i] != -1) pr.writeln(ans[i]);\n\
-    \    }\n    return 0;\n}\n"
+    \ v});\n    }\n\n    UndoableUnionFind uf(n);\n    struct Frame {\n        A cur;\n\
+    \        int child_idx;\n        bool entered;\n        bool united;\n    };\n\
+    \    vector<Frame> st = {{A{-1, 0, -1, -1}, 0, false, false}};\n    while (!st.empty())\
+    \ {\n        auto &cur = st.back();\n        int t = cur.cur[0], idx = cur.cur[1],\
+    \ u = cur.cur[2], v = cur.cur[3];\n        if (!cur.entered) {\n            cur.entered\
+    \ = true;\n            if (t == 1) {\n                ans[idx] = uf.same(u, v);\n\
+    \                st.pop_back();\n                continue;\n            }\n  \
+    \          if (t == 0) {\n                uf.unite(u, v);\n                cur.united\
+    \ = true;\n            }\n        }\n        if (cur.child_idx < (int)g[idx].size())\
+    \ {\n            st.push_back({g[idx][cur.child_idx++], 0, false, false});\n \
+    \           continue;\n        }\n        if (cur.united) uf.undo();\n       \
+    \ st.pop_back();\n    }\n\n    for (int i = 1; i <= q; ++i) {\n        if (ans[i]\
+    \ != -1) pr.writeln(ans[i]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/persistent_unionfind\"\n\
     \n#include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
@@ -125,19 +131,26 @@ data:
     \ 4>;\n    vector<vector<A>> g(q + 1);\n    vector<int> ans(q + 1, -1);\n    for\
     \ (int i = 1; i <= q; ++i) {\n        int t, k, u, v;\n        sc.read(t, k, u,\
     \ v);\n        ++k;\n        g[k].push_back({t, i, u, v});\n    }\n\n    UndoableUnionFind\
-    \ uf(n);\n    auto dfs = [&](auto &&f, A cur) -> void {\n        int t = cur[0],\
-    \ idx = cur[1], u = cur[2], v = cur[3];\n        if (t == 1) {\n            ans[idx]\
-    \ = uf.same(u, v);\n            return;\n        }\n        if (t == 0) uf.unite(u,\
-    \ v);\n        for (auto &&nxt : g[idx]) f(f, nxt);\n        if (t == 0) uf.undo();\n\
-    \    };\n    dfs(dfs, A{-1, 0, -1, -1});\n\n    for (int i = 1; i <= q; ++i) {\n\
-    \        if (ans[i] != -1) pr.writeln(ans[i]);\n    }\n    return 0;\n}\n"
+    \ uf(n);\n    struct Frame {\n        A cur;\n        int child_idx;\n       \
+    \ bool entered;\n        bool united;\n    };\n    vector<Frame> st = {{A{-1,\
+    \ 0, -1, -1}, 0, false, false}};\n    while (!st.empty()) {\n        auto &cur\
+    \ = st.back();\n        int t = cur.cur[0], idx = cur.cur[1], u = cur.cur[2],\
+    \ v = cur.cur[3];\n        if (!cur.entered) {\n            cur.entered = true;\n\
+    \            if (t == 1) {\n                ans[idx] = uf.same(u, v);\n      \
+    \          st.pop_back();\n                continue;\n            }\n        \
+    \    if (t == 0) {\n                uf.unite(u, v);\n                cur.united\
+    \ = true;\n            }\n        }\n        if (cur.child_idx < (int)g[idx].size())\
+    \ {\n            st.push_back({g[idx][cur.child_idx++], 0, false, false});\n \
+    \           continue;\n        }\n        if (cur.united) uf.undo();\n       \
+    \ st.pop_back();\n    }\n\n    for (int i = 1; i <= q; ++i) {\n        if (ans[i]\
+    \ != -1) pr.writeln(ans[i]);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/undoableunionfind.cpp
   isVerificationFile: true
   path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-13 00:55:11+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp

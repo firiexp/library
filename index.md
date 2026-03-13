@@ -622,6 +622,12 @@ data:
       path: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
       title: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_alds1_1_c_get_prime.test.cpp
+      title: test/aoj_alds1_1_c_get_prime.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj_alds1_1_c_get_prime2.test.cpp
+      title: test/aoj_alds1_1_c_get_prime2.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_alds1_9_c_binaryheap.test.cpp
       title: test/aoj_alds1_9_c_binaryheap.test.cpp
     - icon: ':heavy_check_mark:'
@@ -742,17 +748,8 @@ data:
       path: test/yosupo_enumerate_palindromes_manacher.test.cpp
       title: test/yosupo_enumerate_palindromes_manacher.test.cpp
     - icon: ':heavy_check_mark:'
-      path: test/yosupo_enumerate_primes_get_prime.test.cpp
-      title: test/yosupo_enumerate_primes_get_prime.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_enumerate_primes_get_prime2.test.cpp
-      title: test/yosupo_enumerate_primes_get_prime2.test.cpp
-    - icon: ':heavy_check_mark:'
       path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
       title: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
-    - icon: ':heavy_check_mark:'
-      path: test/yosupo_enumerate_primes_linear_sieve.test.cpp
-      title: test/yosupo_enumerate_primes_linear_sieve.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_eulerian_trail_directed.test.cpp
       title: test/yosupo_eulerian_trail_directed.test.cpp

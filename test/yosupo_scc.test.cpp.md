@@ -66,7 +66,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_scc.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-13 21:29:59+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_scc.test.cpp
