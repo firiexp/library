@@ -14,6 +14,8 @@ tags: データ構造
 ## できること
 - `DynamicSegmentTree<M> seg(n)`
   長さ `n`、初期値がすべて `M::e()` の動的セグメント木を作る
+- `void reserve(size_t sz)`
+  ノード配列を `sz` 個ぶん予約する
 - `void update(long long k, T x)`
   位置 `k` を `x` に置き換える
 - `void add(long long k, T x)`
@@ -43,4 +45,5 @@ long long ans = seg.query(100000000, 900000000);
 
 ## 実装上の補足
 未生成ノードは単位元として扱う。
+大量の更新を先に見積もれるときは `reserve()` で再確保を減らせる。
 この実装は初期配列をまとめて与える構築は持たず、必要な位置だけ更新して使う。

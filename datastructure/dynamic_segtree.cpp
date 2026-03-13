@@ -12,14 +12,18 @@ struct DynamicSegmentTree{
 
     explicit DynamicSegmentTree(long long n): n(n), root(-1) {}
 
+    void reserve(size_t sz){
+        node.reserve(sz);
+    }
+
     void update(long long k, const T &x){
         if(n == 0) return;
-        root = update_(root, k, x, 0, n);
+        update_(root, k, x, 0, n);
     }
 
     void add(long long k, const T &x){
         if(n == 0) return;
-        root = add_(root, k, x, 0, n);
+        add_(root, k, x, 0, n);
     }
 
     T query(long long a, long long b) const {
@@ -33,27 +37,45 @@ struct DynamicSegmentTree{
 private:
     int make_node(const T &v, int l, int r){
         node.push_back({v, l, r});
-        return node.size()-1;
+        return (int)node.size()-1;
     }
 
-    int update_(int id, long long k, const T &x, long long l, long long r){
-        if(l+1 == r) return make_node(x, -1, -1);
+    void update_(int &id, long long k, const T &x, long long l, long long r){
         if(id == -1) id = make_node(M::e(), -1, -1);
+        if(l+1 == r){
+            node[id].val = x;
+            return;
+        }
         long long m = l + ((r-l)>>1);
-        int ll = node[id].l, rr = node[id].r;
-        if(k < m) ll = update_(ll, k, x, l, m);
-        else rr = update_(rr, k, x, m, r);
-        return make_node(M::f(value(ll), value(rr)), ll, rr);
+        if(k < m){
+            int child = node[id].l;
+            update_(child, k, x, l, m);
+            node[id].l = child;
+        }else{
+            int child = node[id].r;
+            update_(child, k, x, m, r);
+            node[id].r = child;
+        }
+        node[id].val = M::f(value(node[id].l), value(node[id].r));
     }
 
-    int add_(int id, long long k, const T &x, long long l, long long r){
-        if(l+1 == r) return make_node(M::f(value(id), x), -1, -1);
+    void add_(int &id, long long k, const T &x, long long l, long long r){
         if(id == -1) id = make_node(M::e(), -1, -1);
+        if(l+1 == r){
+            node[id].val = M::f(node[id].val, x);
+            return;
+        }
         long long m = l + ((r-l)>>1);
-        int ll = node[id].l, rr = node[id].r;
-        if(k < m) ll = add_(ll, k, x, l, m);
-        else rr = add_(rr, k, x, m, r);
-        return make_node(M::f(value(ll), value(rr)), ll, rr);
+        if(k < m){
+            int child = node[id].l;
+            add_(child, k, x, l, m);
+            node[id].l = child;
+        }else{
+            int child = node[id].r;
+            add_(child, k, x, m, r);
+            node[id].r = child;
+        }
+        node[id].val = M::f(value(node[id].l), value(node[id].r));
     }
 
     T query_(int id, long long a, long long b, long long l, long long r) const {

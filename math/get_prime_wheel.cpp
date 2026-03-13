@@ -15,21 +15,23 @@ struct Prime { // Wheel factorization
         }
         int n = f(M), m = g(n), k = f((int)floor(sqrt((long double)M)));
         primes.reserve(3 + max(0, (int)(M / (log((double)M) - 1.12))));
-        vector<bool> sieve(n+1, true);
+        vector<unsigned long long> sieve((n + 64) >> 6, ~0ULL);
+        auto *sv = sieve.data();
         for (int i = 1; i <= k; ++i) {
-            if(sieve[i]){
+            if ((sv[i >> 6] >> (i & 63)) & 1ULL) {
                 int p = g(i);
-                ll q = 1LL * p * p;
-                int j = (i-1)&7;
-                while(q <= m){
-                    sieve[f(q)] = false;
-                    q += 1LL * wheel[j] * p;
-                    j = (j+1)&7;
+                int q = p * p;
+                int j = (i - 1) & 7;
+                while (q <= m) {
+                    int idx = f(q);
+                    sv[idx >> 6] &= ~(1ULL << (idx & 63));
+                    q += wheel[j] * p;
+                    j = (j + 1) & 7;
                 }
             }
         }
         for (int i = 1; i <= n; ++i) {
-            if(sieve[i]) primes.emplace_back(g(i));
+            if ((sv[i >> 6] >> (i & 63)) & 1ULL) primes.emplace_back(g(i));
         }
     }
 };

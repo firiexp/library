@@ -24,6 +24,7 @@ int main() {
     int n, q;
     sc.read(n, q);
     DynamicSegmentTree<Monoid> seg(n);
+    if (n > 0) seg.reserve((size_t)4 * n);
     for (int i = 0; i < n; ++i) {
         long long a;
         sc.read(a);
