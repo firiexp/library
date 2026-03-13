@@ -1,6 +1,6 @@
 class JumpOnTree {
     int logn;
-    vector<vector<int>> up;
+    vector<int> up;
 
 public:
     int n;
@@ -17,31 +17,48 @@ public:
     void build(int root = 0) {
         logn = 1;
         while ((1 << logn) <= n) ++logn;
-        up.assign(logn, vector<int>(n, -1));
-        vector<int> st = {root};
+        up.assign(logn * n, -1);
+        fill(depth.begin(), depth.end(), -1);
+        vector<int> offset(n + 1);
+        for (int v = 0; v < n; ++v) offset[v + 1] = offset[v] + (int)G[v].size();
+        vector<int> to(offset[n]);
+        for (int v = 0; v < n; ++v) {
+            int ptr = offset[v];
+            for (int u : G[v]) to[ptr++] = u;
+        }
+        vector<int> st;
+        st.reserve(n);
+        st.push_back(root);
         depth[root] = 0;
         while (!st.empty()) {
             int v = st.back();
             st.pop_back();
-            for (int to : G[v]) {
-                if (to == up[0][v]) continue;
-                up[0][to] = v;
-                depth[to] = depth[v] + 1;
-                st.push_back(to);
+            int pv = up[v];
+            for (int i = offset[v]; i < offset[v + 1]; ++i) {
+                int u = to[i];
+                if (u == pv) continue;
+                up[u] = v;
+                depth[u] = depth[v] + 1;
+                st.push_back(u);
             }
         }
         for (int k = 0; k + 1 < logn; ++k) {
+            const int *cur = up.data() + k * n;
+            int *nxt = up.data() + (k + 1) * n;
             for (int v = 0; v < n; ++v) {
-                int p = up[k][v];
-                up[k + 1][v] = (p == -1 ? -1 : up[k][p]);
+                int p = cur[v];
+                nxt[v] = (p == -1 ? -1 : cur[p]);
             }
         }
     }
 
     int ancestor(int v, int k) const {
         if (k > depth[v]) return -1;
-        for (int i = 0; i < logn; ++i) {
-            if (k >> i & 1) v = up[i][v];
+        const int *row = up.data();
+        while (k) {
+            if (k & 1) v = row[v];
+            row += n;
+            k >>= 1;
         }
         return v;
     }
@@ -50,12 +67,13 @@ public:
         if (depth[u] < depth[v]) swap(u, v);
         u = ancestor(u, depth[u] - depth[v]);
         if (u == v) return u;
-        for (int k = logn - 1; k >= 0; --k) {
-            if (up[k][u] == up[k][v]) continue;
-            u = up[k][u];
-            v = up[k][v];
+        const int *row = up.data() + (logn - 1) * n;
+        for (int k = logn - 1; k >= 0; --k, row -= n) {
+            if (row[u] == row[v]) continue;
+            u = row[u];
+            v = row[v];
         }
-        return up[0][u];
+        return up[u];
     }
 
     int dist(int u, int v) const {

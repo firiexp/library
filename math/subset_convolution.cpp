@@ -9,6 +9,8 @@ vector<T> subset_convolution(vector<T> a, vector<T> b){
     int w = lg + 1;
     vector<int> pc(n);
     for (int s = 1; s < n; ++s) pc[s] = pc[s >> 1] + (s & 1);
+    vector<int> lim2(w);
+    for (int k = 0; k < w; ++k) lim2[k] = min(lg, k << 1);
 
     vector<T> fa(n * w), fb(n * w), fc(n * w);
     for (int s = 0; s < n; ++s) {
@@ -18,36 +20,50 @@ vector<T> subset_convolution(vector<T> a, vector<T> b){
     }
 
     for (int i = 0; i < lg; ++i) {
-        for (int s = 0; s < n; ++s) {
-            if (((s >> i) & 1) == 0) {
-                int t = s | (1 << i);
-                int sb = s * w, tb = t * w;
-                for (int k = 0; k <= pc[s]; ++k) {
-                    fa[tb + k] += fa[sb + k];
-                    fb[tb + k] += fb[sb + k];
+        int step = 1 << i;
+        int span = step << 1;
+        for (int block = 0; block < n; block += span) {
+            for (int j = 0; j < step; ++j) {
+                int s = block + j;
+                int t = s + step;
+                T *as = fa.data() + s * w;
+                T *at = fa.data() + t * w;
+                T *bs = fb.data() + s * w;
+                T *bt = fb.data() + t * w;
+                for (int k = 0, lim = pc[s]; k <= lim; ++k) {
+                    at[k] += as[k];
+                    bt[k] += bs[k];
                 }
             }
         }
     }
     for (int s = 0; s < n; ++s) {
-        int base = s * w;
-        int lim = min(lg, pc[s] * 2);
+        const T *as = fa.data() + s * w;
+        const T *bs = fb.data() + s * w;
+        T *cs = fc.data() + s * w;
+        int p = pc[s];
+        int lim = lim2[p];
         for (int k = 0; k <= lim; ++k) {
-            for (int i = 0; i <= k; ++i) {
-                if (i <= pc[s] && k - i <= pc[s]) {
-                    fc[base + k] += fa[base + i] * fb[base + k - i];
-                }
+            int l = max(0, k - p);
+            int r = min(k, p);
+            T sum = 0;
+            for (int i = l; i <= r; ++i) {
+                sum += as[i] * bs[k - i];
             }
+            cs[k] = sum;
         }
     }
     for (int i = 0; i < lg; ++i) {
-        for (int s = 0; s < n; ++s) {
-            if (((s >> i) & 1) == 0) {
-                int t = s | (1 << i);
-                int sb = s * w, tb = t * w;
-                int lim = min(lg, pc[s] * 2);
-                for (int k = 0; k <= lim; ++k) {
-                    fc[tb + k] -= fc[sb + k];
+        int step = 1 << i;
+        int span = step << 1;
+        for (int block = 0; block < n; block += span) {
+            for (int j = 0; j < step; ++j) {
+                int s = block + j;
+                int t = s + step;
+                T *cs = fc.data() + s * w;
+                T *ct = fc.data() + t * w;
+                for (int k = 0, lim = lim2[pc[s]]; k <= lim; ++k) {
+                    ct[k] -= cs[k];
                 }
             }
         }

@@ -1,11 +1,12 @@
 template <class T>
 struct WaveletMatrix {
-    int n, lg;
+    int n, lg, blocks;
     vector<int> mid;
-    vector<vector<int>> bit;
+    vector<unsigned long long> bit;
+    vector<int> pref;
     vector<T> vals;
 
-    WaveletMatrix() : n(0), lg(0) {}
+    WaveletMatrix() : n(0), lg(0), blocks(0) {}
     explicit WaveletMatrix(const vector<T> &v) { build(v); }
 
     void build(const vector<T> &v) {
@@ -16,8 +17,10 @@ struct WaveletMatrix {
 
         if (vals.empty()) {
             lg = 0;
+            blocks = 0;
             mid.clear();
             bit.clear();
+            pref.clear();
             return;
         }
 
@@ -25,6 +28,7 @@ struct WaveletMatrix {
         lg = 0;
         while ((1 << lg) < m) lg++;
         if (lg == 0) lg = 1;
+        blocks = (n + 63) >> 6;
 
         vector<int> cur(n);
         for (int i = 0; i < n; ++i) {
@@ -32,32 +36,45 @@ struct WaveletMatrix {
         }
 
         mid.assign(lg, 0);
-        bit.assign(lg, vector<int>(n + 1, 0));
+        bit.assign(lg * blocks, 0);
+        pref.assign(lg * (blocks + 1), 0);
+        vector<int> nxt(n);
 
         for (int d = 0; d < lg; ++d) {
             int shift = lg - 1 - d;
-            vector<int> zero, one;
-            zero.reserve(n);
-            one.reserve(n);
+            auto *row = bit.data() + d * blocks;
+            auto *row_pref = pref.data() + d * (blocks + 1);
+            int zero_cnt = 0;
             for (int i = 0; i < n; ++i) {
                 int b = (cur[i] >> shift) & 1;
-                bit[d][i + 1] = bit[d][i] + b;
-                if (b) one.push_back(cur[i]);
-                else zero.push_back(cur[i]);
+                if (b) row[i >> 6] |= 1ULL << (i & 63);
+                else ++zero_cnt;
             }
-            mid[d] = (int)zero.size();
-            cur.clear();
-            cur.insert(cur.end(), zero.begin(), zero.end());
-            cur.insert(cur.end(), one.begin(), one.end());
+            mid[d] = zero_cnt;
+            for (int i = 0; i < blocks; ++i) row_pref[i + 1] = row_pref[i] + __builtin_popcountll(row[i]);
+
+            int zi = 0, oi = zero_cnt;
+            for (int i = 0; i < n; ++i) {
+                int x = cur[i];
+                if ((x >> shift) & 1) nxt[oi++] = x;
+                else nxt[zi++] = x;
+            }
+            cur.swap(nxt);
         }
     }
 
-    int rank0(int d, int r) const {
-        return r - bit[d][r];
+    int rank1(int d, int r) const {
+        int base = d * blocks;
+        int pref_base = d * (blocks + 1);
+        int block = r >> 6;
+        int ret = pref[pref_base + block];
+        int rem = r & 63;
+        if (rem) ret += __builtin_popcountll(bit[base + block] & ((1ULL << rem) - 1));
+        return ret;
     }
 
-    int rank1(int d, int r) const {
-        return bit[d][r];
+    int rank0(int d, int r) const {
+        return r - rank1(d, r);
     }
 
     int count_less_index(int l, int r, int xi) const {
