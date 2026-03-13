@@ -64,12 +64,34 @@ function esc(value) {
         .replaceAll('"', "&quot;");
 }
 
+function normalizedProblemHost(url) {
+    return url.hostname.replace(/^www\./u, "");
+}
+
+function compactProblemSite(url) {
+    const host = normalizedProblemHost(url);
+    if (host === "judge.yosupo.jp") return "LC";
+    if (host === "onlinejudge.u-aizu.ac.jp" || host === "judge.u-aizu.ac.jp") return "AOJ";
+    if (host === "yukicoder.me") return "yuki";
+    return url.hostname;
+}
+
+function compactProblemId(url) {
+    const host = normalizedProblemHost(url);
+    const segments = url.pathname.split("/").filter(Boolean);
+    if (host === "judge.yosupo.jp") return segments.at(-1) ?? "";
+    if (host === "onlinejudge.u-aizu.ac.jp") return segments.at(-1) ?? "";
+    if (host === "judge.u-aizu.ac.jp") return url.searchParams.get("id") ?? segments.at(-1) ?? "";
+    if (host === "yukicoder.me" && segments[0] === "problems" && segments[1] === "no") return segments[2] ?? "";
+    return segments.slice(-2).join(" / ");
+}
+
 function compactProblemLabel(problem) {
     try {
         const url = new URL(problem);
-        const segments = url.pathname.split("/").filter(Boolean);
-        const tail = segments.slice(-2).join(" / ");
-        return tail ? `${url.hostname} / ${tail}` : url.hostname;
+        const site = compactProblemSite(url);
+        const id = compactProblemId(url);
+        return id ? `${site} / ${id}` : site;
     } catch (_error) {
         return problem;
     }
