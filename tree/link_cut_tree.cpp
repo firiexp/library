@@ -11,8 +11,11 @@ struct LinkCutTree {
 
     int n;
     vector<Node> nodes;
+    vector<int> push_stack;
 
-    explicit LinkCutTree(int n) : n(n), nodes(n) {}
+    explicit LinkCutTree(int n) : n(n), nodes(n), push_stack() {
+        push_stack.reserve(64);
+    }
 
     bool is_root(int x) const {
         int p = nodes[x].p;
@@ -21,9 +24,10 @@ struct LinkCutTree {
 
     void reverse(int x) {
         if (x == -1) return;
-        swap(nodes[x].l, nodes[x].r);
-        swap(nodes[x].sum, nodes[x].rsum);
-        nodes[x].rev ^= 1;
+        Node &nx = nodes[x];
+        swap(nx.l, nx.r);
+        swap(nx.sum, nx.rsum);
+        nx.rev ^= 1;
     }
 
     void push(int x) {
@@ -34,53 +38,60 @@ struct LinkCutTree {
     }
 
     void pull(int x) {
-        nodes[x].sz = 1;
-        nodes[x].sum = nodes[x].val;
-        nodes[x].rsum = nodes[x].val;
-        if (nodes[x].l != -1) {
-            int y = nodes[x].l;
-            nodes[x].sz += nodes[y].sz;
-            nodes[x].sum = M::f(nodes[y].sum, nodes[x].sum);
-            nodes[x].rsum = M::f(nodes[x].rsum, nodes[y].rsum);
+        Node &nx = nodes[x];
+        nx.sz = 1;
+        nx.sum = nx.val;
+        nx.rsum = nx.val;
+        if (nx.l != -1) {
+            int y = nx.l;
+            nx.sz += nodes[y].sz;
+            nx.sum = M::f(nodes[y].sum, nx.sum);
+            nx.rsum = M::f(nx.rsum, nodes[y].rsum);
         }
-        if (nodes[x].r != -1) {
-            int y = nodes[x].r;
-            nodes[x].sz += nodes[y].sz;
-            nodes[x].sum = M::f(nodes[x].sum, nodes[y].sum);
-            nodes[x].rsum = M::f(nodes[y].rsum, nodes[x].rsum);
+        if (nx.r != -1) {
+            int y = nx.r;
+            nx.sz += nodes[y].sz;
+            nx.sum = M::f(nx.sum, nodes[y].sum);
+            nx.rsum = M::f(nodes[y].rsum, nx.rsum);
         }
     }
 
     void rotate(int x) {
-        int p = nodes[x].p;
-        int g = nodes[p].p;
-        if (nodes[p].l == x) {
-            int b = nodes[x].r;
-            nodes[x].r = p;
-            nodes[p].l = b;
+        Node &nx = nodes[x];
+        int p = nx.p;
+        Node &np = nodes[p];
+        int g = np.p;
+        if (np.l == x) {
+            int b = nx.r;
+            nx.r = p;
+            np.l = b;
             if (b != -1) nodes[b].p = p;
         } else {
-            int b = nodes[x].l;
-            nodes[x].l = p;
-            nodes[p].r = b;
+            int b = nx.l;
+            nx.l = p;
+            np.r = b;
             if (b != -1) nodes[b].p = p;
         }
-        nodes[p].p = x;
-        nodes[x].p = g;
+        np.p = x;
+        nx.p = g;
         if (g != -1) {
-            if (nodes[g].l == p) nodes[g].l = x;
-            if (nodes[g].r == p) nodes[g].r = x;
+            Node &ng = nodes[g];
+            if (ng.l == p) {
+                ng.l = x;
+            } else if (ng.r == p) {
+                ng.r = x;
+            }
         }
         pull(p);
         pull(x);
     }
 
     void splay(int x) {
-        vector<int> st(1, x);
-        for (int y = x; !is_root(y); y = nodes[y].p) st.emplace_back(nodes[y].p);
-        while (!st.empty()) {
-            push(st.back());
-            st.pop_back();
+        push_stack.clear();
+        push_stack.emplace_back(x);
+        for (int y = x; !is_root(y); y = nodes[y].p) push_stack.emplace_back(nodes[y].p);
+        for (int i = (int)push_stack.size() - 1; i >= 0; --i) {
+            push(push_stack[i]);
         }
         while (!is_root(x)) {
             int p = nodes[x].p;
@@ -108,7 +119,6 @@ struct LinkCutTree {
     void evert(int x) {
         expose(x);
         reverse(x);
-        push(x);
     }
 
     int get_root(int x) {

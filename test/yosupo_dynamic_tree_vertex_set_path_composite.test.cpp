@@ -7,6 +7,7 @@ using uint = unsigned;
 using ull = unsigned long long;
 using namespace std;
 
+#include "../util/fastio.cpp"
 #include "../util/modint.cpp"
 #include "../tree/link_cut_tree.cpp"
 
@@ -17,36 +18,38 @@ struct Monoid {
 };
 
 int main() {
+    Scanner in;
+    Printer out;
     int n, q;
-    cin >> n >> q;
+    in.read(n, q);
     LinkCutTree<Monoid> lct(n);
     for (int i = 0; i < n; ++i) {
         int a, b;
-        cin >> a >> b;
+        in.read(a, b);
         lct.set(i, {a, b});
     }
     for (int i = 0; i < n - 1; ++i) {
         int u, v;
-        cin >> u >> v;
+        in.read(u, v);
         lct.link(u, v);
     }
     for (int i = 0; i < q; ++i) {
         int t;
-        cin >> t;
+        in.read(t);
         if (t == 0) {
             int u, v, w, x;
-            cin >> u >> v >> w >> x;
+            in.read(u, v, w, x);
             lct.cut(u, v);
             lct.link(w, x);
         } else if (t == 1) {
             int p, c, d;
-            cin >> p >> c >> d;
+            in.read(p, c, d);
             lct.set(p, {c, d});
         } else {
             int u, v, x;
-            cin >> u >> v >> x;
+            in.read(u, v, x);
             auto f = lct.fold(u, v);
-            cout << (f[0] * x + f[1]).val << '\n';
+            out.writeln((f[0] * x + f[1]).val);
         }
     }
     return 0;
