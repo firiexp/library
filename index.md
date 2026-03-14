@@ -140,6 +140,9 @@ data:
       title: Taylor Shift
   - name: geometry
     pages:
+    - icon: ':heavy_check_mark:'
+      path: geometry/area_of_union_of_rectangles.cpp
+      title: Area of Union of Rectangles
     - icon: ':warning:'
       path: geometry/argsort.cpp
       title: Arg Sort
@@ -678,6 +681,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_area_of_union_of_rectangles.test.cpp
+      title: test/yosupo_area_of_union_of_rectangles.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_assignment_hungarian.test.cpp
       title: test/yosupo_assignment_hungarian.test.cpp

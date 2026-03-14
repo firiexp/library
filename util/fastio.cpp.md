@@ -77,6 +77,9 @@ data:
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_area_of_union_of_rectangles.test.cpp
+    title: test/yosupo_area_of_union_of_rectangles.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_assignment_hungarian.test.cpp
     title: test/yosupo_assignment_hungarian.test.cpp
   - icon: ':heavy_check_mark:'
@@ -616,6 +619,7 @@ data:
   - test/aoj2945_bfs01.test.cpp
   - test/yosupo_sum_of_floor_of_linear.test.cpp
   - test/yosupo_topological_sort.test.cpp
+  - test/yosupo_area_of_union_of_rectangles.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_many_aplusb.test.cpp
