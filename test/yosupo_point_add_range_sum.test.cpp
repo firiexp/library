@@ -20,7 +20,7 @@ int main() {
     int n, q;
     in.read(n, q);
     vector<ll> v(n);
-    for (auto &&i : v) in.read(i);
+    in.read(v);
     BIT<ll> S(n);
     for (int i = 0; i < n; ++i) S.add(i, v[i]);
 

@@ -1,14 +1,14 @@
 ---
 title: Fast IO
 documentation_of: //util/fastio.cpp
-date: 2026-03-08
+date: 2026-03-14
 category: ユーティリティ
 tags: ユーティリティ
 ---
 
 ## 説明
 verify 用の小さい高速入出力。
-`fread` / `fwrite` を使って整数や文字列を読む。
+通常は `fread` / `fwrite` ベースで動き、標準入出力が TTY のときは interactive 用の挙動に切り替わる。
 
 ## できること
 - `Scanner in`
@@ -17,20 +17,30 @@ verify 用の小さい高速入出力。
   整数 `x` を読む
 - `in.read(a, b, c, ...)`
   複数の値を続けて読む
+- `in.read(pair<T, U>& p)`
+  `p.first`, `p.second` を順に読む
+- `in.read(Range& a)`
+  `string` 以外の range を先頭から順に読む
 - `in.read(char& c)`
   空白を飛ばして 1 文字読む
 - `in.read(string& s)`
   空白区切り文字列を読む
+- `in >> x`
+  `in.read(x)` の別名
 - `Printer out`
   出力をためる
 - `out.write(x)`
-  整数、`char`、`string`、文字列リテラルを出力する
+  整数、`bool`、`char`、`string`、文字列リテラルを出力する
+- `out.write(Range const& a)`
+  `string` 以外の range を空白区切りで出力する
 - `out.writeln(x)`
   `write(x)` の後に改行する
 - `out.writeln(a, b, c, ...)`
   空白区切りで複数の値を出力して改行する
 - `out.writeln()`
   改行だけ出力する
+- `out << x`
+  `out.write(x)` の別名
 
 ## 使い方
 テストコードで `#include "../util/fastio.cpp"` して使う。
@@ -39,12 +49,18 @@ verify 用の小さい高速入出力。
 Scanner in;
 Printer out;
 
-int n, q;
+int n;
+pair<int, int> p;
 in.read(n);
-in.read(q);
-while (q--) {
-    int t, u, v;
-    in.read(t, u, v);
-    out.writeln(t, u, v);
-}
+in.read(p);
+
+vector<int> a(n);
+in.read(a);
+
+out.writeln(a);
+out.writeln(p.first, p.second);
 ```
+
+## 実装上の補足
+- interactive 問題では、`Scanner` は行入力ベースで詰まらないように読み、`Printer` は改行ごとに flush する
+- range の入出力は `string` を除く `begin()` / `end()` を持つ型が対象

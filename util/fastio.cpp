@@ -1,5 +1,14 @@
 using namespace std;
 
+extern "C" int fileno(FILE *);
+extern "C" int isatty(int);
+
+template<class T, class = void>
+struct is_fastio_range : false_type {};
+
+template<class T>
+struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> : true_type {};
+
 struct FastIoDigitTable {
     char num[40000];
 
@@ -19,13 +28,19 @@ struct Scanner {
     static constexpr int OFFSET = 64;
     char buf[BUFSIZE + 1];
     int idx, size;
+    bool interactive;
 
-    Scanner() : idx(0), size(0) {}
+    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}
 
     inline void load() {
         int len = size - idx;
         memmove(buf, buf + idx, len);
-        size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);
+        if (interactive) {
+            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len + (int)strlen(buf + len);
+            else size = len;
+        } else {
+            size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);
+        }
         idx = 0;
         buf[size] = 0;
     }
@@ -34,7 +49,19 @@ struct Scanner {
         if (idx + OFFSET > size) load();
     }
 
+    inline void ensure_interactive() {
+        if (idx == size) load();
+    }
+
     inline char skip() {
+        if (interactive) {
+            ensure_interactive();
+            while (buf[idx] && buf[idx] <= ' ') {
+                ++idx;
+                ensure_interactive();
+            }
+            return buf[idx++];
+        }
         ensure();
         while (buf[idx] && buf[idx] <= ' ') {
             ++idx;
@@ -45,6 +72,27 @@ struct Scanner {
 
     template<class T, typename enable_if<is_integral<T>::value, int>::type = 0>
     void read(T &x) {
+        if (interactive) {
+            char c = skip();
+            bool neg = false;
+            if constexpr (is_signed<T>::value) {
+                if (c == '-') {
+                    neg = true;
+                    ensure_interactive();
+                    c = buf[idx++];
+                }
+            }
+            x = 0;
+            while (c >= '0') {
+                x = x * 10 + (c & 15);
+                ensure_interactive();
+                c = buf[idx++];
+            }
+            if constexpr (is_signed<T>::value) {
+                if (neg) x = -x;
+            }
+            return;
+        }
         char c = skip();
         bool neg = false;
         if constexpr (is_signed<T>::value) {
@@ -63,10 +111,20 @@ struct Scanner {
         }
     }
 
-    template<class Head, class... Tail>
-    void read(Head &head, Tail &...tail) {
+    template<class Head, class Next, class... Tail>
+    void read(Head &head, Next &next, Tail &...tail) {
         read(head);
-        (read(tail), ...);
+        read(next, tail...);
+    }
+
+    template<class T, class U>
+    void read(pair<T, U> &p) {
+        read(p.first, p.second);
+    }
+
+    template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value, int>::type = 0>
+    void read(T &a) {
+        for (auto &x : a) read(x);
     }
 
     void read(char &c) {
@@ -75,6 +133,23 @@ struct Scanner {
 
     void read(string &s) {
         s.clear();
+        if (interactive) {
+            ensure_interactive();
+            while (buf[idx] && buf[idx] <= ' ') {
+                ++idx;
+                ensure_interactive();
+            }
+            while (true) {
+                int start = idx;
+                while (idx < size && buf[idx] > ' ') ++idx;
+                s.append(buf + start, idx - start);
+                if (idx < size) break;
+                load();
+                if (size == 0) break;
+            }
+            if (idx < size) ++idx;
+            return;
+        }
         ensure();
         while (buf[idx] && buf[idx] <= ' ') {
             ++idx;
@@ -96,9 +171,10 @@ struct Printer {
     static constexpr int OFFSET = 64;
     char buf[BUFSIZE];
     int idx;
+    bool interactive;
     inline static constexpr FastIoDigitTable table{};
 
-    Printer() : idx(0) {}
+    Printer() : idx(0), interactive(isatty(fileno(stdout))) {}
     ~Printer() { flush(); }
 
     inline void flush() {
@@ -111,6 +187,7 @@ struct Printer {
     inline void pc(char c) {
         if (idx > BUFSIZE - OFFSET) flush();
         buf[idx++] = c;
+        if (interactive && c == '\n') flush();
     }
 
     inline void write_range(const char *s, size_t n) {
@@ -185,6 +262,16 @@ struct Printer {
         idx += TMP_SIZE - pos;
     }
 
+    template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value, int>::type = 0>
+    void write(const T &a) {
+        bool first = true;
+        for (auto &&x : a) {
+            if (!first) pc(' ');
+            first = false;
+            write(x);
+        }
+    }
+
     template<class T>
     void writeln(const T &x) {
         write(x);
@@ -202,6 +289,18 @@ struct Printer {
         pc('\n');
     }
 };
+
+template<class T>
+Scanner &operator>>(Scanner &in, T &x) {
+    in.read(x);
+    return in;
+}
+
+template<class T>
+Printer &operator<<(Printer &out, const T &x) {
+    out.write(x);
+    return out;
+}
 
 /**
  * @brief 高速入出力(Fast IO)

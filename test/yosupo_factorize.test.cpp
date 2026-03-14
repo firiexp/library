@@ -28,11 +28,11 @@ int main() {
         in.read(a);
         auto fac = prime_factor(a);
         out.write((int)fac.size());
-        for (auto &x : fac) {
+        if (fac.empty()) out.writeln();
+        else {
             out.write(' ');
-            out.write(x);
+            out.writeln(fac);
         }
-        out.writeln();
     }
     return 0;
 }
