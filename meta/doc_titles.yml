@@ -130,6 +130,7 @@ tree/centroid_decomposition_query_helper.cpp: "重心分解クエリ補助(Centr
 tree/diameter.cpp: "木の直径(Tree Diameter)"
 tree/diameter_weighted.cpp: "木の直径(重み付き)"
 tree/dsu_on_tree.cpp: "DSU on Tree"
+tree/frequency_table_of_tree_distance.cpp: "木距離頻度表(Frequency Table of Tree Distance)"
 tree/hld.cpp: "HL分解(HL Decomposition)"
 tree/hld_edge.cpp: "HL分解(辺クエリ)"
 tree/jump_on_tree.cpp: "Jump on Tree"
