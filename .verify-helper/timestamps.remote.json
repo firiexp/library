@@ -42,6 +42,7 @@
 "test/aoj_ntl_1_d_eulerphi.test.cpp": "2026-03-14 13:04:06 +0900",
 "test/example.test.cpp": "2020-04-26 16:08:15 +0900",
 "test/yosupo_aplusb_functional_graph.test.cpp": "2026-03-14 13:04:06 +0900",
+"test/yosupo_area_of_union_of_rectangles.test.cpp": "2026-03-15 00:59:06 +0900",
 "test/yosupo_assignment_hungarian.test.cpp": "2026-03-14 13:04:06 +0900",
 "test/yosupo_biconnected_components.test.cpp": "2026-03-13 21:29:59 +0900",
 "test/yosupo_binomial_coefficient.test.cpp": "2026-03-14 13:04:06 +0900",
