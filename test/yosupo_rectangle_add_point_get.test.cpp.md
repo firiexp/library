@@ -21,46 +21,76 @@ data:
     \ PROBLEM \"https://judge.yosupo.jp/problem/rectangle_add_point_get\"\n\n#include\
     \ <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n#include\
     \ <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace\
-    \ std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
-    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
-    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
-    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
-    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
-    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
-    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
-    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
-    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
-    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
-    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
-    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
-    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
-    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
-    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
+    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\
+    \n    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
+    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
+    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
+    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
+    \ + 1];\n    int idx, size;\n    bool interactive;\n\n    Scanner() : idx(0),\
+    \ size(0), interactive(isatty(fileno(stdin))) {}\n\n    inline void load() {\n\
+    \        int len = size - idx;\n        memmove(buf, buf + idx, len);\n      \
+    \  if (interactive) {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin))\
+    \ size = len + (int)strlen(buf + len);\n            else size = len;\n       \
+    \ } else {\n            size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
+    \        }\n        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void\
+    \ ensure() {\n        if (idx + OFFSET > size) load();\n    }\n\n    inline void\
+    \ ensure_interactive() {\n        if (idx == size) load();\n    }\n\n    inline\
+    \ char skip() {\n        if (interactive) {\n            ensure_interactive();\n\
+    \            while (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n \
+    \               ensure_interactive();\n            }\n            return buf[idx++];\n\
+    \        }\n        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n\
+    \            ++idx;\n            ensure();\n        }\n        return buf[idx++];\n\
+    \    }\n\n    template<class T, typename enable_if<is_integral<T>::value, int>::type\
+    \ = 0>\n    void read(T &x) {\n        if (interactive) {\n            char c\
+    \ = skip();\n            bool neg = false;\n            if constexpr (is_signed<T>::value)\
+    \ {\n                if (c == '-') {\n                    neg = true;\n      \
+    \              ensure_interactive();\n                    c = buf[idx++];\n  \
+    \              }\n            }\n            x = 0;\n            while (c >= '0')\
+    \ {\n                x = x * 10 + (c & 15);\n                ensure_interactive();\n\
+    \                c = buf[idx++];\n            }\n            if constexpr (is_signed<T>::value)\
+    \ {\n                if (neg) x = -x;\n            }\n            return;\n  \
+    \      }\n        char c = skip();\n        bool neg = false;\n        if constexpr\
     \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
     \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
     \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
     \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
     \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
-    \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
-    \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
+    \ class Next, class... Tail>\n    void read(Head &head, Next &next, Tail &...tail)\
+    \ {\n        read(head);\n        read(next, tail...);\n    }\n\n    template<class\
+    \ T, class U>\n    void read(pair<T, U> &p) {\n        read(p.first, p.second);\n\
+    \    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ read(T &a) {\n        for (auto &x : a) read(x);\n    }\n\n    void read(char\
+    \ &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n        s.clear();\n\
+    \        if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            while (true) {\n                int start = idx;\n\
+    \                while (idx < size && buf[idx] > ' ') ++idx;\n               \
+    \ s.append(buf + start, idx - start);\n                if (idx < size) break;\n\
+    \                load();\n                if (size == 0) break;\n            }\n\
+    \            if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
     \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
     \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
-    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
-    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
-    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
-    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
-    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
-    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
-    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
-    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
-    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
-    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    inline\
+    \ static constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
+    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
+    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
+    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
+    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
+    \  }\n\n    inline void write_range(const char *s, size_t n) {\n        size_t\
+    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
+    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
+    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
+    \       pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n \
+    \       write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
     \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
     \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
     \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
@@ -82,34 +112,41 @@ data:
     \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
     \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
     \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
+    \ string>::value, int>::type = 0>\n    void write(const T &a) {\n        bool\
+    \ first = true;\n        for (auto &&x : a) {\n            if (!first) pc(' ');\n\
+    \            first = false;\n            write(x);\n        }\n    }\n\n    template<class\
     \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"datastructure/rectangle_add_point_get.cpp\"\nusing namespace std;\n\ntemplate<class\
-    \ T>\nstruct RectangleAddPointGet {\n    struct Operation {\n        int type;\n\
-    \        int l, d, r, u;\n        T w;\n    };\n\n    vector<Operation> ops;\n\
-    \    vector<int> xs;\n\n    void add_rectangle(int l, int d, int r, int u, T w)\
-    \ {\n        ops.push_back({0, l, d, r, u, w});\n        xs.push_back(l);\n  \
-    \      xs.push_back(r);\n    }\n\n    void add_query(int x, int y) {\n       \
-    \ ops.push_back({1, x, y, 0, 0, 0});\n    }\n\n    vector<T> solve() const {\n\
-    \        struct RectInfo {\n            int start[4];\n        };\n        vector<int>\
-    \ ord_x = xs;\n        ord_x.reserve(ord_x.size() + ops.size());\n        for\
-    \ (auto &&op : ops) {\n            if (op.type == 1) ord_x.push_back(op.l);\n\
-    \        }\n        sort(ord_x.begin(), ord_x.end());\n        ord_x.erase(unique(ord_x.begin(),\
-    \ ord_x.end()), ord_x.end());\n\n        int m = (int)ord_x.size();\n        vector<int>\
-    \ x_index_lower(ops.size());\n        vector<int> x_index_upper(ops.size());\n\
-    \        for (int idx = 0; idx < (int)ops.size(); ++idx) {\n            x_index_lower[idx]\
-    \ = (int)(lower_bound(ord_x.begin(), ord_x.end(), ops[idx].l) - ord_x.begin())\
-    \ + 1;\n            if (ops[idx].type == 1) {\n                x_index_upper[idx]\
-    \ = (int)(upper_bound(ord_x.begin(), ord_x.end(), ops[idx].l) - ord_x.begin());\n\
-    \            } else {\n                x_index_upper[idx] = (int)(lower_bound(ord_x.begin(),\
-    \ ord_x.end(), ops[idx].r) - ord_x.begin()) + 1;\n            }\n        }\n \
-    \       vector<int> cnt(m + 1);\n        auto count_point = [&](int xi) {\n  \
-    \          for (int i = xi; i <= m; i += i & -i) ++cnt[i];\n        };\n     \
-    \   for (int idx = 0; idx < (int)ops.size(); ++idx) {\n            if (ops[idx].type\
-    \ == 1) continue;\n            count_point(x_index_lower[idx]);\n            count_point(x_index_lower[idx]);\n\
+    \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
+    \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
+    \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/rectangle_add_point_get.cpp\"\
+    \nusing namespace std;\n\ntemplate<class T>\nstruct RectangleAddPointGet {\n \
+    \   struct Operation {\n        int type;\n        int l, d, r, u;\n        T\
+    \ w;\n    };\n\n    vector<Operation> ops;\n    vector<int> xs;\n\n    void add_rectangle(int\
+    \ l, int d, int r, int u, T w) {\n        ops.push_back({0, l, d, r, u, w});\n\
+    \        xs.push_back(l);\n        xs.push_back(r);\n    }\n\n    void add_query(int\
+    \ x, int y) {\n        ops.push_back({1, x, y, 0, 0, 0});\n    }\n\n    vector<T>\
+    \ solve() const {\n        struct RectInfo {\n            int start[4];\n    \
+    \    };\n        vector<int> ord_x = xs;\n        ord_x.reserve(ord_x.size() +\
+    \ ops.size());\n        for (auto &&op : ops) {\n            if (op.type == 1)\
+    \ ord_x.push_back(op.l);\n        }\n        sort(ord_x.begin(), ord_x.end());\n\
+    \        ord_x.erase(unique(ord_x.begin(), ord_x.end()), ord_x.end());\n\n   \
+    \     int m = (int)ord_x.size();\n        vector<int> x_index_lower(ops.size());\n\
+    \        vector<int> x_index_upper(ops.size());\n        for (int idx = 0; idx\
+    \ < (int)ops.size(); ++idx) {\n            x_index_lower[idx] = (int)(lower_bound(ord_x.begin(),\
+    \ ord_x.end(), ops[idx].l) - ord_x.begin()) + 1;\n            if (ops[idx].type\
+    \ == 1) {\n                x_index_upper[idx] = (int)(upper_bound(ord_x.begin(),\
+    \ ord_x.end(), ops[idx].l) - ord_x.begin());\n            } else {\n         \
+    \       x_index_upper[idx] = (int)(lower_bound(ord_x.begin(), ord_x.end(), ops[idx].r)\
+    \ - ord_x.begin()) + 1;\n            }\n        }\n        vector<int> cnt(m +\
+    \ 1);\n        auto count_point = [&](int xi) {\n            for (int i = xi;\
+    \ i <= m; i += i & -i) ++cnt[i];\n        };\n        for (int idx = 0; idx <\
+    \ (int)ops.size(); ++idx) {\n            if (ops[idx].type == 1) continue;\n \
+    \           count_point(x_index_lower[idx]);\n            count_point(x_index_lower[idx]);\n\
     \            count_point(x_index_upper[idx]);\n            count_point(x_index_upper[idx]);\n\
     \        }\n        vector<vector<int>> ys(m + 1);\n        for (int i = 1; i\
     \ <= m; ++i) ys[i].reserve(cnt[i]);\n        auto reserve_point = [&](int xi,\
@@ -198,7 +235,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_rectangle_add_point_get.test.cpp
   requiredBy: []
-  timestamp: '2026-03-13 22:39:26+09:00'
+  timestamp: '2026-03-14 13:04:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_rectangle_add_point_get.test.cpp

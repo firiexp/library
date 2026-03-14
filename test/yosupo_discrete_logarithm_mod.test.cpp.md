@@ -21,46 +21,77 @@ data:
     \ \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\n\n#include <cmath>\n\
     #include <limits>\n#include <numeric>\n#include <unordered_map>\n\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n\
-    \    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
-    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
-    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
-    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
-    \ + 1];\n    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n\
-    \        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n          \
-    \  ++idx;\n            ensure();\n        }\n        return buf[idx++];\n    }\n\
-    \n    template<class T, typename enable_if<is_integral<T>::value, int>::type =\
-    \ 0>\n    void read(T &x) {\n        char c = skip();\n        bool neg = false;\n\
-    \        if constexpr (is_signed<T>::value) {\n            if (c == '-') {\n \
-    \               neg = true;\n                c = buf[idx++];\n            }\n\
-    \        }\n        x = 0;\n        while (c >= '0') {\n            x = x * 10\
-    \ + (c & 15);\n            c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
-    \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
-    \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\nstruct FastIoDigitTable\
+    \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
+    \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
+    \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
+    \ 10);\n                x /= 10;\n            }\n        }\n    }\n};\n\nstruct\
+    \ Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
+    \ int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive;\n\
+    \n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}\n\n \
+    \   inline void load() {\n        int len = size - idx;\n        memmove(buf,\
+    \ buf + idx, len);\n        if (interactive) {\n            if (fgets(buf + len,\
+    \ BUFSIZE + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n          \
+    \  else size = len;\n        } else {\n            size = len + (int)fread(buf\
+    \ + len, 1, BUFSIZE - len, stdin);\n        }\n        idx = 0;\n        buf[size]\
+    \ = 0;\n    }\n\n    inline void ensure() {\n        if (idx + OFFSET > size)\
+    \ load();\n    }\n\n    inline void ensure_interactive() {\n        if (idx ==\
+    \ size) load();\n    }\n\n    inline char skip() {\n        if (interactive) {\n\
+    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
+    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
+    \        }\n            return buf[idx++];\n        }\n        ensure();\n   \
+    \     while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n            ensure();\n\
+    \        }\n        return buf[idx++];\n    }\n\n    template<class T, typename\
+    \ enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T &x) {\n  \
+    \      if (interactive) {\n            char c = skip();\n            bool neg\
+    \ = false;\n            if constexpr (is_signed<T>::value) {\n               \
+    \ if (c == '-') {\n                    neg = true;\n                    ensure_interactive();\n\
+    \                    c = buf[idx++];\n                }\n            }\n     \
+    \       x = 0;\n            while (c >= '0') {\n                x = x * 10 + (c\
+    \ & 15);\n                ensure_interactive();\n                c = buf[idx++];\n\
+    \            }\n            if constexpr (is_signed<T>::value) {\n           \
+    \     if (neg) x = -x;\n            }\n            return;\n        }\n      \
+    \  char c = skip();\n        bool neg = false;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (c == '-') {\n                neg = true;\n              \
+    \  c = buf[idx++];\n            }\n        }\n        x = 0;\n        while (c\
+    \ >= '0') {\n            x = x * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        if constexpr (is_signed<T>::value) {\n            if (neg)\
+    \ x = -x;\n        }\n    }\n\n    template<class Head, class Next, class... Tail>\n\
+    \    void read(Head &head, Next &next, Tail &...tail) {\n        read(head);\n\
+    \        read(next, tail...);\n    }\n\n    template<class T, class U>\n    void\
+    \ read(pair<T, U> &p) {\n        read(p.first, p.second);\n    }\n\n    template<class\
+    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
+    \ string>::value, int>::type = 0>\n    void read(T &a) {\n        for (auto &x\
+    \ : a) read(x);\n    }\n\n    void read(char &c) {\n        c = skip();\n    }\n\
+    \n    void read(string &s) {\n        s.clear();\n        if (interactive) {\n\
+    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
+    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
+    \        }\n            while (true) {\n                int start = idx;\n   \
+    \             while (idx < size && buf[idx] > ' ') ++idx;\n                s.append(buf\
+    \ + start, idx - start);\n                if (idx < size) break;\n           \
+    \     load();\n                if (size == 0) break;\n            }\n        \
+    \    if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
     \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
     \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
-    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
-    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
-    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
-    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
-    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
-    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
-    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
-    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
-    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
-    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    inline\
+    \ static constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
+    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
+    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
+    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
+    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
+    \  }\n\n    inline void write_range(const char *s, size_t n) {\n        size_t\
+    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
+    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
+    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
+    \       pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n \
+    \       write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
     \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
     \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
     \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
@@ -82,36 +113,42 @@ data:
     \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
     \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
     \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
+    \ string>::value, int>::type = 0>\n    void write(const T &a) {\n        bool\
+    \ first = true;\n        for (auto &&x : a) {\n            if (!first) pc(' ');\n\
+    \            first = false;\n            write(x);\n        }\n    }\n\n    template<class\
     \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"math/discrete_logarithm.cpp\"\nlong long discrete_logarithm_mul(long long\
-    \ a, long long b, long long mod) {\n    using i128 = __int128_t;\n    return (long\
-    \ long)((i128)a * b % mod);\n}\n\nlong long discrete_logarithm(long long x, long\
-    \ long y, long long mod) {\n    if (mod == 1) return 0;\n    x %= mod;\n    y\
-    \ %= mod;\n    if (x < 0) x += mod;\n    if (y < 0) y += mod;\n    if (y == 1)\
-    \ return 0;\n\n    long long add = 0;\n    long long k = 1 % mod;\n    while (true)\
-    \ {\n        long long g = std::gcd(x, mod);\n        if (g == 1) break;\n   \
-    \     if (y == k) return add;\n        if (y % g != 0) return -1;\n        y /=\
-    \ g;\n        mod /= g;\n        ++add;\n        k = discrete_logarithm_mul(k,\
-    \ x / g, mod);\n    }\n\n    long long n = (long long)std::sqrt((long double)mod)\
-    \ + 1;\n    std::unordered_map<long long, long long> baby;\n    baby.reserve((size_t)n\
-    \ * 2 + 1);\n\n    long long giant = 1;\n    for (long long i = 0; i < n; ++i)\
-    \ {\n        giant = discrete_logarithm_mul(giant, x, mod);\n    }\n\n    long\
-    \ long cur = k;\n    for (long long p = 1; p <= n; ++p) {\n        cur = discrete_logarithm_mul(cur,\
-    \ giant, mod);\n        if (!baby.count(cur)) baby[cur] = p;\n    }\n\n    long\
-    \ long ans = std::numeric_limits<long long>::max();\n    cur = y;\n    for (long\
-    \ long q = 0; q <= n; ++q) {\n        auto it = baby.find(cur);\n        if (it\
-    \ != baby.end()) {\n            long long cand = it->second * n - q + add;\n \
-    \           if (cand < ans) ans = cand;\n        }\n        cur = discrete_logarithm_mul(cur,\
-    \ x, mod);\n    }\n    return ans == std::numeric_limits<long long>::max() ? -1\
-    \ : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete Logarithm)\n */\n\
-    #line 15 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\n\nint main() {\n   \
-    \ Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n\
-    \        long long x, y, mod;\n        sc.read(x, y, mod);\n        pr.writeln(discrete_logarithm(x,\
-    \ y, mod));\n    }\n    return 0;\n}\n"
+    \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
+    \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
+    \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/discrete_logarithm.cpp\"\
+    \nlong long discrete_logarithm_mul(long long a, long long b, long long mod) {\n\
+    \    using i128 = __int128_t;\n    return (long long)((i128)a * b % mod);\n}\n\
+    \nlong long discrete_logarithm(long long x, long long y, long long mod) {\n  \
+    \  if (mod == 1) return 0;\n    x %= mod;\n    y %= mod;\n    if (x < 0) x +=\
+    \ mod;\n    if (y < 0) y += mod;\n    if (y == 1) return 0;\n\n    long long add\
+    \ = 0;\n    long long k = 1 % mod;\n    while (true) {\n        long long g =\
+    \ std::gcd(x, mod);\n        if (g == 1) break;\n        if (y == k) return add;\n\
+    \        if (y % g != 0) return -1;\n        y /= g;\n        mod /= g;\n    \
+    \    ++add;\n        k = discrete_logarithm_mul(k, x / g, mod);\n    }\n\n   \
+    \ long long n = (long long)std::sqrt((long double)mod) + 1;\n    std::unordered_map<long\
+    \ long, long long> baby;\n    baby.reserve((size_t)n * 2 + 1);\n\n    long long\
+    \ giant = 1;\n    for (long long i = 0; i < n; ++i) {\n        giant = discrete_logarithm_mul(giant,\
+    \ x, mod);\n    }\n\n    long long cur = k;\n    for (long long p = 1; p <= n;\
+    \ ++p) {\n        cur = discrete_logarithm_mul(cur, giant, mod);\n        if (!baby.count(cur))\
+    \ baby[cur] = p;\n    }\n\n    long long ans = std::numeric_limits<long long>::max();\n\
+    \    cur = y;\n    for (long long q = 0; q <= n; ++q) {\n        auto it = baby.find(cur);\n\
+    \        if (it != baby.end()) {\n            long long cand = it->second * n\
+    \ - q + add;\n            if (cand < ans) ans = cand;\n        }\n        cur\
+    \ = discrete_logarithm_mul(cur, x, mod);\n    }\n    return ans == std::numeric_limits<long\
+    \ long>::max() ? -1 : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete\
+    \ Logarithm)\n */\n#line 15 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\n\n\
+    int main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
+    \    while (t--) {\n        long long x, y, mod;\n        sc.read(x, y, mod);\n\
+    \        pr.writeln(discrete_logarithm(x, y, mod));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\
     \n\n#include <cmath>\n#include <limits>\n#include <numeric>\n#include <unordered_map>\n\
     \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
@@ -125,7 +162,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_discrete_logarithm_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-14 13:04:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_discrete_logarithm_mod.test.cpp

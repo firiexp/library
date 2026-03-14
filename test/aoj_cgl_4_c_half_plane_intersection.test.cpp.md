@@ -27,46 +27,76 @@ data:
     \ <cmath>\n#include <deque>\n#include <iostream>\n#include <vector>\nusing namespace\
     \ std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
     \ <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace\
-    \ std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
-    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
-    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
-    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
-    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
-    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
-    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
-    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
-    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
-    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
-    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
-    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
-    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
-    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
-    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
+    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\
+    \n    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
+    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
+    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
+    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
+    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
+    \ + 1];\n    int idx, size;\n    bool interactive;\n\n    Scanner() : idx(0),\
+    \ size(0), interactive(isatty(fileno(stdin))) {}\n\n    inline void load() {\n\
+    \        int len = size - idx;\n        memmove(buf, buf + idx, len);\n      \
+    \  if (interactive) {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin))\
+    \ size = len + (int)strlen(buf + len);\n            else size = len;\n       \
+    \ } else {\n            size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
+    \        }\n        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void\
+    \ ensure() {\n        if (idx + OFFSET > size) load();\n    }\n\n    inline void\
+    \ ensure_interactive() {\n        if (idx == size) load();\n    }\n\n    inline\
+    \ char skip() {\n        if (interactive) {\n            ensure_interactive();\n\
+    \            while (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n \
+    \               ensure_interactive();\n            }\n            return buf[idx++];\n\
+    \        }\n        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n\
+    \            ++idx;\n            ensure();\n        }\n        return buf[idx++];\n\
+    \    }\n\n    template<class T, typename enable_if<is_integral<T>::value, int>::type\
+    \ = 0>\n    void read(T &x) {\n        if (interactive) {\n            char c\
+    \ = skip();\n            bool neg = false;\n            if constexpr (is_signed<T>::value)\
+    \ {\n                if (c == '-') {\n                    neg = true;\n      \
+    \              ensure_interactive();\n                    c = buf[idx++];\n  \
+    \              }\n            }\n            x = 0;\n            while (c >= '0')\
+    \ {\n                x = x * 10 + (c & 15);\n                ensure_interactive();\n\
+    \                c = buf[idx++];\n            }\n            if constexpr (is_signed<T>::value)\
+    \ {\n                if (neg) x = -x;\n            }\n            return;\n  \
+    \      }\n        char c = skip();\n        bool neg = false;\n        if constexpr\
     \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
     \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
     \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
     \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
     \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
-    \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
-    \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
+    \ class Next, class... Tail>\n    void read(Head &head, Next &next, Tail &...tail)\
+    \ {\n        read(head);\n        read(next, tail...);\n    }\n\n    template<class\
+    \ T, class U>\n    void read(pair<T, U> &p) {\n        read(p.first, p.second);\n\
+    \    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ read(T &a) {\n        for (auto &x : a) read(x);\n    }\n\n    void read(char\
+    \ &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n        s.clear();\n\
+    \        if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            while (true) {\n                int start = idx;\n\
+    \                while (idx < size && buf[idx] > ' ') ++idx;\n               \
+    \ s.append(buf + start, idx - start);\n                if (idx < size) break;\n\
+    \                load();\n                if (size == 0) break;\n            }\n\
+    \            if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
     \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
     \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
-    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
-    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
-    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
-    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
-    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
-    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
-    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
-    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
-    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
-    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    inline\
+    \ static constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
+    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
+    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
+    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
+    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
+    \  }\n\n    inline void write_range(const char *s, size_t n) {\n        size_t\
+    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
+    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
+    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
+    \       pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n \
+    \       write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
     \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
     \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
     \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
@@ -88,66 +118,73 @@ data:
     \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
     \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
     \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
+    \ string>::value, int>::type = 0>\n    void write(const T &a) {\n        bool\
+    \ first = true;\n        for (auto &&x : a) {\n            if (!first) pc(' ');\n\
+    \            first = false;\n            write(x);\n        }\n    }\n\n    template<class\
     \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"geometry/geometry.cpp\"\n// \u51F8\u5305\u306F\u540C\u3058\u9802\u70B9\u304C\
-    \u542B\u307E\u308C\u3066\u3044\u308B\u3068\u30D0\u30B0\u308B\nusing real = double;\n\
-    static constexpr real EPS = 1e-10;\nconst real pi = acos(-1);\n\nstruct Point\
-    \ {\n    real x, y;\n    Point& operator+=(const Point a) { x += a.x; y += a.y;\
-    \  return *this; }\n    Point& operator-=(const Point a) { x -= a.x; y -= a.y;\
-    \  return *this; }\n    Point& operator*=(const real k) { x *= k; y *= k;  return\
-    \ *this; }\n    Point& operator/=(const real k) { x /= k; y /= k;  return *this;\
-    \ }\n    Point operator+(const Point a) const {return Point(*this) += a; }\n \
-    \   Point operator-(const Point a) const {return Point(*this) -= a; }\n    Point\
-    \ operator*(const real k) const {return Point(*this) *= k; }\n    Point operator/(const\
-    \ real k) const {return Point(*this) /= k; }\n    bool operator<(const Point &a)\
-    \ const { return (x != a.x ? x < a.x : y < a.y); }\n    explicit Point(real a\
-    \ = 0, real b = 0) : x(a), y(b) {};\n};\n\nbool sorty(Point a, Point b) {\n  \
-    \  return (a.y != b.y ? a.y < b.y : a.x < b.x);\n}\n\nistream &operator>>(istream\
-    \ &s, Point &P) {\n    s >> P.x >> P.y;\n    return s;\n}\n\ninline real dot(Point\
-    \ a, Point b) { return a.x * b.x + a.y * b.y; }\n\ninline real cross(Point a,\
-    \ Point b) { return a.x * b.y - a.y * b.x; }\n\ninline real abs(Point a) { return\
-    \ sqrt(dot(a, a)); }\n\nreal angle(Point A, Point B) {\n    return acos(dot(A,\
-    \ B) / abs(A) / abs(B));\n}\n\nstatic constexpr int COUNTER_CLOCKWISE = 1;\nstatic\
-    \ constexpr int CLOCKWISE = -1;\nstatic constexpr int ONLINE_BACK = 2;\nstatic\
-    \ constexpr int ONLINE_FRONT = -2;\nstatic constexpr int ON_SEGMENT = 0;\n\nint\
-    \ ccw(Point a, Point b, Point c) {\n    b -= a;\n    c -= a;\n    if (cross(b,\
-    \ c) > EPS)\n        return COUNTER_CLOCKWISE;\n    if (cross(b, c) < -EPS)\n\
-    \        return CLOCKWISE;\n    if (dot(b, c) < 0)\n        return ONLINE_BACK;\n\
-    \    if (abs(b) < abs(c))\n        return ONLINE_FRONT;\n    return ON_SEGMENT;\n\
-    }\n\nstruct Segment {\n    Point a, b;\n\n    Segment(Point x, Point y) : a(x),\
-    \ b(y) {};\n};\n\nstruct Line {\n    Point a, b;\n\n    Line(Point x, Point y)\
-    \ : a(x), b(y) {};\n};\n\nstruct Circle {\n    Point c;\n    real r;\n\n    Circle(Point\
-    \ c, real r) : c(c), r(r) {};\n};\n\nusing Polygon = vector<Point>;\n\nbool intersect(Segment\
-    \ s, Segment t) {\n    return (ccw(s.a, s.b, t.a) * ccw(s.a, s.b, t.b) <= 0 &&\n\
-    \            ccw(t.a, t.b, s.a) * ccw(t.a, t.b, s.b) <= 0);\n}\n\nbool intersect(Segment\
-    \ s, Line t) {\n    int a = ccw(t.a, t.b, s.a), b = ccw(t.a, t.b, s.b);\n    return\
-    \ (!(a & 1) || !(b & 1) || a != b);\n}\n\nPoint polar(double r, double t) {\n\
-    \    return Point(r * cos(t), r * sin(t));\n}\n\ndouble arg(Point p) {\n    return\
-    \ atan2(p.y, p.x);\n}\n\nstatic constexpr int CONTAIN = 0;\nstatic constexpr int\
-    \ INSCRIBE = 1;\nstatic constexpr int INTERSECT = 2;\nstatic constexpr int CIRCUMSCRIBED\
-    \ = 3;\nstatic constexpr int SEPARATE = 4;\n\nint intersect(Circle c1, Circle\
-    \ c2) {\n    if (c1.r < c2.r)\n        swap(c1, c2);\n    real d = abs(c1.c -\
-    \ c2.c);\n    real r = c1.r + c2.r;\n    if (fabs(d - r) < EPS)\n        return\
-    \ CIRCUMSCRIBED;\n    if (d > r)\n        return SEPARATE;\n    if (fabs(d + c2.r\
-    \ - c1.r) < EPS)\n        return INSCRIBE;\n    if (d + c2.r < c1.r)\n       \
-    \ return CONTAIN;\n    return INTERSECT;\n}\n\nreal distance(Line l, Point c)\
-    \ {\n    return abs(cross(l.b - l.a, c - l.a) / abs(l.b - l.a));\n}\n\nreal distance(Segment\
-    \ s, Point c) {\n    if (dot(s.b - s.a, c - s.a) < EPS)\n        return abs(c\
-    \ - s.a);\n    if (dot(s.a - s.b, c - s.b) < EPS)\n        return abs(c - s.b);\n\
-    \    return abs(cross(s.b - s.a, c - s.a)) / abs(s.a - s.b);\n}\n\nreal distance(Segment\
-    \ s, Segment t) {\n    if (intersect(s, t))\n        return 0.0;\n    return min({distance(s,\
-    \ t.a), distance(s, t.b),\n                distance(t, s.a), distance(t, s.b)});\n\
-    }\n\nPoint project(Line l, Point p) {\n    Point Q = l.b - l.a;\n    return l.a\
-    \ + Q * (dot(p - l.a, Q) / dot(Q, Q));\n}\n\nPoint project(Segment s, Point p)\
-    \ {\n    Point Q = s.b - s.a;\n    return s.a + Q * (dot(p - s.a, Q) / dot(Q,\
-    \ Q));\n}\n\nPoint refrect(Segment s, Point p) {\n    Point Q = project(s, p);\n\
-    \    return Q * 2 - p;\n}\n\nbool isOrthogonal(Segment s, Segment t) {\n    return\
-    \ fabs(dot(s.b - s.a, t.b - t.a)) < EPS;\n}\n\nbool isparallel(Segment s, Segment\
-    \ t) {\n    return fabs(cross(s.b - s.a, t.b - t.a)) < EPS;\n}\n\nPoint crossPoint(Segment\
+    \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
+    \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
+    \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/geometry.cpp\"\
+    \n// \u51F8\u5305\u306F\u540C\u3058\u9802\u70B9\u304C\u542B\u307E\u308C\u3066\u3044\
+    \u308B\u3068\u30D0\u30B0\u308B\nusing real = double;\nstatic constexpr real EPS\
+    \ = 1e-10;\nconst real pi = acos(-1);\n\nstruct Point {\n    real x, y;\n    Point&\
+    \ operator+=(const Point a) { x += a.x; y += a.y;  return *this; }\n    Point&\
+    \ operator-=(const Point a) { x -= a.x; y -= a.y;  return *this; }\n    Point&\
+    \ operator*=(const real k) { x *= k; y *= k;  return *this; }\n    Point& operator/=(const\
+    \ real k) { x /= k; y /= k;  return *this; }\n    Point operator+(const Point\
+    \ a) const {return Point(*this) += a; }\n    Point operator-(const Point a) const\
+    \ {return Point(*this) -= a; }\n    Point operator*(const real k) const {return\
+    \ Point(*this) *= k; }\n    Point operator/(const real k) const {return Point(*this)\
+    \ /= k; }\n    bool operator<(const Point &a) const { return (x != a.x ? x < a.x\
+    \ : y < a.y); }\n    explicit Point(real a = 0, real b = 0) : x(a), y(b) {};\n\
+    };\n\nbool sorty(Point a, Point b) {\n    return (a.y != b.y ? a.y < b.y : a.x\
+    \ < b.x);\n}\n\nistream &operator>>(istream &s, Point &P) {\n    s >> P.x >> P.y;\n\
+    \    return s;\n}\n\ninline real dot(Point a, Point b) { return a.x * b.x + a.y\
+    \ * b.y; }\n\ninline real cross(Point a, Point b) { return a.x * b.y - a.y * b.x;\
+    \ }\n\ninline real abs(Point a) { return sqrt(dot(a, a)); }\n\nreal angle(Point\
+    \ A, Point B) {\n    return acos(dot(A, B) / abs(A) / abs(B));\n}\n\nstatic constexpr\
+    \ int COUNTER_CLOCKWISE = 1;\nstatic constexpr int CLOCKWISE = -1;\nstatic constexpr\
+    \ int ONLINE_BACK = 2;\nstatic constexpr int ONLINE_FRONT = -2;\nstatic constexpr\
+    \ int ON_SEGMENT = 0;\n\nint ccw(Point a, Point b, Point c) {\n    b -= a;\n \
+    \   c -= a;\n    if (cross(b, c) > EPS)\n        return COUNTER_CLOCKWISE;\n \
+    \   if (cross(b, c) < -EPS)\n        return CLOCKWISE;\n    if (dot(b, c) < 0)\n\
+    \        return ONLINE_BACK;\n    if (abs(b) < abs(c))\n        return ONLINE_FRONT;\n\
+    \    return ON_SEGMENT;\n}\n\nstruct Segment {\n    Point a, b;\n\n    Segment(Point\
+    \ x, Point y) : a(x), b(y) {};\n};\n\nstruct Line {\n    Point a, b;\n\n    Line(Point\
+    \ x, Point y) : a(x), b(y) {};\n};\n\nstruct Circle {\n    Point c;\n    real\
+    \ r;\n\n    Circle(Point c, real r) : c(c), r(r) {};\n};\n\nusing Polygon = vector<Point>;\n\
+    \nbool intersect(Segment s, Segment t) {\n    return (ccw(s.a, s.b, t.a) * ccw(s.a,\
+    \ s.b, t.b) <= 0 &&\n            ccw(t.a, t.b, s.a) * ccw(t.a, t.b, s.b) <= 0);\n\
+    }\n\nbool intersect(Segment s, Line t) {\n    int a = ccw(t.a, t.b, s.a), b =\
+    \ ccw(t.a, t.b, s.b);\n    return (!(a & 1) || !(b & 1) || a != b);\n}\n\nPoint\
+    \ polar(double r, double t) {\n    return Point(r * cos(t), r * sin(t));\n}\n\n\
+    double arg(Point p) {\n    return atan2(p.y, p.x);\n}\n\nstatic constexpr int\
+    \ CONTAIN = 0;\nstatic constexpr int INSCRIBE = 1;\nstatic constexpr int INTERSECT\
+    \ = 2;\nstatic constexpr int CIRCUMSCRIBED = 3;\nstatic constexpr int SEPARATE\
+    \ = 4;\n\nint intersect(Circle c1, Circle c2) {\n    if (c1.r < c2.r)\n      \
+    \  swap(c1, c2);\n    real d = abs(c1.c - c2.c);\n    real r = c1.r + c2.r;\n\
+    \    if (fabs(d - r) < EPS)\n        return CIRCUMSCRIBED;\n    if (d > r)\n \
+    \       return SEPARATE;\n    if (fabs(d + c2.r - c1.r) < EPS)\n        return\
+    \ INSCRIBE;\n    if (d + c2.r < c1.r)\n        return CONTAIN;\n    return INTERSECT;\n\
+    }\n\nreal distance(Line l, Point c) {\n    return abs(cross(l.b - l.a, c - l.a)\
+    \ / abs(l.b - l.a));\n}\n\nreal distance(Segment s, Point c) {\n    if (dot(s.b\
+    \ - s.a, c - s.a) < EPS)\n        return abs(c - s.a);\n    if (dot(s.a - s.b,\
+    \ c - s.b) < EPS)\n        return abs(c - s.b);\n    return abs(cross(s.b - s.a,\
+    \ c - s.a)) / abs(s.a - s.b);\n}\n\nreal distance(Segment s, Segment t) {\n  \
+    \  if (intersect(s, t))\n        return 0.0;\n    return min({distance(s, t.a),\
+    \ distance(s, t.b),\n                distance(t, s.a), distance(t, s.b)});\n}\n\
+    \nPoint project(Line l, Point p) {\n    Point Q = l.b - l.a;\n    return l.a +\
+    \ Q * (dot(p - l.a, Q) / dot(Q, Q));\n}\n\nPoint project(Segment s, Point p) {\n\
+    \    Point Q = s.b - s.a;\n    return s.a + Q * (dot(p - s.a, Q) / dot(Q, Q));\n\
+    }\n\nPoint refrect(Segment s, Point p) {\n    Point Q = project(s, p);\n    return\
+    \ Q * 2 - p;\n}\n\nbool isOrthogonal(Segment s, Segment t) {\n    return fabs(dot(s.b\
+    \ - s.a, t.b - t.a)) < EPS;\n}\n\nbool isparallel(Segment s, Segment t) {\n  \
+    \  return fabs(cross(s.b - s.a, t.b - t.a)) < EPS;\n}\n\nPoint crossPoint(Segment\
     \ s, Segment t) {\n    real d1 = cross(s.b - s.a, t.b - t.a);\n    real d2 = cross(s.b\
     \ - s.a, s.b - t.a);\n    if (fabs(d1) < EPS && fabs(d2) < EPS)\n        return\
     \ t.a;\n    return t.a + (t.b - t.a) * d2 / d1;\n}\n\nPoint crossPoint(Line s,\
@@ -333,7 +370,7 @@ data:
   isVerificationFile: true
   path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   requiredBy: []
-  timestamp: '2026-03-13 00:55:11+09:00'
+  timestamp: '2026-03-14 13:04:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_cgl_4_c_half_plane_intersection.test.cpp

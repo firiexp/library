@@ -22,50 +22,81 @@ data:
     - https://judge.yosupo.jp/problem/shortest_path
   bundledCode: "#line 1 \"test/yosupo_shortest_path.test.cpp\"\n#define PROBLEM \"\
     https://judge.yosupo.jp/problem/shortest_path\"\n\n#include <algorithm>\n#include\
-    \ <limits>\n#include <queue>\n#include <tuple>\n#include <vector>\n\nusing ll\
-    \ = long long;\nusing namespace std;\n\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
-    struct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
-    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
-    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
-    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
-    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
-    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
-    \ size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load() {\n  \
-    \      int len = size - idx;\n        memmove(buf, buf + idx, len);\n        size\
-    \ = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx = 0;\n\
-    \        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if (idx\
-    \ + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
-    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
-    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
-    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
-    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
-    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
-    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
-    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
-    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
-    \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
-    \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
+    \ <array>\n#include <limits>\n#include <queue>\n#include <tuple>\n#include <vector>\n\
+    \nusing ll = long long;\nusing namespace std;\n\ntemplate<class T> constexpr T\
+    \ INF = numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\nstruct FastIoDigitTable\
+    \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
+    \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
+    \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
+    \ 10);\n                x /= 10;\n            }\n        }\n    }\n};\n\nstruct\
+    \ Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
+    \ int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive;\n\
+    \n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}\n\n \
+    \   inline void load() {\n        int len = size - idx;\n        memmove(buf,\
+    \ buf + idx, len);\n        if (interactive) {\n            if (fgets(buf + len,\
+    \ BUFSIZE + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n          \
+    \  else size = len;\n        } else {\n            size = len + (int)fread(buf\
+    \ + len, 1, BUFSIZE - len, stdin);\n        }\n        idx = 0;\n        buf[size]\
+    \ = 0;\n    }\n\n    inline void ensure() {\n        if (idx + OFFSET > size)\
+    \ load();\n    }\n\n    inline void ensure_interactive() {\n        if (idx ==\
+    \ size) load();\n    }\n\n    inline char skip() {\n        if (interactive) {\n\
+    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
+    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
+    \        }\n            return buf[idx++];\n        }\n        ensure();\n   \
+    \     while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n            ensure();\n\
+    \        }\n        return buf[idx++];\n    }\n\n    template<class T, typename\
+    \ enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T &x) {\n  \
+    \      if (interactive) {\n            char c = skip();\n            bool neg\
+    \ = false;\n            if constexpr (is_signed<T>::value) {\n               \
+    \ if (c == '-') {\n                    neg = true;\n                    ensure_interactive();\n\
+    \                    c = buf[idx++];\n                }\n            }\n     \
+    \       x = 0;\n            while (c >= '0') {\n                x = x * 10 + (c\
+    \ & 15);\n                ensure_interactive();\n                c = buf[idx++];\n\
+    \            }\n            if constexpr (is_signed<T>::value) {\n           \
+    \     if (neg) x = -x;\n            }\n            return;\n        }\n      \
+    \  char c = skip();\n        bool neg = false;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (c == '-') {\n                neg = true;\n              \
+    \  c = buf[idx++];\n            }\n        }\n        x = 0;\n        while (c\
+    \ >= '0') {\n            x = x * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        if constexpr (is_signed<T>::value) {\n            if (neg)\
+    \ x = -x;\n        }\n    }\n\n    template<class Head, class Next, class... Tail>\n\
+    \    void read(Head &head, Next &next, Tail &...tail) {\n        read(head);\n\
+    \        read(next, tail...);\n    }\n\n    template<class T, class U>\n    void\
+    \ read(pair<T, U> &p) {\n        read(p.first, p.second);\n    }\n\n    template<class\
+    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
+    \ string>::value, int>::type = 0>\n    void read(T &a) {\n        for (auto &x\
+    \ : a) read(x);\n    }\n\n    void read(char &c) {\n        c = skip();\n    }\n\
+    \n    void read(string &s) {\n        s.clear();\n        if (interactive) {\n\
+    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
+    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
+    \        }\n            while (true) {\n                int start = idx;\n   \
+    \             while (idx < size && buf[idx] > ' ') ++idx;\n                s.append(buf\
+    \ + start, idx - start);\n                if (idx < size) break;\n           \
+    \     load();\n                if (size == 0) break;\n            }\n        \
+    \    if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
     \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
     \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
-    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
-    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
-    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
-    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
-    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
-    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
-    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
-    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
-    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
-    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    inline\
+    \ static constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
+    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
+    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
+    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
+    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
+    \  }\n\n    inline void write_range(const char *s, size_t n) {\n        size_t\
+    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
+    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
+    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
+    \       pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n \
+    \       write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
     \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
     \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
     \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
@@ -87,22 +118,29 @@ data:
     \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
     \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
     \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
+    \ string>::value, int>::type = 0>\n    void write(const T &a) {\n        bool\
+    \ first = true;\n        for (auto &&x : a) {\n            if (!first) pc(' ');\n\
+    \            first = false;\n            write(x);\n        }\n    }\n\n    template<class\
     \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"graph/dijkstra_common.cpp\"\n\n\n\ntemplate <typename T>\nstruct edge {\n\
-    \    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1), to(to),\
-    \ cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost)\
-    \ {}\n};\n\ntemplate <typename T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T,\
-    \ int>, vector<pair<T, int>>, greater<>> q;\n\n    bool empty() const { return\
-    \ q.empty(); }\n\n    void push(T cost, int v) {\n        q.emplace(cost, v);\n\
-    \    }\n\n    pair<T, int> pop() {\n        auto res = q.top();\n        q.pop();\n\
-    \        return res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\n\
-    vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q,\
-    \ OnRelax on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n\
-    \    dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
+    \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
+    \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
+    \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/dijkstra_common.cpp\"\
+    \n\n\n\ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\
+    \n    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
+    \ int to, T cost) : from(from), to(to), cost(cost) {}\n};\n\ntemplate <typename\
+    \ T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T, int>, vector<pair<T,\
+    \ int>>, greater<>> q;\n\n    bool empty() const { return q.empty(); }\n\n   \
+    \ void push(T cost, int v) {\n        q.emplace(cost, v);\n    }\n\n    pair<T,\
+    \ int> pop() {\n        auto res = q.top();\n        q.pop();\n        return\
+    \ res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\nvector<T>\
+    \ dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q, OnRelax\
+    \ on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n  \
+    \  dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
     \ [cost, v] = Q.pop();\n        if (dist[v] < cost) continue;\n        for (auto\
     \ &&e : G[v]) {\n            T nxt = cost + e.cost;\n            if (dist[e.to]\
     \ <= nxt) continue;\n            dist[e.to] = nxt;\n            on_relax(v, e);\n\
@@ -121,28 +159,29 @@ data:
     \ (v == s) {\n            reverse(path.begin(), path.end());\n            return\
     \ path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n    return\
     \ path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
-    \n */\n#line 21 \"test/yosupo_shortest_path.test.cpp\"\n\nint main() {\n    Scanner\
+    \n */\n#line 22 \"test/yosupo_shortest_path.test.cpp\"\n\nint main() {\n    Scanner\
     \ in;\n    Printer out;\n\n    int n, m, s, t;\n    in.read(n, m, s, t);\n   \
-    \ vector<vector<edge<ll>>> G(n);\n    for (int i = 0; i < m; ++i) {\n        int\
-    \ a, b, c;\n        in.read(a, b, c);\n        G[a].emplace_back(b, c);\n    }\n\
+    \ vector<vector<edge<ll>>> G(n);\n    for (int i = 0; i < m; ++i) {\n        array<int,\
+    \ 3> e;\n        in.read(e);\n        G[e[0]].emplace_back(e[1], e[2]);\n    }\n\
     \    auto res = dijkstra_restore(s, G);\n    if (res.dist[t] == INF<ll>) {\n \
     \       out.writeln(-1);\n        return 0;\n    }\n    auto path = restore_path(s,\
     \ t, res.parent);\n    out.writeln(res.dist[t], (int)path.size() - 1);\n    for\
-    \ (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.writeln(path[i], path[i\
-    \ + 1]);\n    }\n    return 0;\n}\n"
+    \ (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.writeln(array<int,\
+    \ 2>{path[i], path[i + 1]});\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
-    \ <algorithm>\n#include <limits>\n#include <queue>\n#include <tuple>\n#include\
-    \ <vector>\n\nusing ll = long long;\nusing namespace std;\n\ntemplate<class T>\
-    \ constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../graph/dijkstra_restore.cpp\"\n\nint main() {\n    Scanner in;\n\
-    \    Printer out;\n\n    int n, m, s, t;\n    in.read(n, m, s, t);\n    vector<vector<edge<ll>>>\
-    \ G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b, c;\n        in.read(a,\
-    \ b, c);\n        G[a].emplace_back(b, c);\n    }\n    auto res = dijkstra_restore(s,\
-    \ G);\n    if (res.dist[t] == INF<ll>) {\n        out.writeln(-1);\n        return\
-    \ 0;\n    }\n    auto path = restore_path(s, t, res.parent);\n    out.writeln(res.dist[t],\
-    \ (int)path.size() - 1);\n    for (int i = 0; i + 1 < (int)path.size(); ++i) {\n\
-    \        out.writeln(path[i], path[i + 1]);\n    }\n    return 0;\n}\n"
+    \ <algorithm>\n#include <array>\n#include <limits>\n#include <queue>\n#include\
+    \ <tuple>\n#include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n\
+    template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../graph/dijkstra_restore.cpp\"\n\
+    \nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m, s, t;\n   \
+    \ in.read(n, m, s, t);\n    vector<vector<edge<ll>>> G(n);\n    for (int i = 0;\
+    \ i < m; ++i) {\n        array<int, 3> e;\n        in.read(e);\n        G[e[0]].emplace_back(e[1],\
+    \ e[2]);\n    }\n    auto res = dijkstra_restore(s, G);\n    if (res.dist[t] ==\
+    \ INF<ll>) {\n        out.writeln(-1);\n        return 0;\n    }\n    auto path\
+    \ = restore_path(s, t, res.parent);\n    out.writeln(res.dist[t], (int)path.size()\
+    \ - 1);\n    for (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.writeln(array<int,\
+    \ 2>{path[i], path[i + 1]});\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/dijkstra_restore.cpp
@@ -150,7 +189,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path.test.cpp
   requiredBy: []
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-14 13:04:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path.test.cpp

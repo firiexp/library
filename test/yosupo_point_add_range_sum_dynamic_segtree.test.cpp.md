@@ -21,46 +21,77 @@ data:
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\n\
     #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing\
-    \ namespace std;\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n\
-    \    int idx, size;\n\n    Scanner() : idx(0), size(0) {}\n\n    inline void load()\
-    \ {\n        int len = size - idx;\n        memmove(buf, buf + idx, len);\n  \
-    \      size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline char skip() {\n        ensure();\n\
-    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
-    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
-    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
-    \ &x) {\n        char c = skip();\n        bool neg = false;\n        if constexpr\
-    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
-    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
-    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
-    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class Head,\
-    \ class... Tail>\n    void read(Head &head, Tail &...tail) {\n        read(head);\n\
-    \        (read(tail), ...);\n    }\n\n    void read(char &c) {\n        c = skip();\n\
-    \    }\n\n    void read(string &s) {\n        s.clear();\n        ensure();\n\
+    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\nstruct FastIoDigitTable\
+    \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
+    \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
+    \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
+    \ 10);\n                x /= 10;\n            }\n        }\n    }\n};\n\nstruct\
+    \ Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
+    \ int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive;\n\
+    \n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}\n\n \
+    \   inline void load() {\n        int len = size - idx;\n        memmove(buf,\
+    \ buf + idx, len);\n        if (interactive) {\n            if (fgets(buf + len,\
+    \ BUFSIZE + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n          \
+    \  else size = len;\n        } else {\n            size = len + (int)fread(buf\
+    \ + len, 1, BUFSIZE - len, stdin);\n        }\n        idx = 0;\n        buf[size]\
+    \ = 0;\n    }\n\n    inline void ensure() {\n        if (idx + OFFSET > size)\
+    \ load();\n    }\n\n    inline void ensure_interactive() {\n        if (idx ==\
+    \ size) load();\n    }\n\n    inline char skip() {\n        if (interactive) {\n\
+    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
+    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
+    \        }\n            return buf[idx++];\n        }\n        ensure();\n   \
+    \     while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n            ensure();\n\
+    \        }\n        return buf[idx++];\n    }\n\n    template<class T, typename\
+    \ enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T &x) {\n  \
+    \      if (interactive) {\n            char c = skip();\n            bool neg\
+    \ = false;\n            if constexpr (is_signed<T>::value) {\n               \
+    \ if (c == '-') {\n                    neg = true;\n                    ensure_interactive();\n\
+    \                    c = buf[idx++];\n                }\n            }\n     \
+    \       x = 0;\n            while (c >= '0') {\n                x = x * 10 + (c\
+    \ & 15);\n                ensure_interactive();\n                c = buf[idx++];\n\
+    \            }\n            if constexpr (is_signed<T>::value) {\n           \
+    \     if (neg) x = -x;\n            }\n            return;\n        }\n      \
+    \  char c = skip();\n        bool neg = false;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (c == '-') {\n                neg = true;\n              \
+    \  c = buf[idx++];\n            }\n        }\n        x = 0;\n        while (c\
+    \ >= '0') {\n            x = x * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        if constexpr (is_signed<T>::value) {\n            if (neg)\
+    \ x = -x;\n        }\n    }\n\n    template<class Head, class Next, class... Tail>\n\
+    \    void read(Head &head, Next &next, Tail &...tail) {\n        read(head);\n\
+    \        read(next, tail...);\n    }\n\n    template<class T, class U>\n    void\
+    \ read(pair<T, U> &p) {\n        read(p.first, p.second);\n    }\n\n    template<class\
+    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
+    \ string>::value, int>::type = 0>\n    void read(T &a) {\n        for (auto &x\
+    \ : a) read(x);\n    }\n\n    void read(char &c) {\n        c = skip();\n    }\n\
+    \n    void read(string &s) {\n        s.clear();\n        if (interactive) {\n\
+    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
+    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
+    \        }\n            while (true) {\n                int start = idx;\n   \
+    \             while (idx < size && buf[idx] > ' ') ++idx;\n                s.append(buf\
+    \ + start, idx - start);\n                if (idx < size) break;\n           \
+    \     load();\n                if (size == 0) break;\n            }\n        \
+    \    if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
     \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
     \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    inline static constexpr FastIoDigitTable\
-    \ table{};\n\n    Printer() : idx(0) {}\n    ~Printer() { flush(); }\n\n    inline\
-    \ void flush() {\n        if (idx) {\n            fwrite(buf, 1, idx, stdout);\n\
-    \            idx = 0;\n        }\n    }\n\n    inline void pc(char c) {\n    \
-    \    if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++] = c;\n    }\n\n\
-    \    inline void write_range(const char *s, size_t n) {\n        size_t pos =\
-    \ 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n  \
-    \          size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n           \
-    \ memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n       \
-    \     pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n   \
-    \     write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
+    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    inline\
+    \ static constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
+    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
+    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
+    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
+    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
+    \  }\n\n    inline void write_range(const char *s, size_t n) {\n        size_t\
+    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
+    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
+    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
+    \       pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n \
+    \       write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
     \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
     \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
     \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
@@ -82,51 +113,57 @@ data:
     \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
     \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
     \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
+    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
+    \ string>::value, int>::type = 0>\n    void write(const T &a) {\n        bool\
+    \ first = true;\n        for (auto &&x : a) {\n            if (!first) pc(' ');\n\
+    \            first = false;\n            write(x);\n        }\n    }\n\n    template<class\
     \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
     \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
     \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
     \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line\
-    \ 1 \"datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\nstruct DynamicSegmentTree{\n\
-    \    using T = typename M::T;\n    struct Node{\n        T val;\n        int l,\
-    \ r;\n    };\n\n    long long n{};\n    vector<Node> node;\n    int root;\n\n\
-    \    explicit DynamicSegmentTree(long long n): n(n), root(-1) {}\n\n    void reserve(size_t\
-    \ sz){\n        node.reserve(sz);\n    }\n\n    void update(long long k, const\
-    \ T &x){\n        if(n == 0) return;\n        update_(root, k, x, 0, n);\n   \
-    \ }\n\n    void add(long long k, const T &x){\n        if(n == 0) return;\n  \
-    \      add_(root, k, x, 0, n);\n    }\n\n    T query(long long a, long long b)\
-    \ const {\n        if(n == 0 || b <= a) return M::e();\n        return query_(root,\
-    \ a, b, 0, n);\n    }\n\n    T get(long long k) const { return query(k, k+1);\
-    \ }\n    T operator[](const long long &k) const { return get(k); }\n\nprivate:\n\
-    \    int make_node(const T &v, int l, int r){\n        node.push_back({v, l, r});\n\
-    \        return (int)node.size()-1;\n    }\n\n    void update_(int &id, long long\
-    \ k, const T &x, long long l, long long r){\n        if(id == -1) id = make_node(M::e(),\
-    \ -1, -1);\n        if(l+1 == r){\n            node[id].val = x;\n           \
-    \ return;\n        }\n        long long m = l + ((r-l)>>1);\n        if(k < m){\n\
-    \            int child = node[id].l;\n            update_(child, k, x, l, m);\n\
-    \            node[id].l = child;\n        }else{\n            int child = node[id].r;\n\
-    \            update_(child, k, x, m, r);\n            node[id].r = child;\n  \
-    \      }\n        node[id].val = M::f(value(node[id].l), value(node[id].r));\n\
-    \    }\n\n    void add_(int &id, long long k, const T &x, long long l, long long\
-    \ r){\n        if(id == -1) id = make_node(M::e(), -1, -1);\n        if(l+1 ==\
-    \ r){\n            node[id].val = M::f(node[id].val, x);\n            return;\n\
-    \        }\n        long long m = l + ((r-l)>>1);\n        if(k < m){\n      \
-    \      int child = node[id].l;\n            add_(child, k, x, l, m);\n       \
-    \     node[id].l = child;\n        }else{\n            int child = node[id].r;\n\
-    \            add_(child, k, x, m, r);\n            node[id].r = child;\n     \
-    \   }\n        node[id].val = M::f(value(node[id].l), value(node[id].r));\n  \
-    \  }\n\n    T query_(int id, long long a, long long b, long long l, long long\
-    \ r) const {\n        if(id == -1 || r <= a || b <= l) return M::e();\n      \
-    \  if(a <= l && r <= b) return node[id].val;\n        long long m = l + ((r-l)>>1);\n\
-    \        return M::f(query_(node[id].l, a, b, l, m), query_(node[id].r, a, b,\
-    \ m, r));\n    }\n\n    T value(int id) const {\n        return id == -1 ? M::e()\
-    \ : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = long long;\n\
-    \    static T f(T a, T b) { return a + b; }\n    static T e() { return 0; }\n\
-    };\n*/\n\n/**\n * @brief \u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\
-    #line 13 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\n\nstruct\
-    \ Monoid{\n    using T = long long;\n    static T f(T a, T b) { return a + b;\
-    \ }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n   \
-    \ Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid>\
+    \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
+    \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
+    \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/dynamic_segtree.cpp\"\
+    \ntemplate <class M>\nstruct DynamicSegmentTree{\n    using T = typename M::T;\n\
+    \    struct Node{\n        T val;\n        int l, r;\n    };\n\n    long long\
+    \ n{};\n    vector<Node> node;\n    int root;\n\n    explicit DynamicSegmentTree(long\
+    \ long n): n(n), root(-1) {}\n\n    void reserve(size_t sz){\n        node.reserve(sz);\n\
+    \    }\n\n    void update(long long k, const T &x){\n        if(n == 0) return;\n\
+    \        update_(root, k, x, 0, n);\n    }\n\n    void add(long long k, const\
+    \ T &x){\n        if(n == 0) return;\n        add_(root, k, x, 0, n);\n    }\n\
+    \n    T query(long long a, long long b) const {\n        if(n == 0 || b <= a)\
+    \ return M::e();\n        return query_(root, a, b, 0, n);\n    }\n\n    T get(long\
+    \ long k) const { return query(k, k+1); }\n    T operator[](const long long &k)\
+    \ const { return get(k); }\n\nprivate:\n    int make_node(const T &v, int l, int\
+    \ r){\n        node.push_back({v, l, r});\n        return (int)node.size()-1;\n\
+    \    }\n\n    void update_(int &id, long long k, const T &x, long long l, long\
+    \ long r){\n        if(id == -1) id = make_node(M::e(), -1, -1);\n        if(l+1\
+    \ == r){\n            node[id].val = x;\n            return;\n        }\n    \
+    \    long long m = l + ((r-l)>>1);\n        if(k < m){\n            int child\
+    \ = node[id].l;\n            update_(child, k, x, l, m);\n            node[id].l\
+    \ = child;\n        }else{\n            int child = node[id].r;\n            update_(child,\
+    \ k, x, m, r);\n            node[id].r = child;\n        }\n        node[id].val\
+    \ = M::f(value(node[id].l), value(node[id].r));\n    }\n\n    void add_(int &id,\
+    \ long long k, const T &x, long long l, long long r){\n        if(id == -1) id\
+    \ = make_node(M::e(), -1, -1);\n        if(l+1 == r){\n            node[id].val\
+    \ = M::f(node[id].val, x);\n            return;\n        }\n        long long\
+    \ m = l + ((r-l)>>1);\n        if(k < m){\n            int child = node[id].l;\n\
+    \            add_(child, k, x, l, m);\n            node[id].l = child;\n     \
+    \   }else{\n            int child = node[id].r;\n            add_(child, k, x,\
+    \ m, r);\n            node[id].r = child;\n        }\n        node[id].val = M::f(value(node[id].l),\
+    \ value(node[id].r));\n    }\n\n    T query_(int id, long long a, long long b,\
+    \ long long l, long long r) const {\n        if(id == -1 || r <= a || b <= l)\
+    \ return M::e();\n        if(a <= l && r <= b) return node[id].val;\n        long\
+    \ long m = l + ((r-l)>>1);\n        return M::f(query_(node[id].l, a, b, l, m),\
+    \ query_(node[id].r, a, b, m, r));\n    }\n\n    T value(int id) const {\n   \
+    \     return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n\
+    \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
+    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u52D5\u7684\u30BB\u30B0\u30E1\
+    \u30F3\u30C8\u6728\n */\n#line 13 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\
+    \n\nstruct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return\
+    \ a + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid>\
     \ seg(n);\n    if (n > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i <\
     \ n; ++i) {\n        long long a;\n        sc.read(a);\n        seg.add(i, a);\n\
     \    }\n\n    while (q--) {\n        int t;\n        sc.read(t);\n        if (t\
@@ -154,7 +191,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-13 22:14:25+09:00'
+  timestamp: '2026-03-14 13:04:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp

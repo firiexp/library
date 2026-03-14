@@ -2,14 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/matrix_determinant.cpp
-    title: "\u884C\u5217\u5F0F(Matrix Determinant)"
-  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_arbitrary.cpp
+    title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -17,13 +17,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/matrix_det
+    PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
     links:
-    - https://judge.yosupo.jp/problem/matrix_det
-  bundledCode: "#line 1 \"test/yosupo_matrix_det.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_det\"\
-    \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
-    using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    - https://judge.yosupo.jp/problem/many_aplusb
+  bundledCode: "#line 1 \"test/yosupo_many_aplusb_modint_interface.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include <cassert>\n\
+    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \nusing ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
     \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
     \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
     \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
@@ -127,74 +127,117 @@ data:
     \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
     \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
     \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
-    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint.cpp\"\n\n\
-    \n\ntemplate <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static modint\
-    \ raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod()\
-    \ { return Mod; }\n    static constexpr uint M() { return Mod; }\n    modint()\
-    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod));\
-    \ if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val = ((unsigned\
-    \ int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n    const uint\
-    \ &value() const noexcept { return val; }\n    modint& operator++() { val++; if\
-    \ (val == Mod) val = 0; return *this; }\n    modint& operator--() { if (val ==\
-    \ 0) val = Mod; val--; return *this; }\n    modint operator++(int) { modint result\
-    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
-    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
-    \ { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n    modint& operator-=(const\
-    \ modint& b) { val -= b.val; if (val >= Mod) val += Mod; return *this; }\n   \
-    \ modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z\
-    \ % Mod); return *this; }\n    modint& operator/=(const modint& b) { return *this\
-    \ = *this * b.inv(); }\n    modint operator+() const { return *this; }\n    modint\
-    \ operator-() const { return modint() - *this; }\n    modint pow(long long n)\
-    \ const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>=\
-    \ 1; } return r; }\n    modint inv() const { return pow(Mod - 2); }\n    friend\
-    \ modint operator+(const modint& a, const modint& b) { return modint(a) += b;\
-    \ }\n    friend modint operator-(const modint& a, const modint& b) { return modint(a)\
-    \ -= b; }\n    friend modint operator*(const modint& a, const modint& b) { return\
-    \ modint(a) *= b; }\n    friend modint operator/(const modint& a, const modint&\
-    \ b) { return modint(a) /= b; }\n    friend bool operator==(const modint& a, const\
-    \ modint& b) { return a.val == b.val; }\n    friend bool operator!=(const modint&\
-    \ a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 14 \"test/yosupo_many_aplusb_modint_interface.test.cpp\"\
+    \n\nnamespace fixed_modint_test {\nstatic constexpr uint MOD = 998244353;\n#line\
+    \ 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint {\n    uint\
+    \ val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return x;\
+    \ }\n    static constexpr uint get_mod() { return Mod; }\n    static constexpr\
+    \ uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class T>\n\
+    \    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x);\
+    \ }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint &value()\
+    \ noexcept { return val; }\n    const uint &value() const noexcept { return val;\
+    \ }\n    modint& operator++() { val++; if (val == Mod) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = Mod; val--; return *this;\
+    \ }\n    modint operator++(int) { modint result = *this; ++*this; return result;\
+    \ }\n    modint operator--(int) { modint result = *this; --*this; return result;\
+    \ }\n    modint& operator+=(const modint& b) { val += b.val; if (val >= Mod) val\
+    \ -= Mod; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
+    \ if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const modint&\
+    \ b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n    modint&\
+    \ operator/=(const modint& b) { return *this = *this * b.inv(); }\n    modint\
+    \ operator+() const { return *this; }\n    modint operator-() const { return modint()\
+    \ - *this; }\n    modint pow(long long n) const { modint x = *this, r = 1; while\
+    \ (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const\
+    \ { return pow(Mod - 2); }\n    friend modint operator+(const modint& a, const\
+    \ modint& b) { return modint(a) += b; }\n    friend modint operator-(const modint&\
+    \ a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
     #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 2 \"math/matrix_determinant.cpp\"\n\nmint matrix_determinant(vector<vector<mint>>\
-    \ A) {\n    int n = A.size();\n    mint det = 1;\n    for (int col = 0; col <\
-    \ n; ++col) {\n        int pivot = col;\n        while (pivot < n && !A[pivot][col].val)\
-    \ ++pivot;\n        if (pivot == n) return 0;\n        if (pivot != col) {\n \
-    \           swap(A[pivot], A[col]);\n            det = -det;\n        }\n    \
-    \    det *= A[col][col];\n        mint inv = A[col][col].inv();\n        for (int\
-    \ row = col + 1; row < n; ++row) {\n            if (!A[row][col].val) continue;\n\
-    \            mint coeff = A[row][col] * inv;\n            for (int j = col; j\
-    \ < n; ++j) {\n                A[row][j] -= A[col][j] * coeff;\n            }\n\
-    \        }\n    }\n    return det;\n}\n\n/**\n * @brief \u884C\u5217\u5F0F(Matrix\
-    \ Determinant)\n */\n#line 18 \"test/yosupo_matrix_det.test.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<mint>>\
-    \ A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
-    \ j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n        \
-    \    A[i][j] = x;\n        }\n    }\n    pr.writeln(matrix_determinant(A).val);\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_det\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
-    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include \"../util/fastio.cpp\"\n#include \"../math/matrix_determinant.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    vector<vector<mint>> A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i)\
-    \ {\n        for (int j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n\
-    \            A[i][j] = x;\n        }\n    }\n    pr.writeln(matrix_determinant(A).val);\n\
-    \    return 0;\n}\n"
+    MOD)\n */\n\n\n#line 18 \"test/yosupo_many_aplusb_modint_interface.test.cpp\"\n\
+    }\n\nnamespace dynamic_modint_test {\n#line 1 \"util/modint_arbitrary.cpp\"\n\n\
+    \n\nclass modint {\n    static uint &mod() { static uint mod_ = 0; return mod_;\
+    \ }\npublic:\n    uint val;\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v % (ll)(M())); if (x < 0) x += M(); val = uint(x); }\n   \
+    \ modint(bool v) { val = ((unsigned int)(v) % M()); }\n    static uint get_mod()\
+    \ { return M(); }\n    static uint M() { return mod(); }\n    static void set_mod(uint\
+    \ x) { mod() = x; }\n    uint &value() noexcept { return val; }\n    const uint\
+    \ &value() const noexcept { return val; }\n    modint &operator++() { val++; if\
+    \ (val == M()) val = 0; return *this; }\n    modint &operator--() { if (val ==\
+    \ 0) val = M(); val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint &operator+=(const modint &b)\
+    \ { val += b.val; if (val >= M()) val -= M(); return *this; }\n    modint &operator-=(const\
+    \ modint &b) { val -= b.val; if (val >= M()) val += M(); return *this; }\n   \
+    \ modint &operator*=(const modint &b) { val = (ull)val * b.val % M(); return *this;\
+    \ }\n    modint &operator/=(const modint &b) { return *this = *this * b.inv();\
+    \ }\n    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(M() - 2); }\n    friend modint operator+(const\
+    \ modint &a, const modint &b) { return modint(a) += b; }\n    friend modint operator-(const\
+    \ modint &a, const modint &b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint &a, const modint &b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint &a, const modint &b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint &a, const modint &b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint &a, const modint &b) { return a.val != b.val; }\n};\nusing mint = modint;\n\
+    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u4EFB\u610F\
+    MOD)\n */\n\n\n#line 22 \"test/yosupo_many_aplusb_modint_interface.test.cpp\"\n\
+    }\n\ntemplate <class Mint>\nvoid common_check() {\n    assert(Mint::get_mod()\
+    \ == 998244353);\n    assert(Mint::M() == 998244353);\n\n    Mint zero;\n    assert(zero.value()\
+    \ == 0);\n    assert(zero.val == 0);\n\n    Mint a = -1;\n    Mint b = Mint::raw(5);\n\
+    \    assert(a.value() == 998244352);\n    assert(b.value() == 5);\n\n    assert((+b).value()\
+    \ == 5);\n    assert((-b).value() == 998244348);\n    assert((Mint(true) + Mint(false)).value()\
+    \ == 1);\n    assert((a + b).value() == 4);\n    assert((a - b).value() == 998244347);\n\
+    \    assert((Mint(3) * Mint(7)).value() == 21);\n    assert((Mint(21) / Mint(7)).value()\
+    \ == 3);\n    assert(Mint(3).pow(5).value() == 243);\n    assert((Mint(5) * Mint(5).inv()).value()\
+    \ == 1);\n\n    Mint c = Mint::raw(998244352);\n    assert((++c).value() == 0);\n\
+    \    assert((c++).value() == 0);\n    assert(c.value() == 1);\n    assert((--c).value()\
+    \ == 0);\n    assert((c--).value() == 0);\n    assert(c.value() == 998244352);\n\
+    \n    assert(Mint(42) == Mint(42));\n    assert(Mint(42) != Mint(24));\n}\n\n\
+    int main() {\n    dynamic_modint_test::mint::set_mod(998244353);\n    common_check<fixed_modint_test::mint>();\n\
+    \    common_check<dynamic_modint_test::mint>();\n\n    Scanner in;\n    Printer\
+    \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        ll a, b;\n   \
+    \     in.read(a, b);\n        out.writeln(a + b);\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
+    \ <cassert>\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
+    \ <type_traits>\n\nusing ll = long long;\nusing uint = unsigned;\nusing ull =\
+    \ unsigned long long;\n\n#include \"../util/fastio.cpp\"\n\nnamespace fixed_modint_test\
+    \ {\nstatic constexpr uint MOD = 998244353;\n#include \"../util/modint.cpp\"\n\
+    }\n\nnamespace dynamic_modint_test {\n#include \"../util/modint_arbitrary.cpp\"\
+    \n}\n\ntemplate <class Mint>\nvoid common_check() {\n    assert(Mint::get_mod()\
+    \ == 998244353);\n    assert(Mint::M() == 998244353);\n\n    Mint zero;\n    assert(zero.value()\
+    \ == 0);\n    assert(zero.val == 0);\n\n    Mint a = -1;\n    Mint b = Mint::raw(5);\n\
+    \    assert(a.value() == 998244352);\n    assert(b.value() == 5);\n\n    assert((+b).value()\
+    \ == 5);\n    assert((-b).value() == 998244348);\n    assert((Mint(true) + Mint(false)).value()\
+    \ == 1);\n    assert((a + b).value() == 4);\n    assert((a - b).value() == 998244347);\n\
+    \    assert((Mint(3) * Mint(7)).value() == 21);\n    assert((Mint(21) / Mint(7)).value()\
+    \ == 3);\n    assert(Mint(3).pow(5).value() == 243);\n    assert((Mint(5) * Mint(5).inv()).value()\
+    \ == 1);\n\n    Mint c = Mint::raw(998244352);\n    assert((++c).value() == 0);\n\
+    \    assert((c++).value() == 0);\n    assert(c.value() == 1);\n    assert((--c).value()\
+    \ == 0);\n    assert((c--).value() == 0);\n    assert(c.value() == 998244352);\n\
+    \n    assert(Mint(42) == Mint(42));\n    assert(Mint(42) != Mint(24));\n}\n\n\
+    int main() {\n    dynamic_modint_test::mint::set_mod(998244353);\n    common_check<fixed_modint_test::mint>();\n\
+    \    common_check<dynamic_modint_test::mint>();\n\n    Scanner in;\n    Printer\
+    \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        ll a, b;\n   \
+    \     in.read(a, b);\n        out.writeln(a + b);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/matrix_determinant.cpp
   - util/modint.cpp
+  - util/modint_arbitrary.cpp
   isVerificationFile: true
-  path: test/yosupo_matrix_det.test.cpp
+  path: test/yosupo_many_aplusb_modint_interface.test.cpp
   requiredBy: []
   timestamp: '2026-03-14 20:56:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_matrix_det.test.cpp
+documentation_of: test/yosupo_many_aplusb_modint_interface.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_matrix_det.test.cpp
-- /verify/test/yosupo_matrix_det.test.cpp.html
-title: test/yosupo_matrix_det.test.cpp
+- /verify/test/yosupo_many_aplusb_modint_interface.test.cpp
+- /verify/test/yosupo_many_aplusb_modint_interface.test.cpp.html
+title: test/yosupo_many_aplusb_modint_interface.test.cpp
 ---

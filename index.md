@@ -799,6 +799,9 @@ data:
       path: test/yosupo_many_aplusb.test.cpp
       title: test/yosupo_many_aplusb.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_many_aplusb_modint_interface.test.cpp
+      title: test/yosupo_many_aplusb_modint_interface.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_matrix_det.test.cpp
       title: test/yosupo_matrix_det.test.cpp
     - icon: ':heavy_check_mark:'
