@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-03-13T22:05:45+09:00",
+  "generatedAt": "2026-03-15T01:48:08+09:00",
   "root": "/home/firiexp/library",
-  "testCount": 147,
+  "testCount": 148,
   "summary": {
     "pending": 0,
     "running": 0,
-    "done": 147,
+    "done": 148,
     "error": 0,
-    "ok": 147,
+    "ok": 148,
     "failed": 0
   },
   "tests": [
@@ -25942,6 +25942,161 @@
           "summary": "test success: 48 cases"
         },
         "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 48 cases found\n\n[INFO] 01_sample_01\n[INFO] time: 0.003869 sec\n[SUCCESS] AC\n\n[INFO] 01_sample_02\n[INFO] time: 0.003294 sec\n[SUCCESS] AC\n\n[INFO] 01_sample_03\n[INFO] time: 0.002510 sec\n[SUCCESS] AC\n\n[INFO] 03_random_01\n[INFO] time: 0.009281 sec\n[SUCCESS] AC\n\n[INFO] 03_random_02\n[INFO] time: 0.008297 sec\n[SUCCESS] AC\n\n[INFO] 03_random_03\n[INFO] time: 0.010109 sec\n[SUCCESS] AC\n\n[INFO] 03_random_04\n[INFO] time: 0.010332 sec\n[SUCCESS] AC\n\n[INFO] 03_random_05\n[INFO] time: 0.009528 sec\n[SUCCESS] AC\n\n[INFO] 03_random_06\n[INFO] time: 0.007435 sec\n[SUCCESS] AC\n\n[INFO] 03_random_07\n[INFO] time: 0.006958 sec\n[SUCCESS] AC\n\n[INFO] 03_random_08\n[INFO] time: 0.007016 sec\n[SUCCESS] AC\n\n[INFO] 03_random_09\n[INFO] time: 0.007817 sec\n[SUCCESS] AC\n\n[INFO] 03_random_10\n[INFO] time: 0.007242 sec\n[SUCCESS] AC\n\n[INFO] 03_random_11\n[INFO] time: 0.006057 sec\n[SUCCESS] AC\n\n[INFO] 03_random_12\n[INFO] time: 0.007443 sec\n[SUCCESS] AC\n\n[INFO] 03_random_13\n[INFO] time: 0.006784 sec\n[SUCCESS] AC\n\n[INFO] 03_random_14\n[INFO] time: 0.005762 sec\n[SUCCESS] AC\n\n[INFO] 03_random_15\n[INFO] time: 0.006083 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_01\n[INFO] time: 0.136676 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_02\n[INFO] time: 0.142364 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_03\n[INFO] time: 0.155471 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_04\n[INFO] time: 0.154421 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_05\n[INFO] time: 0.164804 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_06\n[INFO] time: 0.176136 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_07\n[INFO] time: 0.186684 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_08\n[INFO] time: 0.193477 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_09\n[INFO] time: 0.200679 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_10\n[INFO] time: 0.194226 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_11\n[INFO] time: 0.199877 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_26\n[INFO] time: 0.193173 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_42\n[INFO] time: 0.189804 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_01\n[INFO] time: 0.132321 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_02\n[INFO] time: 0.150384 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_03\n[INFO] time: 0.154622 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_04\n[INFO] time: 0.155434 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_05\n[INFO] time: 0.167750 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_06\n[INFO] time: 0.189282 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_07\n[INFO] time: 0.185399 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_08\n[INFO] time: 0.187559 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_09\n[INFO] time: 0.184786 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_10\n[INFO] time: 0.198182 sec\n[SUCCESS] AC\n\n[INFO] 06_tapu_01\n[INFO] time: 0.006042 sec\n[SUCCESS] AC\n\n[INFO] 06_tapu_02\n[INFO] time: 0.005269 sec\n[SUCCESS] AC\n\n[INFO] 06_tapu_03\n[INFO] time: 0.005362 sec\n[SUCCESS] AC\n\n[INFO] 06_tapu_04\n[INFO] time: 0.005657 sec\n[SUCCESS] AC\n\n[INFO] 07_handmake_01\n[INFO] time: 0.002595 sec\n[SUCCESS] AC\n\n[INFO] 07_handmake_02\n[INFO] time: 0.002276 sec\n[SUCCESS] AC\n\n[INFO] 07_handmake_03\n[INFO] time: 0.002108 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.200679 sec  (for 04_uku_09)\n[INFO] max memory: 12.716000 MB  (for 04_uku_08)\n[SUCCESS] test success: 48 cases\n"
+      }
+    },
+    {
+      "path": "test/yosupo_frequency_table_of_tree_distance.test.cpp",
+      "phase": "done",
+      "problem": "https://judge.yosupo.jp/problem/frequency_table_of_tree_distance",
+      "compiler": {
+        "command": [
+          "g++",
+          "--std=c++17",
+          "-O2",
+          "-Wall",
+          "-g",
+          "-I",
+          "/home/firiexp/library",
+          "-o",
+          "a.out",
+          "test/yosupo_frequency_table_of_tree_distance.test.cpp"
+        ],
+        "wallSec": 1.9241502469958505
+      },
+      "testcases": {
+        "directory": ".verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test",
+        "cachedCaseCount": 20
+      },
+      "run": {
+        "command": [
+          "oj",
+          "test",
+          "-c",
+          "/home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/verify-dashboard-3htqz3v1/a.out",
+          "-d",
+          "/home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test",
+          "--tle",
+          "60.0",
+          "--judge-command",
+          "/home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker"
+        ],
+        "returnCode": 0,
+        "wallSec": 3.366332498997508,
+        "ok": true,
+        "parsed": {
+          "cases": [
+            {
+              "name": "almost_uni_00",
+              "timeSec": 0.040233,
+              "status": "AC"
+            },
+            {
+              "name": "almost_uni_01",
+              "timeSec": 0.044769,
+              "status": "AC"
+            },
+            {
+              "name": "example_00",
+              "timeSec": 0.003052,
+              "status": "AC"
+            },
+            {
+              "name": "line_00",
+              "timeSec": 0.750271,
+              "status": "AC"
+            },
+            {
+              "name": "line_star_00",
+              "timeSec": 0.505188,
+              "status": "AC"
+            },
+            {
+              "name": "line_star_01",
+              "timeSec": 0.381615,
+              "status": "AC"
+            },
+            {
+              "name": "line_star_02",
+              "timeSec": 0.690966,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_00",
+              "timeSec": 0.118199,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_01",
+              "timeSec": 0.114794,
+              "status": "AC"
+            },
+            {
+              "name": "random_00",
+              "timeSec": 0.064536,
+              "status": "AC"
+            },
+            {
+              "name": "random_01",
+              "timeSec": 0.07463,
+              "status": "AC"
+            },
+            {
+              "name": "random_02",
+              "timeSec": 0.026258,
+              "status": "AC"
+            },
+            {
+              "name": "random_03",
+              "timeSec": 0.090521,
+              "status": "AC"
+            },
+            {
+              "name": "random_04",
+              "timeSec": 0.008812,
+              "status": "AC"
+            },
+            {
+              "name": "small_random_00",
+              "timeSec": 0.003498,
+              "status": "AC"
+            },
+            {
+              "name": "small_random_01",
+              "timeSec": 0.003231,
+              "status": "AC"
+            },
+            {
+              "name": "small_random_02",
+              "timeSec": 0.002594,
+              "status": "AC"
+            },
+            {
+              "name": "small_random_03",
+              "timeSec": 0.003096,
+              "status": "AC"
+            },
+            {
+              "name": "small_random_04",
+              "timeSec": 0.002768,
+              "status": "AC"
+            },
+            {
+              "name": "uni_00",
+              "timeSec": 0.046552,
+              "status": "AC"
+            }
+          ],
+          "caseCount": 20,
+          "timedCaseCount": 20,
+          "passedCaseCount": 20,
+          "slowestSec": 0.750271,
+          "slowestCase": "line_00",
+          "averageSec": 0.14877915,
+          "maxMemoryMb": 30.344,
+          "maxMemoryCase": "line_00",
+          "summary": "test success: 20 cases"
+        },
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 20 cases found\n\n[INFO] almost_uni_00\n[INFO] time: 0.040233 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/almost_uni_00.in /tmp/tmpzece65rw/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/almost_uni_00.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] almost_uni_01\n[INFO] time: 0.044769 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/almost_uni_01.in /tmp/tmpwn8nn7tx/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/almost_uni_01.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.003052 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/example_00.in /tmp/tmpzx6v45fq/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/example_00.out\nok 7 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_00\n[INFO] time: 0.750271 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/line_00.in /tmp/tmpcakbpa21/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/line_00.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_star_00\n[INFO] time: 0.505188 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/line_star_00.in /tmp/tmp7fnxudw2/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/line_star_00.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_star_01\n[INFO] time: 0.381615 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/line_star_01.in /tmp/tmp692jur3d/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/line_star_01.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_star_02\n[INFO] time: 0.690966 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/line_star_02.in /tmp/tmpa84g_2d5/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/line_star_02.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.118199 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/max_random_00.in /tmp/tmpzs4nae0h/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/max_random_00.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.114794 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/max_random_01.in /tmp/tmpi1qfcyf5/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/max_random_01.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.064536 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_00.in /tmp/tmpvr7n17uh/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_00.out\nok 127668 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.074630 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_01.in /tmp/tmp0x57eesl/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_01.out\nok 150762 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.026258 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_02.in /tmp/tmpibdthxlw/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_02.out\nok 53335 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_03\n[INFO] time: 0.090521 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_03.in /tmp/tmp3olibrns/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_03.out\nok 167104 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_04\n[INFO] time: 0.008812 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_04.in /tmp/tmptihkufju/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/random_04.out\nok 14867 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_00\n[INFO] time: 0.003498 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_00.in /tmp/tmploj0svl6/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_00.out\nok 692 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_01\n[INFO] time: 0.003231 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_01.in /tmp/tmphbx7y0l7/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_01.out\nok 197 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_02\n[INFO] time: 0.002594 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_02.in /tmp/tmpkhuyermd/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_02.out\nok 87 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_03\n[INFO] time: 0.003096 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_03.in /tmp/tmpu6n9g6e5/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_03.out\nok 192 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_04\n[INFO] time: 0.002768 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_04.in /tmp/tmpwnpat6pa/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/small_random_04.out\nok 531 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] uni_00\n[INFO] time: 0.046552 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/frequency_table_of_tree_distance/checker /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/uni_00.in /tmp/tmppx2l5u_n/actual.out /home/firiexp/library/.verify-helper/cache/bdd84d39f82e6737a6dbff94664ca366/test/uni_00.out\nok 199999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.750271 sec  (for line_00)\n[INFO] max memory: 30.344000 MB  (for line_00)\n[SUCCESS] test success: 20 cases\n"
       }
     }
   ]

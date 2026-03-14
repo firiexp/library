@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/undoableunionfind.cpp
     title: Undoable Union Find
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

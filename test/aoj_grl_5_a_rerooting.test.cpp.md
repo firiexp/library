@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/rerooting.cpp
     title: "ReRooting(\u5168\u65B9\u4F4D\u6728DP)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

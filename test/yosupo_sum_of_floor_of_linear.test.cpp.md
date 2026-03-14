@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/floor_sum.cpp
     title: Floor Sum
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

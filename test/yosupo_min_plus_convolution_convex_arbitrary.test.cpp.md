@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/min_plus_convolution.cpp
     title: "min-plus\u7573\u307F\u8FBC\u307F(Min-Plus Convolution)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

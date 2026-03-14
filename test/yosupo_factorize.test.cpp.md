@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/primefactor_ll.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/palindromic_tree.cpp
     title: "\u56DE\u6587\u6728(Palindromic Tree)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

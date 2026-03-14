@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/offlinedynamicconnectivity.cpp
     title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

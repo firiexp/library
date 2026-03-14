@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/get_prime_wheel.cpp
     title: math/get_prime_wheel.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

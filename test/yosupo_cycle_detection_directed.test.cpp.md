@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/cycle_detection_directed.cpp
     title: Cycle Detection Directed
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/z-algorithm.cpp
     title: Z-algorithm
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

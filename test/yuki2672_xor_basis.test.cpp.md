@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/xor_basis.cpp
     title: "XOR\u57FA\u5E95(Linear Basis)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

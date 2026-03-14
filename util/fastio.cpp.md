@@ -100,7 +100,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - icon: ':heavy_check_mark:'
@@ -151,6 +151,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_factorize.test.cpp
     title: test/yosupo_factorize.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_frequency_table_of_tree_distance.test.cpp
+    title: test/yosupo_frequency_table_of_tree_distance.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
@@ -343,9 +346,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki957_project_selection_problem.test.cpp
     title: test/yuki957_project_selection_problem.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     links: []
@@ -562,7 +565,7 @@ data:
   path: util/fastio.cpp
   requiredBy: []
   timestamp: '2026-03-14 13:04:06+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
@@ -591,6 +594,7 @@ data:
   - test/yosupo_primality_test.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_closest_pair.test.cpp
+  - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yuki957.test.cpp
   - test/yosupo_discrete_logarithm_mod.test.cpp

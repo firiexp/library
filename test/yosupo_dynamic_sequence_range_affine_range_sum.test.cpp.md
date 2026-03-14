@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/implicit_treap.cpp
     title: Implicit Treap
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []

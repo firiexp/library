@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/persistent_unionfind.cpp
     title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

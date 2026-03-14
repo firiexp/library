@@ -308,7 +308,7 @@ data:
     - icon: ':warning:'
       path: math/fastkitamasa.cpp
       title: math/fastkitamasa.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: math/fft.cpp
       title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
     - icon: ':heavy_check_mark:'
@@ -488,6 +488,9 @@ data:
       path: tree/dsu_on_tree.cpp
       title: DSU on Tree
     - icon: ':heavy_check_mark:'
+      path: tree/frequency_table_of_tree_distance.cpp
+      title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)"
+    - icon: ':heavy_check_mark:'
       path: tree/hld.cpp
       title: "\u91CD\u8EFD\u5206\u89E3"
     - icon: ':heavy_check_mark:'
@@ -516,7 +519,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: util/fastio.cpp
       title: Fast IO
     - icon: ':heavy_check_mark:'
@@ -534,7 +537,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/mo.cpp
       title: Mo's algorithm
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
@@ -711,7 +714,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution.test.cpp
       title: test/yosupo_convolution.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
       title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     - icon: ':heavy_check_mark:'
@@ -771,6 +774,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_find_linear_recurrence.test.cpp
       title: test/yosupo_find_linear_recurrence.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_frequency_table_of_tree_distance.test.cpp
+      title: test/yosupo_frequency_table_of_tree_distance.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_general_matching.test.cpp
       title: test/yosupo_general_matching.test.cpp

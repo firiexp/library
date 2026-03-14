@@ -5,7 +5,7 @@ data:
     path: graph/dynamic_graph_vertex_add_component_sum.cpp
     title: "\u52D5\u7684\u30B0\u30E9\u30D5\u9023\u7D50\u6210\u5206\u548C(Dynamic Graph\
       \ Vertex Add Component Sum)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

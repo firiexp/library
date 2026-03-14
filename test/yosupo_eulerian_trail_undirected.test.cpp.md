@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/eulerian_trail.cpp
     title: Eulerian Trail
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: flow/project_selection_problem.cpp
     title: ProjectSelectionProblem
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

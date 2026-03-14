@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/tree_hash.cpp
     title: "\u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

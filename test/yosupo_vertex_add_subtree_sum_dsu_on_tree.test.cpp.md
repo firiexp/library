@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/dsu_on_tree.cpp
     title: DSU on Tree
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

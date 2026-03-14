@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/link_cut_tree.cpp
     title: Link-Cut Tree
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
