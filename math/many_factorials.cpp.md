@@ -3,15 +3,6 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: fps/multipoint_evaluation.cpp
-    title: Multipoint Evaluation
-  - icon: ':heavy_check_mark:'
-    path: fps/sample_point_shift.cpp
-    title: Sample Point Shift
-  - icon: ':heavy_check_mark:'
-    path: fps/taylor_shift.cpp
-    title: Taylor Shift
-  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
   _extendedRequiredBy: []
@@ -290,183 +281,140 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 2 \"fps/sample_point_shift.cpp\"\n\nvector<mint> sample_point_shift(const\
-    \ vector<mint> &ys, mint c, int m = -1) {\n    int n = ys.size();\n    if (m ==\
-    \ -1) m = n;\n    if (m <= 0) return {};\n    if (n == 0) return vector<mint>(m,\
-    \ mint(0));\n\n    int k = n - 1;\n    long long t = c.val;\n    if (t <= k) {\n\
-    \        vector<mint> res;\n        res.reserve(m);\n        for (long long x\
-    \ = t; x <= k && (int)res.size() < m; ++x) res.push_back(ys[x]);\n        if ((int)res.size()\
-    \ < m) {\n            vector<mint> suf = sample_point_shift(ys, mint(k + 1), m\
-    \ - (int)res.size());\n            res.insert(res.end(), suf.begin(), suf.end());\n\
-    \        }\n        return res;\n    }\n    if (t + m > ntt_mod) {\n        vector<mint>\
-    \ pref = sample_point_shift(ys, mint(t), ntt_mod - t);\n        vector<mint> suf\
-    \ = sample_point_shift(ys, mint(0), m - (int)pref.size());\n        pref.insert(pref.end(),\
-    \ suf.begin(), suf.end());\n        return pref;\n    }\n\n    static vector<mint>\
-    \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int lim) {\n\
-    \        if ((int)fact.size() > lim) return;\n        int old = fact.size();\n\
-    \        fact.resize(lim + 1);\n        for (int i = old; i <= lim; ++i) fact[i]\
-    \ = fact[i - 1] * mint(i);\n        ifact.resize(lim + 1);\n        ifact[lim]\
-    \ = fact[lim].inv();\n        for (int i = lim; i > old; --i) ifact[i - 1] = ifact[i]\
-    \ * mint(i);\n        if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(k);\n\
-    \n    vector<mint> a(n), b(n + m - 1);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      a[i] = ys[i] * ifact[i] * ifact[k - i];\n        if ((k - i) & 1) a[i]\
-    \ = -a[i];\n    }\n    for (int i = 0; i < n + m - 1; ++i) {\n        b[i] = mint(1)\
-    \ / (c - mint(k) + mint(i));\n    }\n    poly pa(a), pb(b);\n    vector<mint>\
-    \ conv = (pa * pb).v;\n\n    vector<mint> res(m);\n    mint coef = 1;\n    for\
-    \ (int i = 0; i <= k; ++i) coef *= c - mint(i);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        res[i] = conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n\
-    \        coef /= c - mint(k) + mint(i);\n    }\n    return res;\n}\n\n/**\n *\
-    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n */\n#line\
-    \ 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
-    \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
-    \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
-    \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
-    \ ++i) ys[i] = eval(xs[i]);\n        return ys;\n    }\n    int n = 1;\n    while\
-    \ (n < m) n <<= 1;\n    vector<poly> prod(2 * n);\n    for (int i = 0; i < m;\
-    \ ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = m;\
-    \ i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});\n    for (int i = n -\
-    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    vector<poly>\
-    \ rem(2 * n);\n    rem[1] = mod(prod[1]);\n    for (int i = 1; i < n; ++i) {\n\
-    \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
-    \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
-    \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
-    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n */\n#line 2\
-    \ \"fps/taylor_shift.cpp\"\n\npoly taylor_shift(const poly &f, mint c) {\n   \
-    \ int n = f.size();\n    if (n == 0) return poly();\n    static vector<mint> fact\
-    \ = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int m) {\n     \
-    \   if ((int)fact.size() > m) return;\n        int old = fact.size();\n      \
-    \  fact.resize(m + 1);\n        for (int i = old; i <= m; ++i) fact[i] = fact[i\
-    \ - 1] * mint(i);\n        ifact.resize(m + 1);\n        ifact[m] = fact[m].inv();\n\
-    \        for (int i = m; i > old; --i) ifact[i - 1] = ifact[i] * mint(i);\n  \
-    \      if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(n);\n    poly\
-    \ a(n), b(n);\n    mint pow_c = 1;\n    for (int i = 0; i < n; ++i) {\n      \
-    \  a[n - 1 - i] = f[i] * fact[i];\n        b[i] = pow_c * ifact[i];\n        pow_c\
-    \ *= c;\n    }\n    poly d = a * b;\n    poly g(n);\n    for (int i = 0; i < n;\
-    \ ++i) g[i] = d[n - 1 - i] * ifact[i];\n    return g;\n}\n\n/**\n * @brief Taylor\
-    \ Shift\n */\n#line 4 \"math/many_factorials.cpp\"\n\nvector<mint> many_factorials(const\
-    \ vector<long long> &ns) {\n    struct EvalPoint {\n        int x, query_id;\n\
-    \    };\n\n    int q = ns.size();\n    vector<mint> ans(q);\n    if (q == 0) return\
-    \ ans;\n\n    vector<pair<int, int>> order;\n    order.reserve(q);\n    for (int\
-    \ i = 0; i < q; ++i) {\n        if (ns[i] >= ntt_mod) {\n            ans[i] =\
-    \ mint(0);\n            continue;\n        }\n        order.push_back({(int)ns[i],\
-    \ i});\n    }\n    if (order.empty()) return ans;\n    sort(order.begin(), order.end());\n\
-    \n    vector<int> uniq_ns, group_begin;\n    uniq_ns.reserve(order.size());\n\
-    \    group_begin.reserve(order.size() + 1);\n    for (int l = 0; l < (int)order.size();)\
-    \ {\n        int r = l + 1;\n        while (r < (int)order.size() && order[r].first\
-    \ == order[l].first) ++r;\n        uniq_ns.push_back(order[l].first);\n      \
-    \  group_begin.push_back(l);\n        l = r;\n    }\n    group_begin.push_back(order.size());\n\
-    \n    constexpr int log_block_size = 15;\n    constexpr int block_size = 1 <<\
-    \ log_block_size;\n    constexpr int block_num = ntt_mod >> log_block_size;\n\
-    \    constexpr int manual_bits = 10;\n    constexpr int manual_mask = (1 << manual_bits)\
-    \ - 1;\n\n    static vector<mint> block_fact = []() {\n        vector<vector<mint>>\
-    \ samples(log_block_size + 1);\n        samples[0] = {mint(1), mint(2)};\n   \
-    \     for (int lg = 0; lg < log_block_size; ++lg) {\n            int d = 1 <<\
-    \ lg;\n            const vector<mint> &cur = samples[lg];\n            vector<mint>\
-    \ shifted = sample_point_shift(cur, mint(d + 1), 3 * d + 1);\n            vector<mint>\
-    \ next(2 * d + 1);\n            for (int i = 0; i <= 2 * d; ++i) {\n         \
-    \       mint left = 2 * i <= d ? cur[2 * i] : shifted[2 * i - (d + 1)];\n    \
-    \            mint right = 2 * i + 1 <= d ? cur[2 * i + 1] : shifted[2 * i + 1\
-    \ - (d + 1)];\n                next[i] = left * right;\n            }\n      \
-    \      samples[lg + 1] = std::move(next);\n        }\n        vector<mint> blocks\
-    \ = sample_point_shift(samples[log_block_size], mint(0), block_num);\n       \
-    \ blocks.insert(blocks.begin(), mint(1));\n        for (int i = 1; i <= block_num;\
-    \ ++i) blocks[i] *= blocks[i - 1];\n        return blocks;\n    }();\n\n    int\
-    \ m = uniq_ns.size();\n    vector<mint> uniq_ans(m);\n    vector<vector<EvalPoint>>\
-    \ eval_points(log_block_size);\n    for (int i = 0; i < m; ++i) {\n        int\
+    \n\n#line 2 \"math/many_factorials.cpp\"\n\nnamespace {\n\nvector<mint> convolve(const\
+    \ vector<mint> &a, const vector<mint> &b) {\n    if (a.empty() || b.empty()) return\
+    \ {};\n    return (poly(a) * poly(b)).v;\n}\n\nstruct ManyFactorialsFactorial\
+    \ {\n    static inline vector<mint> fact = {mint(1)};\n    static inline vector<mint>\
+    \ ifact = {mint(1)};\n\n    static void ensure(int size) {\n        if ((int)fact.size()\
+    \ >= size) return;\n        int cur = fact.size();\n        int next = max(cur\
+    \ * 2, size);\n        fact.resize(next);\n        ifact.resize(next);\n     \
+    \   for (int i = cur; i < next; ++i) fact[i] = fact[i - 1] * mint::raw(i);\n \
+    \       ifact.back() = fact.back().inv();\n        for (int i = next - 1; i >\
+    \ cur; --i) ifact[i - 1] = ifact[i] * mint::raw(i);\n    }\n};\n\nvector<mint>\
+    \ shift_of_sampling_points(const vector<mint> &ys, mint t, int m) {\n    int n\
+    \ = ys.size();\n    ManyFactorialsFactorial::ensure(max(n, m));\n\n    vector<mint>\
+    \ b(n);\n    {\n        vector<mint> f(n), g(n);\n        for (int i = 0; i <\
+    \ n; ++i) {\n            f[i] = ys[i] * ManyFactorialsFactorial::ifact[i];\n \
+    \           g[i] = ((i & 1) ? -mint(1) : mint(1)) * ManyFactorialsFactorial::ifact[i];\n\
+    \        }\n        b = convolve(f, g);\n        b.resize(n);\n    }\n\n    vector<mint>\
+    \ e(n);\n    {\n        vector<mint> c(n);\n        mint prod = mint(1);\n   \
+    \     reverse(b.begin(), b.end());\n        for (int i = 0; i < n; ++i) {\n  \
+    \          b[i] *= ManyFactorialsFactorial::fact[n - i - 1];\n            c[i]\
+    \ = prod * ManyFactorialsFactorial::ifact[i];\n            prod *= t - mint(i);\n\
+    \        }\n        e = convolve(b, c);\n        e.resize(n);\n    }\n\n    reverse(e.begin(),\
+    \ e.end());\n    for (int i = 0; i < n; ++i) e[i] *= ManyFactorialsFactorial::ifact[i];\n\
+    \n    vector<mint> f(m);\n    for (int i = 0; i < m; ++i) f[i] = ManyFactorialsFactorial::ifact[i];\n\
+    \    vector<mint> res = convolve(e, f);\n    res.resize(m);\n    for (int i =\
+    \ 0; i < m; ++i) res[i] *= ManyFactorialsFactorial::fact[i];\n    return res;\n\
+    }\n\nvector<mint> many_factorials_short_block(const vector<int> &uniq_ns) {\n\
+    \    constexpr int log_block_size = 9;\n    constexpr int block_size = 1 << log_block_size;\n\
+    \    constexpr int block_num = ntt_mod >> log_block_size;\n\n    static vector<mint>\
+    \ block_fact = []() {\n        vector<mint> f{mint(1)};\n        f.reserve(block_size);\n\
+    \        for (int i = 0; i < log_block_size; ++i) {\n            vector<mint>\
+    \ g = shift_of_sampling_points(f, mint(1 << i), 3 << i);\n            auto get\
+    \ = [&](int j) -> mint {\n                return j < (1 << i) ? f[j] : g[j - (1\
+    \ << i)];\n            };\n            f.resize(2 << i);\n            for (int\
+    \ j = 0; j < (2 << i); ++j) {\n                f[j] = get(2 * j) * get(2 * j +\
+    \ 1) * mint::raw((2 * j + 1) << i);\n            }\n        }\n        if (block_num\
+    \ > block_size) {\n            vector<mint> g = shift_of_sampling_points(f, mint(block_size),\
+    \ block_num - block_size);\n            f.insert(f.end(), g.begin(), g.end());\n\
+    \        } else {\n            f.resize(block_num);\n        }\n        for (int\
+    \ i = 0; i < block_num; ++i) f[i] *= mint::raw(i + 1) * mint::raw(block_size);\n\
+    \        f.insert(f.begin(), mint(1));\n        for (int i = 1; i <= block_num;\
+    \ ++i) f[i] *= f[i - 1];\n        return f;\n    }();\n\n    int m = uniq_ns.size();\n\
+    \    vector<mint> uniq_ans(m);\n    for (int i = 0; i < m; ++i) {\n        int\
     \ n = uniq_ns[i];\n        int quo = n >> log_block_size;\n        int rem = n\
-    \ & (block_size - 1);\n        uniq_ans[i] = block_fact[quo];\n        int tail\
-    \ = rem & manual_mask;\n        for (int x = n - tail + 1; x <= n; ++x) uniq_ans[i]\
-    \ *= mint(x);\n        int x = n - tail;\n        int hi = rem - tail;\n     \
-    \   for (int bit = manual_bits; bit < log_block_size; ++bit) {\n            if\
-    \ ((hi >> bit) & 1) {\n                eval_points[bit].push_back({x, i});\n \
-    \               x -= 1 << bit;\n            }\n        }\n    }\n\n    vector<poly>\
-    \ falling(log_block_size);\n    falling[0] = poly(vector<mint>{mint(0), mint(1)});\n\
-    \    for (int bit = 1; bit < log_block_size; ++bit) {\n        int d = 1 << (bit\
-    \ - 1);\n        falling[bit] = falling[bit - 1] * taylor_shift(falling[bit -\
-    \ 1], mint(-d));\n    }\n\n    for (int bit = manual_bits; bit < log_block_size;\
-    \ ++bit) {\n        auto &pts = eval_points[bit];\n        if (pts.empty()) continue;\n\
-    \        sort(pts.begin(), pts.end(), [](const EvalPoint &a, const EvalPoint &b)\
-    \ {\n            return a.x < b.x;\n        });\n        int batch = 1 << bit;\n\
-    \        for (int l = 0; l < (int)pts.size();) {\n            vector<mint> xs;\n\
-    \            vector<pair<int, int>> groups;\n            xs.reserve(batch);\n\
-    \            groups.reserve(batch);\n            while (l < (int)pts.size() &&\
-    \ (int)xs.size() < batch) {\n                int r = l + 1;\n                while\
-    \ (r < (int)pts.size() && pts[r].x == pts[l].x) ++r;\n                xs.push_back(mint(pts[l].x));\n\
-    \                groups.push_back({l, r});\n                l = r;\n         \
-    \   }\n            vector<mint> ys = falling[bit].multipoint_eval(xs);\n     \
-    \       for (int i = 0; i < (int)groups.size(); ++i) {\n                auto [gl,\
-    \ gr] = groups[i];\n                for (int j = gl; j < gr; ++j) uniq_ans[pts[j].query_id]\
-    \ *= ys[i];\n            }\n        }\n    }\n\n    for (int i = 0; i < m; ++i)\
-    \ {\n        for (int j = group_begin[i]; j < group_begin[i + 1]; ++j) ans[order[j].second]\
+    \ & (block_size - 1);\n        if ((rem << 1) <= block_size) {\n            uniq_ans[i]\
+    \ = block_fact[quo];\n            for (int x = n - rem + 1; x <= n; ++x) uniq_ans[i]\
+    \ *= mint::raw(x);\n        } else {\n            uniq_ans[i] = block_fact[quo\
+    \ + 1];\n            mint den = mint(1);\n            for (int x = n + 1; x <=\
+    \ (quo + 1) * block_size; ++x) den *= mint::raw(x);\n            uniq_ans[i] /=\
+    \ den;\n        }\n    }\n    return uniq_ans;\n}\n\n}  // namespace\n\nvector<mint>\
+    \ many_factorials(const vector<long long> &ns) {\n    int q = ns.size();\n   \
+    \ vector<mint> ans(q);\n    if (q == 0) return ans;\n\n    vector<pair<int, int>>\
+    \ order;\n    order.reserve(q);\n    for (int i = 0; i < q; ++i) {\n        if\
+    \ (ns[i] >= ntt_mod) {\n            ans[i] = mint(0);\n            continue;\n\
+    \        }\n        order.push_back({(int)ns[i], i});\n    }\n    if (order.empty())\
+    \ return ans;\n    sort(order.begin(), order.end());\n\n    vector<int> uniq_ns,\
+    \ group_begin;\n    uniq_ns.reserve(order.size());\n    group_begin.reserve(order.size()\
+    \ + 1);\n    for (int l = 0; l < (int)order.size();) {\n        int r = l + 1;\n\
+    \        while (r < (int)order.size() && order[r].first == order[l].first) ++r;\n\
+    \        uniq_ns.push_back(order[l].first);\n        group_begin.push_back(l);\n\
+    \        l = r;\n    }\n    group_begin.push_back(order.size());\n\n    vector<mint>\
+    \ uniq_ans = many_factorials_short_block(uniq_ns);\n    for (int i = 0; i < (int)uniq_ns.size();\
+    \ ++i) {\n        for (int j = group_begin[i]; j < group_begin[i + 1]; ++j) ans[order[j].second]\
     \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief \u591A\u6570\u968E\
     \u4E57(Many Factorials)\n */\n"
-  code: "#include \"../fps/sample_point_shift.cpp\"\n#include \"../fps/multipoint_evaluation.cpp\"\
-    \n#include \"../fps/taylor_shift.cpp\"\n\nvector<mint> many_factorials(const vector<long\
-    \ long> &ns) {\n    struct EvalPoint {\n        int x, query_id;\n    };\n\n \
-    \   int q = ns.size();\n    vector<mint> ans(q);\n    if (q == 0) return ans;\n\
-    \n    vector<pair<int, int>> order;\n    order.reserve(q);\n    for (int i = 0;\
-    \ i < q; ++i) {\n        if (ns[i] >= ntt_mod) {\n            ans[i] = mint(0);\n\
-    \            continue;\n        }\n        order.push_back({(int)ns[i], i});\n\
-    \    }\n    if (order.empty()) return ans;\n    sort(order.begin(), order.end());\n\
-    \n    vector<int> uniq_ns, group_begin;\n    uniq_ns.reserve(order.size());\n\
-    \    group_begin.reserve(order.size() + 1);\n    for (int l = 0; l < (int)order.size();)\
-    \ {\n        int r = l + 1;\n        while (r < (int)order.size() && order[r].first\
-    \ == order[l].first) ++r;\n        uniq_ns.push_back(order[l].first);\n      \
-    \  group_begin.push_back(l);\n        l = r;\n    }\n    group_begin.push_back(order.size());\n\
-    \n    constexpr int log_block_size = 15;\n    constexpr int block_size = 1 <<\
-    \ log_block_size;\n    constexpr int block_num = ntt_mod >> log_block_size;\n\
-    \    constexpr int manual_bits = 10;\n    constexpr int manual_mask = (1 << manual_bits)\
-    \ - 1;\n\n    static vector<mint> block_fact = []() {\n        vector<vector<mint>>\
-    \ samples(log_block_size + 1);\n        samples[0] = {mint(1), mint(2)};\n   \
-    \     for (int lg = 0; lg < log_block_size; ++lg) {\n            int d = 1 <<\
-    \ lg;\n            const vector<mint> &cur = samples[lg];\n            vector<mint>\
-    \ shifted = sample_point_shift(cur, mint(d + 1), 3 * d + 1);\n            vector<mint>\
-    \ next(2 * d + 1);\n            for (int i = 0; i <= 2 * d; ++i) {\n         \
-    \       mint left = 2 * i <= d ? cur[2 * i] : shifted[2 * i - (d + 1)];\n    \
-    \            mint right = 2 * i + 1 <= d ? cur[2 * i + 1] : shifted[2 * i + 1\
-    \ - (d + 1)];\n                next[i] = left * right;\n            }\n      \
-    \      samples[lg + 1] = std::move(next);\n        }\n        vector<mint> blocks\
-    \ = sample_point_shift(samples[log_block_size], mint(0), block_num);\n       \
-    \ blocks.insert(blocks.begin(), mint(1));\n        for (int i = 1; i <= block_num;\
-    \ ++i) blocks[i] *= blocks[i - 1];\n        return blocks;\n    }();\n\n    int\
-    \ m = uniq_ns.size();\n    vector<mint> uniq_ans(m);\n    vector<vector<EvalPoint>>\
-    \ eval_points(log_block_size);\n    for (int i = 0; i < m; ++i) {\n        int\
+  code: "#include \"../math/ntt.cpp\"\n\nnamespace {\n\nvector<mint> convolve(const\
+    \ vector<mint> &a, const vector<mint> &b) {\n    if (a.empty() || b.empty()) return\
+    \ {};\n    return (poly(a) * poly(b)).v;\n}\n\nstruct ManyFactorialsFactorial\
+    \ {\n    static inline vector<mint> fact = {mint(1)};\n    static inline vector<mint>\
+    \ ifact = {mint(1)};\n\n    static void ensure(int size) {\n        if ((int)fact.size()\
+    \ >= size) return;\n        int cur = fact.size();\n        int next = max(cur\
+    \ * 2, size);\n        fact.resize(next);\n        ifact.resize(next);\n     \
+    \   for (int i = cur; i < next; ++i) fact[i] = fact[i - 1] * mint::raw(i);\n \
+    \       ifact.back() = fact.back().inv();\n        for (int i = next - 1; i >\
+    \ cur; --i) ifact[i - 1] = ifact[i] * mint::raw(i);\n    }\n};\n\nvector<mint>\
+    \ shift_of_sampling_points(const vector<mint> &ys, mint t, int m) {\n    int n\
+    \ = ys.size();\n    ManyFactorialsFactorial::ensure(max(n, m));\n\n    vector<mint>\
+    \ b(n);\n    {\n        vector<mint> f(n), g(n);\n        for (int i = 0; i <\
+    \ n; ++i) {\n            f[i] = ys[i] * ManyFactorialsFactorial::ifact[i];\n \
+    \           g[i] = ((i & 1) ? -mint(1) : mint(1)) * ManyFactorialsFactorial::ifact[i];\n\
+    \        }\n        b = convolve(f, g);\n        b.resize(n);\n    }\n\n    vector<mint>\
+    \ e(n);\n    {\n        vector<mint> c(n);\n        mint prod = mint(1);\n   \
+    \     reverse(b.begin(), b.end());\n        for (int i = 0; i < n; ++i) {\n  \
+    \          b[i] *= ManyFactorialsFactorial::fact[n - i - 1];\n            c[i]\
+    \ = prod * ManyFactorialsFactorial::ifact[i];\n            prod *= t - mint(i);\n\
+    \        }\n        e = convolve(b, c);\n        e.resize(n);\n    }\n\n    reverse(e.begin(),\
+    \ e.end());\n    for (int i = 0; i < n; ++i) e[i] *= ManyFactorialsFactorial::ifact[i];\n\
+    \n    vector<mint> f(m);\n    for (int i = 0; i < m; ++i) f[i] = ManyFactorialsFactorial::ifact[i];\n\
+    \    vector<mint> res = convolve(e, f);\n    res.resize(m);\n    for (int i =\
+    \ 0; i < m; ++i) res[i] *= ManyFactorialsFactorial::fact[i];\n    return res;\n\
+    }\n\nvector<mint> many_factorials_short_block(const vector<int> &uniq_ns) {\n\
+    \    constexpr int log_block_size = 9;\n    constexpr int block_size = 1 << log_block_size;\n\
+    \    constexpr int block_num = ntt_mod >> log_block_size;\n\n    static vector<mint>\
+    \ block_fact = []() {\n        vector<mint> f{mint(1)};\n        f.reserve(block_size);\n\
+    \        for (int i = 0; i < log_block_size; ++i) {\n            vector<mint>\
+    \ g = shift_of_sampling_points(f, mint(1 << i), 3 << i);\n            auto get\
+    \ = [&](int j) -> mint {\n                return j < (1 << i) ? f[j] : g[j - (1\
+    \ << i)];\n            };\n            f.resize(2 << i);\n            for (int\
+    \ j = 0; j < (2 << i); ++j) {\n                f[j] = get(2 * j) * get(2 * j +\
+    \ 1) * mint::raw((2 * j + 1) << i);\n            }\n        }\n        if (block_num\
+    \ > block_size) {\n            vector<mint> g = shift_of_sampling_points(f, mint(block_size),\
+    \ block_num - block_size);\n            f.insert(f.end(), g.begin(), g.end());\n\
+    \        } else {\n            f.resize(block_num);\n        }\n        for (int\
+    \ i = 0; i < block_num; ++i) f[i] *= mint::raw(i + 1) * mint::raw(block_size);\n\
+    \        f.insert(f.begin(), mint(1));\n        for (int i = 1; i <= block_num;\
+    \ ++i) f[i] *= f[i - 1];\n        return f;\n    }();\n\n    int m = uniq_ns.size();\n\
+    \    vector<mint> uniq_ans(m);\n    for (int i = 0; i < m; ++i) {\n        int\
     \ n = uniq_ns[i];\n        int quo = n >> log_block_size;\n        int rem = n\
-    \ & (block_size - 1);\n        uniq_ans[i] = block_fact[quo];\n        int tail\
-    \ = rem & manual_mask;\n        for (int x = n - tail + 1; x <= n; ++x) uniq_ans[i]\
-    \ *= mint(x);\n        int x = n - tail;\n        int hi = rem - tail;\n     \
-    \   for (int bit = manual_bits; bit < log_block_size; ++bit) {\n            if\
-    \ ((hi >> bit) & 1) {\n                eval_points[bit].push_back({x, i});\n \
-    \               x -= 1 << bit;\n            }\n        }\n    }\n\n    vector<poly>\
-    \ falling(log_block_size);\n    falling[0] = poly(vector<mint>{mint(0), mint(1)});\n\
-    \    for (int bit = 1; bit < log_block_size; ++bit) {\n        int d = 1 << (bit\
-    \ - 1);\n        falling[bit] = falling[bit - 1] * taylor_shift(falling[bit -\
-    \ 1], mint(-d));\n    }\n\n    for (int bit = manual_bits; bit < log_block_size;\
-    \ ++bit) {\n        auto &pts = eval_points[bit];\n        if (pts.empty()) continue;\n\
-    \        sort(pts.begin(), pts.end(), [](const EvalPoint &a, const EvalPoint &b)\
-    \ {\n            return a.x < b.x;\n        });\n        int batch = 1 << bit;\n\
-    \        for (int l = 0; l < (int)pts.size();) {\n            vector<mint> xs;\n\
-    \            vector<pair<int, int>> groups;\n            xs.reserve(batch);\n\
-    \            groups.reserve(batch);\n            while (l < (int)pts.size() &&\
-    \ (int)xs.size() < batch) {\n                int r = l + 1;\n                while\
-    \ (r < (int)pts.size() && pts[r].x == pts[l].x) ++r;\n                xs.push_back(mint(pts[l].x));\n\
-    \                groups.push_back({l, r});\n                l = r;\n         \
-    \   }\n            vector<mint> ys = falling[bit].multipoint_eval(xs);\n     \
-    \       for (int i = 0; i < (int)groups.size(); ++i) {\n                auto [gl,\
-    \ gr] = groups[i];\n                for (int j = gl; j < gr; ++j) uniq_ans[pts[j].query_id]\
-    \ *= ys[i];\n            }\n        }\n    }\n\n    for (int i = 0; i < m; ++i)\
-    \ {\n        for (int j = group_begin[i]; j < group_begin[i + 1]; ++j) ans[order[j].second]\
+    \ & (block_size - 1);\n        if ((rem << 1) <= block_size) {\n            uniq_ans[i]\
+    \ = block_fact[quo];\n            for (int x = n - rem + 1; x <= n; ++x) uniq_ans[i]\
+    \ *= mint::raw(x);\n        } else {\n            uniq_ans[i] = block_fact[quo\
+    \ + 1];\n            mint den = mint(1);\n            for (int x = n + 1; x <=\
+    \ (quo + 1) * block_size; ++x) den *= mint::raw(x);\n            uniq_ans[i] /=\
+    \ den;\n        }\n    }\n    return uniq_ans;\n}\n\n}  // namespace\n\nvector<mint>\
+    \ many_factorials(const vector<long long> &ns) {\n    int q = ns.size();\n   \
+    \ vector<mint> ans(q);\n    if (q == 0) return ans;\n\n    vector<pair<int, int>>\
+    \ order;\n    order.reserve(q);\n    for (int i = 0; i < q; ++i) {\n        if\
+    \ (ns[i] >= ntt_mod) {\n            ans[i] = mint(0);\n            continue;\n\
+    \        }\n        order.push_back({(int)ns[i], i});\n    }\n    if (order.empty())\
+    \ return ans;\n    sort(order.begin(), order.end());\n\n    vector<int> uniq_ns,\
+    \ group_begin;\n    uniq_ns.reserve(order.size());\n    group_begin.reserve(order.size()\
+    \ + 1);\n    for (int l = 0; l < (int)order.size();) {\n        int r = l + 1;\n\
+    \        while (r < (int)order.size() && order[r].first == order[l].first) ++r;\n\
+    \        uniq_ns.push_back(order[l].first);\n        group_begin.push_back(l);\n\
+    \        l = r;\n    }\n    group_begin.push_back(order.size());\n\n    vector<mint>\
+    \ uniq_ans = many_factorials_short_block(uniq_ns);\n    for (int i = 0; i < (int)uniq_ns.size();\
+    \ ++i) {\n        for (int j = group_begin[i]; j < group_begin[i + 1]; ++j) ans[order[j].second]\
     \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief \u591A\u6570\u968E\
     \u4E57(Many Factorials)\n */\n"
   dependsOn:
-  - fps/sample_point_shift.cpp
   - math/ntt.cpp
-  - fps/multipoint_evaluation.cpp
-  - fps/taylor_shift.cpp
   isVerificationFile: false
   path: math/many_factorials.cpp
   requiredBy: []
-  timestamp: '2026-03-15 12:48:57+09:00'
+  timestamp: '2026-03-15 15:48:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_many_factorials.test.cpp
@@ -481,10 +429,9 @@ title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
 複数の `n` に対して `n! mod 998244353` をまとめて計算する。
 `n >= 998244353` なら `0` を返す。
 
-`sample_point_shift` で
-`f_d(x) = \prod_{t=1}^{d} (x + t)`
-の標本点を倍化構築し、必要な点だけ多点評価する。
-`n` が `998244353 / 2` を超える側は Wilson の定理で小さい側へ移す。
+同じ値を先に圧縮してから計算する。
+`sample_point_shift` で `B = 512` の block product を前計算し、
+各 query は block 境界から近い側へ高々 `256` 個だけ掛けて求める。
 
 ## できること
 - `vector<mint> many_factorials(const vector<long long>& ns)`
@@ -499,5 +446,6 @@ auto ans = many_factorials(ns);
 ```
 
 ## 実装上の補足
-ブロック長を 2 冪に取り、`(k d)!` の列を前計算して大きい部分を処理する。
-各 query の端数部分は 2 進分解し、必要なブロック積だけを多点評価で取る。
+block prefix product を土台にする。
+余りが前半ならそのまま掛け足し、後半なら次 block から割り戻す。
+共通計算を抑え、distinct な query を短い積で直接処理する。

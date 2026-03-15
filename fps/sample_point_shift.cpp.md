@@ -5,14 +5,8 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: math/many_factorials.cpp
-    title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
+  _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_factorials.test.cpp
-    title: test/yosupo_many_factorials.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
@@ -301,19 +295,22 @@ data:
     \ suf.begin(), suf.end());\n        return pref;\n    }\n\n    static vector<mint>\
     \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int lim) {\n\
     \        if ((int)fact.size() > lim) return;\n        int old = fact.size();\n\
-    \        fact.resize(lim + 1);\n        for (int i = old; i <= lim; ++i) fact[i]\
-    \ = fact[i - 1] * mint(i);\n        ifact.resize(lim + 1);\n        ifact[lim]\
-    \ = fact[lim].inv();\n        for (int i = lim; i > old; --i) ifact[i - 1] = ifact[i]\
-    \ * mint(i);\n        if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(k);\n\
-    \n    vector<mint> a(n), b(n + m - 1);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      a[i] = ys[i] * ifact[i] * ifact[k - i];\n        if ((k - i) & 1) a[i]\
-    \ = -a[i];\n    }\n    for (int i = 0; i < n + m - 1; ++i) {\n        b[i] = mint(1)\
-    \ / (c - mint(k) + mint(i));\n    }\n    poly pa(a), pb(b);\n    vector<mint>\
-    \ conv = (pa * pb).v;\n\n    vector<mint> res(m);\n    mint coef = 1;\n    for\
-    \ (int i = 0; i <= k; ++i) coef *= c - mint(i);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        res[i] = conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n\
-    \        coef /= c - mint(k) + mint(i);\n    }\n    return res;\n}\n\n/**\n *\
-    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n */\n"
+    \        int next = max(old * 2, lim + 1);\n        fact.resize(next);\n     \
+    \   for (int i = old; i < next; ++i) fact[i] = fact[i - 1] * mint::raw(i);\n \
+    \       ifact.resize(next);\n        ifact[next - 1] = fact[next - 1].inv();\n\
+    \        for (int i = next - 1; i > old; --i) ifact[i - 1] = ifact[i] * mint::raw(i);\n\
+    \    };\n    ensure_fact(k);\n\n    vector<mint> a(n), b(n + m - 1);\n    for\
+    \ (int i = 0; i < n; ++i) {\n        a[i] = ys[i] * ifact[i] * ifact[k - i];\n\
+    \        if ((k - i) & 1) a[i] = -a[i];\n    }\n    mint start = c - mint(k);\n\
+    \    b[0] = start;\n    for (int i = 1; i < n + m - 1; ++i) {\n        b[i] =\
+    \ b[i - 1] * (start + mint(i));\n    }\n    mint coef = b[k];\n    mint inv_all\
+    \ = b.back().inv();\n    for (int i = n + m - 2; i >= 1; --i) {\n        b[i]\
+    \ = b[i - 1] * inv_all;\n        inv_all *= start + mint(i);\n    }\n    b[0]\
+    \ = inv_all;\n    poly pa(a), pb(b);\n    vector<mint> conv = (pa * pb).v;\n\n\
+    \    vector<mint> res(m);\n    for (int i = 0; i < m; ++i) {\n        res[i] =\
+    \ conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n        coef *= b[i];\n\
+    \    }\n    return res;\n}\n\n/**\n * @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8\
+    (Sample Point Shift)\n */\n"
   code: "#include \"../math/ntt.cpp\"\n\nvector<mint> sample_point_shift(const vector<mint>\
     \ &ys, mint c, int m = -1) {\n    int n = ys.size();\n    if (m == -1) m = n;\n\
     \    if (m <= 0) return {};\n    if (n == 0) return vector<mint>(m, mint(0));\n\
@@ -328,30 +325,31 @@ data:
     \ suf.begin(), suf.end());\n        return pref;\n    }\n\n    static vector<mint>\
     \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int lim) {\n\
     \        if ((int)fact.size() > lim) return;\n        int old = fact.size();\n\
-    \        fact.resize(lim + 1);\n        for (int i = old; i <= lim; ++i) fact[i]\
-    \ = fact[i - 1] * mint(i);\n        ifact.resize(lim + 1);\n        ifact[lim]\
-    \ = fact[lim].inv();\n        for (int i = lim; i > old; --i) ifact[i - 1] = ifact[i]\
-    \ * mint(i);\n        if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(k);\n\
-    \n    vector<mint> a(n), b(n + m - 1);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      a[i] = ys[i] * ifact[i] * ifact[k - i];\n        if ((k - i) & 1) a[i]\
-    \ = -a[i];\n    }\n    for (int i = 0; i < n + m - 1; ++i) {\n        b[i] = mint(1)\
-    \ / (c - mint(k) + mint(i));\n    }\n    poly pa(a), pb(b);\n    vector<mint>\
-    \ conv = (pa * pb).v;\n\n    vector<mint> res(m);\n    mint coef = 1;\n    for\
-    \ (int i = 0; i <= k; ++i) coef *= c - mint(i);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        res[i] = conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n\
-    \        coef /= c - mint(k) + mint(i);\n    }\n    return res;\n}\n\n/**\n *\
-    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n */\n"
+    \        int next = max(old * 2, lim + 1);\n        fact.resize(next);\n     \
+    \   for (int i = old; i < next; ++i) fact[i] = fact[i - 1] * mint::raw(i);\n \
+    \       ifact.resize(next);\n        ifact[next - 1] = fact[next - 1].inv();\n\
+    \        for (int i = next - 1; i > old; --i) ifact[i - 1] = ifact[i] * mint::raw(i);\n\
+    \    };\n    ensure_fact(k);\n\n    vector<mint> a(n), b(n + m - 1);\n    for\
+    \ (int i = 0; i < n; ++i) {\n        a[i] = ys[i] * ifact[i] * ifact[k - i];\n\
+    \        if ((k - i) & 1) a[i] = -a[i];\n    }\n    mint start = c - mint(k);\n\
+    \    b[0] = start;\n    for (int i = 1; i < n + m - 1; ++i) {\n        b[i] =\
+    \ b[i - 1] * (start + mint(i));\n    }\n    mint coef = b[k];\n    mint inv_all\
+    \ = b.back().inv();\n    for (int i = n + m - 2; i >= 1; --i) {\n        b[i]\
+    \ = b[i - 1] * inv_all;\n        inv_all *= start + mint(i);\n    }\n    b[0]\
+    \ = inv_all;\n    poly pa(a), pb(b);\n    vector<mint> conv = (pa * pb).v;\n\n\
+    \    vector<mint> res(m);\n    for (int i = 0; i < m; ++i) {\n        res[i] =\
+    \ conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n        coef *= b[i];\n\
+    \    }\n    return res;\n}\n\n/**\n * @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8\
+    (Sample Point Shift)\n */\n"
   dependsOn:
   - math/ntt.cpp
   isVerificationFile: false
   path: fps/sample_point_shift.cpp
-  requiredBy:
-  - math/many_factorials.cpp
-  timestamp: '2026-03-15 12:48:57+09:00'
+  requiredBy: []
+  timestamp: '2026-03-15 15:48:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  - test/yosupo_many_factorials.test.cpp
 date: 2026-03-08
 documentation_of: fps/sample_point_shift.cpp
 layout: document

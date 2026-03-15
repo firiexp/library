@@ -408,26 +408,28 @@ data:
     \ suf.begin(), suf.end());\n        return pref;\n    }\n\n    static vector<mint>\
     \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int lim) {\n\
     \        if ((int)fact.size() > lim) return;\n        int old = fact.size();\n\
-    \        fact.resize(lim + 1);\n        for (int i = old; i <= lim; ++i) fact[i]\
-    \ = fact[i - 1] * mint(i);\n        ifact.resize(lim + 1);\n        ifact[lim]\
-    \ = fact[lim].inv();\n        for (int i = lim; i > old; --i) ifact[i - 1] = ifact[i]\
-    \ * mint(i);\n        if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(k);\n\
-    \n    vector<mint> a(n), b(n + m - 1);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      a[i] = ys[i] * ifact[i] * ifact[k - i];\n        if ((k - i) & 1) a[i]\
-    \ = -a[i];\n    }\n    for (int i = 0; i < n + m - 1; ++i) {\n        b[i] = mint(1)\
-    \ / (c - mint(k) + mint(i));\n    }\n    poly pa(a), pb(b);\n    vector<mint>\
-    \ conv = (pa * pb).v;\n\n    vector<mint> res(m);\n    mint coef = 1;\n    for\
-    \ (int i = 0; i <= k; ++i) coef *= c - mint(i);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        res[i] = conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n\
-    \        coef /= c - mint(k) + mint(i);\n    }\n    return res;\n}\n\n/**\n *\
-    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n */\n#line\
-    \ 18 \"test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp\"\n\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n    int n, m, c;\n    in.read(n, m, c);\n\
-    \    vector<mint> ys(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n\
-    \        in.read(x);\n        ys[i] = x;\n    }\n    vector<mint> ans = sample_point_shift(ys,\
-    \ mint(c), m);\n    for (int i = 0; i < m; ++i) {\n        if (i) out.write('\
-    \ ');\n        out.write(ans[i].val);\n    }\n    out.writeln();\n    return 0;\n\
-    }\n"
+    \        int next = max(old * 2, lim + 1);\n        fact.resize(next);\n     \
+    \   for (int i = old; i < next; ++i) fact[i] = fact[i - 1] * mint::raw(i);\n \
+    \       ifact.resize(next);\n        ifact[next - 1] = fact[next - 1].inv();\n\
+    \        for (int i = next - 1; i > old; --i) ifact[i - 1] = ifact[i] * mint::raw(i);\n\
+    \    };\n    ensure_fact(k);\n\n    vector<mint> a(n), b(n + m - 1);\n    for\
+    \ (int i = 0; i < n; ++i) {\n        a[i] = ys[i] * ifact[i] * ifact[k - i];\n\
+    \        if ((k - i) & 1) a[i] = -a[i];\n    }\n    mint start = c - mint(k);\n\
+    \    b[0] = start;\n    for (int i = 1; i < n + m - 1; ++i) {\n        b[i] =\
+    \ b[i - 1] * (start + mint(i));\n    }\n    mint coef = b[k];\n    mint inv_all\
+    \ = b.back().inv();\n    for (int i = n + m - 2; i >= 1; --i) {\n        b[i]\
+    \ = b[i - 1] * inv_all;\n        inv_all *= start + mint(i);\n    }\n    b[0]\
+    \ = inv_all;\n    poly pa(a), pb(b);\n    vector<mint> conv = (pa * pb).v;\n\n\
+    \    vector<mint> res(m);\n    for (int i = 0; i < m; ++i) {\n        res[i] =\
+    \ conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n        coef *= b[i];\n\
+    \    }\n    return res;\n}\n\n/**\n * @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8\
+    (Sample Point Shift)\n */\n#line 18 \"test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, m, c;\n    in.read(n,\
+    \ m, c);\n    vector<mint> ys(n);\n    for (int i = 0; i < n; ++i) {\n       \
+    \ int x;\n        in.read(x);\n        ys[i] = x;\n    }\n    vector<mint> ans\
+    \ = sample_point_shift(ys, mint(c), m);\n    for (int i = 0; i < m; ++i) {\n \
+    \       if (i) out.write(' ');\n        out.write(ans[i].val);\n    }\n    out.writeln();\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shift_of_sampling_points_of_polynomial\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <vector>\nusing ll = long\
     \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
@@ -446,7 +448,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   requiredBy: []
-  timestamp: '2026-03-15 12:48:57+09:00'
+  timestamp: '2026-03-15 15:48:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp

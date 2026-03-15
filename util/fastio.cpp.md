@@ -74,6 +74,9 @@ data:
     path: test/aoj_ntl_1_d_eulerphi.test.cpp
     title: test/aoj_ntl_1_d_eulerphi.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aho_corasick.test.cpp
+    title: test/yosupo_aho_corasick.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
   - icon: ':heavy_check_mark:'
@@ -196,6 +199,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_det.test.cpp
     title: test/yosupo_matrix_det.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_product.test.cpp
+    title: test/yosupo_matrix_product.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_rank.test.cpp
+    title: test/yosupo_matrix_rank.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_min_cost_b_flow.test.cpp
     title: test/yosupo_min_cost_b_flow.test.cpp
@@ -634,9 +643,11 @@ data:
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   - test/yosupo_primitive_root.test.cpp
   - test/yosupo_subset_convolution.test.cpp
+  - test/yosupo_matrix_product.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_binomial_coefficient.test.cpp
   - test/aoj2945_bfs01.test.cpp
+  - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_sum_of_floor_of_linear.test.cpp
   - test/yosupo_topological_sort.test.cpp
   - test/yosupo_area_of_union_of_rectangles.test.cpp
@@ -692,6 +703,7 @@ data:
   - test/aoj_grl_1_b_bellman_ford.test.cpp
   - test/yosupo_tree_diameter.test.cpp
   - test/aoj_dsl_1_b_weightedunionfind.test.cpp
+  - test/yosupo_aho_corasick.test.cpp
   - test/yosupo_static_rectangle_sum.test.cpp
   - test/yosupo_enumerate_palindromes_manacher.test.cpp
   - test/aoj_alds1_9_c_binaryheap.test.cpp

@@ -5,14 +5,8 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: math/many_factorials.cpp
-    title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
+  _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_factorials.test.cpp
-    title: test/yosupo_many_factorials.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
@@ -317,13 +311,11 @@ data:
   - math/ntt.cpp
   isVerificationFile: false
   path: fps/taylor_shift.cpp
-  requiredBy:
-  - math/many_factorials.cpp
+  requiredBy: []
   timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_polynomial_taylor_shift.test.cpp
-  - test/yosupo_many_factorials.test.cpp
 date: 2026-03-08
 documentation_of: fps/taylor_shift.cpp
 layout: document

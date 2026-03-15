@@ -353,7 +353,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/many_factorials.cpp
       title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/matrix.cpp
       title: math/matrix.cpp
     - icon: ':heavy_check_mark:'
@@ -685,6 +685,9 @@ data:
       path: test/example.test.cpp
       title: test/example.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aho_corasick.test.cpp
+      title: test/yosupo_aho_corasick.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
     - icon: ':heavy_check_mark:'
@@ -828,6 +831,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_matrix_det.test.cpp
       title: test/yosupo_matrix_det.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_matrix_product.test.cpp
+      title: test/yosupo_matrix_product.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_matrix_rank.test.cpp
+      title: test/yosupo_matrix_rank.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_maximum_independent_set.test.cpp
       title: test/yosupo_maximum_independent_set.test.cpp

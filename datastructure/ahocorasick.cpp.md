@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj2257.test.cpp
     title: test/aoj2257.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aho_corasick.test.cpp
+    title: test/yosupo_aho_corasick.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -54,6 +57,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj2257.test.cpp
+  - test/yosupo_aho_corasick.test.cpp
 documentation_of: datastructure/ahocorasick.cpp
 layout: document
 title: "Aho-Corasick\u6CD5"

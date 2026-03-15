@@ -65,6 +65,12 @@ data:
     path: test/yosupo_matrix_det.test.cpp
     title: test/yosupo_matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_product.test.cpp
+    title: test/yosupo_matrix_product.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_rank.test.cpp
+    title: test/yosupo_matrix_rank.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -181,8 +187,10 @@ data:
   - test/yosupo_many_aplusb_modint_interface.test.cpp
   - test/aoj0399.test.cpp
   - test/yosupo_subset_convolution.test.cpp
+  - test/yosupo_matrix_product.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
+  - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp

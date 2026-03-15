@@ -9,13 +9,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
     title: Polynomial Interpolation
-  - icon: ':heavy_check_mark:'
-    path: math/many_factorials.cpp
-    title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_factorials.test.cpp
-    title: test/yosupo_many_factorials.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
@@ -327,13 +321,11 @@ data:
   path: fps/multipoint_evaluation.cpp
   requiredBy:
   - fps/polynomial_interpolation.cpp
-  - math/many_factorials.cpp
   timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
-  - test/yosupo_many_factorials.test.cpp
 date: 2026-03-08
 documentation_of: fps/multipoint_evaluation.cpp
 layout: document
