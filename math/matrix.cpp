@@ -6,7 +6,7 @@ struct matrix {
     matrix(size_t n, size_t m) : A(n, vector<T>(m)) {}
     explicit matrix(size_t n) : A(n, vector<T> (n)) {};
     size_t height() const { return (A.size()); }
-    size_t width() const { return (A[0].size()); }
+    size_t width() const { return (A.empty() ? 0 : A[0].size()); }
 
     const vector<T> &operator [] (int k) const { return A[k]; }
     vector<T> &operator[] (int k) { return A[k]; }
@@ -41,8 +41,8 @@ struct matrix {
         size_t n = height(), m = B.width(), p = width();
         matrix C(n, m);
         for (size_t i = 0; i < n; ++i) {
-            for (size_t j = 0; j < m; ++j) {
-                for (size_t k = 0; k < p; ++k) {
+            for (size_t k = 0; k < p; ++k) {
+                for (size_t j = 0; j < m; ++j) {
                     H::add(C[i][j], H::mul((*this)[i][k], B[k][j]));
                 }
             }

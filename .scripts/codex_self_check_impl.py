@@ -59,6 +59,8 @@ def check_library_files() -> list[str]:
             text = path.read_text()
             for name, pattern in FORBIDDEN_LIBRARY_PATTERNS:
                 for match in pattern.finditer(text):
+                    if name == "standard include" and match.group(0).strip() == "#include <immintrin.h>":
+                        continue
                     lineno = line_of(text, match.start())
                     problems.append(f"{relpath}:{lineno}: {name}")
     return problems

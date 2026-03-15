@@ -5,28 +5,25 @@ struct SquareMatrix {
     using mat = array<ar, SIZE>;
     mat A;
     SquareMatrix() {
-        for (int i = 0; i < SIZE; ++i) {
-            for (int j = 0; j < SIZE; ++j) {
+        for (size_t i = 0; i < SIZE; ++i) {
+            for (size_t j = 0; j < SIZE; ++j) {
                 A[i][j] = H::zero();
             }
         }
     }
-    static SquareMatrix I(){
+    static SquareMatrix I(size_t n = SIZE){
         SquareMatrix X;
-        for (int i = 0; i < SIZE; ++i) {
-            for (int j = 0; j < SIZE; ++j) {
-                if(i == j) X[i][j] = H::one();
-                else X[i][j] = H::zero();
-            }
+        for (size_t i = 0; i < n; ++i) {
+            X[i][i] = H::one();
         }
         return X;
     }
 
-    friend ar operator*=(ar &x, const SquareMatrix &Y) {
+    friend ar &operator*=(ar &x, const SquareMatrix &Y) {
         ar ans;
-        fill(begin(ans), end(ans), mint(0));
-        for (int i = 0; i < SIZE; ++i) {
-            for (int j = 0; j < SIZE; ++j) {
+        fill(begin(ans), end(ans), H::zero());
+        for (size_t i = 0; i < SIZE; ++i) {
+            for (size_t j = 0; j < SIZE; ++j) {
                 H::add(ans[j], H::mul(x[i], Y[i][j]));
             }
         }
@@ -38,8 +35,8 @@ struct SquareMatrix {
     inline const ar &operator[](int k) const{ return (A.at(k)); }
     inline ar &operator[](int k) { return (A.at(k)); }
     SquareMatrix &operator+= (const SquareMatrix &B){
-        for (int i = 0; i < SIZE; ++i) {
-            for (int j = 0; j < SIZE; ++j) {
+        for (size_t i = 0; i < SIZE; ++i) {
+            for (size_t j = 0; j < SIZE; ++j) {
                 H::add((*this)[i][j], B[i][j]);
             }
         }
@@ -47,19 +44,19 @@ struct SquareMatrix {
     }
 
     SquareMatrix &operator-= (const SquareMatrix &B){
-        for (int i = 0; i < SIZE; ++i) {
-            for (int j = 0; j < SIZE; ++j) {
+        for (size_t i = 0; i < SIZE; ++i) {
+            for (size_t j = 0; j < SIZE; ++j) {
                 H::add((*this)[i][j], -B[i][j]);
             }
         }
         return (*this);
     }
 
-    SquareMatrix &operator*=(const SquareMatrix &B) {
+    SquareMatrix &mul_assign(const SquareMatrix &B, size_t n = SIZE) {
         SquareMatrix C{};
-        for (int i = 0; i < SIZE; ++i) {
-            for (int k = 0; k < SIZE; ++k) {
-                for (int j = 0; j < SIZE; ++j) {
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t k = 0; k < n; ++k) {
+                for (size_t j = 0; j < n; ++j) {
                     H::add(C[i][j],  H::mul((*this)[i][k], B[k][j]));
                 }
             }
@@ -67,13 +64,14 @@ struct SquareMatrix {
         A.swap(C.A);
         return (*this);
     }
+    SquareMatrix &operator*=(const SquareMatrix &B) { return mul_assign(B); }
 
-    SquareMatrix pow(ll n) const {
-        SquareMatrix a = (*this), res = I();
+    SquareMatrix pow(ll n, size_t dim = SIZE) const {
+        SquareMatrix a = (*this), res = I(dim);
 
         while(n > 0){
-            if(n & 1) res *= a;
-            a *= a;
+            if(n & 1) res.mul_assign(a, dim);
+            a.mul_assign(a, dim);
             n >>= 1;
         }
         return res;

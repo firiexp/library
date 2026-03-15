@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-03-15T15:54:20+09:00",
+  "generatedAt": "2026-03-15T19:51:19+09:00",
   "root": "/home/firiexp/library",
-  "testCount": 160,
+  "testCount": 161,
   "summary": {
     "pending": 0,
     "running": 0,
-    "done": 160,
+    "done": 161,
     "error": 0,
-    "ok": 160,
+    "ok": 161,
     "failed": 0
   },
   "tests": [
@@ -16003,7 +16003,7 @@
           "a.out",
           "test/yosupo_matrix_product.test.cpp"
         ],
-        "wallSec": 0.4012430829998266
+        "wallSec": 0.41330847300014284
       },
       "testcases": {
         "directory": ".verify-helper/cache/b04f21a0643d8662195331573f60ee74/test",
@@ -16014,7 +16014,7 @@
           "oj",
           "test",
           "-c",
-          "/home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/verify-dashboard-vs3pwh6u/a.out",
+          "/home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/verify-dashboard-hneelqay/a.out",
           "-d",
           "/home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test",
           "--tle",
@@ -16023,132 +16023,132 @@
           "/home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker"
         ],
         "returnCode": 0,
-        "wallSec": 6.551438946999951,
+        "wallSec": 4.97450197299986,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "example_00",
-              "timeSec": 0.002998,
+              "timeSec": 0.003025,
               "status": "AC"
             },
             {
               "name": "example_01",
-              "timeSec": 0.002354,
+              "timeSec": 0.003791,
               "status": "AC"
             },
             {
               "name": "example_02",
-              "timeSec": 0.002303,
+              "timeSec": 0.002959,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 1.369485,
+              "timeSec": 0.964421,
               "status": "AC"
             },
             {
               "name": "max_random_01",
-              "timeSec": 1.384153,
+              "timeSec": 0.992948,
               "status": "AC"
             },
             {
               "name": "max_random_02",
-              "timeSec": 1.487951,
+              "timeSec": 1.045902,
               "status": "AC"
             },
             {
               "name": "random_00",
-              "timeSec": 0.537708,
+              "timeSec": 0.414497,
               "status": "AC"
             },
             {
               "name": "random_01",
-              "timeSec": 0.52327,
+              "timeSec": 0.396534,
               "status": "AC"
             },
             {
               "name": "random_02",
-              "timeSec": 0.401027,
+              "timeSec": 0.317235,
               "status": "AC"
             },
             {
               "name": "signed_overflow_00",
-              "timeSec": 0.005166,
+              "timeSec": 0.004316,
               "status": "AC"
             },
             {
               "name": "small_00",
-              "timeSec": 0.004765,
+              "timeSec": 0.003429,
               "status": "AC"
             },
             {
               "name": "small_01",
-              "timeSec": 0.004614,
+              "timeSec": 0.003344,
               "status": "AC"
             },
             {
               "name": "small_02",
-              "timeSec": 0.003738,
+              "timeSec": 0.002983,
               "status": "AC"
             },
             {
               "name": "small_03",
-              "timeSec": 0.004419,
+              "timeSec": 0.003658,
               "status": "AC"
             },
             {
               "name": "small_04",
-              "timeSec": 0.003445,
+              "timeSec": 0.00354,
               "status": "AC"
             },
             {
               "name": "small_05",
-              "timeSec": 0.004454,
+              "timeSec": 0.003286,
               "status": "AC"
             },
             {
               "name": "small_06",
-              "timeSec": 0.004116,
+              "timeSec": 0.003492,
               "status": "AC"
             },
             {
               "name": "small_07",
-              "timeSec": 0.004462,
+              "timeSec": 0.002982,
               "status": "AC"
             },
             {
               "name": "small_08",
-              "timeSec": 0.00421,
+              "timeSec": 0.002612,
               "status": "AC"
             },
             {
               "name": "small_09",
-              "timeSec": 0.004262,
+              "timeSec": 0.004269,
               "status": "AC"
             },
             {
               "name": "unsigned_overflow_00",
-              "timeSec": 0.003517,
+              "timeSec": 0.003106,
               "status": "AC"
             },
             {
               "name": "unsigned_overflow_01",
-              "timeSec": 0.003412,
+              "timeSec": 0.002809,
               "status": "AC"
             }
           ],
           "caseCount": 22,
           "timedCaseCount": 22,
           "passedCaseCount": 22,
-          "slowestSec": 1.487951,
+          "slowestSec": 1.045902,
           "slowestCase": "max_random_02",
-          "averageSec": 0.2620831363636364,
+          "averageSec": 0.19023354545454546,
           "maxMemoryMb": 19.968,
           "maxMemoryCase": "max_random_00",
           "summary": "test success: 22 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 22 cases found\n\n[INFO] example_00\n[INFO] time: 0.002998 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_00.in /tmp/tmphol78ch3/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_00.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.002354 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_01.in /tmp/tmpz9l_hmaf/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_01.out\nok 3 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_02\n[INFO] time: 0.002303 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_02.in /tmp/tmp4657qozo/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_02.out\nok \"578563231\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 1.369485 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_00.in /tmp/tmpvijb9_3c/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_00.out\nok 1048576 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 1.384153 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_01.in /tmp/tmph6f6zg34/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_01.out\nok 1048576 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 1.487951 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_02.in /tmp/tmp17nnf3mg/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_02.out\nok 1048576 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.537708 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_00.in /tmp/tmplpj586vs/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_00.out\nok 537840 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.523270 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_01.in /tmp/tmpxyqg8207/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_01.out\nok 558692 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.401027 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_02.in /tmp/tmpmmipkb3p/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_02.out\nok 343227 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] signed_overflow_00\n[INFO] time: 0.005166 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/signed_overflow_00.in /tmp/tmp6u6f8r85/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/signed_overflow_00.out\nok 1444 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.004765 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_00.in /tmp/tmpointiftq/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_00.out\nok 5141 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.004614 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_01.in /tmp/tmp61zdqsrb/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_01.out\nok 1470 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.003738 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_02.in /tmp/tmp2hqizvwv/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_02.out\nok 528 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.004419 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_03.in /tmp/tmp6x2bkk4_/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_03.out\nok 5330 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.003445 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_04.in /tmp/tmpwcgx8smt/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_04.out\nok 2540 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_05\n[INFO] time: 0.004454 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_05.in /tmp/tmpuqiq6d6n/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_05.out\nok 4982 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_06\n[INFO] time: 0.004116 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_06.in /tmp/tmpeo0y1h8p/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_06.out\nok 438 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_07\n[INFO] time: 0.004462 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_07.in /tmp/tmpto_uw8ko/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_07.out\nok 2093 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_08\n[INFO] time: 0.004210 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_08.in /tmp/tmpxg5vycra/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_08.out\nok 448 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_09\n[INFO] time: 0.004262 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_09.in /tmp/tmporbtedg2/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_09.out\nok 2328 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] unsigned_overflow_00\n[INFO] time: 0.003517 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/unsigned_overflow_00.in /tmp/tmpse4u32rt/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/unsigned_overflow_00.out\nok 324 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] unsigned_overflow_01\n[INFO] time: 0.003412 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/unsigned_overflow_01.in /tmp/tmpm5xf0egj/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/unsigned_overflow_01.out\nok 361 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 1.487951 sec  (for max_random_02)\n[INFO] max memory: 19.968000 MB  (for max_random_00)\n[SUCCESS] test success: 22 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 22 cases found\n\n[INFO] example_00\n[INFO] time: 0.003025 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_00.in /tmp/tmpza7iwp3h/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_00.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.003791 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_01.in /tmp/tmpx6pzg85_/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_01.out\nok 3 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_02\n[INFO] time: 0.002959 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_02.in /tmp/tmpkhq6up5r/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/example_02.out\nok \"578563231\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.964421 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_00.in /tmp/tmpyydho0ix/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_00.out\nok 1048576 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.992948 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_01.in /tmp/tmp_0wh3trb/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_01.out\nok 1048576 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 1.045902 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_02.in /tmp/tmpsoolcgp7/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/max_random_02.out\nok 1048576 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.414497 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_00.in /tmp/tmpjy4zwwlr/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_00.out\nok 537840 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.396534 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_01.in /tmp/tmpvjw7mep4/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_01.out\nok 558692 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.317235 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_02.in /tmp/tmp0e5mrw5q/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/random_02.out\nok 343227 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] signed_overflow_00\n[INFO] time: 0.004316 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/signed_overflow_00.in /tmp/tmpfnxkurpo/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/signed_overflow_00.out\nok 1444 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.003429 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_00.in /tmp/tmpbk_kl641/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_00.out\nok 5141 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.003344 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_01.in /tmp/tmpouo717y2/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_01.out\nok 1470 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.002983 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_02.in /tmp/tmpr9xrbdti/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_02.out\nok 528 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.003658 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_03.in /tmp/tmp8jgu2j7y/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_03.out\nok 5330 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.003540 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_04.in /tmp/tmpkkzxlnpu/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_04.out\nok 2540 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_05\n[INFO] time: 0.003286 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_05.in /tmp/tmphwxd49te/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_05.out\nok 4982 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_06\n[INFO] time: 0.003492 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_06.in /tmp/tmp0lr3eniu/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_06.out\nok 438 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_07\n[INFO] time: 0.002982 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_07.in /tmp/tmpk95eein6/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_07.out\nok 2093 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_08\n[INFO] time: 0.002612 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_08.in /tmp/tmpx5jjlnbh/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_08.out\nok 448 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_09\n[INFO] time: 0.004269 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_09.in /tmp/tmp5t270x87/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/small_09.out\nok 2328 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] unsigned_overflow_00\n[INFO] time: 0.003106 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/unsigned_overflow_00.in /tmp/tmpio66cidb/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/unsigned_overflow_00.out\nok 324 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] unsigned_overflow_01\n[INFO] time: 0.002809 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/matrix_product/checker /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/unsigned_overflow_01.in /tmp/tmprwf4t5qp/actual.out /home/firiexp/library/.verify-helper/cache/b04f21a0643d8662195331573f60ee74/test/unsigned_overflow_01.out\nok 361 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 1.045902 sec  (for max_random_02)\n[INFO] max memory: 19.968000 MB  (for max_random_00)\n[SUCCESS] test success: 22 cases\n"
       }
     },
     {
@@ -27970,6 +27970,276 @@
           "summary": "test success: 48 cases"
         },
         "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 48 cases found\n\n[INFO] 01_sample_01\n[INFO] time: 0.003771 sec\n[SUCCESS] AC\n\n[INFO] 01_sample_02\n[INFO] time: 0.003533 sec\n[SUCCESS] AC\n\n[INFO] 01_sample_03\n[INFO] time: 0.003089 sec\n[SUCCESS] AC\n\n[INFO] 03_random_01\n[INFO] time: 0.008954 sec\n[SUCCESS] AC\n\n[INFO] 03_random_02\n[INFO] time: 0.008261 sec\n[SUCCESS] AC\n\n[INFO] 03_random_03\n[INFO] time: 0.009071 sec\n[SUCCESS] AC\n\n[INFO] 03_random_04\n[INFO] time: 0.009727 sec\n[SUCCESS] AC\n\n[INFO] 03_random_05\n[INFO] time: 0.009819 sec\n[SUCCESS] AC\n\n[INFO] 03_random_06\n[INFO] time: 0.006912 sec\n[SUCCESS] AC\n\n[INFO] 03_random_07\n[INFO] time: 0.006719 sec\n[SUCCESS] AC\n\n[INFO] 03_random_08\n[INFO] time: 0.007872 sec\n[SUCCESS] AC\n\n[INFO] 03_random_09\n[INFO] time: 0.006726 sec\n[SUCCESS] AC\n\n[INFO] 03_random_10\n[INFO] time: 0.007525 sec\n[SUCCESS] AC\n\n[INFO] 03_random_11\n[INFO] time: 0.006327 sec\n[SUCCESS] AC\n\n[INFO] 03_random_12\n[INFO] time: 0.007159 sec\n[SUCCESS] AC\n\n[INFO] 03_random_13\n[INFO] time: 0.007021 sec\n[SUCCESS] AC\n\n[INFO] 03_random_14\n[INFO] time: 0.006665 sec\n[SUCCESS] AC\n\n[INFO] 03_random_15\n[INFO] time: 0.007519 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_01\n[INFO] time: 0.140453 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_02\n[INFO] time: 0.146244 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_03\n[INFO] time: 0.159867 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_04\n[INFO] time: 0.151225 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_05\n[INFO] time: 0.170294 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_06\n[INFO] time: 0.172873 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_07\n[INFO] time: 0.188733 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_08\n[INFO] time: 0.194172 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_09\n[INFO] time: 0.195487 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_10\n[INFO] time: 0.193495 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_11\n[INFO] time: 0.195216 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_26\n[INFO] time: 0.186873 sec\n[SUCCESS] AC\n\n[INFO] 04_uku_42\n[INFO] time: 0.189071 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_01\n[INFO] time: 0.130433 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_02\n[INFO] time: 0.144741 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_03\n[INFO] time: 0.153187 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_04\n[INFO] time: 0.148146 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_05\n[INFO] time: 0.160627 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_06\n[INFO] time: 0.169918 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_07\n[INFO] time: 0.179658 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_08\n[INFO] time: 0.185892 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_09\n[INFO] time: 0.193095 sec\n[SUCCESS] AC\n\n[INFO] 05_uku_10\n[INFO] time: 0.204402 sec\n[SUCCESS] AC\n\n[INFO] 06_tapu_01\n[INFO] time: 0.007409 sec\n[SUCCESS] AC\n\n[INFO] 06_tapu_02\n[INFO] time: 0.006697 sec\n[SUCCESS] AC\n\n[INFO] 06_tapu_03\n[INFO] time: 0.006368 sec\n[SUCCESS] AC\n\n[INFO] 06_tapu_04\n[INFO] time: 0.006798 sec\n[SUCCESS] AC\n\n[INFO] 07_handmake_01\n[INFO] time: 0.003231 sec\n[SUCCESS] AC\n\n[INFO] 07_handmake_02\n[INFO] time: 0.002913 sec\n[SUCCESS] AC\n\n[INFO] 07_handmake_03\n[INFO] time: 0.002741 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.204402 sec  (for 05_uku_10)\n[INFO] max memory: 12.712000 MB  (for 04_uku_08)\n[SUCCESS] test success: 48 cases\n"
+      }
+    },
+    {
+      "path": "test/yosupo_pow_of_matrix.test.cpp",
+      "phase": "done",
+      "problem": "https://judge.yosupo.jp/problem/pow_of_matrix",
+      "compiler": {
+        "command": [
+          "g++",
+          "--std=c++17",
+          "-O2",
+          "-Wall",
+          "-g",
+          "-I",
+          "/home/firiexp/library",
+          "-o",
+          "a.out",
+          "test/yosupo_pow_of_matrix.test.cpp"
+        ],
+        "wallSec": 0.8660072650018265
+      },
+      "testcases": {
+        "directory": ".verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test",
+        "cachedCaseCount": 43
+      },
+      "run": {
+        "command": [
+          "oj",
+          "test",
+          "-c",
+          "/home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/verify-dashboard-ug0scwr7/a.out",
+          "-d",
+          "/home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test",
+          "--tle",
+          "60.0",
+          "--judge-command",
+          "/home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker"
+        ],
+        "returnCode": 0,
+        "wallSec": 2.075471231000847,
+        "ok": true,
+        "parsed": {
+          "cases": [
+            {
+              "name": "example_00",
+              "timeSec": 0.005701,
+              "status": "AC"
+            },
+            {
+              "name": "example_01",
+              "timeSec": 0.003716,
+              "status": "AC"
+            },
+            {
+              "name": "example_02",
+              "timeSec": 0.003707,
+              "status": "AC"
+            },
+            {
+              "name": "frobenius_hack_00",
+              "timeSec": 0.004026,
+              "status": "AC"
+            },
+            {
+              "name": "lowrank_max_random_00",
+              "timeSec": 0.064974,
+              "status": "AC"
+            },
+            {
+              "name": "lowrank_max_random_01",
+              "timeSec": 0.069404,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_00",
+              "timeSec": 0.064585,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_01",
+              "timeSec": 0.062405,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_02",
+              "timeSec": 0.06688,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_03",
+              "timeSec": 0.065327,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_worst_00",
+              "timeSec": 0.068341,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_worst_01",
+              "timeSec": 0.0689,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_worst_02",
+              "timeSec": 0.068586,
+              "status": "AC"
+            },
+            {
+              "name": "max_random_worst_03",
+              "timeSec": 0.067654,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_00",
+              "timeSec": 0.061178,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_01",
+              "timeSec": 0.064985,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_02",
+              "timeSec": 0.067495,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_03",
+              "timeSec": 0.063907,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_04",
+              "timeSec": 0.062138,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_05",
+              "timeSec": 0.068171,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_06",
+              "timeSec": 0.063742,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_07",
+              "timeSec": 0.066655,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_08",
+              "timeSec": 0.067367,
+              "status": "AC"
+            },
+            {
+              "name": "nontrivial_frobenius_form_09",
+              "timeSec": 0.065995,
+              "status": "AC"
+            },
+            {
+              "name": "perm_max_random_00",
+              "timeSec": 0.069067,
+              "status": "AC"
+            },
+            {
+              "name": "perm_max_random_01",
+              "timeSec": 0.061159,
+              "status": "AC"
+            },
+            {
+              "name": "random_00",
+              "timeSec": 0.051166,
+              "status": "AC"
+            },
+            {
+              "name": "random_01",
+              "timeSec": 0.06028,
+              "status": "AC"
+            },
+            {
+              "name": "random_02",
+              "timeSec": 0.011286,
+              "status": "AC"
+            },
+            {
+              "name": "signed_overflow_00",
+              "timeSec": 0.004709,
+              "status": "AC"
+            },
+            {
+              "name": "small_00",
+              "timeSec": 0.003776,
+              "status": "AC"
+            },
+            {
+              "name": "small_01",
+              "timeSec": 0.003333,
+              "status": "AC"
+            },
+            {
+              "name": "small_02",
+              "timeSec": 0.003385,
+              "status": "AC"
+            },
+            {
+              "name": "small_03",
+              "timeSec": 0.00309,
+              "status": "AC"
+            },
+            {
+              "name": "small_04",
+              "timeSec": 0.002918,
+              "status": "AC"
+            },
+            {
+              "name": "small_05",
+              "timeSec": 0.002926,
+              "status": "AC"
+            },
+            {
+              "name": "small_06",
+              "timeSec": 0.002886,
+              "status": "AC"
+            },
+            {
+              "name": "small_07",
+              "timeSec": 0.003357,
+              "status": "AC"
+            },
+            {
+              "name": "small_08",
+              "timeSec": 0.003491,
+              "status": "AC"
+            },
+            {
+              "name": "small_09",
+              "timeSec": 0.003432,
+              "status": "AC"
+            },
+            {
+              "name": "small_10",
+              "timeSec": 0.003765,
+              "status": "AC"
+            },
+            {
+              "name": "small_11",
+              "timeSec": 0.003982,
+              "status": "AC"
+            },
+            {
+              "name": "unsigned_overflow_00",
+              "timeSec": 0.003599,
+              "status": "AC"
+            }
+          ],
+          "caseCount": 43,
+          "timedCaseCount": 43,
+          "passedCaseCount": 43,
+          "slowestSec": 0.069404,
+          "slowestCase": "lowrank_max_random_01",
+          "averageSec": 0.03808013953488372,
+          "maxMemoryMb": 5.952,
+          "maxMemoryCase": "example_00",
+          "summary": "test success: 43 cases"
+        },
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 43 cases found\n\n[INFO] example_00\n[INFO] time: 0.005701 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_00.in /tmp/tmp3kgn9xw4/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_00.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.003716 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_01.in /tmp/tmp03106z4w/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_01.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_02\n[INFO] time: 0.003707 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_02.in /tmp/tmpodearjxd/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_02.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] frobenius_hack_00\n[INFO] time: 0.004026 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/frobenius_hack_00.in /tmp/tmpe3dk90il/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/frobenius_hack_00.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] lowrank_max_random_00\n[INFO] time: 0.064974 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/lowrank_max_random_00.in /tmp/tmpe_mxlrma/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/lowrank_max_random_00.out\nok 37636 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] lowrank_max_random_01\n[INFO] time: 0.069404 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/lowrank_max_random_01.in /tmp/tmphmrbr2ed/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/lowrank_max_random_01.out\nok 38025 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.064585 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_00.in /tmp/tmp9cactszv/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_00.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.062405 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_01.in /tmp/tmpjok84v9k/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_01.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.066880 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_02.in /tmp/tmpefmva05e/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_02.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_03\n[INFO] time: 0.065327 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_03.in /tmp/tmp7c7qaiej/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_03.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_worst_00\n[INFO] time: 0.068341 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_00.in /tmp/tmpgm7fnx27/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_00.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_worst_01\n[INFO] time: 0.068900 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_01.in /tmp/tmp6n9l0nu8/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_01.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_worst_02\n[INFO] time: 0.068586 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_02.in /tmp/tmpvahcmhvb/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_02.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_worst_03\n[INFO] time: 0.067654 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_03.in /tmp/tmpf7nqoo3f/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_03.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_00\n[INFO] time: 0.061178 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_00.in /tmp/tmp138d9lk0/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_00.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_01\n[INFO] time: 0.064985 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_01.in /tmp/tmp5uqnbcvx/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_01.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_02\n[INFO] time: 0.067495 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_02.in /tmp/tmpg6q_m8jj/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_02.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_03\n[INFO] time: 0.063907 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_03.in /tmp/tmpapp2fzq3/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_03.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_04\n[INFO] time: 0.062138 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_04.in /tmp/tmplmoxol7h/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_04.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_05\n[INFO] time: 0.068171 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_05.in /tmp/tmpqazz04s1/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_05.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_06\n[INFO] time: 0.063742 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_06.in /tmp/tmpubkut1fr/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_06.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_07\n[INFO] time: 0.066655 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_07.in /tmp/tmp5v0ijro9/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_07.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_08\n[INFO] time: 0.067367 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_08.in /tmp/tmp150zw2qw/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_08.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_09\n[INFO] time: 0.065995 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_09.in /tmp/tmpc24n4ynt/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_09.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] perm_max_random_00\n[INFO] time: 0.069067 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/perm_max_random_00.in /tmp/tmp_zkow0hk/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/perm_max_random_00.out\nok 37636 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] perm_max_random_01\n[INFO] time: 0.061159 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/perm_max_random_01.in /tmp/tmpu3rnpgn_/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/perm_max_random_01.out\nok 38025 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.051166 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_00.in /tmp/tmp4dc8ltkc/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_00.out\nok 32761 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.060280 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_01.in /tmp/tmpgy8ojwbo/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_01.out\nok 39204 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.011286 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_02.in /tmp/tmpcarszq1t/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_02.out\nok 7744 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] signed_overflow_00\n[INFO] time: 0.004709 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/signed_overflow_00.in /tmp/tmp5mszp0tx/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/signed_overflow_00.out\nok 1444 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.003776 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_00.in /tmp/tmp7hotufda/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_00.out\nok \"1\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.003333 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_01.in /tmp/tmpw0scyj6g/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_01.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.003385 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_02.in /tmp/tmprrror45_/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_02.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.003090 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_03.in /tmp/tmpw42qud7o/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_03.out\nok \"627477696\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.002918 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_04.in /tmp/tmp7fsdpjb9/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_04.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_05\n[INFO] time: 0.002926 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_05.in /tmp/tmpkng43ufl/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_05.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_06\n[INFO] time: 0.002886 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_06.in /tmp/tmp3gx4xt__/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_06.out\nok \"316400973\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_07\n[INFO] time: 0.003357 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_07.in /tmp/tmpdij0_pbn/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_07.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_08\n[INFO] time: 0.003491 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_08.in /tmp/tmpcv67vswu/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_08.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_09\n[INFO] time: 0.003432 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_09.in /tmp/tmp04elbwe6/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_09.out\nok \"837030307\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_10\n[INFO] time: 0.003765 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_10.in /tmp/tmpdzwpee9x/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_10.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_11\n[INFO] time: 0.003982 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_11.in /tmp/tmpnou67r65/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_11.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] unsigned_overflow_00\n[INFO] time: 0.003599 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/unsigned_overflow_00.in /tmp/tmpjobmbqlh/actual.out /home/firiexp/library/.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/unsigned_overflow_00.out\nok 324 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.069404 sec  (for lowrank_max_random_01)\n[INFO] max memory: 5.952000 MB  (for example_00)\n[SUCCESS] test success: 43 cases\n"
       }
     }
   ]
