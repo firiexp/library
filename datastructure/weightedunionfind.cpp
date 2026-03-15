@@ -1,16 +1,17 @@
-template <class T>
+template <class G>
 class WeightedUnionFind {
+    using T = typename G::T;
     vector<int> uni;
     vector<T> weights;
 
 public:
-    explicit WeightedUnionFind(int n, T sum_unity = 0) : uni(n, -1), weights(n, sum_unity) {}
+    explicit WeightedUnionFind(int n) : uni(n, -1), weights(n, G::e()) {}
 
     int root(int a) {
         if (uni[a] < 0) return a;
         int p = uni[a];
         int r = root(p);
-        weights[a] += weights[p];
+        weights[a] = G::op(weights[a], weights[p]);
         return uni[a] = r;
     }
 
@@ -24,14 +25,13 @@ public:
     }
 
     bool unite(int a, int b, T w) {
-        w += weight(a);
-        w -= weight(b);
+        w = G::op(weight(a), G::op(w, G::inv(weight(b))));
         a = root(a);
         b = root(b);
         if (a == b) return false;
         if (uni[a] > uni[b]) {
             swap(a, b);
-            w = -w;
+            w = G::inv(w);
         }
         uni[a] += uni[b];
         uni[b] = a;
@@ -44,9 +44,18 @@ public:
     }
 
     T diff(int x, int y) {
-        return weight(y) - weight(x);
+        return G::op(G::inv(weight(x)), weight(y));
     }
 };
+
+/*
+struct Group {
+    using T = long long;
+    static T op(T a, T b) { return a + b; }
+    static T inv(T a) { return -a; }
+    static T e() { return 0; }
+};
+*/
 
 /**
  * @brief 重み付きUnionFind(Weighted Union Find)

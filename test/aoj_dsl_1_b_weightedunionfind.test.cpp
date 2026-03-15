@@ -12,13 +12,20 @@ using namespace std;
 #include "../util/fastio.cpp"
 #include "../datastructure/weightedunionfind.cpp"
 
+struct Group {
+    using T = long long;
+    static T op(T a, T b) { return a + b; }
+    static T inv(T a) { return -a; }
+    static T e() { return 0; }
+};
+
 int main() {
     Scanner sc;
     Printer pr;
 
     int n, q;
     sc.read(n, q);
-    WeightedUnionFind<long long> uf(n);
+    WeightedUnionFind<Group> uf(n);
     while (q--) {
         int t, x, y;
         long long z;
