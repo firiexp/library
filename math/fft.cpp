@@ -282,11 +282,11 @@ namespace ArbitraryConvolution {
             static const long long m1_mod = m1 % TARGET_MOD;
             static const long long m12_mod = m12 % TARGET_MOD;
 
-            long long t = (x2 - x1) % m2;
+            long long t = ((long long)x2 - (long long)x1) % m2;
             if (t < 0) t += m2;
             t = t * m1_inv_m2 % m2;
             long long x12 = (long long)(((__int128)x1 + (__int128)m1 * t) % m3);
-            long long u = (x3 - x12) % m3;
+            long long u = ((long long)x3 - x12) % m3;
             if (u < 0) u += m3;
             u = u * m12_inv_m3 % m3;
             __int128 value = x1 % TARGET_MOD;
