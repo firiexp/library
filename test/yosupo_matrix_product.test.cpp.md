@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/matrix.cpp
-    title: math/matrix.cpp
+    title: "\u884C\u5217"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -160,24 +160,24 @@ data:
     \    using T = typename H::T;\n    vector<vector<T>> A;\n    matrix() = default;\n\
     \    matrix(size_t n, size_t m) : A(n, vector<T>(m)) {}\n    explicit matrix(size_t\
     \ n) : A(n, vector<T> (n)) {};\n    size_t height() const { return (A.size());\
-    \ }\n    size_t width() const { return (A[0].size()); }\n\n    const vector<T>\
-    \ &operator [] (int k) const { return A[k]; }\n    vector<T> &operator[] (int\
-    \ k) { return A[k]; }\n\n    static matrix I(size_t n){\n        matrix mat(n);\n\
-    \        for (size_t i = 0; i < n; ++i) mat[i][i] = 1;\n        return mat;\n\
-    \    }\n\n    matrix &operator+= (const matrix &B){\n        size_t h = height(),\
-    \ w = width();\n        for (size_t i = 0; i < h; ++i) {\n            for (size_t\
-    \ j = 0; j < w; ++j) {\n                H::add((*this)[i][j], B[i][j]);\n    \
-    \        }\n        }\n        return (*this);\n    }\n\n    matrix &operator-=\
-    \ (const matrix &B){\n        size_t h = height(), w = width();\n        for (size_t\
-    \ i = 0; i < h; ++i) {\n            for (size_t j = 0; j < w; ++j) {\n       \
-    \         H::add((*this)[i][j], -B[i][j]);\n            }\n        }\n       \
-    \ return (*this);\n    }\n\n    matrix &operator*=(const matrix &B) {\n      \
-    \  size_t n = height(), m = B.width(), p = width();\n        matrix C(n, m);\n\
-    \        for (size_t i = 0; i < n; ++i) {\n            for (size_t j = 0; j <\
-    \ m; ++j) {\n                for (size_t k = 0; k < p; ++k) {\n              \
-    \      H::add(C[i][j], H::mul((*this)[i][k], B[k][j]));\n                }\n \
-    \           }\n        }\n        A.swap(C.A);\n        return (*this);\n    }\n\
-    \n    matrix pow(ll n) const {\n        matrix a = (*this), res = I(height());\n\
+    \ }\n    size_t width() const { return (A.empty() ? 0 : A[0].size()); }\n\n  \
+    \  const vector<T> &operator [] (int k) const { return A[k]; }\n    vector<T>\
+    \ &operator[] (int k) { return A[k]; }\n\n    static matrix I(size_t n){\n   \
+    \     matrix mat(n);\n        for (size_t i = 0; i < n; ++i) mat[i][i] = 1;\n\
+    \        return mat;\n    }\n\n    matrix &operator+= (const matrix &B){\n   \
+    \     size_t h = height(), w = width();\n        for (size_t i = 0; i < h; ++i)\
+    \ {\n            for (size_t j = 0; j < w; ++j) {\n                H::add((*this)[i][j],\
+    \ B[i][j]);\n            }\n        }\n        return (*this);\n    }\n\n    matrix\
+    \ &operator-= (const matrix &B){\n        size_t h = height(), w = width();\n\
+    \        for (size_t i = 0; i < h; ++i) {\n            for (size_t j = 0; j <\
+    \ w; ++j) {\n                H::add((*this)[i][j], -B[i][j]);\n            }\n\
+    \        }\n        return (*this);\n    }\n\n    matrix &operator*=(const matrix\
+    \ &B) {\n        size_t n = height(), m = B.width(), p = width();\n        matrix\
+    \ C(n, m);\n        for (size_t i = 0; i < n; ++i) {\n            for (size_t\
+    \ k = 0; k < p; ++k) {\n                for (size_t j = 0; j < m; ++j) {\n   \
+    \                 H::add(C[i][j], H::mul((*this)[i][k], B[k][j]));\n         \
+    \       }\n            }\n        }\n        A.swap(C.A);\n        return (*this);\n\
+    \    }\n\n    matrix pow(ll n) const {\n        matrix a = (*this), res = I(height());\n\
     \        while(n > 0){\n            if (n & 1) res *= a;\n            a *= a;\n\
     \            n >>= 1;\n        }\n        return res;\n    }\n    matrix operator+(const\
     \ matrix &B) const {return matrix(*this) += B;}\n    matrix operator-(const matrix\
@@ -237,7 +237,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_matrix_product.test.cpp
   requiredBy: []
-  timestamp: '2026-03-15 15:48:36+09:00'
+  timestamp: '2026-03-15 18:15:27+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_matrix_product.test.cpp

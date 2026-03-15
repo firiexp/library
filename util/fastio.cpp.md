@@ -251,6 +251,9 @@ data:
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_pow_of_matrix.test.cpp
+    title: test/yosupo_pow_of_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_primality_test.test.cpp
     title: test/yosupo_primality_test.test.cpp
   - icon: ':heavy_check_mark:'
@@ -659,6 +662,7 @@ data:
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_kth_root_integer.test.cpp
   - test/yosupo_shortest_path.test.cpp
+  - test/yosupo_pow_of_matrix.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_aplusb_functional_graph.test.cpp

@@ -21,6 +21,9 @@ data:
   - icon: ':warning:'
     path: math/powk_all.cpp
     title: math/powk_all.cpp
+  - icon: ':heavy_check_mark:'
+    path: math/squarematrix_mint.cpp
+    title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0399.test.cpp
@@ -73,6 +76,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_pow_of_matrix.test.cpp
+    title: test/yosupo_pow_of_matrix.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_queue_operate_all_composite.test.cpp
     title: test/yosupo_queue_operate_all_composite.test.cpp
@@ -171,6 +177,7 @@ data:
   - math/inverse_matrix.cpp
   - math/fft.cpp
   - math/matrix_determinant.cpp
+  - math/squarematrix_mint.cpp
   - math/factorial.cpp
   - math/powk_all.cpp
   timestamp: '2026-03-14 20:56:35+09:00'
@@ -193,6 +200,7 @@ data:
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
+  - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_inverse_matrix.test.cpp
   - test/yosupo_bitwise_xor_convolution.test.cpp

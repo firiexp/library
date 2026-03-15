@@ -355,7 +355,7 @@ data:
       title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
     - icon: ':heavy_check_mark:'
       path: math/matrix.cpp
-      title: math/matrix.cpp
+      title: "\u884C\u5217"
     - icon: ':heavy_check_mark:'
       path: math/matrix_determinant.cpp
       title: "\u884C\u5217\u5F0F(Matrix Determinant)"
@@ -405,6 +405,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: "\u6B63\u65B9\u884C\u5217"
+    - icon: ':heavy_check_mark:'
+      path: math/squarematrix_mint.cpp
+      title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
     - icon: ':heavy_check_mark:'
       path: math/stern_brocot_tree.cpp
       title: Stern Brocot Tree
@@ -897,6 +900,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_pow_of_formal_power_series.test.cpp
       title: test/yosupo_pow_of_formal_power_series.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_pow_of_matrix.test.cpp
+      title: test/yosupo_pow_of_matrix.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_primality_test.test.cpp
       title: test/yosupo_primality_test.test.cpp
