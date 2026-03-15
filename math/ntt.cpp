@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_MATH_NTT_CPP
+#define FIRIEXP_LIBRARY_MATH_NTT_CPP
+
 constexpr int ntt_mod = 998244353, ntt_root = 3;
 #ifndef NTT_NAIVE_MUL_THRESHOLD
 #define NTT_NAIVE_MUL_THRESHOLD 3072
@@ -547,3 +550,5 @@ struct poly {
 /**
  * @brief NTT・形式的冪級数(NTT/FPS)
  */
+
+#endif
