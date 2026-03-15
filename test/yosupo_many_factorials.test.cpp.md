@@ -2,14 +2,20 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/factorial.cpp
-    title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
+    path: fps/multipoint_evaluation.cpp
+    title: Multipoint Evaluation
+  - icon: ':heavy_check_mark:'
+    path: fps/sample_point_shift.cpp
+    title: Sample Point Shift
+  - icon: ':heavy_check_mark:'
+    path: fps/taylor_shift.cpp
+    title: Taylor Shift
+  - icon: ':heavy_check_mark:'
+    path: math/many_factorials.cpp
+    title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  - icon: ':heavy_check_mark:'
-    path: tree/centroid_decomposition.cpp
-    title: "\u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -20,14 +26,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/0452
+    PROBLEM: https://judge.yosupo.jp/problem/many_factorials
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/0452
-  bundledCode: "#line 1 \"test/aoj0452.test.cpp\"\n#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/0452\"\
-    \n#include <algorithm>\n#include <cassert>\n#include <limits>\n#include <queue>\n\
-    #include <tuple>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\
-    using uint = unsigned;\nusing ull = unsigned long long;\n\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
+    - https://judge.yosupo.jp/problem/many_factorials
+  bundledCode: "#line 1 \"test/yosupo_many_factorials.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/many_factorials\"\n\n#include <algorithm>\n\
+    #include <cassert>\n#include <vector>\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\
     \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
@@ -132,95 +137,81 @@ data:
     \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
     \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
     \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
-    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/centroid_decomposition.cpp\"\
-    \nclass CentroidDecomposition {\n    int dfs(int x, int par){\n        sz[x] =\
-    \ 1;\n        for (auto &&i : G[x]) {\n            if(i == par || v[i]) continue;\n\
-    \            sz[x] += dfs(i, x);\n        }\n        return sz[x];\n    }\n\n\
-    \    int search_centroid(int x, int p, const int mid){\n        for (auto &&i\
-    \ : G[x]) {\n            if(i == p || v[i]) continue;\n            if(sz[i] >\
-    \ mid) return search_centroid(i, x, mid);\n        }\n        return x;\n    }\n\
-    public:\n    int n;\n    vector<vector<int>> G, out;\n    vector<int> sz, v;\n\
-    \    CentroidDecomposition(int n) : n(n), G(n), out(n), sz(n), v(n) {}\n    void\
-    \ add_edge(int l, int r){\n        G[l].emplace_back(r);\n        G[r].emplace_back(l);\n\
-    \    }\n    int get(int x){\n        int centroid = search_centroid(x, -1, dfs(x,\
-    \ -1)/2);\n        v[centroid] = true;\n        for (auto &&i : G[centroid]) {\n\
-    \            if(!v[i]) out[centroid].emplace_back(get(i));\n        }\n      \
-    \  v[centroid] = false;\n        return centroid;\n    }\n};\n\n/**\n * @brief\
-    \ \u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)\n */\n#line 23 \"test/aoj0452.test.cpp\"\
-    \n\n#line 1 \"math/ntt.cpp\"\n\n\n\nconstexpr int ntt_mod = 998244353, ntt_root\
-    \ = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n\
-    #endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n\
-    // 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817\
-    \  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
-    \ modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint\
-    \ get_mod() { return M; }\n    modint() : val(0) {}\n    template <class T>\n\
-    \    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n\
-    \    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
-    \ { val++; if (val == M) val = 0; return *this; }\n    modint& operator--() {\
-    \ if (val == 0) val = M; val--; return *this; }\n    modint operator++(int) {\
-    \ modint result = *this; ++*this; return result; }\n    modint operator--(int)\
-    \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
-    \ modint& rhs) { val += rhs.val; if (val >= M) val -= M; return *this; }\n   \
-    \ modint& operator-=(const modint& rhs) { val -= rhs.val; if (val >= M) val +=\
-    \ M; return *this; }\n    modint& operator*=(const modint& rhs) { ull z = val;\
-    \ z *= rhs.val; val = (uint)(z % M); return *this; }\n    modint& operator/=(const\
-    \ modint& rhs) { return *this = *this * rhs.inv(); }\n    modint operator+() const\
-    \ { return *this; }\n    modint operator-() const { return modint() - *this; }\n\
-    \    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n\
-    \ & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const { return\
-    \ pow(M-2); }\n    friend modint operator+(const modint& lhs, const modint& rhs)\
-    \ { return modint(lhs) += rhs; }\n    friend modint operator-(const modint& lhs,\
-    \ const modint& rhs) { return modint(lhs) -= rhs; }\n    friend modint operator*(const\
-    \ modint& lhs, const modint& rhs) { return modint(lhs) *= rhs; }\n    friend modint\
-    \ operator/(const modint& lhs, const modint& rhs) { return modint(lhs) /= rhs;\
-    \ }\n    friend bool operator==(const modint& lhs, const modint& rhs) { return\
-    \ lhs.val == rhs.val; }\n    friend bool operator!=(const modint& lhs, const modint&\
-    \ rhs) { return lhs.val != rhs.val; }\n};\nusing mint = modint<998244353>;\n#define\
-    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\nclass NTT {\n    static constexpr int\
-    \ max_base = 23, maxN = 1 << max_base; // 998244353 supports up to 2^23-th roots\n\
-    \    mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];\n\
-    public:\n    NTT() {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n        mint\
-    \ e = mint(ntt_root).pow((ntt_mod-1) >> cnt2), ie = e.inv();\n        for (int\
-    \ i = cnt2; i >= 0; i--){\n            root[i] = e;\n            iroot[i] = ie;\n\
-    \            e *= e; ie *= ie;\n        }\n        mint prod = 1, iprod = 1;\n\
-    \        for (int i = 0; i <= cnt2 - 2; i++) {\n            rate2[i] = root[i\
-    \ + 2] * prod;\n            irate2[i] = iroot[i + 2] * iprod;\n            prod\
-    \ *= iroot[i + 2];\n            iprod *= root[i + 2];\n        }\n        prod\
-    \ = 1, iprod = 1;\n        for (int i = 0; i <= cnt2 - 3; i++) {\n           \
-    \ rate3[i] = root[i + 3] * prod;\n            irate3[i] = iroot[i + 3] * iprod;\n\
-    \            prod *= iroot[i + 3];\n            iprod *= root[i + 3];\n      \
-    \  }\n    }\n\n    mint root_pow2(int k) const { return root[k]; }\n    mint iroot_pow2(int\
-    \ k) const { return iroot[k]; }\n\n    void transform(vector<mint> &a, int sign){\n\
-    \        const int n = a.size();\n        assert(n > 0);\n        assert((n &\
-    \ (n - 1)) == 0);\n        assert(n <= maxN);\n        int h = 0;\n        while\
-    \ ((1U << h) < (unsigned int)(n)) h++;\n        if(!sign){ // fft\n          \
-    \  int len = 0;\n            while (len < h) {\n                if (h - len ==\
-    \ 1) {\n                    int p = 1 << (h - len - 1);\n                    mint\
-    \ rot = 1;\n                    for (int s = 0; s < (1 << len); s++) {\n     \
-    \                   int offset = s << (h - len);\n                        for\
-    \ (int i = 0; i < p; i++) {\n                            auto l = a[i + offset];\n\
-    \                            auto r = a[i + offset + p] * rot;\n             \
-    \               a[i + offset] = l + r;\n                            a[i + offset\
-    \ + p] = l - r;\n                        }\n                        if (s + 1\
-    \ != (1 << len)) {\n                            rot *= rate2[__builtin_ctz(~(unsigned\
-    \ int)(s))];\n                        }\n                    }\n             \
-    \       len++;\n                } else {\n                    int p = 1 << (h\
-    \ - len - 2);\n                    mint rot = 1, imag = root[2];\n           \
-    \         for (int s = 0; s < (1 << len); s++) {\n                        mint\
-    \ rot2 = rot * rot;\n                        mint rot3 = rot2 * rot;\n       \
-    \                 int offset = s << (h - len);\n                        for (int\
-    \ i = 0; i < p; i++) {\n                            ull mod2 = 1ULL * ntt_mod\
-    \ * ntt_mod;\n                            ull a0 = a[i + offset].val;\n      \
-    \                      ull a1 = 1ULL * a[i + offset + p].val * rot.val;\n    \
-    \                        ull a2 = 1ULL * a[i + offset + 2 * p].val * rot2.val;\n\
-    \                            ull a3 = 1ULL * a[i + offset + 3 * p].val * rot3.val;\n\
-    \                            ull a1na3imag = 1ULL * mint(a1 + mod2 - a3).val *\
-    \ imag.val;\n                            ull na2 = mod2 - a2;\n              \
-    \              a[i + offset] = mint(a0 + a2 + a1 + a3);\n                    \
-    \        a[i + offset + p] = mint(a0 + a2 + (2 * mod2 - (a1 + a3)));\n       \
-    \                     a[i + offset + 2 * p] = mint(a0 + na2 + a1na3imag);\n  \
-    \                          a[i + offset + 3 * p] = mint(a0 + na2 + (mod2 - a1na3imag));\n\
-    \                        }\n                        if (s + 1 != (1 << len)) {\n\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/ntt.cpp\"\n\n\n\
+    \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
+    #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
+    #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n\
+    // 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct\
+    \ modint {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val\
+    \ = v; return x; }\n    static constexpr uint get_mod() { return M; }\n    modint()\
+    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
+    \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = M; val--; return *this; }\n\
+    \    modint operator++(int) { modint result = *this; ++*this; return result; }\n\
+    \    modint operator--(int) { modint result = *this; --*this; return result; }\n\
+    \    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val\
+    \ -= M; return *this; }\n    modint& operator-=(const modint& rhs) { val -= rhs.val;\
+    \ if (val >= M) val += M; return *this; }\n    modint& operator*=(const modint&\
+    \ rhs) { ull z = val; z *= rhs.val; val = (uint)(z % M); return *this; }\n   \
+    \ modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }\n\
+    \    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(M-2); }\n    friend modint operator+(const\
+    \ modint& lhs, const modint& rhs) { return modint(lhs) += rhs; }\n    friend modint\
+    \ operator-(const modint& lhs, const modint& rhs) { return modint(lhs) -= rhs;\
+    \ }\n    friend modint operator*(const modint& lhs, const modint& rhs) { return\
+    \ modint(lhs) *= rhs; }\n    friend modint operator/(const modint& lhs, const\
+    \ modint& rhs) { return modint(lhs) /= rhs; }\n    friend bool operator==(const\
+    \ modint& lhs, const modint& rhs) { return lhs.val == rhs.val; }\n    friend bool\
+    \ operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val;\
+    \ }\n};\nusing mint = modint<998244353>;\n#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\
+    \nclass NTT {\n    static constexpr int max_base = 23, maxN = 1 << max_base; //\
+    \ 998244353 supports up to 2^23-th roots\n    mint root[30], iroot[30], rate2[30],\
+    \ irate2[30], rate3[30], irate3[30];\npublic:\n    NTT() {\n        int cnt2 =\
+    \ __builtin_ctz(ntt_mod-1);\n        mint e = mint(ntt_root).pow((ntt_mod-1) >>\
+    \ cnt2), ie = e.inv();\n        for (int i = cnt2; i >= 0; i--){\n           \
+    \ root[i] = e;\n            iroot[i] = ie;\n            e *= e; ie *= ie;\n  \
+    \      }\n        mint prod = 1, iprod = 1;\n        for (int i = 0; i <= cnt2\
+    \ - 2; i++) {\n            rate2[i] = root[i + 2] * prod;\n            irate2[i]\
+    \ = iroot[i + 2] * iprod;\n            prod *= iroot[i + 2];\n            iprod\
+    \ *= root[i + 2];\n        }\n        prod = 1, iprod = 1;\n        for (int i\
+    \ = 0; i <= cnt2 - 3; i++) {\n            rate3[i] = root[i + 3] * prod;\n   \
+    \         irate3[i] = iroot[i + 3] * iprod;\n            prod *= iroot[i + 3];\n\
+    \            iprod *= root[i + 3];\n        }\n    }\n\n    mint root_pow2(int\
+    \ k) const { return root[k]; }\n    mint iroot_pow2(int k) const { return iroot[k];\
+    \ }\n\n    void transform(vector<mint> &a, int sign){\n        const int n = a.size();\n\
+    \        assert(n > 0);\n        assert((n & (n - 1)) == 0);\n        assert(n\
+    \ <= maxN);\n        int h = 0;\n        while ((1U << h) < (unsigned int)(n))\
+    \ h++;\n        if(!sign){ // fft\n            int len = 0;\n            while\
+    \ (len < h) {\n                if (h - len == 1) {\n                    int p\
+    \ = 1 << (h - len - 1);\n                    mint rot = 1;\n                 \
+    \   for (int s = 0; s < (1 << len); s++) {\n                        int offset\
+    \ = s << (h - len);\n                        for (int i = 0; i < p; i++) {\n \
+    \                           auto l = a[i + offset];\n                        \
+    \    auto r = a[i + offset + p] * rot;\n                            a[i + offset]\
+    \ = l + r;\n                            a[i + offset + p] = l - r;\n         \
+    \               }\n                        if (s + 1 != (1 << len)) {\n      \
+    \                      rot *= rate2[__builtin_ctz(~(unsigned int)(s))];\n    \
+    \                    }\n                    }\n                    len++;\n  \
+    \              } else {\n                    int p = 1 << (h - len - 2);\n   \
+    \                 mint rot = 1, imag = root[2];\n                    for (int\
+    \ s = 0; s < (1 << len); s++) {\n                        mint rot2 = rot * rot;\n\
+    \                        mint rot3 = rot2 * rot;\n                        int\
+    \ offset = s << (h - len);\n                        for (int i = 0; i < p; i++)\
+    \ {\n                            ull mod2 = 1ULL * ntt_mod * ntt_mod;\n      \
+    \                      ull a0 = a[i + offset].val;\n                         \
+    \   ull a1 = 1ULL * a[i + offset + p].val * rot.val;\n                       \
+    \     ull a2 = 1ULL * a[i + offset + 2 * p].val * rot2.val;\n                \
+    \            ull a3 = 1ULL * a[i + offset + 3 * p].val * rot3.val;\n         \
+    \                   ull a1na3imag = 1ULL * mint(a1 + mod2 - a3).val * imag.val;\n\
+    \                            ull na2 = mod2 - a2;\n                          \
+    \  a[i + offset] = mint(a0 + a2 + a1 + a3);\n                            a[i +\
+    \ offset + p] = mint(a0 + a2 + (2 * mod2 - (a1 + a3)));\n                    \
+    \        a[i + offset + 2 * p] = mint(a0 + na2 + a1na3imag);\n               \
+    \             a[i + offset + 3 * p] = mint(a0 + na2 + (mod2 - a1na3imag));\n \
+    \                       }\n                        if (s + 1 != (1 << len)) {\n\
     \                            rot *= rate3[__builtin_ctz(~(unsigned int)(s))];\n\
     \                        }\n                    }\n                    len +=\
     \ 2;\n                }\n            }\n        }else { // ifft\n            int\
@@ -412,125 +403,146 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 1 \"math/factorial.cpp\"\n\n#line 1 \"util/modint.cpp\"\n\n\n\ntemplate\
-    \ <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static modint raw(int\
-    \ v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod() {\
-    \ return Mod; }\n    static constexpr uint M() { return Mod; }\n    modint() :\
-    \ val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod));\
-    \ if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val = ((unsigned\
-    \ int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n    const uint\
-    \ &value() const noexcept { return val; }\n    modint& operator++() { val++; if\
-    \ (val == Mod) val = 0; return *this; }\n    modint& operator--() { if (val ==\
-    \ 0) val = Mod; val--; return *this; }\n    modint operator++(int) { modint result\
-    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
-    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
-    \ { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n    modint& operator-=(const\
-    \ modint& b) { val -= b.val; if (val >= Mod) val += Mod; return *this; }\n   \
-    \ modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z\
-    \ % Mod); return *this; }\n    modint& operator/=(const modint& b) { return *this\
-    \ = *this * b.inv(); }\n    modint operator+() const { return *this; }\n    modint\
-    \ operator-() const { return modint() - *this; }\n    modint pow(long long n)\
-    \ const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>=\
-    \ 1; } return r; }\n    modint inv() const { return pow(Mod - 2); }\n    friend\
-    \ modint operator+(const modint& a, const modint& b) { return modint(a) += b;\
-    \ }\n    friend modint operator-(const modint& a, const modint& b) { return modint(a)\
-    \ -= b; }\n    friend modint operator*(const modint& a, const modint& b) { return\
-    \ modint(a) *= b; }\n    friend modint operator/(const modint& a, const modint&\
-    \ b) { return modint(a) /= b; }\n    friend bool operator==(const modint& a, const\
-    \ modint& b) { return a.val == b.val; }\n    friend bool operator!=(const modint&\
-    \ a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 3 \"math/factorial.cpp\"\n#endif\n\ntemplate <class Mint\
-    \ = mint>\nclass Factorial {\n    inline static vector<Mint> facts, factinv, invs;\n\
-    \n    static void init() {\n        if (!facts.empty()) return;\n        facts.push_back(Mint(1));\n\
-    \        factinv.push_back(Mint(1));\n        invs.push_back(Mint(0));\n     \
-    \   invs.push_back(Mint(1));\n    }\n\n    static void expand(int n) {\n     \
-    \   init();\n        if (n < (int)facts.size()) return;\n        int old = facts.size();\n\
-    \        int mod = Mint::get_mod();\n        facts.resize(n + 1);\n        factinv.resize(n\
-    \ + 1);\n        invs.resize(n + 1);\n        for (int i = max(2, old); i <= n;\
-    \ ++i) {\n            invs[i] = -Mint(mod / i) * invs[mod % i];\n        }\n \
-    \       for (int i = old; i <= n; ++i) {\n            facts[i] = facts[i - 1]\
-    \ * Mint(i);\n            factinv[i] = factinv[i - 1] * invs[i];\n        }\n\
-    \    }\npublic:\n    explicit Factorial(int n = 0) {\n        expand(n);\n   \
-    \ }\n    void ensure(int n) const {\n        if (n >= 0) expand(n);\n    }\n \
-    \   int max_n() const {\n        init();\n        return (int)facts.size() - 1;\n\
-    \    }\n    Mint fact(int k) const {\n        if (k < 0) return inv_fact(-k);\n\
-    \        expand(k);\n        return facts[k];\n    }\n    Mint inv_fact(int k)\
-    \ const {\n        if (k < 0) return 0;\n        expand(k);\n        return factinv[k];\n\
-    \    }\n    Mint inv(int k) const {\n        if (k < 0) return 0;\n        expand(k);\n\
-    \        return invs[k];\n    }\n    Mint operator[](int k) const {\n        return\
-    \ k >= 0 ? fact(k) : inv_fact(-k);\n    }\n    Mint C(int n, int k) const {\n\
-    \        if (n < 0 || k < 0 || n < k) return 0;\n        expand(n);\n        return\
-    \ facts[n] * factinv[k] * factinv[n - k];\n    }\n    Mint P(int n, int k) const\
-    \ {\n        if (n < 0 || k < 0 || n < k) return 0;\n        expand(n);\n    \
-    \    return facts[n] * factinv[n - k];\n    }\n    Mint H(int n, int k) const\
-    \ {\n        if (n < 0 || k < 0) return 0;\n        if (k == 0) return 1;\n  \
-    \      if (n == 0) return 0;\n        return C(n + k - 1, k);\n    }\n};\n\n/**\n\
-    \ * @brief \u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)\n */\n#line 26\
-    \ \"test/aoj0452.test.cpp\"\n\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\
-    \n    int n;\n    sc.read(n);\n    CentroidDecomposition G(n);\n    for (int i\
-    \ = 0; i < n-1; ++i) {\n        int u, v;\n        sc.read(u, v);\n        u--;\
-    \ v--;\n        G.add_edge(u, v);\n    }\n    int root = G.get(0);\n    vector<int>\
-    \ bad(n);\n    poly val;\n    auto dfs = [&](int centroid, auto &&f) -> void {\n\
-    \        bad[centroid] = 1;\n        poly all(1);\n        all[0] = 1;\n     \
-    \   for (auto &&i : G.G[centroid]) {\n            if(bad[i]) continue;\n     \
-    \       poly a;\n            queue<tuple<int, int, int>> Q;\n            Q.emplace(i,\
-    \ centroid, 1);\n            while(!Q.empty()){\n                auto [x, par,\
-    \ dep] = Q.front(); Q.pop();\n                while(a.size() <= dep) a.v.emplace_back();\n\
-    \                while(all.size() <= dep) all.v.emplace_back();\n            \
-    \    a[dep]++; all[dep]++;\n                for (auto &&y : G.G[x]) {\n      \
-    \              if(y != par && !bad[y]) Q.emplace(y, x, dep+1);\n             \
-    \   }\n            }\n            val -= a * a;\n        }\n        val += all\
-    \ * all;\n        for (auto &&i : G.out[centroid]) f(i, f);\n    };\n    dfs(root,\
-    \ dfs);\n    Factorial<mint> f(n);\n    for (int i = 1; i < val.size(); ++i) {\n\
-    \        val[i-1] = val[i]*mint(499122177)*f[i-1];\n    }\n    val.v.pop_back();\n\
-    \    poly fact(n);\n    for (int i = 0; i < n; ++i) {\n        fact[i] = f[-(n-1-i)];\n\
-    \    }\n    val *= fact;\n    for (int i = 0; i < n-1; ++i) {\n        if (n +\
-    \ i < (int)val.size() + 1) pr.writeln((val[n - 1 + i] * f[-i]).val);\n       \
-    \ else pr.writeln(0);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/0452\"\n#include\
-    \ <algorithm>\n#include <cassert>\n#include <limits>\n#include <queue>\n#include\
-    \ <tuple>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\
-    using uint = unsigned;\nusing ull = unsigned long long;\n\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../tree/centroid_decomposition.cpp\"\n\n#include \"../math/ntt.cpp\"\
-    \n#include \"../math/factorial.cpp\"\n\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    sc.read(n);\n    CentroidDecomposition G(n);\n    for\
-    \ (int i = 0; i < n-1; ++i) {\n        int u, v;\n        sc.read(u, v);\n   \
-    \     u--; v--;\n        G.add_edge(u, v);\n    }\n    int root = G.get(0);\n\
-    \    vector<int> bad(n);\n    poly val;\n    auto dfs = [&](int centroid, auto\
-    \ &&f) -> void {\n        bad[centroid] = 1;\n        poly all(1);\n        all[0]\
-    \ = 1;\n        for (auto &&i : G.G[centroid]) {\n            if(bad[i]) continue;\n\
-    \            poly a;\n            queue<tuple<int, int, int>> Q;\n           \
-    \ Q.emplace(i, centroid, 1);\n            while(!Q.empty()){\n               \
-    \ auto [x, par, dep] = Q.front(); Q.pop();\n                while(a.size() <=\
-    \ dep) a.v.emplace_back();\n                while(all.size() <= dep) all.v.emplace_back();\n\
-    \                a[dep]++; all[dep]++;\n                for (auto &&y : G.G[x])\
-    \ {\n                    if(y != par && !bad[y]) Q.emplace(y, x, dep+1);\n   \
-    \             }\n            }\n            val -= a * a;\n        }\n       \
-    \ val += all * all;\n        for (auto &&i : G.out[centroid]) f(i, f);\n    };\n\
-    \    dfs(root, dfs);\n    Factorial<mint> f(n);\n    for (int i = 1; i < val.size();\
-    \ ++i) {\n        val[i-1] = val[i]*mint(499122177)*f[i-1];\n    }\n    val.v.pop_back();\n\
-    \    poly fact(n);\n    for (int i = 0; i < n; ++i) {\n        fact[i] = f[-(n-1-i)];\n\
-    \    }\n    val *= fact;\n    for (int i = 0; i < n-1; ++i) {\n        if (n +\
-    \ i < (int)val.size() + 1) pr.writeln((val[n - 1 + i] * f[-i]).val);\n       \
-    \ else pr.writeln(0);\n    }\n    return 0;\n}\n"
+    \n\n#line 2 \"fps/sample_point_shift.cpp\"\n\nvector<mint> sample_point_shift(const\
+    \ vector<mint> &ys, mint c, int m = -1) {\n    int n = ys.size();\n    if (m ==\
+    \ -1) m = n;\n    if (m <= 0) return {};\n    if (n == 0) return vector<mint>(m,\
+    \ mint(0));\n\n    int k = n - 1;\n    long long t = c.val;\n    if (t <= k) {\n\
+    \        vector<mint> res;\n        res.reserve(m);\n        for (long long x\
+    \ = t; x <= k && (int)res.size() < m; ++x) res.push_back(ys[x]);\n        if ((int)res.size()\
+    \ < m) {\n            vector<mint> suf = sample_point_shift(ys, mint(k + 1), m\
+    \ - (int)res.size());\n            res.insert(res.end(), suf.begin(), suf.end());\n\
+    \        }\n        return res;\n    }\n    if (t + m > ntt_mod) {\n        vector<mint>\
+    \ pref = sample_point_shift(ys, mint(t), ntt_mod - t);\n        vector<mint> suf\
+    \ = sample_point_shift(ys, mint(0), m - (int)pref.size());\n        pref.insert(pref.end(),\
+    \ suf.begin(), suf.end());\n        return pref;\n    }\n\n    static vector<mint>\
+    \ fact = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int lim) {\n\
+    \        if ((int)fact.size() > lim) return;\n        int old = fact.size();\n\
+    \        fact.resize(lim + 1);\n        for (int i = old; i <= lim; ++i) fact[i]\
+    \ = fact[i - 1] * mint(i);\n        ifact.resize(lim + 1);\n        ifact[lim]\
+    \ = fact[lim].inv();\n        for (int i = lim; i > old; --i) ifact[i - 1] = ifact[i]\
+    \ * mint(i);\n        if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(k);\n\
+    \n    vector<mint> a(n), b(n + m - 1);\n    for (int i = 0; i < n; ++i) {\n  \
+    \      a[i] = ys[i] * ifact[i] * ifact[k - i];\n        if ((k - i) & 1) a[i]\
+    \ = -a[i];\n    }\n    for (int i = 0; i < n + m - 1; ++i) {\n        b[i] = mint(1)\
+    \ / (c - mint(k) + mint(i));\n    }\n    poly pa(a), pb(b);\n    vector<mint>\
+    \ conv = (pa * pb).v;\n\n    vector<mint> res(m);\n    mint coef = 1;\n    for\
+    \ (int i = 0; i <= k; ++i) coef *= c - mint(i);\n    for (int i = 0; i < m; ++i)\
+    \ {\n        res[i] = conv[k + i] * coef;\n        coef *= c + mint(i + 1);\n\
+    \        coef /= c - mint(k) + mint(i);\n    }\n    return res;\n}\n\n/**\n *\
+    \ @brief \u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)\n */\n#line\
+    \ 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
+    \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
+    \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
+    \ ++i) ys[i] = eval(xs[i]);\n        return ys;\n    }\n    int n = 1;\n    while\
+    \ (n < m) n <<= 1;\n    vector<poly> prod(2 * n);\n    for (int i = 0; i < m;\
+    \ ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = m;\
+    \ i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});\n    for (int i = n -\
+    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    vector<poly>\
+    \ rem(2 * n);\n    rem[1] = mod(prod[1]);\n    for (int i = 1; i < n; ++i) {\n\
+    \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
+    \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
+    \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
+    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n */\n#line 2\
+    \ \"fps/taylor_shift.cpp\"\n\npoly taylor_shift(const poly &f, mint c) {\n   \
+    \ int n = f.size();\n    if (n == 0) return poly();\n    static vector<mint> fact\
+    \ = {mint(1)}, ifact = {mint(1)};\n    auto ensure_fact = [&](int m) {\n     \
+    \   if ((int)fact.size() > m) return;\n        int old = fact.size();\n      \
+    \  fact.resize(m + 1);\n        for (int i = old; i <= m; ++i) fact[i] = fact[i\
+    \ - 1] * mint(i);\n        ifact.resize(m + 1);\n        ifact[m] = fact[m].inv();\n\
+    \        for (int i = m; i > old; --i) ifact[i - 1] = ifact[i] * mint(i);\n  \
+    \      if (old == 1) ifact[0] = mint(1);\n    };\n    ensure_fact(n);\n    poly\
+    \ a(n), b(n);\n    mint pow_c = 1;\n    for (int i = 0; i < n; ++i) {\n      \
+    \  a[n - 1 - i] = f[i] * fact[i];\n        b[i] = pow_c * ifact[i];\n        pow_c\
+    \ *= c;\n    }\n    poly d = a * b;\n    poly g(n);\n    for (int i = 0; i < n;\
+    \ ++i) g[i] = d[n - 1 - i] * ifact[i];\n    return g;\n}\n\n/**\n * @brief Taylor\
+    \ Shift\n */\n#line 4 \"math/many_factorials.cpp\"\n\nvector<mint> many_factorials(const\
+    \ vector<long long> &ns) {\n    struct EvalPoint {\n        int x, query_id;\n\
+    \    };\n\n    int q = ns.size();\n    vector<mint> ans(q);\n    if (q == 0) return\
+    \ ans;\n\n    vector<pair<int, int>> order;\n    order.reserve(q);\n    for (int\
+    \ i = 0; i < q; ++i) {\n        if (ns[i] >= ntt_mod) {\n            ans[i] =\
+    \ mint(0);\n            continue;\n        }\n        order.push_back({(int)ns[i],\
+    \ i});\n    }\n    if (order.empty()) return ans;\n    sort(order.begin(), order.end());\n\
+    \n    vector<int> uniq_ns, group_begin;\n    uniq_ns.reserve(order.size());\n\
+    \    group_begin.reserve(order.size() + 1);\n    for (int l = 0; l < (int)order.size();)\
+    \ {\n        int r = l + 1;\n        while (r < (int)order.size() && order[r].first\
+    \ == order[l].first) ++r;\n        uniq_ns.push_back(order[l].first);\n      \
+    \  group_begin.push_back(l);\n        l = r;\n    }\n    group_begin.push_back(order.size());\n\
+    \n    constexpr int log_block_size = 15;\n    constexpr int block_size = 1 <<\
+    \ log_block_size;\n    constexpr int block_num = ntt_mod >> log_block_size;\n\
+    \    constexpr int manual_bits = 10;\n    constexpr int manual_mask = (1 << manual_bits)\
+    \ - 1;\n\n    static vector<mint> block_fact = []() {\n        vector<vector<mint>>\
+    \ samples(log_block_size + 1);\n        samples[0] = {mint(1), mint(2)};\n   \
+    \     for (int lg = 0; lg < log_block_size; ++lg) {\n            int d = 1 <<\
+    \ lg;\n            const vector<mint> &cur = samples[lg];\n            vector<mint>\
+    \ shifted = sample_point_shift(cur, mint(d + 1), 3 * d + 1);\n            vector<mint>\
+    \ next(2 * d + 1);\n            for (int i = 0; i <= 2 * d; ++i) {\n         \
+    \       mint left = 2 * i <= d ? cur[2 * i] : shifted[2 * i - (d + 1)];\n    \
+    \            mint right = 2 * i + 1 <= d ? cur[2 * i + 1] : shifted[2 * i + 1\
+    \ - (d + 1)];\n                next[i] = left * right;\n            }\n      \
+    \      samples[lg + 1] = std::move(next);\n        }\n        vector<mint> blocks\
+    \ = sample_point_shift(samples[log_block_size], mint(0), block_num);\n       \
+    \ blocks.insert(blocks.begin(), mint(1));\n        for (int i = 1; i <= block_num;\
+    \ ++i) blocks[i] *= blocks[i - 1];\n        return blocks;\n    }();\n\n    int\
+    \ m = uniq_ns.size();\n    vector<mint> uniq_ans(m);\n    vector<vector<EvalPoint>>\
+    \ eval_points(log_block_size);\n    for (int i = 0; i < m; ++i) {\n        int\
+    \ n = uniq_ns[i];\n        int quo = n >> log_block_size;\n        int rem = n\
+    \ & (block_size - 1);\n        uniq_ans[i] = block_fact[quo];\n        int tail\
+    \ = rem & manual_mask;\n        for (int x = n - tail + 1; x <= n; ++x) uniq_ans[i]\
+    \ *= mint(x);\n        int x = n - tail;\n        int hi = rem - tail;\n     \
+    \   for (int bit = manual_bits; bit < log_block_size; ++bit) {\n            if\
+    \ ((hi >> bit) & 1) {\n                eval_points[bit].push_back({x, i});\n \
+    \               x -= 1 << bit;\n            }\n        }\n    }\n\n    vector<poly>\
+    \ falling(log_block_size);\n    falling[0] = poly(vector<mint>{mint(0), mint(1)});\n\
+    \    for (int bit = 1; bit < log_block_size; ++bit) {\n        int d = 1 << (bit\
+    \ - 1);\n        falling[bit] = falling[bit - 1] * taylor_shift(falling[bit -\
+    \ 1], mint(-d));\n    }\n\n    for (int bit = manual_bits; bit < log_block_size;\
+    \ ++bit) {\n        auto &pts = eval_points[bit];\n        if (pts.empty()) continue;\n\
+    \        sort(pts.begin(), pts.end(), [](const EvalPoint &a, const EvalPoint &b)\
+    \ {\n            return a.x < b.x;\n        });\n        int batch = 1 << bit;\n\
+    \        for (int l = 0; l < (int)pts.size();) {\n            vector<mint> xs;\n\
+    \            vector<pair<int, int>> groups;\n            xs.reserve(batch);\n\
+    \            groups.reserve(batch);\n            while (l < (int)pts.size() &&\
+    \ (int)xs.size() < batch) {\n                int r = l + 1;\n                while\
+    \ (r < (int)pts.size() && pts[r].x == pts[l].x) ++r;\n                xs.push_back(mint(pts[l].x));\n\
+    \                groups.push_back({l, r});\n                l = r;\n         \
+    \   }\n            vector<mint> ys = falling[bit].multipoint_eval(xs);\n     \
+    \       for (int i = 0; i < (int)groups.size(); ++i) {\n                auto [gl,\
+    \ gr] = groups[i];\n                for (int j = gl; j < gr; ++j) uniq_ans[pts[j].query_id]\
+    \ *= ys[i];\n            }\n        }\n    }\n\n    for (int i = 0; i < m; ++i)\
+    \ {\n        for (int j = group_begin[i]; j < group_begin[i + 1]; ++j) ans[order[j].second]\
+    \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief \u591A\u6570\u968E\
+    \u4E57(Many Factorials)\n */\n#line 18 \"test/yosupo_many_factorials.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
+    \    vector<long long> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
+    \    vector<mint> ans = many_factorials(a);\n    for (int i = 0; i < n; ++i) out.writeln(ans[i].val);\n\
+    \    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_factorials\"\n\n#include\
+    \ <algorithm>\n#include <cassert>\n#include <vector>\nusing ll = long long;\n\
+    using uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../math/many_factorials.cpp\"\n\n\
+    int main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
+    \    vector<long long> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
+    \    vector<mint> ans = many_factorials(a);\n    for (int i = 0; i < n; ++i) out.writeln(ans[i].val);\n\
+    \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - tree/centroid_decomposition.cpp
+  - math/many_factorials.cpp
+  - fps/sample_point_shift.cpp
   - math/ntt.cpp
-  - math/factorial.cpp
+  - fps/multipoint_evaluation.cpp
+  - fps/taylor_shift.cpp
   isVerificationFile: true
-  path: test/aoj0452.test.cpp
+  path: test/yosupo_many_factorials.test.cpp
   requiredBy: []
   timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj0452.test.cpp
+documentation_of: test/yosupo_many_factorials.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj0452.test.cpp
-- /verify/test/aoj0452.test.cpp.html
-title: test/aoj0452.test.cpp
+- /verify/test/yosupo_many_factorials.test.cpp
+- /verify/test/yosupo_many_factorials.test.cpp.html
+title: test/yosupo_many_factorials.test.cpp
 ---

@@ -9,7 +9,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
     title: Polynomial Interpolation
+  - icon: ':heavy_check_mark:'
+    path: math/many_factorials.cpp
+    title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_factorials.test.cpp
+    title: test/yosupo_many_factorials.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
@@ -22,15 +28,15 @@ data:
   attributes:
     document_title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
     links: []
-  bundledCode: "#line 1 \"math/ntt.cpp\"\nconstexpr int ntt_mod = 998244353, ntt_root\
-    \ = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n\
-    #endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n\
-    // 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817\
-    \  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
-    \ modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint\
-    \ get_mod() { return M; }\n    modint() : val(0) {}\n    template <class T>\n\
-    \    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n\
-    \    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
+  bundledCode: "#line 1 \"math/ntt.cpp\"\n\n\n\nconstexpr int ntt_mod = 998244353,\
+    \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
+    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
+    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
+    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
+    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr\
+    \ uint get_mod() { return M; }\n    modint() : val(0) {}\n    template <class\
+    \ T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x);\
+    \ }\n    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
     \ { val++; if (val == M) val = 0; return *this; }\n    modint& operator--() {\
     \ if (val == 0) val = M; val--; return *this; }\n    modint operator++(int) {\
     \ modint result = *this; ++*this; return result; }\n    modint operator--(int)\
@@ -287,7 +293,7 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    #line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \n\n#line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
     \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
     \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
     \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
@@ -321,11 +327,13 @@ data:
   path: fps/multipoint_evaluation.cpp
   requiredBy:
   - fps/polynomial_interpolation.cpp
-  timestamp: '2026-03-12 00:49:33+09:00'
+  - math/many_factorials.cpp
+  timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
+  - test/yosupo_many_factorials.test.cpp
 date: 2026-03-08
 documentation_of: fps/multipoint_evaluation.cpp
 layout: document

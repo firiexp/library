@@ -191,6 +191,9 @@ data:
     path: test/yosupo_many_aplusb_modint_interface.test.cpp
     title: test/yosupo_many_aplusb_modint_interface.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_factorials.test.cpp
+    title: test/yosupo_many_factorials.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_det.test.cpp
     title: test/yosupo_matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
@@ -695,6 +698,7 @@ data:
   - test/yosupo_static_range_inversions_query.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/yosupo_zalgorithm.test.cpp
+  - test/yosupo_many_factorials.test.cpp
   - test/yosupo_rectangle_add_point_get.test.cpp
   - test/yosupo_directedmst.test.cpp
 date: 2026-03-14

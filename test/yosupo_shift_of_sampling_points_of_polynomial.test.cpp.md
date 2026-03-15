@@ -128,13 +128,13 @@ data:
     \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
     \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
     \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
-    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/ntt.cpp\"\nconstexpr\
-    \ int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define\
-    \ NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define\
-    \ NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353\
-    \  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct modint\
-    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
-    \ v; return x; }\n    static constexpr uint get_mod() { return M; }\n    modint()\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/ntt.cpp\"\n\n\n\
+    \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
+    #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
+    #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n\
+    // 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct\
+    \ modint {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val\
+    \ = v; return x; }\n    static constexpr uint get_mod() { return M; }\n    modint()\
     \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v%(ll)(M));\
     \ if (x < 0) x += M; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
     \ % M); }\n    modint& operator++() { val++; if (val == M) val = 0; return *this;\
@@ -394,7 +394,7 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    #line 2 \"fps/sample_point_shift.cpp\"\n\nvector<mint> sample_point_shift(const\
+    \n\n#line 2 \"fps/sample_point_shift.cpp\"\n\nvector<mint> sample_point_shift(const\
     \ vector<mint> &ys, mint c, int m = -1) {\n    int n = ys.size();\n    if (m ==\
     \ -1) m = n;\n    if (m <= 0) return {};\n    if (n == 0) return vector<mint>(m,\
     \ mint(0));\n\n    int k = n - 1;\n    long long t = c.val;\n    if (t <= k) {\n\
@@ -446,7 +446,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   requiredBy: []
-  timestamp: '2026-03-14 13:04:06+09:00'
+  timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp

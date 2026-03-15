@@ -21,15 +21,15 @@ data:
   attributes:
     document_title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
     links: []
-  bundledCode: "#line 1 \"math/ntt.cpp\"\nconstexpr int ntt_mod = 998244353, ntt_root\
-    \ = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n\
-    #endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n\
-    // 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817\
-    \  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
-    \ modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint\
-    \ get_mod() { return M; }\n    modint() : val(0) {}\n    template <class T>\n\
-    \    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n\
-    \    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
+  bundledCode: "#line 1 \"math/ntt.cpp\"\n\n\n\nconstexpr int ntt_mod = 998244353,\
+    \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
+    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
+    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
+    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
+    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr\
+    \ uint get_mod() { return M; }\n    modint() : val(0) {}\n    template <class\
+    \ T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x);\
+    \ }\n    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
     \ { val++; if (val == M) val = 0; return *this; }\n    modint& operator--() {\
     \ if (val == 0) val = M; val--; return *this; }\n    modint operator++(int) {\
     \ modint result = *this; ++*this; return result; }\n    modint operator--(int)\
@@ -286,7 +286,7 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    #line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
+    \n\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
     \ return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n\
     \    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n \
     \   mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int j\
@@ -332,7 +332,7 @@ data:
   path: fps/nth_term.cpp
   requiredBy:
   - fps/linear_recurrence.cpp
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp

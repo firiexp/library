@@ -1,7 +1,5 @@
 # Implementation Ideas
 
-優先度は低いので `TODO.md` には載せないもの。
-
 ## implicit_treap
 
 ### 背景

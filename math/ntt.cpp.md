@@ -21,6 +21,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/taylor_shift.cpp
     title: Taylor Shift
+  - icon: ':heavy_check_mark:'
+    path: math/many_factorials.cpp
+    title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
@@ -40,6 +43,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_log_of_formal_power_series.test.cpp
     title: test/yosupo_log_of_formal_power_series.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_many_factorials.test.cpp
+    title: test/yosupo_many_factorials.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
@@ -64,15 +70,15 @@ data:
   attributes:
     document_title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
     links: []
-  bundledCode: "#line 1 \"math/ntt.cpp\"\nconstexpr int ntt_mod = 998244353, ntt_root\
-    \ = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n\
-    #endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n\
-    // 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n// 645922817\
-    \  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n    static\
-    \ modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint\
-    \ get_mod() { return M; }\n    modint() : val(0) {}\n    template <class T>\n\
-    \    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }\n\
-    \    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
+  bundledCode: "#line 1 \"math/ntt.cpp\"\n\n\n\nconstexpr int ntt_mod = 998244353,\
+    \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
+    \ 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n#define NTT_NAIVE_MUL_MIN_DIM 48\n\
+    #endif\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057 -> 3\n\
+    // 645922817  -> 3;\ntemplate <uint M>\nstruct modint {\n    uint val;\npublic:\n\
+    \    static modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr\
+    \ uint get_mod() { return M; }\n    modint() : val(0) {}\n    template <class\
+    \ T>\n    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x);\
+    \ }\n    modint(bool v) { val = ((unsigned int)(v) % M); }\n    modint& operator++()\
     \ { val++; if (val == M) val = 0; return *this; }\n    modint& operator--() {\
     \ if (val == 0) val = M; val--; return *this; }\n    modint operator++(int) {\
     \ modint result = *this; ++*this; return result; }\n    modint operator--(int)\
@@ -328,8 +334,10 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n"
-  code: "constexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    \n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_MATH_NTT_CPP\n#define FIRIEXP_LIBRARY_MATH_NTT_CPP\n\
+    \nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
     #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
     #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n// 1012924417 -> 5, 924844033 -> 5\n\
     // 998244353  -> 3, 897581057 -> 3\n// 645922817  -> 3;\ntemplate <uint M>\nstruct\
@@ -593,7 +601,8 @@ data:
     \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n"
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    \n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: math/ntt.cpp
@@ -604,7 +613,8 @@ data:
   - fps/taylor_shift.cpp
   - fps/sample_point_shift.cpp
   - fps/nth_term.cpp
-  timestamp: '2026-03-12 00:49:33+09:00'
+  - math/many_factorials.cpp
+  timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
@@ -618,6 +628,7 @@ data:
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/aoj0452.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
+  - test/yosupo_many_factorials.test.cpp
   - test/yosupo_convolution.test.cpp
 date: 2026-03-08
 documentation_of: math/ntt.cpp

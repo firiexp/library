@@ -350,6 +350,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/linear_sieve.cpp
       title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
+    - icon: ':heavy_check_mark:'
+      path: math/many_factorials.cpp
+      title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
     - icon: ':warning:'
       path: math/matrix.cpp
       title: math/matrix.cpp
@@ -819,6 +822,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_many_aplusb_modint_interface.test.cpp
       title: test/yosupo_many_aplusb_modint_interface.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_many_factorials.test.cpp
+      title: test/yosupo_many_factorials.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_matrix_det.test.cpp
       title: test/yosupo_matrix_det.test.cpp
