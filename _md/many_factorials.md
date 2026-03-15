@@ -10,10 +10,9 @@ tags: 数学
 複数の `n` に対して `n! mod 998244353` をまとめて計算する。
 `n >= 998244353` なら `0` を返す。
 
-`sample_point_shift` で
-`f_d(x) = \prod_{t=1}^{d} (x + t)`
-の標本点を倍化構築し、必要な点だけ多点評価する。
-`n` が `998244353 / 2` を超える側は Wilson の定理で小さい側へ移す。
+同じ値を先に圧縮してから計算する。
+`sample_point_shift` で `B = 512` の block product を前計算し、
+各 query は block 境界から近い側へ高々 `256` 個だけ掛けて求める。
 
 ## できること
 - `vector<mint> many_factorials(const vector<long long>& ns)`
@@ -28,5 +27,6 @@ auto ans = many_factorials(ns);
 ```
 
 ## 実装上の補足
-ブロック長を 2 冪に取り、`(k d)!` の列を前計算して大きい部分を処理する。
-各 query の端数部分は 2 進分解し、必要なブロック積だけを多点評価で取る。
+block prefix product を土台にする。
+余りが前半ならそのまま掛け足し、後半なら次 block から割り戻す。
+共通計算を抑え、distinct な query を短い積で直接処理する。

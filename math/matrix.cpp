@@ -13,35 +13,37 @@ struct matrix {
 
     static matrix I(size_t n){
         matrix mat(n);
-        for (int i = 0; i < n; ++i) mat[i][i] = 1;
+        for (size_t i = 0; i < n; ++i) mat[i][i] = 1;
         return mat;
     }
 
     matrix &operator+= (const matrix &B){
         size_t h = height(), w = width();
-        for (int i = 0; i < h; ++i) {
-            for (int j = 0; j < w; ++j) {
-                add((*this)[i][j], B[i][j]);
+        for (size_t i = 0; i < h; ++i) {
+            for (size_t j = 0; j < w; ++j) {
+                H::add((*this)[i][j], B[i][j]);
             }
         }
+        return (*this);
     }
 
     matrix &operator-= (const matrix &B){
         size_t h = height(), w = width();
-        for (int i = 0; i < h; ++i) {
-            for (int j = 0; j < w; ++j) {
-                add((*this)[i][j], -B[i][j]);
+        for (size_t i = 0; i < h; ++i) {
+            for (size_t j = 0; j < w; ++j) {
+                H::add((*this)[i][j], -B[i][j]);
             }
         }
+        return (*this);
     }
 
     matrix &operator*=(const matrix &B) {
         size_t n = height(), m = B.width(), p = width();
         matrix C(n, m);
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < m; ++j) {
-                for (int k = 0; k < p; ++k) {
-                    add(C[i][j], mul((*this)[i][k],B[k][j]));
+        for (size_t i = 0; i < n; ++i) {
+            for (size_t j = 0; j < m; ++j) {
+                for (size_t k = 0; k < p; ++k) {
+                    H::add(C[i][j], H::mul((*this)[i][k], B[k][j]));
                 }
             }
         }
@@ -52,8 +54,8 @@ struct matrix {
     matrix pow(ll n) const {
         matrix a = (*this), res = I(height());
         while(n > 0){
-            if(n & 1) mul(res, a);
-            mul(a, a);
+            if (n & 1) res *= a;
+            a *= a;
             n >>= 1;
         }
         return res;

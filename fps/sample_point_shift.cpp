@@ -29,12 +29,12 @@ vector<mint> sample_point_shift(const vector<mint> &ys, mint c, int m = -1) {
     auto ensure_fact = [&](int lim) {
         if ((int)fact.size() > lim) return;
         int old = fact.size();
-        fact.resize(lim + 1);
-        for (int i = old; i <= lim; ++i) fact[i] = fact[i - 1] * mint(i);
-        ifact.resize(lim + 1);
-        ifact[lim] = fact[lim].inv();
-        for (int i = lim; i > old; --i) ifact[i - 1] = ifact[i] * mint(i);
-        if (old == 1) ifact[0] = mint(1);
+        int next = max(old * 2, lim + 1);
+        fact.resize(next);
+        for (int i = old; i < next; ++i) fact[i] = fact[i - 1] * mint::raw(i);
+        ifact.resize(next);
+        ifact[next - 1] = fact[next - 1].inv();
+        for (int i = next - 1; i > old; --i) ifact[i - 1] = ifact[i] * mint::raw(i);
     };
     ensure_fact(k);
 
@@ -43,19 +43,26 @@ vector<mint> sample_point_shift(const vector<mint> &ys, mint c, int m = -1) {
         a[i] = ys[i] * ifact[i] * ifact[k - i];
         if ((k - i) & 1) a[i] = -a[i];
     }
-    for (int i = 0; i < n + m - 1; ++i) {
-        b[i] = mint(1) / (c - mint(k) + mint(i));
+    mint start = c - mint(k);
+    b[0] = start;
+    for (int i = 1; i < n + m - 1; ++i) {
+        b[i] = b[i - 1] * (start + mint(i));
     }
+    mint coef = b[k];
+    mint inv_all = b.back().inv();
+    for (int i = n + m - 2; i >= 1; --i) {
+        b[i] = b[i - 1] * inv_all;
+        inv_all *= start + mint(i);
+    }
+    b[0] = inv_all;
     poly pa(a), pb(b);
     vector<mint> conv = (pa * pb).v;
 
     vector<mint> res(m);
-    mint coef = 1;
-    for (int i = 0; i <= k; ++i) coef *= c - mint(i);
     for (int i = 0; i < m; ++i) {
         res[i] = conv[k + i] * coef;
         coef *= c + mint(i + 1);
-        coef /= c - mint(k) + mint(i);
+        coef *= b[i];
     }
     return res;
 }
