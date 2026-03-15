@@ -16,7 +16,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/primefactor.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

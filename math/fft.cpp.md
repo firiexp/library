@@ -2,7 +2,7 @@
 category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy:
@@ -10,15 +10,15 @@ data:
     path: tree/frequency_table_of_tree_distance.cpp
     title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)"
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_frequency_table_of_tree_distance.test.cpp
     title: test/yosupo_frequency_table_of_tree_distance.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
     links: []
@@ -193,11 +193,11 @@ data:
     \            static const unsigned long long m12 = (unsigned long long)m1 * (unsigned\
     \ long long)m2;\n            static const long long m1_mod = m1 % TARGET_MOD;\n\
     \            static const long long m12_mod = m12 % TARGET_MOD;\n\n          \
-    \  long long t = (x2 - x1) % m2;\n            if (t < 0) t += m2;\n          \
-    \  t = t * m1_inv_m2 % m2;\n            long long x12 = (long long)(((__int128)x1\
-    \ + (__int128)m1 * t) % m3);\n            long long u = (x3 - x12) % m3;\n   \
-    \         if (u < 0) u += m3;\n            u = u * m12_inv_m3 % m3;\n        \
-    \    __int128 value = x1 % TARGET_MOD;\n            value += (__int128)m1_mod\
+    \  long long t = ((long long)x2 - (long long)x1) % m2;\n            if (t < 0)\
+    \ t += m2;\n            t = t * m1_inv_m2 % m2;\n            long long x12 = (long\
+    \ long)(((__int128)x1 + (__int128)m1 * t) % m3);\n            long long u = ((long\
+    \ long)x3 - x12) % m3;\n            if (u < 0) u += m3;\n            u = u * m12_inv_m3\
+    \ % m3;\n            __int128 value = x1 % TARGET_MOD;\n            value += (__int128)m1_mod\
     \ * t;\n            value += (__int128)m12_mod * u;\n            return (unsigned\
     \ int)(value % TARGET_MOD);\n        }\n    }  // namespace internal\n\n    vector<unsigned\
     \ long long> convolution_u64(const vector<unsigned int> &a, const vector<unsigned\
@@ -268,8 +268,8 @@ data:
   path: math/fft.cpp
   requiredBy:
   - tree/frequency_table_of_tree_distance.cpp
-  timestamp: '2026-03-15 01:50:20+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2026-03-15 11:18:22+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp

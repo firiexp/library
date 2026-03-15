@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/persistent_unionfind.cpp
-    title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
+    path: datastructure/weightedunionfind.cpp
+    title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -14,15 +14,15 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/persistent_unionfind
+    PROBLEM: https://judge.yosupo.jp/problem/unionfind_with_potential
     links:
-    - https://judge.yosupo.jp/problem/persistent_unionfind
-  bundledCode: "#line 1 \"test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp\"\
-    \n#define PROBLEM \"https://judge.yosupo.jp/problem/persistent_unionfind\"\n\n\
-    #include <bits/stdc++.h>\n\nusing namespace std;\n\n#line 10 \"test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp\"\
-    \n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\
-    \nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
-    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    - https://judge.yosupo.jp/problem/unionfind_with_potential
+  bundledCode: "#line 1 \"test/yosupo_unionfind_with_potential.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/unionfind_with_potential\"\n\n#include\
+    \ <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace\
+    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
+    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
     \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
     \ &>().end())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\
     \n    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
@@ -123,73 +123,75 @@ data:
     \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
     \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
     \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
-    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/persistent_unionfind.cpp\"\
-    \nclass PersistentUnionFind {\n    struct Node {\n        int val;\n        int\
-    \ l;\n        int r;\n    };\n\n    int n;\n    vector<Node> node;\n    vector<pair<int,\
-    \ int>> roots;\n\npublic:\n    explicit PersistentUnionFind(int sz) : n(sz) {\n\
-    \        if (n == 0) {\n            node.push_back({-1, -1, -1});\n          \
-    \  roots.push_back({0, 0});\n        } else {\n            roots.push_back({build(0,\
-    \ n), n});\n        }\n    }\n\n    int versions() const { return roots.size();\
-    \ }\n    int latest_version() const { return versions() - 1; }\n    int count()\
-    \ const { return roots[latest_version()].second; }\n    int count(int t) const\
-    \ { return roots[t].second; }\n\n    int root(int t, int a) const {\n        int\
-    \ p = get(roots[t].first, a, 0, n);\n        if (p < 0) return a;\n        return\
-    \ root(t, p);\n    }\n    int root(int a) const { return root(latest_version(),\
-    \ a); }\n\n    bool same(int t, int a, int b) const {\n        return root(t,\
-    \ a) == root(t, b);\n    }\n    bool same(int a, int b) const { return same(latest_version(),\
-    \ a, b); }\n\n    int size(int t, int a) const {\n        return -get(roots[t].first,\
-    \ root(t, a), 0, n);\n    }\n    int size(int a) const { return size(latest_version(),\
-    \ a); }\n\n    int copy_version(int t) {\n        roots.push_back(roots[t]);\n\
-    \        return latest_version();\n    }\n\n    int unite(int t, int a, int b)\
-    \ {\n        if (n == 0) {\n            return copy_version(t);\n        }\n \
-    \       int rt = roots[t].first;\n        int ra = root(t, a);\n        int rb\
-    \ = root(t, b);\n        if (ra == rb) return copy_version(t);\n        int sa\
-    \ = get(rt, ra, 0, n);\n        int sb = get(rt, rb, 0, n);\n        if (sa >\
-    \ sb) {\n            swap(ra, rb);\n            swap(sa, sb);\n        }\n   \
-    \     int nr = set(rt, ra, sa + sb, 0, n);\n        nr = set(nr, rb, ra, 0, n);\n\
-    \        roots.push_back({nr, roots[t].second - 1});\n        return latest_version();\n\
-    \    }\n    int unite(int a, int b) { return unite(latest_version(), a, b); }\n\
-    \nprivate:\n    int make_node(int val, int l, int r) {\n        node.push_back({val,\
-    \ l, r});\n        return node.size() - 1;\n    }\n\n    int build(int l, int\
-    \ r) {\n        if (l + 1 == r) return make_node(-1, -1, -1);\n        int m =\
-    \ (l + r) >> 1;\n        return make_node(0, build(l, m), build(m, r));\n    }\n\
-    \n    int get(int id, int k, int l, int r) const {\n        if (l + 1 == r) return\
-    \ node[id].val;\n        int m = (l + r) >> 1;\n        if (k < m) return get(node[id].l,\
-    \ k, l, m);\n        return get(node[id].r, k, m, r);\n    }\n\n    int set(int\
-    \ id, int k, int val, int l, int r) {\n        if (l + 1 == r) return make_node(val,\
-    \ -1, -1);\n        int m = (l + r) >> 1;\n        int nl = node[id].l;\n    \
-    \    int nr = node[id].r;\n        if (k < m) nl = set(nl, k, val, l, m);\n  \
-    \      else nr = set(nr, k, val, m, r);\n        return make_node(0, nl, nr);\n\
-    \    }\n};\n\n/**\n * @brief \u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent\
-    \ Union Find)\n */\n#line 14 \"test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
-    \ q);\n\n    PersistentUnionFind uf(n);\n    for (int i = 0; i < q; ++i) {\n \
-    \       int t, k, u, v;\n        sc.read(t, k, u, v);\n        ++k;\n        if\
-    \ (t == 0) {\n            uf.unite(k, u, v);\n        } else {\n            pr.writeln(uf.same(k,\
-    \ u, v));\n            uf.copy_version(k);\n        }\n    }\n    return 0;\n\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/weightedunionfind.cpp\"\
+    \ntemplate <class G>\nclass WeightedUnionFind {\n    using T = typename G::T;\n\
+    \    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
+    \ n) : uni(n, -1), weights(n, G::e()) {}\n\n    int root(int a) {\n        if\
+    \ (uni[a] < 0) return a;\n        int p = uni[a];\n        int r = root(p);\n\
+    \        weights[a] = G::op(weights[a], weights[p]);\n        return uni[a] =\
+    \ r;\n    }\n\n    T weight(int a) {\n        root(a);\n        return weights[a];\n\
+    \    }\n\n    bool same(int a, int b) {\n        return root(a) == root(b);\n\
+    \    }\n\n    bool unite(int a, int b, T w) {\n        w = G::op(weight(a), G::op(w,\
+    \ G::inv(weight(b))));\n        a = root(a);\n        b = root(b);\n        if\
+    \ (a == b) return false;\n        if (uni[a] > uni[b]) {\n            swap(a,\
+    \ b);\n            w = G::inv(w);\n        }\n        uni[a] += uni[b];\n    \
+    \    uni[b] = a;\n        weights[b] = w;\n        return true;\n    }\n\n   \
+    \ int size(int a) {\n        return -uni[root(a)];\n    }\n\n    T diff(int x,\
+    \ int y) {\n        return G::op(G::inv(weight(x)), weight(y));\n    }\n};\n\n\
+    /*\nstruct Group {\n    using T = long long;\n    static T op(T a, T b) { return\
+    \ a + b; }\n    static T inv(T a) { return -a; }\n    static T e() { return 0;\
+    \ }\n};\n*/\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union\
+    \ Find)\n */\n#line 13 \"test/yosupo_unionfind_with_potential.test.cpp\"\n\nstruct\
+    \ PotentialGroup {\n    struct T {\n        int v;\n\n        T(long long x =\
+    \ 0) {\n            x %= 998244353;\n            if (x < 0) x += 998244353;\n\
+    \            v = (int)x;\n        }\n\n        friend bool operator==(const T\
+    \ &lhs, const T &rhs) {\n            return lhs.v == rhs.v;\n        }\n    };\n\
+    \n    static T op(T lhs, const T &rhs) {\n        lhs.v += rhs.v;\n        if\
+    \ (lhs.v >= 998244353) lhs.v -= 998244353;\n        return lhs;\n    }\n\n   \
+    \ static T inv(T x) {\n        if (x.v) x.v = 998244353 - x.v;\n        return\
+    \ x;\n    }\n\n    static T e() {\n        return T(0);\n    }\n};\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n \
+    \   WeightedUnionFind<PotentialGroup> uf(n);\n    while (q--) {\n        int t,\
+    \ u, v;\n        sc.read(t, u, v);\n        if (t == 0) {\n            int x;\n\
+    \            sc.read(x);\n            PotentialGroup::T w(x);\n            if\
+    \ (uf.same(u, v)) {\n                pr.writeln(uf.diff(v, u) == w);\n       \
+    \     } else {\n                uf.unite(v, u, w);\n                pr.writeln(1);\n\
+    \            }\n        } else {\n            if (!uf.same(u, v)) pr.writeln(-1);\n\
+    \            else pr.writeln(uf.diff(v, u).v);\n        }\n    }\n    return 0;\n\
     }\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/persistent_unionfind\"\n\
-    \n#include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../datastructure/persistent_unionfind.cpp\"\n\nint main() {\n   \
-    \ Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n\n    PersistentUnionFind\
-    \ uf(n);\n    for (int i = 0; i < q; ++i) {\n        int t, k, u, v;\n       \
-    \ sc.read(t, k, u, v);\n        ++k;\n        if (t == 0) {\n            uf.unite(k,\
-    \ u, v);\n        } else {\n            pr.writeln(uf.same(k, u, v));\n      \
-    \      uf.copy_version(k);\n        }\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/unionfind_with_potential\"\
+    \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
+    #include \"../datastructure/weightedunionfind.cpp\"\n\nstruct PotentialGroup {\n\
+    \    struct T {\n        int v;\n\n        T(long long x = 0) {\n            x\
+    \ %= 998244353;\n            if (x < 0) x += 998244353;\n            v = (int)x;\n\
+    \        }\n\n        friend bool operator==(const T &lhs, const T &rhs) {\n \
+    \           return lhs.v == rhs.v;\n        }\n    };\n\n    static T op(T lhs,\
+    \ const T &rhs) {\n        lhs.v += rhs.v;\n        if (lhs.v >= 998244353) lhs.v\
+    \ -= 998244353;\n        return lhs;\n    }\n\n    static T inv(T x) {\n     \
+    \   if (x.v) x.v = 998244353 - x.v;\n        return x;\n    }\n\n    static T\
+    \ e() {\n        return T(0);\n    }\n};\n\nint main() {\n    Scanner sc;\n  \
+    \  Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    WeightedUnionFind<PotentialGroup>\
+    \ uf(n);\n    while (q--) {\n        int t, u, v;\n        sc.read(t, u, v);\n\
+    \        if (t == 0) {\n            int x;\n            sc.read(x);\n        \
+    \    PotentialGroup::T w(x);\n            if (uf.same(u, v)) {\n             \
+    \   pr.writeln(uf.diff(v, u) == w);\n            } else {\n                uf.unite(v,\
+    \ u, w);\n                pr.writeln(1);\n            }\n        } else {\n  \
+    \          if (!uf.same(u, v)) pr.writeln(-1);\n            else pr.writeln(uf.diff(v,\
+    \ u).v);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/persistent_unionfind.cpp
+  - datastructure/weightedunionfind.cpp
   isVerificationFile: true
-  path: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
+  path: test/yosupo_unionfind_with_potential.test.cpp
   requiredBy: []
-  timestamp: '2026-03-14 13:04:06+09:00'
+  timestamp: '2026-03-15 11:35:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
+documentation_of: test/yosupo_unionfind_with_potential.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
-- /verify/test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp.html
-title: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
+- /verify/test/yosupo_unionfind_with_potential.test.cpp
+- /verify/test/yosupo_unionfind_with_potential.test.cpp.html
+title: test/yosupo_unionfind_with_potential.test.cpp
 ---

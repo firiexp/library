@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

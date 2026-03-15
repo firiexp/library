@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/dynamic_bitset.cpp
     title: Dynamic Bitset
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

@@ -7,10 +7,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "\u91CD\u8EFD\u5206\u89E3"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []

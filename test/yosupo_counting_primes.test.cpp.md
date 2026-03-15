@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/counting_primes.cpp
     title: Counting Primes
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

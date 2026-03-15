@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0403.test.cpp
     title: test/aoj0403.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_manhattanmst.test.cpp
+    title: test/yosupo_manhattanmst.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -47,6 +50,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0403.test.cpp
+  - test/yosupo_manhattanmst.test.cpp
 documentation_of: graph/manhattanmst.cpp
 layout: document
 title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"

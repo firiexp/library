@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/minimum_cost_b_flow.cpp
     title: Minimum Cost B-Flow
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

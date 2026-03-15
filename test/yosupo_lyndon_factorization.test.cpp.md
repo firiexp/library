@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/lyndon_factorization.cpp
     title: "Lyndon\u5206\u89E3(Lyndon Factorization)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

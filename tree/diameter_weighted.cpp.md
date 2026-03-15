@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_5_a_diameter.test.cpp
     title: test/aoj_grl_5_a_diameter.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_tree_diameter.test.cpp
+    title: test/yosupo_tree_diameter.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -41,6 +44,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_5_a_diameter.test.cpp
+  - test/yosupo_tree_diameter.test.cpp
 documentation_of: tree/diameter_weighted.cpp
 layout: document
 title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"

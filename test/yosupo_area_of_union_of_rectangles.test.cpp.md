@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: geometry/area_of_union_of_rectangles.cpp
     title: Area of Union of Rectangles
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

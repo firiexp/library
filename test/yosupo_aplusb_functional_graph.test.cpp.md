@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/functional_graph.cpp
     title: "\u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

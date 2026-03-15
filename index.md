@@ -308,7 +308,7 @@ data:
     - icon: ':warning:'
       path: math/fastkitamasa.cpp
       title: math/fastkitamasa.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: math/fft.cpp
       title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
     - icon: ':heavy_check_mark:'
@@ -519,7 +519,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/fastio.cpp
       title: Fast IO
     - icon: ':heavy_check_mark:'
@@ -537,7 +537,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/mo.cpp
       title: Mo's algorithm
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
@@ -706,6 +706,9 @@ data:
       path: test/yosupo_bitwise_or_convolution.test.cpp
       title: test/yosupo_bitwise_or_convolution.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_bitwise_xor_convolution.test.cpp
+      title: test/yosupo_bitwise_xor_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_cartesian_tree.test.cpp
       title: test/yosupo_cartesian_tree.test.cpp
     - icon: ':heavy_check_mark:'
@@ -714,7 +717,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution.test.cpp
       title: test/yosupo_convolution.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
       title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     - icon: ':heavy_check_mark:'
@@ -807,6 +810,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_lyndon_factorization.test.cpp
       title: test/yosupo_lyndon_factorization.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_manhattanmst.test.cpp
+      title: test/yosupo_manhattanmst.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_many_aplusb.test.cpp
       title: test/yosupo_many_aplusb.test.cpp
@@ -967,6 +973,9 @@ data:
       path: test/yosupo_topological_sort.test.cpp
       title: test/yosupo_topological_sort.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_tree_diameter.test.cpp
+      title: test/yosupo_tree_diameter.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_two_edge_connected_components.test.cpp
       title: test/yosupo_two_edge_connected_components.test.cpp
     - icon: ':heavy_check_mark:'
@@ -978,6 +987,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind_quickfind.test.cpp
       title: test/yosupo_unionfind_quickfind.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_unionfind_with_potential.test.cpp
+      title: test/yosupo_unionfind_with_potential.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp

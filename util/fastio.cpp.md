@@ -95,12 +95,15 @@ data:
     path: test/yosupo_bitwise_or_convolution.test.cpp
     title: test/yosupo_bitwise_or_convolution.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_bitwise_xor_convolution.test.cpp
+    title: test/yosupo_bitwise_xor_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cartesian_tree.test.cpp
     title: test/yosupo_cartesian_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - icon: ':heavy_check_mark:'
@@ -178,6 +181,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_lyndon_factorization.test.cpp
     title: test/yosupo_lyndon_factorization.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_manhattanmst.test.cpp
+    title: test/yosupo_manhattanmst.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb.test.cpp
     title: test/yosupo_many_aplusb.test.cpp
@@ -308,6 +314,9 @@ data:
     path: test/yosupo_topological_sort.test.cpp
     title: test/yosupo_topological_sort.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_tree_diameter.test.cpp
+    title: test/yosupo_tree_diameter.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_two_edge_connected_components.test.cpp
     title: test/yosupo_two_edge_connected_components.test.cpp
   - icon: ':heavy_check_mark:'
@@ -316,6 +325,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind_quickfind.test.cpp
     title: test/yosupo_unionfind_quickfind.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_unionfind_with_potential.test.cpp
+    title: test/yosupo_unionfind_with_potential.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
@@ -346,9 +358,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki957_project_selection_problem.test.cpp
     title: test/yuki957_project_selection_problem.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     links: []
@@ -565,7 +577,7 @@ data:
   path: util/fastio.cpp
   requiredBy: []
   timestamp: '2026-03-14 13:04:06+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
@@ -595,6 +607,7 @@ data:
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_closest_pair.test.cpp
   - test/yosupo_frequency_table_of_tree_distance.test.cpp
+  - test/yosupo_unionfind_with_potential.test.cpp
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yuki957.test.cpp
   - test/yosupo_discrete_logarithm_mod.test.cpp
@@ -636,12 +649,14 @@ data:
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_aplusb_functional_graph.test.cpp
   - test/yosupo_inverse_matrix.test.cpp
+  - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/yuki2672_xor_basis.test.cpp
   - test/aoj_ntl_1_d_eulerphi.test.cpp
   - test/yosupo_cycle_detection_directed.test.cpp
   - test/yosupo_cycle_detection_undirected.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
+  - test/yosupo_manhattanmst.test.cpp
   - test/yosupo_counting_primes.test.cpp
   - test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
   - test/aoj_alds1_1_c_get_prime2.test.cpp
@@ -672,6 +687,7 @@ data:
   - test/aoj0452.test.cpp
   - test/yosupo_point_add_rectangle_sum.test.cpp
   - test/aoj_grl_1_b_bellman_ford.test.cpp
+  - test/yosupo_tree_diameter.test.cpp
   - test/aoj_dsl_1_b_weightedunionfind.test.cpp
   - test/yosupo_static_rectangle_sum.test.cpp
   - test/yosupo_enumerate_palindromes_manacher.test.cpp

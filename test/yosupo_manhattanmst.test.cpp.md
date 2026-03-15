@@ -2,8 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/binaryindexedtree.cpp
-    title: Binary Indexed Tree(BIT)
+    path: datastructure/unionfind.cpp
+    title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
+  - icon: ':heavy_check_mark:'
+    path: graph/manhattanmst.cpp
+    title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
@@ -14,11 +17,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
+    PROBLEM: https://judge.yosupo.jp/problem/manhattanmst
     links:
-    - http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
-  bundledCode: "#line 1 \"test/aoj_dsl_2_b.test.cpp\"\n#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B\"\
-    \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    - https://judge.yosupo.jp/problem/manhattanmst
+  bundledCode: "#line 1 \"test/yosupo_manhattanmst.test.cpp\"\n#define PROBLEM \"\
+    https://judge.yosupo.jp/problem/manhattanmst\"\n\n#include <algorithm>\n#include\
+    \ <cstdlib>\n#include <map>\n#include <numeric>\n#include <tuple>\n#include <vector>\n\
+    using namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing\
     \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
@@ -123,41 +128,71 @@ data:
     \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
     \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
     \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
-    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
-    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
-    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
-    \n    T sum(int k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k))\
-    \ ret += bit[k - 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n\
-    \        for (k++; k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T\
-    \ x) {\n        if (x <= 0) return 0;\n        int i = 0;\n        for (int j\
-    \ = m; j; j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i\
-    \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n */\n#line 13 \"test/aoj_dsl_2_b.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    BIT<int> s(n);\n    for (int i = 0; i < q; ++i) {\n        int c, x,\
-    \ y;\n        in.read(c, x, y);\n        x--;\n        if (c == 0) s.add(x, y);\n\
-    \        else out.writeln(s.sum(y) - s.sum(x));\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B\"\
-    \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
-    #include \"../datastructure/binaryindexedtree.cpp\"\n\nint main() {\n    Scanner\
-    \ in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    BIT<int> s(n);\n\
-    \    for (int i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x,\
-    \ y);\n        x--;\n        if (c == 0) s.add(x, y);\n        else out.writeln(s.sum(y)\
-    \ - s.sum(x));\n    }\n    return 0;\n}\n"
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/manhattanmst.cpp\"\
+    \ntemplate<typename T>\nvector<pair<int, int>> manhattanMST(vector<T> xs, vector<T>\
+    \ ys) {\n    using P = pair<int, int>;\n    vector<P> es;\n    vector<int> ord(xs.size());\n\
+    \    for (int s = 0; s < 4; s++) {\n        iota(ord.begin(), ord.end(), 0);\n\
+    \        auto cmp = [&](int i, int j) -> bool {\n            if (xs[i]+ys[i] !=\
+    \ xs[j]+ys[j]) return xs[i]+ys[i] < xs[j]+ys[j];\n            return (s>>1) ^\
+    \ (i > j);\n        };\n        sort(ord.begin(), ord.end(), cmp);\n        map<pair<T,\
+    \ int>, int> idx;\n        for (auto &&i : ord) {\n            pair<T, int> p\
+    \ = {-ys[i], (s == 3)?i:-i};\n            for (auto it = idx.lower_bound(p); it\
+    \ != idx.end(); it = idx.erase(it)) {\n                if (xs[i] - xs[it->second]\
+    \ < ys[i] - ys[it->second]) break;\n                es.emplace_back(i, it->second);\n\
+    \            }\n            idx[p] = i;\n        }\n        swap(xs, ys);\n  \
+    \      if(s&1) for(auto &&i : xs) i = -i;\n    }\n    return es;\n}\n\n/**\n *\
+    \ @brief \u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)\n */\n#line 1\
+    \ \"datastructure/unionfind.cpp\"\nclass UnionFind {\n    int n;\n    vector<int>\
+    \ uni;\n    int forest_size;\npublic:\n    explicit UnionFind(int n) : n(n), uni(static_cast<uint>(n),\
+    \ -1), forest_size(n) {};\n\n    int root(int a){\n        if (uni[a] < 0) return\
+    \ a;\n        else return (uni[a] = root(uni[a]));\n    }\n\n    bool unite(int\
+    \ a, int b) {\n        a = root(a);\n        b = root(b);\n        if(a == b)\
+    \ return false;\n        if(uni[a] > uni[b]) swap(a, b);\n        uni[a] += uni[b];\n\
+    \        uni[b] = a;\n        forest_size--;\n        return true;\n    }\n  \
+    \  int size(){ return forest_size; }\n    int size(int i){ return -uni[root(i)];\
+    \ }\n    bool same(int a, int b) { return root(a) == root(b); }\n};\n\n/**\n *\
+    \ @brief UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)\n */\n#line\
+    \ 21 \"test/yosupo_manhattanmst.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<ll> xs(n), ys(n);\n\
+    \    for (int i = 0; i < n; ++i) sc.read(xs[i], ys[i]);\n\n    auto cand = manhattanMST(xs,\
+    \ ys);\n    vector<tuple<ll, int, int>> edges;\n    edges.reserve(cand.size());\n\
+    \    for (auto [u, v] : cand) {\n        ll cost = llabs(xs[u] - xs[v]) + llabs(ys[u]\
+    \ - ys[v]);\n        edges.emplace_back(cost, u, v);\n    }\n    sort(edges.begin(),\
+    \ edges.end());\n\n    UnionFind uf(n);\n    vector<pair<int, int>> used;\n  \
+    \  ll total = 0;\n    for (auto [cost, u, v] : edges) {\n        if (!uf.unite(u,\
+    \ v)) continue;\n        total += cost;\n        used.emplace_back(u, v);\n  \
+    \  }\n\n    pr.writeln(total);\n    for (auto [u, v] : used) pr.writeln(u, v);\n\
+    \    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/manhattanmst\"\n\n#include\
+    \ <algorithm>\n#include <cstdlib>\n#include <map>\n#include <numeric>\n#include\
+    \ <tuple>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n\
+    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../graph/manhattanmst.cpp\"\n#include\
+    \ \"../datastructure/unionfind.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
+    \ pr;\n\n    int n;\n    sc.read(n);\n    vector<ll> xs(n), ys(n);\n    for (int\
+    \ i = 0; i < n; ++i) sc.read(xs[i], ys[i]);\n\n    auto cand = manhattanMST(xs,\
+    \ ys);\n    vector<tuple<ll, int, int>> edges;\n    edges.reserve(cand.size());\n\
+    \    for (auto [u, v] : cand) {\n        ll cost = llabs(xs[u] - xs[v]) + llabs(ys[u]\
+    \ - ys[v]);\n        edges.emplace_back(cost, u, v);\n    }\n    sort(edges.begin(),\
+    \ edges.end());\n\n    UnionFind uf(n);\n    vector<pair<int, int>> used;\n  \
+    \  ll total = 0;\n    for (auto [cost, u, v] : edges) {\n        if (!uf.unite(u,\
+    \ v)) continue;\n        total += cost;\n        used.emplace_back(u, v);\n  \
+    \  }\n\n    pr.writeln(total);\n    for (auto [u, v] : used) pr.writeln(u, v);\n\
+    \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/binaryindexedtree.cpp
+  - graph/manhattanmst.cpp
+  - datastructure/unionfind.cpp
   isVerificationFile: true
-  path: test/aoj_dsl_2_b.test.cpp
+  path: test/yosupo_manhattanmst.test.cpp
   requiredBy: []
-  timestamp: '2026-03-14 13:04:06+09:00'
+  timestamp: '2026-03-15 11:35:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_dsl_2_b.test.cpp
+documentation_of: test/yosupo_manhattanmst.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_dsl_2_b.test.cpp
-- /verify/test/aoj_dsl_2_b.test.cpp.html
-title: test/aoj_dsl_2_b.test.cpp
+- /verify/test/yosupo_manhattanmst.test.cpp
+- /verify/test/yosupo_manhattanmst.test.cpp.html
+title: test/yosupo_manhattanmst.test.cpp
 ---

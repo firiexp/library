@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/fenwick_tree_2d.cpp
     title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

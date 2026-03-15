@@ -14,43 +14,44 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A
+    PROBLEM: https://judge.yosupo.jp/problem/tree_diameter
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A
-  bundledCode: "#line 1 \"test/aoj_grl_5_a_diameter.test.cpp\"\n#define PROBLEM \"\
-    https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A\"\n\n#include <bits/stdc++.h>\n\
-    \nusing namespace std;\n\n#line 10 \"test/aoj_grl_5_a_diameter.test.cpp\"\n#include\
-    \ <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\
-    \n    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
-    \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
-    \                num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n\
-    \            }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr\
-    \ int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE\
-    \ + 1];\n    int idx, size;\n    bool interactive;\n\n    Scanner() : idx(0),\
-    \ size(0), interactive(isatty(fileno(stdin))) {}\n\n    inline void load() {\n\
-    \        int len = size - idx;\n        memmove(buf, buf + idx, len);\n      \
-    \  if (interactive) {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin))\
-    \ size = len + (int)strlen(buf + len);\n            else size = len;\n       \
-    \ } else {\n            size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n\
-    \        }\n        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void\
-    \ ensure() {\n        if (idx + OFFSET > size) load();\n    }\n\n    inline void\
-    \ ensure_interactive() {\n        if (idx == size) load();\n    }\n\n    inline\
-    \ char skip() {\n        if (interactive) {\n            ensure_interactive();\n\
-    \            while (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n \
-    \               ensure_interactive();\n            }\n            return buf[idx++];\n\
-    \        }\n        ensure();\n        while (buf[idx] && buf[idx] <= ' ') {\n\
-    \            ++idx;\n            ensure();\n        }\n        return buf[idx++];\n\
-    \    }\n\n    template<class T, typename enable_if<is_integral<T>::value, int>::type\
-    \ = 0>\n    void read(T &x) {\n        if (interactive) {\n            char c\
-    \ = skip();\n            bool neg = false;\n            if constexpr (is_signed<T>::value)\
-    \ {\n                if (c == '-') {\n                    neg = true;\n      \
-    \              ensure_interactive();\n                    c = buf[idx++];\n  \
-    \              }\n            }\n            x = 0;\n            while (c >= '0')\
-    \ {\n                x = x * 10 + (c & 15);\n                ensure_interactive();\n\
+    - https://judge.yosupo.jp/problem/tree_diameter
+  bundledCode: "#line 1 \"test/yosupo_tree_diameter.test.cpp\"\n#define PROBLEM \"\
+    https://judge.yosupo.jp/problem/tree_diameter\"\n\n#include <algorithm>\n#include\
+    \ <utility>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n\
+    \    int idx, size;\n    bool interactive;\n\n    Scanner() : idx(0), size(0),\
+    \ interactive(isatty(fileno(stdin))) {}\n\n    inline void load() {\n        int\
+    \ len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \    }\n        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure()\
+    \ {\n        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
+    \     if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            return buf[idx++];\n        }\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        if (interactive) {\n            char c = skip();\n          \
+    \  bool neg = false;\n            if constexpr (is_signed<T>::value) {\n     \
+    \           if (c == '-') {\n                    neg = true;\n               \
+    \     ensure_interactive();\n                    c = buf[idx++];\n           \
+    \     }\n            }\n            x = 0;\n            while (c >= '0') {\n \
+    \               x = x * 10 + (c & 15);\n                ensure_interactive();\n\
     \                c = buf[idx++];\n            }\n            if constexpr (is_signed<T>::value)\
     \ {\n                if (neg) x = -x;\n            }\n            return;\n  \
     \      }\n        char c = skip();\n        bool neg = false;\n        if constexpr\
@@ -133,34 +134,48 @@ data:
     \            f(to, v, f);\n        }\n    };\n\n    dist[0] = T();\n    dfs(0,\
     \ -1, dfs);\n    int s = far;\n    dist[s] = T();\n    dfs(s, -1, dfs);\n    return\
     \ {dist[far], {s, far}};\n}\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(\u91CD\u307F\
-    \u4ED8\u304D)\n */\n#line 14 \"test/aoj_grl_5_a_diameter.test.cpp\"\n\nint main()\
+    \u4ED8\u304D)\n */\n#line 17 \"test/yosupo_tree_diameter.test.cpp\"\n\nint main()\
     \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int,\
-    \ long long>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int s, t,\
-    \ w;\n        sc.read(s, t, w);\n        g[s].push_back({t, w});\n        g[t].push_back({s,\
-    \ w});\n    }\n\n    pr.writeln(tree_diameter_weighted(g).first);\n    return\
-    \ 0;\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A\"\n\n\
-    #include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../tree/diameter_weighted.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int, long\
-    \ long>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int s, t, w;\n\
-    \        sc.read(s, t, w);\n        g[s].push_back({t, w});\n        g[t].push_back({s,\
-    \ w});\n    }\n\n    pr.writeln(tree_diameter_weighted(g).first);\n    return\
-    \ 0;\n}\n"
+    \ ll>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int a, b;\n    \
+    \    ll c;\n        sc.read(a, b, c);\n        g[a].push_back({b, c});\n     \
+    \   g[b].push_back({a, c});\n    }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n\
+    \    int s = ends.first;\n    int t = ends.second;\n\n    vector<int> parent(n,\
+    \ -1);\n    vector<int> st = {s};\n    parent[s] = s;\n    while (!st.empty())\
+    \ {\n        int v = st.back();\n        st.pop_back();\n        if (v == t) break;\n\
+    \        for (auto [to, _] : g[v]) {\n            if (parent[to] != -1) continue;\n\
+    \            parent[to] = v;\n            st.push_back(to);\n        }\n    }\n\
+    \n    vector<int> path;\n    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n\
+    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.writeln(dist,\
+    \ (int)path.size());\n    pr.writeln(path);\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/tree_diameter\"\n\n#include\
+    \ <algorithm>\n#include <utility>\n#include <vector>\nusing namespace std;\n\n\
+    using ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../tree/diameter_weighted.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    vector<vector<pair<int, ll>>> g(n);\n    for (int i = 0; i < n - 1; ++i)\
+    \ {\n        int a, b;\n        ll c;\n        sc.read(a, b, c);\n        g[a].push_back({b,\
+    \ c});\n        g[b].push_back({a, c});\n    }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n\
+    \    int s = ends.first;\n    int t = ends.second;\n\n    vector<int> parent(n,\
+    \ -1);\n    vector<int> st = {s};\n    parent[s] = s;\n    while (!st.empty())\
+    \ {\n        int v = st.back();\n        st.pop_back();\n        if (v == t) break;\n\
+    \        for (auto [to, _] : g[v]) {\n            if (parent[to] != -1) continue;\n\
+    \            parent[to] = v;\n            st.push_back(to);\n        }\n    }\n\
+    \n    vector<int> path;\n    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n\
+    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.writeln(dist,\
+    \ (int)path.size());\n    pr.writeln(path);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/diameter_weighted.cpp
   isVerificationFile: true
-  path: test/aoj_grl_5_a_diameter.test.cpp
+  path: test/yosupo_tree_diameter.test.cpp
   requiredBy: []
-  timestamp: '2026-03-14 13:04:06+09:00'
+  timestamp: '2026-03-15 11:35:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_grl_5_a_diameter.test.cpp
+documentation_of: test/yosupo_tree_diameter.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_grl_5_a_diameter.test.cpp
-- /verify/test/aoj_grl_5_a_diameter.test.cpp.html
-title: test/aoj_grl_5_a_diameter.test.cpp
+- /verify/test/yosupo_tree_diameter.test.cpp
+- /verify/test/yosupo_tree_diameter.test.cpp.html
+title: test/yosupo_tree_diameter.test.cpp
 ---

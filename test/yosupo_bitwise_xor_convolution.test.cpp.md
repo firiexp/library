@@ -2,17 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/unionfind.cpp
-    title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
-  - icon: ':heavy_check_mark:'
-    path: graph/bridge_tree.cpp
-    title: "\u6A4B\u6728(Bridge Tree)"
-  - icon: ':heavy_check_mark:'
-    path: graph/twoedgeconnectedcomponents.cpp
-    title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3"
+    path: math/fwht.cpp
+    title: FWHT
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
+  - icon: ':heavy_check_mark:'
+    path: util/modint.cpp
+    title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -20,11 +17,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0377
+    PROBLEM: https://judge.yosupo.jp/problem/bitwise_xor_convolution
     links:
-    - http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0377
-  bundledCode: "#line 1 \"test/aoj0377.test.cpp\"\n#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0377\"\
-    \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
+    - https://judge.yosupo.jp/problem/bitwise_xor_convolution
+  bundledCode: "#line 1 \"test/yosupo_bitwise_xor_convolution.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/bitwise_xor_convolution\"\n\n#include\
+    \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
+    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
     #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
     \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
@@ -129,98 +128,82 @@ data:
     \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
     \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
     \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
-    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/bridge_tree.cpp\"\
-    \nusing namespace std;\n\n#line 1 \"graph/twoedgeconnectedcomponents.cpp\"\nclass\
-    \ TwoEdgeConnectedComponents {\n    void dfs(int i, int &pos){\n        ord[i]\
-    \ = low[i] = pos++;\n        int mul = 0;\n        for (auto &&j : G[i]) {\n \
-    \           if(j == par[i] && !mul){\n                mul = 1;\n             \
-    \   continue;\n            }\n            if(~ord[j]){\n                low[i]\
-    \ = min(low[i], ord[j]);\n                continue;\n            }\n         \
-    \   par[j] = i;\n            dfs(j, pos);\n            size[i] += size[j];\n \
-    \           low[i] = min(low[i], low[j]);\n        }\n    }\n\n    void dfs2(int\
-    \ i){\n        out[bridge[i]].emplace_back(i);\n        for (auto &&j : G[i])\
-    \ {\n            if(~bridge[j] || is_bridge(i, j)) continue;\n            bridge[j]\
-    \ = bridge[i];\n            dfs2(j);\n        }\n    }\npublic:\n    vector<int>\
-    \ ord, low, par, bridge, size;\n    vector<vector<int>> G, out;\n    explicit\
-    \ TwoEdgeConnectedComponents(int n): ord(n, -1), low(n), par(n, -1), bridge(n,\
-    \ -1), size(n, 1), G(n){}\n\n    inline bool is_bridge(int i, int j){\n      \
-    \  if(ord[i] > ord[j]) swap(i, j);\n        return ord[i] < low[j];\n    }\n\n\
-    \    void add_edge(int u, int v){\n        if(u != v){\n            G[u].emplace_back(v);\n\
-    \            G[v].emplace_back(u);\n        }\n    }\n\n    int build(){\n   \
-    \     int n = G.size(), pos = 0;\n        for (int i = 0; i < n; ++i) {\n    \
-    \        if(ord[i] < 0) dfs(i, pos);\n        }\n        int k = 0;\n        for\
-    \ (int i = 0; i < n; ++i) {\n            if(!~bridge[i]){\n                bridge[i]\
-    \ = k++;\n                out.emplace_back();\n                dfs2(i);\n    \
-    \        }\n        }\n        return k;\n    }\n};\n\n/**\n * @brief \u4E8C\u8FBA\
-    \u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected Components)\n */\n#line\
-    \ 4 \"graph/bridge_tree.cpp\"\n\nstruct BridgeTree {\n    int n, component_count;\n\
-    \    TwoEdgeConnectedComponents tecc;\n    vector<vector<int>> tree, nodes;\n\
-    \    vector<pair<int, int>> edges;\n    vector<int> id;\n\n    explicit BridgeTree(int\
-    \ n) : n(n), component_count(0), tecc(n), id(n, -1) {}\n\n    void add_edge(int\
-    \ u, int v) {\n        tecc.add_edge(u, v);\n    }\n\n    int build() {\n    \
-    \    component_count = tecc.build();\n        id = tecc.bridge;\n        nodes\
-    \ = tecc.out;\n        tree.assign(component_count, {});\n        edges.clear();\n\
-    \        for (int i = 0; i < n; ++i) {\n            for (auto &&j : tecc.G[i])\
-    \ {\n                if (i < j && tecc.is_bridge(i, j)) {\n                  \
-    \  int u = id[i], v = id[j];\n                    tree[u].push_back(v);\n    \
-    \                tree[v].push_back(u);\n                    edges.emplace_back(u,\
-    \ v);\n                }\n            }\n        }\n        return component_count;\n\
-    \    }\n};\n\n/**\n * @brief \u6A4B\u6728(Bridge Tree)\n */\n#line 1 \"datastructure/unionfind.cpp\"\
-    \nclass UnionFind {\n    int n;\n    vector<int> uni;\n    int forest_size;\n\
-    public:\n    explicit UnionFind(int n) : n(n), uni(static_cast<uint>(n), -1),\
-    \ forest_size(n) {};\n\n    int root(int a){\n        if (uni[a] < 0) return a;\n\
-    \        else return (uni[a] = root(uni[a]));\n    }\n\n    bool unite(int a,\
-    \ int b) {\n        a = root(a);\n        b = root(b);\n        if(a == b) return\
-    \ false;\n        if(uni[a] > uni[b]) swap(a, b);\n        uni[a] += uni[b];\n\
-    \        uni[b] = a;\n        forest_size--;\n        return true;\n    }\n  \
-    \  int size(){ return forest_size; }\n    int size(int i){ return -uni[root(i)];\
-    \ }\n    bool same(int a, int b) { return root(a) == root(b); }\n};\n\n/**\n *\
-    \ @brief UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)\n */\n#line\
-    \ 15 \"test/aoj0377.test.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\
-    \n    int n, m;\n    sc.read(n, m);\n    BridgeTree g(n);\n    for (int i = 0;\
-    \ i < m; ++i) {\n        int a, b;\n        sc.read(a, b);\n        g.add_edge(a,\
-    \ b);\n    }\n    int k = g.build();\n    vector<int> v(k);\n    UnionFind uf(k);\n\
-    \    for (int i = 0; i < k; ++i) v[i] = g.nodes[i].size();\n    for (auto &&e\
-    \ : g.edges) {\n        uf.unite(e.first, e.second);\n    }\n    int ans = 0;\n\
-    \    vector<int> dp1(v), dp2(k);\n    auto dfs = [&](int x, int par, auto &&f)\
-    \ -> void{\n        for (auto &&y : g.tree[x]) {\n            if(y == par) continue;\n\
-    \            f(y, x, f);\n            dp2[x] += max(dp1[y], dp2[y]);\n       \
-    \     dp1[x] += dp2[y];\n        }\n    };\n    for (int i = 0; i < k; ++i) {\n\
-    \        if(uf.root(i) == i) {\n            dfs(i, -1, dfs);\n            ans\
-    \ += max(dp1[i], dp2[i]);\n        }\n    }\n    pr.writeln(ans);\n    return\
-    \ 0;\n}\n"
-  code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0377\"\
-    \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include \"../util/fastio.cpp\"\n#include \"../graph/bridge_tree.cpp\"\n#include\
-    \ \"../datastructure/unionfind.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n, m;\n    sc.read(n, m);\n    BridgeTree g(n);\n    for (int\
-    \ i = 0; i < m; ++i) {\n        int a, b;\n        sc.read(a, b);\n        g.add_edge(a,\
-    \ b);\n    }\n    int k = g.build();\n    vector<int> v(k);\n    UnionFind uf(k);\n\
-    \    for (int i = 0; i < k; ++i) v[i] = g.nodes[i].size();\n    for (auto &&e\
-    \ : g.edges) {\n        uf.unite(e.first, e.second);\n    }\n    int ans = 0;\n\
-    \    vector<int> dp1(v), dp2(k);\n    auto dfs = [&](int x, int par, auto &&f)\
-    \ -> void{\n        for (auto &&y : g.tree[x]) {\n            if(y == par) continue;\n\
-    \            f(y, x, f);\n            dp2[x] += max(dp1[y], dp2[y]);\n       \
-    \     dp1[x] += dp2[y];\n        }\n    };\n    for (int i = 0; i < k; ++i) {\n\
-    \        if(uf.root(i) == i) {\n            dfs(i, -1, dfs);\n            ans\
-    \ += max(dp1[i], dp2[i]);\n        }\n    }\n    pr.writeln(ans);\n    return\
+    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint.cpp\"\n\n\
+    \n\ntemplate <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod()\
+    \ { return Mod; }\n    static constexpr uint M() { return Mod; }\n    modint()\
+    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod));\
+    \ if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val = ((unsigned\
+    \ int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n    const uint\
+    \ &value() const noexcept { return val; }\n    modint& operator++() { val++; if\
+    \ (val == Mod) val = 0; return *this; }\n    modint& operator--() { if (val ==\
+    \ 0) val = Mod; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n    modint& operator-=(const\
+    \ modint& b) { val -= b.val; if (val >= Mod) val += Mod; return *this; }\n   \
+    \ modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z\
+    \ % Mod); return *this; }\n    modint& operator/=(const modint& b) { return *this\
+    \ = *this * b.inv(); }\n    modint operator+() const { return *this; }\n    modint\
+    \ operator-() const { return modint() - *this; }\n    modint pow(long long n)\
+    \ const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>=\
+    \ 1; } return r; }\n    modint inv() const { return pow(Mod - 2); }\n    friend\
+    \ modint operator+(const modint& a, const modint& b) { return modint(a) += b;\
+    \ }\n    friend modint operator-(const modint& a, const modint& b) { return modint(a)\
+    \ -= b; }\n    friend modint operator*(const modint& a, const modint& b) { return\
+    \ modint(a) *= b; }\n    friend modint operator/(const modint& a, const modint&\
+    \ b) { return modint(a) /= b; }\n    friend bool operator==(const modint& a, const\
+    \ modint& b) { return a.val == b.val; }\n    friend bool operator!=(const modint&\
+    \ a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
+    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
+    MOD)\n */\n\n\n#line 1 \"math/fwht.cpp\"\ntemplate<class T>\nvoid fwht(vector<T>\
+    \ &v){\n    int sz = 1;\n    while(sz < v.size()) sz <<= 1;\n    v.resize(sz);\n\
+    \    for (int i = 1; i < sz; i <<= 1) {\n        for (int j = 0; j < sz; j +=\
+    \ (i<<1)) {\n            for (int k = 0; k < i; ++k) {\n                T x =\
+    \ v[j+k], y = v[j+k+i];\n                v[j+k] = (x+y), v[j+k+i] = (x-y);\n \
+    \           }\n        }\n    }\n}\n\ntemplate<class T>\nvoid ifwht(vector<T>\
+    \ &v){\n    int sz = 1;\n    while(sz < v.size()) sz <<= 1;\n    v.resize(sz);\n\
+    \    for (int i = 1; i < sz; i <<= 1) {\n        for (int j = 0; j < sz; j +=\
+    \ (i<<1)) {\n            for (int k = 0; k < i; ++k) {\n                T x =\
+    \ v[j+k], y = v[j+k+i];\n                v[j+k] = (x+y)>>1, v[j+k+i] = (x-y)>>1;\n\
+    \            }\n        }\n    }\n}\n\n/**\n * @brief \u9AD8\u901FWalsh-Hadamard\u5909\
+    \u63DB(FWHT)\n */\n#line 19 \"test/yosupo_bitwise_xor_convolution.test.cpp\"\n\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    int sz = 1 << n;\n    vector<mint> a(sz), b(sz), c(sz);\n    for (int i =\
+    \ 0; i < sz; ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n\
+    \    }\n    for (int i = 0; i < sz; ++i) {\n        int x;\n        sc.read(x);\n\
+    \        b[i] = x;\n    }\n    fwht(a);\n    fwht(b);\n    for (int i = 0; i <\
+    \ sz; ++i) c[i] = a[i] * b[i];\n    fwht(c);\n    mint inv_sz = mint(1) / mint(sz);\n\
+    \    for (int i = 0; i < sz; ++i) {\n        if (i) pr.write(' ');\n        pr.write((c[i]\
+    \ * inv_sz).val);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_xor_convolution\"\
+    \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
+    using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\n#include \"\
+    ../math/fwht.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
+    \ n;\n    sc.read(n);\n    int sz = 1 << n;\n    vector<mint> a(sz), b(sz), c(sz);\n\
+    \    for (int i = 0; i < sz; ++i) {\n        int x;\n        sc.read(x);\n   \
+    \     a[i] = x;\n    }\n    for (int i = 0; i < sz; ++i) {\n        int x;\n \
+    \       sc.read(x);\n        b[i] = x;\n    }\n    fwht(a);\n    fwht(b);\n  \
+    \  for (int i = 0; i < sz; ++i) c[i] = a[i] * b[i];\n    fwht(c);\n    mint inv_sz\
+    \ = mint(1) / mint(sz);\n    for (int i = 0; i < sz; ++i) {\n        if (i) pr.write('\
+    \ ');\n        pr.write((c[i] * inv_sz).val);\n    }\n    pr.writeln();\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - graph/bridge_tree.cpp
-  - graph/twoedgeconnectedcomponents.cpp
-  - datastructure/unionfind.cpp
+  - util/modint.cpp
+  - math/fwht.cpp
   isVerificationFile: true
-  path: test/aoj0377.test.cpp
+  path: test/yosupo_bitwise_xor_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-03-14 13:04:06+09:00'
+  timestamp: '2026-03-15 11:35:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj0377.test.cpp
+documentation_of: test/yosupo_bitwise_xor_convolution.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj0377.test.cpp
-- /verify/test/aoj0377.test.cpp.html
-title: test/aoj0377.test.cpp
+- /verify/test/yosupo_bitwise_xor_convolution.test.cpp
+- /verify/test/yosupo_bitwise_xor_convolution.test.cpp.html
+title: test/yosupo_bitwise_xor_convolution.test.cpp
 ---

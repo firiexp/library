@@ -2,7 +2,7 @@
 category: "\u6728"
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
   _extendedRequiredBy: []
@@ -62,7 +62,7 @@ data:
   isVerificationFile: false
   path: tree/frequency_table_of_tree_distance.cpp
   requiredBy: []
-  timestamp: '2026-03-15 01:50:20+09:00'
+  timestamp: '2026-03-15 11:18:22+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_frequency_table_of_tree_distance.test.cpp

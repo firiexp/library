@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/dijkstra_radix_heap.cpp
     title: "Dijkstra\u6CD5(Radix Heap)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []

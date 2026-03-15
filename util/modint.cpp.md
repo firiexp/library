@@ -6,7 +6,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/factorial.cpp
     title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
   - icon: ':heavy_check_mark:'
@@ -37,7 +37,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_or_convolution.test.cpp
     title: test/yosupo_bitwise_or_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_bitwise_xor_convolution.test.cpp
+    title: test/yosupo_bitwise_xor_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - icon: ':heavy_check_mark:'
@@ -91,9 +94,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "modint(\u56FA\u5B9AMOD)"
     links: []
@@ -165,7 +168,7 @@ data:
   - math/factorial.cpp
   - math/powk_all.cpp
   timestamp: '2026-03-14 20:56:35+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
@@ -184,6 +187,7 @@ data:
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_inverse_matrix.test.cpp
+  - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/aoj_dpl_5_a.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp

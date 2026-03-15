@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/weightedunionfind.cpp
     title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
@@ -124,44 +124,51 @@ data:
     \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
     \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
     \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/weightedunionfind.cpp\"\
-    \ntemplate <class T>\nclass WeightedUnionFind {\n    vector<int> uni;\n    vector<T>\
-    \ weights;\n\npublic:\n    explicit WeightedUnionFind(int n, T sum_unity = 0)\
-    \ : uni(n, -1), weights(n, sum_unity) {}\n\n    int root(int a) {\n        if\
+    \ntemplate <class G>\nclass WeightedUnionFind {\n    using T = typename G::T;\n\
+    \    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
+    \ n) : uni(n, -1), weights(n, G::e()) {}\n\n    int root(int a) {\n        if\
     \ (uni[a] < 0) return a;\n        int p = uni[a];\n        int r = root(p);\n\
-    \        weights[a] += weights[p];\n        return uni[a] = r;\n    }\n\n    T\
-    \ weight(int a) {\n        root(a);\n        return weights[a];\n    }\n\n   \
-    \ bool same(int a, int b) {\n        return root(a) == root(b);\n    }\n\n   \
-    \ bool unite(int a, int b, T w) {\n        w += weight(a);\n        w -= weight(b);\n\
-    \        a = root(a);\n        b = root(b);\n        if (a == b) return false;\n\
-    \        if (uni[a] > uni[b]) {\n            swap(a, b);\n            w = -w;\n\
-    \        }\n        uni[a] += uni[b];\n        uni[b] = a;\n        weights[b]\
-    \ = w;\n        return true;\n    }\n\n    int size(int a) {\n        return -uni[root(a)];\n\
-    \    }\n\n    T diff(int x, int y) {\n        return weight(y) - weight(x);\n\
-    \    }\n};\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union\
-    \ Find)\n */\n#line 14 \"test/aoj_dsl_1_b_weightedunionfind.test.cpp\"\n\nint\
-    \ main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
-    \ q);\n    WeightedUnionFind<long long> uf(n);\n    while (q--) {\n        int\
-    \ t, x, y;\n        long long z;\n        sc.read(t, x, y);\n        if (t ==\
-    \ 0) {\n            sc.read(z);\n            uf.unite(x, y, z);\n        } else\
-    \ {\n            if (!uf.same(x, y)) pr.writeln('?');\n            else pr.writeln(uf.diff(x,\
+    \        weights[a] = G::op(weights[a], weights[p]);\n        return uni[a] =\
+    \ r;\n    }\n\n    T weight(int a) {\n        root(a);\n        return weights[a];\n\
+    \    }\n\n    bool same(int a, int b) {\n        return root(a) == root(b);\n\
+    \    }\n\n    bool unite(int a, int b, T w) {\n        w = G::op(weight(a), G::op(w,\
+    \ G::inv(weight(b))));\n        a = root(a);\n        b = root(b);\n        if\
+    \ (a == b) return false;\n        if (uni[a] > uni[b]) {\n            swap(a,\
+    \ b);\n            w = G::inv(w);\n        }\n        uni[a] += uni[b];\n    \
+    \    uni[b] = a;\n        weights[b] = w;\n        return true;\n    }\n\n   \
+    \ int size(int a) {\n        return -uni[root(a)];\n    }\n\n    T diff(int x,\
+    \ int y) {\n        return G::op(G::inv(weight(x)), weight(y));\n    }\n};\n\n\
+    /*\nstruct Group {\n    using T = long long;\n    static T op(T a, T b) { return\
+    \ a + b; }\n    static T inv(T a) { return -a; }\n    static T e() { return 0;\
+    \ }\n};\n*/\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union\
+    \ Find)\n */\n#line 14 \"test/aoj_dsl_1_b_weightedunionfind.test.cpp\"\n\nstruct\
+    \ Group {\n    using T = long long;\n    static T op(T a, T b) { return a + b;\
+    \ }\n    static T inv(T a) { return -a; }\n    static T e() { return 0; }\n};\n\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
+    \ q);\n    WeightedUnionFind<Group> uf(n);\n    while (q--) {\n        int t,\
+    \ x, y;\n        long long z;\n        sc.read(t, x, y);\n        if (t == 0)\
+    \ {\n            sc.read(z);\n            uf.unite(x, y, z);\n        } else {\n\
+    \            if (!uf.same(x, y)) pr.writeln('?');\n            else pr.writeln(uf.diff(x,\
     \ y));\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_1_B\"\n\n\
     #include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../datastructure/weightedunionfind.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    WeightedUnionFind<long\
-    \ long> uf(n);\n    while (q--) {\n        int t, x, y;\n        long long z;\n\
-    \        sc.read(t, x, y);\n        if (t == 0) {\n            sc.read(z);\n \
-    \           uf.unite(x, y, z);\n        } else {\n            if (!uf.same(x,\
-    \ y)) pr.writeln('?');\n            else pr.writeln(uf.diff(x, y));\n        }\n\
-    \    }\n    return 0;\n}\n"
+    \n#include \"../datastructure/weightedunionfind.cpp\"\n\nstruct Group {\n    using\
+    \ T = long long;\n    static T op(T a, T b) { return a + b; }\n    static T inv(T\
+    \ a) { return -a; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    WeightedUnionFind<Group>\
+    \ uf(n);\n    while (q--) {\n        int t, x, y;\n        long long z;\n    \
+    \    sc.read(t, x, y);\n        if (t == 0) {\n            sc.read(z);\n     \
+    \       uf.unite(x, y, z);\n        } else {\n            if (!uf.same(x, y))\
+    \ pr.writeln('?');\n            else pr.writeln(uf.diff(x, y));\n        }\n \
+    \   }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/weightedunionfind.cpp
   isVerificationFile: true
   path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-14 13:04:06+09:00'
+  timestamp: '2026-03-15 11:35:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_1_b_weightedunionfind.test.cpp

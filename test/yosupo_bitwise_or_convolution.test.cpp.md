@@ -4,10 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/or_convolution.cpp
     title: Bitwise OR Convolution
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []

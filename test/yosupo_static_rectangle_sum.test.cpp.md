@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/static_rectangle_sum.cpp
     title: Static Rectangle Sum
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
