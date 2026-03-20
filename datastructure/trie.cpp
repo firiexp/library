@@ -45,3 +45,7 @@ struct Trie {
 
     vector<int> idxs(int cur) { return cur < 0 ? vector<int>() : v[cur].idxs; }
 };
+
+/**
+ * @brief Trie 木
+ */

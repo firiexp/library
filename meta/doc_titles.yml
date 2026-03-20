@@ -18,6 +18,7 @@ datastructure/persistent_segtree.cpp: "永続セグメント木(Persistent Segme
 datastructure/persistent_unionfind.cpp: "完全永続UnionFind(Fully Persistent Union Find)"
 datastructure/point_add_rectangle_sum.cpp: "点加算長方形和(Point Add Rectangle Sum)"
 datastructure/quickfind.cpp: "Quick Find"
+datastructure/trie.cpp: "Trie 木"
 datastructure/rectangle_add_point_get.cpp: "長方形加算点取得(Rectangle Add Point Get)"
 datastructure/segbeats.cpp: "Segment Tree Beats"
 datastructure/segtree.cpp: "セグメント木(Segment Tree)"
