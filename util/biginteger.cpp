@@ -17,16 +17,24 @@ struct BigInteger {
     static constexpr u32 DEC_CONV_BASE = 1000000u;
     static constexpr int DEC_CONV_DIGITS = 6;
     static constexpr int HEX_BLOCK_DIGITS = 8;
+    static constexpr int DEC_ASSIGN_LINEAR_BLOCK_THRESHOLD = 256;
+    static constexpr int DEC_TO_STRING_LINEAR_LIMB_THRESHOLD = 256;
 
-    vector<u32> d;
+    mutable vector<u32> d;
     int sign;
+    mutable string dec;
+    mutable bool binary_ready;
+    mutable bool decimal_ready;
 
-    BigInteger() : d(), sign(0) {}
+    BigInteger() : d(), sign(0), dec(), binary_ready(true), decimal_ready(false) {}
     BigInteger(long long x) { *this = x; }
     BigInteger(const string &s, int base = 10) { assign(s, base); }
 
     BigInteger &operator=(long long x) {
         d.clear();
+        dec.clear();
+        decimal_ready = false;
+        binary_ready = true;
         if (x == 0) {
             sign = 0;
             return *this;
@@ -53,10 +61,124 @@ struct BigInteger {
         return x < 10 ? char('0' + x) : char('a' + (x - 10));
     }
 
+    void invalidate_decimal() {
+        dec.clear();
+        decimal_ready = false;
+    }
+
+    static int compare_abs_decimal(const string &a, const string &b) {
+        if (a.size() != b.size()) return a.size() < b.size() ? -1 : 1;
+        if (a == b) return 0;
+        return a < b ? -1 : 1;
+    }
+
+    static string add_abs_decimal(const string &a, const string &b) {
+        string res(max(a.size(), b.size()) + 1, '0');
+        int i = (int)a.size() - 1;
+        int j = (int)b.size() - 1;
+        int k = (int)res.size() - 1;
+        int carry = 0;
+        while (i >= 0 || j >= 0 || carry) {
+            int x = carry;
+            if (i >= 0) x += a[i--] - '0';
+            if (j >= 0) x += b[j--] - '0';
+            res[k--] = char('0' + (x % 10));
+            carry = x / 10;
+        }
+        while (i >= 0) res[k--] = a[i--];
+        while (j >= 0) res[k--] = b[j--];
+        return res.substr(k + 1);
+    }
+
+    static string sub_abs_decimal(const string &a, const string &b) {
+        string res(a.size(), '0');
+        int i = (int)a.size() - 1;
+        int j = (int)b.size() - 1;
+        int borrow = 0;
+        for (int k = (int)res.size() - 1; k >= 0; --k, --i, --j) {
+            int x = (a[i] - '0') - borrow - (j >= 0 ? b[j] - '0' : 0);
+            if (x < 0) {
+                x += 10;
+                borrow = 1;
+            } else {
+                borrow = 0;
+            }
+            res[k] = char('0' + x);
+        }
+        int p = 0;
+        while (p + 1 < (int)res.size() && res[p] == '0') ++p;
+        return res.substr(p);
+    }
+
+    static vector<u32> split_decimal_blocks(const string &s) {
+        vector<u32> blocks;
+        if (s.empty()) return blocks;
+        int block_count = ((int)s.size() + DEC_BLOCK_DIGITS - 1) / DEC_BLOCK_DIGITS;
+        blocks.reserve(block_count);
+        int first = (int)s.size() % DEC_BLOCK_DIGITS;
+        if (first == 0) first = DEC_BLOCK_DIGITS;
+        for (int i = 0; i < (int)s.size(); ) {
+            int width = blocks.empty() ? first : DEC_BLOCK_DIGITS;
+            int r = min((int)s.size(), i + width);
+            u32 x = 0;
+            for (int j = i; j < r; ++j) x = x * 10 + u32(s[j] - '0');
+            blocks.push_back(x);
+            i = r;
+        }
+        return blocks;
+    }
+
+    template <class T>
+    static void ensure_pow_cache_size(vector<T> &cache, vector<char> &ready, int n) {
+        if ((int)cache.size() > n) return;
+        cache.resize(n + 1);
+        ready.resize(n + 1, 0);
+    }
+
+    static string build_decimal_string(const vector<u32> &parts, int block_digits, bool negative) {
+        string res;
+        res.reserve((negative ? 1 : 0) + decimal_digits_u32(parts.back()) +
+                    max(0, (int)parts.size() - 1) * block_digits);
+        if (negative) res.push_back('-');
+        append_u32_decimal(res, parts.back());
+        for (int i = (int)parts.size() - 2; i >= 0; --i) {
+            append_u32_decimal_padded(res, parts[i], block_digits);
+        }
+        return res;
+    }
+
+    void ensure_binary() const {
+        if (binary_ready) return;
+        d.clear();
+        if (sign == 0) {
+            binary_ready = true;
+            return;
+        }
+        vector<u32> blocks = split_decimal_blocks(dec);
+        int block_count = (int)blocks.size();
+        if (block_count <= DEC_ASSIGN_LINEAR_BLOCK_THRESHOLD) {
+            BigInteger tmp;
+            tmp.sign = 1;
+            tmp.d.clear();
+            tmp.binary_ready = true;
+            tmp.decimal_ready = false;
+            for (u32 x : blocks) {
+                tmp.mul_small_assign(DEC_BLOCK);
+                tmp.add_small_assign(x);
+            }
+            d = std::move(tmp.d);
+        } else {
+            BigInteger tmp = from_decimal_blocks(blocks, 0, (int)blocks.size());
+            d = std::move(tmp.d);
+        }
+        binary_ready = true;
+    }
+
     bool is_zero() const { return sign == 0; }
 
     int bit_length() const {
         if (is_zero()) return 0;
+        ensure_binary();
         return 32 * ((int)d.size() - 1) + 32 - __builtin_clz(d.back());
     }
 
@@ -78,10 +200,7 @@ struct BigInteger {
     static const BigInteger &decimal_pow_blocks(int blocks) {
         auto &cache = decimal_pow_cache();
         auto &ready = decimal_pow_ready();
-        if ((int)cache.size() <= blocks) {
-            cache.resize(blocks + 1);
-            ready.resize(blocks + 1, 0);
-        }
+        ensure_pow_cache_size(cache, ready, blocks);
         if (ready[blocks]) return cache[blocks];
         int left = blocks >> 1;
         int right = blocks - left;
@@ -180,10 +299,7 @@ struct BigInteger {
     static const vector<u32> &binary_pow_decimal(int limbs) {
         auto &cache = binary_pow_decimal_cache();
         auto &ready = binary_pow_decimal_ready();
-        if ((int)cache.size() <= limbs) {
-            cache.resize(limbs + 1);
-            ready.resize(limbs + 1, 0);
-        }
+        ensure_pow_cache_size(cache, ready, limbs);
         if (ready[limbs]) return cache[limbs];
         int left = limbs >> 1;
         int right = limbs - left;
@@ -215,12 +331,47 @@ struct BigInteger {
         return add_decimal_vectors(std::move(low), shifted);
     }
 
+    static int decimal_digits_u32(u32 x) {
+        if (x >= 1000000000u) return 10;
+        if (x >= 100000000u) return 9;
+        if (x >= 10000000u) return 8;
+        if (x >= 1000000u) return 7;
+        if (x >= 100000u) return 6;
+        if (x >= 10000u) return 5;
+        if (x >= 1000u) return 4;
+        if (x >= 100u) return 3;
+        if (x >= 10u) return 2;
+        return 1;
+    }
+
+    static void append_u32_decimal(string &res, u32 x) {
+        char buf[10];
+        int pos = 10;
+        do {
+            buf[--pos] = char('0' + (x % 10));
+            x /= 10;
+        } while (x);
+        res.append(buf + pos, buf + 10);
+    }
+
+    static void append_u32_decimal_padded(string &res, u32 x, int width) {
+        char buf[10];
+        for (int i = width - 1; i >= 0; --i) {
+            buf[i] = char('0' + (x % 10));
+            x /= 10;
+        }
+        res.append(buf, buf + width);
+    }
+
     void trim() {
         while (!d.empty() && d.back() == 0) d.pop_back();
         if (d.empty()) sign = 0;
     }
 
     int compare_abs(const BigInteger &other) const {
+        if (decimal_ready && other.decimal_ready) return compare_abs_decimal(dec, other.dec);
+        ensure_binary();
+        other.ensure_binary();
         if (d.size() != other.d.size()) return d.size() < other.d.size() ? -1 : 1;
         for (int i = (int)d.size() - 1; i >= 0; --i) {
             if (d[i] != other.d[i]) return d[i] < other.d[i] ? -1 : 1;
@@ -236,6 +387,9 @@ struct BigInteger {
     }
 
     void add_abs(const BigInteger &other) {
+        ensure_binary();
+        other.ensure_binary();
+        invalidate_decimal();
         if (other.is_zero()) return;
         if (d.size() < other.d.size()) d.resize(other.d.size(), 0);
         u64 carry = 0;
@@ -254,6 +408,9 @@ struct BigInteger {
     }
 
     void sub_abs(const BigInteger &other) {
+        ensure_binary();
+        other.ensure_binary();
+        invalidate_decimal();
         // assume |*this| >= |other|
         u64 borrow = 0;
         for (size_t i = 0; i < other.d.size(); ++i) {
@@ -281,6 +438,8 @@ struct BigInteger {
     }
 
     void mul_small_assign(u32 m) {
+        ensure_binary();
+        invalidate_decimal();
         if (is_zero() || m == 1) return;
         if (m == 0) {
             d.clear();
@@ -297,6 +456,8 @@ struct BigInteger {
     }
 
     void add_small_assign(u32 a) {
+        ensure_binary();
+        invalidate_decimal();
         if (a == 0) return;
         if (is_zero()) {
             sign = 1;
@@ -313,6 +474,8 @@ struct BigInteger {
     }
 
     u32 div_small_assign(u32 m) {
+        ensure_binary();
+        invalidate_decimal();
         u64 rem = 0;
         for (int i = (int)d.size() - 1; i >= 0; --i) {
             u64 cur = (rem << 32) | d[i];
@@ -324,6 +487,8 @@ struct BigInteger {
     }
 
     void shift_left_bits_assign(int bits) {
+        ensure_binary();
+        invalidate_decimal();
         if (bits < 0) {
             shift_right_bits_assign(-bits);
             return;
@@ -343,6 +508,8 @@ struct BigInteger {
     }
 
     void shift_right_bits_assign(int bits) {
+        ensure_binary();
+        invalidate_decimal();
         if (bits < 0) {
             shift_left_bits_assign(-bits);
             return;
@@ -370,6 +537,8 @@ struct BigInteger {
     }
 
     static BigInteger mul_schoolbook(const BigInteger &a, const BigInteger &b) {
+        a.ensure_binary();
+        b.ensure_binary();
         BigInteger res;
         if (a.is_zero() || b.is_zero()) return res;
         res.sign = 1;
@@ -394,6 +563,8 @@ struct BigInteger {
     }
 
     static BigInteger mul_convolution(const BigInteger &a, const BigInteger &b) {
+        a.ensure_binary();
+        b.ensure_binary();
         BigInteger res;
         if (a.is_zero() || b.is_zero()) return res;
         vector<u32> x;
@@ -438,6 +609,8 @@ struct BigInteger {
     }
 
     static BigInteger multiply(const BigInteger &a, const BigInteger &b) {
+        a.ensure_binary();
+        b.ensure_binary();
         if (a.is_zero() || b.is_zero()) return BigInteger();
         BigInteger res;
         size_t n = a.d.size(), m = b.d.size();
@@ -475,6 +648,8 @@ struct BigInteger {
     }
 
     static BigInteger divmod_abs(const BigInteger &u0, const BigInteger &v0, BigInteger &rem) {
+        u0.ensure_binary();
+        v0.ensure_binary();
         if (v0.is_zero()) {
             rem = BigInteger();
             return BigInteger();
@@ -570,12 +745,16 @@ struct BigInteger {
     }
 
     static pair<BigInteger, BigInteger> divmod_abs(const BigInteger &u, const BigInteger &v) {
+        u.ensure_binary();
+        v.ensure_binary();
         BigInteger r;
         BigInteger q = divmod_abs(u, v, r);
         return {q, r};
     }
 
     static pair<BigInteger, BigInteger> divmod(const BigInteger &a, const BigInteger &b) {
+        a.ensure_binary();
+        b.ensure_binary();
         if (b.is_zero()) return {BigInteger(), BigInteger()};
         if (a.is_zero()) return {BigInteger(), BigInteger()};
         BigInteger aa = a;
@@ -605,6 +784,9 @@ struct BigInteger {
 
     void assign(const string &s, int base = 10) {
         d.clear();
+        dec.clear();
+        binary_ready = true;
+        decimal_ready = false;
         sign = 0;
         int p = 0;
         bool neg = false;
@@ -614,17 +796,22 @@ struct BigInteger {
         }
         while (p < (int)s.size() && s[p] == '0') ++p;
         if (p == (int)s.size()) return;
+        int q = p;
+        while (q < (int)s.size()) {
+            int v = digit_value(s[q]);
+            if (v < 0 || v >= base) {
+                d.clear();
+                sign = 0;
+                return;
+            }
+            ++q;
+        }
         if (base == 16) {
             for (int i = (int)s.size(); i > p; ) {
                 int l = max(p, i - HEX_BLOCK_DIGITS);
                 u32 x = 0;
                 for (int j = l; j < i; ++j) {
                     int v = digit_value(s[j]);
-                    if (v < 0 || v >= 16) {
-                        d.clear();
-                        sign = 0;
-                        return;
-                    }
                     x = (x << 4) | u32(v);
                 }
                 d.push_back(x);
@@ -636,37 +823,15 @@ struct BigInteger {
             return;
         }
         if (base == 10) {
-            vector<u32> blocks;
-            blocks.reserve(((int)s.size() - p + DEC_BLOCK_DIGITS - 1) / DEC_BLOCK_DIGITS);
-            int i = p;
-            int first = ((int)s.size() - p) % DEC_BLOCK_DIGITS;
-            if (first == 0) first = DEC_BLOCK_DIGITS;
-            while (i < (int)s.size()) {
-                int r = min((int)s.size(), i + (blocks.empty() ? first : DEC_BLOCK_DIGITS));
-                u32 x = 0;
-                for (int j = i; j < r; ++j) {
-                    char c = s[j];
-                    if (c < '0' || c > '9') {
-                        d.clear();
-                        sign = 0;
-                        return;
-                    }
-                    x = x * 10 + u32(c - '0');
-                }
-                blocks.push_back(x);
-                i = r;
-            }
-            *this = from_decimal_blocks(blocks, 0, (int)blocks.size());
+            dec.assign(s.begin() + p, s.end());
+            binary_ready = false;
+            decimal_ready = true;
+            sign = 1;
             if (neg && !is_zero()) sign = -1;
             return;
         }
         for (; p < (int)s.size(); ++p) {
             int v = digit_value(s[p]);
-            if (v < 0 || v >= base) {
-                d.clear();
-                sign = 0;
-                return;
-            }
             mul_small_assign((u32)base);
             add_small_assign((u32)v);
         }
@@ -678,7 +843,9 @@ struct BigInteger {
     string to_string(int base = 10) const {
         if (is_zero()) return "0";
         if (base == 16) {
+            ensure_binary();
             string res;
+            res.reserve((sign < 0 ? 1 : 0) + (int)d.size() * HEX_BLOCK_DIGITS);
             if (sign < 0) res.push_back('-');
             int i = (int)d.size() - 1;
             auto append_hex32 = [&](u32 x, bool leading) {
@@ -696,20 +863,26 @@ struct BigInteger {
             for (--i; i >= 0; --i) append_hex32(d[i], false);
             return res;
         }
-        vector<u32> parts = limbs_to_decimal(d, 0, (int)d.size());
-        string res;
-        if (sign < 0) res.push_back('-');
-        res += std::to_string(parts.back());
-        char buf[DEC_CONV_DIGITS];
-        for (int i = (int)parts.size() - 2; i >= 0; --i) {
-            u32 x = parts[i];
-            for (int j = DEC_CONV_DIGITS - 1; j >= 0; --j) {
-                buf[j] = char('0' + (x % 10));
-                x /= 10;
-            }
-            res.append(buf, buf + DEC_CONV_DIGITS);
+        if (decimal_ready) {
+            string res;
+            res.reserve((sign < 0 ? 1 : 0) + dec.size());
+            if (sign < 0) res.push_back('-');
+            res += dec;
+            return res;
         }
-        return res;
+        if ((int)d.size() <= DEC_TO_STRING_LINEAR_LIMB_THRESHOLD) {
+            BigInteger tmp;
+            tmp.sign = 1;
+            tmp.d = d;
+            tmp.binary_ready = true;
+            tmp.decimal_ready = false;
+            vector<u32> parts;
+            parts.reserve((bit_length() + 28) / 29);
+            while (!tmp.is_zero()) parts.push_back(tmp.div_small_assign(DEC_BLOCK));
+            return build_decimal_string(parts, DEC_BLOCK_DIGITS, sign < 0);
+        }
+        vector<u32> parts = limbs_to_decimal(d, 0, (int)d.size());
+        return build_decimal_string(parts, DEC_CONV_DIGITS, sign < 0);
     }
 
     BigInteger operator+() const { return *this; }
@@ -725,6 +898,38 @@ struct BigInteger {
             BigInteger tmp = rhs;
             return *this += tmp;
         }
+        if (decimal_ready && rhs.decimal_ready) {
+            if (is_zero()) {
+                *this = rhs;
+                return *this;
+            }
+            if (sign == rhs.sign) {
+                dec = add_abs_decimal(dec, rhs.dec);
+            } else {
+                int c = compare_abs_decimal(dec, rhs.dec);
+                if (c == 0) {
+                    dec.clear();
+                    decimal_ready = false;
+                    sign = 0;
+                    binary_ready = true;
+                    d.clear();
+                    return *this;
+                }
+                if (c > 0) {
+                    dec = sub_abs_decimal(dec, rhs.dec);
+                } else {
+                    dec = sub_abs_decimal(rhs.dec, dec);
+                    sign = rhs.sign;
+                }
+            }
+            d.clear();
+            binary_ready = false;
+            decimal_ready = true;
+            return *this;
+        }
+        ensure_binary();
+        rhs.ensure_binary();
+        invalidate_decimal();
         if (is_zero()) {
             *this = rhs;
             return *this;
@@ -750,33 +955,15 @@ struct BigInteger {
 
     BigInteger &operator-=(const BigInteger &rhs) {
         if (rhs.is_zero()) return *this;
-        if (is_zero()) {
-            *this = rhs;
-            if (!is_zero()) sign = -sign;
-            return *this;
-        }
-        if (sign != rhs.sign) {
-            int s = sign;
-            add_abs(rhs);
-            sign = s;
-            return *this;
-        }
-        int c = compare_abs(rhs);
-        if (c == 0) {
-            d.clear();
-            sign = 0;
-        } else if (c > 0) {
-            sub_abs(rhs);
-        } else {
-            BigInteger tmp = rhs;
-            tmp.sub_abs(*this);
-            tmp.sign = -sign;
-            *this = tmp;
-        }
-        return *this;
+        BigInteger tmp = rhs;
+        tmp.sign = -tmp.sign;
+        return *this += tmp;
     }
 
     BigInteger &operator*=(const BigInteger &rhs) {
+        ensure_binary();
+        rhs.ensure_binary();
+        invalidate_decimal();
         if (is_zero() || rhs.is_zero()) {
             d.clear();
             sign = 0;
@@ -789,16 +976,24 @@ struct BigInteger {
     }
 
     BigInteger &operator/=(const BigInteger &rhs) {
+        ensure_binary();
+        rhs.ensure_binary();
+        invalidate_decimal();
         *this = divmod(*this, rhs).first;
         return *this;
     }
 
     BigInteger &operator%=(const BigInteger &rhs) {
+        ensure_binary();
+        rhs.ensure_binary();
+        invalidate_decimal();
         *this = divmod(*this, rhs).second;
         return *this;
     }
 
     BigInteger &operator<<=(int bits) {
+        ensure_binary();
+        invalidate_decimal();
         if (bits < 0) return *this >>= -bits;
         if (is_zero()) return *this;
         shift_left_bits_assign(bits);
@@ -806,6 +1001,8 @@ struct BigInteger {
     }
 
     BigInteger &operator>>=(int bits) {
+        ensure_binary();
+        invalidate_decimal();
         if (bits < 0) return *this <<= -bits;
         if (is_zero() || bits == 0) return *this;
         if (sign > 0) {
