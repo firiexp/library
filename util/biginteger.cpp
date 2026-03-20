@@ -383,6 +383,20 @@ struct BigInteger {
         return blocks;
     }
 
+    static vector<u32> split_decimal_blocks_le(const string &s, int block_digits) {
+        vector<u32> blocks;
+        if (s.empty()) return blocks;
+        int block_count = ((int)s.size() + block_digits - 1) / block_digits;
+        blocks.reserve(block_count);
+        for (int r = (int)s.size(); r > 0; r -= block_digits) {
+            int l = max(0, r - block_digits);
+            u32 x = 0;
+            for (int i = l; i < r; ++i) x = x * 10 + u32(s[i] - '0');
+            blocks.push_back(x);
+        }
+        return blocks;
+    }
+
     template <class T>
     static void ensure_pow_cache_size(vector<T> &cache, vector<char> &ready, int n) {
         if ((int)cache.size() > n) return;
@@ -864,6 +878,19 @@ struct BigInteger {
     }
 
     static BigInteger multiply(const BigInteger &a, const BigInteger &b) {
+        if (a.decimal_ready && b.decimal_ready) {
+            if (a.is_zero() || b.is_zero()) return BigInteger();
+            vector<u32> x = split_decimal_blocks_le(a.dec, DEC_CONV_DIGITS);
+            vector<u32> y = split_decimal_blocks_le(b.dec, DEC_CONV_DIGITS);
+            vector<u32> parts = mul_decimal_vectors(x, y);
+            BigInteger res;
+            if (parts.empty()) return res;
+            res.sign = a.sign * b.sign;
+            res.dec = build_decimal_string(parts, DEC_CONV_DIGITS, false);
+            res.binary_ready = false;
+            res.decimal_ready = true;
+            return res;
+        }
         a.ensure_binary();
         b.ensure_binary();
         if (a.is_zero() || b.is_zero()) return BigInteger();
@@ -1449,11 +1476,11 @@ struct BigInteger {
     }
 
     BigInteger &operator*=(const BigInteger &rhs) {
-        ensure_binary();
-        rhs.ensure_binary();
-        invalidate_decimal();
         if (is_zero() || rhs.is_zero()) {
             d.clear();
+            dec.clear();
+            binary_ready = true;
+            decimal_ready = false;
             sign = 0;
             return *this;
         }
