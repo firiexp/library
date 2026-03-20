@@ -1,9 +1,260 @@
 #ifndef FIRIEXP_LIBRARY_UTIL_BIGINTEGER_CPP
 #define FIRIEXP_LIBRARY_UTIL_BIGINTEGER_CPP
 
-#define FIRIEXP_LIBRARY_FFT_EXACT_ONLY
-#include "../math/fft.cpp"
-#undef FIRIEXP_LIBRARY_FFT_EXACT_ONLY
+namespace BigIntegerExactConvolution {
+    using u32 = unsigned int;
+    using u64 = unsigned long long;
+
+    constexpr int NAIVE_THRESHOLD = 128;
+
+    template <u32 MOD, u32 PRIMITIVE_ROOT>
+    struct ModInt {
+        u32 val;
+        ModInt() : val(0) {}
+        template <class T>
+        ModInt(T v) {
+            long long x = (long long)(v % (long long)MOD);
+            if (x < 0) x += MOD;
+            val = (u32)x;
+        }
+        static ModInt raw(u32 v) {
+            ModInt x;
+            x.val = v;
+            return x;
+        }
+        ModInt &operator+=(const ModInt &rhs) {
+            val += rhs.val;
+            if (val >= MOD) val -= MOD;
+            return *this;
+        }
+        ModInt &operator-=(const ModInt &rhs) {
+            val -= rhs.val;
+            if (val >= MOD) val += MOD;
+            return *this;
+        }
+        ModInt &operator*=(const ModInt &rhs) {
+            val = (u32)((u64)val * rhs.val % MOD);
+            return *this;
+        }
+        ModInt pow(long long n) const {
+            ModInt x = *this, r = 1;
+            while (n) {
+                if (n & 1) r *= x;
+                x *= x;
+                n >>= 1;
+            }
+            return r;
+        }
+        ModInt inv() const { return pow(MOD - 2); }
+        friend ModInt operator+(ModInt lhs, const ModInt &rhs) { return lhs += rhs; }
+        friend ModInt operator-(ModInt lhs, const ModInt &rhs) { return lhs -= rhs; }
+        friend ModInt operator*(ModInt lhs, const ModInt &rhs) { return lhs *= rhs; }
+    };
+
+    template <u32 MOD, u32 PRIMITIVE_ROOT>
+    struct NTT {
+        using mint = ModInt<MOD, PRIMITIVE_ROOT>;
+        mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30], inv_pow2[30];
+        int max_base;
+
+        NTT() : max_base(__builtin_ctz(MOD - 1)) {
+            mint e = mint(PRIMITIVE_ROOT).pow((MOD - 1) >> max_base), ie = e.inv();
+            for (int i = max_base; i >= 0; --i) {
+                root[i] = e;
+                iroot[i] = ie;
+                e *= e;
+                ie *= ie;
+            }
+            mint prod = 1, iprod = 1;
+            for (int i = 0; i <= max_base - 2; ++i) {
+                rate2[i] = root[i + 2] * prod;
+                irate2[i] = iroot[i + 2] * iprod;
+                prod *= iroot[i + 2];
+                iprod *= root[i + 2];
+            }
+            prod = 1;
+            iprod = 1;
+            for (int i = 0; i <= max_base - 3; ++i) {
+                rate3[i] = root[i + 3] * prod;
+                irate3[i] = iroot[i + 3] * iprod;
+                prod *= iroot[i + 3];
+                iprod *= root[i + 3];
+            }
+            inv_pow2[0] = 1;
+            mint inv2 = mint(2).inv();
+            for (int i = 1; i < 30; ++i) inv_pow2[i] = inv_pow2[i - 1] * inv2;
+        }
+
+        mint inv_size(int n) const {
+            return inv_pow2[__builtin_ctz((unsigned int)n)];
+        }
+
+        void transform(vector<mint> &a, bool invert) const {
+            int n = (int)a.size();
+            assert(n > 0);
+            assert((n & (n - 1)) == 0);
+            assert(__builtin_ctz((unsigned int)n) <= max_base);
+            int h = __builtin_ctz((unsigned int)n);
+            if (!invert) {
+                int len = 0;
+                while (len < h) {
+                    if (h - len == 1) {
+                        int p = 1 << (h - len - 1);
+                        mint rot = 1;
+                        for (int s = 0; s < (1 << len); ++s) {
+                            int offset = s << (h - len);
+                            for (int i = 0; i < p; ++i) {
+                                mint l = a[i + offset];
+                                mint r = a[i + offset + p] * rot;
+                                a[i + offset] = l + r;
+                                a[i + offset + p] = l - r;
+                            }
+                            if (s + 1 != (1 << len)) {
+                                rot *= rate2[__builtin_ctz(~(unsigned int)s)];
+                            }
+                        }
+                        ++len;
+                    } else {
+                        int p = 1 << (h - len - 2);
+                        mint rot = 1, imag = root[2];
+                        u64 mod2 = (u64)MOD * MOD;
+                        for (int s = 0; s < (1 << len); ++s) {
+                            mint rot2 = rot * rot;
+                            mint rot3 = rot2 * rot;
+                            int offset = s << (h - len);
+                            for (int i = 0; i < p; ++i) {
+                                u64 a0 = a[i + offset].val;
+                                u64 a1 = (u64)a[i + offset + p].val * rot.val;
+                                u64 a2 = (u64)a[i + offset + 2 * p].val * rot2.val;
+                                u64 a3 = (u64)a[i + offset + 3 * p].val * rot3.val;
+                                u64 a1na3imag = (u64)mint(a1 + mod2 - a3).val * imag.val;
+                                u64 na2 = mod2 - a2;
+                                a[i + offset] = mint(a0 + a2 + a1 + a3);
+                                a[i + offset + p] = mint(a0 + a2 + (2 * mod2 - (a1 + a3)));
+                                a[i + offset + 2 * p] = mint(a0 + na2 + a1na3imag);
+                                a[i + offset + 3 * p] = mint(a0 + na2 + (mod2 - a1na3imag));
+                            }
+                            if (s + 1 != (1 << len)) {
+                                rot *= rate3[__builtin_ctz(~(unsigned int)s)];
+                            }
+                        }
+                        len += 2;
+                    }
+                }
+            } else {
+                int len = h;
+                while (len) {
+                    if (len == 1) {
+                        int p = 1 << (h - len);
+                        mint irot = 1;
+                        for (int s = 0; s < (1 << (len - 1)); ++s) {
+                            int offset = s << (h - len + 1);
+                            for (int i = 0; i < p; ++i) {
+                                mint l = a[i + offset];
+                                mint r = a[i + offset + p];
+                                a[i + offset] = l + r;
+                                a[i + offset + p] = mint((u64)(MOD + l.val - r.val) * irot.val);
+                            }
+                            if (s + 1 != (1 << (len - 1))) {
+                                irot *= irate2[__builtin_ctz(~(unsigned int)s)];
+                            }
+                        }
+                        --len;
+                    } else {
+                        int p = 1 << (h - len);
+                        mint irot = 1, iimag = iroot[2];
+                        for (int s = 0; s < (1 << (len - 2)); ++s) {
+                            mint irot2 = irot * irot;
+                            mint irot3 = irot2 * irot;
+                            int offset = s << (h - len + 2);
+                            for (int i = 0; i < p; ++i) {
+                                u64 a0 = a[i + offset].val;
+                                u64 a1 = a[i + offset + p].val;
+                                u64 a2 = a[i + offset + 2 * p].val;
+                                u64 a3 = a[i + offset + 3 * p].val;
+                                u64 a2na3iimag = (u64)mint((u64)(MOD + a2 - a3) * iimag.val).val;
+                                a[i + offset] = mint(a0 + a1 + a2 + a3);
+                                a[i + offset + p] = mint(a0 + (MOD - a1) + a2na3iimag) * irot;
+                                a[i + offset + 2 * p] = mint(a0 + a1 + (MOD - a2) + (MOD - a3)) * irot2;
+                                a[i + offset + 3 * p] = mint(a0 + (MOD - a1) + (MOD - a2na3iimag)) * irot3;
+                            }
+                            if (s + 1 != (1 << (len - 2))) {
+                                irot *= irate3[__builtin_ctz(~(unsigned int)s)];
+                            }
+                        }
+                        len -= 2;
+                    }
+                }
+            }
+        }
+    };
+
+    using NTT1 = NTT<998244353u, 3u>;
+    using NTT2 = NTT<1004535809u, 3u>;
+
+    inline const NTT1 &ntt1() {
+        static const NTT1 value;
+        return value;
+    }
+
+    inline const NTT2 &ntt2() {
+        static const NTT2 value;
+        return value;
+    }
+
+    inline u64 combine_u64(u32 x1, u32 x2) {
+        static constexpr u64 m1 = 998244353ULL;
+        static constexpr u64 m2 = 1004535809ULL;
+        static const u64 m1_inv_m2 = ModInt<1004535809u, 3u>(m1).inv().val;
+        u64 t = (x2 + m2 - (x1 % m2)) % m2;
+        u64 k = t * m1_inv_m2 % m2;
+        return x1 + m1 * k;
+    }
+
+    inline vector<u64> convolution_u64(const vector<u32> &a, const vector<u32> &b) {
+        if (a.empty() || b.empty()) return {};
+        if ((int)min(a.size(), b.size()) <= NAIVE_THRESHOLD) {
+            vector<u64> res(a.size() + b.size() - 1, 0);
+            for (size_t i = 0; i < a.size(); ++i) {
+                for (size_t j = 0; j < b.size(); ++j) {
+                    res[i + j] += (u64)a[i] * b[j];
+                }
+            }
+            return res;
+        }
+        int need = (int)a.size() + (int)b.size() - 1;
+        int n = 1;
+        while (n < need) n <<= 1;
+
+        vector<typename NTT1::mint> a1(n), b1(n);
+        vector<typename NTT2::mint> a2(n), b2(n);
+        for (int i = 0; i < (int)a.size(); ++i) {
+            a1[i] = a[i];
+            a2[i] = a[i];
+        }
+        for (int i = 0; i < (int)b.size(); ++i) {
+            b1[i] = b[i];
+            b2[i] = b[i];
+        }
+        ntt1().transform(a1, false);
+        ntt1().transform(b1, false);
+        ntt2().transform(a2, false);
+        ntt2().transform(b2, false);
+        for (int i = 0; i < n; ++i) {
+            a1[i] *= b1[i];
+            a2[i] *= b2[i];
+        }
+        ntt1().transform(a1, true);
+        ntt2().transform(a2, true);
+        typename NTT1::mint inv1 = ntt1().inv_size(n);
+        typename NTT2::mint inv2 = ntt2().inv_size(n);
+        vector<u64> res(need);
+        for (int i = 0; i < need; ++i) {
+            res[i] = combine_u64((a1[i] * inv1).val, (a2[i] * inv2).val);
+        }
+        return res;
+    }
+}
 
 struct BigInteger {
     using u32 = unsigned int;
@@ -19,6 +270,10 @@ struct BigInteger {
     static constexpr int HEX_BLOCK_DIGITS = 8;
     static constexpr int DEC_ASSIGN_LINEAR_BLOCK_THRESHOLD = 256;
     static constexpr int DEC_TO_STRING_LINEAR_LIMB_THRESHOLD = 256;
+    static constexpr int MUL_SCHOOLBOOK_LIMB_THRESHOLD = 32;
+    static constexpr int MUL_SCHOOLBOOK_AREA_THRESHOLD = 2048;
+    static constexpr int BURNIKEL_ZIEGLER_THRESHOLD = 80;
+    static constexpr int BURNIKEL_ZIEGLER_OFFSET = 40;
 
     mutable vector<u32> d;
     int sign;
@@ -250,7 +505,7 @@ struct BigInteger {
             while (!res.empty() && res.back() == 0) res.pop_back();
             return res;
         }
-        auto conv = ArbitraryConvolution::convolution_u64(a, b);
+        auto conv = BigIntegerExactConvolution::convolution_u64(a, b);
         vector<u32> res;
         res.reserve(conv.size() + 3);
         u64 carry = 0;
@@ -582,7 +837,7 @@ struct BigInteger {
         while (!x.empty() && x.back() == 0) x.pop_back();
         while (!y.empty() && y.back() == 0) y.pop_back();
         if (x.empty() || y.empty()) return res;
-        auto conv = ArbitraryConvolution::convolution_u64(x, y);
+        auto conv = BigIntegerExactConvolution::convolution_u64(x, y);
         vector<u32> digits;
         digits.reserve(conv.size() + 2);
         u64 carry = 0;
@@ -614,7 +869,9 @@ struct BigInteger {
         if (a.is_zero() || b.is_zero()) return BigInteger();
         BigInteger res;
         size_t n = a.d.size(), m = b.d.size();
-        if (min(n, m) <= 64 || n * m <= 4096) res = mul_schoolbook(a, b);
+        if (min(n, m) <= MUL_SCHOOLBOOK_LIMB_THRESHOLD || n * m <= MUL_SCHOOLBOOK_AREA_THRESHOLD) {
+            res = mul_schoolbook(a, b);
+        }
         else res = mul_convolution(a, b);
         res.sign = a.sign * b.sign;
         if (res.is_zero()) res.sign = 0;
@@ -647,7 +904,117 @@ struct BigInteger {
         while (!src.empty() && src.back() == 0) src.pop_back();
     }
 
-    static BigInteger divmod_abs(const BigInteger &u0, const BigInteger &v0, BigInteger &rem) {
+    static BigInteger from_limbs(vector<u32> limbs) {
+        BigInteger res;
+        res.d = std::move(limbs);
+        while (!res.d.empty() && res.d.back() == 0) res.d.pop_back();
+        res.sign = res.d.empty() ? 0 : 1;
+        res.binary_ready = true;
+        res.decimal_ready = false;
+        return res;
+    }
+
+    static BigInteger lower_limbs(const BigInteger &x, int limbs) {
+        x.ensure_binary();
+        if (limbs <= 0 || x.d.empty()) return BigInteger();
+        int len = min((int)x.d.size(), limbs);
+        return from_limbs(vector<u32>(x.d.begin(), x.d.begin() + len));
+    }
+
+    static BigInteger upper_limbs(const BigInteger &x, int limbs) {
+        x.ensure_binary();
+        if (limbs <= 0) return x;
+        if (limbs >= (int)x.d.size()) return BigInteger();
+        return from_limbs(vector<u32>(x.d.begin() + limbs, x.d.end()));
+    }
+
+    static BigInteger shift_left_limbs(const BigInteger &x, int limbs) {
+        x.ensure_binary();
+        if (x.is_zero() || limbs <= 0) return x;
+        vector<u32> res;
+        res.reserve((size_t)limbs + x.d.size());
+        res.insert(res.end(), (size_t)limbs, 0);
+        res.insert(res.end(), x.d.begin(), x.d.end());
+        return from_limbs(std::move(res));
+    }
+
+    static BigInteger ones_limbs(int limbs) {
+        if (limbs <= 0) return BigInteger();
+        return from_limbs(vector<u32>((size_t)limbs, BASE_MASK));
+    }
+
+    static BigInteger get_block(const BigInteger &x, int index, int num_blocks, int block_length) {
+        x.ensure_binary();
+        int block_start = index * block_length;
+        if (block_start >= (int)x.d.size()) return BigInteger();
+        int block_end = index == num_blocks - 1 ? (int)x.d.size() : (index + 1) * block_length;
+        if (block_end > (int)x.d.size()) return BigInteger();
+        return from_limbs(vector<u32>(x.d.begin() + block_start, x.d.begin() + block_end));
+    }
+
+    static void add_shifted_abs(BigInteger &dst, const BigInteger &src, int limb_shift) {
+        dst.ensure_binary();
+        src.ensure_binary();
+        dst.invalidate_decimal();
+        if (src.is_zero()) return;
+        size_t need = src.d.size() + (size_t)limb_shift;
+        if (dst.d.size() < need) dst.d.resize(need, 0);
+        u64 carry = 0;
+        size_t i = 0;
+        for (; i < src.d.size(); ++i) {
+            u64 cur = u64(dst.d[i + limb_shift]) + src.d[i] + carry;
+            dst.d[i + limb_shift] = u32(cur);
+            carry = cur >> 32;
+        }
+        size_t pos = i + limb_shift;
+        while (carry) {
+            if (pos == dst.d.size()) dst.d.push_back(0);
+            u64 cur = u64(dst.d[pos]) + carry;
+            dst.d[pos] = u32(cur);
+            carry = cur >> 32;
+            ++pos;
+        }
+        dst.sign = 1;
+    }
+
+    static void add_disjoint_abs(BigInteger &dst, const BigInteger &src, int limb_shift) {
+        dst.ensure_binary();
+        src.ensure_binary();
+        dst.invalidate_decimal();
+        if (src.is_zero()) return;
+        size_t need = max(dst.d.size(), src.d.size() + (size_t)limb_shift);
+        if (dst.d.size() < need) dst.d.resize(need, 0);
+        for (size_t i = 0; i < src.d.size(); ++i) dst.d[i + limb_shift] = src.d[i];
+        dst.trim();
+        if (!dst.is_zero()) dst.sign = 1;
+    }
+
+    static void sub_one_abs(BigInteger &x) {
+        x.ensure_binary();
+        x.invalidate_decimal();
+        for (size_t i = 0; i < x.d.size(); ++i) {
+            if (x.d[i] != 0) {
+                --x.d[i];
+                break;
+            }
+            x.d[i] = BASE_MASK;
+        }
+        x.trim();
+    }
+
+    static int compare_shifted_abs(const BigInteger &a, const BigInteger &b, int limb_shift) {
+        a.ensure_binary();
+        b.ensure_binary();
+        int as = (int)a.d.size() - limb_shift;
+        int bs = (int)b.d.size();
+        if (as != bs) return as < bs ? -1 : 1;
+        for (int i = as - 1; i >= 0; --i) {
+            if (a.d[i + limb_shift] != b.d[i]) return a.d[i + limb_shift] < b.d[i] ? -1 : 1;
+        }
+        return 0;
+    }
+
+    static BigInteger divmod_knuth_abs(const BigInteger &u0, const BigInteger &v0, BigInteger &rem) {
         u0.ensure_binary();
         v0.ensure_binary();
         if (v0.is_zero()) {
@@ -742,6 +1109,127 @@ struct BigInteger {
         if (shift) shift_right_limbs_assign(rem.d, shift);
         rem.trim();
         return q;
+    }
+
+    static BigInteger divide3n2n_abs(const BigInteger &a, const BigInteger &b, BigInteger &quotient) {
+        int n = (int)b.d.size() / 2;
+        BigInteger a12 = upper_limbs(a, n);
+        BigInteger b1 = upper_limbs(b, n);
+        BigInteger b2 = lower_limbs(b, n);
+        BigInteger r, d;
+        if (compare_shifted_abs(a, b, n) < 0) {
+            r = divide2n1n_abs(a12, b1, quotient);
+            d = multiply(quotient, b2);
+            d.sign = d.is_zero() ? 0 : 1;
+        } else {
+            quotient = ones_limbs(n);
+            a12.add_abs(b1);
+            a12.sub_abs(shift_left_limbs(b1, n));
+            r = a12;
+            d = shift_left_limbs(b2, n);
+            if (!b2.is_zero()) d.sub_abs(b2);
+        }
+        r = shift_left_limbs(r, n);
+        r.add_abs(lower_limbs(a, n));
+        while (r.compare_abs(d) < 0) {
+            r.add_abs(b);
+            sub_one_abs(quotient);
+        }
+        r.sub_abs(d);
+        return r;
+    }
+
+    static BigInteger divide2n1n_abs(const BigInteger &a, const BigInteger &b, BigInteger &quotient) {
+        int n = (int)b.d.size();
+        if ((n & 1) || n < BURNIKEL_ZIEGLER_THRESHOLD) {
+            BigInteger rem;
+            quotient = divmod_knuth_abs(a, b, rem);
+            return rem;
+        }
+        int half = n / 2;
+        BigInteger a_upper = upper_limbs(a, half);
+        BigInteger a_lower = lower_limbs(a, half);
+        BigInteger q1;
+        BigInteger r1 = divide3n2n_abs(a_upper, b, q1);
+        add_disjoint_abs(a_lower, r1, half);
+        BigInteger r2 = divide3n2n_abs(a_lower, b, quotient);
+        add_disjoint_abs(quotient, q1, half);
+        return r2;
+    }
+
+    static BigInteger divmod_burnikel_ziegler_abs(const BigInteger &u, const BigInteger &v, BigInteger &quotient) {
+        u.ensure_binary();
+        v.ensure_binary();
+        int r = (int)u.d.size();
+        int s = (int)v.d.size();
+        quotient = BigInteger();
+        if (r < s) return u;
+
+        int m = 1;
+        while ((long long)m * BURNIKEL_ZIEGLER_THRESHOLD <= s) m <<= 1;
+        int j = (s + m - 1) / m;
+        int n = j * m;
+        long long n_bits = 32LL * n;
+        int sigma = max(0LL, n_bits - v.bit_length());
+        BigInteger b_shifted = v;
+        BigInteger a_shifted = u;
+        if (sigma) {
+            b_shifted.shift_left_bits_assign(sigma);
+            a_shifted.shift_left_bits_assign(sigma);
+        }
+        int t = (int)((a_shifted.bit_length() + n_bits) / n_bits);
+        if (t < 2) t = 2;
+
+        BigInteger a1 = get_block(a_shifted, t - 1, t, n);
+        BigInteger z = get_block(a_shifted, t - 2, t, n);
+        add_disjoint_abs(z, a1, n);
+        BigInteger qi, ri;
+        for (int i = t - 2; i > 0; --i) {
+            ri = divide2n1n_abs(z, b_shifted, qi);
+            z = get_block(a_shifted, i - 1, t, n);
+            add_disjoint_abs(z, ri, n);
+            add_shifted_abs(quotient, qi, i * n);
+        }
+        ri = divide2n1n_abs(z, b_shifted, qi);
+        quotient.add_abs(qi);
+        quotient.sign = quotient.is_zero() ? 0 : 1;
+        if (sigma) ri.shift_right_bits_assign(sigma);
+        ri.sign = ri.is_zero() ? 0 : 1;
+        return ri;
+    }
+
+    static BigInteger divmod_abs(const BigInteger &u0, const BigInteger &v0, BigInteger &rem) {
+        u0.ensure_binary();
+        v0.ensure_binary();
+        if (v0.is_zero()) {
+            rem = BigInteger();
+            return BigInteger();
+        }
+        if (u0.compare_abs(v0) < 0) {
+            rem = u0;
+            return BigInteger();
+        }
+        if (v0.d.size() == 1) {
+            BigInteger q = u0;
+            u32 r = q.div_small_assign(v0.d[0]);
+            rem = BigInteger(r);
+            rem.sign = r == 0 ? 0 : 1;
+            q.sign = q.is_zero() ? 0 : 1;
+            return q;
+        }
+        if ((int)v0.d.size() >= BURNIKEL_ZIEGLER_THRESHOLD &&
+            (int)u0.d.size() - (int)v0.d.size() >= BURNIKEL_ZIEGLER_OFFSET) {
+            BigInteger q;
+            divmod_burnikel_ziegler_abs(u0, v0, q);
+            BigInteger prod = multiply(q, v0);
+            prod.sign = prod.is_zero() ? 0 : 1;
+            if (u0.compare_abs(prod) >= 0) {
+                rem = u0;
+                rem.sub_abs(prod);
+                if (rem.compare_abs(v0) < 0) return q;
+            }
+        }
+        return divmod_knuth_abs(u0, v0, rem);
     }
 
     static pair<BigInteger, BigInteger> divmod_abs(const BigInteger &u, const BigInteger &v) {
