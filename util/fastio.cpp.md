@@ -89,6 +89,12 @@ data:
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_top_k_sum.test.cpp
+    title: test/yosupo_aplusb_top_k_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_top_kth.test.cpp
+    title: test/yosupo_aplusb_top_kth.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_area_of_union_of_rectangles.test.cpp
     title: test/yosupo_area_of_union_of_rectangles.test.cpp
   - icon: ':heavy_check_mark:'
@@ -615,6 +621,7 @@ data:
   timestamp: '2026-03-14 13:04:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_top_k_sum.test.cpp
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   - test/yosupo_static_range_frequency.test.cpp
@@ -716,6 +723,7 @@ data:
   - test/yosupo_min_cost_b_flow.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp
+  - test/yosupo_aplusb_top_kth.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
   - test/yosupo_sqrt_mod.test.cpp
   - test/yosupo_lca.test.cpp

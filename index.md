@@ -86,6 +86,14 @@ data:
       path: datastructure/swag_deque.cpp
       title: SWAG Deque
     - icon: ':heavy_check_mark:'
+      path: datastructure/top_k_sum.cpp
+      title: "\u4E0A\u4F4DK\u500B\u306E\u548C\u3092\u7BA1\u7406\u3059\u308B\u30C7\u30FC\
+        \u30BF\u69CB\u9020"
+    - icon: ':heavy_check_mark:'
+      path: datastructure/top_kth.cpp
+      title: "\u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308B\u30C7\u30FC\u30BF\u69CB\
+        \u9020 (Treap)"
+    - icon: ':heavy_check_mark:'
       path: datastructure/trie.cpp
       title: "Trie \u6728"
     - icon: ':heavy_check_mark:'
@@ -705,6 +713,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_top_k_sum.test.cpp
+      title: test/yosupo_aplusb_top_k_sum.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_top_kth.test.cpp
+      title: test/yosupo_aplusb_top_kth.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_area_of_union_of_rectangles.test.cpp
       title: test/yosupo_area_of_union_of_rectangles.test.cpp
