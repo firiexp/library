@@ -54,13 +54,14 @@ def collect_doc_files() -> set[str]:
     files: set[str] = set()
     for root in CORE_DIRS:
         for path in (ROOT / root).glob("*.cpp"):
-            if (ROOT / "_md" / f"{path.stem}.md").exists():
+            if (ROOT / expected_docs_path(path.relative_to(ROOT).as_posix())).exists():
                 files.add(path.relative_to(ROOT).as_posix())
     return files
 
 
 def expected_docs_path(relpath: str) -> str:
-    return f"_md/{Path(relpath).stem}.md"
+    path = Path(relpath)
+    return (Path("_md") / path.parent / f"{path.stem}.md").as_posix()
 
 
 def expected_documentation_of(relpath: str) -> str:

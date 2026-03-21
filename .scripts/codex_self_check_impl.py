@@ -72,7 +72,7 @@ def strip_fenced_code(text: str) -> str:
 
 def check_markdown_files() -> list[str]:
     problems: list[str] = []
-    for path in sorted((ROOT / "_md").glob("*.md")):
+    for path in sorted((ROOT / "_md").rglob("*.md")):
         relpath = path.relative_to(ROOT).as_posix()
         text = strip_fenced_code(path.read_text())
         for match in BACKTICK_COMPLEXITY_RE.finditer(text):
