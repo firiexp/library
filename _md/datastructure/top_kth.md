@@ -7,12 +7,15 @@ tags: データ構造
 ---
 
 ## 説明
-重複あり multiset を Treap で管理し、`k` 番目に大きい値と大きい方から `k` 個の総和を扱う。
+重複あり multiset を Treap で管理し、順序付きで先頭 `k` 個の値と総和を扱う。
+`Largest = true` なら大きい順、`Largest = false` なら小さい順になる。
 各操作は期待 $O(\log N)$。
 
 ## できること
-- `TopKLargestTreap<T, SumT> st(K = 0, seed = 2463534242u)`
-  上位 `K` 個を基準にする空 multiset を作る
+- `TopKTreap<T, SumT, Largest> st(K = 0, seed = 2463534242u)`
+  順序付き先頭 `K` 個を基準にする空 multiset を作る
+- `void reserve(int capacity)`
+  ノード領域を `capacity` 個ぶん事前確保する
 - `int k() const`
   現在の基準 `K` を返す
 - `void set_k(int new_k)`
@@ -31,19 +34,19 @@ tags: データ構造
   `x` の個数を返す
 - `bool contains(const T& x) const`
   `x` を含むなら `true`
-- `T kth_largest(int kth) const`
-  `kth` 番目に大きい値を返す。`1 <= kth <= size()` で使う
+- `T kth(int kth) const`
+  順序に従う `kth` 番目の値を返す。`1 <= kth <= size()` で使う
 - `bool has_kth() const`
   事前に設定した `K` 番目の要素が存在するなら `true`
-- `T kth_largest() const`
-  `K` 番目に大きい値を返す。`has_kth()` が `true` のときに使う
-- `SumT sum_largest_k(int k) const`
-  大きい方から `k` 個の総和を返す。`k <= 0` なら `0`、`k >= size()` なら全要素和
+- `T kth() const`
+  順序に従う `K` 番目の値を返す。`has_kth()` が `true` のときに使う
+- `SumT sum_k(int k) const`
+  順序に従う先頭 `k` 個の総和を返す。`k <= 0` なら `0`、`k >= size()` なら全要素和
 - `SumT sum_topk() const`
-  大きい方から `K` 個の総和を返す
+  順序に従う先頭 `K` 個の総和を返す
 
 ## 使い方
-`insert` / `erase_one` で multiset を更新し、`sum_topk()` や `kth_largest()` を読む。
+`insert` / `erase_one` で multiset を更新し、`sum_topk()` や `kth()` を読む。
 `K` を途中で変えたいときは `set_k(new_k)` を使う。
 
-たとえば「数列に値を追加・削除しながら上位 $K$ 個の和を保つ」用途にそのまま使える。
+大きい方から `K` 個を使いたいときは `TopKTreap<long long, long long, true>`、小さい方から `K` 個を使いたいときは `TopKTreap<long long, long long, false>` のように作る。
