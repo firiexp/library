@@ -85,9 +85,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/swag_deque.cpp
       title: SWAG Deque
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/trie.cpp
-      title: datastructure/trie.cpp
+      title: "Trie \u6728"
     - icon: ':heavy_check_mark:'
       path: datastructure/undoableunionfind.cpp
       title: Undoable Union Find
@@ -522,6 +522,9 @@ data:
       title: virtual_tree_helper
   - name: util
     pages:
+    - icon: ':heavy_check_mark:'
+      path: util/biginteger.cpp
+      title: "\u591A\u500D\u9577\u6574\u6570(BigInteger)"
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
@@ -622,6 +625,9 @@ data:
       path: test/aoj2257.test.cpp
       title: test/aoj2257.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj2907_prefix_suffix_search.test.cpp
+      title: test/aoj2907_prefix_suffix_search.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj2945_bfs01.test.cpp
       title: test/aoj2945_bfs01.test.cpp
     - icon: ':heavy_check_mark:'
@@ -688,6 +694,12 @@ data:
       path: test/example.test.cpp
       title: test/example.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_addition_of_big_integers.test.cpp
+      title: test/yosupo_addition_of_big_integers.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_addition_of_hex_big_integers.test.cpp
+      title: test/yosupo_addition_of_hex_big_integers.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aho_corasick.test.cpp
       title: test/yosupo_aho_corasick.test.cpp
     - icon: ':heavy_check_mark:'
@@ -747,6 +759,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_discrete_logarithm_mod.test.cpp
       title: test/yosupo_discrete_logarithm_mod.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_division_of_big_integers.test.cpp
+      title: test/yosupo_division_of_big_integers.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_division_of_hex_big_integers.test.cpp
+      title: test/yosupo_division_of_hex_big_integers.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_dominator_tree.test.cpp
       title: test/yosupo_dominator_tree.test.cpp
@@ -858,6 +876,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_minimum_spanning_tree.test.cpp
       title: test/yosupo_minimum_spanning_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_multiplication_of_big_integers.test.cpp
+      title: test/yosupo_multiplication_of_big_integers.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_multiplication_of_hex_big_integers.test.cpp
+      title: test/yosupo_multiplication_of_hex_big_integers.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_multipoint_evaluation.test.cpp
       title: test/yosupo_multipoint_evaluation.test.cpp

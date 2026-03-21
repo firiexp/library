@@ -26,6 +26,9 @@ data:
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj2907_prefix_suffix_search.test.cpp
+    title: test/aoj2907_prefix_suffix_search.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj2945_bfs01.test.cpp
     title: test/aoj2945_bfs01.test.cpp
   - icon: ':heavy_check_mark:'
@@ -73,6 +76,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_ntl_1_d_eulerphi.test.cpp
     title: test/aoj_ntl_1_d_eulerphi.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_addition_of_big_integers.test.cpp
+    title: test/yosupo_addition_of_big_integers.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_addition_of_hex_big_integers.test.cpp
+    title: test/yosupo_addition_of_hex_big_integers.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aho_corasick.test.cpp
     title: test/yosupo_aho_corasick.test.cpp
@@ -127,6 +136,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_discrete_logarithm_mod.test.cpp
     title: test/yosupo_discrete_logarithm_mod.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_division_of_big_integers.test.cpp
+    title: test/yosupo_division_of_big_integers.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_division_of_hex_big_integers.test.cpp
+    title: test/yosupo_division_of_hex_big_integers.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
     title: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
@@ -220,6 +235,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_minimum_spanning_tree.test.cpp
     title: test/yosupo_minimum_spanning_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_multiplication_of_big_integers.test.cpp
+    title: test/yosupo_multiplication_of_big_integers.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_multiplication_of_hex_big_integers.test.cpp
+    title: test/yosupo_multiplication_of_hex_big_integers.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
@@ -606,6 +627,7 @@ data:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
+  - test/yosupo_addition_of_hex_big_integers.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
@@ -634,6 +656,7 @@ data:
   - test/yosupo_factorize.test.cpp
   - test/aoj_grl_1_a_dijkstra.test.cpp
   - test/yosupo_stern_brocot_tree.test.cpp
+  - test/yosupo_multiplication_of_big_integers.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
   - test/yosupo_many_aplusb_modint_interface.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
@@ -671,10 +694,12 @@ data:
   - test/yuki650_hld_edge.test.cpp
   - test/yuki2672_xor_basis.test.cpp
   - test/aoj_ntl_1_d_eulerphi.test.cpp
+  - test/yosupo_division_of_hex_big_integers.test.cpp
   - test/yosupo_cycle_detection_directed.test.cpp
   - test/yosupo_cycle_detection_undirected.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_manhattanmst.test.cpp
+  - test/aoj2907_prefix_suffix_search.test.cpp
   - test/yosupo_counting_primes.test.cpp
   - test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
   - test/aoj_alds1_1_c_get_prime2.test.cpp
@@ -698,10 +723,12 @@ data:
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   - test/aoj0415.test.cpp
   - test/yosupo_eertree.test.cpp
+  - test/yosupo_addition_of_big_integers.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/aoj0377.test.cpp
   - test/yosupo_static_convex_hull.test.cpp
   - test/yuki957_project_selection_problem.test.cpp
+  - test/yosupo_multiplication_of_hex_big_integers.test.cpp
   - test/aoj0452.test.cpp
   - test/yosupo_point_add_rectangle_sum.test.cpp
   - test/aoj_grl_1_b_bellman_ford.test.cpp
@@ -716,6 +743,7 @@ data:
   - test/yosupo_zalgorithm.test.cpp
   - test/yosupo_many_factorials.test.cpp
   - test/yosupo_rectangle_add_point_get.test.cpp
+  - test/yosupo_division_of_big_integers.test.cpp
   - test/yosupo_directedmst.test.cpp
 date: 2026-03-14
 documentation_of: util/fastio.cpp
