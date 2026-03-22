@@ -15,7 +15,7 @@ using namespace std;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../datastructure/lazysegtree.cpp"
+#include "../datastructure/segmenttree/lazysegtree.cpp"
 #include "../util/modint.cpp"
 
 struct Monoid{

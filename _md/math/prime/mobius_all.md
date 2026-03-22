@@ -1,6 +1,6 @@
 ---
 title: メビウス関数テーブル(Mobius Table)
-documentation_of: //math/mobius_all.cpp
+documentation_of: //math/prime/mobius_all.cpp
 date: 2026-03-12
 category: 数学
 tags: 数学

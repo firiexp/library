@@ -54,7 +54,7 @@ def run_sync_doc_titles() -> bool:
 def check_library_files() -> list[str]:
     problems: list[str] = []
     for dirname in CORE_DIRS:
-        for path in sorted((ROOT / dirname).glob("*.cpp")):
+        for path in sorted((ROOT / dirname).rglob("*.cpp")):
             relpath = path.relative_to(ROOT).as_posix()
             text = path.read_text()
             for name, pattern in FORBIDDEN_LIBRARY_PATTERNS:

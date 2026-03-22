@@ -12,7 +12,7 @@ using ll = long long;
 
 #include "../util/fastio.cpp"
 #include "../tree/hld.cpp"
-#include "../datastructure/segtree.cpp"
+#include "../datastructure/segmenttree/segtree.cpp"
 
 struct SumMonoid {
     using T = ll;

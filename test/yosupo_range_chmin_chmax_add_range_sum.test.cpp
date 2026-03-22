@@ -13,7 +13,7 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../datastructure/segbeats.cpp"
+#include "../datastructure/segmenttree/segbeats.cpp"
 int main() {
     Scanner sc;
     Printer pr;

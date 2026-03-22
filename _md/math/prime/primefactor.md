@@ -1,6 +1,6 @@
 ---
 title: 素因数分解(試し割り)
-documentation_of: //math/primefactor.cpp
+documentation_of: //math/prime/primefactor.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学
@@ -13,4 +13,3 @@ tags: 数学
 ## できること
 - `vector<T> prime_factor(T n)`
   `n` の素因数を昇順で列挙して返す。重複も含む
-

@@ -9,7 +9,7 @@ using namespace std;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../math/get_prime.cpp"
+#include "../math/prime/get_prime.cpp"
 
 bool is_prime_number(int x, const vector<int> &primes) {
     if (x < 2) return false;

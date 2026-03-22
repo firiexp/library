@@ -19,7 +19,7 @@ template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../util/fastio.cpp"
 #include "../util/modint.cpp"
 #include "../tree/hld_edge.cpp"
-#include "../datastructure/segtree.cpp"
+#include "../datastructure/segmenttree/segtree.cpp"
 
 struct MatMonoidL {
     using T = array<mint, 4>;

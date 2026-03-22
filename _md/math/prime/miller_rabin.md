@@ -1,6 +1,6 @@
 ---
 title: Miller-Rabin法(確率的素数判定)
-documentation_of: //math/miller_rabin.cpp
+documentation_of: //math/prime/miller_rabin.cpp
 date: 2018-04-28
 category: 数学
 tags: 数学

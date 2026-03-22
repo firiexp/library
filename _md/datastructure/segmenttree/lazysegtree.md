@@ -1,6 +1,6 @@
 ---
 title: 遅延伝播SegmentTree
-documentation_of: //datastructure/lazysegtree.cpp
+documentation_of: //datastructure/segmenttree/lazysegtree.cpp
 date: 2018-05-01
 category: データ構造
 tags: データ構造

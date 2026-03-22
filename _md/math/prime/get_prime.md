@@ -1,6 +1,6 @@
 ---
 title: 素数列挙
-documentation_of: //math/get_prime.cpp
+documentation_of: //math/prime/get_prime.cpp
 date: 2026-03-12
 category: 数学
 tags: 数学

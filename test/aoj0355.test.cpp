@@ -22,7 +22,7 @@ using namespace std;
 vector<rolling_hash<MOD1>> hashs1;
 vector<rolling_hash<MOD2>> hashs2;
 
-#include "../datastructure/lazysegtree.cpp"
+#include "../datastructure/segmenttree/lazysegtree.cpp"
 
 struct Monoid{
     using T = array<ll, 3>;

@@ -1,6 +1,6 @@
 ---
 title: get_prime_wheel
-documentation_of: //math/get_prime_wheel.cpp
+documentation_of: //math/prime/get_prime_wheel.cpp
 date: 2026-03-22
 category: 数学
 tags: 数学

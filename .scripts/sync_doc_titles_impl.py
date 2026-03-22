@@ -53,7 +53,7 @@ def load_titles(path: Path) -> dict[str, str]:
 def collect_doc_files() -> set[str]:
     files: set[str] = set()
     for root in CORE_DIRS:
-        for path in (ROOT / root).glob("*.cpp"):
+        for path in (ROOT / root).rglob("*.cpp"):
             if (ROOT / expected_docs_path(path.relative_to(ROOT).as_posix())).exists():
                 files.add(path.relative_to(ROOT).as_posix())
     return files

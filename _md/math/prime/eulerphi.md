@@ -1,6 +1,6 @@
 ---
 title: Euler Phi
-documentation_of: //math/eulerphi.cpp
+documentation_of: //math/prime/eulerphi.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

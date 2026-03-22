@@ -15,7 +15,7 @@ using ull = unsigned long long;
 
 #include "../util/fastio.cpp"
 #include "../util/modint.cpp"
-#include "../datastructure/dualsegtree.cpp"
+#include "../datastructure/segmenttree/dualsegtree.cpp"
 
 struct Monoid {
     using T = pair<mint, mint>;

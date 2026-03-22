@@ -1,6 +1,6 @@
 ---
 title: Dynamic Segment Tree
-documentation_of: //datastructure/dynamic_segtree.cpp
+documentation_of: //datastructure/segmenttree/dynamic_segtree.cpp
 date: 2026-03-08
 category: データ構造
 tags: データ構造

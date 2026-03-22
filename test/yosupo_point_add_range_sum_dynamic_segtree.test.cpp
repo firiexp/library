@@ -9,7 +9,7 @@ using namespace std;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../datastructure/dynamic_segtree.cpp"
+#include "../datastructure/segmenttree/dynamic_segtree.cpp"
 
 struct Monoid{
     using T = long long;

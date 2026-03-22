@@ -12,7 +12,7 @@ using namespace std;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../math/miller_rabin.cpp"
+#include "../math/prime/miller_rabin.cpp"
 
 int main() {
     Scanner sc;

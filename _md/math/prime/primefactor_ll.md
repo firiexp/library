@@ -1,6 +1,6 @@
 ---
 title: 素因数分解(Pollard Rho)
-documentation_of: //math/primefactor_ll.cpp
+documentation_of: //math/prime/primefactor_ll.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

@@ -1,6 +1,6 @@
 ---
 title: Counting Primes
-documentation_of: //math/counting_primes.cpp
+documentation_of: //math/prime/counting_primes.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

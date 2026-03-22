@@ -14,7 +14,7 @@ using ull = unsigned long long;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../math/get_prime_wheel.cpp"
+#include "../math/prime/get_prime_wheel.cpp"
 
 int main() {
     Scanner sc;
@@ -31,4 +31,3 @@ int main() {
 
     pr.println(prime.picked);
 }
-

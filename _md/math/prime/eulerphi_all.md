@@ -1,6 +1,6 @@
 ---
 title: オイラーのφ関数テーブル(Euler Phi Table)
-documentation_of: //math/eulerphi_all.cpp
+documentation_of: //math/prime/eulerphi_all.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

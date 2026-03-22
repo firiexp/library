@@ -11,7 +11,7 @@ using ll = long long;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../math/counting_primes.cpp"
+#include "../math/prime/counting_primes.cpp"
 
 int main() {
     Scanner sc;

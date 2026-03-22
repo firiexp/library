@@ -1,6 +1,6 @@
 ---
 title: Segment Tree Beats
-documentation_of: //datastructure/segbeats.cpp
+documentation_of: //datastructure/segmenttree/segbeats.cpp
 ---
 ## 説明
 `range chmin`、`range chmax`、`range add`、`range sum` をまとめて処理する Segment Tree Beats である。

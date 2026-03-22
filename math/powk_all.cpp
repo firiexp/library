@@ -1,6 +1,6 @@
 #include "../util/modint.cpp"
 
-#include "./get_min_factor.cpp"
+#include "./prime/get_min_factor.cpp"
 vector<mint> powk_all(int n, ll k) {
     auto min_factor = get_min_factor(n);
     vector<mint> res(n+1);

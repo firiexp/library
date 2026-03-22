@@ -9,7 +9,7 @@ using namespace std;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../math/eulerphi.cpp"
+#include "../math/prime/eulerphi.cpp"
 
 int main() {
     Scanner sc;

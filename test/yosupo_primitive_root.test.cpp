@@ -17,7 +17,7 @@ using ull = unsigned long long;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../math/primitive_root.cpp"
+#include "../math/prime/primitive_root.cpp"
 
 int main() {
     Scanner in;

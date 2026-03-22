@@ -11,7 +11,7 @@ using uint = unsigned;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../math/get_prime2.cpp"
+#include "../math/prime/get_prime2.cpp"
 
 bool is_prime_number(uint x, const vector<ExactDiv<uint>> &primes) {
     if (x < 2) return false;

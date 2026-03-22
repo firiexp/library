@@ -1,6 +1,6 @@
 ---
 title: 双対セグメント木(Dual Segment Tree)
-documentation_of: //datastructure/dualsegtree.cpp
+documentation_of: //datastructure/segmenttree/dualsegtree.cpp
 ---
 ## 説明
 区間更新・一点取得を扱う双対セグメント木である。

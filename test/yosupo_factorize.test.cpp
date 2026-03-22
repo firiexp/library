@@ -16,7 +16,7 @@ using ull = unsigned long long;
 #include <type_traits>
 
 #include "../util/fastio.cpp"
-#include "../math/primefactor_ll.cpp"
+#include "../math/prime/primefactor_ll.cpp"
 
 int main() {
     Scanner in;

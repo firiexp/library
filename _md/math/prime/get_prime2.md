@@ -1,6 +1,6 @@
 ---
 title: 高速素数列挙(ExactDiv)
-documentation_of: //math/get_prime2.cpp
+documentation_of: //math/prime/get_prime2.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学
