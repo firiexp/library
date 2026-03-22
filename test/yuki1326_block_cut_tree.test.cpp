@@ -44,7 +44,7 @@ int main() {
         sc.read(x, y);
         --x, --y;
         if (x == y) {
-            pr.writeln(0);
+            pr.println(0);
             continue;
         }
         int u = g.id[x], v = g.id[y];
@@ -52,7 +52,7 @@ int main() {
         int ans = pref[u] + pref[v] - 2 * pref[a] + (g.rev[a] != -1);
         if (g.is_articulation[x]) --ans;
         if (g.is_articulation[y]) --ans;
-        pr.writeln(ans);
+        pr.println(ans);
     }
     return 0;
 }

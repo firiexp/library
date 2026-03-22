@@ -48,6 +48,6 @@ int main() {
             ans += max(dp1[i], dp2[i]);
         }
     }
-    pr.writeln(ans);
+    pr.println(ans);
     return 0;
 }

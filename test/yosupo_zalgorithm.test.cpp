@@ -20,9 +20,9 @@ int main() {
     sc.read(s);
     auto z = Z_algorithm(s);
     for (int i = 0; i < (int)z.size(); ++i) {
-        if (i) pr.write(' ');
-        pr.write(z[i]);
+        if (i) pr.print(' ');
+        pr.print(z[i]);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

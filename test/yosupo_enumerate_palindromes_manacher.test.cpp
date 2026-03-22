@@ -30,9 +30,9 @@ int main() {
         else ans[i] = ((ans[i] + 1) / 2) * 2 - 1;
     }
     for (int i = 0; i < (int)ans.size(); ++i) {
-        if (i) pr.write(' ');
-        pr.write(ans[i]);
+        if (i) pr.print(' ');
+        pr.print(ans[i]);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

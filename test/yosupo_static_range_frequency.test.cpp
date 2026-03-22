@@ -27,7 +27,7 @@ int main() {
         in.read(l);
         in.read(r);
         in.read(x);
-        out.writeln(wm.freq(l, r, x));
+        out.println(wm.freq(l, r, x));
     }
     return 0;
 }

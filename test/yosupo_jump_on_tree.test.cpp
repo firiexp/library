@@ -29,7 +29,7 @@ int main() {
     while (q--) {
         int s, t, k;
         sc.read(s, t, k);
-        pr.writeln(jt.jump(s, t, k));
+        pr.println(jt.jump(s, t, k));
     }
     return 0;
 }

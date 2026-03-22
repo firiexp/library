@@ -52,7 +52,7 @@ int main() {
             int x;
             sc.read(x);
             auto [a, b] = deq.fold();
-            pr.writeln((a * x + b).val);
+            pr.println((a * x + b).val);
         }
     }
     return 0;

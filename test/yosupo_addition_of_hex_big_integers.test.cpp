@@ -27,7 +27,7 @@ int main() {
         string a, b;
         sc.read(a, b);
         BigInteger x(a, 16), y(b, 16);
-        pr.writeln(to_upper_hex((x + y).to_string(16)));
+        pr.println(to_upper_hex((x + y).to_string(16)));
     }
     return 0;
 }

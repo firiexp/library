@@ -27,7 +27,7 @@ int main() {
     while (q--) {
         ll p;
         in.read(p);
-        out.writeln(primitive_root(p));
+        out.println(primitive_root(p));
     }
     return 0;
 }

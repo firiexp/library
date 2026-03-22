@@ -25,10 +25,10 @@ int main() {
         hk.add_edge(a, b);
     }
     int ans = hk.max_matching();
-    out.writeln(ans);
+    out.println(ans);
     auto pairs = hk.get_pairs();
     for (auto&& [a, b] : pairs) {
-        out.writeln(a, b);
+        out.println(a, b);
     }
     return 0;
 }

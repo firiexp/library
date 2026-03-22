@@ -72,7 +72,7 @@ int main() {
             segr.update(v, {c, d});
         } else {
             auto val = hld.path_query_ordered(p, c, Ml::e(), ql, qr, merge, false);
-            pr.writeln((val[0] * d + val[1]).val);
+            pr.println((val[0] * d + val[1]).val);
         }
     }
     return 0;

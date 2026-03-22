@@ -25,6 +25,6 @@ int main() {
         g[a].push_back(b);
     }
     auto ord = topological_sort(g);
-    for (auto &&x : ord) pr.writeln(x);
+    for (auto &&x : ord) pr.println(x);
     return 0;
 }

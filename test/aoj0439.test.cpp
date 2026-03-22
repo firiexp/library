@@ -71,7 +71,7 @@ int main() {
         G.clear(v);
     }
     for (auto &&i : ans) {
-        pr.writeln(i);
+        pr.println(i);
     }
     return 0;
 }

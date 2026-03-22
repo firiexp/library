@@ -31,7 +31,7 @@ int main() {
     while (q--) {
         int u, v;
         sc.read(u, v);
-        pr.writeln(lca.lca(u, v));
+        pr.println(lca.lca(u, v));
     }
     return 0;
 }

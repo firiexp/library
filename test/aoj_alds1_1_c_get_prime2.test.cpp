@@ -35,6 +35,6 @@ int main() {
         sc.read(x);
         ans += is_prime_number(x, primes);
     }
-    pr.writeln(ans);
+    pr.println(ans);
     return 0;
 }

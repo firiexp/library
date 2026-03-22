@@ -71,6 +71,6 @@ int main() {
         while (qu.r < r) erase_right(--r);
         ans[qu.no] = inv;
     }
-    for (auto x : ans) pr.writeln(x);
+    for (auto x : ans) pr.println(x);
     return 0;
 }

@@ -22,7 +22,7 @@ int main() {
     while (q--) {
         ull n;
         sc.read(n);
-        pr.writeln(miller_rabin(n) ? "Yes" : "No");
+        pr.println(miller_rabin(n) ? "Yes" : "No");
     }
     return 0;
 }

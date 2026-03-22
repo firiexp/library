@@ -21,7 +21,7 @@ int main() {
         string a, b;
         sc.read(a, b);
         BigInteger x(a), y(b);
-        pr.writeln((x * y).to_string());
+        pr.println((x * y).to_string());
     }
     return 0;
 }

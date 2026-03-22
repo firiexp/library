@@ -69,7 +69,7 @@ int main() {
     while (t--) {
         ll a, b;
         in.read(a, b);
-        out.writeln(a + b);
+        out.println(a + b);
     }
     return 0;
 }

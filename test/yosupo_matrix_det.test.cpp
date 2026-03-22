@@ -30,6 +30,6 @@ int main() {
             A[i][j] = x;
         }
     }
-    pr.writeln(matrix_determinant(A).val);
+    pr.println(matrix_determinant(A).val);
     return 0;
 }

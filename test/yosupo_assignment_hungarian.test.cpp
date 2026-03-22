@@ -27,12 +27,12 @@ int main() {
         }
     }
     auto [ans, match, row, col] = hungarian<long long>(a);
-    out.writeln(ans);
+    out.println(ans);
     for (int i = 0; i < n; ++i) {
-        if (i) out.write(' ');
-        out.write(match[i]);
+        if (i) out.print(' ');
+        out.print(match[i]);
     }
-    out.writeln();
+    out.println();
 
     long long dual_sum = 0;
     for (int i = 0; i < n; ++i) dual_sum += row[i];

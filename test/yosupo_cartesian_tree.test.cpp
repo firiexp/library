@@ -29,9 +29,9 @@ int main() {
     }
 
     for (int i = 0; i < n; ++i) {
-        if (i) pr.write(' ');
-        pr.write(parent[i]);
+        if (i) pr.print(' ');
+        pr.print(parent[i]);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

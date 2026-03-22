@@ -43,7 +43,7 @@ int main() {
         }else {
             int l, r;
             sc.read(l, r);
-            pr.writeln(seg.sum(l, r));
+            pr.println(seg.sum(l, r));
         }
     }
     return 0;

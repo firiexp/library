@@ -26,7 +26,7 @@ int main() {
             sc.read(ps[i].first, ps[i].second);
         }
         auto [a, b] = closest_pair(ps);
-        pr.writeln(a, b);
+        pr.println(a, b);
     }
     return 0;
 }

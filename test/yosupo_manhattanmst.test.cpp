@@ -46,7 +46,7 @@ int main() {
         used.emplace_back(u, v);
     }
 
-    pr.writeln(total);
-    for (auto [u, v] : used) pr.writeln(u, v);
+    pr.println(total);
+    for (auto [u, v] : used) pr.println(u, v);
     return 0;
 }

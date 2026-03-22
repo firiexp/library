@@ -72,7 +72,7 @@ int main() {
             sx = tx;
             sy = ty;
         }
-        out.writeln(ans);
+        out.println(ans);
     }
     return 0;
 }

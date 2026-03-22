@@ -18,7 +18,7 @@ int main() {
         ull a;
         int k;
         sc.read(a, k);
-        pr.writeln(kth_root_integer(a, k));
+        pr.println(kth_root_integer(a, k));
     }
     return 0;
 }

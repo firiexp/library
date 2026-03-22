@@ -23,7 +23,7 @@ int main() {
         in.read(c, x, y);
         x--;
         if (c == 0) s.add(x, y);
-        else out.writeln(s.sum(y) - s.sum(x));
+        else out.println(s.sum(y) - s.sum(x));
     }
     return 0;
 }

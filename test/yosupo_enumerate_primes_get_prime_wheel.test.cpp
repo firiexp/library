@@ -22,13 +22,13 @@ int main() {
     sc.read(n, a, b);
     Prime prime(n);
     int m = prime.primes.size();
-    pr.writeln(m, (m + a - 1 - b) / a);
+    pr.println(m, (m + a - 1 - b) / a);
     bool first = true;
     for (int i = b; i < m; i += a) {
-        if (!first) pr.write(' ');
+        if (!first) pr.print(' ');
         first = false;
-        pr.write(prime.primes[i]);
+        pr.print(prime.primes[i]);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

@@ -50,7 +50,7 @@ int main() {
             int p = hld.id[v];
             seg.update(p, seg[p] + x);
         } else {
-            pr.writeln(hld.subtree_query<ll>(v, [&](int l, int r) { return seg.query(l, r); }));
+            pr.println(hld.subtree_query<ll>(v, [&](int l, int r) { return seg.query(l, r); }));
         }
     }
     return 0;

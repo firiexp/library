@@ -21,7 +21,7 @@ int main() {
     while (t--) {
         long long x, y, mod;
         sc.read(x, y, mod);
-        pr.writeln(discrete_logarithm(x, y, mod));
+        pr.println(discrete_logarithm(x, y, mod));
     }
     return 0;
 }

@@ -34,7 +34,7 @@ int main() {
     }
     auto d = dijkstra_radix_heap(s, G);
     if (d[t] == INF<ll>) {
-        pr.writeln(-1);
+        pr.println(-1);
         return 0;
     }
     vector<int> ans{t};
@@ -49,9 +49,9 @@ int main() {
             }
         }
     }
-    pr.writeln(d[t], (int)ans.size() - 1);
+    pr.println(d[t], (int)ans.size() - 1);
     for (int i = (int)ans.size()-1; i > 0; --i) {
-        pr.writeln(ans[i], ans[i - 1]);
+        pr.println(ans[i], ans[i - 1]);
     }
     return 0;
 }

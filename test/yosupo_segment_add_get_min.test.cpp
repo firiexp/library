@@ -63,8 +63,8 @@ int main() {
             li.add_segment(qu.a, qu.b, qu.l, qu.r);
         } else {
             ll ans = li.query(qu.p);
-            if (ans == INF) out.writeln("INFINITY");
-            else out.writeln(ans);
+            if (ans == INF) out.println("INFINITY");
+            else out.println(ans);
         }
     }
     return 0;

@@ -35,9 +35,9 @@ int main() {
     }
     a *= b;
     for (int i = 0; i < n + m - 1; ++i) {
-        if (i) pr.write(' ');
-        pr.write(a[i].val);
+        if (i) pr.print(' ');
+        pr.print(a[i].val);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

@@ -28,7 +28,7 @@ int main() {
         } else if (t == 1) {
             trie.erase(x);
         } else {
-            pr.writeln(trie.xor_min(x));
+            pr.println(trie.xor_min(x));
         }
     }
     return 0;

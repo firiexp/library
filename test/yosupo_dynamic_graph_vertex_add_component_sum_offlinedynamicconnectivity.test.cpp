@@ -140,6 +140,6 @@ int main() {
         }
     );
 
-    for (auto &&x : ans) pr.writeln(x);
+    for (auto &&x : ans) pr.println(x);
     return 0;
 }

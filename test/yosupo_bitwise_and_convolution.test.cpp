@@ -37,9 +37,9 @@ int main() {
     }
     auto c = and_convolution(a, b);
     for (int i = 0; i < m; ++i) {
-        if (i) pr.write(' ');
-        pr.write(c[i].val);
+        if (i) pr.print(' ');
+        pr.print(c[i].val);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

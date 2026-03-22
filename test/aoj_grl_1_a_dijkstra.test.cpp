@@ -33,8 +33,8 @@ int main() {
     }
     auto dist = dijkstra(s, G);
     for (int i = 0; i < n; ++i) {
-        if (dist[i] == INF<ll>) out.writeln("INF");
-        else out.writeln(dist[i]);
+        if (dist[i] == INF<ll>) out.println("INF");
+        else out.println(dist[i]);
     }
     return 0;
 }

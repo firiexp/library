@@ -29,6 +29,6 @@ int main() {
         sc.read(u, v, c);
         mf.add_edge(u, v, c);
     }
-    pr.writeln(mf.flow(0, n - 1));
+    pr.println(mf.flow(0, n - 1));
     return 0;
 }

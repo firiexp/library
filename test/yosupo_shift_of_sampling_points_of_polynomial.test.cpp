@@ -29,9 +29,9 @@ int main() {
     }
     vector<mint> ans = sample_point_shift(ys, mint(c), m);
     for (int i = 0; i < m; ++i) {
-        if (i) out.write(' ');
-        out.write(ans[i].val);
+        if (i) out.print(' ');
+        out.print(ans[i].val);
     }
-    out.writeln();
+    out.println();
     return 0;
 }

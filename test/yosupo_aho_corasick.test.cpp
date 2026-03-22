@@ -43,15 +43,15 @@ int main() {
     }
     aho.build();
 
-    pr.writeln((int)aho.v.size());
+    pr.println((int)aho.v.size());
     for (int v = 1; v < (int)aho.v.size(); ++v) {
-        pr.write(parent[v]);
-        pr.write(' ');
-        pr.writeln(aho.v[v].fail);
+        pr.print(parent[v]);
+        pr.print(' ');
+        pr.println(aho.v[v].fail);
     }
     for (int i = 0; i < n; ++i) {
-        pr.write(terminal[i]);
-        pr.write(i + 1 == n ? '\n' : ' ');
+        pr.print(terminal[i]);
+        pr.print(i + 1 == n ? '\n' : ' ');
     }
     return 0;
 }

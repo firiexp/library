@@ -19,11 +19,11 @@ int main() {
     string s;
     sc.read(s);
     auto seg = lyndon_factorization(s);
-    pr.write(0);
+    pr.print(0);
     for (auto &&p : seg) {
-        pr.write(' ');
-        pr.write(p.second);
+        pr.print(' ');
+        pr.print(p.second);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

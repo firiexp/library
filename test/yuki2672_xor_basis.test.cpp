@@ -79,6 +79,6 @@ int main() {
         xb.add(a);
         total ^= a;
     }
-    pr.writeln(total == 0 && xb.size() < n - 1 ? "Yes" : "No");
+    pr.println(total == 0 && xb.size() < n - 1 ? "Yes" : "No");
     return 0;
 }

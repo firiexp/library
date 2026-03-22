@@ -49,7 +49,7 @@ int main() {
             int u, v, x;
             in.read(u, v, x);
             auto f = lct.fold(u, v);
-            out.writeln((f[0] * x + f[1]).val);
+            out.println((f[0] * x + f[1]).val);
         }
     }
     return 0;

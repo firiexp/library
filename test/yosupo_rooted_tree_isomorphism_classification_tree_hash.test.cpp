@@ -101,10 +101,10 @@ int main() {
         th.add_edge(p, v);
     }
     auto id = th.build(0);
-    pr.writeln(th.kinds());
+    pr.println(th.kinds());
     for (int i = 0; i < n; ++i) {
-        pr.write(id[i]);
-        pr.write(i + 1 == n ? '\n' : ' ');
+        pr.print(id[i]);
+        pr.print(i + 1 == n ? '\n' : ' ');
     }
     return 0;
 }

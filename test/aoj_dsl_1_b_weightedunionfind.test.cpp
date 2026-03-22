@@ -34,8 +34,8 @@ int main() {
             sc.read(z);
             uf.unite(x, y, z);
         } else {
-            if (!uf.same(x, y)) pr.writeln('?');
-            else pr.writeln(uf.diff(x, y));
+            if (!uf.same(x, y)) pr.println('?');
+            else pr.println(uf.diff(x, y));
         }
     }
     return 0;

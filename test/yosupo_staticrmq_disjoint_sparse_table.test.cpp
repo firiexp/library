@@ -30,7 +30,7 @@ int main() {
     while (q--) {
         int l, r;
         sc.read(l, r);
-        pr.writeln(dst.query(l, r));
+        pr.println(dst.query(l, r));
     }
     return 0;
 }

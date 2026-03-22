@@ -44,6 +44,6 @@ int main() {
         tie(cost, u, v) = i;
         if (uf.unite(u, v)) ans += cost;
     }
-    pr.writeln(ans / 2);
+    pr.println(ans / 2);
     return 0;
 }

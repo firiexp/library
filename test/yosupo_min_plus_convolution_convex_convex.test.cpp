@@ -24,8 +24,8 @@ int main() {
 
     auto c = min_plus_convolution_convex_convex(a, b);
     for (int i = 0; i < (int)c.size(); ++i) {
-        pr.write(c[i]);
-        pr.write(i + 1 == (int)c.size() ? '\n' : ' ');
+        pr.print(c[i]);
+        pr.print(i + 1 == (int)c.size() ? '\n' : ' ');
     }
     return 0;
 }

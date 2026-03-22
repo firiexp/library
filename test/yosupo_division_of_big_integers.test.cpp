@@ -22,7 +22,7 @@ int main() {
         sc.read(a, b);
         BigInteger x(a), y(b);
         auto qr = BigInteger::divmod(x, y);
-        pr.writeln(qr.first.to_string(), ' ', qr.second.to_string());
+        pr.println(qr.first.to_string(), ' ', qr.second.to_string());
     }
     return 0;
 }

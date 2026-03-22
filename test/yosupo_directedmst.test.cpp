@@ -26,12 +26,12 @@ int main() {
     }
     auto res = dmst.solve();
     if (!res.exists) return 0;
-    out.writeln(res.cost);
+    out.println(res.cost);
     for (int i = 0; i < n; ++i) {
-        if (i) out.write(' ');
-        out.write(res.parent[i]);
+        if (i) out.print(' ');
+        out.print(res.parent[i]);
     }
-    out.writeln();
+    out.println();
     return 0;
 }
 

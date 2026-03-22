@@ -95,6 +95,6 @@ int main() {
     Printer pr;
     ll a, b;
     sc.read(a, b);
-    pr.writeln(a + b);
+    pr.println(a + b);
     return 0;
 }

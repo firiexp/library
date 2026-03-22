@@ -86,7 +86,7 @@ int main() {
         for (int i = 0; i < (int)binoms.size(); ++i) {
             rem.emplace_back(binoms[i].C(n, k), mods[i]);
         }
-        pr.writeln(CRT(rem).first);
+        pr.println(CRT(rem).first);
     }
     return 0;
 }

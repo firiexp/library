@@ -35,6 +35,6 @@ int main() {
     }
 
     auto dp = rr.solve();
-    pr.writeln(*max_element(dp.begin(), dp.end()));
+    pr.println(*max_element(dp.begin(), dp.end()));
     return 0;
 }

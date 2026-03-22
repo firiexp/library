@@ -99,7 +99,7 @@ int main() {
             int i, j;
             sc.read(i, j);
             auto ans = hld.path_query_ordered(i, j, MatMonoidL::e(), ql, qr, merge);
-            pr.writeln(ans[0].val, ans[1].val, ans[2].val, ans[3].val);
+            pr.println(ans[0].val, ans[1].val, ans[2].val, ans[3].val);
         }
     }
     return 0;

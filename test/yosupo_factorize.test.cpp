@@ -27,11 +27,11 @@ int main() {
         ull a;
         in.read(a);
         auto fac = prime_factor(a);
-        out.write((int)fac.size());
-        if (fac.empty()) out.writeln();
+        out.print((int)fac.size());
+        if (fac.empty()) out.println();
         else {
-            out.write(' ');
-            out.writeln(fac);
+            out.print(' ');
+            out.println(fac);
         }
     }
     return 0;

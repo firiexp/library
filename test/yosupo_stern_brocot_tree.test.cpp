@@ -27,14 +27,14 @@ int main() {
             ll a, b;
             sc.read(a, b);
             auto path = encode_path(a, b);
-            pr.write((int)path.size());
+            pr.print((int)path.size());
             for (auto move : path) {
-                pr.write(' ');
-                pr.write(move.dir == Left ? 'L' : 'R');
-                pr.write(' ');
-                pr.write(move.steps);
+                pr.print(' ');
+                pr.print(move.dir == Left ? 'L' : 'R');
+                pr.print(' ');
+                pr.print(move.steps);
             }
-            pr.writeln();
+            pr.println();
         } else if (op == "DECODE_PATH") {
             int k;
             sc.read(k);
@@ -46,27 +46,27 @@ int main() {
                 path[i] = {c == 'L' ? Left : Right, steps};
             }
             auto node = decode_path(path);
-            pr.writeln(node.num(), node.den());
+            pr.println(node.num(), node.den());
         } else if (op == "LCA") {
             ll a, b, c, d;
             sc.read(a, b, c, d);
             auto node = lca(a, b, c, d);
-            pr.writeln(node.num(), node.den());
+            pr.println(node.num(), node.den());
         } else if (op == "ANCESTOR") {
             ll k, a, b;
             sc.read(k, a, b);
             auto path = encode_path(a, b);
             if (k > depth(path)) {
-                pr.writeln(-1);
+                pr.println(-1);
                 continue;
             }
             auto node = decode_path(ancestor_path(path, k));
-            pr.writeln(node.num(), node.den());
+            pr.println(node.num(), node.den());
         } else {
             ll a, b;
             sc.read(a, b);
             auto node = range(a, b);
-            pr.writeln(node.p, node.q, node.r, node.s);
+            pr.println(node.p, node.q, node.r, node.s);
         }
     }
     return 0;

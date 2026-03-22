@@ -24,7 +24,7 @@ int main() {
     for (int i = 0; i < q; ++i) {
         int t, u, v;
         in.read(t, u, v);
-        if (t) out.writeln(uf.same(u, v));
+        if (t) out.println(uf.same(u, v));
         else uf.unite(u, v);
     }
     return 0;

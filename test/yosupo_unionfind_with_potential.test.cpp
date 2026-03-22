@@ -57,14 +57,14 @@ int main() {
             sc.read(x);
             PotentialGroup::T w(x);
             if (uf.same(u, v)) {
-                pr.writeln(uf.diff(v, u) == w);
+                pr.println(uf.diff(v, u) == w);
             } else {
                 uf.unite(v, u, w);
-                pr.writeln(1);
+                pr.println(1);
             }
         } else {
-            if (!uf.same(u, v)) pr.writeln(-1);
-            else pr.writeln(uf.diff(v, u).v);
+            if (!uf.same(u, v)) pr.println(-1);
+            else pr.println(uf.diff(v, u).v);
         }
     }
     return 0;

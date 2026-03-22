@@ -51,7 +51,7 @@ int main() {
         if(!a) seg.update(b, Monoid::T{c, d});
         else {
             auto ans = seg.query(b, c);
-            pr.writeln((ans[0] * d + ans[1]).val);
+            pr.println((ans[0] * d + ans[1]).val);
         }
     }
     return 0;

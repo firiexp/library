@@ -34,13 +34,13 @@ int main() {
     }
     auto res = dijkstra_restore(s, G);
     if (res.dist[t] == INF<ll>) {
-        out.writeln(-1);
+        out.println(-1);
         return 0;
     }
     auto path = restore_path(s, t, res.parent);
-    out.writeln(res.dist[t], (int)path.size() - 1);
+    out.println(res.dist[t], (int)path.size() - 1);
     for (int i = 0; i + 1 < (int)path.size(); ++i) {
-        out.writeln(array<int, 2>{path[i], path[i + 1]});
+        out.println(array<int, 2>{path[i], path[i + 1]});
     }
     return 0;
 }

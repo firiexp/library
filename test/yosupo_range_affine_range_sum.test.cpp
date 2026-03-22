@@ -52,7 +52,7 @@ int main() {
         }else {
             int l, r;
             in.read(l, r);
-            out.writeln(seg.query(l, r)[0].val);
+            out.println(seg.query(l, r)[0].val);
         }
     }
     return 0;

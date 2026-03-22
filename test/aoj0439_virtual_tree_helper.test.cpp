@@ -91,6 +91,6 @@ int main() {
         for (int v : vs) is_target[v] = 0;
     }
 
-    for (auto &&x : ans) pr.writeln(x);
+    for (auto &&x : ans) pr.println(x);
     return 0;
 }

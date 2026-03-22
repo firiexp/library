@@ -38,7 +38,7 @@ int main() {
         in.read(t);
         in.read(u);
         in.read(v);
-        if(t) out.writeln(uf.same(u, v));
+        if(t) out.println(uf.same(u, v));
         else uf.unite(u, v);
     }
     return 0;

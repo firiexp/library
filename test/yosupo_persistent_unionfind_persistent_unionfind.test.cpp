@@ -27,7 +27,7 @@ int main() {
         if (t == 0) {
             uf.unite(k, u, v);
         } else {
-            pr.writeln(uf.same(k, u, v));
+            pr.println(uf.same(k, u, v));
             uf.copy_version(k);
         }
     }

@@ -41,9 +41,9 @@ int main() {
     fwht(c);
     mint inv_sz = mint(1) / mint(sz);
     for (int i = 0; i < sz; ++i) {
-        if (i) pr.write(' ');
-        pr.write((c[i] * inv_sz).val);
+        if (i) pr.print(' ');
+        pr.print((c[i] * inv_sz).val);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

@@ -30,12 +30,12 @@ int main() {
     }
     auto matching = G.solve_LexMin();
     if (matching != n) {
-        pr.writeln("no");
+        pr.println("no");
         return 0;
     }
-    pr.writeln("yes");
+    pr.println("yes");
     for (int i = 0; i < n; ++i) {
-        pr.writeln(G.match[i] - n + 1);
+        pr.println(G.match[i] - n + 1);
     }
     return 0;
 }

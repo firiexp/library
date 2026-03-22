@@ -26,6 +26,6 @@ int main() {
         g[t].push_back({s, w});
     }
 
-    pr.writeln(tree_diameter_weighted(g).first);
+    pr.println(tree_diameter_weighted(g).first);
     return 0;
 }

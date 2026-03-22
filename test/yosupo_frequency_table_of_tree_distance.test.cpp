@@ -28,9 +28,9 @@ int main() {
 
     auto ans = frequency_table_of_tree_distance(g);
     for (int d = 1; d < n; ++d) {
-        if (d != 1) pr.write(' ');
-        pr.write(ans[d]);
+        if (d != 1) pr.print(' ');
+        pr.print(ans[d]);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

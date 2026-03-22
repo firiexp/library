@@ -128,6 +128,6 @@ int main() {
         ans[e.id] += 1LL * e.sign * bit.sum(e.y);
     }
 
-    for (int i = 0; i < q; ++i) pr.writeln(ans[i]);
+    for (int i = 0; i < q; ++i) pr.println(ans[i]);
     return 0;
 }

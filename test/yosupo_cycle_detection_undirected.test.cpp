@@ -23,20 +23,20 @@ int main() {
     }
     auto res = cycle_detection_undirected(edges, n);
     if (res.vertices.empty()) {
-        pr.writeln(-1);
+        pr.println(-1);
         return 0;
     }
     int l = res.vertices.size();
-    pr.writeln(l);
+    pr.println(l);
     for (int i = 0; i < l; ++i) {
-        if (i) pr.write(' ');
-        pr.write(res.vertices[i]);
+        if (i) pr.print(' ');
+        pr.print(res.vertices[i]);
     }
-    pr.writeln();
+    pr.println();
     for (int i = 0; i < l; ++i) {
-        if (i) pr.write(' ');
-        pr.write(res.edge_ids[i]);
+        if (i) pr.print(' ');
+        pr.print(res.edge_ids[i]);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

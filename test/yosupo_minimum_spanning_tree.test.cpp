@@ -30,11 +30,11 @@ int main() {
     }
     auto res = kruskal(edges, n);
     if (!res.exists) return 0;
-    out.writeln(res.cost);
+    out.println(res.cost);
     for (int i = 0; i < (int)res.edge_id.size(); ++i) {
-        if (i) out.write(' ');
-        out.write(res.edge_id[i]);
+        if (i) out.print(' ');
+        out.print(res.edge_id[i]);
     }
-    out.writeln();
+    out.println();
     return 0;
 }

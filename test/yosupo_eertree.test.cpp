@@ -35,14 +35,14 @@ int main() {
         }
     }
 
-    pr.writeln(n - 2);
+    pr.println(n - 2);
     for (int v = 2; v < n; ++v) {
-        pr.writeln(parent[v] - 1, pt.nodes[v].link - 1);
+        pr.println(parent[v] - 1, pt.nodes[v].link - 1);
     }
     for (int i = 0; i < (int)pt.path.size(); ++i) {
-        if (i) pr.write(' ');
-        pr.write(pt.path[i] - 1);
+        if (i) pr.print(' ');
+        pr.print(pt.path[i] - 1);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

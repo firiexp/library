@@ -23,6 +23,6 @@ int main() {
         sc.read(l, d, r, u);
         solver.add_rectangle(l, d, r, u);
     }
-    pr.writeln(solver.solve());
+    pr.println(solver.solve());
     return 0;
 }

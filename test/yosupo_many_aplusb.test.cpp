@@ -15,7 +15,7 @@ int main() {
     while (t--) {
         long long a, b;
         in.read(a, b);
-        out.writeln(a + b);
+        out.println(a + b);
     }
     return 0;
 }

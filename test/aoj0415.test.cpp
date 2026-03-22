@@ -51,6 +51,6 @@ int main() {
         v[x] += val1;
     };
     dfs(0, -1, dfs);
-    pr.writeln(ans);
+    pr.println(ans);
     return 0;
 }

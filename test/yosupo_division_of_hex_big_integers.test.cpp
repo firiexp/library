@@ -28,7 +28,7 @@ int main() {
         sc.read(a, b);
         BigInteger x(a, 16), y(b, 16);
         auto qr = BigInteger::divmod(x, y);
-        pr.writeln(to_upper_hex(qr.first.to_string(16)), ' ', to_upper_hex(qr.second.to_string(16)));
+        pr.println(to_upper_hex(qr.first.to_string(16)), ' ', to_upper_hex(qr.second.to_string(16)));
     }
     return 0;
 }

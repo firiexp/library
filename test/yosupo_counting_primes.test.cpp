@@ -18,6 +18,6 @@ int main() {
     Printer pr;
     long long n;
     sc.read(n);
-    pr.writeln(counting_primes(n));
+    pr.println(counting_primes(n));
     return 0;
 }

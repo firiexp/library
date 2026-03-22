@@ -29,8 +29,8 @@ int main() {
             sc.read(ps[i].first, ps[i].second);
         }
         auto ch = convex_hull(ps);
-        pr.writeln((int)ch.size());
-        for (auto [x, y] : ch) pr.writeln(x, y);
+        pr.println((int)ch.size());
+        for (auto [x, y] : ch) pr.println(x, y);
     }
     return 0;
 }

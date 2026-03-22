@@ -38,9 +38,9 @@ int main() {
     }
     auto c = or_convolution(a, b);
     for (int i = 0; i < m; ++i) {
-        if (i) pr.write(' ');
-        pr.write(c[full ^ i].val);
+        if (i) pr.print(' ');
+        pr.print(c[full ^ i].val);
     }
-    pr.writeln();
+    pr.println();
     return 0;
 }

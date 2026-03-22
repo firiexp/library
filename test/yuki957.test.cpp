@@ -61,6 +61,6 @@ int main() {
     }
 
     ll min_cost = base + mf.flow(s, t);
-    out.writeln(-min_cost);
+    out.println(-min_cost);
     return 0;
 }

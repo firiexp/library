@@ -26,10 +26,10 @@ int main() {
     if (n == 0 || m == 0 || k == 0) {
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < k; ++j) {
-                pr.write(0);
-                pr.write(j + 1 == k ? '\n' : ' ');
+                pr.print(0);
+                pr.print(j + 1 == k ? '\n' : ' ');
             }
-            if (k == 0) pr.write('\n');
+            if (k == 0) pr.print('\n');
         }
         return 0;
     }
@@ -52,8 +52,8 @@ int main() {
     auto C = A * B;
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < k; ++j) {
-            pr.write(C[i][j].val);
-            pr.write(j + 1 == k ? '\n' : ' ');
+            pr.print(C[i][j].val);
+            pr.print(j + 1 == k ? '\n' : ' ');
         }
     }
     return 0;

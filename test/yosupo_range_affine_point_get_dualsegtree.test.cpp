@@ -50,7 +50,7 @@ int main() {
             int i;
             sc.read(i);
             auto [mul, add] = seg[i];
-            pr.writeln((mul * a[i] + add).val);
+            pr.println((mul * a[i] + add).val);
         }
     }
     return 0;

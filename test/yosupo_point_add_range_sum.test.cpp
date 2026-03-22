@@ -28,7 +28,7 @@ int main() {
         int c, x, y;
         in.read(c, x, y);
         if(c == 0) S.add(x, y);
-        else out.writeln(S.sum(y) - S.sum(x));
+        else out.println(S.sum(y) - S.sum(x));
     }
     return 0;
 }

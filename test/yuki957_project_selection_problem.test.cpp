@@ -49,6 +49,6 @@ int main() {
         psp.add_true_profit(h + j, col[j]);
     }
 
-    out.writeln(psp.solve());
+    out.println(psp.solve());
     return 0;
 }

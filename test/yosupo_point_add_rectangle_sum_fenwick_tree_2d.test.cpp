@@ -56,7 +56,7 @@ int main() {
         if (op.type == 0) {
             fw.add(op.x, op.y, op.add);
         } else {
-            pr.writeln(fw.sum(op.x, op.y, op.z, op.w));
+            pr.println(fw.sum(op.x, op.y, op.z, op.w));
         }
     }
     return 0;

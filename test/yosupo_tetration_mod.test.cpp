@@ -18,7 +18,7 @@ int main() {
     while (t--) {
         int a, b, m;
         sc.read(a, b, m);
-        pr.writeln(tetration(a, b, m));
+        pr.println(tetration(a, b, m));
     }
     return 0;
 }

@@ -79,7 +79,7 @@ int main() {
     dsu.run(update, query, clear, reset);
 
     for (auto &&x : ans) {
-        if (x != -1) pr.writeln(x);
+        if (x != -1) pr.println(x);
     }
     return 0;
 }

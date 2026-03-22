@@ -35,9 +35,9 @@ int main() {
     }
     poly f = polynomial_interpolation(xs, ys);
     for (int i = 0; i < n; ++i) {
-        if (i) out.write(' ');
-        out.write(f[i].val);
+        if (i) out.print(' ');
+        out.print(f[i].val);
     }
-    out.writeln();
+    out.println();
     return 0;
 }

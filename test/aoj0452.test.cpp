@@ -76,8 +76,8 @@ int main() {
     }
     val *= fact;
     for (int i = 0; i < n-1; ++i) {
-        if (n + i < (int)val.size() + 1) pr.writeln((val[n - 1 + i] * f[-i]).val);
-        else pr.writeln(0);
+        if (n + i < (int)val.size() + 1) pr.println((val[n - 1 + i] * f[-i]).val);
+        else pr.println(0);
     }
     return 0;
 }

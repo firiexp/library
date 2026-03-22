@@ -14,11 +14,11 @@ using namespace std;
 
 void write_i128(Printer& pr, __int128_t x) {
     if(x == 0) {
-        pr.write('0');
+        pr.print('0');
         return;
     }
     if(x < 0) {
-        pr.write('-');
+        pr.print('-');
         x = -x;
     }
     string s;
@@ -27,7 +27,7 @@ void write_i128(Printer& pr, __int128_t x) {
         x /= 10;
     }
     reverse(s.begin(), s.end());
-    pr.write(s);
+    pr.print(s);
 }
 
 int main() {
@@ -50,20 +50,20 @@ int main() {
 
     auto [ok, cost] = mcf.solve();
     if(!ok) {
-        pr.writeln("infeasible");
+        pr.println("infeasible");
         return 0;
     }
 
     write_i128(pr, cost);
-    pr.writeln();
+    pr.println();
     auto potential = mcf.get_potential();
     for (int i = 0; i < n; ++i) {
-        pr.write(potential[i]);
-        pr.write(i + 1 == n ? '\n' : ' ');
+        pr.print(potential[i]);
+        pr.print(i + 1 == n ? '\n' : ' ');
     }
     auto flow = mcf.get_flows();
     for (int i = 0; i < m; ++i) {
-        pr.writeln(flow[i]);
+        pr.println(flow[i]);
     }
     return 0;
 }

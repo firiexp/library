@@ -53,8 +53,8 @@ int main() {
     auto B = A.pow(k, n);
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
-            pr.write(B[i][j].val);
-            pr.write(j + 1 == n ? '\n' : ' ');
+            pr.print(B[i][j].val);
+            pr.print(j + 1 == n ? '\n' : ' ');
         }
     }
     return 0;

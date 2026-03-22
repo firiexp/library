@@ -18,7 +18,7 @@ int main() {
     while (t--) {
         ll n, m, a, b;
         in.read(n, m, a, b);
-        out.writeln(floor_sum(n, m, a, b));
+        out.println(floor_sum(n, m, a, b));
     }
     return 0;
 }

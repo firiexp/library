@@ -30,9 +30,9 @@ int main() {
     }
     poly g = taylor_shift(f, mint(c));
     for (int i = 0; i < n; ++i) {
-        if (i) out.write(' ');
-        out.write(g[i].val);
+        if (i) out.print(' ');
+        out.print(g[i].val);
     }
-    out.writeln();
+    out.println();
     return 0;
 }

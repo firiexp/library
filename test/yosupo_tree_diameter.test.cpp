@@ -53,7 +53,7 @@ int main() {
     path.push_back(s);
     reverse(path.begin(), path.end());
 
-    pr.writeln(dist, (int)path.size());
-    pr.writeln(path);
+    pr.println(dist, (int)path.size());
+    pr.println(path);
     return 0;
 }

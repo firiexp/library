@@ -36,9 +36,9 @@ int main() {
     }
     vector<mint> ys = f.multipoint_eval(xs);
     for (int i = 0; i < m; ++i) {
-        if (i) out.write(' ');
-        out.write(ys[i].val);
+        if (i) out.print(' ');
+        out.print(ys[i].val);
     }
-    out.writeln();
+    out.println();
     return 0;
 }

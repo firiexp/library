@@ -24,6 +24,6 @@ int main() {
     vector<long long> a(n);
     for (int i = 0; i < n; ++i) in.read(a[i]);
     vector<mint> ans = many_factorials(a);
-    for (int i = 0; i < n; ++i) out.writeln(ans[i].val);
+    for (int i = 0; i < n; ++i) out.println(ans[i].val);
     return 0;
 }

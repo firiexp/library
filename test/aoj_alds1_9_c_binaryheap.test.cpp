@@ -29,7 +29,7 @@ int main() {
             sc.read(x);
             pq.emplace(x);
         } else {
-            pr.writeln(pq.top());
+            pr.println(pq.top());
             pq.pop();
         }
     }

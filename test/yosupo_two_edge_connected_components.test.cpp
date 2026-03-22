@@ -30,14 +30,14 @@ int main() {
     for (auto &&v : comp) sort(v.begin(), v.end());
     sort(comp.begin(), comp.end());
 
-    pr.writeln(k);
+    pr.println(k);
     for (auto &&v : comp) {
-        pr.write((int)v.size());
+        pr.print((int)v.size());
         for (auto &&x : v) {
-            pr.write(' ');
-            pr.write(x);
+            pr.print(' ');
+            pr.print(x);
         }
-        pr.writeln();
+        pr.println();
     }
     return 0;
 }

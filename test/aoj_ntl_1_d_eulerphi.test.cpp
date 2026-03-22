@@ -17,6 +17,6 @@ int main() {
 
     int n;
     sc.read(n);
-    pr.writeln(eulerphi(n));
+    pr.println(eulerphi(n));
     return 0;
 }

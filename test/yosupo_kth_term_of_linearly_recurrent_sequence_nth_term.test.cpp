@@ -41,6 +41,6 @@ int main() {
     q[0] = 1;
     for (int i = 0; i < d; ++i) q[i + 1] = -c[i];
     poly p = (poly(a) * q).cut(d);
-    pr.writeln(nth_term(p, q, n).val);
+    pr.println(nth_term(p, q, n).val);
     return 0;
 }

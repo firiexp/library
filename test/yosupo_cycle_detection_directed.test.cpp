@@ -26,10 +26,10 @@ int main() {
     }
     auto cyc = cycle_detection_directed(g);
     if (cyc.empty()) {
-        pr.writeln(-1);
+        pr.println(-1);
         return 0;
     }
-    pr.writeln((int)cyc.size());
-    for (int id : cyc) pr.writeln(id);
+    pr.println((int)cyc.size());
+    for (int id : cyc) pr.println(id);
     return 0;
 }

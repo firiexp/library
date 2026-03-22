@@ -24,9 +24,9 @@ int main() {
         gm.add_edge(u, v);
     }
     int ans = gm.max_matching();
-    out.writeln(ans);
+    out.println(ans);
     for (auto&& [u, v] : gm.get_pairs()) {
-        out.writeln(u, v);
+        out.println(u, v);
     }
     return 0;
 }

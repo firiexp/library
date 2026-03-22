@@ -60,7 +60,7 @@ int main() {
     }
 
     for (int i = 1; i <= q; ++i) {
-        if (ans[i] != -1) pr.writeln(ans[i]);
+        if (ans[i] != -1) pr.println(ans[i]);
     }
     return 0;
 }

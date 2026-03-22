@@ -66,7 +66,7 @@ int main() {
         } else {
             int l, r;
             sc.read(l, r);
-            pr.writeln(tr.fold(l, r)[0].val);
+            pr.println(tr.fold(l, r)[0].val);
         }
     }
     return 0;

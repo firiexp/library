@@ -16,7 +16,7 @@ int main() {
     while (t--) {
         long long y, p;
         sc.read(y, p);
-        pr.writeln(mod_sqrt(y, p));
+        pr.println(mod_sqrt(y, p));
     }
     return 0;
 }

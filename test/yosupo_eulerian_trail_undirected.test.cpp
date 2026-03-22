@@ -28,20 +28,20 @@ int main() {
         }
         auto res = g.solve();
         if (!res.exists) {
-            out.writeln("No");
+            out.println("No");
             continue;
         }
-        out.writeln("Yes");
+        out.println("Yes");
         for (int i = 0; i < (int)res.vertices.size(); ++i) {
-            if (i) out.write(' ');
-            out.write(res.vertices[i]);
+            if (i) out.print(' ');
+            out.print(res.vertices[i]);
         }
-        out.writeln();
+        out.println();
         for (int i = 0; i < (int)res.edge_ids.size(); ++i) {
-            if (i) out.write(' ');
-            out.write(res.edge_ids[i]);
+            if (i) out.print(' ');
+            out.print(res.edge_ids[i]);
         }
-        out.writeln();
+        out.println();
     }
     return 0;
 }

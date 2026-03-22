@@ -39,7 +39,7 @@ int main() {
     int rank = gauss_jordan(a, true);
     for (int row = rank; row < n; ++row) {
         if (a[row][m].val) {
-            out.writeln(-1);
+            out.println(-1);
             return 0;
         }
     }
@@ -72,15 +72,15 @@ int main() {
         basis.push_back(vec);
     }
 
-    out.writeln((int)basis.size());
+    out.println((int)basis.size());
     for (int i = 0; i < m; ++i) {
-        out.write(particular[i].val);
-        out.write(i + 1 == m ? '\n' : ' ');
+        out.print(particular[i].val);
+        out.print(i + 1 == m ? '\n' : ' ');
     }
     for (auto &&vec : basis) {
         for (int i = 0; i < m; ++i) {
-            out.write(vec[i].val);
-            out.write(i + 1 == m ? '\n' : ' ');
+            out.print(vec[i].val);
+            out.print(i + 1 == m ? '\n' : ' ');
         }
     }
     return 0;

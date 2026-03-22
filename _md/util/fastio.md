@@ -29,18 +29,18 @@ verify 用の小さい高速入出力。
   `in.read(x)` の別名
 - `Printer out`
   出力をためる
-- `out.write(x)`
+- `out.print(x)`
   整数、`bool`、`char`、`string`、文字列リテラルを出力する
-- `out.write(Range const& a)`
+- `out.print(Range const& a)`
   `string` 以外の range を空白区切りで出力する
-- `out.writeln(x)`
-  `write(x)` の後に改行する
-- `out.writeln(a, b, c, ...)`
+- `out.println(x)`
+  `print(x)` の後に改行する
+- `out.println(a, b, c, ...)`
   空白区切りで複数の値を出力して改行する
-- `out.writeln()`
+- `out.println()`
   改行だけ出力する
 - `out << x`
-  `out.write(x)` の別名
+  `out.print(x)` の別名
 
 ## 使い方
 テストコードで `#include "../util/fastio.cpp"` して使う。
@@ -57,8 +57,8 @@ in.read(p);
 vector<int> a(n);
 in.read(a);
 
-out.writeln(a);
-out.writeln(p.first, p.second);
+out.println(a);
+out.println(p.first, p.second);
 ```
 
 ## 実装上の補足

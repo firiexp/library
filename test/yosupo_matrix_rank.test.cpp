@@ -23,7 +23,7 @@ int main() {
     int n, m;
     sc.read(n, m);
     if (n == 0 || m == 0) {
-        pr.writeln(0);
+        pr.println(0);
         return 0;
     }
     vector<vector<mint>> A(n, vector<mint>(m));
@@ -34,6 +34,6 @@ int main() {
             A[i][j] = x;
         }
     }
-    pr.writeln(gauss_jordan(A));
+    pr.println(gauss_jordan(A));
     return 0;
 }

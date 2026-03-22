@@ -32,13 +32,13 @@ int main() {
     auto dist = bellman_ford(s, n, es);
     for (int i = 0; i < n; ++i) {
         if (dist[i] == -INF<ll>) {
-            pr.writeln("NEGATIVE CYCLE");
+            pr.println("NEGATIVE CYCLE");
             return 0;
         }
     }
     for (int i = 0; i < n; ++i) {
-        if (dist[i] == INF<ll>) pr.writeln("INF");
-        else pr.writeln(dist[i]);
+        if (dist[i] == INF<ll>) pr.println("INF");
+        else pr.println(dist[i]);
     }
     return 0;
 }

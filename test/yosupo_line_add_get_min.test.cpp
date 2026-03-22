@@ -57,7 +57,7 @@ int main() {
 
     for (auto qu : qs) {
         if (qu.t == 0) li.add_line(qu.a, qu.b);
-        else out.writeln(li.query(qu.p));
+        else out.println(li.query(qu.p));
     }
     return 0;
 }

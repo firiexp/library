@@ -26,6 +26,6 @@ int main() {
         bm.add_edge(a, b);
     }
 
-    out.writeln(bm.matching());
+    out.println(bm.matching());
     return 0;
 }
