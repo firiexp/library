@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_rectangle_add_point_get.test.cpp
     title: test/yosupo_rectangle_add_point_get.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add\
       \ Point Get)"
@@ -183,7 +183,7 @@ data:
   path: datastructure/rectangle_add_point_get.cpp
   requiredBy: []
   timestamp: '2026-03-13 22:39:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_rectangle_add_point_get.test.cpp
 date: 2026-03-11

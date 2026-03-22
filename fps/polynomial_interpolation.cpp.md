@@ -2,20 +2,20 @@
 category: FPS
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/multipoint_evaluation.cpp
     title: Multipoint Evaluation
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
     links: []
@@ -333,7 +333,7 @@ data:
   path: fps/polynomial_interpolation.cpp
   requiredBy: []
   timestamp: '2026-03-15 12:48:57+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_polynomial_interpolation.test.cpp
 date: 2026-03-08

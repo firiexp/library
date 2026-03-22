@@ -2,17 +2,17 @@
 category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_inverse_matrix.test.cpp
     title: test/yosupo_inverse_matrix.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u9006\u884C\u5217(Inverse Matrix)"
     links: []
@@ -83,7 +83,7 @@ data:
   path: math/inverse_matrix.cpp
   requiredBy: []
   timestamp: '2026-03-14 20:56:35+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_inverse_matrix.test.cpp
 date: 2026-03-11

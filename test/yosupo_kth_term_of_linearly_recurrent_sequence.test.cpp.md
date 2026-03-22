@@ -4,13 +4,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/linear_recurrence.cpp
     title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: fps/nth_term.cpp
     title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
   - icon: ':heavy_check_mark:'
     path: math/berlekamp_massey.cpp
     title: Berlekamp-Massey
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
   _extendedRequiredBy: []

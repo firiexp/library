@@ -7,12 +7,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0355.test.cpp
     title: test/aoj0355.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment\
       \ Tree)"
@@ -114,7 +114,7 @@ data:
   path: datastructure/lazysegtree.cpp
   requiredBy: []
   timestamp: '2026-03-12 00:49:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/aoj0355.test.cpp

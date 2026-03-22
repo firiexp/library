@@ -2,17 +2,17 @@
 category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_static_rectangle_sum.test.cpp
     title: test/yosupo_static_rectangle_sum.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
     links: []
@@ -81,7 +81,7 @@ data:
   path: datastructure/static_rectangle_sum.cpp
   requiredBy: []
   timestamp: '2026-03-12 00:49:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_static_rectangle_sum.test.cpp
 date: 2026-03-08

@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_directedmst.test.cpp
     title: test/yosupo_directedmst.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u6700\u5C0F\u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)"
     links: []
@@ -151,7 +151,7 @@ data:
   path: graph/chu_liu_edmonds.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_directedmst.test.cpp
 date: 2026-03-08

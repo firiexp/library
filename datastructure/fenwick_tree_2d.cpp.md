@@ -2,17 +2,17 @@
 category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
     title: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
     links: []
@@ -90,7 +90,7 @@ data:
   path: datastructure/fenwick_tree_2d.cpp
   requiredBy: []
   timestamp: '2026-03-12 00:49:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
 date: 2026-03-11

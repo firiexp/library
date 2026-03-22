@@ -3,19 +3,19 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/CRT.cpp
     title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_binomial_coefficient.test.cpp
     title: test/yosupo_binomial_coefficient.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yuki1358.test.cpp
     title: test/yuki1358.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5\
       (Extended GCD)"
@@ -36,7 +36,7 @@ data:
   requiredBy:
   - math/CRT.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
   - test/yuki1358.test.cpp

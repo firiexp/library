@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: geometry/area_of_union_of_rectangles.cpp
     title: Area of Union of Rectangles
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/area_of_union_of_rectangles
@@ -24,15 +24,17 @@ data:
     \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\nstruct FastIoDigitTable\
-    \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
-    \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
-    \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
-    \ 10);\n                x /= 10;\n            }\n        }\n    }\n};\n\nstruct\
-    \ Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
-    \ int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive;\n\
-    \n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}\n\n \
-    \   inline void load() {\n        int len = size - idx;\n        memmove(buf,\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
+    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
+    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
+    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
+    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
+    \ size;\n    bool interactive;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin)))\
+    \ {}\n\n    inline void load() {\n        int len = size - idx;\n        memmove(buf,\
     \ buf + idx, len);\n        if (interactive) {\n            if (fgets(buf + len,\
     \ BUFSIZE + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n          \
     \  else size = len;\n        } else {\n            size = len + (int)fread(buf\
@@ -59,21 +61,24 @@ data:
     \  c = buf[idx++];\n            }\n        }\n        x = 0;\n        while (c\
     \ >= '0') {\n            x = x * 10 + (c & 15);\n            c = buf[idx++];\n\
     \        }\n        if constexpr (is_signed<T>::value) {\n            if (neg)\
-    \ x = -x;\n        }\n    }\n\n    template<class Head, class Next, class... Tail>\n\
-    \    void read(Head &head, Next &next, Tail &...tail) {\n        read(head);\n\
-    \        read(next, tail...);\n    }\n\n    template<class T, class U>\n    void\
-    \ read(pair<T, U> &p) {\n        read(p.first, p.second);\n    }\n\n    template<class\
-    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
-    \ string>::value, int>::type = 0>\n    void read(T &a) {\n        for (auto &x\
-    \ : a) read(x);\n    }\n\n    void read(char &c) {\n        c = skip();\n    }\n\
-    \n    void read(string &s) {\n        s.clear();\n        if (interactive) {\n\
-    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
-    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
-    \        }\n            while (true) {\n                int start = idx;\n   \
-    \             while (idx < size && buf[idx] > ' ') ++idx;\n                s.append(buf\
-    \ + start, idx - start);\n                if (idx < size) break;\n           \
-    \     load();\n                if (size == 0) break;\n            }\n        \
-    \    if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
+    \ x = -x;\n        }\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && has_fastio_value<T>::value, int>::type = 0>\n    void read(T &x) {\n    \
+    \    long long v;\n        read(v);\n        x = T(v);\n    }\n\n    template<class\
+    \ Head, class Next, class... Tail>\n    void read(Head &head, Next &next, Tail\
+    \ &...tail) {\n        read(head);\n        read(next, tail...);\n    }\n\n  \
+    \  template<class T, class U>\n    void read(pair<T, U> &p) {\n        read(p.first,\
+    \ p.second);\n    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value\
+    \ && !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ read(T &a) {\n        for (auto &x : a) read(x);\n    }\n\n    void read(char\
+    \ &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n        s.clear();\n\
+    \        if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            while (true) {\n                int start = idx;\n\
+    \                while (idx < size && buf[idx] > ' ') ++idx;\n               \
+    \ s.append(buf + start, idx - start);\n                if (idx < size) break;\n\
+    \                load();\n                if (size == 0) break;\n            }\n\
+    \            if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
@@ -86,16 +91,16 @@ data:
     \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
     \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
     \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
-    \  }\n\n    inline void write_range(const char *s, size_t n) {\n        size_t\
+    \  }\n\n    inline void print_range(const char *s, size_t n) {\n        size_t\
     \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
     \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
     \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
-    \       pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n \
-    \       write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
-    \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
-    \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
+    \       pos += chunk;\n        }\n    }\n\n    void print(const char *s) {\n \
+    \       print_range(s, strlen(s));\n    }\n\n    void print(const string &s) {\n\
+    \        print_range(s.data(), s.size());\n    }\n\n    void print(char c) {\n\
+    \        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0' + (b ?\
     \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
-    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
+    \ && !is_same<T, bool>::value, int>::type = 0>\n    void print(T x) {\n      \
     \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
     \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
     \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
@@ -113,66 +118,69 @@ data:
     \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
     \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
     \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
-    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
-    \ string>::value, int>::type = 0>\n    void write(const T &a) {\n        bool\
-    \ first = true;\n        for (auto &&x : a) {\n            if (!first) pc(' ');\n\
-    \            first = false;\n            write(x);\n        }\n    }\n\n    template<class\
-    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
-    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
-    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
-    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
-    \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
-    \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
-    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/area_of_union_of_rectangles.cpp\"\
-    \nusing namespace std;\n\ntemplate<class Coord = long long, class Area = long\
-    \ long>\nstruct AreaOfUnionOfRectangles {\n    struct Rectangle {\n        Coord\
-    \ l, d, r, u;\n    };\n\n    struct Event {\n        Coord x;\n        int yl,\
-    \ yr;\n        int delta;\n\n        bool operator<(const Event &other) const\
-    \ {\n            return x < other.x;\n        }\n    };\n\n    struct SegmentTree\
-    \ {\n        int n, sz;\n        vector<int> cnt;\n        vector<Area> len;\n\
-    \        vector<Area> total;\n\n        explicit SegmentTree(const vector<Coord>\
-    \ &ys) : n((int)ys.size() - 1), sz(1) {\n            while (sz < n) sz <<= 1;\n\
-    \            cnt.assign(sz << 1, 0);\n            len.assign(sz << 1, 0);\n  \
-    \          total.assign(sz << 1, 0);\n            for (int i = 0; i < n; ++i)\
-    \ {\n                total[sz + i] = Area(ys[i + 1]) - Area(ys[i]);\n        \
-    \    }\n            for (int k = sz - 1; k > 0; --k) total[k] = total[k << 1]\
-    \ + total[k << 1 | 1];\n        }\n\n        void apply(int k, int x) {\n    \
-    \        cnt[k] += x;\n            pull(k);\n        }\n\n        void pull(int\
-    \ k) {\n            if (cnt[k] > 0) {\n                len[k] = total[k];\n  \
-    \          } else if (k < sz) {\n                len[k] = len[k << 1] + len[k\
-    \ << 1 | 1];\n            } else {\n                len[k] = 0;\n            }\n\
-    \        }\n\n        void update(int a, int b, int x) {\n            if (a >=\
-    \ b) return;\n            a += sz;\n            b += sz;\n            int left\
-    \ = a;\n            int right = b - 1;\n            for (; a < b; a >>= 1, b >>=\
-    \ 1) {\n                if (a & 1) apply(a++, x);\n                if (b & 1)\
-    \ apply(--b, x);\n            }\n            while (left >>= 1) pull(left);\n\
-    \            while (right >>= 1) pull(right);\n        }\n\n        Area covered_length()\
-    \ const {\n            return len[1];\n        }\n    };\n\n    vector<Rectangle>\
-    \ rects;\n    vector<Coord> ys;\n\n    void add_rectangle(Coord l, Coord d, Coord\
-    \ r, Coord u) {\n        if (l >= r || d >= u) return;\n        rects.push_back({l,\
-    \ d, r, u});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\n  \
-    \  Area solve() const {\n        if (rects.empty()) return 0;\n\n        vector<Coord>\
-    \ ord_y = ys;\n        sort(ord_y.begin(), ord_y.end());\n        ord_y.erase(unique(ord_y.begin(),\
-    \ ord_y.end()), ord_y.end());\n        if ((int)ord_y.size() <= 1) return 0;\n\
-    \n        vector<Event> events;\n        events.reserve(rects.size() * 2);\n \
-    \       for (auto &&rect : rects) {\n            int d = (int)(lower_bound(ord_y.begin(),\
-    \ ord_y.end(), rect.d) - ord_y.begin());\n            int u = (int)(lower_bound(ord_y.begin(),\
-    \ ord_y.end(), rect.u) - ord_y.begin());\n            events.push_back({rect.l,\
-    \ d, u, 1});\n            events.push_back({rect.r, d, u, -1});\n        }\n \
-    \       sort(events.begin(), events.end());\n\n        SegmentTree seg(ord_y);\n\
-    \        Area ans = 0;\n        Coord prev_x = events[0].x;\n        int i = 0;\n\
-    \        while (i < (int)events.size()) {\n            Coord x = events[i].x;\n\
-    \            ans += seg.covered_length() * Area(x - prev_x);\n            while\
-    \ (i < (int)events.size() && events[i].x == x) {\n                seg.update(events[i].yl,\
-    \ events[i].yr, events[i].delta);\n                ++i;\n            }\n     \
-    \       prev_x = x;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief\
-    \ \u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)\n\
-    \ */\n#line 13 \"test/yosupo_area_of_union_of_rectangles.test.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\n    AreaOfUnionOfRectangles<long\
-    \ long> solver;\n    for (int i = 0; i < n; ++i) {\n        long long l, d, r,\
-    \ u;\n        sc.read(l, d, r, u);\n        solver.add_rectangle(l, d, r, u);\n\
-    \    }\n    pr.writeln(solver.solve());\n    return 0;\n}\n"
+    \ T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value,\
+    \ int>::type = 0>\n    void print(const T &x) {\n        print(x.value());\n \
+    \   }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ print(const T &a) {\n        bool first = true;\n        for (auto &&x : a)\
+    \ {\n            if (!first) pc(' ');\n            first = false;\n          \
+    \  print(x);\n        }\n    }\n\n    template<class T>\n    void println(const\
+    \ T &x) {\n        print(x);\n        pc('\\n');\n    }\n\n    template<class\
+    \ Head, class... Tail>\n    void println(const Head &head, const Tail &...tail)\
+    \ {\n        print(head);\n        ((pc(' '), print(tail)), ...);\n        pc('\\\
+    n');\n    }\n\n    void println() {\n        pc('\\n');\n    }\n};\n\ntemplate<class\
+    \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
+    }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
+    \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
+    \ */\n#line 1 \"geometry/area_of_union_of_rectangles.cpp\"\nusing namespace std;\n\
+    \ntemplate<class Coord = long long, class Area = long long>\nstruct AreaOfUnionOfRectangles\
+    \ {\n    struct Rectangle {\n        Coord l, d, r, u;\n    };\n\n    struct Event\
+    \ {\n        Coord x;\n        int yl, yr;\n        int delta;\n\n        bool\
+    \ operator<(const Event &other) const {\n            return x < other.x;\n   \
+    \     }\n    };\n\n    struct SegmentTree {\n        int n, sz;\n        vector<int>\
+    \ cnt;\n        vector<Area> len;\n        vector<Area> total;\n\n        explicit\
+    \ SegmentTree(const vector<Coord> &ys) : n((int)ys.size() - 1), sz(1) {\n    \
+    \        while (sz < n) sz <<= 1;\n            cnt.assign(sz << 1, 0);\n     \
+    \       len.assign(sz << 1, 0);\n            total.assign(sz << 1, 0);\n     \
+    \       for (int i = 0; i < n; ++i) {\n                total[sz + i] = Area(ys[i\
+    \ + 1]) - Area(ys[i]);\n            }\n            for (int k = sz - 1; k > 0;\
+    \ --k) total[k] = total[k << 1] + total[k << 1 | 1];\n        }\n\n        void\
+    \ apply(int k, int x) {\n            cnt[k] += x;\n            pull(k);\n    \
+    \    }\n\n        void pull(int k) {\n            if (cnt[k] > 0) {\n        \
+    \        len[k] = total[k];\n            } else if (k < sz) {\n              \
+    \  len[k] = len[k << 1] + len[k << 1 | 1];\n            } else {\n           \
+    \     len[k] = 0;\n            }\n        }\n\n        void update(int a, int\
+    \ b, int x) {\n            if (a >= b) return;\n            a += sz;\n       \
+    \     b += sz;\n            int left = a;\n            int right = b - 1;\n  \
+    \          for (; a < b; a >>= 1, b >>= 1) {\n                if (a & 1) apply(a++,\
+    \ x);\n                if (b & 1) apply(--b, x);\n            }\n            while\
+    \ (left >>= 1) pull(left);\n            while (right >>= 1) pull(right);\n   \
+    \     }\n\n        Area covered_length() const {\n            return len[1];\n\
+    \        }\n    };\n\n    vector<Rectangle> rects;\n    vector<Coord> ys;\n\n\
+    \    void add_rectangle(Coord l, Coord d, Coord r, Coord u) {\n        if (l >=\
+    \ r || d >= u) return;\n        rects.push_back({l, d, r, u});\n        ys.push_back(d);\n\
+    \        ys.push_back(u);\n    }\n\n    Area solve() const {\n        if (rects.empty())\
+    \ return 0;\n\n        vector<Coord> ord_y = ys;\n        sort(ord_y.begin(),\
+    \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
+    \        if ((int)ord_y.size() <= 1) return 0;\n\n        vector<Event> events;\n\
+    \        events.reserve(rects.size() * 2);\n        for (auto &&rect : rects)\
+    \ {\n            int d = (int)(lower_bound(ord_y.begin(), ord_y.end(), rect.d)\
+    \ - ord_y.begin());\n            int u = (int)(lower_bound(ord_y.begin(), ord_y.end(),\
+    \ rect.u) - ord_y.begin());\n            events.push_back({rect.l, d, u, 1});\n\
+    \            events.push_back({rect.r, d, u, -1});\n        }\n        sort(events.begin(),\
+    \ events.end());\n\n        SegmentTree seg(ord_y);\n        Area ans = 0;\n \
+    \       Coord prev_x = events[0].x;\n        int i = 0;\n        while (i < (int)events.size())\
+    \ {\n            Coord x = events[i].x;\n            ans += seg.covered_length()\
+    \ * Area(x - prev_x);\n            while (i < (int)events.size() && events[i].x\
+    \ == x) {\n                seg.update(events[i].yl, events[i].yr, events[i].delta);\n\
+    \                ++i;\n            }\n            prev_x = x;\n        }\n   \
+    \     return ans;\n    }\n};\n\n/**\n * @brief \u9577\u65B9\u5F62\u548C\u96C6\u5408\
+    \u9762\u7A4D(Area of Union of Rectangles)\n */\n#line 13 \"test/yosupo_area_of_union_of_rectangles.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\
+    \n    AreaOfUnionOfRectangles<long long> solver;\n    for (int i = 0; i < n; ++i)\
+    \ {\n        long long l, d, r, u;\n        sc.read(l, d, r, u);\n        solver.add_rectangle(l,\
+    \ d, r, u);\n    }\n    pr.writeln(solver.solve());\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/area_of_union_of_rectangles\"\
     \n\n#include <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
@@ -187,8 +195,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_area_of_union_of_rectangles.test.cpp
   requiredBy: []
-  timestamp: '2026-03-15 00:59:06+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-22 11:58:39+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_area_of_union_of_rectangles.test.cpp
 layout: document

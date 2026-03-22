@@ -2,17 +2,17 @@
 category: FPS
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
     links: []
@@ -347,7 +347,7 @@ data:
   path: fps/sample_point_shift.cpp
   requiredBy: []
   timestamp: '2026-03-15 15:48:36+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
 date: 2026-03-08

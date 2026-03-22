@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki2672_xor_basis.test.cpp
     title: test/yuki2672_xor_basis.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "XOR\u57FA\u5E95(Linear Basis)"
     links: []
@@ -64,7 +64,7 @@ data:
   path: math/xor_basis.cpp
   requiredBy: []
   timestamp: '2026-03-12 16:01:52+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yuki2672_xor_basis.test.cpp
 date: 2026-03-12

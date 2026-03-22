@@ -4,18 +4,18 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
     title: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
     title: test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_min_plus_convolution_convex_convex.test.cpp
     title: test/yosupo_min_plus_convolution_convex_convex.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "min-plus\u7573\u307F\u8FBC\u307F(Min-Plus Convolution)"
     links: []
@@ -81,7 +81,7 @@ data:
   path: math/min_plus_convolution.cpp
   requiredBy: []
   timestamp: '2026-03-12 00:49:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
   - test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp

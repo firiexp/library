@@ -1,33 +1,31 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
-    path: datastructure/segbeats.cpp
-    title: Segment Tree Beats
+  - icon: ':heavy_check_mark:'
+    path: datastructure/interval_set.cpp
+    title: "\u533A\u9593\u96C6\u5408(Interval Set)"
   - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum
+    PROBLEM: https://judge.yosupo.jp/problem/predecessor_problem
     links:
-    - https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum
-  bundledCode: "#line 1 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\n\
-    #define PROBLEM \"https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum\"\
-    \n#include <limits>\n#include <vector>\n\nusing ll = long long;\nusing namespace\
-    \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/predecessor_problem
+  bundledCode: "#line 1 \"test/yosupo_predecessor_problem_interval_set.test.cpp\"\n\
+    #define PROBLEM \"https://judge.yosupo.jp/problem/predecessor_problem\"\n\n#include\
+    \ <bits/stdc++.h>\n\nusing namespace std;\n\n#line 10 \"test/yosupo_predecessor_problem_interval_set.test.cpp\"\
+    \n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\
+    \nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\
     \n    constexpr FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000;\
     \ ++i) {\n            int x = i;\n            for (int j = 3; j >= 0; --j) {\n\
@@ -134,92 +132,104 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"datastructure/segbeats.cpp\"\ntemplate<class T>\nclass SegmentTreeBeats\
-    \ {\n    void add_(int x, T val){\n        if(!val) return;\n        auto& now\
-    \ = seg[x];\n        now.sum += val*now.len;\n        now.mn += val; now.mx +=\
-    \ val; now.add += val;\n        if(now.mn2 != INF<T>) now.mn2 += val;\n      \
-    \  if(now.mx2 != -INF<T>) now.mx2 += val;\n    }\n    void chmin_(int x, T val){\n\
-    \        if(val >= seg[x].mx) return;\n        auto& now = seg[x];\n        now.sum\
-    \ += now.mxc*(val-now.mx);\n        if(now.mn == now.mx) now.mn = val;\n     \
-    \   else if(now.mn2 == now.mx) now.mn2 = val;\n        now.mx = val;\n    }\n\
-    \    void chmax_(int x, T val){\n        if(val <= seg[x].mn) return;\n      \
-    \  auto& now = seg[x];\n        now.sum += now.mnc*(val-now.mn);\n        if(now.mx\
-    \ == now.mn) now.mx = val;\n        else if(now.mx2 == now.mn) now.mx2 = val;\n\
-    \        now.mn = val;\n    }\n    void get(int x){\n        M& now = seg[x],\
-    \ &l = seg[(x<<1)|0], &r = seg[(x<<1)|1];\n        now.sum = l.sum + r.sum;\n\
-    \        now.mn = min(l.mn, r.mn);\n        now.mx = max(l.mx, r.mx);\n      \
-    \  now.len = l.len + r.len;\n        if(l.mn < r.mn) now.mnc = l.mnc, now.mn2\
-    \ = min(l.mn2, r.mn);\n        else if(r.mn < l.mn) now.mnc = r.mnc, now.mn2 =\
-    \ min(r.mn2, l.mn);\n        else now.mnc = l.mnc + r.mnc, now.mn2 = min(l.mn2,\
-    \ r.mn2);\n        if(l.mx > r.mx) now.mxc = l.mxc, now.mx2 = max(l.mx2, r.mx);\n\
-    \        else if(r.mx > l.mx) now.mxc = r.mxc, now.mx2 = max(r.mx2, l.mx);\n \
-    \       else now.mxc = l.mxc + r.mxc, now.mx2 = max(l.mx2, r.mx2);\n    }\n  \
-    \  void eval(int x){\n        auto &now = seg[x];\n        for (int i = 0; x <\
-    \ n && i < 2; ++i) {\n            add_((x<<1)|i, now.add);\n            chmin_((x<<1)|i,\
-    \ now.mx);\n            chmax_((x<<1)|i, now.mn);\n        }\n        now.add\
-    \ = 0;\n    }\n    void thrust(int k){ for (int i = height-1; i >= 1; --i) eval(k>>i);\
-    \ }\n    void recalc(int k) { k = k >> __builtin_ctz(k); while(k >>= 1) get(k);}\n\
-    \n    void in_chmin(int x, T val) {\n        if(seg[x].mx2 < val) chmin_(x, val);\n\
-    \        else {\n            eval(x);\n            in_chmin((x<<1)|0, val);\n\
-    \            in_chmin((x<<1)|1, val);\n            get(x);\n        }\n    }\n\
-    \    void in_chmax(int x, T val) {\n        if(seg[x].mn2 > val) chmax_(x, val);\n\
-    \        else {\n            eval(x);\n            in_chmax((x<<1)|0, val);\n\
-    \            in_chmax((x<<1)|1, val);\n            get(x);\n        }\n    }\n\
-    public:\n#define RANGEX(NAME, INFUNC) \\\nvoid NAME(int a, int b, T val) { \\\n\
-    \    thrust(a += n); \\\n    thrust(b += n); \\\n    for(int l = a, r = b; l <\
-    \ r; l >>=1, r>>=1) { \\\n        if (l & 1) INFUNC(l++, val); \\\n        if\
-    \ (r & 1) INFUNC(--r, val); \\\n    } \\\n    recalc(a); \\\n    recalc(b); \\\
-    \n}\n    RANGEX(chmin, in_chmin)\n    RANGEX(chmax, in_chmax)\n    RANGEX(add,\
-    \ add_)\n#undef RANGEX\n    T sum(int a, int b) {\n        thrust(a += n);\n \
-    \       thrust(b += n);\n        T res = 0;\n        for(int l = a, r = b; l <\
-    \ r; l >>=1, r>>=1) {\n            if (l & 1) res += seg[l++].sum;\n         \
-    \   if (r & 1) res += seg[--r].sum;\n        }\n        return res;\n    }\n \
-    \   struct M {\n        T sum, mx, mx2, mxc, mn, mn2, mnc, len, add;\n       \
-    \ M() : mx2(-INF<T>), mxc(1), mn2(INF<T>), mnc(1), add(0) {};\n    };\n    vector<M>\
-    \ seg;\n    int n, height;\n    SegmentTreeBeats() = default;\n    SegmentTreeBeats(const\
-    \ vector<T>& v){\n        n = 1, height = 1;\n        while(n < v.size()) n <<=\
-    \ 1, height++;\n        seg.resize(2*n);\n        for (int i = 0; i < v.size();\
-    \ ++i) {\n            seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];\n     \
-    \       seg[i+n].len = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n */\n#line 17 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
-    \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
-    \ seg(v);\n    while(q--){\n        int t;\n        sc.read(t);\n        if(t\
-    \ == 0){\n            int l, r;\n            ll b;\n            sc.read(l, r,\
-    \ b);\n            seg.chmin(l, r, b);\n        }else if(t == 1){\n          \
-    \  int l, r;\n            ll b;\n            sc.read(l, r, b);\n            seg.chmax(l,\
-    \ r, b);\n        }else if(t == 2){\n            int l, r;\n            ll b;\n\
-    \            sc.read(l, r, b);\n            seg.add(l, r, b);\n        }else {\n\
-    \            int l, r;\n            sc.read(l, r);\n            pr.writeln(seg.sum(l,\
-    \ r));\n        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum\"\
-    \n#include <limits>\n#include <vector>\n\nusing ll = long long;\nusing namespace\
-    \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include \"../util/fastio.cpp\"\n#include \"../datastructure/segbeats.cpp\"\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
-    \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
-    \ seg(v);\n    while(q--){\n        int t;\n        sc.read(t);\n        if(t\
-    \ == 0){\n            int l, r;\n            ll b;\n            sc.read(l, r,\
-    \ b);\n            seg.chmin(l, r, b);\n        }else if(t == 1){\n          \
-    \  int l, r;\n            ll b;\n            sc.read(l, r, b);\n            seg.chmax(l,\
-    \ r, b);\n        }else if(t == 2){\n            int l, r;\n            ll b;\n\
-    \            sc.read(l, r, b);\n            seg.add(l, r, b);\n        }else {\n\
-    \            int l, r;\n            sc.read(l, r);\n            pr.writeln(seg.sum(l,\
-    \ r));\n        }\n    }\n    return 0;\n}\n"
+    \ */\n#line 1 \"datastructure/interval_set.cpp\"\ntemplate<class T, class SumT\
+    \ = long long>\nclass IntervalSet {\npublic:\n    struct Interval {\n        T\
+    \ l, r;\n    };\n\nprivate:\n    struct Compare {\n        using is_transparent\
+    \ = void;\n\n        bool operator()(const Interval& a, const Interval& b) const\
+    \ {\n            return a.l < b.l;\n        }\n        bool operator()(const Interval&\
+    \ a, const T& x) const {\n            return a.l < x;\n        }\n        bool\
+    \ operator()(const T& x, const Interval& a) const {\n            return x < a.l;\n\
+    \        }\n    };\n\n    set<Interval, Compare> st_;\n    SumT total_ = 0;\n\n\
+    \    static SumT seg_len(const Interval& seg) {\n        return static_cast<SumT>(seg.r)\
+    \ - static_cast<SumT>(seg.l);\n    }\n\n    typename set<Interval, Compare>::const_iterator\
+    \ find_interval_it(T x) const {\n        auto it = st_.upper_bound(x);\n     \
+    \   if (it == st_.begin()) return st_.end();\n        --it;\n        if (it->l\
+    \ <= x && x < it->r) return it;\n        return st_.end();\n    }\n\npublic:\n\
+    \    using const_iterator = typename set<Interval, Compare>::const_iterator;\n\
+    \n    IntervalSet() = default;\n\n    bool empty() const {\n        return st_.empty();\n\
+    \    }\n\n    int size() const {\n        return (int)st_.size();\n    }\n\n \
+    \   SumT total_length() const {\n        return total_;\n    }\n\n    const_iterator\
+    \ begin() const {\n        return st_.begin();\n    }\n\n    const_iterator end()\
+    \ const {\n        return st_.end();\n    }\n\n    vector<Interval> intervals()\
+    \ const {\n        return vector<Interval>(st_.begin(), st_.end());\n    }\n\n\
+    \    bool contains(T x) const {\n        return find_interval_it(x) != st_.end();\n\
+    \    }\n\n    Interval find_interval(T x) const {\n        auto it = find_interval_it(x);\n\
+    \        if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n\n\
+    \    Interval insert(T l, T r) {\n        if (!(l < r)) return {l, l};\n\n   \
+    \     auto it = st_.lower_bound(l);\n\n        if (it != st_.begin()) {\n    \
+    \        auto pit = prev(it);\n            if (pit->r >= l) {\n              \
+    \  l = min(l, pit->l);\n                r = max(r, pit->r);\n                total_\
+    \ -= seg_len(*pit);\n                it = st_.erase(pit);\n            }\n   \
+    \     }\n\n        while (it != st_.end() && it->l <= r) {\n            r = max(r,\
+    \ it->r);\n            total_ -= seg_len(*it);\n            it = st_.erase(it);\n\
+    \        }\n\n        auto new_it = st_.insert(it, {l, r});\n        total_ +=\
+    \ static_cast<SumT>(r) - static_cast<SumT>(l);\n        return *new_it;\n    }\n\
+    \n    SumT erase(T l, T r) {\n        if (!(l < r)) return 0;\n\n        SumT\
+    \ removed = 0;\n        vector<Interval> add_back;\n\n        auto it = st_.lower_bound(l);\n\
+    \        if (it != st_.begin()) --it;\n\n        while (it != st_.end() && it->l\
+    \ < r) {\n            if (it->r <= l) {\n                ++it;\n             \
+    \   continue;\n            }\n\n            Interval cur = *it;\n            it\
+    \ = st_.erase(it);\n            total_ -= seg_len(cur);\n\n            T a = max(cur.l,\
+    \ l);\n            T b = min(cur.r, r);\n            removed += static_cast<SumT>(b)\
+    \ - static_cast<SumT>(a);\n\n            if (cur.l < l) add_back.push_back({cur.l,\
+    \ l});\n            if (r < cur.r) add_back.push_back({r, cur.r});\n        }\n\
+    \n        for (const auto& seg : add_back) {\n            st_.insert(seg);\n \
+    \           total_ += seg_len(seg);\n        }\n\n        return removed;\n  \
+    \  }\n\n    SumT covered_length(T l, T r) const {\n        if (!(l < r)) return\
+    \ 0;\n\n        SumT res = 0;\n        auto it = st_.lower_bound(l);\n       \
+    \ if (it != st_.begin()) --it;\n\n        while (it != st_.end() && it->l < r)\
+    \ {\n            if (l < it->r) {\n                T a = max(l, it->l);\n    \
+    \            T b = min(r, it->r);\n                if (a < b) {\n            \
+    \        res += static_cast<SumT>(b) - static_cast<SumT>(a);\n               \
+    \ }\n            }\n            ++it;\n        }\n        return res;\n    }\n\
+    \n    T mex(T x) const {\n        auto it = find_interval_it(x);\n        if (it\
+    \ == st_.end()) return x;\n        return it->r;\n    }\n\n    void clear() {\n\
+    \        st_.clear();\n        total_ = 0;\n    }\n\n    Interval prev_interval(T\
+    \ x) const {\n        auto it = st_.upper_bound(x);\n        if (it == st_.begin())\
+    \ return {-1, -1};\n        --it;\n        return *it;\n    }\n\n    Interval\
+    \ next_interval(T x) const {\n        auto fit = find_interval_it(x);\n      \
+    \  if (fit != st_.end()) return *fit;\n\n        auto it = st_.lower_bound(x);\n\
+    \        if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n};\n\
+    \n/**\n * @brief \u533A\u9593\u96C6\u5408(Interval Set)\n */\n#line 14 \"test/yosupo_predecessor_problem_interval_set.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    string\
+    \ t;\n    sc.read(n, q, t);\n\n    IntervalSet<int, int> st;\n    for (int i =\
+    \ 0; i < n; ++i) {\n        if (t[i] == '1') st.insert(i, i + 1);\n    }\n\n \
+    \   while (q--) {\n        int c, k;\n        sc.read(c, k);\n        if (c ==\
+    \ 0) {\n            st.insert(k, k + 1);\n        } else if (c == 1) {\n     \
+    \       st.erase(k, k + 1);\n        } else if (c == 2) {\n            pr.println(st.contains(k)\
+    \ ? 1 : 0);\n        } else if (c == 3) {\n            auto seg = st.next_interval(k);\n\
+    \            if (seg.l == -1) pr.println(-1);\n            else pr.println(max(k,\
+    \ seg.l));\n        } else {\n            auto seg = st.prev_interval(k);\n  \
+    \          if (seg.l == -1) pr.println(-1);\n            else pr.println(min(k,\
+    \ seg.r - 1));\n        }\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/predecessor_problem\"\n\
+    \n#include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../datastructure/interval_set.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n, q;\n    string t;\n    sc.read(n, q, t);\n\
+    \n    IntervalSet<int, int> st;\n    for (int i = 0; i < n; ++i) {\n        if\
+    \ (t[i] == '1') st.insert(i, i + 1);\n    }\n\n    while (q--) {\n        int\
+    \ c, k;\n        sc.read(c, k);\n        if (c == 0) {\n            st.insert(k,\
+    \ k + 1);\n        } else if (c == 1) {\n            st.erase(k, k + 1);\n   \
+    \     } else if (c == 2) {\n            pr.println(st.contains(k) ? 1 : 0);\n\
+    \        } else if (c == 3) {\n            auto seg = st.next_interval(k);\n \
+    \           if (seg.l == -1) pr.println(-1);\n            else pr.println(max(k,\
+    \ seg.l));\n        } else {\n            auto seg = st.prev_interval(k);\n  \
+    \          if (seg.l == -1) pr.println(-1);\n            else pr.println(min(k,\
+    \ seg.r - 1));\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/segbeats.cpp
+  - datastructure/interval_set.cpp
   isVerificationFile: true
-  path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
+  path: test/yosupo_predecessor_problem_interval_set.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 12:10:23+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
+documentation_of: test/yosupo_predecessor_problem_interval_set.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
-- /verify/test/yosupo_range_chmin_chmax_add_range_sum.test.cpp.html
-title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
+- /verify/test/yosupo_predecessor_problem_interval_set.test.cpp
+- /verify/test/yosupo_predecessor_problem_interval_set.test.cpp.html
+title: test/yosupo_predecessor_problem_interval_set.test.cpp
 ---

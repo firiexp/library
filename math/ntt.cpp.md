@@ -6,26 +6,26 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/linear_recurrence.cpp
     title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/multipoint_evaluation.cpp
     title: Multipoint Evaluation
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: fps/nth_term.cpp
     title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/polynomial_interpolation.cpp
     title: Polynomial Interpolation
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/sample_point_shift.cpp
     title: Sample Point Shift
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: fps/taylor_shift.cpp
     title: Taylor Shift
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/many_factorials.cpp
     title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
   - icon: ':heavy_check_mark:'
@@ -37,36 +37,36 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_log_of_formal_power_series.test.cpp
     title: test/yosupo_log_of_formal_power_series.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_many_factorials.test.cpp
     title: test/yosupo_many_factorials.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_pow_of_formal_power_series.test.cpp
     title: test/yosupo_pow_of_formal_power_series.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_sqrt_of_formal_power_series.test.cpp
     title: test/yosupo_sqrt_of_formal_power_series.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
     links: []
@@ -615,7 +615,7 @@ data:
   - fps/nth_term.cpp
   - math/many_factorials.cpp
   timestamp: '2026-03-15 12:48:57+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp

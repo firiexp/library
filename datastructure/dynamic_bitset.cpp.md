@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
     title: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u52D5\u7684bitset(Dynamic Bitset)"
     links: []
@@ -162,7 +162,7 @@ data:
   path: datastructure/dynamic_bitset.cpp
   requiredBy: []
   timestamp: '2026-03-12 19:34:31+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
 date: 2026-03-08

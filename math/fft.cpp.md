@@ -2,23 +2,23 @@
 category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/frequency_table_of_tree_distance.cpp
     title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_frequency_table_of_tree_distance.test.cpp
     title: test/yosupo_frequency_table_of_tree_distance.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
     links: []
@@ -269,7 +269,7 @@ data:
   requiredBy:
   - tree/frequency_table_of_tree_distance.cpp
   timestamp: '2026-03-15 11:18:22+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp

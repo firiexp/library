@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_stern_brocot_tree.test.cpp
     title: test/yosupo_stern_brocot_tree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "Stern-Brocot\u6728"
     links: []
@@ -81,7 +81,7 @@ data:
   path: math/stern_brocot_tree.cpp
   requiredBy: []
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_stern_brocot_tree.test.cpp
 date: 2026-03-08

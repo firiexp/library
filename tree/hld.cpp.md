@@ -3,28 +3,28 @@ category: "\u6728"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/hld_edge.cpp
     title: HLD Edge
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "HL\u5206\u89E3(HL Decomposition)"
     links: []
@@ -156,7 +156,7 @@ data:
   requiredBy:
   - tree/hld_edge.cpp
   timestamp: '2026-03-13 21:29:59+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yuki1326_block_cut_tree.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp

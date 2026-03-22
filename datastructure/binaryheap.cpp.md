@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_alds1_9_c_binaryheap.test.cpp
     title: test/aoj_alds1_9_c_binaryheap.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)"
     links: []
@@ -32,7 +32,7 @@ data:
   path: datastructure/binaryheap.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aoj_alds1_9_c_binaryheap.test.cpp
 documentation_of: datastructure/binaryheap.cpp

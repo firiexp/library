@@ -3,25 +3,25 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/primefactor_ll.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/primitive_root.cpp
     title: Primitive Root
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_factorize.test.cpp
     title: test/yosupo_factorize.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_primality_test.test.cpp
     title: test/yosupo_primality_test.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_primitive_root.test.cpp
     title: test/yosupo_primitive_root.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
     links: []
@@ -101,7 +101,7 @@ data:
   - math/primefactor_ll.cpp
   - math/primitive_root.cpp
   timestamp: '2026-03-11 00:38:22+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_primality_test.test.cpp
   - test/yosupo_factorize.test.cpp

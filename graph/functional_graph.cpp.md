@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)"
     links: []
@@ -109,7 +109,7 @@ data:
   path: graph/functional_graph.cpp
   requiredBy: []
   timestamp: '2026-03-12 19:34:31+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_aplusb_functional_graph.test.cpp
 date: 2026-03-12

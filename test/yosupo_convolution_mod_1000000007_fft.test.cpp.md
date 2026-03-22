@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/convolution_mod_1000000007
@@ -47,8 +47,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   requiredBy: []
-  timestamp: '2026-03-15 11:18:22+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-22 11:58:39+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_convolution_mod_1000000007_fft.test.cpp
 layout: document

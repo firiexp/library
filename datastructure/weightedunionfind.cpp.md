@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
     title: test/aoj_dsl_1_b_weightedunionfind.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_unionfind_with_potential.test.cpp
     title: test/yosupo_unionfind_with_potential.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
     links: []
@@ -56,7 +56,7 @@ data:
   path: datastructure/weightedunionfind.cpp
   requiredBy: []
   timestamp: '2026-03-15 11:35:08+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_unionfind_with_potential.test.cpp
   - test/aoj_dsl_1_b_weightedunionfind.test.cpp

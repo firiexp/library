@@ -2,17 +2,17 @@
 category: "\u30D5\u30ED\u30FC"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: flow/dinic.cpp
     title: "Dinic(\u6700\u5927\u6D41)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki957_project_selection_problem.test.cpp
     title: test/yuki957_project_selection_problem.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Project Selection Problem
     links: []
@@ -104,7 +104,7 @@ data:
   path: flow/project_selection_problem.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yuki957_project_selection_problem.test.cpp
 date: 2026-03-08

@@ -2,28 +2,28 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/dijkstra.cpp
     title: "Dijkstra\u6CD5"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/dijkstra_radix_heap.cpp
     title: "Dijkstra\u6CD5(Radix Heap)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/dijkstra_restore.cpp
     title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_grl_1_a_dijkstra.test.cpp
     title: test/aoj_grl_1_a_dijkstra.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_shortest_path_radix_heap.test.cpp
     title: test/yosupo_shortest_path_radix_heap.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"graph/dijkstra_common.cpp\"\n\n\n\ntemplate <typename T>\n\
@@ -71,7 +71,7 @@ data:
   - graph/dijkstra_radix_heap.cpp
   - graph/dijkstra.cpp
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_shortest_path_radix_heap.test.cpp
   - test/aoj_grl_1_a_dijkstra.test.cpp

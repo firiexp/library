@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_bitwise_or_convolution.test.cpp
     title: test/yosupo_bitwise_or_convolution.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "OR\u7573\u307F\u8FBC\u307F(Bitwise OR Convolution)"
     links: []
@@ -44,7 +44,7 @@ data:
   path: math/or_convolution.cpp
   requiredBy: []
   timestamp: '2026-03-10 23:38:19+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_bitwise_or_convolution.test.cpp
 date: 2026-03-10

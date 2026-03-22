@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/sparsetable.cpp
     title: Sparse Table
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
     links: []
@@ -71,7 +71,7 @@ data:
   path: tree/LCA.cpp
   requiredBy: []
   timestamp: '2026-03-13 21:29:59+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_lca.test.cpp
 documentation_of: tree/LCA.cpp

@@ -10,10 +10,10 @@ data:
   - icon: ':warning:'
     path: math/get_min_factor.cpp
     title: Get Min Factor
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/get_prime.cpp
     title: "\u7D20\u6570\u5217\u6319"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/get_prime2.cpp
     title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
   - icon: ':warning:'
@@ -23,15 +23,15 @@ data:
     path: math/powk_all.cpp
     title: math/powk_all.cpp
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_alds1_1_c_get_prime.test.cpp
     title: test/aoj_alds1_1_c_get_prime.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_alds1_1_c_get_prime2.test.cpp
     title: test/aoj_alds1_1_c_get_prime2.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
     links: []
@@ -100,7 +100,7 @@ data:
   - math/get_prime2.cpp
   - math/get_prime.cpp
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aoj_alds1_1_c_get_prime.test.cpp
   - test/aoj_alds1_1_c_get_prime2.test.cpp

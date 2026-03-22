@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: graph/dijkstra_common.cpp
     title: graph/dijkstra_common.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_grl_1_a_dijkstra.test.cpp
     title: test/aoj_grl_1_a_dijkstra.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "Dijkstra\u6CD5"
     links: []
@@ -45,7 +45,7 @@ data:
   path: graph/dijkstra.cpp
   requiredBy: []
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aoj_grl_1_a_dijkstra.test.cpp
 documentation_of: graph/dijkstra.cpp

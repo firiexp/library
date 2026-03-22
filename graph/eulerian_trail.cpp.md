@@ -4,15 +4,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eulerian_trail_directed.test.cpp
     title: test/yosupo_eulerian_trail_directed.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_eulerian_trail_undirected.test.cpp
     title: test/yosupo_eulerian_trail_undirected.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
     links: []
@@ -105,7 +105,7 @@ data:
   path: graph/eulerian_trail.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_eulerian_trail_directed.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp

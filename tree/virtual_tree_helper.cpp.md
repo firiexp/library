@@ -2,20 +2,20 @@
 category: "\u6728"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/sparsetable.cpp
     title: Sparse Table
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/auxtree.cpp
     title: "\u88DC\u52A9\u6728(Aux Tree)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj0439_virtual_tree_helper.test.cpp
     title: test/aoj0439_virtual_tree_helper.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Virtual Tree Helper
     links: []
@@ -112,7 +112,7 @@ data:
   path: tree/virtual_tree_helper.cpp
   requiredBy: []
   timestamp: '2026-03-12 00:49:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aoj0439_virtual_tree_helper.test.cpp
 date: 2026-03-08

@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_binomial_coefficient.test.cpp
     title: test/yosupo_binomial_coefficient.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
     links: []
@@ -51,7 +51,7 @@ data:
   path: math/primefactor.cpp
   requiredBy: []
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
 date: 2026-03-08

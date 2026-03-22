@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
     title: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
     links: []
@@ -91,7 +91,7 @@ data:
   path: datastructure/dynamic_segtree.cpp
   requiredBy: []
   timestamp: '2026-03-13 22:14:25+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
 date: 2026-03-08

@@ -2,17 +2,17 @@
 category: "\u6728"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: tree/hld.cpp
     title: "\u91CD\u8EFD\u5206\u89E3"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
     links: []
@@ -127,7 +127,7 @@ data:
   path: tree/hld_edge.cpp
   requiredBy: []
   timestamp: '2026-03-13 21:29:59+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yuki650_hld_edge.test.cpp
 date: 2026-03-08

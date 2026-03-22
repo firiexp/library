@@ -2,20 +2,20 @@
 category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/miller_rabin.cpp
     title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/primefactor_ll.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_primitive_root.test.cpp
     title: test/yosupo_primitive_root.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u539F\u59CB\u6839(Primitive Root)"
     links: []
@@ -117,7 +117,7 @@ data:
   path: math/primitive_root.cpp
   requiredBy: []
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_primitive_root.test.cpp
 date: 2026-03-08

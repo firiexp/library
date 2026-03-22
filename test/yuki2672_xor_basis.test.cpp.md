@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/xor_basis.cpp
     title: "XOR\u57FA\u5E95(Linear Basis)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/2672
@@ -24,15 +24,17 @@ data:
     \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\nstruct FastIoDigitTable\
-    \ {\n    char num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n    \
-    \    for (int i = 0; i < 10000; ++i) {\n            int x = i;\n            for\
-    \ (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x %\
-    \ 10);\n                x /= 10;\n            }\n        }\n    }\n};\n\nstruct\
-    \ Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr\
-    \ int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive;\n\
-    \n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}\n\n \
-    \   inline void load() {\n        int len = size - idx;\n        memmove(buf,\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
+    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
+    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
+    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
+    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
+    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
+    \ size;\n    bool interactive;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin)))\
+    \ {}\n\n    inline void load() {\n        int len = size - idx;\n        memmove(buf,\
     \ buf + idx, len);\n        if (interactive) {\n            if (fgets(buf + len,\
     \ BUFSIZE + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n          \
     \  else size = len;\n        } else {\n            size = len + (int)fread(buf\
@@ -59,21 +61,24 @@ data:
     \  c = buf[idx++];\n            }\n        }\n        x = 0;\n        while (c\
     \ >= '0') {\n            x = x * 10 + (c & 15);\n            c = buf[idx++];\n\
     \        }\n        if constexpr (is_signed<T>::value) {\n            if (neg)\
-    \ x = -x;\n        }\n    }\n\n    template<class Head, class Next, class... Tail>\n\
-    \    void read(Head &head, Next &next, Tail &...tail) {\n        read(head);\n\
-    \        read(next, tail...);\n    }\n\n    template<class T, class U>\n    void\
-    \ read(pair<T, U> &p) {\n        read(p.first, p.second);\n    }\n\n    template<class\
-    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
-    \ string>::value, int>::type = 0>\n    void read(T &a) {\n        for (auto &x\
-    \ : a) read(x);\n    }\n\n    void read(char &c) {\n        c = skip();\n    }\n\
-    \n    void read(string &s) {\n        s.clear();\n        if (interactive) {\n\
-    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
-    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
-    \        }\n            while (true) {\n                int start = idx;\n   \
-    \             while (idx < size && buf[idx] > ' ') ++idx;\n                s.append(buf\
-    \ + start, idx - start);\n                if (idx < size) break;\n           \
-    \     load();\n                if (size == 0) break;\n            }\n        \
-    \    if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
+    \ x = -x;\n        }\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && has_fastio_value<T>::value, int>::type = 0>\n    void read(T &x) {\n    \
+    \    long long v;\n        read(v);\n        x = T(v);\n    }\n\n    template<class\
+    \ Head, class Next, class... Tail>\n    void read(Head &head, Next &next, Tail\
+    \ &...tail) {\n        read(head);\n        read(next, tail...);\n    }\n\n  \
+    \  template<class T, class U>\n    void read(pair<T, U> &p) {\n        read(p.first,\
+    \ p.second);\n    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value\
+    \ && !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ read(T &a) {\n        for (auto &x : a) read(x);\n    }\n\n    void read(char\
+    \ &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n        s.clear();\n\
+    \        if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            while (true) {\n                int start = idx;\n\
+    \                while (idx < size && buf[idx] > ' ') ++idx;\n               \
+    \ s.append(buf + start, idx - start);\n                if (idx < size) break;\n\
+    \                load();\n                if (size == 0) break;\n            }\n\
+    \            if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
@@ -86,16 +91,16 @@ data:
     \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
     \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
     \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
-    \  }\n\n    inline void write_range(const char *s, size_t n) {\n        size_t\
+    \  }\n\n    inline void print_range(const char *s, size_t n) {\n        size_t\
     \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
     \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
     \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
-    \       pos += chunk;\n        }\n    }\n\n    void write(const char *s) {\n \
-    \       write_range(s, strlen(s));\n    }\n\n    void write(const string &s) {\n\
-    \        write_range(s.data(), s.size());\n    }\n\n    void write(char c) {\n\
-    \        pc(c);\n    }\n\n    void write(bool b) {\n        pc(char('0' + (b ?\
+    \       pos += chunk;\n        }\n    }\n\n    void print(const char *s) {\n \
+    \       print_range(s, strlen(s));\n    }\n\n    void print(const string &s) {\n\
+    \        print_range(s.data(), s.size());\n    }\n\n    void print(char c) {\n\
+    \        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0' + (b ?\
     \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
-    \ && !is_same<T, bool>::value, int>::type = 0>\n    void write(T x) {\n      \
+    \ && !is_same<T, bool>::value, int>::type = 0>\n    void print(T x) {\n      \
     \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
     \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
     \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
@@ -113,24 +118,27 @@ data:
     \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
     \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
     \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
-    \ T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type,\
-    \ string>::value, int>::type = 0>\n    void write(const T &a) {\n        bool\
-    \ first = true;\n        for (auto &&x : a) {\n            if (!first) pc(' ');\n\
-    \            first = false;\n            write(x);\n        }\n    }\n\n    template<class\
-    \ T>\n    void writeln(const T &x) {\n        write(x);\n        pc('\\n');\n\
-    \    }\n\n    template<class Head, class... Tail>\n    void writeln(const Head\
-    \ &head, const Tail &...tail) {\n        write(head);\n        ((pc(' '), write(tail)),\
-    \ ...);\n        pc('\\n');\n    }\n\n    void writeln() {\n        pc('\\n');\n\
-    \    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner &in, T &x) {\n  \
-    \  in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter &operator<<(Printer\
-    \ &out, const T &x) {\n    out.write(x);\n    return out;\n}\n\n/**\n * @brief\
-    \ \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/xor_basis.cpp\"\
-    \ntemplate<class T>\nstruct XorBasis {\n    static_assert(is_integral_v<T>, \"\
-    XorBasis requires integral T\");\n\n    using U = make_unsigned_t<T>;\n    static\
-    \ constexpr int B = numeric_limits<U>::digits;\n\n    vector<U> basis;\n    int\
-    \ rank = 0;\n\n    XorBasis() : basis(B, 0) {}\n\n    int size() const {\n   \
-    \     return rank;\n    }\n\n    bool empty() const {\n        return rank ==\
-    \ 0;\n    }\n\n    bool add(T x) {\n        U y = reduce_unsigned(static_cast<U>(x));\n\
+    \ T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value,\
+    \ int>::type = 0>\n    void print(const T &x) {\n        print(x.value());\n \
+    \   }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ print(const T &a) {\n        bool first = true;\n        for (auto &&x : a)\
+    \ {\n            if (!first) pc(' ');\n            first = false;\n          \
+    \  print(x);\n        }\n    }\n\n    template<class T>\n    void println(const\
+    \ T &x) {\n        print(x);\n        pc('\\n');\n    }\n\n    template<class\
+    \ Head, class... Tail>\n    void println(const Head &head, const Tail &...tail)\
+    \ {\n        print(head);\n        ((pc(' '), print(tail)), ...);\n        pc('\\\
+    n');\n    }\n\n    void println() {\n        pc('\\n');\n    }\n};\n\ntemplate<class\
+    \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
+    }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
+    \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
+    \ */\n#line 1 \"math/xor_basis.cpp\"\ntemplate<class T>\nstruct XorBasis {\n \
+    \   static_assert(is_integral_v<T>, \"XorBasis requires integral T\");\n\n   \
+    \ using U = make_unsigned_t<T>;\n    static constexpr int B = numeric_limits<U>::digits;\n\
+    \n    vector<U> basis;\n    int rank = 0;\n\n    XorBasis() : basis(B, 0) {}\n\
+    \n    int size() const {\n        return rank;\n    }\n\n    bool empty() const\
+    \ {\n        return rank == 0;\n    }\n\n    bool add(T x) {\n        U y = reduce_unsigned(static_cast<U>(x));\n\
     \        if (y == 0) return false;\n\n        int p = B - 1;\n        while (((y\
     \ >> p) & 1) == 0) --p;\n        for (int i = 0; i < p; ++i) {\n            if\
     \ ((y >> i) & 1) y ^= basis[i];\n        }\n        basis[p] = y;\n        ++rank;\n\
@@ -204,8 +212,8 @@ data:
   isVerificationFile: true
   path: test/yuki2672_xor_basis.test.cpp
   requiredBy: []
-  timestamp: '2026-03-14 13:04:06+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-22 11:58:39+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yuki2672_xor_basis.test.cpp
 layout: document

@@ -2,17 +2,17 @@
 category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/modinv.cpp
     title: math/modinv.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_binomial_coefficient.test.cpp
     title: test/yosupo_binomial_coefficient.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
     links: []
@@ -62,7 +62,7 @@ data:
   path: math/binom_mod_prime_power.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
 date: 2026-03-08

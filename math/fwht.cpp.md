@@ -7,12 +7,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0402.test.cpp
     title: test/aoj0402.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_bitwise_xor_convolution.test.cpp
     title: test/yosupo_bitwise_xor_convolution.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "\u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)"
     links: []
@@ -44,7 +44,7 @@ data:
   path: math/fwht.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/aoj0402.test.cpp

@@ -2,40 +2,40 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/fenwick_tree_2d.cpp
     title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/point_add_rectangle_sum.cpp
     title: Point Add Rectangle Sum
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: datastructure/static_rectangle_sum.cpp
     title: Static Rectangle Sum
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_dsl_2_b.test.cpp
     title: test/aoj_dsl_2_b.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_add_range_sum.test.cpp
     title: test/yosupo_point_add_range_sum.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_add_rectangle_sum.test.cpp
     title: test/yosupo_point_add_rectangle_sum.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
     title: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_static_range_inversions_query.test.cpp
     title: test/yosupo_static_range_inversions_query.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_static_rectangle_sum.test.cpp
     title: test/yosupo_static_rectangle_sum.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Binary Indexed Tree(BIT)
     links: []
@@ -66,7 +66,7 @@ data:
   - datastructure/fenwick_tree_2d.cpp
   - datastructure/static_rectangle_sum.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_point_add_range_sum.test.cpp
   - test/aoj_dsl_2_b.test.cpp

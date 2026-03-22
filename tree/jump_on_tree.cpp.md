@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_jump_on_tree.test.cpp
     title: test/yosupo_jump_on_tree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: Jump on Tree
     links: []
@@ -88,7 +88,7 @@ data:
   path: tree/jump_on_tree.cpp
   requiredBy: []
   timestamp: '2026-03-13 22:39:26+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_jump_on_tree.test.cpp
 date: 2026-03-08

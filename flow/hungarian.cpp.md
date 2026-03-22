@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_assignment_hungarian.test.cpp
     title: test/yosupo_assignment_hungarian.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     document_title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)"
     links: []
@@ -79,7 +79,7 @@ data:
   path: flow/hungarian.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/yosupo_assignment_hungarian.test.cpp
 date: 2026-03-08

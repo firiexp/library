@@ -2,17 +2,17 @@
 category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: math/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj_alds1_1_c_get_prime2.test.cpp
     title: test/aoj_alds1_1_c_get_prime2.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n  \
@@ -66,7 +66,7 @@ data:
   path: math/get_prime2.cpp
   requiredBy: []
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - test/aoj_alds1_1_c_get_prime2.test.cpp
 date: 2026-03-08
