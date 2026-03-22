@@ -9,6 +9,12 @@ struct is_fastio_range : false_type {};
 template<class T>
 struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> : true_type {};
 
+template<class T, class = void>
+struct has_fastio_value : false_type {};
+
+template<class T>
+struct has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type {};
+
 struct FastIoDigitTable {
     char num[40000];
 
@@ -111,6 +117,13 @@ struct Scanner {
         }
     }
 
+    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value, int>::type = 0>
+    void read(T &x) {
+        long long v;
+        read(v);
+        x = T(v);
+    }
+
     template<class Head, class Next, class... Tail>
     void read(Head &head, Next &next, Tail &...tail) {
         read(head);
@@ -190,7 +203,7 @@ struct Printer {
         if (interactive && c == '\n') flush();
     }
 
-    inline void write_range(const char *s, size_t n) {
+    inline void print_range(const char *s, size_t n) {
         size_t pos = 0;
         while (pos < n) {
             if (idx == BUFSIZE) flush();
@@ -201,24 +214,24 @@ struct Printer {
         }
     }
 
-    void write(const char *s) {
-        write_range(s, strlen(s));
+    void print(const char *s) {
+        print_range(s, strlen(s));
     }
 
-    void write(const string &s) {
-        write_range(s.data(), s.size());
+    void print(const string &s) {
+        print_range(s.data(), s.size());
     }
 
-    void write(char c) {
+    void print(char c) {
         pc(c);
     }
 
-    void write(bool b) {
+    void print(bool b) {
         pc(char('0' + (b ? 1 : 0)));
     }
 
     template<class T, typename enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>
-    void write(T x) {
+    void print(T x) {
         if (idx > BUFSIZE - 100) flush();
         using U = typename make_unsigned<T>::type;
         U y;
@@ -262,30 +275,35 @@ struct Printer {
         idx += TMP_SIZE - pos;
     }
 
+    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value, int>::type = 0>
+    void print(const T &x) {
+        print(x.value());
+    }
+
     template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value, int>::type = 0>
-    void write(const T &a) {
+    void print(const T &a) {
         bool first = true;
         for (auto &&x : a) {
             if (!first) pc(' ');
             first = false;
-            write(x);
+            print(x);
         }
     }
 
     template<class T>
-    void writeln(const T &x) {
-        write(x);
+    void println(const T &x) {
+        print(x);
         pc('\n');
     }
 
     template<class Head, class... Tail>
-    void writeln(const Head &head, const Tail &...tail) {
-        write(head);
-        ((pc(' '), write(tail)), ...);
+    void println(const Head &head, const Tail &...tail) {
+        print(head);
+        ((pc(' '), print(tail)), ...);
         pc('\n');
     }
 
-    void writeln() {
+    void println() {
         pc('\n');
     }
 };
@@ -298,7 +316,7 @@ Scanner &operator>>(Scanner &in, T &x) {
 
 template<class T>
 Printer &operator<<(Printer &out, const T &x) {
-    out.write(x);
+    out.print(x);
     return out;
 }
 
