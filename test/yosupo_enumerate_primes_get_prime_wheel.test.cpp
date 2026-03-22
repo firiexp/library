@@ -3,8 +3,10 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include <array>
 using namespace std;
 using ll = long long;
+using ull = unsigned long long;
 
 #include <cstdio>
 #include <cstring>
@@ -20,15 +22,13 @@ int main() {
 
     int n, a, b;
     sc.read(n, a, b);
-    Prime prime(n);
-    int m = prime.primes.size();
-    pr.println(m, (m + a - 1 - b) / a);
-    bool first = true;
-    for (int i = b; i < m; i += a) {
-        if (!first) pr.print(' ');
-        first = false;
-        pr.print(prime.primes[i]);
-    }
-    pr.println();
-    return 0;
+
+    Prime prime(n, a, b);
+
+    pr.print(prime.count);
+    pr.print(' ');
+    pr.println((prime.count <= b ? 0 : (prime.count - b + a - 1) / a));
+
+    pr.println(prime.picked);
 }
+
