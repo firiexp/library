@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/dualsegtree.cpp
+    path: datastructure/segmenttree/dualsegtree.cpp
     title: "\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -164,41 +164,41 @@ data:
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
     #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 1 \"datastructure/dualsegtree.cpp\"\ntemplate <class M>\n\
-    struct DualSegmentTree{\n    using T = typename M::T;\n    int sz, height{};\n\
-    \    vector<T> lazy;\n    explicit DualSegmentTree(int n) {\n        sz = 1; while(sz\
-    \ < n) sz <<= 1, height++;\n        lazy.assign(2*sz, M::e());\n    }\n\n    void\
-    \ eval(int k){\n        if(lazy[k] == M::e()) return;\n        lazy[(k<<1)|0]\
-    \ = M::f(lazy[(k<<1)|0], lazy[k]);\n        lazy[(k<<1)|1] = M::f(lazy[(k<<1)|1],\
-    \ lazy[k]);\n        lazy[k] = M::e();\n    }\n    void thrust(int k){ for (int\
-    \ i = height; i; --i) eval(k>>i); }\n    void update(int a, int b, const T &x){\n\
-    \        thrust(a += sz); thrust(b += sz-1);\n        for (int l = a, r = b+1;l\
-    \ < r; l >>=1, r >>= 1) {\n            if(l&1) lazy[l] = M::f(lazy[l], x), l++;\n\
-    \            if(r&1) --r, lazy[r] = M::f(lazy[r], x);\n        }\n    }\n\n  \
-    \  T operator[](int k){\n        thrust(k += sz);\n        return lazy[k];\n \
-    \   }\n};\n/*\nstruct Monoid{\n    using T = ll;\n    static T f(T a, T b) { return\
-    \ a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\u5BFE\
-    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)\n */\n#line 19 \"test/yosupo_range_affine_point_get_dualsegtree.test.cpp\"\
-    \n\nstruct Monoid {\n    using T = pair<mint, mint>;\n    static T f(T a, T b)\
-    \ {\n        return {b.first * a.first, b.first * a.second + b.second};\n    }\n\
-    \    static T e() { return {1, 0}; }\n};\n\nint main() {\n    Scanner sc;\n  \
-    \  Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<mint> a(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        int x;\n        sc.read(x);\n    \
-    \    a[i] = x;\n    }\n\n    DualSegmentTree<Monoid> seg(n);\n    while (q--)\
-    \ {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n            int\
-    \ l, r, b, c;\n            sc.read(l, r, b, c);\n            seg.update(l, r,\
-    \ {b, c});\n        } else {\n            int i;\n            sc.read(i);\n  \
-    \          auto [mul, add] = seg[i];\n            pr.println((mul * a[i] + add).val);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    MOD)\n */\n\n\n#line 1 \"datastructure/segmenttree/dualsegtree.cpp\"\ntemplate\
+    \ <class M>\nstruct DualSegmentTree{\n    using T = typename M::T;\n    int sz,\
+    \ height{};\n    vector<T> lazy;\n    explicit DualSegmentTree(int n) {\n    \
+    \    sz = 1; while(sz < n) sz <<= 1, height++;\n        lazy.assign(2*sz, M::e());\n\
+    \    }\n\n    void eval(int k){\n        if(lazy[k] == M::e()) return;\n     \
+    \   lazy[(k<<1)|0] = M::f(lazy[(k<<1)|0], lazy[k]);\n        lazy[(k<<1)|1] =\
+    \ M::f(lazy[(k<<1)|1], lazy[k]);\n        lazy[k] = M::e();\n    }\n    void thrust(int\
+    \ k){ for (int i = height; i; --i) eval(k>>i); }\n    void update(int a, int b,\
+    \ const T &x){\n        thrust(a += sz); thrust(b += sz-1);\n        for (int\
+    \ l = a, r = b+1;l < r; l >>=1, r >>= 1) {\n            if(l&1) lazy[l] = M::f(lazy[l],\
+    \ x), l++;\n            if(r&1) --r, lazy[r] = M::f(lazy[r], x);\n        }\n\
+    \    }\n\n    T operator[](int k){\n        thrust(k += sz);\n        return lazy[k];\n\
+    \    }\n};\n/*\nstruct Monoid{\n    using T = ll;\n    static T f(T a, T b) {\
+    \ return a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\
+    \u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)\n */\n#line 19 \"\
+    test/yosupo_range_affine_point_get_dualsegtree.test.cpp\"\n\nstruct Monoid {\n\
+    \    using T = pair<mint, mint>;\n    static T f(T a, T b) {\n        return {b.first\
+    \ * a.first, b.first * a.second + b.second};\n    }\n    static T e() { return\
+    \ {1, 0}; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n,\
+    \ q;\n    sc.read(n, q);\n    vector<mint> a(n);\n    for (int i = 0; i < n; ++i)\
+    \ {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n\n    DualSegmentTree<Monoid>\
+    \ seg(n);\n    while (q--) {\n        int t;\n        sc.read(t);\n        if\
+    \ (t == 0) {\n            int l, r, b, c;\n            sc.read(l, r, b, c);\n\
+    \            seg.update(l, r, {b, c});\n        } else {\n            int i;\n\
+    \            sc.read(i);\n            auto [mul, add] = seg[i];\n            pr.println((mul\
+    \ * a[i] + add).val);\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_point_get\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
     \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
     \n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\n#include \"\
-    ../datastructure/dualsegtree.cpp\"\n\nstruct Monoid {\n    using T = pair<mint,\
-    \ mint>;\n    static T f(T a, T b) {\n        return {b.first * a.first, b.first\
-    \ * a.second + b.second};\n    }\n    static T e() { return {1, 0}; }\n};\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
+    ../datastructure/segmenttree/dualsegtree.cpp\"\n\nstruct Monoid {\n    using T\
+    \ = pair<mint, mint>;\n    static T f(T a, T b) {\n        return {b.first * a.first,\
+    \ b.first * a.second + b.second};\n    }\n    static T e() { return {1, 0}; }\n\
+    };\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<mint> a(n);\n    for (int i = 0; i < n; ++i) {\n        int\
     \ x;\n        sc.read(x);\n        a[i] = x;\n    }\n\n    DualSegmentTree<Monoid>\
     \ seg(n);\n    while (q--) {\n        int t;\n        sc.read(t);\n        if\
@@ -209,11 +209,11 @@ data:
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
-  - datastructure/dualsegtree.cpp
+  - datastructure/segmenttree/dualsegtree.cpp
   isVerificationFile: true
   path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_point_get_dualsegtree.test.cpp

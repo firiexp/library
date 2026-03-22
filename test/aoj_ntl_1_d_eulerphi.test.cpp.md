@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/eulerphi.cpp
+    path: math/prime/eulerphi.cpp
     title: Euler Phi
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -133,27 +133,27 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"math/eulerphi.cpp\"\nint eulerphi(int x){\n    int phi = x, xx\
-    \ = x;\n    for (int i = 2; i * i <= x; ++i) {\n        if (xx % i == 0) {\n \
-    \           phi -= phi / i;\n            while(xx % i == 0) xx /= i;\n       \
-    \ }\n    }\n    if(xx > 1) phi -= phi/xx;\n    return phi;\n}\n\n/**\n * @brief\
-    \ \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n */\n#line 13 \"\
-    test/aoj_ntl_1_d_eulerphi.test.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n    return\
-    \ 0;\n}\n"
+    \ */\n#line 1 \"math/prime/eulerphi.cpp\"\nint eulerphi(int x){\n    int phi =\
+    \ x, xx = x;\n    for (int i = 2; i * i <= x; ++i) {\n        if (xx % i == 0)\
+    \ {\n            phi -= phi / i;\n            while(xx % i == 0) xx /= i;\n  \
+    \      }\n    }\n    if(xx > 1) phi -= phi/xx;\n    return phi;\n}\n\n/**\n *\
+    \ @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n */\n#line\
+    \ 13 \"test/aoj_ntl_1_d_eulerphi.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D\"\
     \n\n#include <algorithm>\nusing namespace std;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/eulerphi.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n    return\
-    \ 0;\n}\n"
+    \n#include \"../math/prime/eulerphi.cpp\"\n\nint main() {\n    Scanner sc;\n \
+    \   Printer pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n\
+    \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/eulerphi.cpp
+  - math/prime/eulerphi.cpp
   isVerificationFile: true
   path: test/aoj_ntl_1_d_eulerphi.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_ntl_1_d_eulerphi.test.cpp

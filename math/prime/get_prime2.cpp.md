@@ -3,7 +3,7 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/linear_sieve.cpp
+    path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
@@ -15,8 +15,8 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n  \
-    \  int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
+  bundledCode: "#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve\
+    \ {\n    int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
     \ phi;\n    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit\
     \ LinearSieve(int n, bool need_min_factor = false, bool need_phi = false, bool\
     \ need_mobius = false)\n        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor\
@@ -41,7 +41,7 @@ data:
     \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
     \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
     \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
-    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/get_prime2.cpp\"\
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_prime2.cpp\"\
     \n\ntemplate<typename T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv()\
     \ {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T\
     \ n) {\n        T x = n;\n        for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n\
@@ -61,16 +61,16 @@ data:
     \   res.reserve(primes.size());\n    for (auto &&p : primes) res.emplace_back((uint)p);\n\
     \    return res;\n}\nconst auto primes = get_prime_exact_div(32000);\n"
   dependsOn:
-  - math/linear_sieve.cpp
+  - math/prime/linear_sieve.cpp
   isVerificationFile: false
-  path: math/get_prime2.cpp
+  path: math/prime/get_prime2.cpp
   requiredBy: []
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_1_c_get_prime2.test.cpp
 date: 2026-03-08
-documentation_of: math/get_prime2.cpp
+documentation_of: math/prime/get_prime2.cpp
 layout: document
 tags: "\u6570\u5B66"
 title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"

@@ -4,24 +4,24 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':warning:'
-    path: math/eulerphi_all.cpp
+    path: math/powk_all.cpp
+    title: math/powk_all.cpp
+  - icon: ':warning:'
+    path: math/prime/eulerphi_all.cpp
     title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\
       (Euler Phi Table)"
   - icon: ':warning:'
-    path: math/get_min_factor.cpp
+    path: math/prime/get_min_factor.cpp
     title: Get Min Factor
   - icon: ':heavy_check_mark:'
-    path: math/get_prime.cpp
+    path: math/prime/get_prime.cpp
     title: "\u7D20\u6570\u5217\u6319"
   - icon: ':heavy_check_mark:'
-    path: math/get_prime2.cpp
+    path: math/prime/get_prime2.cpp
     title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
   - icon: ':warning:'
-    path: math/mobius_all.cpp
+    path: math/prime/mobius_all.cpp
     title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Mobius Table)"
-  - icon: ':warning:'
-    path: math/powk_all.cpp
-    title: math/powk_all.cpp
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_1_c_get_prime.test.cpp
@@ -35,8 +35,8 @@ data:
   attributes:
     document_title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
     links: []
-  bundledCode: "#line 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n  \
-    \  int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
+  bundledCode: "#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve\
+    \ {\n    int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
     \ phi;\n    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit\
     \ LinearSieve(int n, bool need_min_factor = false, bool need_phi = false, bool\
     \ need_mobius = false)\n        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor\
@@ -91,21 +91,21 @@ data:
     \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
-  path: math/linear_sieve.cpp
+  path: math/prime/linear_sieve.cpp
   requiredBy:
-  - math/get_min_factor.cpp
-  - math/mobius_all.cpp
-  - math/eulerphi_all.cpp
+  - math/prime/get_min_factor.cpp
+  - math/prime/mobius_all.cpp
+  - math/prime/eulerphi_all.cpp
+  - math/prime/get_prime2.cpp
+  - math/prime/get_prime.cpp
   - math/powk_all.cpp
-  - math/get_prime2.cpp
-  - math/get_prime.cpp
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_1_c_get_prime.test.cpp
   - test/aoj_alds1_1_c_get_prime2.test.cpp
 date: 2026-03-12
-documentation_of: math/linear_sieve.cpp
+documentation_of: math/prime/linear_sieve.cpp
 layout: document
 tags: "\u6570\u5B66"
 title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"

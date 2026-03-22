@@ -12,28 +12,28 @@ data:
   attributes:
     document_title: Segment Tree Beats
     links: []
-  bundledCode: "#line 1 \"datastructure/segbeats.cpp\"\ntemplate<class T>\nclass SegmentTreeBeats\
-    \ {\n    void add_(int x, T val){\n        if(!val) return;\n        auto& now\
-    \ = seg[x];\n        now.sum += val*now.len;\n        now.mn += val; now.mx +=\
-    \ val; now.add += val;\n        if(now.mn2 != INF<T>) now.mn2 += val;\n      \
-    \  if(now.mx2 != -INF<T>) now.mx2 += val;\n    }\n    void chmin_(int x, T val){\n\
-    \        if(val >= seg[x].mx) return;\n        auto& now = seg[x];\n        now.sum\
-    \ += now.mxc*(val-now.mx);\n        if(now.mn == now.mx) now.mn = val;\n     \
-    \   else if(now.mn2 == now.mx) now.mn2 = val;\n        now.mx = val;\n    }\n\
-    \    void chmax_(int x, T val){\n        if(val <= seg[x].mn) return;\n      \
-    \  auto& now = seg[x];\n        now.sum += now.mnc*(val-now.mn);\n        if(now.mx\
-    \ == now.mn) now.mx = val;\n        else if(now.mx2 == now.mn) now.mx2 = val;\n\
-    \        now.mn = val;\n    }\n    void get(int x){\n        M& now = seg[x],\
-    \ &l = seg[(x<<1)|0], &r = seg[(x<<1)|1];\n        now.sum = l.sum + r.sum;\n\
-    \        now.mn = min(l.mn, r.mn);\n        now.mx = max(l.mx, r.mx);\n      \
-    \  now.len = l.len + r.len;\n        if(l.mn < r.mn) now.mnc = l.mnc, now.mn2\
-    \ = min(l.mn2, r.mn);\n        else if(r.mn < l.mn) now.mnc = r.mnc, now.mn2 =\
-    \ min(r.mn2, l.mn);\n        else now.mnc = l.mnc + r.mnc, now.mn2 = min(l.mn2,\
-    \ r.mn2);\n        if(l.mx > r.mx) now.mxc = l.mxc, now.mx2 = max(l.mx2, r.mx);\n\
-    \        else if(r.mx > l.mx) now.mxc = r.mxc, now.mx2 = max(r.mx2, l.mx);\n \
-    \       else now.mxc = l.mxc + r.mxc, now.mx2 = max(l.mx2, r.mx2);\n    }\n  \
-    \  void eval(int x){\n        auto &now = seg[x];\n        for (int i = 0; x <\
-    \ n && i < 2; ++i) {\n            add_((x<<1)|i, now.add);\n            chmin_((x<<1)|i,\
+  bundledCode: "#line 1 \"datastructure/segmenttree/segbeats.cpp\"\ntemplate<class\
+    \ T>\nclass SegmentTreeBeats {\n    void add_(int x, T val){\n        if(!val)\
+    \ return;\n        auto& now = seg[x];\n        now.sum += val*now.len;\n    \
+    \    now.mn += val; now.mx += val; now.add += val;\n        if(now.mn2 != INF<T>)\
+    \ now.mn2 += val;\n        if(now.mx2 != -INF<T>) now.mx2 += val;\n    }\n   \
+    \ void chmin_(int x, T val){\n        if(val >= seg[x].mx) return;\n        auto&\
+    \ now = seg[x];\n        now.sum += now.mxc*(val-now.mx);\n        if(now.mn ==\
+    \ now.mx) now.mn = val;\n        else if(now.mn2 == now.mx) now.mn2 = val;\n \
+    \       now.mx = val;\n    }\n    void chmax_(int x, T val){\n        if(val <=\
+    \ seg[x].mn) return;\n        auto& now = seg[x];\n        now.sum += now.mnc*(val-now.mn);\n\
+    \        if(now.mx == now.mn) now.mx = val;\n        else if(now.mx2 == now.mn)\
+    \ now.mx2 = val;\n        now.mn = val;\n    }\n    void get(int x){\n       \
+    \ M& now = seg[x], &l = seg[(x<<1)|0], &r = seg[(x<<1)|1];\n        now.sum =\
+    \ l.sum + r.sum;\n        now.mn = min(l.mn, r.mn);\n        now.mx = max(l.mx,\
+    \ r.mx);\n        now.len = l.len + r.len;\n        if(l.mn < r.mn) now.mnc =\
+    \ l.mnc, now.mn2 = min(l.mn2, r.mn);\n        else if(r.mn < l.mn) now.mnc = r.mnc,\
+    \ now.mn2 = min(r.mn2, l.mn);\n        else now.mnc = l.mnc + r.mnc, now.mn2 =\
+    \ min(l.mn2, r.mn2);\n        if(l.mx > r.mx) now.mxc = l.mxc, now.mx2 = max(l.mx2,\
+    \ r.mx);\n        else if(r.mx > l.mx) now.mxc = r.mxc, now.mx2 = max(r.mx2, l.mx);\n\
+    \        else now.mxc = l.mxc + r.mxc, now.mx2 = max(l.mx2, r.mx2);\n    }\n \
+    \   void eval(int x){\n        auto &now = seg[x];\n        for (int i = 0; x\
+    \ < n && i < 2; ++i) {\n            add_((x<<1)|i, now.add);\n            chmin_((x<<1)|i,\
     \ now.mx);\n            chmax_((x<<1)|i, now.mn);\n        }\n        now.add\
     \ = 0;\n    }\n    void thrust(int k){ for (int i = height-1; i >= 1; --i) eval(k>>i);\
     \ }\n    void recalc(int k) { k = k >> __builtin_ctz(k); while(k >>= 1) get(k);}\n\
@@ -109,13 +109,13 @@ data:
     \    }\n};\n\n/**\n * @brief Segment Tree Beats\n */\n"
   dependsOn: []
   isVerificationFile: false
-  path: datastructure/segbeats.cpp
+  path: datastructure/segmenttree/segbeats.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
-documentation_of: datastructure/segbeats.cpp
+documentation_of: datastructure/segmenttree/segbeats.cpp
 layout: document
 title: Segment Tree Beats
 ---

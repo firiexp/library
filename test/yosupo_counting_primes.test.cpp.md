@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/counting_primes.cpp
+    path: math/prime/counting_primes.cpp
     title: Counting Primes
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -133,7 +133,7 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"math/counting_primes.cpp\"\nusing namespace std;\n\nnamespace\
+    \ */\n#line 1 \"math/prime/counting_primes.cpp\"\nusing namespace std;\n\nnamespace\
     \ counting_primes_internal {\n\nconstexpr int MAX = 5000000;\nconstexpr int PHI_N\
     \ = 100000;\nconstexpr int PHI_S = 100;\n\nbool initialized = false;\nvector<int>\
     \ primes;\nvector<int> prime_pi;\nint phi_dp[PHI_S + 1][PHI_N + 1];\n\nll isqrt(ll\
@@ -170,16 +170,16 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/counting_primes\"\n\n#include\
     \ <cmath>\n#include <cstdint>\n#include <vector>\nusing ll = long long;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include \"../util/fastio.cpp\"\n#include \"../math/counting_primes.cpp\"\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n    long long n;\n    sc.read(n);\n\
+    #include \"../util/fastio.cpp\"\n#include \"../math/prime/counting_primes.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    long long n;\n    sc.read(n);\n\
     \    pr.println(counting_primes(n));\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/counting_primes.cpp
+  - math/prime/counting_primes.cpp
   isVerificationFile: true
   path: test/yosupo_counting_primes.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_counting_primes.test.cpp

@@ -12,43 +12,44 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"math/get_prime_wheel.cpp\"\nstruct Prime {\n    static constexpr\
-    \ int wheel[8]  = {4, 2, 4, 2, 4, 6, 2, 6};\n    static constexpr int wheel2[8]\
-    \ = {7, 11, 13, 17, 19, 23, 29, 31};\n    static constexpr int wheel_sum[30] =\
-    \ {\n        0, 0, 0, 0, 0, 0, 1, 1, 1, 1,\n        2, 2, 3, 3, 3, 3, 4, 4, 5,\
-    \ 5,\n        5, 5, 6, 6, 6, 6, 6, 6, 7, 7\n    };\n    static constexpr int off64[64]\
-    \ = {\n          0,  4,  6, 10, 12, 16, 22, 24,\n         30, 34, 36, 40, 42,\
-    \ 46, 52, 54,\n         60, 64, 66, 70, 72, 76, 82, 84,\n         90, 94, 96,100,102,106,112,114,\n\
-    \        120,124,126,130,132,136,142,144,\n        150,154,156,160,162,166,172,174,\n\
-    \        180,184,186,190,192,196,202,204,\n        210,214,216,220,222,226,232,234\n\
-    \    };\n\n    // old 1-based\n    static inline int f(int n) { return (n - 1)\
-    \ / 30 * 8 + wheel_sum[(n - 1) % 30]; }\n    static inline int g(int n) { return\
-    \ ((n - 1) >> 3) * 30 + wheel2[(n - 1) & 7]; }\n\n    // internal 0-based\n  \
-    \  static inline int f0(int n) { return f(n) - 1; }\n    static inline int g0(int\
-    \ n) { return (n >> 3) * 30 + wheel2[n & 7]; }\n\n    int count = 0;\n    vector<int>\
-    \ primes;\n    vector<int> picked;\n\nprivate:\n    static void build_sieve(int\
-    \ M, vector<ull>& sieve, int& n0) {\n        if (M < 7) {\n            n0 = -1;\n\
-    \            sieve.clear();\n            return;\n        }\n\n        n0 = f0(M);\n\
-    \        int sq = (int)std::sqrt((double)M);\n        int k0 = (sq >= 7 ? f0(sq)\
-    \ : -1);\n\n        int num = n0 + 1;\n        sieve.assign((num + 63) >> 6, ~0ULL);\n\
-    \        if (num & 63) sieve.back() &= (1ULL << (num & 63)) - 1;\n\n        auto*\
-    \ sv = sieve.data();\n        array<int, 8> delta{};\n\n        for (int i = 0;\
-    \ i <= k0; ++i) {\n            if (((sv[i >> 6] >> (i & 63)) & 1ULL) == 0) continue;\n\
-    \n            int p = g0(i);\n            int phase0 = i & 7;\n\n            long\
-    \ long cur = 1LL * p * p;\n            int idx = f0((int)cur);\n\n           \
-    \ for (int t = 0; t < 8; ++t) {\n                long long nxt = cur + 1LL * wheel[(phase0\
-    \ + t) & 7] * p;\n                delta[t] = f((int)nxt) - f((int)cur);\n    \
-    \            cur = nxt;\n            }\n\n            const int d0 = delta[0];\n\
-    \            const int d1 = delta[1];\n            const int d2 = delta[2];\n\
-    \            const int d3 = delta[3];\n            const int d4 = delta[4];\n\
-    \            const int d5 = delta[5];\n            const int d6 = delta[6];\n\
-    \            const int d7 = delta[7];\n\n            while (idx <= n0) {\n   \
-    \             sv[idx >> 6] &= ~(1ULL << (idx & 63));\n                idx += d0;\n\
-    \                if (idx > n0) break;\n                sv[idx >> 6] &= ~(1ULL\
-    \ << (idx & 63));\n                idx += d1;\n                if (idx > n0) break;\n\
-    \                sv[idx >> 6] &= ~(1ULL << (idx & 63));\n                idx +=\
-    \ d2;\n                if (idx > n0) break;\n                sv[idx >> 6] &= ~(1ULL\
-    \ << (idx & 63));\n                idx += d3;\n                if (idx > n0) break;\n\
+  bundledCode: "#line 1 \"math/prime/get_prime_wheel.cpp\"\nstruct Prime {\n    static\
+    \ constexpr int wheel[8]  = {4, 2, 4, 2, 4, 6, 2, 6};\n    static constexpr int\
+    \ wheel2[8] = {7, 11, 13, 17, 19, 23, 29, 31};\n    static constexpr int wheel_sum[30]\
+    \ = {\n        0, 0, 0, 0, 0, 0, 1, 1, 1, 1,\n        2, 2, 3, 3, 3, 3, 4, 4,\
+    \ 5, 5,\n        5, 5, 6, 6, 6, 6, 6, 6, 7, 7\n    };\n    static constexpr int\
+    \ off64[64] = {\n          0,  4,  6, 10, 12, 16, 22, 24,\n         30, 34, 36,\
+    \ 40, 42, 46, 52, 54,\n         60, 64, 66, 70, 72, 76, 82, 84,\n         90,\
+    \ 94, 96,100,102,106,112,114,\n        120,124,126,130,132,136,142,144,\n    \
+    \    150,154,156,160,162,166,172,174,\n        180,184,186,190,192,196,202,204,\n\
+    \        210,214,216,220,222,226,232,234\n    };\n\n    // old 1-based\n    static\
+    \ inline int f(int n) { return (n - 1) / 30 * 8 + wheel_sum[(n - 1) % 30]; }\n\
+    \    static inline int g(int n) { return ((n - 1) >> 3) * 30 + wheel2[(n - 1)\
+    \ & 7]; }\n\n    // internal 0-based\n    static inline int f0(int n) { return\
+    \ f(n) - 1; }\n    static inline int g0(int n) { return (n >> 3) * 30 + wheel2[n\
+    \ & 7]; }\n\n    int count = 0;\n    vector<int> primes;\n    vector<int> picked;\n\
+    \nprivate:\n    static void build_sieve(int M, vector<ull>& sieve, int& n0) {\n\
+    \        if (M < 7) {\n            n0 = -1;\n            sieve.clear();\n    \
+    \        return;\n        }\n\n        n0 = f0(M);\n        int sq = (int)std::sqrt((double)M);\n\
+    \        int k0 = (sq >= 7 ? f0(sq) : -1);\n\n        int num = n0 + 1;\n    \
+    \    sieve.assign((num + 63) >> 6, ~0ULL);\n        if (num & 63) sieve.back()\
+    \ &= (1ULL << (num & 63)) - 1;\n\n        auto* sv = sieve.data();\n        array<int,\
+    \ 8> delta{};\n\n        for (int i = 0; i <= k0; ++i) {\n            if (((sv[i\
+    \ >> 6] >> (i & 63)) & 1ULL) == 0) continue;\n\n            int p = g0(i);\n \
+    \           int phase0 = i & 7;\n\n            long long cur = 1LL * p * p;\n\
+    \            int idx = f0((int)cur);\n\n            for (int t = 0; t < 8; ++t)\
+    \ {\n                long long nxt = cur + 1LL * wheel[(phase0 + t) & 7] * p;\n\
+    \                delta[t] = f((int)nxt) - f((int)cur);\n                cur =\
+    \ nxt;\n            }\n\n            const int d0 = delta[0];\n            const\
+    \ int d1 = delta[1];\n            const int d2 = delta[2];\n            const\
+    \ int d3 = delta[3];\n            const int d4 = delta[4];\n            const\
+    \ int d5 = delta[5];\n            const int d6 = delta[6];\n            const\
+    \ int d7 = delta[7];\n\n            while (idx <= n0) {\n                sv[idx\
+    \ >> 6] &= ~(1ULL << (idx & 63));\n                idx += d0;\n              \
+    \  if (idx > n0) break;\n                sv[idx >> 6] &= ~(1ULL << (idx & 63));\n\
+    \                idx += d1;\n                if (idx > n0) break;\n          \
+    \      sv[idx >> 6] &= ~(1ULL << (idx & 63));\n                idx += d2;\n  \
+    \              if (idx > n0) break;\n                sv[idx >> 6] &= ~(1ULL <<\
+    \ (idx & 63));\n                idx += d3;\n                if (idx > n0) break;\n\
     \                sv[idx >> 6] &= ~(1ULL << (idx & 63));\n                idx +=\
     \ d4;\n                if (idx > n0) break;\n                sv[idx >> 6] &= ~(1ULL\
     \ << (idx & 63));\n                idx += d5;\n                if (idx > n0) break;\n\
@@ -152,14 +153,14 @@ data:
     constexpr int Prime::wheel_sum[30];\nconstexpr int Prime::off64[64];\n"
   dependsOn: []
   isVerificationFile: false
-  path: math/get_prime_wheel.cpp
+  path: math/prime/get_prime_wheel.cpp
   requiredBy: []
-  timestamp: '2026-03-22 18:32:48+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
 date: 2026-03-22
-documentation_of: math/get_prime_wheel.cpp
+documentation_of: math/prime/get_prime_wheel.cpp
 layout: document
 tags: "\u6570\u5B66"
 title: get_prime_wheel

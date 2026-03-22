@@ -13,12 +13,12 @@ data:
   attributes:
     document_title: "\u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
     links: []
-  bundledCode: "#line 1 \"datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\n\
-    struct DynamicSegmentTree{\n    using T = typename M::T;\n    struct Node{\n \
-    \       T val;\n        int l, r;\n    };\n\n    long long n{};\n    vector<Node>\
-    \ node;\n    int root;\n\n    explicit DynamicSegmentTree(long long n): n(n),\
-    \ root(-1) {}\n\n    void reserve(size_t sz){\n        node.reserve(sz);\n   \
-    \ }\n\n    void update(long long k, const T &x){\n        if(n == 0) return;\n\
+  bundledCode: "#line 1 \"datastructure/segmenttree/dynamic_segtree.cpp\"\ntemplate\
+    \ <class M>\nstruct DynamicSegmentTree{\n    using T = typename M::T;\n    struct\
+    \ Node{\n        T val;\n        int l, r;\n    };\n\n    long long n{};\n   \
+    \ vector<Node> node;\n    int root;\n\n    explicit DynamicSegmentTree(long long\
+    \ n): n(n), root(-1) {}\n\n    void reserve(size_t sz){\n        node.reserve(sz);\n\
+    \    }\n\n    void update(long long k, const T &x){\n        if(n == 0) return;\n\
     \        update_(root, k, x, 0, n);\n    }\n\n    void add(long long k, const\
     \ T &x){\n        if(n == 0) return;\n        add_(root, k, x, 0, n);\n    }\n\
     \n    T query(long long a, long long b) const {\n        if(n == 0 || b <= a)\
@@ -88,14 +88,14 @@ data:
     \u30F3\u30C8\u6728\n */\n"
   dependsOn: []
   isVerificationFile: false
-  path: datastructure/dynamic_segtree.cpp
+  path: datastructure/segmenttree/dynamic_segtree.cpp
   requiredBy: []
-  timestamp: '2026-03-13 22:14:25+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
 date: 2026-03-08
-documentation_of: datastructure/dynamic_segtree.cpp
+documentation_of: datastructure/segmenttree/dynamic_segtree.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: Dynamic Segment Tree

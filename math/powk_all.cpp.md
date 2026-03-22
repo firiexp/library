@@ -2,10 +2,10 @@
 data:
   _extendedDependsOn:
   - icon: ':warning:'
-    path: math/get_min_factor.cpp
+    path: math/prime/get_min_factor.cpp
     title: Get Min Factor
   - icon: ':heavy_check_mark:'
-    path: math/linear_sieve.cpp
+    path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
@@ -44,7 +44,7 @@ data:
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
     \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
     #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 2 \"math/powk_all.cpp\"\n\n#line 1 \"math/linear_sieve.cpp\"\
+    MOD)\n */\n\n\n#line 2 \"math/powk_all.cpp\"\n\n#line 1 \"math/prime/linear_sieve.cpp\"\
     \n\n\n\nstruct LinearSieve {\n    int n;\n    vector<int> primes;\n    vector<int>\
     \ min_factor;\n    vector<int> phi;\n    vector<int> mobius;\n    vector<bool>\
     \ prime_table;\n\n    explicit LinearSieve(int n, bool need_min_factor = false,\
@@ -70,7 +70,7 @@ data:
     \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
     \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
     \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
-    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/get_min_factor.cpp\"\
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_min_factor.cpp\"\
     \n\nvector<int> get_min_factor(int n) {\n    return LinearSieve(n, true).min_factor;\n\
     }\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min\
     \ Factor Table)\n */\n#line 4 \"math/powk_all.cpp\"\nvector<mint> powk_all(int\
@@ -78,19 +78,19 @@ data:
     \    res[1] = 1;\n    for (int i = 2; i <= n; ++i) {\n        if(min_factor[i]\
     \ == i) res[i] = mint(i).pow(k);\n        else res[i] = res[i/min_factor[i]]*res[min_factor[i]];\n\
     \    }\n    return res;\n}\n"
-  code: "#include \"../util/modint.cpp\"\n\n#include \"./get_min_factor.cpp\"\nvector<mint>\
-    \ powk_all(int n, ll k) {\n    auto min_factor = get_min_factor(n);\n    vector<mint>\
-    \ res(n+1);\n    res[1] = 1;\n    for (int i = 2; i <= n; ++i) {\n        if(min_factor[i]\
-    \ == i) res[i] = mint(i).pow(k);\n        else res[i] = res[i/min_factor[i]]*res[min_factor[i]];\n\
-    \    }\n    return res;\n}"
+  code: "#include \"../util/modint.cpp\"\n\n#include \"./prime/get_min_factor.cpp\"\
+    \nvector<mint> powk_all(int n, ll k) {\n    auto min_factor = get_min_factor(n);\n\
+    \    vector<mint> res(n+1);\n    res[1] = 1;\n    for (int i = 2; i <= n; ++i)\
+    \ {\n        if(min_factor[i] == i) res[i] = mint(i).pow(k);\n        else res[i]\
+    \ = res[i/min_factor[i]]*res[min_factor[i]];\n    }\n    return res;\n}\n"
   dependsOn:
   - util/modint.cpp
-  - math/get_min_factor.cpp
-  - math/linear_sieve.cpp
+  - math/prime/get_min_factor.cpp
+  - math/prime/linear_sieve.cpp
   isVerificationFile: false
   path: math/powk_all.cpp
   requiredBy: []
-  timestamp: '2026-03-14 20:56:35+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: math/powk_all.cpp

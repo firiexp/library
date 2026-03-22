@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segtree.cpp
-    title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
+    path: datastructure/segmenttree/segtree.cpp
+    title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
   - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "\u91CD\u8EFD\u5206\u89E3"
@@ -252,54 +252,54 @@ data:
     \ v, e, ql, qr, f, true);\n    }\n\n    template<typename T, typename Q>\n   \
     \ T subtree_query(int v, const Q &q) {\n        return hld.subtree_query<T>(v,\
     \ q, true);\n    }\n};\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA\
-    )\n */\n#line 1 \"datastructure/segtree.cpp\"\ntemplate <class M>\nstruct SegmentTree{\n\
-    \    using T = typename M::T;\n    int sz, n, height{};\n    vector<T> seg;\n\
-    \    explicit SegmentTree(int n) : n(n) {\n        sz = 1; while(sz < n) sz <<=\
-    \ 1, height++;\n        seg.assign(2*sz, M::e());\n    }\n\n    void set(int k,\
-    \ const T &x){ seg[k + sz] = x; }\n\n    void build(){\n        for (int i = sz-1;\
-    \ i > 0; --i) seg[i] = M::f(seg[2*i], seg[2*i+1]);\n    }\n\n    void update(int\
-    \ k, const T &x){\n        k += sz;\n        seg[k] = x;\n        while (k >>=\
-    \ 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n    }\n\n    T query(int a, int b){\n\
-    \        T l = M::e(), r = M::e();\n        for(a += sz, b += sz; a < b; a >>=1,\
-    \ b>>=1){\n            if(a & 1) l = M::f(l, seg[a++]);\n            if(b & 1)\
-    \ r = M::f(seg[--b], r);\n        }\n        return M::f(l, r);\n    }\n\n   \
-    \ template<class F>\n    int search_right(int l, F cond){\n        if(l == n)\
-    \ return n;\n        T val = M::e();\n        l += sz;\n        do {\n       \
-    \     while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val, seg[l]))){\n    \
-    \            while(l < sz) {\n                    l <<= 1;\n                 \
-    \   if (cond(M::f(val, seg[l]))){\n                        val = M::f(val, seg[l]);\n\
-    \                        l++;\n                    }\n                }\n    \
-    \            return l - sz;\n            }\n            val = M::f(val, seg[l]);\n\
-    \            l++;\n        } while((l & -l) != l);\n        return n;\n    }\n\
-    \n    template<class F>\n    int search_left(int r, F cond){\n        if(r ==\
-    \ 0) return 0;\n        T val = M::e();\n        r += sz;\n        do {\n    \
-    \        r--;\n            while(r&1) r >>= 1;\n            if(!cond(M::f(seg[r],\
-    \ val))){\n                while(r < sz) {\n                    r = ((r << 1)|1);\n\
-    \                    if (cond(M::f(seg[r], val))){\n                        val\
-    \ = M::f(seg[r], val);\n                        r--;\n                    }\n\
-    \                }\n                return r + 1 - sz;\n            }\n      \
-    \      val = M::f(seg[r], val);\n        } while((r & -r) != r);\n        return\
-    \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
-    \n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
-    \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
-    };\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)\n\
-    \ */\n#line 23 \"test/yuki650_hld_edge.test.cpp\"\n\nstruct MatMonoidL {\n   \
-    \ using T = array<mint, 4>;\n    static T f(T a, T b) {\n        return {\n  \
-    \          a[0] * b[0] + a[1] * b[2],\n            a[0] * b[1] + a[1] * b[3],\n\
-    \            a[2] * b[0] + a[3] * b[2],\n            a[2] * b[1] + a[3] * b[3]\n\
-    \        };\n    }\n    static T e() { return {1, 0, 0, 1}; }\n};\n\nstruct MatMonoidR\
-    \ {\n    using T = array<mint, 4>;\n    static T f(T b, T a) {\n        return\
-    \ {\n            a[0] * b[0] + a[1] * b[2],\n            a[0] * b[1] + a[1] *\
-    \ b[3],\n            a[2] * b[0] + a[3] * b[2],\n            a[2] * b[1] + a[3]\
-    \ * b[3]\n        };\n    }\n    static T e() { return {1, 0, 0, 1}; }\n};\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    HeavyLightDecompositionEdge hld(n);\n    vector<pair<int, int>> edges(n -\
-    \ 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int a, b;\n        sc.read(a,\
-    \ b);\n        edges[i] = {a, b};\n        hld.add_edge(a, b);\n    }\n    hld.build();\n\
-    \n    SegmentTree<MatMonoidL> segl(n);\n    SegmentTree<MatMonoidR> segr(n);\n\
-    \n    vector<int> child(n - 1);\n    for (int i = 0; i < n - 1; ++i) {\n     \
-    \   auto [a, b] = edges[i];\n        child[i] = (hld.parent(a) == b ? a : b);\n\
-    \        int p = hld.edge_index(child[i]);\n        segl.set(p, MatMonoidL::e());\n\
+    )\n */\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\ntemplate <class M>\n\
+    struct SegmentTree{\n    using T = typename M::T;\n    int sz, n, height{};\n\
+    \    vector<T> seg;\n    explicit SegmentTree(int n) : n(n) {\n        sz = 1;\
+    \ while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz, M::e());\n    }\n\
+    \n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n    void build(){\n \
+    \       for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i], seg[2*i+1]);\n\
+    \    }\n\n    void update(int k, const T &x){\n        k += sz;\n        seg[k]\
+    \ = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n    }\n\n\
+    \    T query(int a, int b){\n        T l = M::e(), r = M::e();\n        for(a\
+    \ += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l, seg[a++]);\n\
+    \            if(b & 1) r = M::f(seg[--b], r);\n        }\n        return M::f(l,\
+    \ r);\n    }\n\n    template<class F>\n    int search_right(int l, F cond){\n\
+    \        if(l == n) return n;\n        T val = M::e();\n        l += sz;\n   \
+    \     do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
+    \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
+    \                    if (cond(M::f(val, seg[l]))){\n                        val\
+    \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
+    \                }\n                return l - sz;\n            }\n          \
+    \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
+    \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
+    \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
+    \ sz;\n        do {\n            r--;\n            while(r&1) r >>= 1;\n     \
+    \       if(!cond(M::f(seg[r], val))){\n                while(r < sz) {\n     \
+    \               r = ((r << 1)|1);\n                    if (cond(M::f(seg[r], val))){\n\
+    \                        val = M::f(seg[r], val);\n                        r--;\n\
+    \                    }\n                }\n                return r + 1 - sz;\n\
+    \            }\n            val = M::f(seg[r], val);\n        } while((r & -r)\
+    \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
+    \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
+    \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
+    \u6728(Segment Tree)\n */\n#line 23 \"test/yuki650_hld_edge.test.cpp\"\n\nstruct\
+    \ MatMonoidL {\n    using T = array<mint, 4>;\n    static T f(T a, T b) {\n  \
+    \      return {\n            a[0] * b[0] + a[1] * b[2],\n            a[0] * b[1]\
+    \ + a[1] * b[3],\n            a[2] * b[0] + a[3] * b[2],\n            a[2] * b[1]\
+    \ + a[3] * b[3]\n        };\n    }\n    static T e() { return {1, 0, 0, 1}; }\n\
+    };\n\nstruct MatMonoidR {\n    using T = array<mint, 4>;\n    static T f(T b,\
+    \ T a) {\n        return {\n            a[0] * b[0] + a[1] * b[2],\n         \
+    \   a[0] * b[1] + a[1] * b[3],\n            a[2] * b[0] + a[3] * b[2],\n     \
+    \       a[2] * b[1] + a[3] * b[3]\n        };\n    }\n    static T e() { return\
+    \ {1, 0, 0, 1}; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n  \
+    \  int n;\n    sc.read(n);\n    HeavyLightDecompositionEdge hld(n);\n    vector<pair<int,\
+    \ int>> edges(n - 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int a, b;\n\
+    \        sc.read(a, b);\n        edges[i] = {a, b};\n        hld.add_edge(a, b);\n\
+    \    }\n    hld.build();\n\n    SegmentTree<MatMonoidL> segl(n);\n    SegmentTree<MatMonoidR>\
+    \ segr(n);\n\n    vector<int> child(n - 1);\n    for (int i = 0; i < n - 1; ++i)\
+    \ {\n        auto [a, b] = edges[i];\n        child[i] = (hld.parent(a) == b ?\
+    \ a : b);\n        int p = hld.edge_index(child[i]);\n        segl.set(p, MatMonoidL::e());\n\
     \        segr.set(p, MatMonoidR::e());\n    }\n    segl.build();\n    segr.build();\n\
     \n    auto ql = [&](int l, int r) { return segl.query(l, r); };\n    auto qr =\
     \ [&](int l, int r) { return segr.query(l, r); };\n    auto merge = [&](MatMonoidL::T\
@@ -319,7 +319,7 @@ data:
     \ = unsigned long long;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
     \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
-    \n#include \"../tree/hld_edge.cpp\"\n#include \"../datastructure/segtree.cpp\"\
+    \n#include \"../tree/hld_edge.cpp\"\n#include \"../datastructure/segmenttree/segtree.cpp\"\
     \n\nstruct MatMonoidL {\n    using T = array<mint, 4>;\n    static T f(T a, T\
     \ b) {\n        return {\n            a[0] * b[0] + a[1] * b[2],\n           \
     \ a[0] * b[1] + a[1] * b[3],\n            a[2] * b[0] + a[3] * b[2],\n       \
@@ -354,11 +354,11 @@ data:
   - util/modint.cpp
   - tree/hld_edge.cpp
   - tree/hld.cpp
-  - datastructure/segtree.cpp
+  - datastructure/segmenttree/segtree.cpp
   isVerificationFile: true
   path: test/yuki650_hld_edge.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki650_hld_edge.test.cpp

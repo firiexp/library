@@ -3,17 +3,20 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/linear_sieve.cpp
+    path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_alds1_1_c_get_prime.test.cpp
+    title: test/aoj_alds1_1_c_get_prime.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n  \
-    \  int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
+  bundledCode: "#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve\
+    \ {\n    int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
     \ phi;\n    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit\
     \ LinearSieve(int n, bool need_min_factor = false, bool need_phi = false, bool\
     \ need_mobius = false)\n        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor\
@@ -38,35 +41,37 @@ data:
     \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
     \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
     \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
-    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/mobius_all.cpp\"\
-    \n\nvector<int> mobius_all(int M) {\n    if (M <= 0) return {};\n    return LinearSieve(M\
-    \ - 1, false, false, true).mobius;\n}\n"
-  code: "#include \"linear_sieve.cpp\"\n\nvector<int> mobius_all(int M) {\n    if\
-    \ (M <= 0) return {};\n    return LinearSieve(M - 1, false, false, true).mobius;\n\
-    }\n"
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_prime.cpp\"\
+    \n\nvector<int> get_prime(int n) {\n    return LinearSieve(n).primes;\n}\n"
+  code: "#include \"linear_sieve.cpp\"\n\nvector<int> get_prime(int n) {\n    return\
+    \ LinearSieve(n).primes;\n}\n"
   dependsOn:
-  - math/linear_sieve.cpp
+  - math/prime/linear_sieve.cpp
   isVerificationFile: false
-  path: math/mobius_all.cpp
+  path: math/prime/get_prime.cpp
   requiredBy: []
-  timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2026-03-22 19:39:35+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/aoj_alds1_1_c_get_prime.test.cpp
 date: 2026-03-12
-documentation_of: math/mobius_all.cpp
+documentation_of: math/prime/get_prime.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Mobius Table)"
+title: "\u7D20\u6570\u5217\u6319"
 ---
 
 ## 説明
-`0..M-1` のメビウス関数を線形篩でまとめて求める。
-計算量は $O(M)$。
+`n` 以下の素数を線形篩で列挙する。
+計算量は $O(n)$。
 
 ## できること
-- `vector<int> mobius_all(int M)`
-  `mobius[i] = μ(i)` を満たす長さ `M` の配列を返す
+- `vector<int> get_prime(int n)`
+  `n` 以下の素数を昇順で返す。`n <= 1` なら空
 
 ## 使い方
-`mobius[0] = 0`, `mobius[1] = 1` になる。
-包除や約数和の反転でまとめて使う前計算向けである。
+`LinearSieve` の素数列挙だけを取り出す薄い wrapper である。
+
+```cpp
+auto primes = get_prime(n);
+```

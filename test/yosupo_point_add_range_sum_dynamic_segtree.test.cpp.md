@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/dynamic_segtree.cpp
+    path: datastructure/segmenttree/dynamic_segtree.cpp
     title: Dynamic Segment Tree
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -133,25 +133,25 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"datastructure/dynamic_segtree.cpp\"\ntemplate <class M>\nstruct\
-    \ DynamicSegmentTree{\n    using T = typename M::T;\n    struct Node{\n      \
-    \  T val;\n        int l, r;\n    };\n\n    long long n{};\n    vector<Node> node;\n\
-    \    int root;\n\n    explicit DynamicSegmentTree(long long n): n(n), root(-1)\
-    \ {}\n\n    void reserve(size_t sz){\n        node.reserve(sz);\n    }\n\n   \
-    \ void update(long long k, const T &x){\n        if(n == 0) return;\n        update_(root,\
-    \ k, x, 0, n);\n    }\n\n    void add(long long k, const T &x){\n        if(n\
-    \ == 0) return;\n        add_(root, k, x, 0, n);\n    }\n\n    T query(long long\
-    \ a, long long b) const {\n        if(n == 0 || b <= a) return M::e();\n     \
-    \   return query_(root, a, b, 0, n);\n    }\n\n    T get(long long k) const {\
-    \ return query(k, k+1); }\n    T operator[](const long long &k) const { return\
-    \ get(k); }\n\nprivate:\n    int make_node(const T &v, int l, int r){\n      \
-    \  node.push_back({v, l, r});\n        return (int)node.size()-1;\n    }\n\n \
-    \   void update_(int &id, long long k, const T &x, long long l, long long r){\n\
-    \        if(id == -1) id = make_node(M::e(), -1, -1);\n        if(l+1 == r){\n\
-    \            node[id].val = x;\n            return;\n        }\n        long long\
-    \ m = l + ((r-l)>>1);\n        if(k < m){\n            int child = node[id].l;\n\
-    \            update_(child, k, x, l, m);\n            node[id].l = child;\n  \
-    \      }else{\n            int child = node[id].r;\n            update_(child,\
+    \ */\n#line 1 \"datastructure/segmenttree/dynamic_segtree.cpp\"\ntemplate <class\
+    \ M>\nstruct DynamicSegmentTree{\n    using T = typename M::T;\n    struct Node{\n\
+    \        T val;\n        int l, r;\n    };\n\n    long long n{};\n    vector<Node>\
+    \ node;\n    int root;\n\n    explicit DynamicSegmentTree(long long n): n(n),\
+    \ root(-1) {}\n\n    void reserve(size_t sz){\n        node.reserve(sz);\n   \
+    \ }\n\n    void update(long long k, const T &x){\n        if(n == 0) return;\n\
+    \        update_(root, k, x, 0, n);\n    }\n\n    void add(long long k, const\
+    \ T &x){\n        if(n == 0) return;\n        add_(root, k, x, 0, n);\n    }\n\
+    \n    T query(long long a, long long b) const {\n        if(n == 0 || b <= a)\
+    \ return M::e();\n        return query_(root, a, b, 0, n);\n    }\n\n    T get(long\
+    \ long k) const { return query(k, k+1); }\n    T operator[](const long long &k)\
+    \ const { return get(k); }\n\nprivate:\n    int make_node(const T &v, int l, int\
+    \ r){\n        node.push_back({v, l, r});\n        return (int)node.size()-1;\n\
+    \    }\n\n    void update_(int &id, long long k, const T &x, long long l, long\
+    \ long r){\n        if(id == -1) id = make_node(M::e(), -1, -1);\n        if(l+1\
+    \ == r){\n            node[id].val = x;\n            return;\n        }\n    \
+    \    long long m = l + ((r-l)>>1);\n        if(k < m){\n            int child\
+    \ = node[id].l;\n            update_(child, k, x, l, m);\n            node[id].l\
+    \ = child;\n        }else{\n            int child = node[id].r;\n            update_(child,\
     \ k, x, m, r);\n            node[id].r = child;\n        }\n        node[id].val\
     \ = M::f(value(node[id].l), value(node[id].r));\n    }\n\n    void add_(int &id,\
     \ long long k, const T &x, long long l, long long r){\n        if(id == -1) id\
@@ -183,24 +183,24 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
-    #include \"../datastructure/dynamic_segtree.cpp\"\n\nstruct Monoid{\n    using\
-    \ T = long long;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid> seg(n);\n    if (n\
-    \ > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i < n; ++i) {\n      \
-    \  long long a;\n        sc.read(a);\n        seg.add(i, a);\n    }\n\n    while\
-    \ (q--) {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n      \
-    \      int p;\n            long long x;\n            sc.read(p, x);\n        \
-    \    seg.add(p, x);\n        } else {\n            int l, r;\n            sc.read(l,\
-    \ r);\n            pr.println(seg.query(l, r));\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    #include \"../datastructure/segmenttree/dynamic_segtree.cpp\"\n\nstruct Monoid{\n\
+    \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
+    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
+    \    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid> seg(n);\n \
+    \   if (n > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i < n; ++i) {\n\
+    \        long long a;\n        sc.read(a);\n        seg.add(i, a);\n    }\n\n\
+    \    while (q--) {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n\
+    \            int p;\n            long long x;\n            sc.read(p, x);\n  \
+    \          seg.add(p, x);\n        } else {\n            int l, r;\n         \
+    \   sc.read(l, r);\n            pr.println(seg.query(l, r));\n        }\n    }\n\
+    \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/dynamic_segtree.cpp
+  - datastructure/segmenttree/dynamic_segtree.cpp
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp

@@ -4,10 +4,10 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: math/primefactor_ll.cpp
+    path: math/prime/primefactor_ll.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
   - icon: ':heavy_check_mark:'
-    path: math/primitive_root.cpp
+    path: math/prime/primitive_root.cpp
     title: Primitive Root
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -25,15 +25,15 @@ data:
   attributes:
     document_title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
     links: []
-  bundledCode: "#line 1 \"math/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\nstruct\
-    \ mod64 {\n    unsigned long long n;\n    static unsigned long long mod, inv,\
-    \ r2;\n    mod64() : n(0) {}\n    mod64(unsigned long long x) : n(init(x)) {}\n\
-    \    static unsigned long long init(unsigned long long w) {\n        return reduce(u128(w)\
-    \ * r2);\n    }\n    static void set_mod(unsigned long long m) {\n        mod\
-    \ = inv = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n      \
-    \  r2 = -u128(m) % m;\n    }\n    static unsigned long long reduce(u128 x) {\n\
-    \        unsigned long long y =\n            static_cast<unsigned long long>(x\
-    \ >> 64)\n            - static_cast<unsigned long long>((u128(static_cast<unsigned\
+  bundledCode: "#line 1 \"math/prime/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\
+    \nstruct mod64 {\n    unsigned long long n;\n    static unsigned long long mod,\
+    \ inv, r2;\n    mod64() : n(0) {}\n    mod64(unsigned long long x) : n(init(x))\
+    \ {}\n    static unsigned long long init(unsigned long long w) {\n        return\
+    \ reduce(u128(w) * r2);\n    }\n    static void set_mod(unsigned long long m)\
+    \ {\n        mod = inv = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv\
+    \ * m;\n        r2 = -u128(m) % m;\n    }\n    static unsigned long long reduce(u128\
+    \ x) {\n        unsigned long long y =\n            static_cast<unsigned long\
+    \ long>(x >> 64)\n            - static_cast<unsigned long long>((u128(static_cast<unsigned\
     \ long long>(x) * inv) * mod) >> 64);\n        return (long long)y < 0 ? y + mod\
     \ : y;\n    }\n    mod64& operator*=(mod64 x) {\n        n = reduce(u128(n) *\
     \ x.n);\n        return *this;\n    }\n    mod64 operator*(mod64 x) const {\n\
@@ -96,18 +96,18 @@ data:
     \n */\n"
   dependsOn: []
   isVerificationFile: false
-  path: math/miller_rabin.cpp
+  path: math/prime/miller_rabin.cpp
   requiredBy:
-  - math/primefactor_ll.cpp
-  - math/primitive_root.cpp
-  timestamp: '2026-03-11 00:38:22+09:00'
+  - math/prime/primefactor_ll.cpp
+  - math/prime/primitive_root.cpp
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_primality_test.test.cpp
   - test/yosupo_factorize.test.cpp
   - test/yosupo_primitive_root.test.cpp
 date: 2018-04-28
-documentation_of: math/miller_rabin.cpp
+documentation_of: math/prime/miller_rabin.cpp
 layout: document
 tags: "\u6570\u5B66"
 title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"

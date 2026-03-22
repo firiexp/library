@@ -2,13 +2,13 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/miller_rabin.cpp
+    path: math/prime/miller_rabin.cpp
     title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
   - icon: ':heavy_check_mark:'
-    path: math/primefactor_ll.cpp
+    path: math/prime/primefactor_ll.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
   - icon: ':heavy_check_mark:'
-    path: math/primitive_root.cpp
+    path: math/prime/primitive_root.cpp
     title: Primitive Root
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -140,10 +140,10 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"math/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\nstruct mod64\
-    \ {\n    unsigned long long n;\n    static unsigned long long mod, inv, r2;\n\
-    \    mod64() : n(0) {}\n    mod64(unsigned long long x) : n(init(x)) {}\n    static\
-    \ unsigned long long init(unsigned long long w) {\n        return reduce(u128(w)\
+    \ */\n#line 1 \"math/prime/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\nstruct\
+    \ mod64 {\n    unsigned long long n;\n    static unsigned long long mod, inv,\
+    \ r2;\n    mod64() : n(0) {}\n    mod64(unsigned long long x) : n(init(x)) {}\n\
+    \    static unsigned long long init(unsigned long long w) {\n        return reduce(u128(w)\
     \ * r2);\n    }\n    static void set_mod(unsigned long long m) {\n        mod\
     \ = inv = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n      \
     \  r2 = -u128(m) % m;\n    }\n    static unsigned long long reduce(u128 x) {\n\
@@ -174,15 +174,15 @@ data:
     \        }\n    } else {\n        for (auto p : large) {\n            if(p >=\
     \ n) break;\n            if(!suspect(p, s, d, n)) return false;\n        }\n \
     \   }\n    return true;\n}\n\n/**\n * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\
-    \n */\n#line 2 \"math/primefactor_ll.cpp\"\n\ntemplate<typename T>\nstruct ExactDiv\
-    \ {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n))\
-    \ , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0;\
-    \ i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n    bool divide(T n)\
-    \ const {\n        if(val == 2) return !(n & 1);\n        return n * this->i <=\
-    \ this->t;\n    }\n};\n\nvector<ExactDiv<ull>> get_prime(int n){\n    if(n <=\
-    \ 1) return vector<ExactDiv<ull>>();\n    vector<bool> is_prime(n+1, true);\n\
-    \    vector<ExactDiv<ull>> prime;\n    is_prime[0] = is_prime[1] = false;\n  \
-    \  for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
+    \n */\n#line 2 \"math/prime/primefactor_ll.cpp\"\n\ntemplate<typename T>\nstruct\
+    \ ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1)\
+    \ / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n \
+    \       for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n\
+    \    bool divide(T n) const {\n        if(val == 2) return !(n & 1);\n       \
+    \ return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<ull>> get_prime(int\
+    \ n){\n    if(n <= 1) return vector<ExactDiv<ull>>();\n    vector<bool> is_prime(n+1,\
+    \ true);\n    vector<ExactDiv<ull>> prime;\n    is_prime[0] = is_prime[1] = false;\n\
+    \    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
     \        for (auto &&j : prime){\n            ull v = (ull)i * j.val;\n      \
     \      if(v > (ull)n) break;\n            is_prime[v] = false;\n            if(j.divide(i))\
     \ break;\n        }\n    }\n    return prime;\n}\nconst auto primes = get_prime(50000);\n\
@@ -211,8 +211,8 @@ data:
     \ / x, res, false);\n}\n\ntemplate<class T>\nvector<T> prime_factor(T n){\n  \
     \  vector<T> res;\n    prime_factor_impl(n, res, true);\n    sort(res.begin(),res.end());\n\
     \    return res;\n}\n\n/**\n * @brief \u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)\n\
-    \ */\n#line 2 \"math/primitive_root.cpp\"\nll primitive_root(ll m) {\n    if (m\
-    \ == 2) return 1;\n    auto divs = prime_factor(m - 1);\n    divs.erase(unique(divs.begin(),\
+    \ */\n#line 2 \"math/prime/primitive_root.cpp\"\nll primitive_root(ll m) {\n \
+    \   if (m == 2) return 1;\n    auto divs = prime_factor(m - 1);\n    divs.erase(unique(divs.begin(),\
     \ divs.end()), divs.end());\n    auto mod_pow = [&](ll x, ll n) {\n        ull\
     \ a = x, r = 1, mod = m;\n        while (n > 0) {\n            if (n & 1) r =\
     \ (u128)r * a % mod;\n            a = (u128)a * a % mod;\n            n >>= 1;\n\
@@ -229,19 +229,19 @@ data:
     \ <vector>\n\nstatic const int MOD = 1000000007;\nusing ll = long long;\nusing\
     \ uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/primitive_root.cpp\"\n\nint main() {\n    Scanner in;\n \
-    \   Printer out;\n    int q;\n    in.read(q);\n    while (q--) {\n        ll p;\n\
-    \        in.read(p);\n        out.println(primitive_root(p));\n    }\n    return\
-    \ 0;\n}\n"
+    \n#include \"../math/prime/primitive_root.cpp\"\n\nint main() {\n    Scanner in;\n\
+    \    Printer out;\n    int q;\n    in.read(q);\n    while (q--) {\n        ll\
+    \ p;\n        in.read(p);\n        out.println(primitive_root(p));\n    }\n  \
+    \  return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/primitive_root.cpp
-  - math/primefactor_ll.cpp
-  - math/miller_rabin.cpp
+  - math/prime/primitive_root.cpp
+  - math/prime/primefactor_ll.cpp
+  - math/prime/miller_rabin.cpp
   isVerificationFile: true
   path: test/yosupo_primitive_root.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_primitive_root.test.cpp

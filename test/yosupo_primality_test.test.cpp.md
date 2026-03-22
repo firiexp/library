@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/miller_rabin.cpp
+    path: math/prime/miller_rabin.cpp
     title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -133,10 +133,10 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"math/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\nstruct mod64\
-    \ {\n    unsigned long long n;\n    static unsigned long long mod, inv, r2;\n\
-    \    mod64() : n(0) {}\n    mod64(unsigned long long x) : n(init(x)) {}\n    static\
-    \ unsigned long long init(unsigned long long w) {\n        return reduce(u128(w)\
+    \ */\n#line 1 \"math/prime/miller_rabin.cpp\"\nusing u128 = __uint128_t;\n\nstruct\
+    \ mod64 {\n    unsigned long long n;\n    static unsigned long long mod, inv,\
+    \ r2;\n    mod64() : n(0) {}\n    mod64(unsigned long long x) : n(init(x)) {}\n\
+    \    static unsigned long long init(unsigned long long w) {\n        return reduce(u128(w)\
     \ * r2);\n    }\n    static void set_mod(unsigned long long m) {\n        mod\
     \ = inv = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n      \
     \  r2 = -u128(m) % m;\n    }\n    static unsigned long long reduce(u128 x) {\n\
@@ -174,17 +174,17 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primality_test\"\n\n#include\
     \ <cstdint>\n#include <vector>\n\nusing ull = unsigned long long;\nusing namespace\
     \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include \"../util/fastio.cpp\"\n#include \"../math/miller_rabin.cpp\"\n\nint\
-    \ main() {\n    Scanner sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n  \
-    \  while (q--) {\n        ull n;\n        sc.read(n);\n        pr.println(miller_rabin(n)\
+    \n#include \"../util/fastio.cpp\"\n#include \"../math/prime/miller_rabin.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n\
+    \    while (q--) {\n        ull n;\n        sc.read(n);\n        pr.println(miller_rabin(n)\
     \ ? \"Yes\" : \"No\");\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/miller_rabin.cpp
+  - math/prime/miller_rabin.cpp
   isVerificationFile: true
   path: test/yosupo_primality_test.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_primality_test.test.cpp

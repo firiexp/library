@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segbeats.cpp
+    path: datastructure/segmenttree/segbeats.cpp
     title: Segment Tree Beats
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -134,19 +134,19 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"datastructure/segbeats.cpp\"\ntemplate<class T>\nclass SegmentTreeBeats\
-    \ {\n    void add_(int x, T val){\n        if(!val) return;\n        auto& now\
-    \ = seg[x];\n        now.sum += val*now.len;\n        now.mn += val; now.mx +=\
-    \ val; now.add += val;\n        if(now.mn2 != INF<T>) now.mn2 += val;\n      \
-    \  if(now.mx2 != -INF<T>) now.mx2 += val;\n    }\n    void chmin_(int x, T val){\n\
-    \        if(val >= seg[x].mx) return;\n        auto& now = seg[x];\n        now.sum\
-    \ += now.mxc*(val-now.mx);\n        if(now.mn == now.mx) now.mn = val;\n     \
-    \   else if(now.mn2 == now.mx) now.mn2 = val;\n        now.mx = val;\n    }\n\
-    \    void chmax_(int x, T val){\n        if(val <= seg[x].mn) return;\n      \
-    \  auto& now = seg[x];\n        now.sum += now.mnc*(val-now.mn);\n        if(now.mx\
-    \ == now.mn) now.mx = val;\n        else if(now.mx2 == now.mn) now.mx2 = val;\n\
-    \        now.mn = val;\n    }\n    void get(int x){\n        M& now = seg[x],\
-    \ &l = seg[(x<<1)|0], &r = seg[(x<<1)|1];\n        now.sum = l.sum + r.sum;\n\
+    \ */\n#line 1 \"datastructure/segmenttree/segbeats.cpp\"\ntemplate<class T>\n\
+    class SegmentTreeBeats {\n    void add_(int x, T val){\n        if(!val) return;\n\
+    \        auto& now = seg[x];\n        now.sum += val*now.len;\n        now.mn\
+    \ += val; now.mx += val; now.add += val;\n        if(now.mn2 != INF<T>) now.mn2\
+    \ += val;\n        if(now.mx2 != -INF<T>) now.mx2 += val;\n    }\n    void chmin_(int\
+    \ x, T val){\n        if(val >= seg[x].mx) return;\n        auto& now = seg[x];\n\
+    \        now.sum += now.mxc*(val-now.mx);\n        if(now.mn == now.mx) now.mn\
+    \ = val;\n        else if(now.mn2 == now.mx) now.mn2 = val;\n        now.mx =\
+    \ val;\n    }\n    void chmax_(int x, T val){\n        if(val <= seg[x].mn) return;\n\
+    \        auto& now = seg[x];\n        now.sum += now.mnc*(val-now.mn);\n     \
+    \   if(now.mx == now.mn) now.mx = val;\n        else if(now.mx2 == now.mn) now.mx2\
+    \ = val;\n        now.mn = val;\n    }\n    void get(int x){\n        M& now =\
+    \ seg[x], &l = seg[(x<<1)|0], &r = seg[(x<<1)|1];\n        now.sum = l.sum + r.sum;\n\
     \        now.mn = min(l.mn, r.mn);\n        now.mx = max(l.mx, r.mx);\n      \
     \  now.len = l.len + r.len;\n        if(l.mn < r.mn) now.mnc = l.mnc, now.mn2\
     \ = min(l.mn2, r.mn);\n        else if(r.mn < l.mn) now.mnc = r.mnc, now.mn2 =\
@@ -196,8 +196,8 @@ data:
     \n#include <limits>\n#include <vector>\n\nusing ll = long long;\nusing namespace\
     \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
     \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include \"../util/fastio.cpp\"\n#include \"../datastructure/segbeats.cpp\"\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
+    \n#include \"../util/fastio.cpp\"\n#include \"../datastructure/segmenttree/segbeats.cpp\"\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
     \ seg(v);\n    while(q--){\n        int t;\n        sc.read(t);\n        if(t\
     \ == 0){\n            int l, r;\n            ll b;\n            sc.read(l, r,\
@@ -209,11 +209,11 @@ data:
     \ r));\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/segbeats.cpp
+  - datastructure/segmenttree/segbeats.cpp
   isVerificationFile: true
   path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp

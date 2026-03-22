@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segtree.cpp
-    title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
+    path: datastructure/segmenttree/segtree.cpp
+    title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
   - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "\u91CD\u8EFD\u5206\u89E3"
@@ -228,7 +228,7 @@ data:
     \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename\
     \ Q>\n    T subtree_query(int v, const Q &q, bool edge = false){\n        auto\
     \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief\
-    \ HL\u5206\u89E3(HL Decomposition)\n */\n#line 1 \"datastructure/segtree.cpp\"\
+    \ HL\u5206\u89E3(HL Decomposition)\n */\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
     \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
     \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
     \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
@@ -286,8 +286,8 @@ data:
     using ull = unsigned long long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
     \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
-    \n#include \"../tree/hld.cpp\"\n#include \"../datastructure/segtree.cpp\"\n\n\
-    struct Ml {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return\
+    \n#include \"../tree/hld.cpp\"\n#include \"../datastructure/segmenttree/segtree.cpp\"\
+    \n\nstruct Ml {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return\
     \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
     };\n\nstruct Mr {\n    using T = array<mint, 2>;\n    static T f(T b, T a) { return\
     \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
@@ -311,11 +311,11 @@ data:
   - util/fastio.cpp
   - util/modint.cpp
   - tree/hld.cpp
-  - datastructure/segtree.cpp
+  - datastructure/segmenttree/segtree.cpp
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp

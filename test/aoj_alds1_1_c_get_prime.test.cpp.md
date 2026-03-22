@@ -2,10 +2,10 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/get_prime.cpp
+    path: math/prime/get_prime.cpp
     title: "\u7D20\u6570\u5217\u6319"
   - icon: ':heavy_check_mark:'
-    path: math/linear_sieve.cpp
+    path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -135,12 +135,12 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n    int n;\n\
-    \    vector<int> primes;\n    vector<int> min_factor;\n    vector<int> phi;\n\
-    \    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit LinearSieve(int\
-    \ n, bool need_min_factor = false, bool need_phi = false, bool need_mobius = false)\n\
-    \        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor ? this->n +\
-    \ 1 : 0),\n          phi(need_phi ? this->n + 1 : 0),\n          mobius(need_mobius\
+    \ */\n#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n  \
+    \  int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
+    \ phi;\n    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit\
+    \ LinearSieve(int n, bool need_min_factor = false, bool need_phi = false, bool\
+    \ need_mobius = false)\n        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor\
+    \ ? this->n + 1 : 0),\n          phi(need_phi ? this->n + 1 : 0),\n          mobius(need_mobius\
     \ ? this->n + 1 : 0),\n          prime_table(need_min_factor ? 0 : this->n + 1,\
     \ true) {\n        if (!prime_table.empty()) {\n            prime_table[0] = false;\n\
     \            if (this->n >= 1) prime_table[1] = false;\n        }\n        if\
@@ -161,7 +161,7 @@ data:
     \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
     \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
     \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
-    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/get_prime.cpp\"\
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_prime.cpp\"\
     \n\nvector<int> get_prime(int n) {\n    return LinearSieve(n).primes;\n}\n#line\
     \ 13 \"test/aoj_alds1_1_c_get_prime.test.cpp\"\n\nbool is_prime_number(int x,\
     \ const vector<int> &primes) {\n    if (x < 2) return false;\n    for (int p :\
@@ -174,21 +174,21 @@ data:
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C\"\
     \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
-    #include \"../math/get_prime.cpp\"\n\nbool is_prime_number(int x, const vector<int>\
-    \ &primes) {\n    if (x < 2) return false;\n    for (int p : primes) {\n     \
-    \   if (1LL * p * p > x) break;\n        if (x % p == 0) return false;\n    }\n\
-    \    return true;\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n   \
-    \ int n;\n    sc.read(n);\n    auto primes = get_prime(100000);\n    int ans =\
-    \ 0;\n    while (n--) {\n        int x;\n        sc.read(x);\n        ans += is_prime_number(x,\
-    \ primes);\n    }\n    pr.println(ans);\n    return 0;\n}\n"
+    #include \"../math/prime/get_prime.cpp\"\n\nbool is_prime_number(int x, const\
+    \ vector<int> &primes) {\n    if (x < 2) return false;\n    for (int p : primes)\
+    \ {\n        if (1LL * p * p > x) break;\n        if (x % p == 0) return false;\n\
+    \    }\n    return true;\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\
+    \n    int n;\n    sc.read(n);\n    auto primes = get_prime(100000);\n    int ans\
+    \ = 0;\n    while (n--) {\n        int x;\n        sc.read(x);\n        ans +=\
+    \ is_prime_number(x, primes);\n    }\n    pr.println(ans);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/get_prime.cpp
-  - math/linear_sieve.cpp
+  - math/prime/get_prime.cpp
+  - math/prime/linear_sieve.cpp
   isVerificationFile: true
   path: test/aoj_alds1_1_c_get_prime.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_1_c_get_prime.test.cpp

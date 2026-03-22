@@ -19,14 +19,8 @@ data:
       path: datastructure/disjoint_sparse_table.cpp
       title: Disjoint Sparse Table
     - icon: ':heavy_check_mark:'
-      path: datastructure/dualsegtree.cpp
-      title: "\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)"
-    - icon: ':heavy_check_mark:'
       path: datastructure/dynamic_bitset.cpp
       title: Dynamic Bitset
-    - icon: ':heavy_check_mark:'
-      path: datastructure/dynamic_segtree.cpp
-      title: Dynamic Segment Tree
     - icon: ':heavy_check_mark:'
       path: datastructure/fenwick_tree_2d.cpp
       title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
@@ -37,17 +31,11 @@ data:
       path: datastructure/interval_set.cpp
       title: "\u533A\u9593\u96C6\u5408(Interval Set)"
     - icon: ':heavy_check_mark:'
-      path: datastructure/lazysegtree.cpp
-      title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
-    - icon: ':heavy_check_mark:'
       path: datastructure/li_chao_tree.cpp
       title: Li Chao Tree
     - icon: ':warning:'
       path: datastructure/monotoniccht.cpp
       title: "Convex-Hull Trick (\u30AF\u30A8\u30EA\u5358\u8ABF)"
-    - icon: ':heavy_check_mark:'
-      path: datastructure/persistent_segtree.cpp
-      title: Persistent Segment Tree
     - icon: ':heavy_check_mark:'
       path: datastructure/persistent_unionfind.cpp
       title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
@@ -64,12 +52,6 @@ data:
       path: datastructure/rectangle_add_point_get.cpp
       title: "\u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point\
         \ Get)"
-    - icon: ':heavy_check_mark:'
-      path: datastructure/segbeats.cpp
-      title: Segment Tree Beats
-    - icon: ':heavy_check_mark:'
-      path: datastructure/segtree.cpp
-      title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
     - icon: ':warning:'
       path: datastructure/slidingwindow.cpp
       title: "\u30B9\u30E9\u30A4\u30C9\u6700\u5C0F\u5024(\u6700\u5927\u5024)"
@@ -114,6 +96,26 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/weightedunionfind.cpp
       title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
+  - name: datastructure/segmenttree
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: datastructure/segmenttree/dualsegtree.cpp
+      title: "\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)"
+    - icon: ':heavy_check_mark:'
+      path: datastructure/segmenttree/dynamic_segtree.cpp
+      title: Dynamic Segment Tree
+    - icon: ':heavy_check_mark:'
+      path: datastructure/segmenttree/lazysegtree.cpp
+      title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
+    - icon: ':heavy_check_mark:'
+      path: datastructure/segmenttree/persistent_segtree.cpp
+      title: Persistent Segment Tree
+    - icon: ':heavy_check_mark:'
+      path: datastructure/segmenttree/segbeats.cpp
+      title: Segment Tree Beats
+    - icon: ':heavy_check_mark:'
+      path: datastructure/segmenttree/segtree.cpp
+      title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
   - name: flow
     pages:
     - icon: ':heavy_check_mark:'
@@ -298,21 +300,8 @@ data:
       path: math/comb_table.cpp
       title: math/comb_table.cpp
     - icon: ':heavy_check_mark:'
-      path: math/counting_primes.cpp
-      title: Counting Primes
-    - icon: ':heavy_check_mark:'
       path: math/discrete_logarithm.cpp
       title: Discrete Logarithm
-    - icon: ':warning:'
-      path: math/divisor.cpp
-      title: math/divisor.cpp
-    - icon: ':heavy_check_mark:'
-      path: math/eulerphi.cpp
-      title: Euler Phi
-    - icon: ':warning:'
-      path: math/eulerphi_all.cpp
-      title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\
-        (Euler Phi Table)"
     - icon: ':heavy_check_mark:'
       path: math/extgcd.cpp
       title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
@@ -340,18 +329,6 @@ data:
     - icon: ':warning:'
       path: math/gcd_transform.cpp
       title: math/gcd_transform.cpp
-    - icon: ':warning:'
-      path: math/get_min_factor.cpp
-      title: Get Min Factor
-    - icon: ':heavy_check_mark:'
-      path: math/get_prime.cpp
-      title: "\u7D20\u6570\u5217\u6319"
-    - icon: ':heavy_check_mark:'
-      path: math/get_prime2.cpp
-      title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
-    - icon: ':heavy_check_mark:'
-      path: math/get_prime_wheel.cpp
-      title: get_prime_wheel
     - icon: ':heavy_check_mark:'
       path: math/inverse_matrix.cpp
       title: "\u9006\u884C\u5217(Inverse Matrix)"
@@ -362,9 +339,6 @@ data:
       path: math/kth_root_integer.cpp
       title: Kth Root Integer
     - icon: ':heavy_check_mark:'
-      path: math/linear_sieve.cpp
-      title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
-    - icon: ':heavy_check_mark:'
       path: math/many_factorials.cpp
       title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
     - icon: ':heavy_check_mark:'
@@ -374,18 +348,8 @@ data:
       path: math/matrix_determinant.cpp
       title: "\u884C\u5217\u5F0F(Matrix Determinant)"
     - icon: ':heavy_check_mark:'
-      path: math/miller_rabin.cpp
-      title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
-    - icon: ':heavy_check_mark:'
       path: math/min_plus_convolution.cpp
       title: "min-plus\u7573\u307F\u8FBC\u307F(Min-Plus Convolution)"
-    - icon: ':warning:'
-      path: math/mobius_all.cpp
-      title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Mobius\
-        \ Table)"
-    - icon: ':warning:'
-      path: math/mobius_mu.cpp
-      title: math/mobius_mu.cpp
     - icon: ':heavy_check_mark:'
       path: math/mod_sqrt.cpp
       title: Mod Sqrt
@@ -408,15 +372,6 @@ data:
       path: math/powk_all.cpp
       title: math/powk_all.cpp
     - icon: ':heavy_check_mark:'
-      path: math/primefactor.cpp
-      title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
-    - icon: ':heavy_check_mark:'
-      path: math/primefactor_ll.cpp
-      title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
-    - icon: ':heavy_check_mark:'
-      path: math/primitive_root.cpp
-      title: Primitive Root
-    - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: "\u6B63\u65B9\u884C\u5217"
     - icon: ':heavy_check_mark:'
@@ -434,6 +389,55 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/xor_basis.cpp
       title: "XOR\u57FA\u5E95(Linear Basis)"
+  - name: math/prime
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: math/prime/counting_primes.cpp
+      title: Counting Primes
+    - icon: ':warning:'
+      path: math/prime/divisor.cpp
+      title: math/prime/divisor.cpp
+    - icon: ':heavy_check_mark:'
+      path: math/prime/eulerphi.cpp
+      title: Euler Phi
+    - icon: ':warning:'
+      path: math/prime/eulerphi_all.cpp
+      title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\
+        (Euler Phi Table)"
+    - icon: ':warning:'
+      path: math/prime/get_min_factor.cpp
+      title: Get Min Factor
+    - icon: ':heavy_check_mark:'
+      path: math/prime/get_prime.cpp
+      title: "\u7D20\u6570\u5217\u6319"
+    - icon: ':heavy_check_mark:'
+      path: math/prime/get_prime2.cpp
+      title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
+    - icon: ':heavy_check_mark:'
+      path: math/prime/get_prime_wheel.cpp
+      title: get_prime_wheel
+    - icon: ':heavy_check_mark:'
+      path: math/prime/linear_sieve.cpp
+      title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
+    - icon: ':heavy_check_mark:'
+      path: math/prime/miller_rabin.cpp
+      title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
+    - icon: ':warning:'
+      path: math/prime/mobius_all.cpp
+      title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Mobius\
+        \ Table)"
+    - icon: ':warning:'
+      path: math/prime/mobius_mu.cpp
+      title: math/prime/mobius_mu.cpp
+    - icon: ':heavy_check_mark:'
+      path: math/prime/primefactor.cpp
+      title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
+    - icon: ':heavy_check_mark:'
+      path: math/prime/primefactor_ll.cpp
+      title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
+    - icon: ':heavy_check_mark:'
+      path: math/prime/primitive_root.cpp
+      title: Primitive Root
   - name: snippets
     pages:
     - icon: ':warning:'

@@ -3,7 +3,7 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/linear_sieve.cpp
+    path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
@@ -14,8 +14,8 @@ data:
     document_title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\
       \u30EB(Euler Phi Table)"
     links: []
-  bundledCode: "#line 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n  \
-    \  int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
+  bundledCode: "#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve\
+    \ {\n    int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
     \ phi;\n    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit\
     \ LinearSieve(int n, bool need_min_factor = false, bool need_phi = false, bool\
     \ need_mobius = false)\n        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor\
@@ -40,7 +40,7 @@ data:
     \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
     \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
     \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
-    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/eulerphi_all.cpp\"\
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/eulerphi_all.cpp\"\
     \n\nvector<int> eulerphi_all(int M) {\n    if (M <= 0) return {};\n    return\
     \ LinearSieve(M - 1, false, true).phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\
     \u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Euler Phi Table)\n */\n"
@@ -49,15 +49,15 @@ data:
     /**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\
     \u30EB(Euler Phi Table)\n */\n"
   dependsOn:
-  - math/linear_sieve.cpp
+  - math/prime/linear_sieve.cpp
   isVerificationFile: false
-  path: math/eulerphi_all.cpp
+  path: math/prime/eulerphi_all.cpp
   requiredBy: []
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 date: 2026-03-08
-documentation_of: math/eulerphi_all.cpp
+documentation_of: math/prime/eulerphi_all.cpp
 layout: document
 tags: "\u6570\u5B66"
 title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Euler\

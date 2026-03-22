@@ -3,7 +3,7 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/linear_sieve.cpp
+    path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   _extendedRequiredBy:
   - icon: ':warning:'
@@ -17,8 +17,8 @@ data:
     document_title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor\
       \ Table)"
     links: []
-  bundledCode: "#line 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n  \
-    \  int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
+  bundledCode: "#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve\
+    \ {\n    int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
     \ phi;\n    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit\
     \ LinearSieve(int n, bool need_min_factor = false, bool need_phi = false, bool\
     \ need_mobius = false)\n        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor\
@@ -43,7 +43,7 @@ data:
     \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
     \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
     \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
-    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/get_min_factor.cpp\"\
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_min_factor.cpp\"\
     \n\nvector<int> get_min_factor(int n) {\n    return LinearSieve(n, true).min_factor;\n\
     }\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min\
     \ Factor Table)\n */\n"
@@ -51,16 +51,16 @@ data:
     \  return LinearSieve(n, true).min_factor;\n}\n\n/**\n * @brief \u6700\u5C0F\u7D20\
     \u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)\n */\n"
   dependsOn:
-  - math/linear_sieve.cpp
+  - math/prime/linear_sieve.cpp
   isVerificationFile: false
-  path: math/get_min_factor.cpp
+  path: math/prime/get_min_factor.cpp
   requiredBy:
   - math/powk_all.cpp
-  timestamp: '2026-03-12 14:17:55+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 date: 2026-03-08
-documentation_of: math/get_min_factor.cpp
+documentation_of: math/prime/get_min_factor.cpp
 layout: document
 tags: "\u6570\u5B66"
 title: Get Min Factor

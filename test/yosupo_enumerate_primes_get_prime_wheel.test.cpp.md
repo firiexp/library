@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/get_prime_wheel.cpp
+    path: math/prime/get_prime_wheel.cpp
     title: get_prime_wheel
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -134,7 +134,7 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"math/get_prime_wheel.cpp\"\nstruct Prime {\n    static constexpr\
+    \ */\n#line 1 \"math/prime/get_prime_wheel.cpp\"\nstruct Prime {\n    static constexpr\
     \ int wheel[8]  = {4, 2, 4, 2, 4, 6, 2, 6};\n    static constexpr int wheel2[8]\
     \ = {7, 11, 13, 17, 19, 23, 29, 31};\n    static constexpr int wheel_sum[30] =\
     \ {\n        0, 0, 0, 0, 0, 0, 1, 1, 1, 1,\n        2, 2, 3, 3, 3, 3, 4, 4, 5,\
@@ -207,23 +207,23 @@ data:
     \    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n, a, b);\n\
     \n    Prime prime(n, a, b);\n\n    pr.print(prime.count);\n    pr.print(' ');\n\
     \    pr.println((prime.count <= b ? 0 : (prime.count - b + a - 1) / a));\n\n \
-    \   pr.println(prime.picked);\n}\n\n"
+    \   pr.println(prime.picked);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n\
     #include <algorithm>\n#include <cmath>\n#include <vector>\n#include <array>\n\
     using namespace std;\nusing ll = long long;\nusing ull = unsigned long long;\n\
     \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include \"../util/fastio.cpp\"\n#include \"../math/get_prime_wheel.cpp\"\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n,\
+    \n#include \"../util/fastio.cpp\"\n#include \"../math/prime/get_prime_wheel.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n,\
     \ a, b);\n\n    Prime prime(n, a, b);\n\n    pr.print(prime.count);\n    pr.print('\
     \ ');\n    pr.println((prime.count <= b ? 0 : (prime.count - b + a - 1) / a));\n\
-    \n    pr.println(prime.picked);\n}\n\n"
+    \n    pr.println(prime.picked);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/get_prime_wheel.cpp
+  - math/prime/get_prime_wheel.cpp
   isVerificationFile: true
   path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 18:32:48+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp

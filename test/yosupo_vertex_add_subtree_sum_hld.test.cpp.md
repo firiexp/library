@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segtree.cpp
-    title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
+    path: datastructure/segmenttree/segtree.cpp
+    title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
   - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "\u91CD\u8EFD\u5206\u89E3"
@@ -196,20 +196,20 @@ data:
     \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
     \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
     \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n#line 1 \"datastructure/segtree.cpp\"\ntemplate\
-    \ <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int sz, n,\
-    \ height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n) {\n  \
-    \      sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz, M::e());\n\
-    \    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n    void build(){\n\
-    \        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i], seg[2*i+1]);\n\
-    \    }\n\n    void update(int k, const T &x){\n        k += sz;\n        seg[k]\
-    \ = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n    }\n\n\
-    \    T query(int a, int b){\n        T l = M::e(), r = M::e();\n        for(a\
-    \ += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l, seg[a++]);\n\
-    \            if(b & 1) r = M::f(seg[--b], r);\n        }\n        return M::f(l,\
-    \ r);\n    }\n\n    template<class F>\n    int search_right(int l, F cond){\n\
-    \        if(l == n) return n;\n        T val = M::e();\n        l += sz;\n   \
-    \     do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
+    \u89E3(HL Decomposition)\n */\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
+    \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
+    \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
+    \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
+    \ M::e());\n    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n \
+    \   void build(){\n        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i],\
+    \ seg[2*i+1]);\n    }\n\n    void update(int k, const T &x){\n        k += sz;\n\
+    \        seg[k] = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n\
+    \    }\n\n    T query(int a, int b){\n        T l = M::e(), r = M::e();\n    \
+    \    for(a += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l,\
+    \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
+    \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
+    \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
+    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
     \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
     \                    if (cond(M::f(val, seg[l]))){\n                        val\
     \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
@@ -243,7 +243,7 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
     \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\n#include \"../datastructure/segtree.cpp\"\
+    #include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\n#include \"../datastructure/segmenttree/segtree.cpp\"\
     \n\nstruct SumMonoid {\n    using T = ll;\n    static T f(T a, T b) { return a\
     \ + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
@@ -259,11 +259,11 @@ data:
   dependsOn:
   - util/fastio.cpp
   - tree/hld.cpp
-  - datastructure/segtree.cpp
+  - datastructure/segmenttree/segtree.cpp
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp

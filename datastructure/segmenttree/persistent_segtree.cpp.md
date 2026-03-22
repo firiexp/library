@@ -14,16 +14,16 @@ data:
     document_title: "\u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Persistent Segment\
       \ Tree)"
     links: []
-  bundledCode: "#line 1 \"datastructure/persistent_segtree.cpp\"\ntemplate <class\
-    \ M>\nstruct PersistentSegmentTree{\n    using T = typename M::T;\n    struct\
-    \ Node{\n        T val;\n        int l, r;\n    };\n\n    int n{};\n    vector<Node>\
-    \ node;\n    vector<int> root;\n\n    explicit PersistentSegmentTree(int n): n(n){\n\
-    \        if(n == 0){\n            node.push_back({M::e(), -1, -1});\n        \
-    \    root.push_back(0);\n        }else{\n            root.push_back(build(0, n));\n\
-    \        }\n    }\n    explicit PersistentSegmentTree(const vector<T> &v): n(v.size()){\n\
-    \        if(n == 0){\n            node.push_back({M::e(), -1, -1});\n        \
-    \    root.push_back(0);\n        }else{\n            root.push_back(build(0, n,\
-    \ v));\n        }\n    }\n\n    int latest_version() const { return root.size()-1;\
+  bundledCode: "#line 1 \"datastructure/segmenttree/persistent_segtree.cpp\"\ntemplate\
+    \ <class M>\nstruct PersistentSegmentTree{\n    using T = typename M::T;\n   \
+    \ struct Node{\n        T val;\n        int l, r;\n    };\n\n    int n{};\n  \
+    \  vector<Node> node;\n    vector<int> root;\n\n    explicit PersistentSegmentTree(int\
+    \ n): n(n){\n        if(n == 0){\n            node.push_back({M::e(), -1, -1});\n\
+    \            root.push_back(0);\n        }else{\n            root.push_back(build(0,\
+    \ n));\n        }\n    }\n    explicit PersistentSegmentTree(const vector<T> &v):\
+    \ n(v.size()){\n        if(n == 0){\n            node.push_back({M::e(), -1, -1});\n\
+    \            root.push_back(0);\n        }else{\n            root.push_back(build(0,\
+    \ n, v));\n        }\n    }\n\n    int latest_version() const { return root.size()-1;\
     \ }\n    int versions() const { return root.size(); }\n\n    int update(int t,\
     \ int k, const T &x){\n        if(n == 0){\n            root.push_back(root[t]);\n\
     \            return latest_version();\n        }\n        root.push_back(update_(root[t],\
@@ -109,14 +109,14 @@ data:
     \u30C8\u6728(Persistent Segment Tree)\n */\n"
   dependsOn: []
   isVerificationFile: false
-  path: datastructure/persistent_segtree.cpp
+  path: datastructure/segmenttree/persistent_segtree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_add_range_sum_persistent.test.cpp
 date: 2026-03-08
-documentation_of: datastructure/persistent_segtree.cpp
+documentation_of: datastructure/segmenttree/persistent_segtree.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
 title: Persistent Segment Tree

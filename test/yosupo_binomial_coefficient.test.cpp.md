@@ -14,7 +14,7 @@ data:
     path: math/modinv.cpp
     title: math/modinv.cpp
   - icon: ':heavy_check_mark:'
-    path: math/primefactor.cpp
+    path: math/prime/primefactor.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -159,15 +159,15 @@ data:
     \ = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g % mm * p\
     \ % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R += M;\n    }\n\
     \    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\u7406\
-    (CRT)\n */\n#line 1 \"math/primefactor.cpp\"\ntemplate<typename T>\nstruct ExactDiv\
-    \ {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n))\
-    \ , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0;\
-    \ i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n    bool divide(T n)\
-    \ const {\n        if(val == 2) return !(n & 1);\n        return n * this->i <=\
-    \ this->t;\n    }\n};\n\nvector<ExactDiv<uint>> get_prime(int n){\n    if(n <=\
-    \ 1) return vector<ExactDiv<uint>>();\n    vector<bool> is_prime(n+1, true);\n\
-    \    vector<ExactDiv<uint>> prime;\n    is_prime[0] = is_prime[1] = false;\n \
-    \   for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
+    (CRT)\n */\n#line 1 \"math/prime/primefactor.cpp\"\ntemplate<typename T>\nstruct\
+    \ ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1)\
+    \ / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n \
+    \       for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n\
+    \    bool divide(T n) const {\n        if(val == 2) return !(n & 1);\n       \
+    \ return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<uint>> get_prime(int\
+    \ n){\n    if(n <= 1) return vector<ExactDiv<uint>>();\n    vector<bool> is_prime(n+1,\
+    \ true);\n    vector<ExactDiv<uint>> prime;\n    is_prime[0] = is_prime[1] = false;\n\
+    \    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
     \        for (auto &&j : prime){\n            if(i*j.val > n) break;\n       \
     \     is_prime[i*j.val] = false;\n            if(j.divide(i)) break;\n       \
     \ }\n    }\n    return prime;\n}\nconst auto primes = get_prime(32000);\n\ntemplate<class\
@@ -231,7 +231,7 @@ data:
     using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../math/CRT.cpp\"\
-    \n#include \"../math/primefactor.cpp\"\n#include \"../math/binom_mod_prime_power.cpp\"\
+    \n#include \"../math/prime/primefactor.cpp\"\n#include \"../math/binom_mod_prime_power.cpp\"\
     \n\nll brute(ll n, ll k, ll mod) {\n    if (k < 0 || k > n) return 0;\n    vector<vector<ll>>\
     \ dp(n + 1, vector<ll>(k + 1));\n    dp[0][0] = 1 % mod;\n    for (ll i = 0; i\
     \ < n; ++i) {\n        for (ll j = 0; j <= min(i, k); ++j) {\n            dp[i\
@@ -265,13 +265,13 @@ data:
   - util/fastio.cpp
   - math/CRT.cpp
   - math/extgcd.cpp
-  - math/primefactor.cpp
+  - math/prime/primefactor.cpp
   - math/binom_mod_prime_power.cpp
   - math/modinv.cpp
   isVerificationFile: true
   path: test/yosupo_binomial_coefficient.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_binomial_coefficient.test.cpp

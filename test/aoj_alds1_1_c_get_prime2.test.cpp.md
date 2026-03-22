@@ -2,10 +2,10 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/get_prime2.cpp
+    path: math/prime/get_prime2.cpp
     title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
   - icon: ':heavy_check_mark:'
-    path: math/linear_sieve.cpp
+    path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
@@ -136,12 +136,12 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"math/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n    int n;\n\
-    \    vector<int> primes;\n    vector<int> min_factor;\n    vector<int> phi;\n\
-    \    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit LinearSieve(int\
-    \ n, bool need_min_factor = false, bool need_phi = false, bool need_mobius = false)\n\
-    \        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor ? this->n +\
-    \ 1 : 0),\n          phi(need_phi ? this->n + 1 : 0),\n          mobius(need_mobius\
+    \ */\n#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n  \
+    \  int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
+    \ phi;\n    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit\
+    \ LinearSieve(int n, bool need_min_factor = false, bool need_phi = false, bool\
+    \ need_mobius = false)\n        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor\
+    \ ? this->n + 1 : 0),\n          phi(need_phi ? this->n + 1 : 0),\n          mobius(need_mobius\
     \ ? this->n + 1 : 0),\n          prime_table(need_min_factor ? 0 : this->n + 1,\
     \ true) {\n        if (!prime_table.empty()) {\n            prime_table[0] = false;\n\
     \            if (this->n >= 1) prime_table[1] = false;\n        }\n        if\
@@ -162,7 +162,7 @@ data:
     \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
     \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
     \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
-    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/get_prime2.cpp\"\
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_prime2.cpp\"\
     \n\ntemplate<typename T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv()\
     \ {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T\
     \ n) {\n        T x = n;\n        for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n\
@@ -183,7 +183,7 @@ data:
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C\"\
     \n\n#include <cstdint>\n#include <vector>\nusing namespace std;\nusing uint =\
     \ unsigned;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
-    \ <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../math/get_prime2.cpp\"\
+    \ <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../math/prime/get_prime2.cpp\"\
     \n\nbool is_prime_number(uint x, const vector<ExactDiv<uint>> &primes) {\n   \
     \ if (x < 2) return false;\n    for (auto &&p : primes) {\n        if (1ULL *\
     \ p.val * p.val > x) break;\n        if (p.divide(x)) return false;\n    }\n \
@@ -194,12 +194,12 @@ data:
     }\n"
   dependsOn:
   - util/fastio.cpp
-  - math/get_prime2.cpp
-  - math/linear_sieve.cpp
+  - math/prime/get_prime2.cpp
+  - math/prime/linear_sieve.cpp
   isVerificationFile: true
   path: test/aoj_alds1_1_c_get_prime2.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_1_c_get_prime2.test.cpp
