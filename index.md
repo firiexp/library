@@ -351,7 +351,7 @@ data:
       title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
     - icon: ':heavy_check_mark:'
       path: math/get_prime_wheel.cpp
-      title: math/get_prime_wheel.cpp
+      title: get_prime_wheel
     - icon: ':heavy_check_mark:'
       path: math/inverse_matrix.cpp
       title: "\u9006\u884C\u5217(Inverse Matrix)"
