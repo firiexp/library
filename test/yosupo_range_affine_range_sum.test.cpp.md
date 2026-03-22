@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/lazysegtree.cpp
     title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_range_sum
@@ -222,7 +222,7 @@ data:
     \  for (int i = 0; i < q; ++i) {\n        int t;\n        in.read(t);\n      \
     \  if(!t){\n            int l, r, b, c;\n            in.read(l, r, b, c);\n  \
     \          seg.update(l, r, {b, c});\n        }else {\n            int l, r;\n\
-    \            in.read(l, r);\n            out.writeln(seg.query(l, r)[0].val);\n\
+    \            in.read(l, r);\n            out.println(seg.query(l, r)[0].val);\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\
     \n\n#include <array>\n#include <vector>\n\nstatic const int MOD = 998244353;\n\
@@ -241,7 +241,7 @@ data:
     \ ++i) {\n        int t;\n        in.read(t);\n        if(!t){\n            int\
     \ l, r, b, c;\n            in.read(l, r, b, c);\n            seg.update(l, r,\
     \ {b, c});\n        }else {\n            int l, r;\n            in.read(l, r);\n\
-    \            out.writeln(seg.query(l, r)[0].val);\n        }\n    }\n    return\
+    \            out.println(seg.query(l, r)[0].val);\n        }\n    }\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -250,8 +250,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_range_sum.test.cpp
 layout: document

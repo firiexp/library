@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj2907_prefix_suffix_search.test.cpp
     title: test/aoj2907_prefix_suffix_search.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "Trie \u6728"
     links: []
@@ -53,7 +53,7 @@ data:
   path: datastructure/trie.cpp
   requiredBy: []
   timestamp: '2026-03-20 12:53:04+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj2907_prefix_suffix_search.test.cpp
 date: 2018-04-28

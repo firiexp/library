@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binarytrie.cpp
     title: Binary Trie
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/set_xor_min
@@ -161,7 +161,7 @@ data:
     \    Binarytrie<unsigned int, 30> trie;\n    while (q--) {\n        int t;\n \
     \       unsigned int x;\n        sc.read(t, x);\n        if (t == 0) {\n     \
     \       if (!trie.contains(x)) trie.add(x);\n        } else if (t == 1) {\n  \
-    \          trie.erase(x);\n        } else {\n            pr.writeln(trie.xor_min(x));\n\
+    \          trie.erase(x);\n        } else {\n            pr.println(trie.xor_min(x));\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/set_xor_min\"\n\n#include\
     \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -171,7 +171,7 @@ data:
     \ 30> trie;\n    while (q--) {\n        int t;\n        unsigned int x;\n    \
     \    sc.read(t, x);\n        if (t == 0) {\n            if (!trie.contains(x))\
     \ trie.add(x);\n        } else if (t == 1) {\n            trie.erase(x);\n   \
-    \     } else {\n            pr.writeln(trie.xor_min(x));\n        }\n    }\n \
+    \     } else {\n            pr.println(trie.xor_min(x));\n        }\n    }\n \
     \   return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -179,8 +179,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_set_xor_min_binarytrie.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_set_xor_min_binarytrie.test.cpp
 layout: document

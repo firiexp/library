@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/quickfind.cpp
     title: "\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020 (Quick-Find)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/unionfind
@@ -148,7 +148,7 @@ data:
     \ */\n#line 16 \"test/yosupo_unionfind_quickfind.test.cpp\"\n\nint main() {\n\
     \    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    QuickFind\
     \ uf(n);\n    for (int i = 0; i < q; ++i) {\n        int t, u, v;\n        in.read(t,\
-    \ u, v);\n        if (t) out.writeln(uf.same(u, v));\n        else uf.unite(u,\
+    \ u, v);\n        if (t) out.println(uf.same(u, v));\n        else uf.unite(u,\
     \ v);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/unionfind\"\n\n#include\
     \ <algorithm>\n#include <cstddef>\n#include <numeric>\n#include <vector>\nusing\
@@ -156,7 +156,7 @@ data:
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
     \ q);\n    QuickFind uf(n);\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ u, v;\n        in.read(t, u, v);\n        if (t) out.writeln(uf.same(u, v));\n\
+    \ u, v;\n        in.read(t, u, v);\n        if (t) out.println(uf.same(u, v));\n\
     \        else uf.unite(u, v);\n    }\n    return 0;\n}\n"
   dependsOn:
   - datastructure/quickfind.cpp
@@ -164,8 +164,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_unionfind_quickfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_unionfind_quickfind.test.cpp
 layout: document

@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
     title: "Dinic(\u6700\u5927\u6D41)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: flow/project_selection_problem.cpp
     title: ProjectSelectionProblem
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/957
@@ -199,7 +199,7 @@ data:
     \  for (int j = 0; j < w; ++j) {\n            sum += g[i][j];\n            psp.add_penalty(h\
     \ + j, i, g[i][j]);\n        }\n        psp.add_true_profit(i, row[i] - sum);\n\
     \    }\n    for (int j = 0; j < w; ++j) {\n        psp.add_true_profit(h + j,\
-    \ col[j]);\n    }\n\n    out.writeln(psp.solve());\n    return 0;\n}\n"
+    \ col[j]);\n    }\n\n    out.println(psp.solve());\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n\
     #include <limits>\n#include <queue>\n#include <tuple>\n#include <vector>\nusing\
     \ namespace std;\n\nusing ll = long long;\ntemplate<class T>\nconstexpr T INF\
@@ -215,7 +215,7 @@ data:
     \ j = 0; j < w; ++j) {\n            sum += g[i][j];\n            psp.add_penalty(h\
     \ + j, i, g[i][j]);\n        }\n        psp.add_true_profit(i, row[i] - sum);\n\
     \    }\n    for (int j = 0; j < w; ++j) {\n        psp.add_true_profit(h + j,\
-    \ col[j]);\n    }\n\n    out.writeln(psp.solve());\n    return 0;\n}\n"
+    \ col[j]);\n    }\n\n    out.println(psp.solve());\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - flow/project_selection_problem.cpp
@@ -223,8 +223,8 @@ data:
   isVerificationFile: true
   path: test/yuki957_project_selection_problem.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki957_project_selection_problem.test.cpp
 layout: document

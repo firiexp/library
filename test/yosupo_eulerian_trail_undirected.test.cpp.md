@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/eulerian_trail.cpp
     title: Eulerian Trail
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/eulerian_trail_undirected
@@ -179,13 +179,13 @@ data:
     \    while (t--) {\n        int n, m;\n        in.read(n, m);\n        EulerianTrail<false>\
     \ g(n);\n        for (int i = 0; i < m; ++i) {\n            int a, b;\n      \
     \      in.read(a, b);\n            g.add_edge(a, b);\n        }\n        auto\
-    \ res = g.solve();\n        if (!res.exists) {\n            out.writeln(\"No\"\
-    );\n            continue;\n        }\n        out.writeln(\"Yes\");\n        for\
-    \ (int i = 0; i < (int)res.vertices.size(); ++i) {\n            if (i) out.write('\
-    \ ');\n            out.write(res.vertices[i]);\n        }\n        out.writeln();\n\
+    \ res = g.solve();\n        if (!res.exists) {\n            out.println(\"No\"\
+    );\n            continue;\n        }\n        out.println(\"Yes\");\n        for\
+    \ (int i = 0; i < (int)res.vertices.size(); ++i) {\n            if (i) out.print('\
+    \ ');\n            out.print(res.vertices[i]);\n        }\n        out.println();\n\
     \        for (int i = 0; i < (int)res.edge_ids.size(); ++i) {\n            if\
-    \ (i) out.write(' ');\n            out.write(res.edge_ids[i]);\n        }\n  \
-    \      out.writeln();\n    }\n    return 0;\n}\n"
+    \ (i) out.print(' ');\n            out.print(res.edge_ids[i]);\n        }\n  \
+    \      out.println();\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/eulerian_trail_undirected\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
@@ -194,21 +194,21 @@ data:
     \    while (t--) {\n        int n, m;\n        in.read(n, m);\n        EulerianTrail<false>\
     \ g(n);\n        for (int i = 0; i < m; ++i) {\n            int a, b;\n      \
     \      in.read(a, b);\n            g.add_edge(a, b);\n        }\n        auto\
-    \ res = g.solve();\n        if (!res.exists) {\n            out.writeln(\"No\"\
-    );\n            continue;\n        }\n        out.writeln(\"Yes\");\n        for\
-    \ (int i = 0; i < (int)res.vertices.size(); ++i) {\n            if (i) out.write('\
-    \ ');\n            out.write(res.vertices[i]);\n        }\n        out.writeln();\n\
+    \ res = g.solve();\n        if (!res.exists) {\n            out.println(\"No\"\
+    );\n            continue;\n        }\n        out.println(\"Yes\");\n        for\
+    \ (int i = 0; i < (int)res.vertices.size(); ++i) {\n            if (i) out.print('\
+    \ ');\n            out.print(res.vertices[i]);\n        }\n        out.println();\n\
     \        for (int i = 0; i < (int)res.edge_ids.size(); ++i) {\n            if\
-    \ (i) out.write(' ');\n            out.write(res.edge_ids[i]);\n        }\n  \
-    \      out.writeln();\n    }\n    return 0;\n}\n"
+    \ (i) out.print(' ');\n            out.print(res.edge_ids[i]);\n        }\n  \
+    \      out.println();\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/eulerian_trail.cpp
   isVerificationFile: true
   path: test/yosupo_eulerian_trail_undirected.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_eulerian_trail_undirected.test.cpp
 layout: document

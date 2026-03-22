@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
     title: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)"
     links: []
@@ -58,7 +58,7 @@ data:
   path: tree/tree_hash.cpp
   requiredBy: []
   timestamp: '2026-03-12 19:34:31+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
 date: 2026-03-12

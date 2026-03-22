@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/taylor_shift.cpp
     title: Taylor Shift
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/polynomial_taylor_shift
@@ -418,8 +418,8 @@ data:
     \ main() {\n    Scanner in;\n    Printer out;\n    int n, c;\n    in.read(n, c);\n\
     \    poly f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
     \        f[i] = x;\n    }\n    poly g = taylor_shift(f, mint(c));\n    for (int\
-    \ i = 0; i < n; ++i) {\n        if (i) out.write(' ');\n        out.write(g[i].val);\n\
-    \    }\n    out.writeln();\n    return 0;\n}\n"
+    \ i = 0; i < n; ++i) {\n        if (i) out.print(' ');\n        out.print(g[i].val);\n\
+    \    }\n    out.println();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/polynomial_taylor_shift\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
@@ -428,8 +428,8 @@ data:
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, c;\n    in.read(n,\
     \ c);\n    poly f(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n   \
     \     in.read(x);\n        f[i] = x;\n    }\n    poly g = taylor_shift(f, mint(c));\n\
-    \    for (int i = 0; i < n; ++i) {\n        if (i) out.write(' ');\n        out.write(g[i].val);\n\
-    \    }\n    out.writeln();\n    return 0;\n}\n"
+    \    for (int i = 0; i < n; ++i) {\n        if (i) out.print(' ');\n        out.print(g[i].val);\n\
+    \    }\n    out.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - fps/taylor_shift.cpp
@@ -437,8 +437,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_polynomial_taylor_shift.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_polynomial_taylor_shift.test.cpp
 layout: document

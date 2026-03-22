@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/undoableunionfind.cpp
     title: Undoable Union Find
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/offlinedynamicconnectivity.cpp
     title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum
@@ -231,7 +231,7 @@ data:
     \ event.x);\n        },\n        [&](int, const vector<pair<int, int>> &) {\n\
     \            uf.rollback(snaps.back());\n            snaps.pop_back();\n     \
     \   },\n        [&](int t) {\n            if (type[t] == 3) ans.push_back(uf.get_sum(query_vertex[t]));\n\
-    \        }\n    );\n\n    for (auto &&x : ans) pr.writeln(x);\n    return 0;\n\
+    \        }\n    );\n\n    for (auto &&x : ans) pr.println(x);\n    return 0;\n\
     }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum\"\
     \n\n#include <algorithm>\n#include <map>\n#include <stack>\n#include <type_traits>\n\
@@ -281,7 +281,7 @@ data:
     \ event.x);\n        },\n        [&](int, const vector<pair<int, int>> &) {\n\
     \            uf.rollback(snaps.back());\n            snaps.pop_back();\n     \
     \   },\n        [&](int t) {\n            if (type[t] == 3) ans.push_back(uf.get_sum(query_vertex[t]));\n\
-    \        }\n    );\n\n    for (auto &&x : ans) pr.writeln(x);\n    return 0;\n\
+    \        }\n    );\n\n    for (auto &&x : ans) pr.println(x);\n    return 0;\n\
     }\n"
   dependsOn:
   - util/fastio.cpp
@@ -290,8 +290,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
 layout: document

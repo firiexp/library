@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/implicit_treap.cpp
     title: Implicit Treap
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/dynamic_sequence_range_affine_range_sum
@@ -270,7 +270,7 @@ data:
     \        tr.reverse(l, r);\n        } else if (t == 3) {\n            int l, r,\
     \ b, c;\n            sc.read(l, r, b, c);\n            tr.apply(l, r, {b, c});\n\
     \        } else {\n            int l, r;\n            sc.read(l, r);\n       \
-    \     pr.writeln(tr.fold(l, r)[0].val);\n        }\n    }\n    return 0;\n}\n"
+    \     pr.println(tr.fold(l, r)[0].val);\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/dynamic_sequence_range_affine_range_sum\"\
     \n\n#include <algorithm>\n#include <array>\n#include <vector>\nusing namespace\
     \ std;\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint\
@@ -293,7 +293,7 @@ data:
     \        tr.reverse(l, r);\n        } else if (t == 3) {\n            int l, r,\
     \ b, c;\n            sc.read(l, r, b, c);\n            tr.apply(l, r, {b, c});\n\
     \        } else {\n            int l, r;\n            sc.read(l, r);\n       \
-    \     pr.writeln(tr.fold(l, r)[0].val);\n        }\n    }\n    return 0;\n}\n"
+    \     pr.println(tr.fold(l, r)[0].val);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
@@ -301,8 +301,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
 layout: document

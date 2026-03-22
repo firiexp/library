@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/discrete_logarithm.cpp
     title: Discrete Logarithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/discrete_logarithm_mod
@@ -156,7 +156,7 @@ data:
     \ : ans;\n}\n\n/**\n * @brief \u96E2\u6563\u5BFE\u6570(Discrete Logarithm)\n */\n\
     #line 15 \"test/yosupo_discrete_logarithm_mod.test.cpp\"\n\nint main() {\n   \
     \ Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n\
-    \        long long x, y, mod;\n        sc.read(x, y, mod);\n        pr.writeln(discrete_logarithm(x,\
+    \        long long x, y, mod;\n        sc.read(x, y, mod);\n        pr.println(discrete_logarithm(x,\
     \ y, mod));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/discrete_logarithm_mod\"\
     \n\n#include <cmath>\n#include <limits>\n#include <numeric>\n#include <unordered_map>\n\
@@ -164,15 +164,15 @@ data:
     \n#include \"../util/fastio.cpp\"\n#include \"../math/discrete_logarithm.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
     \    while (t--) {\n        long long x, y, mod;\n        sc.read(x, y, mod);\n\
-    \        pr.writeln(discrete_logarithm(x, y, mod));\n    }\n    return 0;\n}\n"
+    \        pr.println(discrete_logarithm(x, y, mod));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/discrete_logarithm.cpp
   isVerificationFile: true
   path: test/yosupo_discrete_logarithm_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_discrete_logarithm_mod.test.cpp
 layout: document

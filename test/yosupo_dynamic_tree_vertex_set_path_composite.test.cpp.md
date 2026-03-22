@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/link_cut_tree.cpp
     title: Link-Cut Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/dynamic_tree_vertex_set_path_composite
@@ -235,7 +235,7 @@ data:
     \      lct.link(w, x);\n        } else if (t == 1) {\n            int p, c, d;\n\
     \            in.read(p, c, d);\n            lct.set(p, {c, d});\n        } else\
     \ {\n            int u, v, x;\n            in.read(u, v, x);\n            auto\
-    \ f = lct.fold(u, v);\n            out.writeln((f[0] * x + f[1]).val);\n     \
+    \ f = lct.fold(u, v);\n            out.println((f[0] * x + f[1]).val);\n     \
     \   }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/dynamic_tree_vertex_set_path_composite\"\
     \n#include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll = long\
@@ -253,7 +253,7 @@ data:
     \            lct.cut(u, v);\n            lct.link(w, x);\n        } else if (t\
     \ == 1) {\n            int p, c, d;\n            in.read(p, c, d);\n         \
     \   lct.set(p, {c, d});\n        } else {\n            int u, v, x;\n        \
-    \    in.read(u, v, x);\n            auto f = lct.fold(u, v);\n            out.writeln((f[0]\
+    \    in.read(u, v, x);\n            auto f = lct.fold(u, v);\n            out.println((f[0]\
     \ * x + f[1]).val);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -262,8 +262,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
 layout: document

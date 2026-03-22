@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/undoableunionfind.cpp
     title: Undoable Union Find
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/persistent_unionfind
@@ -167,7 +167,7 @@ data:
     \ {\n            st.push_back({g[idx][cur.child_idx++], 0, false, false});\n \
     \           continue;\n        }\n        if (cur.united) uf.undo();\n       \
     \ st.pop_back();\n    }\n\n    for (int i = 1; i <= q; ++i) {\n        if (ans[i]\
-    \ != -1) pr.writeln(ans[i]);\n    }\n    return 0;\n}\n"
+    \ != -1) pr.println(ans[i]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/persistent_unionfind\"\n\
     \n#include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
@@ -188,15 +188,15 @@ data:
     \ {\n            st.push_back({g[idx][cur.child_idx++], 0, false, false});\n \
     \           continue;\n        }\n        if (cur.united) uf.undo();\n       \
     \ st.pop_back();\n    }\n\n    for (int i = 1; i <= q; ++i) {\n        if (ans[i]\
-    \ != -1) pr.writeln(ans[i]);\n    }\n    return 0;\n}\n"
+    \ != -1) pr.println(ans[i]);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/undoableunionfind.cpp
   isVerificationFile: true
   path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
 layout: document

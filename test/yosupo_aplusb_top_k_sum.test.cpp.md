@@ -1,18 +1,18 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/top_k_sum.cpp
     title: "\u4E0A\u4F4DK\u500B\u306E\u548C\u3092\u7BA1\u7406\u3059\u308B\u30C7\u30FC\
       \u30BF\u69CB\u9020"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/aplusb
@@ -220,7 +220,7 @@ data:
     \ cur(a.begin() + i - m + 1, a.begin() + i + 1);\n                got.push_back(ds.sum_topk());\n\
     \                assert(got.back() == brute_sum_topk<false>(cur, k));\n      \
     \      }\n        }\n    }\n}\n\nint main() {\n    random_check();\n    sliding_window_check();\n\
-    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.writeln(a\
+    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
     \ + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
     #include <cassert>\n#include <numeric>\n#include <random>\n#include <set>\n#include\
@@ -263,7 +263,7 @@ data:
     \ m + 1, a.begin() + i + 1);\n                got.push_back(ds.sum_topk());\n\
     \                assert(got.back() == brute_sum_topk<false>(cur, k));\n      \
     \      }\n        }\n    }\n}\n\nint main() {\n    random_check();\n    sliding_window_check();\n\
-    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.writeln(a\
+    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
     \ + b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -271,8 +271,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_top_k_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_top_k_sum.test.cpp
 layout: document

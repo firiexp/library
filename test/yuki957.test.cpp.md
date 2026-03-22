@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
     title: "Dinic(\u6700\u5927\u6D41)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/957
@@ -172,7 +172,7 @@ data:
     \ cost);\n    }\n    for (int j = 0; j < w; ++j) {\n        add_cost_if_true(h\
     \ + j, -col[j]);\n    }\n    for (int i = 0; i < h; ++i) {\n        for (int j\
     \ = 0; j < w; ++j) {\n            mf.add_edge(i, h + j, g[i][j]);\n        }\n\
-    \    }\n\n    ll min_cost = base + mf.flow(s, t);\n    out.writeln(-min_cost);\n\
+    \    }\n\n    ll min_cost = base + mf.flow(s, t);\n    out.println(-min_cost);\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n\
     #include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
@@ -193,15 +193,15 @@ data:
     \ (int j = 0; j < w; ++j) {\n        add_cost_if_true(h + j, -col[j]);\n    }\n\
     \    for (int i = 0; i < h; ++i) {\n        for (int j = 0; j < w; ++j) {\n  \
     \          mf.add_edge(i, h + j, g[i][j]);\n        }\n    }\n\n    ll min_cost\
-    \ = base + mf.flow(s, t);\n    out.writeln(-min_cost);\n    return 0;\n}\n"
+    \ = base + mf.flow(s, t);\n    out.println(-min_cost);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - flow/dinic.cpp
   isVerificationFile: true
   path: test/yuki957.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki957.test.cpp
 layout: document

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/li_chao_tree.cpp
     title: Li Chao Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/line_add_get_min
@@ -209,7 +209,7 @@ data:
     \ } else {\n            ll p;\n            in.read(p);\n            qs.push_back({1,\
     \ 0, 0, p});\n            xs.push_back(p);\n        }\n    }\n\n    LiChaoTree<ll>\
     \ li(xs);\n    for (auto [a, b] : init) li.add_line(a, b);\n\n    for (auto qu\
-    \ : qs) {\n        if (qu.t == 0) li.add_line(qu.a, qu.b);\n        else out.writeln(li.query(qu.p));\n\
+    \ : qs) {\n        if (qu.t == 0) li.add_line(qu.a, qu.b);\n        else out.println(li.query(qu.p));\n\
     \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/line_add_get_min\"\n\n\
     #include <algorithm>\n#include <deque>\n#include <limits>\n#include <utility>\n\
@@ -226,7 +226,7 @@ data:
     \ ll p;\n            in.read(p);\n            qs.push_back({1, 0, 0, p});\n  \
     \          xs.push_back(p);\n        }\n    }\n\n    LiChaoTree<ll> li(xs);\n\
     \    for (auto [a, b] : init) li.add_line(a, b);\n\n    for (auto qu : qs) {\n\
-    \        if (qu.t == 0) li.add_line(qu.a, qu.b);\n        else out.writeln(li.query(qu.p));\n\
+    \        if (qu.t == 0) li.add_line(qu.a, qu.b);\n        else out.println(li.query(qu.p));\n\
     \    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -234,8 +234,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_line_add_get_min.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_line_add_get_min.test.cpp
 layout: document

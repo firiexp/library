@@ -1,29 +1,29 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/CRT.cpp
     title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/binom_mod_prime_power.cpp
     title: binom_mod_prime_power
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/extgcd.cpp
     title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/modinv.cpp
     title: math/modinv.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/primefactor.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/binomial_coefficient
@@ -224,7 +224,7 @@ data:
     \ e);\n        mods.emplace_back(binoms.back().modulus());\n    }\n    while (t--)\
     \ {\n        ll n, k;\n        sc.read(n, k);\n        vector<pair<ll, ll>> rem;\n\
     \        for (int i = 0; i < (int)binoms.size(); ++i) {\n            rem.emplace_back(binoms[i].C(n,\
-    \ k), mods[i]);\n        }\n        pr.writeln(CRT(rem).first);\n    }\n    return\
+    \ k), mods[i]);\n        }\n        pr.println(CRT(rem).first);\n    }\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/binomial_coefficient\"\n\
     \n#include <cstdint>\n#include <map>\n#include <numeric>\n#include <vector>\n\
@@ -259,7 +259,7 @@ data:
     \ e);\n        mods.emplace_back(binoms.back().modulus());\n    }\n    while (t--)\
     \ {\n        ll n, k;\n        sc.read(n, k);\n        vector<pair<ll, ll>> rem;\n\
     \        for (int i = 0; i < (int)binoms.size(); ++i) {\n            rem.emplace_back(binoms[i].C(n,\
-    \ k), mods[i]);\n        }\n        pr.writeln(CRT(rem).first);\n    }\n    return\
+    \ k), mods[i]);\n        }\n        pr.println(CRT(rem).first);\n    }\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -271,8 +271,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_binomial_coefficient.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_binomial_coefficient.test.cpp
 layout: document

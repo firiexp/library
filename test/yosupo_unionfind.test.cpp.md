@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/unionfind.cpp
     title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/unionfind
@@ -151,7 +151,7 @@ data:
     \ in;\n    Printer out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n   \
     \ UnionFind uf(n);\n    for (int i = 0; i < q; ++i) {\n        int t, u, v;\n\
     \        in.read(t);\n        in.read(u);\n        in.read(v);\n        if(t)\
-    \ out.writeln(uf.same(u, v));\n        else uf.unite(u, v);\n    }\n    return\
+    \ out.println(uf.same(u, v));\n        else uf.unite(u, v);\n    }\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/unionfind\"\n\n#include\
     \ <algorithm>\n#include <iomanip>\n#include <map>\n#include <set>\n#include <queue>\n\
@@ -163,7 +163,7 @@ data:
     \n#include \"../util/fastio.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
     \ out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n    UnionFind uf(n);\n\
     \    for (int i = 0; i < q; ++i) {\n        int t, u, v;\n        in.read(t);\n\
-    \        in.read(u);\n        in.read(v);\n        if(t) out.writeln(uf.same(u,\
+    \        in.read(u);\n        in.read(v);\n        if(t) out.println(uf.same(u,\
     \ v));\n        else uf.unite(u, v);\n    }\n    return 0;\n}\n"
   dependsOn:
   - datastructure/unionfind.cpp
@@ -171,8 +171,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_unionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_unionfind.test.cpp
 layout: document

@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_common.cpp
     title: graph/dijkstra_common.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_restore.cpp
     title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/shortest_path
@@ -172,9 +172,9 @@ data:
     \   in.read(n, m, s, t);\n    vector<vector<edge<ll>>> G(n);\n    for (int i =\
     \ 0; i < m; ++i) {\n        array<int, 3> e;\n        in.read(e);\n        G[e[0]].emplace_back(e[1],\
     \ e[2]);\n    }\n    auto res = dijkstra_restore(s, G);\n    if (res.dist[t] ==\
-    \ INF<ll>) {\n        out.writeln(-1);\n        return 0;\n    }\n    auto path\
-    \ = restore_path(s, t, res.parent);\n    out.writeln(res.dist[t], (int)path.size()\
-    \ - 1);\n    for (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.writeln(array<int,\
+    \ INF<ll>) {\n        out.println(-1);\n        return 0;\n    }\n    auto path\
+    \ = restore_path(s, t, res.parent);\n    out.println(res.dist[t], (int)path.size()\
+    \ - 1);\n    for (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.println(array<int,\
     \ 2>{path[i], path[i + 1]});\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ <algorithm>\n#include <array>\n#include <limits>\n#include <queue>\n#include\
@@ -186,9 +186,9 @@ data:
     \ in.read(n, m, s, t);\n    vector<vector<edge<ll>>> G(n);\n    for (int i = 0;\
     \ i < m; ++i) {\n        array<int, 3> e;\n        in.read(e);\n        G[e[0]].emplace_back(e[1],\
     \ e[2]);\n    }\n    auto res = dijkstra_restore(s, G);\n    if (res.dist[t] ==\
-    \ INF<ll>) {\n        out.writeln(-1);\n        return 0;\n    }\n    auto path\
-    \ = restore_path(s, t, res.parent);\n    out.writeln(res.dist[t], (int)path.size()\
-    \ - 1);\n    for (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.writeln(array<int,\
+    \ INF<ll>) {\n        out.println(-1);\n        return 0;\n    }\n    auto path\
+    \ = restore_path(s, t, res.parent);\n    out.println(res.dist[t], (int)path.size()\
+    \ - 1);\n    for (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.println(array<int,\
     \ 2>{path[i], path[i + 1]});\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -197,8 +197,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path.test.cpp
 layout: document

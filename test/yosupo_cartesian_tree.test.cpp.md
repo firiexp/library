@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/cartesian_tree.cpp
     title: Cartesian Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/cartesian_tree
@@ -146,8 +146,8 @@ data:
     \    vector<long long> a(n);\n    for (auto &&x : a) sc.read(x);\n\n    auto [g,\
     \ root] = CartesianTree(a);\n    vector<int> parent(n, -1);\n    parent[root]\
     \ = root;\n    for (int v = 0; v < n; ++v) {\n        for (auto &&u : g[v]) parent[u]\
-    \ = v;\n    }\n\n    for (int i = 0; i < n; ++i) {\n        if (i) pr.write('\
-    \ ');\n        pr.write(parent[i]);\n    }\n    pr.writeln();\n    return 0;\n\
+    \ = v;\n    }\n\n    for (int i = 0; i < n; ++i) {\n        if (i) pr.print('\
+    \ ');\n        pr.print(parent[i]);\n    }\n    pr.println();\n    return 0;\n\
     }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/cartesian_tree\"\n\n#include\
     \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -157,16 +157,16 @@ data:
     \  for (auto &&x : a) sc.read(x);\n\n    auto [g, root] = CartesianTree(a);\n\
     \    vector<int> parent(n, -1);\n    parent[root] = root;\n    for (int v = 0;\
     \ v < n; ++v) {\n        for (auto &&u : g[v]) parent[u] = v;\n    }\n\n    for\
-    \ (int i = 0; i < n; ++i) {\n        if (i) pr.write(' ');\n        pr.write(parent[i]);\n\
-    \    }\n    pr.writeln();\n    return 0;\n}\n"
+    \ (int i = 0; i < n; ++i) {\n        if (i) pr.print(' ');\n        pr.print(parent[i]);\n\
+    \    }\n    pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/cartesian_tree.cpp
   isVerificationFile: true
   path: test/yosupo_cartesian_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_cartesian_tree.test.cpp
 layout: document

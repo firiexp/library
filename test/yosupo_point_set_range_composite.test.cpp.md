@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/segtree.cpp
     title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_set_range_composite
@@ -207,7 +207,7 @@ data:
     \ b);\n        seg.set(i, Monoid::T{a, b});\n    }\n    seg.build();\n    for\
     \ (int i = 0; i < q; ++i) {\n        int a, b, c, d;\n        sc.read(a, b, c,\
     \ d);\n        if(!a) seg.update(b, Monoid::T{c, d});\n        else {\n      \
-    \      auto ans = seg.query(b, c);\n            pr.writeln((ans[0] * d + ans[1]).val);\n\
+    \      auto ans = seg.query(b, c);\n            pr.println((ans[0] * d + ans[1]).val);\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n#include <algorithm>\n#include <array>\n#include <map>\n#include <set>\n#include\
@@ -224,7 +224,7 @@ data:
     \      int a, b;\n        sc.read(a, b);\n        seg.set(i, Monoid::T{a, b});\n\
     \    }\n    seg.build();\n    for (int i = 0; i < q; ++i) {\n        int a, b,\
     \ c, d;\n        sc.read(a, b, c, d);\n        if(!a) seg.update(b, Monoid::T{c,\
-    \ d});\n        else {\n            auto ans = seg.query(b, c);\n            pr.writeln((ans[0]\
+    \ d});\n        else {\n            auto ans = seg.query(b, c);\n            pr.println((ans[0]\
     \ * d + ans[1]).val);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -233,8 +233,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_composite.test.cpp
 layout: document

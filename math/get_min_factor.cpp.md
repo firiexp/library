@@ -2,7 +2,7 @@
 category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   _extendedRequiredBy:

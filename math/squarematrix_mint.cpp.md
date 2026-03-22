@@ -2,17 +2,17 @@
 category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_pow_of_matrix.test.cpp
     title: test/yosupo_pow_of_matrix.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
     links: []
@@ -538,7 +538,7 @@ data:
   path: math/squarematrix_mint.cpp
   requiredBy: []
   timestamp: '2026-03-15 18:15:27+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_pow_of_matrix.test.cpp
 date: 2026-03-15

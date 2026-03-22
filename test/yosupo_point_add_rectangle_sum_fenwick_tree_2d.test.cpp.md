@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/fenwick_tree_2d.cpp
     title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_add_rectangle_sum
@@ -187,7 +187,7 @@ data:
     \        } else {\n            int l, d, r, u;\n            sc.read(l, d, r, u);\n\
     \            ops.push_back({1, l, d, r, u, 0});\n        }\n    }\n\n    fw.build();\n\
     \    for (auto op : ops) {\n        if (op.type == 0) {\n            fw.add(op.x,\
-    \ op.y, op.add);\n        } else {\n            pr.writeln(fw.sum(op.x, op.y,\
+    \ op.y, op.add);\n        } else {\n            pr.println(fw.sum(op.x, op.y,\
     \ op.z, op.w));\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_rectangle_sum\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
@@ -205,7 +205,7 @@ data:
     \        } else {\n            int l, d, r, u;\n            sc.read(l, d, r, u);\n\
     \            ops.push_back({1, l, d, r, u, 0});\n        }\n    }\n\n    fw.build();\n\
     \    for (auto op : ops) {\n        if (op.type == 0) {\n            fw.add(op.x,\
-    \ op.y, op.add);\n        } else {\n            pr.writeln(fw.sum(op.x, op.y,\
+    \ op.y, op.add);\n        } else {\n            pr.println(fw.sum(op.x, op.y,\
     \ op.z, op.w));\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -214,8 +214,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
 layout: document

@@ -2,20 +2,20 @@
 category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/twoedgeconnectedcomponents.cpp
     title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0377.test.cpp
     title: test/aoj0377.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0415.test.cpp
     title: test/aoj0415.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u6A4B\u6728(Bridge Tree)"
     links: []
@@ -74,7 +74,7 @@ data:
   path: graph/bridge_tree.cpp
   requiredBy: []
   timestamp: '2026-03-12 00:49:33+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0415.test.cpp
   - test/aoj0377.test.cpp

@@ -2,31 +2,31 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/LCA.cpp
     title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/auxtree.cpp
     title: "\u88DC\u52A9\u6728(Aux Tree)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/virtual_tree_helper.cpp
     title: virtual_tree_helper
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0439.test.cpp
     title: test/aoj0439.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0439_virtual_tree_helper.test.cpp
     title: test/aoj0439_virtual_tree_helper.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_staticrmq_sparsetable.test.cpp
     title: test/yosupo_staticrmq_sparsetable.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Sparse Table
     links: []
@@ -63,7 +63,7 @@ data:
   - tree/LCA.cpp
   - tree/virtual_tree_helper.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0439.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp

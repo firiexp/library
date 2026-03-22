@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: string/lyndon_factorization.cpp
     title: "Lyndon\u5206\u89E3(Lyndon Factorization)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/lyndon_factorization
@@ -142,24 +142,24 @@ data:
     \ i + len);\n            i += len;\n        }\n    }\n    return res;\n}\n\n/**\n\
     \ * @brief Lyndon\u5206\u89E3(Lyndon Factorization)\n */\n#line 14 \"test/yosupo_lyndon_factorization.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
-    \    auto seg = lyndon_factorization(s);\n    pr.write(0);\n    for (auto &&p\
-    \ : seg) {\n        pr.write(' ');\n        pr.write(p.second);\n    }\n    pr.writeln();\n\
+    \    auto seg = lyndon_factorization(s);\n    pr.print(0);\n    for (auto &&p\
+    \ : seg) {\n        pr.print(' ');\n        pr.print(p.second);\n    }\n    pr.println();\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\
     \n#include <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../string/lyndon_factorization.cpp\"\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n    auto seg = lyndon_factorization(s);\n\
-    \    pr.write(0);\n    for (auto &&p : seg) {\n        pr.write(' ');\n      \
-    \  pr.write(p.second);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \    pr.print(0);\n    for (auto &&p : seg) {\n        pr.print(' ');\n      \
+    \  pr.print(p.second);\n    }\n    pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - string/lyndon_factorization.cpp
   isVerificationFile: true
   path: test/yosupo_lyndon_factorization.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_lyndon_factorization.test.cpp
 layout: document

@@ -7,12 +7,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0422.test.cpp
     title: test/aoj0422.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb_modint_interface.test.cpp
     title: test/yosupo_many_aplusb_modint_interface.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "modint(\u4EFB\u610FMOD)"
     links: []
@@ -79,7 +79,7 @@ data:
   path: util/modint_arbitrary.cpp
   requiredBy: []
   timestamp: '2026-03-14 20:56:35+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_many_aplusb_modint_interface.test.cpp
   - test/aoj0422.test.cpp

@@ -3,25 +3,25 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/factorial.cpp
     title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/gauss_jordan_mint.cpp
     title: Gauss Jordan Mint
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/inverse_matrix.cpp
     title: "\u9006\u884C\u5217(Inverse Matrix)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/matrix_determinant.cpp
     title: "\u884C\u5217\u5F0F(Matrix Determinant)"
   - icon: ':warning:'
     path: math/powk_all.cpp
     title: math/powk_all.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/squarematrix_mint.cpp
     title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
   _extendedVerifiedWith:
@@ -34,81 +34,81 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_and_convolution.test.cpp
     title: test/yosupo_bitwise_and_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_or_convolution.test.cpp
     title: test/yosupo_bitwise_or_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_xor_convolution.test.cpp
     title: test/yosupo_bitwise_xor_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
     title: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_inverse_matrix.test.cpp
     title: test/yosupo_inverse_matrix.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb_modint_interface.test.cpp
     title: test/yosupo_many_aplusb_modint_interface.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_det.test.cpp
     title: test/yosupo_matrix_det.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_product.test.cpp
     title: test/yosupo_matrix_product.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_rank.test.cpp
     title: test/yosupo_matrix_rank.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_pow_of_matrix.test.cpp
     title: test/yosupo_pow_of_matrix.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_queue_operate_all_composite.test.cpp
     title: test/yosupo_queue_operate_all_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
     title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_subset_convolution.test.cpp
     title: test/yosupo_subset_convolution.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_totient.test.cpp
     title: test/yosupo_sum_of_totient.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_system_of_linear_equations.test.cpp
     title: test/yosupo_system_of_linear_equations.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "modint(\u56FA\u5B9AMOD)"
     links: []
@@ -181,7 +181,7 @@ data:
   - math/factorial.cpp
   - math/powk_all.cpp
   timestamp: '2026-03-14 20:56:35+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp

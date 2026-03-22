@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/miller_rabin.cpp
     title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/primefactor_ll.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/factorize
@@ -210,8 +210,8 @@ data:
     \ */\n#line 20 \"test/yosupo_factorize.test.cpp\"\n\nint main() {\n    Scanner\
     \ in;\n    Printer out;\n    int q;\n    in.read(q);\n    while (q--) {\n    \
     \    ull a;\n        in.read(a);\n        auto fac = prime_factor(a);\n      \
-    \  out.write((int)fac.size());\n        if (fac.empty()) out.writeln();\n    \
-    \    else {\n            out.write(' ');\n            out.writeln(fac);\n    \
+    \  out.print((int)fac.size());\n        if (fac.empty()) out.println();\n    \
+    \    else {\n            out.print(' ');\n            out.println(fac);\n    \
     \    }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/factorize\"\n\n#include\
     \ <algorithm>\n#include <cstdint>\n#include <numeric>\n#include <random>\n#include\
@@ -220,9 +220,9 @@ data:
     \ <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include\
     \ \"../math/primefactor_ll.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
     \ out;\n    int q;\n    in.read(q);\n    while (q--) {\n        ull a;\n     \
-    \   in.read(a);\n        auto fac = prime_factor(a);\n        out.write((int)fac.size());\n\
-    \        if (fac.empty()) out.writeln();\n        else {\n            out.write('\
-    \ ');\n            out.writeln(fac);\n        }\n    }\n    return 0;\n}\n"
+    \   in.read(a);\n        auto fac = prime_factor(a);\n        out.print((int)fac.size());\n\
+    \        if (fac.empty()) out.println();\n        else {\n            out.print('\
+    \ ');\n            out.println(fac);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/primefactor_ll.cpp
@@ -230,8 +230,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_factorize.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_factorize.test.cpp
 layout: document

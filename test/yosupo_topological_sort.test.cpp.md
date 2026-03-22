@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/topological_sort.cpp
     title: Topological Sort
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_B
@@ -146,7 +146,7 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<vector<int>> g(n);\n    for (int i = 0; i < m; ++i) {\n    \
     \    int a, b;\n        sc.read(a, b);\n        g[a].push_back(b);\n    }\n  \
-    \  auto ord = topological_sort(g);\n    for (auto &&x : ord) pr.writeln(x);\n\
+    \  auto ord = topological_sort(g);\n    for (auto &&x : ord) pr.println(x);\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_B\"\n\n\
     #include <algorithm>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
@@ -155,7 +155,7 @@ data:
     \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<vector<int>> g(n);\n    for (int i = 0; i < m; ++i) {\n    \
     \    int a, b;\n        sc.read(a, b);\n        g[a].push_back(b);\n    }\n  \
-    \  auto ord = topological_sort(g);\n    for (auto &&x : ord) pr.writeln(x);\n\
+    \  auto ord = topological_sort(g);\n    for (auto &&x : ord) pr.println(x);\n\
     \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -163,8 +163,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_topological_sort.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_topological_sort.test.cpp
 layout: document

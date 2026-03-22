@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/dualsegtree.cpp
     title: "\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_point_get
@@ -188,7 +188,7 @@ data:
     \ {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n            int\
     \ l, r, b, c;\n            sc.read(l, r, b, c);\n            seg.update(l, r,\
     \ {b, c});\n        } else {\n            int i;\n            sc.read(i);\n  \
-    \          auto [mul, add] = seg[i];\n            pr.writeln((mul * a[i] + add).val);\n\
+    \          auto [mul, add] = seg[i];\n            pr.println((mul * a[i] + add).val);\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_point_get\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
@@ -204,7 +204,7 @@ data:
     \ seg(n);\n    while (q--) {\n        int t;\n        sc.read(t);\n        if\
     \ (t == 0) {\n            int l, r, b, c;\n            sc.read(l, r, b, c);\n\
     \            seg.update(l, r, {b, c});\n        } else {\n            int i;\n\
-    \            sc.read(i);\n            auto [mul, add] = seg[i];\n            pr.writeln((mul\
+    \            sc.read(i);\n            auto [mul, add] = seg[i];\n            pr.println((mul\
     \ * a[i] + add).val);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -213,8 +213,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
 layout: document

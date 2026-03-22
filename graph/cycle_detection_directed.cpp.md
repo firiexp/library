@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cycle_detection_directed.test.cpp
     title: test/yosupo_cycle_detection_directed.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
     links: []
@@ -47,7 +47,7 @@ data:
   path: graph/cycle_detection_directed.cpp
   requiredBy: []
   timestamp: '2026-03-13 21:29:59+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_cycle_detection_directed.test.cpp
 date: 2026-03-08

@@ -2,28 +2,34 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra.cpp
     title: "Dijkstra\u6CD5"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_radix_heap.cpp
     title: "Dijkstra\u6CD5(Radix Heap)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_restore.cpp
     title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0275_dynamic_bitset.test.cpp
+    title: test/aoj0275_dynamic_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0275_static_bitset.test.cpp
+    title: test/aoj0275_static_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_a_dijkstra.test.cpp
     title: test/aoj_grl_1_a_dijkstra.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path_radix_heap.test.cpp
     title: test/yosupo_shortest_path_radix_heap.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"graph/dijkstra_common.cpp\"\n\n\n\ntemplate <typename T>\n\
@@ -71,11 +77,13 @@ data:
   - graph/dijkstra_radix_heap.cpp
   - graph/dijkstra.cpp
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shortest_path_radix_heap.test.cpp
   - test/aoj_grl_1_a_dijkstra.test.cpp
+  - test/aoj0275_static_bitset.test.cpp
   - test/yosupo_shortest_path.test.cpp
+  - test/aoj0275_dynamic_bitset.test.cpp
 documentation_of: graph/dijkstra_common.cpp
 layout: document
 redirect_from:

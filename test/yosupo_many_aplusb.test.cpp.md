@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -130,20 +130,20 @@ data:
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
     \ */\n#line 9 \"test/yosupo_many_aplusb.test.cpp\"\n\nint main() {\n    Scanner\
     \ in;\n    Printer out;\n    int t;\n    in.read(t);\n    while (t--) {\n    \
-    \    long long a, b;\n        in.read(a, b);\n        out.writeln(a + b);\n  \
+    \    long long a, b;\n        in.read(a, b);\n        out.println(a + b);\n  \
     \  }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
     #include \"../util/fastio.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
     \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        long long a, b;\n\
-    \        in.read(a, b);\n        out.writeln(a + b);\n    }\n    return 0;\n}\n"
+    \        in.read(a, b);\n        out.println(a + b);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   isVerificationFile: true
   path: test/yosupo_many_aplusb.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb.test.cpp
 layout: document

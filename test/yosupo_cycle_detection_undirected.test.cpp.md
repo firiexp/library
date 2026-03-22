@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/cycle_detection_undirected.cpp
     title: Cycle Detection Undirected
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/cycle_detection_undirected
@@ -154,11 +154,11 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<pair<int, int>> edges(m);\n    for (int i = 0; i < m; ++i) {\n\
     \        sc.read(edges[i].first, edges[i].second);\n    }\n    auto res = cycle_detection_undirected(edges,\
-    \ n);\n    if (res.vertices.empty()) {\n        pr.writeln(-1);\n        return\
-    \ 0;\n    }\n    int l = res.vertices.size();\n    pr.writeln(l);\n    for (int\
-    \ i = 0; i < l; ++i) {\n        if (i) pr.write(' ');\n        pr.write(res.vertices[i]);\n\
-    \    }\n    pr.writeln();\n    for (int i = 0; i < l; ++i) {\n        if (i) pr.write('\
-    \ ');\n        pr.write(res.edge_ids[i]);\n    }\n    pr.writeln();\n    return\
+    \ n);\n    if (res.vertices.empty()) {\n        pr.println(-1);\n        return\
+    \ 0;\n    }\n    int l = res.vertices.size();\n    pr.println(l);\n    for (int\
+    \ i = 0; i < l; ++i) {\n        if (i) pr.print(' ');\n        pr.print(res.vertices[i]);\n\
+    \    }\n    pr.println();\n    for (int i = 0; i < l; ++i) {\n        if (i) pr.print('\
+    \ ');\n        pr.print(res.edge_ids[i]);\n    }\n    pr.println();\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/cycle_detection_undirected\"\
     \n\n#include <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
@@ -167,11 +167,11 @@ data:
     \ sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n    vector<pair<int,\
     \ int>> edges(m);\n    for (int i = 0; i < m; ++i) {\n        sc.read(edges[i].first,\
     \ edges[i].second);\n    }\n    auto res = cycle_detection_undirected(edges, n);\n\
-    \    if (res.vertices.empty()) {\n        pr.writeln(-1);\n        return 0;\n\
-    \    }\n    int l = res.vertices.size();\n    pr.writeln(l);\n    for (int i =\
-    \ 0; i < l; ++i) {\n        if (i) pr.write(' ');\n        pr.write(res.vertices[i]);\n\
-    \    }\n    pr.writeln();\n    for (int i = 0; i < l; ++i) {\n        if (i) pr.write('\
-    \ ');\n        pr.write(res.edge_ids[i]);\n    }\n    pr.writeln();\n    return\
+    \    if (res.vertices.empty()) {\n        pr.println(-1);\n        return 0;\n\
+    \    }\n    int l = res.vertices.size();\n    pr.println(l);\n    for (int i =\
+    \ 0; i < l; ++i) {\n        if (i) pr.print(' ');\n        pr.print(res.vertices[i]);\n\
+    \    }\n    pr.println();\n    for (int i = 0; i < l; ++i) {\n        if (i) pr.print('\
+    \ ');\n        pr.print(res.edge_ids[i]);\n    }\n    pr.println();\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -179,8 +179,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_cycle_detection_undirected.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_cycle_detection_undirected.test.cpp
 layout: document

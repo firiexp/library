@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
   _extendedRequiredBy:
@@ -12,12 +12,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
     links: []
@@ -333,7 +333,7 @@ data:
   requiredBy:
   - fps/linear_recurrence.cpp
   timestamp: '2026-03-15 12:48:57+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp

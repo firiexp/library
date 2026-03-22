@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/eulerphi.cpp
     title: Euler Phi
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D
@@ -139,13 +139,13 @@ data:
     \ }\n    }\n    if(xx > 1) phi -= phi/xx;\n    return phi;\n}\n\n/**\n * @brief\
     \ \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n */\n#line 13 \"\
     test/aoj_ntl_1_d_eulerphi.test.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    sc.read(n);\n    pr.writeln(eulerphi(n));\n    return\
+    \ pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D\"\
     \n\n#include <algorithm>\nusing namespace std;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../math/eulerphi.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    sc.read(n);\n    pr.writeln(eulerphi(n));\n    return\
+    \ pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -153,8 +153,8 @@ data:
   isVerificationFile: true
   path: test/aoj_ntl_1_d_eulerphi.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_ntl_1_d_eulerphi.test.cpp
 layout: document

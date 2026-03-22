@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/li_chao_tree.cpp
     title: Li Chao Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/segment_add_get_min
@@ -212,7 +212,7 @@ data:
     \ const ll INF = numeric_limits<ll>::max() / 4;\n    for (auto qu : qs) {\n  \
     \      if (qu.t == 0) {\n            li.add_segment(qu.a, qu.b, qu.l, qu.r);\n\
     \        } else {\n            ll ans = li.query(qu.p);\n            if (ans ==\
-    \ INF) out.writeln(\"INFINITY\");\n            else out.writeln(ans);\n      \
+    \ INF) out.println(\"INFINITY\");\n            else out.println(ans);\n      \
     \  }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\
     \n#include <algorithm>\n#include <deque>\n#include <limits>\n#include <vector>\n\
@@ -232,8 +232,8 @@ data:
     \    for (auto s : init) li.add_segment(s.a, s.b, s.l, s.r);\n\n    const ll INF\
     \ = numeric_limits<ll>::max() / 4;\n    for (auto qu : qs) {\n        if (qu.t\
     \ == 0) {\n            li.add_segment(qu.a, qu.b, qu.l, qu.r);\n        } else\
-    \ {\n            ll ans = li.query(qu.p);\n            if (ans == INF) out.writeln(\"\
-    INFINITY\");\n            else out.writeln(ans);\n        }\n    }\n    return\
+    \ {\n            ll ans = li.query(qu.p);\n            if (ans == INF) out.println(\"\
+    INFINITY\");\n            else out.println(ans);\n        }\n    }\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -241,8 +241,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_segment_add_get_min.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_segment_add_get_min.test.cpp
 layout: document

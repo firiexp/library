@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/weightedunionfind.cpp
     title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/unionfind_with_potential
@@ -162,10 +162,10 @@ data:
     \   WeightedUnionFind<PotentialGroup> uf(n);\n    while (q--) {\n        int t,\
     \ u, v;\n        sc.read(t, u, v);\n        if (t == 0) {\n            int x;\n\
     \            sc.read(x);\n            PotentialGroup::T w(x);\n            if\
-    \ (uf.same(u, v)) {\n                pr.writeln(uf.diff(v, u) == w);\n       \
-    \     } else {\n                uf.unite(v, u, w);\n                pr.writeln(1);\n\
-    \            }\n        } else {\n            if (!uf.same(u, v)) pr.writeln(-1);\n\
-    \            else pr.writeln(uf.diff(v, u).v);\n        }\n    }\n    return 0;\n\
+    \ (uf.same(u, v)) {\n                pr.println(uf.diff(v, u) == w);\n       \
+    \     } else {\n                uf.unite(v, u, w);\n                pr.println(1);\n\
+    \            }\n        } else {\n            if (!uf.same(u, v)) pr.println(-1);\n\
+    \            else pr.println(uf.diff(v, u).v);\n        }\n    }\n    return 0;\n\
     }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/unionfind_with_potential\"\
     \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -183,9 +183,9 @@ data:
     \ uf(n);\n    while (q--) {\n        int t, u, v;\n        sc.read(t, u, v);\n\
     \        if (t == 0) {\n            int x;\n            sc.read(x);\n        \
     \    PotentialGroup::T w(x);\n            if (uf.same(u, v)) {\n             \
-    \   pr.writeln(uf.diff(v, u) == w);\n            } else {\n                uf.unite(v,\
-    \ u, w);\n                pr.writeln(1);\n            }\n        } else {\n  \
-    \          if (!uf.same(u, v)) pr.writeln(-1);\n            else pr.writeln(uf.diff(v,\
+    \   pr.println(uf.diff(v, u) == w);\n            } else {\n                uf.unite(v,\
+    \ u, w);\n                pr.println(1);\n            }\n        } else {\n  \
+    \          if (!uf.same(u, v)) pr.println(-1);\n            else pr.println(uf.diff(v,\
     \ u).v);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -193,8 +193,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_unionfind_with_potential.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_unionfind_with_potential.test.cpp
 layout: document

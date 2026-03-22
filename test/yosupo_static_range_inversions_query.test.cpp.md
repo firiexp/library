@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: util/mo.cpp
     title: Mo's algorithm
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_range_inversions_query
@@ -172,7 +172,7 @@ data:
     \    bit.add(x, -1);\n        --len;\n    };\n\n    for (auto qu : qs) {\n   \
     \     while (qu.l < l) add_left(--l);\n        while (r < qu.r) add_right(r++);\n\
     \        while (l < qu.l) erase_left(l++);\n        while (qu.r < r) erase_right(--r);\n\
-    \        ans[qu.no] = inv;\n    }\n    for (auto x : ans) pr.writeln(x);\n   \
+    \        ans[qu.no] = inv;\n    }\n    for (auto x : ans) pr.println(x);\n   \
     \ return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
     \n\n#include <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n\
@@ -196,7 +196,7 @@ data:
     \    bit.add(x, -1);\n        --len;\n    };\n\n    for (auto qu : qs) {\n   \
     \     while (qu.l < l) add_left(--l);\n        while (r < qu.r) add_right(r++);\n\
     \        while (l < qu.l) erase_left(l++);\n        while (qu.r < r) erase_right(--r);\n\
-    \        ans[qu.no] = inv;\n    }\n    for (auto x : ans) pr.writeln(x);\n   \
+    \        ans[qu.no] = inv;\n    }\n    for (auto x : ans) pr.println(x);\n   \
     \ return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -205,8 +205,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_range_inversions_query.test.cpp
 layout: document

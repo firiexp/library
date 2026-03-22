@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/sparsetable.cpp
     title: Sparse Table
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/auxtree.cpp
     title: "\u88DC\u52A9\u6728(Aux Tree)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/virtual_tree_helper.cpp
     title: virtual_tree_helper
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/0439
@@ -234,7 +234,7 @@ data:
     \        for (auto &&u : g[v]) {\n                int a = cmp[v], b = cmp[u];\n\
     \                if (a != b) ans[a] = min(ans[a], vt.distance(a, b));\n      \
     \      }\n        }\n        for (int v : vs) is_target[v] = 0;\n    }\n\n   \
-    \ for (auto &&x : ans) pr.writeln(x);\n    return 0;\n}\n"
+    \ for (auto &&x : ans) pr.println(x);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/0439\"\n\n#include\
     \ <algorithm>\n#include <functional>\n#include <limits>\n#include <queue>\n#include\
     \ <stack>\n#include <vector>\nusing namespace std;\n\ntemplate<class T> constexpr\
@@ -267,7 +267,7 @@ data:
     \        for (auto &&u : g[v]) {\n                int a = cmp[v], b = cmp[u];\n\
     \                if (a != b) ans[a] = min(ans[a], vt.distance(a, b));\n      \
     \      }\n        }\n        for (int v : vs) is_target[v] = 0;\n    }\n\n   \
-    \ for (auto &&x : ans) pr.writeln(x);\n    return 0;\n}\n"
+    \ for (auto &&x : ans) pr.println(x);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/virtual_tree_helper.cpp
@@ -276,8 +276,8 @@ data:
   isVerificationFile: true
   path: test/aoj0439_virtual_tree_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0439_virtual_tree_helper.test.cpp
 layout: document

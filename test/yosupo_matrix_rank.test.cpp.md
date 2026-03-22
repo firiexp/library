@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/gauss_jordan_mint.cpp
     title: Gauss Jordan Mint
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/matrix_rank
@@ -178,10 +178,10 @@ data:
     \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n\
     #line 18 \"test/yosupo_matrix_rank.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n, m;\n    sc.read(n, m);\n    if (n == 0 || m ==\
-    \ 0) {\n        pr.writeln(0);\n        return 0;\n    }\n    vector<vector<mint>>\
+    \ 0) {\n        pr.println(0);\n        return 0;\n    }\n    vector<vector<mint>>\
     \ A(n, vector<mint>(m));\n    for (int i = 0; i < n; ++i) {\n        for (int\
     \ j = 0; j < m; ++j) {\n            int x;\n            sc.read(x);\n        \
-    \    A[i][j] = x;\n        }\n    }\n    pr.writeln(gauss_jordan(A));\n    return\
+    \    A[i][j] = x;\n        }\n    }\n    pr.println(gauss_jordan(A));\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_rank\"\n\n#include\
     \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
@@ -189,10 +189,10 @@ data:
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
     #include \"../util/fastio.cpp\"\n#include \"../math/gauss_jordan_mint.cpp\"\n\n\
     int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    if (n == 0 || m == 0) {\n        pr.writeln(0);\n        return 0;\n\
+    \ m);\n    if (n == 0 || m == 0) {\n        pr.println(0);\n        return 0;\n\
     \    }\n    vector<vector<mint>> A(n, vector<mint>(m));\n    for (int i = 0; i\
     \ < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            int x;\n   \
-    \         sc.read(x);\n            A[i][j] = x;\n        }\n    }\n    pr.writeln(gauss_jordan(A));\n\
+    \         sc.read(x);\n            A[i][j] = x;\n        }\n    }\n    pr.println(gauss_jordan(A));\n\
     \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -201,8 +201,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_matrix_rank.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_matrix_rank.test.cpp
 layout: document

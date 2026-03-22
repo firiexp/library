@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/multipoint_evaluation.cpp
     title: Multipoint Evaluation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/multipoint_evaluation
@@ -422,7 +422,7 @@ data:
     \   f[i] = x;\n    }\n    vector<mint> xs(m);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int x;\n        in.read(x);\n        xs[i] = x;\n    }\n    vector<mint>\
     \ ys = f.multipoint_eval(xs);\n    for (int i = 0; i < m; ++i) {\n        if (i)\
-    \ out.write(' ');\n        out.write(ys[i].val);\n    }\n    out.writeln();\n\
+    \ out.print(' ');\n        out.print(ys[i].val);\n    }\n    out.println();\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/multipoint_evaluation\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
@@ -434,8 +434,8 @@ data:
     \     in.read(x);\n        f[i] = x;\n    }\n    vector<mint> xs(m);\n    for\
     \ (int i = 0; i < m; ++i) {\n        int x;\n        in.read(x);\n        xs[i]\
     \ = x;\n    }\n    vector<mint> ys = f.multipoint_eval(xs);\n    for (int i =\
-    \ 0; i < m; ++i) {\n        if (i) out.write(' ');\n        out.write(ys[i].val);\n\
-    \    }\n    out.writeln();\n    return 0;\n}\n"
+    \ 0; i < m; ++i) {\n        if (i) out.print(' ');\n        out.print(ys[i].val);\n\
+    \    }\n    out.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - fps/multipoint_evaluation.cpp
@@ -443,8 +443,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_multipoint_evaluation.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_multipoint_evaluation.test.cpp
 layout: document

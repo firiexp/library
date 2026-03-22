@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/rerooting.cpp
     title: "ReRooting(\u5168\u65B9\u4F4D\u6728DP)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A
@@ -162,7 +162,7 @@ data:
     \ pr;\n\n    int n;\n    sc.read(n);\n    ReRooting<Monoid> rr(n);\n    for (int\
     \ i = 0; i < n - 1; ++i) {\n        int s, t, w;\n        sc.read(s, t, w);\n\
     \        rr.add_edge(s, t, (long long)w);\n    }\n\n    auto dp = rr.solve();\n\
-    \    pr.writeln(*max_element(dp.begin(), dp.end()));\n    return 0;\n}\n"
+    \    pr.println(*max_element(dp.begin(), dp.end()));\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A\"\n\n\
     #include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
@@ -172,7 +172,7 @@ data:
     };\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
     \    ReRooting<Monoid> rr(n);\n    for (int i = 0; i < n - 1; ++i) {\n       \
     \ int s, t, w;\n        sc.read(s, t, w);\n        rr.add_edge(s, t, (long long)w);\n\
-    \    }\n\n    auto dp = rr.solve();\n    pr.writeln(*max_element(dp.begin(), dp.end()));\n\
+    \    }\n\n    auto dp = rr.solve();\n    pr.println(*max_element(dp.begin(), dp.end()));\n\
     \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -180,8 +180,8 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_5_a_rerooting.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_5_a_rerooting.test.cpp
 layout: document

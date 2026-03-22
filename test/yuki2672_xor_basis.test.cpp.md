@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/xor_basis.cpp
     title: "XOR\u57FA\u5E95(Linear Basis)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/2672
@@ -177,7 +177,7 @@ data:
     }\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n   \
     \ int n;\n    sc.read(n);\n    XorBasis<int> xb;\n    int total = 0;\n    for\
     \ (int i = 0; i < n; ++i) {\n        int a;\n        sc.read(a);\n        xb.add(a);\n\
-    \        total ^= a;\n    }\n    pr.writeln(total == 0 && xb.size() < n - 1 ?\
+    \        total ^= a;\n    }\n    pr.println(total == 0 && xb.size() < n - 1 ?\
     \ \"Yes\" : \"No\");\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\n\n#include <cassert>\n\
     #include <cstdint>\n#include <random>\n#include <vector>\nusing namespace std;\n\
@@ -204,7 +204,7 @@ data:
     \        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n \
     \   Printer pr;\n    int n;\n    sc.read(n);\n    XorBasis<int> xb;\n    int total\
     \ = 0;\n    for (int i = 0; i < n; ++i) {\n        int a;\n        sc.read(a);\n\
-    \        xb.add(a);\n        total ^= a;\n    }\n    pr.writeln(total == 0 &&\
+    \        xb.add(a);\n        total ^= a;\n    }\n    pr.println(total == 0 &&\
     \ xb.size() < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -212,8 +212,8 @@ data:
   isVerificationFile: true
   path: test/yuki2672_xor_basis.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki2672_xor_basis.test.cpp
 layout: document

@@ -3,7 +3,7 @@ category: "\u30D5\u30ED\u30FC"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: flow/project_selection_problem.cpp
     title: ProjectSelectionProblem
   - icon: ':heavy_check_mark:'
@@ -16,15 +16,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
     title: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki957.test.cpp
     title: test/yuki957.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki957_project_selection_problem.test.cpp
     title: test/yuki957_project_selection_problem.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "Dinic\u6CD5(Dinic)"
     links: []
@@ -84,7 +84,7 @@ data:
   - graph/maxflow_lower_bound.cpp
   - flow/project_selection_problem.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki957.test.cpp
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp

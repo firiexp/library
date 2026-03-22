@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/dsu_on_tree.cpp
     title: DSU on Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
@@ -192,7 +192,7 @@ data:
     \    auto reset = [&]() {\n        base = 0;\n        for (auto &&[t, x] : history)\
     \ bit.add(t, -x);\n        history.clear();\n    };\n\n    DSUonTree dsu(g);\n\
     \    dsu.run(update, query, clear, reset);\n\n    for (auto &&x : ans) {\n   \
-    \     if (x != -1) pr.writeln(x);\n    }\n    return 0;\n}\n"
+    \     if (x != -1) pr.println(x);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
     \n\n#include <bits/stdc++.h>\n\nusing namespace std;\nusing ll = long long;\n\n\
     #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
@@ -215,7 +215,7 @@ data:
     \        }\n    };\n    auto clear = [&](int) {};\n    auto reset = [&]() {\n\
     \        base = 0;\n        for (auto &&[t, x] : history) bit.add(t, -x);\n  \
     \      history.clear();\n    };\n\n    DSUonTree dsu(g);\n    dsu.run(update,\
-    \ query, clear, reset);\n\n    for (auto &&x : ans) {\n        if (x != -1) pr.writeln(x);\n\
+    \ query, clear, reset);\n\n    for (auto &&x : ans) {\n        if (x != -1) pr.println(x);\n\
     \    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -224,8 +224,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
 layout: document

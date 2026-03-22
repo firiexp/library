@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: string/z-algorithm.cpp
     title: Z-algorithm
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/zalgorithm
@@ -141,23 +141,23 @@ data:
     \ res;\n}\n\n/**\n * @brief Z-Algorithm\n */\n#line 14 \"test/yosupo_zalgorithm.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
     \    auto z = Z_algorithm(s);\n    for (int i = 0; i < (int)z.size(); ++i) {\n\
-    \        if (i) pr.write(' ');\n        pr.write(z[i]);\n    }\n    pr.writeln();\n\
+    \        if (i) pr.print(' ');\n        pr.print(z[i]);\n    }\n    pr.println();\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/zalgorithm\"\n\n#include\
     \ <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../string/z-algorithm.cpp\"\n\nint main() {\n    Scanner sc;\n  \
     \  Printer pr;\n\n    string s;\n    sc.read(s);\n    auto z = Z_algorithm(s);\n\
-    \    for (int i = 0; i < (int)z.size(); ++i) {\n        if (i) pr.write(' ');\n\
-    \        pr.write(z[i]);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \    for (int i = 0; i < (int)z.size(); ++i) {\n        if (i) pr.print(' ');\n\
+    \        pr.print(z[i]);\n    }\n    pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - string/z-algorithm.cpp
   isVerificationFile: true
   path: test/yosupo_zalgorithm.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_zalgorithm.test.cpp
 layout: document

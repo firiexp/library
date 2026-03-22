@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/miller_rabin.cpp
     title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/primefactor_ll.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/primitive_root.cpp
     title: Primitive Root
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/primitive_root
@@ -222,7 +222,7 @@ data:
     \            }\n        }\n        if (ok) return g;\n    }\n}\n\n/**\n * @brief\
     \ \u539F\u59CB\u6839(Primitive Root)\n */\n#line 21 \"test/yosupo_primitive_root.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int q;\n    in.read(q);\n\
-    \    while (q--) {\n        ll p;\n        in.read(p);\n        out.writeln(primitive_root(p));\n\
+    \    while (q--) {\n        ll p;\n        in.read(p);\n        out.println(primitive_root(p));\n\
     \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primitive_root\"\n\n#include\
     \ <algorithm>\n#include <cstdint>\n#include <numeric>\n#include <random>\n#include\
@@ -231,7 +231,7 @@ data:
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../math/primitive_root.cpp\"\n\nint main() {\n    Scanner in;\n \
     \   Printer out;\n    int q;\n    in.read(q);\n    while (q--) {\n        ll p;\n\
-    \        in.read(p);\n        out.writeln(primitive_root(p));\n    }\n    return\
+    \        in.read(p);\n        out.println(primitive_root(p));\n    }\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -241,8 +241,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_primitive_root.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_primitive_root.test.cpp
 layout: document

@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/squarematrix_mint.cpp
     title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/pow_of_matrix
@@ -419,7 +419,7 @@ data:
     \ = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            int x;\n\
     \            sc.read(x);\n            A[i][j] = x;\n        }\n    }\n\n    auto\
     \ B = A.pow(k, n);\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0;\
-    \ j < n; ++j) {\n            pr.write(B[i][j].val);\n            pr.write(j +\
+    \ j < n; ++j) {\n            pr.print(B[i][j].val);\n            pr.print(j +\
     \ 1 == n ? '\\n' : ' ');\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/pow_of_matrix\"\n\n#include\
     \ <algorithm>\n#include <array>\n#include <vector>\nusing namespace std;\n\nstatic\
@@ -437,7 +437,7 @@ data:
     \ = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            int x;\n\
     \            sc.read(x);\n            A[i][j] = x;\n        }\n    }\n\n    auto\
     \ B = A.pow(k, n);\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0;\
-    \ j < n; ++j) {\n            pr.write(B[i][j].val);\n            pr.write(j +\
+    \ j < n; ++j) {\n            pr.print(B[i][j].val);\n            pr.print(j +\
     \ 1 == n ? '\\n' : ' ');\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -446,8 +446,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_pow_of_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_pow_of_matrix.test.cpp
 layout: document

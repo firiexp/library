@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/segtree.cpp
     title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "\u91CD\u8EFD\u5206\u89E3"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/vertex_set_path_composite
@@ -278,7 +278,7 @@ data:
     \ p, c, d;\n        sc.read(t, p, c, d);\n        if (t == 0) {\n            int\
     \ v = hld.id[p];\n            segl.update(v, {c, d});\n            segr.update(v,\
     \ {c, d});\n        } else {\n            auto val = hld.path_query_ordered(p,\
-    \ c, Ml::e(), ql, qr, merge, false);\n            pr.writeln((val[0] * d + val[1]).val);\n\
+    \ c, Ml::e(), ql, qr, merge, false);\n            pr.println((val[0] * d + val[1]).val);\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_set_path_composite\"\
     \n#include <array>\n#include <limits>\n#include <vector>\n\nstatic const int MOD\
@@ -305,7 +305,7 @@ data:
     \ p, c, d;\n        sc.read(t, p, c, d);\n        if (t == 0) {\n            int\
     \ v = hld.id[p];\n            segl.update(v, {c, d});\n            segr.update(v,\
     \ {c, d});\n        } else {\n            auto val = hld.path_query_ordered(p,\
-    \ c, Ml::e(), ql, qr, merge, false);\n            pr.writeln((val[0] * d + val[1]).val);\n\
+    \ c, Ml::e(), ql, qr, merge, false);\n            pr.println((val[0] * d + val[1]).val);\n\
     \        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -315,8 +315,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite.test.cpp
 layout: document

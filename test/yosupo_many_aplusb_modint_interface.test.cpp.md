@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint_arbitrary.cpp
     title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
@@ -210,7 +210,7 @@ data:
     int main() {\n    dynamic_modint_test::mint::set_mod(998244353);\n    common_check<fixed_modint_test::mint>();\n\
     \    common_check<dynamic_modint_test::mint>();\n\n    Scanner in;\n    Printer\
     \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        ll a, b;\n   \
-    \     in.read(a, b);\n        out.writeln(a + b);\n    }\n    return 0;\n}\n"
+    \     in.read(a, b);\n        out.println(a + b);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
     \ <cassert>\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
     \ <type_traits>\n\nusing ll = long long;\nusing uint = unsigned;\nusing ull =\
@@ -232,7 +232,7 @@ data:
     int main() {\n    dynamic_modint_test::mint::set_mod(998244353);\n    common_check<fixed_modint_test::mint>();\n\
     \    common_check<dynamic_modint_test::mint>();\n\n    Scanner in;\n    Printer\
     \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        ll a, b;\n   \
-    \     in.read(a, b);\n        out.writeln(a + b);\n    }\n    return 0;\n}\n"
+    \     in.read(a, b);\n        out.println(a + b);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
@@ -240,8 +240,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_aplusb_modint_interface.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_many_aplusb_modint_interface.test.cpp
 layout: document

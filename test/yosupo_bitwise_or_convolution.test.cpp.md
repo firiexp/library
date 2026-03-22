@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/or_convolution.cpp
     title: Bitwise OR Convolution
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/bitwise_and_convolution
@@ -181,8 +181,8 @@ data:
     \  for (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n      \
     \  a[full ^ i] = x;\n    }\n    for (int i = 0; i < m; ++i) {\n        int x;\n\
     \        sc.read(x);\n        b[full ^ i] = x;\n    }\n    auto c = or_convolution(a,\
-    \ b);\n    for (int i = 0; i < m; ++i) {\n        if (i) pr.write(' ');\n    \
-    \    pr.write(c[full ^ i].val);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \ b);\n    for (int i = 0; i < m; ++i) {\n        if (i) pr.print(' ');\n    \
+    \    pr.print(c[full ^ i].val);\n    }\n    pr.println();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_and_convolution\"\
     \n\n#include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll =\
     \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
@@ -194,8 +194,8 @@ data:
     \        sc.read(x);\n        a[full ^ i] = x;\n    }\n    for (int i = 0; i <\
     \ m; ++i) {\n        int x;\n        sc.read(x);\n        b[full ^ i] = x;\n \
     \   }\n    auto c = or_convolution(a, b);\n    for (int i = 0; i < m; ++i) {\n\
-    \        if (i) pr.write(' ');\n        pr.write(c[full ^ i].val);\n    }\n  \
-    \  pr.writeln();\n    return 0;\n}\n"
+    \        if (i) pr.print(' ');\n        pr.print(c[full ^ i].val);\n    }\n  \
+    \  pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
@@ -203,8 +203,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_bitwise_or_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_bitwise_or_convolution.test.cpp
 layout: document

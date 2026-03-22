@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/functional_graph.cpp
     title: "\u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/aplusb
@@ -211,7 +211,7 @@ data:
     \            }\n        }\n        for (int cid = 0; cid < (int)fg.cycles.size();\
     \ ++cid) {\n            assert(seen_cycle[cid] == (int)fg.cycle(cid).size());\n\
     \        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n \
-    \   Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.writeln(a + b);\n  \
+    \   Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n  \
     \  return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <cassert>\n\
     #include <random>\n#include <tuple>\n#include <vector>\nusing namespace std;\n\
@@ -249,7 +249,7 @@ data:
     \            }\n        }\n        for (int cid = 0; cid < (int)fg.cycles.size();\
     \ ++cid) {\n            assert(seen_cycle[cid] == (int)fg.cycle(cid).size());\n\
     \        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n \
-    \   Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.writeln(a + b);\n  \
+    \   Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n  \
     \  return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -257,8 +257,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_functional_graph.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_functional_graph.test.cpp
 layout: document

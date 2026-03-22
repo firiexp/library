@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/sparsetable.cpp
     title: Sparse Table
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/LCA.cpp
     title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/lca
@@ -169,7 +169,7 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
     \ q);\n    LCA lca(n);\n    for (int v = 1; v < n; ++v) {\n        int p;\n  \
     \      sc.read(p);\n        lca.add_edge(p, v);\n    }\n    lca.build(0);\n\n\
-    \    while (q--) {\n        int u, v;\n        sc.read(u, v);\n        pr.writeln(lca.lca(u,\
+    \    while (q--) {\n        int u, v;\n        sc.read(u, v);\n        pr.println(lca.lca(u,\
     \ v));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lca\"\n\n#include <bits/stdc++.h>\n\
     \nusing namespace std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
@@ -178,7 +178,7 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
     \ q);\n    LCA lca(n);\n    for (int v = 1; v < n; ++v) {\n        int p;\n  \
     \      sc.read(p);\n        lca.add_edge(p, v);\n    }\n    lca.build(0);\n\n\
-    \    while (q--) {\n        int u, v;\n        sc.read(u, v);\n        pr.writeln(lca.lca(u,\
+    \    while (q--) {\n        int u, v;\n        sc.read(u, v);\n        pr.println(lca.lca(u,\
     \ v));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -187,8 +187,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_lca.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_lca.test.cpp
 layout: document

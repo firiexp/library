@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/floor_sum.cpp
     title: Floor Sum
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/sum_of_floor_of_linear
@@ -140,21 +140,21 @@ data:
     }\n\n/**\n * @brief Floor Sum\n */\n#line 11 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int t;\n    in.read(t);\n\
     \    while (t--) {\n        ll n, m, a, b;\n        in.read(n, m, a, b);\n   \
-    \     out.writeln(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
+    \     out.println(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\
     \nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../math/floor_sum.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int t;\n    in.read(t);\n\
     \    while (t--) {\n        ll n, m, a, b;\n        in.read(n, m, a, b);\n   \
-    \     out.writeln(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
+    \     out.println(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/floor_sum.cpp
   isVerificationFile: true
   path: test/yosupo_sum_of_floor_of_linear.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_sum_of_floor_of_linear.test.cpp
 layout: document

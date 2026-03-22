@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/cycle_detection_directed.cpp
     title: Cycle Detection Directed
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/cycle_detection
@@ -152,8 +152,8 @@ data:
     \ m);\n    vector<vector<pair<int, int>>> g(n);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int u, v;\n        sc.read(u, v);\n        g[u].push_back({v, i});\n\
     \    }\n    auto cyc = cycle_detection_directed(g);\n    if (cyc.empty()) {\n\
-    \        pr.writeln(-1);\n        return 0;\n    }\n    pr.writeln((int)cyc.size());\n\
-    \    for (int id : cyc) pr.writeln(id);\n    return 0;\n}\n"
+    \        pr.println(-1);\n        return 0;\n    }\n    pr.println((int)cyc.size());\n\
+    \    for (int id : cyc) pr.println(id);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/cycle_detection\"\n\n#include\
     \ <algorithm>\n#include <utility>\n#include <vector>\nusing namespace std;\n\n\
     #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
@@ -162,16 +162,16 @@ data:
     \ m);\n    vector<vector<pair<int, int>>> g(n);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int u, v;\n        sc.read(u, v);\n        g[u].push_back({v, i});\n\
     \    }\n    auto cyc = cycle_detection_directed(g);\n    if (cyc.empty()) {\n\
-    \        pr.writeln(-1);\n        return 0;\n    }\n    pr.writeln((int)cyc.size());\n\
-    \    for (int id : cyc) pr.writeln(id);\n    return 0;\n}\n"
+    \        pr.println(-1);\n        return 0;\n    }\n    pr.println((int)cyc.size());\n\
+    \    for (int id : cyc) pr.println(id);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/cycle_detection_directed.cpp
   isVerificationFile: true
   path: test/yosupo_cycle_detection_directed.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_cycle_detection_directed.test.cpp
 layout: document

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/weightedunionfind.cpp
     title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/DSL_1_B
@@ -156,8 +156,8 @@ data:
     \   sc.read(n, q);\n    WeightedUnionFind<Group> uf(n);\n    while (q--) {\n \
     \       int t, x, y;\n        long long z;\n        sc.read(t, x, y);\n      \
     \  if (t == 0) {\n            sc.read(z);\n            uf.unite(x, y, z);\n  \
-    \      } else {\n            if (!uf.same(x, y)) pr.writeln('?');\n          \
-    \  else pr.writeln(uf.diff(x, y));\n        }\n    }\n    return 0;\n}\n"
+    \      } else {\n            if (!uf.same(x, y)) pr.println('?');\n          \
+    \  else pr.println(uf.diff(x, y));\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_1_B\"\n\n\
     #include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
@@ -168,7 +168,7 @@ data:
     \ uf(n);\n    while (q--) {\n        int t, x, y;\n        long long z;\n    \
     \    sc.read(t, x, y);\n        if (t == 0) {\n            sc.read(z);\n     \
     \       uf.unite(x, y, z);\n        } else {\n            if (!uf.same(x, y))\
-    \ pr.writeln('?');\n            else pr.writeln(uf.diff(x, y));\n        }\n \
+    \ pr.println('?');\n            else pr.println(uf.diff(x, y));\n        }\n \
     \   }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -176,8 +176,8 @@ data:
   isVerificationFile: true
   path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_1_b_weightedunionfind.test.cpp
 layout: document

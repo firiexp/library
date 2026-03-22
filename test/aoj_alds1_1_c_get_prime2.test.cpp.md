@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/get_prime2.cpp
     title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C
@@ -178,7 +178,7 @@ data:
     \   return true;\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
     \ n;\n    sc.read(n);\n    auto primes = get_prime_exact_div(100000);\n    int\
     \ ans = 0;\n    while (n--) {\n        uint x;\n        sc.read(x);\n        ans\
-    \ += is_prime_number(x, primes);\n    }\n    pr.writeln(ans);\n    return 0;\n\
+    \ += is_prime_number(x, primes);\n    }\n    pr.println(ans);\n    return 0;\n\
     }\n"
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C\"\
     \n\n#include <cstdint>\n#include <vector>\nusing namespace std;\nusing uint =\
@@ -190,7 +190,7 @@ data:
     \   return true;\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
     \ n;\n    sc.read(n);\n    auto primes = get_prime_exact_div(100000);\n    int\
     \ ans = 0;\n    while (n--) {\n        uint x;\n        sc.read(x);\n        ans\
-    \ += is_prime_number(x, primes);\n    }\n    pr.writeln(ans);\n    return 0;\n\
+    \ += is_prime_number(x, primes);\n    }\n    pr.println(ans);\n    return 0;\n\
     }\n"
   dependsOn:
   - util/fastio.cpp
@@ -199,8 +199,8 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_1_c_get_prime2.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_1_c_get_prime2.test.cpp
 layout: document

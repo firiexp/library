@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/wavelet_matrix.cpp
     title: Wavelet Matrix
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_range_frequency
@@ -198,7 +198,7 @@ data:
     \    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n\
     \    vector<int> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\n   \
     \ WaveletMatrix<int> wm(a);\n    while (q--) {\n        int l, r, x;\n       \
-    \ in.read(l);\n        in.read(r);\n        in.read(x);\n        out.writeln(wm.freq(l,\
+    \ in.read(l);\n        in.read(r);\n        in.read(x);\n        out.println(wm.freq(l,\
     \ r, x));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_frequency\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
@@ -207,7 +207,7 @@ data:
     \nint main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n\
     \    in.read(q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
     \n    WaveletMatrix<int> wm(a);\n    while (q--) {\n        int l, r, x;\n   \
-    \     in.read(l);\n        in.read(r);\n        in.read(x);\n        out.writeln(wm.freq(l,\
+    \     in.read(l);\n        in.read(r);\n        in.read(x);\n        out.println(wm.freq(l,\
     \ r, x));\n    }\n    return 0;\n}\n"
   dependsOn:
   - datastructure/wavelet_matrix.cpp
@@ -215,8 +215,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_frequency.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_range_frequency.test.cpp
 layout: document

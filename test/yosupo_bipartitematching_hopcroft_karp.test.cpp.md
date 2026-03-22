@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/hopcroft_karp.cpp
     title: Hopcroft Karp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/bipartitematching
@@ -161,8 +161,8 @@ data:
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l,\
     \ r, m);\n    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n    \
     \    int a, b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n  \
-    \  int ans = hk.max_matching();\n    out.writeln(ans);\n    auto pairs = hk.get_pairs();\n\
-    \    for (auto&& [a, b] : pairs) {\n        out.writeln(a, b);\n    }\n    return\
+    \  int ans = hk.max_matching();\n    out.println(ans);\n    auto pairs = hk.get_pairs();\n\
+    \    for (auto&& [a, b] : pairs) {\n        out.println(a, b);\n    }\n    return\
     \ 0;\n}\n\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bipartitematching\"\n\n\
     #include <queue>\n#include <utility>\n#include <vector>\nusing namespace std;\n\
@@ -171,8 +171,8 @@ data:
     int main() {\n    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l,\
     \ r, m);\n    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n    \
     \    int a, b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n  \
-    \  int ans = hk.max_matching();\n    out.writeln(ans);\n    auto pairs = hk.get_pairs();\n\
-    \    for (auto&& [a, b] : pairs) {\n        out.writeln(a, b);\n    }\n    return\
+    \  int ans = hk.max_matching();\n    out.println(ans);\n    auto pairs = hk.get_pairs();\n\
+    \    for (auto&& [a, b] : pairs) {\n        out.println(a, b);\n    }\n    return\
     \ 0;\n}\n\n"
   dependsOn:
   - util/fastio.cpp
@@ -180,8 +180,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
 layout: document

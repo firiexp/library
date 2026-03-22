@@ -4,27 +4,27 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_addition_of_big_integers.test.cpp
     title: test/yosupo_addition_of_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_addition_of_hex_big_integers.test.cpp
     title: test/yosupo_addition_of_hex_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_division_of_big_integers.test.cpp
     title: test/yosupo_division_of_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_division_of_hex_big_integers.test.cpp
     title: test/yosupo_division_of_hex_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multiplication_of_big_integers.test.cpp
     title: test/yosupo_multiplication_of_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multiplication_of_hex_big_integers.test.cpp
     title: test/yosupo_multiplication_of_hex_big_integers.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u591A\u500D\u9577\u6574\u6570(BigInteger)"
     links: []
@@ -1416,7 +1416,7 @@ data:
   path: util/biginteger.cpp
   requiredBy: []
   timestamp: '2026-03-20 23:24:02+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_addition_of_hex_big_integers.test.cpp
   - test/yosupo_multiplication_of_big_integers.test.cpp

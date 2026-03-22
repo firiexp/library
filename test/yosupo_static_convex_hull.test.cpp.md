@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: geometry/convex_hull.cpp
     title: Convex Hull
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_convex_hull
@@ -148,8 +148,8 @@ data:
     \n\n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
     \    while (t--) {\n        int n;\n        sc.read(n);\n        vector<IntPoint>\
     \ ps(n);\n        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first,\
-    \ ps[i].second);\n        }\n        auto ch = convex_hull(ps);\n        pr.writeln((int)ch.size());\n\
-    \        for (auto [x, y] : ch) pr.writeln(x, y);\n    }\n    return 0;\n}\n"
+    \ ps[i].second);\n        }\n        auto ch = convex_hull(ps);\n        pr.println((int)ch.size());\n\
+    \        for (auto [x, y] : ch) pr.println(x, y);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_convex_hull\"\n\n\
     #include <algorithm>\n#include <random>\n#include <set>\n#include <vector>\nusing\
     \ namespace std;\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -158,16 +158,16 @@ data:
     \    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n        int\
     \ n;\n        sc.read(n);\n        vector<IntPoint> ps(n);\n        for (int i\
     \ = 0; i < n; ++i) {\n            sc.read(ps[i].first, ps[i].second);\n      \
-    \  }\n        auto ch = convex_hull(ps);\n        pr.writeln((int)ch.size());\n\
-    \        for (auto [x, y] : ch) pr.writeln(x, y);\n    }\n    return 0;\n}\n"
+    \  }\n        auto ch = convex_hull(ps);\n        pr.println((int)ch.size());\n\
+    \        for (auto [x, y] : ch) pr.println(x, y);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - geometry/convex_hull.cpp
   isVerificationFile: true
   path: test/yosupo_static_convex_hull.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_convex_hull.test.cpp
 layout: document

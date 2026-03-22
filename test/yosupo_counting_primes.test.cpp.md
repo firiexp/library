@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/counting_primes.cpp
     title: Counting Primes
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/counting_primes
@@ -166,21 +166,21 @@ data:
     \    return counting_primes_internal::lehmer_pi(n);\n}\n\n/**\n * @brief \u7D20\
     \u6570\u6570\u3048\u4E0A\u3052(Prime Counting)\n */\n#line 15 \"test/yosupo_counting_primes.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    long long n;\n    sc.read(n);\n\
-    \    pr.writeln(counting_primes(n));\n    return 0;\n}\n"
+    \    pr.println(counting_primes(n));\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/counting_primes\"\n\n#include\
     \ <cmath>\n#include <cstdint>\n#include <vector>\nusing ll = long long;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
     #include \"../util/fastio.cpp\"\n#include \"../math/counting_primes.cpp\"\n\n\
     int main() {\n    Scanner sc;\n    Printer pr;\n    long long n;\n    sc.read(n);\n\
-    \    pr.writeln(counting_primes(n));\n    return 0;\n}\n"
+    \    pr.println(counting_primes(n));\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/counting_primes.cpp
   isVerificationFile: true
   path: test/yosupo_counting_primes.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_counting_primes.test.cpp
 layout: document

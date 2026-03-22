@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/multipoint_evaluation.cpp
     title: Multipoint Evaluation
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
     title: Polynomial Interpolation
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/polynomial_interpolation
@@ -438,8 +438,8 @@ data:
     \ x;\n        in.read(x);\n        xs[i] = x;\n    }\n    for (int i = 0; i <\
     \ n; ++i) {\n        int y;\n        in.read(y);\n        ys[i] = y;\n    }\n\
     \    poly f = polynomial_interpolation(xs, ys);\n    for (int i = 0; i < n; ++i)\
-    \ {\n        if (i) out.write(' ');\n        out.write(f[i].val);\n    }\n   \
-    \ out.writeln();\n    return 0;\n}\n"
+    \ {\n        if (i) out.print(' ');\n        out.print(f[i].val);\n    }\n   \
+    \ out.println();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/polynomial_interpolation\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
@@ -450,8 +450,8 @@ data:
     \ x;\n        in.read(x);\n        xs[i] = x;\n    }\n    for (int i = 0; i <\
     \ n; ++i) {\n        int y;\n        in.read(y);\n        ys[i] = y;\n    }\n\
     \    poly f = polynomial_interpolation(xs, ys);\n    for (int i = 0; i < n; ++i)\
-    \ {\n        if (i) out.write(' ');\n        out.write(f[i].val);\n    }\n   \
-    \ out.writeln();\n    return 0;\n}\n"
+    \ {\n        if (i) out.print(' ');\n        out.print(f[i].val);\n    }\n   \
+    \ out.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - fps/polynomial_interpolation.cpp
@@ -460,8 +460,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_polynomial_interpolation.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_polynomial_interpolation.test.cpp
 layout: document

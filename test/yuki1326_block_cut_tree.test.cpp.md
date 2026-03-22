@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: graph/biconnected_components.cpp
     title: "\u4E8C\u91CD\u9802\u70B9\u9023\u7D50\u6210\u5206\u5206\u89E3"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/block_cut_tree.cpp
     title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "\u91CD\u8EFD\u5206\u89E3"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/1326
@@ -261,11 +261,11 @@ data:
     \ ++i) {\n        int v = hld.id_inv[i];\n        pref[v] = (g.rev[v] != -1);\n\
     \        if (hld.par[v] != -1) pref[v] += pref[hld.par[v]];\n    }\n\n    int\
     \ q;\n    sc.read(q);\n    while (q--) {\n        int x, y;\n        sc.read(x,\
-    \ y);\n        --x, --y;\n        if (x == y) {\n            pr.writeln(0);\n\
+    \ y);\n        --x, --y;\n        if (x == y) {\n            pr.println(0);\n\
     \            continue;\n        }\n        int u = g.id[x], v = g.id[y];\n   \
     \     int a = hld.lca(u, v);\n        int ans = pref[u] + pref[v] - 2 * pref[a]\
     \ + (g.rev[a] != -1);\n        if (g.is_articulation[x]) --ans;\n        if (g.is_articulation[y])\
-    \ --ans;\n        pr.writeln(ans);\n    }\n    return 0;\n}\n"
+    \ --ans;\n        pr.println(ans);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/1326\"\n\n#include <algorithm>\n\
     #include <vector>\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/block_cut_tree.cpp\"\
@@ -278,10 +278,10 @@ data:
     \        pref[v] = (g.rev[v] != -1);\n        if (hld.par[v] != -1) pref[v] +=\
     \ pref[hld.par[v]];\n    }\n\n    int q;\n    sc.read(q);\n    while (q--) {\n\
     \        int x, y;\n        sc.read(x, y);\n        --x, --y;\n        if (x ==\
-    \ y) {\n            pr.writeln(0);\n            continue;\n        }\n       \
+    \ y) {\n            pr.println(0);\n            continue;\n        }\n       \
     \ int u = g.id[x], v = g.id[y];\n        int a = hld.lca(u, v);\n        int ans\
     \ = pref[u] + pref[v] - 2 * pref[a] + (g.rev[a] != -1);\n        if (g.is_articulation[x])\
-    \ --ans;\n        if (g.is_articulation[y]) --ans;\n        pr.writeln(ans);\n\
+    \ --ans;\n        if (g.is_articulation[y]) --ans;\n        pr.println(ans);\n\
     \    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -291,8 +291,8 @@ data:
   isVerificationFile: true
   path: test/yuki1326_block_cut_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki1326_block_cut_tree.test.cpp
 layout: document

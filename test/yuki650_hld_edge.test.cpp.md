@@ -1,26 +1,26 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/segtree.cpp
     title: "DualSegmentTree (\u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "\u91CD\u8EFD\u5206\u89E3"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld_edge.cpp
     title: HLD Edge
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/650
@@ -311,7 +311,7 @@ data:
     \ = {x00, x01, x10, x11};\n            segl.update(p, mat);\n            segr.update(p,\
     \ mat);\n        } else {\n            int i, j;\n            sc.read(i, j);\n\
     \            auto ans = hld.path_query_ordered(i, j, MatMonoidL::e(), ql, qr,\
-    \ merge);\n            pr.writeln(ans[0].val, ans[1].val, ans[2].val, ans[3].val);\n\
+    \ merge);\n            pr.println(ans[0].val, ans[1].val, ans[2].val, ans[3].val);\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/650\"\n\n#include <array>\n\
     #include <limits>\n#include <vector>\nusing namespace std;\n\nstatic const int\
@@ -347,7 +347,7 @@ data:
     \            array<mint, 4> mat = {x00, x01, x10, x11};\n            segl.update(p,\
     \ mat);\n            segr.update(p, mat);\n        } else {\n            int i,\
     \ j;\n            sc.read(i, j);\n            auto ans = hld.path_query_ordered(i,\
-    \ j, MatMonoidL::e(), ql, qr, merge);\n            pr.writeln(ans[0].val, ans[1].val,\
+    \ j, MatMonoidL::e(), ql, qr, merge);\n            pr.println(ans[0].val, ans[1].val,\
     \ ans[2].val, ans[3].val);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -358,8 +358,8 @@ data:
   isVerificationFile: true
   path: test/yuki650_hld_edge.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki650_hld_edge.test.cpp
 layout: document

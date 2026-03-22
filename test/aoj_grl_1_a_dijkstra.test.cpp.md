@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra.cpp
     title: "Dijkstra\u6CD5"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_common.cpp
     title: graph/dijkstra_common.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_A
@@ -163,7 +163,7 @@ data:
     \ m, s);\n    vector<vector<edge<ll>>> G(n);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int u, v, c;\n        in.read(u, v, c);\n        G[u].emplace_back(v,\
     \ c);\n    }\n    auto dist = dijkstra(s, G);\n    for (int i = 0; i < n; ++i)\
-    \ {\n        if (dist[i] == INF<ll>) out.writeln(\"INF\");\n        else out.writeln(dist[i]);\n\
+    \ {\n        if (dist[i] == INF<ll>) out.println(\"INF\");\n        else out.println(dist[i]);\n\
     \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_A\"\n\n\
     #include <algorithm>\n#include <limits>\n#include <queue>\n#include <tuple>\n\
@@ -174,8 +174,8 @@ data:
     \ out;\n\n    int n, m, s;\n    in.read(n, m, s);\n    vector<vector<edge<ll>>>\
     \ G(n);\n    for (int i = 0; i < m; ++i) {\n        int u, v, c;\n        in.read(u,\
     \ v, c);\n        G[u].emplace_back(v, c);\n    }\n    auto dist = dijkstra(s,\
-    \ G);\n    for (int i = 0; i < n; ++i) {\n        if (dist[i] == INF<ll>) out.writeln(\"\
-    INF\");\n        else out.writeln(dist[i]);\n    }\n    return 0;\n}\n"
+    \ G);\n    for (int i = 0; i < n; ++i) {\n        if (dist[i] == INF<ll>) out.println(\"\
+    INF\");\n        else out.println(dist[i]);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/dijkstra.cpp
@@ -183,8 +183,8 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_1_a_dijkstra.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_a_dijkstra.test.cpp
 layout: document

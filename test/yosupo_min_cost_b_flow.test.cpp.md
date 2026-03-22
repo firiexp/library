@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/minimum_cost_b_flow.cpp
     title: Minimum Cost B-Flow
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/min_cost_b_flow
@@ -218,48 +218,48 @@ data:
     \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
     \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
     \ b-Flow)\n */\n#line 14 \"test/yosupo_min_cost_b_flow.test.cpp\"\n\nvoid write_i128(Printer&\
-    \ pr, __int128_t x) {\n    if(x == 0) {\n        pr.write('0');\n        return;\n\
-    \    }\n    if(x < 0) {\n        pr.write('-');\n        x = -x;\n    }\n    string\
+    \ pr, __int128_t x) {\n    if(x == 0) {\n        pr.print('0');\n        return;\n\
+    \    }\n    if(x < 0) {\n        pr.print('-');\n        x = -x;\n    }\n    string\
     \ s;\n    while(x > 0) {\n        s.push_back(char('0' + x % 10));\n        x\
-    \ /= 10;\n    }\n    reverse(s.begin(), s.end());\n    pr.write(s);\n}\n\nint\
+    \ /= 10;\n    }\n    reverse(s.begin(), s.end());\n    pr.print(s);\n}\n\nint\
     \ main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n\
     \    MinimumCostBFlow<ll, ll> mcf(n);\n    for (int i = 0; i < n; ++i) {\n   \
     \     ll b;\n        sc.read(b);\n        mcf.add_supply(i, b);\n    }\n    for\
     \ (int i = 0; i < m; ++i) {\n        int s, t;\n        ll lower, upper, cost;\n\
     \        sc.read(s, t, lower, upper, cost);\n        mcf.add_edge(s, t, lower,\
     \ upper, cost);\n    }\n\n    auto [ok, cost] = mcf.solve();\n    if(!ok) {\n\
-    \        pr.writeln(\"infeasible\");\n        return 0;\n    }\n\n    write_i128(pr,\
-    \ cost);\n    pr.writeln();\n    auto potential = mcf.get_potential();\n    for\
-    \ (int i = 0; i < n; ++i) {\n        pr.write(potential[i]);\n        pr.write(i\
+    \        pr.println(\"infeasible\");\n        return 0;\n    }\n\n    write_i128(pr,\
+    \ cost);\n    pr.println();\n    auto potential = mcf.get_potential();\n    for\
+    \ (int i = 0; i < n; ++i) {\n        pr.print(potential[i]);\n        pr.print(i\
     \ + 1 == n ? '\\n' : ' ');\n    }\n    auto flow = mcf.get_flows();\n    for (int\
-    \ i = 0; i < m; ++i) {\n        pr.writeln(flow[i]);\n    }\n    return 0;\n}\n"
+    \ i = 0; i < m; ++i) {\n        pr.println(flow[i]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/min_cost_b_flow\"\n#include\
     \ <bits/stdc++.h>\n\nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../graph/minimum_cost_b_flow.cpp\"\n\nvoid write_i128(Printer& pr,\
-    \ __int128_t x) {\n    if(x == 0) {\n        pr.write('0');\n        return;\n\
-    \    }\n    if(x < 0) {\n        pr.write('-');\n        x = -x;\n    }\n    string\
+    \ __int128_t x) {\n    if(x == 0) {\n        pr.print('0');\n        return;\n\
+    \    }\n    if(x < 0) {\n        pr.print('-');\n        x = -x;\n    }\n    string\
     \ s;\n    while(x > 0) {\n        s.push_back(char('0' + x % 10));\n        x\
-    \ /= 10;\n    }\n    reverse(s.begin(), s.end());\n    pr.write(s);\n}\n\nint\
+    \ /= 10;\n    }\n    reverse(s.begin(), s.end());\n    pr.print(s);\n}\n\nint\
     \ main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n\
     \    MinimumCostBFlow<ll, ll> mcf(n);\n    for (int i = 0; i < n; ++i) {\n   \
     \     ll b;\n        sc.read(b);\n        mcf.add_supply(i, b);\n    }\n    for\
     \ (int i = 0; i < m; ++i) {\n        int s, t;\n        ll lower, upper, cost;\n\
     \        sc.read(s, t, lower, upper, cost);\n        mcf.add_edge(s, t, lower,\
     \ upper, cost);\n    }\n\n    auto [ok, cost] = mcf.solve();\n    if(!ok) {\n\
-    \        pr.writeln(\"infeasible\");\n        return 0;\n    }\n\n    write_i128(pr,\
-    \ cost);\n    pr.writeln();\n    auto potential = mcf.get_potential();\n    for\
-    \ (int i = 0; i < n; ++i) {\n        pr.write(potential[i]);\n        pr.write(i\
+    \        pr.println(\"infeasible\");\n        return 0;\n    }\n\n    write_i128(pr,\
+    \ cost);\n    pr.println();\n    auto potential = mcf.get_potential();\n    for\
+    \ (int i = 0; i < n; ++i) {\n        pr.print(potential[i]);\n        pr.print(i\
     \ + 1 == n ? '\\n' : ' ');\n    }\n    auto flow = mcf.get_flows();\n    for (int\
-    \ i = 0; i < m; ++i) {\n        pr.writeln(flow[i]);\n    }\n    return 0;\n}\n"
+    \ i = 0; i < m; ++i) {\n        pr.println(flow[i]);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/minimum_cost_b_flow.cpp
   isVerificationFile: true
   path: test/yosupo_min_cost_b_flow.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_min_cost_b_flow.test.cpp
 layout: document

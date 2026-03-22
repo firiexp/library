@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/min_plus_convolution.cpp
     title: "min-plus\u7573\u307F\u8FBC\u307F(Min-Plus Convolution)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/min_plus_convolution_convex_arbitrary
@@ -165,8 +165,8 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<long long> a(n), b(m);\n    for (auto &x : a) sc.read(x);\n\
     \    for (auto &x : b) sc.read(x);\n\n    auto c = min_plus_convolution_arbitrary_convex(b,\
-    \ a);\n    for (int i = 0; i < (int)c.size(); ++i) {\n        pr.write(c[i]);\n\
-    \        pr.write(i + 1 == (int)c.size() ? '\\n' : ' ');\n    }\n    return 0;\n\
+    \ a);\n    for (int i = 0; i < (int)c.size(); ++i) {\n        pr.print(c[i]);\n\
+    \        pr.print(i + 1 == (int)c.size() ? '\\n' : ' ');\n    }\n    return 0;\n\
     }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/min_plus_convolution_convex_arbitrary\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
@@ -175,8 +175,8 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<long long> a(n), b(m);\n    for (auto &x : a) sc.read(x);\n\
     \    for (auto &x : b) sc.read(x);\n\n    auto c = min_plus_convolution_arbitrary_convex(b,\
-    \ a);\n    for (int i = 0; i < (int)c.size(); ++i) {\n        pr.write(c[i]);\n\
-    \        pr.write(i + 1 == (int)c.size() ? '\\n' : ' ');\n    }\n    return 0;\n\
+    \ a);\n    for (int i = 0; i < (int)c.size(); ++i) {\n        pr.print(c[i]);\n\
+    \        pr.print(i + 1 == (int)c.size() ? '\\n' : ' ');\n    }\n    return 0;\n\
     }\n"
   dependsOn:
   - util/fastio.cpp
@@ -184,8 +184,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
 layout: document

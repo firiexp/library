@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_product.test.cpp
     title: test/yosupo_matrix_product.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/matrix.cpp\"\ntemplate<class H>\nstruct matrix {\n\
@@ -102,7 +102,7 @@ data:
   path: math/matrix.cpp
   requiredBy: []
   timestamp: '2026-03-15 18:15:27+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_matrix_product.test.cpp
 date: 2026-03-15

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/bellman_ford.cpp
     title: "Bellman-Ford\u6CD5"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B
@@ -148,10 +148,10 @@ data:
     \  Printer pr;\n\n    int n, m, s;\n    sc.read(n, m, s);\n    vector<edge<ll>>\
     \ es;\n    es.reserve(m);\n    for (int i = 0; i < m; ++i) {\n        int a, b,\
     \ c;\n        sc.read(a, b, c);\n        es.emplace_back(a, b, c);\n    }\n\n\
-    \    auto dist = bellman_ford(s, n, es);\n    if (dist.empty()) {\n        pr.writeln(\"\
+    \    auto dist = bellman_ford(s, n, es);\n    if (dist.empty()) {\n        pr.println(\"\
     NEGATIVE CYCLE\");\n        return 0;\n    }\n\n    constexpr ll INF = numeric_limits<ll>::max();\n\
-    \    for (int i = 0; i < n; ++i) {\n        if (dist[i] == INF) pr.writeln(\"\
-    INF\");\n        else pr.writeln(dist[i]);\n    }\n    return 0;\n}\n"
+    \    for (int i = 0; i < n; ++i) {\n        if (dist[i] == INF) pr.println(\"\
+    INF\");\n        else pr.println(dist[i]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n\
     #include <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
     \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
@@ -160,9 +160,9 @@ data:
     \ m, s);\n    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i\
     \ < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
     \ b, c);\n    }\n\n    auto dist = bellman_ford(s, n, es);\n    if (dist.empty())\
-    \ {\n        pr.writeln(\"NEGATIVE CYCLE\");\n        return 0;\n    }\n\n   \
+    \ {\n        pr.println(\"NEGATIVE CYCLE\");\n        return 0;\n    }\n\n   \
     \ constexpr ll INF = numeric_limits<ll>::max();\n    for (int i = 0; i < n; ++i)\
-    \ {\n        if (dist[i] == INF) pr.writeln(\"INF\");\n        else pr.writeln(dist[i]);\n\
+    \ {\n        if (dist[i] == INF) pr.println(\"INF\");\n        else pr.println(dist[i]);\n\
     \    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -170,8 +170,8 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_1_b_bellman_ford.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_b_bellman_ford.test.cpp
 layout: document

@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/convolution_mod_1000000007
@@ -38,8 +38,8 @@ data:
     \   poly a(n), b(m);\n    for (int i = 0; i < n; ++i) {\n        int x;\n    \
     \    sc.read(x);\n        a[i] = x;\n    }\n    for (int i = 0; i < m; ++i) {\n\
     \        int x;\n        sc.read(x);\n        b[i] = x;\n    }\n    a *= b;\n\
-    \    for (int i = 0; i < n + m - 1; ++i) {\n        if (i) pr.write(' ');\n  \
-    \      pr.write(a[i].val);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \    for (int i = 0; i < n + m - 1; ++i) {\n        if (i) pr.print(' ');\n  \
+    \      pr.print(a[i].val);\n    }\n    pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/fft.cpp
@@ -47,8 +47,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_convolution_mod_1000000007_fft.test.cpp
 layout: document

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
@@ -147,7 +147,7 @@ data:
     \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(n);\n    for (int\
     \ i = 0; i < n; ++i) S.add(i, v[i]);\n\n    for (int i = 0; i < q; ++i) {\n  \
     \      int c, x, y;\n        in.read(c, x, y);\n        if(c == 0) S.add(x, y);\n\
-    \        else out.writeln(S.sum(y) - S.sum(x));\n    }\n    return 0;\n}\n"
+    \        else out.println(S.sum(y) - S.sum(x));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
@@ -156,15 +156,15 @@ data:
     \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(n);\n    for (int\
     \ i = 0; i < n; ++i) S.add(i, v[i]);\n\n    for (int i = 0; i < q; ++i) {\n  \
     \      int c, x, y;\n        in.read(c, x, y);\n        if(c == 0) S.add(x, y);\n\
-    \        else out.writeln(S.sum(y) - S.sum(x));\n    }\n    return 0;\n}\n"
+    \        else out.println(S.sum(y) - S.sum(x));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/binaryindexedtree.cpp
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum.test.cpp
 layout: document

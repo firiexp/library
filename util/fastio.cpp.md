@@ -4,408 +4,420 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0275_dynamic_bitset.test.cpp
+    title: test/aoj0275_dynamic_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0275_static_bitset.test.cpp
+    title: test/aoj0275_static_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj0334.test.cpp
     title: test/aoj0334.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0377.test.cpp
     title: test/aoj0377.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0403.test.cpp
     title: test/aoj0403.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0415.test.cpp
     title: test/aoj0415.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0439.test.cpp
     title: test/aoj0439.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0439_virtual_tree_helper.test.cpp
     title: test/aoj0439_virtual_tree_helper.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj2907_prefix_suffix_search.test.cpp
     title: test/aoj2907_prefix_suffix_search.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj2945_bfs01.test.cpp
     title: test/aoj2945_bfs01.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
     title: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_1_c_get_prime.test.cpp
     title: test/aoj_alds1_1_c_get_prime.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_1_c_get_prime2.test.cpp
     title: test/aoj_alds1_1_c_get_prime2.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_9_c_binaryheap.test.cpp
     title: test/aoj_alds1_9_c_binaryheap.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
     title: test/aoj_dsl_1_b_weightedunionfind.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_dsl_2_b.test.cpp
     title: test/aoj_dsl_2_b.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_a_dijkstra.test.cpp
     title: test/aoj_grl_1_a_dijkstra.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_b_bellman_ford.test.cpp
     title: test/aoj_grl_1_b_bellman_ford.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_b_negative_loop.test.cpp
     title: test/aoj_grl_1_b_negative_loop.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_5_a_diameter.test.cpp
     title: test/aoj_grl_5_a_diameter.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_5_a_rerooting.test.cpp
     title: test/aoj_grl_5_a_rerooting.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_6_a_costscalingdinic.test.cpp
     title: test/aoj_grl_6_a_costscalingdinic.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_7_a_bipartite_matching.test.cpp
     title: test/aoj_grl_7_a_bipartite_matching.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_ntl_1_d_eulerphi.test.cpp
     title: test/aoj_ntl_1_d_eulerphi.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_addition_of_big_integers.test.cpp
     title: test/yosupo_addition_of_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_addition_of_hex_big_integers.test.cpp
     title: test/yosupo_addition_of_hex_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aho_corasick.test.cpp
     title: test/yosupo_aho_corasick.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dynamic_bitset.test.cpp
+    title: test/yosupo_aplusb_dynamic_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_bitset.test.cpp
+    title: test/yosupo_aplusb_static_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_top_k_sum.test.cpp
     title: test/yosupo_aplusb_top_k_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_top_kth.test.cpp
     title: test/yosupo_aplusb_top_kth.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_area_of_union_of_rectangles.test.cpp
     title: test/yosupo_area_of_union_of_rectangles.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_assignment_hungarian.test.cpp
     title: test/yosupo_assignment_hungarian.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_binomial_coefficient.test.cpp
     title: test/yosupo_binomial_coefficient.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
     title: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_and_convolution.test.cpp
     title: test/yosupo_bitwise_and_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_or_convolution.test.cpp
     title: test/yosupo_bitwise_or_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_xor_convolution.test.cpp
     title: test/yosupo_bitwise_xor_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cartesian_tree.test.cpp
     title: test/yosupo_cartesian_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_counting_primes.test.cpp
     title: test/yosupo_counting_primes.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cycle_detection_directed.test.cpp
     title: test/yosupo_cycle_detection_directed.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_cycle_detection_undirected.test.cpp
     title: test/yosupo_cycle_detection_undirected.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_deque_operate_all_composite.test.cpp
     title: test/yosupo_deque_operate_all_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_directedmst.test.cpp
     title: test/yosupo_directedmst.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_discrete_logarithm_mod.test.cpp
     title: test/yosupo_discrete_logarithm_mod.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_division_of_big_integers.test.cpp
     title: test/yosupo_division_of_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_division_of_hex_big_integers.test.cpp
     title: test/yosupo_division_of_hex_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
     title: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
     title: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
     title: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eertree.test.cpp
     title: test/yosupo_eertree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_enumerate_palindromes_manacher.test.cpp
     title: test/yosupo_enumerate_palindromes_manacher.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
     title: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eulerian_trail_directed.test.cpp
     title: test/yosupo_eulerian_trail_directed.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eulerian_trail_undirected.test.cpp
     title: test/yosupo_eulerian_trail_undirected.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_factorize.test.cpp
     title: test/yosupo_factorize.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_frequency_table_of_tree_distance.test.cpp
     title: test/yosupo_frequency_table_of_tree_distance.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_inverse_matrix.test.cpp
     title: test/yosupo_inverse_matrix.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_jump_on_tree.test.cpp
     title: test/yosupo_jump_on_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_root_integer.test.cpp
     title: test/yosupo_kth_root_integer.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_line_add_get_min.test.cpp
     title: test/yosupo_line_add_get_min.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_lyndon_factorization.test.cpp
     title: test/yosupo_lyndon_factorization.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_manhattanmst.test.cpp
     title: test/yosupo_manhattanmst.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb.test.cpp
     title: test/yosupo_many_aplusb.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb_modint_interface.test.cpp
     title: test/yosupo_many_aplusb_modint_interface.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_factorials.test.cpp
     title: test/yosupo_many_factorials.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_det.test.cpp
     title: test/yosupo_matrix_det.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_product.test.cpp
     title: test/yosupo_matrix_product.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_rank.test.cpp
     title: test/yosupo_matrix_rank.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_min_cost_b_flow.test.cpp
     title: test/yosupo_min_cost_b_flow.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
     title: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
     title: test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_min_plus_convolution_convex_convex.test.cpp
     title: test/yosupo_min_plus_convolution_convex_convex.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_minimum_spanning_tree.test.cpp
     title: test/yosupo_minimum_spanning_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multiplication_of_big_integers.test.cpp
     title: test/yosupo_multiplication_of_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multiplication_of_hex_big_integers.test.cpp
     title: test/yosupo_multiplication_of_hex_big_integers.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
     title: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
     title: test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum.test.cpp
     title: test/yosupo_point_add_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
     title: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_rectangle_sum.test.cpp
     title: test/yosupo_point_add_rectangle_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
     title: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_interpolation.test.cpp
     title: test/yosupo_polynomial_interpolation.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_polynomial_taylor_shift.test.cpp
     title: test/yosupo_polynomial_taylor_shift.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_pow_of_matrix.test.cpp
     title: test/yosupo_pow_of_matrix.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_predecessor_problem_interval_set.test.cpp
     title: test/yosupo_predecessor_problem_interval_set.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_primality_test.test.cpp
     title: test/yosupo_primality_test.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_primitive_root.test.cpp
     title: test/yosupo_primitive_root.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
     title: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
     title: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_rectangle_add_point_get.test.cpp
     title: test/yosupo_rectangle_add_point_get.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
     title: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_segment_add_get_min.test.cpp
     title: test/yosupo_segment_add_get_min.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_set_xor_min_binarytrie.test.cpp
     title: test/yosupo_set_xor_min_binarytrie.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path_radix_heap.test.cpp
     title: test/yosupo_shortest_path_radix_heap.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_sqrt_mod.test.cpp
     title: test/yosupo_sqrt_mod.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_convex_hull.test.cpp
     title: test/yosupo_static_convex_hull.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_frequency.test.cpp
     title: test/yosupo_static_range_frequency.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_inversions_query.test.cpp
     title: test/yosupo_static_range_inversions_query.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_rectangle_sum.test.cpp
     title: test/yosupo_static_rectangle_sum.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
     title: test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_staticrmq_sparsetable.test.cpp
     title: test/yosupo_staticrmq_sparsetable.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_stern_brocot_tree.test.cpp
     title: test/yosupo_stern_brocot_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_subset_convolution.test.cpp
     title: test/yosupo_subset_convolution.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_floor_of_linear.test.cpp
     title: test/yosupo_sum_of_floor_of_linear.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_system_of_linear_equations.test.cpp
     title: test/yosupo_system_of_linear_equations.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_tetration_mod.test.cpp
     title: test/yosupo_tetration_mod.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_topological_sort.test.cpp
     title: test/yosupo_topological_sort.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_tree_diameter.test.cpp
     title: test/yosupo_tree_diameter.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_two_edge_connected_components.test.cpp
     title: test/yosupo_two_edge_connected_components.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind.test.cpp
     title: test/yosupo_unionfind.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind_quickfind.test.cpp
     title: test/yosupo_unionfind_quickfind.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind_with_potential.test.cpp
     title: test/yosupo_unionfind_with_potential.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_zalgorithm.test.cpp
     title: test/yosupo_zalgorithm.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki2672_xor_basis.test.cpp
     title: test/yuki2672_xor_basis.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki957.test.cpp
     title: test/yuki957.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki957_project_selection_problem.test.cpp
     title: test/yuki957_project_selection_problem.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     links: []
@@ -640,7 +652,7 @@ data:
   path: util/fastio.cpp
   requiredBy: []
   timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_top_k_sum.test.cpp
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
@@ -699,6 +711,7 @@ data:
   - test/yosupo_subset_convolution.test.cpp
   - test/yosupo_matrix_product.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
+  - test/aoj0275_static_bitset.test.cpp
   - test/yosupo_binomial_coefficient.test.cpp
   - test/aoj2945_bfs01.test.cpp
   - test/yosupo_matrix_rank.test.cpp
@@ -743,12 +756,15 @@ data:
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
+  - test/yosupo_aplusb_dynamic_bitset.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp
   - test/yosupo_aplusb_top_kth.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
   - test/yosupo_sqrt_mod.test.cpp
+  - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_lca.test.cpp
   - test/yosupo_matrix_det.test.cpp
+  - test/yosupo_aplusb_static_bitset.test.cpp
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   - test/aoj0415.test.cpp
   - test/yosupo_eertree.test.cpp
@@ -805,18 +821,18 @@ verify 用の小さい高速入出力。
   `in.read(x)` の別名
 - `Printer out`
   出力をためる
-- `out.write(x)`
+- `out.print(x)`
   整数、`bool`、`char`、`string`、文字列リテラルを出力する
-- `out.write(Range const& a)`
+- `out.print(Range const& a)`
   `string` 以外の range を空白区切りで出力する
-- `out.writeln(x)`
-  `write(x)` の後に改行する
-- `out.writeln(a, b, c, ...)`
+- `out.println(x)`
+  `print(x)` の後に改行する
+- `out.println(a, b, c, ...)`
   空白区切りで複数の値を出力して改行する
-- `out.writeln()`
+- `out.println()`
   改行だけ出力する
 - `out << x`
-  `out.write(x)` の別名
+  `out.print(x)` の別名
 
 ## 使い方
 テストコードで `#include "../util/fastio.cpp"` して使う。
@@ -833,8 +849,8 @@ in.read(p);
 vector<int> a(n);
 in.read(a);
 
-out.writeln(a);
-out.writeln(p.first, p.second);
+out.println(a);
+out.println(p.first, p.second);
 ```
 
 ## 実装上の補足

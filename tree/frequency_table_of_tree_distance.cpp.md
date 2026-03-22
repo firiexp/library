@@ -2,17 +2,17 @@
 category: "\u6728"
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_frequency_table_of_tree_distance.test.cpp
     title: test/yosupo_frequency_table_of_tree_distance.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree\
       \ Distance)"
@@ -63,7 +63,7 @@ data:
   path: tree/frequency_table_of_tree_distance.cpp
   requiredBy: []
   timestamp: '2026-03-15 11:18:22+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_frequency_table_of_tree_distance.test.cpp
 date: 2026-03-15

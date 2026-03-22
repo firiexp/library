@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/dynamic_segtree.cpp
     title: Dynamic Segment Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
@@ -178,7 +178,7 @@ data:
     \    }\n\n    while (q--) {\n        int t;\n        sc.read(t);\n        if (t\
     \ == 0) {\n            int p;\n            long long x;\n            sc.read(p,\
     \ x);\n            seg.add(p, x);\n        } else {\n            int l, r;\n \
-    \           sc.read(l, r);\n            pr.writeln(seg.query(l, r));\n       \
+    \           sc.read(l, r);\n            pr.println(seg.query(l, r));\n       \
     \ }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -192,7 +192,7 @@ data:
     \ (q--) {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n      \
     \      int p;\n            long long x;\n            sc.read(p, x);\n        \
     \    seg.add(p, x);\n        } else {\n            int l, r;\n            sc.read(l,\
-    \ r);\n            pr.writeln(seg.query(l, r));\n        }\n    }\n    return\
+    \ r);\n            pr.println(seg.query(l, r));\n        }\n    }\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -200,8 +200,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
 layout: document

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryheap.cpp
     title: "\u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_9_C
@@ -144,7 +144,7 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    binary_heap<int> pq;\n\
     \    string op;\n    while (true) {\n        sc.read(op);\n        if (op == \"\
     end\") break;\n        if (op == \"insert\") {\n            int x;\n         \
-    \   sc.read(x);\n            pq.emplace(x);\n        } else {\n            pr.writeln(pq.top());\n\
+    \   sc.read(x);\n            pq.emplace(x);\n        } else {\n            pr.println(pq.top());\n\
     \            pq.pop();\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_9_C\"\n\
     \n#include <algorithm>\n#include <string>\n#include <vector>\nusing namespace\
@@ -154,7 +154,7 @@ data:
     \ pr;\n\n    binary_heap<int> pq;\n    string op;\n    while (true) {\n      \
     \  sc.read(op);\n        if (op == \"end\") break;\n        if (op == \"insert\"\
     ) {\n            int x;\n            sc.read(x);\n            pq.emplace(x);\n\
-    \        } else {\n            pr.writeln(pq.top());\n            pq.pop();\n\
+    \        } else {\n            pr.println(pq.top());\n            pq.pop();\n\
     \        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -162,8 +162,8 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_9_c_binaryheap.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_9_c_binaryheap.test.cpp
 layout: document

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/get_prime_wheel.cpp
     title: math/get_prime_wheel.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/enumerate_primes
@@ -155,27 +155,27 @@ data:
     \        }\n    }\n};\nconstexpr int Prime::wheel[], Prime::wheel2[], Prime::wheel_sum[];\n\
     #line 16 \"test/yosupo_enumerate_primes_get_prime_wheel.test.cpp\"\n\nint main()\
     \ {\n    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n, a, b);\n\
-    \    Prime prime(n);\n    int m = prime.primes.size();\n    pr.writeln(m, (m +\
+    \    Prime prime(n);\n    int m = prime.primes.size();\n    pr.println(m, (m +\
     \ a - 1 - b) / a);\n    bool first = true;\n    for (int i = b; i < m; i += a)\
-    \ {\n        if (!first) pr.write(' ');\n        first = false;\n        pr.write(prime.primes[i]);\n\
-    \    }\n    pr.writeln();\n    return 0;\n}\n"
+    \ {\n        if (!first) pr.print(' ');\n        first = false;\n        pr.print(prime.primes[i]);\n\
+    \    }\n    pr.println();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n\
     #include <algorithm>\n#include <cmath>\n#include <vector>\nusing namespace std;\n\
     using ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\n\n#include \"../util/fastio.cpp\"\n#include \"../math/get_prime_wheel.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, a, b;\n    sc.read(n,\
-    \ a, b);\n    Prime prime(n);\n    int m = prime.primes.size();\n    pr.writeln(m,\
+    \ a, b);\n    Prime prime(n);\n    int m = prime.primes.size();\n    pr.println(m,\
     \ (m + a - 1 - b) / a);\n    bool first = true;\n    for (int i = b; i < m; i\
-    \ += a) {\n        if (!first) pr.write(' ');\n        first = false;\n      \
-    \  pr.write(prime.primes[i]);\n    }\n    pr.writeln();\n    return 0;\n}\n"
+    \ += a) {\n        if (!first) pr.print(' ');\n        first = false;\n      \
+    \  pr.print(prime.primes[i]);\n    }\n    pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/get_prime_wheel.cpp
   isVerificationFile: true
   path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
 layout: document

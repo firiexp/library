@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_area_of_union_of_rectangles.test.cpp
     title: test/yosupo_area_of_union_of_rectangles.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union\
       \ of Rectangles)"
@@ -107,7 +107,7 @@ data:
   path: geometry/area_of_union_of_rectangles.cpp
   requiredBy: []
   timestamp: '2026-03-15 00:59:06+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_area_of_union_of_rectangles.test.cpp
 date: 2026-03-14

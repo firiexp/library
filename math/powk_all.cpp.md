@@ -4,10 +4,10 @@ data:
   - icon: ':warning:'
     path: math/get_min_factor.cpp
     title: Get Min Factor
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []

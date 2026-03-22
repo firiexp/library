@@ -1,23 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/radixheap.cpp
     title: datastructure/radixheap.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_common.cpp
     title: graph/dijkstra_common.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_radix_heap.cpp
     title: "Dijkstra\u6CD5(Radix Heap)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/shortest_path
@@ -183,14 +183,14 @@ data:
     \ m, s, t);\n    vector<vector<edge<ll>>> G(n), Ginv(n);\n    for (int i = 0;\
     \ i < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        G[a].emplace_back(b,\
     \ c);\n        Ginv[b].emplace_back(a, c);\n    }\n    auto d = dijkstra_radix_heap(s,\
-    \ G);\n    if (d[t] == INF<ll>) {\n        pr.writeln(-1);\n        return 0;\n\
+    \ G);\n    if (d[t] == INF<ll>) {\n        pr.println(-1);\n        return 0;\n\
     \    }\n    vector<int> ans{t};\n    vector<int> visited(n);\n    visited[t] =\
     \ 1;\n    while (ans.back() != s) {\n        for (auto &&i : Ginv[ans.back()])\
     \ {\n            if (d[i.to] + i.cost == d[ans.back()] && !visited[i.to]) {\n\
     \                ans.emplace_back(i.to);\n                visited[i.to] = 1;\n\
-    \                break;\n            }\n        }\n    }\n    pr.writeln(d[t],\
+    \                break;\n            }\n        }\n    }\n    pr.println(d[t],\
     \ (int)ans.size() - 1);\n    for (int i = (int)ans.size()-1; i > 0; --i) {\n \
-    \       pr.writeln(ans[i], ans[i - 1]);\n    }\n    return 0;\n}\n"
+    \       pr.println(ans[i], ans[i - 1]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ <algorithm>\n#include <array>\n#include <limits>\n#include <queue>\n#include\
     \ <tuple>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\
@@ -202,13 +202,13 @@ data:
     \ (int i = 0; i < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n\
     \        G[a].emplace_back(b, c);\n        Ginv[b].emplace_back(a, c);\n    }\n\
     \    auto d = dijkstra_radix_heap(s, G);\n    if (d[t] == INF<ll>) {\n       \
-    \ pr.writeln(-1);\n        return 0;\n    }\n    vector<int> ans{t};\n    vector<int>\
+    \ pr.println(-1);\n        return 0;\n    }\n    vector<int> ans{t};\n    vector<int>\
     \ visited(n);\n    visited[t] = 1;\n    while (ans.back() != s) {\n        for\
     \ (auto &&i : Ginv[ans.back()]) {\n            if (d[i.to] + i.cost == d[ans.back()]\
     \ && !visited[i.to]) {\n                ans.emplace_back(i.to);\n            \
     \    visited[i.to] = 1;\n                break;\n            }\n        }\n  \
-    \  }\n    pr.writeln(d[t], (int)ans.size() - 1);\n    for (int i = (int)ans.size()-1;\
-    \ i > 0; --i) {\n        pr.writeln(ans[i], ans[i - 1]);\n    }\n    return 0;\n\
+    \  }\n    pr.println(d[t], (int)ans.size() - 1);\n    for (int i = (int)ans.size()-1;\
+    \ i > 0; --i) {\n        pr.println(ans[i], ans[i - 1]);\n    }\n    return 0;\n\
     }\n"
   dependsOn:
   - util/fastio.cpp
@@ -218,8 +218,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path_radix_heap.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path_radix_heap.test.cpp
 layout: document

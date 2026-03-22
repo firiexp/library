@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: string/manacher.cpp
     title: string/manacher.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/enumerate_palindromes
@@ -145,7 +145,7 @@ data:
     \   auto ans = manacher(t);\n    for (int i = 0; i < (int)ans.size(); ++i) {\n\
     \        if (i & 1) ans[i] = (ans[i] / 2) * 2;\n        else ans[i] = ((ans[i]\
     \ + 1) / 2) * 2 - 1;\n    }\n    for (int i = 0; i < (int)ans.size(); ++i) {\n\
-    \        if (i) pr.write(' ');\n        pr.write(ans[i]);\n    }\n    pr.writeln();\n\
+    \        if (i) pr.print(' ');\n        pr.print(ans[i]);\n    }\n    pr.println();\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/enumerate_palindromes\"\
     \n\n#include <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
@@ -156,16 +156,16 @@ data:
     \        t.push_back(c);\n    }\n    auto ans = manacher(t);\n    for (int i =\
     \ 0; i < (int)ans.size(); ++i) {\n        if (i & 1) ans[i] = (ans[i] / 2) * 2;\n\
     \        else ans[i] = ((ans[i] + 1) / 2) * 2 - 1;\n    }\n    for (int i = 0;\
-    \ i < (int)ans.size(); ++i) {\n        if (i) pr.write(' ');\n        pr.write(ans[i]);\n\
-    \    }\n    pr.writeln();\n    return 0;\n}\n"
+    \ i < (int)ans.size(); ++i) {\n        if (i) pr.print(' ');\n        pr.print(ans[i]);\n\
+    \    }\n    pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - string/manacher.cpp
   isVerificationFile: true
   path: test/yosupo_enumerate_palindromes_manacher.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_enumerate_palindromes_manacher.test.cpp
 layout: document

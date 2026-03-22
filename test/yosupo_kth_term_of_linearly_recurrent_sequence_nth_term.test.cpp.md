@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: fps/nth_term.cpp
     title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
@@ -427,7 +427,7 @@ data:
     \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
     \ (int i = 0; i < d; ++i) {\n        int x;\n        sc.read(x);\n        c[i]\
     \ = x;\n    }\n\n    poly q(d + 1);\n    q[0] = 1;\n    for (int i = 0; i < d;\
-    \ ++i) q[i + 1] = -c[i];\n    poly p = (poly(a) * q).cut(d);\n    pr.writeln(nth_term(p,\
+    \ ++i) q[i + 1] = -c[i];\n    poly p = (poly(a) * q).cut(d);\n    pr.println(nth_term(p,\
     \ q, n).val);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
@@ -439,7 +439,7 @@ data:
     \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
     \ (int i = 0; i < d; ++i) {\n        int x;\n        sc.read(x);\n        c[i]\
     \ = x;\n    }\n\n    poly q(d + 1);\n    q[0] = 1;\n    for (int i = 0; i < d;\
-    \ ++i) q[i + 1] = -c[i];\n    poly p = (poly(a) * q).cut(d);\n    pr.writeln(nth_term(p,\
+    \ ++i) q[i + 1] = -c[i];\n    poly p = (poly(a) * q).cut(d);\n    pr.println(nth_term(p,\
     \ q, n).val);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -448,8 +448,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
 layout: document

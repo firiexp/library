@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: string/palindromic_tree.cpp
     title: "\u56DE\u6587\u6728(Palindromic Tree)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/eertree
@@ -169,10 +169,10 @@ data:
     \ sc.buf[sc.idx++];\n    }\n\n    PalindromicTree<26> pt(s);\n    int n = pt.nodes.size();\n\
     \    vector<int> parent(n, -1);\n    for (int v = 0; v < n; ++v) {\n        for\
     \ (int c = 0; c < 26; ++c) {\n            int u = pt.nodes[v].next[c];\n     \
-    \       if (u != -1) parent[u] = v;\n        }\n    }\n\n    pr.writeln(n - 2);\n\
-    \    for (int v = 2; v < n; ++v) {\n        pr.writeln(parent[v] - 1, pt.nodes[v].link\
+    \       if (u != -1) parent[u] = v;\n        }\n    }\n\n    pr.println(n - 2);\n\
+    \    for (int v = 2; v < n; ++v) {\n        pr.println(parent[v] - 1, pt.nodes[v].link\
     \ - 1);\n    }\n    for (int i = 0; i < (int)pt.path.size(); ++i) {\n        if\
-    \ (i) pr.write(' ');\n        pr.write(pt.path[i] - 1);\n    }\n    pr.writeln();\n\
+    \ (i) pr.print(' ');\n        pr.print(pt.path[i] - 1);\n    }\n    pr.println();\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/eertree\"\n\n#include <bits/stdc++.h>\n\
     \nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
@@ -183,10 +183,10 @@ data:
     \  }\n\n    PalindromicTree<26> pt(s);\n    int n = pt.nodes.size();\n    vector<int>\
     \ parent(n, -1);\n    for (int v = 0; v < n; ++v) {\n        for (int c = 0; c\
     \ < 26; ++c) {\n            int u = pt.nodes[v].next[c];\n            if (u !=\
-    \ -1) parent[u] = v;\n        }\n    }\n\n    pr.writeln(n - 2);\n    for (int\
-    \ v = 2; v < n; ++v) {\n        pr.writeln(parent[v] - 1, pt.nodes[v].link - 1);\n\
-    \    }\n    for (int i = 0; i < (int)pt.path.size(); ++i) {\n        if (i) pr.write('\
-    \ ');\n        pr.write(pt.path[i] - 1);\n    }\n    pr.writeln();\n    return\
+    \ -1) parent[u] = v;\n        }\n    }\n\n    pr.println(n - 2);\n    for (int\
+    \ v = 2; v < n; ++v) {\n        pr.println(parent[v] - 1, pt.nodes[v].link - 1);\n\
+    \    }\n    for (int i = 0; i < (int)pt.path.size(); ++i) {\n        if (i) pr.print('\
+    \ ');\n        pr.print(pt.path[i] - 1);\n    }\n    pr.println();\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -194,8 +194,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_eertree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_eertree.test.cpp
 layout: document

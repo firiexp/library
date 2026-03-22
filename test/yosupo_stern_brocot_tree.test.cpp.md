@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/stern_brocot_tree.cpp
     title: Stern Brocot Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/stern_brocot_tree
@@ -169,24 +169,24 @@ data:
     \  Printer pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n        string\
     \ op;\n        sc.read(op);\n        if (op == \"ENCODE_PATH\") {\n          \
     \  ll a, b;\n            sc.read(a, b);\n            auto path = encode_path(a,\
-    \ b);\n            pr.write((int)path.size());\n            for (auto move : path)\
-    \ {\n                pr.write(' ');\n                pr.write(move.dir == Left\
-    \ ? 'L' : 'R');\n                pr.write(' ');\n                pr.write(move.steps);\n\
-    \            }\n            pr.writeln();\n        } else if (op == \"DECODE_PATH\"\
+    \ b);\n            pr.print((int)path.size());\n            for (auto move : path)\
+    \ {\n                pr.print(' ');\n                pr.print(move.dir == Left\
+    \ ? 'L' : 'R');\n                pr.print(' ');\n                pr.print(move.steps);\n\
+    \            }\n            pr.println();\n        } else if (op == \"DECODE_PATH\"\
     ) {\n            int k;\n            sc.read(k);\n            vector<Move> path(k);\n\
     \            for (int i = 0; i < k; ++i) {\n                char c;\n        \
     \        ll steps;\n                sc.read(c, steps);\n                path[i]\
     \ = {c == 'L' ? Left : Right, steps};\n            }\n            auto node =\
-    \ decode_path(path);\n            pr.writeln(node.num(), node.den());\n      \
+    \ decode_path(path);\n            pr.println(node.num(), node.den());\n      \
     \  } else if (op == \"LCA\") {\n            ll a, b, c, d;\n            sc.read(a,\
-    \ b, c, d);\n            auto node = lca(a, b, c, d);\n            pr.writeln(node.num(),\
+    \ b, c, d);\n            auto node = lca(a, b, c, d);\n            pr.println(node.num(),\
     \ node.den());\n        } else if (op == \"ANCESTOR\") {\n            ll k, a,\
     \ b;\n            sc.read(k, a, b);\n            auto path = encode_path(a, b);\n\
-    \            if (k > depth(path)) {\n                pr.writeln(-1);\n       \
+    \            if (k > depth(path)) {\n                pr.println(-1);\n       \
     \         continue;\n            }\n            auto node = decode_path(ancestor_path(path,\
-    \ k));\n            pr.writeln(node.num(), node.den());\n        } else {\n  \
+    \ k));\n            pr.println(node.num(), node.den());\n        } else {\n  \
     \          ll a, b;\n            sc.read(a, b);\n            auto node = range(a,\
-    \ b);\n            pr.writeln(node.p, node.q, node.r, node.s);\n        }\n  \
+    \ b);\n            pr.println(node.p, node.q, node.r, node.s);\n        }\n  \
     \  }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/stern_brocot_tree\"\n\n\
     #include <cassert>\n#include <utility>\n#include <vector>\nusing ll = long long;\n\
@@ -196,24 +196,24 @@ data:
     \ pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n        string op;\n  \
     \      sc.read(op);\n        if (op == \"ENCODE_PATH\") {\n            ll a, b;\n\
     \            sc.read(a, b);\n            auto path = encode_path(a, b);\n    \
-    \        pr.write((int)path.size());\n            for (auto move : path) {\n \
-    \               pr.write(' ');\n                pr.write(move.dir == Left ? 'L'\
-    \ : 'R');\n                pr.write(' ');\n                pr.write(move.steps);\n\
-    \            }\n            pr.writeln();\n        } else if (op == \"DECODE_PATH\"\
+    \        pr.print((int)path.size());\n            for (auto move : path) {\n \
+    \               pr.print(' ');\n                pr.print(move.dir == Left ? 'L'\
+    \ : 'R');\n                pr.print(' ');\n                pr.print(move.steps);\n\
+    \            }\n            pr.println();\n        } else if (op == \"DECODE_PATH\"\
     ) {\n            int k;\n            sc.read(k);\n            vector<Move> path(k);\n\
     \            for (int i = 0; i < k; ++i) {\n                char c;\n        \
     \        ll steps;\n                sc.read(c, steps);\n                path[i]\
     \ = {c == 'L' ? Left : Right, steps};\n            }\n            auto node =\
-    \ decode_path(path);\n            pr.writeln(node.num(), node.den());\n      \
+    \ decode_path(path);\n            pr.println(node.num(), node.den());\n      \
     \  } else if (op == \"LCA\") {\n            ll a, b, c, d;\n            sc.read(a,\
-    \ b, c, d);\n            auto node = lca(a, b, c, d);\n            pr.writeln(node.num(),\
+    \ b, c, d);\n            auto node = lca(a, b, c, d);\n            pr.println(node.num(),\
     \ node.den());\n        } else if (op == \"ANCESTOR\") {\n            ll k, a,\
     \ b;\n            sc.read(k, a, b);\n            auto path = encode_path(a, b);\n\
-    \            if (k > depth(path)) {\n                pr.writeln(-1);\n       \
+    \            if (k > depth(path)) {\n                pr.println(-1);\n       \
     \         continue;\n            }\n            auto node = decode_path(ancestor_path(path,\
-    \ k));\n            pr.writeln(node.num(), node.den());\n        } else {\n  \
+    \ k));\n            pr.println(node.num(), node.den());\n        } else {\n  \
     \          ll a, b;\n            sc.read(a, b);\n            auto node = range(a,\
-    \ b);\n            pr.writeln(node.p, node.q, node.r, node.s);\n        }\n  \
+    \ b);\n            pr.println(node.p, node.q, node.r, node.s);\n        }\n  \
     \  }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -221,8 +221,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_stern_brocot_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_stern_brocot_tree.test.cpp
 layout: document

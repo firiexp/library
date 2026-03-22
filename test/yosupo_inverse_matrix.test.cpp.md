@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/inverse_matrix.cpp
     title: "\u9006\u884C\u5217(Inverse Matrix)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/inverse_matrix
@@ -185,9 +185,9 @@ data:
     \ A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
     \ j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n        \
     \    A[i][j] = x;\n        }\n    }\n\n    auto B = inverse_matrix(A);\n    if\
-    \ (B.empty()) {\n        pr.writeln(-1);\n        return 0;\n    }\n    for (int\
-    \ i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            pr.write(B[i][j].val);\n\
-    \            pr.write(j + 1 == n ? '\\n' : ' ');\n        }\n    }\n    return\
+    \ (B.empty()) {\n        pr.println(-1);\n        return 0;\n    }\n    for (int\
+    \ i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            pr.print(B[i][j].val);\n\
+    \            pr.print(j + 1 == n ? '\\n' : ' ');\n        }\n    }\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/inverse_matrix\"\n\n#include\
     \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
@@ -198,9 +198,9 @@ data:
     \    vector<vector<mint>> A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i)\
     \ {\n        for (int j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n\
     \            A[i][j] = x;\n        }\n    }\n\n    auto B = inverse_matrix(A);\n\
-    \    if (B.empty()) {\n        pr.writeln(-1);\n        return 0;\n    }\n   \
+    \    if (B.empty()) {\n        pr.println(-1);\n        return 0;\n    }\n   \
     \ for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n     \
-    \       pr.write(B[i][j].val);\n            pr.write(j + 1 == n ? '\\n' : ' ');\n\
+    \       pr.print(B[i][j].val);\n            pr.print(j + 1 == n ? '\\n' : ' ');\n\
     \        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -209,8 +209,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_inverse_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_inverse_matrix.test.cpp
 layout: document

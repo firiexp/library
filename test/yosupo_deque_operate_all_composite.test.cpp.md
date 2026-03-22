@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/swag_deque.cpp
     title: SWAG Deque
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/deque_operate_all_composite
@@ -201,7 +201,7 @@ data:
     \ b);\n            deq.push_back({a, b});\n        } else if (t == 2) {\n    \
     \        deq.pop_front();\n        } else if (t == 3) {\n            deq.pop_back();\n\
     \        } else {\n            int x;\n            sc.read(x);\n            auto\
-    \ [a, b] = deq.fold();\n            pr.writeln((a * x + b).val);\n        }\n\
+    \ [a, b] = deq.fold();\n            pr.println((a * x + b).val);\n        }\n\
     \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/deque_operate_all_composite\"\
     \n\n#include <utility>\n#include <vector>\nusing namespace std;\n\nstatic const\
@@ -218,7 +218,7 @@ data:
     \ int a, b;\n            sc.read(a, b);\n            deq.push_back({a, b});\n\
     \        } else if (t == 2) {\n            deq.pop_front();\n        } else if\
     \ (t == 3) {\n            deq.pop_back();\n        } else {\n            int x;\n\
-    \            sc.read(x);\n            auto [a, b] = deq.fold();\n            pr.writeln((a\
+    \            sc.read(x);\n            auto [a, b] = deq.fold();\n            pr.println((a\
     \ * x + b).val);\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -227,8 +227,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_deque_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_deque_operate_all_composite.test.cpp
 layout: document

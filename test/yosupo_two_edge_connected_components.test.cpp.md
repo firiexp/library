@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/twoedgeconnectedcomponents.cpp
     title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/two_edge_connected_components
@@ -160,10 +160,10 @@ data:
     \ m);\n    TwoEdgeConnectedComponents g(n);\n    for (int i = 0; i < m; ++i) {\n\
     \        int u, v;\n        sc.read(u, v);\n        g.add_edge(u, v);\n    }\n\
     \n    int k = g.build();\n    auto comp = g.out;\n    for (auto &&v : comp) sort(v.begin(),\
-    \ v.end());\n    sort(comp.begin(), comp.end());\n\n    pr.writeln(k);\n    for\
-    \ (auto &&v : comp) {\n        pr.write((int)v.size());\n        for (auto &&x\
-    \ : v) {\n            pr.write(' ');\n            pr.write(x);\n        }\n  \
-    \      pr.writeln();\n    }\n    return 0;\n}\n"
+    \ v.end());\n    sort(comp.begin(), comp.end());\n\n    pr.println(k);\n    for\
+    \ (auto &&v : comp) {\n        pr.print((int)v.size());\n        for (auto &&x\
+    \ : v) {\n            pr.print(' ');\n            pr.print(x);\n        }\n  \
+    \      pr.println();\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/two_edge_connected_components\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
@@ -172,18 +172,18 @@ data:
     \ m);\n    TwoEdgeConnectedComponents g(n);\n    for (int i = 0; i < m; ++i) {\n\
     \        int u, v;\n        sc.read(u, v);\n        g.add_edge(u, v);\n    }\n\
     \n    int k = g.build();\n    auto comp = g.out;\n    for (auto &&v : comp) sort(v.begin(),\
-    \ v.end());\n    sort(comp.begin(), comp.end());\n\n    pr.writeln(k);\n    for\
-    \ (auto &&v : comp) {\n        pr.write((int)v.size());\n        for (auto &&x\
-    \ : v) {\n            pr.write(' ');\n            pr.write(x);\n        }\n  \
-    \      pr.writeln();\n    }\n    return 0;\n}\n"
+    \ v.end());\n    sort(comp.begin(), comp.end());\n\n    pr.println(k);\n    for\
+    \ (auto &&v : comp) {\n        pr.print((int)v.size());\n        for (auto &&x\
+    \ : v) {\n            pr.print(' ');\n            pr.print(x);\n        }\n  \
+    \      pr.println();\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/twoedgeconnectedcomponents.cpp
   isVerificationFile: true
   path: test/yosupo_two_edge_connected_components.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_two_edge_connected_components.test.cpp
 layout: document

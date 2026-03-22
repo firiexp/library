@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: flow/hungarian.cpp
     title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/assignment
@@ -168,8 +168,8 @@ data:
     \    vector<vector<long long>> a(n, vector<long long>(n));\n    for (int i = 0;\
     \ i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            in.read(a[i][j]);\n\
     \        }\n    }\n    auto [ans, match, row, col] = hungarian<long long>(a);\n\
-    \    out.writeln(ans);\n    for (int i = 0; i < n; ++i) {\n        if (i) out.write('\
-    \ ');\n        out.write(match[i]);\n    }\n    out.writeln();\n\n    long long\
+    \    out.println(ans);\n    for (int i = 0; i < n; ++i) {\n        if (i) out.print('\
+    \ ');\n        out.print(match[i]);\n    }\n    out.println();\n\n    long long\
     \ dual_sum = 0;\n    for (int i = 0; i < n; ++i) dual_sum += row[i];\n    for\
     \ (int j = 0; j < n; ++j) dual_sum += col[j];\n    assert(dual_sum == ans);\n\
     \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n  \
@@ -183,9 +183,9 @@ data:
     \    int n;\n    in.read(n);\n    vector<vector<long long>> a(n, vector<long long>(n));\n\
     \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n  \
     \          in.read(a[i][j]);\n        }\n    }\n    auto [ans, match, row, col]\
-    \ = hungarian<long long>(a);\n    out.writeln(ans);\n    for (int i = 0; i < n;\
-    \ ++i) {\n        if (i) out.write(' ');\n        out.write(match[i]);\n    }\n\
-    \    out.writeln();\n\n    long long dual_sum = 0;\n    for (int i = 0; i < n;\
+    \ = hungarian<long long>(a);\n    out.println(ans);\n    for (int i = 0; i < n;\
+    \ ++i) {\n        if (i) out.print(' ');\n        out.print(match[i]);\n    }\n\
+    \    out.println();\n\n    long long dual_sum = 0;\n    for (int i = 0; i < n;\
     \ ++i) dual_sum += row[i];\n    for (int j = 0; j < n; ++j) dual_sum += col[j];\n\
     \    assert(dual_sum == ans);\n    for (int i = 0; i < n; ++i) {\n        for\
     \ (int j = 0; j < n; ++j) {\n            assert(row[i] + col[j] <= a[i][j]);\n\
@@ -196,8 +196,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_assignment_hungarian.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_assignment_hungarian.test.cpp
 layout: document

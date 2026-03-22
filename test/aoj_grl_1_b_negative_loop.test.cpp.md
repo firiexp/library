@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/bellman_ford_negative_loop.cpp
     title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B
@@ -155,10 +155,10 @@ data:
     \ m, s);\n    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i\
     \ < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
     \ b, c);\n    }\n\n    auto dist = bellman_ford(s, n, es);\n    for (int i = 0;\
-    \ i < n; ++i) {\n        if (dist[i] == -INF<ll>) {\n            pr.writeln(\"\
+    \ i < n; ++i) {\n        if (dist[i] == -INF<ll>) {\n            pr.println(\"\
     NEGATIVE CYCLE\");\n            return 0;\n        }\n    }\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (dist[i] == INF<ll>) pr.writeln(\"INF\");\n   \
-    \     else pr.writeln(dist[i]);\n    }\n    return 0;\n}\n"
+    \ 0; i < n; ++i) {\n        if (dist[i] == INF<ll>) pr.println(\"INF\");\n   \
+    \     else pr.println(dist[i]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n\
     #include <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
     \ long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 *\
@@ -168,18 +168,18 @@ data:
     \ m, s);\n    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i\
     \ < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
     \ b, c);\n    }\n\n    auto dist = bellman_ford(s, n, es);\n    for (int i = 0;\
-    \ i < n; ++i) {\n        if (dist[i] == -INF<ll>) {\n            pr.writeln(\"\
+    \ i < n; ++i) {\n        if (dist[i] == -INF<ll>) {\n            pr.println(\"\
     NEGATIVE CYCLE\");\n            return 0;\n        }\n    }\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (dist[i] == INF<ll>) pr.writeln(\"INF\");\n   \
-    \     else pr.writeln(dist[i]);\n    }\n    return 0;\n}\n"
+    \ 0; i < n; ++i) {\n        if (dist[i] == INF<ll>) pr.println(\"INF\");\n   \
+    \     else pr.println(dist[i]);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/bellman_ford_negative_loop.cpp
   isVerificationFile: true
   path: test/aoj_grl_1_b_negative_loop.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_b_negative_loop.test.cpp
 layout: document

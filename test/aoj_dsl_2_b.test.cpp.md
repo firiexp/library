@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B
@@ -145,14 +145,14 @@ data:
     \ main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
     \ q);\n    BIT<int> s(n);\n    for (int i = 0; i < q; ++i) {\n        int c, x,\
     \ y;\n        in.read(c, x, y);\n        x--;\n        if (c == 0) s.add(x, y);\n\
-    \        else out.writeln(s.sum(y) - s.sum(x));\n    }\n    return 0;\n}\n"
+    \        else out.println(s.sum(y) - s.sum(x));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_B\"\
     \n\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
     #include \"../datastructure/binaryindexedtree.cpp\"\n\nint main() {\n    Scanner\
     \ in;\n    Printer out;\n\n    int n, q;\n    in.read(n, q);\n    BIT<int> s(n);\n\
     \    for (int i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x,\
-    \ y);\n        x--;\n        if (c == 0) s.add(x, y);\n        else out.writeln(s.sum(y)\
+    \ y);\n        x--;\n        if (c == 0) s.add(x, y);\n        else out.println(s.sum(y)\
     \ - s.sum(x));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -160,8 +160,8 @@ data:
   isVerificationFile: true
   path: test/aoj_dsl_2_b.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_2_b.test.cpp
 layout: document

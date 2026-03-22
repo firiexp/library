@@ -4,12 +4,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_subset_convolution.test.cpp
     title: test/yosupo_subset_convolution.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset Convolution)"
     links: []
@@ -84,7 +84,7 @@ data:
   path: math/subset_convolution.cpp
   requiredBy: []
   timestamp: '2026-03-13 22:39:26+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_subset_convolution.test.cpp
 date: 2026-03-10

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/diameter_weighted.cpp
     title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A
@@ -146,7 +146,7 @@ data:
     \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int,\
     \ long long>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int s, t,\
     \ w;\n        sc.read(s, t, w);\n        g[s].push_back({t, w});\n        g[t].push_back({s,\
-    \ w});\n    }\n\n    pr.writeln(tree_diameter_weighted(g).first);\n    return\
+    \ w});\n    }\n\n    pr.println(tree_diameter_weighted(g).first);\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A\"\n\n\
     #include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
@@ -155,7 +155,7 @@ data:
     \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int, long\
     \ long>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int s, t, w;\n\
     \        sc.read(s, t, w);\n        g[s].push_back({t, w});\n        g[t].push_back({s,\
-    \ w});\n    }\n\n    pr.writeln(tree_diameter_weighted(g).first);\n    return\
+    \ w});\n    }\n\n    pr.println(tree_diameter_weighted(g).first);\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -163,8 +163,8 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_5_a_diameter.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_5_a_diameter.test.cpp
 layout: document

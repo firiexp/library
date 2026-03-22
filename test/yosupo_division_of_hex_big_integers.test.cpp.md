@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: util/biginteger.cpp
     title: "\u591A\u500D\u9577\u6574\u6570(BigInteger)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/division_of_hex_big_integers
@@ -828,7 +828,7 @@ data:
     \        for (char &c : s) {\n            if ('a' <= c && c <= 'f') c = char(c\
     \ - 'a' + 'A');\n        }\n        return s;\n    };\n    int t;\n    sc.read(t);\n\
     \    while (t--) {\n        string a, b;\n        sc.read(a, b);\n        BigInteger\
-    \ x(a, 16), y(b, 16);\n        auto qr = BigInteger::divmod(x, y);\n        pr.writeln(to_upper_hex(qr.first.to_string(16)),\
+    \ x(a, 16), y(b, 16);\n        auto qr = BigInteger::divmod(x, y);\n        pr.println(to_upper_hex(qr.first.to_string(16)),\
     \ ' ', to_upper_hex(qr.second.to_string(16)));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/division_of_hex_big_integers\"\
     \n\n#include <cassert>\n#include <algorithm>\n#include <cstdio>\n#include <cstring>\n\
@@ -839,7 +839,7 @@ data:
     \ char(c - 'a' + 'A');\n        }\n        return s;\n    };\n    int t;\n   \
     \ sc.read(t);\n    while (t--) {\n        string a, b;\n        sc.read(a, b);\n\
     \        BigInteger x(a, 16), y(b, 16);\n        auto qr = BigInteger::divmod(x,\
-    \ y);\n        pr.writeln(to_upper_hex(qr.first.to_string(16)), ' ', to_upper_hex(qr.second.to_string(16)));\n\
+    \ y);\n        pr.println(to_upper_hex(qr.first.to_string(16)), ' ', to_upper_hex(qr.second.to_string(16)));\n\
     \    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -847,8 +847,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_division_of_hex_big_integers.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_division_of_hex_big_integers.test.cpp
 layout: document

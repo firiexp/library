@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/miller_rabin.cpp
     title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/primality_test
@@ -169,14 +169,14 @@ data:
     \   }\n    return true;\n}\n\n/**\n * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\
     \n */\n#line 16 \"test/yosupo_primality_test.test.cpp\"\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n     \
-    \   ull n;\n        sc.read(n);\n        pr.writeln(miller_rabin(n) ? \"Yes\"\
+    \   ull n;\n        sc.read(n);\n        pr.println(miller_rabin(n) ? \"Yes\"\
     \ : \"No\");\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primality_test\"\n\n#include\
     \ <cstdint>\n#include <vector>\n\nusing ull = unsigned long long;\nusing namespace\
     \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
     \n#include \"../util/fastio.cpp\"\n#include \"../math/miller_rabin.cpp\"\n\nint\
     \ main() {\n    Scanner sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n  \
-    \  while (q--) {\n        ull n;\n        sc.read(n);\n        pr.writeln(miller_rabin(n)\
+    \  while (q--) {\n        ull n;\n        sc.read(n);\n        pr.println(miller_rabin(n)\
     \ ? \"Yes\" : \"No\");\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -184,8 +184,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_primality_test.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_primality_test.test.cpp
 layout: document

@@ -1,18 +1,18 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/top_kth.cpp
     title: "\u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308B\u30C7\u30FC\u30BF\u69CB\
       \u9020 (Treap)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/aplusb
@@ -257,7 +257,7 @@ data:
     \                smallest.set_k(new_k);\n            }\n            verify_one<true>(cur,\
     \ largest);\n            verify_one<false>(cur, smallest);\n        }\n    }\n\
     }\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n   \
-    \ ll a, b;\n    sc.read(a, b);\n    pr.writeln(a + b);\n    return 0;\n}\n"
+    \ ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
     #include <cassert>\n#include <numeric>\n#include <random>\n#include <vector>\n\
     using namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -297,15 +297,15 @@ data:
     \ smallest.set_k(new_k);\n            }\n            verify_one<true>(cur, largest);\n\
     \            verify_one<false>(cur, smallest);\n        }\n    }\n}\n\nint main()\
     \ {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n   \
-    \ sc.read(a, b);\n    pr.writeln(a + b);\n    return 0;\n}\n"
+    \ sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/top_kth.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_top_kth.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_top_kth.test.cpp
 layout: document

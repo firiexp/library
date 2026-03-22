@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/ahocorasick.cpp
     title: "Aho-Corasick\u6CD5"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/aho_corasick
@@ -158,10 +158,10 @@ data:
     \ - 'a'];\n            if (!to) {\n                aho.v[cur].to[c - 'a'] = aho.v.size();\n\
     \                aho.v.emplace_back();\n                parent.push_back(cur);\n\
     \                to = (int)aho.v.size() - 1;\n            }\n            cur =\
-    \ to;\n        }\n        terminal[i] = cur;\n    }\n    aho.build();\n\n    pr.writeln((int)aho.v.size());\n\
-    \    for (int v = 1; v < (int)aho.v.size(); ++v) {\n        pr.write(parent[v]);\n\
-    \        pr.write(' ');\n        pr.writeln(aho.v[v].fail);\n    }\n    for (int\
-    \ i = 0; i < n; ++i) {\n        pr.write(terminal[i]);\n        pr.write(i + 1\
+    \ to;\n        }\n        terminal[i] = cur;\n    }\n    aho.build();\n\n    pr.println((int)aho.v.size());\n\
+    \    for (int v = 1; v < (int)aho.v.size(); ++v) {\n        pr.print(parent[v]);\n\
+    \        pr.print(' ');\n        pr.println(aho.v[v].fail);\n    }\n    for (int\
+    \ i = 0; i < n; ++i) {\n        pr.print(terminal[i]);\n        pr.print(i + 1\
     \ == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aho_corasick\"\n\n#include\
     \ <array>\n#include <string>\n#include <vector>\nusing namespace std;\n\nstatic\
@@ -175,10 +175,10 @@ data:
     \ - 'a'];\n            if (!to) {\n                aho.v[cur].to[c - 'a'] = aho.v.size();\n\
     \                aho.v.emplace_back();\n                parent.push_back(cur);\n\
     \                to = (int)aho.v.size() - 1;\n            }\n            cur =\
-    \ to;\n        }\n        terminal[i] = cur;\n    }\n    aho.build();\n\n    pr.writeln((int)aho.v.size());\n\
-    \    for (int v = 1; v < (int)aho.v.size(); ++v) {\n        pr.write(parent[v]);\n\
-    \        pr.write(' ');\n        pr.writeln(aho.v[v].fail);\n    }\n    for (int\
-    \ i = 0; i < n; ++i) {\n        pr.write(terminal[i]);\n        pr.write(i + 1\
+    \ to;\n        }\n        terminal[i] = cur;\n    }\n    aho.build();\n\n    pr.println((int)aho.v.size());\n\
+    \    for (int v = 1; v < (int)aho.v.size(); ++v) {\n        pr.print(parent[v]);\n\
+    \        pr.print(' ');\n        pr.println(aho.v[v].fail);\n    }\n    for (int\
+    \ i = 0; i < n; ++i) {\n        pr.print(terminal[i]);\n        pr.print(i + 1\
     \ == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -186,8 +186,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_aho_corasick.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aho_corasick.test.cpp
 layout: document

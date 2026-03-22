@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/chu_liu_edmonds.cpp
     title: Chu-Liu Edmonds
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/directedmst
@@ -203,8 +203,8 @@ data:
     \ m, r);\n    ChuLiuEdmonds<ll> dmst(n, r);\n    for (int i = 0; i < m; ++i) {\n\
     \        int a, b;\n        ll c;\n        in.read(a, b, c);\n        dmst.add_edge(a,\
     \ b, c);\n    }\n    auto res = dmst.solve();\n    if (!res.exists) return 0;\n\
-    \    out.writeln(res.cost);\n    for (int i = 0; i < n; ++i) {\n        if (i)\
-    \ out.write(' ');\n        out.write(res.parent[i]);\n    }\n    out.writeln();\n\
+    \    out.println(res.cost);\n    for (int i = 0; i < n; ++i) {\n        if (i)\
+    \ out.print(' ');\n        out.print(res.parent[i]);\n    }\n    out.println();\n\
     \    return 0;\n}\n\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/directedmst\"\n\n#include\
     \ <vector>\nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n\
@@ -213,17 +213,17 @@ data:
     \    Printer out;\n    int n, m, r;\n    in.read(n, m, r);\n    ChuLiuEdmonds<ll>\
     \ dmst(n, r);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        ll\
     \ c;\n        in.read(a, b, c);\n        dmst.add_edge(a, b, c);\n    }\n    auto\
-    \ res = dmst.solve();\n    if (!res.exists) return 0;\n    out.writeln(res.cost);\n\
-    \    for (int i = 0; i < n; ++i) {\n        if (i) out.write(' ');\n        out.write(res.parent[i]);\n\
-    \    }\n    out.writeln();\n    return 0;\n}\n\n"
+    \ res = dmst.solve();\n    if (!res.exists) return 0;\n    out.println(res.cost);\n\
+    \    for (int i = 0; i < n; ++i) {\n        if (i) out.print(' ');\n        out.print(res.parent[i]);\n\
+    \    }\n    out.println();\n    return 0;\n}\n\n"
   dependsOn:
   - util/fastio.cpp
   - graph/chu_liu_edmonds.cpp
   isVerificationFile: true
   path: test/yosupo_directedmst.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_directedmst.test.cpp
 layout: document

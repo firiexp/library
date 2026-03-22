@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/jump_on_tree.cpp
     title: Jump on Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/jump_on_tree
@@ -171,7 +171,7 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    JumpOnTree jt(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int\
     \ u, v;\n        sc.read(u, v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n\
-    \    while (q--) {\n        int s, t, k;\n        sc.read(s, t, k);\n        pr.writeln(jt.jump(s,\
+    \    while (q--) {\n        int s, t, k;\n        sc.read(s, t, k);\n        pr.println(jt.jump(s,\
     \ t, k));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/jump_on_tree\"\n\n#include\
     \ <algorithm>\n#include <queue>\n#include <random>\n#include <vector>\nusing namespace\
@@ -180,7 +180,7 @@ data:
     \ main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n\
     \    JumpOnTree jt(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int u,\
     \ v;\n        sc.read(u, v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n\
-    \    while (q--) {\n        int s, t, k;\n        sc.read(s, t, k);\n        pr.writeln(jt.jump(s,\
+    \    while (q--) {\n        int s, t, k;\n        sc.read(s, t, k);\n        pr.println(jt.jump(s,\
     \ t, k));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -188,8 +188,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_jump_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_jump_on_tree.test.cpp
 layout: document

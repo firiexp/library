@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/static_rectangle_sum.cpp
     title: Static Rectangle Sum
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/rectangle_sum
@@ -175,7 +175,7 @@ data:
     \ ++i) {\n        int x, y;\n        long long w;\n        sc.read(x, y, w);\n\
     \        solver.add_point(x, y, w);\n    }\n    for (int i = 0; i < q; ++i) {\n\
     \        int l, d, r, u;\n        sc.read(l, d, r, u);\n        solver.add_query(l,\
-    \ d, r, u);\n    }\n\n    auto ans = solver.solve();\n    for (auto x : ans) pr.writeln(x);\n\
+    \ d, r, u);\n    }\n\n    auto ans = solver.solve();\n    for (auto x : ans) pr.println(x);\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/rectangle_sum\"\n\n#include\
     \ <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n#include\
@@ -186,7 +186,7 @@ data:
     \  long long w;\n        sc.read(x, y, w);\n        solver.add_point(x, y, w);\n\
     \    }\n    for (int i = 0; i < q; ++i) {\n        int l, d, r, u;\n        sc.read(l,\
     \ d, r, u);\n        solver.add_query(l, d, r, u);\n    }\n\n    auto ans = solver.solve();\n\
-    \    for (auto x : ans) pr.writeln(x);\n    return 0;\n}\n"
+    \    for (auto x : ans) pr.println(x);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/static_rectangle_sum.cpp
@@ -194,8 +194,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_rectangle_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_rectangle_sum.test.cpp
 layout: document

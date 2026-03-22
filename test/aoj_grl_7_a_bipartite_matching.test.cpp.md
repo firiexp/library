@@ -1,18 +1,18 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/bipartite_matching.cpp
     title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\
       (Bipartite Matching)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_7_A
@@ -155,7 +155,7 @@ data:
     \ \"test/aoj_grl_7_a_bipartite_matching.test.cpp\"\n\nint main() {\n    Scanner\
     \ in;\n    Printer out;\n\n    int l, r, m;\n    in.read(l, r, m);\n    Bipartite_Matching\
     \ bm(l, r);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        in.read(a,\
-    \ b);\n        bm.add_edge(a, b);\n    }\n\n    out.writeln(bm.matching());\n\
+    \ b);\n        bm.add_edge(a, b);\n    }\n\n    out.println(bm.matching());\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_7_A\"\n\n\
     #include <utility>\n#include <vector>\n\nusing namespace std;\n\n#include <cstdio>\n\
@@ -163,7 +163,7 @@ data:
     \n#include \"../graph/bipartite_matching.cpp\"\n\nint main() {\n    Scanner in;\n\
     \    Printer out;\n\n    int l, r, m;\n    in.read(l, r, m);\n    Bipartite_Matching\
     \ bm(l, r);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        in.read(a,\
-    \ b);\n        bm.add_edge(a, b);\n    }\n\n    out.writeln(bm.matching());\n\
+    \ b);\n        bm.add_edge(a, b);\n    }\n\n    out.println(bm.matching());\n\
     \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -171,8 +171,8 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_7_a_bipartite_matching.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_7_a_bipartite_matching.test.cpp
 layout: document

@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/gauss_jordan_mint.cpp
     title: Gauss Jordan Mint
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/system_of_linear_equations
@@ -184,7 +184,7 @@ data:
     \    a[i][j] = x;\n        }\n    }\n    for (int i = 0; i < n; ++i) {\n     \
     \   int x;\n        in.read(x);\n        a[i][m] = x;\n    }\n\n    int rank =\
     \ gauss_jordan(a, true);\n    for (int row = rank; row < n; ++row) {\n       \
-    \ if (a[row][m].val) {\n            out.writeln(-1);\n            return 0;\n\
+    \ if (a[row][m].val) {\n            out.println(-1);\n            return 0;\n\
     \        }\n    }\n\n    vector<int> pivot(rank, -1);\n    vector<int> is_pivot(m);\n\
     \    for (int row = 0; row < rank; ++row) {\n        for (int col = 0; col < m;\
     \ ++col) {\n            if (a[row][col].val) {\n                pivot[row] = col;\n\
@@ -195,10 +195,10 @@ data:
     \ {\n        if (is_pivot[free_col]) continue;\n        vector<mint> vec(m);\n\
     \        vec[free_col] = 1;\n        for (int row = 0; row < rank; ++row) {\n\
     \            vec[pivot[row]] = -a[row][free_col];\n        }\n        basis.push_back(vec);\n\
-    \    }\n\n    out.writeln((int)basis.size());\n    for (int i = 0; i < m; ++i)\
-    \ {\n        out.write(particular[i].val);\n        out.write(i + 1 == m ? '\\\
+    \    }\n\n    out.println((int)basis.size());\n    for (int i = 0; i < m; ++i)\
+    \ {\n        out.print(particular[i].val);\n        out.print(i + 1 == m ? '\\\
     n' : ' ');\n    }\n    for (auto &&vec : basis) {\n        for (int i = 0; i <\
-    \ m; ++i) {\n            out.write(vec[i].val);\n            out.write(i + 1 ==\
+    \ m; ++i) {\n            out.print(vec[i].val);\n            out.print(i + 1 ==\
     \ m ? '\\n' : ' ');\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/system_of_linear_equations\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
@@ -211,7 +211,7 @@ data:
     \           in.read(x);\n            a[i][j] = x;\n        }\n    }\n    for (int\
     \ i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n        a[i][m] =\
     \ x;\n    }\n\n    int rank = gauss_jordan(a, true);\n    for (int row = rank;\
-    \ row < n; ++row) {\n        if (a[row][m].val) {\n            out.writeln(-1);\n\
+    \ row < n; ++row) {\n        if (a[row][m].val) {\n            out.println(-1);\n\
     \            return 0;\n        }\n    }\n\n    vector<int> pivot(rank, -1);\n\
     \    vector<int> is_pivot(m);\n    for (int row = 0; row < rank; ++row) {\n  \
     \      for (int col = 0; col < m; ++col) {\n            if (a[row][col].val) {\n\
@@ -222,11 +222,11 @@ data:
     \ = 0; free_col < m; ++free_col) {\n        if (is_pivot[free_col]) continue;\n\
     \        vector<mint> vec(m);\n        vec[free_col] = 1;\n        for (int row\
     \ = 0; row < rank; ++row) {\n            vec[pivot[row]] = -a[row][free_col];\n\
-    \        }\n        basis.push_back(vec);\n    }\n\n    out.writeln((int)basis.size());\n\
-    \    for (int i = 0; i < m; ++i) {\n        out.write(particular[i].val);\n  \
-    \      out.write(i + 1 == m ? '\\n' : ' ');\n    }\n    for (auto &&vec : basis)\
-    \ {\n        for (int i = 0; i < m; ++i) {\n            out.write(vec[i].val);\n\
-    \            out.write(i + 1 == m ? '\\n' : ' ');\n        }\n    }\n    return\
+    \        }\n        basis.push_back(vec);\n    }\n\n    out.println((int)basis.size());\n\
+    \    for (int i = 0; i < m; ++i) {\n        out.print(particular[i].val);\n  \
+    \      out.print(i + 1 == m ? '\\n' : ' ');\n    }\n    for (auto &&vec : basis)\
+    \ {\n        for (int i = 0; i < m; ++i) {\n            out.print(vec[i].val);\n\
+    \            out.print(i + 1 == m ? '\\n' : ' ');\n        }\n    }\n    return\
     \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -235,8 +235,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_system_of_linear_equations.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_system_of_linear_equations.test.cpp
 layout: document

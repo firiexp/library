@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/sparsetable.cpp
     title: Sparse Table
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/staticrmq
@@ -149,7 +149,7 @@ data:
     \ }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n \
     \   sc.read(n, q);\n    vector<int> a(n);\n    for (auto &&x : a) sc.read(x);\n\
     \n    SparseTable<F> st(a);\n    while (q--) {\n        int l, r;\n        sc.read(l,\
-    \ r);\n        pr.writeln(st.query(l, r));\n    }\n    return 0;\n}\n"
+    \ r);\n        pr.println(st.query(l, r));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/staticrmq\"\n\n#include\
     \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
@@ -157,7 +157,7 @@ data:
     \    static T f(T a, T b) { return min(a, b); }\n};\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<int> a(n);\n\
     \    for (auto &&x : a) sc.read(x);\n\n    SparseTable<F> st(a);\n    while (q--)\
-    \ {\n        int l, r;\n        sc.read(l, r);\n        pr.writeln(st.query(l,\
+    \ {\n        int l, r;\n        sc.read(l, r);\n        pr.println(st.query(l,\
     \ r));\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -165,8 +165,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_staticrmq_sparsetable.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_staticrmq_sparsetable.test.cpp
 layout: document

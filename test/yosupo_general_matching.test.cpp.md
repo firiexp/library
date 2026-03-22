@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/general_matching.cpp
     title: general_matching
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/general_matching
@@ -180,16 +180,16 @@ data:
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, m;\n    in.read(n,\
     \ m);\n    GeneralMatching gm(n);\n    for (int i = 0; i < m; ++i) {\n       \
     \ int u, v;\n        in.read(u, v);\n        gm.add_edge(u, v);\n    }\n    int\
-    \ ans = gm.max_matching();\n    out.writeln(ans);\n    for (auto&& [u, v] : gm.get_pairs())\
-    \ {\n        out.writeln(u, v);\n    }\n    return 0;\n}\n"
+    \ ans = gm.max_matching();\n    out.println(ans);\n    for (auto&& [u, v] : gm.get_pairs())\
+    \ {\n        out.println(u, v);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/general_matching\"\n\n\
     #include <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../graph/general_matching.cpp\"\n\nint main() {\n    Scanner in;\n\
     \    Printer out;\n    int n, m;\n    in.read(n, m);\n    GeneralMatching gm(n);\n\
     \    for (int i = 0; i < m; ++i) {\n        int u, v;\n        in.read(u, v);\n\
-    \        gm.add_edge(u, v);\n    }\n    int ans = gm.max_matching();\n    out.writeln(ans);\n\
-    \    for (auto&& [u, v] : gm.get_pairs()) {\n        out.writeln(u, v);\n    }\n\
+    \        gm.add_edge(u, v);\n    }\n    int ans = gm.max_matching();\n    out.println(ans);\n\
+    \    for (auto&& [u, v] : gm.get_pairs()) {\n        out.println(u, v);\n    }\n\
     \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -197,8 +197,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_general_matching.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_general_matching.test.cpp
 layout: document

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/rectangle_add_point_get.cpp
     title: "\u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point Get)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/rectangle_add_point_get
@@ -223,7 +223,7 @@ data:
     \ d, r, u, w);\n            solver.add_rectangle(l, d, r, u, w);\n        } else\
     \ {\n            int x, y;\n            sc.read(x, y);\n            solver.add_query(x,\
     \ y);\n        }\n    }\n\n    auto ans = solver.solve();\n    for (auto &&x :\
-    \ ans) pr.writeln(x);\n    return 0;\n}\n"
+    \ ans) pr.println(x);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/rectangle_add_point_get\"\
     \n\n#include <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
@@ -236,15 +236,15 @@ data:
     \      long long w;\n            sc.read(l, d, r, u, w);\n            solver.add_rectangle(l,\
     \ d, r, u, w);\n        } else {\n            int x, y;\n            sc.read(x,\
     \ y);\n            solver.add_query(x, y);\n        }\n    }\n\n    auto ans =\
-    \ solver.solve();\n    for (auto &&x : ans) pr.writeln(x);\n    return 0;\n}\n"
+    \ solver.solve();\n    for (auto &&x : ans) pr.println(x);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/rectangle_add_point_get.cpp
   isVerificationFile: true
   path: test/yosupo_rectangle_add_point_get.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_rectangle_add_point_get.test.cpp
 layout: document

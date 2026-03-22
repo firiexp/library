@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_b_negative_loop.test.cpp
     title: test/aoj_grl_1_b_negative_loop.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
     links: []
@@ -50,7 +50,7 @@ data:
   path: graph/bellman_ford_negative_loop.cpp
   requiredBy: []
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_1_b_negative_loop.test.cpp
 documentation_of: graph/bellman_ford_negative_loop.cpp

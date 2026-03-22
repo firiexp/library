@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: geometry/area_of_union_of_rectangles.cpp
     title: Area of Union of Rectangles
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/area_of_union_of_rectangles
@@ -180,7 +180,7 @@ data:
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\
     \n    AreaOfUnionOfRectangles<long long> solver;\n    for (int i = 0; i < n; ++i)\
     \ {\n        long long l, d, r, u;\n        sc.read(l, d, r, u);\n        solver.add_rectangle(l,\
-    \ d, r, u);\n    }\n    pr.writeln(solver.solve());\n    return 0;\n}\n"
+    \ d, r, u);\n    }\n    pr.println(solver.solve());\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/area_of_union_of_rectangles\"\
     \n\n#include <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
@@ -188,15 +188,15 @@ data:
     \ Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\n    AreaOfUnionOfRectangles<long\
     \ long> solver;\n    for (int i = 0; i < n; ++i) {\n        long long l, d, r,\
     \ u;\n        sc.read(l, d, r, u);\n        solver.add_rectangle(l, d, r, u);\n\
-    \    }\n    pr.writeln(solver.solve());\n    return 0;\n}\n"
+    \    }\n    pr.println(solver.solve());\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - geometry/area_of_union_of_rectangles.cpp
   isVerificationFile: true
   path: test/yosupo_area_of_union_of_rectangles.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_area_of_union_of_rectangles.test.cpp
 layout: document

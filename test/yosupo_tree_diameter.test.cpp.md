@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/diameter_weighted.cpp
     title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/tree_diameter
@@ -154,8 +154,8 @@ data:
     \        for (auto [to, _] : g[v]) {\n            if (parent[to] != -1) continue;\n\
     \            parent[to] = v;\n            st.push_back(to);\n        }\n    }\n\
     \n    vector<int> path;\n    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n\
-    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.writeln(dist,\
-    \ (int)path.size());\n    pr.writeln(path);\n    return 0;\n}\n"
+    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.println(dist,\
+    \ (int)path.size());\n    pr.println(path);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/tree_diameter\"\n\n#include\
     \ <algorithm>\n#include <utility>\n#include <vector>\nusing namespace std;\n\n\
     using ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
@@ -170,16 +170,16 @@ data:
     \        for (auto [to, _] : g[v]) {\n            if (parent[to] != -1) continue;\n\
     \            parent[to] = v;\n            st.push_back(to);\n        }\n    }\n\
     \n    vector<int> path;\n    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n\
-    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.writeln(dist,\
-    \ (int)path.size());\n    pr.writeln(path);\n    return 0;\n}\n"
+    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.println(dist,\
+    \ (int)path.size());\n    pr.println(path);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/diameter_weighted.cpp
   isVerificationFile: true
   path: test/yosupo_tree_diameter.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_tree_diameter.test.cpp
 layout: document

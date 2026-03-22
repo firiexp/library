@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
     title: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"math/get_prime_wheel.cpp\"\nstruct Prime { // Wheel factorization\n\
@@ -56,7 +56,7 @@ data:
   path: math/get_prime_wheel.cpp
   requiredBy: []
   timestamp: '2026-03-13 22:14:25+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
 documentation_of: math/get_prime_wheel.cpp

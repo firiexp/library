@@ -1,18 +1,18 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dynamic_graph_vertex_add_component_sum.cpp
     title: "\u52D5\u7684\u30B0\u30E9\u30D5\u9023\u7D50\u6210\u5206\u548C(Dynamic Graph\
       \ Vertex Add Component Sum)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum
@@ -204,7 +204,7 @@ data:
     \          sc.read(v, x);\n            solver.add_vertex(v, x);\n        } else\
     \ {\n            int v;\n            sc.read(v);\n            solver.add_component_query(v);\n\
     \        }\n    }\n\n    auto ans = solver.solve();\n    for (auto &&x : ans)\
-    \ pr.writeln(x);\n    return 0;\n}\n"
+    \ pr.println(x);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/dynamic_graph_vertex_add_component_sum\"\
     \n\n#include <algorithm>\n#include <map>\n#include <utility>\n#include <vector>\n\
     using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
@@ -219,15 +219,15 @@ data:
     \          sc.read(v, x);\n            solver.add_vertex(v, x);\n        } else\
     \ {\n            int v;\n            sc.read(v);\n            solver.add_component_query(v);\n\
     \        }\n    }\n\n    auto ans = solver.solve();\n    for (auto &&x : ans)\
-    \ pr.writeln(x);\n    return 0;\n}\n"
+    \ pr.println(x);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/dynamic_graph_vertex_add_component_sum.cpp
   isVerificationFile: true
   path: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
 layout: document

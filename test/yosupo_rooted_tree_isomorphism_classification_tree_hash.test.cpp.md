@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/tree_hash.cpp
     title: "\u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/rooted_tree_isomorphism_classification
@@ -183,8 +183,8 @@ data:
     \         }\n        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner\
     \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n \
     \   for (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n     \
-    \   th.add_edge(p, v);\n    }\n    auto id = th.build(0);\n    pr.writeln(th.kinds());\n\
-    \    for (int i = 0; i < n; ++i) {\n        pr.write(id[i]);\n        pr.write(i\
+    \   th.add_edge(p, v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n\
+    \    for (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i\
     \ + 1 == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/rooted_tree_isomorphism_classification\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <map>\n#include <random>\n\
@@ -219,8 +219,8 @@ data:
     \         }\n        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner\
     \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n \
     \   for (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n     \
-    \   th.add_edge(p, v);\n    }\n    auto id = th.build(0);\n    pr.writeln(th.kinds());\n\
-    \    for (int i = 0; i < n; ++i) {\n        pr.write(id[i]);\n        pr.write(i\
+    \   th.add_edge(p, v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n\
+    \    for (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i\
     \ + 1 == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -228,8 +228,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
 layout: document

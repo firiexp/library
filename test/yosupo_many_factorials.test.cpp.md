@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/many_factorials.cpp
     title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: Number Theoretic Transform
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/many_factorials
@@ -468,7 +468,7 @@ data:
     \u4E57(Many Factorials)\n */\n#line 18 \"test/yosupo_many_factorials.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
     \    vector<long long> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
-    \    vector<mint> ans = many_factorials(a);\n    for (int i = 0; i < n; ++i) out.writeln(ans[i].val);\n\
+    \    vector<mint> ans = many_factorials(a);\n    for (int i = 0; i < n; ++i) out.println(ans[i].val);\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_factorials\"\n\n#include\
     \ <algorithm>\n#include <cassert>\n#include <vector>\nusing ll = long long;\n\
@@ -477,7 +477,7 @@ data:
     \n#include \"../util/fastio.cpp\"\n#include \"../math/many_factorials.cpp\"\n\n\
     int main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
     \    vector<long long> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
-    \    vector<mint> ans = many_factorials(a);\n    for (int i = 0; i < n; ++i) out.writeln(ans[i].val);\n\
+    \    vector<mint> ans = many_factorials(a);\n    for (int i = 0; i < n; ++i) out.println(ans[i].val);\n\
     \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -486,8 +486,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_factorials.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_many_factorials.test.cpp
 layout: document

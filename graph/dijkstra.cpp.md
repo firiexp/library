@@ -1,17 +1,23 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_common.cpp
     title: graph/dijkstra_common.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0275_dynamic_bitset.test.cpp
+    title: test/aoj0275_dynamic_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj0275_static_bitset.test.cpp
+    title: test/aoj0275_static_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_a_dijkstra.test.cpp
     title: test/aoj_grl_1_a_dijkstra.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "Dijkstra\u6CD5"
     links: []
@@ -45,9 +51,11 @@ data:
   path: graph/dijkstra.cpp
   requiredBy: []
   timestamp: '2026-03-12 14:17:55+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_1_a_dijkstra.test.cpp
+  - test/aoj0275_static_bitset.test.cpp
+  - test/aoj0275_dynamic_bitset.test.cpp
 documentation_of: graph/dijkstra.cpp
 layout: document
 title: "Dijkstra\u6CD5"

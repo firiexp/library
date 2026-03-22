@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: tree/frequency_table_of_tree_distance.cpp
     title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: Fast IO
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/frequency_table_of_tree_distance
@@ -39,8 +39,8 @@ data:
     \ g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        sc.read(u,\
     \ v);\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n\n    auto\
     \ ans = frequency_table_of_tree_distance(g);\n    for (int d = 1; d < n; ++d)\
-    \ {\n        if (d != 1) pr.write(' ');\n        pr.write(ans[d]);\n    }\n  \
-    \  pr.writeln();\n    return 0;\n}\n"
+    \ {\n        if (d != 1) pr.print(' ');\n        pr.print(ans[d]);\n    }\n  \
+    \  pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/frequency_table_of_tree_distance.cpp
@@ -48,8 +48,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_frequency_table_of_tree_distance.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 11:58:39+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-22 13:47:31+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_frequency_table_of_tree_distance.test.cpp
 layout: document
