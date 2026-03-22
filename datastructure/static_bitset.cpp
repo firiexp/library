@@ -4,7 +4,7 @@
 
 using namespace std;
 
-namespace dynamic_bitset_detail {
+namespace static_bitset_detail {
 using Word = unsigned long long;
 constexpr int avx2_threshold_words = 8;
 
@@ -71,14 +71,16 @@ inline bool has_avx2() {
     return cached;
 }
 #endif
-}  // namespace dynamic_bitset_detail
+}  // namespace static_bitset_detail
 
-class DynamicBitset {
+template<int N>
+class StaticBitset {
+    static_assert(N >= 0);
     static constexpr int B = 64;
+    static constexpr int M = (N + B - 1) >> 6;
     using Word = unsigned long long;
 
-    int n;
-    vector<Word> a;
+    Word a[M > 0 ? M : 1];
 
     static int popcount(Word x) {
         return __builtin_popcountll(x);
@@ -89,36 +91,30 @@ class DynamicBitset {
     static int clz(Word x) {
         return __builtin_clzll(x);
     }
-
-    Word tail_mask() const {
-        int rem = n & (B - 1);
-        return rem ? ((1ULL << rem) - 1) : ~0ULL;
+    static constexpr Word tail_mask() {
+        return N % B ? ((1ULL << (N % B)) - 1) : ~0ULL;
     }
-
     void normalize() {
-        if (!a.empty()) a.back() &= tail_mask();
+        if constexpr (M > 0) a[M - 1] &= tail_mask();
     }
 
 public:
-    DynamicBitset() : n(0) {}
-    explicit DynamicBitset(int n, bool x = false) : n(n), a((n + B - 1) >> 6, x ? ~0ULL : 0ULL) {
-        normalize();
+    explicit StaticBitset(bool x = false) : a{} {
+        if (x) set();
     }
 
-    int size() const { return n; }
-    bool empty() const { return n == 0; }
+    int size() const { return N; }
+    bool empty() const { return N == 0; }
 
     void reset() {
-        fill(a.begin(), a.end(), 0);
+        fill(a, a + M, 0);
     }
     void set() {
-        fill(a.begin(), a.end(), ~0ULL);
+        fill(a, a + M, ~0ULL);
         normalize();
     }
     void flip() {
-        Word *p = a.data();
-        int m = (int)a.size();
-        for (int i = 0; i < m; ++i) p[i] = ~p[i];
+        for (Word &x : a) x = ~x;
         normalize();
     }
 
@@ -140,71 +136,67 @@ public:
     }
 
     bool any() const {
-        int m = (int)a.size();
-        const Word *p = a.data();
+        const Word *p = a;
 #if defined(__x86_64__) || defined(_M_X64)
-        if (m >= dynamic_bitset_detail::avx2_threshold_words && dynamic_bitset_detail::has_avx2()) {
-            return dynamic_bitset_detail::any_avx2(p, m);
+        if constexpr (M >= static_bitset_detail::avx2_threshold_words) {
+            if (static_bitset_detail::has_avx2()) return static_bitset_detail::any_avx2(p, M);
         }
 #endif
-        for (int i = 0; i < m; ++i) {
+        for (int i = 0; i < M; ++i) {
             if (p[i]) return true;
         }
         return false;
     }
     bool none() const { return !any(); }
     bool all() const {
-        int m = (int)a.size();
-        if (m == 0) return true;
-        const Word *p = a.data();
+        if constexpr (M == 0) return true;
+        const Word *p = a;
 #if defined(__x86_64__) || defined(_M_X64)
-        if (m > 1 + dynamic_bitset_detail::avx2_threshold_words && dynamic_bitset_detail::has_avx2()) {
-            if (!dynamic_bitset_detail::all_full_words_avx2(p, m - 1)) return false;
-        } else
-#endif
-        {
-            for (int i = 0; i + 1 < m; ++i) {
-                if (p[i] != ~0ULL) return false;
+        if constexpr (M > 1 + static_bitset_detail::avx2_threshold_words) {
+            if (static_bitset_detail::has_avx2()) {
+                if (!static_bitset_detail::all_full_words_avx2(p, M - 1)) return false;
+                return p[M - 1] == tail_mask();
             }
         }
-        return p[m - 1] == tail_mask();
+#endif
+        for (int i = 0; i + 1 < M; ++i) {
+            if (p[i] != ~0ULL) return false;
+        }
+        return p[M - 1] == tail_mask();
     }
     int count() const {
-        const Word *p = a.data();
-        int m = (int)a.size();
+        const Word *p = a;
         int res = 0;
         int i = 0;
-        for (; i + 4 <= m; i += 4) {
+        for (; i + 4 <= M; i += 4) {
             res += popcount(p[i + 0]) + popcount(p[i + 1]) + popcount(p[i + 2]) + popcount(p[i + 3]);
         }
-        for (; i < m; ++i) res += popcount(p[i]);
+        for (; i < M; ++i) res += popcount(p[i]);
         return res;
     }
 
     int find_first() const {
-        int m = (int)a.size();
-        const Word *p = a.data();
-        for (int i = 0; i < m; ++i) {
+        const Word *p = a;
+        for (int i = 0; i < M; ++i) {
             if (p[i]) return (i << 6) + ctz(p[i]);
         }
         return -1;
     }
     int find_last() const {
-        const Word *p = a.data();
-        for (int i = (int)a.size() - 1; i >= 0; --i) {
+        const Word *p = a;
+        for (int i = M - 1; i >= 0; --i) {
             if (p[i]) return (i << 6) + (B - 1 - clz(p[i]));
         }
         return -1;
     }
     int find_next(int k) const {
         ++k;
-        if (k >= n) return -1;
-        const Word *p = a.data();
+        if (k >= N) return -1;
+        const Word *p = a;
         int i = k >> 6;
         Word x = p[i] & (~0ULL << (k & 63));
         if (x) return (i << 6) + ctz(x);
-        int m = (int)a.size();
-        for (++i; i < m; ++i) {
+        for (++i; i < M; ++i) {
             if (p[i]) return (i << 6) + ctz(p[i]);
         }
         return -1;
@@ -212,7 +204,7 @@ public:
     int find_prev(int k) const {
         --k;
         if (k < 0) return -1;
-        const Word *p = a.data();
+        const Word *p = a;
         int i = k >> 6;
         int rem = k & 63;
         Word mask = rem == B - 1 ? ~0ULL : ((1ULL << (rem + 1)) - 1);
@@ -224,61 +216,64 @@ public:
         return -1;
     }
 
-    DynamicBitset &operator&=(const DynamicBitset &r) {
-        Word *p = a.data();
-        const Word *q = r.a.data();
-        int m = (int)a.size();
+    StaticBitset &operator&=(const StaticBitset &r) {
+        Word *p = a;
+        const Word *q = r.a;
 #if defined(__x86_64__) || defined(_M_X64)
-        if (m >= dynamic_bitset_detail::avx2_threshold_words && dynamic_bitset_detail::has_avx2()) {
-            dynamic_bitset_detail::and_assign_avx2(p, q, m);
-            return *this;
+        if constexpr (M >= static_bitset_detail::avx2_threshold_words) {
+            if (static_bitset_detail::has_avx2()) {
+                static_bitset_detail::and_assign_avx2(p, q, M);
+                return *this;
+            }
         }
 #endif
-        for (int i = 0; i < m; ++i) p[i] &= q[i];
+        for (int i = 0; i < M; ++i) p[i] &= q[i];
         return *this;
     }
-    DynamicBitset &operator|=(const DynamicBitset &r) {
-        Word *p = a.data();
-        const Word *q = r.a.data();
-        int m = (int)a.size();
+    StaticBitset &operator|=(const StaticBitset &r) {
+        Word *p = a;
+        const Word *q = r.a;
 #if defined(__x86_64__) || defined(_M_X64)
-        if (m >= dynamic_bitset_detail::avx2_threshold_words && dynamic_bitset_detail::has_avx2()) {
-            dynamic_bitset_detail::or_assign_avx2(p, q, m);
-            return *this;
+        if constexpr (M >= static_bitset_detail::avx2_threshold_words) {
+            if (static_bitset_detail::has_avx2()) {
+                static_bitset_detail::or_assign_avx2(p, q, M);
+                return *this;
+            }
         }
 #endif
-        for (int i = 0; i < m; ++i) p[i] |= q[i];
+        for (int i = 0; i < M; ++i) p[i] |= q[i];
         return *this;
     }
-    DynamicBitset &operator^=(const DynamicBitset &r) {
-        Word *p = a.data();
-        const Word *q = r.a.data();
-        int m = (int)a.size();
+    StaticBitset &operator^=(const StaticBitset &r) {
+        Word *p = a;
+        const Word *q = r.a;
 #if defined(__x86_64__) || defined(_M_X64)
-        if (m >= dynamic_bitset_detail::avx2_threshold_words && dynamic_bitset_detail::has_avx2()) {
-            dynamic_bitset_detail::xor_assign_avx2(p, q, m);
-            normalize();
-            return *this;
+        if constexpr (M >= static_bitset_detail::avx2_threshold_words) {
+            if (static_bitset_detail::has_avx2()) {
+                static_bitset_detail::xor_assign_avx2(p, q, M);
+                normalize();
+                return *this;
+            }
         }
 #endif
-        for (int i = 0; i < m; ++i) p[i] ^= q[i];
+        for (int i = 0; i < M; ++i) p[i] ^= q[i];
         normalize();
         return *this;
     }
 
-    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset &r) { return l &= r; }
-    friend DynamicBitset operator|(DynamicBitset l, const DynamicBitset &r) { return l |= r; }
-    friend DynamicBitset operator^(DynamicBitset l, const DynamicBitset &r) { return l ^= r; }
+    friend StaticBitset operator&(StaticBitset l, const StaticBitset &r) { return l &= r; }
+    friend StaticBitset operator|(StaticBitset l, const StaticBitset &r) { return l |= r; }
+    friend StaticBitset operator^(StaticBitset l, const StaticBitset &r) { return l ^= r; }
 
-    DynamicBitset &operator<<=(int s) {
-        if (s <= 0 || n == 0) return *this;
-        if (s >= n) {
+    StaticBitset &operator<<=(int s) {
+        if (s <= 0 || N == 0) return *this;
+        if (s >= N) {
             reset();
             return *this;
         }
         if (s == 1) {
             Word carry = 0;
-            for (int i = 0; i < (int)a.size(); ++i) {
+            for (int i = 0; i < M; ++i) {
                 Word next = a[i] >> (B - 1);
                 a[i] = (a[i] << 1) | carry;
                 carry = next;
@@ -286,57 +281,54 @@ public:
             normalize();
             return *this;
         }
-        int m = (int)a.size();
         int block = s >> 6;
         int rem = s & 63;
         if (rem == 0) {
-            memmove(a.data() + block, a.data(), sizeof(Word) * (m - block));
+            memmove(a + block, a, sizeof(Word) * (M - block));
         } else {
-            for (int i = m - 1; i > block; --i) {
+            for (int i = M - 1; i > block; --i) {
                 a[i] = (a[i - block] << rem) | (a[i - block - 1] >> (B - rem));
             }
             a[block] = a[0] << rem;
         }
-        fill(a.begin(), a.begin() + block, 0);
+        fill(a, a + block, 0);
         normalize();
         return *this;
     }
-    DynamicBitset &operator>>=(int s) {
-        if (s <= 0 || n == 0) return *this;
-        if (s >= n) {
+    StaticBitset &operator>>=(int s) {
+        if (s <= 0 || N == 0) return *this;
+        if (s >= N) {
             reset();
             return *this;
         }
         if (s == 1) {
-            int m = (int)a.size();
-            for (int i = 0; i < m; ++i) {
-                Word next = i + 1 < m ? (a[i + 1] << (B - 1)) : 0;
+            for (int i = 0; i < M; ++i) {
+                Word next = i + 1 < M ? (a[i + 1] << (B - 1)) : 0;
                 a[i] = (a[i] >> 1) | next;
             }
             normalize();
             return *this;
         }
-        int m = (int)a.size();
         int block = s >> 6;
         int rem = s & 63;
         if (rem == 0) {
-            memmove(a.data(), a.data() + block, sizeof(Word) * (m - block));
+            memmove(a, a + block, sizeof(Word) * (M - block));
         } else {
-            int last = m - block - 1;
+            int last = M - block - 1;
             for (int i = 0; i < last; ++i) {
                 a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));
             }
-            a[last] = a[m - 1] >> rem;
+            a[last] = a[M - 1] >> rem;
         }
-        fill(a.begin() + (m - block), a.end(), 0);
+        fill(a + (M - block), a + M, 0);
         normalize();
         return *this;
     }
 
-    friend DynamicBitset operator<<(DynamicBitset l, int s) { return l <<= s; }
-    friend DynamicBitset operator>>(DynamicBitset l, int s) { return l >>= s; }
+    friend StaticBitset operator<<(StaticBitset l, int s) { return l <<= s; }
+    friend StaticBitset operator>>(StaticBitset l, int s) { return l >>= s; }
 };
 
 /**
- * @brief 動的bitset(Dynamic Bitset)
+ * @brief 固定長bitset(Static Bitset)
  */

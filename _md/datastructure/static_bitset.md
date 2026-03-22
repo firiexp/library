@@ -1,18 +1,18 @@
 ---
-title: Dynamic Bitset
-documentation_of: //datastructure/dynamic_bitset.cpp
+title: Static Bitset
+documentation_of: //datastructure/static_bitset.cpp
 date: 2026-03-22
 category: データ構造
 tags: データ構造
 ---
 
 ## 説明
-可変長の bitset。
+長さがコンパイル時定数の bitset。
 `uint64_t` 単位で持ち、集合演算、shift、立っている bit の走査を扱う。
 
 ## できること
-- `DynamicBitset bs(int n, bool x = false)`
-  長さ `n` の bitset を作る。`x = true` なら全 bit を 1 で初期化する
+- `StaticBitset<N> bs(bool x = false)`
+  長さ `N` の bitset を作る。`x = true` なら全 bit を 1 で初期化する
 - `int size() const`
   長さを返す
 - `bool test(int k) const`
@@ -40,6 +40,4 @@ tags: データ構造
 
 ## 使い方
 長さが同じ bitset 同士で演算する。
-`find_first`, `find_next` を使うと立っている bit だけを前から走査できる。
-`find_last`, `find_prev` を使うと後ろからも走査できる。
-
+`StaticBitset<2048> bs;` のように長さをテンプレート引数で指定する。

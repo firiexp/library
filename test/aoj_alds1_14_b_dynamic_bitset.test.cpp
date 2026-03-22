@@ -23,7 +23,7 @@ int main() {
 
     int m = pattern.size();
     if (m == 0) {
-        for (int i = 0; i <= (int)text.size(); ++i) pr.writeln(i);
+        for (int i = 0; i <= (int)text.size(); ++i) pr.println(i);
         return 0;
     }
 
@@ -36,7 +36,7 @@ int main() {
         cur <<= 1;
         cur |= head;
         cur &= mask[(unsigned char)text[i]];
-        if (cur.test(m - 1)) pr.writeln(i - m + 1);
+        if (cur.test(m - 1)) pr.println(i - m + 1);
     }
     return 0;
 }
