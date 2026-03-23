@@ -9,7 +9,7 @@ tags: 数学
 ## 説明
 符号付き多倍長整数を扱う。
 内部表現は $2^{32}$ 基数の little endian limb 列で、加減算・比較・シフト・短整数演算・高速乗除算を持つ。
-除算はいま遅い
+10 進入力同士では decimal cache を使い、近い長さの除算では基数変換を避ける
 
 ## できること
 - `BigInteger()`
@@ -34,4 +34,3 @@ tags: 数学
 ## 使い方
 `BigInteger a(s);` のように作って使う。
 文字列入力が decimal ならそのまま、hex なら `BigInteger(s, 16)` と `to_string(16)` を使う。
-

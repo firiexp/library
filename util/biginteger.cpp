@@ -265,15 +265,19 @@ struct BigInteger {
     static constexpr u32 BASE_MASK = 0xffffffffu;
     static constexpr u32 DEC_BLOCK = 1000000000u;
     static constexpr int DEC_BLOCK_DIGITS = 9;
+    static constexpr u64 FAST_DEC_BASE = 10000000000000000ULL;
+    static constexpr int FAST_DEC_BLOCK_DIGITS = 16;
+    static constexpr u32 FAST_DEC_META_BASE = 10000u;
+    static constexpr int FAST_DEC_META_DIGITS = 4;
     static constexpr u32 DEC_CONV_BASE = 1000000u;
     static constexpr int DEC_CONV_DIGITS = 6;
     static constexpr int HEX_BLOCK_DIGITS = 8;
     static constexpr int DEC_ASSIGN_LINEAR_BLOCK_THRESHOLD = 256;
     static constexpr int DEC_TO_STRING_LINEAR_LIMB_THRESHOLD = 256;
     static constexpr int MUL_SCHOOLBOOK_LIMB_THRESHOLD = 32;
-    static constexpr int MUL_SCHOOLBOOK_AREA_THRESHOLD = 2048;
-    static constexpr int BURNIKEL_ZIEGLER_THRESHOLD = 80;
-    static constexpr int BURNIKEL_ZIEGLER_OFFSET = 40;
+    static constexpr int MUL_SCHOOLBOOK_AREA_THRESHOLD = 262144;
+    static constexpr int BURNIKEL_ZIEGLER_THRESHOLD = 64;
+    static constexpr int BURNIKEL_ZIEGLER_OFFSET = 32;
 
     mutable vector<u32> d;
     int sign;
@@ -397,6 +401,71 @@ struct BigInteger {
         return blocks;
     }
 
+    static vector<u64> split_decimal_blocks_le_u64(const string &s, int block_digits) {
+        vector<u64> blocks;
+        if (s.empty()) return blocks;
+        int block_count = ((int)s.size() + block_digits - 1) / block_digits;
+        blocks.reserve(block_count);
+        for (int r = (int)s.size(); r > 0; r -= block_digits) {
+            int l = max(0, r - block_digits);
+            u64 x = 0;
+            for (int i = l; i < r; ++i) x = x * 10 + u64(s[i] - '0');
+            blocks.push_back(x);
+        }
+        return blocks;
+    }
+
+    static void trim_decimal_blocks(vector<u32> &blocks) {
+        while (!blocks.empty() && blocks.back() == 0) blocks.pop_back();
+    }
+
+    static void trim_decimal_blocks_u64(vector<u64> &blocks) {
+        while (!blocks.empty() && blocks.back() == 0) blocks.pop_back();
+    }
+
+    static int compare_decimal_blocks(const vector<u32> &a, const vector<u32> &b) {
+        if (a.size() != b.size()) return a.size() < b.size() ? -1 : 1;
+        for (int i = (int)a.size() - 1; i >= 0; --i) {
+            if (a[i] != b[i]) return a[i] < b[i] ? -1 : 1;
+        }
+        return 0;
+    }
+
+    static int compare_decimal_blocks_u64(const vector<u64> &a, const vector<u64> &b) {
+        if (a.size() != b.size()) return a.size() < b.size() ? -1 : 1;
+        for (int i = (int)a.size() - 1; i >= 0; --i) {
+            if (a[i] != b[i]) return a[i] < b[i] ? -1 : 1;
+        }
+        return 0;
+    }
+
+    static vector<u32> mul_small_decimal_blocks(const vector<u32> &a, u32 m, u32 base) {
+        if (a.empty() || m == 0) return {};
+        if (m == 1) return a;
+        vector<u32> res;
+        res.reserve(a.size() + 1);
+        u64 carry = 0;
+        for (u32 x : a) {
+            u64 cur = u64(x) * m + carry;
+            res.push_back(u32(cur % base));
+            carry = cur / base;
+        }
+        if (carry) res.push_back(u32(carry));
+        trim_decimal_blocks(res);
+        return res;
+    }
+
+    static u32 div_small_decimal_blocks_assign(vector<u32> &a, u32 m, u32 base) {
+        u64 rem = 0;
+        for (int i = (int)a.size() - 1; i >= 0; --i) {
+            u64 cur = rem * base + a[i];
+            a[i] = u32(cur / m);
+            rem = cur % m;
+        }
+        trim_decimal_blocks(a);
+        return u32(rem);
+    }
+
     template <class T>
     static void ensure_pow_cache_size(vector<T> &cache, vector<char> &ready, int n) {
         if ((int)cache.size() > n) return;
@@ -413,6 +482,17 @@ struct BigInteger {
         for (int i = (int)parts.size() - 2; i >= 0; --i) {
             append_u32_decimal_padded(res, parts[i], block_digits);
         }
+        return res;
+    }
+
+    static BigInteger from_decimal_blocks_abs(vector<u32> parts, int block_digits) {
+        trim_decimal_blocks(parts);
+        if (parts.empty()) return BigInteger();
+        BigInteger res;
+        res.sign = 1;
+        res.dec = build_decimal_string(parts, block_digits, false);
+        res.binary_ready = false;
+        res.decimal_ready = true;
         return res;
     }
 
@@ -631,6 +711,439 @@ struct BigInteger {
         }
         res.append(buf, buf + width);
     }
+
+    static int decimal_digits_u64(u64 x) {
+        int digits = 1;
+        while (x >= 10) {
+            x /= 10;
+            ++digits;
+        }
+        return digits;
+    }
+
+    static void append_u64_decimal(string &res, u64 x) {
+        char buf[20];
+        int pos = 20;
+        do {
+            buf[--pos] = char('0' + (x % 10));
+            x /= 10;
+        } while (x);
+        res.append(buf + pos, buf + 20);
+    }
+
+    static void append_u64_decimal_padded(string &res, u64 x, int width) {
+        char buf[20];
+        for (int i = width - 1; i >= 0; --i) {
+            buf[i] = char('0' + (x % 10));
+            x /= 10;
+        }
+        res.append(buf, buf + width);
+    }
+
+    static string build_decimal_string_u64(const vector<u64> &parts, int block_digits, bool negative) {
+        string res;
+        res.reserve((negative ? 1 : 0) + decimal_digits_u64(parts.back()) +
+                    max(0, (int)parts.size() - 1) * block_digits);
+        if (negative) res.push_back('-');
+        append_u64_decimal(res, parts.back());
+        for (int i = (int)parts.size() - 2; i >= 0; --i) {
+            append_u64_decimal_padded(res, parts[i], block_digits);
+        }
+        return res;
+    }
+
+    static BigInteger from_decimal_blocks_abs_u64(vector<u64> parts, int block_digits) {
+        trim_decimal_blocks_u64(parts);
+        if (parts.empty()) return BigInteger();
+        BigInteger res;
+        res.sign = 1;
+        res.dec = build_decimal_string_u64(parts, block_digits, false);
+        res.binary_ready = false;
+        res.decimal_ready = true;
+        return res;
+    }
+
+    struct FastDecBigint {
+        vector<u64> digits;
+        bool negative;
+
+        FastDecBigint() : digits(), negative(false) {}
+        FastDecBigint(long long x) : digits(), negative(false) {
+            if (x < 0) {
+                negative = true;
+                x = -x;
+            }
+            if (x) digits.push_back(u64(x));
+        }
+        FastDecBigint(vector<u64> d, bool neg = false) : digits(std::move(d)), negative(neg) { normalize(); }
+
+        FastDecBigint &normalize() {
+            trim_decimal_blocks_u64(digits);
+            if (digits.empty()) negative = false;
+            return *this;
+        }
+
+        bool is_zero() const { return digits.empty(); }
+
+        static int compare_abs_digits(const vector<u64> &a, const vector<u64> &b) {
+            return compare_decimal_blocks_u64(a, b);
+        }
+
+        int compare(const FastDecBigint &other) const {
+            if (is_zero() && other.is_zero()) return 0;
+            if (negative != other.negative) return negative ? -1 : 1;
+            int c = compare_abs_digits(digits, other.digits);
+            return negative ? -c : c;
+        }
+
+        bool operator<(const FastDecBigint &other) const { return compare(other) < 0; }
+        bool operator>=(const FastDecBigint &other) const { return compare(other) >= 0; }
+
+        FastDecBigint &pad_inplace(size_t to_add) {
+            if (to_add) digits.insert(digits.begin(), to_add, 0);
+            return *this;
+        }
+
+        FastDecBigint &drop_inplace(size_t to_drop) {
+            if (to_drop >= digits.size()) {
+                digits.clear();
+                negative = false;
+                return *this;
+            }
+            digits.erase(digits.begin(), digits.begin() + (int)to_drop);
+            return normalize();
+        }
+
+        FastDecBigint pad(size_t to_add) const {
+            FastDecBigint res = *this;
+            return res.pad_inplace(to_add);
+        }
+
+        FastDecBigint drop(size_t to_drop) const {
+            FastDecBigint res = *this;
+            return res.drop_inplace(to_drop);
+        }
+
+        FastDecBigint top(size_t to_keep) const {
+            if (to_keep >= digits.size()) return pad(to_keep - digits.size());
+            return drop(digits.size() - to_keep);
+        }
+
+        FastDecBigint &negate() {
+            if (!is_zero()) negative = !negative;
+            return *this;
+        }
+
+        FastDecBigint operator-() const {
+            FastDecBigint res = *this;
+            res.negate();
+            return res;
+        }
+
+        static vector<u64> add_abs_digits(const vector<u64> &a, const vector<u64> &b) {
+            vector<u64> res(max(a.size(), b.size()), 0);
+            u64 carry = 0;
+            size_t i = 0;
+            for (; i < res.size(); ++i) {
+                u128 cur = carry;
+                if (i < a.size()) cur += a[i];
+                if (i < b.size()) cur += b[i];
+                if (cur >= FAST_DEC_BASE) {
+                    res[i] = u64(cur - FAST_DEC_BASE);
+                    carry = 1;
+                } else {
+                    res[i] = u64(cur);
+                    carry = 0;
+                }
+            }
+            if (carry) res.push_back(carry);
+            trim_decimal_blocks_u64(res);
+            return res;
+        }
+
+        static void sub_abs_assign(vector<u64> &a, const vector<u64> &b) {
+            u64 borrow = 0;
+            for (size_t i = 0; i < a.size(); ++i) {
+                u128 rhs = borrow;
+                if (i < b.size()) rhs += b[i];
+                if (u128(a[i]) < rhs) {
+                    a[i] = u64(u128(a[i]) + FAST_DEC_BASE - rhs);
+                    borrow = 1;
+                } else {
+                    a[i] = u64(u128(a[i]) - rhs);
+                    borrow = 0;
+                }
+            }
+            trim_decimal_blocks_u64(a);
+        }
+
+        FastDecBigint &operator+=(const FastDecBigint &other) {
+            if (other.is_zero()) return *this;
+            if (is_zero()) {
+                *this = other;
+                return *this;
+            }
+            if (negative == other.negative) {
+                digits = add_abs_digits(digits, other.digits);
+                return *this;
+            }
+            int cmp = compare_abs_digits(digits, other.digits);
+            if (cmp == 0) {
+                digits.clear();
+                negative = false;
+                return *this;
+            }
+            if (cmp > 0) {
+                sub_abs_assign(digits, other.digits);
+            } else {
+                vector<u64> res = other.digits;
+                sub_abs_assign(res, digits);
+                digits = std::move(res);
+                negative = other.negative;
+            }
+            return normalize();
+        }
+
+        FastDecBigint &operator-=(const FastDecBigint &other) {
+            return *this += (-other);
+        }
+
+        FastDecBigint operator+(const FastDecBigint &other) const {
+            FastDecBigint res = *this;
+            res += other;
+            return res;
+        }
+
+        FastDecBigint operator-(const FastDecBigint &other) const {
+            FastDecBigint res = *this;
+            res -= other;
+            return res;
+        }
+
+        FastDecBigint &operator+=(long long other) {
+            return *this += FastDecBigint(other);
+        }
+
+        FastDecBigint &operator-=(long long other) {
+            return *this -= FastDecBigint(other);
+        }
+
+        FastDecBigint &operator*=(long long other) {
+            if (is_zero() || other == 1) return *this;
+            if (other == 0) {
+                digits.clear();
+                negative = false;
+                return *this;
+            }
+            if (other < 0) {
+                negative = !negative;
+                other = -other;
+            }
+            u64 mul = u64(other);
+            u64 carry = 0;
+            for (u64 &d : digits) {
+                u128 cur = u128(d) * mul + carry;
+                d = u64(cur % FAST_DEC_BASE);
+                carry = u64(cur / FAST_DEC_BASE);
+            }
+            while (carry) {
+                digits.push_back(carry % FAST_DEC_BASE);
+                carry /= FAST_DEC_BASE;
+            }
+            return normalize();
+        }
+
+        static vector<u64> mul_schoolbook_digits(const vector<u64> &a, const vector<u64> &b) {
+            if (a.empty() || b.empty()) return {};
+            vector<u64> res(a.size() + b.size(), 0);
+            for (size_t i = 0; i < a.size(); ++i) {
+                u64 carry = 0;
+                for (size_t j = 0; j < b.size(); ++j) {
+                    u128 cur = u128(a[i]) * b[j] + res[i + j] + carry;
+                    res[i + j] = u64(cur % FAST_DEC_BASE);
+                    carry = u64(cur / FAST_DEC_BASE);
+                }
+                size_t pos = i + b.size();
+                while (carry) {
+                    u128 cur = u128(res[pos]) + carry;
+                    res[pos] = u64(cur % FAST_DEC_BASE);
+                    carry = u64(cur / FAST_DEC_BASE);
+                    ++pos;
+                }
+            }
+            trim_decimal_blocks_u64(res);
+            return res;
+        }
+
+        static vector<u32> to_metabase_digits(const vector<u64> &src) {
+            vector<u32> res(src.size() * FAST_DEC_META_DIGITS);
+            for (size_t i = 0; i < src.size(); ++i) {
+                u64 cur = src[i];
+                for (int k = 0; k < FAST_DEC_META_DIGITS; ++k) {
+                    res[i * FAST_DEC_META_DIGITS + k] = u32(cur % FAST_DEC_META_BASE);
+                    cur /= FAST_DEC_META_BASE;
+                }
+            }
+            while (!res.empty() && res.back() == 0) res.pop_back();
+            return res;
+        }
+
+        static vector<u64> from_metabase_digits(const vector<u32> &src) {
+            vector<u64> res;
+            res.reserve(src.size() / FAST_DEC_META_DIGITS + 2);
+            u64 carry = 0;
+            for (size_t i = 0; i < src.size(); i += FAST_DEC_META_DIGITS) {
+                u128 val = carry;
+                for (int k = FAST_DEC_META_DIGITS - 1; k >= 0; --k) {
+                    val *= FAST_DEC_META_BASE;
+                    size_t idx = i + (size_t)k;
+                    if (idx < src.size()) val += src[idx];
+                }
+                res.push_back(u64(val % FAST_DEC_BASE));
+                carry = u64(val / FAST_DEC_BASE);
+            }
+            while (carry) {
+                res.push_back(carry % FAST_DEC_BASE);
+                carry /= FAST_DEC_BASE;
+            }
+            trim_decimal_blocks_u64(res);
+            return res;
+        }
+
+        static vector<u64> mul_digits(const vector<u64> &a, const vector<u64> &b) {
+            if (a.empty() || b.empty()) return {};
+            if (min(a.size(), b.size()) <= 32 || a.size() * b.size() <= 4096) {
+                return mul_schoolbook_digits(a, b);
+            }
+            vector<u32> x = to_metabase_digits(a);
+            vector<u32> y = to_metabase_digits(b);
+            auto conv = BigIntegerExactConvolution::convolution_u64(x, y);
+            vector<u32> meta;
+            meta.reserve(conv.size() + 4);
+            u64 carry = 0;
+            for (u64 v : conv) {
+                u64 cur = v + carry;
+                meta.push_back(u32(cur % FAST_DEC_META_BASE));
+                carry = cur / FAST_DEC_META_BASE;
+            }
+            while (carry) {
+                meta.push_back(u32(carry % FAST_DEC_META_BASE));
+                carry /= FAST_DEC_META_BASE;
+            }
+            while (!meta.empty() && meta.back() == 0) meta.pop_back();
+            return from_metabase_digits(meta);
+        }
+
+        FastDecBigint &mul_inplace(FastDecBigint other) {
+            negative = negative != other.negative;
+            digits = mul_digits(digits, other.digits);
+            return normalize();
+        }
+
+        FastDecBigint &operator*=(const FastDecBigint &other) {
+            return mul_inplace(FastDecBigint(other));
+        }
+
+        FastDecBigint operator*(const FastDecBigint &other) const {
+            FastDecBigint res = *this;
+            res *= other;
+            return res;
+        }
+    };
+
+    struct FastDecimal {
+        FastDecBigint value;
+        long long scale;
+
+        FastDecimal(long long v = 0, long long s = 0) : value(v), scale(s) {}
+        FastDecimal(FastDecBigint v, long long s = 0) : value(std::move(v)), scale(s) {}
+
+        FastDecimal &operator*=(const FastDecimal &other) {
+            value *= other.value;
+            scale += other.scale;
+            return *this;
+        }
+
+        FastDecimal &operator+=(const FastDecimal &other) {
+            if (scale < other.scale) {
+                value += other.value.pad((size_t)(other.scale - scale));
+            } else {
+                value.pad_inplace((size_t)(scale - other.scale));
+                value += other.value;
+                scale = other.scale;
+            }
+            return *this;
+        }
+
+        FastDecimal &operator-=(const FastDecimal &other) {
+            if (scale < other.scale) {
+                value -= other.value.pad((size_t)(other.scale - scale));
+            } else {
+                value.pad_inplace((size_t)(scale - other.scale));
+                value -= other.value;
+                scale = other.scale;
+            }
+            return *this;
+        }
+
+        FastDecimal operator*(const FastDecimal &other) const {
+            FastDecimal res = *this;
+            res *= other;
+            return res;
+        }
+
+        FastDecimal operator+(const FastDecimal &other) const {
+            FastDecimal res = *this;
+            res += other;
+            return res;
+        }
+
+        FastDecimal operator-(const FastDecimal &other) const {
+            FastDecimal res = *this;
+            res -= other;
+            return res;
+        }
+
+        FastDecBigint trunc() const {
+            if (scale >= 0) return value.pad((size_t)scale);
+            if (-scale >= (long long)value.digits.size()) return FastDecBigint();
+            return value.top(value.digits.size() - (size_t)(-scale));
+        }
+
+        FastDecBigint round() const {
+            if (scale >= 0) return value.pad((size_t)scale);
+            if (-scale > (long long)value.digits.size()) return FastDecBigint();
+            FastDecBigint res = value.top(value.digits.size() - (size_t)(-scale));
+            if (value.digits[(size_t)(-scale - 1)] * 2 >= FAST_DEC_BASE) res += 1;
+            return res;
+        }
+
+        FastDecimal trunc(size_t digits_to_keep) const {
+            digits_to_keep = min(digits_to_keep, value.digits.size());
+            return FastDecimal(value.top(digits_to_keep), scale + (long long)value.digits.size() - (long long)digits_to_keep);
+        }
+
+        long long magnitude() const {
+            static constexpr long long NEG_INF = -(1LL << 60);
+            if (value.digits.empty()) return NEG_INF;
+            return (long long)value.digits.size() + scale;
+        }
+
+        FastDecimal inv(long long precision) const {
+            assert(precision >= 0);
+            long long lead = (long long)((long double)FAST_DEC_BASE / (long double)value.digits.back() + 0.5L);
+            FastDecimal d(FastDecBigint(lead), -(long long)value.digits.size());
+            size_t cur = 2;
+            FastDecimal amend = FastDecimal(1) - trunc(cur) * d;
+            while (-amend.magnitude() < precision) {
+                d += d * amend;
+                cur = 2 * (size_t)(1 - amend.magnitude());
+                d = d.trunc(cur);
+                amend = FastDecimal(1) - trunc(cur) * d;
+            }
+            return d;
+        }
+    };
 
     void trim() {
         while (!d.empty() && d.back() == 0) d.pop_back();
@@ -941,18 +1454,72 @@ struct BigInteger {
         return res;
     }
 
+    static BigInteger from_limbs_range(const vector<u32> &src, int l, int r) {
+        if (l >= r) return BigInteger();
+        BigInteger res;
+        res.d.assign(src.begin() + l, src.begin() + r);
+        while (!res.d.empty() && res.d.back() == 0) res.d.pop_back();
+        res.sign = res.d.empty() ? 0 : 1;
+        res.binary_ready = true;
+        res.decimal_ready = false;
+        return res;
+    }
+
+    static BigInteger merge_disjoint_range_high(const BigInteger &x, int l, int r,
+                                                const BigInteger &high, int high_shift) {
+        x.ensure_binary();
+        high.ensure_binary();
+        int xl = max(0, l);
+        int xr = min((int)x.d.size(), r);
+        int low_len = max(0, xr - xl);
+        if (high.is_zero()) return low_len ? from_limbs_range(x.d, xl, xr) : BigInteger();
+        if (low_len == 0) return shift_left_limbs(high, high_shift);
+        BigInteger res;
+        size_t need = max((size_t)low_len, high.d.size() + (size_t)high_shift);
+        res.d.assign(need, 0);
+        for (int i = 0; i < low_len; ++i) res.d[i] = x.d[xl + i];
+        for (size_t i = 0; i < high.d.size(); ++i) res.d[i + high_shift] = high.d[i];
+        res.sign = 1;
+        res.binary_ready = true;
+        res.decimal_ready = false;
+        res.trim();
+        return res;
+    }
+
+    static BigInteger merge_disjoint_abs(const BigInteger &low, const BigInteger &high, int high_shift) {
+        low.ensure_binary();
+        return merge_disjoint_range_high(low, 0, (int)low.d.size(), high, high_shift);
+    }
+
+    static BigInteger lower_with_high(const BigInteger &x, int low_limbs, const BigInteger &high) {
+        x.ensure_binary();
+        if (low_limbs <= 0 || x.d.empty()) return shift_left_limbs(high, low_limbs);
+        int len = min((int)x.d.size(), low_limbs);
+        return merge_disjoint_range_high(x, 0, len, high, low_limbs);
+    }
+
+    static BigInteger block_with_high(const BigInteger &x, int index, int num_blocks,
+                                      int block_length, const BigInteger &high) {
+        x.ensure_binary();
+        int block_start = index * block_length;
+        if (block_start >= (int)x.d.size()) return shift_left_limbs(high, block_length);
+        int block_end = index == num_blocks - 1 ? (int)x.d.size() : (index + 1) * block_length;
+        if (block_end > (int)x.d.size()) return shift_left_limbs(high, block_length);
+        return merge_disjoint_range_high(x, block_start, block_end, high, block_length);
+    }
+
     static BigInteger lower_limbs(const BigInteger &x, int limbs) {
         x.ensure_binary();
         if (limbs <= 0 || x.d.empty()) return BigInteger();
         int len = min((int)x.d.size(), limbs);
-        return from_limbs(vector<u32>(x.d.begin(), x.d.begin() + len));
+        return from_limbs_range(x.d, 0, len);
     }
 
     static BigInteger upper_limbs(const BigInteger &x, int limbs) {
         x.ensure_binary();
         if (limbs <= 0) return x;
         if (limbs >= (int)x.d.size()) return BigInteger();
-        return from_limbs(vector<u32>(x.d.begin() + limbs, x.d.end()));
+        return from_limbs_range(x.d, limbs, (int)x.d.size());
     }
 
     static BigInteger shift_left_limbs(const BigInteger &x, int limbs) {
@@ -976,7 +1543,7 @@ struct BigInteger {
         if (block_start >= (int)x.d.size()) return BigInteger();
         int block_end = index == num_blocks - 1 ? (int)x.d.size() : (index + 1) * block_length;
         if (block_end > (int)x.d.size()) return BigInteger();
-        return from_limbs(vector<u32>(x.d.begin() + block_start, x.d.begin() + block_end));
+        return from_limbs_range(x.d, block_start, block_end);
     }
 
     static void add_shifted_abs(BigInteger &dst, const BigInteger &src, int limb_shift) {
@@ -1041,6 +1608,59 @@ struct BigInteger {
         return 0;
     }
 
+    static void bz_split_divisor(vector<BigInteger> &values, vector<int> &high, vector<int> &low,
+                                 vector<int> &knuth_shift, vector<vector<u32>> &knuth_norm,
+                                 vector<char> &corr_ready, vector<BigInteger> &shifted_high,
+                                 vector<BigInteger> &low_gap, int idx) {
+        if (high[idx] != -1) return;
+        int half = (int)values[idx].d.size() / 2;
+        high[idx] = (int)values.size();
+        values.push_back(upper_limbs(values[idx], half));
+        high.push_back(-1);
+        low.push_back(-1);
+        knuth_shift.push_back(-1);
+        knuth_norm.emplace_back();
+        corr_ready.push_back(0);
+        shifted_high.emplace_back();
+        low_gap.emplace_back();
+        low[idx] = (int)values.size();
+        values.push_back(lower_limbs(values[idx], half));
+        high.push_back(-1);
+        low.push_back(-1);
+        knuth_shift.push_back(-1);
+        knuth_norm.emplace_back();
+        corr_ready.push_back(0);
+        shifted_high.emplace_back();
+        low_gap.emplace_back();
+    }
+
+    static void bz_prepare_knuth_divisor(const vector<BigInteger> &values, vector<int> &knuth_shift,
+                                         vector<vector<u32>> &knuth_norm, int idx) {
+        if (knuth_shift[idx] != -1) return;
+        const BigInteger &v = values[idx];
+        int shift = __builtin_clz(v.d.back());
+        knuth_shift[idx] = shift;
+        knuth_norm[idx] = shift ? shift_left_copy_limbs(v.d, shift) : v.d;
+    }
+
+    static void bz_prepare_divisor_corrections(vector<BigInteger> &div_values, vector<int> &div_high,
+                                               vector<int> &div_low, vector<int> &knuth_shift,
+                                               vector<vector<u32>> &knuth_norm,
+                                               vector<char> &corr_ready,
+                                               vector<BigInteger> &shifted_high,
+                                               vector<BigInteger> &low_gap, int idx) {
+        if (corr_ready[idx]) return;
+        bz_split_divisor(div_values, div_high, div_low, knuth_shift, knuth_norm,
+                         corr_ready, shifted_high, low_gap, idx);
+        int n = (int)div_values[idx].d.size() / 2;
+        const BigInteger &b1 = div_values[div_high[idx]];
+        const BigInteger &b2 = div_values[div_low[idx]];
+        shifted_high[idx] = shift_left_limbs(b1, n);
+        low_gap[idx] = shift_left_limbs(b2, n);
+        if (!b2.is_zero()) low_gap[idx].sub_abs(b2);
+        corr_ready[idx] = 1;
+    }
+
     static BigInteger divmod_knuth_abs(const BigInteger &u0, const BigInteger &v0, BigInteger &rem) {
         u0.ensure_binary();
         v0.ensure_binary();
@@ -1064,8 +1684,19 @@ struct BigInteger {
         }
 
         int shift = __builtin_clz(v0.d.back());
-        vector<u32> un = shift ? shift_left_copy_limbs(u0.d, shift) : u0.d;
         vector<u32> vn = shift ? shift_left_copy_limbs(v0.d, shift) : v0.d;
+        return divmod_knuth_abs_prepared(u0, v0, shift, vn, rem);
+    }
+
+    static BigInteger divmod_knuth_abs_prepared(const BigInteger &u0, const BigInteger &v0, int shift,
+                                                const vector<u32> &vn, BigInteger &rem) {
+        u0.ensure_binary();
+        v0.ensure_binary();
+        if (u0.compare_abs(v0) < 0) {
+            rem = u0;
+            return BigInteger();
+        }
+        vector<u32> un = shift ? shift_left_copy_limbs(u0.d, shift) : u0.d;
         size_t n = vn.size();
         size_t m = un.size() - n;
         un.push_back(0);
@@ -1138,26 +1769,204 @@ struct BigInteger {
         return q;
     }
 
-    static BigInteger divide3n2n_abs(const BigInteger &a, const BigInteger &b, BigInteger &quotient) {
+    static pair<vector<u32>, vector<u32>> divmod_knuth_decimal_blocks(vector<u32> u, vector<u32> v) {
+        trim_decimal_blocks(u);
+        trim_decimal_blocks(v);
+        if (v.empty()) return {{}, {}};
+        if (compare_decimal_blocks(u, v) < 0) return {{}, std::move(u)};
+        if (v.size() == 1) {
+            vector<u32> q = u;
+            u32 rem = div_small_decimal_blocks_assign(q, v[0], DEC_BLOCK);
+            vector<u32> r;
+            if (rem) r.push_back(rem);
+            return {std::move(q), std::move(r)};
+        }
+
+        u32 norm = DEC_BLOCK / (v.back() + 1);
+        vector<u32> un = norm == 1 ? std::move(u) : mul_small_decimal_blocks(u, norm, DEC_BLOCK);
+        vector<u32> vn = norm == 1 ? std::move(v) : mul_small_decimal_blocks(v, norm, DEC_BLOCK);
+        size_t n = vn.size();
+        size_t m = un.size() - n;
+        un.push_back(0);
+
+        vector<u32> q(m + 1, 0);
+        for (size_t jj = m + 1; jj-- > 0; ) {
+            size_t j = jj;
+            u64 numerator = u64(un[j + n]) * DEC_BLOCK + un[j + n - 1];
+            u64 qhat = numerator / vn[n - 1];
+            u64 rhat = numerator % vn[n - 1];
+            if (qhat == DEC_BLOCK) {
+                --qhat;
+                rhat += vn[n - 1];
+            }
+            if (n >= 2) {
+                while (rhat < DEC_BLOCK &&
+                       qhat * vn[n - 2] > rhat * DEC_BLOCK + un[j + n - 2]) {
+                    --qhat;
+                    rhat += vn[n - 1];
+                }
+            }
+
+            u64 carry = 0;
+            u64 borrow = 0;
+            for (size_t i = 0; i < n; ++i) {
+                u64 prod = qhat * vn[i] + carry;
+                carry = prod / DEC_BLOCK;
+                u64 sub = prod % DEC_BLOCK + borrow;
+                if (u64(un[j + i]) < sub) {
+                    un[j + i] = u32(u64(un[j + i]) + DEC_BLOCK - sub);
+                    borrow = 1;
+                } else {
+                    un[j + i] = u32(u64(un[j + i]) - sub);
+                    borrow = 0;
+                }
+            }
+
+            u64 sub = carry + borrow;
+            bool negative = false;
+            if (u64(un[j + n]) < sub) {
+                un[j + n] = u32(u64(un[j + n]) + DEC_BLOCK - sub);
+                negative = true;
+            } else {
+                un[j + n] = u32(u64(un[j + n]) - sub);
+            }
+
+            if (negative) {
+                --qhat;
+                u64 add_carry = 0;
+                for (size_t i = 0; i < n; ++i) {
+                    u64 cur = u64(un[j + i]) + vn[i] + add_carry;
+                    if (cur >= DEC_BLOCK) {
+                        un[j + i] = u32(cur - DEC_BLOCK);
+                        add_carry = 1;
+                    } else {
+                        un[j + i] = u32(cur);
+                        add_carry = 0;
+                    }
+                }
+                un[j + n] = u32(u64(un[j + n]) + add_carry);
+            }
+            q[j] = u32(qhat);
+        }
+
+        trim_decimal_blocks(q);
+        vector<u32> r(un.begin(), un.begin() + n);
+        if (norm != 1) div_small_decimal_blocks_assign(r, norm, DEC_BLOCK);
+        trim_decimal_blocks(r);
+        return {std::move(q), std::move(r)};
+    }
+
+    static pair<BigInteger, BigInteger> divmod_decimal_abs(const BigInteger &u, const BigInteger &v) {
+        if (compare_abs_decimal(u.dec, v.dec) < 0) return {BigInteger(), u};
+        vector<u32> un = split_decimal_blocks_le(u.dec, DEC_BLOCK_DIGITS);
+        vector<u32> vn = split_decimal_blocks_le(v.dec, DEC_BLOCK_DIGITS);
+        auto qr = divmod_knuth_decimal_blocks(std::move(un), std::move(vn));
+        return {
+            from_decimal_blocks_abs(std::move(qr.first), DEC_BLOCK_DIGITS),
+            from_decimal_blocks_abs(std::move(qr.second), DEC_BLOCK_DIGITS)
+        };
+    }
+
+    static bool divmod_decimal_reciprocal_abs(const BigInteger &u, const BigInteger &v,
+                                              BigInteger &quotient, BigInteger &rem) {
+        if (compare_abs_decimal(u.dec, v.dec) < 0) {
+            quotient = BigInteger();
+            rem = u;
+            return true;
+        }
+        vector<u64> un = split_decimal_blocks_le_u64(u.dec, FAST_DEC_BLOCK_DIGITS);
+        vector<u64> vn = split_decimal_blocks_le_u64(v.dec, FAST_DEC_BLOCK_DIGITS);
+        FastDecBigint a(std::move(un));
+        FastDecBigint b(std::move(vn));
+        if (b.is_zero()) return false;
+        if (b.digits.size() == 1) {
+            vector<u64> q = a.digits;
+            u64 divisor = b.digits[0];
+            u64 carry = 0;
+            for (int i = (int)q.size() - 1; i >= 0; --i) {
+                u128 cur = u128(carry) * FAST_DEC_BASE + q[i];
+                q[i] = u64(cur / divisor);
+                carry = u64(cur % divisor);
+            }
+            quotient = from_decimal_blocks_abs_u64(std::move(q), FAST_DEC_BLOCK_DIGITS);
+            if (carry == 0) rem = BigInteger();
+            else rem = from_decimal_blocks_abs_u64(vector<u64>{carry}, FAST_DEC_BLOCK_DIGITS);
+            return true;
+        }
+
+        FastDecimal A(a);
+        FastDecimal B(b);
+        long long precision = A.magnitude() - B.magnitude() + 1;
+        if (precision < 0) precision = 0;
+        FastDecBigint q = (A * B.inv(precision)).round();
+        FastDecBigint r = a - q * b;
+        int correction_steps = 0;
+        while (!r.is_zero() && r.negative) {
+            --correction_steps;
+            if (correction_steps < -8) return false;
+            q -= 1;
+            r += b;
+        }
+        while (r.compare(b) >= 0) {
+            ++correction_steps;
+            if (correction_steps > 8) return false;
+            q += 1;
+            r -= b;
+        }
+        if (q.negative || r.negative || r.compare(b) >= 0) return false;
+
+        quotient = from_decimal_blocks_abs_u64(std::move(q.digits), FAST_DEC_BLOCK_DIGITS);
+        rem = from_decimal_blocks_abs_u64(std::move(r.digits), FAST_DEC_BLOCK_DIGITS);
+        return true;
+    }
+
+    static bool should_use_decimal_division(const BigInteger &u, const BigInteger &v) {
+        int u_blocks = ((int)u.dec.size() + DEC_BLOCK_DIGITS - 1) / DEC_BLOCK_DIGITS;
+        int v_blocks = ((int)v.dec.size() + DEC_BLOCK_DIGITS - 1) / DEC_BLOCK_DIGITS;
+        if (u_blocks < v_blocks) return true;
+        if (u_blocks <= v_blocks + 2) return true;
+        if (v_blocks <= 4) return true;
+        return false;
+    }
+
+    static bool should_use_decimal_reciprocal_division(const BigInteger &u, const BigInteger &v) {
+        int u_blocks = ((int)u.dec.size() + FAST_DEC_BLOCK_DIGITS - 1) / FAST_DEC_BLOCK_DIGITS;
+        int v_blocks = ((int)v.dec.size() + FAST_DEC_BLOCK_DIGITS - 1) / FAST_DEC_BLOCK_DIGITS;
+        if (u_blocks < v_blocks || v_blocks <= 1) return false;
+        if (u_blocks <= v_blocks + 1) return false;
+        return v_blocks >= 4;
+    }
+
+    static BigInteger divide3n2n_abs(const BigInteger &a, vector<BigInteger> &div_values,
+                                     vector<int> &div_high, vector<int> &div_low,
+                                     vector<int> &knuth_shift, vector<vector<u32>> &knuth_norm,
+                                     vector<char> &corr_ready,
+                                     vector<BigInteger> &shifted_high, vector<BigInteger> &low_gap,
+                                     int b_idx, BigInteger &quotient) {
+        const BigInteger &b = div_values[b_idx];
         int n = (int)b.d.size() / 2;
+        bz_split_divisor(div_values, div_high, div_low, knuth_shift, knuth_norm,
+                         corr_ready, shifted_high, low_gap, b_idx);
+        const BigInteger &b1 = div_values[div_high[b_idx]];
+        const BigInteger &b2 = div_values[div_low[b_idx]];
         BigInteger a12 = upper_limbs(a, n);
-        BigInteger b1 = upper_limbs(b, n);
-        BigInteger b2 = lower_limbs(b, n);
         BigInteger r, d;
         if (compare_shifted_abs(a, b, n) < 0) {
-            r = divide2n1n_abs(a12, b1, quotient);
+            r = divide2n1n_abs(a12, div_values, div_high, div_low,
+                               knuth_shift, knuth_norm, corr_ready, shifted_high, low_gap,
+                               div_high[b_idx], quotient);
             d = multiply(quotient, b2);
             d.sign = d.is_zero() ? 0 : 1;
         } else {
+            bz_prepare_divisor_corrections(div_values, div_high, div_low, knuth_shift, knuth_norm,
+                                           corr_ready, shifted_high, low_gap, b_idx);
             quotient = ones_limbs(n);
             a12.add_abs(b1);
-            a12.sub_abs(shift_left_limbs(b1, n));
+            a12.sub_abs(shifted_high[b_idx]);
             r = a12;
-            d = shift_left_limbs(b2, n);
-            if (!b2.is_zero()) d.sub_abs(b2);
+            d = low_gap[b_idx];
         }
-        r = shift_left_limbs(r, n);
-        r.add_abs(lower_limbs(a, n));
+        r = lower_with_high(a, n, r);
         while (r.compare_abs(d) < 0) {
             r.add_abs(b);
             sub_one_abs(quotient);
@@ -1166,21 +1975,33 @@ struct BigInteger {
         return r;
     }
 
-    static BigInteger divide2n1n_abs(const BigInteger &a, const BigInteger &b, BigInteger &quotient) {
+    static BigInteger divide2n1n_abs(const BigInteger &a, vector<BigInteger> &div_values,
+                                     vector<int> &div_high, vector<int> &div_low,
+                                     vector<int> &knuth_shift, vector<vector<u32>> &knuth_norm,
+                                     vector<char> &corr_ready,
+                                     vector<BigInteger> &shifted_high, vector<BigInteger> &low_gap,
+                                     int b_idx, BigInteger &quotient) {
+        const BigInteger &b = div_values[b_idx];
         int n = (int)b.d.size();
         if ((n & 1) || n < BURNIKEL_ZIEGLER_THRESHOLD) {
             BigInteger rem;
-            quotient = divmod_knuth_abs(a, b, rem);
+            bz_prepare_knuth_divisor(div_values, knuth_shift, knuth_norm, b_idx);
+            quotient = divmod_knuth_abs_prepared(a, b, knuth_shift[b_idx], knuth_norm[b_idx], rem);
             return rem;
         }
         int half = n / 2;
+        bz_split_divisor(div_values, div_high, div_low, knuth_shift, knuth_norm,
+                         corr_ready, shifted_high, low_gap, b_idx);
         BigInteger a_upper = upper_limbs(a, half);
-        BigInteger a_lower = lower_limbs(a, half);
         BigInteger q1;
-        BigInteger r1 = divide3n2n_abs(a_upper, b, q1);
-        add_disjoint_abs(a_lower, r1, half);
-        BigInteger r2 = divide3n2n_abs(a_lower, b, quotient);
-        add_disjoint_abs(quotient, q1, half);
+        BigInteger r1 = divide3n2n_abs(a_upper, div_values, div_high, div_low,
+                                       knuth_shift, knuth_norm, corr_ready, shifted_high, low_gap,
+                                       b_idx, q1);
+        BigInteger z = lower_with_high(a, half, r1);
+        BigInteger r2 = divide3n2n_abs(z, div_values, div_high, div_low,
+                                       knuth_shift, knuth_norm, corr_ready, shifted_high, low_gap,
+                                       b_idx, quotient);
+        quotient = merge_disjoint_abs(quotient, q1, half);
         return r2;
     }
 
@@ -1207,22 +2028,57 @@ struct BigInteger {
         int t = (int)((a_shifted.bit_length() + n_bits) / n_bits);
         if (t < 2) t = 2;
 
+        vector<BigInteger> div_values;
+        vector<int> div_high;
+        vector<int> div_low;
+        vector<int> knuth_shift;
+        vector<vector<u32>> knuth_norm;
+        vector<char> corr_ready;
+        vector<BigInteger> shifted_high;
+        vector<BigInteger> low_gap;
+        div_values.reserve(32);
+        div_high.reserve(32);
+        div_low.reserve(32);
+        knuth_shift.reserve(32);
+        knuth_norm.reserve(32);
+        corr_ready.reserve(32);
+        shifted_high.reserve(32);
+        low_gap.reserve(32);
+        div_values.push_back(b_shifted);
+        div_high.push_back(-1);
+        div_low.push_back(-1);
+        knuth_shift.push_back(-1);
+        knuth_norm.emplace_back();
+        corr_ready.push_back(0);
+        shifted_high.emplace_back();
+        low_gap.emplace_back();
         BigInteger a1 = get_block(a_shifted, t - 1, t, n);
-        BigInteger z = get_block(a_shifted, t - 2, t, n);
-        add_disjoint_abs(z, a1, n);
+        BigInteger z = block_with_high(a_shifted, t - 2, t, n, a1);
         BigInteger qi, ri;
         for (int i = t - 2; i > 0; --i) {
-            ri = divide2n1n_abs(z, b_shifted, qi);
-            z = get_block(a_shifted, i - 1, t, n);
-            add_disjoint_abs(z, ri, n);
+            ri = divide2n1n_abs(z, div_values, div_high, div_low, knuth_shift, knuth_norm,
+                                corr_ready, shifted_high, low_gap, 0, qi);
+            z = block_with_high(a_shifted, i - 1, t, n, ri);
             add_shifted_abs(quotient, qi, i * n);
         }
-        ri = divide2n1n_abs(z, b_shifted, qi);
+        ri = divide2n1n_abs(z, div_values, div_high, div_low, knuth_shift, knuth_norm,
+                            corr_ready, shifted_high, low_gap, 0, qi);
         quotient.add_abs(qi);
         quotient.sign = quotient.is_zero() ? 0 : 1;
         if (sigma) ri.shift_right_bits_assign(sigma);
         ri.sign = ri.is_zero() ? 0 : 1;
         return ri;
+    }
+
+    static bool normalize_burnikel_ziegler_remainder(BigInteger &quotient, BigInteger &rem,
+                                                     const BigInteger &divisor) {
+        for (int step = 0; step < 3 && rem.compare_abs(divisor) >= 0; ++step) {
+            rem.sub_abs(divisor);
+            quotient.add_small_assign(1);
+        }
+        quotient.sign = quotient.is_zero() ? 0 : 1;
+        rem.sign = rem.is_zero() ? 0 : 1;
+        return rem.compare_abs(divisor) < 0;
     }
 
     static BigInteger divmod_abs(const BigInteger &u0, const BigInteger &v0, BigInteger &rem) {
@@ -1247,13 +2103,9 @@ struct BigInteger {
         if ((int)v0.d.size() >= BURNIKEL_ZIEGLER_THRESHOLD &&
             (int)u0.d.size() - (int)v0.d.size() >= BURNIKEL_ZIEGLER_OFFSET) {
             BigInteger q;
-            divmod_burnikel_ziegler_abs(u0, v0, q);
-            BigInteger prod = multiply(q, v0);
-            prod.sign = prod.is_zero() ? 0 : 1;
-            if (u0.compare_abs(prod) >= 0) {
-                rem = u0;
-                rem.sub_abs(prod);
-                if (rem.compare_abs(v0) < 0) return q;
+            rem = divmod_burnikel_ziegler_abs(u0, v0, q);
+            if (normalize_burnikel_ziegler_remainder(q, rem, v0)) {
+                return q;
             }
         }
         return divmod_knuth_abs(u0, v0, rem);
@@ -1268,10 +2120,60 @@ struct BigInteger {
     }
 
     static pair<BigInteger, BigInteger> divmod(const BigInteger &a, const BigInteger &b) {
-        a.ensure_binary();
-        b.ensure_binary();
         if (b.is_zero()) return {BigInteger(), BigInteger()};
         if (a.is_zero()) return {BigInteger(), BigInteger()};
+        if (a.decimal_ready && b.decimal_ready && should_use_decimal_division(a, b)) {
+            BigInteger aa = a;
+            BigInteger bb = b;
+            aa.sign = aa.is_zero() ? 0 : 1;
+            bb.sign = bb.is_zero() ? 0 : 1;
+            auto qr = divmod_decimal_abs(aa, bb);
+            BigInteger q = qr.first;
+            BigInteger r = qr.second;
+            if (a.sign == b.sign) {
+                q.sign = q.is_zero() ? 0 : 1;
+                if (!r.is_zero()) r.sign = b.sign;
+                return {q, r};
+            }
+            if (r.is_zero()) {
+                q.sign = q.is_zero() ? 0 : -1;
+                return {q, r};
+            }
+            BigInteger one("1");
+            q += one;
+            q.sign = -1;
+            r = bb - r;
+            r.sign = b.sign;
+            if (q.is_zero()) q.sign = 0;
+            return {q, r};
+        }
+        if (a.decimal_ready && b.decimal_ready && should_use_decimal_reciprocal_division(a, b)) {
+            BigInteger aa = a;
+            BigInteger bb = b;
+            aa.sign = aa.is_zero() ? 0 : 1;
+            bb.sign = bb.is_zero() ? 0 : 1;
+            BigInteger q, r;
+            if (divmod_decimal_reciprocal_abs(aa, bb, q, r)) {
+                if (a.sign == b.sign) {
+                    q.sign = q.is_zero() ? 0 : 1;
+                    if (!r.is_zero()) r.sign = b.sign;
+                    return {q, r};
+                }
+                if (r.is_zero()) {
+                    q.sign = q.is_zero() ? 0 : -1;
+                    return {q, r};
+                }
+                BigInteger one("1");
+                q += one;
+                q.sign = -1;
+                r = bb - r;
+                r.sign = b.sign;
+                if (q.is_zero()) q.sign = 0;
+                return {q, r};
+            }
+        }
+        a.ensure_binary();
+        b.ensure_binary();
         BigInteger aa = a;
         BigInteger bb = b;
         aa.sign = aa.is_zero() ? 0 : 1;
