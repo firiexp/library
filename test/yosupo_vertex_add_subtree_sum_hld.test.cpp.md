@@ -226,20 +226,20 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
-    \u6728(Segment Tree)\n */\n#line 16 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\
-    \n\nstruct SumMonoid {\n    using T = ll;\n    static T f(T a, T b) { return a\
-    \ + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
-    \    for (auto &&x : a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n \
-    \   for (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n     \
-    \   hld.add_edge(p, v);\n    }\n    hld.build();\n\n    SegmentTree<SumMonoid>\
-    \ seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\
-    \n    for (int i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n\
-    \        if (t == 0) {\n            ll x;\n            sc.read(x);\n         \
-    \   int p = hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else\
-    \ {\n            pr.println(hld.subtree_query<ll>(v, [&](int l, int r) { return\
-    \ seg.query(l, r); }));\n        }\n    }\n    return 0;\n}\n"
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line\
+    \ 16 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid {\n\
+    \    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
+    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
+    \ n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
+    \n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v < n; ++v) {\n   \
+    \     int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n    }\n    hld.build();\n\
+    \n    SegmentTree<SumMonoid> seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v],\
+    \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
+    \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
+    \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
+    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query<ll>(v,\
+    \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
+    \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
     \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
@@ -263,7 +263,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp

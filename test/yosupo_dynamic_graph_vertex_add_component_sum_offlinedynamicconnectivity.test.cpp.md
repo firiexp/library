@@ -184,9 +184,8 @@ data:
     \ ++i) uf.undo();\n            },\n            [&](int t) {\n                if\
     \ constexpr (is_invocable_v<F, int, UndoableUnionFind &>) {\n                \
     \    f(t, uf);\n                } else {\n                    f(t);\n        \
-    \        }\n            }\n        );\n    }\n};\n\n/**\n * @brief \u30AA\u30D5\
-    \u30E9\u30A4\u30F3\u52D5\u7684\u9023\u7D50\u6027(Offline Dynamic Connectivity)\n\
-    \ */\n#line 18 \"test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp\"\
+    \        }\n            }\n        );\n    }\n};\n\n/**\n * @brief Offline Dynamic\
+    \ Connectivity\n */\n#line 18 \"test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp\"\
     \n\nstruct RollbackUnionFindComponentSum {\n    struct History {\n        int\
     \ child, parent;\n        int parent_size, child_size;\n        long long parent_sum,\
     \ child_sum;\n    };\n\n    vector<int> parent_or_size;\n    vector<long long>\
@@ -290,7 +289,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp

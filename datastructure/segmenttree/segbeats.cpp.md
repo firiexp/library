@@ -10,7 +10,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: Segment Tree Beats
+    document_title: Segment Tree Beats!
     links: []
   bundledCode: "#line 1 \"datastructure/segmenttree/segbeats.cpp\"\ntemplate<class\
     \ T>\nclass SegmentTreeBeats {\n    void add_(int x, T val){\n        if(!val)\
@@ -59,7 +59,7 @@ data:
     \ 1, height++;\n        seg.resize(2*n);\n        for (int i = 0; i < v.size();\
     \ ++i) {\n            seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];\n     \
     \       seg[i+n].len = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n */\n"
+    \    }\n};\n\n/**\n * @brief Segment Tree Beats!\n */\n"
   code: "template<class T>\nclass SegmentTreeBeats {\n    void add_(int x, T val){\n\
     \        if(!val) return;\n        auto& now = seg[x];\n        now.sum += val*now.len;\n\
     \        now.mn += val; now.mx += val; now.add += val;\n        if(now.mn2 !=\
@@ -106,12 +106,12 @@ data:
     \ 1, height++;\n        seg.resize(2*n);\n        for (int i = 0; i < v.size();\
     \ ++i) {\n            seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];\n     \
     \       seg[i+n].len = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n */\n"
+    \    }\n};\n\n/**\n * @brief Segment Tree Beats!\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/segmenttree/segbeats.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp

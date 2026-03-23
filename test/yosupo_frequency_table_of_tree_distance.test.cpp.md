@@ -48,7 +48,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_frequency_table_of_tree_distance.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_frequency_table_of_tree_distance.test.cpp

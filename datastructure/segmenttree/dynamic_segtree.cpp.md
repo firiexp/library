@@ -11,7 +11,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u52D5\u7684\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
+    document_title: Dynamic Segment Tree
     links: []
   bundledCode: "#line 1 \"datastructure/segmenttree/dynamic_segtree.cpp\"\ntemplate\
     \ <class M>\nstruct DynamicSegmentTree{\n    using T = typename M::T;\n    struct\
@@ -48,8 +48,7 @@ data:
     \ query_(node[id].r, a, b, m, r));\n    }\n\n    T value(int id) const {\n   \
     \     return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n\
     \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u52D5\u7684\u30BB\u30B0\u30E1\
-    \u30F3\u30C8\u6728\n */\n"
+    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief Dynamic Segment Tree\n */\n"
   code: "template <class M>\nstruct DynamicSegmentTree{\n    using T = typename M::T;\n\
     \    struct Node{\n        T val;\n        int l, r;\n    };\n\n    long long\
     \ n{};\n    vector<Node> node;\n    int root;\n\n    explicit DynamicSegmentTree(long\
@@ -84,13 +83,12 @@ data:
     \ query_(node[id].r, a, b, m, r));\n    }\n\n    T value(int id) const {\n   \
     \     return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n\
     \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u52D5\u7684\u30BB\u30B0\u30E1\
-    \u30F3\u30C8\u6728\n */\n"
+    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief Dynamic Segment Tree\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/segmenttree/dynamic_segtree.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp

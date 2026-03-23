@@ -23,7 +23,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
+    document_title: Segment Tree
     links: []
   bundledCode: "#line 1 \"datastructure/segmenttree/segtree.cpp\"\ntemplate <class\
     \ M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int sz, n, height{};\n\
@@ -55,8 +55,7 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
-    \u6728(Segment Tree)\n */\n"
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n"
   code: "template <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n \
     \   int sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n)\
     \ : n(n) {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
@@ -86,13 +85,12 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
-    \u6728(Segment Tree)\n */\n"
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/segmenttree/segtree.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp

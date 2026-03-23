@@ -222,42 +222,43 @@ data:
     \            res += (SumT)node.key * take;\n            k -= take;\n         \
     \   if (k == 0) break;\n            t = other;\n        }\n        return res;\n\
     \    }\n\n    SumT sum_topk() const {\n        return sum_k(K_);\n    }\n};\n\n\
-    /**\n * @brief \u4E0A\u4F4DK\u7BA1\u7406Treap\n */\n#line 19 \"test/yosupo_aplusb_top_kth.test.cpp\"\
-    \n\ntemplate<bool Largest>\nll brute_sum_k(const vector<ll>& a, int k) {\n   \
-    \ if (k <= 0) return 0;\n    vector<ll> b = a;\n    sort(b.begin(), b.end());\n\
-    \    if constexpr (Largest) reverse(b.begin(), b.end());\n    k = min(k, (int)b.size());\n\
-    \    return accumulate(b.begin(), b.begin() + k, 0LL);\n}\n\ntemplate<bool Largest>\n\
-    ll brute_kth(const vector<ll>& a, int k) {\n    vector<ll> b = a;\n    sort(b.begin(),\
-    \ b.end());\n    if constexpr (Largest) reverse(b.begin(), b.end());\n    return\
-    \ b[k - 1];\n}\n\ntemplate<bool Largest>\nvoid verify_one(const vector<ll>& cur,\
-    \ const TopKTreap<ll, ll, Largest>& ds) {\n    assert(ds.size() == (int)cur.size());\n\
-    \    assert(ds.empty() == cur.empty());\n    assert(ds.total_sum() == accumulate(cur.begin(),\
-    \ cur.end(), 0LL));\n    for (ll x = -8; x <= 8; ++x) {\n        int cnt = 0;\n\
-    \        for (ll y : cur) cnt += x == y;\n        assert(ds.count(x) == cnt);\n\
-    \        assert(ds.contains(x) == (cnt > 0));\n    }\n    for (int k = 0; k <=\
-    \ (int)cur.size() + 2; ++k) {\n        assert(ds.sum_k(k) == brute_sum_k<Largest>(cur,\
-    \ k));\n    }\n    if (!cur.empty()) {\n        for (int k = 1; k <= (int)cur.size();\
-    \ ++k) {\n            assert(ds.kth(k) == brute_kth<Largest>(cur, k));\n     \
-    \   }\n    }\n    if (ds.has_kth()) {\n        assert(ds.kth() == brute_kth<Largest>(cur,\
-    \ ds.k()));\n    } else {\n        assert(ds.k() <= 0 || ds.k() > (int)cur.size());\n\
-    \    }\n    assert(ds.sum_topk() == brute_sum_k<Largest>(cur, ds.k()));\n}\n\n\
-    void self_check() {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 300; ++tc)\
-    \ {\n        TopKTreap<ll, ll, true> largest(0, rng());\n        TopKTreap<ll,\
-    \ ll, false> smallest(0, rng());\n        largest.reserve(256);\n        smallest.reserve(256);\n\
-    \        vector<ll> cur;\n\n        for (int step = 0; step < 200; ++step) {\n\
-    \            int op = rng() % 4;\n            if (op <= 1) {\n               \
-    \ ll x = (int)(rng() % 17) - 8;\n                largest.insert(x);\n        \
-    \        smallest.insert(x);\n                cur.push_back(x);\n            }\
-    \ else if (op == 2) {\n                ll x = (int)(rng() % 17) - 8;\n       \
-    \         bool ok1 = largest.erase_one(x);\n                bool ok2 = smallest.erase_one(x);\n\
-    \                auto it = find(cur.begin(), cur.end(), x);\n                bool\
-    \ ok3 = it != cur.end();\n                if (ok3) cur.erase(it);\n          \
-    \      assert(ok1 == ok2);\n                assert(ok2 == ok3);\n            }\
-    \ else {\n                int new_k = rng() % 12;\n                largest.set_k(new_k);\n\
-    \                smallest.set_k(new_k);\n            }\n            verify_one<true>(cur,\
-    \ largest);\n            verify_one<false>(cur, smallest);\n        }\n    }\n\
-    }\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n   \
-    \ ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    /**\n * @brief \u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308BTreap\n */\n#line\
+    \ 19 \"test/yosupo_aplusb_top_kth.test.cpp\"\n\ntemplate<bool Largest>\nll brute_sum_k(const\
+    \ vector<ll>& a, int k) {\n    if (k <= 0) return 0;\n    vector<ll> b = a;\n\
+    \    sort(b.begin(), b.end());\n    if constexpr (Largest) reverse(b.begin(),\
+    \ b.end());\n    k = min(k, (int)b.size());\n    return accumulate(b.begin(),\
+    \ b.begin() + k, 0LL);\n}\n\ntemplate<bool Largest>\nll brute_kth(const vector<ll>&\
+    \ a, int k) {\n    vector<ll> b = a;\n    sort(b.begin(), b.end());\n    if constexpr\
+    \ (Largest) reverse(b.begin(), b.end());\n    return b[k - 1];\n}\n\ntemplate<bool\
+    \ Largest>\nvoid verify_one(const vector<ll>& cur, const TopKTreap<ll, ll, Largest>&\
+    \ ds) {\n    assert(ds.size() == (int)cur.size());\n    assert(ds.empty() == cur.empty());\n\
+    \    assert(ds.total_sum() == accumulate(cur.begin(), cur.end(), 0LL));\n    for\
+    \ (ll x = -8; x <= 8; ++x) {\n        int cnt = 0;\n        for (ll y : cur) cnt\
+    \ += x == y;\n        assert(ds.count(x) == cnt);\n        assert(ds.contains(x)\
+    \ == (cnt > 0));\n    }\n    for (int k = 0; k <= (int)cur.size() + 2; ++k) {\n\
+    \        assert(ds.sum_k(k) == brute_sum_k<Largest>(cur, k));\n    }\n    if (!cur.empty())\
+    \ {\n        for (int k = 1; k <= (int)cur.size(); ++k) {\n            assert(ds.kth(k)\
+    \ == brute_kth<Largest>(cur, k));\n        }\n    }\n    if (ds.has_kth()) {\n\
+    \        assert(ds.kth() == brute_kth<Largest>(cur, ds.k()));\n    } else {\n\
+    \        assert(ds.k() <= 0 || ds.k() > (int)cur.size());\n    }\n    assert(ds.sum_topk()\
+    \ == brute_sum_k<Largest>(cur, ds.k()));\n}\n\nvoid self_check() {\n    mt19937\
+    \ rng(0);\n    for (int tc = 0; tc < 300; ++tc) {\n        TopKTreap<ll, ll, true>\
+    \ largest(0, rng());\n        TopKTreap<ll, ll, false> smallest(0, rng());\n \
+    \       largest.reserve(256);\n        smallest.reserve(256);\n        vector<ll>\
+    \ cur;\n\n        for (int step = 0; step < 200; ++step) {\n            int op\
+    \ = rng() % 4;\n            if (op <= 1) {\n                ll x = (int)(rng()\
+    \ % 17) - 8;\n                largest.insert(x);\n                smallest.insert(x);\n\
+    \                cur.push_back(x);\n            } else if (op == 2) {\n      \
+    \          ll x = (int)(rng() % 17) - 8;\n                bool ok1 = largest.erase_one(x);\n\
+    \                bool ok2 = smallest.erase_one(x);\n                auto it =\
+    \ find(cur.begin(), cur.end(), x);\n                bool ok3 = it != cur.end();\n\
+    \                if (ok3) cur.erase(it);\n                assert(ok1 == ok2);\n\
+    \                assert(ok2 == ok3);\n            } else {\n                int\
+    \ new_k = rng() % 12;\n                largest.set_k(new_k);\n               \
+    \ smallest.set_k(new_k);\n            }\n            verify_one<true>(cur, largest);\n\
+    \            verify_one<false>(cur, smallest);\n        }\n    }\n}\n\nint main()\
+    \ {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n   \
+    \ sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
     #include <cassert>\n#include <numeric>\n#include <random>\n#include <vector>\n\
     using namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -304,7 +305,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_top_kth.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_top_kth.test.cpp

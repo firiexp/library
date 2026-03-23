@@ -11,7 +11,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u4E0A\u4F4DK\u548C\u7BA1\u7406"
+    document_title: "\u4E0A\u4F4DK\u500B\u306E\u548C\u3092\u7BA1\u7406\u3059\u308B"
     links: []
   bundledCode: "#line 1 \"datastructure/top_k_sum.cpp\"\ntemplate<class T, class SumT\
     \ = long long, bool Largest = true>\nclass TopKSum {\nprivate:\n    multiset<T>\
@@ -61,7 +61,8 @@ data:
     \    }\n\n    bool has_kth() const {\n        return 1 <= K_ && K_ <= total_size_;\n\
     \    }\n\n    T kth() const {\n        assert(has_kth());\n        return *selected_boundary();\n\
     \    }\n\n    SumT sum_topk() const {\n        return selected_sum_;\n    }\n\
-    };\n\n/**\n * @brief \u4E0A\u4F4DK\u548C\u7BA1\u7406\n */\n"
+    };\n\n/**\n * @brief \u4E0A\u4F4DK\u500B\u306E\u548C\u3092\u7BA1\u7406\u3059\u308B\
+    \n */\n"
   code: "template<class T, class SumT = long long, bool Largest = true>\nclass TopKSum\
     \ {\nprivate:\n    multiset<T> selected_;\n    multiset<T> other_;\n    int K_\
     \ = 0;\n    int total_size_ = 0;\n    SumT total_sum_ = 0;\n    SumT selected_sum_\
@@ -109,13 +110,13 @@ data:
     \        return true;\n    }\n\n    bool has_kth() const {\n        return 1 <=\
     \ K_ && K_ <= total_size_;\n    }\n\n    T kth() const {\n        assert(has_kth());\n\
     \        return *selected_boundary();\n    }\n\n    SumT sum_topk() const {\n\
-    \        return selected_sum_;\n    }\n};\n\n/**\n * @brief \u4E0A\u4F4DK\u548C\
-    \u7BA1\u7406\n */\n"
+    \        return selected_sum_;\n    }\n};\n\n/**\n * @brief \u4E0A\u4F4DK\u500B\
+    \u306E\u548C\u3092\u7BA1\u7406\u3059\u308B\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/top_k_sum.cpp
   requiredBy: []
-  timestamp: '2026-03-21 14:23:49+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_top_k_sum.test.cpp

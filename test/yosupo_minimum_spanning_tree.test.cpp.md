@@ -151,15 +151,16 @@ data:
     \   edge_id.reserve(max(0, n - 1));\n    for (auto &&e : edges) {\n        if\
     \ (!uf.unite(e.from, e.to)) continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n\
     \    }\n    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n\
-    \    return {true, cost, edge_id};\n}\n\n/**\n * @brief Kruskal\u6CD5\n */\n#line\
-    \ 16 \"test/yosupo_minimum_spanning_tree.test.cpp\"\n\nint main() {\n    Scanner\
-    \ in;\n    Printer out;\n\n    int n, m;\n    in.read(n, m);\n    vector<edge<ll>>\
-    \ edges;\n    edges.reserve(m);\n    for (int i = 0; i < m; ++i) {\n        int\
-    \ u, v;\n        ll w;\n        in.read(u, v, w);\n        edges.emplace_back(u,\
-    \ v, w, i);\n    }\n    auto res = kruskal(edges, n);\n    if (!res.exists) return\
-    \ 0;\n    out.println(res.cost);\n    for (int i = 0; i < (int)res.edge_id.size();\
-    \ ++i) {\n        if (i) out.print(' ');\n        out.print(res.edge_id[i]);\n\
-    \    }\n    out.println();\n    return 0;\n}\n"
+    \    return {true, cost, edge_id};\n}\n\n/**\n * @brief \u6700\u5C0F\u5168\u57DF\
+    \u6728(Kruskal\u6CD5)\n */\n#line 16 \"test/yosupo_minimum_spanning_tree.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
+    \ m);\n    vector<edge<ll>> edges;\n    edges.reserve(m);\n    for (int i = 0;\
+    \ i < m; ++i) {\n        int u, v;\n        ll w;\n        in.read(u, v, w);\n\
+    \        edges.emplace_back(u, v, w, i);\n    }\n    auto res = kruskal(edges,\
+    \ n);\n    if (!res.exists) return 0;\n    out.println(res.cost);\n    for (int\
+    \ i = 0; i < (int)res.edge_id.size(); ++i) {\n        if (i) out.print(' ');\n\
+    \        out.print(res.edge_id[i]);\n    }\n    out.println();\n    return 0;\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/minimum_spanning_tree\"\
     \n\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\nusing ll\
     \ = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
@@ -178,7 +179,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_minimum_spanning_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_minimum_spanning_tree.test.cpp

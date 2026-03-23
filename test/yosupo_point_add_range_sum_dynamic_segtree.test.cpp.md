@@ -168,18 +168,18 @@ data:
     \ query_(node[id].r, a, b, m, r));\n    }\n\n    T value(int id) const {\n   \
     \     return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n\
     \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u52D5\u7684\u30BB\u30B0\u30E1\
-    \u30F3\u30C8\u6728\n */\n#line 13 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\
-    \n\nstruct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return\
-    \ a + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid>\
-    \ seg(n);\n    if (n > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i <\
-    \ n; ++i) {\n        long long a;\n        sc.read(a);\n        seg.add(i, a);\n\
-    \    }\n\n    while (q--) {\n        int t;\n        sc.read(t);\n        if (t\
-    \ == 0) {\n            int p;\n            long long x;\n            sc.read(p,\
-    \ x);\n            seg.add(p, x);\n        } else {\n            int l, r;\n \
-    \           sc.read(l, r);\n            pr.println(seg.query(l, r));\n       \
-    \ }\n    }\n    return 0;\n}\n"
+    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief Dynamic Segment Tree\n */\n#line\
+    \ 13 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\n\nstruct Monoid{\n\
+    \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
+    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
+    \    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid> seg(n);\n \
+    \   if (n > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i < n; ++i) {\n\
+    \        long long a;\n        sc.read(a);\n        seg.add(i, a);\n    }\n\n\
+    \    while (q--) {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n\
+    \            int p;\n            long long x;\n            sc.read(p, x);\n  \
+    \          seg.add(p, x);\n        } else {\n            int l, r;\n         \
+    \   sc.read(l, r);\n            pr.println(seg.query(l, r));\n        }\n    }\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
@@ -200,7 +200,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp

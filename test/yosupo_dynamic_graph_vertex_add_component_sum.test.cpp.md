@@ -191,11 +191,10 @@ data:
     \      } else {\n                int t = k - sz;\n                if (t < q &&\
     \ queries[t].type == 3) ans.push_back(uf.get_sum(queries[t].u));\n           \
     \ }\n            uf.rollback(snap);\n        };\n        dfs(dfs, 1);\n      \
-    \  return ans;\n    }\n};\n\n/**\n * @brief \u52D5\u7684\u30B0\u30E9\u30D5\u9023\
-    \u7D50\u6210\u5206\u548C(Dynamic Graph Vertex Add Component Sum)\n */\n#line 16\
-    \ \"test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n \
-    \   vector<long long> a(n);\n    for (auto &x : a) sc.read(x);\n\n    DynamicGraphVertexAddComponentSum\
+    \  return ans;\n    }\n};\n\n/**\n * @brief Dynamic Graph Vertex Add Component\
+    \ Sum\n */\n#line 16 \"test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
+    \ q);\n    vector<long long> a(n);\n    for (auto &x : a) sc.read(x);\n\n    DynamicGraphVertexAddComponentSum\
     \ solver(a, q);\n    for (int i = 0; i < q; ++i) {\n        int t;\n        sc.read(t);\n\
     \        if (t == 0) {\n            int u, v;\n            sc.read(u, v);\n  \
     \          solver.add_edge(u, v);\n        } else if (t == 1) {\n            int\
@@ -226,7 +225,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp

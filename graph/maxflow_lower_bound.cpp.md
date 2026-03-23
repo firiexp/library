@@ -14,7 +14,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max\
+    document_title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max\
       \ Flow with Lower Bounds)"
     links: []
   bundledCode: "#line 1 \"flow/dinic.cpp\"\ntemplate<class T, bool directed>\nclass\
@@ -64,7 +64,7 @@ data:
     \        int rev = mf.G[ts.first][ts.second].rev;\n        T base = mf.G[to][rev].cap;\n\
     \        mf.G[ts.first][ts.second].cap = 0;\n        mf.G[to][rev].cap = 0;\n\n\
     \        T add = mf.flow(s, t);\n        return {true, base + add};\n    }\n};\n\
-    \n/**\n * @brief \u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max\
+    \n/**\n * @brief \u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max\
     \ Flow with Lower Bounds)\n */\n"
   code: "#include \"../flow/dinic.cpp\"\n\ntemplate<class T>\nclass MaxFlowLowerBound\
     \ {\n\n    struct raw_edge {\n        int from{}, to{};\n        T lower{}, upper{};\n\
@@ -88,14 +88,14 @@ data:
     \        int rev = mf.G[ts.first][ts.second].rev;\n        T base = mf.G[to][rev].cap;\n\
     \        mf.G[ts.first][ts.second].cap = 0;\n        mf.G[to][rev].cap = 0;\n\n\
     \        T add = mf.flow(s, t);\n        return {true, base + add};\n    }\n};\n\
-    \n/**\n * @brief \u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41(Max\
+    \n/**\n * @brief \u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max\
     \ Flow with Lower Bounds)\n */\n"
   dependsOn:
   - flow/dinic.cpp
   isVerificationFile: false
   path: graph/maxflow_lower_bound.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp

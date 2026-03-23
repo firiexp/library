@@ -14,7 +14,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
+    document_title: Many Factorials
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n\n\n\nconstexpr int ntt_mod = 998244353,\
     \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
@@ -343,8 +343,8 @@ data:
     \        l = r;\n    }\n    group_begin.push_back(order.size());\n\n    vector<mint>\
     \ uniq_ans = many_factorials_short_block(uniq_ns);\n    for (int i = 0; i < (int)uniq_ns.size();\
     \ ++i) {\n        for (int j = group_begin[i]; j < group_begin[i + 1]; ++j) ans[order[j].second]\
-    \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief \u591A\u6570\u968E\
-    \u4E57(Many Factorials)\n */\n"
+    \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief Many Factorials\n\
+    \ */\n"
   code: "#include \"../math/ntt.cpp\"\n\nnamespace {\n\nvector<mint> convolve(const\
     \ vector<mint> &a, const vector<mint> &b) {\n    if (a.empty() || b.empty()) return\
     \ {};\n    return (poly(a) * poly(b)).v;\n}\n\nstruct ManyFactorialsFactorial\
@@ -407,14 +407,14 @@ data:
     \        l = r;\n    }\n    group_begin.push_back(order.size());\n\n    vector<mint>\
     \ uniq_ans = many_factorials_short_block(uniq_ns);\n    for (int i = 0; i < (int)uniq_ns.size();\
     \ ++i) {\n        for (int j = group_begin[i]; j < group_begin[i + 1]; ++j) ans[order[j].second]\
-    \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief \u591A\u6570\u968E\
-    \u4E57(Many Factorials)\n */\n"
+    \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief Many Factorials\n\
+    \ */\n"
   dependsOn:
   - math/ntt.cpp
   isVerificationFile: false
   path: math/many_factorials.cpp
   requiredBy: []
-  timestamp: '2026-03-15 15:48:36+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_many_factorials.test.cpp

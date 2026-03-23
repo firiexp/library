@@ -14,7 +14,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(CRT)"
+    document_title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(Chinese Remainder Theorem)"
     links: []
   bundledCode: "#line 1 \"math/extgcd.cpp\"\ntemplate<typename T>\nT extgcd(T a, T\
     \ b, T &x ,T &y){\n    for (T u = y = 1, v = x = 0; a; ) {\n        ll q = b/a;\n\
@@ -29,7 +29,7 @@ data:
     \ = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g % mm * p\
     \ % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R += M;\n    }\n\
     \    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\u7406\
-    (CRT)\n */\n"
+    (Chinese Remainder Theorem)\n */\n"
   code: "#include \"extgcd.cpp\"\n\npair<ll, ll> CRT(const vector<pair<ll, ll>> &a){\n\
     \    ll R = 0, M = 1;\n    for (auto &&i : a) {\n        ll r = (i.first+i.second)%i.second,\
     \ m = i.second;\n        if(m < M) swap(r, R), swap(m, M);\n        if(M%m ==\
@@ -38,13 +38,13 @@ data:
     \        ll mm = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g\
     \ % mm * p % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R +=\
     \ M;\n    }\n    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\
-    \u7406(CRT)\n */\n"
+    \u7406(Chinese Remainder Theorem)\n */\n"
   dependsOn:
   - math/extgcd.cpp
   isVerificationFile: false
   path: math/CRT.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp

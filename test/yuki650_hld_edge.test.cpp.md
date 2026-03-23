@@ -282,37 +282,36 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
-    \u6728(Segment Tree)\n */\n#line 23 \"test/yuki650_hld_edge.test.cpp\"\n\nstruct\
-    \ MatMonoidL {\n    using T = array<mint, 4>;\n    static T f(T a, T b) {\n  \
-    \      return {\n            a[0] * b[0] + a[1] * b[2],\n            a[0] * b[1]\
-    \ + a[1] * b[3],\n            a[2] * b[0] + a[3] * b[2],\n            a[2] * b[1]\
-    \ + a[3] * b[3]\n        };\n    }\n    static T e() { return {1, 0, 0, 1}; }\n\
-    };\n\nstruct MatMonoidR {\n    using T = array<mint, 4>;\n    static T f(T b,\
-    \ T a) {\n        return {\n            a[0] * b[0] + a[1] * b[2],\n         \
-    \   a[0] * b[1] + a[1] * b[3],\n            a[2] * b[0] + a[3] * b[2],\n     \
-    \       a[2] * b[1] + a[3] * b[3]\n        };\n    }\n    static T e() { return\
-    \ {1, 0, 0, 1}; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n  \
-    \  int n;\n    sc.read(n);\n    HeavyLightDecompositionEdge hld(n);\n    vector<pair<int,\
-    \ int>> edges(n - 1);\n    for (int i = 0; i < n - 1; ++i) {\n        int a, b;\n\
-    \        sc.read(a, b);\n        edges[i] = {a, b};\n        hld.add_edge(a, b);\n\
-    \    }\n    hld.build();\n\n    SegmentTree<MatMonoidL> segl(n);\n    SegmentTree<MatMonoidR>\
-    \ segr(n);\n\n    vector<int> child(n - 1);\n    for (int i = 0; i < n - 1; ++i)\
-    \ {\n        auto [a, b] = edges[i];\n        child[i] = (hld.parent(a) == b ?\
-    \ a : b);\n        int p = hld.edge_index(child[i]);\n        segl.set(p, MatMonoidL::e());\n\
-    \        segr.set(p, MatMonoidR::e());\n    }\n    segl.build();\n    segr.build();\n\
-    \n    auto ql = [&](int l, int r) { return segl.query(l, r); };\n    auto qr =\
-    \ [&](int l, int r) { return segr.query(l, r); };\n    auto merge = [&](MatMonoidL::T\
-    \ a, MatMonoidL::T b) -> MatMonoidL::T {\n        return MatMonoidL::f(a, b);\n\
-    \    };\n\n    int q;\n    sc.read(q);\n    for (int qi = 0; qi < q; ++qi) {\n\
-    \        char type;\n        sc.read(type);\n        if (type == 'x') {\n    \
-    \        int i, x00, x01, x10, x11;\n            sc.read(i, x00, x01, x10, x11);\n\
-    \            int p = hld.edge_index(child[i]);\n            array<mint, 4> mat\
-    \ = {x00, x01, x10, x11};\n            segl.update(p, mat);\n            segr.update(p,\
-    \ mat);\n        } else {\n            int i, j;\n            sc.read(i, j);\n\
-    \            auto ans = hld.path_query_ordered(i, j, MatMonoidL::e(), ql, qr,\
-    \ merge);\n            pr.println(ans[0].val, ans[1].val, ans[2].val, ans[3].val);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line\
+    \ 23 \"test/yuki650_hld_edge.test.cpp\"\n\nstruct MatMonoidL {\n    using T =\
+    \ array<mint, 4>;\n    static T f(T a, T b) {\n        return {\n            a[0]\
+    \ * b[0] + a[1] * b[2],\n            a[0] * b[1] + a[1] * b[3],\n            a[2]\
+    \ * b[0] + a[3] * b[2],\n            a[2] * b[1] + a[3] * b[3]\n        };\n \
+    \   }\n    static T e() { return {1, 0, 0, 1}; }\n};\n\nstruct MatMonoidR {\n\
+    \    using T = array<mint, 4>;\n    static T f(T b, T a) {\n        return {\n\
+    \            a[0] * b[0] + a[1] * b[2],\n            a[0] * b[1] + a[1] * b[3],\n\
+    \            a[2] * b[0] + a[3] * b[2],\n            a[2] * b[1] + a[3] * b[3]\n\
+    \        };\n    }\n    static T e() { return {1, 0, 0, 1}; }\n};\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    HeavyLightDecompositionEdge\
+    \ hld(n);\n    vector<pair<int, int>> edges(n - 1);\n    for (int i = 0; i < n\
+    \ - 1; ++i) {\n        int a, b;\n        sc.read(a, b);\n        edges[i] = {a,\
+    \ b};\n        hld.add_edge(a, b);\n    }\n    hld.build();\n\n    SegmentTree<MatMonoidL>\
+    \ segl(n);\n    SegmentTree<MatMonoidR> segr(n);\n\n    vector<int> child(n -\
+    \ 1);\n    for (int i = 0; i < n - 1; ++i) {\n        auto [a, b] = edges[i];\n\
+    \        child[i] = (hld.parent(a) == b ? a : b);\n        int p = hld.edge_index(child[i]);\n\
+    \        segl.set(p, MatMonoidL::e());\n        segr.set(p, MatMonoidR::e());\n\
+    \    }\n    segl.build();\n    segr.build();\n\n    auto ql = [&](int l, int r)\
+    \ { return segl.query(l, r); };\n    auto qr = [&](int l, int r) { return segr.query(l,\
+    \ r); };\n    auto merge = [&](MatMonoidL::T a, MatMonoidL::T b) -> MatMonoidL::T\
+    \ {\n        return MatMonoidL::f(a, b);\n    };\n\n    int q;\n    sc.read(q);\n\
+    \    for (int qi = 0; qi < q; ++qi) {\n        char type;\n        sc.read(type);\n\
+    \        if (type == 'x') {\n            int i, x00, x01, x10, x11;\n        \
+    \    sc.read(i, x00, x01, x10, x11);\n            int p = hld.edge_index(child[i]);\n\
+    \            array<mint, 4> mat = {x00, x01, x10, x11};\n            segl.update(p,\
+    \ mat);\n            segr.update(p, mat);\n        } else {\n            int i,\
+    \ j;\n            sc.read(i, j);\n            auto ans = hld.path_query_ordered(i,\
+    \ j, MatMonoidL::e(), ql, qr, merge);\n            pr.println(ans[0].val, ans[1].val,\
+    \ ans[2].val, ans[3].val);\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/650\"\n\n#include <array>\n\
     #include <limits>\n#include <vector>\nusing namespace std;\n\nstatic const int\
     \ MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
@@ -358,7 +357,7 @@ data:
   isVerificationFile: true
   path: test/yuki650_hld_edge.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki650_hld_edge.test.cpp

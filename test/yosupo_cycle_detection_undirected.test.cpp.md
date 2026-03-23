@@ -150,7 +150,7 @@ data:
     \ vs = {b}, es;\n        while (vs.back() != a) {\n            es.emplace_back(par_e[vs.back()]);\n\
     \            vs.emplace_back(par_v[vs.back()]);\n        }\n        es.emplace_back(id);\n\
     \        return {vs, es};\n    }\n    return {{}, {}};\n}\n\n/**\n * @brief \u7121\
-    \u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)\n */\n#line 14 \"test/yosupo_cycle_detection_undirected.test.cpp\"\
+    \u5411\u9589\u8DEF\u691C\u51FA(Undirected Cycle Detection)\n */\n#line 14 \"test/yosupo_cycle_detection_undirected.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<pair<int, int>> edges(m);\n    for (int i = 0; i < m; ++i) {\n\
     \        sc.read(edges[i].first, edges[i].second);\n    }\n    auto res = cycle_detection_undirected(edges,\
@@ -179,7 +179,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_cycle_detection_undirected.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_cycle_detection_undirected.test.cpp

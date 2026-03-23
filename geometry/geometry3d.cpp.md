@@ -8,7 +8,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    document_title: "3\u6B21\u5143\u5E7E\u4F55(Geometry 3D)"
+    document_title: "3\u6B21\u5143\u5E7E\u4F55"
     links: []
   bundledCode: "#line 1 \"geometry/geometry3d.cpp\"\nusing Real3 = double;\nstatic\
     \ constexpr Real3 EPS3 = 1e-10;\n\nstruct Point3 {\n    Real3 x, y, z;\n\n   \
@@ -37,7 +37,7 @@ data:
     \ * x.z + p.d;\n}\n\ninline Point3 crossPoint(Point3 s, Point3 t, Plane p) {\n\
     \    Point3 dir = t - s;\n    Real3 den = p.a * dir.x + p.b * dir.y + p.c * dir.z;\n\
     \    Real3 num = eval(p, s);\n    return s - dir * (num / den);\n}\n\n/**\n *\
-    \ @brief 3\u6B21\u5143\u5E7E\u4F55(Geometry 3D)\n */\n"
+    \ @brief 3\u6B21\u5143\u5E7E\u4F55\n */\n"
   code: "using Real3 = double;\nstatic constexpr Real3 EPS3 = 1e-10;\n\nstruct Point3\
     \ {\n    Real3 x, y, z;\n\n    Point3 &operator+=(const Point3 &a) {\n       \
     \ x += a.x;\n        y += a.y;\n        z += a.z;\n        return *this;\n   \
@@ -64,12 +64,12 @@ data:
     \ + p.b * x.y + p.c * x.z + p.d;\n}\n\ninline Point3 crossPoint(Point3 s, Point3\
     \ t, Plane p) {\n    Point3 dir = t - s;\n    Real3 den = p.a * dir.x + p.b *\
     \ dir.y + p.c * dir.z;\n    Real3 num = eval(p, s);\n    return s - dir * (num\
-    \ / den);\n}\n\n/**\n * @brief 3\u6B21\u5143\u5E7E\u4F55(Geometry 3D)\n */\n"
+    \ / den);\n}\n\n/**\n * @brief 3\u6B21\u5143\u5E7E\u4F55\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/geometry3d.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 date: 2026-03-12

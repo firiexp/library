@@ -11,7 +11,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)"
+    document_title: Functional Graph
     links: []
   bundledCode: "#line 1 \"graph/functional_graph.cpp\"\nstruct FunctionalGraph {\n\
     \    static constexpr int LOG = 63;\n\n    int n;\n    vector<int> to;\n    vector<vector<int>>\
@@ -57,8 +57,7 @@ data:
     \    }\n\n    int cycle_vertex(int v) const {\n        return cycle_entry[v];\n\
     \    }\n\n    int cycle_index(int v) const {\n        return cycle_pos[v];\n \
     \   }\n\n    const vector<int> &cycle(int id) const {\n        return cycles[id];\n\
-    \    }\n};\n\n/**\n * @brief \u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)\n\
-    \ */\n"
+    \    }\n};\n\n/**\n * @brief Functional Graph\n */\n"
   code: "struct FunctionalGraph {\n    static constexpr int LOG = 63;\n\n    int n;\n\
     \    vector<int> to;\n    vector<vector<int>> up;\n    vector<int> comp_id;\n\
     \    vector<int> cycle_pos;\n    vector<int> cycle_len;\n    vector<int> dist_to_cycle;\n\
@@ -102,13 +101,13 @@ data:
     \ v) const {\n        return dist_to_cycle[v];\n    }\n\n    int cycle_vertex(int\
     \ v) const {\n        return cycle_entry[v];\n    }\n\n    int cycle_index(int\
     \ v) const {\n        return cycle_pos[v];\n    }\n\n    const vector<int> &cycle(int\
-    \ id) const {\n        return cycles[id];\n    }\n};\n\n/**\n * @brief \u95A2\u6570\
-    \u30B0\u30E9\u30D5(Functional Graph)\n */\n"
+    \ id) const {\n        return cycles[id];\n    }\n};\n\n/**\n * @brief Functional\
+    \ Graph\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/functional_graph.cpp
   requiredBy: []
-  timestamp: '2026-03-12 19:34:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_functional_graph.test.cpp

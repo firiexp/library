@@ -11,21 +11,20 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u5E8A\u9664\u7B97\u30FB\u5929\u4E95\u9664\u7B97(Floor/Ceil Division)"
+    document_title: Floor/Ceil Division
     links: []
   bundledCode: "#line 1 \"util/ifloor.cpp\"\ntemplate<class T>T ifloor(T x, T y){\n\
     \    return x/y-(x%y ? (x < 0)^(y < 0) : 0);\n}\n\ntemplate<class T>inline T iceil(T\
     \ x, T y){\n    return x/y+(x%y ? (x >= 0)^(y < 0) : 0);\n}\n\n/**\n * @brief\
-    \ \u5E8A\u9664\u7B97\u30FB\u5929\u4E95\u9664\u7B97(Floor/Ceil Division)\n */\n"
+    \ Floor/Ceil Division\n */\n"
   code: "template<class T>T ifloor(T x, T y){\n    return x/y-(x%y ? (x < 0)^(y <\
     \ 0) : 0);\n}\n\ntemplate<class T>inline T iceil(T x, T y){\n    return x/y+(x%y\
-    \ ? (x >= 0)^(y < 0) : 0);\n}\n\n/**\n * @brief \u5E8A\u9664\u7B97\u30FB\u5929\
-    \u4E95\u9664\u7B97(Floor/Ceil Division)\n */\n"
+    \ ? (x >= 0)^(y < 0) : 0);\n}\n\n/**\n * @brief Floor/Ceil Division\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/ifloor.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki1358.test.cpp

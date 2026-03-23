@@ -312,7 +312,7 @@ data:
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
     \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
-    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n */\n#line 1 \"math/berlekamp_massey.cpp\"\
+    \u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n */\n#line 1 \"math/berlekamp_massey.cpp\"\
     \ntemplate<class T>\nvector<T> berlekamp_massey(const vector<T> &s) {\n    vector<T>\
     \ c(1, T(1)), b(1, T(1));\n    int l = 0, m = 1;\n    T y = T(1);\n    for (int\
     \ n = 0; n < (int)s.size(); ++n) {\n        T d = T(0);\n        for (int i =\
@@ -355,7 +355,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   requiredBy: []
-  timestamp: '2026-03-15 12:48:57+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp

@@ -11,7 +11,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u4E0A\u4F4DK\u7BA1\u7406Treap"
+    document_title: "\u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308BTreap"
     links: []
   bundledCode: "#line 1 \"datastructure/top_kth.cpp\"\ntemplate<class T, class SumT\
     \ = long long, bool Largest = true>\nclass TopKTreap {\nprivate:\n    struct Node\
@@ -101,7 +101,7 @@ data:
     \            res += (SumT)node.key * take;\n            k -= take;\n         \
     \   if (k == 0) break;\n            t = other;\n        }\n        return res;\n\
     \    }\n\n    SumT sum_topk() const {\n        return sum_k(K_);\n    }\n};\n\n\
-    /**\n * @brief \u4E0A\u4F4DK\u7BA1\u7406Treap\n */\n"
+    /**\n * @brief \u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308BTreap\n */\n"
   code: "template<class T, class SumT = long long, bool Largest = true>\nclass TopKTreap\
     \ {\nprivate:\n    struct Node {\n        T key;\n        int cnt;\n        int\
     \ sz;\n        uint32_t pri;\n        SumT sum;\n        int l;\n        int r;\n\
@@ -190,12 +190,12 @@ data:
     \          res += (SumT)node.key * take;\n            k -= take;\n           \
     \ if (k == 0) break;\n            t = other;\n        }\n        return res;\n\
     \    }\n\n    SumT sum_topk() const {\n        return sum_k(K_);\n    }\n};\n\n\
-    /**\n * @brief \u4E0A\u4F4DK\u7BA1\u7406Treap\n */\n"
+    /**\n * @brief \u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308BTreap\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/top_kth.cpp
   requiredBy: []
-  timestamp: '2026-03-21 14:23:49+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_top_kth.test.cpp

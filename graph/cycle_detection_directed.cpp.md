@@ -11,7 +11,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle Detection)"
+    document_title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Directed Cycle Detection)"
     links: []
   bundledCode: "#line 1 \"graph/cycle_detection_directed.cpp\"\nvector<int> cycle_detection_directed(const\
     \ vector<vector<pair<int, int>>> &g) {\n    int n = g.size();\n    vector<int>\
@@ -26,8 +26,8 @@ data:
     \            }\n            st_e.pop_back();\n        }\n        st_v.pop_back();\n\
     \        state[v] = 2;\n        return false;\n    };\n    for (int i = 0; i <\
     \ n; ++i) {\n        if (state[i] == 0 && dfs(dfs, i)) return cycle;\n    }\n\
-    \    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle\
-    \ Detection)\n */\n"
+    \    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\u8DEF\u691C\u51FA(Directed\
+    \ Cycle Detection)\n */\n"
   code: "vector<int> cycle_detection_directed(const vector<vector<pair<int, int>>>\
     \ &g) {\n    int n = g.size();\n    vector<int> state(n), st_v, st_e;\n    vector<int>\
     \ cycle;\n    auto dfs = [&](auto &&self, int v) -> bool {\n        state[v] =\
@@ -41,12 +41,12 @@ data:
     \       }\n        st_v.pop_back();\n        state[v] = 2;\n        return false;\n\
     \    };\n    for (int i = 0; i < n; ++i) {\n        if (state[i] == 0 && dfs(dfs,\
     \ i)) return cycle;\n    }\n    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\
-    \u8DEF\u691C\u51FA(Cycle Detection)\n */\n"
+    \u8DEF\u691C\u51FA(Directed Cycle Detection)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/cycle_detection_directed.cpp
   requiredBy: []
-  timestamp: '2026-03-13 21:29:59+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_cycle_detection_directed.test.cpp

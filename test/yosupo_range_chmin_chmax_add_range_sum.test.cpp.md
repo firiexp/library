@@ -181,7 +181,7 @@ data:
     \ 1, height++;\n        seg.resize(2*n);\n        for (int i = 0; i < v.size();\
     \ ++i) {\n            seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];\n     \
     \       seg[i+n].len = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n\n/**\n * @brief Segment Tree Beats\n */\n#line 17 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\
+    \    }\n};\n\n/**\n * @brief Segment Tree Beats!\n */\n#line 17 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\
     \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
     \ seg(v);\n    while(q--){\n        int t;\n        sc.read(t);\n        if(t\
@@ -213,7 +213,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp

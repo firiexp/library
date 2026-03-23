@@ -159,12 +159,12 @@ data:
     \ = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g % mm * p\
     \ % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R += M;\n    }\n\
     \    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\u7406\
-    (CRT)\n */\n#line 1 \"math/prime/primefactor.cpp\"\ntemplate<typename T>\nstruct\
-    \ ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1)\
-    \ / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n \
-    \       for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n\
-    \    bool divide(T n) const {\n        if(val == 2) return !(n & 1);\n       \
-    \ return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<uint>> get_prime(int\
+    (Chinese Remainder Theorem)\n */\n#line 1 \"math/prime/primefactor.cpp\"\ntemplate<typename\
+    \ T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n)\
+    \ : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T n) {\n        T\
+    \ x = n;\n        for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n        return\
+    \ x;\n    }\n    bool divide(T n) const {\n        if(val == 2) return !(n & 1);\n\
+    \        return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<uint>> get_prime(int\
     \ n){\n    if(n <= 1) return vector<ExactDiv<uint>>();\n    vector<bool> is_prime(n+1,\
     \ true);\n    vector<ExactDiv<uint>> prime;\n    is_prime[0] = is_prime[1] = false;\n\
     \    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
@@ -271,7 +271,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_binomial_coefficient.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_binomial_coefficient.test.cpp

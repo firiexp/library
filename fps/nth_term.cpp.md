@@ -19,7 +19,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
+    document_title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"
     links: []
   bundledCode: "#line 1 \"math/ntt.cpp\"\n\n\n\nconstexpr int ntt_mod = 998244353,\
     \ ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD\
@@ -305,7 +305,7 @@ data:
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
     \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
-    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n */\n"
+    \u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n */\n"
   code: "#include \"../math/ntt.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
     \ return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n\
     \    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n \
@@ -325,14 +325,14 @@ data:
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
     \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
-    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n */\n"
+    \u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n */\n"
   dependsOn:
   - math/ntt.cpp
   isVerificationFile: false
   path: fps/nth_term.cpp
   requiredBy:
   - fps/linear_recurrence.cpp
-  timestamp: '2026-03-15 12:48:57+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp

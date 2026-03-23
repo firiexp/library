@@ -421,7 +421,7 @@ data:
     \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
     \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
     \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
-    \u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)\n */\n#line 20 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
+    \u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n */\n#line 20 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int d;\n    ll n;\n\
     \    sc.read(d, n);\n    vector<mint> a(d), c(d);\n    for (int i = 0; i < d;\
     \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
@@ -448,7 +448,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp

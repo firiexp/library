@@ -177,12 +177,11 @@ data:
     \    }\n\n    int cycle_vertex(int v) const {\n        return cycle_entry[v];\n\
     \    }\n\n    int cycle_index(int v) const {\n        return cycle_pos[v];\n \
     \   }\n\n    const vector<int> &cycle(int id) const {\n        return cycles[id];\n\
-    \    }\n};\n\n/**\n * @brief \u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)\n\
-    \ */\n#line 18 \"test/yosupo_aplusb_functional_graph.test.cpp\"\n\ntuple<vector<int>,\
-    \ int, int> walk_info(const vector<int> &to, int start) {\n    int n = to.size();\n\
-    \    vector<int> pos(n, -1), ord;\n    int cur = start;\n    while (pos[cur] ==\
-    \ -1) {\n        pos[cur] = ord.size();\n        ord.push_back(cur);\n       \
-    \ cur = to[cur];\n    }\n    return {ord, pos[cur], (int)ord.size() - pos[cur]};\n\
+    \    }\n};\n\n/**\n * @brief Functional Graph\n */\n#line 18 \"test/yosupo_aplusb_functional_graph.test.cpp\"\
+    \n\ntuple<vector<int>, int, int> walk_info(const vector<int> &to, int start) {\n\
+    \    int n = to.size();\n    vector<int> pos(n, -1), ord;\n    int cur = start;\n\
+    \    while (pos[cur] == -1) {\n        pos[cur] = ord.size();\n        ord.push_back(cur);\n\
+    \        cur = to[cur];\n    }\n    return {ord, pos[cur], (int)ord.size() - pos[cur]};\n\
     }\n\nint brute_jump(const vector<int> &to, int start, long long k) {\n    auto\
     \ [ord, offset, len] = walk_info(to, start);\n    if (k < (int)ord.size()) return\
     \ ord[k];\n    return ord[offset + (k - offset) % len];\n}\n\nvoid self_check()\
@@ -257,7 +256,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_functional_graph.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_functional_graph.test.cpp

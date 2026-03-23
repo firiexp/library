@@ -464,12 +464,11 @@ data:
     \        l = r;\n    }\n    group_begin.push_back(order.size());\n\n    vector<mint>\
     \ uniq_ans = many_factorials_short_block(uniq_ns);\n    for (int i = 0; i < (int)uniq_ns.size();\
     \ ++i) {\n        for (int j = group_begin[i]; j < group_begin[i + 1]; ++j) ans[order[j].second]\
-    \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief \u591A\u6570\u968E\
-    \u4E57(Many Factorials)\n */\n#line 18 \"test/yosupo_many_factorials.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
-    \    vector<long long> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
-    \    vector<mint> ans = many_factorials(a);\n    for (int i = 0; i < n; ++i) out.println(ans[i].val);\n\
-    \    return 0;\n}\n"
+    \ = uniq_ans[i];\n    }\n    return ans;\n}\n\n/**\n * @brief Many Factorials\n\
+    \ */\n#line 18 \"test/yosupo_many_factorials.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n    int n;\n    in.read(n);\n    vector<long long> a(n);\n\
+    \    for (int i = 0; i < n; ++i) in.read(a[i]);\n    vector<mint> ans = many_factorials(a);\n\
+    \    for (int i = 0; i < n; ++i) out.println(ans[i].val);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_factorials\"\n\n#include\
     \ <algorithm>\n#include <cassert>\n#include <vector>\nusing ll = long long;\n\
     using uint = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\
@@ -486,7 +485,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_many_factorials.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_many_factorials.test.cpp

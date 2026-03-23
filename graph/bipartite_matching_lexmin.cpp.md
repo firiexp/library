@@ -15,7 +15,7 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\
-      \u30B0(Lexicographically Minimum)"
+      \u30B0(Lexicographically Minimum Bipartite Matching)"
     links: []
   bundledCode: "#line 1 \"graph/bipartite_matching.cpp\"\nclass Bipartite_Matching\
     \ {\nprotected:\n    vector<vector<int>> G;\n    vector<int> used, alive;\n  \
@@ -43,7 +43,7 @@ data:
     \            dfs(i);\n            alive[match[i]] = 0;\n            alive[i] =\
     \ 0;\n        }\n        return res;\n    }\n};\n\n/**\n * @brief \u8F9E\u66F8\
     \u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0(Lexicographically\
-    \ Minimum)\n */\n"
+    \ Minimum Bipartite Matching)\n */\n"
   code: "#include \"./bipartite_matching.cpp\"\nclass Bipartite_Matching_LexMin :\
     \ public Bipartite_Matching {\npublic:\n    using Bipartite_Matching::Bipartite_Matching;\n\
     \n    int solve_LexMin() { // check sorted edge no\n        int res = matching();\n\
@@ -52,13 +52,13 @@ data:
     \            dfs(i);\n            alive[match[i]] = 0;\n            alive[i] =\
     \ 0;\n        }\n        return res;\n    }\n};\n\n/**\n * @brief \u8F9E\u66F8\
     \u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0(Lexicographically\
-    \ Minimum)\n */\n"
+    \ Minimum Bipartite Matching)\n */\n"
   dependsOn:
   - graph/bipartite_matching.cpp
   isVerificationFile: false
   path: graph/bipartite_matching_lexmin.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0334.test.cpp

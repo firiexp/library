@@ -11,7 +11,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u5E73\u65B9\u6839(mod p)(Modular Square Root)"
+    document_title: "\u5E73\u65B9\u6839 (mod p)"
     links: []
   bundledCode: "#line 1 \"math/mod_sqrt.cpp\"\nlong long mod_pow(long long a, long\
     \ long n, long long mod) {\n    long long r = 1;\n    while (n) {\n        if\
@@ -30,7 +30,7 @@ data:
     \ 1LL << (m - i - 1), p);\n        r = (unsigned long long)r * b % p;\n      \
     \  c = (unsigned long long)b * b % p;\n        t = (unsigned long long)t * c %\
     \ p;\n        m = i;\n    }\n    return r;\n}\n\n/**\n * @brief \u5E73\u65B9\u6839\
-    (mod p)(Modular Square Root)\n */\n"
+    \ (mod p)\n */\n"
   code: "long long mod_pow(long long a, long long n, long long mod) {\n    long long\
     \ r = 1;\n    while (n) {\n        if (n & 1) r = (unsigned long long)r * a %\
     \ mod;\n        a = (unsigned long long)a * a % mod;\n        n >>= 1;\n    }\n\
@@ -47,12 +47,12 @@ data:
     \        }\n        long long b = mod_pow(c, 1LL << (m - i - 1), p);\n       \
     \ r = (unsigned long long)r * b % p;\n        c = (unsigned long long)b * b %\
     \ p;\n        t = (unsigned long long)t * c % p;\n        m = i;\n    }\n    return\
-    \ r;\n}\n\n/**\n * @brief \u5E73\u65B9\u6839(mod p)(Modular Square Root)\n */\n"
+    \ r;\n}\n\n/**\n * @brief \u5E73\u65B9\u6839 (mod p)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/mod_sqrt.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_sqrt_mod.test.cpp

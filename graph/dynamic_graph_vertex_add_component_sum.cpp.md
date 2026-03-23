@@ -11,8 +11,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u52D5\u7684\u30B0\u30E9\u30D5\u9023\u7D50\u6210\u5206\u548C\
-      (Dynamic Graph Vertex Add Component Sum)"
+    document_title: Dynamic Graph Vertex Add Component Sum
     links: []
   bundledCode: "#line 1 \"graph/dynamic_graph_vertex_add_component_sum.cpp\"\nusing\
     \ namespace std;\n\nstruct RollbackUnionFindComponentSum {\n    struct History\
@@ -71,8 +70,8 @@ data:
     \      } else {\n                int t = k - sz;\n                if (t < q &&\
     \ queries[t].type == 3) ans.push_back(uf.get_sum(queries[t].u));\n           \
     \ }\n            uf.rollback(snap);\n        };\n        dfs(dfs, 1);\n      \
-    \  return ans;\n    }\n};\n\n/**\n * @brief \u52D5\u7684\u30B0\u30E9\u30D5\u9023\
-    \u7D50\u6210\u5206\u548C(Dynamic Graph Vertex Add Component Sum)\n */\n"
+    \  return ans;\n    }\n};\n\n/**\n * @brief Dynamic Graph Vertex Add Component\
+    \ Sum\n */\n"
   code: "using namespace std;\n\nstruct RollbackUnionFindComponentSum {\n    struct\
     \ History {\n        int child, parent;\n        int parent_size, child_size;\n\
     \        long long parent_sum, child_sum;\n    };\n\n    vector<int> parent_or_size;\n\
@@ -129,13 +128,13 @@ data:
     \      } else {\n                int t = k - sz;\n                if (t < q &&\
     \ queries[t].type == 3) ans.push_back(uf.get_sum(queries[t].u));\n           \
     \ }\n            uf.rollback(snap);\n        };\n        dfs(dfs, 1);\n      \
-    \  return ans;\n    }\n};\n\n/**\n * @brief \u52D5\u7684\u30B0\u30E9\u30D5\u9023\
-    \u7D50\u6210\u5206\u548C(Dynamic Graph Vertex Add Component Sum)\n */\n"
+    \  return ans;\n    }\n};\n\n/**\n * @brief Dynamic Graph Vertex Add Component\
+    \ Sum\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/dynamic_graph_vertex_add_component_sum.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp

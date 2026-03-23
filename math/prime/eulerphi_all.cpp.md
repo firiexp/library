@@ -12,7 +12,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     document_title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\
-      \u30EB(Euler Phi Table)"
+      \u30EB"
     links: []
   bundledCode: "#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve\
     \ {\n    int n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int>\
@@ -43,17 +43,17 @@ data:
     \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/eulerphi_all.cpp\"\
     \n\nvector<int> eulerphi_all(int M) {\n    if (M <= 0) return {};\n    return\
     \ LinearSieve(M - 1, false, true).phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\
-    \u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Euler Phi Table)\n */\n"
+    \u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\n */\n"
   code: "#include \"linear_sieve.cpp\"\n\nvector<int> eulerphi_all(int M) {\n    if\
     \ (M <= 0) return {};\n    return LinearSieve(M - 1, false, true).phi;\n}\n\n\
     /**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\
-    \u30EB(Euler Phi Table)\n */\n"
+    \u30EB\n */\n"
   dependsOn:
   - math/prime/linear_sieve.cpp
   isVerificationFile: false
   path: math/prime/eulerphi_all.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 date: 2026-03-08

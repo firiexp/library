@@ -14,8 +14,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u30AA\u30D5\u30E9\u30A4\u30F3\u52D5\u7684\u9023\u7D50\u6027\
-      (Offline Dynamic Connectivity)"
+    document_title: Offline Dynamic Connectivity
     links: []
   bundledCode: "#line 1 \"graph/offlinedynamicconnectivity.cpp\"\nusing namespace\
     \ std;\n\n#line 1 \"datastructure/undoableunionfind.cpp\"\nclass UndoableUnionFind\
@@ -64,9 +63,8 @@ data:
     \ ++i) uf.undo();\n            },\n            [&](int t) {\n                if\
     \ constexpr (is_invocable_v<F, int, UndoableUnionFind &>) {\n                \
     \    f(t, uf);\n                } else {\n                    f(t);\n        \
-    \        }\n            }\n        );\n    }\n};\n\n/**\n * @brief \u30AA\u30D5\
-    \u30E9\u30A4\u30F3\u52D5\u7684\u9023\u7D50\u6027(Offline Dynamic Connectivity)\n\
-    \ */\n"
+    \        }\n            }\n        );\n    }\n};\n\n/**\n * @brief Offline Dynamic\
+    \ Connectivity\n */\n"
   code: "using namespace std;\n\n#include \"../datastructure/undoableunionfind.cpp\"\
     \n\nstruct OfflineDynamicConnectivity {\n    int n, q, sz;\n    UndoableUnionFind\
     \ uf;\n    vector<vector<pair<int, int>>> seg;\n    vector<pair<pair<int, int>,\
@@ -95,15 +93,14 @@ data:
     \ ++i) uf.undo();\n            },\n            [&](int t) {\n                if\
     \ constexpr (is_invocable_v<F, int, UndoableUnionFind &>) {\n                \
     \    f(t, uf);\n                } else {\n                    f(t);\n        \
-    \        }\n            }\n        );\n    }\n};\n\n/**\n * @brief \u30AA\u30D5\
-    \u30E9\u30A4\u30F3\u52D5\u7684\u9023\u7D50\u6027(Offline Dynamic Connectivity)\n\
-    \ */\n"
+    \        }\n            }\n        );\n    }\n};\n\n/**\n * @brief Offline Dynamic\
+    \ Connectivity\n */\n"
   dependsOn:
   - datastructure/undoableunionfind.cpp
   isVerificationFile: false
   path: graph/offlinedynamicconnectivity.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp

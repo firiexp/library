@@ -146,9 +146,9 @@ data:
     \            }\n            st_e.pop_back();\n        }\n        st_v.pop_back();\n\
     \        state[v] = 2;\n        return false;\n    };\n    for (int i = 0; i <\
     \ n; ++i) {\n        if (state[i] == 0 && dfs(dfs, i)) return cycle;\n    }\n\
-    \    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\u8DEF\u691C\u51FA(Cycle\
-    \ Detection)\n */\n#line 15 \"test/yosupo_cycle_detection_directed.test.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
+    \    return {};\n}\n\n/**\n * @brief \u6709\u5411\u9589\u8DEF\u691C\u51FA(Directed\
+    \ Cycle Detection)\n */\n#line 15 \"test/yosupo_cycle_detection_directed.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<vector<pair<int, int>>> g(n);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int u, v;\n        sc.read(u, v);\n        g[u].push_back({v, i});\n\
     \    }\n    auto cyc = cycle_detection_directed(g);\n    if (cyc.empty()) {\n\
@@ -170,7 +170,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_cycle_detection_directed.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_cycle_detection_directed.test.cpp

@@ -198,17 +198,16 @@ data:
     \ 0;\n    }\n    T operator[](const int &k) const { return seg[k + sz]; }\n};\n\
     \n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b)\
     \ { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
-    };\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)\n\
-    \ */\n#line 29 \"test/yosupo_point_set_range_composite.test.cpp\"\n\nstruct Monoid{\n\
-    \    using T = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0],\
-    \ a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n};\n\nint main() {\n\
-    \    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    SegmentTree<Monoid>\
-    \ seg(n);\n    for (int i = 0; i < n; ++i) {\n        int a, b;\n        sc.read(a,\
-    \ b);\n        seg.set(i, Monoid::T{a, b});\n    }\n    seg.build();\n    for\
-    \ (int i = 0; i < q; ++i) {\n        int a, b, c, d;\n        sc.read(a, b, c,\
-    \ d);\n        if(!a) seg.update(b, Monoid::T{c, d});\n        else {\n      \
-    \      auto ans = seg.query(b, c);\n            pr.println((ans[0] * d + ans[1]).val);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    };\n*/\n\n/**\n * @brief Segment Tree\n */\n#line 29 \"test/yosupo_point_set_range_composite.test.cpp\"\
+    \n\nstruct Monoid{\n    using T = array<mint, 2>;\n    static T f(T a, T b) {\
+    \ return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return {1, 0}; }\n\
+    };\n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
+    \ q);\n    SegmentTree<Monoid> seg(n);\n    for (int i = 0; i < n; ++i) {\n  \
+    \      int a, b;\n        sc.read(a, b);\n        seg.set(i, Monoid::T{a, b});\n\
+    \    }\n    seg.build();\n    for (int i = 0; i < q; ++i) {\n        int a, b,\
+    \ c, d;\n        sc.read(a, b, c, d);\n        if(!a) seg.update(b, Monoid::T{c,\
+    \ d});\n        else {\n            auto ans = seg.query(b, c);\n            pr.println((ans[0]\
+    \ * d + ans[1]).val);\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n#include <algorithm>\n#include <array>\n#include <map>\n#include <set>\n#include\
     \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
@@ -233,7 +232,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_composite.test.cpp

@@ -148,9 +148,9 @@ data:
     \ 1LL << (m - i - 1), p);\n        r = (unsigned long long)r * b % p;\n      \
     \  c = (unsigned long long)b * b % p;\n        t = (unsigned long long)t * c %\
     \ p;\n        m = i;\n    }\n    return r;\n}\n\n/**\n * @brief \u5E73\u65B9\u6839\
-    (mod p)(Modular Square Root)\n */\n#line 10 \"test/yosupo_sqrt_mod.test.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n\
-    \    while (t--) {\n        long long y, p;\n        sc.read(y, p);\n        pr.println(mod_sqrt(y,\
+    \ (mod p)\n */\n#line 10 \"test/yosupo_sqrt_mod.test.cpp\"\n\nint main() {\n \
+    \   Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--)\
+    \ {\n        long long y, p;\n        sc.read(y, p);\n        pr.println(mod_sqrt(y,\
     \ p));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sqrt_mod\"\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
@@ -164,7 +164,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_sqrt_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_sqrt_mod.test.cpp

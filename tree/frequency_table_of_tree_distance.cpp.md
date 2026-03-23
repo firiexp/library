@@ -14,8 +14,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree\
-      \ Distance)"
+    document_title: Frequency Table of Tree Distance
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
@@ -56,13 +55,13 @@ data:
     \ : g[centroid]) {\n            if (!used[to]) self(self, to);\n        }\n  \
     \  };\n\n    solve(solve, 0);\n\n    vector<long long> ans(n);\n    for (int d\
     \ = 1; d < n; ++d) ans[d] = ordered[d] / 2;\n    return ans;\n}\n\n/**\n * @brief\
-    \ \u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)\n */\n"
+    \ Frequency Table of Tree Distance\n */\n"
   dependsOn:
   - math/fft.cpp
   isVerificationFile: false
   path: tree/frequency_table_of_tree_distance.cpp
   requiredBy: []
-  timestamp: '2026-03-15 11:18:22+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_frequency_table_of_tree_distance.test.cpp

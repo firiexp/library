@@ -258,13 +258,13 @@ data:
     \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
     \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
     \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\
-    \u6728(Segment Tree)\n */\n#line 23 \"test/yosupo_vertex_set_path_composite_hld_helper.test.cpp\"\
-    \n\nstruct Ml {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return\
-    \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
-    };\n\nstruct Mr {\n    using T = array<mint, 2>;\n    static T f(T b, T a) { return\
-    \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
-    };\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
+    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line\
+    \ 23 \"test/yosupo_vertex_set_path_composite_hld_helper.test.cpp\"\n\nstruct Ml\
+    \ {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return {a[0] *\
+    \ b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n};\n\nstruct\
+    \ Mr {\n    using T = array<mint, 2>;\n    static T f(T b, T a) { return {a[0]\
+    \ * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n};\n\n\
+    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
     \ q);\n    HeavyLightDecomposition hld(n);\n    SegmentTree<Ml> segl(n);\n   \
     \ SegmentTree<Mr> segr(n);\n\n    vector<int> a(n), b(n);\n    for (int i = 0;\
     \ i < n; ++i) sc.read(a[i], b[i]);\n    for (int i = 0; i < n - 1; ++i) {\n  \
@@ -315,7 +315,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
