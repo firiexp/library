@@ -87,5 +87,5 @@ struct Monoid{
 */
 
 /**
- * @brief セグメント木(Segment Tree)
+ * @brief Segment Tree
  */

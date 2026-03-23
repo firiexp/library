@@ -91,5 +91,5 @@ inline Point3 crossPoint(Point3 s, Point3 t, Plane p) {
 }
 
 /**
- * @brief 3次元幾何(Geometry 3D)
+ * @brief 3次元幾何
  */

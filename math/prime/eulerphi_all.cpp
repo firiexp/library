@@ -6,5 +6,5 @@ vector<int> eulerphi_all(int M) {
 }
 
 /**
- * @brief オイラーのφ関数テーブル(Euler Phi Table)
+ * @brief オイラーのφ関数テーブル
  */

@@ -73,5 +73,5 @@ vector<long long> frequency_table_of_tree_distance(const vector<vector<int>> &g)
 }
 
 /**
- * @brief 木距離頻度表(Frequency Table of Tree Distance)
+ * @brief Frequency Table of Tree Distance
  */

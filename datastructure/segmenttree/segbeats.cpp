@@ -113,5 +113,5 @@ void NAME(int a, int b, T val) { \
 };
 
 /**
- * @brief Segment Tree Beats
+ * @brief Segment Tree Beats!
  */

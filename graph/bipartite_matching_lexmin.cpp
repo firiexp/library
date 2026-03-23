@@ -19,5 +19,5 @@ public:
 };
 
 /**
- * @brief 辞書順最小二部マッチング(Lexicographically Minimum)
+ * @brief 辞書順最小二部マッチング(Lexicographically Minimum Bipartite Matching)
  */

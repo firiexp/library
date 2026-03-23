@@ -22,5 +22,5 @@ pair<ll, ll> CRT(const vector<pair<ll, ll>> &a){
 }
 
 /**
- * @brief 中国剰余定理(CRT)
+ * @brief 中国剰余定理(Chinese Remainder Theorem)
  */

@@ -59,5 +59,5 @@ KruskalResult<T> kruskal(vector<edge<T>> edges, int n) {
 }
 
 /**
- * @brief Kruskal法
+ * @brief 最小全域木(Kruskal法)
  */

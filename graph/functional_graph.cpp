@@ -130,5 +130,5 @@ struct FunctionalGraph {
 };
 
 /**
- * @brief 関数グラフ(Functional Graph)
+ * @brief Functional Graph
  */

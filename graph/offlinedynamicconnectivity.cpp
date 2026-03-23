@@ -76,5 +76,5 @@ struct OfflineDynamicConnectivity {
 };
 
 /**
- * @brief オフライン動的連結性(Offline Dynamic Connectivity)
+ * @brief Offline Dynamic Connectivity
  */

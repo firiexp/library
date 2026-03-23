@@ -151,5 +151,5 @@ vector<mint> many_factorials(const vector<long long> &ns) {
 }
 
 /**
- * @brief 多数階乗(Many Factorials)
+ * @brief Many Factorials
  */

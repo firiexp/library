@@ -99,5 +99,5 @@ struct Monoid{
 */
 
 /**
- * @brief 動的セグメント木
+ * @brief Dynamic Segment Tree
  */

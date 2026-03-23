@@ -7,5 +7,5 @@ template<class T>inline T iceil(T x, T y){
 }
 
 /**
- * @brief 床除算・天井除算(Floor/Ceil Division)
+ * @brief Floor/Ceil Division
  */

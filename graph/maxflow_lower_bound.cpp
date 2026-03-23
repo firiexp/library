@@ -64,5 +64,5 @@ public:
 };
 
 /**
- * @brief 下限制約付きs-t最大流(Max Flow with Lower Bounds)
+ * @brief 下限制約付きs-t最大流 (Max Flow with Lower Bounds)
  */

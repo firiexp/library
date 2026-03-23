@@ -149,5 +149,5 @@ struct DynamicGraphVertexAddComponentSum {
 };
 
 /**
- * @brief 動的グラフ連結成分和(Dynamic Graph Vertex Add Component Sum)
+ * @brief Dynamic Graph Vertex Add Component Sum
  */

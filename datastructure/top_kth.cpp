@@ -270,5 +270,5 @@ public:
 };
 
 /**
- * @brief 上位K管理Treap
+ * @brief 上位K個を管理するTreap
  */
