@@ -4,11 +4,11 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/prime/miller_rabin.cpp
-    title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
+    title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: math/prime/primitive_root.cpp
-    title: Primitive Root
+    title: "\u539F\u59CB\u6839(Primitive Root)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_factorize.test.cpp

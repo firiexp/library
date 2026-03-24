@@ -63,7 +63,7 @@ date: 2026-03-08
 documentation_of: math/prime/get_min_factor.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Get Min Factor
+title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
 ---
 
 ## 説明

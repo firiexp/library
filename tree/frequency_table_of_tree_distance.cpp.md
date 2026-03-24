@@ -69,7 +69,7 @@ date: 2026-03-15
 documentation_of: tree/frequency_table_of_tree_distance.cpp
 layout: document
 tags: "\u6728"
-title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)"
+title: Frequency Table of Tree Distance
 ---
 
 ## 説明

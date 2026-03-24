@@ -114,7 +114,7 @@ date: 2026-03-14
 documentation_of: geometry/area_of_union_of_rectangles.cpp
 layout: document
 tags: "\u5E7E\u4F55, \u30C7\u30FC\u30BF\u69CB\u9020"
-title: Area of Union of Rectangles
+title: "\u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)"
 ---
 
 ## 説明

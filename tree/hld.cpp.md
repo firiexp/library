@@ -5,7 +5,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: tree/hld_edge.cpp
-    title: HLD Edge
+    title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
@@ -167,7 +167,7 @@ date: 2019-10-10
 documentation_of: tree/hld.cpp
 layout: document
 tags: "\u6728"
-title: "\u91CD\u8EFD\u5206\u89E3"
+title: "HL\u5206\u89E3(HL Decomposition)"
 ---
 
 ## 説明

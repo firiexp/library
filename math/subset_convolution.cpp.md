@@ -91,7 +91,7 @@ date: 2026-03-10
 documentation_of: math/subset_convolution.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Subset Convolution
+title: "\u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset Convolution)"
 ---
 
 ## 説明

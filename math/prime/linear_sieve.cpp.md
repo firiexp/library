@@ -8,11 +8,10 @@ data:
     title: math/powk_all.cpp
   - icon: ':warning:'
     path: math/prime/eulerphi_all.cpp
-    title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\
-      (Euler Phi Table)"
+    title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB"
   - icon: ':warning:'
     path: math/prime/get_min_factor.cpp
-    title: Get Min Factor
+    title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
   - icon: ':heavy_check_mark:'
     path: math/prime/get_prime.cpp
     title: "\u7D20\u6570\u5217\u6319"

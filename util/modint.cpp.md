@@ -11,7 +11,7 @@ data:
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
   - icon: ':heavy_check_mark:'
     path: math/gauss_jordan_mint.cpp
-    title: Gauss Jordan Mint
+    title: "Gauss-Jordan\u6D88\u53BB(modint)"
   - icon: ':heavy_check_mark:'
     path: math/inverse_matrix.cpp
     title: "\u9006\u884C\u5217(Inverse Matrix)"

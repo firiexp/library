@@ -42,7 +42,7 @@ date: 2020-02-17
 documentation_of: util/mo.cpp
 layout: document
 tags: "\u30AF\u30A8\u30EA"
-title: Mo's algorithm
+title: Mo's Algorithm
 ---
 
 ## 説明

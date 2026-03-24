@@ -41,7 +41,7 @@ date: 2026-03-08
 documentation_of: math/kth_root_integer.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Kth Root Integer
+title: "\u6574\u6570k\u4E57\u6839(K-th Root Integer)"
 ---
 
 ## 説明

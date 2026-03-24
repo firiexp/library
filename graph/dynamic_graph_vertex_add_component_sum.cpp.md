@@ -142,8 +142,7 @@ date: 2026-03-11
 documentation_of: graph/dynamic_graph_vertex_add_component_sum.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: "\u52D5\u7684\u30B0\u30E9\u30D5\u9023\u7D50\u6210\u5206\u548C(Dynamic Graph\
-  \ Vertex Add Component Sum)"
+title: Dynamic Graph Vertex Add Component Sum
 ---
 
 ## 説明

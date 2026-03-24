@@ -108,7 +108,7 @@ date: 2020-02-26
 documentation_of: graph/offlinedynamicconnectivity.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
+title: Offline Dynamic Connectivity
 ---
 
 ## 説明

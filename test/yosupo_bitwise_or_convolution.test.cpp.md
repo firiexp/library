@@ -3,10 +3,10 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/or_convolution.cpp
-    title: Bitwise OR Convolution
+    title: "OR\u7573\u307F\u8FBC\u307F(Bitwise OR Convolution)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"

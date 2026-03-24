@@ -123,7 +123,7 @@ date: 2018-05-01
 documentation_of: datastructure/segmenttree/lazysegtree.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
+title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)"
 ---
 
 ## 説明

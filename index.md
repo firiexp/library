@@ -20,7 +20,7 @@ data:
       title: Disjoint Sparse Table
     - icon: ':heavy_check_mark:'
       path: datastructure/dynamic_bitset.cpp
-      title: Dynamic Bitset
+      title: "\u52D5\u7684bitset(Dynamic Bitset)"
     - icon: ':heavy_check_mark:'
       path: datastructure/fenwick_tree_2d.cpp
       title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
@@ -41,10 +41,10 @@ data:
       title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
     - icon: ':heavy_check_mark:'
       path: datastructure/point_add_rectangle_sum.cpp
-      title: Point Add Rectangle Sum
+      title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
     - icon: ':heavy_check_mark:'
       path: datastructure/quickfind.cpp
-      title: "\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020 (Quick-Find)"
+      title: Quick Find
     - icon: ':heavy_check_mark:'
       path: datastructure/radixheap.cpp
       title: datastructure/radixheap.cpp
@@ -63,24 +63,22 @@ data:
       title: Sparse Table
     - icon: ':heavy_check_mark:'
       path: datastructure/static_bitset.cpp
-      title: Static Bitset
+      title: "\u56FA\u5B9A\u9577bitset(Static Bitset)"
     - icon: ':heavy_check_mark:'
       path: datastructure/static_rectangle_sum.cpp
-      title: Static Rectangle Sum
+      title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
     - icon: ':heavy_check_mark:'
       path: datastructure/swag.cpp
-      title: Sliding Window Aggregation
+      title: SWAG
     - icon: ':heavy_check_mark:'
       path: datastructure/swag_deque.cpp
       title: SWAG Deque
     - icon: ':heavy_check_mark:'
       path: datastructure/top_k_sum.cpp
-      title: "\u4E0A\u4F4DK\u500B\u306E\u548C\u3092\u7BA1\u7406\u3059\u308B\u30C7\u30FC\
-        \u30BF\u69CB\u9020"
+      title: "\u4E0A\u4F4DK\u500B\u306E\u548C\u3092\u7BA1\u7406\u3059\u308B"
     - icon: ':heavy_check_mark:'
       path: datastructure/top_kth.cpp
-      title: "\u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308B\u30C7\u30FC\u30BF\u69CB\
-        \u9020 (Treap)"
+      title: "\u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308BTreap"
     - icon: ':heavy_check_mark:'
       path: datastructure/trie.cpp
       title: "Trie \u6728"
@@ -106,16 +104,17 @@ data:
       title: Dynamic Segment Tree
     - icon: ':heavy_check_mark:'
       path: datastructure/segmenttree/lazysegtree.cpp
-      title: "\u9045\u5EF6\u4F1D\u64ADSegmentTree"
+      title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)"
     - icon: ':heavy_check_mark:'
       path: datastructure/segmenttree/persistent_segtree.cpp
-      title: Persistent Segment Tree
+      title: "\u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Persistent Segment\
+        \ Tree)"
     - icon: ':heavy_check_mark:'
       path: datastructure/segmenttree/segbeats.cpp
-      title: Segment Tree Beats
+      title: Segment Tree Beats!
     - icon: ':heavy_check_mark:'
       path: datastructure/segmenttree/segtree.cpp
-      title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
+      title: Segment Tree
   - name: flow
     pages:
     - icon: ':heavy_check_mark:'
@@ -124,33 +123,33 @@ data:
         \ Dinic)"
     - icon: ':heavy_check_mark:'
       path: flow/dinic.cpp
-      title: "Dinic(\u6700\u5927\u6D41)"
+      title: "Dinic\u6CD5(Dinic)"
     - icon: ':heavy_check_mark:'
       path: flow/hungarian.cpp
-      title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5"
+      title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)"
     - icon: ':heavy_check_mark:'
       path: flow/primaldual.cpp
       title: "\u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)"
     - icon: ':heavy_check_mark:'
       path: flow/project_selection_problem.cpp
-      title: ProjectSelectionProblem
+      title: Project Selection Problem
   - name: fps
     pages:
     - icon: ':heavy_check_mark:'
       path: fps/linear_recurrence.cpp
-      title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
+      title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
     - icon: ':heavy_check_mark:'
       path: fps/multipoint_evaluation.cpp
-      title: Multipoint Evaluation
+      title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
     - icon: ':heavy_check_mark:'
       path: fps/nth_term.cpp
-      title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
+      title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"
     - icon: ':heavy_check_mark:'
       path: fps/polynomial_interpolation.cpp
-      title: Polynomial Interpolation
+      title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
     - icon: ':heavy_check_mark:'
       path: fps/sample_point_shift.cpp
-      title: Sample Point Shift
+      title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
     - icon: ':heavy_check_mark:'
       path: fps/taylor_shift.cpp
       title: Taylor Shift
@@ -158,16 +157,16 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: geometry/area_of_union_of_rectangles.cpp
-      title: Area of Union of Rectangles
+      title: "\u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)"
     - icon: ':warning:'
       path: geometry/argsort.cpp
-      title: Arg Sort
+      title: "\u504F\u89D2\u30BD\u30FC\u30C8(Argument Sort)"
     - icon: ':heavy_check_mark:'
       path: geometry/closest_pair.cpp
       title: Closest Pair
     - icon: ':heavy_check_mark:'
       path: geometry/convex_hull.cpp
-      title: Convex Hull
+      title: "\u51F8\u5305(Convex Hull)"
     - icon: ':heavy_check_mark:'
       path: geometry/dualgraph.cpp
       title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
@@ -176,7 +175,7 @@ data:
       title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     - icon: ':warning:'
       path: geometry/geometry3d.cpp
-      title: "3\u6B21\u5143\u5E7E\u4F55(Geometry 3D)"
+      title: "3\u6B21\u5143\u5E7E\u4F55"
     - icon: ':heavy_check_mark:'
       path: geometry/half_plane_intersection.cpp
       title: "\u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)"
@@ -184,8 +183,7 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: graph/SCC.cpp
-      title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(Strongly-Connected-Components,\
-        \ SCC)"
+      title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
     - icon: ':heavy_check_mark:'
       path: graph/bellman_ford.cpp
       title: "Bellman-Ford\u6CD5"
@@ -194,10 +192,10 @@ data:
       title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
     - icon: ':heavy_check_mark:'
       path: graph/bfs01.cpp
-      title: 0-1 BFS
+      title: 01-BFS
     - icon: ':heavy_check_mark:'
       path: graph/biconnected_components.cpp
-      title: "\u4E8C\u91CD\u9802\u70B9\u9023\u7D50\u6210\u5206\u5206\u89E3"
+      title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
     - icon: ':heavy_check_mark:'
       path: graph/bipartite_matching.cpp
       title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\
@@ -205,7 +203,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/bipartite_matching_lexmin.cpp
       title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
-        (Lexicographically Minimum)"
+        (Lexicographically Minimum Bipartite Matching)"
     - icon: ':heavy_check_mark:'
       path: graph/block_cut_tree.cpp
       title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
@@ -214,13 +212,13 @@ data:
       title: "\u6A4B\u6728(Bridge Tree)"
     - icon: ':heavy_check_mark:'
       path: graph/chu_liu_edmonds.cpp
-      title: Chu-Liu Edmonds
+      title: "\u6700\u5C0F\u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)"
     - icon: ':heavy_check_mark:'
       path: graph/cycle_detection_directed.cpp
-      title: Cycle Detection Directed
+      title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Directed Cycle Detection)"
     - icon: ':heavy_check_mark:'
       path: graph/cycle_detection_undirected.cpp
-      title: Cycle Detection Undirected
+      title: "\u7121\u5411\u9589\u8DEF\u691C\u51FA(Undirected Cycle Detection)"
     - icon: ':heavy_check_mark:'
       path: graph/dijkstra.cpp
       title: "Dijkstra\u6CD5"
@@ -238,26 +236,26 @@ data:
       title: Dominator Tree
     - icon: ':heavy_check_mark:'
       path: graph/dynamic_graph_vertex_add_component_sum.cpp
-      title: "\u52D5\u7684\u30B0\u30E9\u30D5\u9023\u7D50\u6210\u5206\u548C(Dynamic\
-        \ Graph Vertex Add Component Sum)"
+      title: Dynamic Graph Vertex Add Component Sum
     - icon: ':heavy_check_mark:'
       path: graph/eulerian_trail.cpp
-      title: Eulerian Trail
+      title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
     - icon: ':heavy_check_mark:'
       path: graph/functional_graph.cpp
-      title: "\u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)"
+      title: Functional Graph
     - icon: ':heavy_check_mark:'
       path: graph/general_matching.cpp
-      title: general_matching
+      title: "\u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\
+        (General Matching)"
     - icon: ':heavy_check_mark:'
       path: graph/hopcroft_karp.cpp
-      title: Hopcroft Karp
+      title: "Hopcroft-Karp\u6CD5"
     - icon: ':heavy_check_mark:'
       path: graph/independentset.cpp
-      title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408"
+      title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
     - icon: ':heavy_check_mark:'
       path: graph/kruskal.cpp
-      title: "Kruskal\u6CD5"
+      title: "\u6700\u5C0F\u5168\u57DF\u6728(Kruskal\u6CD5)"
     - icon: ':heavy_check_mark:'
       path: graph/lowlink.cpp
       title: LowLink
@@ -266,19 +264,21 @@ data:
       title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"
     - icon: ':heavy_check_mark:'
       path: graph/maxflow_lower_bound.cpp
-      title: MaxFlowLowerBound
+      title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max Flow\
+        \ with Lower Bounds)"
     - icon: ':heavy_check_mark:'
       path: graph/minimum_cost_b_flow.cpp
-      title: Minimum Cost B-Flow
+      title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
     - icon: ':heavy_check_mark:'
       path: graph/offlinedynamicconnectivity.cpp
-      title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
+      title: Offline Dynamic Connectivity
     - icon: ':heavy_check_mark:'
       path: graph/topological_sort.cpp
-      title: Topological Sort
+      title: "\u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological Sort)"
     - icon: ':heavy_check_mark:'
       path: graph/twoedgeconnectedcomponents.cpp
-      title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3"
+      title: "\u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected\
+        \ Components)"
     - icon: ':heavy_check_mark:'
       path: graph/twosat.cpp
       title: 2-SAT
@@ -286,25 +286,26 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: math/CRT.cpp
-      title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
+      title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(Chinese Remainder Theorem)"
     - icon: ':heavy_check_mark:'
       path: math/and_convolution.cpp
-      title: Bitwise AND Convolution
+      title: "AND\u7573\u307F\u8FBC\u307F(Bitwise AND Convolution)"
     - icon: ':heavy_check_mark:'
       path: math/berlekamp_massey.cpp
-      title: Berlekamp-Massey
+      title: "Berlekamp-Massey\u6CD5"
     - icon: ':heavy_check_mark:'
       path: math/binom_mod_prime_power.cpp
-      title: binom_mod_prime_power
+      title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
     - icon: ':warning:'
       path: math/comb_table.cpp
       title: math/comb_table.cpp
     - icon: ':heavy_check_mark:'
       path: math/discrete_logarithm.cpp
-      title: Discrete Logarithm
+      title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
     - icon: ':heavy_check_mark:'
       path: math/extgcd.cpp
-      title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
+      title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended\
+        \ GCD)"
     - icon: ':heavy_check_mark:'
       path: math/factorial.cpp
       title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
@@ -319,13 +320,13 @@ data:
       title: Floor Sum
     - icon: ':heavy_check_mark:'
       path: math/fwht.cpp
-      title: FWHT
+      title: "\u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)"
     - icon: ':warning:'
       path: math/garner.cpp
       title: math/garner.cpp
     - icon: ':heavy_check_mark:'
       path: math/gauss_jordan_mint.cpp
-      title: Gauss Jordan Mint
+      title: "Gauss-Jordan\u6D88\u53BB(modint)"
     - icon: ':warning:'
       path: math/gcd_transform.cpp
       title: math/gcd_transform.cpp
@@ -334,13 +335,13 @@ data:
       title: "\u9006\u884C\u5217(Inverse Matrix)"
     - icon: ':warning:'
       path: math/isqrt.cpp
-      title: "\u6574\u6570sqrt"
+      title: "\u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)"
     - icon: ':heavy_check_mark:'
       path: math/kth_root_integer.cpp
-      title: Kth Root Integer
+      title: "\u6574\u6570k\u4E57\u6839(K-th Root Integer)"
     - icon: ':heavy_check_mark:'
       path: math/many_factorials.cpp
-      title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
+      title: Many Factorials
     - icon: ':heavy_check_mark:'
       path: math/matrix.cpp
       title: "\u884C\u5217"
@@ -352,16 +353,16 @@ data:
       title: "min-plus\u7573\u307F\u8FBC\u307F(Min-Plus Convolution)"
     - icon: ':heavy_check_mark:'
       path: math/mod_sqrt.cpp
-      title: Mod Sqrt
+      title: "\u5E73\u65B9\u6839 (mod p)"
     - icon: ':heavy_check_mark:'
       path: math/modinv.cpp
       title: math/modinv.cpp
     - icon: ':heavy_check_mark:'
       path: math/ntt.cpp
-      title: Number Theoretic Transform
+      title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
     - icon: ':heavy_check_mark:'
       path: math/or_convolution.cpp
-      title: Bitwise OR Convolution
+      title: "OR\u7573\u307F\u8FBC\u307F(Bitwise OR Convolution)"
     - icon: ':warning:'
       path: math/pell_equation.cpp
       title: math/pell_equation.cpp
@@ -373,19 +374,19 @@ data:
       title: math/powk_all.cpp
     - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
-      title: "\u6B63\u65B9\u884C\u5217"
+      title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
     - icon: ':heavy_check_mark:'
       path: math/squarematrix_mint.cpp
       title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
     - icon: ':heavy_check_mark:'
       path: math/stern_brocot_tree.cpp
-      title: Stern Brocot Tree
+      title: "Stern-Brocot\u6728"
     - icon: ':heavy_check_mark:'
       path: math/subset_convolution.cpp
-      title: Subset Convolution
+      title: "\u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset Convolution)"
     - icon: ':heavy_check_mark:'
       path: math/tetration.cpp
-      title: Tetration
+      title: Tetration Mod
     - icon: ':heavy_check_mark:'
       path: math/xor_basis.cpp
       title: "XOR\u57FA\u5E95(Linear Basis)"
@@ -393,20 +394,19 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: math/prime/counting_primes.cpp
-      title: Counting Primes
+      title: "\u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)"
     - icon: ':warning:'
       path: math/prime/divisor.cpp
       title: math/prime/divisor.cpp
     - icon: ':heavy_check_mark:'
       path: math/prime/eulerphi.cpp
-      title: Euler Phi
+      title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
     - icon: ':warning:'
       path: math/prime/eulerphi_all.cpp
-      title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB\
-        (Euler Phi Table)"
+      title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB"
     - icon: ':warning:'
       path: math/prime/get_min_factor.cpp
-      title: Get Min Factor
+      title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
     - icon: ':heavy_check_mark:'
       path: math/prime/get_prime.cpp
       title: "\u7D20\u6570\u5217\u6319"
@@ -421,7 +421,7 @@ data:
       title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
     - icon: ':heavy_check_mark:'
       path: math/prime/miller_rabin.cpp
-      title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
+      title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
     - icon: ':warning:'
       path: math/prime/mobius_all.cpp
       title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Mobius\
@@ -437,7 +437,7 @@ data:
       title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
     - icon: ':heavy_check_mark:'
       path: math/prime/primitive_root.cpp
-      title: Primitive Root
+      title: "\u539F\u59CB\u6839(Primitive Root)"
   - name: snippets
     pages:
     - icon: ':warning:'
@@ -456,7 +456,7 @@ data:
     pages:
     - icon: ':heavy_check_mark:'
       path: string/kmp.cpp
-      title: KMP
+      title: "KMP\u6CD5"
     - icon: ':heavy_check_mark:'
       path: string/lcs_bit.cpp
       title: LCS(bitset)
@@ -471,7 +471,7 @@ data:
       title: "\u56DE\u6587\u6728(Palindromic Tree)"
     - icon: ':heavy_check_mark:'
       path: string/rolling_hash.cpp
-      title: Rolling-Hash
+      title: Rolling Hash
     - icon: ':heavy_check_mark:'
       path: string/rolling_hash_ull.cpp
       title: Rolling Hash(mod 2^61-1)
@@ -480,10 +480,10 @@ data:
       title: Suffix Array
     - icon: ':heavy_check_mark:'
       path: string/suffix_automaton.cpp
-      title: suffix automaton
+      title: Suffix Automaton
     - icon: ':heavy_check_mark:'
       path: string/z-algorithm.cpp
-      title: Z-algorithm
+      title: Z-Algorithm
   - name: tree
     pages:
     - icon: ':heavy_check_mark:'
@@ -513,13 +513,13 @@ data:
       title: DSU on Tree
     - icon: ':heavy_check_mark:'
       path: tree/frequency_table_of_tree_distance.cpp
-      title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)"
+      title: Frequency Table of Tree Distance
     - icon: ':heavy_check_mark:'
       path: tree/hld.cpp
-      title: "\u91CD\u8EFD\u5206\u89E3"
+      title: "HL\u5206\u89E3(HL Decomposition)"
     - icon: ':heavy_check_mark:'
       path: tree/hld_edge.cpp
-      title: HLD Edge
+      title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
     - icon: ':heavy_check_mark:'
       path: tree/jump_on_tree.cpp
       title: Jump on Tree
@@ -531,13 +531,13 @@ data:
       title: "ReRooting(\u5168\u65B9\u4F4D\u6728DP)"
     - icon: ':warning:'
       path: tree/tree_center.cpp
-      title: Tree Center
+      title: "\u6728\u306E\u4E2D\u5FC3(Tree Center)"
     - icon: ':heavy_check_mark:'
       path: tree/tree_hash.cpp
       title: "\u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)"
     - icon: ':heavy_check_mark:'
       path: tree/virtual_tree_helper.cpp
-      title: virtual_tree_helper
+      title: Virtual Tree Helper
   - name: util
     pages:
     - icon: ':heavy_check_mark:'
@@ -548,10 +548,10 @@ data:
       title: util/dice.cpp
     - icon: ':heavy_check_mark:'
       path: util/fastio.cpp
-      title: Fast IO
+      title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     - icon: ':heavy_check_mark:'
       path: util/ifloor.cpp
-      title: IFloor
+      title: Floor/Ceil Division
     - icon: ':warning:'
       path: util/is_palindrome.cpp
       title: util/is_palindrome.cpp
@@ -563,19 +563,19 @@ data:
       title: make_v, chmin, chmax
     - icon: ':heavy_check_mark:'
       path: util/mo.cpp
-      title: Mo's algorithm
+      title: Mo's Algorithm
     - icon: ':heavy_check_mark:'
       path: util/modint.cpp
       title: "modint(\u56FA\u5B9AMOD)"
     - icon: ':heavy_check_mark:'
       path: util/modint_arbitrary.cpp
-      title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
+      title: "modint(\u4EFB\u610FMOD)"
     - icon: ':warning:'
       path: util/parse.cpp
-      title: "\u56DB\u5247\u6F14\u7B97\u30D1\u30FC\u30B5"
+      title: "\u5F0F\u30D1\u30FC\u30B5(Parse)"
     - icon: ':warning:'
       path: util/rle.cpp
-      title: RLE
+      title: "\u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)"
     - icon: ':heavy_check_mark:'
       path: util/xorshift.cpp
       title: Xor-Shift

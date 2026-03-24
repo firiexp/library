@@ -32,7 +32,7 @@ date: 2026-03-08
 documentation_of: math/isqrt.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: "\u6574\u6570sqrt"
+title: "\u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)"
 ---
 
 ## 説明

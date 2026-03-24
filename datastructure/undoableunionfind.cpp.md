@@ -4,7 +4,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: graph/offlinedynamicconnectivity.cpp
-    title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
+    title: Offline Dynamic Connectivity
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp

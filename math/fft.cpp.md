@@ -8,7 +8,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: tree/frequency_table_of_tree_distance.cpp
-    title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)"
+    title: Frequency Table of Tree Distance
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp

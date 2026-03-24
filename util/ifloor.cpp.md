@@ -32,7 +32,7 @@ date: 2026-03-08
 documentation_of: util/ifloor.cpp
 layout: document
 tags: util
-title: IFloor
+title: Floor/Ceil Division
 ---
 
 ## 説明

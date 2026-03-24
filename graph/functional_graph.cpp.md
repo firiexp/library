@@ -115,7 +115,7 @@ date: 2026-03-12
 documentation_of: graph/functional_graph.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: "\u95A2\u6570\u30B0\u30E9\u30D5(Functional Graph)"
+title: Functional Graph
 ---
 
 ## 説明

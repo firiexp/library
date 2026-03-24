@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':warning:'
     path: math/isqrt.cpp
-    title: "\u6574\u6570sqrt"
+    title: "\u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

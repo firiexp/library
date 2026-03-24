@@ -32,7 +32,7 @@ date: 2026-03-08
 documentation_of: util/rle.cpp
 layout: document
 tags: util
-title: RLE
+title: "\u30E9\u30F3\u30EC\u30F3\u30B0\u30B9\u5727\u7E2E(RLE)"
 ---
 
 ## 説明

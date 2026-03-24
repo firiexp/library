@@ -113,7 +113,7 @@ date: 2026-03-08
 documentation_of: graph/eulerian_trail.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: Eulerian Trail
+title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
 ---
 
 ## 説明

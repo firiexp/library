@@ -39,7 +39,7 @@ date: 2026-03-08
 documentation_of: string/z-algorithm.cpp
 layout: document
 tags: "\u6587\u5B57\u5217"
-title: Z-algorithm
+title: Z-Algorithm
 ---
 
 ## 説明

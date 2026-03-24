@@ -4,7 +4,8 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/extgcd.cpp
-    title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
+    title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended\
+      \ GCD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -52,7 +53,7 @@ date: 2019-08-18
 documentation_of: math/CRT.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
+title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(Chinese Remainder Theorem)"
 ---
 
 ## 説明

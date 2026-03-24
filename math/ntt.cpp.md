@@ -5,25 +5,25 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: fps/linear_recurrence.cpp
-    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
   - icon: ':heavy_check_mark:'
     path: fps/multipoint_evaluation.cpp
-    title: Multipoint Evaluation
+    title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
   - icon: ':heavy_check_mark:'
     path: fps/nth_term.cpp
-    title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
+    title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"
   - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
-    title: Polynomial Interpolation
+    title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
   - icon: ':heavy_check_mark:'
     path: fps/sample_point_shift.cpp
-    title: Sample Point Shift
+    title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
   - icon: ':heavy_check_mark:'
     path: fps/taylor_shift.cpp
     title: Taylor Shift
   - icon: ':heavy_check_mark:'
     path: math/many_factorials.cpp
-    title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
+    title: Many Factorials
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
@@ -634,7 +634,7 @@ date: 2026-03-08
 documentation_of: math/ntt.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Number Theoretic Transform
+title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
 ---
 
 ## 説明

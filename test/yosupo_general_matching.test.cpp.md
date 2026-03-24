@@ -3,10 +3,11 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: graph/general_matching.cpp
-    title: general_matching
+    title: "\u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\
+      (General Matching)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

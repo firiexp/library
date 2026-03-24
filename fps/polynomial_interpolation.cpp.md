@@ -4,10 +4,10 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: fps/multipoint_evaluation.cpp
-    title: Multipoint Evaluation
+    title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
-    title: Number Theoretic Transform
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -340,7 +340,7 @@ date: 2026-03-08
 documentation_of: fps/polynomial_interpolation.cpp
 layout: document
 tags: FPS
-title: Polynomial Interpolation
+title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
 ---
 
 ## 説明

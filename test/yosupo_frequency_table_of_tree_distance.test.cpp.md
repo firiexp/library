@@ -6,10 +6,10 @@ data:
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
   - icon: ':heavy_check_mark:'
     path: tree/frequency_table_of_tree_distance.cpp
-    title: "\u6728\u8DDD\u96E2\u983B\u5EA6\u8868(Frequency Table of Tree Distance)"
+    title: Frequency Table of Tree Distance
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

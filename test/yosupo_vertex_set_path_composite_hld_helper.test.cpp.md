@@ -3,13 +3,13 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: datastructure/segmenttree/segtree.cpp
-    title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
+    title: Segment Tree
   - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
-    title: "\u91CD\u8EFD\u5206\u89E3"
+    title: "HL\u5206\u89E3(HL Decomposition)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"

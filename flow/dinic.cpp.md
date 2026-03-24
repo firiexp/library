@@ -5,10 +5,11 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: flow/project_selection_problem.cpp
-    title: ProjectSelectionProblem
+    title: Project Selection Problem
   - icon: ':heavy_check_mark:'
     path: graph/maxflow_lower_bound.cpp
-    title: MaxFlowLowerBound
+    title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max Flow with\
+      \ Lower Bounds)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0396.test.cpp
@@ -94,7 +95,7 @@ date: 2019-07-31
 documentation_of: flow/dinic.cpp
 layout: document
 tags: "\u6700\u5927\u6D41"
-title: "Dinic(\u6700\u5927\u6D41)"
+title: "Dinic\u6CD5(Dinic)"
 ---
 
 ## 説明

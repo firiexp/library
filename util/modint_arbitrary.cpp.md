@@ -87,7 +87,7 @@ date: 2026-03-14
 documentation_of: util/modint_arbitrary.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
+title: "modint(\u4EFB\u610FMOD)"
 ---
 
 ## 説明

@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':warning:'
     path: math/prime/get_min_factor.cpp
-    title: Get Min Factor
+    title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
   - icon: ':heavy_check_mark:'
     path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"

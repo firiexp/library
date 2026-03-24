@@ -35,7 +35,7 @@ date: 2026-03-08
 documentation_of: math/prime/eulerphi.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Euler Phi
+title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
 ---
 
 ## 説明

@@ -76,7 +76,7 @@ date: 2026-03-12
 documentation_of: geometry/geometry3d.cpp
 layout: document
 tags: "\u5E7E\u4F55"
-title: "3\u6B21\u5143\u5E7E\u4F55(Geometry 3D)"
+title: "3\u6B21\u5143\u5E7E\u4F55"
 ---
 
 ## 説明

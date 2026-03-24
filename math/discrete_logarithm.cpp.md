@@ -67,7 +67,7 @@ date: 2026-03-08
 documentation_of: math/discrete_logarithm.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Discrete Logarithm
+title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
 ---
 
 ## 説明

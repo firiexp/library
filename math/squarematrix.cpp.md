@@ -96,7 +96,7 @@ date: 2026-03-15
 documentation_of: math/squarematrix.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: "\u6B63\u65B9\u884C\u5217"
+title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
 ---
 
 ## 説明

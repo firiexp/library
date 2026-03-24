@@ -54,7 +54,7 @@ date: 2026-03-08
 documentation_of: graph/cycle_detection_directed.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: Cycle Detection Directed
+title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Directed Cycle Detection)"
 ---
 
 ## 説明

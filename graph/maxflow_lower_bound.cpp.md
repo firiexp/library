@@ -4,7 +4,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
-    title: "Dinic(\u6700\u5927\u6D41)"
+    title: "Dinic\u6CD5(Dinic)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -103,7 +103,8 @@ date: 2026-03-07
 documentation_of: graph/maxflow_lower_bound.cpp
 layout: document
 tags: "\u6700\u5927\u6D41"
-title: MaxFlowLowerBound
+title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max Flow with Lower\
+  \ Bounds)"
 ---
 
 ## 説明

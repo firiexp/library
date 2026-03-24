@@ -48,7 +48,7 @@ date: 2026-03-08
 documentation_of: string/kmp.cpp
 layout: document
 tags: "\u6587\u5B57\u5217"
-title: KMP
+title: "KMP\u6CD5"
 ---
 
 ## 概要

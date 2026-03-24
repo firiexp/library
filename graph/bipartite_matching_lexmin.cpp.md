@@ -65,7 +65,7 @@ data:
 documentation_of: graph/bipartite_matching_lexmin.cpp
 layout: document
 title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0(Lexicographically\
-  \ Minimum)"
+  \ Minimum Bipartite Matching)"
 ---
 ## 説明
 二部グラフの最大マッチングのうち、左側頂点の対応先列を辞書順最小にしたものを求める。

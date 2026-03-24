@@ -203,8 +203,7 @@ date: 2026-03-21
 documentation_of: datastructure/top_kth.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: "\u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308B\u30C7\u30FC\u30BF\u69CB\u9020\
-  \ (Treap)"
+title: "\u4E0A\u4F4DK\u500B\u3092\u7BA1\u7406\u3059\u308BTreap"
 ---
 
 ## 説明

@@ -45,7 +45,7 @@ date: 2026-03-08
 documentation_of: graph/topological_sort.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: Topological Sort
+title: "\u30C8\u30DD\u30ED\u30B8\u30AB\u30EB\u30BD\u30FC\u30C8(Topological Sort)"
 ---
 
 ## 説明

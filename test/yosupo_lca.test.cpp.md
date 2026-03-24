@@ -9,7 +9,7 @@ data:
     title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

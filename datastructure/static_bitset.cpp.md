@@ -288,7 +288,7 @@ date: 2026-03-22
 documentation_of: datastructure/static_bitset.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: Static Bitset
+title: "\u56FA\u5B9A\u9577bitset(Static Bitset)"
 ---
 
 ## 説明

@@ -6,10 +6,10 @@ data:
     title: Binary Indexed Tree(BIT)
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
     path: util/mo.cpp
-    title: Mo's algorithm
+    title: Mo's Algorithm
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

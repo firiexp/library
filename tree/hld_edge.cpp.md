@@ -4,7 +4,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
-    title: "\u91CD\u8EFD\u5206\u89E3"
+    title: "HL\u5206\u89E3(HL Decomposition)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -134,7 +134,7 @@ date: 2026-03-08
 documentation_of: tree/hld_edge.cpp
 layout: document
 tags: "\u6728"
-title: HLD Edge
+title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
 ---
 
 ## 説明

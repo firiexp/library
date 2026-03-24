@@ -7,10 +7,10 @@ data:
     title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
   - icon: ':heavy_check_mark:'
     path: datastructure/point_add_rectangle_sum.cpp
-    title: Point Add Rectangle Sum
+    title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
   - icon: ':heavy_check_mark:'
     path: datastructure/static_rectangle_sum.cpp
-    title: Static Rectangle Sum
+    title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj_dsl_2_b.test.cpp

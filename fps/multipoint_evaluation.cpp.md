@@ -4,11 +4,11 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
-    title: Number Theoretic Transform
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
-    title: Polynomial Interpolation
+    title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
@@ -330,7 +330,7 @@ date: 2026-03-08
 documentation_of: fps/multipoint_evaluation.cpp
 layout: document
 tags: FPS
-title: Multipoint Evaluation
+title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
 ---
 
 ## 説明

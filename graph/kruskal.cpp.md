@@ -62,7 +62,7 @@ data:
   - test/yosupo_minimum_spanning_tree.test.cpp
 documentation_of: graph/kruskal.cpp
 layout: document
-title: "Kruskal\u6CD5"
+title: "\u6700\u5C0F\u5168\u57DF\u6728(Kruskal\u6CD5)"
 ---
 ## 説明
 無向重み付きグラフの最小全域木を求める。

@@ -158,7 +158,7 @@ date: 2026-03-08
 documentation_of: graph/chu_liu_edmonds.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: Chu-Liu Edmonds
+title: "\u6700\u5C0F\u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)"
 ---
 
 ## 説明

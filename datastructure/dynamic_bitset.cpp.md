@@ -302,7 +302,7 @@ date: 2026-03-22
 documentation_of: datastructure/dynamic_bitset.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: Dynamic Bitset
+title: "\u52D5\u7684bitset(Dynamic Bitset)"
 ---
 
 ## 説明

@@ -48,7 +48,7 @@ date: 2026-03-08
 documentation_of: graph/bfs01.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: 0-1 BFS
+title: 01-BFS
 ---
 
 ## 説明

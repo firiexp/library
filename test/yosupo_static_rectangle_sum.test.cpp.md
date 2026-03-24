@@ -6,10 +6,10 @@ data:
     title: Binary Indexed Tree(BIT)
   - icon: ':heavy_check_mark:'
     path: datastructure/static_rectangle_sum.cpp
-    title: Static Rectangle Sum
+    title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

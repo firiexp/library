@@ -102,7 +102,7 @@ date: 2026-03-08
 documentation_of: string/suffix_automaton.cpp
 layout: document
 tags: "\u6587\u5B57\u5217"
-title: suffix automaton
+title: Suffix Automaton
 ---
 
 ## 概要

@@ -86,7 +86,7 @@ date: 2026-03-08
 documentation_of: math/gauss_jordan_mint.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Gauss Jordan Mint
+title: "Gauss-Jordan\u6D88\u53BB(modint)"
 ---
 
 ## 説明

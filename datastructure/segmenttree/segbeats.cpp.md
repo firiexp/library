@@ -117,7 +117,7 @@ data:
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
 documentation_of: datastructure/segmenttree/segbeats.cpp
 layout: document
-title: Segment Tree Beats
+title: Segment Tree Beats!
 ---
 ## 説明
 `range chmin`、`range chmax`、`range add`、`range sum` をまとめて処理する Segment Tree Beats である。

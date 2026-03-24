@@ -197,7 +197,7 @@ date: 2026-03-08
 documentation_of: graph/minimum_cost_b_flow.cpp
 layout: document
 tags: "\u6700\u5C0F\u8CBB\u7528\u6D41"
-title: Minimum Cost B-Flow
+title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
 ---
 
 ## 説明

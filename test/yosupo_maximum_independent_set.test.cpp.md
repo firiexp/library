@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: graph/independentset.cpp
-    title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408"
+    title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

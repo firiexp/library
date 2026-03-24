@@ -102,7 +102,7 @@ date: 2020-03-07
 documentation_of: datastructure/segmenttree/segtree.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Segment Tree)"
+title: Segment Tree
 ---
 
 ## 説明

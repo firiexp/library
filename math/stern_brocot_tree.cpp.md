@@ -88,7 +88,7 @@ date: 2026-03-08
 documentation_of: math/stern_brocot_tree.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Stern Brocot Tree
+title: "Stern-Brocot\u6728"
 ---
 
 ## 説明

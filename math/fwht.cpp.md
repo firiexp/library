@@ -52,7 +52,7 @@ date: 2026-03-08
 documentation_of: math/fwht.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: FWHT
+title: "\u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)"
 ---
 
 ## 説明

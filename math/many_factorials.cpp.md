@@ -4,7 +4,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
-    title: Number Theoretic Transform
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -422,7 +422,7 @@ date: 2026-03-15
 documentation_of: math/many_factorials.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: "\u591A\u6570\u968E\u4E57(Many Factorials)"
+title: Many Factorials
 ---
 
 ## 説明

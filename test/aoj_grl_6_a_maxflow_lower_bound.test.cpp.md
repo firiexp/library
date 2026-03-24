@@ -3,10 +3,11 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
-    title: "Dinic(\u6700\u5927\u6D41)"
+    title: "Dinic\u6CD5(Dinic)"
   - icon: ':heavy_check_mark:'
     path: graph/maxflow_lower_bound.cpp
-    title: MaxFlowLowerBound
+    title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max Flow with\
+      \ Lower Bounds)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

@@ -60,7 +60,7 @@ date: 2026-03-08
 documentation_of: math/mod_sqrt.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Mod Sqrt
+title: "\u5E73\u65B9\u6839 (mod p)"
 ---
 
 ## 説明

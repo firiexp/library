@@ -795,7 +795,7 @@ date: 2026-03-14
 documentation_of: util/fastio.cpp
 layout: document
 tags: "\u30E6\u30FC\u30C6\u30A3\u30EA\u30C6\u30A3"
-title: Fast IO
+title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
 ---
 
 ## 説明

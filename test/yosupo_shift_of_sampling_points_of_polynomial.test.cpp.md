@@ -3,13 +3,13 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: fps/sample_point_shift.cpp
-    title: Sample Point Shift
+    title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
-    title: Number Theoretic Transform
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

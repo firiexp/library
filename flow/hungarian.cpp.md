@@ -86,7 +86,7 @@ date: 2026-03-08
 documentation_of: flow/hungarian.cpp
 layout: document
 tags: "\u30D5\u30ED\u30FC"
-title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5"
+title: "\u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)"
 ---
 
 ## 説明

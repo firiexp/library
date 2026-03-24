@@ -48,7 +48,7 @@ date: 2020-02-19
 documentation_of: datastructure/swag.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: Sliding Window Aggregation
+title: SWAG
 ---
 
 ## 説明

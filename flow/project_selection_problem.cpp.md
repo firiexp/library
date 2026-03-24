@@ -4,7 +4,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
-    title: "Dinic(\u6700\u5927\u6D41)"
+    title: "Dinic\u6CD5(Dinic)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -111,7 +111,7 @@ date: 2026-03-08
 documentation_of: flow/project_selection_problem.cpp
 layout: document
 tags: "\u30D5\u30ED\u30FC"
-title: ProjectSelectionProblem
+title: Project Selection Problem
 ---
 
 ## 説明

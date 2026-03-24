@@ -6,10 +6,10 @@ data:
     title: Undoable Union Find
   - icon: ':heavy_check_mark:'
     path: graph/offlinedynamicconnectivity.cpp
-    title: "Dynamic Connectivity (\u30AA\u30D5\u30E9\u30A4\u30F3)"
+    title: Offline Dynamic Connectivity
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

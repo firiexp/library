@@ -119,7 +119,7 @@ date: 2026-03-08
 documentation_of: tree/virtual_tree_helper.cpp
 layout: document
 tags: "\u6728"
-title: virtual_tree_helper
+title: Virtual Tree Helper
 ---
 
 ## 説明

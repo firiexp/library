@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: string/suffix_automaton.cpp
-    title: suffix automaton
+    title: Suffix Automaton
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

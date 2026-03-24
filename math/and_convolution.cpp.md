@@ -51,7 +51,7 @@ date: 2026-03-10
 documentation_of: math/and_convolution.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Bitwise AND Convolution
+title: "AND\u7573\u307F\u8FBC\u307F(Bitwise AND Convolution)"
 ---
 
 ## 説明

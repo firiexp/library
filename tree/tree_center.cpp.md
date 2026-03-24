@@ -53,7 +53,7 @@ date: 2026-03-08
 documentation_of: tree/tree_center.cpp
 layout: document
 tags: "\u6728"
-title: Tree Center
+title: "\u6728\u306E\u4E2D\u5FC3(Tree Center)"
 ---
 
 ## 説明

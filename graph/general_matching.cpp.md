@@ -113,7 +113,8 @@ date: 2026-03-08
 documentation_of: graph/general_matching.cpp
 layout: document
 tags: "\u30B0\u30E9\u30D5"
-title: general_matching
+title: "\u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(General\
+  \ Matching)"
 ---
 
 ## 説明

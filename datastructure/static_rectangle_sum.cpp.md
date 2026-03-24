@@ -88,7 +88,7 @@ date: 2026-03-08
 documentation_of: datastructure/static_rectangle_sum.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: Static Rectangle Sum
+title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
 ---
 
 ## 説明

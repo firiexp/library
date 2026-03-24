@@ -4,7 +4,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/prime/miller_rabin.cpp
-    title: "Miller-Rabin\u6CD5(\u78BA\u7387\u7684\u7D20\u6570\u5224\u5B9A)"
+    title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
   - icon: ':heavy_check_mark:'
     path: math/prime/primefactor_ll.cpp
     title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
@@ -124,7 +124,7 @@ date: 2026-03-08
 documentation_of: math/prime/primitive_root.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Primitive Root
+title: "\u539F\u59CB\u6839(Primitive Root)"
 ---
 
 ## 説明

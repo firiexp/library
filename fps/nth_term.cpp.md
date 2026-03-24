@@ -3,11 +3,11 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
-    title: Number Theoretic Transform
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: fps/linear_recurrence.cpp
-    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
@@ -339,7 +339,7 @@ data:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
 documentation_of: fps/nth_term.cpp
 layout: document
-title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306En\u9805(N-th Term)"
+title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"
 ---
 ## 説明
 有理型母関数 `P(x) / Q(x)` の `x^n` の係数を求める。

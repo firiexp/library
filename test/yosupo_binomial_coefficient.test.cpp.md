@@ -3,13 +3,14 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/CRT.cpp
-    title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
+    title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(Chinese Remainder Theorem)"
   - icon: ':heavy_check_mark:'
     path: math/binom_mod_prime_power.cpp
-    title: binom_mod_prime_power
+    title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
   - icon: ':heavy_check_mark:'
     path: math/extgcd.cpp
-    title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
+    title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended\
+      \ GCD)"
   - icon: ':heavy_check_mark:'
     path: math/modinv.cpp
     title: math/modinv.cpp
@@ -18,7 +19,7 @@ data:
     title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

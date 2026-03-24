@@ -5,7 +5,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: fps/linear_recurrence.cpp
-    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F"
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_find_linear_recurrence.test.cpp
@@ -56,7 +56,7 @@ date: 2026-03-07
 documentation_of: math/berlekamp_massey.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Berlekamp-Massey
+title: "Berlekamp-Massey\u6CD5"
 ---
 
 ## 概要

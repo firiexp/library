@@ -3,7 +3,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/berlekamp_massey.cpp
-    title: Berlekamp-Massey
+    title: "Berlekamp-Massey\u6CD5"
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"

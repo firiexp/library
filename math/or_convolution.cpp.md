@@ -51,7 +51,7 @@ date: 2026-03-10
 documentation_of: math/or_convolution.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Bitwise OR Convolution
+title: "OR\u7573\u307F\u8FBC\u307F(Bitwise OR Convolution)"
 ---
 
 ## 説明

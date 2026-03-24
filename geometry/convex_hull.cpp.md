@@ -48,7 +48,7 @@ date: 2026-03-08
 documentation_of: geometry/convex_hull.cpp
 layout: document
 tags: "\u5E7E\u4F55"
-title: Convex Hull
+title: "\u51F8\u5305(Convex Hull)"
 ---
 
 ## 説明

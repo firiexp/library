@@ -10,7 +10,7 @@ data:
     title: "\u88DC\u52A9\u6728(Aux Tree)"
   - icon: ':heavy_check_mark:'
     path: tree/virtual_tree_helper.cpp
-    title: virtual_tree_helper
+    title: Virtual Tree Helper
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0439.test.cpp

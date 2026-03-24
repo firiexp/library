@@ -69,7 +69,7 @@ date: 2026-03-08
 documentation_of: math/binom_mod_prime_power.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: binom_mod_prime_power
+title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
 ---
 
 ## 説明

@@ -3,13 +3,13 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
-    title: Fast IO
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   - icon: ':heavy_check_mark:'
     path: util/modint_arbitrary.cpp
-    title: "modint\u69CB\u9020\u4F53(\u5B9F\u884C\u6642MOD)"
+    title: "modint(\u4EFB\u610FMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false

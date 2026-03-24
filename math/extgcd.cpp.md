@@ -5,7 +5,7 @@ data:
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: math/CRT.cpp
-    title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406"
+    title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(Chinese Remainder Theorem)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_binomial_coefficient.test.cpp
@@ -44,7 +44,8 @@ date: 2018-04-28
 documentation_of: math/extgcd.cpp
 layout: document
 tags: "\u6574\u6570\u8AD6"
-title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5"
+title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended\
+  \ GCD)"
 ---
 
 ## 説明

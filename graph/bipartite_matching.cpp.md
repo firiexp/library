@@ -5,7 +5,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/bipartite_matching_lexmin.cpp
     title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
-      (Lexicographically Minimum)"
+      (Lexicographically Minimum Bipartite Matching)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0334.test.cpp

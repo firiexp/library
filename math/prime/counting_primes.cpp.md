@@ -88,7 +88,7 @@ date: 2026-03-08
 documentation_of: math/prime/counting_primes.cpp
 layout: document
 tags: "\u6570\u5B66"
-title: Counting Primes
+title: "\u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)"
 ---
 
 ## 説明

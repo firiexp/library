@@ -102,7 +102,7 @@ date: 2026-03-08
 documentation_of: datastructure/point_add_rectangle_sum.cpp
 layout: document
 tags: "\u30C7\u30FC\u30BF\u69CB\u9020"
-title: Point Add Rectangle Sum
+title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
 ---
 
 ## 説明

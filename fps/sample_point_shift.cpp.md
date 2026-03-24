@@ -4,7 +4,7 @@ data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
-    title: Number Theoretic Transform
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -354,7 +354,7 @@ date: 2026-03-08
 documentation_of: fps/sample_point_shift.cpp
 layout: document
 tags: FPS
-title: Sample Point Shift
+title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
 ---
 
 ## 説明
