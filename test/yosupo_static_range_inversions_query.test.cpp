@@ -32,6 +32,7 @@ int main() {
         sc.read(l, r);
         qs[i] = Query(l, r, i);
     }
+    Query::bucket_size = 320;
     sort(qs.begin(), qs.end());
 
     BIT<int> bit((int)xs.size());

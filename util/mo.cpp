@@ -1,6 +1,5 @@
-const int B = 400;
-
 struct Query {
+    static inline int B = 1;
     int l, r, no;
     Query(int l, int r, int no) : l(l), r(r), no(no) {}
     Query() : l(0), r(0), no(0) {}
