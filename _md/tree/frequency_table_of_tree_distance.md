@@ -1,5 +1,5 @@
 ---
-title: 木距離頻度表(Frequency Table of Tree Distance)
+title: Frequency Table of Tree Distance
 documentation_of: //tree/frequency_table_of_tree_distance.cpp
 date: 2026-03-15
 category: 木

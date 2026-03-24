@@ -1,5 +1,5 @@
 ---
-title: Rolling-Hash
+title: Rolling Hash
 documentation_of: //string/rolling_hash.cpp
 date: 2019-09-16
 category: 文字列

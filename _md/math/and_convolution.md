@@ -1,5 +1,5 @@
 ---
-title: Bitwise AND Convolution
+title: AND畳み込み(Bitwise AND Convolution)
 documentation_of: //math/and_convolution.cpp
 date: 2026-03-10
 category: 数学

@@ -1,5 +1,5 @@
 ---
-title: Chu-Liu Edmonds
+title: 最小全域有向木(Chu-Liu/Edmonds)
 documentation_of: //graph/chu_liu_edmonds.cpp
 date: 2026-03-08
 category: グラフ

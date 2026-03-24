@@ -1,5 +1,5 @@
 ---
-title: 上位K個を管理するデータ構造 (Treap)
+title: 上位K個を管理するTreap
 documentation_of: //datastructure/top_kth.cpp
 date: 2026-03-21
 category: データ構造

@@ -107,7 +107,7 @@ def split_front_matter(text: str) -> tuple[list[str], str] | None:
     return None
 
 
-def replace_documentation_of(text: str, relpath: str, title: str) -> tuple[str, bool]:
+def replace_front_matter(text: str, relpath: str, title: str) -> tuple[str, bool]:
     parsed = split_front_matter(text)
     if parsed is None:
         front_matter = (
@@ -121,16 +121,26 @@ def replace_documentation_of(text: str, relpath: str, title: str) -> tuple[str, 
     target = expected_documentation_of(relpath)
     updated_lines: list[str] = []
     changed = False
-    found = False
+    found_title = False
+    found_documentation_of = False
     for line in front_matter_lines:
+        if line.startswith("title:"):
+            found_title = True
+            new_line = f"title: {title}\n"
+            updated_lines.append(new_line)
+            changed |= line != new_line
+            continue
         if line.startswith("documentation_of:"):
-            found = True
+            found_documentation_of = True
             new_line = f"documentation_of: {target}\n"
             updated_lines.append(new_line)
             changed |= line != new_line
-        else:
-            updated_lines.append(line)
-    if not found:
+            continue
+        updated_lines.append(line)
+    if not found_title:
+        updated_lines.insert(0, f"title: {title}\n")
+        changed = True
+    if not found_documentation_of:
         insert_at = 0
         for i, line in enumerate(updated_lines):
             if line.startswith("title:"):
@@ -142,13 +152,13 @@ def replace_documentation_of(text: str, relpath: str, title: str) -> tuple[str, 
     return updated, changed
 
 
-def parse_documentation_of(text: str) -> str | None:
+def parse_front_matter_value(text: str, key: str) -> str | None:
     parsed = split_front_matter(text)
     if parsed is None:
         return None
     front_matter_lines, _ = parsed
     for line in front_matter_lines:
-        if line.startswith("documentation_of:"):
+        if line.startswith(f"{key}:"):
             return line.split(":", 1)[1].strip()
     return None
 
@@ -177,20 +187,17 @@ def check_file(relpath: str, title: str) -> list[str]:
         problems.append(f"title mismatch: {relpath}")
 
     if md_path.exists():
-        documentation_of = parse_documentation_of(md_path.read_text())
+        md_text = md_path.read_text()
+        md_title = parse_front_matter_value(md_text, "title")
+        if md_title != title:
+            problems.append(f"md title mismatch: {doc_path}")
+        documentation_of = parse_front_matter_value(md_text, "documentation_of")
         if documentation_of != expected_documentation_of(relpath):
             problems.append(f"documentation_of mismatch: {doc_path}")
     return problems
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="sync @brief comments and documentation_of from meta/doc_titles.yml")
-    parser.add_argument("--write", action="store_true", help="rewrite source and markdown files to match meta/doc_titles.yml")
-    args = parser.parse_args()
-
-    titles = load_titles(TITLE_FILE)
-    doc_files = collect_doc_files()
-
+def collect_problems(titles: dict[str, str], doc_files: set[str]) -> list[str]:
     problems: list[str] = []
     for relpath in sorted(titles):
         if relpath not in doc_files:
@@ -201,6 +208,17 @@ def main() -> int:
             problems.append(f"file has @docs but no title entry: {relpath}")
     for relpath, title in sorted(titles.items()):
         problems.extend(check_file(relpath, title))
+    return problems
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="sync @brief comments and documentation_of from meta/doc_titles.yml")
+    parser.add_argument("--write", action="store_true", help="rewrite source and markdown files to match meta/doc_titles.yml")
+    args = parser.parse_args()
+
+    titles = load_titles(TITLE_FILE)
+    doc_files = collect_doc_files()
+    problems = collect_problems(titles, doc_files)
 
     if args.write:
         changed = 0
@@ -214,11 +232,12 @@ def main() -> int:
 
             md_path = ROOT / expected_docs_path(relpath)
             if md_path.exists():
-                updated_md, is_changed_md = replace_documentation_of(md_path.read_text(), relpath, title)
+                updated_md, is_changed_md = replace_front_matter(md_path.read_text(), relpath, title)
                 if is_changed_md:
                     md_path.write_text(updated_md)
                     changed += 1
         print(f"updated {changed} files")
+        problems = collect_problems(titles, doc_files)
 
     if problems:
         for problem in problems:

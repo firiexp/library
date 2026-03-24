@@ -1,5 +1,5 @@
 ---
-title: 動的グラフ連結成分和(Dynamic Graph Vertex Add Component Sum)
+title: Dynamic Graph Vertex Add Component Sum
 documentation_of: //graph/dynamic_graph_vertex_add_component_sum.cpp
 date: 2026-03-11
 category: グラフ

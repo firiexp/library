@@ -1,5 +1,5 @@
 ---
-title: binom_mod_prime_power
+title: 二項係数(mod p^q)
 documentation_of: //math/binom_mod_prime_power.cpp
 date: 2026-03-08
 category: 数学

@@ -1,5 +1,5 @@
 ---
-title: Euler Phi
+title: オイラーのφ関数(Euler Phi)
 documentation_of: //math/prime/eulerphi.cpp
 date: 2026-03-08
 category: 数学

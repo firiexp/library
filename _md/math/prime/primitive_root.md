@@ -1,5 +1,5 @@
 ---
-title: Primitive Root
+title: 原始根(Primitive Root)
 documentation_of: //math/prime/primitive_root.cpp
 date: 2026-03-08
 category: 数学

@@ -1,5 +1,5 @@
 ---
-title: Discrete Logarithm
+title: 離散対数(Discrete Logarithm)
 documentation_of: //math/discrete_logarithm.cpp
 date: 2026-03-08
 category: 数学

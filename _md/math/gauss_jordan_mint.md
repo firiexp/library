@@ -1,5 +1,5 @@
 ---
-title: Gauss Jordan Mint
+title: Gauss-Jordan消去(modint)
 documentation_of: //math/gauss_jordan_mint.cpp
 date: 2026-03-08
 category: 数学

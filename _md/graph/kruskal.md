@@ -1,5 +1,5 @@
 ---
-title: Kruskal法
+title: 最小全域木(Kruskal法)
 documentation_of: //graph/kruskal.cpp
 ---
 ## 説明

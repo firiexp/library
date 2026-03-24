@@ -1,5 +1,5 @@
 ---
-title: Dynamic Bitset
+title: 動的bitset(Dynamic Bitset)
 documentation_of: //datastructure/dynamic_bitset.cpp
 date: 2026-03-22
 category: データ構造

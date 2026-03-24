@@ -1,5 +1,5 @@
 ---
-title: 有理型母関数のn項(N-th Term)
+title: 有理型母関数のN項目
 documentation_of: //fps/nth_term.cpp
 ---
 ## 説明

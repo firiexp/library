@@ -1,5 +1,5 @@
 ---
-title: Counting Primes
+title: 素数数え上げ(Prime Counting)
 documentation_of: //math/prime/counting_primes.cpp
 date: 2026-03-08
 category: 数学

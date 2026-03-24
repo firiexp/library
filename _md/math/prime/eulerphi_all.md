@@ -1,5 +1,5 @@
 ---
-title: オイラーのφ関数テーブル(Euler Phi Table)
+title: オイラーのφ関数テーブル
 documentation_of: //math/prime/eulerphi_all.cpp
 date: 2026-03-08
 category: 数学

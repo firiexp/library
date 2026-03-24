@@ -1,5 +1,5 @@
 ---
-title: RLE
+title: ランレングス圧縮(RLE)
 documentation_of: //util/rle.cpp
 date: 2026-03-08
 category: util

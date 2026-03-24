@@ -1,5 +1,5 @@
 ---
-title: 四則演算パーサ
+title: 式パーサ(Parse)
 documentation_of: //util/parse.cpp
 date: 2026-03-08
 category: 文字列

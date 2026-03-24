@@ -1,5 +1,5 @@
 ---
-title: Dynamic Connectivity (オフライン)
+title: Offline Dynamic Connectivity
 documentation_of: //graph/offlinedynamicconnectivity.cpp
 date: 2020-02-26
 category: グラフ

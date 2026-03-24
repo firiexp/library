@@ -1,5 +1,5 @@
 ---
-title: Subset Convolution
+title: 部分集合畳み込み(Subset Convolution)
 documentation_of: //math/subset_convolution.cpp
 date: 2026-03-10
 category: 数学

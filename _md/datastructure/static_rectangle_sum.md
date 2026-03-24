@@ -1,5 +1,5 @@
 ---
-title: Static Rectangle Sum
+title: 静的長方形和(Static Rectangle Sum)
 documentation_of: //datastructure/static_rectangle_sum.cpp
 date: 2026-03-08
 category: データ構造

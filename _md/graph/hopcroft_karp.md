@@ -1,5 +1,5 @@
 ---
-title: Hopcroft Karp
+title: Hopcroft-Karp法
 documentation_of: //graph/hopcroft_karp.cpp
 date: 2026-03-08
 category: グラフ

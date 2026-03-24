@@ -1,5 +1,5 @@
 ---
-title: 中国剰余定理
+title: 中国剰余定理(Chinese Remainder Theorem)
 documentation_of: //math/CRT.cpp
 date: 2019-08-18
 category: 数学

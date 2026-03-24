@@ -1,5 +1,5 @@
 ---
-title: Segment Tree Beats
+title: Segment Tree Beats!
 documentation_of: //datastructure/segmenttree/segbeats.cpp
 ---
 ## 説明

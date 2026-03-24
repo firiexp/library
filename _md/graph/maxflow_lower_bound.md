@@ -1,5 +1,5 @@
 ---
-title: MaxFlowLowerBound
+title: 下限制約付きs-t最大流 (Max Flow with Lower Bounds)
 documentation_of: //graph/maxflow_lower_bound.cpp
 date: 2026-03-07
 category: フロー

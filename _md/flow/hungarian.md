@@ -1,5 +1,5 @@
 ---
-title: ハンガリアン法
+title: ハンガリアン法(Hungarian Algorithm)
 documentation_of: //flow/hungarian.cpp
 date: 2026-03-08
 category: フロー

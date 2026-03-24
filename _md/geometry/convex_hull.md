@@ -1,5 +1,5 @@
 ---
-title: Convex Hull
+title: 凸包(Convex Hull)
 documentation_of: //geometry/convex_hull.cpp
 date: 2026-03-08
 category: 幾何

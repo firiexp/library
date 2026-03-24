@@ -1,5 +1,5 @@
 ---
-title: IFloor
+title: Floor/Ceil Division
 documentation_of: //util/ifloor.cpp
 date: 2026-03-08
 category: util

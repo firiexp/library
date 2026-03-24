@@ -1,5 +1,5 @@
 ---
-title: Z-algorithm
+title: Z-Algorithm
 documentation_of: //string/z-algorithm.cpp
 date: 2026-03-08
 category: 文字列

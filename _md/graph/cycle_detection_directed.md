@@ -1,5 +1,5 @@
 ---
-title: Cycle Detection Directed
+title: 有向閉路検出(Directed Cycle Detection)
 documentation_of: //graph/cycle_detection_directed.cpp
 date: 2026-03-08
 category: グラフ

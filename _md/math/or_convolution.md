@@ -1,5 +1,5 @@
 ---
-title: Bitwise OR Convolution
+title: OR畳み込み(Bitwise OR Convolution)
 documentation_of: //math/or_convolution.cpp
 date: 2026-03-10
 category: 数学

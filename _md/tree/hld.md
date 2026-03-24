@@ -1,5 +1,5 @@
 ---
-title: 重軽分解
+title: HL分解(HL Decomposition)
 documentation_of: //tree/hld.cpp
 date: 2019-10-10
 category: 木

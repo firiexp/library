@@ -1,5 +1,5 @@
 ---
-title: Arg Sort
+title: 偏角ソート(Argument Sort)
 documentation_of: //geometry/argsort.cpp
 date: 2026-03-08
 category: 幾何

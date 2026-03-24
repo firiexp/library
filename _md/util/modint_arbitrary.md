@@ -1,5 +1,5 @@
 ---
-title: modint構造体(実行時MOD)
+title: modint(任意MOD)
 documentation_of: //util/modint_arbitrary.cpp
 date: 2026-03-14
 category: 数学

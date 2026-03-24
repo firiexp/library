@@ -1,5 +1,5 @@
 ---
-title: Mo's algorithm
+title: Mo's Algorithm
 documentation_of: //util/mo.cpp
 date: 2020-02-17
 category: クエリ

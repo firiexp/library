@@ -1,5 +1,5 @@
 ---
-title: FWHT
+title: 高速Walsh-Hadamard変換(FWHT)
 documentation_of: //math/fwht.cpp
 date: 2026-03-08
 category: 数学

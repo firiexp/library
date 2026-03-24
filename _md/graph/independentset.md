@@ -1,5 +1,5 @@
 ---
-title: 最大独立集合
+title: 最大独立集合(Maximum Independent Set)
 documentation_of: //graph/independentset.cpp
 date: 2018-04-28
 category: グラフ

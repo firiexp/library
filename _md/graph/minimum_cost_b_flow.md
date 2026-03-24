@@ -1,5 +1,5 @@
 ---
-title: Minimum Cost B-Flow
+title: 最小費用b-flow(Min-Cost b-Flow)
 documentation_of: //graph/minimum_cost_b_flow.cpp
 date: 2026-03-08
 category: グラフ

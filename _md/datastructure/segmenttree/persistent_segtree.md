@@ -1,5 +1,5 @@
 ---
-title: Persistent Segment Tree
+title: 永続セグメント木(Persistent Segment Tree)
 documentation_of: //datastructure/segmenttree/persistent_segtree.cpp
 date: 2026-03-08
 category: データ構造

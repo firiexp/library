@@ -1,5 +1,5 @@
 ---
-title: Topological Sort
+title: トポロジカルソート(Topological Sort)
 documentation_of: //graph/topological_sort.cpp
 date: 2026-03-08
 category: グラフ

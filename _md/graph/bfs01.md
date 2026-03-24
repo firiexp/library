@@ -1,5 +1,5 @@
 ---
-title: 0-1 BFS
+title: 01-BFS
 documentation_of: //graph/bfs01.cpp
 date: 2026-03-08
 category: グラフ

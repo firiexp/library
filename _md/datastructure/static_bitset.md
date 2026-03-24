@@ -1,5 +1,5 @@
 ---
-title: Static Bitset
+title: 固定長bitset(Static Bitset)
 documentation_of: //datastructure/static_bitset.cpp
 date: 2026-03-22
 category: データ構造

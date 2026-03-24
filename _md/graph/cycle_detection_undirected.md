@@ -1,5 +1,5 @@
 ---
-title: Cycle Detection Undirected
+title: 無向閉路検出(Undirected Cycle Detection)
 documentation_of: //graph/cycle_detection_undirected.cpp
 date: 2026-03-08
 category: グラフ

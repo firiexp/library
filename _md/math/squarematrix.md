@@ -1,5 +1,5 @@
 ---
-title: 正方行列
+title: 固定長正方行列(Square Matrix)
 documentation_of: //math/squarematrix.cpp
 date: 2026-03-15
 category: データ構造

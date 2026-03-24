@@ -1,5 +1,5 @@
 ---
-title: Number Theoretic Transform
+title: NTT・形式的冪級数(NTT/FPS)
 documentation_of: //math/ntt.cpp
 date: 2026-03-08
 category: 数学

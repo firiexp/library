@@ -1,5 +1,5 @@
 ---
-title: Sliding Window Aggregation
+title: SWAG
 documentation_of: //datastructure/swag.cpp
 date: 2020-02-19
 category: データ構造

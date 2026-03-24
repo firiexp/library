@@ -1,5 +1,5 @@
 ---
-title: 二重頂点連結成分分解
+title: 二重連結成分分解(Biconnected Components)
 documentation_of: //graph/biconnected_components.cpp
 date: 2026-03-08
 category: グラフ

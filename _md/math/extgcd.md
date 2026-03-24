@@ -1,5 +1,5 @@
 ---
-title: 拡張ユークリッド互除法
+title: 拡張ユークリッド互除法(Extended GCD)
 documentation_of: //math/extgcd.cpp
 date: 2018-04-28
 category: 数学

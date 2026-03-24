@@ -1,5 +1,5 @@
 ---
-title: KMP
+title: KMP法
 documentation_of: //string/kmp.cpp
 date: 2026-03-08
 category: 文字列

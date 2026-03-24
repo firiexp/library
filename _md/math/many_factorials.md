@@ -1,5 +1,5 @@
 ---
-title: 多数階乗(Many Factorials)
+title: Many Factorials
 documentation_of: //math/many_factorials.cpp
 date: 2026-03-15
 category: 数学

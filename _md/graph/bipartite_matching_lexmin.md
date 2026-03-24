@@ -1,5 +1,5 @@
 ---
-title: 辞書順最小二部マッチング(Lexicographically Minimum)
+title: 辞書順最小二部マッチング(Lexicographically Minimum Bipartite Matching)
 documentation_of: //graph/bipartite_matching_lexmin.cpp
 ---
 ## 説明

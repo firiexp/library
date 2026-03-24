@@ -1,5 +1,5 @@
 ---
-title: Berlekamp-Massey
+title: Berlekamp-Massey法
 documentation_of: //math/berlekamp_massey.cpp
 date: 2026-03-07
 category: 数学
