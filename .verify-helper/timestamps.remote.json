@@ -145,7 +145,6 @@
 "test/yosupo_sqrt_of_formal_power_series.test.cpp": "2026-03-15 12:48:57 +0900",
 "test/yosupo_static_convex_hull.test.cpp": "2026-03-22 13:47:31 +0900",
 "test/yosupo_static_range_frequency.test.cpp": "2026-03-22 13:47:31 +0900",
-"test/yosupo_static_range_inversions_query.test.cpp": "2026-03-22 13:47:31 +0900",
 "test/yosupo_static_rectangle_sum.test.cpp": "2026-03-22 13:47:31 +0900",
 "test/yosupo_staticrmq_disjoint_sparse_table.test.cpp": "2026-03-22 13:47:31 +0900",
 "test/yosupo_staticrmq_sparsetable.test.cpp": "2026-03-22 13:47:31 +0900",
