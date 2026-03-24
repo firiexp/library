@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

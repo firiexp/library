@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: util/mo.cpp
     title: Mo's Algorithm
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_range_inversions_query
@@ -145,35 +145,35 @@ data:
     \   if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>=\
     \ 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1],\
     \ i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief\
-    \ Binary Indexed Tree(BIT)\n */\n#line 1 \"util/mo.cpp\"\nconst int B = 400;\n\
-    \nstruct Query {\n    int l, r, no;\n    Query(int l, int r, int no) : l(l), r(r),\
-    \ no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const Query\
-    \ &a) const {\n        int ablock = this->l / B, bblock = a.l / B;\n        if(ablock\
-    \ != bblock) return ablock < bblock;\n        if(ablock & 1) return this->r <\
-    \ a.r;\n        else return this->r > a.r;\n    }\n};\n/*\nfor (auto &&X : query)\
-    \ {\n    while(X.l < l) g(--l);\n    while(r < X.r) f(r++);\n    while(l < X.l)\
-    \ g(l++);\n    while(X.r < r) f(--r);\n    ans[X.no] = ans;\n}\n*/\n\n/**\n *\
-    \ @brief Mo's Algorithm\n */\n#line 14 \"test/yosupo_static_range_inversions_query.test.cpp\"\
+    \ Binary Indexed Tree(BIT)\n */\n#line 1 \"util/mo.cpp\"\nstruct Query {\n   \
+    \ static inline int B = 1;\n    int l, r, no;\n    Query(int l, int r, int no)\
+    \ : l(l), r(r), no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const\
+    \ Query &a) const {\n        int ablock = this->l / B, bblock = a.l / B;\n   \
+    \     if(ablock != bblock) return ablock < bblock;\n        if(ablock & 1) return\
+    \ this->r < a.r;\n        else return this->r > a.r;\n    }\n};\n/*\nfor (auto\
+    \ &&X : query) {\n    while(X.l < l) g(--l);\n    while(r < X.r) f(r++);\n   \
+    \ while(l < X.l) g(l++);\n    while(X.r < r) f(--r);\n    ans[X.no] = ans;\n}\n\
+    */\n\n/**\n * @brief Mo's Algorithm\n */\n#line 14 \"test/yosupo_static_range_inversions_query.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) sc.read(a[i]);\n\
     \    vector<int> xs = a;\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(),\
     \ xs.end()), xs.end());\n    for (int i = 0; i < n; ++i) {\n        a[i] = lower_bound(xs.begin(),\
     \ xs.end(), a[i]) - xs.begin();\n    }\n\n    vector<Query> qs(q);\n    for (int\
     \ i = 0; i < q; ++i) {\n        int l, r;\n        sc.read(l, r);\n        qs[i]\
-    \ = Query(l, r, i);\n    }\n    sort(qs.begin(), qs.end());\n\n    BIT<int> bit((int)xs.size());\n\
-    \    vector<long long> ans(q);\n    long long inv = 0;\n    int l = 0, r = 0,\
-    \ len = 0;\n\n    auto add_left = [&](int idx) {\n        int x = a[idx];\n  \
-    \      inv += bit.sum(x);\n        bit.add(x, 1);\n        ++len;\n    };\n  \
-    \  auto add_right = [&](int idx) {\n        int x = a[idx];\n        inv += len\
-    \ - bit.sum(x + 1);\n        bit.add(x, 1);\n        ++len;\n    };\n    auto\
-    \ erase_left = [&](int idx) {\n        int x = a[idx];\n        inv -= bit.sum(x);\n\
-    \        bit.add(x, -1);\n        --len;\n    };\n    auto erase_right = [&](int\
-    \ idx) {\n        int x = a[idx];\n        inv -= len - bit.sum(x + 1);\n    \
-    \    bit.add(x, -1);\n        --len;\n    };\n\n    for (auto qu : qs) {\n   \
-    \     while (qu.l < l) add_left(--l);\n        while (r < qu.r) add_right(r++);\n\
-    \        while (l < qu.l) erase_left(l++);\n        while (qu.r < r) erase_right(--r);\n\
-    \        ans[qu.no] = inv;\n    }\n    for (auto x : ans) pr.println(x);\n   \
-    \ return 0;\n}\n"
+    \ = Query(l, r, i);\n    }\n    Query::bucket_size = 320;\n    sort(qs.begin(),\
+    \ qs.end());\n\n    BIT<int> bit((int)xs.size());\n    vector<long long> ans(q);\n\
+    \    long long inv = 0;\n    int l = 0, r = 0, len = 0;\n\n    auto add_left =\
+    \ [&](int idx) {\n        int x = a[idx];\n        inv += bit.sum(x);\n      \
+    \  bit.add(x, 1);\n        ++len;\n    };\n    auto add_right = [&](int idx) {\n\
+    \        int x = a[idx];\n        inv += len - bit.sum(x + 1);\n        bit.add(x,\
+    \ 1);\n        ++len;\n    };\n    auto erase_left = [&](int idx) {\n        int\
+    \ x = a[idx];\n        inv -= bit.sum(x);\n        bit.add(x, -1);\n        --len;\n\
+    \    };\n    auto erase_right = [&](int idx) {\n        int x = a[idx];\n    \
+    \    inv -= len - bit.sum(x + 1);\n        bit.add(x, -1);\n        --len;\n \
+    \   };\n\n    for (auto qu : qs) {\n        while (qu.l < l) add_left(--l);\n\
+    \        while (r < qu.r) add_right(r++);\n        while (l < qu.l) erase_left(l++);\n\
+    \        while (qu.r < r) erase_right(--r);\n        ans[qu.no] = inv;\n    }\n\
+    \    for (auto x : ans) pr.println(x);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
     \n\n#include <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
@@ -184,20 +184,20 @@ data:
     \ xs.end()), xs.end());\n    for (int i = 0; i < n; ++i) {\n        a[i] = lower_bound(xs.begin(),\
     \ xs.end(), a[i]) - xs.begin();\n    }\n\n    vector<Query> qs(q);\n    for (int\
     \ i = 0; i < q; ++i) {\n        int l, r;\n        sc.read(l, r);\n        qs[i]\
-    \ = Query(l, r, i);\n    }\n    sort(qs.begin(), qs.end());\n\n    BIT<int> bit((int)xs.size());\n\
-    \    vector<long long> ans(q);\n    long long inv = 0;\n    int l = 0, r = 0,\
-    \ len = 0;\n\n    auto add_left = [&](int idx) {\n        int x = a[idx];\n  \
-    \      inv += bit.sum(x);\n        bit.add(x, 1);\n        ++len;\n    };\n  \
-    \  auto add_right = [&](int idx) {\n        int x = a[idx];\n        inv += len\
-    \ - bit.sum(x + 1);\n        bit.add(x, 1);\n        ++len;\n    };\n    auto\
-    \ erase_left = [&](int idx) {\n        int x = a[idx];\n        inv -= bit.sum(x);\n\
-    \        bit.add(x, -1);\n        --len;\n    };\n    auto erase_right = [&](int\
-    \ idx) {\n        int x = a[idx];\n        inv -= len - bit.sum(x + 1);\n    \
-    \    bit.add(x, -1);\n        --len;\n    };\n\n    for (auto qu : qs) {\n   \
-    \     while (qu.l < l) add_left(--l);\n        while (r < qu.r) add_right(r++);\n\
-    \        while (l < qu.l) erase_left(l++);\n        while (qu.r < r) erase_right(--r);\n\
-    \        ans[qu.no] = inv;\n    }\n    for (auto x : ans) pr.println(x);\n   \
-    \ return 0;\n}\n"
+    \ = Query(l, r, i);\n    }\n    Query::bucket_size = 320;\n    sort(qs.begin(),\
+    \ qs.end());\n\n    BIT<int> bit((int)xs.size());\n    vector<long long> ans(q);\n\
+    \    long long inv = 0;\n    int l = 0, r = 0, len = 0;\n\n    auto add_left =\
+    \ [&](int idx) {\n        int x = a[idx];\n        inv += bit.sum(x);\n      \
+    \  bit.add(x, 1);\n        ++len;\n    };\n    auto add_right = [&](int idx) {\n\
+    \        int x = a[idx];\n        inv += len - bit.sum(x + 1);\n        bit.add(x,\
+    \ 1);\n        ++len;\n    };\n    auto erase_left = [&](int idx) {\n        int\
+    \ x = a[idx];\n        inv -= bit.sum(x);\n        bit.add(x, -1);\n        --len;\n\
+    \    };\n    auto erase_right = [&](int idx) {\n        int x = a[idx];\n    \
+    \    inv -= len - bit.sum(x + 1);\n        bit.add(x, -1);\n        --len;\n \
+    \   };\n\n    for (auto qu : qs) {\n        while (qu.l < l) add_left(--l);\n\
+    \        while (r < qu.r) add_right(r++);\n        while (l < qu.l) erase_left(l++);\n\
+    \        while (qu.r < r) erase_right(--r);\n        ans[qu.no] = inv;\n    }\n\
+    \    for (auto x : ans) pr.println(x);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/binaryindexedtree.cpp
@@ -205,8 +205,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-03-25 01:08:57+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yosupo_static_range_inversions_query.test.cpp
 layout: document

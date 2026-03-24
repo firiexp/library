@@ -9,7 +9,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/binaryheap.cpp
       title: "\u4E8C\u5206\u30D2\u30FC\u30D7(Binary Heap)"
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: datastructure/binaryindexedtree.cpp
       title: Binary Indexed Tree(BIT)
     - icon: ':heavy_check_mark:'
@@ -546,7 +546,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: util/fastio.cpp
       title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     - icon: ':heavy_check_mark:'
@@ -561,7 +561,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/makev.cpp
       title: make_v, chmin, chmax
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: util/mo.cpp
       title: Mo's Algorithm
     - icon: ':heavy_check_mark:'
@@ -1020,7 +1020,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_static_range_frequency.test.cpp
       title: test/yosupo_static_range_frequency.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_static_range_inversions_query.test.cpp
       title: test/yosupo_static_range_inversions_query.test.cpp
     - icon: ':heavy_check_mark:'

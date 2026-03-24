@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/fwht.cpp
     title: "\u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'

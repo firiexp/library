@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/prime/primitive_root.cpp
     title: "\u539F\u59CB\u6839(Primitive Root)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
