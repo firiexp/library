@@ -12,7 +12,7 @@ tags: クエリ
 ## できること
 - `Query(l, r, no)`
   半開区間 `[l, r)` のクエリを作る
-- `Query::bucket_size`
+- `Query::B`
   左端を分けるバケット幅。`sort` 前に利用側で設定する
 - `sort(qs.begin(), qs.end())`
   左端のブロック順、右端の蛇行順でクエリを並べる
