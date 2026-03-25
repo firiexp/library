@@ -76,8 +76,8 @@ data:
   timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0415.test.cpp
   - test/aoj0377.test.cpp
+  - test/aoj0415.test.cpp
 date: 2026-03-11
 documentation_of: graph/bridge_tree.cpp
 layout: document

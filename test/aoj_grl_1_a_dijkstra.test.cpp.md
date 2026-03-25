@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/dijkstra_common.cpp
     title: graph/dijkstra_common.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

@@ -607,29 +607,29 @@ data:
   isVerificationFile: false
   path: math/ntt.cpp
   requiredBy:
-  - fps/polynomial_interpolation.cpp
-  - fps/linear_recurrence.cpp
-  - fps/multipoint_evaluation.cpp
-  - fps/taylor_shift.cpp
-  - fps/sample_point_shift.cpp
-  - fps/nth_term.cpp
   - math/many_factorials.cpp
+  - fps/nth_term.cpp
+  - fps/linear_recurrence.cpp
+  - fps/polynomial_interpolation.cpp
+  - fps/multipoint_evaluation.cpp
+  - fps/sample_point_shift.cpp
+  - fps/taylor_shift.cpp
   timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  - test/yosupo_log_of_formal_power_series.test.cpp
-  - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  - test/yosupo_exp_of_formal_power_series.test.cpp
-  - test/yosupo_sqrt_of_formal_power_series.test.cpp
-  - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  - test/yosupo_pow_of_formal_power_series.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/aoj0452.test.cpp
-  - test/yosupo_polynomial_taylor_shift.test.cpp
+  - test/yosupo_pow_of_formal_power_series.test.cpp
+  - test/yosupo_sqrt_of_formal_power_series.test.cpp
+  - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_many_factorials.test.cpp
+  - test/yosupo_multipoint_evaluation.test.cpp
+  - test/yosupo_polynomial_taylor_shift.test.cpp
+  - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_convolution.test.cpp
+  - test/yosupo_exp_of_formal_power_series.test.cpp
+  - test/yosupo_log_of_formal_power_series.test.cpp
 date: 2026-03-08
 documentation_of: math/ntt.cpp
 layout: document

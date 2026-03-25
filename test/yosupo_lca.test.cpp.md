@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/LCA.cpp
     title: "\u6700\u8FD1\u5171\u901A\u7956\u5148(LCA)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

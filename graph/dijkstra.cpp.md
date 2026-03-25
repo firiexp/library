@@ -53,9 +53,9 @@ data:
   timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_grl_1_a_dijkstra.test.cpp
   - test/aoj0275_static_bitset.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
+  - test/aoj_grl_1_a_dijkstra.test.cpp
 documentation_of: graph/dijkstra.cpp
 layout: document
 title: "Dijkstra\u6CD5"

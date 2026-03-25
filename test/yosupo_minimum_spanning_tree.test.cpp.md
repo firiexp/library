@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/kruskal.cpp
     title: "\u6700\u5C0F\u5168\u57DF\u6728(Kruskal\u6CD5)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

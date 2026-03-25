@@ -41,10 +41,10 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0422.test.cpp
-  - test/aoj0438.test.cpp
   - test/aoj0274.test.cpp
+  - test/aoj0422.test.cpp
   - test/aoj0335.test.cpp
+  - test/aoj0438.test.cpp
 documentation_of: util/makev.cpp
 layout: document
 title: make_v, chmin, chmax

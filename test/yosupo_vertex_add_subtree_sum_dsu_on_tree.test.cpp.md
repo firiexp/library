@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
   - icon: ':heavy_check_mark:'
     path: tree/dsu_on_tree.cpp
     title: DSU on Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

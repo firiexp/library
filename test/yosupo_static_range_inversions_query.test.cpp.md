@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: util/mo.cpp
     title: Mo's Algorithm
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/static_range_inversions_query
@@ -146,14 +146,15 @@ data:
     \ 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1],\
     \ i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief\
     \ Binary Indexed Tree(BIT)\n */\n#line 1 \"util/mo.cpp\"\nstruct Query {\n   \
-    \ static inline int B = 1;\n    int l, r, no;\n    Query(int l, int r, int no)\
-    \ : l(l), r(r), no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const\
-    \ Query &a) const {\n        int ablock = this->l / B, bblock = a.l / B;\n   \
-    \     if(ablock != bblock) return ablock < bblock;\n        if(ablock & 1) return\
-    \ this->r < a.r;\n        else return this->r > a.r;\n    }\n};\n/*\nfor (auto\
-    \ &&X : query) {\n    while(X.l < l) g(--l);\n    while(r < X.r) f(r++);\n   \
-    \ while(l < X.l) g(l++);\n    while(X.r < r) f(--r);\n    ans[X.no] = ans;\n}\n\
-    */\n\n/**\n * @brief Mo's Algorithm\n */\n#line 14 \"test/yosupo_static_range_inversions_query.test.cpp\"\
+    \ static inline int bucket_size = 1;\n    static inline int &B = bucket_size;\n\
+    \    int l, r, no;\n    Query(int l, int r, int no) : l(l), r(r), no(no) {}\n\
+    \    Query() : l(0), r(0), no(0) {}\n    bool operator<(const Query &a) const\
+    \ {\n        int ablock = this->l / bucket_size, bblock = a.l / bucket_size;\n\
+    \        if(ablock != bblock) return ablock < bblock;\n        if(ablock & 1)\
+    \ return this->r < a.r;\n        else return this->r > a.r;\n    }\n};\n/*\nfor\
+    \ (auto &&X : query) {\n    while(X.l < l) g(--l);\n    while(r < X.r) f(r++);\n\
+    \    while(l < X.l) g(l++);\n    while(X.r < r) f(--r);\n    ans[X.no] = ans;\n\
+    }\n*/\n\n/**\n * @brief Mo's Algorithm\n */\n#line 14 \"test/yosupo_static_range_inversions_query.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) sc.read(a[i]);\n\
     \    vector<int> xs = a;\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(),\
@@ -205,8 +206,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2026-03-25 01:08:57+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-03-25 22:24:13+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_range_inversions_query.test.cpp
 layout: document

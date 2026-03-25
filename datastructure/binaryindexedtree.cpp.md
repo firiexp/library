@@ -24,7 +24,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
     title: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_inversions_query.test.cpp
     title: test/yosupo_static_range_inversions_query.test.cpp
   - icon: ':heavy_check_mark:'
@@ -33,9 +33,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Binary Indexed Tree(BIT)
     links: []
@@ -66,15 +66,15 @@ data:
   - datastructure/fenwick_tree_2d.cpp
   - datastructure/static_rectangle_sum.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_static_rectangle_sum.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
-  - test/aoj_dsl_2_b.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
-  - test/yosupo_point_add_rectangle_sum.test.cpp
-  - test/yosupo_static_rectangle_sum.test.cpp
+  - test/aoj_dsl_2_b.test.cpp
   - test/yosupo_static_range_inversions_query.test.cpp
+  - test/yosupo_point_add_rectangle_sum.test.cpp
 documentation_of: datastructure/binaryindexedtree.cpp
 layout: document
 title: Binary Indexed Tree(BIT)

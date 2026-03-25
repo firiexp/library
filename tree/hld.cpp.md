@@ -159,10 +159,10 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki1326_block_cut_tree.test.cpp
-  - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
 date: 2019-10-10
 documentation_of: tree/hld.cpp
 layout: document

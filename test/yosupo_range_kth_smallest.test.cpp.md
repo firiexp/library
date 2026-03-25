@@ -14,11 +14,11 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/static_range_frequency
+    PROBLEM: https://judge.yosupo.jp/problem/range_kth_smallest
     links:
-    - https://judge.yosupo.jp/problem/static_range_frequency
-  bundledCode: "#line 1 \"test/yosupo_static_range_frequency.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/static_range_frequency\"\n\n#include <algorithm>\n\
+    - https://judge.yosupo.jp/problem/range_kth_smallest
+  bundledCode: "#line 1 \"test/yosupo_range_kth_smallest.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\n#include <algorithm>\n\
     #include <type_traits>\n#include <vector>\nusing namespace std;\n\n#line 1 \"\
     datastructure/wavelet_matrix.cpp\"\ntemplate <class T>\nstruct WaveletMatrix {\n\
     \    int n, lg, blocks;\n    vector<int> mid;\n    vector<unsigned long long>\
@@ -133,7 +133,7 @@ data:
     \ true;\n    }\n\n    bool next_value(int l, int r, const T &lower, T &res) const\
     \ {\n        int cnt = count_less(l, r, lower);\n        if (cnt == r - l) return\
     \ false;\n        res = kth_smallest(l, r, cnt);\n        return true;\n    }\n\
-    };\n\n/**\n * @brief Wavelet Matrix\n */\n#line 9 \"test/yosupo_static_range_frequency.test.cpp\"\
+    };\n\n/**\n * @brief Wavelet Matrix\n */\n#line 9 \"test/yosupo_range_kth_smallest.test.cpp\"\
     \n#include <cstdio>\n#include <cstring>\n#include <string>\n\n#line 1 \"util/fastio.cpp\"\
     \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
@@ -247,44 +247,34 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 14 \"test/yosupo_static_range_frequency.test.cpp\"\n\nint main() {\n\
-    \    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n\
+    \ */\n#line 14 \"test/yosupo_range_kth_smallest.test.cpp\"\n\nint main() {\n \
+    \   Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n\
     \    vector<int> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\n   \
-    \ vector<int> vals = a;\n    sort(vals.begin(), vals.end());\n    vals.erase(unique(vals.begin(),\
-    \ vals.end()), vals.end());\n    vector<int> idx(n);\n    for (int i = 0; i <\
-    \ n; ++i) idx[i] = (int)(lower_bound(vals.begin(), vals.end(), a[i]) - vals.begin());\n\
-    \n    WaveletMatrix<int> wm;\n    wm.build_from_index(idx, vals);\n    while (q--)\
-    \ {\n        int l, r, x;\n        in.read(l);\n        in.read(r);\n        in.read(x);\n\
-    \        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
-    \        if (xi == (int)vals.size() || vals[xi] != x) out.println(0);\n      \
-    \  else out.println(wm.count_equal_index(l, r, xi));\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_frequency\"\
-    \n\n#include <algorithm>\n#include <type_traits>\n#include <vector>\nusing namespace\
+    \ WaveletMatrix<int> wm(a);\n    while (q--) {\n        int l, r, k;\n       \
+    \ in.read(l);\n        in.read(r);\n        in.read(k);\n        out.println(wm.kth_smallest(l,\
+    \ r, k));\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\n\
+    #include <algorithm>\n#include <type_traits>\n#include <vector>\nusing namespace\
     \ std;\n\n#include \"../datastructure/wavelet_matrix.cpp\"\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n\n#include \"../util/fastio.cpp\"\n\nint\
     \ main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n\
     \    in.read(q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
-    \n    vector<int> vals = a;\n    sort(vals.begin(), vals.end());\n    vals.erase(unique(vals.begin(),\
-    \ vals.end()), vals.end());\n    vector<int> idx(n);\n    for (int i = 0; i <\
-    \ n; ++i) idx[i] = (int)(lower_bound(vals.begin(), vals.end(), a[i]) - vals.begin());\n\
-    \n    WaveletMatrix<int> wm;\n    wm.build_from_index(idx, vals);\n    while (q--)\
-    \ {\n        int l, r, x;\n        in.read(l);\n        in.read(r);\n        in.read(x);\n\
-    \        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
-    \        if (xi == (int)vals.size() || vals[xi] != x) out.println(0);\n      \
-    \  else out.println(wm.count_equal_index(l, r, xi));\n    }\n    return 0;\n}\n"
+    \n    WaveletMatrix<int> wm(a);\n    while (q--) {\n        int l, r, k;\n   \
+    \     in.read(l);\n        in.read(r);\n        in.read(k);\n        out.println(wm.kth_smallest(l,\
+    \ r, k));\n    }\n    return 0;\n}\n"
   dependsOn:
   - datastructure/wavelet_matrix.cpp
   - util/fastio.cpp
   isVerificationFile: true
-  path: test/yosupo_static_range_frequency.test.cpp
+  path: test/yosupo_range_kth_smallest.test.cpp
   requiredBy: []
   timestamp: '2026-03-26 00:19:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_static_range_frequency.test.cpp
+documentation_of: test/yosupo_range_kth_smallest.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_static_range_frequency.test.cpp
-- /verify/test/yosupo_static_range_frequency.test.cpp.html
-title: test/yosupo_static_range_frequency.test.cpp
+- /verify/test/yosupo_range_kth_smallest.test.cpp
+- /verify/test/yosupo_range_kth_smallest.test.cpp.html
+title: test/yosupo_range_kth_smallest.test.cpp
 ---

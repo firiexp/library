@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/kth_root_integer.cpp
     title: "\u6574\u6570k\u4E57\u6839(K-th Root Integer)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

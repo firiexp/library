@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/mod_sqrt.cpp
     title: "\u5E73\u65B9\u6839 (mod p)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

@@ -335,8 +335,8 @@ data:
   timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
 documentation_of: fps/nth_term.cpp
 layout: document
 title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"

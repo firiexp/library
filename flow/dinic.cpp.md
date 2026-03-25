@@ -87,10 +87,10 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yuki957.test.cpp
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
-  - test/aoj0396.test.cpp
   - test/yuki957_project_selection_problem.test.cpp
+  - test/aoj0396.test.cpp
+  - test/yuki957.test.cpp
 date: 2019-07-31
 documentation_of: flow/dinic.cpp
 layout: document

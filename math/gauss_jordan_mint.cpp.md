@@ -80,8 +80,8 @@ data:
   timestamp: '2026-03-14 20:56:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
+  - test/yosupo_matrix_rank.test.cpp
 date: 2026-03-08
 documentation_of: math/gauss_jordan_mint.cpp
 layout: document

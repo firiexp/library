@@ -98,8 +98,8 @@ data:
   isVerificationFile: false
   path: math/prime/miller_rabin.cpp
   requiredBy:
-  - math/prime/primefactor_ll.cpp
   - math/prime/primitive_root.cpp
+  - math/prime/primefactor_ll.cpp
   timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

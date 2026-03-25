@@ -46,8 +46,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/aoj0402.test.cpp
+  - test/yosupo_bitwise_xor_convolution.test.cpp
 date: 2026-03-08
 documentation_of: math/fwht.cpp
 layout: document

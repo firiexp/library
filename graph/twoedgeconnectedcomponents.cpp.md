@@ -77,8 +77,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_two_edge_connected_components.test.cpp
-  - test/aoj0415.test.cpp
   - test/aoj0377.test.cpp
+  - test/aoj0415.test.cpp
 date: 2020-03-25
 documentation_of: graph/twoedgeconnectedcomponents.cpp
 layout: document

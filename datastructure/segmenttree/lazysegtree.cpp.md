@@ -117,8 +117,8 @@ data:
   timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_range_affine_range_sum.test.cpp
   - test/aoj0355.test.cpp
+  - test/yosupo_range_affine_range_sum.test.cpp
 date: 2018-05-01
 documentation_of: datastructure/segmenttree/lazysegtree.cpp
 layout: document
