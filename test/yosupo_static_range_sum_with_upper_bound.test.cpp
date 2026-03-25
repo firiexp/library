@@ -1,11 +1,11 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/static_range_frequency"
+#define PROBLEM "https://judge.yosupo.jp/problem/static_range_sum_with_upper_bound"
 
 #include <algorithm>
 #include <type_traits>
 #include <vector>
 using namespace std;
 
-#include "../datastructure/wavelet_matrix.cpp"
+#include "../datastructure/weighted_wavelet_matrix.cpp"
 #include <cstdio>
 #include <cstring>
 #include <string>
@@ -18,25 +18,26 @@ int main() {
     int n, q;
     in.read(n);
     in.read(q);
-    vector<int> a(n);
+    vector<long long> a(n);
     for (int i = 0; i < n; ++i) in.read(a[i]);
 
-    vector<int> vals = a;
+    vector<long long> vals = a;
     sort(vals.begin(), vals.end());
     vals.erase(unique(vals.begin(), vals.end()), vals.end());
     vector<int> idx(n);
     for (int i = 0; i < n; ++i) idx[i] = (int)(lower_bound(vals.begin(), vals.end(), a[i]) - vals.begin());
 
-    WaveletMatrix<int> wm;
-    wm.build_from_index(idx, vals);
+    WeightedWaveletMatrix<long long, long long> wm;
+    wm.build_from_index(idx, vals, a);
     while (q--) {
-        int l, r, x;
+        int l, r;
+        long long x;
         in.read(l);
         in.read(r);
         in.read(x);
-        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());
-        if (xi == (int)vals.size() || vals[xi] != x) out.println(0);
-        else out.println(wm.count_equal_index(l, r, xi));
+        int xi = (int)(upper_bound(vals.begin(), vals.end(), x) - vals.begin());
+        auto res = wm.count_sum_less_index(l, r, xi);
+        out.println(res.count, res.sum);
     }
     return 0;
 }

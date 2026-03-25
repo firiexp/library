@@ -1,13 +1,20 @@
-template <class T>
-struct WaveletMatrix {
+template <class T, class U>
+struct WeightedWaveletMatrix {
+    struct CountSum {
+        int count;
+        U sum;
+    };
+
     int n, lg, blocks;
     vector<int> mid;
     vector<unsigned long long> bit;
     vector<int> pref;
+    vector<U> zero_sum;
+    vector<U> base_sum;
     vector<T> vals;
 
-    WaveletMatrix() : n(0), lg(0), blocks(0) {}
-    explicit WaveletMatrix(const vector<T> &v) { build(v); }
+    WeightedWaveletMatrix() : n(0), lg(0), blocks(0) {}
+    WeightedWaveletMatrix(const vector<T> &v, const vector<U> &w) { build(v, w); }
 
     static inline void rank1_pair(const unsigned long long *row, const int *row_pref, int l, int r, int &l1, int &r1) {
         int l_block = l >> 6;
@@ -21,11 +28,11 @@ struct WaveletMatrix {
         if (r_rem) r1 += __builtin_popcountll(row[r_block] & ((1ULL << r_rem) - 1));
     }
 
-    template <class U>
-    static auto encode_key(U x) -> typename make_unsigned<U>::type {
-        using Key = typename make_unsigned<U>::type;
+    template <class X>
+    static auto encode_key(X x) -> typename make_unsigned<X>::type {
+        using Key = typename make_unsigned<X>::type;
         Key key = static_cast<Key>(x);
-        if constexpr (is_signed<U>::value) key ^= (Key(1) << (sizeof(U) * 8 - 1));
+        if constexpr (is_signed<X>::value) key ^= (Key(1) << (sizeof(X) * 8 - 1));
         return key;
     }
 
@@ -92,14 +99,18 @@ struct WaveletMatrix {
         else compress_generic(v, cur);
     }
 
-    void build_from_index_internal(vector<int> cur) {
+    void build_from_index_internal(vector<int> cur, const vector<U> &w) {
         n = (int)cur.size();
+        base_sum.assign(n + 1, U());
+        for (int i = 0; i < n; ++i) base_sum[i + 1] = base_sum[i] + w[i];
+
         if (n == 0) {
             lg = 0;
             blocks = 0;
             mid.clear();
             bit.clear();
             pref.clear();
+            zero_sum.clear();
             return;
         }
 
@@ -108,21 +119,26 @@ struct WaveletMatrix {
         while ((1LL << lg) < m) ++lg;
         if (lg == 0) lg = 1;
         blocks = (n + 63) >> 6;
+        vector<U> cur_w = w;
 
         mid.assign(lg, 0);
         bit.assign(lg * blocks, 0);
         pref.assign(lg * (blocks + 1), 0);
+        zero_sum.assign(lg * (n + 1), U());
         vector<int> nxt(n);
+        vector<U> nxt_w(n);
 
         for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {
             auto *row = bit.data() + d * blocks;
             auto *row_pref = pref.data() + d * (blocks + 1);
+            auto *row_zero_sum = zero_sum.data() + d * (n + 1);
             int zero_cnt = 0;
             for (int i = 0; i < n; ++i) {
                 int x = cur[i];
                 int b = (x >> shift) & 1;
                 if (b) row[i >> 6] |= 1ULL << (i & 63);
                 else ++zero_cnt;
+                row_zero_sum[i + 1] = row_zero_sum[i] + (b ? U() : cur_w[i]);
             }
             mid[d] = zero_cnt;
             for (int i = 0; i < blocks; ++i) row_pref[i + 1] = row_pref[i] + __builtin_popcountll(row[i]);
@@ -130,14 +146,21 @@ struct WaveletMatrix {
             int zi = 0, oi = zero_cnt;
             for (int i = 0; i < n; ++i) {
                 int x = cur[i];
-                if ((x >> shift) & 1) nxt[oi++] = x;
-                else nxt[zi++] = x;
+                if ((x >> shift) & 1) {
+                    nxt[oi] = x;
+                    nxt_w[oi++] = cur_w[i];
+                }
+                else {
+                    nxt[zi] = x;
+                    nxt_w[zi++] = cur_w[i];
+                }
             }
             cur.swap(nxt);
+            cur_w.swap(nxt_w);
         }
     }
 
-    void build(const vector<T> &v) {
+    void build(const vector<T> &v, const vector<U> &w) {
         n = (int)v.size();
         if (n == 0) {
             lg = 0;
@@ -146,33 +169,37 @@ struct WaveletMatrix {
             mid.clear();
             bit.clear();
             pref.clear();
+            zero_sum.clear();
+            base_sum.assign(1, U());
             return;
         }
 
         vector<int> cur(n);
         compress_values(v, cur);
-        build_from_index_internal(move(cur));
+        build_from_index_internal(move(cur), w);
     }
 
-    void build_from_index(const vector<int> &idx, const vector<T> &sorted_vals) {
+    void build_from_index(const vector<int> &idx, const vector<T> &sorted_vals, const vector<U> &w) {
         vals = sorted_vals;
-        build_from_index_internal(idx);
+        build_from_index_internal(idx, w);
     }
 
-    int count_less_index(int l, int r, int xi) const {
-        if (xi <= 0 || l >= r || n == 0) return 0;
-        if (xi >= (int)vals.size()) return r - l;
+    CountSum count_sum_less_index(int l, int r, int xi) const {
+        if (xi <= 0 || l >= r || n == 0) return {0, U()};
+        if (xi >= (int)vals.size()) return {r - l, base_sum[r] - base_sum[l]};
 
         const int *mid_data = mid.data();
         const auto *bit_data = bit.data();
         const int *pref_data = pref.data();
-        int res = 0;
+        const U *zero_sum_data = zero_sum.data();
+        CountSum res{0, U()};
         for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {
             int l1, r1;
             rank1_pair(bit_data, pref_data, l, r, l1, r1);
             int l0 = l - l1, r0 = r - r1;
             if ((xi >> shift) & 1) {
-                res += r0 - l0;
+                res.count += r0 - l0;
+                res.sum += zero_sum_data[r] - zero_sum_data[l];
                 l = mid_data[d] + l1;
                 r = mid_data[d] + r1;
             }
@@ -182,96 +209,38 @@ struct WaveletMatrix {
             }
             bit_data += blocks;
             pref_data += blocks + 1;
+            zero_sum_data += n + 1;
         }
         return res;
     }
 
+    CountSum count_sum_less(int l, int r, const T &x) const {
+        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());
+        return count_sum_less_index(l, r, xi);
+    }
+
+    CountSum count_sum_less_equal(int l, int r, const T &x) const {
+        int xi = (int)(upper_bound(vals.begin(), vals.end(), x) - vals.begin());
+        return count_sum_less_index(l, r, xi);
+    }
+
     int count_less(int l, int r, const T &x) const {
-        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());
-        return count_less_index(l, r, xi);
+        return count_sum_less(l, r, x).count;
     }
 
-    int count_equal_index(int l, int r, int xi) const {
-        if (l >= r || n == 0 || xi < 0 || xi >= (int)vals.size()) return 0;
-
-        const int *mid_data = mid.data();
-        const auto *bit_data = bit.data();
-        const int *pref_data = pref.data();
-        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {
-            int l1, r1;
-            rank1_pair(bit_data, pref_data, l, r, l1, r1);
-            int l0 = l - l1, r0 = r - r1;
-            if ((xi >> shift) & 1) {
-                l = mid_data[d] + l1;
-                r = mid_data[d] + r1;
-            }
-            else {
-                l = l0;
-                r = r0;
-            }
-            bit_data += blocks;
-            pref_data += blocks + 1;
-        }
-        return r - l;
+    int count_less_equal(int l, int r, const T &x) const {
+        return count_sum_less_equal(l, r, x).count;
     }
 
-    int range_freq(int l, int r, const T &lower, const T &upper) const {
-        if (lower >= upper || l >= r) return 0;
-        return count_less(l, r, upper) - count_less(l, r, lower);
+    U sum_less(int l, int r, const T &x) const {
+        return count_sum_less(l, r, x).sum;
     }
 
-    int freq(int l, int r, const T &x) const {
-        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());
-        if (xi == (int)vals.size() || vals[xi] != x) return 0;
-        return count_equal_index(l, r, xi);
-    }
-
-    T kth_smallest(int l, int r, int k) const {
-        const int *mid_data = mid.data();
-        const auto *bit_data = bit.data();
-        const int *pref_data = pref.data();
-        int idx = 0;
-        for (int d = 0; d < lg; ++d) {
-            int l1, r1;
-            rank1_pair(bit_data, pref_data, l, r, l1, r1);
-            int l0 = l - l1, r0 = r - r1;
-            int z = r0 - l0;
-            idx <<= 1;
-            if (k < z) {
-                l = l0;
-                r = r0;
-            }
-            else {
-                k -= z;
-                idx |= 1;
-                l = mid_data[d] + l1;
-                r = mid_data[d] + r1;
-            }
-            bit_data += blocks;
-            pref_data += blocks + 1;
-        }
-        return vals[idx];
-    }
-
-    T kth_largest(int l, int r, int k) const {
-        return kth_smallest(l, r, r - l - 1 - k);
-    }
-
-    bool prev_value(int l, int r, const T &upper, T &res) const {
-        int cnt = count_less(l, r, upper);
-        if (cnt == 0) return false;
-        res = kth_smallest(l, r, cnt - 1);
-        return true;
-    }
-
-    bool next_value(int l, int r, const T &lower, T &res) const {
-        int cnt = count_less(l, r, lower);
-        if (cnt == r - l) return false;
-        res = kth_smallest(l, r, cnt);
-        return true;
+    U sum_less_equal(int l, int r, const T &x) const {
+        return count_sum_less_equal(l, r, x).sum;
     }
 };
 
 /**
- * @brief Wavelet Matrix
+ * @brief 重み付きWavelet Matrix(Weighted Wavelet Matrix)
  */
