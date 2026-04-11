@@ -21,15 +21,13 @@ struct BridgeTree {
         nodes = tecc.out;
         tree.assign(component_count, {});
         edges.clear();
-        for (int i = 0; i < n; ++i) {
-            for (auto &&j : tecc.G[i]) {
-                if (i < j && tecc.is_bridge(i, j)) {
-                    int u = id[i], v = id[j];
-                    tree[u].push_back(v);
-                    tree[v].push_back(u);
-                    edges.emplace_back(u, v);
-                }
-            }
+        for (int i = 0; i < (int)tecc.edges.size(); ++i) {
+            if (!tecc.is_bridge_edge(i)) continue;
+            auto [a, b] = tecc.edges[i];
+            int u = id[a], v = id[b];
+            tree[u].push_back(v);
+            tree[v].push_back(u);
+            edges.emplace_back(u, v);
         }
         return component_count;
     }
