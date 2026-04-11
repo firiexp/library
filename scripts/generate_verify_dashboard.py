@@ -9,6 +9,7 @@ import html
 import json
 import os
 import pathlib
+import resource
 import shlex
 import subprocess
 import sys
@@ -116,6 +117,12 @@ def relative_test_path(path: pathlib.Path) -> str:
 
 
 def run_command(command: list[str], *, cwd: pathlib.Path) -> subprocess.CompletedProcess[str]:
+    def set_unlimited_stack() -> None:
+        soft, hard = resource.getrlimit(resource.RLIMIT_STACK)
+        target = hard if hard != resource.RLIM_INFINITY else resource.RLIM_INFINITY
+        if soft != target:
+            resource.setrlimit(resource.RLIMIT_STACK, (target, hard))
+
     return subprocess.run(
         command,
         cwd=cwd,
@@ -123,6 +130,7 @@ def run_command(command: list[str], *, cwd: pathlib.Path) -> subprocess.Complete
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         check=False,
+        preexec_fn=set_unlimited_stack,
     )
 
 

@@ -1,8 +1,24 @@
 class GeneralMatching {
     int n;
-    vector<vector<int>> g;
+    vector<pair<int, int>> edges;
+    vector<int> start, elist;
     vector<int> match, parent, base, q;
     vector<bool> used, blossom;
+
+    void build_graph() {
+        start.assign(n + 1, 0);
+        elist.assign(edges.size() * 2, 0);
+        for (auto &&[u, v] : edges) {
+            ++start[u + 1];
+            ++start[v + 1];
+        }
+        for (int i = 0; i < n; ++i) start[i + 1] += start[i];
+        auto counter = start;
+        for (auto &&[u, v] : edges) {
+            elist[counter[u]++] = v;
+            elist[counter[v]++] = u;
+        }
+    }
 
     int lca(int a, int b) {
         vector<bool> seen(n, false);
@@ -39,7 +55,8 @@ class GeneralMatching {
         used[root] = true;
         while (head < tail) {
             int v = q[head++];
-            for (int to : g[v]) {
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int to = elist[ei];
                 if (base[v] == base[to] || match[v] == to) continue;
                 if (to == root || (match[to] != -1 && parent[match[to]] != -1)) {
                     int cur = lca(v, to);
@@ -67,14 +84,14 @@ class GeneralMatching {
 
 public:
     explicit GeneralMatching(int n)
-        : n(n), g(n), match(n, -1), parent(n), base(n), q(n), used(n), blossom(n) {}
+        : n(n), match(n, -1), parent(n), base(n), q(n), used(n), blossom(n) {}
 
     void add_edge(int u, int v) {
-        g[u].push_back(v);
-        g[v].push_back(u);
+        edges.emplace_back(u, v);
     }
 
     int max_matching() {
+        build_graph();
         int res = 0;
         for (int i = 0; i < n; ++i) {
             if (match[i] != -1) continue;

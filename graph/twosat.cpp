@@ -1,34 +1,62 @@
 struct SCC {
-    vector<vector<int>> G, G_r, G_out;
+    struct CSR {
+        vector<int> start, elist;
+
+        CSR() = default;
+
+        CSR(int n, const vector<pair<int, int>> &edges, bool rev) : start(n + 1), elist(edges.size()) {
+            for (auto &&[a, b] : edges) {
+                ++start[(rev ? b : a) + 1];
+            }
+            for (int i = 0; i < n; ++i) start[i + 1] += start[i];
+            auto counter = start;
+            for (auto &&[a, b] : edges) {
+                int from = rev ? b : a;
+                int to = rev ? a : b;
+                elist[counter[from]++] = to;
+            }
+        }
+    };
+
+    int n = 0;
+    vector<pair<int, int>> edges;
     vector<int> vs, used, cmp;
     SCC() = default;
-    explicit SCC(int n) : G(n), G_r(n), used(n), cmp(n) {}
+    explicit SCC(int n) : n(n), used(n), cmp(n) {}
 
     void add_edge(int a, int b){
-        G[a].emplace_back(b);
-        G_r[b].emplace_back(a);
-    }
-
-    void dfs(int v){
-        used[v] = 1;
-        for (auto &&u : G[v]) if(!used[u]) dfs(u);
-        vs.emplace_back(v);
-    }
-
-    void dfs_r(int v, int k){
-        used[v] = 1;
-        cmp[v] = k;
-        for (auto &&u : G_r[v]) if(!used[u]) dfs_r(u, k);
+        edges.emplace_back(a, b);
     }
 
     int build() {
-        int n = G.size();
-        for (int i = 0; i < n; ++i) if(!used[i]) dfs(i);
+        CSR G(n, edges, false), G_r(n, edges, true);
+        vs.clear();
+        vs.reserve(n);
+        fill(used.begin(), used.end(), 0);
+        auto dfs = [&](auto &&self, int v) -> void {
+            used[v] = 1;
+            for (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {
+                int u = G.elist[ei];
+                if(!used[u]) self(self, u);
+            }
+            vs.emplace_back(v);
+        };
+        for (int i = 0; i < n; ++i) {
+            if(!used[i]) dfs(dfs, i);
+        }
         fill(used.begin(),used.end(), 0);
         int k = 0;
+        auto dfs_r = [&](auto &&self, int v, int c) -> void {
+            used[v] = 1;
+            cmp[v] = c;
+            for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {
+                int u = G_r.elist[ei];
+                if(!used[u]) self(self, u, c);
+            }
+        };
         for (int i = n - 1; i >= 0; --i) {
             if(!used[vs[i]]){
-                dfs_r(vs[i], k++);
+                dfs_r(dfs_r, vs[i], k++);
             }
         }
         return k;

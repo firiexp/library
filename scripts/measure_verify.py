@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import os
 import pathlib
+import resource
 import shlex
 import subprocess
 import sys
@@ -30,8 +31,14 @@ def parse_args() -> argparse.Namespace:
 
 
 def run_command(command: list[str]) -> int:
+    def set_unlimited_stack() -> None:
+        soft, hard = resource.getrlimit(resource.RLIMIT_STACK)
+        target = hard if hard != resource.RLIM_INFINITY else resource.RLIM_INFINITY
+        if soft != target:
+            resource.setrlimit(resource.RLIMIT_STACK, (target, hard))
+
     print("$", shlex.join(command), flush=True)
-    completed = subprocess.run(command, cwd=ROOT, check=False)
+    completed = subprocess.run(command, cwd=ROOT, check=False, preexec_fn=set_unlimited_stack)
     return completed.returncode
 
 
