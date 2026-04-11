@@ -134,28 +134,43 @@ data:
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
     \ */\n#line 1 \"graph/twoedgeconnectedcomponents.cpp\"\nclass TwoEdgeConnectedComponents\
-    \ {\n    void dfs(int i, int &pos){\n        ord[i] = low[i] = pos++;\n      \
-    \  int mul = 0;\n        for (auto &&j : G[i]) {\n            if(j == par[i] &&\
-    \ !mul){\n                mul = 1;\n                continue;\n            }\n\
-    \            if(~ord[j]){\n                low[i] = min(low[i], ord[j]);\n   \
-    \             continue;\n            }\n            par[j] = i;\n            dfs(j,\
-    \ pos);\n            size[i] += size[j];\n            low[i] = min(low[i], low[j]);\n\
-    \        }\n    }\n\n    void dfs2(int i){\n        out[bridge[i]].emplace_back(i);\n\
-    \        for (auto &&j : G[i]) {\n            if(~bridge[j] || is_bridge(i, j))\
-    \ continue;\n            bridge[j] = bridge[i];\n            dfs2(j);\n      \
-    \  }\n    }\npublic:\n    vector<int> ord, low, par, bridge, size;\n    vector<vector<int>>\
-    \ G, out;\n    explicit TwoEdgeConnectedComponents(int n): ord(n, -1), low(n),\
-    \ par(n, -1), bridge(n, -1), size(n, 1), G(n){}\n\n    inline bool is_bridge(int\
-    \ i, int j){\n        if(ord[i] > ord[j]) swap(i, j);\n        return ord[i] <\
-    \ low[j];\n    }\n\n    void add_edge(int u, int v){\n        if(u != v){\n  \
-    \          G[u].emplace_back(v);\n            G[v].emplace_back(u);\n        }\n\
-    \    }\n\n    int build(){\n        int n = G.size(), pos = 0;\n        for (int\
-    \ i = 0; i < n; ++i) {\n            if(ord[i] < 0) dfs(i, pos);\n        }\n \
-    \       int k = 0;\n        for (int i = 0; i < n; ++i) {\n            if(!~bridge[i]){\n\
-    \                bridge[i] = k++;\n                out.emplace_back();\n     \
-    \           dfs2(i);\n            }\n        }\n        return k;\n    }\n};\n\
-    \n/**\n * @brief \u4E8C\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3(Two-Edge-Connected\
-    \ Components)\n */\n#line 14 \"test/yosupo_two_edge_connected_components.test.cpp\"\
+    \ {\n    struct CSR {\n        vector<int> start, elist;\n\n        CSR() = default;\n\
+    \n        CSR(int n, const vector<pair<int, int>> &edges) : start(n + 1), elist(edges.size()\
+    \ * 2) {\n            for (auto &&[u, v] : edges) {\n                ++start[u\
+    \ + 1];\n                ++start[v + 1];\n            }\n            for (int\
+    \ i = 0; i < n; ++i) start[i + 1] += start[i];\n            auto counter = start;\n\
+    \            for (int id = 0; id < (int)edges.size(); ++id) {\n              \
+    \  auto &&[u, v] = edges[id];\n                elist[counter[u]++] = id;\n   \
+    \             elist[counter[v]++] = id;\n            }\n        }\n    };\n\n\
+    \    int n = 0;\n\n    int other(int id, int v) const {\n        return edges[id].first\
+    \ ^ edges[id].second ^ v;\n    }\n\n    void dfs(int i, int pe, const CSR &G,\
+    \ int &pos){\n        ord[i] = low[i] = pos++;\n        for (int ei = G.start[i];\
+    \ ei < G.start[i + 1]; ++ei) {\n            int id = G.elist[ei];\n          \
+    \  if(id == pe) continue;\n            int j = other(id, i);\n            if(~ord[j]){\n\
+    \                low[i] = min(low[i], ord[j]);\n                continue;\n  \
+    \          }\n            par[j] = i;\n            dfs(j, id, G, pos);\n     \
+    \       size[i] += size[j];\n            low[i] = min(low[i], low[j]);\n     \
+    \   }\n    }\n\n    void dfs2(int i, int c, const CSR &G){\n        bridge[i]\
+    \ = c;\n        out[c].emplace_back(i);\n        for (int ei = G.start[i]; ei\
+    \ < G.start[i + 1]; ++ei) {\n            int id = G.elist[ei];\n            if(is_bridge_edge(id))\
+    \ continue;\n            int j = other(id, i);\n            if(~bridge[j]) continue;\n\
+    \            dfs2(j, c, G);\n        }\n    }\npublic:\n    vector<int> ord, low,\
+    \ par, bridge, size;\n    vector<pair<int, int>> edges;\n    vector<vector<int>>\
+    \ out;\n    explicit TwoEdgeConnectedComponents(int n): n(n), ord(n, -1), low(n),\
+    \ par(n, -1), bridge(n, -1), size(n, 1){}\n\n    inline bool is_bridge(int i,\
+    \ int j){\n        if(ord[i] > ord[j]) swap(i, j);\n        return ord[i] < low[j];\n\
+    \    }\n\n    bool is_bridge_edge(int id) const {\n        auto [u, v] = edges[id];\n\
+    \        if(ord[u] > ord[v]) swap(u, v);\n        return ord[u] < low[v];\n  \
+    \  }\n\n    void add_edge(int u, int v){\n        if(u == v) return;\n       \
+    \ edges.emplace_back(u, v);\n    }\n\n    int build(){\n        CSR G(n, edges);\n\
+    \        int pos = 0;\n        fill(ord.begin(), ord.end(), -1);\n        fill(par.begin(),\
+    \ par.end(), -1);\n        fill(bridge.begin(), bridge.end(), -1);\n        fill(size.begin(),\
+    \ size.end(), 1);\n        out.clear();\n        for (int i = 0; i < n; ++i) {\n\
+    \            if(ord[i] < 0) dfs(i, -1, G, pos);\n        }\n        int k = 0;\n\
+    \        for (int i = 0; i < n; ++i) {\n            if(!~bridge[i]){\n       \
+    \         out.emplace_back();\n                dfs2(i, k++, G);\n            }\n\
+    \        }\n        return k;\n    }\n};\n\n/**\n * @brief \u4E8C\u8FBA\u9023\u7D50\
+    \u6210\u5206\u5206\u89E3(Two-Edge-Connected Components)\n */\n#line 14 \"test/yosupo_two_edge_connected_components.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
     \ m);\n    TwoEdgeConnectedComponents g(n);\n    for (int i = 0; i < m; ++i) {\n\
     \        int u, v;\n        sc.read(u, v);\n        g.add_edge(u, v);\n    }\n\
@@ -182,7 +197,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_two_edge_connected_components.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-04-11 14:49:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_two_edge_connected_components.test.cpp

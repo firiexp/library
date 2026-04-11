@@ -93,11 +93,11 @@ data:
   timestamp: '2026-03-23 22:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_point_set_range_composite.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
-  - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  - test/yosupo_point_set_range_composite.test.cpp
 date: 2020-03-07
 documentation_of: datastructure/segmenttree/segtree.cpp
 layout: document

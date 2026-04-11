@@ -53,10 +53,10 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0377.test.cpp
-  - test/yosupo_unionfind.test.cpp
-  - test/aoj0342.test.cpp
-  - test/aoj0403.test.cpp
   - test/yosupo_manhattanmst.test.cpp
+  - test/aoj0342.test.cpp
+  - test/yosupo_unionfind.test.cpp
+  - test/aoj0403.test.cpp
 documentation_of: datastructure/unionfind.cpp
 layout: document
 title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"

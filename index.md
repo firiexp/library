@@ -573,6 +573,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/modint_arbitrary.cpp
       title: "modint(\u4EFB\u610FMOD)"
+    - icon: ':heavy_check_mark:'
+      path: util/ndvec.cpp
+      title: "\u591A\u6B21\u5143\u914D\u5217(NdVec)"
     - icon: ':warning:'
       path: util/parse.cpp
       title: "\u5F0F\u30D1\u30FC\u30B5(Parse)"
@@ -735,6 +738,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_ndvec.test.cpp
+      title: test/yosupo_aplusb_ndvec.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp

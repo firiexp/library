@@ -93,11 +93,11 @@ data:
   path: math/prime/linear_sieve.cpp
   requiredBy:
   - math/powk_all.cpp
-  - math/prime/get_min_factor.cpp
   - math/prime/get_prime2.cpp
-  - math/prime/eulerphi_all.cpp
   - math/prime/get_prime.cpp
   - math/prime/mobius_all.cpp
+  - math/prime/eulerphi_all.cpp
+  - math/prime/get_min_factor.cpp
   timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

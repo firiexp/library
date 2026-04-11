@@ -321,14 +321,14 @@ data:
   isVerificationFile: false
   path: geometry/geometry.cpp
   requiredBy:
-  - geometry/dualgraph.cpp
   - geometry/half_plane_intersection.cpp
+  - geometry/dualgraph.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0273.test.cpp
   - test/aoj0342.test.cpp
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+  - test/aoj0273.test.cpp
 documentation_of: geometry/geometry.cpp
 layout: document
 title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"

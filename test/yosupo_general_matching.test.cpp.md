@@ -135,8 +135,14 @@ data:
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
     \ */\n#line 1 \"graph/general_matching.cpp\"\nclass GeneralMatching {\n    int\
-    \ n;\n    vector<vector<int>> g;\n    vector<int> match, parent, base, q;\n  \
-    \  vector<bool> used, blossom;\n\n    int lca(int a, int b) {\n        vector<bool>\
+    \ n;\n    vector<pair<int, int>> edges;\n    vector<int> start, elist;\n    vector<int>\
+    \ match, parent, base, q;\n    vector<bool> used, blossom;\n\n    void build_graph()\
+    \ {\n        start.assign(n + 1, 0);\n        elist.assign(edges.size() * 2, 0);\n\
+    \        for (auto &&[u, v] : edges) {\n            ++start[u + 1];\n        \
+    \    ++start[v + 1];\n        }\n        for (int i = 0; i < n; ++i) start[i +\
+    \ 1] += start[i];\n        auto counter = start;\n        for (auto &&[u, v] :\
+    \ edges) {\n            elist[counter[u]++] = v;\n            elist[counter[v]++]\
+    \ = u;\n        }\n    }\n\n    int lca(int a, int b) {\n        vector<bool>\
     \ seen(n, false);\n        while (true) {\n            a = base[a];\n        \
     \    seen[a] = true;\n            if (match[a] == -1) break;\n            a =\
     \ parent[match[a]];\n        }\n        while (true) {\n            b = base[b];\n\
@@ -149,40 +155,41 @@ data:
     \ used.end(), false);\n        fill(parent.begin(), parent.end(), -1);\n     \
     \   for (int i = 0; i < n; ++i) base[i] = i;\n        int head = 0, tail = 0;\n\
     \        q[tail++] = root;\n        used[root] = true;\n        while (head <\
-    \ tail) {\n            int v = q[head++];\n            for (int to : g[v]) {\n\
-    \                if (base[v] == base[to] || match[v] == to) continue;\n      \
-    \          if (to == root || (match[to] != -1 && parent[match[to]] != -1)) {\n\
-    \                    int cur = lca(v, to);\n                    fill(blossom.begin(),\
-    \ blossom.end(), false);\n                    mark_path(v, cur, to);\n       \
-    \             mark_path(to, cur, v);\n                    for (int i = 0; i <\
-    \ n; ++i) {\n                        if (!blossom[base[i]]) continue;\n      \
-    \                  base[i] = cur;\n                        if (used[i]) continue;\n\
-    \                        used[i] = true;\n                        q[tail++] =\
-    \ i;\n                    }\n                } else if (parent[to] == -1) {\n\
-    \                    parent[to] = v;\n                    if (match[to] == -1)\
-    \ return to;\n                    int u = match[to];\n                    used[u]\
-    \ = true;\n                    q[tail++] = u;\n                }\n           \
-    \ }\n        }\n        return -1;\n    }\n\npublic:\n    explicit GeneralMatching(int\
-    \ n)\n        : n(n), g(n), match(n, -1), parent(n), base(n), q(n), used(n), blossom(n)\
-    \ {}\n\n    void add_edge(int u, int v) {\n        g[u].push_back(v);\n      \
-    \  g[v].push_back(u);\n    }\n\n    int max_matching() {\n        int res = 0;\n\
-    \        for (int i = 0; i < n; ++i) {\n            if (match[i] != -1) continue;\n\
-    \            int v = find_path(i);\n            if (v == -1) continue;\n     \
-    \       ++res;\n            while (v != -1) {\n                int pv = parent[v];\n\
-    \                int nv = pv == -1 ? -1 : match[pv];\n                match[v]\
-    \ = pv;\n                if (pv != -1) match[pv] = v;\n                v = nv;\n\
-    \            }\n        }\n        return res;\n    }\n\n    const vector<int>&\
-    \ get_match() const {\n        return match;\n    }\n\n    vector<pair<int, int>>\
-    \ get_pairs() const {\n        vector<pair<int, int>> res;\n        for (int i\
-    \ = 0; i < n; ++i) {\n            if (match[i] == -1 || i > match[i]) continue;\n\
-    \            res.emplace_back(i, match[i]);\n        }\n        return res;\n\
-    \    }\n};\n\n/**\n * @brief \u4E00\u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\
-    \u30C1\u30F3\u30B0(General Matching)\n */\n#line 14 \"test/yosupo_general_matching.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, m;\n    in.read(n,\
-    \ m);\n    GeneralMatching gm(n);\n    for (int i = 0; i < m; ++i) {\n       \
-    \ int u, v;\n        in.read(u, v);\n        gm.add_edge(u, v);\n    }\n    int\
-    \ ans = gm.max_matching();\n    out.println(ans);\n    for (auto&& [u, v] : gm.get_pairs())\
-    \ {\n        out.println(u, v);\n    }\n    return 0;\n}\n"
+    \ tail) {\n            int v = q[head++];\n            for (int ei = start[v];\
+    \ ei < start[v + 1]; ++ei) {\n                int to = elist[ei];\n          \
+    \      if (base[v] == base[to] || match[v] == to) continue;\n                if\
+    \ (to == root || (match[to] != -1 && parent[match[to]] != -1)) {\n           \
+    \         int cur = lca(v, to);\n                    fill(blossom.begin(), blossom.end(),\
+    \ false);\n                    mark_path(v, cur, to);\n                    mark_path(to,\
+    \ cur, v);\n                    for (int i = 0; i < n; ++i) {\n              \
+    \          if (!blossom[base[i]]) continue;\n                        base[i] =\
+    \ cur;\n                        if (used[i]) continue;\n                     \
+    \   used[i] = true;\n                        q[tail++] = i;\n                \
+    \    }\n                } else if (parent[to] == -1) {\n                    parent[to]\
+    \ = v;\n                    if (match[to] == -1) return to;\n                \
+    \    int u = match[to];\n                    used[u] = true;\n               \
+    \     q[tail++] = u;\n                }\n            }\n        }\n        return\
+    \ -1;\n    }\n\npublic:\n    explicit GeneralMatching(int n)\n        : n(n),\
+    \ match(n, -1), parent(n), base(n), q(n), used(n), blossom(n) {}\n\n    void add_edge(int\
+    \ u, int v) {\n        edges.emplace_back(u, v);\n    }\n\n    int max_matching()\
+    \ {\n        build_graph();\n        int res = 0;\n        for (int i = 0; i <\
+    \ n; ++i) {\n            if (match[i] != -1) continue;\n            int v = find_path(i);\n\
+    \            if (v == -1) continue;\n            ++res;\n            while (v\
+    \ != -1) {\n                int pv = parent[v];\n                int nv = pv ==\
+    \ -1 ? -1 : match[pv];\n                match[v] = pv;\n                if (pv\
+    \ != -1) match[pv] = v;\n                v = nv;\n            }\n        }\n \
+    \       return res;\n    }\n\n    const vector<int>& get_match() const {\n   \
+    \     return match;\n    }\n\n    vector<pair<int, int>> get_pairs() const {\n\
+    \        vector<pair<int, int>> res;\n        for (int i = 0; i < n; ++i) {\n\
+    \            if (match[i] == -1 || i > match[i]) continue;\n            res.emplace_back(i,\
+    \ match[i]);\n        }\n        return res;\n    }\n};\n\n/**\n * @brief \u4E00\
+    \u822C\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(General Matching)\n\
+    \ */\n#line 14 \"test/yosupo_general_matching.test.cpp\"\n\nint main() {\n   \
+    \ Scanner in;\n    Printer out;\n    int n, m;\n    in.read(n, m);\n    GeneralMatching\
+    \ gm(n);\n    for (int i = 0; i < m; ++i) {\n        int u, v;\n        in.read(u,\
+    \ v);\n        gm.add_edge(u, v);\n    }\n    int ans = gm.max_matching();\n \
+    \   out.println(ans);\n    for (auto&& [u, v] : gm.get_pairs()) {\n        out.println(u,\
+    \ v);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/general_matching\"\n\n\
     #include <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\
@@ -198,7 +205,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_general_matching.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-04-11 14:28:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_general_matching.test.cpp

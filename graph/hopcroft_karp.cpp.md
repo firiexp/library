@@ -14,59 +14,75 @@ data:
     document_title: "Hopcroft-Karp\u6CD5"
     links: []
   bundledCode: "#line 1 \"graph/hopcroft_karp.cpp\"\nclass HopcroftKarp {\n    int\
-    \ l, r;\n    vector<vector<int>> g;\n    vector<int> dist;\n\npublic:\n    vector<int>\
+    \ l, r;\n    vector<pair<int, int>> edges;\n    vector<int> start, elist;\n  \
+    \  vector<int> dist;\n\n    void build_graph() {\n        start.assign(l + 1,\
+    \ 0);\n        elist.assign(edges.size(), 0);\n        for (auto &&[a, b] : edges)\
+    \ ++start[a + 1];\n        for (int i = 0; i < l; ++i) start[i + 1] += start[i];\n\
+    \        auto counter = start;\n        for (auto &&[a, b] : edges) {\n      \
+    \      elist[counter[a]++] = b;\n        }\n    }\n\npublic:\n    vector<int>\
     \ match_left, match_right;\n\n    explicit HopcroftKarp(int l, int r) : l(l),\
-    \ r(r), g(l), dist(l), match_left(l, -1), match_right(r, -1) {}\n\n    void add_edge(int\
-    \ a, int b) {\n        g[a].push_back(b);\n    }\n\n    bool bfs() {\n       \
-    \ queue<int> q;\n        fill(dist.begin(), dist.end(), -1);\n        for (int\
-    \ i = 0; i < l; ++i) {\n            if (match_left[i] != -1) continue;\n     \
-    \       dist[i] = 0;\n            q.push(i);\n        }\n        bool found =\
-    \ false;\n        while (!q.empty()) {\n            int v = q.front();\n     \
-    \       q.pop();\n            for (int to : g[v]) {\n                int u = match_right[to];\n\
-    \                if (u == -1) {\n                    found = true;\n         \
-    \           continue;\n                }\n                if (dist[u] != -1) continue;\n\
-    \                dist[u] = dist[v] + 1;\n                q.push(u);\n        \
-    \    }\n        }\n        return found;\n    }\n\n    bool dfs(int v) {\n   \
-    \     for (int to : g[v]) {\n            int u = match_right[to];\n          \
-    \  if (u != -1 && (dist[u] != dist[v] + 1 || !dfs(u))) continue;\n           \
-    \ match_left[v] = to;\n            match_right[to] = v;\n            return true;\n\
-    \        }\n        dist[v] = -1;\n        return false;\n    }\n\n    int max_matching()\
-    \ {\n        int ret = 0;\n        while (bfs()) {\n            for (int i = 0;\
-    \ i < l; ++i) {\n                if (match_left[i] == -1 && dfs(i)) ++ret;\n \
-    \           }\n        }\n        return ret;\n    }\n\n    vector<pair<int, int>>\
-    \ get_pairs() const {\n        vector<pair<int, int>> ret;\n        for (int i\
-    \ = 0; i < l; ++i) {\n            if (match_left[i] != -1) ret.emplace_back(i,\
-    \ match_left[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Hopcroft-Karp\u6CD5\n */\n"
-  code: "class HopcroftKarp {\n    int l, r;\n    vector<vector<int>> g;\n    vector<int>\
-    \ dist;\n\npublic:\n    vector<int> match_left, match_right;\n\n    explicit HopcroftKarp(int\
-    \ l, int r) : l(l), r(r), g(l), dist(l), match_left(l, -1), match_right(r, -1)\
-    \ {}\n\n    void add_edge(int a, int b) {\n        g[a].push_back(b);\n    }\n\
-    \n    bool bfs() {\n        queue<int> q;\n        fill(dist.begin(), dist.end(),\
+    \ r(r), start(l + 1), dist(l), match_left(l, -1), match_right(r, -1) {}\n\n  \
+    \  void add_edge(int a, int b) {\n        edges.emplace_back(a, b);\n    }\n\n\
+    \    bool bfs() {\n        queue<int> q;\n        fill(dist.begin(), dist.end(),\
     \ -1);\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i] !=\
     \ -1) continue;\n            dist[i] = 0;\n            q.push(i);\n        }\n\
     \        bool found = false;\n        while (!q.empty()) {\n            int v\
-    \ = q.front();\n            q.pop();\n            for (int to : g[v]) {\n    \
-    \            int u = match_right[to];\n                if (u == -1) {\n      \
-    \              found = true;\n                    continue;\n                }\n\
-    \                if (dist[u] != -1) continue;\n                dist[u] = dist[v]\
-    \ + 1;\n                q.push(u);\n            }\n        }\n        return found;\n\
-    \    }\n\n    bool dfs(int v) {\n        for (int to : g[v]) {\n            int\
-    \ u = match_right[to];\n            if (u != -1 && (dist[u] != dist[v] + 1 ||\
-    \ !dfs(u))) continue;\n            match_left[v] = to;\n            match_right[to]\
-    \ = v;\n            return true;\n        }\n        dist[v] = -1;\n        return\
-    \ false;\n    }\n\n    int max_matching() {\n        int ret = 0;\n        while\
-    \ (bfs()) {\n            for (int i = 0; i < l; ++i) {\n                if (match_left[i]\
-    \ == -1 && dfs(i)) ++ret;\n            }\n        }\n        return ret;\n   \
-    \ }\n\n    vector<pair<int, int>> get_pairs() const {\n        vector<pair<int,\
-    \ int>> ret;\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
-    \ != -1) ret.emplace_back(i, match_left[i]);\n        }\n        return ret;\n\
-    \    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\n */\n"
+    \ = q.front();\n            q.pop();\n            for (int ei = start[v]; ei <\
+    \ start[v + 1]; ++ei) {\n                int to = elist[ei];\n               \
+    \ int u = match_right[to];\n                if (u == -1) {\n                 \
+    \   found = true;\n                    continue;\n                }\n        \
+    \        if (dist[u] != -1) continue;\n                dist[u] = dist[v] + 1;\n\
+    \                q.push(u);\n            }\n        }\n        return found;\n\
+    \    }\n\n    bool dfs(int v) {\n        for (int ei = start[v]; ei < start[v\
+    \ + 1]; ++ei) {\n            int to = elist[ei];\n            int u = match_right[to];\n\
+    \            if (u != -1 && (dist[u] != dist[v] + 1 || !dfs(u))) continue;\n \
+    \           match_left[v] = to;\n            match_right[to] = v;\n          \
+    \  return true;\n        }\n        dist[v] = -1;\n        return false;\n   \
+    \ }\n\n    int max_matching() {\n        build_graph();\n        int ret = 0;\n\
+    \        while (bfs()) {\n            for (int i = 0; i < l; ++i) {\n        \
+    \        if (match_left[i] == -1 && dfs(i)) ++ret;\n            }\n        }\n\
+    \        return ret;\n    }\n\n    vector<pair<int, int>> get_pairs() const {\n\
+    \        vector<pair<int, int>> ret;\n        for (int i = 0; i < l; ++i) {\n\
+    \            if (match_left[i] != -1) ret.emplace_back(i, match_left[i]);\n  \
+    \      }\n        return ret;\n    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\
+    \n */\n"
+  code: "class HopcroftKarp {\n    int l, r;\n    vector<pair<int, int>> edges;\n\
+    \    vector<int> start, elist;\n    vector<int> dist;\n\n    void build_graph()\
+    \ {\n        start.assign(l + 1, 0);\n        elist.assign(edges.size(), 0);\n\
+    \        for (auto &&[a, b] : edges) ++start[a + 1];\n        for (int i = 0;\
+    \ i < l; ++i) start[i + 1] += start[i];\n        auto counter = start;\n     \
+    \   for (auto &&[a, b] : edges) {\n            elist[counter[a]++] = b;\n    \
+    \    }\n    }\n\npublic:\n    vector<int> match_left, match_right;\n\n    explicit\
+    \ HopcroftKarp(int l, int r) : l(l), r(r), start(l + 1), dist(l), match_left(l,\
+    \ -1), match_right(r, -1) {}\n\n    void add_edge(int a, int b) {\n        edges.emplace_back(a,\
+    \ b);\n    }\n\n    bool bfs() {\n        queue<int> q;\n        fill(dist.begin(),\
+    \ dist.end(), -1);\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
+    \ != -1) continue;\n            dist[i] = 0;\n            q.push(i);\n       \
+    \ }\n        bool found = false;\n        while (!q.empty()) {\n            int\
+    \ v = q.front();\n            q.pop();\n            for (int ei = start[v]; ei\
+    \ < start[v + 1]; ++ei) {\n                int to = elist[ei];\n             \
+    \   int u = match_right[to];\n                if (u == -1) {\n               \
+    \     found = true;\n                    continue;\n                }\n      \
+    \          if (dist[u] != -1) continue;\n                dist[u] = dist[v] + 1;\n\
+    \                q.push(u);\n            }\n        }\n        return found;\n\
+    \    }\n\n    bool dfs(int v) {\n        for (int ei = start[v]; ei < start[v\
+    \ + 1]; ++ei) {\n            int to = elist[ei];\n            int u = match_right[to];\n\
+    \            if (u != -1 && (dist[u] != dist[v] + 1 || !dfs(u))) continue;\n \
+    \           match_left[v] = to;\n            match_right[to] = v;\n          \
+    \  return true;\n        }\n        dist[v] = -1;\n        return false;\n   \
+    \ }\n\n    int max_matching() {\n        build_graph();\n        int ret = 0;\n\
+    \        while (bfs()) {\n            for (int i = 0; i < l; ++i) {\n        \
+    \        if (match_left[i] == -1 && dfs(i)) ++ret;\n            }\n        }\n\
+    \        return ret;\n    }\n\n    vector<pair<int, int>> get_pairs() const {\n\
+    \        vector<pair<int, int>> ret;\n        for (int i = 0; i < l; ++i) {\n\
+    \            if (match_left[i] != -1) ret.emplace_back(i, match_left[i]);\n  \
+    \      }\n        return ret;\n    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\
+    \n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/hopcroft_karp.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-04-11 14:07:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp

@@ -49,8 +49,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0403.test.cpp
   - test/yosupo_manhattanmst.test.cpp
+  - test/aoj0403.test.cpp
 documentation_of: graph/manhattanmst.cpp
 layout: document
 title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"

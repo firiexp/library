@@ -139,50 +139,59 @@ data:
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
     \ */\n#line 1 \"graph/block_cut_tree.cpp\"\nusing namespace std;\n\n#line 1 \"\
-    graph/biconnected_components.cpp\"\nclass BiconnectedComponents {\n    vector<int>\
-    \ st;\n    void dfs(int i, int pe, int &pos){\n        ord[i] = low[i] = pos++;\n\
-    \        for (auto &&e : G[i]) {\n            int j = e.first, id = e.second;\n\
-    \            if(id == pe) continue;\n            if(ord[j] < ord[i]) st.emplace_back(id);\n\
-    \            if(~ord[j]){\n                low[i] = min(low[i], ord[j]);\n   \
-    \             continue;\n            }\n            par[j] = i;\n            dfs(j,\
-    \ id, pos);\n            low[i] = min(low[i], low[j]);\n            if(ord[i]\
-    \ <= low[j]){\n                bcc_edges.emplace_back();\n                while(true){\n\
-    \                    int k = st.back();\n                    st.pop_back();\n\
-    \                    bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second),\
+    graph/biconnected_components.cpp\"\nclass BiconnectedComponents {\n    struct\
+    \ CSR {\n        vector<int> start, elist;\n\n        CSR() = default;\n\n   \
+    \     CSR(int n, const vector<pair<int, int>> &edges) : start(n + 1), elist(edges.size()\
+    \ * 2) {\n            for (auto &&[u, v] : edges) {\n                ++start[u\
+    \ + 1];\n                ++start[v + 1];\n            }\n            for (int\
+    \ i = 0; i < n; ++i) start[i + 1] += start[i];\n            auto counter = start;\n\
+    \            for (int id = 0; id < (int)edges.size(); ++id) {\n              \
+    \  auto &&[u, v] = edges[id];\n                elist[counter[u]++] = id;\n   \
+    \             elist[counter[v]++] = id;\n            }\n        }\n    };\n\n\
+    \    int n = 0;\n    vector<int> st;\n\n    int other(int id, int v) const {\n\
+    \        return edges[id].first ^ edges[id].second ^ v;\n    }\n\n    void dfs(int\
+    \ i, int pe, const CSR &G, int &pos){\n        ord[i] = low[i] = pos++;\n    \
+    \    for (int ei = G.start[i]; ei < G.start[i + 1]; ++ei) {\n            int id\
+    \ = G.elist[ei];\n            if(id == pe) continue;\n            int j = other(id,\
+    \ i);\n            if(ord[j] < ord[i]) st.emplace_back(id);\n            if(~ord[j]){\n\
+    \                low[i] = min(low[i], ord[j]);\n                continue;\n  \
+    \          }\n            par[j] = i;\n            dfs(j, id, G, pos);\n     \
+    \       low[i] = min(low[i], low[j]);\n            if(ord[i] <= low[j]){\n   \
+    \             bcc_edges.emplace_back();\n                while(true){\n      \
+    \              int k = st.back();\n                    st.pop_back();\n      \
+    \              bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second),\
     \ max(edges[k].first, edges[k].second));\n                    if(k == id) break;\n\
     \                }\n            }\n        }\n    }\npublic:\n    vector<int>\
     \ ord, low, par;\n    vector<pair<int, int>> edges;\n    vector<vector<pair<int,\
-    \ int>>> G;\n    vector<vector<pair<int, int>>> bcc_edges;\n    vector<vector<int>>\
-    \ bcc_vertices;\n    explicit BiconnectedComponents(int n): ord(n, -1), low(n),\
-    \ par(n, -1), G(n){}\n\n    void add_edge(int u, int v){\n        if(u != v){\n\
-    \            int id = edges.size();\n            edges.emplace_back(u, v);\n \
-    \           G[u].emplace_back(v, id);\n            G[v].emplace_back(u, id);\n\
-    \        }\n    }\n\n    int build(){\n        int n = G.size(), pos = 0;\n  \
-    \      fill(ord.begin(), ord.end(), -1);\n        fill(par.begin(), par.end(),\
-    \ -1);\n        bcc_edges.clear();\n        bcc_vertices.clear();\n        st.clear();\n\
-    \        for (int i = 0; i < n; ++i) {\n            if(ord[i] < 0) dfs(i, -1,\
-    \ pos);\n        }\n        vector<int> seen(n, -1);\n        bcc_vertices.reserve(bcc_edges.size());\n\
+    \ int>>> bcc_edges;\n    vector<vector<int>> bcc_vertices;\n    explicit BiconnectedComponents(int\
+    \ n): n(n), ord(n, -1), low(n), par(n, -1){}\n\n    void add_edge(int u, int v){\n\
+    \        if(u == v) return;\n        edges.emplace_back(u, v);\n    }\n\n    int\
+    \ build(){\n        CSR G(n, edges);\n        int pos = 0;\n        fill(ord.begin(),\
+    \ ord.end(), -1);\n        fill(par.begin(), par.end(), -1);\n        bcc_edges.clear();\n\
+    \        bcc_vertices.clear();\n        st.clear();\n        for (int i = 0; i\
+    \ < n; ++i) {\n            if(ord[i] < 0) dfs(i, -1, G, pos);\n        }\n   \
+    \     vector<int> seen(n, -1);\n        bcc_vertices.reserve(bcc_edges.size());\n\
     \        for (int i = 0; i < (int)bcc_edges.size(); ++i) {\n            vector<int>\
     \ now;\n            for (auto &&e : bcc_edges[i]) {\n                if(seen[e.first]\
     \ != i){\n                    seen[e.first] = i;\n                    now.emplace_back(e.first);\n\
     \                }\n                if(seen[e.second] != i){\n               \
     \     seen[e.second] = i;\n                    now.emplace_back(e.second);\n \
     \               }\n            }\n            bcc_vertices.emplace_back(now);\n\
-    \        }\n        for (int i = 0; i < n; ++i) {\n            if(G[i].empty()){\n\
-    \                bcc_edges.emplace_back();\n                bcc_vertices.push_back({i});\n\
-    \            }\n        }\n        return bcc_vertices.size();\n    }\n};\n\n\
-    /**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)\n\
-    \ */\n#line 4 \"graph/block_cut_tree.cpp\"\n\nstruct BlockCutTree {\n    int n,\
-    \ block_count;\n    BiconnectedComponents bcc;\n    vector<vector<int>> tree,\
-    \ nodes;\n    vector<int> id, rev;\n    vector<char> is_articulation;\n\n    explicit\
-    \ BlockCutTree(int n) : n(n), block_count(0), bcc(n), id(n, -1), is_articulation(n,\
-    \ 0) {}\n\n    void add_edge(int u, int v) {\n        bcc.add_edge(u, v);\n  \
-    \  }\n\n    int build() {\n        block_count = bcc.build();\n        vector<int>\
-    \ cnt(n);\n        for (auto &&vs : bcc.bcc_vertices) {\n            for (auto\
-    \ &&v : vs) ++cnt[v];\n        }\n\n        int m = block_count;\n        id.assign(n,\
-    \ -1);\n        is_articulation.assign(n, 0);\n        for (int v = 0; v < n;\
-    \ ++v) {\n            if (cnt[v] > 1) {\n                is_articulation[v] =\
-    \ 1;\n                id[v] = m++;\n            }\n        }\n\n        tree.assign(m,\
+    \        }\n        for (int i = 0; i < n; ++i) {\n            if(G.start[i] ==\
+    \ G.start[i + 1]){\n                bcc_edges.emplace_back();\n              \
+    \  bcc_vertices.push_back({i});\n            }\n        }\n        return bcc_vertices.size();\n\
+    \    }\n};\n\n/**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3\
+    (Biconnected Components)\n */\n#line 4 \"graph/block_cut_tree.cpp\"\n\nstruct\
+    \ BlockCutTree {\n    int n, block_count;\n    BiconnectedComponents bcc;\n  \
+    \  vector<vector<int>> tree, nodes;\n    vector<int> id, rev;\n    vector<char>\
+    \ is_articulation;\n\n    explicit BlockCutTree(int n) : n(n), block_count(0),\
+    \ bcc(n), id(n, -1), is_articulation(n, 0) {}\n\n    void add_edge(int u, int\
+    \ v) {\n        bcc.add_edge(u, v);\n    }\n\n    int build() {\n        block_count\
+    \ = bcc.build();\n        vector<int> cnt(n);\n        for (auto &&vs : bcc.bcc_vertices)\
+    \ {\n            for (auto &&v : vs) ++cnt[v];\n        }\n\n        int m = block_count;\n\
+    \        id.assign(n, -1);\n        is_articulation.assign(n, 0);\n        for\
+    \ (int v = 0; v < n; ++v) {\n            if (cnt[v] > 1) {\n                is_articulation[v]\
+    \ = 1;\n                id[v] = m++;\n            }\n        }\n\n        tree.assign(m,\
     \ {});\n        nodes.assign(m, {});\n        rev.assign(m, -1);\n        for\
     \ (int i = 0; i < block_count; ++i) {\n            nodes[i] = bcc.bcc_vertices[i];\n\
     \            for (auto &&v : bcc.bcc_vertices[i]) {\n                if (cnt[v]\
@@ -291,7 +300,7 @@ data:
   isVerificationFile: true
   path: test/yuki1326_block_cut_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-04-11 14:49:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki1326_block_cut_tree.test.cpp

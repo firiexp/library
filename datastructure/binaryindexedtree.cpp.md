@@ -62,19 +62,19 @@ data:
   isVerificationFile: false
   path: datastructure/binaryindexedtree.cpp
   requiredBy:
+  - datastructure/static_rectangle_sum.cpp
   - datastructure/point_add_rectangle_sum.cpp
   - datastructure/fenwick_tree_2d.cpp
-  - datastructure/static_rectangle_sum.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_static_rectangle_sum.test.cpp
-  - test/yosupo_point_add_range_sum.test.cpp
-  - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
+  - test/yosupo_static_rectangle_sum.test.cpp
   - test/aoj_dsl_2_b.test.cpp
   - test/yosupo_static_range_inversions_query.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/yosupo_point_add_rectangle_sum.test.cpp
+  - test/yosupo_point_add_range_sum.test.cpp
 documentation_of: datastructure/binaryindexedtree.cpp
 layout: document
 title: Binary Indexed Tree(BIT)

@@ -296,8 +296,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0275_dynamic_bitset.test.cpp
-  - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   - test/yosupo_aplusb_dynamic_bitset.test.cpp
+  - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
 date: 2026-03-22
 documentation_of: datastructure/dynamic_bitset.cpp
 layout: document

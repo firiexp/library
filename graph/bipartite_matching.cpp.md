@@ -64,8 +64,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_grl_7_a_bipartite_matching.test.cpp
   - test/aoj0334.test.cpp
+  - test/aoj_grl_7_a_bipartite_matching.test.cpp
 documentation_of: graph/bipartite_matching.cpp
 layout: document
 title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite\

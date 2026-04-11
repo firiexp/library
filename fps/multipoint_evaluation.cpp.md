@@ -324,8 +324,8 @@ data:
   timestamp: '2026-03-15 12:48:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
+  - test/yosupo_polynomial_interpolation.test.cpp
 date: 2026-03-08
 documentation_of: fps/multipoint_evaluation.cpp
 layout: document

@@ -98,14 +98,14 @@ data:
   isVerificationFile: false
   path: math/prime/miller_rabin.cpp
   requiredBy:
-  - math/prime/primitive_root.cpp
   - math/prime/primefactor_ll.cpp
+  - math/prime/primitive_root.cpp
   timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_primality_test.test.cpp
   - test/yosupo_factorize.test.cpp
   - test/yosupo_primitive_root.test.cpp
+  - test/yosupo_primality_test.test.cpp
 date: 2018-04-28
 documentation_of: math/prime/miller_rabin.cpp
 layout: document

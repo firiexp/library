@@ -60,15 +60,15 @@ data:
   path: datastructure/sparsetable.cpp
   requiredBy:
   - tree/LCA.cpp
-  - tree/auxtree.cpp
   - tree/virtual_tree_helper.cpp
+  - tree/auxtree.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/aoj0439.test.cpp
-  - test/yosupo_lca.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
+  - test/yosupo_staticrmq_sparsetable.test.cpp
+  - test/yosupo_lca.test.cpp
 documentation_of: datastructure/sparsetable.cpp
 layout: document
 title: Sparse Table
