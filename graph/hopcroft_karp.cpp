@@ -1,15 +1,27 @@
 class HopcroftKarp {
     int l, r;
-    vector<vector<int>> g;
+    vector<pair<int, int>> edges;
+    vector<int> start, elist;
     vector<int> dist;
+
+    void build_graph() {
+        start.assign(l + 1, 0);
+        elist.assign(edges.size(), 0);
+        for (auto &&[a, b] : edges) ++start[a + 1];
+        for (int i = 0; i < l; ++i) start[i + 1] += start[i];
+        auto counter = start;
+        for (auto &&[a, b] : edges) {
+            elist[counter[a]++] = b;
+        }
+    }
 
 public:
     vector<int> match_left, match_right;
 
-    explicit HopcroftKarp(int l, int r) : l(l), r(r), g(l), dist(l), match_left(l, -1), match_right(r, -1) {}
+    explicit HopcroftKarp(int l, int r) : l(l), r(r), start(l + 1), dist(l), match_left(l, -1), match_right(r, -1) {}
 
     void add_edge(int a, int b) {
-        g[a].push_back(b);
+        edges.emplace_back(a, b);
     }
 
     bool bfs() {
@@ -24,7 +36,8 @@ public:
         while (!q.empty()) {
             int v = q.front();
             q.pop();
-            for (int to : g[v]) {
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int to = elist[ei];
                 int u = match_right[to];
                 if (u == -1) {
                     found = true;
@@ -39,7 +52,8 @@ public:
     }
 
     bool dfs(int v) {
-        for (int to : g[v]) {
+        for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+            int to = elist[ei];
             int u = match_right[to];
             if (u != -1 && (dist[u] != dist[v] + 1 || !dfs(u))) continue;
             match_left[v] = to;
@@ -51,6 +65,7 @@ public:
     }
 
     int max_matching() {
+        build_graph();
         int ret = 0;
         while (bfs()) {
             for (int i = 0; i < l; ++i) {
