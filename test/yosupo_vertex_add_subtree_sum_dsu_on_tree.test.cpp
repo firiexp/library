@@ -54,7 +54,7 @@ int main() {
     vector<pair<int, ll>> history;
     ll base = 0;
 
-    auto update = [&](int v) {
+    auto add = [&](int v) {
         base += a[v];
         for (auto &&qu : qs[v]) {
             if (qu.type == 0) {
@@ -68,7 +68,6 @@ int main() {
             if (qu.type == 1) ans[qu.time] = base + bit.sum(qu.time);
         }
     };
-    auto clear = [&](int) {};
     auto reset = [&]() {
         base = 0;
         for (auto &&[t, x] : history) bit.add(t, -x);
@@ -76,7 +75,7 @@ int main() {
     };
 
     DSUonTree dsu(g);
-    dsu.run(update, query, clear, reset);
+    dsu.run_add_reset(add, query, reset);
 
     for (auto &&x : ans) {
         if (x != -1) pr.println(x);

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-18T23:43:00+09:00",
+  "generatedAt": "2026-04-19T01:03:31+09:00",
   "root": "/home/firiexp/library",
   "testCount": 175,
   "summary": {
@@ -25806,7 +25806,7 @@
           "a.out",
           "test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp"
         ],
-        "wallSec": 1.3750218299992412
+        "wallSec": 1.953459293999913
       },
       "testcases": {
         "directory": ".verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test",
@@ -25817,7 +25817,7 @@
           "oj",
           "test",
           "-c",
-          "/home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/verify-dashboard-gvc9t84n/a.out",
+          "/home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/verify-dashboard-munu2l36/a.out",
           "-d",
           "/home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test",
           "--tle",
@@ -25826,102 +25826,102 @@
           "/home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker"
         ],
         "returnCode": 0,
-        "wallSec": 3.7246769439989293,
+        "wallSec": 3.6096128469998803,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "example_00",
-              "timeSec": 0.003045,
+              "timeSec": 0.003437,
               "status": "AC"
             },
             {
               "name": "line_00",
-              "timeSec": 0.193687,
+              "timeSec": 0.273388,
               "status": "AC"
             },
             {
               "name": "line_01",
-              "timeSec": 0.221555,
+              "timeSec": 0.199808,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.560359,
+              "timeSec": 0.509415,
               "status": "AC"
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.498832,
+              "timeSec": 0.413274,
               "status": "AC"
             },
             {
               "name": "max_random_02",
-              "timeSec": 0.475313,
+              "timeSec": 0.423326,
               "status": "AC"
             },
             {
               "name": "random_00",
-              "timeSec": 0.373427,
+              "timeSec": 0.310164,
               "status": "AC"
             },
             {
               "name": "random_01",
-              "timeSec": 0.503049,
+              "timeSec": 0.504657,
               "status": "AC"
             },
             {
               "name": "random_02",
-              "timeSec": 0.136236,
+              "timeSec": 0.159266,
               "status": "AC"
             },
             {
               "name": "random_03",
-              "timeSec": 0.140976,
+              "timeSec": 0.168926,
               "status": "AC"
             },
             {
               "name": "random_04",
-              "timeSec": 0.115158,
+              "timeSec": 0.100037,
               "status": "AC"
             },
             {
               "name": "small_00",
-              "timeSec": 0.005531,
+              "timeSec": 0.003958,
               "status": "AC"
             },
             {
               "name": "small_01",
-              "timeSec": 0.00439,
+              "timeSec": 0.003072,
               "status": "AC"
             },
             {
               "name": "small_02",
-              "timeSec": 0.004789,
+              "timeSec": 0.002829,
               "status": "AC"
             },
             {
               "name": "small_03",
-              "timeSec": 0.003954,
+              "timeSec": 0.002966,
               "status": "AC"
             },
             {
               "name": "small_04",
-              "timeSec": 0.004251,
+              "timeSec": 0.002991,
               "status": "AC"
             }
           ],
           "caseCount": 16,
           "timedCaseCount": 16,
           "passedCaseCount": 16,
-          "slowestSec": 0.560359,
+          "slowestSec": 0.509415,
           "slowestCase": "max_random_00",
-          "averageSec": 0.2027845,
-          "maxMemoryMb": 173.244,
+          "averageSec": 0.192594625,
+          "maxMemoryMb": 169.504,
           "maxMemoryCase": "line_01",
           "summary": "test success: 16 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 16 cases found\n\n[INFO] example_00\n[INFO] time: 0.003045 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/example_00.in /tmp/tmp3npstg_e/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/example_00.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_00\n[INFO] time: 0.193687 sec\n[INFO] memory: 173.240000 MB\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/line_00.in /tmp/tmplrr9w_pe/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/line_00.out\nok 249934 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_01\n[INFO] time: 0.221555 sec\n[INFO] memory: 173.244000 MB\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/line_01.in /tmp/tmpms2vkg6k/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/line_01.out\nok 249455 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.560359 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_00.in /tmp/tmp7tcbqvkp/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_00.out\nok 249907 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.498832 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_01.in /tmp/tmprocwbgs1/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_01.out\nok 250056 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.475313 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_02.in /tmp/tmpx3v8m40i/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_02.out\nok 249774 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.373427 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_00.in /tmp/tmpouckc_98/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_00.out\nok 205397 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.503049 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_01.in /tmp/tmpjwz3xi31/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_01.out\nok 206312 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.136236 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_02.in /tmp/tmp2bf4y5rf/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_02.out\nok 191122 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_03\n[INFO] time: 0.140976 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_03.in /tmp/tmpnpxyv5r0/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_03.out\nok 12856 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_04\n[INFO] time: 0.115158 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_04.in /tmp/tmpm4vdi0xv/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_04.out\nok 49646 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.005531 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_00.in /tmp/tmpu8b_guxv/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_00.out\nok 652 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.004390 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_01.in /tmp/tmpzmatv1vv/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_01.out\nok 627 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.004789 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_02.in /tmp/tmp9yab2w4r/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_02.out\nok 715 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.003954 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_03.in /tmp/tmpjdkwozck/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_03.out\nok 618 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.004251 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_04.in /tmp/tmpqdal7i5a/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_04.out\nok 413 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.560359 sec  (for max_random_00)\n[INFO] max memory: 173.244000 MB  (for line_01)\n[SUCCESS] test success: 16 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 16 cases found\n\n[INFO] example_00\n[INFO] time: 0.003437 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/example_00.in /tmp/tmpgcec0hrf/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/example_00.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_00\n[INFO] time: 0.273388 sec\n[INFO] memory: 169.344000 MB\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/line_00.in /tmp/tmp9u9imb5j/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/line_00.out\nok 249934 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_01\n[INFO] time: 0.199808 sec\n[INFO] memory: 169.504000 MB\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/line_01.in /tmp/tmpcqkaffx8/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/line_01.out\nok 249455 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.509415 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_00.in /tmp/tmpyqg2bb2w/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_00.out\nok 249907 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.413274 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_01.in /tmp/tmpkq5s7ri0/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_01.out\nok 250056 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.423326 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_02.in /tmp/tmphpsz63dp/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/max_random_02.out\nok 249774 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.310164 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_00.in /tmp/tmpx6thr15f/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_00.out\nok 205397 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.504657 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_01.in /tmp/tmpfpx7iy0i/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_01.out\nok 206312 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.159266 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_02.in /tmp/tmpbn1cftt3/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_02.out\nok 191122 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_03\n[INFO] time: 0.168926 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_03.in /tmp/tmp_6vbjiow/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_03.out\nok 12856 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_04\n[INFO] time: 0.100037 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_04.in /tmp/tmpw_ieij6b/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/random_04.out\nok 49646 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.003958 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_00.in /tmp/tmpyva9wmly/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_00.out\nok 652 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.003072 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_01.in /tmp/tmp0lqvnj73/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_01.out\nok 627 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.002829 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_02.in /tmp/tmp2bo8n7o_/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_02.out\nok 715 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.002966 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_03.in /tmp/tmp2ybx9b77/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_03.out\nok 618 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.002991 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/tree/vertex_add_subtree_sum/checker /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_04.in /tmp/tmpis6s6bhz/actual.out /home/firiexp/library/.verify-helper/cache/1489670b3fc5739bb9414d513ad708ad/test/small_04.out\nok 413 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.509415 sec  (for max_random_00)\n[INFO] max memory: 169.504000 MB  (for line_01)\n[SUCCESS] test success: 16 cases\n"
       }
     },
     {

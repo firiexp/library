@@ -2,8 +2,8 @@ struct DSUonTree {
     int n, root;
     vector<pair<int, int>> edges;
     vector<int> start, to;
-    vector<int> parent, sub_size, heavy;
-    vector<int> euler, down, up;
+    vector<int> sub_size, heavy;
+    vector<int> order, dfn;
 
     explicit DSUonTree(int n = 0) : n(n), root(0) {
         edges.reserve(max(0, n - 1));
@@ -49,67 +49,87 @@ struct DSUonTree {
     }
 
     int idx(int v) const {
-        return down[v];
+        return dfn[v];
     }
 
     int begin(int v) const {
-        return down[v];
+        return dfn[v];
     }
 
     int end(int v) const {
-        return up[v];
+        return dfn[v] + sub_size[v];
     }
 
-    template<class UPDATE, class QUERY, class CLEAR, class RESET>
-    void run(UPDATE update, QUERY query, CLEAR clear, RESET reset) const {
-        auto dfs = [&](auto &&self, int v, bool keep) -> void {
+    template<class ADD, class QUERY, class REMOVE>
+    void run_add_remove(ADD add, QUERY query, REMOVE remove) const {
+        auto dfs = [&](auto &&self, int v, int p, bool keep) -> void {
             for (int ei = start[v]; ei < start[v + 1]; ++ei) {
                 int u = to[ei];
-                if (u == parent[v] || u == heavy[v]) continue;
-                self(self, u, false);
+                if (u == p || u == heavy[v]) continue;
+                self(self, u, v, false);
             }
-            if (heavy[v] != -1) self(self, heavy[v], true);
+            if (heavy[v] != -1) self(self, heavy[v], v, true);
             for (int ei = start[v]; ei < start[v + 1]; ++ei) {
                 int u = to[ei];
-                if (u == parent[v] || u == heavy[v]) continue;
-                for (int i = down[u]; i < up[u]; ++i) update(euler[i]);
+                if (u == p || u == heavy[v]) continue;
+                for (int i = dfn[u]; i < dfn[u] + sub_size[u]; ++i) add(order[i]);
             }
-            update(v);
+            add(v);
             query(v);
             if (!keep) {
-                for (int i = down[v]; i < up[v]; ++i) clear(euler[i]);
-                reset();
+                for (int i = dfn[v]; i < dfn[v] + sub_size[v]; ++i) remove(order[i]);
             }
         };
-        dfs(dfs, root, false);
+        dfs(dfs, root, -1, false);
+    }
+
+    template<class ADD, class QUERY, class RESET>
+    void run_add_reset(ADD add, QUERY query, RESET reset) const {
+        int L = 0, R = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            int v = order[i];
+            if (sub_size[v] == 1) {
+                reset();
+                L = R = dfn[v];
+            }
+            while (L > dfn[v]) add(order[--L]);
+            while (R < dfn[v] + sub_size[v]) add(order[R++]);
+            query(v);
+        }
+        reset();
     }
 
 private:
     void build_dfs() {
-        parent.assign(n, -1);
         sub_size.assign(n, 0);
         heavy.assign(n, -1);
-        down.assign(n, 0);
-        up.assign(n, 0);
-        euler.assign(n, 0);
-        int ord = 0;
-        auto dfs = [&](auto &&self, int v) -> void {
+        auto dfs_size = [&](auto &&self, int v, int p) -> void {
             sub_size[v] = 1;
-            down[v] = ord;
-            euler[ord++] = v;
             for (int ei = start[v]; ei < start[v + 1]; ++ei) {
                 int u = to[ei];
-                if (u == parent[v]) continue;
-                parent[u] = v;
-                self(self, u);
+                if (u == p) continue;
+                self(self, u, v);
                 sub_size[v] += sub_size[u];
                 if (heavy[v] == -1 || sub_size[u] > sub_size[heavy[v]]) {
                     heavy[v] = u;
                 }
             }
-            up[v] = ord;
         };
-        dfs(dfs, root);
+        dfs_size(dfs_size, root, -1);
+        dfn.assign(n, 0);
+        order.clear();
+        order.reserve(n);
+        auto dfs_order = [&](auto &&self, int v, int p) -> void {
+            dfn[v] = (int)order.size();
+            order.push_back(v);
+            if (heavy[v] != -1) self(self, heavy[v], v);
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int u = to[ei];
+                if (u == p || u == heavy[v]) continue;
+                self(self, u, v);
+            }
+        };
+        dfs_order(dfs_order, root, -1);
     }
 };
 

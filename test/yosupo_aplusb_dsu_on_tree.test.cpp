@@ -27,35 +27,33 @@ vector<ll> run_with_clear(const DSUonTree &dsu, const vector<ll> &w) {
     int n = w.size();
     vector<ll> ans(n, -1);
     ll cur = 0;
-    auto update = [&](int v) {
+    auto add = [&](int v) {
         cur += w[v];
     };
     auto query = [&](int v) {
         ans[v] = cur;
     };
-    auto clear = [&](int v) {
+    auto remove = [&](int v) {
         cur -= w[v];
     };
-    auto reset = [&]() {};
-    dsu.run(update, query, clear, reset);
+    dsu.run_add_remove(add, query, remove);
     return ans;
 }
 
 vector<ll> run_with_reset(const DSUonTree &dsu, const vector<ll> &w) {
-    int n = w.size();
-    vector<ll> ans(n, -1);
+    vector<ll> ans(w.size(), -1);
     ll cur = 0;
-    auto update = [&](int v) {
+    auto add = [&](int v) {
         cur += w[v];
     };
     auto query = [&](int v) {
         ans[v] = cur;
     };
-    auto clear = [&](int) {};
     auto reset = [&]() {
         cur = 0;
     };
-    dsu.run(update, query, clear, reset);
+    dsu.run_add_reset(add, query, reset);
+    assert(cur == 0);
     return ans;
 }
 
