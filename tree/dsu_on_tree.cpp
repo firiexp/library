@@ -1,14 +1,51 @@
-template<class G>
 struct DSUonTree {
-    G &g;
-    int n, root, ord;
-    vector<int> sub_size, euler, down, up;
+    int n, root;
+    vector<pair<int, int>> edges;
+    vector<int> start, to;
+    vector<int> parent, sub_size, heavy;
+    vector<int> euler, down, up;
 
-    explicit DSUonTree(G &g, int root = 0)
-        : g(g), n(g.size()), root(root), ord(0),
-          sub_size(n), euler(n), down(n), up(n) {
-        dfs_sz(root, -1);
-        dfs_euler(root, -1);
+    explicit DSUonTree(int n = 0) : n(n), root(0) {
+        edges.reserve(max(0, n - 1));
+    }
+
+    template<class G>
+    explicit DSUonTree(const vector<vector<G>> &g, int root = 0) : DSUonTree((int)g.size()) {
+        vector<int> parent(n, -2);
+        vector<int> st(1, root);
+        parent[root] = -1;
+        while (!st.empty()) {
+            int v = st.back();
+            st.pop_back();
+            for (auto &&u : g[v]) {
+                if (u == parent[v] || parent[u] != -2) continue;
+                parent[u] = v;
+                edges.emplace_back(v, u);
+                st.push_back(u);
+            }
+        }
+        build(root);
+    }
+
+    void add_edge(int u, int v) {
+        edges.emplace_back(u, v);
+    }
+
+    void build(int root = 0) {
+        this->root = root;
+        start.assign(n + 1, 0);
+        to.assign(edges.size() * 2, 0);
+        for (auto &&[u, v] : edges) {
+            ++start[u + 1];
+            ++start[v + 1];
+        }
+        for (int i = 0; i < n; ++i) start[i + 1] += start[i];
+        auto counter = start;
+        for (auto &&[u, v] : edges) {
+            to[counter[u]++] = v;
+            to[counter[v]++] = u;
+        }
+        build_dfs();
     }
 
     int idx(int v) const {
@@ -24,16 +61,17 @@ struct DSUonTree {
     }
 
     template<class UPDATE, class QUERY, class CLEAR, class RESET>
-    void run(UPDATE update, QUERY query, CLEAR clear, RESET reset) {
-        auto dfs = [&](auto &&self, int v, int p, bool keep) -> void {
-            int heavy = (g[v].empty() || g[v][0] == p ? -1 : g[v][0]);
-            for (auto &&u : g[v]) {
-                if (u == p || u == heavy) continue;
-                self(self, u, v, false);
+    void run(UPDATE update, QUERY query, CLEAR clear, RESET reset) const {
+        auto dfs = [&](auto &&self, int v, bool keep) -> void {
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int u = to[ei];
+                if (u == parent[v] || u == heavy[v]) continue;
+                self(self, u, false);
             }
-            if (heavy != -1) self(self, heavy, v, true);
-            for (auto &&u : g[v]) {
-                if (u == p || u == heavy) continue;
+            if (heavy[v] != -1) self(self, heavy[v], true);
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int u = to[ei];
+                if (u == parent[v] || u == heavy[v]) continue;
                 for (int i = down[u]; i < up[u]; ++i) update(euler[i]);
             }
             update(v);
@@ -43,33 +81,35 @@ struct DSUonTree {
                 reset();
             }
         };
-        dfs(dfs, root, -1, false);
+        dfs(dfs, root, false);
     }
 
 private:
-    void dfs_sz(int v, int p) {
-        sub_size[v] = 1;
-        int heavy_idx = -1;
-        for (int i = 0; i < (int)g[v].size(); ++i) {
-            int u = g[v][i];
-            if (u == p) continue;
-            dfs_sz(u, v);
-            sub_size[v] += sub_size[u];
-            if (heavy_idx == -1 || sub_size[u] > sub_size[g[v][heavy_idx]]) {
-                heavy_idx = i;
+    void build_dfs() {
+        parent.assign(n, -1);
+        sub_size.assign(n, 0);
+        heavy.assign(n, -1);
+        down.assign(n, 0);
+        up.assign(n, 0);
+        euler.assign(n, 0);
+        int ord = 0;
+        auto dfs = [&](auto &&self, int v) -> void {
+            sub_size[v] = 1;
+            down[v] = ord;
+            euler[ord++] = v;
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int u = to[ei];
+                if (u == parent[v]) continue;
+                parent[u] = v;
+                self(self, u);
+                sub_size[v] += sub_size[u];
+                if (heavy[v] == -1 || sub_size[u] > sub_size[heavy[v]]) {
+                    heavy[v] = u;
+                }
             }
-        }
-        if (heavy_idx > 0) swap(g[v][0], g[v][heavy_idx]);
-    }
-
-    void dfs_euler(int v, int p) {
-        down[v] = ord;
-        euler[ord++] = v;
-        for (auto &&u : g[v]) {
-            if (u == p) continue;
-            dfs_euler(u, v);
-        }
-        up[v] = ord;
+            up[v] = ord;
+        };
+        dfs(dfs, root);
     }
 };
 

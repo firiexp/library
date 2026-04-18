@@ -1,7 +1,7 @@
 ---
 title: Wavelet Matrix
 documentation_of: //datastructure/wavelet_matrix.cpp
-date: 2026-03-26
+date: 2026-04-18
 category: データ構造
 tags: データ構造
 ---
@@ -28,6 +28,7 @@ $N$ は配列長、$\sigma$ は異なる値の個数。
 - `range_freq(l, r, lower, upper)` : 区間 $[l, r)$ のうち $lower \le a_i < upper$ の個数を返す
 - `freq(l, r, x)` : 区間 $[l, r)$ における `x` の出現回数を返す
 - `count_equal_index(l, r, xi)` : 区間 $[l, r)$ における圧縮 index `xi` の出現回数を返す
+- `top_k_freq(l, r, k)` : 区間 $[l, r)$ で頻度上位 `k` 個の `(頻度, 値)` を返す。同頻度なら値昇順
 - `kth_smallest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に小さい値を返す
 - `kth_largest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に大きい値を返す
 - `prev_value(l, r, upper, res)` : 区間 $[l, r)$ にある `upper` 未満の最大値を `res` に返す。存在しない場合 `false`

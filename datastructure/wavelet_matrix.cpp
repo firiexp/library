@@ -215,6 +215,98 @@ struct WaveletMatrix {
         return r - l;
     }
 
+    vector<pair<int, int>> top_k_freq_index(int l, int r, int k) const {
+        if (k <= 0 || l >= r || n == 0) return {};
+
+        struct Node {
+            int l, r, d, idx;
+            long long lower;
+        };
+        struct Item {
+            int freq, idx;
+        };
+
+        auto item_better = [](const Item &a, const Item &b) {
+            if (a.freq != b.freq) return a.freq > b.freq;
+            return a.idx < b.idx;
+        };
+        auto node_worse = [](const Node &a, const Node &b) {
+            int ca = a.r - a.l;
+            int cb = b.r - b.l;
+            if (ca != cb) return ca < cb;
+            if (a.lower != b.lower) return a.lower > b.lower;
+            return a.d < b.d;
+        };
+
+        vector<Node> heap;
+        heap.push_back({l, r, 0, 0, 0});
+        vector<Item> best;
+        best.reserve(min(k, r - l));
+
+        while (!heap.empty()) {
+            if ((int)best.size() == k) {
+                const Node &cur = heap.front();
+                const Item &cut = best.front();
+                int freq = cur.r - cur.l;
+                if (freq < cut.freq) break;
+                if (freq == cut.freq && cur.lower >= cut.idx) break;
+            }
+
+            pop_heap(heap.begin(), heap.end(), node_worse);
+            Node cur = heap.back();
+            heap.pop_back();
+
+            if (cur.d == lg) {
+                Item item{cur.r - cur.l, cur.idx};
+                if ((int)best.size() < k) {
+                    best.push_back(item);
+                    push_heap(best.begin(), best.end(), item_better);
+                }
+                else if (item_better(item, best.front())) {
+                    pop_heap(best.begin(), best.end(), item_better);
+                    best.back() = item;
+                    push_heap(best.begin(), best.end(), item_better);
+                }
+                continue;
+            }
+
+            const auto *row = bit.data() + cur.d * blocks;
+            const int *row_pref = pref.data() + cur.d * (blocks + 1);
+            int l1, r1;
+            rank1_pair(row, row_pref, cur.l, cur.r, l1, r1);
+            int l0 = cur.l - l1, r0 = cur.r - r1;
+            int shift = lg - cur.d - 1;
+            if (l0 < r0) {
+                heap.push_back({l0, r0, cur.d + 1, cur.idx << 1, cur.lower});
+                push_heap(heap.begin(), heap.end(), node_worse);
+            }
+            if (l1 < r1) {
+                heap.push_back({
+                    mid[cur.d] + l1,
+                    mid[cur.d] + r1,
+                    cur.d + 1,
+                    cur.idx << 1 | 1,
+                    cur.lower + (1LL << shift)
+                });
+                push_heap(heap.begin(), heap.end(), node_worse);
+            }
+        }
+
+        sort(best.begin(), best.end(), item_better);
+        vector<pair<int, int>> res;
+        res.reserve(best.size());
+        for (const auto &item : best) res.push_back({item.freq, item.idx});
+        return res;
+    }
+
+    vector<pair<int, T>> top_k_freq(int l, int r, int k) const {
+        auto idx_res = top_k_freq_index(l, r, k);
+        vector<pair<int, T>> res;
+        res.reserve(idx_res.size());
+        for (const auto &p : idx_res) res.push_back({p.first, vals[p.second]});
+        return res;
+    }
+
     int range_freq(int l, int r, const T &lower, const T &upper) const {
         if (lower >= upper || l >= r) return 0;
         return count_less(l, r, upper) - count_less(l, r, lower);
