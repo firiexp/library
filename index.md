@@ -733,6 +733,9 @@ data:
       path: test/yosupo_aho_corasick.test.cpp
       title: test/yosupo_aho_corasick.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_dsu_on_tree.test.cpp
+      title: test/yosupo_aplusb_dsu_on_tree.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dynamic_bitset.test.cpp
       title: test/yosupo_aplusb_dynamic_bitset.test.cpp
     - icon: ':heavy_check_mark:'
@@ -750,6 +753,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_top_kth.test.cpp
       title: test/yosupo_aplusb_top_kth.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
+      title: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_area_of_union_of_rectangles.test.cpp
       title: test/yosupo_area_of_union_of_rectangles.test.cpp

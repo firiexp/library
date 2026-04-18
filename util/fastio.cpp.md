@@ -92,6 +92,9 @@ data:
     path: test/yosupo_aho_corasick.test.cpp
     title: test/yosupo_aho_corasick.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dsu_on_tree.test.cpp
+    title: test/yosupo_aplusb_dsu_on_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dynamic_bitset.test.cpp
     title: test/yosupo_aplusb_dynamic_bitset.test.cpp
   - icon: ':heavy_check_mark:'
@@ -109,6 +112,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_top_kth.test.cpp
     title: test/yosupo_aplusb_top_kth.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
+    title: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_area_of_union_of_rectangles.test.cpp
     title: test/yosupo_area_of_union_of_rectangles.test.cpp
@@ -772,6 +778,7 @@ data:
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_shortest_path.test.cpp
   - test/yosupo_set_xor_min_binarytrie.test.cpp
+  - test/yosupo_aplusb_dsu_on_tree.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
@@ -787,6 +794,7 @@ data:
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_many_aplusb_modint_interface.test.cpp
+  - test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   - test/yosupo_static_range_frequency.test.cpp
   - test/yuki1326_block_cut_tree.test.cpp
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp

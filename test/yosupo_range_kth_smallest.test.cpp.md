@@ -110,14 +110,57 @@ data:
     \   l = mid_data[d] + l1;\n                r = mid_data[d] + r1;\n           \
     \ }\n            else {\n                l = l0;\n                r = r0;\n  \
     \          }\n            bit_data += blocks;\n            pref_data += blocks\
-    \ + 1;\n        }\n        return r - l;\n    }\n\n    int range_freq(int l, int\
-    \ r, const T &lower, const T &upper) const {\n        if (lower >= upper || l\
-    \ >= r) return 0;\n        return count_less(l, r, upper) - count_less(l, r, lower);\n\
-    \    }\n\n    int freq(int l, int r, const T &x) const {\n        int xi = (int)(lower_bound(vals.begin(),\
-    \ vals.end(), x) - vals.begin());\n        if (xi == (int)vals.size() || vals[xi]\
-    \ != x) return 0;\n        return count_equal_index(l, r, xi);\n    }\n\n    T\
-    \ kth_smallest(int l, int r, int k) const {\n        const int *mid_data = mid.data();\n\
-    \        const auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
+    \ + 1;\n        }\n        return r - l;\n    }\n\n    vector<pair<int, int>>\
+    \ top_k_freq_index(int l, int r, int k) const {\n        if (k <= 0 || l >= r\
+    \ || n == 0) return {};\n\n        struct Node {\n            int l, r, d, idx;\n\
+    \            long long lower;\n        };\n        struct Item {\n           \
+    \ int freq, idx;\n        };\n\n        auto item_better = [](const Item &a, const\
+    \ Item &b) {\n            if (a.freq != b.freq) return a.freq > b.freq;\n    \
+    \        return a.idx < b.idx;\n        };\n        auto node_worse = [](const\
+    \ Node &a, const Node &b) {\n            int ca = a.r - a.l;\n            int\
+    \ cb = b.r - b.l;\n            if (ca != cb) return ca < cb;\n            if (a.lower\
+    \ != b.lower) return a.lower > b.lower;\n            return a.d < b.d;\n     \
+    \   };\n\n        vector<Node> heap;\n        heap.push_back({l, r, 0, 0, 0});\n\
+    \        vector<Item> best;\n        best.reserve(min(k, r - l));\n\n        while\
+    \ (!heap.empty()) {\n            if ((int)best.size() == k) {\n              \
+    \  const Node &cur = heap.front();\n                const Item &cut = best.front();\n\
+    \                int freq = cur.r - cur.l;\n                if (freq < cut.freq)\
+    \ break;\n                if (freq == cut.freq && cur.lower >= cut.idx) break;\n\
+    \            }\n\n            pop_heap(heap.begin(), heap.end(), node_worse);\n\
+    \            Node cur = heap.back();\n            heap.pop_back();\n\n       \
+    \     if (cur.d == lg) {\n                Item item{cur.r - cur.l, cur.idx};\n\
+    \                if ((int)best.size() < k) {\n                    best.push_back(item);\n\
+    \                    push_heap(best.begin(), best.end(), item_better);\n     \
+    \           }\n                else if (item_better(item, best.front())) {\n \
+    \                   pop_heap(best.begin(), best.end(), item_better);\n       \
+    \             best.back() = item;\n                    push_heap(best.begin(),\
+    \ best.end(), item_better);\n                }\n                continue;\n  \
+    \          }\n\n            const auto *row = bit.data() + cur.d * blocks;\n \
+    \           const int *row_pref = pref.data() + cur.d * (blocks + 1);\n      \
+    \      int l1, r1;\n            rank1_pair(row, row_pref, cur.l, cur.r, l1, r1);\n\
+    \            int l0 = cur.l - l1, r0 = cur.r - r1;\n            int shift = lg\
+    \ - cur.d - 1;\n            if (l0 < r0) {\n                heap.push_back({l0,\
+    \ r0, cur.d + 1, cur.idx << 1, cur.lower});\n                push_heap(heap.begin(),\
+    \ heap.end(), node_worse);\n            }\n            if (l1 < r1) {\n      \
+    \          heap.push_back({\n                    mid[cur.d] + l1,\n          \
+    \          mid[cur.d] + r1,\n                    cur.d + 1,\n                \
+    \    cur.idx << 1 | 1,\n                    cur.lower + (1LL << shift)\n     \
+    \           });\n                push_heap(heap.begin(), heap.end(), node_worse);\n\
+    \            }\n        }\n\n        sort(best.begin(), best.end(), item_better);\n\
+    \        vector<pair<int, int>> res;\n        res.reserve(best.size());\n    \
+    \    for (const auto &item : best) res.push_back({item.freq, item.idx});\n   \
+    \     return res;\n    }\n\n    vector<pair<int, T>> top_k_freq(int l, int r,\
+    \ int k) const {\n        auto idx_res = top_k_freq_index(l, r, k);\n        vector<pair<int,\
+    \ T>> res;\n        res.reserve(idx_res.size());\n        for (const auto &p :\
+    \ idx_res) res.push_back({p.first, vals[p.second]});\n        return res;\n  \
+    \  }\n\n    int range_freq(int l, int r, const T &lower, const T &upper) const\
+    \ {\n        if (lower >= upper || l >= r) return 0;\n        return count_less(l,\
+    \ r, upper) - count_less(l, r, lower);\n    }\n\n    int freq(int l, int r, const\
+    \ T &x) const {\n        int xi = (int)(lower_bound(vals.begin(), vals.end(),\
+    \ x) - vals.begin());\n        if (xi == (int)vals.size() || vals[xi] != x) return\
+    \ 0;\n        return count_equal_index(l, r, xi);\n    }\n\n    T kth_smallest(int\
+    \ l, int r, int k) const {\n        const int *mid_data = mid.data();\n      \
+    \  const auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
     \        int idx = 0;\n        for (int d = 0; d < lg; ++d) {\n            int\
     \ l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n      \
     \      int l0 = l - l1, r0 = r - r1;\n            int z = r0 - l0;\n         \
@@ -268,7 +311,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_kth_smallest.test.cpp
   requiredBy: []
-  timestamp: '2026-03-26 00:19:13+09:00'
+  timestamp: '2026-04-18 23:59:00+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_kth_smallest.test.cpp
