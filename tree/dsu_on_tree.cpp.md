@@ -142,15 +142,9 @@ title: DSU on Tree
 
 用途ごとに `add-remove` 型と `add-reset` 型を分けている。
 
-`run_add_remove` は `add` と `remove` を 1 頂点ごとに呼ぶ。
-各頂点は高々 $O(\log N)$ 回だけ追加・削除されるので、`add` が 1 回 $T_{\mathrm{add}}$、`remove` が 1 回 $T_{\mathrm{del}}$ なら
-$$
-O(N \log N \cdot (T_{\mathrm{add}} + T_{\mathrm{del}}))
-$$
-になる。
+`run_add_remove` は木を辿りながら頂点を追加・削除する。追加・削除は全体で $ O(N \log N) $ 回行われる
 
-`run_add_reset` は `remove` を持たず、不要になった状態を `reset()` でまとめて捨てる。
-`add` が重いが `remove` を書きたくないときや、touch した場所だけを履歴から戻したいときに向く。
+`run_add_reset` は　heavy path を 1 単位として状態を使い回す。同じ heavy path 上の頂点は葉から順にクエリが呼ばれ、順次頂点が追加される。別の heavy path へ移るときに `reset()` を呼んで状態を捨てる。
 
 ## できること
 - `DSUonTree dsu(n)`
@@ -175,8 +169,8 @@ $$
   不要になった状態は `reset()` でまとめて捨てる
 
 ## 使い方
-`add` は頂点 1 個を現在のデータ構造へ反映する。
-`query` は「現在のデータ構造がちょうど頂点 `v` の部分木を表している」タイミングで呼ばれる。
+`add` は頂点 1 個の追加を反映する操作
+`query` は「現在 ちょうど頂点 `v` の部分木を表している」タイミングで呼ばれる。
 
 辺を自分で張る場合は次のように使う。
 
@@ -223,7 +217,3 @@ DSUonTree dsu(g, 0);
 dsu.run_add_reset(add, query, reset);
 ```
 
-## 実装上の補足
-内部では heavy child を先に並べた preorder を持つ。
-`run_add_reset` はその順序を逆からたどり、現在区間を伸ばすだけで重い部分木を使い回す。
-`DSUonTree(g, root)` に渡した `g` は破壊しない。
