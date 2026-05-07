@@ -14,12 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/set_xor_min
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/set_xor_min
-  bundledCode: "#line 1 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/set_xor_min\"\n\n#include <bits/stdc++.h>\n\
-    \nusing namespace std;\n\n#line 10 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_binarytrie.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n\nusing ll = long long;\n\n#line 11 \"test/yosupo_aplusb_binarytrie.test.cpp\"\
     \n#include <type_traits>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\
     \nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
     \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
@@ -166,36 +166,121 @@ data:
     \    T y = x ^ bit_mask();\n        return xor_min(y) ^ y;\n    }\n\nprivate:\n\
     \    static constexpr T bit_mask() {\n        if constexpr (X == sizeof(T) * 8)\
     \ return T(-1);\n        else return (T(1) << X) - 1;\n    }\n};\n\n/**\n * @brief\
-    \ Binary Trie\n */\n#line 14 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int q;\n    sc.read(q);\n\
-    \    Binarytrie<unsigned int, 30> trie;\n    while (q--) {\n        int t;\n \
-    \       unsigned int x;\n        sc.read(t, x);\n        if (t == 0) {\n     \
-    \       if (!trie.contains(x)) trie.add(x);\n        } else if (t == 1) {\n  \
-    \          trie.erase(x);\n        } else {\n            pr.println(trie.xor_min(x));\n\
-    \        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/set_xor_min\"\n\n#include\
-    \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    \ Binary Trie\n */\n#line 15 \"test/yosupo_aplusb_binarytrie.test.cpp\"\n\nconstexpr\
+    \ int B = 8;\nconstexpr unsigned MASK = (1u << B) - 1;\n\nint total_size(const\
+    \ vector<int> &freq) {\n    return accumulate(freq.begin(), freq.end(), 0);\n\
+    }\n\nvector<unsigned> expand(const vector<int> &freq) {\n    vector<unsigned>\
+    \ res;\n    res.reserve(total_size(freq));\n    for (unsigned x = 0; x <= MASK;\
+    \ ++x) {\n        for (int k = 0; k < freq[x]; ++k) res.push_back(x);\n    }\n\
+    \    return res;\n}\n\nunsigned brute_xor_min(const vector<int> &freq, unsigned\
+    \ x) {\n    unsigned best = MASK;\n    bool found = false;\n    for (unsigned\
+    \ a = 0; a <= MASK; ++a) {\n        if (freq[a] == 0) continue;\n        unsigned\
+    \ cur = a ^ x;\n        if (!found || cur < best) {\n            best = cur;\n\
+    \            found = true;\n        }\n    }\n    return best;\n}\n\nunsigned\
+    \ brute_min_element(const vector<int> &freq, unsigned x) {\n    unsigned best_xor\
+    \ = MASK;\n    unsigned best_val = 0;\n    bool found = false;\n    for (unsigned\
+    \ a = 0; a <= MASK; ++a) {\n        if (freq[a] == 0) continue;\n        unsigned\
+    \ cur = a ^ x;\n        if (!found || cur < best_xor) {\n            best_xor\
+    \ = cur;\n            best_val = a;\n            found = true;\n        }\n  \
+    \  }\n    return best_val;\n}\n\nunsigned brute_max_element(const vector<int>\
+    \ &freq, unsigned x) {\n    unsigned best_xor = 0;\n    unsigned best_val = 0;\n\
+    \    bool found = false;\n    for (unsigned a = 0; a <= MASK; ++a) {\n       \
+    \ if (freq[a] == 0) continue;\n        unsigned cur = a ^ x;\n        if (!found\
+    \ || cur > best_xor) {\n            best_xor = cur;\n            best_val = a;\n\
+    \            found = true;\n        }\n    }\n    return best_val;\n}\n\nvoid\
+    \ verify_state(const Binarytrie<unsigned, B> &trie, const vector<int> &freq, mt19937\
+    \ &rng) {\n    int sz = total_size(freq);\n    assert(trie.size() == sz);\n  \
+    \  assert(trie.empty() == (sz == 0));\n\n    for (unsigned x = 0; x <= MASK; ++x)\
+    \ {\n        assert(trie.count(x) == freq[x]);\n        assert(trie.contains(x)\
+    \ == (freq[x] > 0));\n    }\n\n    if (sz == 0) return;\n    for (int rep = 0;\
+    \ rep < 64; ++rep) {\n        unsigned x = rng() & MASK;\n        assert(trie.xor_min(x)\
+    \ == brute_xor_min(freq, x));\n        assert(trie.min_element(x) == brute_min_element(freq,\
+    \ x));\n        assert(trie.max_element(x) == brute_max_element(freq, x));\n \
+    \   }\n}\n\nvoid self_check() {\n    mt19937 rng(0);\n    for (int tc = 0; tc\
+    \ < 200; ++tc) {\n        int n = rng() % 40;\n        vector<unsigned> init(n);\n\
+    \        vector<int> freq(1 << B, 0);\n        for (unsigned &x : init) {\n  \
+    \          x = rng() & MASK;\n            ++freq[x];\n        }\n\n        Binarytrie<unsigned,\
+    \ B> trie(init);\n        verify_state(trie, freq, rng);\n\n        Binarytrie<unsigned,\
+    \ B> reserved;\n        reserved.reserve(n + 200);\n        for (unsigned x :\
+    \ init) reserved.add(x);\n        verify_state(reserved, freq, rng);\n\n     \
+    \   for (int step = 0; step < 200; ++step) {\n            int op = rng() % 5;\n\
+    \            unsigned x = rng() & MASK;\n            int k = rng() % 3 + 1;\n\n\
+    \            if (op <= 1) {\n                trie.add(x, k);\n               \
+    \ freq[x] += k;\n            } else if (op == 2) {\n                bool ok =\
+    \ trie.erase(x, k);\n                bool can = freq[x] >= k;\n              \
+    \  assert(ok == can);\n                if (can) freq[x] -= k;\n            } else\
+    \ if (op == 3) {\n                auto cur = expand(freq);\n                Binarytrie<unsigned,\
+    \ B> rebuilt(cur);\n                verify_state(rebuilt, freq, rng);\n      \
+    \      } else {\n                assert(trie.count(x) == freq[x]);\n         \
+    \       assert(trie.contains(x) == (freq[x] > 0));\n            }\n\n        \
+    \    verify_state(trie, freq, rng);\n        }\n    }\n}\n\nint main() {\n   \
+    \ self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include \"../util/fastio.cpp\"\n\
-    #include \"../datastructure/binarytrie.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int q;\n    sc.read(q);\n    Binarytrie<unsigned int,\
-    \ 30> trie;\n    while (q--) {\n        int t;\n        unsigned int x;\n    \
-    \    sc.read(t, x);\n        if (t == 0) {\n            if (!trie.contains(x))\
-    \ trie.add(x);\n        } else if (t == 1) {\n            trie.erase(x);\n   \
-    \     } else {\n            pr.println(trie.xor_min(x));\n        }\n    }\n \
-    \   return 0;\n}\n"
+    #include \"../datastructure/binarytrie.cpp\"\n\nconstexpr int B = 8;\nconstexpr\
+    \ unsigned MASK = (1u << B) - 1;\n\nint total_size(const vector<int> &freq) {\n\
+    \    return accumulate(freq.begin(), freq.end(), 0);\n}\n\nvector<unsigned> expand(const\
+    \ vector<int> &freq) {\n    vector<unsigned> res;\n    res.reserve(total_size(freq));\n\
+    \    for (unsigned x = 0; x <= MASK; ++x) {\n        for (int k = 0; k < freq[x];\
+    \ ++k) res.push_back(x);\n    }\n    return res;\n}\n\nunsigned brute_xor_min(const\
+    \ vector<int> &freq, unsigned x) {\n    unsigned best = MASK;\n    bool found\
+    \ = false;\n    for (unsigned a = 0; a <= MASK; ++a) {\n        if (freq[a] ==\
+    \ 0) continue;\n        unsigned cur = a ^ x;\n        if (!found || cur < best)\
+    \ {\n            best = cur;\n            found = true;\n        }\n    }\n  \
+    \  return best;\n}\n\nunsigned brute_min_element(const vector<int> &freq, unsigned\
+    \ x) {\n    unsigned best_xor = MASK;\n    unsigned best_val = 0;\n    bool found\
+    \ = false;\n    for (unsigned a = 0; a <= MASK; ++a) {\n        if (freq[a] ==\
+    \ 0) continue;\n        unsigned cur = a ^ x;\n        if (!found || cur < best_xor)\
+    \ {\n            best_xor = cur;\n            best_val = a;\n            found\
+    \ = true;\n        }\n    }\n    return best_val;\n}\n\nunsigned brute_max_element(const\
+    \ vector<int> &freq, unsigned x) {\n    unsigned best_xor = 0;\n    unsigned best_val\
+    \ = 0;\n    bool found = false;\n    for (unsigned a = 0; a <= MASK; ++a) {\n\
+    \        if (freq[a] == 0) continue;\n        unsigned cur = a ^ x;\n        if\
+    \ (!found || cur > best_xor) {\n            best_xor = cur;\n            best_val\
+    \ = a;\n            found = true;\n        }\n    }\n    return best_val;\n}\n\
+    \nvoid verify_state(const Binarytrie<unsigned, B> &trie, const vector<int> &freq,\
+    \ mt19937 &rng) {\n    int sz = total_size(freq);\n    assert(trie.size() == sz);\n\
+    \    assert(trie.empty() == (sz == 0));\n\n    for (unsigned x = 0; x <= MASK;\
+    \ ++x) {\n        assert(trie.count(x) == freq[x]);\n        assert(trie.contains(x)\
+    \ == (freq[x] > 0));\n    }\n\n    if (sz == 0) return;\n    for (int rep = 0;\
+    \ rep < 64; ++rep) {\n        unsigned x = rng() & MASK;\n        assert(trie.xor_min(x)\
+    \ == brute_xor_min(freq, x));\n        assert(trie.min_element(x) == brute_min_element(freq,\
+    \ x));\n        assert(trie.max_element(x) == brute_max_element(freq, x));\n \
+    \   }\n}\n\nvoid self_check() {\n    mt19937 rng(0);\n    for (int tc = 0; tc\
+    \ < 200; ++tc) {\n        int n = rng() % 40;\n        vector<unsigned> init(n);\n\
+    \        vector<int> freq(1 << B, 0);\n        for (unsigned &x : init) {\n  \
+    \          x = rng() & MASK;\n            ++freq[x];\n        }\n\n        Binarytrie<unsigned,\
+    \ B> trie(init);\n        verify_state(trie, freq, rng);\n\n        Binarytrie<unsigned,\
+    \ B> reserved;\n        reserved.reserve(n + 200);\n        for (unsigned x :\
+    \ init) reserved.add(x);\n        verify_state(reserved, freq, rng);\n\n     \
+    \   for (int step = 0; step < 200; ++step) {\n            int op = rng() % 5;\n\
+    \            unsigned x = rng() & MASK;\n            int k = rng() % 3 + 1;\n\n\
+    \            if (op <= 1) {\n                trie.add(x, k);\n               \
+    \ freq[x] += k;\n            } else if (op == 2) {\n                bool ok =\
+    \ trie.erase(x, k);\n                bool can = freq[x] >= k;\n              \
+    \  assert(ok == can);\n                if (can) freq[x] -= k;\n            } else\
+    \ if (op == 3) {\n                auto cur = expand(freq);\n                Binarytrie<unsigned,\
+    \ B> rebuilt(cur);\n                verify_state(rebuilt, freq, rng);\n      \
+    \      } else {\n                assert(trie.count(x) == freq[x]);\n         \
+    \       assert(trie.contains(x) == (freq[x] > 0));\n            }\n\n        \
+    \    verify_state(trie, freq, rng);\n        }\n    }\n}\n\nint main() {\n   \
+    \ self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/binarytrie.cpp
   isVerificationFile: true
-  path: test/yosupo_set_xor_min_binarytrie.test.cpp
+  path: test/yosupo_aplusb_binarytrie.test.cpp
   requiredBy: []
   timestamp: '2026-05-07 23:02:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_set_xor_min_binarytrie.test.cpp
+documentation_of: test/yosupo_aplusb_binarytrie.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_set_xor_min_binarytrie.test.cpp
-- /verify/test/yosupo_set_xor_min_binarytrie.test.cpp.html
-title: test/yosupo_set_xor_min_binarytrie.test.cpp
+- /verify/test/yosupo_aplusb_binarytrie.test.cpp
+- /verify/test/yosupo_aplusb_binarytrie.test.cpp.html
+title: test/yosupo_aplusb_binarytrie.test.cpp
 ---

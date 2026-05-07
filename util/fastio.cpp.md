@@ -92,6 +92,9 @@ data:
     path: test/yosupo_aho_corasick.test.cpp
     title: test/yosupo_aho_corasick.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_binarytrie.test.cpp
+    title: test/yosupo_aplusb_binarytrie.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dsu_on_tree.test.cpp
     title: test/yosupo_aplusb_dsu_on_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -735,6 +738,7 @@ data:
   - test/aoj0334.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_tetration_mod.test.cpp
+  - test/yosupo_aplusb_binarytrie.test.cpp
   - test/yosupo_closest_pair.test.cpp
   - test/yosupo_subset_convolution.test.cpp
   - test/yosupo_predecessor_problem_interval_set.test.cpp

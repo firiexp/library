@@ -733,6 +733,9 @@ data:
       path: test/yosupo_aho_corasick.test.cpp
       title: test/yosupo_aho_corasick.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_binarytrie.test.cpp
+      title: test/yosupo_aplusb_binarytrie.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dsu_on_tree.test.cpp
       title: test/yosupo_aplusb_dsu_on_tree.test.cpp
     - icon: ':heavy_check_mark:'
