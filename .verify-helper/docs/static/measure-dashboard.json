@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-19T01:03:31+09:00",
+  "generatedAt": "2026-04-23T09:34:27+09:00",
   "root": "/home/firiexp/library",
   "testCount": 175,
   "summary": {
@@ -21453,7 +21453,7 @@
           "a.out",
           "test/yosupo_set_xor_min_binarytrie.test.cpp"
         ],
-        "wallSec": 0.930520376000004
+        "wallSec": 0.9987270279998484
       },
       "testcases": {
         "directory": ".verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test",
@@ -21464,7 +21464,7 @@
           "oj",
           "test",
           "-c",
-          "/home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/verify-dashboard-2ram86n7/a.out",
+          "/home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/verify-dashboard-t6tmjael/a.out",
           "-d",
           "/home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test",
           "--tle",
@@ -21473,82 +21473,82 @@
           "/home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker"
         ],
         "returnCode": 0,
-        "wallSec": 1.7976098499998443,
+        "wallSec": 1.2450590440000724,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "almost_all_insert_00",
-              "timeSec": 0.259353,
+              "timeSec": 0.175294,
               "status": "AC"
             },
             {
               "name": "almost_all_query_00",
-              "timeSec": 0.078246,
+              "timeSec": 0.083628,
               "status": "AC"
             },
             {
               "name": "almost_all_query_close_00",
-              "timeSec": 0.030505,
+              "timeSec": 0.036707,
               "status": "AC"
             },
             {
               "name": "ans_big_00",
-              "timeSec": 0.004043,
+              "timeSec": 0.003044,
               "status": "AC"
             },
             {
               "name": "example_00",
-              "timeSec": 0.003391,
+              "timeSec": 0.002781,
               "status": "AC"
             },
             {
               "name": "max_ans_small_00",
-              "timeSec": 0.233438,
+              "timeSec": 0.154584,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.154519,
+              "timeSec": 0.09503,
               "status": "AC"
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.18318,
+              "timeSec": 0.095737,
               "status": "AC"
             },
             {
               "name": "max_random_02",
-              "timeSec": 0.16843,
+              "timeSec": 0.086087,
               "status": "AC"
             },
             {
               "name": "random_00",
-              "timeSec": 0.136602,
+              "timeSec": 0.074304,
               "status": "AC"
             },
             {
               "name": "random_01",
-              "timeSec": 0.166411,
+              "timeSec": 0.084297,
               "status": "AC"
             },
             {
               "name": "random_02",
-              "timeSec": 0.012453,
+              "timeSec": 0.009356,
               "status": "AC"
             }
           ],
           "caseCount": 12,
           "timedCaseCount": 12,
           "passedCaseCount": 12,
-          "slowestSec": 0.259353,
+          "slowestSec": 0.175294,
           "slowestCase": "almost_all_insert_00",
-          "averageSec": 0.11921425000000001,
-          "maxMemoryMb": 194.112,
+          "averageSec": 0.07507075,
+          "maxMemoryMb": 101.968,
           "maxMemoryCase": "almost_all_insert_00",
           "summary": "test success: 12 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 12 cases found\n\n[INFO] almost_all_insert_00\n[INFO] time: 0.259353 sec\n[INFO] memory: 194.112000 MB\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_insert_00.in /tmp/tmp91ofbjf0/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_insert_00.out\nok \"1120\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] almost_all_query_00\n[INFO] time: 0.078246 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_query_00.in /tmp/tmpy2xusxf9/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_query_00.out\nok 499999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] almost_all_query_close_00\n[INFO] time: 0.030505 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_query_close_00.in /tmp/tmpy1279qrc/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_query_close_00.out\nok 499999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] ans_big_00\n[INFO] time: 0.004043 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/ans_big_00.in /tmp/tmpfn55v6rg/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/ans_big_00.out\nok \"1073741823\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.003391 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/example_00.in /tmp/tmpy5s3mioh/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/example_00.out\nok 2 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_ans_small_00\n[INFO] time: 0.233438 sec\n[INFO] memory: 106.752000 MB\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_ans_small_00.in /tmp/tmpv75injc7/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_ans_small_00.out\nok 250000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.154519 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_00.in /tmp/tmpx5nrrkj2/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_00.out\nok 166328 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.183180 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_01.in /tmp/tmpb7az89g0/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_01.out\nok 166521 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.168430 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_02.in /tmp/tmprxnxbhbw/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_02.out\nok 166636 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.136602 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_00.in /tmp/tmp4xp_burd/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_00.out\nok 129946 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.166411 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_01.in /tmp/tmp88pa2wea/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_01.out\nok 154321 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.012453 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_02.in /tmp/tmp65imvtce/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_02.out\nok 17638 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.259353 sec  (for almost_all_insert_00)\n[INFO] max memory: 194.112000 MB  (for almost_all_insert_00)\n[SUCCESS] test success: 12 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 12 cases found\n\n[INFO] almost_all_insert_00\n[INFO] time: 0.175294 sec\n[INFO] memory: 101.968000 MB\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_insert_00.in /tmp/tmpk05k1ljy/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_insert_00.out\nok \"1120\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] almost_all_query_00\n[INFO] time: 0.083628 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_query_00.in /tmp/tmpezpf2s6r/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_query_00.out\nok 499999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] almost_all_query_close_00\n[INFO] time: 0.036707 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_query_close_00.in /tmp/tmp2d22haw2/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/almost_all_query_close_00.out\nok 499999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] ans_big_00\n[INFO] time: 0.003044 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/ans_big_00.in /tmp/tmp4lrjgp27/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/ans_big_00.out\nok \"1073741823\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.002781 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/example_00.in /tmp/tmpvzmgfvqz/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/example_00.out\nok 2 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_ans_small_00\n[INFO] time: 0.154584 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_ans_small_00.in /tmp/tmpuwgpi0gk/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_ans_small_00.out\nok 250000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.095030 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_00.in /tmp/tmpll9egqv_/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_00.out\nok 166328 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.095737 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_01.in /tmp/tmpkz0t86bg/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_01.out\nok 166521 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.086087 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_02.in /tmp/tmp0u2nsrnh/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/max_random_02.out\nok 166636 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.074304 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_00.in /tmp/tmpbv9p5ws3/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_00.out\nok 129946 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.084297 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_01.in /tmp/tmp74hpzsbe/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_01.out\nok 154321 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.009356 sec\n[INFO] $ /home/firiexp/.cache/online-judge-tools/library-checker-problems/data_structure/set_xor_min/checker /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_02.in /tmp/tmpdf_9kcos/actual.out /home/firiexp/library/.verify-helper/cache/42c29984c8ade527864df804f01f0d5c/test/random_02.out\nok 17638 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.175294 sec  (for almost_all_insert_00)\n[INFO] max memory: 101.968000 MB  (for almost_all_insert_00)\n[SUCCESS] test success: 12 cases\n"
       }
     },
     {
