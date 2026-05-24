@@ -66,9 +66,9 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0439.test.cpp
+  - test/yosupo_lca.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
-  - test/yosupo_lca.test.cpp
 documentation_of: datastructure/sparsetable.cpp
 layout: document
 title: Sparse Table

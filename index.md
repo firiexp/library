@@ -37,6 +37,9 @@ data:
       path: datastructure/monotoniccht.cpp
       title: "Convex-Hull Trick (\u30AF\u30A8\u30EA\u5358\u8ABF)"
     - icon: ':heavy_check_mark:'
+      path: datastructure/order_statistic_tree.cpp
+      title: "\u9806\u5E8F\u6728(Order Statistic Tree)"
+    - icon: ':heavy_check_mark:'
       path: datastructure/persistent_unionfind.cpp
       title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
     - icon: ':heavy_check_mark:'
@@ -748,6 +751,9 @@ data:
       path: test/yosupo_aplusb_ndvec.test.cpp
       title: test/yosupo_aplusb_ndvec.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_order_statistic_tree.test.cpp
+      title: test/yosupo_aplusb_order_statistic_tree.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
     - icon: ':heavy_check_mark:'
@@ -945,6 +951,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
       title: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_ordered_set.test.cpp
+      title: test/yosupo_ordered_set.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
       title: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp

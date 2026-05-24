@@ -84,8 +84,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
-  - test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
   - test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
+  - test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
 date: 2026-03-11
 documentation_of: math/min_plus_convolution.cpp
 layout: document

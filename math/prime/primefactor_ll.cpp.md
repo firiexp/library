@@ -141,8 +141,8 @@ data:
   timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_factorize.test.cpp
   - test/yosupo_primitive_root.test.cpp
+  - test/yosupo_factorize.test.cpp
 date: 2026-03-08
 documentation_of: math/prime/primefactor_ll.cpp
 layout: document

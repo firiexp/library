@@ -326,8 +326,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0342.test.cpp
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+  - test/aoj0342.test.cpp
   - test/aoj0273.test.cpp
 documentation_of: geometry/geometry.cpp
 layout: document

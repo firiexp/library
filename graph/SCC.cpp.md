@@ -88,8 +88,8 @@ data:
   timestamp: '2026-04-11 14:07:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_scc.test.cpp
   - test/aoj0349.test.cpp
+  - test/yosupo_scc.test.cpp
 date: 2019-12-03
 documentation_of: graph/SCC.cpp
 layout: document

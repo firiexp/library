@@ -104,8 +104,8 @@ data:
   timestamp: '2026-04-11 14:28:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_dominator_tree.test.cpp
   - test/aoj0294.test.cpp
+  - test/yosupo_dominator_tree.test.cpp
 documentation_of: graph/dominatortree.cpp
 layout: document
 title: Dominator Tree
