@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_BINARYINDEXEDTREE_CPP
+#define FIRIEXP_LIBRARY_DATASTRUCTURE_BINARYINDEXEDTREE_CPP
+
 template<class T>
 class BIT {
     vector<T> bit;
@@ -30,3 +33,5 @@ public:
 /**
  * @brief Binary Indexed Tree(BIT)
  */
+
+#endif

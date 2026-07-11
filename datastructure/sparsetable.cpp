@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_SPARSETABLE_CPP
+#define FIRIEXP_LIBRARY_DATASTRUCTURE_SPARSETABLE_CPP
+
 template <class F>
 struct SparseTable {
     using T = typename F::T;
@@ -34,3 +37,5 @@ struct SparseTable {
 /**
  * @brief Sparse Table
  */
+
+#endif

@@ -9,6 +9,7 @@ const sortDirection = document.getElementById("sort-direction");
 const summaryLive = document.getElementById("summary-live");
 const summaryGenerated = document.getElementById("summary-generated");
 const summaryTotal = document.getElementById("summary-total");
+const summaryCoverage = document.getElementById("summary-coverage");
 const summaryProgress = document.getElementById("summary-progress");
 const summaryFailed = document.getElementById("summary-failed");
 const summaryVisible = document.getElementById("summary-visible");
@@ -452,14 +453,20 @@ function renderRows(filtered, { loadingInitial }) {
 
 function getSummaryState(filtered, { totalTests, loadingInitial, query, statusValue }) {
     const summary = report.summary ?? {};
+    const inventory = report.inventory ?? {};
     const pending = summary.pending ?? 0;
     const running = summary.running ?? 0;
     const done = summary.done ?? 0;
     const failed = summary.failed ?? report.tests.filter((entry) => isFailedEntry(entry)).length;
+    const currentTests = inventory.currentTestCount ?? totalTests;
+    const measuredTests = inventory.measuredTestCount ?? totalTests;
+    const unmeasured = inventory.unmeasuredCount ?? Math.max(0, currentTests - measuredTests);
+    const missingPaths = inventory.unmeasuredPaths ?? [];
 
     return {
         generatedText: `generated: ${report.generatedAt}`,
-        totalText: `tests: ${totalTests}`,
+        totalText: `tests: ${currentTests}`,
+        coverageText: `measured: ${measuredTests} / ${currentTests}`,
         progressText: `done: ${done} / running: ${running} / pending: ${pending}`,
         failedText: statusValue === "failed" ? `failed: ${failed} (filtered)` : `failed: ${failed}`,
         visibleText: loadingInitial ? "visible: loading" : `visible: ${filtered.length}`,
@@ -467,6 +474,10 @@ function getSummaryState(filtered, { totalTests, loadingInitial, query, statusVa
             ? `displaying ${filtered.length} / ${totalTests} tests`
             : (loadingInitial ? `loading dashboard... ${totalTests} tests queued` : "displaying 0 tests"),
         progressStates: [running > 0 || pending > 0 ? "is-warn" : "is-ok"],
+        coverageStates: [unmeasured > 0 ? "is-warn" : "is-ok"],
+        coverageTitle: unmeasured > 0
+            ? `${unmeasured} unmeasured: ${missingPaths.slice(0, 8).join(", ")}`
+            : "all current tests have measurement entries",
         failedStates: ["chip-action", failed > 0 ? "is-bad" : "is-ok", statusValue === "failed" ? "is-active" : ""],
         visibleStates: [loadingInitial || query || statusValue !== "all" ? "is-active" : ""],
         failedDisabled: failed === 0 && statusValue !== "failed",
@@ -478,12 +489,15 @@ function updateSummary(filtered, options) {
     const state = getSummaryState(filtered, options);
     summaryGenerated.textContent = state.generatedText;
     summaryTotal.textContent = state.totalText;
+    summaryCoverage.textContent = state.coverageText;
+    summaryCoverage.title = state.coverageTitle;
     summaryProgress.textContent = state.progressText;
     summaryFailed.textContent = state.failedText;
     summaryVisible.textContent = state.visibleText;
     resultCount.textContent = state.resultCountText;
     updateLiveChip();
     applyChipState(summaryTotal);
+    applyChipState(summaryCoverage, ...state.coverageStates);
     applyChipState(summaryProgress, ...state.progressStates);
     applyChipState(summaryFailed, ...state.failedStates);
     applyChipState(summaryVisible, ...state.visibleStates);

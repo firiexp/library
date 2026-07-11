@@ -1,6 +1,8 @@
 #ifndef FIRIEXP_LIBRARY_MATH_NTT_CPP
 #define FIRIEXP_LIBRARY_MATH_NTT_CPP
 
+#include "../util/modint_base.cpp"
+
 constexpr int ntt_mod = 998244353, ntt_root = 3;
 #ifndef NTT_NAIVE_MUL_THRESHOLD
 #define NTT_NAIVE_MUL_THRESHOLD 3072
@@ -8,40 +10,16 @@ constexpr int ntt_mod = 998244353, ntt_root = 3;
 #ifndef NTT_NAIVE_MUL_MIN_DIM
 #define NTT_NAIVE_MUL_MIN_DIM 48
 #endif
+#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
+using mint = modint<ntt_mod>;
+#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
+#else
+static_assert(mint::get_mod() == ntt_mod, "NTT requires mint with MOD = 998244353");
+#endif
+
 // 1012924417 -> 5, 924844033 -> 5
 // 998244353  -> 3, 897581057 -> 3
 // 645922817  -> 3;
-template <uint M>
-struct modint {
-    uint val;
-public:
-    static modint raw(int v) { modint x; x.val = v; return x; }
-    static constexpr uint get_mod() { return M; }
-    modint() : val(0) {}
-    template <class T>
-    modint(T v) { ll x = (ll)(v%(ll)(M)); if (x < 0) x += M; val = uint(x); }
-    modint(bool v) { val = ((unsigned int)(v) % M); }
-    modint& operator++() { val++; if (val == M) val = 0; return *this; }
-    modint& operator--() { if (val == 0) val = M; val--; return *this; }
-    modint operator++(int) { modint result = *this; ++*this; return result; }
-    modint operator--(int) { modint result = *this; --*this; return result; }
-    modint& operator+=(const modint& rhs) { val += rhs.val; if (val >= M) val -= M; return *this; }
-    modint& operator-=(const modint& rhs) { val -= rhs.val; if (val >= M) val += M; return *this; }
-    modint& operator*=(const modint& rhs) { ull z = val; z *= rhs.val; val = (uint)(z % M); return *this; }
-    modint& operator/=(const modint& rhs) { return *this = *this * rhs.inv(); }
-    modint operator+() const { return *this; }
-    modint operator-() const { return modint() - *this; }
-    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }
-    modint inv() const { return pow(M-2); }
-    friend modint operator+(const modint& lhs, const modint& rhs) { return modint(lhs) += rhs; }
-    friend modint operator-(const modint& lhs, const modint& rhs) { return modint(lhs) -= rhs; }
-    friend modint operator*(const modint& lhs, const modint& rhs) { return modint(lhs) *= rhs; }
-    friend modint operator/(const modint& lhs, const modint& rhs) { return modint(lhs) /= rhs; }
-    friend bool operator==(const modint& lhs, const modint& rhs) { return lhs.val == rhs.val; }
-    friend bool operator!=(const modint& lhs, const modint& rhs) { return lhs.val != rhs.val; }
-};
-using mint = modint<998244353>;
-#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
 
 class NTT {
     static constexpr int max_base = 23, maxN = 1 << max_base; // 998244353 supports up to 2^23-th roots

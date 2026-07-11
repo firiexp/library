@@ -4,11 +4,13 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import functools
 import hashlib
 import html
 import json
 import os
 import pathlib
+import platform
 import resource
 import shlex
 import subprocess
@@ -275,6 +277,44 @@ def prune_missing_entries(entries: list[dict[str, Any]]) -> list[dict[str, Any]]
     return pruned
 
 
+def sanitize_public_value(value: Any) -> Any:
+    if isinstance(value, str):
+        value = value.replace(str(ROOT), ".")
+        return value.replace(str(pathlib.Path.home()), "~")
+    if isinstance(value, list):
+        return [sanitize_public_value(item) for item in value]
+    if isinstance(value, dict):
+        return {key: sanitize_public_value(item) for key, item in value.items()}
+    return value
+
+
+@functools.lru_cache(maxsize=1)
+def get_environment_info() -> dict[str, Any]:
+    compiler = subprocess.run(
+        ["g++", "--version"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    revision = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    compiler_line = compiler.stdout.splitlines()[0] if compiler.stdout else None
+    revision_text = revision.stdout.strip() if revision.returncode == 0 else None
+    return {
+        "gitRevision": revision_text,
+        "compiler": compiler_line,
+        "platform": platform.platform(),
+        "processor": platform.processor() or None,
+        "logicalCpuCount": os.cpu_count(),
+    }
+
+
 def make_report(entries: list[dict[str, Any]]) -> dict[str, Any]:
     phase_counts = {
         "pending": 0,
@@ -291,16 +331,32 @@ def make_report(entries: list[dict[str, Any]]) -> dict[str, Any]:
             ok_count += 1
         elif phase in ("done", "error"):
             failed_count += 1
+    current_paths = {relative_test_path(path) for path in list_test_paths([])}
+    measured_paths = {
+        entry.get("path")
+        for entry in entries
+        if isinstance(entry, dict) and isinstance(entry.get("path"), str)
+    }
+    missing_paths = sorted(current_paths - measured_paths)
+    public_entries = sanitize_public_value(entries)
     return {
         "generatedAt": datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds"),
-        "root": str(ROOT),
+        "root": ".",
         "testCount": len(entries),
+        "inventory": {
+            "currentTestCount": len(current_paths),
+            "measuredTestCount": len(measured_paths & current_paths),
+            "unmeasuredCount": len(missing_paths),
+            "unmeasuredPaths": missing_paths,
+            "stale": bool(missing_paths),
+        },
+        "generationEnvironment": get_environment_info(),
         "summary": {
             **phase_counts,
             "ok": ok_count,
             "failed": failed_count,
         },
-        "tests": entries,
+        "tests": public_entries,
     }
 
 
@@ -469,6 +525,8 @@ def render_html(report: dict[str, Any], *, json_path: pathlib.Path, bootstrap_fu
             "generatedAt": report.get("generatedAt"),
             "root": report.get("root"),
             "testCount": report.get("testCount", 0),
+            "inventory": report.get("inventory", {}),
+            "generationEnvironment": report.get("generationEnvironment", {}),
             "summary": report.get("summary", {}),
             "tests": report.get("tests", []) if bootstrap_full_report else [],
         },

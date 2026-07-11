@@ -1,20 +1,24 @@
+#ifndef FIRIEXP_LIBRARY_GEOMETRY_GEOMETRY_CPP
+#define FIRIEXP_LIBRARY_GEOMETRY_GEOMETRY_CPP
+
 // 凸包は同じ頂点が含まれているとバグる
-using real = double;
-static constexpr real EPS = 1e-10;
-const real pi = acos(-1);
+using geometry_real = double;
+using real = geometry_real;
+static constexpr geometry_real EPS = 1e-10;
+const geometry_real pi = acos(-1);
 
 struct Point {
-    real x, y;
+    geometry_real x, y;
     Point& operator+=(const Point a) { x += a.x; y += a.y;  return *this; }
     Point& operator-=(const Point a) { x -= a.x; y -= a.y;  return *this; }
-    Point& operator*=(const real k) { x *= k; y *= k;  return *this; }
-    Point& operator/=(const real k) { x /= k; y /= k;  return *this; }
+    Point& operator*=(const geometry_real k) { x *= k; y *= k;  return *this; }
+    Point& operator/=(const geometry_real k) { x /= k; y /= k;  return *this; }
     Point operator+(const Point a) const {return Point(*this) += a; }
     Point operator-(const Point a) const {return Point(*this) -= a; }
-    Point operator*(const real k) const {return Point(*this) *= k; }
-    Point operator/(const real k) const {return Point(*this) /= k; }
+    Point operator*(const geometry_real k) const {return Point(*this) *= k; }
+    Point operator/(const geometry_real k) const {return Point(*this) /= k; }
     bool operator<(const Point &a) const { return (x != a.x ? x < a.x : y < a.y); }
-    explicit Point(real a = 0, real b = 0) : x(a), y(b) {};
+    explicit Point(geometry_real a = 0, geometry_real b = 0) : x(a), y(b) {};
 };
 
 bool sorty(Point a, Point b) {
@@ -26,13 +30,13 @@ istream &operator>>(istream &s, Point &P) {
     return s;
 }
 
-inline real dot(Point a, Point b) { return a.x * b.x + a.y * b.y; }
+inline geometry_real dot(Point a, Point b) { return a.x * b.x + a.y * b.y; }
 
-inline real cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }
+inline geometry_real cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }
 
-inline real abs(Point a) { return sqrt(dot(a, a)); }
+inline geometry_real abs(Point a) { return sqrt(dot(a, a)); }
 
-real angle(Point A, Point B) {
+geometry_real angle(Point A, Point B) {
     return acos(dot(A, B) / abs(A) / abs(B));
 }
 
@@ -70,9 +74,9 @@ struct Line {
 
 struct Circle {
     Point c;
-    real r;
+    geometry_real r;
 
-    Circle(Point c, real r) : c(c), r(r) {};
+    Circle(Point c, geometry_real r) : c(c), r(r) {};
 };
 
 using Polygon = vector<Point>;
@@ -104,8 +108,8 @@ static constexpr int SEPARATE = 4;
 int intersect(Circle c1, Circle c2) {
     if (c1.r < c2.r)
         swap(c1, c2);
-    real d = abs(c1.c - c2.c);
-    real r = c1.r + c2.r;
+    geometry_real d = abs(c1.c - c2.c);
+    geometry_real r = c1.r + c2.r;
     if (fabs(d - r) < EPS)
         return CIRCUMSCRIBED;
     if (d > r)
@@ -117,11 +121,11 @@ int intersect(Circle c1, Circle c2) {
     return INTERSECT;
 }
 
-real distance(Line l, Point c) {
+geometry_real distance(Line l, Point c) {
     return abs(cross(l.b - l.a, c - l.a) / abs(l.b - l.a));
 }
 
-real distance(Segment s, Point c) {
+geometry_real distance(Segment s, Point c) {
     if (dot(s.b - s.a, c - s.a) < EPS)
         return abs(c - s.a);
     if (dot(s.a - s.b, c - s.b) < EPS)
@@ -129,7 +133,7 @@ real distance(Segment s, Point c) {
     return abs(cross(s.b - s.a, c - s.a)) / abs(s.a - s.b);
 }
 
-real distance(Segment s, Segment t) {
+geometry_real distance(Segment s, Segment t) {
     if (intersect(s, t))
         return 0.0;
     return min({distance(s, t.a), distance(s, t.b),
@@ -160,16 +164,16 @@ bool isparallel(Segment s, Segment t) {
 }
 
 Point crossPoint(Segment s, Segment t) {
-    real d1 = cross(s.b - s.a, t.b - t.a);
-    real d2 = cross(s.b - s.a, s.b - t.a);
+    geometry_real d1 = cross(s.b - s.a, t.b - t.a);
+    geometry_real d2 = cross(s.b - s.a, s.b - t.a);
     if (fabs(d1) < EPS && fabs(d2) < EPS)
         return t.a;
     return t.a + (t.b - t.a) * d2 / d1;
 }
 
 Point crossPoint(Line s, Line t) {
-    real d1 = cross(s.b - s.a, t.b - t.a);
-    real d2 = cross(s.b - s.a, s.b - t.a);
+    geometry_real d1 = cross(s.b - s.a, t.b - t.a);
+    geometry_real d2 = cross(s.b - s.a, s.b - t.a);
     if (fabs(d1) < EPS && fabs(d2) < EPS)
         return t.a;
     return t.a + (t.b - t.a) * d2 / d1;
@@ -228,19 +232,19 @@ vector<Line> tangent(Circle c1, Circle c2) {
     return ret;
 }
 
-real area(Polygon v) {
+geometry_real area(Polygon v) {
     if (v.size() < 3)
         return 0.0;
-    real ans = 0.0;
+    geometry_real ans = 0.0;
     for (int i = 0; i < v.size(); ++i) {
         ans += cross(v[i], v[(i + 1) % v.size()]);
     }
     return ans / 2;
 }
 
-real area(Circle c, Polygon &v) {
+geometry_real area(Circle c, Polygon &v) {
     int n = v.size();
-    real ans = 0.0;
+    geometry_real ans = 0.0;
     Polygon u;
     for (int i = 0; i < n; ++i) {
         u.emplace_back(v[i]);
@@ -261,14 +265,14 @@ real area(Circle c, Polygon &v) {
     return ans;
 }
 
-real area(Circle a, Circle b) {
+geometry_real area(Circle a, Circle b) {
     auto d = abs(a.c - b.c);
     if (a.r + b.r <= d + EPS)
         return 0;
     else if (d <= abs(a.r - b.r))
         return pi * min(a.r, b.r) * min(a.r, b.r);
-    real p = 2 * acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d));
-    real q = 2 * acos((b.r * b.r + d * d - a.r * a.r) / (2 * b.r * d));
+    geometry_real p = 2 * acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d));
+    geometry_real q = 2 * acos((b.r * b.r + d * d - a.r * a.r) / (2 * b.r * d));
     return a.r * a.r * (p - sin(p)) / 2 + b.r * b.r * (q - sin(q)) / 2;
 }
 
@@ -339,7 +343,7 @@ int contains_convex(Polygon &v, Point p) {
     return res < 0 ? IN : OUT;
 }
 
-real diameter(Polygon v) {
+geometry_real diameter(Polygon v) {
     int n = v.size();
     if (n == 2)
         return abs(v[0] - v[1]);
@@ -350,7 +354,7 @@ real diameter(Polygon v) {
         if (!(v[j] < v[k]))
             j = k;
     }
-    real ret = 0;
+    geometry_real ret = 0;
     int si = i, sj = j;
     while (i != sj || j != si) {
         ret = max(ret, abs(v[i] - v[j]));
@@ -376,7 +380,7 @@ Polygon convexCut(Polygon v, Line l) {
     return q;
 }
 
-real closest_pair(Polygon &v, int l = 0, int r = -1) {
+geometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {
     if (!(~r)) {
         r = v.size();
         sort(v.begin(), v.end());
@@ -385,15 +389,15 @@ real closest_pair(Polygon &v, int l = 0, int r = -1) {
         return abs(v.front() - v.back());
     }
     int mid = (l + r) / 2;
-    real p = v[mid].x;
-    real d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));
+    geometry_real p = v[mid].x;
+    geometry_real d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));
     inplace_merge(v.begin() + l, v.begin() + mid, v.begin() + r, sorty);
     Polygon u;
     for (int i = l; i < r; ++i) {
         if (fabs(v[i].x - p) >= d)
             continue;
         for (int j = 0; j < u.size(); ++j) {
-            real dy = v[i].y - next(u.rbegin(), j)->y;
+            geometry_real dy = v[i].y - next(u.rbegin(), j)->y;
             if (dy >= d)
                 break;
             d = min(d, abs(v[i] - *next(u.rbegin(), j)));
@@ -406,3 +410,5 @@ real closest_pair(Polygon &v, int l = 0, int r = -1) {
 /**
  * @brief 幾何ライブラリ(Geometry)
  */
+
+#endif

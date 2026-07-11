@@ -21,7 +21,7 @@ jobs:
         python-version: '3.10'
 
     - name: Install dependencies
-      run: pip3 install -U online-judge-verify-helper
+      run: pip3 install -r requirements-dev.txt
 
     - name: Fetch gh-pages
       run: git fetch origin gh-pages:refs/remotes/origin/gh-pages

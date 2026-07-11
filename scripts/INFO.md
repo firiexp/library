@@ -45,9 +45,21 @@ scripts/with_unlimited_stack.sh python3 scripts/measure_verify.py test/yosupo_sc
 
 `python3 scripts/run_verify.py` は後方互換のため残してあり、内部で `scripts/measure_verify.py` を呼ぶ。
 
+verify testcase cache は自動削除しない。現在の容量と削除候補を確認するには以下を使う。
+
+```bash
+python3 scripts/prune_verify_cache.py --max-size-gb 5
+python3 scripts/prune_verify_cache.py --max-size-gb 5 --apply
+python3 scripts/prune_verify_cache.py --all --apply
+```
+
+既定は dry-run。`--apply` を付けたときだけ、最終更新が古い問題のcacheから削除する。
+
 ## verify measurement dashboard
 
 measurement dashboard は `oj test` の出力から各 verify テストの実行時間を集計し、JSON を逐次更新しながらブラウザで見られる HTML を生成する。
+
+部分計測では既存結果を保持し、現在存在するtest数と計測済み件数を別々に表示する。未計測が残る場合は `measured` が警告表示になる。
 
 生成先:
 

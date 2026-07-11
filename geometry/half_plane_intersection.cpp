@@ -4,7 +4,7 @@ namespace internal_half_plane_intersection {
 
 struct HalfPlane {
     Point p, pq;
-    real angle;
+    geometry_real angle;
 
     HalfPlane() = default;
 
@@ -22,7 +22,7 @@ struct HalfPlane {
 };
 
 Point intersection(const HalfPlane &s, const HalfPlane &t) {
-    real a = cross(t.p - s.p, t.pq) / cross(s.pq, t.pq);
+    geometry_real a = cross(t.p - s.p, t.pq) / cross(s.pq, t.pq);
     return s.p + s.pq * a;
 }
 
@@ -35,7 +35,7 @@ bool same_point(Point a, Point b) {
 Polygon half_plane_intersection(vector<Line> ls) {
     using namespace internal_half_plane_intersection;
 
-    static constexpr real INF = 1e9;
+    static constexpr geometry_real INF = 1e9;
     vector<HalfPlane> hs;
     hs.reserve(ls.size() + 4);
     for (const Line &l : ls) hs.emplace_back(l);

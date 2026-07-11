@@ -2,6 +2,16 @@
     "generatedAt": "2026-03-13T00:00:00+09:00",
     "root": "/home/firiexp/library",
     "testCount": 8,
+    "inventory": {
+        "currentTestCount": 10,
+        "measuredTestCount": 8,
+        "unmeasuredCount": 2,
+        "unmeasuredPaths": [
+            "test/new_unmeasured_a.test.cpp",
+            "test/new_unmeasured_b.test.cpp"
+        ],
+        "stale": true
+    },
     "summary": {
         "pending": 0,
         "running": 1,

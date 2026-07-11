@@ -221,5 +221,5 @@ public:
 };
 
 /**
- * @brief 順序統計木(Order Statistic Tree)
+ * @brief 順序木(Order Statistic Tree)
  */
