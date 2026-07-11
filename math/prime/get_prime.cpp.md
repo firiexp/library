@@ -10,6 +10,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_1_c_get_prime.test.cpp
     title: test/aoj_alds1_1_c_get_prime.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -54,6 +57,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_1_c_get_prime.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
 date: 2026-03-12
 documentation_of: math/prime/get_prime.cpp
 layout: document

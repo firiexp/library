@@ -5,6 +5,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -16,58 +19,61 @@ data:
   attributes:
     document_title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
     links: []
-  bundledCode: "#line 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
-    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
-    \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
-    \ constexpr uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class\
-    \ T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val =\
-    \ uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint\
-    \ &value() noexcept { return val; }\n    const uint &value() const noexcept {\
-    \ return val; }\n    modint& operator++() { val++; if (val == Mod) val = 0; return\
-    \ *this; }\n    modint& operator--() { if (val == 0) val = Mod; val--; return\
-    \ *this; }\n    modint operator++(int) { modint result = *this; ++*this; return\
-    \ result; }\n    modint operator--(int) { modint result = *this; --*this; return\
-    \ result; }\n    modint& operator+=(const modint& b) { val += b.val; if (val >=\
-    \ Mod) val -= Mod; return *this; }\n    modint& operator-=(const modint& b) {\
-    \ val -= b.val; if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const\
-    \ modint& b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n\
-    \    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }\n\
-    \    modint operator+() const { return *this; }\n    modint operator-() const\
-    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
-    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
-    \    modint inv() const { return pow(Mod - 2); }\n    friend modint operator+(const\
-    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
-    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+  bundledCode: "#line 1 \"util/modint.cpp\"\n\n\n\n#line 1 \"util/modint_base.cpp\"\
+    \n\n\n\ntemplate <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static\
+    \ modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint\
+    \ get_mod() { return Mod; }\n    static constexpr uint M() { return Mod; }\n \
+    \   modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v\
+    \ % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val\
+    \ = ((unsigned int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n\
+    \    const uint &value() const noexcept { return val; }\n    modint& operator++()\
+    \ { val++; if (val == Mod) val = 0; return *this; }\n    modint& operator--()\
+    \ { if (val == 0) val = Mod; val--; return *this; }\n    modint operator++(int)\
+    \ { modint result = *this; ++*this; return result; }\n    modint operator--(int)\
+    \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
+    \ modint& b) { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n   \
+    \ modint& operator-=(const modint& b) { val -= b.val; if (val >= Mod) val += Mod;\
+    \ return *this; }\n    modint& operator*=(const modint& b) { ull z = val; z *=\
+    \ b.val; val = (uint)(z % Mod); return *this; }\n    modint& operator/=(const\
+    \ modint& b) { return *this = *this * b.inv(); }\n    modint operator+() const\
+    \ { return *this; }\n    modint operator-() const { return modint() - *this; }\n\
+    \    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n\
+    \ & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const { return\
+    \ pow(Mod - 2); }\n    friend modint operator+(const modint& a, const modint&\
+    \ b) { return modint(a) += b; }\n    friend modint operator-(const modint& a,\
+    \ const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
     \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 2 \"math/squarematrix_mint.cpp\"\n#if defined(__x86_64__)\
-    \ || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\nnamespace squarematrix_mint_detail\
-    \ {\nconstexpr ull mul_max_term = (ull)(MOD - 1) * (MOD - 1);\nconstexpr size_t\
-    \ mul_block_size = mul_max_term == 0 ? 1 : size_t(~0ULL / mul_max_term);\nconstexpr\
-    \ size_t mul_unroll_size = mul_block_size < 16 ? mul_block_size : 16;\n\nstruct\
-    \ DotProductPair {\n    uint first;\n    uint second;\n};\n\n#if defined(__x86_64__)\
-    \ || defined(_M_X64)\n__attribute__((target(\"avx2\"))) inline ull avx2_hsum_u64x4(__m256i\
-    \ v) {\n    alignas(32) ull buf[4];\n    _mm256_store_si256((__m256i *)buf, v);\n\
-    \    return buf[0] + buf[1] + buf[2] + buf[3];\n}\n\n__attribute__((target(\"\
-    avx2\"))) ull dot_product_raw_avx2(const uint *row, const uint *col, size_t n,\
-    \ uint mod) {\n    ull sum = 0;\n    size_t k = 0;\n    for (; k + mul_block_size\
-    \ - 1 < n; k += mul_block_size) {\n        ull acc = 0;\n        size_t t = 0;\n\
-    \        __m256i acc_even = _mm256_setzero_si256();\n        __m256i acc_odd =\
-    \ _mm256_setzero_si256();\n        for (; t + 8 <= mul_block_size; t += 8) {\n\
-    \            const __m256i rowv = _mm256_loadu_si256((const __m256i *)(row + k\
-    \ + t));\n            const __m256i colv = _mm256_loadu_si256((const __m256i *)(col\
-    \ + k + t));\n            acc_even = _mm256_add_epi64(acc_even, _mm256_mul_epu32(rowv,\
-    \ colv));\n            const __m256i row_hi = _mm256_srli_epi64(rowv, 32);\n \
-    \           const __m256i col_hi = _mm256_srli_epi64(colv, 32);\n            acc_odd\
-    \ = _mm256_add_epi64(acc_odd, _mm256_mul_epu32(row_hi, col_hi));\n        }\n\
-    \        acc += avx2_hsum_u64x4(acc_even) + avx2_hsum_u64x4(acc_odd);\n      \
-    \  for (; t < mul_block_size; ++t) acc += (ull)row[k + t] * col[k + t];\n    \
-    \    sum += acc % mod;\n        if (sum >= mod) sum -= mod;\n    }\n    ull acc\
-    \ = 0;\n    for (; k < n; ++k) acc += (ull)row[k] * col[k];\n    sum += acc %\
-    \ mod;\n    if (sum >= mod) sum -= mod;\n    return uint(sum);\n}\n\n__attribute__((target(\"\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
+    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
+    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
+    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
+    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/squarematrix_mint.cpp\"\
+    \n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
+    \nnamespace squarematrix_mint_detail {\nconstexpr ull mul_max_term = (ull)(MOD\
+    \ - 1) * (MOD - 1);\nconstexpr size_t mul_block_size = mul_max_term == 0 ? 1 :\
+    \ size_t(~0ULL / mul_max_term);\nconstexpr size_t mul_unroll_size = mul_block_size\
+    \ < 16 ? mul_block_size : 16;\n\nstruct DotProductPair {\n    uint first;\n  \
+    \  uint second;\n};\n\n#if defined(__x86_64__) || defined(_M_X64)\n__attribute__((target(\"\
+    avx2\"))) inline ull avx2_hsum_u64x4(__m256i v) {\n    alignas(32) ull buf[4];\n\
+    \    _mm256_store_si256((__m256i *)buf, v);\n    return buf[0] + buf[1] + buf[2]\
+    \ + buf[3];\n}\n\n__attribute__((target(\"avx2\"))) ull dot_product_raw_avx2(const\
+    \ uint *row, const uint *col, size_t n, uint mod) {\n    ull sum = 0;\n    size_t\
+    \ k = 0;\n    for (; k + mul_block_size - 1 < n; k += mul_block_size) {\n    \
+    \    ull acc = 0;\n        size_t t = 0;\n        __m256i acc_even = _mm256_setzero_si256();\n\
+    \        __m256i acc_odd = _mm256_setzero_si256();\n        for (; t + 8 <= mul_block_size;\
+    \ t += 8) {\n            const __m256i rowv = _mm256_loadu_si256((const __m256i\
+    \ *)(row + k + t));\n            const __m256i colv = _mm256_loadu_si256((const\
+    \ __m256i *)(col + k + t));\n            acc_even = _mm256_add_epi64(acc_even,\
+    \ _mm256_mul_epu32(rowv, colv));\n            const __m256i row_hi = _mm256_srli_epi64(rowv,\
+    \ 32);\n            const __m256i col_hi = _mm256_srli_epi64(colv, 32);\n    \
+    \        acc_odd = _mm256_add_epi64(acc_odd, _mm256_mul_epu32(row_hi, col_hi));\n\
+    \        }\n        acc += avx2_hsum_u64x4(acc_even) + avx2_hsum_u64x4(acc_odd);\n\
+    \        for (; t < mul_block_size; ++t) acc += (ull)row[k + t] * col[k + t];\n\
+    \        sum += acc % mod;\n        if (sum >= mod) sum -= mod;\n    }\n    ull\
+    \ acc = 0;\n    for (; k < n; ++k) acc += (ull)row[k] * col[k];\n    sum += acc\
+    \ % mod;\n    if (sum >= mod) sum -= mod;\n    return uint(sum);\n}\n\n__attribute__((target(\"\
     avx2\"))) DotProductPair dot_product_raw2_avx2(const uint *row, const uint *col0,\
     \ const uint *col1, size_t n, uint mod) {\n    ull sum0 = 0, sum1 = 0;\n    size_t\
     \ k = 0;\n    for (; k + mul_block_size - 1 < n; k += mul_block_size) {\n    \
@@ -534,10 +540,11 @@ data:
     \u7528)\n */\n"
   dependsOn:
   - util/modint.cpp
+  - util/modint_base.cpp
   isVerificationFile: false
   path: math/squarematrix_mint.cpp
   requiredBy: []
-  timestamp: '2026-03-15 18:15:27+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_pow_of_matrix.test.cpp

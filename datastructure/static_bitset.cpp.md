@@ -282,8 +282,8 @@ data:
   timestamp: '2026-03-22 13:44:11+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0275_static_bitset.test.cpp
   - test/yosupo_aplusb_static_bitset.test.cpp
+  - test/aoj0275_static_bitset.test.cpp
 date: 2026-03-22
 documentation_of: datastructure/static_bitset.cpp
 layout: document

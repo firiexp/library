@@ -10,6 +10,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -140,35 +143,38 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint {\n\
-    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
-    \ x; }\n    static constexpr uint get_mod() { return Mod; }\n    static constexpr\
-    \ uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class T>\n\
-    \    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x);\
-    \ }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint &value()\
-    \ noexcept { return val; }\n    const uint &value() const noexcept { return val;\
-    \ }\n    modint& operator++() { val++; if (val == Mod) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = Mod; val--; return *this;\
-    \ }\n    modint operator++(int) { modint result = *this; ++*this; return result;\
-    \ }\n    modint operator--(int) { modint result = *this; --*this; return result;\
-    \ }\n    modint& operator+=(const modint& b) { val += b.val; if (val >= Mod) val\
-    \ -= Mod; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
-    \ if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const modint&\
-    \ b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n    modint&\
-    \ operator/=(const modint& b) { return *this = *this * b.inv(); }\n    modint\
-    \ operator+() const { return *this; }\n    modint operator-() const { return modint()\
-    \ - *this; }\n    modint pow(long long n) const { modint x = *this, r = 1; while\
-    \ (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const\
-    \ { return pow(Mod - 2); }\n    friend modint operator+(const modint& a, const\
-    \ modint& b) { return modint(a) += b; }\n    friend modint operator-(const modint&\
-    \ a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
-    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
-    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
-    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 27 \"test/yosupo_point_set_range_composite.test.cpp\"\n\n\
-    #line 1 \"datastructure/segmenttree/segtree.cpp\"\ntemplate <class M>\nstruct\
+    \ */\n#line 1 \"util/modint.cpp\"\n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\
+    \ntemplate <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod()\
+    \ { return Mod; }\n    static constexpr uint M() { return Mod; }\n    modint()\
+    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod));\
+    \ if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val = ((unsigned\
+    \ int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n    const uint\
+    \ &value() const noexcept { return val; }\n    modint& operator++() { val++; if\
+    \ (val == Mod) val = 0; return *this; }\n    modint& operator--() { if (val ==\
+    \ 0) val = Mod; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n    modint& operator-=(const\
+    \ modint& b) { val -= b.val; if (val >= Mod) val += Mod; return *this; }\n   \
+    \ modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z\
+    \ % Mod); return *this; }\n    modint& operator/=(const modint& b) { return *this\
+    \ = *this * b.inv(); }\n    modint operator+() const { return *this; }\n    modint\
+    \ operator-() const { return modint() - *this; }\n    modint pow(long long n)\
+    \ const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>=\
+    \ 1; } return r; }\n    modint inv() const { return pow(Mod - 2); }\n    friend\
+    \ modint operator+(const modint& a, const modint& b) { return modint(a) += b;\
+    \ }\n    friend modint operator-(const modint& a, const modint& b) { return modint(a)\
+    \ -= b; }\n    friend modint operator*(const modint& a, const modint& b) { return\
+    \ modint(a) *= b; }\n    friend modint operator/(const modint& a, const modint&\
+    \ b) { return modint(a) /= b; }\n    friend bool operator==(const modint& a, const\
+    \ modint& b) { return a.val == b.val; }\n    friend bool operator!=(const modint&\
+    \ a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
+    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
+    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
+    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
+    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 27 \"test/yosupo_point_set_range_composite.test.cpp\"\
+    \n\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\ntemplate <class M>\nstruct\
     \ SegmentTree{\n    using T = typename M::T;\n    int sz, n, height{};\n    vector<T>\
     \ seg;\n    explicit SegmentTree(int n) : n(n) {\n        sz = 1; while(sz < n)\
     \ sz <<= 1, height++;\n        seg.assign(2*sz, M::e());\n    }\n\n    void set(int\
@@ -228,11 +234,12 @@ data:
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
+  - util/modint_base.cpp
   - datastructure/segmenttree/segtree.cpp
   isVerificationFile: true
   path: test/yosupo_point_set_range_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-03-23 22:54:37+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_composite.test.cpp

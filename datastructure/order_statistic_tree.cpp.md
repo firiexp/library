@@ -14,7 +14,7 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u9806\u5E8F\u7D71\u8A08\u6728(Order Statistic Tree)"
+    document_title: "\u9806\u5E8F\u6728(Order Statistic Tree)"
     links: []
   bundledCode: "#line 1 \"datastructure/order_statistic_tree.cpp\"\ntemplate<class\
     \ T, class Compare = less<T>>\nclass OrderStatisticTree {\nprivate:\n    struct\
@@ -88,8 +88,8 @@ data:
     \ != -1) {\n            const Node& node = nodes_[t];\n            if (comp_(node.key,\
     \ x)) {\n                res += size(node.l) + node.cnt;\n                t =\
     \ node.r;\n            } else {\n                t = node.l;\n            }\n\
-    \        }\n        return res;\n    }\n};\n\n/**\n * @brief \u9806\u5E8F\u7D71\
-    \u8A08\u6728(Order Statistic Tree)\n */\n"
+    \        }\n        return res;\n    }\n};\n\n/**\n * @brief \u9806\u5E8F\u6728\
+    (Order Statistic Tree)\n */\n"
   code: "template<class T, class Compare = less<T>>\nclass OrderStatisticTree {\n\
     private:\n    struct Node {\n        T key;\n        int cnt;\n        int sz;\n\
     \        uint32_t pri;\n        int l;\n        int r;\n\n        Node(const T&\
@@ -161,13 +161,13 @@ data:
     \ != -1) {\n            const Node& node = nodes_[t];\n            if (comp_(node.key,\
     \ x)) {\n                res += size(node.l) + node.cnt;\n                t =\
     \ node.r;\n            } else {\n                t = node.l;\n            }\n\
-    \        }\n        return res;\n    }\n};\n\n/**\n * @brief \u9806\u5E8F\u7D71\
-    \u8A08\u6728(Order Statistic Tree)\n */\n"
+    \        }\n        return res;\n    }\n};\n\n/**\n * @brief \u9806\u5E8F\u6728\
+    (Order Statistic Tree)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/order_statistic_tree.cpp
   requiredBy: []
-  timestamp: '2026-05-25 00:35:26+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_ordered_set.test.cpp

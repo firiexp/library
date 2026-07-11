@@ -15,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_a_dijkstra.test.cpp
     title: test/aoj_grl_1_a_dijkstra.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -56,6 +59,7 @@ data:
   - test/aoj_grl_1_a_dijkstra.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/aoj0275_static_bitset.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
 documentation_of: graph/dijkstra.cpp
 layout: document
 title: "Dijkstra\u6CD5"

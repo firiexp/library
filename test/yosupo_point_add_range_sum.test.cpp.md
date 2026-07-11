@@ -133,16 +133,16 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass\
-    \ BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1),\
-    \ n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n       \
-    \ T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n      \
-    \  return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n;\
-    \ k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n     \
-    \   if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>=\
-    \ 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1],\
-    \ i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief\
-    \ Binary Indexed Tree(BIT)\n */\n#line 15 \"test/yosupo_point_add_range_sum.test.cpp\"\
+    \ */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class T>\n\
+    class BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n),\
+    \ m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n \
+    \       T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n\
+    \        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k\
+    \ <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
+    \        if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j;\
+    \ j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j\
+    \ - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
+    \ * @brief Binary Indexed Tree(BIT)\n */\n\n\n#line 15 \"test/yosupo_point_add_range_sum.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
     \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(n);\n    for (int\
     \ i = 0; i < n; ++i) S.add(i, v[i]);\n\n    for (int i = 0; i < q; ++i) {\n  \
@@ -163,7 +163,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum.test.cpp

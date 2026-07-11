@@ -136,20 +136,20 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass\
-    \ BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1),\
-    \ n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n       \
-    \ T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n      \
-    \  return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n;\
-    \ k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n     \
-    \   if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>=\
-    \ 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1],\
-    \ i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief\
-    \ Binary Indexed Tree(BIT)\n */\n#line 1 \"util/mo.cpp\"\nstruct Query {\n   \
-    \ static inline int bucket_size = 1;\n    static inline int &B = bucket_size;\n\
-    \    int l, r, no;\n    Query(int l, int r, int no) : l(l), r(r), no(no) {}\n\
-    \    Query() : l(0), r(0), no(0) {}\n    bool operator<(const Query &a) const\
-    \ {\n        int ablock = this->l / bucket_size, bblock = a.l / bucket_size;\n\
+    \ */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class T>\n\
+    class BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n),\
+    \ m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n \
+    \       T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n\
+    \        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k\
+    \ <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
+    \        if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j;\
+    \ j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j\
+    \ - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
+    \ * @brief Binary Indexed Tree(BIT)\n */\n\n\n#line 1 \"util/mo.cpp\"\nstruct\
+    \ Query {\n    static inline int bucket_size = 1;\n    static inline int &B =\
+    \ bucket_size;\n    int l, r, no;\n    Query(int l, int r, int no) : l(l), r(r),\
+    \ no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const Query\
+    \ &a) const {\n        int ablock = this->l / bucket_size, bblock = a.l / bucket_size;\n\
     \        if(ablock != bblock) return ablock < bblock;\n        if(ablock & 1)\
     \ return this->r < a.r;\n        else return this->r > a.r;\n    }\n};\n/*\nfor\
     \ (auto &&X : query) {\n    while(X.l < l) g(--l);\n    while(r < X.r) f(r++);\n\
@@ -206,7 +206,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2026-03-25 22:24:13+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_range_inversions_query.test.cpp

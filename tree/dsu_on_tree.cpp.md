@@ -131,8 +131,8 @@ data:
   timestamp: '2026-04-19 01:08:03+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/yosupo_aplusb_dsu_on_tree.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
 documentation_of: tree/dsu_on_tree.cpp
 layout: document
 title: DSU on Tree

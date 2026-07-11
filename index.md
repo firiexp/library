@@ -410,7 +410,7 @@ data:
     - icon: ':warning:'
       path: math/prime/eulerphi_all.cpp
       title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/prime/get_min_factor.cpp
       title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
     - icon: ':heavy_check_mark:'
@@ -576,6 +576,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/modint_arbitrary.cpp
       title: "modint(\u4EFB\u610FMOD)"
+    - icon: ':heavy_check_mark:'
+      path: util/modint_base.cpp
+      title: util/modint_base.cpp
     - icon: ':heavy_check_mark:'
       path: util/ndvec.cpp
       title: "\u591A\u6B21\u5143\u914D\u5217(NdVec)"
@@ -747,6 +750,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_library_composition.test.cpp
+      title: test/yosupo_aplusb_library_composition.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_ndvec.test.cpp
       title: test/yosupo_aplusb_ndvec.test.cpp

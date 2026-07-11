@@ -5,6 +5,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: tree/frequency_table_of_tree_distance.cpp
@@ -264,11 +267,12 @@ data:
     #endif\n"
   dependsOn:
   - util/modint.cpp
+  - util/modint_base.cpp
   isVerificationFile: false
   path: math/fft.cpp
   requiredBy:
   - tree/frequency_table_of_tree_distance.cpp
-  timestamp: '2026-03-15 11:18:22+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_frequency_table_of_tree_distance.test.cpp

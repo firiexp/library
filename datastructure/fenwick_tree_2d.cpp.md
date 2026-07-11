@@ -17,8 +17,8 @@ data:
     document_title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
     links: []
   bundledCode: "#line 1 \"datastructure/fenwick_tree_2d.cpp\"\nusing namespace std;\n\
-    \n#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\nclass BIT\
-    \ {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1),\
+    \n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class T>\nclass\
+    \ BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1),\
     \ n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n       \
     \ T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n      \
     \  return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n;\
@@ -26,7 +26,7 @@ data:
     \   if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>=\
     \ 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1],\
     \ i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief\
-    \ Binary Indexed Tree(BIT)\n */\n#line 4 \"datastructure/fenwick_tree_2d.cpp\"\
+    \ Binary Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/fenwick_tree_2d.cpp\"\
     \n\ntemplate<class T>\nstruct FenwickTree2D {\n    vector<pair<int, int>> points;\n\
     \    vector<int> xs;\n    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n \
     \   bool built = false;\n\n    void add_point(int x, int y) {\n        assert(!built);\n\
@@ -89,7 +89,7 @@ data:
   isVerificationFile: false
   path: datastructure/fenwick_tree_2d.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp

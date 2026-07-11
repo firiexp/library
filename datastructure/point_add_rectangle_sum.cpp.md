@@ -8,6 +8,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_rectangle_sum.test.cpp
     title: test/yosupo_point_add_rectangle_sum.test.cpp
   _isVerificationFailed: false
@@ -18,16 +21,16 @@ data:
       \ Sum)"
     links: []
   bundledCode: "#line 1 \"datastructure/point_add_rectangle_sum.cpp\"\nusing namespace\
-    \ std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\n\
-    class BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n),\
-    \ m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n \
-    \       T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n\
-    \        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k\
-    \ <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
+    \ std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class\
+    \ T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n):\
+    \ bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int\
+    \ k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k -\
+    \ 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++;\
+    \ k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
     \        if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j;\
     \ j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j\
     \ - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n */\n#line 4 \"datastructure/point_add_rectangle_sum.cpp\"\
+    \ * @brief Binary Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/point_add_rectangle_sum.cpp\"\
     \n\ntemplate<class T>\nstruct PointAddRectangleSum {\n    struct Operation {\n\
     \        int type;\n        int x, y, z;\n        T w;\n    };\n\n    vector<Operation>\
     \ ops;\n    vector<int> xs;\n\n    void add_point(int x, int y, T w) {\n     \
@@ -94,10 +97,11 @@ data:
   isVerificationFile: false
   path: datastructure/point_add_rectangle_sum.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_add_rectangle_sum.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
 date: 2026-03-08
 documentation_of: datastructure/point_add_rectangle_sum.cpp
 layout: document

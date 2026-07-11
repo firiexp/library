@@ -207,8 +207,8 @@ data:
     \ != -1) {\n            const Node& node = nodes_[t];\n            if (comp_(node.key,\
     \ x)) {\n                res += size(node.l) + node.cnt;\n                t =\
     \ node.r;\n            } else {\n                t = node.l;\n            }\n\
-    \        }\n        return res;\n    }\n};\n\n/**\n * @brief \u9806\u5E8F\u7D71\
-    \u8A08\u6728(Order Statistic Tree)\n */\n#line 25 \"test/yosupo_aplusb_order_statistic_tree.test.cpp\"\
+    \        }\n        return res;\n    }\n};\n\n/**\n * @brief \u9806\u5E8F\u6728\
+    (Order Statistic Tree)\n */\n#line 25 \"test/yosupo_aplusb_order_statistic_tree.test.cpp\"\
     \n\ntemplate<class Compare>\nvector<int> sorted_values(vector<int> a, Compare\
     \ comp) {\n    sort(a.begin(), a.end(), comp);\n    return a;\n}\n\ntemplate<class\
     \ Compare>\nint brute_order_of_key(const vector<int>& a, int x, Compare comp)\
@@ -307,7 +307,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_order_statistic_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-05-25 00:35:26+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_order_statistic_tree.test.cpp

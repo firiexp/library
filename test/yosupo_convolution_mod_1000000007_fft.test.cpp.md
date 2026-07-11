@@ -10,6 +10,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -44,10 +47,11 @@ data:
   - util/fastio.cpp
   - math/fft.cpp
   - util/modint.cpp
+  - util/modint_base.cpp
   isVerificationFile: true
   path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_convolution_mod_1000000007_fft.test.cpp

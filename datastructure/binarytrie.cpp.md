@@ -91,8 +91,8 @@ data:
   timestamp: '2026-05-07 23:02:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_aplusb_binarytrie.test.cpp
   - test/yosupo_set_xor_min_binarytrie.test.cpp
+  - test/yosupo_aplusb_binarytrie.test.cpp
 documentation_of: datastructure/binarytrie.cpp
 layout: document
 title: Binary Trie

@@ -132,19 +132,19 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"datastructure/sparsetable.cpp\"\ntemplate <class F>\nstruct SparseTable\
-    \ {\n    using T = typename F::T;\n    vector<vector<T>> table;\n    vector<int>\
-    \ u;\n    SparseTable() = default;\n    explicit SparseTable(const vector<T> &v){\
-    \ build(v); }\n \n    void build(const vector<T> &v){\n        int n = v.size(),\
-    \ m = 1;\n        while((1<<m) <= n) m++;\n        table.assign(m, vector<T>(n));\n\
-    \        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i) {\n         \
-    \   u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n; ++i) {\n  \
-    \          table[0][i] = v[i];\n        }\n        for (int i = 1; i < m; ++i)\
-    \ {\n            int x = (1<<(i-1));\n            for (int j = 0; j < n; ++j)\
-    \ {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x, n-1)]);\n\
-    \            }\n        }\n    }\n \n    T query(int a, int b){\n        int l\
-    \ = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n   \
-    \ }\n};\n\n/**\n * @brief Sparse Table\n */\n#line 14 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\
+    \ */\n#line 1 \"datastructure/sparsetable.cpp\"\n\n\n\ntemplate <class F>\nstruct\
+    \ SparseTable {\n    using T = typename F::T;\n    vector<vector<T>> table;\n\
+    \    vector<int> u;\n    SparseTable() = default;\n    explicit SparseTable(const\
+    \ vector<T> &v){ build(v); }\n \n    void build(const vector<T> &v){\n       \
+    \ int n = v.size(), m = 1;\n        while((1<<m) <= n) m++;\n        table.assign(m,\
+    \ vector<T>(n));\n        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i)\
+    \ {\n            u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n;\
+    \ ++i) {\n            table[0][i] = v[i];\n        }\n        for (int i = 1;\
+    \ i < m; ++i) {\n            int x = (1<<(i-1));\n            for (int j = 0;\
+    \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
+    \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b){\n  \
+    \      int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
+    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 14 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\
     \n\nstruct F {\n    using T = int;\n    static T f(T a, T b) { return min(a, b);\
     \ }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n \
     \   sc.read(n, q);\n    vector<int> a(n);\n    for (auto &&x : a) sc.read(x);\n\
@@ -165,7 +165,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_staticrmq_sparsetable.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_staticrmq_sparsetable.test.cpp

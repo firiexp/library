@@ -38,8 +38,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_binomial_coefficient.test.cpp
   - test/yuki1358.test.cpp
+  - test/yosupo_binomial_coefficient.test.cpp
 date: 2018-04-28
 documentation_of: math/extgcd.cpp
 layout: document

@@ -9,10 +9,13 @@ data:
   - icon: ':warning:'
     path: math/powk_all.cpp
     title: math/powk_all.cpp
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor\
       \ Table)"
@@ -57,8 +60,9 @@ data:
   requiredBy:
   - math/powk_all.cpp
   timestamp: '2026-03-22 19:39:35+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_aplusb_library_composition.test.cpp
 date: 2026-03-08
 documentation_of: math/prime/get_min_factor.cpp
 layout: document

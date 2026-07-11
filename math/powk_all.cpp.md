@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: math/prime/get_min_factor.cpp
     title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
   - icon: ':heavy_check_mark:'
@@ -10,6 +10,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -17,47 +20,51 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "#line 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
-    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
-    \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
-    \ constexpr uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class\
-    \ T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val =\
-    \ uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint\
-    \ &value() noexcept { return val; }\n    const uint &value() const noexcept {\
-    \ return val; }\n    modint& operator++() { val++; if (val == Mod) val = 0; return\
-    \ *this; }\n    modint& operator--() { if (val == 0) val = Mod; val--; return\
-    \ *this; }\n    modint operator++(int) { modint result = *this; ++*this; return\
-    \ result; }\n    modint operator--(int) { modint result = *this; --*this; return\
-    \ result; }\n    modint& operator+=(const modint& b) { val += b.val; if (val >=\
-    \ Mod) val -= Mod; return *this; }\n    modint& operator-=(const modint& b) {\
-    \ val -= b.val; if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const\
-    \ modint& b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n\
-    \    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }\n\
-    \    modint operator+() const { return *this; }\n    modint operator-() const\
-    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
-    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
-    \    modint inv() const { return pow(Mod - 2); }\n    friend modint operator+(const\
-    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
-    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+  bundledCode: "#line 1 \"util/modint.cpp\"\n\n\n\n#line 1 \"util/modint_base.cpp\"\
+    \n\n\n\ntemplate <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static\
+    \ modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint\
+    \ get_mod() { return Mod; }\n    static constexpr uint M() { return Mod; }\n \
+    \   modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v\
+    \ % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val\
+    \ = ((unsigned int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n\
+    \    const uint &value() const noexcept { return val; }\n    modint& operator++()\
+    \ { val++; if (val == Mod) val = 0; return *this; }\n    modint& operator--()\
+    \ { if (val == 0) val = Mod; val--; return *this; }\n    modint operator++(int)\
+    \ { modint result = *this; ++*this; return result; }\n    modint operator--(int)\
+    \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
+    \ modint& b) { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n   \
+    \ modint& operator-=(const modint& b) { val -= b.val; if (val >= Mod) val += Mod;\
+    \ return *this; }\n    modint& operator*=(const modint& b) { ull z = val; z *=\
+    \ b.val; val = (uint)(z % Mod); return *this; }\n    modint& operator/=(const\
+    \ modint& b) { return *this = *this * b.inv(); }\n    modint operator+() const\
+    \ { return *this; }\n    modint operator-() const { return modint() - *this; }\n\
+    \    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n\
+    \ & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const { return\
+    \ pow(Mod - 2); }\n    friend modint operator+(const modint& a, const modint&\
+    \ b) { return modint(a) += b; }\n    friend modint operator-(const modint& a,\
+    \ const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
     \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 2 \"math/powk_all.cpp\"\n\n#line 1 \"math/prime/linear_sieve.cpp\"\
-    \n\n\n\nstruct LinearSieve {\n    int n;\n    vector<int> primes;\n    vector<int>\
-    \ min_factor;\n    vector<int> phi;\n    vector<int> mobius;\n    vector<bool>\
-    \ prime_table;\n\n    explicit LinearSieve(int n, bool need_min_factor = false,\
-    \ bool need_phi = false, bool need_mobius = false)\n        : n(n < 0 ? 0 : n),\n\
-    \          min_factor(need_min_factor ? this->n + 1 : 0),\n          phi(need_phi\
-    \ ? this->n + 1 : 0),\n          mobius(need_mobius ? this->n + 1 : 0),\n    \
-    \      prime_table(need_min_factor ? 0 : this->n + 1, true) {\n        if (!prime_table.empty())\
-    \ {\n            prime_table[0] = false;\n            if (this->n >= 1) prime_table[1]\
-    \ = false;\n        }\n        if (!min_factor.empty() && this->n >= 1) min_factor[1]\
-    \ = 1;\n        if (!phi.empty()) {\n            phi[0] = 0;\n            if (this->n\
-    \ >= 1) phi[1] = 1;\n        }\n        if (!mobius.empty()) {\n            mobius[0]\
-    \ = 0;\n            if (this->n >= 1) mobius[1] = 1;\n        }\n        for (int\
-    \ i = 2; i <= this->n; ++i) {\n            bool prime = min_factor.empty() ? prime_table[i]\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
+    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
+    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
+    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
+    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/powk_all.cpp\"\n\n\
+    #line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n    int n;\n\
+    \    vector<int> primes;\n    vector<int> min_factor;\n    vector<int> phi;\n\
+    \    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit LinearSieve(int\
+    \ n, bool need_min_factor = false, bool need_phi = false, bool need_mobius = false)\n\
+    \        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor ? this->n +\
+    \ 1 : 0),\n          phi(need_phi ? this->n + 1 : 0),\n          mobius(need_mobius\
+    \ ? this->n + 1 : 0),\n          prime_table(need_min_factor ? 0 : this->n + 1,\
+    \ true) {\n        if (!prime_table.empty()) {\n            prime_table[0] = false;\n\
+    \            if (this->n >= 1) prime_table[1] = false;\n        }\n        if\
+    \ (!min_factor.empty() && this->n >= 1) min_factor[1] = 1;\n        if (!phi.empty())\
+    \ {\n            phi[0] = 0;\n            if (this->n >= 1) phi[1] = 1;\n    \
+    \    }\n        if (!mobius.empty()) {\n            mobius[0] = 0;\n         \
+    \   if (this->n >= 1) mobius[1] = 1;\n        }\n        for (int i = 2; i <=\
+    \ this->n; ++i) {\n            bool prime = min_factor.empty() ? prime_table[i]\
     \ : min_factor[i] == 0;\n            if (prime) {\n                if (!min_factor.empty())\
     \ min_factor[i] = i;\n                if (!phi.empty()) phi[i] = i - 1;\n    \
     \            if (!mobius.empty()) mobius[i] = -1;\n                primes.emplace_back(i);\n\
@@ -85,12 +92,13 @@ data:
     \ = res[i/min_factor[i]]*res[min_factor[i]];\n    }\n    return res;\n}\n"
   dependsOn:
   - util/modint.cpp
+  - util/modint_base.cpp
   - math/prime/get_min_factor.cpp
   - math/prime/linear_sieve.cpp
   isVerificationFile: false
   path: math/powk_all.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: math/powk_all.cpp

@@ -107,8 +107,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_eulerian_trail_directed.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
+  - test/yosupo_eulerian_trail_directed.test.cpp
 date: 2026-03-08
 documentation_of: graph/eulerian_trail.cpp
 layout: document

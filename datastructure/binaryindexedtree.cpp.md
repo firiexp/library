@@ -16,6 +16,9 @@ data:
     path: test/aoj_dsl_2_b.test.cpp
     title: test/aoj_dsl_2_b.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum.test.cpp
     title: test/yosupo_point_add_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -39,17 +42,18 @@ data:
   attributes:
     document_title: Binary Indexed Tree(BIT)
     links: []
-  bundledCode: "#line 1 \"datastructure/binaryindexedtree.cpp\"\ntemplate<class T>\n\
-    class BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n),\
-    \ m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n \
-    \       T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n\
-    \        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k\
-    \ <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
+  bundledCode: "#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class\
+    \ T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n):\
+    \ bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int\
+    \ k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k -\
+    \ 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n        for (k++;\
+    \ k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n\
     \        if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j;\
     \ j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j\
     \ - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n */\n"
-  code: "template<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
+    \ * @brief Binary Indexed Tree(BIT)\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_BINARYINDEXEDTREE_CPP\n#define FIRIEXP_LIBRARY_DATASTRUCTURE_BINARYINDEXEDTREE_CPP\n\
+    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
     \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
     \n    T sum(int k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k))\
     \ ret += bit[k - 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n\
@@ -57,24 +61,25 @@ data:
     \ x) {\n        if (x <= 0) return 0;\n        int i = 0;\n        for (int j\
     \ = m; j; j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i\
     \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
-    \ * @brief Binary Indexed Tree(BIT)\n */\n"
+    \ * @brief Binary Indexed Tree(BIT)\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/binaryindexedtree.cpp
   requiredBy:
-  - datastructure/fenwick_tree_2d.cpp
   - datastructure/static_rectangle_sum.cpp
   - datastructure/point_add_rectangle_sum.cpp
-  timestamp: '2026-03-08 22:25:54+09:00'
+  - datastructure/fenwick_tree_2d.cpp
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_static_rectangle_sum.test.cpp
-  - test/yosupo_point_add_range_sum.test.cpp
-  - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
-  - test/yosupo_static_range_inversions_query.test.cpp
   - test/yosupo_point_add_rectangle_sum.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
+  - test/yosupo_static_rectangle_sum.test.cpp
+  - test/yosupo_static_range_inversions_query.test.cpp
+  - test/yosupo_point_add_range_sum.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj_dsl_2_b.test.cpp
+  - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
 documentation_of: datastructure/binaryindexedtree.cpp
 layout: document
 title: Binary Indexed Tree(BIT)

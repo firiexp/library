@@ -8,6 +8,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
   _isVerificationFailed: false
@@ -67,6 +70,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shortest_path.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
 date: 2026-03-08
 documentation_of: graph/dijkstra_restore.cpp
 layout: document

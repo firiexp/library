@@ -56,8 +56,8 @@ data:
   timestamp: '2026-03-12 00:49:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_aho_corasick.test.cpp
   - test/aoj2257.test.cpp
+  - test/yosupo_aho_corasick.test.cpp
 documentation_of: datastructure/ahocorasick.cpp
 layout: document
 title: "Aho-Corasick\u6CD5"

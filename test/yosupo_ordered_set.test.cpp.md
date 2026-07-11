@@ -204,9 +204,9 @@ data:
     \ != -1) {\n            const Node& node = nodes_[t];\n            if (comp_(node.key,\
     \ x)) {\n                res += size(node.l) + node.cnt;\n                t =\
     \ node.r;\n            } else {\n                t = node.l;\n            }\n\
-    \        }\n        return res;\n    }\n};\n\n/**\n * @brief \u9806\u5E8F\u7D71\
-    \u8A08\u6728(Order Statistic Tree)\n */\n#line 17 \"test/yosupo_ordered_set.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
+    \        }\n        return res;\n    }\n};\n\n/**\n * @brief \u9806\u5E8F\u6728\
+    (Order Statistic Tree)\n */\n#line 17 \"test/yosupo_ordered_set.test.cpp\"\n\n\
+    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
     \ q);\n\n    OrderStatisticTree<int> st;\n    st.reserve(n + q);\n    for (int\
     \ i = 0; i < n; ++i) {\n        int a;\n        sc.read(a);\n        st.insert(a);\n\
     \    }\n\n    for (int i = 0; i < q; ++i) {\n        int t, x;\n        sc.read(t,\
@@ -244,7 +244,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_ordered_set.test.cpp
   requiredBy: []
-  timestamp: '2026-05-25 00:35:26+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_ordered_set.test.cpp

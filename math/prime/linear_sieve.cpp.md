@@ -9,7 +9,7 @@ data:
   - icon: ':warning:'
     path: math/prime/eulerphi_all.cpp
     title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB"
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: math/prime/get_min_factor.cpp
     title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
   - icon: ':heavy_check_mark:'
@@ -28,6 +28,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_1_c_get_prime2.test.cpp
     title: test/aoj_alds1_1_c_get_prime2.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -92,17 +95,18 @@ data:
   isVerificationFile: false
   path: math/prime/linear_sieve.cpp
   requiredBy:
-  - math/prime/get_prime2.cpp
-  - math/prime/get_min_factor.cpp
-  - math/prime/mobius_all.cpp
-  - math/prime/get_prime.cpp
-  - math/prime/eulerphi_all.cpp
   - math/powk_all.cpp
+  - math/prime/get_prime.cpp
+  - math/prime/get_min_factor.cpp
+  - math/prime/get_prime2.cpp
+  - math/prime/mobius_all.cpp
+  - math/prime/eulerphi_all.cpp
   timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_alds1_1_c_get_prime2.test.cpp
   - test/aoj_alds1_1_c_get_prime.test.cpp
+  - test/aoj_alds1_1_c_get_prime2.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
 date: 2026-03-12
 documentation_of: math/prime/linear_sieve.cpp
 layout: document

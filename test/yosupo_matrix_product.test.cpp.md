@@ -10,6 +10,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -137,77 +140,80 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 1 \"util/modint.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint {\n\
-    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
-    \ x; }\n    static constexpr uint get_mod() { return Mod; }\n    static constexpr\
-    \ uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class T>\n\
-    \    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x);\
-    \ }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint &value()\
-    \ noexcept { return val; }\n    const uint &value() const noexcept { return val;\
-    \ }\n    modint& operator++() { val++; if (val == Mod) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = Mod; val--; return *this;\
-    \ }\n    modint operator++(int) { modint result = *this; ++*this; return result;\
-    \ }\n    modint operator--(int) { modint result = *this; --*this; return result;\
-    \ }\n    modint& operator+=(const modint& b) { val += b.val; if (val >= Mod) val\
-    \ -= Mod; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
-    \ if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const modint&\
-    \ b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n    modint&\
-    \ operator/=(const modint& b) { return *this = *this * b.inv(); }\n    modint\
-    \ operator+() const { return *this; }\n    modint operator-() const { return modint()\
-    \ - *this; }\n    modint pow(long long n) const { modint x = *this, r = 1; while\
-    \ (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const\
-    \ { return pow(Mod - 2); }\n    friend modint operator+(const modint& a, const\
-    \ modint& b) { return modint(a) += b; }\n    friend modint operator-(const modint&\
-    \ a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
-    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
-    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
-    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint& a, const modint& b) { return a.val != b.val; }\n};\nusing mint = modint<MOD>;\n\
-    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u56FA\u5B9A\
-    MOD)\n */\n\n\n#line 1 \"math/matrix.cpp\"\ntemplate<class H>\nstruct matrix {\n\
-    \    using T = typename H::T;\n    vector<vector<T>> A;\n    matrix() = default;\n\
-    \    matrix(size_t n, size_t m) : A(n, vector<T>(m)) {}\n    explicit matrix(size_t\
-    \ n) : A(n, vector<T> (n)) {};\n    size_t height() const { return (A.size());\
-    \ }\n    size_t width() const { return (A.empty() ? 0 : A[0].size()); }\n\n  \
-    \  const vector<T> &operator [] (int k) const { return A[k]; }\n    vector<T>\
-    \ &operator[] (int k) { return A[k]; }\n\n    static matrix I(size_t n){\n   \
-    \     matrix mat(n);\n        for (size_t i = 0; i < n; ++i) mat[i][i] = 1;\n\
-    \        return mat;\n    }\n\n    matrix &operator+= (const matrix &B){\n   \
-    \     size_t h = height(), w = width();\n        for (size_t i = 0; i < h; ++i)\
-    \ {\n            for (size_t j = 0; j < w; ++j) {\n                H::add((*this)[i][j],\
-    \ B[i][j]);\n            }\n        }\n        return (*this);\n    }\n\n    matrix\
-    \ &operator-= (const matrix &B){\n        size_t h = height(), w = width();\n\
-    \        for (size_t i = 0; i < h; ++i) {\n            for (size_t j = 0; j <\
-    \ w; ++j) {\n                H::add((*this)[i][j], -B[i][j]);\n            }\n\
-    \        }\n        return (*this);\n    }\n\n    matrix &operator*=(const matrix\
-    \ &B) {\n        size_t n = height(), m = B.width(), p = width();\n        matrix\
-    \ C(n, m);\n        for (size_t i = 0; i < n; ++i) {\n            for (size_t\
-    \ k = 0; k < p; ++k) {\n                for (size_t j = 0; j < m; ++j) {\n   \
-    \                 H::add(C[i][j], H::mul((*this)[i][k], B[k][j]));\n         \
-    \       }\n            }\n        }\n        A.swap(C.A);\n        return (*this);\n\
-    \    }\n\n    matrix pow(ll n) const {\n        matrix a = (*this), res = I(height());\n\
-    \        while(n > 0){\n            if (n & 1) res *= a;\n            a *= a;\n\
-    \            n >>= 1;\n        }\n        return res;\n    }\n    matrix operator+(const\
-    \ matrix &B) const {return matrix(*this) += B;}\n    matrix operator-(const matrix\
-    \ &B) const {return matrix(*this) -= B;}\n    matrix operator*(const matrix &B)\
-    \ const {return matrix(*this) *= B;}\n\n    mint detarminant(){\n        mint\
-    \ res = 1;\n        int rank = 0;\n        for (int c = 0; c < width(); ++c) {\n\
-    \            int k = -1;\n            for (int i = rank; i < height(); ++i) {\n\
-    \                if(A[i][c] != H::zero()){\n                    k = i;\n     \
-    \               break;\n                }\n            }\n            if(!~k)\
-    \ continue;\n            swap(A[k], A[rank]);\n            res *= A[rank][c];\n\
-    \            T x = T(1)/A[rank][c];\n            for (int j = 0; j < width();\
-    \ ++j) A[rank][j] *= x;\n            for (int i = 0; i < height(); ++i) {\n  \
-    \              if(i != rank && A[i][c] != H::zero()){\n                    T coeff\
-    \ = A[i][c];\n                    for (int j = 0; j < width(); ++j) {\n      \
-    \                  A[i][j] -= A[rank][j]*coeff;\n                    }\n     \
-    \           }\n            }\n            rank++;\n        }\n        for (int\
-    \ i = 0; i < min(width(), height()); ++i) {\n            res *= A[i][i];\n   \
-    \     }\n        return res;\n    }\n};\n\nstruct SemiRing {\n    using T = mint;\n\
-    \    static inline T mul(T x, T y){ return x * y; }\n    static inline void add(T\
-    \ &x, T y){ x += y; }\n    static inline T one(){ return 1; }\n    static inline\
-    \ T zero(){ return 0; }\n};\n#line 19 \"test/yosupo_matrix_product.test.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, k;\n    sc.read(n,\
+    \ */\n#line 1 \"util/modint.cpp\"\n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\
+    \ntemplate <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static modint\
+    \ raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod()\
+    \ { return Mod; }\n    static constexpr uint M() { return Mod; }\n    modint()\
+    \ : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod));\
+    \ if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val = ((unsigned\
+    \ int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n    const uint\
+    \ &value() const noexcept { return val; }\n    modint& operator++() { val++; if\
+    \ (val == Mod) val = 0; return *this; }\n    modint& operator--() { if (val ==\
+    \ 0) val = Mod; val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n    modint& operator-=(const\
+    \ modint& b) { val -= b.val; if (val >= Mod) val += Mod; return *this; }\n   \
+    \ modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z\
+    \ % Mod); return *this; }\n    modint& operator/=(const modint& b) { return *this\
+    \ = *this * b.inv(); }\n    modint operator+() const { return *this; }\n    modint\
+    \ operator-() const { return modint() - *this; }\n    modint pow(long long n)\
+    \ const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>=\
+    \ 1; } return r; }\n    modint inv() const { return pow(Mod - 2); }\n    friend\
+    \ modint operator+(const modint& a, const modint& b) { return modint(a) += b;\
+    \ }\n    friend modint operator-(const modint& a, const modint& b) { return modint(a)\
+    \ -= b; }\n    friend modint operator*(const modint& a, const modint& b) { return\
+    \ modint(a) *= b; }\n    friend modint operator/(const modint& a, const modint&\
+    \ b) { return modint(a) /= b; }\n    friend bool operator==(const modint& a, const\
+    \ modint& b) { return a.val == b.val; }\n    friend bool operator!=(const modint&\
+    \ a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
+    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
+    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
+    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
+    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/matrix.cpp\"\ntemplate<class\
+    \ H>\nstruct matrix {\n    using T = typename H::T;\n    vector<vector<T>> A;\n\
+    \    matrix() = default;\n    matrix(size_t n, size_t m) : A(n, vector<T>(m))\
+    \ {}\n    explicit matrix(size_t n) : A(n, vector<T> (n)) {};\n    size_t height()\
+    \ const { return (A.size()); }\n    size_t width() const { return (A.empty() ?\
+    \ 0 : A[0].size()); }\n\n    const vector<T> &operator [] (int k) const { return\
+    \ A[k]; }\n    vector<T> &operator[] (int k) { return A[k]; }\n\n    static matrix\
+    \ I(size_t n){\n        matrix mat(n);\n        for (size_t i = 0; i < n; ++i)\
+    \ mat[i][i] = 1;\n        return mat;\n    }\n\n    matrix &operator+= (const\
+    \ matrix &B){\n        size_t h = height(), w = width();\n        for (size_t\
+    \ i = 0; i < h; ++i) {\n            for (size_t j = 0; j < w; ++j) {\n       \
+    \         H::add((*this)[i][j], B[i][j]);\n            }\n        }\n        return\
+    \ (*this);\n    }\n\n    matrix &operator-= (const matrix &B){\n        size_t\
+    \ h = height(), w = width();\n        for (size_t i = 0; i < h; ++i) {\n     \
+    \       for (size_t j = 0; j < w; ++j) {\n                H::add((*this)[i][j],\
+    \ -B[i][j]);\n            }\n        }\n        return (*this);\n    }\n\n   \
+    \ matrix &operator*=(const matrix &B) {\n        size_t n = height(), m = B.width(),\
+    \ p = width();\n        matrix C(n, m);\n        for (size_t i = 0; i < n; ++i)\
+    \ {\n            for (size_t k = 0; k < p; ++k) {\n                for (size_t\
+    \ j = 0; j < m; ++j) {\n                    H::add(C[i][j], H::mul((*this)[i][k],\
+    \ B[k][j]));\n                }\n            }\n        }\n        A.swap(C.A);\n\
+    \        return (*this);\n    }\n\n    matrix pow(ll n) const {\n        matrix\
+    \ a = (*this), res = I(height());\n        while(n > 0){\n            if (n &\
+    \ 1) res *= a;\n            a *= a;\n            n >>= 1;\n        }\n       \
+    \ return res;\n    }\n    matrix operator+(const matrix &B) const {return matrix(*this)\
+    \ += B;}\n    matrix operator-(const matrix &B) const {return matrix(*this) -=\
+    \ B;}\n    matrix operator*(const matrix &B) const {return matrix(*this) *= B;}\n\
+    \n    mint detarminant(){\n        mint res = 1;\n        int rank = 0;\n    \
+    \    for (int c = 0; c < width(); ++c) {\n            int k = -1;\n          \
+    \  for (int i = rank; i < height(); ++i) {\n                if(A[i][c] != H::zero()){\n\
+    \                    k = i;\n                    break;\n                }\n \
+    \           }\n            if(!~k) continue;\n            swap(A[k], A[rank]);\n\
+    \            res *= A[rank][c];\n            T x = T(1)/A[rank][c];\n        \
+    \    for (int j = 0; j < width(); ++j) A[rank][j] *= x;\n            for (int\
+    \ i = 0; i < height(); ++i) {\n                if(i != rank && A[i][c] != H::zero()){\n\
+    \                    T coeff = A[i][c];\n                    for (int j = 0; j\
+    \ < width(); ++j) {\n                        A[i][j] -= A[rank][j]*coeff;\n  \
+    \                  }\n                }\n            }\n            rank++;\n\
+    \        }\n        for (int i = 0; i < min(width(), height()); ++i) {\n     \
+    \       res *= A[i][i];\n        }\n        return res;\n    }\n};\n\nstruct SemiRing\
+    \ {\n    using T = mint;\n    static inline T mul(T x, T y){ return x * y; }\n\
+    \    static inline void add(T &x, T y){ x += y; }\n    static inline T one(){\
+    \ return 1; }\n    static inline T zero(){ return 0; }\n};\n#line 19 \"test/yosupo_matrix_product.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, k;\n    sc.read(n,\
     \ m, k);\n    if (n == 0 || m == 0 || k == 0) {\n        for (int i = 0; i < n;\
     \ ++i) {\n            for (int j = 0; j < k; ++j) {\n                pr.print(0);\n\
     \                pr.print(j + 1 == k ? '\\n' : ' ');\n            }\n        \
@@ -241,11 +247,12 @@ data:
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
+  - util/modint_base.cpp
   - math/matrix.cpp
   isVerificationFile: true
   path: test/yosupo_matrix_product.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_matrix_product.test.cpp
