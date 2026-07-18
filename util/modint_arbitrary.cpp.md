@@ -81,8 +81,8 @@ data:
   timestamp: '2026-03-14 20:56:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0422.test.cpp
   - test/yosupo_many_aplusb_modint_interface.test.cpp
+  - test/aoj0422.test.cpp
 date: 2026-03-14
 documentation_of: util/modint_arbitrary.cpp
 layout: document

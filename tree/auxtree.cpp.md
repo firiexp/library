@@ -113,8 +113,8 @@ data:
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0439.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
+  - test/aoj0439.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
 documentation_of: tree/auxtree.cpp
 layout: document

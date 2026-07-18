@@ -341,9 +341,9 @@ data:
   timestamp: '2026-04-18 23:59:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_static_range_frequency.test.cpp
   - test/yosupo_range_kth_smallest.test.cpp
   - test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
+  - test/yosupo_static_range_frequency.test.cpp
 date: 2026-04-18
 documentation_of: datastructure/wavelet_matrix.cpp
 layout: document

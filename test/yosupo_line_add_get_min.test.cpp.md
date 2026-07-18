@@ -28,49 +28,59 @@ data:
     \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
     \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
     \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr FastIoDigitTable()\
-    \ : num() {\n        for (int i = 0; i < 10000; ++i) {\n            int x = i;\n\
-    \            for (int j = 3; j >= 0; --j) {\n                num[i * 4 + j] =\
-    \ char('0' + x % 10);\n                x /= 10;\n            }\n        }\n  \
-    \  }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE = 1 << 17;\n  \
-    \  static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n    int idx,\
-    \ size;\n    bool interactive;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin)))\
-    \ {}\n\n    inline void load() {\n        int len = size - idx;\n        memmove(buf,\
-    \ buf + idx, len);\n        if (interactive) {\n            if (fgets(buf + len,\
-    \ BUFSIZE + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n          \
-    \  else size = len;\n        } else {\n            size = len + (int)fread(buf\
-    \ + len, 1, BUFSIZE - len, stdin);\n        }\n        idx = 0;\n        buf[size]\
-    \ = 0;\n    }\n\n    inline void ensure() {\n        if (idx + OFFSET > size)\
-    \ load();\n    }\n\n    inline void ensure_interactive() {\n        if (idx ==\
-    \ size) load();\n    }\n\n    inline char skip() {\n        if (interactive) {\n\
-    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
-    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
-    \        }\n            return buf[idx++];\n        }\n        ensure();\n   \
-    \     while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n            ensure();\n\
-    \        }\n        return buf[idx++];\n    }\n\n    template<class T, typename\
-    \ enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T &x) {\n  \
-    \      if (interactive) {\n            char c = skip();\n            bool neg\
-    \ = false;\n            if constexpr (is_signed<T>::value) {\n               \
-    \ if (c == '-') {\n                    neg = true;\n                    ensure_interactive();\n\
-    \                    c = buf[idx++];\n                }\n            }\n     \
-    \       x = 0;\n            while (c >= '0') {\n                x = x * 10 + (c\
-    \ & 15);\n                ensure_interactive();\n                c = buf[idx++];\n\
-    \            }\n            if constexpr (is_signed<T>::value) {\n           \
-    \     if (neg) x = -x;\n            }\n            return;\n        }\n      \
-    \  char c = skip();\n        bool neg = false;\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (c == '-') {\n                neg = true;\n              \
-    \  c = buf[idx++];\n            }\n        }\n        x = 0;\n        while (c\
-    \ >= '0') {\n            x = x * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        if constexpr (is_signed<T>::value) {\n            if (neg)\
-    \ x = -x;\n        }\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
-    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
-    \ && has_fastio_value<T>::value, int>::type = 0>\n    void read(T &x) {\n    \
-    \    long long v;\n        read(v);\n        x = T(v);\n    }\n\n    template<class\
-    \ Head, class Next, class... Tail>\n    void read(Head &head, Next &next, Tail\
-    \ &...tail) {\n        read(head);\n        read(next, tail...);\n    }\n\n  \
-    \  template<class T, class U>\n    void read(pair<T, U> &p) {\n        read(p.first,\
-    \ p.second);\n    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value\
-    \ && !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n\
+    \    int idx, size;\n    bool interactive;\n\n    Scanner() : idx(0), size(0),\
+    \ interactive(isatty(fileno(stdin))) {}\n\n    inline void load() {\n        int\
+    \ len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \    }\n        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure()\
+    \ {\n        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
+    \     if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            return buf[idx++];\n        }\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        if (interactive) {\n            char c = skip();\n          \
+    \  bool neg = false;\n            if constexpr (is_signed<T>::value) {\n     \
+    \           if (c == '-') {\n                    neg = true;\n               \
+    \     ensure_interactive();\n                    c = buf[idx++];\n           \
+    \     }\n            }\n            x = 0;\n            while (c >= '0') {\n \
+    \               x = x * 10 + (c & 15);\n                ensure_interactive();\n\
+    \                c = buf[idx++];\n            }\n            if constexpr (is_signed<T>::value)\
+    \ {\n                if (neg) x = -x;\n            }\n            return;\n  \
+    \      }\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
+    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
+    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
+    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class T, typename\
+    \ enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename\
+    \ decay<T>::type, string>::value && has_fastio_value<T>::value, int>::type = 0>\n\
+    \    void read(T &x) {\n        long long v;\n        read(v);\n        x = T(v);\n\
+    \    }\n\n    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value\
+    \ && !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
+    \ && has_fastio_assign_string<T>::value, int>::type = 0>\n    void read(T &x)\
+    \ {\n        string s;\n        read(s);\n        bool ok = x.assign(s);\n   \
+    \     if (!ok) __builtin_trap();\n    }\n\n    template<class Head, class Next,\
+    \ class... Tail>\n    void read(Head &head, Next &next, Tail &...tail) {\n   \
+    \     read(head);\n        read(next, tail...);\n    }\n\n    template<class T,\
+    \ class U>\n    void read(pair<T, U> &p) {\n        read(p.first, p.second);\n\
+    \    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
     \ read(T &a) {\n        for (auto &x : a) read(x);\n    }\n\n    void read(char\
     \ &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n        s.clear();\n\
     \        if (interactive) {\n            ensure_interactive();\n            while\
@@ -122,8 +132,11 @@ data:
     \ T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value &&\
     \ !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value,\
     \ int>::type = 0>\n    void print(const T &x) {\n        print(x.value());\n \
-    \   }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value &&\
-    \ !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \   }\n\n    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value\
+    \ && !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
+    \ && has_fastio_to_string<T>::value, int>::type = 0>\n    void print(const T &x)\
+    \ {\n        print(x.to_string());\n    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value\
+    \ && !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
     \ print(const T &a) {\n        bool first = true;\n        for (auto &&x : a)\
     \ {\n            if (!first) pc(' ');\n            first = false;\n          \
     \  print(x);\n        }\n    }\n\n    template<class T>\n    void println(const\
@@ -234,7 +247,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_line_add_get_min.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:47:31+09:00'
+  timestamp: '2026-07-18 15:59:16+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_line_add_get_min.test.cpp

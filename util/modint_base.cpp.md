@@ -239,67 +239,67 @@ data:
   isVerificationFile: false
   path: util/modint_base.cpp
   requiredBy:
-  - util/modint.cpp
-  - math/matrix_determinant.cpp
-  - math/ntt.cpp
-  - math/many_factorials.cpp
-  - math/gauss_jordan_mint.cpp
-  - math/inverse_matrix.cpp
-  - math/squarematrix_mint.cpp
-  - math/powk_all.cpp
   - math/fft.cpp
+  - math/inverse_matrix.cpp
+  - math/powk_all.cpp
+  - math/many_factorials.cpp
+  - math/squarematrix_mint.cpp
+  - math/gauss_jordan_mint.cpp
+  - math/matrix_determinant.cpp
   - math/factorial.cpp
-  - fps/polynomial_interpolation.cpp
-  - fps/linear_recurrence.cpp
-  - fps/multipoint_evaluation.cpp
-  - fps/taylor_shift.cpp
+  - math/ntt.cpp
   - fps/nth_term.cpp
   - fps/sample_point_shift.cpp
+  - fps/multipoint_evaluation.cpp
+  - fps/taylor_shift.cpp
+  - fps/linear_recurrence.cpp
+  - fps/polynomial_interpolation.cpp
+  - util/modint.cpp
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_deque_operate_all_composite.test.cpp
-  - test/yosupo_convolution.test.cpp
-  - test/yosupo_subset_convolution.test.cpp
-  - test/yosupo_queue_operate_all_composite.test.cpp
-  - test/yosupo_convolution_mod_1000000007_fft.test.cpp
-  - test/yosupo_find_linear_recurrence.test.cpp
-  - test/yosupo_inverse_matrix.test.cpp
-  - test/yosupo_system_of_linear_equations.test.cpp
-  - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-  - test/aoj2257.test.cpp
-  - test/yosupo_matrix_product.test.cpp
-  - test/yosupo_point_set_range_composite.test.cpp
-  - test/yosupo_many_factorials.test.cpp
-  - test/aoj0452.test.cpp
-  - test/yosupo_matrix_det.test.cpp
-  - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
-  - test/yosupo_range_affine_range_sum.test.cpp
-  - test/yosupo_log_of_formal_power_series.test.cpp
-  - test/aoj_dpl_5_a.test.cpp
-  - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
-  - test/yosupo_sum_of_totient.test.cpp
-  - test/yosupo_bitwise_and_convolution.test.cpp
-  - test/yosupo_bitwise_xor_convolution.test.cpp
-  - test/yosupo_vertex_set_path_composite.test.cpp
-  - test/yuki650_hld_edge.test.cpp
-  - test/yosupo_aplusb_library_composition.test.cpp
-  - test/yosupo_aplusb_library_composition.test.cpp
-  - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
-  - test/aoj0399.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-  - test/yosupo_bitwise_or_convolution.test.cpp
-  - test/yosupo_pow_of_matrix.test.cpp
-  - test/yosupo_many_aplusb_modint_interface.test.cpp
-  - test/yosupo_polynomial_taylor_shift.test.cpp
-  - test/yosupo_pow_of_formal_power_series.test.cpp
-  - test/yosupo_sqrt_of_formal_power_series.test.cpp
-  - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - test/yosupo_matrix_rank.test.cpp
-  - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
-  - test/yosupo_polynomial_interpolation.test.cpp
-  - test/yosupo_multipoint_evaluation.test.cpp
+  - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/yosupo_exp_of_formal_power_series.test.cpp
+  - test/yosupo_pow_of_formal_power_series.test.cpp
+  - test/yosupo_polynomial_interpolation.test.cpp
+  - test/yosupo_bitwise_or_convolution.test.cpp
+  - test/yosupo_many_factorials.test.cpp
+  - test/yosupo_convolution.test.cpp
+  - test/yuki650_hld_edge.test.cpp
+  - test/yosupo_system_of_linear_equations.test.cpp
+  - test/yosupo_bitwise_and_convolution.test.cpp
+  - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+  - test/yosupo_pow_of_matrix.test.cpp
+  - test/aoj2257.test.cpp
+  - test/yosupo_subset_convolution.test.cpp
+  - test/aoj_dpl_5_a.test.cpp
+  - test/aoj0452.test.cpp
+  - test/yosupo_inverse_matrix.test.cpp
+  - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
+  - test/yosupo_many_aplusb_modint_interface.test.cpp
+  - test/yosupo_matrix_det.test.cpp
+  - test/yosupo_matrix_rank.test.cpp
+  - test/yosupo_log_of_formal_power_series.test.cpp
+  - test/yosupo_sqrt_of_formal_power_series.test.cpp
+  - test/yosupo_queue_operate_all_composite.test.cpp
+  - test/yosupo_find_linear_recurrence.test.cpp
+  - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+  - test/aoj0399.test.cpp
+  - test/yosupo_multipoint_evaluation.test.cpp
+  - test/yosupo_range_affine_range_sum.test.cpp
+  - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
+  - test/yosupo_vertex_set_path_composite.test.cpp
+  - test/yosupo_convolution_mod_1000000007_fft.test.cpp
+  - test/yosupo_sum_of_totient.test.cpp
+  - test/yosupo_deque_operate_all_composite.test.cpp
+  - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+  - test/yosupo_polynomial_taylor_shift.test.cpp
+  - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
+  - test/yosupo_point_set_range_composite.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_matrix_product.test.cpp
 documentation_of: util/modint_base.cpp
 layout: document
 redirect_from:

@@ -170,8 +170,8 @@ data:
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_ordered_set.test.cpp
   - test/yosupo_aplusb_order_statistic_tree.test.cpp
+  - test/yosupo_ordered_set.test.cpp
 date: 2026-05-25
 documentation_of: datastructure/order_statistic_tree.cpp
 layout: document

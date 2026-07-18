@@ -3,66 +3,56 @@ category: "\u6570\u5B66"
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: math/integer_convolution.cpp
+    title: "\u6574\u6570\u7573\u307F\u8FBC\u307F(2/3 NTT)"
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   - icon: ':heavy_check_mark:'
     path: util/modint_base.cpp
     title: util/modint_base.cpp
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: tree/frequency_table_of_tree_distance.cpp
-    title: Frequency Table of Tree Distance
+  _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_frequency_table_of_tree_distance.test.cpp
-    title: test/yosupo_frequency_table_of_tree_distance.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
-    , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/cplusplus.py\"\
-    , line 187, in bundle\n    bundler.update(path)\n  File \"/opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/cplusplus_bundle.py\"\
-    , line 355, in update\n    raise BundleErrorAt(path, i + 1, \"found codes out\
-    \ of include guard\")\nonlinejudge_verify.languages.cplusplus_bundle.BundleErrorAt:\
-    \ math/fft.cpp: line 346: found codes out of include guard\n"
-  code: "#ifndef FIRIEXP_LIBRARY_MATH_FFT_CORE_CPP\n#define FIRIEXP_LIBRARY_MATH_FFT_CORE_CPP\n\
-    \n#ifndef FIRIEXP_LIBRARY_ARBITRARY_CONVOLUTION_U64_NAIVE_THRESHOLD\n#define FIRIEXP_LIBRARY_ARBITRARY_CONVOLUTION_U64_NAIVE_THRESHOLD\
-    \ 8192\n#endif\n\n#ifndef FIRIEXP_LIBRARY_ARBITRARY_SQUARE_U64_NAIVE_THRESHOLD\n\
-    #define FIRIEXP_LIBRARY_ARBITRARY_SQUARE_U64_NAIVE_THRESHOLD 32768\n#endif\n\n\
-    namespace ArbitraryConvolution {\n    template<unsigned int M>\n    struct StaticModInt\
-    \ {\n        unsigned int val;\n        StaticModInt() : val(0) {}\n        template<class\
-    \ T>\n        StaticModInt(T v) {\n            long long x = (long long)(v % (long\
-    \ long)M);\n            if (x < 0) x += M;\n            val = (unsigned int)x;\n\
-    \        }\n        static StaticModInt raw(unsigned int v) {\n            StaticModInt\
-    \ x;\n            x.val = v;\n            return x;\n        }\n        StaticModInt&\
-    \ operator+=(const StaticModInt& rhs) {\n            val += rhs.val;\n       \
-    \     if (val >= M) val -= M;\n            return *this;\n        }\n        StaticModInt&\
-    \ operator-=(const StaticModInt& rhs) {\n            val -= rhs.val;\n       \
-    \     if (val >= M) val += M;\n            return *this;\n        }\n        StaticModInt&\
-    \ operator*=(const StaticModInt& rhs) {\n            val = (unsigned int)((unsigned\
-    \ long long)val * rhs.val % M);\n            return *this;\n        }\n      \
-    \  StaticModInt pow(long long n) const {\n            StaticModInt x = *this,\
-    \ r = 1;\n            while (n) {\n                if (n & 1) r *= x;\n      \
-    \          x *= x;\n                n >>= 1;\n            }\n            return\
-    \ r;\n        }\n        StaticModInt inv() const { return pow(M - 2); }\n   \
-    \     friend StaticModInt operator+(StaticModInt lhs, const StaticModInt& rhs)\
-    \ { return lhs += rhs; }\n        friend StaticModInt operator-(StaticModInt lhs,\
-    \ const StaticModInt& rhs) { return lhs -= rhs; }\n        friend StaticModInt\
-    \ operator*(StaticModInt lhs, const StaticModInt& rhs) { return lhs *= rhs; }\n\
-    \        friend bool operator==(const StaticModInt& lhs, const StaticModInt& rhs)\
-    \ { return lhs.val == rhs.val; }\n        friend bool operator!=(const StaticModInt&\
-    \ lhs, const StaticModInt& rhs) { return lhs.val != rhs.val; }\n    };\n\n   \
-    \ template<unsigned int MOD_, unsigned int PRIMITIVE_ROOT_>\n    struct NTT {\n\
-    \        using mint = StaticModInt<MOD_>;\n        static constexpr unsigned int\
-    \ MODV = MOD_;\n        static constexpr unsigned int G = PRIMITIVE_ROOT_;\n \
-    \       mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30],\
+  bundledCode: "#line 1 \"math/fft.cpp\"\n\n\n\n#line 1 \"math/integer_convolution.cpp\"\
+    \n\n\n\n#ifndef FIRIEXP_LIBRARY_ARBITRARY_CONVOLUTION_U64_NAIVE_THRESHOLD\n#define\
+    \ FIRIEXP_LIBRARY_ARBITRARY_CONVOLUTION_U64_NAIVE_THRESHOLD 8192\n#endif\n\n#ifndef\
+    \ FIRIEXP_LIBRARY_ARBITRARY_SQUARE_U64_NAIVE_THRESHOLD\n#define FIRIEXP_LIBRARY_ARBITRARY_SQUARE_U64_NAIVE_THRESHOLD\
+    \ 32768\n#endif\n\nnamespace ArbitraryConvolution {\n    template<unsigned int\
+    \ M>\n    struct StaticModInt {\n        unsigned int val;\n        StaticModInt()\
+    \ : val(0) {}\n        template<class T>\n        StaticModInt(T v) {\n      \
+    \      long long x = (long long)(v % (long long)M);\n            if (x < 0) x\
+    \ += M;\n            val = (unsigned int)x;\n        }\n        static StaticModInt\
+    \ raw(unsigned int v) {\n            StaticModInt x;\n            x.val = v;\n\
+    \            return x;\n        }\n        StaticModInt& operator+=(const StaticModInt&\
+    \ rhs) {\n            val += rhs.val;\n            if (val >= M) val -= M;\n \
+    \           return *this;\n        }\n        StaticModInt& operator-=(const StaticModInt&\
+    \ rhs) {\n            val -= rhs.val;\n            if (val >= M) val += M;\n \
+    \           return *this;\n        }\n        StaticModInt& operator*=(const StaticModInt&\
+    \ rhs) {\n            val = (unsigned int)((unsigned long long)val * rhs.val %\
+    \ M);\n            return *this;\n        }\n        StaticModInt pow(long long\
+    \ n) const {\n            StaticModInt x = *this, r = 1;\n            while (n)\
+    \ {\n                if (n & 1) r *= x;\n                x *= x;\n           \
+    \     n >>= 1;\n            }\n            return r;\n        }\n        StaticModInt\
+    \ inv() const { return pow(M - 2); }\n        friend StaticModInt operator+(StaticModInt\
+    \ lhs, const StaticModInt& rhs) { return lhs += rhs; }\n        friend StaticModInt\
+    \ operator-(StaticModInt lhs, const StaticModInt& rhs) { return lhs -= rhs; }\n\
+    \        friend StaticModInt operator*(StaticModInt lhs, const StaticModInt& rhs)\
+    \ { return lhs *= rhs; }\n        friend bool operator==(const StaticModInt& lhs,\
+    \ const StaticModInt& rhs) { return lhs.val == rhs.val; }\n        friend bool\
+    \ operator!=(const StaticModInt& lhs, const StaticModInt& rhs) { return lhs.val\
+    \ != rhs.val; }\n    };\n\n    template<unsigned int MOD_, unsigned int PRIMITIVE_ROOT_>\n\
+    \    struct NTT {\n        using mint = StaticModInt<MOD_>;\n        static constexpr\
+    \ unsigned int MODV = MOD_;\n        static constexpr unsigned int G = PRIMITIVE_ROOT_;\n\
+    \        mint root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30],\
     \ inv_pow2[30];\n        int max_base;\n\n        NTT() : max_base(__builtin_ctz(MODV\
     \ - 1)) {\n            mint e = mint(G).pow((MODV - 1) >> max_base), ie = e.inv();\n\
     \            for (int i = max_base; i >= 0; --i) {\n                root[i] =\
@@ -226,26 +216,77 @@ data:
     \        auto c3 = internal::ntt3().square(a);\n        vector<unsigned long long>\
     \ res(c1.size());\n        for (int i = 0; i < (int)res.size(); ++i) {\n     \
     \       res[i] = internal::combine_u64(c1[i], c2[i], c3[i]);\n        }\n    \
-    \    return res;\n    }\n}\n\n#endif\n\n#ifndef FIRIEXP_LIBRARY_FFT_EXACT_ONLY\n\
-    #ifndef FIRIEXP_LIBRARY_MATH_FFT_POLY_CPP\n#define FIRIEXP_LIBRARY_MATH_FFT_POLY_CPP\n\
-    \n#include \"../util/modint.cpp\"\n\nnamespace ArbitraryConvolution {\n    vector<unsigned\
-    \ int> convolution_mod(const vector<unsigned int> &a, const vector<unsigned int>\
-    \ &b) {\n        if (a.empty() || b.empty()) return {};\n        static const\
-    \ NTT1 ntt1;\n        static const NTT2 ntt2;\n        static const NTT3 ntt3;\n\
-    \        auto c1 = ntt1.convolution(a, b);\n        auto c2 = ntt2.convolution(a,\
-    \ b);\n        auto c3 = ntt3.convolution(a, b);\n        vector<unsigned int>\
-    \ res(c1.size());\n        for (int i = 0; i < (int)res.size(); ++i) {\n     \
-    \       res[i] = internal::combine_mod<MOD>(c1[i], c2[i], c3[i]);\n        }\n\
-    \        return res;\n    }\n}\n\nstruct poly {\n    vector<mint> v;\n    poly()\
-    \ = default;\n    explicit poly(int n) : v(n) {}\n    explicit poly(vector<mint>\
-    \ vv) : v(std::move(vv)) {}\n    int size() const { return (int)v.size(); }\n\
-    \    poly cut(int len) {\n        if (len < (int)v.size()) v.resize((size_t)len);\n\
-    \        return *this;\n    }\n    mint& operator[](int i) { return v[i]; }\n\
-    \    const mint& operator[](int i) const { return v[i]; }\n    poly& operator+=(const\
-    \ poly &a) {\n        v.resize(max(size(), a.size()));\n        for (int i = 0;\
-    \ i < a.size(); ++i) v[i] += a.v[i];\n        return *this;\n    }\n    poly&\
-    \ operator-=(const poly &a) {\n        v.resize(max(size(), a.size()));\n    \
-    \    for (int i = 0; i < a.size(); ++i) v[i] -= a.v[i];\n        return *this;\n\
+    \    return res;\n    }\n}\n\nnamespace BoundedConvolution {\n    using NTT1 =\
+    \ ArbitraryConvolution::NTT<998244353, 3>;\n    using NTT2 = ArbitraryConvolution::NTT<1004535809,\
+    \ 3>;\n\n    namespace internal {\n        inline const NTT1& ntt1() {\n     \
+    \       static const NTT1 value;\n            return value;\n        }\n\n   \
+    \     inline const NTT2& ntt2() {\n            static const NTT2 value;\n    \
+    \        return value;\n        }\n\n        inline unsigned long long combine_u64(unsigned\
+    \ int x1, unsigned int x2) {\n            static constexpr unsigned long long\
+    \ m1 = 998244353ULL;\n            static constexpr unsigned long long m2 = 1004535809ULL;\n\
+    \            static const unsigned long long m1_inv_m2 =\n                ArbitraryConvolution::StaticModInt<1004535809>(m1).inv().val;\n\
+    \            unsigned long long delta = (x2 + m2 - x1 % m2) % m2;\n          \
+    \  unsigned long long multiplier = delta * m1_inv_m2 % m2;\n            return\
+    \ x1 + m1 * multiplier;\n        }\n    }\n\n    vector<unsigned long long> convolution_u64(const\
+    \ vector<unsigned int> &a,\n                                                const\
+    \ vector<unsigned int> &b) {\n        if (a.empty() || b.empty()) return {};\n\
+    \        auto c1 = internal::ntt1().convolution(a, b);\n        auto c2 = internal::ntt2().convolution(a,\
+    \ b);\n        vector<unsigned long long> res(c1.size());\n        for (int i\
+    \ = 0; i < (int)res.size(); ++i) {\n            res[i] = internal::combine_u64(c1[i],\
+    \ c2[i]);\n        }\n        return res;\n    }\n\n    vector<unsigned long long>\
+    \ square_u64(const vector<unsigned int> &a) {\n        if (a.empty()) return {};\n\
+    \        auto c1 = internal::ntt1().square(a);\n        auto c2 = internal::ntt2().square(a);\n\
+    \        vector<unsigned long long> res(c1.size());\n        for (int i = 0; i\
+    \ < (int)res.size(); ++i) {\n            res[i] = internal::combine_u64(c1[i],\
+    \ c2[i]);\n        }\n        return res;\n    }\n}\n\n/**\n * @brief \u6574\u6570\
+    \u7573\u307F\u8FBC\u307F(2/3 NTT)\n */\n\n\n#line 1 \"util/modint.cpp\"\n\n\n\n\
+    #line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint {\n\
+    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
+    \ x; }\n    static constexpr uint get_mod() { return Mod; }\n    static constexpr\
+    \ uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class T>\n\
+    \    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x);\
+    \ }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint &value()\
+    \ noexcept { return val; }\n    const uint &value() const noexcept { return val;\
+    \ }\n    modint& operator++() { val++; if (val == Mod) val = 0; return *this;\
+    \ }\n    modint& operator--() { if (val == 0) val = Mod; val--; return *this;\
+    \ }\n    modint operator++(int) { modint result = *this; ++*this; return result;\
+    \ }\n    modint operator--(int) { modint result = *this; --*this; return result;\
+    \ }\n    modint& operator+=(const modint& b) { val += b.val; if (val >= Mod) val\
+    \ -= Mod; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
+    \ if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const modint&\
+    \ b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n    modint&\
+    \ operator/=(const modint& b) { return *this = *this * b.inv(); }\n    modint\
+    \ operator+() const { return *this; }\n    modint operator-() const { return modint()\
+    \ - *this; }\n    modint pow(long long n) const { modint x = *this, r = 1; while\
+    \ (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const\
+    \ { return pow(Mod - 2); }\n    friend modint operator+(const modint& a, const\
+    \ modint& b) { return modint(a) += b; }\n    friend modint operator-(const modint&\
+    \ a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
+    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
+    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
+    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
+    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 6 \"math/fft.cpp\"\n\nnamespace\
+    \ ArbitraryConvolution {\n    vector<unsigned int> convolution_mod(const vector<unsigned\
+    \ int> &a, const vector<unsigned int> &b) {\n        if (a.empty() || b.empty())\
+    \ return {};\n        static const NTT1 ntt1;\n        static const NTT2 ntt2;\n\
+    \        static const NTT3 ntt3;\n        auto c1 = ntt1.convolution(a, b);\n\
+    \        auto c2 = ntt2.convolution(a, b);\n        auto c3 = ntt3.convolution(a,\
+    \ b);\n        vector<unsigned int> res(c1.size());\n        for (int i = 0; i\
+    \ < (int)res.size(); ++i) {\n            res[i] = internal::combine_mod<MOD>(c1[i],\
+    \ c2[i], c3[i]);\n        }\n        return res;\n    }\n}\n\nstruct poly {\n\
+    \    vector<mint> v;\n    poly() = default;\n    explicit poly(int n) : v(n) {}\n\
+    \    explicit poly(vector<mint> vv) : v(std::move(vv)) {}\n    int size() const\
+    \ { return (int)v.size(); }\n    poly cut(int len) {\n        if (len < (int)v.size())\
+    \ v.resize((size_t)len);\n        return *this;\n    }\n    mint& operator[](int\
+    \ i) { return v[i]; }\n    const mint& operator[](int i) const { return v[i];\
+    \ }\n    poly& operator+=(const poly &a) {\n        v.resize(max(size(), a.size()));\n\
+    \        for (int i = 0; i < a.size(); ++i) v[i] += a.v[i];\n        return *this;\n\
+    \    }\n    poly& operator-=(const poly &a) {\n        v.resize(max(size(), a.size()));\n\
+    \        for (int i = 0; i < a.size(); ++i) v[i] -= a.v[i];\n        return *this;\n\
     \    }\n    poly& operator*=(const poly &a) {\n        if (size() == 0 || a.size()\
     \ == 0) {\n            v.clear();\n            return *this;\n        }\n    \
     \    vector<unsigned int> x(size()), y(a.size());\n        for (int i = 0; i <\
@@ -263,19 +304,54 @@ data:
     \   for (int i = 0; i < k / 2; ++i) {\n                nr[i] = r[i] + r[i] - nr[i];\n\
     \                nr[i + k / 2] = -nr[i + k / 2];\n            }\n            r\
     \ = nr;\n        }\n        r.v.resize(n);\n        return r;\n    }\n};\n\n/**\n\
-    \ * @brief \u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)\n */\n\n#endif\n\
-    #endif\n"
+    \ * @brief \u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_MATH_FFT_CPP\n#define FIRIEXP_LIBRARY_MATH_FFT_CPP\n\
+    \n#include \"./integer_convolution.cpp\"\n#include \"../util/modint.cpp\"\n\n\
+    namespace ArbitraryConvolution {\n    vector<unsigned int> convolution_mod(const\
+    \ vector<unsigned int> &a, const vector<unsigned int> &b) {\n        if (a.empty()\
+    \ || b.empty()) return {};\n        static const NTT1 ntt1;\n        static const\
+    \ NTT2 ntt2;\n        static const NTT3 ntt3;\n        auto c1 = ntt1.convolution(a,\
+    \ b);\n        auto c2 = ntt2.convolution(a, b);\n        auto c3 = ntt3.convolution(a,\
+    \ b);\n        vector<unsigned int> res(c1.size());\n        for (int i = 0; i\
+    \ < (int)res.size(); ++i) {\n            res[i] = internal::combine_mod<MOD>(c1[i],\
+    \ c2[i], c3[i]);\n        }\n        return res;\n    }\n}\n\nstruct poly {\n\
+    \    vector<mint> v;\n    poly() = default;\n    explicit poly(int n) : v(n) {}\n\
+    \    explicit poly(vector<mint> vv) : v(std::move(vv)) {}\n    int size() const\
+    \ { return (int)v.size(); }\n    poly cut(int len) {\n        if (len < (int)v.size())\
+    \ v.resize((size_t)len);\n        return *this;\n    }\n    mint& operator[](int\
+    \ i) { return v[i]; }\n    const mint& operator[](int i) const { return v[i];\
+    \ }\n    poly& operator+=(const poly &a) {\n        v.resize(max(size(), a.size()));\n\
+    \        for (int i = 0; i < a.size(); ++i) v[i] += a.v[i];\n        return *this;\n\
+    \    }\n    poly& operator-=(const poly &a) {\n        v.resize(max(size(), a.size()));\n\
+    \        for (int i = 0; i < a.size(); ++i) v[i] -= a.v[i];\n        return *this;\n\
+    \    }\n    poly& operator*=(const poly &a) {\n        if (size() == 0 || a.size()\
+    \ == 0) {\n            v.clear();\n            return *this;\n        }\n    \
+    \    vector<unsigned int> x(size()), y(a.size());\n        for (int i = 0; i <\
+    \ size(); ++i) x[i] = v[i].val;\n        for (int i = 0; i < a.size(); ++i) y[i]\
+    \ = a.v[i].val;\n        auto z = ArbitraryConvolution::convolution_mod(x, y);\n\
+    \        v.resize(z.size());\n        for (int i = 0; i < (int)z.size(); ++i)\
+    \ v[i] = z[i];\n        return *this;\n    }\n    poly& operator/=(const poly\
+    \ &a) { return (*this) *= a.inv(); }\n    poly operator+(const poly &a) const\
+    \ { return poly(*this) += a; }\n    poly operator-(const poly &a) const { return\
+    \ poly(*this) -= a; }\n    poly operator*(const poly &a) const { return poly(*this)\
+    \ *= a; }\n\n    poly inv() const {\n        int n = size();\n        poly r(1);\n\
+    \        r[0] = v[0].inv();\n        int k = 1;\n        while (k < n) {\n   \
+    \         k <<= 1;\n            poly f(k);\n            for (int i = 0; i < min(k,\
+    \ n); ++i) f[i] = v[i];\n            poly nr = (r * r * f).cut(k);\n         \
+    \   for (int i = 0; i < k / 2; ++i) {\n                nr[i] = r[i] + r[i] - nr[i];\n\
+    \                nr[i + k / 2] = -nr[i + k / 2];\n            }\n            r\
+    \ = nr;\n        }\n        r.v.resize(n);\n        return r;\n    }\n};\n\n/**\n\
+    \ * @brief \u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)\n */\n\n#endif\n"
   dependsOn:
+  - math/integer_convolution.cpp
   - util/modint.cpp
   - util/modint_base.cpp
   isVerificationFile: false
   path: math/fft.cpp
-  requiredBy:
-  - tree/frequency_table_of_tree_distance.cpp
-  timestamp: '2026-07-11 20:39:21+09:00'
+  requiredBy: []
+  timestamp: '2026-07-18 15:59:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
 date: 2026-03-15
 documentation_of: math/fft.cpp
@@ -291,10 +367,6 @@ title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
 ## できること
 - `vector<unsigned int> ArbitraryConvolution::convolution_mod(const vector<unsigned int>& a, const vector<unsigned int>& b)`
   `MOD` 上の畳み込みを返す。どちらかが空なら空配列
-- `vector<unsigned long long> ArbitraryConvolution::convolution_u64(const vector<unsigned int>& a, const vector<unsigned int>& b)`
-  整数値を保ったまま畳み込みを返す。どちらかが空なら空配列
-- `vector<unsigned long long> ArbitraryConvolution::square_u64(const vector<unsigned int>& a)`
-  整数値を保ったまま自己畳み込みを返す。空なら空配列
 - `poly operator*(const poly& a, const poly& b)`
   多項式の積を返す
 - `poly inv() const`
@@ -303,9 +375,8 @@ title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
 ## 使い方
 `MOD` を先に定義してから読み込む。
 `poly` に係数を入れて `a * b` を呼べばよい。
-exact な整数値が必要なら `ArbitraryConvolution::convolution_u64` か `ArbitraryConvolution::square_u64` を使う。
+整数値を保った畳み込みは `math/integer_convolution.cpp` を使う。
 
 ## 実装上の補足
 3 素数は `167772161`, `469762049`, `1224736769` を使う。
-`square_u64` は self-convolution 専用に、各 mod で変換 1 回で済む経路を持つ。
 Library Checker の `convolution_mod_1000000007` は verify 済み。

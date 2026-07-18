@@ -337,6 +337,9 @@ data:
       path: math/gcd_transform.cpp
       title: math/gcd_transform.cpp
     - icon: ':heavy_check_mark:'
+      path: math/integer_convolution.cpp
+      title: "\u6574\u6570\u7573\u307F\u8FBC\u307F(2/3 NTT)"
+    - icon: ':heavy_check_mark:'
       path: math/inverse_matrix.cpp
       title: "\u9006\u884C\u5217(Inverse Matrix)"
     - icon: ':warning:'
