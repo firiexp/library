@@ -18,10 +18,9 @@ int main() {
     int t;
     sc.read(t);
     while (t--) {
-        string a, b;
-        sc.read(a, b);
-        BigInteger x(a), y(b);
-        pr.println((x + y).to_string());
+        BigInteger x, y;
+        sc.read(x, y);
+        pr.println(x + y);
     }
     return 0;
 }

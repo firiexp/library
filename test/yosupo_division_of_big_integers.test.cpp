@@ -18,11 +18,10 @@ int main() {
     int t;
     sc.read(t);
     while (t--) {
-        string a, b;
-        sc.read(a, b);
-        BigInteger x(a), y(b);
-        auto qr = BigInteger::divmod(x, y);
-        pr.println(qr.first.to_string(), ' ', qr.second.to_string());
+        BigInteger x, y;
+        sc.read(x, y);
+        auto qr = divmod(x, y);
+        pr.println(qr.first, qr.second);
     }
     return 0;
 }

@@ -24,9 +24,8 @@ int main() {
     int t;
     sc.read(t);
     while (t--) {
-        string a, b;
-        sc.read(a, b);
-        BigInteger x(a, 16), y(b, 16);
+        HexBigInteger x, y;
+        sc.read(x, y);
         pr.println(to_upper_hex((x * y).to_string(16)));
     }
     return 0;

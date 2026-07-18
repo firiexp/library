@@ -25,12 +25,16 @@ verify 用の小さい高速入出力。
   空白を飛ばして 1 文字読む
 - `in.read(string& s)`
   空白区切り文字列を読む
+- `in.read(T& x)` (`x.assign(string)` を持つ型)
+  文字列を読んで `assign` する。`assign` が `false` を返したら異常終了
 - `in >> x`
   `in.read(x)` の別名
 - `Printer out`
   出力をためる
 - `out.print(x)`
   整数、`bool`、`char`、`string`、文字列リテラルを出力する
+- `out.print(x)` (`x.to_string()` を持つ型)
+  `to_string()` の結果を出力する
 - `out.print(Range const& a)`
   `string` 以外の range を空白区切りで出力する
 - `out.println(x)`

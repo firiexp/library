@@ -15,6 +15,18 @@ struct has_fastio_value : false_type {};
 template<class T>
 struct has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type {};
 
+template<class T, class = void>
+struct has_fastio_assign_string : false_type {};
+
+template<class T>
+struct has_fastio_assign_string<T, void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type {};
+
+template<class T, class = void>
+struct has_fastio_to_string : false_type {};
+
+template<class T>
+struct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>> : true_type {};
+
 struct FastIoDigitTable {
     char num[40000];
 
@@ -122,6 +134,14 @@ struct Scanner {
         long long v;
         read(v);
         x = T(v);
+    }
+
+    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value && has_fastio_assign_string<T>::value, int>::type = 0>
+    void read(T &x) {
+        string s;
+        read(s);
+        bool ok = x.assign(s);
+        if (!ok) __builtin_trap();
     }
 
     template<class Head, class Next, class... Tail>
@@ -278,6 +298,11 @@ struct Printer {
     template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value, int>::type = 0>
     void print(const T &x) {
         print(x.value());
+    }
+
+    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value && has_fastio_to_string<T>::value, int>::type = 0>
+    void print(const T &x) {
+        print(x.to_string());
     }
 
     template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value, int>::type = 0>

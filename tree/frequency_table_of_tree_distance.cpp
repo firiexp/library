@@ -1,6 +1,4 @@
-#define FIRIEXP_LIBRARY_FFT_EXACT_ONLY
-#include "../math/fft.cpp"
-#undef FIRIEXP_LIBRARY_FFT_EXACT_ONLY
+#include "../math/integer_convolution.cpp"
 
 vector<long long> frequency_table_of_tree_distance(const vector<vector<int>> &g) {
     using ArbitraryConvolution::square_u64;
