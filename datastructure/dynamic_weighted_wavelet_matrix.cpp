@@ -5,6 +5,51 @@ struct DynamicWeightedWaveletMatrix {
         U sum;
     };
 
+    class Cursor {
+        friend struct DynamicWeightedWaveletMatrix;
+
+        const DynamicWeightedWaveletMatrix *owner_;
+        int depth_, l_, r_, value_index_;
+        CountSum all_;
+
+        Cursor(const DynamicWeightedWaveletMatrix *owner, int depth,
+               int l, int r, int value_index, CountSum all)
+            : owner_(owner), depth_(depth), l_(l), r_(r),
+              value_index_(value_index), all_(all) {}
+
+    public:
+        bool is_leaf() const {
+            return depth_ == owner_->lg;
+        }
+
+        bool empty() const {
+            return all_.count == 0;
+        }
+
+        int count() const {
+            return all_.count;
+        }
+
+        const U &sum() const {
+            return all_.sum;
+        }
+
+        const CountSum &info() const {
+            return all_;
+        }
+
+        const T &value() const {
+            assert(is_leaf() && !empty());
+            assert(0 <= value_index_ && value_index_ < (int)owner_->vals.size());
+            return owner_->vals[value_index_];
+        }
+    };
+
+    struct Children {
+        Cursor low;
+        Cursor high;
+    };
+
     int n, lg, blocks, slot_count;
     bool initialized, built;
     vector<int> mid;
@@ -129,6 +174,45 @@ struct DynamicWeightedWaveletMatrix {
     template <class V>
     static V fenwick_range(const vector<V> &fw, int start, int l, int r) {
         return fenwick_prefix(fw, start, r) - fenwick_prefix(fw, start, l);
+    }
+
+    static CountSum fenwick_range_count_sum(
+            const vector<int> &count_fw, const vector<U> &sum_fw,
+            int start, int l, int r) {
+        CountSum res{0, U()};
+        for (; r > 0; r -= r & -r) {
+            res.count += count_fw[start + r];
+            res.sum += sum_fw[start + r];
+        }
+        for (; l > 0; l -= l & -l) {
+            res.count -= count_fw[start + l];
+            res.sum -= sum_fw[start + l];
+        }
+        return res;
+    }
+
+    static void fenwick_add_count_sum(
+            vector<int> &count_fw, vector<U> &sum_fw,
+            int start, int length, int k, int count_delta, const U &sum_delta) {
+        for (++k; k <= length; k += k & -k) {
+            count_fw[start + k] += count_delta;
+            sum_fw[start + k] += sum_delta;
+        }
+    }
+
+    static int fenwick_lower_bound(const vector<int> &fw, int start, int length, int target) {
+        assert(target > 0);
+        int k = 0;
+        int step = 1;
+        while ((step << 1) <= length) step <<= 1;
+        for (; step > 0; step >>= 1) {
+            int next = k + step;
+            if (next <= length && fw[start + next] < target) {
+                k = next;
+                target -= fw[start + next];
+            }
+        }
+        return k + 1;
     }
 
     int find_slot(int k, const T &x) const {
@@ -299,9 +383,9 @@ struct DynamicWeightedWaveletMatrix {
         fenwick_build(leaf_count_fenwick, 0, slot_count);
         fenwick_build(leaf_sum_fenwick, 0, slot_count);
 
-        base_sum_fenwick.assign(slot_count + 1, U());
-        for (int i = 0; i < n; ++i) base_sum_fenwick[current_slot[i] + 1] = w[i];
-        fenwick_build(base_sum_fenwick, 0, slot_count);
+        base_sum_fenwick.assign(n + 1, U());
+        for (int i = 0; i < n; ++i) base_sum_fenwick[i + 1] = w[i];
+        fenwick_build(base_sum_fenwick, 0, n);
 
         value_candidates.clear();
         value_candidates.shrink_to_fit();
@@ -309,7 +393,6 @@ struct DynamicWeightedWaveletMatrix {
     }
 
     void add_slot(int slot, int count_delta, const U &sum_delta) {
-        fenwick_add(base_sum_fenwick, 0, slot_count, slot, sum_delta);
         int p = slot;
         int xi = slot_value_index[slot];
         for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {
@@ -320,15 +403,23 @@ struct DynamicWeightedWaveletMatrix {
             else {
                 p -= p1;
                 if (count_delta != 0) {
-                    fenwick_add(zero_count_fenwick, row_offset[d], mid[d], p, count_delta);
+                    fenwick_add_count_sum(
+                            zero_count_fenwick, zero_sum_fenwick,
+                            row_offset[d], mid[d], p, count_delta, sum_delta);
                 }
-                fenwick_add(zero_sum_fenwick, row_offset[d], mid[d], p, sum_delta);
+                else {
+                    fenwick_add(zero_sum_fenwick, row_offset[d], mid[d], p, sum_delta);
+                }
             }
         }
         if (count_delta != 0) {
-            fenwick_add(leaf_count_fenwick, 0, slot_count, p, count_delta);
+            fenwick_add_count_sum(
+                    leaf_count_fenwick, leaf_sum_fenwick,
+                    0, slot_count, p, count_delta, sum_delta);
         }
-        fenwick_add(leaf_sum_fenwick, 0, slot_count, p, sum_delta);
+        else {
+            fenwick_add(leaf_sum_fenwick, 0, slot_count, p, sum_delta);
+        }
     }
 
     bool set_value(int k, const T &x) {
@@ -346,12 +437,14 @@ struct DynamicWeightedWaveletMatrix {
     void set_weight(int k, const U &w) {
         assert(built && 0 <= k && k < n);
         U delta = w - weights[k];
+        fenwick_add(base_sum_fenwick, 0, n, k, delta);
         add_slot(current_slot[k], 0, delta);
         weights[k] = w;
     }
 
     void add_weight(int k, const U &delta) {
         assert(built && 0 <= k && k < n);
+        fenwick_add(base_sum_fenwick, 0, n, k, delta);
         add_slot(current_slot[k], 0, delta);
         weights[k] += delta;
     }
@@ -365,6 +458,7 @@ struct DynamicWeightedWaveletMatrix {
             set_weight(k, w);
             return true;
         }
+        fenwick_add(base_sum_fenwick, 0, n, k, w - weights[k]);
         add_slot(old_slot, -1, U() - weights[k]);
         add_slot(next_slot, 1, w);
         current_slot[k] = next_slot;
@@ -389,7 +483,7 @@ struct DynamicWeightedWaveletMatrix {
         if (xi >= (int)vals.size()) {
             U sum = U();
             if constexpr (need_sum) {
-                sum = fenwick_range(base_sum_fenwick, 0, offset[l], offset[r]);
+                sum = fenwick_range(base_sum_fenwick, 0, l, r);
             }
             return {need_count ? r - l : 0, sum};
         }
@@ -455,6 +549,79 @@ struct DynamicWeightedWaveletMatrix {
     U sum_less_equal(int l, int r, const T &x) const {
         int xi = (int)(upper_bound(vals.begin(), vals.end(), x) - vals.begin());
         return count_sum_less_index_internal<false, true>(l, r, xi).sum;
+    }
+
+    Cursor range_cursor(int l, int r) const {
+        assert(built && 0 <= l && l <= r && r <= n);
+        return Cursor(this, 0, offset[l], offset[r], 0,
+                      {r - l, fenwick_range(base_sum_fenwick, 0, l, r)});
+    }
+
+    Children split(const Cursor &cur) const {
+        assert(cur.owner_ == this);
+        assert(!cur.is_leaf());
+
+        const auto *row = bit.data() + cur.depth_ * blocks;
+        const int *row_pref = pref.data() + cur.depth_ * (blocks + 1);
+        int l1, r1;
+        rank1_pair(row, row_pref, cur.l_, cur.r_, l1, r1);
+        int l0 = cur.l_ - l1;
+        int r0 = cur.r_ - r1;
+
+        CountSum low = fenwick_range_count_sum(
+                zero_count_fenwick, zero_sum_fenwick,
+                row_offset[cur.depth_], l0, r0);
+        CountSum high{
+                cur.all_.count - low.count,
+                cur.all_.sum - low.sum
+        };
+
+        int next_depth = cur.depth_ + 1;
+        int prefix = cur.value_index_ << 1;
+        return {
+                Cursor(this, next_depth, l0, r0, prefix, low),
+                Cursor(this, next_depth,
+                       mid[cur.depth_] + l1, mid[cur.depth_] + r1,
+                       prefix | 1, high)
+        };
+    }
+
+    U sum_k_smallest(int l, int r, int k) const {
+        assert(built && 0 <= l && l <= r && r <= n);
+        assert(0 <= k && k <= r - l);
+        if (k == 0) return U();
+        if (k == r - l) {
+            return fenwick_range(base_sum_fenwick, 0, l, r);
+        }
+
+        l = offset[l];
+        r = offset[r];
+        U res = U();
+        const auto *bit_data = bit.data();
+        const int *pref_data = pref.data();
+        for (int d = 0; d < lg; ++d) {
+            int l1, r1;
+            rank1_pair(bit_data, pref_data, l, r, l1, r1);
+            int l0 = l - l1, r0 = r - r1;
+            int zero_count = fenwick_range(zero_count_fenwick, row_offset[d], l0, r0);
+            if (k < zero_count) {
+                l = l0;
+                r = r0;
+            }
+            else {
+                res += fenwick_range(zero_sum_fenwick, row_offset[d], l0, r0);
+                k -= zero_count;
+                if (k == 0) return res;
+                l = mid[d] + l1;
+                r = mid[d] + r1;
+            }
+            bit_data += blocks;
+            pref_data += blocks + 1;
+        }
+
+        int before = fenwick_prefix(leaf_count_fenwick, 0, l);
+        int end = fenwick_lower_bound(leaf_count_fenwick, 0, slot_count, before + k);
+        return res + fenwick_range(leaf_sum_fenwick, 0, l, end);
     }
 
     template <bool need_count, bool need_sum>

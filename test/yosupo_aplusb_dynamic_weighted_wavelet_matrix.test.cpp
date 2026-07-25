@@ -55,6 +55,55 @@ BruteResult brute_range(const vector<int> &a, const vector<ll> &w, int l, int r,
     return res;
 }
 
+ll brute_sum_k_smallest(const vector<int> &a, const vector<ll> &w, int l, int r, int k) {
+    vector<int> ord(r - l);
+    for (int i = l; i < r; ++i) ord[i - l] = i;
+    sort(ord.begin(), ord.end(), [&](int i, int j) {
+        if (a[i] != a[j]) return a[i] < a[j];
+        return i < j;
+    });
+    ll res = 0;
+    for (int i = 0; i < k; ++i) res += w[ord[i]];
+    return res;
+}
+
+void check_cursor(const DynamicWeightedWaveletMatrix<int, ll> &wm,
+                  const vector<int> &a, const vector<ll> &w, int l, int r) {
+    auto root = wm.range_cursor(l, r);
+    ll total = 0;
+    for (int i = l; i < r; ++i) total += w[i];
+    assert(root.count() == r - l && root.sum() == total);
+    assert(root.info().count == root.count() && root.info().sum == root.sum());
+    assert(root.empty() == (l == r));
+
+    vector<pair<int, BruteResult>> got;
+    auto visit = [&](auto &&self, const auto &cur) -> void {
+        if (cur.empty()) return;
+        if (cur.is_leaf()) {
+            got.push_back({cur.value(), {cur.count(), cur.sum()}});
+            return;
+        }
+        auto children = wm.split(cur);
+        assert(children.low.count() + children.high.count() == cur.count());
+        assert(children.low.sum() + children.high.sum() == cur.sum());
+        self(self, children.low);
+        self(self, children.high);
+    };
+    visit(visit, root);
+
+    vector<pair<int, BruteResult>> expected;
+    for (int x : wm.vals) {
+        BruteResult res = brute_equal(a, w, l, r, x);
+        if (res.count != 0) expected.push_back({x, res});
+    }
+    assert(got.size() == expected.size());
+    for (int i = 0; i < (int)got.size(); ++i) {
+        assert(got[i].first == expected[i].first);
+        assert(got[i].second.count == expected[i].second.count);
+        assert(got[i].second.sum == expected[i].second.sum);
+    }
+}
+
 void check_queries(const DynamicWeightedWaveletMatrix<int, ll> &wm,
                    const vector<int> &a, const vector<ll> &w, mt19937 &rng) {
     int n = (int)a.size();
@@ -89,6 +138,10 @@ void check_queries(const DynamicWeightedWaveletMatrix<int, ll> &wm,
     assert(got_range.count == range.count && got_range.sum == range.sum);
     assert(wm.range_freq(l, r, lower, upper) == range.count);
     assert(wm.range_sum(l, r, lower, upper) == range.sum);
+
+    int k = rng() % (r - l + 1);
+    assert(wm.sum_k_smallest(l, r, k) == brute_sum_k_smallest(a, w, l, r, k));
+    check_cursor(wm, a, w, l, r);
 
     int xi = (int)(rng() % (wm.vals.size() + 3)) - 1;
     BruteResult index_less{0, 0};
@@ -187,11 +240,44 @@ void self_check_generic_value() {
     assert(wm.freq(0, 3, string("dd")) == 1);
     assert(!wm.set_value(2, "dd"));
     assert(wm.get_value(2) == "cc");
+
+    auto cur = wm.range_cursor(0, 3);
+    while (!cur.is_leaf()) {
+        auto children = wm.split(cur);
+        cur = children.high.empty() ? children.low : children.high;
+    }
+    assert(cur.value() == "dd");
+}
+
+void self_check_sum_k_smallest() {
+    vector<int> values{2, 1, 1, 3, 1};
+    vector<ll> weights{5, 10, 20, -4, 30};
+    DynamicWeightedWaveletMatrix<int, ll> wm(5);
+    wm.add_value_candidate(0, 1);
+    wm.add_value_candidate(3, 1);
+    wm.build(values, weights);
+
+    assert(wm.sum_k_smallest(0, 5, 0) == 0);
+    assert(wm.sum_k_smallest(0, 5, 1) == 10);
+    assert(wm.sum_k_smallest(0, 5, 2) == 30);
+    assert(wm.sum_k_smallest(0, 5, 3) == 60);
+    assert(wm.sum_k_smallest(0, 5, 4) == 65);
+    assert(wm.sum_k_smallest(0, 5, 5) == 61);
+    assert(wm.sum_k_smallest(2, 5, 2) == 50);
+
+    assert(wm.set_value(0, 1));
+    assert(wm.sum_k_smallest(0, 5, 1) == 5);
+    wm.set_weight(0, -7);
+    assert(wm.sum_k_smallest(0, 5, 2) == 3);
+    assert(wm.set(3, 1, 40));
+    assert(wm.sum_k_smallest(0, 5, 4) == 63);
+    assert(wm.sum_k_smallest(0, 5, 5) == 93);
 }
 
 int main() {
     self_check_random();
     self_check_generic_value();
+    self_check_sum_k_smallest();
 
     Scanner sc;
     Printer pr;

@@ -25,10 +25,20 @@ tags: データ構造
   位置 `k` の値と重みを同時に変更する。`x` が登録候補になければ変更せず `false`
 - `get_value(k)` / `get_weight(k)`
   位置 `k` の現在の値または重みを返す
+- `range_cursor(l, r)`
+  区間 $[l, r)$ に対応する二分木の根を `Cursor` として返す
+- `split(cur)`
+  葉でない `Cursor` を値の小さい子 `low` と大きい子 `high` に分ける
+- `Cursor::is_leaf()` / `empty()` / `count()` / `sum()` / `info()`
+  葉か、空か、含まれる要素数・重み和を返す
+- `Cursor::value()`
+  空でない葉が表す値を返す。葉でない場合や空の場合は呼べない
 - `count_sum_less(l, r, x)` / `count_sum_less_equal(l, r, x)`
   区間 $[l, r)$ のうち `x` 未満または以下の要素数と重み和を返す
 - `count_less(l, r, x)` / `sum_less(l, r, x)`
   区間 $[l, r)$ のうち `x` 未満の要素数または重み和を返す
+- `sum_k_smallest(l, r, k)`
+  区間 $[l, r)$ の要素を値の昇順に並べたとき、小さい方から `k` 個の重み和を返す。`0 <= k <= r - l` とし、同値の要素は位置が小さい順に扱う
 - `freq(l, r, x)` / `sum_equal(l, r, x)`
   区間 $[l, r)$ にある値 `x` の個数または重み和を返す
 - `range_count_sum(l, r, lower, upper)`
@@ -46,12 +56,27 @@ for (auto [k, x] : updates) wm.add_value_candidate(k, x);
 wm.build(values, weights);
 ```
 
+`Cursor` を使うと、必要な側だけへ値の二分木を降りられる。
+
+```cpp
+auto cur = wm.range_cursor(l, r);
+assert(!cur.empty());
+while (!cur.is_leaf()) {
+    auto children = wm.split(cur);
+    cur = children.high.empty() ? children.low : children.high;
+}
+auto maximum = cur.value();
+```
+
+更新を行うと、それ以前に作った `Cursor` は無効になる。
+
 ## 実装上の補足
 - 各位置の候補を連続したスロットへ展開し、各位置につき一つのスロットだけを有効にする
 - 値変更は旧スロットの無効化と新スロットの有効化で処理する
 - $M$ を登録後の候補スロット数、$\sigma$ を候補値の種類数とする
 - 構築は $O(M \log M + M \log \sigma)$
-- 更新と `less`・値区間クエリは $O(\log \sigma \log M)$
+- 更新と `less`・値区間・`sum_k_smallest` クエリは $O(\log \sigma \log M)$
 - `freq` と `sum_equal` は $O(\log \sigma + \log M)$
+- `range_cursor` は $O(\log N)$、`split` は $O(\log M)$。根から葉まで降りると $O(\log \sigma \log M)$
 - メモリ使用量は $O(M \log \sigma)$
 - `U` は `U()` を零元として加算と減算ができる型を使う
