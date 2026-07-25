@@ -24,18 +24,32 @@ data:
     #include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
     #include <cstring>\n#include <type_traits>\n\n#line 1 \"datastructure/dynamic_weighted_wavelet_matrix.cpp\"\
     \ntemplate <class T, class U>\nstruct DynamicWeightedWaveletMatrix {\n    struct\
-    \ CountSum {\n        int count;\n        U sum;\n    };\n\n    int n, lg, blocks,\
-    \ slot_count;\n    bool initialized, built;\n    vector<int> mid;\n    vector<int>\
-    \ row_offset;\n    vector<unsigned long long> bit;\n    vector<int> pref;\n  \
-    \  vector<int> zero_count_fenwick;\n    vector<U> zero_sum_fenwick;\n    vector<int>\
-    \ leaf_count_fenwick;\n    vector<U> leaf_sum_fenwick;\n    vector<U> base_sum_fenwick;\n\
-    \    vector<int> offset;\n    vector<int> current_slot;\n    vector<int> slot_value_index;\n\
-    \    vector<U> weights;\n    vector<T> vals;\n    vector<T> slot_values;\n   \
-    \ vector<pair<int, T>> value_candidates;\n\n    DynamicWeightedWaveletMatrix()\n\
-    \        : n(0), lg(0), blocks(0), slot_count(0), initialized(false), built(false)\
-    \ {}\n\n    explicit DynamicWeightedWaveletMatrix(int n) : DynamicWeightedWaveletMatrix()\
-    \ {\n        init(n);\n    }\n\n    DynamicWeightedWaveletMatrix(const vector<T>\
-    \ &v, const vector<U> &w)\n        : DynamicWeightedWaveletMatrix((int)v.size())\
+    \ CountSum {\n        int count;\n        U sum;\n    };\n\n    class Cursor {\n\
+    \        friend struct DynamicWeightedWaveletMatrix;\n\n        const DynamicWeightedWaveletMatrix\
+    \ *owner_;\n        int depth_, l_, r_, value_index_;\n        CountSum all_;\n\
+    \n        Cursor(const DynamicWeightedWaveletMatrix *owner, int depth,\n     \
+    \          int l, int r, int value_index, CountSum all)\n            : owner_(owner),\
+    \ depth_(depth), l_(l), r_(r),\n              value_index_(value_index), all_(all)\
+    \ {}\n\n    public:\n        bool is_leaf() const {\n            return depth_\
+    \ == owner_->lg;\n        }\n\n        bool empty() const {\n            return\
+    \ all_.count == 0;\n        }\n\n        int count() const {\n            return\
+    \ all_.count;\n        }\n\n        const U &sum() const {\n            return\
+    \ all_.sum;\n        }\n\n        const CountSum &info() const {\n           \
+    \ return all_;\n        }\n\n        const T &value() const {\n            assert(is_leaf()\
+    \ && !empty());\n            assert(0 <= value_index_ && value_index_ < (int)owner_->vals.size());\n\
+    \            return owner_->vals[value_index_];\n        }\n    };\n\n    struct\
+    \ Children {\n        Cursor low;\n        Cursor high;\n    };\n\n    int n,\
+    \ lg, blocks, slot_count;\n    bool initialized, built;\n    vector<int> mid;\n\
+    \    vector<int> row_offset;\n    vector<unsigned long long> bit;\n    vector<int>\
+    \ pref;\n    vector<int> zero_count_fenwick;\n    vector<U> zero_sum_fenwick;\n\
+    \    vector<int> leaf_count_fenwick;\n    vector<U> leaf_sum_fenwick;\n    vector<U>\
+    \ base_sum_fenwick;\n    vector<int> offset;\n    vector<int> current_slot;\n\
+    \    vector<int> slot_value_index;\n    vector<U> weights;\n    vector<T> vals;\n\
+    \    vector<T> slot_values;\n    vector<pair<int, T>> value_candidates;\n\n  \
+    \  DynamicWeightedWaveletMatrix()\n        : n(0), lg(0), blocks(0), slot_count(0),\
+    \ initialized(false), built(false) {}\n\n    explicit DynamicWeightedWaveletMatrix(int\
+    \ n) : DynamicWeightedWaveletMatrix() {\n        init(n);\n    }\n\n    DynamicWeightedWaveletMatrix(const\
+    \ vector<T> &v, const vector<U> &w)\n        : DynamicWeightedWaveletMatrix((int)v.size())\
     \ {\n        build(v, w);\n    }\n\n    DynamicWeightedWaveletMatrix(const vector<T>\
     \ &v, const vector<U> &w,\n                                 const vector<pair<int,\
     \ T>> &candidates)\n        : DynamicWeightedWaveletMatrix((int)v.size()) {\n\
@@ -76,12 +90,29 @@ data:
     \ 0; k -= k & -k) res += fw[start + k];\n        return res;\n    }\n\n    template\
     \ <class V>\n    static V fenwick_range(const vector<V> &fw, int start, int l,\
     \ int r) {\n        return fenwick_prefix(fw, start, r) - fenwick_prefix(fw, start,\
-    \ l);\n    }\n\n    int find_slot(int k, const T &x) const {\n        auto first\
-    \ = slot_values.begin() + offset[k];\n        auto last = slot_values.begin()\
-    \ + offset[k + 1];\n        auto it = lower_bound(first, last, x);\n        if\
-    \ (it == last || !equivalent(*it, x)) return -1;\n        return (int)(it - slot_values.begin());\n\
-    \    }\n\n    void build(const vector<T> &v, const vector<U> &w) {\n        if\
-    \ (!initialized) init((int)v.size());\n        assert(!built);\n        assert((int)v.size()\
+    \ l);\n    }\n\n    static CountSum fenwick_range_count_sum(\n            const\
+    \ vector<int> &count_fw, const vector<U> &sum_fw,\n            int start, int\
+    \ l, int r) {\n        CountSum res{0, U()};\n        for (; r > 0; r -= r & -r)\
+    \ {\n            res.count += count_fw[start + r];\n            res.sum += sum_fw[start\
+    \ + r];\n        }\n        for (; l > 0; l -= l & -l) {\n            res.count\
+    \ -= count_fw[start + l];\n            res.sum -= sum_fw[start + l];\n       \
+    \ }\n        return res;\n    }\n\n    static void fenwick_add_count_sum(\n  \
+    \          vector<int> &count_fw, vector<U> &sum_fw,\n            int start, int\
+    \ length, int k, int count_delta, const U &sum_delta) {\n        for (++k; k <=\
+    \ length; k += k & -k) {\n            count_fw[start + k] += count_delta;\n  \
+    \          sum_fw[start + k] += sum_delta;\n        }\n    }\n\n    static int\
+    \ fenwick_lower_bound(const vector<int> &fw, int start, int length, int target)\
+    \ {\n        assert(target > 0);\n        int k = 0;\n        int step = 1;\n\
+    \        while ((step << 1) <= length) step <<= 1;\n        for (; step > 0; step\
+    \ >>= 1) {\n            int next = k + step;\n            if (next <= length &&\
+    \ fw[start + next] < target) {\n                k = next;\n                target\
+    \ -= fw[start + next];\n            }\n        }\n        return k + 1;\n    }\n\
+    \n    int find_slot(int k, const T &x) const {\n        auto first = slot_values.begin()\
+    \ + offset[k];\n        auto last = slot_values.begin() + offset[k + 1];\n   \
+    \     auto it = lower_bound(first, last, x);\n        if (it == last || !equivalent(*it,\
+    \ x)) return -1;\n        return (int)(it - slot_values.begin());\n    }\n\n \
+    \   void build(const vector<T> &v, const vector<U> &w) {\n        if (!initialized)\
+    \ init((int)v.size());\n        assert(!built);\n        assert((int)v.size()\
     \ == n && (int)w.size() == n);\n\n        vector<pair<int, T>> candidates = value_candidates;\n\
     \        candidates.reserve(candidates.size() + n);\n        for (int i = 0; i\
     \ < n; ++i) candidates.push_back({i, v[i]});\n        sort(candidates.begin(),\
@@ -155,36 +186,40 @@ data:
     \ id = cur[i];\n            if (active[id]) {\n                leaf_count_fenwick[i\
     \ + 1] = 1;\n                leaf_sum_fenwick[i + 1] = active_weight[id];\n  \
     \          }\n        }\n        fenwick_build(leaf_count_fenwick, 0, slot_count);\n\
-    \        fenwick_build(leaf_sum_fenwick, 0, slot_count);\n\n        base_sum_fenwick.assign(slot_count\
-    \ + 1, U());\n        for (int i = 0; i < n; ++i) base_sum_fenwick[current_slot[i]\
-    \ + 1] = w[i];\n        fenwick_build(base_sum_fenwick, 0, slot_count);\n\n  \
-    \      value_candidates.clear();\n        value_candidates.shrink_to_fit();\n\
-    \        built = true;\n    }\n\n    void add_slot(int slot, int count_delta,\
-    \ const U &sum_delta) {\n        fenwick_add(base_sum_fenwick, 0, slot_count,\
-    \ slot, sum_delta);\n        int p = slot;\n        int xi = slot_value_index[slot];\n\
-    \        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n           \
-    \ int p1 = rank1(d, p);\n            if ((xi >> shift) & 1) {\n              \
-    \  p = mid[d] + p1;\n            }\n            else {\n                p -= p1;\n\
-    \                if (count_delta != 0) {\n                    fenwick_add(zero_count_fenwick,\
-    \ row_offset[d], mid[d], p, count_delta);\n                }\n               \
-    \ fenwick_add(zero_sum_fenwick, row_offset[d], mid[d], p, sum_delta);\n      \
-    \      }\n        }\n        if (count_delta != 0) {\n            fenwick_add(leaf_count_fenwick,\
-    \ 0, slot_count, p, count_delta);\n        }\n        fenwick_add(leaf_sum_fenwick,\
-    \ 0, slot_count, p, sum_delta);\n    }\n\n    bool set_value(int k, const T &x)\
-    \ {\n        assert(built && 0 <= k && k < n);\n        int next_slot = find_slot(k,\
+    \        fenwick_build(leaf_sum_fenwick, 0, slot_count);\n\n        base_sum_fenwick.assign(n\
+    \ + 1, U());\n        for (int i = 0; i < n; ++i) base_sum_fenwick[i + 1] = w[i];\n\
+    \        fenwick_build(base_sum_fenwick, 0, n);\n\n        value_candidates.clear();\n\
+    \        value_candidates.shrink_to_fit();\n        built = true;\n    }\n\n \
+    \   void add_slot(int slot, int count_delta, const U &sum_delta) {\n        int\
+    \ p = slot;\n        int xi = slot_value_index[slot];\n        for (int d = 0,\
+    \ shift = lg - 1; d < lg; ++d, --shift) {\n            int p1 = rank1(d, p);\n\
+    \            if ((xi >> shift) & 1) {\n                p = mid[d] + p1;\n    \
+    \        }\n            else {\n                p -= p1;\n                if (count_delta\
+    \ != 0) {\n                    fenwick_add_count_sum(\n                      \
+    \      zero_count_fenwick, zero_sum_fenwick,\n                            row_offset[d],\
+    \ mid[d], p, count_delta, sum_delta);\n                }\n                else\
+    \ {\n                    fenwick_add(zero_sum_fenwick, row_offset[d], mid[d],\
+    \ p, sum_delta);\n                }\n            }\n        }\n        if (count_delta\
+    \ != 0) {\n            fenwick_add_count_sum(\n                    leaf_count_fenwick,\
+    \ leaf_sum_fenwick,\n                    0, slot_count, p, count_delta, sum_delta);\n\
+    \        }\n        else {\n            fenwick_add(leaf_sum_fenwick, 0, slot_count,\
+    \ p, sum_delta);\n        }\n    }\n\n    bool set_value(int k, const T &x) {\n\
+    \        assert(built && 0 <= k && k < n);\n        int next_slot = find_slot(k,\
     \ x);\n        if (next_slot == -1) return false;\n        int old_slot = current_slot[k];\n\
     \        if (old_slot == next_slot) return true;\n        add_slot(old_slot, -1,\
     \ U() - weights[k]);\n        add_slot(next_slot, 1, weights[k]);\n        current_slot[k]\
     \ = next_slot;\n        return true;\n    }\n\n    void set_weight(int k, const\
     \ U &w) {\n        assert(built && 0 <= k && k < n);\n        U delta = w - weights[k];\n\
-    \        add_slot(current_slot[k], 0, delta);\n        weights[k] = w;\n    }\n\
-    \n    void add_weight(int k, const U &delta) {\n        assert(built && 0 <= k\
-    \ && k < n);\n        add_slot(current_slot[k], 0, delta);\n        weights[k]\
+    \        fenwick_add(base_sum_fenwick, 0, n, k, delta);\n        add_slot(current_slot[k],\
+    \ 0, delta);\n        weights[k] = w;\n    }\n\n    void add_weight(int k, const\
+    \ U &delta) {\n        assert(built && 0 <= k && k < n);\n        fenwick_add(base_sum_fenwick,\
+    \ 0, n, k, delta);\n        add_slot(current_slot[k], 0, delta);\n        weights[k]\
     \ += delta;\n    }\n\n    bool set(int k, const T &x, const U &w) {\n        assert(built\
     \ && 0 <= k && k < n);\n        int next_slot = find_slot(k, x);\n        if (next_slot\
     \ == -1) return false;\n        int old_slot = current_slot[k];\n        if (old_slot\
     \ == next_slot) {\n            set_weight(k, w);\n            return true;\n \
-    \       }\n        add_slot(old_slot, -1, U() - weights[k]);\n        add_slot(next_slot,\
+    \       }\n        fenwick_add(base_sum_fenwick, 0, n, k, w - weights[k]);\n \
+    \       add_slot(old_slot, -1, U() - weights[k]);\n        add_slot(next_slot,\
     \ 1, w);\n        current_slot[k] = next_slot;\n        weights[k] = w;\n    \
     \    return true;\n    }\n\n    const T &get_value(int k) const {\n        assert(built\
     \ && 0 <= k && k < n);\n        return slot_values[current_slot[k]];\n    }\n\n\
@@ -194,39 +229,72 @@ data:
     \ const {\n        assert(built && 0 <= l && l <= r && r <= n);\n        if (xi\
     \ <= 0 || l >= r || n == 0) return {0, U()};\n        if (xi >= (int)vals.size())\
     \ {\n            U sum = U();\n            if constexpr (need_sum) {\n       \
-    \         sum = fenwick_range(base_sum_fenwick, 0, offset[l], offset[r]);\n  \
-    \          }\n            return {need_count ? r - l : 0, sum};\n        }\n\n\
-    \        l = offset[l];\n        r = offset[r];\n        CountSum res{0, U()};\n\
-    \        const auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
-    \        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n           \
-    \ int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n  \
-    \          int l0 = l - l1, r0 = r - r1;\n            if ((xi >> shift) & 1) {\n\
-    \                if constexpr (need_count) {\n                    res.count +=\
-    \ fenwick_range(zero_count_fenwick, row_offset[d], l0, r0);\n                }\n\
-    \                if constexpr (need_sum) {\n                    res.sum += fenwick_range(zero_sum_fenwick,\
-    \ row_offset[d], l0, r0);\n                }\n                l = mid[d] + l1;\n\
-    \                r = mid[d] + r1;\n            }\n            else {\n       \
-    \         l = l0;\n                r = r0;\n            }\n            bit_data\
-    \ += blocks;\n            pref_data += blocks + 1;\n        }\n        return\
-    \ res;\n    }\n\n    CountSum count_sum_less_index(int l, int r, int xi) const\
-    \ {\n        return count_sum_less_index_internal<true, true>(l, r, xi);\n   \
-    \ }\n\n    CountSum count_sum_less(int l, int r, const T &x) const {\n       \
-    \ int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n \
-    \       return count_sum_less_index(l, r, xi);\n    }\n\n    CountSum count_sum_less_equal(int\
-    \ l, int r, const T &x) const {\n        int xi = (int)(upper_bound(vals.begin(),\
+    \         sum = fenwick_range(base_sum_fenwick, 0, l, r);\n            }\n   \
+    \         return {need_count ? r - l : 0, sum};\n        }\n\n        l = offset[l];\n\
+    \        r = offset[r];\n        CountSum res{0, U()};\n        const auto *bit_data\
+    \ = bit.data();\n        const int *pref_data = pref.data();\n        for (int\
+    \ d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n            int l1, r1;\n  \
+    \          rank1_pair(bit_data, pref_data, l, r, l1, r1);\n            int l0\
+    \ = l - l1, r0 = r - r1;\n            if ((xi >> shift) & 1) {\n             \
+    \   if constexpr (need_count) {\n                    res.count += fenwick_range(zero_count_fenwick,\
+    \ row_offset[d], l0, r0);\n                }\n                if constexpr (need_sum)\
+    \ {\n                    res.sum += fenwick_range(zero_sum_fenwick, row_offset[d],\
+    \ l0, r0);\n                }\n                l = mid[d] + l1;\n            \
+    \    r = mid[d] + r1;\n            }\n            else {\n                l =\
+    \ l0;\n                r = r0;\n            }\n            bit_data += blocks;\n\
+    \            pref_data += blocks + 1;\n        }\n        return res;\n    }\n\
+    \n    CountSum count_sum_less_index(int l, int r, int xi) const {\n        return\
+    \ count_sum_less_index_internal<true, true>(l, r, xi);\n    }\n\n    CountSum\
+    \ count_sum_less(int l, int r, const T &x) const {\n        int xi = (int)(lower_bound(vals.begin(),\
     \ vals.end(), x) - vals.begin());\n        return count_sum_less_index(l, r, xi);\n\
-    \    }\n\n    int count_less(int l, int r, const T &x) const {\n        int xi\
-    \ = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n        return\
-    \ count_sum_less_index_internal<true, false>(l, r, xi).count;\n    }\n\n    int\
-    \ count_less_equal(int l, int r, const T &x) const {\n        int xi = (int)(upper_bound(vals.begin(),\
+    \    }\n\n    CountSum count_sum_less_equal(int l, int r, const T &x) const {\n\
+    \        int xi = (int)(upper_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
+    \        return count_sum_less_index(l, r, xi);\n    }\n\n    int count_less(int\
+    \ l, int r, const T &x) const {\n        int xi = (int)(lower_bound(vals.begin(),\
     \ vals.end(), x) - vals.begin());\n        return count_sum_less_index_internal<true,\
-    \ false>(l, r, xi).count;\n    }\n\n    U sum_less(int l, int r, const T &x) const\
-    \ {\n        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
+    \ false>(l, r, xi).count;\n    }\n\n    int count_less_equal(int l, int r, const\
+    \ T &x) const {\n        int xi = (int)(upper_bound(vals.begin(), vals.end(),\
+    \ x) - vals.begin());\n        return count_sum_less_index_internal<true, false>(l,\
+    \ r, xi).count;\n    }\n\n    U sum_less(int l, int r, const T &x) const {\n \
+    \       int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
     \        return count_sum_less_index_internal<false, true>(l, r, xi).sum;\n  \
     \  }\n\n    U sum_less_equal(int l, int r, const T &x) const {\n        int xi\
     \ = (int)(upper_bound(vals.begin(), vals.end(), x) - vals.begin());\n        return\
-    \ count_sum_less_index_internal<false, true>(l, r, xi).sum;\n    }\n\n    template\
-    \ <bool need_count, bool need_sum>\n    CountSum count_sum_equal_internal(int\
+    \ count_sum_less_index_internal<false, true>(l, r, xi).sum;\n    }\n\n    Cursor\
+    \ range_cursor(int l, int r) const {\n        assert(built && 0 <= l && l <= r\
+    \ && r <= n);\n        return Cursor(this, 0, offset[l], offset[r], 0,\n     \
+    \                 {r - l, fenwick_range(base_sum_fenwick, 0, l, r)});\n    }\n\
+    \n    Children split(const Cursor &cur) const {\n        assert(cur.owner_ ==\
+    \ this);\n        assert(!cur.is_leaf());\n\n        const auto *row = bit.data()\
+    \ + cur.depth_ * blocks;\n        const int *row_pref = pref.data() + cur.depth_\
+    \ * (blocks + 1);\n        int l1, r1;\n        rank1_pair(row, row_pref, cur.l_,\
+    \ cur.r_, l1, r1);\n        int l0 = cur.l_ - l1;\n        int r0 = cur.r_ - r1;\n\
+    \n        CountSum low = fenwick_range_count_sum(\n                zero_count_fenwick,\
+    \ zero_sum_fenwick,\n                row_offset[cur.depth_], l0, r0);\n      \
+    \  CountSum high{\n                cur.all_.count - low.count,\n             \
+    \   cur.all_.sum - low.sum\n        };\n\n        int next_depth = cur.depth_\
+    \ + 1;\n        int prefix = cur.value_index_ << 1;\n        return {\n      \
+    \          Cursor(this, next_depth, l0, r0, prefix, low),\n                Cursor(this,\
+    \ next_depth,\n                       mid[cur.depth_] + l1, mid[cur.depth_] +\
+    \ r1,\n                       prefix | 1, high)\n        };\n    }\n\n    U sum_k_smallest(int\
+    \ l, int r, int k) const {\n        assert(built && 0 <= l && l <= r && r <= n);\n\
+    \        assert(0 <= k && k <= r - l);\n        if (k == 0) return U();\n    \
+    \    if (k == r - l) {\n            return fenwick_range(base_sum_fenwick, 0,\
+    \ l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n      \
+    \  U res = U();\n        const auto *bit_data = bit.data();\n        const int\
+    \ *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n        \
+    \    int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
+    \            int l0 = l - l1, r0 = r - r1;\n            int zero_count = fenwick_range(zero_count_fenwick,\
+    \ row_offset[d], l0, r0);\n            if (k < zero_count) {\n               \
+    \ l = l0;\n                r = r0;\n            }\n            else {\n      \
+    \          res += fenwick_range(zero_sum_fenwick, row_offset[d], l0, r0);\n  \
+    \              k -= zero_count;\n                if (k == 0) return res;\n   \
+    \             l = mid[d] + l1;\n                r = mid[d] + r1;\n           \
+    \ }\n            bit_data += blocks;\n            pref_data += blocks + 1;\n \
+    \       }\n\n        int before = fenwick_prefix(leaf_count_fenwick, 0, l);\n\
+    \        int end = fenwick_lower_bound(leaf_count_fenwick, 0, slot_count, before\
+    \ + k);\n        return res + fenwick_range(leaf_sum_fenwick, 0, l, end);\n  \
+    \  }\n\n    template <bool need_count, bool need_sum>\n    CountSum count_sum_equal_internal(int\
     \ l, int r, int xi) const {\n        assert(built && 0 <= l && l <= r && r <=\
     \ n);\n        if (l >= r || xi < 0 || xi >= (int)vals.size()) return {0, U()};\n\
     \        l = offset[l];\n        r = offset[r];\n        const auto *bit_data\
@@ -397,92 +465,30 @@ data:
     \ int l, int r, int lower, int upper) {\n    BruteResult res{0, 0};\n    for (int\
     \ i = l; i < r; ++i) {\n        if (lower <= a[i] && a[i] < upper) {\n       \
     \     ++res.count;\n            res.sum += w[i];\n        }\n    }\n    return\
-    \ res;\n}\n\nvoid check_queries(const DynamicWeightedWaveletMatrix<int, ll> &wm,\n\
-    \                   const vector<int> &a, const vector<ll> &w, mt19937 &rng) {\n\
-    \    int n = (int)a.size();\n    int l = rng() % (n + 1);\n    int r = rng() %\
-    \ (n + 1);\n    if (l > r) swap(l, r);\n    int x = (int)(rng() % 25) - 12;\n\n\
-    \    BruteResult less = brute_less(a, w, l, r, x, false);\n    auto got_less =\
-    \ wm.count_sum_less(l, r, x);\n    assert(got_less.count == less.count && got_less.sum\
-    \ == less.sum);\n    assert(wm.count_less(l, r, x) == less.count);\n    assert(wm.sum_less(l,\
-    \ r, x) == less.sum);\n\n    BruteResult less_equal = brute_less(a, w, l, r, x,\
-    \ true);\n    auto got_less_equal = wm.count_sum_less_equal(l, r, x);\n    assert(got_less_equal.count\
-    \ == less_equal.count && got_less_equal.sum == less_equal.sum);\n    assert(wm.count_less_equal(l,\
-    \ r, x) == less_equal.count);\n    assert(wm.sum_less_equal(l, r, x) == less_equal.sum);\n\
-    \n    BruteResult equal = brute_equal(a, w, l, r, x);\n    auto got_equal = wm.count_sum_equal(l,\
-    \ r, x);\n    assert(got_equal.count == equal.count && got_equal.sum == equal.sum);\n\
-    \    assert(wm.freq(l, r, x) == equal.count);\n    assert(wm.sum_equal(l, r, x)\
-    \ == equal.sum);\n\n    int lower = (int)(rng() % 25) - 12;\n    int upper = (int)(rng()\
-    \ % 25) - 12;\n    if (lower > upper) swap(lower, upper);\n    BruteResult range\
-    \ = brute_range(a, w, l, r, lower, upper);\n    auto got_range = wm.range_count_sum(l,\
-    \ r, lower, upper);\n    assert(got_range.count == range.count && got_range.sum\
-    \ == range.sum);\n    assert(wm.range_freq(l, r, lower, upper) == range.count);\n\
-    \    assert(wm.range_sum(l, r, lower, upper) == range.sum);\n\n    int xi = (int)(rng()\
-    \ % (wm.vals.size() + 3)) - 1;\n    BruteResult index_less{0, 0};\n    if (xi\
-    \ >= (int)wm.vals.size()) {\n        index_less = brute_less(a, w, l, r, 1000000000,\
-    \ false);\n    }\n    else if (xi > 0) {\n        index_less = brute_less(a, w,\
-    \ l, r, wm.vals[xi], false);\n    }\n    auto got_index = wm.count_sum_less_index(l,\
-    \ r, xi);\n    assert(got_index.count == index_less.count && got_index.sum ==\
-    \ index_less.sum);\n}\n\nvoid self_check_random() {\n    mt19937 rng(0);\n   \
-    \ for (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 31;\n        vector<vector<int>>\
-    \ candidates(n);\n        vector<int> a(n);\n        vector<ll> w(n);\n      \
-    \  DynamicWeightedWaveletMatrix<int, ll> wm(n);\n\n        for (int i = 0; i <\
-    \ n; ++i) {\n            int count = rng() % 6 + 1;\n            for (int j =\
-    \ 0; j < count; ++j) candidates[i].push_back((int)(rng() % 17) - 8);\n       \
-    \     sort(candidates[i].begin(), candidates[i].end());\n            candidates[i].erase(unique(candidates[i].begin(),\
-    \ candidates[i].end()), candidates[i].end());\n            a[i] = candidates[i][rng()\
-    \ % candidates[i].size()];\n            w[i] = (int)(rng() % 41) - 20;\n     \
-    \       for (int x : candidates[i]) wm.add_value_candidate(i, x);\n          \
-    \  wm.add_value_candidate(i, a[i]);\n        }\n        wm.build(a, w);\n\n  \
-    \      for (int i = 0; i < n; ++i) {\n            assert(wm.get_value(i) == a[i]);\n\
-    \            assert(wm.get_weight(i) == w[i]);\n        }\n        for (int step\
-    \ = 0; step < 200; ++step) {\n            if (n != 0) {\n                int k\
-    \ = rng() % n;\n                int op = rng() % 6;\n                if (op ==\
-    \ 0) {\n                    int x = candidates[k][rng() % candidates[k].size()];\n\
-    \                    assert(wm.set_value(k, x));\n                    a[k] = x;\n\
-    \                }\n                else if (op == 1) {\n                    ll\
-    \ next = (int)(rng() % 81) - 40;\n                    wm.set_weight(k, next);\n\
-    \                    w[k] = next;\n                }\n                else if\
-    \ (op == 2) {\n                    ll delta = (int)(rng() % 21) - 10;\n      \
-    \              wm.add_weight(k, delta);\n                    w[k] += delta;\n\
-    \                }\n                else if (op == 3) {\n                    int\
-    \ x = candidates[k][rng() % candidates[k].size()];\n                    ll next\
-    \ = (int)(rng() % 81) - 40;\n                    assert(wm.set(k, x, next));\n\
-    \                    a[k] = x;\n                    w[k] = next;\n           \
-    \     }\n                else if (op == 4) {\n                    int old_a =\
-    \ a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set_value(k,\
-    \ 1000000 + k));\n                    assert(wm.get_value(k) == old_a && wm.get_weight(k)\
-    \ == old_w);\n                }\n                else {\n                    int\
-    \ old_a = a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set(k,\
-    \ 2000000 + k, old_w + 1));\n                    assert(wm.get_value(k) == old_a\
-    \ && wm.get_weight(k) == old_w);\n                }\n                assert(wm.get_value(k)\
-    \ == a[k]);\n                assert(wm.get_weight(k) == w[k]);\n            }\n\
-    \            check_queries(wm, a, w, rng);\n        }\n    }\n}\n\nvoid self_check_generic_value()\
-    \ {\n    vector<string> values{\"bb\", \"aa\", \"cc\"};\n    vector<ll> weights{3,\
-    \ -2, 5};\n    DynamicWeightedWaveletMatrix<string, ll> wm(3);\n    wm.add_value_candidate(0,\
-    \ \"dd\");\n    wm.add_value_candidate(0, \"bb\");\n    wm.add_value_candidate(1,\
-    \ \"ab\");\n    wm.build(values, weights);\n\n    assert(wm.sum_less(0, 3, string(\"\
-    cc\")) == 1);\n    assert(wm.set_value(0, \"dd\"));\n    assert(wm.freq(0, 3,\
-    \ string(\"dd\")) == 1);\n    assert(!wm.set_value(2, \"dd\"));\n    assert(wm.get_value(2)\
-    \ == \"cc\");\n}\n\nint main() {\n    self_check_random();\n    self_check_generic_value();\n\
-    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <random>\n#include <string>\n#include <utility>\n\
-    #include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <type_traits>\n\n#include \"../datastructure/dynamic_weighted_wavelet_matrix.cpp\"\
-    \n#include \"../util/fastio.cpp\"\n\nstruct BruteResult {\n    int count;\n  \
-    \  ll sum;\n};\n\nBruteResult brute_less(const vector<int> &a, const vector<ll>\
-    \ &w, int l, int r, int x, bool equal) {\n    BruteResult res{0, 0};\n    for\
-    \ (int i = l; i < r; ++i) {\n        if (a[i] < x || (equal && a[i] == x)) {\n\
-    \            ++res.count;\n            res.sum += w[i];\n        }\n    }\n  \
-    \  return res;\n}\n\nBruteResult brute_equal(const vector<int> &a, const vector<ll>\
-    \ &w, int l, int r, int x) {\n    BruteResult res{0, 0};\n    for (int i = l;\
-    \ i < r; ++i) {\n        if (a[i] == x) {\n            ++res.count;\n        \
-    \    res.sum += w[i];\n        }\n    }\n    return res;\n}\n\nBruteResult brute_range(const\
-    \ vector<int> &a, const vector<ll> &w, int l, int r, int lower, int upper) {\n\
-    \    BruteResult res{0, 0};\n    for (int i = l; i < r; ++i) {\n        if (lower\
-    \ <= a[i] && a[i] < upper) {\n            ++res.count;\n            res.sum +=\
-    \ w[i];\n        }\n    }\n    return res;\n}\n\nvoid check_queries(const DynamicWeightedWaveletMatrix<int,\
+    \ res;\n}\n\nll brute_sum_k_smallest(const vector<int> &a, const vector<ll> &w,\
+    \ int l, int r, int k) {\n    vector<int> ord(r - l);\n    for (int i = l; i <\
+    \ r; ++i) ord[i - l] = i;\n    sort(ord.begin(), ord.end(), [&](int i, int j)\
+    \ {\n        if (a[i] != a[j]) return a[i] < a[j];\n        return i < j;\n  \
+    \  });\n    ll res = 0;\n    for (int i = 0; i < k; ++i) res += w[ord[i]];\n \
+    \   return res;\n}\n\nvoid check_cursor(const DynamicWeightedWaveletMatrix<int,\
+    \ ll> &wm,\n                  const vector<int> &a, const vector<ll> &w, int l,\
+    \ int r) {\n    auto root = wm.range_cursor(l, r);\n    ll total = 0;\n    for\
+    \ (int i = l; i < r; ++i) total += w[i];\n    assert(root.count() == r - l &&\
+    \ root.sum() == total);\n    assert(root.info().count == root.count() && root.info().sum\
+    \ == root.sum());\n    assert(root.empty() == (l == r));\n\n    vector<pair<int,\
+    \ BruteResult>> got;\n    auto visit = [&](auto &&self, const auto &cur) -> void\
+    \ {\n        if (cur.empty()) return;\n        if (cur.is_leaf()) {\n        \
+    \    got.push_back({cur.value(), {cur.count(), cur.sum()}});\n            return;\n\
+    \        }\n        auto children = wm.split(cur);\n        assert(children.low.count()\
+    \ + children.high.count() == cur.count());\n        assert(children.low.sum()\
+    \ + children.high.sum() == cur.sum());\n        self(self, children.low);\n  \
+    \      self(self, children.high);\n    };\n    visit(visit, root);\n\n    vector<pair<int,\
+    \ BruteResult>> expected;\n    for (int x : wm.vals) {\n        BruteResult res\
+    \ = brute_equal(a, w, l, r, x);\n        if (res.count != 0) expected.push_back({x,\
+    \ res});\n    }\n    assert(got.size() == expected.size());\n    for (int i =\
+    \ 0; i < (int)got.size(); ++i) {\n        assert(got[i].first == expected[i].first);\n\
+    \        assert(got[i].second.count == expected[i].second.count);\n        assert(got[i].second.sum\
+    \ == expected[i].second.sum);\n    }\n}\n\nvoid check_queries(const DynamicWeightedWaveletMatrix<int,\
     \ ll> &wm,\n                   const vector<int> &a, const vector<ll> &w, mt19937\
     \ &rng) {\n    int n = (int)a.size();\n    int l = rng() % (n + 1);\n    int r\
     \ = rng() % (n + 1);\n    if (l > r) swap(l, r);\n    int x = (int)(rng() % 25)\
@@ -502,7 +508,9 @@ data:
     \ = brute_range(a, w, l, r, lower, upper);\n    auto got_range = wm.range_count_sum(l,\
     \ r, lower, upper);\n    assert(got_range.count == range.count && got_range.sum\
     \ == range.sum);\n    assert(wm.range_freq(l, r, lower, upper) == range.count);\n\
-    \    assert(wm.range_sum(l, r, lower, upper) == range.sum);\n\n    int xi = (int)(rng()\
+    \    assert(wm.range_sum(l, r, lower, upper) == range.sum);\n\n    int k = rng()\
+    \ % (r - l + 1);\n    assert(wm.sum_k_smallest(l, r, k) == brute_sum_k_smallest(a,\
+    \ w, l, r, k));\n    check_cursor(wm, a, w, l, r);\n\n    int xi = (int)(rng()\
     \ % (wm.vals.size() + 3)) - 1;\n    BruteResult index_less{0, 0};\n    if (xi\
     \ >= (int)wm.vals.size()) {\n        index_less = brute_less(a, w, l, r, 1000000000,\
     \ false);\n    }\n    else if (xi > 0) {\n        index_less = brute_less(a, w,\
@@ -549,7 +557,146 @@ data:
     \ \"ab\");\n    wm.build(values, weights);\n\n    assert(wm.sum_less(0, 3, string(\"\
     cc\")) == 1);\n    assert(wm.set_value(0, \"dd\"));\n    assert(wm.freq(0, 3,\
     \ string(\"dd\")) == 1);\n    assert(!wm.set_value(2, \"dd\"));\n    assert(wm.get_value(2)\
-    \ == \"cc\");\n}\n\nint main() {\n    self_check_random();\n    self_check_generic_value();\n\
+    \ == \"cc\");\n\n    auto cur = wm.range_cursor(0, 3);\n    while (!cur.is_leaf())\
+    \ {\n        auto children = wm.split(cur);\n        cur = children.high.empty()\
+    \ ? children.low : children.high;\n    }\n    assert(cur.value() == \"dd\");\n\
+    }\n\nvoid self_check_sum_k_smallest() {\n    vector<int> values{2, 1, 1, 3, 1};\n\
+    \    vector<ll> weights{5, 10, 20, -4, 30};\n    DynamicWeightedWaveletMatrix<int,\
+    \ ll> wm(5);\n    wm.add_value_candidate(0, 1);\n    wm.add_value_candidate(3,\
+    \ 1);\n    wm.build(values, weights);\n\n    assert(wm.sum_k_smallest(0, 5, 0)\
+    \ == 0);\n    assert(wm.sum_k_smallest(0, 5, 1) == 10);\n    assert(wm.sum_k_smallest(0,\
+    \ 5, 2) == 30);\n    assert(wm.sum_k_smallest(0, 5, 3) == 60);\n    assert(wm.sum_k_smallest(0,\
+    \ 5, 4) == 65);\n    assert(wm.sum_k_smallest(0, 5, 5) == 61);\n    assert(wm.sum_k_smallest(2,\
+    \ 5, 2) == 50);\n\n    assert(wm.set_value(0, 1));\n    assert(wm.sum_k_smallest(0,\
+    \ 5, 1) == 5);\n    wm.set_weight(0, -7);\n    assert(wm.sum_k_smallest(0, 5,\
+    \ 2) == 3);\n    assert(wm.set(3, 1, 40));\n    assert(wm.sum_k_smallest(0, 5,\
+    \ 4) == 63);\n    assert(wm.sum_k_smallest(0, 5, 5) == 93);\n}\n\nint main() {\n\
+    \    self_check_random();\n    self_check_generic_value();\n    self_check_sum_k_smallest();\n\
+    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
+    #include <cassert>\n#include <random>\n#include <string>\n#include <utility>\n\
+    #include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <type_traits>\n\n#include \"../datastructure/dynamic_weighted_wavelet_matrix.cpp\"\
+    \n#include \"../util/fastio.cpp\"\n\nstruct BruteResult {\n    int count;\n  \
+    \  ll sum;\n};\n\nBruteResult brute_less(const vector<int> &a, const vector<ll>\
+    \ &w, int l, int r, int x, bool equal) {\n    BruteResult res{0, 0};\n    for\
+    \ (int i = l; i < r; ++i) {\n        if (a[i] < x || (equal && a[i] == x)) {\n\
+    \            ++res.count;\n            res.sum += w[i];\n        }\n    }\n  \
+    \  return res;\n}\n\nBruteResult brute_equal(const vector<int> &a, const vector<ll>\
+    \ &w, int l, int r, int x) {\n    BruteResult res{0, 0};\n    for (int i = l;\
+    \ i < r; ++i) {\n        if (a[i] == x) {\n            ++res.count;\n        \
+    \    res.sum += w[i];\n        }\n    }\n    return res;\n}\n\nBruteResult brute_range(const\
+    \ vector<int> &a, const vector<ll> &w, int l, int r, int lower, int upper) {\n\
+    \    BruteResult res{0, 0};\n    for (int i = l; i < r; ++i) {\n        if (lower\
+    \ <= a[i] && a[i] < upper) {\n            ++res.count;\n            res.sum +=\
+    \ w[i];\n        }\n    }\n    return res;\n}\n\nll brute_sum_k_smallest(const\
+    \ vector<int> &a, const vector<ll> &w, int l, int r, int k) {\n    vector<int>\
+    \ ord(r - l);\n    for (int i = l; i < r; ++i) ord[i - l] = i;\n    sort(ord.begin(),\
+    \ ord.end(), [&](int i, int j) {\n        if (a[i] != a[j]) return a[i] < a[j];\n\
+    \        return i < j;\n    });\n    ll res = 0;\n    for (int i = 0; i < k; ++i)\
+    \ res += w[ord[i]];\n    return res;\n}\n\nvoid check_cursor(const DynamicWeightedWaveletMatrix<int,\
+    \ ll> &wm,\n                  const vector<int> &a, const vector<ll> &w, int l,\
+    \ int r) {\n    auto root = wm.range_cursor(l, r);\n    ll total = 0;\n    for\
+    \ (int i = l; i < r; ++i) total += w[i];\n    assert(root.count() == r - l &&\
+    \ root.sum() == total);\n    assert(root.info().count == root.count() && root.info().sum\
+    \ == root.sum());\n    assert(root.empty() == (l == r));\n\n    vector<pair<int,\
+    \ BruteResult>> got;\n    auto visit = [&](auto &&self, const auto &cur) -> void\
+    \ {\n        if (cur.empty()) return;\n        if (cur.is_leaf()) {\n        \
+    \    got.push_back({cur.value(), {cur.count(), cur.sum()}});\n            return;\n\
+    \        }\n        auto children = wm.split(cur);\n        assert(children.low.count()\
+    \ + children.high.count() == cur.count());\n        assert(children.low.sum()\
+    \ + children.high.sum() == cur.sum());\n        self(self, children.low);\n  \
+    \      self(self, children.high);\n    };\n    visit(visit, root);\n\n    vector<pair<int,\
+    \ BruteResult>> expected;\n    for (int x : wm.vals) {\n        BruteResult res\
+    \ = brute_equal(a, w, l, r, x);\n        if (res.count != 0) expected.push_back({x,\
+    \ res});\n    }\n    assert(got.size() == expected.size());\n    for (int i =\
+    \ 0; i < (int)got.size(); ++i) {\n        assert(got[i].first == expected[i].first);\n\
+    \        assert(got[i].second.count == expected[i].second.count);\n        assert(got[i].second.sum\
+    \ == expected[i].second.sum);\n    }\n}\n\nvoid check_queries(const DynamicWeightedWaveletMatrix<int,\
+    \ ll> &wm,\n                   const vector<int> &a, const vector<ll> &w, mt19937\
+    \ &rng) {\n    int n = (int)a.size();\n    int l = rng() % (n + 1);\n    int r\
+    \ = rng() % (n + 1);\n    if (l > r) swap(l, r);\n    int x = (int)(rng() % 25)\
+    \ - 12;\n\n    BruteResult less = brute_less(a, w, l, r, x, false);\n    auto\
+    \ got_less = wm.count_sum_less(l, r, x);\n    assert(got_less.count == less.count\
+    \ && got_less.sum == less.sum);\n    assert(wm.count_less(l, r, x) == less.count);\n\
+    \    assert(wm.sum_less(l, r, x) == less.sum);\n\n    BruteResult less_equal =\
+    \ brute_less(a, w, l, r, x, true);\n    auto got_less_equal = wm.count_sum_less_equal(l,\
+    \ r, x);\n    assert(got_less_equal.count == less_equal.count && got_less_equal.sum\
+    \ == less_equal.sum);\n    assert(wm.count_less_equal(l, r, x) == less_equal.count);\n\
+    \    assert(wm.sum_less_equal(l, r, x) == less_equal.sum);\n\n    BruteResult\
+    \ equal = brute_equal(a, w, l, r, x);\n    auto got_equal = wm.count_sum_equal(l,\
+    \ r, x);\n    assert(got_equal.count == equal.count && got_equal.sum == equal.sum);\n\
+    \    assert(wm.freq(l, r, x) == equal.count);\n    assert(wm.sum_equal(l, r, x)\
+    \ == equal.sum);\n\n    int lower = (int)(rng() % 25) - 12;\n    int upper = (int)(rng()\
+    \ % 25) - 12;\n    if (lower > upper) swap(lower, upper);\n    BruteResult range\
+    \ = brute_range(a, w, l, r, lower, upper);\n    auto got_range = wm.range_count_sum(l,\
+    \ r, lower, upper);\n    assert(got_range.count == range.count && got_range.sum\
+    \ == range.sum);\n    assert(wm.range_freq(l, r, lower, upper) == range.count);\n\
+    \    assert(wm.range_sum(l, r, lower, upper) == range.sum);\n\n    int k = rng()\
+    \ % (r - l + 1);\n    assert(wm.sum_k_smallest(l, r, k) == brute_sum_k_smallest(a,\
+    \ w, l, r, k));\n    check_cursor(wm, a, w, l, r);\n\n    int xi = (int)(rng()\
+    \ % (wm.vals.size() + 3)) - 1;\n    BruteResult index_less{0, 0};\n    if (xi\
+    \ >= (int)wm.vals.size()) {\n        index_less = brute_less(a, w, l, r, 1000000000,\
+    \ false);\n    }\n    else if (xi > 0) {\n        index_less = brute_less(a, w,\
+    \ l, r, wm.vals[xi], false);\n    }\n    auto got_index = wm.count_sum_less_index(l,\
+    \ r, xi);\n    assert(got_index.count == index_less.count && got_index.sum ==\
+    \ index_less.sum);\n}\n\nvoid self_check_random() {\n    mt19937 rng(0);\n   \
+    \ for (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 31;\n        vector<vector<int>>\
+    \ candidates(n);\n        vector<int> a(n);\n        vector<ll> w(n);\n      \
+    \  DynamicWeightedWaveletMatrix<int, ll> wm(n);\n\n        for (int i = 0; i <\
+    \ n; ++i) {\n            int count = rng() % 6 + 1;\n            for (int j =\
+    \ 0; j < count; ++j) candidates[i].push_back((int)(rng() % 17) - 8);\n       \
+    \     sort(candidates[i].begin(), candidates[i].end());\n            candidates[i].erase(unique(candidates[i].begin(),\
+    \ candidates[i].end()), candidates[i].end());\n            a[i] = candidates[i][rng()\
+    \ % candidates[i].size()];\n            w[i] = (int)(rng() % 41) - 20;\n     \
+    \       for (int x : candidates[i]) wm.add_value_candidate(i, x);\n          \
+    \  wm.add_value_candidate(i, a[i]);\n        }\n        wm.build(a, w);\n\n  \
+    \      for (int i = 0; i < n; ++i) {\n            assert(wm.get_value(i) == a[i]);\n\
+    \            assert(wm.get_weight(i) == w[i]);\n        }\n        for (int step\
+    \ = 0; step < 200; ++step) {\n            if (n != 0) {\n                int k\
+    \ = rng() % n;\n                int op = rng() % 6;\n                if (op ==\
+    \ 0) {\n                    int x = candidates[k][rng() % candidates[k].size()];\n\
+    \                    assert(wm.set_value(k, x));\n                    a[k] = x;\n\
+    \                }\n                else if (op == 1) {\n                    ll\
+    \ next = (int)(rng() % 81) - 40;\n                    wm.set_weight(k, next);\n\
+    \                    w[k] = next;\n                }\n                else if\
+    \ (op == 2) {\n                    ll delta = (int)(rng() % 21) - 10;\n      \
+    \              wm.add_weight(k, delta);\n                    w[k] += delta;\n\
+    \                }\n                else if (op == 3) {\n                    int\
+    \ x = candidates[k][rng() % candidates[k].size()];\n                    ll next\
+    \ = (int)(rng() % 81) - 40;\n                    assert(wm.set(k, x, next));\n\
+    \                    a[k] = x;\n                    w[k] = next;\n           \
+    \     }\n                else if (op == 4) {\n                    int old_a =\
+    \ a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set_value(k,\
+    \ 1000000 + k));\n                    assert(wm.get_value(k) == old_a && wm.get_weight(k)\
+    \ == old_w);\n                }\n                else {\n                    int\
+    \ old_a = a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set(k,\
+    \ 2000000 + k, old_w + 1));\n                    assert(wm.get_value(k) == old_a\
+    \ && wm.get_weight(k) == old_w);\n                }\n                assert(wm.get_value(k)\
+    \ == a[k]);\n                assert(wm.get_weight(k) == w[k]);\n            }\n\
+    \            check_queries(wm, a, w, rng);\n        }\n    }\n}\n\nvoid self_check_generic_value()\
+    \ {\n    vector<string> values{\"bb\", \"aa\", \"cc\"};\n    vector<ll> weights{3,\
+    \ -2, 5};\n    DynamicWeightedWaveletMatrix<string, ll> wm(3);\n    wm.add_value_candidate(0,\
+    \ \"dd\");\n    wm.add_value_candidate(0, \"bb\");\n    wm.add_value_candidate(1,\
+    \ \"ab\");\n    wm.build(values, weights);\n\n    assert(wm.sum_less(0, 3, string(\"\
+    cc\")) == 1);\n    assert(wm.set_value(0, \"dd\"));\n    assert(wm.freq(0, 3,\
+    \ string(\"dd\")) == 1);\n    assert(!wm.set_value(2, \"dd\"));\n    assert(wm.get_value(2)\
+    \ == \"cc\");\n\n    auto cur = wm.range_cursor(0, 3);\n    while (!cur.is_leaf())\
+    \ {\n        auto children = wm.split(cur);\n        cur = children.high.empty()\
+    \ ? children.low : children.high;\n    }\n    assert(cur.value() == \"dd\");\n\
+    }\n\nvoid self_check_sum_k_smallest() {\n    vector<int> values{2, 1, 1, 3, 1};\n\
+    \    vector<ll> weights{5, 10, 20, -4, 30};\n    DynamicWeightedWaveletMatrix<int,\
+    \ ll> wm(5);\n    wm.add_value_candidate(0, 1);\n    wm.add_value_candidate(3,\
+    \ 1);\n    wm.build(values, weights);\n\n    assert(wm.sum_k_smallest(0, 5, 0)\
+    \ == 0);\n    assert(wm.sum_k_smallest(0, 5, 1) == 10);\n    assert(wm.sum_k_smallest(0,\
+    \ 5, 2) == 30);\n    assert(wm.sum_k_smallest(0, 5, 3) == 60);\n    assert(wm.sum_k_smallest(0,\
+    \ 5, 4) == 65);\n    assert(wm.sum_k_smallest(0, 5, 5) == 61);\n    assert(wm.sum_k_smallest(2,\
+    \ 5, 2) == 50);\n\n    assert(wm.set_value(0, 1));\n    assert(wm.sum_k_smallest(0,\
+    \ 5, 1) == 5);\n    wm.set_weight(0, -7);\n    assert(wm.sum_k_smallest(0, 5,\
+    \ 2) == 3);\n    assert(wm.set(3, 1, 40));\n    assert(wm.sum_k_smallest(0, 5,\
+    \ 4) == 63);\n    assert(wm.sum_k_smallest(0, 5, 5) == 93);\n}\n\nint main() {\n\
+    \    self_check_random();\n    self_check_generic_value();\n    self_check_sum_k_smallest();\n\
     \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
     \ + b);\n    return 0;\n}\n"
   dependsOn:
@@ -558,7 +705,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-07-25 14:33:55+09:00'
+  timestamp: '2026-07-25 20:56:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp

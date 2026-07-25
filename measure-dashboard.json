@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-25T13:10:11+09:00",
+  "generatedAt": "2026-07-25T20:49:20+09:00",
   "root": ".",
   "testCount": 182,
   "inventory": {
@@ -16,7 +16,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "ca4319d93bf8c0307c47013685a50aa41b826dc9",
+    "gitRevision": "c124106fcdc61d7d17423ffbd129be2f3ff822ab",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -31028,7 +31028,7 @@
           "a.out",
           "test/yosupo_point_set_range_frequency.test.cpp"
         ],
-        "wallSec": 0.856251462000273
+        "wallSec": 1.0123001169995405
       },
       "testcases": {
         "directory": ".verify-helper/cache/b1b40133226c954af015d8c667003a26/test",
@@ -31039,7 +31039,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/b1b40133226c954af015d8c667003a26/verify-dashboard-fieom8_n/a.out",
+          "./.verify-helper/cache/b1b40133226c954af015d8c667003a26/verify-dashboard-0f11xg36/a.out",
           "-d",
           "./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test",
           "--tle",
@@ -31048,147 +31048,147 @@
           "~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker"
         ],
         "returnCode": 0,
-        "wallSec": 4.258653794000111,
+        "wallSec": 4.461138184997253,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "example_00",
-              "timeSec": 0.004123,
+              "timeSec": 0.004699,
               "status": "AC"
             },
             {
               "name": "many_query_0_00",
-              "timeSec": 0.069305,
+              "timeSec": 0.061014,
               "status": "AC"
             },
             {
               "name": "many_query_0_01",
-              "timeSec": 0.268574,
+              "timeSec": 0.287429,
               "status": "AC"
             },
             {
               "name": "many_query_0_02",
-              "timeSec": 0.38101,
+              "timeSec": 0.387427,
               "status": "AC"
             },
             {
               "name": "many_query_0_03",
-              "timeSec": 0.711377,
+              "timeSec": 0.647311,
               "status": "AC"
             },
             {
               "name": "many_query_1_00",
-              "timeSec": 0.051254,
+              "timeSec": 0.040201,
               "status": "AC"
             },
             {
               "name": "many_query_1_01",
-              "timeSec": 0.091522,
+              "timeSec": 0.081419,
               "status": "AC"
             },
             {
               "name": "many_query_1_02",
-              "timeSec": 0.11613,
+              "timeSec": 0.106597,
               "status": "AC"
             },
             {
               "name": "many_query_1_03",
-              "timeSec": 0.139139,
+              "timeSec": 0.157787,
               "status": "AC"
             },
             {
               "name": "max_00",
-              "timeSec": 0.045817,
+              "timeSec": 0.04666,
               "status": "AC"
             },
             {
               "name": "max_01",
-              "timeSec": 0.053047,
+              "timeSec": 0.056128,
               "status": "AC"
             },
             {
               "name": "max_02",
-              "timeSec": 0.081017,
+              "timeSec": 0.091709,
               "status": "AC"
             },
             {
               "name": "max_03",
-              "timeSec": 0.167879,
+              "timeSec": 0.198729,
               "status": "AC"
             },
             {
               "name": "max_04",
-              "timeSec": 0.256013,
+              "timeSec": 0.24691,
               "status": "AC"
             },
             {
               "name": "max_05",
-              "timeSec": 0.306439,
+              "timeSec": 0.373864,
               "status": "AC"
             },
             {
               "name": "max_06",
-              "timeSec": 0.412697,
+              "timeSec": 0.451611,
               "status": "AC"
             },
             {
               "name": "max_07",
-              "timeSec": 0.392773,
+              "timeSec": 0.448523,
               "status": "AC"
             },
             {
               "name": "medium_00",
-              "timeSec": 0.018959,
+              "timeSec": 0.01998,
               "status": "AC"
             },
             {
               "name": "medium_01",
-              "timeSec": 0.022164,
+              "timeSec": 0.023126,
               "status": "AC"
             },
             {
               "name": "medium_02",
-              "timeSec": 0.030087,
+              "timeSec": 0.033959,
               "status": "AC"
             },
             {
               "name": "medium_03",
-              "timeSec": 0.054171,
+              "timeSec": 0.061989,
               "status": "AC"
             },
             {
               "name": "medium_04",
-              "timeSec": 0.089403,
+              "timeSec": 0.088132,
               "status": "AC"
             },
             {
               "name": "small_n_00",
-              "timeSec": 0.009047,
+              "timeSec": 0.010111,
               "status": "AC"
             },
             {
               "name": "small_n_01",
-              "timeSec": 0.01962,
+              "timeSec": 0.022733,
               "status": "AC"
             },
             {
               "name": "small_n_02",
-              "timeSec": 0.022505,
+              "timeSec": 0.025839,
               "status": "AC"
             }
           ],
           "caseCount": 25,
           "timedCaseCount": 25,
           "passedCaseCount": 25,
-          "slowestSec": 0.711377,
+          "slowestSec": 0.647311,
           "slowestCase": "many_query_0_03",
-          "averageSec": 0.15256287999999998,
-          "maxMemoryMb": 60.544,
+          "averageSec": 0.15895548,
+          "maxMemoryMb": 59.772,
           "maxMemoryCase": "many_query_0_03",
           "summary": "test success: 25 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 25 cases found\n\n[INFO] example_00\n[INFO] time: 0.004123 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/example_00.in /tmp/tmpgxlhhs_r/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/example_00.out\nok 5 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_0_00\n[INFO] time: 0.069305 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_00.in /tmp/tmpqcwyckag/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_00.out\nok 2005 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_0_01\n[INFO] time: 0.268574 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_01.in /tmp/tmpf1s2g73v/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_01.out\nok 1948 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_0_02\n[INFO] time: 0.381010 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_02.in /tmp/tmpfggm8lso/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_02.out\nok 2057 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_0_03\n[INFO] time: 0.711377 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_03.in /tmp/tmp3p1o02k6/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_03.out\nok 1961 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_1_00\n[INFO] time: 0.051254 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_00.in /tmp/tmpm1sh6o87/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_00.out\nok 198003 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_1_01\n[INFO] time: 0.091522 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_01.in /tmp/tmp_opak6pt/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_01.out\nok 198031 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_1_02\n[INFO] time: 0.116130 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_02.in /tmp/tmpet4icpw6/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_02.out\nok 197962 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_1_03\n[INFO] time: 0.139139 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_03.in /tmp/tmpjkmj17_a/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_03.out\nok 198059 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_00\n[INFO] time: 0.045817 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_00.in /tmp/tmp6vsbbol4/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_00.out\nok 100148 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_01\n[INFO] time: 0.053047 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_01.in /tmp/tmpc9lbync_/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_01.out\nok 100002 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_02\n[INFO] time: 0.081017 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_02.in /tmp/tmpchz7x3jd/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_02.out\nok 100344 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_03\n[INFO] time: 0.167879 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_03.in /tmp/tmpjgbh1kut/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_03.out\nok 100133 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_04\n[INFO] time: 0.256013 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_04.in /tmp/tmp7coin565/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_04.out\nok 99951 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_05\n[INFO] time: 0.306439 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_05.in /tmp/tmp1yz_xr9q/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_05.out\nok 99956 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_06\n[INFO] time: 0.412697 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_06.in /tmp/tmpjkhdj6wn/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_06.out\nok 99778 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_07\n[INFO] time: 0.392773 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_07.in /tmp/tmpu9_ga961/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_07.out\nok 99674 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_00\n[INFO] time: 0.018959 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_00.in /tmp/tmpo2xj58z4/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_00.out\nok 99937 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_01\n[INFO] time: 0.022164 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_01.in /tmp/tmpkaa989vq/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_01.out\nok 100049 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_02\n[INFO] time: 0.030087 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_02.in /tmp/tmpqbjtc_9l/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_02.out\nok 100183 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_03\n[INFO] time: 0.054171 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_03.in /tmp/tmpkpcv6snh/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_03.out\nok 100385 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_04\n[INFO] time: 0.089403 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_04.in /tmp/tmp7eilalp5/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_04.out\nok 100146 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_n_00\n[INFO] time: 0.009047 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_00.in /tmp/tmpls0mtyua/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_00.out\nok 200000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_n_01\n[INFO] time: 0.019620 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_01.in /tmp/tmpmsqgb287/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_01.out\nok 99906 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_n_02\n[INFO] time: 0.022505 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_02.in /tmp/tmpqutprgf4/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_02.out\nok 99762 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.711377 sec  (for many_query_0_03)\n[INFO] max memory: 60.544000 MB  (for many_query_0_03)\n[SUCCESS] test success: 25 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 25 cases found\n\n[INFO] example_00\n[INFO] time: 0.004699 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/example_00.in /tmp/tmpaa4c6zw_/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/example_00.out\nok 5 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_0_00\n[INFO] time: 0.061014 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_00.in /tmp/tmp48nb7fdr/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_00.out\nok 2005 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_0_01\n[INFO] time: 0.287429 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_01.in /tmp/tmpwrelv_fe/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_01.out\nok 1948 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_0_02\n[INFO] time: 0.387427 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_02.in /tmp/tmpwrdk91rm/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_02.out\nok 2057 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_0_03\n[INFO] time: 0.647311 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_03.in /tmp/tmp1mcv6999/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_0_03.out\nok 1961 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_1_00\n[INFO] time: 0.040201 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_00.in /tmp/tmpqwtj81pk/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_00.out\nok 198003 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_1_01\n[INFO] time: 0.081419 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_01.in /tmp/tmp2195w9ju/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_01.out\nok 198031 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_1_02\n[INFO] time: 0.106597 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_02.in /tmp/tmptrmf51mp/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_02.out\nok 197962 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_query_1_03\n[INFO] time: 0.157787 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_03.in /tmp/tmpz80llv2x/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/many_query_1_03.out\nok 198059 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_00\n[INFO] time: 0.046660 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_00.in /tmp/tmp25vwwd5j/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_00.out\nok 100148 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_01\n[INFO] time: 0.056128 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_01.in /tmp/tmpz0t62l_j/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_01.out\nok 100002 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_02\n[INFO] time: 0.091709 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_02.in /tmp/tmp9qjd9tnk/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_02.out\nok 100344 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_03\n[INFO] time: 0.198729 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_03.in /tmp/tmpjifsddoz/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_03.out\nok 100133 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_04\n[INFO] time: 0.246910 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_04.in /tmp/tmpubt7plj8/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_04.out\nok 99951 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_05\n[INFO] time: 0.373864 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_05.in /tmp/tmp5ud_pwsm/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_05.out\nok 99956 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_06\n[INFO] time: 0.451611 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_06.in /tmp/tmpbq8mrwi5/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_06.out\nok 99778 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_07\n[INFO] time: 0.448523 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_07.in /tmp/tmp7wwyuv66/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/max_07.out\nok 99674 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_00\n[INFO] time: 0.019980 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_00.in /tmp/tmp30agong5/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_00.out\nok 99937 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_01\n[INFO] time: 0.023126 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_01.in /tmp/tmpuj1o6z_t/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_01.out\nok 100049 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_02\n[INFO] time: 0.033959 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_02.in /tmp/tmpocqh72jg/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_02.out\nok 100183 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_03\n[INFO] time: 0.061989 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_03.in /tmp/tmpk5fczdmi/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_03.out\nok 100385 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] medium_04\n[INFO] time: 0.088132 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_04.in /tmp/tmpsvo3i936/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/medium_04.out\nok 100146 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_n_00\n[INFO] time: 0.010111 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_00.in /tmp/tmpo9onca_l/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_00.out\nok 200000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_n_01\n[INFO] time: 0.022733 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_01.in /tmp/tmp57v6t0gs/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_01.out\nok 99906 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_n_02\n[INFO] time: 0.025839 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_set_range_frequency/checker ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_02.in /tmp/tmp80006av9/actual.out ./.verify-helper/cache/b1b40133226c954af015d8c667003a26/test/small_n_02.out\nok 99762 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.647311 sec  (for many_query_0_03)\n[INFO] max memory: 59.772000 MB  (for many_query_0_03)\n[SUCCESS] test success: 25 cases\n"
       }
     },
     {
@@ -31208,7 +31208,7 @@
           "a.out",
           "test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp"
         ],
-        "wallSec": 1.1832935590000488
+        "wallSec": 1.141285133002384
       },
       "testcases": {
         "directory": ".verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test",
@@ -31219,7 +31219,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/verify-dashboard-72gssmgq/a.out",
+          "./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/verify-dashboard-95gp_sou/a.out",
           "-d",
           "./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test",
           "--tle",
@@ -31228,112 +31228,112 @@
           "~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker"
         ],
         "returnCode": 0,
-        "wallSec": 1.8972973830000228,
+        "wallSec": 2.1275845260024653,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "example_00",
-              "timeSec": 0.005304,
+              "timeSec": 0.005515,
               "status": "AC"
             },
             {
               "name": "many_points_00",
-              "timeSec": 0.215359,
+              "timeSec": 0.225249,
               "status": "AC"
             },
             {
               "name": "many_queries_00",
-              "timeSec": 0.190388,
+              "timeSec": 0.242746,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.191173,
+              "timeSec": 0.191943,
               "status": "AC"
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.182464,
+              "timeSec": 0.204491,
               "status": "AC"
             },
             {
               "name": "power_of_2_00",
-              "timeSec": 0.097216,
+              "timeSec": 0.102119,
               "status": "AC"
             },
             {
               "name": "power_of_2_01",
-              "timeSec": 0.096255,
+              "timeSec": 0.107205,
               "status": "AC"
             },
             {
               "name": "random_00",
-              "timeSec": 0.075585,
+              "timeSec": 0.086667,
               "status": "AC"
             },
             {
               "name": "random_01",
-              "timeSec": 0.055245,
+              "timeSec": 0.061909,
               "status": "AC"
             },
             {
               "name": "random_02",
-              "timeSec": 0.091875,
+              "timeSec": 0.089466,
               "status": "AC"
             },
             {
               "name": "small_00",
-              "timeSec": 0.004984,
+              "timeSec": 0.005586,
               "status": "AC"
             },
             {
               "name": "small_01",
-              "timeSec": 0.004681,
+              "timeSec": 0.004566,
               "status": "AC"
             },
             {
               "name": "small_02",
-              "timeSec": 0.004922,
+              "timeSec": 0.005182,
               "status": "AC"
             },
             {
               "name": "small_03",
-              "timeSec": 0.004365,
+              "timeSec": 0.004872,
               "status": "AC"
             },
             {
               "name": "small_04",
-              "timeSec": 0.00517,
+              "timeSec": 0.004641,
               "status": "AC"
             },
             {
               "name": "xy_concentrate_00",
-              "timeSec": 0.109143,
+              "timeSec": 0.117384,
               "status": "AC"
             },
             {
               "name": "xy_concentrate_01",
-              "timeSec": 0.106418,
+              "timeSec": 0.128904,
               "status": "AC"
             },
             {
               "name": "xy_concentrate_02",
-              "timeSec": 0.112444,
+              "timeSec": 0.110024,
               "status": "AC"
             }
           ],
           "caseCount": 18,
           "timedCaseCount": 18,
           "passedCaseCount": 18,
-          "slowestSec": 0.215359,
-          "slowestCase": "many_points_00",
-          "averageSec": 0.08627727777777777,
-          "maxMemoryMb": 49.224,
+          "slowestSec": 0.242746,
+          "slowestCase": "many_queries_00",
+          "averageSec": 0.0943593888888889,
+          "maxMemoryMb": 49.176,
           "maxMemoryCase": "many_points_00",
           "summary": "test success: 18 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 18 cases found\n\n[INFO] example_00\n[INFO] time: 0.005304 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/example_00.in /tmp/tmp0q852_4q/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/example_00.out\nok 3 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_points_00\n[INFO] time: 0.215359 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/many_points_00.in /tmp/tmp6bclr5qq/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/many_points_00.out\nok 16733 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_queries_00\n[INFO] time: 0.190388 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/many_queries_00.in /tmp/tmphmpde_0f/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/many_queries_00.out\nok 83406 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.191173 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/max_random_00.in /tmp/tmp9mu5_bfw/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/max_random_00.out\nok 50135 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.182464 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/max_random_01.in /tmp/tmpctj_encf/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/max_random_01.out\nok 49998 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] power_of_2_00\n[INFO] time: 0.097216 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/power_of_2_00.in /tmp/tmpxcv963bm/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/power_of_2_00.out\nok 65536 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] power_of_2_01\n[INFO] time: 0.096255 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/power_of_2_01.in /tmp/tmpelbe5d3n/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/power_of_2_01.out\nok 65536 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.075585 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_00.in /tmp/tmp5hv3mdsi/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_00.out\nok 38804 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.055245 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_01.in /tmp/tmphow99bh9/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_01.out\nok 9882 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.091875 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_02.in /tmp/tmplvajta76/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_02.out\nok 31017 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.004984 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_00.in /tmp/tmp7qkcldp7/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_00.out\nok 152 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.004681 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_01.in /tmp/tmp7hzsh_pt/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_01.out\nok 122 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.004922 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_02.in /tmp/tmpes26o_nv/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_02.out\nok 194 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.004365 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_03.in /tmp/tmpqgs_89p6/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_03.out\nok 113 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.005170 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_04.in /tmp/tmp7p53adc1/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_04.out\nok 432 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] xy_concentrate_00\n[INFO] time: 0.109143 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_00.in /tmp/tmpmlsdjlax/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_00.out\nok 50253 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] xy_concentrate_01\n[INFO] time: 0.106418 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_01.in /tmp/tmp1ukn9t80/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_01.out\nok 49999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] xy_concentrate_02\n[INFO] time: 0.112444 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_02.in /tmp/tmp86scdgpa/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_02.out\nok 49882 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.215359 sec  (for many_points_00)\n[INFO] max memory: 49.224000 MB  (for many_points_00)\n[SUCCESS] test success: 18 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 18 cases found\n\n[INFO] example_00\n[INFO] time: 0.005515 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/example_00.in /tmp/tmpjyizd95i/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/example_00.out\nok 3 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_points_00\n[INFO] time: 0.225249 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/many_points_00.in /tmp/tmp9whdo_gi/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/many_points_00.out\nok 16733 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] many_queries_00\n[INFO] time: 0.242746 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/many_queries_00.in /tmp/tmp_any13en/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/many_queries_00.out\nok 83406 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.191943 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/max_random_00.in /tmp/tmpykssxyio/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/max_random_00.out\nok 50135 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.204491 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/max_random_01.in /tmp/tmpu0yaeg1_/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/max_random_01.out\nok 49998 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] power_of_2_00\n[INFO] time: 0.102119 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/power_of_2_00.in /tmp/tmpbfnmf6oo/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/power_of_2_00.out\nok 65536 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] power_of_2_01\n[INFO] time: 0.107205 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/power_of_2_01.in /tmp/tmpyik2ue2l/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/power_of_2_01.out\nok 65536 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.086667 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_00.in /tmp/tmp2hrlflm4/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_00.out\nok 38804 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.061909 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_01.in /tmp/tmplbjhp7eo/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_01.out\nok 9882 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.089466 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_02.in /tmp/tmpazhwj996/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/random_02.out\nok 31017 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.005586 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_00.in /tmp/tmpzz6aveda/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_00.out\nok 152 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.004566 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_01.in /tmp/tmp_1nd5uyv/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_01.out\nok 122 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.005182 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_02.in /tmp/tmpanzglps8/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_02.out\nok 194 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.004872 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_03.in /tmp/tmpmmfb8ln6/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_03.out\nok 113 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.004641 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_04.in /tmp/tmp5ka3kv8h/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/small_04.out\nok 432 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] xy_concentrate_00\n[INFO] time: 0.117384 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_00.in /tmp/tmplfeo09y0/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_00.out\nok 50253 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] xy_concentrate_01\n[INFO] time: 0.128904 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_01.in /tmp/tmp3s4wa_73/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_01.out\nok 49999 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] xy_concentrate_02\n[INFO] time: 0.110024 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/point_add_rectangle_sum/checker ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_02.in /tmp/tmphv2cjqro/actual.out ./.verify-helper/cache/b27fae81fc6be2a1dc3b9d1f6d60cc6c/test/xy_concentrate_02.out\nok 49882 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.242746 sec  (for many_queries_00)\n[INFO] max memory: 49.176000 MB  (for many_points_00)\n[SUCCESS] test success: 18 cases\n"
       }
     }
   ]
