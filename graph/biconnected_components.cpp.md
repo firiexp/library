@@ -113,8 +113,8 @@ data:
   timestamp: '2026-04-11 14:49:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_biconnected_components.test.cpp
   - test/yuki1326_block_cut_tree.test.cpp
+  - test/yosupo_biconnected_components.test.cpp
 date: 2026-03-08
 documentation_of: graph/biconnected_components.cpp
 layout: document

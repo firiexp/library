@@ -95,17 +95,17 @@ data:
   isVerificationFile: false
   path: math/prime/linear_sieve.cpp
   requiredBy:
-  - math/powk_all.cpp
-  - math/prime/get_min_factor.cpp
-  - math/prime/eulerphi_all.cpp
-  - math/prime/mobius_all.cpp
-  - math/prime/get_prime2.cpp
   - math/prime/get_prime.cpp
+  - math/prime/mobius_all.cpp
+  - math/prime/eulerphi_all.cpp
+  - math/prime/get_min_factor.cpp
+  - math/prime/get_prime2.cpp
+  - math/powk_all.cpp
   timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_alds1_1_c_get_prime2.test.cpp
   - test/aoj_alds1_1_c_get_prime.test.cpp
+  - test/aoj_alds1_1_c_get_prime2.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
 date: 2026-03-12
 documentation_of: math/prime/linear_sieve.cpp

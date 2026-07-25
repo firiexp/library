@@ -992,12 +992,12 @@ data:
   timestamp: '2026-07-18 15:59:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_addition_of_hex_big_integers.test.cpp
+  - test/yosupo_multiplication_of_big_integers.test.cpp
   - test/yosupo_multiplication_of_hex_big_integers.test.cpp
   - test/yosupo_addition_of_big_integers.test.cpp
-  - test/yosupo_division_of_hex_big_integers.test.cpp
+  - test/yosupo_addition_of_hex_big_integers.test.cpp
   - test/yosupo_division_of_big_integers.test.cpp
-  - test/yosupo_multiplication_of_big_integers.test.cpp
+  - test/yosupo_division_of_hex_big_integers.test.cpp
 date: 2026-03-20
 documentation_of: util/biginteger.cpp
 layout: document

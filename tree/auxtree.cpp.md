@@ -114,8 +114,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0439_virtual_tree_helper.test.cpp
-  - test/aoj0439.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/aoj0439.test.cpp
 documentation_of: tree/auxtree.cpp
 layout: document
 title: "\u88DC\u52A9\u6728(Aux Tree)"

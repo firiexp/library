@@ -333,14 +333,14 @@ data:
   isVerificationFile: false
   path: geometry/geometry.cpp
   requiredBy:
-  - geometry/half_plane_intersection.cpp
   - geometry/dualgraph.cpp
+  - geometry/half_plane_intersection.cpp
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0342.test.cpp
-  - test/aoj0273.test.cpp
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+  - test/aoj0273.test.cpp
+  - test/aoj0342.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
 documentation_of: geometry/geometry.cpp
 layout: document

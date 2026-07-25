@@ -58,8 +58,8 @@ data:
   timestamp: '2026-03-15 11:35:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_dsl_1_b_weightedunionfind.test.cpp
   - test/yosupo_unionfind_with_potential.test.cpp
+  - test/aoj_dsl_1_b_weightedunionfind.test.cpp
 documentation_of: datastructure/weightedunionfind.cpp
 layout: document
 title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"

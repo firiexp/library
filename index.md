@@ -22,6 +22,10 @@ data:
       path: datastructure/dynamic_bitset.cpp
       title: "\u52D5\u7684bitset(Dynamic Bitset)"
     - icon: ':heavy_check_mark:'
+      path: datastructure/dynamic_weighted_wavelet_matrix.cpp
+      title: "\u52D5\u7684\u91CD\u307F\u4ED8\u304DWavelet Matrix(Dynamic Weighted\
+        \ Wavelet Matrix)"
+    - icon: ':heavy_check_mark:'
       path: datastructure/fenwick_tree_2d.cpp
       title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
     - icon: ':heavy_check_mark:'
@@ -751,6 +755,9 @@ data:
       path: test/yosupo_aplusb_dynamic_bitset.test.cpp
       title: test/yosupo_aplusb_dynamic_bitset.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
+      title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
     - icon: ':heavy_check_mark:'
@@ -982,11 +989,17 @@ data:
       path: test/yosupo_point_add_rectangle_sum.test.cpp
       title: test/yosupo_point_add_rectangle_sum.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
+      title: test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
       title: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_point_set_range_composite.test.cpp
       title: test/yosupo_point_set_range_composite.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_point_set_range_frequency.test.cpp
+      title: test/yosupo_point_set_range_frequency.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_polynomial_interpolation.test.cpp
       title: test/yosupo_polynomial_interpolation.test.cpp
