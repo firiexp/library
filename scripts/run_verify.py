@@ -1,27 +1,9 @@
 #!/usr/bin/env python3
 
-from __future__ import annotations
-
-import pathlib
-import subprocess
-import sys
-
-ROOT = pathlib.Path(__file__).resolve().parent.parent
+IMPL = __file__.rsplit("/", 2)[0] + "/.scripts/run_verify_impl.py"
 
 
-def main() -> int:
-    print(
-        "scripts/run_verify.py is deprecated; use scripts/measure_verify.py",
-        file=sys.stderr,
-        flush=True,
-    )
-    completed = subprocess.run(
-        [sys.executable, "scripts/measure_verify.py", *sys.argv[1:]],
-        cwd=ROOT,
-        check=False,
-    )
-    return completed.returncode
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+with open(IMPL, "rb") as fh:
+    code = compile(fh.read(), IMPL, "exec")
+__file__ = IMPL
+exec(code, globals())

@@ -1,29 +1,56 @@
 
 ## verify
 
-通常の verify は以下でまとめて実行できる。
+通常の改善サイクルでは、まず高速な repository check と影響範囲の確認を行う。
 
 ```bash
 python3 scripts/codex_self_check.py
-oj-verify all
+python3 scripts/verify_changed.py --list
 ```
 
-一括 verify をラップする専用スクリプトは置かず、`oj-verify all` をそのまま使う。
+`verify_changed.py` は working tree の staged / unstaged / untracked file を集め、quoted include を再帰的にたどって直接・間接に影響する `test/*.test.cpp` を選ぶ。branch 上の commit も含める場合は base を指定する。
+
+```bash
+python3 scripts/verify_changed.py --base origin/main --list
+```
+
+一覧が妥当なら、fast self-check と選択された verify をまとめて実行する。
+
+```bash
+python3 scripts/verify_changed.py
+```
 
 個別には以下を使う。
 
 ```bash
 python3 scripts/codex_self_check.py
-oj-verify run test/aoj0273.test.cpp
+oj-verify run -j 8 test/aoj0273.test.cpp
+```
+
+`-j 8` は全 test file の同時実行数ではなく、verification timestamp の依存解析と各 `oj test` の testcase 並列数に使われる。性能値を取るときは後述の measurement を `--oj-jobs 1` で使う。
+
+`oj-verify all` は judge verify の後に docs 全体も生成する。共通基盤・compiler 設定など影響を限定できない変更、または統合確認でのみ使う。
+
+```bash
+python3 scripts/codex_self_check.py
+oj-verify all -j 8
 ```
 
 再帰が深い verify をローカルで回すときは、stack size を上げて実行するとよい。
 
 ```bash
 python3 scripts/codex_self_check.py
-scripts/with_unlimited_stack.sh oj-verify run test/yosupo_scc.test.cpp
-scripts/with_unlimited_stack.sh oj-verify all
+scripts/with_unlimited_stack.sh oj-verify run -j 8 test/yosupo_scc.test.cpp
+scripts/with_unlimited_stack.sh oj-verify all -j 8
 ```
+
+通常の self-check は dashboard の HTML contract までを含む高速版である。dashboard renderer / asset / screenshot capture を変更したときだけ視覚回帰も実行する。
+
+```bash
+python3 scripts/codex_self_check.py --full
+```
+
+`scripts/*.py` は公開 command を保つ薄い wrapper で、本体は `.scripts/*_impl.py` に置く。`oj-verify docs` が可視 Python file の import graph を解析する固定コストを避けるためである。
 
 性能計測と可視化は verify とは分け、以下を使う。
 

@@ -23,13 +23,15 @@
 pip3 install -r requirements-dev.txt
 ```
 
-ライブラリの正しさは `oj-verify` で確認する。`codex_self_check.py` はdocs同期やローカルダッシュボードを確認する補助ツールであり、judge verifyとは役割が異なる。
+ライブラリの正しさは `oj-verify` で確認する。`codex_self_check.py` は docs 同期や repository policy を確認する高速な補助ツールであり、judge verify とは役割が異なる。
 
 ```bash
 python3 scripts/codex_self_check.py
-oj-verify run test/yosupo_unionfind.test.cpp
-oj-verify all
+python3 scripts/verify_changed.py --list
+oj-verify run -j 8 test/yosupo_unionfind.test.cpp
 ```
+
+`python3 scripts/verify_changed.py` は working tree の直接・間接依存を調べ、self-check と影響する verify だけを実行する。`oj-verify all` は docs 生成も含むため、共通基盤の変更や統合確認に限定する。
 
 ## 性能計測
 

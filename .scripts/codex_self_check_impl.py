@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import argparse
 import re
 import shutil
 import subprocess
 import sys
 from importlib import util as importlib_util
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,6 +32,18 @@ FORBIDDEN_LIBRARY_PATTERNS = (
 )
 BACKTICK_COMPLEXITY_RE = re.compile(r"`(?:O|Θ)\([^`\n]*\)`")
 FENCED_CODE_RE = re.compile(r"```.*?```", re.DOTALL)
+PROBLEM_DEFINE_RE = re.compile(r'^\s*#define\s+PROBLEM\s+"([^"]+)"\s*$', re.MULTILINE)
+TEST_FILE_NAME_RE = re.compile(r"^[a-z0-9_]+\.test\.cpp$")
+SCRIPT_IMPL_RE = re.compile(
+    r'^IMPL = __file__\.rsplit\("/", 2\)\[0\] \+ "/\.scripts/([^"]+)"$',
+    re.MULTILINE,
+)
+ALLOWED_JUDGE_HOSTS = {
+    "judge.u-aizu.ac.jp",
+    "judge.yosupo.jp",
+    "onlinejudge.u-aizu.ac.jp",
+    "yukicoder.me",
+}
 
 
 def line_of(text: str, pos: int) -> int:
@@ -78,6 +92,41 @@ def check_markdown_files() -> list[str]:
         for match in BACKTICK_COMPLEXITY_RE.finditer(text):
             lineno = line_of(text, match.start())
             problems.append(f"{relpath}:{lineno}: complexity should use MathJax, not backticks")
+    return problems
+
+
+def check_test_files() -> list[str]:
+    problems: list[str] = []
+    for path in sorted((ROOT / "test").rglob("*.test.cpp")):
+        relpath = path.relative_to(ROOT).as_posix()
+        if not TEST_FILE_NAME_RE.fullmatch(path.name):
+            problems.append(f"{relpath}: test file name must use lowercase letters, digits, and underscores")
+
+        matches = PROBLEM_DEFINE_RE.findall(path.read_text())
+        if len(matches) != 1:
+            problems.append(f"{relpath}: expected exactly one #define PROBLEM URL")
+            continue
+
+        url = matches[0]
+        parsed = urlparse(url)
+        if parsed.scheme not in {"http", "https"} or parsed.hostname not in ALLOWED_JUDGE_HOSTS:
+            problems.append(f"{relpath}: unsupported judge URL: {url}")
+    return problems
+
+
+def check_script_wrappers() -> list[str]:
+    problems: list[str] = []
+    for path in sorted((ROOT / "scripts").glob("*.py")):
+        relpath = path.relative_to(ROOT).as_posix()
+        match = SCRIPT_IMPL_RE.search(path.read_text())
+        if match is None:
+            problems.append(
+                f"{relpath}: keep Python implementation under .scripts to avoid oj-verify docs dependency scans"
+            )
+            continue
+        impl_path = ROOT / ".scripts" / match.group(1)
+        if not impl_path.is_file():
+            problems.append(f"{relpath}: missing implementation: {impl_path.relative_to(ROOT).as_posix()}")
     return problems
 
 
@@ -140,7 +189,8 @@ def check_measure_dashboard_html() -> list[str]:
 
 def check_measure_dashboard_screenshots() -> list[str]:
     if shutil.which("chromium-browser") is None:
-        return ["measure dashboard screenshots: chromium-browser not found"]
+        print("skip: measure dashboard screenshots (chromium-browser not found)")
+        return []
 
     command = [sys.executable, str(ROOT / "scripts" / "capture_measure_dashboard_screenshots.py")]
     proc = subprocess.run(
@@ -172,20 +222,32 @@ def check_measure_dashboard_screenshots() -> list[str]:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description="Run fast repository policy and generated-output checks.")
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="also run the dashboard screenshot regression check",
+    )
+    args = parser.parse_args()
+
     ok = run_sync_doc_titles()
     problems = (
         check_library_files()
         + check_markdown_files()
+        + check_test_files()
+        + check_script_wrappers()
         + check_measure_dashboard_html()
-        + check_measure_dashboard_screenshots()
     )
+    if args.full:
+        problems += check_measure_dashboard_screenshots()
     if problems:
         for problem in problems:
             print(problem, file=sys.stderr)
         ok = False
     if not ok:
         return 1
-    print("ok: codex self-check")
+    mode = "full" if args.full else "fast"
+    print(f"ok: codex self-check ({mode})")
     return 0
 
 

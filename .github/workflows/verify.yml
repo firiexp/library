@@ -26,10 +26,13 @@ jobs:
     - name: Fetch gh-pages
       run: git fetch origin gh-pages:refs/remotes/origin/gh-pages
 
+    - name: Run repository self-check
+      run: python3 scripts/codex_self_check.py
+
     - name: Run tests
       shell: bash
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
         GH_PAT: ${{ secrets.GH_PAT }}
-      run: oj-verify all --timeout 3600
+      run: oj-verify all -j 4 --timeout 3600
