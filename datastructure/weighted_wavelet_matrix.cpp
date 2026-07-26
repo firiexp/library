@@ -28,6 +28,18 @@ struct WeightedWaveletMatrix {
         if (r_rem) r1 += __builtin_popcountll(row[r_block] & ((1ULL << r_rem) - 1));
     }
 
+#if defined(__GNUC__) && defined(__x86_64__)
+    __attribute__((target("popcnt,bmi2")))
+    static inline void rank1_pair_bmi2(const unsigned long long *row, const int *row_pref, int l, int r,
+                                       int &l1, int &r1) {
+        int l_block = l >> 6;
+        l1 = row_pref[l_block] + __builtin_popcountll(__builtin_ia32_bzhi_di(row[l_block], l & 63));
+
+        int r_block = r >> 6;
+        r1 = row_pref[r_block] + __builtin_popcountll(__builtin_ia32_bzhi_di(row[r_block], r & 63));
+    }
+#endif
+
     template <class X>
     static auto encode_key(X x) -> typename make_unsigned<X>::type {
         using Key = typename make_unsigned<X>::type;
@@ -56,25 +68,47 @@ struct WeightedWaveletMatrix {
         using Key = typename make_unsigned<T>::type;
         vector<Key> keys(n);
         vector<int> ord(n), buf(n);
+        Key min_key = encode_key(v[0]);
+        Key max_key = min_key;
         for (int i = 0; i < n; ++i) {
             keys[i] = encode_key(v[i]);
             ord[i] = i;
+            min_key = min(min_key, keys[i]);
+            max_key = max(max_key, keys[i]);
         }
 
         const int B = 16;
         const int MASK = (1 << B) - 1;
         const int bucket_count = 1 << B;
-        const int passes = (int)(sizeof(Key) * 8 + B - 1) / B;
-        vector<int> cnt(bucket_count), pos(bucket_count);
+        auto pass_count = [&](Key x) {
+            int passes = 0;
+            while (x) {
+                ++passes;
+                x >>= B;
+            }
+            return passes;
+        };
+        int passes = pass_count(min_key ^ max_key);
+        int normalized_passes = pass_count(max_key - min_key);
+        if (normalized_passes < passes) {
+            for (int i = 0; i < n; ++i) keys[i] -= min_key;
+            passes = normalized_passes;
+        }
+
+        vector<int> cnt(bucket_count);
         for (int pass = 0; pass < passes; ++pass) {
             fill(cnt.begin(), cnt.end(), 0);
             int shift = pass * B;
             for (int i = 0; i < n; ++i) ++cnt[(keys[ord[i]] >> shift) & MASK];
-            pos[0] = 0;
-            for (int i = 0; i + 1 < bucket_count; ++i) pos[i + 1] = pos[i] + cnt[i];
+            int sum = 0;
+            for (int i = 0; i < bucket_count; ++i) {
+                int count = cnt[i];
+                cnt[i] = sum;
+                sum += count;
+            }
             for (int i = 0; i < n; ++i) {
                 int id = ord[i];
-                buf[pos[(keys[id] >> shift) & MASK]++] = id;
+                buf[cnt[(keys[id] >> shift) & MASK]++] = id;
             }
             ord.swap(buf);
         }
@@ -122,7 +156,7 @@ struct WeightedWaveletMatrix {
         vector<U> cur_w = w;
 
         mid.assign(lg, 0);
-        bit.assign(lg * blocks, 0);
+        bit.assign(lg * blocks + 1, 0);
         pref.assign(lg * (blocks + 1), 0);
         zero_sum.assign(lg * (n + 1), U());
         vector<int> nxt(n);
@@ -146,14 +180,12 @@ struct WeightedWaveletMatrix {
             int zi = 0, oi = zero_cnt;
             for (int i = 0; i < n; ++i) {
                 int x = cur[i];
-                if ((x >> shift) & 1) {
-                    nxt[oi] = x;
-                    nxt_w[oi++] = cur_w[i];
-                }
-                else {
-                    nxt[zi] = x;
-                    nxt_w[zi++] = cur_w[i];
-                }
+                int b = (x >> shift) & 1;
+                int dst = b ? oi : zi;
+                nxt[dst] = x;
+                nxt_w[dst] = cur_w[i];
+                zi += b ^ 1;
+                oi += b;
             }
             cur.swap(nxt);
             cur_w.swap(nxt_w);
@@ -184,10 +216,9 @@ struct WeightedWaveletMatrix {
         build_from_index_internal(idx, w);
     }
 
-    CountSum count_sum_less_index(int l, int r, int xi) const {
-        if (xi <= 0 || l >= r || n == 0) return {0, U()};
-        if (xi >= (int)vals.size()) return {r - l, base_sum[r] - base_sum[l]};
-
+private:
+    template <bool NeedSum>
+    CountSum query_less_index_fallback(int l, int r, int xi) const {
         const int *mid_data = mid.data();
         const auto *bit_data = bit.data();
         const int *pref_data = pref.data();
@@ -199,7 +230,7 @@ struct WeightedWaveletMatrix {
             int l0 = l - l1, r0 = r - r1;
             if ((xi >> shift) & 1) {
                 res.count += r0 - l0;
-                res.sum += zero_sum_data[r] - zero_sum_data[l];
+                if constexpr (NeedSum) res.sum += zero_sum_data[r] - zero_sum_data[l];
                 l = mid_data[d] + l1;
                 r = mid_data[d] + r1;
             }
@@ -207,11 +238,67 @@ struct WeightedWaveletMatrix {
                 l = l0;
                 r = r0;
             }
+            if (l == r) break;
             bit_data += blocks;
             pref_data += blocks + 1;
             zero_sum_data += n + 1;
         }
         return res;
+    }
+
+#if defined(__GNUC__) && defined(__x86_64__)
+    template <bool NeedSum>
+    __attribute__((target("popcnt,bmi2")))
+    CountSum query_less_index_bmi2(int l, int r, int xi) const {
+        const int *mid_data = mid.data();
+        const auto *bit_data = bit.data();
+        const int *pref_data = pref.data();
+        const U *zero_sum_data = zero_sum.data();
+        CountSum res{0, U()};
+        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {
+            int l1, r1;
+            rank1_pair_bmi2(bit_data, pref_data, l, r, l1, r1);
+            int l0 = l - l1, r0 = r - r1;
+            if ((xi >> shift) & 1) {
+                res.count += r0 - l0;
+                if constexpr (NeedSum) res.sum += zero_sum_data[r] - zero_sum_data[l];
+                l = mid_data[d] + l1;
+                r = mid_data[d] + r1;
+            }
+            else {
+                l = l0;
+                r = r0;
+            }
+            if (l == r) break;
+            bit_data += blocks;
+            pref_data += blocks + 1;
+            zero_sum_data += n + 1;
+        }
+        return res;
+    }
+#endif
+
+public:
+    CountSum count_sum_less_index(int l, int r, int xi) const {
+        if (xi <= 0 || l >= r || n == 0) return {0, U()};
+        if (xi >= (int)vals.size()) return {r - l, base_sum[r] - base_sum[l]};
+#if defined(__GNUC__) && defined(__x86_64__)
+        if (__builtin_cpu_supports("popcnt") && __builtin_cpu_supports("bmi2")) {
+            return query_less_index_bmi2<true>(l, r, xi);
+        }
+#endif
+        return query_less_index_fallback<true>(l, r, xi);
+    }
+
+    int count_less_index(int l, int r, int xi) const {
+        if (xi <= 0 || l >= r || n == 0) return 0;
+        if (xi >= (int)vals.size()) return r - l;
+#if defined(__GNUC__) && defined(__x86_64__)
+        if (__builtin_cpu_supports("popcnt") && __builtin_cpu_supports("bmi2")) {
+            return query_less_index_bmi2<false>(l, r, xi).count;
+        }
+#endif
+        return query_less_index_fallback<false>(l, r, xi).count;
     }
 
     CountSum count_sum_less(int l, int r, const T &x) const {
@@ -225,11 +312,13 @@ struct WeightedWaveletMatrix {
     }
 
     int count_less(int l, int r, const T &x) const {
-        return count_sum_less(l, r, x).count;
+        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());
+        return count_less_index(l, r, xi);
     }
 
     int count_less_equal(int l, int r, const T &x) const {
-        return count_sum_less_equal(l, r, x).count;
+        int xi = (int)(upper_bound(vals.begin(), vals.end(), x) - vals.begin());
+        return count_less_index(l, r, xi);
     }
 
     U sum_less(int l, int r, const T &x) const {

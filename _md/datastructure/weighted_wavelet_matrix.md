@@ -1,7 +1,7 @@
 ---
 title: 重み付きWavelet Matrix(Weighted Wavelet Matrix)
 documentation_of: //datastructure/weighted_wavelet_matrix.cpp
-date: 2026-03-26
+date: 2026-07-26
 category: データ構造
 tags: データ構造
 ---
@@ -20,6 +20,8 @@ tags: データ構造
   区間 $[l, r)$ のうち `x` 以下の要素数と重み和を返す
 - `count_sum_less_index(l, r, xi)`
   区間 $[l, r)$ のうち圧縮 index `xi` 未満の要素数と重み和を返す
+- `count_less_index(l, r, xi)`
+  区間 $[l, r)$ のうち圧縮 index `xi` 未満の要素数を返す
 - `count_less(l, r, x)`
   区間 $[l, r)$ のうち `x` 未満の個数を返す
 - `count_less_equal(l, r, x)`
@@ -37,5 +39,7 @@ tags: データ構造
 ## 実装上の補足
 - 値は内部で座標圧縮して扱う。
 - 圧縮済みで使うときは `count_sum_less_index` を使うと query 側の二分探索を省ける。
+- 個数だけが必要なときは `count_less` / `count_less_equal` / `count_less_index` を使うと重み和の読み出しを省ける。
+- x86-64 では実行時に対応を確認し、POPCNT / BMI2 を使う。非対応 CPU では通常実装へ切り替わる。
 - クエリはすべて静的配列前提。
 - 各クエリは $O(\log \sigma)$、構築は $O(N \log \sigma)$。

@@ -1,7 +1,7 @@
 ---
 title: Wavelet Matrix
 documentation_of: //datastructure/wavelet_matrix.cpp
-date: 2026-04-18
+date: 2026-07-26
 category: データ構造
 tags: データ構造
 ---
@@ -37,4 +37,6 @@ $N$ は配列長、$\sigma$ は異なる値の個数。
 ## 実装上の補足
 - 値は内部で座標圧縮して扱う。
 - 圧縮済みで使うときは query 側も index API を使うと二分探索を省ける。
+- 整数値の座標圧縮は値域に必要な桁だけ radix sort する。
+- GCC の x86-64 環境では実行時に CPU 機能を判定し、構築に AVX2 / AVX-512、rank に POPCNT / BMI2 を使う。コンパイルオプションの追加は不要で、非対応 CPU では通常実装へ戻る。
 - クエリはすべて静的配列前提。
