@@ -742,7 +742,7 @@ pre {
     <p class="lede">`oj test` を再実行しながら JSON を逐次更新し、テストごとの最遅ケースとケース別実行時間を一覧する。</p>
     <div class="meta">
         <button class="chip chip-action" id="summary-live" type="button"></button>
-        <div class="chip" id="summary-generated">generated: 2026-07-25T20:49:20+09:00</div>
+        <div class="chip" id="summary-generated">generated: 2026-07-26T11:02:42+09:00</div>
         <div class="chip" id="summary-total"></div>
         <div class="chip" id="summary-coverage"></div>
         <div class="chip" id="summary-progress"></div>
@@ -890,7 +890,7 @@ pre {
 <script>
 const jsonUrl = "measure-dashboard.json";
 const sortColumns = [{"key": "path", "label": "test", "defaultDirection": "asc", "numeric": false}, {"key": "status", "label": "status", "defaultDirection": "asc", "numeric": false}, {"key": "compileWallSec", "label": "compile", "defaultDirection": "desc", "numeric": true}, {"key": "slowestSec", "label": "slowest", "defaultDirection": "desc", "numeric": true}, {"key": "averageSec", "label": "average", "defaultDirection": "desc", "numeric": true}, {"key": "maxMemoryMb", "label": "memory", "defaultDirection": "desc", "numeric": true}];
-let report = {"generatedAt": "2026-07-25T20:49:20+09:00", "root": ".", "testCount": 182, "inventory": {"currentTestCount": 187, "measuredTestCount": 182, "unmeasuredCount": 5, "unmeasuredPaths": ["test/yosupo_aplusb_binarytrie.test.cpp", "test/yosupo_aplusb_dsu_on_tree.test.cpp", "test/yosupo_aplusb_dynamic_bitset.test.cpp", "test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp", "test/yosupo_aplusb_static_bitset.test.cpp"], "stale": true}, "generationEnvironment": {"gitRevision": "c124106fcdc61d7d17423ffbd129be2f3ff822ab", "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0", "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39", "processor": "x86_64", "logicalCpuCount": 24}, "summary": {"pending": 0, "running": 0, "done": 182, "error": 0, "ok": 182, "failed": 0}, "tests": []};
+let report = {"generatedAt": "2026-07-26T11:02:42+09:00", "root": ".", "testCount": 182, "inventory": {"currentTestCount": 187, "measuredTestCount": 182, "unmeasuredCount": 5, "unmeasuredPaths": ["test/yosupo_aplusb_binarytrie.test.cpp", "test/yosupo_aplusb_dsu_on_tree.test.cpp", "test/yosupo_aplusb_dynamic_bitset.test.cpp", "test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp", "test/yosupo_aplusb_static_bitset.test.cpp"], "stale": true}, "generationEnvironment": {"gitRevision": "2cdfa96af7af89962c0c7355ddd478798f05a8f3", "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0", "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39", "processor": "x86_64", "logicalCpuCount": 24}, "summary": {"pending": 0, "running": 0, "done": 182, "error": 0, "ok": 182, "failed": 0}, "tests": []};
 const rows = document.getElementById("rows");
 const filterInput = document.getElementById("filter");
 const statusFilter = document.getElementById("status-filter");
