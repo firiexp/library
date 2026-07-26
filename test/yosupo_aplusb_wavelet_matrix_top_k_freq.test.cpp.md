@@ -19,9 +19,10 @@ data:
     - https://judge.yosupo.jp/problem/aplusb
   bundledCode: "#line 1 \"test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <map>\n#include <random>\n#include <vector>\nusing\
-    \ namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#line 1 \"datastructure/wavelet_matrix.cpp\"\
+    #include <cassert>\n#include <limits>\n#include <map>\n#include <random>\n#include\
+    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"datastructure/wavelet_matrix.cpp\"\
+    \n#if defined(__GNUC__) && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\
     \ntemplate <class T>\nstruct WaveletMatrix {\n    int n, lg, blocks;\n    vector<int>\
     \ mid;\n    vector<unsigned long long> bit;\n    vector<int> pref;\n    vector<T>\
     \ vals;\n\n    WaveletMatrix() : n(0), lg(0), blocks(0) {}\n    explicit WaveletMatrix(const\
@@ -31,32 +32,113 @@ data:
     \ = l & 63;\n        if (l_rem) l1 += __builtin_popcountll(row[l_block] & ((1ULL\
     \ << l_rem) - 1));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block];\n\
     \        int r_rem = r & 63;\n        if (r_rem) r1 += __builtin_popcountll(row[r_block]\
-    \ & ((1ULL << r_rem) - 1));\n    }\n\n    template <class U>\n    static auto\
-    \ encode_key(U x) -> typename make_unsigned<U>::type {\n        using Key = typename\
-    \ make_unsigned<U>::type;\n        Key key = static_cast<Key>(x);\n        if\
-    \ constexpr (is_signed<U>::value) key ^= (Key(1) << (sizeof(U) * 8 - 1));\n  \
-    \      return key;\n    }\n\n    void compress_generic(const vector<T> &v, vector<int>\
-    \ &cur) {\n        vector<pair<T, int>> ord(n);\n        for (int i = 0; i < n;\
-    \ ++i) ord[i] = {v[i], i};\n        sort(ord.begin(), ord.end(), [](const pair<T,\
-    \ int> &a, const pair<T, int> &b) {\n            return a.first < b.first;\n \
-    \       });\n        vals.clear();\n        vals.reserve(n);\n        for (int\
-    \ i = 0; i < n; ++i) {\n            if (vals.empty() || vals.back() < ord[i].first\
-    \ || ord[i].first < vals.back()) {\n                vals.push_back(ord[i].first);\n\
+    \ & ((1ULL << r_rem) - 1));\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \    __attribute__((target(\"popcnt,bmi2\")))\n    static inline void rank1_pair_bmi2(const\
+    \ unsigned long long *row, const int *row_pref, int l, int r,\n              \
+    \                         int &l1, int &r1) {\n        int l_block = l >> 6;\n\
+    \        l1 = row_pref[l_block] + __builtin_popcountll(__builtin_ia32_bzhi_di(row[l_block],\
+    \ l & 63));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block] +\
+    \ __builtin_popcountll(__builtin_ia32_bzhi_di(row[r_block], r & 63));\n    }\n\
+    #endif\n\n    static int build_bit_row(const int *cur, int n, int blocks, int\
+    \ shift,\n                             unsigned long long *row, int *row_pref)\
+    \ {\n        int one_cnt = 0;\n        for (int block = 0; block < blocks; ++block)\
+    \ {\n            int begin = block << 6;\n            int end = min(begin + 64,\
+    \ n);\n            unsigned long long word = 0;\n            for (int i = begin;\
+    \ i < end; ++i) {\n                word |= (unsigned long long)((cur[i] >> shift)\
+    \ & 1) << (i - begin);\n            }\n            row[block] = word;\n      \
+    \      one_cnt += __builtin_popcountll(word);\n            row_pref[block + 1]\
+    \ = one_cnt;\n        }\n        return one_cnt;\n    }\n\n#if defined(__GNUC__)\
+    \ && defined(__x86_64__)\n    __attribute__((target(\"avx2,popcnt\")))\n    static\
+    \ int build_bit_row_avx2(const int *cur, int n, int blocks, int shift,\n     \
+    \                             unsigned long long *row, int *row_pref) {\n    \
+    \    int one_cnt = 0;\n        __m128i shift_count = _mm_cvtsi32_si128(31 - shift);\n\
+    \        for (int block = 0; block < blocks; ++block) {\n            int begin\
+    \ = block << 6;\n            int end = min(begin + 64, n);\n            unsigned\
+    \ long long word = 0;\n            int i = begin;\n            for (; i + 8 <=\
+    \ end; i += 8) {\n                __m256i x = _mm256_loadu_si256((const __m256i\
+    \ *)(cur + i));\n                __m256i shifted = _mm256_sll_epi32(x, shift_count);\n\
+    \                unsigned int mask = _mm256_movemask_ps(_mm256_castsi256_ps(shifted));\n\
+    \                word |= (unsigned long long)mask << (i - begin);\n          \
+    \  }\n            for (; i < end; ++i) {\n                word |= (unsigned long\
+    \ long)((cur[i] >> shift) & 1) << (i - begin);\n            }\n            row[block]\
+    \ = word;\n            one_cnt += __builtin_popcountll(word);\n            row_pref[block\
+    \ + 1] = one_cnt;\n        }\n        return one_cnt;\n    }\n\n    struct PartitionTable8\
+    \ {\n        alignas(32) int perm[256][8];\n        alignas(32) int rotate[9][8];\n\
+    \        alignas(32) int store[9][8];\n\n        PartitionTable8() {\n       \
+    \     for (int mask = 0; mask < 256; ++mask) {\n                int pos = 0;\n\
+    \                for (int i = 0; i < 8; ++i) {\n                    if (!((mask\
+    \ >> i) & 1)) perm[mask][pos++] = i;\n                }\n                for (int\
+    \ i = 0; i < 8; ++i) {\n                    if ((mask >> i) & 1) perm[mask][pos++]\
+    \ = i;\n                }\n            }\n            for (int zero_count = 0;\
+    \ zero_count <= 8; ++zero_count) {\n                for (int i = 0; i < 8; ++i)\
+    \ {\n                    rotate[zero_count][i] = zero_count + i < 8 ? zero_count\
+    \ + i : 0;\n                    store[zero_count][i] = i < zero_count ? -1 : 0;\n\
+    \                }\n            }\n        }\n    };\n\n    __attribute__((target(\"\
+    avx2,popcnt\")))\n    static void stable_partition_avx2(const int *cur, int n,\
+    \ int shift, int zero_cnt,\n                                      const unsigned\
+    \ long long *row, int *nxt) {\n        static const PartitionTable8 table;\n \
+    \       int zi = 0, oi = zero_cnt;\n        int i = 0;\n        for (; i + 8 <=\
+    \ n; i += 8) {\n            __m256i x = _mm256_loadu_si256((const __m256i *)(cur\
+    \ + i));\n            unsigned int ones = (row[i >> 6] >> (i & 63)) & 0xffU;\n\
+    \            int one_count = __builtin_popcount(ones);\n            int zero_count\
+    \ = 8 - one_count;\n            __m256i perm = _mm256_load_si256((const __m256i\
+    \ *)table.perm[ones]);\n            __m256i packed = _mm256_permutevar8x32_epi32(x,\
+    \ perm);\n            __m256i one_perm = _mm256_load_si256((const __m256i *)table.rotate[zero_count]);\n\
+    \            __m256i one_values = _mm256_permutevar8x32_epi32(packed, one_perm);\n\
+    \            __m256i zero_store = _mm256_load_si256((const __m256i *)table.store[zero_count]);\n\
+    \            __m256i one_store = _mm256_load_si256((const __m256i *)table.store[one_count]);\n\
+    \            _mm256_maskstore_epi32(nxt + zi, zero_store, packed);\n         \
+    \   _mm256_maskstore_epi32(nxt + oi, one_store, one_values);\n            zi +=\
+    \ zero_count;\n            oi += one_count;\n        }\n        for (; i < n;\
+    \ ++i) {\n            int x = cur[i];\n            int b = (x >> shift) & 1;\n\
+    \            int dst = b ? oi : zi;\n            nxt[dst] = x;\n            zi\
+    \ += b ^ 1;\n            oi += b;\n        }\n    }\n\n    __attribute__((target(\"\
+    avx512f,popcnt\")))\n    static void stable_partition_avx512(const int *cur, int\
+    \ n, int shift, int zero_cnt,\n                                        const unsigned\
+    \ long long *row, int *nxt) {\n        int zi = 0, oi = zero_cnt;\n        int\
+    \ i = 0;\n        for (; i + 16 <= n; i += 16) {\n            __m512i x = _mm512_loadu_si512((const\
+    \ void *)(cur + i));\n            unsigned int ones = (row[i >> 6] >> (i & 63))\
+    \ & 0xffffU;\n            __mmask16 one_mask = (__mmask16)ones;\n            __mmask16\
+    \ zero_mask = (__mmask16)~one_mask;\n            _mm512_mask_compressstoreu_epi32(nxt\
+    \ + zi, zero_mask, x);\n            _mm512_mask_compressstoreu_epi32(nxt + oi,\
+    \ one_mask, x);\n            int one_count = __builtin_popcount(ones);\n     \
+    \       zi += 16 - one_count;\n            oi += one_count;\n        }\n     \
+    \   for (; i < n; ++i) {\n            int x = cur[i];\n            int b = (x\
+    \ >> shift) & 1;\n            int dst = b ? oi : zi;\n            nxt[dst] = x;\n\
+    \            zi += b ^ 1;\n            oi += b;\n        }\n    }\n\n#endif\n\n\
+    \    template <class U>\n    static auto encode_key(U x) -> typename make_unsigned<U>::type\
+    \ {\n        using Key = typename make_unsigned<U>::type;\n        Key key = static_cast<Key>(x);\n\
+    \        if constexpr (is_signed<U>::value) key ^= (Key(1) << (sizeof(U) * 8 -\
+    \ 1));\n        return key;\n    }\n\n    void compress_generic(const vector<T>\
+    \ &v, vector<int> &cur) {\n        vector<pair<T, int>> ord(n);\n        for (int\
+    \ i = 0; i < n; ++i) ord[i] = {v[i], i};\n        sort(ord.begin(), ord.end(),\
+    \ [](const pair<T, int> &a, const pair<T, int> &b) {\n            return a.first\
+    \ < b.first;\n        });\n        vals.clear();\n        vals.reserve(n);\n \
+    \       for (int i = 0; i < n; ++i) {\n            if (vals.empty() || vals.back()\
+    \ < ord[i].first || ord[i].first < vals.back()) {\n                vals.push_back(ord[i].first);\n\
     \            }\n            cur[ord[i].second] = (int)vals.size() - 1;\n     \
     \   }\n    }\n\n    void compress_integral(const vector<T> &v, vector<int> &cur)\
     \ {\n        using Key = typename make_unsigned<T>::type;\n        vector<Key>\
-    \ keys(n);\n        vector<int> ord(n), buf(n);\n        for (int i = 0; i < n;\
-    \ ++i) {\n            keys[i] = encode_key(v[i]);\n            ord[i] = i;\n \
-    \       }\n\n        const int B = 16;\n        const int MASK = (1 << B) - 1;\n\
-    \        const int bucket_count = 1 << B;\n        const int passes = (int)(sizeof(Key)\
-    \ * 8 + B - 1) / B;\n        vector<int> cnt(bucket_count), pos(bucket_count);\n\
+    \ keys(n);\n        vector<int> ord(n), buf(n);\n        Key min_key = encode_key(v[0]);\n\
+    \        Key max_key = min_key;\n        for (int i = 0; i < n; ++i) {\n     \
+    \       keys[i] = encode_key(v[i]);\n            ord[i] = i;\n            min_key\
+    \ = min(min_key, keys[i]);\n            max_key = max(max_key, keys[i]);\n   \
+    \     }\n\n        const int B = 16;\n        const int MASK = (1 << B) - 1;\n\
+    \        const int bucket_count = 1 << B;\n        auto pass_count = [&](Key x)\
+    \ {\n            int passes = 0;\n            while (x) {\n                ++passes;\n\
+    \                x >>= B;\n            }\n            return passes;\n       \
+    \ };\n        int passes = pass_count(min_key ^ max_key);\n        int normalized_passes\
+    \ = pass_count(max_key - min_key);\n        if (normalized_passes < passes) {\n\
+    \            for (int i = 0; i < n; ++i) keys[i] -= min_key;\n            passes\
+    \ = normalized_passes;\n        }\n\n        vector<int> cnt(bucket_count);\n\
     \        for (int pass = 0; pass < passes; ++pass) {\n            fill(cnt.begin(),\
     \ cnt.end(), 0);\n            int shift = pass * B;\n            for (int i =\
-    \ 0; i < n; ++i) ++cnt[(keys[ord[i]] >> shift) & MASK];\n            pos[0] =\
-    \ 0;\n            for (int i = 0; i + 1 < bucket_count; ++i) pos[i + 1] = pos[i]\
-    \ + cnt[i];\n            for (int i = 0; i < n; ++i) {\n                int id\
-    \ = ord[i];\n                buf[pos[(keys[id] >> shift) & MASK]++] = id;\n  \
-    \          }\n            ord.swap(buf);\n        }\n\n        vals.clear();\n\
+    \ 0; i < n; ++i) ++cnt[(keys[ord[i]] >> shift) & MASK];\n            int sum =\
+    \ 0;\n            for (int i = 0; i < bucket_count; ++i) {\n                int\
+    \ count = cnt[i];\n                cnt[i] = sum;\n                sum += count;\n\
+    \            }\n            for (int i = 0; i < n; ++i) {\n                int\
+    \ id = ord[i];\n                buf[cnt[(keys[id] >> shift) & MASK]++] = id;\n\
+    \            }\n            ord.swap(buf);\n        }\n\n        vals.clear();\n\
     \        vals.reserve(n);\n        bool has_prev = false;\n        Key prev =\
     \ 0;\n        for (int i = 0; i < n; ++i) {\n            int id = ord[i];\n  \
     \          if (!has_prev || keys[id] != prev) {\n                vals.push_back(v[id]);\n\
@@ -70,18 +152,26 @@ data:
     \            pref.clear();\n            return;\n        }\n\n        int m =\
     \ (int)vals.size();\n        lg = 0;\n        while ((1LL << lg) < m) ++lg;\n\
     \        if (lg == 0) lg = 1;\n        blocks = (n + 63) >> 6;\n\n        mid.assign(lg,\
-    \ 0);\n        bit.assign(lg * blocks, 0);\n        pref.assign(lg * (blocks +\
-    \ 1), 0);\n        vector<int> nxt(n);\n\n        for (int d = 0, shift = lg -\
-    \ 1; d < lg; ++d, --shift) {\n            auto *row = bit.data() + d * blocks;\n\
-    \            auto *row_pref = pref.data() + d * (blocks + 1);\n            int\
-    \ zero_cnt = 0;\n            for (int i = 0; i < n; ++i) {\n                int\
-    \ x = cur[i];\n                int b = (x >> shift) & 1;\n                if (b)\
-    \ row[i >> 6] |= 1ULL << (i & 63);\n                else ++zero_cnt;\n       \
-    \     }\n            mid[d] = zero_cnt;\n            for (int i = 0; i < blocks;\
-    \ ++i) row_pref[i + 1] = row_pref[i] + __builtin_popcountll(row[i]);\n\n     \
-    \       int zi = 0, oi = zero_cnt;\n            for (int i = 0; i < n; ++i) {\n\
-    \                int x = cur[i];\n                if ((x >> shift) & 1) nxt[oi++]\
-    \ = x;\n                else nxt[zi++] = x;\n            }\n            cur.swap(nxt);\n\
+    \ 0);\n        bit.assign(lg * blocks + 1, 0);\n        pref.assign(lg * (blocks\
+    \ + 1), 0);\n        vector<int> nxt(n);\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \        bool use_avx2 = __builtin_cpu_supports(\"avx2\") && __builtin_cpu_supports(\"\
+    popcnt\");\n        bool use_avx512 = __builtin_cpu_supports(\"avx512f\") && __builtin_cpu_supports(\"\
+    popcnt\");\n#endif\n\n        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift)\
+    \ {\n            auto *row = bit.data() + d * blocks;\n            auto *row_pref\
+    \ = pref.data() + d * (blocks + 1);\n            int one_cnt;\n#if defined(__GNUC__)\
+    \ && defined(__x86_64__)\n            if (use_avx2) one_cnt = build_bit_row_avx2(cur.data(),\
+    \ n, blocks, shift, row, row_pref);\n            else one_cnt = build_bit_row(cur.data(),\
+    \ n, blocks, shift, row, row_pref);\n#else\n            one_cnt = build_bit_row(cur.data(),\
+    \ n, blocks, shift, row, row_pref);\n#endif\n            int zero_cnt = n - one_cnt;\n\
+    \            mid[d] = zero_cnt;\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \            if (use_avx512) stable_partition_avx512(cur.data(), n, shift, zero_cnt,\
+    \ row, nxt.data());\n            else if (use_avx2) stable_partition_avx2(cur.data(),\
+    \ n, shift, zero_cnt, row, nxt.data());\n            else\n#endif\n          \
+    \  {\n                int zi = 0, oi = zero_cnt;\n                for (int i =\
+    \ 0; i < n; ++i) {\n                    int x = cur[i];\n                    int\
+    \ b = (x >> shift) & 1;\n                    int dst = b ? oi : zi;\n        \
+    \            nxt[dst] = x;\n                    zi += b ^ 1;\n               \
+    \     oi += b;\n                }\n            }\n            cur.swap(nxt);\n\
     \        }\n    }\n\n    void build(const vector<T> &v) {\n        n = (int)v.size();\n\
     \        if (n == 0) {\n            lg = 0;\n            blocks = 0;\n       \
     \     vals.clear();\n            mid.clear();\n            bit.clear();\n    \
@@ -89,78 +179,48 @@ data:
     \ cur(n);\n        compress_values(v, cur);\n        build_from_index_internal(move(cur));\n\
     \    }\n\n    void build_from_index(const vector<int> &idx, const vector<T> &sorted_vals)\
     \ {\n        vals = sorted_vals;\n        build_from_index_internal(idx);\n  \
-    \  }\n\n    int count_less_index(int l, int r, int xi) const {\n        if (xi\
-    \ <= 0 || l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size()) return\
-    \ r - l;\n\n        const int *mid_data = mid.data();\n        const auto *bit_data\
-    \ = bit.data();\n        const int *pref_data = pref.data();\n        int res\
-    \ = 0;\n        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n    \
-    \        int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
+    \  }\n\nprivate:\n    int count_less_index_fallback(int l, int r, int xi) const\
+    \ {\n        const int *mid_data = mid.data();\n        const auto *bit_data =\
+    \ bit.data();\n        const int *pref_data = pref.data();\n        int res =\
+    \ 0;\n        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n      \
+    \      int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
     \            int l0 = l - l1, r0 = r - r1;\n            if ((xi >> shift) & 1)\
     \ {\n                res += r0 - l0;\n                l = mid_data[d] + l1;\n\
     \                r = mid_data[d] + r1;\n            }\n            else {\n  \
-    \              l = l0;\n                r = r0;\n            }\n            bit_data\
+    \              l = l0;\n                r = r0;\n            }\n            if\
+    \ (l == r) break;\n            bit_data += blocks;\n            pref_data += blocks\
+    \ + 1;\n        }\n        return res;\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \    __attribute__((target(\"popcnt,bmi2\")))\n    int count_less_index_bmi2(int\
+    \ l, int r, int xi) const {\n        const int *mid_data = mid.data();\n     \
+    \   const auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
+    \        int res = 0;\n        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift)\
+    \ {\n            int l1, r1;\n            rank1_pair_bmi2(bit_data, pref_data,\
+    \ l, r, l1, r1);\n            int l0 = l - l1, r0 = r - r1;\n            if ((xi\
+    \ >> shift) & 1) {\n                res += r0 - l0;\n                l = mid_data[d]\
+    \ + l1;\n                r = mid_data[d] + r1;\n            }\n            else\
+    \ {\n                l = l0;\n                r = r0;\n            }\n       \
+    \     if (l == r) break;\n            bit_data += blocks;\n            pref_data\
+    \ += blocks + 1;\n        }\n        return res;\n    }\n#endif\n\n    int count_equal_index_fallback(int\
+    \ l, int r, int xi) const {\n        const int *mid_data = mid.data();\n     \
+    \   const auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
+    \        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n           \
+    \ int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n  \
+    \          int l0 = l - l1, r0 = r - r1;\n            if ((xi >> shift) & 1) {\n\
+    \                l = mid_data[d] + l1;\n                r = mid_data[d] + r1;\n\
+    \            }\n            else {\n                l = l0;\n                r\
+    \ = r0;\n            }\n            if (l == r) return 0;\n            bit_data\
     \ += blocks;\n            pref_data += blocks + 1;\n        }\n        return\
-    \ res;\n    }\n\n    int count_less(int l, int r, const T &x) const {\n      \
-    \  int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
-    \        return count_less_index(l, r, xi);\n    }\n\n    int count_equal_index(int\
-    \ l, int r, int xi) const {\n        if (l >= r || n == 0 || xi < 0 || xi >= (int)vals.size())\
-    \ return 0;\n\n        const int *mid_data = mid.data();\n        const auto *bit_data\
-    \ = bit.data();\n        const int *pref_data = pref.data();\n        for (int\
-    \ d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n            int l1, r1;\n  \
-    \          rank1_pair(bit_data, pref_data, l, r, l1, r1);\n            int l0\
-    \ = l - l1, r0 = r - r1;\n            if ((xi >> shift) & 1) {\n             \
-    \   l = mid_data[d] + l1;\n                r = mid_data[d] + r1;\n           \
-    \ }\n            else {\n                l = l0;\n                r = r0;\n  \
-    \          }\n            bit_data += blocks;\n            pref_data += blocks\
-    \ + 1;\n        }\n        return r - l;\n    }\n\n    vector<pair<int, int>>\
-    \ top_k_freq_index(int l, int r, int k) const {\n        if (k <= 0 || l >= r\
-    \ || n == 0) return {};\n\n        struct Node {\n            int l, r, d, idx;\n\
-    \            long long lower;\n        };\n        struct Item {\n           \
-    \ int freq, idx;\n        };\n\n        auto item_better = [](const Item &a, const\
-    \ Item &b) {\n            if (a.freq != b.freq) return a.freq > b.freq;\n    \
-    \        return a.idx < b.idx;\n        };\n        auto node_worse = [](const\
-    \ Node &a, const Node &b) {\n            int ca = a.r - a.l;\n            int\
-    \ cb = b.r - b.l;\n            if (ca != cb) return ca < cb;\n            if (a.lower\
-    \ != b.lower) return a.lower > b.lower;\n            return a.d < b.d;\n     \
-    \   };\n\n        vector<Node> heap;\n        heap.push_back({l, r, 0, 0, 0});\n\
-    \        vector<Item> best;\n        best.reserve(min(k, r - l));\n\n        while\
-    \ (!heap.empty()) {\n            if ((int)best.size() == k) {\n              \
-    \  const Node &cur = heap.front();\n                const Item &cut = best.front();\n\
-    \                int freq = cur.r - cur.l;\n                if (freq < cut.freq)\
-    \ break;\n                if (freq == cut.freq && cur.lower >= cut.idx) break;\n\
-    \            }\n\n            pop_heap(heap.begin(), heap.end(), node_worse);\n\
-    \            Node cur = heap.back();\n            heap.pop_back();\n\n       \
-    \     if (cur.d == lg) {\n                Item item{cur.r - cur.l, cur.idx};\n\
-    \                if ((int)best.size() < k) {\n                    best.push_back(item);\n\
-    \                    push_heap(best.begin(), best.end(), item_better);\n     \
-    \           }\n                else if (item_better(item, best.front())) {\n \
-    \                   pop_heap(best.begin(), best.end(), item_better);\n       \
-    \             best.back() = item;\n                    push_heap(best.begin(),\
-    \ best.end(), item_better);\n                }\n                continue;\n  \
-    \          }\n\n            const auto *row = bit.data() + cur.d * blocks;\n \
-    \           const int *row_pref = pref.data() + cur.d * (blocks + 1);\n      \
-    \      int l1, r1;\n            rank1_pair(row, row_pref, cur.l, cur.r, l1, r1);\n\
-    \            int l0 = cur.l - l1, r0 = cur.r - r1;\n            int shift = lg\
-    \ - cur.d - 1;\n            if (l0 < r0) {\n                heap.push_back({l0,\
-    \ r0, cur.d + 1, cur.idx << 1, cur.lower});\n                push_heap(heap.begin(),\
-    \ heap.end(), node_worse);\n            }\n            if (l1 < r1) {\n      \
-    \          heap.push_back({\n                    mid[cur.d] + l1,\n          \
-    \          mid[cur.d] + r1,\n                    cur.d + 1,\n                \
-    \    cur.idx << 1 | 1,\n                    cur.lower + (1LL << shift)\n     \
-    \           });\n                push_heap(heap.begin(), heap.end(), node_worse);\n\
-    \            }\n        }\n\n        sort(best.begin(), best.end(), item_better);\n\
-    \        vector<pair<int, int>> res;\n        res.reserve(best.size());\n    \
-    \    for (const auto &item : best) res.push_back({item.freq, item.idx});\n   \
-    \     return res;\n    }\n\n    vector<pair<int, T>> top_k_freq(int l, int r,\
-    \ int k) const {\n        auto idx_res = top_k_freq_index(l, r, k);\n        vector<pair<int,\
-    \ T>> res;\n        res.reserve(idx_res.size());\n        for (const auto &p :\
-    \ idx_res) res.push_back({p.first, vals[p.second]});\n        return res;\n  \
-    \  }\n\n    int range_freq(int l, int r, const T &lower, const T &upper) const\
-    \ {\n        if (lower >= upper || l >= r) return 0;\n        return count_less(l,\
-    \ r, upper) - count_less(l, r, lower);\n    }\n\n    int freq(int l, int r, const\
-    \ T &x) const {\n        int xi = (int)(lower_bound(vals.begin(), vals.end(),\
-    \ x) - vals.begin());\n        if (xi == (int)vals.size() || vals[xi] != x) return\
-    \ 0;\n        return count_equal_index(l, r, xi);\n    }\n\n    T kth_smallest(int\
+    \ r - l;\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n    __attribute__((target(\"\
+    popcnt,bmi2\")))\n    int count_equal_index_bmi2(int l, int r, int xi) const {\n\
+    \        const int *mid_data = mid.data();\n        const auto *bit_data = bit.data();\n\
+    \        const int *pref_data = pref.data();\n        for (int d = 0, shift =\
+    \ lg - 1; d < lg; ++d, --shift) {\n            int l1, r1;\n            rank1_pair_bmi2(bit_data,\
+    \ pref_data, l, r, l1, r1);\n            int l0 = l - l1, r0 = r - r1;\n     \
+    \       if ((xi >> shift) & 1) {\n                l = mid_data[d] + l1;\n    \
+    \            r = mid_data[d] + r1;\n            }\n            else {\n      \
+    \          l = l0;\n                r = r0;\n            }\n            if (l\
+    \ == r) return 0;\n            bit_data += blocks;\n            pref_data += blocks\
+    \ + 1;\n        }\n        return r - l;\n    }\n#endif\n\n    int kth_smallest_index_fallback(int\
     \ l, int r, int k) const {\n        const int *mid_data = mid.data();\n      \
     \  const auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
     \        int idx = 0;\n        for (int d = 0; d < lg; ++d) {\n            int\
@@ -170,66 +230,209 @@ data:
     \      r = r0;\n            }\n            else {\n                k -= z;\n \
     \               idx |= 1;\n                l = mid_data[d] + l1;\n           \
     \     r = mid_data[d] + r1;\n            }\n            bit_data += blocks;\n\
-    \            pref_data += blocks + 1;\n        }\n        return vals[idx];\n\
-    \    }\n\n    T kth_largest(int l, int r, int k) const {\n        return kth_smallest(l,\
+    \            pref_data += blocks + 1;\n        }\n        return idx;\n    }\n\
+    \n#if defined(__GNUC__) && defined(__x86_64__)\n    __attribute__((target(\"popcnt,bmi2\"\
+    )))\n    int kth_smallest_index_bmi2(int l, int r, int k) const {\n        const\
+    \ int *mid_data = mid.data();\n        const auto *bit_data = bit.data();\n  \
+    \      const int *pref_data = pref.data();\n        int idx = 0;\n        for\
+    \ (int d = 0; d < lg; ++d) {\n            int l1, r1;\n            rank1_pair_bmi2(bit_data,\
+    \ pref_data, l, r, l1, r1);\n            int l0 = l - l1, r0 = r - r1;\n     \
+    \       int z = r0 - l0;\n            idx <<= 1;\n            if (k < z) {\n \
+    \               l = l0;\n                r = r0;\n            }\n            else\
+    \ {\n                k -= z;\n                idx |= 1;\n                l = mid_data[d]\
+    \ + l1;\n                r = mid_data[d] + r1;\n            }\n            bit_data\
+    \ += blocks;\n            pref_data += blocks + 1;\n        }\n        return\
+    \ idx;\n    }\n#endif\n\n    template <bool Prev, bool UseBmi2>\n    __attribute__((always_inline))\n\
+    \    bool neighbor_index_impl(int l, int r, int xi, int &res) const {\n      \
+    \  int prefix = 0;\n        int candidate_l = 0, candidate_r = 0, candidate_d\
+    \ = -1, candidate_idx = 0;\n        int d = 0;\n        for (; d < lg && l < r;\
+    \ ++d) {\n            const auto *row = bit.data() + d * blocks;\n           \
+    \ const int *row_pref = pref.data() + d * (blocks + 1);\n            int l1, r1;\n\
+    #if defined(__GNUC__) && defined(__x86_64__)\n            if constexpr (UseBmi2)\
+    \ rank1_pair_bmi2(row, row_pref, l, r, l1, r1);\n            else rank1_pair(row,\
+    \ row_pref, l, r, l1, r1);\n#else\n            rank1_pair(row, row_pref, l, r,\
+    \ l1, r1);\n#endif\n            int l0 = l - l1, r0 = r - r1;\n            int\
+    \ bit_value = (xi >> (lg - d - 1)) & 1;\n            if constexpr (Prev) {\n \
+    \               if (bit_value) {\n                    if (l0 < r0) {\n       \
+    \                 candidate_l = l0;\n                        candidate_r = r0;\n\
+    \                        candidate_d = d + 1;\n                        candidate_idx\
+    \ = prefix << 1;\n                    }\n                    l = mid[d] + l1;\n\
+    \                    r = mid[d] + r1;\n                    prefix = prefix <<\
+    \ 1 | 1;\n                }\n                else {\n                    l = l0;\n\
+    \                    r = r0;\n                    prefix <<= 1;\n            \
+    \    }\n            }\n            else {\n                if (bit_value) {\n\
+    \                    l = mid[d] + l1;\n                    r = mid[d] + r1;\n\
+    \                    prefix = prefix << 1 | 1;\n                }\n          \
+    \      else {\n                    if (l1 < r1) {\n                        candidate_l\
+    \ = mid[d] + l1;\n                        candidate_r = mid[d] + r1;\n       \
+    \                 candidate_d = d + 1;\n                        candidate_idx\
+    \ = prefix << 1 | 1;\n                    }\n                    l = l0;\n   \
+    \                 r = r0;\n                    prefix <<= 1;\n               \
+    \ }\n            }\n        }\n\n        if constexpr (!Prev) {\n            if\
+    \ (d == lg && l < r) {\n                res = prefix;\n                return\
+    \ true;\n            }\n        }\n        if (candidate_d < 0) return false;\n\
+    \n        l = candidate_l;\n        r = candidate_r;\n        prefix = candidate_idx;\n\
+    \        for (d = candidate_d; d < lg; ++d) {\n            const auto *row = bit.data()\
+    \ + d * blocks;\n            const int *row_pref = pref.data() + d * (blocks +\
+    \ 1);\n            int l1, r1;\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \            if constexpr (UseBmi2) rank1_pair_bmi2(row, row_pref, l, r, l1, r1);\n\
+    \            else rank1_pair(row, row_pref, l, r, l1, r1);\n#else\n          \
+    \  rank1_pair(row, row_pref, l, r, l1, r1);\n#endif\n            int l0 = l -\
+    \ l1, r0 = r - r1;\n            prefix <<= 1;\n            if constexpr (Prev)\
+    \ {\n                if (l1 < r1) {\n                    prefix |= 1;\n      \
+    \              l = mid[d] + l1;\n                    r = mid[d] + r1;\n      \
+    \          }\n                else {\n                    l = l0;\n          \
+    \          r = r0;\n                }\n            }\n            else {\n   \
+    \             if (l0 < r0) {\n                    l = l0;\n                  \
+    \  r = r0;\n                }\n                else {\n                    prefix\
+    \ |= 1;\n                    l = mid[d] + l1;\n                    r = mid[d]\
+    \ + r1;\n                }\n            }\n        }\n        res = prefix;\n\
+    \        return true;\n    }\n\n    template <bool Prev>\n    bool neighbor_index_fallback(int\
+    \ l, int r, int xi, int &res) const {\n        return neighbor_index_impl<Prev,\
+    \ false>(l, r, xi, res);\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \    template <bool Prev>\n    __attribute__((target(\"popcnt,bmi2\")))\n    bool\
+    \ neighbor_index_bmi2(int l, int r, int xi, int &res) const {\n        return\
+    \ neighbor_index_impl<Prev, true>(l, r, xi, res);\n    }\n#endif\n\npublic:\n\
+    \    int count_less_index(int l, int r, int xi) const {\n        if (xi <= 0 ||\
+    \ l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size()) return r -\
+    \ l;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
+    popcnt\") && __builtin_cpu_supports(\"bmi2\")) {\n            return count_less_index_bmi2(l,\
+    \ r, xi);\n        }\n#endif\n        return count_less_index_fallback(l, r, xi);\n\
+    \    }\n\n    int count_less(int l, int r, const T &x) const {\n        int xi\
+    \ = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n        return\
+    \ count_less_index(l, r, xi);\n    }\n\n    int count_equal_index(int l, int r,\
+    \ int xi) const {\n        if (l >= r || n == 0 || xi < 0 || xi >= (int)vals.size())\
+    \ return 0;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
+    popcnt\") && __builtin_cpu_supports(\"bmi2\")) {\n            return count_equal_index_bmi2(l,\
+    \ r, xi);\n        }\n#endif\n        return count_equal_index_fallback(l, r,\
+    \ xi);\n    }\n\n    vector<pair<int, int>> top_k_freq_index(int l, int r, int\
+    \ k) const {\n        if (k <= 0 || l >= r || n == 0) return {};\n\n#if defined(__GNUC__)\
+    \ && defined(__x86_64__)\n        bool use_bmi2 = __builtin_cpu_supports(\"popcnt\"\
+    ) && __builtin_cpu_supports(\"bmi2\");\n#endif\n\n        struct Node {\n    \
+    \        int l, r, d, idx;\n            long long lower;\n        };\n       \
+    \ struct Item {\n            int freq, idx;\n        };\n\n        auto item_better\
+    \ = [](const Item &a, const Item &b) {\n            if (a.freq != b.freq) return\
+    \ a.freq > b.freq;\n            return a.idx < b.idx;\n        };\n        auto\
+    \ node_worse = [](const Node &a, const Node &b) {\n            int ca = a.r -\
+    \ a.l;\n            int cb = b.r - b.l;\n            if (ca != cb) return ca <\
+    \ cb;\n            if (a.lower != b.lower) return a.lower > b.lower;\n       \
+    \     return a.d < b.d;\n        };\n\n        vector<Node> heap;\n        heap.push_back({l,\
+    \ r, 0, 0, 0});\n        vector<Item> best;\n        best.reserve(min(k, r - l));\n\
+    \n        while (!heap.empty()) {\n            if ((int)best.size() == k) {\n\
+    \                const Node &cur = heap.front();\n                const Item &cut\
+    \ = best.front();\n                int freq = cur.r - cur.l;\n               \
+    \ if (freq < cut.freq) break;\n                if (freq == cut.freq && cur.lower\
+    \ >= cut.idx) break;\n            }\n\n            pop_heap(heap.begin(), heap.end(),\
+    \ node_worse);\n            Node cur = heap.back();\n            heap.pop_back();\n\
+    \n            if (cur.d == lg) {\n                Item item{cur.r - cur.l, cur.idx};\n\
+    \                if ((int)best.size() < k) {\n                    best.push_back(item);\n\
+    \                    push_heap(best.begin(), best.end(), item_better);\n     \
+    \           }\n                else if (item_better(item, best.front())) {\n \
+    \                   pop_heap(best.begin(), best.end(), item_better);\n       \
+    \             best.back() = item;\n                    push_heap(best.begin(),\
+    \ best.end(), item_better);\n                }\n                continue;\n  \
+    \          }\n\n            const auto *row = bit.data() + cur.d * blocks;\n \
+    \           const int *row_pref = pref.data() + cur.d * (blocks + 1);\n      \
+    \      int l1, r1;\n#if defined(__GNUC__) && defined(__x86_64__)\n           \
+    \ if (use_bmi2) rank1_pair_bmi2(row, row_pref, cur.l, cur.r, l1, r1);\n      \
+    \      else rank1_pair(row, row_pref, cur.l, cur.r, l1, r1);\n#else\n        \
+    \    rank1_pair(row, row_pref, cur.l, cur.r, l1, r1);\n#endif\n            int\
+    \ l0 = cur.l - l1, r0 = cur.r - r1;\n            int shift = lg - cur.d - 1;\n\
+    \            if (l0 < r0) {\n                heap.push_back({l0, r0, cur.d + 1,\
+    \ cur.idx << 1, cur.lower});\n                push_heap(heap.begin(), heap.end(),\
+    \ node_worse);\n            }\n            if (l1 < r1) {\n                heap.push_back({\n\
+    \                    mid[cur.d] + l1,\n                    mid[cur.d] + r1,\n\
+    \                    cur.d + 1,\n                    cur.idx << 1 | 1,\n     \
+    \               cur.lower + (1LL << shift)\n                });\n            \
+    \    push_heap(heap.begin(), heap.end(), node_worse);\n            }\n       \
+    \ }\n\n        sort(best.begin(), best.end(), item_better);\n        vector<pair<int,\
+    \ int>> res;\n        res.reserve(best.size());\n        for (const auto &item\
+    \ : best) res.push_back({item.freq, item.idx});\n        return res;\n    }\n\n\
+    \    vector<pair<int, T>> top_k_freq(int l, int r, int k) const {\n        auto\
+    \ idx_res = top_k_freq_index(l, r, k);\n        vector<pair<int, T>> res;\n  \
+    \      res.reserve(idx_res.size());\n        for (const auto &p : idx_res) res.push_back({p.first,\
+    \ vals[p.second]});\n        return res;\n    }\n\n    int range_freq(int l, int\
+    \ r, const T &lower, const T &upper) const {\n        if (lower >= upper || l\
+    \ >= r) return 0;\n        return count_less(l, r, upper) - count_less(l, r, lower);\n\
+    \    }\n\n    int freq(int l, int r, const T &x) const {\n        int xi = (int)(lower_bound(vals.begin(),\
+    \ vals.end(), x) - vals.begin());\n        if (xi == (int)vals.size() || vals[xi]\
+    \ != x) return 0;\n        return count_equal_index(l, r, xi);\n    }\n\n    T\
+    \ kth_smallest(int l, int r, int k) const {\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \        if (__builtin_cpu_supports(\"popcnt\") && __builtin_cpu_supports(\"bmi2\"\
+    )) {\n            return vals[kth_smallest_index_bmi2(l, r, k)];\n        }\n\
+    #endif\n        return vals[kth_smallest_index_fallback(l, r, k)];\n    }\n\n\
+    \    T kth_largest(int l, int r, int k) const {\n        return kth_smallest(l,\
     \ r, r - l - 1 - k);\n    }\n\n    bool prev_value(int l, int r, const T &upper,\
-    \ T &res) const {\n        int cnt = count_less(l, r, upper);\n        if (cnt\
-    \ == 0) return false;\n        res = kth_smallest(l, r, cnt - 1);\n        return\
-    \ true;\n    }\n\n    bool next_value(int l, int r, const T &lower, T &res) const\
-    \ {\n        int cnt = count_less(l, r, lower);\n        if (cnt == r - l) return\
-    \ false;\n        res = kth_smallest(l, r, cnt);\n        return true;\n    }\n\
-    };\n\n/**\n * @brief Wavelet Matrix\n */\n#line 1 \"util/fastio.cpp\"\nusing namespace\
-    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
-    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
-    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive;\n\
-    \n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}\n\n \
-    \   inline void load() {\n        int len = size - idx;\n        memmove(buf,\
-    \ buf + idx, len);\n        if (interactive) {\n            if (fgets(buf + len,\
-    \ BUFSIZE + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n          \
-    \  else size = len;\n        } else {\n            size = len + (int)fread(buf\
-    \ + len, 1, BUFSIZE - len, stdin);\n        }\n        idx = 0;\n        buf[size]\
-    \ = 0;\n    }\n\n    inline void ensure() {\n        if (idx + OFFSET > size)\
-    \ load();\n    }\n\n    inline void ensure_interactive() {\n        if (idx ==\
-    \ size) load();\n    }\n\n    inline char skip() {\n        if (interactive) {\n\
-    \            ensure_interactive();\n            while (buf[idx] && buf[idx] <=\
-    \ ' ') {\n                ++idx;\n                ensure_interactive();\n    \
-    \        }\n            return buf[idx++];\n        }\n        ensure();\n   \
-    \     while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n            ensure();\n\
-    \        }\n        return buf[idx++];\n    }\n\n    template<class T, typename\
-    \ enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T &x) {\n  \
-    \      if (interactive) {\n            char c = skip();\n            bool neg\
-    \ = false;\n            if constexpr (is_signed<T>::value) {\n               \
-    \ if (c == '-') {\n                    neg = true;\n                    ensure_interactive();\n\
-    \                    c = buf[idx++];\n                }\n            }\n     \
-    \       x = 0;\n            while (c >= '0') {\n                x = x * 10 + (c\
-    \ & 15);\n                ensure_interactive();\n                c = buf[idx++];\n\
-    \            }\n            if constexpr (is_signed<T>::value) {\n           \
-    \     if (neg) x = -x;\n            }\n            return;\n        }\n      \
-    \  char c = skip();\n        bool neg = false;\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (c == '-') {\n                neg = true;\n              \
-    \  c = buf[idx++];\n            }\n        }\n        x = 0;\n        while (c\
-    \ >= '0') {\n            x = x * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        if constexpr (is_signed<T>::value) {\n            if (neg)\
-    \ x = -x;\n        }\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
-    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
-    \ && has_fastio_value<T>::value, int>::type = 0>\n    void read(T &x) {\n    \
-    \    long long v;\n        read(v);\n        x = T(v);\n    }\n\n    template<class\
-    \ T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value &&\
-    \ !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
+    \ T &res) const {\n        if (l >= r || n == 0) return false;\n        int xi\
+    \ = (int)(lower_bound(vals.begin(), vals.end(), upper) - vals.begin());\n    \
+    \    if (xi <= 0) return false;\n        if (xi >= (int)vals.size()) {\n     \
+    \       res = kth_largest(l, r, 0);\n            return true;\n        }\n#if\
+    \ defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
+    popcnt\") && __builtin_cpu_supports(\"bmi2\")) {\n            int idx;\n     \
+    \       if (!neighbor_index_bmi2<true>(l, r, xi, idx)) return false;\n       \
+    \     res = vals[idx];\n            return true;\n        }\n#endif\n        int\
+    \ idx;\n        if (!neighbor_index_fallback<true>(l, r, xi, idx)) return false;\n\
+    \        res = vals[idx];\n        return true;\n    }\n\n    bool next_value(int\
+    \ l, int r, const T &lower, T &res) const {\n        if (l >= r || n == 0) return\
+    \ false;\n        int xi = (int)(lower_bound(vals.begin(), vals.end(), lower)\
+    \ - vals.begin());\n        if (xi >= (int)vals.size()) return false;\n#if defined(__GNUC__)\
+    \ && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"popcnt\") && __builtin_cpu_supports(\"\
+    bmi2\")) {\n            int idx;\n            if (!neighbor_index_bmi2<false>(l,\
+    \ r, xi, idx)) return false;\n            res = vals[idx];\n            return\
+    \ true;\n        }\n#endif\n        int idx;\n        if (!neighbor_index_fallback<false>(l,\
+    \ r, xi, idx)) return false;\n        res = vals[idx];\n        return true;\n\
+    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n#line 1 \"util/fastio.cpp\"\n\
+    using namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n\
+    \    int idx, size;\n    bool interactive;\n\n    Scanner() : idx(0), size(0),\
+    \ interactive(isatty(fileno(stdin))) {}\n\n    inline void load() {\n        int\
+    \ len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \    }\n        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure()\
+    \ {\n        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
+    \     if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            return buf[idx++];\n        }\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        if (interactive) {\n            char c = skip();\n          \
+    \  bool neg = false;\n            if constexpr (is_signed<T>::value) {\n     \
+    \           if (c == '-') {\n                    neg = true;\n               \
+    \     ensure_interactive();\n                    c = buf[idx++];\n           \
+    \     }\n            }\n            x = 0;\n            while (c >= '0') {\n \
+    \               x = x * 10 + (c & 15);\n                ensure_interactive();\n\
+    \                c = buf[idx++];\n            }\n            if constexpr (is_signed<T>::value)\
+    \ {\n                if (neg) x = -x;\n            }\n            return;\n  \
+    \      }\n        char c = skip();\n        bool neg = false;\n        if constexpr\
+    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
+    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
+    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
+    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class T, typename\
+    \ enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename\
+    \ decay<T>::type, string>::value && has_fastio_value<T>::value, int>::type = 0>\n\
+    \    void read(T &x) {\n        long long v;\n        read(v);\n        x = T(v);\n\
+    \    }\n\n    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value\
+    \ && !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
     \ && has_fastio_assign_string<T>::value, int>::type = 0>\n    void read(T &x)\
     \ {\n        string s;\n        read(s);\n        bool ok = x.assign(s);\n   \
     \     if (!ok) __builtin_trap();\n    }\n\n    template<class Head, class Next,\
@@ -304,7 +507,7 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 19 \"test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp\"\n\nvector<pair<int,\
+    \ */\n#line 20 \"test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp\"\n\nvector<pair<int,\
     \ ll>> brute_top_k_freq(const vector<ll> &a, int l, int r, int k) {\n    map<ll,\
     \ int> cnt;\n    for (int i = l; i < r; ++i) ++cnt[a[i]];\n    vector<pair<int,\
     \ ll>> res;\n    for (const auto &[x, c] : cnt) res.push_back({c, x});\n    sort(res.begin(),\
@@ -317,11 +520,18 @@ data:
     \ x});\n    sort(res.begin(), res.end(), [](const pair<int, int> &x, const pair<int,\
     \ int> &y) {\n        if (x.first != y.first) return x.first > y.first;\n    \
     \    return x.second < y.second;\n    });\n    if ((int)res.size() > k) res.resize(k);\n\
-    \    return res;\n}\n\nvoid self_check() {\n    mt19937 rng(0);\n    for (int\
-    \ tc = 0; tc < 300; ++tc) {\n        int n = rng() % 60 + 1;\n        vector<ll>\
-    \ a(n);\n        for (ll &x : a) x = (int)(rng() % 21) - 10;\n\n        WaveletMatrix<ll>\
-    \ wm(a);\n        vector<ll> vals = a;\n        sort(vals.begin(), vals.end());\n\
-    \        vals.erase(unique(vals.begin(), vals.end()), vals.end());\n        vector<int>\
+    \    return res;\n}\n\nvoid self_check() {\n    mt19937 rng(0);\n    const vector<int>\
+    \ edge_sizes = {1, 7, 8, 15, 16, 63, 64, 65, 127, 128, 129};\n    for (int tc\
+    \ = 0; tc < 300 + (int)edge_sizes.size(); ++tc) {\n        int n = tc < 300 ?\
+    \ rng() % 60 + 1 : edge_sizes[tc - 300];\n        vector<ll> a(n);\n        if\
+    \ (tc < 300) {\n            for (ll &x : a) x = (int)(rng() % 21) - 10;\n    \
+    \    }\n        else {\n            for (int i = 0; i < n; ++i) {\n          \
+    \      if (i % 17 == 0) a[i] = numeric_limits<ll>::min();\n                else\
+    \ if (i % 19 == 0) a[i] = numeric_limits<ll>::max();\n                else if\
+    \ (i % 5 == 0) a[i] = 7;\n                else a[i] = (ll)((unsigned long long)rng()\
+    \ << 32 | rng());\n            }\n        }\n\n        WaveletMatrix<ll> wm(a);\n\
+    \        vector<ll> vals = a;\n        sort(vals.begin(), vals.end());\n     \
+    \   vals.erase(unique(vals.begin(), vals.end()), vals.end());\n        vector<int>\
     \ idx(n);\n        for (int i = 0; i < n; ++i) idx[i] = (int)(lower_bound(vals.begin(),\
     \ vals.end(), a[i]) - vals.begin());\n\n        WaveletMatrix<ll> wm_index;\n\
     \        wm_index.build_from_index(idx, vals);\n\n        for (int step = 0; step\
@@ -331,13 +541,56 @@ data:
     \ want = brute_top_k_freq(a, l, r, k);\n            assert(got == want);\n\n \
     \           auto got_idx = wm_index.top_k_freq_index(l, r, k);\n            auto\
     \ want_idx = brute_top_k_freq_index(idx, l, r, k);\n            assert(got_idx\
-    \ == want_idx);\n        }\n    }\n}\n\nint main() {\n    self_check();\n\n  \
-    \  Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
+    \ == want_idx);\n\n            vector<ll> part(a.begin() + l, a.begin() + r);\n\
+    \            sort(part.begin(), part.end());\n            ll x;\n            if\
+    \ (step % 17 == 0) x = numeric_limits<ll>::min();\n            else if (step %\
+    \ 19 == 0) x = numeric_limits<ll>::max();\n            else if (step % 3 == 0)\
+    \ x = a[rng() % n];\n            else x = (int)(rng() % 31) - 15;\n          \
+    \  ll y = step % 7 == 0 ? x : (int)(rng() % 31) - 15;\n            ll lower =\
+    \ min(x, y), upper = max(x, y);\n\n            int less = (int)(lower_bound(part.begin(),\
+    \ part.end(), x) - part.begin());\n            int equal = (int)(upper_bound(part.begin(),\
+    \ part.end(), x)\n                              - lower_bound(part.begin(), part.end(),\
+    \ x));\n            int in_range = (int)(lower_bound(part.begin(), part.end(),\
+    \ upper)\n                                 - lower_bound(part.begin(), part.end(),\
+    \ lower));\n            assert(wm.count_less(l, r, x) == less);\n            assert(wm.freq(l,\
+    \ r, x) == equal);\n            assert(wm.range_freq(l, r, lower, upper) == in_range);\n\
+    \            assert(wm_index.count_less(l, r, x) == less);\n            assert(wm_index.freq(l,\
+    \ r, x) == equal);\n\n            int xi = (int)(rng() % (vals.size() + 3)) -\
+    \ 1;\n            int less_idx = 0, equal_idx = 0;\n            for (int i = l;\
+    \ i < r; ++i) {\n                less_idx += idx[i] < xi;\n                equal_idx\
+    \ += idx[i] == xi;\n            }\n            assert(wm_index.count_less_index(l,\
+    \ r, xi) == less_idx);\n            assert(wm_index.count_equal_index(l, r, xi)\
+    \ == equal_idx);\n\n            if (!part.empty()) {\n                int order\
+    \ = rng() % part.size();\n                assert(wm.kth_smallest(l, r, order)\
+    \ == part[order]);\n                assert(wm.kth_largest(l, r, order) == part[part.size()\
+    \ - 1 - order]);\n                assert(wm_index.kth_smallest(l, r, order) ==\
+    \ part[order]);\n            }\n\n            ll got_value = 0;\n            auto\
+    \ prev_it = lower_bound(part.begin(), part.end(), x);\n            bool has_prev\
+    \ = prev_it != part.begin();\n            assert(wm.prev_value(l, r, x, got_value)\
+    \ == has_prev);\n            if (has_prev) {\n                --prev_it;\n   \
+    \             assert(got_value == *prev_it);\n            }\n            auto\
+    \ next_it = lower_bound(part.begin(), part.end(), x);\n            bool has_next\
+    \ = next_it != part.end();\n            assert(wm.next_value(l, r, x, got_value)\
+    \ == has_next);\n            if (has_next) assert(got_value == *next_it);\n  \
+    \      }\n    }\n\n    vector<ll> same(128, -3);\n    WaveletMatrix<ll> same_wm(same);\n\
+    \    assert(same_wm.count_less(0, 128, -2) == 128);\n    assert(same_wm.freq(0,\
+    \ 128, -3) == 128);\n    assert(same_wm.kth_smallest(0, 128, 127) == -3);\n\n\
+    \    vector<signed char> bytes = {-128, 127, 0, -1, 0, 127, -128};\n    WaveletMatrix<signed\
+    \ char> byte_wm(bytes);\n    assert(byte_wm.kth_smallest(0, (int)bytes.size(),\
+    \ 0) == -128);\n    assert(byte_wm.kth_largest(0, (int)bytes.size(), 0) == 127);\n\
+    \n    vector<string> words = {\"z\", \"a\", \"m\", \"a\", \"zz\"};\n    WaveletMatrix<string>\
+    \ string_wm(words);\n    assert(string_wm.count_less(0, 5, string(\"n\")) == 3);\n\
+    \    string value;\n    assert(string_wm.prev_value(0, 5, string(\"m\"), value)\
+    \ && value == \"a\");\n    assert(string_wm.next_value(0, 5, string(\"m\"), value)\
+    \ && value == \"m\");\n\n    WaveletMatrix<int> empty(vector<int>{});\n    int\
+    \ value_int = 0;\n    assert(empty.count_less(0, 0, 1) == 0);\n    assert(!empty.prev_value(0,\
+    \ 0, 1, value_int));\n    assert(!empty.next_value(0, 0, 1, value_int));\n}\n\n\
+    int main() {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a,\
+    \ b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <map>\n#include <random>\n#include <vector>\nusing\
-    \ namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include \"../datastructure/wavelet_matrix.cpp\"\
+    #include <cassert>\n#include <limits>\n#include <map>\n#include <random>\n#include\
+    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include \"../datastructure/wavelet_matrix.cpp\"\
     \n#include \"../util/fastio.cpp\"\n\nvector<pair<int, ll>> brute_top_k_freq(const\
     \ vector<ll> &a, int l, int r, int k) {\n    map<ll, int> cnt;\n    for (int i\
     \ = l; i < r; ++i) ++cnt[a[i]];\n    vector<pair<int, ll>> res;\n    for (const\
@@ -351,11 +604,17 @@ data:
     \ res.end(), [](const pair<int, int> &x, const pair<int, int> &y) {\n        if\
     \ (x.first != y.first) return x.first > y.first;\n        return x.second < y.second;\n\
     \    });\n    if ((int)res.size() > k) res.resize(k);\n    return res;\n}\n\n\
-    void self_check() {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 300; ++tc)\
-    \ {\n        int n = rng() % 60 + 1;\n        vector<ll> a(n);\n        for (ll\
-    \ &x : a) x = (int)(rng() % 21) - 10;\n\n        WaveletMatrix<ll> wm(a);\n  \
-    \      vector<ll> vals = a;\n        sort(vals.begin(), vals.end());\n       \
-    \ vals.erase(unique(vals.begin(), vals.end()), vals.end());\n        vector<int>\
+    void self_check() {\n    mt19937 rng(0);\n    const vector<int> edge_sizes = {1,\
+    \ 7, 8, 15, 16, 63, 64, 65, 127, 128, 129};\n    for (int tc = 0; tc < 300 + (int)edge_sizes.size();\
+    \ ++tc) {\n        int n = tc < 300 ? rng() % 60 + 1 : edge_sizes[tc - 300];\n\
+    \        vector<ll> a(n);\n        if (tc < 300) {\n            for (ll &x : a)\
+    \ x = (int)(rng() % 21) - 10;\n        }\n        else {\n            for (int\
+    \ i = 0; i < n; ++i) {\n                if (i % 17 == 0) a[i] = numeric_limits<ll>::min();\n\
+    \                else if (i % 19 == 0) a[i] = numeric_limits<ll>::max();\n   \
+    \             else if (i % 5 == 0) a[i] = 7;\n                else a[i] = (ll)((unsigned\
+    \ long long)rng() << 32 | rng());\n            }\n        }\n\n        WaveletMatrix<ll>\
+    \ wm(a);\n        vector<ll> vals = a;\n        sort(vals.begin(), vals.end());\n\
+    \        vals.erase(unique(vals.begin(), vals.end()), vals.end());\n        vector<int>\
     \ idx(n);\n        for (int i = 0; i < n; ++i) idx[i] = (int)(lower_bound(vals.begin(),\
     \ vals.end(), a[i]) - vals.begin());\n\n        WaveletMatrix<ll> wm_index;\n\
     \        wm_index.build_from_index(idx, vals);\n\n        for (int step = 0; step\
@@ -365,16 +624,59 @@ data:
     \ want = brute_top_k_freq(a, l, r, k);\n            assert(got == want);\n\n \
     \           auto got_idx = wm_index.top_k_freq_index(l, r, k);\n            auto\
     \ want_idx = brute_top_k_freq_index(idx, l, r, k);\n            assert(got_idx\
-    \ == want_idx);\n        }\n    }\n}\n\nint main() {\n    self_check();\n\n  \
-    \  Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
+    \ == want_idx);\n\n            vector<ll> part(a.begin() + l, a.begin() + r);\n\
+    \            sort(part.begin(), part.end());\n            ll x;\n            if\
+    \ (step % 17 == 0) x = numeric_limits<ll>::min();\n            else if (step %\
+    \ 19 == 0) x = numeric_limits<ll>::max();\n            else if (step % 3 == 0)\
+    \ x = a[rng() % n];\n            else x = (int)(rng() % 31) - 15;\n          \
+    \  ll y = step % 7 == 0 ? x : (int)(rng() % 31) - 15;\n            ll lower =\
+    \ min(x, y), upper = max(x, y);\n\n            int less = (int)(lower_bound(part.begin(),\
+    \ part.end(), x) - part.begin());\n            int equal = (int)(upper_bound(part.begin(),\
+    \ part.end(), x)\n                              - lower_bound(part.begin(), part.end(),\
+    \ x));\n            int in_range = (int)(lower_bound(part.begin(), part.end(),\
+    \ upper)\n                                 - lower_bound(part.begin(), part.end(),\
+    \ lower));\n            assert(wm.count_less(l, r, x) == less);\n            assert(wm.freq(l,\
+    \ r, x) == equal);\n            assert(wm.range_freq(l, r, lower, upper) == in_range);\n\
+    \            assert(wm_index.count_less(l, r, x) == less);\n            assert(wm_index.freq(l,\
+    \ r, x) == equal);\n\n            int xi = (int)(rng() % (vals.size() + 3)) -\
+    \ 1;\n            int less_idx = 0, equal_idx = 0;\n            for (int i = l;\
+    \ i < r; ++i) {\n                less_idx += idx[i] < xi;\n                equal_idx\
+    \ += idx[i] == xi;\n            }\n            assert(wm_index.count_less_index(l,\
+    \ r, xi) == less_idx);\n            assert(wm_index.count_equal_index(l, r, xi)\
+    \ == equal_idx);\n\n            if (!part.empty()) {\n                int order\
+    \ = rng() % part.size();\n                assert(wm.kth_smallest(l, r, order)\
+    \ == part[order]);\n                assert(wm.kth_largest(l, r, order) == part[part.size()\
+    \ - 1 - order]);\n                assert(wm_index.kth_smallest(l, r, order) ==\
+    \ part[order]);\n            }\n\n            ll got_value = 0;\n            auto\
+    \ prev_it = lower_bound(part.begin(), part.end(), x);\n            bool has_prev\
+    \ = prev_it != part.begin();\n            assert(wm.prev_value(l, r, x, got_value)\
+    \ == has_prev);\n            if (has_prev) {\n                --prev_it;\n   \
+    \             assert(got_value == *prev_it);\n            }\n            auto\
+    \ next_it = lower_bound(part.begin(), part.end(), x);\n            bool has_next\
+    \ = next_it != part.end();\n            assert(wm.next_value(l, r, x, got_value)\
+    \ == has_next);\n            if (has_next) assert(got_value == *next_it);\n  \
+    \      }\n    }\n\n    vector<ll> same(128, -3);\n    WaveletMatrix<ll> same_wm(same);\n\
+    \    assert(same_wm.count_less(0, 128, -2) == 128);\n    assert(same_wm.freq(0,\
+    \ 128, -3) == 128);\n    assert(same_wm.kth_smallest(0, 128, 127) == -3);\n\n\
+    \    vector<signed char> bytes = {-128, 127, 0, -1, 0, 127, -128};\n    WaveletMatrix<signed\
+    \ char> byte_wm(bytes);\n    assert(byte_wm.kth_smallest(0, (int)bytes.size(),\
+    \ 0) == -128);\n    assert(byte_wm.kth_largest(0, (int)bytes.size(), 0) == 127);\n\
+    \n    vector<string> words = {\"z\", \"a\", \"m\", \"a\", \"zz\"};\n    WaveletMatrix<string>\
+    \ string_wm(words);\n    assert(string_wm.count_less(0, 5, string(\"n\")) == 3);\n\
+    \    string value;\n    assert(string_wm.prev_value(0, 5, string(\"m\"), value)\
+    \ && value == \"a\");\n    assert(string_wm.next_value(0, 5, string(\"m\"), value)\
+    \ && value == \"m\");\n\n    WaveletMatrix<int> empty(vector<int>{});\n    int\
+    \ value_int = 0;\n    assert(empty.count_less(0, 0, 1) == 0);\n    assert(!empty.prev_value(0,\
+    \ 0, 1, value_int));\n    assert(!empty.next_value(0, 0, 1, value_int));\n}\n\n\
+    int main() {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a,\
+    \ b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   dependsOn:
   - datastructure/wavelet_matrix.cpp
   - util/fastio.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   requiredBy: []
-  timestamp: '2026-07-18 15:59:16+09:00'
+  timestamp: '2026-07-26 12:56:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp

@@ -782,6 +782,9 @@ data:
       path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
       title: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+      title: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_area_of_union_of_rectangles.test.cpp
       title: test/yosupo_area_of_union_of_rectangles.test.cpp
     - icon: ':heavy_check_mark:'

@@ -14,23 +14,24 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/static_range_sum_with_upper_bound
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/static_range_sum_with_upper_bound
-  bundledCode: "#line 1 \"test/yosupo_static_range_sum_with_upper_bound.test.cpp\"\
-    \n#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_sum_with_upper_bound\"\
-    \n\n#include <algorithm>\n#include <type_traits>\n#include <vector>\nusing namespace\
-    \ std;\n\n#line 1 \"datastructure/weighted_wavelet_matrix.cpp\"\ntemplate <class\
-    \ T, class U>\nstruct WeightedWaveletMatrix {\n    struct CountSum {\n       \
-    \ int count;\n        U sum;\n    };\n\n    int n, lg, blocks;\n    vector<int>\
-    \ mid;\n    vector<unsigned long long> bit;\n    vector<int> pref;\n    vector<U>\
-    \ zero_sum;\n    vector<U> base_sum;\n    vector<T> vals;\n\n    WeightedWaveletMatrix()\
-    \ : n(0), lg(0), blocks(0) {}\n    WeightedWaveletMatrix(const vector<T> &v, const\
-    \ vector<U> &w) { build(v, w); }\n\n    static inline void rank1_pair(const unsigned\
-    \ long long *row, const int *row_pref, int l, int r, int &l1, int &r1) {\n   \
-    \     int l_block = l >> 6;\n        l1 = row_pref[l_block];\n        int l_rem\
-    \ = l & 63;\n        if (l_rem) l1 += __builtin_popcountll(row[l_block] & ((1ULL\
-    \ << l_rem) - 1));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block];\n\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp\"\n\
+    #define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
+    #include <cassert>\n#include <limits>\n#include <random>\n#include <string>\n\
+    #include <type_traits>\n#include <vector>\nusing namespace std;\n\n#line 1 \"\
+    datastructure/weighted_wavelet_matrix.cpp\"\ntemplate <class T, class U>\nstruct\
+    \ WeightedWaveletMatrix {\n    struct CountSum {\n        int count;\n       \
+    \ U sum;\n    };\n\n    int n, lg, blocks;\n    vector<int> mid;\n    vector<unsigned\
+    \ long long> bit;\n    vector<int> pref;\n    vector<U> zero_sum;\n    vector<U>\
+    \ base_sum;\n    vector<T> vals;\n\n    WeightedWaveletMatrix() : n(0), lg(0),\
+    \ blocks(0) {}\n    WeightedWaveletMatrix(const vector<T> &v, const vector<U>\
+    \ &w) { build(v, w); }\n\n    static inline void rank1_pair(const unsigned long\
+    \ long *row, const int *row_pref, int l, int r, int &l1, int &r1) {\n        int\
+    \ l_block = l >> 6;\n        l1 = row_pref[l_block];\n        int l_rem = l &\
+    \ 63;\n        if (l_rem) l1 += __builtin_popcountll(row[l_block] & ((1ULL <<\
+    \ l_rem) - 1));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block];\n\
     \        int r_rem = r & 63;\n        if (r_rem) r1 += __builtin_popcountll(row[r_block]\
     \ & ((1ULL << r_rem) - 1));\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
     \    __attribute__((target(\"popcnt,bmi2\")))\n    static inline void rank1_pair_bmi2(const\
@@ -164,11 +165,11 @@ data:
     \ r, x).sum;\n    }\n\n    U sum_less_equal(int l, int r, const T &x) const {\n\
     \        return count_sum_less_equal(l, r, x).sum;\n    }\n};\n\n/**\n * @brief\
     \ \u91CD\u307F\u4ED8\u304DWavelet Matrix(Weighted Wavelet Matrix)\n */\n#line\
-    \ 9 \"test/yosupo_static_range_sum_with_upper_bound.test.cpp\"\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace\
-    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
-    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
-    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ 13 \"test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp\"\n\n#include <cstdio>\n\
+    #include <cstring>\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
     \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
     \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
@@ -291,36 +292,125 @@ data:
     \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
     }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
     \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 14 \"test/yosupo_static_range_sum_with_upper_bound.test.cpp\"\n\n\
-    int main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n\
-    \    in.read(q);\n    vector<long long> a(n);\n    for (int i = 0; i < n; ++i)\
-    \ in.read(a[i]);\n\n    WeightedWaveletMatrix<long long, long long> wm(a, a);\n\
-    \    while (q--) {\n        int l, r;\n        long long x;\n        in.read(l);\n\
-    \        in.read(r);\n        in.read(x);\n        auto res = wm.count_sum_less_equal(l,\
-    \ r, x);\n        out.println(res.count, res.sum);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_sum_with_upper_bound\"\
-    \n\n#include <algorithm>\n#include <type_traits>\n#include <vector>\nusing namespace\
-    \ std;\n\n#include \"../datastructure/weighted_wavelet_matrix.cpp\"\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n\n#include \"../util/fastio.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n\
-    \    in.read(q);\n    vector<long long> a(n);\n    for (int i = 0; i < n; ++i)\
-    \ in.read(a[i]);\n\n    WeightedWaveletMatrix<long long, long long> wm(a, a);\n\
-    \    while (q--) {\n        int l, r;\n        long long x;\n        in.read(l);\n\
-    \        in.read(r);\n        in.read(x);\n        auto res = wm.count_sum_less_equal(l,\
-    \ r, x);\n        out.println(res.count, res.sum);\n    }\n    return 0;\n}\n"
+    \ */\n#line 18 \"test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp\"\n\nusing\
+    \ ll = long long;\n\nstruct BruteResult {\n    int count;\n    ll sum;\n};\n\n\
+    BruteResult brute_less(const vector<ll> &values, const vector<ll> &weights,\n\
+    \                       int l, int r, ll x, bool equal) {\n    BruteResult res{0,\
+    \ 0};\n    for (int i = l; i < r; ++i) {\n        if (values[i] < x || (equal\
+    \ && values[i] == x)) {\n            ++res.count;\n            res.sum += weights[i];\n\
+    \        }\n    }\n    return res;\n}\n\nvoid check_random() {\n    mt19937_64\
+    \ rng(0);\n    for (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 51;\n\
+    \        vector<ll> values(n), weights(n);\n        for (int i = 0; i < n; ++i)\
+    \ {\n            if (tc % 3 == 0) values[i] = (int)(rng() % 21) - 10;\n      \
+    \      else values[i] = (ll)rng();\n            weights[i] = (int)(rng() % 101)\
+    \ - 50;\n        }\n        if (n && tc % 7 == 0) {\n            values[0] = numeric_limits<ll>::min();\n\
+    \            values[n - 1] = numeric_limits<ll>::max();\n        }\n\n       \
+    \ WeightedWaveletMatrix<ll, ll> wm(values, weights);\n        vector<ll> sorted_values\
+    \ = values;\n        sort(sorted_values.begin(), sorted_values.end());\n     \
+    \   sorted_values.erase(unique(sorted_values.begin(), sorted_values.end()), sorted_values.end());\n\
+    \        assert(wm.vals == sorted_values);\n\n        vector<int> index(n);\n\
+    \        for (int i = 0; i < n; ++i) {\n            index[i] = lower_bound(sorted_values.begin(),\
+    \ sorted_values.end(), values[i]) - sorted_values.begin();\n        }\n      \
+    \  WeightedWaveletMatrix<ll, ll> wm_index;\n        wm_index.build_from_index(index,\
+    \ sorted_values, weights);\n\n        for (int step = 0; step < 200; ++step) {\n\
+    \            int l = rng() % (n + 1);\n            int r = rng() % (n + 1);\n\
+    \            if (l > r) swap(l, r);\n            ll x = step % 17 == 0 ? numeric_limits<ll>::min()\n\
+    \                                  : step % 19 == 0 ? numeric_limits<ll>::max()\n\
+    \                                                    : (ll)rng();\n\n        \
+    \    BruteResult less = brute_less(values, weights, l, r, x, false);\n       \
+    \     auto got_less = wm.count_sum_less(l, r, x);\n            assert(got_less.count\
+    \ == less.count && got_less.sum == less.sum);\n            assert(wm.count_less(l,\
+    \ r, x) == less.count);\n            assert(wm.sum_less(l, r, x) == less.sum);\n\
+    \n            BruteResult less_equal = brute_less(values, weights, l, r, x, true);\n\
+    \            auto got_less_equal = wm.count_sum_less_equal(l, r, x);\n       \
+    \     assert(got_less_equal.count == less_equal.count && got_less_equal.sum ==\
+    \ less_equal.sum);\n            assert(wm.count_less_equal(l, r, x) == less_equal.count);\n\
+    \            assert(wm.sum_less_equal(l, r, x) == less_equal.sum);\n\n       \
+    \     int xi = (int)(rng() % (sorted_values.size() + 5)) - 2;\n            BruteResult\
+    \ index_less{0, 0};\n            for (int i = l; i < r; ++i) {\n             \
+    \   if (index[i] < xi) {\n                    ++index_less.count;\n          \
+    \          index_less.sum += weights[i];\n                }\n            }\n \
+    \           auto got_index = wm_index.count_sum_less_index(l, r, xi);\n      \
+    \      assert(got_index.count == index_less.count && got_index.sum == index_less.sum);\n\
+    \            assert(wm_index.count_less_index(l, r, xi) == index_less.count);\n\
+    \        }\n    }\n}\n\nvoid check_generic_value() {\n    vector<string> values{\"\
+    bb\", \"aa\", \"cc\", \"aa\"};\n    vector<ll> weights{3, -2, 5, 7};\n    WeightedWaveletMatrix<string,\
+    \ ll> wm(values, weights);\n    assert(wm.count_less(0, 4, string(\"bb\")) ==\
+    \ 2);\n    assert(wm.sum_less_equal(1, 4, string(\"bb\")) == 5);\n}\n\nvoid check_integral_widths()\
+    \ {\n    vector<signed char> values{-128, 127, 0, -1, 0};\n    vector<int> weights{1,\
+    \ 2, 4, 8, 16};\n    WeightedWaveletMatrix<signed char, int> wm(values, weights);\n\
+    \    assert(wm.count_less(0, 5, (signed char)1) == 4);\n    assert(wm.sum_less_equal(0,\
+    \ 5, (signed char)0) == 29);\n}\n\nint main() {\n    check_random();\n    check_generic_value();\n\
+    \    check_integral_widths();\n\n    Scanner in;\n    Printer out;\n    ll a,\
+    \ b;\n    in.read(a, b);\n    out.println(a + b);\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
+    #include <cassert>\n#include <limits>\n#include <random>\n#include <string>\n\
+    #include <type_traits>\n#include <vector>\nusing namespace std;\n\n#include \"\
+    ../datastructure/weighted_wavelet_matrix.cpp\"\n\n#include <cstdio>\n#include\
+    \ <cstring>\n\n#include \"../util/fastio.cpp\"\n\nusing ll = long long;\n\nstruct\
+    \ BruteResult {\n    int count;\n    ll sum;\n};\n\nBruteResult brute_less(const\
+    \ vector<ll> &values, const vector<ll> &weights,\n                       int l,\
+    \ int r, ll x, bool equal) {\n    BruteResult res{0, 0};\n    for (int i = l;\
+    \ i < r; ++i) {\n        if (values[i] < x || (equal && values[i] == x)) {\n \
+    \           ++res.count;\n            res.sum += weights[i];\n        }\n    }\n\
+    \    return res;\n}\n\nvoid check_random() {\n    mt19937_64 rng(0);\n    for\
+    \ (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 51;\n        vector<ll>\
+    \ values(n), weights(n);\n        for (int i = 0; i < n; ++i) {\n            if\
+    \ (tc % 3 == 0) values[i] = (int)(rng() % 21) - 10;\n            else values[i]\
+    \ = (ll)rng();\n            weights[i] = (int)(rng() % 101) - 50;\n        }\n\
+    \        if (n && tc % 7 == 0) {\n            values[0] = numeric_limits<ll>::min();\n\
+    \            values[n - 1] = numeric_limits<ll>::max();\n        }\n\n       \
+    \ WeightedWaveletMatrix<ll, ll> wm(values, weights);\n        vector<ll> sorted_values\
+    \ = values;\n        sort(sorted_values.begin(), sorted_values.end());\n     \
+    \   sorted_values.erase(unique(sorted_values.begin(), sorted_values.end()), sorted_values.end());\n\
+    \        assert(wm.vals == sorted_values);\n\n        vector<int> index(n);\n\
+    \        for (int i = 0; i < n; ++i) {\n            index[i] = lower_bound(sorted_values.begin(),\
+    \ sorted_values.end(), values[i]) - sorted_values.begin();\n        }\n      \
+    \  WeightedWaveletMatrix<ll, ll> wm_index;\n        wm_index.build_from_index(index,\
+    \ sorted_values, weights);\n\n        for (int step = 0; step < 200; ++step) {\n\
+    \            int l = rng() % (n + 1);\n            int r = rng() % (n + 1);\n\
+    \            if (l > r) swap(l, r);\n            ll x = step % 17 == 0 ? numeric_limits<ll>::min()\n\
+    \                                  : step % 19 == 0 ? numeric_limits<ll>::max()\n\
+    \                                                    : (ll)rng();\n\n        \
+    \    BruteResult less = brute_less(values, weights, l, r, x, false);\n       \
+    \     auto got_less = wm.count_sum_less(l, r, x);\n            assert(got_less.count\
+    \ == less.count && got_less.sum == less.sum);\n            assert(wm.count_less(l,\
+    \ r, x) == less.count);\n            assert(wm.sum_less(l, r, x) == less.sum);\n\
+    \n            BruteResult less_equal = brute_less(values, weights, l, r, x, true);\n\
+    \            auto got_less_equal = wm.count_sum_less_equal(l, r, x);\n       \
+    \     assert(got_less_equal.count == less_equal.count && got_less_equal.sum ==\
+    \ less_equal.sum);\n            assert(wm.count_less_equal(l, r, x) == less_equal.count);\n\
+    \            assert(wm.sum_less_equal(l, r, x) == less_equal.sum);\n\n       \
+    \     int xi = (int)(rng() % (sorted_values.size() + 5)) - 2;\n            BruteResult\
+    \ index_less{0, 0};\n            for (int i = l; i < r; ++i) {\n             \
+    \   if (index[i] < xi) {\n                    ++index_less.count;\n          \
+    \          index_less.sum += weights[i];\n                }\n            }\n \
+    \           auto got_index = wm_index.count_sum_less_index(l, r, xi);\n      \
+    \      assert(got_index.count == index_less.count && got_index.sum == index_less.sum);\n\
+    \            assert(wm_index.count_less_index(l, r, xi) == index_less.count);\n\
+    \        }\n    }\n}\n\nvoid check_generic_value() {\n    vector<string> values{\"\
+    bb\", \"aa\", \"cc\", \"aa\"};\n    vector<ll> weights{3, -2, 5, 7};\n    WeightedWaveletMatrix<string,\
+    \ ll> wm(values, weights);\n    assert(wm.count_less(0, 4, string(\"bb\")) ==\
+    \ 2);\n    assert(wm.sum_less_equal(1, 4, string(\"bb\")) == 5);\n}\n\nvoid check_integral_widths()\
+    \ {\n    vector<signed char> values{-128, 127, 0, -1, 0};\n    vector<int> weights{1,\
+    \ 2, 4, 8, 16};\n    WeightedWaveletMatrix<signed char, int> wm(values, weights);\n\
+    \    assert(wm.count_less(0, 5, (signed char)1) == 4);\n    assert(wm.sum_less_equal(0,\
+    \ 5, (signed char)0) == 29);\n}\n\nint main() {\n    check_random();\n    check_generic_value();\n\
+    \    check_integral_widths();\n\n    Scanner in;\n    Printer out;\n    ll a,\
+    \ b;\n    in.read(a, b);\n    out.println(a + b);\n    return 0;\n}\n"
   dependsOn:
   - datastructure/weighted_wavelet_matrix.cpp
   - util/fastio.cpp
   isVerificationFile: true
-  path: test/yosupo_static_range_sum_with_upper_bound.test.cpp
+  path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
   requiredBy: []
   timestamp: '2026-07-26 12:56:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_static_range_sum_with_upper_bound.test.cpp
+documentation_of: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_static_range_sum_with_upper_bound.test.cpp
-- /verify/test/yosupo_static_range_sum_with_upper_bound.test.cpp.html
-title: test/yosupo_static_range_sum_with_upper_bound.test.cpp
+- /verify/test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+- /verify/test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp.html
+title: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
 ---

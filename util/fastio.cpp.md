@@ -128,6 +128,9 @@ data:
     path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
     title: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+    title: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_area_of_union_of_rectangles.test.cpp
     title: test/yosupo_area_of_union_of_rectangles.test.cpp
   - icon: ':heavy_check_mark:'
@@ -778,6 +781,7 @@ data:
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - test/yosupo_shortest_path.test.cpp
   - test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
+  - test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
   - test/yosupo_cycle_detection_directed.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_general_matching.test.cpp
