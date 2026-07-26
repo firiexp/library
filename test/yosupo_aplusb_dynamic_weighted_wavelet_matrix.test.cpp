@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <limits>
 #include <random>
 #include <string>
 #include <utility>
@@ -274,10 +275,49 @@ void self_check_sum_k_smallest() {
     assert(wm.sum_k_smallest(0, 5, 5) == 93);
 }
 
+void self_check_fixed_values() {
+    vector<int> values{2, -3, 2, 7, 0, -3};
+    vector<ll> weights{5, 10, -4, 8, 3, 20};
+    DynamicWeightedWaveletMatrix<int, ll> wm(values, weights);
+    mt19937 rng(1);
+
+    for (int step = 0; step < 200; ++step) {
+        int k = rng() % values.size();
+        ll delta = (int)(rng() % 21) - 10;
+        wm.add_weight(k, delta);
+        weights[k] += delta;
+        check_queries(wm, values, weights, rng);
+    }
+    assert(wm.set_value(0, values[0]));
+    assert(!wm.set_value(0, 1000000));
+}
+
+void self_check_integral_boundaries() {
+    ll low = numeric_limits<ll>::min();
+    ll high = numeric_limits<ll>::max();
+    vector<ll> values{high, 0, low, -1};
+    vector<ll> weights{1, 2, 4, 8};
+    DynamicWeightedWaveletMatrix<ll, ll> wm(4);
+    wm.add_value_candidate(0, low);
+    wm.add_value_candidate(0, high);
+    wm.add_value_candidate(2, high);
+    wm.build(values, weights);
+
+    assert((wm.vals == vector<ll>{low, -1, 0, high}));
+    assert(wm.count_less(0, 4, 0) == 2);
+    assert(wm.sum_less_equal(0, 4, 0) == 14);
+    assert(wm.set_value(0, low));
+    assert(wm.freq(0, 4, low) == 2);
+    assert(wm.set(2, high, -5));
+    assert(wm.sum_equal(0, 4, high) == -5);
+}
+
 int main() {
     self_check_random();
     self_check_generic_value();
     self_check_sum_k_smallest();
+    self_check_fixed_values();
+    self_check_integral_boundaries();
 
     Scanner sc;
     Printer pr;
