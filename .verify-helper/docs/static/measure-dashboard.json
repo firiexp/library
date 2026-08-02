@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T13:56:33+09:00",
+  "generatedAt": "2026-08-02T17:24:13+09:00",
   "root": ".",
   "testCount": 183,
   "inventory": {
@@ -16,7 +16,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "3ed7058b4357fd7717c2e85932cf3a7a26cd9c6b",
+    "gitRevision": "22bd102ecb66fd6bee5a50b6e877cf54dce980fa",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -15528,7 +15528,7 @@
           "a.out",
           "test/yosupo_many_aplusb.test.cpp"
         ],
-        "wallSec": 0.37908440600040194
+        "wallSec": 0.4041329499996209
       },
       "testcases": {
         "directory": ".verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test",
@@ -15539,7 +15539,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/verify-dashboard-kj23kcna/a.out",
+          "./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/verify-dashboard-u4l23ag6/a.out",
           "-d",
           "./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test",
           "--tle",
@@ -15548,67 +15548,67 @@
           "~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker"
         ],
         "returnCode": 0,
-        "wallSec": 1.616907068000728,
+        "wallSec": 1.5845250499987742,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "all_max_00",
-              "timeSec": 0.063847,
+              "timeSec": 0.053608,
               "status": "AC"
             },
             {
               "name": "all_zero_00",
-              "timeSec": 0.010789,
+              "timeSec": 0.011131,
               "status": "AC"
             },
             {
               "name": "digit_random_00",
-              "timeSec": 0.03801,
+              "timeSec": 0.039081,
               "status": "AC"
             },
             {
               "name": "digit_random_01",
-              "timeSec": 0.038373,
+              "timeSec": 0.038605,
               "status": "AC"
             },
             {
               "name": "example_00",
-              "timeSec": 0.006898,
+              "timeSec": 0.00726,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.051593,
+              "timeSec": 0.051621,
               "status": "AC"
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.055939,
+              "timeSec": 0.053126,
               "status": "AC"
             },
             {
               "name": "random_00",
-              "timeSec": 0.03708,
+              "timeSec": 0.02575,
               "status": "AC"
             },
             {
               "name": "random_01",
-              "timeSec": 0.031847,
+              "timeSec": 0.02863,
               "status": "AC"
             }
           ],
           "caseCount": 9,
           "timedCaseCount": 9,
           "passedCaseCount": 9,
-          "slowestSec": 0.063847,
+          "slowestSec": 0.053608,
           "slowestCase": "all_max_00",
-          "averageSec": 0.03715288888888889,
+          "averageSec": 0.034312444444444444,
           "maxMemoryMb": 4.12,
-          "maxMemoryCase": "digit_random_01",
+          "maxMemoryCase": "random_00",
           "summary": "test success: 9 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 9 cases found\n\n[INFO] all_max_00\n[INFO] time: 0.063847 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_max_00.in /tmp/tmp6h3yh0d2/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_max_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] all_zero_00\n[INFO] time: 0.010789 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_zero_00.in /tmp/tmpvxgkro0c/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_zero_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] digit_random_00\n[INFO] time: 0.038010 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_00.in /tmp/tmp67wpd_4n/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] digit_random_01\n[INFO] time: 0.038373 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_01.in /tmp/tmps3jnfhk5/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_01.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.006898 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/example_00.in /tmp/tmpvhwmfm91/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/example_00.out\nok 3 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.051593 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_00.in /tmp/tmp98hvtu9x/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.055939 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_01.in /tmp/tmp__n71xkt/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_01.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.037080 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_00.in /tmp/tmpph4wej9l/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_00.out\nok 389813 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.031847 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_01.in /tmp/tmp2iqr21j9/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_01.out\nok 463046 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.063847 sec  (for all_max_00)\n[INFO] max memory: 4.120000 MB  (for digit_random_01)\n[SUCCESS] test success: 9 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 9 cases found\n\n[INFO] all_max_00\n[INFO] time: 0.053608 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_max_00.in /tmp/tmp86zxtsh5/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_max_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] all_zero_00\n[INFO] time: 0.011131 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_zero_00.in /tmp/tmp41t8q6qm/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_zero_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] digit_random_00\n[INFO] time: 0.039081 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_00.in /tmp/tmpoh1rwc37/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] digit_random_01\n[INFO] time: 0.038605 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_01.in /tmp/tmp_svsfvn4/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_01.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.007260 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/example_00.in /tmp/tmprj4o19sh/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/example_00.out\nok 3 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.051621 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_00.in /tmp/tmpm87an5p8/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.053126 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_01.in /tmp/tmpxvk7aaiz/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_01.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.025750 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_00.in /tmp/tmppnldz0i2/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_00.out\nok 389813 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.028630 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_01.in /tmp/tmpptq7njj4/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_01.out\nok 463046 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.053608 sec  (for all_max_00)\n[INFO] max memory: 4.120000 MB  (for random_00)\n[SUCCESS] test success: 9 cases\n"
       }
     },
     {

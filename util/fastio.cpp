@@ -44,12 +44,58 @@ struct FastIoDigitTable {
 struct Scanner {
     static constexpr int BUFSIZE = 1 << 17;
     static constexpr int OFFSET = 64;
+    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;
+    static constexpr int LONG_TOKEN_MIN_DIGITS = 16;
     char buf[BUFSIZE + 1];
     int idx, size;
-    bool interactive;
+    bool interactive, long_tokens;
     string number_token;
 
-    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}
+    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}
+
+    __attribute__((always_inline))
+    static inline unsigned parse_eight_digits(const char *p) {
+        unsigned long long value;
+        memcpy(&value, p, 8);
+#if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+        value = __builtin_bswap64(value);
+#endif
+        value -= 0x3030303030303030ULL;
+        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;
+        value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;
+        value = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;
+        return (unsigned)value;
+    }
+
+    __attribute__((always_inline))
+    static inline bool are_eight_digits(const char *p) {
+        unsigned long long value;
+        memcpy(&value, p, 8);
+        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;
+    }
+
+    template<class U>
+    __attribute__((noinline))
+    U read_long_digits(char c) {
+        const char *p = buf + idx - 1;
+        const char *end = buf + size;
+        U value = 0;
+        if (c >= '0' && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {
+            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);
+            p += 16;
+            while (*p >= '0') {
+                value = value * 10 + (*p & 15);
+                ++p;
+            }
+            idx = (int)(p - buf) + 1;
+            return value;
+        }
+        while (c >= '0') {
+            value = value * 10 + (c & 15);
+            c = buf[idx++];
+        }
+        return value;
+    }
 
     inline void load() {
         int len = size - idx;
@@ -59,6 +105,16 @@ struct Scanner {
             else size = len;
         } else {
             size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);
+            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);
+            int separators = 0;
+            int minus_signs = 0;
+            for (int i = 0; i < sample_size; ++i) {
+                separators += buf[i] <= ' ';
+                minus_signs += buf[i] == '-';
+            }
+            // Select once per buffer so ordinary short integers avoid the
+            // checks and call overhead of the 16-digit SWAR path.
+            long_tokens = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;
         }
         idx = 0;
         buf[size] = 0;
@@ -128,10 +184,15 @@ struct Scanner {
                 c = buf[idx++];
             }
         }
-        U y = 0;
-        while (c >= '0') {
-            y = y * 10 + (c & 15);
-            c = buf[idx++];
+        U y;
+        if (__builtin_expect(long_tokens, false)) {
+            y = read_long_digits<U>(c);
+        } else {
+            y = 0;
+            while (c >= '0') {
+                y = y * 10 + (c & 15);
+                c = buf[idx++];
+            }
         }
         if constexpr (is_signed<T>::value) {
             if (neg && y) {
@@ -322,6 +383,7 @@ struct Printer {
         return write_top(out, x);
     }
 
+    __attribute__((noinline))
     inline char *write_u64(char *out, unsigned long long x) {
         if (x <= 0xffffffffULL) return write_u32(out, (unsigned)x);
         unsigned long long hi = x / 100000000;
