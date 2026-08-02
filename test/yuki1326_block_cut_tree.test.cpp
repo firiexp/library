@@ -8,6 +8,7 @@
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../graph/block_cut_tree.cpp"
 #include "../tree/hld.cpp"

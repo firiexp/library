@@ -11,6 +11,7 @@ using namespace std;
 #include <cstring>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../datastructure/trie.cpp"
 

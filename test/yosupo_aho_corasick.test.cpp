@@ -14,6 +14,7 @@ using ull = unsigned long long;
 #include <cstring>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../datastructure/ahocorasick.cpp"
 

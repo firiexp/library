@@ -11,6 +11,7 @@ using namespace std;
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../graph/dynamic_graph_vertex_add_component_sum.cpp"
 

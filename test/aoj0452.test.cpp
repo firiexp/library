@@ -18,6 +18,7 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../tree/centroid_decomposition.cpp"
 

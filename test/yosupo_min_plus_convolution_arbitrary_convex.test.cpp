@@ -9,6 +9,7 @@ using namespace std;
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../math/min_plus_convolution.cpp"
 

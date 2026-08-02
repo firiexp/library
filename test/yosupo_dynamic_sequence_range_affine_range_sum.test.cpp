@@ -15,6 +15,7 @@ using ull = unsigned long long;
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../util/modint.cpp"
 #include "../datastructure/implicit_treap.cpp"

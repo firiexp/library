@@ -8,6 +8,7 @@
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../datastructure/static_rectangle_sum.cpp"
 

@@ -9,6 +9,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 
+#include <charconv>
 #include "../util/fastio.cpp"
 
 #include "../util/modint.cpp"

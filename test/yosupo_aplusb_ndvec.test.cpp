@@ -12,6 +12,7 @@
 #include <vector>
 using namespace std;
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../util/ndvec.cpp"
 

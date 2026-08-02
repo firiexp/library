@@ -7,6 +7,7 @@ using uint = unsigned;
 using ull = unsigned long long;
 using namespace std;
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../util/modint.cpp"
 #include "../tree/link_cut_tree.cpp"

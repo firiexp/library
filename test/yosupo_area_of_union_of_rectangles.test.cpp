@@ -8,6 +8,7 @@
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../geometry/area_of_union_of_rectangles.cpp"
 

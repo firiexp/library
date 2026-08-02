@@ -10,6 +10,7 @@ using namespace std;
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../datastructure/binaryindexedtree.cpp"
 

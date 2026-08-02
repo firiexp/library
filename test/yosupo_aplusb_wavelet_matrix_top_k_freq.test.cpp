@@ -16,6 +16,7 @@ using ll = long long;
 #include <type_traits>
 
 #include "../datastructure/wavelet_matrix.cpp"
+#include <charconv>
 #include "../util/fastio.cpp"
 
 vector<pair<int, ll>> brute_top_k_freq(const vector<ll> &a, int l, int r, int k) {

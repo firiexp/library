@@ -8,6 +8,10 @@
 #include <numeric>
 #include <bitset>
 #include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <type_traits>
 
 static const int MOD = 1000000007;
 using ll = long long;
@@ -18,6 +22,8 @@ using namespace std;
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
 #define ERROR "1e-4"
+#include <charconv>
+#include "../util/fastio.cpp"
 #include "../geometry/geometry.cpp"
 #include "../datastructure/unionfind.cpp"
 template <typename T>
@@ -32,13 +38,15 @@ struct edge {
 };
 
 int main() {
+    Scanner sc;
+    Printer pr;
     int n, m;
-    cin >> n >> m;
+    sc.read(n, m);
     vector<Point> v(n);
     map<Point, int> M;
     UnionFind uf(n);
     for (int i = 0; i < n; ++i) {
-        cin >> v[i];
+        sc.read(v[i].x, v[i].y);
         M[v[i]] = i;
     }
     double ans = 0;
@@ -50,12 +58,12 @@ int main() {
     vector<edge<double>> G;
     for (int i = 0; i < m; ++i) {
         int a, b;
-        cin >> a >> b;
+        sc.read(a, b);
         a--; b--;
         G.emplace_back(a, b, abs(v[a]-v[b]));
     }
     sort(begin(G), end(G), [](const edge<double> &a, const edge<double> &b) { return a.cost < b.cost; });
     for(auto &e : G) if(uf.unite(e.from, e.to)) ans += e.cost;
-    printf("%.8f\n", ans);
+    pr.println_fixed(ans, 8);
     return 0;
 }

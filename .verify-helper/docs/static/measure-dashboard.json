@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-26T12:50:23+09:00",
+  "generatedAt": "2026-08-02T12:15:05+09:00",
   "root": ".",
   "testCount": 183,
   "inventory": {
@@ -16,7 +16,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "0a1fab11ee82ebd6b20e1b55f9ae63a61b8dfed3",
+    "gitRevision": "65872b0e786964ada4e96277b1bdf184477a10bf",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -668,7 +668,7 @@
           "a.out",
           "test/aoj0342.test.cpp"
         ],
-        "wallSec": 1.0854118570000537
+        "wallSec": 1.5323414130007222
       },
       "testcases": {
         "directory": ".verify-helper/cache/baf57bebb103393cad97cdaad625cb2c/test",
@@ -679,7 +679,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/baf57bebb103393cad97cdaad625cb2c/verify-dashboard-y74xk9ip/a.out",
+          "./.verify-helper/cache/baf57bebb103393cad97cdaad625cb2c/verify-dashboard-cjly2drq/a.out",
           "-d",
           "./.verify-helper/cache/baf57bebb103393cad97cdaad625cb2c/test",
           "--tle",
@@ -688,112 +688,112 @@
           "1e-4"
         ],
         "returnCode": 0,
-        "wallSec": 0.23426544699987062,
+        "wallSec": 0.30292650100000174,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "00_sample_01.in",
-              "timeSec": 0.003193,
+              "timeSec": 0.005787,
               "status": "AC"
             },
             {
               "name": "00_sample_02.in",
-              "timeSec": 0.002408,
+              "timeSec": 0.00515,
               "status": "AC"
             },
             {
               "name": "01_small_01.in",
-              "timeSec": 0.002755,
+              "timeSec": 0.00436,
               "status": "AC"
             },
             {
               "name": "01_small_02.in",
-              "timeSec": 0.002298,
+              "timeSec": 0.004198,
               "status": "AC"
             },
             {
               "name": "02_corner_01.in",
-              "timeSec": 0.002197,
+              "timeSec": 0.004123,
               "status": "AC"
             },
             {
               "name": "02_corner_02.in",
-              "timeSec": 0.002293,
+              "timeSec": 0.004459,
               "status": "AC"
             },
             {
               "name": "02_corner_03.in",
-              "timeSec": 0.002096,
+              "timeSec": 0.003907,
               "status": "AC"
             },
             {
               "name": "10_large_01.in",
-              "timeSec": 0.002268,
+              "timeSec": 0.004375,
               "status": "AC"
             },
             {
               "name": "10_large_02.in",
-              "timeSec": 0.002229,
+              "timeSec": 0.003792,
               "status": "AC"
             },
             {
               "name": "10_large_03.in",
-              "timeSec": 0.002927,
+              "timeSec": 0.004111,
               "status": "AC"
             },
             {
               "name": "20_sharp_01.in",
-              "timeSec": 0.002488,
+              "timeSec": 0.004826,
               "status": "AC"
             },
             {
               "name": "30_trig_01.in",
-              "timeSec": 0.002404,
+              "timeSec": 0.0042,
               "status": "AC"
             },
             {
               "name": "40_circ_01.in",
-              "timeSec": 0.00231,
+              "timeSec": 0.003827,
               "status": "AC"
             },
             {
               "name": "40_circ_02.in",
-              "timeSec": 0.00227,
+              "timeSec": 0.003814,
               "status": "AC"
             },
             {
               "name": "40_circ_03.in",
-              "timeSec": 0.002543,
+              "timeSec": 0.003833,
               "status": "AC"
             },
             {
               "name": "50_clusters_01.in",
-              "timeSec": 0.002299,
+              "timeSec": 0.003734,
               "status": "AC"
             },
             {
               "name": "50_clusters_02.in",
-              "timeSec": 0.002247,
+              "timeSec": 0.003748,
               "status": "AC"
             },
             {
               "name": "50_clusters_03.in",
-              "timeSec": 0.002154,
+              "timeSec": 0.003706,
               "status": "AC"
             }
           ],
           "caseCount": 18,
           "timedCaseCount": 18,
           "passedCaseCount": 18,
-          "slowestSec": 0.003193,
+          "slowestSec": 0.005787,
           "slowestCase": "00_sample_01.in",
-          "averageSec": 0.0024099444444444446,
-          "maxMemoryMb": 4.032,
-          "maxMemoryCase": "00_sample_01.in",
+          "averageSec": 0.004219444444444445,
+          "maxMemoryMb": 4.384,
+          "maxMemoryCase": "10_large_03.in",
           "summary": "test success: 18 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 18 cases found\n\n[INFO] 00_sample_01.in\n[INFO] time: 0.003193 sec\n[SUCCESS] AC\n\n[INFO] 00_sample_02.in\n[INFO] time: 0.002408 sec\n[SUCCESS] AC\n\n[INFO] 01_small_01.in\n[INFO] time: 0.002755 sec\n[SUCCESS] AC\n\n[INFO] 01_small_02.in\n[INFO] time: 0.002298 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_01.in\n[INFO] time: 0.002197 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_02.in\n[INFO] time: 0.002293 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_03.in\n[INFO] time: 0.002096 sec\n[SUCCESS] AC\n\n[INFO] 10_large_01.in\n[INFO] time: 0.002268 sec\n[SUCCESS] AC\n\n[INFO] 10_large_02.in\n[INFO] time: 0.002229 sec\n[SUCCESS] AC\n\n[INFO] 10_large_03.in\n[INFO] time: 0.002927 sec\n[SUCCESS] AC\n\n[INFO] 20_sharp_01.in\n[INFO] time: 0.002488 sec\n[SUCCESS] AC\n\n[INFO] 30_trig_01.in\n[INFO] time: 0.002404 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_01.in\n[INFO] time: 0.002310 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_02.in\n[INFO] time: 0.002270 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_03.in\n[INFO] time: 0.002543 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_01.in\n[INFO] time: 0.002299 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_02.in\n[INFO] time: 0.002247 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_03.in\n[INFO] time: 0.002154 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.003193 sec  (for 00_sample_01.in)\n[INFO] max memory: 4.032000 MB  (for 00_sample_01.in)\n[SUCCESS] test success: 18 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 18 cases found\n\n[INFO] 00_sample_01.in\n[INFO] time: 0.005787 sec\n[SUCCESS] AC\n\n[INFO] 00_sample_02.in\n[INFO] time: 0.005150 sec\n[SUCCESS] AC\n\n[INFO] 01_small_01.in\n[INFO] time: 0.004360 sec\n[SUCCESS] AC\n\n[INFO] 01_small_02.in\n[INFO] time: 0.004198 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_01.in\n[INFO] time: 0.004123 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_02.in\n[INFO] time: 0.004459 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_03.in\n[INFO] time: 0.003907 sec\n[SUCCESS] AC\n\n[INFO] 10_large_01.in\n[INFO] time: 0.004375 sec\n[SUCCESS] AC\n\n[INFO] 10_large_02.in\n[INFO] time: 0.003792 sec\n[SUCCESS] AC\n\n[INFO] 10_large_03.in\n[INFO] time: 0.004111 sec\n[SUCCESS] AC\n\n[INFO] 20_sharp_01.in\n[INFO] time: 0.004826 sec\n[SUCCESS] AC\n\n[INFO] 30_trig_01.in\n[INFO] time: 0.004200 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_01.in\n[INFO] time: 0.003827 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_02.in\n[INFO] time: 0.003814 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_03.in\n[INFO] time: 0.003833 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_01.in\n[INFO] time: 0.003734 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_02.in\n[INFO] time: 0.003748 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_03.in\n[INFO] time: 0.003706 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.005787 sec  (for 00_sample_01.in)\n[INFO] max memory: 4.384000 MB  (for 10_large_03.in)\n[SUCCESS] test success: 18 cases\n"
       }
     },
     {

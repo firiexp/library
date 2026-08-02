@@ -12,6 +12,7 @@ using ll = long long;
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../tree/diameter_weighted.cpp"
 

@@ -47,6 +47,7 @@ struct Scanner {
     char buf[BUFSIZE + 1];
     int idx, size;
     bool interactive;
+    string number_token;
 
     Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))) {}
 
@@ -129,6 +130,14 @@ struct Scanner {
         }
     }
 
+    void read(double &x) {
+        read(number_token);
+        const char *first = number_token.data();
+        const char *last = first + number_token.size();
+        auto result = from_chars(first, last, x);
+        if (result.ec != errc{} || result.ptr != last) __builtin_trap();
+    }
+
     template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value, int>::type = 0>
     void read(T &x) {
         long long v;
@@ -202,9 +211,11 @@ struct Scanner {
 struct Printer {
     static constexpr int BUFSIZE = 1 << 17;
     static constexpr int OFFSET = 64;
+    static constexpr int DEFAULT_DOUBLE_PRECISION = 15;
     char buf[BUFSIZE];
     int idx;
     bool interactive;
+    string number_buf;
     inline static constexpr FastIoDigitTable table{};
 
     Printer() : idx(0), interactive(isatty(fileno(stdout))) {}
@@ -295,6 +306,29 @@ struct Printer {
         idx += TMP_SIZE - pos;
     }
 
+    void print_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION) {
+        if (precision < 0) __builtin_trap();
+        size_t required = (size_t)precision + 512;
+        if (number_buf.size() < required) number_buf.resize(required);
+        while (true) {
+            char *first = number_buf.data();
+            char *last = first + number_buf.size();
+            auto result = to_chars(first, last, x, chars_format::fixed, precision);
+            if (result.ec == errc{}) {
+                print_range(first, result.ptr - first);
+                return;
+            }
+            if (result.ec != errc::value_too_large) __builtin_trap();
+            size_t next_size = number_buf.size() * 2;
+            if (next_size <= number_buf.size()) __builtin_trap();
+            number_buf.resize(next_size);
+        }
+    }
+
+    void print(double x) {
+        print_fixed(x);
+    }
+
     template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value, int>::type = 0>
     void print(const T &x) {
         print(x.value());
@@ -325,6 +359,11 @@ struct Printer {
     void println(const Head &head, const Tail &...tail) {
         print(head);
         ((pc(' '), print(tail)), ...);
+        pc('\n');
+    }
+
+    void println_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION) {
+        print_fixed(x, precision);
         pc('\n');
     }
 

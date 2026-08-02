@@ -10,6 +10,7 @@ using ll = long long;
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../math/stern_brocot_tree.cpp"
 

@@ -16,6 +16,7 @@ using ull = unsigned long long;
 #include <type_traits>
 #include <utility>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../math/squarematrix_mint.cpp"
 

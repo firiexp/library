@@ -8,6 +8,7 @@
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../datastructure/rectangle_add_point_get.cpp"
 

@@ -6,6 +6,7 @@
 #include <type_traits>
 using ull = unsigned long long;
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../math/kth_root_integer.cpp"
 

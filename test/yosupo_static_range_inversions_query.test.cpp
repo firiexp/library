@@ -8,6 +8,7 @@
 #include <string>
 #include <type_traits>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 #include "../datastructure/binaryindexedtree.cpp"
 #include "../util/mo.cpp"

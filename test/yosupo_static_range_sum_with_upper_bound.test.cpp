@@ -10,6 +10,7 @@ using namespace std;
 #include <cstring>
 #include <string>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 
 int main() {

@@ -14,6 +14,7 @@ using namespace std;
 #include <cstdio>
 #include <cstring>
 
+#include <charconv>
 #include "../util/fastio.cpp"
 
 using ll = long long;
