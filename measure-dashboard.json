@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-26T12:50:23+09:00",
+  "generatedAt": "2026-08-02T17:24:13+09:00",
   "root": ".",
   "testCount": 183,
   "inventory": {
@@ -16,7 +16,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "0a1fab11ee82ebd6b20e1b55f9ae63a61b8dfed3",
+    "gitRevision": "22bd102ecb66fd6bee5a50b6e877cf54dce980fa",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -668,7 +668,7 @@
           "a.out",
           "test/aoj0342.test.cpp"
         ],
-        "wallSec": 1.0854118570000537
+        "wallSec": 1.5323414130007222
       },
       "testcases": {
         "directory": ".verify-helper/cache/baf57bebb103393cad97cdaad625cb2c/test",
@@ -679,7 +679,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/baf57bebb103393cad97cdaad625cb2c/verify-dashboard-y74xk9ip/a.out",
+          "./.verify-helper/cache/baf57bebb103393cad97cdaad625cb2c/verify-dashboard-cjly2drq/a.out",
           "-d",
           "./.verify-helper/cache/baf57bebb103393cad97cdaad625cb2c/test",
           "--tle",
@@ -688,112 +688,112 @@
           "1e-4"
         ],
         "returnCode": 0,
-        "wallSec": 0.23426544699987062,
+        "wallSec": 0.30292650100000174,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "00_sample_01.in",
-              "timeSec": 0.003193,
+              "timeSec": 0.005787,
               "status": "AC"
             },
             {
               "name": "00_sample_02.in",
-              "timeSec": 0.002408,
+              "timeSec": 0.00515,
               "status": "AC"
             },
             {
               "name": "01_small_01.in",
-              "timeSec": 0.002755,
+              "timeSec": 0.00436,
               "status": "AC"
             },
             {
               "name": "01_small_02.in",
-              "timeSec": 0.002298,
+              "timeSec": 0.004198,
               "status": "AC"
             },
             {
               "name": "02_corner_01.in",
-              "timeSec": 0.002197,
+              "timeSec": 0.004123,
               "status": "AC"
             },
             {
               "name": "02_corner_02.in",
-              "timeSec": 0.002293,
+              "timeSec": 0.004459,
               "status": "AC"
             },
             {
               "name": "02_corner_03.in",
-              "timeSec": 0.002096,
+              "timeSec": 0.003907,
               "status": "AC"
             },
             {
               "name": "10_large_01.in",
-              "timeSec": 0.002268,
+              "timeSec": 0.004375,
               "status": "AC"
             },
             {
               "name": "10_large_02.in",
-              "timeSec": 0.002229,
+              "timeSec": 0.003792,
               "status": "AC"
             },
             {
               "name": "10_large_03.in",
-              "timeSec": 0.002927,
+              "timeSec": 0.004111,
               "status": "AC"
             },
             {
               "name": "20_sharp_01.in",
-              "timeSec": 0.002488,
+              "timeSec": 0.004826,
               "status": "AC"
             },
             {
               "name": "30_trig_01.in",
-              "timeSec": 0.002404,
+              "timeSec": 0.0042,
               "status": "AC"
             },
             {
               "name": "40_circ_01.in",
-              "timeSec": 0.00231,
+              "timeSec": 0.003827,
               "status": "AC"
             },
             {
               "name": "40_circ_02.in",
-              "timeSec": 0.00227,
+              "timeSec": 0.003814,
               "status": "AC"
             },
             {
               "name": "40_circ_03.in",
-              "timeSec": 0.002543,
+              "timeSec": 0.003833,
               "status": "AC"
             },
             {
               "name": "50_clusters_01.in",
-              "timeSec": 0.002299,
+              "timeSec": 0.003734,
               "status": "AC"
             },
             {
               "name": "50_clusters_02.in",
-              "timeSec": 0.002247,
+              "timeSec": 0.003748,
               "status": "AC"
             },
             {
               "name": "50_clusters_03.in",
-              "timeSec": 0.002154,
+              "timeSec": 0.003706,
               "status": "AC"
             }
           ],
           "caseCount": 18,
           "timedCaseCount": 18,
           "passedCaseCount": 18,
-          "slowestSec": 0.003193,
+          "slowestSec": 0.005787,
           "slowestCase": "00_sample_01.in",
-          "averageSec": 0.0024099444444444446,
-          "maxMemoryMb": 4.032,
-          "maxMemoryCase": "00_sample_01.in",
+          "averageSec": 0.004219444444444445,
+          "maxMemoryMb": 4.384,
+          "maxMemoryCase": "10_large_03.in",
           "summary": "test success: 18 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 18 cases found\n\n[INFO] 00_sample_01.in\n[INFO] time: 0.003193 sec\n[SUCCESS] AC\n\n[INFO] 00_sample_02.in\n[INFO] time: 0.002408 sec\n[SUCCESS] AC\n\n[INFO] 01_small_01.in\n[INFO] time: 0.002755 sec\n[SUCCESS] AC\n\n[INFO] 01_small_02.in\n[INFO] time: 0.002298 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_01.in\n[INFO] time: 0.002197 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_02.in\n[INFO] time: 0.002293 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_03.in\n[INFO] time: 0.002096 sec\n[SUCCESS] AC\n\n[INFO] 10_large_01.in\n[INFO] time: 0.002268 sec\n[SUCCESS] AC\n\n[INFO] 10_large_02.in\n[INFO] time: 0.002229 sec\n[SUCCESS] AC\n\n[INFO] 10_large_03.in\n[INFO] time: 0.002927 sec\n[SUCCESS] AC\n\n[INFO] 20_sharp_01.in\n[INFO] time: 0.002488 sec\n[SUCCESS] AC\n\n[INFO] 30_trig_01.in\n[INFO] time: 0.002404 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_01.in\n[INFO] time: 0.002310 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_02.in\n[INFO] time: 0.002270 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_03.in\n[INFO] time: 0.002543 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_01.in\n[INFO] time: 0.002299 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_02.in\n[INFO] time: 0.002247 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_03.in\n[INFO] time: 0.002154 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.003193 sec  (for 00_sample_01.in)\n[INFO] max memory: 4.032000 MB  (for 00_sample_01.in)\n[SUCCESS] test success: 18 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 18 cases found\n\n[INFO] 00_sample_01.in\n[INFO] time: 0.005787 sec\n[SUCCESS] AC\n\n[INFO] 00_sample_02.in\n[INFO] time: 0.005150 sec\n[SUCCESS] AC\n\n[INFO] 01_small_01.in\n[INFO] time: 0.004360 sec\n[SUCCESS] AC\n\n[INFO] 01_small_02.in\n[INFO] time: 0.004198 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_01.in\n[INFO] time: 0.004123 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_02.in\n[INFO] time: 0.004459 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_03.in\n[INFO] time: 0.003907 sec\n[SUCCESS] AC\n\n[INFO] 10_large_01.in\n[INFO] time: 0.004375 sec\n[SUCCESS] AC\n\n[INFO] 10_large_02.in\n[INFO] time: 0.003792 sec\n[SUCCESS] AC\n\n[INFO] 10_large_03.in\n[INFO] time: 0.004111 sec\n[SUCCESS] AC\n\n[INFO] 20_sharp_01.in\n[INFO] time: 0.004826 sec\n[SUCCESS] AC\n\n[INFO] 30_trig_01.in\n[INFO] time: 0.004200 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_01.in\n[INFO] time: 0.003827 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_02.in\n[INFO] time: 0.003814 sec\n[SUCCESS] AC\n\n[INFO] 40_circ_03.in\n[INFO] time: 0.003833 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_01.in\n[INFO] time: 0.003734 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_02.in\n[INFO] time: 0.003748 sec\n[SUCCESS] AC\n\n[INFO] 50_clusters_03.in\n[INFO] time: 0.003706 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.005787 sec  (for 00_sample_01.in)\n[INFO] max memory: 4.384000 MB  (for 10_large_03.in)\n[SUCCESS] test success: 18 cases\n"
       }
     },
     {
@@ -15528,7 +15528,7 @@
           "a.out",
           "test/yosupo_many_aplusb.test.cpp"
         ],
-        "wallSec": 0.2854045590001988
+        "wallSec": 0.4041329499996209
       },
       "testcases": {
         "directory": ".verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test",
@@ -15539,7 +15539,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/verify-dashboard-hgxj_zpv/a.out",
+          "./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/verify-dashboard-u4l23ag6/a.out",
           "-d",
           "./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test",
           "--tle",
@@ -15548,67 +15548,67 @@
           "~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker"
         ],
         "returnCode": 0,
-        "wallSec": 1.9050610829999641,
+        "wallSec": 1.5845250499987742,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "all_max_00",
-              "timeSec": 0.086115,
+              "timeSec": 0.053608,
               "status": "AC"
             },
             {
               "name": "all_zero_00",
-              "timeSec": 0.015121,
+              "timeSec": 0.011131,
               "status": "AC"
             },
             {
               "name": "digit_random_00",
-              "timeSec": 0.056959,
+              "timeSec": 0.039081,
               "status": "AC"
             },
             {
               "name": "digit_random_01",
-              "timeSec": 0.049415,
+              "timeSec": 0.038605,
               "status": "AC"
             },
             {
               "name": "example_00",
-              "timeSec": 0.006182,
+              "timeSec": 0.00726,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.078016,
+              "timeSec": 0.051621,
               "status": "AC"
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.078952,
+              "timeSec": 0.053126,
               "status": "AC"
             },
             {
               "name": "random_00",
-              "timeSec": 0.035042,
+              "timeSec": 0.02575,
               "status": "AC"
             },
             {
               "name": "random_01",
-              "timeSec": 0.040782,
+              "timeSec": 0.02863,
               "status": "AC"
             }
           ],
           "caseCount": 9,
           "timedCaseCount": 9,
           "passedCaseCount": 9,
-          "slowestSec": 0.086115,
+          "slowestSec": 0.053608,
           "slowestCase": "all_max_00",
-          "averageSec": 0.04962044444444444,
-          "maxMemoryMb": 3.84,
-          "maxMemoryCase": "all_max_00",
+          "averageSec": 0.034312444444444444,
+          "maxMemoryMb": 4.12,
+          "maxMemoryCase": "random_00",
           "summary": "test success: 9 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 9 cases found\n\n[INFO] all_max_00\n[INFO] time: 0.086115 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_max_00.in /tmp/tmpqypgu0rd/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_max_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] all_zero_00\n[INFO] time: 0.015121 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_zero_00.in /tmp/tmpvey3rm05/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_zero_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] digit_random_00\n[INFO] time: 0.056959 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_00.in /tmp/tmpf_fi0p4a/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] digit_random_01\n[INFO] time: 0.049415 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_01.in /tmp/tmp37k8om5f/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_01.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.006182 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/example_00.in /tmp/tmp7rb3c4ua/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/example_00.out\nok 3 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.078016 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_00.in /tmp/tmp77hk_f68/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.078952 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_01.in /tmp/tmpgspbvjn_/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_01.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.035042 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_00.in /tmp/tmp_ugibnv9/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_00.out\nok 389813 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.040782 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_01.in /tmp/tmp_hyapsq4/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_01.out\nok 463046 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.086115 sec  (for all_max_00)\n[INFO] max memory: 3.840000 MB  (for all_max_00)\n[SUCCESS] test success: 9 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 9 cases found\n\n[INFO] all_max_00\n[INFO] time: 0.053608 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_max_00.in /tmp/tmp86zxtsh5/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_max_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] all_zero_00\n[INFO] time: 0.011131 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_zero_00.in /tmp/tmp41t8q6qm/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/all_zero_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] digit_random_00\n[INFO] time: 0.039081 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_00.in /tmp/tmpoh1rwc37/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] digit_random_01\n[INFO] time: 0.038605 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_01.in /tmp/tmp_svsfvn4/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/digit_random_01.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.007260 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/example_00.in /tmp/tmprj4o19sh/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/example_00.out\nok 3 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.051621 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_00.in /tmp/tmpm87an5p8/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_00.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.053126 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_01.in /tmp/tmpxvk7aaiz/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/max_random_01.out\nok 1000000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.025750 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_00.in /tmp/tmppnldz0i2/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_00.out\nok 389813 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.028630 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/many_aplusb/checker ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_01.in /tmp/tmpptq7njj4/actual.out ./.verify-helper/cache/4eadb574dcb743b83b4a231fcab69002/test/random_01.out\nok 463046 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.053608 sec  (for all_max_00)\n[INFO] max memory: 4.120000 MB  (for random_00)\n[SUCCESS] test success: 9 cases\n"
       }
     },
     {

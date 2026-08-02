@@ -75,32 +75,61 @@ data:
     \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n\nstatic const int MOD = 998244353;\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\nusing ll = long long;\n\
-    using uint = unsigned;\nusing ull = unsigned long long;\n\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    char buf[BUFSIZE + 1];\n\
-    \    int idx, size;\n    bool interactive;\n\n    Scanner() : idx(0), size(0),\
-    \ interactive(isatty(fileno(stdin))) {}\n\n    inline void load() {\n        int\
-    \ len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \    }\n        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure()\
-    \ {\n        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    using uint = unsigned;\nusing ull = unsigned long long;\n\n#include <charconv>\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -108,25 +137,37 @@ data:
     \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
     \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
     \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
-    \ &x) {\n        if (interactive) {\n            char c = skip();\n          \
-    \  bool neg = false;\n            if constexpr (is_signed<T>::value) {\n     \
-    \           if (c == '-') {\n                    neg = true;\n               \
-    \     ensure_interactive();\n                    c = buf[idx++];\n           \
-    \     }\n            }\n            x = 0;\n            while (c >= '0') {\n \
-    \               x = x * 10 + (c & 15);\n                ensure_interactive();\n\
-    \                c = buf[idx++];\n            }\n            if constexpr (is_signed<T>::value)\
-    \ {\n                if (neg) x = -x;\n            }\n            return;\n  \
-    \      }\n        char c = skip();\n        bool neg = false;\n        if constexpr\
-    \ (is_signed<T>::value) {\n            if (c == '-') {\n                neg =\
-    \ true;\n                c = buf[idx++];\n            }\n        }\n        x\
-    \ = 0;\n        while (c >= '0') {\n            x = x * 10 + (c & 15);\n     \
-    \       c = buf[idx++];\n        }\n        if constexpr (is_signed<T>::value)\
-    \ {\n            if (neg) x = -x;\n        }\n    }\n\n    template<class T, typename\
-    \ enable_if<!is_integral<T>::value && !is_fastio_range<T>::value && !is_same<typename\
-    \ decay<T>::type, string>::value && has_fastio_value<T>::value, int>::type = 0>\n\
-    \    void read(T &x) {\n        long long v;\n        read(v);\n        x = T(v);\n\
-    \    }\n\n    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value\
-    \ && !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
+    \ &x) {\n        using Base = typename conditional<is_same<T, bool>::value, unsigned,\
+    \ T>::type;\n        using U = typename make_unsigned<Base>::type;\n        //\
+    \ The unsigned magnitude and -(y - 1) - 1 below also cover min(T).\n        if\
+    \ (interactive) {\n            char c = skip();\n            bool neg = false;\n\
+    \            if constexpr (is_signed<T>::value) {\n                if (c == '-')\
+    \ {\n                    neg = true;\n                    ensure_interactive();\n\
+    \                    c = buf[idx++];\n                }\n            }\n     \
+    \       U y = 0;\n            while (c >= '0') {\n                y = y * 10 +\
+    \ (c & 15);\n                ensure_interactive();\n                c = buf[idx++];\n\
+    \            }\n            if constexpr (is_signed<T>::value) {\n           \
+    \     if (neg && y) {\n                    x = -static_cast<T>(y - 1);\n     \
+    \               --x;\n                    return;\n                }\n       \
+    \     }\n            x = static_cast<T>(y);\n            return;\n        }\n\
+    \        char c = skip();\n        bool neg = false;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (c == '-') {\n                neg = true;\n              \
+    \  c = buf[idx++];\n            }\n        }\n        U y;\n        if (__builtin_expect(long_tokens,\
+    \ false)) {\n            y = read_long_digits<U>(c);\n        } else {\n     \
+    \       y = 0;\n            while (c >= '0') {\n                y = y * 10 + (c\
+    \ & 15);\n                c = buf[idx++];\n            }\n        }\n        if\
+    \ constexpr (is_signed<T>::value) {\n            if (neg && y) {\n           \
+    \     x = -static_cast<T>(y - 1);\n                --x;\n                return;\n\
+    \            }\n        }\n        x = static_cast<T>(y);\n    }\n\n    void read(double\
+    \ &x) {\n        read(number_token);\n        const char *first = number_token.data();\n\
+    \        const char *last = first + number_token.size();\n        auto result\
+    \ = from_chars(first, last, x);\n        if (result.ec != errc{} || result.ptr\
+    \ != last) __builtin_trap();\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && has_fastio_value<T>::value, int>::type = 0>\n    void read(T &x) {\n    \
+    \    long long v;\n        read(v);\n        x = T(v);\n    }\n\n    template<class\
+    \ T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
     \ && has_fastio_assign_string<T>::value, int>::type = 0>\n    void read(T &x)\
     \ {\n        string s;\n        read(s);\n        bool ok = x.assign(s);\n   \
     \     if (!ok) __builtin_trap();\n    }\n\n    template<class Head, class Next,\
@@ -150,8 +191,9 @@ data:
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
     \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
     \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    inline\
-    \ static constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
+    \ 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION = 15;\n    char buf[BUFSIZE];\n\
+    \    int idx;\n    bool interactive;\n    string number_buf;\n    inline static\
+    \ constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
     \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
     \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
     \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
@@ -164,71 +206,109 @@ data:
     \       print_range(s, strlen(s));\n    }\n\n    void print(const string &s) {\n\
     \        print_range(s.data(), s.size());\n    }\n\n    void print(char c) {\n\
     \        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0' + (b ?\
-    \ 1 : 0)));\n    }\n\n    template<class T, typename enable_if<is_integral<T>::value\
-    \ && !is_same<T, bool>::value, int>::type = 0>\n    void print(T x) {\n      \
-    \  if (idx > BUFSIZE - 100) flush();\n        using U = typename make_unsigned<T>::type;\n\
-    \        U y;\n        if constexpr (is_signed<T>::value) {\n            if (x\
-    \ < 0) {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \ 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x) {\n  \
+    \      if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n \
+    \           return out + 4;\n        }\n        if (x >= 100) {\n            memcpy(out,\
+    \ table.num + (x << 2) + 1, 3);\n            return out + 3;\n        }\n    \
+    \    if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n            out[0]\
+    \ = char('0' + q);\n            out[1] = char('0' + (x - q * 10));\n         \
+    \   return out + 2;\n        }\n        *out = char('0' + x);\n        return\
+    \ out + 1;\n    }\n\n    inline void write_four(char *out, unsigned x) {\n   \
+    \     memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void write_eight(char\
+    \ *out, unsigned x) {\n        unsigned hi = x / 10000;\n        unsigned lo =\
+    \ x - hi * 10000;\n        write_four(out, hi);\n        write_four(out + 4, lo);\n\
+    \    }\n\n    inline char *write_u32(char *out, unsigned x) {\n        if (x >=\
+    \ 100000000) {\n            unsigned hi = x / 100000000;\n            unsigned\
+    \ lo = x - hi * 100000000;\n            out = write_top(out, hi);\n          \
+    \  write_eight(out, lo);\n            return out + 8;\n        }\n        if (x\
+    \ >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned lo =\
+    \ x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
+    \ lo);\n            return out + 4;\n        }\n        return write_top(out,\
+    \ x);\n    }\n\n    __attribute__((noinline))\n    inline char *write_u64(char\
+    \ *out, unsigned long long x) {\n        if (x <= 0xffffffffULL) return write_u32(out,\
+    \ (unsigned)x);\n        unsigned long long hi = x / 100000000;\n        unsigned\
+    \ lo = (unsigned)(x - hi * 100000000);\n        if (hi <= 0xffffffffULL) {\n \
+    \           out = write_u32(out, (unsigned)hi);\n            write_eight(out,\
+    \ lo);\n            return out + 8;\n        }\n        unsigned top = (unsigned)(hi\
+    \ / 100000000);\n        unsigned mid = (unsigned)(hi - (unsigned long long)top\
+    \ * 100000000);\n        out = write_u32(out, top);\n        write_eight(out,\
+    \ mid);\n        write_eight(out + 8, lo);\n        return out + 16;\n    }\n\n\
+    \    template<class T, typename enable_if<is_integral<T>::value && !is_same<T,\
+    \ bool>::value, int>::type = 0>\n    void print(T x) {\n        if (idx > BUFSIZE\
+    \ - 100) flush();\n        using U = typename make_unsigned<T>::type;\n      \
+    \  U y;\n        if constexpr (is_signed<T>::value) {\n            if (x < 0)\
+    \ {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
     \            } else {\n                y = static_cast<U>(x);\n            }\n\
     \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
-    \        buf[idx++] = '0';\n            return;\n        }\n        static constexpr\
-    \ int TMP_SIZE = sizeof(U) * 10 / 4;\n        char tmp[TMP_SIZE];\n        int\
-    \ pos = TMP_SIZE;\n        while (y >= 10000) {\n            pos -= 4;\n     \
-    \       memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);\n            y /= 10000;\n\
-    \        }\n        if (y >= 1000) {\n            memcpy(buf + idx, table.num\
-    \ + (y << 2), 4);\n            idx += 4;\n        } else if (y >= 100) {\n   \
-    \         memcpy(buf + idx, table.num + (y << 2) + 1, 3);\n            idx +=\
-    \ 3;\n        } else if (y >= 10) {\n            unsigned q = (unsigned(y) * 205)\
-    \ >> 11;\n            buf[idx] = char('0' + q);\n            buf[idx + 1] = char('0'\
-    \ + (unsigned(y) - q * 10));\n            idx += 2;\n        } else {\n      \
-    \      buf[idx++] = char('0' + y);\n        }\n        memcpy(buf + idx, tmp +\
-    \ pos, TMP_SIZE - pos);\n        idx += TMP_SIZE - pos;\n    }\n\n    template<class\
-    \ T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value &&\
-    \ !is_same<typename decay<T>::type, string>::value && has_fastio_value<T>::value,\
-    \ int>::type = 0>\n    void print(const T &x) {\n        print(x.value());\n \
-    \   }\n\n    template<class T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value\
-    \ && !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
-    \ && has_fastio_to_string<T>::value, int>::type = 0>\n    void print(const T &x)\
-    \ {\n        print(x.to_string());\n    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value\
-    \ && !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
-    \ print(const T &a) {\n        bool first = true;\n        for (auto &&x : a)\
-    \ {\n            if (!first) pc(' ');\n            first = false;\n          \
-    \  print(x);\n        }\n    }\n\n    template<class T>\n    void println(const\
-    \ T &x) {\n        print(x);\n        pc('\\n');\n    }\n\n    template<class\
-    \ Head, class... Tail>\n    void println(const Head &head, const Tail &...tail)\
-    \ {\n        print(head);\n        ((pc(' '), print(tail)), ...);\n        pc('\\\
-    n');\n    }\n\n    void println() {\n        pc('\\n');\n    }\n};\n\ntemplate<class\
-    \ T>\nScanner &operator>>(Scanner &in, T &x) {\n    in.read(x);\n    return in;\n\
-    }\n\ntemplate<class T>\nPrinter &operator<<(Printer &out, const T &x) {\n    out.print(x);\n\
-    \    return out;\n}\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n\
-    \ */\n#line 13 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1\
-    \ \"util/modint.cpp\"\n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate\
-    \ <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static modint raw(int\
-    \ v) { modint x; x.val = v; return x; }\n    static constexpr uint get_mod() {\
-    \ return Mod; }\n    static constexpr uint M() { return Mod; }\n    modint() :\
-    \ val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod));\
-    \ if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val = ((unsigned\
-    \ int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n    const uint\
-    \ &value() const noexcept { return val; }\n    modint& operator++() { val++; if\
-    \ (val == Mod) val = 0; return *this; }\n    modint& operator--() { if (val ==\
-    \ 0) val = Mod; val--; return *this; }\n    modint operator++(int) { modint result\
-    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
-    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
-    \ { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n    modint& operator-=(const\
-    \ modint& b) { val -= b.val; if (val >= Mod) val += Mod; return *this; }\n   \
-    \ modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z\
-    \ % Mod); return *this; }\n    modint& operator/=(const modint& b) { return *this\
-    \ = *this * b.inv(); }\n    modint operator+() const { return *this; }\n    modint\
-    \ operator-() const { return modint() - *this; }\n    modint pow(long long n)\
-    \ const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>=\
-    \ 1; } return r; }\n    modint inv() const { return pow(Mod - 2); }\n    friend\
-    \ modint operator+(const modint& a, const modint& b) { return modint(a) += b;\
-    \ }\n    friend modint operator-(const modint& a, const modint& b) { return modint(a)\
-    \ -= b; }\n    friend modint operator*(const modint& a, const modint& b) { return\
-    \ modint(a) *= b; }\n    friend modint operator/(const modint& a, const modint&\
-    \ b) { return modint(a) /= b; }\n    friend bool operator==(const modint& a, const\
-    \ modint& b) { return a.val == b.val; }\n    friend bool operator!=(const modint&\
-    \ a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
+    \        buf[idx++] = '0';\n            return;\n        }\n        char *out;\n\
+    \        if constexpr (sizeof(U) <= 4) {\n            out = write_u32(buf + idx,\
+    \ (unsigned)y);\n        } else if constexpr (sizeof(U) <= 8) {\n            out\
+    \ = write_u64(buf + idx, (unsigned long long)y);\n        } else {\n         \
+    \   static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n            char tmp[TMP_SIZE];\n\
+    \            int pos = TMP_SIZE;\n            while (y >= 10000) {\n         \
+    \       pos -= 4;\n                memcpy(tmp + pos, table.num + (y % 10000) *\
+    \ 4, 4);\n                y /= 10000;\n            }\n            out = write_top(buf\
+    \ + idx, (unsigned)y);\n            memcpy(out, tmp + pos, TMP_SIZE - pos);\n\
+    \            out += TMP_SIZE - pos;\n        }\n        idx = (int)(out - buf);\n\
+    \    }\n\n    void print_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION)\
+    \ {\n        if (precision < 0) __builtin_trap();\n        size_t required = (size_t)precision\
+    \ + 512;\n        if (number_buf.size() < required) number_buf.resize(required);\n\
+    \        while (true) {\n            char *first = number_buf.data();\n      \
+    \      char *last = first + number_buf.size();\n            auto result = to_chars(first,\
+    \ last, x, chars_format::fixed, precision);\n            if (result.ec == errc{})\
+    \ {\n                print_range(first, result.ptr - first);\n               \
+    \ return;\n            }\n            if (result.ec != errc::value_too_large)\
+    \ __builtin_trap();\n            size_t next_size = number_buf.size() * 2;\n \
+    \           if (next_size <= number_buf.size()) __builtin_trap();\n          \
+    \  number_buf.resize(next_size);\n        }\n    }\n\n    void print(double x)\
+    \ {\n        print_fixed(x);\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && has_fastio_value<T>::value, int>::type = 0>\n    void print(const T &x) {\n\
+    \        print(x.value());\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && !has_fastio_value<T>::value && has_fastio_to_string<T>::value, int>::type\
+    \ = 0>\n    void print(const T &x) {\n        print(x.to_string());\n    }\n\n\
+    \    template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename\
+    \ decay<T>::type, string>::value, int>::type = 0>\n    void print(const T &a)\
+    \ {\n        bool first = true;\n        for (auto &&x : a) {\n            if\
+    \ (!first) pc(' ');\n            first = false;\n            print(x);\n     \
+    \   }\n    }\n\n    template<class T>\n    void println(const T &x) {\n      \
+    \  print(x);\n        pc('\\n');\n    }\n\n    template<class Head, class... Tail>\n\
+    \    void println(const Head &head, const Tail &...tail) {\n        print(head);\n\
+    \        ((pc(' '), print(tail)), ...);\n        pc('\\n');\n    }\n\n    void\
+    \ println_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION) {\n      \
+    \  print_fixed(x, precision);\n        pc('\\n');\n    }\n\n    void println()\
+    \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
+    \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
+    \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 14 \"\
+    test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1 \"util/modint.cpp\"\
+    \n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
+    \ constexpr uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class\
+    \ T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val =\
+    \ uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint\
+    \ &value() noexcept { return val; }\n    const uint &value() const noexcept {\
+    \ return val; }\n    modint& operator++() { val++; if (val == Mod) val = 0; return\
+    \ *this; }\n    modint& operator--() { if (val == 0) val = Mod; val--; return\
+    \ *this; }\n    modint operator++(int) { modint result = *this; ++*this; return\
+    \ result; }\n    modint operator--(int) { modint result = *this; --*this; return\
+    \ result; }\n    modint& operator+=(const modint& b) { val += b.val; if (val >=\
+    \ Mod) val -= Mod; return *this; }\n    modint& operator-=(const modint& b) {\
+    \ val -= b.val; if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const\
+    \ modint& b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n\
+    \    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }\n\
+    \    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(Mod - 2); }\n    friend modint operator+(const\
+    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
+    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
     \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
     \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
     \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
@@ -475,7 +555,7 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 16 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1 \"\
+    \n\n#line 17 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1 \"\
     datastructure/point_add_rectangle_sum.cpp\"\nusing namespace std;\n\n#line 1 \"\
     datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class T>\nclass BIT {\n\
     \    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1), n(n)\
@@ -541,7 +621,7 @@ data:
     \ < e.x) {\n                bit.add(ps[i].y, ps[i].w);\n                ++i;\n\
     \            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d)) * e.sign;\n\
     \        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9759\u7684\u9577\
-    \u65B9\u5F62\u548C(Static Rectangle Sum)\n */\n#line 19 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \u65B9\u5F62\u548C(Static Rectangle Sum)\n */\n#line 20 \"test/yosupo_aplusb_library_composition.test.cpp\"\
     \n\n#line 1 \"graph/dijkstra_common.cpp\"\n\n\n\ntemplate <typename T>\nstruct\
     \ edge {\n    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1),\
     \ to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to),\
@@ -574,7 +654,7 @@ data:
     \ {\n        path.push_back(v);\n        if (v == s) {\n            reverse(path.begin(),\
     \ path.end());\n            return path;\n        }\n        v = parent[v];\n\
     \    }\n    path.clear();\n    return path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\
-    \u5143\u4ED8\u304DDijkstra\u6CD5\n */\n#line 22 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \u5143\u4ED8\u304DDijkstra\u6CD5\n */\n#line 23 \"test/yosupo_aplusb_library_composition.test.cpp\"\
     \n\n#line 1 \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n    int\
     \ n;\n    vector<int> primes;\n    vector<int> min_factor;\n    vector<int> phi;\n\
     \    vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit LinearSieve(int\
@@ -605,7 +685,7 @@ data:
     \n\nvector<int> get_min_factor(int n) {\n    return LinearSieve(n, true).min_factor;\n\
     }\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min\
     \ Factor Table)\n */\n#line 2 \"math/prime/get_prime.cpp\"\n\nvector<int> get_prime(int\
-    \ n) {\n    return LinearSieve(n).primes;\n}\n#line 25 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \ n) {\n    return LinearSieve(n).primes;\n}\n#line 26 \"test/yosupo_aplusb_library_composition.test.cpp\"\
     \n\n#line 1 \"geometry/geometry.cpp\"\n\n\n\n// \u51F8\u5305\u306F\u540C\u3058\
     \u9802\u70B9\u304C\u542B\u307E\u308C\u3066\u3044\u308B\u3068\u30D0\u30B0\u308B\
     \nusing geometry_real = double;\nusing real = geometry_real;\nstatic constexpr\
@@ -820,7 +900,7 @@ data:
     \  }\n    if (res.size() >= 2 && same_point(res.front(), res.back())) res.pop_back();\n\
     \    if (res.size() < 3 || fabs(area(res)) < EPS) return {};\n    return res;\n\
     }\n\n/**\n * @brief \u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)\n\
-    \ */\n#line 28 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1\
+    \ */\n#line 29 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1\
     \ \"datastructure/sparsetable.cpp\"\n\n\n\ntemplate <class F>\nstruct SparseTable\
     \ {\n    using T = typename F::T;\n    vector<vector<T>> table;\n    vector<int>\
     \ u;\n    SparseTable() = default;\n    explicit SparseTable(const vector<T> &v){\
@@ -884,22 +964,23 @@ data:
     \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
     \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
     \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
-    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 31\
+    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 32\
     \ \"test/yosupo_aplusb_library_composition.test.cpp\"\n\nint main() {\n    Scanner\
     \ sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n\nstatic const int MOD = 998244353;\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\nusing ll = long long;\n\
-    using uint = unsigned;\nusing ull = unsigned long long;\n\n#include \"../util/fastio.cpp\"\
-    \n\n#include \"../util/modint.cpp\"\n#include \"../math/ntt.cpp\"\n\n#include\
-    \ \"../datastructure/point_add_rectangle_sum.cpp\"\n#include \"../datastructure/static_rectangle_sum.cpp\"\
-    \n\n#include \"../graph/dijkstra.cpp\"\n#include \"../graph/dijkstra_restore.cpp\"\
-    \n\n#include \"../math/prime/get_min_factor.cpp\"\n#include \"../math/prime/get_prime.cpp\"\
-    \n\n#include \"../geometry/dualgraph.cpp\"\n#include \"../geometry/half_plane_intersection.cpp\"\
-    \n\n#include \"../tree/LCA.cpp\"\n#include \"../tree/auxtree.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
+    using uint = unsigned;\nusing ull = unsigned long long;\n\n#include <charconv>\n\
+    #include \"../util/fastio.cpp\"\n\n#include \"../util/modint.cpp\"\n#include \"\
+    ../math/ntt.cpp\"\n\n#include \"../datastructure/point_add_rectangle_sum.cpp\"\
+    \n#include \"../datastructure/static_rectangle_sum.cpp\"\n\n#include \"../graph/dijkstra.cpp\"\
+    \n#include \"../graph/dijkstra_restore.cpp\"\n\n#include \"../math/prime/get_min_factor.cpp\"\
+    \n#include \"../math/prime/get_prime.cpp\"\n\n#include \"../geometry/dualgraph.cpp\"\
+    \n#include \"../geometry/half_plane_intersection.cpp\"\n\n#include \"../tree/LCA.cpp\"\
+    \n#include \"../tree/auxtree.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
+    \ pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
@@ -924,7 +1005,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-07-18 15:59:16+09:00'
+  timestamp: '2026-08-02 21:15:43+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp
