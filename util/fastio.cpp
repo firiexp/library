@@ -91,6 +91,9 @@ struct Scanner {
 
     template<class T, typename enable_if<is_integral<T>::value, int>::type = 0>
     void read(T &x) {
+        using Base = typename conditional<is_same<T, bool>::value, unsigned, T>::type;
+        using U = typename make_unsigned<Base>::type;
+        // The unsigned magnitude and -(y - 1) - 1 below also cover min(T).
         if (interactive) {
             char c = skip();
             bool neg = false;
@@ -101,15 +104,20 @@ struct Scanner {
                     c = buf[idx++];
                 }
             }
-            x = 0;
+            U y = 0;
             while (c >= '0') {
-                x = x * 10 + (c & 15);
+                y = y * 10 + (c & 15);
                 ensure_interactive();
                 c = buf[idx++];
             }
             if constexpr (is_signed<T>::value) {
-                if (neg) x = -x;
+                if (neg && y) {
+                    x = -static_cast<T>(y - 1);
+                    --x;
+                    return;
+                }
             }
+            x = static_cast<T>(y);
             return;
         }
         char c = skip();
@@ -120,14 +128,19 @@ struct Scanner {
                 c = buf[idx++];
             }
         }
-        x = 0;
+        U y = 0;
         while (c >= '0') {
-            x = x * 10 + (c & 15);
+            y = y * 10 + (c & 15);
             c = buf[idx++];
         }
         if constexpr (is_signed<T>::value) {
-            if (neg) x = -x;
+            if (neg && y) {
+                x = -static_cast<T>(y - 1);
+                --x;
+                return;
+            }
         }
+        x = static_cast<T>(y);
     }
 
     void read(double &x) {
@@ -261,6 +274,71 @@ struct Printer {
         pc(char('0' + (b ? 1 : 0)));
     }
 
+    inline char *write_top(char *out, unsigned x) {
+        if (x >= 1000) {
+            memcpy(out, table.num + (x << 2), 4);
+            return out + 4;
+        }
+        if (x >= 100) {
+            memcpy(out, table.num + (x << 2) + 1, 3);
+            return out + 3;
+        }
+        if (x >= 10) {
+            unsigned q = (x * 205) >> 11;
+            out[0] = char('0' + q);
+            out[1] = char('0' + (x - q * 10));
+            return out + 2;
+        }
+        *out = char('0' + x);
+        return out + 1;
+    }
+
+    inline void write_four(char *out, unsigned x) {
+        memcpy(out, table.num + (x << 2), 4);
+    }
+
+    inline void write_eight(char *out, unsigned x) {
+        unsigned hi = x / 10000;
+        unsigned lo = x - hi * 10000;
+        write_four(out, hi);
+        write_four(out + 4, lo);
+    }
+
+    inline char *write_u32(char *out, unsigned x) {
+        if (x >= 100000000) {
+            unsigned hi = x / 100000000;
+            unsigned lo = x - hi * 100000000;
+            out = write_top(out, hi);
+            write_eight(out, lo);
+            return out + 8;
+        }
+        if (x >= 10000) {
+            unsigned hi = x / 10000;
+            unsigned lo = x - hi * 10000;
+            out = write_top(out, hi);
+            write_four(out, lo);
+            return out + 4;
+        }
+        return write_top(out, x);
+    }
+
+    inline char *write_u64(char *out, unsigned long long x) {
+        if (x <= 0xffffffffULL) return write_u32(out, (unsigned)x);
+        unsigned long long hi = x / 100000000;
+        unsigned lo = (unsigned)(x - hi * 100000000);
+        if (hi <= 0xffffffffULL) {
+            out = write_u32(out, (unsigned)hi);
+            write_eight(out, lo);
+            return out + 8;
+        }
+        unsigned top = (unsigned)(hi / 100000000);
+        unsigned mid = (unsigned)(hi - (unsigned long long)top * 100000000);
+        out = write_u32(out, top);
+        write_eight(out, mid);
+        write_eight(out + 8, lo);
+        return out + 16;
+    }
+
     template<class T, typename enable_if<is_integral<T>::value && !is_same<T, bool>::value, int>::type = 0>
     void print(T x) {
         if (idx > BUFSIZE - 100) flush();
@@ -280,30 +358,25 @@ struct Printer {
             buf[idx++] = '0';
             return;
         }
-        static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;
-        char tmp[TMP_SIZE];
-        int pos = TMP_SIZE;
-        while (y >= 10000) {
-            pos -= 4;
-            memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);
-            y /= 10000;
-        }
-        if (y >= 1000) {
-            memcpy(buf + idx, table.num + (y << 2), 4);
-            idx += 4;
-        } else if (y >= 100) {
-            memcpy(buf + idx, table.num + (y << 2) + 1, 3);
-            idx += 3;
-        } else if (y >= 10) {
-            unsigned q = (unsigned(y) * 205) >> 11;
-            buf[idx] = char('0' + q);
-            buf[idx + 1] = char('0' + (unsigned(y) - q * 10));
-            idx += 2;
+        char *out;
+        if constexpr (sizeof(U) <= 4) {
+            out = write_u32(buf + idx, (unsigned)y);
+        } else if constexpr (sizeof(U) <= 8) {
+            out = write_u64(buf + idx, (unsigned long long)y);
         } else {
-            buf[idx++] = char('0' + y);
+            static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;
+            char tmp[TMP_SIZE];
+            int pos = TMP_SIZE;
+            while (y >= 10000) {
+                pos -= 4;
+                memcpy(tmp + pos, table.num + (y % 10000) * 4, 4);
+                y /= 10000;
+            }
+            out = write_top(buf + idx, (unsigned)y);
+            memcpy(out, tmp + pos, TMP_SIZE - pos);
+            out += TMP_SIZE - pos;
         }
-        memcpy(buf + idx, tmp + pos, TMP_SIZE - pos);
-        idx += TMP_SIZE - pos;
+        idx = (int)(out - buf);
     }
 
     void print_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION) {
