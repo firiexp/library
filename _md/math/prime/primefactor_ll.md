@@ -24,5 +24,6 @@ tags: 数学
 `prime_factor(n)` は内部で再帰分解し、最後にソートして返す。
 
 ## 実装上の補足
-Montgomery 乗算を使っている。
+Pollard's rho では Montgomery 乗算を使い、値が十分小さい場合は各演算後の正規化を省く。
+大きい半素数には短い Pollard's $p-1$ を併用し、完全平方数は平方根を再帰的に分解する。
 大量の小さいクエリだけなら `get_min_factor.cpp` や `primefactor.cpp` のほうが軽いことがある。
