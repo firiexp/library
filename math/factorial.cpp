@@ -1,5 +1,8 @@
+#include "../util/modint_base.cpp"
+
 #ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
-#include "../util/modint.cpp"
+using mint = modint<MOD>;
+#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
 #endif
 
 template <class Mint = mint>
