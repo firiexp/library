@@ -56,8 +56,8 @@ data:
   timestamp: '2026-03-22 19:39:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_alds1_1_c_get_prime.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/aoj_alds1_1_c_get_prime.test.cpp
 date: 2026-03-12
 documentation_of: math/prime/get_prime.cpp
 layout: document

@@ -248,8 +248,8 @@ data:
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
 date: 2026-03-12
 documentation_of: geometry/half_plane_intersection.cpp
 layout: document

@@ -43,8 +43,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj_grl_5_a_diameter.test.cpp
   - test/yosupo_tree_diameter.test.cpp
+  - test/aoj_grl_5_a_diameter.test.cpp
 documentation_of: tree/diameter_weighted.cpp
 layout: document
 title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"

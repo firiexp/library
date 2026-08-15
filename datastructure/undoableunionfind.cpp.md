@@ -63,8 +63,8 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
+  - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
 documentation_of: datastructure/undoableunionfind.cpp
 layout: document
 title: Undoable Union Find

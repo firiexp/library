@@ -86,8 +86,8 @@ data:
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_static_rectangle_sum.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_static_rectangle_sum.test.cpp
 date: 2026-03-08
 documentation_of: datastructure/static_rectangle_sum.cpp
 layout: document

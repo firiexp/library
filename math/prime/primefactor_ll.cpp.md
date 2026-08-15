@@ -67,31 +67,70 @@ data:
     \    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
     \        for (auto &&j : prime){\n            ull v = (ull)i * j.val;\n      \
     \      if(v > (ull)n) break;\n            is_prime[v] = false;\n            if(j.divide(i))\
-    \ break;\n        }\n    }\n    return prime;\n}\nconst auto primes = get_prime(50000);\n\
-    \nmt19937_64 rng(0x8a5cd789635d2dffULL);\n\ntemplate<class T>\nT pollard_rho2(T\
-    \ n) {\n    ull nn = n;\n    if ((nn & 1) == 0) return 2;\n    uniform_int_distribution<ull>\
-    \ ra(1, nn - 1);\n    mod64::set_mod(nn);\n    while(true){\n        ull c_ =\
-    \ ra(rng), g = 1, r = 1, m = 500;\n        while(c_ == nn - 2) c_ = ra(rng);\n\
-    \        mod64 y(ra(rng)), xx(0), c(c_), ys(0), q(1);\n        while(g == 1){\n\
-    \            xx.n = y.n;\n            for (ull i = 0; i < r; ++i) {\n        \
-    \        y *= y; y += c;\n            }\n            ull k = 0; g = 1;\n     \
-    \       while(k < r && g == 1){\n                ull lim = min(m, r - k);\n  \
-    \              for (ull i = 0; i < lim; ++i) {\n                    ys.n = y.n;\n\
-    \                    y *= y; y += c;\n                    ull xxx = xx.val(),\
-    \ yyy = y.val();\n                    q *= mod64(xxx > yyy ? xxx - yyy : yyy -\
-    \ xxx);\n                }\n                g = gcd<ull>(q.val(), nn);\n     \
-    \           k += m;\n            }\n            r *= 2;\n        }\n        if(g\
-    \ == nn) g = 1;\n        while (g == 1){\n            ys *= ys; ys += c;\n   \
-    \         ull xxx = xx.val(), yyy = ys.val();\n            g = gcd<ull>(xxx >\
-    \ yyy ? xxx - yyy : yyy - xxx, nn);\n        }\n        if (g != nn && miller_rabin(g))\
-    \ return (T)g;\n    }\n}\n\ntemplate<class T>\nvoid prime_factor_impl(T n, vector<T>\
-    \ &res, bool trial){\n    if(trial) {\n        for (auto &&i : primes) {\n   \
-    \         while (i.divide(n)){\n                res.emplace_back(i.val);\n   \
-    \             n /= i.val;\n            }\n        }\n    }\n    if(n == 1) return;\n\
+    \ break;\n        }\n    }\n    return prime;\n}\n\nconstexpr int pollard_pm1_bound\
+    \ = 3000;\nconst auto primes = get_prime(pollard_pm1_bound);\n\nconstexpr ull\
+    \ pollard_batch_size = 208;\nconstexpr ull pollard_pm1_trigger = 2048;\nconstexpr\
+    \ ull pollard_pm1_mod_threshold = 500000000000000000ULL;\nconstexpr ull pollard_lazy_mod_limit\
+    \ = 1ULL << 61;\n\n// REDC \u306E\u7D50\u679C\u3092\u6B63\u898F\u5316\u3057\u306A\
+    \u3044\u3002mod < 2^61 \u306A\u3089 rho \u5185\u306E\u5024\u306F 4 * mod \u672A\
+    \u6E80\u306B\u53CE\u307E\u308B\u3002\nstruct mod64_lazy {\n    ull n;\n    static\
+    \ ull mod, inv, r2;\n    mod64_lazy() : n(0) {}\n    mod64_lazy(ull x) : n(init(x))\
+    \ {}\n    static void set_mod(ull m) {\n        mod = inv = m;\n        for (int\
+    \ i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        inv = -inv;\n        r2 = -u128(m)\
+    \ % m;\n    }\n    static ull reduce(u128 x) {\n        ull q = (ull)x * inv;\n\
+    \        return (x + u128(q) * mod) >> 64;\n    }\n    static ull init(ull x)\
+    \ {\n        ull y = reduce(u128(x) * r2);\n        return y >= mod ? y - mod\
+    \ : y;\n    }\n    mod64_lazy& operator*=(mod64_lazy x) {\n        n = reduce(u128(n)\
+    \ * x.n);\n        return *this;\n    }\n    mod64_lazy& operator+=(mod64_lazy\
+    \ x) {\n        n += x.n;\n        return *this;\n    }\n};\n\null mod64_lazy::mod,\
+    \ mod64_lazy::inv, mod64_lazy::r2;\n\nvector<ull> get_pollard_pm1_exponents()\
+    \ {\n    vector<ull> res;\n    ull product = 1;\n    for (auto &&p : primes) {\n\
+    \        if (p.val > pollard_pm1_bound) break;\n        ull power = p.val;\n \
+    \       while (power <= pollard_pm1_bound / p.val) power *= p.val;\n        if\
+    \ (product > ull(-1) / power) {\n            res.emplace_back(product);\n    \
+    \        product = 1;\n        }\n        product *= power;\n    }\n    res.emplace_back(product);\n\
+    \    return res;\n}\n\nconst auto pollard_pm1_exponents = get_pollard_pm1_exponents();\n\
+    \nmt19937_64 rng(0x8a5cd789635d2dffULL);\n\nmod64_lazy pow_mod64_lazy(mod64_lazy\
+    \ x, ull exponent) {\n    mod64_lazy res = x;\n    for (int bit = 62 - __builtin_clzll(exponent);\
+    \ bit >= 0; --bit) {\n        res *= res;\n        if ((exponent >> bit) & 1)\
+    \ res *= x;\n    }\n    return res;\n}\n\null pollard_pm1(ull n) {\n    mod64_lazy::set_mod(n);\n\
+    \    mod64_lazy x(2), one(1);\n    for (ull exponent : pollard_pm1_exponents)\
+    \ {\n        x = pow_mod64_lazy(x, exponent);\n    }\n    ull diff = x.n > one.n\
+    \ ? x.n - one.n : one.n - x.n;\n    ull g = gcd(diff, n);\n    return g != 1 &&\
+    \ g != n ? g : 0;\n}\n\ntemplate<class Mint>\null pollard_rho_impl(ull nn, bool\
+    \ use_pm1) {\n    uniform_int_distribution<ull> ra(1, nn - 1);\n    Mint::set_mod(nn);\n\
+    \    bool pm1_done = !use_pm1;\n    while(true){\n        ull c_ = ra(rng), g\
+    \ = 1, r = 1;\n        while(c_ == nn - 2) c_ = ra(rng);\n        Mint y(ra(rng)),\
+    \ xx(0), c(c_), ys(0), q(1);\n        while(g == 1){\n            xx.n = y.n;\n\
+    \            for (ull i = 0; i < r; ++i) {\n                y *= y; y += c;\n\
+    \            }\n            ull k = 0; g = 1;\n            while(k < r && g ==\
+    \ 1){\n                ull lim = min(pollard_batch_size, r - k);\n           \
+    \     for (ull i = 0; i < lim; ++i) {\n                    ys.n = y.n;\n     \
+    \               y *= y; y += c;\n                    Mint diff;\n            \
+    \        diff.n = xx.n > y.n ? xx.n - y.n : y.n - xx.n;\n                    q\
+    \ *= diff;\n                }\n                g = gcd<ull>(q.n, nn);\n      \
+    \          k += pollard_batch_size;\n            }\n            r *= 2;\n    \
+    \        if (!pm1_done && r == pollard_pm1_trigger) {\n                ull factor\
+    \ = pollard_pm1(nn);\n                if (factor != 0) return factor;\n      \
+    \          pm1_done = true;\n            }\n        }\n        if(g == nn) g =\
+    \ 1;\n        while (g == 1){\n            ys *= ys; ys += c;\n            ull\
+    \ diff = xx.n > ys.n ? xx.n - ys.n : ys.n - xx.n;\n            g = gcd<ull>(diff,\
+    \ nn);\n        }\n        if (g != nn) return g;\n    }\n}\n\ntemplate<class\
+    \ T>\nT pollard_rho2(T n) {\n    ull nn = n;\n    if ((nn & 1) == 0) return 2;\n\
+    \    if (nn < pollard_lazy_mod_limit) {\n        return (T)pollard_rho_impl<mod64_lazy>(nn,\
+    \ nn >= pollard_pm1_mod_threshold);\n    }\n    return (T)pollard_rho_impl<mod64>(nn,\
+    \ false);\n}\n\ntemplate<class T>\nvoid prime_factor_impl(T n, vector<T> &res,\
+    \ bool trial){\n    if(trial) {\n        for (auto &&i : primes) {\n         \
+    \   while (i.divide(n)){\n                res.emplace_back(i.val);\n         \
+    \       n /= i.val;\n            }\n        }\n    }\n    if(n == 1) return;\n\
     \    if(miller_rabin(n)) {\n        res.emplace_back(n);\n        return;\n  \
-    \  }\n    T x = pollard_rho2(n);\n    prime_factor_impl(x, res, false);\n    prime_factor_impl(n\
-    \ / x, res, false);\n}\n\ntemplate<class T>\nvector<T> prime_factor(T n){\n  \
-    \  vector<T> res;\n    prime_factor_impl(n, res, true);\n    sort(res.begin(),res.end());\n\
+    \  }\n    ull root = __builtin_sqrtl((long double)n);\n    while ((u128)(root\
+    \ + 1) * (root + 1) <= (ull)n) ++root;\n    while ((u128)root * root > (ull)n)\
+    \ --root;\n    if ((u128)root * root == (ull)n) {\n        prime_factor_impl((T)root,\
+    \ res, false);\n        prime_factor_impl((T)root, res, false);\n        return;\n\
+    \    }\n    T x = pollard_rho2(n);\n    prime_factor_impl(x, res, false);\n  \
+    \  prime_factor_impl(n / x, res, false);\n}\n\ntemplate<class T>\nvector<T> prime_factor(T\
+    \ n){\n    vector<T> res;\n    prime_factor_impl(n, res, true);\n    sort(res.begin(),res.end());\n\
     \    return res;\n}\n\n/**\n * @brief \u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)\n\
     \ */\n"
   code: "#include \"miller_rabin.cpp\"\n\ntemplate<typename T>\nstruct ExactDiv {\n\
@@ -105,31 +144,70 @@ data:
     \  for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
     \        for (auto &&j : prime){\n            ull v = (ull)i * j.val;\n      \
     \      if(v > (ull)n) break;\n            is_prime[v] = false;\n            if(j.divide(i))\
-    \ break;\n        }\n    }\n    return prime;\n}\nconst auto primes = get_prime(50000);\n\
-    \nmt19937_64 rng(0x8a5cd789635d2dffULL);\n\ntemplate<class T>\nT pollard_rho2(T\
-    \ n) {\n    ull nn = n;\n    if ((nn & 1) == 0) return 2;\n    uniform_int_distribution<ull>\
-    \ ra(1, nn - 1);\n    mod64::set_mod(nn);\n    while(true){\n        ull c_ =\
-    \ ra(rng), g = 1, r = 1, m = 500;\n        while(c_ == nn - 2) c_ = ra(rng);\n\
-    \        mod64 y(ra(rng)), xx(0), c(c_), ys(0), q(1);\n        while(g == 1){\n\
-    \            xx.n = y.n;\n            for (ull i = 0; i < r; ++i) {\n        \
-    \        y *= y; y += c;\n            }\n            ull k = 0; g = 1;\n     \
-    \       while(k < r && g == 1){\n                ull lim = min(m, r - k);\n  \
-    \              for (ull i = 0; i < lim; ++i) {\n                    ys.n = y.n;\n\
-    \                    y *= y; y += c;\n                    ull xxx = xx.val(),\
-    \ yyy = y.val();\n                    q *= mod64(xxx > yyy ? xxx - yyy : yyy -\
-    \ xxx);\n                }\n                g = gcd<ull>(q.val(), nn);\n     \
-    \           k += m;\n            }\n            r *= 2;\n        }\n        if(g\
-    \ == nn) g = 1;\n        while (g == 1){\n            ys *= ys; ys += c;\n   \
-    \         ull xxx = xx.val(), yyy = ys.val();\n            g = gcd<ull>(xxx >\
-    \ yyy ? xxx - yyy : yyy - xxx, nn);\n        }\n        if (g != nn && miller_rabin(g))\
-    \ return (T)g;\n    }\n}\n\ntemplate<class T>\nvoid prime_factor_impl(T n, vector<T>\
-    \ &res, bool trial){\n    if(trial) {\n        for (auto &&i : primes) {\n   \
-    \         while (i.divide(n)){\n                res.emplace_back(i.val);\n   \
-    \             n /= i.val;\n            }\n        }\n    }\n    if(n == 1) return;\n\
+    \ break;\n        }\n    }\n    return prime;\n}\n\nconstexpr int pollard_pm1_bound\
+    \ = 3000;\nconst auto primes = get_prime(pollard_pm1_bound);\n\nconstexpr ull\
+    \ pollard_batch_size = 208;\nconstexpr ull pollard_pm1_trigger = 2048;\nconstexpr\
+    \ ull pollard_pm1_mod_threshold = 500000000000000000ULL;\nconstexpr ull pollard_lazy_mod_limit\
+    \ = 1ULL << 61;\n\n// REDC \u306E\u7D50\u679C\u3092\u6B63\u898F\u5316\u3057\u306A\
+    \u3044\u3002mod < 2^61 \u306A\u3089 rho \u5185\u306E\u5024\u306F 4 * mod \u672A\
+    \u6E80\u306B\u53CE\u307E\u308B\u3002\nstruct mod64_lazy {\n    ull n;\n    static\
+    \ ull mod, inv, r2;\n    mod64_lazy() : n(0) {}\n    mod64_lazy(ull x) : n(init(x))\
+    \ {}\n    static void set_mod(ull m) {\n        mod = inv = m;\n        for (int\
+    \ i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        inv = -inv;\n        r2 = -u128(m)\
+    \ % m;\n    }\n    static ull reduce(u128 x) {\n        ull q = (ull)x * inv;\n\
+    \        return (x + u128(q) * mod) >> 64;\n    }\n    static ull init(ull x)\
+    \ {\n        ull y = reduce(u128(x) * r2);\n        return y >= mod ? y - mod\
+    \ : y;\n    }\n    mod64_lazy& operator*=(mod64_lazy x) {\n        n = reduce(u128(n)\
+    \ * x.n);\n        return *this;\n    }\n    mod64_lazy& operator+=(mod64_lazy\
+    \ x) {\n        n += x.n;\n        return *this;\n    }\n};\n\null mod64_lazy::mod,\
+    \ mod64_lazy::inv, mod64_lazy::r2;\n\nvector<ull> get_pollard_pm1_exponents()\
+    \ {\n    vector<ull> res;\n    ull product = 1;\n    for (auto &&p : primes) {\n\
+    \        if (p.val > pollard_pm1_bound) break;\n        ull power = p.val;\n \
+    \       while (power <= pollard_pm1_bound / p.val) power *= p.val;\n        if\
+    \ (product > ull(-1) / power) {\n            res.emplace_back(product);\n    \
+    \        product = 1;\n        }\n        product *= power;\n    }\n    res.emplace_back(product);\n\
+    \    return res;\n}\n\nconst auto pollard_pm1_exponents = get_pollard_pm1_exponents();\n\
+    \nmt19937_64 rng(0x8a5cd789635d2dffULL);\n\nmod64_lazy pow_mod64_lazy(mod64_lazy\
+    \ x, ull exponent) {\n    mod64_lazy res = x;\n    for (int bit = 62 - __builtin_clzll(exponent);\
+    \ bit >= 0; --bit) {\n        res *= res;\n        if ((exponent >> bit) & 1)\
+    \ res *= x;\n    }\n    return res;\n}\n\null pollard_pm1(ull n) {\n    mod64_lazy::set_mod(n);\n\
+    \    mod64_lazy x(2), one(1);\n    for (ull exponent : pollard_pm1_exponents)\
+    \ {\n        x = pow_mod64_lazy(x, exponent);\n    }\n    ull diff = x.n > one.n\
+    \ ? x.n - one.n : one.n - x.n;\n    ull g = gcd(diff, n);\n    return g != 1 &&\
+    \ g != n ? g : 0;\n}\n\ntemplate<class Mint>\null pollard_rho_impl(ull nn, bool\
+    \ use_pm1) {\n    uniform_int_distribution<ull> ra(1, nn - 1);\n    Mint::set_mod(nn);\n\
+    \    bool pm1_done = !use_pm1;\n    while(true){\n        ull c_ = ra(rng), g\
+    \ = 1, r = 1;\n        while(c_ == nn - 2) c_ = ra(rng);\n        Mint y(ra(rng)),\
+    \ xx(0), c(c_), ys(0), q(1);\n        while(g == 1){\n            xx.n = y.n;\n\
+    \            for (ull i = 0; i < r; ++i) {\n                y *= y; y += c;\n\
+    \            }\n            ull k = 0; g = 1;\n            while(k < r && g ==\
+    \ 1){\n                ull lim = min(pollard_batch_size, r - k);\n           \
+    \     for (ull i = 0; i < lim; ++i) {\n                    ys.n = y.n;\n     \
+    \               y *= y; y += c;\n                    Mint diff;\n            \
+    \        diff.n = xx.n > y.n ? xx.n - y.n : y.n - xx.n;\n                    q\
+    \ *= diff;\n                }\n                g = gcd<ull>(q.n, nn);\n      \
+    \          k += pollard_batch_size;\n            }\n            r *= 2;\n    \
+    \        if (!pm1_done && r == pollard_pm1_trigger) {\n                ull factor\
+    \ = pollard_pm1(nn);\n                if (factor != 0) return factor;\n      \
+    \          pm1_done = true;\n            }\n        }\n        if(g == nn) g =\
+    \ 1;\n        while (g == 1){\n            ys *= ys; ys += c;\n            ull\
+    \ diff = xx.n > ys.n ? xx.n - ys.n : ys.n - xx.n;\n            g = gcd<ull>(diff,\
+    \ nn);\n        }\n        if (g != nn) return g;\n    }\n}\n\ntemplate<class\
+    \ T>\nT pollard_rho2(T n) {\n    ull nn = n;\n    if ((nn & 1) == 0) return 2;\n\
+    \    if (nn < pollard_lazy_mod_limit) {\n        return (T)pollard_rho_impl<mod64_lazy>(nn,\
+    \ nn >= pollard_pm1_mod_threshold);\n    }\n    return (T)pollard_rho_impl<mod64>(nn,\
+    \ false);\n}\n\ntemplate<class T>\nvoid prime_factor_impl(T n, vector<T> &res,\
+    \ bool trial){\n    if(trial) {\n        for (auto &&i : primes) {\n         \
+    \   while (i.divide(n)){\n                res.emplace_back(i.val);\n         \
+    \       n /= i.val;\n            }\n        }\n    }\n    if(n == 1) return;\n\
     \    if(miller_rabin(n)) {\n        res.emplace_back(n);\n        return;\n  \
-    \  }\n    T x = pollard_rho2(n);\n    prime_factor_impl(x, res, false);\n    prime_factor_impl(n\
-    \ / x, res, false);\n}\n\ntemplate<class T>\nvector<T> prime_factor(T n){\n  \
-    \  vector<T> res;\n    prime_factor_impl(n, res, true);\n    sort(res.begin(),res.end());\n\
+    \  }\n    ull root = __builtin_sqrtl((long double)n);\n    while ((u128)(root\
+    \ + 1) * (root + 1) <= (ull)n) ++root;\n    while ((u128)root * root > (ull)n)\
+    \ --root;\n    if ((u128)root * root == (ull)n) {\n        prime_factor_impl((T)root,\
+    \ res, false);\n        prime_factor_impl((T)root, res, false);\n        return;\n\
+    \    }\n    T x = pollard_rho2(n);\n    prime_factor_impl(x, res, false);\n  \
+    \  prime_factor_impl(n / x, res, false);\n}\n\ntemplate<class T>\nvector<T> prime_factor(T\
+    \ n){\n    vector<T> res;\n    prime_factor_impl(n, res, true);\n    sort(res.begin(),res.end());\n\
     \    return res;\n}\n\n/**\n * @brief \u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)\n\
     \ */\n"
   dependsOn:
@@ -138,7 +216,7 @@ data:
   path: math/prime/primefactor_ll.cpp
   requiredBy:
   - math/prime/primitive_root.cpp
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-08-11 13:43:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_factorize.test.cpp
@@ -168,5 +246,6 @@ title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
 `prime_factor(n)` は内部で再帰分解し、最後にソートして返す。
 
 ## 実装上の補足
-Montgomery 乗算を使っている。
+Pollard's rho では Montgomery 乗算を使い、値が十分小さい場合は各演算後の正規化を省く。
+大きい半素数には短い Pollard's $p-1$ を併用し、完全平方数は平方根を再帰的に分解する。
 大量の小さいクエリだけなら `get_min_factor.cpp` や `primefactor.cpp` のほうが軽いことがある。

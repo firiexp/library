@@ -927,9 +927,9 @@ data:
   timestamp: '2026-07-26 11:18:19+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
   - test/yosupo_point_set_range_frequency.test.cpp
   - test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
-  - test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
 date: 2026-07-25
 documentation_of: datastructure/dynamic_weighted_wavelet_matrix.cpp
 layout: document

@@ -7,9 +7,6 @@ data:
     title: util/modint_base.cpp
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: math/factorial.cpp
-    title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
-  - icon: ':heavy_check_mark:'
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
   - icon: ':heavy_check_mark:'
@@ -159,44 +156,43 @@ data:
   isVerificationFile: false
   path: util/modint.cpp
   requiredBy:
-  - math/inverse_matrix.cpp
-  - math/gauss_jordan_mint.cpp
   - math/squarematrix_mint.cpp
-  - math/factorial.cpp
-  - math/fft.cpp
-  - math/matrix_determinant.cpp
   - math/powk_all.cpp
+  - math/matrix_determinant.cpp
+  - math/gauss_jordan_mint.cpp
+  - math/fft.cpp
+  - math/inverse_matrix.cpp
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_system_of_linear_equations.test.cpp
-  - test/yosupo_matrix_det.test.cpp
-  - test/yosupo_sum_of_totient.test.cpp
-  - test/yosupo_bitwise_or_convolution.test.cpp
-  - test/yosupo_many_aplusb_modint_interface.test.cpp
-  - test/yosupo_range_affine_range_sum.test.cpp
-  - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
-  - test/aoj2257.test.cpp
-  - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
-  - test/yosupo_vertex_set_path_composite.test.cpp
+  - test/aoj0399.test.cpp
+  - test/yosupo_deque_operate_all_composite.test.cpp
+  - test/yosupo_matrix_product.test.cpp
+  - test/yosupo_bitwise_xor_convolution.test.cpp
+  - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yosupo_queue_operate_all_composite.test.cpp
+  - test/yosupo_vertex_set_path_composite.test.cpp
+  - test/yuki650_hld_edge.test.cpp
+  - test/aoj2257.test.cpp
+  - test/yosupo_matrix_det.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_bitwise_or_convolution.test.cpp
+  - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_inverse_matrix.test.cpp
   - test/yosupo_pow_of_matrix.test.cpp
-  - test/yosupo_deque_operate_all_composite.test.cpp
-  - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
+  - test/yosupo_sum_of_totient.test.cpp
+  - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp
-  - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
+  - test/aoj_dpl_5_a.test.cpp
+  - test/yosupo_point_set_range_composite.test.cpp
+  - test/yosupo_system_of_linear_equations.test.cpp
+  - test/yosupo_many_aplusb_modint_interface.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_matrix_rank.test.cpp
-  - test/yosupo_matrix_product.test.cpp
-  - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
-  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_range_affine_range_sum.test.cpp
+  - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yosupo_subset_convolution.test.cpp
-  - test/yosupo_bitwise_xor_convolution.test.cpp
-  - test/aoj0399.test.cpp
-  - test/aoj_dpl_5_a.test.cpp
-  - test/yuki650_hld_edge.test.cpp
 date: 2026-03-14
 documentation_of: util/modint.cpp
 layout: document

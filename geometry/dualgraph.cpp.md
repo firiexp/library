@@ -235,8 +235,8 @@ data:
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0273.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/aoj0273.test.cpp
 documentation_of: geometry/dualgraph.cpp
 layout: document
 title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"

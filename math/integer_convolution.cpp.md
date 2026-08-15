@@ -482,20 +482,20 @@ data:
   isVerificationFile: false
   path: math/integer_convolution.cpp
   requiredBy:
-  - util/biginteger.cpp
   - math/fft.cpp
   - tree/frequency_table_of_tree_distance.cpp
+  - util/biginteger.cpp
   timestamp: '2026-07-18 15:59:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_multiplication_of_big_integers.test.cpp
+  - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_multiplication_of_hex_big_integers.test.cpp
+  - test/yosupo_division_of_hex_big_integers.test.cpp
+  - test/yosupo_division_of_big_integers.test.cpp
+  - test/yosupo_multiplication_of_big_integers.test.cpp
+  - test/yosupo_addition_of_hex_big_integers.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_addition_of_big_integers.test.cpp
-  - test/yosupo_frequency_table_of_tree_distance.test.cpp
-  - test/yosupo_addition_of_hex_big_integers.test.cpp
-  - test/yosupo_division_of_big_integers.test.cpp
-  - test/yosupo_division_of_hex_big_integers.test.cpp
 date: 2026-07-18
 documentation_of: math/integer_convolution.cpp
 layout: document

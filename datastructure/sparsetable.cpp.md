@@ -63,17 +63,17 @@ data:
   isVerificationFile: false
   path: datastructure/sparsetable.cpp
   requiredBy:
-  - tree/auxtree.cpp
   - tree/LCA.cpp
+  - tree/auxtree.cpp
   - tree/virtual_tree_helper.cpp
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_lca.test.cpp
-  - test/yosupo_staticrmq_sparsetable.test.cpp
+  - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj0439.test.cpp
+  - test/yosupo_staticrmq_sparsetable.test.cpp
 documentation_of: datastructure/sparsetable.cpp
 layout: document
 title: Sparse Table

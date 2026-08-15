@@ -69,8 +69,8 @@ data:
   timestamp: '2026-03-12 14:17:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_shortest_path.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_shortest_path.test.cpp
 date: 2026-03-08
 documentation_of: graph/dijkstra_restore.cpp
 layout: document
