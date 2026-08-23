@@ -6,14 +6,18 @@ class ProjectSelectionProblem {
     T base_score{};
     vector<T> weight;
     vector<tuple<int, int, T>> penalty;
+    vector<char> forced_true, forced_false;
     vector<int> selected;
 
 public:
     ProjectSelectionProblem() : n(0) {}
-    explicit ProjectSelectionProblem(int n) : n(n), base_score(0), weight(n, 0), selected(n, 0) {}
+    explicit ProjectSelectionProblem(int n)
+        : n(n), base_score(0), weight(n, 0), forced_true(n, false), forced_false(n, false), selected(n, 0) {}
 
     int add_vertex() {
         weight.emplace_back(0);
+        forced_true.emplace_back(false);
+        forced_false.emplace_back(false);
         selected.emplace_back(0);
         return n++;
     }
@@ -40,11 +44,11 @@ public:
     }
 
     void force_true(int v) {
-        add_true_profit(v, INF<T>);
+        forced_true[v] = true;
     }
 
     void force_false(int v) {
-        add_false_profit(v, INF<T>);
+        forced_false[v] = true;
     }
 
     T solve() {
@@ -58,6 +62,8 @@ public:
             } else {
                 mf.add_edge(v, t, -weight[v]);
             }
+            if (forced_true[v]) mf.add_edge(s, v, INF<T>);
+            if (forced_false[v]) mf.add_edge(v, t, INF<T>);
         }
         for (auto&& [x, y, cost] : penalty) {
             mf.add_edge(x, y, cost);
