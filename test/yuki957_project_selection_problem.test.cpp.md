@@ -257,43 +257,47 @@ data:
     \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
     \ Dinic\u6CD5(Dinic)\n */\n#line 2 \"flow/project_selection_problem.cpp\"\n\n\
     template<class T>\nclass ProjectSelectionProblem {\n    int n;\n    T base_score{};\n\
-    \    vector<T> weight;\n    vector<tuple<int, int, T>> penalty;\n    vector<int>\
-    \ selected;\n\npublic:\n    ProjectSelectionProblem() : n(0) {}\n    explicit\
-    \ ProjectSelectionProblem(int n) : n(n), base_score(0), weight(n, 0), selected(n,\
-    \ 0) {}\n\n    int add_vertex() {\n        weight.emplace_back(0);\n        selected.emplace_back(0);\n\
+    \    vector<T> weight;\n    vector<tuple<int, int, T>> penalty;\n    vector<char>\
+    \ forced_true, forced_false;\n    vector<int> selected;\n\npublic:\n    ProjectSelectionProblem()\
+    \ : n(0) {}\n    explicit ProjectSelectionProblem(int n)\n        : n(n), base_score(0),\
+    \ weight(n, 0), forced_true(n, false), forced_false(n, false), selected(n, 0)\
+    \ {}\n\n    int add_vertex() {\n        weight.emplace_back(0);\n        forced_true.emplace_back(false);\n\
+    \        forced_false.emplace_back(false);\n        selected.emplace_back(0);\n\
     \        return n++;\n    }\n\n    int size() const {\n        return n;\n   \
     \ }\n\n    void add_true_profit(int v, T x) {\n        weight[v] += x;\n    }\n\
     \n    void add_false_profit(int v, T x) {\n        base_score += x;\n        weight[v]\
     \ -= x;\n    }\n\n    void add_penalty(int x, int y, T cost) {\n        penalty.emplace_back(x,\
     \ y, cost);\n    }\n\n    void add_if_then(int x, int y) {\n        add_penalty(x,\
-    \ y, INF<T>);\n    }\n\n    void force_true(int v) {\n        add_true_profit(v,\
-    \ INF<T>);\n    }\n\n    void force_false(int v) {\n        add_false_profit(v,\
-    \ INF<T>);\n    }\n\n    T solve() {\n        int s = n, t = n + 1;\n        Dinic<T,\
-    \ true> mf(n + 2);\n        T offset = base_score;\n        for (int v = 0; v\
-    \ < n; ++v) {\n            if (weight[v] >= 0) {\n                offset += weight[v];\n\
+    \ y, INF<T>);\n    }\n\n    void force_true(int v) {\n        forced_true[v] =\
+    \ true;\n    }\n\n    void force_false(int v) {\n        forced_false[v] = true;\n\
+    \    }\n\n    T solve() {\n        int s = n, t = n + 1;\n        Dinic<T, true>\
+    \ mf(n + 2);\n        T offset = base_score;\n        for (int v = 0; v < n; ++v)\
+    \ {\n            if (weight[v] >= 0) {\n                offset += weight[v];\n\
     \                mf.add_edge(s, v, weight[v]);\n            } else {\n       \
-    \         mf.add_edge(v, t, -weight[v]);\n            }\n        }\n        for\
-    \ (auto&& [x, y, cost] : penalty) {\n            mf.add_edge(x, y, cost);\n  \
-    \      }\n        T cut = mf.flow(s, t);\n\n        fill(selected.begin(), selected.end(),\
-    \ 0);\n        queue<int> q;\n        q.emplace(s);\n        vector<int> vis(n\
-    \ + 2, 0);\n        vis[s] = 1;\n        while (!q.empty()) {\n            int\
-    \ v = q.front();\n            q.pop();\n            for (auto&& e : mf.G[v]) {\n\
-    \                if (e.cap <= 0 || vis[e.to]) continue;\n                vis[e.to]\
-    \ = 1;\n                q.emplace(e.to);\n            }\n        }\n        for\
-    \ (int v = 0; v < n; ++v) {\n            selected[v] = vis[v];\n        }\n  \
-    \      return offset - cut;\n    }\n\n    const vector<int>& get_selected() const\
-    \ {\n        return selected;\n    }\n};\n\n/**\n * @brief Project Selection Problem\n\
-    \ */\n#line 22 \"test/yuki957_project_selection_problem.test.cpp\"\n\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n\n    int h, w;\n    in.read(h, w);\n\n\
-    \    vector<vector<ll>> g(h, vector<ll>(w));\n    for (int i = 0; i < h; ++i)\
-    \ {\n        for (int j = 0; j < w; ++j) {\n            in.read(g[i][j]);\n  \
-    \      }\n    }\n    vector<ll> row(h), col(w);\n    for (int i = 0; i < h; ++i)\
-    \ in.read(row[i]);\n    for (int j = 0; j < w; ++j) in.read(col[j]);\n\n    ProjectSelectionProblem<ll>\
-    \ psp(h + w);\n    for (int i = 0; i < h; ++i) {\n        ll sum = 0;\n      \
-    \  for (int j = 0; j < w; ++j) {\n            sum += g[i][j];\n            psp.add_penalty(h\
-    \ + j, i, g[i][j]);\n        }\n        psp.add_true_profit(i, row[i] - sum);\n\
-    \    }\n    for (int j = 0; j < w; ++j) {\n        psp.add_true_profit(h + j,\
-    \ col[j]);\n    }\n\n    out.println(psp.solve());\n    return 0;\n}\n"
+    \         mf.add_edge(v, t, -weight[v]);\n            }\n            if (forced_true[v])\
+    \ mf.add_edge(s, v, INF<T>);\n            if (forced_false[v]) mf.add_edge(v,\
+    \ t, INF<T>);\n        }\n        for (auto&& [x, y, cost] : penalty) {\n    \
+    \        mf.add_edge(x, y, cost);\n        }\n        T cut = mf.flow(s, t);\n\
+    \n        fill(selected.begin(), selected.end(), 0);\n        queue<int> q;\n\
+    \        q.emplace(s);\n        vector<int> vis(n + 2, 0);\n        vis[s] = 1;\n\
+    \        while (!q.empty()) {\n            int v = q.front();\n            q.pop();\n\
+    \            for (auto&& e : mf.G[v]) {\n                if (e.cap <= 0 || vis[e.to])\
+    \ continue;\n                vis[e.to] = 1;\n                q.emplace(e.to);\n\
+    \            }\n        }\n        for (int v = 0; v < n; ++v) {\n           \
+    \ selected[v] = vis[v];\n        }\n        return offset - cut;\n    }\n\n  \
+    \  const vector<int>& get_selected() const {\n        return selected;\n    }\n\
+    };\n\n/**\n * @brief Project Selection Problem\n */\n#line 22 \"test/yuki957_project_selection_problem.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int h, w;\n    in.read(h,\
+    \ w);\n\n    vector<vector<ll>> g(h, vector<ll>(w));\n    for (int i = 0; i <\
+    \ h; ++i) {\n        for (int j = 0; j < w; ++j) {\n            in.read(g[i][j]);\n\
+    \        }\n    }\n    vector<ll> row(h), col(w);\n    for (int i = 0; i < h;\
+    \ ++i) in.read(row[i]);\n    for (int j = 0; j < w; ++j) in.read(col[j]);\n\n\
+    \    ProjectSelectionProblem<ll> psp(h + w);\n    for (int i = 0; i < h; ++i)\
+    \ {\n        ll sum = 0;\n        for (int j = 0; j < w; ++j) {\n            sum\
+    \ += g[i][j];\n            psp.add_penalty(h + j, i, g[i][j]);\n        }\n  \
+    \      psp.add_true_profit(i, row[i] - sum);\n    }\n    for (int j = 0; j < w;\
+    \ ++j) {\n        psp.add_true_profit(h + j, col[j]);\n    }\n\n    out.println(psp.solve());\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n\
     #include <limits>\n#include <queue>\n#include <tuple>\n#include <vector>\nusing\
     \ namespace std;\n\nusing ll = long long;\ntemplate<class T>\nconstexpr T INF\
@@ -318,7 +322,7 @@ data:
   isVerificationFile: true
   path: test/yuki957_project_selection_problem.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-08-23 21:35:34+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki957_project_selection_problem.test.cpp
