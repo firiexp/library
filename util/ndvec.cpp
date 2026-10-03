@@ -30,12 +30,12 @@ struct NdVec {
     }
 
     template <class... Idx>
-    T &operator()(Idx... idx) {
+    typename vector<T>::reference operator()(Idx... idx) {
         return data[index(idx...)];
     }
 
     template <class... Idx>
-    const T &operator()(Idx... idx) const {
+    typename vector<T>::const_reference operator()(Idx... idx) const {
         return data[index(idx...)];
     }
 

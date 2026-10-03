@@ -140,8 +140,8 @@ public:
         return query_order(u, v, e, ql, qr, f, edge);
     }
 
-    template<typename T, typename Q>
-    T subtree_query(int v, const Q &q, bool edge = false){
+    template<typename Q>
+    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){
         auto [l, r] = subtree(v, edge);
         return q(l, r);
     }

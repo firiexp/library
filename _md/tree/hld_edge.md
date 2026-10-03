@@ -30,8 +30,8 @@ tags: 木
   非可換向け順序付き辺パスクエリ
 - `void apply_subtree(int v, F f)`
   部分木の辺区間へ `f(l, r)` を呼ぶ
-- `T subtree_query(int v, Q q)`
-  部分木の辺区間クエリ
+- `subtree_query(int v, Q q)`
+  部分木の辺区間に `q(l, r)` を呼び、その結果を返す。戻り値の型は `q` から推論する
 
 ## 使い方
 各辺の値は子頂点側に置く。

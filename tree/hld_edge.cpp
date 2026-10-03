@@ -59,9 +59,9 @@ struct HeavyLightDecompositionEdge {
         return hld.path_query_ordered(u, v, e, ql, qr, f, true);
     }
 
-    template<typename T, typename Q>
-    T subtree_query(int v, const Q &q) {
-        return hld.subtree_query<T>(v, q, true);
+    template<typename Q>
+    decltype(auto) subtree_query(int v, const Q &q) {
+        return hld.subtree_query(v, q, true);
     }
 };
 

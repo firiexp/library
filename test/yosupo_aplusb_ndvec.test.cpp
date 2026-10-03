@@ -119,9 +119,45 @@ void random_check() {
     }
 }
 
+void reference_check() {
+    NdVec<int, 2> a({2, 3}, 0);
+    const auto &ca = a;
+    static_assert(is_same_v<decltype(a(1, 2)), int &>);
+    static_assert(is_same_v<decltype(ca(1, 2)), const int &>);
+    assert(&a(1, 2) == &a.data[5]);
+    assert(&ca(1, 2) == &a.data[5]);
+
+    NdVec<bool, 2> b({2, 3}, false);
+    const auto &cb = b;
+    static_assert(is_same_v<decltype(b(1, 2)), vector<bool>::reference>);
+    static_assert(is_same_v<decltype(cb(1, 2)), vector<bool>::const_reference>);
+    b(1, 2) = true;
+    assert(cb(1, 2) && !cb(0, 0));
+    b.fill(true);
+    for (int i = 0; i < 2; ++i)
+        for (int j = 0; j < 3; ++j) assert(cb(i, j));
+    b.fill(false);
+    for (int i = 0; i < 2; ++i)
+        for (int j = 0; j < 3; ++j) assert(!cb(i, j));
+
+    NdVec<bool, 3> c({2, 3, 4}, false);
+    const auto &cc = c;
+    for (int i = 0; i < 2; ++i)
+        for (int j = 0; j < 3; ++j)
+            for (int k = 0; k < 4; ++k) c(i, j, k) = (i + j + k) % 2;
+    for (int i = 0; i < 2; ++i)
+        for (int j = 0; j < 3; ++j)
+            for (int k = 0; k < 4; ++k) assert(cc(i, j, k) == bool((i + j + k) % 2));
+    c.fill(true);
+    for (int i = 0; i < 2; ++i)
+        for (int j = 0; j < 3; ++j)
+            for (int k = 0; k < 4; ++k) assert(cc(i, j, k));
+}
+
 int main() {
     deterministic_check();
     random_check();
+    reference_check();
 
     Scanner sc;
     Printer pr;
