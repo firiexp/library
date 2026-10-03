@@ -32,36 +32,38 @@ pair<int, int> closest_pair(const vector<pair<long long, long long>> &points) {
     };
     update(ps[0], ps[1]);
 
-    auto dfs = [&](auto &&self, int l, int r) -> vector<int> {
-        if (r - l == 1) return {l};
+    vector<int> ord(n), scratch(n);
+    auto dfs = [&](auto &&self, int l, int r) -> void {
+        if (r - l == 1) {
+            ord[l] = l;
+            return;
+        }
         int m = (l + r) >> 1;
         long long mx = ps[m].x;
-        vector<int> left = self(self, l, m);
-        vector<int> right = self(self, m, r);
-        vector<int> ord;
-        vector<int> near;
-        ord.reserve(r - l);
-        near.reserve(r - l);
-        int i = 0, j = 0;
-        while (i < (int)left.size() || j < (int)right.size()) {
-            int idx;
-            if (j == (int)right.size() || (i < (int)left.size() && ps[left[i]].y < ps[right[j]].y)) {
-                idx = left[i++];
+        self(self, l, m);
+        self(self, m, r);
+        int i = l, j = m;
+        for (int k = l; k < r; ++k) {
+            if (j == r || (i < m && ps[ord[i]].y < ps[ord[j]].y)) {
+                scratch[k] = ord[i++];
             } else {
-                idx = right[j++];
+                scratch[k] = ord[j++];
             }
-            ord.push_back(idx);
+        }
+        copy(scratch.begin() + l, scratch.begin() + r, ord.begin() + l);
+        int count = 0;
+        for (int k = l; k < r; ++k) {
+            int idx = ord[k];
             Dist dx = Dist(ps[idx].x) - Dist(mx);
             if (dx * dx > best) continue;
-            for (int k = (int)near.size() - 1; k >= 0; --k) {
-                int idy = near[k];
+            for (int t = count - 1; t >= 0; --t) {
+                int idy = scratch[l + t];
                 Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);
                 if (best == 0 || dy * dy > best) break;
                 update(ps[idx], ps[idy]);
             }
-            near.push_back(idx);
+            scratch[l + count++] = idx;
         }
-        return ord;
     };
     dfs(dfs, 0, n);
     return ans;

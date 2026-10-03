@@ -28,7 +28,7 @@ tags: 最小費用流
 - `vector<Flow> get_flows()`
   追加順の各辺の流量を返す
 - `vector<Cost> get_potential()`
-  最適解に対応するポテンシャルの一例を返す
+  最適解に対応するポテンシャルの一例を返す。`solve()` 成功後、辺や需給を変更する前に呼ぶ。計算量は $O(n)$
 
 ## 使い方
 1. `MinimumCostBFlow<long long, long long> g(n);` を作る

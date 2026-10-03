@@ -20,19 +20,23 @@ struct MinimumCostBFlow {
     vector<Flow> b;
     vector<EdgeRef> edges;
     vector<Cost> potential;
+    bool potential_valid = false;
 
     explicit MinimumCostBFlow(int n) : n(n), g(n), b(n, 0), potential(n, 0) {}
 
     void add_supply(int v, Flow x) {
+        potential_valid = false;
         b[v] += x;
     }
 
     void add_demand(int v, Flow x) {
+        potential_valid = false;
         b[v] -= x;
     }
 
     int add_edge(int from, int to, Flow lower, Flow upper, Cost cost) {
         assert(lower <= upper);
+        potential_valid = false;
         int idx = (int)g[from].size();
         int rev = from == to ? idx + 1 : (int)g[to].size();
         g[from].push_back({from, to, rev, 0, upper, cost});
@@ -56,6 +60,7 @@ struct MinimumCostBFlow {
     }
 
     vector<Cost> get_potential() const {
+        if (potential_valid) return potential;
         vector<Cost> ret(n, 0);
         for (int iter = 0; iter < n; ++iter) {
             bool updated = false;
@@ -74,6 +79,7 @@ struct MinimumCostBFlow {
     }
 
     pair<bool, Sum> solve() {
+        potential_valid = false;
         const Cost unreachable = numeric_limits<Cost>::max();
         vector<Cost> dist(n);
         vector<Edge*> parent(n);
@@ -194,7 +200,7 @@ struct MinimumCostBFlow {
         }
         Flow delta = 1;
         while(delta <= max_cap / 2) delta <<= 1;
-        for (delta >>= 1; delta > 0; delta >>= 1) {
+        for (; delta > 0; delta >>= 1) {
             saturate_negative(delta);
             while(dual(delta)) primal(delta);
         }
@@ -208,6 +214,7 @@ struct MinimumCostBFlow {
             auto&& e = get_edge(i);
             value += (Sum)e.flow * (Sum)e.cost;
         }
+        potential_valid = ok;
         return {ok, value};
     }
 };
