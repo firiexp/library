@@ -2,11 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/prime/divisor.cpp
-    title: math/prime/divisor.cpp
-  - icon: ':heavy_check_mark:'
-    path: math/prime/eulerphi.cpp
-    title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
+    path: math/pow.cpp
+    title: math/pow.cpp
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -17,14 +14,11 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D
+    PROBLEM: https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_B
     links:
-    - http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D
-  bundledCode: "#line 1 \"test/aoj_ntl_1_d_eulerphi.test.cpp\"\n#define PROBLEM \"\
-    http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D\"\n\n#include\
-    \ <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n#include\
-    \ <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
+    - https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_B
+  bundledCode: "#line 1 \"test/aoj_ntl_1_b_pow.test.cpp\"\n#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_B\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\
     \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
@@ -230,99 +224,41 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/prime/eulerphi.cpp\"\
-    \nint eulerphi(int x){\n    int phi = x, xx = x;\n    for (int i = 2; i <= x /\
-    \ i; ++i) {\n        if (xx % i == 0) {\n            phi -= phi / i;\n       \
-    \     while(xx % i == 0) xx /= i;\n        }\n    }\n    if(xx > 1) phi -= phi/xx;\n\
-    \    return phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\
-    \u6570(Euler Phi)\n */\n#line 1 \"math/prime/divisor.cpp\"\ntemplate<class T>\n\
-    vector<T> divisor(T n){\n    vector<T> ret;\n    for(T i = 1; i <= n / i; i++)\
-    \ {\n        if(n % i == 0) {\n            ret.push_back(i);\n            if(i\
-    \ * i != n) ret.push_back(n / i);\n        }\n    }\n    sort(begin(ret), end(ret));\n\
-    \    return(ret);\n}\n#line 19 \"test/aoj_ntl_1_d_eulerphi.test.cpp\"\n\nvoid\
-    \ self_check() {\n    // Factor using a sieve, then enumerate divisors and apply\
-    \ inclusion-exclusion.\n    vector<bool> composite(46341);\n    vector<int> primes;\n\
-    \    for (int p = 2; p <= 46340; ++p) {\n        if (composite[p]) continue;\n\
-    \        primes.push_back(p);\n        for (int k = p + p; k <= 46340; k += p)\
-    \ composite[k] = true;\n    }\n    vector<int> cases;\n    for (int n = 1; n <=\
-    \ 10000; ++n) cases.push_back(n);\n    for (int n : {46340 * 46340 - 1, 46340\
-    \ * 46340, 46340 * 46340 + 1,\n                  INT_MAX - 1, INT_MAX}) cases.push_back(n);\n\
-    \    mt19937 rng(71);\n    for (int i = 0; i < 64; ++i) cases.push_back(INT_MAX\
-    \ - int(rng() % 100000));\n    for (int n : cases) {\n        int remaining =\
-    \ n;\n        vector<pair<int, int>> factors;\n        for (int p : primes) {\n\
-    \            if (1LL * p * p > remaining) break;\n            if (remaining %\
-    \ p != 0) continue;\n            int exponent = 0;\n            do {\n       \
-    \         remaining /= p;\n                ++exponent;\n            } while (remaining\
-    \ % p == 0);\n            factors.emplace_back(p, exponent);\n        }\n    \
-    \    if (remaining > 1) factors.emplace_back(remaining, 1);\n\n        vector<int>\
-    \ expected_divisors{1};\n        for (auto [p, exponent] : factors) {\n      \
-    \      int size = expected_divisors.size();\n            long long power = 1;\n\
-    \            for (int e = 1; e <= exponent; ++e) {\n                power *= p;\n\
-    \                for (int i = 0; i < size; ++i) {\n                    expected_divisors.push_back(expected_divisors[i]\
-    \ * power);\n                }\n            }\n        }\n        sort(expected_divisors.begin(),\
-    \ expected_divisors.end());\n        assert(divisor(n) == expected_divisors);\n\
-    \        auto wide_divisors = divisor(static_cast<long long>(n));\n        assert(vector<long\
-    \ long>(expected_divisors.begin(), expected_divisors.end()) == wide_divisors);\n\
-    \n        long long expected_phi = 0;\n        for (int mask = 0; mask < (1 <<\
-    \ factors.size()); ++mask) {\n            long long product = 1;\n           \
-    \ int sign = 1;\n            for (int i = 0; i < (int)factors.size(); ++i) {\n\
-    \                if ((mask >> i) & 1) {\n                    product *= factors[i].first;\n\
-    \                    sign = -sign;\n                }\n            }\n       \
-    \     expected_phi += sign * (n / product);\n        }\n        assert(eulerphi(n)\
-    \ == expected_phi);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n\
-    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
-    ../util/fastio.cpp\"\n#include \"../math/prime/eulerphi.cpp\"\n#include \"../math/prime/divisor.cpp\"\
-    \n\nvoid self_check() {\n    // Factor using a sieve, then enumerate divisors\
-    \ and apply inclusion-exclusion.\n    vector<bool> composite(46341);\n    vector<int>\
-    \ primes;\n    for (int p = 2; p <= 46340; ++p) {\n        if (composite[p]) continue;\n\
-    \        primes.push_back(p);\n        for (int k = p + p; k <= 46340; k += p)\
-    \ composite[k] = true;\n    }\n    vector<int> cases;\n    for (int n = 1; n <=\
-    \ 10000; ++n) cases.push_back(n);\n    for (int n : {46340 * 46340 - 1, 46340\
-    \ * 46340, 46340 * 46340 + 1,\n                  INT_MAX - 1, INT_MAX}) cases.push_back(n);\n\
-    \    mt19937 rng(71);\n    for (int i = 0; i < 64; ++i) cases.push_back(INT_MAX\
-    \ - int(rng() % 100000));\n    for (int n : cases) {\n        int remaining =\
-    \ n;\n        vector<pair<int, int>> factors;\n        for (int p : primes) {\n\
-    \            if (1LL * p * p > remaining) break;\n            if (remaining %\
-    \ p != 0) continue;\n            int exponent = 0;\n            do {\n       \
-    \         remaining /= p;\n                ++exponent;\n            } while (remaining\
-    \ % p == 0);\n            factors.emplace_back(p, exponent);\n        }\n    \
-    \    if (remaining > 1) factors.emplace_back(remaining, 1);\n\n        vector<int>\
-    \ expected_divisors{1};\n        for (auto [p, exponent] : factors) {\n      \
-    \      int size = expected_divisors.size();\n            long long power = 1;\n\
-    \            for (int e = 1; e <= exponent; ++e) {\n                power *= p;\n\
-    \                for (int i = 0; i < size; ++i) {\n                    expected_divisors.push_back(expected_divisors[i]\
-    \ * power);\n                }\n            }\n        }\n        sort(expected_divisors.begin(),\
-    \ expected_divisors.end());\n        assert(divisor(n) == expected_divisors);\n\
-    \        auto wide_divisors = divisor(static_cast<long long>(n));\n        assert(vector<long\
-    \ long>(expected_divisors.begin(), expected_divisors.end()) == wide_divisors);\n\
-    \n        long long expected_phi = 0;\n        for (int mask = 0; mask < (1 <<\
-    \ factors.size()); ++mask) {\n            long long product = 1;\n           \
-    \ int sign = 1;\n            for (int i = 0; i < (int)factors.size(); ++i) {\n\
-    \                if ((mask >> i) & 1) {\n                    product *= factors[i].first;\n\
-    \                    sign = -sign;\n                }\n            }\n       \
-    \     expected_phi += sign * (n / product);\n        }\n        assert(eulerphi(n)\
-    \ == expected_phi);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n\
-    \    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/pow.cpp\"\
+    \ntemplate <class T>\nT pow_ (T x, T n, T M){\n    unsigned __int128 u = 1 % M,\
+    \ xx = x;\n    while (n > 0){\n        if (n&1) u = u * xx % M;\n        xx =\
+    \ xx * xx % M;\n        n >>= 1;\n    }\n    return static_cast<T>(u);\n};\n#line\
+    \ 8 \"test/aoj_ntl_1_b_pow.test.cpp\"\n\ntemplate<class T>\nvoid self_check()\
+    \ {\n    for (T m = 1; m <= 200; ++m) {\n        for (T a = 0; a <= 100; ++a)\
+    \ {\n            T expected = 1 % m;\n            for (T n = 0; n <= 30; ++n)\
+    \ {\n                assert(pow_(a, n, m) == expected);\n                expected\
+    \ = expected * a % m;\n            }\n        }\n    }\n}\n\nint main() {\n  \
+    \  self_check<long long>();\n    self_check<unsigned long long>();\n    Scanner\
+    \ sc;\n    Printer pr;\n    long long a, n;\n    sc.read(a, n);\n    pr.println(pow_(a,\
+    \ n, 1000000007LL));\n}\n"
+  code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_B\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../math/pow.cpp\"\n\ntemplate<class T>\nvoid self_check() {\n   \
+    \ for (T m = 1; m <= 200; ++m) {\n        for (T a = 0; a <= 100; ++a) {\n   \
+    \         T expected = 1 % m;\n            for (T n = 0; n <= 30; ++n) {\n   \
+    \             assert(pow_(a, n, m) == expected);\n                expected = expected\
+    \ * a % m;\n            }\n        }\n    }\n}\n\nint main() {\n    self_check<long\
+    \ long>();\n    self_check<unsigned long long>();\n    Scanner sc;\n    Printer\
+    \ pr;\n    long long a, n;\n    sc.read(a, n);\n    pr.println(pow_(a, n, 1000000007LL));\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
-  - math/prime/eulerphi.cpp
-  - math/prime/divisor.cpp
+  - math/pow.cpp
   isVerificationFile: true
-  path: test/aoj_ntl_1_d_eulerphi.test.cpp
+  path: test/aoj_ntl_1_b_pow.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 11:59:52+09:00'
+  timestamp: '2026-10-03 11:59:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_ntl_1_d_eulerphi.test.cpp
+documentation_of: test/aoj_ntl_1_b_pow.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_ntl_1_d_eulerphi.test.cpp
-- /verify/test/aoj_ntl_1_d_eulerphi.test.cpp.html
-title: test/aoj_ntl_1_d_eulerphi.test.cpp
+- /verify/test/aoj_ntl_1_b_pow.test.cpp
+- /verify/test/aoj_ntl_1_b_pow.test.cpp.html
+title: test/aoj_ntl_1_b_pow.test.cpp
 ---

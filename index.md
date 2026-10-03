@@ -379,7 +379,7 @@ data:
     - icon: ':warning:'
       path: math/pell_equation.cpp
       title: math/pell_equation.cpp
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/pow.cpp
       title: math/pow.cpp
     - icon: ':warning:'
@@ -408,7 +408,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/prime/counting_primes.cpp
       title: "\u7D20\u6570\u6570\u3048\u4E0A\u3052(Prime Counting)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/prime/divisor.cpp
       title: math/prime/divisor.cpp
     - icon: ':heavy_check_mark:'
@@ -565,7 +565,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: util/ifloor.cpp
       title: Floor/Ceil Division
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: util/is_palindrome.cpp
       title: util/is_palindrome.cpp
     - icon: ':warning:'
@@ -731,6 +731,9 @@ data:
       path: test/aoj_grl_7_a_bipartite_matching.test.cpp
       title: test/aoj_grl_7_a_bipartite_matching.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_ntl_1_b_pow.test.cpp
+      title: test/aoj_ntl_1_b_pow.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_ntl_1_d_eulerphi.test.cpp
       title: test/aoj_ntl_1_d_eulerphi.test.cpp
     - icon: ':heavy_check_mark:'
@@ -760,6 +763,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_is_palindrome.test.cpp
+      title: test/yosupo_aplusb_is_palindrome.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_library_composition.test.cpp
       title: test/yosupo_aplusb_library_composition.test.cpp

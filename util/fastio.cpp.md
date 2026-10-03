@@ -83,6 +83,9 @@ data:
     path: test/aoj_grl_7_a_bipartite_matching.test.cpp
     title: test/aoj_grl_7_a_bipartite_matching.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_ntl_1_b_pow.test.cpp
+    title: test/aoj_ntl_1_b_pow.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_ntl_1_d_eulerphi.test.cpp
     title: test/aoj_ntl_1_d_eulerphi.test.cpp
   - icon: ':heavy_check_mark:'
@@ -109,6 +112,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_is_palindrome.test.cpp
+    title: test/yosupo_aplusb_is_palindrome.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
@@ -970,6 +976,7 @@ data:
   - test/yosupo_aplusb_top_k_sum.test.cpp
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_aplusb_dynamic_bitset.test.cpp
+  - test/yosupo_aplusb_is_palindrome.test.cpp
   - test/yosupo_enumerate_palindromes_manacher.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
@@ -1006,6 +1013,7 @@ data:
   - test/yosupo_binomial_coefficient.test.cpp
   - test/yosupo_inverse_matrix.test.cpp
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp
+  - test/aoj_ntl_1_b_pow.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/aoj_dsl_2_b.test.cpp

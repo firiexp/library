@@ -14,20 +14,20 @@ data:
     document_title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
     links: []
   bundledCode: "#line 1 \"math/prime/eulerphi.cpp\"\nint eulerphi(int x){\n    int\
-    \ phi = x, xx = x;\n    for (int i = 2; i * i <= x; ++i) {\n        if (xx % i\
+    \ phi = x, xx = x;\n    for (int i = 2; i <= x / i; ++i) {\n        if (xx % i\
     \ == 0) {\n            phi -= phi / i;\n            while(xx % i == 0) xx /= i;\n\
     \        }\n    }\n    if(xx > 1) phi -= phi/xx;\n    return phi;\n}\n\n/**\n\
     \ * @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)\n */\n"
-  code: "int eulerphi(int x){\n    int phi = x, xx = x;\n    for (int i = 2; i * i\
-    \ <= x; ++i) {\n        if (xx % i == 0) {\n            phi -= phi / i;\n    \
-    \        while(xx % i == 0) xx /= i;\n        }\n    }\n    if(xx > 1) phi -=\
+  code: "int eulerphi(int x){\n    int phi = x, xx = x;\n    for (int i = 2; i <=\
+    \ x / i; ++i) {\n        if (xx % i == 0) {\n            phi -= phi / i;\n   \
+    \         while(xx % i == 0) xx /= i;\n        }\n    }\n    if(xx > 1) phi -=\
     \ phi/xx;\n    return phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\
     \u03C6\u95A2\u6570(Euler Phi)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/prime/eulerphi.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-10-03 11:59:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_ntl_1_d_eulerphi.test.cpp

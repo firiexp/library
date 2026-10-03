@@ -2,14 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/prime/divisor.cpp
-    title: math/prime/divisor.cpp
-  - icon: ':heavy_check_mark:'
-    path: math/prime/eulerphi.cpp
-    title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
-  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/is_palindrome.cpp
+    title: util/is_palindrome.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -17,68 +14,65 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D
-  bundledCode: "#line 1 \"test/aoj_ntl_1_d_eulerphi.test.cpp\"\n#define PROBLEM \"\
-    http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D\"\n\n#include\
-    \ <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n#include\
-    \ <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_is_palindrome.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -230,99 +224,66 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/prime/eulerphi.cpp\"\
-    \nint eulerphi(int x){\n    int phi = x, xx = x;\n    for (int i = 2; i <= x /\
-    \ i; ++i) {\n        if (xx % i == 0) {\n            phi -= phi / i;\n       \
-    \     while(xx % i == 0) xx /= i;\n        }\n    }\n    if(xx > 1) phi -= phi/xx;\n\
-    \    return phi;\n}\n\n/**\n * @brief \u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\
-    \u6570(Euler Phi)\n */\n#line 1 \"math/prime/divisor.cpp\"\ntemplate<class T>\n\
-    vector<T> divisor(T n){\n    vector<T> ret;\n    for(T i = 1; i <= n / i; i++)\
-    \ {\n        if(n % i == 0) {\n            ret.push_back(i);\n            if(i\
-    \ * i != n) ret.push_back(n / i);\n        }\n    }\n    sort(begin(ret), end(ret));\n\
-    \    return(ret);\n}\n#line 19 \"test/aoj_ntl_1_d_eulerphi.test.cpp\"\n\nvoid\
-    \ self_check() {\n    // Factor using a sieve, then enumerate divisors and apply\
-    \ inclusion-exclusion.\n    vector<bool> composite(46341);\n    vector<int> primes;\n\
-    \    for (int p = 2; p <= 46340; ++p) {\n        if (composite[p]) continue;\n\
-    \        primes.push_back(p);\n        for (int k = p + p; k <= 46340; k += p)\
-    \ composite[k] = true;\n    }\n    vector<int> cases;\n    for (int n = 1; n <=\
-    \ 10000; ++n) cases.push_back(n);\n    for (int n : {46340 * 46340 - 1, 46340\
-    \ * 46340, 46340 * 46340 + 1,\n                  INT_MAX - 1, INT_MAX}) cases.push_back(n);\n\
-    \    mt19937 rng(71);\n    for (int i = 0; i < 64; ++i) cases.push_back(INT_MAX\
-    \ - int(rng() % 100000));\n    for (int n : cases) {\n        int remaining =\
-    \ n;\n        vector<pair<int, int>> factors;\n        for (int p : primes) {\n\
-    \            if (1LL * p * p > remaining) break;\n            if (remaining %\
-    \ p != 0) continue;\n            int exponent = 0;\n            do {\n       \
-    \         remaining /= p;\n                ++exponent;\n            } while (remaining\
-    \ % p == 0);\n            factors.emplace_back(p, exponent);\n        }\n    \
-    \    if (remaining > 1) factors.emplace_back(remaining, 1);\n\n        vector<int>\
-    \ expected_divisors{1};\n        for (auto [p, exponent] : factors) {\n      \
-    \      int size = expected_divisors.size();\n            long long power = 1;\n\
-    \            for (int e = 1; e <= exponent; ++e) {\n                power *= p;\n\
-    \                for (int i = 0; i < size; ++i) {\n                    expected_divisors.push_back(expected_divisors[i]\
-    \ * power);\n                }\n            }\n        }\n        sort(expected_divisors.begin(),\
-    \ expected_divisors.end());\n        assert(divisor(n) == expected_divisors);\n\
-    \        auto wide_divisors = divisor(static_cast<long long>(n));\n        assert(vector<long\
-    \ long>(expected_divisors.begin(), expected_divisors.end()) == wide_divisors);\n\
-    \n        long long expected_phi = 0;\n        for (int mask = 0; mask < (1 <<\
-    \ factors.size()); ++mask) {\n            long long product = 1;\n           \
-    \ int sign = 1;\n            for (int i = 0; i < (int)factors.size(); ++i) {\n\
-    \                if ((mask >> i) & 1) {\n                    product *= factors[i].first;\n\
-    \                    sign = -sign;\n                }\n            }\n       \
-    \     expected_phi += sign * (n / product);\n        }\n        assert(eulerphi(n)\
-    \ == expected_phi);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_D\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n\
-    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
-    ../util/fastio.cpp\"\n#include \"../math/prime/eulerphi.cpp\"\n#include \"../math/prime/divisor.cpp\"\
-    \n\nvoid self_check() {\n    // Factor using a sieve, then enumerate divisors\
-    \ and apply inclusion-exclusion.\n    vector<bool> composite(46341);\n    vector<int>\
-    \ primes;\n    for (int p = 2; p <= 46340; ++p) {\n        if (composite[p]) continue;\n\
-    \        primes.push_back(p);\n        for (int k = p + p; k <= 46340; k += p)\
-    \ composite[k] = true;\n    }\n    vector<int> cases;\n    for (int n = 1; n <=\
-    \ 10000; ++n) cases.push_back(n);\n    for (int n : {46340 * 46340 - 1, 46340\
-    \ * 46340, 46340 * 46340 + 1,\n                  INT_MAX - 1, INT_MAX}) cases.push_back(n);\n\
-    \    mt19937 rng(71);\n    for (int i = 0; i < 64; ++i) cases.push_back(INT_MAX\
-    \ - int(rng() % 100000));\n    for (int n : cases) {\n        int remaining =\
-    \ n;\n        vector<pair<int, int>> factors;\n        for (int p : primes) {\n\
-    \            if (1LL * p * p > remaining) break;\n            if (remaining %\
-    \ p != 0) continue;\n            int exponent = 0;\n            do {\n       \
-    \         remaining /= p;\n                ++exponent;\n            } while (remaining\
-    \ % p == 0);\n            factors.emplace_back(p, exponent);\n        }\n    \
-    \    if (remaining > 1) factors.emplace_back(remaining, 1);\n\n        vector<int>\
-    \ expected_divisors{1};\n        for (auto [p, exponent] : factors) {\n      \
-    \      int size = expected_divisors.size();\n            long long power = 1;\n\
-    \            for (int e = 1; e <= exponent; ++e) {\n                power *= p;\n\
-    \                for (int i = 0; i < size; ++i) {\n                    expected_divisors.push_back(expected_divisors[i]\
-    \ * power);\n                }\n            }\n        }\n        sort(expected_divisors.begin(),\
-    \ expected_divisors.end());\n        assert(divisor(n) == expected_divisors);\n\
-    \        auto wide_divisors = divisor(static_cast<long long>(n));\n        assert(vector<long\
-    \ long>(expected_divisors.begin(), expected_divisors.end()) == wide_divisors);\n\
-    \n        long long expected_phi = 0;\n        for (int mask = 0; mask < (1 <<\
-    \ factors.size()); ++mask) {\n            long long product = 1;\n           \
-    \ int sign = 1;\n            for (int i = 0; i < (int)factors.size(); ++i) {\n\
-    \                if ((mask >> i) & 1) {\n                    product *= factors[i].first;\n\
-    \                    sign = -sign;\n                }\n            }\n       \
-    \     expected_phi += sign * (n / product);\n        }\n        assert(eulerphi(n)\
-    \ == expected_phi);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    pr.println(eulerphi(n));\n\
-    \    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/is_palindrome.cpp\"\
+    \nbool is_palindrome(const string &s, char c = '?'){\n    auto n = s.length();\n\
+    \    for (int i = 0; i < (n+1)/2; ++i) {\n        if(s[i] == c || s[n-i-1] ==\
+    \ c) continue;\n        if(s[i] != s[n-i-1]) return false;\n    }\n    return\
+    \ true;\n}\n#line 8 \"test/yosupo_aplusb_is_palindrome.test.cpp\"\n\nbool brute_palindrome(string\
+    \ s, char wildcard) {\n    auto pos = s.find(wildcard);\n    if (pos == string::npos)\
+    \ {\n        string reversed = s;\n        reverse(reversed.begin(), reversed.end());\n\
+    \        return s == reversed;\n    }\n    for (char c : {'a', 'b'}) {\n     \
+    \   s[pos] = c;\n        if (brute_palindrome(s, wildcard)) return true;\n   \
+    \ }\n    return false;\n}\n\nvoid self_check() {\n    assert(is_palindrome(\"\
+    aba\"));\n    assert(is_palindrome(\"a?\"));\n    assert(!is_palindrome(\"a?\"\
+    , '*'));\n    assert(is_palindrome(\"?*\", '*'));\n    for (char wildcard : {'?',\
+    \ '*'}) {\n        string alphabet = string(\"ab\") + wildcard;\n        int count\
+    \ = 1;\n        for (int n = 0; n <= 8; ++n, count *= 3) {\n            for (int\
+    \ code = 0; code < count; ++code) {\n                string s(n, 'a');\n     \
+    \           int x = code;\n                for (char& c : s) {\n             \
+    \       c = alphabet[x % 3];\n                    x /= 3;\n                }\n\
+    \                bool expected = brute_palindrome(s, wildcard);\n            \
+    \    assert(is_palindrome(s, wildcard) == expected);\n                if (wildcard\
+    \ == '?') {\n                    assert(is_palindrome(s) == expected);\n     \
+    \           }\n                string reversed = s;\n                reverse(reversed.begin(),\
+    \ reversed.end());\n                assert(is_palindrome(s, '#') == (s == reversed));\n\
+    \            }\n        }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n    long long a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../util/is_palindrome.cpp\"\
+    \n\nbool brute_palindrome(string s, char wildcard) {\n    auto pos = s.find(wildcard);\n\
+    \    if (pos == string::npos) {\n        string reversed = s;\n        reverse(reversed.begin(),\
+    \ reversed.end());\n        return s == reversed;\n    }\n    for (char c : {'a',\
+    \ 'b'}) {\n        s[pos] = c;\n        if (brute_palindrome(s, wildcard)) return\
+    \ true;\n    }\n    return false;\n}\n\nvoid self_check() {\n    assert(is_palindrome(\"\
+    aba\"));\n    assert(is_palindrome(\"a?\"));\n    assert(!is_palindrome(\"a?\"\
+    , '*'));\n    assert(is_palindrome(\"?*\", '*'));\n    for (char wildcard : {'?',\
+    \ '*'}) {\n        string alphabet = string(\"ab\") + wildcard;\n        int count\
+    \ = 1;\n        for (int n = 0; n <= 8; ++n, count *= 3) {\n            for (int\
+    \ code = 0; code < count; ++code) {\n                string s(n, 'a');\n     \
+    \           int x = code;\n                for (char& c : s) {\n             \
+    \       c = alphabet[x % 3];\n                    x /= 3;\n                }\n\
+    \                bool expected = brute_palindrome(s, wildcard);\n            \
+    \    assert(is_palindrome(s, wildcard) == expected);\n                if (wildcard\
+    \ == '?') {\n                    assert(is_palindrome(s) == expected);\n     \
+    \           }\n                string reversed = s;\n                reverse(reversed.begin(),\
+    \ reversed.end());\n                assert(is_palindrome(s, '#') == (s == reversed));\n\
+    \            }\n        }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n    long long a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/prime/eulerphi.cpp
-  - math/prime/divisor.cpp
+  - util/is_palindrome.cpp
   isVerificationFile: true
-  path: test/aoj_ntl_1_d_eulerphi.test.cpp
+  path: test/yosupo_aplusb_is_palindrome.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 11:59:52+09:00'
+  timestamp: '2026-10-03 12:02:43+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_ntl_1_d_eulerphi.test.cpp
+documentation_of: test/yosupo_aplusb_is_palindrome.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_ntl_1_d_eulerphi.test.cpp
-- /verify/test/aoj_ntl_1_d_eulerphi.test.cpp.html
-title: test/aoj_ntl_1_d_eulerphi.test.cpp
+- /verify/test/yosupo_aplusb_is_palindrome.test.cpp
+- /verify/test/yosupo_aplusb_is_palindrome.test.cpp.html
+title: test/yosupo_aplusb_is_palindrome.test.cpp
 ---
