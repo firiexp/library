@@ -170,6 +170,9 @@ data:
     path: test/yosupo_aplusb_string_bytes.test.cpp
     title: test/yosupo_aplusb_string_bytes.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+    title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_top_k_sum.test.cpp
     title: test/yosupo_aplusb_top_k_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1017,6 +1020,7 @@ data:
   - test/yosupo_cycle_detection_directed.test.cpp
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
+  - test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
   - test/yosupo_aplusb_top_k_sum.test.cpp
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_aplusb_dynamic_bitset.test.cpp

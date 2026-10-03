@@ -53,12 +53,12 @@ data:
     \        for (int i = 1; i <= max_len; ++i) cnt[i] += cnt[i - 1];\n        vector<int>\
     \ ord(nodes.size());\n        for (int i = (int)nodes.size() - 1; i >= 0; --i)\
     \ {\n            ord[--cnt[nodes[i].len]] = i;\n        }\n        return ord;\n\
-    \    }\n\n    vector<int> substring_occurrences() const {\n        auto cnt =\
-    \ nodes;\n        auto ord = order_by_length();\n        for (int i = (int)ord.size()\
-    \ - 1; i >= 1; --i) {\n            int v = ord[i];\n            cnt[cnt[v].link].occ\
-    \ += cnt[v].occ;\n        }\n        vector<int> res(nodes.size());\n        for\
-    \ (int i = 0; i < (int)nodes.size(); ++i) res[i] = cnt[i].occ;\n        return\
-    \ res;\n    }\n};\n/**\n * @brief Suffix Automaton\n */\n#line 21 \"test/yosupo_number_of_substrings_suffix_automaton.test.cpp\"\
+    \    }\n\n    vector<int> substring_occurrences() const {\n        vector<int>\
+    \ cnt(nodes.size());\n        for (int i = 0; i < (int)nodes.size(); ++i) cnt[i]\
+    \ = nodes[i].occ;\n        auto ord = order_by_length();\n        for (int i =\
+    \ (int)ord.size() - 1; i >= 1; --i) {\n            int v = ord[i];\n         \
+    \   cnt[nodes[v].link] += cnt[v];\n        }\n        return cnt;\n    }\n};\n\
+    /**\n * @brief Suffix Automaton\n */\n#line 21 \"test/yosupo_number_of_substrings_suffix_automaton.test.cpp\"\
     \n\nint main() {\n    string s;\n    cin >> s;\n    SuffixAutomaton<26> sam(s);\n\
     \    cout << sam.count_distinct_substrings() << \"\\n\";\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/number_of_substrings\"\n\
@@ -74,7 +74,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_number_of_substrings_suffix_automaton.test.cpp

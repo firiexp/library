@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+    title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
     title: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
   _isVerificationFailed: false
@@ -46,12 +49,11 @@ data:
     \ += cnt[i - 1];\n        vector<int> ord(nodes.size());\n        for (int i =\
     \ (int)nodes.size() - 1; i >= 0; --i) {\n            ord[--cnt[nodes[i].len]]\
     \ = i;\n        }\n        return ord;\n    }\n\n    vector<int> substring_occurrences()\
-    \ const {\n        auto cnt = nodes;\n        auto ord = order_by_length();\n\
+    \ const {\n        vector<int> cnt(nodes.size());\n        for (int i = 0; i <\
+    \ (int)nodes.size(); ++i) cnt[i] = nodes[i].occ;\n        auto ord = order_by_length();\n\
     \        for (int i = (int)ord.size() - 1; i >= 1; --i) {\n            int v =\
-    \ ord[i];\n            cnt[cnt[v].link].occ += cnt[v].occ;\n        }\n      \
-    \  vector<int> res(nodes.size());\n        for (int i = 0; i < (int)nodes.size();\
-    \ ++i) res[i] = cnt[i].occ;\n        return res;\n    }\n};\n/**\n * @brief Suffix\
-    \ Automaton\n */\n"
+    \ ord[i];\n            cnt[nodes[v].link] += cnt[v];\n        }\n        return\
+    \ cnt;\n    }\n};\n/**\n * @brief Suffix Automaton\n */\n"
   code: "template<int W, char start = 'a'>\nstruct SuffixAutomaton {\n    struct Node\
     \ {\n        int link;\n        int len;\n        int occ;\n        int next[W];\n\
     \        Node(int link = -1, int len = 0, int occ = 0): link(link), len(len),\
@@ -84,20 +86,21 @@ data:
     \        for (int i = 1; i <= max_len; ++i) cnt[i] += cnt[i - 1];\n        vector<int>\
     \ ord(nodes.size());\n        for (int i = (int)nodes.size() - 1; i >= 0; --i)\
     \ {\n            ord[--cnt[nodes[i].len]] = i;\n        }\n        return ord;\n\
-    \    }\n\n    vector<int> substring_occurrences() const {\n        auto cnt =\
-    \ nodes;\n        auto ord = order_by_length();\n        for (int i = (int)ord.size()\
-    \ - 1; i >= 1; --i) {\n            int v = ord[i];\n            cnt[cnt[v].link].occ\
-    \ += cnt[v].occ;\n        }\n        vector<int> res(nodes.size());\n        for\
-    \ (int i = 0; i < (int)nodes.size(); ++i) res[i] = cnt[i].occ;\n        return\
-    \ res;\n    }\n};\n/**\n * @brief Suffix Automaton\n */\n"
+    \    }\n\n    vector<int> substring_occurrences() const {\n        vector<int>\
+    \ cnt(nodes.size());\n        for (int i = 0; i < (int)nodes.size(); ++i) cnt[i]\
+    \ = nodes[i].occ;\n        auto ord = order_by_length();\n        for (int i =\
+    \ (int)ord.size() - 1; i >= 1; --i) {\n            int v = ord[i];\n         \
+    \   cnt[nodes[v].link] += cnt[v];\n        }\n        return cnt;\n    }\n};\n\
+    /**\n * @brief Suffix Automaton\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/suffix_automaton.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_number_of_substrings_suffix_automaton.test.cpp
+  - test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
 date: 2026-03-08
 documentation_of: string/suffix_automaton.cpp
 layout: document

@@ -234,9 +234,9 @@ data:
     \  if (last != -1) parent[last] = i;\n        if (!st.empty()) parent[i] = st.back();\n\
     \        st.push_back(i);\n    }\n    int root = -1;\n    for (int i = 0; i <\
     \ n; ++i) {\n        if (parent[i] == -1) root = i;\n        else g[parent[i]].push_back(i);\n\
-    \    }\n    return {g, root};\n}\n\n/**\n * @brief Cartesian Tree\n */\n#line\
-    \ 15 \"test/yosupo_cartesian_tree.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<long long> a(n);\n\
+    \    }\n    return {std::move(g), root};\n}\n\n/**\n * @brief Cartesian Tree\n\
+    \ */\n#line 15 \"test/yosupo_cartesian_tree.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<long long> a(n);\n\
     \    for (auto &&x : a) sc.read(x);\n\n    auto [g, root] = CartesianTree(a);\n\
     \    vector<int> parent(n, -1);\n    parent[root] = root;\n    for (int v = 0;\
     \ v < n; ++v) {\n        for (auto &&u : g[v]) parent[u] = v;\n    }\n\n    for\
@@ -258,7 +258,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_cartesian_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_cartesian_tree.test.cpp

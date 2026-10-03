@@ -245,8 +245,8 @@ data:
     \ ch;\n            ch.reserve(g[v].size() - (v != root));\n            for (int\
     \ to : g[v]) {\n                if (to == parent[v]) continue;\n             \
     \   ch.push_back(hash_id[to]);\n            }\n            sort(ch.begin(), ch.end());\n\
-    \            auto [it, inserted] = ids.emplace(ch, (int)ids.size());\n       \
-    \     hash_id[v] = it->second;\n        }\n        kind_count = ids.size();\n\
+    \            auto [it, inserted] = ids.try_emplace(std::move(ch), (int)ids.size());\n\
+    \            hash_id[v] = it->second;\n        }\n        kind_count = ids.size();\n\
     \        return hash_id;\n    }\n\n    int operator[](int v) const {\n       \
     \ return hash_id[v];\n    }\n\n    int kinds() const {\n        return kind_count;\n\
     \    }\n};\n\n/**\n * @brief \u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)\n */\n\
@@ -270,17 +270,18 @@ data:
     \        }\n\n        vector<string> canon(n);\n        for (int i = n - 1; i\
     \ >= 0; --i) canon[order[i]] = canonical_dfs(order[i], ch);\n\n        TreeHash\
     \ th(n);\n        for (auto [u, v] : edges) th.add_edge(u, v);\n        auto id\
-    \ = th.build(root);\n\n        map<string, int> expect;\n        for (int v =\
-    \ 0; v < n; ++v) {\n            if (!expect.count(canon[v])) expect[canon[v]]\
-    \ = expect.size();\n        }\n        assert(th.kinds() == (int)expect.size());\n\
-    \        for (int i = 0; i < n; ++i) {\n            for (int j = 0; j < n; ++j)\
-    \ {\n                assert((id[i] == id[j]) == (canon[i] == canon[j]));\n   \
-    \         }\n        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n \
-    \   for (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n     \
-    \   th.add_edge(p, v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n\
-    \    for (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i\
-    \ + 1 == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
+    \ = th.build(root);\n        assert(th.hash_id == id);\n        assert(th.build(root)\
+    \ == id);\n\n        map<string, int> expect;\n        for (int v = 0; v < n;\
+    \ ++v) {\n            if (!expect.count(canon[v])) expect[canon[v]] = expect.size();\n\
+    \        }\n        assert(th.kinds() == (int)expect.size());\n        for (int\
+    \ i = 0; i < n; ++i) {\n            for (int j = 0; j < n; ++j) {\n          \
+    \      assert((id[i] == id[j]) == (canon[i] == canon[j]));\n            }\n  \
+    \      }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n   \
+    \ Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n    for (int\
+    \ v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n        th.add_edge(p,\
+    \ v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n    for\
+    \ (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i + 1\
+    \ == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/rooted_tree_isomorphism_classification\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <map>\n#include <random>\n\
     #include <string>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
@@ -306,24 +307,25 @@ data:
     \        }\n\n        vector<string> canon(n);\n        for (int i = n - 1; i\
     \ >= 0; --i) canon[order[i]] = canonical_dfs(order[i], ch);\n\n        TreeHash\
     \ th(n);\n        for (auto [u, v] : edges) th.add_edge(u, v);\n        auto id\
-    \ = th.build(root);\n\n        map<string, int> expect;\n        for (int v =\
-    \ 0; v < n; ++v) {\n            if (!expect.count(canon[v])) expect[canon[v]]\
-    \ = expect.size();\n        }\n        assert(th.kinds() == (int)expect.size());\n\
-    \        for (int i = 0; i < n; ++i) {\n            for (int j = 0; j < n; ++j)\
-    \ {\n                assert((id[i] == id[j]) == (canon[i] == canon[j]));\n   \
-    \         }\n        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n \
-    \   for (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n     \
-    \   th.add_edge(p, v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n\
-    \    for (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i\
-    \ + 1 == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
+    \ = th.build(root);\n        assert(th.hash_id == id);\n        assert(th.build(root)\
+    \ == id);\n\n        map<string, int> expect;\n        for (int v = 0; v < n;\
+    \ ++v) {\n            if (!expect.count(canon[v])) expect[canon[v]] = expect.size();\n\
+    \        }\n        assert(th.kinds() == (int)expect.size());\n        for (int\
+    \ i = 0; i < n; ++i) {\n            for (int j = 0; j < n; ++j) {\n          \
+    \      assert((id[i] == id[j]) == (canon[i] == canon[j]));\n            }\n  \
+    \      }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n   \
+    \ Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n    for (int\
+    \ v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n        th.add_edge(p,\
+    \ v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n    for\
+    \ (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i + 1\
+    \ == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/tree_hash.cpp
   isVerificationFile: true
   path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp

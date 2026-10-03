@@ -821,6 +821,9 @@ data:
       path: test/yosupo_aplusb_string_bytes.test.cpp
       title: test/yosupo_aplusb_string_bytes.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+      title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_top_k_sum.test.cpp
       title: test/yosupo_aplusb_top_k_sum.test.cpp
     - icon: ':heavy_check_mark:'

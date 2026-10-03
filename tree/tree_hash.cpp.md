@@ -28,11 +28,12 @@ data:
     \            vector<int> ch;\n            ch.reserve(g[v].size() - (v != root));\n\
     \            for (int to : g[v]) {\n                if (to == parent[v]) continue;\n\
     \                ch.push_back(hash_id[to]);\n            }\n            sort(ch.begin(),\
-    \ ch.end());\n            auto [it, inserted] = ids.emplace(ch, (int)ids.size());\n\
-    \            hash_id[v] = it->second;\n        }\n        kind_count = ids.size();\n\
-    \        return hash_id;\n    }\n\n    int operator[](int v) const {\n       \
-    \ return hash_id[v];\n    }\n\n    int kinds() const {\n        return kind_count;\n\
-    \    }\n};\n\n/**\n * @brief \u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)\n */\n"
+    \ ch.end());\n            auto [it, inserted] = ids.try_emplace(std::move(ch),\
+    \ (int)ids.size());\n            hash_id[v] = it->second;\n        }\n       \
+    \ kind_count = ids.size();\n        return hash_id;\n    }\n\n    int operator[](int\
+    \ v) const {\n        return hash_id[v];\n    }\n\n    int kinds() const {\n \
+    \       return kind_count;\n    }\n};\n\n/**\n * @brief \u6728\u30CF\u30C3\u30B7\
+    \u30E5(Tree Hash)\n */\n"
   code: "struct TreeHash {\n    int n;\n    vector<vector<int>> g;\n    vector<int>\
     \ parent, order, hash_id;\n    int kind_count;\n\n    explicit TreeHash(int n)\n\
     \        : n(n), g(n), parent(n, -1), hash_id(n, -1), kind_count(0) {}\n\n   \
@@ -48,8 +49,8 @@ data:
     \ ch;\n            ch.reserve(g[v].size() - (v != root));\n            for (int\
     \ to : g[v]) {\n                if (to == parent[v]) continue;\n             \
     \   ch.push_back(hash_id[to]);\n            }\n            sort(ch.begin(), ch.end());\n\
-    \            auto [it, inserted] = ids.emplace(ch, (int)ids.size());\n       \
-    \     hash_id[v] = it->second;\n        }\n        kind_count = ids.size();\n\
+    \            auto [it, inserted] = ids.try_emplace(std::move(ch), (int)ids.size());\n\
+    \            hash_id[v] = it->second;\n        }\n        kind_count = ids.size();\n\
     \        return hash_id;\n    }\n\n    int operator[](int v) const {\n       \
     \ return hash_id[v];\n    }\n\n    int kinds() const {\n        return kind_count;\n\
     \    }\n};\n\n/**\n * @brief \u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)\n */\n"
@@ -57,7 +58,7 @@ data:
   isVerificationFile: false
   path: tree/tree_hash.cpp
   requiredBy: []
-  timestamp: '2026-03-12 19:34:31+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp

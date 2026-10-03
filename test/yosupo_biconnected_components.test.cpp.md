@@ -57,7 +57,7 @@ data:
     \ != i){\n                    seen[e.first] = i;\n                    now.emplace_back(e.first);\n\
     \                }\n                if(seen[e.second] != i){\n               \
     \     seen[e.second] = i;\n                    now.emplace_back(e.second);\n \
-    \               }\n            }\n            bcc_vertices.emplace_back(now);\n\
+    \               }\n            }\n            bcc_vertices.emplace_back(std::move(now));\n\
     \        }\n        for (int i = 0; i < n; ++i) {\n            if(G.start[i] ==\
     \ G.start[i + 1]){\n                bcc_edges.emplace_back();\n              \
     \  bcc_vertices.push_back({i});\n            }\n        }\n        return bcc_vertices.size();\n\
@@ -89,7 +89,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_biconnected_components.test.cpp
   requiredBy: []
-  timestamp: '2026-04-11 14:49:21+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_biconnected_components.test.cpp

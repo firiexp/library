@@ -359,9 +359,9 @@ data:
     \  normalize();\n            return *this;\n        }\n#endif\n        for (int\
     \ i = 0; i < m; ++i) p[i] ^= q[i];\n        normalize();\n        return *this;\n\
     \    }\n\n    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset\
-    \ &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset l,\
-    \ const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset &operator<<=(int\
+    \ &r) { l &= r; return l; }\n    friend DynamicBitset operator|(DynamicBitset\
+    \ l, const DynamicBitset &r) { l |= r; return l; }\n    friend DynamicBitset operator^(DynamicBitset\
+    \ l, const DynamicBitset &r) { l ^= r; return l; }\n\n    DynamicBitset &operator<<=(int\
     \ s) {\n        if (s <= 0 || n == 0) return *this;\n        if (s >= n) {\n \
     \           reset();\n            return *this;\n        }\n        if (s == 1)\
     \ {\n            Word carry = 0;\n            for (int i = 0; i < (int)a.size();\
@@ -387,11 +387,11 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { return\
-    \ l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { return\
-    \ l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n */\n#line\
-    \ 22 \"test/aoj0275_dynamic_bitset.test.cpp\"\n\nint main() {\n    Scanner in;\n\
-    \    Printer out;\n\n    int n, m;\n    in.read(n, m);\n    vector<vector<edge<ll>>>\
+    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
+    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
+    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
+    \ */\n#line 22 \"test/aoj0275_dynamic_bitset.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n\n    int n, m;\n    in.read(n, m);\n    vector<vector<edge<ll>>>\
     \ g(n);\n    vector<int> u(m), v(m), c(m);\n    for (int i = 0; i < m; ++i) {\n\
     \        in.read(u[i], v[i], c[i]);\n        --u[i], --v[i];\n        g[u[i]].emplace_back(v[i],\
     \ c[i]);\n        g[v[i]].emplace_back(u[i], c[i]);\n    }\n\n    int s, t, q;\n\
@@ -472,7 +472,7 @@ data:
   isVerificationFile: true
   path: test/aoj0275_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0275_dynamic_bitset.test.cpp

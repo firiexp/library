@@ -123,9 +123,9 @@ data:
     \  normalize();\n            return *this;\n        }\n#endif\n        for (int\
     \ i = 0; i < m; ++i) p[i] ^= q[i];\n        normalize();\n        return *this;\n\
     \    }\n\n    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset\
-    \ &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset l,\
-    \ const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset &operator<<=(int\
+    \ &r) { l &= r; return l; }\n    friend DynamicBitset operator|(DynamicBitset\
+    \ l, const DynamicBitset &r) { l |= r; return l; }\n    friend DynamicBitset operator^(DynamicBitset\
+    \ l, const DynamicBitset &r) { l ^= r; return l; }\n\n    DynamicBitset &operator<<=(int\
     \ s) {\n        if (s <= 0 || n == 0) return *this;\n        if (s >= n) {\n \
     \           reset();\n            return *this;\n        }\n        if (s == 1)\
     \ {\n            Word carry = 0;\n            for (int i = 0; i < (int)a.size();\
@@ -151,9 +151,10 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { return\
-    \ l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { return\
-    \ l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n */\n"
+    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
+    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
+    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
+    \ */\n"
   code: "#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace dynamic_bitset_detail {\nusing Word = unsigned\
     \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
@@ -257,9 +258,9 @@ data:
     \  normalize();\n            return *this;\n        }\n#endif\n        for (int\
     \ i = 0; i < m; ++i) p[i] ^= q[i];\n        normalize();\n        return *this;\n\
     \    }\n\n    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset\
-    \ &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset l,\
-    \ const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset &operator<<=(int\
+    \ &r) { l &= r; return l; }\n    friend DynamicBitset operator|(DynamicBitset\
+    \ l, const DynamicBitset &r) { l |= r; return l; }\n    friend DynamicBitset operator^(DynamicBitset\
+    \ l, const DynamicBitset &r) { l ^= r; return l; }\n\n    DynamicBitset &operator<<=(int\
     \ s) {\n        if (s <= 0 || n == 0) return *this;\n        if (s >= n) {\n \
     \           reset();\n            return *this;\n        }\n        if (s == 1)\
     \ {\n            Word carry = 0;\n            for (int i = 0; i < (int)a.size();\
@@ -285,14 +286,15 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { return\
-    \ l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { return\
-    \ l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n */\n"
+    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
+    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
+    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/dynamic_bitset.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:44:11+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp

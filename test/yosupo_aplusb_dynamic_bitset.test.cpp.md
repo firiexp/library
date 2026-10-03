@@ -330,9 +330,9 @@ data:
     \  normalize();\n            return *this;\n        }\n#endif\n        for (int\
     \ i = 0; i < m; ++i) p[i] ^= q[i];\n        normalize();\n        return *this;\n\
     \    }\n\n    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset\
-    \ &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset l,\
-    \ const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset &operator<<=(int\
+    \ &r) { l &= r; return l; }\n    friend DynamicBitset operator|(DynamicBitset\
+    \ l, const DynamicBitset &r) { l |= r; return l; }\n    friend DynamicBitset operator^(DynamicBitset\
+    \ l, const DynamicBitset &r) { l ^= r; return l; }\n\n    DynamicBitset &operator<<=(int\
     \ s) {\n        if (s <= 0 || n == 0) return *this;\n        if (s >= n) {\n \
     \           reset();\n            return *this;\n        }\n        if (s == 1)\
     \ {\n            Word carry = 0;\n            for (int i = 0; i < (int)a.size();\
@@ -358,10 +358,10 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { return\
-    \ l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { return\
-    \ l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n */\n#line\
-    \ 17 \"test/yosupo_aplusb_dynamic_bitset.test.cpp\"\n\nvector<int> to_vec(const\
+    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
+    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
+    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
+    \ */\n#line 17 \"test/yosupo_aplusb_dynamic_bitset.test.cpp\"\n\nvector<int> to_vec(const\
     \ DynamicBitset &bs) {\n    vector<int> res(bs.size());\n    for (int i = 0; i\
     \ < bs.size(); ++i) res[i] = bs.test(i);\n    return res;\n}\n\nint brute_find_first(const\
     \ vector<int> &a) {\n    for (int i = 0; i < (int)a.size(); ++i) if (a[i]) return\
@@ -393,15 +393,23 @@ data:
     \ flipped = bs;\n        flipped.flip();\n        vector<int> flip_base = base;\n\
     \        for (int &x : flip_base) x ^= 1;\n        verify_state(flipped, flip_base);\n\
     \n        vector<int> shifts = {0, 1, 2, 31, 32, 63, 64, 65, max(0, n - 1), n,\
-    \ n + 7};\n        for (int s : shifts) {\n            DynamicBitset left = bs;\n\
-    \            left <<= s;\n            verify_state(left, shifted_left(base, s));\n\
-    \n            DynamicBitset right = bs;\n            right >>= s;\n          \
-    \  verify_state(right, shifted_right(base, s));\n        }\n\n        DynamicBitset\
-    \ all(n, true);\n        DynamicBitset mix = bs;\n        DynamicBitset x = mix\
-    \ & all;\n        verify_state(x, base);\n\n        DynamicBitset y = mix | all;\n\
-    \        verify_state(y, vector<int>(n, 1));\n\n        DynamicBitset z = mix\
-    \ ^ all;\n        vector<int> xor_base = base;\n        for (int &v : xor_base)\
-    \ v ^= 1;\n        verify_state(z, xor_base);\n    }\n}\n\nvoid random_check()\
+    \ n + 1, n + 7};\n        for (int s : shifts) {\n            DynamicBitset left\
+    \ = bs;\n            left <<= s;\n            verify_state(left, shifted_left(base,\
+    \ s));\n\n            DynamicBitset right = bs;\n            right >>= s;\n  \
+    \          verify_state(right, shifted_right(base, s));\n            verify_state(bs\
+    \ << s, to_vec(left));\n            verify_state(bs >> s, to_vec(right));\n  \
+    \          verify_state(DynamicBitset(bs) << s, to_vec(left));\n            verify_state(DynamicBitset(bs)\
+    \ >> s, to_vec(right));\n            verify_state(bs, base);\n        }\n\n  \
+    \      DynamicBitset all(n, true);\n        DynamicBitset mix = bs;\n        DynamicBitset\
+    \ x = mix & all;\n        verify_state(x, base);\n\n        DynamicBitset y =\
+    \ mix | all;\n        verify_state(y, vector<int>(n, 1));\n\n        DynamicBitset\
+    \ z = mix ^ all;\n        vector<int> xor_base = base;\n        for (int &v :\
+    \ xor_base) v ^= 1;\n        verify_state(z, xor_base);\n        verify_state(DynamicBitset(bs)\
+    \ & all, base);\n        verify_state(DynamicBitset(bs) | all, vector<int>(n,\
+    \ 1));\n        verify_state(DynamicBitset(bs) ^ all, xor_base);\n        verify_state(bs\
+    \ & bs, base);\n        verify_state(bs | bs, base);\n        verify_state(bs\
+    \ ^ bs, vector<int>(n, 0));\n        verify_state(bs, base);\n        verify_state(mix,\
+    \ base);\n        verify_state(all, vector<int>(n, 1));\n    }\n}\n\nvoid random_check()\
     \ {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 400; ++tc) {\n        int\
     \ n = rng() % 260;\n        DynamicBitset bs(n), other(n);\n        vector<int>\
     \ a(n, 0), b(n, 0);\n        for (int step = 0; step < 200; ++step) {\n      \
@@ -473,15 +481,23 @@ data:
     \  verify_state(bs, base);\n\n        DynamicBitset flipped = bs;\n        flipped.flip();\n\
     \        vector<int> flip_base = base;\n        for (int &x : flip_base) x ^=\
     \ 1;\n        verify_state(flipped, flip_base);\n\n        vector<int> shifts\
-    \ = {0, 1, 2, 31, 32, 63, 64, 65, max(0, n - 1), n, n + 7};\n        for (int\
-    \ s : shifts) {\n            DynamicBitset left = bs;\n            left <<= s;\n\
-    \            verify_state(left, shifted_left(base, s));\n\n            DynamicBitset\
+    \ = {0, 1, 2, 31, 32, 63, 64, 65, max(0, n - 1), n, n + 1, n + 7};\n        for\
+    \ (int s : shifts) {\n            DynamicBitset left = bs;\n            left <<=\
+    \ s;\n            verify_state(left, shifted_left(base, s));\n\n            DynamicBitset\
     \ right = bs;\n            right >>= s;\n            verify_state(right, shifted_right(base,\
-    \ s));\n        }\n\n        DynamicBitset all(n, true);\n        DynamicBitset\
-    \ mix = bs;\n        DynamicBitset x = mix & all;\n        verify_state(x, base);\n\
-    \n        DynamicBitset y = mix | all;\n        verify_state(y, vector<int>(n,\
-    \ 1));\n\n        DynamicBitset z = mix ^ all;\n        vector<int> xor_base =\
-    \ base;\n        for (int &v : xor_base) v ^= 1;\n        verify_state(z, xor_base);\n\
+    \ s));\n            verify_state(bs << s, to_vec(left));\n            verify_state(bs\
+    \ >> s, to_vec(right));\n            verify_state(DynamicBitset(bs) << s, to_vec(left));\n\
+    \            verify_state(DynamicBitset(bs) >> s, to_vec(right));\n          \
+    \  verify_state(bs, base);\n        }\n\n        DynamicBitset all(n, true);\n\
+    \        DynamicBitset mix = bs;\n        DynamicBitset x = mix & all;\n     \
+    \   verify_state(x, base);\n\n        DynamicBitset y = mix | all;\n        verify_state(y,\
+    \ vector<int>(n, 1));\n\n        DynamicBitset z = mix ^ all;\n        vector<int>\
+    \ xor_base = base;\n        for (int &v : xor_base) v ^= 1;\n        verify_state(z,\
+    \ xor_base);\n        verify_state(DynamicBitset(bs) & all, base);\n        verify_state(DynamicBitset(bs)\
+    \ | all, vector<int>(n, 1));\n        verify_state(DynamicBitset(bs) ^ all, xor_base);\n\
+    \        verify_state(bs & bs, base);\n        verify_state(bs | bs, base);\n\
+    \        verify_state(bs ^ bs, vector<int>(n, 0));\n        verify_state(bs, base);\n\
+    \        verify_state(mix, base);\n        verify_state(all, vector<int>(n, 1));\n\
     \    }\n}\n\nvoid random_check() {\n    mt19937 rng(0);\n    for (int tc = 0;\
     \ tc < 400; ++tc) {\n        int n = rng() % 260;\n        DynamicBitset bs(n),\
     \ other(n);\n        vector<int> a(n, 0), b(n, 0);\n        for (int step = 0;\
@@ -524,7 +540,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_dynamic_bitset.test.cpp

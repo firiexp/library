@@ -331,9 +331,9 @@ data:
     \  normalize();\n            return *this;\n        }\n#endif\n        for (int\
     \ i = 0; i < m; ++i) p[i] ^= q[i];\n        normalize();\n        return *this;\n\
     \    }\n\n    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset\
-    \ &r) { return l &= r; }\n    friend DynamicBitset operator|(DynamicBitset l,\
-    \ const DynamicBitset &r) { return l |= r; }\n    friend DynamicBitset operator^(DynamicBitset\
-    \ l, const DynamicBitset &r) { return l ^= r; }\n\n    DynamicBitset &operator<<=(int\
+    \ &r) { l &= r; return l; }\n    friend DynamicBitset operator|(DynamicBitset\
+    \ l, const DynamicBitset &r) { l |= r; return l; }\n    friend DynamicBitset operator^(DynamicBitset\
+    \ l, const DynamicBitset &r) { l ^= r; return l; }\n\n    DynamicBitset &operator<<=(int\
     \ s) {\n        if (s <= 0 || n == 0) return *this;\n        if (s >= n) {\n \
     \           reset();\n            return *this;\n        }\n        if (s == 1)\
     \ {\n            Word carry = 0;\n            for (int i = 0; i < (int)a.size();\
@@ -359,18 +359,18 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { return\
-    \ l <<= s; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { return\
-    \ l >>= s; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n */\n#line\
-    \ 17 \"test/aoj_alds1_14_b_dynamic_bitset.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    string text, pattern;\n    sc.read(text, pattern);\n\
-    \n    int m = pattern.size();\n    if (m == 0) {\n        for (int i = 0; i <=\
-    \ (int)text.size(); ++i) pr.println(i);\n        return 0;\n    }\n\n    vector<DynamicBitset>\
-    \ mask(256, DynamicBitset(m));\n    for (int i = 0; i < m; ++i) mask[(unsigned\
-    \ char)pattern[i]].set(i);\n\n    DynamicBitset cur(m), head(m);\n    head.set(0);\n\
-    \    for (int i = 0; i < (int)text.size(); ++i) {\n        cur <<= 1;\n      \
-    \  cur |= head;\n        cur &= mask[(unsigned char)text[i]];\n        if (cur.test(m\
-    \ - 1)) pr.println(i - m + 1);\n    }\n    return 0;\n}\n"
+    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
+    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
+    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
+    \ */\n#line 17 \"test/aoj_alds1_14_b_dynamic_bitset.test.cpp\"\n\nint main() {\n\
+    \    Scanner sc;\n    Printer pr;\n\n    string text, pattern;\n    sc.read(text,\
+    \ pattern);\n\n    int m = pattern.size();\n    if (m == 0) {\n        for (int\
+    \ i = 0; i <= (int)text.size(); ++i) pr.println(i);\n        return 0;\n    }\n\
+    \n    vector<DynamicBitset> mask(256, DynamicBitset(m));\n    for (int i = 0;\
+    \ i < m; ++i) mask[(unsigned char)pattern[i]].set(i);\n\n    DynamicBitset cur(m),\
+    \ head(m);\n    head.set(0);\n    for (int i = 0; i < (int)text.size(); ++i) {\n\
+    \        cur <<= 1;\n        cur |= head;\n        cur &= mask[(unsigned char)text[i]];\n\
+    \        if (cur.test(m - 1)) pr.println(i - m + 1);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B\"\n\
     \n#include <algorithm>\n#include <string>\n#include <vector>\nusing namespace\
     \ std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -391,7 +391,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_14_b_dynamic_bitset.test.cpp

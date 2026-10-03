@@ -20,8 +20,8 @@ data:
     \        }\n        if (last != -1) parent[last] = i;\n        if (!st.empty())\
     \ parent[i] = st.back();\n        st.push_back(i);\n    }\n    int root = -1;\n\
     \    for (int i = 0; i < n; ++i) {\n        if (parent[i] == -1) root = i;\n \
-    \       else g[parent[i]].push_back(i);\n    }\n    return {g, root};\n}\n\n/**\n\
-    \ * @brief Cartesian Tree\n */\n"
+    \       else g[parent[i]].push_back(i);\n    }\n    return {std::move(g), root};\n\
+    }\n\n/**\n * @brief Cartesian Tree\n */\n"
   code: "template<class T>\npair<vector<vector<int>>, int> CartesianTree(const vector<T>\
     \ &a) {\n    int n = a.size();\n    vector<vector<int>> g(n);\n    vector<int>\
     \ parent(n, -1), st;\n    st.reserve(n);\n    for (int i = 0; i < n; ++i) {\n\
@@ -30,12 +30,13 @@ data:
     \  if (last != -1) parent[last] = i;\n        if (!st.empty()) parent[i] = st.back();\n\
     \        st.push_back(i);\n    }\n    int root = -1;\n    for (int i = 0; i <\
     \ n; ++i) {\n        if (parent[i] == -1) root = i;\n        else g[parent[i]].push_back(i);\n\
-    \    }\n    return {g, root};\n}\n\n/**\n * @brief Cartesian Tree\n */\n"
+    \    }\n    return {std::move(g), root};\n}\n\n/**\n * @brief Cartesian Tree\n\
+    \ */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/cartesian_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 16:12:41+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_cartesian_tree.test.cpp
