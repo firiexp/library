@@ -26,6 +26,7 @@ public:
             sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });
             for (int j = 0; j < G_[i].size(); ++j) {
                 G_[i][j].nxt = (j + 1) % G_[i].size();
+                G_[i][j].id2 = 0;
                 if(i < G_[i][j].to) l[G_[i][j].id] = j;
                 else r[G_[i][j].id] = j;
             }
@@ -40,15 +41,15 @@ public:
         for (int i = 0; i < n; ++i) {
             for (auto &&x : G_[i]) {
                 if(x.id2) continue;
-                x.id2 = cur;
                 A.emplace_back();
-                A.back().emplace_back(v[i]);
+                int from = i;
                 auto e = &x;
-                while(e->to != i){
-                    A.back().emplace_back(v[e->to]);
-                    e = &G_[e->to][G_[e->to][e->rev].nxt];
+                do {
+                    A.back().emplace_back(v[from]);
                     e->id2 = cur;
-                }
+                    from = e->to;
+                    e = &G_[from][G_[from][e->rev].nxt];
+                } while(e != &x);
                 cur++;
             }
         }

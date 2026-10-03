@@ -39,6 +39,15 @@ public:
         penalty.emplace_back(x, y, cost);
     }
 
+    void add_pair_profit(int u, int v, T p00, T p01, T p10, T p11) {
+        assert(p00 + p11 >= p01 + p10);
+        T cost = p00 + p11 - p01 - p10;
+        base_score += p00;
+        add_true_profit(u, p11 - p01);
+        add_true_profit(v, p01 - p00);
+        add_penalty(u, v, cost);
+    }
+
     void add_if_then(int x, int y) {
         add_penalty(x, y, INF<T>);
     }

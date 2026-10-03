@@ -16,7 +16,7 @@ tags: 乱数
 - `uint32_t urand()`
   `uint32_t` の乱数を返す
 - `int rand(int n)`
-  `0..n` の一様乱数を返す。`n < 0` なら `-n..0`
+  `0..n` の一様乱数を返す。`n < 0` なら `n..0`
 - `int rand(int a, int b)`
   `a..b` の一様乱数を返す。`a > b` でもよい
 

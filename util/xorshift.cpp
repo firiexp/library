@@ -13,15 +13,15 @@ public:
     };
 
     int rand(int n){
-        if(n < 0) return -rand(-n);
-        uint32_t t = numeric_limits<uint32_t>::max()/(n+1)*(n+1);
-        uint32_t e = urand();
-        while(e >= t) e = urand();
-        return static_cast<int>(e%(n+1));
+        return rand(0, n);
     }
 
     int rand(int a, int b){
         if(a > b) swap(a, b);
-        return a+rand(b-a);
+        uint64_t width = int64_t(b) - int64_t(a) + 1;
+        uint64_t limit = (uint64_t(1) << 32) / width * width;
+        uint64_t e = urand();
+        while(e >= limit) e = urand();
+        return static_cast<int>(int64_t(a) + int64_t(e % width));
     }
 };

@@ -1,7 +1,7 @@
 template<class T>
 class SegmentTreeBeats {
     void add_(int x, T val){
-        if(!val) return;
+        if(!val || !seg[x].len) return;
         auto& now = seg[x];
         now.sum += val*now.len;
         now.mn += val; now.mx += val; now.add += val;
@@ -95,7 +95,7 @@ void NAME(int a, int b, T val) { \
     }
     struct M {
         T sum, mx, mx2, mxc, mn, mn2, mnc, len, add;
-        M() : mx2(-INF<T>), mxc(1), mn2(INF<T>), mnc(1), add(0) {};
+        M() : sum(0), mx(-INF<T>), mx2(-INF<T>), mxc(0), mn(INF<T>), mn2(INF<T>), mnc(0), len(0), add(0) {};
     };
     vector<M> seg;
     int n, height;
@@ -107,6 +107,7 @@ void NAME(int a, int b, T val) { \
         for (int i = 0; i < v.size(); ++i) {
             seg[i+n].sum = seg[i+n].mx = seg[i+n].mn = v[i];
             seg[i+n].len = 1;
+            seg[i+n].mxc = seg[i+n].mnc = 1;
         }
         for (int i = n-1; i >= 1; --i) get(i);
     }
