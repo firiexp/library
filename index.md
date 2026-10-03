@@ -770,8 +770,14 @@ data:
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_geometry_boundaries.test.cpp
+      title: test/yosupo_aplusb_geometry_boundaries.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_hld_subtree.test.cpp
       title: test/yosupo_aplusb_hld_subtree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_independent_set_boundaries.test.cpp
+      title: test/yosupo_aplusb_independent_set_boundaries.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
@@ -779,8 +785,14 @@ data:
       path: test/yosupo_aplusb_library_composition.test.cpp
       title: test/yosupo_aplusb_library_composition.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_matrix_semiring.test.cpp
+      title: test/yosupo_aplusb_matrix_semiring.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_ndvec.test.cpp
       title: test/yosupo_aplusb_ndvec.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_noncommutative_tree.test.cpp
+      title: test/yosupo_aplusb_noncommutative_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_order_statistic_tree.test.cpp
       title: test/yosupo_aplusb_order_statistic_tree.test.cpp

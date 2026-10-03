@@ -119,8 +119,14 @@ data:
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_geometry_boundaries.test.cpp
+    title: test/yosupo_aplusb_geometry_boundaries.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_hld_subtree.test.cpp
     title: test/yosupo_aplusb_hld_subtree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_independent_set_boundaries.test.cpp
+    title: test/yosupo_aplusb_independent_set_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_is_palindrome.test.cpp
     title: test/yosupo_aplusb_is_palindrome.test.cpp
@@ -128,8 +134,14 @@ data:
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_matrix_semiring.test.cpp
+    title: test/yosupo_aplusb_matrix_semiring.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_ndvec.test.cpp
     title: test/yosupo_aplusb_ndvec.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_noncommutative_tree.test.cpp
+    title: test/yosupo_aplusb_noncommutative_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_order_statistic_tree.test.cpp
     title: test/yosupo_aplusb_order_statistic_tree.test.cpp
@@ -973,6 +985,7 @@ data:
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
+  - test/yosupo_aplusb_noncommutative_tree.test.cpp
   - test/yosupo_aplusb_string_bytes.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_rectangle_add_point_get.test.cpp
@@ -1005,6 +1018,7 @@ data:
   - test/yosupo_aplusb_is_palindrome.test.cpp
   - test/yosupo_enumerate_palindromes_manacher.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
+  - test/yosupo_aplusb_matrix_semiring.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
@@ -1051,6 +1065,7 @@ data:
   - test/yosupo_aho_corasick.test.cpp
   - test/yosupo_ordered_set.test.cpp
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+  - test/yosupo_aplusb_geometry_boundaries.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
   - test/yosupo_sqrt_mod.test.cpp
@@ -1059,6 +1074,7 @@ data:
   - test/aoj2907_prefix_suffix_search.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
+  - test/yosupo_aplusb_independent_set_boundaries.test.cpp
   - test/yosupo_aplusb_static_bitset.test.cpp
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   - test/yosupo_directedmst.test.cpp

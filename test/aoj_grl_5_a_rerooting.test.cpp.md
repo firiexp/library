@@ -241,7 +241,7 @@ data:
     \ {\n            auto &e = G[i][l[i]];\n            dpl[i][l[i] + 1] = M::f(dpl[i][l[i]],\
     \ M::g(dfs(e.to, e.rev), e.val));\n            ++l[i];\n        }\n        while\
     \ (r[i] != par && r[i] >= 0) {\n            auto &e = G[i][r[i]];\n          \
-    \  dpr[i][r[i]] = M::f(dpr[i][r[i] + 1], M::g(dfs(e.to, e.rev), e.val));\n   \
+    \  dpr[i][r[i]] = M::f(M::g(dfs(e.to, e.rev), e.val), dpr[i][r[i] + 1]);\n   \
     \         --r[i];\n        }\n        if (par < 0) return dpr[i].front();\n  \
     \      return M::f(dpl[i][par], dpr[i][par + 1]);\n    }\n\n    vector<T> solve()\
     \ {\n        for (int i = 0; i < n; ++i) {\n            dpl[i].assign(G[i].size()\
@@ -274,7 +274,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_5_a_rerooting.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 14:32:45+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_5_a_rerooting.test.cpp

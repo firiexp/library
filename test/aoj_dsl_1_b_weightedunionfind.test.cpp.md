@@ -231,7 +231,7 @@ data:
     \    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
     \ n) : uni(n, -1), weights(n, G::e()) {}\n\n    int root(int a) {\n        if\
     \ (uni[a] < 0) return a;\n        int p = uni[a];\n        int r = root(p);\n\
-    \        weights[a] = G::op(weights[a], weights[p]);\n        return uni[a] =\
+    \        weights[a] = G::op(weights[p], weights[a]);\n        return uni[a] =\
     \ r;\n    }\n\n    T weight(int a) {\n        root(a);\n        return weights[a];\n\
     \    }\n\n    bool same(int a, int b) {\n        return root(a) == root(b);\n\
     \    }\n\n    bool unite(int a, int b, T w) {\n        w = G::op(weight(a), G::op(w,\
@@ -271,7 +271,7 @@ data:
   isVerificationFile: true
   path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 14:32:45+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dsl_1_b_weightedunionfind.test.cpp

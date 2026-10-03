@@ -7,6 +7,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_5_a_rerooting.test.cpp
     title: test/aoj_grl_5_a_rerooting.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_noncommutative_tree.test.cpp
+    title: test/yosupo_aplusb_noncommutative_tree.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -27,7 +30,7 @@ data:
     \ {\n            auto &e = G[i][l[i]];\n            dpl[i][l[i] + 1] = M::f(dpl[i][l[i]],\
     \ M::g(dfs(e.to, e.rev), e.val));\n            ++l[i];\n        }\n        while\
     \ (r[i] != par && r[i] >= 0) {\n            auto &e = G[i][r[i]];\n          \
-    \  dpr[i][r[i]] = M::f(dpr[i][r[i] + 1], M::g(dfs(e.to, e.rev), e.val));\n   \
+    \  dpr[i][r[i]] = M::f(M::g(dfs(e.to, e.rev), e.val), dpr[i][r[i] + 1]);\n   \
     \         --r[i];\n        }\n        if (par < 0) return dpr[i].front();\n  \
     \      return M::f(dpl[i][par], dpr[i][par + 1]);\n    }\n\n    vector<T> solve()\
     \ {\n        for (int i = 0; i < n; ++i) {\n            dpl[i].assign(G[i].size()\
@@ -50,7 +53,7 @@ data:
     \ {\n            auto &e = G[i][l[i]];\n            dpl[i][l[i] + 1] = M::f(dpl[i][l[i]],\
     \ M::g(dfs(e.to, e.rev), e.val));\n            ++l[i];\n        }\n        while\
     \ (r[i] != par && r[i] >= 0) {\n            auto &e = G[i][r[i]];\n          \
-    \  dpr[i][r[i]] = M::f(dpr[i][r[i] + 1], M::g(dfs(e.to, e.rev), e.val));\n   \
+    \  dpr[i][r[i]] = M::f(M::g(dfs(e.to, e.rev), e.val), dpr[i][r[i] + 1]);\n   \
     \         --r[i];\n        }\n        if (par < 0) return dpr[i].front();\n  \
     \      return M::f(dpl[i][par], dpr[i][par + 1]);\n    }\n\n    vector<T> solve()\
     \ {\n        for (int i = 0; i < n; ++i) {\n            dpl[i].assign(G[i].size()\
@@ -63,9 +66,10 @@ data:
   isVerificationFile: false
   path: tree/rerooting.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-10-03 14:32:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_noncommutative_tree.test.cpp
   - test/aoj_grl_5_a_rerooting.test.cpp
 date: 2026-03-12
 documentation_of: tree/rerooting.cpp
@@ -102,6 +106,7 @@ struct Monoid {
 ```
 
 `f` は兄弟部分木のマージ、`g` は子側の結果を親へ渡す変換である。
+マージは各頂点の隣接リスト `G[v]` の順に行う。
 
 ```cpp
 struct M {

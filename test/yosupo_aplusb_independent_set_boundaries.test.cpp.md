@@ -2,11 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/unionfind.cpp
-    title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
-  - icon: ':heavy_check_mark:'
-    path: graph/manhattanmst.cpp
-    title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"
+    path: graph/independentset.cpp
+    title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -17,14 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/manhattanmst
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/manhattanmst
-  bundledCode: "#line 1 \"test/yosupo_manhattanmst.test.cpp\"\n#define PROBLEM \"\
-    https://judge.yosupo.jp/problem/manhattanmst\"\n\n#include <algorithm>\n#include\
-    \ <cstdlib>\n#include <map>\n#include <numeric>\n#include <tuple>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_independent_set_boundaries.test.cpp\"\
+    \n#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ull = unsigned long long;\n#line 1 \"util/fastio.cpp\"\
     \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
@@ -230,71 +225,89 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/manhattanmst.cpp\"\
-    \ntemplate<typename T>\nvector<pair<int, int>> manhattanMST(vector<T> xs, vector<T>\
-    \ ys) {\n    using P = pair<int, int>;\n    vector<P> es;\n    vector<int> ord(xs.size());\n\
-    \    for (int s = 0; s < 4; s++) {\n        iota(ord.begin(), ord.end(), 0);\n\
-    \        auto cmp = [&](int i, int j) -> bool {\n            if (xs[i]+ys[i] !=\
-    \ xs[j]+ys[j]) return xs[i]+ys[i] < xs[j]+ys[j];\n            return (s>>1) ?\
-    \ (i < j) : (i > j);\n        };\n        sort(ord.begin(), ord.end(), cmp);\n\
-    \        map<pair<T, int>, int> idx;\n        for (auto &&i : ord) {\n       \
-    \     pair<T, int> p = {-ys[i], (s == 3)?i:-i};\n            for (auto it = idx.lower_bound(p);\
-    \ it != idx.end(); it = idx.erase(it)) {\n                if (xs[i] - xs[it->second]\
-    \ < ys[i] - ys[it->second]) break;\n                es.emplace_back(i, it->second);\n\
-    \            }\n            idx[p] = i;\n        }\n        swap(xs, ys);\n  \
-    \      if(s&1) for(auto &&i : xs) i = -i;\n    }\n    return es;\n}\n\n/**\n *\
-    \ @brief \u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)\n */\n#line 1\
-    \ \"datastructure/unionfind.cpp\"\nclass UnionFind {\n    int n;\n    vector<int>\
-    \ uni;\n    int forest_size;\npublic:\n    explicit UnionFind(int n) : n(n), uni(static_cast<uint>(n),\
-    \ -1), forest_size(n) {};\n\n    int root(int a){\n        if (uni[a] < 0) return\
-    \ a;\n        else return (uni[a] = root(uni[a]));\n    }\n\n    bool unite(int\
-    \ a, int b) {\n        a = root(a);\n        b = root(b);\n        if(a == b)\
-    \ return false;\n        if(uni[a] > uni[b]) swap(a, b);\n        uni[a] += uni[b];\n\
-    \        uni[b] = a;\n        forest_size--;\n        return true;\n    }\n  \
-    \  int size(){ return forest_size; }\n    int size(int i){ return -uni[root(i)];\
-    \ }\n    bool same(int a, int b) { return root(a) == root(b); }\n};\n\n/**\n *\
-    \ @brief UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)\n */\n#line\
-    \ 22 \"test/yosupo_manhattanmst.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<ll> xs(n), ys(n);\n\
-    \    for (int i = 0; i < n; ++i) sc.read(xs[i], ys[i]);\n\n    auto cand = manhattanMST(xs,\
-    \ ys);\n    vector<tuple<ll, int, int>> edges;\n    edges.reserve(cand.size());\n\
-    \    for (auto [u, v] : cand) {\n        ll cost = llabs(xs[u] - xs[v]) + llabs(ys[u]\
-    \ - ys[v]);\n        edges.emplace_back(cost, u, v);\n    }\n    sort(edges.begin(),\
-    \ edges.end());\n\n    UnionFind uf(n);\n    vector<pair<int, int>> used;\n  \
-    \  ll total = 0;\n    for (auto [cost, u, v] : edges) {\n        if (!uf.unite(u,\
-    \ v)) continue;\n        total += cost;\n        used.emplace_back(u, v);\n  \
-    \  }\n\n    pr.println(total);\n    for (auto [u, v] : used) pr.println(u, v);\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/manhattanmst\"\n\n#include\
-    \ <algorithm>\n#include <cstdlib>\n#include <map>\n#include <numeric>\n#include\
-    \ <tuple>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n\
-    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../graph/manhattanmst.cpp\"\
-    \n#include \"../datastructure/unionfind.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<ll> xs(n), ys(n);\n\
-    \    for (int i = 0; i < n; ++i) sc.read(xs[i], ys[i]);\n\n    auto cand = manhattanMST(xs,\
-    \ ys);\n    vector<tuple<ll, int, int>> edges;\n    edges.reserve(cand.size());\n\
-    \    for (auto [u, v] : cand) {\n        ll cost = llabs(xs[u] - xs[v]) + llabs(ys[u]\
-    \ - ys[v]);\n        edges.emplace_back(cost, u, v);\n    }\n    sort(edges.begin(),\
-    \ edges.end());\n\n    UnionFind uf(n);\n    vector<pair<int, int>> used;\n  \
-    \  ll total = 0;\n    for (auto [cost, u, v] : edges) {\n        if (!uf.unite(u,\
-    \ v)) continue;\n        total += cost;\n        used.emplace_back(u, v);\n  \
-    \  }\n\n    pr.println(total);\n    for (auto [u, v] : used) pr.println(u, v);\n\
-    \    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/independentset.cpp\"\
+    \nclass IndependentSet {\n    int n;\n    vector<ull> G;\n    ull full_mask()\
+    \ const { return n == 64 ? ~0ull : (1ull << n) - 1; }\n    pair<int, ull> dfs(ull\
+    \ R, ull P, ull X) {\n        if (!P && !X) {\n            return {__builtin_popcountll(R),\
+    \ R};\n        }\n        if (!P) return {-1, 0};\n        pair<int, ull> res\
+    \ = {-1, 0};\n        int pivot = -1, max_neighbors = -1;\n        for (ull vertices\
+    \ = P | X; vertices; vertices &= vertices - 1) {\n            int u = __builtin_ctzll(vertices);\n\
+    \            int neighbors = __builtin_popcountll(P & G[u]);\n            if (neighbors\
+    \ > max_neighbors) {\n                pivot = u;\n                max_neighbors\
+    \ = neighbors;\n            }\n        }\n        ull z = P & ~G[pivot];\n   \
+    \     while (z) {\n            int i = __builtin_ctzll(z);\n            z &= z\
+    \ - 1;\n            res = max(res, dfs(R | (1ull << i), P & G[i], X & G[i]));\n\
+    \            P ^= 1ull << i;\n            X |= 1ull << i;\n        }\n       \
+    \ return res;\n    }\n\n\npublic:\n    explicit IndependentSet(int n): n(n), G(n)\
+    \ {\n        for (int i = 0; i < n; ++i) {\n            G[i] = full_mask() ^ (1ull\
+    \ << i);\n        }\n    }\n    void add_edge(int u, int v){\n        G[u] &=\
+    \ ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n    pair<int, ull> maximum_independent_set()\
+    \ {\n        return dfs(0, full_mask(), 0);\n    }\n};\n\n/**\n * @brief \u6700\
+    \u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)\n */\n#line 8 \"test/yosupo_aplusb_independent_set_boundaries.test.cpp\"\
+    \n\nint main() {\n    for (int n : {0, 1, 63, 64}) {\n        IndependentSet empty(n),\
+    \ complete(n);\n        ull all = n == 64 ? ~0ull : (1ull << n) - 1;\n       \
+    \ assert((empty.maximum_independent_set() == pair<int, ull>{n, all}));\n     \
+    \   for (int u = 0; u < n; ++u) for (int v = u + 1; v < n; ++v) complete.add_edge(u,\
+    \ v);\n        auto [size, mask] = complete.maximum_independent_set();\n     \
+    \   assert(size == (n > 0));\n        assert(__builtin_popcountll(mask) == size\
+    \ && (mask & ~all) == 0);\n    }\n    for (int center : {0, 63}) {\n        IndependentSet\
+    \ star(64);\n        for (int v = 0; v < 64; ++v) if (v != center) star.add_edge(center,\
+    \ v);\n        assert((star.maximum_independent_set() == pair<int, ull>{63, ~(1ull\
+    \ << center)}));\n    }\n    IndependentSet bipartite(64);\n    for (int u = 0;\
+    \ u < 32; ++u) for (int v = 32; v < 64; ++v) bipartite.add_edge(u, v);\n    assert((bipartite.maximum_independent_set()\
+    \ == pair<int, ull>{32, ~0ull << 32}));\n    mt19937 rng(38);\n    for (int n\
+    \ = 0; n <= 12; ++n) for (int tc = 0; tc < 60; ++tc) {\n        IndependentSet\
+    \ solver(n);\n        vector<pair<int, int>> edges;\n        for (int u = 0; u\
+    \ < n; ++u) for (int v = u + 1; v < n; ++v) if (int(rng() % 10) < tc % 10) {\n\
+    \            solver.add_edge(u, v);\n            edges.emplace_back(u, v);\n \
+    \       }\n        auto valid = [&](ull mask) {\n            for (auto [u, v]\
+    \ : edges) if ((mask >> u & 1) && (mask >> v & 1)) return false;\n           \
+    \ return true;\n        };\n        int expected = 0;\n        for (ull mask =\
+    \ 0; mask < (1ull << n); ++mask)\n            if (valid(mask)) expected = max(expected,\
+    \ __builtin_popcountll(mask));\n        auto [size, mask] = solver.maximum_independent_set();\n\
+    \        assert(size == expected && __builtin_popcountll(mask) == expected &&\
+    \ valid(mask));\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ull = unsigned long long;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../graph/independentset.cpp\"\n\nint main() {\n    for (int n : {0,\
+    \ 1, 63, 64}) {\n        IndependentSet empty(n), complete(n);\n        ull all\
+    \ = n == 64 ? ~0ull : (1ull << n) - 1;\n        assert((empty.maximum_independent_set()\
+    \ == pair<int, ull>{n, all}));\n        for (int u = 0; u < n; ++u) for (int v\
+    \ = u + 1; v < n; ++v) complete.add_edge(u, v);\n        auto [size, mask] = complete.maximum_independent_set();\n\
+    \        assert(size == (n > 0));\n        assert(__builtin_popcountll(mask) ==\
+    \ size && (mask & ~all) == 0);\n    }\n    for (int center : {0, 63}) {\n    \
+    \    IndependentSet star(64);\n        for (int v = 0; v < 64; ++v) if (v != center)\
+    \ star.add_edge(center, v);\n        assert((star.maximum_independent_set() ==\
+    \ pair<int, ull>{63, ~(1ull << center)}));\n    }\n    IndependentSet bipartite(64);\n\
+    \    for (int u = 0; u < 32; ++u) for (int v = 32; v < 64; ++v) bipartite.add_edge(u,\
+    \ v);\n    assert((bipartite.maximum_independent_set() == pair<int, ull>{32, ~0ull\
+    \ << 32}));\n    mt19937 rng(38);\n    for (int n = 0; n <= 12; ++n) for (int\
+    \ tc = 0; tc < 60; ++tc) {\n        IndependentSet solver(n);\n        vector<pair<int,\
+    \ int>> edges;\n        for (int u = 0; u < n; ++u) for (int v = u + 1; v < n;\
+    \ ++v) if (int(rng() % 10) < tc % 10) {\n            solver.add_edge(u, v);\n\
+    \            edges.emplace_back(u, v);\n        }\n        auto valid = [&](ull\
+    \ mask) {\n            for (auto [u, v] : edges) if ((mask >> u & 1) && (mask\
+    \ >> v & 1)) return false;\n            return true;\n        };\n        int\
+    \ expected = 0;\n        for (ull mask = 0; mask < (1ull << n); ++mask)\n    \
+    \        if (valid(mask)) expected = max(expected, __builtin_popcountll(mask));\n\
+    \        auto [size, mask] = solver.maximum_independent_set();\n        assert(size\
+    \ == expected && __builtin_popcountll(mask) == expected && valid(mask));\n   \
+    \ }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n   \
+    \ pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - graph/manhattanmst.cpp
-  - datastructure/unionfind.cpp
+  - graph/independentset.cpp
   isVerificationFile: true
-  path: test/yosupo_manhattanmst.test.cpp
+  path: test/yosupo_aplusb_independent_set_boundaries.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 14:33:32+09:00'
+  timestamp: '2026-10-03 14:43:28+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_manhattanmst.test.cpp
+documentation_of: test/yosupo_aplusb_independent_set_boundaries.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_manhattanmst.test.cpp
-- /verify/test/yosupo_manhattanmst.test.cpp.html
-title: test/yosupo_manhattanmst.test.cpp
+- /verify/test/yosupo_aplusb_independent_set_boundaries.test.cpp
+- /verify/test/yosupo_aplusb_independent_set_boundaries.test.cpp.html
+title: test/yosupo_aplusb_independent_set_boundaries.test.cpp
 ---

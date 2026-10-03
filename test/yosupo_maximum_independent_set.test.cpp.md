@@ -21,20 +21,24 @@ data:
     static const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
     using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 1 \"graph/independentset.cpp\"\
-    \nclass IndependentSet {\n    int n;\n    vector<ull> G;\n    pair<int, ull> dfs(ull\
-    \ R, ull P, ull X){\n        if(!P && !X){\n            return {__builtin_popcountll(R),\
-    \ R};\n        }\n        if(!P) return {-1, 0};\n        pair<int, ull> res =\
-    \ {-1, 0};\n        int pivot = __builtin_ctzll(P|X);\n        ull z = P & ~G[pivot];\n\
-    \        for (int i = 0; i < n; ++i) {\n            if(z & (1ull << i)){\n   \
-    \             res = max(res, dfs(R|(1ull << i), P&G[i], X&G[i]));\n          \
-    \      P ^= 1ull << i;\n                X |= 1ull << i;\n            }\n     \
-    \   }\n        return res;\n    }\n\n\npublic:\n    explicit IndependentSet(int\
-    \ n): n(n), G(n) {\n        for (int i = 0; i < n; ++i) {\n            G[i] =\
-    \ ((1ull << n)-1)^(1ull << i);\n        }\n    }\n    void add_edge(int u, int\
-    \ v){\n        G[u] &= ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n \
-    \   pair<int, ull> maximum_independent_set() {\n        return dfs(0, (1ull <<\
-    \ n)-1, 0);\n    }\n};\n\n/**\n * @brief \u6700\u5927\u72EC\u7ACB\u96C6\u5408\
-    (Maximum Independent Set)\n */\n#line 21 \"test/yosupo_maximum_independent_set.test.cpp\"\
+    \nclass IndependentSet {\n    int n;\n    vector<ull> G;\n    ull full_mask()\
+    \ const { return n == 64 ? ~0ull : (1ull << n) - 1; }\n    pair<int, ull> dfs(ull\
+    \ R, ull P, ull X) {\n        if (!P && !X) {\n            return {__builtin_popcountll(R),\
+    \ R};\n        }\n        if (!P) return {-1, 0};\n        pair<int, ull> res\
+    \ = {-1, 0};\n        int pivot = -1, max_neighbors = -1;\n        for (ull vertices\
+    \ = P | X; vertices; vertices &= vertices - 1) {\n            int u = __builtin_ctzll(vertices);\n\
+    \            int neighbors = __builtin_popcountll(P & G[u]);\n            if (neighbors\
+    \ > max_neighbors) {\n                pivot = u;\n                max_neighbors\
+    \ = neighbors;\n            }\n        }\n        ull z = P & ~G[pivot];\n   \
+    \     while (z) {\n            int i = __builtin_ctzll(z);\n            z &= z\
+    \ - 1;\n            res = max(res, dfs(R | (1ull << i), P & G[i], X & G[i]));\n\
+    \            P ^= 1ull << i;\n            X |= 1ull << i;\n        }\n       \
+    \ return res;\n    }\n\n\npublic:\n    explicit IndependentSet(int n): n(n), G(n)\
+    \ {\n        for (int i = 0; i < n; ++i) {\n            G[i] = full_mask() ^ (1ull\
+    \ << i);\n        }\n    }\n    void add_edge(int u, int v){\n        G[u] &=\
+    \ ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n    pair<int, ull> maximum_independent_set()\
+    \ {\n        return dfs(0, full_mask(), 0);\n    }\n};\n\n/**\n * @brief \u6700\
+    \u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)\n */\n#line 21 \"test/yosupo_maximum_independent_set.test.cpp\"\
     \n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    IndependentSet G(n);\n\
     \    for (int i = 0; i < m; ++i) {\n        int l, r;\n        cin >> l >> r;\n\
     \        G.add_edge(l, r);\n    }\n    auto res = G.maximum_independent_set();\n\
@@ -60,7 +64,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_maximum_independent_set.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 14:43:28+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_maximum_independent_set.test.cpp

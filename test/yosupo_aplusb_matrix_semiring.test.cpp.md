@@ -2,14 +2,17 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/unionfind.cpp
-    title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
-  - icon: ':heavy_check_mark:'
-    path: graph/manhattanmst.cpp
-    title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"
+    path: math/matrix.cpp
+    title: "\u884C\u5217"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint.cpp
+    title: "modint(\u56FA\u5B9AMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -17,15 +20,14 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/manhattanmst
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/manhattanmst
-  bundledCode: "#line 1 \"test/yosupo_manhattanmst.test.cpp\"\n#define PROBLEM \"\
-    https://judge.yosupo.jp/problem/manhattanmst\"\n\n#include <algorithm>\n#include\
-    \ <cstdlib>\n#include <map>\n#include <numeric>\n#include <tuple>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_matrix_semiring.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull = unsigned\
+    \ long long;\nstatic const int MOD = 998244353;\n#line 1 \"util/fastio.cpp\"\n\
+    using namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
     \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
@@ -230,71 +232,201 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/manhattanmst.cpp\"\
-    \ntemplate<typename T>\nvector<pair<int, int>> manhattanMST(vector<T> xs, vector<T>\
-    \ ys) {\n    using P = pair<int, int>;\n    vector<P> es;\n    vector<int> ord(xs.size());\n\
-    \    for (int s = 0; s < 4; s++) {\n        iota(ord.begin(), ord.end(), 0);\n\
-    \        auto cmp = [&](int i, int j) -> bool {\n            if (xs[i]+ys[i] !=\
-    \ xs[j]+ys[j]) return xs[i]+ys[i] < xs[j]+ys[j];\n            return (s>>1) ?\
-    \ (i < j) : (i > j);\n        };\n        sort(ord.begin(), ord.end(), cmp);\n\
-    \        map<pair<T, int>, int> idx;\n        for (auto &&i : ord) {\n       \
-    \     pair<T, int> p = {-ys[i], (s == 3)?i:-i};\n            for (auto it = idx.lower_bound(p);\
-    \ it != idx.end(); it = idx.erase(it)) {\n                if (xs[i] - xs[it->second]\
-    \ < ys[i] - ys[it->second]) break;\n                es.emplace_back(i, it->second);\n\
-    \            }\n            idx[p] = i;\n        }\n        swap(xs, ys);\n  \
-    \      if(s&1) for(auto &&i : xs) i = -i;\n    }\n    return es;\n}\n\n/**\n *\
-    \ @brief \u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)\n */\n#line 1\
-    \ \"datastructure/unionfind.cpp\"\nclass UnionFind {\n    int n;\n    vector<int>\
-    \ uni;\n    int forest_size;\npublic:\n    explicit UnionFind(int n) : n(n), uni(static_cast<uint>(n),\
-    \ -1), forest_size(n) {};\n\n    int root(int a){\n        if (uni[a] < 0) return\
-    \ a;\n        else return (uni[a] = root(uni[a]));\n    }\n\n    bool unite(int\
-    \ a, int b) {\n        a = root(a);\n        b = root(b);\n        if(a == b)\
-    \ return false;\n        if(uni[a] > uni[b]) swap(a, b);\n        uni[a] += uni[b];\n\
-    \        uni[b] = a;\n        forest_size--;\n        return true;\n    }\n  \
-    \  int size(){ return forest_size; }\n    int size(int i){ return -uni[root(i)];\
-    \ }\n    bool same(int a, int b) { return root(a) == root(b); }\n};\n\n/**\n *\
-    \ @brief UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)\n */\n#line\
-    \ 22 \"test/yosupo_manhattanmst.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<ll> xs(n), ys(n);\n\
-    \    for (int i = 0; i < n; ++i) sc.read(xs[i], ys[i]);\n\n    auto cand = manhattanMST(xs,\
-    \ ys);\n    vector<tuple<ll, int, int>> edges;\n    edges.reserve(cand.size());\n\
-    \    for (auto [u, v] : cand) {\n        ll cost = llabs(xs[u] - xs[v]) + llabs(ys[u]\
-    \ - ys[v]);\n        edges.emplace_back(cost, u, v);\n    }\n    sort(edges.begin(),\
-    \ edges.end());\n\n    UnionFind uf(n);\n    vector<pair<int, int>> used;\n  \
-    \  ll total = 0;\n    for (auto [cost, u, v] : edges) {\n        if (!uf.unite(u,\
-    \ v)) continue;\n        total += cost;\n        used.emplace_back(u, v);\n  \
-    \  }\n\n    pr.println(total);\n    for (auto [u, v] : used) pr.println(u, v);\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/manhattanmst\"\n\n#include\
-    \ <algorithm>\n#include <cstdlib>\n#include <map>\n#include <numeric>\n#include\
-    \ <tuple>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n\
-    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../graph/manhattanmst.cpp\"\
-    \n#include \"../datastructure/unionfind.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<ll> xs(n), ys(n);\n\
-    \    for (int i = 0; i < n; ++i) sc.read(xs[i], ys[i]);\n\n    auto cand = manhattanMST(xs,\
-    \ ys);\n    vector<tuple<ll, int, int>> edges;\n    edges.reserve(cand.size());\n\
-    \    for (auto [u, v] : cand) {\n        ll cost = llabs(xs[u] - xs[v]) + llabs(ys[u]\
-    \ - ys[v]);\n        edges.emplace_back(cost, u, v);\n    }\n    sort(edges.begin(),\
-    \ edges.end());\n\n    UnionFind uf(n);\n    vector<pair<int, int>> used;\n  \
-    \  ll total = 0;\n    for (auto [cost, u, v] : edges) {\n        if (!uf.unite(u,\
-    \ v)) continue;\n        total += cost;\n        used.emplace_back(u, v);\n  \
-    \  }\n\n    pr.println(total);\n    for (auto [u, v] : used) pr.println(u, v);\n\
-    \    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint.cpp\"\
+    \n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
+    \ constexpr uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class\
+    \ T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val =\
+    \ uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint\
+    \ &value() noexcept { return val; }\n    const uint &value() const noexcept {\
+    \ return val; }\n    modint& operator++() { val++; if (val == Mod) val = 0; return\
+    \ *this; }\n    modint& operator--() { if (val == 0) val = Mod; val--; return\
+    \ *this; }\n    modint operator++(int) { modint result = *this; ++*this; return\
+    \ result; }\n    modint operator--(int) { modint result = *this; --*this; return\
+    \ result; }\n    modint& operator+=(const modint& b) { val += b.val; if (val >=\
+    \ Mod) val -= Mod; return *this; }\n    modint& operator-=(const modint& b) {\
+    \ val -= b.val; if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const\
+    \ modint& b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n\
+    \    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }\n\
+    \    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(Mod - 2); }\n    friend modint operator+(const\
+    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
+    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
+    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
+    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
+    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
+    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/matrix.cpp\"\ntemplate<class\
+    \ H>\nstruct matrix {\n    using T = typename H::T;\n    vector<vector<T>> A;\n\
+    \    matrix() = default;\n    matrix(size_t n, size_t m) : A(n, vector<T>(m, H::zero()))\
+    \ {}\n    explicit matrix(size_t n) : A(n, vector<T>(n, H::zero())) {};\n    size_t\
+    \ height() const { return (A.size()); }\n    size_t width() const { return (A.empty()\
+    \ ? 0 : A[0].size()); }\n\n    const vector<T> &operator [] (int k) const { return\
+    \ A[k]; }\n    vector<T> &operator[] (int k) { return A[k]; }\n\n    static matrix\
+    \ I(size_t n){\n        matrix mat(n);\n        for (size_t i = 0; i < n; ++i)\
+    \ mat[i][i] = H::one();\n        return mat;\n    }\n\n    matrix &operator+=\
+    \ (const matrix &B){\n        size_t h = height(), w = width();\n        for (size_t\
+    \ i = 0; i < h; ++i) {\n            for (size_t j = 0; j < w; ++j) {\n       \
+    \         H::add((*this)[i][j], B[i][j]);\n            }\n        }\n        return\
+    \ (*this);\n    }\n\n    matrix &operator-= (const matrix &B){\n        size_t\
+    \ h = height(), w = width();\n        for (size_t i = 0; i < h; ++i) {\n     \
+    \       for (size_t j = 0; j < w; ++j) {\n                H::add((*this)[i][j],\
+    \ -B[i][j]);\n            }\n        }\n        return (*this);\n    }\n\n   \
+    \ matrix &operator*=(const matrix &B) {\n        size_t n = height(), m = B.width(),\
+    \ p = width();\n        matrix C(n, m);\n        for (size_t i = 0; i < n; ++i)\
+    \ {\n            for (size_t k = 0; k < p; ++k) {\n                for (size_t\
+    \ j = 0; j < m; ++j) {\n                    H::add(C[i][j], H::mul((*this)[i][k],\
+    \ B[k][j]));\n                }\n            }\n        }\n        A.swap(C.A);\n\
+    \        return (*this);\n    }\n\n    matrix pow(ll n) const {\n        matrix\
+    \ a = (*this), res = I(height());\n        while(n > 0){\n            if (n &\
+    \ 1) res *= a;\n            a *= a;\n            n >>= 1;\n        }\n       \
+    \ return res;\n    }\n    matrix operator+(const matrix &B) const {return matrix(*this)\
+    \ += B;}\n    matrix operator-(const matrix &B) const {return matrix(*this) -=\
+    \ B;}\n    matrix operator*(const matrix &B) const {return matrix(*this) *= B;}\n\
+    \n    mint detarminant(){\n        mint res = 1;\n        int rank = 0;\n    \
+    \    for (int c = 0; c < width(); ++c) {\n            int k = -1;\n          \
+    \  for (int i = rank; i < height(); ++i) {\n                if(A[i][c] != H::zero()){\n\
+    \                    k = i;\n                    break;\n                }\n \
+    \           }\n            if(!~k) continue;\n            if(k != rank) res =\
+    \ -res;\n            swap(A[k], A[rank]);\n            res *= A[rank][c];\n  \
+    \          T x = T(1)/A[rank][c];\n            for (int j = 0; j < width(); ++j)\
+    \ A[rank][j] *= x;\n            for (int i = 0; i < height(); ++i) {\n       \
+    \         if(i != rank && A[i][c] != H::zero()){\n                    T coeff\
+    \ = A[i][c];\n                    for (int j = 0; j < width(); ++j) {\n      \
+    \                  A[i][j] -= A[rank][j]*coeff;\n                    }\n     \
+    \           }\n            }\n            rank++;\n        }\n        for (int\
+    \ i = 0; i < min(width(), height()); ++i) {\n            res *= A[i][i];\n   \
+    \     }\n        return res;\n    }\n};\n\nstruct SemiRing {\n    using T = mint;\n\
+    \    static inline T mul(T x, T y){ return x * y; }\n    static inline void add(T\
+    \ &x, T y){ x += y; }\n    static inline T one(){ return 1; }\n    static inline\
+    \ T zero(){ return 0; }\n};\n#line 12 \"test/yosupo_aplusb_matrix_semiring.test.cpp\"\
+    \n\ntemplate<bool Maximum>\nstruct Tropical {\n    using T = ll;\n    static T\
+    \ zero() { return Maximum ? -(1LL << 60) : 1LL << 60; }\n    static T one() {\
+    \ return 0; }\n    static T mul(T a, T b) { return a == zero() || b == zero()\
+    \ ? zero() : a + b; }\n    static void add(T &a, T b) { a = Maximum ? max(a, b)\
+    \ : min(a, b); }\n};\n\ntemplate<bool Maximum>\nvoid tropical_check() {\n    using\
+    \ H = Tropical<Maximum>;\n    mt19937 rng(34);\n    assert(matrix<H>(0).A.empty());\n\
+    \    for (int tc = 0; tc < 200; ++tc) {\n        int n = 1 + rng() % 4, m = 1\
+    \ + rng() % 4, k = 1 + rng() % 4;\n        matrix<H> a(n, m), b(m, k);\n     \
+    \   for (auto &row : a.A) for (ll &x : row) {\n            assert(x == H::zero());\n\
+    \            if (rng() % 3) x = int(rng() % 15) - 7;\n        }\n        for (auto\
+    \ &row : b.A) for (ll &x : row) {\n            assert(x == H::zero());\n     \
+    \       if (rng() % 3) x = int(rng() % 15) - 7;\n        }\n        auto product\
+    \ = a * b;\n        for (int i = 0; i < n; ++i) for (int j = 0; j < k; ++j) {\n\
+    \            ll expected = H::zero();\n            for (int t = 0; t < m; ++t)\
+    \ {\n                if (a[i][t] == H::zero() || b[t][j] == H::zero()) continue;\n\
+    \                ll candidate = a[i][t] + b[t][j];\n                expected =\
+    \ Maximum ? max(expected, candidate) : min(expected, candidate);\n           \
+    \ }\n            assert(product[i][j] == expected);\n        }\n        matrix<H>\
+    \ square(n);\n        for (auto &row : square.A) for (ll &x : row) {\n       \
+    \     assert(x == H::zero());\n            if (rng() % 3) x = int(rng() % 15)\
+    \ - 7;\n        }\n        // Enumerate walks directly, without matrix multiplication.\n\
+    \        for (int length = 0; length <= 4; ++length) {\n            auto power\
+    \ = square.pow(length);\n            for (int start = 0; start < n; ++start) {\n\
+    \                vector<ll> expected(n, H::zero());\n                auto walk\
+    \ = [&](auto &&self, int v, int remaining, ll cost) -> void {\n              \
+    \      if (remaining == 0) {\n                        expected[v] = Maximum ?\
+    \ max(expected[v], cost) : min(expected[v], cost);\n                        return;\n\
+    \                    }\n                    for (int to = 0; to < n; ++to)\n \
+    \                       if (square[v][to] != H::zero()) self(self, to, remaining\
+    \ - 1, cost + square[v][to]);\n                };\n                walk(walk,\
+    \ start, length, 0);\n                assert(power[start] == expected);\n    \
+    \        }\n        }\n        auto self = square;\n        self *= self;\n  \
+    \      assert(self.A == square.pow(2).A);\n    }\n}\n\nmint permutation_determinant(const\
+    \ matrix<SemiRing> &a) {\n    int n = a.height();\n    vector<int> p(n);\n   \
+    \ iota(p.begin(), p.end(), 0);\n    mint result = 0;\n    do {\n        mint term\
+    \ = 1;\n        int inversions = 0;\n        for (int i = 0; i < n; ++i) {\n \
+    \           term *= a[i][p[i]];\n            for (int j = 0; j < i; ++j) inversions\
+    \ += p[j] > p[i];\n        }\n        result += inversions % 2 ? -term : term;\n\
+    \    } while (next_permutation(p.begin(), p.end()));\n    return result;\n}\n\n\
+    void determinant_check() {\n    mt19937 rng(35);\n    for (int n = 0; n <= 5;\
+    \ ++n) {\n        vector<int> p(n);\n        iota(p.begin(), p.end(), 0);\n  \
+    \      do {\n            matrix<SemiRing> a(n);\n            for (int i = 0; i\
+    \ < n; ++i) a[i][p[i]] = 1;\n            mint expected = permutation_determinant(a);\n\
+    \            assert(a.detarminant() == expected);\n        } while (next_permutation(p.begin(),\
+    \ p.end()));\n        for (int tc = 0; tc < 200; ++tc) {\n            matrix<SemiRing>\
+    \ a(n);\n            for (auto &row : a.A) for (auto &x : row) x = int(rng() %\
+    \ 7) - 3;\n            if (n > 1 && tc % 3 == 0) a[0] = a[1];\n            mint\
+    \ expected = permutation_determinant(a);\n            assert(a.detarminant() ==\
+    \ expected);\n        }\n    }\n}\n\nint main() {\n    tropical_check<false>();\n\
+    \    tropical_check<true>();\n    determinant_check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\nstatic const int MOD = 998244353;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../util/modint.cpp\"\n#include \"../math/matrix.cpp\"\n\ntemplate<bool\
+    \ Maximum>\nstruct Tropical {\n    using T = ll;\n    static T zero() { return\
+    \ Maximum ? -(1LL << 60) : 1LL << 60; }\n    static T one() { return 0; }\n  \
+    \  static T mul(T a, T b) { return a == zero() || b == zero() ? zero() : a + b;\
+    \ }\n    static void add(T &a, T b) { a = Maximum ? max(a, b) : min(a, b); }\n\
+    };\n\ntemplate<bool Maximum>\nvoid tropical_check() {\n    using H = Tropical<Maximum>;\n\
+    \    mt19937 rng(34);\n    assert(matrix<H>(0).A.empty());\n    for (int tc =\
+    \ 0; tc < 200; ++tc) {\n        int n = 1 + rng() % 4, m = 1 + rng() % 4, k =\
+    \ 1 + rng() % 4;\n        matrix<H> a(n, m), b(m, k);\n        for (auto &row\
+    \ : a.A) for (ll &x : row) {\n            assert(x == H::zero());\n          \
+    \  if (rng() % 3) x = int(rng() % 15) - 7;\n        }\n        for (auto &row\
+    \ : b.A) for (ll &x : row) {\n            assert(x == H::zero());\n          \
+    \  if (rng() % 3) x = int(rng() % 15) - 7;\n        }\n        auto product =\
+    \ a * b;\n        for (int i = 0; i < n; ++i) for (int j = 0; j < k; ++j) {\n\
+    \            ll expected = H::zero();\n            for (int t = 0; t < m; ++t)\
+    \ {\n                if (a[i][t] == H::zero() || b[t][j] == H::zero()) continue;\n\
+    \                ll candidate = a[i][t] + b[t][j];\n                expected =\
+    \ Maximum ? max(expected, candidate) : min(expected, candidate);\n           \
+    \ }\n            assert(product[i][j] == expected);\n        }\n        matrix<H>\
+    \ square(n);\n        for (auto &row : square.A) for (ll &x : row) {\n       \
+    \     assert(x == H::zero());\n            if (rng() % 3) x = int(rng() % 15)\
+    \ - 7;\n        }\n        // Enumerate walks directly, without matrix multiplication.\n\
+    \        for (int length = 0; length <= 4; ++length) {\n            auto power\
+    \ = square.pow(length);\n            for (int start = 0; start < n; ++start) {\n\
+    \                vector<ll> expected(n, H::zero());\n                auto walk\
+    \ = [&](auto &&self, int v, int remaining, ll cost) -> void {\n              \
+    \      if (remaining == 0) {\n                        expected[v] = Maximum ?\
+    \ max(expected[v], cost) : min(expected[v], cost);\n                        return;\n\
+    \                    }\n                    for (int to = 0; to < n; ++to)\n \
+    \                       if (square[v][to] != H::zero()) self(self, to, remaining\
+    \ - 1, cost + square[v][to]);\n                };\n                walk(walk,\
+    \ start, length, 0);\n                assert(power[start] == expected);\n    \
+    \        }\n        }\n        auto self = square;\n        self *= self;\n  \
+    \      assert(self.A == square.pow(2).A);\n    }\n}\n\nmint permutation_determinant(const\
+    \ matrix<SemiRing> &a) {\n    int n = a.height();\n    vector<int> p(n);\n   \
+    \ iota(p.begin(), p.end(), 0);\n    mint result = 0;\n    do {\n        mint term\
+    \ = 1;\n        int inversions = 0;\n        for (int i = 0; i < n; ++i) {\n \
+    \           term *= a[i][p[i]];\n            for (int j = 0; j < i; ++j) inversions\
+    \ += p[j] > p[i];\n        }\n        result += inversions % 2 ? -term : term;\n\
+    \    } while (next_permutation(p.begin(), p.end()));\n    return result;\n}\n\n\
+    void determinant_check() {\n    mt19937 rng(35);\n    for (int n = 0; n <= 5;\
+    \ ++n) {\n        vector<int> p(n);\n        iota(p.begin(), p.end(), 0);\n  \
+    \      do {\n            matrix<SemiRing> a(n);\n            for (int i = 0; i\
+    \ < n; ++i) a[i][p[i]] = 1;\n            mint expected = permutation_determinant(a);\n\
+    \            assert(a.detarminant() == expected);\n        } while (next_permutation(p.begin(),\
+    \ p.end()));\n        for (int tc = 0; tc < 200; ++tc) {\n            matrix<SemiRing>\
+    \ a(n);\n            for (auto &row : a.A) for (auto &x : row) x = int(rng() %\
+    \ 7) - 3;\n            if (n > 1 && tc % 3 == 0) a[0] = a[1];\n            mint\
+    \ expected = permutation_determinant(a);\n            assert(a.detarminant() ==\
+    \ expected);\n        }\n    }\n}\n\nint main() {\n    tropical_check<false>();\n\
+    \    tropical_check<true>();\n    determinant_check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - graph/manhattanmst.cpp
-  - datastructure/unionfind.cpp
+  - util/modint.cpp
+  - util/modint_base.cpp
+  - math/matrix.cpp
   isVerificationFile: true
-  path: test/yosupo_manhattanmst.test.cpp
+  path: test/yosupo_aplusb_matrix_semiring.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 14:33:32+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_manhattanmst.test.cpp
+documentation_of: test/yosupo_aplusb_matrix_semiring.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_manhattanmst.test.cpp
-- /verify/test/yosupo_manhattanmst.test.cpp.html
-title: test/yosupo_manhattanmst.test.cpp
+- /verify/test/yosupo_aplusb_matrix_semiring.test.cpp
+- /verify/test/yosupo_aplusb_matrix_semiring.test.cpp.html
+title: test/yosupo_aplusb_matrix_semiring.test.cpp
 ---

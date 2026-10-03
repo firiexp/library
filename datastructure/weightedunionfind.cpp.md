@@ -7,6 +7,9 @@ data:
     path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
     title: test/aoj_dsl_1_b_weightedunionfind.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_noncommutative_tree.test.cpp
+    title: test/yosupo_aplusb_noncommutative_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_unionfind_with_potential.test.cpp
     title: test/yosupo_unionfind_with_potential.test.cpp
   _isVerificationFailed: false
@@ -20,7 +23,7 @@ data:
     \    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int n) : uni(n,\
     \ -1), weights(n, G::e()) {}\n\n    int root(int a) {\n        if (uni[a] < 0)\
     \ return a;\n        int p = uni[a];\n        int r = root(p);\n        weights[a]\
-    \ = G::op(weights[a], weights[p]);\n        return uni[a] = r;\n    }\n\n    T\
+    \ = G::op(weights[p], weights[a]);\n        return uni[a] = r;\n    }\n\n    T\
     \ weight(int a) {\n        root(a);\n        return weights[a];\n    }\n\n   \
     \ bool same(int a, int b) {\n        return root(a) == root(b);\n    }\n\n   \
     \ bool unite(int a, int b, T w) {\n        w = G::op(weight(a), G::op(w, G::inv(weight(b))));\n\
@@ -37,7 +40,7 @@ data:
     \    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
     \ n) : uni(n, -1), weights(n, G::e()) {}\n\n    int root(int a) {\n        if\
     \ (uni[a] < 0) return a;\n        int p = uni[a];\n        int r = root(p);\n\
-    \        weights[a] = G::op(weights[a], weights[p]);\n        return uni[a] =\
+    \        weights[a] = G::op(weights[p], weights[a]);\n        return uni[a] =\
     \ r;\n    }\n\n    T weight(int a) {\n        root(a);\n        return weights[a];\n\
     \    }\n\n    bool same(int a, int b) {\n        return root(a) == root(b);\n\
     \    }\n\n    bool unite(int a, int b, T w) {\n        w = G::op(weight(a), G::op(w,\
@@ -55,9 +58,10 @@ data:
   isVerificationFile: false
   path: datastructure/weightedunionfind.cpp
   requiredBy: []
-  timestamp: '2026-03-15 11:35:08+09:00'
+  timestamp: '2026-10-03 14:32:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_noncommutative_tree.test.cpp
   - test/aoj_dsl_1_b_weightedunionfind.test.cpp
   - test/yosupo_unionfind_with_potential.test.cpp
 documentation_of: datastructure/weightedunionfind.cpp
@@ -67,7 +71,7 @@ title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
 ## 説明
 各頂点にポテンシャルを持たせた Union-Find である。
 併合と差分取得をほぼ償却 $O(alpha(N))$ で扱う。
-ポテンシャルは群 `G` を渡して定義する。
+ポテンシャルは群 `G` を渡して定義する。群の積は `G::op`、逆元は `G::inv` に対応する。
 
 ## できること
 - `WeightedUnionFind<G> uf(n)`
@@ -77,16 +81,16 @@ title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
 - `bool same(int u, int v)`
   `u` と `v` が同じ集合かを返す
 - `bool unite(int u, int v, G::T w)`
-  `weight(v) - weight(u) = w` となるように併合する。すでに同じ集合なら `false`
+  $f(u)^{-1}f(v) = w$（ 例: $f(v) - f(u) = w$ ）となるように併合する。すでに同じ集合なら `false`
 - `G::T weight(int v)`
   代表元から見た `v` のポテンシャルを返す
 - `G::T diff(int u, int v)`
-  `weight(v) - weight(u)` を返す。非連結では使わない
+  $f(u)^{-1}f(v)$（ 例: $f(v) - f(u)$ ）を返す。非連結では使わない
 - `int size(int v)`
   `v` が属する集合サイズを返す
 
 ## 使い方
-差分制約 `weight(y) - weight(x) = w` を追加したいときに `unite(x, y, w)` を呼ぶ。
+下の加法群の例では、制約 $f(y) - f(x) = w$ を追加するときに `unite(x, y, w)` を呼ぶ。
 差分を取りたいときは、先に `same(x, y)` を確認してから `diff(x, y)` を使う。
 
 ```cpp

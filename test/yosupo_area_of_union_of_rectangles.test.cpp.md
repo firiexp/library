@@ -265,8 +265,8 @@ data:
     \       sort(events.begin(), events.end());\n\n        SegmentTree seg(ord_y);\n\
     \        Area ans = 0;\n        Coord prev_x = events[0].x;\n        int i = 0;\n\
     \        while (i < (int)events.size()) {\n            Coord x = events[i].x;\n\
-    \            ans += seg.covered_length() * Area(x - prev_x);\n            while\
-    \ (i < (int)events.size() && events[i].x == x) {\n                seg.update(events[i].yl,\
+    \            ans += seg.covered_length() * (Area(x) - Area(prev_x));\n       \
+    \     while (i < (int)events.size() && events[i].x == x) {\n                seg.update(events[i].yl,\
     \ events[i].yr, events[i].delta);\n                ++i;\n            }\n     \
     \       prev_x = x;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief\
     \ \u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)\n\
@@ -289,7 +289,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_area_of_union_of_rectangles.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 14:33:32+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_area_of_union_of_rectangles.test.cpp
