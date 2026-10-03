@@ -331,7 +331,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/fwht.cpp
       title: "\u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/garner.cpp
       title: math/garner.cpp
     - icon: ':heavy_check_mark:'
@@ -755,6 +755,9 @@ data:
       path: test/yosupo_aplusb_comb_table.test.cpp
       title: test/yosupo_aplusb_comb_table.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_crt.test.cpp
+      title: test/yosupo_aplusb_crt.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dsu_on_tree.test.cpp
       title: test/yosupo_aplusb_dsu_on_tree.test.cpp
     - icon: ':heavy_check_mark:'
@@ -769,6 +772,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_garner.test.cpp
+      title: test/yosupo_aplusb_garner.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_geometry_boundaries.test.cpp
       title: test/yosupo_aplusb_geometry_boundaries.test.cpp

@@ -137,49 +137,62 @@ data:
     \ b)) < EPS && dot(a, b) < EPS)\n            return ON;\n        if (a.y > b.y)\n\
     \            swap(a, b);\n        if (a.y < EPS && EPS < b.y && cross(a, b) >\
     \ EPS)\n            x = !x;\n    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon\
-    \ &v, Point p) {\n    int a = 1, b = v.size() - 1;\n    static constexpr int IN\
-    \ = 2, ON = 1, OUT = 0;\n    if (v.size() < 3)\n        return (ccw(v.front(),\
-    \ v.back(), p) & 1) == 0 ? ON : OUT;\n    if (ccw(v[0], v[a], v[b]) > 0)\n   \
-    \     swap(a, b);\n    int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n\
-    \    if ((la & 1) == 0 || (lb & 1) == 0)\n        return ON;\n    if (la > 0 ||\
-    \ lb < 0)\n        return OUT;\n    while (abs(a - b) > 1) {\n        int c =\
-    \ (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n        (val > 0 ? b :\
-    \ a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res & 1) == 0)\n\
-    \        return ON;\n    return res < 0 ? IN : OUT;\n}\n\ngeometry_real diameter(Polygon\
-    \ v) {\n    int n = v.size();\n    if (n == 2)\n        return abs(v[0] - v[1]);\n\
-    \    int i = 0, j = 0;\n    for (int k = 0; k < n; ++k) {\n        if (v[i] <\
-    \ v[k])\n            i = k;\n        if (!(v[j] < v[k]))\n            j = k;\n\
-    \    }\n    geometry_real ret = 0;\n    int si = i, sj = j;\n    while (i != sj\
-    \ || j != si) {\n        ret = max(ret, abs(v[i] - v[j]));\n        if (cross(v[(i\
-    \ + 1) % n] - v[i], v[(j + 1) % n] - v[j]) < 0.0)\n            i = (i + 1) % n;\n\
-    \        else\n            j = (j + 1) % n;\n    }\n    return ret;\n}\n\nPolygon\
-    \ convexCut(Polygon v, Line l) {\n    Polygon q;\n    int n = v.size();\n    for\
-    \ (int i = 0; i < n; ++i) {\n        Point a = v[i], b = v[(i + 1) % n];\n   \
-    \     if (ccw(l.a, l.b, a) != -1)\n            q.push_back(a);\n        if (ccw(l.a,\
-    \ l.b, a) * ccw(l.a, l.b, b) < 0) {\n            q.push_back(crossPoint(Line(a,\
-    \ b), l));\n        }\n    }\n    return q;\n}\n\ngeometry_real closest_pair(Polygon\
-    \ &v, int l = 0, int r = -1) {\n    if (!(~r)) {\n        r = v.size();\n    \
-    \    sort(v.begin(), v.end());\n    }\n    if (r - l < 2) {\n        return abs(v.front()\
-    \ - v.back());\n    }\n    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n\
-    \    geometry_real d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n\
-    \    inplace_merge(v.begin() + l, v.begin() + mid, v.begin() + r, sorty);\n  \
-    \  Polygon u;\n    for (int i = l; i < r; ++i) {\n        if (fabs(v[i].x - p)\
-    \ >= d)\n            continue;\n        for (int j = 0; j < u.size(); ++j) {\n\
-    \            geometry_real dy = v[i].y - next(u.rbegin(), j)->y;\n           \
-    \ if (dy >= d)\n                break;\n            d = min(d, abs(v[i] - *next(u.rbegin(),\
-    \ j)));\n        }\n        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n\
-    /**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n\
-    #line 2 \"geometry/dualgraph.cpp\"\n\nclass DualGraph {\n    struct P {\n    \
-    \    int to, nxt, id, id2, rev;\n        P(int to = 0, int nxt = 0, int id = 0,\
-    \ int rev = 0) : to(to), nxt(nxt), id(id), rev(rev), id2(0) {};\n        bool\
-    \ operator!=(P x){ return to != x.to || nxt != x.nxt || id != x.id || rev != x.rev;\
-    \ }\n    };\npublic:\n    int n, m;\n    Polygon v;\n    vector<vector<P>> G_;\n\
-    \    vector<vector<int>> G;\n    vector<vector<Point>> A;\n    DualGraph(Polygon\
-    \ v) : v(v), n(v.size()), G_(n), m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P);\
-    \ n++; G_.emplace_back(); }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b,\
-    \ 0, m, 0);\n        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n\
-    \        vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n    \
-    \        sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
+    \ &v, Point p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr\
+    \ int IN = 2, ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if\
+    \ (v.size() < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON\
+    \ : OUT;\n    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
+    \        auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };\n\
+    \        while (r - l > 1) {\n            int m = (l + r) / 2;\n            if\
+    \ (ccw(v[0], v[index(1)], v[index(m)]) == ONLINE_FRONT) l = m;\n            else\
+    \ r = m;\n        }\n        return index(l);\n    };\n    int orientation = ccw(v[0],\
+    \ v[a], v[b]);\n    int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n  \
+    \  if ((orientation & 1) == 0 || la == ONLINE_FRONT) {\n        a = end_of_ray(false);\n\
+    \        la = ccw(v[0], v[a], p);\n    }\n    if ((orientation & 1) == 0 || lb\
+    \ == ONLINE_FRONT) {\n        b = end_of_ray(true);\n        lb = ccw(v[0], v[b],\
+    \ p);\n    }\n    if (a >= b)\n        return contains(v, p);\n    if ((orientation\
+    \ & 1) == 0) orientation = ccw(v[0], v[a], v[a + 1]);\n    if ((orientation &\
+    \ 1) == 0)\n        return contains(v, p);\n    if (orientation > 0) {\n     \
+    \   swap(a, b);\n        swap(la, lb);\n    }\n    if ((la & 1) == 0 || (lb &\
+    \ 1) == 0)\n        return la == ON_SEGMENT || lb == ON_SEGMENT ? ON : OUT;\n\
+    \    if (la > 0 || lb < 0)\n        return OUT;\n    while (abs(a - b) > 1) {\n\
+    \        int c = (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n       \
+    \ (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res\
+    \ & 1) == 0)\n        return res == ON_SEGMENT ? ON : OUT;\n    return res < 0\
+    \ ? IN : OUT;\n}\n\ngeometry_real diameter(Polygon v) {\n    int n = v.size();\n\
+    \    if (n == 2)\n        return abs(v[0] - v[1]);\n    int i = 0, j = 0;\n  \
+    \  for (int k = 0; k < n; ++k) {\n        if (v[i] < v[k])\n            i = k;\n\
+    \        if (!(v[j] < v[k]))\n            j = k;\n    }\n    geometry_real ret\
+    \ = 0;\n    int si = i, sj = j;\n    while (i != sj || j != si) {\n        ret\
+    \ = max(ret, abs(v[i] - v[j]));\n        if (cross(v[(i + 1) % n] - v[i], v[(j\
+    \ + 1) % n] - v[j]) < 0.0)\n            i = (i + 1) % n;\n        else\n     \
+    \       j = (j + 1) % n;\n    }\n    return ret;\n}\n\nPolygon convexCut(Polygon\
+    \ v, Line l) {\n    Polygon q;\n    int n = v.size();\n    for (int i = 0; i <\
+    \ n; ++i) {\n        Point a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a,\
+    \ l.b, a) != -1)\n            q.push_back(a);\n        if (ccw(l.a, l.b, a) *\
+    \ ccw(l.a, l.b, b) < 0) {\n            q.push_back(crossPoint(Line(a, b), l));\n\
+    \        }\n    }\n    return q;\n}\n\ngeometry_real closest_pair(Polygon &v,\
+    \ int l = 0, int r = -1) {\n    if (!(~r)) {\n        r = v.size();\n        sort(v.begin(),\
+    \ v.end());\n    }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n\
+    \    }\n    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
+    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
+    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
+    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
+    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
+    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
+    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
+    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
+    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 2 \"geometry/dualgraph.cpp\"\
+    \n\nclass DualGraph {\n    struct P {\n        int to, nxt, id, id2, rev;\n  \
+    \      P(int to = 0, int nxt = 0, int id = 0, int rev = 0) : to(to), nxt(nxt),\
+    \ id(id), rev(rev), id2(0) {};\n        bool operator!=(P x){ return to != x.to\
+    \ || nxt != x.nxt || id != x.id || rev != x.rev; }\n    };\npublic:\n    int n,\
+    \ m;\n    Polygon v;\n    vector<vector<P>> G_;\n    vector<vector<int>> G;\n\
+    \    vector<vector<Point>> A;\n    DualGraph(Polygon v) : v(v), n(v.size()), G_(n),\
+    \ m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
+    \ }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n\
+    \        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n     \
+    \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
+    \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
     \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
     \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                if(i\
     \ < G_[i][j].to) l[G_[i][j].id] = j;\n                else r[G_[i][j].id] = j;\n\
@@ -232,7 +245,7 @@ data:
   isVerificationFile: false
   path: geometry/dualgraph.cpp
   requiredBy: []
-  timestamp: '2026-10-03 14:33:32+09:00'
+  timestamp: '2026-10-03 15:20:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp

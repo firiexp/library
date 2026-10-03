@@ -5,18 +5,9 @@ data:
     path: math/CRT.cpp
     title: "\u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(Chinese Remainder Theorem)"
   - icon: ':heavy_check_mark:'
-    path: math/binom_mod_prime_power.cpp
-    title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
-  - icon: ':heavy_check_mark:'
     path: math/extgcd.cpp
     title: "\u62E1\u5F35\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended\
       \ GCD)"
-  - icon: ':heavy_check_mark:'
-    path: math/modinv.cpp
-    title: math/modinv.cpp
-  - icon: ':heavy_check_mark:'
-    path: math/prime/primefactor.cpp
-    title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -27,20 +18,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/binomial_coefficient
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/binomial_coefficient
-  bundledCode: "#line 1 \"test/yosupo_binomial_coefficient.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/binomial_coefficient\"\n\n#include <cstdint>\n\
-    #include <map>\n#include <numeric>\n#include <vector>\nusing namespace std;\n\
-    using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_crt.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\n#line\
+    \ 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -254,125 +242,54 @@ data:
     \ 0};\n        ll x = (r-R)/g % mm * p % mm;\n        R += x*M;\n        M *=\
     \ mm;\n        if(R < 0) R += M;\n    }\n    return {R, M};\n}\n\n/**\n * @brief\
     \ \u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(Chinese Remainder Theorem)\n */\n#line\
-    \ 1 \"math/prime/primefactor.cpp\"\ntemplate<typename T>\nstruct ExactDiv {\n\
-    \    T t, i, val;\n    ExactDiv() {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n))\
-    \ , val(n) {};\n    T mul_inv(T n) {\n        T x = n;\n        for (int i = 0;\
-    \ i < 5; ++i) x *= 2 - n * x;\n        return x;\n    }\n    bool divide(T n)\
-    \ const {\n        if(val == 2) return !(n & 1);\n        return n * this->i <=\
-    \ this->t;\n    }\n};\n\nvector<ExactDiv<uint>> get_prime(int n){\n    if(n <=\
-    \ 1) return vector<ExactDiv<uint>>();\n    vector<bool> is_prime(n+1, true);\n\
-    \    vector<ExactDiv<uint>> prime;\n    is_prime[0] = is_prime[1] = false;\n \
-    \   for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
-    \        for (auto &&j : prime){\n            if(i*j.val > n) break;\n       \
-    \     is_prime[i*j.val] = false;\n            if(j.divide(i)) break;\n       \
-    \ }\n    }\n    return prime;\n}\nconst auto primes = get_prime(32000);\n\ntemplate<class\
-    \ T>\nvector<T> prime_factor(T n){\n    vector<T> res;\n    for (auto &&i : primes)\
-    \ {\n        while (i.divide(n)){\n            res.emplace_back(i.val);\n    \
-    \        n /= i.val;\n        }\n    }\n    if(n != 1) res.emplace_back(n);\n\
-    \    return res;\n}\n\n/**\n * @brief \u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\
-    \u5272\u308A)\n */\n#line 1 \"math/modinv.cpp\"\ntemplate<typename T>  \nT mod_inv(T\
-    \ x, T M){  \n   T u = 1, t = 1, v = 0, s = 0, m = M;  \n   while (x) { T q =\
-    \ m/x; swap(s -= q*u, u); swap(t -= q*v, v); swap(m -= q*x, x); }  \n   if(s <\
-    \ 0) s += M;  \n   return s;  \n}\n#line 2 \"math/binom_mod_prime_power.cpp\"\n\
-    \nstruct BinomModPrimePower {\n    ll p, mod;\n    int q;\n    ll block_prod;\n\
-    \    vector<ll> ppow;\n    vector<int> prod;\n\n    explicit BinomModPrimePower(ll\
-    \ prime, int exponent) : p(prime), mod(1), q(exponent), ppow(exponent + 1, 1)\
-    \ {\n        for (int i = 0; i < q; ++i) {\n            mod *= p;\n          \
-    \  ppow[i + 1] = mod;\n        }\n        block_prod = (p == 2 && q >= 3 ? 1 :\
-    \ mod - 1);\n        prod.assign(mod + 1, 1);\n        for (int i = 1; i <= mod;\
-    \ ++i) {\n            prod[i] = prod[i - 1];\n            if (i % p != 0) prod[i]\
-    \ = (ull)prod[i] * i % mod;\n        }\n    }\n\n    pair<ll, ll> factorial(ll\
-    \ n) const {\n        ll x = 1, e = 0;\n        while (n) {\n            if (block_prod\
-    \ != 1 && (n / mod) & 1) x = mod - x;\n            x = (ull)x * prod[n % mod]\
-    \ % mod;\n            n /= p;\n            e += n;\n        }\n        return\
-    \ {x, e};\n    }\n\n    ll C(ll n, ll k) const {\n        if (k < 0 || k > n)\
-    \ return 0;\n        auto [a, ea] = factorial(n);\n        auto [b, eb] = factorial(k);\n\
-    \        auto [c, ec] = factorial(n - k);\n        ll e = ea - eb - ec;\n    \
-    \    if (e >= q) return 0;\n        ll x = (ull)b * c % mod;\n        return (ull)a\
-    \ * mod_inv(x, mod) % mod * ppow[e] % mod;\n    }\n\n    ll modulus() const {\n\
-    \        return mod;\n    }\n};\n\n/**\n * @brief \u4E8C\u9805\u4FC2\u6570(mod\
-    \ p^q)\n */\n#line 22 \"test/yosupo_binomial_coefficient.test.cpp\"\n\nll brute(ll\
-    \ n, ll k, ll mod) {\n    if (k < 0 || k > n) return 0;\n    vector<vector<ll>>\
-    \ dp(n + 1, vector<ll>(k + 1));\n    dp[0][0] = 1 % mod;\n    for (ll i = 0; i\
-    \ < n; ++i) {\n        for (ll j = 0; j <= min(i, k); ++j) {\n            dp[i\
-    \ + 1][j] += dp[i][j];\n            dp[i + 1][j] %= mod;\n            if (j !=\
-    \ k) {\n                dp[i + 1][j + 1] += dp[i][j];\n                dp[i +\
-    \ 1][j + 1] %= mod;\n            }\n        }\n    }\n    return dp[n][k];\n}\n\
-    \nint main() {\n    {\n        map<ll, BinomModPrimePower> cache;\n        for\
-    \ (int mod = 2; mod <= 120; ++mod) {\n            auto pf = prime_factor<ll>(mod);\n\
-    \            vector<pair<ll, int>> fac;\n            for (ll p : pf) {\n     \
-    \           if (fac.empty() || fac.back().first != p) fac.emplace_back(p, 1);\n\
-    \                else fac.back().second++;\n            }\n            for (int\
-    \ n = 0; n <= 20; ++n) {\n                for (int k = 0; k <= n; ++k) {\n   \
-    \                 vector<pair<ll, ll>> rem;\n                    for (auto [p,\
-    \ e] : fac) {\n                        ll pe = 1;\n                        for\
-    \ (int i = 0; i < e; ++i) pe *= p;\n                        auto it = cache.find(pe);\n\
-    \                        if (it == cache.end()) it = cache.emplace(pe, BinomModPrimePower(p,\
-    \ e)).first;\n                        rem.emplace_back(it->second.C(n, k), pe);\n\
-    \                    }\n                    if (CRT(rem).first != brute(n, k,\
-    \ mod)) return 1;\n                }\n            }\n        }\n    }\n\n    Scanner\
-    \ sc;\n    Printer pr;\n    int t;\n    ll mod;\n    sc.read(t, mod);\n    auto\
-    \ pf = prime_factor<ll>(mod);\n    vector<pair<ll, int>> fac;\n    for (ll p :\
-    \ pf) {\n        if (fac.empty() || fac.back().first != p) fac.emplace_back(p,\
-    \ 1);\n        else fac.back().second++;\n    }\n    vector<BinomModPrimePower>\
-    \ binoms;\n    vector<ll> mods;\n    for (auto [p, e] : fac) {\n        binoms.emplace_back(p,\
-    \ e);\n        mods.emplace_back(binoms.back().modulus());\n    }\n    while (t--)\
-    \ {\n        ll n, k;\n        sc.read(n, k);\n        vector<pair<ll, ll>> rem;\n\
-    \        for (int i = 0; i < (int)binoms.size(); ++i) {\n            rem.emplace_back(binoms[i].C(n,\
-    \ k), mods[i]);\n        }\n        pr.println(CRT(rem).first);\n    }\n    return\
-    \ 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/binomial_coefficient\"\n\
-    \n#include <cstdint>\n#include <map>\n#include <numeric>\n#include <vector>\n\
-    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
-    \ = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/CRT.cpp\"\n#include \"../math/prime/primefactor.cpp\"\n#include\
-    \ \"../math/binom_mod_prime_power.cpp\"\n\nll brute(ll n, ll k, ll mod) {\n  \
-    \  if (k < 0 || k > n) return 0;\n    vector<vector<ll>> dp(n + 1, vector<ll>(k\
-    \ + 1));\n    dp[0][0] = 1 % mod;\n    for (ll i = 0; i < n; ++i) {\n        for\
-    \ (ll j = 0; j <= min(i, k); ++j) {\n            dp[i + 1][j] += dp[i][j];\n \
-    \           dp[i + 1][j] %= mod;\n            if (j != k) {\n                dp[i\
-    \ + 1][j + 1] += dp[i][j];\n                dp[i + 1][j + 1] %= mod;\n       \
-    \     }\n        }\n    }\n    return dp[n][k];\n}\n\nint main() {\n    {\n  \
-    \      map<ll, BinomModPrimePower> cache;\n        for (int mod = 2; mod <= 120;\
-    \ ++mod) {\n            auto pf = prime_factor<ll>(mod);\n            vector<pair<ll,\
-    \ int>> fac;\n            for (ll p : pf) {\n                if (fac.empty() ||\
-    \ fac.back().first != p) fac.emplace_back(p, 1);\n                else fac.back().second++;\n\
-    \            }\n            for (int n = 0; n <= 20; ++n) {\n                for\
-    \ (int k = 0; k <= n; ++k) {\n                    vector<pair<ll, ll>> rem;\n\
-    \                    for (auto [p, e] : fac) {\n                        ll pe\
-    \ = 1;\n                        for (int i = 0; i < e; ++i) pe *= p;\n       \
-    \                 auto it = cache.find(pe);\n                        if (it ==\
-    \ cache.end()) it = cache.emplace(pe, BinomModPrimePower(p, e)).first;\n     \
-    \                   rem.emplace_back(it->second.C(n, k), pe);\n              \
-    \      }\n                    if (CRT(rem).first != brute(n, k, mod)) return 1;\n\
-    \                }\n            }\n        }\n    }\n\n    Scanner sc;\n    Printer\
-    \ pr;\n    int t;\n    ll mod;\n    sc.read(t, mod);\n    auto pf = prime_factor<ll>(mod);\n\
-    \    vector<pair<ll, int>> fac;\n    for (ll p : pf) {\n        if (fac.empty()\
-    \ || fac.back().first != p) fac.emplace_back(p, 1);\n        else fac.back().second++;\n\
-    \    }\n    vector<BinomModPrimePower> binoms;\n    vector<ll> mods;\n    for\
-    \ (auto [p, e] : fac) {\n        binoms.emplace_back(p, e);\n        mods.emplace_back(binoms.back().modulus());\n\
-    \    }\n    while (t--) {\n        ll n, k;\n        sc.read(n, k);\n        vector<pair<ll,\
-    \ ll>> rem;\n        for (int i = 0; i < (int)binoms.size(); ++i) {\n        \
-    \    rem.emplace_back(binoms[i].C(n, k), mods[i]);\n        }\n        pr.println(CRT(rem).first);\n\
-    \    }\n    return 0;\n}\n"
+    \ 8 \"test/yosupo_aplusb_crt.test.cpp\"\n\nvoid self_check() {\n    auto check\
+    \ = [](vector<pair<ll, ll>> equations) {\n        ll modulus = 1;\n        for\
+    \ (auto [r, m] : equations) modulus = lcm(modulus, m);\n        pair<ll, ll> expected{0,\
+    \ 0};\n        for (ll x = 0; x < modulus; ++x) {\n            bool valid = true;\n\
+    \            for (auto [r, m] : equations) valid &= (x - r % m) % m == 0;\n  \
+    \          if (valid) {\n                expected = {x, modulus};\n          \
+    \      break;\n            }\n        }\n        assert(CRT(equations) == expected);\n\
+    \        reverse(equations.begin(), equations.end());\n        assert(CRT(equations)\
+    \ == expected);\n    };\n    check({});\n    check({{2, 3}, {-4, 3}});\n    check({{1,\
+    \ 2}, {0, 4}});\n    check({{LLONG_MIN, 7}, {LLONG_MAX, 5}});\n    check({{LLONG_MAX,\
+    \ 1}});\n    mt19937 rng(61);\n    for (int tc = 0; tc < 3000; ++tc) {\n     \
+    \   vector<pair<ll, ll>> equations(rng() % 5);\n        for (auto &[r, m] : equations)\
+    \ {\n            r = int(rng() % 201) - 100;\n            m = 1 + rng() % 10;\n\
+    \        }\n        check(equations);\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n#include \"../util/fastio.cpp\"\n\
+    #include \"../math/CRT.cpp\"\n\nvoid self_check() {\n    auto check = [](vector<pair<ll,\
+    \ ll>> equations) {\n        ll modulus = 1;\n        for (auto [r, m] : equations)\
+    \ modulus = lcm(modulus, m);\n        pair<ll, ll> expected{0, 0};\n        for\
+    \ (ll x = 0; x < modulus; ++x) {\n            bool valid = true;\n           \
+    \ for (auto [r, m] : equations) valid &= (x - r % m) % m == 0;\n            if\
+    \ (valid) {\n                expected = {x, modulus};\n                break;\n\
+    \            }\n        }\n        assert(CRT(equations) == expected);\n     \
+    \   reverse(equations.begin(), equations.end());\n        assert(CRT(equations)\
+    \ == expected);\n    };\n    check({});\n    check({{2, 3}, {-4, 3}});\n    check({{1,\
+    \ 2}, {0, 4}});\n    check({{LLONG_MIN, 7}, {LLONG_MAX, 5}});\n    check({{LLONG_MAX,\
+    \ 1}});\n    mt19937 rng(61);\n    for (int tc = 0; tc < 3000; ++tc) {\n     \
+    \   vector<pair<ll, ll>> equations(rng() % 5);\n        for (auto &[r, m] : equations)\
+    \ {\n            r = int(rng() % 201) - 100;\n            m = 1 + rng() % 10;\n\
+    \        }\n        check(equations);\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/CRT.cpp
   - math/extgcd.cpp
-  - math/prime/primefactor.cpp
-  - math/binom_mod_prime_power.cpp
-  - math/modinv.cpp
   isVerificationFile: true
-  path: test/yosupo_binomial_coefficient.test.cpp
+  path: test/yosupo_aplusb_crt.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 15:07:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_binomial_coefficient.test.cpp
+documentation_of: test/yosupo_aplusb_crt.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_binomial_coefficient.test.cpp
-- /verify/test/yosupo_binomial_coefficient.test.cpp.html
-title: test/yosupo_binomial_coefficient.test.cpp
+- /verify/test/yosupo_aplusb_crt.test.cpp
+- /verify/test/yosupo_aplusb_crt.test.cpp.html
+title: test/yosupo_aplusb_crt.test.cpp
 ---

@@ -349,123 +349,152 @@ data:
     \ b)) < EPS && dot(a, b) < EPS)\n            return ON;\n        if (a.y > b.y)\n\
     \            swap(a, b);\n        if (a.y < EPS && EPS < b.y && cross(a, b) >\
     \ EPS)\n            x = !x;\n    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon\
-    \ &v, Point p) {\n    int a = 1, b = v.size() - 1;\n    static constexpr int IN\
-    \ = 2, ON = 1, OUT = 0;\n    if (v.size() < 3)\n        return (ccw(v.front(),\
-    \ v.back(), p) & 1) == 0 ? ON : OUT;\n    if (ccw(v[0], v[a], v[b]) > 0)\n   \
-    \     swap(a, b);\n    int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n\
-    \    if ((la & 1) == 0 || (lb & 1) == 0)\n        return ON;\n    if (la > 0 ||\
-    \ lb < 0)\n        return OUT;\n    while (abs(a - b) > 1) {\n        int c =\
-    \ (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n        (val > 0 ? b :\
-    \ a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res & 1) == 0)\n\
-    \        return ON;\n    return res < 0 ? IN : OUT;\n}\n\ngeometry_real diameter(Polygon\
-    \ v) {\n    int n = v.size();\n    if (n == 2)\n        return abs(v[0] - v[1]);\n\
-    \    int i = 0, j = 0;\n    for (int k = 0; k < n; ++k) {\n        if (v[i] <\
-    \ v[k])\n            i = k;\n        if (!(v[j] < v[k]))\n            j = k;\n\
-    \    }\n    geometry_real ret = 0;\n    int si = i, sj = j;\n    while (i != sj\
-    \ || j != si) {\n        ret = max(ret, abs(v[i] - v[j]));\n        if (cross(v[(i\
-    \ + 1) % n] - v[i], v[(j + 1) % n] - v[j]) < 0.0)\n            i = (i + 1) % n;\n\
-    \        else\n            j = (j + 1) % n;\n    }\n    return ret;\n}\n\nPolygon\
-    \ convexCut(Polygon v, Line l) {\n    Polygon q;\n    int n = v.size();\n    for\
-    \ (int i = 0; i < n; ++i) {\n        Point a = v[i], b = v[(i + 1) % n];\n   \
-    \     if (ccw(l.a, l.b, a) != -1)\n            q.push_back(a);\n        if (ccw(l.a,\
-    \ l.b, a) * ccw(l.a, l.b, b) < 0) {\n            q.push_back(crossPoint(Line(a,\
-    \ b), l));\n        }\n    }\n    return q;\n}\n\ngeometry_real closest_pair(Polygon\
-    \ &v, int l = 0, int r = -1) {\n    if (!(~r)) {\n        r = v.size();\n    \
-    \    sort(v.begin(), v.end());\n    }\n    if (r - l < 2) {\n        return abs(v.front()\
-    \ - v.back());\n    }\n    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n\
-    \    geometry_real d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n\
-    \    inplace_merge(v.begin() + l, v.begin() + mid, v.begin() + r, sorty);\n  \
-    \  Polygon u;\n    for (int i = l; i < r; ++i) {\n        if (fabs(v[i].x - p)\
-    \ >= d)\n            continue;\n        for (int j = 0; j < u.size(); ++j) {\n\
-    \            geometry_real dy = v[i].y - next(u.rbegin(), j)->y;\n           \
-    \ if (dy >= d)\n                break;\n            d = min(d, abs(v[i] - *next(u.rbegin(),\
-    \ j)));\n        }\n        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n\
-    /**\n * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n\
-    #line 1 \"geometry/area_of_union_of_rectangles.cpp\"\nusing namespace std;\n\n\
-    template<class Coord = long long, class Area = long long>\nstruct AreaOfUnionOfRectangles\
-    \ {\n    struct Rectangle {\n        Coord l, d, r, u;\n    };\n\n    struct Event\
-    \ {\n        Coord x;\n        int yl, yr;\n        int delta;\n\n        bool\
-    \ operator<(const Event &other) const {\n            return x < other.x;\n   \
-    \     }\n    };\n\n    struct SegmentTree {\n        int n, sz;\n        vector<int>\
-    \ cnt;\n        vector<Area> len;\n        vector<Area> total;\n\n        explicit\
-    \ SegmentTree(const vector<Coord> &ys) : n((int)ys.size() - 1), sz(1) {\n    \
-    \        while (sz < n) sz <<= 1;\n            cnt.assign(sz << 1, 0);\n     \
-    \       len.assign(sz << 1, 0);\n            total.assign(sz << 1, 0);\n     \
-    \       for (int i = 0; i < n; ++i) {\n                total[sz + i] = Area(ys[i\
-    \ + 1]) - Area(ys[i]);\n            }\n            for (int k = sz - 1; k > 0;\
-    \ --k) total[k] = total[k << 1] + total[k << 1 | 1];\n        }\n\n        void\
-    \ apply(int k, int x) {\n            cnt[k] += x;\n            pull(k);\n    \
-    \    }\n\n        void pull(int k) {\n            if (cnt[k] > 0) {\n        \
-    \        len[k] = total[k];\n            } else if (k < sz) {\n              \
-    \  len[k] = len[k << 1] + len[k << 1 | 1];\n            } else {\n           \
-    \     len[k] = 0;\n            }\n        }\n\n        void update(int a, int\
-    \ b, int x) {\n            if (a >= b) return;\n            a += sz;\n       \
-    \     b += sz;\n            int left = a;\n            int right = b - 1;\n  \
-    \          for (; a < b; a >>= 1, b >>= 1) {\n                if (a & 1) apply(a++,\
-    \ x);\n                if (b & 1) apply(--b, x);\n            }\n            while\
-    \ (left >>= 1) pull(left);\n            while (right >>= 1) pull(right);\n   \
-    \     }\n\n        Area covered_length() const {\n            return len[1];\n\
-    \        }\n    };\n\n    vector<Rectangle> rects;\n    vector<Coord> ys;\n\n\
-    \    void add_rectangle(Coord l, Coord d, Coord r, Coord u) {\n        if (l >=\
-    \ r || d >= u) return;\n        rects.push_back({l, d, r, u});\n        ys.push_back(d);\n\
-    \        ys.push_back(u);\n    }\n\n    Area solve() const {\n        if (rects.empty())\
-    \ return 0;\n\n        vector<Coord> ord_y = ys;\n        sort(ord_y.begin(),\
-    \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
-    \        if ((int)ord_y.size() <= 1) return 0;\n\n        vector<Event> events;\n\
-    \        events.reserve(rects.size() * 2);\n        for (auto &&rect : rects)\
-    \ {\n            int d = (int)(lower_bound(ord_y.begin(), ord_y.end(), rect.d)\
-    \ - ord_y.begin());\n            int u = (int)(lower_bound(ord_y.begin(), ord_y.end(),\
-    \ rect.u) - ord_y.begin());\n            events.push_back({rect.l, d, u, 1});\n\
-    \            events.push_back({rect.r, d, u, -1});\n        }\n        sort(events.begin(),\
-    \ events.end());\n\n        SegmentTree seg(ord_y);\n        Area ans = 0;\n \
-    \       Coord prev_x = events[0].x;\n        int i = 0;\n        while (i < (int)events.size())\
-    \ {\n            Coord x = events[i].x;\n            ans += seg.covered_length()\
-    \ * (Area(x) - Area(prev_x));\n            while (i < (int)events.size() && events[i].x\
-    \ == x) {\n                seg.update(events[i].yl, events[i].yr, events[i].delta);\n\
-    \                ++i;\n            }\n            prev_x = x;\n        }\n   \
-    \     return ans;\n    }\n};\n\n/**\n * @brief \u9577\u65B9\u5F62\u548C\u96C6\u5408\
-    \u9762\u7A4D(Area of Union of Rectangles)\n */\n#line 1 \"graph/manhattanmst.cpp\"\
-    \ntemplate<typename T>\nvector<pair<int, int>> manhattanMST(vector<T> xs, vector<T>\
-    \ ys) {\n    using P = pair<int, int>;\n    vector<P> es;\n    vector<int> ord(xs.size());\n\
-    \    for (int s = 0; s < 4; s++) {\n        iota(ord.begin(), ord.end(), 0);\n\
-    \        auto cmp = [&](int i, int j) -> bool {\n            if (xs[i]+ys[i] !=\
-    \ xs[j]+ys[j]) return xs[i]+ys[i] < xs[j]+ys[j];\n            return (s>>1) ?\
-    \ (i < j) : (i > j);\n        };\n        sort(ord.begin(), ord.end(), cmp);\n\
-    \        map<pair<T, int>, int> idx;\n        for (auto &&i : ord) {\n       \
-    \     pair<T, int> p = {-ys[i], (s == 3)?i:-i};\n            for (auto it = idx.lower_bound(p);\
-    \ it != idx.end(); it = idx.erase(it)) {\n                if (xs[i] - xs[it->second]\
-    \ < ys[i] - ys[it->second]) break;\n                es.emplace_back(i, it->second);\n\
-    \            }\n            idx[p] = i;\n        }\n        swap(xs, ys);\n  \
-    \      if(s&1) for(auto &&i : xs) i = -i;\n    }\n    return es;\n}\n\n/**\n *\
-    \ @brief \u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)\n */\n#line 9\
-    \ \"test/yosupo_aplusb_geometry_boundaries.test.cpp\"\n\nvoid hull_check() {\n\
-    \    auto check = [](Polygon input, const Polygon &expected) {\n        auto actual\
-    \ = convex_hull(input);\n        assert(actual.size() == expected.size());\n \
-    \       for (int i = 0; i < int(actual.size()); ++i)\n            assert(actual[i].x\
-    \ == expected[i].x && actual[i].y == expected[i].y);\n    };\n    check({}, {});\n\
-    \    check({Point(1, 2)}, {Point(1, 2)});\n    check({Point(2, 3), Point(-1, 0)},\
-    \ {Point(-1, 0), Point(2, 3)});\n    Polygon triangle{Point(0, 0), Point(2, 0),\
-    \ Point(0, 2)};\n    check({triangle[2], triangle[0], triangle[1]}, triangle);\n\
-    \    Polygon boundary{Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1),\n  \
-    \                   Point(2, 2), Point(1, 2), Point(0, 2), Point(0, 1)};\n   \
-    \ Polygon input = boundary;\n    input.push_back(Point(1, 1));\n    mt19937 rng(47);\n\
-    \    for (int i = 0; i < 20; ++i) {\n        shuffle(input.begin(), input.end(),\
-    \ rng);\n        check(input, boundary);\n    }\n}\n\nvoid rectangle_check() {\n\
-    \    using Solver = AreaOfUnionOfRectangles<int, long long>;\n    auto check =\
-    \ [](const vector<array<int, 4>> &rectangles) {\n        Solver solver;\n    \
-    \    vector<int> xs, ys;\n        for (auto [l, d, r, u] : rectangles) {\n   \
-    \         solver.add_rectangle(l, d, r, u);\n            xs.push_back(l);\n  \
-    \          xs.push_back(r);\n            ys.push_back(d);\n            ys.push_back(u);\n\
-    \        }\n        sort(xs.begin(), xs.end());\n        sort(ys.begin(), ys.end());\n\
-    \        long long expected = 0;\n        for (int i = 1; i < int(xs.size());\
-    \ ++i) for (int j = 1; j < int(ys.size()); ++j) {\n            bool covered =\
-    \ false;\n            for (auto [l, d, r, u] : rectangles)\n                covered\
-    \ |= l <= xs[i - 1] && xs[i] <= r && d <= ys[j - 1] && ys[j] <= u;\n         \
-    \   if (covered) expected += (static_cast<long long>(xs[i]) - xs[i - 1]) *\n \
-    \                                   (static_cast<long long>(ys[j]) - ys[j - 1]);\n\
-    \        }\n        assert(solver.solve() == expected);\n        assert(solver.solve()\
-    \ == expected);\n    };\n    check({});\n    check({{-2000000000, 0, 2000000000,\
-    \ 1}});\n    check({{0, -2000000000, 1, 2000000000}});\n    check({{-2000000000,\
+    \ &v, Point p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr\
+    \ int IN = 2, ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if\
+    \ (v.size() < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON\
+    \ : OUT;\n    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
+    \        auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };\n\
+    \        while (r - l > 1) {\n            int m = (l + r) / 2;\n            if\
+    \ (ccw(v[0], v[index(1)], v[index(m)]) == ONLINE_FRONT) l = m;\n            else\
+    \ r = m;\n        }\n        return index(l);\n    };\n    int orientation = ccw(v[0],\
+    \ v[a], v[b]);\n    int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n  \
+    \  if ((orientation & 1) == 0 || la == ONLINE_FRONT) {\n        a = end_of_ray(false);\n\
+    \        la = ccw(v[0], v[a], p);\n    }\n    if ((orientation & 1) == 0 || lb\
+    \ == ONLINE_FRONT) {\n        b = end_of_ray(true);\n        lb = ccw(v[0], v[b],\
+    \ p);\n    }\n    if (a >= b)\n        return contains(v, p);\n    if ((orientation\
+    \ & 1) == 0) orientation = ccw(v[0], v[a], v[a + 1]);\n    if ((orientation &\
+    \ 1) == 0)\n        return contains(v, p);\n    if (orientation > 0) {\n     \
+    \   swap(a, b);\n        swap(la, lb);\n    }\n    if ((la & 1) == 0 || (lb &\
+    \ 1) == 0)\n        return la == ON_SEGMENT || lb == ON_SEGMENT ? ON : OUT;\n\
+    \    if (la > 0 || lb < 0)\n        return OUT;\n    while (abs(a - b) > 1) {\n\
+    \        int c = (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n       \
+    \ (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res\
+    \ & 1) == 0)\n        return res == ON_SEGMENT ? ON : OUT;\n    return res < 0\
+    \ ? IN : OUT;\n}\n\ngeometry_real diameter(Polygon v) {\n    int n = v.size();\n\
+    \    if (n == 2)\n        return abs(v[0] - v[1]);\n    int i = 0, j = 0;\n  \
+    \  for (int k = 0; k < n; ++k) {\n        if (v[i] < v[k])\n            i = k;\n\
+    \        if (!(v[j] < v[k]))\n            j = k;\n    }\n    geometry_real ret\
+    \ = 0;\n    int si = i, sj = j;\n    while (i != sj || j != si) {\n        ret\
+    \ = max(ret, abs(v[i] - v[j]));\n        if (cross(v[(i + 1) % n] - v[i], v[(j\
+    \ + 1) % n] - v[j]) < 0.0)\n            i = (i + 1) % n;\n        else\n     \
+    \       j = (j + 1) % n;\n    }\n    return ret;\n}\n\nPolygon convexCut(Polygon\
+    \ v, Line l) {\n    Polygon q;\n    int n = v.size();\n    for (int i = 0; i <\
+    \ n; ++i) {\n        Point a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a,\
+    \ l.b, a) != -1)\n            q.push_back(a);\n        if (ccw(l.a, l.b, a) *\
+    \ ccw(l.a, l.b, b) < 0) {\n            q.push_back(crossPoint(Line(a, b), l));\n\
+    \        }\n    }\n    return q;\n}\n\ngeometry_real closest_pair(Polygon &v,\
+    \ int l = 0, int r = -1) {\n    if (!(~r)) {\n        r = v.size();\n        sort(v.begin(),\
+    \ v.end());\n    }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n\
+    \    }\n    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
+    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
+    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
+    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
+    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
+    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
+    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
+    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
+    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 1 \"geometry/area_of_union_of_rectangles.cpp\"\
+    \nusing namespace std;\n\ntemplate<class Coord = long long, class Area = long\
+    \ long>\nstruct AreaOfUnionOfRectangles {\n    struct Rectangle {\n        Coord\
+    \ l, d, r, u;\n    };\n\n    struct Event {\n        Coord x;\n        int yl,\
+    \ yr;\n        int delta;\n\n        bool operator<(const Event &other) const\
+    \ {\n            return x < other.x;\n        }\n    };\n\n    struct SegmentTree\
+    \ {\n        int n, sz;\n        vector<int> cnt;\n        vector<Area> len;\n\
+    \        vector<Area> total;\n\n        explicit SegmentTree(const vector<Coord>\
+    \ &ys) : n((int)ys.size() - 1), sz(1) {\n            while (sz < n) sz <<= 1;\n\
+    \            cnt.assign(sz << 1, 0);\n            len.assign(sz << 1, 0);\n  \
+    \          total.assign(sz << 1, 0);\n            for (int i = 0; i < n; ++i)\
+    \ {\n                total[sz + i] = Area(ys[i + 1]) - Area(ys[i]);\n        \
+    \    }\n            for (int k = sz - 1; k > 0; --k) total[k] = total[k << 1]\
+    \ + total[k << 1 | 1];\n        }\n\n        void apply(int k, int x) {\n    \
+    \        cnt[k] += x;\n            pull(k);\n        }\n\n        void pull(int\
+    \ k) {\n            if (cnt[k] > 0) {\n                len[k] = total[k];\n  \
+    \          } else if (k < sz) {\n                len[k] = len[k << 1] + len[k\
+    \ << 1 | 1];\n            } else {\n                len[k] = 0;\n            }\n\
+    \        }\n\n        void update(int a, int b, int x) {\n            if (a >=\
+    \ b) return;\n            a += sz;\n            b += sz;\n            int left\
+    \ = a;\n            int right = b - 1;\n            for (; a < b; a >>= 1, b >>=\
+    \ 1) {\n                if (a & 1) apply(a++, x);\n                if (b & 1)\
+    \ apply(--b, x);\n            }\n            while (left >>= 1) pull(left);\n\
+    \            while (right >>= 1) pull(right);\n        }\n\n        Area covered_length()\
+    \ const {\n            return len[1];\n        }\n    };\n\n    vector<Rectangle>\
+    \ rects;\n    vector<Coord> ys;\n\n    void add_rectangle(Coord l, Coord d, Coord\
+    \ r, Coord u) {\n        if (l >= r || d >= u) return;\n        rects.push_back({l,\
+    \ d, r, u});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\n  \
+    \  Area solve() const {\n        if (rects.empty()) return 0;\n\n        vector<Coord>\
+    \ ord_y = ys;\n        sort(ord_y.begin(), ord_y.end());\n        ord_y.erase(unique(ord_y.begin(),\
+    \ ord_y.end()), ord_y.end());\n        if ((int)ord_y.size() <= 1) return 0;\n\
+    \n        vector<Event> events;\n        events.reserve(rects.size() * 2);\n \
+    \       for (auto &&rect : rects) {\n            int d = (int)(lower_bound(ord_y.begin(),\
+    \ ord_y.end(), rect.d) - ord_y.begin());\n            int u = (int)(lower_bound(ord_y.begin(),\
+    \ ord_y.end(), rect.u) - ord_y.begin());\n            events.push_back({rect.l,\
+    \ d, u, 1});\n            events.push_back({rect.r, d, u, -1});\n        }\n \
+    \       sort(events.begin(), events.end());\n\n        SegmentTree seg(ord_y);\n\
+    \        Area ans = 0;\n        Coord prev_x = events[0].x;\n        int i = 0;\n\
+    \        while (i < (int)events.size()) {\n            Coord x = events[i].x;\n\
+    \            ans += seg.covered_length() * (Area(x) - Area(prev_x));\n       \
+    \     while (i < (int)events.size() && events[i].x == x) {\n                seg.update(events[i].yl,\
+    \ events[i].yr, events[i].delta);\n                ++i;\n            }\n     \
+    \       prev_x = x;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief\
+    \ \u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)\n\
+    \ */\n#line 1 \"graph/manhattanmst.cpp\"\ntemplate<typename T>\nvector<pair<int,\
+    \ int>> manhattanMST(vector<T> xs, vector<T> ys) {\n    using P = pair<int, int>;\n\
+    \    vector<P> es;\n    vector<int> ord(xs.size());\n    for (int s = 0; s < 4;\
+    \ s++) {\n        iota(ord.begin(), ord.end(), 0);\n        auto cmp = [&](int\
+    \ i, int j) -> bool {\n            if (xs[i]+ys[i] != xs[j]+ys[j]) return xs[i]+ys[i]\
+    \ < xs[j]+ys[j];\n            return (s>>1) ? (i < j) : (i > j);\n        };\n\
+    \        sort(ord.begin(), ord.end(), cmp);\n        map<pair<T, int>, int> idx;\n\
+    \        for (auto &&i : ord) {\n            pair<T, int> p = {-ys[i], (s == 3)?i:-i};\n\
+    \            for (auto it = idx.lower_bound(p); it != idx.end(); it = idx.erase(it))\
+    \ {\n                if (xs[i] - xs[it->second] < ys[i] - ys[it->second]) break;\n\
+    \                es.emplace_back(i, it->second);\n            }\n            idx[p]\
+    \ = i;\n        }\n        swap(xs, ys);\n        if(s&1) for(auto &&i : xs) i\
+    \ = -i;\n    }\n    return es;\n}\n\n/**\n * @brief \u30DE\u30F3\u30CF\u30C3\u30BF\
+    \u30F3MST(Manhattan MST)\n */\n#line 9 \"test/yosupo_aplusb_geometry_boundaries.test.cpp\"\
+    \n\nvoid hull_check() {\n    auto check = [](Polygon input, const Polygon &expected)\
+    \ {\n        auto actual = convex_hull(input);\n        assert(actual.size() ==\
+    \ expected.size());\n        for (int i = 0; i < int(actual.size()); ++i)\n  \
+    \          assert(actual[i].x == expected[i].x && actual[i].y == expected[i].y);\n\
+    \    };\n    check({}, {});\n    check({Point(1, 2)}, {Point(1, 2)});\n    check({Point(2,\
+    \ 3), Point(-1, 0)}, {Point(-1, 0), Point(2, 3)});\n    Polygon triangle{Point(0,\
+    \ 0), Point(2, 0), Point(0, 2)};\n    check({triangle[2], triangle[0], triangle[1]},\
+    \ triangle);\n    Polygon boundary{Point(0, 0), Point(1, 0), Point(2, 0), Point(2,\
+    \ 1),\n                     Point(2, 2), Point(1, 2), Point(0, 2), Point(0, 1)};\n\
+    \    Polygon input = boundary;\n    input.push_back(Point(1, 1));\n    mt19937\
+    \ rng(47);\n    for (int i = 0; i < 20; ++i) {\n        shuffle(input.begin(),\
+    \ input.end(), rng);\n        check(input, boundary);\n    }\n}\n\nvoid contains_convex_check()\
+    \ {\n    Polygon empty;\n    assert(contains_convex(empty, Point(0, 0)) == 0);\n\
+    \    auto check = [](Polygon polygon) {\n        for (int direction = 0; direction\
+    \ < 2; ++direction) {\n            for (int start = 0; start < int(polygon.size());\
+    \ ++start) {\n                for (int x = -6; x <= 10; ++x) for (int y = -6;\
+    \ y <= 10; ++y) {\n                    Point p(x * 0.5, y * 0.5);\n          \
+    \          assert(contains_convex(polygon, p) == contains(polygon, p));\n    \
+    \            }\n                rotate(polygon.begin(), polygon.begin() + 1, polygon.end());\n\
+    \            }\n            reverse(polygon.begin(), polygon.end());\n       \
+    \ }\n    };\n    check({Point(0, 0)});\n    check({Point(0, 0), Point(1, 0)});\n\
+    \    check({Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0)});\n    check({Point(0,\
+    \ 0), Point(1, 0), Point(1, 1), Point(0, 1)});\n    check({Point(0, 0), Point(4,\
+    \ 0), Point(0, 4)});\n    check({Point(0, 0), Point(1, 0), Point(2, 0), Point(2,\
+    \ 1),\n           Point(2, 2), Point(1, 2), Point(0, 2), Point(0, 1)});\n    mt19937\
+    \ rng(16);\n    for (int tc = 0; tc < 100; ++tc) {\n        set<pair<int, int>>\
+    \ points;\n        for (int i = 0; i < 10; ++i) points.emplace(int(rng() % 9)\
+    \ - 2, int(rng() % 9) - 2);\n        Polygon input;\n        for (auto [x, y]\
+    \ : points) input.emplace_back(x, y);\n        check(convex_hull(input));\n  \
+    \  }\n}\n\nvoid rectangle_check() {\n    using Solver = AreaOfUnionOfRectangles<int,\
+    \ long long>;\n    auto check = [](const vector<array<int, 4>> &rectangles) {\n\
+    \        Solver solver;\n        vector<int> xs, ys;\n        for (auto [l, d,\
+    \ r, u] : rectangles) {\n            solver.add_rectangle(l, d, r, u);\n     \
+    \       xs.push_back(l);\n            xs.push_back(r);\n            ys.push_back(d);\n\
+    \            ys.push_back(u);\n        }\n        sort(xs.begin(), xs.end());\n\
+    \        sort(ys.begin(), ys.end());\n        long long expected = 0;\n      \
+    \  for (int i = 1; i < int(xs.size()); ++i) for (int j = 1; j < int(ys.size());\
+    \ ++j) {\n            bool covered = false;\n            for (auto [l, d, r, u]\
+    \ : rectangles)\n                covered |= l <= xs[i - 1] && xs[i] <= r && d\
+    \ <= ys[j - 1] && ys[j] <= u;\n            if (covered) expected += (static_cast<long\
+    \ long>(xs[i]) - xs[i - 1]) *\n                                    (static_cast<long\
+    \ long>(ys[j]) - ys[j - 1]);\n        }\n        assert(solver.solve() == expected);\n\
+    \        assert(solver.solve() == expected);\n    };\n    check({});\n    check({{-2000000000,\
+    \ 0, 2000000000, 1}});\n    check({{0, -2000000000, 1, 2000000000}});\n    check({{-2000000000,\
     \ -3, 1, 4}, {-1, -2, 2000000000, 5}, {-5, 0, 5, 0}});\n    mt19937 rng(17);\n\
     \    const vector<int> coords{-2000000000, -7, -1, 0, 1, 7, 2000000000};\n   \
     \ for (int tc = 0; tc < 300; ++tc) {\n        vector<array<int, 4>> rectangles;\n\
@@ -493,9 +522,9 @@ data:
     \ = abs(x[u] - x[v]) + abs(y[u] - y[v]);\n        for (auto [u, v] : edges) {\n\
     \            assert(0 <= u && u < n && 0 <= v && v < n && u != v);\n         \
     \   sparse[u][v] = sparse[v][u] = complete[u][v];\n        }\n        assert(prim(complete)\
-    \ == prim(sparse));\n    }\n}\n\nint main() {\n    hull_check();\n    rectangle_check();\n\
-    \    manhattan_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n   \
-    \ sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \ == prim(sparse));\n    }\n}\n\nint main() {\n    hull_check();\n    contains_convex_check();\n\
+    \    rectangle_check();\n    manhattan_check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../geometry/geometry.cpp\"\
     \n#include \"../geometry/area_of_union_of_rectangles.cpp\"\n#include \"../graph/manhattanmst.cpp\"\
@@ -510,22 +539,39 @@ data:
     \ 1),\n                     Point(2, 2), Point(1, 2), Point(0, 2), Point(0, 1)};\n\
     \    Polygon input = boundary;\n    input.push_back(Point(1, 1));\n    mt19937\
     \ rng(47);\n    for (int i = 0; i < 20; ++i) {\n        shuffle(input.begin(),\
-    \ input.end(), rng);\n        check(input, boundary);\n    }\n}\n\nvoid rectangle_check()\
-    \ {\n    using Solver = AreaOfUnionOfRectangles<int, long long>;\n    auto check\
-    \ = [](const vector<array<int, 4>> &rectangles) {\n        Solver solver;\n  \
-    \      vector<int> xs, ys;\n        for (auto [l, d, r, u] : rectangles) {\n \
-    \           solver.add_rectangle(l, d, r, u);\n            xs.push_back(l);\n\
-    \            xs.push_back(r);\n            ys.push_back(d);\n            ys.push_back(u);\n\
-    \        }\n        sort(xs.begin(), xs.end());\n        sort(ys.begin(), ys.end());\n\
-    \        long long expected = 0;\n        for (int i = 1; i < int(xs.size());\
-    \ ++i) for (int j = 1; j < int(ys.size()); ++j) {\n            bool covered =\
-    \ false;\n            for (auto [l, d, r, u] : rectangles)\n                covered\
-    \ |= l <= xs[i - 1] && xs[i] <= r && d <= ys[j - 1] && ys[j] <= u;\n         \
-    \   if (covered) expected += (static_cast<long long>(xs[i]) - xs[i - 1]) *\n \
-    \                                   (static_cast<long long>(ys[j]) - ys[j - 1]);\n\
-    \        }\n        assert(solver.solve() == expected);\n        assert(solver.solve()\
-    \ == expected);\n    };\n    check({});\n    check({{-2000000000, 0, 2000000000,\
-    \ 1}});\n    check({{0, -2000000000, 1, 2000000000}});\n    check({{-2000000000,\
+    \ input.end(), rng);\n        check(input, boundary);\n    }\n}\n\nvoid contains_convex_check()\
+    \ {\n    Polygon empty;\n    assert(contains_convex(empty, Point(0, 0)) == 0);\n\
+    \    auto check = [](Polygon polygon) {\n        for (int direction = 0; direction\
+    \ < 2; ++direction) {\n            for (int start = 0; start < int(polygon.size());\
+    \ ++start) {\n                for (int x = -6; x <= 10; ++x) for (int y = -6;\
+    \ y <= 10; ++y) {\n                    Point p(x * 0.5, y * 0.5);\n          \
+    \          assert(contains_convex(polygon, p) == contains(polygon, p));\n    \
+    \            }\n                rotate(polygon.begin(), polygon.begin() + 1, polygon.end());\n\
+    \            }\n            reverse(polygon.begin(), polygon.end());\n       \
+    \ }\n    };\n    check({Point(0, 0)});\n    check({Point(0, 0), Point(1, 0)});\n\
+    \    check({Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0)});\n    check({Point(0,\
+    \ 0), Point(1, 0), Point(1, 1), Point(0, 1)});\n    check({Point(0, 0), Point(4,\
+    \ 0), Point(0, 4)});\n    check({Point(0, 0), Point(1, 0), Point(2, 0), Point(2,\
+    \ 1),\n           Point(2, 2), Point(1, 2), Point(0, 2), Point(0, 1)});\n    mt19937\
+    \ rng(16);\n    for (int tc = 0; tc < 100; ++tc) {\n        set<pair<int, int>>\
+    \ points;\n        for (int i = 0; i < 10; ++i) points.emplace(int(rng() % 9)\
+    \ - 2, int(rng() % 9) - 2);\n        Polygon input;\n        for (auto [x, y]\
+    \ : points) input.emplace_back(x, y);\n        check(convex_hull(input));\n  \
+    \  }\n}\n\nvoid rectangle_check() {\n    using Solver = AreaOfUnionOfRectangles<int,\
+    \ long long>;\n    auto check = [](const vector<array<int, 4>> &rectangles) {\n\
+    \        Solver solver;\n        vector<int> xs, ys;\n        for (auto [l, d,\
+    \ r, u] : rectangles) {\n            solver.add_rectangle(l, d, r, u);\n     \
+    \       xs.push_back(l);\n            xs.push_back(r);\n            ys.push_back(d);\n\
+    \            ys.push_back(u);\n        }\n        sort(xs.begin(), xs.end());\n\
+    \        sort(ys.begin(), ys.end());\n        long long expected = 0;\n      \
+    \  for (int i = 1; i < int(xs.size()); ++i) for (int j = 1; j < int(ys.size());\
+    \ ++j) {\n            bool covered = false;\n            for (auto [l, d, r, u]\
+    \ : rectangles)\n                covered |= l <= xs[i - 1] && xs[i] <= r && d\
+    \ <= ys[j - 1] && ys[j] <= u;\n            if (covered) expected += (static_cast<long\
+    \ long>(xs[i]) - xs[i - 1]) *\n                                    (static_cast<long\
+    \ long>(ys[j]) - ys[j - 1]);\n        }\n        assert(solver.solve() == expected);\n\
+    \        assert(solver.solve() == expected);\n    };\n    check({});\n    check({{-2000000000,\
+    \ 0, 2000000000, 1}});\n    check({{0, -2000000000, 1, 2000000000}});\n    check({{-2000000000,\
     \ -3, 1, 4}, {-1, -2, 2000000000, 5}, {-5, 0, 5, 0}});\n    mt19937 rng(17);\n\
     \    const vector<int> coords{-2000000000, -7, -1, 0, 1, 7, 2000000000};\n   \
     \ for (int tc = 0; tc < 300; ++tc) {\n        vector<array<int, 4>> rectangles;\n\
@@ -553,9 +599,9 @@ data:
     \ = abs(x[u] - x[v]) + abs(y[u] - y[v]);\n        for (auto [u, v] : edges) {\n\
     \            assert(0 <= u && u < n && 0 <= v && v < n && u != v);\n         \
     \   sparse[u][v] = sparse[v][u] = complete[u][v];\n        }\n        assert(prim(complete)\
-    \ == prim(sparse));\n    }\n}\n\nint main() {\n    hull_check();\n    rectangle_check();\n\
-    \    manhattan_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n   \
-    \ sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \ == prim(sparse));\n    }\n}\n\nint main() {\n    hull_check();\n    contains_convex_check();\n\
+    \    rectangle_check();\n    manhattan_check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - geometry/geometry.cpp
@@ -564,7 +610,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_geometry_boundaries.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 14:33:32+09:00'
+  timestamp: '2026-10-03 15:20:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_geometry_boundaries.test.cpp

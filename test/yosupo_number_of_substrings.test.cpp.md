@@ -22,18 +22,18 @@ data:
     \ ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"string/suffix_array.cpp\"\
     \nvector<int> convert(string const& s){\n    int n = s.size();\n    std::vector<int>\
-    \ s2(n);\n    for (int i = 0; i < n; i++) s2[i] = s[i];\n    return s2;\n}\n\n\
-    vector<int> suffix_array(const vector<int> &s, int upper){\n    int n = s.size();\n\
-    \    if (n <= 1) return vector<int>(n, 0);\n    if (n == 2) return s[0] < s[1]\
-    \ ? vector<int>{0, 1} : vector<int>{1, 0};\n    vector<int> sa(n);\n    vector<bool>\
-    \ ls(n);\n    for (int i = n-2; i >= 0; --i) ls[i] = (s[i] == s[i+1]) ? ls[i+1]\
-    \ : (s[i] < s[i+1]);\n    vector<int> sum_l(upper+1), sum_s(upper+1);\n    for\
-    \ (int i = 0; i < n; ++i) (ls[i] ? sum_l[s[i]+1] : sum_s[s[i]])++;\n    for (int\
-    \ i = 0; i <= upper; ++i) {\n        sum_s[i] += sum_l[i];\n        if(i < upper)\
-    \ sum_l[i+1] += sum_s[i];\n    }\n\n    auto induce = [&](vector<int> const& lms){\n\
-    \        fill(sa.begin(),sa.end(), -1);\n        vector<int> buf(upper+1);\n \
-    \       copy(sum_s.begin(),sum_s.end(), buf.begin());\n        for (auto &&i :\
-    \ lms) if(i != n) sa[buf[s[i]]++] = i;\n        copy(sum_l.begin(),sum_l.end(),\
+    \ s2(n);\n    for (int i = 0; i < n; i++) s2[i] = static_cast<unsigned char>(s[i]);\n\
+    \    return s2;\n}\n\nvector<int> suffix_array(const vector<int> &s, int upper){\n\
+    \    int n = s.size();\n    if (n <= 1) return vector<int>(n, 0);\n    if (n ==\
+    \ 2) return s[0] < s[1] ? vector<int>{0, 1} : vector<int>{1, 0};\n    vector<int>\
+    \ sa(n);\n    vector<bool> ls(n);\n    for (int i = n-2; i >= 0; --i) ls[i] =\
+    \ (s[i] == s[i+1]) ? ls[i+1] : (s[i] < s[i+1]);\n    vector<int> sum_l(upper+1),\
+    \ sum_s(upper+1);\n    for (int i = 0; i < n; ++i) (ls[i] ? sum_l[s[i]+1] : sum_s[s[i]])++;\n\
+    \    for (int i = 0; i <= upper; ++i) {\n        sum_s[i] += sum_l[i];\n     \
+    \   if(i < upper) sum_l[i+1] += sum_s[i];\n    }\n\n    auto induce = [&](vector<int>\
+    \ const& lms){\n        fill(sa.begin(),sa.end(), -1);\n        vector<int> buf(upper+1);\n\
+    \        copy(sum_s.begin(),sum_s.end(), buf.begin());\n        for (auto &&i\
+    \ : lms) if(i != n) sa[buf[s[i]]++] = i;\n        copy(sum_l.begin(),sum_l.end(),\
     \ buf.begin());\n        sa[buf[s.back()]++] = n-1;\n        for (int i = 0; i\
     \ < n; ++i) {\n            int v = sa[i];\n            if(v >= 1 && !ls[v-1])\
     \ sa[buf[s[v-1]]++] = v-1;\n        }\n        copy(sum_l.begin(),sum_l.end(),\
@@ -62,13 +62,13 @@ data:
     \    }\n    return suffix_array(z, now);\n}\n\nvector<int> suffix_array(const\
     \ string& s){\n    return suffix_array(convert(s), 255);\n}\n\ntemplate<class\
     \ T>\nvector<int> lcp(const vector<T> &s, const vector<int> &sa){\n    int n =\
-    \ s.size();\n    vector<int> sa_inv(n);\n    for (int i = 0; i < n; ++i) sa_inv[sa[i]]\
-    \ = i;\n    vector<int> lcp(n-1);\n    int h = 0;\n    for (int i = 0; i < n;\
-    \ ++i) {\n        if(h > 0) h--;\n        if(!sa_inv[i]) continue;\n        int\
-    \ j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h < n && s[j+h] == s[i+h])\
-    \ h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return lcp;\n}\n\nvector<int>\
-    \ lcp(string const& s, vector<int> const& sa){\n    return lcp(convert(s), sa);\n\
-    }\n\n/**\n * @brief Suffix Array\n */\n#line 21 \"test/yosupo_number_of_substrings.test.cpp\"\
+    \ s.size();\n    if (n <= 1) return {};\n    vector<int> sa_inv(n);\n    for (int\
+    \ i = 0; i < n; ++i) sa_inv[sa[i]] = i;\n    vector<int> lcp(n-1);\n    int h\
+    \ = 0;\n    for (int i = 0; i < n; ++i) {\n        if(h > 0) h--;\n        if(!sa_inv[i])\
+    \ continue;\n        int j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h <\
+    \ n && s[j+h] == s[i+h]) h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return\
+    \ lcp;\n}\n\nvector<int> lcp(string const& s, vector<int> const& sa){\n    return\
+    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n#line 21 \"test/yosupo_number_of_substrings.test.cpp\"\
     \n\nint main() {\n    string s;\n    cin >> s;\n    auto sa = suffix_array(s);\n\
     \    auto v = lcp(s, sa);\n    ll n = s.size();\n    ll ans = n*(n+1)/2-accumulate(v.begin(),v.end(),\
     \ 0LL);\n    cout << ans << \"\\n\";\n    return 0;\n}\n"
@@ -86,7 +86,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 15:07:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_number_of_substrings.test.cpp

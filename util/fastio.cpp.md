@@ -104,6 +104,9 @@ data:
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_crt.test.cpp
+    title: test/yosupo_aplusb_crt.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dsu_on_tree.test.cpp
     title: test/yosupo_aplusb_dsu_on_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -118,6 +121,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_garner.test.cpp
+    title: test/yosupo_aplusb_garner.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_geometry_boundaries.test.cpp
     title: test/yosupo_aplusb_geometry_boundaries.test.cpp
@@ -1069,6 +1075,7 @@ data:
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
   - test/yosupo_sqrt_mod.test.cpp
+  - test/yosupo_aplusb_garner.test.cpp
   - test/yosupo_general_matching.test.cpp
   - test/yosupo_assignment_hungarian.test.cpp
   - test/aoj2907_prefix_suffix_search.test.cpp
@@ -1087,6 +1094,7 @@ data:
   - test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
   - test/aoj_grl_5_a_diameter.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
+  - test/yosupo_aplusb_crt.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
   - test/yosupo_aplusb_ndvec.test.cpp
 date: 2026-08-02

@@ -9,6 +9,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_crt.test.cpp
+    title: test/yosupo_aplusb_crt.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_binomial_coefficient.test.cpp
     title: test/yosupo_binomial_coefficient.test.cpp
   _isVerificationFailed: false
@@ -23,32 +26,33 @@ data:
     \ a);\n    }\n    return b;\n}\n \n\n/**\n * @brief \u62E1\u5F35\u30E6\u30FC\u30AF\
     \u30EA\u30C3\u30C9\u4E92\u9664\u6CD5(Extended GCD)\n */\n#line 2 \"math/CRT.cpp\"\
     \n\npair<ll, ll> CRT(const vector<pair<ll, ll>> &a){\n    ll R = 0, M = 1;\n \
-    \   for (auto &&i : a) {\n        ll r = (i.first+i.second)%i.second, m = i.second;\n\
-    \        if(m < M) swap(r, R), swap(m, M);\n        if(M%m == 0){\n          \
-    \  if(R % m != r) return {};\n            continue;\n        }\n        ll p,\
-    \ q;\n        ll g = extgcd(M, m, p, q); // p = inv(M') mod m'\n        ll mm\
-    \ = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g % mm * p\
-    \ % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R += M;\n    }\n\
-    \    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\u7406\
-    (Chinese Remainder Theorem)\n */\n"
-  code: "#include \"extgcd.cpp\"\n\npair<ll, ll> CRT(const vector<pair<ll, ll>> &a){\n\
-    \    ll R = 0, M = 1;\n    for (auto &&i : a) {\n        ll r = (i.first+i.second)%i.second,\
-    \ m = i.second;\n        if(m < M) swap(r, R), swap(m, M);\n        if(M%m ==\
-    \ 0){\n            if(R % m != r) return {};\n            continue;\n        }\n\
-    \        ll p, q;\n        ll g = extgcd(M, m, p, q); // p = inv(M') mod m'\n\
-    \        ll mm = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g\
+    \   for (auto &&i : a) {\n        ll m = i.second, r = i.first % m;\n        if(r\
+    \ < 0) r += m;\n        if(m < M) swap(r, R), swap(m, M);\n        if(M%m == 0){\n\
+    \            if(R % m != r) return {};\n            continue;\n        }\n   \
+    \     ll p, q;\n        ll g = extgcd(M, m, p, q); // p = inv(M') mod m'\n   \
+    \     ll mm = m/g;\n        if((r-R)%g) return {0, 0};\n        ll x = (r-R)/g\
     \ % mm * p % mm;\n        R += x*M;\n        M *= mm;\n        if(R < 0) R +=\
     \ M;\n    }\n    return {R, M};\n}\n\n/**\n * @brief \u4E2D\u56FD\u5270\u4F59\u5B9A\
     \u7406(Chinese Remainder Theorem)\n */\n"
+  code: "#include \"extgcd.cpp\"\n\npair<ll, ll> CRT(const vector<pair<ll, ll>> &a){\n\
+    \    ll R = 0, M = 1;\n    for (auto &&i : a) {\n        ll m = i.second, r =\
+    \ i.first % m;\n        if(r < 0) r += m;\n        if(m < M) swap(r, R), swap(m,\
+    \ M);\n        if(M%m == 0){\n            if(R % m != r) return {};\n        \
+    \    continue;\n        }\n        ll p, q;\n        ll g = extgcd(M, m, p, q);\
+    \ // p = inv(M') mod m'\n        ll mm = m/g;\n        if((r-R)%g) return {0,\
+    \ 0};\n        ll x = (r-R)/g % mm * p % mm;\n        R += x*M;\n        M *=\
+    \ mm;\n        if(R < 0) R += M;\n    }\n    return {R, M};\n}\n\n/**\n * @brief\
+    \ \u4E2D\u56FD\u5270\u4F59\u5B9A\u7406(Chinese Remainder Theorem)\n */\n"
   dependsOn:
   - math/extgcd.cpp
   isVerificationFile: false
   path: math/CRT.cpp
   requiredBy: []
-  timestamp: '2026-03-23 22:54:37+09:00'
+  timestamp: '2026-10-03 15:07:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
+  - test/yosupo_aplusb_crt.test.cpp
 date: 2019-08-18
 documentation_of: math/CRT.cpp
 layout: document
@@ -65,8 +69,10 @@ $$
 という情報から、$\operatorname{lcm}(M_1, M_2, \dots, M_N)$ を法とする $x$ を復元する。
 
 ## できること
-- `CRT(a)` : 合同式の列 `a` をまとめ、解があれば `(r, M)` を返す。解がなければ空または `(0, 0)`
+- `CRT(a)` : 合同式の列 `a` をまとめ、解があれば `(r, M)`、解がなければ `(0, 0)` を返す。空列には `(0, 1)` を返す
 
 ## 使い方
 `a[i] = (a_i, M_i)` を渡す。
-戻り値 `(r, M)` は $x \equiv r \pmod{M}$ を表す。
+各 $M_i$ は正とし、余り $a_i$ が負数や $M_i$ 以上の場合には内部で正規化する。
+戻り値 `(r, M)` は $x \equiv r \pmod{M}$、$0 \le r < M$ を満たす。
+最小公倍数と途中の演算が `long long` に収まる範囲で使う。

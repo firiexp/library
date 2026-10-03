@@ -19,63 +19,63 @@ data:
     - https://judge.yosupo.jp/problem/static_convex_hull
   bundledCode: "#line 1 \"test/yosupo_static_convex_hull.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/static_convex_hull\"\n\n#include <algorithm>\n\
-    #include <random>\n#include <set>\n#include <vector>\nusing namespace std;\nusing\
-    \ ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing\
-    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    #include <cassert>\n#include <climits>\n#include <random>\n#include <set>\n#include\
+    \ <vector>\nusing namespace std;\nusing ll = long long;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -228,40 +228,95 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/convex_hull.cpp\"\
-    \nusing IntPoint = pair<ll, ll>;\n\nll cross(IntPoint a, IntPoint b, IntPoint\
-    \ c) {\n    b.first -= a.first;\n    b.second -= a.second;\n    c.first -= a.first;\n\
-    \    c.second -= a.second;\n    return b.first * c.second - b.second * c.first;\n\
-    }\n\nvector<IntPoint> convex_hull(vector<IntPoint> ps) {\n    sort(ps.begin(),\
-    \ ps.end());\n    ps.erase(unique(ps.begin(), ps.end()), ps.end());\n    int n\
-    \ = ps.size();\n    if (n <= 2) return ps;\n\n    vector<IntPoint> ch(2 * n);\n\
-    \    int k = 0;\n    for (int i = 0; i < n; ++i) {\n        while (k >= 2 && cross(ch[k\
-    \ - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] = ps[i];\n    }\n    for\
-    \ (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while (k >= t && cross(ch[k\
-    \ - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] = ps[i];\n    }\n    ch.resize(k\
-    \ - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\u5305(Convex Hull)\n */\n\
-    #line 18 \"test/yosupo_static_convex_hull.test.cpp\"\n\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while (t--) {\n     \
-    \   int n;\n        sc.read(n);\n        vector<IntPoint> ps(n);\n        for\
-    \ (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first, ps[i].second);\n\
-    \        }\n        auto ch = convex_hull(ps);\n        pr.println((int)ch.size());\n\
-    \        for (auto [x, y] : ch) pr.println(x, y);\n    }\n    return 0;\n}\n"
+    \nusing IntPoint = pair<ll, ll>;\n\n__int128 cross(IntPoint a, IntPoint b, IntPoint\
+    \ c) {\n    __int128 bx = static_cast<__int128>(b.first) - a.first;\n    __int128\
+    \ by = static_cast<__int128>(b.second) - a.second;\n    __int128 cx = static_cast<__int128>(c.first)\
+    \ - a.first;\n    __int128 cy = static_cast<__int128>(c.second) - a.second;\n\
+    \    return bx * cy - by * cx;\n}\n\nvector<IntPoint> convex_hull(vector<IntPoint>\
+    \ ps) {\n    sort(ps.begin(), ps.end());\n    ps.erase(unique(ps.begin(), ps.end()),\
+    \ ps.end());\n    int n = ps.size();\n    if (n <= 2) return ps;\n\n    vector<IntPoint>\
+    \ ch(2 * n);\n    int k = 0;\n    for (int i = 0; i < n; ++i) {\n        while\
+    \ (k >= 2 && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
+    \ ps[i];\n    }\n    for (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while\
+    \ (k >= t && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
+    \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\
+    \u5305(Convex Hull)\n */\n#line 20 \"test/yosupo_static_convex_hull.test.cpp\"\
+    \n\nvector<IntPoint> brute_hull(vector<IntPoint> points) {\n    using Wide = __int128;\n\
+    \    sort(points.begin(), points.end());\n    points.erase(unique(points.begin(),\
+    \ points.end()), points.end());\n    if (points.size() <= 2) return points;\n\
+    \    auto turn = [](IntPoint a, IntPoint b, IntPoint c) -> Wide {\n        return\
+    \ (Wide(b.first) - a.first) * (Wide(c.second) - a.second) -\n               (Wide(b.second)\
+    \ - a.second) * (Wide(c.first) - a.first);\n    };\n    auto distance_squared\
+    \ = [](IntPoint a, IntPoint b) -> Wide {\n        Wide x = Wide(b.first) - a.first,\
+    \ y = Wide(b.second) - a.second;\n        return x * x + y * y;\n    };\n    vector<IntPoint>\
+    \ hull;\n    IntPoint current = points[0];\n    do {\n        hull.push_back(current);\n\
+    \        IntPoint next = points[0] == current ? points[1] : points[0];\n     \
+    \   for (auto p : points) {\n            Wide cross = turn(current, next, p);\n\
+    \            if (cross < 0 || (cross == 0 && distance_squared(current, p) > distance_squared(current,\
+    \ next)))\n                next = p;\n        }\n        current = next;\n   \
+    \ } while (current != hull[0]);\n    return hull;\n}\n\nvoid self_check() {\n\
+    \    auto check = [](const vector<IntPoint> &points) {\n        assert(convex_hull(points)\
+    \ == brute_hull(points));\n    };\n    check({});\n    check({{0, 0}});\n    check({{0,\
+    \ 0}, {0, 0}});\n    check({{INT_MIN, INT_MAX}, {INT_MAX, INT_MIN}});\n    check({{-2000000000,\
+    \ -2000000000}, {2000000000, -2000000000},\n           {2000000000, 2000000000},\
+    \ {-2000000000, 2000000000}});\n    check({{INT_MIN, INT_MIN}, {INT_MAX, INT_MIN},\
+    \ {INT_MAX, INT_MAX}, {INT_MIN, INT_MAX}});\n    check({{INT_MIN, INT_MIN}, {0,\
+    \ 0}, {INT_MAX, INT_MAX}, {0, 0}});\n    mt19937 rng(18);\n    const vector<ll>\
+    \ coords{INT_MIN, -2000000000, -1, 0, 1, 2000000000, INT_MAX};\n    for (int tc\
+    \ = 0; tc < 500; ++tc) {\n        vector<IntPoint> points(rng() % 30);\n     \
+    \   for (auto &[x, y] : points) {\n            x = tc % 2 ? ll(rng()) + INT_MIN\
+    \ : coords[rng() % coords.size()];\n            y = tc % 2 ? ll(rng()) + INT_MIN\
+    \ : coords[rng() % coords.size()];\n        }\n        check(points);\n    }\n\
+    }\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int\
+    \ t;\n    sc.read(t);\n    while (t--) {\n        int n;\n        sc.read(n);\n\
+    \        vector<IntPoint> ps(n);\n        for (int i = 0; i < n; ++i) {\n    \
+    \        sc.read(ps[i].first, ps[i].second);\n        }\n        auto ch = convex_hull(ps);\n\
+    \        pr.println((int)ch.size());\n        for (auto [x, y] : ch) pr.println(x,\
+    \ y);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_convex_hull\"\n\n\
-    #include <algorithm>\n#include <random>\n#include <set>\n#include <vector>\nusing\
-    \ namespace std;\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
-    ../util/fastio.cpp\"\n#include \"../geometry/convex_hull.cpp\"\n\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n    int t;\n    sc.read(t);\n    while\
-    \ (t--) {\n        int n;\n        sc.read(n);\n        vector<IntPoint> ps(n);\n\
-    \        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first, ps[i].second);\n\
-    \        }\n        auto ch = convex_hull(ps);\n        pr.println((int)ch.size());\n\
-    \        for (auto [x, y] : ch) pr.println(x, y);\n    }\n    return 0;\n}\n"
+    #include <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n\
+    #include <set>\n#include <vector>\nusing namespace std;\nusing ll = long long;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../geometry/convex_hull.cpp\"\
+    \n\nvector<IntPoint> brute_hull(vector<IntPoint> points) {\n    using Wide = __int128;\n\
+    \    sort(points.begin(), points.end());\n    points.erase(unique(points.begin(),\
+    \ points.end()), points.end());\n    if (points.size() <= 2) return points;\n\
+    \    auto turn = [](IntPoint a, IntPoint b, IntPoint c) -> Wide {\n        return\
+    \ (Wide(b.first) - a.first) * (Wide(c.second) - a.second) -\n               (Wide(b.second)\
+    \ - a.second) * (Wide(c.first) - a.first);\n    };\n    auto distance_squared\
+    \ = [](IntPoint a, IntPoint b) -> Wide {\n        Wide x = Wide(b.first) - a.first,\
+    \ y = Wide(b.second) - a.second;\n        return x * x + y * y;\n    };\n    vector<IntPoint>\
+    \ hull;\n    IntPoint current = points[0];\n    do {\n        hull.push_back(current);\n\
+    \        IntPoint next = points[0] == current ? points[1] : points[0];\n     \
+    \   for (auto p : points) {\n            Wide cross = turn(current, next, p);\n\
+    \            if (cross < 0 || (cross == 0 && distance_squared(current, p) > distance_squared(current,\
+    \ next)))\n                next = p;\n        }\n        current = next;\n   \
+    \ } while (current != hull[0]);\n    return hull;\n}\n\nvoid self_check() {\n\
+    \    auto check = [](const vector<IntPoint> &points) {\n        assert(convex_hull(points)\
+    \ == brute_hull(points));\n    };\n    check({});\n    check({{0, 0}});\n    check({{0,\
+    \ 0}, {0, 0}});\n    check({{INT_MIN, INT_MAX}, {INT_MAX, INT_MIN}});\n    check({{-2000000000,\
+    \ -2000000000}, {2000000000, -2000000000},\n           {2000000000, 2000000000},\
+    \ {-2000000000, 2000000000}});\n    check({{INT_MIN, INT_MIN}, {INT_MAX, INT_MIN},\
+    \ {INT_MAX, INT_MAX}, {INT_MIN, INT_MAX}});\n    check({{INT_MIN, INT_MIN}, {0,\
+    \ 0}, {INT_MAX, INT_MAX}, {0, 0}});\n    mt19937 rng(18);\n    const vector<ll>\
+    \ coords{INT_MIN, -2000000000, -1, 0, 1, 2000000000, INT_MAX};\n    for (int tc\
+    \ = 0; tc < 500; ++tc) {\n        vector<IntPoint> points(rng() % 30);\n     \
+    \   for (auto &[x, y] : points) {\n            x = tc % 2 ? ll(rng()) + INT_MIN\
+    \ : coords[rng() % coords.size()];\n            y = tc % 2 ? ll(rng()) + INT_MIN\
+    \ : coords[rng() % coords.size()];\n        }\n        check(points);\n    }\n\
+    }\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int\
+    \ t;\n    sc.read(t);\n    while (t--) {\n        int n;\n        sc.read(n);\n\
+    \        vector<IntPoint> ps(n);\n        for (int i = 0; i < n; ++i) {\n    \
+    \        sc.read(ps[i].first, ps[i].second);\n        }\n        auto ch = convex_hull(ps);\n\
+    \        pr.println((int)ch.size());\n        for (auto [x, y] : ch) pr.println(x,\
+    \ y);\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - geometry/convex_hull.cpp
   isVerificationFile: true
   path: test/yosupo_static_convex_hull.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 15:20:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_convex_hull.test.cpp

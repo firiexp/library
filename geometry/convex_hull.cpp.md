@@ -14,20 +14,10 @@ data:
     document_title: "\u51F8\u5305(Convex Hull)"
     links: []
   bundledCode: "#line 1 \"geometry/convex_hull.cpp\"\nusing IntPoint = pair<ll, ll>;\n\
-    \nll cross(IntPoint a, IntPoint b, IntPoint c) {\n    b.first -= a.first;\n  \
-    \  b.second -= a.second;\n    c.first -= a.first;\n    c.second -= a.second;\n\
-    \    return b.first * c.second - b.second * c.first;\n}\n\nvector<IntPoint> convex_hull(vector<IntPoint>\
-    \ ps) {\n    sort(ps.begin(), ps.end());\n    ps.erase(unique(ps.begin(), ps.end()),\
-    \ ps.end());\n    int n = ps.size();\n    if (n <= 2) return ps;\n\n    vector<IntPoint>\
-    \ ch(2 * n);\n    int k = 0;\n    for (int i = 0; i < n; ++i) {\n        while\
-    \ (k >= 2 && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
-    \ ps[i];\n    }\n    for (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while\
-    \ (k >= t && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
-    \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\
-    \u5305(Convex Hull)\n */\n"
-  code: "using IntPoint = pair<ll, ll>;\n\nll cross(IntPoint a, IntPoint b, IntPoint\
-    \ c) {\n    b.first -= a.first;\n    b.second -= a.second;\n    c.first -= a.first;\n\
-    \    c.second -= a.second;\n    return b.first * c.second - b.second * c.first;\n\
+    \n__int128 cross(IntPoint a, IntPoint b, IntPoint c) {\n    __int128 bx = static_cast<__int128>(b.first)\
+    \ - a.first;\n    __int128 by = static_cast<__int128>(b.second) - a.second;\n\
+    \    __int128 cx = static_cast<__int128>(c.first) - a.first;\n    __int128 cy\
+    \ = static_cast<__int128>(c.second) - a.second;\n    return bx * cy - by * cx;\n\
     }\n\nvector<IntPoint> convex_hull(vector<IntPoint> ps) {\n    sort(ps.begin(),\
     \ ps.end());\n    ps.erase(unique(ps.begin(), ps.end()), ps.end());\n    int n\
     \ = ps.size();\n    if (n <= 2) return ps;\n\n    vector<IntPoint> ch(2 * n);\n\
@@ -36,11 +26,24 @@ data:
     \ (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while (k >= t && cross(ch[k\
     \ - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] = ps[i];\n    }\n    ch.resize(k\
     \ - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\u5305(Convex Hull)\n */\n"
+  code: "using IntPoint = pair<ll, ll>;\n\n__int128 cross(IntPoint a, IntPoint b,\
+    \ IntPoint c) {\n    __int128 bx = static_cast<__int128>(b.first) - a.first;\n\
+    \    __int128 by = static_cast<__int128>(b.second) - a.second;\n    __int128 cx\
+    \ = static_cast<__int128>(c.first) - a.first;\n    __int128 cy = static_cast<__int128>(c.second)\
+    \ - a.second;\n    return bx * cy - by * cx;\n}\n\nvector<IntPoint> convex_hull(vector<IntPoint>\
+    \ ps) {\n    sort(ps.begin(), ps.end());\n    ps.erase(unique(ps.begin(), ps.end()),\
+    \ ps.end());\n    int n = ps.size();\n    if (n <= 2) return ps;\n\n    vector<IntPoint>\
+    \ ch(2 * n);\n    int k = 0;\n    for (int i = 0; i < n; ++i) {\n        while\
+    \ (k >= 2 && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
+    \ ps[i];\n    }\n    for (int i = n - 2, t = k + 1; i >= 0; --i) {\n        while\
+    \ (k >= t && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
+    \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n/**\n * @brief \u51F8\
+    \u5305(Convex Hull)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/convex_hull.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 15:07:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_static_convex_hull.test.cpp
@@ -61,6 +64,7 @@ title: "\u51F8\u5305(Convex Hull)"
 
 ## 使い方
 点列を `vector<pair<ll, ll>>` で渡して使う。
+各座標は符号付き32 bit整数の範囲とする。
 
 
 ## 実装上の補足

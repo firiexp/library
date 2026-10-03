@@ -25,64 +25,64 @@ data:
     - https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
   bundledCode: "#line 1 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
-    \ = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing\
-    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \n\n#include <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n\
+    #include <utility>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
+    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -503,44 +503,77 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    if(!n)\
-    \ return p[0]/q[0];\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n\
-    \    while(sz < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n \
-    \   mint x = mint(sz>>1).inv();\n    vector<mint> y(sz>>1, 0);\n    for (int j\
-    \ = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n\
-    \    for (int i = 2; i < sz>>1; i <<= 1) {\n        for (int j = i+1; j < 2*i;\
-    \ ++j) {\n            y[j] = y[j-i]*y[i];\n        }\n    }\n    ntt.transform(p.v,\
-    \ 0);\n    ntt.transform(q.v, 0);\n    poly tmp(sz>>1);\n    auto up = [&](poly\
-    \ &A){\n        for (int i = 0; i < sz>>1; ++i) tmp[i] = A[i];\n        ntt.transform(tmp.v,\
-    \ 1);\n        mint now = x;\n        for (int i = 0; i < sz>>1; ++i) tmp[i] *=\
-    \ now, now *= ntt.root_pow2(h);\n        ntt.transform(tmp.v, 0);\n        for\
-    \ (int i = 0; i < sz>>1; ++i) A[i|(sz>>1)] = tmp[i];\n    };\n    int ika = h;\n\
-    \    while(n){\n        for (int i = 0; i < sz; ++i) p[i] *= q[i^1];\n       \
-    \ if(n&1) for (int i = 0; i < sz>>1; ++i) p[i] = (p[i<<1]-p[(i<<1)|1])*y[i];\n\
-    \        else for (int i = 0; i < sz>>1; ++i) p[i] = (p[i<<1]+p[(i<<1)|1]);\n\
-    \        ika++;\n        if(n == 1) break;\n        up(p);\n        for (int i\
-    \ = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n        up(q);\n        n\
-    \ >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i) tmp[i] = p[i];\n    ntt.transform(tmp.v,\
-    \ 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n}\n\n/**\n * @brief \u6709\
-    \u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n */\n#line 21 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int d;\n    ll n;\n\
-    \    sc.read(d, n);\n    vector<mint> a(d), c(d);\n    for (int i = 0; i < d;\
-    \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
-    \ (int i = 0; i < d; ++i) {\n        int x;\n        sc.read(x);\n        c[i]\
-    \ = x;\n    }\n\n    poly q(d + 1);\n    q[0] = 1;\n    for (int i = 0; i < d;\
-    \ ++i) q[i + 1] = -c[i];\n    poly p = (poly(a) * q).cut(d);\n    pr.println(nth_term(p,\
-    \ q, n).val);\n    return 0;\n}\n"
+    \n\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    assert(n\
+    \ >= 0 && q.size() > 0 && q[0] != mint(0));\n    if(p.size() == 0) return 0;\n\
+    \    if(q.size() == 1) return n < p.size() ? p[n]/q[0] : mint(0);\n    if(!n)\
+    \ return p[0]/q[0];\n    if(q[0] != mint(1)) {\n        mint inv = q[0].inv();\n\
+    \        for(auto &v : p.v) v *= inv;\n        for(auto &v : q.v) v *= inv;\n\
+    \    }\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n    while(sz\
+    \ < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n    mint x = mint(sz>>1).inv();\n\
+    \    vector<mint> y(sz>>1, 0);\n    for (int j = sz>>2, i = h; j; j >>= 1, i--)\
+    \ y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n    for (int i = 2; i < sz>>1; i <<=\
+    \ 1) {\n        for (int j = i+1; j < 2*i; ++j) {\n            y[j] = y[j-i]*y[i];\n\
+    \        }\n    }\n    ntt.transform(p.v, 0);\n    ntt.transform(q.v, 0);\n  \
+    \  poly tmp(sz>>1);\n    auto up = [&](poly &A){\n        for (int i = 0; i <\
+    \ sz>>1; ++i) tmp[i] = A[i];\n        ntt.transform(tmp.v, 1);\n        mint now\
+    \ = x;\n        for (int i = 0; i < sz>>1; ++i) tmp[i] *= now, now *= ntt.root_pow2(h);\n\
+    \        ntt.transform(tmp.v, 0);\n        for (int i = 0; i < sz>>1; ++i) A[i|(sz>>1)]\
+    \ = tmp[i];\n    };\n    int ika = h;\n    while(n){\n        for (int i = 0;\
+    \ i < sz; ++i) p[i] *= q[i^1];\n        if(n&1) for (int i = 0; i < sz>>1; ++i)\
+    \ p[i] = (p[i<<1]-p[(i<<1)|1])*y[i];\n        else for (int i = 0; i < sz>>1;\
+    \ ++i) p[i] = (p[i<<1]+p[(i<<1)|1]);\n        ika++;\n        if(n == 1) break;\n\
+    \        up(p);\n        for (int i = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n\
+    \        up(q);\n        n >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i)\
+    \ tmp[i] = p[i];\n    ntt.transform(tmp.v, 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n\
+    }\n\n/**\n * @brief \u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n\
+    \ */\n#line 23 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
+    \n\nvoid self_check() {\n    auto check = [](const vector<mint> &p, const vector<mint>\
+    \ &q) {\n        vector<mint> expected(40);\n        for (int n = 0; n < int(expected.size());\
+    \ ++n) {\n            mint value = n < int(p.size()) ? p[n] : mint(0);\n     \
+    \       for (int j = 1; j <= n && j < int(q.size()); ++j)\n                value\
+    \ -= q[j] * expected[n - j];\n            expected[n] = value / q[0];\n      \
+    \      assert(nth_term(poly(p), poly(q), n) == expected[n]);\n        }\n    };\n\
+    \    check({}, {1});\n    check({}, {2, -1});\n    check({1}, {1});\n    check({1},\
+    \ {2, -1});\n    check({2, 4, 6}, {2});\n    check({1, 0, 3, 4, 5}, {3, -1});\n\
+    \    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2}), LLONG_MAX)\
+    \ == mint(0));\n    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2,\
+    \ -2}), LLONG_MAX) == mint(2).inv());\n    mt19937 rng(8);\n    for (int tc =\
+    \ 0; tc < 150; ++tc) {\n        vector<mint> p(rng() % 10), q(1 + rng() % 10);\n\
+    \        for (auto &v : p) v = int(rng() % 21) - 10;\n        for (auto &v : q)\
+    \ v = int(rng() % 21) - 10;\n        q[0] = tc % 3 == 0 ? 1 : 1 + rng() % 100;\n\
+    \        check(p, q);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int d;\n    ll n;\n    sc.read(d, n);\n    vector<mint>\
+    \ a(d), c(d);\n    for (int i = 0; i < d; ++i) {\n        int x;\n        sc.read(x);\n\
+    \        a[i] = x;\n    }\n    for (int i = 0; i < d; ++i) {\n        int x;\n\
+    \        sc.read(x);\n        c[i] = x;\n    }\n\n    poly q(d + 1);\n    q[0]\
+    \ = 1;\n    for (int i = 0; i < d; ++i) q[i + 1] = -c[i];\n    poly p = (poly(a)\
+    \ * q).cut(d);\n    pr.println(nth_term(p, q, n).val);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
-    \ = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../fps/nth_term.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int d;\n    ll n;\n    sc.read(d, n);\n    vector<mint> a(d), c(d);\n\
-    \    for (int i = 0; i < d; ++i) {\n        int x;\n        sc.read(x);\n    \
-    \    a[i] = x;\n    }\n    for (int i = 0; i < d; ++i) {\n        int x;\n   \
-    \     sc.read(x);\n        c[i] = x;\n    }\n\n    poly q(d + 1);\n    q[0] =\
-    \ 1;\n    for (int i = 0; i < d; ++i) q[i + 1] = -c[i];\n    poly p = (poly(a)\
+    \n\n#include <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n\
+    #include <utility>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
+    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #include \"../util/fastio.cpp\"\n#include \"../fps/nth_term.cpp\"\n\nvoid self_check()\
+    \ {\n    auto check = [](const vector<mint> &p, const vector<mint> &q) {\n   \
+    \     vector<mint> expected(40);\n        for (int n = 0; n < int(expected.size());\
+    \ ++n) {\n            mint value = n < int(p.size()) ? p[n] : mint(0);\n     \
+    \       for (int j = 1; j <= n && j < int(q.size()); ++j)\n                value\
+    \ -= q[j] * expected[n - j];\n            expected[n] = value / q[0];\n      \
+    \      assert(nth_term(poly(p), poly(q), n) == expected[n]);\n        }\n    };\n\
+    \    check({}, {1});\n    check({}, {2, -1});\n    check({1}, {1});\n    check({1},\
+    \ {2, -1});\n    check({2, 4, 6}, {2});\n    check({1, 0, 3, 4, 5}, {3, -1});\n\
+    \    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2}), LLONG_MAX)\
+    \ == mint(0));\n    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2,\
+    \ -2}), LLONG_MAX) == mint(2).inv());\n    mt19937 rng(8);\n    for (int tc =\
+    \ 0; tc < 150; ++tc) {\n        vector<mint> p(rng() % 10), q(1 + rng() % 10);\n\
+    \        for (auto &v : p) v = int(rng() % 21) - 10;\n        for (auto &v : q)\
+    \ v = int(rng() % 21) - 10;\n        q[0] = tc % 3 == 0 ? 1 : 1 + rng() % 100;\n\
+    \        check(p, q);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int d;\n    ll n;\n    sc.read(d, n);\n    vector<mint>\
+    \ a(d), c(d);\n    for (int i = 0; i < d; ++i) {\n        int x;\n        sc.read(x);\n\
+    \        a[i] = x;\n    }\n    for (int i = 0; i < d; ++i) {\n        int x;\n\
+    \        sc.read(x);\n        c[i] = x;\n    }\n\n    poly q(d + 1);\n    q[0]\
+    \ = 1;\n    for (int i = 0; i < d; ++i) q[i + 1] = -c[i];\n    poly p = (poly(a)\
     \ * q).cut(d);\n    pr.println(nth_term(p, q, n).val);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
@@ -550,7 +583,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 15:07:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
