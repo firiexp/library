@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: geometry/closest_pair.cpp
-    title: Closest Pair
+    path: graph/minimum_cost_b_flow.cpp
+    title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,13 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/closest_pair
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/closest_pair
-  bundledCode: "#line 1 \"test/yosupo_closest_pair.test.cpp\"\n#define PROBLEM \"\
-    https://judge.yosupo.jp/problem/closest_pair\"\n\n#include <bits/stdc++.h>\n\n\
-    using namespace std;\n\n#line 10 \"test/yosupo_closest_pair.test.cpp\"\n#include\
-    \ <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_min_cost_b_flow.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\n#line 1 \"util/fastio.cpp\"\nusing namespace\
     \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
     template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
     \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
@@ -225,111 +224,209 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/closest_pair.cpp\"\
-    \npair<int, int> closest_pair(const vector<pair<long long, long long>> &points)\
-    \ {\n    using Dist = __int128_t;\n    struct P {\n        long long x;\n    \
-    \    long long y;\n        int idx;\n    };\n\n    int n = points.size();\n  \
-    \  assert(n >= 2);\n    vector<P> ps(n);\n    for (int i = 0; i < n; ++i) {\n\
-    \        ps[i] = {points[i].first, points[i].second, i};\n    }\n    sort(ps.begin(),\
-    \ ps.end(), [](const P &a, const P &b) {\n        if (a.x != b.x) return a.x <\
-    \ b.x;\n        if (a.y != b.y) return a.y < b.y;\n        return a.idx < b.idx;\n\
-    \    });\n\n    Dist best = -1;\n    pair<int, int> ans = {-1, -1};\n    auto\
-    \ update = [&](const P &a, const P &b) {\n        Dist dx = Dist(a.x) - Dist(b.x);\n\
-    \        Dist dy = Dist(a.y) - Dist(b.y);\n        Dist d = dx * dx + dy * dy;\n\
-    \        pair<int, int> cand = {a.idx, b.idx};\n        if (best == -1 || d <\
-    \ best) {\n            best = d;\n            ans = cand;\n        }\n    };\n\
-    \    update(ps[0], ps[1]);\n\n    vector<int> ord(n), scratch(n);\n    auto dfs\
-    \ = [&](auto &&self, int l, int r) -> void {\n        if (r - l == 1) {\n    \
-    \        ord[l] = l;\n            return;\n        }\n        int m = (l + r)\
-    \ >> 1;\n        long long mx = ps[m].x;\n        self(self, l, m);\n        self(self,\
-    \ m, r);\n        int i = l, j = m;\n        for (int k = l; k < r; ++k) {\n \
-    \           if (j == r || (i < m && ps[ord[i]].y < ps[ord[j]].y)) {\n        \
-    \        scratch[k] = ord[i++];\n            } else {\n                scratch[k]\
-    \ = ord[j++];\n            }\n        }\n        copy(scratch.begin() + l, scratch.begin()\
-    \ + r, ord.begin() + l);\n        int count = 0;\n        for (int k = l; k <\
-    \ r; ++k) {\n            int idx = ord[k];\n            Dist dx = Dist(ps[idx].x)\
-    \ - Dist(mx);\n            if (dx * dx > best) continue;\n            for (int\
-    \ t = count - 1; t >= 0; --t) {\n                int idy = scratch[l + t];\n \
-    \               Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);\n               \
-    \ if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
-    \            }\n            scratch[l + count++] = idx;\n        }\n    };\n \
-    \   dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n */\n\
-    #line 15 \"test/yosupo_closest_pair.test.cpp\"\n\nvoid check(const vector<pair<long\
-    \ long, long long>> &points) {\n    auto input = points;\n    auto [a, b] = closest_pair(input);\n\
-    \    assert(input == points);\n    int n = points.size();\n    assert(0 <= a &&\
-    \ a < n && 0 <= b && b < n && a != b);\n    auto distance = [&](int i, int j)\
-    \ {\n        __int128_t dx = (__int128_t)points[i].first - points[j].first;\n\
-    \        __int128_t dy = (__int128_t)points[i].second - points[j].second;\n  \
-    \      return dx * dx + dy * dy;\n    };\n    auto best = distance(0, 1);\n  \
-    \  for (int i = 0; i < n; ++i) for (int j = 0; j < i; ++j) best = min(best, distance(i,\
-    \ j));\n    assert(distance(a, b) == best);\n}\n\nvoid self_check() {\n    check({{0,\
-    \ 0}, {0, 0}});\n    check({{0, 0}, {1, 0}, {0, 1}, {1, 1}});\n    check({{-4000000000000000000LL,\
-    \ -4000000000000000000LL},\n           {4000000000000000000LL, 4000000000000000000LL}});\n\
-    \    for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {\n        check(vector<pair<long\
-    \ long, long long>>(n, {-1, -1}));\n        for (int shape = 0; shape < 3; ++shape)\
-    \ {\n            vector<pair<long long, long long>> points;\n            for (int\
-    \ i = 0; i < n; ++i) {\n                long long t = i - n / 2;\n           \
-    \     points.emplace_back(shape == 0 ? 0 : t, shape == 1 ? 0 : 2 * t);\n     \
-    \       }\n            check(points);\n            reverse(points.begin(), points.end());\n\
-    \            check(points);\n        }\n    }\n    mt19937_64 random(53);\n  \
-    \  for (int tc = 0; tc < 4000; ++tc) {\n        int n = 2 + random() % 63;\n \
-    \       vector<pair<long long, long long>> points(n);\n        long long bound\
-    \ = tc % 2 ? 1000000000 : 5;\n        for (auto &[x, y] : points) {\n        \
-    \    x = (long long)(random() % (2 * bound + 1)) - bound;\n            y = (long\
-    \ long)(random() % (2 * bound + 1)) - bound;\n        }\n        if (tc % 3 ==\
-    \ 0) points.back() = points.front();\n        check(points);\n    }\n}\n\nint\
-    \ main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n\n    int t;\n\
-    \    sc.read(t);\n    while (t--) {\n        int n;\n        sc.read(n);\n   \
-    \     vector<pair<long long, long long>> ps(n);\n        for (int i = 0; i < n;\
-    \ ++i) {\n            sc.read(ps[i].first, ps[i].second);\n        }\n       \
-    \ auto [a, b] = closest_pair(ps);\n        pr.println(a, b);\n    }\n    return\
-    \ 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/closest_pair\"\n\n#include\
-    \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
-    ../util/fastio.cpp\"\n#include \"../geometry/closest_pair.cpp\"\n\nvoid check(const\
-    \ vector<pair<long long, long long>> &points) {\n    auto input = points;\n  \
-    \  auto [a, b] = closest_pair(input);\n    assert(input == points);\n    int n\
-    \ = points.size();\n    assert(0 <= a && a < n && 0 <= b && b < n && a != b);\n\
-    \    auto distance = [&](int i, int j) {\n        __int128_t dx = (__int128_t)points[i].first\
-    \ - points[j].first;\n        __int128_t dy = (__int128_t)points[i].second - points[j].second;\n\
-    \        return dx * dx + dy * dy;\n    };\n    auto best = distance(0, 1);\n\
-    \    for (int i = 0; i < n; ++i) for (int j = 0; j < i; ++j) best = min(best,\
-    \ distance(i, j));\n    assert(distance(a, b) == best);\n}\n\nvoid self_check()\
-    \ {\n    check({{0, 0}, {0, 0}});\n    check({{0, 0}, {1, 0}, {0, 1}, {1, 1}});\n\
-    \    check({{-4000000000000000000LL, -4000000000000000000LL},\n           {4000000000000000000LL,\
-    \ 4000000000000000000LL}});\n    for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64})\
-    \ {\n        check(vector<pair<long long, long long>>(n, {-1, -1}));\n       \
-    \ for (int shape = 0; shape < 3; ++shape) {\n            vector<pair<long long,\
-    \ long long>> points;\n            for (int i = 0; i < n; ++i) {\n           \
-    \     long long t = i - n / 2;\n                points.emplace_back(shape == 0\
-    \ ? 0 : t, shape == 1 ? 0 : 2 * t);\n            }\n            check(points);\n\
-    \            reverse(points.begin(), points.end());\n            check(points);\n\
-    \        }\n    }\n    mt19937_64 random(53);\n    for (int tc = 0; tc < 4000;\
-    \ ++tc) {\n        int n = 2 + random() % 63;\n        vector<pair<long long,\
-    \ long long>> points(n);\n        long long bound = tc % 2 ? 1000000000 : 5;\n\
-    \        for (auto &[x, y] : points) {\n            x = (long long)(random() %\
-    \ (2 * bound + 1)) - bound;\n            y = (long long)(random() % (2 * bound\
-    \ + 1)) - bound;\n        }\n        if (tc % 3 == 0) points.back() = points.front();\n\
-    \        check(points);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int t;\n    sc.read(t);\n    while (t--) {\n   \
-    \     int n;\n        sc.read(n);\n        vector<pair<long long, long long>>\
-    \ ps(n);\n        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first,\
-    \ ps[i].second);\n        }\n        auto [a, b] = closest_pair(ps);\n       \
-    \ pr.println(a, b);\n    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/minimum_cost_b_flow.cpp\"\
+    \ntemplate<class Flow, class Cost>\nstruct MinimumCostBFlow {\n    using Sum =\
+    \ __int128_t;\n    struct Edge {\n        int from, to, rev;\n        Flow flow,\
+    \ cap;\n        Cost cost;\n\n        Flow residual_cap() const {\n          \
+    \  return cap - flow;\n        }\n    };\n\n    struct EdgeRef {\n        int\
+    \ from, idx;\n    };\n\n    int n;\n    vector<vector<Edge>> g;\n    vector<Flow>\
+    \ b;\n    vector<EdgeRef> edges;\n    vector<Cost> potential;\n    bool potential_valid\
+    \ = false;\n\n    explicit MinimumCostBFlow(int n) : n(n), g(n), b(n, 0), potential(n,\
+    \ 0) {}\n\n    void add_supply(int v, Flow x) {\n        potential_valid = false;\n\
+    \        b[v] += x;\n    }\n\n    void add_demand(int v, Flow x) {\n        potential_valid\
+    \ = false;\n        b[v] -= x;\n    }\n\n    int add_edge(int from, int to, Flow\
+    \ lower, Flow upper, Cost cost) {\n        assert(lower <= upper);\n        potential_valid\
+    \ = false;\n        int idx = (int)g[from].size();\n        int rev = from ==\
+    \ to ? idx + 1 : (int)g[to].size();\n        g[from].push_back({from, to, rev,\
+    \ 0, upper, cost});\n        g[to].push_back({to, from, idx, 0, -lower, -cost});\n\
+    \        edges.push_back({from, idx});\n        return (int)edges.size() - 1;\n\
+    \    }\n\n    Edge& rev_edge(const Edge& e) {\n        return g[e.to][e.rev];\n\
+    \    }\n\n    const Edge& get_edge(int i) const {\n        return g[edges[i].from][edges[i].idx];\n\
+    \    }\n\n    vector<Flow> get_flows() const {\n        vector<Flow> ret(edges.size());\n\
+    \        for (int i = 0; i < (int)edges.size(); ++i) ret[i] = get_edge(i).flow;\n\
+    \        return ret;\n    }\n\n    vector<Cost> get_potential() const {\n    \
+    \    if (potential_valid) return potential;\n        vector<Cost> ret(n, 0);\n\
+    \        for (int iter = 0; iter < n; ++iter) {\n            bool updated = false;\n\
+    \            for (int v = 0; v < n; ++v) {\n                for (auto&& e : g[v])\
+    \ {\n                    if(e.residual_cap() <= 0) continue;\n               \
+    \     if(ret[e.to] > ret[e.from] + e.cost) {\n                        ret[e.to]\
+    \ = ret[e.from] + e.cost;\n                        updated = true;\n         \
+    \           }\n                }\n            }\n            if(!updated) break;\n\
+    \        }\n        return ret;\n    }\n\n    pair<bool, Sum> solve() {\n    \
+    \    potential_valid = false;\n        const Cost unreachable = numeric_limits<Cost>::max();\n\
+    \        vector<Cost> dist(n);\n        vector<Edge*> parent(n);\n        vector<int>\
+    \ excess, deficit;\n        priority_queue<pair<Cost, int>, vector<pair<Cost,\
+    \ int>>, greater<pair<Cost, int>>> pq;\n        Cost farthest = 0;\n\n       \
+    \ auto push = [&](Edge& e, Flow amount) {\n            e.flow += amount;\n   \
+    \         rev_edge(e).flow -= amount;\n        };\n        auto residual_cost\
+    \ = [&](const Edge& e) {\n            return e.cost + potential[e.from] - potential[e.to];\n\
+    \        };\n\n        auto saturate_negative = [&](Flow delta) {\n          \
+    \  excess.clear();\n            deficit.clear();\n            for (auto&& es :\
+    \ g) {\n                for (auto&& e : es) {\n                    Flow rcap =\
+    \ e.residual_cap();\n                    if(rcap < delta) continue;\n        \
+    \            if(residual_cost(e) < 0) {\n                        push(e, rcap);\n\
+    \                        b[e.from] -= rcap;\n                        b[e.to] +=\
+    \ rcap;\n                    }\n                }\n            }\n           \
+    \ for (int v = 0; v < n; ++v) {\n                if(b[v] > 0) excess.push_back(v);\n\
+    \                if(b[v] < 0) deficit.push_back(v);\n            }\n        };\n\
+    \n        auto dual = [&](Flow delta) {\n            fill(dist.begin(), dist.end(),\
+    \ unreachable);\n            fill(parent.begin(), parent.end(), nullptr);\n\n\
+    \            excess.erase(remove_if(excess.begin(), excess.end(), [&](int v) {\n\
+    \                return b[v] < delta;\n            }), excess.end());\n      \
+    \      deficit.erase(remove_if(deficit.begin(), deficit.end(), [&](int v) {\n\
+    \                return b[v] > -delta;\n            }), deficit.end());\n\n  \
+    \          while(!pq.empty()) pq.pop();\n            for (int v : excess) {\n\
+    \                dist[v] = 0;\n                pq.emplace(0, v);\n           \
+    \ }\n\n            farthest = 0;\n            int reached = 0;\n            while(!pq.empty())\
+    \ {\n                auto [d, v] = pq.top();\n                pq.pop();\n    \
+    \            if(dist[v] != d) continue;\n                farthest = d;\n     \
+    \           if(b[v] <= -delta) ++reached;\n                if(reached >= (int)deficit.size())\
+    \ break;\n                for (auto&& e : g[v]) {\n                    if(e.residual_cap()\
+    \ < delta) continue;\n                    Cost nd = d + residual_cost(e);\n  \
+    \                  if(nd >= dist[e.to]) continue;\n                    dist[e.to]\
+    \ = nd;\n                    parent[e.to] = &e;\n                    pq.emplace(nd,\
+    \ e.to);\n                }\n            }\n\n            for (int v = 0; v <\
+    \ n; ++v) {\n                potential[v] += min(dist[v], farthest);\n       \
+    \     }\n            return reached > 0;\n        };\n\n        auto primal =\
+    \ [&](Flow delta) {\n            for (int t : deficit) {\n                if(dist[t]\
+    \ > farthest) continue;\n                Flow f = -b[t];\n                int\
+    \ v = t;\n                while(parent[v] != nullptr && f >= delta) {\n      \
+    \              f = min(f, parent[v]->residual_cap());\n                    v =\
+    \ parent[v]->from;\n                }\n                f = min(f, b[v]);\n   \
+    \             if(f < delta) continue;\n                v = t;\n              \
+    \  while(parent[v] != nullptr) {\n                    Edge& e = *parent[v];\n\
+    \                    push(e, f);\n                    int u = e.from;\n      \
+    \              parent[v] = nullptr;\n                    v = u;\n            \
+    \    }\n                b[t] += f;\n                b[v] -= f;\n            }\n\
+    \        };\n\n        for (auto&& es : g) {\n            for (auto&& e : es)\
+    \ {\n                Flow rcap = e.residual_cap();\n                if(rcap <\
+    \ 0) {\n                    push(e, rcap);\n                    b[e.from] -= rcap;\n\
+    \                    b[e.to] += rcap;\n                }\n            }\n    \
+    \    }\n\n        Flow max_cap = 1;\n        for (auto&& es : g) {\n         \
+    \   for (auto&& e : es) {\n                max_cap = max(max_cap, e.residual_cap());\n\
+    \            }\n        }\n        Flow delta = 1;\n        while(delta <= max_cap\
+    \ / 2) delta <<= 1;\n        for (; delta > 0; delta >>= 1) {\n            saturate_negative(delta);\n\
+    \            while(dual(delta)) primal(delta);\n        }\n\n        Sum value\
+    \ = 0;\n        bool ok = true;\n        for (int v = 0; v < n; ++v) {\n     \
+    \       if(b[v] != 0) ok = false;\n        }\n        for (int i = 0; i < (int)edges.size();\
+    \ ++i) {\n            auto&& e = get_edge(i);\n            value += (Sum)e.flow\
+    \ * (Sum)e.cost;\n        }\n        potential_valid = ok;\n        return {ok,\
+    \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
+    \ b-Flow)\n */\n#line 8 \"test/yosupo_aplusb_min_cost_b_flow.test.cpp\"\n\nstruct\
+    \ InputEdge { int from, to, lower, upper, cost; };\n\nvoid check_dual(const MinimumCostBFlow<ll,\
+    \ ll> &g) {\n    auto potential = g.get_potential();\n    assert((int)potential.size()\
+    \ == g.n);\n    for (const auto &es : g.g) for (const auto &e : es)\n        if\
+    \ (e.residual_cap() > 0) assert(e.cost + potential[e.from] - potential[e.to] >=\
+    \ 0);\n}\n\nvoid check(const vector<ll> &supply, const vector<InputEdge> &edges)\
+    \ {\n    int n = supply.size();\n    MinimumCostBFlow<ll, ll> g(n);\n    for (int\
+    \ v = 0; v < n; ++v) g.add_supply(v, supply[v]);\n    for (auto e : edges) g.add_edge(e.from,\
+    \ e.to, e.lower, e.upper, e.cost);\n    ll best = LLONG_MAX;\n    vector<ll> balance(n);\n\
+    \    auto enumerate = [&](auto &&self, int i, ll cost) -> void {\n        if (i\
+    \ == (int)edges.size()) {\n            if (balance == supply) best = min(best,\
+    \ cost);\n            return;\n        }\n        auto e = edges[i];\n       \
+    \ for (int f = e.lower; f <= e.upper; ++f) {\n            balance[e.from] += f;\n\
+    \            balance[e.to] -= f;\n            self(self, i + 1, cost + f * e.cost);\n\
+    \            balance[e.from] -= f;\n            balance[e.to] += f;\n        }\n\
+    \    };\n    enumerate(enumerate, 0, 0);\n    for (int repeat = 0; repeat < 2;\
+    \ ++repeat) {\n        auto [ok, cost] = g.solve();\n        assert(ok == (best\
+    \ != LLONG_MAX));\n        if (!ok) break;\n        assert(cost == best);\n  \
+    \      auto flow = g.get_flows();\n        assert(flow.size() == edges.size());\n\
+    \        fill(balance.begin(), balance.end(), 0);\n        ll actual = 0;\n  \
+    \      for (int i = 0; i < (int)edges.size(); ++i) {\n            auto e = edges[i];\n\
+    \            assert(e.lower <= flow[i] && flow[i] <= e.upper);\n            balance[e.from]\
+    \ += flow[i];\n            balance[e.to] -= flow[i];\n            actual += flow[i]\
+    \ * e.cost;\n        }\n        assert(balance == supply && actual == best);\n\
+    \        auto before = g.get_flows();\n        check_dual(g);\n        check_dual(g);\n\
+    \        assert(g.get_flows() == before);\n    }\n}\n\nvoid self_check() {\n \
+    \   check({1, -1}, {{0, 1, 0, 1, 7}});\n    check({0, 0}, {{0, 1, 0, 1, -1}, {1,\
+    \ 0, 0, 1, 0}});\n    check({}, {});\n    check({0}, {});\n    check({1}, {});\n\
+    \    check({2, -2}, {{0, 1, 2, 2, 3}});\n    check({0}, {{0, 0, -2, 1, -4}});\n\
+    \    check({-1, 1}, {{0, 1, -2, -1, 3}});\n    check({2, -2}, {{0, 1, 0, 1, -1}});\n\
+    \    MinimumCostBFlow<ll, ll> g(3);\n    g.add_edge(0, 1, 0, 1, 7);\n    check_dual(g);\n\
+    \    g.add_supply(0, 1);\n    g.add_demand(1, 1);\n    assert(g.solve() == make_pair(true,\
+    \ (__int128_t)7));\n    check_dual(g);\n    g.add_edge(0, 2, 0, 1, -9);\n    check_dual(g);\n\
+    \    assert(g.solve() == make_pair(true, (__int128_t)7));\n    g.add_supply(0,\
+    \ 1);\n    check_dual(g);\n    assert(!g.solve().first);\n    check_dual(g);\n\
+    \    g.add_demand(2, 1);\n    check_dual(g);\n    assert(g.solve() == make_pair(true,\
+    \ (__int128_t)-2));\n    check_dual(g);\n    g.add_edge(1, 0, 0, 1, -10);\n  \
+    \  assert(g.solve() == make_pair(true, (__int128_t)-2));\n    check_dual(g);\n\
+    \n    mt19937 random(20261002);\n    for (int tc = 0; tc < 100000; ++tc) {\n \
+    \       int n = 1 + random() % 5, m = random() % 8;\n        vector<ll> supply(n);\n\
+    \        vector<InputEdge> edges;\n        for (int i = 0; i < m; ++i) {\n   \
+    \         int u = random() % n, v = random() % n;\n            int lower = int(random()\
+    \ % 5) - 2, upper = lower + random() % 4;\n            edges.push_back({u, v,\
+    \ lower, upper, int(random() % 9) - 4});\n            int f = lower + random()\
+    \ % (upper - lower + 1);\n            supply[u] += f;\n            supply[v] -=\
+    \ f;\n        }\n        if (tc % 3 == 0) {\n            ++supply[random() % n];\n\
+    \            --supply[random() % n];\n        }\n        if (tc % 7 == 0) ++supply[random()\
+    \ % n];\n        check(supply, edges);\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n#include \"../util/fastio.cpp\"\n\
+    #include \"../graph/minimum_cost_b_flow.cpp\"\n\nstruct InputEdge { int from,\
+    \ to, lower, upper, cost; };\n\nvoid check_dual(const MinimumCostBFlow<ll, ll>\
+    \ &g) {\n    auto potential = g.get_potential();\n    assert((int)potential.size()\
+    \ == g.n);\n    for (const auto &es : g.g) for (const auto &e : es)\n        if\
+    \ (e.residual_cap() > 0) assert(e.cost + potential[e.from] - potential[e.to] >=\
+    \ 0);\n}\n\nvoid check(const vector<ll> &supply, const vector<InputEdge> &edges)\
+    \ {\n    int n = supply.size();\n    MinimumCostBFlow<ll, ll> g(n);\n    for (int\
+    \ v = 0; v < n; ++v) g.add_supply(v, supply[v]);\n    for (auto e : edges) g.add_edge(e.from,\
+    \ e.to, e.lower, e.upper, e.cost);\n    ll best = LLONG_MAX;\n    vector<ll> balance(n);\n\
+    \    auto enumerate = [&](auto &&self, int i, ll cost) -> void {\n        if (i\
+    \ == (int)edges.size()) {\n            if (balance == supply) best = min(best,\
+    \ cost);\n            return;\n        }\n        auto e = edges[i];\n       \
+    \ for (int f = e.lower; f <= e.upper; ++f) {\n            balance[e.from] += f;\n\
+    \            balance[e.to] -= f;\n            self(self, i + 1, cost + f * e.cost);\n\
+    \            balance[e.from] -= f;\n            balance[e.to] += f;\n        }\n\
+    \    };\n    enumerate(enumerate, 0, 0);\n    for (int repeat = 0; repeat < 2;\
+    \ ++repeat) {\n        auto [ok, cost] = g.solve();\n        assert(ok == (best\
+    \ != LLONG_MAX));\n        if (!ok) break;\n        assert(cost == best);\n  \
+    \      auto flow = g.get_flows();\n        assert(flow.size() == edges.size());\n\
+    \        fill(balance.begin(), balance.end(), 0);\n        ll actual = 0;\n  \
+    \      for (int i = 0; i < (int)edges.size(); ++i) {\n            auto e = edges[i];\n\
+    \            assert(e.lower <= flow[i] && flow[i] <= e.upper);\n            balance[e.from]\
+    \ += flow[i];\n            balance[e.to] -= flow[i];\n            actual += flow[i]\
+    \ * e.cost;\n        }\n        assert(balance == supply && actual == best);\n\
+    \        auto before = g.get_flows();\n        check_dual(g);\n        check_dual(g);\n\
+    \        assert(g.get_flows() == before);\n    }\n}\n\nvoid self_check() {\n \
+    \   check({1, -1}, {{0, 1, 0, 1, 7}});\n    check({0, 0}, {{0, 1, 0, 1, -1}, {1,\
+    \ 0, 0, 1, 0}});\n    check({}, {});\n    check({0}, {});\n    check({1}, {});\n\
+    \    check({2, -2}, {{0, 1, 2, 2, 3}});\n    check({0}, {{0, 0, -2, 1, -4}});\n\
+    \    check({-1, 1}, {{0, 1, -2, -1, 3}});\n    check({2, -2}, {{0, 1, 0, 1, -1}});\n\
+    \    MinimumCostBFlow<ll, ll> g(3);\n    g.add_edge(0, 1, 0, 1, 7);\n    check_dual(g);\n\
+    \    g.add_supply(0, 1);\n    g.add_demand(1, 1);\n    assert(g.solve() == make_pair(true,\
+    \ (__int128_t)7));\n    check_dual(g);\n    g.add_edge(0, 2, 0, 1, -9);\n    check_dual(g);\n\
+    \    assert(g.solve() == make_pair(true, (__int128_t)7));\n    g.add_supply(0,\
+    \ 1);\n    check_dual(g);\n    assert(!g.solve().first);\n    check_dual(g);\n\
+    \    g.add_demand(2, 1);\n    check_dual(g);\n    assert(g.solve() == make_pair(true,\
+    \ (__int128_t)-2));\n    check_dual(g);\n    g.add_edge(1, 0, 0, 1, -10);\n  \
+    \  assert(g.solve() == make_pair(true, (__int128_t)-2));\n    check_dual(g);\n\
+    \n    mt19937 random(20261002);\n    for (int tc = 0; tc < 100000; ++tc) {\n \
+    \       int n = 1 + random() % 5, m = random() % 8;\n        vector<ll> supply(n);\n\
+    \        vector<InputEdge> edges;\n        for (int i = 0; i < m; ++i) {\n   \
+    \         int u = random() % n, v = random() % n;\n            int lower = int(random()\
+    \ % 5) - 2, upper = lower + random() % 4;\n            edges.push_back({u, v,\
+    \ lower, upper, int(random() % 9) - 4});\n            int f = lower + random()\
+    \ % (upper - lower + 1);\n            supply[u] += f;\n            supply[v] -=\
+    \ f;\n        }\n        if (tc % 3 == 0) {\n            ++supply[random() % n];\n\
+    \            --supply[random() % n];\n        }\n        if (tc % 7 == 0) ++supply[random()\
+    \ % n];\n        check(supply, edges);\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - geometry/closest_pair.cpp
+  - graph/minimum_cost_b_flow.cpp
   isVerificationFile: true
-  path: test/yosupo_closest_pair.test.cpp
+  path: test/yosupo_aplusb_min_cost_b_flow.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 16:59:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_closest_pair.test.cpp
+documentation_of: test/yosupo_aplusb_min_cost_b_flow.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_closest_pair.test.cpp
-- /verify/test/yosupo_closest_pair.test.cpp.html
-title: test/yosupo_closest_pair.test.cpp
+- /verify/test/yosupo_aplusb_min_cost_b_flow.test.cpp
+- /verify/test/yosupo_aplusb_min_cost_b_flow.test.cpp.html
+title: test/yosupo_aplusb_min_cost_b_flow.test.cpp
 ---

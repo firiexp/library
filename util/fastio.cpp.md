@@ -149,6 +149,9 @@ data:
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_min_cost_b_flow.test.cpp
+    title: test/yosupo_aplusb_min_cost_b_flow.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1073,6 +1076,7 @@ data:
   - test/yosupo_sum_of_floor_of_linear.test.cpp
   - test/yosupo_range_kth_smallest.test.cpp
   - test/yosupo_eulerian_trail_directed.test.cpp
+  - test/yosupo_aplusb_min_cost_b_flow.test.cpp
   - test/aoj0377.test.cpp
   - test/yosupo_many_factorials.test.cpp
   - test/yosupo_subset_convolution.test.cpp

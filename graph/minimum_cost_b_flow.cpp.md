@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_min_cost_b_flow.test.cpp
+    title: test/yosupo_aplusb_min_cost_b_flow.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_min_cost_b_flow.test.cpp
     title: test/yosupo_min_cost_b_flow.test.cpp
   _isVerificationFailed: false
@@ -19,27 +22,30 @@ data:
     \n        Flow residual_cap() const {\n            return cap - flow;\n      \
     \  }\n    };\n\n    struct EdgeRef {\n        int from, idx;\n    };\n\n    int\
     \ n;\n    vector<vector<Edge>> g;\n    vector<Flow> b;\n    vector<EdgeRef> edges;\n\
-    \    vector<Cost> potential;\n\n    explicit MinimumCostBFlow(int n) : n(n), g(n),\
-    \ b(n, 0), potential(n, 0) {}\n\n    void add_supply(int v, Flow x) {\n      \
-    \  b[v] += x;\n    }\n\n    void add_demand(int v, Flow x) {\n        b[v] -=\
-    \ x;\n    }\n\n    int add_edge(int from, int to, Flow lower, Flow upper, Cost\
-    \ cost) {\n        assert(lower <= upper);\n        int idx = (int)g[from].size();\n\
-    \        int rev = from == to ? idx + 1 : (int)g[to].size();\n        g[from].push_back({from,\
-    \ to, rev, 0, upper, cost});\n        g[to].push_back({to, from, idx, 0, -lower,\
-    \ -cost});\n        edges.push_back({from, idx});\n        return (int)edges.size()\
-    \ - 1;\n    }\n\n    Edge& rev_edge(const Edge& e) {\n        return g[e.to][e.rev];\n\
+    \    vector<Cost> potential;\n    bool potential_valid = false;\n\n    explicit\
+    \ MinimumCostBFlow(int n) : n(n), g(n), b(n, 0), potential(n, 0) {}\n\n    void\
+    \ add_supply(int v, Flow x) {\n        potential_valid = false;\n        b[v]\
+    \ += x;\n    }\n\n    void add_demand(int v, Flow x) {\n        potential_valid\
+    \ = false;\n        b[v] -= x;\n    }\n\n    int add_edge(int from, int to, Flow\
+    \ lower, Flow upper, Cost cost) {\n        assert(lower <= upper);\n        potential_valid\
+    \ = false;\n        int idx = (int)g[from].size();\n        int rev = from ==\
+    \ to ? idx + 1 : (int)g[to].size();\n        g[from].push_back({from, to, rev,\
+    \ 0, upper, cost});\n        g[to].push_back({to, from, idx, 0, -lower, -cost});\n\
+    \        edges.push_back({from, idx});\n        return (int)edges.size() - 1;\n\
+    \    }\n\n    Edge& rev_edge(const Edge& e) {\n        return g[e.to][e.rev];\n\
     \    }\n\n    const Edge& get_edge(int i) const {\n        return g[edges[i].from][edges[i].idx];\n\
     \    }\n\n    vector<Flow> get_flows() const {\n        vector<Flow> ret(edges.size());\n\
     \        for (int i = 0; i < (int)edges.size(); ++i) ret[i] = get_edge(i).flow;\n\
     \        return ret;\n    }\n\n    vector<Cost> get_potential() const {\n    \
-    \    vector<Cost> ret(n, 0);\n        for (int iter = 0; iter < n; ++iter) {\n\
-    \            bool updated = false;\n            for (int v = 0; v < n; ++v) {\n\
-    \                for (auto&& e : g[v]) {\n                    if(e.residual_cap()\
-    \ <= 0) continue;\n                    if(ret[e.to] > ret[e.from] + e.cost) {\n\
-    \                        ret[e.to] = ret[e.from] + e.cost;\n                 \
-    \       updated = true;\n                    }\n                }\n          \
-    \  }\n            if(!updated) break;\n        }\n        return ret;\n    }\n\
-    \n    pair<bool, Sum> solve() {\n        const Cost unreachable = numeric_limits<Cost>::max();\n\
+    \    if (potential_valid) return potential;\n        vector<Cost> ret(n, 0);\n\
+    \        for (int iter = 0; iter < n; ++iter) {\n            bool updated = false;\n\
+    \            for (int v = 0; v < n; ++v) {\n                for (auto&& e : g[v])\
+    \ {\n                    if(e.residual_cap() <= 0) continue;\n               \
+    \     if(ret[e.to] > ret[e.from] + e.cost) {\n                        ret[e.to]\
+    \ = ret[e.from] + e.cost;\n                        updated = true;\n         \
+    \           }\n                }\n            }\n            if(!updated) break;\n\
+    \        }\n        return ret;\n    }\n\n    pair<bool, Sum> solve() {\n    \
+    \    potential_valid = false;\n        const Cost unreachable = numeric_limits<Cost>::max();\n\
     \        vector<Cost> dist(n);\n        vector<Edge*> parent(n);\n        vector<int>\
     \ excess, deficit;\n        priority_queue<pair<Cost, int>, vector<pair<Cost,\
     \ int>>, greater<pair<Cost, int>>> pq;\n        Cost farthest = 0;\n\n       \
@@ -91,12 +97,12 @@ data:
     \    }\n\n        Flow max_cap = 1;\n        for (auto&& es : g) {\n         \
     \   for (auto&& e : es) {\n                max_cap = max(max_cap, e.residual_cap());\n\
     \            }\n        }\n        Flow delta = 1;\n        while(delta <= max_cap\
-    \ / 2) delta <<= 1;\n        for (delta >>= 1; delta > 0; delta >>= 1) {\n   \
-    \         saturate_negative(delta);\n            while(dual(delta)) primal(delta);\n\
-    \        }\n\n        Sum value = 0;\n        bool ok = true;\n        for (int\
-    \ v = 0; v < n; ++v) {\n            if(b[v] != 0) ok = false;\n        }\n   \
-    \     for (int i = 0; i < (int)edges.size(); ++i) {\n            auto&& e = get_edge(i);\n\
-    \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
+    \ / 2) delta <<= 1;\n        for (; delta > 0; delta >>= 1) {\n            saturate_negative(delta);\n\
+    \            while(dual(delta)) primal(delta);\n        }\n\n        Sum value\
+    \ = 0;\n        bool ok = true;\n        for (int v = 0; v < n; ++v) {\n     \
+    \       if(b[v] != 0) ok = false;\n        }\n        for (int i = 0; i < (int)edges.size();\
+    \ ++i) {\n            auto&& e = get_edge(i);\n            value += (Sum)e.flow\
+    \ * (Sum)e.cost;\n        }\n        potential_valid = ok;\n        return {ok,\
     \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
     \ b-Flow)\n */\n"
   code: "template<class Flow, class Cost>\nstruct MinimumCostBFlow {\n    using Sum\
@@ -104,28 +110,30 @@ data:
     \ cap;\n        Cost cost;\n\n        Flow residual_cap() const {\n          \
     \  return cap - flow;\n        }\n    };\n\n    struct EdgeRef {\n        int\
     \ from, idx;\n    };\n\n    int n;\n    vector<vector<Edge>> g;\n    vector<Flow>\
-    \ b;\n    vector<EdgeRef> edges;\n    vector<Cost> potential;\n\n    explicit\
-    \ MinimumCostBFlow(int n) : n(n), g(n), b(n, 0), potential(n, 0) {}\n\n    void\
-    \ add_supply(int v, Flow x) {\n        b[v] += x;\n    }\n\n    void add_demand(int\
-    \ v, Flow x) {\n        b[v] -= x;\n    }\n\n    int add_edge(int from, int to,\
-    \ Flow lower, Flow upper, Cost cost) {\n        assert(lower <= upper);\n    \
-    \    int idx = (int)g[from].size();\n        int rev = from == to ? idx + 1 :\
-    \ (int)g[to].size();\n        g[from].push_back({from, to, rev, 0, upper, cost});\n\
-    \        g[to].push_back({to, from, idx, 0, -lower, -cost});\n        edges.push_back({from,\
-    \ idx});\n        return (int)edges.size() - 1;\n    }\n\n    Edge& rev_edge(const\
-    \ Edge& e) {\n        return g[e.to][e.rev];\n    }\n\n    const Edge& get_edge(int\
-    \ i) const {\n        return g[edges[i].from][edges[i].idx];\n    }\n\n    vector<Flow>\
-    \ get_flows() const {\n        vector<Flow> ret(edges.size());\n        for (int\
-    \ i = 0; i < (int)edges.size(); ++i) ret[i] = get_edge(i).flow;\n        return\
-    \ ret;\n    }\n\n    vector<Cost> get_potential() const {\n        vector<Cost>\
-    \ ret(n, 0);\n        for (int iter = 0; iter < n; ++iter) {\n            bool\
-    \ updated = false;\n            for (int v = 0; v < n; ++v) {\n              \
-    \  for (auto&& e : g[v]) {\n                    if(e.residual_cap() <= 0) continue;\n\
-    \                    if(ret[e.to] > ret[e.from] + e.cost) {\n                \
-    \        ret[e.to] = ret[e.from] + e.cost;\n                        updated =\
-    \ true;\n                    }\n                }\n            }\n           \
-    \ if(!updated) break;\n        }\n        return ret;\n    }\n\n    pair<bool,\
-    \ Sum> solve() {\n        const Cost unreachable = numeric_limits<Cost>::max();\n\
+    \ b;\n    vector<EdgeRef> edges;\n    vector<Cost> potential;\n    bool potential_valid\
+    \ = false;\n\n    explicit MinimumCostBFlow(int n) : n(n), g(n), b(n, 0), potential(n,\
+    \ 0) {}\n\n    void add_supply(int v, Flow x) {\n        potential_valid = false;\n\
+    \        b[v] += x;\n    }\n\n    void add_demand(int v, Flow x) {\n        potential_valid\
+    \ = false;\n        b[v] -= x;\n    }\n\n    int add_edge(int from, int to, Flow\
+    \ lower, Flow upper, Cost cost) {\n        assert(lower <= upper);\n        potential_valid\
+    \ = false;\n        int idx = (int)g[from].size();\n        int rev = from ==\
+    \ to ? idx + 1 : (int)g[to].size();\n        g[from].push_back({from, to, rev,\
+    \ 0, upper, cost});\n        g[to].push_back({to, from, idx, 0, -lower, -cost});\n\
+    \        edges.push_back({from, idx});\n        return (int)edges.size() - 1;\n\
+    \    }\n\n    Edge& rev_edge(const Edge& e) {\n        return g[e.to][e.rev];\n\
+    \    }\n\n    const Edge& get_edge(int i) const {\n        return g[edges[i].from][edges[i].idx];\n\
+    \    }\n\n    vector<Flow> get_flows() const {\n        vector<Flow> ret(edges.size());\n\
+    \        for (int i = 0; i < (int)edges.size(); ++i) ret[i] = get_edge(i).flow;\n\
+    \        return ret;\n    }\n\n    vector<Cost> get_potential() const {\n    \
+    \    if (potential_valid) return potential;\n        vector<Cost> ret(n, 0);\n\
+    \        for (int iter = 0; iter < n; ++iter) {\n            bool updated = false;\n\
+    \            for (int v = 0; v < n; ++v) {\n                for (auto&& e : g[v])\
+    \ {\n                    if(e.residual_cap() <= 0) continue;\n               \
+    \     if(ret[e.to] > ret[e.from] + e.cost) {\n                        ret[e.to]\
+    \ = ret[e.from] + e.cost;\n                        updated = true;\n         \
+    \           }\n                }\n            }\n            if(!updated) break;\n\
+    \        }\n        return ret;\n    }\n\n    pair<bool, Sum> solve() {\n    \
+    \    potential_valid = false;\n        const Cost unreachable = numeric_limits<Cost>::max();\n\
     \        vector<Cost> dist(n);\n        vector<Edge*> parent(n);\n        vector<int>\
     \ excess, deficit;\n        priority_queue<pair<Cost, int>, vector<pair<Cost,\
     \ int>>, greater<pair<Cost, int>>> pq;\n        Cost farthest = 0;\n\n       \
@@ -177,22 +185,23 @@ data:
     \    }\n\n        Flow max_cap = 1;\n        for (auto&& es : g) {\n         \
     \   for (auto&& e : es) {\n                max_cap = max(max_cap, e.residual_cap());\n\
     \            }\n        }\n        Flow delta = 1;\n        while(delta <= max_cap\
-    \ / 2) delta <<= 1;\n        for (delta >>= 1; delta > 0; delta >>= 1) {\n   \
-    \         saturate_negative(delta);\n            while(dual(delta)) primal(delta);\n\
-    \        }\n\n        Sum value = 0;\n        bool ok = true;\n        for (int\
-    \ v = 0; v < n; ++v) {\n            if(b[v] != 0) ok = false;\n        }\n   \
-    \     for (int i = 0; i < (int)edges.size(); ++i) {\n            auto&& e = get_edge(i);\n\
-    \            value += (Sum)e.flow * (Sum)e.cost;\n        }\n        return {ok,\
+    \ / 2) delta <<= 1;\n        for (; delta > 0; delta >>= 1) {\n            saturate_negative(delta);\n\
+    \            while(dual(delta)) primal(delta);\n        }\n\n        Sum value\
+    \ = 0;\n        bool ok = true;\n        for (int v = 0; v < n; ++v) {\n     \
+    \       if(b[v] != 0) ok = false;\n        }\n        for (int i = 0; i < (int)edges.size();\
+    \ ++i) {\n            auto&& e = get_edge(i);\n            value += (Sum)e.flow\
+    \ * (Sum)e.cost;\n        }\n        potential_valid = ok;\n        return {ok,\
     \ value};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost\
     \ b-Flow)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/minimum_cost_b_flow.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 16:59:05+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_min_cost_b_flow.test.cpp
+  - test/yosupo_aplusb_min_cost_b_flow.test.cpp
 date: 2026-03-08
 documentation_of: graph/minimum_cost_b_flow.cpp
 layout: document
@@ -222,7 +231,7 @@ title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
 - `vector<Flow> get_flows()`
   追加順の各辺の流量を返す
 - `vector<Cost> get_potential()`
-  最適解に対応するポテンシャルの一例を返す
+  最適解に対応するポテンシャルの一例を返す。`solve()` 成功後、辺や需給を変更する前に呼ぶ。計算量は $O(n)$
 
 ## 使い方
 1. `MinimumCostBFlow<long long, long long> g(n);` を作る

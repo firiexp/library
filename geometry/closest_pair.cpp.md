@@ -24,21 +24,21 @@ data:
     \    Dist dx = Dist(a.x) - Dist(b.x);\n        Dist dy = Dist(a.y) - Dist(b.y);\n\
     \        Dist d = dx * dx + dy * dy;\n        pair<int, int> cand = {a.idx, b.idx};\n\
     \        if (best == -1 || d < best) {\n            best = d;\n            ans\
-    \ = cand;\n        }\n    };\n    update(ps[0], ps[1]);\n\n    auto dfs = [&](auto\
-    \ &&self, int l, int r) -> vector<int> {\n        if (r - l == 1) return {l};\n\
-    \        int m = (l + r) >> 1;\n        long long mx = ps[m].x;\n        vector<int>\
-    \ left = self(self, l, m);\n        vector<int> right = self(self, m, r);\n  \
-    \      vector<int> ord;\n        vector<int> near;\n        ord.reserve(r - l);\n\
-    \        near.reserve(r - l);\n        int i = 0, j = 0;\n        while (i < (int)left.size()\
-    \ || j < (int)right.size()) {\n            int idx;\n            if (j == (int)right.size()\
-    \ || (i < (int)left.size() && ps[left[i]].y < ps[right[j]].y)) {\n           \
-    \     idx = left[i++];\n            } else {\n                idx = right[j++];\n\
-    \            }\n            ord.push_back(idx);\n            Dist dx = Dist(ps[idx].x)\
-    \ - Dist(mx);\n            if (dx * dx > best) continue;\n            for (int\
-    \ k = (int)near.size() - 1; k >= 0; --k) {\n                int idy = near[k];\n\
-    \                Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);\n              \
-    \  if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
-    \            }\n            near.push_back(idx);\n        }\n        return ord;\n\
+    \ = cand;\n        }\n    };\n    update(ps[0], ps[1]);\n\n    vector<int> ord(n),\
+    \ scratch(n);\n    auto dfs = [&](auto &&self, int l, int r) -> void {\n     \
+    \   if (r - l == 1) {\n            ord[l] = l;\n            return;\n        }\n\
+    \        int m = (l + r) >> 1;\n        long long mx = ps[m].x;\n        self(self,\
+    \ l, m);\n        self(self, m, r);\n        int i = l, j = m;\n        for (int\
+    \ k = l; k < r; ++k) {\n            if (j == r || (i < m && ps[ord[i]].y < ps[ord[j]].y))\
+    \ {\n                scratch[k] = ord[i++];\n            } else {\n          \
+    \      scratch[k] = ord[j++];\n            }\n        }\n        copy(scratch.begin()\
+    \ + l, scratch.begin() + r, ord.begin() + l);\n        int count = 0;\n      \
+    \  for (int k = l; k < r; ++k) {\n            int idx = ord[k];\n            Dist\
+    \ dx = Dist(ps[idx].x) - Dist(mx);\n            if (dx * dx > best) continue;\n\
+    \            for (int t = count - 1; t >= 0; --t) {\n                int idy =\
+    \ scratch[l + t];\n                Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);\n\
+    \                if (best == 0 || dy * dy > best) break;\n                update(ps[idx],\
+    \ ps[idy]);\n            }\n            scratch[l + count++] = idx;\n        }\n\
     \    };\n    dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n\
     \ */\n"
   code: "pair<int, int> closest_pair(const vector<pair<long long, long long>> &points)\
@@ -53,28 +53,27 @@ data:
     \        Dist dy = Dist(a.y) - Dist(b.y);\n        Dist d = dx * dx + dy * dy;\n\
     \        pair<int, int> cand = {a.idx, b.idx};\n        if (best == -1 || d <\
     \ best) {\n            best = d;\n            ans = cand;\n        }\n    };\n\
-    \    update(ps[0], ps[1]);\n\n    auto dfs = [&](auto &&self, int l, int r) ->\
-    \ vector<int> {\n        if (r - l == 1) return {l};\n        int m = (l + r)\
-    \ >> 1;\n        long long mx = ps[m].x;\n        vector<int> left = self(self,\
-    \ l, m);\n        vector<int> right = self(self, m, r);\n        vector<int> ord;\n\
-    \        vector<int> near;\n        ord.reserve(r - l);\n        near.reserve(r\
-    \ - l);\n        int i = 0, j = 0;\n        while (i < (int)left.size() || j <\
-    \ (int)right.size()) {\n            int idx;\n            if (j == (int)right.size()\
-    \ || (i < (int)left.size() && ps[left[i]].y < ps[right[j]].y)) {\n           \
-    \     idx = left[i++];\n            } else {\n                idx = right[j++];\n\
-    \            }\n            ord.push_back(idx);\n            Dist dx = Dist(ps[idx].x)\
+    \    update(ps[0], ps[1]);\n\n    vector<int> ord(n), scratch(n);\n    auto dfs\
+    \ = [&](auto &&self, int l, int r) -> void {\n        if (r - l == 1) {\n    \
+    \        ord[l] = l;\n            return;\n        }\n        int m = (l + r)\
+    \ >> 1;\n        long long mx = ps[m].x;\n        self(self, l, m);\n        self(self,\
+    \ m, r);\n        int i = l, j = m;\n        for (int k = l; k < r; ++k) {\n \
+    \           if (j == r || (i < m && ps[ord[i]].y < ps[ord[j]].y)) {\n        \
+    \        scratch[k] = ord[i++];\n            } else {\n                scratch[k]\
+    \ = ord[j++];\n            }\n        }\n        copy(scratch.begin() + l, scratch.begin()\
+    \ + r, ord.begin() + l);\n        int count = 0;\n        for (int k = l; k <\
+    \ r; ++k) {\n            int idx = ord[k];\n            Dist dx = Dist(ps[idx].x)\
     \ - Dist(mx);\n            if (dx * dx > best) continue;\n            for (int\
-    \ k = (int)near.size() - 1; k >= 0; --k) {\n                int idy = near[k];\n\
-    \                Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);\n              \
-    \  if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
-    \            }\n            near.push_back(idx);\n        }\n        return ord;\n\
-    \    };\n    dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n\
-    \ */\n"
+    \ t = count - 1; t >= 0; --t) {\n                int idy = scratch[l + t];\n \
+    \               Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);\n               \
+    \ if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
+    \            }\n            scratch[l + count++] = idx;\n        }\n    };\n \
+    \   dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/closest_pair.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 16:59:05+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_closest_pair.test.cpp

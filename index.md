@@ -800,6 +800,9 @@ data:
       path: test/yosupo_aplusb_matrix_semiring.test.cpp
       title: test/yosupo_aplusb_matrix_semiring.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_min_cost_b_flow.test.cpp
+      title: test/yosupo_aplusb_min_cost_b_flow.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
       title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     - icon: ':heavy_check_mark:'
