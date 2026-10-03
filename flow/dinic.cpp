@@ -43,8 +43,10 @@ public:
     explicit Dinic(int n) : G(n), level(n), iter(n) {}
  
     void add_edge(int from, int to, T cap){
-        G[from].emplace_back(to, cap, G[to].size());
-        G[to].emplace_back(from, directed ? 0 : cap,  G[from].size()-1);
+        int from_id = G[from].size(), to_id = G[to].size();
+        if(from == to) ++to_id;
+        G[from].emplace_back(to, cap, to_id);
+        G[to].emplace_back(from, directed ? 0 : cap, from_id);
     }
  
  

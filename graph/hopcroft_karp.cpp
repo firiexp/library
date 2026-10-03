@@ -67,6 +67,7 @@ public:
     int max_matching() {
         build_graph();
         int ret = 0;
+        for (int v : match_left) if (v != -1) ++ret;
         while (bfs()) {
             for (int i = 0; i < l; ++i) {
                 if (match_left[i] == -1 && dfs(i)) ++ret;

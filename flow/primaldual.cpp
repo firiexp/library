@@ -12,8 +12,10 @@ struct PrimalDual {
     explicit PrimalDual(int n) : G(n), potential(n), min_cost(n), prevv(n), preve(n) {}
 
     void add_edge(int u, int v, F cap, C cost){
-        G[u].emplace_back(v, cap, cost, G[v].size());
-        G[v].emplace_back(u, 0, -cost, G[u].size()-1);
+        int from_id = G[u].size(), to_id = G[v].size();
+        if(u == v) ++to_id;
+        G[u].emplace_back(v, cap, cost, to_id);
+        G[v].emplace_back(u, 0, -cost, from_id);
     }
 
     struct P{
