@@ -73,6 +73,8 @@ void self_check() {
         TreeHash th(n);
         for (auto [u, v] : edges) th.add_edge(u, v);
         auto id = th.build(root);
+        assert(th.hash_id == id);
+        assert(th.build(root) == id);
 
         map<string, int> expect;
         for (int v = 0; v < n; ++v) {

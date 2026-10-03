@@ -39,7 +39,7 @@ struct TreeHash {
                 ch.push_back(hash_id[to]);
             }
             sort(ch.begin(), ch.end());
-            auto [it, inserted] = ids.emplace(ch, (int)ids.size());
+            auto [it, inserted] = ids.try_emplace(std::move(ch), (int)ids.size());
             hash_id[v] = it->second;
         }
         kind_count = ids.size();

@@ -19,7 +19,7 @@ pair<vector<vector<int>>, int> CartesianTree(const vector<T> &a) {
         if (parent[i] == -1) root = i;
         else g[parent[i]].push_back(i);
     }
-    return {g, root};
+    return {std::move(g), root};
 }
 
 /**

@@ -93,7 +93,7 @@ void deterministic_check() {
         for (int &x : flip_base) x ^= 1;
         verify_state(flipped, flip_base);
 
-        vector<int> shifts = {0, 1, 2, 31, 32, 63, 64, 65, max(0, n - 1), n, n + 7};
+        vector<int> shifts = {0, 1, 2, 31, 32, 63, 64, 65, max(0, n - 1), n, n + 1, n + 7};
         for (int s : shifts) {
             DynamicBitset left = bs;
             left <<= s;
@@ -102,6 +102,11 @@ void deterministic_check() {
             DynamicBitset right = bs;
             right >>= s;
             verify_state(right, shifted_right(base, s));
+            verify_state(bs << s, to_vec(left));
+            verify_state(bs >> s, to_vec(right));
+            verify_state(DynamicBitset(bs) << s, to_vec(left));
+            verify_state(DynamicBitset(bs) >> s, to_vec(right));
+            verify_state(bs, base);
         }
 
         DynamicBitset all(n, true);
@@ -116,6 +121,15 @@ void deterministic_check() {
         vector<int> xor_base = base;
         for (int &v : xor_base) v ^= 1;
         verify_state(z, xor_base);
+        verify_state(DynamicBitset(bs) & all, base);
+        verify_state(DynamicBitset(bs) | all, vector<int>(n, 1));
+        verify_state(DynamicBitset(bs) ^ all, xor_base);
+        verify_state(bs & bs, base);
+        verify_state(bs | bs, base);
+        verify_state(bs ^ bs, vector<int>(n, 0));
+        verify_state(bs, base);
+        verify_state(mix, base);
+        verify_state(all, vector<int>(n, 1));
     }
 }
 

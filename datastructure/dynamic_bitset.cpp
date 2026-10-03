@@ -266,9 +266,9 @@ public:
         return *this;
     }
 
-    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset &r) { return l &= r; }
-    friend DynamicBitset operator|(DynamicBitset l, const DynamicBitset &r) { return l |= r; }
-    friend DynamicBitset operator^(DynamicBitset l, const DynamicBitset &r) { return l ^= r; }
+    friend DynamicBitset operator&(DynamicBitset l, const DynamicBitset &r) { l &= r; return l; }
+    friend DynamicBitset operator|(DynamicBitset l, const DynamicBitset &r) { l |= r; return l; }
+    friend DynamicBitset operator^(DynamicBitset l, const DynamicBitset &r) { l ^= r; return l; }
 
     DynamicBitset &operator<<=(int s) {
         if (s <= 0 || n == 0) return *this;
@@ -333,8 +333,8 @@ public:
         return *this;
     }
 
-    friend DynamicBitset operator<<(DynamicBitset l, int s) { return l <<= s; }
-    friend DynamicBitset operator>>(DynamicBitset l, int s) { return l >>= s; }
+    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s; return l; }
+    friend DynamicBitset operator>>(DynamicBitset l, int s) { l >>= s; return l; }
 };
 
 /**

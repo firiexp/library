@@ -88,7 +88,7 @@ public:
                     now.emplace_back(e.second);
                 }
             }
-            bcc_vertices.emplace_back(now);
+            bcc_vertices.emplace_back(std::move(now));
         }
         for (int i = 0; i < n; ++i) {
             if(G.start[i] == G.start[i + 1]){

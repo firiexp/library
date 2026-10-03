@@ -90,15 +90,14 @@ struct SuffixAutomaton {
     }
 
     vector<int> substring_occurrences() const {
-        auto cnt = nodes;
+        vector<int> cnt(nodes.size());
+        for (int i = 0; i < (int)nodes.size(); ++i) cnt[i] = nodes[i].occ;
         auto ord = order_by_length();
         for (int i = (int)ord.size() - 1; i >= 1; --i) {
             int v = ord[i];
-            cnt[cnt[v].link].occ += cnt[v].occ;
+            cnt[nodes[v].link] += cnt[v];
         }
-        vector<int> res(nodes.size());
-        for (int i = 0; i < (int)nodes.size(); ++i) res[i] = cnt[i].occ;
-        return res;
+        return cnt;
     }
 };
 /**
