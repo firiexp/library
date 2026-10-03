@@ -101,7 +101,7 @@ struct AreaOfUnionOfRectangles {
         int i = 0;
         while (i < (int)events.size()) {
             Coord x = events[i].x;
-            ans += seg.covered_length() * Area(x - prev_x);
+            ans += seg.covered_length() * (Area(x) - Area(prev_x));
             while (i < (int)events.size() && events[i].x == x) {
                 seg.update(events[i].yl, events[i].yr, events[i].delta);
                 ++i;

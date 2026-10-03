@@ -1,6 +1,7 @@
 class IndependentSet {
     int n;
     vector<ull> G;
+    ull full_mask() const { return n == 64 ? ~0ull : (1ull << n) - 1; }
     pair<int, ull> dfs(ull R, ull P, ull X){
         if(!P && !X){
             return {__builtin_popcountll(R), R};
@@ -23,7 +24,7 @@ class IndependentSet {
 public:
     explicit IndependentSet(int n): n(n), G(n) {
         for (int i = 0; i < n; ++i) {
-            G[i] = ((1ull << n)-1)^(1ull << i);
+            G[i] = full_mask() ^ (1ull << i);
         }
     }
     void add_edge(int u, int v){
@@ -31,7 +32,7 @@ public:
         G[v] &= ~(1ull << u);
     }
     pair<int, ull> maximum_independent_set() {
-        return dfs(0, (1ull << n)-1, 0);
+        return dfs(0, full_mask(), 0);
     }
 };
 

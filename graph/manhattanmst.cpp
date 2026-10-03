@@ -7,7 +7,7 @@ vector<pair<int, int>> manhattanMST(vector<T> xs, vector<T> ys) {
         iota(ord.begin(), ord.end(), 0);
         auto cmp = [&](int i, int j) -> bool {
             if (xs[i]+ys[i] != xs[j]+ys[j]) return xs[i]+ys[i] < xs[j]+ys[j];
-            return (s>>1) ^ (i > j);
+            return (s>>1) ? (i < j) : (i > j);
         };
         sort(ord.begin(), ord.end(), cmp);
         map<pair<T, int>, int> idx;

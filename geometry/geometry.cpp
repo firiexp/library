@@ -278,6 +278,7 @@ geometry_real area(Circle a, Circle b) {
 
 Polygon convex_hull(Polygon v) {
     int n = v.size();
+    if (n <= 1) return v;
     sort(v.begin(), v.end(), sorty);
     int k = 0;
     Polygon ret(n * 2);
