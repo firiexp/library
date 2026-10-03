@@ -38,15 +38,12 @@ void self_check() {
                 }
                 bool expected = brute_palindrome(s, wildcard);
                 assert(is_palindrome(s, wildcard) == expected);
-                assert(is_parindrome(s, wildcard) == expected);
                 if (wildcard == '?') {
                     assert(is_palindrome(s) == expected);
-                    assert(is_parindrome(s) == expected);
                 }
                 string reversed = s;
                 reverse(reversed.begin(), reversed.end());
                 assert(is_palindrome(s, '#') == (s == reversed));
-                assert(is_parindrome(s, '#') == (s == reversed));
             }
         }
     }

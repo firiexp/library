@@ -6,7 +6,3 @@ bool is_palindrome(const string &s, char c = '?'){
     }
     return true;
 }
-
-bool is_parindrome(const string &s, char c = '?'){
-    return is_palindrome(s, c);
-}

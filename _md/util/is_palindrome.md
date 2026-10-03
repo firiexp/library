@@ -10,7 +10,6 @@ tags: 文字列
 
 ## できること
 - `is_palindrome(s, c = '?')` : 文字列 `s` の文字 `c` をそれぞれ任意の文字に置き換えて回文にできるなら `true`、そうでなければ `false`
-- `is_parindrome(s, c = '?')` : 旧名の互換 API。`is_palindrome` と同じ結果を返す
 
 ## 使い方
 既定のワイルドカードは `'?'`。`is_palindrome("a?")` は `true` を返す。
