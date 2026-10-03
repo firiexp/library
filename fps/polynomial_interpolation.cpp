@@ -12,7 +12,10 @@ poly polynomial_interpolation(const vector<mint> &xs, const vector<mint> &ys) {
     for (int i = n; i < sz; ++i) prod[sz + i] = poly(vector<mint>{mint(1)});
     for (int i = sz - 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];
 
-    vector<mint> w = prod[1].diff().multipoint_eval(xs);
+    poly derivative = prod[1].diff();
+    vector<mint> w = 1LL * derivative.size() * n <= 4096
+        ? derivative.multipoint_eval(xs)
+        : multipoint_evaluation_detail::evaluate(derivative, prod, n);
     vector<poly> cur(2 * sz);
     for (int i = 0; i < n; ++i) cur[sz + i] = poly(vector<mint>{ys[i] / w[i]});
     for (int i = sz - 1; i >= 1; --i) {

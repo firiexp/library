@@ -158,21 +158,25 @@ struct WeightedWaveletMatrix {
         mid.assign(lg, 0);
         bit.assign(lg * blocks + 1, 0);
         pref.assign(lg * (blocks + 1), 0);
-        zero_sum.assign(lg * (n + 1), U());
+        size_t sum_size = lg;
+        for (int x : cur) sum_size += lg - __builtin_popcount((unsigned)x);
+        zero_sum.assign(sum_size, U());
         vector<int> nxt(n);
         vector<U> nxt_w(n);
 
+        auto *row_zero_sum = zero_sum.data();
         for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {
             auto *row = bit.data() + d * blocks;
             auto *row_pref = pref.data() + d * (blocks + 1);
-            auto *row_zero_sum = zero_sum.data() + d * (n + 1);
             int zero_cnt = 0;
             for (int i = 0; i < n; ++i) {
                 int x = cur[i];
                 int b = (x >> shift) & 1;
                 if (b) row[i >> 6] |= 1ULL << (i & 63);
-                else ++zero_cnt;
-                row_zero_sum[i + 1] = row_zero_sum[i] + (b ? U() : cur_w[i]);
+                else {
+                    row_zero_sum[zero_cnt + 1] = row_zero_sum[zero_cnt] + cur_w[i];
+                    ++zero_cnt;
+                }
             }
             mid[d] = zero_cnt;
             for (int i = 0; i < blocks; ++i) row_pref[i + 1] = row_pref[i] + __builtin_popcountll(row[i]);
@@ -189,6 +193,7 @@ struct WeightedWaveletMatrix {
             }
             cur.swap(nxt);
             cur_w.swap(nxt_w);
+            row_zero_sum += zero_cnt + 1;
         }
     }
 
@@ -230,7 +235,7 @@ private:
             int l0 = l - l1, r0 = r - r1;
             if ((xi >> shift) & 1) {
                 res.count += r0 - l0;
-                if constexpr (NeedSum) res.sum += zero_sum_data[r] - zero_sum_data[l];
+                if constexpr (NeedSum) res.sum += zero_sum_data[r0] - zero_sum_data[l0];
                 l = mid_data[d] + l1;
                 r = mid_data[d] + r1;
             }
@@ -241,7 +246,7 @@ private:
             if (l == r) break;
             bit_data += blocks;
             pref_data += blocks + 1;
-            zero_sum_data += n + 1;
+            zero_sum_data += mid_data[d] + 1;
         }
         return res;
     }
@@ -261,7 +266,7 @@ private:
             int l0 = l - l1, r0 = r - r1;
             if ((xi >> shift) & 1) {
                 res.count += r0 - l0;
-                if constexpr (NeedSum) res.sum += zero_sum_data[r] - zero_sum_data[l];
+                if constexpr (NeedSum) res.sum += zero_sum_data[r0] - zero_sum_data[l0];
                 l = mid_data[d] + l1;
                 r = mid_data[d] + r1;
             }
@@ -272,7 +277,7 @@ private:
             if (l == r) break;
             bit_data += blocks;
             pref_data += blocks + 1;
-            zero_sum_data += n + 1;
+            zero_sum_data += mid_data[d] + 1;
         }
         return res;
     }

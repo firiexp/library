@@ -1,5 +1,20 @@
 #include "../math/ntt.cpp"
 
+namespace multipoint_evaluation_detail {
+vector<mint> evaluate(const poly &f, const vector<poly> &prod, int m) {
+    int n = (int)prod.size() / 2;
+    vector<poly> rem(2 * n);
+    rem[1] = f.mod(prod[1]);
+    for (int i = 1; i < n; ++i) {
+        rem[i << 1] = rem[i].mod(prod[i << 1]);
+        rem[i << 1 | 1] = rem[i].mod(prod[i << 1 | 1]);
+    }
+    vector<mint> ys(m);
+    for (int i = 0; i < m; ++i) ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];
+    return ys;
+}
+}
+
 vector<mint> poly::multipoint_eval(const vector<mint> &xs) const {
     int m = (int)xs.size();
     if (m == 0) return {};
@@ -16,15 +31,7 @@ vector<mint> poly::multipoint_eval(const vector<mint> &xs) const {
     for (int i = m; i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});
     for (int i = n - 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];
 
-    vector<poly> rem(2 * n);
-    rem[1] = mod(prod[1]);
-    for (int i = 1; i < n; ++i) {
-        rem[i << 1] = rem[i].mod(prod[i << 1]);
-        rem[i << 1 | 1] = rem[i].mod(prod[i << 1 | 1]);
-    }
-    vector<mint> ys(m);
-    for (int i = 0; i < m; ++i) ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];
-    return ys;
+    return multipoint_evaluation_detail::evaluate(*this, prod, m);
 }
 
 /**

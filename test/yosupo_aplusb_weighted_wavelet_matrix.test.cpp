@@ -38,15 +38,17 @@ BruteResult brute_less(const vector<ll> &values, const vector<ll> &weights,
 
 void check_random() {
     mt19937_64 rng(0);
-    for (int tc = 0; tc < 200; ++tc) {
-        int n = rng() % 51;
+    for (int tc = 0; tc < 1000; ++tc) {
+        const int sizes[] = {0, 1, 2, 3, 63, 64, 65, 127, 128, 129};
+        int n = tc < 10 ? sizes[tc] : rng() % 258;
         vector<ll> values(n), weights(n);
         for (int i = 0; i < n; ++i) {
-            if (tc % 3 == 0) values[i] = (int)(rng() % 21) - 10;
+            if (tc % 11 == 0) values[i] = -7;
+            else if (tc % 3 == 0) values[i] = (int)(rng() % 21) - 10;
             else values[i] = (ll)rng();
             weights[i] = (int)(rng() % 101) - 50;
         }
-        if (n && tc % 7 == 0) {
+        if (n && tc % 7 == 0 && tc % 11 != 0) {
             values[0] = numeric_limits<ll>::min();
             values[n - 1] = numeric_limits<ll>::max();
         }
@@ -63,6 +65,10 @@ void check_random() {
         }
         WeightedWaveletMatrix<ll, ll> wm_index;
         wm_index.build_from_index(index, sorted_values, weights);
+        size_t sum_size = 0;
+        for (int mid : wm.mid) sum_size += mid + 1;
+        assert(wm.zero_sum.size() == sum_size);
+        assert(wm_index.zero_sum.size() == sum_size);
 
         for (int step = 0; step < 200; ++step) {
             int l = rng() % (n + 1);
@@ -96,6 +102,12 @@ void check_random() {
             assert(got_index.count == index_less.count && got_index.sum == index_less.sum);
             assert(wm_index.count_less_index(l, r, xi) == index_less.count);
         }
+        wm.build({}, {});
+        assert(wm.zero_sum.empty());
+        assert(wm.count_sum_less(0, 0, 0).sum == 0);
+        wm.build(values, weights);
+        assert(wm.zero_sum.size() == sum_size);
+        assert(wm.count_sum_less_index(0, n, sorted_values.size()).sum == wm_index.base_sum[n]);
     }
 }
 
