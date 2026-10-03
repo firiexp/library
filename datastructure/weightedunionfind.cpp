@@ -11,7 +11,7 @@ public:
         if (uni[a] < 0) return a;
         int p = uni[a];
         int r = root(p);
-        weights[a] = G::op(weights[a], weights[p]);
+        weights[a] = G::op(weights[p], weights[a]);
         return uni[a] = r;
     }
 

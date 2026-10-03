@@ -38,7 +38,7 @@ public:
         }
         while (r[i] != par && r[i] >= 0) {
             auto &e = G[i][r[i]];
-            dpr[i][r[i]] = M::f(dpr[i][r[i] + 1], M::g(dfs(e.to, e.rev), e.val));
+            dpr[i][r[i]] = M::f(M::g(dfs(e.to, e.rev), e.val), dpr[i][r[i] + 1]);
             --r[i];
         }
         if (par < 0) return dpr[i].front();
