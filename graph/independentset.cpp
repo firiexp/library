@@ -2,20 +2,28 @@ class IndependentSet {
     int n;
     vector<ull> G;
     ull full_mask() const { return n == 64 ? ~0ull : (1ull << n) - 1; }
-    pair<int, ull> dfs(ull R, ull P, ull X){
-        if(!P && !X){
+    pair<int, ull> dfs(ull R, ull P, ull X) {
+        if (!P && !X) {
             return {__builtin_popcountll(R), R};
         }
-        if(!P) return {-1, 0};
+        if (!P) return {-1, 0};
         pair<int, ull> res = {-1, 0};
-        int pivot = __builtin_ctzll(P|X);
-        ull z = P & ~G[pivot];
-        for (int i = 0; i < n; ++i) {
-            if(z & (1ull << i)){
-                res = max(res, dfs(R|(1ull << i), P&G[i], X&G[i]));
-                P ^= 1ull << i;
-                X |= 1ull << i;
+        int pivot = -1, max_neighbors = -1;
+        for (ull vertices = P | X; vertices; vertices &= vertices - 1) {
+            int u = __builtin_ctzll(vertices);
+            int neighbors = __builtin_popcountll(P & G[u]);
+            if (neighbors > max_neighbors) {
+                pivot = u;
+                max_neighbors = neighbors;
             }
+        }
+        ull z = P & ~G[pivot];
+        while (z) {
+            int i = __builtin_ctzll(z);
+            z &= z - 1;
+            res = max(res, dfs(R | (1ull << i), P & G[i], X & G[i]));
+            P ^= 1ull << i;
+            X |= 1ull << i;
         }
         return res;
     }
