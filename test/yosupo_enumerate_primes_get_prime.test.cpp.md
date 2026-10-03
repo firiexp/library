@@ -8,6 +8,12 @@ data:
     path: math/prime/get_prime_wheel.cpp
     title: get_prime_wheel
   - icon: ':heavy_check_mark:'
+    path: math/prime/get_prime_wheel.cpp
+    title: get_prime_wheel
+  - icon: ':heavy_check_mark:'
+    path: math/prime/linear_sieve.cpp
+    title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -17,14 +23,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C
+    PROBLEM: https://judge.yosupo.jp/problem/enumerate_primes
     links:
-    - http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C
-  bundledCode: "#line 1 \"test/aoj_alds1_1_c_get_prime.test.cpp\"\n#define PROBLEM\
-    \ \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C\"\n\n#include\
-    \ <vector>\n#include <algorithm>\n#include <array>\n#include <cmath>\nusing namespace\
-    \ std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
+    - https://judge.yosupo.jp/problem/enumerate_primes
+  bundledCode: "#line 1 \"test/yosupo_enumerate_primes_get_prime.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ull = unsigned long long;\n#line 1 \"util/fastio.cpp\"\
     \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
@@ -230,16 +234,15 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/prime/get_prime.cpp\"\
-    \n\n\n\n#line 1 \"math/prime/get_prime_wheel.cpp\"\n\n\n\nstruct Prime {\n   \
-    \ static constexpr int wheel[8]  = {4, 2, 4, 2, 4, 6, 2, 6};\n    static constexpr\
-    \ int wheel2[8] = {7, 11, 13, 17, 19, 23, 29, 31};\n    static constexpr int wheel_sum[30]\
-    \ = {\n        0, 0, 0, 0, 0, 0, 1, 1, 1, 1,\n        2, 2, 3, 3, 3, 3, 4, 4,\
-    \ 5, 5,\n        5, 5, 6, 6, 6, 6, 6, 6, 7, 7\n    };\n    static constexpr int\
-    \ off64[64] = {\n          0,  4,  6, 10, 12, 16, 22, 24,\n         30, 34, 36,\
-    \ 40, 42, 46, 52, 54,\n         60, 64, 66, 70, 72, 76, 82, 84,\n         90,\
-    \ 94, 96,100,102,106,112,114,\n        120,124,126,130,132,136,142,144,\n    \
-    \    150,154,156,160,162,166,172,174,\n        180,184,186,190,192,196,202,204,\n\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/prime/get_prime_wheel.cpp\"\
+    \n\n\n\nstruct Prime {\n    static constexpr int wheel[8]  = {4, 2, 4, 2, 4, 6,\
+    \ 2, 6};\n    static constexpr int wheel2[8] = {7, 11, 13, 17, 19, 23, 29, 31};\n\
+    \    static constexpr int wheel_sum[30] = {\n        0, 0, 0, 0, 0, 0, 1, 1, 1,\
+    \ 1,\n        2, 2, 3, 3, 3, 3, 4, 4, 5, 5,\n        5, 5, 6, 6, 6, 6, 6, 6, 7,\
+    \ 7\n    };\n    static constexpr int off64[64] = {\n          0,  4,  6, 10,\
+    \ 12, 16, 22, 24,\n         30, 34, 36, 40, 42, 46, 52, 54,\n         60, 64,\
+    \ 66, 70, 72, 76, 82, 84,\n         90, 94, 96,100,102,106,112,114,\n        120,124,126,130,132,136,142,144,\n\
+    \        150,154,156,160,162,166,172,174,\n        180,184,186,190,192,196,202,204,\n\
     \        210,214,216,220,222,226,232,234\n    };\n\n    // old 1-based\n    static\
     \ inline int f(long long n) { return (n - 1) / 30 * 8 + wheel_sum[(n - 1) % 30];\
     \ }\n    static inline int g(int n) { return ((n - 1) >> 3) * 30 + wheel2[(n -\
@@ -301,41 +304,85 @@ data:
     \           ++count;\n                bits &= bits - 1;\n            }\n     \
     \   }\n    }\n};\n\nconstexpr int Prime::wheel[8];\nconstexpr int Prime::wheel2[8];\n\
     constexpr int Prime::wheel_sum[30];\nconstexpr int Prime::off64[64];\n\n\n#line\
-    \ 5 \"math/prime/get_prime.cpp\"\n\nvector<int> get_prime(int n) {\n    return\
-    \ Prime(n).primes;\n}\n\n\n#line 18 \"test/aoj_alds1_1_c_get_prime.test.cpp\"\n\
-    \nbool is_prime_number(int x, const vector<int> &primes) {\n    if (x < 2) return\
-    \ false;\n    for (int p : primes) {\n        if (1LL * p * p > x) break;\n  \
-    \      if (x % p == 0) return false;\n    }\n    return true;\n}\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    auto\
-    \ primes = get_prime(100000);\n    int ans = 0;\n    while (n--) {\n        int\
-    \ x;\n        sc.read(x);\n        ans += is_prime_number(x, primes);\n    }\n\
-    \    pr.println(ans);\n    return 0;\n}\n"
-  code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C\"\
-    \n\n#include <vector>\n#include <algorithm>\n#include <array>\n#include <cmath>\n\
-    using namespace std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../math/prime/get_prime.cpp\"\n\n\
-    bool is_prime_number(int x, const vector<int> &primes) {\n    if (x < 2) return\
-    \ false;\n    for (int p : primes) {\n        if (1LL * p * p > x) break;\n  \
-    \      if (x % p == 0) return false;\n    }\n    return true;\n}\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    auto\
-    \ primes = get_prime(100000);\n    int ans = 0;\n    while (n--) {\n        int\
-    \ x;\n        sc.read(x);\n        ans += is_prime_number(x, primes);\n    }\n\
-    \    pr.println(ans);\n    return 0;\n}\n"
+    \ 1 \"math/prime/get_prime.cpp\"\n\n\n\n#line 5 \"math/prime/get_prime.cpp\"\n\
+    \nvector<int> get_prime(int n) {\n    return Prime(n).primes;\n}\n\n\n#line 1\
+    \ \"math/prime/linear_sieve.cpp\"\n\n\n\nstruct LinearSieve {\n    int n;\n  \
+    \  vector<int> primes;\n    vector<int> min_factor;\n    vector<int> phi;\n  \
+    \  vector<int> mobius;\n    vector<bool> prime_table;\n\n    explicit LinearSieve(int\
+    \ n, bool need_min_factor = false, bool need_phi = false, bool need_mobius = false)\n\
+    \        : n(n < 0 ? 0 : n),\n          min_factor(need_min_factor ? this->n +\
+    \ 1 : 0),\n          phi(need_phi ? this->n + 1 : 0),\n          mobius(need_mobius\
+    \ ? this->n + 1 : 0),\n          prime_table(need_min_factor ? 0 : this->n + 1,\
+    \ true) {\n        if (!prime_table.empty()) {\n            prime_table[0] = false;\n\
+    \            if (this->n >= 1) prime_table[1] = false;\n        }\n        if\
+    \ (!min_factor.empty() && this->n >= 1) min_factor[1] = 1;\n        if (!phi.empty())\
+    \ {\n            phi[0] = 0;\n            if (this->n >= 1) phi[1] = 1;\n    \
+    \    }\n        if (!mobius.empty()) {\n            mobius[0] = 0;\n         \
+    \   if (this->n >= 1) mobius[1] = 1;\n        }\n        for (int i = 2; i <=\
+    \ this->n; ++i) {\n            bool prime = min_factor.empty() ? prime_table[i]\
+    \ : min_factor[i] == 0;\n            if (prime) {\n                if (!min_factor.empty())\
+    \ min_factor[i] = i;\n                if (!phi.empty()) phi[i] = i - 1;\n    \
+    \            if (!mobius.empty()) mobius[i] = -1;\n                primes.emplace_back(i);\n\
+    \            }\n            for (auto &&p : primes) {\n                long long\
+    \ x = 1LL * i * p;\n                if (x > this->n) break;\n                if\
+    \ (!prime_table.empty()) prime_table[x] = false;\n                if (!min_factor.empty())\
+    \ min_factor[x] = p;\n                bool same = i % p == 0;\n              \
+    \  if (!phi.empty()) phi[x] = same ? phi[i] * p : phi[i] * (p - 1);\n        \
+    \        if (!mobius.empty()) mobius[x] = same ? 0 : -mobius[i];\n           \
+    \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
+    \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
+    \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
+    \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 10 \"test/yosupo_enumerate_primes_get_prime.test.cpp\"\
+    \n\nvoid self_check() {\n    vector<bool> sieve(100001, true);\n    sieve[0] =\
+    \ sieve[1] = false;\n    for (int p = 2; p * p <= 100000; ++p) if (sieve[p])\n\
+    \        for (int x = p * p; x <= 100000; x += p) sieve[x] = false;\n    vector<int>\
+    \ expected;\n    for (int n = 0; n <= 100000; ++n) {\n        if (sieve[n]) expected.push_back(n);\n\
+    \        if (n <= 10000 || n % 30 <= 1 || n % 30 == 29) assert(get_prime(n) ==\
+    \ expected);\n    }\n    assert(get_prime(-1).empty());\n    assert(get_prime(INT_MIN).empty());\n\
+    \    assert(LinearSieve(10000).primes == get_prime(10000));\n    for (int p =\
+    \ 7; p <= 313; ++p) if (sieve[p]) {\n        for (int n = p * p - 1; n <= p *\
+    \ p + 1; ++n) {\n            vector<int> prefix;\n            for (int x = 2;\
+    \ x <= n; ++x) if (sieve[x]) prefix.push_back(x);\n            assert(get_prime(n)\
+    \ == prefix);\n        }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n    int n, a, b;\n    sc.read(n, a, b);\n    auto primes\
+    \ = get_prime(n);\n    vector<int> picked;\n    for (int i = b; i < (int)primes.size();\
+    \ i += a) picked.push_back(primes[i]);\n    pr.println(primes.size(), picked.size());\n\
+    \    pr.println(picked);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/enumerate_primes\"\n\n\
+    #include <bits/stdc++.h>\nusing namespace std;\nusing ull = unsigned long long;\n\
+    #include \"../util/fastio.cpp\"\n#include \"../math/prime/get_prime_wheel.cpp\"\
+    \n#include \"../math/prime/get_prime.cpp\"\n#include \"../math/prime/linear_sieve.cpp\"\
+    \n\nvoid self_check() {\n    vector<bool> sieve(100001, true);\n    sieve[0] =\
+    \ sieve[1] = false;\n    for (int p = 2; p * p <= 100000; ++p) if (sieve[p])\n\
+    \        for (int x = p * p; x <= 100000; x += p) sieve[x] = false;\n    vector<int>\
+    \ expected;\n    for (int n = 0; n <= 100000; ++n) {\n        if (sieve[n]) expected.push_back(n);\n\
+    \        if (n <= 10000 || n % 30 <= 1 || n % 30 == 29) assert(get_prime(n) ==\
+    \ expected);\n    }\n    assert(get_prime(-1).empty());\n    assert(get_prime(INT_MIN).empty());\n\
+    \    assert(LinearSieve(10000).primes == get_prime(10000));\n    for (int p =\
+    \ 7; p <= 313; ++p) if (sieve[p]) {\n        for (int n = p * p - 1; n <= p *\
+    \ p + 1; ++n) {\n            vector<int> prefix;\n            for (int x = 2;\
+    \ x <= n; ++x) if (sieve[x]) prefix.push_back(x);\n            assert(get_prime(n)\
+    \ == prefix);\n        }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n    int n, a, b;\n    sc.read(n, a, b);\n    auto primes\
+    \ = get_prime(n);\n    vector<int> picked;\n    for (int i = b; i < (int)primes.size();\
+    \ i += a) picked.push_back(primes[i]);\n    pr.println(primes.size(), picked.size());\n\
+    \    pr.println(picked);\n}\n"
   dependsOn:
   - util/fastio.cpp
+  - math/prime/get_prime_wheel.cpp
   - math/prime/get_prime.cpp
   - math/prime/get_prime_wheel.cpp
+  - math/prime/linear_sieve.cpp
   isVerificationFile: true
-  path: test/aoj_alds1_1_c_get_prime.test.cpp
+  path: test/yosupo_enumerate_primes_get_prime.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 16:51:49+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_alds1_1_c_get_prime.test.cpp
+documentation_of: test/yosupo_enumerate_primes_get_prime.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_alds1_1_c_get_prime.test.cpp
-- /verify/test/aoj_alds1_1_c_get_prime.test.cpp.html
-title: test/aoj_alds1_1_c_get_prime.test.cpp
+- /verify/test/yosupo_enumerate_primes_get_prime.test.cpp
+- /verify/test/yosupo_enumerate_primes_get_prime.test.cpp.html
+title: test/yosupo_enumerate_primes_get_prime.test.cpp
 ---

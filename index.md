@@ -800,6 +800,9 @@ data:
       path: test/yosupo_aplusb_matrix_semiring.test.cpp
       title: test/yosupo_aplusb_matrix_semiring.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
+      title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_ndvec.test.cpp
       title: test/yosupo_aplusb_ndvec.test.cpp
     - icon: ':heavy_check_mark:'
@@ -811,6 +814,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_palindromic_tree.test.cpp
       title: test/yosupo_aplusb_palindromic_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_prime_range.test.cpp
+      title: test/yosupo_aplusb_prime_range.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
       title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
@@ -931,6 +937,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_enumerate_palindromes_manacher.test.cpp
       title: test/yosupo_enumerate_palindromes_manacher.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_enumerate_primes_get_prime.test.cpp
+      title: test/yosupo_enumerate_primes_get_prime.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
       title: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp

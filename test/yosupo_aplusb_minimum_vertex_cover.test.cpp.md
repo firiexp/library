@@ -2,11 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/prime/miller_rabin.cpp
-    title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
-  - icon: ':heavy_check_mark:'
-    path: math/prime/primefactor_ll.cpp
-    title: "\u7D20\u56E0\u6570\u5206\u89E3(Pollard Rho)"
+    path: graph/hopcroft_karp.cpp
+    title: "Hopcroft-Karp\u6CD5"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -17,20 +14,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/factorize
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/factorize
-  bundledCode: "#line 1 \"test/yosupo_factorize.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/factorize\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <cstdint>\n#include <numeric>\n\
-    #include <random>\n#include <vector>\nusing namespace std;\nusing ll = long long;\n\
-    using uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_minimum_vertex_cover.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -230,149 +224,133 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/prime/miller_rabin.cpp\"\
-    \nusing u128 = __uint128_t;\n\nstruct mod64 {\n    unsigned long long n;\n   \
-    \ static unsigned long long mod, inv, r2;\n    mod64() : n(0) {}\n    mod64(unsigned\
-    \ long long x) : n(init(x)) {}\n    static unsigned long long init(unsigned long\
-    \ long w) {\n        return reduce(u128(w) * r2);\n    }\n    static void set_mod(unsigned\
-    \ long long m) {\n        assert((m & 1) && m < (1ULL << 63));\n        mod =\
-    \ inv = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        r2\
-    \ = -u128(m) % m;\n    }\n    static unsigned long long reduce(u128 x) {\n   \
-    \     unsigned long long y =\n            static_cast<unsigned long long>(x >>\
-    \ 64)\n            - static_cast<unsigned long long>((u128(static_cast<unsigned\
-    \ long long>(x) * inv) * mod) >> 64);\n        return (long long)y < 0 ? y + mod\
-    \ : y;\n    }\n    mod64& operator*=(mod64 x) {\n        n = reduce(u128(n) *\
-    \ x.n);\n        return *this;\n    }\n    mod64 operator*(mod64 x) const {\n\
-    \        return mod64(*this) *= x;\n    }\n    mod64& operator+=(mod64 x) {\n\
-    \        n += x.n - mod;\n        if((long long)n < 0) n += mod;\n        return\
-    \ *this;\n    }\n    mod64 operator+(mod64 x) const {\n        return mod64(*this)\
-    \ += x;\n    }\n    unsigned long long val() const {\n        return reduce(n);\n\
-    \    }\n};\n\nunsigned long long mod64::mod, mod64::inv, mod64::r2;\n\nbool suspect(unsigned\
-    \ long long a, unsigned long long s, unsigned long long d, unsigned long long\
-    \ n){\n    if(mod64::mod != n) mod64::set_mod(n);\n    mod64 x(1), xx(a), one(1),\
-    \ minusone(n - 1);\n    while(d > 0){\n        if(d & 1) x *= xx;\n        xx\
-    \ *= xx;\n        d >>= 1;\n    }\n    if (x.n == one.n) return true;\n    for\
-    \ (unsigned long long r = 0; r < s; ++r) {\n        if(x.n == minusone.n) return\
-    \ true;\n        x *= x;\n    }\n    return false;\n}\n\ntemplate<class T>\nbool\
-    \ miller_rabin(T m){\n    if (m <= 1) return false;\n    unsigned long long n\
-    \ = m;\n    assert(n < (1ULL << 63));\n    if (n > 2 && n % 2 == 0) return false;\n\
-    \    if (n == 2 || n == 3 || n == 5 || n == 7) return true;\n    if (n % 3 ==\
-    \ 0 || n % 5 == 0 || n % 7 == 0) return false;\n    unsigned long long d = n -\
-    \ 1, s = 0;\n    while (!(d & 1)) { ++s; d >>= 1; }\n    static constexpr unsigned\
-    \ long long small[] = {2, 7, 61};\n    static constexpr unsigned long long large[]\
-    \ = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};\n    if(n < 4759123141ULL)\
-    \ {\n        for (auto p : small) {\n            if(p >= n) break;\n         \
-    \   if(!suspect(p, s, d, n)) return false;\n        }\n    } else {\n        for\
-    \ (auto p : large) {\n            if(p >= n) break;\n            if(!suspect(p,\
-    \ s, d, n)) return false;\n        }\n    }\n    return true;\n}\n\n/**\n * @brief\
-    \ Miller-Rabin\u7D20\u6570\u5224\u5B9A\n */\n#line 2 \"math/prime/primefactor_ll.cpp\"\
-    \n\ntemplate<typename T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv()\
-    \ {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T\
-    \ n) {\n        T x = n;\n        for (int i = 0; i < 5; ++i) x *= 2 - n * x;\n\
-    \        return x;\n    }\n    bool divide(T n) const {\n        if(val == 2)\
-    \ return !(n & 1);\n        return n * this->i <= this->t;\n    }\n};\n\nvector<ExactDiv<ull>>\
-    \ get_prime(int n){\n    if(n <= 1) return vector<ExactDiv<ull>>();\n    vector<bool>\
-    \ is_prime(n+1, true);\n    vector<ExactDiv<ull>> prime;\n    is_prime[0] = is_prime[1]\
-    \ = false;\n    for (int i = 2; i <= n; ++i) {\n        if(is_prime[i]) prime.emplace_back(i);\n\
-    \        for (auto &&j : prime){\n            ull v = (ull)i * j.val;\n      \
-    \      if(v > (ull)n) break;\n            is_prime[v] = false;\n            if(j.divide(i))\
-    \ break;\n        }\n    }\n    return prime;\n}\n\nconstexpr int pollard_pm1_bound\
-    \ = 3000;\nconst auto primes = get_prime(pollard_pm1_bound);\n\nconstexpr ull\
-    \ pollard_batch_size = 208;\nconstexpr ull pollard_pm1_trigger = 2048;\nconstexpr\
-    \ ull pollard_pm1_mod_threshold = 500000000000000000ULL;\nconstexpr ull pollard_lazy_mod_limit\
-    \ = 1ULL << 61;\n\n// REDC \u306E\u7D50\u679C\u3092\u6B63\u898F\u5316\u3057\u306A\
-    \u3044\u3002mod < 2^61 \u306A\u3089 rho \u5185\u306E\u5024\u306F 4 * mod \u672A\
-    \u6E80\u306B\u53CE\u307E\u308B\u3002\nstruct mod64_lazy {\n    ull n;\n    static\
-    \ ull mod, inv, r2;\n    mod64_lazy() : n(0) {}\n    mod64_lazy(ull x) : n(init(x))\
-    \ {}\n    static void set_mod(ull m) {\n        mod = inv = m;\n        for (int\
-    \ i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        inv = -inv;\n        r2 = -u128(m)\
-    \ % m;\n    }\n    static ull reduce(u128 x) {\n        ull q = (ull)x * inv;\n\
-    \        return (x + u128(q) * mod) >> 64;\n    }\n    static ull init(ull x)\
-    \ {\n        ull y = reduce(u128(x) * r2);\n        return y >= mod ? y - mod\
-    \ : y;\n    }\n    mod64_lazy& operator*=(mod64_lazy x) {\n        n = reduce(u128(n)\
-    \ * x.n);\n        return *this;\n    }\n    mod64_lazy& operator+=(mod64_lazy\
-    \ x) {\n        n += x.n;\n        return *this;\n    }\n};\n\null mod64_lazy::mod,\
-    \ mod64_lazy::inv, mod64_lazy::r2;\n\nvector<ull> get_pollard_pm1_exponents()\
-    \ {\n    vector<ull> res;\n    ull product = 1;\n    for (auto &&p : primes) {\n\
-    \        if (p.val > pollard_pm1_bound) break;\n        ull power = p.val;\n \
-    \       while (power <= pollard_pm1_bound / p.val) power *= p.val;\n        if\
-    \ (product > ull(-1) / power) {\n            res.emplace_back(product);\n    \
-    \        product = 1;\n        }\n        product *= power;\n    }\n    res.emplace_back(product);\n\
-    \    return res;\n}\n\nconst auto pollard_pm1_exponents = get_pollard_pm1_exponents();\n\
-    \nmt19937_64 rng(0x8a5cd789635d2dffULL);\n\nmod64_lazy pow_mod64_lazy(mod64_lazy\
-    \ x, ull exponent) {\n    mod64_lazy res = x;\n    for (int bit = 62 - __builtin_clzll(exponent);\
-    \ bit >= 0; --bit) {\n        res *= res;\n        if ((exponent >> bit) & 1)\
-    \ res *= x;\n    }\n    return res;\n}\n\null pollard_pm1(ull n) {\n    mod64_lazy::set_mod(n);\n\
-    \    mod64_lazy x(2), one(1);\n    for (ull exponent : pollard_pm1_exponents)\
-    \ {\n        x = pow_mod64_lazy(x, exponent);\n    }\n    ull diff = x.n > one.n\
-    \ ? x.n - one.n : one.n - x.n;\n    ull g = gcd(diff, n);\n    return g != 1 &&\
-    \ g != n ? g : 0;\n}\n\ntemplate<class Mint>\null pollard_rho_impl(ull nn, bool\
-    \ use_pm1) {\n    uniform_int_distribution<ull> ra(1, nn - 1);\n    Mint::set_mod(nn);\n\
-    \    bool pm1_done = !use_pm1;\n    while(true){\n        ull c_ = ra(rng), g\
-    \ = 1, r = 1;\n        while(c_ == nn - 2) c_ = ra(rng);\n        Mint y(ra(rng)),\
-    \ xx(0), c(c_), ys(0), q(1);\n        while(g == 1){\n            xx.n = y.n;\n\
-    \            for (ull i = 0; i < r; ++i) {\n                y *= y; y += c;\n\
-    \            }\n            ull k = 0; g = 1;\n            while(k < r && g ==\
-    \ 1){\n                ull lim = min(pollard_batch_size, r - k);\n           \
-    \     for (ull i = 0; i < lim; ++i) {\n                    ys.n = y.n;\n     \
-    \               y *= y; y += c;\n                    Mint diff;\n            \
-    \        diff.n = xx.n > y.n ? xx.n - y.n : y.n - xx.n;\n                    q\
-    \ *= diff;\n                }\n                g = gcd<ull>(q.n, nn);\n      \
-    \          k += pollard_batch_size;\n            }\n            r *= 2;\n    \
-    \        if (!pm1_done && r == pollard_pm1_trigger) {\n                ull factor\
-    \ = pollard_pm1(nn);\n                if (factor != 0) return factor;\n      \
-    \          pm1_done = true;\n            }\n        }\n        if(g == nn) g =\
-    \ 1;\n        while (g == 1){\n            ys *= ys; ys += c;\n            ull\
-    \ diff = xx.n > ys.n ? xx.n - ys.n : ys.n - xx.n;\n            g = gcd<ull>(diff,\
-    \ nn);\n        }\n        if (g != nn) return g;\n    }\n}\n\ntemplate<class\
-    \ T>\nT pollard_rho2(T n) {\n    assert(n >= 4 && static_cast<ull>(n) < (1ULL\
-    \ << 63));\n    ull nn = n;\n    if ((nn & 1) == 0) return 2;\n    if (nn < pollard_lazy_mod_limit)\
-    \ {\n        return (T)pollard_rho_impl<mod64_lazy>(nn, nn >= pollard_pm1_mod_threshold);\n\
-    \    }\n    return (T)pollard_rho_impl<mod64>(nn, false);\n}\n\ntemplate<class\
-    \ T>\nvoid prime_factor_impl(T n, vector<T> &res, bool trial){\n    if(trial)\
-    \ {\n        for (auto &&i : primes) {\n            while (i.divide(n)){\n   \
-    \             res.emplace_back(i.val);\n                n /= i.val;\n        \
-    \    }\n        }\n    }\n    if(n == 1) return;\n    if(miller_rabin(n)) {\n\
-    \        res.emplace_back(n);\n        return;\n    }\n    ull root = __builtin_sqrtl((long\
-    \ double)n);\n    while ((u128)(root + 1) * (root + 1) <= (ull)n) ++root;\n  \
-    \  while ((u128)root * root > (ull)n) --root;\n    if ((u128)root * root == (ull)n)\
-    \ {\n        prime_factor_impl((T)root, res, false);\n        prime_factor_impl((T)root,\
-    \ res, false);\n        return;\n    }\n    T x = pollard_rho2(n);\n    prime_factor_impl(x,\
-    \ res, false);\n    prime_factor_impl(n / x, res, false);\n}\n\ntemplate<class\
-    \ T>\nvector<T> prime_factor(T n){\n    assert(n >= 1 && static_cast<ull>(n) <\
-    \ (1ULL << 63));\n    vector<T> res;\n    prime_factor_impl(n, res, true);\n \
-    \   sort(res.begin(),res.end());\n    return res;\n}\n\n/**\n * @brief \u7D20\u56E0\
-    \u6570\u5206\u89E3(Pollard Rho)\n */\n#line 22 \"test/yosupo_factorize.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int q;\n    in.read(q);\n\
-    \    while (q--) {\n        ull a;\n        in.read(a);\n        auto fac = prime_factor(a);\n\
-    \        out.print((int)fac.size());\n        if (fac.empty()) out.println();\n\
-    \        else {\n            out.print(' ');\n            out.println(fac);\n\
-    \        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/factorize\"\n\n#include\
-    \ <algorithm>\n#include <cassert>\n#include <cstdint>\n#include <numeric>\n#include\
-    \ <random>\n#include <vector>\nusing namespace std;\nusing ll = long long;\nusing\
-    \ uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../math/prime/primefactor_ll.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int q;\n    in.read(q);\n\
-    \    while (q--) {\n        ull a;\n        in.read(a);\n        auto fac = prime_factor(a);\n\
-    \        out.print((int)fac.size());\n        if (fac.empty()) out.println();\n\
-    \        else {\n            out.print(' ');\n            out.println(fac);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/hopcroft_karp.cpp\"\
+    \nclass HopcroftKarp {\n    int l, r;\n    vector<pair<int, int>> edges;\n   \
+    \ vector<int> start, elist;\n    vector<int> dist;\n    bool dirty = true;\n\n\
+    \    void build_graph() {\n        start.assign(l + 1, 0);\n        elist.assign(edges.size(),\
+    \ 0);\n        for (auto &&[a, b] : edges) ++start[a + 1];\n        for (int i\
+    \ = 0; i < l; ++i) start[i + 1] += start[i];\n        auto counter = start;\n\
+    \        for (auto &&[a, b] : edges) {\n            elist[counter[a]++] = b;\n\
+    \        }\n    }\n\npublic:\n    vector<int> match_left, match_right;\n\n   \
+    \ explicit HopcroftKarp(int l, int r) : l(l), r(r), start(l + 1), dist(l), match_left(l,\
+    \ -1), match_right(r, -1) {}\n\n    void add_edge(int a, int b) {\n        edges.emplace_back(a,\
+    \ b);\n        dirty = true;\n    }\n\n    bool bfs() {\n        queue<int> q;\n\
+    \        fill(dist.begin(), dist.end(), -1);\n        for (int i = 0; i < l; ++i)\
+    \ {\n            if (match_left[i] != -1) continue;\n            dist[i] = 0;\n\
+    \            q.push(i);\n        }\n        bool found = false;\n        while\
+    \ (!q.empty()) {\n            int v = q.front();\n            q.pop();\n     \
+    \       for (int ei = start[v]; ei < start[v + 1]; ++ei) {\n                int\
+    \ to = elist[ei];\n                int u = match_right[to];\n                if\
+    \ (u == -1) {\n                    found = true;\n                    continue;\n\
+    \                }\n                if (dist[u] != -1) continue;\n           \
+    \     dist[u] = dist[v] + 1;\n                q.push(u);\n            }\n    \
+    \    }\n        return found;\n    }\n\n    bool dfs(int v) {\n        for (int\
+    \ ei = start[v]; ei < start[v + 1]; ++ei) {\n            int to = elist[ei];\n\
+    \            int u = match_right[to];\n            if (u != -1 && (dist[u] !=\
+    \ dist[v] + 1 || !dfs(u))) continue;\n            match_left[v] = to;\n      \
+    \      match_right[to] = v;\n            return true;\n        }\n        dist[v]\
+    \ = -1;\n        return false;\n    }\n\n    int max_matching() {\n        int\
+    \ ret = 0;\n        for (int v : match_left) if (v != -1) ++ret;\n        if (!dirty)\
+    \ return ret;\n        build_graph();\n        while (bfs()) {\n            for\
+    \ (int i = 0; i < l; ++i) {\n                if (match_left[i] == -1 && dfs(i))\
+    \ ++ret;\n            }\n        }\n        dirty = false;\n        return ret;\n\
+    \    }\n\n    pair<vector<int>, vector<int>> minimum_vertex_cover() {\n      \
+    \  max_matching();\n        vector<char> seen_left(l), seen_right(r);\n      \
+    \  queue<int> q;\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
+    \ != -1) continue;\n            seen_left[i] = true;\n            q.push(i);\n\
+    \        }\n        while (!q.empty()) {\n            int v = q.front();\n   \
+    \         q.pop();\n            for (int ei = start[v]; ei < start[v + 1]; ++ei)\
+    \ {\n                int to = elist[ei];\n                if (to == match_left[v]\
+    \ || seen_right[to]) continue;\n                seen_right[to] = true;\n     \
+    \           int u = match_right[to];\n                if (u != -1 && !seen_left[u])\
+    \ {\n                    seen_left[u] = true;\n                    q.push(u);\n\
+    \                }\n            }\n        }\n        vector<int> left, right;\n\
+    \        for (int i = 0; i < l; ++i) if (!seen_left[i]) left.push_back(i);\n \
+    \       for (int i = 0; i < r; ++i) if (seen_right[i]) right.push_back(i);\n \
+    \       return {move(left), move(right)};\n    }\n\n    vector<pair<int, int>>\
+    \ get_pairs() const {\n        vector<pair<int, int>> ret;\n        for (int i\
+    \ = 0; i < l; ++i) {\n            if (match_left[i] != -1) ret.emplace_back(i,\
+    \ match_left[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
+    \ Hopcroft-Karp\u6CD5\n */\n#line 7 \"test/yosupo_aplusb_minimum_vertex_cover.test.cpp\"\
+    \n\nvoid check(HopcroftKarp &hk, const vector<unsigned> &edges, int r) {\n   \
+    \ int l = edges.size(), best = l + r;\n    for (unsigned mask = 0; mask < (1U\
+    \ << l); ++mask) {\n        unsigned right = 0;\n        for (int u = 0; u < l;\
+    \ ++u) if (!(mask >> u & 1)) right |= edges[u];\n        best = min(best, __builtin_popcount(mask)\
+    \ + __builtin_popcount(right));\n    }\n    for (int repeat = 0; repeat < 2; ++repeat)\
+    \ {\n        auto [left, right] = hk.minimum_vertex_cover();\n        assert((int)(left.size()\
+    \ + right.size()) == best);\n        assert(is_sorted(left.begin(), left.end())\
+    \ && is_sorted(right.begin(), right.end()));\n        vector<bool> seen_l(l),\
+    \ seen_r(r);\n        for (int u : left) { assert(0 <= u && u < l && !seen_l[u]);\
+    \ seen_l[u] = true; }\n        for (int v : right) { assert(0 <= v && v < r &&\
+    \ !seen_r[v]); seen_r[v] = true; }\n        for (int u = 0; u < l; ++u) for (int\
+    \ v = 0; v < r; ++v)\n            if (edges[u] >> v & 1) assert(seen_l[u] || seen_r[v]);\n\
+    \        auto pairs = hk.get_pairs();\n        assert((int)pairs.size() == best);\n\
+    \        fill(seen_l.begin(), seen_l.end(), false);\n        fill(seen_r.begin(),\
+    \ seen_r.end(), false);\n        for (auto [u, v] : pairs) {\n            assert((edges[u]\
+    \ >> v & 1) && !seen_l[u] && !seen_r[v]);\n            seen_l[u] = seen_r[v] =\
+    \ true;\n            assert(hk.match_left[u] == v && hk.match_right[v] == u);\n\
+    \        }\n        assert(hk.max_matching() == best);\n    }\n}\n\nvoid self_check()\
+    \ {\n    for (unsigned mask = 0; mask < (1U << 16); ++mask) {\n        HopcroftKarp\
+    \ hk(4, 4);\n        vector<unsigned> edges(4);\n        for (int u = 0; u < 4;\
+    \ ++u) for (int v = 0; v < 4; ++v) if (mask >> (4 * u + v) & 1) {\n          \
+    \  hk.add_edge(u, v);\n            edges[u] |= 1U << v;\n        }\n        if\
+    \ (mask & 1) hk.max_matching();\n        check(hk, edges, 4);\n    }\n    mt19937\
+    \ random(56);\n    for (int l = 0; l <= 6; ++l) for (int r = 0; r <= 6; ++r) {\n\
+    \        HopcroftKarp hk(l, r);\n        vector<unsigned> edges(l);\n        check(hk,\
+    \ edges, r);\n        if (!l || !r) continue;\n        for (int step = 0; step\
+    \ < 30; ++step) {\n            int u = random() % l, v = random() % r;\n     \
+    \       hk.add_edge(u, v);\n            if (step % 3 == 0) hk.add_edge(u, v);\n\
+    \            edges[u] |= 1U << v;\n            if (step % 2) hk.max_matching();\n\
+    \            check(hk, edges, r);\n        }\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../graph/hopcroft_karp.cpp\"\
+    \n\nvoid check(HopcroftKarp &hk, const vector<unsigned> &edges, int r) {\n   \
+    \ int l = edges.size(), best = l + r;\n    for (unsigned mask = 0; mask < (1U\
+    \ << l); ++mask) {\n        unsigned right = 0;\n        for (int u = 0; u < l;\
+    \ ++u) if (!(mask >> u & 1)) right |= edges[u];\n        best = min(best, __builtin_popcount(mask)\
+    \ + __builtin_popcount(right));\n    }\n    for (int repeat = 0; repeat < 2; ++repeat)\
+    \ {\n        auto [left, right] = hk.minimum_vertex_cover();\n        assert((int)(left.size()\
+    \ + right.size()) == best);\n        assert(is_sorted(left.begin(), left.end())\
+    \ && is_sorted(right.begin(), right.end()));\n        vector<bool> seen_l(l),\
+    \ seen_r(r);\n        for (int u : left) { assert(0 <= u && u < l && !seen_l[u]);\
+    \ seen_l[u] = true; }\n        for (int v : right) { assert(0 <= v && v < r &&\
+    \ !seen_r[v]); seen_r[v] = true; }\n        for (int u = 0; u < l; ++u) for (int\
+    \ v = 0; v < r; ++v)\n            if (edges[u] >> v & 1) assert(seen_l[u] || seen_r[v]);\n\
+    \        auto pairs = hk.get_pairs();\n        assert((int)pairs.size() == best);\n\
+    \        fill(seen_l.begin(), seen_l.end(), false);\n        fill(seen_r.begin(),\
+    \ seen_r.end(), false);\n        for (auto [u, v] : pairs) {\n            assert((edges[u]\
+    \ >> v & 1) && !seen_l[u] && !seen_r[v]);\n            seen_l[u] = seen_r[v] =\
+    \ true;\n            assert(hk.match_left[u] == v && hk.match_right[v] == u);\n\
+    \        }\n        assert(hk.max_matching() == best);\n    }\n}\n\nvoid self_check()\
+    \ {\n    for (unsigned mask = 0; mask < (1U << 16); ++mask) {\n        HopcroftKarp\
+    \ hk(4, 4);\n        vector<unsigned> edges(4);\n        for (int u = 0; u < 4;\
+    \ ++u) for (int v = 0; v < 4; ++v) if (mask >> (4 * u + v) & 1) {\n          \
+    \  hk.add_edge(u, v);\n            edges[u] |= 1U << v;\n        }\n        if\
+    \ (mask & 1) hk.max_matching();\n        check(hk, edges, 4);\n    }\n    mt19937\
+    \ random(56);\n    for (int l = 0; l <= 6; ++l) for (int r = 0; r <= 6; ++r) {\n\
+    \        HopcroftKarp hk(l, r);\n        vector<unsigned> edges(l);\n        check(hk,\
+    \ edges, r);\n        if (!l || !r) continue;\n        for (int step = 0; step\
+    \ < 30; ++step) {\n            int u = random() % l, v = random() % r;\n     \
+    \       hk.add_edge(u, v);\n            if (step % 3 == 0) hk.add_edge(u, v);\n\
+    \            edges[u] |= 1U << v;\n            if (step % 2) hk.max_matching();\n\
+    \            check(hk, edges, r);\n        }\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/prime/primefactor_ll.cpp
-  - math/prime/miller_rabin.cpp
+  - graph/hopcroft_karp.cpp
   isVerificationFile: true
-  path: test/yosupo_factorize.test.cpp
+  path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 16:51:49+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_factorize.test.cpp
+documentation_of: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_factorize.test.cpp
-- /verify/test/yosupo_factorize.test.cpp.html
-title: test/yosupo_factorize.test.cpp
+- /verify/test/yosupo_aplusb_minimum_vertex_cover.test.cpp
+- /verify/test/yosupo_aplusb_minimum_vertex_cover.test.cpp.html
+title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
 ---

@@ -13,9 +13,6 @@ data:
     path: math/prime/get_min_factor.cpp
     title: "\u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min Factor Table)"
   - icon: ':heavy_check_mark:'
-    path: math/prime/get_prime.cpp
-    title: "\u7D20\u6570\u5217\u6319"
-  - icon: ':heavy_check_mark:'
     path: math/prime/get_prime2.cpp
     title: "\u9AD8\u901F\u7D20\u6570\u5217\u6319(ExactDiv)"
   - icon: ':warning:'
@@ -23,14 +20,14 @@ data:
     title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Mobius Table)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: test/aoj_alds1_1_c_get_prime.test.cpp
-    title: test/aoj_alds1_1_c_get_prime.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_1_c_get_prime2.test.cpp
     title: test/aoj_alds1_1_c_get_prime2.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_enumerate_primes_get_prime.test.cpp
+    title: test/yosupo_enumerate_primes_get_prime.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -98,7 +95,6 @@ data:
   - math/prime/get_min_factor.cpp
   - math/prime/mobius_all.cpp
   - math/prime/eulerphi_all.cpp
-  - math/prime/get_prime.cpp
   - math/prime/get_prime2.cpp
   - math/powk_all.cpp
   timestamp: '2026-03-22 19:39:35+09:00'
@@ -106,7 +102,7 @@ data:
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj_alds1_1_c_get_prime2.test.cpp
-  - test/aoj_alds1_1_c_get_prime.test.cpp
+  - test/yosupo_enumerate_primes_get_prime.test.cpp
 date: 2026-03-12
 documentation_of: math/prime/linear_sieve.cpp
 layout: document

@@ -41,6 +41,12 @@ data:
     path: math/prime/get_prime.cpp
     title: "\u7D20\u6570\u5217\u6319"
   - icon: ':heavy_check_mark:'
+    path: math/prime/get_prime_wheel.cpp
+    title: get_prime_wheel
+  - icon: ':heavy_check_mark:'
+    path: math/prime/get_prime_wheel.cpp
+    title: get_prime_wheel
+  - icon: ':heavy_check_mark:'
     path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
   - icon: ':heavy_check_mark:'
@@ -684,8 +690,78 @@ data:
     \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_min_factor.cpp\"\
     \n\nvector<int> get_min_factor(int n) {\n    return LinearSieve(n, true).min_factor;\n\
     }\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min\
-    \ Factor Table)\n */\n#line 2 \"math/prime/get_prime.cpp\"\n\nvector<int> get_prime(int\
-    \ n) {\n    return LinearSieve(n).primes;\n}\n#line 26 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \ Factor Table)\n */\n#line 1 \"math/prime/get_prime.cpp\"\n\n\n\n#line 1 \"math/prime/get_prime_wheel.cpp\"\
+    \n\n\n\nstruct Prime {\n    static constexpr int wheel[8]  = {4, 2, 4, 2, 4, 6,\
+    \ 2, 6};\n    static constexpr int wheel2[8] = {7, 11, 13, 17, 19, 23, 29, 31};\n\
+    \    static constexpr int wheel_sum[30] = {\n        0, 0, 0, 0, 0, 0, 1, 1, 1,\
+    \ 1,\n        2, 2, 3, 3, 3, 3, 4, 4, 5, 5,\n        5, 5, 6, 6, 6, 6, 6, 6, 7,\
+    \ 7\n    };\n    static constexpr int off64[64] = {\n          0,  4,  6, 10,\
+    \ 12, 16, 22, 24,\n         30, 34, 36, 40, 42, 46, 52, 54,\n         60, 64,\
+    \ 66, 70, 72, 76, 82, 84,\n         90, 94, 96,100,102,106,112,114,\n        120,124,126,130,132,136,142,144,\n\
+    \        150,154,156,160,162,166,172,174,\n        180,184,186,190,192,196,202,204,\n\
+    \        210,214,216,220,222,226,232,234\n    };\n\n    // old 1-based\n    static\
+    \ inline int f(long long n) { return (n - 1) / 30 * 8 + wheel_sum[(n - 1) % 30];\
+    \ }\n    static inline int g(int n) { return ((n - 1) >> 3) * 30 + wheel2[(n -\
+    \ 1) & 7]; }\n\n    // internal 0-based\n    static inline int f0(int n) { return\
+    \ f(n) - 1; }\n    static inline int g0(int n) { return (n >> 3) * 30 + wheel2[n\
+    \ & 7]; }\n\n    int count = 0;\n    vector<int> primes;\n    vector<int> picked;\n\
+    \nprivate:\n    static void build_sieve(int M, vector<ull>& sieve, int& n0) {\n\
+    \        if (M < 7) {\n            n0 = -1;\n            sieve.clear();\n    \
+    \        return;\n        }\n\n        n0 = f0(M);\n        int sq = (int)std::sqrt((double)M);\n\
+    \        int k0 = (sq >= 7 ? f0(sq) : -1);\n\n        int num = n0 + 1;\n    \
+    \    sieve.assign((num + 63) >> 6, ~0ULL);\n        if (num & 63) sieve.back()\
+    \ &= (1ULL << (num & 63)) - 1;\n\n        auto* sv = sieve.data();\n        array<int,\
+    \ 8> delta{};\n\n        for (int i = 0; i <= k0; ++i) {\n            if (((sv[i\
+    \ >> 6] >> (i & 63)) & 1ULL) == 0) continue;\n\n            int p = g0(i);\n \
+    \           int phase0 = i & 7;\n\n            long long cur = 1LL * p * p;\n\
+    \            int idx = f0((int)cur);\n\n            for (int t = 0; t < 8; ++t)\
+    \ {\n                long long nxt = cur + 1LL * wheel[(phase0 + t) & 7] * p;\n\
+    \                delta[t] = f(nxt) - f(cur);\n                cur = nxt;\n   \
+    \         }\n\n            const int d0 = delta[0];\n            const int d1\
+    \ = delta[1];\n            const int d2 = delta[2];\n            const int d3\
+    \ = delta[3];\n            const int d4 = delta[4];\n            const int d5\
+    \ = delta[5];\n            const int d6 = delta[6];\n            const int d7\
+    \ = delta[7];\n\n            while (idx <= n0) {\n                sv[idx >> 6]\
+    \ &= ~(1ULL << (idx & 63));\n                idx += d0;\n                if (idx\
+    \ > n0) break;\n                sv[idx >> 6] &= ~(1ULL << (idx & 63));\n     \
+    \           idx += d1;\n                if (idx > n0) break;\n               \
+    \ sv[idx >> 6] &= ~(1ULL << (idx & 63));\n                idx += d2;\n       \
+    \         if (idx > n0) break;\n                sv[idx >> 6] &= ~(1ULL << (idx\
+    \ & 63));\n                idx += d3;\n                if (idx > n0) break;\n\
+    \                sv[idx >> 6] &= ~(1ULL << (idx & 63));\n                idx +=\
+    \ d4;\n                if (idx > n0) break;\n                sv[idx >> 6] &= ~(1ULL\
+    \ << (idx & 63));\n                idx += d5;\n                if (idx > n0) break;\n\
+    \                sv[idx >> 6] &= ~(1ULL << (idx & 63));\n                idx +=\
+    \ d6;\n                if (idx > n0) break;\n                sv[idx >> 6] &= ~(1ULL\
+    \ << (idx & 63));\n                idx += d7;\n            }\n        }\n    }\n\
+    \npublic:\n    Prime(int M) {\n        if (M >= 17) {\n            primes.reserve(max(0,\
+    \ (int)(M / (log((double)M) - 1.12))));\n        }\n\n        if (M >= 2) primes.push_back(2),\
+    \ ++count;\n        if (M >= 3) primes.push_back(3), ++count;\n        if (M >=\
+    \ 5) primes.push_back(5), ++count;\n        if (M < 7) return;\n\n        vector<ull>\
+    \ sieve;\n        int n0;\n        build_sieve(M, sieve, n0);\n\n        int words\
+    \ = (n0 + 64) >> 6;\n        for (int w = 0; w < words; ++w) {\n            ull\
+    \ bits = sieve[w];\n            int base = 240 * w + 7; // 64 candidates = 8 cycles\
+    \ = 240 numbers\n            while (bits) {\n                int t = __builtin_ctzll(bits);\n\
+    \                primes.push_back(base + off64[t]);\n                ++count;\n\
+    \                bits &= bits - 1;\n            }\n        }\n    }\n\n    Prime(int\
+    \ M, int a, int b) {\n        int next_pick = b;\n\n        auto add_small = [&](int\
+    \ p) {\n            if (count == next_pick) {\n                picked.push_back(p);\n\
+    \                next_pick += a;\n            }\n            ++count;\n      \
+    \  };\n\n        if (M >= 2) add_small(2);\n        if (M >= 3) add_small(3);\n\
+    \        if (M >= 5) add_small(5);\n        if (M < 7) return;\n\n        vector<ull>\
+    \ sieve;\n        int n0;\n        build_sieve(M, sieve, n0);\n\n        int words\
+    \ = (n0 + 64) >> 6;\n        for (int w = 0; w < words; ++w) {\n            ull\
+    \ bits = sieve[w];\n            int pc = __builtin_popcountll(bits);\n\n     \
+    \       if (next_pick >= count + pc) {\n                count += pc;\n       \
+    \         continue;\n            }\n\n            int base = 240 * w + 7;\n  \
+    \          while (bits) {\n                int t = __builtin_ctzll(bits);\n  \
+    \              if (count == next_pick) {\n                    picked.push_back(base\
+    \ + off64[t]);\n                    next_pick += a;\n                }\n     \
+    \           ++count;\n                bits &= bits - 1;\n            }\n     \
+    \   }\n    }\n};\n\nconstexpr int Prime::wheel[8];\nconstexpr int Prime::wheel2[8];\n\
+    constexpr int Prime::wheel_sum[30];\nconstexpr int Prime::off64[64];\n\n\n#line\
+    \ 5 \"math/prime/get_prime.cpp\"\n\nvector<int> get_prime(int n) {\n    return\
+    \ Prime(n).primes;\n}\n\n\n#line 27 \"test/yosupo_aplusb_library_composition.test.cpp\"\
     \n\n#line 1 \"geometry/geometry.cpp\"\n\n\n\n// \u51F8\u5305\u306F\u540C\u3058\
     \u9802\u70B9\u304C\u542B\u307E\u308C\u3066\u3044\u308B\u3068\u30D0\u30B0\u308B\
     \nusing geometry_real = double;\nusing real = geometry_real;\nstatic constexpr\
@@ -913,7 +989,7 @@ data:
     \  }\n    if (res.size() >= 2 && same_point(res.front(), res.back())) res.pop_back();\n\
     \    if (res.size() < 3 || fabs(area(res)) < EPS) return {};\n    return res;\n\
     }\n\n/**\n * @brief \u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)\n\
-    \ */\n#line 29 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1\
+    \ */\n#line 30 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1\
     \ \"datastructure/sparsetable.cpp\"\n\n\n\ntemplate <class F>\nstruct SparseTable\
     \ {\n    using T = typename F::T;\n    vector<vector<T>> table;\n    vector<int>\
     \ u;\n    SparseTable() = default;\n    explicit SparseTable(const vector<T> &v){\
@@ -978,7 +1054,7 @@ data:
     \    }\n\n    int LCA(int u, int v){\n        if(id[u] > id[v]) swap(u, v);\n\
     \        return table.query(id[u], id[v]+1).second;\n    }\n\n    int distance(int\
     \ u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u, v)];\n    }\n};\n\n/**\n\
-    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 32 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 33 \"test/yosupo_aplusb_library_composition.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a,\
     \ b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
@@ -989,11 +1065,11 @@ data:
     ../math/ntt.cpp\"\n\n#include \"../datastructure/point_add_rectangle_sum.cpp\"\
     \n#include \"../datastructure/static_rectangle_sum.cpp\"\n\n#include \"../graph/dijkstra.cpp\"\
     \n#include \"../graph/dijkstra_restore.cpp\"\n\n#include \"../math/prime/get_min_factor.cpp\"\
-    \n#include \"../math/prime/get_prime.cpp\"\n\n#include \"../geometry/dualgraph.cpp\"\
-    \n#include \"../geometry/half_plane_intersection.cpp\"\n\n#include \"../tree/LCA.cpp\"\
-    \n#include \"../tree/auxtree.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n\
-    }\n"
+    \n#include \"../math/prime/get_prime.cpp\"\n#include \"../math/prime/get_prime_wheel.cpp\"\
+    \n\n#include \"../geometry/dualgraph.cpp\"\n#include \"../geometry/half_plane_intersection.cpp\"\
+    \n\n#include \"../tree/LCA.cpp\"\n#include \"../tree/auxtree.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
@@ -1009,6 +1085,8 @@ data:
   - math/prime/get_min_factor.cpp
   - math/prime/linear_sieve.cpp
   - math/prime/get_prime.cpp
+  - math/prime/get_prime_wheel.cpp
+  - math/prime/get_prime_wheel.cpp
   - geometry/dualgraph.cpp
   - geometry/geometry.cpp
   - geometry/half_plane_intersection.cpp
@@ -1018,7 +1096,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:38:16+09:00'
+  timestamp: '2026-10-03 16:51:49+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

@@ -149,6 +149,9 @@ data:
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
+    title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_ndvec.test.cpp
     title: test/yosupo_aplusb_ndvec.test.cpp
   - icon: ':heavy_check_mark:'
@@ -160,6 +163,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_palindromic_tree.test.cpp
     title: test/yosupo_aplusb_palindromic_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_prime_range.test.cpp
+    title: test/yosupo_aplusb_prime_range.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
     title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
@@ -271,6 +277,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_enumerate_palindromes_manacher.test.cpp
     title: test/yosupo_enumerate_palindromes_manacher.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_enumerate_primes_get_prime.test.cpp
+    title: test/yosupo_enumerate_primes_get_prime.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
     title: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
@@ -1041,6 +1050,7 @@ data:
   - test/yosupo_aplusb_dualgraph.test.cpp
   - test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
   - test/yosupo_aplusb_top_k_sum.test.cpp
+  - test/yosupo_enumerate_primes_get_prime.test.cpp
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_aplusb_dynamic_bitset.test.cpp
   - test/yosupo_aplusb_comb_table.test.cpp
@@ -1056,6 +1066,7 @@ data:
   - test/yosupo_closest_pair.test.cpp
   - test/yosupo_cycle_detection_undirected.test.cpp
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+  - test/yosupo_aplusb_prime_range.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yuki1326_block_cut_tree.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
@@ -1113,6 +1124,7 @@ data:
   - test/yosupo_lyndon_factorization.test.cpp
   - test/yosupo_multiplication_of_big_integers.test.cpp
   - test/yosupo_discrete_logarithm_mod.test.cpp
+  - test/yosupo_aplusb_minimum_vertex_cover.test.cpp
   - test/yosupo_kth_root_integer.test.cpp
   - test/yosupo_primitive_root.test.cpp
   - test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp

@@ -17,68 +17,66 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/factorize
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/factorize
-  bundledCode: "#line 1 \"test/yosupo_factorize.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/factorize\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <cstdint>\n#include <numeric>\n\
-    #include <random>\n#include <vector>\nusing namespace std;\nusing ll = long long;\n\
-    using uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_prime_range.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ull = unsigned long long;\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -342,37 +340,86 @@ data:
     \ T>\nvector<T> prime_factor(T n){\n    assert(n >= 1 && static_cast<ull>(n) <\
     \ (1ULL << 63));\n    vector<T> res;\n    prime_factor_impl(n, res, true);\n \
     \   sort(res.begin(),res.end());\n    return res;\n}\n\n/**\n * @brief \u7D20\u56E0\
-    \u6570\u5206\u89E3(Pollard Rho)\n */\n#line 22 \"test/yosupo_factorize.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int q;\n    in.read(q);\n\
-    \    while (q--) {\n        ull a;\n        in.read(a);\n        auto fac = prime_factor(a);\n\
-    \        out.print((int)fac.size());\n        if (fac.empty()) out.println();\n\
-    \        else {\n            out.print(' ');\n            out.println(fac);\n\
-    \        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/factorize\"\n\n#include\
-    \ <algorithm>\n#include <cassert>\n#include <cstdint>\n#include <numeric>\n#include\
-    \ <random>\n#include <vector>\nusing namespace std;\nusing ll = long long;\nusing\
-    \ uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../math/prime/primefactor_ll.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int q;\n    in.read(q);\n\
-    \    while (q--) {\n        ull a;\n        in.read(a);\n        auto fac = prime_factor(a);\n\
-    \        out.print((int)fac.size());\n        if (fac.empty()) out.println();\n\
-    \        else {\n            out.print(' ');\n            out.println(fac);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \u6570\u5206\u89E3(Pollard Rho)\n */\n#line 8 \"test/yosupo_aplusb_prime_range.test.cpp\"\
+    \n\null power(ull a, ull k, ull n) {\n    ull result = 1;\n    for (; k; k >>=\
+    \ 1, a = (__uint128_t)a * a % n)\n        if (k & 1) result = (__uint128_t)result\
+    \ * a % n;\n    return result;\n}\n\nbool reference(ull n) {\n    if (n < 2) return\
+    \ false;\n    if (n % 2 == 0) return n == 2;\n    ull d = n - 1;\n    int s =\
+    \ 0;\n    while (d % 2 == 0) d /= 2, ++s;\n    for (ull a : {2ULL, 325ULL, 9375ULL,\
+    \ 28178ULL, 450775ULL, 9780504ULL, 1795265022ULL}) {\n        if (a % n == 0)\
+    \ continue;\n        ull x = power(a % n, d, n);\n        if (x == 1 || x == n\
+    \ - 1) continue;\n        bool passed = false;\n        for (int i = 1; i < s;\
+    \ ++i) {\n            x = (__uint128_t)x * x % n;\n            if (x == n - 1)\
+    \ { passed = true; break; }\n        }\n        if (!passed) return false;\n \
+    \   }\n    return true;\n}\n\nvoid check_factor(ull n) {\n    auto factors = prime_factor(n);\n\
+    \    assert(is_sorted(factors.begin(), factors.end()));\n    __uint128_t product\
+    \ = 1;\n    for (ull p : factors) {\n        assert(reference(p));\n        product\
+    \ *= p;\n    }\n    assert(product == n);\n    assert(prime_factor((long long)n)\
+    \ == vector<long long>(factors.begin(), factors.end()));\n    if (n >= 4 && !reference(n))\
+    \ {\n        ull factor = pollard_rho2(n);\n        assert(1 < factor && factor\
+    \ < n && n % factor == 0);\n    }\n}\n\nvoid self_check() {\n    for (long long\
+    \ n : {LLONG_MIN, -100LL, -1LL, 0LL, 1LL}) assert(!miller_rabin(n));\n    for\
+    \ (int n = 0; n <= 10000; ++n) {\n        bool prime = n >= 2;\n        for (int\
+    \ p = 2; p * p <= n; ++p) if (n % p == 0) prime = false;\n        assert(miller_rabin(n)\
+    \ == prime);\n        assert(reference(n) == prime);\n    }\n    for (ull n =\
+    \ LLONG_MAX - 64; n <= (ull)LLONG_MAX; ++n) {\n        assert(miller_rabin(n)\
+    \ == reference(n));\n        assert(miller_rabin((long long)n) == reference(n));\n\
+    \    }\n    for (ull n : {1ULL, 2ULL, 3ULL, 4ULL, 9ULL, 25ULL, 561ULL, 3215031751ULL,\n\
+    \                  1ULL << 62, 3037000493ULL * 3037000493ULL,\n              \
+    \    (ull)LLONG_MAX - 24, (ull)LLONG_MAX}) check_factor(n);\n    mt19937_64 random(9);\n\
+    \    for (int i = 0; i < 1000; ++i) {\n        ull n = random() >> 1;\n      \
+    \  assert(miller_rabin(n) == reference(n));\n        if (i < 20) check_factor(max(1ULL,\
+    \ n));\n        if (i < 100) check_factor(1 + random() % 1000000000000ULL);\n\
+    \    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ull = unsigned long long;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../math/prime/primefactor_ll.cpp\"\n\null power(ull a, ull k, ull\
+    \ n) {\n    ull result = 1;\n    for (; k; k >>= 1, a = (__uint128_t)a * a % n)\n\
+    \        if (k & 1) result = (__uint128_t)result * a % n;\n    return result;\n\
+    }\n\nbool reference(ull n) {\n    if (n < 2) return false;\n    if (n % 2 == 0)\
+    \ return n == 2;\n    ull d = n - 1;\n    int s = 0;\n    while (d % 2 == 0) d\
+    \ /= 2, ++s;\n    for (ull a : {2ULL, 325ULL, 9375ULL, 28178ULL, 450775ULL, 9780504ULL,\
+    \ 1795265022ULL}) {\n        if (a % n == 0) continue;\n        ull x = power(a\
+    \ % n, d, n);\n        if (x == 1 || x == n - 1) continue;\n        bool passed\
+    \ = false;\n        for (int i = 1; i < s; ++i) {\n            x = (__uint128_t)x\
+    \ * x % n;\n            if (x == n - 1) { passed = true; break; }\n        }\n\
+    \        if (!passed) return false;\n    }\n    return true;\n}\n\nvoid check_factor(ull\
+    \ n) {\n    auto factors = prime_factor(n);\n    assert(is_sorted(factors.begin(),\
+    \ factors.end()));\n    __uint128_t product = 1;\n    for (ull p : factors) {\n\
+    \        assert(reference(p));\n        product *= p;\n    }\n    assert(product\
+    \ == n);\n    assert(prime_factor((long long)n) == vector<long long>(factors.begin(),\
+    \ factors.end()));\n    if (n >= 4 && !reference(n)) {\n        ull factor = pollard_rho2(n);\n\
+    \        assert(1 < factor && factor < n && n % factor == 0);\n    }\n}\n\nvoid\
+    \ self_check() {\n    for (long long n : {LLONG_MIN, -100LL, -1LL, 0LL, 1LL})\
+    \ assert(!miller_rabin(n));\n    for (int n = 0; n <= 10000; ++n) {\n        bool\
+    \ prime = n >= 2;\n        for (int p = 2; p * p <= n; ++p) if (n % p == 0) prime\
+    \ = false;\n        assert(miller_rabin(n) == prime);\n        assert(reference(n)\
+    \ == prime);\n    }\n    for (ull n = LLONG_MAX - 64; n <= (ull)LLONG_MAX; ++n)\
+    \ {\n        assert(miller_rabin(n) == reference(n));\n        assert(miller_rabin((long\
+    \ long)n) == reference(n));\n    }\n    for (ull n : {1ULL, 2ULL, 3ULL, 4ULL,\
+    \ 9ULL, 25ULL, 561ULL, 3215031751ULL,\n                  1ULL << 62, 3037000493ULL\
+    \ * 3037000493ULL,\n                  (ull)LLONG_MAX - 24, (ull)LLONG_MAX}) check_factor(n);\n\
+    \    mt19937_64 random(9);\n    for (int i = 0; i < 1000; ++i) {\n        ull\
+    \ n = random() >> 1;\n        assert(miller_rabin(n) == reference(n));\n     \
+    \   if (i < 20) check_factor(max(1ULL, n));\n        if (i < 100) check_factor(1\
+    \ + random() % 1000000000000ULL);\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/prime/primefactor_ll.cpp
   - math/prime/miller_rabin.cpp
   isVerificationFile: true
-  path: test/yosupo_factorize.test.cpp
+  path: test/yosupo_aplusb_prime_range.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 16:51:49+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_factorize.test.cpp
+documentation_of: test/yosupo_aplusb_prime_range.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_factorize.test.cpp
-- /verify/test/yosupo_factorize.test.cpp.html
-title: test/yosupo_factorize.test.cpp
+- /verify/test/yosupo_aplusb_prime_range.test.cpp
+- /verify/test/yosupo_aplusb_prime_range.test.cpp.html
+title: test/yosupo_aplusb_prime_range.test.cpp
 ---

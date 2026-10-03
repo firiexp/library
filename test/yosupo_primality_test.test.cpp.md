@@ -19,9 +19,9 @@ data:
     - https://judge.yosupo.jp/problem/primality_test
   bundledCode: "#line 1 \"test/yosupo_primality_test.test.cpp\"\n#define PROBLEM \"\
     https://judge.yosupo.jp/problem/primality_test\"\n\n#include <cstdint>\n#include\
-    \ <vector>\n\nusing ull = unsigned long long;\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ <cassert>\n#include <vector>\n\nusing ull = unsigned long long;\nusing namespace\
+    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
     \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
     struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
@@ -231,10 +231,11 @@ data:
     \ static unsigned long long mod, inv, r2;\n    mod64() : n(0) {}\n    mod64(unsigned\
     \ long long x) : n(init(x)) {}\n    static unsigned long long init(unsigned long\
     \ long w) {\n        return reduce(u128(w) * r2);\n    }\n    static void set_mod(unsigned\
-    \ long long m) {\n        mod = inv = m;\n        for (int i = 0; i < 5; ++i)\
-    \ inv *= 2 - inv * m;\n        r2 = -u128(m) % m;\n    }\n    static unsigned\
-    \ long long reduce(u128 x) {\n        unsigned long long y =\n            static_cast<unsigned\
-    \ long long>(x >> 64)\n            - static_cast<unsigned long long>((u128(static_cast<unsigned\
+    \ long long m) {\n        assert((m & 1) && m < (1ULL << 63));\n        mod =\
+    \ inv = m;\n        for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;\n        r2\
+    \ = -u128(m) % m;\n    }\n    static unsigned long long reduce(u128 x) {\n   \
+    \     unsigned long long y =\n            static_cast<unsigned long long>(x >>\
+    \ 64)\n            - static_cast<unsigned long long>((u128(static_cast<unsigned\
     \ long long>(x) * inv) * mod) >> 64);\n        return (long long)y < 0 ? y + mod\
     \ : y;\n    }\n    mod64& operator*=(mod64 x) {\n        n = reduce(u128(n) *\
     \ x.n);\n        return *this;\n    }\n    mod64 operator*(mod64 x) const {\n\
@@ -249,35 +250,36 @@ data:
     \ *= xx;\n        d >>= 1;\n    }\n    if (x.n == one.n) return true;\n    for\
     \ (unsigned long long r = 0; r < s; ++r) {\n        if(x.n == minusone.n) return\
     \ true;\n        x *= x;\n    }\n    return false;\n}\n\ntemplate<class T>\nbool\
-    \ miller_rabin(T m){\n    unsigned long long n = m;\n    if (n <= 1 || (n > 2\
-    \ && n % 2 == 0)) return false;\n    if (n == 2 || n == 3 || n == 5 || n == 7)\
-    \ return true;\n    if (n % 3 == 0 || n % 5 == 0 || n % 7 == 0) return false;\n\
-    \    unsigned long long d = n - 1, s = 0;\n    while (!(d & 1)) { ++s; d >>= 1;\
-    \ }\n    static constexpr unsigned long long small[] = {2, 7, 61};\n    static\
-    \ constexpr unsigned long long large[] = {2, 325, 9375, 28178, 450775, 9780504,\
-    \ 1795265022};\n    if(n < 4759123141ULL) {\n        for (auto p : small) {\n\
-    \            if(p >= n) break;\n            if(!suspect(p, s, d, n)) return false;\n\
-    \        }\n    } else {\n        for (auto p : large) {\n            if(p >=\
-    \ n) break;\n            if(!suspect(p, s, d, n)) return false;\n        }\n \
-    \   }\n    return true;\n}\n\n/**\n * @brief Miller-Rabin\u7D20\u6570\u5224\u5B9A\
-    \n */\n#line 17 \"test/yosupo_primality_test.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n     \
-    \   ull n;\n        sc.read(n);\n        pr.println(miller_rabin(n) ? \"Yes\"\
-    \ : \"No\");\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primality_test\"\n\n#include\
-    \ <cstdint>\n#include <vector>\n\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../math/prime/miller_rabin.cpp\"\
+    \ miller_rabin(T m){\n    if (m <= 1) return false;\n    unsigned long long n\
+    \ = m;\n    assert(n < (1ULL << 63));\n    if (n > 2 && n % 2 == 0) return false;\n\
+    \    if (n == 2 || n == 3 || n == 5 || n == 7) return true;\n    if (n % 3 ==\
+    \ 0 || n % 5 == 0 || n % 7 == 0) return false;\n    unsigned long long d = n -\
+    \ 1, s = 0;\n    while (!(d & 1)) { ++s; d >>= 1; }\n    static constexpr unsigned\
+    \ long long small[] = {2, 7, 61};\n    static constexpr unsigned long long large[]\
+    \ = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};\n    if(n < 4759123141ULL)\
+    \ {\n        for (auto p : small) {\n            if(p >= n) break;\n         \
+    \   if(!suspect(p, s, d, n)) return false;\n        }\n    } else {\n        for\
+    \ (auto p : large) {\n            if(p >= n) break;\n            if(!suspect(p,\
+    \ s, d, n)) return false;\n        }\n    }\n    return true;\n}\n\n/**\n * @brief\
+    \ Miller-Rabin\u7D20\u6570\u5224\u5B9A\n */\n#line 18 \"test/yosupo_primality_test.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int q;\n    sc.read(q);\n\
     \    while (q--) {\n        ull n;\n        sc.read(n);\n        pr.println(miller_rabin(n)\
     \ ? \"Yes\" : \"No\");\n    }\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/primality_test\"\n\n#include\
+    \ <cstdint>\n#include <cassert>\n#include <vector>\n\nusing ull = unsigned long\
+    \ long;\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
+    \n#include \"../math/prime/miller_rabin.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n    int q;\n    sc.read(q);\n    while (q--) {\n        ull\
+    \ n;\n        sc.read(n);\n        pr.println(miller_rabin(n) ? \"Yes\" : \"No\"\
+    );\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/prime/miller_rabin.cpp
   isVerificationFile: true
   path: test/yosupo_primality_test.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:51:49+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_primality_test.test.cpp
