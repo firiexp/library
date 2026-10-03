@@ -82,11 +82,8 @@ struct PalindromicTree {
     vector<int> count() const {
         vector<int> res(nodes.size());
         for (int i = 0; i < (int)nodes.size(); ++i) res[i] = nodes[i].occ;
-        vector<int> ord(nodes.size());
-        iota(ord.begin(), ord.end(), 0);
-        sort(ord.begin(), ord.end(), [&](int a, int b) { return nodes[a].len > nodes[b].len; });
-        for (auto &&v : ord) {
-            if (v >= 2) res[nodes[v].link] += res[v];
+        for (int v = (int)nodes.size() - 1; v >= 2; --v) {
+            res[nodes[v].link] += res[v];
         }
         return res;
     }
