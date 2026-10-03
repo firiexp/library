@@ -3,8 +3,8 @@ struct matrix {
     using T = typename H::T;
     vector<vector<T>> A;
     matrix() = default;
-    matrix(size_t n, size_t m) : A(n, vector<T>(m)) {}
-    explicit matrix(size_t n) : A(n, vector<T> (n)) {};
+    matrix(size_t n, size_t m) : A(n, vector<T>(m, H::zero())) {}
+    explicit matrix(size_t n) : A(n, vector<T>(n, H::zero())) {};
     size_t height() const { return (A.size()); }
     size_t width() const { return (A.empty() ? 0 : A[0].size()); }
 
@@ -13,7 +13,7 @@ struct matrix {
 
     static matrix I(size_t n){
         matrix mat(n);
-        for (size_t i = 0; i < n; ++i) mat[i][i] = 1;
+        for (size_t i = 0; i < n; ++i) mat[i][i] = H::one();
         return mat;
     }
 
@@ -76,6 +76,7 @@ struct matrix {
                 }
             }
             if(!~k) continue;
+            if(k != rank) res = -res;
             swap(A[k], A[rank]);
             res *= A[rank][c];
             T x = T(1)/A[rank][c];
