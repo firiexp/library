@@ -113,6 +113,9 @@ data:
     path: test/yosupo_aplusb_dsu_on_tree.test.cpp
     title: test/yosupo_aplusb_dsu_on_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dualgraph.test.cpp
+    title: test/yosupo_aplusb_dualgraph.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dynamic_bitset.test.cpp
     title: test/yosupo_aplusb_dynamic_bitset.test.cpp
   - icon: ':heavy_check_mark:'
@@ -158,6 +161,9 @@ data:
     path: test/yosupo_aplusb_palindromic_tree.test.cpp
     title: test/yosupo_aplusb_palindromic_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+    title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
@@ -190,6 +196,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_xorshift.test.cpp
+    title: test/yosupo_aplusb_xorshift.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_area_of_union_of_rectangles.test.cpp
     title: test/yosupo_area_of_union_of_rectangles.test.cpp
@@ -955,6 +964,7 @@ data:
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/aoj0403.test.cpp
   - test/yuki650_hld_edge.test.cpp
+  - test/yosupo_aplusb_project_selection_pair_profit.test.cpp
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   - test/aoj_grl_1_a_dijkstra.test.cpp
   - test/yosupo_aplusb_palindromic_tree.test.cpp
@@ -1028,6 +1038,7 @@ data:
   - test/yosupo_cycle_detection_directed.test.cpp
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
+  - test/yosupo_aplusb_dualgraph.test.cpp
   - test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
   - test/yosupo_aplusb_top_k_sum.test.cpp
   - test/yosupo_line_add_get_min.test.cpp
@@ -1082,6 +1093,7 @@ data:
   - test/yosupo_multiplication_of_hex_big_integers.test.cpp
   - test/yosupo_aho_corasick.test.cpp
   - test/yosupo_ordered_set.test.cpp
+  - test/yosupo_aplusb_xorshift.test.cpp
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_aplusb_geometry_boundaries.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp

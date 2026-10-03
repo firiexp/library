@@ -21,6 +21,9 @@ data:
     path: test/yosupo_aplusb_flow_boundaries.test.cpp
     title: test/yosupo_aplusb_flow_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+    title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki957.test.cpp
     title: test/yuki957.test.cpp
   - icon: ':heavy_check_mark:'
@@ -94,6 +97,7 @@ data:
   verifiedWith:
   - test/yosupo_aplusb_flow_boundaries.test.cpp
   - test/yuki957_project_selection_problem.test.cpp
+  - test/yosupo_aplusb_project_selection_pair_profit.test.cpp
   - test/aoj0396.test.cpp
   - test/yuki957.test.cpp
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp

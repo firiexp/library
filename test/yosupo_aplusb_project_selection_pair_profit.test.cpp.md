@@ -17,69 +17,67 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://yukicoder.me/problems/no/957
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://yukicoder.me/problems/no/957
-  bundledCode: "#line 1 \"test/yuki957_project_selection_problem.test.cpp\"\n#define\
-    \ PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n#include\
-    \ <cassert>\n#include <limits>\n#include <queue>\n#include <tuple>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\ntemplate<class T>\nconstexpr T\
-    \ INF = numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_project_selection_pair_profit.test.cpp\"\
+    \n#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\ntemplate<class T> constexpr T INF\
+    \ = numeric_limits<T>::max() / 32 * 15 + 208;\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -291,49 +289,94 @@ data:
     \            }\n        }\n        for (int v = 0; v < n; ++v) {\n           \
     \ selected[v] = vis[v];\n        }\n        return offset - cut;\n    }\n\n  \
     \  const vector<int>& get_selected() const {\n        return selected;\n    }\n\
-    };\n\n/**\n * @brief Project Selection Problem\n */\n#line 23 \"test/yuki957_project_selection_problem.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int h, w;\n    in.read(h,\
-    \ w);\n\n    vector<vector<ll>> g(h, vector<ll>(w));\n    for (int i = 0; i <\
-    \ h; ++i) {\n        for (int j = 0; j < w; ++j) {\n            in.read(g[i][j]);\n\
-    \        }\n    }\n    vector<ll> row(h), col(w);\n    for (int i = 0; i < h;\
-    \ ++i) in.read(row[i]);\n    for (int j = 0; j < w; ++j) in.read(col[j]);\n\n\
-    \    ProjectSelectionProblem<ll> psp(h + w);\n    for (int i = 0; i < h; ++i)\
-    \ {\n        ll sum = 0;\n        for (int j = 0; j < w; ++j) {\n            sum\
-    \ += g[i][j];\n            psp.add_penalty(h + j, i, g[i][j]);\n        }\n  \
-    \      psp.add_true_profit(i, row[i] - sum);\n    }\n    for (int j = 0; j < w;\
-    \ ++j) {\n        psp.add_true_profit(h + j, col[j]);\n    }\n\n    out.println(psp.solve());\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <limits>\n#include <queue>\n#include <tuple>\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\ntemplate<class T>\n\
-    constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../flow/project_selection_problem.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int h, w;\n    in.read(h,\
-    \ w);\n\n    vector<vector<ll>> g(h, vector<ll>(w));\n    for (int i = 0; i <\
-    \ h; ++i) {\n        for (int j = 0; j < w; ++j) {\n            in.read(g[i][j]);\n\
-    \        }\n    }\n    vector<ll> row(h), col(w);\n    for (int i = 0; i < h;\
-    \ ++i) in.read(row[i]);\n    for (int j = 0; j < w; ++j) in.read(col[j]);\n\n\
-    \    ProjectSelectionProblem<ll> psp(h + w);\n    for (int i = 0; i < h; ++i)\
-    \ {\n        ll sum = 0;\n        for (int j = 0; j < w; ++j) {\n            sum\
-    \ += g[i][j];\n            psp.add_penalty(h + j, i, g[i][j]);\n        }\n  \
-    \      psp.add_true_profit(i, row[i] - sum);\n    }\n    for (int j = 0; j < w;\
-    \ ++j) {\n        psp.add_true_profit(h + j, col[j]);\n    }\n\n    out.println(psp.solve());\n\
-    \    return 0;\n}\n"
+    };\n\n/**\n * @brief Project Selection Problem\n */\n#line 9 \"test/yosupo_aplusb_project_selection_pair_profit.test.cpp\"\
+    \n\ntemplate<class Score>\nvoid check(ProjectSelectionProblem<ll> &psp, Score\
+    \ score, int fixed = -1) {\n    int n = psp.size();\n    ll best = LLONG_MIN;\n\
+    \    for (int mask = 0; mask < (1 << n); ++mask)\n        if (fixed == -1 || mask\
+    \ == fixed) best = max(best, score(mask));\n    for (int repeat = 0; repeat <\
+    \ 2; ++repeat) {\n        assert(psp.solve() == best);\n        const auto &selected\
+    \ = psp.get_selected();\n        int mask = 0;\n        for (int i = 0; i < n;\
+    \ ++i) mask |= selected[i] << i;\n        assert(fixed == -1 || mask == fixed);\n\
+    \        assert(score(mask) == best);\n    }\n}\n\nvoid self_check() {\n    for\
+    \ (ll a = -2; a <= 2; ++a) for (ll b = -2; b <= 2; ++b)\n    for (ll c = -2; c\
+    \ <= 2; ++c) for (ll d = -2; d <= 2; ++d) {\n        if (a + d < b + c) continue;\n\
+    \        array<ll, 4> table{a, b, c, d};\n        for (int fixed = -1; fixed <\
+    \ 4; ++fixed) {\n            ProjectSelectionProblem<ll> psp(2);\n           \
+    \ psp.add_pair_profit(0, 1, a, b, c, d);\n            if (fixed != -1) for (int\
+    \ v = 0; v < 2; ++v) {\n                if ((fixed >> v) & 1) psp.force_true(v);\n\
+    \                else psp.force_false(v);\n            }\n            check(psp,\
+    \ [&](int mask) { return table[2 * (mask & 1) + ((mask >> 1) & 1)]; }, fixed);\n\
+    \        }\n        ProjectSelectionProblem<ll> same(1);\n        same.add_pair_profit(0,\
+    \ 0, a, b, c, d);\n        check(same, [&](int mask) { return mask ? d : a; });\n\
+    \    }\n    mt19937 rng(66);\n    for (int tc = 0; tc < 2000; ++tc) {\n      \
+    \  int n = 1 + rng() % 6;\n        ProjectSelectionProblem<ll> psp(n);\n     \
+    \   vector<ll> yes(n), no(n);\n        for (int i = 0; i < n; ++i) {\n       \
+    \     yes[i] = int(rng() % 11) - 5;\n            no[i] = int(rng() % 11) - 5;\n\
+    \            psp.add_true_profit(i, yes[i]);\n            psp.add_false_profit(i,\
+    \ no[i]);\n        }\n        vector<tuple<int, int, array<ll, 4>>> terms;\n \
+    \       auto score = [&](int mask) {\n            ll sum = 0;\n            for\
+    \ (int i = 0; i < n; ++i) sum += (mask >> i) & 1 ? yes[i] : no[i];\n         \
+    \   for (auto [u, v, p] : terms) sum += p[2 * ((mask >> u) & 1) + ((mask >> v)\
+    \ & 1)];\n            return sum;\n        };\n        for (int i = 0; i < 8;\
+    \ ++i) {\n            int u = rng() % n, v = rng() % n;\n            array<ll,\
+    \ 4> p;\n            for (auto &x : p) x = int(rng() % 11) - 5;\n            p[3]\
+    \ = max(p[3], p[1] + p[2] - p[0]);\n            psp.add_pair_profit(u, v, p[0],\
+    \ p[1], p[2], p[3]);\n            terms.emplace_back(u, v, p);\n            if\
+    \ (i == 3 || i == 7) check(psp, score);\n        }\n    }\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\ntemplate<class T> constexpr T INF\
+    \ = numeric_limits<T>::max() / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../flow/project_selection_problem.cpp\"\n\ntemplate<class Score>\n\
+    void check(ProjectSelectionProblem<ll> &psp, Score score, int fixed = -1) {\n\
+    \    int n = psp.size();\n    ll best = LLONG_MIN;\n    for (int mask = 0; mask\
+    \ < (1 << n); ++mask)\n        if (fixed == -1 || mask == fixed) best = max(best,\
+    \ score(mask));\n    for (int repeat = 0; repeat < 2; ++repeat) {\n        assert(psp.solve()\
+    \ == best);\n        const auto &selected = psp.get_selected();\n        int mask\
+    \ = 0;\n        for (int i = 0; i < n; ++i) mask |= selected[i] << i;\n      \
+    \  assert(fixed == -1 || mask == fixed);\n        assert(score(mask) == best);\n\
+    \    }\n}\n\nvoid self_check() {\n    for (ll a = -2; a <= 2; ++a) for (ll b =\
+    \ -2; b <= 2; ++b)\n    for (ll c = -2; c <= 2; ++c) for (ll d = -2; d <= 2; ++d)\
+    \ {\n        if (a + d < b + c) continue;\n        array<ll, 4> table{a, b, c,\
+    \ d};\n        for (int fixed = -1; fixed < 4; ++fixed) {\n            ProjectSelectionProblem<ll>\
+    \ psp(2);\n            psp.add_pair_profit(0, 1, a, b, c, d);\n            if\
+    \ (fixed != -1) for (int v = 0; v < 2; ++v) {\n                if ((fixed >> v)\
+    \ & 1) psp.force_true(v);\n                else psp.force_false(v);\n        \
+    \    }\n            check(psp, [&](int mask) { return table[2 * (mask & 1) + ((mask\
+    \ >> 1) & 1)]; }, fixed);\n        }\n        ProjectSelectionProblem<ll> same(1);\n\
+    \        same.add_pair_profit(0, 0, a, b, c, d);\n        check(same, [&](int\
+    \ mask) { return mask ? d : a; });\n    }\n    mt19937 rng(66);\n    for (int\
+    \ tc = 0; tc < 2000; ++tc) {\n        int n = 1 + rng() % 6;\n        ProjectSelectionProblem<ll>\
+    \ psp(n);\n        vector<ll> yes(n), no(n);\n        for (int i = 0; i < n; ++i)\
+    \ {\n            yes[i] = int(rng() % 11) - 5;\n            no[i] = int(rng()\
+    \ % 11) - 5;\n            psp.add_true_profit(i, yes[i]);\n            psp.add_false_profit(i,\
+    \ no[i]);\n        }\n        vector<tuple<int, int, array<ll, 4>>> terms;\n \
+    \       auto score = [&](int mask) {\n            ll sum = 0;\n            for\
+    \ (int i = 0; i < n; ++i) sum += (mask >> i) & 1 ? yes[i] : no[i];\n         \
+    \   for (auto [u, v, p] : terms) sum += p[2 * ((mask >> u) & 1) + ((mask >> v)\
+    \ & 1)];\n            return sum;\n        };\n        for (int i = 0; i < 8;\
+    \ ++i) {\n            int u = rng() % n, v = rng() % n;\n            array<ll,\
+    \ 4> p;\n            for (auto &x : p) x = int(rng() % 11) - 5;\n            p[3]\
+    \ = max(p[3], p[1] + p[2] - p[0]);\n            psp.add_pair_profit(u, v, p[0],\
+    \ p[1], p[2], p[3]);\n            terms.emplace_back(u, v, p);\n            if\
+    \ (i == 3 || i == 7) check(psp, score);\n        }\n    }\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - flow/project_selection_problem.cpp
   - flow/dinic.cpp
   isVerificationFile: true
-  path: test/yuki957_project_selection_problem.test.cpp
+  path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 16:38:16+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yuki957_project_selection_problem.test.cpp
+documentation_of: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yuki957_project_selection_problem.test.cpp
-- /verify/test/yuki957_project_selection_problem.test.cpp.html
-title: test/yuki957_project_selection_problem.test.cpp
+- /verify/test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+- /verify/test/yosupo_aplusb_project_selection_pair_profit.test.cpp.html
+title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
 ---

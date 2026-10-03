@@ -1,0 +1,520 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: geometry/dualgraph.cpp
+    title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
+  - icon: ':heavy_check_mark:'
+    path: geometry/geometry.cpp
+    title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
+  - icon: ':heavy_check_mark:'
+    path: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
+  _pathExtension: cpp
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
+    links:
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_dualgraph.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
+    \     if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            return buf[idx++];\n        }\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        using Base = typename conditional<is_same<T, bool>::value, unsigned,\
+    \ T>::type;\n        using U = typename make_unsigned<Base>::type;\n        //\
+    \ The unsigned magnitude and -(y - 1) - 1 below also cover min(T).\n        if\
+    \ (interactive) {\n            char c = skip();\n            bool neg = false;\n\
+    \            if constexpr (is_signed<T>::value) {\n                if (c == '-')\
+    \ {\n                    neg = true;\n                    ensure_interactive();\n\
+    \                    c = buf[idx++];\n                }\n            }\n     \
+    \       U y = 0;\n            while (c >= '0') {\n                y = y * 10 +\
+    \ (c & 15);\n                ensure_interactive();\n                c = buf[idx++];\n\
+    \            }\n            if constexpr (is_signed<T>::value) {\n           \
+    \     if (neg && y) {\n                    x = -static_cast<T>(y - 1);\n     \
+    \               --x;\n                    return;\n                }\n       \
+    \     }\n            x = static_cast<T>(y);\n            return;\n        }\n\
+    \        char c = skip();\n        bool neg = false;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (c == '-') {\n                neg = true;\n              \
+    \  c = buf[idx++];\n            }\n        }\n        U y;\n        if (__builtin_expect(long_tokens,\
+    \ false)) {\n            y = read_long_digits<U>(c);\n        } else {\n     \
+    \       y = 0;\n            while (c >= '0') {\n                y = y * 10 + (c\
+    \ & 15);\n                c = buf[idx++];\n            }\n        }\n        if\
+    \ constexpr (is_signed<T>::value) {\n            if (neg && y) {\n           \
+    \     x = -static_cast<T>(y - 1);\n                --x;\n                return;\n\
+    \            }\n        }\n        x = static_cast<T>(y);\n    }\n\n    void read(double\
+    \ &x) {\n        read(number_token);\n        const char *first = number_token.data();\n\
+    \        const char *last = first + number_token.size();\n        auto result\
+    \ = from_chars(first, last, x);\n        if (result.ec != errc{} || result.ptr\
+    \ != last) __builtin_trap();\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && has_fastio_value<T>::value, int>::type = 0>\n    void read(T &x) {\n    \
+    \    long long v;\n        read(v);\n        x = T(v);\n    }\n\n    template<class\
+    \ T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
+    \ && has_fastio_assign_string<T>::value, int>::type = 0>\n    void read(T &x)\
+    \ {\n        string s;\n        read(s);\n        bool ok = x.assign(s);\n   \
+    \     if (!ok) __builtin_trap();\n    }\n\n    template<class Head, class Next,\
+    \ class... Tail>\n    void read(Head &head, Next &next, Tail &...tail) {\n   \
+    \     read(head);\n        read(next, tail...);\n    }\n\n    template<class T,\
+    \ class U>\n    void read(pair<T, U> &p) {\n        read(p.first, p.second);\n\
+    \    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ read(T &a) {\n        for (auto &x : a) read(x);\n    }\n\n    void read(char\
+    \ &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n        s.clear();\n\
+    \        if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            while (true) {\n                int start = idx;\n\
+    \                while (idx < size && buf[idx] > ' ') ++idx;\n               \
+    \ s.append(buf + start, idx - start);\n                if (idx < size) break;\n\
+    \                load();\n                if (size == 0) break;\n            }\n\
+    \            if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
+    \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
+    \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
+    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
+    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
+    \ 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION = 15;\n    char buf[BUFSIZE];\n\
+    \    int idx;\n    bool interactive;\n    string number_buf;\n    inline static\
+    \ constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
+    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
+    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
+    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
+    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
+    \  }\n\n    inline void print_range(const char *s, size_t n) {\n        size_t\
+    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
+    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
+    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
+    \       pos += chunk;\n        }\n    }\n\n    void print(const char *s) {\n \
+    \       print_range(s, strlen(s));\n    }\n\n    void print(const string &s) {\n\
+    \        print_range(s.data(), s.size());\n    }\n\n    void print(char c) {\n\
+    \        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0' + (b ?\
+    \ 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x) {\n  \
+    \      if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n \
+    \           return out + 4;\n        }\n        if (x >= 100) {\n            memcpy(out,\
+    \ table.num + (x << 2) + 1, 3);\n            return out + 3;\n        }\n    \
+    \    if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n            out[0]\
+    \ = char('0' + q);\n            out[1] = char('0' + (x - q * 10));\n         \
+    \   return out + 2;\n        }\n        *out = char('0' + x);\n        return\
+    \ out + 1;\n    }\n\n    inline void write_four(char *out, unsigned x) {\n   \
+    \     memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void write_eight(char\
+    \ *out, unsigned x) {\n        unsigned hi = x / 10000;\n        unsigned lo =\
+    \ x - hi * 10000;\n        write_four(out, hi);\n        write_four(out + 4, lo);\n\
+    \    }\n\n    inline char *write_u32(char *out, unsigned x) {\n        if (x >=\
+    \ 100000000) {\n            unsigned hi = x / 100000000;\n            unsigned\
+    \ lo = x - hi * 100000000;\n            out = write_top(out, hi);\n          \
+    \  write_eight(out, lo);\n            return out + 8;\n        }\n        if (x\
+    \ >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned lo =\
+    \ x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
+    \ lo);\n            return out + 4;\n        }\n        return write_top(out,\
+    \ x);\n    }\n\n    __attribute__((noinline))\n    inline char *write_u64(char\
+    \ *out, unsigned long long x) {\n        if (x <= 0xffffffffULL) return write_u32(out,\
+    \ (unsigned)x);\n        unsigned long long hi = x / 100000000;\n        unsigned\
+    \ lo = (unsigned)(x - hi * 100000000);\n        if (hi <= 0xffffffffULL) {\n \
+    \           out = write_u32(out, (unsigned)hi);\n            write_eight(out,\
+    \ lo);\n            return out + 8;\n        }\n        unsigned top = (unsigned)(hi\
+    \ / 100000000);\n        unsigned mid = (unsigned)(hi - (unsigned long long)top\
+    \ * 100000000);\n        out = write_u32(out, top);\n        write_eight(out,\
+    \ mid);\n        write_eight(out + 8, lo);\n        return out + 16;\n    }\n\n\
+    \    template<class T, typename enable_if<is_integral<T>::value && !is_same<T,\
+    \ bool>::value, int>::type = 0>\n    void print(T x) {\n        if (idx > BUFSIZE\
+    \ - 100) flush();\n        using U = typename make_unsigned<T>::type;\n      \
+    \  U y;\n        if constexpr (is_signed<T>::value) {\n            if (x < 0)\
+    \ {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \            } else {\n                y = static_cast<U>(x);\n            }\n\
+    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
+    \        buf[idx++] = '0';\n            return;\n        }\n        char *out;\n\
+    \        if constexpr (sizeof(U) <= 4) {\n            out = write_u32(buf + idx,\
+    \ (unsigned)y);\n        } else if constexpr (sizeof(U) <= 8) {\n            out\
+    \ = write_u64(buf + idx, (unsigned long long)y);\n        } else {\n         \
+    \   static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n            char tmp[TMP_SIZE];\n\
+    \            int pos = TMP_SIZE;\n            while (y >= 10000) {\n         \
+    \       pos -= 4;\n                memcpy(tmp + pos, table.num + (y % 10000) *\
+    \ 4, 4);\n                y /= 10000;\n            }\n            out = write_top(buf\
+    \ + idx, (unsigned)y);\n            memcpy(out, tmp + pos, TMP_SIZE - pos);\n\
+    \            out += TMP_SIZE - pos;\n        }\n        idx = (int)(out - buf);\n\
+    \    }\n\n    void print_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION)\
+    \ {\n        if (precision < 0) __builtin_trap();\n        size_t required = (size_t)precision\
+    \ + 512;\n        if (number_buf.size() < required) number_buf.resize(required);\n\
+    \        while (true) {\n            char *first = number_buf.data();\n      \
+    \      char *last = first + number_buf.size();\n            auto result = to_chars(first,\
+    \ last, x, chars_format::fixed, precision);\n            if (result.ec == errc{})\
+    \ {\n                print_range(first, result.ptr - first);\n               \
+    \ return;\n            }\n            if (result.ec != errc::value_too_large)\
+    \ __builtin_trap();\n            size_t next_size = number_buf.size() * 2;\n \
+    \           if (next_size <= number_buf.size()) __builtin_trap();\n          \
+    \  number_buf.resize(next_size);\n        }\n    }\n\n    void print(double x)\
+    \ {\n        print_fixed(x);\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && has_fastio_value<T>::value, int>::type = 0>\n    void print(const T &x) {\n\
+    \        print(x.value());\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && !has_fastio_value<T>::value && has_fastio_to_string<T>::value, int>::type\
+    \ = 0>\n    void print(const T &x) {\n        print(x.to_string());\n    }\n\n\
+    \    template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename\
+    \ decay<T>::type, string>::value, int>::type = 0>\n    void print(const T &a)\
+    \ {\n        bool first = true;\n        for (auto &&x : a) {\n            if\
+    \ (!first) pc(' ');\n            first = false;\n            print(x);\n     \
+    \   }\n    }\n\n    template<class T>\n    void println(const T &x) {\n      \
+    \  print(x);\n        pc('\\n');\n    }\n\n    template<class Head, class... Tail>\n\
+    \    void println(const Head &head, const Tail &...tail) {\n        print(head);\n\
+    \        ((pc(' '), print(tail)), ...);\n        pc('\\n');\n    }\n\n    void\
+    \ println_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION) {\n      \
+    \  print_fixed(x, precision);\n        pc('\\n');\n    }\n\n    void println()\
+    \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
+    \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
+    \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/geometry.cpp\"\
+    \n\n\n\n// \u51F8\u5305\u306F\u540C\u3058\u9802\u70B9\u304C\u542B\u307E\u308C\u3066\
+    \u3044\u308B\u3068\u30D0\u30B0\u308B\nusing geometry_real = double;\nusing real\
+    \ = geometry_real;\nstatic constexpr geometry_real EPS = 1e-10;\nconst geometry_real\
+    \ pi = acos(-1);\n\nstruct Point {\n    geometry_real x, y;\n    Point& operator+=(const\
+    \ Point a) { x += a.x; y += a.y;  return *this; }\n    Point& operator-=(const\
+    \ Point a) { x -= a.x; y -= a.y;  return *this; }\n    Point& operator*=(const\
+    \ geometry_real k) { x *= k; y *= k;  return *this; }\n    Point& operator/=(const\
+    \ geometry_real k) { x /= k; y /= k;  return *this; }\n    Point operator+(const\
+    \ Point a) const {return Point(*this) += a; }\n    Point operator-(const Point\
+    \ a) const {return Point(*this) -= a; }\n    Point operator*(const geometry_real\
+    \ k) const {return Point(*this) *= k; }\n    Point operator/(const geometry_real\
+    \ k) const {return Point(*this) /= k; }\n    bool operator<(const Point &a) const\
+    \ { return (x != a.x ? x < a.x : y < a.y); }\n    explicit Point(geometry_real\
+    \ a = 0, geometry_real b = 0) : x(a), y(b) {};\n};\n\nbool sorty(Point a, Point\
+    \ b) {\n    return (a.y != b.y ? a.y < b.y : a.x < b.x);\n}\n\nistream &operator>>(istream\
+    \ &s, Point &P) {\n    s >> P.x >> P.y;\n    return s;\n}\n\ninline geometry_real\
+    \ dot(Point a, Point b) { return a.x * b.x + a.y * b.y; }\n\ninline geometry_real\
+    \ cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }\n\ninline geometry_real\
+    \ abs(Point a) { return sqrt(dot(a, a)); }\n\ngeometry_real angle(Point A, Point\
+    \ B) {\n    return acos(dot(A, B) / abs(A) / abs(B));\n}\n\nstatic constexpr int\
+    \ COUNTER_CLOCKWISE = 1;\nstatic constexpr int CLOCKWISE = -1;\nstatic constexpr\
+    \ int ONLINE_BACK = 2;\nstatic constexpr int ONLINE_FRONT = -2;\nstatic constexpr\
+    \ int ON_SEGMENT = 0;\n\nint ccw(Point a, Point b, Point c) {\n    b -= a;\n \
+    \   c -= a;\n    if (cross(b, c) > EPS)\n        return COUNTER_CLOCKWISE;\n \
+    \   if (cross(b, c) < -EPS)\n        return CLOCKWISE;\n    if (dot(b, c) < 0)\n\
+    \        return ONLINE_BACK;\n    if (abs(b) < abs(c))\n        return ONLINE_FRONT;\n\
+    \    return ON_SEGMENT;\n}\n\nstruct Segment {\n    Point a, b;\n\n    Segment(Point\
+    \ x, Point y) : a(x), b(y) {};\n};\n\nstruct Line {\n    Point a, b;\n\n    Line(Point\
+    \ x, Point y) : a(x), b(y) {};\n};\n\nstruct Circle {\n    Point c;\n    geometry_real\
+    \ r;\n\n    Circle(Point c, geometry_real r) : c(c), r(r) {};\n};\n\nusing Polygon\
+    \ = vector<Point>;\n\nbool intersect(Segment s, Segment t) {\n    return (ccw(s.a,\
+    \ s.b, t.a) * ccw(s.a, s.b, t.b) <= 0 &&\n            ccw(t.a, t.b, s.a) * ccw(t.a,\
+    \ t.b, s.b) <= 0);\n}\n\nbool intersect(Segment s, Line t) {\n    int a = ccw(t.a,\
+    \ t.b, s.a), b = ccw(t.a, t.b, s.b);\n    return (!(a & 1) || !(b & 1) || a !=\
+    \ b);\n}\n\nPoint polar(double r, double t) {\n    return Point(r * cos(t), r\
+    \ * sin(t));\n}\n\ndouble arg(Point p) {\n    return atan2(p.y, p.x);\n}\n\nstatic\
+    \ constexpr int CONTAIN = 0;\nstatic constexpr int INSCRIBE = 1;\nstatic constexpr\
+    \ int INTERSECT = 2;\nstatic constexpr int CIRCUMSCRIBED = 3;\nstatic constexpr\
+    \ int SEPARATE = 4;\n\nint intersect(Circle c1, Circle c2) {\n    if (c1.r < c2.r)\n\
+    \        swap(c1, c2);\n    geometry_real d = abs(c1.c - c2.c);\n    geometry_real\
+    \ r = c1.r + c2.r;\n    if (fabs(d - r) < EPS)\n        return CIRCUMSCRIBED;\n\
+    \    if (d > r)\n        return SEPARATE;\n    if (fabs(d + c2.r - c1.r) < EPS)\n\
+    \        return INSCRIBE;\n    if (d + c2.r < c1.r)\n        return CONTAIN;\n\
+    \    return INTERSECT;\n}\n\ngeometry_real distance(Line l, Point c) {\n    return\
+    \ abs(cross(l.b - l.a, c - l.a) / abs(l.b - l.a));\n}\n\ngeometry_real distance(Segment\
+    \ s, Point c) {\n    if (dot(s.b - s.a, c - s.a) < EPS)\n        return abs(c\
+    \ - s.a);\n    if (dot(s.a - s.b, c - s.b) < EPS)\n        return abs(c - s.b);\n\
+    \    return abs(cross(s.b - s.a, c - s.a)) / abs(s.a - s.b);\n}\n\ngeometry_real\
+    \ distance(Segment s, Segment t) {\n    if (intersect(s, t))\n        return 0.0;\n\
+    \    return min({distance(s, t.a), distance(s, t.b),\n                distance(t,\
+    \ s.a), distance(t, s.b)});\n}\n\nPoint project(Line l, Point p) {\n    Point\
+    \ Q = l.b - l.a;\n    return l.a + Q * (dot(p - l.a, Q) / dot(Q, Q));\n}\n\nPoint\
+    \ project(Segment s, Point p) {\n    Point Q = s.b - s.a;\n    return s.a + Q\
+    \ * (dot(p - s.a, Q) / dot(Q, Q));\n}\n\nPoint refrect(Segment s, Point p) {\n\
+    \    Point Q = project(s, p);\n    return Q * 2 - p;\n}\n\nbool isOrthogonal(Segment\
+    \ s, Segment t) {\n    return fabs(dot(s.b - s.a, t.b - t.a)) < EPS;\n}\n\nbool\
+    \ isparallel(Segment s, Segment t) {\n    return fabs(cross(s.b - s.a, t.b - t.a))\
+    \ < EPS;\n}\n\nPoint crossPoint(Segment s, Segment t) {\n    geometry_real d1\
+    \ = cross(s.b - s.a, t.b - t.a);\n    geometry_real d2 = cross(s.b - s.a, s.b\
+    \ - t.a);\n    if (fabs(d1) < EPS && fabs(d2) < EPS)\n        return t.a;\n  \
+    \  return t.a + (t.b - t.a) * d2 / d1;\n}\n\nPoint crossPoint(Line s, Line t)\
+    \ {\n    geometry_real d1 = cross(s.b - s.a, t.b - t.a);\n    geometry_real d2\
+    \ = cross(s.b - s.a, s.b - t.a);\n    if (fabs(d1) < EPS && fabs(d2) < EPS)\n\
+    \        return t.a;\n    return t.a + (t.b - t.a) * d2 / d1;\n}\n\nPolygon crossPoint(Circle\
+    \ c, Line l) {\n    Point p = project(l, c.c), q = (l.b - l.a) / abs(l.b - l.a);\n\
+    \    if (abs(distance(l, c.c) - c.r) < EPS) {\n        return {p};\n    }\n  \
+    \  double k = sqrt(c.r * c.r - dot(p - c.c, p - c.c));\n    return {p - q * k,\
+    \ p + q * k};\n}\n\nPolygon crossPoint(Circle c, Segment s) {\n    auto tmp =\
+    \ crossPoint(c, Line(s.a, s.b));\n    Polygon ret;\n    for (auto &&i: tmp) {\n\
+    \        if (distance(s, i) < EPS)\n            ret.emplace_back(i);\n    }\n\
+    \    return ret;\n}\n\nPolygon crossPoint(Circle c1, Circle c2) {\n    double\
+    \ d = abs(c1.c - c2.c);\n    double a = acos((c1.r * c1.r + d * d - c2.r * c2.r)\
+    \ / (2 * c1.r * d));\n    double t = arg(c2.c - c1.c);\n    return {c1.c + polar(c1.r,\
+    \ t + a), c1.c + polar(c1.r, t - a)};\n}\n\nPolygon tangent(Circle c1, Point p)\
+    \ {\n    Circle c2 = Circle(p, sqrt(dot(c1.c - p, c1.c - p) - c1.r * c1.r));\n\
+    \    return crossPoint(c1, c2);\n}\n\nvector<Line> tangent(Circle c1, Circle c2)\
+    \ {\n    vector<Line> ret;\n    if (c1.r < c2.r)\n        swap(c1, c2);\n    double\
+    \ k = dot(c1.c - c2.c, c1.c - c2.c);\n    if (abs(k) < EPS)\n        return {};\n\
+    \    Point u = (c2.c - c1.c) / sqrt(k);\n    Point v(-u.y, u.x);\n    for (auto\
+    \ &&i: {-1, 1}) {\n        double h = (c1.r + i * c2.r) / sqrt(k);\n        if\
+    \ (abs(h * h - 1) < EPS) {\n            ret.emplace_back(c1.c + u * c1.r, c1.c\
+    \ + (u + v) * c1.r);\n        } else if (h * h < 1) {\n            Point u2 =\
+    \ u * h, v2 = v * sqrt(1 - h * h);\n            ret.emplace_back(c1.c + (u2 +\
+    \ v2) * c1.r, c2.c - (u2 + v2) * c2.r * i);\n            ret.emplace_back(c1.c\
+    \ + (u2 - v2) * c1.r, c2.c - (u2 - v2) * c2.r * i);\n        }\n    }\n    return\
+    \ ret;\n}\n\ngeometry_real area(Polygon v) {\n    if (v.size() < 3)\n        return\
+    \ 0.0;\n    geometry_real ans = 0.0;\n    for (int i = 0; i < v.size(); ++i) {\n\
+    \        ans += cross(v[i], v[(i + 1) % v.size()]);\n    }\n    return ans / 2;\n\
+    }\n\ngeometry_real area(Circle c, Polygon &v) {\n    int n = v.size();\n    geometry_real\
+    \ ans = 0.0;\n    Polygon u;\n    for (int i = 0; i < n; ++i) {\n        u.emplace_back(v[i]);\n\
+    \        auto q = crossPoint(c, Segment(v[i], v[(i + 1) % n]));\n        for (auto\
+    \ &&j: q) {\n            u.emplace_back(j);\n        }\n    }\n    for (int i\
+    \ = 0; i < u.size(); ++i) {\n        Point A = u[i] - c.c, B = u[(i + 1) % u.size()]\
+    \ - c.c;\n        if (abs(A) >= c.r + EPS || abs(B) >= c.r + EPS) {\n        \
+    \    Point C = polar(1, arg(B) - arg(A));\n            ans += c.r * c.r * arg(C)\
+    \ / 2;\n        } else {\n            ans += cross(A, B) / 2;\n        }\n   \
+    \ }\n    return ans;\n}\n\ngeometry_real area(Circle a, Circle b) {\n    auto\
+    \ d = abs(a.c - b.c);\n    if (a.r + b.r <= d + EPS)\n        return 0;\n    else\
+    \ if (d <= abs(a.r - b.r))\n        return pi * min(a.r, b.r) * min(a.r, b.r);\n\
+    \    geometry_real p = 2 * acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d));\n\
+    \    geometry_real q = 2 * acos((b.r * b.r + d * d - a.r * a.r) / (2 * b.r * d));\n\
+    \    return a.r * a.r * (p - sin(p)) / 2 + b.r * b.r * (q - sin(q)) / 2;\n}\n\n\
+    Polygon convex_hull(Polygon v) {\n    int n = v.size();\n    if (n <= 1) return\
+    \ v;\n    sort(v.begin(), v.end(), sorty);\n    int k = 0;\n    Polygon ret(n\
+    \ * 2);\n    for (int i = 0; i < n; ++i) {\n        while (k > 1 && cross(ret[k\
+    \ - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n            k--;\n        ret[k++]\
+    \ = v[i];\n    }\n    for (int i = n - 2, t = k; i >= 0; i--) {\n        while\
+    \ (k > t && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n         \
+    \   k--;\n        ret[k++] = v[i];\n    }\n    ret.resize(k - 1);\n    return\
+    \ ret;\n}\n\nbool isconvex(Polygon v) {\n    int n = v.size();\n    for (int i\
+    \ = 0; i < n; ++i) {\n        if (ccw(v[(i + n - 1) % n], v[i], v[(i + 1) % n])\
+    \ == CLOCKWISE)\n            return false;\n    }\n    return true;\n}\n\nint\
+    \ contains(Polygon v, Point p) {\n    int n = v.size();\n    bool x = false;\n\
+    \    static constexpr int IN = 2, ON = 1, OUT = 0;\n    for (int i = 0; i < n;\
+    \ ++i) {\n        Point a = v[i] - p, b = v[(i + 1) % n] - p;\n        if (fabs(cross(a,\
+    \ b)) < EPS && dot(a, b) < EPS)\n            return ON;\n        if (a.y > b.y)\n\
+    \            swap(a, b);\n        if (a.y < EPS && EPS < b.y && cross(a, b) >\
+    \ EPS)\n            x = !x;\n    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon\
+    \ &v, Point p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr\
+    \ int IN = 2, ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if\
+    \ (v.size() < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON\
+    \ : OUT;\n    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
+    \        auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };\n\
+    \        while (r - l > 1) {\n            int m = (l + r) / 2;\n            if\
+    \ (ccw(v[0], v[index(1)], v[index(m)]) == ONLINE_FRONT) l = m;\n            else\
+    \ r = m;\n        }\n        return index(l);\n    };\n    int orientation = ccw(v[0],\
+    \ v[a], v[b]);\n    int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n  \
+    \  if ((orientation & 1) == 0 || la == ONLINE_FRONT) {\n        a = end_of_ray(false);\n\
+    \        la = ccw(v[0], v[a], p);\n    }\n    if ((orientation & 1) == 0 || lb\
+    \ == ONLINE_FRONT) {\n        b = end_of_ray(true);\n        lb = ccw(v[0], v[b],\
+    \ p);\n    }\n    if (a >= b)\n        return contains(v, p);\n    if ((orientation\
+    \ & 1) == 0) orientation = ccw(v[0], v[a], v[a + 1]);\n    if ((orientation &\
+    \ 1) == 0)\n        return contains(v, p);\n    if (orientation > 0) {\n     \
+    \   swap(a, b);\n        swap(la, lb);\n    }\n    if ((la & 1) == 0 || (lb &\
+    \ 1) == 0)\n        return la == ON_SEGMENT || lb == ON_SEGMENT ? ON : OUT;\n\
+    \    if (la > 0 || lb < 0)\n        return OUT;\n    while (abs(a - b) > 1) {\n\
+    \        int c = (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n       \
+    \ (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res\
+    \ & 1) == 0)\n        return res == ON_SEGMENT ? ON : OUT;\n    return res < 0\
+    \ ? IN : OUT;\n}\n\ngeometry_real diameter(Polygon v) {\n    int n = v.size();\n\
+    \    if (n == 2)\n        return abs(v[0] - v[1]);\n    int i = 0, j = 0;\n  \
+    \  for (int k = 0; k < n; ++k) {\n        if (v[i] < v[k])\n            i = k;\n\
+    \        if (!(v[j] < v[k]))\n            j = k;\n    }\n    geometry_real ret\
+    \ = 0;\n    int si = i, sj = j;\n    while (i != sj || j != si) {\n        ret\
+    \ = max(ret, abs(v[i] - v[j]));\n        if (cross(v[(i + 1) % n] - v[i], v[(j\
+    \ + 1) % n] - v[j]) < 0.0)\n            i = (i + 1) % n;\n        else\n     \
+    \       j = (j + 1) % n;\n    }\n    return ret;\n}\n\nPolygon convexCut(Polygon\
+    \ v, Line l) {\n    Polygon q;\n    int n = v.size();\n    for (int i = 0; i <\
+    \ n; ++i) {\n        Point a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a,\
+    \ l.b, a) != -1)\n            q.push_back(a);\n        if (ccw(l.a, l.b, a) *\
+    \ ccw(l.a, l.b, b) < 0) {\n            q.push_back(crossPoint(Line(a, b), l));\n\
+    \        }\n    }\n    return q;\n}\n\ngeometry_real closest_pair(Polygon &v,\
+    \ int l = 0, int r = -1) {\n    if (!(~r)) {\n        r = v.size();\n        sort(v.begin(),\
+    \ v.end());\n    }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n\
+    \    }\n    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
+    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
+    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
+    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
+    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
+    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
+    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
+    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
+    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 2 \"geometry/dualgraph.cpp\"\
+    \n\nclass DualGraph {\n    struct P {\n        int to, nxt, id, id2, rev;\n  \
+    \      P(int to = 0, int nxt = 0, int id = 0, int rev = 0) : to(to), nxt(nxt),\
+    \ id(id), rev(rev), id2(0) {};\n        bool operator!=(P x){ return to != x.to\
+    \ || nxt != x.nxt || id != x.id || rev != x.rev; }\n    };\npublic:\n    int n,\
+    \ m;\n    Polygon v;\n    vector<vector<P>> G_;\n    vector<vector<int>> G;\n\
+    \    vector<vector<Point>> A;\n    DualGraph(Polygon v) : v(v), n(v.size()), G_(n),\
+    \ m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
+    \ }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n\
+    \        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n     \
+    \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
+    \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
+    \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
+    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
+    \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
+    \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
+    \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
+    \ = (i < e.to ? r[e.id] : l[e.id]);\n            }\n        }\n        int cur\
+    \ = 1;\n        A = move(vector<vector<Point>>());\n        for (int i = 0; i\
+    \ < n; ++i) {\n            for (auto &&x : G_[i]) {\n                if(x.id2)\
+    \ continue;\n                A.emplace_back();\n                int from = i;\n\
+    \                auto e = &x;\n                do {\n                    A.back().emplace_back(v[from]);\n\
+    \                    e->id2 = cur;\n                    from = e->to;\n      \
+    \              e = &G_[from][G_[from][e->rev].nxt];\n                } while(e\
+    \ != &x);\n                cur++;\n            }\n        }\n        for (int\
+    \ i = 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n               \
+    \ (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n            }\n        }\n      \
+    \  G = move(vector<vector<int>>(A.size()));\n        for (int i = 0; i < m; ++i)\
+    \ {\n            G[l[i]].emplace_back(r[i]);\n            G[r[i]].emplace_back(l[i]);\n\
+    \        }\n    }\n};\n\n/**\n * @brief \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n\
+    \ */\n#line 7 \"test/yosupo_aplusb_dualgraph.test.cpp\"\n\nvoid check(const Polygon\
+    \ &points, const vector<pair<int, int>> &edges) {\n    int n = points.size(),\
+    \ m = edges.size();\n    DualGraph dual(points);\n    for (auto [u, v] : edges)\
+    \ dual.add_edge(u, v);\n    vector<vector<int>> previous;\n    for (int build\
+    \ = 0; build < 2; ++build) {\n        dual.build();\n        assert((int)dual.A.size()\
+    \ == m - n + 2);\n        assert(dual.G.size() == dual.A.size());\n        int\
+    \ boundary_size = 0;\n        for (const auto &face : dual.A) boundary_size +=\
+    \ face.size();\n        assert(boundary_size == 2 * m);\n        vector<vector<int>>\
+    \ sides(m);\n        for (const auto &neighbors : dual.G_) for (const auto &e\
+    \ : neighbors) {\n            assert(1 <= e.id2 && e.id2 <= (int)dual.A.size());\n\
+    \            sides[e.id].push_back(e.id2 - 1);\n        }\n        vector<vector<int>>\
+    \ expected(dual.A.size());\n        for (int id = 0; id < m; ++id) {\n       \
+    \     assert(sides[id].size() == 2);\n            vector<vector<int>> g(n);\n\
+    \            for (int j = 0; j < m; ++j) if (j != id) {\n                auto\
+    \ [u, v] = edges[j];\n                g[u].push_back(v);\n                g[v].push_back(u);\n\
+    \            }\n            vector<int> seen(n), order{edges[id].first};\n   \
+    \         seen[order[0]] = 1;\n            for (int i = 0; i < (int)order.size();\
+    \ ++i) for (int v : g[order[i]]) if (!seen[v]) {\n                seen[v] = 1;\n\
+    \                order.push_back(v);\n            }\n            bool bridge =\
+    \ !seen[edges[id].second];\n            assert((sides[id][0] == sides[id][1])\
+    \ == bridge);\n            expected[sides[id][0]].push_back(sides[id][1]);\n \
+    \           expected[sides[id][1]].push_back(sides[id][0]);\n        }\n     \
+    \   for (int f = 0; f < (int)expected.size(); ++f) {\n            sort(expected[f].begin(),\
+    \ expected[f].end());\n            auto actual = dual.G[f];\n            sort(actual.begin(),\
+    \ actual.end());\n            assert(actual == expected[f]);\n        }\n    \
+    \    if (build) assert(dual.G == previous);\n        previous = dual.G;\n    }\n\
+    }\n\nvoid self_check() {\n    check({Point(0, 0), Point(1, 0), Point(-1, 0)},\
+    \ {{0, 1}, {0, 2}});\n    check({Point(0, 0), Point(1, 0), Point(-1, 0), Point(0,\
+    \ 1), Point(0, -1)},\n          {{0, 1}, {0, 2}, {0, 3}, {0, 4}});\n    check({Point(0,\
+    \ 0), Point(2, 0), Point(0, 2)}, {{0, 1}, {1, 2}, {2, 0}});\n    check({Point(0,\
+    \ 0), Point(2, 0), Point(0, 2), Point(-1, 0)},\n          {{0, 1}, {1, 2}, {2,\
+    \ 0}, {0, 3}});\n    mt19937 rng(15);\n    for (int h = 1; h <= 6; ++h) for (int\
+    \ w = 1; w <= 6; ++w) {\n        if (h * w < 2) continue;\n        Polygon points;\n\
+    \        vector<pair<int, int>> edges;\n        for (int y = 0; y < h; ++y) for\
+    \ (int x = 0; x < w; ++x) {\n            int v = y * w + x;\n            points.emplace_back(x,\
+    \ y);\n            if (x) edges.emplace_back(v - 1, v);\n            if (y &&\
+    \ (x == 0 || rng() % 2)) edges.emplace_back(v - w, v);\n            if (x && y\
+    \ && rng() % 2) edges.emplace_back(v - w - 1, v);\n        }\n        check(points,\
+    \ edges);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../geometry/dualgraph.cpp\"\
+    \n\nvoid check(const Polygon &points, const vector<pair<int, int>> &edges) {\n\
+    \    int n = points.size(), m = edges.size();\n    DualGraph dual(points);\n \
+    \   for (auto [u, v] : edges) dual.add_edge(u, v);\n    vector<vector<int>> previous;\n\
+    \    for (int build = 0; build < 2; ++build) {\n        dual.build();\n      \
+    \  assert((int)dual.A.size() == m - n + 2);\n        assert(dual.G.size() == dual.A.size());\n\
+    \        int boundary_size = 0;\n        for (const auto &face : dual.A) boundary_size\
+    \ += face.size();\n        assert(boundary_size == 2 * m);\n        vector<vector<int>>\
+    \ sides(m);\n        for (const auto &neighbors : dual.G_) for (const auto &e\
+    \ : neighbors) {\n            assert(1 <= e.id2 && e.id2 <= (int)dual.A.size());\n\
+    \            sides[e.id].push_back(e.id2 - 1);\n        }\n        vector<vector<int>>\
+    \ expected(dual.A.size());\n        for (int id = 0; id < m; ++id) {\n       \
+    \     assert(sides[id].size() == 2);\n            vector<vector<int>> g(n);\n\
+    \            for (int j = 0; j < m; ++j) if (j != id) {\n                auto\
+    \ [u, v] = edges[j];\n                g[u].push_back(v);\n                g[v].push_back(u);\n\
+    \            }\n            vector<int> seen(n), order{edges[id].first};\n   \
+    \         seen[order[0]] = 1;\n            for (int i = 0; i < (int)order.size();\
+    \ ++i) for (int v : g[order[i]]) if (!seen[v]) {\n                seen[v] = 1;\n\
+    \                order.push_back(v);\n            }\n            bool bridge =\
+    \ !seen[edges[id].second];\n            assert((sides[id][0] == sides[id][1])\
+    \ == bridge);\n            expected[sides[id][0]].push_back(sides[id][1]);\n \
+    \           expected[sides[id][1]].push_back(sides[id][0]);\n        }\n     \
+    \   for (int f = 0; f < (int)expected.size(); ++f) {\n            sort(expected[f].begin(),\
+    \ expected[f].end());\n            auto actual = dual.G[f];\n            sort(actual.begin(),\
+    \ actual.end());\n            assert(actual == expected[f]);\n        }\n    \
+    \    if (build) assert(dual.G == previous);\n        previous = dual.G;\n    }\n\
+    }\n\nvoid self_check() {\n    check({Point(0, 0), Point(1, 0), Point(-1, 0)},\
+    \ {{0, 1}, {0, 2}});\n    check({Point(0, 0), Point(1, 0), Point(-1, 0), Point(0,\
+    \ 1), Point(0, -1)},\n          {{0, 1}, {0, 2}, {0, 3}, {0, 4}});\n    check({Point(0,\
+    \ 0), Point(2, 0), Point(0, 2)}, {{0, 1}, {1, 2}, {2, 0}});\n    check({Point(0,\
+    \ 0), Point(2, 0), Point(0, 2), Point(-1, 0)},\n          {{0, 1}, {1, 2}, {2,\
+    \ 0}, {0, 3}});\n    mt19937 rng(15);\n    for (int h = 1; h <= 6; ++h) for (int\
+    \ w = 1; w <= 6; ++w) {\n        if (h * w < 2) continue;\n        Polygon points;\n\
+    \        vector<pair<int, int>> edges;\n        for (int y = 0; y < h; ++y) for\
+    \ (int x = 0; x < w; ++x) {\n            int v = y * w + x;\n            points.emplace_back(x,\
+    \ y);\n            if (x) edges.emplace_back(v - 1, v);\n            if (y &&\
+    \ (x == 0 || rng() % 2)) edges.emplace_back(v - w, v);\n            if (x && y\
+    \ && rng() % 2) edges.emplace_back(v - w - 1, v);\n        }\n        check(points,\
+    \ edges);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  dependsOn:
+  - util/fastio.cpp
+  - geometry/dualgraph.cpp
+  - geometry/geometry.cpp
+  isVerificationFile: true
+  path: test/yosupo_aplusb_dualgraph.test.cpp
+  requiredBy: []
+  timestamp: '2026-10-03 16:38:16+09:00'
+  verificationStatus: TEST_ACCEPTED
+  verifiedWith: []
+documentation_of: test/yosupo_aplusb_dualgraph.test.cpp
+layout: document
+redirect_from:
+- /verify/test/yosupo_aplusb_dualgraph.test.cpp
+- /verify/test/yosupo_aplusb_dualgraph.test.cpp.html
+title: test/yosupo_aplusb_dualgraph.test.cpp
+---

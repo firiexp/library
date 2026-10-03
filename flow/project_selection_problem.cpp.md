@@ -8,6 +8,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+    title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki957_project_selection_problem.test.cpp
     title: test/yuki957_project_selection_problem.test.cpp
   _isVerificationFailed: false
@@ -53,14 +56,18 @@ data:
     \ }\n\n    void add_true_profit(int v, T x) {\n        weight[v] += x;\n    }\n\
     \n    void add_false_profit(int v, T x) {\n        base_score += x;\n        weight[v]\
     \ -= x;\n    }\n\n    void add_penalty(int x, int y, T cost) {\n        penalty.emplace_back(x,\
-    \ y, cost);\n    }\n\n    void add_if_then(int x, int y) {\n        add_penalty(x,\
-    \ y, INF<T>);\n    }\n\n    void force_true(int v) {\n        forced_true[v] =\
-    \ true;\n    }\n\n    void force_false(int v) {\n        forced_false[v] = true;\n\
-    \    }\n\n    T solve() {\n        int s = n, t = n + 1;\n        Dinic<T, true>\
-    \ mf(n + 2);\n        T offset = base_score;\n        for (int v = 0; v < n; ++v)\
-    \ {\n            if (weight[v] >= 0) {\n                offset += weight[v];\n\
-    \                mf.add_edge(s, v, weight[v]);\n            } else {\n       \
-    \         mf.add_edge(v, t, -weight[v]);\n            }\n            if (forced_true[v])\
+    \ y, cost);\n    }\n\n    void add_pair_profit(int u, int v, T p00, T p01, T p10,\
+    \ T p11) {\n        assert(p00 + p11 >= p01 + p10);\n        T cost = p00 + p11\
+    \ - p01 - p10;\n        base_score += p00;\n        add_true_profit(u, p11 - p01);\n\
+    \        add_true_profit(v, p01 - p00);\n        add_penalty(u, v, cost);\n  \
+    \  }\n\n    void add_if_then(int x, int y) {\n        add_penalty(x, y, INF<T>);\n\
+    \    }\n\n    void force_true(int v) {\n        forced_true[v] = true;\n    }\n\
+    \n    void force_false(int v) {\n        forced_false[v] = true;\n    }\n\n  \
+    \  T solve() {\n        int s = n, t = n + 1;\n        Dinic<T, true> mf(n + 2);\n\
+    \        T offset = base_score;\n        for (int v = 0; v < n; ++v) {\n     \
+    \       if (weight[v] >= 0) {\n                offset += weight[v];\n        \
+    \        mf.add_edge(s, v, weight[v]);\n            } else {\n               \
+    \ mf.add_edge(v, t, -weight[v]);\n            }\n            if (forced_true[v])\
     \ mf.add_edge(s, v, INF<T>);\n            if (forced_false[v]) mf.add_edge(v,\
     \ t, INF<T>);\n        }\n        for (auto&& [x, y, cost] : penalty) {\n    \
     \        mf.add_edge(x, y, cost);\n        }\n        T cut = mf.flow(s, t);\n\
@@ -85,14 +92,18 @@ data:
     \ }\n\n    void add_true_profit(int v, T x) {\n        weight[v] += x;\n    }\n\
     \n    void add_false_profit(int v, T x) {\n        base_score += x;\n        weight[v]\
     \ -= x;\n    }\n\n    void add_penalty(int x, int y, T cost) {\n        penalty.emplace_back(x,\
-    \ y, cost);\n    }\n\n    void add_if_then(int x, int y) {\n        add_penalty(x,\
-    \ y, INF<T>);\n    }\n\n    void force_true(int v) {\n        forced_true[v] =\
-    \ true;\n    }\n\n    void force_false(int v) {\n        forced_false[v] = true;\n\
-    \    }\n\n    T solve() {\n        int s = n, t = n + 1;\n        Dinic<T, true>\
-    \ mf(n + 2);\n        T offset = base_score;\n        for (int v = 0; v < n; ++v)\
-    \ {\n            if (weight[v] >= 0) {\n                offset += weight[v];\n\
-    \                mf.add_edge(s, v, weight[v]);\n            } else {\n       \
-    \         mf.add_edge(v, t, -weight[v]);\n            }\n            if (forced_true[v])\
+    \ y, cost);\n    }\n\n    void add_pair_profit(int u, int v, T p00, T p01, T p10,\
+    \ T p11) {\n        assert(p00 + p11 >= p01 + p10);\n        T cost = p00 + p11\
+    \ - p01 - p10;\n        base_score += p00;\n        add_true_profit(u, p11 - p01);\n\
+    \        add_true_profit(v, p01 - p00);\n        add_penalty(u, v, cost);\n  \
+    \  }\n\n    void add_if_then(int x, int y) {\n        add_penalty(x, y, INF<T>);\n\
+    \    }\n\n    void force_true(int v) {\n        forced_true[v] = true;\n    }\n\
+    \n    void force_false(int v) {\n        forced_false[v] = true;\n    }\n\n  \
+    \  T solve() {\n        int s = n, t = n + 1;\n        Dinic<T, true> mf(n + 2);\n\
+    \        T offset = base_score;\n        for (int v = 0; v < n; ++v) {\n     \
+    \       if (weight[v] >= 0) {\n                offset += weight[v];\n        \
+    \        mf.add_edge(s, v, weight[v]);\n            } else {\n               \
+    \ mf.add_edge(v, t, -weight[v]);\n            }\n            if (forced_true[v])\
     \ mf.add_edge(s, v, INF<T>);\n            if (forced_false[v]) mf.add_edge(v,\
     \ t, INF<T>);\n        }\n        for (auto&& [x, y, cost] : penalty) {\n    \
     \        mf.add_edge(x, y, cost);\n        }\n        T cut = mf.flow(s, t);\n\
@@ -110,10 +121,11 @@ data:
   isVerificationFile: false
   path: flow/project_selection_problem.cpp
   requiredBy: []
-  timestamp: '2026-10-03 13:01:29+09:00'
+  timestamp: '2026-10-03 16:38:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki957_project_selection_problem.test.cpp
+  - test/yosupo_aplusb_project_selection_pair_profit.test.cpp
 date: 2026-03-08
 documentation_of: flow/project_selection_problem.cpp
 layout: document
@@ -142,6 +154,8 @@ title: Project Selection Problem
   `x_v = 0` のとき利益 `x` を足す
 - `void add_penalty(int x, int y, T cost)`
   `x_x = 1, x_y = 0` のとき罰金 `cost` を足す
+- `void add_pair_profit(int u, int v, T p00, T p01, T p10, T p11)`
+  `(x_u, x_v) = (0,0), (0,1), (1,0), (1,1)` の利益を順に指定する。`p00 + p11 >= p01 + p10` が必要
 - `void add_if_then(int x, int y)`
   `x_x = 1 -> x_y = 1` を課す
 - `void force_true(int v)`
@@ -156,6 +170,7 @@ title: Project Selection Problem
 ## 使い方
 各利益と制約を追加してから `solve()` を呼ぶ。
 行や列、区間などのボーナスを表す補助頂点が必要なら `add_vertex()` で増やす。
+費用表を最小化する場合は、各費用の符号を反転して利益として渡す。
 
 ## 実装上の補足
 正の利益を始点側、負の利益を終点側に張り、`x=1, y=0` の罰金を `x -> y` の辺に乗せる最大重み閉包として解く。

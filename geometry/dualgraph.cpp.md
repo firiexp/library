@@ -10,6 +10,9 @@ data:
     path: test/aoj0273.test.cpp
     title: test/aoj0273.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dualgraph.test.cpp
+    title: test/yosupo_aplusb_dualgraph.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   _isVerificationFailed: false
@@ -194,23 +197,24 @@ data:
     \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
     \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
     \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                if(i\
-    \ < G_[i][j].to) l[G_[i][j].id] = j;\n                else r[G_[i][j].id] = j;\n\
-    \            }\n        }\n        for (int i = 0; i < n; ++i) {\n           \
-    \ for (auto &&e : G_[i]) {\n                e.rev = (i < e.to ? r[e.id] : l[e.id]);\n\
-    \            }\n        }\n        int cur = 1;\n        A = move(vector<vector<Point>>());\n\
-    \        for (int i = 0; i < n; ++i) {\n            for (auto &&x : G_[i]) {\n\
-    \                if(x.id2) continue;\n                x.id2 = cur;\n         \
-    \       A.emplace_back();\n                A.back().emplace_back(v[i]);\n    \
-    \            auto e = &x;\n                while(e->to != i){\n              \
-    \      A.back().emplace_back(v[e->to]);\n                    e = &G_[e->to][G_[e->to][e->rev].nxt];\n\
-    \                    e->id2 = cur;\n                }\n                cur++;\n\
-    \            }\n        }\n        for (int i = 0; i < n; ++i) {\n           \
-    \ for (auto &&e : G_[i]) {\n                (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n\
-    \            }\n        }\n        G = move(vector<vector<int>>(A.size()));\n\
-    \        for (int i = 0; i < m; ++i) {\n            G[l[i]].emplace_back(r[i]);\n\
-    \            G[r[i]].emplace_back(l[i]);\n        }\n    }\n};\n\n/**\n * @brief\
-    \ \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n */\n"
+    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
+    \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
+    \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
+    \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
+    \ = (i < e.to ? r[e.id] : l[e.id]);\n            }\n        }\n        int cur\
+    \ = 1;\n        A = move(vector<vector<Point>>());\n        for (int i = 0; i\
+    \ < n; ++i) {\n            for (auto &&x : G_[i]) {\n                if(x.id2)\
+    \ continue;\n                A.emplace_back();\n                int from = i;\n\
+    \                auto e = &x;\n                do {\n                    A.back().emplace_back(v[from]);\n\
+    \                    e->id2 = cur;\n                    from = e->to;\n      \
+    \              e = &G_[from][G_[from][e->rev].nxt];\n                } while(e\
+    \ != &x);\n                cur++;\n            }\n        }\n        for (int\
+    \ i = 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n               \
+    \ (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n            }\n        }\n      \
+    \  G = move(vector<vector<int>>(A.size()));\n        for (int i = 0; i < m; ++i)\
+    \ {\n            G[l[i]].emplace_back(r[i]);\n            G[r[i]].emplace_back(l[i]);\n\
+    \        }\n    }\n};\n\n/**\n * @brief \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n\
+    \ */\n"
   code: "#include \"../geometry/geometry.cpp\"\n\nclass DualGraph {\n    struct P\
     \ {\n        int to, nxt, id, id2, rev;\n        P(int to = 0, int nxt = 0, int\
     \ id = 0, int rev = 0) : to(to), nxt(nxt), id(id), rev(rev), id2(0) {};\n    \
@@ -223,32 +227,34 @@ data:
     \        vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n    \
     \        sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
     \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                if(i\
-    \ < G_[i][j].to) l[G_[i][j].id] = j;\n                else r[G_[i][j].id] = j;\n\
-    \            }\n        }\n        for (int i = 0; i < n; ++i) {\n           \
-    \ for (auto &&e : G_[i]) {\n                e.rev = (i < e.to ? r[e.id] : l[e.id]);\n\
-    \            }\n        }\n        int cur = 1;\n        A = move(vector<vector<Point>>());\n\
-    \        for (int i = 0; i < n; ++i) {\n            for (auto &&x : G_[i]) {\n\
-    \                if(x.id2) continue;\n                x.id2 = cur;\n         \
-    \       A.emplace_back();\n                A.back().emplace_back(v[i]);\n    \
-    \            auto e = &x;\n                while(e->to != i){\n              \
-    \      A.back().emplace_back(v[e->to]);\n                    e = &G_[e->to][G_[e->to][e->rev].nxt];\n\
-    \                    e->id2 = cur;\n                }\n                cur++;\n\
-    \            }\n        }\n        for (int i = 0; i < n; ++i) {\n           \
-    \ for (auto &&e : G_[i]) {\n                (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n\
-    \            }\n        }\n        G = move(vector<vector<int>>(A.size()));\n\
-    \        for (int i = 0; i < m; ++i) {\n            G[l[i]].emplace_back(r[i]);\n\
-    \            G[r[i]].emplace_back(l[i]);\n        }\n    }\n};\n\n/**\n * @brief\
-    \ \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n */"
+    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
+    \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
+    \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
+    \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
+    \ = (i < e.to ? r[e.id] : l[e.id]);\n            }\n        }\n        int cur\
+    \ = 1;\n        A = move(vector<vector<Point>>());\n        for (int i = 0; i\
+    \ < n; ++i) {\n            for (auto &&x : G_[i]) {\n                if(x.id2)\
+    \ continue;\n                A.emplace_back();\n                int from = i;\n\
+    \                auto e = &x;\n                do {\n                    A.back().emplace_back(v[from]);\n\
+    \                    e->id2 = cur;\n                    from = e->to;\n      \
+    \              e = &G_[from][G_[from][e->rev].nxt];\n                } while(e\
+    \ != &x);\n                cur++;\n            }\n        }\n        for (int\
+    \ i = 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n               \
+    \ (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n            }\n        }\n      \
+    \  G = move(vector<vector<int>>(A.size()));\n        for (int i = 0; i < m; ++i)\
+    \ {\n            G[l[i]].emplace_back(r[i]);\n            G[r[i]].emplace_back(l[i]);\n\
+    \        }\n    }\n};\n\n/**\n * @brief \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n\
+    \ */\n"
   dependsOn:
   - geometry/geometry.cpp
   isVerificationFile: false
   path: geometry/dualgraph.cpp
   requiredBy: []
-  timestamp: '2026-10-03 15:20:29+09:00'
+  timestamp: '2026-10-03 16:38:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_dualgraph.test.cpp
   - test/aoj0273.test.cpp
 documentation_of: geometry/dualgraph.cpp
 layout: document

@@ -862,30 +862,30 @@ data:
     \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
     \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
     \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                if(i\
-    \ < G_[i][j].to) l[G_[i][j].id] = j;\n                else r[G_[i][j].id] = j;\n\
-    \            }\n        }\n        for (int i = 0; i < n; ++i) {\n           \
-    \ for (auto &&e : G_[i]) {\n                e.rev = (i < e.to ? r[e.id] : l[e.id]);\n\
-    \            }\n        }\n        int cur = 1;\n        A = move(vector<vector<Point>>());\n\
-    \        for (int i = 0; i < n; ++i) {\n            for (auto &&x : G_[i]) {\n\
-    \                if(x.id2) continue;\n                x.id2 = cur;\n         \
-    \       A.emplace_back();\n                A.back().emplace_back(v[i]);\n    \
-    \            auto e = &x;\n                while(e->to != i){\n              \
-    \      A.back().emplace_back(v[e->to]);\n                    e = &G_[e->to][G_[e->to][e->rev].nxt];\n\
-    \                    e->id2 = cur;\n                }\n                cur++;\n\
-    \            }\n        }\n        for (int i = 0; i < n; ++i) {\n           \
-    \ for (auto &&e : G_[i]) {\n                (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n\
-    \            }\n        }\n        G = move(vector<vector<int>>(A.size()));\n\
-    \        for (int i = 0; i < m; ++i) {\n            G[l[i]].emplace_back(r[i]);\n\
-    \            G[r[i]].emplace_back(l[i]);\n        }\n    }\n};\n\n/**\n * @brief\
-    \ \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n */\n#line 2 \"geometry/half_plane_intersection.cpp\"\
-    \n\nnamespace internal_half_plane_intersection {\n\nstruct HalfPlane {\n    Point\
-    \ p, pq;\n    geometry_real angle;\n\n    HalfPlane() = default;\n\n    explicit\
-    \ HalfPlane(const Line &l)\n        : p(l.a), pq(l.b - l.a), angle(atan2(pq.y,\
-    \ pq.x)) {}\n\n    bool operator<(const HalfPlane &other) const {\n        if\
-    \ (fabs(angle - other.angle) > EPS) return angle < other.angle;\n        return\
-    \ cross(pq, other.p - p) < 0;\n    }\n\n    bool outside(Point r) const {\n  \
-    \      return cross(pq, r - p) < -EPS;\n    }\n};\n\nPoint intersection(const\
+    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
+    \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
+    \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
+    \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
+    \ = (i < e.to ? r[e.id] : l[e.id]);\n            }\n        }\n        int cur\
+    \ = 1;\n        A = move(vector<vector<Point>>());\n        for (int i = 0; i\
+    \ < n; ++i) {\n            for (auto &&x : G_[i]) {\n                if(x.id2)\
+    \ continue;\n                A.emplace_back();\n                int from = i;\n\
+    \                auto e = &x;\n                do {\n                    A.back().emplace_back(v[from]);\n\
+    \                    e->id2 = cur;\n                    from = e->to;\n      \
+    \              e = &G_[from][G_[from][e->rev].nxt];\n                } while(e\
+    \ != &x);\n                cur++;\n            }\n        }\n        for (int\
+    \ i = 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n               \
+    \ (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n            }\n        }\n      \
+    \  G = move(vector<vector<int>>(A.size()));\n        for (int i = 0; i < m; ++i)\
+    \ {\n            G[l[i]].emplace_back(r[i]);\n            G[r[i]].emplace_back(l[i]);\n\
+    \        }\n    }\n};\n\n/**\n * @brief \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n\
+    \ */\n#line 2 \"geometry/half_plane_intersection.cpp\"\n\nnamespace internal_half_plane_intersection\
+    \ {\n\nstruct HalfPlane {\n    Point p, pq;\n    geometry_real angle;\n\n    HalfPlane()\
+    \ = default;\n\n    explicit HalfPlane(const Line &l)\n        : p(l.a), pq(l.b\
+    \ - l.a), angle(atan2(pq.y, pq.x)) {}\n\n    bool operator<(const HalfPlane &other)\
+    \ const {\n        if (fabs(angle - other.angle) > EPS) return angle < other.angle;\n\
+    \        return cross(pq, other.p - p) < 0;\n    }\n\n    bool outside(Point r)\
+    \ const {\n        return cross(pq, r - p) < -EPS;\n    }\n};\n\nPoint intersection(const\
     \ HalfPlane &s, const HalfPlane &t) {\n    geometry_real a = cross(t.p - s.p,\
     \ t.pq) / cross(s.pq, t.pq);\n    return s.p + s.pq * a;\n}\n\nbool same_point(Point\
     \ a, Point b) {\n    return abs(a - b) < EPS;\n}\n\n}  // namespace internal_half_plane_intersection\n\
@@ -1018,7 +1018,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:22:52+09:00'
+  timestamp: '2026-10-03 16:38:16+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

@@ -13,6 +13,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_string_bytes.test.cpp
     title: test/yosupo_aplusb_string_bytes.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_xorshift.test.cpp
+    title: test/yosupo_aplusb_xorshift.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -23,30 +26,33 @@ data:
     \ << 32)-1))),\n    y(1068246329), z(321908594), w(1234567890) {};\n\n    uint32_t\
     \ urand(){\n        uint32_t t;\n        t = x ^ (x << 11);\n        x = y; y\
     \ = z; z = w;\n        w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));\n        return w;\n\
-    \    };\n\n    int rand(int n){\n        if(n < 0) return -rand(-n);\n       \
-    \ uint32_t t = numeric_limits<uint32_t>::max()/(n+1)*(n+1);\n        uint32_t\
-    \ e = urand();\n        while(e >= t) e = urand();\n        return static_cast<int>(e%(n+1));\n\
-    \    }\n\n    int rand(int a, int b){\n        if(a > b) swap(a, b);\n       \
-    \ return a+rand(b-a);\n    }\n};\n"
+    \    };\n\n    int rand(int n){\n        return rand(0, n);\n    }\n\n    int\
+    \ rand(int a, int b){\n        if(a > b) swap(a, b);\n        uint64_t width =\
+    \ int64_t(b) - int64_t(a) + 1;\n        uint64_t limit = (uint64_t(1) << 32) /\
+    \ width * width;\n        uint64_t e = urand();\n        while(e >= limit) e =\
+    \ urand();\n        return static_cast<int>(int64_t(a) + int64_t(e % width));\n\
+    \    }\n};\n"
   code: "class xor_shift {\n    uint32_t x, y, z, w;\npublic:\n    xor_shift() : x(static_cast<uint32_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
     \ << 32)-1))),\n    y(1068246329), z(321908594), w(1234567890) {};\n\n    uint32_t\
     \ urand(){\n        uint32_t t;\n        t = x ^ (x << 11);\n        x = y; y\
     \ = z; z = w;\n        w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));\n        return w;\n\
-    \    };\n\n    int rand(int n){\n        if(n < 0) return -rand(-n);\n       \
-    \ uint32_t t = numeric_limits<uint32_t>::max()/(n+1)*(n+1);\n        uint32_t\
-    \ e = urand();\n        while(e >= t) e = urand();\n        return static_cast<int>(e%(n+1));\n\
-    \    }\n\n    int rand(int a, int b){\n        if(a > b) swap(a, b);\n       \
-    \ return a+rand(b-a);\n    }\n};\n"
+    \    };\n\n    int rand(int n){\n        return rand(0, n);\n    }\n\n    int\
+    \ rand(int a, int b){\n        if(a > b) swap(a, b);\n        uint64_t width =\
+    \ int64_t(b) - int64_t(a) + 1;\n        uint64_t limit = (uint64_t(1) << 32) /\
+    \ width * width;\n        uint64_t e = urand();\n        while(e >= limit) e =\
+    \ urand();\n        return static_cast<int>(int64_t(a) + int64_t(e % width));\n\
+    \    }\n};\n"
   dependsOn: []
   isVerificationFile: false
   path: util/xorshift.cpp
   requiredBy:
   - string/rolling_hash.cpp
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-10-03 16:38:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0355.test.cpp
   - test/yosupo_aplusb_string_bytes.test.cpp
+  - test/yosupo_aplusb_xorshift.test.cpp
 date: 2018-04-28
 documentation_of: util/xorshift.cpp
 layout: document
@@ -64,7 +70,7 @@ title: Xor-Shift
 - `uint32_t urand()`
   `uint32_t` の乱数を返す
 - `int rand(int n)`
-  `0..n` の一様乱数を返す。`n < 0` なら `-n..0`
+  `0..n` の一様乱数を返す。`n < 0` なら `n..0`
 - `int rand(int a, int b)`
   `a..b` の一様乱数を返す。`a > b` でもよい
 
