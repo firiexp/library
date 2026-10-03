@@ -47,6 +47,7 @@ public:
     }
 
     void make(vector<int> &v){
+        if(v.empty()) return;
         sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b]; });
         v.erase(unique(v.begin(), v.end()), v.end());
         int k = v.size();
@@ -80,7 +81,6 @@ public:
     void clear(vector<int> &v){
         for (auto &&i : v) {
             out[i].clear();
-            out[i].shrink_to_fit();
         }
     }
 

@@ -31,6 +31,7 @@ public:
     }
 
     VirtualTree make(vector<int> vertices) {
+        if (vertices.empty()) return {-1, {}, {}};
         aux.make(vertices);
         sort(vertices.begin(), vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });
         vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());

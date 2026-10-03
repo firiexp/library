@@ -22,7 +22,7 @@ tags: 木
 - `int distance(int u, int v)`
   木上距離を返す
 - `VirtualTree make(vector<int> vertices)`
-  virtual tree を返す
+  virtual tree を返す。空集合には `root=-1` と空の `vertices`, `parent` を返す
 
 ## 使い方
 `make` の返り値は `vertices[i]` とその親 `parent[i]` を持つ。

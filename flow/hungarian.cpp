@@ -6,13 +6,6 @@ tuple<T, vector<int>, vector<T>, vector<T>> hungarian(const vector<vector<T>> &c
     assert(n <= m);
     for (int i = 0; i < n; ++i) assert((int)cost[i].size() == m);
 
-    vector<vector<T>> a(n + 1, vector<T>(m + 1));
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < m; ++j) {
-            a[i + 1][j + 1] = Minimize ? cost[i][j] : -cost[i][j];
-        }
-    }
-
     vector<int> p(m + 1), way(m + 1);
     vector<T> u(n + 1), v(m + 1), minv(m + 1);
     vector<char> used(m + 1);
@@ -28,7 +21,7 @@ tuple<T, vector<int>, vector<T>, vector<T>> hungarian(const vector<vector<T>> &c
             T delta = numeric_limits<T>::max();
             for (int j = 1; j <= m; ++j) {
                 if (used[j]) continue;
-                T cur = a[i0][j] - u[i0] - v[j];
+                T cur = (Minimize ? cost[i0 - 1][j - 1] : -cost[i0 - 1][j - 1]) - u[i0] - v[j];
                 if (cur < minv[j]) {
                     minv[j] = cur;
                     way[j] = j0;
@@ -69,7 +62,7 @@ tuple<T, vector<int>, vector<T>, vector<T>> hungarian(const vector<vector<T>> &c
         for (int i = 0; i < n; ++i) row[i] = -row[i];
         for (int j = 0; j < m; ++j) col[j] = -col[j];
     }
-    return {ans, match, row, col};
+    return {ans, std::move(match), std::move(row), std::move(col)};
 }
 
 /**

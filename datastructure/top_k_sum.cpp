@@ -33,18 +33,14 @@ private:
 
     void move_selected_to_other() {
         auto it = selected_boundary();
-        T x = *it;
-        selected_.erase(it);
-        selected_sum_ -= (SumT)x;
-        other_.insert(x);
+        selected_sum_ -= (SumT)*it;
+        other_.insert(selected_.extract(it));
     }
 
     void move_other_to_selected() {
         auto it = other_best();
-        T x = *it;
-        other_.erase(it);
-        selected_.insert(x);
-        selected_sum_ += (SumT)x;
+        selected_sum_ += (SumT)*it;
+        selected_.insert(other_.extract(it));
     }
 
     void rebalance() {
@@ -57,10 +53,9 @@ private:
             T s = *sit;
             T o = *oit;
             if (!selected_before(o, s)) break;
-            selected_.erase(sit);
-            other_.erase(oit);
-            selected_.insert(o);
-            other_.insert(s);
+            auto node = selected_.extract(sit);
+            selected_.insert(other_.extract(oit));
+            other_.insert(std::move(node));
             selected_sum_ += (SumT)o - (SumT)s;
         }
     }

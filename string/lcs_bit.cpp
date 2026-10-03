@@ -1,4 +1,6 @@
-int LCS_bit(string &s, string &t){
+int LCS_bit(string &a, string &b){
+    const string &s = a.size() >= b.size() ? a : b;
+    const string &t = a.size() >= b.size() ? b : a;
     const int n = s.size(), m = t.size(), bit_sz = (m+63)>>6;
     if(n == 0 || m == 0) return 0;
     vector<vector<ull>> p(256, vector<ull>(bit_sz, 0));

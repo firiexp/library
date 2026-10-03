@@ -15,15 +15,16 @@ vector<T> bellman_ford(int s, int N,vector<edge<T> > &G){
     vector<bool> negative(N);
     dist[s] = 0;
     for (int i = 0; i < N - 1; ++ i) {
+        bool updated = false;
         for (auto &&e : G) {
             if(dist[e.from] == INF<T>) continue;
             if(dist[e.to] > dist[e.from]+ e.cost){
                 dist[e.to] = dist[e.from]+ e.cost;
+                updated = true;
             }
         }
+        if (!updated) return dist;
     }
- 
-    ll ans = dist[N - 1];
  
     for (int i = 0; i < N ; ++i) {
         for (auto &&e : G) {
