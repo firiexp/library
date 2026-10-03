@@ -8,6 +8,9 @@ data:
     title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hld_subtree.test.cpp
+    title: test/yosupo_aplusb_hld_subtree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - icon: ':heavy_check_mark:'
@@ -85,10 +88,10 @@ data:
     \        return f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL,\
     \ typename QR, typename F>\n    T path_query_ordered(int u, int v, const T &e,\
     \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
-    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename\
-    \ Q>\n    T subtree_query(int v, const Q &q, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief\
-    \ HL\u5206\u89E3(HL Decomposition)\n */\n"
+    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n\
+    \    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){\n   \
+    \     auto [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n\
+    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n"
   code: "\nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy\
     \ = -1;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
     \            par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n      \
@@ -146,16 +149,16 @@ data:
     \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
     \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
     \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
-    \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
-    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
+    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
+    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
+    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
     \u89E3(HL Decomposition)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/hld.cpp
   requiredBy:
   - tree/hld_edge.cpp
-  timestamp: '2026-03-13 21:29:59+09:00'
+  timestamp: '2026-10-03 12:24:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki650_hld_edge.test.cpp
@@ -163,6 +166,7 @@ data:
   - test/yuki1326_block_cut_tree.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+  - test/yosupo_aplusb_hld_subtree.test.cpp
 date: 2019-10-10
 documentation_of: tree/hld.cpp
 layout: document
@@ -199,8 +203,8 @@ title: "HL\u5206\u89E3(HL Decomposition)"
   非可換向け順序付きパスクエリ
 - `void apply_subtree(int v, F f, bool edge = false)`
   部分木区間へ `f(l, r)` を呼ぶ
-- `T subtree_query(int v, Q q, bool edge = false)`
-  部分木区間クエリ
+- `subtree_query(int v, Q q, bool edge = false)`
+  `v` の部分木クエリ。戻り値の型は `q` から推論する
 
 ## 使い方
 `id[v]` を頂点 `v` の 1 次元位置としてセグ木や BIT に載せる。

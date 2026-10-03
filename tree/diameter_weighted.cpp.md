@@ -51,6 +51,7 @@ title: "\u6728\u306E\u76F4\u5F84(\u91CD\u307F\u4ED8\u304D)"
 ---
 ## 説明
 重み付き木の直径長とその両端点を $O(N)$ で求める。
+辺重みは非負とする。
 
 ## できること
 - `pair<T, pair<int, int>> tree_diameter_weighted(const vector<vector<pair<int, T>>> &g)`
@@ -73,4 +74,4 @@ int t = ends.second;
 
 ## 実装上の補足
 任意の頂点から最遠点 `s` を取り、さらに `s` から最遠点を取る 2 回 DFS で求める。
-木を仮定しているので、連結で閉路のないグラフに対して使う。
+連結で閉路がなく、辺重みが非負のグラフに対して使う。

@@ -101,6 +101,9 @@ data:
     path: test/yosupo_aplusb_binarytrie.test.cpp
     title: test/yosupo_aplusb_binarytrie.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_comb_table.test.cpp
+    title: test/yosupo_aplusb_comb_table.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dsu_on_tree.test.cpp
     title: test/yosupo_aplusb_dsu_on_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -112,6 +115,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hld_subtree.test.cpp
+    title: test/yosupo_aplusb_hld_subtree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_is_palindrome.test.cpp
     title: test/yosupo_aplusb_is_palindrome.test.cpp
@@ -127,6 +133,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_palindromic_tree.test.cpp
     title: test/yosupo_aplusb_palindromic_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
+    title: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_bitset.test.cpp
     title: test/yosupo_aplusb_static_bitset.test.cpp
@@ -916,6 +925,7 @@ data:
   - test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   - test/yosupo_aplusb_dsu_on_tree.test.cpp
   - test/yosupo_matrix_rank.test.cpp
+  - test/yosupo_aplusb_segmenttree_boundaries.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_matrix_det.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp
@@ -976,6 +986,7 @@ data:
   - test/yosupo_aplusb_top_k_sum.test.cpp
   - test/yosupo_line_add_get_min.test.cpp
   - test/yosupo_aplusb_dynamic_bitset.test.cpp
+  - test/yosupo_aplusb_comb_table.test.cpp
   - test/yosupo_aplusb_is_palindrome.test.cpp
   - test/yosupo_enumerate_palindromes_manacher.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
@@ -1017,6 +1028,7 @@ data:
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/aoj_dsl_2_b.test.cpp
+  - test/yosupo_aplusb_hld_subtree.test.cpp
   - test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   - test/yosupo_lca.test.cpp

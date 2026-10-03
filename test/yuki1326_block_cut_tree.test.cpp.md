@@ -351,10 +351,10 @@ data:
     \        return f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL,\
     \ typename QR, typename F>\n    T path_query_ordered(int u, int v, const T &e,\
     \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
-    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename\
-    \ Q>\n    T subtree_query(int v, const Q &q, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief\
-    \ HL\u5206\u89E3(HL Decomposition)\n */\n#line 15 \"test/yuki1326_block_cut_tree.test.cpp\"\
+    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n\
+    \    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){\n   \
+    \     auto [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n\
+    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n#line 15 \"test/yuki1326_block_cut_tree.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n\n    BlockCutTree g(n);\n    for (int i = 0; i < m; ++i) {\n        int\
     \ u, v;\n        sc.read(u, v);\n        --u, --v;\n        g.add_edge(u, v);\n\
@@ -393,7 +393,7 @@ data:
   isVerificationFile: true
   path: test/yuki1326_block_cut_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 12:24:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki1326_block_cut_tree.test.cpp

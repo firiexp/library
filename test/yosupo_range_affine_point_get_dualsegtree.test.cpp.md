@@ -271,24 +271,24 @@ data:
     \        lazy[(k<<1)|0] = M::f(lazy[(k<<1)|0], lazy[k]);\n        lazy[(k<<1)|1]\
     \ = M::f(lazy[(k<<1)|1], lazy[k]);\n        lazy[k] = M::e();\n    }\n    void\
     \ thrust(int k){ for (int i = height; i; --i) eval(k>>i); }\n    void update(int\
-    \ a, int b, const T &x){\n        thrust(a += sz); thrust(b += sz-1);\n      \
-    \  for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {\n            if(l&1) lazy[l]\
-    \ = M::f(lazy[l], x), l++;\n            if(r&1) --r, lazy[r] = M::f(lazy[r], x);\n\
-    \        }\n    }\n\n    T operator[](int k){\n        thrust(k += sz);\n    \
-    \    return lazy[k];\n    }\n};\n/*\nstruct Monoid{\n    using T = ll;\n    static\
-    \ T f(T a, T b) { return a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n\
-    \ * @brief \u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)\n\
-    \ */\n#line 20 \"test/yosupo_range_affine_point_get_dualsegtree.test.cpp\"\n\n\
-    struct Monoid {\n    using T = pair<mint, mint>;\n    static T f(T a, T b) {\n\
-    \        return {b.first * a.first, b.first * a.second + b.second};\n    }\n \
-    \   static T e() { return {1, 0}; }\n};\n\nint main() {\n    Scanner sc;\n   \
-    \ Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<mint> a(n);\n \
-    \   for (int i = 0; i < n; ++i) {\n        int x;\n        sc.read(x);\n     \
-    \   a[i] = x;\n    }\n\n    DualSegmentTree<Monoid> seg(n);\n    while (q--) {\n\
-    \        int t;\n        sc.read(t);\n        if (t == 0) {\n            int l,\
-    \ r, b, c;\n            sc.read(l, r, b, c);\n            seg.update(l, r, {b,\
-    \ c});\n        } else {\n            int i;\n            sc.read(i);\n      \
-    \      auto [mul, add] = seg[i];\n            pr.println((mul * a[i] + add).val);\n\
+    \ a, int b, const T &x){\n        if(a == b) return;\n        thrust(a += sz);\
+    \ thrust(b += sz-1);\n        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1)\
+    \ {\n            if(l&1) lazy[l] = M::f(lazy[l], x), l++;\n            if(r&1)\
+    \ --r, lazy[r] = M::f(lazy[r], x);\n        }\n    }\n\n    T operator[](int k){\n\
+    \        thrust(k += sz);\n        return lazy[k];\n    }\n};\n/*\nstruct Monoid{\n\
+    \    using T = ll;\n    static T f(T a, T b) { return a+b; }\n    static T e()\
+    \ { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\
+    \u30C8\u6728(Dual Segment Tree)\n */\n#line 20 \"test/yosupo_range_affine_point_get_dualsegtree.test.cpp\"\
+    \n\nstruct Monoid {\n    using T = pair<mint, mint>;\n    static T f(T a, T b)\
+    \ {\n        return {b.first * a.first, b.first * a.second + b.second};\n    }\n\
+    \    static T e() { return {1, 0}; }\n};\n\nint main() {\n    Scanner sc;\n  \
+    \  Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<mint> a(n);\n\
+    \    for (int i = 0; i < n; ++i) {\n        int x;\n        sc.read(x);\n    \
+    \    a[i] = x;\n    }\n\n    DualSegmentTree<Monoid> seg(n);\n    while (q--)\
+    \ {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n            int\
+    \ l, r, b, c;\n            sc.read(l, r, b, c);\n            seg.update(l, r,\
+    \ {b, c});\n        } else {\n            int i;\n            sc.read(i);\n  \
+    \          auto [mul, add] = seg[i];\n            pr.println((mul * a[i] + add).val);\n\
     \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_affine_point_get\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
@@ -314,7 +314,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 12:23:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_point_get_dualsegtree.test.cpp

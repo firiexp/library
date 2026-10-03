@@ -248,33 +248,34 @@ data:
     \ thrust(int k){ for (int i = height; i; --i) eval(k>>i); }\n    void recalc(int\
     \ k) { while(k >>= 1) seg[k] = M::f(reflect((k<<1)|0), reflect((k<<1)|1));}\n\n\
     \    void update(int a, const T &x){\n        thrust(a += sz);\n        seg[a]\
-    \ = x;\n        recalc(a);\n    }\n\n    void update(int a, int b, const L &x){\n\
-    \        thrust(a += sz); thrust(b += sz-1);\n        for (int l = a, r = b+1;l\
-    \ < r; l >>=1, r >>= 1) {\n            if(l&1) lazy[l] = M::h(lazy[l], x), l++;\n\
-    \            if(r&1) --r, lazy[r] = M::h(lazy[r], x);\n        }\n        recalc(a);\n\
-    \        recalc(b);\n    }\n\n    T query(int a, int b){ // [l, r)\n        thrust(a\
-    \ += sz);\n        thrust(b += sz-1);\n        T ll = M::e(), rr = M::e();\n \
-    \       for(int l = a, r = b+1; l < r; l >>=1, r>>=1) {\n            if (l & 1)\
-    \ ll = M::f(ll, reflect(l++));\n            if (r & 1) rr = M::f(reflect(--r),\
-    \ rr);\n        }\n        return M::f(ll, rr);\n    }\n\n    template<class F>\n\
-    \    int search_right(int l, F cond){\n        if(l == n) return n;\n        thrust(l\
-    \ += sz);\n        T val = M::e();\n        do {\n            while(!(l&1)) l\
-    \ >>= 1;\n            if(!cond(M::f(val, seg[l]))){\n                while(l <\
-    \ sz) {\n                    eval(l); l <<= 1;\n                    if (cond(M::f(val,\
-    \ reflect(l)))){\n                        val = M::f(val, reflect(l++));\n   \
-    \                 }\n                }\n                return l - sz;\n     \
-    \       }\n            val = M::f(val, reflect(l++));\n        } while((l & -l)\
-    \ != l);\n        return n;\n    }\n\n    template<class F>\n    int search_left(int\
-    \ r, F cond){\n        if(r <= 0) return 0;\n        thrust((r += sz)-1);\n  \
-    \      T val = M::e();\n        do {\n            r--;\n            while(r >\
-    \ 1 && r&1) r >>= 1;\n            if(!cond(M::f(reflect(r), val))){\n        \
-    \        while(r < sz) {\n                    eval(r);\n                    r\
-    \ = ((r << 1)|1);\n                    if (cond(M::f(reflect(r), val))){\n   \
-    \                     val = M::f(reflect(r--), val);\n                    }\n\
-    \                }\n                return r + 1 - sz;\n            }\n      \
-    \      val = M::f(reflect(r), val);\n        } while((r & -r) != r);\n       \
-    \ return 0;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
-    \    using L = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]+b[0],\
+    \ = x;\n        lazy[a] = M::l();\n        recalc(a);\n    }\n\n    void update(int\
+    \ a, int b, const L &x){\n        if(a == b) return;\n        thrust(a += sz);\
+    \ thrust(b += sz-1);\n        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1)\
+    \ {\n            if(l&1) lazy[l] = M::h(lazy[l], x), l++;\n            if(r&1)\
+    \ --r, lazy[r] = M::h(lazy[r], x);\n        }\n        recalc(a);\n        recalc(b);\n\
+    \    }\n\n    T query(int a, int b){ // [l, r)\n        if(a == b) return M::e();\n\
+    \        thrust(a += sz);\n        thrust(b += sz-1);\n        T ll = M::e(),\
+    \ rr = M::e();\n        for(int l = a, r = b+1; l < r; l >>=1, r>>=1) {\n    \
+    \        if (l & 1) ll = M::f(ll, reflect(l++));\n            if (r & 1) rr =\
+    \ M::f(reflect(--r), rr);\n        }\n        return M::f(ll, rr);\n    }\n\n\
+    \    template<class F>\n    int search_right(int l, F cond){\n        if(l ==\
+    \ n) return n;\n        thrust(l += sz);\n        T val = M::e();\n        do\
+    \ {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val, reflect(l)))){\n\
+    \                while(l < sz) {\n                    eval(l); l <<= 1;\n    \
+    \                if (cond(M::f(val, reflect(l)))){\n                        val\
+    \ = M::f(val, reflect(l++));\n                    }\n                }\n     \
+    \           return l - sz;\n            }\n            val = M::f(val, reflect(l++));\n\
+    \        } while((l & -l) != l);\n        return n;\n    }\n\n    template<class\
+    \ F>\n    int search_left(int r, F cond){\n        if(r <= 0) return 0;\n    \
+    \    thrust((r += sz)-1);\n        T val = M::e();\n        do {\n           \
+    \ r--;\n            while(r > 1 && r&1) r >>= 1;\n            if(!cond(M::f(reflect(r),\
+    \ val))){\n                while(r < sz) {\n                    eval(r);\n   \
+    \                 r = ((r << 1)|1);\n                    if (cond(M::f(reflect(r),\
+    \ val))){\n                        val = M::f(reflect(r--), val);\n          \
+    \          }\n                }\n                return r + 1 - sz;\n        \
+    \    }\n            val = M::f(reflect(r), val);\n        } while((r & -r) !=\
+    \ r);\n        return 0;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = array<mint,\
+    \ 2>;\n    using L = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]+b[0],\
     \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
     \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
     \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
@@ -350,7 +351,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 12:23:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_range_sum.test.cpp

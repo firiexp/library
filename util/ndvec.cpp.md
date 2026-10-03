@@ -24,11 +24,12 @@ data:
     \        static_assert(sizeof...(Idx) == N);\n        array<long long, N> id{static_cast<long\
     \ long>(idx)...};\n        long long p = 0;\n        for (size_t i = 0; i < N;\
     \ ++i) p += id[i] * stride[i];\n        return p;\n    }\n\n    template <class...\
-    \ Idx>\n    T &operator()(Idx... idx) {\n        return data[index(idx...)];\n\
-    \    }\n\n    template <class... Idx>\n    const T &operator()(Idx... idx) const\
-    \ {\n        return data[index(idx...)];\n    }\n\n    void fill(const T &value)\
-    \ {\n        std::fill(data.begin(), data.end(), value);\n    }\n};\n\n/**\n *\
-    \ @brief \u591A\u6B21\u5143\u914D\u5217(NdVec)\n */\n"
+    \ Idx>\n    typename vector<T>::reference operator()(Idx... idx) {\n        return\
+    \ data[index(idx...)];\n    }\n\n    template <class... Idx>\n    typename vector<T>::const_reference\
+    \ operator()(Idx... idx) const {\n        return data[index(idx...)];\n    }\n\
+    \n    void fill(const T &value) {\n        std::fill(data.begin(), data.end(),\
+    \ value);\n    }\n};\n\n/**\n * @brief \u591A\u6B21\u5143\u914D\u5217(NdVec)\n\
+    \ */\n"
   code: "template <class T, size_t N>\nstruct NdVec {\n    array<int, N> dim{};\n\
     \    array<long long, N> stride{};\n    vector<T> data;\n\n    NdVec() = default;\n\
     \n    NdVec(array<int, N> dim_, const T &init = T()) : dim(dim_) {\n        long\
@@ -39,17 +40,17 @@ data:
     \ <class... Idx>\n    long long index(Idx... idx) const {\n        static_assert(sizeof...(Idx)\
     \ == N);\n        array<long long, N> id{static_cast<long long>(idx)...};\n  \
     \      long long p = 0;\n        for (size_t i = 0; i < N; ++i) p += id[i] * stride[i];\n\
-    \        return p;\n    }\n\n    template <class... Idx>\n    T &operator()(Idx...\
-    \ idx) {\n        return data[index(idx...)];\n    }\n\n    template <class...\
-    \ Idx>\n    const T &operator()(Idx... idx) const {\n        return data[index(idx...)];\n\
-    \    }\n\n    void fill(const T &value) {\n        std::fill(data.begin(), data.end(),\
-    \ value);\n    }\n};\n\n/**\n * @brief \u591A\u6B21\u5143\u914D\u5217(NdVec)\n\
-    \ */\n"
+    \        return p;\n    }\n\n    template <class... Idx>\n    typename vector<T>::reference\
+    \ operator()(Idx... idx) {\n        return data[index(idx...)];\n    }\n\n   \
+    \ template <class... Idx>\n    typename vector<T>::const_reference operator()(Idx...\
+    \ idx) const {\n        return data[index(idx...)];\n    }\n\n    void fill(const\
+    \ T &value) {\n        std::fill(data.begin(), data.end(), value);\n    }\n};\n\
+    \n/**\n * @brief \u591A\u6B21\u5143\u914D\u5217(NdVec)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/ndvec.cpp
   requiredBy: []
-  timestamp: '2026-04-11 16:39:45+09:00'
+  timestamp: '2026-10-03 12:24:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_ndvec.test.cpp

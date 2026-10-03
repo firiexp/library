@@ -8,6 +8,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hld_subtree.test.cpp
+    title: test/yosupo_aplusb_hld_subtree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: false
@@ -73,12 +76,12 @@ data:
     \        return f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL,\
     \ typename QR, typename F>\n    T path_query_ordered(int u, int v, const T &e,\
     \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
-    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename\
-    \ Q>\n    T subtree_query(int v, const Q &q, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief\
-    \ HL\u5206\u89E3(HL Decomposition)\n */\n#line 2 \"tree/hld_edge.cpp\"\n\nstruct\
-    \ HeavyLightDecompositionEdge {\n    HeavyLightDecomposition hld;\n\n    explicit\
-    \ HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
+    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n\
+    \    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){\n   \
+    \     auto [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n\
+    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n#line 2 \"tree/hld_edge.cpp\"\
+    \n\nstruct HeavyLightDecompositionEdge {\n    HeavyLightDecomposition hld;\n\n\
+    \    explicit HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
     \ &g) : hld(g) {}\n\n    void add_edge(int u, int v) {\n        hld.add_edge(u,\
     \ v);\n    }\n\n    void build(vector<int> roots = {0}) {\n        hld.build(roots);\n\
     \    }\n\n    int lca(int u, int v) {\n        return hld.lca(u, v);\n    }\n\n\
@@ -95,10 +98,9 @@ data:
     \ F &f) {\n        return hld.path_query(u, v, e, q, f, true);\n    }\n\n    template<typename\
     \ T, typename QL, typename QR, typename F>\n    T path_query_ordered(int u, int\
     \ v, const T &e, const QL &ql, const QR &qr, const F &f) {\n        return hld.path_query_ordered(u,\
-    \ v, e, ql, qr, f, true);\n    }\n\n    template<typename T, typename Q>\n   \
-    \ T subtree_query(int v, const Q &q) {\n        return hld.subtree_query<T>(v,\
-    \ q, true);\n    }\n};\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA\
-    )\n */\n"
+    \ v, e, ql, qr, f, true);\n    }\n\n    template<typename Q>\n    decltype(auto)\
+    \ subtree_query(int v, const Q &q) {\n        return hld.subtree_query(v, q, true);\n\
+    \    }\n};\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)\n */\n"
   code: "#include \"hld.cpp\"\n\nstruct HeavyLightDecompositionEdge {\n    HeavyLightDecomposition\
     \ hld;\n\n    explicit HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit\
     \ HeavyLightDecompositionEdge(vector<vector<int>> &g) : hld(g) {}\n\n    void\
@@ -118,18 +120,19 @@ data:
     \ v, e, q, f, true);\n    }\n\n    template<typename T, typename QL, typename\
     \ QR, typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL\
     \ &ql, const QR &qr, const F &f) {\n        return hld.path_query_ordered(u, v,\
-    \ e, ql, qr, f, true);\n    }\n\n    template<typename T, typename Q>\n    T subtree_query(int\
-    \ v, const Q &q) {\n        return hld.subtree_query<T>(v, q, true);\n    }\n\
-    };\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)\n */\n"
+    \ e, ql, qr, f, true);\n    }\n\n    template<typename Q>\n    decltype(auto)\
+    \ subtree_query(int v, const Q &q) {\n        return hld.subtree_query(v, q, true);\n\
+    \    }\n};\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)\n */\n"
   dependsOn:
   - tree/hld.cpp
   isVerificationFile: false
   path: tree/hld_edge.cpp
   requiredBy: []
-  timestamp: '2026-03-13 21:29:59+09:00'
+  timestamp: '2026-10-03 12:24:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki650_hld_edge.test.cpp
+  - test/yosupo_aplusb_hld_subtree.test.cpp
 date: 2026-03-08
 documentation_of: tree/hld_edge.cpp
 layout: document
@@ -161,8 +164,8 @@ title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
   非可換向け順序付き辺パスクエリ
 - `void apply_subtree(int v, F f)`
   部分木の辺区間へ `f(l, r)` を呼ぶ
-- `T subtree_query(int v, Q q)`
-  部分木の辺区間クエリ
+- `subtree_query(int v, Q q)`
+  `v` の部分木の辺クエリ。戻り値の型は `q` から推論する
 
 ## 使い方
 各辺の値は子頂点側に置く。

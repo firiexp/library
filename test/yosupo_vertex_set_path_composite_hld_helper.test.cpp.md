@@ -326,9 +326,9 @@ data:
     \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
     \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
     \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
-    \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
-    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
+    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
+    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
+    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
     \u89E3(HL Decomposition)\n */\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
     \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
     \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
@@ -350,22 +350,22 @@ data:
     \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
     \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
     \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r&1) r >>= 1;\n     \
-    \       if(!cond(M::f(seg[r], val))){\n                while(r < sz) {\n     \
-    \               r = ((r << 1)|1);\n                    if (cond(M::f(seg[r], val))){\n\
-    \                        val = M::f(seg[r], val);\n                        r--;\n\
-    \                    }\n                }\n                return r + 1 - sz;\n\
-    \            }\n            val = M::f(seg[r], val);\n        } while((r & -r)\
-    \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
-    \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
-    \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line\
-    \ 24 \"test/yosupo_vertex_set_path_composite_hld_helper.test.cpp\"\n\nstruct Ml\
-    \ {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return {a[0] *\
-    \ b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n};\n\nstruct\
-    \ Mr {\n    using T = array<mint, 2>;\n    static T f(T b, T a) { return {a[0]\
-    \ * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n};\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
+    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
+    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
+    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
+    \ val))){\n                        val = M::f(seg[r], val);\n                \
+    \        r--;\n                    }\n                }\n                return\
+    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
+    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
+    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
+    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
+    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
+    \ */\n#line 24 \"test/yosupo_vertex_set_path_composite_hld_helper.test.cpp\"\n\
+    \nstruct Ml {\n    using T = array<mint, 2>;\n    static T f(T a, T b) { return\
+    \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
+    };\n\nstruct Mr {\n    using T = array<mint, 2>;\n    static T f(T b, T a) { return\
+    \ {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0}; }\n\
+    };\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
     \ q);\n    HeavyLightDecomposition hld(n);\n    SegmentTree<Ml> segl(n);\n   \
     \ SegmentTree<Mr> segr(n);\n\n    vector<int> a(n), b(n);\n    for (int i = 0;\
     \ i < n; ++i) sc.read(a[i], b[i]);\n    for (int i = 0; i < n - 1; ++i) {\n  \
@@ -417,7 +417,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 12:24:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp

@@ -238,33 +238,34 @@ data:
     \ <class... Idx>\n    long long index(Idx... idx) const {\n        static_assert(sizeof...(Idx)\
     \ == N);\n        array<long long, N> id{static_cast<long long>(idx)...};\n  \
     \      long long p = 0;\n        for (size_t i = 0; i < N; ++i) p += id[i] * stride[i];\n\
-    \        return p;\n    }\n\n    template <class... Idx>\n    T &operator()(Idx...\
-    \ idx) {\n        return data[index(idx...)];\n    }\n\n    template <class...\
-    \ Idx>\n    const T &operator()(Idx... idx) const {\n        return data[index(idx...)];\n\
-    \    }\n\n    void fill(const T &value) {\n        std::fill(data.begin(), data.end(),\
-    \ value);\n    }\n};\n\n/**\n * @brief \u591A\u6B21\u5143\u914D\u5217(NdVec)\n\
-    \ */\n#line 18 \"test/yosupo_aplusb_ndvec.test.cpp\"\n\ntemplate <size_t N>\n\
-    long long brute_index(const array<int, N> &dim, const array<int, N> &idx) {\n\
-    \    long long p = 0;\n    for (size_t i = 0; i < N; ++i) {\n        p *= dim[i];\n\
-    \        p += idx[i];\n    }\n    return p;\n}\n\nvoid deterministic_check() {\n\
-    \    NdVec<int, 1> a({5}, -1);\n    assert(a.size() == 5);\n    for (int i = 0;\
-    \ i < 5; ++i) {\n        assert(a(i) == -1);\n        a(i) = i * i;\n        assert(a.index(i)\
-    \ == i);\n    }\n    for (int i = 0; i < 5; ++i) assert(a.data[i] == i * i);\n\
-    \    a.fill(7);\n    for (int i = 0; i < 5; ++i) assert(a(i) == 7);\n\n    NdVec<long\
-    \ long, 3> b({2, 3, 4}, -1);\n    assert(b.size() == 24);\n    assert((b.stride\
-    \ == array<long long, 3>{12, 4, 1}));\n    for (int i = 0; i < 2; ++i) {\n   \
-    \     for (int j = 0; j < 3; ++j) {\n            for (int k = 0; k < 4; ++k) {\n\
-    \                long long value = 100 * i + 10 * j + k;\n                b(i,\
-    \ j, k) = value;\n                assert(b.index(i, j, k) == brute_index<3>({2,\
-    \ 3, 4}, {i, j, k}));\n            }\n        }\n    }\n    for (int i = 0; i\
-    \ < 2; ++i) {\n        for (int j = 0; j < 3; ++j) {\n            for (int k =\
-    \ 0; k < 4; ++k) {\n                assert(b(i, j, k) == 100 * i + 10 * j + k);\n\
-    \            }\n        }\n    }\n\n    const NdVec<long long, 3> c = b;\n   \
-    \ for (int i = 0; i < 2; ++i) {\n        for (int j = 0; j < 3; ++j) {\n     \
-    \       for (int k = 0; k < 4; ++k) {\n                assert(c(i, j, k) == 100\
-    \ * i + 10 * j + k);\n            }\n        }\n    }\n\n    NdVec<int, 4> zero({0,\
-    \ 2, 3, 4}, 9);\n    assert(zero.size() == 0);\n    assert(zero.data.empty());\n\
-    \n    NdVec<int, 0> scalar({}, 5);\n    assert(scalar.size() == 1);\n    assert(scalar.index()\
+    \        return p;\n    }\n\n    template <class... Idx>\n    typename vector<T>::reference\
+    \ operator()(Idx... idx) {\n        return data[index(idx...)];\n    }\n\n   \
+    \ template <class... Idx>\n    typename vector<T>::const_reference operator()(Idx...\
+    \ idx) const {\n        return data[index(idx...)];\n    }\n\n    void fill(const\
+    \ T &value) {\n        std::fill(data.begin(), data.end(), value);\n    }\n};\n\
+    \n/**\n * @brief \u591A\u6B21\u5143\u914D\u5217(NdVec)\n */\n#line 18 \"test/yosupo_aplusb_ndvec.test.cpp\"\
+    \n\ntemplate <size_t N>\nlong long brute_index(const array<int, N> &dim, const\
+    \ array<int, N> &idx) {\n    long long p = 0;\n    for (size_t i = 0; i < N; ++i)\
+    \ {\n        p *= dim[i];\n        p += idx[i];\n    }\n    return p;\n}\n\nvoid\
+    \ deterministic_check() {\n    NdVec<int, 1> a({5}, -1);\n    assert(a.size()\
+    \ == 5);\n    for (int i = 0; i < 5; ++i) {\n        assert(a(i) == -1);\n   \
+    \     a(i) = i * i;\n        assert(a.index(i) == i);\n    }\n    for (int i =\
+    \ 0; i < 5; ++i) assert(a.data[i] == i * i);\n    a.fill(7);\n    for (int i =\
+    \ 0; i < 5; ++i) assert(a(i) == 7);\n\n    NdVec<long long, 3> b({2, 3, 4}, -1);\n\
+    \    assert(b.size() == 24);\n    assert((b.stride == array<long long, 3>{12,\
+    \ 4, 1}));\n    for (int i = 0; i < 2; ++i) {\n        for (int j = 0; j < 3;\
+    \ ++j) {\n            for (int k = 0; k < 4; ++k) {\n                long long\
+    \ value = 100 * i + 10 * j + k;\n                b(i, j, k) = value;\n       \
+    \         assert(b.index(i, j, k) == brute_index<3>({2, 3, 4}, {i, j, k}));\n\
+    \            }\n        }\n    }\n    for (int i = 0; i < 2; ++i) {\n        for\
+    \ (int j = 0; j < 3; ++j) {\n            for (int k = 0; k < 4; ++k) {\n     \
+    \           assert(b(i, j, k) == 100 * i + 10 * j + k);\n            }\n     \
+    \   }\n    }\n\n    const NdVec<long long, 3> c = b;\n    for (int i = 0; i <\
+    \ 2; ++i) {\n        for (int j = 0; j < 3; ++j) {\n            for (int k = 0;\
+    \ k < 4; ++k) {\n                assert(c(i, j, k) == 100 * i + 10 * j + k);\n\
+    \            }\n        }\n    }\n\n    NdVec<int, 4> zero({0, 2, 3, 4}, 9);\n\
+    \    assert(zero.size() == 0);\n    assert(zero.data.empty());\n\n    NdVec<int,\
+    \ 0> scalar({}, 5);\n    assert(scalar.size() == 1);\n    assert(scalar.index()\
     \ == 0);\n    assert(scalar() == 5);\n    scalar() = 8;\n    assert(scalar() ==\
     \ 8);\n}\n\nvoid random_check() {\n    mt19937 rng(0);\n    for (int tc = 0; tc\
     \ < 200; ++tc) {\n        array<int, 4> dim;\n        for (int i = 0; i < 4; ++i)\
@@ -284,9 +285,25 @@ data:
     \ m = 0; m < dim[4]; ++m) {\n                        array<int, 5> idx = {i, j,\
     \ k, l, m};\n                        assert(a(i, j, k, l, m) == brute_index(dim,\
     \ idx));\n                    }\n                }\n            }\n        }\n\
-    \    }\n}\n\nint main() {\n    deterministic_check();\n    random_check();\n\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
+    \    }\n}\n\nvoid reference_check() {\n    NdVec<int, 2> a({2, 3}, 0);\n    const\
+    \ auto &ca = a;\n    static_assert(is_same_v<decltype(a(1, 2)), int &>);\n   \
+    \ static_assert(is_same_v<decltype(ca(1, 2)), const int &>);\n    assert(&a(1,\
+    \ 2) == &a.data[5]);\n    assert(&ca(1, 2) == &a.data[5]);\n\n    NdVec<bool,\
+    \ 2> b({2, 3}, false);\n    const auto &cb = b;\n    static_assert(is_same_v<decltype(b(1,\
+    \ 2)), vector<bool>::reference>);\n    static_assert(is_same_v<decltype(cb(1,\
+    \ 2)), vector<bool>::const_reference>);\n    b(1, 2) = true;\n    assert(cb(1,\
+    \ 2) && !cb(0, 0));\n    b.fill(true);\n    for (int i = 0; i < 2; ++i)\n    \
+    \    for (int j = 0; j < 3; ++j) assert(cb(i, j));\n    b.fill(false);\n    for\
+    \ (int i = 0; i < 2; ++i)\n        for (int j = 0; j < 3; ++j) assert(!cb(i, j));\n\
+    \n    NdVec<bool, 3> c({2, 3, 4}, false);\n    const auto &cc = c;\n    for (int\
+    \ i = 0; i < 2; ++i)\n        for (int j = 0; j < 3; ++j)\n            for (int\
+    \ k = 0; k < 4; ++k) c(i, j, k) = (i + j + k) % 2;\n    for (int i = 0; i < 2;\
+    \ ++i)\n        for (int j = 0; j < 3; ++j)\n            for (int k = 0; k < 4;\
+    \ ++k) assert(cc(i, j, k) == bool((i + j + k) % 2));\n    c.fill(true);\n    for\
+    \ (int i = 0; i < 2; ++i)\n        for (int j = 0; j < 3; ++j)\n            for\
+    \ (int k = 0; k < 4; ++k) assert(cc(i, j, k));\n}\n\nint main() {\n    deterministic_check();\n\
+    \    random_check();\n    reference_check();\n\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
     #include <array>\n#include <cassert>\n#include <cstdio>\n#include <cstring>\n\
     #include <numeric>\n#include <random>\n#include <string>\n#include <type_traits>\n\
@@ -332,16 +349,32 @@ data:
     \ m = 0; m < dim[4]; ++m) {\n                        array<int, 5> idx = {i, j,\
     \ k, l, m};\n                        assert(a(i, j, k, l, m) == brute_index(dim,\
     \ idx));\n                    }\n                }\n            }\n        }\n\
-    \    }\n}\n\nint main() {\n    deterministic_check();\n    random_check();\n\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
+    \    }\n}\n\nvoid reference_check() {\n    NdVec<int, 2> a({2, 3}, 0);\n    const\
+    \ auto &ca = a;\n    static_assert(is_same_v<decltype(a(1, 2)), int &>);\n   \
+    \ static_assert(is_same_v<decltype(ca(1, 2)), const int &>);\n    assert(&a(1,\
+    \ 2) == &a.data[5]);\n    assert(&ca(1, 2) == &a.data[5]);\n\n    NdVec<bool,\
+    \ 2> b({2, 3}, false);\n    const auto &cb = b;\n    static_assert(is_same_v<decltype(b(1,\
+    \ 2)), vector<bool>::reference>);\n    static_assert(is_same_v<decltype(cb(1,\
+    \ 2)), vector<bool>::const_reference>);\n    b(1, 2) = true;\n    assert(cb(1,\
+    \ 2) && !cb(0, 0));\n    b.fill(true);\n    for (int i = 0; i < 2; ++i)\n    \
+    \    for (int j = 0; j < 3; ++j) assert(cb(i, j));\n    b.fill(false);\n    for\
+    \ (int i = 0; i < 2; ++i)\n        for (int j = 0; j < 3; ++j) assert(!cb(i, j));\n\
+    \n    NdVec<bool, 3> c({2, 3, 4}, false);\n    const auto &cc = c;\n    for (int\
+    \ i = 0; i < 2; ++i)\n        for (int j = 0; j < 3; ++j)\n            for (int\
+    \ k = 0; k < 4; ++k) c(i, j, k) = (i + j + k) % 2;\n    for (int i = 0; i < 2;\
+    \ ++i)\n        for (int j = 0; j < 3; ++j)\n            for (int k = 0; k < 4;\
+    \ ++k) assert(cc(i, j, k) == bool((i + j + k) % 2));\n    c.fill(true);\n    for\
+    \ (int i = 0; i < 2; ++i)\n        for (int j = 0; j < 3; ++j)\n            for\
+    \ (int k = 0; k < 4; ++k) assert(cc(i, j, k));\n}\n\nint main() {\n    deterministic_check();\n\
+    \    random_check();\n    reference_check();\n\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/ndvec.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_ndvec.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 12:24:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_ndvec.test.cpp

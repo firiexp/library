@@ -64,6 +64,9 @@ data:
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_comb_table.test.cpp
+    title: test/yosupo_aplusb_comb_table.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -281,6 +284,7 @@ data:
   - test/yosupo_pow_of_formal_power_series.test.cpp
   - test/yosupo_sqrt_of_formal_power_series.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp
+  - test/yosupo_aplusb_comb_table.test.cpp
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_many_factorials.test.cpp

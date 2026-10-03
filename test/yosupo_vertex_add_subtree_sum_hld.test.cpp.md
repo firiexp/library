@@ -287,9 +287,9 @@ data:
     \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
     \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
     \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename T, typename Q>\n   \
-    \ T subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r]\
-    \ = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
+    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
+    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
+    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
     \u89E3(HL Decomposition)\n */\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
     \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
     \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
@@ -311,29 +311,29 @@ data:
     \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
     \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
     \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r&1) r >>= 1;\n     \
-    \       if(!cond(M::f(seg[r], val))){\n                while(r < sz) {\n     \
-    \               r = ((r << 1)|1);\n                    if (cond(M::f(seg[r], val))){\n\
-    \                        val = M::f(seg[r], val);\n                        r--;\n\
-    \                    }\n                }\n                return r + 1 - sz;\n\
-    \            }\n            val = M::f(seg[r], val);\n        } while((r & -r)\
-    \ != r);\n        return 0;\n    }\n    T operator[](const int &k) const { return\
-    \ seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
-    \    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static\
-    \ T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line\
-    \ 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid {\n\
-    \    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
-    \n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v < n; ++v) {\n   \
-    \     int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n    }\n    hld.build();\n\
-    \n    SegmentTree<SumMonoid> seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v],\
-    \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
-    \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
-    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query<ll>(v,\
-    \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
+    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
+    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
+    \ val))){\n                        val = M::f(seg[r], val);\n                \
+    \        r--;\n                    }\n                }\n                return\
+    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
+    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
+    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
+    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
+    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
+    \ */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid\
+    \ {\n    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static\
+    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
+    \    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x :\
+    \ a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v\
+    \ < n; ++v) {\n        int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n\
+    \    }\n    hld.build();\n\n    SegmentTree<SumMonoid> seg(n);\n    for (int v\
+    \ = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\n    for (int\
+    \ i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n        if\
+    \ (t == 0) {\n            ll x;\n            sc.read(x);\n            int p =\
+    \ hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else {\n     \
+    \       pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
+    \ r); }));\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
     \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
@@ -348,7 +348,7 @@ data:
     \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
     \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
     \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
-    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query<ll>(v,\
+    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query(v,\
     \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
     \ 0;\n}\n"
   dependsOn:
@@ -358,7 +358,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 12:24:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp

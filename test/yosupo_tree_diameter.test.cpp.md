@@ -19,62 +19,63 @@ data:
     - https://judge.yosupo.jp/problem/tree_diameter
   bundledCode: "#line 1 \"test/yosupo_tree_diameter.test.cpp\"\n#define PROBLEM \"\
     https://judge.yosupo.jp/problem/tree_diameter\"\n\n#include <algorithm>\n#include\
-    \ <utility>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ <cassert>\n#include <utility>\n#include <vector>\nusing namespace std;\n\nusing\
+    \ ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -236,43 +237,57 @@ data:
     \            f(to, v, f);\n        }\n    };\n\n    dist[0] = T();\n    dfs(0,\
     \ -1, dfs);\n    int s = far;\n    dist[s] = T();\n    dfs(s, -1, dfs);\n    return\
     \ {dist[far], {s, far}};\n}\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(\u91CD\u307F\
-    \u4ED8\u304D)\n */\n#line 18 \"test/yosupo_tree_diameter.test.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int,\
-    \ ll>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int a, b;\n    \
-    \    ll c;\n        sc.read(a, b, c);\n        g[a].push_back({b, c});\n     \
-    \   g[b].push_back({a, c});\n    }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n\
-    \    int s = ends.first;\n    int t = ends.second;\n\n    vector<int> parent(n,\
-    \ -1);\n    vector<int> st = {s};\n    parent[s] = s;\n    while (!st.empty())\
-    \ {\n        int v = st.back();\n        st.pop_back();\n        if (v == t) break;\n\
-    \        for (auto [to, _] : g[v]) {\n            if (parent[to] != -1) continue;\n\
-    \            parent[to] = v;\n            st.push_back(to);\n        }\n    }\n\
-    \n    vector<int> path;\n    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n\
-    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.println(dist,\
-    \ (int)path.size());\n    pr.println(path);\n    return 0;\n}\n"
+    \u4ED8\u304D)\n */\n#line 19 \"test/yosupo_tree_diameter.test.cpp\"\n\nvoid zero_weight_check()\
+    \ {\n    vector<vector<pair<int, ll>>> g(4);\n    for (int v = 1; v < 4; ++v)\
+    \ {\n        g[0].push_back({v, 0});\n        g[v].push_back({0, 0});\n    }\n\
+    \    auto [zero, ends] = tree_diameter_weighted(g);\n    assert(zero == 0);\n\
+    \    assert(0 <= ends.first && ends.first < 4 && 0 <= ends.second && ends.second\
+    \ < 4);\n    g[0][1].second = g[2][0].second = 7;\n    auto [dist, mixed] = tree_diameter_weighted(g);\n\
+    \    assert(dist == 7);\n    assert((mixed.first == 2) != (mixed.second == 2));\n\
+    }\n\nint main() {\n    zero_weight_check();\n    Scanner sc;\n    Printer pr;\n\
+    \n    int n;\n    sc.read(n);\n    vector<vector<pair<int, ll>>> g(n);\n    for\
+    \ (int i = 0; i < n - 1; ++i) {\n        int a, b;\n        ll c;\n        sc.read(a,\
+    \ b, c);\n        g[a].push_back({b, c});\n        g[b].push_back({a, c});\n \
+    \   }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n    int s = ends.first;\n\
+    \    int t = ends.second;\n\n    vector<int> parent(n, -1);\n    vector<int> st\
+    \ = {s};\n    parent[s] = s;\n    while (!st.empty()) {\n        int v = st.back();\n\
+    \        st.pop_back();\n        if (v == t) break;\n        for (auto [to, _]\
+    \ : g[v]) {\n            if (parent[to] != -1) continue;\n            parent[to]\
+    \ = v;\n            st.push_back(to);\n        }\n    }\n\n    vector<int> path;\n\
+    \    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n    path.push_back(s);\n\
+    \    reverse(path.begin(), path.end());\n\n    pr.println(dist, (int)path.size());\n\
+    \    pr.println(path);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/tree_diameter\"\n\n#include\
-    \ <algorithm>\n#include <utility>\n#include <vector>\nusing namespace std;\n\n\
-    using ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../tree/diameter_weighted.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int, ll>>>\
-    \ g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int a, b;\n        ll\
-    \ c;\n        sc.read(a, b, c);\n        g[a].push_back({b, c});\n        g[b].push_back({a,\
-    \ c});\n    }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n    int s\
-    \ = ends.first;\n    int t = ends.second;\n\n    vector<int> parent(n, -1);\n\
-    \    vector<int> st = {s};\n    parent[s] = s;\n    while (!st.empty()) {\n  \
-    \      int v = st.back();\n        st.pop_back();\n        if (v == t) break;\n\
-    \        for (auto [to, _] : g[v]) {\n            if (parent[to] != -1) continue;\n\
-    \            parent[to] = v;\n            st.push_back(to);\n        }\n    }\n\
-    \n    vector<int> path;\n    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n\
-    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.println(dist,\
-    \ (int)path.size());\n    pr.println(path);\n    return 0;\n}\n"
+    \ <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\nusing\
+    \ namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
+    ../util/fastio.cpp\"\n#include \"../tree/diameter_weighted.cpp\"\n\nvoid zero_weight_check()\
+    \ {\n    vector<vector<pair<int, ll>>> g(4);\n    for (int v = 1; v < 4; ++v)\
+    \ {\n        g[0].push_back({v, 0});\n        g[v].push_back({0, 0});\n    }\n\
+    \    auto [zero, ends] = tree_diameter_weighted(g);\n    assert(zero == 0);\n\
+    \    assert(0 <= ends.first && ends.first < 4 && 0 <= ends.second && ends.second\
+    \ < 4);\n    g[0][1].second = g[2][0].second = 7;\n    auto [dist, mixed] = tree_diameter_weighted(g);\n\
+    \    assert(dist == 7);\n    assert((mixed.first == 2) != (mixed.second == 2));\n\
+    }\n\nint main() {\n    zero_weight_check();\n    Scanner sc;\n    Printer pr;\n\
+    \n    int n;\n    sc.read(n);\n    vector<vector<pair<int, ll>>> g(n);\n    for\
+    \ (int i = 0; i < n - 1; ++i) {\n        int a, b;\n        ll c;\n        sc.read(a,\
+    \ b, c);\n        g[a].push_back({b, c});\n        g[b].push_back({a, c});\n \
+    \   }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n    int s = ends.first;\n\
+    \    int t = ends.second;\n\n    vector<int> parent(n, -1);\n    vector<int> st\
+    \ = {s};\n    parent[s] = s;\n    while (!st.empty()) {\n        int v = st.back();\n\
+    \        st.pop_back();\n        if (v == t) break;\n        for (auto [to, _]\
+    \ : g[v]) {\n            if (parent[to] != -1) continue;\n            parent[to]\
+    \ = v;\n            st.push_back(to);\n        }\n    }\n\n    vector<int> path;\n\
+    \    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n    path.push_back(s);\n\
+    \    reverse(path.begin(), path.end());\n\n    pr.println(dist, (int)path.size());\n\
+    \    pr.println(path);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/diameter_weighted.cpp
   isVerificationFile: true
   path: test/yosupo_tree_diameter.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 12:24:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_tree_diameter.test.cpp

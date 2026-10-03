@@ -306,7 +306,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/binom_mod_prime_power.cpp
       title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/comb_table.cpp
       title: math/comb_table.cpp
     - icon: ':heavy_check_mark:'
@@ -752,6 +752,9 @@ data:
       path: test/yosupo_aplusb_binarytrie.test.cpp
       title: test/yosupo_aplusb_binarytrie.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_comb_table.test.cpp
+      title: test/yosupo_aplusb_comb_table.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dsu_on_tree.test.cpp
       title: test/yosupo_aplusb_dsu_on_tree.test.cpp
     - icon: ':heavy_check_mark:'
@@ -763,6 +766,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_hld_subtree.test.cpp
+      title: test/yosupo_aplusb_hld_subtree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
@@ -778,6 +784,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_palindromic_tree.test.cpp
       title: test/yosupo_aplusb_palindromic_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
+      title: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
