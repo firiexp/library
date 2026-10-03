@@ -1,7 +1,7 @@
 template<class T, class F>
 class sliding_window {
     vector<T> v;
-    deque<T> Q;
+    deque<int> Q;
     F f;
 public:
     int l, r;
@@ -22,7 +22,7 @@ public:
         while(!Q.empty() && !f(v[Q.back()], v[r])) Q.pop_back();
         Q.push_back(r++);
     }
-    T get_index()  {
+    int get_index()  {
         if(l == r) return 0;
         return Q.front();
     }

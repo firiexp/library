@@ -6,7 +6,7 @@ template<class T>
 struct PointAddRectangleSum {
     struct Operation {
         int type;
-        int x, y, z;
+        int x, y, z, u;
         T w;
     };
 
@@ -14,12 +14,12 @@ struct PointAddRectangleSum {
     vector<int> xs;
 
     void add_point(int x, int y, T w) {
-        ops.push_back({0, x, y, 0, w});
+        ops.push_back({0, x, y, 0, 0, w});
         xs.push_back(x);
     }
 
     void add_query(int l, int d, int r, int u) {
-        ops.push_back({1, l, d, r, u});
+        ops.push_back({1, l, d, r, u, T(0)});
     }
 
     vector<T> solve() const {
@@ -66,7 +66,7 @@ struct PointAddRectangleSum {
             if (op.type == 0) {
                 add(op.x, op.y, (T)op.w);
             } else {
-                ans.push_back(sum(op.z, op.w) - sum(op.z, op.y) - sum(op.x, op.w) + sum(op.x, op.y));
+                ans.push_back(sum(op.z, op.u) - sum(op.z, op.y) - sum(op.x, op.u) + sum(op.x, op.y));
             }
         }
         return ans;
