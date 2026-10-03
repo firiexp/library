@@ -1,6 +1,6 @@
 int eulerphi(int x){
     int phi = x, xx = x;
-    for (int i = 2; i * i <= x; ++i) {
+    for (int i = 2; i <= x / i; ++i) {
         if (xx % i == 0) {
             phi -= phi / i;
             while(xx % i == 0) xx /= i;
