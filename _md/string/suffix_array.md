@@ -8,7 +8,7 @@ suffix array は SA-IS、LCP は Kasai 法で、どちらも $O(N)$ で動く。
 
 ## できること
 - `vector<int> suffix_array(const string& s)`
-  文字列 `s` の suffix array を返す
+  文字列 `s` を符号なし byte 順で比較した suffix array を返す
 - `vector<int> suffix_array(const vector<int>& s, int upper)`
   各要素が `0..upper` に入る整数列の suffix array を返す
 - `template<class T> vector<int> suffix_array(const vector<T>& s)`

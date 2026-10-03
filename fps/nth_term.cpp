@@ -1,6 +1,14 @@
 #include "../math/ntt.cpp"
 mint nth_term(poly p, poly q, ll n){
+    assert(n >= 0 && q.size() > 0 && q[0] != mint(0));
+    if(p.size() == 0) return 0;
+    if(q.size() == 1) return n < p.size() ? p[n]/q[0] : mint(0);
     if(!n) return p[0]/q[0];
+    if(q[0] != mint(1)) {
+        mint inv = q[0].inv();
+        for(auto &v : p.v) v *= inv;
+        for(auto &v : q.v) v *= inv;
+    }
     int sz = 1, h = 0;
     int k = max(p.size(), q.size());
     while(sz < 2*k-1) sz <<= 1, h++;

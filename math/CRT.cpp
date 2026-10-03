@@ -3,7 +3,8 @@
 pair<ll, ll> CRT(const vector<pair<ll, ll>> &a){
     ll R = 0, M = 1;
     for (auto &&i : a) {
-        ll r = (i.first+i.second)%i.second, m = i.second;
+        ll m = i.second, r = i.first % m;
+        if(r < 0) r += m;
         if(m < M) swap(r, R), swap(m, M);
         if(M%m == 0){
             if(R % m != r) return {};

@@ -1,11 +1,11 @@
 using IntPoint = pair<ll, ll>;
 
-ll cross(IntPoint a, IntPoint b, IntPoint c) {
-    b.first -= a.first;
-    b.second -= a.second;
-    c.first -= a.first;
-    c.second -= a.second;
-    return b.first * c.second - b.second * c.first;
+__int128 cross(IntPoint a, IntPoint b, IntPoint c) {
+    __int128 bx = static_cast<__int128>(b.first) - a.first;
+    __int128 by = static_cast<__int128>(b.second) - a.second;
+    __int128 cx = static_cast<__int128>(c.first) - a.first;
+    __int128 cy = static_cast<__int128>(c.second) - a.second;
+    return bx * cy - by * cx;
 }
 
 vector<IntPoint> convex_hull(vector<IntPoint> ps) {

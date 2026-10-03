@@ -30,6 +30,38 @@ void hull_check() {
     }
 }
 
+void contains_convex_check() {
+    Polygon empty;
+    assert(contains_convex(empty, Point(0, 0)) == 0);
+    auto check = [](Polygon polygon) {
+        for (int direction = 0; direction < 2; ++direction) {
+            for (int start = 0; start < int(polygon.size()); ++start) {
+                for (int x = -6; x <= 10; ++x) for (int y = -6; y <= 10; ++y) {
+                    Point p(x * 0.5, y * 0.5);
+                    assert(contains_convex(polygon, p) == contains(polygon, p));
+                }
+                rotate(polygon.begin(), polygon.begin() + 1, polygon.end());
+            }
+            reverse(polygon.begin(), polygon.end());
+        }
+    };
+    check({Point(0, 0)});
+    check({Point(0, 0), Point(1, 0)});
+    check({Point(0, 0), Point(1, 0), Point(2, 0), Point(3, 0)});
+    check({Point(0, 0), Point(1, 0), Point(1, 1), Point(0, 1)});
+    check({Point(0, 0), Point(4, 0), Point(0, 4)});
+    check({Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1),
+           Point(2, 2), Point(1, 2), Point(0, 2), Point(0, 1)});
+    mt19937 rng(16);
+    for (int tc = 0; tc < 100; ++tc) {
+        set<pair<int, int>> points;
+        for (int i = 0; i < 10; ++i) points.emplace(int(rng() % 9) - 2, int(rng() % 9) - 2);
+        Polygon input;
+        for (auto [x, y] : points) input.emplace_back(x, y);
+        check(convex_hull(input));
+    }
+}
+
 void rectangle_check() {
     using Solver = AreaOfUnionOfRectangles<int, long long>;
     auto check = [](const vector<array<int, 4>> &rectangles) {
@@ -118,6 +150,7 @@ void manhattan_check() {
 
 int main() {
     hull_check();
+    contains_convex_check();
     rectangle_check();
     manhattan_check();
     Scanner sc;

@@ -1,7 +1,7 @@
 vector<int> convert(string const& s){
     int n = s.size();
     std::vector<int> s2(n);
-    for (int i = 0; i < n; i++) s2[i] = s[i];
+    for (int i = 0; i < n; i++) s2[i] = static_cast<unsigned char>(s[i]);
     return s2;
 }
 
@@ -91,6 +91,7 @@ vector<int> suffix_array(const string& s){
 template<class T>
 vector<int> lcp(const vector<T> &s, const vector<int> &sa){
     int n = s.size();
+    if (n <= 1) return {};
     vector<int> sa_inv(n);
     for (int i = 0; i < n; ++i) sa_inv[sa[i]] = i;
     vector<int> lcp(n-1);

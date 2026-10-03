@@ -322,15 +322,44 @@ int contains(Polygon v, Point p) {
 }
 
 int contains_convex(Polygon &v, Point p) {
-    int a = 1, b = v.size() - 1;
+    int a = 1, b = int(v.size()) - 1;
     static constexpr int IN = 2, ON = 1, OUT = 0;
+    if (v.empty())
+        return OUT;
     if (v.size() < 3)
-        return (ccw(v.front(), v.back(), p) & 1) == 0 ? ON : OUT;
-    if (ccw(v[0], v[a], v[b]) > 0)
-        swap(a, b);
+        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON : OUT;
+    // Use the farthest vertex on each boundary ray, including collinear edges.
+    auto end_of_ray = [&](bool reverse) {
+        int l = 1, r = v.size();
+        auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };
+        while (r - l > 1) {
+            int m = (l + r) / 2;
+            if (ccw(v[0], v[index(1)], v[index(m)]) == ONLINE_FRONT) l = m;
+            else r = m;
+        }
+        return index(l);
+    };
+    int orientation = ccw(v[0], v[a], v[b]);
     int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);
+    if ((orientation & 1) == 0 || la == ONLINE_FRONT) {
+        a = end_of_ray(false);
+        la = ccw(v[0], v[a], p);
+    }
+    if ((orientation & 1) == 0 || lb == ONLINE_FRONT) {
+        b = end_of_ray(true);
+        lb = ccw(v[0], v[b], p);
+    }
+    if (a >= b)
+        return contains(v, p);
+    if ((orientation & 1) == 0) orientation = ccw(v[0], v[a], v[a + 1]);
+    if ((orientation & 1) == 0)
+        return contains(v, p);
+    if (orientation > 0) {
+        swap(a, b);
+        swap(la, lb);
+    }
     if ((la & 1) == 0 || (lb & 1) == 0)
-        return ON;
+        return la == ON_SEGMENT || lb == ON_SEGMENT ? ON : OUT;
     if (la > 0 || lb < 0)
         return OUT;
     while (abs(a - b) > 1) {
@@ -340,7 +369,7 @@ int contains_convex(Polygon &v, Point p) {
     }
     int res = ccw(v[a], v[b], p);
     if ((res & 1) == 0)
-        return ON;
+        return res == ON_SEGMENT ? ON : OUT;
     return res < 0 ? IN : OUT;
 }
 

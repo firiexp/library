@@ -29,6 +29,10 @@ T mod_inv(T x, T m){
 }
 
 ll Garner(vector<pair<ll, ll>> a, ll mod){
+    for (auto &[r, m] : a) {
+        r %= m;
+        if (r < 0) r += m;
+    }
     a.emplace_back(0, mod);
     vector<ll> A(a.size(), 1), B(a.size(), 0);
     for (int i = 0; i < a.size(); ++i) {
