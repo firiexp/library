@@ -36,7 +36,7 @@ tags: 木
 - `void apply_subtree(int v, F f, bool edge = false)`
   部分木区間へ `f(l, r)` を呼ぶ
 - `subtree_query(int v, Q q, bool edge = false)`
-  部分木区間に `q(l, r)` を呼び、その結果を返す。戻り値の型は `q` から推論する
+  `v` の部分木クエリ。戻り値の型は `q` から推論する
 
 ## 使い方
 `id[v]` を頂点 `v` の 1 次元位置としてセグ木や BIT に載せる。

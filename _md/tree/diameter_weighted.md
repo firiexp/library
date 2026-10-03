@@ -4,7 +4,7 @@ documentation_of: //tree/diameter_weighted.cpp
 ---
 ## 説明
 重み付き木の直径長とその両端点を $O(N)$ で求める。
-辺重みは非負とする。重み $0$ の辺も扱える。
+辺重みは非負とする。
 
 ## できること
 - `pair<T, pair<int, int>> tree_diameter_weighted(const vector<vector<pair<int, T>>> &g)`
