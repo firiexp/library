@@ -770,6 +770,9 @@ data:
       path: test/yosupo_aplusb_order_statistic_tree.test.cpp
       title: test/yosupo_aplusb_order_statistic_tree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_palindromic_tree.test.cpp
+      title: test/yosupo_aplusb_palindromic_tree.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
     - icon: ':heavy_check_mark:'

@@ -14,66 +14,65 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/eertree
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/eertree
-  bundledCode: "#line 1 \"test/yosupo_eertree.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/eertree\"\
-    \n\n#include <bits/stdc++.h>\n\nusing namespace std;\n\n#line 10 \"test/yosupo_eertree.test.cpp\"\
-    \n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\n\
-    using namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_palindromic_tree.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -254,45 +253,76 @@ data:
     \ res(nodes.size());\n        for (int i = 0; i < (int)nodes.size(); ++i) res[i]\
     \ = nodes[i].occ;\n        for (int v = (int)nodes.size() - 1; v >= 2; --v) {\n\
     \            res[nodes[v].link] += res[v];\n        }\n        return res;\n \
-    \   }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n#line 15\
-    \ \"test/yosupo_eertree.test.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    string s;\n    char c = sc.skip();\n    while (true) {\n        s.push_back(c);\n\
-    \        sc.ensure();\n        if (sc.buf[sc.idx] <= ' ') break;\n        c =\
-    \ sc.buf[sc.idx++];\n    }\n\n    PalindromicTree<26> pt(s);\n    int n = pt.nodes.size();\n\
-    \    vector<int> parent(n, -1);\n    for (int v = 0; v < n; ++v) {\n        for\
-    \ (int c = 0; c < 26; ++c) {\n            int u = pt.nodes[v].next[c];\n     \
-    \       if (u != -1) parent[u] = v;\n        }\n    }\n\n    pr.println(n - 2);\n\
-    \    for (int v = 2; v < n; ++v) {\n        pr.println(parent[v] - 1, pt.nodes[v].link\
-    \ - 1);\n    }\n    for (int i = 0; i < (int)pt.path.size(); ++i) {\n        if\
-    \ (i) pr.print(' ');\n        pr.print(pt.path[i] - 1);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/eertree\"\n\n#include <bits/stdc++.h>\n\
-    \nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../string/palindromic_tree.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    string s;\n    char c = sc.skip();\n    while (true) {\n\
-    \        s.push_back(c);\n        sc.ensure();\n        if (sc.buf[sc.idx] <=\
-    \ ' ') break;\n        c = sc.buf[sc.idx++];\n    }\n\n    PalindromicTree<26>\
-    \ pt(s);\n    int n = pt.nodes.size();\n    vector<int> parent(n, -1);\n    for\
-    \ (int v = 0; v < n; ++v) {\n        for (int c = 0; c < 26; ++c) {\n        \
-    \    int u = pt.nodes[v].next[c];\n            if (u != -1) parent[u] = v;\n \
-    \       }\n    }\n\n    pr.println(n - 2);\n    for (int v = 2; v < n; ++v) {\n\
-    \        pr.println(parent[v] - 1, pt.nodes[v].link - 1);\n    }\n    for (int\
-    \ i = 0; i < (int)pt.path.size(); ++i) {\n        if (i) pr.print(' ');\n    \
-    \    pr.print(pt.path[i] - 1);\n    }\n    pr.println();\n    return 0;\n}\n"
+    \   }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n#line 8\
+    \ \"test/yosupo_aplusb_palindromic_tree.test.cpp\"\n\nvoid verify_count(const\
+    \ PalindromicTree<2>& pt) {\n    vector<int> expected(pt.nodes.size());\n    vector<int>\
+    \ occ;\n    for (const auto& node : pt.nodes) occ.push_back(node.occ);\n    expected[1]\
+    \ = pt.s.size();\n    for (int v = 2; v < (int)pt.nodes.size(); ++v) {\n     \
+    \   const auto& node = pt.nodes[v];\n        assert(0 <= node.link && node.link\
+    \ < v);\n        string palindrome = pt.s.substr(node.first_pos - node.len + 1,\
+    \ node.len);\n        for (int i = 0; i + node.len <= (int)pt.s.size(); ++i) {\n\
+    \            expected[v] += pt.s.compare(i, node.len, palindrome) == 0;\n    \
+    \    }\n    }\n    assert(pt.count() == expected);\n    assert(pt.count() == expected);\n\
+    \    for (int v = 0; v < (int)pt.nodes.size(); ++v) {\n        assert(pt.nodes[v].occ\
+    \ == occ[v]);\n    }\n}\n\nvoid self_check() {\n    for (int n = 0; n <= 16; ++n)\
+    \ {\n        for (int mask = 0; mask < (1 << n); ++mask) {\n            string\
+    \ s(n, 'a');\n            for (int i = 0; i < n; ++i) s[i] += (mask >> i) & 1;\n\
+    \            verify_count(PalindromicTree<2>(s));\n        }\n    }\n\n    for\
+    \ (const string& s : {string(32, 'a'), string(32, 'b'),\n                    \
+    \        string(\"abababababababab\"), string(\"aababbabaaabbabba\")}) {\n   \
+    \     PalindromicTree<2> pt;\n        verify_count(pt);\n        for (char c :\
+    \ s) {\n            pt.add(c);\n            verify_count(pt);\n        }\n   \
+    \ }\n\n    const int n = 10000;\n    PalindromicTree<2> pt(string(n, 'a'));\n\
+    \    for (int step = 0; step < 2; ++step) {\n        vector<int> counts = pt.count();\n\
+    \        assert(counts.size() == (size_t)(n + step + 2));\n        assert(counts[0]\
+    \ == 0 && counts[1] == n + step);\n        for (int v = 2; v < (int)pt.nodes.size();\
+    \ ++v) {\n            assert(pt.nodes[v].link < v);\n            assert(counts[v]\
+    \ == n + step - pt.nodes[v].len + 1);\n        }\n        assert(pt.count() ==\
+    \ counts);\n        if (step == 0) pt.add('a');\n    }\n}\n\nint main() {\n  \
+    \  self_check();\n\n    Scanner sc;\n    Printer pr;\n    long long a, b;\n  \
+    \  sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../string/palindromic_tree.cpp\"\
+    \n\nvoid verify_count(const PalindromicTree<2>& pt) {\n    vector<int> expected(pt.nodes.size());\n\
+    \    vector<int> occ;\n    for (const auto& node : pt.nodes) occ.push_back(node.occ);\n\
+    \    expected[1] = pt.s.size();\n    for (int v = 2; v < (int)pt.nodes.size();\
+    \ ++v) {\n        const auto& node = pt.nodes[v];\n        assert(0 <= node.link\
+    \ && node.link < v);\n        string palindrome = pt.s.substr(node.first_pos -\
+    \ node.len + 1, node.len);\n        for (int i = 0; i + node.len <= (int)pt.s.size();\
+    \ ++i) {\n            expected[v] += pt.s.compare(i, node.len, palindrome) ==\
+    \ 0;\n        }\n    }\n    assert(pt.count() == expected);\n    assert(pt.count()\
+    \ == expected);\n    for (int v = 0; v < (int)pt.nodes.size(); ++v) {\n      \
+    \  assert(pt.nodes[v].occ == occ[v]);\n    }\n}\n\nvoid self_check() {\n    for\
+    \ (int n = 0; n <= 16; ++n) {\n        for (int mask = 0; mask < (1 << n); ++mask)\
+    \ {\n            string s(n, 'a');\n            for (int i = 0; i < n; ++i) s[i]\
+    \ += (mask >> i) & 1;\n            verify_count(PalindromicTree<2>(s));\n    \
+    \    }\n    }\n\n    for (const string& s : {string(32, 'a'), string(32, 'b'),\n\
+    \                            string(\"abababababababab\"), string(\"aababbabaaabbabba\"\
+    )}) {\n        PalindromicTree<2> pt;\n        verify_count(pt);\n        for\
+    \ (char c : s) {\n            pt.add(c);\n            verify_count(pt);\n    \
+    \    }\n    }\n\n    const int n = 10000;\n    PalindromicTree<2> pt(string(n,\
+    \ 'a'));\n    for (int step = 0; step < 2; ++step) {\n        vector<int> counts\
+    \ = pt.count();\n        assert(counts.size() == (size_t)(n + step + 2));\n  \
+    \      assert(counts[0] == 0 && counts[1] == n + step);\n        for (int v =\
+    \ 2; v < (int)pt.nodes.size(); ++v) {\n            assert(pt.nodes[v].link < v);\n\
+    \            assert(counts[v] == n + step - pt.nodes[v].len + 1);\n        }\n\
+    \        assert(pt.count() == counts);\n        if (step == 0) pt.add('a');\n\
+    \    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n\
+    \    long long a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
   - string/palindromic_tree.cpp
   isVerificationFile: true
-  path: test/yosupo_eertree.test.cpp
+  path: test/yosupo_aplusb_palindromic_tree.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 11:39:46+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_eertree.test.cpp
+documentation_of: test/yosupo_aplusb_palindromic_tree.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_eertree.test.cpp
-- /verify/test/yosupo_eertree.test.cpp.html
-title: test/yosupo_eertree.test.cpp
+- /verify/test/yosupo_aplusb_palindromic_tree.test.cpp
+- /verify/test/yosupo_aplusb_palindromic_tree.test.cpp.html
+title: test/yosupo_aplusb_palindromic_tree.test.cpp
 ---

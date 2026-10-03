@@ -69,11 +69,11 @@ data:
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_lca.test.cpp
-  - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/aoj0439_virtual_tree_helper.test.cpp
   - test/aoj0439.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
+  - test/yosupo_lca.test.cpp
 documentation_of: datastructure/sparsetable.cpp
 layout: document
 title: Sparse Table

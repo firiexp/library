@@ -4,6 +4,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_palindromic_tree.test.cpp
+    title: test/yosupo_aplusb_palindromic_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_eertree.test.cpp
     title: test/yosupo_eertree.test.cpp
   _isVerificationFailed: false
@@ -39,11 +42,9 @@ data:
     \        return last;\n    }\n\n    void build(const string &t) {\n        for\
     \ (auto &&c : t) add(c);\n    }\n\n    vector<int> count() const {\n        vector<int>\
     \ res(nodes.size());\n        for (int i = 0; i < (int)nodes.size(); ++i) res[i]\
-    \ = nodes[i].occ;\n        vector<int> ord(nodes.size());\n        iota(ord.begin(),\
-    \ ord.end(), 0);\n        sort(ord.begin(), ord.end(), [&](int a, int b) { return\
-    \ nodes[a].len > nodes[b].len; });\n        for (auto &&v : ord) {\n         \
-    \   if (v >= 2) res[nodes[v].link] += res[v];\n        }\n        return res;\n\
-    \    }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n"
+    \ = nodes[i].occ;\n        for (int v = (int)nodes.size() - 1; v >= 2; --v) {\n\
+    \            res[nodes[v].link] += res[v];\n        }\n        return res;\n \
+    \   }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n"
   code: "template<int W, char start = 'a'>\nstruct PalindromicTree {\n    struct Node\
     \ {\n        int link;\n        int len;\n        int first_pos;\n        int\
     \ occ;\n        int next[W];\n\n        Node(int link = 0, int len = 0, int first_pos\
@@ -70,19 +71,18 @@ data:
     \        return last;\n    }\n\n    void build(const string &t) {\n        for\
     \ (auto &&c : t) add(c);\n    }\n\n    vector<int> count() const {\n        vector<int>\
     \ res(nodes.size());\n        for (int i = 0; i < (int)nodes.size(); ++i) res[i]\
-    \ = nodes[i].occ;\n        vector<int> ord(nodes.size());\n        iota(ord.begin(),\
-    \ ord.end(), 0);\n        sort(ord.begin(), ord.end(), [&](int a, int b) { return\
-    \ nodes[a].len > nodes[b].len; });\n        for (auto &&v : ord) {\n         \
-    \   if (v >= 2) res[nodes[v].link] += res[v];\n        }\n        return res;\n\
-    \    }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n"
+    \ = nodes[i].occ;\n        for (int v = (int)nodes.size() - 1; v >= 2; --v) {\n\
+    \            res[nodes[v].link] += res[v];\n        }\n        return res;\n \
+    \   }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/palindromic_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 11:39:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_eertree.test.cpp
+  - test/yosupo_aplusb_palindromic_tree.test.cpp
 documentation_of: string/palindromic_tree.cpp
 layout: document
 title: "\u56DE\u6587\u6728(Palindromic Tree)"
@@ -101,7 +101,7 @@ title: "\u56DE\u6587\u6728(Palindromic Tree)"
 - `int add(char c)`
   末尾に文字 `c` を追加し、できた最長回文接尾辞のノード番号を返す
 - `vector<int> count()`
-  各ノードの出現回数を返す
+  各ノードの出現回数をノード数を $S$ として $O(S)$ で返す。
 
 ## 使い方
 根は 2 個あり、`0` が長さ `-1`、`1` が長さ `0` を表す。
@@ -121,3 +121,7 @@ for (int v = 2; v < (int)pt.nodes.size(); ++v) {
 ## 実装上の補足
 `W` はアルファベット数、`start` は最小文字である。
 `PalindromicTree<26, 'a'>` なら小文字英字用になる。
+
+通常ノードの suffix link は先に作られたノードを指し、`nodes[v].link < v` が成り立つ。
+`count()` はこの性質を使い、ノード番号の逆順に出現回数を伝播する。
+文字追加後の再集計にも対応する。根の返り値は `0` が $0$、`1` が文字列長となる。
