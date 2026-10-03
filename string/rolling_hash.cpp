@@ -24,7 +24,7 @@ struct rolling_hash {
         }
         hash.resize(s.size()+1, 0);
         for (int i = 0; i < s.size(); ++i) {
-            hash[i+1] = (hash[i]*B() + s[i]) % M;
+            hash[i+1] = (hash[i]*B() + (unsigned char)s[i]) % M;
         }
     };
 

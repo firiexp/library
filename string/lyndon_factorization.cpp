@@ -5,8 +5,8 @@ vector<pair<int, int>> lyndon_factorization(const string &s) {
     vector<pair<int, int>> res;
     for (int i = 0; i < n;) {
         int j = i + 1, k = i;
-        while (j < n && s[k] <= s[j]) {
-            if (s[k] < s[j]) k = i;
+        while (j < n && (unsigned char)s[k] <= (unsigned char)s[j]) {
+            if ((unsigned char)s[k] < (unsigned char)s[j]) k = i;
             else ++k;
             ++j;
         }
