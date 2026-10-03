@@ -76,6 +76,9 @@ data:
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+    title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
@@ -310,6 +313,7 @@ data:
   - test/yosupo_sum_of_totient.test.cpp
   - test/yosupo_convolution.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+  - test/yosupo_aplusb_polynomial_interpolation.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
 documentation_of: util/modint_base.cpp

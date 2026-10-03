@@ -89,31 +89,34 @@ data:
     \ m = (int)vals.size();\n        lg = 0;\n        while ((1LL << lg) < m) ++lg;\n\
     \        if (lg == 0) lg = 1;\n        blocks = (n + 63) >> 6;\n        vector<U>\
     \ cur_w = w;\n\n        mid.assign(lg, 0);\n        bit.assign(lg * blocks + 1,\
-    \ 0);\n        pref.assign(lg * (blocks + 1), 0);\n        zero_sum.assign(lg\
-    \ * (n + 1), U());\n        vector<int> nxt(n);\n        vector<U> nxt_w(n);\n\
-    \n        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n          \
-    \  auto *row = bit.data() + d * blocks;\n            auto *row_pref = pref.data()\
-    \ + d * (blocks + 1);\n            auto *row_zero_sum = zero_sum.data() + d *\
-    \ (n + 1);\n            int zero_cnt = 0;\n            for (int i = 0; i < n;\
-    \ ++i) {\n                int x = cur[i];\n                int b = (x >> shift)\
-    \ & 1;\n                if (b) row[i >> 6] |= 1ULL << (i & 63);\n            \
-    \    else ++zero_cnt;\n                row_zero_sum[i + 1] = row_zero_sum[i] +\
-    \ (b ? U() : cur_w[i]);\n            }\n            mid[d] = zero_cnt;\n     \
-    \       for (int i = 0; i < blocks; ++i) row_pref[i + 1] = row_pref[i] + __builtin_popcountll(row[i]);\n\
-    \n            int zi = 0, oi = zero_cnt;\n            for (int i = 0; i < n; ++i)\
-    \ {\n                int x = cur[i];\n                int b = (x >> shift) & 1;\n\
+    \ 0);\n        pref.assign(lg * (blocks + 1), 0);\n        size_t sum_size = lg;\n\
+    \        for (int x : cur) sum_size += lg - __builtin_popcount((unsigned)x);\n\
+    \        zero_sum.assign(sum_size, U());\n        vector<int> nxt(n);\n      \
+    \  vector<U> nxt_w(n);\n\n        auto *row_zero_sum = zero_sum.data();\n    \
+    \    for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n            auto\
+    \ *row = bit.data() + d * blocks;\n            auto *row_pref = pref.data() +\
+    \ d * (blocks + 1);\n            int zero_cnt = 0;\n            for (int i = 0;\
+    \ i < n; ++i) {\n                int x = cur[i];\n                int b = (x >>\
+    \ shift) & 1;\n                if (b) row[i >> 6] |= 1ULL << (i & 63);\n     \
+    \           else {\n                    row_zero_sum[zero_cnt + 1] = row_zero_sum[zero_cnt]\
+    \ + cur_w[i];\n                    ++zero_cnt;\n                }\n          \
+    \  }\n            mid[d] = zero_cnt;\n            for (int i = 0; i < blocks;\
+    \ ++i) row_pref[i + 1] = row_pref[i] + __builtin_popcountll(row[i]);\n\n     \
+    \       int zi = 0, oi = zero_cnt;\n            for (int i = 0; i < n; ++i) {\n\
+    \                int x = cur[i];\n                int b = (x >> shift) & 1;\n\
     \                int dst = b ? oi : zi;\n                nxt[dst] = x;\n     \
     \           nxt_w[dst] = cur_w[i];\n                zi += b ^ 1;\n           \
     \     oi += b;\n            }\n            cur.swap(nxt);\n            cur_w.swap(nxt_w);\n\
-    \        }\n    }\n\n    void build(const vector<T> &v, const vector<U> &w) {\n\
-    \        n = (int)v.size();\n        if (n == 0) {\n            lg = 0;\n    \
-    \        blocks = 0;\n            vals.clear();\n            mid.clear();\n  \
-    \          bit.clear();\n            pref.clear();\n            zero_sum.clear();\n\
-    \            base_sum.assign(1, U());\n            return;\n        }\n\n    \
-    \    vector<int> cur(n);\n        compress_values(v, cur);\n        build_from_index_internal(move(cur),\
-    \ w);\n    }\n\n    void build_from_index(const vector<int> &idx, const vector<T>\
-    \ &sorted_vals, const vector<U> &w) {\n        vals = sorted_vals;\n        build_from_index_internal(idx,\
-    \ w);\n    }\n\nprivate:\n    template <bool NeedSum>\n    CountSum query_less_index_fallback(int\
+    \            row_zero_sum += zero_cnt + 1;\n        }\n    }\n\n    void build(const\
+    \ vector<T> &v, const vector<U> &w) {\n        n = (int)v.size();\n        if\
+    \ (n == 0) {\n            lg = 0;\n            blocks = 0;\n            vals.clear();\n\
+    \            mid.clear();\n            bit.clear();\n            pref.clear();\n\
+    \            zero_sum.clear();\n            base_sum.assign(1, U());\n       \
+    \     return;\n        }\n\n        vector<int> cur(n);\n        compress_values(v,\
+    \ cur);\n        build_from_index_internal(move(cur), w);\n    }\n\n    void build_from_index(const\
+    \ vector<int> &idx, const vector<T> &sorted_vals, const vector<U> &w) {\n    \
+    \    vals = sorted_vals;\n        build_from_index_internal(idx, w);\n    }\n\n\
+    private:\n    template <bool NeedSum>\n    CountSum query_less_index_fallback(int\
     \ l, int r, int xi) const {\n        const int *mid_data = mid.data();\n     \
     \   const auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
     \        const U *zero_sum_data = zero_sum.data();\n        CountSum res{0, U()};\n\
@@ -121,38 +124,39 @@ data:
     \ int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n  \
     \          int l0 = l - l1, r0 = r - r1;\n            if ((xi >> shift) & 1) {\n\
     \                res.count += r0 - l0;\n                if constexpr (NeedSum)\
-    \ res.sum += zero_sum_data[r] - zero_sum_data[l];\n                l = mid_data[d]\
+    \ res.sum += zero_sum_data[r0] - zero_sum_data[l0];\n                l = mid_data[d]\
     \ + l1;\n                r = mid_data[d] + r1;\n            }\n            else\
     \ {\n                l = l0;\n                r = r0;\n            }\n       \
     \     if (l == r) break;\n            bit_data += blocks;\n            pref_data\
-    \ += blocks + 1;\n            zero_sum_data += n + 1;\n        }\n        return\
-    \ res;\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n    template <bool\
-    \ NeedSum>\n    __attribute__((target(\"popcnt,bmi2\")))\n    CountSum query_less_index_bmi2(int\
-    \ l, int r, int xi) const {\n        const int *mid_data = mid.data();\n     \
-    \   const auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
-    \        const U *zero_sum_data = zero_sum.data();\n        CountSum res{0, U()};\n\
-    \        for (int d = 0, shift = lg - 1; d < lg; ++d, --shift) {\n           \
-    \ int l1, r1;\n            rank1_pair_bmi2(bit_data, pref_data, l, r, l1, r1);\n\
-    \            int l0 = l - l1, r0 = r - r1;\n            if ((xi >> shift) & 1)\
-    \ {\n                res.count += r0 - l0;\n                if constexpr (NeedSum)\
-    \ res.sum += zero_sum_data[r] - zero_sum_data[l];\n                l = mid_data[d]\
-    \ + l1;\n                r = mid_data[d] + r1;\n            }\n            else\
-    \ {\n                l = l0;\n                r = r0;\n            }\n       \
-    \     if (l == r) break;\n            bit_data += blocks;\n            pref_data\
-    \ += blocks + 1;\n            zero_sum_data += n + 1;\n        }\n        return\
-    \ res;\n    }\n#endif\n\npublic:\n    CountSum count_sum_less_index(int l, int\
-    \ r, int xi) const {\n        if (xi <= 0 || l >= r || n == 0) return {0, U()};\n\
-    \        if (xi >= (int)vals.size()) return {r - l, base_sum[r] - base_sum[l]};\n\
-    #if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
-    popcnt\") && __builtin_cpu_supports(\"bmi2\")) {\n            return query_less_index_bmi2<true>(l,\
-    \ r, xi);\n        }\n#endif\n        return query_less_index_fallback<true>(l,\
-    \ r, xi);\n    }\n\n    int count_less_index(int l, int r, int xi) const {\n \
-    \       if (xi <= 0 || l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size())\
-    \ return r - l;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
-    popcnt\") && __builtin_cpu_supports(\"bmi2\")) {\n            return query_less_index_bmi2<false>(l,\
-    \ r, xi).count;\n        }\n#endif\n        return query_less_index_fallback<false>(l,\
-    \ r, xi).count;\n    }\n\n    CountSum count_sum_less(int l, int r, const T &x)\
-    \ const {\n        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
+    \ += blocks + 1;\n            zero_sum_data += mid_data[d] + 1;\n        }\n \
+    \       return res;\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n \
+    \   template <bool NeedSum>\n    __attribute__((target(\"popcnt,bmi2\")))\n  \
+    \  CountSum query_less_index_bmi2(int l, int r, int xi) const {\n        const\
+    \ int *mid_data = mid.data();\n        const auto *bit_data = bit.data();\n  \
+    \      const int *pref_data = pref.data();\n        const U *zero_sum_data = zero_sum.data();\n\
+    \        CountSum res{0, U()};\n        for (int d = 0, shift = lg - 1; d < lg;\
+    \ ++d, --shift) {\n            int l1, r1;\n            rank1_pair_bmi2(bit_data,\
+    \ pref_data, l, r, l1, r1);\n            int l0 = l - l1, r0 = r - r1;\n     \
+    \       if ((xi >> shift) & 1) {\n                res.count += r0 - l0;\n    \
+    \            if constexpr (NeedSum) res.sum += zero_sum_data[r0] - zero_sum_data[l0];\n\
+    \                l = mid_data[d] + l1;\n                r = mid_data[d] + r1;\n\
+    \            }\n            else {\n                l = l0;\n                r\
+    \ = r0;\n            }\n            if (l == r) break;\n            bit_data +=\
+    \ blocks;\n            pref_data += blocks + 1;\n            zero_sum_data +=\
+    \ mid_data[d] + 1;\n        }\n        return res;\n    }\n#endif\n\npublic:\n\
+    \    CountSum count_sum_less_index(int l, int r, int xi) const {\n        if (xi\
+    \ <= 0 || l >= r || n == 0) return {0, U()};\n        if (xi >= (int)vals.size())\
+    \ return {r - l, base_sum[r] - base_sum[l]};\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \        if (__builtin_cpu_supports(\"popcnt\") && __builtin_cpu_supports(\"bmi2\"\
+    )) {\n            return query_less_index_bmi2<true>(l, r, xi);\n        }\n#endif\n\
+    \        return query_less_index_fallback<true>(l, r, xi);\n    }\n\n    int count_less_index(int\
+    \ l, int r, int xi) const {\n        if (xi <= 0 || l >= r || n == 0) return 0;\n\
+    \        if (xi >= (int)vals.size()) return r - l;\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \        if (__builtin_cpu_supports(\"popcnt\") && __builtin_cpu_supports(\"bmi2\"\
+    )) {\n            return query_less_index_bmi2<false>(l, r, xi).count;\n     \
+    \   }\n#endif\n        return query_less_index_fallback<false>(l, r, xi).count;\n\
+    \    }\n\n    CountSum count_sum_less(int l, int r, const T &x) const {\n    \
+    \    int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
     \        return count_sum_less_index(l, r, xi);\n    }\n\n    CountSum count_sum_less_equal(int\
     \ l, int r, const T &x) const {\n        int xi = (int)(upper_bound(vals.begin(),\
     \ vals.end(), x) - vals.begin());\n        return count_sum_less_index(l, r, xi);\n\
@@ -380,11 +384,13 @@ data:
     \ i < r; ++i) {\n        if (values[i] < x || (equal && values[i] == x)) {\n \
     \           ++res.count;\n            res.sum += weights[i];\n        }\n    }\n\
     \    return res;\n}\n\nvoid check_random() {\n    mt19937_64 rng(0);\n    for\
-    \ (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 51;\n        vector<ll>\
-    \ values(n), weights(n);\n        for (int i = 0; i < n; ++i) {\n            if\
-    \ (tc % 3 == 0) values[i] = (int)(rng() % 21) - 10;\n            else values[i]\
-    \ = (ll)rng();\n            weights[i] = (int)(rng() % 101) - 50;\n        }\n\
-    \        if (n && tc % 7 == 0) {\n            values[0] = numeric_limits<ll>::min();\n\
+    \ (int tc = 0; tc < 1000; ++tc) {\n        const int sizes[] = {0, 1, 2, 3, 63,\
+    \ 64, 65, 127, 128, 129};\n        int n = tc < 10 ? sizes[tc] : rng() % 258;\n\
+    \        vector<ll> values(n), weights(n);\n        for (int i = 0; i < n; ++i)\
+    \ {\n            if (tc % 11 == 0) values[i] = -7;\n            else if (tc %\
+    \ 3 == 0) values[i] = (int)(rng() % 21) - 10;\n            else values[i] = (ll)rng();\n\
+    \            weights[i] = (int)(rng() % 101) - 50;\n        }\n        if (n &&\
+    \ tc % 7 == 0 && tc % 11 != 0) {\n            values[0] = numeric_limits<ll>::min();\n\
     \            values[n - 1] = numeric_limits<ll>::max();\n        }\n\n       \
     \ WeightedWaveletMatrix<ll, ll> wm(values, weights);\n        vector<ll> sorted_values\
     \ = values;\n        sort(sorted_values.begin(), sorted_values.end());\n     \
@@ -393,16 +399,19 @@ data:
     \        for (int i = 0; i < n; ++i) {\n            index[i] = lower_bound(sorted_values.begin(),\
     \ sorted_values.end(), values[i]) - sorted_values.begin();\n        }\n      \
     \  WeightedWaveletMatrix<ll, ll> wm_index;\n        wm_index.build_from_index(index,\
-    \ sorted_values, weights);\n\n        for (int step = 0; step < 200; ++step) {\n\
-    \            int l = rng() % (n + 1);\n            int r = rng() % (n + 1);\n\
-    \            if (l > r) swap(l, r);\n            ll x = step % 17 == 0 ? numeric_limits<ll>::min()\n\
-    \                                  : step % 19 == 0 ? numeric_limits<ll>::max()\n\
-    \                                                    : (ll)rng();\n\n        \
-    \    BruteResult less = brute_less(values, weights, l, r, x, false);\n       \
-    \     auto got_less = wm.count_sum_less(l, r, x);\n            assert(got_less.count\
-    \ == less.count && got_less.sum == less.sum);\n            assert(wm.count_less(l,\
-    \ r, x) == less.count);\n            assert(wm.sum_less(l, r, x) == less.sum);\n\
-    \n            BruteResult less_equal = brute_less(values, weights, l, r, x, true);\n\
+    \ sorted_values, weights);\n        size_t sum_size = 0;\n        for (int mid\
+    \ : wm.mid) sum_size += mid + 1;\n        assert(wm.zero_sum.size() == sum_size);\n\
+    \        assert(wm_index.zero_sum.size() == sum_size);\n\n        for (int step\
+    \ = 0; step < 200; ++step) {\n            int l = rng() % (n + 1);\n         \
+    \   int r = rng() % (n + 1);\n            if (l > r) swap(l, r);\n           \
+    \ ll x = step % 17 == 0 ? numeric_limits<ll>::min()\n                        \
+    \          : step % 19 == 0 ? numeric_limits<ll>::max()\n                    \
+    \                                : (ll)rng();\n\n            BruteResult less\
+    \ = brute_less(values, weights, l, r, x, false);\n            auto got_less =\
+    \ wm.count_sum_less(l, r, x);\n            assert(got_less.count == less.count\
+    \ && got_less.sum == less.sum);\n            assert(wm.count_less(l, r, x) ==\
+    \ less.count);\n            assert(wm.sum_less(l, r, x) == less.sum);\n\n    \
+    \        BruteResult less_equal = brute_less(values, weights, l, r, x, true);\n\
     \            auto got_less_equal = wm.count_sum_less_equal(l, r, x);\n       \
     \     assert(got_less_equal.count == less_equal.count && got_less_equal.sum ==\
     \ less_equal.sum);\n            assert(wm.count_less_equal(l, r, x) == less_equal.count);\n\
@@ -414,14 +423,18 @@ data:
     \           auto got_index = wm_index.count_sum_less_index(l, r, xi);\n      \
     \      assert(got_index.count == index_less.count && got_index.sum == index_less.sum);\n\
     \            assert(wm_index.count_less_index(l, r, xi) == index_less.count);\n\
-    \        }\n    }\n}\n\nvoid check_generic_value() {\n    vector<string> values{\"\
-    bb\", \"aa\", \"cc\", \"aa\"};\n    vector<ll> weights{3, -2, 5, 7};\n    WeightedWaveletMatrix<string,\
-    \ ll> wm(values, weights);\n    assert(wm.count_less(0, 4, string(\"bb\")) ==\
-    \ 2);\n    assert(wm.sum_less_equal(1, 4, string(\"bb\")) == 5);\n}\n\nvoid check_integral_widths()\
-    \ {\n    vector<signed char> values{-128, 127, 0, -1, 0};\n    vector<int> weights{1,\
-    \ 2, 4, 8, 16};\n    WeightedWaveletMatrix<signed char, int> wm(values, weights);\n\
-    \    assert(wm.count_less(0, 5, (signed char)1) == 4);\n    assert(wm.sum_less_equal(0,\
-    \ 5, (signed char)0) == 29);\n}\n\nint main() {\n    check_random();\n    check_generic_value();\n\
+    \        }\n        wm.build({}, {});\n        assert(wm.zero_sum.empty());\n\
+    \        assert(wm.count_sum_less(0, 0, 0).sum == 0);\n        wm.build(values,\
+    \ weights);\n        assert(wm.zero_sum.size() == sum_size);\n        assert(wm.count_sum_less_index(0,\
+    \ n, sorted_values.size()).sum == wm_index.base_sum[n]);\n    }\n}\n\nvoid check_generic_value()\
+    \ {\n    vector<string> values{\"bb\", \"aa\", \"cc\", \"aa\"};\n    vector<ll>\
+    \ weights{3, -2, 5, 7};\n    WeightedWaveletMatrix<string, ll> wm(values, weights);\n\
+    \    assert(wm.count_less(0, 4, string(\"bb\")) == 2);\n    assert(wm.sum_less_equal(1,\
+    \ 4, string(\"bb\")) == 5);\n}\n\nvoid check_integral_widths() {\n    vector<signed\
+    \ char> values{-128, 127, 0, -1, 0};\n    vector<int> weights{1, 2, 4, 8, 16};\n\
+    \    WeightedWaveletMatrix<signed char, int> wm(values, weights);\n    assert(wm.count_less(0,\
+    \ 5, (signed char)1) == 4);\n    assert(wm.sum_less_equal(0, 5, (signed char)0)\
+    \ == 29);\n}\n\nint main() {\n    check_random();\n    check_generic_value();\n\
     \    check_integral_widths();\n\n    Scanner in;\n    Printer out;\n    ll a,\
     \ b;\n    in.read(a, b);\n    out.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
@@ -435,11 +448,13 @@ data:
     \    for (int i = l; i < r; ++i) {\n        if (values[i] < x || (equal && values[i]\
     \ == x)) {\n            ++res.count;\n            res.sum += weights[i];\n   \
     \     }\n    }\n    return res;\n}\n\nvoid check_random() {\n    mt19937_64 rng(0);\n\
-    \    for (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 51;\n       \
-    \ vector<ll> values(n), weights(n);\n        for (int i = 0; i < n; ++i) {\n \
-    \           if (tc % 3 == 0) values[i] = (int)(rng() % 21) - 10;\n           \
-    \ else values[i] = (ll)rng();\n            weights[i] = (int)(rng() % 101) - 50;\n\
-    \        }\n        if (n && tc % 7 == 0) {\n            values[0] = numeric_limits<ll>::min();\n\
+    \    for (int tc = 0; tc < 1000; ++tc) {\n        const int sizes[] = {0, 1, 2,\
+    \ 3, 63, 64, 65, 127, 128, 129};\n        int n = tc < 10 ? sizes[tc] : rng()\
+    \ % 258;\n        vector<ll> values(n), weights(n);\n        for (int i = 0; i\
+    \ < n; ++i) {\n            if (tc % 11 == 0) values[i] = -7;\n            else\
+    \ if (tc % 3 == 0) values[i] = (int)(rng() % 21) - 10;\n            else values[i]\
+    \ = (ll)rng();\n            weights[i] = (int)(rng() % 101) - 50;\n        }\n\
+    \        if (n && tc % 7 == 0 && tc % 11 != 0) {\n            values[0] = numeric_limits<ll>::min();\n\
     \            values[n - 1] = numeric_limits<ll>::max();\n        }\n\n       \
     \ WeightedWaveletMatrix<ll, ll> wm(values, weights);\n        vector<ll> sorted_values\
     \ = values;\n        sort(sorted_values.begin(), sorted_values.end());\n     \
@@ -448,16 +463,19 @@ data:
     \        for (int i = 0; i < n; ++i) {\n            index[i] = lower_bound(sorted_values.begin(),\
     \ sorted_values.end(), values[i]) - sorted_values.begin();\n        }\n      \
     \  WeightedWaveletMatrix<ll, ll> wm_index;\n        wm_index.build_from_index(index,\
-    \ sorted_values, weights);\n\n        for (int step = 0; step < 200; ++step) {\n\
-    \            int l = rng() % (n + 1);\n            int r = rng() % (n + 1);\n\
-    \            if (l > r) swap(l, r);\n            ll x = step % 17 == 0 ? numeric_limits<ll>::min()\n\
-    \                                  : step % 19 == 0 ? numeric_limits<ll>::max()\n\
-    \                                                    : (ll)rng();\n\n        \
-    \    BruteResult less = brute_less(values, weights, l, r, x, false);\n       \
-    \     auto got_less = wm.count_sum_less(l, r, x);\n            assert(got_less.count\
-    \ == less.count && got_less.sum == less.sum);\n            assert(wm.count_less(l,\
-    \ r, x) == less.count);\n            assert(wm.sum_less(l, r, x) == less.sum);\n\
-    \n            BruteResult less_equal = brute_less(values, weights, l, r, x, true);\n\
+    \ sorted_values, weights);\n        size_t sum_size = 0;\n        for (int mid\
+    \ : wm.mid) sum_size += mid + 1;\n        assert(wm.zero_sum.size() == sum_size);\n\
+    \        assert(wm_index.zero_sum.size() == sum_size);\n\n        for (int step\
+    \ = 0; step < 200; ++step) {\n            int l = rng() % (n + 1);\n         \
+    \   int r = rng() % (n + 1);\n            if (l > r) swap(l, r);\n           \
+    \ ll x = step % 17 == 0 ? numeric_limits<ll>::min()\n                        \
+    \          : step % 19 == 0 ? numeric_limits<ll>::max()\n                    \
+    \                                : (ll)rng();\n\n            BruteResult less\
+    \ = brute_less(values, weights, l, r, x, false);\n            auto got_less =\
+    \ wm.count_sum_less(l, r, x);\n            assert(got_less.count == less.count\
+    \ && got_less.sum == less.sum);\n            assert(wm.count_less(l, r, x) ==\
+    \ less.count);\n            assert(wm.sum_less(l, r, x) == less.sum);\n\n    \
+    \        BruteResult less_equal = brute_less(values, weights, l, r, x, true);\n\
     \            auto got_less_equal = wm.count_sum_less_equal(l, r, x);\n       \
     \     assert(got_less_equal.count == less_equal.count && got_less_equal.sum ==\
     \ less_equal.sum);\n            assert(wm.count_less_equal(l, r, x) == less_equal.count);\n\
@@ -469,14 +487,18 @@ data:
     \           auto got_index = wm_index.count_sum_less_index(l, r, xi);\n      \
     \      assert(got_index.count == index_less.count && got_index.sum == index_less.sum);\n\
     \            assert(wm_index.count_less_index(l, r, xi) == index_less.count);\n\
-    \        }\n    }\n}\n\nvoid check_generic_value() {\n    vector<string> values{\"\
-    bb\", \"aa\", \"cc\", \"aa\"};\n    vector<ll> weights{3, -2, 5, 7};\n    WeightedWaveletMatrix<string,\
-    \ ll> wm(values, weights);\n    assert(wm.count_less(0, 4, string(\"bb\")) ==\
-    \ 2);\n    assert(wm.sum_less_equal(1, 4, string(\"bb\")) == 5);\n}\n\nvoid check_integral_widths()\
-    \ {\n    vector<signed char> values{-128, 127, 0, -1, 0};\n    vector<int> weights{1,\
-    \ 2, 4, 8, 16};\n    WeightedWaveletMatrix<signed char, int> wm(values, weights);\n\
-    \    assert(wm.count_less(0, 5, (signed char)1) == 4);\n    assert(wm.sum_less_equal(0,\
-    \ 5, (signed char)0) == 29);\n}\n\nint main() {\n    check_random();\n    check_generic_value();\n\
+    \        }\n        wm.build({}, {});\n        assert(wm.zero_sum.empty());\n\
+    \        assert(wm.count_sum_less(0, 0, 0).sum == 0);\n        wm.build(values,\
+    \ weights);\n        assert(wm.zero_sum.size() == sum_size);\n        assert(wm.count_sum_less_index(0,\
+    \ n, sorted_values.size()).sum == wm_index.base_sum[n]);\n    }\n}\n\nvoid check_generic_value()\
+    \ {\n    vector<string> values{\"bb\", \"aa\", \"cc\", \"aa\"};\n    vector<ll>\
+    \ weights{3, -2, 5, 7};\n    WeightedWaveletMatrix<string, ll> wm(values, weights);\n\
+    \    assert(wm.count_less(0, 4, string(\"bb\")) == 2);\n    assert(wm.sum_less_equal(1,\
+    \ 4, string(\"bb\")) == 5);\n}\n\nvoid check_integral_widths() {\n    vector<signed\
+    \ char> values{-128, 127, 0, -1, 0};\n    vector<int> weights{1, 2, 4, 8, 16};\n\
+    \    WeightedWaveletMatrix<signed char, int> wm(values, weights);\n    assert(wm.count_less(0,\
+    \ 5, (signed char)1) == 4);\n    assert(wm.sum_less_equal(0, 5, (signed char)0)\
+    \ == 29);\n}\n\nint main() {\n    check_random();\n    check_generic_value();\n\
     \    check_integral_widths();\n\n    Scanner in;\n    Printer out;\n    ll a,\
     \ b;\n    in.read(a, b);\n    out.println(a + b);\n    return 0;\n}\n"
   dependsOn:
@@ -485,7 +507,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 17:04:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp

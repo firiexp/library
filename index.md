@@ -818,6 +818,9 @@ data:
       path: test/yosupo_aplusb_palindromic_tree.test.cpp
       title: test/yosupo_aplusb_palindromic_tree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+      title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_prime_range.test.cpp
       title: test/yosupo_aplusb_prime_range.test.cpp
     - icon: ':heavy_check_mark:'

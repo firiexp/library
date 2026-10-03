@@ -14,6 +14,9 @@ data:
     title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+    title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
   - icon: ':heavy_check_mark:'
@@ -294,7 +297,13 @@ data:
     \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
     \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
     \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 2 \"fps/multipoint_evaluation.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \n\n#line 2 \"fps/multipoint_evaluation.cpp\"\n\nnamespace multipoint_evaluation_detail\
+    \ {\nvector<mint> evaluate(const poly &f, const vector<poly> &prod, int m) {\n\
+    \    int n = (int)prod.size() / 2;\n    vector<poly> rem(2 * n);\n    rem[1] =\
+    \ f.mod(prod[1]);\n    for (int i = 1; i < n; ++i) {\n        rem[i << 1] = rem[i].mod(prod[i\
+    \ << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i << 1 | 1]);\n    }\n  \
+    \  vector<mint> ys(m);\n    for (int i = 0; i < m; ++i) ys[i] = rem[n + i].v.empty()\
+    \ ? mint(0) : rem[n + i][0];\n    return ys;\n}\n}\n\nvector<mint> poly::multipoint_eval(const\
     \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
     \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
     \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
@@ -302,13 +311,16 @@ data:
     \ (n < m) n <<= 1;\n    vector<poly> prod(2 * n);\n    for (int i = 0; i < m;\
     \ ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = m;\
     \ i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});\n    for (int i = n -\
-    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    vector<poly>\
-    \ rem(2 * n);\n    rem[1] = mod(prod[1]);\n    for (int i = 1; i < n; ++i) {\n\
-    \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
-    \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
-    \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
-    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n */\n"
-  code: "#include \"../math/ntt.cpp\"\n\nvector<mint> poly::multipoint_eval(const\
+    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    return multipoint_evaluation_detail::evaluate(*this,\
+    \ prod, m);\n}\n\n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n\
+    \ */\n"
+  code: "#include \"../math/ntt.cpp\"\n\nnamespace multipoint_evaluation_detail {\n\
+    vector<mint> evaluate(const poly &f, const vector<poly> &prod, int m) {\n    int\
+    \ n = (int)prod.size() / 2;\n    vector<poly> rem(2 * n);\n    rem[1] = f.mod(prod[1]);\n\
+    \    for (int i = 1; i < n; ++i) {\n        rem[i << 1] = rem[i].mod(prod[i <<\
+    \ 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i << 1 | 1]);\n    }\n    vector<mint>\
+    \ ys(m);\n    for (int i = 0; i < m; ++i) ys[i] = rem[n + i].v.empty() ? mint(0)\
+    \ : rem[n + i][0];\n    return ys;\n}\n}\n\nvector<mint> poly::multipoint_eval(const\
     \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
     \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
     \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
@@ -316,12 +328,9 @@ data:
     \ (n < m) n <<= 1;\n    vector<poly> prod(2 * n);\n    for (int i = 0; i < m;\
     \ ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = m;\
     \ i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});\n    for (int i = n -\
-    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    vector<poly>\
-    \ rem(2 * n);\n    rem[1] = mod(prod[1]);\n    for (int i = 1; i < n; ++i) {\n\
-    \        rem[i << 1] = rem[i].mod(prod[i << 1]);\n        rem[i << 1 | 1] = rem[i].mod(prod[i\
-    \ << 1 | 1]);\n    }\n    vector<mint> ys(m);\n    for (int i = 0; i < m; ++i)\
-    \ ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];\n    return ys;\n}\n\
-    \n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n */\n"
+    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    return multipoint_evaluation_detail::evaluate(*this,\
+    \ prod, m);\n}\n\n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n\
+    \ */\n"
   dependsOn:
   - math/ntt.cpp
   - util/modint_base.cpp
@@ -329,11 +338,12 @@ data:
   path: fps/multipoint_evaluation.cpp
   requiredBy:
   - fps/polynomial_interpolation.cpp
-  timestamp: '2026-07-11 20:39:21+09:00'
+  timestamp: '2026-10-03 17:04:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
+  - test/yosupo_aplusb_polynomial_interpolation.test.cpp
 date: 2026-03-08
 documentation_of: fps/multipoint_evaluation.cpp
 layout: document

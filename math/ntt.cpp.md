@@ -35,6 +35,9 @@ data:
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+    title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution.test.cpp
     title: test/yosupo_convolution.test.cpp
   - icon: ':heavy_check_mark:'
@@ -620,6 +623,7 @@ data:
   - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/yosupo_convolution.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+  - test/yosupo_aplusb_polynomial_interpolation.test.cpp
 date: 2026-03-08
 documentation_of: math/ntt.cpp
 layout: document

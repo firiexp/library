@@ -167,6 +167,9 @@ data:
     path: test/yosupo_aplusb_palindromic_tree.test.cpp
     title: test/yosupo_aplusb_palindromic_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+    title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_prime_range.test.cpp
     title: test/yosupo_aplusb_prime_range.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1126,6 +1129,7 @@ data:
   - test/yosupo_directedmst.test.cpp
   - test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
   - test/yosupo_lyndon_factorization.test.cpp
+  - test/yosupo_aplusb_polynomial_interpolation.test.cpp
   - test/yosupo_multiplication_of_big_integers.test.cpp
   - test/yosupo_discrete_logarithm_mod.test.cpp
   - test/yosupo_aplusb_minimum_vertex_cover.test.cpp

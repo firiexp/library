@@ -23,69 +23,66 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/polynomial_interpolation
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/polynomial_interpolation
-  bundledCode: "#line 1 \"test/yosupo_polynomial_interpolation.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/polynomial_interpolation\"\n\n#include\
-    \ <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\nusing\
-    \ ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing\
-    \ namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing\
-    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_polynomial_interpolation.test.cpp\"\n\
+    #define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -537,25 +534,56 @@ data:
     \ 1] * prod[i << 1 | 1] + cur[i << 1 | 1] * prod[i << 1];\n    }\n    cur[1].shrink();\n\
     \    if (cur[1].size() < n) cur[1].v.resize(n);\n    return cur[1];\n}\n\n/**\n\
     \ * @brief \u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n#line\
-    \ 20 \"test/yosupo_polynomial_interpolation.test.cpp\"\n\nint main() {\n    Scanner\
-    \ in;\n    Printer out;\n    int n;\n    in.read(n);\n    vector<mint> xs(n),\
-    \ ys(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
-    \        xs[i] = x;\n    }\n    for (int i = 0; i < n; ++i) {\n        int y;\n\
-    \        in.read(y);\n        ys[i] = y;\n    }\n    poly f = polynomial_interpolation(xs,\
-    \ ys);\n    for (int i = 0; i < n; ++i) {\n        if (i) out.print(' ');\n  \
-    \      out.print(f[i].val);\n    }\n    out.println();\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/polynomial_interpolation\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
-    using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
-    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../fps/polynomial_interpolation.cpp\"\n\nint main() {\n    Scanner\
-    \ in;\n    Printer out;\n    int n;\n    in.read(n);\n    vector<mint> xs(n),\
-    \ ys(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
-    \        xs[i] = x;\n    }\n    for (int i = 0; i < n; ++i) {\n        int y;\n\
-    \        in.read(y);\n        ys[i] = y;\n    }\n    poly f = polynomial_interpolation(xs,\
-    \ ys);\n    for (int i = 0; i < n; ++i) {\n        if (i) out.print(' ');\n  \
-    \      out.print(f[i].val);\n    }\n    out.println();\n    return 0;\n}\n"
+    \ 10 \"test/yosupo_aplusb_polynomial_interpolation.test.cpp\"\n\nmint horner(const\
+    \ vector<mint> &coefficients, mint x) {\n    mint result = 0;\n    for (int i\
+    \ = (int)coefficients.size() - 1; i >= 0; --i) result = result * x + coefficients[i];\n\
+    \    return result;\n}\n\nvoid self_check() {\n    assert(polynomial_interpolation({},\
+    \ {}).v.empty());\n    mt19937 random(64);\n    const int sizes[] = {1, 2, 3,\
+    \ 31, 32, 33, 63, 64, 65, 127, 128, 129, 149};\n    for (int tc = 0; tc < 1000;\
+    \ ++tc) {\n        int n = tc < 13 ? sizes[tc] : 1 + random() % 149;\n       \
+    \ vector<mint> coefficients(n), xs(n), ys(n);\n        for (auto &c : coefficients)\
+    \ c = random() % 998244353;\n        if (tc % 7 == 0) fill(coefficients.begin(),\
+    \ coefficients.end(), mint(0));\n        else if (tc % 5 == 0) fill(coefficients.begin()\
+    \ + n / 2, coefficients.end(), mint(0));\n        mint offset = random() % 998244353,\
+    \ step = 1 + random() % 998244352;\n        for (int i = 0; i < n; ++i) xs[i]\
+    \ = offset + step * mint(i);\n        shuffle(xs.begin(), xs.end(), random);\n\
+    \        for (int i = 0; i < n; ++i) ys[i] = horner(coefficients, xs[i]);\n  \
+    \      auto original_xs = xs, original_ys = ys;\n        auto result = polynomial_interpolation(xs,\
+    \ ys);\n        assert(result.v == coefficients);\n        assert(xs == original_xs\
+    \ && ys == original_ys);\n        assert(result.multipoint_eval(xs) == ys);\n\n\
+    \        int count = tc % 9 == 0 ? 0 : random() % 150;\n        vector<mint> points(count),\
+    \ expected(count);\n        for (int i = 0; i < count; ++i) {\n            points[i]\
+    \ = tc % 3 == 0 ? mint(0) : mint(random() % 998244353);\n            expected[i]\
+    \ = horner(coefficients, points[i]);\n        }\n        assert(result.multipoint_eval(points)\
+    \ == expected);\n        assert(poly().multipoint_eval(points) == vector<mint>(count));\n\
+    \    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\n#include \"../util/fastio.cpp\"\n#include \"../fps/polynomial_interpolation.cpp\"\
+    \n\nmint horner(const vector<mint> &coefficients, mint x) {\n    mint result =\
+    \ 0;\n    for (int i = (int)coefficients.size() - 1; i >= 0; --i) result = result\
+    \ * x + coefficients[i];\n    return result;\n}\n\nvoid self_check() {\n    assert(polynomial_interpolation({},\
+    \ {}).v.empty());\n    mt19937 random(64);\n    const int sizes[] = {1, 2, 3,\
+    \ 31, 32, 33, 63, 64, 65, 127, 128, 129, 149};\n    for (int tc = 0; tc < 1000;\
+    \ ++tc) {\n        int n = tc < 13 ? sizes[tc] : 1 + random() % 149;\n       \
+    \ vector<mint> coefficients(n), xs(n), ys(n);\n        for (auto &c : coefficients)\
+    \ c = random() % 998244353;\n        if (tc % 7 == 0) fill(coefficients.begin(),\
+    \ coefficients.end(), mint(0));\n        else if (tc % 5 == 0) fill(coefficients.begin()\
+    \ + n / 2, coefficients.end(), mint(0));\n        mint offset = random() % 998244353,\
+    \ step = 1 + random() % 998244352;\n        for (int i = 0; i < n; ++i) xs[i]\
+    \ = offset + step * mint(i);\n        shuffle(xs.begin(), xs.end(), random);\n\
+    \        for (int i = 0; i < n; ++i) ys[i] = horner(coefficients, xs[i]);\n  \
+    \      auto original_xs = xs, original_ys = ys;\n        auto result = polynomial_interpolation(xs,\
+    \ ys);\n        assert(result.v == coefficients);\n        assert(xs == original_xs\
+    \ && ys == original_ys);\n        assert(result.multipoint_eval(xs) == ys);\n\n\
+    \        int count = tc % 9 == 0 ? 0 : random() % 150;\n        vector<mint> points(count),\
+    \ expected(count);\n        for (int i = 0; i < count; ++i) {\n            points[i]\
+    \ = tc % 3 == 0 ? mint(0) : mint(random() % 998244353);\n            expected[i]\
+    \ = horner(coefficients, points[i]);\n        }\n        assert(result.multipoint_eval(points)\
+    \ == expected);\n        assert(poly().multipoint_eval(points) == vector<mint>(count));\n\
+    \    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - fps/polynomial_interpolation.cpp
@@ -563,15 +591,15 @@ data:
   - math/ntt.cpp
   - util/modint_base.cpp
   isVerificationFile: true
-  path: test/yosupo_polynomial_interpolation.test.cpp
+  path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 17:04:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_polynomial_interpolation.test.cpp
+documentation_of: test/yosupo_aplusb_polynomial_interpolation.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_polynomial_interpolation.test.cpp
-- /verify/test/yosupo_polynomial_interpolation.test.cpp.html
-title: test/yosupo_polynomial_interpolation.test.cpp
+- /verify/test/yosupo_aplusb_polynomial_interpolation.test.cpp
+- /verify/test/yosupo_aplusb_polynomial_interpolation.test.cpp.html
+title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
 ---
