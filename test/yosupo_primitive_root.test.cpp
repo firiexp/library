@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/primitive_root"
 
 #include <algorithm>
+#include <cassert>
 #include <cstdint>
 #include <numeric>
 #include <random>

@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_MATH_GET_PRIME_WHEEL_CPP
+#define FIRIEXP_LIBRARY_MATH_GET_PRIME_WHEEL_CPP
+
 struct Prime {
     static constexpr int wheel[8]  = {4, 2, 4, 2, 4, 6, 2, 6};
     static constexpr int wheel2[8] = {7, 11, 13, 17, 19, 23, 29, 31};
@@ -18,7 +21,7 @@ struct Prime {
     };
 
     // old 1-based
-    static inline int f(int n) { return (n - 1) / 30 * 8 + wheel_sum[(n - 1) % 30]; }
+    static inline int f(long long n) { return (n - 1) / 30 * 8 + wheel_sum[(n - 1) % 30]; }
     static inline int g(int n) { return ((n - 1) >> 3) * 30 + wheel2[(n - 1) & 7]; }
 
     // internal 0-based
@@ -59,7 +62,7 @@ private:
 
             for (int t = 0; t < 8; ++t) {
                 long long nxt = cur + 1LL * wheel[(phase0 + t) & 7] * p;
-                delta[t] = f((int)nxt) - f((int)cur);
+                delta[t] = f(nxt) - f(cur);
                 cur = nxt;
             }
 
@@ -176,3 +179,5 @@ constexpr int Prime::wheel[8];
 constexpr int Prime::wheel2[8];
 constexpr int Prime::wheel_sum[30];
 constexpr int Prime::off64[64];
+
+#endif

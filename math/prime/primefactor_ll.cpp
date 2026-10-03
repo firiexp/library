@@ -160,6 +160,7 @@ ull pollard_rho_impl(ull nn, bool use_pm1) {
 
 template<class T>
 T pollard_rho2(T n) {
+    assert(n >= 4 && static_cast<ull>(n) < (1ULL << 63));
     ull nn = n;
     if ((nn & 1) == 0) return 2;
     if (nn < pollard_lazy_mod_limit) {
@@ -198,6 +199,7 @@ void prime_factor_impl(T n, vector<T> &res, bool trial){
 
 template<class T>
 vector<T> prime_factor(T n){
+    assert(n >= 1 && static_cast<ull>(n) < (1ULL << 63));
     vector<T> res;
     prime_factor_impl(n, res, true);
     sort(res.begin(),res.end());

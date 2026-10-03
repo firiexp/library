@@ -19,10 +19,14 @@ tags: グラフ
   最大マッチング数を返す
 - `vector<pair<int, int>> get_pairs()`
   現在のマッチングを `(左, 右)` の列で返す
+- `pair<vector<int>, vector<int>> minimum_vertex_cover()`
+  最小頂点被覆の左・右それぞれの頂点番号列を返す。番号は 0-indexed。必要なら内部で最大マッチングを更新する
 
 ## 使い方
 辺をすべて追加してから `max_matching()` を呼ぶ。
 マッチ先は `match_left` と `match_right` に入り、必要なら `get_pairs()` で列挙できる。
+最小頂点被覆は辺の追加後に `minimum_vertex_cover()` を呼ぶ。繰り返し取得でき、事前の `max_matching()` は不要。
 
 ## 実装上の補足
 左側だけに BFS/DFS の層グラフを持つ標準的な Hopcroft-Karp 法。
+最大マッチング計算後の最小頂点被覆の抽出は $O(L + R + M)$、作業領域は $O(L + R)$。

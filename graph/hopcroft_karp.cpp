@@ -3,6 +3,7 @@ class HopcroftKarp {
     vector<pair<int, int>> edges;
     vector<int> start, elist;
     vector<int> dist;
+    bool dirty = true;
 
     void build_graph() {
         start.assign(l + 1, 0);
@@ -22,6 +23,7 @@ public:
 
     void add_edge(int a, int b) {
         edges.emplace_back(a, b);
+        dirty = true;
     }
 
     bool bfs() {
@@ -65,15 +67,46 @@ public:
     }
 
     int max_matching() {
-        build_graph();
         int ret = 0;
         for (int v : match_left) if (v != -1) ++ret;
+        if (!dirty) return ret;
+        build_graph();
         while (bfs()) {
             for (int i = 0; i < l; ++i) {
                 if (match_left[i] == -1 && dfs(i)) ++ret;
             }
         }
+        dirty = false;
         return ret;
+    }
+
+    pair<vector<int>, vector<int>> minimum_vertex_cover() {
+        max_matching();
+        vector<char> seen_left(l), seen_right(r);
+        queue<int> q;
+        for (int i = 0; i < l; ++i) {
+            if (match_left[i] != -1) continue;
+            seen_left[i] = true;
+            q.push(i);
+        }
+        while (!q.empty()) {
+            int v = q.front();
+            q.pop();
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int to = elist[ei];
+                if (to == match_left[v] || seen_right[to]) continue;
+                seen_right[to] = true;
+                int u = match_right[to];
+                if (u != -1 && !seen_left[u]) {
+                    seen_left[u] = true;
+                    q.push(u);
+                }
+            }
+        }
+        vector<int> left, right;
+        for (int i = 0; i < l; ++i) if (!seen_left[i]) left.push_back(i);
+        for (int i = 0; i < r; ++i) if (seen_right[i]) right.push_back(i);
+        return {move(left), move(right)};
     }
 
     vector<pair<int, int>> get_pairs() const {

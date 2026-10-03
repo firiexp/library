@@ -23,6 +23,7 @@ using ull = unsigned long long;
 
 #include "../math/prime/get_min_factor.cpp"
 #include "../math/prime/get_prime.cpp"
+#include "../math/prime/get_prime_wheel.cpp"
 
 #include "../geometry/dualgraph.cpp"
 #include "../geometry/half_plane_intersection.cpp"

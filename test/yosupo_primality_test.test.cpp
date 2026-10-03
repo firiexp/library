@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/primality_test"
 
 #include <cstdint>
+#include <cassert>
 #include <vector>
 
 using ull = unsigned long long;

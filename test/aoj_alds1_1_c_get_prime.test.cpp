@@ -1,7 +1,11 @@
 #define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C"
 
 #include <vector>
+#include <algorithm>
+#include <array>
+#include <cmath>
 using namespace std;
+using ull = unsigned long long;
 
 #include <cstdio>
 #include <cstring>

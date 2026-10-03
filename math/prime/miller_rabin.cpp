@@ -9,6 +9,7 @@ struct mod64 {
         return reduce(u128(w) * r2);
     }
     static void set_mod(unsigned long long m) {
+        assert((m & 1) && m < (1ULL << 63));
         mod = inv = m;
         for (int i = 0; i < 5; ++i) inv *= 2 - inv * m;
         r2 = -u128(m) % m;
@@ -59,8 +60,10 @@ bool suspect(unsigned long long a, unsigned long long s, unsigned long long d, u
 
 template<class T>
 bool miller_rabin(T m){
+    if (m <= 1) return false;
     unsigned long long n = m;
-    if (n <= 1 || (n > 2 && n % 2 == 0)) return false;
+    assert(n < (1ULL << 63));
+    if (n > 2 && n % 2 == 0) return false;
     if (n == 2 || n == 3 || n == 5 || n == 7) return true;
     if (n % 3 == 0 || n % 5 == 0 || n % 7 == 0) return false;
     unsigned long long d = n - 1, s = 0;

@@ -7,16 +7,14 @@ tags: 数学
 ---
 
 ## 説明
-`n` 以下の素数を線形篩で列挙する。
-計算量は $O(n)$。
+`n` 以下の素数を wheel sieve で列挙する。
+計算量は $O(n \log \log n)$。
 
 ## できること
 - `vector<int> get_prime(int n)`
   `n` 以下の素数を昇順で返す。`n <= 1` なら空
 
 ## 使い方
-`LinearSieve` の素数列挙だけを取り出す薄い wrapper である。
-
 ```cpp
 auto primes = get_prime(n);
 ```
