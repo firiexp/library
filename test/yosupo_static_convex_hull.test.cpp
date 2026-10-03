@@ -18,7 +18,6 @@ using ll = long long;
 #include "../util/fastio.cpp"
 #include "../geometry/convex_hull.cpp"
 
-// Gift wrapping with exact wide arithmetic, independent of the monotone chain.
 vector<IntPoint> brute_hull(vector<IntPoint> points) {
     using Wide = __int128;
     sort(points.begin(), points.end());

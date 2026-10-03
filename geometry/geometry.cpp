@@ -328,7 +328,6 @@ int contains_convex(Polygon &v, Point p) {
         return OUT;
     if (v.size() < 3)
         return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON : OUT;
-    // Use the farthest vertex on each boundary ray, including collinear edges.
     auto end_of_ray = [&](bool reverse) {
         int l = 1, r = v.size();
         auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };
