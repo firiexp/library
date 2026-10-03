@@ -59,7 +59,7 @@ data:
       path: datastructure/rectangle_add_point_get.cpp
       title: "\u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point\
         \ Get)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/slidingwindow.cpp
       title: "\u30B9\u30E9\u30A4\u30C9\u6700\u5C0F\u5024(\u6700\u5927\u5024)"
     - icon: ':warning:'
@@ -764,6 +764,9 @@ data:
       path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_flow_boundaries.test.cpp
+      title: test/yosupo_aplusb_flow_boundaries.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
     - icon: ':heavy_check_mark:'
@@ -785,11 +788,20 @@ data:
       path: test/yosupo_aplusb_palindromic_tree.test.cpp
       title: test/yosupo_aplusb_palindromic_tree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+      title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
       title: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_sliding_window.test.cpp
+      title: test/yosupo_aplusb_sliding_window.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_string_bytes.test.cpp
+      title: test/yosupo_aplusb_string_bytes.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_top_k_sum.test.cpp
       title: test/yosupo_aplusb_top_k_sum.test.cpp

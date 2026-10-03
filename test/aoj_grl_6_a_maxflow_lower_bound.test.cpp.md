@@ -41,8 +41,9 @@ data:
     \    edge() = default;\n        edge(int to, T cap, int rev) : to(to), cap(cap),\
     \ rev(rev) {}\n    };\n \n    vector<vector<edge>> G;\n    vector<int> level,\
     \ iter;\n    Dinic() = default;\n    explicit Dinic(int n) : G(n), level(n), iter(n)\
-    \ {}\n \n    void add_edge(int from, int to, T cap){\n        G[from].emplace_back(to,\
-    \ cap, G[to].size());\n        G[to].emplace_back(from, directed ? 0 : cap,  G[from].size()-1);\n\
+    \ {}\n \n    void add_edge(int from, int to, T cap){\n        int from_id = G[from].size(),\
+    \ to_id = G[to].size();\n        if(from == to) ++to_id;\n        G[from].emplace_back(to,\
+    \ cap, to_id);\n        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n\
     \    }\n \n \n    T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n\
     \        while(true) {\n            bfs(s);\n            if(level[t] < 0 || lim\
     \ == 0) break;\n            fill(iter.begin(),iter.end(), 0);\n            while(true){\n\
@@ -97,7 +98,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
   requiredBy: []
-  timestamp: '2026-03-23 22:54:37+09:00'
+  timestamp: '2026-10-03 13:01:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp

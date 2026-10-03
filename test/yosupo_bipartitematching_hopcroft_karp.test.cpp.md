@@ -19,14 +19,15 @@ data:
     - https://judge.yosupo.jp/problem/bipartitematching
   bundledCode: "#line 1 \"test/yosupo_bipartitematching_hopcroft_karp.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/bipartitematching\"\n\n#include\
-    \ <queue>\n#include <utility>\n#include <vector>\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ <queue>\n#include <algorithm>\n#include <cassert>\n#include <random>\n#include\
+    \ <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -252,36 +253,85 @@ data:
     \           match_left[v] = to;\n            match_right[to] = v;\n          \
     \  return true;\n        }\n        dist[v] = -1;\n        return false;\n   \
     \ }\n\n    int max_matching() {\n        build_graph();\n        int ret = 0;\n\
-    \        while (bfs()) {\n            for (int i = 0; i < l; ++i) {\n        \
-    \        if (match_left[i] == -1 && dfs(i)) ++ret;\n            }\n        }\n\
-    \        return ret;\n    }\n\n    vector<pair<int, int>> get_pairs() const {\n\
-    \        vector<pair<int, int>> ret;\n        for (int i = 0; i < l; ++i) {\n\
-    \            if (match_left[i] != -1) ret.emplace_back(i, match_left[i]);\n  \
-    \      }\n        return ret;\n    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\
-    \n */\n#line 16 \"test/yosupo_bipartitematching_hopcroft_karp.test.cpp\"\n\nint\
-    \ main() {\n    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l,\
-    \ r, m);\n    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n    \
-    \    int a, b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n  \
-    \  int ans = hk.max_matching();\n    out.println(ans);\n    auto pairs = hk.get_pairs();\n\
+    \        for (int v : match_left) if (v != -1) ++ret;\n        while (bfs()) {\n\
+    \            for (int i = 0; i < l; ++i) {\n                if (match_left[i]\
+    \ == -1 && dfs(i)) ++ret;\n            }\n        }\n        return ret;\n   \
+    \ }\n\n    vector<pair<int, int>> get_pairs() const {\n        vector<pair<int,\
+    \ int>> ret;\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
+    \ != -1) ret.emplace_back(i, match_left[i]);\n        }\n        return ret;\n\
+    \    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\n */\n#line 19 \"test/yosupo_bipartitematching_hopcroft_karp.test.cpp\"\
+    \n\nvoid repeated_matching_check() {\n    mt19937 rng(55);\n    for (int l = 0;\
+    \ l <= 6; ++l) {\n        for (int r = 0; r <= 6; ++r) {\n            HopcroftKarp\
+    \ hk(l, r);\n            vector<vector<bool>> edges(l, vector<bool>(r));\n   \
+    \         for (int step = 0; step < 25; ++step) {\n                if (l && r\
+    \ && step > 0) {\n                    int u = rng() % l, v = rng() % r;\n    \
+    \                hk.add_edge(u, v);\n                    edges[u][v] = true;\n\
+    \                }\n                vector<bool> possible(1 << r);\n         \
+    \       possible[0] = true;\n                for (int u = 0; u < l; ++u) {\n \
+    \                   auto next = possible;\n                    for (int mask =\
+    \ 0; mask < (1 << r); ++mask) {\n                        if (!possible[mask])\
+    \ continue;\n                        for (int v = 0; v < r; ++v)\n           \
+    \                 if (edges[u][v] && !(mask >> v & 1)) next[mask | (1 << v)] =\
+    \ true;\n                    }\n                    possible = next;\n       \
+    \         }\n                int expected = 0;\n                for (int mask\
+    \ = 0; mask < (1 << r); ++mask)\n                    if (possible[mask]) expected\
+    \ = max(expected, __builtin_popcount((unsigned)mask));\n                for (int\
+    \ repeat = 0; repeat < 2; ++repeat) {\n                    assert(hk.max_matching()\
+    \ == expected);\n                    auto pairs = hk.get_pairs();\n          \
+    \          assert(int(pairs.size()) == expected);\n                    vector<bool>\
+    \ used_l(l), used_r(r);\n                    for (auto [u, v] : pairs) {\n   \
+    \                     assert(edges[u][v] && !used_l[u] && !used_r[v]);\n     \
+    \                   used_l[u] = used_r[v] = true;\n                        assert(hk.match_left[u]\
+    \ == v && hk.match_right[v] == u);\n                    }\n                }\n\
+    \            }\n        }\n    }\n}\n\nint main() {\n    repeated_matching_check();\n\
+    \    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l, r, m);\n\
+    \    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n        int a,\
+    \ b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n    int ans =\
+    \ hk.max_matching();\n    out.println(ans);\n    auto pairs = hk.get_pairs();\n\
     \    for (auto&& [a, b] : pairs) {\n        out.println(a, b);\n    }\n    return\
-    \ 0;\n}\n\n"
+    \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bipartitematching\"\n\n\
-    #include <queue>\n#include <utility>\n#include <vector>\nusing namespace std;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../graph/hopcroft_karp.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l,\
-    \ r, m);\n    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n    \
-    \    int a, b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n  \
-    \  int ans = hk.max_matching();\n    out.println(ans);\n    auto pairs = hk.get_pairs();\n\
+    #include <queue>\n#include <algorithm>\n#include <cassert>\n#include <random>\n\
+    #include <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #include \"../util/fastio.cpp\"\n#include \"../graph/hopcroft_karp.cpp\"\n\nvoid\
+    \ repeated_matching_check() {\n    mt19937 rng(55);\n    for (int l = 0; l <=\
+    \ 6; ++l) {\n        for (int r = 0; r <= 6; ++r) {\n            HopcroftKarp\
+    \ hk(l, r);\n            vector<vector<bool>> edges(l, vector<bool>(r));\n   \
+    \         for (int step = 0; step < 25; ++step) {\n                if (l && r\
+    \ && step > 0) {\n                    int u = rng() % l, v = rng() % r;\n    \
+    \                hk.add_edge(u, v);\n                    edges[u][v] = true;\n\
+    \                }\n                vector<bool> possible(1 << r);\n         \
+    \       possible[0] = true;\n                for (int u = 0; u < l; ++u) {\n \
+    \                   auto next = possible;\n                    for (int mask =\
+    \ 0; mask < (1 << r); ++mask) {\n                        if (!possible[mask])\
+    \ continue;\n                        for (int v = 0; v < r; ++v)\n           \
+    \                 if (edges[u][v] && !(mask >> v & 1)) next[mask | (1 << v)] =\
+    \ true;\n                    }\n                    possible = next;\n       \
+    \         }\n                int expected = 0;\n                for (int mask\
+    \ = 0; mask < (1 << r); ++mask)\n                    if (possible[mask]) expected\
+    \ = max(expected, __builtin_popcount((unsigned)mask));\n                for (int\
+    \ repeat = 0; repeat < 2; ++repeat) {\n                    assert(hk.max_matching()\
+    \ == expected);\n                    auto pairs = hk.get_pairs();\n          \
+    \          assert(int(pairs.size()) == expected);\n                    vector<bool>\
+    \ used_l(l), used_r(r);\n                    for (auto [u, v] : pairs) {\n   \
+    \                     assert(edges[u][v] && !used_l[u] && !used_r[v]);\n     \
+    \                   used_l[u] = used_r[v] = true;\n                        assert(hk.match_left[u]\
+    \ == v && hk.match_right[v] == u);\n                    }\n                }\n\
+    \            }\n        }\n    }\n}\n\nint main() {\n    repeated_matching_check();\n\
+    \    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l, r, m);\n\
+    \    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n        int a,\
+    \ b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n    int ans =\
+    \ hk.max_matching();\n    out.println(ans);\n    auto pairs = hk.get_pairs();\n\
     \    for (auto&& [a, b] : pairs) {\n        out.println(a, b);\n    }\n    return\
-    \ 0;\n}\n\n"
+    \ 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/hopcroft_karp.cpp
   isVerificationFile: true
   path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 13:01:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_bipartitematching_hopcroft_karp.test.cpp

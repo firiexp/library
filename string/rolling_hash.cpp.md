@@ -10,6 +10,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0355.test.cpp
     title: test/aoj0355.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_string_bytes.test.cpp
+    title: test/yosupo_aplusb_string_bytes.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -34,9 +37,9 @@ data:
     \            for (int i = l; i < p().size(); ++i) {\n                p()[i] =\
     \ (p()[i-1]*p()[1])%M;\n            }\n        }\n        hash.resize(s.size()+1,\
     \ 0);\n        for (int i = 0; i < s.size(); ++i) {\n            hash[i+1] = (hash[i]*B()\
-    \ + s[i]) % M;\n        }\n    };\n\n    ll get(int l, int r){\n        ll res\
-    \ = hash[r]+M-hash[l]*p()[r-l]%M;\n        return res >= M ? res-M : res;\n  \
-    \  }\n};\n\n/**\n * @brief Rolling Hash\n */\n"
+    \ + (unsigned char)s[i]) % M;\n        }\n    };\n\n    ll get(int l, int r){\n\
+    \        ll res = hash[r]+M-hash[l]*p()[r-l]%M;\n        return res >= M ? res-M\
+    \ : res;\n    }\n};\n\n/**\n * @brief Rolling Hash\n */\n"
   code: "#include \"../util/xorshift.cpp\"\nxor_shift rd;\n\ntemplate<int M>\nstruct\
     \ rolling_hash {\n\n    static ll &B() {\n        static ll B_ = rd.rand(2, M-1);\n\
     \        return B_;\n    }\n    static vector<ll> &p() {\n        static vector<ll>\
@@ -45,19 +48,20 @@ data:
     \       int l = p().size();\n            p().resize(s.size()+1);\n           \
     \ for (int i = l; i < p().size(); ++i) {\n                p()[i] = (p()[i-1]*p()[1])%M;\n\
     \            }\n        }\n        hash.resize(s.size()+1, 0);\n        for (int\
-    \ i = 0; i < s.size(); ++i) {\n            hash[i+1] = (hash[i]*B() + s[i]) %\
-    \ M;\n        }\n    };\n\n    ll get(int l, int r){\n        ll res = hash[r]+M-hash[l]*p()[r-l]%M;\n\
-    \        return res >= M ? res-M : res;\n    }\n};\n\n/**\n * @brief Rolling Hash\n\
-    \ */\n"
+    \ i = 0; i < s.size(); ++i) {\n            hash[i+1] = (hash[i]*B() + (unsigned\
+    \ char)s[i]) % M;\n        }\n    };\n\n    ll get(int l, int r){\n        ll\
+    \ res = hash[r]+M-hash[l]*p()[r-l]%M;\n        return res >= M ? res-M : res;\n\
+    \    }\n};\n\n/**\n * @brief Rolling Hash\n */\n"
   dependsOn:
   - util/xorshift.cpp
   isVerificationFile: false
   path: string/rolling_hash.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-10-03 13:02:41+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0355.test.cpp
+  - test/yosupo_aplusb_string_bytes.test.cpp
 date: 2019-09-16
 documentation_of: string/rolling_hash.cpp
 layout: document

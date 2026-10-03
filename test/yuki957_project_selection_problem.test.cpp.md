@@ -248,10 +248,11 @@ data:
     \ to, T cap, int rev) : to(to), cap(cap), rev(rev) {}\n    };\n \n    vector<vector<edge>>\
     \ G;\n    vector<int> level, iter;\n    Dinic() = default;\n    explicit Dinic(int\
     \ n) : G(n), level(n), iter(n) {}\n \n    void add_edge(int from, int to, T cap){\n\
-    \        G[from].emplace_back(to, cap, G[to].size());\n        G[to].emplace_back(from,\
-    \ directed ? 0 : cap,  G[from].size()-1);\n    }\n \n \n    T flow(int s, int\
-    \ t, T lim = INF<T>){\n        T ret = 0;\n        while(true) {\n           \
-    \ bfs(s);\n            if(level[t] < 0 || lim == 0) break;\n            fill(iter.begin(),iter.end(),\
+    \        int from_id = G[from].size(), to_id = G[to].size();\n        if(from\
+    \ == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n        G[to].emplace_back(from,\
+    \ directed ? 0 : cap, from_id);\n    }\n \n \n    T flow(int s, int t, T lim =\
+    \ INF<T>){\n        T ret = 0;\n        while(true) {\n            bfs(s);\n \
+    \           if(level[t] < 0 || lim == 0) break;\n            fill(iter.begin(),iter.end(),\
     \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
     \           if(f == 0) break;\n                ret += f;\n                lim\
     \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
@@ -322,7 +323,7 @@ data:
   isVerificationFile: true
   path: test/yuki957_project_selection_problem.test.cpp
   requiredBy: []
-  timestamp: '2026-08-23 21:35:34+09:00'
+  timestamp: '2026-10-03 13:01:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki957_project_selection_problem.test.cpp

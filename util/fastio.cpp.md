@@ -113,6 +113,9 @@ data:
     path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_flow_boundaries.test.cpp
+    title: test/yosupo_aplusb_flow_boundaries.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
   - icon: ':heavy_check_mark:'
@@ -134,11 +137,20 @@ data:
     path: test/yosupo_aplusb_palindromic_tree.test.cpp
     title: test/yosupo_aplusb_palindromic_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+    title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
     title: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_sliding_window.test.cpp
+    title: test/yosupo_aplusb_sliding_window.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_bitset.test.cpp
     title: test/yosupo_aplusb_static_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_string_bytes.test.cpp
+    title: test/yosupo_aplusb_string_bytes.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_top_k_sum.test.cpp
     title: test/yosupo_aplusb_top_k_sum.test.cpp
@@ -904,6 +916,7 @@ data:
   - test/yosupo_eertree.test.cpp
   - test/yosupo_tetration_mod.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_aplusb_flow_boundaries.test.cpp
   - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
   - test/yuki957_project_selection_problem.test.cpp
@@ -940,6 +953,7 @@ data:
   - test/yosupo_many_aplusb.test.cpp
   - test/yosupo_zalgorithm.test.cpp
   - test/yosupo_point_set_range_frequency.test.cpp
+  - test/yosupo_aplusb_sliding_window.test.cpp
   - test/yosupo_segment_add_get_min.test.cpp
   - test/yosupo_aplusb_order_statistic_tree.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
@@ -959,6 +973,7 @@ data:
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
+  - test/yosupo_aplusb_string_bytes.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_rectangle_add_point_get.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
@@ -1035,6 +1050,7 @@ data:
   - test/yosupo_multiplication_of_hex_big_integers.test.cpp
   - test/yosupo_aho_corasick.test.cpp
   - test/yosupo_ordered_set.test.cpp
+  - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
   - test/yosupo_sqrt_mod.test.cpp

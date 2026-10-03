@@ -5,8 +5,17 @@ data:
     path: string/lyndon_factorization.cpp
     title: "Lyndon\u5206\u89E3(Lyndon Factorization)"
   - icon: ':heavy_check_mark:'
+    path: string/rolling_hash.cpp
+    title: Rolling Hash
+  - icon: ':heavy_check_mark:'
+    path: string/rolling_hash_ull.cpp
+    title: Rolling Hash(mod 2^61-1)
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/xorshift.cpp
+    title: Xor-Shift
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -14,19 +23,18 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/lyndon_factorization
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/lyndon_factorization
-  bundledCode: "#line 1 \"test/yosupo_lyndon_factorization.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\n#include <string>\n\
-    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #line 10 \"test/yosupo_lyndon_factorization.test.cpp\"\n#include <type_traits>\n\
-    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_string_bytes.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\nusing ull = unsigned long long;\n#line\
+    \ 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -226,40 +234,171 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"string/lyndon_factorization.cpp\"\
-    \nusing namespace std;\n\nvector<pair<int, int>> lyndon_factorization(const string\
-    \ &s) {\n    int n = (int)s.size();\n    vector<pair<int, int>> res;\n    for\
-    \ (int i = 0; i < n;) {\n        int j = i + 1, k = i;\n        while (j < n &&\
-    \ (unsigned char)s[k] <= (unsigned char)s[j]) {\n            if ((unsigned char)s[k]\
-    \ < (unsigned char)s[j]) k = i;\n            else ++k;\n            ++j;\n   \
-    \     }\n        int len = j - k;\n        while (i <= k) {\n            res.emplace_back(i,\
-    \ i + len);\n            i += len;\n        }\n    }\n    return res;\n}\n\n/**\n\
-    \ * @brief Lyndon\u5206\u89E3(Lyndon Factorization)\n */\n#line 15 \"test/yosupo_lyndon_factorization.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
-    \    auto seg = lyndon_factorization(s);\n    pr.print(0);\n    for (auto &&p\
-    \ : seg) {\n        pr.print(' ');\n        pr.print(p.second);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\
-    \n#include <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../string/lyndon_factorization.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
-    \    auto seg = lyndon_factorization(s);\n    pr.print(0);\n    for (auto &&p\
-    \ : seg) {\n        pr.print(' ');\n        pr.print(p.second);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/xorshift.cpp\"\
+    \nclass xor_shift {\n    uint32_t x, y, z, w;\npublic:\n    xor_shift() : x(static_cast<uint32_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
+    \ << 32)-1))),\n    y(1068246329), z(321908594), w(1234567890) {};\n\n    uint32_t\
+    \ urand(){\n        uint32_t t;\n        t = x ^ (x << 11);\n        x = y; y\
+    \ = z; z = w;\n        w = (w ^ (w >> 19)) ^ (t ^ (t >> 8));\n        return w;\n\
+    \    };\n\n    int rand(int n){\n        if(n < 0) return -rand(-n);\n       \
+    \ uint32_t t = numeric_limits<uint32_t>::max()/(n+1)*(n+1);\n        uint32_t\
+    \ e = urand();\n        while(e >= t) e = urand();\n        return static_cast<int>(e%(n+1));\n\
+    \    }\n\n    int rand(int a, int b){\n        if(a > b) swap(a, b);\n       \
+    \ return a+rand(b-a);\n    }\n};\n#line 2 \"string/rolling_hash.cpp\"\nxor_shift\
+    \ rd;\n\ntemplate<int M>\nstruct rolling_hash {\n\n    static ll &B() {\n    \
+    \    static ll B_ = rd.rand(2, M-1);\n        return B_;\n    }\n    static vector<ll>\
+    \ &p() {\n        static vector<ll> p_{1, B()};\n        return p_;\n    }\n\n\
+    \    vector<ll> hash;\n    explicit rolling_hash(const string &s) {\n        if(p().size()\
+    \ <= s.size()){\n            int l = p().size();\n            p().resize(s.size()+1);\n\
+    \            for (int i = l; i < p().size(); ++i) {\n                p()[i] =\
+    \ (p()[i-1]*p()[1])%M;\n            }\n        }\n        hash.resize(s.size()+1,\
+    \ 0);\n        for (int i = 0; i < s.size(); ++i) {\n            hash[i+1] = (hash[i]*B()\
+    \ + (unsigned char)s[i]) % M;\n        }\n    };\n\n    ll get(int l, int r){\n\
+    \        ll res = hash[r]+M-hash[l]*p()[r-l]%M;\n        return res >= M ? res-M\
+    \ : res;\n    }\n};\n\n/**\n * @brief Rolling Hash\n */\n#line 1 \"string/rolling_hash_ull.cpp\"\
+    \nconstexpr ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER = M * 4; // mul\
+    \ returns an unreduced value below 4*M.\nconstexpr ull MASK30 = (1UL << 30) -\
+    \ 1;\nconstexpr ull MASK31 = (1UL << 31) - 1;\n\nclass rolling_hash_ull {\n  \
+    \  static ull get_base(){\n        ull z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
+    \ << 32)-1)))+0x9e3779b97f4a7c15;\n        z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;\n\
+    \        z = (z ^ (z >> 27)) * 0x94d049bb133111eb;\n        return z;\n    }\n\
+    \n    static inline ull calc_mod(ull val){\n        val = (val & M) + (val >>\
+    \ 61);\n        if(val >= M) val -= M;\n        return val;\n    }\npublic:\n\
+    \    vector<ull> hash;\n\n    static ull &B() {\n        static ull B_ = (get_base())%(M-2)+2;\n\
+    \        return B_;\n    }\n\n    static vector<ull> &p() {\n        static vector<ull>\
+    \ p_{1, B()};\n        return p_;\n    }\n\n    static inline ull mul(ull x, ull\
+    \ y){\n        ull a = x >> 31, b = x & MASK31, c = y >> 31, d = y & MASK31, e\
+    \ = b*c+a*d;\n        return (a*c << 1) + b*d + ((e & MASK30) << 31) + (e >> 30);\n\
+    \    }\n\n    rolling_hash_ull(const string &s) {\n        if(p().size() <= s.size()){\n\
+    \            int l = p().size();\n            p().resize(s.size()+1);\n      \
+    \      for (int i = l; i < p().size(); ++i) {\n                p()[i] = calc_mod(mul(p()[i-1],\
+    \ p()[1]));\n            }\n        }\n        hash.resize(s.size()+1, 0);\n \
+    \       for (int i = 0; i < s.size(); ++i) {\n            hash[i+1] = calc_mod(mul(hash[i],B())\
+    \ + (unsigned char)s[i]);\n        }\n    };\n\n    rolling_hash_ull(const int&\
+    \ n){\n        int l = p().size();\n        if(n < l) return;\n        p().resize(n+1);\n\
+    \        for (int i = l; i < p().size(); ++i) {\n            p()[i] = calc_mod(mul(p()[i-1],\
+    \ p()[1]));\n        }\n    }\n\n    ull get(int l, int r){\n        return calc_mod(hash[r]\
+    \ + POSITIVISER - mul(hash[l], p()[r-l]));\n    }\n\n    static ull val(string\
+    \ &s){\n        if(p().size() <= s.size()){\n            int l = p().size();\n\
+    \            p().resize(s.size()+1);\n            for (int i = l; i < p().size();\
+    \ ++i) {\n                p()[i] = calc_mod(mul(p()[i-1], p()[1]));\n        \
+    \    }\n        }\n        ull ret = 0;\n        for (int i = 0; i < s.size();\
+    \ ++i) {\n            ret = calc_mod(mul(ret, B()) + (unsigned char)s[i]);\n \
+    \       }\n        return ret;\n    }\n};\n\n/**\n * @brief Rolling Hash(mod 2^61-1)\n\
+    \ */\n#line 1 \"string/lyndon_factorization.cpp\"\nusing namespace std;\n\nvector<pair<int,\
+    \ int>> lyndon_factorization(const string &s) {\n    int n = (int)s.size();\n\
+    \    vector<pair<int, int>> res;\n    for (int i = 0; i < n;) {\n        int j\
+    \ = i + 1, k = i;\n        while (j < n && (unsigned char)s[k] <= (unsigned char)s[j])\
+    \ {\n            if ((unsigned char)s[k] < (unsigned char)s[j]) k = i;\n     \
+    \       else ++k;\n            ++j;\n        }\n        int len = j - k;\n   \
+    \     while (i <= k) {\n            res.emplace_back(i, i + len);\n          \
+    \  i += len;\n        }\n    }\n    return res;\n}\n\n/**\n * @brief Lyndon\u5206\
+    \u89E3(Lyndon Factorization)\n */\n#line 11 \"test/yosupo_aplusb_string_bytes.test.cpp\"\
+    \n\nconstexpr int MOD = 1000000007;\n\nvoid hash_check(const string &s) {\n  \
+    \  rolling_hash<MOD> small(s);\n    rolling_hash_ull large(s);\n    for (int l\
+    \ = 0; l <= int(s.size()); ++l) {\n        ull expected_small = 0, expected_large\
+    \ = 0;\n        for (int r = l; r <= int(s.size()); ++r) {\n            if (r\
+    \ > l) {\n                unsigned char byte = s[r - 1];\n                expected_small\
+    \ = (expected_small * 127 + byte) % MOD;\n                expected_large = ((__uint128_t)expected_large\
+    \ * 127 + byte) % M;\n            }\n            string sub = s.substr(l, r -\
+    \ l);\n            rolling_hash<MOD> small_sub(sub);\n            rolling_hash_ull\
+    \ large_sub(sub);\n            assert(small.get(l, r) == ll(expected_small));\n\
+    \            assert(small_sub.get(0, sub.size()) == ll(expected_small));\n   \
+    \         assert(large.get(l, r) == expected_large);\n            assert(large_sub.get(0,\
+    \ sub.size()) == expected_large);\n            assert(rolling_hash_ull::val(sub)\
+    \ == expected_large);\n        }\n    }\n}\n\nvoid lyndon_check(const string &s)\
+    \ {\n    auto factors = lyndon_factorization(s);\n    int end = 0;\n    string\
+    \ previous;\n    for (auto [l, r] : factors) {\n        assert(l == end && l <\
+    \ r && r <= int(s.size()));\n        string word = s.substr(l, r - l);\n     \
+    \   for (int i = 1; i < int(word.size()); ++i) assert(word < word.substr(i));\n\
+    \        if (l > 0) assert(previous >= word);\n        previous = word;\n    \
+    \    end = r;\n    }\n    assert(end == int(s.size()));\n}\n\nvoid shared_powers_check()\
+    \ {\n    string s(64, 'a');\n    rolling_hash_ull original(s);\n    ull expected\
+    \ = rolling_hash_ull::val(s);\n    size_t size = rolling_hash_ull::p().size();\n\
+    \    for (int n : {0, 1, 0, 32}) {\n        rolling_hash_ull precompute(n);\n\
+    \        assert(rolling_hash_ull::p().size() == size);\n        assert(original.get(0,\
+    \ s.size()) == expected);\n        assert(original.get(1, 2) == 'a');\n    }\n\
+    \    rolling_hash_ull grow(200);\n    assert(rolling_hash_ull::p().size() >= 201);\n\
+    \    assert(original.get(0, s.size()) == expected);\n    hash_check(\"abc\");\n\
+    \    hash_check(string(80, '\\0'));\n}\n\nint main() {\n    rolling_hash<MOD>::B()\
+    \ = 127;\n    rolling_hash_ull::B() = 127;\n    shared_powers_check();\n    hash_check(string{char(255),\
+    \ char(127), 1, 1, 1, 1, 1});\n    // The unreduced product in get(17, 28) exceeds\
+    \ hash[28] + 3*M.\n    string subtraction_case;\n    for (int byte : {52, 238,\
+    \ 54, 138, 29, 92, 151, 22, 86, 21, 6, 9, 155, 217, 111, 94,\n               \
+    \     133, 220, 239, 101, 237, 127, 15, 83, 108, 190, 213, 198, 175, 154, 9, 95})\n\
+    \        subtraction_case += char(byte);\n    hash_check(subtraction_case);\n\
+    \    const unsigned char alphabet[] = {0, 127, 128, 255};\n    for (int n = 0,\
+    \ count = 1; n <= 6; ++n, count *= 4) {\n        for (int mask = 0; mask < count;\
+    \ ++mask) {\n            string s(n, '\\0');\n            int digits = mask;\n\
+    \            for (char &c : s) {\n                c = char(alphabet[digits % 4]);\n\
+    \                digits /= 4;\n            }\n            lyndon_check(s);\n \
+    \           if (n <= 5) hash_check(s);\n        }\n    }\n    mt19937 rng(57);\n\
+    \    for (int tc = 0; tc < 100; ++tc) {\n        string s(rng() % 40, '\\0');\n\
+    \        for (char &c : s) c = char(rng() % 256);\n        hash_check(s);\n  \
+    \      lyndon_check(s);\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
+    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing ull = unsigned long long;\n\
+    #include \"../util/fastio.cpp\"\n#include \"../string/rolling_hash.cpp\"\n#include\
+    \ \"../string/rolling_hash_ull.cpp\"\n#include \"../string/lyndon_factorization.cpp\"\
+    \n\nconstexpr int MOD = 1000000007;\n\nvoid hash_check(const string &s) {\n  \
+    \  rolling_hash<MOD> small(s);\n    rolling_hash_ull large(s);\n    for (int l\
+    \ = 0; l <= int(s.size()); ++l) {\n        ull expected_small = 0, expected_large\
+    \ = 0;\n        for (int r = l; r <= int(s.size()); ++r) {\n            if (r\
+    \ > l) {\n                unsigned char byte = s[r - 1];\n                expected_small\
+    \ = (expected_small * 127 + byte) % MOD;\n                expected_large = ((__uint128_t)expected_large\
+    \ * 127 + byte) % M;\n            }\n            string sub = s.substr(l, r -\
+    \ l);\n            rolling_hash<MOD> small_sub(sub);\n            rolling_hash_ull\
+    \ large_sub(sub);\n            assert(small.get(l, r) == ll(expected_small));\n\
+    \            assert(small_sub.get(0, sub.size()) == ll(expected_small));\n   \
+    \         assert(large.get(l, r) == expected_large);\n            assert(large_sub.get(0,\
+    \ sub.size()) == expected_large);\n            assert(rolling_hash_ull::val(sub)\
+    \ == expected_large);\n        }\n    }\n}\n\nvoid lyndon_check(const string &s)\
+    \ {\n    auto factors = lyndon_factorization(s);\n    int end = 0;\n    string\
+    \ previous;\n    for (auto [l, r] : factors) {\n        assert(l == end && l <\
+    \ r && r <= int(s.size()));\n        string word = s.substr(l, r - l);\n     \
+    \   for (int i = 1; i < int(word.size()); ++i) assert(word < word.substr(i));\n\
+    \        if (l > 0) assert(previous >= word);\n        previous = word;\n    \
+    \    end = r;\n    }\n    assert(end == int(s.size()));\n}\n\nvoid shared_powers_check()\
+    \ {\n    string s(64, 'a');\n    rolling_hash_ull original(s);\n    ull expected\
+    \ = rolling_hash_ull::val(s);\n    size_t size = rolling_hash_ull::p().size();\n\
+    \    for (int n : {0, 1, 0, 32}) {\n        rolling_hash_ull precompute(n);\n\
+    \        assert(rolling_hash_ull::p().size() == size);\n        assert(original.get(0,\
+    \ s.size()) == expected);\n        assert(original.get(1, 2) == 'a');\n    }\n\
+    \    rolling_hash_ull grow(200);\n    assert(rolling_hash_ull::p().size() >= 201);\n\
+    \    assert(original.get(0, s.size()) == expected);\n    hash_check(\"abc\");\n\
+    \    hash_check(string(80, '\\0'));\n}\n\nint main() {\n    rolling_hash<MOD>::B()\
+    \ = 127;\n    rolling_hash_ull::B() = 127;\n    shared_powers_check();\n    hash_check(string{char(255),\
+    \ char(127), 1, 1, 1, 1, 1});\n    // The unreduced product in get(17, 28) exceeds\
+    \ hash[28] + 3*M.\n    string subtraction_case;\n    for (int byte : {52, 238,\
+    \ 54, 138, 29, 92, 151, 22, 86, 21, 6, 9, 155, 217, 111, 94,\n               \
+    \     133, 220, 239, 101, 237, 127, 15, 83, 108, 190, 213, 198, 175, 154, 9, 95})\n\
+    \        subtraction_case += char(byte);\n    hash_check(subtraction_case);\n\
+    \    const unsigned char alphabet[] = {0, 127, 128, 255};\n    for (int n = 0,\
+    \ count = 1; n <= 6; ++n, count *= 4) {\n        for (int mask = 0; mask < count;\
+    \ ++mask) {\n            string s(n, '\\0');\n            int digits = mask;\n\
+    \            for (char &c : s) {\n                c = char(alphabet[digits % 4]);\n\
+    \                digits /= 4;\n            }\n            lyndon_check(s);\n \
+    \           if (n <= 5) hash_check(s);\n        }\n    }\n    mt19937 rng(57);\n\
+    \    for (int tc = 0; tc < 100; ++tc) {\n        string s(rng() % 40, '\\0');\n\
+    \        for (char &c : s) c = char(rng() % 256);\n        hash_check(s);\n  \
+    \      lyndon_check(s);\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
+    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
+  - string/rolling_hash.cpp
+  - util/xorshift.cpp
+  - string/rolling_hash_ull.cpp
   - string/lyndon_factorization.cpp
   isVerificationFile: true
-  path: test/yosupo_lyndon_factorization.test.cpp
+  path: test/yosupo_aplusb_string_bytes.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 13:02:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_lyndon_factorization.test.cpp
+documentation_of: test/yosupo_aplusb_string_bytes.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_lyndon_factorization.test.cpp
-- /verify/test/yosupo_lyndon_factorization.test.cpp.html
-title: test/yosupo_lyndon_factorization.test.cpp
+- /verify/test/yosupo_aplusb_string_bytes.test.cpp
+- /verify/test/yosupo_aplusb_string_bytes.test.cpp.html
+title: test/yosupo_aplusb_string_bytes.test.cpp
 ---

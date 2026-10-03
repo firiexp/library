@@ -73,6 +73,9 @@ data:
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+    title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_and_convolution.test.cpp
     title: test/yosupo_bitwise_and_convolution.test.cpp
   - icon: ':heavy_check_mark:'
@@ -298,6 +301,7 @@ data:
   - test/yosupo_queue_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
+  - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_sum_of_totient.test.cpp
   - test/yosupo_convolution.test.cpp

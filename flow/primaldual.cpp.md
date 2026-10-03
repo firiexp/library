@@ -7,6 +7,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0274.test.cpp
     title: test/aoj0274.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_flow_boundaries.test.cpp
+    title: test/yosupo_aplusb_flow_boundaries.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -19,9 +22,10 @@ data:
     \ cap(cap), cost(cost), rev(rev) {};\n    };\n    vector<vector<edge>> G;\n  \
     \  vector<C> potential, min_cost;\n    vector<int> prevv, preve;\n\n    explicit\
     \ PrimalDual(int n) : G(n), potential(n), min_cost(n), prevv(n), preve(n) {}\n\
-    \n    void add_edge(int u, int v, F cap, C cost){\n        G[u].emplace_back(v,\
-    \ cap, cost, G[v].size());\n        G[v].emplace_back(u, 0, -cost, G[u].size()-1);\n\
-    \    }\n\n    struct P{\n        C first; int second;\n        P(C first,int second):first(first),second(second){}\n\
+    \n    void add_edge(int u, int v, F cap, C cost){\n        int from_id = G[u].size(),\
+    \ to_id = G[v].size();\n        if(u == v) ++to_id;\n        G[u].emplace_back(v,\
+    \ cap, cost, to_id);\n        G[v].emplace_back(u, 0, -cost, from_id);\n    }\n\
+    \n    struct P{\n        C first; int second;\n        P(C first,int second):first(first),second(second){}\n\
     \        bool operator<(const P&a) const{return a.first<first;}\n    };\n    void\
     \ dijkstra(int s){\n\n        priority_queue<P> Q;\n        fill(min_cost.begin(),min_cost.end(),\
     \ INF<C>);\n        min_cost[s] = 0;\n        Q.emplace(0, s);\n        while(!Q.empty()){\n\
@@ -50,8 +54,9 @@ data:
     \ };\n    vector<vector<edge>> G;\n    vector<C> potential, min_cost;\n    vector<int>\
     \ prevv, preve;\n\n    explicit PrimalDual(int n) : G(n), potential(n), min_cost(n),\
     \ prevv(n), preve(n) {}\n\n    void add_edge(int u, int v, F cap, C cost){\n \
-    \       G[u].emplace_back(v, cap, cost, G[v].size());\n        G[v].emplace_back(u,\
-    \ 0, -cost, G[u].size()-1);\n    }\n\n    struct P{\n        C first; int second;\n\
+    \       int from_id = G[u].size(), to_id = G[v].size();\n        if(u == v) ++to_id;\n\
+    \        G[u].emplace_back(v, cap, cost, to_id);\n        G[v].emplace_back(u,\
+    \ 0, -cost, from_id);\n    }\n\n    struct P{\n        C first; int second;\n\
     \        P(C first,int second):first(first),second(second){}\n        bool operator<(const\
     \ P&a) const{return a.first<first;}\n    };\n    void dijkstra(int s){\n\n   \
     \     priority_queue<P> Q;\n        fill(min_cost.begin(),min_cost.end(), INF<C>);\n\
@@ -79,9 +84,10 @@ data:
   isVerificationFile: false
   path: flow/primaldual.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 13:01:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_flow_boundaries.test.cpp
   - test/aoj0274.test.cpp
 date: 2026-03-12
 documentation_of: flow/primaldual.cpp

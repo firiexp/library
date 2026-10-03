@@ -39,13 +39,13 @@ data:
     \           match_left[v] = to;\n            match_right[to] = v;\n          \
     \  return true;\n        }\n        dist[v] = -1;\n        return false;\n   \
     \ }\n\n    int max_matching() {\n        build_graph();\n        int ret = 0;\n\
-    \        while (bfs()) {\n            for (int i = 0; i < l; ++i) {\n        \
-    \        if (match_left[i] == -1 && dfs(i)) ++ret;\n            }\n        }\n\
-    \        return ret;\n    }\n\n    vector<pair<int, int>> get_pairs() const {\n\
-    \        vector<pair<int, int>> ret;\n        for (int i = 0; i < l; ++i) {\n\
-    \            if (match_left[i] != -1) ret.emplace_back(i, match_left[i]);\n  \
-    \      }\n        return ret;\n    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\
-    \n */\n"
+    \        for (int v : match_left) if (v != -1) ++ret;\n        while (bfs()) {\n\
+    \            for (int i = 0; i < l; ++i) {\n                if (match_left[i]\
+    \ == -1 && dfs(i)) ++ret;\n            }\n        }\n        return ret;\n   \
+    \ }\n\n    vector<pair<int, int>> get_pairs() const {\n        vector<pair<int,\
+    \ int>> ret;\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
+    \ != -1) ret.emplace_back(i, match_left[i]);\n        }\n        return ret;\n\
+    \    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\n */\n"
   code: "class HopcroftKarp {\n    int l, r;\n    vector<pair<int, int>> edges;\n\
     \    vector<int> start, elist;\n    vector<int> dist;\n\n    void build_graph()\
     \ {\n        start.assign(l + 1, 0);\n        elist.assign(edges.size(), 0);\n\
@@ -71,18 +71,18 @@ data:
     \           match_left[v] = to;\n            match_right[to] = v;\n          \
     \  return true;\n        }\n        dist[v] = -1;\n        return false;\n   \
     \ }\n\n    int max_matching() {\n        build_graph();\n        int ret = 0;\n\
-    \        while (bfs()) {\n            for (int i = 0; i < l; ++i) {\n        \
-    \        if (match_left[i] == -1 && dfs(i)) ++ret;\n            }\n        }\n\
-    \        return ret;\n    }\n\n    vector<pair<int, int>> get_pairs() const {\n\
-    \        vector<pair<int, int>> ret;\n        for (int i = 0; i < l; ++i) {\n\
-    \            if (match_left[i] != -1) ret.emplace_back(i, match_left[i]);\n  \
-    \      }\n        return ret;\n    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\
-    \n */\n"
+    \        for (int v : match_left) if (v != -1) ++ret;\n        while (bfs()) {\n\
+    \            for (int i = 0; i < l; ++i) {\n                if (match_left[i]\
+    \ == -1 && dfs(i)) ++ret;\n            }\n        }\n        return ret;\n   \
+    \ }\n\n    vector<pair<int, int>> get_pairs() const {\n        vector<pair<int,\
+    \ int>> ret;\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
+    \ != -1) ret.emplace_back(i, match_left[i]);\n        }\n        return ret;\n\
+    \    }\n};\n\n/**\n * @brief Hopcroft-Karp\u6CD5\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/hopcroft_karp.cpp
   requiredBy: []
-  timestamp: '2026-04-11 14:07:08+09:00'
+  timestamp: '2026-10-03 13:01:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp

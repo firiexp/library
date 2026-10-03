@@ -2,8 +2,15 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: flow/costscalingdinic.cpp
+    title: "\u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity Scaling\
+      \ Dinic)"
+  - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
     title: "Dinic\u6CD5(Dinic)"
+  - icon: ':heavy_check_mark:'
+    path: flow/primaldual.cpp
+    title: "\u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,20 +21,18 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://yukicoder.me/problems/no/957
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://yukicoder.me/problems/no/957
-  bundledCode: "#line 1 \"test/yuki957.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/no/957\"\
-    \n\n#include <algorithm>\n#include <limits>\n#include <queue>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\ntemplate<class T>\nconstexpr T\
-    \ INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_flow_boundaries.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
+    \ / 32 * 15 + 208;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -252,56 +257,212 @@ data:
     \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
     \           if(f == 0) break;\n                ret += f;\n                lim\
     \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Dinic\u6CD5(Dinic)\n */\n#line 21 \"test/yuki957.test.cpp\"\n\nint main() {\n\
-    \    Scanner in;\n    Printer out;\n    int h, w;\n    in.read(h, w);\n\n    vector<vector<ll>>\
-    \ g(h, vector<ll>(w));\n    for (int i = 0; i < h; ++i) {\n        for (int j\
-    \ = 0; j < w; ++j) {\n            in.read(g[i][j]);\n        }\n    }\n    vector<ll>\
-    \ row(h), col(w);\n    for (int i = 0; i < h; ++i) in.read(row[i]);\n    for (int\
-    \ j = 0; j < w; ++j) in.read(col[j]);\n\n    int s = h + w;\n    int t = s + 1;\n\
-    \    Dinic<ll, true> mf(h + w + 2);\n    ll base = 0;\n    auto add_cost_if_true\
-    \ = [&](int v, ll cost) {\n        if (cost >= 0) mf.add_edge(s, v, cost);\n \
-    \       else {\n            base += cost;\n            mf.add_edge(v, t, -cost);\n\
-    \        }\n    };\n\n    for (int i = 0; i < h; ++i) {\n        ll cost = -row[i];\n\
-    \        for (int j = 0; j < w; ++j) cost += g[i][j];\n        add_cost_if_true(i,\
-    \ cost);\n    }\n    for (int j = 0; j < w; ++j) {\n        add_cost_if_true(h\
-    \ + j, -col[j]);\n    }\n    for (int i = 0; i < h; ++i) {\n        for (int j\
-    \ = 0; j < w; ++j) {\n            mf.add_edge(i, h + j, g[i][j]);\n        }\n\
-    \    }\n\n    ll min_cost = base + mf.flow(s, t);\n    out.println(-min_cost);\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://yukicoder.me/problems/no/957\"\n\n#include <algorithm>\n\
-    #include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
-    \nusing ll = long long;\ntemplate<class T>\nconstexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../flow/dinic.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
-    \ out;\n    int h, w;\n    in.read(h, w);\n\n    vector<vector<ll>> g(h, vector<ll>(w));\n\
-    \    for (int i = 0; i < h; ++i) {\n        for (int j = 0; j < w; ++j) {\n  \
-    \          in.read(g[i][j]);\n        }\n    }\n    vector<ll> row(h), col(w);\n\
-    \    for (int i = 0; i < h; ++i) in.read(row[i]);\n    for (int j = 0; j < w;\
-    \ ++j) in.read(col[j]);\n\n    int s = h + w;\n    int t = s + 1;\n    Dinic<ll,\
-    \ true> mf(h + w + 2);\n    ll base = 0;\n    auto add_cost_if_true = [&](int\
-    \ v, ll cost) {\n        if (cost >= 0) mf.add_edge(s, v, cost);\n        else\
-    \ {\n            base += cost;\n            mf.add_edge(v, t, -cost);\n      \
-    \  }\n    };\n\n    for (int i = 0; i < h; ++i) {\n        ll cost = -row[i];\n\
-    \        for (int j = 0; j < w; ++j) cost += g[i][j];\n        add_cost_if_true(i,\
-    \ cost);\n    }\n    for (int j = 0; j < w; ++j) {\n        add_cost_if_true(h\
-    \ + j, -col[j]);\n    }\n    for (int i = 0; i < h; ++i) {\n        for (int j\
-    \ = 0; j < w; ++j) {\n            mf.add_edge(i, h + j, g[i][j]);\n        }\n\
-    \    }\n\n    ll min_cost = base + mf.flow(s, t);\n    out.println(-min_cost);\n\
-    \    return 0;\n}\n"
+    \ Dinic\u6CD5(Dinic)\n */\n#line 1 \"flow/costscalingdinic.cpp\"\ntemplate<class\
+    \ T, bool directed>\nclass CostScalingDinic {\n    void bfs(int s, T x){\n   \
+    \     fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n        level[s]\
+    \ = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n            int v =\
+    \ Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n                if(e.cap\
+    \ >= x && level[e.to] < 0){\n                    level[e.to] = level[v] + 1;\n\
+    \                    Q.emplace(e.to);\n                }\n            }\n    \
+    \    }\n    }\n\n    T dfs(int v, int t, T x, T f){\n        if(v == t) return\
+    \ f;\n        T res = 0;\n        for(int &i = iter[v]; i < G[v].size(); i++){\n\
+    \            edge &e = G[v][i];\n            if(e.cap >= x && level[v] < level[e.to]){\n\
+    \                T d = dfs(e.to, t, x, min(f-res,  e.cap));\n                if(d\
+    \ == 0) continue;\n                e.cap -= d;\n                G[e.to][e.rev].cap\
+    \ += d;\n                res += d;\n                if(f - res < x) break;\n \
+    \           }\n        }\n        return res;\n    }\npublic:\n    struct edge\
+    \ {\n        int to{}; T cap; int rev{};\n        edge() = default;\n        edge(int\
+    \ to, T cap, int rev) : to(to), cap(cap), rev(rev) {}\n    };\n\n    vector<vector<edge>>\
+    \ G;\n    vector<int> level, iter;\n    CostScalingDinic() = default;\n    explicit\
+    \ CostScalingDinic(int n) : G(n), level(n), iter(n) {}\n\n    void add_edge(int\
+    \ from, int to, int cap){\n        if(!cap) return;\n        int from_id = G[from].size(),\
+    \ to_id = G[to].size();\n        if(from == to) ++to_id;\n        G[from].emplace_back(to,\
+    \ cap, to_id);\n        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n\
+    \    }\n\n    T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n    \
+    \    T cap = 1; while(cap <= lim / 2) cap <<= 1;\n        while(cap && ret < lim)\
+    \ {\n            bfs(s, cap);\n            if(level[t] < 0){\n               \
+    \ cap >>= 1;\n                continue;\n            }\n            fill(iter.begin(),iter.end(),\
+    \ 0);\n            ret += dfs(s, t, cap, lim - ret);\n        }\n        return\
+    \ ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\
+    \u30B0Dinic(Capacity Scaling Dinic)\n */\n#line 1 \"flow/primaldual.cpp\"\ntemplate<typename\
+    \ F, typename C>\nstruct PrimalDual {\n    struct edge {\n        int to; F cap;\
+    \ C cost; int rev;\n        edge() = default;\n        edge(int to, F cap, C cost,\
+    \ int rev):to(to), cap(cap), cost(cost), rev(rev) {};\n    };\n    vector<vector<edge>>\
+    \ G;\n    vector<C> potential, min_cost;\n    vector<int> prevv, preve;\n\n  \
+    \  explicit PrimalDual(int n) : G(n), potential(n), min_cost(n), prevv(n), preve(n)\
+    \ {}\n\n    void add_edge(int u, int v, F cap, C cost){\n        int from_id =\
+    \ G[u].size(), to_id = G[v].size();\n        if(u == v) ++to_id;\n        G[u].emplace_back(v,\
+    \ cap, cost, to_id);\n        G[v].emplace_back(u, 0, -cost, from_id);\n    }\n\
+    \n    struct P{\n        C first; int second;\n        P(C first,int second):first(first),second(second){}\n\
+    \        bool operator<(const P&a) const{return a.first<first;}\n    };\n    void\
+    \ dijkstra(int s){\n\n        priority_queue<P> Q;\n        fill(min_cost.begin(),min_cost.end(),\
+    \ INF<C>);\n        min_cost[s] = 0;\n        Q.emplace(0, s);\n        while(!Q.empty()){\n\
+    \            P p = Q.top(); Q.pop();\n            int v = p.second;\n        \
+    \    if(min_cost[v] < p.first) continue;\n            for(int i = 0; i < G[v].size();\
+    \ ++i){\n                edge &e=G[v][i];\n                if(e.cap==0) continue;\n\
+    \                if(min_cost[v]+e.cost+potential[v]-potential[e.to] < min_cost[e.to]){\n\
+    \                    min_cost[e.to] = min_cost[v]+e.cost+potential[v]-potential[e.to];\n\
+    \                    prevv[e.to] = v;\n                    preve[e.to] = i;\n\
+    \                    Q.emplace(min_cost[e.to], e.to);\n                }\n   \
+    \         }\n        }\n    }\n\n    C flow(int s, int t, F fl, int &ok){\n  \
+    \      C res = 0;\n        fill(potential.begin(),potential.end(), 0);\n     \
+    \   while(fl > 0){\n            dijkstra(s);\n            if(min_cost[t] == INF<C>){\n\
+    \                ok = 0;\n                return res;\n            }\n       \
+    \     for (int i = 0; i < potential.size(); ++i) {\n                if(min_cost[i]\
+    \ < INF<C>) potential[i] += min_cost[i];\n            }\n\n            F d = fl;\n\
+    \            for(int v = t; v != s; v = prevv[v]){\n                d = min(d,\
+    \ G[prevv[v]][preve[v]].cap);\n            }\n            fl -= d;\n         \
+    \   res += potential[t]*d;\n            for(int v = t; v != s; v = prevv[v]){\n\
+    \                G[prevv[v]][preve[v]].cap -= d;\n                G[v][G[prevv[v]][preve[v]].rev].cap\
+    \ += d;\n            }\n        }\n        ok = 1;\n        return res;\n    }\n\
+    };\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)\n */\n#line 10\
+    \ \"test/yosupo_aplusb_flow_boundaries.test.cpp\"\n\ntemplate<class G>\nvoid check_residual(const\
+    \ G &g, const G &initial) {\n    assert(g.size() == initial.size());\n    for\
+    \ (int v = 0; v < int(g.size()); ++v) {\n        assert(g[v].size() == initial[v].size());\n\
+    \        for (int i = 0; i < int(g[v].size()); ++i) {\n            const auto\
+    \ &e = g[v][i];\n            assert(0 <= e.to && e.to < int(g.size()));\n    \
+    \        assert(0 <= e.rev && e.rev < int(g[e.to].size()));\n            assert(e.to\
+    \ != v || e.rev != i);\n            const auto &r = g[e.to][e.rev];\n        \
+    \    assert(r.to == v && r.rev == i);\n            assert(e.cap >= 0);\n     \
+    \       assert(e.cap + r.cap == initial[v][i].cap + initial[e.to][e.rev].cap);\n\
+    \        }\n    }\n}\n\ntemplate<bool Directed>\nvoid maxflow_check() {\n    mt19937\
+    \ rng(65 + Directed);\n    for (int tc = 0; tc < 300; ++tc) {\n        int n =\
+    \ 2 + rng() % 6;\n        vector<array<int, 3>> edges;\n        for (int i = 0;\
+    \ i < 20; ++i)\n            edges.push_back({int(rng() % n), int(rng() % n), int(rng()\
+    \ % 8)});\n        int expected = INT_MAX;\n        for (int mask = 0; mask <\
+    \ (1 << n); ++mask) {\n            if (!(mask & 1) || (mask >> (n - 1) & 1)) continue;\n\
+    \            int cut = 0;\n            for (auto [u, v, cap] : edges) {\n    \
+    \            if ((mask >> u & 1) && !(mask >> v & 1)) cut += cap;\n          \
+    \      if (!Directed && (mask >> v & 1) && !(mask >> u & 1)) cut += cap;\n   \
+    \         }\n            expected = min(expected, cut);\n        }\n        for\
+    \ (long long limit : {0LL, 1LL, 3LL, 10LL, 11LL, LLONG_MAX}) {\n            Dinic<long\
+    \ long, Directed> dinic(n);\n            CostScalingDinic<long long, Directed>\
+    \ scaling(n);\n            for (auto [u, v, cap] : edges) {\n                dinic.add_edge(u,\
+    \ v, cap);\n                scaling.add_edge(u, v, cap);\n            }\n    \
+    \        auto di = dinic.G;\n            auto si = scaling.G;\n            check_residual(dinic.G,\
+    \ di);\n            check_residual(scaling.G, si);\n            long long first\
+    \ = min<long long>(expected, limit);\n            assert(dinic.flow(0, n - 1,\
+    \ limit) == first);\n            assert(scaling.flow(0, n - 1, limit) == first);\n\
+    \            check_residual(dinic.G, di);\n            check_residual(scaling.G,\
+    \ si);\n            if (limit == 0) {\n                for (int v = 0; v < n;\
+    \ ++v) {\n                    for (int i = 0; i < int(di[v].size()); ++i) assert(dinic.G[v][i].cap\
+    \ == di[v][i].cap);\n                    for (int i = 0; i < int(si[v].size());\
+    \ ++i) assert(scaling.G[v][i].cap == si[v][i].cap);\n                }\n     \
+    \       }\n            assert(dinic.flow(0, n - 1) == expected - first);\n   \
+    \         assert(scaling.flow(0, n - 1) == expected - first);\n            check_residual(dinic.G,\
+    \ di);\n            check_residual(scaling.G, si);\n            assert(dinic.flow(0,\
+    \ n - 1) == 0);\n            assert(scaling.flow(0, n - 1) == 0);\n        }\n\
+    \    }\n    for (int limit : {0, 1, 3, 10, 11}) {\n        CostScalingDinic<long\
+    \ long, Directed> g(2);\n        g.add_edge(0, 1, 10);\n        assert(g.flow(0,\
+    \ 1, limit) == min(limit, 10));\n        assert(g.flow(0, 1) == 10 - min(limit,\
+    \ 10));\n    }\n}\n\nvoid mincost_check() {\n    mt19937 rng(20261003);\n    for\
+    \ (int tc = 0; tc < 300; ++tc) {\n        int n = 2 + rng() % 4;\n        vector<array<int,\
+    \ 4>> edges;\n        for (int i = 0; i < 6; ++i)\n            edges.push_back({int(rng()\
+    \ % n), int(rng() % n), int(rng() % 3), int(rng() % 6)});\n        vector<int>\
+    \ best(13, INT_MAX), balance(n);\n        auto enumerate = [&](auto &&self, int\
+    \ i, int cost) -> void {\n            if (i == int(edges.size())) {\n        \
+    \        for (int v = 1; v < n - 1; ++v) if (balance[v] != 0) return;\n      \
+    \          if (balance[0] < 0 || balance[0] != -balance[n - 1]) return;\n    \
+    \            best[balance[0]] = min(best[balance[0]], cost);\n               \
+    \ return;\n            }\n            auto [u, v, cap, c] = edges[i];\n      \
+    \      for (int f = 0; f <= cap; ++f) {\n                balance[u] += f;\n  \
+    \              balance[v] -= f;\n                self(self, i + 1, cost + f *\
+    \ c);\n                balance[u] -= f;\n                balance[v] += f;\n  \
+    \          }\n        };\n        enumerate(enumerate, 0, 0);\n        for (int\
+    \ amount = 0; amount < int(best.size()); ++amount) {\n            PrimalDual<int,\
+    \ int> g(n);\n            for (auto [u, v, cap, cost] : edges) g.add_edge(u, v,\
+    \ cap, cost);\n            auto initial = g.G;\n            check_residual(g.G,\
+    \ initial);\n            int ok = -1;\n            int cost = g.flow(0, n - 1,\
+    \ amount, ok);\n            assert(ok == (best[amount] != INT_MAX));\n       \
+    \     if (ok) assert(cost == best[amount]);\n            check_residual(g.G, initial);\n\
+    \            for (const auto &adj : g.G)\n                for (const auto &e :\
+    \ adj) assert(e.cost == -g.G[e.to][e.rev].cost);\n        }\n    }\n}\n\nint main()\
+    \ {\n    maxflow_check<true>();\n    maxflow_check<false>();\n    mincost_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
+    \ / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\n#include \"../flow/dinic.cpp\"\
+    \n#include \"../flow/costscalingdinic.cpp\"\n#include \"../flow/primaldual.cpp\"\
+    \n\ntemplate<class G>\nvoid check_residual(const G &g, const G &initial) {\n \
+    \   assert(g.size() == initial.size());\n    for (int v = 0; v < int(g.size());\
+    \ ++v) {\n        assert(g[v].size() == initial[v].size());\n        for (int\
+    \ i = 0; i < int(g[v].size()); ++i) {\n            const auto &e = g[v][i];\n\
+    \            assert(0 <= e.to && e.to < int(g.size()));\n            assert(0\
+    \ <= e.rev && e.rev < int(g[e.to].size()));\n            assert(e.to != v || e.rev\
+    \ != i);\n            const auto &r = g[e.to][e.rev];\n            assert(r.to\
+    \ == v && r.rev == i);\n            assert(e.cap >= 0);\n            assert(e.cap\
+    \ + r.cap == initial[v][i].cap + initial[e.to][e.rev].cap);\n        }\n    }\n\
+    }\n\ntemplate<bool Directed>\nvoid maxflow_check() {\n    mt19937 rng(65 + Directed);\n\
+    \    for (int tc = 0; tc < 300; ++tc) {\n        int n = 2 + rng() % 6;\n    \
+    \    vector<array<int, 3>> edges;\n        for (int i = 0; i < 20; ++i)\n    \
+    \        edges.push_back({int(rng() % n), int(rng() % n), int(rng() % 8)});\n\
+    \        int expected = INT_MAX;\n        for (int mask = 0; mask < (1 << n);\
+    \ ++mask) {\n            if (!(mask & 1) || (mask >> (n - 1) & 1)) continue;\n\
+    \            int cut = 0;\n            for (auto [u, v, cap] : edges) {\n    \
+    \            if ((mask >> u & 1) && !(mask >> v & 1)) cut += cap;\n          \
+    \      if (!Directed && (mask >> v & 1) && !(mask >> u & 1)) cut += cap;\n   \
+    \         }\n            expected = min(expected, cut);\n        }\n        for\
+    \ (long long limit : {0LL, 1LL, 3LL, 10LL, 11LL, LLONG_MAX}) {\n            Dinic<long\
+    \ long, Directed> dinic(n);\n            CostScalingDinic<long long, Directed>\
+    \ scaling(n);\n            for (auto [u, v, cap] : edges) {\n                dinic.add_edge(u,\
+    \ v, cap);\n                scaling.add_edge(u, v, cap);\n            }\n    \
+    \        auto di = dinic.G;\n            auto si = scaling.G;\n            check_residual(dinic.G,\
+    \ di);\n            check_residual(scaling.G, si);\n            long long first\
+    \ = min<long long>(expected, limit);\n            assert(dinic.flow(0, n - 1,\
+    \ limit) == first);\n            assert(scaling.flow(0, n - 1, limit) == first);\n\
+    \            check_residual(dinic.G, di);\n            check_residual(scaling.G,\
+    \ si);\n            if (limit == 0) {\n                for (int v = 0; v < n;\
+    \ ++v) {\n                    for (int i = 0; i < int(di[v].size()); ++i) assert(dinic.G[v][i].cap\
+    \ == di[v][i].cap);\n                    for (int i = 0; i < int(si[v].size());\
+    \ ++i) assert(scaling.G[v][i].cap == si[v][i].cap);\n                }\n     \
+    \       }\n            assert(dinic.flow(0, n - 1) == expected - first);\n   \
+    \         assert(scaling.flow(0, n - 1) == expected - first);\n            check_residual(dinic.G,\
+    \ di);\n            check_residual(scaling.G, si);\n            assert(dinic.flow(0,\
+    \ n - 1) == 0);\n            assert(scaling.flow(0, n - 1) == 0);\n        }\n\
+    \    }\n    for (int limit : {0, 1, 3, 10, 11}) {\n        CostScalingDinic<long\
+    \ long, Directed> g(2);\n        g.add_edge(0, 1, 10);\n        assert(g.flow(0,\
+    \ 1, limit) == min(limit, 10));\n        assert(g.flow(0, 1) == 10 - min(limit,\
+    \ 10));\n    }\n}\n\nvoid mincost_check() {\n    mt19937 rng(20261003);\n    for\
+    \ (int tc = 0; tc < 300; ++tc) {\n        int n = 2 + rng() % 4;\n        vector<array<int,\
+    \ 4>> edges;\n        for (int i = 0; i < 6; ++i)\n            edges.push_back({int(rng()\
+    \ % n), int(rng() % n), int(rng() % 3), int(rng() % 6)});\n        vector<int>\
+    \ best(13, INT_MAX), balance(n);\n        auto enumerate = [&](auto &&self, int\
+    \ i, int cost) -> void {\n            if (i == int(edges.size())) {\n        \
+    \        for (int v = 1; v < n - 1; ++v) if (balance[v] != 0) return;\n      \
+    \          if (balance[0] < 0 || balance[0] != -balance[n - 1]) return;\n    \
+    \            best[balance[0]] = min(best[balance[0]], cost);\n               \
+    \ return;\n            }\n            auto [u, v, cap, c] = edges[i];\n      \
+    \      for (int f = 0; f <= cap; ++f) {\n                balance[u] += f;\n  \
+    \              balance[v] -= f;\n                self(self, i + 1, cost + f *\
+    \ c);\n                balance[u] -= f;\n                balance[v] += f;\n  \
+    \          }\n        };\n        enumerate(enumerate, 0, 0);\n        for (int\
+    \ amount = 0; amount < int(best.size()); ++amount) {\n            PrimalDual<int,\
+    \ int> g(n);\n            for (auto [u, v, cap, cost] : edges) g.add_edge(u, v,\
+    \ cap, cost);\n            auto initial = g.G;\n            check_residual(g.G,\
+    \ initial);\n            int ok = -1;\n            int cost = g.flow(0, n - 1,\
+    \ amount, ok);\n            assert(ok == (best[amount] != INT_MAX));\n       \
+    \     if (ok) assert(cost == best[amount]);\n            check_residual(g.G, initial);\n\
+    \            for (const auto &adj : g.G)\n                for (const auto &e :\
+    \ adj) assert(e.cost == -g.G[e.to][e.rev].cost);\n        }\n    }\n}\n\nint main()\
+    \ {\n    maxflow_check<true>();\n    maxflow_check<false>();\n    mincost_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - flow/dinic.cpp
+  - flow/costscalingdinic.cpp
+  - flow/primaldual.cpp
   isVerificationFile: true
-  path: test/yuki957.test.cpp
+  path: test/yosupo_aplusb_flow_boundaries.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 13:01:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yuki957.test.cpp
+documentation_of: test/yosupo_aplusb_flow_boundaries.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yuki957.test.cpp
-- /verify/test/yuki957.test.cpp.html
-title: test/yuki957.test.cpp
+- /verify/test/yosupo_aplusb_flow_boundaries.test.cpp
+- /verify/test/yosupo_aplusb_flow_boundaries.test.cpp.html
+title: test/yosupo_aplusb_flow_boundaries.test.cpp
 ---

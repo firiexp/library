@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_6_a_costscalingdinic.test.cpp
     title: test/aoj_grl_6_a_costscalingdinic.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_flow_boundaries.test.cpp
+    title: test/yosupo_aplusb_flow_boundaries.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -31,15 +34,16 @@ data:
     \ : to(to), cap(cap), rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n   \
     \ vector<int> level, iter;\n    CostScalingDinic() = default;\n    explicit CostScalingDinic(int\
     \ n) : G(n), level(n), iter(n) {}\n\n    void add_edge(int from, int to, int cap){\n\
-    \        if(!cap) return;\n        G[from].emplace_back(to, cap, G[to].size());\n\
-    \        G[to].emplace_back(from, directed ? 0 : cap,  G[from].size()-1);\n  \
-    \  }\n\n    T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n      \
-    \  T cap = 1; while(cap<<1 <= lim) cap <<= 1;\n        while(cap) {\n        \
-    \    bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
+    \        if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
+    \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
+    \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
+    \ T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n        T cap = 1;\
+    \ while(cap <= lim / 2) cap <<= 1;\n        while(cap && ret < lim) {\n      \
+    \      bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
-    \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
-    \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
-    Dinic(Capacity Scaling Dinic)\n */\n"
+    \ 0);\n            ret += dfs(s, t, cap, lim - ret);\n        }\n        return\
+    \ ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\
+    \u30B0Dinic(Capacity Scaling Dinic)\n */\n"
   code: "template<class T, bool directed>\nclass CostScalingDinic {\n    void bfs(int\
     \ s, T x){\n        fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n\
     \        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n  \
@@ -58,22 +62,24 @@ data:
     \ rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n    vector<int> level, iter;\n\
     \    CostScalingDinic() = default;\n    explicit CostScalingDinic(int n) : G(n),\
     \ level(n), iter(n) {}\n\n    void add_edge(int from, int to, int cap){\n    \
-    \    if(!cap) return;\n        G[from].emplace_back(to, cap, G[to].size());\n\
-    \        G[to].emplace_back(from, directed ? 0 : cap,  G[from].size()-1);\n  \
-    \  }\n\n    T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n      \
-    \  T cap = 1; while(cap<<1 <= lim) cap <<= 1;\n        while(cap) {\n        \
-    \    bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
+    \    if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
+    \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
+    \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
+    \ T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n        T cap = 1;\
+    \ while(cap <= lim / 2) cap <<= 1;\n        while(cap && ret < lim) {\n      \
+    \      bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
-    \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
-    \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
-    Dinic(Capacity Scaling Dinic)\n */\n"
+    \ 0);\n            ret += dfs(s, t, cap, lim - ret);\n        }\n        return\
+    \ ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\
+    \u30B0Dinic(Capacity Scaling Dinic)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: flow/costscalingdinic.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 13:01:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_flow_boundaries.test.cpp
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
 documentation_of: flow/costscalingdinic.cpp
 layout: document

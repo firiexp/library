@@ -2,11 +2,17 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: string/lyndon_factorization.cpp
-    title: "Lyndon\u5206\u89E3(Lyndon Factorization)"
+    path: datastructure/binaryindexedtree.cpp
+    title: Binary Indexed Tree(BIT)
+  - icon: ':heavy_check_mark:'
+    path: datastructure/point_add_rectangle_sum.cpp
+    title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -14,17 +20,16 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/lyndon_factorization
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/lyndon_factorization
-  bundledCode: "#line 1 \"test/yosupo_lyndon_factorization.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\n#include <string>\n\
-    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #line 10 \"test/yosupo_lyndon_factorization.test.cpp\"\n#include <type_traits>\n\
-    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_rectangle_sum_weights.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
     \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
     \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
@@ -226,40 +231,142 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"string/lyndon_factorization.cpp\"\
-    \nusing namespace std;\n\nvector<pair<int, int>> lyndon_factorization(const string\
-    \ &s) {\n    int n = (int)s.size();\n    vector<pair<int, int>> res;\n    for\
-    \ (int i = 0; i < n;) {\n        int j = i + 1, k = i;\n        while (j < n &&\
-    \ (unsigned char)s[k] <= (unsigned char)s[j]) {\n            if ((unsigned char)s[k]\
-    \ < (unsigned char)s[j]) k = i;\n            else ++k;\n            ++j;\n   \
-    \     }\n        int len = j - k;\n        while (i <= k) {\n            res.emplace_back(i,\
-    \ i + len);\n            i += len;\n        }\n    }\n    return res;\n}\n\n/**\n\
-    \ * @brief Lyndon\u5206\u89E3(Lyndon Factorization)\n */\n#line 15 \"test/yosupo_lyndon_factorization.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
-    \    auto seg = lyndon_factorization(s);\n    pr.print(0);\n    for (auto &&p\
-    \ : seg) {\n        pr.print(' ');\n        pr.print(p.second);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\
-    \n#include <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../string/lyndon_factorization.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
-    \    auto seg = lyndon_factorization(s);\n    pr.print(0);\n    for (auto &&p\
-    \ : seg) {\n        pr.print(' ');\n        pr.print(p.second);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint_base.cpp\"\
+    \n\n\n\ntemplate <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static\
+    \ modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint\
+    \ get_mod() { return Mod; }\n    static constexpr uint M() { return Mod; }\n \
+    \   modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v\
+    \ % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val\
+    \ = ((unsigned int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n\
+    \    const uint &value() const noexcept { return val; }\n    modint& operator++()\
+    \ { val++; if (val == Mod) val = 0; return *this; }\n    modint& operator--()\
+    \ { if (val == 0) val = Mod; val--; return *this; }\n    modint operator++(int)\
+    \ { modint result = *this; ++*this; return result; }\n    modint operator--(int)\
+    \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
+    \ modint& b) { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n   \
+    \ modint& operator-=(const modint& b) { val -= b.val; if (val >= Mod) val += Mod;\
+    \ return *this; }\n    modint& operator*=(const modint& b) { ull z = val; z *=\
+    \ b.val; val = (uint)(z % Mod); return *this; }\n    modint& operator/=(const\
+    \ modint& b) { return *this = *this * b.inv(); }\n    modint operator+() const\
+    \ { return *this; }\n    modint operator-() const { return modint() - *this; }\n\
+    \    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n\
+    \ & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const { return\
+    \ pow(Mod - 2); }\n    friend modint operator+(const modint& a, const modint&\
+    \ b) { return modint(a) += b; }\n    friend modint operator-(const modint& a,\
+    \ const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 1 \"datastructure/point_add_rectangle_sum.cpp\"\
+    \nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\
+    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
+    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
+    \n    T sum(int k){\n        T ret = 0;\n        for (; k > 0; k -= (k & -k))\
+    \ ret += bit[k - 1];\n        return ret;\n    }\n\n    void add(int k, T x){\n\
+    \        for (k++; k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T\
+    \ x) {\n        if (x <= 0) return 0;\n        int i = 0;\n        for (int j\
+    \ = m; j; j >>= 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i\
+    \ + j - 1], i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n\
+    \ * @brief Binary Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/point_add_rectangle_sum.cpp\"\
+    \n\ntemplate<class T>\nstruct PointAddRectangleSum {\n    struct Operation {\n\
+    \        int type;\n        int x, y, z, u;\n        T w;\n    };\n\n    vector<Operation>\
+    \ ops;\n    vector<int> xs;\n\n    void add_point(int x, int y, T w) {\n     \
+    \   ops.push_back({0, x, y, 0, 0, w});\n        xs.push_back(x);\n    }\n\n  \
+    \  void add_query(int l, int d, int r, int u) {\n        ops.push_back({1, l,\
+    \ d, r, u, T(0)});\n    }\n\n    vector<T> solve() const {\n        vector<int>\
+    \ ord_x = xs;\n        sort(ord_x.begin(), ord_x.end());\n        ord_x.erase(unique(ord_x.begin(),\
+    \ ord_x.end()), ord_x.end());\n\n        int m = (int)ord_x.size();\n        vector<vector<int>>\
+    \ ys(m + 1);\n        for (auto op : ops) {\n            if (op.type != 0) continue;\n\
+    \            int xi = (int)(lower_bound(ord_x.begin(), ord_x.end(), op.x) - ord_x.begin())\
+    \ + 1;\n            for (int x = xi; x <= m; x += x & -x) ys[x].push_back(op.y);\n\
+    \        }\n        for (int i = 1; i <= m; ++i) {\n            sort(ys[i].begin(),\
+    \ ys[i].end());\n            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());\n\
+    \        }\n\n        vector<BIT<T>> bit;\n        bit.reserve(m + 1);\n     \
+    \   bit.emplace_back(0);\n        for (int i = 1; i <= m; ++i) bit.emplace_back((int)ys[i].size());\n\
+    \n        auto add = [&](int x, int y, T w) {\n            int xi = (int)(lower_bound(ord_x.begin(),\
+    \ ord_x.end(), x) - ord_x.begin()) + 1;\n            for (int i = xi; i <= m;\
+    \ i += i & -i) {\n                int yi = (int)(lower_bound(ys[i].begin(), ys[i].end(),\
+    \ y) - ys[i].begin());\n                bit[i].add(yi, w);\n            }\n  \
+    \      };\n        auto sum = [&](int x, int y) {\n            T ret = 0;\n  \
+    \          int xi = (int)(lower_bound(ord_x.begin(), ord_x.end(), x) - ord_x.begin());\n\
+    \            for (int i = xi; i > 0; i -= i & -i) {\n                int yi =\
+    \ (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n       \
+    \         ret += bit[i].sum(yi);\n            }\n            return ret;\n   \
+    \     };\n\n        vector<T> ans;\n        for (auto op : ops) {\n          \
+    \  if (op.type == 0) {\n                add(op.x, op.y, (T)op.w);\n          \
+    \  } else {\n                ans.push_back(sum(op.z, op.u) - sum(op.z, op.y) -\
+    \ sum(op.x, op.u) + sum(op.x, op.y));\n            }\n        }\n        return\
+    \ ans;\n    }\n};\n\n/**\n * @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C\
+    (Point Add Rectangle Sum)\n */\n#line 11 \"test/yosupo_aplusb_rectangle_sum_weights.test.cpp\"\
+    \n\ntemplate<class T>\nvoid check(bool modular) {\n    const vector<int> coords\
+    \ = {-1000000000, -16777217, -1, 0, 1, 16777215, 16777216, 16777217, 1000000000};\n\
+    \    mt19937 rng(63);\n    for (int tc = 0; tc < 100; ++tc) {\n        PointAddRectangleSum<T>\
+    \ solver;\n        vector<tuple<int, int, ll>> points;\n        vector<T> expected;\n\
+    \        assert(solver.solve().empty());\n        for (int step = 0; step < 100;\
+    \ ++step) {\n            auto coord = [&]() { return coords[rng() % coords.size()];\
+    \ };\n            if (rng() % 2) {\n                int x = coord(), y = coord();\n\
+    \                ll w = int(rng() % 21) - 10;\n                if (modular) w\
+    \ += (int(rng() % 3) - 1LL) * 998244353;\n                solver.add_point(x,\
+    \ y, T(w));\n                points.emplace_back(x, y, w);\n            } else\
+    \ {\n                int l = coord(), r = coord(), d = coord(), u = coord();\n\
+    \                if (l > r) swap(l, r);\n                if (d > u) swap(d, u);\n\
+    \                solver.add_query(l, d, r, u);\n                ll sum = 0;\n\
+    \                for (auto [x, y, w] : points)\n                    if (l <= x\
+    \ && x < r && d <= y && y < u) sum += w;\n                expected.push_back(T(sum));\n\
+    \            }\n            if (step % 25 == 0) assert(solver.solve() == expected);\n\
+    \        }\n        assert(solver.solve() == expected);\n        assert(solver.solve()\
+    \ == expected);\n    }\n}\n\nint main() {\n    PointAddRectangleSum<modint<998244353>>\
+    \ modular;\n    modular.add_point(0, 0, 1);\n    modular.add_query(0, 0, 1, 1);\n\
+    \    assert(modular.solve() == vector<modint<998244353>>{1});\n    PointAddRectangleSum<float>\
+    \ floating;\n    floating.add_point(0, 16777216, 1.0f);\n    floating.add_query(0,\
+    \ 16777216, 1, 16777217);\n    assert(floating.solve() == vector<float>{1.0f});\n\
+    \    check<modint<998244353>>(true);\n    check<float>(false);\n    check<long\
+    \ long>(false);\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\n#include \"../util/fastio.cpp\"\n#include \"../util/modint_base.cpp\"\
+    \n#include \"../datastructure/point_add_rectangle_sum.cpp\"\n\ntemplate<class\
+    \ T>\nvoid check(bool modular) {\n    const vector<int> coords = {-1000000000,\
+    \ -16777217, -1, 0, 1, 16777215, 16777216, 16777217, 1000000000};\n    mt19937\
+    \ rng(63);\n    for (int tc = 0; tc < 100; ++tc) {\n        PointAddRectangleSum<T>\
+    \ solver;\n        vector<tuple<int, int, ll>> points;\n        vector<T> expected;\n\
+    \        assert(solver.solve().empty());\n        for (int step = 0; step < 100;\
+    \ ++step) {\n            auto coord = [&]() { return coords[rng() % coords.size()];\
+    \ };\n            if (rng() % 2) {\n                int x = coord(), y = coord();\n\
+    \                ll w = int(rng() % 21) - 10;\n                if (modular) w\
+    \ += (int(rng() % 3) - 1LL) * 998244353;\n                solver.add_point(x,\
+    \ y, T(w));\n                points.emplace_back(x, y, w);\n            } else\
+    \ {\n                int l = coord(), r = coord(), d = coord(), u = coord();\n\
+    \                if (l > r) swap(l, r);\n                if (d > u) swap(d, u);\n\
+    \                solver.add_query(l, d, r, u);\n                ll sum = 0;\n\
+    \                for (auto [x, y, w] : points)\n                    if (l <= x\
+    \ && x < r && d <= y && y < u) sum += w;\n                expected.push_back(T(sum));\n\
+    \            }\n            if (step % 25 == 0) assert(solver.solve() == expected);\n\
+    \        }\n        assert(solver.solve() == expected);\n        assert(solver.solve()\
+    \ == expected);\n    }\n}\n\nint main() {\n    PointAddRectangleSum<modint<998244353>>\
+    \ modular;\n    modular.add_point(0, 0, 1);\n    modular.add_query(0, 0, 1, 1);\n\
+    \    assert(modular.solve() == vector<modint<998244353>>{1});\n    PointAddRectangleSum<float>\
+    \ floating;\n    floating.add_point(0, 16777216, 1.0f);\n    floating.add_query(0,\
+    \ 16777216, 1, 16777217);\n    assert(floating.solve() == vector<float>{1.0f});\n\
+    \    check<modint<998244353>>(true);\n    check<float>(false);\n    check<long\
+    \ long>(false);\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - string/lyndon_factorization.cpp
+  - util/modint_base.cpp
+  - datastructure/point_add_rectangle_sum.cpp
+  - datastructure/binaryindexedtree.cpp
   isVerificationFile: true
-  path: test/yosupo_lyndon_factorization.test.cpp
+  path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 13:02:41+09:00'
+  timestamp: '2026-10-03 13:02:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_lyndon_factorization.test.cpp
+documentation_of: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_lyndon_factorization.test.cpp
-- /verify/test/yosupo_lyndon_factorization.test.cpp.html
-title: test/yosupo_lyndon_factorization.test.cpp
+- /verify/test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+- /verify/test/yosupo_aplusb_rectangle_sum_weights.test.cpp.html
+title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
 ---

@@ -10,6 +10,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0355.test.cpp
     title: test/aoj0355.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_string_bytes.test.cpp
+    title: test/yosupo_aplusb_string_bytes.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -43,6 +46,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0355.test.cpp
+  - test/yosupo_aplusb_string_bytes.test.cpp
 date: 2018-04-28
 documentation_of: util/xorshift.cpp
 layout: document

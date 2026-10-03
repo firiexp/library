@@ -248,15 +248,16 @@ data:
     \ rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n    vector<int> level, iter;\n\
     \    CostScalingDinic() = default;\n    explicit CostScalingDinic(int n) : G(n),\
     \ level(n), iter(n) {}\n\n    void add_edge(int from, int to, int cap){\n    \
-    \    if(!cap) return;\n        G[from].emplace_back(to, cap, G[to].size());\n\
-    \        G[to].emplace_back(from, directed ? 0 : cap,  G[from].size()-1);\n  \
-    \  }\n\n    T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n      \
-    \  T cap = 1; while(cap<<1 <= lim) cap <<= 1;\n        while(cap) {\n        \
-    \    bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
+    \    if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
+    \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
+    \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
+    \ T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n        T cap = 1;\
+    \ while(cap <= lim / 2) cap <<= 1;\n        while(cap && ret < lim) {\n      \
+    \      bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
     \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
-    \ 0);\n            ret += dfs(s, t, cap, INF<T>);\n        }\n        return ret;\n\
-    \    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0\
-    Dinic(Capacity Scaling Dinic)\n */\n#line 20 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
+    \ 0);\n            ret += dfs(s, t, cap, lim - ret);\n        }\n        return\
+    \ ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\
+    \u30B0Dinic(Capacity Scaling Dinic)\n */\n#line 20 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
     \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
     \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
@@ -277,7 +278,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_6_a_costscalingdinic.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 13:01:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_6_a_costscalingdinic.test.cpp

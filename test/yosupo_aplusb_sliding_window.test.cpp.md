@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: string/lyndon_factorization.cpp
-    title: "Lyndon\u5206\u89E3(Lyndon Factorization)"
+    path: datastructure/slidingwindow.cpp
+    title: "\u30B9\u30E9\u30A4\u30C9\u6700\u5C0F\u5024(\u6700\u5927\u5024)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,14 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/lyndon_factorization
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/lyndon_factorization
-  bundledCode: "#line 1 \"test/yosupo_lyndon_factorization.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\n#include <string>\n\
-    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #line 10 \"test/yosupo_lyndon_factorization.test.cpp\"\n#include <type_traits>\n\
-    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_sliding_window.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
     \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
     struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
@@ -226,40 +224,77 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"string/lyndon_factorization.cpp\"\
-    \nusing namespace std;\n\nvector<pair<int, int>> lyndon_factorization(const string\
-    \ &s) {\n    int n = (int)s.size();\n    vector<pair<int, int>> res;\n    for\
-    \ (int i = 0; i < n;) {\n        int j = i + 1, k = i;\n        while (j < n &&\
-    \ (unsigned char)s[k] <= (unsigned char)s[j]) {\n            if ((unsigned char)s[k]\
-    \ < (unsigned char)s[j]) k = i;\n            else ++k;\n            ++j;\n   \
-    \     }\n        int len = j - k;\n        while (i <= k) {\n            res.emplace_back(i,\
-    \ i + len);\n            i += len;\n        }\n    }\n    return res;\n}\n\n/**\n\
-    \ * @brief Lyndon\u5206\u89E3(Lyndon Factorization)\n */\n#line 15 \"test/yosupo_lyndon_factorization.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
-    \    auto seg = lyndon_factorization(s);\n    pr.print(0);\n    for (auto &&p\
-    \ : seg) {\n        pr.print(' ');\n        pr.print(p.second);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lyndon_factorization\"\n\
-    \n#include <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../string/lyndon_factorization.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
-    \    auto seg = lyndon_factorization(s);\n    pr.print(0);\n    for (auto &&p\
-    \ : seg) {\n        pr.print(' ');\n        pr.print(p.second);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/slidingwindow.cpp\"\
+    \ntemplate<class T, class F>\nclass sliding_window {\n    vector<T> v;\n    deque<int>\
+    \ Q;\n    F f;\npublic:\n    int l, r;\n    explicit sliding_window(vector<T>\
+    \ &v, F f) : v(v), f(f), l(0), r(0) {};\n    void set(vector<T> &u){\n       \
+    \ v = u;\n        Q.clear();\n        l = 0; r = 0;\n    }\n    void reset(){\n\
+    \        Q.clear();\n        l = 0, r = 0;\n    }\n    void slideL(){\n      \
+    \  if(Q.front() == l++) Q.pop_front();\n    }\n    void slideR(){\n        while(!Q.empty()\
+    \ && !f(v[Q.back()], v[r])) Q.pop_back();\n        Q.push_back(r++);\n    }\n\
+    \    int get_index()  {\n        if(l == r) return 0;\n        return Q.front();\n\
+    \    }\n    T value()  {\n        if(l == r) return 0;\n        return v[Q.front()];\n\
+    \    }\n};\n#line 7 \"test/yosupo_aplusb_sliding_window.test.cpp\"\n\ntemplate<class\
+    \ T>\nvoid check() {\n    mt19937 rng(59);\n    vector<T> values(400);\n    for\
+    \ (int i = 0; i < int(values.size()); ++i) values[i] = T(rng() % 17);\n    const\
+    \ auto initial = values;\n    for (bool maximum : {false, true}) {\n        values\
+    \ = initial;\n        auto cmp = [=](T a, T b) { return maximum ? a > b : a <\
+    \ b; };\n        sliding_window<T, decltype(cmp)> sw(values, cmp);\n        static_assert(is_same_v<decltype(sw.get_index()),\
+    \ int>);\n        static_assert(is_same_v<decltype(sw.value()), T>);\n       \
+    \ auto verify = [&](int width) {\n            assert(sw.l == 0 && sw.r == 0);\n\
+    \            assert(sw.get_index() == 0 && sw.value() == T(0));\n            for\
+    \ (int r = 1; r <= int(values.size()); ++r) {\n                sw.slideR();\n\
+    \                if (sw.r - sw.l > width) sw.slideL();\n                int best\
+    \ = sw.l;\n                for (int i = sw.l + 1; i < sw.r; ++i)\n           \
+    \         if (!cmp(values[best], values[i])) best = i;\n                assert(sw.get_index()\
+    \ == best);\n                assert(sw.value() == values[best]);\n           \
+    \ }\n            while (sw.l < sw.r) sw.slideL();\n            assert(sw.get_index()\
+    \ == 0 && sw.value() == T(0));\n        };\n        for (int width : {1, 7, 65})\
+    \ {\n            sw.reset();\n            verify(width);\n        }\n        reverse(values.begin(),\
+    \ values.end());\n        sw.set(values);\n        verify(23);\n        values.assign(33001,\
+    \ T(1));\n        values.back() = T(0);\n        sw.set(values);\n        verify(1);\n\
+    \        values.resize(400);\n    }\n}\n\nint main() {\n    check<unsigned char>();\n\
+    \    check<signed char>();\n    check<short>();\n    check<bool>();\n    check<int>();\n\
+    \    check<long long>();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n  \
+    \  sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/slidingwindow.cpp\"\
+    \n\ntemplate<class T>\nvoid check() {\n    mt19937 rng(59);\n    vector<T> values(400);\n\
+    \    for (int i = 0; i < int(values.size()); ++i) values[i] = T(rng() % 17);\n\
+    \    const auto initial = values;\n    for (bool maximum : {false, true}) {\n\
+    \        values = initial;\n        auto cmp = [=](T a, T b) { return maximum\
+    \ ? a > b : a < b; };\n        sliding_window<T, decltype(cmp)> sw(values, cmp);\n\
+    \        static_assert(is_same_v<decltype(sw.get_index()), int>);\n        static_assert(is_same_v<decltype(sw.value()),\
+    \ T>);\n        auto verify = [&](int width) {\n            assert(sw.l == 0 &&\
+    \ sw.r == 0);\n            assert(sw.get_index() == 0 && sw.value() == T(0));\n\
+    \            for (int r = 1; r <= int(values.size()); ++r) {\n               \
+    \ sw.slideR();\n                if (sw.r - sw.l > width) sw.slideL();\n      \
+    \          int best = sw.l;\n                for (int i = sw.l + 1; i < sw.r;\
+    \ ++i)\n                    if (!cmp(values[best], values[i])) best = i;\n   \
+    \             assert(sw.get_index() == best);\n                assert(sw.value()\
+    \ == values[best]);\n            }\n            while (sw.l < sw.r) sw.slideL();\n\
+    \            assert(sw.get_index() == 0 && sw.value() == T(0));\n        };\n\
+    \        for (int width : {1, 7, 65}) {\n            sw.reset();\n           \
+    \ verify(width);\n        }\n        reverse(values.begin(), values.end());\n\
+    \        sw.set(values);\n        verify(23);\n        values.assign(33001, T(1));\n\
+    \        values.back() = T(0);\n        sw.set(values);\n        verify(1);\n\
+    \        values.resize(400);\n    }\n}\n\nint main() {\n    check<unsigned char>();\n\
+    \    check<signed char>();\n    check<short>();\n    check<bool>();\n    check<int>();\n\
+    \    check<long long>();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n  \
+    \  sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - string/lyndon_factorization.cpp
+  - datastructure/slidingwindow.cpp
   isVerificationFile: true
-  path: test/yosupo_lyndon_factorization.test.cpp
+  path: test/yosupo_aplusb_sliding_window.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 13:02:41+09:00'
+  timestamp: '2026-10-03 13:02:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_lyndon_factorization.test.cpp
+documentation_of: test/yosupo_aplusb_sliding_window.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_lyndon_factorization.test.cpp
-- /verify/test/yosupo_lyndon_factorization.test.cpp.html
-title: test/yosupo_lyndon_factorization.test.cpp
+- /verify/test/yosupo_aplusb_sliding_window.test.cpp
+- /verify/test/yosupo_aplusb_sliding_window.test.cpp.html
+title: test/yosupo_aplusb_sliding_window.test.cpp
 ---

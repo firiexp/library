@@ -19,6 +19,9 @@ data:
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+    title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum.test.cpp
     title: test/yosupo_point_add_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -79,6 +82,7 @@ data:
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/aoj_dsl_2_b.test.cpp
+  - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
 documentation_of: datastructure/binaryindexedtree.cpp
 layout: document
