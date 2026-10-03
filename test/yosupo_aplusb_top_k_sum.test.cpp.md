@@ -241,29 +241,28 @@ data:
     \n    typename multiset<T>::iterator other_best() {\n        assert(!other_.empty());\n\
     \        if constexpr (Largest) return prev(other_.end());\n        else return\
     \ other_.begin();\n    }\n\n    void move_selected_to_other() {\n        auto\
-    \ it = selected_boundary();\n        T x = *it;\n        selected_.erase(it);\n\
-    \        selected_sum_ -= (SumT)x;\n        other_.insert(x);\n    }\n\n    void\
-    \ move_other_to_selected() {\n        auto it = other_best();\n        T x = *it;\n\
-    \        other_.erase(it);\n        selected_.insert(x);\n        selected_sum_\
-    \ += (SumT)x;\n    }\n\n    void rebalance() {\n        int target = min(K_, total_size_);\n\
+    \ it = selected_boundary();\n        selected_sum_ -= (SumT)*it;\n        other_.insert(selected_.extract(it));\n\
+    \    }\n\n    void move_other_to_selected() {\n        auto it = other_best();\n\
+    \        selected_sum_ += (SumT)*it;\n        selected_.insert(other_.extract(it));\n\
+    \    }\n\n    void rebalance() {\n        int target = min(K_, total_size_);\n\
     \        while ((int)selected_.size() > target) move_selected_to_other();\n  \
     \      while ((int)selected_.size() < target) move_other_to_selected();\n    \
     \    while (!selected_.empty() && !other_.empty()) {\n            auto sit = selected_boundary();\n\
     \            auto oit = other_best();\n            T s = *sit;\n            T\
-    \ o = *oit;\n            if (!selected_before(o, s)) break;\n            selected_.erase(sit);\n\
-    \            other_.erase(oit);\n            selected_.insert(o);\n          \
-    \  other_.insert(s);\n            selected_sum_ += (SumT)o - (SumT)s;\n      \
-    \  }\n    }\n\npublic:\n    explicit TopKSum(int K = 0) : K_(K) {\n        assert(K\
-    \ >= 0);\n    }\n\n    TopKSum(const TopKSum&) = delete;\n    TopKSum& operator=(const\
-    \ TopKSum&) = delete;\n\n    int k() const {\n        return K_;\n    }\n\n  \
-    \  void set_k(int new_k) {\n        assert(new_k >= 0);\n        K_ = new_k;\n\
-    \        rebalance();\n    }\n\n    int size() const {\n        return total_size_;\n\
-    \    }\n\n    bool empty() const {\n        return total_size_ == 0;\n    }\n\n\
-    \    SumT total_sum() const {\n        return total_sum_;\n    }\n\n    void insert(const\
-    \ T& x) {\n        ++total_size_;\n        total_sum_ += (SumT)x;\n        if\
-    \ ((int)selected_.size() < K_) {\n            selected_.insert(x);\n         \
-    \   selected_sum_ += (SumT)x;\n        } else if (selected_.empty()) {\n     \
-    \       other_.insert(x);\n        } else {\n            T s = *selected_boundary();\n\
+    \ o = *oit;\n            if (!selected_before(o, s)) break;\n            auto\
+    \ node = selected_.extract(sit);\n            selected_.insert(other_.extract(oit));\n\
+    \            other_.insert(std::move(node));\n            selected_sum_ += (SumT)o\
+    \ - (SumT)s;\n        }\n    }\n\npublic:\n    explicit TopKSum(int K = 0) : K_(K)\
+    \ {\n        assert(K >= 0);\n    }\n\n    TopKSum(const TopKSum&) = delete;\n\
+    \    TopKSum& operator=(const TopKSum&) = delete;\n\n    int k() const {\n   \
+    \     return K_;\n    }\n\n    void set_k(int new_k) {\n        assert(new_k >=\
+    \ 0);\n        K_ = new_k;\n        rebalance();\n    }\n\n    int size() const\
+    \ {\n        return total_size_;\n    }\n\n    bool empty() const {\n        return\
+    \ total_size_ == 0;\n    }\n\n    SumT total_sum() const {\n        return total_sum_;\n\
+    \    }\n\n    void insert(const T& x) {\n        ++total_size_;\n        total_sum_\
+    \ += (SumT)x;\n        if ((int)selected_.size() < K_) {\n            selected_.insert(x);\n\
+    \            selected_sum_ += (SumT)x;\n        } else if (selected_.empty())\
+    \ {\n            other_.insert(x);\n        } else {\n            T s = *selected_boundary();\n\
     \            if (selected_before(x, s)) {\n                selected_.insert(x);\n\
     \                selected_sum_ += (SumT)x;\n            } else {\n           \
     \     other_.insert(x);\n            }\n        }\n        rebalance();\n    }\n\
@@ -364,7 +363,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_top_k_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_top_k_sum.test.cpp

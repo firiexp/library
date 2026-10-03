@@ -231,43 +231,42 @@ data:
     \ hungarian(const vector<vector<T>> &cost) {\n    int n = cost.size();\n    if\
     \ (n == 0) return {T(0), {}, {}, {}};\n    int m = cost[0].size();\n    assert(n\
     \ <= m);\n    for (int i = 0; i < n; ++i) assert((int)cost[i].size() == m);\n\n\
-    \    vector<vector<T>> a(n + 1, vector<T>(m + 1));\n    for (int i = 0; i < n;\
-    \ ++i) {\n        for (int j = 0; j < m; ++j) {\n            a[i + 1][j + 1] =\
-    \ Minimize ? cost[i][j] : -cost[i][j];\n        }\n    }\n\n    vector<int> p(m\
-    \ + 1), way(m + 1);\n    vector<T> u(n + 1), v(m + 1), minv(m + 1);\n    vector<char>\
-    \ used(m + 1);\n\n    for (int i = 1; i <= n; ++i) {\n        p[0] = i;\n    \
-    \    fill(minv.begin(), minv.end(), numeric_limits<T>::max());\n        fill(used.begin(),\
-    \ used.end(), 0);\n        int j0 = 0;\n        while (p[j0] != 0) {\n       \
-    \     used[j0] = 1;\n            int i0 = p[j0], j1 = 0;\n            T delta\
-    \ = numeric_limits<T>::max();\n            for (int j = 1; j <= m; ++j) {\n  \
-    \              if (used[j]) continue;\n                T cur = a[i0][j] - u[i0]\
-    \ - v[j];\n                if (cur < minv[j]) {\n                    minv[j] =\
-    \ cur;\n                    way[j] = j0;\n                }\n                if\
-    \ (minv[j] < delta) {\n                    delta = minv[j];\n                \
-    \    j1 = j;\n                }\n            }\n            for (int j = 0; j\
-    \ <= m; ++j) {\n                if (used[j]) {\n                    u[p[j]] +=\
-    \ delta;\n                    v[j] -= delta;\n                } else {\n     \
-    \               minv[j] -= delta;\n                }\n            }\n        \
-    \    j0 = j1;\n        }\n        while (j0 != 0) {\n            int j1 = way[j0];\n\
-    \            p[j0] = p[j1];\n            j0 = j1;\n        }\n    }\n\n    vector<int>\
+    \    vector<int> p(m + 1), way(m + 1);\n    vector<T> u(n + 1), v(m + 1), minv(m\
+    \ + 1);\n    vector<char> used(m + 1);\n\n    for (int i = 1; i <= n; ++i) {\n\
+    \        p[0] = i;\n        fill(minv.begin(), minv.end(), numeric_limits<T>::max());\n\
+    \        fill(used.begin(), used.end(), 0);\n        int j0 = 0;\n        while\
+    \ (p[j0] != 0) {\n            used[j0] = 1;\n            int i0 = p[j0], j1 =\
+    \ 0;\n            T delta = numeric_limits<T>::max();\n            for (int j\
+    \ = 1; j <= m; ++j) {\n                if (used[j]) continue;\n              \
+    \  T cur = (Minimize ? cost[i0 - 1][j - 1] : -cost[i0 - 1][j - 1]) - u[i0] - v[j];\n\
+    \                if (cur < minv[j]) {\n                    minv[j] = cur;\n  \
+    \                  way[j] = j0;\n                }\n                if (minv[j]\
+    \ < delta) {\n                    delta = minv[j];\n                    j1 = j;\n\
+    \                }\n            }\n            for (int j = 0; j <= m; ++j) {\n\
+    \                if (used[j]) {\n                    u[p[j]] += delta;\n     \
+    \               v[j] -= delta;\n                } else {\n                   \
+    \ minv[j] -= delta;\n                }\n            }\n            j0 = j1;\n\
+    \        }\n        while (j0 != 0) {\n            int j1 = way[j0];\n       \
+    \     p[j0] = p[j1];\n            j0 = j1;\n        }\n    }\n\n    vector<int>\
     \ match(n, -1);\n    for (int j = 1; j <= m; ++j) {\n        if (p[j] != 0) match[p[j]\
     \ - 1] = j - 1;\n    }\n\n    vector<T> row(n), col(m);\n    for (int i = 0; i\
     \ < n; ++i) row[i] = u[i + 1];\n    for (int j = 0; j < m; ++j) col[j] = v[j +\
     \ 1];\n    T ans = -v[0];\n    if (!Minimize) {\n        ans = -ans;\n       \
     \ for (int i = 0; i < n; ++i) row[i] = -row[i];\n        for (int j = 0; j < m;\
-    \ ++j) col[j] = -col[j];\n    }\n    return {ans, match, row, col};\n}\n\n/**\n\
-    \ * @brief \u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5(Hungarian Algorithm)\n */\n\
-    #line 18 \"test/yosupo_assignment_hungarian.test.cpp\"\n\nint main() {\n    Scanner\
-    \ in;\n    Printer out;\n    int n;\n    in.read(n);\n    vector<vector<long long>>\
-    \ a(n, vector<long long>(n));\n    for (int i = 0; i < n; ++i) {\n        for\
-    \ (int j = 0; j < n; ++j) {\n            in.read(a[i][j]);\n        }\n    }\n\
-    \    auto [ans, match, row, col] = hungarian<long long>(a);\n    out.println(ans);\n\
-    \    for (int i = 0; i < n; ++i) {\n        if (i) out.print(' ');\n        out.print(match[i]);\n\
-    \    }\n    out.println();\n\n    long long dual_sum = 0;\n    for (int i = 0;\
-    \ i < n; ++i) dual_sum += row[i];\n    for (int j = 0; j < n; ++j) dual_sum +=\
-    \ col[j];\n    assert(dual_sum == ans);\n    for (int i = 0; i < n; ++i) {\n \
-    \       for (int j = 0; j < n; ++j) {\n            assert(row[i] + col[j] <= a[i][j]);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \ ++j) col[j] = -col[j];\n    }\n    return {ans, std::move(match), std::move(row),\
+    \ std::move(col)};\n}\n\n/**\n * @brief \u30CF\u30F3\u30AC\u30EA\u30A2\u30F3\u6CD5\
+    (Hungarian Algorithm)\n */\n#line 18 \"test/yosupo_assignment_hungarian.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
+    \    vector<vector<long long>> a(n, vector<long long>(n));\n    for (int i = 0;\
+    \ i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            in.read(a[i][j]);\n\
+    \        }\n    }\n    auto [ans, match, row, col] = hungarian<long long>(a);\n\
+    \    out.println(ans);\n    for (int i = 0; i < n; ++i) {\n        if (i) out.print('\
+    \ ');\n        out.print(match[i]);\n    }\n    out.println();\n\n    long long\
+    \ dual_sum = 0;\n    for (int i = 0; i < n; ++i) dual_sum += row[i];\n    for\
+    \ (int j = 0; j < n; ++j) dual_sum += col[j];\n    assert(dual_sum == ans);\n\
+    \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n  \
+    \          assert(row[i] + col[j] <= a[i][j]);\n        }\n    }\n    return 0;\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/assignment\"\n\n#include\
     \ <algorithm>\n#include <cassert>\n#include <limits>\n#include <tuple>\n#include\
     \ <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
@@ -289,7 +288,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_assignment_hungarian.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_assignment_hungarian.test.cpp

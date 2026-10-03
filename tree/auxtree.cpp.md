@@ -18,6 +18,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
+    title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -52,12 +55,13 @@ data:
     \ -1, 0, k, l);\n    }\n\n    void buildLCA(int root = 0){\n        eulertour(root);\n\
     \        vector<pair<int, int>> v(2*n-1);\n        for (int i = 0; i < 2*n-1;\
     \ ++i) {\n            v[i] = make_pair(depth[i], vs[i]);\n        }\n        table.build(v);\n\
-    \    }\n\n    void make(vector<int> &v){\n        sort(v.begin(),v.end(), [&](int\
-    \ a, int b){ return fi[a] < fi[b]; });\n        v.erase(unique(v.begin(), v.end()),\
-    \ v.end());\n        int k = v.size();\n        stack<int> s;\n        s.emplace(v.front());\n\
-    \        for (int i = 0; i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n\
-    \            if(w != v[i]){\n                int u = s.top(); s.pop();\n     \
-    \           while(!s.empty() && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
+    \    }\n\n    void make(vector<int> &v){\n        if(v.empty()) return;\n    \
+    \    sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b]; });\n  \
+    \      v.erase(unique(v.begin(), v.end()), v.end());\n        int k = v.size();\n\
+    \        stack<int> s;\n        s.emplace(v.front());\n        for (int i = 0;\
+    \ i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n            if(w !=\
+    \ v[i]){\n                int u = s.top(); s.pop();\n                while(!s.empty()\
+    \ && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
     \                    out[u].emplace_back(s.top());\n                    u = s.top();\
     \ s.pop();\n                }\n                if(s.empty() || s.top() != w){\n\
     \                    s.emplace(w);\n                    v.emplace_back(w);\n \
@@ -65,11 +69,11 @@ data:
     \            }\n            s.emplace(v[i+1]);\n        }\n        while(s.size()\
     \ > 1){\n            int u = s.top(); s.pop();\n            out[s.top()].emplace_back(u);\n\
     \            out[u].emplace_back(s.top());\n        }\n    }\n\n    void clear(vector<int>\
-    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n          \
-    \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
-    \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
-    \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
-    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n"
+    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n        }\n\
+    \    }\n\n    int LCA(int u, int v){\n        if(id[u] > id[v]) swap(u, v);\n\
+    \        return table.query(id[u], id[v]+1).second;\n    }\n\n    int distance(int\
+    \ u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u, v)];\n    }\n};\n\n/**\n\
+    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n"
   code: "#include \"../datastructure/sparsetable.cpp\"\n\nstruct F {\n    using T\
     \ = pair<int, int>;\n    static T f(T a, T b) { return min(a, b); }\n    static\
     \ T e() { return T{INF<int>, -1}; }\n};\n\nclass AuxTree {\n    SparseTable<F>\
@@ -86,23 +90,23 @@ data:
     \ buildLCA(int root = 0){\n        eulertour(root);\n        vector<pair<int,\
     \ int>> v(2*n-1);\n        for (int i = 0; i < 2*n-1; ++i) {\n            v[i]\
     \ = make_pair(depth[i], vs[i]);\n        }\n        table.build(v);\n    }\n\n\
-    \    void make(vector<int> &v){\n        sort(v.begin(),v.end(), [&](int a, int\
-    \ b){ return fi[a] < fi[b]; });\n        v.erase(unique(v.begin(), v.end()), v.end());\n\
-    \        int k = v.size();\n        stack<int> s;\n        s.emplace(v.front());\n\
-    \        for (int i = 0; i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n\
-    \            if(w != v[i]){\n                int u = s.top(); s.pop();\n     \
-    \           while(!s.empty() && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
-    \                    out[u].emplace_back(s.top());\n                    u = s.top();\
-    \ s.pop();\n                }\n                if(s.empty() || s.top() != w){\n\
-    \                    s.emplace(w);\n                    v.emplace_back(w);\n \
-    \               }\n                out[w].emplace_back(u);\n                out[u].emplace_back(w);\n\
-    \            }\n            s.emplace(v[i+1]);\n        }\n        while(s.size()\
-    \ > 1){\n            int u = s.top(); s.pop();\n            out[s.top()].emplace_back(u);\n\
-    \            out[u].emplace_back(s.top());\n        }\n    }\n\n    void clear(vector<int>\
-    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n          \
-    \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
-    \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
-    \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
+    \    void make(vector<int> &v){\n        if(v.empty()) return;\n        sort(v.begin(),v.end(),\
+    \ [&](int a, int b){ return fi[a] < fi[b]; });\n        v.erase(unique(v.begin(),\
+    \ v.end()), v.end());\n        int k = v.size();\n        stack<int> s;\n    \
+    \    s.emplace(v.front());\n        for (int i = 0; i+1 < k; ++i) {\n        \
+    \    int w = LCA(v[i], v[i+1]);\n            if(w != v[i]){\n                int\
+    \ u = s.top(); s.pop();\n                while(!s.empty() && dep[w] < dep[s.top()]){\n\
+    \                    out[s.top()].emplace_back(u);\n                    out[u].emplace_back(s.top());\n\
+    \                    u = s.top(); s.pop();\n                }\n              \
+    \  if(s.empty() || s.top() != w){\n                    s.emplace(w);\n       \
+    \             v.emplace_back(w);\n                }\n                out[w].emplace_back(u);\n\
+    \                out[u].emplace_back(w);\n            }\n            s.emplace(v[i+1]);\n\
+    \        }\n        while(s.size() > 1){\n            int u = s.top(); s.pop();\n\
+    \            out[s.top()].emplace_back(u);\n            out[u].emplace_back(s.top());\n\
+    \        }\n    }\n\n    void clear(vector<int> &v){\n        for (auto &&i :\
+    \ v) {\n            out[i].clear();\n        }\n    }\n\n    int LCA(int u, int\
+    \ v){\n        if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u],\
+    \ id[v]+1).second;\n    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
     \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n"
   dependsOn:
   - datastructure/sparsetable.cpp
@@ -110,11 +114,12 @@ data:
   path: tree/auxtree.cpp
   requiredBy:
   - tree/virtual_tree_helper.cpp
-  timestamp: '2026-07-11 20:39:21+09:00'
+  timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
+  - test/yosupo_aplusb_virtual_tree_helper.test.cpp
   - test/aoj0439.test.cpp
 documentation_of: tree/auxtree.cpp
 layout: document

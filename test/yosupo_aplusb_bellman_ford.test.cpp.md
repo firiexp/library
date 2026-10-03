@@ -5,6 +5,9 @@ data:
     path: graph/bellman_ford.cpp
     title: "Bellman-Ford\u6CD5"
   - icon: ':heavy_check_mark:'
+    path: graph/bellman_ford_negative_loop.cpp
+    title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -14,19 +17,18 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B
-  bundledCode: "#line 1 \"test/aoj_grl_1_b_bellman_ford.test.cpp\"\n#define PROBLEM\
-    \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n#include <limits>\n\
-    #include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
+    \ / 32 * 15 + 208;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -226,53 +228,112 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/bellman_ford.cpp\"\
-    \ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\n   \
-    \ edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int\
-    \ to, T cost) : from(from), to(to), cost(cost) {}\n\n    explicit operator int()\
-    \ const {return to;}\n};\n\ntemplate <typename T>\nvector<T> bellman_ford(int\
-    \ s, int V,vector<edge<T> > &G){\n    const T INF = numeric_limits<T>::max();\n\
-    \    vector<T> d(V, INF);\n    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i)\
-    \ {\n        bool updated = false;\n        for (auto &&e : G) {\n           \
-    \ if (d[e.from] == INF) continue;\n            if (d[e.from] + e.cost < d[e.to])\
-    \ {\n                d[e.to] = d[e.from] + e.cost;\n                updated =\
-    \ true;\n            }\n        }\n        if (!updated) return d;\n    }\n  \
-    \  for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n        if(d[e.from]\
-    \ + e.cost < d[e.to]) return vector<T> ();\n    }\n    return d;\n}\n\n/**\n *\
-    \ @brief Bellman-Ford\u6CD5\n */\n#line 17 \"test/aoj_grl_1_b_bellman_ford.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s;\n    sc.read(n,\
-    \ m, s);\n    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i\
-    \ < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
-    \ b, c);\n    }\n\n    auto dist = bellman_ford(s, n, es);\n    if (dist.empty())\
-    \ {\n        pr.println(\"NEGATIVE CYCLE\");\n        return 0;\n    }\n\n   \
-    \ constexpr ll INF = numeric_limits<ll>::max();\n    for (int i = 0; i < n; ++i)\
-    \ {\n        if (dist[i] == INF) pr.println(\"INF\");\n        else pr.println(dist[i]);\n\
-    \    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n\
-    #include <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
-    \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
-    \ <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include\
-    \ \"../graph/bellman_ford.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n, m, s;\n    sc.read(n, m, s);\n    vector<edge<ll>> es;\n \
-    \   es.reserve(m);\n    for (int i = 0; i < m; ++i) {\n        int a, b, c;\n\
-    \        sc.read(a, b, c);\n        es.emplace_back(a, b, c);\n    }\n\n    auto\
-    \ dist = bellman_ford(s, n, es);\n    if (dist.empty()) {\n        pr.println(\"\
-    NEGATIVE CYCLE\");\n        return 0;\n    }\n\n    constexpr ll INF = numeric_limits<ll>::max();\n\
-    \    for (int i = 0; i < n; ++i) {\n        if (dist[i] == INF) pr.println(\"\
-    INF\");\n        else pr.println(dist[i]);\n    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 8 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\
+    \n\nnamespace plain {\n#line 1 \"graph/bellman_ford.cpp\"\ntemplate <typename\
+    \ T>\nstruct edge {\n    int from, to;\n    T cost;\n\n    edge(int to, T cost)\
+    \ : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from),\
+    \ to(to), cost(cost) {}\n\n    explicit operator int() const {return to;}\n};\n\
+    \ntemplate <typename T>\nvector<T> bellman_ford(int s, int V,vector<edge<T> >\
+    \ &G){\n    const T INF = numeric_limits<T>::max();\n    vector<T> d(V, INF);\n\
+    \    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i) {\n        bool updated =\
+    \ false;\n        for (auto &&e : G) {\n            if (d[e.from] == INF) continue;\n\
+    \            if (d[e.from] + e.cost < d[e.to]) {\n                d[e.to] = d[e.from]\
+    \ + e.cost;\n                updated = true;\n            }\n        }\n     \
+    \   if (!updated) return d;\n    }\n    for (auto &&e : G) {\n        if(d[e.from]\
+    \ == INF) continue;\n        if(d[e.from] + e.cost < d[e.to]) return vector<T>\
+    \ ();\n    }\n    return d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n */\n#line\
+    \ 11 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\n}\nnamespace propagated {\n\
+    #line 1 \"graph/bellman_ford_negative_loop.cpp\"\ntemplate <typename T>\nstruct\
+    \ edge {\n    int from, to;\n    T cost;\n \n    edge(int to, T cost) : from(-1),\
+    \ to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to),\
+    \ cost(cost) {}\n \n    explicit operator int() const {return to;}\n};\n \ntemplate\
+    \ <typename T>\nvector<T> bellman_ford(int s, int N,vector<edge<T> > &G){\n  \
+    \  vector<T> dist(N, INF<T>);\n    vector<bool> negative(N);\n    dist[s] = 0;\n\
+    \    for (int i = 0; i < N - 1; ++ i) {\n        bool updated = false;\n     \
+    \   for (auto &&e : G) {\n            if(dist[e.from] == INF<T>) continue;\n \
+    \           if(dist[e.to] > dist[e.from]+ e.cost){\n                dist[e.to]\
+    \ = dist[e.from]+ e.cost;\n                updated = true;\n            }\n  \
+    \      }\n        if (!updated) return dist;\n    }\n \n    for (int i = 0; i\
+    \ < N ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>)\
+    \ continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n           \
+    \     dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to] = true;\n\
+    \            }\n            if(negative[e.from]) negative[e.to] = true;\n    \
+    \    }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i]) dist[i]\
+    \ = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
+    (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 14 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\
+    \n}\n\nvoid check(int n, const vector<tuple<int, int, ll>> &edges) {\n    constexpr\
+    \ ll unreachable = 1000000000;\n    vector<vector<ll>> d(n, vector<ll>(n, unreachable));\n\
+    \    for (int v = 0; v < n; ++v) d[v][v] = 0;\n    vector<plain::edge<ll>> a;\n\
+    \    vector<propagated::edge<ll>> b;\n    for (auto [u, v, w] : edges) {\n   \
+    \     d[u][v] = min(d[u][v], w);\n        a.emplace_back(u, v, w);\n        b.emplace_back(u,\
+    \ v, w);\n    }\n    for (int k = 0; k < n; ++k) for (int u = 0; u < n; ++u) for\
+    \ (int v = 0; v < n; ++v)\n        if (d[u][k] != unreachable && d[k][v] != unreachable)\n\
+    \            d[u][v] = min(d[u][v], d[u][k] + d[k][v]);\n    for (int s = 0; s\
+    \ < n; ++s) {\n        auto result = plain::bellman_ford(s, n, a);\n        auto\
+    \ marked = propagated::bellman_ford(s, n, b);\n        bool any_negative = false;\n\
+    \        for (int v = 0; v < n; ++v) {\n            bool negative = false;\n \
+    \           for (int k = 0; k < n; ++k)\n                negative |= d[s][k] !=\
+    \ unreachable && d[k][k] < 0 && d[k][v] != unreachable;\n            any_negative\
+    \ |= negative;\n            ll expected = negative ? -INF<ll> : d[s][v] == unreachable\
+    \ ? INF<ll> : d[s][v];\n            assert(marked[v] == expected);\n         \
+    \   if (!result.empty() && !negative)\n                assert(result[v] == (d[s][v]\
+    \ == unreachable ? LLONG_MAX : d[s][v]));\n        }\n        assert(result.empty()\
+    \ == any_negative);\n    }\n}\n\nvoid self_check() {\n    check(1, {});\n    check(1,\
+    \ {{0, 0, -1}});\n    check(1, {{0, 0, 1}});\n    check(4, {{0, 1, -2}, {0, 1,\
+    \ 3}, {2, 3, -1}, {3, 2, 0}});\n    mt19937 rng(62);\n    for (int tc = 0; tc\
+    \ < 1200; ++tc) {\n        int n = 1 + rng() % 8;\n        vector<tuple<int, int,\
+    \ ll>> edges;\n        for (int i = rng() % (n * n + 1); i--; ) {\n          \
+    \  int u = rng() % n, v = rng() % n;\n            if (tc % 3 == 0 && u >= v) continue;\n\
+    \            edges.emplace_back(u, v, int(rng() % 15) - 5);\n        }\n     \
+    \   check(n, edges);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
+    \ b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\ntemplate<class T> constexpr T INF\
+    \ = numeric_limits<T>::max() / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\
+    \n\nnamespace plain {\n#include \"../graph/bellman_ford.cpp\"\n}\nnamespace propagated\
+    \ {\n#include \"../graph/bellman_ford_negative_loop.cpp\"\n}\n\nvoid check(int\
+    \ n, const vector<tuple<int, int, ll>> &edges) {\n    constexpr ll unreachable\
+    \ = 1000000000;\n    vector<vector<ll>> d(n, vector<ll>(n, unreachable));\n  \
+    \  for (int v = 0; v < n; ++v) d[v][v] = 0;\n    vector<plain::edge<ll>> a;\n\
+    \    vector<propagated::edge<ll>> b;\n    for (auto [u, v, w] : edges) {\n   \
+    \     d[u][v] = min(d[u][v], w);\n        a.emplace_back(u, v, w);\n        b.emplace_back(u,\
+    \ v, w);\n    }\n    for (int k = 0; k < n; ++k) for (int u = 0; u < n; ++u) for\
+    \ (int v = 0; v < n; ++v)\n        if (d[u][k] != unreachable && d[k][v] != unreachable)\n\
+    \            d[u][v] = min(d[u][v], d[u][k] + d[k][v]);\n    for (int s = 0; s\
+    \ < n; ++s) {\n        auto result = plain::bellman_ford(s, n, a);\n        auto\
+    \ marked = propagated::bellman_ford(s, n, b);\n        bool any_negative = false;\n\
+    \        for (int v = 0; v < n; ++v) {\n            bool negative = false;\n \
+    \           for (int k = 0; k < n; ++k)\n                negative |= d[s][k] !=\
+    \ unreachable && d[k][k] < 0 && d[k][v] != unreachable;\n            any_negative\
+    \ |= negative;\n            ll expected = negative ? -INF<ll> : d[s][v] == unreachable\
+    \ ? INF<ll> : d[s][v];\n            assert(marked[v] == expected);\n         \
+    \   if (!result.empty() && !negative)\n                assert(result[v] == (d[s][v]\
+    \ == unreachable ? LLONG_MAX : d[s][v]));\n        }\n        assert(result.empty()\
+    \ == any_negative);\n    }\n}\n\nvoid self_check() {\n    check(1, {});\n    check(1,\
+    \ {{0, 0, -1}});\n    check(1, {{0, 0, 1}});\n    check(4, {{0, 1, -2}, {0, 1,\
+    \ 3}, {2, 3, -1}, {3, 2, 0}});\n    mt19937 rng(62);\n    for (int tc = 0; tc\
+    \ < 1200; ++tc) {\n        int n = 1 + rng() % 8;\n        vector<tuple<int, int,\
+    \ ll>> edges;\n        for (int i = rng() % (n * n + 1); i--; ) {\n          \
+    \  int u = rng() % n, v = rng() % n;\n            if (tc % 3 == 0 && u >= v) continue;\n\
+    \            edges.emplace_back(u, v, int(rng() % 15) - 5);\n        }\n     \
+    \   check(n, edges);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
+    \ b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/bellman_ford.cpp
+  - graph/bellman_ford_negative_loop.cpp
   isVerificationFile: true
-  path: test/aoj_grl_1_b_bellman_ford.test.cpp
+  path: test/yosupo_aplusb_bellman_ford.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_grl_1_b_bellman_ford.test.cpp
+documentation_of: test/yosupo_aplusb_bellman_ford.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_grl_1_b_bellman_ford.test.cpp
-- /verify/test/aoj_grl_1_b_bellman_ford.test.cpp.html
-title: test/aoj_grl_1_b_bellman_ford.test.cpp
+- /verify/test/yosupo_aplusb_bellman_ford.test.cpp
+- /verify/test/yosupo_aplusb_bellman_ford.test.cpp.html
+title: test/yosupo_aplusb_bellman_ford.test.cpp
 ---

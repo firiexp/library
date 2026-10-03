@@ -2,8 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: graph/bellman_ford.cpp
-    title: "Bellman-Ford\u6CD5"
+    path: datastructure/sparsetable.cpp
+    title: Sparse Table
+  - icon: ':heavy_check_mark:'
+    path: tree/auxtree.cpp
+    title: "\u88DC\u52A9\u6728(Aux Tree)"
+  - icon: ':heavy_check_mark:'
+    path: tree/virtual_tree_helper.cpp
+    title: Virtual Tree Helper
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,19 +20,18 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B
-  bundledCode: "#line 1 \"test/aoj_grl_1_b_bellman_ford.test.cpp\"\n#define PROBLEM\
-    \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n#include <limits>\n\
-    #include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_virtual_tree_helper.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
+    \ / 32 * 15 + 208;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -226,53 +231,156 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/bellman_ford.cpp\"\
-    \ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\n   \
-    \ edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int\
-    \ to, T cost) : from(from), to(to), cost(cost) {}\n\n    explicit operator int()\
-    \ const {return to;}\n};\n\ntemplate <typename T>\nvector<T> bellman_ford(int\
-    \ s, int V,vector<edge<T> > &G){\n    const T INF = numeric_limits<T>::max();\n\
-    \    vector<T> d(V, INF);\n    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i)\
-    \ {\n        bool updated = false;\n        for (auto &&e : G) {\n           \
-    \ if (d[e.from] == INF) continue;\n            if (d[e.from] + e.cost < d[e.to])\
-    \ {\n                d[e.to] = d[e.from] + e.cost;\n                updated =\
-    \ true;\n            }\n        }\n        if (!updated) return d;\n    }\n  \
-    \  for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n        if(d[e.from]\
-    \ + e.cost < d[e.to]) return vector<T> ();\n    }\n    return d;\n}\n\n/**\n *\
-    \ @brief Bellman-Ford\u6CD5\n */\n#line 17 \"test/aoj_grl_1_b_bellman_ford.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s;\n    sc.read(n,\
-    \ m, s);\n    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i\
-    \ < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
-    \ b, c);\n    }\n\n    auto dist = bellman_ford(s, n, es);\n    if (dist.empty())\
-    \ {\n        pr.println(\"NEGATIVE CYCLE\");\n        return 0;\n    }\n\n   \
-    \ constexpr ll INF = numeric_limits<ll>::max();\n    for (int i = 0; i < n; ++i)\
-    \ {\n        if (dist[i] == INF) pr.println(\"INF\");\n        else pr.println(dist[i]);\n\
-    \    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n\
-    #include <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
-    \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
-    \ <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include\
-    \ \"../graph/bellman_ford.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n, m, s;\n    sc.read(n, m, s);\n    vector<edge<ll>> es;\n \
-    \   es.reserve(m);\n    for (int i = 0; i < m; ++i) {\n        int a, b, c;\n\
-    \        sc.read(a, b, c);\n        es.emplace_back(a, b, c);\n    }\n\n    auto\
-    \ dist = bellman_ford(s, n, es);\n    if (dist.empty()) {\n        pr.println(\"\
-    NEGATIVE CYCLE\");\n        return 0;\n    }\n\n    constexpr ll INF = numeric_limits<ll>::max();\n\
-    \    for (int i = 0; i < n; ++i) {\n        if (dist[i] == INF) pr.println(\"\
-    INF\");\n        else pr.println(dist[i]);\n    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/sparsetable.cpp\"\
+    \n\n\n\ntemplate <class F>\nstruct SparseTable {\n    using T = typename F::T;\n\
+    \    vector<vector<T>> table;\n    vector<int> u;\n    SparseTable() = default;\n\
+    \    explicit SparseTable(const vector<T> &v){ build(v); }\n \n    void build(const\
+    \ vector<T> &v){\n        int n = v.size(), m = 1;\n        while((1<<m) <= n)\
+    \ m++;\n        table.assign(m, vector<T>(n));\n        u.assign(n+1, 0);\n  \
+    \      for (int i = 2; i <= n; ++i) {\n            u[i] = u[i>>1] + 1;\n     \
+    \   }\n        for (int i = 0; i < n; ++i) {\n            table[0][i] = v[i];\n\
+    \        }\n        for (int i = 1; i < m; ++i) {\n            int x = (1<<(i-1));\n\
+    \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
+    \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
+    \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
+    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 2 \"tree/auxtree.cpp\"\
+    \n\nstruct F {\n    using T = pair<int, int>;\n    static T f(T a, T b) { return\
+    \ min(a, b); }\n    static T e() { return T{INF<int>, -1}; }\n};\n\nclass AuxTree\
+    \ {\n    SparseTable<F> table;\n    void dfs_euler(int v, int p, int d, int &k,\
+    \ int &l){\n        id[v] = k;\n        vs[k] = v;\n        depth[k++] = d;\n\
+    \        dep[v] = d;\n        fi[v] = l++;\n        for (auto &&u : G[v]) {\n\
+    \            if(u != p){\n                dfs_euler(u, v, d+1, k, l);\n      \
+    \          vs[k] = v;\n                depth[k++] = d;\n            }\n      \
+    \  }\n    }\npublic:\n    int n;\n    vector<vector<int>> G, out;\n    vector<int>\
+    \ vs, depth, dep, id, fi;\n    explicit AuxTree(int n) : table(), n(n), G(n),\
+    \ out(n), vs(2*n-1), depth(2*n-1), dep(n), id(n), fi(n) {};\n    void add_edge(int\
+    \ a, int b){\n        G[a].emplace_back(b);\n        G[b].emplace_back(a);\n \
+    \   }\n\n    void eulertour(int root) {\n        int k = 0, l = 0;\n        dfs_euler(root,\
+    \ -1, 0, k, l);\n    }\n\n    void buildLCA(int root = 0){\n        eulertour(root);\n\
+    \        vector<pair<int, int>> v(2*n-1);\n        for (int i = 0; i < 2*n-1;\
+    \ ++i) {\n            v[i] = make_pair(depth[i], vs[i]);\n        }\n        table.build(v);\n\
+    \    }\n\n    void make(vector<int> &v){\n        if(v.empty()) return;\n    \
+    \    sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b]; });\n  \
+    \      v.erase(unique(v.begin(), v.end()), v.end());\n        int k = v.size();\n\
+    \        stack<int> s;\n        s.emplace(v.front());\n        for (int i = 0;\
+    \ i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n            if(w !=\
+    \ v[i]){\n                int u = s.top(); s.pop();\n                while(!s.empty()\
+    \ && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
+    \                    out[u].emplace_back(s.top());\n                    u = s.top();\
+    \ s.pop();\n                }\n                if(s.empty() || s.top() != w){\n\
+    \                    s.emplace(w);\n                    v.emplace_back(w);\n \
+    \               }\n                out[w].emplace_back(u);\n                out[u].emplace_back(w);\n\
+    \            }\n            s.emplace(v[i+1]);\n        }\n        while(s.size()\
+    \ > 1){\n            int u = s.top(); s.pop();\n            out[s.top()].emplace_back(u);\n\
+    \            out[u].emplace_back(s.top());\n        }\n    }\n\n    void clear(vector<int>\
+    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n        }\n\
+    \    }\n\n    int LCA(int u, int v){\n        if(id[u] > id[v]) swap(u, v);\n\
+    \        return table.query(id[u], id[v]+1).second;\n    }\n\n    int distance(int\
+    \ u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u, v)];\n    }\n};\n\n/**\n\
+    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 2 \"tree/virtual_tree_helper.cpp\"\
+    \n\nstruct VirtualTree {\n    int root;\n    vector<int> vertices;\n    vector<int>\
+    \ parent;\n};\n\nclass VirtualTreeHelper {\n    AuxTree aux;\n    vector<int>\
+    \ mark, parent_buf;\n    int stamp = 0;\n\npublic:\n    explicit VirtualTreeHelper(int\
+    \ n) : aux(n), mark(n, 0), parent_buf(n, -1) {}\n\n    void add_edge(int u, int\
+    \ v) {\n        aux.add_edge(u, v);\n    }\n\n    void build(int root = 0) {\n\
+    \        aux.buildLCA(root);\n    }\n\n    int lca(int u, int v) {\n        return\
+    \ aux.LCA(u, v);\n    }\n\n    int distance(int u, int v) {\n        return aux.distance(u,\
+    \ v);\n    }\n\n    VirtualTree make(vector<int> vertices) {\n        if (vertices.empty())\
+    \ return {-1, {}, {}};\n        aux.make(vertices);\n        sort(vertices.begin(),\
+    \ vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n    \
+    \    vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());\n\
+    \n        VirtualTree res;\n        res.root = vertices.front();\n        ++stamp;\n\
+    \        vector<int> st = {res.root};\n        mark[res.root] = stamp;\n     \
+    \   parent_buf[res.root] = -1;\n\n        while (!st.empty()) {\n            int\
+    \ v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
+    \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
+    \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
+    \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
+    \ st.emplace_back(u);\n            }\n        }\n\n        aux.clear(vertices);\n\
+    \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n */\n#line\
+    \ 8 \"test/yosupo_aplusb_virtual_tree_helper.test.cpp\"\n\nvoid self_check() {\n\
+    \    mt19937 rng(5);\n    for (int tc = 0; tc < 200; ++tc) {\n        int n =\
+    \ 1 + rng() % 30, root = rng() % n;\n        VirtualTreeHelper vt(n);\n      \
+    \  vector<vector<int>> g(n);\n        for (int v = 1; v < n; ++v) {\n        \
+    \    int p = tc % 3 == 0 ? 0 : tc % 3 == 1 ? v - 1 : rng() % v;\n            vt.add_edge(p,\
+    \ v);\n            g[p].push_back(v);\n            g[v].push_back(p);\n      \
+    \  }\n        vt.build(root);\n        vector<int> parent(n, -1), depth(n), order{root};\n\
+    \        for (int i = 0; i < n; ++i) for (int u : g[order[i]]) if (u != parent[order[i]])\
+    \ {\n            parent[u] = order[i];\n            depth[u] = depth[order[i]]\
+    \ + 1;\n            order.push_back(u);\n        }\n        auto lca = [&](int\
+    \ u, int v) {\n            while (u != v) {\n                if (depth[u] < depth[v])\
+    \ swap(u, v);\n                u = parent[u];\n            }\n            return\
+    \ u;\n        };\n        for (int query = 0; query < 30; ++query) {\n       \
+    \     vector<int> input(query % 10);\n            for (int &v : input) v = rng()\
+    \ % n;\n            if (query % 3 == 0) fill(input.begin(), input.end(), root);\n\
+    \            set<int> expected(input.begin(), input.end());\n            for (int\
+    \ u : input) for (int v : input) expected.insert(lca(u, v));\n            auto\
+    \ tr = vt.make(input);\n            assert(tr.vertices.size() == expected.size());\n\
+    \            assert(tr.parent.size() == expected.size());\n            assert(set<int>(tr.vertices.begin(),\
+    \ tr.vertices.end()) == expected);\n            if (expected.empty()) {\n    \
+    \            assert(tr.root == -1);\n                continue;\n            }\n\
+    \            assert(tr.root == tr.vertices.front());\n            set<int> visited;\n\
+    \            for (int i = 0; i < (int)tr.vertices.size(); ++i) {\n           \
+    \     int v = tr.vertices[i], p = parent[v];\n                while (p != -1 &&\
+    \ !expected.count(p)) p = parent[p];\n                assert(tr.parent[i] == p);\n\
+    \                assert(p == -1 ? v == tr.root : visited.count(p));\n        \
+    \        visited.insert(v);\n            }\n            auto repeated = vt.make(input);\n\
+    \            assert(tr.root == repeated.root && tr.vertices == repeated.vertices\
+    \ && tr.parent == repeated.parent);\n        }\n    }\n    AuxTree aux(1);\n \
+    \   aux.buildLCA();\n    vector<int> empty;\n    aux.make(empty);\n    aux.clear(empty);\n\
+    \    assert(empty.empty() && aux.out[0].empty());\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
+    \ / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\n#include \"../tree/virtual_tree_helper.cpp\"\
+    \n\nvoid self_check() {\n    mt19937 rng(5);\n    for (int tc = 0; tc < 200; ++tc)\
+    \ {\n        int n = 1 + rng() % 30, root = rng() % n;\n        VirtualTreeHelper\
+    \ vt(n);\n        vector<vector<int>> g(n);\n        for (int v = 1; v < n; ++v)\
+    \ {\n            int p = tc % 3 == 0 ? 0 : tc % 3 == 1 ? v - 1 : rng() % v;\n\
+    \            vt.add_edge(p, v);\n            g[p].push_back(v);\n            g[v].push_back(p);\n\
+    \        }\n        vt.build(root);\n        vector<int> parent(n, -1), depth(n),\
+    \ order{root};\n        for (int i = 0; i < n; ++i) for (int u : g[order[i]])\
+    \ if (u != parent[order[i]]) {\n            parent[u] = order[i];\n          \
+    \  depth[u] = depth[order[i]] + 1;\n            order.push_back(u);\n        }\n\
+    \        auto lca = [&](int u, int v) {\n            while (u != v) {\n      \
+    \          if (depth[u] < depth[v]) swap(u, v);\n                u = parent[u];\n\
+    \            }\n            return u;\n        };\n        for (int query = 0;\
+    \ query < 30; ++query) {\n            vector<int> input(query % 10);\n       \
+    \     for (int &v : input) v = rng() % n;\n            if (query % 3 == 0) fill(input.begin(),\
+    \ input.end(), root);\n            set<int> expected(input.begin(), input.end());\n\
+    \            for (int u : input) for (int v : input) expected.insert(lca(u, v));\n\
+    \            auto tr = vt.make(input);\n            assert(tr.vertices.size()\
+    \ == expected.size());\n            assert(tr.parent.size() == expected.size());\n\
+    \            assert(set<int>(tr.vertices.begin(), tr.vertices.end()) == expected);\n\
+    \            if (expected.empty()) {\n                assert(tr.root == -1);\n\
+    \                continue;\n            }\n            assert(tr.root == tr.vertices.front());\n\
+    \            set<int> visited;\n            for (int i = 0; i < (int)tr.vertices.size();\
+    \ ++i) {\n                int v = tr.vertices[i], p = parent[v];\n           \
+    \     while (p != -1 && !expected.count(p)) p = parent[p];\n                assert(tr.parent[i]\
+    \ == p);\n                assert(p == -1 ? v == tr.root : visited.count(p));\n\
+    \                visited.insert(v);\n            }\n            auto repeated\
+    \ = vt.make(input);\n            assert(tr.root == repeated.root && tr.vertices\
+    \ == repeated.vertices && tr.parent == repeated.parent);\n        }\n    }\n \
+    \   AuxTree aux(1);\n    aux.buildLCA();\n    vector<int> empty;\n    aux.make(empty);\n\
+    \    aux.clear(empty);\n    assert(empty.empty() && aux.out[0].empty());\n}\n\n\
+    int main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a,\
+    \ b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - graph/bellman_ford.cpp
+  - tree/virtual_tree_helper.cpp
+  - tree/auxtree.cpp
+  - datastructure/sparsetable.cpp
   isVerificationFile: true
-  path: test/aoj_grl_1_b_bellman_ford.test.cpp
+  path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
   requiredBy: []
   timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_grl_1_b_bellman_ford.test.cpp
+documentation_of: test/yosupo_aplusb_virtual_tree_helper.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_grl_1_b_bellman_ford.test.cpp
-- /verify/test/aoj_grl_1_b_bellman_ford.test.cpp.html
-title: test/aoj_grl_1_b_bellman_ford.test.cpp
+- /verify/test/yosupo_aplusb_virtual_tree_helper.test.cpp
+- /verify/test/yosupo_aplusb_virtual_tree_helper.test.cpp.html
+title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
 ---

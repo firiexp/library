@@ -749,6 +749,9 @@ data:
       path: test/yosupo_aho_corasick.test.cpp
       title: test/yosupo_aho_corasick.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_bellman_ford.test.cpp
+      title: test/yosupo_aplusb_bellman_ford.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_binarytrie.test.cpp
       title: test/yosupo_aplusb_binarytrie.test.cpp
     - icon: ':heavy_check_mark:'
@@ -829,6 +832,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_top_kth.test.cpp
       title: test/yosupo_aplusb_top_kth.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
+      title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
       title: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp

@@ -262,12 +262,13 @@ data:
     \ -1, 0, k, l);\n    }\n\n    void buildLCA(int root = 0){\n        eulertour(root);\n\
     \        vector<pair<int, int>> v(2*n-1);\n        for (int i = 0; i < 2*n-1;\
     \ ++i) {\n            v[i] = make_pair(depth[i], vs[i]);\n        }\n        table.build(v);\n\
-    \    }\n\n    void make(vector<int> &v){\n        sort(v.begin(),v.end(), [&](int\
-    \ a, int b){ return fi[a] < fi[b]; });\n        v.erase(unique(v.begin(), v.end()),\
-    \ v.end());\n        int k = v.size();\n        stack<int> s;\n        s.emplace(v.front());\n\
-    \        for (int i = 0; i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n\
-    \            if(w != v[i]){\n                int u = s.top(); s.pop();\n     \
-    \           while(!s.empty() && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
+    \    }\n\n    void make(vector<int> &v){\n        if(v.empty()) return;\n    \
+    \    sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b]; });\n  \
+    \      v.erase(unique(v.begin(), v.end()), v.end());\n        int k = v.size();\n\
+    \        stack<int> s;\n        s.emplace(v.front());\n        for (int i = 0;\
+    \ i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n            if(w !=\
+    \ v[i]){\n                int u = s.top(); s.pop();\n                while(!s.empty()\
+    \ && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
     \                    out[u].emplace_back(s.top());\n                    u = s.top();\
     \ s.pop();\n                }\n                if(s.empty() || s.top() != w){\n\
     \                    s.emplace(w);\n                    v.emplace_back(w);\n \
@@ -275,20 +276,20 @@ data:
     \            }\n            s.emplace(v[i+1]);\n        }\n        while(s.size()\
     \ > 1){\n            int u = s.top(); s.pop();\n            out[s.top()].emplace_back(u);\n\
     \            out[u].emplace_back(s.top());\n        }\n    }\n\n    void clear(vector<int>\
-    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n          \
-    \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
-    \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
-    \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
-    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 2\
-    \ \"tree/virtual_tree_helper.cpp\"\n\nstruct VirtualTree {\n    int root;\n  \
-    \  vector<int> vertices;\n    vector<int> parent;\n};\n\nclass VirtualTreeHelper\
-    \ {\n    AuxTree aux;\n    vector<int> mark, parent_buf;\n    int stamp = 0;\n\
-    \npublic:\n    explicit VirtualTreeHelper(int n) : aux(n), mark(n, 0), parent_buf(n,\
-    \ -1) {}\n\n    void add_edge(int u, int v) {\n        aux.add_edge(u, v);\n \
-    \   }\n\n    void build(int root = 0) {\n        aux.buildLCA(root);\n    }\n\n\
-    \    int lca(int u, int v) {\n        return aux.LCA(u, v);\n    }\n\n    int\
-    \ distance(int u, int v) {\n        return aux.distance(u, v);\n    }\n\n    VirtualTree\
-    \ make(vector<int> vertices) {\n        aux.make(vertices);\n        sort(vertices.begin(),\
+    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n        }\n\
+    \    }\n\n    int LCA(int u, int v){\n        if(id[u] > id[v]) swap(u, v);\n\
+    \        return table.query(id[u], id[v]+1).second;\n    }\n\n    int distance(int\
+    \ u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u, v)];\n    }\n};\n\n/**\n\
+    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 2 \"tree/virtual_tree_helper.cpp\"\
+    \n\nstruct VirtualTree {\n    int root;\n    vector<int> vertices;\n    vector<int>\
+    \ parent;\n};\n\nclass VirtualTreeHelper {\n    AuxTree aux;\n    vector<int>\
+    \ mark, parent_buf;\n    int stamp = 0;\n\npublic:\n    explicit VirtualTreeHelper(int\
+    \ n) : aux(n), mark(n, 0), parent_buf(n, -1) {}\n\n    void add_edge(int u, int\
+    \ v) {\n        aux.add_edge(u, v);\n    }\n\n    void build(int root = 0) {\n\
+    \        aux.buildLCA(root);\n    }\n\n    int lca(int u, int v) {\n        return\
+    \ aux.LCA(u, v);\n    }\n\n    int distance(int u, int v) {\n        return aux.distance(u,\
+    \ v);\n    }\n\n    VirtualTree make(vector<int> vertices) {\n        if (vertices.empty())\
+    \ return {-1, {}, {}};\n        aux.make(vertices);\n        sort(vertices.begin(),\
     \ vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n    \
     \    vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());\n\
     \n        VirtualTree res;\n        res.root = vertices.front();\n        ++stamp;\n\
@@ -370,7 +371,7 @@ data:
   isVerificationFile: true
   path: test/aoj0439_virtual_tree_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0439_virtual_tree_helper.test.cpp

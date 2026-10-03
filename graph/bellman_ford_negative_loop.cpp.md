@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_b_negative_loop.test.cpp
     title: test/aoj_grl_1_b_negative_loop.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_bellman_ford.test.cpp
+    title: test/yosupo_aplusb_bellman_ford.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -18,16 +21,17 @@ data:
     \ to(to), cost(cost) {}\n \n    explicit operator int() const {return to;}\n};\n\
     \ \ntemplate <typename T>\nvector<T> bellman_ford(int s, int N,vector<edge<T>\
     \ > &G){\n    vector<T> dist(N, INF<T>);\n    vector<bool> negative(N);\n    dist[s]\
-    \ = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n        for (auto &&e : G) {\n\
-    \            if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] >\
-    \ dist[e.from]+ e.cost){\n                dist[e.to] = dist[e.from]+ e.cost;\n\
-    \            }\n        }\n    }\n \n    ll ans = dist[N - 1];\n \n    for (int\
-    \ i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from]\
-    \ == INF<T>) continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n\
-    \                dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to]\
-    \ = true;\n            }\n            if(negative[e.from]) negative[e.to] = true;\n\
-    \        }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i])\
-    \ dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
+    \ = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n        bool updated = false;\n\
+    \        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>) continue;\n\
+    \            if(dist[e.to] > dist[e.from]+ e.cost){\n                dist[e.to]\
+    \ = dist[e.from]+ e.cost;\n                updated = true;\n            }\n  \
+    \      }\n        if (!updated) return dist;\n    }\n \n    for (int i = 0; i\
+    \ < N ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>)\
+    \ continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n           \
+    \     dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to] = true;\n\
+    \            }\n            if(negative[e.from]) negative[e.to] = true;\n    \
+    \    }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i]) dist[i]\
+    \ = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
     (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n"
   code: "template <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n \n\
     \    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
@@ -35,13 +39,14 @@ data:
     \ int() const {return to;}\n};\n \ntemplate <typename T>\nvector<T> bellman_ford(int\
     \ s, int N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    vector<bool>\
     \ negative(N);\n    dist[s] = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n   \
-    \     for (auto &&e : G) {\n            if(dist[e.from] == INF<T>) continue;\n\
-    \            if(dist[e.to] > dist[e.from]+ e.cost){\n                dist[e.to]\
-    \ = dist[e.from]+ e.cost;\n            }\n        }\n    }\n \n    ll ans = dist[N\
-    \ - 1];\n \n    for (int i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n\
-    \            if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] >\
-    \ dist[e.from] + e.cost){\n                dist[e.to] = dist[e.from] + e.cost;\n\
-    \                negative[e.to] = true;\n            }\n            if(negative[e.from])\
+    \     bool updated = false;\n        for (auto &&e : G) {\n            if(dist[e.from]\
+    \ == INF<T>) continue;\n            if(dist[e.to] > dist[e.from]+ e.cost){\n \
+    \               dist[e.to] = dist[e.from]+ e.cost;\n                updated =\
+    \ true;\n            }\n        }\n        if (!updated) return dist;\n    }\n\
+    \ \n    for (int i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n       \
+    \     if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] > dist[e.from]\
+    \ + e.cost){\n                dist[e.to] = dist[e.from] + e.cost;\n          \
+    \      negative[e.to] = true;\n            }\n            if(negative[e.from])\
     \ negative[e.to] = true;\n        }\n    }\n    for (int i = 0; i < N; ++i) {\n\
     \        if(negative[i]) dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n\
     \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n"
@@ -49,9 +54,10 @@ data:
   isVerificationFile: false
   path: graph/bellman_ford_negative_loop.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_bellman_ford.test.cpp
   - test/aoj_grl_1_b_negative_loop.test.cpp
 documentation_of: graph/bellman_ford_negative_loop.cpp
 layout: document

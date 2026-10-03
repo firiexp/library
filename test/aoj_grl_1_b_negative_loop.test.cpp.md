@@ -234,13 +234,14 @@ data:
     \ int() const {return to;}\n};\n \ntemplate <typename T>\nvector<T> bellman_ford(int\
     \ s, int N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    vector<bool>\
     \ negative(N);\n    dist[s] = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n   \
-    \     for (auto &&e : G) {\n            if(dist[e.from] == INF<T>) continue;\n\
-    \            if(dist[e.to] > dist[e.from]+ e.cost){\n                dist[e.to]\
-    \ = dist[e.from]+ e.cost;\n            }\n        }\n    }\n \n    ll ans = dist[N\
-    \ - 1];\n \n    for (int i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n\
-    \            if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] >\
-    \ dist[e.from] + e.cost){\n                dist[e.to] = dist[e.from] + e.cost;\n\
-    \                negative[e.to] = true;\n            }\n            if(negative[e.from])\
+    \     bool updated = false;\n        for (auto &&e : G) {\n            if(dist[e.from]\
+    \ == INF<T>) continue;\n            if(dist[e.to] > dist[e.from]+ e.cost){\n \
+    \               dist[e.to] = dist[e.from]+ e.cost;\n                updated =\
+    \ true;\n            }\n        }\n        if (!updated) return dist;\n    }\n\
+    \ \n    for (int i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n       \
+    \     if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] > dist[e.from]\
+    \ + e.cost){\n                dist[e.to] = dist[e.from] + e.cost;\n          \
+    \      negative[e.to] = true;\n            }\n            if(negative[e.from])\
     \ negative[e.to] = true;\n        }\n    }\n    for (int i = 0; i < N; ++i) {\n\
     \        if(negative[i]) dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n\
     \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 18 \"\
@@ -273,7 +274,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_1_b_negative_loop.test.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_b_negative_loop.test.cpp

@@ -13,6 +13,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0439_virtual_tree_helper.test.cpp
     title: test/aoj0439_virtual_tree_helper.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
+    title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -47,12 +50,13 @@ data:
     \ -1, 0, k, l);\n    }\n\n    void buildLCA(int root = 0){\n        eulertour(root);\n\
     \        vector<pair<int, int>> v(2*n-1);\n        for (int i = 0; i < 2*n-1;\
     \ ++i) {\n            v[i] = make_pair(depth[i], vs[i]);\n        }\n        table.build(v);\n\
-    \    }\n\n    void make(vector<int> &v){\n        sort(v.begin(),v.end(), [&](int\
-    \ a, int b){ return fi[a] < fi[b]; });\n        v.erase(unique(v.begin(), v.end()),\
-    \ v.end());\n        int k = v.size();\n        stack<int> s;\n        s.emplace(v.front());\n\
-    \        for (int i = 0; i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n\
-    \            if(w != v[i]){\n                int u = s.top(); s.pop();\n     \
-    \           while(!s.empty() && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
+    \    }\n\n    void make(vector<int> &v){\n        if(v.empty()) return;\n    \
+    \    sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b]; });\n  \
+    \      v.erase(unique(v.begin(), v.end()), v.end());\n        int k = v.size();\n\
+    \        stack<int> s;\n        s.emplace(v.front());\n        for (int i = 0;\
+    \ i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n            if(w !=\
+    \ v[i]){\n                int u = s.top(); s.pop();\n                while(!s.empty()\
+    \ && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
     \                    out[u].emplace_back(s.top());\n                    u = s.top();\
     \ s.pop();\n                }\n                if(s.empty() || s.top() != w){\n\
     \                    s.emplace(w);\n                    v.emplace_back(w);\n \
@@ -60,20 +64,20 @@ data:
     \            }\n            s.emplace(v[i+1]);\n        }\n        while(s.size()\
     \ > 1){\n            int u = s.top(); s.pop();\n            out[s.top()].emplace_back(u);\n\
     \            out[u].emplace_back(s.top());\n        }\n    }\n\n    void clear(vector<int>\
-    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n          \
-    \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
-    \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
-    \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
-    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 2\
-    \ \"tree/virtual_tree_helper.cpp\"\n\nstruct VirtualTree {\n    int root;\n  \
-    \  vector<int> vertices;\n    vector<int> parent;\n};\n\nclass VirtualTreeHelper\
-    \ {\n    AuxTree aux;\n    vector<int> mark, parent_buf;\n    int stamp = 0;\n\
-    \npublic:\n    explicit VirtualTreeHelper(int n) : aux(n), mark(n, 0), parent_buf(n,\
-    \ -1) {}\n\n    void add_edge(int u, int v) {\n        aux.add_edge(u, v);\n \
-    \   }\n\n    void build(int root = 0) {\n        aux.buildLCA(root);\n    }\n\n\
-    \    int lca(int u, int v) {\n        return aux.LCA(u, v);\n    }\n\n    int\
-    \ distance(int u, int v) {\n        return aux.distance(u, v);\n    }\n\n    VirtualTree\
-    \ make(vector<int> vertices) {\n        aux.make(vertices);\n        sort(vertices.begin(),\
+    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n        }\n\
+    \    }\n\n    int LCA(int u, int v){\n        if(id[u] > id[v]) swap(u, v);\n\
+    \        return table.query(id[u], id[v]+1).second;\n    }\n\n    int distance(int\
+    \ u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u, v)];\n    }\n};\n\n/**\n\
+    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 2 \"tree/virtual_tree_helper.cpp\"\
+    \n\nstruct VirtualTree {\n    int root;\n    vector<int> vertices;\n    vector<int>\
+    \ parent;\n};\n\nclass VirtualTreeHelper {\n    AuxTree aux;\n    vector<int>\
+    \ mark, parent_buf;\n    int stamp = 0;\n\npublic:\n    explicit VirtualTreeHelper(int\
+    \ n) : aux(n), mark(n, 0), parent_buf(n, -1) {}\n\n    void add_edge(int u, int\
+    \ v) {\n        aux.add_edge(u, v);\n    }\n\n    void build(int root = 0) {\n\
+    \        aux.buildLCA(root);\n    }\n\n    int lca(int u, int v) {\n        return\
+    \ aux.LCA(u, v);\n    }\n\n    int distance(int u, int v) {\n        return aux.distance(u,\
+    \ v);\n    }\n\n    VirtualTree make(vector<int> vertices) {\n        if (vertices.empty())\
+    \ return {-1, {}, {}};\n        aux.make(vertices);\n        sort(vertices.begin(),\
     \ vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n    \
     \    vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());\n\
     \n        VirtualTree res;\n        res.root = vertices.front();\n        ++stamp;\n\
@@ -93,28 +97,29 @@ data:
     \  void build(int root = 0) {\n        aux.buildLCA(root);\n    }\n\n    int lca(int\
     \ u, int v) {\n        return aux.LCA(u, v);\n    }\n\n    int distance(int u,\
     \ int v) {\n        return aux.distance(u, v);\n    }\n\n    VirtualTree make(vector<int>\
-    \ vertices) {\n        aux.make(vertices);\n        sort(vertices.begin(), vertices.end(),\
-    \ [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n        vertices.erase(unique(vertices.begin(),\
-    \ vertices.end()), vertices.end());\n\n        VirtualTree res;\n        res.root\
-    \ = vertices.front();\n        ++stamp;\n        vector<int> st = {res.root};\n\
-    \        mark[res.root] = stamp;\n        parent_buf[res.root] = -1;\n\n     \
-    \   while (!st.empty()) {\n            int v = st.back();\n            st.pop_back();\n\
-    \            res.vertices.emplace_back(v);\n            res.parent.emplace_back(parent_buf[v]);\n\
-    \            for (auto &&u : aux.out[v]) {\n                if (mark[u] == stamp)\
-    \ continue;\n                mark[u] = stamp;\n                parent_buf[u] =\
-    \ v;\n                st.emplace_back(u);\n            }\n        }\n\n      \
-    \  aux.clear(vertices);\n        return res;\n    }\n};\n\n/**\n * @brief Virtual\
-    \ Tree Helper\n */\n"
+    \ vertices) {\n        if (vertices.empty()) return {-1, {}, {}};\n        aux.make(vertices);\n\
+    \        sort(vertices.begin(), vertices.end(), [&](int a, int b) { return aux.fi[a]\
+    \ < aux.fi[b]; });\n        vertices.erase(unique(vertices.begin(), vertices.end()),\
+    \ vertices.end());\n\n        VirtualTree res;\n        res.root = vertices.front();\n\
+    \        ++stamp;\n        vector<int> st = {res.root};\n        mark[res.root]\
+    \ = stamp;\n        parent_buf[res.root] = -1;\n\n        while (!st.empty())\
+    \ {\n            int v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
+    \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
+    \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
+    \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
+    \ st.emplace_back(u);\n            }\n        }\n\n        aux.clear(vertices);\n\
+    \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n */\n"
   dependsOn:
   - tree/auxtree.cpp
   - datastructure/sparsetable.cpp
   isVerificationFile: false
   path: tree/virtual_tree_helper.cpp
   requiredBy: []
-  timestamp: '2026-07-11 20:39:21+09:00'
+  timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0439_virtual_tree_helper.test.cpp
+  - test/yosupo_aplusb_virtual_tree_helper.test.cpp
 date: 2026-03-08
 documentation_of: tree/virtual_tree_helper.cpp
 layout: document
@@ -138,7 +143,7 @@ title: Virtual Tree Helper
 - `int distance(int u, int v)`
   木上距離を返す
 - `VirtualTree make(vector<int> vertices)`
-  virtual tree を返す
+  virtual tree を返す。空集合には `root=-1` と空の `vertices`, `parent` を返す
 
 ## 使い方
 `make` の返り値は `vertices[i]` とその親 `parent[i]` を持つ。

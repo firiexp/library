@@ -22,6 +22,9 @@ data:
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
+    title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
   - icon: ':heavy_check_mark:'
@@ -71,6 +74,7 @@ data:
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
+  - test/yosupo_aplusb_virtual_tree_helper.test.cpp
   - test/aoj0439.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_lca.test.cpp

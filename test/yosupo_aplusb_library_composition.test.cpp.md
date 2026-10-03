@@ -960,12 +960,13 @@ data:
     \ -1, 0, k, l);\n    }\n\n    void buildLCA(int root = 0){\n        eulertour(root);\n\
     \        vector<pair<int, int>> v(2*n-1);\n        for (int i = 0; i < 2*n-1;\
     \ ++i) {\n            v[i] = make_pair(depth[i], vs[i]);\n        }\n        table.build(v);\n\
-    \    }\n\n    void make(vector<int> &v){\n        sort(v.begin(),v.end(), [&](int\
-    \ a, int b){ return fi[a] < fi[b]; });\n        v.erase(unique(v.begin(), v.end()),\
-    \ v.end());\n        int k = v.size();\n        stack<int> s;\n        s.emplace(v.front());\n\
-    \        for (int i = 0; i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n\
-    \            if(w != v[i]){\n                int u = s.top(); s.pop();\n     \
-    \           while(!s.empty() && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
+    \    }\n\n    void make(vector<int> &v){\n        if(v.empty()) return;\n    \
+    \    sort(v.begin(),v.end(), [&](int a, int b){ return fi[a] < fi[b]; });\n  \
+    \      v.erase(unique(v.begin(), v.end()), v.end());\n        int k = v.size();\n\
+    \        stack<int> s;\n        s.emplace(v.front());\n        for (int i = 0;\
+    \ i+1 < k; ++i) {\n            int w = LCA(v[i], v[i+1]);\n            if(w !=\
+    \ v[i]){\n                int u = s.top(); s.pop();\n                while(!s.empty()\
+    \ && dep[w] < dep[s.top()]){\n                    out[s.top()].emplace_back(u);\n\
     \                    out[u].emplace_back(s.top());\n                    u = s.top();\
     \ s.pop();\n                }\n                if(s.empty() || s.top() != w){\n\
     \                    s.emplace(w);\n                    v.emplace_back(w);\n \
@@ -973,14 +974,13 @@ data:
     \            }\n            s.emplace(v[i+1]);\n        }\n        while(s.size()\
     \ > 1){\n            int u = s.top(); s.pop();\n            out[s.top()].emplace_back(u);\n\
     \            out[u].emplace_back(s.top());\n        }\n    }\n\n    void clear(vector<int>\
-    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n          \
-    \  out[i].shrink_to_fit();\n        }\n    }\n\n    int LCA(int u, int v){\n \
-    \       if(id[u] > id[v]) swap(u, v);\n        return table.query(id[u], id[v]+1).second;\n\
-    \    }\n\n    int distance(int u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u,\
-    \ v)];\n    }\n};\n\n/**\n * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 32\
-    \ \"test/yosupo_aplusb_library_composition.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n\
-    \    return 0;\n}\n"
+    \ &v){\n        for (auto &&i : v) {\n            out[i].clear();\n        }\n\
+    \    }\n\n    int LCA(int u, int v){\n        if(id[u] > id[v]) swap(u, v);\n\
+    \        return table.query(id[u], id[v]+1).second;\n    }\n\n    int distance(int\
+    \ u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u, v)];\n    }\n};\n\n/**\n\
+    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 32 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n\nstatic const int MOD = 998244353;\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\nusing ll = long long;\n\
@@ -1018,7 +1018,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 15:20:29+09:00'
+  timestamp: '2026-10-03 16:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp
