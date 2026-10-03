@@ -16,6 +16,7 @@ struct DualSegmentTree{
     }
     void thrust(int k){ for (int i = height; i; --i) eval(k>>i); }
     void update(int a, int b, const T &x){
+        if(a == b) return;
         thrust(a += sz); thrust(b += sz-1);
         for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {
             if(l&1) lazy[l] = M::f(lazy[l], x), l++;

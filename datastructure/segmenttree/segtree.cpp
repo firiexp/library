@@ -59,7 +59,7 @@ struct SegmentTree{
         r += sz;
         do {
             r--;
-            while(r&1) r >>= 1;
+            while(r > 1 && (r & 1)) r >>= 1;
             if(!cond(M::f(seg[r], val))){
                 while(r < sz) {
                     r = ((r << 1)|1);

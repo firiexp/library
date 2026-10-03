@@ -33,10 +33,12 @@ struct LazySegmentTree{
     void update(int a, const T &x){
         thrust(a += sz);
         seg[a] = x;
+        lazy[a] = M::l();
         recalc(a);
     }
 
     void update(int a, int b, const L &x){
+        if(a == b) return;
         thrust(a += sz); thrust(b += sz-1);
         for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {
             if(l&1) lazy[l] = M::h(lazy[l], x), l++;
@@ -47,6 +49,7 @@ struct LazySegmentTree{
     }
 
     T query(int a, int b){ // [l, r)
+        if(a == b) return M::e();
         thrust(a += sz);
         thrust(b += sz-1);
         T ll = M::e(), rr = M::e();
@@ -64,7 +67,7 @@ struct LazySegmentTree{
         T val = M::e();
         do {
             while(!(l&1)) l >>= 1;
-            if(!cond(M::f(val, seg[l]))){
+            if(!cond(M::f(val, reflect(l)))){
                 while(l < sz) {
                     eval(l); l <<= 1;
                     if (cond(M::f(val, reflect(l)))){
