@@ -294,10 +294,26 @@ struct poly {
         return *this;
     }
     poly& operator/=(const poly &a){ return (*this *= a.inv()); }
-    poly operator+(const poly &a) const { return poly(*this) += a; }
-    poly operator+(const mint &v) const { return poly(*this) += v; }
-    poly operator-(const poly &a) const { return poly(*this) -= a; }
-    poly operator*(const poly &a) const { return poly(*this) *= a; }
+    poly operator+(const poly &a) const {
+        poly ret(*this);
+        ret += a;
+        return ret;
+    }
+    poly operator+(const mint &v) const {
+        poly ret(*this);
+        ret += v;
+        return ret;
+    }
+    poly operator-(const poly &a) const {
+        poly ret(*this);
+        ret -= a;
+        return ret;
+    }
+    poly operator*(const poly &a) const {
+        poly ret(*this);
+        ret *= (this == &a ? ret : a);
+        return ret;
+    }
     poly rev(int deg = -1) const {
         poly ret(*this);
         if (deg != -1) ret.v.resize(deg);

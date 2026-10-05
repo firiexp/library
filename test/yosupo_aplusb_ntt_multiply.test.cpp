@@ -18,12 +18,14 @@ vector<mint> naive_product(const vector<mint> &a, const vector<mint> &b) {
 }
 
 void check_product(const poly &f, const poly &g) {
+    auto original_f = f.v, original_g = g.v;
     auto expected = naive_product(f.v, g.v);
     auto left = f, right = g;
     left *= g;
     right *= f;
     assert(left.v == expected && right.v == expected);
     assert((f * g).v == expected && (g * f).v == expected);
+    assert(f.v == original_f && g.v == original_g);
 }
 
 void self_check() {
@@ -49,7 +51,10 @@ void self_check() {
         auto expected = naive_product(f.v, f.v);
         f *= f;
         assert(f.v == expected);
+        auto same_coefficients = original;
         assert((original * original).v == expected);
+        assert(original.v == same_coefficients.v);
+        check_product(original, same_coefficients);
         check_product(original, poly(vector<mint>{0}));
         check_product(original, poly(vector<mint>{1}));
         check_product(original, poly(vector<mint>{ntt_mod - 1}));
