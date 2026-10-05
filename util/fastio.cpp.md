@@ -161,6 +161,15 @@ data:
     path: test/yosupo_aplusb_noncommutative_tree.test.cpp
     title: test/yosupo_aplusb_noncommutative_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_ntt_multiply.test.cpp
+    title: test/yosupo_aplusb_ntt_multiply.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_ntt_operators.test.cpp
+    title: test/yosupo_aplusb_ntt_operators.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_ntt_precision.test.cpp
+    title: test/yosupo_aplusb_ntt_precision.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_order_statistic_tree.test.cpp
     title: test/yosupo_aplusb_order_statistic_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1015,6 +1024,7 @@ data:
   - test/yosupo_aplusb_binarytrie.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
   - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
+  - test/yosupo_aplusb_ntt_multiply.test.cpp
   - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/aoj_alds1_9_c_binaryheap.test.cpp
   - test/yosupo_matrix_product.test.cpp
@@ -1022,6 +1032,7 @@ data:
   - test/yosupo_set_xor_min_binarytrie.test.cpp
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
+  - test/yosupo_aplusb_ntt_precision.test.cpp
   - test/aoj0342.test.cpp
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
@@ -1124,6 +1135,7 @@ data:
   - test/yosupo_eulerian_trail_undirected.test.cpp
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
   - test/yosupo_aplusb_independent_set_boundaries.test.cpp
+  - test/yosupo_aplusb_ntt_operators.test.cpp
   - test/yosupo_aplusb_static_bitset.test.cpp
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   - test/yosupo_directedmst.test.cpp

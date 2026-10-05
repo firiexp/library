@@ -2,9 +2,6 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: fps/nth_term.cpp
-    title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"
-  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   - icon: ':heavy_check_mark:'
@@ -20,21 +17,18 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
-  bundledCode: "#line 1 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
-    \n#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n\
-    #include <utility>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
-    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_ntt_multiply.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull = unsigned\
+    \ long long;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\"\
+    \ int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class\
+    \ = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct\
+    \ is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -511,94 +505,80 @@ data:
     \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
     \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
     \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
-    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n#line 2 \"fps/nth_term.cpp\"\
-    \nmint nth_term(poly p, poly q, ll n){\n    assert(n >= 0 && q.size() > 0 && q[0]\
-    \ != mint(0));\n    if(p.size() == 0) return 0;\n    if(q.size() == 1) return\
-    \ n < p.size() ? p[n]/q[0] : mint(0);\n    if(!n) return p[0]/q[0];\n    if(q[0]\
-    \ != mint(1)) {\n        mint inv = q[0].inv();\n        for(auto &v : p.v) v\
-    \ *= inv;\n        for(auto &v : q.v) v *= inv;\n    }\n    int sz = 1, h = 0;\n\
-    \    int k = max(p.size(), q.size());\n    while(sz < 2*k-1) sz <<= 1, h++;\n\
-    \    p.v.resize(sz); q.v.resize(sz);\n    mint x = mint(sz>>1).inv();\n    vector<mint>\
-    \ y(sz>>1, 0);\n    for (int j = sz>>2, i = h; j; j >>= 1, i--) y[j] = ntt.iroot_pow2(i);\n\
-    \    y[0] = 1;\n    for (int i = 2; i < sz>>1; i <<= 1) {\n        for (int j\
-    \ = i+1; j < 2*i; ++j) {\n            y[j] = y[j-i]*y[i];\n        }\n    }\n\
-    \    ntt.transform(p.v, 0);\n    ntt.transform(q.v, 0);\n    poly tmp(sz>>1);\n\
-    \    auto up = [&](poly &A){\n        for (int i = 0; i < sz>>1; ++i) tmp[i] =\
-    \ A[i];\n        ntt.transform(tmp.v, 1);\n        mint now = x;\n        for\
-    \ (int i = 0; i < sz>>1; ++i) tmp[i] *= now, now *= ntt.root_pow2(h);\n      \
-    \  ntt.transform(tmp.v, 0);\n        for (int i = 0; i < sz>>1; ++i) A[i|(sz>>1)]\
-    \ = tmp[i];\n    };\n    int ika = h;\n    while(n){\n        for (int i = 0;\
-    \ i < sz; ++i) p[i] *= q[i^1];\n        if(n&1) for (int i = 0; i < sz>>1; ++i)\
-    \ p[i] = (p[i<<1]-p[(i<<1)|1])*y[i];\n        else for (int i = 0; i < sz>>1;\
-    \ ++i) p[i] = (p[i<<1]+p[(i<<1)|1]);\n        ika++;\n        if(n == 1) break;\n\
-    \        up(p);\n        for (int i = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n\
-    \        up(q);\n        n >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i)\
-    \ tmp[i] = p[i];\n    ntt.transform(tmp.v, 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n\
-    }\n\n/**\n * @brief \u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n\
-    \ */\n#line 23 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp\"\
-    \n\nvoid self_check() {\n    auto check = [](const vector<mint> &p, const vector<mint>\
-    \ &q) {\n        vector<mint> expected(40);\n        for (int n = 0; n < int(expected.size());\
-    \ ++n) {\n            mint value = n < int(p.size()) ? p[n] : mint(0);\n     \
-    \       for (int j = 1; j <= n && j < int(q.size()); ++j)\n                value\
-    \ -= q[j] * expected[n - j];\n            expected[n] = value / q[0];\n      \
-    \      assert(nth_term(poly(p), poly(q), n) == expected[n]);\n        }\n    };\n\
-    \    check({}, {1});\n    check({}, {2, -1});\n    check({1}, {1});\n    check({1},\
-    \ {2, -1});\n    check({2, 4, 6}, {2});\n    check({1, 0, 3, 4, 5}, {3, -1});\n\
-    \    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2}), LLONG_MAX)\
-    \ == mint(0));\n    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2,\
-    \ -2}), LLONG_MAX) == mint(2).inv());\n    mt19937 rng(8);\n    for (int tc =\
-    \ 0; tc < 150; ++tc) {\n        vector<mint> p(rng() % 10), q(1 + rng() % 10);\n\
-    \        for (auto &v : p) v = int(rng() % 21) - 10;\n        for (auto &v : q)\
-    \ v = int(rng() % 21) - 10;\n        q[0] = tc % 3 == 0 ? 1 : 1 + rng() % 100;\n\
-    \        check(p, q);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int d;\n    ll n;\n    sc.read(d, n);\n    vector<mint>\
-    \ a(d), c(d);\n    for (int i = 0; i < d; ++i) {\n        int x;\n        sc.read(x);\n\
-    \        a[i] = x;\n    }\n    for (int i = 0; i < d; ++i) {\n        int x;\n\
-    \        sc.read(x);\n        c[i] = x;\n    }\n\n    poly q(d + 1);\n    q[0]\
-    \ = 1;\n    for (int i = 0; i < d; ++i) q[i + 1] = -c[i];\n    poly p = (poly(a)\
-    \ * q).cut(d);\n    pr.println(nth_term(p, q, n).val);\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <climits>\n#include <random>\n\
-    #include <utility>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
-    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../fps/nth_term.cpp\"\n\nvoid self_check()\
-    \ {\n    auto check = [](const vector<mint> &p, const vector<mint> &q) {\n   \
-    \     vector<mint> expected(40);\n        for (int n = 0; n < int(expected.size());\
-    \ ++n) {\n            mint value = n < int(p.size()) ? p[n] : mint(0);\n     \
-    \       for (int j = 1; j <= n && j < int(q.size()); ++j)\n                value\
-    \ -= q[j] * expected[n - j];\n            expected[n] = value / q[0];\n      \
-    \      assert(nth_term(poly(p), poly(q), n) == expected[n]);\n        }\n    };\n\
-    \    check({}, {1});\n    check({}, {2, -1});\n    check({1}, {1});\n    check({1},\
-    \ {2, -1});\n    check({2, 4, 6}, {2});\n    check({1, 0, 3, 4, 5}, {3, -1});\n\
-    \    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2}), LLONG_MAX)\
-    \ == mint(0));\n    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2,\
-    \ -2}), LLONG_MAX) == mint(2).inv());\n    mt19937 rng(8);\n    for (int tc =\
-    \ 0; tc < 150; ++tc) {\n        vector<mint> p(rng() % 10), q(1 + rng() % 10);\n\
-    \        for (auto &v : p) v = int(rng() % 21) - 10;\n        for (auto &v : q)\
-    \ v = int(rng() % 21) - 10;\n        q[0] = tc % 3 == 0 ? 1 : 1 + rng() % 100;\n\
-    \        check(p, q);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int d;\n    ll n;\n    sc.read(d, n);\n    vector<mint>\
-    \ a(d), c(d);\n    for (int i = 0; i < d; ++i) {\n        int x;\n        sc.read(x);\n\
-    \        a[i] = x;\n    }\n    for (int i = 0; i < d; ++i) {\n        int x;\n\
-    \        sc.read(x);\n        c[i] = x;\n    }\n\n    poly q(d + 1);\n    q[0]\
-    \ = 1;\n    for (int i = 0; i < d; ++i) q[i + 1] = -c[i];\n    poly p = (poly(a)\
-    \ * q).cut(d);\n    pr.println(nth_term(p, q, n).val);\n    return 0;\n}\n"
+    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n#line 10 \"test/yosupo_aplusb_ntt_multiply.test.cpp\"\
+    \n\nvector<mint> naive_product(const vector<mint> &a, const vector<mint> &b) {\n\
+    \    if (a.empty() || b.empty()) return {};\n    vector<mint> result(a.size()\
+    \ + b.size() - 1);\n    for (int i = 0; i < (int)a.size(); ++i) {\n        for\
+    \ (int j = 0; j < (int)b.size(); ++j) result[i + j] += a[i] * b[j];\n    }\n \
+    \   return result;\n}\n\nvoid check_product(const poly &f, const poly &g) {\n\
+    \    auto original_f = f.v, original_g = g.v;\n    auto expected = naive_product(f.v,\
+    \ g.v);\n    auto left = f, right = g;\n    left *= g;\n    right *= f;\n    assert(left.v\
+    \ == expected && right.v == expected);\n    assert((f * g).v == expected && (g\
+    \ * f).v == expected);\n    assert(f.v == original_f && g.v == original_g);\n\
+    }\n\nvoid self_check() {\n    mt19937 random(20);\n    auto make_poly = [&](int\
+    \ n) {\n        poly f(n);\n        for (auto &x : f.v) x = random() % ntt_mod;\n\
+    \        return f;\n    };\n    for (int n = 0; n <= 64; ++n) {\n        for (int\
+    \ m = 0; m <= 64; ++m) check_product(make_poly(n), make_poly(m));\n    }\n   \
+    \ // Result lengths on both sides of powers of two, and both naive thresholds.\n\
+    \    for (int power = 128; power <= 4096; power *= 2) {\n        for (int m :\
+    \ {1, 2, 15, 16, 17, 31, 32, 33, 47, 48, 49, 64, 65}) {\n            for (int\
+    \ offset : {-1, 0, 1}) {\n                check_product(make_poly(power - m +\
+    \ 1 + offset), make_poly(m));\n            }\n        }\n    }\n    for (int n\
+    \ : {0, 1, 2, 16, 17, 48, 49, 64, 65, 127, 128, 129, 1024}) {\n        auto f\
+    \ = make_poly(n), original = f;\n        auto expected = naive_product(f.v, f.v);\n\
+    \        f *= f;\n        assert(f.v == expected);\n        auto same_coefficients\
+    \ = original;\n        assert((original * original).v == expected);\n        assert(original.v\
+    \ == same_coefficients.v);\n        check_product(original, same_coefficients);\n\
+    \        check_product(original, poly(vector<mint>{0}));\n        check_product(original,\
+    \ poly(vector<mint>{1}));\n        check_product(original, poly(vector<mint>{ntt_mod\
+    \ - 1}));\n        check_product(original, poly(17));\n    }\n}\n\nint main()\
+    \ {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\n#include \"../util/fastio.cpp\"\n#include \"../math/ntt.cpp\"\
+    \n\nvector<mint> naive_product(const vector<mint> &a, const vector<mint> &b) {\n\
+    \    if (a.empty() || b.empty()) return {};\n    vector<mint> result(a.size()\
+    \ + b.size() - 1);\n    for (int i = 0; i < (int)a.size(); ++i) {\n        for\
+    \ (int j = 0; j < (int)b.size(); ++j) result[i + j] += a[i] * b[j];\n    }\n \
+    \   return result;\n}\n\nvoid check_product(const poly &f, const poly &g) {\n\
+    \    auto original_f = f.v, original_g = g.v;\n    auto expected = naive_product(f.v,\
+    \ g.v);\n    auto left = f, right = g;\n    left *= g;\n    right *= f;\n    assert(left.v\
+    \ == expected && right.v == expected);\n    assert((f * g).v == expected && (g\
+    \ * f).v == expected);\n    assert(f.v == original_f && g.v == original_g);\n\
+    }\n\nvoid self_check() {\n    mt19937 random(20);\n    auto make_poly = [&](int\
+    \ n) {\n        poly f(n);\n        for (auto &x : f.v) x = random() % ntt_mod;\n\
+    \        return f;\n    };\n    for (int n = 0; n <= 64; ++n) {\n        for (int\
+    \ m = 0; m <= 64; ++m) check_product(make_poly(n), make_poly(m));\n    }\n   \
+    \ // Result lengths on both sides of powers of two, and both naive thresholds.\n\
+    \    for (int power = 128; power <= 4096; power *= 2) {\n        for (int m :\
+    \ {1, 2, 15, 16, 17, 31, 32, 33, 47, 48, 49, 64, 65}) {\n            for (int\
+    \ offset : {-1, 0, 1}) {\n                check_product(make_poly(power - m +\
+    \ 1 + offset), make_poly(m));\n            }\n        }\n    }\n    for (int n\
+    \ : {0, 1, 2, 16, 17, 48, 49, 64, 65, 127, 128, 129, 1024}) {\n        auto f\
+    \ = make_poly(n), original = f;\n        auto expected = naive_product(f.v, f.v);\n\
+    \        f *= f;\n        assert(f.v == expected);\n        auto same_coefficients\
+    \ = original;\n        assert((original * original).v == expected);\n        assert(original.v\
+    \ == same_coefficients.v);\n        check_product(original, same_coefficients);\n\
+    \        check_product(original, poly(vector<mint>{0}));\n        check_product(original,\
+    \ poly(vector<mint>{1}));\n        check_product(original, poly(vector<mint>{ntt_mod\
+    \ - 1}));\n        check_product(original, poly(17));\n    }\n}\n\nint main()\
+    \ {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - fps/nth_term.cpp
   - math/ntt.cpp
   - util/modint_base.cpp
   isVerificationFile: true
-  path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  path: test/yosupo_aplusb_ntt_multiply.test.cpp
   requiredBy: []
   timestamp: '2026-10-05 21:21:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+documentation_of: test/yosupo_aplusb_ntt_multiply.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
-- /verify/test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp.html
-title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+- /verify/test/yosupo_aplusb_ntt_multiply.test.cpp
+- /verify/test/yosupo_aplusb_ntt_multiply.test.cpp.html
+title: test/yosupo_aplusb_ntt_multiply.test.cpp
 ---

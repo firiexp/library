@@ -812,6 +812,15 @@ data:
       path: test/yosupo_aplusb_noncommutative_tree.test.cpp
       title: test/yosupo_aplusb_noncommutative_tree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_ntt_multiply.test.cpp
+      title: test/yosupo_aplusb_ntt_multiply.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_ntt_operators.test.cpp
+      title: test/yosupo_aplusb_ntt_operators.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_ntt_precision.test.cpp
+      title: test/yosupo_aplusb_ntt_precision.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_order_statistic_tree.test.cpp
       title: test/yosupo_aplusb_order_statistic_tree.test.cpp
     - icon: ':heavy_check_mark:'
