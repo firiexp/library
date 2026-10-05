@@ -355,6 +355,7 @@ struct poly {
     poly inv(int deg = -1) const {
         assert(!v.empty() && v[0] != mint(0));
         if (deg == -1) deg = size();
+        if (deg == 0) return poly();
         poly res(deg);
         res[0] = v[0].inv();
         for (int d = 1; d < deg; d <<= 1) {
@@ -377,7 +378,8 @@ struct poly {
     poly log(int deg = -1) const {
         assert(!v.empty() && v[0] == mint(1));
         if (deg == -1) deg = (int)this->size();
-        return (this->diff() * this->inv(deg)).pre(deg - 1).integral();
+        if (deg == 0) return poly();
+        return (pre(min(size(), deg)).diff() * inv(deg)).pre(deg - 1).integral();
     }
 
     poly exp(int deg = -1) const {
