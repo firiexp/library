@@ -41,11 +41,9 @@ public:
             bucket.clear();
             cnt = 0;
         } else if (cnt >= bucket.size() - cnt) {
-            // Move at most as many survivors as the pops since the last compaction.
             if constexpr (is_move_assignable<pair<K, V>>::value) {
                 bucket.erase(bucket.begin(), bucket.begin() + cnt);
             } else {
-                // Keep supporting copy-constructible, non-assignable payloads.
                 vector<pair<K, V>> rest;
                 rest.reserve(bucket.capacity());
                 for (size_t i = cnt; i < bucket.size(); ++i) rest.push_back(bucket[i]);
