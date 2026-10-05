@@ -1,5 +1,5 @@
 struct FunctionalGraph {
-    static constexpr int LOG = 63;
+    static constexpr int LOG = 63; // k の bit 数。up の段数は n から決める。
 
     int n;
     vector<int> to;
@@ -14,7 +14,6 @@ struct FunctionalGraph {
     explicit FunctionalGraph(int n)
         : n(n),
           to(n, -1),
-          up(LOG, vector<int>(n, -1)),
           comp_id(n, -1),
           cycle_pos(n, -1),
           cycle_len(n, 0),
@@ -32,9 +31,11 @@ struct FunctionalGraph {
     }
 
     void build() {
-        up.assign(LOG, vector<int>(n, -1));
+        int levels = 1;
+        while ((1LL << levels) < n) ++levels;
+        up.assign(levels, vector<int>(n, -1));
         for (int v = 0; v < n; ++v) up[0][v] = to[v];
-        for (int k = 0; k + 1 < LOG; ++k) {
+        for (int k = 0; k + 1 < levels; ++k) {
             for (int v = 0; v < n; ++v) {
                 up[k + 1][v] = up[k][up[k][v]];
             }
@@ -94,8 +95,13 @@ struct FunctionalGraph {
     }
 
     int jump(int v, long long k) const {
-        for (int i = 0; i < LOG; ++i) {
-            if ((k >> i) & 1) v = up[i][v];
+        if (k >= dist_to_cycle[v]) {
+            const auto &cyc = cycles[comp_id[v]];
+            long long offset = (k - dist_to_cycle[v]) % cycle_len[v];
+            return cyc[(cycle_pos[v] + offset) % cycle_len[v]];
+        }
+        for (int i = 0; k; ++i, k >>= 1) {
+            if (k & 1) v = up[i][v];
         }
         return v;
     }
