@@ -59,6 +59,12 @@ python3 scripts/check_fastio.py
 python3 scripts/check_fastio.py --sanitize
 ```
 
+ライブラリの include 組み合わせは、各ペアの両順序を独立した翻訳単位としてコンパイルする。`--list` で対象を確認できる。
+
+```bash
+python3 scripts/check_library_composition.py
+```
+
 性能計測と可視化は verify とは分け、以下を使う。
 
 ```bash

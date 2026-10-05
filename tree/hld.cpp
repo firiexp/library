@@ -1,3 +1,5 @@
+#ifndef FIRIEXP_LIBRARY_TREE_HLD_CPP
+#define FIRIEXP_LIBRARY_TREE_HLD_CPP
 
 class HeavyLightDecomposition {
     void dfs_sz(int v){
@@ -150,3 +152,5 @@ public:
 /**
  * @brief HL分解(HL Decomposition)
  */
+
+#endif

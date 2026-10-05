@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_TREE_AUXTREE_CPP
+#define FIRIEXP_LIBRARY_TREE_AUXTREE_CPP
+
 #include "../datastructure/sparsetable.cpp"
 
 struct F {
@@ -97,3 +100,5 @@ public:
 /**
  * @brief 補助木(Aux Tree)
  */
+
+#endif

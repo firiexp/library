@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_GRAPH_BICONNECTED_COMPONENTS_CPP
+#define FIRIEXP_LIBRARY_GRAPH_BICONNECTED_COMPONENTS_CPP
+
 class BiconnectedComponents {
     struct CSR {
         vector<int> start, elist;
@@ -103,3 +106,5 @@ public:
 /**
  * @brief 二重連結成分分解(Biconnected Components)
  */
+
+#endif
