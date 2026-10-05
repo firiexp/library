@@ -836,6 +836,9 @@ data:
       path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
       title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_radixheap.test.cpp
+      title: test/yosupo_aplusb_radixheap.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
       title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     - icon: ':heavy_check_mark:'
@@ -850,6 +853,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_string_bytes.test.cpp
       title: test/yosupo_aplusb_string_bytes.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_subset_convolution.test.cpp
+      title: test/yosupo_aplusb_subset_convolution.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
       title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp

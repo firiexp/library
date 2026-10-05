@@ -40,15 +40,22 @@ data:
     \ = sizeof(K)*8;\n    K last;\n    size_t sz, cnt;\n    \n    array<vector<pair<K,\
     \ V>>, bit_length> v;\n    static inline int bsr(int x){\n        return x ? bit_length-__builtin_clz(x)\
     \ : 0;\n    }\n    static inline int bsr(ll x){\n        return x ? bit_length-__builtin_clzll(x)\
-    \ : 0;\n    }\n\n    void pull() {\n        if(cnt < v[0].size()) return;;\n \
-    \       int i = 1;\n        while(v[i].empty()) i++;\n        last = min_element(v[i].begin(),v[i].end())->first;\n\
+    \ : 0;\n    }\n\n    void pull() {\n        if(cnt < v[0].size()) return;\n  \
+    \      int i = 1;\n        while(v[i].empty()) i++;\n        last = min_element(v[i].begin(),v[i].end())->first;\n\
     \        for (auto &&x : v[i]) v[bsr(x.first ^ last)].push_back(x);\n        v[i].clear();\n\
     \    }\npublic:\n    RadixHeap() : last(0), sz(0), cnt(0) {}\n    void emplace(K\
     \ x, V val){\n        sz++;\n        v[bsr(x^last)].emplace_back(x, val);\n  \
     \  }\n\n    pair<K, V> top() {\n        pull();\n        return v[0][cnt];\n \
     \   }\n\n    void pop() {\n        pull();\n        sz--;\n        cnt++;\n  \
-    \  }\n\n    size_t size() const { return sz; }\n    bool empty() const { return\
-    \ !sz; }\n};\n#line 3 \"graph/dijkstra_radix_heap.cpp\"\n\nstruct DijkstraRadixHeapQueue\
+    \      auto &bucket = v[0];\n        if (cnt == bucket.size()) {\n           \
+    \ bucket.clear();\n            cnt = 0;\n        } else if (cnt >= bucket.size()\
+    \ - cnt) {\n            if constexpr (is_move_assignable<pair<K, V>>::value) {\n\
+    \                bucket.erase(bucket.begin(), bucket.begin() + cnt);\n       \
+    \     } else {\n                vector<pair<K, V>> rest;\n                rest.reserve(bucket.capacity());\n\
+    \                for (size_t i = cnt; i < bucket.size(); ++i) rest.push_back(bucket[i]);\n\
+    \                bucket.swap(rest);\n            }\n            cnt = 0;\n   \
+    \     }\n    }\n\n    size_t size() const { return sz; }\n    bool empty() const\
+    \ { return !sz; }\n};\n#line 3 \"graph/dijkstra_radix_heap.cpp\"\n\nstruct DijkstraRadixHeapQueue\
     \ {\n    RadixHeap<long long, int> Q;\n\n    bool empty() const { return Q.empty();\
     \ }\n\n    void push(long long cost, int v) {\n        Q.emplace(cost, v);\n \
     \   }\n\n    pair<long long, int> pop() {\n        auto [cost, v] = Q.top();\n\
@@ -70,7 +77,7 @@ data:
   isVerificationFile: false
   path: graph/dijkstra_radix_heap.cpp
   requiredBy: []
-  timestamp: '2026-03-12 19:34:31+09:00'
+  timestamp: '2026-10-05 22:45:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shortest_path_radix_heap.test.cpp

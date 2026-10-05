@@ -7,12 +7,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
-  - icon: ':heavy_check_mark:'
-    path: util/modint.cpp
-    title: "modint(\u56FA\u5B9AMOD)"
-  - icon: ':heavy_check_mark:'
-    path: util/modint_base.cpp
-    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -20,15 +14,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/subset_convolution
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/subset_convolution
-  bundledCode: "#line 1 \"test/yosupo_subset_convolution.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/subset_convolution\"\n\n#include <bits/stdc++.h>\n\
-    \nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\n\
-    using ull = unsigned long long;\nusing namespace std;\n\n#line 14 \"test/yosupo_subset_convolution.test.cpp\"\
-    \n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\n\
-    using namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_subset_convolution.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
     \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
@@ -233,37 +225,7 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint.cpp\"\
-    \n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
-    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
-    \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
-    \ constexpr uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class\
-    \ T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val =\
-    \ uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint\
-    \ &value() noexcept { return val; }\n    const uint &value() const noexcept {\
-    \ return val; }\n    modint& operator++() { val++; if (val == Mod) val = 0; return\
-    \ *this; }\n    modint& operator--() { if (val == 0) val = Mod; val--; return\
-    \ *this; }\n    modint operator++(int) { modint result = *this; ++*this; return\
-    \ result; }\n    modint operator--(int) { modint result = *this; --*this; return\
-    \ result; }\n    modint& operator+=(const modint& b) { val += b.val; if (val >=\
-    \ Mod) val -= Mod; return *this; }\n    modint& operator-=(const modint& b) {\
-    \ val -= b.val; if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const\
-    \ modint& b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n\
-    \    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }\n\
-    \    modint operator+() const { return *this; }\n    modint operator-() const\
-    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
-    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
-    \    modint inv() const { return pow(Mod - 2); }\n    friend modint operator+(const\
-    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
-    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
-    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
-    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
-    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
-    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
-    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
-    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
-    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/subset_convolution.cpp\"\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/subset_convolution.cpp\"\
     \ntemplate<class T>\nvector<T> subset_convolution(vector<T> a, vector<T> b){\n\
     \    int n = 1;\n    while (n < (int)a.size() || n < (int)b.size()) n <<= 1;\n\
     \    a.resize(n);\n    b.resize(n);\n    int lg = 0;\n    while ((1 << lg) < n)\
@@ -295,41 +257,89 @@ data:
     \           }\n            }\n        }\n    }\n\n    vector<T> c(n);\n    for\
     \ (int s = 0; s < n; ++s) {\n        c[s] = fa[s * w + pc[s]];\n    }\n    return\
     \ c;\n}\n\n/**\n * @brief \u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset\
-    \ Convolution)\n */\n#line 20 \"test/yosupo_subset_convolution.test.cpp\"\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    int m = 1 << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m;\
-    \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
-    \ (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i]\
-    \ = x;\n    }\n    auto c = subset_convolution(a, b);\n    for (int i = 0; i <\
-    \ m; ++i) {\n        if (i) pr.print(' ');\n        pr.print(c[i].val);\n    }\n\
-    \    pr.println();\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n\n\
-    #include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll = long\
-    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
-    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
-    \n#include \"../math/subset_convolution.cpp\"\n\nint main() {\n    Scanner sc;\n\
-    \    Printer pr;\n\n    int n;\n    sc.read(n);\n    int m = 1 << n;\n    vector<mint>\
-    \ a(m), b(m);\n    for (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n\
-    \        a[i] = x;\n    }\n    for (int i = 0; i < m; ++i) {\n        int x;\n\
-    \        sc.read(x);\n        b[i] = x;\n    }\n    auto c = subset_convolution(a,\
-    \ b);\n    for (int i = 0; i < m; ++i) {\n        if (i) pr.print(' ');\n    \
-    \    pr.print(c[i].val);\n    }\n    pr.println();\n    return 0;\n}\n"
+    \ Convolution)\n */\n#line 8 \"test/yosupo_aplusb_subset_convolution.test.cpp\"\
+    \n\nstruct Matrix {\n    array<int, 4> a{};\n    Matrix(int x = 0) : a{x, 0, 0,\
+    \ x} {}\n    Matrix &operator+=(const Matrix &other) {\n        for (int i = 0;\
+    \ i < 4; ++i) a[i] = (a[i] + other.a[i]) % 17;\n        return *this;\n    }\n\
+    \    Matrix &operator-=(const Matrix &other) {\n        for (int i = 0; i < 4;\
+    \ ++i) a[i] = (a[i] + 17 - other.a[i]) % 17;\n        return *this;\n    }\n \
+    \   Matrix operator*(const Matrix &other) const {\n        Matrix result;\n  \
+    \      for (int i = 0; i < 2; ++i) {\n            for (int j = 0; j < 2; ++j)\
+    \ {\n                for (int k = 0; k < 2; ++k) {\n                    result.a[2\
+    \ * i + j] += a[2 * i + k] * other.a[2 * k + j];\n                }\n        \
+    \        result.a[2 * i + j] %= 17;\n            }\n        }\n        return\
+    \ result;\n    }\n    bool operator==(const Matrix &other) const { return a ==\
+    \ other.a; }\n};\n\ntemplate<class T>\nvoid check(const vector<T> &a, const vector<T>\
+    \ &b) {\n    auto original_a = a, original_b = b;\n    int n = 1;\n    while (n\
+    \ < (int)max(a.size(), b.size())) n *= 2;\n    vector<T> expected(n);\n    for\
+    \ (int mask = 0; mask < n; ++mask) {\n        for (int sub = mask;; sub = (sub\
+    \ - 1) & mask) {\n            if (sub < (int)a.size() && (mask ^ sub) < (int)b.size())\
+    \ {\n                expected[mask] += a[sub] * b[mask ^ sub];\n            }\n\
+    \            if (sub == 0) break;\n        }\n    }\n    assert(subset_convolution(a,\
+    \ b) == expected);\n    assert(a == original_a && b == original_b);\n}\n\nvoid\
+    \ self_check() {\n    mt19937 rng(73);\n    for (int n = 0; n <= 20; ++n) {\n\
+    \        for (int m = 0; m <= 20; ++m) {\n            check(vector<ll>(n), vector<ll>(m,\
+    \ 1));\n            check(vector<Matrix>(n), vector<Matrix>(m, 1));\n        }\n\
+    \    }\n    for (int tc = 0; tc < 2000; ++tc) {\n        vector<ll> a(rng() %\
+    \ 129), b(rng() % 129);\n        for (auto &x : a) x = (int)(rng() % 7) - 3;\n\
+    \        for (auto &x : b) x = (int)(rng() % 7) - 3;\n        check(a, b);\n \
+    \       check(a, a);\n    }\n    Matrix x, y;\n    x.a = {0, 1, 0, 0};\n    y.a\
+    \ = {0, 0, 1, 0};\n    assert(!((x * y) == (y * x)));\n    check(vector<Matrix>{x},\
+    \ vector<Matrix>{y});\n    for (int tc = 0; tc < 1000; ++tc) {\n        vector<Matrix>\
+    \ a(rng() % 65), b(rng() % 65);\n        for (auto &mat : a) for (auto &v : mat.a)\
+    \ v = rng() % 17;\n        for (auto &mat : b) for (auto &v : mat.a) v = rng()\
+    \ % 17;\n        check(a, b);\n        check(a, a);\n    }\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n#include \"../util/fastio.cpp\"\n\
+    #include \"../math/subset_convolution.cpp\"\n\nstruct Matrix {\n    array<int,\
+    \ 4> a{};\n    Matrix(int x = 0) : a{x, 0, 0, x} {}\n    Matrix &operator+=(const\
+    \ Matrix &other) {\n        for (int i = 0; i < 4; ++i) a[i] = (a[i] + other.a[i])\
+    \ % 17;\n        return *this;\n    }\n    Matrix &operator-=(const Matrix &other)\
+    \ {\n        for (int i = 0; i < 4; ++i) a[i] = (a[i] + 17 - other.a[i]) % 17;\n\
+    \        return *this;\n    }\n    Matrix operator*(const Matrix &other) const\
+    \ {\n        Matrix result;\n        for (int i = 0; i < 2; ++i) {\n         \
+    \   for (int j = 0; j < 2; ++j) {\n                for (int k = 0; k < 2; ++k)\
+    \ {\n                    result.a[2 * i + j] += a[2 * i + k] * other.a[2 * k +\
+    \ j];\n                }\n                result.a[2 * i + j] %= 17;\n       \
+    \     }\n        }\n        return result;\n    }\n    bool operator==(const Matrix\
+    \ &other) const { return a == other.a; }\n};\n\ntemplate<class T>\nvoid check(const\
+    \ vector<T> &a, const vector<T> &b) {\n    auto original_a = a, original_b = b;\n\
+    \    int n = 1;\n    while (n < (int)max(a.size(), b.size())) n *= 2;\n    vector<T>\
+    \ expected(n);\n    for (int mask = 0; mask < n; ++mask) {\n        for (int sub\
+    \ = mask;; sub = (sub - 1) & mask) {\n            if (sub < (int)a.size() && (mask\
+    \ ^ sub) < (int)b.size()) {\n                expected[mask] += a[sub] * b[mask\
+    \ ^ sub];\n            }\n            if (sub == 0) break;\n        }\n    }\n\
+    \    assert(subset_convolution(a, b) == expected);\n    assert(a == original_a\
+    \ && b == original_b);\n}\n\nvoid self_check() {\n    mt19937 rng(73);\n    for\
+    \ (int n = 0; n <= 20; ++n) {\n        for (int m = 0; m <= 20; ++m) {\n     \
+    \       check(vector<ll>(n), vector<ll>(m, 1));\n            check(vector<Matrix>(n),\
+    \ vector<Matrix>(m, 1));\n        }\n    }\n    for (int tc = 0; tc < 2000; ++tc)\
+    \ {\n        vector<ll> a(rng() % 129), b(rng() % 129);\n        for (auto &x\
+    \ : a) x = (int)(rng() % 7) - 3;\n        for (auto &x : b) x = (int)(rng() %\
+    \ 7) - 3;\n        check(a, b);\n        check(a, a);\n    }\n    Matrix x, y;\n\
+    \    x.a = {0, 1, 0, 0};\n    y.a = {0, 0, 1, 0};\n    assert(!((x * y) == (y\
+    \ * x)));\n    check(vector<Matrix>{x}, vector<Matrix>{y});\n    for (int tc =\
+    \ 0; tc < 1000; ++tc) {\n        vector<Matrix> a(rng() % 65), b(rng() % 65);\n\
+    \        for (auto &mat : a) for (auto &v : mat.a) v = rng() % 17;\n        for\
+    \ (auto &mat : b) for (auto &v : mat.a) v = rng() % 17;\n        check(a, b);\n\
+    \        check(a, a);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
-  - util/modint.cpp
-  - util/modint_base.cpp
   - math/subset_convolution.cpp
   isVerificationFile: true
-  path: test/yosupo_subset_convolution.test.cpp
+  path: test/yosupo_aplusb_subset_convolution.test.cpp
   requiredBy: []
   timestamp: '2026-10-05 22:45:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_subset_convolution.test.cpp
+documentation_of: test/yosupo_aplusb_subset_convolution.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_subset_convolution.test.cpp
-- /verify/test/yosupo_subset_convolution.test.cpp.html
-title: test/yosupo_subset_convolution.test.cpp
+- /verify/test/yosupo_aplusb_subset_convolution.test.cpp
+- /verify/test/yosupo_aplusb_subset_convolution.test.cpp.html
+title: test/yosupo_aplusb_subset_convolution.test.cpp
 ---

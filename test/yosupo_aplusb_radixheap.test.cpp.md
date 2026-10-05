@@ -5,12 +5,6 @@ data:
     path: datastructure/radixheap.cpp
     title: datastructure/radixheap.cpp
   - icon: ':heavy_check_mark:'
-    path: graph/dijkstra_common.cpp
-    title: graph/dijkstra_common.cpp
-  - icon: ':heavy_check_mark:'
-    path: graph/dijkstra_radix_heap.cpp
-    title: "Dijkstra\u6CD5(Radix Heap)"
-  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -20,21 +14,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/shortest_path
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/shortest_path
-  bundledCode: "#line 1 \"test/yosupo_shortest_path_radix_heap.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include <algorithm>\n\
-    #include <array>\n#include <limits>\n#include <queue>\n#include <tuple>\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\ntemplate<class T> constexpr\
-    \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_radixheap.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\n#line 1 \"util/fastio.cpp\"\nusing namespace\
+    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
+    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -234,28 +224,10 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/dijkstra_common.cpp\"\
-    \n\n\n\ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\
-    \n    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
-    \ int to, T cost) : from(from), to(to), cost(cost) {}\n};\n\ntemplate <typename\
-    \ T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T, int>, vector<pair<T,\
-    \ int>>, greater<>> q;\n\n    bool empty() const { return q.empty(); }\n\n   \
-    \ void push(T cost, int v) {\n        q.emplace(cost, v);\n    }\n\n    pair<T,\
-    \ int> pop() {\n        auto res = q.top();\n        q.pop();\n        return\
-    \ res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\nvector<T>\
-    \ dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q, OnRelax\
-    \ on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n  \
-    \  dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
-    \ [cost, v] = Q.pop();\n        if (dist[v] < cost) continue;\n        for (auto\
-    \ &&e : G[v]) {\n            T nxt = cost + e.cost;\n            if (dist[e.to]\
-    \ <= nxt) continue;\n            dist[e.to] = nxt;\n            on_relax(v, e);\n\
-    \            Q.push(nxt, e.to);\n        }\n    }\n    return dist;\n}\n\ntemplate\
-    \ <typename T, class Queue>\nvector<T> dijkstra_internal(int s, const vector<vector<edge<T>>>\
-    \ &G, Queue &Q) {\n    return dijkstra_internal(s, G, Q, [](int, const edge<T>\
-    \ &) {});\n}\n\n\n#line 1 \"datastructure/radixheap.cpp\"\ntemplate <class K,\
-    \ class V>\nclass RadixHeap {\n    static constexpr int bit_length = sizeof(K)*8;\n\
-    \    K last;\n    size_t sz, cnt;\n    \n    array<vector<pair<K, V>>, bit_length>\
-    \ v;\n    static inline int bsr(int x){\n        return x ? bit_length-__builtin_clz(x)\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/radixheap.cpp\"\
+    \ntemplate <class K, class V>\nclass RadixHeap {\n    static constexpr int bit_length\
+    \ = sizeof(K)*8;\n    K last;\n    size_t sz, cnt;\n    \n    array<vector<pair<K,\
+    \ V>>, bit_length> v;\n    static inline int bsr(int x){\n        return x ? bit_length-__builtin_clz(x)\
     \ : 0;\n    }\n    static inline int bsr(ll x){\n        return x ? bit_length-__builtin_clzll(x)\
     \ : 0;\n    }\n\n    void pull() {\n        if(cnt < v[0].size()) return;\n  \
     \      int i = 1;\n        while(v[i].empty()) i++;\n        last = min_element(v[i].begin(),v[i].end())->first;\n\
@@ -272,60 +244,97 @@ data:
     \                for (size_t i = cnt; i < bucket.size(); ++i) rest.push_back(bucket[i]);\n\
     \                bucket.swap(rest);\n            }\n            cnt = 0;\n   \
     \     }\n    }\n\n    size_t size() const { return sz; }\n    bool empty() const\
-    \ { return !sz; }\n};\n#line 3 \"graph/dijkstra_radix_heap.cpp\"\n\nstruct DijkstraRadixHeapQueue\
-    \ {\n    RadixHeap<long long, int> Q;\n\n    bool empty() const { return Q.empty();\
-    \ }\n\n    void push(long long cost, int v) {\n        Q.emplace(cost, v);\n \
-    \   }\n\n    pair<long long, int> pop() {\n        auto [cost, v] = Q.top();\n\
-    \        Q.pop();\n        return {cost, v};\n    }\n};\n\nvector<long long> dijkstra_radix_heap(int\
-    \ s, const vector<vector<edge<long long>>> &G) {\n    DijkstraRadixHeapQueue Q;\n\
-    \    return dijkstra_internal(s, G, Q);\n}\n\n/**\n * @brief Dijkstra\u6CD5(Radix\
-    \ Heap)\n */\n#line 22 \"test/yosupo_shortest_path_radix_heap.test.cpp\"\n\nint\
-    \ main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s, t;\n    sc.read(n,\
-    \ m, s, t);\n    vector<vector<edge<ll>>> G(n), Ginv(n);\n    for (int i = 0;\
-    \ i < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        G[a].emplace_back(b,\
-    \ c);\n        Ginv[b].emplace_back(a, c);\n    }\n    auto d = dijkstra_radix_heap(s,\
-    \ G);\n    if (d[t] == INF<ll>) {\n        pr.println(-1);\n        return 0;\n\
-    \    }\n    vector<int> ans{t};\n    vector<int> visited(n);\n    visited[t] =\
-    \ 1;\n    while (ans.back() != s) {\n        for (auto &&i : Ginv[ans.back()])\
-    \ {\n            if (d[i.to] + i.cost == d[ans.back()] && !visited[i.to]) {\n\
-    \                ans.emplace_back(i.to);\n                visited[i.to] = 1;\n\
-    \                break;\n            }\n        }\n    }\n    pr.println(d[t],\
-    \ (int)ans.size() - 1);\n    for (int i = (int)ans.size()-1; i > 0; --i) {\n \
-    \       pr.println(ans[i], ans[i - 1]);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
-    \ <algorithm>\n#include <array>\n#include <limits>\n#include <queue>\n#include\
-    \ <tuple>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\
-    template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\
-    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../graph/dijkstra_radix_heap.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s, t;\n  \
-    \  sc.read(n, m, s, t);\n    vector<vector<edge<ll>>> G(n), Ginv(n);\n    for\
-    \ (int i = 0; i < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n\
-    \        G[a].emplace_back(b, c);\n        Ginv[b].emplace_back(a, c);\n    }\n\
-    \    auto d = dijkstra_radix_heap(s, G);\n    if (d[t] == INF<ll>) {\n       \
-    \ pr.println(-1);\n        return 0;\n    }\n    vector<int> ans{t};\n    vector<int>\
-    \ visited(n);\n    visited[t] = 1;\n    while (ans.back() != s) {\n        for\
-    \ (auto &&i : Ginv[ans.back()]) {\n            if (d[i.to] + i.cost == d[ans.back()]\
-    \ && !visited[i.to]) {\n                ans.emplace_back(i.to);\n            \
-    \    visited[i.to] = 1;\n                break;\n            }\n        }\n  \
-    \  }\n    pr.println(d[t], (int)ans.size() - 1);\n    for (int i = (int)ans.size()-1;\
-    \ i > 0; --i) {\n        pr.println(ans[i], ans[i - 1]);\n    }\n    return 0;\n\
-    }\n"
+    \ { return !sz; }\n};\n#line 8 \"test/yosupo_aplusb_radixheap.test.cpp\"\n\nstruct\
+    \ Tracked {\n    inline static int live = 0;\n    int id;\n    explicit Tracked(int\
+    \ id) : id(id) { ++live; }\n    Tracked(const Tracked &other) : id(other.id) {\
+    \ ++live; }\n    Tracked &operator=(const Tracked &) = default;\n    ~Tracked()\
+    \ { --live; }\n    bool operator<(const Tracked &other) const { return id < other.id;\
+    \ }\n};\n\nstruct NonAssignable {\n    inline static int live = 0;\n    const\
+    \ int id;\n    explicit NonAssignable(int id) : id(id) { ++live; }\n    NonAssignable(const\
+    \ NonAssignable &other) : id(other.id) { ++live; }\n    ~NonAssignable() { --live;\
+    \ }\n    bool operator<(const NonAssignable &other) const { return id < other.id;\
+    \ }\n};\n\ntemplate<class V>\nvoid check_slide() {\n    for (int width : {1, 2,\
+    \ 3, 31, 1024}) {\n        RadixHeap<ll, V> q;\n        for (int i = 0; i < width;\
+    \ ++i) q.emplace(0, V(i));\n        for (int i = 0; i < 20000; ++i) {\n      \
+    \      assert(q.top().first == 0 && q.top().second.id == i);\n            q.pop();\n\
+    \            q.emplace(0, V(i + width));\n            assert(q.size() == (size_t)width\
+    \ && !q.empty());\n            assert(V::live <= 2 * width);\n        }\n    \
+    \    for (int i = 20000; i < 20000 + width; ++i) {\n            assert(q.top().second.id\
+    \ == i);\n            q.pop();\n        }\n        assert(q.empty() && q.size()\
+    \ == 0 && V::live == 0);\n        for (ll key : {1LL, 2LL, 3LL, 1LL << 31, 1LL\
+    \ << 62, LLONG_MAX}) {\n            q.emplace(key, V(7));\n            assert(q.top().first\
+    \ == key && q.top().second.id == 7);\n            q.pop();\n            assert(q.empty()\
+    \ && V::live == 0);\n        }\n    }\n}\n\ntemplate<class K>\nvoid check_random()\
+    \ {\n    mt19937_64 rng(74);\n    RadixHeap<K, int> q;\n    map<K, deque<int>>\
+    \ expected;\n    K last = 0;\n    int next_id = 0;\n    size_t count = 0;\n  \
+    \  auto pop = [&] {\n        auto [key, id] = q.top();\n        auto it = expected.begin();\n\
+    \        assert(key == it->first && id == it->second.front());\n        assert(q.top()\
+    \ == make_pair(key, id));\n        it->second.pop_front();\n        if (it->second.empty())\
+    \ expected.erase(it);\n        last = key;\n        q.pop();\n        --count;\n\
+    \    };\n    for (int step = 0; step < 100000; ++step) {\n        if (expected.empty()\
+    \ || (count < 1024 && rng() % 2)) {\n            K key = last + (rng() % 3 ? rng()\
+    \ % 10000 : 0);\n            q.emplace(key, next_id);\n            expected[key].push_back(next_id++);\n\
+    \            ++count;\n        } else {\n            pop();\n        }\n     \
+    \   assert(q.size() == count && q.empty() == expected.empty());\n    }\n    while\
+    \ (!q.empty()) pop();\n    assert(count == 0 && expected.empty());\n    q.emplace(numeric_limits<K>::max(),\
+    \ next_id);\n    assert(q.top() == make_pair(numeric_limits<K>::max(), next_id));\n\
+    \    q.pop();\n    assert(q.empty());\n}\n\nint main() {\n    check_slide<Tracked>();\n\
+    \    check_slide<NonAssignable>();\n    check_random<int>();\n    check_random<ll>();\n\
+    \    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n#include \"../util/fastio.cpp\"\n\
+    #include \"../datastructure/radixheap.cpp\"\n\nstruct Tracked {\n    inline static\
+    \ int live = 0;\n    int id;\n    explicit Tracked(int id) : id(id) { ++live;\
+    \ }\n    Tracked(const Tracked &other) : id(other.id) { ++live; }\n    Tracked\
+    \ &operator=(const Tracked &) = default;\n    ~Tracked() { --live; }\n    bool\
+    \ operator<(const Tracked &other) const { return id < other.id; }\n};\n\nstruct\
+    \ NonAssignable {\n    inline static int live = 0;\n    const int id;\n    explicit\
+    \ NonAssignable(int id) : id(id) { ++live; }\n    NonAssignable(const NonAssignable\
+    \ &other) : id(other.id) { ++live; }\n    ~NonAssignable() { --live; }\n    bool\
+    \ operator<(const NonAssignable &other) const { return id < other.id; }\n};\n\n\
+    template<class V>\nvoid check_slide() {\n    for (int width : {1, 2, 3, 31, 1024})\
+    \ {\n        RadixHeap<ll, V> q;\n        for (int i = 0; i < width; ++i) q.emplace(0,\
+    \ V(i));\n        for (int i = 0; i < 20000; ++i) {\n            assert(q.top().first\
+    \ == 0 && q.top().second.id == i);\n            q.pop();\n            q.emplace(0,\
+    \ V(i + width));\n            assert(q.size() == (size_t)width && !q.empty());\n\
+    \            assert(V::live <= 2 * width);\n        }\n        for (int i = 20000;\
+    \ i < 20000 + width; ++i) {\n            assert(q.top().second.id == i);\n   \
+    \         q.pop();\n        }\n        assert(q.empty() && q.size() == 0 && V::live\
+    \ == 0);\n        for (ll key : {1LL, 2LL, 3LL, 1LL << 31, 1LL << 62, LLONG_MAX})\
+    \ {\n            q.emplace(key, V(7));\n            assert(q.top().first == key\
+    \ && q.top().second.id == 7);\n            q.pop();\n            assert(q.empty()\
+    \ && V::live == 0);\n        }\n    }\n}\n\ntemplate<class K>\nvoid check_random()\
+    \ {\n    mt19937_64 rng(74);\n    RadixHeap<K, int> q;\n    map<K, deque<int>>\
+    \ expected;\n    K last = 0;\n    int next_id = 0;\n    size_t count = 0;\n  \
+    \  auto pop = [&] {\n        auto [key, id] = q.top();\n        auto it = expected.begin();\n\
+    \        assert(key == it->first && id == it->second.front());\n        assert(q.top()\
+    \ == make_pair(key, id));\n        it->second.pop_front();\n        if (it->second.empty())\
+    \ expected.erase(it);\n        last = key;\n        q.pop();\n        --count;\n\
+    \    };\n    for (int step = 0; step < 100000; ++step) {\n        if (expected.empty()\
+    \ || (count < 1024 && rng() % 2)) {\n            K key = last + (rng() % 3 ? rng()\
+    \ % 10000 : 0);\n            q.emplace(key, next_id);\n            expected[key].push_back(next_id++);\n\
+    \            ++count;\n        } else {\n            pop();\n        }\n     \
+    \   assert(q.size() == count && q.empty() == expected.empty());\n    }\n    while\
+    \ (!q.empty()) pop();\n    assert(count == 0 && expected.empty());\n    q.emplace(numeric_limits<K>::max(),\
+    \ next_id);\n    assert(q.top() == make_pair(numeric_limits<K>::max(), next_id));\n\
+    \    q.pop();\n    assert(q.empty());\n}\n\nint main() {\n    check_slide<Tracked>();\n\
+    \    check_slide<NonAssignable>();\n    check_random<int>();\n    check_random<ll>();\n\
+    \    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - graph/dijkstra_radix_heap.cpp
-  - graph/dijkstra_common.cpp
   - datastructure/radixheap.cpp
   isVerificationFile: true
-  path: test/yosupo_shortest_path_radix_heap.test.cpp
+  path: test/yosupo_aplusb_radixheap.test.cpp
   requiredBy: []
   timestamp: '2026-10-05 22:45:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_shortest_path_radix_heap.test.cpp
+documentation_of: test/yosupo_aplusb_radixheap.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_shortest_path_radix_heap.test.cpp
-- /verify/test/yosupo_shortest_path_radix_heap.test.cpp.html
-title: test/yosupo_shortest_path_radix_heap.test.cpp
+- /verify/test/yosupo_aplusb_radixheap.test.cpp
+- /verify/test/yosupo_aplusb_radixheap.test.cpp.html
+title: test/yosupo_aplusb_radixheap.test.cpp
 ---

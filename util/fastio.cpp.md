@@ -185,6 +185,9 @@ data:
     path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
     title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_radixheap.test.cpp
+    title: test/yosupo_aplusb_radixheap.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
@@ -199,6 +202,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_string_bytes.test.cpp
     title: test/yosupo_aplusb_string_bytes.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_subset_convolution.test.cpp
+    title: test/yosupo_aplusb_subset_convolution.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
     title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
@@ -1024,6 +1030,7 @@ data:
   - test/yosupo_aplusb_binarytrie.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
   - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
+  - test/yosupo_aplusb_subset_convolution.test.cpp
   - test/yosupo_aplusb_ntt_multiply.test.cpp
   - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/aoj_alds1_9_c_binaryheap.test.cpp
@@ -1098,6 +1105,7 @@ data:
   - test/yosupo_aplusb_functional_graph.test.cpp
   - test/yosupo_unionfind_with_potential.test.cpp
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+  - test/yosupo_aplusb_radixheap.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_counting_primes.test.cpp
   - test/yuki2672_xor_basis.test.cpp
