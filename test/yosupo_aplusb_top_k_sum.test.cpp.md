@@ -135,40 +135,42 @@ data:
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
-    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
-    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION = 15;\n    char buf[BUFSIZE];\n\
-    \    int idx;\n    bool interactive;\n    string number_buf;\n    inline static\
-    \ constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
-    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
-    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
-    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
-    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
-    \  }\n\n    inline void print_range(const char *s, size_t n) {\n        size_t\
-    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
-    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
-    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
-    \       pos += chunk;\n        }\n    }\n\n    void print(const char *s) {\n \
-    \       print_range(s, strlen(s));\n    }\n\n    void print(const string &s) {\n\
-    \        print_range(s.data(), s.size());\n    }\n\n    void print(char c) {\n\
-    \        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0' + (b ?\
-    \ 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x) {\n  \
-    \      if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n \
-    \           return out + 4;\n        }\n        if (x >= 100) {\n            memcpy(out,\
-    \ table.num + (x << 2) + 1, 3);\n            return out + 3;\n        }\n    \
-    \    if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n            out[0]\
-    \ = char('0' + q);\n            out[1] = char('0' + (x - q * 10));\n         \
-    \   return out + 2;\n        }\n        *out = char('0' + x);\n        return\
-    \ out + 1;\n    }\n\n    inline void write_four(char *out, unsigned x) {\n   \
-    \     memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void write_eight(char\
-    \ *out, unsigned x) {\n        unsigned hi = x / 10000;\n        unsigned lo =\
-    \ x - hi * 10000;\n        write_four(out, hi);\n        write_four(out + 4, lo);\n\
-    \    }\n\n    inline char *write_u32(char *out, unsigned x) {\n        if (x >=\
-    \ 100000000) {\n            unsigned hi = x / 100000000;\n            unsigned\
-    \ lo = x - hi * 100000000;\n            out = write_top(out, hi);\n          \
-    \  write_eight(out, lo);\n            return out + 8;\n        }\n        if (x\
-    \ >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned lo =\
-    \ x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
+    \            if (size == 0) break;\n        }\n        if (idx < size) ++idx;\n\
+    \    }\n};\n\nstruct Printer {\n    static constexpr int BUFSIZE = 1 << 17;\n\
+    \    static constexpr int OFFSET = 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION\
+    \ = 15;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    string\
+    \ number_buf;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0), interactive(isatty(fileno(stdout))) {}\n    ~Printer() { flush();\
+    \ }\n\n    inline void flush() {\n        if (idx) {\n            fwrite(buf,\
+    \ 1, idx, stdout);\n            idx = 0;\n        }\n    }\n\n    inline void\
+    \ pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++]\
+    \ = c;\n        if (interactive && c == '\\n') flush();\n    }\n\n    inline void\
+    \ print_range(const char *s, size_t n) {\n        if (interactive) {\n       \
+    \     for (size_t i = 0; i < n; ++i) pc(s[i]);\n            return;\n        }\n\
+    \        size_t pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE)\
+    \ flush();\n            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n\
+    \            memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n\
+    \            pos += chunk;\n        }\n    }\n\n    void print(const char *s)\
+    \ {\n        print_range(s, strlen(s));\n    }\n\n    void print(const string\
+    \ &s) {\n        print_range(s.data(), s.size());\n    }\n\n    void print(char\
+    \ c) {\n        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0'\
+    \ + (b ? 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x)\
+    \ {\n        if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n\
+    \            return out + 4;\n        }\n        if (x >= 100) {\n           \
+    \ memcpy(out, table.num + (x << 2) + 1, 3);\n            return out + 3;\n   \
+    \     }\n        if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n \
+    \           out[0] = char('0' + q);\n            out[1] = char('0' + (x - q *\
+    \ 10));\n            return out + 2;\n        }\n        *out = char('0' + x);\n\
+    \        return out + 1;\n    }\n\n    inline void write_four(char *out, unsigned\
+    \ x) {\n        memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void\
+    \ write_eight(char *out, unsigned x) {\n        unsigned hi = x / 10000;\n   \
+    \     unsigned lo = x - hi * 10000;\n        write_four(out, hi);\n        write_four(out\
+    \ + 4, lo);\n    }\n\n    inline char *write_u32(char *out, unsigned x) {\n  \
+    \      if (x >= 100000000) {\n            unsigned hi = x / 100000000;\n     \
+    \       unsigned lo = x - hi * 100000000;\n            out = write_top(out, hi);\n\
+    \            write_eight(out, lo);\n            return out + 8;\n        }\n \
+    \       if (x >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned\
+    \ lo = x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
     \ lo);\n            return out + 4;\n        }\n        return write_top(out,\
     \ x);\n    }\n\n    __attribute__((noinline))\n    inline char *write_u64(char\
     \ *out, unsigned long long x) {\n        if (x <= 0xffffffffULL) return write_u32(out,\
@@ -363,7 +365,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_top_k_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:22:52+09:00'
+  timestamp: '2026-10-05 22:58:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_top_k_sum.test.cpp

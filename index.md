@@ -248,6 +248,9 @@ data:
       path: graph/dynamic_graph_vertex_add_component_sum.cpp
       title: Dynamic Graph Vertex Add Component Sum
     - icon: ':heavy_check_mark:'
+      path: graph/edge.cpp
+      title: graph/edge.cpp
+    - icon: ':heavy_check_mark:'
       path: graph/eulerian_trail.cpp
       title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
     - icon: ':heavy_check_mark:'
@@ -796,6 +799,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_library_composition.test.cpp
       title: test/yosupo_aplusb_library_composition.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+      title: test/yosupo_aplusb_library_composition_reverse.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_matrix_semiring.test.cpp
       title: test/yosupo_aplusb_matrix_semiring.test.cpp

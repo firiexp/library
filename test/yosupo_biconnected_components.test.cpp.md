@@ -21,7 +21,7 @@ data:
     \ int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\nusing\
     \ ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"graph/biconnected_components.cpp\"\
-    \nclass BiconnectedComponents {\n    struct CSR {\n        vector<int> start,\
+    \n\n\n\nclass BiconnectedComponents {\n    struct CSR {\n        vector<int> start,\
     \ elist;\n\n        CSR() = default;\n\n        CSR(int n, const vector<pair<int,\
     \ int>> &edges) : start(n + 1), elist(edges.size() * 2) {\n            for (auto\
     \ &&[u, v] : edges) {\n                ++start[u + 1];\n                ++start[v\
@@ -62,7 +62,7 @@ data:
     \ G.start[i + 1]){\n                bcc_edges.emplace_back();\n              \
     \  bcc_vertices.push_back({i});\n            }\n        }\n        return bcc_vertices.size();\n\
     \    }\n};\n\n/**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3\
-    (Biconnected Components)\n */\n#line 21 \"test/yosupo_biconnected_components.test.cpp\"\
+    (Biconnected Components)\n */\n\n\n#line 21 \"test/yosupo_biconnected_components.test.cpp\"\
     \n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    BiconnectedComponents\
     \ G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b;\n        scanf(\"\
     %d %d\", &a, &b);\n        G.add_edge(a, b);\n    }\n    G.build();\n    auto\
@@ -89,7 +89,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_biconnected_components.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:12:41+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_biconnected_components.test.cpp

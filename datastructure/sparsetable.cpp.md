@@ -22,6 +22,9 @@ data:
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
     title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
   - icon: ':heavy_check_mark:'
@@ -78,6 +81,7 @@ data:
   - test/aoj0439.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_lca.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
 documentation_of: datastructure/sparsetable.cpp
 layout: document
 title: Sparse Table

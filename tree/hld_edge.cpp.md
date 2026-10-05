@@ -11,6 +11,12 @@ data:
     path: test/yosupo_aplusb_hld_subtree.test.cpp
     title: test/yosupo_aplusb_hld_subtree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: false
@@ -19,9 +25,9 @@ data:
   attributes:
     document_title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
     links: []
-  bundledCode: "#line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void\
-    \ dfs_sz(int v){\n        int heavy = -1;\n        for (auto &&u : G[v]) {\n \
-    \           if(u == par[v]) continue;\n            par[u] = v; dep[u] = dep[v]\
+  bundledCode: "#line 1 \"tree/hld.cpp\"\n\n\n\nclass HeavyLightDecomposition {\n\
+    \    void dfs_sz(int v){\n        int heavy = -1;\n        for (auto &&u : G[v])\
+    \ {\n            if(u == par[v]) continue;\n            par[u] = v; dep[u] = dep[v]\
     \ + 1;\n            dfs_sz(u);\n            sub_size[v] += sub_size[u];\n    \
     \        if(heavy == -1 || sub_size[u] > sub_size[heavy]) heavy = u;\n       \
     \ }\n        if (heavy != -1 && G[v][0] != heavy) {\n            for (auto &&u\
@@ -79,7 +85,7 @@ data:
     \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n\
     \    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){\n   \
     \     auto [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n\
-    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n#line 2 \"tree/hld_edge.cpp\"\
+    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n\n\n#line 2 \"tree/hld_edge.cpp\"\
     \n\nstruct HeavyLightDecompositionEdge {\n    HeavyLightDecomposition hld;\n\n\
     \    explicit HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
     \ &g) : hld(g) {}\n\n    void add_edge(int u, int v) {\n        hld.add_edge(u,\
@@ -128,11 +134,13 @@ data:
   isVerificationFile: false
   path: tree/hld_edge.cpp
   requiredBy: []
-  timestamp: '2026-10-03 12:24:08+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki650_hld_edge.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_aplusb_hld_subtree.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2026-03-08
 documentation_of: tree/hld_edge.cpp
 layout: document

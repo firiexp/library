@@ -8,6 +8,9 @@ data:
     path: graph/bellman_ford_negative_loop.cpp
     title: "Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)"
   - icon: ':heavy_check_mark:'
+    path: graph/edge.cpp
+    title: graph/edge.cpp
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -136,40 +139,42 @@ data:
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
-    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
-    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION = 15;\n    char buf[BUFSIZE];\n\
-    \    int idx;\n    bool interactive;\n    string number_buf;\n    inline static\
-    \ constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
-    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
-    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
-    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
-    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
-    \  }\n\n    inline void print_range(const char *s, size_t n) {\n        size_t\
-    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
-    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
-    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
-    \       pos += chunk;\n        }\n    }\n\n    void print(const char *s) {\n \
-    \       print_range(s, strlen(s));\n    }\n\n    void print(const string &s) {\n\
-    \        print_range(s.data(), s.size());\n    }\n\n    void print(char c) {\n\
-    \        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0' + (b ?\
-    \ 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x) {\n  \
-    \      if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n \
-    \           return out + 4;\n        }\n        if (x >= 100) {\n            memcpy(out,\
-    \ table.num + (x << 2) + 1, 3);\n            return out + 3;\n        }\n    \
-    \    if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n            out[0]\
-    \ = char('0' + q);\n            out[1] = char('0' + (x - q * 10));\n         \
-    \   return out + 2;\n        }\n        *out = char('0' + x);\n        return\
-    \ out + 1;\n    }\n\n    inline void write_four(char *out, unsigned x) {\n   \
-    \     memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void write_eight(char\
-    \ *out, unsigned x) {\n        unsigned hi = x / 10000;\n        unsigned lo =\
-    \ x - hi * 10000;\n        write_four(out, hi);\n        write_four(out + 4, lo);\n\
-    \    }\n\n    inline char *write_u32(char *out, unsigned x) {\n        if (x >=\
-    \ 100000000) {\n            unsigned hi = x / 100000000;\n            unsigned\
-    \ lo = x - hi * 100000000;\n            out = write_top(out, hi);\n          \
-    \  write_eight(out, lo);\n            return out + 8;\n        }\n        if (x\
-    \ >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned lo =\
-    \ x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
+    \            if (size == 0) break;\n        }\n        if (idx < size) ++idx;\n\
+    \    }\n};\n\nstruct Printer {\n    static constexpr int BUFSIZE = 1 << 17;\n\
+    \    static constexpr int OFFSET = 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION\
+    \ = 15;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    string\
+    \ number_buf;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0), interactive(isatty(fileno(stdout))) {}\n    ~Printer() { flush();\
+    \ }\n\n    inline void flush() {\n        if (idx) {\n            fwrite(buf,\
+    \ 1, idx, stdout);\n            idx = 0;\n        }\n    }\n\n    inline void\
+    \ pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++]\
+    \ = c;\n        if (interactive && c == '\\n') flush();\n    }\n\n    inline void\
+    \ print_range(const char *s, size_t n) {\n        if (interactive) {\n       \
+    \     for (size_t i = 0; i < n; ++i) pc(s[i]);\n            return;\n        }\n\
+    \        size_t pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE)\
+    \ flush();\n            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n\
+    \            memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n\
+    \            pos += chunk;\n        }\n    }\n\n    void print(const char *s)\
+    \ {\n        print_range(s, strlen(s));\n    }\n\n    void print(const string\
+    \ &s) {\n        print_range(s.data(), s.size());\n    }\n\n    void print(char\
+    \ c) {\n        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0'\
+    \ + (b ? 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x)\
+    \ {\n        if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n\
+    \            return out + 4;\n        }\n        if (x >= 100) {\n           \
+    \ memcpy(out, table.num + (x << 2) + 1, 3);\n            return out + 3;\n   \
+    \     }\n        if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n \
+    \           out[0] = char('0' + q);\n            out[1] = char('0' + (x - q *\
+    \ 10));\n            return out + 2;\n        }\n        *out = char('0' + x);\n\
+    \        return out + 1;\n    }\n\n    inline void write_four(char *out, unsigned\
+    \ x) {\n        memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void\
+    \ write_eight(char *out, unsigned x) {\n        unsigned hi = x / 10000;\n   \
+    \     unsigned lo = x - hi * 10000;\n        write_four(out, hi);\n        write_four(out\
+    \ + 4, lo);\n    }\n\n    inline char *write_u32(char *out, unsigned x) {\n  \
+    \      if (x >= 100000000) {\n            unsigned hi = x / 100000000;\n     \
+    \       unsigned lo = x - hi * 100000000;\n            out = write_top(out, hi);\n\
+    \            write_eight(out, lo);\n            return out + 8;\n        }\n \
+    \       if (x >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned\
+    \ lo = x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
     \ lo);\n            return out + 4;\n        }\n        return write_top(out,\
     \ x);\n    }\n\n    __attribute__((noinline))\n    inline char *write_u64(char\
     \ *out, unsigned long long x) {\n        if (x <= 0xffffffffULL) return write_u32(out,\
@@ -229,37 +234,37 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 8 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\
-    \n\nnamespace plain {\n#line 1 \"graph/bellman_ford.cpp\"\ntemplate <typename\
-    \ T>\nstruct edge {\n    int from, to;\n    T cost;\n\n    edge(int to, T cost)\
-    \ : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from),\
-    \ to(to), cost(cost) {}\n\n    explicit operator int() const {return to;}\n};\n\
-    \ntemplate <typename T>\nvector<T> bellman_ford(int s, int V,vector<edge<T> >\
-    \ &G){\n    const T INF = numeric_limits<T>::max();\n    vector<T> d(V, INF);\n\
-    \    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i) {\n        bool updated =\
-    \ false;\n        for (auto &&e : G) {\n            if (d[e.from] == INF) continue;\n\
-    \            if (d[e.from] + e.cost < d[e.to]) {\n                d[e.to] = d[e.from]\
-    \ + e.cost;\n                updated = true;\n            }\n        }\n     \
-    \   if (!updated) return d;\n    }\n    for (auto &&e : G) {\n        if(d[e.from]\
-    \ == INF) continue;\n        if(d[e.from] + e.cost < d[e.to]) return vector<T>\
-    \ ();\n    }\n    return d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n */\n#line\
-    \ 11 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\n}\nnamespace propagated {\n\
-    #line 1 \"graph/bellman_ford_negative_loop.cpp\"\ntemplate <typename T>\nstruct\
-    \ edge {\n    int from, to;\n    T cost;\n \n    edge(int to, T cost) : from(-1),\
+    \n\nnamespace plain {\n#line 1 \"graph/edge.cpp\"\n\n\n\ntemplate <typename T>\n\
+    struct edge {\n    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1),\
     \ to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to),\
-    \ cost(cost) {}\n \n    explicit operator int() const {return to;}\n};\n \ntemplate\
-    \ <typename T>\nvector<T> bellman_ford(int s, int N,vector<edge<T> > &G){\n  \
-    \  vector<T> dist(N, INF<T>);\n    vector<bool> negative(N);\n    dist[s] = 0;\n\
-    \    for (int i = 0; i < N - 1; ++ i) {\n        bool updated = false;\n     \
-    \   for (auto &&e : G) {\n            if(dist[e.from] == INF<T>) continue;\n \
-    \           if(dist[e.to] > dist[e.from]+ e.cost){\n                dist[e.to]\
-    \ = dist[e.from]+ e.cost;\n                updated = true;\n            }\n  \
-    \      }\n        if (!updated) return dist;\n    }\n \n    for (int i = 0; i\
-    \ < N ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>)\
-    \ continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n           \
-    \     dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to] = true;\n\
-    \            }\n            if(negative[e.from]) negative[e.to] = true;\n    \
-    \    }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i]) dist[i]\
-    \ = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
+    \ cost(cost) {}\n\n    explicit operator int() const { return to; }\n};\n\n\n\
+    #line 2 \"graph/bellman_ford.cpp\"\n\ntemplate <typename T>\nvector<T> bellman_ford(int\
+    \ s, int V,vector<edge<T> > &G){\n    const T INF = numeric_limits<T>::max();\n\
+    \    vector<T> d(V, INF);\n    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i)\
+    \ {\n        bool updated = false;\n        for (auto &&e : G) {\n           \
+    \ if (d[e.from] == INF) continue;\n            if (d[e.from] + e.cost < d[e.to])\
+    \ {\n                d[e.to] = d[e.from] + e.cost;\n                updated =\
+    \ true;\n            }\n        }\n        if (!updated) return d;\n    }\n  \
+    \  for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n        if(d[e.from]\
+    \ + e.cost < d[e.to]) return vector<T> ();\n    }\n    return d;\n}\n\n/**\n *\
+    \ @brief Bellman-Ford\u6CD5\n */\n#line 11 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\
+    \n}\nnamespace propagated {\n#line 1 \"graph/bellman_ford_negative_loop.cpp\"\n\
+    template <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n \n    edge(int\
+    \ to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T\
+    \ cost) : from(from), to(to), cost(cost) {}\n \n    explicit operator int() const\
+    \ {return to;}\n};\n \ntemplate <typename T>\nvector<T> bellman_ford(int s, int\
+    \ N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    vector<bool> negative(N);\n\
+    \    dist[s] = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n        bool updated\
+    \ = false;\n        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>)\
+    \ continue;\n            if(dist[e.to] > dist[e.from]+ e.cost){\n            \
+    \    dist[e.to] = dist[e.from]+ e.cost;\n                updated = true;\n   \
+    \         }\n        }\n        if (!updated) return dist;\n    }\n \n    for\
+    \ (int i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from]\
+    \ == INF<T>) continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n\
+    \                dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to]\
+    \ = true;\n            }\n            if(negative[e.from]) negative[e.to] = true;\n\
+    \        }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i])\
+    \ dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
     (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 14 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\
     \n}\n\nvoid check(int n, const vector<tuple<int, int, ll>> &edges) {\n    constexpr\
     \ ll unreachable = 1000000000;\n    vector<vector<ll>> d(n, vector<ll>(n, unreachable));\n\
@@ -323,11 +328,12 @@ data:
   dependsOn:
   - util/fastio.cpp
   - graph/bellman_ford.cpp
+  - graph/edge.cpp
   - graph/bellman_ford_negative_loop.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_bellman_ford.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:22:52+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_bellman_ford.test.cpp

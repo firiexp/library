@@ -8,6 +8,12 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
   _isVerificationFailed: false
@@ -17,9 +23,9 @@ data:
     document_title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
     links: []
   bundledCode: "#line 1 \"graph/block_cut_tree.cpp\"\nusing namespace std;\n\n#line\
-    \ 1 \"graph/biconnected_components.cpp\"\nclass BiconnectedComponents {\n    struct\
-    \ CSR {\n        vector<int> start, elist;\n\n        CSR() = default;\n\n   \
-    \     CSR(int n, const vector<pair<int, int>> &edges) : start(n + 1), elist(edges.size()\
+    \ 1 \"graph/biconnected_components.cpp\"\n\n\n\nclass BiconnectedComponents {\n\
+    \    struct CSR {\n        vector<int> start, elist;\n\n        CSR() = default;\n\
+    \n        CSR(int n, const vector<pair<int, int>> &edges) : start(n + 1), elist(edges.size()\
     \ * 2) {\n            for (auto &&[u, v] : edges) {\n                ++start[u\
     \ + 1];\n                ++start[v + 1];\n            }\n            for (int\
     \ i = 0; i < n; ++i) start[i + 1] += start[i];\n            auto counter = start;\n\
@@ -59,7 +65,7 @@ data:
     \ G.start[i + 1]){\n                bcc_edges.emplace_back();\n              \
     \  bcc_vertices.push_back({i});\n            }\n        }\n        return bcc_vertices.size();\n\
     \    }\n};\n\n/**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3\
-    (Biconnected Components)\n */\n#line 4 \"graph/block_cut_tree.cpp\"\n\nstruct\
+    (Biconnected Components)\n */\n\n\n#line 4 \"graph/block_cut_tree.cpp\"\n\nstruct\
     \ BlockCutTree {\n    int n, block_count;\n    BiconnectedComponents bcc;\n  \
     \  vector<vector<int>> tree, nodes;\n    vector<int> id, rev;\n    vector<char>\
     \ is_articulation;\n\n    explicit BlockCutTree(int n) : n(n), block_count(0),\
@@ -106,10 +112,12 @@ data:
   isVerificationFile: false
   path: graph/block_cut_tree.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:12:41+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_library_composition.test.cpp
   - test/yuki1326_block_cut_tree.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2026-03-11
 documentation_of: graph/block_cut_tree.cpp
 layout: document

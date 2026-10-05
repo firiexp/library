@@ -1,6 +1,9 @@
 ---
 data:
-  _extendedDependsOn: []
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: graph/edge.cpp
+    title: graph/edge.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -9,29 +12,32 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_bellman_ford.test.cpp
     title: test/yosupo_aplusb_bellman_ford.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "Bellman-Ford\u6CD5"
     links: []
-  bundledCode: "#line 1 \"graph/bellman_ford.cpp\"\ntemplate <typename T>\nstruct\
-    \ edge {\n    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1),\
-    \ to(to), cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to),\
-    \ cost(cost) {}\n\n    explicit operator int() const {return to;}\n};\n\ntemplate\
-    \ <typename T>\nvector<T> bellman_ford(int s, int V,vector<edge<T> > &G){\n  \
-    \  const T INF = numeric_limits<T>::max();\n    vector<T> d(V, INF);\n    d[s]\
-    \ = 0;\n    for (int i = 0; i < V - 1; ++i) {\n        bool updated = false;\n\
-    \        for (auto &&e : G) {\n            if (d[e.from] == INF) continue;\n \
-    \           if (d[e.from] + e.cost < d[e.to]) {\n                d[e.to] = d[e.from]\
+  bundledCode: "#line 1 \"graph/edge.cpp\"\n\n\n\ntemplate <typename T>\nstruct edge\
+    \ {\n    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1), to(to),\
+    \ cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost)\
+    \ {}\n\n    explicit operator int() const { return to; }\n};\n\n\n#line 2 \"graph/bellman_ford.cpp\"\
+    \n\ntemplate <typename T>\nvector<T> bellman_ford(int s, int V,vector<edge<T>\
+    \ > &G){\n    const T INF = numeric_limits<T>::max();\n    vector<T> d(V, INF);\n\
+    \    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i) {\n        bool updated =\
+    \ false;\n        for (auto &&e : G) {\n            if (d[e.from] == INF) continue;\n\
+    \            if (d[e.from] + e.cost < d[e.to]) {\n                d[e.to] = d[e.from]\
     \ + e.cost;\n                updated = true;\n            }\n        }\n     \
     \   if (!updated) return d;\n    }\n    for (auto &&e : G) {\n        if(d[e.from]\
     \ == INF) continue;\n        if(d[e.from] + e.cost < d[e.to]) return vector<T>\
     \ ();\n    }\n    return d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n */\n"
-  code: "template <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\n\
-    \    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
-    \ int to, T cost) : from(from), to(to), cost(cost) {}\n\n    explicit operator\
-    \ int() const {return to;}\n};\n\ntemplate <typename T>\nvector<T> bellman_ford(int\
+  code: "#include \"edge.cpp\"\n\ntemplate <typename T>\nvector<T> bellman_ford(int\
     \ s, int V,vector<edge<T> > &G){\n    const T INF = numeric_limits<T>::max();\n\
     \    vector<T> d(V, INF);\n    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i)\
     \ {\n        bool updated = false;\n        for (auto &&e : G) {\n           \
@@ -41,15 +47,18 @@ data:
     \  for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n        if(d[e.from]\
     \ + e.cost < d[e.to]) return vector<T> ();\n    }\n    return d;\n}\n\n/**\n *\
     \ @brief Bellman-Ford\u6CD5\n */\n"
-  dependsOn: []
+  dependsOn:
+  - graph/edge.cpp
   isVerificationFile: false
   path: graph/bellman_ford.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:22:52+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_grl_1_b_bellman_ford.test.cpp
   - test/yosupo_aplusb_bellman_ford.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
 documentation_of: graph/bellman_ford.cpp
 layout: document
 title: "Bellman-Ford\u6CD5"

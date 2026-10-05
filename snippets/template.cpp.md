@@ -43,10 +43,10 @@ data:
     \ y;}while(c>='0')y=U(y*10+(c&15)),c=b[I++];return y;}\n    inline void ld(){int\
     \ l=S-I;memmove(b,b+I,l);if(M==2)S=l+(fgets(b+l,B+1-l,stdin)?(int)strlen(b+l):0);else{S=l+(int)fread(b+l,1,B-l,stdin);int\
     \ n=min(S,Q),s=0,m=0;\n        for(int i=0;i<n;++i){s+=b[i]<=' ';m+=b[i]=='-';}M=s*D<n-m;}I=0;b[S]=0;}\n\
-    \    inline void nd(){if(I+(M==2?1:O)>S) ld();} inline void bk(){for(nd();b[I]&&b[I]<='\
-    \ ';++I)nd();} inline char skip(){bk(); return b[I++];}\n    template<class T,en_if_t<is_integral_v<T>,int>\
-    \ = 0> void read(T&x){using V=conditional_t<is_same_v<T,bool>,uint,T>;using U=make_unsigned_t<V>;\n\
-    \        char c=skip();bool g=0;if constexpr(is_signed_v<T>)if(c=='-'){g=1;if(M==2)nd();c=b[I++];}U\
+    \    inline void nd(){if(I+(M==2?1:O)>S) ld();} inline void bk(){nd();while(b[I]&&b[I]<='\
+    \ '){++I;nd();}} inline char skip(){bk(); return b[I++];}\n    template<class\
+    \ T,en_if_t<is_integral_v<T>,int> = 0> void read(T&x){using V=conditional_t<is_same_v<T,bool>,uint,T>;using\
+    \ U=make_unsigned_t<V>;\n        char c=skip();bool g=0;if constexpr(is_signed_v<T>)if(c=='-'){g=1;if(M==2)nd();c=b[I++];}U\
     \ y=0;\n        if(__builtin_expect(M,0)){if(M==1)y=lng<U>(c);else while(c>='0')y=U(y*10+(c&15)),nd(),c=b[I++];}else\
     \ while(c>='0')y=U(y*10+(c&15)),c=b[I++];\n        if constexpr(is_signed_v<T>){if(g&&y){x=-static_cast<T>(y-1);--x;return;}}x=static_cast<T>(y);}\n\
     \    void read(double&x){read(nt);const char*f=nt.data(),*l=f+nt.size();auto r=from_chars(f,l,x);if(r.ec!=errc{}||r.ptr!=l)__builtin_trap();}\n\
@@ -62,7 +62,7 @@ data:
     \ b[B];int I=0;bool o=isatty(fileno(stdout));string nb;inline static constexpr\
     \ FastIOTb Tb{};\n    ~Printer(){flush();} inline void flush(){if(I) fwrite(b,1,I,stdout),I=0;\
     \ }\n    inline void pc(char c){if(I>B-O) flush(); b[I++]=c; if(o&&c=='\\n') flush();\
-    \ }\n    inline void pr(const char*s,size_t n){while(n){if(I==B)flush();size_t\
+    \ }\n    inline void pr(const char*s,size_t n){if(o){for(size_t i=0;i<n;++i)pc(s[i]);return;}while(n){if(I==B)flush();size_t\
     \ k=min(n,(size_t)(B-I));memcpy(b+I,s,k);I+=(int)k;s+=k;n-=k;}}\n    void print(bool\
     \ x){pc(char('0'+x));}void print(char c){pc(c);}void print(const char* s){pr(s,strlen(s));}void\
     \ print(const string&s){pr(s.data(),s.size());}\n    inline char* wt(char*q,uint\
@@ -130,10 +130,10 @@ data:
     \ y;}while(c>='0')y=U(y*10+(c&15)),c=b[I++];return y;}\n    inline void ld(){int\
     \ l=S-I;memmove(b,b+I,l);if(M==2)S=l+(fgets(b+l,B+1-l,stdin)?(int)strlen(b+l):0);else{S=l+(int)fread(b+l,1,B-l,stdin);int\
     \ n=min(S,Q),s=0,m=0;\n        for(int i=0;i<n;++i){s+=b[i]<=' ';m+=b[i]=='-';}M=s*D<n-m;}I=0;b[S]=0;}\n\
-    \    inline void nd(){if(I+(M==2?1:O)>S) ld();} inline void bk(){for(nd();b[I]&&b[I]<='\
-    \ ';++I)nd();} inline char skip(){bk(); return b[I++];}\n    template<class T,en_if_t<is_integral_v<T>,int>\
-    \ = 0> void read(T&x){using V=conditional_t<is_same_v<T,bool>,uint,T>;using U=make_unsigned_t<V>;\n\
-    \        char c=skip();bool g=0;if constexpr(is_signed_v<T>)if(c=='-'){g=1;if(M==2)nd();c=b[I++];}U\
+    \    inline void nd(){if(I+(M==2?1:O)>S) ld();} inline void bk(){nd();while(b[I]&&b[I]<='\
+    \ '){++I;nd();}} inline char skip(){bk(); return b[I++];}\n    template<class\
+    \ T,en_if_t<is_integral_v<T>,int> = 0> void read(T&x){using V=conditional_t<is_same_v<T,bool>,uint,T>;using\
+    \ U=make_unsigned_t<V>;\n        char c=skip();bool g=0;if constexpr(is_signed_v<T>)if(c=='-'){g=1;if(M==2)nd();c=b[I++];}U\
     \ y=0;\n        if(__builtin_expect(M,0)){if(M==1)y=lng<U>(c);else while(c>='0')y=U(y*10+(c&15)),nd(),c=b[I++];}else\
     \ while(c>='0')y=U(y*10+(c&15)),c=b[I++];\n        if constexpr(is_signed_v<T>){if(g&&y){x=-static_cast<T>(y-1);--x;return;}}x=static_cast<T>(y);}\n\
     \    void read(double&x){read(nt);const char*f=nt.data(),*l=f+nt.size();auto r=from_chars(f,l,x);if(r.ec!=errc{}||r.ptr!=l)__builtin_trap();}\n\
@@ -149,7 +149,7 @@ data:
     \ b[B];int I=0;bool o=isatty(fileno(stdout));string nb;inline static constexpr\
     \ FastIOTb Tb{};\n    ~Printer(){flush();} inline void flush(){if(I) fwrite(b,1,I,stdout),I=0;\
     \ }\n    inline void pc(char c){if(I>B-O) flush(); b[I++]=c; if(o&&c=='\\n') flush();\
-    \ }\n    inline void pr(const char*s,size_t n){while(n){if(I==B)flush();size_t\
+    \ }\n    inline void pr(const char*s,size_t n){if(o){for(size_t i=0;i<n;++i)pc(s[i]);return;}while(n){if(I==B)flush();size_t\
     \ k=min(n,(size_t)(B-I));memcpy(b+I,s,k);I+=(int)k;s+=k;n-=k;}}\n    void print(bool\
     \ x){pc(char('0'+x));}void print(char c){pc(c);}void print(const char* s){pr(s,strlen(s));}void\
     \ print(const string&s){pr(s.data(),s.size());}\n    inline char* wt(char*q,uint\
@@ -186,7 +186,7 @@ data:
   isVerificationFile: false
   path: snippets/template.cpp
   requiredBy: []
-  timestamp: '2026-08-02 21:15:43+09:00'
+  timestamp: '2026-10-05 22:58:12+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: snippets/template.cpp

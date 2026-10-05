@@ -11,6 +11,9 @@ data:
     path: graph/dijkstra_common.cpp
     title: graph/dijkstra_common.cpp
   - icon: ':heavy_check_mark:'
+    path: graph/edge.cpp
+    title: graph/edge.cpp
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -142,40 +145,42 @@ data:
     \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
     \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
     \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
-    \        }\n        if (idx < size) ++idx;\n    }\n};\n\nstruct Printer {\n  \
-    \  static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET =\
-    \ 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION = 15;\n    char buf[BUFSIZE];\n\
-    \    int idx;\n    bool interactive;\n    string number_buf;\n    inline static\
-    \ constexpr FastIoDigitTable table{};\n\n    Printer() : idx(0), interactive(isatty(fileno(stdout)))\
-    \ {}\n    ~Printer() { flush(); }\n\n    inline void flush() {\n        if (idx)\
-    \ {\n            fwrite(buf, 1, idx, stdout);\n            idx = 0;\n        }\n\
-    \    }\n\n    inline void pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n\
-    \        buf[idx++] = c;\n        if (interactive && c == '\\n') flush();\n  \
-    \  }\n\n    inline void print_range(const char *s, size_t n) {\n        size_t\
-    \ pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE) flush();\n\
-    \            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n         \
-    \   memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n     \
-    \       pos += chunk;\n        }\n    }\n\n    void print(const char *s) {\n \
-    \       print_range(s, strlen(s));\n    }\n\n    void print(const string &s) {\n\
-    \        print_range(s.data(), s.size());\n    }\n\n    void print(char c) {\n\
-    \        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0' + (b ?\
-    \ 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x) {\n  \
-    \      if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n \
-    \           return out + 4;\n        }\n        if (x >= 100) {\n            memcpy(out,\
-    \ table.num + (x << 2) + 1, 3);\n            return out + 3;\n        }\n    \
-    \    if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n            out[0]\
-    \ = char('0' + q);\n            out[1] = char('0' + (x - q * 10));\n         \
-    \   return out + 2;\n        }\n        *out = char('0' + x);\n        return\
-    \ out + 1;\n    }\n\n    inline void write_four(char *out, unsigned x) {\n   \
-    \     memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void write_eight(char\
-    \ *out, unsigned x) {\n        unsigned hi = x / 10000;\n        unsigned lo =\
-    \ x - hi * 10000;\n        write_four(out, hi);\n        write_four(out + 4, lo);\n\
-    \    }\n\n    inline char *write_u32(char *out, unsigned x) {\n        if (x >=\
-    \ 100000000) {\n            unsigned hi = x / 100000000;\n            unsigned\
-    \ lo = x - hi * 100000000;\n            out = write_top(out, hi);\n          \
-    \  write_eight(out, lo);\n            return out + 8;\n        }\n        if (x\
-    \ >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned lo =\
-    \ x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
+    \            if (size == 0) break;\n        }\n        if (idx < size) ++idx;\n\
+    \    }\n};\n\nstruct Printer {\n    static constexpr int BUFSIZE = 1 << 17;\n\
+    \    static constexpr int OFFSET = 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION\
+    \ = 15;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    string\
+    \ number_buf;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0), interactive(isatty(fileno(stdout))) {}\n    ~Printer() { flush();\
+    \ }\n\n    inline void flush() {\n        if (idx) {\n            fwrite(buf,\
+    \ 1, idx, stdout);\n            idx = 0;\n        }\n    }\n\n    inline void\
+    \ pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++]\
+    \ = c;\n        if (interactive && c == '\\n') flush();\n    }\n\n    inline void\
+    \ print_range(const char *s, size_t n) {\n        if (interactive) {\n       \
+    \     for (size_t i = 0; i < n; ++i) pc(s[i]);\n            return;\n        }\n\
+    \        size_t pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE)\
+    \ flush();\n            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n\
+    \            memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n\
+    \            pos += chunk;\n        }\n    }\n\n    void print(const char *s)\
+    \ {\n        print_range(s, strlen(s));\n    }\n\n    void print(const string\
+    \ &s) {\n        print_range(s.data(), s.size());\n    }\n\n    void print(char\
+    \ c) {\n        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0'\
+    \ + (b ? 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x)\
+    \ {\n        if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n\
+    \            return out + 4;\n        }\n        if (x >= 100) {\n           \
+    \ memcpy(out, table.num + (x << 2) + 1, 3);\n            return out + 3;\n   \
+    \     }\n        if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n \
+    \           out[0] = char('0' + q);\n            out[1] = char('0' + (x - q *\
+    \ 10));\n            return out + 2;\n        }\n        *out = char('0' + x);\n\
+    \        return out + 1;\n    }\n\n    inline void write_four(char *out, unsigned\
+    \ x) {\n        memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void\
+    \ write_eight(char *out, unsigned x) {\n        unsigned hi = x / 10000;\n   \
+    \     unsigned lo = x - hi * 10000;\n        write_four(out, hi);\n        write_four(out\
+    \ + 4, lo);\n    }\n\n    inline char *write_u32(char *out, unsigned x) {\n  \
+    \      if (x >= 100000000) {\n            unsigned hi = x / 100000000;\n     \
+    \       unsigned lo = x - hi * 100000000;\n            out = write_top(out, hi);\n\
+    \            write_eight(out, lo);\n            return out + 8;\n        }\n \
+    \       if (x >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned\
+    \ lo = x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
     \ lo);\n            return out + 4;\n        }\n        return write_top(out,\
     \ x);\n    }\n\n    __attribute__((noinline))\n    inline char *write_u64(char\
     \ *out, unsigned long long x) {\n        if (x <= 0xffffffffULL) return write_u32(out,\
@@ -235,17 +240,18 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/dijkstra_common.cpp\"\
-    \n\n\n\ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\
-    \n    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
-    \ int to, T cost) : from(from), to(to), cost(cost) {}\n};\n\ntemplate <typename\
-    \ T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T, int>, vector<pair<T,\
-    \ int>>, greater<>> q;\n\n    bool empty() const { return q.empty(); }\n\n   \
-    \ void push(T cost, int v) {\n        q.emplace(cost, v);\n    }\n\n    pair<T,\
-    \ int> pop() {\n        auto res = q.top();\n        q.pop();\n        return\
-    \ res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\nvector<T>\
-    \ dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q, OnRelax\
-    \ on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n  \
-    \  dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
+    \n\n\n\n#line 1 \"graph/edge.cpp\"\n\n\n\ntemplate <typename T>\nstruct edge {\n\
+    \    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1), to(to),\
+    \ cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost)\
+    \ {}\n\n    explicit operator int() const { return to; }\n};\n\n\n#line 5 \"graph/dijkstra_common.cpp\"\
+    \n\ntemplate <typename T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T,\
+    \ int>, vector<pair<T, int>>, greater<>> q;\n\n    bool empty() const { return\
+    \ q.empty(); }\n\n    void push(T cost, int v) {\n        q.emplace(cost, v);\n\
+    \    }\n\n    pair<T, int> pop() {\n        auto res = q.top();\n        q.pop();\n\
+    \        return res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\n\
+    vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q,\
+    \ OnRelax on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n\
+    \    dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
     \ [cost, v] = Q.pop();\n        if (dist[v] < cost) continue;\n        for (auto\
     \ &&e : G[v]) {\n            T nxt = cost + e.cost;\n            if (dist[e.to]\
     \ <= nxt) continue;\n            dist[e.to] = nxt;\n            on_relax(v, e);\n\
@@ -468,11 +474,12 @@ data:
   - util/fastio.cpp
   - graph/dijkstra.cpp
   - graph/dijkstra_common.cpp
+  - graph/edge.cpp
   - datastructure/dynamic_bitset.cpp
   isVerificationFile: true
   path: test/aoj0275_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:12:41+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0275_dynamic_bitset.test.cpp

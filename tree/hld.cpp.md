@@ -11,6 +11,18 @@ data:
     path: test/yosupo_aplusb_hld_subtree.test.cpp
     title: test/yosupo_aplusb_hld_subtree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - icon: ':heavy_check_mark:'
@@ -31,9 +43,9 @@ data:
   attributes:
     document_title: "HL\u5206\u89E3(HL Decomposition)"
     links: []
-  bundledCode: "#line 1 \"tree/hld.cpp\"\n\nclass HeavyLightDecomposition {\n    void\
-    \ dfs_sz(int v){\n        int heavy = -1;\n        for (auto &&u : G[v]) {\n \
-    \           if(u == par[v]) continue;\n            par[u] = v; dep[u] = dep[v]\
+  bundledCode: "#line 1 \"tree/hld.cpp\"\n\n\n\nclass HeavyLightDecomposition {\n\
+    \    void dfs_sz(int v){\n        int heavy = -1;\n        for (auto &&u : G[v])\
+    \ {\n            if(u == par[v]) continue;\n            par[u] = v; dep[u] = dep[v]\
     \ + 1;\n            dfs_sz(u);\n            sub_size[v] += sub_size[u];\n    \
     \        if(heavy == -1 || sub_size[u] > sub_size[heavy]) heavy = u;\n       \
     \ }\n        if (heavy != -1 && G[v][0] != heavy) {\n            for (auto &&u\
@@ -91,8 +103,9 @@ data:
     \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n\
     \    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){\n   \
     \     auto [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n\
-    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n"
-  code: "\nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy\
+    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_TREE_HLD_CPP\n#define FIRIEXP_LIBRARY_TREE_HLD_CPP\n\
+    \nclass HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy\
     \ = -1;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
     \            par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n      \
     \      sub_size[v] += sub_size[u];\n            if(heavy == -1 || sub_size[u]\
@@ -152,21 +165,25 @@ data:
     \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
     \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
     \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n"
+    \u89E3(HL Decomposition)\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/hld.cpp
   requiredBy:
   - tree/hld_edge.cpp
-  timestamp: '2026-10-03 12:24:08+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki650_hld_edge.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yuki1326_block_cut_tree.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yosupo_aplusb_hld_subtree.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2019-10-10
 documentation_of: tree/hld.cpp
 layout: document

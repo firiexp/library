@@ -8,6 +8,18 @@ data:
     title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_biconnected_components.test.cpp
     title: test/yosupo_biconnected_components.test.cpp
   - icon: ':heavy_check_mark:'
@@ -20,7 +32,7 @@ data:
     document_title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected\
       \ Components)"
     links: []
-  bundledCode: "#line 1 \"graph/biconnected_components.cpp\"\nclass BiconnectedComponents\
+  bundledCode: "#line 1 \"graph/biconnected_components.cpp\"\n\n\n\nclass BiconnectedComponents\
     \ {\n    struct CSR {\n        vector<int> start, elist;\n\n        CSR() = default;\n\
     \n        CSR(int n, const vector<pair<int, int>> &edges) : start(n + 1), elist(edges.size()\
     \ * 2) {\n            for (auto &&[u, v] : edges) {\n                ++start[u\
@@ -62,8 +74,9 @@ data:
     \ G.start[i + 1]){\n                bcc_edges.emplace_back();\n              \
     \  bcc_vertices.push_back({i});\n            }\n        }\n        return bcc_vertices.size();\n\
     \    }\n};\n\n/**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3\
-    (Biconnected Components)\n */\n"
-  code: "class BiconnectedComponents {\n    struct CSR {\n        vector<int> start,\
+    (Biconnected Components)\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_GRAPH_BICONNECTED_COMPONENTS_CPP\n#define FIRIEXP_LIBRARY_GRAPH_BICONNECTED_COMPONENTS_CPP\n\
+    \nclass BiconnectedComponents {\n    struct CSR {\n        vector<int> start,\
     \ elist;\n\n        CSR() = default;\n\n        CSR(int n, const vector<pair<int,\
     \ int>> &edges) : start(n + 1), elist(edges.size() * 2) {\n            for (auto\
     \ &&[u, v] : edges) {\n                ++start[u + 1];\n                ++start[v\
@@ -104,17 +117,21 @@ data:
     \ G.start[i + 1]){\n                bcc_edges.emplace_back();\n              \
     \  bcc_vertices.push_back({i});\n            }\n        }\n        return bcc_vertices.size();\n\
     \    }\n};\n\n/**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3\
-    (Biconnected Components)\n */\n"
+    (Biconnected Components)\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/biconnected_components.cpp
   requiredBy:
   - graph/block_cut_tree.cpp
-  timestamp: '2026-10-03 16:12:41+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_biconnected_components.test.cpp
   - test/yuki1326_block_cut_tree.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2026-03-08
 documentation_of: graph/biconnected_components.cpp
 layout: document

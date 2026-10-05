@@ -14,6 +14,12 @@ data:
     path: test/aoj0439_virtual_tree_helper.test.cpp
     title: test/aoj0439_virtual_tree_helper.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
     title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
   _isVerificationFailed: false
@@ -22,19 +28,19 @@ data:
   attributes:
     document_title: Virtual Tree Helper
     links: []
-  bundledCode: "#line 1 \"datastructure/sparsetable.cpp\"\n\n\n\ntemplate <class F>\n\
-    struct SparseTable {\n    using T = typename F::T;\n    vector<vector<T>> table;\n\
-    \    vector<int> u;\n    SparseTable() = default;\n    explicit SparseTable(const\
-    \ vector<T> &v){ build(v); }\n \n    void build(const vector<T> &v){\n       \
-    \ int n = v.size(), m = 1;\n        while((1<<m) <= n) m++;\n        table.assign(m,\
-    \ vector<T>(n));\n        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i)\
-    \ {\n            u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n;\
-    \ ++i) {\n            table[0][i] = v[i];\n        }\n        for (int i = 1;\
-    \ i < m; ++i) {\n            int x = (1<<(i-1));\n            for (int j = 0;\
-    \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
-    \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b){\n  \
-    \      int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 2 \"tree/auxtree.cpp\"\
+  bundledCode: "#line 1 \"tree/auxtree.cpp\"\n\n\n\n#line 1 \"datastructure/sparsetable.cpp\"\
+    \n\n\n\ntemplate <class F>\nstruct SparseTable {\n    using T = typename F::T;\n\
+    \    vector<vector<T>> table;\n    vector<int> u;\n    SparseTable() = default;\n\
+    \    explicit SparseTable(const vector<T> &v){ build(v); }\n \n    void build(const\
+    \ vector<T> &v){\n        int n = v.size(), m = 1;\n        while((1<<m) <= n)\
+    \ m++;\n        table.assign(m, vector<T>(n));\n        u.assign(n+1, 0);\n  \
+    \      for (int i = 2; i <= n; ++i) {\n            u[i] = u[i>>1] + 1;\n     \
+    \   }\n        for (int i = 0; i < n; ++i) {\n            table[0][i] = v[i];\n\
+    \        }\n        for (int i = 1; i < m; ++i) {\n            int x = (1<<(i-1));\n\
+    \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
+    \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
+    \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
+    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 5 \"tree/auxtree.cpp\"\
     \n\nstruct F {\n    using T = pair<int, int>;\n    static T f(T a, T b) { return\
     \ min(a, b); }\n    static T e() { return T{INF<int>, -1}; }\n};\n\nclass AuxTree\
     \ {\n    SparseTable<F> table;\n    void dfs_euler(int v, int p, int d, int &k,\
@@ -68,7 +74,7 @@ data:
     \    }\n\n    int LCA(int u, int v){\n        if(id[u] > id[v]) swap(u, v);\n\
     \        return table.query(id[u], id[v]+1).second;\n    }\n\n    int distance(int\
     \ u, int v){\n        return dep[u]+dep[v]-2*dep[LCA(u, v)];\n    }\n};\n\n/**\n\
-    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n#line 2 \"tree/virtual_tree_helper.cpp\"\
+    \ * @brief \u88DC\u52A9\u6728(Aux Tree)\n */\n\n\n#line 2 \"tree/virtual_tree_helper.cpp\"\
     \n\nstruct VirtualTree {\n    int root;\n    vector<int> vertices;\n    vector<int>\
     \ parent;\n};\n\nclass VirtualTreeHelper {\n    AuxTree aux;\n    vector<int>\
     \ mark, parent_buf;\n    int stamp = 0;\n\npublic:\n    explicit VirtualTreeHelper(int\
@@ -115,11 +121,13 @@ data:
   isVerificationFile: false
   path: tree/virtual_tree_helper.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:22:52+09:00'
+  timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_aplusb_virtual_tree_helper.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2026-03-08
 documentation_of: tree/virtual_tree_helper.cpp
 layout: document

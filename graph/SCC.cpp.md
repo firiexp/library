@@ -8,6 +8,12 @@ data:
     path: test/aoj0349.test.cpp
     title: test/aoj0349.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition_reverse.test.cpp
+    title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_scc.test.cpp
     title: test/yosupo_scc.test.cpp
   _isVerificationFailed: false
@@ -90,6 +96,8 @@ data:
   verifiedWith:
   - test/aoj0349.test.cpp
   - test/yosupo_scc.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2019-12-03
 documentation_of: graph/SCC.cpp
 layout: document
