@@ -310,6 +310,10 @@ struct Printer {
     }
 
     inline void print_range(const char *s, size_t n) {
+        if (interactive) {
+            for (size_t i = 0; i < n; ++i) pc(s[i]);
+            return;
+        }
         size_t pos = 0;
         while (pos < n) {
             if (idx == BUFSIZE) flush();

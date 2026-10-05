@@ -38,7 +38,7 @@ struct Scanner{
         y=U(p8(p))*100000000+p8(p+8);p+=16;while(*p>='0')y=U(y*10+(*p&15)),++p;I=(int)(p-b)+1;return y;}while(c>='0')y=U(y*10+(c&15)),c=b[I++];return y;}
     inline void ld(){int l=S-I;memmove(b,b+I,l);if(M==2)S=l+(fgets(b+l,B+1-l,stdin)?(int)strlen(b+l):0);else{S=l+(int)fread(b+l,1,B-l,stdin);int n=min(S,Q),s=0,m=0;
         for(int i=0;i<n;++i){s+=b[i]<=' ';m+=b[i]=='-';}M=s*D<n-m;}I=0;b[S]=0;}
-    inline void nd(){if(I+(M==2?1:O)>S) ld();} inline void bk(){for(nd();b[I]&&b[I]<=' ';++I)nd();} inline char skip(){bk(); return b[I++];}
+    inline void nd(){if(I+(M==2?1:O)>S) ld();} inline void bk(){nd();while(b[I]&&b[I]<=' '){++I;nd();}} inline char skip(){bk(); return b[I++];}
     template<class T,en_if_t<is_integral_v<T>,int> = 0> void read(T&x){using V=conditional_t<is_same_v<T,bool>,uint,T>;using U=make_unsigned_t<V>;
         char c=skip();bool g=0;if constexpr(is_signed_v<T>)if(c=='-'){g=1;if(M==2)nd();c=b[I++];}U y=0;
         if(__builtin_expect(M,0)){if(M==1)y=lng<U>(c);else while(c>='0')y=U(y*10+(c&15)),nd(),c=b[I++];}else while(c>='0')y=U(y*10+(c&15)),c=b[I++];
@@ -54,7 +54,7 @@ struct Printer{
     static constexpr int B=1<<17,O=64,P=15;char b[B];int I=0;bool o=isatty(fileno(stdout));string nb;inline static constexpr FastIOTb Tb{};
     ~Printer(){flush();} inline void flush(){if(I) fwrite(b,1,I,stdout),I=0; }
     inline void pc(char c){if(I>B-O) flush(); b[I++]=c; if(o&&c=='\n') flush(); }
-    inline void pr(const char*s,size_t n){while(n){if(I==B)flush();size_t k=min(n,(size_t)(B-I));memcpy(b+I,s,k);I+=(int)k;s+=k;n-=k;}}
+    inline void pr(const char*s,size_t n){if(o){for(size_t i=0;i<n;++i)pc(s[i]);return;}while(n){if(I==B)flush();size_t k=min(n,(size_t)(B-I));memcpy(b+I,s,k);I+=(int)k;s+=k;n-=k;}}
     void print(bool x){pc(char('0'+x));}void print(char c){pc(c);}void print(const char* s){pr(s,strlen(s));}void print(const string&s){pr(s.data(),s.size());}
     inline char* wt(char*q,uint x){if(x>=1000)return memcpy(q,Tb.n+(x<<2),4),(q+4);if(x>=100)return memcpy(q,Tb.n+(x<<2)+1,3),(q+3);
         if(x>=10){uint y=(x*205)>>11;*q++=char('0'+y);*q++=char('0'+x-y*10);return q;}*q=char('0'+x);return q+1;}

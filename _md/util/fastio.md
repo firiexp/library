@@ -77,5 +77,6 @@ out.println_fixed(x, 8);
 ```
 
 ## 実装上の補足
-- interactive 問題では、`Scanner` は行入力ベースで詰まらないように読み、`Printer` は改行ごとに flush する
+- 標準入力が TTY のとき、`Scanner` は行入力ベースで読み、空行も読み飛ばす
+- 標準出力が TTY のとき、`Printer` は文字列中の改行も含めて改行ごとに flush する
 - range の入出力は `string` を除く `begin()` / `end()` を持つ型が対象
