@@ -10,6 +10,9 @@ constexpr int ntt_mod = 998244353, ntt_root = 3;
 #ifndef NTT_NAIVE_MUL_MIN_DIM
 #define NTT_NAIVE_MUL_MIN_DIM 48
 #endif
+#ifndef NTT_NAIVE_MUL_SHORT_DIM
+#define NTT_NAIVE_MUL_SHORT_DIM 16
+#endif
 #ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
 using mint = modint<ntt_mod>;
 #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
@@ -253,7 +256,14 @@ struct poly {
             v.clear();
             return *this;
         }
-        if (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM) {
+        if (n == 1 || m == 1) {
+            const mint scalar = n == 1 ? v[0] : a.v[0];
+            if (n == 1) v = a.v;
+            for (auto &x : v) x *= scalar;
+            return *this;
+        }
+        if (min(n, m) <= NTT_NAIVE_MUL_SHORT_DIM ||
+            (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM)) {
             vector<mint> res(n + m - 1);
             for (int i = 0; i < n; ++i) {
                 for (int j = 0; j < m; ++j) {
