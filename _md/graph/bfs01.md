@@ -28,5 +28,4 @@ auto dist = bfs01(0, G);
 ```
 
 ## 実装上の補足
-`edge<T>` は `dijkstra.cpp`・`bellman_ford.cpp` と共有し、これらを同時に include できる。
 重み `0` の遷移は deque の前、重み `1` の遷移は後ろへ積む。

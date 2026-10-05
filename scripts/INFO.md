@@ -52,12 +52,6 @@ python3 scripts/codex_self_check.py --full
 
 `scripts/*.py` は公開 command を保つ薄い wrapper で、本体は `.scripts/*_impl.py` に置く。`oj-verify docs` が可視 Python file の import graph を解析する固定コストを避けるためである。
 
-ライブラリの include 組み合わせは、各ペアの両順序を独立した翻訳単位としてコンパイルする。`--list` で対象を確認できる。
-
-```bash
-python3 scripts/check_library_composition.py
-```
-
 性能計測と可視化は verify とは分け、以下を使う。
 
 ```bash
