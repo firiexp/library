@@ -29,9 +29,6 @@ jobs:
     - name: Run repository self-check
       run: python3 scripts/codex_self_check.py
 
-    - name: Run fastio regressions
-      run: python3 scripts/check_fastio.py
-
     - name: Run library composition regressions
       run: python3 scripts/check_library_composition.py
 

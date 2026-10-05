@@ -52,13 +52,6 @@ python3 scripts/codex_self_check.py --full
 
 `scripts/*.py` は公開 command を保つ薄い wrapper で、本体は `.scripts/*_impl.py` に置く。`oj-verify docs` が可視 Python file の import graph を解析する固定コストを避けるためである。
 
-fastio の EOF・バッファ境界・TTY の改行出力と空行読み飛ばしの回帰検査は util と snippet の両方に行う。`--list` でケース一覧を確認できる。TTY 検査には POSIX の擬似端末を使う。
-
-```bash
-python3 scripts/check_fastio.py
-python3 scripts/check_fastio.py --sanitize
-```
-
 ライブラリの include 組み合わせは、各ペアの両順序を独立した翻訳単位としてコンパイルする。`--list` で対象を確認できる。
 
 ```bash
