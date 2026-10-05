@@ -52,6 +52,13 @@ python3 scripts/codex_self_check.py --full
 
 `scripts/*.py` は公開 command を保つ薄い wrapper で、本体は `.scripts/*_impl.py` に置く。`oj-verify docs` が可視 Python file の import graph を解析する固定コストを避けるためである。
 
+fastio の EOF・バッファ境界の回帰検査は util と snippet の両方に行う。`--list` でケース一覧を確認できる。
+
+```bash
+python3 scripts/check_fastio.py
+python3 scripts/check_fastio.py --sanitize
+```
+
 性能計測と可視化は verify とは分け、以下を使う。
 
 ```bash

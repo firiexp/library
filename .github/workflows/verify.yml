@@ -29,6 +29,9 @@ jobs:
     - name: Run repository self-check
       run: python3 scripts/codex_self_check.py
 
+    - name: Run fastio regressions
+      run: python3 scripts/check_fastio.py
+
     - name: Run tests
       shell: bash
       env:

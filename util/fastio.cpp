@@ -277,6 +277,7 @@ struct Scanner {
             s.append(buf + start, idx - start);
             if (idx < size) break;
             load();
+            if (size == 0) break;
         }
         if (idx < size) ++idx;
     }
