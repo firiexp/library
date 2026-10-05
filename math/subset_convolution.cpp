@@ -42,7 +42,6 @@ vector<T> subset_convolution(vector<T> a, vector<T> b){
         const T *bs = fb.data() + s * w;
         int p = pc[s];
         int lim = lim2[p];
-        // Descending ranks keep every input as[i] (i <= k) intact until it is read.
         for (int k = lim; k >= 0; --k) {
             int l = max(0, k - p);
             int r = min(k, p);
