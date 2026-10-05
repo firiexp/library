@@ -1,5 +1,5 @@
 struct FunctionalGraph {
-    static constexpr int LOG = 63; // k の bit 数。up の段数は n から決める。
+    static constexpr int LOG = 63;
 
     int n;
     vector<int> to;

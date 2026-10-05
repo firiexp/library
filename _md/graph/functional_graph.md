@@ -9,19 +9,20 @@ tags: グラフ
 ## 説明
 各頂点の出次数が 1 の有向グラフを扱う。
 cycle 分解と doubling を前計算し、`k` 個先の頂点と各頂点が属する閉路情報を取る。
-前処理・領域は $O(N \log N)$。`jump` は閉路到達前なら $O(\log(k+1))$、閉路到達後なら $O(1)$、それ以外の問い合わせは $O(1)$。
 
 ## できること
+`jump` 以外の問い合わせは $O(1)$。
+
 - `FunctionalGraph fg(n)`
-  `n` 頂点の関数グラフを作る
+  `n` 頂点の関数グラフを作る。$O(N)$
 - `FunctionalGraph fg(to)`
-  遷移先配列 `to` から作ってそのまま `build` する
+  遷移先配列 `to` から作ってそのまま `build` する。$O(N \log N)$
 - `void set_edge(int v, int nxt)`
   `v -> nxt` を設定する
 - `void build()`
-  閉路分解と doubling を前計算する
+  閉路分解と doubling を前計算する。時間・領域 $O(N \log N)$
 - `int jump(int v, long long k)`
-  `v` から `k` 回遷移した先を返す。`0 <= k <= LLONG_MAX`
+  `v` から `k` 回遷移した先を返す。$0 \le k \le 2^{63}-1$。閉路到達前は $O(\log(k+1))$、到達後は $O(1)$
 - `bool in_cycle(int v)`
   `v` が閉路上なら `true`
 - `int cycle_id(int v)`
@@ -54,6 +55,6 @@ int len = fg.cycle_size(v);
 ```
 
 ## 実装上の補足
-- `up` は閉路到達前の遷移だけに使う。段数は `max(1, ceil(log2(N)))` で、`LOG = 63` は受け付ける `k` の bit 数を表す
+- `up` は閉路到達前の遷移だけに使う。段数は `max(1, ceil(log2(N)))`
 - `cycle(id)` の先頭は実装依存だが、並び順は常に遷移先方向にそろう
 - `cycle_index(v)` は非閉路頂点でも使え、`cycle_vertex(v)` の位置を返す
