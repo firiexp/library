@@ -44,7 +44,7 @@ public:
     CostScalingDinic() = default;
     explicit CostScalingDinic(int n) : G(n), level(n), iter(n) {}
 
-    void add_edge(int from, int to, int cap){
+    void add_edge(int from, int to, T cap){
         if(!cap) return;
         int from_id = G[from].size(), to_id = G[to].size();
         if(from == to) ++to_id;

@@ -27,24 +27,25 @@ void check_residual(const G &g, const G &initial) {
 }
 
 template<bool Directed>
-void maxflow_check() {
-    mt19937 rng(65 + Directed);
+void maxflow_check(bool wide = false) {
+    mt19937_64 rng(65 + Directed + 2 * wide);
     for (int tc = 0; tc < 300; ++tc) {
         int n = 2 + rng() % 6;
-        vector<array<int, 3>> edges;
+        vector<tuple<int, int, long long>> edges;
         for (int i = 0; i < 20; ++i)
-            edges.push_back({int(rng() % n), int(rng() % n), int(rng() % 8)});
-        int expected = INT_MAX;
+            edges.push_back({int(rng() % n), int(rng() % n),
+                             (long long)(rng() % (wide ? 1000000000001LL : 8))});
+        long long expected = LLONG_MAX;
         for (int mask = 0; mask < (1 << n); ++mask) {
             if (!(mask & 1) || (mask >> (n - 1) & 1)) continue;
-            int cut = 0;
+            long long cut = 0;
             for (auto [u, v, cap] : edges) {
                 if ((mask >> u & 1) && !(mask >> v & 1)) cut += cap;
                 if (!Directed && (mask >> v & 1) && !(mask >> u & 1)) cut += cap;
             }
             expected = min(expected, cut);
         }
-        for (long long limit : {0LL, 1LL, 3LL, 10LL, 11LL, LLONG_MAX}) {
+        for (long long limit : {0LL, 1LL, 3LL, expected / 2, expected, LLONG_MAX}) {
             Dinic<long long, Directed> dinic(n);
             CostScalingDinic<long long, Directed> scaling(n);
             for (auto [u, v, cap] : edges) {
@@ -75,10 +76,20 @@ void maxflow_check() {
         }
     }
     for (int limit : {0, 1, 3, 10, 11}) {
-        CostScalingDinic<long long, Directed> g(2);
+        CostScalingDinic<int, Directed> g(2);
         g.add_edge(0, 1, 10);
         assert(g.flow(0, 1, limit) == min(limit, 10));
         assert(g.flow(0, 1) == 10 - min(limit, 10));
+    }
+    for (long long cap : {1LL << 31, 1LL << 32, (1LL << 32) + 7, 1LL << 40, 1000000000000LL}) {
+        CostScalingDinic<long long, Directed> g(2);
+        g.add_edge(0, 0, cap);
+        g.add_edge(0, 1, 0);
+        g.add_edge(0, 1, cap);
+        auto initial = g.G;
+        assert(g.flow(0, 1) == cap);
+        check_residual(g.G, initial);
+        assert(g.flow(0, 1) == 0);
     }
 }
 
@@ -126,6 +137,8 @@ void mincost_check() {
 int main() {
     maxflow_check<true>();
     maxflow_check<false>();
+    maxflow_check<true>(true);
+    maxflow_check<false>(true);
     mincost_check();
     Scanner sc;
     Printer pr;

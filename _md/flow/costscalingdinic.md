@@ -9,7 +9,7 @@ capacity scaling を入れた Dinic 法による最大流である。
 ## できること
 - `CostScalingDinic<T, directed> mf(n)`
   頂点数 `n` のフローグラフを作る
-- `void add_edge(int from, int to, int cap)`
+- `void add_edge(int from, int to, T cap)`
   容量 `cap` の辺を張る。`directed=false` なら無向辺
 - `T flow(int s, int t, T lim = INF<T>)`
   `s` から `t` への最大流を返す
@@ -25,4 +25,6 @@ long long ans = mf.flow(s, t);
 
 ## 実装上の補足
 辺容量 0 は追加しない。
+容量は非負で、計算中の残余容量も `T` に収まる必要がある。
+無向辺の逆向き残余容量は、元容量の 2 倍になる場合がある。
 `flow` の `lim` は初期 scaling 幅の上限にも使うので、必要なら流量上限を渡すとよい。
