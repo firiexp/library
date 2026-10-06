@@ -5,6 +5,9 @@ data:
     path: math/matrix.cpp
     title: "\u884C\u5217"
   - icon: ':heavy_check_mark:'
+    path: math/squarematrix.cpp
+    title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
@@ -20,68 +23,67 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/matrix_product
+    PROBLEM: https://judge.yosupo.jp/problem/pow_of_matrix
     links:
-    - https://judge.yosupo.jp/problem/matrix_product
-  bundledCode: "#line 1 \"test/yosupo_matrix_product.test.cpp\"\n#define PROBLEM \"\
-    https://judge.yosupo.jp/problem/matrix_product\"\n\n#include <vector>\nusing namespace\
-    \ std;\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint\
-    \ = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/pow_of_matrix
+  bundledCode: "#line 1 \"test/yosupo_pow_of_matrix_generic.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/pow_of_matrix\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\nstatic const int MOD = 998244353;\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -308,54 +310,79 @@ data:
     \     }\n        return res;\n    }\n};\n\nstruct SemiRing {\n    using T = mint;\n\
     \    static inline T mul(T x, T y){ return x * y; }\n    static inline void add(T\
     \ &x, T y){ x += y; }\n    static inline T one(){ return 1; }\n    static inline\
-    \ T zero(){ return 0; }\n};\n#line 20 \"test/yosupo_matrix_product.test.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, k;\n    sc.read(n,\
-    \ m, k);\n    if (n == 0 || m == 0 || k == 0) {\n        for (int i = 0; i < n;\
-    \ ++i) {\n            for (int j = 0; j < k; ++j) {\n                pr.print(0);\n\
-    \                pr.print(j + 1 == k ? '\\n' : ' ');\n            }\n        \
-    \    if (k == 0) pr.print('\\n');\n        }\n        return 0;\n    }\n    matrix<SemiRing>\
-    \ A(n, m), B(m, k);\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0;\
-    \ j < m; ++j) {\n            int x;\n            sc.read(x);\n            A[i][j]\
-    \ = x;\n        }\n    }\n    for (int i = 0; i < m; ++i) {\n        for (int\
-    \ j = 0; j < k; ++j) {\n            int x;\n            sc.read(x);\n        \
-    \    B[i][j] = x;\n        }\n    }\n\n    auto C = A * B;\n    for (int i = 0;\
-    \ i < n; ++i) {\n        for (int j = 0; j < k; ++j) {\n            pr.print(C[i][j].val);\n\
-    \            pr.print(j + 1 == k ? '\\n' : ' ');\n        }\n    }\n    return\
-    \ 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_product\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
-    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
-    \n#include \"../math/matrix.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n, m, k;\n    sc.read(n, m, k);\n    if (n == 0 || m == 0 ||\
-    \ k == 0) {\n        for (int i = 0; i < n; ++i) {\n            for (int j = 0;\
-    \ j < k; ++j) {\n                pr.print(0);\n                pr.print(j + 1\
-    \ == k ? '\\n' : ' ');\n            }\n            if (k == 0) pr.print('\\n');\n\
-    \        }\n        return 0;\n    }\n    matrix<SemiRing> A(n, m), B(m, k);\n\
-    \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n  \
-    \          int x;\n            sc.read(x);\n            A[i][j] = x;\n       \
-    \ }\n    }\n    for (int i = 0; i < m; ++i) {\n        for (int j = 0; j < k;\
-    \ ++j) {\n            int x;\n            sc.read(x);\n            B[i][j] = x;\n\
-    \        }\n    }\n\n    auto C = A * B;\n    for (int i = 0; i < n; ++i) {\n\
-    \        for (int j = 0; j < k; ++j) {\n            pr.print(C[i][j].val);\n \
-    \           pr.print(j + 1 == k ? '\\n' : ' ');\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    \ T zero(){ return 0; }\n};\n#line 1 \"math/squarematrix.cpp\"\ntemplate<class\
+    \ H, size_t SIZE>\nstruct SquareMatrix {\n    using T = typename H::T;\n    using\
+    \ ar = array<T, SIZE>;\n    using mat = array<ar, SIZE>;\n    mat A;\n    SquareMatrix()\
+    \ {\n        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j =\
+    \ 0; j < SIZE; ++j) {\n                A[i][j] = H::zero();\n            }\n \
+    \       }\n    }\n    static SquareMatrix I(size_t n = SIZE){\n        SquareMatrix\
+    \ X;\n        for (size_t i = 0; i < n; ++i) {\n            X[i][i] = H::one();\n\
+    \        }\n        return X;\n    }\n\n    friend ar &operator*=(ar &x, const\
+    \ SquareMatrix &Y) {\n        ar ans;\n        fill(begin(ans), end(ans), H::zero());\n\
+    \        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j = 0; j\
+    \ < SIZE; ++j) {\n                H::add(ans[j], H::mul(x[i], Y[i][j]));\n   \
+    \         }\n        }\n        x.swap(ans);\n        return x;\n    }\n    friend\
+    \ ar operator*(ar x, const SquareMatrix &Y) { return x *= Y; }\n\n    inline const\
+    \ ar &operator[](int k) const{ return (A.at(k)); }\n    inline ar &operator[](int\
+    \ k) { return (A.at(k)); }\n    SquareMatrix &operator+= (const SquareMatrix &B){\n\
+    \        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j = 0; j\
+    \ < SIZE; ++j) {\n                H::add((*this)[i][j], B[i][j]);\n          \
+    \  }\n        }\n        return (*this);\n    }\n\n    SquareMatrix &operator-=\
+    \ (const SquareMatrix &B){\n        for (size_t i = 0; i < SIZE; ++i) {\n    \
+    \        for (size_t j = 0; j < SIZE; ++j) {\n                H::add((*this)[i][j],\
+    \ -B[i][j]);\n            }\n        }\n        return (*this);\n    }\n\n   \
+    \ SquareMatrix &mul_assign(const SquareMatrix &B, size_t n = SIZE) {\n       \
+    \ SquareMatrix C{};\n        for (size_t i = 0; i < n; ++i) {\n            for\
+    \ (size_t k = 0; k < n; ++k) {\n                for (size_t j = 0; j < n; ++j)\
+    \ {\n                    H::add(C[i][j],  H::mul((*this)[i][k], B[k][j]));\n \
+    \               }\n            }\n        }\n        A.swap(C.A);\n        return\
+    \ (*this);\n    }\n    SquareMatrix &operator*=(const SquareMatrix &B) { return\
+    \ mul_assign(B); }\n\n    SquareMatrix pow(ll n, size_t dim = SIZE) const {\n\
+    \        SquareMatrix a = (*this), res = I(dim);\n\n        while(n > 0){\n  \
+    \          if(n & 1) res.mul_assign(a, dim);\n            n >>= 1;\n         \
+    \   if(n) a.mul_assign(a, dim);\n        }\n        return res;\n    }\n    SquareMatrix\
+    \ operator+(const SquareMatrix &B) const {return SquareMatrix(*this) += B;}\n\
+    \    SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this)\
+    \ -= B;}\n    SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this)\
+    \ *= B;}\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square\
+    \ Matrix)\n */\n#line 13 \"test/yosupo_pow_of_matrix_generic.test.cpp\"\n\nint\
+    \ main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    ll k;\n    sc.read(n,\
+    \ k);\n    matrix<SemiRing> a(n);\n    SquareMatrix<SemiRing, 200> fixed;\n  \
+    \  for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j) {\n        int x;\n\
+    \        sc.read(x);\n        fixed[i][j] = a[i][j] = x;\n    }\n    auto b =\
+    \ a.pow(k);\n    auto fixed_power = fixed.pow(k, n);\n    for (int i = 0; i <\
+    \ n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            assert(b[i][j]\
+    \ == fixed_power[i][j]);\n            pr.print(b[i][j].val);\n            pr.print(j\
+    \ + 1 == n ? '\\n' : ' ');\n        }\n    }\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/pow_of_matrix\"\n\n#include\
+    \ <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nstatic const int MOD = 998244353;\n#include \"\
+    ../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\n#include \"../math/matrix.cpp\"\
+    \n#include \"../math/squarematrix.cpp\"\n\nint main() {\n    Scanner sc;\n   \
+    \ Printer pr;\n    int n;\n    ll k;\n    sc.read(n, k);\n    matrix<SemiRing>\
+    \ a(n);\n    SquareMatrix<SemiRing, 200> fixed;\n    for (int i = 0; i < n; ++i)\
+    \ for (int j = 0; j < n; ++j) {\n        int x;\n        sc.read(x);\n       \
+    \ fixed[i][j] = a[i][j] = x;\n    }\n    auto b = a.pow(k);\n    auto fixed_power\
+    \ = fixed.pow(k, n);\n    for (int i = 0; i < n; ++i) {\n        for (int j =\
+    \ 0; j < n; ++j) {\n            assert(b[i][j] == fixed_power[i][j]);\n      \
+    \      pr.print(b[i][j].val);\n            pr.print(j + 1 == n ? '\\n' : ' ');\n\
+    \        }\n    }\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
   - util/modint_base.cpp
   - math/matrix.cpp
+  - math/squarematrix.cpp
   isVerificationFile: true
-  path: test/yosupo_matrix_product.test.cpp
+  path: test/yosupo_pow_of_matrix_generic.test.cpp
   requiredBy: []
   timestamp: '2026-10-07 00:46:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_matrix_product.test.cpp
+documentation_of: test/yosupo_pow_of_matrix_generic.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_matrix_product.test.cpp
-- /verify/test/yosupo_matrix_product.test.cpp.html
-title: test/yosupo_matrix_product.test.cpp
+- /verify/test/yosupo_pow_of_matrix_generic.test.cpp
+- /verify/test/yosupo_pow_of_matrix_generic.test.cpp.html
+title: test/yosupo_pow_of_matrix_generic.test.cpp
 ---

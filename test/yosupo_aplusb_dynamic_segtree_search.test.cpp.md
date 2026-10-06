@@ -2,9 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: flow/costscalingdinic.cpp
-    title: "\u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity Scaling\
-      \ Dinic)"
+    path: datastructure/segmenttree/dynamic_segtree.cpp
+    title: Dynamic Segment Tree
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -15,15 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A
-  bundledCode: "#line 1 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\n#define PROBLEM\
-    \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n#include <algorithm>\n\
-    #include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
-    \nusing ll = long long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_dynamic_segtree_search.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n#line 1 \"util/fastio.cpp\"\nusing\
     \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
@@ -231,62 +227,174 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"flow/costscalingdinic.cpp\"\
-    \ntemplate<class T, bool directed>\nclass CostScalingDinic {\n    void bfs(int\
-    \ s, T x){\n        fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n\
-    \        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n  \
-    \          int v = Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n \
-    \               if(e.cap >= x && level[e.to] < 0){\n                    level[e.to]\
-    \ = level[v] + 1;\n                    Q.emplace(e.to);\n                }\n \
-    \           }\n        }\n    }\n\n    T dfs(int v, int t, T x, T f){\n      \
-    \  if(v == t) return f;\n        T res = 0;\n        for(int &i = iter[v]; i <\
-    \ G[v].size(); i++){\n            edge &e = G[v][i];\n            if(e.cap >=\
-    \ x && level[v] < level[e.to]){\n                T d = dfs(e.to, t, x, min(f-res,\
-    \  e.cap));\n                if(d == 0) continue;\n                e.cap -= d;\n\
-    \                G[e.to][e.rev].cap += d;\n                res += d;\n       \
-    \         if(f - res < x) break;\n            }\n        }\n        return res;\n\
-    \    }\npublic:\n    struct edge {\n        int to{}; T cap; int rev{};\n    \
-    \    edge() = default;\n        edge(int to, T cap, int rev) : to(to), cap(cap),\
-    \ rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n    vector<int> level, iter;\n\
-    \    CostScalingDinic() = default;\n    explicit CostScalingDinic(int n) : G(n),\
-    \ level(n), iter(n) {}\n\n    void add_edge(int from, int to, T cap){\n      \
-    \  if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
-    \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
-    \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
-    \ T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n        T cap = 1;\
-    \ while(cap <= lim / 2) cap <<= 1;\n        while(cap && ret < lim) {\n      \
-    \      bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
-    \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
-    \ 0);\n            ret += dfs(s, t, cap, lim - ret);\n        }\n        return\
-    \ ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\
-    \u30B0Dinic(Capacity Scaling Dinic)\n */\n#line 20 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
-    \ c);\n    }\n    pr.println(mf.flow(0, n - 1));\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n\
-    #include <algorithm>\n#include <limits>\n#include <queue>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\ntemplate<class T> constexpr T INF\
-    \ = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../flow/costscalingdinic.cpp\"\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
-    \ c);\n    }\n    pr.println(mf.flow(0, n - 1));\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/segmenttree/dynamic_segtree.cpp\"\
+    \ntemplate <class M>\nstruct DynamicSegmentTree{\n    using T = typename M::T;\n\
+    \    struct Node{\n        T val;\n        int l, r;\n    };\n\n    long long\
+    \ n{};\n    vector<Node> node;\n    int root;\n\n    explicit DynamicSegmentTree(long\
+    \ long n): n(n), root(-1) {}\n\n    void reserve(size_t sz){\n        node.reserve(sz);\n\
+    \    }\n\n    void update(long long k, const T &x){\n        if(n == 0) return;\n\
+    \        update_(root, k, x, 0, n);\n    }\n\n    void add(long long k, const\
+    \ T &x){\n        if(n == 0) return;\n        add_(root, k, x, 0, n);\n    }\n\
+    \n    T query(long long a, long long b) const {\n        if(n == 0 || b <= a)\
+    \ return M::e();\n        return query_(root, a, b, 0, n);\n    }\n\n    T get(long\
+    \ long k) const { return query(k, k+1); }\n    T operator[](const long long &k)\
+    \ const { return get(k); }\n\n    template<class F>\n    long long search_right(long\
+    \ long l, F cond) const {\n        T acc = M::e();\n        return search_right_(root,\
+    \ l, 0, n, acc, cond);\n    }\n\n    template<class F>\n    long long search_left(long\
+    \ long r, F cond) const {\n        T acc = M::e();\n        return search_left_(root,\
+    \ r, 0, n, acc, cond);\n    }\n\nprivate:\n    template<class F>\n    long long\
+    \ search_right_(int id, long long a, long long l, long long r, T &acc, F &cond)\
+    \ const {\n        if(id == -1 || r <= a) return n;\n        if(a <= l){\n   \
+    \         T next = M::f(acc, node[id].val);\n            if(cond(next)){\n   \
+    \             acc = move(next);\n                return n;\n            }\n  \
+    \          if(r-l == 1) return l;\n        }\n        long long m = l + ((r-l)>>1);\n\
+    \        long long result = search_right_(node[id].l, a, l, m, acc, cond);\n \
+    \       if(result != n) return result;\n        return search_right_(node[id].r,\
+    \ a, m, r, acc, cond);\n    }\n\n    template<class F>\n    long long search_left_(int\
+    \ id, long long a, long long l, long long r, T &acc, F &cond) const {\n      \
+    \  if(id == -1 || a <= l) return 0;\n        if(r <= a){\n            T next =\
+    \ M::f(node[id].val, acc);\n            if(cond(next)){\n                acc =\
+    \ move(next);\n                return 0;\n            }\n            if(r-l ==\
+    \ 1) return r;\n        }\n        long long m = l + ((r-l)>>1);\n        long\
+    \ long result = search_left_(node[id].r, a, m, r, acc, cond);\n        if(result\
+    \ != 0) return result;\n        return search_left_(node[id].l, a, l, m, acc,\
+    \ cond);\n    }\n\n    int make_node(const T &v, int l, int r){\n        node.push_back({v,\
+    \ l, r});\n        return (int)node.size()-1;\n    }\n\n    void update_(int &id,\
+    \ long long k, const T &x, long long l, long long r){\n        if(id == -1) id\
+    \ = make_node(M::e(), -1, -1);\n        if(l+1 == r){\n            node[id].val\
+    \ = x;\n            return;\n        }\n        long long m = l + ((r-l)>>1);\n\
+    \        if(k < m){\n            int child = node[id].l;\n            update_(child,\
+    \ k, x, l, m);\n            node[id].l = child;\n        }else{\n            int\
+    \ child = node[id].r;\n            update_(child, k, x, m, r);\n            node[id].r\
+    \ = child;\n        }\n        node[id].val = M::f(value(node[id].l), value(node[id].r));\n\
+    \    }\n\n    void add_(int &id, long long k, const T &x, long long l, long long\
+    \ r){\n        if(id == -1) id = make_node(M::e(), -1, -1);\n        if(l+1 ==\
+    \ r){\n            node[id].val = M::f(node[id].val, x);\n            return;\n\
+    \        }\n        long long m = l + ((r-l)>>1);\n        if(k < m){\n      \
+    \      int child = node[id].l;\n            add_(child, k, x, l, m);\n       \
+    \     node[id].l = child;\n        }else{\n            int child = node[id].r;\n\
+    \            add_(child, k, x, m, r);\n            node[id].r = child;\n     \
+    \   }\n        node[id].val = M::f(value(node[id].l), value(node[id].r));\n  \
+    \  }\n\n    T query_(int id, long long a, long long b, long long l, long long\
+    \ r) const {\n        if(id == -1 || r <= a || b <= l) return M::e();\n      \
+    \  if(a <= l && r <= b) return node[id].val;\n        long long m = l + ((r-l)>>1);\n\
+    \        return M::f(query_(node[id].l, a, b, l, m), query_(node[id].r, a, b,\
+    \ m, r));\n    }\n\n    T value(int id) const {\n        return id == -1 ? M::e()\
+    \ : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = long long;\n\
+    \    static T f(T a, T b) { return a + b; }\n    static T e() { return 0; }\n\
+    };\n*/\n\n/**\n * @brief Dynamic Segment Tree\n */\n#line 8 \"test/yosupo_aplusb_dynamic_segtree_search.test.cpp\"\
+    \n\nstruct Sum {\n    using T = ll;\n    static T e() { return 0; }\n    static\
+    \ T f(T a, T b) { return a + b; }\n};\n\nstruct Concat {\n    using T = string;\n\
+    \    static T e() { return \"\"; }\n    static T f(const T &a, const T &b) { return\
+    \ a + b; }\n};\n\nvoid sum_check() {\n    mt19937 rng(113);\n    for (int n =\
+    \ 0; n <= 65; ++n) {\n        DynamicSegmentTree<Sum> seg(n);\n        const auto\
+    \ &view = seg;\n        vector<ll> a(n);\n        for (int step = 0; step < 300;\
+    \ ++step) {\n            if (n && step % 3) {\n                int k = rng() %\
+    \ n;\n                ll x = rng() % 20;\n                if (step % 2) {\n  \
+    \                  seg.add(k, x);\n                    a[k] += x;\n          \
+    \      } else {\n                    seg.update(k, x);\n                    a[k]\
+    \ = x;\n                }\n            }\n            size_t nodes = seg.node.size();\n\
+    \            for (int end : {0, int(rng() % (n + 1)), n}) {\n                ll\
+    \ limit = rng() % 200, sum = 0;\n                int left = end, right = end;\n\
+    \                while (left && sum + a[left - 1] <= limit) sum += a[--left];\n\
+    \                sum = 0;\n                while (right < n && sum + a[right]\
+    \ <= limit) sum += a[right++];\n                auto cond = [&](ll x) { return\
+    \ x <= limit; };\n                assert(view.search_left(end, cond) == left);\n\
+    \                assert(view.search_right(end, cond) == right);\n            \
+    \    assert(view.query(left, right) == accumulate(a.begin() + left, a.begin()\
+    \ + right, 0LL));\n            }\n            assert(seg.node.size() == nodes);\n\
+    \        }\n    }\n}\n\nvoid noncommutative_check() {\n    mt19937 rng(114);\n\
+    \    for (int n = 0; n <= 32; ++n) {\n        DynamicSegmentTree<Concat> seg(n);\n\
+    \        vector<string> a(n);\n        for (int step = 0; step < 100; ++step)\
+    \ {\n            if (n) {\n                int k = rng() % n;\n              \
+    \  a[k] = rng() % 3 ? string(1, 'a' + rng() % 3) : \"\";\n                seg.update(k,\
+    \ a[k]);\n            }\n            int limit = rng() % (n + 1);\n          \
+    \  auto cond = [&](const string &x) {\n                return int(x.size()) <=\
+    \ limit && x.find(\"ab\") == string::npos;\n            };\n            size_t\
+    \ nodes = seg.node.size();\n            for (int end = 0; end <= n; ++end) {\n\
+    \                int left = end, right = end;\n                string acc;\n \
+    \               while (left && cond(a[left - 1] + acc)) acc = a[--left] + acc;\n\
+    \                acc.clear();\n                while (right < n && cond(acc +\
+    \ a[right])) acc += a[right++];\n                assert(seg.search_left(end, cond)\
+    \ == left);\n                assert(seg.search_right(end, cond) == right);\n \
+    \           }\n            assert(seg.node.size() == nodes);\n        }\n    }\n\
+    }\n\nvoid sparse_check() {\n    for (ll n : {1LL, 1000000000000LL, LLONG_MAX})\
+    \ {\n        DynamicSegmentTree<Sum> seg(n);\n        auto zero = [](ll x) { return\
+    \ x == 0; };\n        for (ll end : {0LL, n / 2, n}) {\n            assert(seg.search_left(end,\
+    \ zero) == 0);\n            assert(seg.search_right(end, zero) == n);\n      \
+    \  }\n        assert(seg.node.empty());\n        seg.update(n - 1, 1);\n     \
+    \   assert(seg.search_right(0, zero) == n - 1);\n        assert(seg.search_left(n,\
+    \ zero) == n);\n        assert(seg.search_left(n - 1, zero) == 0);\n        assert(seg.search_right(n,\
+    \ zero) == n);\n        seg.update(0, 1);\n        assert(seg.search_right(0,\
+    \ zero) == 0);\n        assert(seg.search_left(n, [](ll x) { return x <= 2; })\
+    \ == 0);\n        assert(seg.search_right(0, [](ll x) { return x <= 2; }) == n);\n\
+    \    }\n}\n\nint main() {\n    sum_check();\n    noncommutative_check();\n   \
+    \ sparse_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n#include \"../util/fastio.cpp\"\n\
+    #include \"../datastructure/segmenttree/dynamic_segtree.cpp\"\n\nstruct Sum {\n\
+    \    using T = ll;\n    static T e() { return 0; }\n    static T f(T a, T b) {\
+    \ return a + b; }\n};\n\nstruct Concat {\n    using T = string;\n    static T\
+    \ e() { return \"\"; }\n    static T f(const T &a, const T &b) { return a + b;\
+    \ }\n};\n\nvoid sum_check() {\n    mt19937 rng(113);\n    for (int n = 0; n <=\
+    \ 65; ++n) {\n        DynamicSegmentTree<Sum> seg(n);\n        const auto &view\
+    \ = seg;\n        vector<ll> a(n);\n        for (int step = 0; step < 300; ++step)\
+    \ {\n            if (n && step % 3) {\n                int k = rng() % n;\n  \
+    \              ll x = rng() % 20;\n                if (step % 2) {\n         \
+    \           seg.add(k, x);\n                    a[k] += x;\n                }\
+    \ else {\n                    seg.update(k, x);\n                    a[k] = x;\n\
+    \                }\n            }\n            size_t nodes = seg.node.size();\n\
+    \            for (int end : {0, int(rng() % (n + 1)), n}) {\n                ll\
+    \ limit = rng() % 200, sum = 0;\n                int left = end, right = end;\n\
+    \                while (left && sum + a[left - 1] <= limit) sum += a[--left];\n\
+    \                sum = 0;\n                while (right < n && sum + a[right]\
+    \ <= limit) sum += a[right++];\n                auto cond = [&](ll x) { return\
+    \ x <= limit; };\n                assert(view.search_left(end, cond) == left);\n\
+    \                assert(view.search_right(end, cond) == right);\n            \
+    \    assert(view.query(left, right) == accumulate(a.begin() + left, a.begin()\
+    \ + right, 0LL));\n            }\n            assert(seg.node.size() == nodes);\n\
+    \        }\n    }\n}\n\nvoid noncommutative_check() {\n    mt19937 rng(114);\n\
+    \    for (int n = 0; n <= 32; ++n) {\n        DynamicSegmentTree<Concat> seg(n);\n\
+    \        vector<string> a(n);\n        for (int step = 0; step < 100; ++step)\
+    \ {\n            if (n) {\n                int k = rng() % n;\n              \
+    \  a[k] = rng() % 3 ? string(1, 'a' + rng() % 3) : \"\";\n                seg.update(k,\
+    \ a[k]);\n            }\n            int limit = rng() % (n + 1);\n          \
+    \  auto cond = [&](const string &x) {\n                return int(x.size()) <=\
+    \ limit && x.find(\"ab\") == string::npos;\n            };\n            size_t\
+    \ nodes = seg.node.size();\n            for (int end = 0; end <= n; ++end) {\n\
+    \                int left = end, right = end;\n                string acc;\n \
+    \               while (left && cond(a[left - 1] + acc)) acc = a[--left] + acc;\n\
+    \                acc.clear();\n                while (right < n && cond(acc +\
+    \ a[right])) acc += a[right++];\n                assert(seg.search_left(end, cond)\
+    \ == left);\n                assert(seg.search_right(end, cond) == right);\n \
+    \           }\n            assert(seg.node.size() == nodes);\n        }\n    }\n\
+    }\n\nvoid sparse_check() {\n    for (ll n : {1LL, 1000000000000LL, LLONG_MAX})\
+    \ {\n        DynamicSegmentTree<Sum> seg(n);\n        auto zero = [](ll x) { return\
+    \ x == 0; };\n        for (ll end : {0LL, n / 2, n}) {\n            assert(seg.search_left(end,\
+    \ zero) == 0);\n            assert(seg.search_right(end, zero) == n);\n      \
+    \  }\n        assert(seg.node.empty());\n        seg.update(n - 1, 1);\n     \
+    \   assert(seg.search_right(0, zero) == n - 1);\n        assert(seg.search_left(n,\
+    \ zero) == n);\n        assert(seg.search_left(n - 1, zero) == 0);\n        assert(seg.search_right(n,\
+    \ zero) == n);\n        seg.update(0, 1);\n        assert(seg.search_right(0,\
+    \ zero) == 0);\n        assert(seg.search_left(n, [](ll x) { return x <= 2; })\
+    \ == 0);\n        assert(seg.search_right(0, [](ll x) { return x <= 2; }) == n);\n\
+    \    }\n}\n\nint main() {\n    sum_check();\n    noncommutative_check();\n   \
+    \ sparse_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - flow/costscalingdinic.cpp
+  - datastructure/segmenttree/dynamic_segtree.cpp
   isVerificationFile: true
-  path: test/aoj_grl_6_a_costscalingdinic.test.cpp
+  path: test/yosupo_aplusb_dynamic_segtree_search.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:42:19+09:00'
+  timestamp: '2026-10-07 00:49:22+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_grl_6_a_costscalingdinic.test.cpp
+documentation_of: test/yosupo_aplusb_dynamic_segtree_search.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_grl_6_a_costscalingdinic.test.cpp
-- /verify/test/aoj_grl_6_a_costscalingdinic.test.cpp.html
-title: test/aoj_grl_6_a_costscalingdinic.test.cpp
+- /verify/test/yosupo_aplusb_dynamic_segtree_search.test.cpp
+- /verify/test/yosupo_aplusb_dynamic_segtree_search.test.cpp.html
+title: test/yosupo_aplusb_dynamic_segtree_search.test.cpp
 ---

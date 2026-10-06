@@ -2,9 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: flow/costscalingdinic.cpp
-    title: "\u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity Scaling\
-      \ Dinic)"
+    path: graph/complement_components.cpp
+    title: "\u88DC\u30B0\u30E9\u30D5\u306E\u9023\u7D50\u6210\u5206"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -15,16 +14,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A
+    PROBLEM: https://judge.yosupo.jp/problem/connected_components_of_complement_graph
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A
-  bundledCode: "#line 1 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\n#define PROBLEM\
-    \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n#include <algorithm>\n\
-    #include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
-    \nusing ll = long long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing\
-    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    - https://judge.yosupo.jp/problem/connected_components_of_complement_graph
+  bundledCode: "#line 1 \"test/yosupo_connected_components_of_complement_graph.test.cpp\"\
+    \n#define PROBLEM \"https://judge.yosupo.jp/problem/connected_components_of_complement_graph\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
     \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
@@ -231,62 +227,50 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"flow/costscalingdinic.cpp\"\
-    \ntemplate<class T, bool directed>\nclass CostScalingDinic {\n    void bfs(int\
-    \ s, T x){\n        fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n\
-    \        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n  \
-    \          int v = Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n \
-    \               if(e.cap >= x && level[e.to] < 0){\n                    level[e.to]\
-    \ = level[v] + 1;\n                    Q.emplace(e.to);\n                }\n \
-    \           }\n        }\n    }\n\n    T dfs(int v, int t, T x, T f){\n      \
-    \  if(v == t) return f;\n        T res = 0;\n        for(int &i = iter[v]; i <\
-    \ G[v].size(); i++){\n            edge &e = G[v][i];\n            if(e.cap >=\
-    \ x && level[v] < level[e.to]){\n                T d = dfs(e.to, t, x, min(f-res,\
-    \  e.cap));\n                if(d == 0) continue;\n                e.cap -= d;\n\
-    \                G[e.to][e.rev].cap += d;\n                res += d;\n       \
-    \         if(f - res < x) break;\n            }\n        }\n        return res;\n\
-    \    }\npublic:\n    struct edge {\n        int to{}; T cap; int rev{};\n    \
-    \    edge() = default;\n        edge(int to, T cap, int rev) : to(to), cap(cap),\
-    \ rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n    vector<int> level, iter;\n\
-    \    CostScalingDinic() = default;\n    explicit CostScalingDinic(int n) : G(n),\
-    \ level(n), iter(n) {}\n\n    void add_edge(int from, int to, T cap){\n      \
-    \  if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
-    \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
-    \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
-    \ T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n        T cap = 1;\
-    \ while(cap <= lim / 2) cap <<= 1;\n        while(cap && ret < lim) {\n      \
-    \      bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
-    \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
-    \ 0);\n            ret += dfs(s, t, cap, lim - ret);\n        }\n        return\
-    \ ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\
-    \u30B0Dinic(Capacity Scaling Dinic)\n */\n#line 20 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
-    \ c);\n    }\n    pr.println(mf.flow(0, n - 1));\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n\
-    #include <algorithm>\n#include <limits>\n#include <queue>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\ntemplate<class T> constexpr T INF\
-    \ = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../flow/costscalingdinic.cpp\"\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
-    \ c);\n    }\n    pr.println(mf.flow(0, n - 1));\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/complement_components.cpp\"\
+    \nvector<vector<int>> complement_components(const vector<vector<int>> &g) {\n\
+    \    int n = g.size();\n    vector<int> next(n + 1), marked(n, -1);\n    for(int\
+    \ v = 0; v < n; ++v) next[v] = v + 1;\n    next[n] = 0;\n    vector<vector<int>>\
+    \ components;\n    while(next[n] != n) {\n        int start = next[n];\n     \
+    \   next[n] = next[start];\n        components.push_back({start});\n        auto\
+    \ &component = components.back();\n        for(size_t i = 0; i < component.size();\
+    \ ++i) {\n            int v = component[i];\n            for(int u : g[v]) marked[u]\
+    \ = v;\n            int prev = n;\n            while(next[prev] != n) {\n    \
+    \            int u = next[prev];\n                if(marked[u] == v) {\n     \
+    \               prev = u;\n                } else {\n                    next[prev]\
+    \ = next[u];\n                    component.push_back(u);\n                }\n\
+    \            }\n        }\n    }\n    return components;\n}\n\n/**\n * @brief\
+    \ \u88DC\u30B0\u30E9\u30D5\u306E\u9023\u7D50\u6210\u5206\n */\n#line 7 \"test/yosupo_connected_components_of_complement_graph.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
+    \ m);\n    vector<vector<int>> g(n);\n    for (int i = 0; i < m; ++i) {\n    \
+    \    int u, v;\n        sc.read(u, v);\n        g[u].push_back(v);\n        g[v].push_back(u);\n\
+    \    }\n    auto components = complement_components(g);\n    pr.println(components.size());\n\
+    \    for (const auto &component : components) {\n        pr.print(component.size());\n\
+    \        for (int v : component) {\n            pr.print(' ');\n            pr.print(v);\n\
+    \        }\n        pr.print('\\n');\n    }\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/connected_components_of_complement_graph\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../graph/complement_components.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n    int n, m;\n    sc.read(n, m);\n    vector<vector<int>>\
+    \ g(n);\n    for (int i = 0; i < m; ++i) {\n        int u, v;\n        sc.read(u,\
+    \ v);\n        g[u].push_back(v);\n        g[v].push_back(u);\n    }\n    auto\
+    \ components = complement_components(g);\n    pr.println(components.size());\n\
+    \    for (const auto &component : components) {\n        pr.print(component.size());\n\
+    \        for (int v : component) {\n            pr.print(' ');\n            pr.print(v);\n\
+    \        }\n        pr.print('\\n');\n    }\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - flow/costscalingdinic.cpp
+  - graph/complement_components.cpp
   isVerificationFile: true
-  path: test/aoj_grl_6_a_costscalingdinic.test.cpp
+  path: test/yosupo_connected_components_of_complement_graph.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:42:19+09:00'
+  timestamp: '2026-10-07 00:51:23+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_grl_6_a_costscalingdinic.test.cpp
+documentation_of: test/yosupo_connected_components_of_complement_graph.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_grl_6_a_costscalingdinic.test.cpp
-- /verify/test/aoj_grl_6_a_costscalingdinic.test.cpp.html
-title: test/aoj_grl_6_a_costscalingdinic.test.cpp
+- /verify/test/yosupo_connected_components_of_complement_graph.test.cpp
+- /verify/test/yosupo_connected_components_of_complement_graph.test.cpp.html
+title: test/yosupo_connected_components_of_complement_graph.test.cpp
 ---

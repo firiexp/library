@@ -5,6 +5,9 @@ data:
     path: math/matrix.cpp
     title: "\u884C\u5217"
   - icon: ':heavy_check_mark:'
+    path: math/squarematrix.cpp
+    title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
@@ -287,19 +290,19 @@ data:
     \ B[k][j]));\n                }\n            }\n        }\n        A.swap(C.A);\n\
     \        return (*this);\n    }\n\n    matrix pow(ll n) const {\n        matrix\
     \ a = (*this), res = I(height());\n        while(n > 0){\n            if (n &\
-    \ 1) res *= a;\n            a *= a;\n            n >>= 1;\n        }\n       \
-    \ return res;\n    }\n    matrix operator+(const matrix &B) const {return matrix(*this)\
-    \ += B;}\n    matrix operator-(const matrix &B) const {return matrix(*this) -=\
-    \ B;}\n    matrix operator*(const matrix &B) const {return matrix(*this) *= B;}\n\
-    \n    mint detarminant(){\n        mint res = 1;\n        int rank = 0;\n    \
-    \    for (int c = 0; c < width(); ++c) {\n            int k = -1;\n          \
-    \  for (int i = rank; i < height(); ++i) {\n                if(A[i][c] != H::zero()){\n\
-    \                    k = i;\n                    break;\n                }\n \
-    \           }\n            if(!~k) continue;\n            if(k != rank) res =\
-    \ -res;\n            swap(A[k], A[rank]);\n            res *= A[rank][c];\n  \
-    \          T x = T(1)/A[rank][c];\n            for (int j = 0; j < width(); ++j)\
-    \ A[rank][j] *= x;\n            for (int i = 0; i < height(); ++i) {\n       \
-    \         if(i != rank && A[i][c] != H::zero()){\n                    T coeff\
+    \ 1) res *= a;\n            n >>= 1;\n            if (n) a *= a;\n        }\n\
+    \        return res;\n    }\n    matrix operator+(const matrix &B) const {return\
+    \ matrix(*this) += B;}\n    matrix operator-(const matrix &B) const {return matrix(*this)\
+    \ -= B;}\n    matrix operator*(const matrix &B) const {return matrix(*this) *=\
+    \ B;}\n\n    mint detarminant(){\n        mint res = 1;\n        int rank = 0;\n\
+    \        for (int c = 0; c < width(); ++c) {\n            int k = -1;\n      \
+    \      for (int i = rank; i < height(); ++i) {\n                if(A[i][c] !=\
+    \ H::zero()){\n                    k = i;\n                    break;\n      \
+    \          }\n            }\n            if(!~k) continue;\n            if(k !=\
+    \ rank) res = -res;\n            swap(A[k], A[rank]);\n            res *= A[rank][c];\n\
+    \            T x = T(1)/A[rank][c];\n            for (int j = 0; j < width();\
+    \ ++j) A[rank][j] *= x;\n            for (int i = 0; i < height(); ++i) {\n  \
+    \              if(i != rank && A[i][c] != H::zero()){\n                    T coeff\
     \ = A[i][c];\n                    for (int j = 0; j < width(); ++j) {\n      \
     \                  A[i][j] -= A[rank][j]*coeff;\n                    }\n     \
     \           }\n            }\n            rank++;\n        }\n        for (int\
@@ -307,62 +310,42 @@ data:
     \     }\n        return res;\n    }\n};\n\nstruct SemiRing {\n    using T = mint;\n\
     \    static inline T mul(T x, T y){ return x * y; }\n    static inline void add(T\
     \ &x, T y){ x += y; }\n    static inline T one(){ return 1; }\n    static inline\
-    \ T zero(){ return 0; }\n};\n#line 12 \"test/yosupo_aplusb_matrix_semiring.test.cpp\"\
-    \n\ntemplate<bool Maximum>\nstruct Tropical {\n    using T = ll;\n    static T\
-    \ zero() { return Maximum ? -(1LL << 60) : 1LL << 60; }\n    static T one() {\
-    \ return 0; }\n    static T mul(T a, T b) { return a == zero() || b == zero()\
-    \ ? zero() : a + b; }\n    static void add(T &a, T b) { a = Maximum ? max(a, b)\
-    \ : min(a, b); }\n};\n\ntemplate<bool Maximum>\nvoid tropical_check() {\n    using\
-    \ H = Tropical<Maximum>;\n    mt19937 rng(34);\n    assert(matrix<H>(0).A.empty());\n\
-    \    for (int tc = 0; tc < 200; ++tc) {\n        int n = 1 + rng() % 4, m = 1\
-    \ + rng() % 4, k = 1 + rng() % 4;\n        matrix<H> a(n, m), b(m, k);\n     \
-    \   for (auto &row : a.A) for (ll &x : row) {\n            assert(x == H::zero());\n\
-    \            if (rng() % 3) x = int(rng() % 15) - 7;\n        }\n        for (auto\
-    \ &row : b.A) for (ll &x : row) {\n            assert(x == H::zero());\n     \
-    \       if (rng() % 3) x = int(rng() % 15) - 7;\n        }\n        auto product\
-    \ = a * b;\n        for (int i = 0; i < n; ++i) for (int j = 0; j < k; ++j) {\n\
-    \            ll expected = H::zero();\n            for (int t = 0; t < m; ++t)\
-    \ {\n                if (a[i][t] == H::zero() || b[t][j] == H::zero()) continue;\n\
-    \                ll candidate = a[i][t] + b[t][j];\n                expected =\
-    \ Maximum ? max(expected, candidate) : min(expected, candidate);\n           \
-    \ }\n            assert(product[i][j] == expected);\n        }\n        matrix<H>\
-    \ square(n);\n        for (auto &row : square.A) for (ll &x : row) {\n       \
-    \     assert(x == H::zero());\n            if (rng() % 3) x = int(rng() % 15)\
-    \ - 7;\n        }\n        // Enumerate walks directly, without matrix multiplication.\n\
-    \        for (int length = 0; length <= 4; ++length) {\n            auto power\
-    \ = square.pow(length);\n            for (int start = 0; start < n; ++start) {\n\
-    \                vector<ll> expected(n, H::zero());\n                auto walk\
-    \ = [&](auto &&self, int v, int remaining, ll cost) -> void {\n              \
-    \      if (remaining == 0) {\n                        expected[v] = Maximum ?\
-    \ max(expected[v], cost) : min(expected[v], cost);\n                        return;\n\
-    \                    }\n                    for (int to = 0; to < n; ++to)\n \
-    \                       if (square[v][to] != H::zero()) self(self, to, remaining\
-    \ - 1, cost + square[v][to]);\n                };\n                walk(walk,\
-    \ start, length, 0);\n                assert(power[start] == expected);\n    \
-    \        }\n        }\n        auto self = square;\n        self *= self;\n  \
-    \      assert(self.A == square.pow(2).A);\n    }\n}\n\nmint permutation_determinant(const\
-    \ matrix<SemiRing> &a) {\n    int n = a.height();\n    vector<int> p(n);\n   \
-    \ iota(p.begin(), p.end(), 0);\n    mint result = 0;\n    do {\n        mint term\
-    \ = 1;\n        int inversions = 0;\n        for (int i = 0; i < n; ++i) {\n \
-    \           term *= a[i][p[i]];\n            for (int j = 0; j < i; ++j) inversions\
-    \ += p[j] > p[i];\n        }\n        result += inversions % 2 ? -term : term;\n\
-    \    } while (next_permutation(p.begin(), p.end()));\n    return result;\n}\n\n\
-    void determinant_check() {\n    mt19937 rng(35);\n    for (int n = 0; n <= 5;\
-    \ ++n) {\n        vector<int> p(n);\n        iota(p.begin(), p.end(), 0);\n  \
-    \      do {\n            matrix<SemiRing> a(n);\n            for (int i = 0; i\
-    \ < n; ++i) a[i][p[i]] = 1;\n            mint expected = permutation_determinant(a);\n\
-    \            assert(a.detarminant() == expected);\n        } while (next_permutation(p.begin(),\
-    \ p.end()));\n        for (int tc = 0; tc < 200; ++tc) {\n            matrix<SemiRing>\
-    \ a(n);\n            for (auto &row : a.A) for (auto &x : row) x = int(rng() %\
-    \ 7) - 3;\n            if (n > 1 && tc % 3 == 0) a[0] = a[1];\n            mint\
-    \ expected = permutation_determinant(a);\n            assert(a.detarminant() ==\
-    \ expected);\n        }\n    }\n}\n\nint main() {\n    tropical_check<false>();\n\
-    \    tropical_check<true>();\n    determinant_check();\n    Scanner sc;\n    Printer\
-    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
-    \ = unsigned long long;\nstatic const int MOD = 998244353;\n#include \"../util/fastio.cpp\"\
-    \n#include \"../util/modint.cpp\"\n#include \"../math/matrix.cpp\"\n\ntemplate<bool\
+    \ T zero(){ return 0; }\n};\n#line 1 \"math/squarematrix.cpp\"\ntemplate<class\
+    \ H, size_t SIZE>\nstruct SquareMatrix {\n    using T = typename H::T;\n    using\
+    \ ar = array<T, SIZE>;\n    using mat = array<ar, SIZE>;\n    mat A;\n    SquareMatrix()\
+    \ {\n        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j =\
+    \ 0; j < SIZE; ++j) {\n                A[i][j] = H::zero();\n            }\n \
+    \       }\n    }\n    static SquareMatrix I(size_t n = SIZE){\n        SquareMatrix\
+    \ X;\n        for (size_t i = 0; i < n; ++i) {\n            X[i][i] = H::one();\n\
+    \        }\n        return X;\n    }\n\n    friend ar &operator*=(ar &x, const\
+    \ SquareMatrix &Y) {\n        ar ans;\n        fill(begin(ans), end(ans), H::zero());\n\
+    \        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j = 0; j\
+    \ < SIZE; ++j) {\n                H::add(ans[j], H::mul(x[i], Y[i][j]));\n   \
+    \         }\n        }\n        x.swap(ans);\n        return x;\n    }\n    friend\
+    \ ar operator*(ar x, const SquareMatrix &Y) { return x *= Y; }\n\n    inline const\
+    \ ar &operator[](int k) const{ return (A.at(k)); }\n    inline ar &operator[](int\
+    \ k) { return (A.at(k)); }\n    SquareMatrix &operator+= (const SquareMatrix &B){\n\
+    \        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j = 0; j\
+    \ < SIZE; ++j) {\n                H::add((*this)[i][j], B[i][j]);\n          \
+    \  }\n        }\n        return (*this);\n    }\n\n    SquareMatrix &operator-=\
+    \ (const SquareMatrix &B){\n        for (size_t i = 0; i < SIZE; ++i) {\n    \
+    \        for (size_t j = 0; j < SIZE; ++j) {\n                H::add((*this)[i][j],\
+    \ -B[i][j]);\n            }\n        }\n        return (*this);\n    }\n\n   \
+    \ SquareMatrix &mul_assign(const SquareMatrix &B, size_t n = SIZE) {\n       \
+    \ SquareMatrix C{};\n        for (size_t i = 0; i < n; ++i) {\n            for\
+    \ (size_t k = 0; k < n; ++k) {\n                for (size_t j = 0; j < n; ++j)\
+    \ {\n                    H::add(C[i][j],  H::mul((*this)[i][k], B[k][j]));\n \
+    \               }\n            }\n        }\n        A.swap(C.A);\n        return\
+    \ (*this);\n    }\n    SquareMatrix &operator*=(const SquareMatrix &B) { return\
+    \ mul_assign(B); }\n\n    SquareMatrix pow(ll n, size_t dim = SIZE) const {\n\
+    \        SquareMatrix a = (*this), res = I(dim);\n\n        while(n > 0){\n  \
+    \          if(n & 1) res.mul_assign(a, dim);\n            n >>= 1;\n         \
+    \   if(n) a.mul_assign(a, dim);\n        }\n        return res;\n    }\n    SquareMatrix\
+    \ operator+(const SquareMatrix &B) const {return SquareMatrix(*this) += B;}\n\
+    \    SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this)\
+    \ -= B;}\n    SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this)\
+    \ *= B;}\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square\
+    \ Matrix)\n */\n#line 13 \"test/yosupo_aplusb_matrix_semiring.test.cpp\"\n\ntemplate<bool\
     \ Maximum>\nstruct Tropical {\n    using T = ll;\n    static T zero() { return\
     \ Maximum ? -(1LL << 60) : 1LL << 60; }\n    static T one() { return 0; }\n  \
     \  static T mul(T a, T b) { return a == zero() || b == zero() ? zero() : a + b;\
@@ -395,7 +378,29 @@ data:
     \ - 1, cost + square[v][to]);\n                };\n                walk(walk,\
     \ start, length, 0);\n                assert(power[start] == expected);\n    \
     \        }\n        }\n        auto self = square;\n        self *= self;\n  \
-    \      assert(self.A == square.pow(2).A);\n    }\n}\n\nmint permutation_determinant(const\
+    \      assert(self.A == square.pow(2).A);\n    }\n}\n\ntemplate<class H>\nvoid\
+    \ power_check() {\n    mt19937 rng(110);\n    assert((SquareMatrix<H, 0>().pow(0).A.empty()));\n\
+    \    assert((SquareMatrix<H, 0>().pow(8).A.empty()));\n    for (int n = 0; n <=\
+    \ 6; ++n) for (int tc = 0; tc < 20; ++tc) {\n        matrix<H> a(n), expected\
+    \ = matrix<H>::I(n);\n        SquareMatrix<H, 6> fixed;\n        for (int i =\
+    \ 0; i < n; ++i) for (int j = 0; j < n; ++j)\n            fixed[i][j] = a[i][j]\
+    \ = int(rng() % 15) - 7;\n        for (int exponent = 0; exponent <= 33; ++exponent)\
+    \ {\n            auto dynamic_power = a.pow(exponent);\n            auto fixed_power\
+    \ = fixed.pow(exponent, n);\n            assert(dynamic_power.A == expected.A);\n\
+    \            for (int i = 0; i < 6; ++i) for (int j = 0; j < 6; ++j)\n       \
+    \         assert(fixed_power[i][j] == (i < n && j < n ? expected[i][j] : H::zero()));\n\
+    \            expected *= a;\n        }\n    }\n}\n\nstruct CountedRing {\n   \
+    \ using T = ll;\n    inline static int products = 0;\n    static T zero() { return\
+    \ 0; }\n    static T one() { return 1; }\n    static T mul(T a, T b) { ++products;\
+    \ return a * b; }\n    static void add(T &a, T b) { a += b; }\n};\n\nvoid product_count_check()\
+    \ {\n    matrix<CountedRing> a(1);\n    SquareMatrix<CountedRing, 1> b;\n    a[0][0]\
+    \ = b[0][0] = 1;\n    for (auto [exponent, count] : vector<pair<ll, int>>{\n \
+    \            {0, 0}, {1, 1}, {2, 2}, {3, 3}, {7, 5}, {8, 4}, {9, 5}, {1000000000000000000LL,\
+    \ 83}}) {\n        CountedRing::products = 0;\n        assert(a.pow(exponent)[0][0]\
+    \ == 1);\n        assert(CountedRing::products == count);\n        CountedRing::products\
+    \ = 0;\n        assert(b.pow(exponent)[0][0] == 1);\n        assert(CountedRing::products\
+    \ == count);\n    }\n    a[0][0] = b[0][0] = LLONG_MAX;\n    assert(a.pow(1)[0][0]\
+    \ == LLONG_MAX);\n    assert(b.pow(1)[0][0] == LLONG_MAX);\n}\n\nmint permutation_determinant(const\
     \ matrix<SemiRing> &a) {\n    int n = a.height();\n    vector<int> p(n);\n   \
     \ iota(p.begin(), p.end(), 0);\n    mint result = 0;\n    do {\n        mint term\
     \ = 1;\n        int inversions = 0;\n        for (int i = 0; i < n; ++i) {\n \
@@ -412,17 +417,99 @@ data:
     \ 7) - 3;\n            if (n > 1 && tc % 3 == 0) a[0] = a[1];\n            mint\
     \ expected = permutation_determinant(a);\n            assert(a.detarminant() ==\
     \ expected);\n        }\n    }\n}\n\nint main() {\n    tropical_check<false>();\n\
-    \    tropical_check<true>();\n    determinant_check();\n    Scanner sc;\n    Printer\
-    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \    tropical_check<true>();\n    power_check<SemiRing>();\n    power_check<Tropical<false>>();\n\
+    \    power_check<Tropical<true>>();\n    product_count_check();\n    determinant_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\nstatic const int MOD = 998244353;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../util/modint.cpp\"\n#include \"../math/matrix.cpp\"\n#include \"\
+    ../math/squarematrix.cpp\"\n\ntemplate<bool Maximum>\nstruct Tropical {\n    using\
+    \ T = ll;\n    static T zero() { return Maximum ? -(1LL << 60) : 1LL << 60; }\n\
+    \    static T one() { return 0; }\n    static T mul(T a, T b) { return a == zero()\
+    \ || b == zero() ? zero() : a + b; }\n    static void add(T &a, T b) { a = Maximum\
+    \ ? max(a, b) : min(a, b); }\n};\n\ntemplate<bool Maximum>\nvoid tropical_check()\
+    \ {\n    using H = Tropical<Maximum>;\n    mt19937 rng(34);\n    assert(matrix<H>(0).A.empty());\n\
+    \    for (int tc = 0; tc < 200; ++tc) {\n        int n = 1 + rng() % 4, m = 1\
+    \ + rng() % 4, k = 1 + rng() % 4;\n        matrix<H> a(n, m), b(m, k);\n     \
+    \   for (auto &row : a.A) for (ll &x : row) {\n            assert(x == H::zero());\n\
+    \            if (rng() % 3) x = int(rng() % 15) - 7;\n        }\n        for (auto\
+    \ &row : b.A) for (ll &x : row) {\n            assert(x == H::zero());\n     \
+    \       if (rng() % 3) x = int(rng() % 15) - 7;\n        }\n        auto product\
+    \ = a * b;\n        for (int i = 0; i < n; ++i) for (int j = 0; j < k; ++j) {\n\
+    \            ll expected = H::zero();\n            for (int t = 0; t < m; ++t)\
+    \ {\n                if (a[i][t] == H::zero() || b[t][j] == H::zero()) continue;\n\
+    \                ll candidate = a[i][t] + b[t][j];\n                expected =\
+    \ Maximum ? max(expected, candidate) : min(expected, candidate);\n           \
+    \ }\n            assert(product[i][j] == expected);\n        }\n        matrix<H>\
+    \ square(n);\n        for (auto &row : square.A) for (ll &x : row) {\n       \
+    \     assert(x == H::zero());\n            if (rng() % 3) x = int(rng() % 15)\
+    \ - 7;\n        }\n        // Enumerate walks directly, without matrix multiplication.\n\
+    \        for (int length = 0; length <= 4; ++length) {\n            auto power\
+    \ = square.pow(length);\n            for (int start = 0; start < n; ++start) {\n\
+    \                vector<ll> expected(n, H::zero());\n                auto walk\
+    \ = [&](auto &&self, int v, int remaining, ll cost) -> void {\n              \
+    \      if (remaining == 0) {\n                        expected[v] = Maximum ?\
+    \ max(expected[v], cost) : min(expected[v], cost);\n                        return;\n\
+    \                    }\n                    for (int to = 0; to < n; ++to)\n \
+    \                       if (square[v][to] != H::zero()) self(self, to, remaining\
+    \ - 1, cost + square[v][to]);\n                };\n                walk(walk,\
+    \ start, length, 0);\n                assert(power[start] == expected);\n    \
+    \        }\n        }\n        auto self = square;\n        self *= self;\n  \
+    \      assert(self.A == square.pow(2).A);\n    }\n}\n\ntemplate<class H>\nvoid\
+    \ power_check() {\n    mt19937 rng(110);\n    assert((SquareMatrix<H, 0>().pow(0).A.empty()));\n\
+    \    assert((SquareMatrix<H, 0>().pow(8).A.empty()));\n    for (int n = 0; n <=\
+    \ 6; ++n) for (int tc = 0; tc < 20; ++tc) {\n        matrix<H> a(n), expected\
+    \ = matrix<H>::I(n);\n        SquareMatrix<H, 6> fixed;\n        for (int i =\
+    \ 0; i < n; ++i) for (int j = 0; j < n; ++j)\n            fixed[i][j] = a[i][j]\
+    \ = int(rng() % 15) - 7;\n        for (int exponent = 0; exponent <= 33; ++exponent)\
+    \ {\n            auto dynamic_power = a.pow(exponent);\n            auto fixed_power\
+    \ = fixed.pow(exponent, n);\n            assert(dynamic_power.A == expected.A);\n\
+    \            for (int i = 0; i < 6; ++i) for (int j = 0; j < 6; ++j)\n       \
+    \         assert(fixed_power[i][j] == (i < n && j < n ? expected[i][j] : H::zero()));\n\
+    \            expected *= a;\n        }\n    }\n}\n\nstruct CountedRing {\n   \
+    \ using T = ll;\n    inline static int products = 0;\n    static T zero() { return\
+    \ 0; }\n    static T one() { return 1; }\n    static T mul(T a, T b) { ++products;\
+    \ return a * b; }\n    static void add(T &a, T b) { a += b; }\n};\n\nvoid product_count_check()\
+    \ {\n    matrix<CountedRing> a(1);\n    SquareMatrix<CountedRing, 1> b;\n    a[0][0]\
+    \ = b[0][0] = 1;\n    for (auto [exponent, count] : vector<pair<ll, int>>{\n \
+    \            {0, 0}, {1, 1}, {2, 2}, {3, 3}, {7, 5}, {8, 4}, {9, 5}, {1000000000000000000LL,\
+    \ 83}}) {\n        CountedRing::products = 0;\n        assert(a.pow(exponent)[0][0]\
+    \ == 1);\n        assert(CountedRing::products == count);\n        CountedRing::products\
+    \ = 0;\n        assert(b.pow(exponent)[0][0] == 1);\n        assert(CountedRing::products\
+    \ == count);\n    }\n    a[0][0] = b[0][0] = LLONG_MAX;\n    assert(a.pow(1)[0][0]\
+    \ == LLONG_MAX);\n    assert(b.pow(1)[0][0] == LLONG_MAX);\n}\n\nmint permutation_determinant(const\
+    \ matrix<SemiRing> &a) {\n    int n = a.height();\n    vector<int> p(n);\n   \
+    \ iota(p.begin(), p.end(), 0);\n    mint result = 0;\n    do {\n        mint term\
+    \ = 1;\n        int inversions = 0;\n        for (int i = 0; i < n; ++i) {\n \
+    \           term *= a[i][p[i]];\n            for (int j = 0; j < i; ++j) inversions\
+    \ += p[j] > p[i];\n        }\n        result += inversions % 2 ? -term : term;\n\
+    \    } while (next_permutation(p.begin(), p.end()));\n    return result;\n}\n\n\
+    void determinant_check() {\n    mt19937 rng(35);\n    for (int n = 0; n <= 5;\
+    \ ++n) {\n        vector<int> p(n);\n        iota(p.begin(), p.end(), 0);\n  \
+    \      do {\n            matrix<SemiRing> a(n);\n            for (int i = 0; i\
+    \ < n; ++i) a[i][p[i]] = 1;\n            mint expected = permutation_determinant(a);\n\
+    \            assert(a.detarminant() == expected);\n        } while (next_permutation(p.begin(),\
+    \ p.end()));\n        for (int tc = 0; tc < 200; ++tc) {\n            matrix<SemiRing>\
+    \ a(n);\n            for (auto &row : a.A) for (auto &x : row) x = int(rng() %\
+    \ 7) - 3;\n            if (n > 1 && tc % 3 == 0) a[0] = a[1];\n            mint\
+    \ expected = permutation_determinant(a);\n            assert(a.detarminant() ==\
+    \ expected);\n        }\n    }\n}\n\nint main() {\n    tropical_check<false>();\n\
+    \    tropical_check<true>();\n    power_check<SemiRing>();\n    power_check<Tropical<false>>();\n\
+    \    power_check<Tropical<true>>();\n    product_count_check();\n    determinant_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
   - util/modint_base.cpp
   - math/matrix.cpp
+  - math/squarematrix.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_matrix_semiring.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-07 00:46:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_matrix_semiring.test.cpp

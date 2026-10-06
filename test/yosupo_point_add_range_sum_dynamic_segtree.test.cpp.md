@@ -239,42 +239,61 @@ data:
     \n    T query(long long a, long long b) const {\n        if(n == 0 || b <= a)\
     \ return M::e();\n        return query_(root, a, b, 0, n);\n    }\n\n    T get(long\
     \ long k) const { return query(k, k+1); }\n    T operator[](const long long &k)\
-    \ const { return get(k); }\n\nprivate:\n    int make_node(const T &v, int l, int\
-    \ r){\n        node.push_back({v, l, r});\n        return (int)node.size()-1;\n\
-    \    }\n\n    void update_(int &id, long long k, const T &x, long long l, long\
-    \ long r){\n        if(id == -1) id = make_node(M::e(), -1, -1);\n        if(l+1\
-    \ == r){\n            node[id].val = x;\n            return;\n        }\n    \
-    \    long long m = l + ((r-l)>>1);\n        if(k < m){\n            int child\
-    \ = node[id].l;\n            update_(child, k, x, l, m);\n            node[id].l\
-    \ = child;\n        }else{\n            int child = node[id].r;\n            update_(child,\
-    \ k, x, m, r);\n            node[id].r = child;\n        }\n        node[id].val\
-    \ = M::f(value(node[id].l), value(node[id].r));\n    }\n\n    void add_(int &id,\
+    \ const { return get(k); }\n\n    template<class F>\n    long long search_right(long\
+    \ long l, F cond) const {\n        T acc = M::e();\n        return search_right_(root,\
+    \ l, 0, n, acc, cond);\n    }\n\n    template<class F>\n    long long search_left(long\
+    \ long r, F cond) const {\n        T acc = M::e();\n        return search_left_(root,\
+    \ r, 0, n, acc, cond);\n    }\n\nprivate:\n    template<class F>\n    long long\
+    \ search_right_(int id, long long a, long long l, long long r, T &acc, F &cond)\
+    \ const {\n        if(id == -1 || r <= a) return n;\n        if(a <= l){\n   \
+    \         T next = M::f(acc, node[id].val);\n            if(cond(next)){\n   \
+    \             acc = move(next);\n                return n;\n            }\n  \
+    \          if(r-l == 1) return l;\n        }\n        long long m = l + ((r-l)>>1);\n\
+    \        long long result = search_right_(node[id].l, a, l, m, acc, cond);\n \
+    \       if(result != n) return result;\n        return search_right_(node[id].r,\
+    \ a, m, r, acc, cond);\n    }\n\n    template<class F>\n    long long search_left_(int\
+    \ id, long long a, long long l, long long r, T &acc, F &cond) const {\n      \
+    \  if(id == -1 || a <= l) return 0;\n        if(r <= a){\n            T next =\
+    \ M::f(node[id].val, acc);\n            if(cond(next)){\n                acc =\
+    \ move(next);\n                return 0;\n            }\n            if(r-l ==\
+    \ 1) return r;\n        }\n        long long m = l + ((r-l)>>1);\n        long\
+    \ long result = search_left_(node[id].r, a, m, r, acc, cond);\n        if(result\
+    \ != 0) return result;\n        return search_left_(node[id].l, a, l, m, acc,\
+    \ cond);\n    }\n\n    int make_node(const T &v, int l, int r){\n        node.push_back({v,\
+    \ l, r});\n        return (int)node.size()-1;\n    }\n\n    void update_(int &id,\
     \ long long k, const T &x, long long l, long long r){\n        if(id == -1) id\
     \ = make_node(M::e(), -1, -1);\n        if(l+1 == r){\n            node[id].val\
-    \ = M::f(node[id].val, x);\n            return;\n        }\n        long long\
-    \ m = l + ((r-l)>>1);\n        if(k < m){\n            int child = node[id].l;\n\
-    \            add_(child, k, x, l, m);\n            node[id].l = child;\n     \
-    \   }else{\n            int child = node[id].r;\n            add_(child, k, x,\
-    \ m, r);\n            node[id].r = child;\n        }\n        node[id].val = M::f(value(node[id].l),\
-    \ value(node[id].r));\n    }\n\n    T query_(int id, long long a, long long b,\
-    \ long long l, long long r) const {\n        if(id == -1 || r <= a || b <= l)\
-    \ return M::e();\n        if(a <= l && r <= b) return node[id].val;\n        long\
-    \ long m = l + ((r-l)>>1);\n        return M::f(query_(node[id].l, a, b, l, m),\
-    \ query_(node[id].r, a, b, m, r));\n    }\n\n    T value(int id) const {\n   \
-    \     return id == -1 ? M::e() : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n\
-    \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n*/\n\n/**\n * @brief Dynamic Segment Tree\n */\n#line\
-    \ 14 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\n\nstruct Monoid{\n\
-    \    using T = long long;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
-    \    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid> seg(n);\n \
-    \   if (n > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i < n; ++i) {\n\
-    \        long long a;\n        sc.read(a);\n        seg.add(i, a);\n    }\n\n\
-    \    while (q--) {\n        int t;\n        sc.read(t);\n        if (t == 0) {\n\
-    \            int p;\n            long long x;\n            sc.read(p, x);\n  \
-    \          seg.add(p, x);\n        } else {\n            int l, r;\n         \
-    \   sc.read(l, r);\n            pr.println(seg.query(l, r));\n        }\n    }\n\
-    \    return 0;\n}\n"
+    \ = x;\n            return;\n        }\n        long long m = l + ((r-l)>>1);\n\
+    \        if(k < m){\n            int child = node[id].l;\n            update_(child,\
+    \ k, x, l, m);\n            node[id].l = child;\n        }else{\n            int\
+    \ child = node[id].r;\n            update_(child, k, x, m, r);\n            node[id].r\
+    \ = child;\n        }\n        node[id].val = M::f(value(node[id].l), value(node[id].r));\n\
+    \    }\n\n    void add_(int &id, long long k, const T &x, long long l, long long\
+    \ r){\n        if(id == -1) id = make_node(M::e(), -1, -1);\n        if(l+1 ==\
+    \ r){\n            node[id].val = M::f(node[id].val, x);\n            return;\n\
+    \        }\n        long long m = l + ((r-l)>>1);\n        if(k < m){\n      \
+    \      int child = node[id].l;\n            add_(child, k, x, l, m);\n       \
+    \     node[id].l = child;\n        }else{\n            int child = node[id].r;\n\
+    \            add_(child, k, x, m, r);\n            node[id].r = child;\n     \
+    \   }\n        node[id].val = M::f(value(node[id].l), value(node[id].r));\n  \
+    \  }\n\n    T query_(int id, long long a, long long b, long long l, long long\
+    \ r) const {\n        if(id == -1 || r <= a || b <= l) return M::e();\n      \
+    \  if(a <= l && r <= b) return node[id].val;\n        long long m = l + ((r-l)>>1);\n\
+    \        return M::f(query_(node[id].l, a, b, l, m), query_(node[id].r, a, b,\
+    \ m, r));\n    }\n\n    T value(int id) const {\n        return id == -1 ? M::e()\
+    \ : node[id].val;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = long long;\n\
+    \    static T f(T a, T b) { return a + b; }\n    static T e() { return 0; }\n\
+    };\n*/\n\n/**\n * @brief Dynamic Segment Tree\n */\n#line 14 \"test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp\"\
+    \n\nstruct Monoid{\n    using T = long long;\n    static T f(T a, T b) { return\
+    \ a + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    DynamicSegmentTree<Monoid>\
+    \ seg(n);\n    if (n > 0) seg.reserve((size_t)4 * n);\n    for (int i = 0; i <\
+    \ n; ++i) {\n        long long a;\n        sc.read(a);\n        seg.add(i, a);\n\
+    \    }\n\n    while (q--) {\n        int t;\n        sc.read(t);\n        if (t\
+    \ == 0) {\n            int p;\n            long long x;\n            sc.read(p,\
+    \ x);\n            seg.add(p, x);\n        } else {\n            int l, r;\n \
+    \           sc.read(l, r);\n            pr.println(seg.query(l, r));\n       \
+    \ }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
     \n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
@@ -295,7 +314,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-07 00:49:22+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp

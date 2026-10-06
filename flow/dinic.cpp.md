@@ -21,6 +21,9 @@ data:
     path: test/yosupo_aplusb_flow_boundaries.test.cpp
     title: test/yosupo_aplusb_flow_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_maxflow_lower_bound.test.cpp
+    title: test/yosupo_aplusb_maxflow_lower_bound.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
     title: test/yosupo_aplusb_project_selection_pair_profit.test.cpp
   - icon: ':heavy_check_mark:'
@@ -101,6 +104,7 @@ data:
   - test/aoj0396.test.cpp
   - test/yuki957.test.cpp
   - test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
+  - test/yosupo_aplusb_maxflow_lower_bound.test.cpp
 date: 2019-07-31
 documentation_of: flow/dinic.cpp
 layout: document

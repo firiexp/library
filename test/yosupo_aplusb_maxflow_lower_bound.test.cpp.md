@@ -2,9 +2,12 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: flow/costscalingdinic.cpp
-    title: "\u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity Scaling\
-      \ Dinic)"
+    path: flow/dinic.cpp
+    title: "Dinic\u6CD5(Dinic)"
+  - icon: ':heavy_check_mark:'
+    path: graph/maxflow_lower_bound.cpp
+    title: "\u4E0B\u9650\u5236\u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max Flow with\
+      \ Lower Bounds)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -15,15 +18,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A
-  bundledCode: "#line 1 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\n#define PROBLEM\
-    \ \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n#include <algorithm>\n\
-    #include <limits>\n#include <queue>\n#include <vector>\nusing namespace std;\n\
-    \nusing ll = long long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_maxflow_lower_bound.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\ntemplate<class T> constexpr T INF\
+    \ = numeric_limits<T>::max() / 32 * 15 + 208;\n#line 1 \"util/fastio.cpp\"\nusing\
     \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
@@ -231,62 +232,156 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"flow/costscalingdinic.cpp\"\
-    \ntemplate<class T, bool directed>\nclass CostScalingDinic {\n    void bfs(int\
-    \ s, T x){\n        fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n\
-    \        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n  \
-    \          int v = Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n \
-    \               if(e.cap >= x && level[e.to] < 0){\n                    level[e.to]\
-    \ = level[v] + 1;\n                    Q.emplace(e.to);\n                }\n \
-    \           }\n        }\n    }\n\n    T dfs(int v, int t, T x, T f){\n      \
-    \  if(v == t) return f;\n        T res = 0;\n        for(int &i = iter[v]; i <\
-    \ G[v].size(); i++){\n            edge &e = G[v][i];\n            if(e.cap >=\
-    \ x && level[v] < level[e.to]){\n                T d = dfs(e.to, t, x, min(f-res,\
-    \  e.cap));\n                if(d == 0) continue;\n                e.cap -= d;\n\
-    \                G[e.to][e.rev].cap += d;\n                res += d;\n       \
-    \         if(f - res < x) break;\n            }\n        }\n        return res;\n\
-    \    }\npublic:\n    struct edge {\n        int to{}; T cap; int rev{};\n    \
-    \    edge() = default;\n        edge(int to, T cap, int rev) : to(to), cap(cap),\
-    \ rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n    vector<int> level, iter;\n\
-    \    CostScalingDinic() = default;\n    explicit CostScalingDinic(int n) : G(n),\
-    \ level(n), iter(n) {}\n\n    void add_edge(int from, int to, T cap){\n      \
-    \  if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
-    \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
-    \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
-    \ T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n        T cap = 1;\
-    \ while(cap <= lim / 2) cap <<= 1;\n        while(cap && ret < lim) {\n      \
-    \      bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
-    \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
-    \ 0);\n            ret += dfs(s, t, cap, lim - ret);\n        }\n        return\
-    \ ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\
-    \u30B0Dinic(Capacity Scaling Dinic)\n */\n#line 20 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
-    \ c);\n    }\n    pr.println(mf.flow(0, n - 1));\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n\
-    #include <algorithm>\n#include <limits>\n#include <queue>\n#include <vector>\n\
-    using namespace std;\n\nusing ll = long long;\ntemplate<class T> constexpr T INF\
-    \ = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../flow/costscalingdinic.cpp\"\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
-    \ c);\n    }\n    pr.println(mf.flow(0, n - 1));\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"flow/dinic.cpp\"\
+    \ntemplate<class T, bool directed>\nclass Dinic {\n    void bfs(int s){\n    \
+    \    fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n        level[s]\
+    \ = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n            int v =\
+    \ Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n                if(e.cap\
+    \ > 0 && level[e.to] < 0){\n                    level[e.to] = level[v] + 1;\n\
+    \                    Q.emplace(e.to);\n                }\n            }\n    \
+    \    }\n    }\n \n    T dfs(int v, int t, T f){\n        if(v == t) return f;\n\
+    \        for(int &i = iter[v]; i < G[v].size(); i++){\n            edge &e = G[v][i];\n\
+    \            if(e.cap > 0 && level[v] < level[e.to]){\n                T d = dfs(e.to,\
+    \ t, min(f,  e.cap));\n                if(d == 0) continue;\n                e.cap\
+    \ -= d;\n                G[e.to][e.rev].cap += d;\n                return d;\n\
+    \            }\n        }\n        return 0;\n    }\npublic:\n    struct edge\
+    \ {\n        int to{}; T cap; int rev{};\n        edge() = default;\n        edge(int\
+    \ to, T cap, int rev) : to(to), cap(cap), rev(rev) {}\n    };\n \n    vector<vector<edge>>\
+    \ G;\n    vector<int> level, iter;\n    Dinic() = default;\n    explicit Dinic(int\
+    \ n) : G(n), level(n), iter(n) {}\n \n    void add_edge(int from, int to, T cap){\n\
+    \        int from_id = G[from].size(), to_id = G[to].size();\n        if(from\
+    \ == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n        G[to].emplace_back(from,\
+    \ directed ? 0 : cap, from_id);\n    }\n \n \n    T flow(int s, int t, T lim =\
+    \ INF<T>){\n        T ret = 0;\n        while(true) {\n            bfs(s);\n \
+    \           if(level[t] < 0 || lim == 0) break;\n            fill(iter.begin(),iter.end(),\
+    \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
+    \           if(f == 0) break;\n                ret += f;\n                lim\
+    \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
+    \ Dinic\u6CD5(Dinic)\n */\n#line 2 \"graph/maxflow_lower_bound.cpp\"\n\ntemplate<class\
+    \ T>\nclass MaxFlowLowerBound {\n\n    struct raw_edge {\n        int from{},\
+    \ to{};\n        T lower{}, upper{};\n    };\n\npublic:\n    struct Result {\n\
+    \        bool exists;\n        T value;\n        vector<T> edge_flow;\n    };\n\
+    \n    int n;\n    vector<raw_edge> edges;\n    MaxFlowLowerBound() = default;\n\
+    \    explicit MaxFlowLowerBound(int n) : n(n) {}\n\n    void add_edge(int from,\
+    \ int to, T lower, T upper) {\n        edges.push_back({from, to, lower, upper});\n\
+    \    }\n\n    pair<bool, T> max_flow(int s, int t) {\n        auto result = max_flow_with_edges(s,\
+    \ t);\n        return {result.exists, result.value};\n    }\n\n    Result max_flow_with_edges(int\
+    \ s, int t) {\n        int ss = n, tt = n + 1;\n        Dinic<T, true> mf(n +\
+    \ 2);\n        vector<T> b(n, 0);\n        auto add_edge = [&](int from, int to,\
+    \ T cap) {\n            int idx = (int)mf.G[from].size();\n            mf.add_edge(from,\
+    \ to, cap);\n            return pair<int, int>{from, idx};\n        };\n\n   \
+    \     vector<pair<int, int>> edge_ids;\n        edge_ids.reserve(edges.size());\n\
+    \        for(auto &&e : edges) {\n            edge_ids.push_back(add_edge(e.from,\
+    \ e.to, e.upper - e.lower));\n            b[e.from] -= e.lower;\n            b[e.to]\
+    \ += e.lower;\n        }\n\n        auto ts = add_edge(t, s, INF<T>);\n      \
+    \  T req = 0;\n        vector<pair<int, int>> super_edges;\n        for(int v\
+    \ = 0; v < n; ++v) {\n            if(b[v] > 0) {\n                req += b[v];\n\
+    \                super_edges.emplace_back(add_edge(ss, v, b[v]));\n          \
+    \  } else if(b[v] < 0) {\n                mf.add_edge(v, tt, -b[v]);\n       \
+    \     }\n        }\n\n        if(mf.flow(ss, tt) != req) return {false, 0, {}};\n\
+    \n        for(auto &&id : super_edges) {\n            if(mf.G[id.first][id.second].cap\
+    \ != 0) return {false, 0, {}};\n        }\n\n        int to = mf.G[ts.first][ts.second].to;\n\
+    \        int rev = mf.G[ts.first][ts.second].rev;\n        T base = mf.G[to][rev].cap;\n\
+    \        mf.G[ts.first][ts.second].cap = 0;\n        mf.G[to][rev].cap = 0;\n\n\
+    \        T add = mf.flow(s, t);\n        Result result{true, base + add, {}};\n\
+    \        result.edge_flow.reserve(edges.size());\n        for(size_t i = 0; i\
+    \ < edges.size(); ++i) {\n            const auto &e = mf.G[edge_ids[i].first][edge_ids[i].second];\n\
+    \            result.edge_flow.push_back(edges[i].lower + mf.G[e.to][e.rev].cap);\n\
+    \        }\n        return result;\n    }\n};\n\n/**\n * @brief \u4E0B\u9650\u5236\
+    \u7D04\u4ED8\u304Ds-t\u6700\u5927\u6D41 (Max Flow with Lower Bounds)\n */\n#line\
+    \ 9 \"test/yosupo_aplusb_maxflow_lower_bound.test.cpp\"\n\nusing Edge = tuple<int,\
+    \ int, ll, ll>;\n\nvoid check_result(int n, int s, int t, const vector<Edge> &edges,\
+    \ ll expected) {\n    MaxFlowLowerBound<ll> g(n);\n    for (auto [u, v, lower,\
+    \ upper] : edges) g.add_edge(u, v, lower, upper);\n    auto result = g.max_flow_with_edges(s,\
+    \ t);\n    assert(result.exists == (expected >= 0));\n    assert(result.value\
+    \ == max(0LL, expected));\n    if (result.exists) {\n        assert(result.edge_flow.size()\
+    \ == edges.size());\n        vector<ll> balance(n);\n        for (size_t i = 0;\
+    \ i < edges.size(); ++i) {\n            auto [u, v, lower, upper] = edges[i];\n\
+    \            ll f = result.edge_flow[i];\n            assert(lower <= f && f <=\
+    \ upper);\n            balance[u] += f;\n            balance[v] -= f;\n      \
+    \  }\n        for (int v = 0; v < n; ++v)\n            assert(balance[v] == (v\
+    \ == s ? expected : v == t ? -expected : 0));\n    } else {\n        assert(result.edge_flow.empty());\n\
+    \    }\n    auto again = g.max_flow_with_edges(s, t);\n    assert(again.exists\
+    \ == result.exists && again.value == result.value);\n    assert(again.edge_flow\
+    \ == result.edge_flow);\n    assert(g.max_flow(s, t) == make_pair(result.exists,\
+    \ result.value));\n}\n\nvoid check(int n, int s, int t, const vector<Edge> &edges)\
+    \ {\n    vector<ll> balance(n);\n    ll expected = -1;\n    auto enumerate = [&](auto\
+    \ &&self, size_t i) -> void {\n        if (i == edges.size()) {\n            for\
+    \ (int v = 0; v < n; ++v)\n                if (v != s && v != t && balance[v])\
+    \ return;\n            if (balance[s] >= 0 && balance[s] == -balance[t])\n   \
+    \             expected = max(expected, balance[s]);\n            return;\n   \
+    \     }\n        auto [u, v, lower, upper] = edges[i];\n        for (ll f = lower;\
+    \ f <= upper; ++f) {\n            balance[u] += f;\n            balance[v] -=\
+    \ f;\n            self(self, i + 1);\n            balance[u] -= f;\n         \
+    \   balance[v] += f;\n        }\n    };\n    enumerate(enumerate, 0);\n    check_result(n,\
+    \ s, t, edges, expected);\n}\n\nint main() {\n    check(2, 0, 1, {});\n    check(3,\
+    \ 0, 2, {{0, 1, 1, 1}});\n    check(2, 0, 1, {{1, 0, 1, 2}});\n    check(3, 0,\
+    \ 2, {{0, 0, 2, 3}, {0, 1, 1, 3}, {0, 1, 2, 2},\n                    {1, 2, 3,\
+    \ 6}, {2, 2, 1, 1}, {0, 2, 0, 0}});\n    check_result(3, 0, 2, {{0, 1, 1LL <<\
+    \ 40, 2LL << 40},\n                          {1, 2, 1LL << 40, 3LL << 40}}, 2LL\
+    \ << 40);\n    mt19937 rng(106);\n    for (int tc = 0; tc < 10000; ++tc) {\n \
+    \       int n = 2 + rng() % 5;\n        int s = rng() % n, t = rng() % (n - 1);\n\
+    \        if (t >= s) ++t;\n        vector<Edge> edges;\n        int m = rng()\
+    \ % 8;\n        for (int i = 0; i < m; ++i) {\n            ll upper = rng() %\
+    \ 4, lower = rng() % (upper + 1);\n            edges.emplace_back(rng() % n, rng()\
+    \ % n, lower, upper);\n        }\n        check(n, s, t, edges);\n    }\n    Scanner\
+    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
+    \ b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\ntemplate<class T> constexpr T INF\
+    \ = numeric_limits<T>::max() / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../graph/maxflow_lower_bound.cpp\"\n\nusing Edge = tuple<int, int,\
+    \ ll, ll>;\n\nvoid check_result(int n, int s, int t, const vector<Edge> &edges,\
+    \ ll expected) {\n    MaxFlowLowerBound<ll> g(n);\n    for (auto [u, v, lower,\
+    \ upper] : edges) g.add_edge(u, v, lower, upper);\n    auto result = g.max_flow_with_edges(s,\
+    \ t);\n    assert(result.exists == (expected >= 0));\n    assert(result.value\
+    \ == max(0LL, expected));\n    if (result.exists) {\n        assert(result.edge_flow.size()\
+    \ == edges.size());\n        vector<ll> balance(n);\n        for (size_t i = 0;\
+    \ i < edges.size(); ++i) {\n            auto [u, v, lower, upper] = edges[i];\n\
+    \            ll f = result.edge_flow[i];\n            assert(lower <= f && f <=\
+    \ upper);\n            balance[u] += f;\n            balance[v] -= f;\n      \
+    \  }\n        for (int v = 0; v < n; ++v)\n            assert(balance[v] == (v\
+    \ == s ? expected : v == t ? -expected : 0));\n    } else {\n        assert(result.edge_flow.empty());\n\
+    \    }\n    auto again = g.max_flow_with_edges(s, t);\n    assert(again.exists\
+    \ == result.exists && again.value == result.value);\n    assert(again.edge_flow\
+    \ == result.edge_flow);\n    assert(g.max_flow(s, t) == make_pair(result.exists,\
+    \ result.value));\n}\n\nvoid check(int n, int s, int t, const vector<Edge> &edges)\
+    \ {\n    vector<ll> balance(n);\n    ll expected = -1;\n    auto enumerate = [&](auto\
+    \ &&self, size_t i) -> void {\n        if (i == edges.size()) {\n            for\
+    \ (int v = 0; v < n; ++v)\n                if (v != s && v != t && balance[v])\
+    \ return;\n            if (balance[s] >= 0 && balance[s] == -balance[t])\n   \
+    \             expected = max(expected, balance[s]);\n            return;\n   \
+    \     }\n        auto [u, v, lower, upper] = edges[i];\n        for (ll f = lower;\
+    \ f <= upper; ++f) {\n            balance[u] += f;\n            balance[v] -=\
+    \ f;\n            self(self, i + 1);\n            balance[u] -= f;\n         \
+    \   balance[v] += f;\n        }\n    };\n    enumerate(enumerate, 0);\n    check_result(n,\
+    \ s, t, edges, expected);\n}\n\nint main() {\n    check(2, 0, 1, {});\n    check(3,\
+    \ 0, 2, {{0, 1, 1, 1}});\n    check(2, 0, 1, {{1, 0, 1, 2}});\n    check(3, 0,\
+    \ 2, {{0, 0, 2, 3}, {0, 1, 1, 3}, {0, 1, 2, 2},\n                    {1, 2, 3,\
+    \ 6}, {2, 2, 1, 1}, {0, 2, 0, 0}});\n    check_result(3, 0, 2, {{0, 1, 1LL <<\
+    \ 40, 2LL << 40},\n                          {1, 2, 1LL << 40, 3LL << 40}}, 2LL\
+    \ << 40);\n    mt19937 rng(106);\n    for (int tc = 0; tc < 10000; ++tc) {\n \
+    \       int n = 2 + rng() % 5;\n        int s = rng() % n, t = rng() % (n - 1);\n\
+    \        if (t >= s) ++t;\n        vector<Edge> edges;\n        int m = rng()\
+    \ % 8;\n        for (int i = 0; i < m; ++i) {\n            ll upper = rng() %\
+    \ 4, lower = rng() % (upper + 1);\n            edges.emplace_back(rng() % n, rng()\
+    \ % n, lower, upper);\n        }\n        check(n, s, t, edges);\n    }\n    Scanner\
+    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
+    \ b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - flow/costscalingdinic.cpp
+  - graph/maxflow_lower_bound.cpp
+  - flow/dinic.cpp
   isVerificationFile: true
-  path: test/aoj_grl_6_a_costscalingdinic.test.cpp
+  path: test/yosupo_aplusb_maxflow_lower_bound.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:42:19+09:00'
+  timestamp: '2026-10-07 00:44:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_grl_6_a_costscalingdinic.test.cpp
+documentation_of: test/yosupo_aplusb_maxflow_lower_bound.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_grl_6_a_costscalingdinic.test.cpp
-- /verify/test/aoj_grl_6_a_costscalingdinic.test.cpp.html
-title: test/aoj_grl_6_a_costscalingdinic.test.cpp
+- /verify/test/yosupo_aplusb_maxflow_lower_bound.test.cpp
+- /verify/test/yosupo_aplusb_maxflow_lower_bound.test.cpp.html
+title: test/yosupo_aplusb_maxflow_lower_bound.test.cpp
 ---

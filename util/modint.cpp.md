@@ -89,6 +89,9 @@ data:
     path: test/yosupo_pow_of_matrix.test.cpp
     title: test/yosupo_pow_of_matrix.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_pow_of_matrix_generic.test.cpp
+    title: test/yosupo_pow_of_matrix_generic.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_queue_operate_all_composite.test.cpp
     title: test/yosupo_queue_operate_all_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -181,6 +184,7 @@ data:
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj_dpl_5_a.test.cpp
   - test/yosupo_bitwise_xor_convolution.test.cpp
+  - test/yosupo_pow_of_matrix_generic.test.cpp
   - test/yosupo_matrix_product.test.cpp
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp

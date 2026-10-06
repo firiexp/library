@@ -33,7 +33,7 @@ data:
     \ int rev{};\n        edge() = default;\n        edge(int to, T cap, int rev)\
     \ : to(to), cap(cap), rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n   \
     \ vector<int> level, iter;\n    CostScalingDinic() = default;\n    explicit CostScalingDinic(int\
-    \ n) : G(n), level(n), iter(n) {}\n\n    void add_edge(int from, int to, int cap){\n\
+    \ n) : G(n), level(n), iter(n) {}\n\n    void add_edge(int from, int to, T cap){\n\
     \        if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
     \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
     \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
@@ -61,8 +61,8 @@ data:
     \    edge() = default;\n        edge(int to, T cap, int rev) : to(to), cap(cap),\
     \ rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n    vector<int> level, iter;\n\
     \    CostScalingDinic() = default;\n    explicit CostScalingDinic(int n) : G(n),\
-    \ level(n), iter(n) {}\n\n    void add_edge(int from, int to, int cap){\n    \
-    \    if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
+    \ level(n), iter(n) {}\n\n    void add_edge(int from, int to, T cap){\n      \
+    \  if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
     \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
     \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
     \ T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n        T cap = 1;\
@@ -76,7 +76,7 @@ data:
   isVerificationFile: false
   path: flow/costscalingdinic.cpp
   requiredBy: []
-  timestamp: '2026-10-03 13:01:29+09:00'
+  timestamp: '2026-10-07 00:42:19+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_flow_boundaries.test.cpp
@@ -92,7 +92,7 @@ capacity scaling を入れた Dinic 法による最大流である。
 ## できること
 - `CostScalingDinic<T, directed> mf(n)`
   頂点数 `n` のフローグラフを作る
-- `void add_edge(int from, int to, int cap)`
+- `void add_edge(int from, int to, T cap)`
   容量 `cap` の辺を張る。`directed=false` なら無向辺
 - `T flow(int s, int t, T lim = INF<T>)`
   `s` から `t` への最大流を返す
@@ -108,4 +108,6 @@ long long ans = mf.flow(s, t);
 
 ## 実装上の補足
 辺容量 0 は追加しない。
+容量は非負で、計算中の残余容量も `T` に収まる必要がある。
+無向辺の逆向き残余容量は、元容量の 2 倍になる場合がある。
 `flow` の `lim` は初期 scaling 幅の上限にも使うので、必要なら流量上限を渡すとよい。

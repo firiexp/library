@@ -227,6 +227,9 @@ data:
       path: graph/chu_liu_edmonds.cpp
       title: "\u6700\u5C0F\u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)"
     - icon: ':heavy_check_mark:'
+      path: graph/complement_components.cpp
+      title: "\u88DC\u30B0\u30E9\u30D5\u306E\u9023\u7D50\u6210\u5206"
+    - icon: ':heavy_check_mark:'
       path: graph/cycle_detection_directed.cpp
       title: "\u6709\u5411\u9589\u8DEF\u691C\u51FA(Directed Cycle Detection)"
     - icon: ':heavy_check_mark:'
@@ -767,6 +770,9 @@ data:
       path: test/yosupo_aplusb_comb_table.test.cpp
       title: test/yosupo_aplusb_comb_table.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_complement_components.test.cpp
+      title: test/yosupo_aplusb_complement_components.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_crt.test.cpp
       title: test/yosupo_aplusb_crt.test.cpp
     - icon: ':heavy_check_mark:'
@@ -781,6 +787,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dynamic_bitset.test.cpp
       title: test/yosupo_aplusb_dynamic_bitset.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_dynamic_segtree_search.test.cpp
+      title: test/yosupo_aplusb_dynamic_segtree_search.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
@@ -820,6 +829,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_matrix_semiring.test.cpp
       title: test/yosupo_aplusb_matrix_semiring.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_maxflow_lower_bound.test.cpp
+      title: test/yosupo_aplusb_maxflow_lower_bound.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_min_cost_b_flow.test.cpp
       title: test/yosupo_aplusb_min_cost_b_flow.test.cpp
@@ -931,6 +943,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_closest_pair.test.cpp
       title: test/yosupo_closest_pair.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_connected_components_of_complement_graph.test.cpp
+      title: test/yosupo_connected_components_of_complement_graph.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_convolution.test.cpp
       title: test/yosupo_convolution.test.cpp
@@ -1141,6 +1156,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_pow_of_matrix.test.cpp
       title: test/yosupo_pow_of_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_pow_of_matrix_generic.test.cpp
+      title: test/yosupo_pow_of_matrix_generic.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_predecessor_problem_interval_set.test.cpp
       title: test/yosupo_predecessor_problem_interval_set.test.cpp

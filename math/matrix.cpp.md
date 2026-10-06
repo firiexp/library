@@ -10,6 +10,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_product.test.cpp
     title: test/yosupo_matrix_product.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_pow_of_matrix_generic.test.cpp
+    title: test/yosupo_pow_of_matrix_generic.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -37,11 +40,11 @@ data:
     \                 H::add(C[i][j], H::mul((*this)[i][k], B[k][j]));\n         \
     \       }\n            }\n        }\n        A.swap(C.A);\n        return (*this);\n\
     \    }\n\n    matrix pow(ll n) const {\n        matrix a = (*this), res = I(height());\n\
-    \        while(n > 0){\n            if (n & 1) res *= a;\n            a *= a;\n\
-    \            n >>= 1;\n        }\n        return res;\n    }\n    matrix operator+(const\
-    \ matrix &B) const {return matrix(*this) += B;}\n    matrix operator-(const matrix\
-    \ &B) const {return matrix(*this) -= B;}\n    matrix operator*(const matrix &B)\
-    \ const {return matrix(*this) *= B;}\n\n    mint detarminant(){\n        mint\
+    \        while(n > 0){\n            if (n & 1) res *= a;\n            n >>= 1;\n\
+    \            if (n) a *= a;\n        }\n        return res;\n    }\n    matrix\
+    \ operator+(const matrix &B) const {return matrix(*this) += B;}\n    matrix operator-(const\
+    \ matrix &B) const {return matrix(*this) -= B;}\n    matrix operator*(const matrix\
+    \ &B) const {return matrix(*this) *= B;}\n\n    mint detarminant(){\n        mint\
     \ res = 1;\n        int rank = 0;\n        for (int c = 0; c < width(); ++c) {\n\
     \            int k = -1;\n            for (int i = rank; i < height(); ++i) {\n\
     \                if(A[i][c] != H::zero()){\n                    k = i;\n     \
@@ -80,19 +83,19 @@ data:
     \ H::mul((*this)[i][k], B[k][j]));\n                }\n            }\n       \
     \ }\n        A.swap(C.A);\n        return (*this);\n    }\n\n    matrix pow(ll\
     \ n) const {\n        matrix a = (*this), res = I(height());\n        while(n\
-    \ > 0){\n            if (n & 1) res *= a;\n            a *= a;\n            n\
-    \ >>= 1;\n        }\n        return res;\n    }\n    matrix operator+(const matrix\
-    \ &B) const {return matrix(*this) += B;}\n    matrix operator-(const matrix &B)\
-    \ const {return matrix(*this) -= B;}\n    matrix operator*(const matrix &B) const\
-    \ {return matrix(*this) *= B;}\n\n    mint detarminant(){\n        mint res =\
-    \ 1;\n        int rank = 0;\n        for (int c = 0; c < width(); ++c) {\n   \
-    \         int k = -1;\n            for (int i = rank; i < height(); ++i) {\n \
-    \               if(A[i][c] != H::zero()){\n                    k = i;\n      \
-    \              break;\n                }\n            }\n            if(!~k) continue;\n\
-    \            if(k != rank) res = -res;\n            swap(A[k], A[rank]);\n   \
-    \         res *= A[rank][c];\n            T x = T(1)/A[rank][c];\n           \
-    \ for (int j = 0; j < width(); ++j) A[rank][j] *= x;\n            for (int i =\
-    \ 0; i < height(); ++i) {\n                if(i != rank && A[i][c] != H::zero()){\n\
+    \ > 0){\n            if (n & 1) res *= a;\n            n >>= 1;\n            if\
+    \ (n) a *= a;\n        }\n        return res;\n    }\n    matrix operator+(const\
+    \ matrix &B) const {return matrix(*this) += B;}\n    matrix operator-(const matrix\
+    \ &B) const {return matrix(*this) -= B;}\n    matrix operator*(const matrix &B)\
+    \ const {return matrix(*this) *= B;}\n\n    mint detarminant(){\n        mint\
+    \ res = 1;\n        int rank = 0;\n        for (int c = 0; c < width(); ++c) {\n\
+    \            int k = -1;\n            for (int i = rank; i < height(); ++i) {\n\
+    \                if(A[i][c] != H::zero()){\n                    k = i;\n     \
+    \               break;\n                }\n            }\n            if(!~k)\
+    \ continue;\n            if(k != rank) res = -res;\n            swap(A[k], A[rank]);\n\
+    \            res *= A[rank][c];\n            T x = T(1)/A[rank][c];\n        \
+    \    for (int j = 0; j < width(); ++j) A[rank][j] *= x;\n            for (int\
+    \ i = 0; i < height(); ++i) {\n                if(i != rank && A[i][c] != H::zero()){\n\
     \                    T coeff = A[i][c];\n                    for (int j = 0; j\
     \ < width(); ++j) {\n                        A[i][j] -= A[rank][j]*coeff;\n  \
     \                  }\n                }\n            }\n            rank++;\n\
@@ -105,9 +108,10 @@ data:
   isVerificationFile: false
   path: math/matrix.cpp
   requiredBy: []
-  timestamp: '2026-10-03 14:33:32+09:00'
+  timestamp: '2026-10-07 00:46:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_pow_of_matrix_generic.test.cpp
   - test/yosupo_matrix_product.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp
 date: 2026-03-15
@@ -130,7 +134,7 @@ title: "\u884C\u5217"
 - `A += B`, `A -= B`, `A *= B`
   同じサイズの加減算、または行列積を行う
 - `A.pow(k)`
-  正方行列の $k$ 乗を返す。`k = 0` なら単位行列
+  正方行列の非負整数 $k$ 乗を返す。`k = 0` なら単位行列。$k > 0$ で $O(n^3 \log(k+1))$
 
 ## 使い方
 `H` に `using T`、`static T mul(T, T)`、`static void add(T&, T)`、`static T one()`、`static T zero()` を定義して使う。

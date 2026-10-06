@@ -7,6 +7,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0399.test.cpp
     title: test/aoj0399.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_matrix_semiring.test.cpp
+    title: test/yosupo_aplusb_matrix_semiring.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_pow_of_matrix_generic.test.cpp
+    title: test/yosupo_pow_of_matrix_generic.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -42,8 +48,8 @@ data:
     \ (*this);\n    }\n    SquareMatrix &operator*=(const SquareMatrix &B) { return\
     \ mul_assign(B); }\n\n    SquareMatrix pow(ll n, size_t dim = SIZE) const {\n\
     \        SquareMatrix a = (*this), res = I(dim);\n\n        while(n > 0){\n  \
-    \          if(n & 1) res.mul_assign(a, dim);\n            a.mul_assign(a, dim);\n\
-    \            n >>= 1;\n        }\n        return res;\n    }\n    SquareMatrix\
+    \          if(n & 1) res.mul_assign(a, dim);\n            n >>= 1;\n         \
+    \   if(n) a.mul_assign(a, dim);\n        }\n        return res;\n    }\n    SquareMatrix\
     \ operator+(const SquareMatrix &B) const {return SquareMatrix(*this) += B;}\n\
     \    SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this)\
     \ -= B;}\n    SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this)\
@@ -77,8 +83,8 @@ data:
     \ (*this);\n    }\n    SquareMatrix &operator*=(const SquareMatrix &B) { return\
     \ mul_assign(B); }\n\n    SquareMatrix pow(ll n, size_t dim = SIZE) const {\n\
     \        SquareMatrix a = (*this), res = I(dim);\n\n        while(n > 0){\n  \
-    \          if(n & 1) res.mul_assign(a, dim);\n            a.mul_assign(a, dim);\n\
-    \            n >>= 1;\n        }\n        return res;\n    }\n    SquareMatrix\
+    \          if(n & 1) res.mul_assign(a, dim);\n            n >>= 1;\n         \
+    \   if(n) a.mul_assign(a, dim);\n        }\n        return res;\n    }\n    SquareMatrix\
     \ operator+(const SquareMatrix &B) const {return SquareMatrix(*this) += B;}\n\
     \    SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this)\
     \ -= B;}\n    SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this)\
@@ -88,10 +94,12 @@ data:
   isVerificationFile: false
   path: math/squarematrix.cpp
   requiredBy: []
-  timestamp: '2026-03-15 18:15:27+09:00'
+  timestamp: '2026-10-07 00:46:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0399.test.cpp
+  - test/yosupo_pow_of_matrix_generic.test.cpp
+  - test/yosupo_aplusb_matrix_semiring.test.cpp
 date: 2026-03-15
 documentation_of: math/squarematrix.cpp
 layout: document
@@ -113,9 +121,9 @@ title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
 - `A += B`, `A -= B`, `A *= B`
   加減算、行列積を行う
 - `A.pow(k)`
-  $A^k$ を返す
+  非負整数 $k$ に対して $A^k$ を返す。`k = 0` なら単位行列
 - `A.pow(k, n)`
-  左上 `n × n` だけを使って $A^k$ を返す
+  左上 `n × n` だけを使って $A^k$ を返す。$k > 0$ で $O(n^3 \log(k+1))$
 - `x * A`
   長さ `SIZE` の行ベクトルに右から掛ける
 

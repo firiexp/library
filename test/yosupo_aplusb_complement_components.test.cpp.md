@@ -2,17 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/matrix.cpp
-    title: "\u884C\u5217"
+    path: graph/complement_components.cpp
+    title: "\u88DC\u30B0\u30E9\u30D5\u306E\u9023\u7D50\u6210\u5206"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
-  - icon: ':heavy_check_mark:'
-    path: util/modint.cpp
-    title: "modint(\u56FA\u5B9AMOD)"
-  - icon: ':heavy_check_mark:'
-    path: util/modint_base.cpp
-    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -20,20 +14,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/matrix_product
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/matrix_product
-  bundledCode: "#line 1 \"test/yosupo_matrix_product.test.cpp\"\n#define PROBLEM \"\
-    https://judge.yosupo.jp/problem/matrix_product\"\n\n#include <vector>\nusing namespace\
-    \ std;\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint\
-    \ = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_complement_components.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -235,127 +226,95 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint.cpp\"\
-    \n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
-    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
-    \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
-    \ constexpr uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class\
-    \ T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val =\
-    \ uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint\
-    \ &value() noexcept { return val; }\n    const uint &value() const noexcept {\
-    \ return val; }\n    modint& operator++() { val++; if (val == Mod) val = 0; return\
-    \ *this; }\n    modint& operator--() { if (val == 0) val = Mod; val--; return\
-    \ *this; }\n    modint operator++(int) { modint result = *this; ++*this; return\
-    \ result; }\n    modint operator--(int) { modint result = *this; --*this; return\
-    \ result; }\n    modint& operator+=(const modint& b) { val += b.val; if (val >=\
-    \ Mod) val -= Mod; return *this; }\n    modint& operator-=(const modint& b) {\
-    \ val -= b.val; if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const\
-    \ modint& b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n\
-    \    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }\n\
-    \    modint operator+() const { return *this; }\n    modint operator-() const\
-    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
-    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
-    \    modint inv() const { return pow(Mod - 2); }\n    friend modint operator+(const\
-    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
-    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
-    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
-    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
-    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
-    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
-    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
-    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
-    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/matrix.cpp\"\ntemplate<class\
-    \ H>\nstruct matrix {\n    using T = typename H::T;\n    vector<vector<T>> A;\n\
-    \    matrix() = default;\n    matrix(size_t n, size_t m) : A(n, vector<T>(m, H::zero()))\
-    \ {}\n    explicit matrix(size_t n) : A(n, vector<T>(n, H::zero())) {};\n    size_t\
-    \ height() const { return (A.size()); }\n    size_t width() const { return (A.empty()\
-    \ ? 0 : A[0].size()); }\n\n    const vector<T> &operator [] (int k) const { return\
-    \ A[k]; }\n    vector<T> &operator[] (int k) { return A[k]; }\n\n    static matrix\
-    \ I(size_t n){\n        matrix mat(n);\n        for (size_t i = 0; i < n; ++i)\
-    \ mat[i][i] = H::one();\n        return mat;\n    }\n\n    matrix &operator+=\
-    \ (const matrix &B){\n        size_t h = height(), w = width();\n        for (size_t\
-    \ i = 0; i < h; ++i) {\n            for (size_t j = 0; j < w; ++j) {\n       \
-    \         H::add((*this)[i][j], B[i][j]);\n            }\n        }\n        return\
-    \ (*this);\n    }\n\n    matrix &operator-= (const matrix &B){\n        size_t\
-    \ h = height(), w = width();\n        for (size_t i = 0; i < h; ++i) {\n     \
-    \       for (size_t j = 0; j < w; ++j) {\n                H::add((*this)[i][j],\
-    \ -B[i][j]);\n            }\n        }\n        return (*this);\n    }\n\n   \
-    \ matrix &operator*=(const matrix &B) {\n        size_t n = height(), m = B.width(),\
-    \ p = width();\n        matrix C(n, m);\n        for (size_t i = 0; i < n; ++i)\
-    \ {\n            for (size_t k = 0; k < p; ++k) {\n                for (size_t\
-    \ j = 0; j < m; ++j) {\n                    H::add(C[i][j], H::mul((*this)[i][k],\
-    \ B[k][j]));\n                }\n            }\n        }\n        A.swap(C.A);\n\
-    \        return (*this);\n    }\n\n    matrix pow(ll n) const {\n        matrix\
-    \ a = (*this), res = I(height());\n        while(n > 0){\n            if (n &\
-    \ 1) res *= a;\n            n >>= 1;\n            if (n) a *= a;\n        }\n\
-    \        return res;\n    }\n    matrix operator+(const matrix &B) const {return\
-    \ matrix(*this) += B;}\n    matrix operator-(const matrix &B) const {return matrix(*this)\
-    \ -= B;}\n    matrix operator*(const matrix &B) const {return matrix(*this) *=\
-    \ B;}\n\n    mint detarminant(){\n        mint res = 1;\n        int rank = 0;\n\
-    \        for (int c = 0; c < width(); ++c) {\n            int k = -1;\n      \
-    \      for (int i = rank; i < height(); ++i) {\n                if(A[i][c] !=\
-    \ H::zero()){\n                    k = i;\n                    break;\n      \
-    \          }\n            }\n            if(!~k) continue;\n            if(k !=\
-    \ rank) res = -res;\n            swap(A[k], A[rank]);\n            res *= A[rank][c];\n\
-    \            T x = T(1)/A[rank][c];\n            for (int j = 0; j < width();\
-    \ ++j) A[rank][j] *= x;\n            for (int i = 0; i < height(); ++i) {\n  \
-    \              if(i != rank && A[i][c] != H::zero()){\n                    T coeff\
-    \ = A[i][c];\n                    for (int j = 0; j < width(); ++j) {\n      \
-    \                  A[i][j] -= A[rank][j]*coeff;\n                    }\n     \
-    \           }\n            }\n            rank++;\n        }\n        for (int\
-    \ i = 0; i < min(width(), height()); ++i) {\n            res *= A[i][i];\n   \
-    \     }\n        return res;\n    }\n};\n\nstruct SemiRing {\n    using T = mint;\n\
-    \    static inline T mul(T x, T y){ return x * y; }\n    static inline void add(T\
-    \ &x, T y){ x += y; }\n    static inline T one(){ return 1; }\n    static inline\
-    \ T zero(){ return 0; }\n};\n#line 20 \"test/yosupo_matrix_product.test.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, k;\n    sc.read(n,\
-    \ m, k);\n    if (n == 0 || m == 0 || k == 0) {\n        for (int i = 0; i < n;\
-    \ ++i) {\n            for (int j = 0; j < k; ++j) {\n                pr.print(0);\n\
-    \                pr.print(j + 1 == k ? '\\n' : ' ');\n            }\n        \
-    \    if (k == 0) pr.print('\\n');\n        }\n        return 0;\n    }\n    matrix<SemiRing>\
-    \ A(n, m), B(m, k);\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0;\
-    \ j < m; ++j) {\n            int x;\n            sc.read(x);\n            A[i][j]\
-    \ = x;\n        }\n    }\n    for (int i = 0; i < m; ++i) {\n        for (int\
-    \ j = 0; j < k; ++j) {\n            int x;\n            sc.read(x);\n        \
-    \    B[i][j] = x;\n        }\n    }\n\n    auto C = A * B;\n    for (int i = 0;\
-    \ i < n; ++i) {\n        for (int j = 0; j < k; ++j) {\n            pr.print(C[i][j].val);\n\
-    \            pr.print(j + 1 == k ? '\\n' : ' ');\n        }\n    }\n    return\
-    \ 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_product\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
-    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
-    \n#include \"../math/matrix.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n, m, k;\n    sc.read(n, m, k);\n    if (n == 0 || m == 0 ||\
-    \ k == 0) {\n        for (int i = 0; i < n; ++i) {\n            for (int j = 0;\
-    \ j < k; ++j) {\n                pr.print(0);\n                pr.print(j + 1\
-    \ == k ? '\\n' : ' ');\n            }\n            if (k == 0) pr.print('\\n');\n\
-    \        }\n        return 0;\n    }\n    matrix<SemiRing> A(n, m), B(m, k);\n\
-    \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n  \
-    \          int x;\n            sc.read(x);\n            A[i][j] = x;\n       \
-    \ }\n    }\n    for (int i = 0; i < m; ++i) {\n        for (int j = 0; j < k;\
-    \ ++j) {\n            int x;\n            sc.read(x);\n            B[i][j] = x;\n\
-    \        }\n    }\n\n    auto C = A * B;\n    for (int i = 0; i < n; ++i) {\n\
-    \        for (int j = 0; j < k; ++j) {\n            pr.print(C[i][j].val);\n \
-    \           pr.print(j + 1 == k ? '\\n' : ' ');\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/complement_components.cpp\"\
+    \nvector<vector<int>> complement_components(const vector<vector<int>> &g) {\n\
+    \    int n = g.size();\n    vector<int> next(n + 1), marked(n, -1);\n    for(int\
+    \ v = 0; v < n; ++v) next[v] = v + 1;\n    next[n] = 0;\n    vector<vector<int>>\
+    \ components;\n    while(next[n] != n) {\n        int start = next[n];\n     \
+    \   next[n] = next[start];\n        components.push_back({start});\n        auto\
+    \ &component = components.back();\n        for(size_t i = 0; i < component.size();\
+    \ ++i) {\n            int v = component[i];\n            for(int u : g[v]) marked[u]\
+    \ = v;\n            int prev = n;\n            while(next[prev] != n) {\n    \
+    \            int u = next[prev];\n                if(marked[u] == v) {\n     \
+    \               prev = u;\n                } else {\n                    next[prev]\
+    \ = next[u];\n                    component.push_back(u);\n                }\n\
+    \            }\n        }\n    }\n    return components;\n}\n\n/**\n * @brief\
+    \ \u88DC\u30B0\u30E9\u30D5\u306E\u9023\u7D50\u6210\u5206\n */\n#line 7 \"test/yosupo_aplusb_complement_components.test.cpp\"\
+    \n\nvoid check(const vector<vector<int>> &g) {\n    int n = g.size();\n    auto\
+    \ before = g;\n    auto components = complement_components(g);\n    assert(g ==\
+    \ before);\n    vector<vector<bool>> adjacent(n, vector<bool>(n));\n    for (int\
+    \ v = 0; v < n; ++v) for (int u : g[v]) adjacent[v][u] = true;\n    vector<int>\
+    \ expected(n, -1), actual(n, -1);\n    int count = 0;\n    for (int start = 0;\
+    \ start < n; ++start) if (expected[start] < 0) {\n        queue<int> q;\n    \
+    \    q.push(start);\n        expected[start] = count++;\n        while (!q.empty())\
+    \ {\n            int v = q.front();\n            q.pop();\n            for (int\
+    \ u = 0; u < n; ++u) {\n                if (u == v || adjacent[v][u] || expected[u]\
+    \ >= 0) continue;\n                expected[u] = expected[v];\n              \
+    \  q.push(u);\n            }\n        }\n    }\n    assert(int(components.size())\
+    \ == count);\n    for (int i = 0; i < int(components.size()); ++i) {\n       \
+    \ assert(!components[i].empty());\n        for (int v : components[i]) {\n   \
+    \         assert(0 <= v && v < n);\n            assert(actual[v] == -1);\n   \
+    \         actual[v] = i;\n        }\n    }\n    for (int v = 0; v < n; ++v) {\n\
+    \        assert(actual[v] >= 0);\n        for (int u = 0; u < n; ++u)\n      \
+    \      assert((actual[v] == actual[u]) == (expected[v] == expected[u]));\n   \
+    \ }\n}\n\nint main() {\n    for (int n = 0; n <= 6; ++n) {\n        int m = n\
+    \ * (n - 1) / 2;\n        for (int mask = 0; mask < (1 << m); ++mask) {\n    \
+    \        vector<vector<int>> g(n);\n            int bit = 0;\n            for\
+    \ (int v = 0; v < n; ++v) for (int u = 0; u < v; ++u, ++bit) {\n             \
+    \   if (!(mask >> bit & 1)) continue;\n                g[v].push_back(u);\n  \
+    \              g[u].push_back(v);\n            }\n            check(g);\n    \
+    \    }\n    }\n    mt19937 rng(41);\n    for (int tc = 0; tc < 500; ++tc) {\n\
+    \        int n = rng() % 101, density = rng() % 101;\n        vector<vector<int>>\
+    \ g(n);\n        for (int v = 0; v < n; ++v) for (int u = 0; u < v; ++u) {\n \
+    \           if (int(rng() % 100) >= density) continue;\n            g[v].push_back(u);\n\
+    \            g[u].push_back(v);\n        }\n        for (auto &adj : g) shuffle(adj.begin(),\
+    \ adj.end(), rng);\n        check(g);\n    }\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../graph/complement_components.cpp\"\
+    \n\nvoid check(const vector<vector<int>> &g) {\n    int n = g.size();\n    auto\
+    \ before = g;\n    auto components = complement_components(g);\n    assert(g ==\
+    \ before);\n    vector<vector<bool>> adjacent(n, vector<bool>(n));\n    for (int\
+    \ v = 0; v < n; ++v) for (int u : g[v]) adjacent[v][u] = true;\n    vector<int>\
+    \ expected(n, -1), actual(n, -1);\n    int count = 0;\n    for (int start = 0;\
+    \ start < n; ++start) if (expected[start] < 0) {\n        queue<int> q;\n    \
+    \    q.push(start);\n        expected[start] = count++;\n        while (!q.empty())\
+    \ {\n            int v = q.front();\n            q.pop();\n            for (int\
+    \ u = 0; u < n; ++u) {\n                if (u == v || adjacent[v][u] || expected[u]\
+    \ >= 0) continue;\n                expected[u] = expected[v];\n              \
+    \  q.push(u);\n            }\n        }\n    }\n    assert(int(components.size())\
+    \ == count);\n    for (int i = 0; i < int(components.size()); ++i) {\n       \
+    \ assert(!components[i].empty());\n        for (int v : components[i]) {\n   \
+    \         assert(0 <= v && v < n);\n            assert(actual[v] == -1);\n   \
+    \         actual[v] = i;\n        }\n    }\n    for (int v = 0; v < n; ++v) {\n\
+    \        assert(actual[v] >= 0);\n        for (int u = 0; u < n; ++u)\n      \
+    \      assert((actual[v] == actual[u]) == (expected[v] == expected[u]));\n   \
+    \ }\n}\n\nint main() {\n    for (int n = 0; n <= 6; ++n) {\n        int m = n\
+    \ * (n - 1) / 2;\n        for (int mask = 0; mask < (1 << m); ++mask) {\n    \
+    \        vector<vector<int>> g(n);\n            int bit = 0;\n            for\
+    \ (int v = 0; v < n; ++v) for (int u = 0; u < v; ++u, ++bit) {\n             \
+    \   if (!(mask >> bit & 1)) continue;\n                g[v].push_back(u);\n  \
+    \              g[u].push_back(v);\n            }\n            check(g);\n    \
+    \    }\n    }\n    mt19937 rng(41);\n    for (int tc = 0; tc < 500; ++tc) {\n\
+    \        int n = rng() % 101, density = rng() % 101;\n        vector<vector<int>>\
+    \ g(n);\n        for (int v = 0; v < n; ++v) for (int u = 0; u < v; ++u) {\n \
+    \           if (int(rng() % 100) >= density) continue;\n            g[v].push_back(u);\n\
+    \            g[u].push_back(v);\n        }\n        for (auto &adj : g) shuffle(adj.begin(),\
+    \ adj.end(), rng);\n        check(g);\n    }\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - util/modint.cpp
-  - util/modint_base.cpp
-  - math/matrix.cpp
+  - graph/complement_components.cpp
   isVerificationFile: true
-  path: test/yosupo_matrix_product.test.cpp
+  path: test/yosupo_aplusb_complement_components.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:46:56+09:00'
+  timestamp: '2026-10-07 00:51:23+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_matrix_product.test.cpp
+documentation_of: test/yosupo_aplusb_complement_components.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_matrix_product.test.cpp
-- /verify/test/yosupo_matrix_product.test.cpp.html
-title: test/yosupo_matrix_product.test.cpp
+- /verify/test/yosupo_aplusb_complement_components.test.cpp
+- /verify/test/yosupo_aplusb_complement_components.test.cpp.html
+title: test/yosupo_aplusb_complement_components.test.cpp
 ---
