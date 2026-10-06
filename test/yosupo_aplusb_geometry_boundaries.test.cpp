@@ -63,6 +63,27 @@ void diameter_check() {
     }
 }
 
+void polygon_read_check() {
+    const Polygon polygon{Point(0, 0), Point(4, 0), Point(4, 3), Point(0, 3)};
+    const auto original = polygon;
+    assert(area(polygon) == 12 && isconvex(polygon));
+    assert(contains(polygon, Point(1, 1)) == 2);
+    assert(contains(polygon, Point(4, 1)) == 1);
+    assert(contains(polygon, Point(5, 1)) == 0);
+    assert(diameter(polygon) == 5);
+    auto cut = convexCut(polygon, Line(Point(2, -1), Point(2, 4)));
+    assert(cut.size() == 4 && area(cut) == 6);
+    assert(isconvex(cut) && contains(cut, Point(3, 1)) == 0);
+    assert(area(Polygon(polygon)) == 12);
+    assert(isconvex(Polygon(polygon)));
+    assert(contains(Polygon(polygon), Point(1, 1)) == 2);
+    assert(diameter(Polygon(polygon)) == 5);
+    assert(area(convexCut(Polygon(polygon), Line(Point(2, -1), Point(2, 4)))) == 6);
+    assert(polygon.size() == original.size());
+    for (int i = 0; i < int(polygon.size()); ++i)
+        assert(polygon[i].x == original[i].x && polygon[i].y == original[i].y);
+}
+
 void contains_convex_check() {
     Polygon empty;
     assert(contains_convex(empty, Point(0, 0)) == 0);
@@ -184,6 +205,7 @@ void manhattan_check() {
 int main() {
     hull_check();
     diameter_check();
+    polygon_read_check();
     contains_convex_check();
     rectangle_check();
     manhattan_check();

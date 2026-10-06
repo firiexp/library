@@ -232,7 +232,7 @@ vector<Line> tangent(Circle c1, Circle c2) {
     return ret;
 }
 
-geometry_real area(Polygon v) {
+geometry_real area(const Polygon &v) {
     if (v.size() < 3)
         return 0.0;
     geometry_real ans = 0.0;
@@ -296,7 +296,7 @@ Polygon convex_hull(Polygon v) {
     return ret;
 }
 
-bool isconvex(Polygon v) {
+bool isconvex(const Polygon &v) {
     int n = v.size();
     for (int i = 0; i < n; ++i) {
         if (ccw(v[(i + n - 1) % n], v[i], v[(i + 1) % n]) == CLOCKWISE)
@@ -305,7 +305,7 @@ bool isconvex(Polygon v) {
     return true;
 }
 
-int contains(Polygon v, Point p) {
+int contains(const Polygon &v, Point p) {
     int n = v.size();
     bool x = false;
     static constexpr int IN = 2, ON = 1, OUT = 0;
@@ -372,7 +372,7 @@ int contains_convex(Polygon &v, Point p) {
     return res < 0 ? IN : OUT;
 }
 
-geometry_real diameter(Polygon v) {
+geometry_real diameter(const Polygon &v) {
     int n = v.size();
     if (n <= 1) return 0;
     if (n == 2)
@@ -400,7 +400,7 @@ geometry_real diameter(Polygon v) {
     return ret;
 }
 
-Polygon convexCut(Polygon v, Line l) {
+Polygon convexCut(const Polygon &v, Line l) {
     Polygon q;
     int n = v.size();
     for (int i = 0; i < n; ++i) {
