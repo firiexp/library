@@ -55,7 +55,7 @@ KruskalResult<T> kruskal(vector<edge<T>> edges, int n) {
         edge_id.push_back(e.idx);
     }
     if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};
-    return {true, cost, edge_id};
+    return {true, cost, std::move(edge_id)};
 }
 
 /**

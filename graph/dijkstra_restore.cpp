@@ -13,7 +13,7 @@ DijkstraRestoreResult<T> dijkstra_restore(int s, const vector<vector<edge<T>>> &
     auto dist = dijkstra_internal(s, G, Q, [&](int v, const edge<T> &e) {
         parent[e.to] = v;
     });
-    return {dist, parent};
+    return {std::move(dist), std::move(parent)};
 }
 
 vector<int> restore_path(int s, int t, const vector<int> &parent) {

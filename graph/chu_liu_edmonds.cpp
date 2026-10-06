@@ -160,7 +160,7 @@ struct ChuLiuEdmonds {
                 x = parent_edge[x];
             }
         }
-        return {true, total, parent, edge_id};
+        return {true, total, std::move(parent), std::move(edge_id)};
     }
 };
 
