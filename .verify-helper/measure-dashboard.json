@@ -1,28 +1,34 @@
 {
-  "generatedAt": "2026-10-05T21:23:23+09:00",
+  "generatedAt": "2026-10-07T00:43:53+09:00",
   "root": ".",
   "testCount": 186,
   "inventory": {
-    "currentTestCount": 218,
+    "currentTestCount": 230,
     "measuredTestCount": 186,
-    "unmeasuredCount": 32,
+    "unmeasuredCount": 44,
     "unmeasuredPaths": [
+      "test/aoj_cgl_4_b.test.cpp",
       "test/aoj_ntl_1_b_pow.test.cpp",
       "test/yosupo_aplusb_bellman_ford.test.cpp",
       "test/yosupo_aplusb_binarytrie.test.cpp",
       "test/yosupo_aplusb_comb_table.test.cpp",
       "test/yosupo_aplusb_crt.test.cpp",
+      "test/yosupo_aplusb_directedmst.test.cpp",
       "test/yosupo_aplusb_dsu_on_tree.test.cpp",
       "test/yosupo_aplusb_dualgraph.test.cpp",
       "test/yosupo_aplusb_dynamic_bitset.test.cpp",
       "test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp",
       "test/yosupo_aplusb_flow_boundaries.test.cpp",
+      "test/yosupo_aplusb_furthest_pair.test.cpp",
       "test/yosupo_aplusb_garner.test.cpp",
       "test/yosupo_aplusb_geometry_boundaries.test.cpp",
       "test/yosupo_aplusb_hld_subtree.test.cpp",
       "test/yosupo_aplusb_independent_set_boundaries.test.cpp",
       "test/yosupo_aplusb_is_palindrome.test.cpp",
+      "test/yosupo_aplusb_li_chao_tree.test.cpp",
+      "test/yosupo_aplusb_library_composition_reverse.test.cpp",
       "test/yosupo_aplusb_matrix_semiring.test.cpp",
+      "test/yosupo_aplusb_maxflow_lower_bound.test.cpp",
       "test/yosupo_aplusb_min_cost_b_flow.test.cpp",
       "test/yosupo_aplusb_minimum_vertex_cover.test.cpp",
       "test/yosupo_aplusb_noncommutative_tree.test.cpp",
@@ -30,20 +36,26 @@
       "test/yosupo_aplusb_polynomial_interpolation.test.cpp",
       "test/yosupo_aplusb_prime_range.test.cpp",
       "test/yosupo_aplusb_project_selection_pair_profit.test.cpp",
+      "test/yosupo_aplusb_radixheap.test.cpp",
       "test/yosupo_aplusb_rectangle_sum_weights.test.cpp",
+      "test/yosupo_aplusb_scc.test.cpp",
       "test/yosupo_aplusb_segmenttree_boundaries.test.cpp",
       "test/yosupo_aplusb_sliding_window.test.cpp",
       "test/yosupo_aplusb_static_bitset.test.cpp",
       "test/yosupo_aplusb_string_bytes.test.cpp",
+      "test/yosupo_aplusb_subset_convolution.test.cpp",
       "test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp",
       "test/yosupo_aplusb_virtual_tree_helper.test.cpp",
       "test/yosupo_aplusb_xorshift.test.cpp",
-      "test/yosupo_enumerate_primes_get_prime.test.cpp"
+      "test/yosupo_enumerate_primes_get_prime.test.cpp",
+      "test/yosupo_furthest_pair.test.cpp",
+      "test/yosupo_line_add_get_min_online.test.cpp",
+      "test/yosupo_segment_add_get_min_online.test.cpp"
     ],
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "7512caa5973d55677c29bef13c98b9d4d9e25b5d",
+    "gitRevision": "7502563e6cb226f6a552ff2da583bc0c64ff2392",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -6893,7 +6905,7 @@
           "a.out",
           "test/aoj_grl_6_a_maxflow_lower_bound.test.cpp"
         ],
-        "wallSec": 0.6603303850001794
+        "wallSec": 0.7862705799998366
       },
       "testcases": {
         "directory": ".verify-helper/cache/486448c54c80635b532c3f574d17a1b4/test",
@@ -6904,229 +6916,229 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/486448c54c80635b532c3f574d17a1b4/verify-dashboard-l_h8abun/a.out",
+          "./.verify-helper/cache/486448c54c80635b532c3f574d17a1b4/verify-dashboard-u4j_uiz6/a.out",
           "-d",
           "./.verify-helper/cache/486448c54c80635b532c3f574d17a1b4/test",
           "--tle",
           "60.0"
         ],
         "returnCode": 0,
-        "wallSec": 0.3179958809996606,
+        "wallSec": 0.34798601500006043,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "00_sample_00.in",
-              "timeSec": 0.003483,
+              "timeSec": 0.004052,
               "status": "AC"
             },
             {
               "name": "01_small_00.in",
-              "timeSec": 0.002756,
+              "timeSec": 0.00336,
               "status": "AC"
             },
             {
               "name": "01_small_01.in",
-              "timeSec": 0.003019,
+              "timeSec": 0.003252,
               "status": "AC"
             },
             {
               "name": "01_small_02.in",
-              "timeSec": 0.002725,
+              "timeSec": 0.003397,
               "status": "AC"
             },
             {
               "name": "01_small_03.in",
-              "timeSec": 0.0029,
+              "timeSec": 0.003118,
               "status": "AC"
             },
             {
               "name": "02_corner_00.in",
-              "timeSec": 0.002967,
+              "timeSec": 0.003645,
               "status": "AC"
             },
             {
               "name": "02_corner_01.in",
-              "timeSec": 0.002755,
+              "timeSec": 0.003513,
               "status": "AC"
             },
             {
               "name": "02_corner_02.in",
-              "timeSec": 0.002606,
+              "timeSec": 0.003326,
               "status": "AC"
             },
             {
               "name": "02_corner_03.in",
-              "timeSec": 0.003041,
+              "timeSec": 0.003578,
               "status": "AC"
             },
             {
               "name": "03_random_00.in",
-              "timeSec": 0.003046,
+              "timeSec": 0.003249,
               "status": "AC"
             },
             {
               "name": "03_random_01.in",
-              "timeSec": 0.003044,
+              "timeSec": 0.003141,
               "status": "AC"
             },
             {
               "name": "03_random_02.in",
-              "timeSec": 0.0028,
+              "timeSec": 0.003241,
               "status": "AC"
             },
             {
               "name": "03_random_03.in",
-              "timeSec": 0.002713,
+              "timeSec": 0.003222,
               "status": "AC"
             },
             {
               "name": "03_random_04.in",
-              "timeSec": 0.002497,
+              "timeSec": 0.003327,
               "status": "AC"
             },
             {
               "name": "03_random_05.in",
-              "timeSec": 0.003034,
+              "timeSec": 0.003163,
               "status": "AC"
             },
             {
               "name": "03_random_06.in",
-              "timeSec": 0.002948,
+              "timeSec": 0.003855,
               "status": "AC"
             },
             {
               "name": "03_random_07.in",
-              "timeSec": 0.002815,
+              "timeSec": 0.00337,
               "status": "AC"
             },
             {
               "name": "04_rand_00.in",
-              "timeSec": 0.002836,
+              "timeSec": 0.003361,
               "status": "AC"
             },
             {
               "name": "04_rand_01.in",
-              "timeSec": 0.002897,
+              "timeSec": 0.003275,
               "status": "AC"
             },
             {
               "name": "04_rand_02.in",
-              "timeSec": 0.002681,
+              "timeSec": 0.003161,
               "status": "AC"
             },
             {
               "name": "04_rand_03.in",
-              "timeSec": 0.002741,
+              "timeSec": 0.003227,
               "status": "AC"
             },
             {
               "name": "04_rand_04.in",
-              "timeSec": 0.002556,
+              "timeSec": 0.003152,
               "status": "AC"
             },
             {
               "name": "04_rand_05.in",
-              "timeSec": 0.002724,
+              "timeSec": 0.003274,
               "status": "AC"
             },
             {
               "name": "04_rand_06.in",
-              "timeSec": 0.002854,
+              "timeSec": 0.003488,
               "status": "AC"
             },
             {
               "name": "04_rand_07.in",
-              "timeSec": 0.002639,
+              "timeSec": 0.00317,
               "status": "AC"
             },
             {
               "name": "05_large_00.in",
-              "timeSec": 0.002911,
+              "timeSec": 0.003617,
               "status": "AC"
             },
             {
               "name": "05_large_01.in",
-              "timeSec": 0.002897,
+              "timeSec": 0.003321,
               "status": "AC"
             },
             {
               "name": "05_large_02.in",
-              "timeSec": 0.002567,
+              "timeSec": 0.003064,
               "status": "AC"
             },
             {
               "name": "05_large_03.in",
-              "timeSec": 0.002318,
+              "timeSec": 0.003442,
               "status": "AC"
             },
             {
               "name": "05_large_04.in",
-              "timeSec": 0.002591,
+              "timeSec": 0.003293,
               "status": "AC"
             },
             {
               "name": "05_large_05.in",
-              "timeSec": 0.002363,
+              "timeSec": 0.003713,
               "status": "AC"
             },
             {
               "name": "06_biased_00.in",
-              "timeSec": 0.002509,
+              "timeSec": 0.003389,
               "status": "AC"
             },
             {
               "name": "06_biased_01.in",
-              "timeSec": 0.002603,
+              "timeSec": 0.003202,
               "status": "AC"
             },
             {
               "name": "06_biased_02.in",
-              "timeSec": 0.002639,
+              "timeSec": 0.003258,
               "status": "AC"
             },
             {
               "name": "06_biased_03.in",
-              "timeSec": 0.002766,
+              "timeSec": 0.003384,
               "status": "AC"
             },
             {
               "name": "06_biased_04.in",
-              "timeSec": 0.002506,
+              "timeSec": 0.003149,
               "status": "AC"
             },
             {
               "name": "06_biased_05.in",
-              "timeSec": 0.002397,
+              "timeSec": 0.003272,
               "status": "AC"
             },
             {
               "name": "06_biased_06.in",
-              "timeSec": 0.002743,
+              "timeSec": 0.003519,
               "status": "AC"
             },
             {
               "name": "06_biased_07.in",
-              "timeSec": 0.002746,
+              "timeSec": 0.003395,
               "status": "AC"
             },
             {
               "name": "06_biased_08.in",
-              "timeSec": 0.002873,
+              "timeSec": 0.003114,
               "status": "AC"
             }
           ],
           "caseCount": 40,
           "timedCaseCount": 40,
           "passedCaseCount": 40,
-          "slowestSec": 0.003483,
+          "slowestSec": 0.004052,
           "slowestCase": "00_sample_00.in",
-          "averageSec": 0.0027626499999999997,
-          "maxMemoryMb": 3.648,
-          "maxMemoryCase": "00_sample_00.in",
+          "averageSec": 0.003351225,
+          "maxMemoryMb": 3.788,
+          "maxMemoryCase": "03_random_07.in",
           "summary": "test success: 40 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 40 cases found\n\n[INFO] 00_sample_00.in\n[INFO] time: 0.003483 sec\n[SUCCESS] AC\n\n[INFO] 01_small_00.in\n[INFO] time: 0.002756 sec\n[SUCCESS] AC\n\n[INFO] 01_small_01.in\n[INFO] time: 0.003019 sec\n[SUCCESS] AC\n\n[INFO] 01_small_02.in\n[INFO] time: 0.002725 sec\n[SUCCESS] AC\n\n[INFO] 01_small_03.in\n[INFO] time: 0.002900 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_00.in\n[INFO] time: 0.002967 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_01.in\n[INFO] time: 0.002755 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_02.in\n[INFO] time: 0.002606 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_03.in\n[INFO] time: 0.003041 sec\n[SUCCESS] AC\n\n[INFO] 03_random_00.in\n[INFO] time: 0.003046 sec\n[SUCCESS] AC\n\n[INFO] 03_random_01.in\n[INFO] time: 0.003044 sec\n[SUCCESS] AC\n\n[INFO] 03_random_02.in\n[INFO] time: 0.002800 sec\n[SUCCESS] AC\n\n[INFO] 03_random_03.in\n[INFO] time: 0.002713 sec\n[SUCCESS] AC\n\n[INFO] 03_random_04.in\n[INFO] time: 0.002497 sec\n[SUCCESS] AC\n\n[INFO] 03_random_05.in\n[INFO] time: 0.003034 sec\n[SUCCESS] AC\n\n[INFO] 03_random_06.in\n[INFO] time: 0.002948 sec\n[SUCCESS] AC\n\n[INFO] 03_random_07.in\n[INFO] time: 0.002815 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_00.in\n[INFO] time: 0.002836 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_01.in\n[INFO] time: 0.002897 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_02.in\n[INFO] time: 0.002681 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_03.in\n[INFO] time: 0.002741 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_04.in\n[INFO] time: 0.002556 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_05.in\n[INFO] time: 0.002724 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_06.in\n[INFO] time: 0.002854 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_07.in\n[INFO] time: 0.002639 sec\n[SUCCESS] AC\n\n[INFO] 05_large_00.in\n[INFO] time: 0.002911 sec\n[SUCCESS] AC\n\n[INFO] 05_large_01.in\n[INFO] time: 0.002897 sec\n[SUCCESS] AC\n\n[INFO] 05_large_02.in\n[INFO] time: 0.002567 sec\n[SUCCESS] AC\n\n[INFO] 05_large_03.in\n[INFO] time: 0.002318 sec\n[SUCCESS] AC\n\n[INFO] 05_large_04.in\n[INFO] time: 0.002591 sec\n[SUCCESS] AC\n\n[INFO] 05_large_05.in\n[INFO] time: 0.002363 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_00.in\n[INFO] time: 0.002509 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_01.in\n[INFO] time: 0.002603 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_02.in\n[INFO] time: 0.002639 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_03.in\n[INFO] time: 0.002766 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_04.in\n[INFO] time: 0.002506 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_05.in\n[INFO] time: 0.002397 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_06.in\n[INFO] time: 0.002743 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_07.in\n[INFO] time: 0.002746 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_08.in\n[INFO] time: 0.002873 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.003483 sec  (for 00_sample_00.in)\n[INFO] max memory: 3.648000 MB  (for 00_sample_00.in)\n[SUCCESS] test success: 40 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 40 cases found\n\n[INFO] 00_sample_00.in\n[INFO] time: 0.004052 sec\n[SUCCESS] AC\n\n[INFO] 01_small_00.in\n[INFO] time: 0.003360 sec\n[SUCCESS] AC\n\n[INFO] 01_small_01.in\n[INFO] time: 0.003252 sec\n[SUCCESS] AC\n\n[INFO] 01_small_02.in\n[INFO] time: 0.003397 sec\n[SUCCESS] AC\n\n[INFO] 01_small_03.in\n[INFO] time: 0.003118 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_00.in\n[INFO] time: 0.003645 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_01.in\n[INFO] time: 0.003513 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_02.in\n[INFO] time: 0.003326 sec\n[SUCCESS] AC\n\n[INFO] 02_corner_03.in\n[INFO] time: 0.003578 sec\n[SUCCESS] AC\n\n[INFO] 03_random_00.in\n[INFO] time: 0.003249 sec\n[SUCCESS] AC\n\n[INFO] 03_random_01.in\n[INFO] time: 0.003141 sec\n[SUCCESS] AC\n\n[INFO] 03_random_02.in\n[INFO] time: 0.003241 sec\n[SUCCESS] AC\n\n[INFO] 03_random_03.in\n[INFO] time: 0.003222 sec\n[SUCCESS] AC\n\n[INFO] 03_random_04.in\n[INFO] time: 0.003327 sec\n[SUCCESS] AC\n\n[INFO] 03_random_05.in\n[INFO] time: 0.003163 sec\n[SUCCESS] AC\n\n[INFO] 03_random_06.in\n[INFO] time: 0.003855 sec\n[SUCCESS] AC\n\n[INFO] 03_random_07.in\n[INFO] time: 0.003370 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_00.in\n[INFO] time: 0.003361 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_01.in\n[INFO] time: 0.003275 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_02.in\n[INFO] time: 0.003161 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_03.in\n[INFO] time: 0.003227 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_04.in\n[INFO] time: 0.003152 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_05.in\n[INFO] time: 0.003274 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_06.in\n[INFO] time: 0.003488 sec\n[SUCCESS] AC\n\n[INFO] 04_rand_07.in\n[INFO] time: 0.003170 sec\n[SUCCESS] AC\n\n[INFO] 05_large_00.in\n[INFO] time: 0.003617 sec\n[SUCCESS] AC\n\n[INFO] 05_large_01.in\n[INFO] time: 0.003321 sec\n[SUCCESS] AC\n\n[INFO] 05_large_02.in\n[INFO] time: 0.003064 sec\n[SUCCESS] AC\n\n[INFO] 05_large_03.in\n[INFO] time: 0.003442 sec\n[SUCCESS] AC\n\n[INFO] 05_large_04.in\n[INFO] time: 0.003293 sec\n[SUCCESS] AC\n\n[INFO] 05_large_05.in\n[INFO] time: 0.003713 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_00.in\n[INFO] time: 0.003389 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_01.in\n[INFO] time: 0.003202 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_02.in\n[INFO] time: 0.003258 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_03.in\n[INFO] time: 0.003384 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_04.in\n[INFO] time: 0.003149 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_05.in\n[INFO] time: 0.003272 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_06.in\n[INFO] time: 0.003519 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_07.in\n[INFO] time: 0.003395 sec\n[SUCCESS] AC\n\n[INFO] 06_biased_08.in\n[INFO] time: 0.003114 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.004052 sec  (for 00_sample_00.in)\n[INFO] max memory: 3.788000 MB  (for 03_random_07.in)\n[SUCCESS] test success: 40 cases\n"
       }
     },
     {

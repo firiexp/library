@@ -9,6 +9,12 @@ class MaxFlowLowerBound {
     };
 
 public:
+    struct Result {
+        bool exists;
+        T value;
+        vector<T> edge_flow;
+    };
+
     int n;
     vector<raw_edge> edges;
     MaxFlowLowerBound() = default;
@@ -19,6 +25,11 @@ public:
     }
 
     pair<bool, T> max_flow(int s, int t) {
+        auto result = max_flow_with_edges(s, t);
+        return {result.exists, result.value};
+    }
+
+    Result max_flow_with_edges(int s, int t) {
         int ss = n, tt = n + 1;
         Dinic<T, true> mf(n + 2);
         vector<T> b(n, 0);
@@ -28,8 +39,10 @@ public:
             return pair<int, int>{from, idx};
         };
 
+        vector<pair<int, int>> edge_ids;
+        edge_ids.reserve(edges.size());
         for(auto &&e : edges) {
-            mf.add_edge(e.from, e.to, e.upper - e.lower);
+            edge_ids.push_back(add_edge(e.from, e.to, e.upper - e.lower));
             b[e.from] -= e.lower;
             b[e.to] += e.lower;
         }
@@ -46,10 +59,10 @@ public:
             }
         }
 
-        if(mf.flow(ss, tt) != req) return {false, 0};
+        if(mf.flow(ss, tt) != req) return {false, 0, {}};
 
         for(auto &&id : super_edges) {
-            if(mf.G[id.first][id.second].cap != 0) return {false, 0};
+            if(mf.G[id.first][id.second].cap != 0) return {false, 0, {}};
         }
 
         int to = mf.G[ts.first][ts.second].to;
@@ -59,7 +72,13 @@ public:
         mf.G[to][rev].cap = 0;
 
         T add = mf.flow(s, t);
-        return {true, base + add};
+        Result result{true, base + add, {}};
+        result.edge_flow.reserve(edges.size());
+        for(size_t i = 0; i < edges.size(); ++i) {
+            const auto &e = mf.G[edge_ids[i].first][edge_ids[i].second];
+            result.edge_flow.push_back(edges[i].lower + mf.G[e.to][e.rev].cap);
+        }
+        return result;
     }
 };
 
