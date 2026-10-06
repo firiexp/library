@@ -260,13 +260,13 @@ data:
     };\n\ntemplate <typename T>\nDijkstraRestoreResult<T> dijkstra_restore(int s,\
     \ const vector<vector<edge<T>>> &G) {\n    vector<int> parent((int)G.size(), -1);\n\
     \    DijkstraPriorityQueue<T> Q;\n    auto dist = dijkstra_internal(s, G, Q, [&](int\
-    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {dist,\
-    \ parent};\n}\n\nvector<int> restore_path(int s, int t, const vector<int> &parent)\
-    \ {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size()) return path;\n\
-    \    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n        if\
-    \ (v == s) {\n            reverse(path.begin(), path.end());\n            return\
-    \ path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n    return\
-    \ path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
+    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {std::move(dist),\
+    \ std::move(parent)};\n}\n\nvector<int> restore_path(int s, int t, const vector<int>\
+    \ &parent) {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size())\
+    \ return path;\n    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n\
+    \        if (v == s) {\n            reverse(path.begin(), path.end());\n     \
+    \       return path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n\
+    \    return path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
     \n */\n#line 23 \"test/yosupo_shortest_path.test.cpp\"\n\nint main() {\n    Scanner\
     \ in;\n    Printer out;\n\n    int n, m, s, t;\n    in.read(n, m, s, t);\n   \
     \ vector<vector<edge<ll>>> G(n);\n    for (int i = 0; i < m; ++i) {\n        array<int,\
@@ -298,7 +298,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-06 22:43:23+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path.test.cpp

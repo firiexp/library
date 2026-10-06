@@ -14,66 +14,66 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/directedmst
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/directedmst
-  bundledCode: "#line 1 \"test/yosupo_directedmst.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/directedmst\"\
-    \n\n#include <vector>\nusing ll = long long;\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_directedmst.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\n\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -293,38 +293,114 @@ data:
     \        while (x != idx) {\n                used_edge[x] = 1;\n             \
     \   x = parent_edge[x];\n            }\n        }\n        return {true, total,\
     \ std::move(parent), std::move(edge_id)};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\
-    \u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)\n */\n#line 15 \"test/yosupo_directedmst.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, m, r;\n    in.read(n,\
-    \ m, r);\n    ChuLiuEdmonds<ll> dmst(n, r);\n    for (int i = 0; i < m; ++i) {\n\
-    \        int a, b;\n        ll c;\n        in.read(a, b, c);\n        dmst.add_edge(a,\
-    \ b, c);\n    }\n    auto res = dmst.solve();\n    if (!res.exists) return 0;\n\
-    \    out.println(res.cost);\n    for (int i = 0; i < n; ++i) {\n        if (i)\
-    \ out.print(' ');\n        out.print(res.parent[i]);\n    }\n    out.println();\n\
-    \    return 0;\n}\n\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/directedmst\"\n\n#include\
-    \ <vector>\nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../graph/chu_liu_edmonds.cpp\"\n\n\
-    int main() {\n    Scanner in;\n    Printer out;\n    int n, m, r;\n    in.read(n,\
-    \ m, r);\n    ChuLiuEdmonds<ll> dmst(n, r);\n    for (int i = 0; i < m; ++i) {\n\
-    \        int a, b;\n        ll c;\n        in.read(a, b, c);\n        dmst.add_edge(a,\
-    \ b, c);\n    }\n    auto res = dmst.solve();\n    if (!res.exists) return 0;\n\
-    \    out.println(res.cost);\n    for (int i = 0; i < n; ++i) {\n        if (i)\
-    \ out.print(' ');\n        out.print(res.parent[i]);\n    }\n    out.println();\n\
-    \    return 0;\n}\n\n"
+    \u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)\n */\n#line 9 \"test/yosupo_aplusb_directedmst.test.cpp\"\
+    \n\nll brute_cost(const ChuLiuEdmonds<ll> &g) {\n    vector<vector<int>> incoming(g.n);\n\
+    \    for (int i = 0; i < int(g.edges.size()); ++i) {\n        const auto &e =\
+    \ g.edges[i];\n        if (e.from != e.to) incoming[e.to].push_back(i);\n    }\n\
+    \    vector<int> parent(g.n, g.root);\n    ll best = LLONG_MAX;\n    auto enumerate\
+    \ = [&](auto &&self, int v, ll cost) -> void {\n        if (v == g.n) {\n    \
+    \        for (int u = 0; u < g.n; ++u) {\n                int x = u;\n       \
+    \         for (int step = 0; step < g.n && x != g.root; ++step) x = parent[x];\n\
+    \                if (x != g.root) return;\n            }\n            best = min(best,\
+    \ cost);\n            return;\n        }\n        if (v == g.root) {\n       \
+    \     self(self, v + 1, cost);\n            return;\n        }\n        for (int\
+    \ i : incoming[v]) {\n            parent[v] = g.edges[i].from;\n            self(self,\
+    \ v + 1, cost + g.edges[i].cost);\n        }\n    };\n    enumerate(enumerate,\
+    \ 0, 0);\n    return best;\n}\n\nvoid check(const ChuLiuEdmonds<ll> &g, ll expected)\
+    \ {\n    auto res = g.solve();\n    auto again = g.solve();\n    assert(res.exists\
+    \ == again.exists && res.cost == again.cost);\n    assert(res.parent == again.parent\
+    \ && res.edge_id == again.edge_id);\n    assert(res.exists == (expected != LLONG_MAX));\n\
+    \    if (!res.exists) {\n        assert(res.cost == 0 && res.parent.empty() &&\
+    \ res.edge_id.empty());\n        return;\n    }\n    assert(res.cost == expected);\n\
+    \    assert(int(res.parent.size()) == g.n && int(res.edge_id.size()) == g.n);\n\
+    \    assert(res.parent[g.root] == g.root && res.edge_id[g.root] == -1);\n    ll\
+    \ cost = 0;\n    for (int v = 0; v < g.n; ++v) {\n        if (v == g.root) continue;\n\
+    \        int id = res.edge_id[v];\n        assert(0 <= id && id < int(g.edges.size()));\n\
+    \        const auto &e = g.edges[id];\n        assert(e.to == v && e.from == res.parent[v]);\n\
+    \        cost += e.cost;\n        int x = v;\n        for (int step = 0; step\
+    \ < g.n && x != g.root; ++step) x = res.parent[x];\n        assert(x == g.root);\n\
+    \    }\n    assert(cost == res.cost);\n}\n\nvoid check_directedmst() {\n    check(ChuLiuEdmonds<ll>(1,\
+    \ 0), 0);\n    for (int shape = 0; shape < 3; ++shape) {\n        ChuLiuEdmonds<ll>\
+    \ g(65, 64);\n        for (int v = 0; v < 64; ++v) {\n            int p = shape\
+    \ == 0 ? 64 : shape == 1 ? v + 1 : (v + 65) / 2;\n            g.add_edge(p, v,\
+    \ 1);\n        }\n        check(g, 64);\n    }\n    for (bool disconnected : {false,\
+    \ true}) {\n        ChuLiuEdmonds<ll> g(65, 64);\n        for (int v = 0; v <\
+    \ 64; v += 2) {\n            g.add_edge(v, v + 1, -1);\n            g.add_edge(v\
+    \ + 1, v, -1);\n            g.add_edge(v, v, -100);\n            if (!disconnected\
+    \ || v != 62) {\n                g.add_edge(64, v, 10);\n                g.add_edge(64,\
+    \ v, 10);\n            }\n        }\n        check(g, disconnected ? LLONG_MAX\
+    \ : 32 * 9);\n    }\n    ChuLiuEdmonds<ll> nested(5, 4);\n    for (auto [u, v,\
+    \ c] : vector<array<int, 3>>{\n             {0, 1, -2}, {1, 0, -2}, {2, 3, -2},\
+    \ {3, 2, -2},\n             {1, 2, -1}, {3, 0, -1}, {4, 0, 5}, {4, 2, 5}}) {\n\
+    \        nested.add_edge(u, v, c);\n    }\n    check(nested, brute_cost(nested));\n\
+    \    mt19937 rng(20261006);\n    for (int tc = 0; tc < 1000; ++tc) {\n       \
+    \ int n = 1 + rng() % 6;\n        ChuLiuEdmonds<ll> g(n, rng() % n);\n       \
+    \ int m = rng() % 21;\n        for (int i = 0; i < m; ++i) {\n            int\
+    \ u = rng() % n, v = rng() % n;\n            g.add_edge(u, v, int(rng() % 9) -\
+    \ 4);\n        }\n        check(g, brute_cost(g));\n    }\n}\n\nint main() {\n\
+    \    check_directedmst();\n    Scanner in;\n    Printer out;\n    int a, b;\n\
+    \    in.read(a, b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../graph/chu_liu_edmonds.cpp\"\n\nll brute_cost(const ChuLiuEdmonds<ll>\
+    \ &g) {\n    vector<vector<int>> incoming(g.n);\n    for (int i = 0; i < int(g.edges.size());\
+    \ ++i) {\n        const auto &e = g.edges[i];\n        if (e.from != e.to) incoming[e.to].push_back(i);\n\
+    \    }\n    vector<int> parent(g.n, g.root);\n    ll best = LLONG_MAX;\n    auto\
+    \ enumerate = [&](auto &&self, int v, ll cost) -> void {\n        if (v == g.n)\
+    \ {\n            for (int u = 0; u < g.n; ++u) {\n                int x = u;\n\
+    \                for (int step = 0; step < g.n && x != g.root; ++step) x = parent[x];\n\
+    \                if (x != g.root) return;\n            }\n            best = min(best,\
+    \ cost);\n            return;\n        }\n        if (v == g.root) {\n       \
+    \     self(self, v + 1, cost);\n            return;\n        }\n        for (int\
+    \ i : incoming[v]) {\n            parent[v] = g.edges[i].from;\n            self(self,\
+    \ v + 1, cost + g.edges[i].cost);\n        }\n    };\n    enumerate(enumerate,\
+    \ 0, 0);\n    return best;\n}\n\nvoid check(const ChuLiuEdmonds<ll> &g, ll expected)\
+    \ {\n    auto res = g.solve();\n    auto again = g.solve();\n    assert(res.exists\
+    \ == again.exists && res.cost == again.cost);\n    assert(res.parent == again.parent\
+    \ && res.edge_id == again.edge_id);\n    assert(res.exists == (expected != LLONG_MAX));\n\
+    \    if (!res.exists) {\n        assert(res.cost == 0 && res.parent.empty() &&\
+    \ res.edge_id.empty());\n        return;\n    }\n    assert(res.cost == expected);\n\
+    \    assert(int(res.parent.size()) == g.n && int(res.edge_id.size()) == g.n);\n\
+    \    assert(res.parent[g.root] == g.root && res.edge_id[g.root] == -1);\n    ll\
+    \ cost = 0;\n    for (int v = 0; v < g.n; ++v) {\n        if (v == g.root) continue;\n\
+    \        int id = res.edge_id[v];\n        assert(0 <= id && id < int(g.edges.size()));\n\
+    \        const auto &e = g.edges[id];\n        assert(e.to == v && e.from == res.parent[v]);\n\
+    \        cost += e.cost;\n        int x = v;\n        for (int step = 0; step\
+    \ < g.n && x != g.root; ++step) x = res.parent[x];\n        assert(x == g.root);\n\
+    \    }\n    assert(cost == res.cost);\n}\n\nvoid check_directedmst() {\n    check(ChuLiuEdmonds<ll>(1,\
+    \ 0), 0);\n    for (int shape = 0; shape < 3; ++shape) {\n        ChuLiuEdmonds<ll>\
+    \ g(65, 64);\n        for (int v = 0; v < 64; ++v) {\n            int p = shape\
+    \ == 0 ? 64 : shape == 1 ? v + 1 : (v + 65) / 2;\n            g.add_edge(p, v,\
+    \ 1);\n        }\n        check(g, 64);\n    }\n    for (bool disconnected : {false,\
+    \ true}) {\n        ChuLiuEdmonds<ll> g(65, 64);\n        for (int v = 0; v <\
+    \ 64; v += 2) {\n            g.add_edge(v, v + 1, -1);\n            g.add_edge(v\
+    \ + 1, v, -1);\n            g.add_edge(v, v, -100);\n            if (!disconnected\
+    \ || v != 62) {\n                g.add_edge(64, v, 10);\n                g.add_edge(64,\
+    \ v, 10);\n            }\n        }\n        check(g, disconnected ? LLONG_MAX\
+    \ : 32 * 9);\n    }\n    ChuLiuEdmonds<ll> nested(5, 4);\n    for (auto [u, v,\
+    \ c] : vector<array<int, 3>>{\n             {0, 1, -2}, {1, 0, -2}, {2, 3, -2},\
+    \ {3, 2, -2},\n             {1, 2, -1}, {3, 0, -1}, {4, 0, 5}, {4, 2, 5}}) {\n\
+    \        nested.add_edge(u, v, c);\n    }\n    check(nested, brute_cost(nested));\n\
+    \    mt19937 rng(20261006);\n    for (int tc = 0; tc < 1000; ++tc) {\n       \
+    \ int n = 1 + rng() % 6;\n        ChuLiuEdmonds<ll> g(n, rng() % n);\n       \
+    \ int m = rng() % 21;\n        for (int i = 0; i < m; ++i) {\n            int\
+    \ u = rng() % n, v = rng() % n;\n            g.add_edge(u, v, int(rng() % 9) -\
+    \ 4);\n        }\n        check(g, brute_cost(g));\n    }\n}\n\nint main() {\n\
+    \    check_directedmst();\n    Scanner in;\n    Printer out;\n    int a, b;\n\
+    \    in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/chu_liu_edmonds.cpp
   isVerificationFile: true
-  path: test/yosupo_directedmst.test.cpp
+  path: test/yosupo_aplusb_directedmst.test.cpp
   requiredBy: []
   timestamp: '2026-10-06 22:44:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_directedmst.test.cpp
+documentation_of: test/yosupo_aplusb_directedmst.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_directedmst.test.cpp
-- /verify/test/yosupo_directedmst.test.cpp.html
-title: test/yosupo_directedmst.test.cpp
+- /verify/test/yosupo_aplusb_directedmst.test.cpp
+- /verify/test/yosupo_aplusb_directedmst.test.cpp.html
+title: test/yosupo_aplusb_directedmst.test.cpp
 ---

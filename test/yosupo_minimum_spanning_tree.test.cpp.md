@@ -247,9 +247,9 @@ data:
     \ n - 1));\n    for (auto &&e : edges) {\n        if (!uf.unite(e.from, e.to))\
     \ continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n    }\n\
     \    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n   \
-    \ return {true, cost, edge_id};\n}\n\n/**\n * @brief \u6700\u5C0F\u5168\u57DF\u6728\
-    (Kruskal\u6CD5)\n */\n#line 17 \"test/yosupo_minimum_spanning_tree.test.cpp\"\n\
-    \nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
+    \ return {true, cost, std::move(edge_id)};\n}\n\n/**\n * @brief \u6700\u5C0F\u5168\
+    \u57DF\u6728(Kruskal\u6CD5)\n */\n#line 17 \"test/yosupo_minimum_spanning_tree.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
     \ m);\n    vector<edge<ll>> edges;\n    edges.reserve(m);\n    for (int i = 0;\
     \ i < m; ++i) {\n        int u, v;\n        ll w;\n        in.read(u, v, w);\n\
     \        edges.emplace_back(u, v, w, i);\n    }\n    auto res = kruskal(edges,\
@@ -275,7 +275,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_minimum_spanning_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-06 22:43:23+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_minimum_spanning_tree.test.cpp

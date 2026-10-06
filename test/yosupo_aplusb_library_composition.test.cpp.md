@@ -704,13 +704,13 @@ data:
     template <typename T>\nDijkstraRestoreResult<T> dijkstra_restore(int s, const\
     \ vector<vector<edge<T>>> &G) {\n    vector<int> parent((int)G.size(), -1);\n\
     \    DijkstraPriorityQueue<T> Q;\n    auto dist = dijkstra_internal(s, G, Q, [&](int\
-    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {dist,\
-    \ parent};\n}\n\nvector<int> restore_path(int s, int t, const vector<int> &parent)\
-    \ {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size()) return path;\n\
-    \    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n        if\
-    \ (v == s) {\n            reverse(path.begin(), path.end());\n            return\
-    \ path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n    return\
-    \ path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
+    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {std::move(dist),\
+    \ std::move(parent)};\n}\n\nvector<int> restore_path(int s, int t, const vector<int>\
+    \ &parent) {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size())\
+    \ return path;\n    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n\
+    \        if (v == s) {\n            reverse(path.begin(), path.end());\n     \
+    \       return path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n\
+    \    return path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
     \n */\n#line 2 \"graph/bfs01.cpp\"\n\ntemplate <typename T>\nvector<T> bfs01(int\
     \ s, vector<vector<edge<T>>> &G) {\n    int n = G.size();\n    vector<T> d(n,\
     \ INF<T>);\n    deque<int> q;\n    d[s] = 0;\n    q.push_front(s);\n    while\
@@ -756,51 +756,56 @@ data:
     \             if(!used[u]) self(self, u, c);\n            }\n        };\n    \
     \    for (int i = n - 1; i >= 0; --i) {\n            if(!used[vs[i]]){\n     \
     \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(k,\
-    \ {});\n        sz.resize(k);\n        for (auto &&[a, b] : edges) {\n       \
-    \     if(cmp[a] != cmp[b]){\n                G_out[cmp[a]].emplace_back(cmp[b]);\n\
-    \            }\n        }\n        for (auto &&l : G_out) {\n            sort(l.begin(),\
-    \ l.end());\n            l.erase(unique(l.begin(), l.end()), l.end());\n     \
-    \   }\n        return k;\n    }\n\n    int operator[](int k) const { return cmp[k];\
-    \ }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)\n */\n\
-    #line 1 \"graph/twosat.cpp\"\nstruct TwoSAT {\n    struct SCC {\n        struct\
-    \ CSR {\n            vector<int> start, elist;\n\n            CSR() = default;\n\
-    \n            CSR(int n, const vector<pair<int, int>> &edges, bool rev) : start(n\
-    \ + 1), elist(edges.size()) {\n                for (auto &&[a, b] : edges) {\n\
-    \                    ++start[(rev ? b : a) + 1];\n                }\n        \
-    \        for (int i = 0; i < n; ++i) start[i + 1] += start[i];\n             \
-    \   auto counter = start;\n                for (auto &&[a, b] : edges) {\n   \
-    \                 int from = rev ? b : a;\n                    int to = rev ?\
-    \ a : b;\n                    elist[counter[from]++] = to;\n                }\n\
-    \            }\n        };\n\n        int n = 0;\n        vector<pair<int, int>>\
-    \ edges;\n        vector<int> vs, used, cmp;\n        SCC() = default;\n     \
-    \   explicit SCC(int n) : n(n), used(n), cmp(n) {}\n\n        void add_edge(int\
-    \ a, int b){\n            edges.emplace_back(a, b);\n        }\n\n        int\
-    \ build() {\n            CSR G(n, edges, false), G_r(n, edges, true);\n      \
-    \      vs.clear();\n            vs.reserve(n);\n            fill(used.begin(),\
-    \ used.end(), 0);\n            auto dfs = [&](auto &&self, int v) -> void {\n\
-    \                used[v] = 1;\n                for (int ei = G.start[v]; ei <\
-    \ G.start[v + 1]; ++ei) {\n                    int u = G.elist[ei];\n        \
-    \            if(!used[u]) self(self, u);\n                }\n                vs.emplace_back(v);\n\
-    \            };\n            for (int i = 0; i < n; ++i) {\n                if(!used[i])\
-    \ dfs(dfs, i);\n            }\n            fill(used.begin(),used.end(), 0);\n\
-    \            int k = 0;\n            auto dfs_r = [&](auto &&self, int v, int\
-    \ c) -> void {\n                used[v] = 1;\n                cmp[v] = c;\n  \
-    \              for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n  \
-    \                  int u = G_r.elist[ei];\n                    if(!used[u]) self(self,\
-    \ u, c);\n                }\n            };\n            for (int i = n - 1; i\
-    \ >= 0; --i) {\n                if(!used[vs[i]]){\n                    dfs_r(dfs_r,\
-    \ vs[i], k++);\n                }\n            }\n            return k;\n    \
-    \    }\n\n        int operator[](int k) const { return cmp[k]; }\n    };\n\n \
-    \   int n;\n    SCC scc;\n    explicit TwoSAT(int n) : n(n), scc(n*2) {};\n  \
-    \  int negate(int v){\n        int ret = n+v;\n        if(ret >= n*2) ret -= n*2;\n\
-    \        return ret;\n    }\n\n    vector<int> build() {\n        scc.build();\n\
-    \        vector<int> res(n);\n        for (int i = 0; i < n; ++i) {\n        \
-    \    if(scc[i] == scc[n+i]) return {};\n            res[i] = scc[i] > scc[n+i];\n\
-    \        }\n        return res;\n    }\n\n    void add_if(int u, int v){ // u\
-    \ -> v\n        scc.add_edge(u, v);\n        scc.add_edge(negate(v), negate(u));\n\
-    \    }\n\n    void add_or(int u, int v){ // u || v\n        add_if(negate(u),\
-    \ v);\n    }\n};\n\n/**\n * @brief 2-SAT\n */\n#line 28 \"test/yosupo_aplusb_library_composition.test.cpp\"\
-    \n\n#line 1 \"graph/biconnected_components.cpp\"\n\n\n\nclass BiconnectedComponents\
+    \ {});\n        sz.resize(k);\n        if (k <= 1) return k;\n        vector<int>\
+    \ head(k, -1), next(n), seen(k, -1);\n        for (int v = 0; v < n; ++v) {\n\
+    \            next[v] = head[cmp[v]];\n            head[cmp[v]] = v;\n        }\n\
+    \        for (int to = 0; to < k; ++to) {\n            for (int v = head[to];\
+    \ v != -1; v = next[v]) {\n                for (int ei = G_r.start[v]; ei < G_r.start[v\
+    \ + 1]; ++ei) {\n                    int from = cmp[G_r.elist[ei]];\n        \
+    \            if (from == to || seen[from] == to) continue;\n                 \
+    \   seen[from] = to;\n                    G_out[from].push_back(to);\n       \
+    \         }\n            }\n        }\n        return k;\n    }\n\n    int operator[](int\
+    \ k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\
+    \u5206\u89E3(SCC)\n */\n#line 1 \"graph/twosat.cpp\"\nstruct TwoSAT {\n    struct\
+    \ SCC {\n        struct CSR {\n            vector<int> start, elist;\n\n     \
+    \       CSR() = default;\n\n            CSR(int n, const vector<pair<int, int>>\
+    \ &edges, bool rev) : start(n + 1), elist(edges.size()) {\n                for\
+    \ (auto &&[a, b] : edges) {\n                    ++start[(rev ? b : a) + 1];\n\
+    \                }\n                for (int i = 0; i < n; ++i) start[i + 1] +=\
+    \ start[i];\n                auto counter = start;\n                for (auto\
+    \ &&[a, b] : edges) {\n                    int from = rev ? b : a;\n         \
+    \           int to = rev ? a : b;\n                    elist[counter[from]++]\
+    \ = to;\n                }\n            }\n        };\n\n        int n = 0;\n\
+    \        vector<pair<int, int>> edges;\n        vector<int> vs, used, cmp;\n \
+    \       SCC() = default;\n        explicit SCC(int n) : n(n), used(n), cmp(n)\
+    \ {}\n\n        void add_edge(int a, int b){\n            edges.emplace_back(a,\
+    \ b);\n        }\n\n        int build() {\n            CSR G(n, edges, false),\
+    \ G_r(n, edges, true);\n            vs.clear();\n            vs.reserve(n);\n\
+    \            fill(used.begin(), used.end(), 0);\n            auto dfs = [&](auto\
+    \ &&self, int v) -> void {\n                used[v] = 1;\n                for\
+    \ (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {\n                    int\
+    \ u = G.elist[ei];\n                    if(!used[u]) self(self, u);\n        \
+    \        }\n                vs.emplace_back(v);\n            };\n            for\
+    \ (int i = 0; i < n; ++i) {\n                if(!used[i]) dfs(dfs, i);\n     \
+    \       }\n            fill(used.begin(),used.end(), 0);\n            int k =\
+    \ 0;\n            auto dfs_r = [&](auto &&self, int v, int c) -> void {\n    \
+    \            used[v] = 1;\n                cmp[v] = c;\n                for (int\
+    \ ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n                    int u\
+    \ = G_r.elist[ei];\n                    if(!used[u]) self(self, u, c);\n     \
+    \           }\n            };\n            for (int i = n - 1; i >= 0; --i) {\n\
+    \                if(!used[vs[i]]){\n                    dfs_r(dfs_r, vs[i], k++);\n\
+    \                }\n            }\n            return k;\n        }\n\n      \
+    \  int operator[](int k) const { return cmp[k]; }\n    };\n\n    int n;\n    SCC\
+    \ scc;\n    explicit TwoSAT(int n) : n(n), scc(n*2) {};\n    int negate(int v){\n\
+    \        int ret = n+v;\n        if(ret >= n*2) ret -= n*2;\n        return ret;\n\
+    \    }\n\n    vector<int> build() {\n        scc.build();\n        vector<int>\
+    \ res(n);\n        for (int i = 0; i < n; ++i) {\n            if(scc[i] == scc[n+i])\
+    \ return {};\n            res[i] = scc[i] > scc[n+i];\n        }\n        return\
+    \ res;\n    }\n\n    void add_if(int u, int v){ // u -> v\n        scc.add_edge(u,\
+    \ v);\n        scc.add_edge(negate(v), negate(u));\n    }\n\n    void add_or(int\
+    \ u, int v){ // u || v\n        add_if(negate(u), v);\n    }\n};\n\n/**\n * @brief\
+    \ 2-SAT\n */\n#line 28 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n\
+    #line 1 \"graph/biconnected_components.cpp\"\n\n\n\nclass BiconnectedComponents\
     \ {\n    struct CSR {\n        vector<int> start, elist;\n\n        CSR() = default;\n\
     \n        CSR(int n, const vector<pair<int, int>> &edges) : start(n + 1), elist(edges.size()\
     \ * 2) {\n            for (auto &&[u, v] : edges) {\n                ++start[u\
@@ -1470,7 +1475,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-06 23:06:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

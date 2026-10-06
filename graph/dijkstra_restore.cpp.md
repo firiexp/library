@@ -46,33 +46,34 @@ data:
     };\n\ntemplate <typename T>\nDijkstraRestoreResult<T> dijkstra_restore(int s,\
     \ const vector<vector<edge<T>>> &G) {\n    vector<int> parent((int)G.size(), -1);\n\
     \    DijkstraPriorityQueue<T> Q;\n    auto dist = dijkstra_internal(s, G, Q, [&](int\
-    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {dist,\
-    \ parent};\n}\n\nvector<int> restore_path(int s, int t, const vector<int> &parent)\
-    \ {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size()) return path;\n\
-    \    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n        if\
-    \ (v == s) {\n            reverse(path.begin(), path.end());\n            return\
-    \ path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n    return\
-    \ path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
+    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {std::move(dist),\
+    \ std::move(parent)};\n}\n\nvector<int> restore_path(int s, int t, const vector<int>\
+    \ &parent) {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size())\
+    \ return path;\n    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n\
+    \        if (v == s) {\n            reverse(path.begin(), path.end());\n     \
+    \       return path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n\
+    \    return path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
     \n */\n"
   code: "#include \"dijkstra_common.cpp\"\n\ntemplate <typename T>\nstruct DijkstraRestoreResult\
     \ {\n    vector<T> dist;\n    vector<int> parent;\n};\n\ntemplate <typename T>\n\
     DijkstraRestoreResult<T> dijkstra_restore(int s, const vector<vector<edge<T>>>\
     \ &G) {\n    vector<int> parent((int)G.size(), -1);\n    DijkstraPriorityQueue<T>\
     \ Q;\n    auto dist = dijkstra_internal(s, G, Q, [&](int v, const edge<T> &e)\
-    \ {\n        parent[e.to] = v;\n    });\n    return {dist, parent};\n}\n\nvector<int>\
-    \ restore_path(int s, int t, const vector<int> &parent) {\n    vector<int> path;\n\
-    \    if (t < 0 || t >= (int)parent.size()) return path;\n    int v = t;\n    while\
-    \ (v != -1) {\n        path.push_back(v);\n        if (v == s) {\n           \
-    \ reverse(path.begin(), path.end());\n            return path;\n        }\n  \
-    \      v = parent[v];\n    }\n    path.clear();\n    return path;\n}\n\n/**\n\
-    \ * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\n */\n"
+    \ {\n        parent[e.to] = v;\n    });\n    return {std::move(dist), std::move(parent)};\n\
+    }\n\nvector<int> restore_path(int s, int t, const vector<int> &parent) {\n   \
+    \ vector<int> path;\n    if (t < 0 || t >= (int)parent.size()) return path;\n\
+    \    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n        if\
+    \ (v == s) {\n            reverse(path.begin(), path.end());\n            return\
+    \ path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n    return\
+    \ path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
+    \n */\n"
   dependsOn:
   - graph/dijkstra_common.cpp
   - graph/edge.cpp
   isVerificationFile: false
   path: graph/dijkstra_restore.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-06 22:43:23+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shortest_path.test.cpp

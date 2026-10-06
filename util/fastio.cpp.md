@@ -110,6 +110,9 @@ data:
     path: test/yosupo_aplusb_crt.test.cpp
     title: test/yosupo_aplusb_crt.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_directedmst.test.cpp
+    title: test/yosupo_aplusb_directedmst.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dsu_on_tree.test.cpp
     title: test/yosupo_aplusb_dsu_on_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -193,6 +196,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_scc.test.cpp
+    title: test/yosupo_aplusb_scc.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
     title: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
@@ -1117,6 +1123,7 @@ data:
   - test/yosupo_counting_primes.test.cpp
   - test/yuki2672_xor_basis.test.cpp
   - test/yosupo_stern_brocot_tree.test.cpp
+  - test/yosupo_aplusb_directedmst.test.cpp
   - test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
@@ -1136,6 +1143,7 @@ data:
   - test/yosupo_lca.test.cpp
   - test/yosupo_multiplication_of_hex_big_integers.test.cpp
   - test/yosupo_aho_corasick.test.cpp
+  - test/yosupo_aplusb_scc.test.cpp
   - test/yosupo_ordered_set.test.cpp
   - test/yosupo_aplusb_xorshift.test.cpp
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp

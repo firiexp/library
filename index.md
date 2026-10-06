@@ -764,6 +764,9 @@ data:
       path: test/yosupo_aplusb_crt.test.cpp
       title: test/yosupo_aplusb_crt.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_directedmst.test.cpp
+      title: test/yosupo_aplusb_directedmst.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dsu_on_tree.test.cpp
       title: test/yosupo_aplusb_dsu_on_tree.test.cpp
     - icon: ':heavy_check_mark:'
@@ -847,6 +850,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
       title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_scc.test.cpp
+      title: test/yosupo_aplusb_scc.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
       title: test/yosupo_aplusb_segmenttree_boundaries.test.cpp

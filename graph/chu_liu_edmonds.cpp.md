@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_directedmst.test.cpp
+    title: test/yosupo_aplusb_directedmst.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_directedmst.test.cpp
     title: test/yosupo_directedmst.test.cpp
   _isVerificationFailed: false
@@ -44,16 +47,16 @@ data:
     \ ++i) {\n            nodes.emplace_back(edges[i].cost, i);\n            come[edges[i].to]\
     \ = meld(come[edges[i].to], &nodes.back());\n        }\n\n        UnionFind uf(n);\n\
     \        vector<int> used(n, -1), from(n, -1), stem(n, -1);\n        vector<T>\
-    \ from_cost(n, T(0));\n        vector<int> parent_edge(edges.size(), -1), order;\n\
-    \        used[root] = root;\n        T total = T(0);\n\n        for (int start\
-    \ = 0; start < n; ++start) {\n            if (used[start] != -1) continue;\n \
-    \           int cur = start;\n            vector<int> child_edges;\n         \
-    \   int cycle = 0;\n            while (used[cur] == -1 || used[cur] == start)\
-    \ {\n                used[cur] = start;\n                while (come[cur] != nullptr\
-    \ && uf.root(edges[come[cur]->idx].from) == cur) {\n                    come[cur]\
-    \ = pop(come[cur]);\n                }\n                if (come[cur] == nullptr)\
-    \ return {false, T(0), {}, {}};\n                int idx = come[cur]->idx;\n \
-    \               int src = uf.root(edges[idx].from);\n                T cost =\
+    \ from_cost(n, T(0));\n        vector<int> parent_edge(edges.size(), -1), order,\
+    \ child_edges;\n        used[root] = root;\n        T total = T(0);\n\n      \
+    \  for (int start = 0; start < n; ++start) {\n            if (used[start] != -1)\
+    \ continue;\n            int cur = start;\n            child_edges.clear();\n\
+    \            int cycle = 0;\n            while (used[cur] == -1 || used[cur] ==\
+    \ start) {\n                used[cur] = start;\n                while (come[cur]\
+    \ != nullptr && uf.root(edges[come[cur]->idx].from) == cur) {\n              \
+    \      come[cur] = pop(come[cur]);\n                }\n                if (come[cur]\
+    \ == nullptr) return {false, T(0), {}, {}};\n                int idx = come[cur]->idx;\n\
+    \                int src = uf.root(edges[idx].from);\n                T cost =\
     \ come[cur]->key;\n                come[cur] = pop(come[cur]);\n\n           \
     \     from[cur] = src;\n                from_cost[cur] = cost;\n             \
     \   if (stem[cur] == -1) stem[cur] = idx;\n                total += cost;\n  \
@@ -78,8 +81,8 @@ data:
     \            parent[v] = edges[idx].from;\n            int x = stem[v];\n    \
     \        while (x != idx) {\n                used_edge[x] = 1;\n             \
     \   x = parent_edge[x];\n            }\n        }\n        return {true, total,\
-    \ parent, edge_id};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u5168\u57DF\u6709\
-    \u5411\u6728(Chu-Liu/Edmonds)\n */\n"
+    \ std::move(parent), std::move(edge_id)};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\
+    \u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)\n */\n"
   code: "template<class T>\nstruct ChuLiuEdmonds {\n    struct Edge {\n        int\
     \ from, to;\n        T cost;\n    };\n\n    struct Result {\n        bool exists;\n\
     \        T cost;\n        vector<int> parent;\n        vector<int> edge_id;\n\
@@ -111,10 +114,10 @@ data:
     \ i);\n            come[edges[i].to] = meld(come[edges[i].to], &nodes.back());\n\
     \        }\n\n        UnionFind uf(n);\n        vector<int> used(n, -1), from(n,\
     \ -1), stem(n, -1);\n        vector<T> from_cost(n, T(0));\n        vector<int>\
-    \ parent_edge(edges.size(), -1), order;\n        used[root] = root;\n        T\
-    \ total = T(0);\n\n        for (int start = 0; start < n; ++start) {\n       \
-    \     if (used[start] != -1) continue;\n            int cur = start;\n       \
-    \     vector<int> child_edges;\n            int cycle = 0;\n            while\
+    \ parent_edge(edges.size(), -1), order, child_edges;\n        used[root] = root;\n\
+    \        T total = T(0);\n\n        for (int start = 0; start < n; ++start) {\n\
+    \            if (used[start] != -1) continue;\n            int cur = start;\n\
+    \            child_edges.clear();\n            int cycle = 0;\n            while\
     \ (used[cur] == -1 || used[cur] == start) {\n                used[cur] = start;\n\
     \                while (come[cur] != nullptr && uf.root(edges[come[cur]->idx].from)\
     \ == cur) {\n                    come[cur] = pop(come[cur]);\n               \
@@ -144,15 +147,16 @@ data:
     \            parent[v] = edges[idx].from;\n            int x = stem[v];\n    \
     \        while (x != idx) {\n                used_edge[x] = 1;\n             \
     \   x = parent_edge[x];\n            }\n        }\n        return {true, total,\
-    \ parent, edge_id};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u5168\u57DF\u6709\
-    \u5411\u6728(Chu-Liu/Edmonds)\n */\n"
+    \ std::move(parent), std::move(edge_id)};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\
+    \u5168\u57DF\u6709\u5411\u6728(Chu-Liu/Edmonds)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/chu_liu_edmonds.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-06 22:44:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_directedmst.test.cpp
   - test/yosupo_directedmst.test.cpp
 date: 2026-03-08
 documentation_of: graph/chu_liu_edmonds.cpp

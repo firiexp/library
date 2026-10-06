@@ -46,16 +46,20 @@ data:
     \             if(!used[u]) self(self, u, c);\n            }\n        };\n    \
     \    for (int i = n - 1; i >= 0; --i) {\n            if(!used[vs[i]]){\n     \
     \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(k,\
-    \ {});\n        sz.resize(k);\n        for (auto &&[a, b] : edges) {\n       \
-    \     if(cmp[a] != cmp[b]){\n                G_out[cmp[a]].emplace_back(cmp[b]);\n\
-    \            }\n        }\n        for (auto &&l : G_out) {\n            sort(l.begin(),\
-    \ l.end());\n            l.erase(unique(l.begin(), l.end()), l.end());\n     \
-    \   }\n        return k;\n    }\n\n    int operator[](int k) const { return cmp[k];\
-    \ }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)\n */\n\
-    #line 21 \"test/yosupo_scc.test.cpp\"\n\nint main() {\n    int n, m;\n    cin\
-    \ >> n >> m;\n    SCC G(n);\n    for (int i = 0; i < m; ++i) {\n        int a,\
-    \ b;\n        scanf(\"%d %d\", &a, &b);\n        G.add_edge(a, b);\n    }\n  \
-    \  printf(\"%d\\n\", G.build());\n    vector<vector<int>> res(G.sz.size());\n\
+    \ {});\n        sz.resize(k);\n        if (k <= 1) return k;\n        vector<int>\
+    \ head(k, -1), next(n), seen(k, -1);\n        for (int v = 0; v < n; ++v) {\n\
+    \            next[v] = head[cmp[v]];\n            head[cmp[v]] = v;\n        }\n\
+    \        for (int to = 0; to < k; ++to) {\n            for (int v = head[to];\
+    \ v != -1; v = next[v]) {\n                for (int ei = G_r.start[v]; ei < G_r.start[v\
+    \ + 1]; ++ei) {\n                    int from = cmp[G_r.elist[ei]];\n        \
+    \            if (from == to || seen[from] == to) continue;\n                 \
+    \   seen[from] = to;\n                    G_out[from].push_back(to);\n       \
+    \         }\n            }\n        }\n        return k;\n    }\n\n    int operator[](int\
+    \ k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\
+    \u5206\u89E3(SCC)\n */\n#line 21 \"test/yosupo_scc.test.cpp\"\n\nint main() {\n\
+    \    int n, m;\n    cin >> n >> m;\n    SCC G(n);\n    for (int i = 0; i < m;\
+    \ ++i) {\n        int a, b;\n        scanf(\"%d %d\", &a, &b);\n        G.add_edge(a,\
+    \ b);\n    }\n    printf(\"%d\\n\", G.build());\n    vector<vector<int>> res(G.sz.size());\n\
     \    for (int i = 0; i < n; ++i) {\n        res[G[i]].emplace_back(i);\n    }\n\
     \    for (int i = 0; i < G.sz.size(); ++i) {\n        printf(\"%d\", G.sz[i]);\n\
     \        for (auto &&j : res[i]) {\n            printf(\" %d\", j);\n        }\n\
@@ -78,7 +82,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_scc.test.cpp
   requiredBy: []
-  timestamp: '2026-04-11 14:07:08+09:00'
+  timestamp: '2026-10-06 23:06:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_scc.test.cpp
