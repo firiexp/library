@@ -148,7 +148,7 @@ private:
         if (mid) swap(node.line, x);
         if (r - l == 1) return;
         if (lef != mid) add_line(node.l, l, m, x);
-        else add_line(node.r, m, r, x);
+        else if (x.get(r - 1) < node.line.get(r - 1)) add_line(node.r, m, r, x);
     }
 
     void add_segment(int &t, T l, T r, T a, T b, Line x) {

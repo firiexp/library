@@ -43,6 +43,29 @@ void check_limits() {
 }
 
 template<bool get_max>
+void check_pruning() {
+    const ll sign = get_max ? -1 : 1;
+    OnlineLiChaoTree<ll, get_max> dominated(-1000000000LL, 1000000001LL);
+    dominated.add_line(0, 0);
+    for (int i = 0; i < 1000; ++i) {
+        dominated.add_line(0, 0);
+        dominated.add_line(sign * (i % 7), sign * (10000000000LL + i));
+        dominated.add_segment(0, sign, -1000000000LL, 1000000001LL);
+    }
+    assert(dominated.nodes.size() == 1);
+    dominated.add_line(0, -sign);
+    assert(dominated.nodes.size() == 1);
+    for (ll x : {-1000000000LL, 0LL, 1000000000LL}) assert(dominated.query(x) == -sign);
+    OnlineLiChaoTree<ll, get_max> crossing(0, 1001);
+    for (ll i = 0; i <= 1000; ++i) crossing.add_line(sign * (-2 * i), sign * i * i);
+    for (ll x = 0; x <= 1000; ++x) assert(crossing.query(x) == -sign * x * x);
+    OnlineLiChaoTree<ll, get_max> endpoint(0, 9);
+    endpoint.add_line(0, 0);
+    endpoint.add_line(-sign, 7 * sign);
+    assert(endpoint.query(0) == 0 && endpoint.query(8) == -sign);
+}
+
+template<bool get_max>
 void check_random() {
     struct Line {
         ll a, b, l, r;
@@ -93,6 +116,8 @@ void check_random() {
 int main() {
     check_limits<false>();
     check_limits<true>();
+    check_pruning<false>();
+    check_pruning<true>();
     check_random<false>();
     check_random<true>();
     Scanner in;
