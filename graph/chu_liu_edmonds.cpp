@@ -91,14 +91,14 @@ struct ChuLiuEdmonds {
         UnionFind uf(n);
         vector<int> used(n, -1), from(n, -1), stem(n, -1);
         vector<T> from_cost(n, T(0));
-        vector<int> parent_edge(edges.size(), -1), order;
+        vector<int> parent_edge(edges.size(), -1), order, child_edges;
         used[root] = root;
         T total = T(0);
 
         for (int start = 0; start < n; ++start) {
             if (used[start] != -1) continue;
             int cur = start;
-            vector<int> child_edges;
+            child_edges.clear();
             int cycle = 0;
             while (used[cur] == -1 || used[cur] == start) {
                 used[cur] = start;
