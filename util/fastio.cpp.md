@@ -146,6 +146,9 @@ data:
     path: test/yosupo_aplusb_is_palindrome.test.cpp
     title: test/yosupo_aplusb_is_palindrome.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_li_chao_tree.test.cpp
+    title: test/yosupo_aplusb_li_chao_tree.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -347,6 +350,9 @@ data:
     path: test/yosupo_line_add_get_min.test.cpp
     title: test/yosupo_line_add_get_min.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_line_add_get_min_online.test.cpp
+    title: test/yosupo_line_add_get_min_online.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_lyndon_factorization.test.cpp
     title: test/yosupo_lyndon_factorization.test.cpp
   - icon: ':heavy_check_mark:'
@@ -463,6 +469,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_segment_add_get_min.test.cpp
     title: test/yosupo_segment_add_get_min.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_segment_add_get_min_online.test.cpp
+    title: test/yosupo_segment_add_get_min_online.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_set_xor_min_binarytrie.test.cpp
     title: test/yosupo_set_xor_min_binarytrie.test.cpp
@@ -1108,6 +1117,7 @@ data:
   - test/yuki1326_block_cut_tree.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/yosupo_sum_of_floor_of_linear.test.cpp
+  - test/yosupo_line_add_get_min_online.test.cpp
   - test/yosupo_range_kth_smallest.test.cpp
   - test/yosupo_eulerian_trail_directed.test.cpp
   - test/yosupo_aplusb_min_cost_b_flow.test.cpp
@@ -1119,6 +1129,7 @@ data:
   - test/yosupo_unionfind_with_potential.test.cpp
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_aplusb_radixheap.test.cpp
+  - test/yosupo_segment_add_get_min_online.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_counting_primes.test.cpp
   - test/yuki2672_xor_basis.test.cpp
@@ -1129,6 +1140,7 @@ data:
   - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/aoj_grl_5_a_rerooting.test.cpp
   - test/aoj_alds1_1_c_get_prime.test.cpp
+  - test/yosupo_aplusb_li_chao_tree.test.cpp
   - test/yosupo_static_range_sum_with_upper_bound.test.cpp
   - test/yosupo_binomial_coefficient.test.cpp
   - test/yosupo_inverse_matrix.test.cpp

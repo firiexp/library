@@ -17,11 +17,9 @@ data:
     PROBLEM: https://judge.yosupo.jp/problem/segment_add_get_min
     links:
     - https://judge.yosupo.jp/problem/segment_add_get_min
-  bundledCode: "#line 1 \"test/yosupo_segment_add_get_min.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\n#include <algorithm>\n\
-    #include <deque>\n#include <limits>\n#include <optional>\n#include <vector>\n\n\
-    using ll = long long;\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
+  bundledCode: "#line 1 \"test/yosupo_segment_add_get_min_online.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\n#include\
+    \ <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\n\n#line 1 \"util/fastio.cpp\"\
     \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
@@ -312,55 +310,42 @@ data:
     \ / 2;\n            if (x < m) {\n                t = node.l;\n              \
     \  r = m;\n            } else {\n                t = node.r;\n               \
     \ l = m;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n *\
-    \ @brief Li Chao Tree\n */\n#line 20 \"test/yosupo_segment_add_get_min.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    struct Segment {\n        ll l, r, a, b;\n    };\n    vector<Segment>\
-    \ init(n);\n    for (int i = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r,\
-    \ init[i].a, init[i].b);\n    }\n\n    struct Query {\n        int t;\n      \
-    \  ll l, r, a, b, p;\n    };\n    vector<Query> qs;\n    qs.reserve(q);\n    vector<ll>\
-    \ xs;\n    xs.reserve(q);\n\n    for (int i = 0; i < q; ++i) {\n        int t;\n\
-    \        in.read(t);\n        if (!t) {\n            ll l, r, a, b;\n        \
-    \    in.read(l, r, a, b);\n            qs.push_back({0, l, r, a, b, 0});\n   \
-    \     } else {\n            ll p;\n            in.read(p);\n            qs.push_back({1,\
-    \ 0, 0, 0, 0, p});\n            xs.push_back(p);\n        }\n    }\n\n    LiChaoTree<ll>\
-    \ li(xs);\n    for (auto s : init) li.add_segment(s.a, s.b, s.l, s.r);\n\n   \
-    \ for (auto qu : qs) {\n        if (qu.t == 0) {\n            li.add_segment(qu.a,\
-    \ qu.b, qu.l, qu.r);\n        } else {\n            auto ans = li.query_with_id(qu.p);\n\
-    \            if (!ans) out.println(\"INFINITY\");\n            else out.println(ans->first);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \ @brief Li Chao Tree\n */\n#line 9 \"test/yosupo_segment_add_get_min_online.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n,\
+    \ q);\n    OnlineLiChaoTree<ll> tree(-1000000000LL, 1000000001LL);\n    for (int\
+    \ i = 0; i < n; ++i) {\n        ll l, r, a, b;\n        in.read(l, r, a, b);\n\
+    \        tree.add_segment(a, b, l, r);\n    }\n    while (q--) {\n        int\
+    \ type;\n        in.read(type);\n        if (type == 0) {\n            ll l, r,\
+    \ a, b;\n            in.read(l, r, a, b);\n            tree.add_segment(a, b,\
+    \ l, r);\n        } else {\n            ll x;\n            in.read(x);\n     \
+    \       auto result = tree.query_with_id(x);\n            if (!result) out.println(\"\
+    INFINITY\");\n            else out.println(result->first);\n        }\n    }\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\
-    \n#include <algorithm>\n#include <deque>\n#include <limits>\n#include <optional>\n\
-    #include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../datastructure/li_chao_tree.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    struct Segment {\n        ll l, r, a, b;\n    };\n    vector<Segment>\
-    \ init(n);\n    for (int i = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r,\
-    \ init[i].a, init[i].b);\n    }\n\n    struct Query {\n        int t;\n      \
-    \  ll l, r, a, b, p;\n    };\n    vector<Query> qs;\n    qs.reserve(q);\n    vector<ll>\
-    \ xs;\n    xs.reserve(q);\n\n    for (int i = 0; i < q; ++i) {\n        int t;\n\
-    \        in.read(t);\n        if (!t) {\n            ll l, r, a, b;\n        \
-    \    in.read(l, r, a, b);\n            qs.push_back({0, l, r, a, b, 0});\n   \
-    \     } else {\n            ll p;\n            in.read(p);\n            qs.push_back({1,\
-    \ 0, 0, 0, 0, p});\n            xs.push_back(p);\n        }\n    }\n\n    LiChaoTree<ll>\
-    \ li(xs);\n    for (auto s : init) li.add_segment(s.a, s.b, s.l, s.r);\n\n   \
-    \ for (auto qu : qs) {\n        if (qu.t == 0) {\n            li.add_segment(qu.a,\
-    \ qu.b, qu.l, qu.r);\n        } else {\n            auto ans = li.query_with_id(qu.p);\n\
-    \            if (!ans) out.println(\"INFINITY\");\n            else out.println(ans->first);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \n#include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\n\n#include\
+    \ \"../util/fastio.cpp\"\n#include \"../datastructure/li_chao_tree.cpp\"\n\nint\
+    \ main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n, q);\n\
+    \    OnlineLiChaoTree<ll> tree(-1000000000LL, 1000000001LL);\n    for (int i =\
+    \ 0; i < n; ++i) {\n        ll l, r, a, b;\n        in.read(l, r, a, b);\n   \
+    \     tree.add_segment(a, b, l, r);\n    }\n    while (q--) {\n        int type;\n\
+    \        in.read(type);\n        if (type == 0) {\n            ll l, r, a, b;\n\
+    \            in.read(l, r, a, b);\n            tree.add_segment(a, b, l, r);\n\
+    \        } else {\n            ll x;\n            in.read(x);\n            auto\
+    \ result = tree.query_with_id(x);\n            if (!result) out.println(\"INFINITY\"\
+    );\n            else out.println(result->first);\n        }\n    }\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/li_chao_tree.cpp
   isVerificationFile: true
-  path: test/yosupo_segment_add_get_min.test.cpp
+  path: test/yosupo_segment_add_get_min_online.test.cpp
   requiredBy: []
   timestamp: '2026-10-06 23:51:25+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_segment_add_get_min.test.cpp
+documentation_of: test/yosupo_segment_add_get_min_online.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_segment_add_get_min.test.cpp
-- /verify/test/yosupo_segment_add_get_min.test.cpp.html
-title: test/yosupo_segment_add_get_min.test.cpp
+- /verify/test/yosupo_segment_add_get_min_online.test.cpp
+- /verify/test/yosupo_segment_add_get_min_online.test.cpp.html
+title: test/yosupo_segment_add_get_min_online.test.cpp
 ---

@@ -14,15 +14,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/segment_add_get_min
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/segment_add_get_min
-  bundledCode: "#line 1 \"test/yosupo_segment_add_get_min.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\n#include <algorithm>\n\
-    #include <deque>\n#include <limits>\n#include <optional>\n#include <vector>\n\n\
-    using ll = long long;\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_li_chao_tree.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\n\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
     \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
@@ -312,55 +310,215 @@ data:
     \ / 2;\n            if (x < m) {\n                t = node.l;\n              \
     \  r = m;\n            } else {\n                t = node.r;\n               \
     \ l = m;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n *\
-    \ @brief Li Chao Tree\n */\n#line 20 \"test/yosupo_segment_add_get_min.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    struct Segment {\n        ll l, r, a, b;\n    };\n    vector<Segment>\
-    \ init(n);\n    for (int i = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r,\
-    \ init[i].a, init[i].b);\n    }\n\n    struct Query {\n        int t;\n      \
-    \  ll l, r, a, b, p;\n    };\n    vector<Query> qs;\n    qs.reserve(q);\n    vector<ll>\
-    \ xs;\n    xs.reserve(q);\n\n    for (int i = 0; i < q; ++i) {\n        int t;\n\
-    \        in.read(t);\n        if (!t) {\n            ll l, r, a, b;\n        \
-    \    in.read(l, r, a, b);\n            qs.push_back({0, l, r, a, b, 0});\n   \
-    \     } else {\n            ll p;\n            in.read(p);\n            qs.push_back({1,\
-    \ 0, 0, 0, 0, p});\n            xs.push_back(p);\n        }\n    }\n\n    LiChaoTree<ll>\
-    \ li(xs);\n    for (auto s : init) li.add_segment(s.a, s.b, s.l, s.r);\n\n   \
-    \ for (auto qu : qs) {\n        if (qu.t == 0) {\n            li.add_segment(qu.a,\
-    \ qu.b, qu.l, qu.r);\n        } else {\n            auto ans = li.query_with_id(qu.p);\n\
-    \            if (!ans) out.println(\"INFINITY\");\n            else out.println(ans->first);\n\
-    \        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/segment_add_get_min\"\n\
-    \n#include <algorithm>\n#include <deque>\n#include <limits>\n#include <optional>\n\
-    #include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../datastructure/li_chao_tree.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    struct Segment {\n        ll l, r, a, b;\n    };\n    vector<Segment>\
-    \ init(n);\n    for (int i = 0; i < n; ++i) {\n        in.read(init[i].l, init[i].r,\
-    \ init[i].a, init[i].b);\n    }\n\n    struct Query {\n        int t;\n      \
-    \  ll l, r, a, b, p;\n    };\n    vector<Query> qs;\n    qs.reserve(q);\n    vector<ll>\
-    \ xs;\n    xs.reserve(q);\n\n    for (int i = 0; i < q; ++i) {\n        int t;\n\
-    \        in.read(t);\n        if (!t) {\n            ll l, r, a, b;\n        \
-    \    in.read(l, r, a, b);\n            qs.push_back({0, l, r, a, b, 0});\n   \
-    \     } else {\n            ll p;\n            in.read(p);\n            qs.push_back({1,\
-    \ 0, 0, 0, 0, p});\n            xs.push_back(p);\n        }\n    }\n\n    LiChaoTree<ll>\
-    \ li(xs);\n    for (auto s : init) li.add_segment(s.a, s.b, s.l, s.r);\n\n   \
-    \ for (auto qu : qs) {\n        if (qu.t == 0) {\n            li.add_segment(qu.a,\
-    \ qu.b, qu.l, qu.r);\n        } else {\n            auto ans = li.query_with_id(qu.p);\n\
-    \            if (!ans) out.println(\"INFINITY\");\n            else out.println(ans->first);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \ @brief Li Chao Tree\n */\n#line 9 \"test/yosupo_aplusb_li_chao_tree.test.cpp\"\
+    \n\ntemplate<bool get_max>\nvoid check_limits() {\n    const ll inf = numeric_limits<ll>::max()\
+    \ / 4;\n    const ll empty = get_max ? -inf : inf;\n    for (ll value : {0LL,\
+    \ inf, -inf, inf + 1, -inf - 1,\n                     3000000000000000000LL, -3000000000000000000LL,\n\
+    \                     LLONG_MAX, -LLONG_MAX}) {\n        LiChaoTree<ll, get_max>\
+    \ offline({-2, 0, 2});\n        OnlineLiChaoTree<ll, get_max> online(-2, 3);\n\
+    \        assert(offline.query(0) == empty && online.query(0) == empty);\n    \
+    \    assert(!offline.query_with_id(0) && !online.query_with_id(0));\n        assert(offline.add_segment(0,\
+    \ value, 0, 1) == 0);\n        assert(online.add_segment(0, value, 0, 1) == 0);\n\
+    \        assert(offline.query(0) == value && online.query(0) == value);\n    \
+    \    assert(offline.query_with_id(0) == make_pair(value, 0));\n        assert(online.query_with_id(0)\
+    \ == make_pair(value, 0));\n        for (ll x : {-2LL, 2LL}) {\n            assert(offline.query(x)\
+    \ == empty && online.query(x) == empty);\n            assert(!offline.query_with_id(x)\
+    \ && !online.query_with_id(x));\n        }\n        assert(offline.add_line(0,\
+    \ value) == 1);\n        assert(online.add_line(0, value) == 1);\n        for\
+    \ (ll x : {-2LL, 0LL, 2LL}) {\n            assert(offline.query(x) == value &&\
+    \ online.query(x) == value);\n            auto expected = make_pair(value, x ==\
+    \ 0 ? 0 : 1);\n            assert(offline.query_with_id(x) == expected && online.query_with_id(x)\
+    \ == expected);\n        }\n    }\n    LiChaoTree<ll, get_max> empty_tree({});\n\
+    \    assert(empty_tree.add_line(0, 1) == 0);\n    assert(empty_tree.add_segment(1,\
+    \ 0, -2, 2) == 1);\n    assert(empty_tree.query(0) == empty);\n    assert(!empty_tree.query_with_id(0));\n\
+    \    LiChaoTree<ll, get_max> single({0, 0});\n    OnlineLiChaoTree<ll, get_max>\
+    \ single_online(0, 1);\n    assert(single.add_segment(0, 0, 0, 0) == 0);\n   \
+    \ assert(single_online.add_segment(0, 0, 0, 0) == 0);\n    assert(single.query(0)\
+    \ == empty && single_online.query(0) == empty);\n    assert(single.add_line(0,\
+    \ 7) == 1);\n    assert(single_online.add_line(0, 7) == 1);\n    assert(single.query(0)\
+    \ == 7 && single_online.query(0) == 7);\n    assert(single.query_with_id(0) ==\
+    \ make_pair(7LL, 1));\n    assert(single_online.query_with_id(0) == make_pair(7LL,\
+    \ 1));\n    assert(single.query(1) == empty);\n    assert(!single.query_with_id(1));\n\
+    \    if constexpr (!get_max) {\n        single.add_line(0, LLONG_MIN);\n     \
+    \   single_online.add_line(0, LLONG_MIN);\n        assert(single.query_with_id(0)\
+    \ == make_pair(LLONG_MIN, 2));\n        assert(single_online.query_with_id(0)\
+    \ == make_pair(LLONG_MIN, 2));\n    }\n}\n\ntemplate<bool get_max>\nvoid check_ties()\
+    \ {\n    const vector<array<ll, 4>> lines = {\n        {0, 0, -4, 5}, {1, 0, -4,\
+    \ 5}, {-1, 0, -4, 5},\n        {0, 0, -4, 5}, {0, 0, 0, 1}, {1, -1, 1, 5}\n  \
+    \  };\n    vector<int> order = {0, 1, 2, 3, 4, 5};\n    do {\n        LiChaoTree<ll,\
+    \ get_max> offline({-4, -3, -2, -1, 0, 1, 2, 3, 4});\n        OnlineLiChaoTree<ll,\
+    \ get_max> online(-4, 5);\n        for (int id = 0; id < 6; ++id) {\n        \
+    \    auto [a, b, l, r] = lines[order[id]];\n            if (order[id] < 4) {\n\
+    \                assert(offline.add_line(a, b) == id);\n                assert(online.add_line(a,\
+    \ b) == id);\n            } else {\n                assert(offline.add_segment(a,\
+    \ b, l, r) == id);\n                assert(online.add_segment(a, b, l, r) == id);\n\
+    \            }\n            for (ll x = -4; x <= 4; ++x) {\n                optional<pair<ll,\
+    \ int>> expected;\n                for (int j = 0; j <= id; ++j) {\n         \
+    \           auto [a, b, l, r] = lines[order[j]];\n                    if (x <\
+    \ l || r <= x) continue;\n                    ll value = a * x + b;\n        \
+    \            if (!expected || (get_max ? value > expected->first : value < expected->first))\
+    \ {\n                        expected = make_pair(value, j);\n               \
+    \     }\n                }\n                assert(offline.query_with_id(x) ==\
+    \ expected && online.query_with_id(x) == expected);\n            }\n        }\n\
+    \    } while (next_permutation(order.begin(), order.end()));\n}\n\ntemplate<bool\
+    \ get_max>\nvoid check_pruning() {\n    const ll sign = get_max ? -1 : 1;\n  \
+    \  OnlineLiChaoTree<ll, get_max> dominated(-1000000000LL, 1000000001LL);\n   \
+    \ dominated.add_line(0, 0);\n    for (int i = 0; i < 1000; ++i) {\n        dominated.add_line(0,\
+    \ 0);\n        dominated.add_line(sign * (i % 7), sign * (10000000000LL + i));\n\
+    \        dominated.add_segment(0, sign, -1000000000LL, 1000000001LL);\n    }\n\
+    \    assert(dominated.nodes.size() == 1);\n    dominated.add_line(0, -sign);\n\
+    \    assert(dominated.nodes.size() == 1);\n    for (ll x : {-1000000000LL, 0LL,\
+    \ 1000000000LL}) assert(dominated.query(x) == -sign);\n    OnlineLiChaoTree<ll,\
+    \ get_max> crossing(0, 1001);\n    for (ll i = 0; i <= 1000; ++i) crossing.add_line(sign\
+    \ * (-2 * i), sign * i * i);\n    for (ll x = 0; x <= 1000; ++x) assert(crossing.query(x)\
+    \ == -sign * x * x);\n    OnlineLiChaoTree<ll, get_max> endpoint(0, 9);\n    endpoint.add_line(0,\
+    \ 0);\n    endpoint.add_line(-sign, 7 * sign);\n    assert(endpoint.query(0) ==\
+    \ 0 && endpoint.query(8) == -sign);\n}\n\ntemplate<bool get_max>\nvoid check_random()\
+    \ {\n    struct Line {\n        ll a, b, l, r;\n    };\n    const ll inf = numeric_limits<ll>::max()\
+    \ / 4;\n    mt19937 rng(100 + get_max);\n    for (int tc = 0; tc < 200; ++tc)\
+    \ {\n        vector<ll> xs;\n        for (ll x = -16; x <= 16; ++x)\n        \
+    \    if (rng() % 3 != 0) xs.push_back(x);\n        shuffle(xs.begin(), xs.end(),\
+    \ rng);\n        if (!xs.empty()) xs.push_back(xs[0]);\n        LiChaoTree<ll,\
+    \ get_max> offline(xs);\n        OnlineLiChaoTree<ll, get_max> online(-16, 17);\n\
+    \        vector<Line> lines;\n        for (int op = 0; op < 100; ++op) {\n   \
+    \         ll a = int(rng() % 17) - 8;\n            ll b = int(rng() % 101) - 50;\n\
+    \            if (op % 3 == 0) b += 3000000000000000000LL;\n            if (op\
+    \ % 3 == 1) b -= 3000000000000000000LL;\n            ll l = int(rng() % 41) -\
+    \ 20, r = int(rng() % 41) - 20;\n            if (rng() % 3 == 0) {\n         \
+    \       l = -16;\n                r = 17;\n                assert(offline.add_line(a,\
+    \ b) == op);\n                assert(online.add_line(a, b) == op);\n         \
+    \   } else {\n                assert(offline.add_segment(a, b, l, r) == op);\n\
+    \                assert(online.add_segment(a, b, l, r) == op);\n            }\n\
+    \            lines.push_back({a, b, l, r});\n            for (ll x = -16; x <=\
+    \ 16; ++x) {\n                optional<pair<ll, int>> expected;\n            \
+    \    for (int id = 0; id <= op; ++id) {\n                    const auto &line\
+    \ = lines[id];\n                    if (x < line.l || line.r <= x) continue;\n\
+    \                    ll y = line.a * x + line.b;\n                    if (!expected\
+    \ || (get_max ? y > expected->first : y < expected->first)) {\n              \
+    \          expected = make_pair(y, id);\n                    }\n             \
+    \   }\n                ll value = expected ? expected->first : (get_max ? -inf\
+    \ : inf);\n                assert(online.query(x) == value);\n               \
+    \ assert(online.query_with_id(x) == expected);\n                if (find(xs.begin(),\
+    \ xs.end(), x) == xs.end()) {\n                    value = get_max ? -inf : inf;\n\
+    \                    expected = nullopt;\n                }\n                assert(offline.query(x)\
+    \ == value);\n                assert(offline.query_with_id(x) == expected);\n\
+    \            }\n        }\n    }\n}\n\nint main() {\n    check_limits<false>();\n\
+    \    check_limits<true>();\n    check_ties<false>();\n    check_ties<true>();\n\
+    \    check_pruning<false>();\n    check_pruning<true>();\n    check_random<false>();\n\
+    \    check_random<true>();\n    Scanner in;\n    Printer out;\n    int a, b;\n\
+    \    in.read(a, b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../datastructure/li_chao_tree.cpp\"\n\ntemplate<bool get_max>\nvoid\
+    \ check_limits() {\n    const ll inf = numeric_limits<ll>::max() / 4;\n    const\
+    \ ll empty = get_max ? -inf : inf;\n    for (ll value : {0LL, inf, -inf, inf +\
+    \ 1, -inf - 1,\n                     3000000000000000000LL, -3000000000000000000LL,\n\
+    \                     LLONG_MAX, -LLONG_MAX}) {\n        LiChaoTree<ll, get_max>\
+    \ offline({-2, 0, 2});\n        OnlineLiChaoTree<ll, get_max> online(-2, 3);\n\
+    \        assert(offline.query(0) == empty && online.query(0) == empty);\n    \
+    \    assert(!offline.query_with_id(0) && !online.query_with_id(0));\n        assert(offline.add_segment(0,\
+    \ value, 0, 1) == 0);\n        assert(online.add_segment(0, value, 0, 1) == 0);\n\
+    \        assert(offline.query(0) == value && online.query(0) == value);\n    \
+    \    assert(offline.query_with_id(0) == make_pair(value, 0));\n        assert(online.query_with_id(0)\
+    \ == make_pair(value, 0));\n        for (ll x : {-2LL, 2LL}) {\n            assert(offline.query(x)\
+    \ == empty && online.query(x) == empty);\n            assert(!offline.query_with_id(x)\
+    \ && !online.query_with_id(x));\n        }\n        assert(offline.add_line(0,\
+    \ value) == 1);\n        assert(online.add_line(0, value) == 1);\n        for\
+    \ (ll x : {-2LL, 0LL, 2LL}) {\n            assert(offline.query(x) == value &&\
+    \ online.query(x) == value);\n            auto expected = make_pair(value, x ==\
+    \ 0 ? 0 : 1);\n            assert(offline.query_with_id(x) == expected && online.query_with_id(x)\
+    \ == expected);\n        }\n    }\n    LiChaoTree<ll, get_max> empty_tree({});\n\
+    \    assert(empty_tree.add_line(0, 1) == 0);\n    assert(empty_tree.add_segment(1,\
+    \ 0, -2, 2) == 1);\n    assert(empty_tree.query(0) == empty);\n    assert(!empty_tree.query_with_id(0));\n\
+    \    LiChaoTree<ll, get_max> single({0, 0});\n    OnlineLiChaoTree<ll, get_max>\
+    \ single_online(0, 1);\n    assert(single.add_segment(0, 0, 0, 0) == 0);\n   \
+    \ assert(single_online.add_segment(0, 0, 0, 0) == 0);\n    assert(single.query(0)\
+    \ == empty && single_online.query(0) == empty);\n    assert(single.add_line(0,\
+    \ 7) == 1);\n    assert(single_online.add_line(0, 7) == 1);\n    assert(single.query(0)\
+    \ == 7 && single_online.query(0) == 7);\n    assert(single.query_with_id(0) ==\
+    \ make_pair(7LL, 1));\n    assert(single_online.query_with_id(0) == make_pair(7LL,\
+    \ 1));\n    assert(single.query(1) == empty);\n    assert(!single.query_with_id(1));\n\
+    \    if constexpr (!get_max) {\n        single.add_line(0, LLONG_MIN);\n     \
+    \   single_online.add_line(0, LLONG_MIN);\n        assert(single.query_with_id(0)\
+    \ == make_pair(LLONG_MIN, 2));\n        assert(single_online.query_with_id(0)\
+    \ == make_pair(LLONG_MIN, 2));\n    }\n}\n\ntemplate<bool get_max>\nvoid check_ties()\
+    \ {\n    const vector<array<ll, 4>> lines = {\n        {0, 0, -4, 5}, {1, 0, -4,\
+    \ 5}, {-1, 0, -4, 5},\n        {0, 0, -4, 5}, {0, 0, 0, 1}, {1, -1, 1, 5}\n  \
+    \  };\n    vector<int> order = {0, 1, 2, 3, 4, 5};\n    do {\n        LiChaoTree<ll,\
+    \ get_max> offline({-4, -3, -2, -1, 0, 1, 2, 3, 4});\n        OnlineLiChaoTree<ll,\
+    \ get_max> online(-4, 5);\n        for (int id = 0; id < 6; ++id) {\n        \
+    \    auto [a, b, l, r] = lines[order[id]];\n            if (order[id] < 4) {\n\
+    \                assert(offline.add_line(a, b) == id);\n                assert(online.add_line(a,\
+    \ b) == id);\n            } else {\n                assert(offline.add_segment(a,\
+    \ b, l, r) == id);\n                assert(online.add_segment(a, b, l, r) == id);\n\
+    \            }\n            for (ll x = -4; x <= 4; ++x) {\n                optional<pair<ll,\
+    \ int>> expected;\n                for (int j = 0; j <= id; ++j) {\n         \
+    \           auto [a, b, l, r] = lines[order[j]];\n                    if (x <\
+    \ l || r <= x) continue;\n                    ll value = a * x + b;\n        \
+    \            if (!expected || (get_max ? value > expected->first : value < expected->first))\
+    \ {\n                        expected = make_pair(value, j);\n               \
+    \     }\n                }\n                assert(offline.query_with_id(x) ==\
+    \ expected && online.query_with_id(x) == expected);\n            }\n        }\n\
+    \    } while (next_permutation(order.begin(), order.end()));\n}\n\ntemplate<bool\
+    \ get_max>\nvoid check_pruning() {\n    const ll sign = get_max ? -1 : 1;\n  \
+    \  OnlineLiChaoTree<ll, get_max> dominated(-1000000000LL, 1000000001LL);\n   \
+    \ dominated.add_line(0, 0);\n    for (int i = 0; i < 1000; ++i) {\n        dominated.add_line(0,\
+    \ 0);\n        dominated.add_line(sign * (i % 7), sign * (10000000000LL + i));\n\
+    \        dominated.add_segment(0, sign, -1000000000LL, 1000000001LL);\n    }\n\
+    \    assert(dominated.nodes.size() == 1);\n    dominated.add_line(0, -sign);\n\
+    \    assert(dominated.nodes.size() == 1);\n    for (ll x : {-1000000000LL, 0LL,\
+    \ 1000000000LL}) assert(dominated.query(x) == -sign);\n    OnlineLiChaoTree<ll,\
+    \ get_max> crossing(0, 1001);\n    for (ll i = 0; i <= 1000; ++i) crossing.add_line(sign\
+    \ * (-2 * i), sign * i * i);\n    for (ll x = 0; x <= 1000; ++x) assert(crossing.query(x)\
+    \ == -sign * x * x);\n    OnlineLiChaoTree<ll, get_max> endpoint(0, 9);\n    endpoint.add_line(0,\
+    \ 0);\n    endpoint.add_line(-sign, 7 * sign);\n    assert(endpoint.query(0) ==\
+    \ 0 && endpoint.query(8) == -sign);\n}\n\ntemplate<bool get_max>\nvoid check_random()\
+    \ {\n    struct Line {\n        ll a, b, l, r;\n    };\n    const ll inf = numeric_limits<ll>::max()\
+    \ / 4;\n    mt19937 rng(100 + get_max);\n    for (int tc = 0; tc < 200; ++tc)\
+    \ {\n        vector<ll> xs;\n        for (ll x = -16; x <= 16; ++x)\n        \
+    \    if (rng() % 3 != 0) xs.push_back(x);\n        shuffle(xs.begin(), xs.end(),\
+    \ rng);\n        if (!xs.empty()) xs.push_back(xs[0]);\n        LiChaoTree<ll,\
+    \ get_max> offline(xs);\n        OnlineLiChaoTree<ll, get_max> online(-16, 17);\n\
+    \        vector<Line> lines;\n        for (int op = 0; op < 100; ++op) {\n   \
+    \         ll a = int(rng() % 17) - 8;\n            ll b = int(rng() % 101) - 50;\n\
+    \            if (op % 3 == 0) b += 3000000000000000000LL;\n            if (op\
+    \ % 3 == 1) b -= 3000000000000000000LL;\n            ll l = int(rng() % 41) -\
+    \ 20, r = int(rng() % 41) - 20;\n            if (rng() % 3 == 0) {\n         \
+    \       l = -16;\n                r = 17;\n                assert(offline.add_line(a,\
+    \ b) == op);\n                assert(online.add_line(a, b) == op);\n         \
+    \   } else {\n                assert(offline.add_segment(a, b, l, r) == op);\n\
+    \                assert(online.add_segment(a, b, l, r) == op);\n            }\n\
+    \            lines.push_back({a, b, l, r});\n            for (ll x = -16; x <=\
+    \ 16; ++x) {\n                optional<pair<ll, int>> expected;\n            \
+    \    for (int id = 0; id <= op; ++id) {\n                    const auto &line\
+    \ = lines[id];\n                    if (x < line.l || line.r <= x) continue;\n\
+    \                    ll y = line.a * x + line.b;\n                    if (!expected\
+    \ || (get_max ? y > expected->first : y < expected->first)) {\n              \
+    \          expected = make_pair(y, id);\n                    }\n             \
+    \   }\n                ll value = expected ? expected->first : (get_max ? -inf\
+    \ : inf);\n                assert(online.query(x) == value);\n               \
+    \ assert(online.query_with_id(x) == expected);\n                if (find(xs.begin(),\
+    \ xs.end(), x) == xs.end()) {\n                    value = get_max ? -inf : inf;\n\
+    \                    expected = nullopt;\n                }\n                assert(offline.query(x)\
+    \ == value);\n                assert(offline.query_with_id(x) == expected);\n\
+    \            }\n        }\n    }\n}\n\nint main() {\n    check_limits<false>();\n\
+    \    check_limits<true>();\n    check_ties<false>();\n    check_ties<true>();\n\
+    \    check_pruning<false>();\n    check_pruning<true>();\n    check_random<false>();\n\
+    \    check_random<true>();\n    Scanner in;\n    Printer out;\n    int a, b;\n\
+    \    in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/li_chao_tree.cpp
   isVerificationFile: true
-  path: test/yosupo_segment_add_get_min.test.cpp
+  path: test/yosupo_aplusb_li_chao_tree.test.cpp
   requiredBy: []
   timestamp: '2026-10-06 23:51:25+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_segment_add_get_min.test.cpp
+documentation_of: test/yosupo_aplusb_li_chao_tree.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_segment_add_get_min.test.cpp
-- /verify/test/yosupo_segment_add_get_min.test.cpp.html
-title: test/yosupo_segment_add_get_min.test.cpp
+- /verify/test/yosupo_aplusb_li_chao_tree.test.cpp
+- /verify/test/yosupo_aplusb_li_chao_tree.test.cpp.html
+title: test/yosupo_aplusb_li_chao_tree.test.cpp
 ---

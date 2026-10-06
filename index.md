@@ -800,6 +800,9 @@ data:
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_li_chao_tree.test.cpp
+      title: test/yosupo_aplusb_li_chao_tree.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_library_composition.test.cpp
       title: test/yosupo_aplusb_library_composition.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1019,6 +1022,9 @@ data:
       path: test/yosupo_line_add_get_min.test.cpp
       title: test/yosupo_line_add_get_min.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_line_add_get_min_online.test.cpp
+      title: test/yosupo_line_add_get_min_online.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_log_of_formal_power_series.test.cpp
       title: test/yosupo_log_of_formal_power_series.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1159,6 +1165,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_segment_add_get_min.test.cpp
       title: test/yosupo_segment_add_get_min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_segment_add_get_min_online.test.cpp
+      title: test/yosupo_segment_add_get_min_online.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_set_xor_min_binarytrie.test.cpp
       title: test/yosupo_set_xor_min_binarytrie.test.cpp
