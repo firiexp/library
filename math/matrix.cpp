@@ -55,8 +55,8 @@ struct matrix {
         matrix a = (*this), res = I(height());
         while(n > 0){
             if (n & 1) res *= a;
-            a *= a;
             n >>= 1;
+            if (n) a *= a;
         }
         return res;
     }

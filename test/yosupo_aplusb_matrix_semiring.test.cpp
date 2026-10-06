@@ -9,6 +9,7 @@ static const int MOD = 998244353;
 #include "../util/fastio.cpp"
 #include "../util/modint.cpp"
 #include "../math/matrix.cpp"
+#include "../math/squarematrix.cpp"
 
 template<bool Maximum>
 struct Tropical {
@@ -73,6 +74,54 @@ void tropical_check() {
     }
 }
 
+template<class H>
+void power_check() {
+    mt19937 rng(110);
+    assert((SquareMatrix<H, 0>().pow(0).A.empty()));
+    assert((SquareMatrix<H, 0>().pow(8).A.empty()));
+    for (int n = 0; n <= 6; ++n) for (int tc = 0; tc < 20; ++tc) {
+        matrix<H> a(n), expected = matrix<H>::I(n);
+        SquareMatrix<H, 6> fixed;
+        for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j)
+            fixed[i][j] = a[i][j] = int(rng() % 15) - 7;
+        for (int exponent = 0; exponent <= 33; ++exponent) {
+            auto dynamic_power = a.pow(exponent);
+            auto fixed_power = fixed.pow(exponent, n);
+            assert(dynamic_power.A == expected.A);
+            for (int i = 0; i < 6; ++i) for (int j = 0; j < 6; ++j)
+                assert(fixed_power[i][j] == (i < n && j < n ? expected[i][j] : H::zero()));
+            expected *= a;
+        }
+    }
+}
+
+struct CountedRing {
+    using T = ll;
+    inline static int products = 0;
+    static T zero() { return 0; }
+    static T one() { return 1; }
+    static T mul(T a, T b) { ++products; return a * b; }
+    static void add(T &a, T b) { a += b; }
+};
+
+void product_count_check() {
+    matrix<CountedRing> a(1);
+    SquareMatrix<CountedRing, 1> b;
+    a[0][0] = b[0][0] = 1;
+    for (auto [exponent, count] : vector<pair<ll, int>>{
+             {0, 0}, {1, 1}, {2, 2}, {3, 3}, {7, 5}, {8, 4}, {9, 5}, {1000000000000000000LL, 83}}) {
+        CountedRing::products = 0;
+        assert(a.pow(exponent)[0][0] == 1);
+        assert(CountedRing::products == count);
+        CountedRing::products = 0;
+        assert(b.pow(exponent)[0][0] == 1);
+        assert(CountedRing::products == count);
+    }
+    a[0][0] = b[0][0] = LLONG_MAX;
+    assert(a.pow(1)[0][0] == LLONG_MAX);
+    assert(b.pow(1)[0][0] == LLONG_MAX);
+}
+
 mint permutation_determinant(const matrix<SemiRing> &a) {
     int n = a.height();
     vector<int> p(n);
@@ -114,6 +163,10 @@ void determinant_check() {
 int main() {
     tropical_check<false>();
     tropical_check<true>();
+    power_check<SemiRing>();
+    power_check<Tropical<false>>();
+    power_check<Tropical<true>>();
+    product_count_check();
     determinant_check();
     Scanner sc;
     Printer pr;

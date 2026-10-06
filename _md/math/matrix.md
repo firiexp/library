@@ -19,7 +19,7 @@ tags: データ構造
 - `A += B`, `A -= B`, `A *= B`
   同じサイズの加減算、または行列積を行う
 - `A.pow(k)`
-  正方行列の $k$ 乗を返す。`k = 0` なら単位行列
+  正方行列の非負整数 $k$ 乗を返す。`k = 0` なら単位行列。$k > 0$ で $O(n^3 \log(k+1))$
 
 ## 使い方
 `H` に `using T`、`static T mul(T, T)`、`static void add(T&, T)`、`static T one()`、`static T zero()` を定義して使う。

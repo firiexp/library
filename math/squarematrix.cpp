@@ -71,8 +71,8 @@ struct SquareMatrix {
 
         while(n > 0){
             if(n & 1) res.mul_assign(a, dim);
-            a.mul_assign(a, dim);
             n >>= 1;
+            if(n) a.mul_assign(a, dim);
         }
         return res;
     }
