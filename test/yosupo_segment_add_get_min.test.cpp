@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <deque>
 #include <limits>
+#include <optional>
 #include <vector>
 
 using ll = long long;

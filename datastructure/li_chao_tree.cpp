@@ -2,7 +2,9 @@ template<class T, bool get_max = false>
 struct LiChaoTree {
     struct Line {
         T a, b;
-        Line(T a = 0, T b = inf()) : a(a), b(b) {}
+        bool valid;
+        Line() : a(0), b(inf()), valid(false) {}
+        Line(T a, T b = inf()) : a(a), b(b), valid(true) {}
         T get(T x) const { return a * x + b; }
     };
 
@@ -36,7 +38,7 @@ struct LiChaoTree {
         if (n == 0) return get_max ? -inf() : inf();
         int i = lower_bound(xs.begin(), xs.end(), x) - xs.begin();
         if (i == n || xs[i] != x) return get_max ? -inf() : inf();
-        T ret = query_node(1, 0, n, i, x);
+        T ret = query_node(1, 0, n, i, x).value_or(inf());
         return get_max ? -ret : ret;
     }
 
@@ -46,6 +48,10 @@ private:
     }
 
     void add_line_node(int k, int l, int r, Line x) {
+        if (!seg[k].valid) {
+            seg[k] = x;
+            return;
+        }
         int m = (l + r) / 2;
         bool lef = x.get(xs[l]) < seg[k].get(xs[l]);
         bool mid = x.get(xs[m]) < seg[k].get(xs[m]);
@@ -66,12 +72,15 @@ private:
         add_segment_node(k * 2 + 1, m, r, a, b, x);
     }
 
-    T query_node(int k, int l, int r, int i, T x) const {
-        T ret = seg[k].get(x);
+    optional<T> query_node(int k, int l, int r, int i, T x) const {
+        optional<T> ret;
+        if (seg[k].valid) ret = seg[k].get(x);
         if (r - l == 1) return ret;
         int m = (l + r) / 2;
-        if (i < m) return min(ret, query_node(k * 2, l, m, i, x));
-        return min(ret, query_node(k * 2 + 1, m, r, i, x));
+        auto child = i < m ? query_node(k * 2, l, m, i, x)
+                          : query_node(k * 2 + 1, m, r, i, x);
+        if (child && (!ret || *child < *ret)) ret = child;
+        return ret;
     }
 };
 
@@ -79,7 +88,9 @@ template<class T, bool get_max = false>
 struct OnlineLiChaoTree {
     struct Line {
         T a, b;
-        Line(T a = 0, T b = inf()) : a(a), b(b) {}
+        bool valid;
+        Line() : a(0), b(inf()), valid(false) {}
+        Line(T a, T b = inf()) : a(a), b(b), valid(true) {}
         T get(T x) const { return a * x + b; }
     };
 
@@ -107,7 +118,7 @@ struct OnlineLiChaoTree {
     }
 
     T query(T x) const {
-        T ret = query(root, low, high, x);
+        T ret = query(root, low, high, x).value_or(inf());
         return get_max ? -ret : ret;
     }
 
@@ -127,6 +138,10 @@ private:
             return;
         }
         Node &node = nodes[t];
+        if (!node.line.valid) {
+            node.line = x;
+            return;
+        }
         T m = l + (r - l) / 2;
         bool lef = x.get(l) < node.line.get(l);
         bool mid = x.get(m) < node.line.get(m);
@@ -149,11 +164,14 @@ private:
         if (m < b) add_segment(node.r, m, r, a, b, x);
     }
 
-    T query(int t, T l, T r, T x) const {
-        T ret = inf();
+    optional<T> query(int t, T l, T r, T x) const {
+        optional<T> ret;
         while (t != -1) {
             const Node &node = nodes[t];
-            ret = min(ret, node.line.get(x));
+            if (node.line.valid) {
+                T value = node.line.get(x);
+                if (!ret || value < *ret) ret = value;
+            }
             if (r - l == 1) break;
             T m = l + (r - l) / 2;
             if (x < m) {

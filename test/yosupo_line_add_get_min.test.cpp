@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <deque>
 #include <limits>
+#include <optional>
 #include <utility>
 #include <vector>
 
