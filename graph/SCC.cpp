@@ -67,14 +67,21 @@ public:
         }
         G_out.assign(k, {});
         sz.resize(k);
-        for (auto &&[a, b] : edges) {
-            if(cmp[a] != cmp[b]){
-                G_out[cmp[a]].emplace_back(cmp[b]);
-            }
+        if (k <= 1) return k;
+        vector<int> head(k, -1), next(n), seen(k, -1);
+        for (int v = 0; v < n; ++v) {
+            next[v] = head[cmp[v]];
+            head[cmp[v]] = v;
         }
-        for (auto &&l : G_out) {
-            sort(l.begin(), l.end());
-            l.erase(unique(l.begin(), l.end()), l.end());
+        for (int to = 0; to < k; ++to) {
+            for (int v = head[to]; v != -1; v = next[v]) {
+                for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {
+                    int from = cmp[G_r.elist[ei]];
+                    if (from == to || seen[from] == to) continue;
+                    seen[from] = to;
+                    G_out[from].push_back(to);
+                }
+            }
         }
         return k;
     }
