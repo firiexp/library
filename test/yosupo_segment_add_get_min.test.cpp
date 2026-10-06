@@ -59,14 +59,13 @@ int main() {
     LiChaoTree<ll> li(xs);
     for (auto s : init) li.add_segment(s.a, s.b, s.l, s.r);
 
-    const ll INF = numeric_limits<ll>::max() / 4;
     for (auto qu : qs) {
         if (qu.t == 0) {
             li.add_segment(qu.a, qu.b, qu.l, qu.r);
         } else {
-            ll ans = li.query(qu.p);
-            if (ans == INF) out.println("INFINITY");
-            else out.println(ans);
+            auto ans = li.query_with_id(qu.p);
+            if (!ans) out.println("INFINITY");
+            else out.println(ans->first);
         }
     }
     return 0;

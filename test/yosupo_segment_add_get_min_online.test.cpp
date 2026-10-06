@@ -28,9 +28,9 @@ int main() {
         } else {
             ll x;
             in.read(x);
-            ll value = tree.query(x);
-            if (value == numeric_limits<ll>::max() / 4) out.println("INFINITY");
-            else out.println(value);
+            auto result = tree.query_with_id(x);
+            if (!result) out.println("INFINITY");
+            else out.println(result->first);
         }
     }
 }

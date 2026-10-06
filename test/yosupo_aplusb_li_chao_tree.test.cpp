@@ -17,29 +17,82 @@ void check_limits() {
         LiChaoTree<ll, get_max> offline({-2, 0, 2});
         OnlineLiChaoTree<ll, get_max> online(-2, 3);
         assert(offline.query(0) == empty && online.query(0) == empty);
-        offline.add_segment(0, value, 0, 1);
-        online.add_segment(0, value, 0, 1);
+        assert(!offline.query_with_id(0) && !online.query_with_id(0));
+        assert(offline.add_segment(0, value, 0, 1) == 0);
+        assert(online.add_segment(0, value, 0, 1) == 0);
         assert(offline.query(0) == value && online.query(0) == value);
-        for (ll x : {-2LL, 2LL})
+        assert(offline.query_with_id(0) == make_pair(value, 0));
+        assert(online.query_with_id(0) == make_pair(value, 0));
+        for (ll x : {-2LL, 2LL}) {
             assert(offline.query(x) == empty && online.query(x) == empty);
-        offline.add_line(0, value);
-        online.add_line(0, value);
-        for (ll x : {-2LL, 0LL, 2LL})
+            assert(!offline.query_with_id(x) && !online.query_with_id(x));
+        }
+        assert(offline.add_line(0, value) == 1);
+        assert(online.add_line(0, value) == 1);
+        for (ll x : {-2LL, 0LL, 2LL}) {
             assert(offline.query(x) == value && online.query(x) == value);
+            auto expected = make_pair(value, x == 0 ? 0 : 1);
+            assert(offline.query_with_id(x) == expected && online.query_with_id(x) == expected);
+        }
     }
     LiChaoTree<ll, get_max> empty_tree({});
-    empty_tree.add_line(0, 1);
-    empty_tree.add_segment(1, 0, -2, 2);
+    assert(empty_tree.add_line(0, 1) == 0);
+    assert(empty_tree.add_segment(1, 0, -2, 2) == 1);
     assert(empty_tree.query(0) == empty);
+    assert(!empty_tree.query_with_id(0));
     LiChaoTree<ll, get_max> single({0, 0});
     OnlineLiChaoTree<ll, get_max> single_online(0, 1);
-    single.add_segment(0, 0, 0, 0);
-    single_online.add_segment(0, 0, 0, 0);
+    assert(single.add_segment(0, 0, 0, 0) == 0);
+    assert(single_online.add_segment(0, 0, 0, 0) == 0);
     assert(single.query(0) == empty && single_online.query(0) == empty);
-    single.add_line(0, 7);
-    single_online.add_line(0, 7);
+    assert(single.add_line(0, 7) == 1);
+    assert(single_online.add_line(0, 7) == 1);
     assert(single.query(0) == 7 && single_online.query(0) == 7);
+    assert(single.query_with_id(0) == make_pair(7LL, 1));
+    assert(single_online.query_with_id(0) == make_pair(7LL, 1));
     assert(single.query(1) == empty);
+    assert(!single.query_with_id(1));
+    if constexpr (!get_max) {
+        single.add_line(0, LLONG_MIN);
+        single_online.add_line(0, LLONG_MIN);
+        assert(single.query_with_id(0) == make_pair(LLONG_MIN, 2));
+        assert(single_online.query_with_id(0) == make_pair(LLONG_MIN, 2));
+    }
+}
+
+template<bool get_max>
+void check_ties() {
+    const vector<array<ll, 4>> lines = {
+        {0, 0, -4, 5}, {1, 0, -4, 5}, {-1, 0, -4, 5},
+        {0, 0, -4, 5}, {0, 0, 0, 1}, {1, -1, 1, 5}
+    };
+    vector<int> order = {0, 1, 2, 3, 4, 5};
+    do {
+        LiChaoTree<ll, get_max> offline({-4, -3, -2, -1, 0, 1, 2, 3, 4});
+        OnlineLiChaoTree<ll, get_max> online(-4, 5);
+        for (int id = 0; id < 6; ++id) {
+            auto [a, b, l, r] = lines[order[id]];
+            if (order[id] < 4) {
+                assert(offline.add_line(a, b) == id);
+                assert(online.add_line(a, b) == id);
+            } else {
+                assert(offline.add_segment(a, b, l, r) == id);
+                assert(online.add_segment(a, b, l, r) == id);
+            }
+            for (ll x = -4; x <= 4; ++x) {
+                optional<pair<ll, int>> expected;
+                for (int j = 0; j <= id; ++j) {
+                    auto [a, b, l, r] = lines[order[j]];
+                    if (x < l || r <= x) continue;
+                    ll value = a * x + b;
+                    if (!expected || (get_max ? value > expected->first : value < expected->first)) {
+                        expected = make_pair(value, j);
+                    }
+                }
+                assert(offline.query_with_id(x) == expected && online.query_with_id(x) == expected);
+            }
+        }
+    } while (next_permutation(order.begin(), order.end()));
 }
 
 template<bool get_max>
@@ -90,24 +143,32 @@ void check_random() {
             if (rng() % 3 == 0) {
                 l = -16;
                 r = 17;
-                offline.add_line(a, b);
-                online.add_line(a, b);
+                assert(offline.add_line(a, b) == op);
+                assert(online.add_line(a, b) == op);
             } else {
-                offline.add_segment(a, b, l, r);
-                online.add_segment(a, b, l, r);
+                assert(offline.add_segment(a, b, l, r) == op);
+                assert(online.add_segment(a, b, l, r) == op);
             }
             lines.push_back({a, b, l, r});
             for (ll x = -16; x <= 16; ++x) {
-                optional<ll> expected;
-                for (const auto &line : lines) {
+                optional<pair<ll, int>> expected;
+                for (int id = 0; id <= op; ++id) {
+                    const auto &line = lines[id];
                     if (x < line.l || line.r <= x) continue;
                     ll y = line.a * x + line.b;
-                    if (!expected || (get_max ? y > *expected : y < *expected)) expected = y;
+                    if (!expected || (get_max ? y > expected->first : y < expected->first)) {
+                        expected = make_pair(y, id);
+                    }
                 }
-                ll value = expected.value_or(get_max ? -inf : inf);
+                ll value = expected ? expected->first : (get_max ? -inf : inf);
                 assert(online.query(x) == value);
-                if (find(xs.begin(), xs.end(), x) == xs.end()) value = get_max ? -inf : inf;
+                assert(online.query_with_id(x) == expected);
+                if (find(xs.begin(), xs.end(), x) == xs.end()) {
+                    value = get_max ? -inf : inf;
+                    expected = nullopt;
+                }
                 assert(offline.query(x) == value);
+                assert(offline.query_with_id(x) == expected);
             }
         }
     }
@@ -116,6 +177,8 @@ void check_random() {
 int main() {
     check_limits<false>();
     check_limits<true>();
+    check_ties<false>();
+    check_ties<true>();
     check_pruning<false>();
     check_pruning<true>();
     check_random<false>();
