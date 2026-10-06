@@ -181,6 +181,9 @@ data:
       path: geometry/dualgraph.cpp
       title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
     - icon: ':heavy_check_mark:'
+      path: geometry/furthest_pair.cpp
+      title: "\u6700\u9060\u70B9\u5BFE"
+    - icon: ':heavy_check_mark:'
       path: geometry/geometry.cpp
       title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     - icon: ':warning:'
@@ -695,6 +698,9 @@ data:
       path: test/aoj_alds1_9_c_binaryheap.test.cpp
       title: test/aoj_alds1_9_c_binaryheap.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_cgl_4_b.test.cpp
+      title: test/aoj_cgl_4_b.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
       title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     - icon: ':heavy_check_mark:'
@@ -784,6 +790,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_functional_graph.test.cpp
       title: test/yosupo_aplusb_functional_graph.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_furthest_pair.test.cpp
+      title: test/yosupo_aplusb_furthest_pair.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_garner.test.cpp
       title: test/yosupo_aplusb_garner.test.cpp
@@ -997,6 +1006,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_frequency_table_of_tree_distance.test.cpp
       title: test/yosupo_frequency_table_of_tree_distance.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_furthest_pair.test.cpp
+      title: test/yosupo_furthest_pair.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_general_matching.test.cpp
       title: test/yosupo_general_matching.test.cpp

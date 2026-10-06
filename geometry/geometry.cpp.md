@@ -16,6 +16,9 @@ data:
     path: test/aoj0342.test.cpp
     title: test/aoj0342.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_cgl_4_b.test.cpp
+    title: test/aoj_cgl_4_b.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - icon: ':heavy_check_mark:'
@@ -119,43 +122,44 @@ data:
     \ u * h, v2 = v * sqrt(1 - h * h);\n            ret.emplace_back(c1.c + (u2 +\
     \ v2) * c1.r, c2.c - (u2 + v2) * c2.r * i);\n            ret.emplace_back(c1.c\
     \ + (u2 - v2) * c1.r, c2.c - (u2 - v2) * c2.r * i);\n        }\n    }\n    return\
-    \ ret;\n}\n\ngeometry_real area(Polygon v) {\n    if (v.size() < 3)\n        return\
-    \ 0.0;\n    geometry_real ans = 0.0;\n    for (int i = 0; i < v.size(); ++i) {\n\
-    \        ans += cross(v[i], v[(i + 1) % v.size()]);\n    }\n    return ans / 2;\n\
-    }\n\ngeometry_real area(Circle c, Polygon &v) {\n    int n = v.size();\n    geometry_real\
-    \ ans = 0.0;\n    Polygon u;\n    for (int i = 0; i < n; ++i) {\n        u.emplace_back(v[i]);\n\
-    \        auto q = crossPoint(c, Segment(v[i], v[(i + 1) % n]));\n        for (auto\
-    \ &&j: q) {\n            u.emplace_back(j);\n        }\n    }\n    for (int i\
-    \ = 0; i < u.size(); ++i) {\n        Point A = u[i] - c.c, B = u[(i + 1) % u.size()]\
-    \ - c.c;\n        if (abs(A) >= c.r + EPS || abs(B) >= c.r + EPS) {\n        \
-    \    Point C = polar(1, arg(B) - arg(A));\n            ans += c.r * c.r * arg(C)\
-    \ / 2;\n        } else {\n            ans += cross(A, B) / 2;\n        }\n   \
-    \ }\n    return ans;\n}\n\ngeometry_real area(Circle a, Circle b) {\n    auto\
-    \ d = abs(a.c - b.c);\n    if (a.r + b.r <= d + EPS)\n        return 0;\n    else\
-    \ if (d <= abs(a.r - b.r))\n        return pi * min(a.r, b.r) * min(a.r, b.r);\n\
-    \    geometry_real p = 2 * acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d));\n\
-    \    geometry_real q = 2 * acos((b.r * b.r + d * d - a.r * a.r) / (2 * b.r * d));\n\
-    \    return a.r * a.r * (p - sin(p)) / 2 + b.r * b.r * (q - sin(q)) / 2;\n}\n\n\
-    Polygon convex_hull(Polygon v) {\n    int n = v.size();\n    if (n <= 1) return\
-    \ v;\n    sort(v.begin(), v.end(), sorty);\n    int k = 0;\n    Polygon ret(n\
-    \ * 2);\n    for (int i = 0; i < n; ++i) {\n        while (k > 1 && cross(ret[k\
-    \ - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n            k--;\n        ret[k++]\
-    \ = v[i];\n    }\n    for (int i = n - 2, t = k; i >= 0; i--) {\n        while\
-    \ (k > t && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n         \
-    \   k--;\n        ret[k++] = v[i];\n    }\n    ret.resize(k - 1);\n    return\
-    \ ret;\n}\n\nbool isconvex(Polygon v) {\n    int n = v.size();\n    for (int i\
-    \ = 0; i < n; ++i) {\n        if (ccw(v[(i + n - 1) % n], v[i], v[(i + 1) % n])\
-    \ == CLOCKWISE)\n            return false;\n    }\n    return true;\n}\n\nint\
-    \ contains(Polygon v, Point p) {\n    int n = v.size();\n    bool x = false;\n\
-    \    static constexpr int IN = 2, ON = 1, OUT = 0;\n    for (int i = 0; i < n;\
-    \ ++i) {\n        Point a = v[i] - p, b = v[(i + 1) % n] - p;\n        if (fabs(cross(a,\
-    \ b)) < EPS && dot(a, b) < EPS)\n            return ON;\n        if (a.y > b.y)\n\
-    \            swap(a, b);\n        if (a.y < EPS && EPS < b.y && cross(a, b) >\
-    \ EPS)\n            x = !x;\n    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon\
-    \ &v, Point p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr\
-    \ int IN = 2, ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if\
-    \ (v.size() < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON\
-    \ : OUT;\n    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
+    \ ret;\n}\n\ngeometry_real area(const Polygon &v) {\n    if (v.size() < 3)\n \
+    \       return 0.0;\n    geometry_real ans = 0.0;\n    for (int i = 0; i < v.size();\
+    \ ++i) {\n        ans += cross(v[i], v[(i + 1) % v.size()]);\n    }\n    return\
+    \ ans / 2;\n}\n\ngeometry_real area(Circle c, Polygon &v) {\n    int n = v.size();\n\
+    \    geometry_real ans = 0.0;\n    Polygon u;\n    for (int i = 0; i < n; ++i)\
+    \ {\n        u.emplace_back(v[i]);\n        auto q = crossPoint(c, Segment(v[i],\
+    \ v[(i + 1) % n]));\n        for (auto &&j: q) {\n            u.emplace_back(j);\n\
+    \        }\n    }\n    for (int i = 0; i < u.size(); ++i) {\n        Point A =\
+    \ u[i] - c.c, B = u[(i + 1) % u.size()] - c.c;\n        if (abs(A) >= c.r + EPS\
+    \ || abs(B) >= c.r + EPS) {\n            Point C = polar(1, arg(B) - arg(A));\n\
+    \            ans += c.r * c.r * arg(C) / 2;\n        } else {\n            ans\
+    \ += cross(A, B) / 2;\n        }\n    }\n    return ans;\n}\n\ngeometry_real area(Circle\
+    \ a, Circle b) {\n    auto d = abs(a.c - b.c);\n    if (a.r + b.r <= d + EPS)\n\
+    \        return 0;\n    else if (d <= abs(a.r - b.r))\n        return pi * min(a.r,\
+    \ b.r) * min(a.r, b.r);\n    geometry_real p = 2 * acos((a.r * a.r + d * d - b.r\
+    \ * b.r) / (2 * a.r * d));\n    geometry_real q = 2 * acos((b.r * b.r + d * d\
+    \ - a.r * a.r) / (2 * b.r * d));\n    return a.r * a.r * (p - sin(p)) / 2 + b.r\
+    \ * b.r * (q - sin(q)) / 2;\n}\n\nPolygon convex_hull(Polygon v) {\n    int n\
+    \ = v.size();\n    if (n <= 1) return v;\n    sort(v.begin(), v.end(), sorty);\n\
+    \    int k = 0;\n    Polygon ret(n * 2);\n    for (int i = 0; i < n; ++i) {\n\
+    \        while (k > 1 && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n\
+    \            k--;\n        ret[k++] = v[i];\n    }\n    for (int i = n - 2, t\
+    \ = k; i >= 0; i--) {\n        while (k > t && cross(ret[k - 1] - ret[k - 2],\
+    \ v[i] - ret[k - 1]) < 0)\n            k--;\n        ret[k++] = v[i];\n    }\n\
+    \    ret.resize(k - 1);\n    return ret;\n}\n\nbool isconvex(const Polygon &v)\
+    \ {\n    int n = v.size();\n    for (int i = 0; i < n; ++i) {\n        if (ccw(v[(i\
+    \ + n - 1) % n], v[i], v[(i + 1) % n]) == CLOCKWISE)\n            return false;\n\
+    \    }\n    return true;\n}\n\nint contains(const Polygon &v, Point p) {\n   \
+    \ int n = v.size();\n    bool x = false;\n    static constexpr int IN = 2, ON\
+    \ = 1, OUT = 0;\n    for (int i = 0; i < n; ++i) {\n        Point a = v[i] - p,\
+    \ b = v[(i + 1) % n] - p;\n        if (fabs(cross(a, b)) < EPS && dot(a, b) <\
+    \ EPS)\n            return ON;\n        if (a.y > b.y)\n            swap(a, b);\n\
+    \        if (a.y < EPS && EPS < b.y && cross(a, b) > EPS)\n            x = !x;\n\
+    \    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon &v, Point\
+    \ p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr int IN = 2,\
+    \ ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if (v.size()\
+    \ < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON : OUT;\n\
+    \    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
     \        auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };\n\
     \        while (r - l > 1) {\n            int m = (l + r) / 2;\n            if\
     \ (ccw(v[0], v[index(1)], v[index(m)]) == ONLINE_FRONT) l = m;\n            else\
@@ -173,22 +177,25 @@ data:
     \        int c = (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n       \
     \ (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res\
     \ & 1) == 0)\n        return res == ON_SEGMENT ? ON : OUT;\n    return res < 0\
-    \ ? IN : OUT;\n}\n\ngeometry_real diameter(Polygon v) {\n    int n = v.size();\n\
-    \    if (n == 2)\n        return abs(v[0] - v[1]);\n    int i = 0, j = 0;\n  \
-    \  for (int k = 0; k < n; ++k) {\n        if (v[i] < v[k])\n            i = k;\n\
-    \        if (!(v[j] < v[k]))\n            j = k;\n    }\n    geometry_real ret\
-    \ = 0;\n    int si = i, sj = j;\n    while (i != sj || j != si) {\n        ret\
-    \ = max(ret, abs(v[i] - v[j]));\n        if (cross(v[(i + 1) % n] - v[i], v[(j\
-    \ + 1) % n] - v[j]) < 0.0)\n            i = (i + 1) % n;\n        else\n     \
-    \       j = (j + 1) % n;\n    }\n    return ret;\n}\n\nPolygon convexCut(Polygon\
-    \ v, Line l) {\n    Polygon q;\n    int n = v.size();\n    for (int i = 0; i <\
-    \ n; ++i) {\n        Point a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a,\
-    \ l.b, a) != -1)\n            q.push_back(a);\n        if (ccw(l.a, l.b, a) *\
-    \ ccw(l.a, l.b, b) < 0) {\n            q.push_back(crossPoint(Line(a, b), l));\n\
-    \        }\n    }\n    return q;\n}\n\ngeometry_real closest_pair(Polygon &v,\
-    \ int l = 0, int r = -1) {\n    if (!(~r)) {\n        r = v.size();\n        sort(v.begin(),\
-    \ v.end());\n    }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n\
-    \    }\n    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
+    \ ? IN : OUT;\n}\n\ngeometry_real diameter(const Polygon &v) {\n    int n = v.size();\n\
+    \    if (n <= 1) return 0;\n    if (n == 2)\n        return abs(v[0] - v[1]);\n\
+    \    int i = 0, j = 0;\n    for (int k = 0; k < n; ++k) {\n        if (v[i] <\
+    \ v[k])\n            i = k;\n        if (!(v[j] < v[k]))\n            j = k;\n\
+    \    }\n    Point direction = v[i] - v[j];\n    if (all_of(v.begin(), v.end(),\
+    \ [&](Point p) {\n            return cross(direction, p - v[j]) == 0;\n      \
+    \  })) return abs(direction);\n    geometry_real ret = 0;\n    int si = i, sj\
+    \ = j;\n    while (i != sj || j != si) {\n        ret = max(ret, abs(v[i] - v[j]));\n\
+    \        if (cross(v[(i + 1) % n] - v[i], v[(j + 1) % n] - v[j]) < 0.0)\n    \
+    \        i = (i + 1) % n;\n        else\n            j = (j + 1) % n;\n    }\n\
+    \    return ret;\n}\n\nPolygon convexCut(const Polygon &v, Line l) {\n    Polygon\
+    \ q;\n    int n = v.size();\n    for (int i = 0; i < n; ++i) {\n        Point\
+    \ a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a, l.b, a) != -1)\n       \
+    \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
+    \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
+    \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
+    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
+    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
+    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
     \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
     \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
     \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
@@ -283,43 +290,44 @@ data:
     \ u * h, v2 = v * sqrt(1 - h * h);\n            ret.emplace_back(c1.c + (u2 +\
     \ v2) * c1.r, c2.c - (u2 + v2) * c2.r * i);\n            ret.emplace_back(c1.c\
     \ + (u2 - v2) * c1.r, c2.c - (u2 - v2) * c2.r * i);\n        }\n    }\n    return\
-    \ ret;\n}\n\ngeometry_real area(Polygon v) {\n    if (v.size() < 3)\n        return\
-    \ 0.0;\n    geometry_real ans = 0.0;\n    for (int i = 0; i < v.size(); ++i) {\n\
-    \        ans += cross(v[i], v[(i + 1) % v.size()]);\n    }\n    return ans / 2;\n\
-    }\n\ngeometry_real area(Circle c, Polygon &v) {\n    int n = v.size();\n    geometry_real\
-    \ ans = 0.0;\n    Polygon u;\n    for (int i = 0; i < n; ++i) {\n        u.emplace_back(v[i]);\n\
-    \        auto q = crossPoint(c, Segment(v[i], v[(i + 1) % n]));\n        for (auto\
-    \ &&j: q) {\n            u.emplace_back(j);\n        }\n    }\n    for (int i\
-    \ = 0; i < u.size(); ++i) {\n        Point A = u[i] - c.c, B = u[(i + 1) % u.size()]\
-    \ - c.c;\n        if (abs(A) >= c.r + EPS || abs(B) >= c.r + EPS) {\n        \
-    \    Point C = polar(1, arg(B) - arg(A));\n            ans += c.r * c.r * arg(C)\
-    \ / 2;\n        } else {\n            ans += cross(A, B) / 2;\n        }\n   \
-    \ }\n    return ans;\n}\n\ngeometry_real area(Circle a, Circle b) {\n    auto\
-    \ d = abs(a.c - b.c);\n    if (a.r + b.r <= d + EPS)\n        return 0;\n    else\
-    \ if (d <= abs(a.r - b.r))\n        return pi * min(a.r, b.r) * min(a.r, b.r);\n\
-    \    geometry_real p = 2 * acos((a.r * a.r + d * d - b.r * b.r) / (2 * a.r * d));\n\
-    \    geometry_real q = 2 * acos((b.r * b.r + d * d - a.r * a.r) / (2 * b.r * d));\n\
-    \    return a.r * a.r * (p - sin(p)) / 2 + b.r * b.r * (q - sin(q)) / 2;\n}\n\n\
-    Polygon convex_hull(Polygon v) {\n    int n = v.size();\n    if (n <= 1) return\
-    \ v;\n    sort(v.begin(), v.end(), sorty);\n    int k = 0;\n    Polygon ret(n\
-    \ * 2);\n    for (int i = 0; i < n; ++i) {\n        while (k > 1 && cross(ret[k\
-    \ - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n            k--;\n        ret[k++]\
-    \ = v[i];\n    }\n    for (int i = n - 2, t = k; i >= 0; i--) {\n        while\
-    \ (k > t && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n         \
-    \   k--;\n        ret[k++] = v[i];\n    }\n    ret.resize(k - 1);\n    return\
-    \ ret;\n}\n\nbool isconvex(Polygon v) {\n    int n = v.size();\n    for (int i\
-    \ = 0; i < n; ++i) {\n        if (ccw(v[(i + n - 1) % n], v[i], v[(i + 1) % n])\
-    \ == CLOCKWISE)\n            return false;\n    }\n    return true;\n}\n\nint\
-    \ contains(Polygon v, Point p) {\n    int n = v.size();\n    bool x = false;\n\
-    \    static constexpr int IN = 2, ON = 1, OUT = 0;\n    for (int i = 0; i < n;\
-    \ ++i) {\n        Point a = v[i] - p, b = v[(i + 1) % n] - p;\n        if (fabs(cross(a,\
-    \ b)) < EPS && dot(a, b) < EPS)\n            return ON;\n        if (a.y > b.y)\n\
-    \            swap(a, b);\n        if (a.y < EPS && EPS < b.y && cross(a, b) >\
-    \ EPS)\n            x = !x;\n    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon\
-    \ &v, Point p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr\
-    \ int IN = 2, ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if\
-    \ (v.size() < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON\
-    \ : OUT;\n    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
+    \ ret;\n}\n\ngeometry_real area(const Polygon &v) {\n    if (v.size() < 3)\n \
+    \       return 0.0;\n    geometry_real ans = 0.0;\n    for (int i = 0; i < v.size();\
+    \ ++i) {\n        ans += cross(v[i], v[(i + 1) % v.size()]);\n    }\n    return\
+    \ ans / 2;\n}\n\ngeometry_real area(Circle c, Polygon &v) {\n    int n = v.size();\n\
+    \    geometry_real ans = 0.0;\n    Polygon u;\n    for (int i = 0; i < n; ++i)\
+    \ {\n        u.emplace_back(v[i]);\n        auto q = crossPoint(c, Segment(v[i],\
+    \ v[(i + 1) % n]));\n        for (auto &&j: q) {\n            u.emplace_back(j);\n\
+    \        }\n    }\n    for (int i = 0; i < u.size(); ++i) {\n        Point A =\
+    \ u[i] - c.c, B = u[(i + 1) % u.size()] - c.c;\n        if (abs(A) >= c.r + EPS\
+    \ || abs(B) >= c.r + EPS) {\n            Point C = polar(1, arg(B) - arg(A));\n\
+    \            ans += c.r * c.r * arg(C) / 2;\n        } else {\n            ans\
+    \ += cross(A, B) / 2;\n        }\n    }\n    return ans;\n}\n\ngeometry_real area(Circle\
+    \ a, Circle b) {\n    auto d = abs(a.c - b.c);\n    if (a.r + b.r <= d + EPS)\n\
+    \        return 0;\n    else if (d <= abs(a.r - b.r))\n        return pi * min(a.r,\
+    \ b.r) * min(a.r, b.r);\n    geometry_real p = 2 * acos((a.r * a.r + d * d - b.r\
+    \ * b.r) / (2 * a.r * d));\n    geometry_real q = 2 * acos((b.r * b.r + d * d\
+    \ - a.r * a.r) / (2 * b.r * d));\n    return a.r * a.r * (p - sin(p)) / 2 + b.r\
+    \ * b.r * (q - sin(q)) / 2;\n}\n\nPolygon convex_hull(Polygon v) {\n    int n\
+    \ = v.size();\n    if (n <= 1) return v;\n    sort(v.begin(), v.end(), sorty);\n\
+    \    int k = 0;\n    Polygon ret(n * 2);\n    for (int i = 0; i < n; ++i) {\n\
+    \        while (k > 1 && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n\
+    \            k--;\n        ret[k++] = v[i];\n    }\n    for (int i = n - 2, t\
+    \ = k; i >= 0; i--) {\n        while (k > t && cross(ret[k - 1] - ret[k - 2],\
+    \ v[i] - ret[k - 1]) < 0)\n            k--;\n        ret[k++] = v[i];\n    }\n\
+    \    ret.resize(k - 1);\n    return ret;\n}\n\nbool isconvex(const Polygon &v)\
+    \ {\n    int n = v.size();\n    for (int i = 0; i < n; ++i) {\n        if (ccw(v[(i\
+    \ + n - 1) % n], v[i], v[(i + 1) % n]) == CLOCKWISE)\n            return false;\n\
+    \    }\n    return true;\n}\n\nint contains(const Polygon &v, Point p) {\n   \
+    \ int n = v.size();\n    bool x = false;\n    static constexpr int IN = 2, ON\
+    \ = 1, OUT = 0;\n    for (int i = 0; i < n; ++i) {\n        Point a = v[i] - p,\
+    \ b = v[(i + 1) % n] - p;\n        if (fabs(cross(a, b)) < EPS && dot(a, b) <\
+    \ EPS)\n            return ON;\n        if (a.y > b.y)\n            swap(a, b);\n\
+    \        if (a.y < EPS && EPS < b.y && cross(a, b) > EPS)\n            x = !x;\n\
+    \    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon &v, Point\
+    \ p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr int IN = 2,\
+    \ ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if (v.size()\
+    \ < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON : OUT;\n\
+    \    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
     \        auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };\n\
     \        while (r - l > 1) {\n            int m = (l + r) / 2;\n            if\
     \ (ccw(v[0], v[index(1)], v[index(m)]) == ONLINE_FRONT) l = m;\n            else\
@@ -337,22 +345,25 @@ data:
     \        int c = (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n       \
     \ (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res\
     \ & 1) == 0)\n        return res == ON_SEGMENT ? ON : OUT;\n    return res < 0\
-    \ ? IN : OUT;\n}\n\ngeometry_real diameter(Polygon v) {\n    int n = v.size();\n\
-    \    if (n == 2)\n        return abs(v[0] - v[1]);\n    int i = 0, j = 0;\n  \
-    \  for (int k = 0; k < n; ++k) {\n        if (v[i] < v[k])\n            i = k;\n\
-    \        if (!(v[j] < v[k]))\n            j = k;\n    }\n    geometry_real ret\
-    \ = 0;\n    int si = i, sj = j;\n    while (i != sj || j != si) {\n        ret\
-    \ = max(ret, abs(v[i] - v[j]));\n        if (cross(v[(i + 1) % n] - v[i], v[(j\
-    \ + 1) % n] - v[j]) < 0.0)\n            i = (i + 1) % n;\n        else\n     \
-    \       j = (j + 1) % n;\n    }\n    return ret;\n}\n\nPolygon convexCut(Polygon\
-    \ v, Line l) {\n    Polygon q;\n    int n = v.size();\n    for (int i = 0; i <\
-    \ n; ++i) {\n        Point a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a,\
-    \ l.b, a) != -1)\n            q.push_back(a);\n        if (ccw(l.a, l.b, a) *\
-    \ ccw(l.a, l.b, b) < 0) {\n            q.push_back(crossPoint(Line(a, b), l));\n\
-    \        }\n    }\n    return q;\n}\n\ngeometry_real closest_pair(Polygon &v,\
-    \ int l = 0, int r = -1) {\n    if (!(~r)) {\n        r = v.size();\n        sort(v.begin(),\
-    \ v.end());\n    }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n\
-    \    }\n    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
+    \ ? IN : OUT;\n}\n\ngeometry_real diameter(const Polygon &v) {\n    int n = v.size();\n\
+    \    if (n <= 1) return 0;\n    if (n == 2)\n        return abs(v[0] - v[1]);\n\
+    \    int i = 0, j = 0;\n    for (int k = 0; k < n; ++k) {\n        if (v[i] <\
+    \ v[k])\n            i = k;\n        if (!(v[j] < v[k]))\n            j = k;\n\
+    \    }\n    Point direction = v[i] - v[j];\n    if (all_of(v.begin(), v.end(),\
+    \ [&](Point p) {\n            return cross(direction, p - v[j]) == 0;\n      \
+    \  })) return abs(direction);\n    geometry_real ret = 0;\n    int si = i, sj\
+    \ = j;\n    while (i != sj || j != si) {\n        ret = max(ret, abs(v[i] - v[j]));\n\
+    \        if (cross(v[(i + 1) % n] - v[i], v[(j + 1) % n] - v[j]) < 0.0)\n    \
+    \        i = (i + 1) % n;\n        else\n            j = (j + 1) % n;\n    }\n\
+    \    return ret;\n}\n\nPolygon convexCut(const Polygon &v, Line l) {\n    Polygon\
+    \ q;\n    int n = v.size();\n    for (int i = 0; i < n; ++i) {\n        Point\
+    \ a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a, l.b, a) != -1)\n       \
+    \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
+    \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
+    \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
+    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
+    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
+    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
     \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
     \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
     \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
@@ -367,7 +378,7 @@ data:
   requiredBy:
   - geometry/half_plane_intersection.cpp
   - geometry/dualgraph.cpp
-  timestamp: '2026-10-03 15:20:29+09:00'
+  timestamp: '2026-10-07 00:15:03+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
@@ -376,6 +387,7 @@ data:
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - test/aoj0273.test.cpp
   - test/yosupo_aplusb_geometry_boundaries.test.cpp
+  - test/aoj_cgl_4_b.test.cpp
 documentation_of: geometry/geometry.cpp
 layout: document
 title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
@@ -388,3 +400,4 @@ title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
 - `Point` 構造体 : Point 同士の加減、Point のスカラー倍、比較(デフォルトは $x$ 座標)、入力
 - `Polygon` : `vector<Point>` の別名
 - `convex_hull(v)` : `v` の凸包を返す
+- `diameter(v)` : 反時計回りの凸多角形の直径を $O(N)$ で返す。空・1点では `0`、全点が共線の場合は両端の距離を返す

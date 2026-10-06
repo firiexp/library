@@ -2,9 +2,6 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: geometry/dualgraph.cpp
-    title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
-  - icon: ':heavy_check_mark:'
     path: geometry/geometry.cpp
     title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
   - icon: ':heavy_check_mark:'
@@ -17,17 +14,18 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/aplusb
+    ERROR: 1e-8
+    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B
     links:
-    - https://judge.yosupo.jp/problem/aplusb
-  bundledCode: "#line 1 \"test/yosupo_aplusb_dualgraph.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
-    \ namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B
+  bundledCode: "#line 1 \"test/aoj_cgl_4_b.test.cpp\"\n#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B\"\
+    \n#define ERROR \"1e-8\"\n\n#include <bits/stdc++.h>\nusing namespace std;\n\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -396,131 +394,29 @@ data:
     \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
     \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
     \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 2 \"geometry/dualgraph.cpp\"\
-    \n\nclass DualGraph {\n    struct P {\n        int to, nxt, id, id2, rev;\n  \
-    \      P(int to = 0, int nxt = 0, int id = 0, int rev = 0) : to(to), nxt(nxt),\
-    \ id(id), rev(rev), id2(0) {};\n        bool operator!=(P x){ return to != x.to\
-    \ || nxt != x.nxt || id != x.id || rev != x.rev; }\n    };\npublic:\n    int n,\
-    \ m;\n    Polygon v;\n    vector<vector<P>> G_;\n    vector<vector<int>> G;\n\
-    \    vector<vector<Point>> A;\n    DualGraph(Polygon v) : v(v), n(v.size()), G_(n),\
-    \ m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
-    \ }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n\
-    \        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n     \
-    \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
-    \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
-    \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
-    \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
-    \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
-    \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
-    \ = (i < e.to ? r[e.id] : l[e.id]);\n            }\n        }\n        int cur\
-    \ = 1;\n        A = move(vector<vector<Point>>());\n        for (int i = 0; i\
-    \ < n; ++i) {\n            for (auto &&x : G_[i]) {\n                if(x.id2)\
-    \ continue;\n                A.emplace_back();\n                int from = i;\n\
-    \                auto e = &x;\n                do {\n                    A.back().emplace_back(v[from]);\n\
-    \                    e->id2 = cur;\n                    from = e->to;\n      \
-    \              e = &G_[from][G_[from][e->rev].nxt];\n                } while(e\
-    \ != &x);\n                cur++;\n            }\n        }\n        for (int\
-    \ i = 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n               \
-    \ (i < e.to ? l[e.id] : r[e.id]) = e.id2-1;\n            }\n        }\n      \
-    \  G = move(vector<vector<int>>(A.size()));\n        for (int i = 0; i < m; ++i)\
-    \ {\n            G[l[i]].emplace_back(r[i]);\n            G[r[i]].emplace_back(l[i]);\n\
-    \        }\n    }\n};\n\n/**\n * @brief \u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)\n\
-    \ */\n#line 7 \"test/yosupo_aplusb_dualgraph.test.cpp\"\n\nvoid check(const Polygon\
-    \ &points, const vector<pair<int, int>> &edges) {\n    int n = points.size(),\
-    \ m = edges.size();\n    DualGraph dual(points);\n    for (auto [u, v] : edges)\
-    \ dual.add_edge(u, v);\n    vector<vector<int>> previous;\n    for (int build\
-    \ = 0; build < 2; ++build) {\n        dual.build();\n        assert((int)dual.A.size()\
-    \ == m - n + 2);\n        assert(dual.G.size() == dual.A.size());\n        int\
-    \ boundary_size = 0;\n        for (const auto &face : dual.A) boundary_size +=\
-    \ face.size();\n        assert(boundary_size == 2 * m);\n        vector<vector<int>>\
-    \ sides(m);\n        for (const auto &neighbors : dual.G_) for (const auto &e\
-    \ : neighbors) {\n            assert(1 <= e.id2 && e.id2 <= (int)dual.A.size());\n\
-    \            sides[e.id].push_back(e.id2 - 1);\n        }\n        vector<vector<int>>\
-    \ expected(dual.A.size());\n        for (int id = 0; id < m; ++id) {\n       \
-    \     assert(sides[id].size() == 2);\n            vector<vector<int>> g(n);\n\
-    \            for (int j = 0; j < m; ++j) if (j != id) {\n                auto\
-    \ [u, v] = edges[j];\n                g[u].push_back(v);\n                g[v].push_back(u);\n\
-    \            }\n            vector<int> seen(n), order{edges[id].first};\n   \
-    \         seen[order[0]] = 1;\n            for (int i = 0; i < (int)order.size();\
-    \ ++i) for (int v : g[order[i]]) if (!seen[v]) {\n                seen[v] = 1;\n\
-    \                order.push_back(v);\n            }\n            bool bridge =\
-    \ !seen[edges[id].second];\n            assert((sides[id][0] == sides[id][1])\
-    \ == bridge);\n            expected[sides[id][0]].push_back(sides[id][1]);\n \
-    \           expected[sides[id][1]].push_back(sides[id][0]);\n        }\n     \
-    \   for (int f = 0; f < (int)expected.size(); ++f) {\n            sort(expected[f].begin(),\
-    \ expected[f].end());\n            auto actual = dual.G[f];\n            sort(actual.begin(),\
-    \ actual.end());\n            assert(actual == expected[f]);\n        }\n    \
-    \    if (build) assert(dual.G == previous);\n        previous = dual.G;\n    }\n\
-    }\n\nvoid self_check() {\n    check({Point(0, 0), Point(1, 0), Point(-1, 0)},\
-    \ {{0, 1}, {0, 2}});\n    check({Point(0, 0), Point(1, 0), Point(-1, 0), Point(0,\
-    \ 1), Point(0, -1)},\n          {{0, 1}, {0, 2}, {0, 3}, {0, 4}});\n    check({Point(0,\
-    \ 0), Point(2, 0), Point(0, 2)}, {{0, 1}, {1, 2}, {2, 0}});\n    check({Point(0,\
-    \ 0), Point(2, 0), Point(0, 2), Point(-1, 0)},\n          {{0, 1}, {1, 2}, {2,\
-    \ 0}, {0, 3}});\n    mt19937 rng(15);\n    for (int h = 1; h <= 6; ++h) for (int\
-    \ w = 1; w <= 6; ++w) {\n        if (h * w < 2) continue;\n        Polygon points;\n\
-    \        vector<pair<int, int>> edges;\n        for (int y = 0; y < h; ++y) for\
-    \ (int x = 0; x < w; ++x) {\n            int v = y * w + x;\n            points.emplace_back(x,\
-    \ y);\n            if (x) edges.emplace_back(v - 1, v);\n            if (y &&\
-    \ (x == 0 || rng() % 2)) edges.emplace_back(v - w, v);\n            if (x && y\
-    \ && rng() % 2) edges.emplace_back(v - w - 1, v);\n        }\n        check(points,\
-    \ edges);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer\
-    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../geometry/dualgraph.cpp\"\
-    \n\nvoid check(const Polygon &points, const vector<pair<int, int>> &edges) {\n\
-    \    int n = points.size(), m = edges.size();\n    DualGraph dual(points);\n \
-    \   for (auto [u, v] : edges) dual.add_edge(u, v);\n    vector<vector<int>> previous;\n\
-    \    for (int build = 0; build < 2; ++build) {\n        dual.build();\n      \
-    \  assert((int)dual.A.size() == m - n + 2);\n        assert(dual.G.size() == dual.A.size());\n\
-    \        int boundary_size = 0;\n        for (const auto &face : dual.A) boundary_size\
-    \ += face.size();\n        assert(boundary_size == 2 * m);\n        vector<vector<int>>\
-    \ sides(m);\n        for (const auto &neighbors : dual.G_) for (const auto &e\
-    \ : neighbors) {\n            assert(1 <= e.id2 && e.id2 <= (int)dual.A.size());\n\
-    \            sides[e.id].push_back(e.id2 - 1);\n        }\n        vector<vector<int>>\
-    \ expected(dual.A.size());\n        for (int id = 0; id < m; ++id) {\n       \
-    \     assert(sides[id].size() == 2);\n            vector<vector<int>> g(n);\n\
-    \            for (int j = 0; j < m; ++j) if (j != id) {\n                auto\
-    \ [u, v] = edges[j];\n                g[u].push_back(v);\n                g[v].push_back(u);\n\
-    \            }\n            vector<int> seen(n), order{edges[id].first};\n   \
-    \         seen[order[0]] = 1;\n            for (int i = 0; i < (int)order.size();\
-    \ ++i) for (int v : g[order[i]]) if (!seen[v]) {\n                seen[v] = 1;\n\
-    \                order.push_back(v);\n            }\n            bool bridge =\
-    \ !seen[edges[id].second];\n            assert((sides[id][0] == sides[id][1])\
-    \ == bridge);\n            expected[sides[id][0]].push_back(sides[id][1]);\n \
-    \           expected[sides[id][1]].push_back(sides[id][0]);\n        }\n     \
-    \   for (int f = 0; f < (int)expected.size(); ++f) {\n            sort(expected[f].begin(),\
-    \ expected[f].end());\n            auto actual = dual.G[f];\n            sort(actual.begin(),\
-    \ actual.end());\n            assert(actual == expected[f]);\n        }\n    \
-    \    if (build) assert(dual.G == previous);\n        previous = dual.G;\n    }\n\
-    }\n\nvoid self_check() {\n    check({Point(0, 0), Point(1, 0), Point(-1, 0)},\
-    \ {{0, 1}, {0, 2}});\n    check({Point(0, 0), Point(1, 0), Point(-1, 0), Point(0,\
-    \ 1), Point(0, -1)},\n          {{0, 1}, {0, 2}, {0, 3}, {0, 4}});\n    check({Point(0,\
-    \ 0), Point(2, 0), Point(0, 2)}, {{0, 1}, {1, 2}, {2, 0}});\n    check({Point(0,\
-    \ 0), Point(2, 0), Point(0, 2), Point(-1, 0)},\n          {{0, 1}, {1, 2}, {2,\
-    \ 0}, {0, 3}});\n    mt19937 rng(15);\n    for (int h = 1; h <= 6; ++h) for (int\
-    \ w = 1; w <= 6; ++w) {\n        if (h * w < 2) continue;\n        Polygon points;\n\
-    \        vector<pair<int, int>> edges;\n        for (int y = 0; y < h; ++y) for\
-    \ (int x = 0; x < w; ++x) {\n            int v = y * w + x;\n            points.emplace_back(x,\
-    \ y);\n            if (x) edges.emplace_back(v - 1, v);\n            if (y &&\
-    \ (x == 0 || rng() % 2)) edges.emplace_back(v - w, v);\n            if (x && y\
-    \ && rng() % 2) edges.emplace_back(v - w - 1, v);\n        }\n        check(points,\
-    \ edges);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer\
-    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 9 \"test/aoj_cgl_4_b.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
+    \    Polygon polygon(n);\n    for (auto &p : polygon) in.read(p.x, p.y);\n   \
+    \ out.println_fixed(diameter(polygon), 12);\n}\n"
+  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B\"\n#define\
+    \ ERROR \"1e-8\"\n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#include\
+    \ \"../util/fastio.cpp\"\n#include \"../geometry/geometry.cpp\"\n\nint main()\
+    \ {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n    Polygon\
+    \ polygon(n);\n    for (auto &p : polygon) in.read(p.x, p.y);\n    out.println_fixed(diameter(polygon),\
+    \ 12);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - geometry/dualgraph.cpp
   - geometry/geometry.cpp
   isVerificationFile: true
-  path: test/yosupo_aplusb_dualgraph.test.cpp
+  path: test/aoj_cgl_4_b.test.cpp
   requiredBy: []
   timestamp: '2026-10-07 00:15:03+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_aplusb_dualgraph.test.cpp
+documentation_of: test/aoj_cgl_4_b.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_aplusb_dualgraph.test.cpp
-- /verify/test/yosupo_aplusb_dualgraph.test.cpp.html
-title: test/yosupo_aplusb_dualgraph.test.cpp
+- /verify/test/aoj_cgl_4_b.test.cpp
+- /verify/test/aoj_cgl_4_b.test.cpp.html
+title: test/aoj_cgl_4_b.test.cpp
 ---

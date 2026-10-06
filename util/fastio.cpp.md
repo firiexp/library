@@ -53,6 +53,9 @@ data:
     path: test/aoj_alds1_9_c_binaryheap.test.cpp
     title: test/aoj_alds1_9_c_binaryheap.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_cgl_4_b.test.cpp
+    title: test/aoj_cgl_4_b.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - icon: ':heavy_check_mark:'
@@ -130,6 +133,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_functional_graph.test.cpp
     title: test/yosupo_aplusb_functional_graph.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_furthest_pair.test.cpp
+    title: test/yosupo_aplusb_furthest_pair.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_garner.test.cpp
     title: test/yosupo_aplusb_garner.test.cpp
@@ -328,6 +334,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_frequency_table_of_tree_distance.test.cpp
     title: test/yosupo_frequency_table_of_tree_distance.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_furthest_pair.test.cpp
+    title: test/yosupo_furthest_pair.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
@@ -1053,6 +1062,7 @@ data:
   - test/yosupo_cartesian_tree.test.cpp
   - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
   - test/yosupo_aplusb_subset_convolution.test.cpp
+  - test/yosupo_furthest_pair.test.cpp
   - test/yosupo_aplusb_ntt_multiply.test.cpp
   - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/aoj_alds1_9_c_binaryheap.test.cpp
@@ -1130,6 +1140,7 @@ data:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_aplusb_radixheap.test.cpp
   - test/yosupo_segment_add_get_min_online.test.cpp
+  - test/yosupo_aplusb_furthest_pair.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_counting_primes.test.cpp
   - test/yuki2672_xor_basis.test.cpp
@@ -1170,6 +1181,7 @@ data:
   - test/aoj2907_prefix_suffix_search.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
+  - test/aoj_cgl_4_b.test.cpp
   - test/yosupo_aplusb_independent_set_boundaries.test.cpp
   - test/yosupo_aplusb_ntt_operators.test.cpp
   - test/yosupo_aplusb_static_bitset.test.cpp
