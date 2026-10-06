@@ -34,7 +34,53 @@ struct DynamicSegmentTree{
     T get(long long k) const { return query(k, k+1); }
     T operator[](const long long &k) const { return get(k); }
 
+    template<class F>
+    long long search_right(long long l, F cond) const {
+        T acc = M::e();
+        return search_right_(root, l, 0, n, acc, cond);
+    }
+
+    template<class F>
+    long long search_left(long long r, F cond) const {
+        T acc = M::e();
+        return search_left_(root, r, 0, n, acc, cond);
+    }
+
 private:
+    template<class F>
+    long long search_right_(int id, long long a, long long l, long long r, T &acc, F &cond) const {
+        if(id == -1 || r <= a) return n;
+        if(a <= l){
+            T next = M::f(acc, node[id].val);
+            if(cond(next)){
+                acc = move(next);
+                return n;
+            }
+            if(r-l == 1) return l;
+        }
+        long long m = l + ((r-l)>>1);
+        long long result = search_right_(node[id].l, a, l, m, acc, cond);
+        if(result != n) return result;
+        return search_right_(node[id].r, a, m, r, acc, cond);
+    }
+
+    template<class F>
+    long long search_left_(int id, long long a, long long l, long long r, T &acc, F &cond) const {
+        if(id == -1 || a <= l) return 0;
+        if(r <= a){
+            T next = M::f(node[id].val, acc);
+            if(cond(next)){
+                acc = move(next);
+                return 0;
+            }
+            if(r-l == 1) return r;
+        }
+        long long m = l + ((r-l)>>1);
+        long long result = search_left_(node[id].r, a, m, r, acc, cond);
+        if(result != 0) return result;
+        return search_left_(node[id].l, a, l, m, acc, cond);
+    }
+
     int make_node(const T &v, int l, int r){
         node.push_back({v, l, r});
         return (int)node.size()-1;

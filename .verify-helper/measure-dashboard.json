@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-10-07T00:46:44+09:00",
+  "generatedAt": "2026-10-07T00:49:02+09:00",
   "root": ".",
-  "testCount": 187,
+  "testCount": 188,
   "inventory": {
-    "currentTestCount": 231,
-    "measuredTestCount": 187,
+    "currentTestCount": 232,
+    "measuredTestCount": 188,
     "unmeasuredCount": 44,
     "unmeasuredPaths": [
       "test/aoj_cgl_4_b.test.cpp",
@@ -55,7 +55,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "90fbdea0bf97a5dcea83c7a382060046570e18cb",
+    "gitRevision": "106878cd852de6684d34d61ded993b31fb58e013",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -64,9 +64,9 @@
   "summary": {
     "pending": 0,
     "running": 0,
-    "done": 187,
+    "done": 188,
     "error": 0,
-    "ok": 187,
+    "ok": 188,
     "failed": 0
   },
   "tests": [
@@ -32103,6 +32103,121 @@
           "summary": "test success: 43 cases"
         },
         "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 43 cases found\n\n[INFO] example_00\n[INFO] time: 0.004624 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_00.in /tmp/tmpjzntc77u/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_00.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.003805 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_01.in /tmp/tmpf7wvtdtu/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_01.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_02\n[INFO] time: 0.005150 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_02.in /tmp/tmptr_89fl5/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/example_02.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] frobenius_hack_00\n[INFO] time: 0.003909 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/frobenius_hack_00.in /tmp/tmpg3sowj6q/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/frobenius_hack_00.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] lowrank_max_random_00\n[INFO] time: 1.358661 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/lowrank_max_random_00.in /tmp/tmp43h_pg4u/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/lowrank_max_random_00.out\nok 37636 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] lowrank_max_random_01\n[INFO] time: 1.120092 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/lowrank_max_random_01.in /tmp/tmp89a5o3jv/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/lowrank_max_random_01.out\nok 38025 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 1.267551 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_00.in /tmp/tmpd4v48rsb/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_00.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 1.234187 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_01.in /tmp/tmpuh401myn/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_01.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 1.278888 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_02.in /tmp/tmpbc7gz882/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_02.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_03\n[INFO] time: 1.266817 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_03.in /tmp/tmpv51w00zk/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_03.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_worst_00\n[INFO] time: 1.626962 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_00.in /tmp/tmp_agifexx/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_00.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_worst_01\n[INFO] time: 1.642383 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_01.in /tmp/tmp3rblze5j/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_01.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_worst_02\n[INFO] time: 1.556975 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_02.in /tmp/tmp4_if7864/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_02.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_worst_03\n[INFO] time: 1.689023 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_03.in /tmp/tmp56o140eq/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/max_random_worst_03.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_00\n[INFO] time: 1.178620 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_00.in /tmp/tmppf1rh_kd/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_00.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_01\n[INFO] time: 1.276558 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_01.in /tmp/tmpaa4uwb33/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_01.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_02\n[INFO] time: 1.245130 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_02.in /tmp/tmpur1udrlk/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_02.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_03\n[INFO] time: 1.253007 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_03.in /tmp/tmpg2kb48ev/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_03.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_04\n[INFO] time: 1.147673 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_04.in /tmp/tmpjblgsym5/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_04.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_05\n[INFO] time: 1.204716 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_05.in /tmp/tmplyr6to6t/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_05.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_06\n[INFO] time: 1.249629 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_06.in /tmp/tmpmec8ri1z/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_06.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_07\n[INFO] time: 1.165516 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_07.in /tmp/tmpm0r2oe46/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_07.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_08\n[INFO] time: 1.275381 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_08.in /tmp/tmpv8d4oe9q/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_08.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] nontrivial_frobenius_form_09\n[INFO] time: 1.256144 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_09.in /tmp/tmppebczben/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/nontrivial_frobenius_form_09.out\nok 40000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] perm_max_random_00\n[INFO] time: 1.141380 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/perm_max_random_00.in /tmp/tmp046wj_xx/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/perm_max_random_00.out\nok 37636 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] perm_max_random_01\n[INFO] time: 1.019452 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/perm_max_random_01.in /tmp/tmpedx98mhc/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/perm_max_random_01.out\nok 38025 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 1.008343 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_00.in /tmp/tmpt9_r5oci/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_00.out\nok 32761 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 1.156710 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_01.in /tmp/tmpfbfcgzxb/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_01.out\nok 39204 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.113355 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_02.in /tmp/tmpp2pb6fkc/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/random_02.out\nok 7744 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] signed_overflow_00\n[INFO] time: 0.016698 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/signed_overflow_00.in /tmp/tmponlgqybe/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/signed_overflow_00.out\nok 1444 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.004435 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_00.in /tmp/tmphkaqvf3o/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_00.out\nok \"1\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.004014 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_01.in /tmp/tmpizdp7j4j/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_01.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.004358 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_02.in /tmp/tmp2z3f_82f/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_02.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.004121 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_03.in /tmp/tmpqy150u8e/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_03.out\nok \"627477696\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.004255 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_04.in /tmp/tmpmx7ef41s/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_04.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_05\n[INFO] time: 0.004392 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_05.in /tmp/tmp3u6bj1hu/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_05.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_06\n[INFO] time: 0.004587 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_06.in /tmp/tmpcerr5b72/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_06.out\nok \"316400973\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_07\n[INFO] time: 0.004171 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_07.in /tmp/tmpxdnkkjvj/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_07.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_08\n[INFO] time: 0.003862 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_08.in /tmp/tmp3_5yau9e/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_08.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_09\n[INFO] time: 0.004323 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_09.in /tmp/tmpyutrk2a0/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_09.out\nok \"837030307\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_10\n[INFO] time: 0.003969 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_10.in /tmp/tmp4g8v4ac9/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_10.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_11\n[INFO] time: 0.004145 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_11.in /tmp/tmpa2z5rdns/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/small_11.out\nok 9 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] unsigned_overflow_00\n[INFO] time: 0.006626 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/linear_algebra/pow_of_matrix/checker ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/unsigned_overflow_00.in /tmp/tmpipdu6snf/actual.out ./.verify-helper/cache/11fb601963f3450065f7afcd9b4789cb/test/unsigned_overflow_00.out\nok 324 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 1.689023 sec  (for max_random_worst_03)\n[INFO] max memory: 5.496000 MB  (for nontrivial_frobenius_form_05)\n[SUCCESS] test success: 43 cases\n"
+      }
+    },
+    {
+      "path": "test/yosupo_aplusb_dynamic_segtree_search.test.cpp",
+      "phase": "done",
+      "problem": "https://judge.yosupo.jp/problem/aplusb",
+      "compiler": {
+        "command": [
+          "g++",
+          "--std=c++17",
+          "-O2",
+          "-Wall",
+          "-g",
+          "-I",
+          ".",
+          "-o",
+          "a.out",
+          "test/yosupo_aplusb_dynamic_segtree_search.test.cpp"
+        ],
+        "wallSec": 1.9384206459999405
+      },
+      "testcases": {
+        "directory": ".verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test",
+        "cachedCaseCount": 12
+      },
+      "run": {
+        "command": [
+          "oj",
+          "test",
+          "-c",
+          "./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/verify-dashboard-btdnwe3y/a.out",
+          "-d",
+          "./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test",
+          "--tle",
+          "60.0",
+          "--judge-command",
+          "~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker"
+        ],
+        "returnCode": 0,
+        "wallSec": 0.6608604020002531,
+        "ok": true,
+        "parsed": {
+          "cases": [
+            {
+              "name": "example_00",
+              "timeSec": 0.030797,
+              "status": "AC"
+            },
+            {
+              "name": "example_01",
+              "timeSec": 0.033662,
+              "status": "AC"
+            },
+            {
+              "name": "random_00",
+              "timeSec": 0.033381,
+              "status": "AC"
+            },
+            {
+              "name": "random_01",
+              "timeSec": 0.032543,
+              "status": "AC"
+            },
+            {
+              "name": "random_02",
+              "timeSec": 0.028365,
+              "status": "AC"
+            },
+            {
+              "name": "random_03",
+              "timeSec": 0.028502,
+              "status": "AC"
+            },
+            {
+              "name": "random_04",
+              "timeSec": 0.029217,
+              "status": "AC"
+            },
+            {
+              "name": "random_05",
+              "timeSec": 0.029638,
+              "status": "AC"
+            },
+            {
+              "name": "random_06",
+              "timeSec": 0.029387,
+              "status": "AC"
+            },
+            {
+              "name": "random_07",
+              "timeSec": 0.029955,
+              "status": "AC"
+            },
+            {
+              "name": "random_08",
+              "timeSec": 0.030951,
+              "status": "AC"
+            },
+            {
+              "name": "random_09",
+              "timeSec": 0.03161,
+              "status": "AC"
+            }
+          ],
+          "caseCount": 12,
+          "timedCaseCount": 12,
+          "passedCaseCount": 12,
+          "slowestSec": 0.033662,
+          "slowestCase": "example_01",
+          "averageSec": 0.030667333333333335,
+          "maxMemoryMb": 4.176,
+          "maxMemoryCase": "random_08",
+          "summary": "test success: 12 cases"
+        },
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 12 cases found\n\n[INFO] example_00\n[INFO] time: 0.030797 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/example_00.in /tmp/tmp0e2jrnhf/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/example_00.out\nok \"6912\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.033662 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/example_01.in /tmp/tmp553xegsv/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/example_01.out\nok \"2000000000\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.033381 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_00.in /tmp/tmpo3ikokrl/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_00.out\nok \"348927966\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.032543 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_01.in /tmp/tmpl5xqlunb/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_01.out\nok \"385703343\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.028365 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_02.in /tmp/tmp1y4e5dpl/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_02.out\nok \"1133946337\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_03\n[INFO] time: 0.028502 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_03.in /tmp/tmps52hgdke/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_03.out\nok \"1132392878\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_04\n[INFO] time: 0.029217 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_04.in /tmp/tmp6sujhtle/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_04.out\nok \"1144896831\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_05\n[INFO] time: 0.029638 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_05.in /tmp/tmp842ukn5z/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_05.out\nok \"393933893\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_06\n[INFO] time: 0.029387 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_06.in /tmp/tmpdc6ivlw_/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_06.out\nok \"899846272\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_07\n[INFO] time: 0.029955 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_07.in /tmp/tmp1xip4ioi/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_07.out\nok \"507618092\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_08\n[INFO] time: 0.030951 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_08.in /tmp/tmpd4s8qu6m/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_08.out\nok \"340723397\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_09\n[INFO] time: 0.031610 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/sample/aplusb/checker ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_09.in /tmp/tmpv6_5qjyw/actual.out ./.verify-helper/cache/8e3916c7805235eb07ec2a58660d89c6/test/random_09.out\nok \"1198300249\"\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.033662 sec  (for example_01)\n[INFO] max memory: 4.176000 MB  (for random_08)\n[SUCCESS] test success: 12 cases\n"
       }
     }
   ]
