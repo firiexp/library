@@ -30,6 +30,39 @@ void hull_check() {
     }
 }
 
+void diameter_check() {
+    mt19937 rng(111);
+    auto check = [&](Polygon points) {
+        double expected = 0;
+        for (auto a : points) for (auto b : points) expected = max(expected, abs(a - b));
+        for (int repeat = 0; repeat < 3; ++repeat) {
+            shuffle(points.begin(), points.end(), rng);
+            auto hull = convex_hull(points);
+            for (int start = 0; start < max(1, int(hull.size())); ++start) {
+                assert(fabs(diameter(hull) - expected) <= 1e-9 * max(1.0, expected));
+                if (!hull.empty()) rotate(hull.begin(), hull.begin() + 1, hull.end());
+            }
+        }
+    };
+    for (int mask = 0; mask < (1 << 9); ++mask) {
+        Polygon points;
+        for (int i = 0; i < 9; ++i)
+            if (mask >> i & 1) points.emplace_back(i % 3, i / 3);
+        check(points);
+    }
+    check({Point(-7, 4), Point(-2, 4), Point(0, 4), Point(9, 4)});
+    check({Point(4, -7), Point(4, -2), Point(4, 0), Point(4, 9)});
+    check({Point(-7, -10.5), Point(-2, -3), Point(0, 0), Point(9, 13.5)});
+    check({Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1e-8), Point(0, 1e-8)});
+    for (int tc = 0; tc < 300; ++tc) {
+        set<pair<int, int>> distinct;
+        for (int i = 0; i < 30; ++i) distinct.emplace(int(rng() % 101) - 50, int(rng() % 101) - 50);
+        Polygon points;
+        for (auto [x, y] : distinct) points.emplace_back(x, y);
+        check(points);
+    }
+}
+
 void contains_convex_check() {
     Polygon empty;
     assert(contains_convex(empty, Point(0, 0)) == 0);
@@ -150,6 +183,7 @@ void manhattan_check() {
 
 int main() {
     hull_check();
+    diameter_check();
     contains_convex_check();
     rectangle_check();
     manhattan_check();

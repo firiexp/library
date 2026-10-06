@@ -374,6 +374,7 @@ int contains_convex(Polygon &v, Point p) {
 
 geometry_real diameter(Polygon v) {
     int n = v.size();
+    if (n <= 1) return 0;
     if (n == 2)
         return abs(v[0] - v[1]);
     int i = 0, j = 0;
@@ -383,6 +384,10 @@ geometry_real diameter(Polygon v) {
         if (!(v[j] < v[k]))
             j = k;
     }
+    Point direction = v[i] - v[j];
+    if (all_of(v.begin(), v.end(), [&](Point p) {
+            return cross(direction, p - v[j]) == 0;
+        })) return abs(direction);
     geometry_real ret = 0;
     int si = i, sj = j;
     while (i != sj || j != si) {
