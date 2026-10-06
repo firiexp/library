@@ -54,6 +54,7 @@ geometry/area_of_union_of_rectangles.cpp: "長方形和集合面積(Area of Unio
 geometry/closest_pair.cpp: "Closest Pair"
 geometry/convex_hull.cpp: "凸包(Convex Hull)"
 geometry/dualgraph.cpp: "双対グラフ(Dual Graph)"
+geometry/furthest_pair.cpp: "最遠点対"
 geometry/geometry.cpp: "幾何ライブラリ(Geometry)"
 geometry/geometry3d.cpp: "3次元幾何"
 geometry/half_plane_intersection.cpp: "半平面共通部分(Half-Plane Intersection)"

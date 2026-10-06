@@ -58,8 +58,13 @@ void self_check() {
            {2000000000, 2000000000}, {-2000000000, 2000000000}});
     check({{INT_MIN, INT_MIN}, {INT_MAX, INT_MIN}, {INT_MAX, INT_MAX}, {INT_MIN, INT_MAX}});
     check({{INT_MIN, INT_MIN}, {0, 0}, {INT_MAX, INT_MAX}, {0, 0}});
+    const ll limit = 1000000000000000000LL;
+    check({{-limit, -limit}, {limit, -limit}, {limit, limit}, {-limit, limit}});
+    check({{-limit, -limit}, {-limit + 1, -limit}, {limit, limit - 1}, {limit, limit}});
+    check({{-limit, -limit}, {0, 0}, {limit, limit}, {limit, limit}});
     mt19937 rng(18);
-    const vector<ll> coords{INT_MIN, -2000000000, -1, 0, 1, 2000000000, INT_MAX};
+    const vector<ll> coords{-limit, -limit + 1, INT_MIN, -2000000000, -1, 0, 1,
+                            2000000000, INT_MAX, limit - 1, limit};
     for (int tc = 0; tc < 500; ++tc) {
         vector<IntPoint> points(rng() % 30);
         for (auto &[x, y] : points) {

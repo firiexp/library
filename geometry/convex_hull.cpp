@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_GEOMETRY_CONVEX_HULL_CPP
+#define FIRIEXP_LIBRARY_GEOMETRY_CONVEX_HULL_CPP
+
 using IntPoint = pair<ll, ll>;
 
 __int128 cross(IntPoint a, IntPoint b, IntPoint c) {
@@ -27,6 +30,8 @@ vector<IntPoint> convex_hull(vector<IntPoint> ps) {
     ch.resize(k - 1);
     return ch;
 }
+
+#endif
 
 /**
  * @brief 凸包(Convex Hull)
