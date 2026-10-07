@@ -5,11 +5,12 @@ documentation_of: //datastructure/ahocorasick.cpp
 
 ## 説明
 Trie 木に対応するパターンマッチングオートマトンを構築する。
-ノード数を $V$、文字種数を $W$ とすると、構築は $O(WV)$。
 
 ## できること
+ノード数を $V$、文字種数を $W$ とする。
+
 - `add(s, cur)` : Trie 木の位置 `cur` に文字列 `s` を追加し、そのノードを返す
-- `build()` : パターンマッチングオートマトンを構築する
+- `build()` : パターンマッチングオートマトンを $O(WV)$ で構築する
 - `next(x, c)` : 位置 `x` に文字 `c` を与えたときの行き先を返す
 - `occurrence_counts(text)` : ノード順の出現回数を `vector<long long>` で返す。時間 $O(|text|+V)$、追加領域 $O(V)$
 
