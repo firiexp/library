@@ -10,6 +10,8 @@ documentation_of: //datastructure/binaryindexedtree.cpp
 例えば LIS に使う最大値の集約も可換な演算である。一般の非可換演算には対応しない。
 
 ## できること
+- `BIT<T>(n)` : 長さ `n` の単位元で初期化する。構築は $O(N)$
+- `BIT<T>(values)` : 配列をコピーして $O(N)$ で構築する。空配列も扱える
 - `add(k, x)` : `k` 番目の要素に `x` を加算する
 - `sum(k)` : 半開区間 $[0, k)$ の和を求める
 - `lower_bound(x)` : `sum(k)` が `x` 以上になる最小の `k` を求める。存在しなければ `N` を返す

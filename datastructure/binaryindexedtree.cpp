@@ -10,6 +10,14 @@ public:
         while (m < n) m <<= 1;
     }
 
+    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size()) {
+        while (m < n) m <<= 1;
+        for (int i = 1; i <= n; ++i) {
+            int parent = i + (i & -i);
+            if (parent <= n) bit[parent - 1] += bit[i - 1];
+        }
+    }
+
     T sum(int k){
         T ret = 0;
         for (; k > 0; k -= (k & -k)) ret += bit[k - 1];

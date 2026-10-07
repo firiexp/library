@@ -22,8 +22,7 @@ int main() {
     in.read(n, q);
     vector<ll> v(n);
     in.read(v);
-    BIT<ll> S(n);
-    for (int i = 0; i < n; ++i) S.add(i, v[i]);
+    BIT<ll> S(v);
 
     for (int i = 0; i < q; ++i) {
         int c, x, y;
