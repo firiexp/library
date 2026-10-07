@@ -2,6 +2,7 @@
 # title is the canonical @brief text shown in docs index / page title
 # keep titles short; prefer Japanese with English in parentheses when helpful
 # value must be a JSON string literal so the file stays easy to parse without extra dependencies
+util/lis.cpp: "最長増加部分列の復元"
 datastructure/ahocorasick.cpp: "Aho-Corasick法"
 datastructure/binaryheap.cpp: "二分ヒープ(Binary Heap)"
 datastructure/binaryindexedtree.cpp: "Binary Indexed Tree(BIT)"
