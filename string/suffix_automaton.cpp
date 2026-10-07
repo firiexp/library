@@ -14,14 +14,14 @@ struct SuffixAutomaton {
     vector<Node> nodes;
     int last;
 
-    struct CommonSubstring {
+    struct SubstringMatch {
         int s_l, s_r, t_l, t_r;
     };
 
     SuffixAutomaton(): nodes(1), last(0) {}
 
-    template<class Container>
-    explicit SuffixAutomaton(const Container &s): SuffixAutomaton() {
+    template<class T>
+    explicit SuffixAutomaton(const T &s): SuffixAutomaton() {
         reserve(s.size());
         for (auto &&c : s) add(c);
     }
@@ -67,15 +67,15 @@ struct SuffixAutomaton {
         return cur;
     }
 
-    template<class Container>
-    void build(const Container &s) {
+    template<class T>
+    void build(const T &s) {
         reserve(s.size());
         for (auto &&c : s) add(c);
     }
 
-    template<class Container>
-    CommonSubstring longest_common_substring(const Container &t) const {
-        CommonSubstring result{0, 0, 0, 0};
+    template<class T>
+    SubstringMatch longest_common_substring(const T &t) const {
+        SubstringMatch result{0, 0, 0, 0};
         int state = 0, length = 0, index = 0;
         for (auto c : t) {
             int k = ord(c);
