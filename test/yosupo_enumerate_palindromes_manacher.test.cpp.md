@@ -234,34 +234,38 @@ data:
     \ int i = 0, j = 0;\n    while(i < s.size()){\n        while(i >= j && i + j <\
     \ s.size() && s[i-j] == s[i+j]) ++j;\n        res[i] = j;\n        int k = 1;\n\
     \        while(i >= k && i + k < s.size() && k + res[i-k] < j) res[i+k] = res[i-k],\
-    \ ++k;\n        i += k; j -= k;\n    }\n    return res;\n}\n#line 15 \"test/yosupo_enumerate_palindromes_manacher.test.cpp\"\
+    \ ++k;\n        i += k; j -= k;\n    }\n    return res;\n}\n\nstruct PalindromeRadii\
+    \ {\n    vector<int> odd, even;\n\n    explicit PalindromeRadii(const string &s):\
+    \ odd(manacher(s)), even(s.size()) {\n        int n = s.size(), l = 0, r = -1;\n\
+    \        for (int i = 0; i < n; ++i) {\n            int k = i > r ? 0 : min(even[l\
+    \ + r - i + 1], r - i + 1);\n            while (i - k - 1 >= 0 && i + k < n &&\
+    \ s[i - k - 1] == s[i + k]) ++k;\n            even[i] = k;\n            if (i\
+    \ + k - 1 > r) {\n                l = i - k;\n                r = i + k - 1;\n\
+    \            }\n        }\n    }\n\n    bool is_palindrome(int l, int r) const\
+    \ {\n        int length = r - l;\n        if (!length) return true;\n        int\
+    \ center = l + length / 2;\n        return length & 1 ? odd[center] >= length\
+    \ / 2 + 1 : even[center] >= length / 2;\n    }\n};\n#line 15 \"test/yosupo_enumerate_palindromes_manacher.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n\
-    \    string t;\n    t.reserve(max(0, (int)s.size() * 2 - 1));\n    for (char c\
-    \ : s) {\n        if (!t.empty()) t.push_back('$');\n        t.push_back(c);\n\
-    \    }\n    auto ans = manacher(t);\n    for (int i = 0; i < (int)ans.size();\
-    \ ++i) {\n        if (i & 1) ans[i] = (ans[i] / 2) * 2;\n        else ans[i] =\
-    \ ((ans[i] + 1) / 2) * 2 - 1;\n    }\n    for (int i = 0; i < (int)ans.size();\
-    \ ++i) {\n        if (i) pr.print(' ');\n        pr.print(ans[i]);\n    }\n  \
-    \  pr.println();\n    return 0;\n}\n"
+    \    PalindromeRadii radii(s);\n    for (int i = 0; i < (int)s.size(); ++i) {\n\
+    \        if (i) {\n            pr.print(' ');\n            pr.print(2 * radii.even[i]);\n\
+    \            pr.print(' ');\n        }\n        pr.print(2 * radii.odd[i] - 1);\n\
+    \    }\n    pr.println();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/enumerate_palindromes\"\
     \n\n#include <string>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
     #include \"../util/fastio.cpp\"\n#include \"../string/manacher.cpp\"\n\nint main()\
-    \ {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n    string\
-    \ t;\n    t.reserve(max(0, (int)s.size() * 2 - 1));\n    for (char c : s) {\n\
-    \        if (!t.empty()) t.push_back('$');\n        t.push_back(c);\n    }\n \
-    \   auto ans = manacher(t);\n    for (int i = 0; i < (int)ans.size(); ++i) {\n\
-    \        if (i & 1) ans[i] = (ans[i] / 2) * 2;\n        else ans[i] = ((ans[i]\
-    \ + 1) / 2) * 2 - 1;\n    }\n    for (int i = 0; i < (int)ans.size(); ++i) {\n\
-    \        if (i) pr.print(' ');\n        pr.print(ans[i]);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    string s;\n    sc.read(s);\n    PalindromeRadii\
+    \ radii(s);\n    for (int i = 0; i < (int)s.size(); ++i) {\n        if (i) {\n\
+    \            pr.print(' ');\n            pr.print(2 * radii.even[i]);\n      \
+    \      pr.print(' ');\n        }\n        pr.print(2 * radii.odd[i] - 1);\n  \
+    \  }\n    pr.println();\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - string/manacher.cpp
   isVerificationFile: true
   path: test/yosupo_enumerate_palindromes_manacher.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-07 22:14:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_enumerate_palindromes_manacher.test.cpp

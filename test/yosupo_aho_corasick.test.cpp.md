@@ -244,7 +244,13 @@ data:
     \                r++;\n            }\n            if(i != 0){\n              \
     \  for (int c = 0; c < W; ++c) {\n                    if(!v[i].to[c]) v[i].to[c]\
     \ = v[v[i].fail].to[c];\n                }\n            }\n        }\n    }\n\
-    \    inline int next(int x, char c){ return v[x].to[c-start]; }\n};\n/**\n * @brief\
+    \    inline int next(int x, char c){ return v[x].to[c-start]; }\n\n    vector<long\
+    \ long> occurrence_counts(const string &text) const {\n        vector<long long>\
+    \ counts(v.size());\n        counts[0] = 1;\n        int state = 0;\n        for\
+    \ (char c : text) {\n            state = v[state].to[c - start];\n           \
+    \ ++counts[state];\n        }\n        for (int i = (int)ord.size() - 1; i > 0;\
+    \ --i) {\n            int state = ord[i];\n            counts[v[state].fail] +=\
+    \ counts[state];\n        }\n        return counts;\n    }\n};\n/**\n * @brief\
     \ Aho-Corasick\u6CD5\n */\n#line 20 \"test/yosupo_aho_corasick.test.cpp\"\n\n\
     int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
     \    AhoCorasick<26, 'a'> aho;\n    vector<int> parent(1, -1), terminal(n);\n\
@@ -282,7 +288,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aho_corasick.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-07 22:14:50+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aho_corasick.test.cpp

@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/binaryindexedtree.cpp
-    title: Binary Indexed Tree(BIT)
+    path: string/manacher.cpp
+    title: string/manacher.cpp
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,67 +14,65 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/point_add_range_sum
-  bundledCode: "#line 1 \"test/yosupo_point_add_range_sum.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\n#include <vector>\n\
-    \nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_palindrome_radii.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -228,47 +226,73 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
-    \n\n\n\ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
-    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
-    \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
-    \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
-    \            int parent = i + (i & -i);\n            if (parent <= n) bit[parent\
-    \ - 1] += bit[i - 1];\n        }\n    }\n\n    T sum(int k){\n        T ret =\
-    \ 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
-    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
-    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
-    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
-    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
-    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n\n\n#line 16 \"test/yosupo_point_add_range_sum.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(v);\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n    \
-    \    if(c == 0) S.add(x, y);\n        else out.println(S.sum(y) - S.sum(x));\n\
-    \    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
-    \n#include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(v);\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n    \
-    \    if(c == 0) S.add(x, y);\n        else out.println(S.sum(y) - S.sum(x));\n\
-    \    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"string/manacher.cpp\"\
+    \nvector<int> manacher(const string &s){\n    vector<int> res(s.size());\n   \
+    \ int i = 0, j = 0;\n    while(i < s.size()){\n        while(i >= j && i + j <\
+    \ s.size() && s[i-j] == s[i+j]) ++j;\n        res[i] = j;\n        int k = 1;\n\
+    \        while(i >= k && i + k < s.size() && k + res[i-k] < j) res[i+k] = res[i-k],\
+    \ ++k;\n        i += k; j -= k;\n    }\n    return res;\n}\n\nstruct PalindromeRadii\
+    \ {\n    vector<int> odd, even;\n\n    explicit PalindromeRadii(const string &s):\
+    \ odd(manacher(s)), even(s.size()) {\n        int n = s.size(), l = 0, r = -1;\n\
+    \        for (int i = 0; i < n; ++i) {\n            int k = i > r ? 0 : min(even[l\
+    \ + r - i + 1], r - i + 1);\n            while (i - k - 1 >= 0 && i + k < n &&\
+    \ s[i - k - 1] == s[i + k]) ++k;\n            even[i] = k;\n            if (i\
+    \ + k - 1 > r) {\n                l = i - k;\n                r = i + k - 1;\n\
+    \            }\n        }\n    }\n\n    bool is_palindrome(int l, int r) const\
+    \ {\n        int length = r - l;\n        if (!length) return true;\n        int\
+    \ center = l + length / 2;\n        return length & 1 ? odd[center] >= length\
+    \ / 2 + 1 : even[center] >= length / 2;\n    }\n};\n#line 7 \"test/yosupo_aplusb_palindrome_radii.test.cpp\"\
+    \n\nvoid check(const string &s) {\n    const PalindromeRadii radii(s);\n    int\
+    \ n = s.size();\n    assert((int)radii.odd.size() == n && (int)radii.even.size()\
+    \ == n);\n    assert(radii.odd == manacher(s));\n    for (int i = 0; i < n; ++i)\
+    \ {\n        int odd = 1, even = 0;\n        while (i >= odd && i + odd < n &&\
+    \ s[i - odd] == s[i + odd]) ++odd;\n        while (i > even && i + even < n &&\
+    \ s[i - even - 1] == s[i + even]) ++even;\n        assert(radii.odd[i] == odd\
+    \ && radii.even[i] == even);\n    }\n    for (int l = 0; l <= n; ++l) for (int\
+    \ r = l; r <= n; ++r) {\n        string t = s.substr(l, r - l), reversed = t;\n\
+    \        reverse(reversed.begin(), reversed.end());\n        assert(radii.is_palindrome(l,\
+    \ r) == (t == reversed));\n    }\n}\n\nint main() {\n    for (int n = 0, count\
+    \ = 1; n <= 8; ++n, count *= 3) {\n        for (int mask = 0; mask < count; ++mask)\
+    \ {\n            string s(n, 'a');\n            int x = mask;\n            for\
+    \ (char &c : s) c += x % 3, x /= 3;\n            check(s);\n        }\n    }\n\
+    \    mt19937 rng(89);\n    for (int tc = 0; tc < 300; ++tc) {\n        string\
+    \ s(rng() % 40, '\\0');\n        for (char &c : s) c = rng() % 256;\n        check(s);\n\
+    \        string t = s;\n        reverse(t.begin(), t.end());\n        check(s\
+    \ + '$' + t);\n        check(s + t);\n    }\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../string/manacher.cpp\"\
+    \n\nvoid check(const string &s) {\n    const PalindromeRadii radii(s);\n    int\
+    \ n = s.size();\n    assert((int)radii.odd.size() == n && (int)radii.even.size()\
+    \ == n);\n    assert(radii.odd == manacher(s));\n    for (int i = 0; i < n; ++i)\
+    \ {\n        int odd = 1, even = 0;\n        while (i >= odd && i + odd < n &&\
+    \ s[i - odd] == s[i + odd]) ++odd;\n        while (i > even && i + even < n &&\
+    \ s[i - even - 1] == s[i + even]) ++even;\n        assert(radii.odd[i] == odd\
+    \ && radii.even[i] == even);\n    }\n    for (int l = 0; l <= n; ++l) for (int\
+    \ r = l; r <= n; ++r) {\n        string t = s.substr(l, r - l), reversed = t;\n\
+    \        reverse(reversed.begin(), reversed.end());\n        assert(radii.is_palindrome(l,\
+    \ r) == (t == reversed));\n    }\n}\n\nint main() {\n    for (int n = 0, count\
+    \ = 1; n <= 8; ++n, count *= 3) {\n        for (int mask = 0; mask < count; ++mask)\
+    \ {\n            string s(n, 'a');\n            int x = mask;\n            for\
+    \ (char &c : s) c += x % 3, x /= 3;\n            check(s);\n        }\n    }\n\
+    \    mt19937 rng(89);\n    for (int tc = 0; tc < 300; ++tc) {\n        string\
+    \ s(rng() % 40, '\\0');\n        for (char &c : s) c = rng() % 256;\n        check(s);\n\
+    \        string t = s;\n        reverse(t.begin(), t.end());\n        check(s\
+    \ + '$' + t);\n        check(s + t);\n    }\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/binaryindexedtree.cpp
+  - string/manacher.cpp
   isVerificationFile: true
-  path: test/yosupo_point_add_range_sum.test.cpp
+  path: test/yosupo_aplusb_palindrome_radii.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 22:11:01+09:00'
+  timestamp: '2026-10-07 22:14:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_point_add_range_sum.test.cpp
+documentation_of: test/yosupo_aplusb_palindrome_radii.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_point_add_range_sum.test.cpp
-- /verify/test/yosupo_point_add_range_sum.test.cpp.html
-title: test/yosupo_point_add_range_sum.test.cpp
+- /verify/test/yosupo_aplusb_palindrome_radii.test.cpp
+- /verify/test/yosupo_aplusb_palindrome_radii.test.cpp.html
+title: test/yosupo_aplusb_palindrome_radii.test.cpp
 ---

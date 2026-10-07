@@ -22,43 +22,56 @@ data:
     using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"string/suffix_automaton.cpp\"\
     \ntemplate<int W, char start = 'a'>\nstruct SuffixAutomaton {\n    struct Node\
-    \ {\n        int link;\n        int len;\n        int occ;\n        int next[W];\n\
-    \        Node(int link = -1, int len = 0, int occ = 0): link(link), len(len),\
-    \ occ(occ) {\n            fill(next, next + W, -1);\n        }\n    };\n\n   \
-    \ vector<Node> nodes;\n    int last;\n\n    SuffixAutomaton(): nodes(1), last(0)\
-    \ {}\n\n    template<class Container>\n    explicit SuffixAutomaton(const Container\
-    \ &s): SuffixAutomaton() {\n        reserve(s.size());\n        for (auto &&c\
-    \ : s) add(c);\n    }\n\n    void reserve(int n) {\n        nodes.reserve(2 *\
-    \ n + 1);\n    }\n\n    static int ord(char c) {\n        return c - start;\n\
-    \    }\n\n    int add(char c) {\n        int k = ord(c);\n        int cur = nodes.size();\n\
-    \        nodes.emplace_back(0, nodes[last].len + 1, 1);\n        int p = last;\n\
-    \        while (p != -1 && nodes[p].next[k] == -1) {\n            nodes[p].next[k]\
-    \ = cur;\n            p = nodes[p].link;\n        }\n        if (p == -1) {\n\
-    \            nodes[cur].link = 0;\n            last = cur;\n            return\
-    \ cur;\n        }\n        int q = nodes[p].next[k];\n        if (nodes[p].len\
-    \ + 1 == nodes[q].len) {\n            nodes[cur].link = q;\n            last =\
-    \ cur;\n            return cur;\n        }\n        int clone = nodes.size();\n\
-    \        nodes.push_back(nodes[q]);\n        nodes[clone].len = nodes[p].len +\
-    \ 1;\n        nodes[clone].occ = 0;\n        while (p != -1 && nodes[p].next[k]\
-    \ == q) {\n            nodes[p].next[k] = clone;\n            p = nodes[p].link;\n\
-    \        }\n        nodes[q].link = nodes[cur].link = clone;\n        last = cur;\n\
-    \        return cur;\n    }\n\n    template<class Container>\n    void build(const\
-    \ Container &s) {\n        reserve(s.size());\n        for (auto &&c : s) add(c);\n\
-    \    }\n\n    long long count_distinct_substrings() const {\n        long long\
-    \ res = 0;\n        for (int i = 1; i < (int)nodes.size(); ++i) {\n          \
-    \  res += nodes[i].len - nodes[nodes[i].link].len;\n        }\n        return\
-    \ res;\n    }\n\n    vector<int> order_by_length() const {\n        int max_len\
-    \ = 0;\n        for (auto &&node : nodes) max_len = max(max_len, node.len);\n\
-    \        vector<int> cnt(max_len + 1);\n        for (auto &&node : nodes) cnt[node.len]++;\n\
-    \        for (int i = 1; i <= max_len; ++i) cnt[i] += cnt[i - 1];\n        vector<int>\
-    \ ord(nodes.size());\n        for (int i = (int)nodes.size() - 1; i >= 0; --i)\
-    \ {\n            ord[--cnt[nodes[i].len]] = i;\n        }\n        return ord;\n\
-    \    }\n\n    vector<int> substring_occurrences() const {\n        vector<int>\
-    \ cnt(nodes.size());\n        for (int i = 0; i < (int)nodes.size(); ++i) cnt[i]\
-    \ = nodes[i].occ;\n        auto ord = order_by_length();\n        for (int i =\
-    \ (int)ord.size() - 1; i >= 1; --i) {\n            int v = ord[i];\n         \
-    \   cnt[nodes[v].link] += cnt[v];\n        }\n        return cnt;\n    }\n};\n\
-    /**\n * @brief Suffix Automaton\n */\n#line 21 \"test/yosupo_number_of_substrings_suffix_automaton.test.cpp\"\
+    \ {\n        int link;\n        int len;\n        int occ;\n        int first_pos;\n\
+    \        int next[W];\n        Node(int link = -1, int len = 0, int occ = 0):\
+    \ link(link), len(len), occ(occ), first_pos(len - 1) {\n            fill(next,\
+    \ next + W, -1);\n        }\n    };\n\n    vector<Node> nodes;\n    int last;\n\
+    \n    struct SubstringMatch {\n        int s_l, s_r, t_l, t_r;\n    };\n\n   \
+    \ SuffixAutomaton(): nodes(1), last(0) {}\n\n    template<class T>\n    explicit\
+    \ SuffixAutomaton(const T &s): SuffixAutomaton() {\n        reserve(s.size());\n\
+    \        for (auto &&c : s) add(c);\n    }\n\n    void reserve(int n) {\n    \
+    \    nodes.reserve(2 * n + 1);\n    }\n\n    static int ord(char c) {\n      \
+    \  return c - start;\n    }\n\n    int add(char c) {\n        int k = ord(c);\n\
+    \        int cur = nodes.size();\n        nodes.emplace_back(0, nodes[last].len\
+    \ + 1, 1);\n        int p = last;\n        while (p != -1 && nodes[p].next[k]\
+    \ == -1) {\n            nodes[p].next[k] = cur;\n            p = nodes[p].link;\n\
+    \        }\n        if (p == -1) {\n            nodes[cur].link = 0;\n       \
+    \     last = cur;\n            return cur;\n        }\n        int q = nodes[p].next[k];\n\
+    \        if (nodes[p].len + 1 == nodes[q].len) {\n            nodes[cur].link\
+    \ = q;\n            last = cur;\n            return cur;\n        }\n        int\
+    \ clone = nodes.size();\n        nodes.push_back(nodes[q]);\n        nodes[clone].len\
+    \ = nodes[p].len + 1;\n        nodes[clone].occ = 0;\n        while (p != -1 &&\
+    \ nodes[p].next[k] == q) {\n            nodes[p].next[k] = clone;\n          \
+    \  p = nodes[p].link;\n        }\n        nodes[q].link = nodes[cur].link = clone;\n\
+    \        last = cur;\n        return cur;\n    }\n\n    template<class T>\n  \
+    \  void build(const T &s) {\n        reserve(s.size());\n        for (auto &&c\
+    \ : s) add(c);\n    }\n\n    template<class T>\n    SubstringMatch longest_common_substring(const\
+    \ T &t) const {\n        SubstringMatch result{0, 0, 0, 0};\n        int state\
+    \ = 0, length = 0, index = 0;\n        for (auto c : t) {\n            int k =\
+    \ ord(c);\n            if (k < 0 || k >= W) {\n                state = length\
+    \ = 0;\n            } else {\n                while (state && nodes[state].next[k]\
+    \ == -1) {\n                    state = nodes[state].link;\n                 \
+    \   length = nodes[state].len;\n                }\n                if (nodes[state].next[k]\
+    \ == -1) length = 0;\n                else {\n                    state = nodes[state].next[k];\n\
+    \                    ++length;\n                }\n                if (length\
+    \ > result.s_r - result.s_l) {\n                    int end = nodes[state].first_pos\
+    \ + 1;\n                    result = {end - length, end, index + 1 - length, index\
+    \ + 1};\n                }\n            }\n            ++index;\n        }\n \
+    \       return result;\n    }\n\n    long long count_distinct_substrings() const\
+    \ {\n        long long res = 0;\n        for (int i = 1; i < (int)nodes.size();\
+    \ ++i) {\n            res += nodes[i].len - nodes[nodes[i].link].len;\n      \
+    \  }\n        return res;\n    }\n\n    vector<int> order_by_length() const {\n\
+    \        int max_len = 0;\n        for (auto &&node : nodes) max_len = max(max_len,\
+    \ node.len);\n        vector<int> cnt(max_len + 1);\n        for (auto &&node\
+    \ : nodes) cnt[node.len]++;\n        for (int i = 1; i <= max_len; ++i) cnt[i]\
+    \ += cnt[i - 1];\n        vector<int> ord(nodes.size());\n        for (int i =\
+    \ (int)nodes.size() - 1; i >= 0; --i) {\n            ord[--cnt[nodes[i].len]]\
+    \ = i;\n        }\n        return ord;\n    }\n\n    vector<int> substring_occurrences()\
+    \ const {\n        vector<int> cnt(nodes.size());\n        for (int i = 0; i <\
+    \ (int)nodes.size(); ++i) cnt[i] = nodes[i].occ;\n        auto ord = order_by_length();\n\
+    \        for (int i = (int)ord.size() - 1; i >= 1; --i) {\n            int v =\
+    \ ord[i];\n            cnt[nodes[v].link] += cnt[v];\n        }\n        return\
+    \ cnt;\n    }\n};\n/**\n * @brief Suffix Automaton\n */\n#line 21 \"test/yosupo_number_of_substrings_suffix_automaton.test.cpp\"\
     \n\nint main() {\n    string s;\n    cin >> s;\n    SuffixAutomaton<26> sam(s);\n\
     \    cout << sam.count_distinct_substrings() << \"\\n\";\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/number_of_substrings\"\n\
@@ -74,7 +87,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_number_of_substrings_suffix_automaton.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:12:41+09:00'
+  timestamp: '2026-10-08 01:45:17+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_number_of_substrings_suffix_automaton.test.cpp

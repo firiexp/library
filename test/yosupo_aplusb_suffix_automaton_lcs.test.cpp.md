@@ -17,8 +17,8 @@ data:
     PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
     - https://judge.yosupo.jp/problem/aplusb
-  bundledCode: "#line 1 \"test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp\"\
-    \n#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+  bundledCode: "#line 1 \"test/yosupo_aplusb_suffix_automaton_lcs.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
     \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
@@ -277,66 +277,78 @@ data:
     \ (int)nodes.size(); ++i) cnt[i] = nodes[i].occ;\n        auto ord = order_by_length();\n\
     \        for (int i = (int)ord.size() - 1; i >= 1; --i) {\n            int v =\
     \ ord[i];\n            cnt[nodes[v].link] += cnt[v];\n        }\n        return\
-    \ cnt;\n    }\n};\n/**\n * @brief Suffix Automaton\n */\n#line 7 \"test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp\"\
-    \n\nvoid check(const string &s, const SuffixAutomaton<2> &sam) {\n    auto before\
-    \ = sam.nodes;\n    auto counts = sam.substring_occurrences();\n    assert(counts\
-    \ == sam.substring_occurrences());\n    assert(counts.size() == before.size());\n\
-    \    assert(counts[0] == (int)s.size());\n    vector<bool> visited(counts.size());\n\
-    \    for (int l = 0; l < (int)s.size(); ++l) {\n        int v = 0;\n        for\
-    \ (int r = l; r < (int)s.size(); ++r) {\n            v = sam.nodes[v].next[s[r]\
-    \ - 'a'];\n            assert(v > 0);\n            int expected = 0;\n       \
-    \     for (int start = 0; start + r - l < (int)s.size(); ++start)\n          \
-    \      expected += s.compare(start, r - l + 1, s, l, r - l + 1) == 0;\n      \
-    \      assert(counts[v] == expected);\n            visited[v] = true;\n      \
-    \  }\n    }\n    for (int v = 0; v < (int)before.size(); ++v) {\n        assert(v\
-    \ == 0 || visited[v]);\n        assert(sam.nodes[v].link == before[v].link);\n\
-    \        assert(sam.nodes[v].len == before[v].len);\n        assert(sam.nodes[v].occ\
-    \ == before[v].occ);\n        assert(equal(begin(sam.nodes[v].next), end(sam.nodes[v].next),\
-    \ begin(before[v].next)));\n    }\n}\n\nvoid self_check() {\n    for (int n =\
-    \ 0; n <= 10; ++n) for (int mask = 0; mask < (1 << n); ++mask) {\n        string\
-    \ s(n, 'a');\n        for (int i = 0; i < n; ++i) s[i] += (mask >> i) & 1;\n \
-    \       SuffixAutomaton<2> sam(s);\n        check(s, sam);\n        for (char\
-    \ c : {'b', 'a', 'b'}) {\n            s += c;\n            sam.add(c);\n     \
-    \       check(s, sam);\n        }\n    }\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n}\n"
+    \ cnt;\n    }\n};\n/**\n * @brief Suffix Automaton\n */\n#line 7 \"test/yosupo_aplusb_suffix_automaton_lcs.test.cpp\"\
+    \n\ntemplate<int W>\nvoid check(const string &s, const string &t, const SuffixAutomaton<W>\
+    \ &sam) {\n    int n = s.size(), m = t.size(), best = 0;\n    vector<vector<int>>\
+    \ dp(n + 1, vector<int>(m + 1));\n    for (int i = 0; i < n; ++i) for (int j =\
+    \ 0; j < m; ++j) {\n        if (s[i] == t[j]) dp[i + 1][j + 1] = dp[i][j] + 1;\n\
+    \        best = max(best, dp[i + 1][j + 1]);\n    }\n    auto match = sam.longest_common_substring(t);\n\
+    \    assert(0 <= match.s_l && match.s_l <= match.s_r && match.s_r <= n);\n   \
+    \ assert(0 <= match.t_l && match.t_l <= match.t_r && match.t_r <= m);\n    assert(match.s_r\
+    \ - match.s_l == best && match.t_r - match.t_l == best);\n    assert(s.substr(match.s_l,\
+    \ best) == t.substr(match.t_l, best));\n    if (!best) assert(match.s_l == 0 &&\
+    \ match.s_r == 0 && match.t_l == 0 && match.t_r == 0);\n    auto repeat = sam.longest_common_substring(vector<char>(t.begin(),\
+    \ t.end()));\n    assert(tie(match.s_l, match.s_r, match.t_l, match.t_r) == tie(repeat.s_l,\
+    \ repeat.s_r, repeat.t_l, repeat.t_r));\n}\n\ntemplate<int W>\nvoid exhaustive(int\
+    \ max_length) {\n    vector<string> words;\n    for (int n = 0, count = 1; n <=\
+    \ max_length; ++n, count *= W) {\n        for (int mask = 0; mask < count; ++mask)\
+    \ {\n            string s(n, 'a');\n            int x = mask;\n            for\
+    \ (char &c : s) c += x % W, x /= W;\n            words.push_back(s);\n       \
+    \ }\n    }\n    for (string s : words) {\n        SuffixAutomaton<W> sam(s);\n\
+    \        for (const auto &t : words) check(s, t, sam);\n        for (char c :\
+    \ {'b', 'a', 'b'}) {\n            s += c;\n            sam.add(c);\n         \
+    \   for (const auto &t : words) check(s, t, sam);\n        }\n    }\n}\n\nint\
+    \ main() {\n    exhaustive<2>(6);\n    exhaustive<3>(4);\n    mt19937 rng(129);\n\
+    \    for (int tc = 0; tc < 500; ++tc) {\n        string s;\n        SuffixAutomaton<3>\
+    \ sam;\n        for (int step = 0; step < 10; ++step) {\n            string t(rng()\
+    \ % 40, 'a');\n            for (char &c : t) c = \"abc$\\0\\xff\"[rng() % 6];\n\
+    \            check(s, t, sam);\n            char c = 'a' + rng() % 3;\n      \
+    \      s += c;\n            sam.add(c);\n            check(s, t, sam);\n     \
+    \   }\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../string/suffix_automaton.cpp\"\
-    \n\nvoid check(const string &s, const SuffixAutomaton<2> &sam) {\n    auto before\
-    \ = sam.nodes;\n    auto counts = sam.substring_occurrences();\n    assert(counts\
-    \ == sam.substring_occurrences());\n    assert(counts.size() == before.size());\n\
-    \    assert(counts[0] == (int)s.size());\n    vector<bool> visited(counts.size());\n\
-    \    for (int l = 0; l < (int)s.size(); ++l) {\n        int v = 0;\n        for\
-    \ (int r = l; r < (int)s.size(); ++r) {\n            v = sam.nodes[v].next[s[r]\
-    \ - 'a'];\n            assert(v > 0);\n            int expected = 0;\n       \
-    \     for (int start = 0; start + r - l < (int)s.size(); ++start)\n          \
-    \      expected += s.compare(start, r - l + 1, s, l, r - l + 1) == 0;\n      \
-    \      assert(counts[v] == expected);\n            visited[v] = true;\n      \
-    \  }\n    }\n    for (int v = 0; v < (int)before.size(); ++v) {\n        assert(v\
-    \ == 0 || visited[v]);\n        assert(sam.nodes[v].link == before[v].link);\n\
-    \        assert(sam.nodes[v].len == before[v].len);\n        assert(sam.nodes[v].occ\
-    \ == before[v].occ);\n        assert(equal(begin(sam.nodes[v].next), end(sam.nodes[v].next),\
-    \ begin(before[v].next)));\n    }\n}\n\nvoid self_check() {\n    for (int n =\
-    \ 0; n <= 10; ++n) for (int mask = 0; mask < (1 << n); ++mask) {\n        string\
-    \ s(n, 'a');\n        for (int i = 0; i < n; ++i) s[i] += (mask >> i) & 1;\n \
-    \       SuffixAutomaton<2> sam(s);\n        check(s, sam);\n        for (char\
-    \ c : {'b', 'a', 'b'}) {\n            s += c;\n            sam.add(c);\n     \
-    \       check(s, sam);\n        }\n    }\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n}\n"
+    \n\ntemplate<int W>\nvoid check(const string &s, const string &t, const SuffixAutomaton<W>\
+    \ &sam) {\n    int n = s.size(), m = t.size(), best = 0;\n    vector<vector<int>>\
+    \ dp(n + 1, vector<int>(m + 1));\n    for (int i = 0; i < n; ++i) for (int j =\
+    \ 0; j < m; ++j) {\n        if (s[i] == t[j]) dp[i + 1][j + 1] = dp[i][j] + 1;\n\
+    \        best = max(best, dp[i + 1][j + 1]);\n    }\n    auto match = sam.longest_common_substring(t);\n\
+    \    assert(0 <= match.s_l && match.s_l <= match.s_r && match.s_r <= n);\n   \
+    \ assert(0 <= match.t_l && match.t_l <= match.t_r && match.t_r <= m);\n    assert(match.s_r\
+    \ - match.s_l == best && match.t_r - match.t_l == best);\n    assert(s.substr(match.s_l,\
+    \ best) == t.substr(match.t_l, best));\n    if (!best) assert(match.s_l == 0 &&\
+    \ match.s_r == 0 && match.t_l == 0 && match.t_r == 0);\n    auto repeat = sam.longest_common_substring(vector<char>(t.begin(),\
+    \ t.end()));\n    assert(tie(match.s_l, match.s_r, match.t_l, match.t_r) == tie(repeat.s_l,\
+    \ repeat.s_r, repeat.t_l, repeat.t_r));\n}\n\ntemplate<int W>\nvoid exhaustive(int\
+    \ max_length) {\n    vector<string> words;\n    for (int n = 0, count = 1; n <=\
+    \ max_length; ++n, count *= W) {\n        for (int mask = 0; mask < count; ++mask)\
+    \ {\n            string s(n, 'a');\n            int x = mask;\n            for\
+    \ (char &c : s) c += x % W, x /= W;\n            words.push_back(s);\n       \
+    \ }\n    }\n    for (string s : words) {\n        SuffixAutomaton<W> sam(s);\n\
+    \        for (const auto &t : words) check(s, t, sam);\n        for (char c :\
+    \ {'b', 'a', 'b'}) {\n            s += c;\n            sam.add(c);\n         \
+    \   for (const auto &t : words) check(s, t, sam);\n        }\n    }\n}\n\nint\
+    \ main() {\n    exhaustive<2>(6);\n    exhaustive<3>(4);\n    mt19937 rng(129);\n\
+    \    for (int tc = 0; tc < 500; ++tc) {\n        string s;\n        SuffixAutomaton<3>\
+    \ sam;\n        for (int step = 0; step < 10; ++step) {\n            string t(rng()\
+    \ % 40, 'a');\n            for (char &c : t) c = \"abc$\\0\\xff\"[rng() % 6];\n\
+    \            check(s, t, sam);\n            char c = 'a' + rng() % 3;\n      \
+    \      s += c;\n            sam.add(c);\n            check(s, t, sam);\n     \
+    \   }\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - string/suffix_automaton.cpp
   isVerificationFile: true
-  path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+  path: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
   requiredBy: []
   timestamp: '2026-10-08 01:45:17+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+documentation_of: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
-- /verify/test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp.html
-title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+- /verify/test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
+- /verify/test/yosupo_aplusb_suffix_automaton_lcs.test.cpp.html
+title: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
 ---

@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/binaryindexedtree.cpp
-    title: Binary Indexed Tree(BIT)
+    path: datastructure/ahocorasick.cpp
+    title: "Aho-Corasick\u6CD5"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,67 +14,65 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/point_add_range_sum
-  bundledCode: "#line 1 \"test/yosupo_point_add_range_sum.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\n#include <vector>\n\
-    \nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_aho_occurrences.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -228,47 +226,96 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
-    \n\n\n\ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
-    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
-    \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
-    \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
-    \            int parent = i + (i & -i);\n            if (parent <= n) bit[parent\
-    \ - 1] += bit[i - 1];\n        }\n    }\n\n    T sum(int k){\n        T ret =\
-    \ 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
-    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
-    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
-    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
-    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
-    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n\n\n#line 16 \"test/yosupo_point_add_range_sum.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(v);\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n    \
-    \    if(c == 0) S.add(x, y);\n        else out.println(S.sum(y) - S.sum(x));\n\
-    \    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
-    \n#include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(v);\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n    \
-    \    if(c == 0) S.add(x, y);\n        else out.println(S.sum(y) - S.sum(x));\n\
-    \    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/ahocorasick.cpp\"\
+    \ntemplate<int W, int start>\nclass AhoCorasick {\npublic:\n    struct Node {\n\
+    \        array<int, W> to;\n        int fail;\n        int val;\n    };\n    explicit\
+    \ AhoCorasick() : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n    int\
+    \ add(string &s, int cur = 0){\n        for (auto &&i : s) {\n            if(!v[cur].to[i-start])\
+    \ v[cur].to[i-start] = v.size(), v.emplace_back();\n            cur = v[cur].to[i-start];\n\
+    \        }\n        return cur;\n    }\n\n    void build() {\n        v[0].fail\
+    \ = -1;\n        int l = 0, r = 1;\n        ord.clear();\n        ord.reserve(v.size());\n\
+    \        ord.emplace_back(0);\n        while(l < r){\n            int i = ord[l];\
+    \ l++;\n            for (int c = 0; c < W; ++c) {\n                if(!v[i].to[c])\
+    \ continue;\n                int to = v[i].to[c];\n                v[to].fail\
+    \ = (v[i].fail == -1 ? 0 : v[v[i].fail].to[c]);\n                ord.emplace_back(to);\n\
+    \                r++;\n            }\n            if(i != 0){\n              \
+    \  for (int c = 0; c < W; ++c) {\n                    if(!v[i].to[c]) v[i].to[c]\
+    \ = v[v[i].fail].to[c];\n                }\n            }\n        }\n    }\n\
+    \    inline int next(int x, char c){ return v[x].to[c-start]; }\n\n    vector<long\
+    \ long> occurrence_counts(const string &text) const {\n        vector<long long>\
+    \ counts(v.size());\n        counts[0] = 1;\n        int state = 0;\n        for\
+    \ (char c : text) {\n            state = v[state].to[c - start];\n           \
+    \ ++counts[state];\n        }\n        for (int i = (int)ord.size() - 1; i > 0;\
+    \ --i) {\n            int state = ord[i];\n            counts[v[state].fail] +=\
+    \ counts[state];\n        }\n        return counts;\n    }\n};\n/**\n * @brief\
+    \ Aho-Corasick\u6CD5\n */\n#line 7 \"test/yosupo_aplusb_aho_occurrences.test.cpp\"\
+    \n\nvector<string> words(int max_length) {\n    vector<string> result;\n    for\
+    \ (int n = 0, count = 1; n <= max_length; ++n, count *= 3) {\n        for (int\
+    \ mask = 0; mask < count; ++mask) {\n            string s(n, 'a');\n         \
+    \   int x = mask;\n            for (char &c : s) c += x % 3, x /= 3;\n       \
+    \     result.push_back(s);\n        }\n    }\n    return result;\n}\n\nvoid check(vector<string>\
+    \ patterns, const vector<string> &texts) {\n    AhoCorasick<3, 'a'> aho;\n   \
+    \ vector<int> terminal;\n    for (auto &s : patterns) terminal.push_back(aho.add(s));\n\
+    \    aho.build();\n    auto before = aho.v;\n    auto order = aho.ord;\n    const\
+    \ auto &automaton = aho;\n    for (const auto &text : texts) {\n        auto counts\
+    \ = automaton.occurrence_counts(text);\n        assert(counts.size() == before.size());\n\
+    \        assert(counts[0] == (long long)text.size() + 1);\n        for (int i\
+    \ = 0; i < (int)patterns.size(); ++i) {\n            long long expected = 0;\n\
+    \            const auto &s = patterns[i];\n            for (int l = 0; l + s.size()\
+    \ <= text.size(); ++l)\n                expected += text.compare(l, s.size(),\
+    \ s) == 0;\n            assert(counts[terminal[i]] == expected);\n        }\n\
+    \    }\n    assert(aho.ord == order && aho.v.size() == before.size());\n    for\
+    \ (int i = 0; i < (int)before.size(); ++i) {\n        assert(aho.v[i].to == before[i].to);\n\
+    \        assert(aho.v[i].fail == before[i].fail && aho.v[i].val == before[i].val);\n\
+    \    }\n}\n\nint main() {\n    auto patterns = words(4);\n    patterns.push_back(\"\
+    \");\n    patterns.push_back(\"aa\");\n    auto texts = words(7);\n    check(patterns,\
+    \ texts);\n    check({}, texts);\n    mt19937 rng(88);\n    for (int tc = 0; tc\
+    \ < 200; ++tc) {\n        shuffle(patterns.begin(), patterns.end(), rng);\n  \
+    \      vector<string> subset(patterns.begin(), patterns.begin() + rng() % patterns.size());\n\
+    \        check(subset, {\"\", \"aaaaaaa\", \"abcabc\", \"bacabca\", texts[rng()\
+    \ % texts.size()]});\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
+    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/ahocorasick.cpp\"\
+    \n\nvector<string> words(int max_length) {\n    vector<string> result;\n    for\
+    \ (int n = 0, count = 1; n <= max_length; ++n, count *= 3) {\n        for (int\
+    \ mask = 0; mask < count; ++mask) {\n            string s(n, 'a');\n         \
+    \   int x = mask;\n            for (char &c : s) c += x % 3, x /= 3;\n       \
+    \     result.push_back(s);\n        }\n    }\n    return result;\n}\n\nvoid check(vector<string>\
+    \ patterns, const vector<string> &texts) {\n    AhoCorasick<3, 'a'> aho;\n   \
+    \ vector<int> terminal;\n    for (auto &s : patterns) terminal.push_back(aho.add(s));\n\
+    \    aho.build();\n    auto before = aho.v;\n    auto order = aho.ord;\n    const\
+    \ auto &automaton = aho;\n    for (const auto &text : texts) {\n        auto counts\
+    \ = automaton.occurrence_counts(text);\n        assert(counts.size() == before.size());\n\
+    \        assert(counts[0] == (long long)text.size() + 1);\n        for (int i\
+    \ = 0; i < (int)patterns.size(); ++i) {\n            long long expected = 0;\n\
+    \            const auto &s = patterns[i];\n            for (int l = 0; l + s.size()\
+    \ <= text.size(); ++l)\n                expected += text.compare(l, s.size(),\
+    \ s) == 0;\n            assert(counts[terminal[i]] == expected);\n        }\n\
+    \    }\n    assert(aho.ord == order && aho.v.size() == before.size());\n    for\
+    \ (int i = 0; i < (int)before.size(); ++i) {\n        assert(aho.v[i].to == before[i].to);\n\
+    \        assert(aho.v[i].fail == before[i].fail && aho.v[i].val == before[i].val);\n\
+    \    }\n}\n\nint main() {\n    auto patterns = words(4);\n    patterns.push_back(\"\
+    \");\n    patterns.push_back(\"aa\");\n    auto texts = words(7);\n    check(patterns,\
+    \ texts);\n    check({}, texts);\n    mt19937 rng(88);\n    for (int tc = 0; tc\
+    \ < 200; ++tc) {\n        shuffle(patterns.begin(), patterns.end(), rng);\n  \
+    \      vector<string> subset(patterns.begin(), patterns.begin() + rng() % patterns.size());\n\
+    \        check(subset, {\"\", \"aaaaaaa\", \"abcabc\", \"bacabca\", texts[rng()\
+    \ % texts.size()]});\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
+    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/binaryindexedtree.cpp
+  - datastructure/ahocorasick.cpp
   isVerificationFile: true
-  path: test/yosupo_point_add_range_sum.test.cpp
+  path: test/yosupo_aplusb_aho_occurrences.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 22:11:01+09:00'
+  timestamp: '2026-10-07 22:14:50+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_point_add_range_sum.test.cpp
+documentation_of: test/yosupo_aplusb_aho_occurrences.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_point_add_range_sum.test.cpp
-- /verify/test/yosupo_point_add_range_sum.test.cpp.html
-title: test/yosupo_point_add_range_sum.test.cpp
+- /verify/test/yosupo_aplusb_aho_occurrences.test.cpp
+- /verify/test/yosupo_aplusb_aho_occurrences.test.cpp.html
+title: test/yosupo_aplusb_aho_occurrences.test.cpp
 ---

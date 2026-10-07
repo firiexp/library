@@ -64,6 +64,9 @@ data:
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_bit_build.test.cpp
+    title: test/yosupo_aplusb_bit_build.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
   - icon: ':heavy_check_mark:'
@@ -283,6 +286,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_aplusb_bit_build.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yuki650_hld_edge.test.cpp

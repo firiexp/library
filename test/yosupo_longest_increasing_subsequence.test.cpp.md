@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/binaryindexedtree.cpp
-    title: Binary Indexed Tree(BIT)
-  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/lis.cpp
+    title: "\u6700\u9577\u5897\u52A0\u90E8\u5206\u5217\u306E\u5FA9\u5143"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -14,13 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/point_add_range_sum
+    PROBLEM: https://judge.yosupo.jp/problem/longest_increasing_subsequence
     links:
-    - https://judge.yosupo.jp/problem/point_add_range_sum
-  bundledCode: "#line 1 \"test/yosupo_point_add_range_sum.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\n#include <vector>\n\
-    \nusing ll = long long;\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
+    - https://judge.yosupo.jp/problem/longest_increasing_subsequence
+  bundledCode: "#line 1 \"test/yosupo_longest_increasing_subsequence.test.cpp\"\n\
+    #define PROBLEM \"https://judge.yosupo.jp/problem/longest_increasing_subsequence\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n#line 1 \"util/fastio.cpp\"\
     \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
@@ -228,47 +227,43 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
-    \n\n\n\ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
-    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
-    \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
-    \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
-    \            int parent = i + (i & -i);\n            if (parent <= n) bit[parent\
-    \ - 1] += bit[i - 1];\n        }\n    }\n\n    T sum(int k){\n        T ret =\
-    \ 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
-    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
-    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
-    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
-    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
-    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n\n\n#line 16 \"test/yosupo_point_add_range_sum.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(v);\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n    \
-    \    if(c == 0) S.add(x, y);\n        else out.println(S.sum(y) - S.sum(x));\n\
-    \    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_range_sum\"\n\
-    \n#include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, q;\n    in.read(n,\
-    \ q);\n    vector<ll> v(n);\n    in.read(v);\n    BIT<ll> S(v);\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int c, x, y;\n        in.read(c, x, y);\n    \
-    \    if(c == 0) S.add(x, y);\n        else out.println(S.sum(y) - S.sum(x));\n\
-    \    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/lis.cpp\"\
+    \ntemplate<class T>\nvector<int> lis_indices(const vector<T> &a, bool strict =\
+    \ true) {\n    vector<int> tails, previous(a.size(), -1);\n    for (int i = 0;\
+    \ i < (int)a.size(); ++i) {\n        int l = 0, r = tails.size();\n        while\
+    \ (l < r) {\n            int m = l + (r - l) / 2;\n            if (strict ? a[tails[m]]\
+    \ < a[i] : !(a[i] < a[tails[m]])) l = m + 1;\n            else r = m;\n      \
+    \  }\n        if (l) previous[i] = tails[l - 1];\n        if (l == (int)tails.size())\
+    \ tails.push_back(i);\n        else tails[l] = i;\n    }\n    vector<int> result(tails.size());\n\
+    \    int v = tails.empty() ? -1 : tails.back();\n    for (int i = (int)result.size()\
+    \ - 1; i >= 0; --i) {\n        result[i] = v;\n        v = previous[v];\n    }\n\
+    \    return result;\n}\n\n/**\n * @brief \u6700\u9577\u5897\u52A0\u90E8\u5206\u5217\
+    \u306E\u5FA9\u5143\n */\n#line 7 \"test/yosupo_longest_increasing_subsequence.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\
+    \    vector<int> a(n);\n    sc.read(a);\n    auto indices = lis_indices(a);\n\
+    \    pr.println(indices.size());\n    for (int i = 0; i < (int)indices.size();\
+    \ ++i) {\n        if (i) pr.print(' ');\n        pr.print(indices[i]);\n    }\n\
+    \    pr.println();\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/longest_increasing_subsequence\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../util/lis.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\
+    \    int n;\n    sc.read(n);\n    vector<int> a(n);\n    sc.read(a);\n    auto\
+    \ indices = lis_indices(a);\n    pr.println(indices.size());\n    for (int i =\
+    \ 0; i < (int)indices.size(); ++i) {\n        if (i) pr.print(' ');\n        pr.print(indices[i]);\n\
+    \    }\n    pr.println();\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/binaryindexedtree.cpp
+  - util/lis.cpp
   isVerificationFile: true
-  path: test/yosupo_point_add_range_sum.test.cpp
+  path: test/yosupo_longest_increasing_subsequence.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 22:11:01+09:00'
+  timestamp: '2026-10-07 22:12:58+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_point_add_range_sum.test.cpp
+documentation_of: test/yosupo_longest_increasing_subsequence.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_point_add_range_sum.test.cpp
-- /verify/test/yosupo_point_add_range_sum.test.cpp.html
-title: test/yosupo_point_add_range_sum.test.cpp
+- /verify/test/yosupo_longest_increasing_subsequence.test.cpp
+- /verify/test/yosupo_longest_increasing_subsequence.test.cpp.html
+title: test/yosupo_longest_increasing_subsequence.test.cpp
 ---

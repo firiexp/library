@@ -101,11 +101,17 @@ data:
     path: test/yosupo_aho_corasick.test.cpp
     title: test/yosupo_aho_corasick.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_aho_occurrences.test.cpp
+    title: test/yosupo_aplusb_aho_occurrences.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_bellman_ford.test.cpp
     title: test/yosupo_aplusb_bellman_ford.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_binarytrie.test.cpp
     title: test/yosupo_aplusb_binarytrie.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_bit_build.test.cpp
+    title: test/yosupo_aplusb_bit_build.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
@@ -167,6 +173,9 @@ data:
     path: test/yosupo_aplusb_library_composition_reverse.test.cpp
     title: test/yosupo_aplusb_library_composition_reverse.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_lis_indices.test.cpp
+    title: test/yosupo_aplusb_lis_indices.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
   - icon: ':heavy_check_mark:'
@@ -196,6 +205,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_order_statistic_tree.test.cpp
     title: test/yosupo_aplusb_order_statistic_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_palindrome_radii.test.cpp
+    title: test/yosupo_aplusb_palindrome_radii.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_palindromic_tree.test.cpp
     title: test/yosupo_aplusb_palindromic_tree.test.cpp
@@ -232,6 +244,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_subset_convolution.test.cpp
     title: test/yosupo_aplusb_subset_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
+    title: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
     title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
@@ -373,6 +388,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_line_add_get_min_online.test.cpp
     title: test/yosupo_line_add_get_min_online.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_longest_common_substring.test.cpp
+    title: test/yosupo_longest_common_substring.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_longest_increasing_subsequence.test.cpp
+    title: test/yosupo_longest_increasing_subsequence.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_lyndon_factorization.test.cpp
     title: test/yosupo_lyndon_factorization.test.cpp
@@ -1028,6 +1049,7 @@ data:
   - test/yosupo_eertree.test.cpp
   - test/yosupo_tetration_mod.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_aplusb_bit_build.test.cpp
   - test/yosupo_aplusb_flow_boundaries.test.cpp
   - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
@@ -1041,6 +1063,7 @@ data:
   - test/aoj0403.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+  - test/yosupo_aplusb_palindrome_radii.test.cpp
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   - test/aoj_grl_1_a_dijkstra.test.cpp
   - test/yosupo_aplusb_palindromic_tree.test.cpp
@@ -1073,6 +1096,7 @@ data:
   - test/yosupo_aplusb_order_statistic_tree.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   - test/yosupo_addition_of_big_integers.test.cpp
+  - test/yosupo_aplusb_aho_occurrences.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_aplusb_binarytrie.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
@@ -1121,6 +1145,7 @@ data:
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
   - test/yosupo_aplusb_dualgraph.test.cpp
+  - test/yosupo_longest_increasing_subsequence.test.cpp
   - test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
   - test/yosupo_aplusb_top_k_sum.test.cpp
   - test/yosupo_enumerate_primes_get_prime.test.cpp
@@ -1161,6 +1186,7 @@ data:
   - test/yosupo_aplusb_furthest_pair.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_counting_primes.test.cpp
+  - test/yosupo_longest_common_substring.test.cpp
   - test/yuki2672_xor_basis.test.cpp
   - test/yosupo_stern_brocot_tree.test.cpp
   - test/yosupo_aplusb_directedmst.test.cpp
@@ -1197,6 +1223,7 @@ data:
   - test/yosupo_aplusb_garner.test.cpp
   - test/yosupo_aplusb_complement_components.test.cpp
   - test/yosupo_general_matching.test.cpp
+  - test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
   - test/yosupo_assignment_hungarian.test.cpp
   - test/aoj2907_prefix_suffix_search.test.cpp
   - test/yosupo_eulerian_trail_undirected.test.cpp
@@ -1206,6 +1233,7 @@ data:
   - test/yosupo_aplusb_ntt_operators.test.cpp
   - test/yosupo_aplusb_static_bitset.test.cpp
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
+  - test/yosupo_aplusb_lis_indices.test.cpp
   - test/yosupo_directedmst.test.cpp
   - test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
   - test/yosupo_lyndon_factorization.test.cpp

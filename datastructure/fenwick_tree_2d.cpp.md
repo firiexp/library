@@ -19,42 +19,46 @@ data:
   bundledCode: "#line 1 \"datastructure/fenwick_tree_2d.cpp\"\nusing namespace std;\n\
     \n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class T>\nclass\
     \ BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1),\
-    \ n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    T sum(int k){\n       \
-    \ T ret = 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n      \
-    \  return ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n;\
-    \ k += (k & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n     \
-    \   if (x <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>=\
-    \ 1) {\n            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1],\
-    \ i += j;\n        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief\
-    \ Binary Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/fenwick_tree_2d.cpp\"\
-    \n\ntemplate<class T>\nstruct FenwickTree2D {\n    vector<pair<int, int>> points;\n\
-    \    vector<int> xs;\n    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n \
-    \   bool built = false;\n\n    void add_point(int x, int y) {\n        assert(!built);\n\
-    \        points.push_back({x, y});\n        xs.push_back(x);\n    }\n\n    void\
-    \ build() {\n        assert(!built);\n        built = true;\n\n        sort(xs.begin(),\
-    \ xs.end());\n        xs.erase(unique(xs.begin(), xs.end()), xs.end());\n\n  \
-    \      vector<pair<int, int>> ord = points;\n        sort(ord.begin(), ord.end());\n\
-    \        ord.erase(unique(ord.begin(), ord.end()), ord.end());\n\n        int\
-    \ m = (int)xs.size();\n        ys.assign(m + 1, {});\n        for (auto [x, y]\
-    \ : ord) {\n            int xi = (int)(lower_bound(xs.begin(), xs.end(), x) -\
-    \ xs.begin()) + 1;\n            for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);\n\
-    \        }\n        bit.clear();\n        bit.reserve(m + 1);\n        bit.emplace_back(0);\n\
-    \        for (int i = 1; i <= m; ++i) {\n            sort(ys[i].begin(), ys[i].end());\n\
-    \            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());\n \
-    \           bit.emplace_back((int)ys[i].size());\n        }\n    }\n\n    void\
-    \ add(int x, int y, T w) {\n        assert(built);\n        int m = (int)xs.size();\n\
-    \        int xi = (int)(lower_bound(xs.begin(), xs.end(), x) - xs.begin());\n\
-    \        assert(xi < m && xs[xi] == x);\n        ++xi;\n        for (int i = xi;\
-    \ i <= m; i += i & -i) {\n            int yi = (int)(lower_bound(ys[i].begin(),\
-    \ ys[i].end(), y) - ys[i].begin());\n            assert(yi < (int)ys[i].size()\
-    \ && ys[i][yi] == y);\n            bit[i].add(yi, w);\n        }\n    }\n\n  \
-    \  T sum(int x, int y) {\n        assert(built);\n        T ret = 0;\n       \
-    \ int xi = (int)(lower_bound(xs.begin(), xs.end(), x) - xs.begin());\n       \
-    \ for (int i = xi; i > 0; i -= i & -i) {\n            int yi = (int)(lower_bound(ys[i].begin(),\
-    \ ys[i].end(), y) - ys[i].begin());\n            ret += bit[i].sum(yi);\n    \
-    \    }\n        return ret;\n    }\n\n    T sum(int l, int d, int r, int u) {\n\
-    \        return sum(r, u) - sum(r, d) - sum(l, u) + sum(l, d);\n    }\n};\n\n\
-    /**\n * @brief 2\u6B21\u5143Fenwick Tree(2D BIT)\n */\n"
+    \ n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    explicit BIT(const vector<T>\
+    \ &values): bit(values), m(1), n(values.size()) {\n        while (m < n) m <<=\
+    \ 1;\n        for (int i = 1; i <= n; ++i) {\n            int parent = i + (i\
+    \ & -i);\n            if (parent <= n) bit[parent - 1] += bit[i - 1];\n      \
+    \  }\n    }\n\n    T sum(int k){\n        T ret = 0;\n        for (; k > 0; k\
+    \ -= (k & -k)) ret += bit[k - 1];\n        return ret;\n    }\n\n    void add(int\
+    \ k, T x){\n        for (k++; k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\
+    \n    int lower_bound(T x) {\n        if (x <= 0) return 0;\n        int i = 0;\n\
+    \        for (int j = m; j; j >>= 1) {\n            if (i + j <= n && bit[i +\
+    \ j - 1] < x) x -= bit[i + j - 1], i += j;\n        }\n        return min(i +\
+    \ 1, n);\n    }\n};\n\n/**\n * @brief Binary Indexed Tree(BIT)\n */\n\n\n#line\
+    \ 4 \"datastructure/fenwick_tree_2d.cpp\"\n\ntemplate<class T>\nstruct FenwickTree2D\
+    \ {\n    vector<pair<int, int>> points;\n    vector<int> xs;\n    vector<vector<int>>\
+    \ ys;\n    vector<BIT<T>> bit;\n    bool built = false;\n\n    void add_point(int\
+    \ x, int y) {\n        assert(!built);\n        points.push_back({x, y});\n  \
+    \      xs.push_back(x);\n    }\n\n    void build() {\n        assert(!built);\n\
+    \        built = true;\n\n        sort(xs.begin(), xs.end());\n        xs.erase(unique(xs.begin(),\
+    \ xs.end()), xs.end());\n\n        vector<pair<int, int>> ord = points;\n    \
+    \    sort(ord.begin(), ord.end());\n        ord.erase(unique(ord.begin(), ord.end()),\
+    \ ord.end());\n\n        int m = (int)xs.size();\n        ys.assign(m + 1, {});\n\
+    \        for (auto [x, y] : ord) {\n            int xi = (int)(lower_bound(xs.begin(),\
+    \ xs.end(), x) - xs.begin()) + 1;\n            for (int i = xi; i <= m; i += i\
+    \ & -i) ys[i].push_back(y);\n        }\n        bit.clear();\n        bit.reserve(m\
+    \ + 1);\n        bit.emplace_back(0);\n        for (int i = 1; i <= m; ++i) {\n\
+    \            sort(ys[i].begin(), ys[i].end());\n            ys[i].erase(unique(ys[i].begin(),\
+    \ ys[i].end()), ys[i].end());\n            bit.emplace_back((int)ys[i].size());\n\
+    \        }\n    }\n\n    void add(int x, int y, T w) {\n        assert(built);\n\
+    \        int m = (int)xs.size();\n        int xi = (int)(lower_bound(xs.begin(),\
+    \ xs.end(), x) - xs.begin());\n        assert(xi < m && xs[xi] == x);\n      \
+    \  ++xi;\n        for (int i = xi; i <= m; i += i & -i) {\n            int yi\
+    \ = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n     \
+    \       assert(yi < (int)ys[i].size() && ys[i][yi] == y);\n            bit[i].add(yi,\
+    \ w);\n        }\n    }\n\n    T sum(int x, int y) {\n        assert(built);\n\
+    \        T ret = 0;\n        int xi = (int)(lower_bound(xs.begin(), xs.end(),\
+    \ x) - xs.begin());\n        for (int i = xi; i > 0; i -= i & -i) {\n        \
+    \    int yi = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
+    \            ret += bit[i].sum(yi);\n        }\n        return ret;\n    }\n\n\
+    \    T sum(int l, int d, int r, int u) {\n        return sum(r, u) - sum(r, d)\
+    \ - sum(l, u) + sum(l, d);\n    }\n};\n\n/**\n * @brief 2\u6B21\u5143Fenwick Tree(2D\
+    \ BIT)\n */\n"
   code: "using namespace std;\n\n#include \"binaryindexedtree.cpp\"\n\ntemplate<class\
     \ T>\nstruct FenwickTree2D {\n    vector<pair<int, int>> points;\n    vector<int>\
     \ xs;\n    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n    bool built =\
@@ -89,7 +93,7 @@ data:
   isVerificationFile: false
   path: datastructure/fenwick_tree_2d.cpp
   requiredBy: []
-  timestamp: '2026-07-11 20:39:21+09:00'
+  timestamp: '2026-10-07 22:11:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
