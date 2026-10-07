@@ -19,20 +19,14 @@ int main() {
 
     string s;
     sc.read(s);
-    string t;
-    t.reserve(max(0, (int)s.size() * 2 - 1));
-    for (char c : s) {
-        if (!t.empty()) t.push_back('$');
-        t.push_back(c);
-    }
-    auto ans = manacher(t);
-    for (int i = 0; i < (int)ans.size(); ++i) {
-        if (i & 1) ans[i] = (ans[i] / 2) * 2;
-        else ans[i] = ((ans[i] + 1) / 2) * 2 - 1;
-    }
-    for (int i = 0; i < (int)ans.size(); ++i) {
-        if (i) pr.print(' ');
-        pr.print(ans[i]);
+    PalindromeRadii radii(s);
+    for (int i = 0; i < (int)s.size(); ++i) {
+        if (i) {
+            pr.print(' ');
+            pr.print(2 * radii.even[i]);
+            pr.print(' ');
+        }
+        pr.print(2 * radii.odd[i] - 1);
     }
     pr.println();
     return 0;

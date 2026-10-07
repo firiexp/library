@@ -10,3 +10,27 @@ vector<int> manacher(const string &s){
     }
     return res;
 }
+
+struct PalindromeRadii {
+    vector<int> odd, even;
+
+    explicit PalindromeRadii(const string &s): odd(manacher(s)), even(s.size()) {
+        int n = s.size(), l = 0, r = -1;
+        for (int i = 0; i < n; ++i) {
+            int k = i > r ? 0 : min(even[l + r - i + 1], r - i + 1);
+            while (i - k - 1 >= 0 && i + k < n && s[i - k - 1] == s[i + k]) ++k;
+            even[i] = k;
+            if (i + k - 1 > r) {
+                l = i - k;
+                r = i + k - 1;
+            }
+        }
+    }
+
+    bool is_palindrome(int l, int r) const {
+        int length = r - l;
+        if (!length) return true;
+        int center = l + length / 2;
+        return length & 1 ? odd[center] >= length / 2 + 1 : even[center] >= length / 2;
+    }
+};
