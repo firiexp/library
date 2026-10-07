@@ -4,14 +4,19 @@ struct SuffixAutomaton {
         int link;
         int len;
         int occ;
+        int first_pos;
         int next[W];
-        Node(int link = -1, int len = 0, int occ = 0): link(link), len(len), occ(occ) {
+        Node(int link = -1, int len = 0, int occ = 0): link(link), len(len), occ(occ), first_pos(len - 1) {
             fill(next, next + W, -1);
         }
     };
 
     vector<Node> nodes;
     int last;
+
+    struct CommonSubstring {
+        int s_l, s_r, t_l, t_r;
+    };
 
     SuffixAutomaton(): nodes(1), last(0) {}
 
@@ -66,6 +71,34 @@ struct SuffixAutomaton {
     void build(const Container &s) {
         reserve(s.size());
         for (auto &&c : s) add(c);
+    }
+
+    template<class Container>
+    CommonSubstring longest_common_substring(const Container &t) const {
+        CommonSubstring result{0, 0, 0, 0};
+        int state = 0, length = 0, index = 0;
+        for (auto c : t) {
+            int k = ord(c);
+            if (k < 0 || k >= W) {
+                state = length = 0;
+            } else {
+                while (state && nodes[state].next[k] == -1) {
+                    state = nodes[state].link;
+                    length = nodes[state].len;
+                }
+                if (nodes[state].next[k] == -1) length = 0;
+                else {
+                    state = nodes[state].next[k];
+                    ++length;
+                }
+                if (length > result.s_r - result.s_l) {
+                    int end = nodes[state].first_pos + 1;
+                    result = {end - length, end, index + 1 - length, index + 1};
+                }
+            }
+            ++index;
+        }
+        return result;
     }
 
     long long count_distinct_substrings() const {
