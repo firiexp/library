@@ -40,6 +40,21 @@ public:
         }
     }
     inline int next(int x, char c){ return v[x].to[c-start]; }
+
+    vector<long long> occurrence_counts(const string &text) const {
+        vector<long long> counts(v.size());
+        counts[0] = 1;
+        int state = 0;
+        for (char c : text) {
+            state = v[state].to[c - start];
+            ++counts[state];
+        }
+        for (int i = (int)ord.size() - 1; i > 0; --i) {
+            int state = ord[i];
+            counts[v[state].fail] += counts[state];
+        }
+        return counts;
+    }
 };
 /**
  * @brief Aho-Corasick法
