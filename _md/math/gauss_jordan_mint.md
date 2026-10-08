@@ -20,4 +20,4 @@ tags: 数学
 連立一次方程式 `Ax = b` を扱うときは、拡大行列 `[A | b]` を作って `is_extended = true` を指定する。
 
 返り値の rank と、変形後の末尾行を見れば解の有無を判定できる。
-自由変数の基底や特解は、変形後の pivot 列を拾って復元する。
+特解と零空間の基底を直接得る場合は `math/solve_linear_system.cpp` の `solve_linear_system(A, b)` を使う。
