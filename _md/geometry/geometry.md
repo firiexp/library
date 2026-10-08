@@ -9,5 +9,6 @@ documentation_of: //geometry/geometry.cpp
 ## できること
 - `Point` 構造体 : Point 同士の加減、Point のスカラー倍、比較(デフォルトは $x$ 座標)、入力
 - `Polygon` : `vector<Point>` の別名
+- `angle(a, b)` : 非零ベクトルのなす角をラジアンで $[0, \pi]$ に返す。内積・外積を `double` で評価できる範囲を前提とする
 - `convex_hull(v)` : `v` の凸包を返す
 - `diameter(v)` : 反時計回りの凸多角形の直径を $O(N)$ で返す。空・1点では `0`、全点が共線の場合は両端の距離を返す

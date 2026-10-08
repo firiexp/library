@@ -37,7 +37,7 @@ inline geometry_real cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }
 inline geometry_real abs(Point a) { return sqrt(dot(a, a)); }
 
 geometry_real angle(Point A, Point B) {
-    return acos(dot(A, B) / abs(A) / abs(B));
+    return atan2(fabs(cross(A, B)), dot(A, B));
 }
 
 static constexpr int COUNTER_CLOCKWISE = 1;
