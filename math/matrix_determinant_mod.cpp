@@ -28,6 +28,19 @@ ll matrix_determinant_mod(vector<vector<ll>> A, int mod) {
     return det;
 }
 
+template<class Mint>
+Mint matrix_determinant_mod(const vector<vector<Mint>>& A) {
+    auto mod = Mint::get_mod();
+    assert(1 <= mod && mod <= INT_MAX);
+    int n = A.size();
+    vector<vector<ll>> values(n, vector<ll>(n));
+    for (int i = 0; i < n; ++i) {
+        assert((int)A[i].size() == n);
+        for (int j = 0; j < n; ++j) values[i][j] = A[i][j].value();
+    }
+    return Mint(matrix_determinant_mod(move(values), (int)mod));
+}
+
 /**
- * @brief 任意の法の行列式
+ * @brief 任意 mod の行列式
  */

@@ -3,8 +3,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
+using uint = unsigned;
+using ull = unsigned long long;
 #include "../util/fastio.cpp"
+#include "../util/modint_base.cpp"
 #include "../math/matrix_determinant_mod.cpp"
+
+namespace dynamic_modint_test {
+#include "../util/modint_arbitrary.cpp"
+}
 
 ll permutation_determinant(const vector<vector<ll>>& a, int mod) {
     int n = a.size();
@@ -32,7 +39,51 @@ void check(const vector<vector<ll>>& a, int mod) {
     assert(result == permutation_determinant(a, mod));
 }
 
+template<class Mint>
+void check_modint(const vector<vector<ll>>& a) {
+    int n = a.size();
+    vector<vector<Mint>> values(n, vector<Mint>(n));
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) values[i][j] = a[i][j];
+    }
+    auto original = values;
+    auto result = matrix_determinant_mod(values);
+    static_assert(is_same_v<decltype(result), Mint>);
+    ll expected = permutation_determinant(a, Mint::get_mod());
+    assert(result.value() == expected);
+    assert(result * 2 + 3 == Mint(expected * 2 + 3));
+    assert(values == original);
+}
+
+template<class Mint>
+void check_modint_cases() {
+    check_modint<Mint>({});
+    check_modint<Mint>({{0}});
+    check_modint<Mint>({{2, 1}, {3, 2}});
+    check_modint<Mint>({{0, 1}, {1, 0}});
+    check_modint<Mint>({{1, 2}, {2, 4}});
+    check_modint<Mint>({{LLONG_MIN, LLONG_MAX}, {LLONG_MAX, LLONG_MIN}});
+    mt19937_64 rng(7901);
+    for (int tc = 0; tc < 200; ++tc) {
+        int n = rng() % 7;
+        vector<vector<ll>> a(n, vector<ll>(n));
+        for (auto& row : a) for (auto& x : row) {
+            x = rng() & LLONG_MAX;
+            if (rng() & 1) x = -x;
+        }
+        check_modint<Mint>(a);
+    }
+}
+
 void self_check() {
+    check_modint_cases<modint<1>>();
+    check_modint_cases<modint<6>>();
+    check_modint_cases<modint<998244353>>();
+    check_modint_cases<modint<INT_MAX>>();
+    for (int mod : {1, 6, 12, 998244353, INT_MAX}) {
+        dynamic_modint_test::mint::set_mod(mod);
+        check_modint_cases<dynamic_modint_test::mint>();
+    }
     assert(matrix_determinant_mod({{2, 1}, {3, 2}}, 6) == 1);
     for (int mod : {1, 2, 6, 12, 1000000000, INT_MAX}) {
         check({}, mod);
