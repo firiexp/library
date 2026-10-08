@@ -32,6 +32,7 @@ FORBIDDEN_LIBRARY_PATTERNS = (
 )
 BACKTICK_COMPLEXITY_RE = re.compile(r"`(?:O|Θ)\([^`\n]*\)`")
 FENCED_CODE_RE = re.compile(r"```.*?```", re.DOTALL)
+LIQUID_TOKEN_RE = re.compile(r"{%-?\s*(raw|endraw)\s*-?%}|\{\{|\{%")
 PROBLEM_DEFINE_RE = re.compile(r'^\s*#define\s+PROBLEM\s+"([^"]+)"\s*$', re.MULTILINE)
 TEST_FILE_NAME_RE = re.compile(r"^[a-z0-9_]+\.test\.cpp$")
 SCRIPT_IMPL_RE = re.compile(
@@ -84,11 +85,38 @@ def strip_fenced_code(text: str) -> str:
     return FENCED_CODE_RE.sub("", text)
 
 
+def check_markdown_liquid(text: str, relpath: str) -> list[str]:
+    problems: list[str] = []
+    raw_start = None
+    for match in LIQUID_TOKEN_RE.finditer(text):
+        tag = match.group(1)
+        if raw_start is not None:
+            if tag == "endraw":
+                raw_start = None
+            continue
+        lineno = line_of(text, match.start())
+        if tag == "raw":
+            raw_start = match.start()
+        elif tag == "endraw":
+            problems.append(f"{relpath}:{lineno}: Liquid endraw without raw")
+        else:
+            problems.append(
+                f"{relpath}:{lineno}: unsafe Liquid opener {match.group(0)!r}; "
+                "separate the characters with a space or wrap the literal in "
+                "{% raw %} ... {% endraw %} (code fences do not escape Liquid)"
+            )
+    if raw_start is not None:
+        problems.append(f"{relpath}:{line_of(text, raw_start)}: Liquid raw block is missing endraw")
+    return problems
+
+
 def check_markdown_files() -> list[str]:
     problems: list[str] = []
     for path in sorted((ROOT / "_md").rglob("*.md")):
         relpath = path.relative_to(ROOT).as_posix()
-        text = strip_fenced_code(path.read_text())
+        text = path.read_text()
+        problems += check_markdown_liquid(text, relpath)
+        text = strip_fenced_code(text)
         for match in BACKTICK_COMPLEXITY_RE.finditer(text):
             lineno = line_of(text, match.start())
             problems.append(f"{relpath}:{lineno}: complexity should use MathJax, not backticks")

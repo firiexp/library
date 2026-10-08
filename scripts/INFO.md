@@ -50,6 +50,11 @@ scripts/with_unlimited_stack.sh oj-verify all -j 8
 python3 scripts/codex_self_check.py --full
 ```
 
+`_md/**/*.md` では、コードブロック・インラインコード・数式内も含めて Liquid の開始記号を検査する。
+C++ の入れ子の初期化子は `{ {1, 2}, {3, 4}}` のように開き波括弧の間に空白を入れる。
+連続した記号をそのまま表示する必要がある場合は Liquid の `raw` / `endraw` タグで囲む。対応しないタグもエラーになる。
+この lint と回帰テストは CI の repository self-check でも実行する。
+
 `scripts/*.py` は公開 command を保つ薄い wrapper で、本体は `.scripts/*_impl.py` に置く。`oj-verify docs` が可視 Python file の import graph を解析する固定コストを避けるためである。
 
 性能計測と可視化は verify とは分け、以下を使う。
