@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: geometry/geometry.cpp
-    title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
+    path: datastructure/persistent_unionfind.cpp
+    title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,18 +14,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    ERROR: 1e-8
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B
-  bundledCode: "#line 1 \"test/aoj_cgl_4_b.test.cpp\"\n#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B\"\
-    \n#define ERROR \"1e-8\"\n\n#include <bits/stdc++.h>\nusing namespace std;\n\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_persistent_unionfind.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -227,196 +226,134 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/geometry.cpp\"\
-    \n\n\n\n// \u51F8\u5305\u306F\u540C\u3058\u9802\u70B9\u304C\u542B\u307E\u308C\u3066\
-    \u3044\u308B\u3068\u30D0\u30B0\u308B\nusing geometry_real = double;\nusing real\
-    \ = geometry_real;\nstatic constexpr geometry_real EPS = 1e-10;\nconst geometry_real\
-    \ pi = acos(-1);\n\nstruct Point {\n    geometry_real x, y;\n    Point& operator+=(const\
-    \ Point a) { x += a.x; y += a.y;  return *this; }\n    Point& operator-=(const\
-    \ Point a) { x -= a.x; y -= a.y;  return *this; }\n    Point& operator*=(const\
-    \ geometry_real k) { x *= k; y *= k;  return *this; }\n    Point& operator/=(const\
-    \ geometry_real k) { x /= k; y /= k;  return *this; }\n    Point operator+(const\
-    \ Point a) const {return Point(*this) += a; }\n    Point operator-(const Point\
-    \ a) const {return Point(*this) -= a; }\n    Point operator*(const geometry_real\
-    \ k) const {return Point(*this) *= k; }\n    Point operator/(const geometry_real\
-    \ k) const {return Point(*this) /= k; }\n    bool operator<(const Point &a) const\
-    \ { return (x != a.x ? x < a.x : y < a.y); }\n    explicit Point(geometry_real\
-    \ a = 0, geometry_real b = 0) : x(a), y(b) {};\n};\n\nbool sorty(Point a, Point\
-    \ b) {\n    return (a.y != b.y ? a.y < b.y : a.x < b.x);\n}\n\nistream &operator>>(istream\
-    \ &s, Point &P) {\n    s >> P.x >> P.y;\n    return s;\n}\n\ninline geometry_real\
-    \ dot(Point a, Point b) { return a.x * b.x + a.y * b.y; }\n\ninline geometry_real\
-    \ cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }\n\ninline geometry_real\
-    \ abs(Point a) { return sqrt(dot(a, a)); }\n\ngeometry_real angle(Point A, Point\
-    \ B) {\n    return atan2(fabs(cross(A, B)), dot(A, B));\n}\n\nstatic constexpr\
-    \ int COUNTER_CLOCKWISE = 1;\nstatic constexpr int CLOCKWISE = -1;\nstatic constexpr\
-    \ int ONLINE_BACK = 2;\nstatic constexpr int ONLINE_FRONT = -2;\nstatic constexpr\
-    \ int ON_SEGMENT = 0;\n\nint ccw(Point a, Point b, Point c) {\n    b -= a;\n \
-    \   c -= a;\n    if (cross(b, c) > EPS)\n        return COUNTER_CLOCKWISE;\n \
-    \   if (cross(b, c) < -EPS)\n        return CLOCKWISE;\n    if (dot(b, c) < 0)\n\
-    \        return ONLINE_BACK;\n    if (abs(b) < abs(c))\n        return ONLINE_FRONT;\n\
-    \    return ON_SEGMENT;\n}\n\nstruct Segment {\n    Point a, b;\n\n    Segment(Point\
-    \ x, Point y) : a(x), b(y) {};\n};\n\nstruct Line {\n    Point a, b;\n\n    Line(Point\
-    \ x, Point y) : a(x), b(y) {};\n};\n\nstruct Circle {\n    Point c;\n    geometry_real\
-    \ r;\n\n    Circle(Point c, geometry_real r) : c(c), r(r) {};\n};\n\nusing Polygon\
-    \ = vector<Point>;\n\nbool intersect(Segment s, Segment t) {\n    return (ccw(s.a,\
-    \ s.b, t.a) * ccw(s.a, s.b, t.b) <= 0 &&\n            ccw(t.a, t.b, s.a) * ccw(t.a,\
-    \ t.b, s.b) <= 0);\n}\n\nbool intersect(Segment s, Line t) {\n    int a = ccw(t.a,\
-    \ t.b, s.a), b = ccw(t.a, t.b, s.b);\n    return (!(a & 1) || !(b & 1) || a !=\
-    \ b);\n}\n\nPoint polar(double r, double t) {\n    return Point(r * cos(t), r\
-    \ * sin(t));\n}\n\ndouble arg(Point p) {\n    return atan2(p.y, p.x);\n}\n\nstatic\
-    \ constexpr int CONTAIN = 0;\nstatic constexpr int INSCRIBE = 1;\nstatic constexpr\
-    \ int INTERSECT = 2;\nstatic constexpr int CIRCUMSCRIBED = 3;\nstatic constexpr\
-    \ int SEPARATE = 4;\n\nint intersect(Circle c1, Circle c2) {\n    if (c1.r < c2.r)\n\
-    \        swap(c1, c2);\n    geometry_real d = abs(c1.c - c2.c);\n    geometry_real\
-    \ r = c1.r + c2.r;\n    if (fabs(d - r) < EPS)\n        return CIRCUMSCRIBED;\n\
-    \    if (d > r)\n        return SEPARATE;\n    if (fabs(d + c2.r - c1.r) < EPS)\n\
-    \        return INSCRIBE;\n    if (d + c2.r < c1.r)\n        return CONTAIN;\n\
-    \    return INTERSECT;\n}\n\ngeometry_real distance(Line l, Point c) {\n    return\
-    \ abs(cross(l.b - l.a, c - l.a) / abs(l.b - l.a));\n}\n\ngeometry_real distance(Segment\
-    \ s, Point c) {\n    if (dot(s.b - s.a, c - s.a) < EPS)\n        return abs(c\
-    \ - s.a);\n    if (dot(s.a - s.b, c - s.b) < EPS)\n        return abs(c - s.b);\n\
-    \    return abs(cross(s.b - s.a, c - s.a)) / abs(s.a - s.b);\n}\n\ngeometry_real\
-    \ distance(Segment s, Segment t) {\n    if (intersect(s, t))\n        return 0.0;\n\
-    \    return min({distance(s, t.a), distance(s, t.b),\n                distance(t,\
-    \ s.a), distance(t, s.b)});\n}\n\nPoint project(Line l, Point p) {\n    Point\
-    \ Q = l.b - l.a;\n    return l.a + Q * (dot(p - l.a, Q) / dot(Q, Q));\n}\n\nPoint\
-    \ project(Segment s, Point p) {\n    Point Q = s.b - s.a;\n    return s.a + Q\
-    \ * (dot(p - s.a, Q) / dot(Q, Q));\n}\n\nPoint refrect(Segment s, Point p) {\n\
-    \    Point Q = project(s, p);\n    return Q * 2 - p;\n}\n\nbool isOrthogonal(Segment\
-    \ s, Segment t) {\n    return fabs(dot(s.b - s.a, t.b - t.a)) < EPS;\n}\n\nbool\
-    \ isparallel(Segment s, Segment t) {\n    return fabs(cross(s.b - s.a, t.b - t.a))\
-    \ < EPS;\n}\n\nPoint crossPoint(Segment s, Segment t) {\n    geometry_real d1\
-    \ = cross(s.b - s.a, t.b - t.a);\n    geometry_real d2 = cross(s.b - s.a, s.b\
-    \ - t.a);\n    if (fabs(d1) < EPS && fabs(d2) < EPS)\n        return t.a;\n  \
-    \  return t.a + (t.b - t.a) * d2 / d1;\n}\n\nPoint crossPoint(Line s, Line t)\
-    \ {\n    geometry_real d1 = cross(s.b - s.a, t.b - t.a);\n    geometry_real d2\
-    \ = cross(s.b - s.a, s.b - t.a);\n    if (fabs(d1) < EPS && fabs(d2) < EPS)\n\
-    \        return t.a;\n    return t.a + (t.b - t.a) * d2 / d1;\n}\n\nPolygon crossPoint(Circle\
-    \ c, Line l) {\n    Point p = project(l, c.c), q = (l.b - l.a) / abs(l.b - l.a);\n\
-    \    if (abs(distance(l, c.c) - c.r) < EPS) {\n        return {p};\n    }\n  \
-    \  double k = sqrt(c.r * c.r - dot(p - c.c, p - c.c));\n    return {p - q * k,\
-    \ p + q * k};\n}\n\nPolygon crossPoint(Circle c, Segment s) {\n    auto tmp =\
-    \ crossPoint(c, Line(s.a, s.b));\n    Polygon ret;\n    for (auto &&i: tmp) {\n\
-    \        if (distance(s, i) < EPS)\n            ret.emplace_back(i);\n    }\n\
-    \    return ret;\n}\n\nPolygon crossPoint(Circle c1, Circle c2) {\n    double\
-    \ d = abs(c1.c - c2.c);\n    double a = acos((c1.r * c1.r + d * d - c2.r * c2.r)\
-    \ / (2 * c1.r * d));\n    double t = arg(c2.c - c1.c);\n    return {c1.c + polar(c1.r,\
-    \ t + a), c1.c + polar(c1.r, t - a)};\n}\n\nPolygon tangent(Circle c1, Point p)\
-    \ {\n    Circle c2 = Circle(p, sqrt(dot(c1.c - p, c1.c - p) - c1.r * c1.r));\n\
-    \    return crossPoint(c1, c2);\n}\n\nvector<Line> tangent(Circle c1, Circle c2)\
-    \ {\n    vector<Line> ret;\n    if (c1.r < c2.r)\n        swap(c1, c2);\n    double\
-    \ k = dot(c1.c - c2.c, c1.c - c2.c);\n    if (abs(k) < EPS)\n        return {};\n\
-    \    Point u = (c2.c - c1.c) / sqrt(k);\n    Point v(-u.y, u.x);\n    for (auto\
-    \ &&i: {-1, 1}) {\n        double h = (c1.r + i * c2.r) / sqrt(k);\n        if\
-    \ (abs(h * h - 1) < EPS) {\n            ret.emplace_back(c1.c + u * c1.r, c1.c\
-    \ + (u + v) * c1.r);\n        } else if (h * h < 1) {\n            Point u2 =\
-    \ u * h, v2 = v * sqrt(1 - h * h);\n            ret.emplace_back(c1.c + (u2 +\
-    \ v2) * c1.r, c2.c - (u2 + v2) * c2.r * i);\n            ret.emplace_back(c1.c\
-    \ + (u2 - v2) * c1.r, c2.c - (u2 - v2) * c2.r * i);\n        }\n    }\n    return\
-    \ ret;\n}\n\ngeometry_real area(const Polygon &v) {\n    if (v.size() < 3)\n \
-    \       return 0.0;\n    geometry_real ans = 0.0;\n    for (int i = 0; i < v.size();\
-    \ ++i) {\n        ans += cross(v[i], v[(i + 1) % v.size()]);\n    }\n    return\
-    \ ans / 2;\n}\n\ngeometry_real area(Circle c, Polygon &v) {\n    int n = v.size();\n\
-    \    geometry_real ans = 0.0;\n    Polygon u;\n    for (int i = 0; i < n; ++i)\
-    \ {\n        u.emplace_back(v[i]);\n        auto q = crossPoint(c, Segment(v[i],\
-    \ v[(i + 1) % n]));\n        for (auto &&j: q) {\n            u.emplace_back(j);\n\
-    \        }\n    }\n    for (int i = 0; i < u.size(); ++i) {\n        Point A =\
-    \ u[i] - c.c, B = u[(i + 1) % u.size()] - c.c;\n        if (abs(A) >= c.r + EPS\
-    \ || abs(B) >= c.r + EPS) {\n            Point C = polar(1, arg(B) - arg(A));\n\
-    \            ans += c.r * c.r * arg(C) / 2;\n        } else {\n            ans\
-    \ += cross(A, B) / 2;\n        }\n    }\n    return ans;\n}\n\ngeometry_real area(Circle\
-    \ a, Circle b) {\n    auto d = abs(a.c - b.c);\n    if (a.r + b.r <= d + EPS)\n\
-    \        return 0;\n    else if (d <= abs(a.r - b.r))\n        return pi * min(a.r,\
-    \ b.r) * min(a.r, b.r);\n    geometry_real p = 2 * acos((a.r * a.r + d * d - b.r\
-    \ * b.r) / (2 * a.r * d));\n    geometry_real q = 2 * acos((b.r * b.r + d * d\
-    \ - a.r * a.r) / (2 * b.r * d));\n    return a.r * a.r * (p - sin(p)) / 2 + b.r\
-    \ * b.r * (q - sin(q)) / 2;\n}\n\nPolygon convex_hull(Polygon v) {\n    int n\
-    \ = v.size();\n    if (n <= 1) return v;\n    sort(v.begin(), v.end(), sorty);\n\
-    \    int k = 0;\n    Polygon ret(n * 2);\n    for (int i = 0; i < n; ++i) {\n\
-    \        while (k > 1 && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n\
-    \            k--;\n        ret[k++] = v[i];\n    }\n    for (int i = n - 2, t\
-    \ = k; i >= 0; i--) {\n        while (k > t && cross(ret[k - 1] - ret[k - 2],\
-    \ v[i] - ret[k - 1]) < 0)\n            k--;\n        ret[k++] = v[i];\n    }\n\
-    \    ret.resize(k - 1);\n    return ret;\n}\n\nbool isconvex(const Polygon &v)\
-    \ {\n    int n = v.size();\n    for (int i = 0; i < n; ++i) {\n        if (ccw(v[(i\
-    \ + n - 1) % n], v[i], v[(i + 1) % n]) == CLOCKWISE)\n            return false;\n\
-    \    }\n    return true;\n}\n\nint contains(const Polygon &v, Point p) {\n   \
-    \ int n = v.size();\n    bool x = false;\n    static constexpr int IN = 2, ON\
-    \ = 1, OUT = 0;\n    for (int i = 0; i < n; ++i) {\n        Point a = v[i] - p,\
-    \ b = v[(i + 1) % n] - p;\n        if (fabs(cross(a, b)) < EPS && dot(a, b) <\
-    \ EPS)\n            return ON;\n        if (a.y > b.y)\n            swap(a, b);\n\
-    \        if (a.y < EPS && EPS < b.y && cross(a, b) > EPS)\n            x = !x;\n\
-    \    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon &v, Point\
-    \ p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr int IN = 2,\
-    \ ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if (v.size()\
-    \ < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON : OUT;\n\
-    \    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
-    \        auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };\n\
-    \        while (r - l > 1) {\n            int m = (l + r) / 2;\n            if\
-    \ (ccw(v[0], v[index(1)], v[index(m)]) == ONLINE_FRONT) l = m;\n            else\
-    \ r = m;\n        }\n        return index(l);\n    };\n    int orientation = ccw(v[0],\
-    \ v[a], v[b]);\n    int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n  \
-    \  if ((orientation & 1) == 0 || la == ONLINE_FRONT) {\n        a = end_of_ray(false);\n\
-    \        la = ccw(v[0], v[a], p);\n    }\n    if ((orientation & 1) == 0 || lb\
-    \ == ONLINE_FRONT) {\n        b = end_of_ray(true);\n        lb = ccw(v[0], v[b],\
-    \ p);\n    }\n    if (a >= b)\n        return contains(v, p);\n    if ((orientation\
-    \ & 1) == 0) orientation = ccw(v[0], v[a], v[a + 1]);\n    if ((orientation &\
-    \ 1) == 0)\n        return contains(v, p);\n    if (orientation > 0) {\n     \
-    \   swap(a, b);\n        swap(la, lb);\n    }\n    if ((la & 1) == 0 || (lb &\
-    \ 1) == 0)\n        return la == ON_SEGMENT || lb == ON_SEGMENT ? ON : OUT;\n\
-    \    if (la > 0 || lb < 0)\n        return OUT;\n    while (abs(a - b) > 1) {\n\
-    \        int c = (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n       \
-    \ (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res\
-    \ & 1) == 0)\n        return res == ON_SEGMENT ? ON : OUT;\n    return res < 0\
-    \ ? IN : OUT;\n}\n\ngeometry_real diameter(const Polygon &v) {\n    int n = v.size();\n\
-    \    if (n <= 1) return 0;\n    if (n == 2)\n        return abs(v[0] - v[1]);\n\
-    \    int i = 0, j = 0;\n    for (int k = 0; k < n; ++k) {\n        if (v[i] <\
-    \ v[k])\n            i = k;\n        if (!(v[j] < v[k]))\n            j = k;\n\
-    \    }\n    Point direction = v[i] - v[j];\n    if (all_of(v.begin(), v.end(),\
-    \ [&](Point p) {\n            return cross(direction, p - v[j]) == 0;\n      \
-    \  })) return abs(direction);\n    geometry_real ret = 0;\n    int si = i, sj\
-    \ = j;\n    while (i != sj || j != si) {\n        ret = max(ret, abs(v[i] - v[j]));\n\
-    \        if (cross(v[(i + 1) % n] - v[i], v[(j + 1) % n] - v[j]) < 0.0)\n    \
-    \        i = (i + 1) % n;\n        else\n            j = (j + 1) % n;\n    }\n\
-    \    return ret;\n}\n\nPolygon convexCut(const Polygon &v, Line l) {\n    Polygon\
-    \ q;\n    int n = v.size();\n    for (int i = 0; i < n; ++i) {\n        Point\
-    \ a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a, l.b, a) != -1)\n       \
-    \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
-    \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
-    \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
-    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
-    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
-    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
-    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
-    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
-    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
-    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
-    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
-    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
-    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 9 \"test/aoj_cgl_4_b.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
-    \    Polygon polygon(n);\n    for (auto &p : polygon) in.read(p.x, p.y);\n   \
-    \ out.println_fixed(diameter(polygon), 12);\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B\"\n#define\
-    \ ERROR \"1e-8\"\n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#include\
-    \ \"../util/fastio.cpp\"\n#include \"../geometry/geometry.cpp\"\n\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n    Polygon\
-    \ polygon(n);\n    for (auto &p : polygon) in.read(p.x, p.y);\n    out.println_fixed(diameter(polygon),\
-    \ 12);\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/persistent_unionfind.cpp\"\
+    \nclass PersistentUnionFind {\n    struct Node {\n        int val;\n        int\
+    \ l;\n        int r;\n    };\n\n    int n;\n    vector<Node> node;\n    vector<pair<int,\
+    \ int>> roots;\n\npublic:\n    explicit PersistentUnionFind(int sz) : n(sz) {\n\
+    \        if (n == 0) {\n            node.push_back({-1, -1, -1});\n          \
+    \  roots.push_back({0, 0});\n        } else {\n            roots.push_back({build(0,\
+    \ n), n});\n        }\n    }\n\n    int versions() const { return roots.size();\
+    \ }\n    int latest_version() const { return versions() - 1; }\n    int count()\
+    \ const { return roots[latest_version()].second; }\n    int count(int t) const\
+    \ { return roots[t].second; }\n\n    int root(int t, int a) const {\n        int\
+    \ p = get(roots[t].first, a, 0, n);\n        if (p < 0) return a;\n        return\
+    \ root(t, p);\n    }\n    int root(int a) const { return root(latest_version(),\
+    \ a); }\n\n    bool same(int t, int a, int b) const {\n        return root(t,\
+    \ a) == root(t, b);\n    }\n    bool same(int a, int b) const { return same(latest_version(),\
+    \ a, b); }\n\n    int size(int t, int a) const {\n        return -get(roots[t].first,\
+    \ root(t, a), 0, n);\n    }\n    int size(int a) const { return size(latest_version(),\
+    \ a); }\n\n    int copy_version(int t) {\n        roots.push_back(roots[t]);\n\
+    \        return latest_version();\n    }\n\n    int unite(int t, int a, int b)\
+    \ {\n        if (n == 0) {\n            return copy_version(t);\n        }\n \
+    \       int rt = roots[t].first;\n        int ra = root(t, a);\n        int rb\
+    \ = root(t, b);\n        if (ra == rb) return copy_version(t);\n        int sa\
+    \ = get(rt, ra, 0, n);\n        int sb = get(rt, rb, 0, n);\n        if (sa >\
+    \ sb) {\n            swap(ra, rb);\n            swap(sa, sb);\n        }\n   \
+    \     int nr = set_pair(rt, ra, sa + sb, rb, ra, 0, n);\n        roots.push_back({nr,\
+    \ roots[t].second - 1});\n        return latest_version();\n    }\n    int unite(int\
+    \ a, int b) { return unite(latest_version(), a, b); }\n\nprivate:\n    int make_node(int\
+    \ val, int l, int r) {\n        node.push_back({val, l, r});\n        return node.size()\
+    \ - 1;\n    }\n\n    int build(int l, int r) {\n        if (l + 1 == r) return\
+    \ make_node(-1, -1, -1);\n        int m = (l + r) >> 1;\n        return make_node(0,\
+    \ build(l, m), build(m, r));\n    }\n\n    int get(int id, int k, int l, int r)\
+    \ const {\n        if (l + 1 == r) return node[id].val;\n        int m = (l +\
+    \ r) >> 1;\n        if (k < m) return get(node[id].l, k, l, m);\n        return\
+    \ get(node[id].r, k, m, r);\n    }\n\n    int set(int id, int k, int val, int\
+    \ l, int r) {\n        if (l + 1 == r) return make_node(val, -1, -1);\n      \
+    \  int m = (l + r) >> 1;\n        int nl = node[id].l;\n        int nr = node[id].r;\n\
+    \        if (k < m) nl = set(nl, k, val, l, m);\n        else nr = set(nr, k,\
+    \ val, m, r);\n        return make_node(0, nl, nr);\n    }\n\n    int set_pair(int\
+    \ id, int a, int va, int b, int vb, int l, int r) {\n        if (a > b) {\n  \
+    \          swap(a, b);\n            swap(va, vb);\n        }\n        int m =\
+    \ (l + r) >> 1;\n        int nl = node[id].l;\n        int nr = node[id].r;\n\
+    \        if (b < m) nl = set_pair(nl, a, va, b, vb, l, m);\n        else if (a\
+    \ >= m) nr = set_pair(nr, a, va, b, vb, m, r);\n        else {\n            nl\
+    \ = set(nl, a, va, l, m);\n            nr = set(nr, b, vb, m, r);\n        }\n\
+    \        return make_node(0, nl, nr);\n    }\n};\n\n/**\n * @brief \u5B8C\u5168\
+    \u6C38\u7D9AUnionFind(Fully Persistent Union Find)\n */\n#line 7 \"test/yosupo_aplusb_persistent_unionfind.test.cpp\"\
+    \n\nint root(const vector<int> &p, int v) {\n    while (p[v] >= 0) v = p[v];\n\
+    \    return v;\n}\n\nvoid check() {\n    PersistentUnionFind empty(0);\n    assert(empty.count()\
+    \ == 0);\n    assert(empty.copy_version(0) == 1);\n    assert(empty.unite(0, 0,\
+    \ 0) == 2);\n    assert(empty.count(1) == 0 && empty.count(2) == 0);\n    PersistentUnionFind\
+    \ split(17);\n    int a = split.unite(0, 0, 16);\n    int b = split.unite(0, 0,\
+    \ 1);\n    int c = split.unite(b, 2, 1);\n    assert(split.root(a, 16) == 0 &&\
+    \ split.root(c, 2) == 0);\n    assert(split.size(a, 0) == 2 && split.size(b, 0)\
+    \ == 2 && split.size(c, 0) == 3);\n    assert(!split.same(b, 0, 16) && !split.same(a,\
+    \ 0, 1));\n\n    mt19937 rng(120);\n    for (int tc = 0; tc < 1000; ++tc) {\n\
+    \        int n = 1 + tc % 64;\n        PersistentUnionFind uf(n);\n        vector<vector<int>>\
+    \ versions(1, vector<int>(n, -1));\n        for (int step = 0; step < 300; ++step)\
+    \ {\n            int t = rng() % 3 == 0 ? uf.latest_version() : rng() % versions.size();\n\
+    \            int u = rng() % n, v = rng() % n;\n            auto p = versions[t];\n\
+    \            int next;\n            if (rng() % 5 == 0) {\n                next\
+    \ = uf.copy_version(t);\n            } else {\n                next = t == uf.latest_version()\
+    \ && step % 2 == 0 ? uf.unite(u, v) : uf.unite(t, u, v);\n                int\
+    \ ru = root(p, u), rv = root(p, v);\n                if (ru != rv) {\n       \
+    \             if (p[ru] > p[rv]) swap(ru, rv);\n                    p[ru] += p[rv];\n\
+    \                    p[rv] = ru;\n                }\n            }\n         \
+    \   assert(next == int(versions.size()) && next == uf.latest_version());\n   \
+    \         versions.push_back(p);\n            assert(uf.versions() == int(versions.size()));\n\
+    \            for (int q = 0; q < 10; ++q) {\n                int at = q == 0 ?\
+    \ t : q == 1 ? next : rng() % versions.size();\n                int x = rng()\
+    \ % n, y = rng() % n;\n                const auto &expected = versions[at];\n\
+    \                int rx = root(expected, x), ry = root(expected, y);\n       \
+    \         assert(uf.root(at, x) == rx);\n                assert(uf.same(at, x,\
+    \ y) == (rx == ry));\n                assert(uf.size(at, x) == -expected[rx]);\n\
+    \                assert(uf.count(at) == count_if(expected.begin(), expected.end(),\
+    \ [](int z) { return z < 0; }));\n            }\n            assert(uf.root(u)\
+    \ == root(p, u));\n            assert(uf.same(u, v) == (root(p, u) == root(p,\
+    \ v)));\n            assert(uf.size(u) == -p[root(p, u)]);\n            assert(uf.count()\
+    \ == uf.count(next));\n        }\n    }\n}\n\nint main() {\n    check();\n   \
+    \ Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/persistent_unionfind.cpp\"\
+    \n\nint root(const vector<int> &p, int v) {\n    while (p[v] >= 0) v = p[v];\n\
+    \    return v;\n}\n\nvoid check() {\n    PersistentUnionFind empty(0);\n    assert(empty.count()\
+    \ == 0);\n    assert(empty.copy_version(0) == 1);\n    assert(empty.unite(0, 0,\
+    \ 0) == 2);\n    assert(empty.count(1) == 0 && empty.count(2) == 0);\n    PersistentUnionFind\
+    \ split(17);\n    int a = split.unite(0, 0, 16);\n    int b = split.unite(0, 0,\
+    \ 1);\n    int c = split.unite(b, 2, 1);\n    assert(split.root(a, 16) == 0 &&\
+    \ split.root(c, 2) == 0);\n    assert(split.size(a, 0) == 2 && split.size(b, 0)\
+    \ == 2 && split.size(c, 0) == 3);\n    assert(!split.same(b, 0, 16) && !split.same(a,\
+    \ 0, 1));\n\n    mt19937 rng(120);\n    for (int tc = 0; tc < 1000; ++tc) {\n\
+    \        int n = 1 + tc % 64;\n        PersistentUnionFind uf(n);\n        vector<vector<int>>\
+    \ versions(1, vector<int>(n, -1));\n        for (int step = 0; step < 300; ++step)\
+    \ {\n            int t = rng() % 3 == 0 ? uf.latest_version() : rng() % versions.size();\n\
+    \            int u = rng() % n, v = rng() % n;\n            auto p = versions[t];\n\
+    \            int next;\n            if (rng() % 5 == 0) {\n                next\
+    \ = uf.copy_version(t);\n            } else {\n                next = t == uf.latest_version()\
+    \ && step % 2 == 0 ? uf.unite(u, v) : uf.unite(t, u, v);\n                int\
+    \ ru = root(p, u), rv = root(p, v);\n                if (ru != rv) {\n       \
+    \             if (p[ru] > p[rv]) swap(ru, rv);\n                    p[ru] += p[rv];\n\
+    \                    p[rv] = ru;\n                }\n            }\n         \
+    \   assert(next == int(versions.size()) && next == uf.latest_version());\n   \
+    \         versions.push_back(p);\n            assert(uf.versions() == int(versions.size()));\n\
+    \            for (int q = 0; q < 10; ++q) {\n                int at = q == 0 ?\
+    \ t : q == 1 ? next : rng() % versions.size();\n                int x = rng()\
+    \ % n, y = rng() % n;\n                const auto &expected = versions[at];\n\
+    \                int rx = root(expected, x), ry = root(expected, y);\n       \
+    \         assert(uf.root(at, x) == rx);\n                assert(uf.same(at, x,\
+    \ y) == (rx == ry));\n                assert(uf.size(at, x) == -expected[rx]);\n\
+    \                assert(uf.count(at) == count_if(expected.begin(), expected.end(),\
+    \ [](int z) { return z < 0; }));\n            }\n            assert(uf.root(u)\
+    \ == root(p, u));\n            assert(uf.same(u, v) == (root(p, u) == root(p,\
+    \ v)));\n            assert(uf.size(u) == -p[root(p, u)]);\n            assert(uf.count()\
+    \ == uf.count(next));\n        }\n    }\n}\n\nint main() {\n    check();\n   \
+    \ Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - geometry/geometry.cpp
+  - datastructure/persistent_unionfind.cpp
   isVerificationFile: true
-  path: test/aoj_cgl_4_b.test.cpp
+  path: test/yosupo_aplusb_persistent_unionfind.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-09 00:37:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_cgl_4_b.test.cpp
+documentation_of: test/yosupo_aplusb_persistent_unionfind.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_cgl_4_b.test.cpp
-- /verify/test/aoj_cgl_4_b.test.cpp.html
-title: test/aoj_cgl_4_b.test.cpp
+- /verify/test/yosupo_aplusb_persistent_unionfind.test.cpp
+- /verify/test/yosupo_aplusb_persistent_unionfind.test.cpp.html
+title: test/yosupo_aplusb_persistent_unionfind.test.cpp
 ---

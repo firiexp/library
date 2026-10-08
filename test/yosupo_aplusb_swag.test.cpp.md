@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/persistent_unionfind.cpp
-    title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
+    path: datastructure/swag.cpp
+    title: SWAG
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,14 +14,14 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/persistent_unionfind
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/persistent_unionfind
-  bundledCode: "#line 1 \"test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp\"\
-    \n#define PROBLEM \"https://judge.yosupo.jp/problem/persistent_unionfind\"\n\n\
-    #include <bits/stdc++.h>\n\nusing namespace std;\n\n#line 10 \"test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp\"\
-    \n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\n\
-    using namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_swag.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\
+    \n\n#include <cassert>\n#include <deque>\n#include <random>\n#include <string>\n\
+    #include <vector>\n#include <cstdio>\n#include <cstring>\n#include <type_traits>\n\
+    #include <charconv>\nusing namespace std;\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
     \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
@@ -228,80 +228,95 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/persistent_unionfind.cpp\"\
-    \nclass PersistentUnionFind {\n    struct Node {\n        int val;\n        int\
-    \ l;\n        int r;\n    };\n\n    int n;\n    vector<Node> node;\n    vector<pair<int,\
-    \ int>> roots;\n\npublic:\n    explicit PersistentUnionFind(int sz) : n(sz) {\n\
-    \        if (n == 0) {\n            node.push_back({-1, -1, -1});\n          \
-    \  roots.push_back({0, 0});\n        } else {\n            roots.push_back({build(0,\
-    \ n), n});\n        }\n    }\n\n    int versions() const { return roots.size();\
-    \ }\n    int latest_version() const { return versions() - 1; }\n    int count()\
-    \ const { return roots[latest_version()].second; }\n    int count(int t) const\
-    \ { return roots[t].second; }\n\n    int root(int t, int a) const {\n        int\
-    \ p = get(roots[t].first, a, 0, n);\n        if (p < 0) return a;\n        return\
-    \ root(t, p);\n    }\n    int root(int a) const { return root(latest_version(),\
-    \ a); }\n\n    bool same(int t, int a, int b) const {\n        return root(t,\
-    \ a) == root(t, b);\n    }\n    bool same(int a, int b) const { return same(latest_version(),\
-    \ a, b); }\n\n    int size(int t, int a) const {\n        return -get(roots[t].first,\
-    \ root(t, a), 0, n);\n    }\n    int size(int a) const { return size(latest_version(),\
-    \ a); }\n\n    int copy_version(int t) {\n        roots.push_back(roots[t]);\n\
-    \        return latest_version();\n    }\n\n    int unite(int t, int a, int b)\
-    \ {\n        if (n == 0) {\n            return copy_version(t);\n        }\n \
-    \       int rt = roots[t].first;\n        int ra = root(t, a);\n        int rb\
-    \ = root(t, b);\n        if (ra == rb) return copy_version(t);\n        int sa\
-    \ = get(rt, ra, 0, n);\n        int sb = get(rt, rb, 0, n);\n        if (sa >\
-    \ sb) {\n            swap(ra, rb);\n            swap(sa, sb);\n        }\n   \
-    \     int nr = set_pair(rt, ra, sa + sb, rb, ra, 0, n);\n        roots.push_back({nr,\
-    \ roots[t].second - 1});\n        return latest_version();\n    }\n    int unite(int\
-    \ a, int b) { return unite(latest_version(), a, b); }\n\nprivate:\n    int make_node(int\
-    \ val, int l, int r) {\n        node.push_back({val, l, r});\n        return node.size()\
-    \ - 1;\n    }\n\n    int build(int l, int r) {\n        if (l + 1 == r) return\
-    \ make_node(-1, -1, -1);\n        int m = (l + r) >> 1;\n        return make_node(0,\
-    \ build(l, m), build(m, r));\n    }\n\n    int get(int id, int k, int l, int r)\
-    \ const {\n        if (l + 1 == r) return node[id].val;\n        int m = (l +\
-    \ r) >> 1;\n        if (k < m) return get(node[id].l, k, l, m);\n        return\
-    \ get(node[id].r, k, m, r);\n    }\n\n    int set(int id, int k, int val, int\
-    \ l, int r) {\n        if (l + 1 == r) return make_node(val, -1, -1);\n      \
-    \  int m = (l + r) >> 1;\n        int nl = node[id].l;\n        int nr = node[id].r;\n\
-    \        if (k < m) nl = set(nl, k, val, l, m);\n        else nr = set(nr, k,\
-    \ val, m, r);\n        return make_node(0, nl, nr);\n    }\n\n    int set_pair(int\
-    \ id, int a, int va, int b, int vb, int l, int r) {\n        if (a > b) {\n  \
-    \          swap(a, b);\n            swap(va, vb);\n        }\n        int m =\
-    \ (l + r) >> 1;\n        int nl = node[id].l;\n        int nr = node[id].r;\n\
-    \        if (b < m) nl = set_pair(nl, a, va, b, vb, l, m);\n        else if (a\
-    \ >= m) nr = set_pair(nr, a, va, b, vb, m, r);\n        else {\n            nl\
-    \ = set(nl, a, va, l, m);\n            nr = set(nr, b, vb, m, r);\n        }\n\
-    \        return make_node(0, nl, nr);\n    }\n};\n\n/**\n * @brief \u5B8C\u5168\
-    \u6C38\u7D9AUnionFind(Fully Persistent Union Find)\n */\n#line 15 \"test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
-    \ q);\n\n    PersistentUnionFind uf(n);\n    for (int i = 0; i < q; ++i) {\n \
-    \       int t, k, u, v;\n        sc.read(t, k, u, v);\n        ++k;\n        if\
-    \ (t == 0) {\n            uf.unite(k, u, v);\n        } else {\n            pr.println(uf.same(k,\
-    \ u, v));\n            uf.copy_version(k);\n        }\n    }\n    return 0;\n\
-    }\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/persistent_unionfind\"\n\
-    \n#include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../datastructure/persistent_unionfind.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n,\
-    \ q);\n\n    PersistentUnionFind uf(n);\n    for (int i = 0; i < q; ++i) {\n \
-    \       int t, k, u, v;\n        sc.read(t, k, u, v);\n        ++k;\n        if\
-    \ (t == 0) {\n            uf.unite(k, u, v);\n        } else {\n            pr.println(uf.same(k,\
-    \ u, v));\n            uf.copy_version(k);\n        }\n    }\n    return 0;\n\
-    }\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/swag.cpp\"\
+    \n#include <optional>\n\ntemplate<class G>\nclass SWAG {\n    using T = typename\
+    \ G::T;\n    vector<T> in, outsum;\n    optional<T> in_total;\npublic:\n    SWAG()\
+    \ : outsum(1, G::e()), in_total(G::e()) {}\n\n    void push(const T& v){\n   \
+    \     in_total.emplace(G::f(*in_total, v));\n        in.push_back(v);\n    }\n\
+    \n    void pop(){\n        if(outsum.size() == 1){\n            do {\n       \
+    \         outsum.emplace_back(G::f(in.back(), outsum.back()));\n             \
+    \   in.pop_back();\n            }while(!in.empty());\n            in_total.emplace(G::e());\n\
+    \        }\n        outsum.pop_back();\n    }\n\n    T fold(){\n        return\
+    \ G::f(outsum.back(), *in_total);\n    }\n};\n/*\nstruct Monoid {\n    using T\
+    \ = int;\n    static T f(T a, T b) { return a+b; }\n    static T e() { return\
+    \ 0; }\n};\n*/\n\n/**\n * @brief SWAG\n */\n#line 15 \"test/yosupo_aplusb_swag.test.cpp\"\
+    \n\nstruct Affine {\n    using T = pair<long long, long long>;\n    static T f(T\
+    \ a, T b) {\n        return {a.first * b.first % 998244353,\n                (a.second\
+    \ * b.first + b.second) % 998244353};\n    }\n    static T e() { return {1, 0};\
+    \ }\n};\n\nstruct Concat {\n    using T = string;\n    static T f(const T &a,\
+    \ const T &b) { return a + b; }\n    static T e() { return \"\"; }\n};\n\nstruct\
+    \ CopyOnly {\n    string value;\n    explicit CopyOnly(string s) : value(s) {}\n\
+    \    CopyOnly(const CopyOnly &) = default;\n    CopyOnly &operator=(const CopyOnly\
+    \ &) = delete;\n    bool operator==(const CopyOnly &other) const { return value\
+    \ == other.value; }\n};\n\nstruct CopyOnlyConcat {\n    using T = CopyOnly;\n\
+    \    static T f(const T &a, const T &b) { return T(a.value + b.value); }\n   \
+    \ static T e() { return T(\"\"); }\n};\n\ntemplate<class G, class Generator>\n\
+    void check(Generator generate) {\n    mt19937 rng(122);\n    for (int tc = 0;\
+    \ tc < 1000; ++tc) {\n        SWAG<G> q;\n        deque<typename G::T> values;\n\
+    \        auto verify = [&]() {\n            auto expected = G::e();\n        \
+    \    for (const auto &v : values) expected = G::f(expected, v);\n            assert(q.fold()\
+    \ == expected);\n        };\n        verify();\n        for (int i = 0; i < 1000;\
+    \ ++i) {\n            if (values.empty() || rng() % 2 == 0) {\n              \
+    \  auto v = generate(rng);\n                q.push(v);\n                values.push_back(v);\n\
+    \            } else {\n                q.pop();\n                values.pop_front();\n\
+    \            }\n            verify();\n        }\n        while (!values.empty())\
+    \ {\n            q.pop();\n            values.pop_front();\n            verify();\n\
+    \        }\n        q.push(generate(rng));\n        q.pop();\n        assert(q.fold()\
+    \ == G::e());\n    }\n}\n\nint main() {\n    check<Affine>([](mt19937 &rng) {\
+    \ return Affine::T{rng() % 17, rng() % 19}; });\n    check<Concat>([](mt19937\
+    \ &rng) { return string(1, 'a' + rng() % 26); });\n    SWAG<CopyOnlyConcat> q;\n\
+    \    q.push(CopyOnly(\"a\"));\n    q.push(CopyOnly(\"b\"));\n    q.pop();\n  \
+    \  q.push(CopyOnly(\"c\"));\n    assert(q.fold().value == \"bc\");\n    q.pop();\n\
+    \    q.pop();\n    assert(q.fold().value.empty());\n    q.push(CopyOnly(\"d\"\
+    ));\n    assert(q.fold().value == \"d\");\n    q.pop();\n    Scanner sc;\n   \
+    \ Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <cassert>\n\
+    #include <deque>\n#include <random>\n#include <string>\n#include <vector>\n#include\
+    \ <cstdio>\n#include <cstring>\n#include <type_traits>\n#include <charconv>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/swag.cpp\"\
+    \n\nstruct Affine {\n    using T = pair<long long, long long>;\n    static T f(T\
+    \ a, T b) {\n        return {a.first * b.first % 998244353,\n                (a.second\
+    \ * b.first + b.second) % 998244353};\n    }\n    static T e() { return {1, 0};\
+    \ }\n};\n\nstruct Concat {\n    using T = string;\n    static T f(const T &a,\
+    \ const T &b) { return a + b; }\n    static T e() { return \"\"; }\n};\n\nstruct\
+    \ CopyOnly {\n    string value;\n    explicit CopyOnly(string s) : value(s) {}\n\
+    \    CopyOnly(const CopyOnly &) = default;\n    CopyOnly &operator=(const CopyOnly\
+    \ &) = delete;\n    bool operator==(const CopyOnly &other) const { return value\
+    \ == other.value; }\n};\n\nstruct CopyOnlyConcat {\n    using T = CopyOnly;\n\
+    \    static T f(const T &a, const T &b) { return T(a.value + b.value); }\n   \
+    \ static T e() { return T(\"\"); }\n};\n\ntemplate<class G, class Generator>\n\
+    void check(Generator generate) {\n    mt19937 rng(122);\n    for (int tc = 0;\
+    \ tc < 1000; ++tc) {\n        SWAG<G> q;\n        deque<typename G::T> values;\n\
+    \        auto verify = [&]() {\n            auto expected = G::e();\n        \
+    \    for (const auto &v : values) expected = G::f(expected, v);\n            assert(q.fold()\
+    \ == expected);\n        };\n        verify();\n        for (int i = 0; i < 1000;\
+    \ ++i) {\n            if (values.empty() || rng() % 2 == 0) {\n              \
+    \  auto v = generate(rng);\n                q.push(v);\n                values.push_back(v);\n\
+    \            } else {\n                q.pop();\n                values.pop_front();\n\
+    \            }\n            verify();\n        }\n        while (!values.empty())\
+    \ {\n            q.pop();\n            values.pop_front();\n            verify();\n\
+    \        }\n        q.push(generate(rng));\n        q.pop();\n        assert(q.fold()\
+    \ == G::e());\n    }\n}\n\nint main() {\n    check<Affine>([](mt19937 &rng) {\
+    \ return Affine::T{rng() % 17, rng() % 19}; });\n    check<Concat>([](mt19937\
+    \ &rng) { return string(1, 'a' + rng() % 26); });\n    SWAG<CopyOnlyConcat> q;\n\
+    \    q.push(CopyOnly(\"a\"));\n    q.push(CopyOnly(\"b\"));\n    q.pop();\n  \
+    \  q.push(CopyOnly(\"c\"));\n    assert(q.fold().value == \"bc\");\n    q.pop();\n\
+    \    q.pop();\n    assert(q.fold().value.empty());\n    q.push(CopyOnly(\"d\"\
+    ));\n    assert(q.fold().value == \"d\");\n    q.pop();\n    Scanner sc;\n   \
+    \ Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/persistent_unionfind.cpp
+  - datastructure/swag.cpp
   isVerificationFile: true
-  path: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
+  path: test/yosupo_aplusb_swag.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:37:31+09:00'
+  timestamp: '2026-10-09 00:34:30+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
+documentation_of: test/yosupo_aplusb_swag.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
-- /verify/test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp.html
-title: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
+- /verify/test/yosupo_aplusb_swag.test.cpp
+- /verify/test/yosupo_aplusb_swag.test.cpp.html
+title: test/yosupo_aplusb_swag.test.cpp
 ---

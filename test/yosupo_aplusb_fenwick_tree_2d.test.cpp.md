@@ -2,8 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: geometry/geometry.cpp
-    title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
+    path: datastructure/binaryindexedtree.cpp
+    title: Binary Indexed Tree(BIT)
+  - icon: ':heavy_check_mark:'
+    path: datastructure/fenwick_tree_2d.cpp
+    title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,18 +17,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    ERROR: 1e-8
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B
-  bundledCode: "#line 1 \"test/aoj_cgl_4_b.test.cpp\"\n#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B\"\
-    \n#define ERROR \"1e-8\"\n\n#include <bits/stdc++.h>\nusing namespace std;\n\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_fenwick_tree_2d.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -227,196 +229,124 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/geometry.cpp\"\
-    \n\n\n\n// \u51F8\u5305\u306F\u540C\u3058\u9802\u70B9\u304C\u542B\u307E\u308C\u3066\
-    \u3044\u308B\u3068\u30D0\u30B0\u308B\nusing geometry_real = double;\nusing real\
-    \ = geometry_real;\nstatic constexpr geometry_real EPS = 1e-10;\nconst geometry_real\
-    \ pi = acos(-1);\n\nstruct Point {\n    geometry_real x, y;\n    Point& operator+=(const\
-    \ Point a) { x += a.x; y += a.y;  return *this; }\n    Point& operator-=(const\
-    \ Point a) { x -= a.x; y -= a.y;  return *this; }\n    Point& operator*=(const\
-    \ geometry_real k) { x *= k; y *= k;  return *this; }\n    Point& operator/=(const\
-    \ geometry_real k) { x /= k; y /= k;  return *this; }\n    Point operator+(const\
-    \ Point a) const {return Point(*this) += a; }\n    Point operator-(const Point\
-    \ a) const {return Point(*this) -= a; }\n    Point operator*(const geometry_real\
-    \ k) const {return Point(*this) *= k; }\n    Point operator/(const geometry_real\
-    \ k) const {return Point(*this) /= k; }\n    bool operator<(const Point &a) const\
-    \ { return (x != a.x ? x < a.x : y < a.y); }\n    explicit Point(geometry_real\
-    \ a = 0, geometry_real b = 0) : x(a), y(b) {};\n};\n\nbool sorty(Point a, Point\
-    \ b) {\n    return (a.y != b.y ? a.y < b.y : a.x < b.x);\n}\n\nistream &operator>>(istream\
-    \ &s, Point &P) {\n    s >> P.x >> P.y;\n    return s;\n}\n\ninline geometry_real\
-    \ dot(Point a, Point b) { return a.x * b.x + a.y * b.y; }\n\ninline geometry_real\
-    \ cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }\n\ninline geometry_real\
-    \ abs(Point a) { return sqrt(dot(a, a)); }\n\ngeometry_real angle(Point A, Point\
-    \ B) {\n    return atan2(fabs(cross(A, B)), dot(A, B));\n}\n\nstatic constexpr\
-    \ int COUNTER_CLOCKWISE = 1;\nstatic constexpr int CLOCKWISE = -1;\nstatic constexpr\
-    \ int ONLINE_BACK = 2;\nstatic constexpr int ONLINE_FRONT = -2;\nstatic constexpr\
-    \ int ON_SEGMENT = 0;\n\nint ccw(Point a, Point b, Point c) {\n    b -= a;\n \
-    \   c -= a;\n    if (cross(b, c) > EPS)\n        return COUNTER_CLOCKWISE;\n \
-    \   if (cross(b, c) < -EPS)\n        return CLOCKWISE;\n    if (dot(b, c) < 0)\n\
-    \        return ONLINE_BACK;\n    if (abs(b) < abs(c))\n        return ONLINE_FRONT;\n\
-    \    return ON_SEGMENT;\n}\n\nstruct Segment {\n    Point a, b;\n\n    Segment(Point\
-    \ x, Point y) : a(x), b(y) {};\n};\n\nstruct Line {\n    Point a, b;\n\n    Line(Point\
-    \ x, Point y) : a(x), b(y) {};\n};\n\nstruct Circle {\n    Point c;\n    geometry_real\
-    \ r;\n\n    Circle(Point c, geometry_real r) : c(c), r(r) {};\n};\n\nusing Polygon\
-    \ = vector<Point>;\n\nbool intersect(Segment s, Segment t) {\n    return (ccw(s.a,\
-    \ s.b, t.a) * ccw(s.a, s.b, t.b) <= 0 &&\n            ccw(t.a, t.b, s.a) * ccw(t.a,\
-    \ t.b, s.b) <= 0);\n}\n\nbool intersect(Segment s, Line t) {\n    int a = ccw(t.a,\
-    \ t.b, s.a), b = ccw(t.a, t.b, s.b);\n    return (!(a & 1) || !(b & 1) || a !=\
-    \ b);\n}\n\nPoint polar(double r, double t) {\n    return Point(r * cos(t), r\
-    \ * sin(t));\n}\n\ndouble arg(Point p) {\n    return atan2(p.y, p.x);\n}\n\nstatic\
-    \ constexpr int CONTAIN = 0;\nstatic constexpr int INSCRIBE = 1;\nstatic constexpr\
-    \ int INTERSECT = 2;\nstatic constexpr int CIRCUMSCRIBED = 3;\nstatic constexpr\
-    \ int SEPARATE = 4;\n\nint intersect(Circle c1, Circle c2) {\n    if (c1.r < c2.r)\n\
-    \        swap(c1, c2);\n    geometry_real d = abs(c1.c - c2.c);\n    geometry_real\
-    \ r = c1.r + c2.r;\n    if (fabs(d - r) < EPS)\n        return CIRCUMSCRIBED;\n\
-    \    if (d > r)\n        return SEPARATE;\n    if (fabs(d + c2.r - c1.r) < EPS)\n\
-    \        return INSCRIBE;\n    if (d + c2.r < c1.r)\n        return CONTAIN;\n\
-    \    return INTERSECT;\n}\n\ngeometry_real distance(Line l, Point c) {\n    return\
-    \ abs(cross(l.b - l.a, c - l.a) / abs(l.b - l.a));\n}\n\ngeometry_real distance(Segment\
-    \ s, Point c) {\n    if (dot(s.b - s.a, c - s.a) < EPS)\n        return abs(c\
-    \ - s.a);\n    if (dot(s.a - s.b, c - s.b) < EPS)\n        return abs(c - s.b);\n\
-    \    return abs(cross(s.b - s.a, c - s.a)) / abs(s.a - s.b);\n}\n\ngeometry_real\
-    \ distance(Segment s, Segment t) {\n    if (intersect(s, t))\n        return 0.0;\n\
-    \    return min({distance(s, t.a), distance(s, t.b),\n                distance(t,\
-    \ s.a), distance(t, s.b)});\n}\n\nPoint project(Line l, Point p) {\n    Point\
-    \ Q = l.b - l.a;\n    return l.a + Q * (dot(p - l.a, Q) / dot(Q, Q));\n}\n\nPoint\
-    \ project(Segment s, Point p) {\n    Point Q = s.b - s.a;\n    return s.a + Q\
-    \ * (dot(p - s.a, Q) / dot(Q, Q));\n}\n\nPoint refrect(Segment s, Point p) {\n\
-    \    Point Q = project(s, p);\n    return Q * 2 - p;\n}\n\nbool isOrthogonal(Segment\
-    \ s, Segment t) {\n    return fabs(dot(s.b - s.a, t.b - t.a)) < EPS;\n}\n\nbool\
-    \ isparallel(Segment s, Segment t) {\n    return fabs(cross(s.b - s.a, t.b - t.a))\
-    \ < EPS;\n}\n\nPoint crossPoint(Segment s, Segment t) {\n    geometry_real d1\
-    \ = cross(s.b - s.a, t.b - t.a);\n    geometry_real d2 = cross(s.b - s.a, s.b\
-    \ - t.a);\n    if (fabs(d1) < EPS && fabs(d2) < EPS)\n        return t.a;\n  \
-    \  return t.a + (t.b - t.a) * d2 / d1;\n}\n\nPoint crossPoint(Line s, Line t)\
-    \ {\n    geometry_real d1 = cross(s.b - s.a, t.b - t.a);\n    geometry_real d2\
-    \ = cross(s.b - s.a, s.b - t.a);\n    if (fabs(d1) < EPS && fabs(d2) < EPS)\n\
-    \        return t.a;\n    return t.a + (t.b - t.a) * d2 / d1;\n}\n\nPolygon crossPoint(Circle\
-    \ c, Line l) {\n    Point p = project(l, c.c), q = (l.b - l.a) / abs(l.b - l.a);\n\
-    \    if (abs(distance(l, c.c) - c.r) < EPS) {\n        return {p};\n    }\n  \
-    \  double k = sqrt(c.r * c.r - dot(p - c.c, p - c.c));\n    return {p - q * k,\
-    \ p + q * k};\n}\n\nPolygon crossPoint(Circle c, Segment s) {\n    auto tmp =\
-    \ crossPoint(c, Line(s.a, s.b));\n    Polygon ret;\n    for (auto &&i: tmp) {\n\
-    \        if (distance(s, i) < EPS)\n            ret.emplace_back(i);\n    }\n\
-    \    return ret;\n}\n\nPolygon crossPoint(Circle c1, Circle c2) {\n    double\
-    \ d = abs(c1.c - c2.c);\n    double a = acos((c1.r * c1.r + d * d - c2.r * c2.r)\
-    \ / (2 * c1.r * d));\n    double t = arg(c2.c - c1.c);\n    return {c1.c + polar(c1.r,\
-    \ t + a), c1.c + polar(c1.r, t - a)};\n}\n\nPolygon tangent(Circle c1, Point p)\
-    \ {\n    Circle c2 = Circle(p, sqrt(dot(c1.c - p, c1.c - p) - c1.r * c1.r));\n\
-    \    return crossPoint(c1, c2);\n}\n\nvector<Line> tangent(Circle c1, Circle c2)\
-    \ {\n    vector<Line> ret;\n    if (c1.r < c2.r)\n        swap(c1, c2);\n    double\
-    \ k = dot(c1.c - c2.c, c1.c - c2.c);\n    if (abs(k) < EPS)\n        return {};\n\
-    \    Point u = (c2.c - c1.c) / sqrt(k);\n    Point v(-u.y, u.x);\n    for (auto\
-    \ &&i: {-1, 1}) {\n        double h = (c1.r + i * c2.r) / sqrt(k);\n        if\
-    \ (abs(h * h - 1) < EPS) {\n            ret.emplace_back(c1.c + u * c1.r, c1.c\
-    \ + (u + v) * c1.r);\n        } else if (h * h < 1) {\n            Point u2 =\
-    \ u * h, v2 = v * sqrt(1 - h * h);\n            ret.emplace_back(c1.c + (u2 +\
-    \ v2) * c1.r, c2.c - (u2 + v2) * c2.r * i);\n            ret.emplace_back(c1.c\
-    \ + (u2 - v2) * c1.r, c2.c - (u2 - v2) * c2.r * i);\n        }\n    }\n    return\
-    \ ret;\n}\n\ngeometry_real area(const Polygon &v) {\n    if (v.size() < 3)\n \
-    \       return 0.0;\n    geometry_real ans = 0.0;\n    for (int i = 0; i < v.size();\
-    \ ++i) {\n        ans += cross(v[i], v[(i + 1) % v.size()]);\n    }\n    return\
-    \ ans / 2;\n}\n\ngeometry_real area(Circle c, Polygon &v) {\n    int n = v.size();\n\
-    \    geometry_real ans = 0.0;\n    Polygon u;\n    for (int i = 0; i < n; ++i)\
-    \ {\n        u.emplace_back(v[i]);\n        auto q = crossPoint(c, Segment(v[i],\
-    \ v[(i + 1) % n]));\n        for (auto &&j: q) {\n            u.emplace_back(j);\n\
-    \        }\n    }\n    for (int i = 0; i < u.size(); ++i) {\n        Point A =\
-    \ u[i] - c.c, B = u[(i + 1) % u.size()] - c.c;\n        if (abs(A) >= c.r + EPS\
-    \ || abs(B) >= c.r + EPS) {\n            Point C = polar(1, arg(B) - arg(A));\n\
-    \            ans += c.r * c.r * arg(C) / 2;\n        } else {\n            ans\
-    \ += cross(A, B) / 2;\n        }\n    }\n    return ans;\n}\n\ngeometry_real area(Circle\
-    \ a, Circle b) {\n    auto d = abs(a.c - b.c);\n    if (a.r + b.r <= d + EPS)\n\
-    \        return 0;\n    else if (d <= abs(a.r - b.r))\n        return pi * min(a.r,\
-    \ b.r) * min(a.r, b.r);\n    geometry_real p = 2 * acos((a.r * a.r + d * d - b.r\
-    \ * b.r) / (2 * a.r * d));\n    geometry_real q = 2 * acos((b.r * b.r + d * d\
-    \ - a.r * a.r) / (2 * b.r * d));\n    return a.r * a.r * (p - sin(p)) / 2 + b.r\
-    \ * b.r * (q - sin(q)) / 2;\n}\n\nPolygon convex_hull(Polygon v) {\n    int n\
-    \ = v.size();\n    if (n <= 1) return v;\n    sort(v.begin(), v.end(), sorty);\n\
-    \    int k = 0;\n    Polygon ret(n * 2);\n    for (int i = 0; i < n; ++i) {\n\
-    \        while (k > 1 && cross(ret[k - 1] - ret[k - 2], v[i] - ret[k - 1]) < 0)\n\
-    \            k--;\n        ret[k++] = v[i];\n    }\n    for (int i = n - 2, t\
-    \ = k; i >= 0; i--) {\n        while (k > t && cross(ret[k - 1] - ret[k - 2],\
-    \ v[i] - ret[k - 1]) < 0)\n            k--;\n        ret[k++] = v[i];\n    }\n\
-    \    ret.resize(k - 1);\n    return ret;\n}\n\nbool isconvex(const Polygon &v)\
-    \ {\n    int n = v.size();\n    for (int i = 0; i < n; ++i) {\n        if (ccw(v[(i\
-    \ + n - 1) % n], v[i], v[(i + 1) % n]) == CLOCKWISE)\n            return false;\n\
-    \    }\n    return true;\n}\n\nint contains(const Polygon &v, Point p) {\n   \
-    \ int n = v.size();\n    bool x = false;\n    static constexpr int IN = 2, ON\
-    \ = 1, OUT = 0;\n    for (int i = 0; i < n; ++i) {\n        Point a = v[i] - p,\
-    \ b = v[(i + 1) % n] - p;\n        if (fabs(cross(a, b)) < EPS && dot(a, b) <\
-    \ EPS)\n            return ON;\n        if (a.y > b.y)\n            swap(a, b);\n\
-    \        if (a.y < EPS && EPS < b.y && cross(a, b) > EPS)\n            x = !x;\n\
-    \    }\n    return (x ? IN : OUT);\n}\n\nint contains_convex(Polygon &v, Point\
-    \ p) {\n    int a = 1, b = int(v.size()) - 1;\n    static constexpr int IN = 2,\
-    \ ON = 1, OUT = 0;\n    if (v.empty())\n        return OUT;\n    if (v.size()\
-    \ < 3)\n        return ccw(v.front(), v.back(), p) == ON_SEGMENT ? ON : OUT;\n\
-    \    auto end_of_ray = [&](bool reverse) {\n        int l = 1, r = v.size();\n\
-    \        auto index = [&](int i) { return reverse ? int(v.size()) - i : i; };\n\
-    \        while (r - l > 1) {\n            int m = (l + r) / 2;\n            if\
-    \ (ccw(v[0], v[index(1)], v[index(m)]) == ONLINE_FRONT) l = m;\n            else\
-    \ r = m;\n        }\n        return index(l);\n    };\n    int orientation = ccw(v[0],\
-    \ v[a], v[b]);\n    int la = ccw(v[0], v[a], p), lb = ccw(v[0], v[b], p);\n  \
-    \  if ((orientation & 1) == 0 || la == ONLINE_FRONT) {\n        a = end_of_ray(false);\n\
-    \        la = ccw(v[0], v[a], p);\n    }\n    if ((orientation & 1) == 0 || lb\
-    \ == ONLINE_FRONT) {\n        b = end_of_ray(true);\n        lb = ccw(v[0], v[b],\
-    \ p);\n    }\n    if (a >= b)\n        return contains(v, p);\n    if ((orientation\
-    \ & 1) == 0) orientation = ccw(v[0], v[a], v[a + 1]);\n    if ((orientation &\
-    \ 1) == 0)\n        return contains(v, p);\n    if (orientation > 0) {\n     \
-    \   swap(a, b);\n        swap(la, lb);\n    }\n    if ((la & 1) == 0 || (lb &\
-    \ 1) == 0)\n        return la == ON_SEGMENT || lb == ON_SEGMENT ? ON : OUT;\n\
-    \    if (la > 0 || lb < 0)\n        return OUT;\n    while (abs(a - b) > 1) {\n\
-    \        int c = (a + b) / 2;\n        int val = ccw(v[0], v[c], p);\n       \
-    \ (val > 0 ? b : a) = c;\n    }\n    int res = ccw(v[a], v[b], p);\n    if ((res\
-    \ & 1) == 0)\n        return res == ON_SEGMENT ? ON : OUT;\n    return res < 0\
-    \ ? IN : OUT;\n}\n\ngeometry_real diameter(const Polygon &v) {\n    int n = v.size();\n\
-    \    if (n <= 1) return 0;\n    if (n == 2)\n        return abs(v[0] - v[1]);\n\
-    \    int i = 0, j = 0;\n    for (int k = 0; k < n; ++k) {\n        if (v[i] <\
-    \ v[k])\n            i = k;\n        if (!(v[j] < v[k]))\n            j = k;\n\
-    \    }\n    Point direction = v[i] - v[j];\n    if (all_of(v.begin(), v.end(),\
-    \ [&](Point p) {\n            return cross(direction, p - v[j]) == 0;\n      \
-    \  })) return abs(direction);\n    geometry_real ret = 0;\n    int si = i, sj\
-    \ = j;\n    while (i != sj || j != si) {\n        ret = max(ret, abs(v[i] - v[j]));\n\
-    \        if (cross(v[(i + 1) % n] - v[i], v[(j + 1) % n] - v[j]) < 0.0)\n    \
-    \        i = (i + 1) % n;\n        else\n            j = (j + 1) % n;\n    }\n\
-    \    return ret;\n}\n\nPolygon convexCut(const Polygon &v, Line l) {\n    Polygon\
-    \ q;\n    int n = v.size();\n    for (int i = 0; i < n; ++i) {\n        Point\
-    \ a = v[i], b = v[(i + 1) % n];\n        if (ccw(l.a, l.b, a) != -1)\n       \
-    \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
-    \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
-    \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
-    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
-    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
-    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
-    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
-    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
-    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
-    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
-    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
-    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
-    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 9 \"test/aoj_cgl_4_b.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
-    \    Polygon polygon(n);\n    for (auto &p : polygon) in.read(p.x, p.y);\n   \
-    \ out.println_fixed(diameter(polygon), 12);\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B\"\n#define\
-    \ ERROR \"1e-8\"\n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#include\
-    \ \"../util/fastio.cpp\"\n#include \"../geometry/geometry.cpp\"\n\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n    Polygon\
-    \ polygon(n);\n    for (auto &p : polygon) in.read(p.x, p.y);\n    out.println_fixed(diameter(polygon),\
-    \ 12);\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/fenwick_tree_2d.cpp\"\
+    \nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\
+    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
+    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
+    \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
+    \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
+    \            int parent = i + (i & -i);\n            if (parent <= n) bit[parent\
+    \ - 1] += bit[i - 1];\n        }\n    }\n\n    T sum(int k){\n        T ret =\
+    \ 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
+    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
+    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
+    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
+    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
+    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
+    \ Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/fenwick_tree_2d.cpp\"\n\n\
+    template<class T>\nstruct FenwickTree2D {\n    vector<pair<int, int>> points;\n\
+    \    vector<int> xs;\n    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n \
+    \   bool built = false;\n\n    void add_point(int x, int y) {\n        assert(!built);\n\
+    \        points.push_back({x, y});\n        xs.push_back(x);\n    }\n\n    void\
+    \ build() {\n        assert(!built);\n        built = true;\n\n        sort(xs.begin(),\
+    \ xs.end());\n        xs.erase(unique(xs.begin(), xs.end()), xs.end());\n\n  \
+    \      vector<pair<int, int>> ord = points;\n        sort(ord.begin(), ord.end());\n\
+    \        ord.erase(unique(ord.begin(), ord.end()), ord.end());\n\n        int\
+    \ m = (int)xs.size();\n        ys.assign(m + 1, {});\n        {\n            vector<int>\
+    \ counts(m + 1);\n            int xi = 1;\n            for (auto &[x, y] : ord)\
+    \ {\n                while (xs[xi - 1] < x) ++xi;\n                x = xi;\n \
+    \               for (int i = xi; i <= m; i += i & -i) ++counts[i];\n         \
+    \   }\n            for (int i = 1; i <= m; ++i) ys[i].reserve(counts[i]);\n  \
+    \      }\n        sort(ord.begin(), ord.end(), [](const auto &a, const auto &b)\
+    \ {\n            return a.second < b.second;\n        });\n        for (auto [xi,\
+    \ y] : ord) {\n            for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);\n\
+    \        }\n        bit.clear();\n        bit.reserve(m + 1);\n        bit.emplace_back(0);\n\
+    \        for (int i = 1; i <= m; ++i) {\n            ys[i].erase(unique(ys[i].begin(),\
+    \ ys[i].end()), ys[i].end());\n            bit.emplace_back((int)ys[i].size());\n\
+    \        }\n    }\n\n    void add(int x, int y, T w) {\n        assert(built);\n\
+    \        int m = (int)xs.size();\n        int xi = (int)(lower_bound(xs.begin(),\
+    \ xs.end(), x) - xs.begin());\n        assert(xi < m && xs[xi] == x);\n      \
+    \  ++xi;\n        for (int i = xi; i <= m; i += i & -i) {\n            int yi\
+    \ = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n     \
+    \       assert(yi < (int)ys[i].size() && ys[i][yi] == y);\n            bit[i].add(yi,\
+    \ w);\n        }\n    }\n\n    T sum(int x, int y) {\n        assert(built);\n\
+    \        T ret = 0;\n        int xi = (int)(lower_bound(xs.begin(), xs.end(),\
+    \ x) - xs.begin());\n        for (int i = xi; i > 0; i -= i & -i) {\n        \
+    \    int yi = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
+    \            ret += bit[i].sum(yi);\n        }\n        return ret;\n    }\n\n\
+    \    T sum(int l, int d, int r, int u) {\n        return sum(r, u) - sum(r, d)\
+    \ - sum(l, u) + sum(l, d);\n    }\n};\n\n/**\n * @brief 2\u6B21\u5143Fenwick Tree(2D\
+    \ BIT)\n */\n#line 7 \"test/yosupo_aplusb_fenwick_tree_2d.test.cpp\"\n\nvoid check(vector<pair<int,\
+    \ int>> points, mt19937 &rng) {\n    FenwickTree2D<long long> fw;\n    map<pair<int,\
+    \ int>, long long> values;\n    for (auto [x, y] : points) {\n        fw.add_point(x,\
+    \ y);\n        values[{x, y}] = 0;\n    }\n    fw.build();\n    assert(fw.points\
+    \ == points);\n    assert(fw.sum(INT_MAX, INT_MAX) == 0);\n    for (int step =\
+    \ 0; step < 100; ++step) {\n        if (!points.empty()) {\n            auto [x,\
+    \ y] = points[rng() % points.size()];\n            long long w = int(rng() % 201)\
+    \ - 100;\n            fw.add(x, y, w);\n            values[{x, y}] += w;\n   \
+    \     }\n        const vector<int> coords{INT_MIN, -1000000000, -7, -1, 0, 1,\
+    \ 7, 1000000000, INT_MAX};\n        int l = coords[rng() % coords.size()], r =\
+    \ coords[rng() % coords.size()];\n        int d = coords[rng() % coords.size()],\
+    \ u = coords[rng() % coords.size()];\n        if (l > r) swap(l, r);\n       \
+    \ if (d > u) swap(d, u);\n        long long expected = 0, prefix = 0;\n      \
+    \  for (auto [point, w] : values) {\n            auto [x, y] = point;\n      \
+    \      if (l <= x && x < r && d <= y && y < u) expected += w;\n            if\
+    \ (x < r && y < u) prefix += w;\n        }\n        assert(fw.sum(l, d, r, u)\
+    \ == expected);\n        assert(fw.sum(r, u) == prefix);\n        assert(fw.sum(l,\
+    \ d, l, u) == 0);\n        assert(fw.sum(l, d, r, d) == 0);\n    }\n}\n\nint main()\
+    \ {\n    mt19937 rng(112);\n    check({}, rng);\n    check({{INT_MIN, INT_MIN},\
+    \ {INT_MAX, INT_MAX}, {0, 0}, {0, 0}}, rng);\n    for (int tc = 0; tc < 1000;\
+    \ ++tc) {\n        vector<pair<int, int>> points;\n        for (int i = 0; i <\
+    \ tc % 65; ++i) {\n            int x = int(rng() % 21) - 10;\n            int\
+    \ y = tc % 4 == 0 ? 7 : int(rng() % 21) - 10;\n            if (tc % 4 == 1) x\
+    \ = int(rng() % 3) - 1;\n            points.push_back({x, y});\n            if\
+    \ (rng() % 3 == 0) points.push_back({x, y});\n        }\n        if (tc % 4 ==\
+    \ 2) sort(points.begin(), points.end());\n        check(points, rng);\n    }\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/fenwick_tree_2d.cpp\"\
+    \n\nvoid check(vector<pair<int, int>> points, mt19937 &rng) {\n    FenwickTree2D<long\
+    \ long> fw;\n    map<pair<int, int>, long long> values;\n    for (auto [x, y]\
+    \ : points) {\n        fw.add_point(x, y);\n        values[{x, y}] = 0;\n    }\n\
+    \    fw.build();\n    assert(fw.points == points);\n    assert(fw.sum(INT_MAX,\
+    \ INT_MAX) == 0);\n    for (int step = 0; step < 100; ++step) {\n        if (!points.empty())\
+    \ {\n            auto [x, y] = points[rng() % points.size()];\n            long\
+    \ long w = int(rng() % 201) - 100;\n            fw.add(x, y, w);\n           \
+    \ values[{x, y}] += w;\n        }\n        const vector<int> coords{INT_MIN, -1000000000,\
+    \ -7, -1, 0, 1, 7, 1000000000, INT_MAX};\n        int l = coords[rng() % coords.size()],\
+    \ r = coords[rng() % coords.size()];\n        int d = coords[rng() % coords.size()],\
+    \ u = coords[rng() % coords.size()];\n        if (l > r) swap(l, r);\n       \
+    \ if (d > u) swap(d, u);\n        long long expected = 0, prefix = 0;\n      \
+    \  for (auto [point, w] : values) {\n            auto [x, y] = point;\n      \
+    \      if (l <= x && x < r && d <= y && y < u) expected += w;\n            if\
+    \ (x < r && y < u) prefix += w;\n        }\n        assert(fw.sum(l, d, r, u)\
+    \ == expected);\n        assert(fw.sum(r, u) == prefix);\n        assert(fw.sum(l,\
+    \ d, l, u) == 0);\n        assert(fw.sum(l, d, r, d) == 0);\n    }\n}\n\nint main()\
+    \ {\n    mt19937 rng(112);\n    check({}, rng);\n    check({{INT_MIN, INT_MIN},\
+    \ {INT_MAX, INT_MAX}, {0, 0}, {0, 0}}, rng);\n    for (int tc = 0; tc < 1000;\
+    \ ++tc) {\n        vector<pair<int, int>> points;\n        for (int i = 0; i <\
+    \ tc % 65; ++i) {\n            int x = int(rng() % 21) - 10;\n            int\
+    \ y = tc % 4 == 0 ? 7 : int(rng() % 21) - 10;\n            if (tc % 4 == 1) x\
+    \ = int(rng() % 3) - 1;\n            points.push_back({x, y});\n            if\
+    \ (rng() % 3 == 0) points.push_back({x, y});\n        }\n        if (tc % 4 ==\
+    \ 2) sort(points.begin(), points.end());\n        check(points, rng);\n    }\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - geometry/geometry.cpp
+  - datastructure/fenwick_tree_2d.cpp
+  - datastructure/binaryindexedtree.cpp
   isVerificationFile: true
-  path: test/aoj_cgl_4_b.test.cpp
+  path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-09 00:46:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_cgl_4_b.test.cpp
+documentation_of: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_cgl_4_b.test.cpp
-- /verify/test/aoj_cgl_4_b.test.cpp.html
-title: test/aoj_cgl_4_b.test.cpp
+- /verify/test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+- /verify/test/yosupo_aplusb_fenwick_tree_2d.test.cpp.html
+title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
 ---

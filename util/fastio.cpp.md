@@ -140,6 +140,9 @@ data:
     path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+    title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_floor_sum.test.cpp
     title: test/yosupo_aplusb_floor_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -154,6 +157,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_garner.test.cpp
     title: test/yosupo_aplusb_garner.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_geometry_angle.test.cpp
+    title: test/yosupo_aplusb_geometry_angle.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_geometry_boundaries.test.cpp
     title: test/yosupo_aplusb_geometry_boundaries.test.cpp
@@ -224,6 +230,9 @@ data:
     path: test/yosupo_aplusb_pell_equation.test.cpp
     title: test/yosupo_aplusb_pell_equation.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_persistent_unionfind.test.cpp
+    title: test/yosupo_aplusb_persistent_unionfind.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
     title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
   - icon: ':heavy_check_mark:'
@@ -248,6 +257,9 @@ data:
     path: test/yosupo_aplusb_sliding_window.test.cpp
     title: test/yosupo_aplusb_sliding_window.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_slope_trick.test.cpp
+    title: test/yosupo_aplusb_slope_trick.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_solve_linear_system.test.cpp
     title: test/yosupo_aplusb_solve_linear_system.test.cpp
   - icon: ':heavy_check_mark:'
@@ -265,6 +277,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
     title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_swag.test.cpp
+    title: test/yosupo_aplusb_swag.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_top_k_sum.test.cpp
     title: test/yosupo_aplusb_top_k_sum.test.cpp
@@ -1085,6 +1100,8 @@ data:
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
   - test/aoj0415.test.cpp
   - test/yosupo_factorize.test.cpp
+  - test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+  - test/yosupo_aplusb_swag.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/aoj0403.test.cpp
@@ -1111,6 +1128,7 @@ data:
   - test/yosupo_static_range_frequency.test.cpp
   - test/yosupo_minimum_spanning_tree.test.cpp
   - test/yosupo_two_edge_connected_components.test.cpp
+  - test/yosupo_aplusb_slope_trick.test.cpp
   - test/yosupo_jump_on_tree.test.cpp
   - test/yosupo_tree_diameter.test.cpp
   - test/aoj0275_static_bitset.test.cpp
@@ -1123,6 +1141,7 @@ data:
   - test/yosupo_aplusb_order_statistic_tree.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   - test/yosupo_addition_of_big_integers.test.cpp
+  - test/yosupo_aplusb_geometry_angle.test.cpp
   - test/yosupo_aplusb_aho_occurrences.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_aplusb_binarytrie.test.cpp
@@ -1249,6 +1268,7 @@ data:
   - test/yosupo_aplusb_maxflow_lower_bound.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
+  - test/yosupo_aplusb_persistent_unionfind.test.cpp
   - test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp
   - test/yosupo_sqrt_mod.test.cpp

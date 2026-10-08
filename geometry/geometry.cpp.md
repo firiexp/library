@@ -25,6 +25,9 @@ data:
     path: test/yosupo_aplusb_dualgraph.test.cpp
     title: test/yosupo_aplusb_dualgraph.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_geometry_angle.test.cpp
+    title: test/yosupo_aplusb_geometry_angle.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_geometry_boundaries.test.cpp
     title: test/yosupo_aplusb_geometry_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
@@ -56,7 +59,7 @@ data:
     \ a, Point b) { return a.x * b.x + a.y * b.y; }\n\ninline geometry_real cross(Point\
     \ a, Point b) { return a.x * b.y - a.y * b.x; }\n\ninline geometry_real abs(Point\
     \ a) { return sqrt(dot(a, a)); }\n\ngeometry_real angle(Point A, Point B) {\n\
-    \    return acos(dot(A, B) / abs(A) / abs(B));\n}\n\nstatic constexpr int COUNTER_CLOCKWISE\
+    \    return atan2(fabs(cross(A, B)), dot(A, B));\n}\n\nstatic constexpr int COUNTER_CLOCKWISE\
     \ = 1;\nstatic constexpr int CLOCKWISE = -1;\nstatic constexpr int ONLINE_BACK\
     \ = 2;\nstatic constexpr int ONLINE_FRONT = -2;\nstatic constexpr int ON_SEGMENT\
     \ = 0;\n\nint ccw(Point a, Point b, Point c) {\n    b -= a;\n    c -= a;\n   \
@@ -224,7 +227,7 @@ data:
     \ a, Point b) { return a.x * b.x + a.y * b.y; }\n\ninline geometry_real cross(Point\
     \ a, Point b) { return a.x * b.y - a.y * b.x; }\n\ninline geometry_real abs(Point\
     \ a) { return sqrt(dot(a, a)); }\n\ngeometry_real angle(Point A, Point B) {\n\
-    \    return acos(dot(A, B) / abs(A) / abs(B));\n}\n\nstatic constexpr int COUNTER_CLOCKWISE\
+    \    return atan2(fabs(cross(A, B)), dot(A, B));\n}\n\nstatic constexpr int COUNTER_CLOCKWISE\
     \ = 1;\nstatic constexpr int CLOCKWISE = -1;\nstatic constexpr int ONLINE_BACK\
     \ = 2;\nstatic constexpr int ONLINE_FRONT = -2;\nstatic constexpr int ON_SEGMENT\
     \ = 0;\n\nint ccw(Point a, Point b, Point c) {\n    b -= a;\n    c -= a;\n   \
@@ -378,9 +381,10 @@ data:
   requiredBy:
   - geometry/half_plane_intersection.cpp
   - geometry/dualgraph.cpp
-  timestamp: '2026-10-07 00:15:03+09:00'
+  timestamp: '2026-10-09 00:31:40+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_geometry_angle.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj0342.test.cpp
   - test/yosupo_aplusb_dualgraph.test.cpp
@@ -399,5 +403,6 @@ title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
 ## できること
 - `Point` 構造体 : Point 同士の加減、Point のスカラー倍、比較(デフォルトは $x$ 座標)、入力
 - `Polygon` : `vector<Point>` の別名
+- `angle(a, b)` : 非零ベクトルのなす角をラジアンで $[0, \pi]$ に返す。内積・外積を `double` で評価できる範囲を前提とする
 - `convex_hull(v)` : `v` の凸包を返す
 - `diameter(v)` : 反時計回りの凸多角形の直径を $O(N)$ で返す。空・1点では `0`、全点が共線の場合は両端の距離を返す

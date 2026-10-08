@@ -19,6 +19,9 @@ data:
     path: test/yosupo_aplusb_bit_build.test.cpp
     title: test/yosupo_aplusb_bit_build.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+    title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -87,6 +90,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_bit_build.test.cpp
+  - test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   - test/yosupo_static_range_inversions_query.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_static_rectangle_sum.test.cpp

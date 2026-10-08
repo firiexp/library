@@ -62,7 +62,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/slidingwindow.cpp
       title: "\u30B9\u30E9\u30A4\u30C9\u6700\u5C0F\u5024(\u6700\u5927\u5024)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/slope_trick.cpp
       title: Slope Trick
     - icon: ':heavy_check_mark:'
@@ -812,6 +812,9 @@ data:
       path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+      title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_floor_sum.test.cpp
       title: test/yosupo_aplusb_floor_sum.test.cpp
     - icon: ':heavy_check_mark:'
@@ -826,6 +829,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_garner.test.cpp
       title: test/yosupo_aplusb_garner.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_geometry_angle.test.cpp
+      title: test/yosupo_aplusb_geometry_angle.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_geometry_boundaries.test.cpp
       title: test/yosupo_aplusb_geometry_boundaries.test.cpp
@@ -896,6 +902,9 @@ data:
       path: test/yosupo_aplusb_pell_equation.test.cpp
       title: test/yosupo_aplusb_pell_equation.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_persistent_unionfind.test.cpp
+      title: test/yosupo_aplusb_persistent_unionfind.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
       title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
     - icon: ':heavy_check_mark:'
@@ -920,6 +929,9 @@ data:
       path: test/yosupo_aplusb_sliding_window.test.cpp
       title: test/yosupo_aplusb_sliding_window.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_slope_trick.test.cpp
+      title: test/yosupo_aplusb_slope_trick.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_solve_linear_system.test.cpp
       title: test/yosupo_aplusb_solve_linear_system.test.cpp
     - icon: ':heavy_check_mark:'
@@ -937,6 +949,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
       title: test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_swag.test.cpp
+      title: test/yosupo_aplusb_swag.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_top_k_sum.test.cpp
       title: test/yosupo_aplusb_top_k_sum.test.cpp

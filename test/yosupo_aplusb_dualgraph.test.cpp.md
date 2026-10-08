@@ -249,8 +249,8 @@ data:
     \ dot(Point a, Point b) { return a.x * b.x + a.y * b.y; }\n\ninline geometry_real\
     \ cross(Point a, Point b) { return a.x * b.y - a.y * b.x; }\n\ninline geometry_real\
     \ abs(Point a) { return sqrt(dot(a, a)); }\n\ngeometry_real angle(Point A, Point\
-    \ B) {\n    return acos(dot(A, B) / abs(A) / abs(B));\n}\n\nstatic constexpr int\
-    \ COUNTER_CLOCKWISE = 1;\nstatic constexpr int CLOCKWISE = -1;\nstatic constexpr\
+    \ B) {\n    return atan2(fabs(cross(A, B)), dot(A, B));\n}\n\nstatic constexpr\
+    \ int COUNTER_CLOCKWISE = 1;\nstatic constexpr int CLOCKWISE = -1;\nstatic constexpr\
     \ int ONLINE_BACK = 2;\nstatic constexpr int ONLINE_FRONT = -2;\nstatic constexpr\
     \ int ON_SEGMENT = 0;\n\nint ccw(Point a, Point b, Point c) {\n    b -= a;\n \
     \   c -= a;\n    if (cross(b, c) > EPS)\n        return COUNTER_CLOCKWISE;\n \
@@ -514,7 +514,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_dualgraph.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:15:03+09:00'
+  timestamp: '2026-10-09 00:31:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_dualgraph.test.cpp

@@ -5,9 +5,6 @@ data:
     path: geometry/geometry.cpp
     title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
   - icon: ':heavy_check_mark:'
-    path: geometry/half_plane_intersection.cpp
-    title: "\u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)"
-  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -17,70 +14,65 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    ERROR: 1e-8
-    PROBLEM: https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_C
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_C
-  bundledCode: "#line 1 \"test/aoj_cgl_4_c_half_plane_intersection.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_C\"\
-    \n#define ERROR \"1e-8\"\n\n#include <algorithm>\n#include <cassert>\n#include\
-    \ <cmath>\n#include <deque>\n#include <iostream>\n#include <vector>\nusing namespace\
-    \ std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_geometry_angle.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -401,109 +393,62 @@ data:
     \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
     \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
     \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 2 \"geometry/half_plane_intersection.cpp\"\
-    \n\nnamespace internal_half_plane_intersection {\n\nstruct HalfPlane {\n    Point\
-    \ p, pq;\n    geometry_real angle;\n\n    HalfPlane() = default;\n\n    explicit\
-    \ HalfPlane(const Line &l)\n        : p(l.a), pq(l.b - l.a), angle(atan2(pq.y,\
-    \ pq.x)) {}\n\n    bool operator<(const HalfPlane &other) const {\n        if\
-    \ (fabs(angle - other.angle) > EPS) return angle < other.angle;\n        return\
-    \ cross(pq, other.p - p) < 0;\n    }\n\n    bool outside(Point r) const {\n  \
-    \      return cross(pq, r - p) < -EPS;\n    }\n};\n\nPoint intersection(const\
-    \ HalfPlane &s, const HalfPlane &t) {\n    geometry_real a = cross(t.p - s.p,\
-    \ t.pq) / cross(s.pq, t.pq);\n    return s.p + s.pq * a;\n}\n\nbool same_point(Point\
-    \ a, Point b) {\n    return abs(a - b) < EPS;\n}\n\n}  // namespace internal_half_plane_intersection\n\
-    \nPolygon half_plane_intersection(vector<Line> ls) {\n    using namespace internal_half_plane_intersection;\n\
-    \n    static constexpr geometry_real INF = 1e9;\n    vector<HalfPlane> hs;\n \
-    \   hs.reserve(ls.size() + 4);\n    for (const Line &l : ls) hs.emplace_back(l);\n\
-    \n    Polygon box = {\n        Point(-INF, -INF),\n        Point(INF, -INF),\n\
-    \        Point(INF, INF),\n        Point(-INF, INF),\n    };\n    for (int i =\
-    \ 0; i < 4; ++i) {\n        hs.emplace_back(Line(box[i], box[(i + 1) % 4]));\n\
-    \    }\n\n    sort(hs.begin(), hs.end());\n\n    deque<HalfPlane> deq;\n    for\
-    \ (const HalfPlane &h : hs) {\n        while (deq.size() > 1 &&\n            \
-    \   h.outside(intersection(deq.back(), deq[deq.size() - 2]))) {\n            deq.pop_back();\n\
-    \        }\n        while (deq.size() > 1 &&\n               h.outside(intersection(deq[0],\
-    \ deq[1]))) {\n            deq.pop_front();\n        }\n        if (!deq.empty()\
-    \ && fabs(cross(deq.back().pq, h.pq)) < EPS) {\n            if (dot(deq.back().pq,\
-    \ h.pq) < 0) return {};\n            if (h.outside(deq.back().p)) deq.pop_back();\n\
-    \            else continue;\n        }\n        deq.push_back(h);\n    }\n\n \
-    \   while (deq.size() > 2 &&\n           deq.front().outside(intersection(deq.back(),\
-    \ deq[deq.size() - 2]))) {\n        deq.pop_back();\n    }\n    while (deq.size()\
-    \ > 2 &&\n           deq.back().outside(intersection(deq[0], deq[1]))) {\n   \
-    \     deq.pop_front();\n    }\n    if (deq.size() < 3) return {};\n\n    Polygon\
-    \ res;\n    res.reserve(deq.size());\n    for (int i = 0; i < (int)deq.size();\
-    \ ++i) {\n        Point p = intersection(deq[i], deq[(i + 1) % deq.size()]);\n\
-    \        if (res.empty() || !same_point(res.back(), p)) res.push_back(p);\n  \
-    \  }\n    if (res.size() >= 2 && same_point(res.front(), res.back())) res.pop_back();\n\
-    \    if (res.size() < 3 || fabs(area(res)) < EPS) return {};\n    return res;\n\
-    }\n\n/**\n * @brief \u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)\n\
-    \ */\n#line 22 \"test/aoj_cgl_4_c_half_plane_intersection.test.cpp\"\n\nvector<Line>\
-    \ polygon_half_planes(const Polygon &poly) {\n    vector<Line> ls;\n    int n\
-    \ = poly.size();\n    ls.reserve(n);\n    for (int i = 0; i < n; ++i) {\n    \
-    \    ls.emplace_back(poly[i], poly[(i + 1) % n]);\n    }\n    return ls;\n}\n\n\
-    void self_check() {\n    {\n        Polygon poly = {\n            Point(1, 1),\n\
-    \            Point(4, 1),\n            Point(4, 3),\n            Point(1, 3),\n\
-    \        };\n        auto ls = polygon_half_planes(poly);\n        ls.emplace_back(Point(2,\
-    \ 0), Point(2, 4));\n        Polygon got = half_plane_intersection(ls);\n    \
-    \    assert(fabs(fabs(area(got)) - 2.0) < 1e-9);\n    }\n    {\n        Polygon\
-    \ poly = {\n            Point(1, 1),\n            Point(4, 1),\n            Point(4,\
-    \ 3),\n            Point(1, 3),\n        };\n        auto ls = polygon_half_planes(poly);\n\
-    \        ls.emplace_back(Point(2, 4), Point(2, 0));\n        Polygon got = half_plane_intersection(ls);\n\
-    \        assert(fabs(fabs(area(got)) - 4.0) < 1e-9);\n    }\n    {\n        Polygon\
-    \ poly = {\n            Point(0, 0),\n            Point(4, 0),\n            Point(4,\
-    \ 2),\n            Point(2, 4),\n            Point(0, 4),\n        };\n      \
-    \  auto ls = polygon_half_planes(poly);\n        ls.emplace_back(Point(5, 5),\
-    \ Point(5, 3));\n        Polygon got = half_plane_intersection(ls);\n        assert(got.empty());\n\
-    \    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    int n;\n\
-    \    sc.read(n);\n    Polygon poly(n);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      ll x, y;\n        sc.read(x, y);\n        poly[i] = Point(x, y);\n    }\n\
-    \n    vector<Line> base = polygon_half_planes(poly);\n    int q;\n    sc.read(q);\n\
-    \    while (q--) {\n        ll x1, y1, x2, y2;\n        sc.read(x1, y1, x2, y2);\n\
-    \        vector<Line> ls = base;\n        ls.emplace_back(Point(x1, y1), Point(x2,\
-    \ y2));\n        Polygon ans = half_plane_intersection(ls);\n        printf(\"\
-    %.8f\\n\", fabs(area(ans)));\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_C\"\
-    \n#define ERROR \"1e-8\"\n\n#include <algorithm>\n#include <cassert>\n#include\
-    \ <cmath>\n#include <deque>\n#include <iostream>\n#include <vector>\nusing namespace\
-    \ std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../geometry/half_plane_intersection.cpp\"\n\nvector<Line> polygon_half_planes(const\
-    \ Polygon &poly) {\n    vector<Line> ls;\n    int n = poly.size();\n    ls.reserve(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        ls.emplace_back(poly[i], poly[(i +\
-    \ 1) % n]);\n    }\n    return ls;\n}\n\nvoid self_check() {\n    {\n        Polygon\
-    \ poly = {\n            Point(1, 1),\n            Point(4, 1),\n            Point(4,\
-    \ 3),\n            Point(1, 3),\n        };\n        auto ls = polygon_half_planes(poly);\n\
-    \        ls.emplace_back(Point(2, 0), Point(2, 4));\n        Polygon got = half_plane_intersection(ls);\n\
-    \        assert(fabs(fabs(area(got)) - 2.0) < 1e-9);\n    }\n    {\n        Polygon\
-    \ poly = {\n            Point(1, 1),\n            Point(4, 1),\n            Point(4,\
-    \ 3),\n            Point(1, 3),\n        };\n        auto ls = polygon_half_planes(poly);\n\
-    \        ls.emplace_back(Point(2, 4), Point(2, 0));\n        Polygon got = half_plane_intersection(ls);\n\
-    \        assert(fabs(fabs(area(got)) - 4.0) < 1e-9);\n    }\n    {\n        Polygon\
-    \ poly = {\n            Point(0, 0),\n            Point(4, 0),\n            Point(4,\
-    \ 2),\n            Point(2, 4),\n            Point(0, 4),\n        };\n      \
-    \  auto ls = polygon_half_planes(poly);\n        ls.emplace_back(Point(5, 5),\
-    \ Point(5, 3));\n        Polygon got = half_plane_intersection(ls);\n        assert(got.empty());\n\
-    \    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    int n;\n\
-    \    sc.read(n);\n    Polygon poly(n);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      ll x, y;\n        sc.read(x, y);\n        poly[i] = Point(x, y);\n    }\n\
-    \n    vector<Line> base = polygon_half_planes(poly);\n    int q;\n    sc.read(q);\n\
-    \    while (q--) {\n        ll x1, y1, x2, y2;\n        sc.read(x1, y1, x2, y2);\n\
-    \        vector<Line> ls = base;\n        ls.emplace_back(Point(x1, y1), Point(x2,\
-    \ y2));\n        Polygon ans = half_plane_intersection(ls);\n        printf(\"\
-    %.8f\\n\", fabs(area(ans)));\n    }\n    return 0;\n}\n"
+    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 7 \"test/yosupo_aplusb_geometry_angle.test.cpp\"\
+    \n\nvoid check(Point a, Point b) {\n    long double cross_value = (long double)a.x\
+    \ * b.y - (long double)a.y * b.x;\n    long double dot_value = (long double)a.x\
+    \ * b.x + (long double)a.y * b.y;\n    long double expected = atan2l(fabsl(cross_value),\
+    \ dot_value);\n    double actual = angle(a, b);\n    assert(isfinite(actual));\n\
+    \    assert(0 <= actual && actual <= pi);\n    assert(fabsl(actual - expected)\
+    \ <= 1e-14L);\n}\n\nint main() {\n    Point a(1, 5);\n    assert(angle(a, a) ==\
+    \ 0);\n    assert(angle(a, a * -1) == pi);\n    assert(angle(Point(1, 0), Point(0,\
+    \ 1)) == pi / 2);\n    check(Point(1, 1), Point(1, 1 + 1e-12));\n    check(Point(1,\
+    \ 1), Point(-1, -1 + 1e-12));\n    array<Point, 3> points{Point(0, 0), Point(1,\
+    \ 5), Point(2, 10)};\n    double largest = 0;\n    for (int i = 0; i < 3; ++i)\
+    \ {\n        largest = max(largest, angle(points[(i + 1) % 3] - points[i],\n \
+    \                                   points[(i + 2) % 3] - points[i]));\n    }\n\
+    \    assert(largest == pi);\n    vector<Point> vectors;\n    for (int x = -20;\
+    \ x <= 20; ++x) for (int y = -20; y <= 20; ++y)\n        if (x != 0 || y != 0)\
+    \ vectors.emplace_back(x, y);\n    for (Point u : vectors) for (Point v : vectors)\
+    \ check(u, v);\n    mt19937 rng(126);\n    uniform_int_distribution<int> coord(-1000000000,\
+    \ 1000000000);\n    for (int i = 0; i < 1000000; ++i) {\n        Point u(coord(rng),\
+    \ coord(rng)), v(coord(rng), coord(rng));\n        if ((u.x != 0 || u.y != 0)\
+    \ && (v.x != 0 || v.y != 0)) check(u, v);\n    }\n    Scanner sc;\n    Printer\
+    \ pr;\n    int x, y;\n    sc.read(x, y);\n    pr.println(x + y);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../geometry/geometry.cpp\"\
+    \n\nvoid check(Point a, Point b) {\n    long double cross_value = (long double)a.x\
+    \ * b.y - (long double)a.y * b.x;\n    long double dot_value = (long double)a.x\
+    \ * b.x + (long double)a.y * b.y;\n    long double expected = atan2l(fabsl(cross_value),\
+    \ dot_value);\n    double actual = angle(a, b);\n    assert(isfinite(actual));\n\
+    \    assert(0 <= actual && actual <= pi);\n    assert(fabsl(actual - expected)\
+    \ <= 1e-14L);\n}\n\nint main() {\n    Point a(1, 5);\n    assert(angle(a, a) ==\
+    \ 0);\n    assert(angle(a, a * -1) == pi);\n    assert(angle(Point(1, 0), Point(0,\
+    \ 1)) == pi / 2);\n    check(Point(1, 1), Point(1, 1 + 1e-12));\n    check(Point(1,\
+    \ 1), Point(-1, -1 + 1e-12));\n    array<Point, 3> points{Point(0, 0), Point(1,\
+    \ 5), Point(2, 10)};\n    double largest = 0;\n    for (int i = 0; i < 3; ++i)\
+    \ {\n        largest = max(largest, angle(points[(i + 1) % 3] - points[i],\n \
+    \                                   points[(i + 2) % 3] - points[i]));\n    }\n\
+    \    assert(largest == pi);\n    vector<Point> vectors;\n    for (int x = -20;\
+    \ x <= 20; ++x) for (int y = -20; y <= 20; ++y)\n        if (x != 0 || y != 0)\
+    \ vectors.emplace_back(x, y);\n    for (Point u : vectors) for (Point v : vectors)\
+    \ check(u, v);\n    mt19937 rng(126);\n    uniform_int_distribution<int> coord(-1000000000,\
+    \ 1000000000);\n    for (int i = 0; i < 1000000; ++i) {\n        Point u(coord(rng),\
+    \ coord(rng)), v(coord(rng), coord(rng));\n        if ((u.x != 0 || u.y != 0)\
+    \ && (v.x != 0 || v.y != 0)) check(u, v);\n    }\n    Scanner sc;\n    Printer\
+    \ pr;\n    int x, y;\n    sc.read(x, y);\n    pr.println(x + y);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - geometry/half_plane_intersection.cpp
   - geometry/geometry.cpp
   isVerificationFile: true
-  path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+  path: test/yosupo_aplusb_geometry_angle.test.cpp
   requiredBy: []
   timestamp: '2026-10-09 00:31:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+documentation_of: test/yosupo_aplusb_geometry_angle.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj_cgl_4_c_half_plane_intersection.test.cpp
-- /verify/test/aoj_cgl_4_c_half_plane_intersection.test.cpp.html
-title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+- /verify/test/yosupo_aplusb_geometry_angle.test.cpp
+- /verify/test/yosupo_aplusb_geometry_angle.test.cpp.html
+title: test/yosupo_aplusb_geometry_angle.test.cpp
 ---

@@ -58,27 +58,27 @@ data:
     \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
     \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
     \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 22 \"test/yosupo_queue_operate_all_composite.test.cpp\"\
-    \n\n#line 1 \"datastructure/swag.cpp\"\ntemplate<class G>\nclass SWAG {\n    using\
-    \ T = typename G::T;\n    vector<T> in, out, insum, outsum;\npublic:\n    SWAG()\
-    \ : in(0), out(0), insum(1, G::e()), outsum(1, G::e()) {}\n\n    void push(const\
-    \ T& v){\n        insum.push_back(G::f(insum.back(), v));\n        in.push_back(v);\n\
-    \    }\n\n    void pop(){\n        if(out.empty()){\n            do {\n      \
-    \          out.emplace_back(in.back());\n                outsum.emplace_back(G::f(in.back(),\
-    \ outsum.back()));\n                in.pop_back(); insum.pop_back();\n       \
-    \     }while(!in.empty());\n        }\n        out.pop_back(); outsum.pop_back();\n\
-    \    }\n\n    T fold(){\n        return G::f(outsum.back(), insum.back());\n \
-    \   }\n};\n/*\nstruct Monoid {\n    using T = int;\n    static T f(T a, T b) {\
-    \ return a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief SWAG\n\
-    \ */\n#line 24 \"test/yosupo_queue_operate_all_composite.test.cpp\"\n\nstruct\
-    \ SemiGroup {\n    using T = pair<mint, mint>;\n    static T f(T a, T b) { return\
-    \ {a.first*b.first, a.second*b.first + b.second}; }\n    static T e() { return\
-    \ {1, 0}; }\n};\n\nint main() {\n    int q;\n    cin >> q;\n    SWAG<SemiGroup>\
-    \ Q;\n    while(q--){\n        int no; scanf(\"%d\", &no);\n        if(no == 0){\n\
-    \            int a, b; scanf(\"%d %d\", &a, &b);\n            Q.push(make_pair(mint(a),\
-    \ mint(b)));\n        }else if(no == 1){\n            Q.pop();\n        }else\
-    \ {\n            int x; scanf(\"%d\", &x);\n            auto ret = Q.fold();\n\
-    \            printf(\"%d\\n\", (ret.first*mint(x) + ret.second).val);\n      \
-    \  }\n    }\n    return 0;\n}\n"
+    \n\n#line 1 \"datastructure/swag.cpp\"\n#include <optional>\n\ntemplate<class\
+    \ G>\nclass SWAG {\n    using T = typename G::T;\n    vector<T> in, outsum;\n\
+    \    optional<T> in_total;\npublic:\n    SWAG() : outsum(1, G::e()), in_total(G::e())\
+    \ {}\n\n    void push(const T& v){\n        in_total.emplace(G::f(*in_total, v));\n\
+    \        in.push_back(v);\n    }\n\n    void pop(){\n        if(outsum.size()\
+    \ == 1){\n            do {\n                outsum.emplace_back(G::f(in.back(),\
+    \ outsum.back()));\n                in.pop_back();\n            }while(!in.empty());\n\
+    \            in_total.emplace(G::e());\n        }\n        outsum.pop_back();\n\
+    \    }\n\n    T fold(){\n        return G::f(outsum.back(), *in_total);\n    }\n\
+    };\n/*\nstruct Monoid {\n    using T = int;\n    static T f(T a, T b) { return\
+    \ a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief SWAG\n */\n\
+    #line 24 \"test/yosupo_queue_operate_all_composite.test.cpp\"\n\nstruct SemiGroup\
+    \ {\n    using T = pair<mint, mint>;\n    static T f(T a, T b) { return {a.first*b.first,\
+    \ a.second*b.first + b.second}; }\n    static T e() { return {1, 0}; }\n};\n\n\
+    int main() {\n    int q;\n    cin >> q;\n    SWAG<SemiGroup> Q;\n    while(q--){\n\
+    \        int no; scanf(\"%d\", &no);\n        if(no == 0){\n            int a,\
+    \ b; scanf(\"%d %d\", &a, &b);\n            Q.push(make_pair(mint(a), mint(b)));\n\
+    \        }else if(no == 1){\n            Q.pop();\n        }else {\n         \
+    \   int x; scanf(\"%d\", &x);\n            auto ret = Q.fold();\n            printf(\"\
+    %d\\n\", (ret.first*mint(x) + ret.second).val);\n        }\n    }\n    return\
+    \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/queue_operate_all_composite\"\
     \n#include <iostream>\n#include <algorithm>\n#include <iomanip>\n#include <map>\n\
     #include <set>\n#include <queue>\n#include <stack>\n#include <numeric>\n#include\
@@ -102,7 +102,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_queue_operate_all_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-07-11 20:39:21+09:00'
+  timestamp: '2026-10-09 00:34:30+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_queue_operate_all_composite.test.cpp

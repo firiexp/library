@@ -254,26 +254,31 @@ data:
     \ xs.end());\n        xs.erase(unique(xs.begin(), xs.end()), xs.end());\n\n  \
     \      vector<pair<int, int>> ord = points;\n        sort(ord.begin(), ord.end());\n\
     \        ord.erase(unique(ord.begin(), ord.end()), ord.end());\n\n        int\
-    \ m = (int)xs.size();\n        ys.assign(m + 1, {});\n        for (auto [x, y]\
-    \ : ord) {\n            int xi = (int)(lower_bound(xs.begin(), xs.end(), x) -\
-    \ xs.begin()) + 1;\n            for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);\n\
+    \ m = (int)xs.size();\n        ys.assign(m + 1, {});\n        {\n            vector<int>\
+    \ counts(m + 1);\n            int xi = 1;\n            for (auto &[x, y] : ord)\
+    \ {\n                while (xs[xi - 1] < x) ++xi;\n                x = xi;\n \
+    \               for (int i = xi; i <= m; i += i & -i) ++counts[i];\n         \
+    \   }\n            for (int i = 1; i <= m; ++i) ys[i].reserve(counts[i]);\n  \
+    \      }\n        sort(ord.begin(), ord.end(), [](const auto &a, const auto &b)\
+    \ {\n            return a.second < b.second;\n        });\n        for (auto [xi,\
+    \ y] : ord) {\n            for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);\n\
     \        }\n        bit.clear();\n        bit.reserve(m + 1);\n        bit.emplace_back(0);\n\
-    \        for (int i = 1; i <= m; ++i) {\n            sort(ys[i].begin(), ys[i].end());\n\
-    \            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());\n \
-    \           bit.emplace_back((int)ys[i].size());\n        }\n    }\n\n    void\
-    \ add(int x, int y, T w) {\n        assert(built);\n        int m = (int)xs.size();\n\
-    \        int xi = (int)(lower_bound(xs.begin(), xs.end(), x) - xs.begin());\n\
-    \        assert(xi < m && xs[xi] == x);\n        ++xi;\n        for (int i = xi;\
-    \ i <= m; i += i & -i) {\n            int yi = (int)(lower_bound(ys[i].begin(),\
-    \ ys[i].end(), y) - ys[i].begin());\n            assert(yi < (int)ys[i].size()\
-    \ && ys[i][yi] == y);\n            bit[i].add(yi, w);\n        }\n    }\n\n  \
-    \  T sum(int x, int y) {\n        assert(built);\n        T ret = 0;\n       \
-    \ int xi = (int)(lower_bound(xs.begin(), xs.end(), x) - xs.begin());\n       \
-    \ for (int i = xi; i > 0; i -= i & -i) {\n            int yi = (int)(lower_bound(ys[i].begin(),\
-    \ ys[i].end(), y) - ys[i].begin());\n            ret += bit[i].sum(yi);\n    \
-    \    }\n        return ret;\n    }\n\n    T sum(int l, int d, int r, int u) {\n\
-    \        return sum(r, u) - sum(r, d) - sum(l, u) + sum(l, d);\n    }\n};\n\n\
-    /**\n * @brief 2\u6B21\u5143Fenwick Tree(2D BIT)\n */\n#line 16 \"test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp\"\
+    \        for (int i = 1; i <= m; ++i) {\n            ys[i].erase(unique(ys[i].begin(),\
+    \ ys[i].end()), ys[i].end());\n            bit.emplace_back((int)ys[i].size());\n\
+    \        }\n    }\n\n    void add(int x, int y, T w) {\n        assert(built);\n\
+    \        int m = (int)xs.size();\n        int xi = (int)(lower_bound(xs.begin(),\
+    \ xs.end(), x) - xs.begin());\n        assert(xi < m && xs[xi] == x);\n      \
+    \  ++xi;\n        for (int i = xi; i <= m; i += i & -i) {\n            int yi\
+    \ = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n     \
+    \       assert(yi < (int)ys[i].size() && ys[i][yi] == y);\n            bit[i].add(yi,\
+    \ w);\n        }\n    }\n\n    T sum(int x, int y) {\n        assert(built);\n\
+    \        T ret = 0;\n        int xi = (int)(lower_bound(xs.begin(), xs.end(),\
+    \ x) - xs.begin());\n        for (int i = xi; i > 0; i -= i & -i) {\n        \
+    \    int yi = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
+    \            ret += bit[i].sum(yi);\n        }\n        return ret;\n    }\n\n\
+    \    T sum(int l, int d, int r, int u) {\n        return sum(r, u) - sum(r, d)\
+    \ - sum(l, u) + sum(l, d);\n    }\n};\n\n/**\n * @brief 2\u6B21\u5143Fenwick Tree(2D\
+    \ BIT)\n */\n#line 16 \"test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n\n    struct Operation {\n        int type;\n        int x, y, z, w;\n\
     \        long long add;\n    };\n\n    vector<Operation> ops;\n    ops.reserve(n\
@@ -313,7 +318,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 22:11:01+09:00'
+  timestamp: '2026-10-09 00:46:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
