@@ -1,6 +1,8 @@
 template<class T>
 struct SlopeTrick {
     static constexpr T INF = numeric_limits<T>::max() / 4;
+    static constexpr bool raw_eval_cache = is_integral<T>::value && sizeof(T) <= 8;
+    using EvalSum = conditional_t<raw_eval_cache, __int128, T>;
 
     T min_f = 0;
     priority_queue<T> L;
@@ -8,7 +10,7 @@ struct SlopeTrick {
     T add_l = 0, add_r = 0;
     mutable bool eval_cache_valid = false;
     mutable vector<T> eval_l, eval_r;
-    mutable vector<T> eval_l_sum, eval_r_sum;
+    mutable vector<EvalSum> eval_l_sum, eval_r_sum;
 
     struct Query {
         T lx, rx, min_f;
@@ -45,12 +47,14 @@ private:
         eval_l.reserve(lq.size());
         eval_r.reserve(rq.size());
         while (!lq.empty()) {
-            eval_l.emplace_back(lq.top() + add_l);
+            if constexpr (raw_eval_cache) eval_l.emplace_back(lq.top());
+            else eval_l.emplace_back(lq.top() + add_l);
             lq.pop();
         }
         reverse(eval_l.begin(), eval_l.end());
         while (!rq.empty()) {
-            eval_r.emplace_back(rq.top() + add_r);
+            if constexpr (raw_eval_cache) eval_r.emplace_back(rq.top());
+            else eval_r.emplace_back(rq.top() + add_r);
             rq.pop();
         }
 
@@ -107,7 +111,7 @@ public:
         assert(a <= b);
         add_l += a;
         add_r += b;
-        invalidate_eval_cache();
+        if constexpr (!raw_eval_cache) invalidate_eval_cache();
     }
 
     void shift(T a) {
@@ -116,12 +120,17 @@ public:
 
     T eval(T x) const {
         build_eval_cache();
-        T res = min_f;
-        int li = upper_bound(eval_l.begin(), eval_l.end(), x) - eval_l.begin();
-        res += eval_l_sum.back() - eval_l_sum[li] - x * static_cast<T>(eval_l.size() - li);
-        int ri = lower_bound(eval_r.begin(), eval_r.end(), x) - eval_r.begin();
-        res += x * static_cast<T>(ri) - eval_r_sum[ri];
-        return res;
+        EvalSum lx = x, rx = x;
+        if constexpr (raw_eval_cache) {
+            lx -= static_cast<EvalSum>(add_l);
+            rx -= static_cast<EvalSum>(add_r);
+        }
+        EvalSum res = min_f;
+        int li = upper_bound(eval_l.begin(), eval_l.end(), lx) - eval_l.begin();
+        res += eval_l_sum.back() - eval_l_sum[li] - lx * static_cast<EvalSum>(eval_l.size() - li);
+        int ri = lower_bound(eval_r.begin(), eval_r.end(), rx) - eval_r.begin();
+        res += rx * static_cast<EvalSum>(ri) - eval_r_sum[ri];
+        return static_cast<T>(res);
     }
 
     void merge(SlopeTrick &st) {
