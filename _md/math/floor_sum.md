@@ -8,7 +8,7 @@ tags: 数学
 
 ## 説明
 $\sum_{i=0}^{n-1} \lfloor (ai+b)/m \rfloor$ を返す。
-計算量は $O(1+\log m)$、追加領域は $O(1)$。
+計算量は $O(\log m)$、追加領域は $O(1)$。
 
 ## できること
 - `ll floor_sum(ll n, ll m, ll a, ll b)`
