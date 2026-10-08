@@ -102,7 +102,7 @@ title: "\u6700\u9060\u70B9\u5BFE"
 重複点や全点が共線の場合も扱う。全点が一致する場合は `{0, 1}` を返す。
 
 ```cpp
-vector<pair<long long, long long>> points = {{1, 2}, {3, 6}, {2, 1}};
+vector<pair<long long, long long>> points = { {1, 2}, {3, 6}, {2, 1}};
 auto [i, j] = furthest_pair(points);
 ```
 
