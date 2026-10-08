@@ -1,18 +1,19 @@
-ll floor_sum(ll n, ll m, ll a, ll b){
-    ll ans = 0;
-    if(a >= m) {
-        ans += (n-1)*n/2*(a/m);
-        a %= m;
+ll floor_sum(ll n, ll m, ll a, ll b) {
+    __int128 N = n, M = m, A = a, B = b, ans = 0;
+    while (true) {
+        __int128 qa = A / M - (A % M < 0);
+        __int128 qb = B / M - (B % M < 0);
+        ans += N * (N - 1) / 2 * qa + N * qb;
+        A -= qa * M;
+        B -= qb * M;
+        __int128 y = A * N + B;
+        if (y < M) return (ll)ans;
+        N = y / M;
+        B = y % M;
+        __int128 next_m = A;
+        A = M;
+        M = next_m;
     }
-    if (b >= m){
-        ans += n*(b/m);
-        b %= m;
-    }
-    ll y = (a*n+b)/m, x = (y*m - b);
-    if(!y) return ans;
-    ans += (n-(x+a-1)/a)*y;
-    ans += floor_sum(y, a, m, (a - x%a)%a);
-    return ans;
 }
 
 /**
