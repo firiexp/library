@@ -29,15 +29,26 @@ struct FenwickTree2D {
 
         int m = (int)xs.size();
         ys.assign(m + 1, {});
-        for (auto [x, y] : ord) {
-            int xi = (int)(lower_bound(xs.begin(), xs.end(), x) - xs.begin()) + 1;
+        {
+            vector<int> counts(m + 1);
+            int xi = 1;
+            for (auto &[x, y] : ord) {
+                while (xs[xi - 1] < x) ++xi;
+                x = xi;
+                for (int i = xi; i <= m; i += i & -i) ++counts[i];
+            }
+            for (int i = 1; i <= m; ++i) ys[i].reserve(counts[i]);
+        }
+        sort(ord.begin(), ord.end(), [](const auto &a, const auto &b) {
+            return a.second < b.second;
+        });
+        for (auto [xi, y] : ord) {
             for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);
         }
         bit.clear();
         bit.reserve(m + 1);
         bit.emplace_back(0);
         for (int i = 1; i <= m; ++i) {
-            sort(ys[i].begin(), ys[i].end());
             ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());
             bit.emplace_back((int)ys[i].size());
         }
