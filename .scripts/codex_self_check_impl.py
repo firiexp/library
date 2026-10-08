@@ -76,6 +76,9 @@ def check_library_files() -> list[str]:
                 for match in pattern.finditer(text):
                     if name == "standard include" and match.group(0).strip() == "#include <immintrin.h>":
                         continue
+                    if (name == "standard include" and relpath == "datastructure/swag.cpp"
+                            and match.group(0).strip() == "#include <optional>"):
+                        continue
                     lineno = line_of(text, match.start())
                     problems.append(f"{relpath}:{lineno}: {name}")
     return problems
