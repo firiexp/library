@@ -22,6 +22,9 @@ data:
     path: math/powk_all.cpp
     title: math/powk_all.cpp
   - icon: ':heavy_check_mark:'
+    path: math/solve_linear_system.cpp
+    title: "\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F\u306E\u89E3\u7A7A\u9593"
+  - icon: ':heavy_check_mark:'
     path: math/squarematrix_mint.cpp
     title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
   _extendedVerifiedWith:
@@ -43,6 +46,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_solve_linear_system.test.cpp
+    title: test/yosupo_aplusb_solve_linear_system.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_and_convolution.test.cpp
     title: test/yosupo_bitwise_and_convolution.test.cpp
@@ -170,10 +176,12 @@ data:
   - math/inverse_matrix.cpp
   - math/matrix_determinant.cpp
   - math/fft.cpp
+  - math/solve_linear_system.cpp
   - math/gauss_jordan_mint.cpp
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_solve_linear_system.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/aoj0399.test.cpp

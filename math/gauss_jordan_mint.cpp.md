@@ -8,8 +8,14 @@ data:
   - icon: ':heavy_check_mark:'
     path: util/modint_base.cpp
     title: util/modint_base.cpp
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: math/solve_linear_system.cpp
+    title: "\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F\u306E\u89E3\u7A7A\u9593"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_solve_linear_system.test.cpp
+    title: test/yosupo_aplusb_solve_linear_system.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_rank.test.cpp
     title: test/yosupo_matrix_rank.test.cpp
@@ -84,10 +90,12 @@ data:
   - util/modint_base.cpp
   isVerificationFile: false
   path: math/gauss_jordan_mint.cpp
-  requiredBy: []
+  requiredBy:
+  - math/solve_linear_system.cpp
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_solve_linear_system.test.cpp
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
 date: 2026-03-08
@@ -111,4 +119,4 @@ title: "Gauss-Jordan\u6D88\u53BB(modint)"
 連立一次方程式 `Ax = b` を扱うときは、拡大行列 `[A | b]` を作って `is_extended = true` を指定する。
 
 返り値の rank と、変形後の末尾行を見れば解の有無を判定できる。
-自由変数の基底や特解は、変形後の pivot 列を拾って復元する。
+特解と零空間の基底を直接得る場合は `math/solve_linear_system.cpp` の `solve_linear_system(A, b)` を使う。

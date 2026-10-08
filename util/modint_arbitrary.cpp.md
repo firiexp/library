@@ -8,8 +8,14 @@ data:
     path: test/aoj0422.test.cpp
     title: test/aoj0422.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+    title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_many_aplusb_modint_interface.test.cpp
     title: test/yosupo_many_aplusb_modint_interface.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
+    title: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -83,6 +89,8 @@ data:
   verifiedWith:
   - test/aoj0422.test.cpp
   - test/yosupo_many_aplusb_modint_interface.test.cpp
+  - test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+  - test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
 date: 2026-03-14
 documentation_of: util/modint_arbitrary.cpp
 layout: document

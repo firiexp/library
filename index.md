@@ -355,7 +355,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/inverse_matrix.cpp
       title: "\u9006\u884C\u5217(Inverse Matrix)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/isqrt.cpp
       title: "\u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)"
     - icon: ':heavy_check_mark:'
@@ -371,6 +371,12 @@ data:
       path: math/matrix_determinant.cpp
       title: "\u884C\u5217\u5F0F(Matrix Determinant)"
     - icon: ':heavy_check_mark:'
+      path: math/matrix_determinant_mod.cpp
+      title: "\u4EFB\u610F mod \u306E\u884C\u5217\u5F0F"
+    - icon: ':heavy_check_mark:'
+      path: math/min_of_mod_of_linear.cpp
+      title: "\u4E00\u6B21\u5F0F\u306E\u5270\u4F59\u306E\u6700\u5C0F\u5024"
+    - icon: ':heavy_check_mark:'
       path: math/min_plus_convolution.cpp
       title: "min-plus\u7573\u307F\u8FBC\u307F(Min-Plus Convolution)"
     - icon: ':heavy_check_mark:'
@@ -385,7 +391,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/or_convolution.cpp
       title: "OR\u7573\u307F\u8FBC\u307F(Bitwise OR Convolution)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/pell_equation.cpp
       title: math/pell_equation.cpp
     - icon: ':heavy_check_mark:'
@@ -394,6 +400,9 @@ data:
     - icon: ':warning:'
       path: math/powk_all.cpp
       title: math/powk_all.cpp
+    - icon: ':heavy_check_mark:'
+      path: math/solve_linear_system.cpp
+      title: "\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F\u306E\u89E3\u7A7A\u9593"
     - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
@@ -803,6 +812,9 @@ data:
       path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_floor_sum.test.cpp
+      title: test/yosupo_aplusb_floor_sum.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_flow_boundaries.test.cpp
       title: test/yosupo_aplusb_flow_boundaries.test.cpp
     - icon: ':heavy_check_mark:'
@@ -839,6 +851,9 @@ data:
       path: test/yosupo_aplusb_lis_indices.test.cpp
       title: test/yosupo_aplusb_lis_indices.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+      title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_matrix_semiring.test.cpp
       title: test/yosupo_aplusb_matrix_semiring.test.cpp
     - icon: ':heavy_check_mark:'
@@ -847,6 +862,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_min_cost_b_flow.test.cpp
       title: test/yosupo_aplusb_min_cost_b_flow.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_min_of_mod_of_linear.test.cpp
+      title: test/yosupo_aplusb_min_of_mod_of_linear.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
       title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
@@ -875,6 +893,9 @@ data:
       path: test/yosupo_aplusb_palindromic_tree.test.cpp
       title: test/yosupo_aplusb_palindromic_tree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_pell_equation.test.cpp
+      title: test/yosupo_aplusb_pell_equation.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
       title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
     - icon: ':heavy_check_mark:'
@@ -898,6 +919,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_sliding_window.test.cpp
       title: test/yosupo_aplusb_sliding_window.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_solve_linear_system.test.cpp
+      title: test/yosupo_aplusb_solve_linear_system.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
@@ -1097,6 +1121,12 @@ data:
       path: test/yosupo_matrix_det.test.cpp
       title: test/yosupo_matrix_det.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_matrix_det_arbitrary_mod.test.cpp
+      title: test/yosupo_matrix_det_arbitrary_mod.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
+      title: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_matrix_product.test.cpp
       title: test/yosupo_matrix_product.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1108,6 +1138,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_min_cost_b_flow.test.cpp
       title: test/yosupo_min_cost_b_flow.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_min_of_mod_of_linear.test.cpp
+      title: test/yosupo_min_of_mod_of_linear.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
       title: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp

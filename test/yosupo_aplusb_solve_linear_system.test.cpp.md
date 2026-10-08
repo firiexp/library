@@ -23,16 +23,14 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/system_of_linear_equations
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/system_of_linear_equations
-  bundledCode: "#line 1 \"test/yosupo_system_of_linear_equations.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/system_of_linear_equations\"\n\n#include\
-    \ <vector>\n#include <optional>\n#include <cassert>\nusing namespace std;\n\n\
-    static const int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\n\
-    using ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_solve_linear_system.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\nconst int MOD = 5;\n#line 1 \"util/fastio.cpp\"\nusing\
+    \ namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
     \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
@@ -301,39 +299,102 @@ data:
     \ v(m);\n        v[col] = 1;\n        for (int row = 0; row < rank; ++row) v[pivot[row]]\
     \ = -A[row][col];\n        result.basis.push_back(move(v));\n    }\n    return\
     \ result;\n}\n\n/**\n * @brief \u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F\u306E\
-    \u89E3\u7A7A\u9593\n */\n#line 21 \"test/yosupo_system_of_linear_equations.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
-    \ m);\n    vector<vector<mint>> a(n, vector<mint>(m));\n    vector<mint> b(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n  \
-    \          int x;\n            in.read(x);\n            a[i][j] = x;\n       \
-    \ }\n    }\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
-    \        b[i] = x;\n    }\n\n    auto solution = solve_linear_system(a, b, m);\n\
-    \    if (!solution) {\n        out.println(-1);\n        return 0;\n    }\n\n\
-    \    out.println((int)solution->basis.size());\n    for (int i = 0; i < m; ++i)\
-    \ {\n        out.print(solution->particular[i].val);\n        out.print(i + 1\
-    \ == m ? '\\n' : ' ');\n    }\n    for (auto &&vec : solution->basis) {\n    \
-    \    for (int i = 0; i < m; ++i) {\n            out.print(vec[i].val);\n     \
-    \       out.print(i + 1 == m ? '\\n' : ' ');\n        }\n    }\n    return 0;\n\
-    }\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/system_of_linear_equations\"\
-    \n\n#include <vector>\n#include <optional>\n#include <cassert>\nusing namespace\
-    \ std;\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint\
-    \ = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../math/solve_linear_system.cpp\"\n\
-    \nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
-    \ m);\n    vector<vector<mint>> a(n, vector<mint>(m));\n    vector<mint> b(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n  \
-    \          int x;\n            in.read(x);\n            a[i][j] = x;\n       \
-    \ }\n    }\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
-    \        b[i] = x;\n    }\n\n    auto solution = solve_linear_system(a, b, m);\n\
-    \    if (!solution) {\n        out.println(-1);\n        return 0;\n    }\n\n\
-    \    out.println((int)solution->basis.size());\n    for (int i = 0; i < m; ++i)\
-    \ {\n        out.print(solution->particular[i].val);\n        out.print(i + 1\
-    \ == m ? '\\n' : ' ');\n    }\n    for (auto &&vec : solution->basis) {\n    \
-    \    for (int i = 0; i < m; ++i) {\n            out.print(vec[i].val);\n     \
-    \       out.print(i + 1 == m ? '\\n' : ' ');\n        }\n    }\n    return 0;\n\
-    }\n"
+    \u89E3\u7A7A\u9593\n */\n#line 11 \"test/yosupo_aplusb_solve_linear_system.test.cpp\"\
+    \n\nint power5(int n) {\n    int result = 1;\n    while (n--) result *= 5;\n \
+    \   return result;\n}\n\nvector<mint> decode(int code, int m) {\n    vector<mint>\
+    \ result(m);\n    for (auto& x : result) {\n        x = code % 5;\n        code\
+    \ /= 5;\n    }\n    return result;\n}\n\nvoid check(const vector<vector<mint>>&\
+    \ a, const vector<mint>& b, int m) {\n    auto original_a = a;\n    auto original_b\
+    \ = b;\n    auto result = a.empty() ? solve_linear_system(a, b, m) : solve_linear_system(a,\
+    \ b);\n    assert(a == original_a && b == original_b);\n    vector<bool> generated(power5(m));\n\
+    \    if (result) {\n        assert(result->rank >= 0 && result->rank <= min((int)a.size(),\
+    \ m));\n        assert((int)result->particular.size() == m);\n        assert((int)result->basis.size()\
+    \ == m - result->rank);\n        for (const auto& v : result->basis) {\n     \
+    \       assert((int)v.size() == m);\n            for (const auto& row : a) {\n\
+    \                mint sum = 0;\n                for (int j = 0; j < m; ++j) sum\
+    \ += row[j] * v[j];\n                assert(sum.val == 0);\n            }\n  \
+    \      }\n        for (int i = 0; i < (int)a.size(); ++i) {\n            mint\
+    \ sum = 0;\n            for (int j = 0; j < m; ++j) sum += a[i][j] * result->particular[j];\n\
+    \            assert(sum == b[i]);\n        }\n        for (int code = 0; code\
+    \ < power5(result->basis.size()); ++code) {\n            vector<mint> x = result->particular;\n\
+    \            int coefficients = code;\n            for (const auto& v : result->basis)\
+    \ {\n                for (int j = 0; j < m; ++j) x[j] += mint(coefficients % 5)\
+    \ * v[j];\n                coefficients /= 5;\n            }\n            int\
+    \ id = 0;\n            for (int j = m - 1; j >= 0; --j) id = 5 * id + x[j].val;\n\
+    \            assert(!generated[id]);\n            generated[id] = true;\n    \
+    \    }\n    }\n    for (int code = 0; code < power5(m); ++code) {\n        auto\
+    \ x = decode(code, m);\n        bool valid = true;\n        for (int i = 0; i\
+    \ < (int)a.size(); ++i) {\n            mint sum = 0;\n            for (int j =\
+    \ 0; j < m; ++j) sum += a[i][j] * x[j];\n            valid &= sum == b[i];\n \
+    \       }\n        assert(valid == generated[code]);\n    }\n}\n\nvoid self_check()\
+    \ {\n    auto empty = solve_linear_system({}, {});\n    assert(empty && empty->rank\
+    \ == 0 && empty->particular.empty() && empty->basis.empty());\n    check({}, {},\
+    \ 5);\n    check({{}, {}}, {0, 0}, 0);\n    check({{}, {}}, {0, 1}, 0);\n    check({{0,\
+    \ 1, 2, 0, 3}, {0, 0, 0, 1, 2}, {0, 2, 4, 0, 1}}, {1, 2, 2}, 5);\n    for (int\
+    \ n = 0; n <= 3; ++n) {\n        for (int m = 0; m <= 3; ++m) {\n            if\
+    \ (n * (m + 1) > 6) continue;\n            for (int code = 0; code < power5(n\
+    \ * (m + 1)); ++code) {\n                vector<vector<mint>> a(n, vector<mint>(m));\n\
+    \                vector<mint> b(n);\n                int rest = code;\n      \
+    \          for (int i = 0; i < n; ++i) {\n                    for (auto& x : a[i])\
+    \ {\n                        x = rest % 5;\n                        rest /= 5;\n\
+    \                    }\n                    b[i] = rest % 5;\n               \
+    \     rest /= 5;\n                }\n                check(a, b, m);\n       \
+    \     }\n        }\n    }\n    mt19937 rng(75);\n    for (int tc = 0; tc < 1000;\
+    \ ++tc) {\n        int n = rng() % 5, m = rng() % 6;\n        vector<vector<mint>>\
+    \ a(n, vector<mint>(m));\n        vector<mint> b(n);\n        for (auto& row :\
+    \ a) for (auto& x : row) x = rng() % 5;\n        for (auto& x : b) x = rng() %\
+    \ 5;\n        check(a, b, m);\n    }\n}\n\nint main() {\n    self_check();\n \
+    \   Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\nconst int MOD = 5;\n#include \"../util/fastio.cpp\"\n\
+    #include \"../math/solve_linear_system.cpp\"\n\nint power5(int n) {\n    int result\
+    \ = 1;\n    while (n--) result *= 5;\n    return result;\n}\n\nvector<mint> decode(int\
+    \ code, int m) {\n    vector<mint> result(m);\n    for (auto& x : result) {\n\
+    \        x = code % 5;\n        code /= 5;\n    }\n    return result;\n}\n\nvoid\
+    \ check(const vector<vector<mint>>& a, const vector<mint>& b, int m) {\n    auto\
+    \ original_a = a;\n    auto original_b = b;\n    auto result = a.empty() ? solve_linear_system(a,\
+    \ b, m) : solve_linear_system(a, b);\n    assert(a == original_a && b == original_b);\n\
+    \    vector<bool> generated(power5(m));\n    if (result) {\n        assert(result->rank\
+    \ >= 0 && result->rank <= min((int)a.size(), m));\n        assert((int)result->particular.size()\
+    \ == m);\n        assert((int)result->basis.size() == m - result->rank);\n   \
+    \     for (const auto& v : result->basis) {\n            assert((int)v.size()\
+    \ == m);\n            for (const auto& row : a) {\n                mint sum =\
+    \ 0;\n                for (int j = 0; j < m; ++j) sum += row[j] * v[j];\n    \
+    \            assert(sum.val == 0);\n            }\n        }\n        for (int\
+    \ i = 0; i < (int)a.size(); ++i) {\n            mint sum = 0;\n            for\
+    \ (int j = 0; j < m; ++j) sum += a[i][j] * result->particular[j];\n          \
+    \  assert(sum == b[i]);\n        }\n        for (int code = 0; code < power5(result->basis.size());\
+    \ ++code) {\n            vector<mint> x = result->particular;\n            int\
+    \ coefficients = code;\n            for (const auto& v : result->basis) {\n  \
+    \              for (int j = 0; j < m; ++j) x[j] += mint(coefficients % 5) * v[j];\n\
+    \                coefficients /= 5;\n            }\n            int id = 0;\n\
+    \            for (int j = m - 1; j >= 0; --j) id = 5 * id + x[j].val;\n      \
+    \      assert(!generated[id]);\n            generated[id] = true;\n        }\n\
+    \    }\n    for (int code = 0; code < power5(m); ++code) {\n        auto x = decode(code,\
+    \ m);\n        bool valid = true;\n        for (int i = 0; i < (int)a.size();\
+    \ ++i) {\n            mint sum = 0;\n            for (int j = 0; j < m; ++j) sum\
+    \ += a[i][j] * x[j];\n            valid &= sum == b[i];\n        }\n        assert(valid\
+    \ == generated[code]);\n    }\n}\n\nvoid self_check() {\n    auto empty = solve_linear_system({},\
+    \ {});\n    assert(empty && empty->rank == 0 && empty->particular.empty() && empty->basis.empty());\n\
+    \    check({}, {}, 5);\n    check({{}, {}}, {0, 0}, 0);\n    check({{}, {}}, {0,\
+    \ 1}, 0);\n    check({{0, 1, 2, 0, 3}, {0, 0, 0, 1, 2}, {0, 2, 4, 0, 1}}, {1,\
+    \ 2, 2}, 5);\n    for (int n = 0; n <= 3; ++n) {\n        for (int m = 0; m <=\
+    \ 3; ++m) {\n            if (n * (m + 1) > 6) continue;\n            for (int\
+    \ code = 0; code < power5(n * (m + 1)); ++code) {\n                vector<vector<mint>>\
+    \ a(n, vector<mint>(m));\n                vector<mint> b(n);\n               \
+    \ int rest = code;\n                for (int i = 0; i < n; ++i) {\n          \
+    \          for (auto& x : a[i]) {\n                        x = rest % 5;\n   \
+    \                     rest /= 5;\n                    }\n                    b[i]\
+    \ = rest % 5;\n                    rest /= 5;\n                }\n           \
+    \     check(a, b, m);\n            }\n        }\n    }\n    mt19937 rng(75);\n\
+    \    for (int tc = 0; tc < 1000; ++tc) {\n        int n = rng() % 5, m = rng()\
+    \ % 6;\n        vector<vector<mint>> a(n, vector<mint>(m));\n        vector<mint>\
+    \ b(n);\n        for (auto& row : a) for (auto& x : row) x = rng() % 5;\n    \
+    \    for (auto& x : b) x = rng() % 5;\n        check(a, b, m);\n    }\n}\n\nint\
+    \ main() {\n    self_check();\n    Scanner in;\n    Printer out;\n    int a, b;\n\
+    \    in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/solve_linear_system.cpp
@@ -341,15 +402,15 @@ data:
   - util/modint.cpp
   - util/modint_base.cpp
   isVerificationFile: true
-  path: test/yosupo_system_of_linear_equations.test.cpp
+  path: test/yosupo_aplusb_solve_linear_system.test.cpp
   requiredBy: []
   timestamp: '2026-10-08 14:20:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_system_of_linear_equations.test.cpp
+documentation_of: test/yosupo_aplusb_solve_linear_system.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_system_of_linear_equations.test.cpp
-- /verify/test/yosupo_system_of_linear_equations.test.cpp.html
-title: test/yosupo_system_of_linear_equations.test.cpp
+- /verify/test/yosupo_aplusb_solve_linear_system.test.cpp
+- /verify/test/yosupo_aplusb_solve_linear_system.test.cpp.html
+title: test/yosupo_aplusb_solve_linear_system.test.cpp
 ---

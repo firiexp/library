@@ -2,11 +2,17 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/floor_sum.cpp
-    title: Floor Sum
+    path: math/matrix_determinant_mod.cpp
+    title: "\u4EFB\u610F mod \u306E\u884C\u5217\u5F0F"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_arbitrary.cpp
+    title: "modint(\u4EFB\u610FMOD)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -14,15 +20,15 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/sum_of_floor_of_linear
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/sum_of_floor_of_linear
-  bundledCode: "#line 1 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\nusing ll = long\
-    \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
-    \ <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace\
-    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
-    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_matrix_determinant_mod.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
     \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
     \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
     \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
@@ -227,37 +233,193 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/floor_sum.cpp\"\
-    \nll floor_sum(ll n, ll m, ll a, ll b) {\n    __int128 N = n, M = m, A = a, B\
-    \ = b, ans = 0;\n    while (true) {\n        __int128 qa = A / M - (A % M < 0);\n\
-    \        __int128 qb = B / M - (B % M < 0);\n        ans += N * (N - 1) / 2 *\
-    \ qa + N * qb;\n        A -= qa * M;\n        B -= qb * M;\n        __int128 y\
-    \ = A * N + B;\n        if (y < M) return (ll)ans;\n        N = y / M;\n     \
-    \   B = y % M;\n        __int128 next_m = A;\n        A = M;\n        M = next_m;\n\
-    \    }\n}\n\n/**\n * @brief Floor Sum\n */\n#line 12 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int t;\n    in.read(t);\n\
-    \    while (t--) {\n        ll n, m, a, b;\n        in.read(n, m, a, b);\n   \
-    \     out.println(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\
-    \nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/floor_sum.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
-    \ out;\n\n    int t;\n    in.read(t);\n    while (t--) {\n        ll n, m, a,\
-    \ b;\n        in.read(n, m, a, b);\n        out.println(floor_sum(n, m, a, b));\n\
-    \    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint_base.cpp\"\
+    \n\n\n\ntemplate <uint Mod>\nstruct modint {\n    uint val;\npublic:\n    static\
+    \ modint raw(int v) { modint x; x.val = v; return x; }\n    static constexpr uint\
+    \ get_mod() { return Mod; }\n    static constexpr uint M() { return Mod; }\n \
+    \   modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v\
+    \ % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val\
+    \ = ((unsigned int)(v) % Mod); }\n    uint &value() noexcept { return val; }\n\
+    \    const uint &value() const noexcept { return val; }\n    modint& operator++()\
+    \ { val++; if (val == Mod) val = 0; return *this; }\n    modint& operator--()\
+    \ { if (val == 0) val = Mod; val--; return *this; }\n    modint operator++(int)\
+    \ { modint result = *this; ++*this; return result; }\n    modint operator--(int)\
+    \ { modint result = *this; --*this; return result; }\n    modint& operator+=(const\
+    \ modint& b) { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n   \
+    \ modint& operator-=(const modint& b) { val -= b.val; if (val >= Mod) val += Mod;\
+    \ return *this; }\n    modint& operator*=(const modint& b) { ull z = val; z *=\
+    \ b.val; val = (uint)(z % Mod); return *this; }\n    modint& operator/=(const\
+    \ modint& b) { return *this = *this * b.inv(); }\n    modint operator+() const\
+    \ { return *this; }\n    modint operator-() const { return modint() - *this; }\n\
+    \    modint pow(long long n) const { modint x = *this, r = 1; while (n) { if (n\
+    \ & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const { return\
+    \ pow(Mod - 2); }\n    friend modint operator+(const modint& a, const modint&\
+    \ b) { return modint(a) += b; }\n    friend modint operator-(const modint& a,\
+    \ const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 1 \"math/matrix_determinant_mod.cpp\"\
+    \nll matrix_determinant_mod(vector<vector<ll>> A, int mod) {\n    assert(mod >=\
+    \ 1);\n    int n = A.size();\n    for (auto& row : A) {\n        assert((int)row.size()\
+    \ == n);\n        for (auto& x : row) {\n            x %= mod;\n            if\
+    \ (x < 0) x += mod;\n        }\n    }\n    ll det = 1 % mod;\n    for (int col\
+    \ = 0; col < n; ++col) {\n        for (int row = col + 1; row < n; ++row) {\n\
+    \            while (A[row][col]) {\n                ll quotient = A[col][col]\
+    \ / A[row][col];\n                for (int j = col; j < n; ++j) {\n          \
+    \          A[col][j] = (A[col][j] - quotient * A[row][j]) % mod;\n           \
+    \         if (A[col][j] < 0) A[col][j] += mod;\n                }\n          \
+    \      swap(A[col], A[row]);\n                det = -det;\n            }\n   \
+    \     }\n        if (A[col][col] == 0) return 0;\n        det = det * A[col][col]\
+    \ % mod;\n    }\n    if (det < 0) det += mod;\n    return det;\n}\n\ntemplate<class\
+    \ Mint>\nMint matrix_determinant_mod(const vector<vector<Mint>>& A) {\n    auto\
+    \ mod = Mint::get_mod();\n    assert(1 <= mod && mod <= INT_MAX);\n    int n =\
+    \ A.size();\n    vector<vector<ll>> values(n, vector<ll>(n));\n    for (int i\
+    \ = 0; i < n; ++i) {\n        assert((int)A[i].size() == n);\n        for (int\
+    \ j = 0; j < n; ++j) values[i][j] = A[i][j].value();\n    }\n    return Mint(matrix_determinant_mod(move(values),\
+    \ (int)mod));\n}\n\n/**\n * @brief \u4EFB\u610F mod \u306E\u884C\u5217\u5F0F\n\
+    \ */\n#line 11 \"test/yosupo_aplusb_matrix_determinant_mod.test.cpp\"\n\nnamespace\
+    \ dynamic_modint_test {\n#line 1 \"util/modint_arbitrary.cpp\"\n\n\n\nclass modint\
+    \ {\n    static uint &mod() { static uint mod_ = 0; return mod_; }\npublic:\n\
+    \    uint val;\n    static modint raw(int v) { modint x; x.val = v; return x;\
+    \ }\n    modint() : val(0) {}\n    template <class T>\n    modint(T v) { ll x\
+    \ = (ll)(v % (ll)(M())); if (x < 0) x += M(); val = uint(x); }\n    modint(bool\
+    \ v) { val = ((unsigned int)(v) % M()); }\n    static uint get_mod() { return\
+    \ M(); }\n    static uint M() { return mod(); }\n    static void set_mod(uint\
+    \ x) { mod() = x; }\n    uint &value() noexcept { return val; }\n    const uint\
+    \ &value() const noexcept { return val; }\n    modint &operator++() { val++; if\
+    \ (val == M()) val = 0; return *this; }\n    modint &operator--() { if (val ==\
+    \ 0) val = M(); val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint &operator+=(const modint &b)\
+    \ { val += b.val; if (val >= M()) val -= M(); return *this; }\n    modint &operator-=(const\
+    \ modint &b) { val -= b.val; if (val >= M()) val += M(); return *this; }\n   \
+    \ modint &operator*=(const modint &b) { val = (ull)val * b.val % M(); return *this;\
+    \ }\n    modint &operator/=(const modint &b) { return *this = *this * b.inv();\
+    \ }\n    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(M() - 2); }\n    friend modint operator+(const\
+    \ modint &a, const modint &b) { return modint(a) += b; }\n    friend modint operator-(const\
+    \ modint &a, const modint &b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint &a, const modint &b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint &a, const modint &b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint &a, const modint &b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint &a, const modint &b) { return a.val != b.val; }\n};\nusing mint = modint;\n\
+    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u4EFB\u610F\
+    MOD)\n */\n\n\n#line 14 \"test/yosupo_aplusb_matrix_determinant_mod.test.cpp\"\
+    \n}\n\nll permutation_determinant(const vector<vector<ll>>& a, int mod) {\n  \
+    \  int n = a.size();\n    vector<int> p(n);\n    iota(p.begin(), p.end(), 0);\n\
+    \    ll ans = 0;\n    do {\n        ll term = 1 % mod;\n        int inversions\
+    \ = 0;\n        for (int i = 0; i < n; ++i) {\n            ll x = (a[i][p[i]]\
+    \ % mod + mod) % mod;\n            term = term * x % mod;\n            for (int\
+    \ j = 0; j < i; ++j) inversions += p[j] > p[i];\n        }\n        ans = (ans\
+    \ + (inversions & 1 ? -term : term)) % mod;\n    } while (next_permutation(p.begin(),\
+    \ p.end()));\n    return ans < 0 ? ans + mod : ans;\n}\n\nvoid check(const vector<vector<ll>>&\
+    \ a, int mod) {\n    auto original = a;\n    ll result = matrix_determinant_mod(a,\
+    \ mod);\n    assert(a == original);\n    assert(0 <= result && result < mod);\n\
+    \    assert(result == permutation_determinant(a, mod));\n}\n\ntemplate<class Mint>\n\
+    void check_modint(const vector<vector<ll>>& a) {\n    int n = a.size();\n    vector<vector<Mint>>\
+    \ values(n, vector<Mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for\
+    \ (int j = 0; j < n; ++j) values[i][j] = a[i][j];\n    }\n    auto original =\
+    \ values;\n    auto result = matrix_determinant_mod(values);\n    static_assert(is_same_v<decltype(result),\
+    \ Mint>);\n    ll expected = permutation_determinant(a, Mint::get_mod());\n  \
+    \  assert(result.value() == expected);\n    assert(result * 2 + 3 == Mint(expected\
+    \ * 2 + 3));\n    assert(values == original);\n}\n\ntemplate<class Mint>\nvoid\
+    \ check_modint_cases() {\n    check_modint<Mint>({});\n    check_modint<Mint>({{0}});\n\
+    \    check_modint<Mint>({{2, 1}, {3, 2}});\n    check_modint<Mint>({{0, 1}, {1,\
+    \ 0}});\n    check_modint<Mint>({{1, 2}, {2, 4}});\n    check_modint<Mint>({{LLONG_MIN,\
+    \ LLONG_MAX}, {LLONG_MAX, LLONG_MIN}});\n    mt19937_64 rng(7901);\n    for (int\
+    \ tc = 0; tc < 200; ++tc) {\n        int n = rng() % 7;\n        vector<vector<ll>>\
+    \ a(n, vector<ll>(n));\n        for (auto& row : a) for (auto& x : row) {\n  \
+    \          x = rng() & LLONG_MAX;\n            if (rng() & 1) x = -x;\n      \
+    \  }\n        check_modint<Mint>(a);\n    }\n}\n\nvoid self_check() {\n    check_modint_cases<modint<1>>();\n\
+    \    check_modint_cases<modint<6>>();\n    check_modint_cases<modint<998244353>>();\n\
+    \    check_modint_cases<modint<INT_MAX>>();\n    for (int mod : {1, 6, 12, 998244353,\
+    \ INT_MAX}) {\n        dynamic_modint_test::mint::set_mod(mod);\n        check_modint_cases<dynamic_modint_test::mint>();\n\
+    \    }\n    assert(matrix_determinant_mod({{2, 1}, {3, 2}}, 6) == 1);\n    for\
+    \ (int mod : {1, 2, 6, 12, 1000000000, INT_MAX}) {\n        check({}, mod);\n\
+    \        check({{0}}, mod);\n        check({{0, 1}, {1, 0}}, mod);\n        check({{1,\
+    \ 2, 3}, {0, 0, 0}, {4, 5, 6}}, mod);\n        check({{1, 2}, {2, 4}}, mod);\n\
+    \        check({{LLONG_MIN, LLONG_MAX}, {LLONG_MAX, LLONG_MIN}}, mod);\n    }\n\
+    \    for (int mod = 1; mod <= 16; ++mod) {\n        for (int code = 0; code <\
+    \ mod * mod * mod * mod; ++code) {\n            int rest = code;\n           \
+    \ vector<vector<ll>> a(2, vector<ll>(2));\n            for (auto& row : a) for\
+    \ (auto& x : row) {\n                x = rest % mod;\n                rest /=\
+    \ mod;\n            }\n            check(a, mod);\n        }\n    }\n    mt19937_64\
+    \ rng(79);\n    for (int tc = 0; tc < 3000; ++tc) {\n        int n = rng() % 7,\
+    \ mod = 1 + rng() % INT_MAX;\n        vector<vector<ll>> a(n, vector<ll>(n));\n\
+    \        for (auto& row : a) for (auto& x : row) {\n            x = rng() & LLONG_MAX;\n\
+    \            if (rng() & 1) x = -x;\n        }\n        if (n && tc % 7 == 0)\
+    \ a[rng() % n] = a[rng() % n];\n        check(a, mod);\n    }\n}\n\nint main()\
+    \ {\n    self_check();\n    Scanner in;\n    Printer out;\n    int a, b;\n   \
+    \ in.read(a, b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\n#include \"../util/fastio.cpp\"\n#include \"../util/modint_base.cpp\"\
+    \n#include \"../math/matrix_determinant_mod.cpp\"\n\nnamespace dynamic_modint_test\
+    \ {\n#include \"../util/modint_arbitrary.cpp\"\n}\n\nll permutation_determinant(const\
+    \ vector<vector<ll>>& a, int mod) {\n    int n = a.size();\n    vector<int> p(n);\n\
+    \    iota(p.begin(), p.end(), 0);\n    ll ans = 0;\n    do {\n        ll term\
+    \ = 1 % mod;\n        int inversions = 0;\n        for (int i = 0; i < n; ++i)\
+    \ {\n            ll x = (a[i][p[i]] % mod + mod) % mod;\n            term = term\
+    \ * x % mod;\n            for (int j = 0; j < i; ++j) inversions += p[j] > p[i];\n\
+    \        }\n        ans = (ans + (inversions & 1 ? -term : term)) % mod;\n   \
+    \ } while (next_permutation(p.begin(), p.end()));\n    return ans < 0 ? ans +\
+    \ mod : ans;\n}\n\nvoid check(const vector<vector<ll>>& a, int mod) {\n    auto\
+    \ original = a;\n    ll result = matrix_determinant_mod(a, mod);\n    assert(a\
+    \ == original);\n    assert(0 <= result && result < mod);\n    assert(result ==\
+    \ permutation_determinant(a, mod));\n}\n\ntemplate<class Mint>\nvoid check_modint(const\
+    \ vector<vector<ll>>& a) {\n    int n = a.size();\n    vector<vector<Mint>> values(n,\
+    \ vector<Mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0;\
+    \ j < n; ++j) values[i][j] = a[i][j];\n    }\n    auto original = values;\n  \
+    \  auto result = matrix_determinant_mod(values);\n    static_assert(is_same_v<decltype(result),\
+    \ Mint>);\n    ll expected = permutation_determinant(a, Mint::get_mod());\n  \
+    \  assert(result.value() == expected);\n    assert(result * 2 + 3 == Mint(expected\
+    \ * 2 + 3));\n    assert(values == original);\n}\n\ntemplate<class Mint>\nvoid\
+    \ check_modint_cases() {\n    check_modint<Mint>({});\n    check_modint<Mint>({{0}});\n\
+    \    check_modint<Mint>({{2, 1}, {3, 2}});\n    check_modint<Mint>({{0, 1}, {1,\
+    \ 0}});\n    check_modint<Mint>({{1, 2}, {2, 4}});\n    check_modint<Mint>({{LLONG_MIN,\
+    \ LLONG_MAX}, {LLONG_MAX, LLONG_MIN}});\n    mt19937_64 rng(7901);\n    for (int\
+    \ tc = 0; tc < 200; ++tc) {\n        int n = rng() % 7;\n        vector<vector<ll>>\
+    \ a(n, vector<ll>(n));\n        for (auto& row : a) for (auto& x : row) {\n  \
+    \          x = rng() & LLONG_MAX;\n            if (rng() & 1) x = -x;\n      \
+    \  }\n        check_modint<Mint>(a);\n    }\n}\n\nvoid self_check() {\n    check_modint_cases<modint<1>>();\n\
+    \    check_modint_cases<modint<6>>();\n    check_modint_cases<modint<998244353>>();\n\
+    \    check_modint_cases<modint<INT_MAX>>();\n    for (int mod : {1, 6, 12, 998244353,\
+    \ INT_MAX}) {\n        dynamic_modint_test::mint::set_mod(mod);\n        check_modint_cases<dynamic_modint_test::mint>();\n\
+    \    }\n    assert(matrix_determinant_mod({{2, 1}, {3, 2}}, 6) == 1);\n    for\
+    \ (int mod : {1, 2, 6, 12, 1000000000, INT_MAX}) {\n        check({}, mod);\n\
+    \        check({{0}}, mod);\n        check({{0, 1}, {1, 0}}, mod);\n        check({{1,\
+    \ 2, 3}, {0, 0, 0}, {4, 5, 6}}, mod);\n        check({{1, 2}, {2, 4}}, mod);\n\
+    \        check({{LLONG_MIN, LLONG_MAX}, {LLONG_MAX, LLONG_MIN}}, mod);\n    }\n\
+    \    for (int mod = 1; mod <= 16; ++mod) {\n        for (int code = 0; code <\
+    \ mod * mod * mod * mod; ++code) {\n            int rest = code;\n           \
+    \ vector<vector<ll>> a(2, vector<ll>(2));\n            for (auto& row : a) for\
+    \ (auto& x : row) {\n                x = rest % mod;\n                rest /=\
+    \ mod;\n            }\n            check(a, mod);\n        }\n    }\n    mt19937_64\
+    \ rng(79);\n    for (int tc = 0; tc < 3000; ++tc) {\n        int n = rng() % 7,\
+    \ mod = 1 + rng() % INT_MAX;\n        vector<vector<ll>> a(n, vector<ll>(n));\n\
+    \        for (auto& row : a) for (auto& x : row) {\n            x = rng() & LLONG_MAX;\n\
+    \            if (rng() & 1) x = -x;\n        }\n        if (n && tc % 7 == 0)\
+    \ a[rng() % n] = a[rng() % n];\n        check(a, mod);\n    }\n}\n\nint main()\
+    \ {\n    self_check();\n    Scanner in;\n    Printer out;\n    int a, b;\n   \
+    \ in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/floor_sum.cpp
+  - util/modint_base.cpp
+  - math/matrix_determinant_mod.cpp
+  - util/modint_arbitrary.cpp
   isVerificationFile: true
-  path: test/yosupo_sum_of_floor_of_linear.test.cpp
+  path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
   requiredBy: []
-  timestamp: '2026-10-08 14:12:32+09:00'
+  timestamp: '2026-10-08 23:48:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_sum_of_floor_of_linear.test.cpp
+documentation_of: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_sum_of_floor_of_linear.test.cpp
-- /verify/test/yosupo_sum_of_floor_of_linear.test.cpp.html
-title: test/yosupo_sum_of_floor_of_linear.test.cpp
+- /verify/test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+- /verify/test/yosupo_aplusb_matrix_determinant_mod.test.cpp.html
+title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
 ---

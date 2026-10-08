@@ -140,6 +140,9 @@ data:
     path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_floor_sum.test.cpp
+    title: test/yosupo_aplusb_floor_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_flow_boundaries.test.cpp
     title: test/yosupo_aplusb_flow_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
@@ -176,6 +179,9 @@ data:
     path: test/yosupo_aplusb_lis_indices.test.cpp
     title: test/yosupo_aplusb_lis_indices.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+    title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
   - icon: ':heavy_check_mark:'
@@ -184,6 +190,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_min_cost_b_flow.test.cpp
     title: test/yosupo_aplusb_min_cost_b_flow.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_min_of_mod_of_linear.test.cpp
+    title: test/yosupo_aplusb_min_of_mod_of_linear.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
@@ -212,6 +221,9 @@ data:
     path: test/yosupo_aplusb_palindromic_tree.test.cpp
     title: test/yosupo_aplusb_palindromic_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_pell_equation.test.cpp
+    title: test/yosupo_aplusb_pell_equation.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
     title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
   - icon: ':heavy_check_mark:'
@@ -235,6 +247,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_sliding_window.test.cpp
     title: test/yosupo_aplusb_sliding_window.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_solve_linear_system.test.cpp
+    title: test/yosupo_aplusb_solve_linear_system.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_bitset.test.cpp
     title: test/yosupo_aplusb_static_bitset.test.cpp
@@ -413,6 +428,12 @@ data:
     path: test/yosupo_matrix_det.test.cpp
     title: test/yosupo_matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_det_arbitrary_mod.test.cpp
+    title: test/yosupo_matrix_det_arbitrary_mod.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
+    title: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_product.test.cpp
     title: test/yosupo_matrix_product.test.cpp
   - icon: ':heavy_check_mark:'
@@ -421,6 +442,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_min_cost_b_flow.test.cpp
     title: test/yosupo_min_cost_b_flow.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_min_of_mod_of_linear.test.cpp
+    title: test/yosupo_min_of_mod_of_linear.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
     title: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
@@ -1049,12 +1073,15 @@ data:
   - test/yosupo_eertree.test.cpp
   - test/yosupo_tetration_mod.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_matrix_det_arbitrary_mod.test.cpp
   - test/yosupo_aplusb_bit_build.test.cpp
   - test/yosupo_aplusb_flow_boundaries.test.cpp
+  - test/yosupo_aplusb_pell_equation.test.cpp
   - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp
   - test/yuki957_project_selection_problem.test.cpp
   - test/aoj_grl_1_b_bellman_ford.test.cpp
+  - test/yosupo_aplusb_solve_linear_system.test.cpp
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
   - test/aoj0415.test.cpp
   - test/yosupo_factorize.test.cpp
@@ -1144,6 +1171,7 @@ data:
   - test/yosupo_cycle_detection_directed.test.cpp
   - test/aoj_grl_1_b_negative_loop.test.cpp
   - test/yosupo_min_cost_b_flow.test.cpp
+  - test/yosupo_aplusb_matrix_determinant_mod.test.cpp
   - test/yosupo_aplusb_dualgraph.test.cpp
   - test/yosupo_longest_increasing_subsequence.test.cpp
   - test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
@@ -1191,6 +1219,7 @@ data:
   - test/yosupo_stern_brocot_tree.test.cpp
   - test/yosupo_aplusb_directedmst.test.cpp
   - test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+  - test/yosupo_min_of_mod_of_linear.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/aoj_grl_5_a_rerooting.test.cpp
@@ -1204,6 +1233,7 @@ data:
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/aoj_dsl_2_b.test.cpp
+  - test/yosupo_aplusb_min_of_mod_of_linear.test.cpp
   - test/yosupo_aplusb_hld_subtree.test.cpp
   - test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
@@ -1213,11 +1243,13 @@ data:
   - test/yosupo_aplusb_scc.test.cpp
   - test/yosupo_ordered_set.test.cpp
   - test/yosupo_aplusb_xorshift.test.cpp
+  - test/yosupo_aplusb_floor_sum.test.cpp
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_aplusb_geometry_boundaries.test.cpp
   - test/yosupo_aplusb_maxflow_lower_bound.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
+  - test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp
   - test/yosupo_sqrt_mod.test.cpp
   - test/yosupo_aplusb_garner.test.cpp

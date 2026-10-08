@@ -2,8 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/floor_sum.cpp
-    title: Floor Sum
+    path: math/isqrt.cpp
+    title: "\u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)"
+  - icon: ':heavy_check_mark:'
+    path: math/pell_equation.cpp
+    title: math/pell_equation.cpp
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -14,18 +17,18 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/sum_of_floor_of_linear
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/sum_of_floor_of_linear
-  bundledCode: "#line 1 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\nusing ll = long\
-    \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
-    \ <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace\
-    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
-    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
-    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_pell_equation.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\nusing ull = unsigned long long;\n#line\
+    \ 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -227,37 +230,89 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/floor_sum.cpp\"\
-    \nll floor_sum(ll n, ll m, ll a, ll b) {\n    __int128 N = n, M = m, A = a, B\
-    \ = b, ans = 0;\n    while (true) {\n        __int128 qa = A / M - (A % M < 0);\n\
-    \        __int128 qb = B / M - (B % M < 0);\n        ans += N * (N - 1) / 2 *\
-    \ qa + N * qb;\n        A -= qa * M;\n        B -= qb * M;\n        __int128 y\
-    \ = A * N + B;\n        if (y < M) return (ll)ans;\n        N = y / M;\n     \
-    \   B = y % M;\n        __int128 next_m = A;\n        A = M;\n        M = next_m;\n\
-    \    }\n}\n\n/**\n * @brief Floor Sum\n */\n#line 12 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int t;\n    in.read(t);\n\
-    \    while (t--) {\n        ll n, m, a, b;\n        in.read(n, m, a, b);\n   \
-    \     out.println(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\
-    \nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/floor_sum.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
-    \ out;\n\n    int t;\n    in.read(t);\n    while (t--) {\n        ll n, m, a,\
-    \ b;\n        in.read(n, m, a, b);\n        out.println(floor_sum(n, m, a, b));\n\
-    \    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/isqrt.cpp\"\
+    \null Isqrt(ull const &x){\n    ull ret = (ull)sqrtl(x);\n    while(ret > 0 &&\
+    \ ret*ret > x) --ret;\n    while(x - ret*ret > 2*ret) ++ret;\n    return ret;\n\
+    }\n\n/**\n * @brief \u6574\u6570\u5E73\u65B9\u6839(Integer Square Root)\n */\n\
+    #line 2 \"math/pell_equation.cpp\"\n\nvector<ll> sqrt_fraction(ll n) {\n    ll\
+    \ a0 = Isqrt(n);\n    vector<ll> ret{a0};\n    if (a0 * a0 == n) return ret;\n\
+    \    ll m = 0, d = 1, a = a0;\n    do {\n        m = (__int128)d * a - m;\n  \
+    \      d = ((__int128)n - (__int128)m * m) / d;\n        a = (a0 + m) / d;\n \
+    \       ret.push_back(a);\n    } while (a != 2 * a0);\n    return ret;\n}\n\n\
+    pair<ll, ll> pell_equation(ll d) {\n    auto li = sqrt_fraction(d);\n    if (li.size()\
+    \ <= 1) return {0, 0};\n    li.pop_back();\n    __int128 p = li.back(), q = 1;\n\
+    \    for (int i = (int)li.size() - 2; i >= 0; --i) {\n        swap(p, q);\n  \
+    \      p += q * li[i];\n        assert(p <= LLONG_MAX && q <= LLONG_MAX);\n  \
+    \  }\n    if (p * p - d * q * q == -1) {\n        __int128 x = p * p + d * q *\
+    \ q;\n        q = 2 * p * q;\n        p = x;\n    }\n    assert(p <= LLONG_MAX\
+    \ && q <= LLONG_MAX);\n    return {(ll)p, (ll)q};\n}\n#line 9 \"test/yosupo_aplusb_pell_equation.test.cpp\"\
+    \n\npair<__int128, __int128> oracle(ll n) {\n    ll a0 = 0;\n    while ((a0 +\
+    \ 1) * (a0 + 1) <= n) ++a0;\n    if (a0 * a0 == n) return {0, 0};\n    ll m =\
+    \ 0, d = 1, a = a0;\n    __int128 x0 = 0, x1 = 1, y0 = 1, y1 = 0;\n    while (true)\
+    \ {\n        __int128 x = a * x1 + x0, y = a * y1 + y0;\n        if (x > LLONG_MAX)\
+    \ return {-1, -1};\n        if (x * x - n * y * y == 1) return {x, y};\n     \
+    \   x0 = x1;\n        x1 = x;\n        y0 = y1;\n        y1 = y;\n        m =\
+    \ d * a - m;\n        d = (n - m * m) / d;\n        a = (a0 + m) / d;\n    }\n\
+    }\n\nvoid self_check() {\n    assert(sqrt_fraction(0) == vector<ll>{0});\n   \
+    \ assert(sqrt_fraction(2) == (vector<ll>{1, 2}));\n    assert(sqrt_fraction(3)\
+    \ == (vector<ll>{1, 1, 2}));\n    assert(sqrt_fraction(13) == (vector<ll>{3, 1,\
+    \ 1, 1, 1, 6}));\n    auto check = [](ll d, ll x, ll y) {\n        assert(pell_equation(d)\
+    \ == make_pair(x, y));\n        if (x) assert((__int128)x * x - (__int128)d *\
+    \ y * y == 1);\n    };\n    check(199, 16266196520LL, 1153080099LL);\n    check(10000000000000001LL,\
+    \ 20000000000000001LL, 200000000LL);\n    check(61, 1766319049, 226153980);\n\
+    \    for (ll d = 1; d <= 2000; ++d) {\n        auto [x, y] = oracle(d);\n    \
+    \    if (x >= 0) {\n            check(d, (ll)x, (ll)y);\n        }\n    }\n  \
+    \  vector<ll> ks{2, 3, 100000000, 2147483647};\n    mt19937_64 rng(119);\n   \
+    \ for (int tc = 0; tc < 500; ++tc) ks.push_back(2 + rng() % 2147483646);\n   \
+    \ for (ll k : ks) {\n        check(k * k - 1, k, 1);\n        check(k * k, 0,\
+    \ 0);\n        assert(sqrt_fraction(k * k) == vector<ll>{k});\n        check(k\
+    \ * k + 1, 2 * k * k + 1, 2 * k);\n        assert(sqrt_fraction(k * k + 1) ==\
+    \ (vector<ll>{k, 2 * k}));\n    }\n    check(3037000499LL * 3037000499LL - 1,\
+    \ 3037000499LL, 1);\n    check(3037000499LL * 3037000499LL, 0, 0);\n}\n\nint main()\
+    \ {\n    self_check();\n    Scanner in;\n    Printer out;\n    int a, b;\n   \
+    \ in.read(a, b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing ull = unsigned long long;\n\
+    #include \"../util/fastio.cpp\"\n#include \"../math/pell_equation.cpp\"\n\npair<__int128,\
+    \ __int128> oracle(ll n) {\n    ll a0 = 0;\n    while ((a0 + 1) * (a0 + 1) <=\
+    \ n) ++a0;\n    if (a0 * a0 == n) return {0, 0};\n    ll m = 0, d = 1, a = a0;\n\
+    \    __int128 x0 = 0, x1 = 1, y0 = 1, y1 = 0;\n    while (true) {\n        __int128\
+    \ x = a * x1 + x0, y = a * y1 + y0;\n        if (x > LLONG_MAX) return {-1, -1};\n\
+    \        if (x * x - n * y * y == 1) return {x, y};\n        x0 = x1;\n      \
+    \  x1 = x;\n        y0 = y1;\n        y1 = y;\n        m = d * a - m;\n      \
+    \  d = (n - m * m) / d;\n        a = (a0 + m) / d;\n    }\n}\n\nvoid self_check()\
+    \ {\n    assert(sqrt_fraction(0) == vector<ll>{0});\n    assert(sqrt_fraction(2)\
+    \ == (vector<ll>{1, 2}));\n    assert(sqrt_fraction(3) == (vector<ll>{1, 1, 2}));\n\
+    \    assert(sqrt_fraction(13) == (vector<ll>{3, 1, 1, 1, 1, 6}));\n    auto check\
+    \ = [](ll d, ll x, ll y) {\n        assert(pell_equation(d) == make_pair(x, y));\n\
+    \        if (x) assert((__int128)x * x - (__int128)d * y * y == 1);\n    };\n\
+    \    check(199, 16266196520LL, 1153080099LL);\n    check(10000000000000001LL,\
+    \ 20000000000000001LL, 200000000LL);\n    check(61, 1766319049, 226153980);\n\
+    \    for (ll d = 1; d <= 2000; ++d) {\n        auto [x, y] = oracle(d);\n    \
+    \    if (x >= 0) {\n            check(d, (ll)x, (ll)y);\n        }\n    }\n  \
+    \  vector<ll> ks{2, 3, 100000000, 2147483647};\n    mt19937_64 rng(119);\n   \
+    \ for (int tc = 0; tc < 500; ++tc) ks.push_back(2 + rng() % 2147483646);\n   \
+    \ for (ll k : ks) {\n        check(k * k - 1, k, 1);\n        check(k * k, 0,\
+    \ 0);\n        assert(sqrt_fraction(k * k) == vector<ll>{k});\n        check(k\
+    \ * k + 1, 2 * k * k + 1, 2 * k);\n        assert(sqrt_fraction(k * k + 1) ==\
+    \ (vector<ll>{k, 2 * k}));\n    }\n    check(3037000499LL * 3037000499LL - 1,\
+    \ 3037000499LL, 1);\n    check(3037000499LL * 3037000499LL, 0, 0);\n}\n\nint main()\
+    \ {\n    self_check();\n    Scanner in;\n    Printer out;\n    int a, b;\n   \
+    \ in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/floor_sum.cpp
+  - math/pell_equation.cpp
+  - math/isqrt.cpp
   isVerificationFile: true
-  path: test/yosupo_sum_of_floor_of_linear.test.cpp
+  path: test/yosupo_aplusb_pell_equation.test.cpp
   requiredBy: []
-  timestamp: '2026-10-08 14:12:32+09:00'
+  timestamp: '2026-10-08 14:15:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_sum_of_floor_of_linear.test.cpp
+documentation_of: test/yosupo_aplusb_pell_equation.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_sum_of_floor_of_linear.test.cpp
-- /verify/test/yosupo_sum_of_floor_of_linear.test.cpp.html
-title: test/yosupo_sum_of_floor_of_linear.test.cpp
+- /verify/test/yosupo_aplusb_pell_equation.test.cpp
+- /verify/test/yosupo_aplusb_pell_equation.test.cpp.html
+title: test/yosupo_aplusb_pell_equation.test.cpp
 ---

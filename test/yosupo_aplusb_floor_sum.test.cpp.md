@@ -14,13 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/sum_of_floor_of_linear
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/sum_of_floor_of_linear
-  bundledCode: "#line 1 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\nusing ll = long\
-    \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
-    \ <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_floor_sum.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\nusing ll = long long;\n#line 1 \"util/fastio.cpp\"\nusing namespace\
     \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
     template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
     \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
@@ -234,30 +233,70 @@ data:
     \ qa + N * qb;\n        A -= qa * M;\n        B -= qb * M;\n        __int128 y\
     \ = A * N + B;\n        if (y < M) return (ll)ans;\n        N = y / M;\n     \
     \   B = y % M;\n        __int128 next_m = A;\n        A = M;\n        M = next_m;\n\
-    \    }\n}\n\n/**\n * @brief Floor Sum\n */\n#line 12 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int t;\n    in.read(t);\n\
-    \    while (t--) {\n        ll n, m, a, b;\n        in.read(n, m, a, b);\n   \
-    \     out.println(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\
-    \nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/floor_sum.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
-    \ out;\n\n    int t;\n    in.read(t);\n    while (t--) {\n        ll n, m, a,\
-    \ b;\n        in.read(n, m, a, b);\n        out.println(floor_sum(n, m, a, b));\n\
-    \    }\n    return 0;\n}\n"
+    \    }\n}\n\n/**\n * @brief Floor Sum\n */\n#line 8 \"test/yosupo_aplusb_floor_sum.test.cpp\"\
+    \n\n__int128 brute(ll n, ll m, ll a, ll b) {\n    __int128 ans = 0;\n    for (ll\
+    \ i = 0; i < n; ++i) {\n        __int128 x = (__int128)a * i + b;\n        ans\
+    \ += x / m - (x % m < 0);\n    }\n    return ans;\n}\n\nvoid self_check() {\n\
+    \    assert(floor_sum(4000000000LL, 1, 1, 0) == 7999999998000000000LL);\n    assert(floor_sum(2,\
+    \ 3, -1, 0) == -1);\n    assert(floor_sum(4294967295LL, 1, 1, -2147483647LL) ==\
+    \ 0);\n    assert(floor_sum(4294967295LL, 1, -1, 2147483647LL) == 0);\n    for\
+    \ (ll m = 1; m <= 20; ++m) {\n        for (ll a = -20; a <= 20; ++a) {\n     \
+    \       for (ll b = -20; b <= 20; ++b) {\n                for (ll n = 0; n <=\
+    \ 20; ++n) {\n                    assert(floor_sum(n, m, a, b) == brute(n, m,\
+    \ a, b));\n                }\n            }\n        }\n    }\n    vector<ll>\
+    \ edge{LLONG_MIN, LLONG_MIN + 1, -1, 0, 1, LLONG_MAX};\n    for (ll a : edge)\
+    \ {\n        for (ll b : edge) {\n            for (ll m : {1LL, 3LL, 4294967295LL})\
+    \ {\n                for (ll n = 0; n <= 5; ++n) {\n                    __int128\
+    \ expected = brute(n, m, a, b);\n                    if (expected >= LLONG_MIN\
+    \ && expected <= LLONG_MAX) {\n                        assert(floor_sum(n, m,\
+    \ a, b) == expected);\n                    }\n                }\n            }\n\
+    \        }\n    }\n    mt19937_64 rng(85);\n    for (int tc = 0; tc < 10000; ++tc)\
+    \ {\n        ll n = rng() % 50, m = 1 + rng() % 4294967295ULL;\n        ll a =\
+    \ (ll)(rng() & LLONG_MAX), b = (ll)(rng() & LLONG_MAX);\n        if (rng() & 1)\
+    \ a = -a;\n        if (rng() & 1) b = -b;\n        __int128 expected = brute(n,\
+    \ m, a, b);\n        if (expected >= LLONG_MIN && expected <= LLONG_MAX) {\n \
+    \           assert(floor_sum(n, m, a, b) == expected);\n        }\n    }\n}\n\n\
+    int main() {\n    self_check();\n    Scanner in;\n    Printer out;\n    int a,\
+    \ b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\n#include \"../util/fastio.cpp\"\n\
+    #include \"../math/floor_sum.cpp\"\n\n__int128 brute(ll n, ll m, ll a, ll b) {\n\
+    \    __int128 ans = 0;\n    for (ll i = 0; i < n; ++i) {\n        __int128 x =\
+    \ (__int128)a * i + b;\n        ans += x / m - (x % m < 0);\n    }\n    return\
+    \ ans;\n}\n\nvoid self_check() {\n    assert(floor_sum(4000000000LL, 1, 1, 0)\
+    \ == 7999999998000000000LL);\n    assert(floor_sum(2, 3, -1, 0) == -1);\n    assert(floor_sum(4294967295LL,\
+    \ 1, 1, -2147483647LL) == 0);\n    assert(floor_sum(4294967295LL, 1, -1, 2147483647LL)\
+    \ == 0);\n    for (ll m = 1; m <= 20; ++m) {\n        for (ll a = -20; a <= 20;\
+    \ ++a) {\n            for (ll b = -20; b <= 20; ++b) {\n                for (ll\
+    \ n = 0; n <= 20; ++n) {\n                    assert(floor_sum(n, m, a, b) ==\
+    \ brute(n, m, a, b));\n                }\n            }\n        }\n    }\n  \
+    \  vector<ll> edge{LLONG_MIN, LLONG_MIN + 1, -1, 0, 1, LLONG_MAX};\n    for (ll\
+    \ a : edge) {\n        for (ll b : edge) {\n            for (ll m : {1LL, 3LL,\
+    \ 4294967295LL}) {\n                for (ll n = 0; n <= 5; ++n) {\n          \
+    \          __int128 expected = brute(n, m, a, b);\n                    if (expected\
+    \ >= LLONG_MIN && expected <= LLONG_MAX) {\n                        assert(floor_sum(n,\
+    \ m, a, b) == expected);\n                    }\n                }\n         \
+    \   }\n        }\n    }\n    mt19937_64 rng(85);\n    for (int tc = 0; tc < 10000;\
+    \ ++tc) {\n        ll n = rng() % 50, m = 1 + rng() % 4294967295ULL;\n       \
+    \ ll a = (ll)(rng() & LLONG_MAX), b = (ll)(rng() & LLONG_MAX);\n        if (rng()\
+    \ & 1) a = -a;\n        if (rng() & 1) b = -b;\n        __int128 expected = brute(n,\
+    \ m, a, b);\n        if (expected >= LLONG_MIN && expected <= LLONG_MAX) {\n \
+    \           assert(floor_sum(n, m, a, b) == expected);\n        }\n    }\n}\n\n\
+    int main() {\n    self_check();\n    Scanner in;\n    Printer out;\n    int a,\
+    \ b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/floor_sum.cpp
   isVerificationFile: true
-  path: test/yosupo_sum_of_floor_of_linear.test.cpp
+  path: test/yosupo_aplusb_floor_sum.test.cpp
   requiredBy: []
   timestamp: '2026-10-08 14:12:32+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_sum_of_floor_of_linear.test.cpp
+documentation_of: test/yosupo_aplusb_floor_sum.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_sum_of_floor_of_linear.test.cpp
-- /verify/test/yosupo_sum_of_floor_of_linear.test.cpp.html
-title: test/yosupo_sum_of_floor_of_linear.test.cpp
+- /verify/test/yosupo_aplusb_floor_sum.test.cpp
+- /verify/test/yosupo_aplusb_floor_sum.test.cpp.html
+title: test/yosupo_aplusb_floor_sum.test.cpp
 ---

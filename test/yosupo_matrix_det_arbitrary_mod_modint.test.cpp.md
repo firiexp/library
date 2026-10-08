@@ -2,11 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/floor_sum.cpp
-    title: Floor Sum
+    path: math/matrix_determinant_mod.cpp
+    title: "\u4EFB\u610F mod \u306E\u884C\u5217\u5F0F"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_arbitrary.cpp
+    title: "modint(\u4EFB\u610FMOD)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -14,66 +17,67 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/sum_of_floor_of_linear
+    PROBLEM: https://judge.yosupo.jp/problem/matrix_det_arbitrary_mod
     links:
-    - https://judge.yosupo.jp/problem/sum_of_floor_of_linear
-  bundledCode: "#line 1 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\nusing ll = long\
-    \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
-    \ <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace\
-    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
-    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
-    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/matrix_det_arbitrary_mod
+  bundledCode: "#line 1 \"test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp\"\n\
+    #define PROBLEM \"https://judge.yosupo.jp/problem/matrix_det_arbitrary_mod\"\n\
+    \n#include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\nusing\
+    \ uint = unsigned;\nusing ull = unsigned long long;\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -227,37 +231,81 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/floor_sum.cpp\"\
-    \nll floor_sum(ll n, ll m, ll a, ll b) {\n    __int128 N = n, M = m, A = a, B\
-    \ = b, ans = 0;\n    while (true) {\n        __int128 qa = A / M - (A % M < 0);\n\
-    \        __int128 qb = B / M - (B % M < 0);\n        ans += N * (N - 1) / 2 *\
-    \ qa + N * qb;\n        A -= qa * M;\n        B -= qb * M;\n        __int128 y\
-    \ = A * N + B;\n        if (y < M) return (ll)ans;\n        N = y / M;\n     \
-    \   B = y % M;\n        __int128 next_m = A;\n        A = M;\n        M = next_m;\n\
-    \    }\n}\n\n/**\n * @brief Floor Sum\n */\n#line 12 \"test/yosupo_sum_of_floor_of_linear.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int t;\n    in.read(t);\n\
-    \    while (t--) {\n        ll n, m, a, b;\n        in.read(n, m, a, b);\n   \
-    \     out.println(floor_sum(n, m, a, b));\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/sum_of_floor_of_linear\"\
-    \nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/floor_sum.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
-    \ out;\n\n    int t;\n    in.read(t);\n    while (t--) {\n        ll n, m, a,\
-    \ b;\n        in.read(n, m, a, b);\n        out.println(floor_sum(n, m, a, b));\n\
-    \    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/modint_arbitrary.cpp\"\
+    \n\n\n\nclass modint {\n    static uint &mod() { static uint mod_ = 0; return\
+    \ mod_; }\npublic:\n    uint val;\n    static modint raw(int v) { modint x; x.val\
+    \ = v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
+    \ v) { ll x = (ll)(v % (ll)(M())); if (x < 0) x += M(); val = uint(x); }\n   \
+    \ modint(bool v) { val = ((unsigned int)(v) % M()); }\n    static uint get_mod()\
+    \ { return M(); }\n    static uint M() { return mod(); }\n    static void set_mod(uint\
+    \ x) { mod() = x; }\n    uint &value() noexcept { return val; }\n    const uint\
+    \ &value() const noexcept { return val; }\n    modint &operator++() { val++; if\
+    \ (val == M()) val = 0; return *this; }\n    modint &operator--() { if (val ==\
+    \ 0) val = M(); val--; return *this; }\n    modint operator++(int) { modint result\
+    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint &operator+=(const modint &b)\
+    \ { val += b.val; if (val >= M()) val -= M(); return *this; }\n    modint &operator-=(const\
+    \ modint &b) { val -= b.val; if (val >= M()) val += M(); return *this; }\n   \
+    \ modint &operator*=(const modint &b) { val = (ull)val * b.val % M(); return *this;\
+    \ }\n    modint &operator/=(const modint &b) { return *this = *this * b.inv();\
+    \ }\n    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(M() - 2); }\n    friend modint operator+(const\
+    \ modint &a, const modint &b) { return modint(a) += b; }\n    friend modint operator-(const\
+    \ modint &a, const modint &b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint &a, const modint &b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint &a, const modint &b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint &a, const modint &b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint &a, const modint &b) { return a.val != b.val; }\n};\nusing mint = modint;\n\
+    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u4EFB\u610F\
+    MOD)\n */\n\n\n#line 1 \"math/matrix_determinant_mod.cpp\"\nll matrix_determinant_mod(vector<vector<ll>>\
+    \ A, int mod) {\n    assert(mod >= 1);\n    int n = A.size();\n    for (auto&\
+    \ row : A) {\n        assert((int)row.size() == n);\n        for (auto& x : row)\
+    \ {\n            x %= mod;\n            if (x < 0) x += mod;\n        }\n    }\n\
+    \    ll det = 1 % mod;\n    for (int col = 0; col < n; ++col) {\n        for (int\
+    \ row = col + 1; row < n; ++row) {\n            while (A[row][col]) {\n      \
+    \          ll quotient = A[col][col] / A[row][col];\n                for (int\
+    \ j = col; j < n; ++j) {\n                    A[col][j] = (A[col][j] - quotient\
+    \ * A[row][j]) % mod;\n                    if (A[col][j] < 0) A[col][j] += mod;\n\
+    \                }\n                swap(A[col], A[row]);\n                det\
+    \ = -det;\n            }\n        }\n        if (A[col][col] == 0) return 0;\n\
+    \        det = det * A[col][col] % mod;\n    }\n    if (det < 0) det += mod;\n\
+    \    return det;\n}\n\ntemplate<class Mint>\nMint matrix_determinant_mod(const\
+    \ vector<vector<Mint>>& A) {\n    auto mod = Mint::get_mod();\n    assert(1 <=\
+    \ mod && mod <= INT_MAX);\n    int n = A.size();\n    vector<vector<ll>> values(n,\
+    \ vector<ll>(n));\n    for (int i = 0; i < n; ++i) {\n        assert((int)A[i].size()\
+    \ == n);\n        for (int j = 0; j < n; ++j) values[i][j] = A[i][j].value();\n\
+    \    }\n    return Mint(matrix_determinant_mod(move(values), (int)mod));\n}\n\n\
+    /**\n * @brief \u4EFB\u610F mod \u306E\u884C\u5217\u5F0F\n */\n#line 11 \"test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, mod;\n    in.read(n,\
+    \ mod);\n    mint::set_mod(mod);\n    vector<vector<mint>> a(n, vector<mint>(n));\n\
+    \    for (auto& row : a) for (auto& x : row) {\n        ll value;\n        in.read(value);\n\
+    \        x = value;\n    }\n    out.println(matrix_determinant_mod(a).value());\n\
+    }\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_det_arbitrary_mod\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\nusing\
+    \ uint = unsigned;\nusing ull = unsigned long long;\n#include \"../util/fastio.cpp\"\
+    \n#include \"../util/modint_arbitrary.cpp\"\n#include \"../math/matrix_determinant_mod.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, mod;\n    in.read(n,\
+    \ mod);\n    mint::set_mod(mod);\n    vector<vector<mint>> a(n, vector<mint>(n));\n\
+    \    for (auto& row : a) for (auto& x : row) {\n        ll value;\n        in.read(value);\n\
+    \        x = value;\n    }\n    out.println(matrix_determinant_mod(a).value());\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
-  - math/floor_sum.cpp
+  - util/modint_arbitrary.cpp
+  - math/matrix_determinant_mod.cpp
   isVerificationFile: true
-  path: test/yosupo_sum_of_floor_of_linear.test.cpp
+  path: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
   requiredBy: []
-  timestamp: '2026-10-08 14:12:32+09:00'
+  timestamp: '2026-10-08 23:48:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_sum_of_floor_of_linear.test.cpp
+documentation_of: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_sum_of_floor_of_linear.test.cpp
-- /verify/test/yosupo_sum_of_floor_of_linear.test.cpp.html
-title: test/yosupo_sum_of_floor_of_linear.test.cpp
+- /verify/test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
+- /verify/test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp.html
+title: test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp
 ---
