@@ -60,8 +60,7 @@ public:
             swap(ra, rb);
             swap(sa, sb);
         }
-        int nr = set(rt, ra, sa + sb, 0, n);
-        nr = set(nr, rb, ra, 0, n);
+        int nr = set_pair(rt, ra, sa + sb, rb, ra, 0, n);
         roots.push_back({nr, roots[t].second - 1});
         return latest_version();
     }
@@ -93,6 +92,23 @@ private:
         int nr = node[id].r;
         if (k < m) nl = set(nl, k, val, l, m);
         else nr = set(nr, k, val, m, r);
+        return make_node(0, nl, nr);
+    }
+
+    int set_pair(int id, int a, int va, int b, int vb, int l, int r) {
+        if (a > b) {
+            swap(a, b);
+            swap(va, vb);
+        }
+        int m = (l + r) >> 1;
+        int nl = node[id].l;
+        int nr = node[id].r;
+        if (b < m) nl = set_pair(nl, a, va, b, vb, l, m);
+        else if (a >= m) nr = set_pair(nr, a, va, b, vb, m, r);
+        else {
+            nl = set(nl, a, va, l, m);
+            nr = set(nr, b, vb, m, r);
+        }
         return make_node(0, nl, nr);
     }
 };
