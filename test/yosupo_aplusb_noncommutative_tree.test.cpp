@@ -78,8 +78,8 @@ void rerooting_check() {
     assert(star.solve()[0] == "a()b()c()");
     assert(star.solve()[2] == "b(a()c())");
     mt19937 rng(44);
-    for (int n = 0; n <= 29; ++n) {
-        for (int tc = 0; tc < 20; ++tc) {
+    for (int n = 0; n < 40; ++n) {
+        for (int tc = 0; tc < 100; ++tc) {
             vector<pair<int, int>> edges;
             for (int v = 1; v < n; ++v) edges.emplace_back(rng() % v, v);
             shuffle(edges.begin(), edges.end(), rng);
