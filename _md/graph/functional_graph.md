@@ -8,10 +8,10 @@ tags: グラフ
 
 ## 説明
 各頂点の出次数が 1 の有向グラフを扱う。
-cycle 分解と doubling を前計算し、`k` 個先の頂点と各頂点が属する閉路情報を取る。
+cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の最小遷移回数、各頂点が属する閉路情報を取る。
 
 ## できること
-`jump` 以外の問い合わせは $O(1)$。
+`jump`・`distance` 以外の問い合わせは $O(1)$。
 
 - `FunctionalGraph fg(n)`
   `n` 頂点の関数グラフを作る。$O(N)$
@@ -23,6 +23,8 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点と各頂点が属
   閉路分解と doubling を前計算する。時間・領域 $O(N \log N)$
 - `int jump(int v, long long k)`
   `v` から `k` 回遷移した先を返す。$0 \le k \le 2^{63}-1$。閉路到達前は $O(\log(k+1))$、到達後は $O(1)$
+- `int distance(int s, int t) const`
+  `s` から `t` への最小遷移回数を返す。到達不能なら `-1`、`s == t` なら `0`。$O(\log N)$、`t` が閉路上なら $O(1)$。追加領域 $O(1)$
 - `bool in_cycle(int v)`
   `v` が閉路上なら `true`
 - `int cycle_id(int v)`
@@ -42,6 +44,7 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点と各頂点が属
 各頂点の遷移先を `set_edge` で入れてから `build()` を呼ぶ。
 辺を変更した後は再び `build()` を呼ぶ。
 `jump(v, k)` で `k` 個先を求め、`steps_to_cycle(v)` や `cycle_size(v)` で構造情報を使う。
+`distance(s, t)` は同じ `build()` の結果で使え、追加の前処理は不要。
 
 ```cpp
 FunctionalGraph fg(n);

@@ -106,6 +106,17 @@ struct FunctionalGraph {
         return v;
     }
 
+    int distance(int s, int t) const {
+        if (comp_id[s] != comp_id[t]) return -1;
+        if (dist_to_cycle[t] == 0) {
+            int offset = cycle_pos[t] - cycle_pos[s];
+            if (offset < 0) offset += cycle_len[s];
+            return dist_to_cycle[s] + offset;
+        }
+        int d = dist_to_cycle[s] - dist_to_cycle[t];
+        return d >= 0 && jump(s, d) == t ? d : -1;
+    }
+
     bool in_cycle(int v) const {
         return dist_to_cycle[v] == 0;
     }
