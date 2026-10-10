@@ -865,6 +865,43 @@ struct DynamicWeightedWaveletMatrix {
         };
     }
 
+    T kth_smallest(int l, int r, int k) const {
+        assert(built && 0 <= l && l <= r && r <= n);
+        assert(0 <= k && k < r - l);
+        l = offset[l];
+        r = offset[r];
+        int xi = 0;
+        const auto *bit_data = bit.data();
+        const int *pref_data = pref.data();
+        for (int d = 0; d < lg; ++d) {
+            int l1, r1;
+            rank1_pair(bit_data, pref_data, l, r, l1, r1);
+            int l0 = l - l1, r0 = r - r1;
+            int zero_count = fixed_values ? r0 - l0 :
+                    fenwick_range(zero_count_fenwick, row_offset[d], l0, r0);
+            xi <<= 1;
+            if (k < zero_count) {
+                l = l0;
+                r = r0;
+            }
+            else {
+                k -= zero_count;
+                l = mid[d] + l1;
+                r = mid[d] + r1;
+                xi |= 1;
+            }
+            bit_data += blocks;
+            pref_data += blocks + 1;
+        }
+        return vals[xi];
+    }
+
+    T kth_largest(int l, int r, int k) const {
+        assert(built && 0 <= l && l <= r && r <= n);
+        assert(0 <= k && k < r - l);
+        return kth_smallest(l, r, r - l - 1 - k);
+    }
+
     U sum_k_smallest(int l, int r, int k) const {
         assert(built && 0 <= l && l <= r && r <= n);
         assert(0 <= k && k <= r - l);

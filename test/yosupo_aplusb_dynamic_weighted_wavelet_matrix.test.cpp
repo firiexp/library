@@ -144,6 +144,12 @@ void check_queries(const DynamicWeightedWaveletMatrix<int, ll> &wm,
     int k = rng() % (r - l + 1);
     assert(wm.sum_k_smallest(l, r, k) == brute_sum_k_smallest(a, w, l, r, k));
     check_cursor(wm, a, w, l, r);
+    vector<int> sorted(a.begin() + l, a.begin() + r);
+    sort(sorted.begin(), sorted.end());
+    for (int rank = 0; rank < r - l; ++rank) {
+        assert(wm.kth_smallest(l, r, rank) == sorted[rank]);
+        assert(wm.kth_largest(l, r, rank) == sorted[r - l - 1 - rank]);
+    }
 
     int xi = (int)(rng() % (wm.vals.size() + 3)) - 1;
     BruteResult index_less{0, 0};
@@ -242,6 +248,8 @@ void self_check_generic_value() {
     assert(wm.freq(0, 3, string("dd")) == 1);
     assert(!wm.set_value(2, "dd"));
     assert(wm.get_value(2) == "cc");
+    assert(wm.kth_smallest(0, 3, 1) == "cc");
+    assert(wm.kth_largest(0, 3, 0) == "dd");
 
     auto cur = wm.range_cursor(0, 3);
     while (!cur.is_leaf()) {
@@ -311,6 +319,36 @@ void self_check_integral_boundaries() {
     assert(wm.freq(0, 4, low) == 2);
     assert(wm.set(2, high, -5));
     assert(wm.sum_equal(0, 4, high) == -5);
+    assert(wm.kth_smallest(0, 4, 0) == low);
+    assert(wm.kth_largest(0, 4, 0) == high);
+}
+
+void self_check_kth_boundaries() {
+    for (int n : {1, 2, 65}) {
+        vector<int> values(n, -7);
+        vector<ll> weights(n, -100);
+        for (bool dynamic : {false, true}) {
+            DynamicWeightedWaveletMatrix<int, ll> wm(n);
+            if (dynamic) {
+                for (int i = 0; i < n; ++i) {
+                    wm.add_value_candidate(i, -1000);
+                    wm.add_value_candidate(i, 1000);
+                }
+            }
+            wm.build(values, weights);
+            for (int k = 0; k < n; ++k) {
+                assert(wm.kth_smallest(0, n, k) == -7);
+                assert(wm.kth_largest(0, n, k) == -7);
+                assert(wm.kth_smallest(k, k + 1, 0) == -7);
+            }
+            if (dynamic) {
+                assert(wm.set_value(0, 1000));
+                assert(wm.kth_largest(0, n, 0) == 1000);
+                assert(wm.set_value(0, -1000));
+                assert(wm.kth_smallest(0, n, 0) == -1000);
+            }
+        }
+    }
 }
 
 int main() {
@@ -319,6 +357,7 @@ int main() {
     self_check_sum_k_smallest();
     self_check_fixed_values();
     self_check_integral_boundaries();
+    self_check_kth_boundaries();
 
     Scanner sc;
     Printer pr;

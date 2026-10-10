@@ -37,6 +37,8 @@ tags: データ構造
   区間 $[l, r)$ のうち `x` 未満または以下の要素数と重み和を返す
 - `count_less(l, r, x)` / `sum_less(l, r, x)`
   区間 $[l, r)$ のうち `x` 未満の要素数または重み和を返す
+- `T kth_smallest(l, r, k) const` / `T kth_largest(l, r, k) const`
+  区間 $[l, r)$ の小さい方・大きい方から 0-indexed で `k` 番目の値を返す。`0 <= k < r - l` が必要で、空区間には呼べない。重複は出現個数で数え、重みには依存しない
 - `sum_k_smallest(l, r, k)`
   区間 $[l, r)$ の要素を値の昇順に並べたとき、小さい方から `k` 個の重み和を返す。`0 <= k <= r - l` とし、同値の要素は位置が小さい順に扱う
 - `freq(l, r, x)` / `sum_equal(l, r, x)`
@@ -76,6 +78,7 @@ auto maximum = cur.value();
 - $M$ を登録後の候補スロット数、$\sigma$ を候補値の種類数とする
 - 構築は $O(M \log M + M \log \sigma)$
 - 更新と `less`・値区間・`sum_k_smallest` クエリは $O(\log \sigma \log M)$
+- `kth_smallest` と `kth_largest` は $O(\log \sigma \log M)$。各位置の候補値が一つだけなら $O(\log \sigma)$。追加作業領域は $O(1)$
 - `freq` と `sum_equal` は $O(\log \sigma + \log M)$
 - `range_cursor` は $O(\log N)$、`split` は $O(\log M)$。根から葉まで降りると $O(\log \sigma \log M)$
 - メモリ使用量は $O(M \log \sigma)$
