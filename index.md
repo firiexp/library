@@ -26,6 +26,9 @@ data:
       title: "\u52D5\u7684\u91CD\u307F\u4ED8\u304DWavelet Matrix(Dynamic Weighted\
         \ Wavelet Matrix)"
     - icon: ':heavy_check_mark:'
+      path: datastructure/fast_set.cpp
+      title: "\u6574\u6570\u96C6\u5408\u306E\u524D\u5F8C\u691C\u7D22(FastSet)"
+    - icon: ':heavy_check_mark:'
       path: datastructure/fenwick_tree_2d.cpp
       title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
     - icon: ':heavy_check_mark:'
@@ -35,6 +38,10 @@ data:
       path: datastructure/interval_set.cpp
       title: "\u533A\u9593\u96C6\u5408(Interval Set)"
     - icon: ':heavy_check_mark:'
+      path: datastructure/leftist_heap.cpp
+      title: "\u4F75\u5408\u30FB\u4E00\u62EC\u52A0\u7B97\u4ED8\u304D\u30D2\u30FC\u30D7\
+        (Leftist Heap)"
+    - icon: ':heavy_check_mark:'
       path: datastructure/li_chao_tree.cpp
       title: Li Chao Tree
     - icon: ':heavy_check_mark:'
@@ -43,6 +50,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/order_statistic_tree.cpp
       title: "\u9806\u5E8F\u6728(Order Statistic Tree)"
+    - icon: ':heavy_check_mark:'
+      path: datastructure/persistent_queue.cpp
+      title: "\u6C38\u7D9A\u30AD\u30E5\u30FC"
     - icon: ':heavy_check_mark:'
       path: datastructure/persistent_unionfind.cpp
       title: "\u5B8C\u5168\u6C38\u7D9AUnionFind(Fully Persistent Union Find)"
@@ -89,6 +99,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/trie.cpp
       title: "Trie \u6728"
+    - icon: ':heavy_check_mark:'
+      path: datastructure/undoable_weighted_unionfind.cpp
+      title: "\u5DEE\u5206\u30FB\u77DB\u76FE\u5224\u5B9A\u4ED8\u304Drollback UnionFind"
     - icon: ':heavy_check_mark:'
       path: datastructure/undoableunionfind.cpp
       title: Undoable Union Find
@@ -256,6 +269,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/edge.cpp
       title: graph/edge.cpp
+    - icon: ':heavy_check_mark:'
+      path: graph/enumerate_triangles.cpp
+      title: "\u7121\u5411\u30B0\u30E9\u30D5\u306E\u4E09\u89D2\u5F62\u5217\u6319"
     - icon: ':heavy_check_mark:'
       path: graph/eulerian_trail.cpp
       title: "\u30AA\u30A4\u30E9\u30FC\u8DEF(Eulerian Trail)"
@@ -719,6 +735,9 @@ data:
       path: test/aoj_alds1_9_c_binaryheap.test.cpp
       title: test/aoj_alds1_9_c_binaryheap.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_alds1_9_c_leftist_heap.test.cpp
+      title: test/aoj_alds1_9_c_leftist_heap.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_cgl_4_b.test.cpp
       title: test/aoj_cgl_4_b.test.cpp
     - icon: ':heavy_check_mark:'
@@ -821,6 +840,12 @@ data:
       path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_enumerate_triangles.test.cpp
+      title: test/yosupo_aplusb_enumerate_triangles.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_fast_set.test.cpp
+      title: test/yosupo_aplusb_fast_set.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
       title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
     - icon: ':heavy_check_mark:'
@@ -862,6 +887,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_leftist_heap.test.cpp
+      title: test/yosupo_aplusb_leftist_heap.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_li_chao_tree.test.cpp
       title: test/yosupo_aplusb_li_chao_tree.test.cpp
@@ -929,6 +957,9 @@ data:
       path: test/yosupo_aplusb_pell_equation.test.cpp
       title: test/yosupo_aplusb_pell_equation.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_persistent_queue.test.cpp
+      title: test/yosupo_aplusb_persistent_queue.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_persistent_unionfind.test.cpp
       title: test/yosupo_aplusb_persistent_unionfind.test.cpp
     - icon: ':heavy_check_mark:'
@@ -988,6 +1019,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_top_kth.test.cpp
       title: test/yosupo_aplusb_top_kth.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
+      title: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
       title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
@@ -1096,6 +1130,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
       title: test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_enumerate_triangles.test.cpp
+      title: test/yosupo_enumerate_triangles.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_eulerian_trail_directed.test.cpp
       title: test/yosupo_eulerian_trail_directed.test.cpp
@@ -1229,6 +1266,9 @@ data:
       path: test/yosupo_ordered_set.test.cpp
       title: test/yosupo_ordered_set.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_persistent_queue.test.cpp
+      title: test/yosupo_persistent_queue.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
       title: test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1273,6 +1313,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_pow_of_matrix_generic.test.cpp
       title: test/yosupo_pow_of_matrix_generic.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_predecessor_problem_fast_set.test.cpp
+      title: test/yosupo_predecessor_problem_fast_set.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_predecessor_problem_interval_set.test.cpp
       title: test/yosupo_predecessor_problem_interval_set.test.cpp
@@ -1399,6 +1442,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind_with_potential.test.cpp
       title: test/yosupo_unionfind_with_potential.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_unionfind_with_potential_undoable.test.cpp
+      title: test/yosupo_unionfind_with_potential_undoable.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
