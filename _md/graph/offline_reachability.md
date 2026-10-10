@@ -8,8 +8,11 @@ documentation_of: //graph/offline_reachability.cpp
 強連結成分を縮約し、始点・終点の種類が少ない側を64個ずつ伝播する。
 
 ## できること
+頂点数を $V$、辺数を $E$、クエリ数を $Q$ とする。
+
 - `vector<char> offline_reachability(n, edges, queries)`
-  `queries` の各 `(s, t)` に対し、到達可能なら `1`、不可能なら `0` を入力順に返す
+  `queries` の各 `(s, t)` に対し、到達可能なら `1`、不可能なら `0` を入力順に返す。
+  最悪時間は $O((V+E)\lceil V/64\rceil+Q)$、返却値を含む追加領域は $O(V+E+Q)$
 
 ## 使い方
 頂点番号は `0` 以上 `n` 未満。`edges` と `queries` は `vector<pair<int, int>>` で渡す。
@@ -18,6 +21,4 @@ documentation_of: //graph/offline_reachability.cpp
 空クエリの結果は空。`n == 0` なら辺とクエリも空とする。
 
 ## 実装上の補足
-縮約後の頂点数を $C$、辺数を $D$、未確定クエリの始点・終点成分数の小さい方を $K$ とする。
-時間は $O(N+M+Q+(C+D)\lceil K/64\rceil)$、返却値を含む追加領域は $O(N+M+Q)$。
 各クエリは所属するバッチでだけ調べ、全頂点対の到達表は保持しない。
