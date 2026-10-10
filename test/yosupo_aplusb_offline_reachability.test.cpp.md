@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segmenttree/segtree.cpp
-    title: Segment Tree
+    path: graph/SCC.cpp
+    title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
   - icon: ':heavy_check_mark:'
-    path: tree/hld.cpp
-    title: "HL\u5206\u89E3(HL Decomposition)"
+    path: graph/offline_reachability.cpp
+    title: "\u6709\u5411\u30B0\u30E9\u30D5\u306E\u4E00\u62EC\u5230\u9054\u5224\u5B9A"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -17,19 +17,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/vertex_add_subtree_sum
-  bundledCode: "#line 1 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_offline_reachability.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -231,152 +229,150 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/hld.cpp\"\
-    \n\n\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int root, vector<int>\
-    \ &order){\n        order.clear();\n        order.push_back(root);\n        for\
-    \ (int i = 0; i < (int)order.size(); ++i) {\n            int v = order[i];\n \
-    \           for (int u : G[v]) {\n                if (u == par[v]) continue;\n\
-    \                par[u] = v;\n                dep[u] = dep[v] + 1;\n         \
-    \       order.push_back(u);\n            }\n        }\n        for (int i = (int)order.size()\
-    \ - 1; i >= 0; --i) {\n            int v = order[i], heavy = -1;\n           \
-    \ for (int u : G[v]) {\n                if (u == par[v]) continue;\n         \
-    \       sub_size[v] += sub_size[u];\n                if (heavy == -1 || sub_size[u]\
-    \ > sub_size[heavy]) heavy = u;\n            }\n            if (heavy != -1 &&\
-    \ G[v][0] != heavy) {\n                for (auto &u : G[v]) {\n              \
-    \      if (u == heavy) {\n                        swap(u, G[v][0]);\n        \
-    \                break;\n                    }\n                }\n          \
-    \  }\n        }\n    }\n    void dfs_hld(int root, int c, int &pos, vector<int>\
-    \ &stack){\n        stack.clear();\n        stack.push_back(root);\n        while\
-    \ (!stack.empty()) {\n            int v = stack.back();\n            stack.pop_back();\n\
-    \            id[v] = pos++;\n            id_inv[id[v]] = v;\n            tree_id[v]\
-    \ = c;\n            for (int i = (int)G[v].size() - 1; i >= 0; --i) {\n      \
-    \          int u = G[v][i];\n                if (u == par[v]) continue;\n    \
-    \            head[u] = (u == G[v][0] ? head[v] : u);\n                stack.push_back(u);\n\
-    \            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G;\n    vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit\
-    \ HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1),\
-    \ id(n), id_inv(n), tree_id(n), head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>>\
-    \ &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
-    \ head(n) {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n\
-    \        G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
-    \        if (n == 0) return;\n        fill(par.begin(), par.end(), -1);\n    \
-    \    fill(dep.begin(), dep.end(), 0);\n        fill(sub_size.begin(), sub_size.end(),\
-    \ 1);\n        int c = 0, pos = 0;\n        vector<int> order;\n        for (auto\
-    \ &&i : roots) {\n            dfs_sz(i, order);\n            head[i] = i;\n  \
-    \          dfs_hld(i, c++, pos, order);\n        }\n    }\n\n    int lca(int u,\
-    \ int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n \
-    \           if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
-    \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
-    \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
-    \ >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n     \
-    \       v = par[u];\n        }\n    }\n\n    int distance(int u, int v){ return\
-    \ dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    pair<int, int> subtree(int v, bool\
-    \ edge = false) const {\n        return {id[v] + edge, id[v] + sub_size[v]};\n\
-    \    }\n\n    template<typename F>\n    void add(int u, int v, const F &f, bool\
-    \ edge){\n        while (head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
-    \ v);\n            f(id[head[v]], id[v]+1);\n            v = par[head[v]];\n \
-    \       }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge, id[v]+1);\n\
-    \    }\n\n    template<typename F>\n    void path(int u, int v, const F &f, bool\
-    \ edge = false){\n        add(u, v, f, edge);\n    }\n\n    template<typename\
-    \ F>\n    void apply_subtree(int v, const F &f, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename\
-    \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
-    \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
-    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
-    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
-    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
-    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
-    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
-    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
-    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
-    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
-    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
-    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
-    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
-    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
-    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
-    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
-    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
-    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
-    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n\n\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
-    \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
-    \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
-    \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
-    \ M::e());\n    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n \
-    \   void build(){\n        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i],\
-    \ seg[2*i+1]);\n    }\n\n    void update(int k, const T &x){\n        k += sz;\n\
-    \        seg[k] = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n\
-    \    }\n\n    T query(int a, int b){\n        T l = M::e(), r = M::e();\n    \
-    \    for(a += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l,\
-    \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
-    \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
-    \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
-    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
-    \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
-    \                    if (cond(M::f(val, seg[l]))){\n                        val\
-    \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
-    \                }\n                return l - sz;\n            }\n          \
-    \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
-    \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
-    \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
-    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
-    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
-    \ val))){\n                        val = M::f(seg[r], val);\n                \
-    \        r--;\n                    }\n                }\n                return\
-    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
-    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
-    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
-    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
-    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
-    \ */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid\
-    \ {\n    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
-    \    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x :\
-    \ a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v\
-    \ < n; ++v) {\n        int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n\
-    \    }\n    hld.build();\n\n    SegmentTree<SumMonoid> seg(n);\n    for (int v\
-    \ = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n        if\
-    \ (t == 0) {\n            ll x;\n            sc.read(x);\n            int p =\
-    \ hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else {\n     \
-    \       pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
-    \ r); }));\n        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
-    \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\
-    \n#include \"../datastructure/segmenttree/segtree.cpp\"\n\nstruct SumMonoid {\n\
-    \    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
-    \n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v < n; ++v) {\n   \
-    \     int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n    }\n    hld.build();\n\
-    \n    SegmentTree<SumMonoid> seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v],\
-    \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
-    \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
-    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query(v,\
-    \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/SCC.cpp\"\
+    \nclass SCC {\n    struct CSR {\n        vector<int> start, elist;\n\n       \
+    \ CSR() = default;\n\n        CSR(int n, const vector<pair<int, int>> &edges,\
+    \ bool rev) : start(n + 1), elist(edges.size()) {\n            for (auto &&[a,\
+    \ b] : edges) {\n                ++start[(rev ? b : a) + 1];\n            }\n\
+    \            for (int i = 0; i < n; ++i) start[i + 1] += start[i];\n         \
+    \   auto counter = start;\n            for (auto &&[a, b] : edges) {\n       \
+    \         int from = rev ? b : a;\n                int to = rev ? a : b;\n   \
+    \             elist[counter[from]++] = to;\n            }\n        }\n    };\n\
+    \n    int n = 0;\n    vector<pair<int, int>> edges;\n\npublic:\n    vector<vector<int>>\
+    \ G_out;\n    vector<int> vs, used, cmp, sz;\n    SCC() = default;\n    explicit\
+    \ SCC(int n) : n(n), used(n), cmp(n), sz(n) {}\n\n    void add_edge(int a, int\
+    \ b){\n        edges.emplace_back(a, b);\n    }\n\n    int build() {\n       \
+    \ CSR G(n, edges, false), G_r(n, edges, true);\n        vs.clear();\n        vs.reserve(n);\n\
+    \        fill(used.begin(), used.end(), 0);\n        auto dfs = [&](auto &&self,\
+    \ int v) -> void {\n            used[v] = 1;\n            for (int ei = G.start[v];\
+    \ ei < G.start[v + 1]; ++ei) {\n                int u = G.elist[ei];\n       \
+    \         if(!used[u]) self(self, u);\n            }\n            vs.emplace_back(v);\n\
+    \        };\n        for (int i = 0; i < n; ++i) {\n            if(!used[i]) dfs(dfs,\
+    \ i);\n        }\n        fill(used.begin(), used.end(), 0);\n        sz.resize(n);\n\
+    \        fill(sz.begin(), sz.end(), 0);\n        int k = 0;\n        auto dfs_r\
+    \ = [&](auto &&self, int v, int c) -> void {\n            used[v] = 1;\n     \
+    \       cmp[v] = c;\n            sz[c]++;\n            for (int ei = G_r.start[v];\
+    \ ei < G_r.start[v + 1]; ++ei) {\n                int u = G_r.elist[ei];\n   \
+    \             if(!used[u]) self(self, u, c);\n            }\n        };\n    \
+    \    for (int i = n - 1; i >= 0; --i) {\n            if(!used[vs[i]]){\n     \
+    \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(k,\
+    \ {});\n        sz.resize(k);\n        if (k <= 1) return k;\n        vector<int>\
+    \ head(k, -1), next(n), seen(k, -1);\n        for (int v = 0; v < n; ++v) {\n\
+    \            next[v] = head[cmp[v]];\n            head[cmp[v]] = v;\n        }\n\
+    \        for (int to = 0; to < k; ++to) {\n            for (int v = head[to];\
+    \ v != -1; v = next[v]) {\n                for (int ei = G_r.start[v]; ei < G_r.start[v\
+    \ + 1]; ++ei) {\n                    int from = cmp[G_r.elist[ei]];\n        \
+    \            if (from == to || seen[from] == to) continue;\n                 \
+    \   seen[from] = to;\n                    G_out[from].push_back(to);\n       \
+    \         }\n            }\n        }\n        return k;\n    }\n\n    int operator[](int\
+    \ k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\
+    \u5206\u89E3(SCC)\n */\n#line 2 \"graph/offline_reachability.cpp\"\n\nvector<char>\
+    \ offline_reachability(int n, const vector<pair<int, int>> &edges,\n         \
+    \                         const vector<pair<int, int>> &queries) {\n    vector<char>\
+    \ answer(queries.size());\n    if (queries.empty()) return answer;\n    SCC scc(n);\n\
+    \    for (auto [u, v] : edges) scc.add_edge(u, v);\n    int count = scc.build();\n\
+    \    vector<int> sources(count, -1), targets(count, -1);\n    int ns = 0, nt =\
+    \ 0;\n    for (int i = 0; i < (int)queries.size(); ++i) {\n        auto [u, v]\
+    \ = queries[i];\n        int s = scc[u], t = scc[v];\n        if (s == t) answer[i]\
+    \ = 1;\n        if (s >= t) continue;\n        if (sources[s] == -1) sources[s]\
+    \ = ns++;\n        if (targets[t] == -1) targets[t] = nt++;\n    }\n    bool forward\
+    \ = ns <= nt;\n    auto &group = forward ? sources : targets;\n    int k = forward\
+    \ ? ns : nt;\n    vector<int> component(k), head(k, -1), next(queries.size());\n\
+    \    for (int v = 0; v < count; ++v)\n        if (group[v] != -1) component[group[v]]\
+    \ = v;\n    for (int i = 0; i < (int)queries.size(); ++i) {\n        auto [u,\
+    \ v] = queries[i];\n        int s = scc[u], t = scc[v];\n        if (s >= t) continue;\n\
+    \        int id = group[forward ? s : t];\n        next[i] = head[id];\n     \
+    \   head[id] = i;\n    }\n    vector<unsigned long long> mask(count);\n    for\
+    \ (int begin = 0; begin < k; begin += 64) {\n        int end = min(begin + 64,\
+    \ k);\n        fill(mask.begin(), mask.end(), 0);\n        for (int id = begin;\
+    \ id < end; ++id)\n            mask[component[id]] = 1ULL << (id - begin);\n \
+    \       if (forward) {\n            for (int v = 0; v < count; ++v)\n        \
+    \        for (int u : scc.G_out[v]) mask[u] |= mask[v];\n        } else {\n  \
+    \          for (int v = count - 1; v >= 0; --v)\n                for (int u :\
+    \ scc.G_out[v]) mask[v] |= mask[u];\n        }\n        for (int id = begin; id\
+    \ < end; ++id) {\n            for (int i = head[id]; i != -1; i = next[i]) {\n\
+    \                auto [u, v] = queries[i];\n                answer[i] = (mask[scc[forward\
+    \ ? v : u]] >> (id - begin)) & 1;\n            }\n        }\n    }\n    return\
+    \ answer;\n}\n\n/**\n * @brief \u6709\u5411\u30B0\u30E9\u30D5\u306E\u4E00\u62EC\
+    \u5230\u9054\u5224\u5B9A\n */\n#line 8 \"test/yosupo_aplusb_offline_reachability.test.cpp\"\
+    \n\nvoid check(int n, const vector<pair<int, int>> &edges, const vector<pair<int,\
+    \ int>> &queries) {\n    auto saved_edges = edges, saved_queries = queries;\n\
+    \    auto answer = offline_reachability(n, edges, queries);\n    assert(edges\
+    \ == saved_edges && queries == saved_queries);\n    vector<vector<int>> g(n);\n\
+    \    for (auto [u, v] : edges) g[u].push_back(v);\n    vector<vector<char>> reach(n,\
+    \ vector<char>(n));\n    for (int s = 0; s < n; ++s) {\n        vector<int> queue{s};\n\
+    \        reach[s][s] = 1;\n        for (int i = 0; i < (int)queue.size(); ++i)\
+    \ {\n            for (int v : g[queue[i]]) {\n                if (reach[s][v])\
+    \ continue;\n                reach[s][v] = 1;\n                queue.push_back(v);\n\
+    \            }\n        }\n    }\n    assert(answer.size() == queries.size());\n\
+    \    for (int i = 0; i < (int)queries.size(); ++i)\n        assert(answer[i] ==\
+    \ reach[queries[i].first][queries[i].second]);\n}\n\nint main() {\n    check(0,\
+    \ {}, {});\n    for (int n = 1; n <= 4; ++n) {\n        vector<pair<int, int>>\
+    \ queries;\n        for (int u = 0; u < n; ++u)\n            for (int v = 0; v\
+    \ < n; ++v) queries.emplace_back(u, v);\n        for (int mask = 0; mask < (1\
+    \ << (n * n)); ++mask) {\n            vector<pair<int, int>> edges;\n        \
+    \    for (auto [u, v] : queries)\n                if (mask >> (u * n + v) & 1)\
+    \ edges.emplace_back(u, v);\n            check(n, edges, queries);\n        }\n\
+    \    }\n    mt19937 rng(20261010);\n    for (int tc = 0; tc < 1000; ++tc) {\n\
+    \        int n = 1 + rng() % 20;\n        vector<pair<int, int>> edges, queries;\n\
+    \        for (int i = rng() % (n * n + 1); i > 0; --i)\n            edges.emplace_back(rng()\
+    \ % n, rng() % n);\n        for (int i = rng() % 100; i > 0; --i)\n          \
+    \  queries.emplace_back(rng() % n, rng() % n);\n        check(n, edges, queries);\n\
+    \    }\n    for (int k : {1, 63, 64, 65, 127, 128, 129, 130}) {\n        int n\
+    \ = 2 * k + 2;\n        vector<pair<int, int>> edges, queries;\n        for (int\
+    \ i = 0; i + 1 < n; ++i) edges.emplace_back(i, i + 1);\n        for (int i = 0;\
+    \ i < k; ++i) {\n            queries.emplace_back(i, k + i);\n            queries.emplace_back(i,\
+    \ n - 1);\n        }\n        check(n, edges, queries);\n        for (auto &[u,\
+    \ v] : edges) swap(u, v);\n        for (auto &[u, v] : queries) swap(u, v);\n\
+    \        check(n, edges, queries);\n    }\n    Scanner in;\n    Printer out;\n\
+    \    int a, b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/offline_reachability.cpp\"\
+    \n\nvoid check(int n, const vector<pair<int, int>> &edges, const vector<pair<int,\
+    \ int>> &queries) {\n    auto saved_edges = edges, saved_queries = queries;\n\
+    \    auto answer = offline_reachability(n, edges, queries);\n    assert(edges\
+    \ == saved_edges && queries == saved_queries);\n    vector<vector<int>> g(n);\n\
+    \    for (auto [u, v] : edges) g[u].push_back(v);\n    vector<vector<char>> reach(n,\
+    \ vector<char>(n));\n    for (int s = 0; s < n; ++s) {\n        vector<int> queue{s};\n\
+    \        reach[s][s] = 1;\n        for (int i = 0; i < (int)queue.size(); ++i)\
+    \ {\n            for (int v : g[queue[i]]) {\n                if (reach[s][v])\
+    \ continue;\n                reach[s][v] = 1;\n                queue.push_back(v);\n\
+    \            }\n        }\n    }\n    assert(answer.size() == queries.size());\n\
+    \    for (int i = 0; i < (int)queries.size(); ++i)\n        assert(answer[i] ==\
+    \ reach[queries[i].first][queries[i].second]);\n}\n\nint main() {\n    check(0,\
+    \ {}, {});\n    for (int n = 1; n <= 4; ++n) {\n        vector<pair<int, int>>\
+    \ queries;\n        for (int u = 0; u < n; ++u)\n            for (int v = 0; v\
+    \ < n; ++v) queries.emplace_back(u, v);\n        for (int mask = 0; mask < (1\
+    \ << (n * n)); ++mask) {\n            vector<pair<int, int>> edges;\n        \
+    \    for (auto [u, v] : queries)\n                if (mask >> (u * n + v) & 1)\
+    \ edges.emplace_back(u, v);\n            check(n, edges, queries);\n        }\n\
+    \    }\n    mt19937 rng(20261010);\n    for (int tc = 0; tc < 1000; ++tc) {\n\
+    \        int n = 1 + rng() % 20;\n        vector<pair<int, int>> edges, queries;\n\
+    \        for (int i = rng() % (n * n + 1); i > 0; --i)\n            edges.emplace_back(rng()\
+    \ % n, rng() % n);\n        for (int i = rng() % 100; i > 0; --i)\n          \
+    \  queries.emplace_back(rng() % n, rng() % n);\n        check(n, edges, queries);\n\
+    \    }\n    for (int k : {1, 63, 64, 65, 127, 128, 129, 130}) {\n        int n\
+    \ = 2 * k + 2;\n        vector<pair<int, int>> edges, queries;\n        for (int\
+    \ i = 0; i + 1 < n; ++i) edges.emplace_back(i, i + 1);\n        for (int i = 0;\
+    \ i < k; ++i) {\n            queries.emplace_back(i, k + i);\n            queries.emplace_back(i,\
+    \ n - 1);\n        }\n        check(n, edges, queries);\n        for (auto &[u,\
+    \ v] : edges) swap(u, v);\n        for (auto &[u, v] : queries) swap(u, v);\n\
+    \        check(n, edges, queries);\n    }\n    Scanner in;\n    Printer out;\n\
+    \    int a, b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - tree/hld.cpp
-  - datastructure/segmenttree/segtree.cpp
+  - graph/offline_reachability.cpp
+  - graph/SCC.cpp
   isVerificationFile: true
-  path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  path: test/yosupo_aplusb_offline_reachability.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 19:54:48+09:00'
+  timestamp: '2026-10-10 19:45:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+documentation_of: test/yosupo_aplusb_offline_reachability.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp.html
-title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+- /verify/test/yosupo_aplusb_offline_reachability.test.cpp
+- /verify/test/yosupo_aplusb_offline_reachability.test.cpp.html
+title: test/yosupo_aplusb_offline_reachability.test.cpp
 ---

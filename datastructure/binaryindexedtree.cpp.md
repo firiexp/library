@@ -11,6 +11,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/static_rectangle_sum.cpp
     title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
+  - icon: ':heavy_check_mark:'
+    path: tree/range_contour_sum.cpp
+    title: "\u6728\u306E\u9802\u70B9\u52A0\u7B97\u30FB\u8DDD\u96E2\u533A\u9593\u548C"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj_dsl_2_b.test.cpp
@@ -24,6 +27,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_range_contour_sum.test.cpp
+    title: test/yosupo_aplusb_range_contour_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
@@ -45,6 +51,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_rectangle_sum.test.cpp
     title: test/yosupo_static_rectangle_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp
+    title: test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
@@ -89,16 +98,19 @@ data:
   - datastructure/fenwick_tree_2d.cpp
   - datastructure/static_rectangle_sum.cpp
   - datastructure/point_add_rectangle_sum.cpp
+  - tree/range_contour_sum.cpp
   timestamp: '2026-10-07 22:11:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_bit_build.test.cpp
   - test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   - test/yosupo_static_range_inversions_query.test.cpp
+  - test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - test/yosupo_static_rectangle_sum.test.cpp
   - test/yosupo_point_add_rectangle_sum.test.cpp
+  - test/yosupo_aplusb_range_contour_sum.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/aoj_dsl_2_b.test.cpp

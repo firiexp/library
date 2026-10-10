@@ -404,28 +404,34 @@ data:
     \ < (int)edges.size(); ++id) {\n                auto &&[u, v] = edges[id];\n \
     \               elist[counter[u]++] = id;\n                elist[counter[v]++]\
     \ = id;\n            }\n        }\n    };\n\n    int n = 0;\n    vector<int> st;\n\
-    \n    int other(int id, int v) const {\n        return edges[id].first ^ edges[id].second\
-    \ ^ v;\n    }\n\n    void dfs(int i, int pe, const CSR &G, int &pos){\n      \
-    \  ord[i] = low[i] = pos++;\n        for (int ei = G.start[i]; ei < G.start[i\
-    \ + 1]; ++ei) {\n            int id = G.elist[ei];\n            if(id == pe) continue;\n\
-    \            int j = other(id, i);\n            if(ord[j] < ord[i]) st.emplace_back(id);\n\
-    \            if(~ord[j]){\n                low[i] = min(low[i], ord[j]);\n   \
-    \             continue;\n            }\n            par[j] = i;\n            dfs(j,\
-    \ id, G, pos);\n            low[i] = min(low[i], low[j]);\n            if(ord[i]\
-    \ <= low[j]){\n                bcc_edges.emplace_back();\n                while(true){\n\
-    \                    int k = st.back();\n                    st.pop_back();\n\
-    \                    bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second),\
-    \ max(edges[k].first, edges[k].second));\n                    if(k == id) break;\n\
-    \                }\n            }\n        }\n    }\npublic:\n    vector<int>\
-    \ ord, low, par;\n    vector<pair<int, int>> edges;\n    vector<vector<pair<int,\
+    \n    struct Frame {\n        int v, parent_edge, next;\n    };\n\n    int other(int\
+    \ id, int v) const {\n        return edges[id].first ^ edges[id].second ^ v;\n\
+    \    }\n\n    void dfs(int i, const CSR &G, int &pos, vector<Frame> &stack){\n\
+    \        ord[i] = low[i] = pos++;\n        stack.push_back({i, -1, G.start[i]});\n\
+    \        while (!stack.empty()) {\n            auto &frame = stack.back();\n \
+    \           int v = frame.v;\n            if (frame.next == G.start[v + 1]) {\n\
+    \                int pe = frame.parent_edge, p = par[v];\n                stack.pop_back();\n\
+    \                if (p == -1) continue;\n                low[p] = min(low[p],\
+    \ low[v]);\n                if (ord[p] <= low[v]) {\n                    bcc_edges.emplace_back();\n\
+    \                    while (true) {\n                        int k = st.back();\n\
+    \                        st.pop_back();\n                        bcc_edges.back().emplace_back(min(edges[k].first,\
+    \ edges[k].second), max(edges[k].first, edges[k].second));\n                 \
+    \       if (k == pe) break;\n                    }\n                }\n      \
+    \          continue;\n            }\n            int id = G.elist[frame.next++];\n\
+    \            if (id == frame.parent_edge) continue;\n            int j = other(id,\
+    \ v);\n            if(ord[j] < ord[v]) st.emplace_back(id);\n            if(~ord[j]){\n\
+    \                low[v] = min(low[v], ord[j]);\n                continue;\n  \
+    \          }\n            par[j] = v;\n            ord[j] = low[j] = pos++;\n\
+    \            stack.push_back({j, id, G.start[j]});\n        }\n    }\npublic:\n\
+    \    vector<int> ord, low, par;\n    vector<pair<int, int>> edges;\n    vector<vector<pair<int,\
     \ int>>> bcc_edges;\n    vector<vector<int>> bcc_vertices;\n    explicit BiconnectedComponents(int\
     \ n): n(n), ord(n, -1), low(n), par(n, -1){}\n\n    void add_edge(int u, int v){\n\
     \        if(u == v) return;\n        edges.emplace_back(u, v);\n    }\n\n    int\
     \ build(){\n        CSR G(n, edges);\n        int pos = 0;\n        fill(ord.begin(),\
     \ ord.end(), -1);\n        fill(par.begin(), par.end(), -1);\n        bcc_edges.clear();\n\
-    \        bcc_vertices.clear();\n        st.clear();\n        for (int i = 0; i\
-    \ < n; ++i) {\n            if(ord[i] < 0) dfs(i, -1, G, pos);\n        }\n   \
-    \     vector<int> seen(n, -1);\n        bcc_vertices.reserve(bcc_edges.size());\n\
+    \        bcc_vertices.clear();\n        st.clear();\n        vector<Frame> stack;\n\
+    \        for (int i = 0; i < n; ++i) {\n            if(ord[i] < 0) dfs(i, G, pos,\
+    \ stack);\n        }\n        vector<int> seen(n, -1);\n        bcc_vertices.reserve(bcc_edges.size());\n\
     \        for (int i = 0; i < (int)bcc_edges.size(); ++i) {\n            vector<int>\
     \ now;\n            for (auto &&e : bcc_edges[i]) {\n                if(seen[e.first]\
     \ != i){\n                    seen[e.first] = i;\n                    now.emplace_back(e.first);\n\
@@ -525,29 +531,39 @@ data:
     \ st.emplace_back(u);\n            }\n        }\n\n        aux.clear(vertices);\n\
     \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n */\n#line\
     \ 1 \"tree/hld.cpp\"\n\n\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int\
-    \ v){\n        int heavy = -1;\n        for (auto &&u : G[v]) {\n            if(u\
-    \ == par[v]) continue;\n            par[u] = v; dep[u] = dep[v] + 1;\n       \
-    \     dfs_sz(u);\n            sub_size[v] += sub_size[u];\n            if(heavy\
-    \ == -1 || sub_size[u] > sub_size[heavy]) heavy = u;\n        }\n        if (heavy\
-    \ != -1 && G[v][0] != heavy) {\n            for (auto &&u : G[v]) {\n        \
-    \        if (u == heavy) {\n                    swap(u, G[v][0]);\n          \
-    \          break;\n                }\n            }\n        }\n    }\n    void\
-    \ dfs_hld(int v, int c, int &pos){\n        id[v] = pos++;\n        id_inv[id[v]]=\
-    \ v;\n        tree_id[v] = c;\n        for (auto &&u : G[v]) {\n            if(u\
-    \ == par[v]) continue;\n            head[u] = (u == G[v][0] ? head[v] : u);\n\
-    \            dfs_hld(u, c, pos);\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
+    \ root, vector<int> &order){\n        order.clear();\n        order.push_back(root);\n\
+    \        for (int i = 0; i < (int)order.size(); ++i) {\n            int v = order[i];\n\
+    \            for (int u : G[v]) {\n                if (u == par[v]) continue;\n\
+    \                par[u] = v;\n                dep[u] = dep[v] + 1;\n         \
+    \       order.push_back(u);\n            }\n        }\n        for (int i = (int)order.size()\
+    \ - 1; i >= 0; --i) {\n            int v = order[i], heavy = -1;\n           \
+    \ for (int u : G[v]) {\n                if (u == par[v]) continue;\n         \
+    \       sub_size[v] += sub_size[u];\n                if (heavy == -1 || sub_size[u]\
+    \ > sub_size[heavy]) heavy = u;\n            }\n            if (heavy != -1 &&\
+    \ G[v][0] != heavy) {\n                for (auto &u : G[v]) {\n              \
+    \      if (u == heavy) {\n                        swap(u, G[v][0]);\n        \
+    \                break;\n                    }\n                }\n          \
+    \  }\n        }\n    }\n    void dfs_hld(int root, int c, int &pos, vector<int>\
+    \ &stack){\n        stack.clear();\n        stack.push_back(root);\n        while\
+    \ (!stack.empty()) {\n            int v = stack.back();\n            stack.pop_back();\n\
+    \            id[v] = pos++;\n            id_inv[id[v]] = v;\n            tree_id[v]\
+    \ = c;\n            for (int i = (int)G[v].size() - 1; i >= 0; --i) {\n      \
+    \          int u = G[v][i];\n                if (u == par[v]) continue;\n    \
+    \            head[u] = (u == G[v][0] ? head[v] : u);\n                stack.push_back(u);\n\
+    \            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
     \ G;\n    vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit\
     \ HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1),\
     \ id(n), id_inv(n), tree_id(n), head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>>\
     \ &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
     \ head(n) {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n\
     \        G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
-    \        fill(par.begin(), par.end(), -1);\n        fill(dep.begin(), dep.end(),\
-    \ 0);\n        fill(sub_size.begin(), sub_size.end(), 1);\n        int c = 0,\
-    \ pos = 0;\n        for (auto &&i : roots) {\n            dfs_sz(i);\n       \
-    \     head[i] = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\n  \
-    \  int lca(int u, int v){\n        while(true){\n            if(id[u] > id[v])\
-    \ swap(u, v);\n            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
+    \        if (n == 0) return;\n        fill(par.begin(), par.end(), -1);\n    \
+    \    fill(dep.begin(), dep.end(), 0);\n        fill(sub_size.begin(), sub_size.end(),\
+    \ 1);\n        int c = 0, pos = 0;\n        vector<int> order;\n        for (auto\
+    \ &&i : roots) {\n            dfs_sz(i, order);\n            head[i] = i;\n  \
+    \          dfs_hld(i, c++, pos, order);\n        }\n    }\n\n    int lca(int u,\
+    \ int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n \
+    \           if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
     \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
     \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
     \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
@@ -641,7 +657,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition_reverse.test.cpp
   requiredBy: []
-  timestamp: '2026-10-06 23:06:10+09:00'
+  timestamp: '2026-10-10 19:54:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition_reverse.test.cpp

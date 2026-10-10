@@ -13,6 +13,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_grl_7_a_bipartite_matching.test.cpp
     title: test/aoj_grl_7_a_bipartite_matching.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
+    title: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -64,6 +67,7 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
   - test/aoj0334.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
 documentation_of: graph/bipartite_matching.cpp

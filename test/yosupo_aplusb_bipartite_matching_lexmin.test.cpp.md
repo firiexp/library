@@ -2,11 +2,13 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segmenttree/segtree.cpp
-    title: Segment Tree
+    path: graph/bipartite_matching.cpp
+    title: "\u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0\
+      (Bipartite Matching)"
   - icon: ':heavy_check_mark:'
-    path: tree/hld.cpp
-    title: "HL\u5206\u89E3(HL Decomposition)"
+    path: graph/bipartite_matching_lexmin.cpp
+    title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
+      (Lexicographically Minimum Bipartite Matching)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -17,19 +19,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/vertex_add_subtree_sum
-  bundledCode: "#line 1 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp\"\n\
+    #define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -231,152 +231,125 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/hld.cpp\"\
-    \n\n\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int root, vector<int>\
-    \ &order){\n        order.clear();\n        order.push_back(root);\n        for\
-    \ (int i = 0; i < (int)order.size(); ++i) {\n            int v = order[i];\n \
-    \           for (int u : G[v]) {\n                if (u == par[v]) continue;\n\
-    \                par[u] = v;\n                dep[u] = dep[v] + 1;\n         \
-    \       order.push_back(u);\n            }\n        }\n        for (int i = (int)order.size()\
-    \ - 1; i >= 0; --i) {\n            int v = order[i], heavy = -1;\n           \
-    \ for (int u : G[v]) {\n                if (u == par[v]) continue;\n         \
-    \       sub_size[v] += sub_size[u];\n                if (heavy == -1 || sub_size[u]\
-    \ > sub_size[heavy]) heavy = u;\n            }\n            if (heavy != -1 &&\
-    \ G[v][0] != heavy) {\n                for (auto &u : G[v]) {\n              \
-    \      if (u == heavy) {\n                        swap(u, G[v][0]);\n        \
-    \                break;\n                    }\n                }\n          \
-    \  }\n        }\n    }\n    void dfs_hld(int root, int c, int &pos, vector<int>\
-    \ &stack){\n        stack.clear();\n        stack.push_back(root);\n        while\
-    \ (!stack.empty()) {\n            int v = stack.back();\n            stack.pop_back();\n\
-    \            id[v] = pos++;\n            id_inv[id[v]] = v;\n            tree_id[v]\
-    \ = c;\n            for (int i = (int)G[v].size() - 1; i >= 0; --i) {\n      \
-    \          int u = G[v][i];\n                if (u == par[v]) continue;\n    \
-    \            head[u] = (u == G[v][0] ? head[v] : u);\n                stack.push_back(u);\n\
-    \            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G;\n    vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit\
-    \ HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1),\
-    \ id(n), id_inv(n), tree_id(n), head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>>\
-    \ &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
-    \ head(n) {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n\
-    \        G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
-    \        if (n == 0) return;\n        fill(par.begin(), par.end(), -1);\n    \
-    \    fill(dep.begin(), dep.end(), 0);\n        fill(sub_size.begin(), sub_size.end(),\
-    \ 1);\n        int c = 0, pos = 0;\n        vector<int> order;\n        for (auto\
-    \ &&i : roots) {\n            dfs_sz(i, order);\n            head[i] = i;\n  \
-    \          dfs_hld(i, c++, pos, order);\n        }\n    }\n\n    int lca(int u,\
-    \ int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n \
-    \           if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
-    \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
-    \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
-    \ >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n     \
-    \       v = par[u];\n        }\n    }\n\n    int distance(int u, int v){ return\
-    \ dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    pair<int, int> subtree(int v, bool\
-    \ edge = false) const {\n        return {id[v] + edge, id[v] + sub_size[v]};\n\
-    \    }\n\n    template<typename F>\n    void add(int u, int v, const F &f, bool\
-    \ edge){\n        while (head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
-    \ v);\n            f(id[head[v]], id[v]+1);\n            v = par[head[v]];\n \
-    \       }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge, id[v]+1);\n\
-    \    }\n\n    template<typename F>\n    void path(int u, int v, const F &f, bool\
-    \ edge = false){\n        add(u, v, f, edge);\n    }\n\n    template<typename\
-    \ F>\n    void apply_subtree(int v, const F &f, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename\
-    \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
-    \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
-    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
-    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
-    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
-    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
-    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
-    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
-    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
-    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
-    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
-    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
-    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
-    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
-    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
-    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
-    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
-    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
-    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n\n\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
-    \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
-    \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
-    \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
-    \ M::e());\n    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n \
-    \   void build(){\n        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i],\
-    \ seg[2*i+1]);\n    }\n\n    void update(int k, const T &x){\n        k += sz;\n\
-    \        seg[k] = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n\
-    \    }\n\n    T query(int a, int b){\n        T l = M::e(), r = M::e();\n    \
-    \    for(a += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l,\
-    \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
-    \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
-    \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
-    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
-    \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
-    \                    if (cond(M::f(val, seg[l]))){\n                        val\
-    \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
-    \                }\n                return l - sz;\n            }\n          \
-    \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
-    \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
-    \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
-    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
-    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
-    \ val))){\n                        val = M::f(seg[r], val);\n                \
-    \        r--;\n                    }\n                }\n                return\
-    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
-    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
-    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
-    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
-    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
-    \ */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid\
-    \ {\n    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
-    \    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x :\
-    \ a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v\
-    \ < n; ++v) {\n        int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n\
-    \    }\n    hld.build();\n\n    SegmentTree<SumMonoid> seg(n);\n    for (int v\
-    \ = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n        if\
-    \ (t == 0) {\n            ll x;\n            sc.read(x);\n            int p =\
-    \ hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else {\n     \
-    \       pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
-    \ r); }));\n        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
-    \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\
-    \n#include \"../datastructure/segmenttree/segtree.cpp\"\n\nstruct SumMonoid {\n\
-    \    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
-    \n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v < n; ++v) {\n   \
-    \     int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n    }\n    hld.build();\n\
-    \n    SegmentTree<SumMonoid> seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v],\
-    \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
-    \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
-    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query(v,\
-    \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/bipartite_matching.cpp\"\
+    \nclass Bipartite_Matching {\nprotected:\n    vector<vector<int>> G;\n    vector<int>\
+    \ used, alive;\n    int t;\n    int l, r;\n\npublic:\n    vector<int> match;\n\
+    \n    explicit Bipartite_Matching(int l, int r)\n        : G(l), used(l, 0), alive(l\
+    \ + r, -1), t(0), l(l), r(r), match(l + r, -1) {}\n\n    void add_edge(int a,\
+    \ int b) {\n        G[a].push_back(b);\n    }\n\n    bool dfs(int x) {\n     \
+    \   used[x] = t;\n        for (int y : G[x]) {\n            int ry = y + l;\n\
+    \            if (alive[ry] == 0) continue;\n            int w = match[ry];\n \
+    \           if (w != -1 && (alive[w] == 0 || used[w] == t || !dfs(w))) continue;\n\
+    \            match[x] = ry;\n            match[ry] = x;\n            return true;\n\
+    \        }\n        return false;\n    }\n\n    int matching() {\n        int\
+    \ ans = 0;\n        for (int i = 0; i < l; ++i) {\n            if (alive[i] ==\
+    \ 0 || match[i] != -1) continue;\n            ++t;\n            ans += dfs(i);\n\
+    \        }\n        return ans;\n    }\n\n    vector<pair<int, int>> get_pairs()\
+    \ const {\n        vector<pair<int, int>> res;\n        for (int i = 0; i < l;\
+    \ ++i) {\n            if (match[i] == -1) continue;\n            res.emplace_back(i,\
+    \ match[i] - l);\n        }\n        return res;\n    }\n};\n\n/**\n * @brief\
+    \ \u4E8C\u90E8\u30B0\u30E9\u30D5\u6700\u5927\u30DE\u30C3\u30C1\u30F3\u30B0(Bipartite\
+    \ Matching)\n */\n#line 2 \"graph/bipartite_matching_lexmin.cpp\"\nclass Bipartite_Matching_LexMin\
+    \ : public Bipartite_Matching {\npublic:\n    using Bipartite_Matching::Bipartite_Matching;\n\
+    \n    int solve_LexMin() {\n        matching();\n        int res = 0;\n      \
+    \  for (int i = 0; i < l; ++i) res += match[i] != -1;\n        int source = l\
+    \ + r, sink = source + 1;\n        vector<vector<int>> reverse(sink + 1);\n  \
+    \      vector<int> next(sink + 1), queue;\n        vector<pair<int, int>> added;\n\
+    \        for (int i = 0; i < l; ++i) {\n            if (match[i] == -1) continue;\n\
+    \            for (auto &edges : reverse) edges.clear();\n            auto edge\
+    \ = [&](int u, int v) { reverse[v].push_back(u); };\n            for (int u =\
+    \ i; u < l; ++u) {\n                if (match[u] == -1) edge(source, u);\n   \
+    \             else edge(u, source);\n                for (int v : G[u]) {\n  \
+    \                  int w = l + v;\n                    if (match[u] == w) edge(w,\
+    \ u);\n                    else edge(u, w);\n                }\n            }\n\
+    \            for (int v = l; v < l + r; ++v) {\n                if (match[v] ==\
+    \ -1) edge(v, sink);\n                else edge(sink, v);\n            }\n   \
+    \         next.assign(sink + 1, -1);\n            next[i] = i;\n            queue.clear();\n\
+    \            queue.push_back(i);\n            for (int k = 0; k < (int)queue.size();\
+    \ ++k) {\n                int v = queue[k];\n                for (int u : reverse[v])\
+    \ {\n                    if (next[u] != -1) continue;\n                    next[u]\
+    \ = v;\n                    queue.push_back(u);\n                }\n         \
+    \   }\n            int chosen = source;\n            if (next[source] == -1) {\n\
+    \                chosen = match[i];\n                for (int v : G[i]) {\n  \
+    \                  int w = l + v;\n                    if (w < chosen && next[w]\
+    \ != -1) chosen = w;\n                }\n            }\n            if (chosen\
+    \ == match[i]) continue;\n            added.clear();\n            int u = i, v\
+    \ = chosen;\n            do {\n                if (u < l && l <= v && v < source)\
+    \ added.emplace_back(u, v);\n                if (l <= u && u < source && v < l)\
+    \ match[u] = match[v] = -1;\n                u = v;\n                v = next[u];\n\
+    \            } while (u != i);\n            for (auto [a, b] : added) {\n    \
+    \            match[a] = b;\n                match[b] = a;\n            }\n   \
+    \     }\n        return res;\n    }\n};\n\n/**\n * @brief \u8F9E\u66F8\u9806\u6700\
+    \u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0(Lexicographically Minimum Bipartite\
+    \ Matching)\n */\n#line 8 \"test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp\"\
+    \n\nvoid check(int l, int r, const vector<pair<int, int>> &edges) {\n    Bipartite_Matching_LexMin\
+    \ solver(l, r);\n    vector<vector<int>> g(l);\n    for (auto [u, v] : edges)\
+    \ {\n        solver.add_edge(u, v);\n        g[u].push_back(v);\n    }\n    vector<int>\
+    \ current(l, -1), best;\n    int size = -1;\n    auto enumerate = [&](auto &&self,\
+    \ int u, int used, int count) -> void {\n        if (u == l) {\n            if\
+    \ (count > size || (count == size && current < best)) {\n                size\
+    \ = count;\n                best = current;\n            }\n            return;\n\
+    \        }\n        current[u] = -1;\n        self(self, u + 1, used, count);\n\
+    \        for (int v : g[u]) {\n            if (used >> v & 1) continue;\n    \
+    \        current[u] = v;\n            self(self, u + 1, used | (1 << v), count\
+    \ + 1);\n        }\n    };\n    enumerate(enumerate, 0, 0, 0);\n    assert(solver.solve_LexMin()\
+    \ == size);\n    for (int u = 0; u < l; ++u) {\n        assert(solver.match[u]\
+    \ == (best[u] == -1 ? -1 : l + best[u]));\n        if (best[u] != -1) assert(solver.match[l\
+    \ + best[u]] == u);\n    }\n    auto match = solver.match;\n    assert(solver.solve_LexMin()\
+    \ == size && solver.match == match);\n}\n\nint main() {\n    check(3, 2, {{0,\
+    \ 0}, {0, 1}, {1, 0}, {2, 1}});\n    for (int mask = 0; mask < (1 << 16); ++mask)\
+    \ {\n        vector<pair<int, int>> edges;\n        for (int u = 0; u < 4; ++u)\n\
+    \            for (int v = 0; v < 4; ++v)\n                if (mask >> (4 * u +\
+    \ v) & 1) edges.emplace_back(u, v);\n        check(4, 4, edges);\n    }\n    mt19937\
+    \ rng(20261010);\n    for (int tc = 0; tc < 2000; ++tc) {\n        int l = rng()\
+    \ % 7, r = rng() % 7;\n        vector<pair<int, int>> edges;\n        for (int\
+    \ u = 0; u < l; ++u)\n            for (int v = 0; v < r; ++v)\n              \
+    \  if (rng() % 3 == 0) edges.emplace_back(u, v);\n        shuffle(edges.begin(),\
+    \ edges.end(), rng);\n        check(l, r, edges);\n    }\n    Scanner in;\n  \
+    \  Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a + b);\n\
+    }\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/bipartite_matching_lexmin.cpp\"\
+    \n\nvoid check(int l, int r, const vector<pair<int, int>> &edges) {\n    Bipartite_Matching_LexMin\
+    \ solver(l, r);\n    vector<vector<int>> g(l);\n    for (auto [u, v] : edges)\
+    \ {\n        solver.add_edge(u, v);\n        g[u].push_back(v);\n    }\n    vector<int>\
+    \ current(l, -1), best;\n    int size = -1;\n    auto enumerate = [&](auto &&self,\
+    \ int u, int used, int count) -> void {\n        if (u == l) {\n            if\
+    \ (count > size || (count == size && current < best)) {\n                size\
+    \ = count;\n                best = current;\n            }\n            return;\n\
+    \        }\n        current[u] = -1;\n        self(self, u + 1, used, count);\n\
+    \        for (int v : g[u]) {\n            if (used >> v & 1) continue;\n    \
+    \        current[u] = v;\n            self(self, u + 1, used | (1 << v), count\
+    \ + 1);\n        }\n    };\n    enumerate(enumerate, 0, 0, 0);\n    assert(solver.solve_LexMin()\
+    \ == size);\n    for (int u = 0; u < l; ++u) {\n        assert(solver.match[u]\
+    \ == (best[u] == -1 ? -1 : l + best[u]));\n        if (best[u] != -1) assert(solver.match[l\
+    \ + best[u]] == u);\n    }\n    auto match = solver.match;\n    assert(solver.solve_LexMin()\
+    \ == size && solver.match == match);\n}\n\nint main() {\n    check(3, 2, {{0,\
+    \ 0}, {0, 1}, {1, 0}, {2, 1}});\n    for (int mask = 0; mask < (1 << 16); ++mask)\
+    \ {\n        vector<pair<int, int>> edges;\n        for (int u = 0; u < 4; ++u)\n\
+    \            for (int v = 0; v < 4; ++v)\n                if (mask >> (4 * u +\
+    \ v) & 1) edges.emplace_back(u, v);\n        check(4, 4, edges);\n    }\n    mt19937\
+    \ rng(20261010);\n    for (int tc = 0; tc < 2000; ++tc) {\n        int l = rng()\
+    \ % 7, r = rng() % 7;\n        vector<pair<int, int>> edges;\n        for (int\
+    \ u = 0; u < l; ++u)\n            for (int v = 0; v < r; ++v)\n              \
+    \  if (rng() % 3 == 0) edges.emplace_back(u, v);\n        shuffle(edges.begin(),\
+    \ edges.end(), rng);\n        check(l, r, edges);\n    }\n    Scanner in;\n  \
+    \  Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a + b);\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
-  - tree/hld.cpp
-  - datastructure/segmenttree/segtree.cpp
+  - graph/bipartite_matching_lexmin.cpp
+  - graph/bipartite_matching.cpp
   isVerificationFile: true
-  path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  path: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 19:54:48+09:00'
+  timestamp: '2026-10-10 19:44:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+documentation_of: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp.html
-title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+- /verify/test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
+- /verify/test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp.html
+title: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
 ---

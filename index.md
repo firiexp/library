@@ -305,6 +305,9 @@ data:
       path: graph/minimum_cost_b_flow.cpp
       title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
     - icon: ':heavy_check_mark:'
+      path: graph/offline_reachability.cpp
+      title: "\u6709\u5411\u30B0\u30E9\u30D5\u306E\u4E00\u62EC\u5230\u9054\u5224\u5B9A"
+    - icon: ':heavy_check_mark:'
       path: graph/offlinedynamicconnectivity.cpp
       title: Offline Dynamic Connectivity
     - icon: ':heavy_check_mark:'
@@ -317,6 +320,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/twosat.cpp
       title: 2-SAT
+    - icon: ':heavy_check_mark:'
+      path: graph/vertex_failure_connectivity.cpp
+      title: "\u9802\u70B9\u9664\u53BB\u5F8C\u306E\u9023\u7D50\u5224\u5B9A"
   - name: math
     pages:
     - icon: ':heavy_check_mark:'
@@ -551,7 +557,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/centroid_decomposition.cpp
       title: "\u91CD\u5FC3\u5206\u89E3(Centroid Decomposition)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: tree/centroid_decomposition_query_helper.cpp
       title: "\u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\u88DC\u52A9(Centroid Query\
         \ Helper)"
@@ -579,6 +585,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/link_cut_tree.cpp
       title: Link-Cut Tree
+    - icon: ':heavy_check_mark:'
+      path: tree/range_contour_sum.cpp
+      title: "\u6728\u306E\u9802\u70B9\u52A0\u7B97\u30FB\u8DDD\u96E2\u533A\u9593\u548C"
     - icon: ':heavy_check_mark:'
       path: tree/rerooting.cpp
       title: "ReRooting(\u5168\u65B9\u4F4D\u6728DP)"
@@ -810,6 +819,9 @@ data:
       path: test/yosupo_aplusb_binarytrie.test.cpp
       title: test/yosupo_aplusb_binarytrie.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
+      title: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_bit_build.test.cpp
       title: test/yosupo_aplusb_bit_build.test.cpp
     - icon: ':heavy_check_mark:'
@@ -833,6 +845,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dynamic_bitset.test.cpp
       title: test/yosupo_aplusb_dynamic_bitset.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp
+      title: test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dynamic_segtree_search.test.cpp
       title: test/yosupo_aplusb_dynamic_segtree_search.test.cpp
@@ -945,6 +960,9 @@ data:
       path: test/yosupo_aplusb_ntt_precision.test.cpp
       title: test/yosupo_aplusb_ntt_precision.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_offline_reachability.test.cpp
+      title: test/yosupo_aplusb_offline_reachability.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_order_statistic_tree.test.cpp
       title: test/yosupo_aplusb_order_statistic_tree.test.cpp
     - icon: ':heavy_check_mark:'
@@ -974,6 +992,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_radixheap.test.cpp
       title: test/yosupo_aplusb_radixheap.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_range_contour_sum.test.cpp
+      title: test/yosupo_aplusb_range_contour_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
       title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
@@ -1022,6 +1043,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
       title: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
+      title: test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
       title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
@@ -1445,6 +1469,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_unionfind_with_potential_undoable.test.cpp
       title: test/yosupo_unionfind_with_potential_undoable.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp
+      title: test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp

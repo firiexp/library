@@ -2,7 +2,10 @@
 category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: graph/offline_reachability.cpp
+    title: "\u6709\u5411\u30B0\u30E9\u30D5\u306E\u4E00\u62EC\u5230\u9054\u5224\u5B9A"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0349.test.cpp
@@ -13,6 +16,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition_reverse.test.cpp
     title: test/yosupo_aplusb_library_composition_reverse.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_offline_reachability.test.cpp
+    title: test/yosupo_aplusb_offline_reachability.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_scc.test.cpp
     title: test/yosupo_aplusb_scc.test.cpp
@@ -103,13 +109,15 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: graph/SCC.cpp
-  requiredBy: []
+  requiredBy:
+  - graph/offline_reachability.cpp
   timestamp: '2026-10-06 23:06:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0349.test.cpp
   - test/yosupo_scc.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_offline_reachability.test.cpp
   - test/yosupo_aplusb_scc.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2019-12-03

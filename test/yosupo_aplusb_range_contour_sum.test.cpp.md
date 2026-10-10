@@ -2,11 +2,15 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segmenttree/segtree.cpp
-    title: Segment Tree
+    path: datastructure/binaryindexedtree.cpp
+    title: Binary Indexed Tree(BIT)
   - icon: ':heavy_check_mark:'
-    path: tree/hld.cpp
-    title: "HL\u5206\u89E3(HL Decomposition)"
+    path: tree/centroid_decomposition_query_helper.cpp
+    title: "\u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\u88DC\u52A9(Centroid Query\
+      \ Helper)"
+  - icon: ':heavy_check_mark:'
+    path: tree/range_contour_sum.cpp
+    title: "\u6728\u306E\u9802\u70B9\u52A0\u7B97\u30FB\u8DDD\u96E2\u533A\u9593\u548C"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -17,19 +21,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/vertex_add_subtree_sum
-  bundledCode: "#line 1 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_range_contour_sum.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -231,152 +233,167 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/hld.cpp\"\
-    \n\n\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int root, vector<int>\
-    \ &order){\n        order.clear();\n        order.push_back(root);\n        for\
-    \ (int i = 0; i < (int)order.size(); ++i) {\n            int v = order[i];\n \
-    \           for (int u : G[v]) {\n                if (u == par[v]) continue;\n\
-    \                par[u] = v;\n                dep[u] = dep[v] + 1;\n         \
-    \       order.push_back(u);\n            }\n        }\n        for (int i = (int)order.size()\
-    \ - 1; i >= 0; --i) {\n            int v = order[i], heavy = -1;\n           \
-    \ for (int u : G[v]) {\n                if (u == par[v]) continue;\n         \
-    \       sub_size[v] += sub_size[u];\n                if (heavy == -1 || sub_size[u]\
-    \ > sub_size[heavy]) heavy = u;\n            }\n            if (heavy != -1 &&\
-    \ G[v][0] != heavy) {\n                for (auto &u : G[v]) {\n              \
-    \      if (u == heavy) {\n                        swap(u, G[v][0]);\n        \
-    \                break;\n                    }\n                }\n          \
-    \  }\n        }\n    }\n    void dfs_hld(int root, int c, int &pos, vector<int>\
-    \ &stack){\n        stack.clear();\n        stack.push_back(root);\n        while\
-    \ (!stack.empty()) {\n            int v = stack.back();\n            stack.pop_back();\n\
-    \            id[v] = pos++;\n            id_inv[id[v]] = v;\n            tree_id[v]\
-    \ = c;\n            for (int i = (int)G[v].size() - 1; i >= 0; --i) {\n      \
-    \          int u = G[v][i];\n                if (u == par[v]) continue;\n    \
-    \            head[u] = (u == G[v][0] ? head[v] : u);\n                stack.push_back(u);\n\
-    \            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G;\n    vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit\
-    \ HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1),\
-    \ id(n), id_inv(n), tree_id(n), head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>>\
-    \ &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
-    \ head(n) {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n\
-    \        G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
-    \        if (n == 0) return;\n        fill(par.begin(), par.end(), -1);\n    \
-    \    fill(dep.begin(), dep.end(), 0);\n        fill(sub_size.begin(), sub_size.end(),\
-    \ 1);\n        int c = 0, pos = 0;\n        vector<int> order;\n        for (auto\
-    \ &&i : roots) {\n            dfs_sz(i, order);\n            head[i] = i;\n  \
-    \          dfs_hld(i, c++, pos, order);\n        }\n    }\n\n    int lca(int u,\
-    \ int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n \
-    \           if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
-    \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
-    \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
-    \ >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n     \
-    \       v = par[u];\n        }\n    }\n\n    int distance(int u, int v){ return\
-    \ dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    pair<int, int> subtree(int v, bool\
-    \ edge = false) const {\n        return {id[v] + edge, id[v] + sub_size[v]};\n\
-    \    }\n\n    template<typename F>\n    void add(int u, int v, const F &f, bool\
-    \ edge){\n        while (head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
-    \ v);\n            f(id[head[v]], id[v]+1);\n            v = par[head[v]];\n \
-    \       }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge, id[v]+1);\n\
-    \    }\n\n    template<typename F>\n    void path(int u, int v, const F &f, bool\
-    \ edge = false){\n        add(u, v, f, edge);\n    }\n\n    template<typename\
-    \ F>\n    void apply_subtree(int v, const F &f, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename\
-    \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
-    \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
-    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
-    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
-    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
-    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
-    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
-    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
-    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
-    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
-    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
-    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
-    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
-    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
-    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
-    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
-    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
-    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
-    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n\n\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
-    \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
-    \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
-    \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
-    \ M::e());\n    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n \
-    \   void build(){\n        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i],\
-    \ seg[2*i+1]);\n    }\n\n    void update(int k, const T &x){\n        k += sz;\n\
-    \        seg[k] = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n\
-    \    }\n\n    T query(int a, int b){\n        T l = M::e(), r = M::e();\n    \
-    \    for(a += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l,\
-    \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
-    \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
-    \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
-    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
-    \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
-    \                    if (cond(M::f(val, seg[l]))){\n                        val\
-    \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
-    \                }\n                return l - sz;\n            }\n          \
-    \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
-    \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
-    \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
-    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
-    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
-    \ val))){\n                        val = M::f(seg[r], val);\n                \
-    \        r--;\n                    }\n                }\n                return\
-    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
-    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
-    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
-    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
-    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
-    \ */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid\
-    \ {\n    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
-    \    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x :\
-    \ a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v\
-    \ < n; ++v) {\n        int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n\
-    \    }\n    hld.build();\n\n    SegmentTree<SumMonoid> seg(n);\n    for (int v\
-    \ = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n        if\
-    \ (t == 0) {\n            ll x;\n            sc.read(x);\n            int p =\
-    \ hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else {\n     \
-    \       pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
-    \ r); }));\n        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
-    \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\
-    \n#include \"../datastructure/segmenttree/segtree.cpp\"\n\nstruct SumMonoid {\n\
-    \    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
-    \n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v < n; ++v) {\n   \
-    \     int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n    }\n    hld.build();\n\
-    \n    SegmentTree<SumMonoid> seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v],\
-    \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
-    \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
-    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query(v,\
-    \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/centroid_decomposition_query_helper.cpp\"\
+    \nusing namespace std;\n\nstruct CentroidDecompositionQueryHelper {\n    int n,\
+    \ root;\n    vector<vector<int>> G, tree, path, dist;\n    vector<int> sz, parent,\
+    \ depth;\n    vector<char> used;\n\n    explicit CentroidDecompositionQueryHelper(int\
+    \ n)\n        : n(n), root(-1), G(n), tree(n), path(n), dist(n), sz(n), parent(n,\
+    \ -1), depth(n), used(n, 0) {}\n\n    void add_edge(int u, int v) {\n        G[u].push_back(v);\n\
+    \        G[v].push_back(u);\n    }\n\n    int build(int start = 0) {\n       \
+    \ tree.assign(n, {});\n        path.assign(n, {});\n        dist.assign(n, {});\n\
+    \        fill(parent.begin(), parent.end(), -1);\n        fill(depth.begin(),\
+    \ depth.end(), 0);\n        fill(used.begin(), used.end(), 0);\n        dfs_parent.resize(n);\n\
+    \        order.reserve(n);\n        if (n == 0) return root = -1;\n        return\
+    \ root = decompose(start, -1, 0);\n    }\n\nprivate:\n    vector<int> dfs_parent,\
+    \ order;\n\n    int dfs_size(int v, int p) {\n        order.clear();\n       \
+    \ order.push_back(v);\n        dfs_parent[v] = p;\n        for (int i = 0; i <\
+    \ (int)order.size(); ++i) {\n            int x = order[i];\n            sz[x]\
+    \ = 1;\n            for (int u : G[x]) {\n                if (u == dfs_parent[x]\
+    \ || used[u]) continue;\n                dfs_parent[u] = x;\n                order.push_back(u);\n\
+    \            }\n        }\n        for (int i = (int)order.size() - 1; i > 0;\
+    \ --i)\n            sz[dfs_parent[order[i]]] += sz[order[i]];\n        return\
+    \ sz[v];\n    }\n\n    int find_centroid(int v, int p, int half) {\n        while\
+    \ (true) {\n            int next = -1;\n            for (int u : G[v]) {\n   \
+    \             if (u != p && !used[u] && sz[u] > half) {\n                    next\
+    \ = u;\n                    break;\n                }\n            }\n       \
+    \     if (next == -1) return v;\n            p = v;\n            v = next;\n \
+    \       }\n    }\n\n    void collect(int v, int p, int d, vector<pair<int, int>>\
+    \ &buf) {\n        buf.emplace_back(v, d);\n        dfs_parent[v] = p;\n     \
+    \   for (int i = 0; i < (int)buf.size(); ++i) {\n            auto [x, distance]\
+    \ = buf[i];\n            for (int u : G[x]) {\n                if (u == dfs_parent[x]\
+    \ || used[u]) continue;\n                dfs_parent[u] = x;\n                buf.emplace_back(u,\
+    \ distance + 1);\n            }\n        }\n    }\n\n    int decompose(int start,\
+    \ int p, int dep) {\n        int centroid = find_centroid(start, -1, dfs_size(start,\
+    \ -1) / 2);\n        used[centroid] = 1;\n        parent[centroid] = p;\n    \
+    \    depth[centroid] = dep;\n        path[centroid].push_back(centroid);\n   \
+    \     dist[centroid].push_back(0);\n        for (auto &&u : G[centroid]) {\n \
+    \           if (used[u]) continue;\n            vector<pair<int, int>> buf;\n\
+    \            collect(u, centroid, 1, buf);\n            int child = decompose(u,\
+    \ centroid, dep + 1);\n            tree[centroid].push_back(child);\n        \
+    \    for (auto &&[v, d] : buf) {\n                path[v].push_back(centroid);\n\
+    \                dist[v].push_back(d);\n            }\n        }\n        return\
+    \ centroid;\n    }\n};\n\n/**\n * @brief \u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\
+    \u88DC\u52A9(Centroid Query Helper)\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
+    \n\n\n\ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
+    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
+    \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
+    \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
+    \            int parent = i + (i & -i);\n            if (parent <= n) bit[parent\
+    \ - 1] += bit[i - 1];\n        }\n    }\n\n    T sum(int k){\n        T ret =\
+    \ 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
+    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
+    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
+    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
+    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
+    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
+    \ Indexed Tree(BIT)\n */\n\n\n#line 3 \"tree/range_contour_sum.cpp\"\n\nclass\
+    \ RangeContourSum {\n    CentroidDecompositionQueryHelper cd;\n    vector<BIT<long\
+    \ long>> all, branch;\n    vector<int> all_size, branch_size;\n\n    long long\
+    \ sum(BIT<long long> &bit, int size, long long l, long long r) {\n        int\
+    \ left = (int)max(0LL, min((long long)size, l));\n        int right = (int)max(0LL,\
+    \ min((long long)size, r));\n        return bit.sum(right) - bit.sum(left);\n\
+    \    }\n\npublic:\n    RangeContourSum(const vector<vector<int>> &g, const vector<long\
+    \ long> &values)\n        : cd((int)g.size()), all_size(g.size()), branch_size(g.size())\
+    \ {\n        cd.G = g;\n        cd.build();\n        int n = g.size();\n     \
+    \   vector<vector<long long>> a(n), b(n);\n        for (int v = 0; v < n; ++v)\
+    \ {\n            for (int i = 0; i < (int)cd.path[v].size(); ++i) {\n        \
+    \        int c = cd.path[v][i], d = cd.dist[v][i];\n                if ((int)a[c].size()\
+    \ <= d) a[c].resize(d + 1);\n                a[c][d] += values[v];\n         \
+    \       if (i == 0) continue;\n                int child = cd.path[v][i - 1];\n\
+    \                if ((int)b[child].size() <= d) b[child].resize(d + 1);\n    \
+    \            b[child][d] += values[v];\n            }\n        }\n        all.reserve(n);\n\
+    \        branch.reserve(n);\n        for (int c = 0; c < n; ++c) {\n         \
+    \   all_size[c] = a[c].size();\n            branch_size[c] = b[c].size();\n  \
+    \          all.emplace_back(a[c]);\n            branch.emplace_back(b[c]);\n \
+    \       }\n    }\n\n    void add(int v, long long x) {\n        for (int i = 0;\
+    \ i < (int)cd.path[v].size(); ++i) {\n            all[cd.path[v][i]].add(cd.dist[v][i],\
+    \ x);\n            if (i > 0) branch[cd.path[v][i - 1]].add(cd.dist[v][i], x);\n\
+    \        }\n    }\n\n    long long query(int v, int l, int r) {\n        if (l\
+    \ >= r) return 0;\n        long long answer = 0;\n        for (int i = 0; i <\
+    \ (int)cd.path[v].size(); ++i) {\n            int c = cd.path[v][i], d = cd.dist[v][i];\n\
+    \            answer += sum(all[c], all_size[c], (long long)l - d, (long long)r\
+    \ - d);\n            if (i == 0) continue;\n            int child = cd.path[v][i\
+    \ - 1];\n            answer -= sum(branch[child], branch_size[child], (long long)l\
+    \ - d, (long long)r - d);\n        }\n        return answer;\n    }\n};\n\n/**\n\
+    \ * @brief \u6728\u306E\u9802\u70B9\u52A0\u7B97\u30FB\u8DDD\u96E2\u533A\u9593\u548C\
+    \n */\n#line 8 \"test/yosupo_aplusb_range_contour_sum.test.cpp\"\n\nvoid check(int\
+    \ n, int mode, mt19937 &rng) {\n    vector<vector<int>> g(n), distance(n, vector<int>(n,\
+    \ -1));\n    for (int i = 1; i < n; ++i) {\n        int p = mode == 0 ? i - 1\
+    \ : mode == 1 ? 0 : rng() % i;\n        g[p].push_back(i);\n        g[i].push_back(p);\n\
+    \    }\n    for (int v = 0; v < n; ++v) {\n        vector<int> queue{v};\n   \
+    \     distance[v][v] = 0;\n        for (int i = 0; i < (int)queue.size(); ++i)\
+    \ {\n            int x = queue[i];\n            for (int u : g[x]) {\n       \
+    \         if (distance[v][u] != -1) continue;\n                distance[v][u]\
+    \ = distance[v][x] + 1;\n                queue.push_back(u);\n            }\n\
+    \        }\n    }\n    CentroidDecompositionQueryHelper helper(n);\n    helper.G\
+    \ = g;\n    helper.build();\n    auto path = helper.path, dist = helper.dist;\n\
+    \    helper.build();\n    assert(path == helper.path && dist == helper.dist);\n\
+    \    for (int v = 0; v < n; ++v) {\n        assert(path[v].front() == v && path[v].back()\
+    \ == helper.root);\n        for (int i = 0; i < (int)path[v].size(); ++i) {\n\
+    \            assert(dist[v][i] == distance[v][path[v][i]]);\n            if (i\
+    \ > 0) assert(helper.parent[path[v][i - 1]] == path[v][i]);\n        }\n    }\n\
+    \    vector<long long> values(n);\n    for (auto &x : values) x = (int)(rng()\
+    \ % 21) - 10;\n    RangeContourSum solver(g, values);\n    for (int step = 0;\
+    \ step < 200; ++step) {\n        int v = rng() % n;\n        if (step % 3 == 0)\
+    \ {\n            long long x = (int)(rng() % 21) - 10;\n            solver.add(v,\
+    \ x);\n            values[v] += x;\n        }\n        int l = (int)(rng() % (n\
+    \ + 10)) - 5;\n        int r = (int)(rng() % (n + 10)) - 5;\n        if (step\
+    \ % 20 == 0) l = INT_MIN, r = INT_MAX;\n        long long expected = 0;\n    \
+    \    for (int u = 0; u < n; ++u)\n            if (l <= distance[v][u] && distance[v][u]\
+    \ < r) expected += values[u];\n        assert(solver.query(v, l, r) == expected);\n\
+    \        assert(solver.query(v, 0, 1) == values[v]);\n    }\n}\n\nint main() {\n\
+    \    RangeContourSum empty({}, {});\n    mt19937 rng(20261010);\n    for (int\
+    \ n : {1, 2, 3, 63, 64, 65, 100})\n        for (int mode = 0; mode < 3; ++mode)\
+    \ check(n, mode, rng);\n    for (int tc = 0; tc < 500; ++tc) check(1 + rng() %\
+    \ 50, 2, rng);\n    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a,\
+    \ b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../tree/range_contour_sum.cpp\"\
+    \n\nvoid check(int n, int mode, mt19937 &rng) {\n    vector<vector<int>> g(n),\
+    \ distance(n, vector<int>(n, -1));\n    for (int i = 1; i < n; ++i) {\n      \
+    \  int p = mode == 0 ? i - 1 : mode == 1 ? 0 : rng() % i;\n        g[p].push_back(i);\n\
+    \        g[i].push_back(p);\n    }\n    for (int v = 0; v < n; ++v) {\n      \
+    \  vector<int> queue{v};\n        distance[v][v] = 0;\n        for (int i = 0;\
+    \ i < (int)queue.size(); ++i) {\n            int x = queue[i];\n            for\
+    \ (int u : g[x]) {\n                if (distance[v][u] != -1) continue;\n    \
+    \            distance[v][u] = distance[v][x] + 1;\n                queue.push_back(u);\n\
+    \            }\n        }\n    }\n    CentroidDecompositionQueryHelper helper(n);\n\
+    \    helper.G = g;\n    helper.build();\n    auto path = helper.path, dist = helper.dist;\n\
+    \    helper.build();\n    assert(path == helper.path && dist == helper.dist);\n\
+    \    for (int v = 0; v < n; ++v) {\n        assert(path[v].front() == v && path[v].back()\
+    \ == helper.root);\n        for (int i = 0; i < (int)path[v].size(); ++i) {\n\
+    \            assert(dist[v][i] == distance[v][path[v][i]]);\n            if (i\
+    \ > 0) assert(helper.parent[path[v][i - 1]] == path[v][i]);\n        }\n    }\n\
+    \    vector<long long> values(n);\n    for (auto &x : values) x = (int)(rng()\
+    \ % 21) - 10;\n    RangeContourSum solver(g, values);\n    for (int step = 0;\
+    \ step < 200; ++step) {\n        int v = rng() % n;\n        if (step % 3 == 0)\
+    \ {\n            long long x = (int)(rng() % 21) - 10;\n            solver.add(v,\
+    \ x);\n            values[v] += x;\n        }\n        int l = (int)(rng() % (n\
+    \ + 10)) - 5;\n        int r = (int)(rng() % (n + 10)) - 5;\n        if (step\
+    \ % 20 == 0) l = INT_MIN, r = INT_MAX;\n        long long expected = 0;\n    \
+    \    for (int u = 0; u < n; ++u)\n            if (l <= distance[v][u] && distance[v][u]\
+    \ < r) expected += values[u];\n        assert(solver.query(v, l, r) == expected);\n\
+    \        assert(solver.query(v, 0, 1) == values[v]);\n    }\n}\n\nint main() {\n\
+    \    RangeContourSum empty({}, {});\n    mt19937 rng(20261010);\n    for (int\
+    \ n : {1, 2, 3, 63, 64, 65, 100})\n        for (int mode = 0; mode < 3; ++mode)\
+    \ check(n, mode, rng);\n    for (int tc = 0; tc < 500; ++tc) check(1 + rng() %\
+    \ 50, 2, rng);\n    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a,\
+    \ b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - tree/hld.cpp
-  - datastructure/segmenttree/segtree.cpp
+  - tree/range_contour_sum.cpp
+  - tree/centroid_decomposition_query_helper.cpp
+  - datastructure/binaryindexedtree.cpp
   isVerificationFile: true
-  path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  path: test/yosupo_aplusb_range_contour_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 19:54:48+09:00'
+  timestamp: '2026-10-10 19:50:28+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+documentation_of: test/yosupo_aplusb_range_contour_sum.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp.html
-title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+- /verify/test/yosupo_aplusb_range_contour_sum.test.cpp
+- /verify/test/yosupo_aplusb_range_contour_sum.test.cpp.html
+title: test/yosupo_aplusb_range_contour_sum.test.cpp
 ---

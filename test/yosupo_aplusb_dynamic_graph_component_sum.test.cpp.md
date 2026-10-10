@@ -2,11 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segmenttree/segtree.cpp
-    title: Segment Tree
-  - icon: ':heavy_check_mark:'
-    path: tree/hld.cpp
-    title: "HL\u5206\u89E3(HL Decomposition)"
+    path: graph/dynamic_graph_vertex_add_component_sum.cpp
+    title: Dynamic Graph Vertex Add Component Sum
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -17,19 +14,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/vertex_add_subtree_sum
-  bundledCode: "#line 1 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp\"\
+    \n#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -231,152 +226,155 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/hld.cpp\"\
-    \n\n\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int root, vector<int>\
-    \ &order){\n        order.clear();\n        order.push_back(root);\n        for\
-    \ (int i = 0; i < (int)order.size(); ++i) {\n            int v = order[i];\n \
-    \           for (int u : G[v]) {\n                if (u == par[v]) continue;\n\
-    \                par[u] = v;\n                dep[u] = dep[v] + 1;\n         \
-    \       order.push_back(u);\n            }\n        }\n        for (int i = (int)order.size()\
-    \ - 1; i >= 0; --i) {\n            int v = order[i], heavy = -1;\n           \
-    \ for (int u : G[v]) {\n                if (u == par[v]) continue;\n         \
-    \       sub_size[v] += sub_size[u];\n                if (heavy == -1 || sub_size[u]\
-    \ > sub_size[heavy]) heavy = u;\n            }\n            if (heavy != -1 &&\
-    \ G[v][0] != heavy) {\n                for (auto &u : G[v]) {\n              \
-    \      if (u == heavy) {\n                        swap(u, G[v][0]);\n        \
-    \                break;\n                    }\n                }\n          \
-    \  }\n        }\n    }\n    void dfs_hld(int root, int c, int &pos, vector<int>\
-    \ &stack){\n        stack.clear();\n        stack.push_back(root);\n        while\
-    \ (!stack.empty()) {\n            int v = stack.back();\n            stack.pop_back();\n\
-    \            id[v] = pos++;\n            id_inv[id[v]] = v;\n            tree_id[v]\
-    \ = c;\n            for (int i = (int)G[v].size() - 1; i >= 0; --i) {\n      \
-    \          int u = G[v][i];\n                if (u == par[v]) continue;\n    \
-    \            head[u] = (u == G[v][0] ? head[v] : u);\n                stack.push_back(u);\n\
-    \            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G;\n    vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit\
-    \ HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1),\
-    \ id(n), id_inv(n), tree_id(n), head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>>\
-    \ &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
-    \ head(n) {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n\
-    \        G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
-    \        if (n == 0) return;\n        fill(par.begin(), par.end(), -1);\n    \
-    \    fill(dep.begin(), dep.end(), 0);\n        fill(sub_size.begin(), sub_size.end(),\
-    \ 1);\n        int c = 0, pos = 0;\n        vector<int> order;\n        for (auto\
-    \ &&i : roots) {\n            dfs_sz(i, order);\n            head[i] = i;\n  \
-    \          dfs_hld(i, c++, pos, order);\n        }\n    }\n\n    int lca(int u,\
-    \ int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n \
-    \           if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
-    \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
-    \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
-    \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
-    \ >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n     \
-    \       v = par[u];\n        }\n    }\n\n    int distance(int u, int v){ return\
-    \ dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    pair<int, int> subtree(int v, bool\
-    \ edge = false) const {\n        return {id[v] + edge, id[v] + sub_size[v]};\n\
-    \    }\n\n    template<typename F>\n    void add(int u, int v, const F &f, bool\
-    \ edge){\n        while (head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
-    \ v);\n            f(id[head[v]], id[v]+1);\n            v = par[head[v]];\n \
-    \       }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge, id[v]+1);\n\
-    \    }\n\n    template<typename F>\n    void path(int u, int v, const F &f, bool\
-    \ edge = false){\n        add(u, v, f, edge);\n    }\n\n    template<typename\
-    \ F>\n    void apply_subtree(int v, const F &f, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename\
-    \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
-    \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
-    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
-    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
-    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
-    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
-    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
-    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
-    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
-    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
-    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
-    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
-    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
-    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
-    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
-    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
-    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
-    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
-    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n\n\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
-    \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
-    \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
-    \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
-    \ M::e());\n    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n \
-    \   void build(){\n        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i],\
-    \ seg[2*i+1]);\n    }\n\n    void update(int k, const T &x){\n        k += sz;\n\
-    \        seg[k] = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n\
-    \    }\n\n    T query(int a, int b){\n        T l = M::e(), r = M::e();\n    \
-    \    for(a += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l,\
-    \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
-    \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
-    \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
-    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
-    \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
-    \                    if (cond(M::f(val, seg[l]))){\n                        val\
-    \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
-    \                }\n                return l - sz;\n            }\n          \
-    \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
-    \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
-    \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
-    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
-    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
-    \ val))){\n                        val = M::f(seg[r], val);\n                \
-    \        r--;\n                    }\n                }\n                return\
-    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
-    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
-    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
-    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
-    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
-    \ */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid\
-    \ {\n    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
-    \    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x :\
-    \ a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v\
-    \ < n; ++v) {\n        int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n\
-    \    }\n    hld.build();\n\n    SegmentTree<SumMonoid> seg(n);\n    for (int v\
-    \ = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n        if\
-    \ (t == 0) {\n            ll x;\n            sc.read(x);\n            int p =\
-    \ hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else {\n     \
-    \       pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
-    \ r); }));\n        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
-    \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\
-    \n#include \"../datastructure/segmenttree/segtree.cpp\"\n\nstruct SumMonoid {\n\
-    \    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
-    \n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v < n; ++v) {\n   \
-    \     int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n    }\n    hld.build();\n\
-    \n    SegmentTree<SumMonoid> seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v],\
-    \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
-    \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
-    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query(v,\
-    \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/dynamic_graph_vertex_add_component_sum.cpp\"\
+    \nusing namespace std;\n\nstruct RollbackUnionFindComponentSum {\n    struct History\
+    \ {\n        int child, parent;\n        int parent_size, child_size;\n      \
+    \  long long parent_sum, child_sum;\n    };\n\n    vector<int> parent_or_size;\n\
+    \    vector<long long> comp_sum;\n    vector<History> history;\n\n    explicit\
+    \ RollbackUnionFindComponentSum(int n, const vector<long long> &a)\n        :\
+    \ parent_or_size(n, -1), comp_sum(a) {}\n\n    int root(int v) const {\n     \
+    \   while (parent_or_size[v] >= 0) v = parent_or_size[v];\n        return v;\n\
+    \    }\n\n    int snapshot() const {\n        return (int)history.size();\n  \
+    \  }\n\n    void rollback(int snap) {\n        while ((int)history.size() > snap)\
+    \ {\n            auto h = history.back();\n            history.pop_back();\n \
+    \           if (h.parent == -1) continue;\n            parent_or_size[h.parent]\
+    \ = h.parent_size;\n            parent_or_size[h.child] = h.child_size;\n    \
+    \        comp_sum[h.parent] = h.parent_sum;\n            comp_sum[h.child] = h.child_sum;\n\
+    \        }\n    }\n\n    void unite(int a, int b) {\n        a = root(a), b =\
+    \ root(b);\n        if (a == b) {\n            history.push_back({-1, -1, 0, 0,\
+    \ 0, 0});\n            return;\n        }\n        if (parent_or_size[a] > parent_or_size[b])\
+    \ swap(a, b);\n        history.push_back({b, a, parent_or_size[a], parent_or_size[b],\
+    \ comp_sum[a], comp_sum[b]});\n        parent_or_size[a] += parent_or_size[b];\n\
+    \        parent_or_size[b] = a;\n        comp_sum[a] += comp_sum[b];\n    }\n\n\
+    \    void add_value(int v, long long x) {\n        int r = root(v);\n        history.push_back({r,\
+    \ r, parent_or_size[r], parent_or_size[r], comp_sum[r], comp_sum[r]});\n     \
+    \   comp_sum[r] += x;\n    }\n\n    long long get_sum(int v) const {\n       \
+    \ return comp_sum[root(v)];\n    }\n};\n\nstruct DynamicGraphVertexAddComponentSum\
+    \ {\n    struct Query {\n        int type, u, v;\n        long long x;\n    };\n\
+    \    struct EdgeEvent {\n        int u, v;\n    };\n    struct AddEvent {\n  \
+    \      int v;\n        long long x;\n    };\n\n    int n, q, sz;\n    vector<Query>\
+    \ queries;\n    vector<long long> initial;\n\n    DynamicGraphVertexAddComponentSum(const\
+    \ vector<long long> &a, int q)\n        : n((int)a.size()), q(q), initial(a) {\n\
+    \        sz = 1;\n        while (sz < q) sz <<= 1;\n        queries.reserve(q);\n\
+    \    }\n\n    void add_edge(int u, int v) {\n        queries.push_back({0, u,\
+    \ v, 0});\n    }\n\n    void erase_edge(int u, int v) {\n        queries.push_back({1,\
+    \ u, v, 0});\n    }\n\n    void add_vertex(int v, long long x) {\n        queries.push_back({2,\
+    \ v, 0, x});\n    }\n\n    void add_component_query(int v) {\n        queries.push_back({3,\
+    \ v, 0, 0});\n    }\n\n    template<class F>\n    void for_segment(int l, int\
+    \ r, const F &f) const {\n        for (l += sz, r += sz; l < r; l >>= 1, r >>=\
+    \ 1) {\n            if (l & 1) f(l++);\n            if (r & 1) f(--r);\n     \
+    \   }\n    }\n\n    vector<long long> solve() {\n        struct Interval {\n \
+    \           int l, r, u, v;\n        };\n        vector<Interval> intervals;\n\
+    \        int edge_count = 0;\n        for (auto query : queries) edge_count +=\
+    \ query.type == 0;\n        intervals.reserve(edge_count);\n        map<pair<int,\
+    \ int>, int> appear;\n        for (int t = 0; t < q; ++t) {\n            auto\
+    \ query = queries[t];\n            if (query.type == 0) {\n                appear[minmax(query.u,\
+    \ query.v)] = t;\n            } else if (query.type == 1) {\n                auto\
+    \ e = minmax(query.u, query.v);\n                intervals.push_back({appear[e],\
+    \ t, e.first, e.second});\n                appear.erase(e);\n            }\n \
+    \       }\n        for (auto &&[e, l] : appear) intervals.push_back({l, q, e.first,\
+    \ e.second});\n\n        vector<size_t> edge_offset(2 * sz + 1), add_offset(2\
+    \ * sz + 1);\n        for (auto e : intervals)\n            for_segment(e.l, e.r,\
+    \ [&](int k) { ++edge_offset[k + 1]; });\n        for (int t = 0; t < q; ++t)\n\
+    \            if (queries[t].type == 2)\n                for_segment(t, q, [&](int\
+    \ k) { ++add_offset[k + 1]; });\n        for (int k = 0; k < 2 * sz; ++k) {\n\
+    \            edge_offset[k + 1] += edge_offset[k];\n            add_offset[k +\
+    \ 1] += add_offset[k];\n        }\n        vector<EdgeEvent> seg_edges(edge_offset.back());\n\
+    \        vector<AddEvent> seg_adds(add_offset.back());\n        auto cursor =\
+    \ edge_offset;\n        for (auto e : intervals)\n            for_segment(e.l,\
+    \ e.r, [&](int k) { seg_edges[cursor[k]++] = {e.u, e.v}; });\n        cursor =\
+    \ add_offset;\n        for (int t = 0; t < q; ++t) {\n            auto query =\
+    \ queries[t];\n            if (query.type == 2)\n                for_segment(t,\
+    \ q, [&](int k) { seg_adds[cursor[k]++] = {query.u, query.x}; });\n        }\n\
+    \n        RollbackUnionFindComponentSum uf(n, initial);\n        vector<long long>\
+    \ ans;\n        ans.reserve(q);\n        auto dfs = [&](auto &&self, int k) ->\
+    \ void {\n            int snap = uf.snapshot();\n            for (size_t i = edge_offset[k];\
+    \ i < edge_offset[k + 1]; ++i)\n                uf.unite(seg_edges[i].u, seg_edges[i].v);\n\
+    \            for (size_t i = add_offset[k]; i < add_offset[k + 1]; ++i)\n    \
+    \            uf.add_value(seg_adds[i].v, seg_adds[i].x);\n            if (k <\
+    \ sz) {\n                self(self, k << 1);\n                self(self, k <<\
+    \ 1 | 1);\n            } else {\n                int t = k - sz;\n           \
+    \     if (t < q && queries[t].type == 3) ans.push_back(uf.get_sum(queries[t].u));\n\
+    \            }\n            uf.rollback(snap);\n        };\n        dfs(dfs, 1);\n\
+    \        return ans;\n    }\n};\n\n/**\n * @brief Dynamic Graph Vertex Add Component\
+    \ Sum\n */\n#line 8 \"test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp\"\
+    \n\nvoid check(int n, int q, int mode, mt19937 &rng) {\n    vector<long long>\
+    \ values(n);\n    for (auto &x : values) x = (int)(rng() % 21) - 10;\n    DynamicGraphVertexAddComponentSum\
+    \ solver(values, q);\n    vector<vector<char>> edges(n, vector<char>(n));\n  \
+    \  vector<long long> expected;\n    for (int t = 0; t < q; ++t) {\n        int\
+    \ u = rng() % n, v = rng() % n;\n        int type = rng() % 4;\n        if (mode\
+    \ == 1) type = 2;\n        if (mode == 2) type = 3;\n        if (mode == 3) {\n\
+    \            type = t % 2 ? 2 : 0;\n            u = 0;\n            v = n - 1;\n\
+    \        }\n        if (mode == 4) {\n            type = 0;\n            u = 0;\n\
+    \            v = n - 1;\n        }\n        if (type < 2 && u == v) type = 3;\n\
+    \        if (mode != 1 && t == q - 1) type = 3;\n        if (type < 2) {\n   \
+    \         if (edges[u][v]) solver.erase_edge(u, v);\n            else solver.add_edge(u,\
+    \ v);\n            edges[u][v] = edges[v][u] = !edges[u][v];\n        } else if\
+    \ (type == 2) {\n            long long x = (int)(rng() % 21) - 10;\n         \
+    \   solver.add_vertex(u, x);\n            values[u] += x;\n        } else {\n\
+    \            solver.add_component_query(u);\n            vector<int> queue{u};\n\
+    \            vector<char> seen(n);\n            seen[u] = 1;\n            long\
+    \ long sum = 0;\n            for (int i = 0; i < (int)queue.size(); ++i) {\n \
+    \               int a = queue[i];\n                sum += values[a];\n       \
+    \         for (int b = 0; b < n; ++b) {\n                    if (!edges[a][b]\
+    \ || seen[b]) continue;\n                    seen[b] = 1;\n                  \
+    \  queue.push_back(b);\n                }\n            }\n            expected.push_back(sum);\n\
+    \        }\n    }\n    assert(solver.solve() == expected);\n    assert(solver.solve()\
+    \ == expected);\n}\n\nint main() {\n    mt19937 rng(20261010);\n    for (int q\
+    \ : {0, 1, 2, 3, 7, 8, 9, 127, 128, 129})\n        for (int mode = 0; mode < 5;\
+    \ ++mode)\n            for (int n : {1, 2, 10}) check(n, q, mode, rng);\n    for\
+    \ (int tc = 0; tc < 2000; ++tc) check(1 + rng() % 12, rng() % 200, 0, rng);\n\
+    \    DynamicGraphVertexAddComponentSum path(vector<long long>(1000, 1), 1001);\n\
+    \    for (int i = 0; i < 999; ++i) path.add_edge(i, i + 1);\n    path.add_vertex(0,\
+    \ -1000);\n    path.add_component_query(999);\n    assert(path.solve() == vector<long\
+    \ long>{0});\n    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a,\
+    \ b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/dynamic_graph_vertex_add_component_sum.cpp\"\
+    \n\nvoid check(int n, int q, int mode, mt19937 &rng) {\n    vector<long long>\
+    \ values(n);\n    for (auto &x : values) x = (int)(rng() % 21) - 10;\n    DynamicGraphVertexAddComponentSum\
+    \ solver(values, q);\n    vector<vector<char>> edges(n, vector<char>(n));\n  \
+    \  vector<long long> expected;\n    for (int t = 0; t < q; ++t) {\n        int\
+    \ u = rng() % n, v = rng() % n;\n        int type = rng() % 4;\n        if (mode\
+    \ == 1) type = 2;\n        if (mode == 2) type = 3;\n        if (mode == 3) {\n\
+    \            type = t % 2 ? 2 : 0;\n            u = 0;\n            v = n - 1;\n\
+    \        }\n        if (mode == 4) {\n            type = 0;\n            u = 0;\n\
+    \            v = n - 1;\n        }\n        if (type < 2 && u == v) type = 3;\n\
+    \        if (mode != 1 && t == q - 1) type = 3;\n        if (type < 2) {\n   \
+    \         if (edges[u][v]) solver.erase_edge(u, v);\n            else solver.add_edge(u,\
+    \ v);\n            edges[u][v] = edges[v][u] = !edges[u][v];\n        } else if\
+    \ (type == 2) {\n            long long x = (int)(rng() % 21) - 10;\n         \
+    \   solver.add_vertex(u, x);\n            values[u] += x;\n        } else {\n\
+    \            solver.add_component_query(u);\n            vector<int> queue{u};\n\
+    \            vector<char> seen(n);\n            seen[u] = 1;\n            long\
+    \ long sum = 0;\n            for (int i = 0; i < (int)queue.size(); ++i) {\n \
+    \               int a = queue[i];\n                sum += values[a];\n       \
+    \         for (int b = 0; b < n; ++b) {\n                    if (!edges[a][b]\
+    \ || seen[b]) continue;\n                    seen[b] = 1;\n                  \
+    \  queue.push_back(b);\n                }\n            }\n            expected.push_back(sum);\n\
+    \        }\n    }\n    assert(solver.solve() == expected);\n    assert(solver.solve()\
+    \ == expected);\n}\n\nint main() {\n    mt19937 rng(20261010);\n    for (int q\
+    \ : {0, 1, 2, 3, 7, 8, 9, 127, 128, 129})\n        for (int mode = 0; mode < 5;\
+    \ ++mode)\n            for (int n : {1, 2, 10}) check(n, q, mode, rng);\n    for\
+    \ (int tc = 0; tc < 2000; ++tc) check(1 + rng() % 12, rng() % 200, 0, rng);\n\
+    \    DynamicGraphVertexAddComponentSum path(vector<long long>(1000, 1), 1001);\n\
+    \    for (int i = 0; i < 999; ++i) path.add_edge(i, i + 1);\n    path.add_vertex(0,\
+    \ -1000);\n    path.add_component_query(999);\n    assert(path.solve() == vector<long\
+    \ long>{0});\n    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a,\
+    \ b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - tree/hld.cpp
-  - datastructure/segmenttree/segtree.cpp
+  - graph/dynamic_graph_vertex_add_component_sum.cpp
   isVerificationFile: true
-  path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  path: test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 19:54:48+09:00'
+  timestamp: '2026-10-10 19:48:00+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+documentation_of: test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp.html
-title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+- /verify/test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp
+- /verify/test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp.html
+title: test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp
 ---

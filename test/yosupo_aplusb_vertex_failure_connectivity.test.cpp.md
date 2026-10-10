@@ -2,8 +2,14 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/segmenttree/segtree.cpp
-    title: Segment Tree
+    path: graph/biconnected_components.cpp
+    title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
+  - icon: ':heavy_check_mark:'
+    path: graph/block_cut_tree.cpp
+    title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
+  - icon: ':heavy_check_mark:'
+    path: graph/vertex_failure_connectivity.cpp
+    title: "\u9802\u70B9\u9664\u53BB\u5F8C\u306E\u9023\u7D50\u5224\u5B9A"
   - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
@@ -17,19 +23,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/vertex_add_subtree_sum
-  bundledCode: "#line 1 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_vertex_failure_connectivity.test.cpp\"\
+    \n#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -231,34 +235,103 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/hld.cpp\"\
-    \n\n\n\nclass HeavyLightDecomposition {\n    void dfs_sz(int root, vector<int>\
-    \ &order){\n        order.clear();\n        order.push_back(root);\n        for\
-    \ (int i = 0; i < (int)order.size(); ++i) {\n            int v = order[i];\n \
-    \           for (int u : G[v]) {\n                if (u == par[v]) continue;\n\
-    \                par[u] = v;\n                dep[u] = dep[v] + 1;\n         \
-    \       order.push_back(u);\n            }\n        }\n        for (int i = (int)order.size()\
-    \ - 1; i >= 0; --i) {\n            int v = order[i], heavy = -1;\n           \
-    \ for (int u : G[v]) {\n                if (u == par[v]) continue;\n         \
-    \       sub_size[v] += sub_size[u];\n                if (heavy == -1 || sub_size[u]\
-    \ > sub_size[heavy]) heavy = u;\n            }\n            if (heavy != -1 &&\
-    \ G[v][0] != heavy) {\n                for (auto &u : G[v]) {\n              \
-    \      if (u == heavy) {\n                        swap(u, G[v][0]);\n        \
-    \                break;\n                    }\n                }\n          \
-    \  }\n        }\n    }\n    void dfs_hld(int root, int c, int &pos, vector<int>\
-    \ &stack){\n        stack.clear();\n        stack.push_back(root);\n        while\
-    \ (!stack.empty()) {\n            int v = stack.back();\n            stack.pop_back();\n\
-    \            id[v] = pos++;\n            id_inv[id[v]] = v;\n            tree_id[v]\
-    \ = c;\n            for (int i = (int)G[v].size() - 1; i >= 0; --i) {\n      \
-    \          int u = G[v][i];\n                if (u == par[v]) continue;\n    \
-    \            head[u] = (u == G[v][0] ? head[v] : u);\n                stack.push_back(u);\n\
-    \            }\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>>\
-    \ G;\n    vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit\
-    \ HeavyLightDecomposition(int n) : n(n), G(n), par(n), dep(n), sub_size(n, 1),\
-    \ id(n), id_inv(n), tree_id(n), head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>>\
-    \ &G) : n(G.size()), G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
-    \ head(n) {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n\
-    \        G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/block_cut_tree.cpp\"\
+    \nusing namespace std;\n\n#line 1 \"graph/biconnected_components.cpp\"\n\n\n\n\
+    class BiconnectedComponents {\n    struct CSR {\n        vector<int> start, elist;\n\
+    \n        CSR() = default;\n\n        CSR(int n, const vector<pair<int, int>>\
+    \ &edges) : start(n + 1), elist(edges.size() * 2) {\n            for (auto &&[u,\
+    \ v] : edges) {\n                ++start[u + 1];\n                ++start[v +\
+    \ 1];\n            }\n            for (int i = 0; i < n; ++i) start[i + 1] +=\
+    \ start[i];\n            auto counter = start;\n            for (int id = 0; id\
+    \ < (int)edges.size(); ++id) {\n                auto &&[u, v] = edges[id];\n \
+    \               elist[counter[u]++] = id;\n                elist[counter[v]++]\
+    \ = id;\n            }\n        }\n    };\n\n    int n = 0;\n    vector<int> st;\n\
+    \n    struct Frame {\n        int v, parent_edge, next;\n    };\n\n    int other(int\
+    \ id, int v) const {\n        return edges[id].first ^ edges[id].second ^ v;\n\
+    \    }\n\n    void dfs(int i, const CSR &G, int &pos, vector<Frame> &stack){\n\
+    \        ord[i] = low[i] = pos++;\n        stack.push_back({i, -1, G.start[i]});\n\
+    \        while (!stack.empty()) {\n            auto &frame = stack.back();\n \
+    \           int v = frame.v;\n            if (frame.next == G.start[v + 1]) {\n\
+    \                int pe = frame.parent_edge, p = par[v];\n                stack.pop_back();\n\
+    \                if (p == -1) continue;\n                low[p] = min(low[p],\
+    \ low[v]);\n                if (ord[p] <= low[v]) {\n                    bcc_edges.emplace_back();\n\
+    \                    while (true) {\n                        int k = st.back();\n\
+    \                        st.pop_back();\n                        bcc_edges.back().emplace_back(min(edges[k].first,\
+    \ edges[k].second), max(edges[k].first, edges[k].second));\n                 \
+    \       if (k == pe) break;\n                    }\n                }\n      \
+    \          continue;\n            }\n            int id = G.elist[frame.next++];\n\
+    \            if (id == frame.parent_edge) continue;\n            int j = other(id,\
+    \ v);\n            if(ord[j] < ord[v]) st.emplace_back(id);\n            if(~ord[j]){\n\
+    \                low[v] = min(low[v], ord[j]);\n                continue;\n  \
+    \          }\n            par[j] = v;\n            ord[j] = low[j] = pos++;\n\
+    \            stack.push_back({j, id, G.start[j]});\n        }\n    }\npublic:\n\
+    \    vector<int> ord, low, par;\n    vector<pair<int, int>> edges;\n    vector<vector<pair<int,\
+    \ int>>> bcc_edges;\n    vector<vector<int>> bcc_vertices;\n    explicit BiconnectedComponents(int\
+    \ n): n(n), ord(n, -1), low(n), par(n, -1){}\n\n    void add_edge(int u, int v){\n\
+    \        if(u == v) return;\n        edges.emplace_back(u, v);\n    }\n\n    int\
+    \ build(){\n        CSR G(n, edges);\n        int pos = 0;\n        fill(ord.begin(),\
+    \ ord.end(), -1);\n        fill(par.begin(), par.end(), -1);\n        bcc_edges.clear();\n\
+    \        bcc_vertices.clear();\n        st.clear();\n        vector<Frame> stack;\n\
+    \        for (int i = 0; i < n; ++i) {\n            if(ord[i] < 0) dfs(i, G, pos,\
+    \ stack);\n        }\n        vector<int> seen(n, -1);\n        bcc_vertices.reserve(bcc_edges.size());\n\
+    \        for (int i = 0; i < (int)bcc_edges.size(); ++i) {\n            vector<int>\
+    \ now;\n            for (auto &&e : bcc_edges[i]) {\n                if(seen[e.first]\
+    \ != i){\n                    seen[e.first] = i;\n                    now.emplace_back(e.first);\n\
+    \                }\n                if(seen[e.second] != i){\n               \
+    \     seen[e.second] = i;\n                    now.emplace_back(e.second);\n \
+    \               }\n            }\n            bcc_vertices.emplace_back(std::move(now));\n\
+    \        }\n        for (int i = 0; i < n; ++i) {\n            if(G.start[i] ==\
+    \ G.start[i + 1]){\n                bcc_edges.emplace_back();\n              \
+    \  bcc_vertices.push_back({i});\n            }\n        }\n        return bcc_vertices.size();\n\
+    \    }\n};\n\n/**\n * @brief \u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3\
+    (Biconnected Components)\n */\n\n\n#line 4 \"graph/block_cut_tree.cpp\"\n\nstruct\
+    \ BlockCutTree {\n    int n, block_count;\n    BiconnectedComponents bcc;\n  \
+    \  vector<vector<int>> tree, nodes;\n    vector<int> id, rev;\n    vector<char>\
+    \ is_articulation;\n\n    explicit BlockCutTree(int n) : n(n), block_count(0),\
+    \ bcc(n), id(n, -1), is_articulation(n, 0) {}\n\n    void add_edge(int u, int\
+    \ v) {\n        bcc.add_edge(u, v);\n    }\n\n    int build() {\n        block_count\
+    \ = bcc.build();\n        vector<int> cnt(n);\n        for (auto &&vs : bcc.bcc_vertices)\
+    \ {\n            for (auto &&v : vs) ++cnt[v];\n        }\n\n        int m = block_count;\n\
+    \        id.assign(n, -1);\n        is_articulation.assign(n, 0);\n        for\
+    \ (int v = 0; v < n; ++v) {\n            if (cnt[v] > 1) {\n                is_articulation[v]\
+    \ = 1;\n                id[v] = m++;\n            }\n        }\n\n        tree.assign(m,\
+    \ {});\n        nodes.assign(m, {});\n        rev.assign(m, -1);\n        for\
+    \ (int i = 0; i < block_count; ++i) {\n            nodes[i] = bcc.bcc_vertices[i];\n\
+    \            for (auto &&v : bcc.bcc_vertices[i]) {\n                if (cnt[v]\
+    \ > 1) {\n                    tree[i].push_back(id[v]);\n                    tree[id[v]].push_back(i);\n\
+    \                } else {\n                    id[v] = i;\n                }\n\
+    \            }\n        }\n        for (int v = 0; v < n; ++v) {\n           \
+    \ if (is_articulation[v]) {\n                nodes[id[v]].push_back(v);\n    \
+    \            rev[id[v]] = v;\n            }\n        }\n        return m;\n  \
+    \  }\n};\n\n/**\n * @brief \u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut\
+    \ Tree)\n */\n#line 1 \"tree/hld.cpp\"\n\n\n\nclass HeavyLightDecomposition {\n\
+    \    void dfs_sz(int root, vector<int> &order){\n        order.clear();\n    \
+    \    order.push_back(root);\n        for (int i = 0; i < (int)order.size(); ++i)\
+    \ {\n            int v = order[i];\n            for (int u : G[v]) {\n       \
+    \         if (u == par[v]) continue;\n                par[u] = v;\n          \
+    \      dep[u] = dep[v] + 1;\n                order.push_back(u);\n           \
+    \ }\n        }\n        for (int i = (int)order.size() - 1; i >= 0; --i) {\n \
+    \           int v = order[i], heavy = -1;\n            for (int u : G[v]) {\n\
+    \                if (u == par[v]) continue;\n                sub_size[v] += sub_size[u];\n\
+    \                if (heavy == -1 || sub_size[u] > sub_size[heavy]) heavy = u;\n\
+    \            }\n            if (heavy != -1 && G[v][0] != heavy) {\n         \
+    \       for (auto &u : G[v]) {\n                    if (u == heavy) {\n      \
+    \                  swap(u, G[v][0]);\n                        break;\n       \
+    \             }\n                }\n            }\n        }\n    }\n    void\
+    \ dfs_hld(int root, int c, int &pos, vector<int> &stack){\n        stack.clear();\n\
+    \        stack.push_back(root);\n        while (!stack.empty()) {\n          \
+    \  int v = stack.back();\n            stack.pop_back();\n            id[v] = pos++;\n\
+    \            id_inv[id[v]] = v;\n            tree_id[v] = c;\n            for\
+    \ (int i = (int)G[v].size() - 1; i >= 0; --i) {\n                int u = G[v][i];\n\
+    \                if (u == par[v]) continue;\n                head[u] = (u == G[v][0]\
+    \ ? head[v] : u);\n                stack.push_back(u);\n            }\n      \
+    \  }\n    }\npublic:\n    int n;\n    vector<vector<int>> G;\n    vector<int>\
+    \ par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int\
+    \ n) : n(n), G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
+    \ head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>> &G) : n(G.size()),\
+    \ G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n)\
+    \ {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n    \
+    \    G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
     \        if (n == 0) return;\n        fill(par.begin(), par.end(), -1);\n    \
     \    fill(dep.begin(), dep.end(), 0);\n        fill(sub_size.begin(), sub_size.end(),\
     \ 1);\n        int c = 0, pos = 0;\n        vector<int> order;\n        for (auto\
@@ -302,81 +375,118 @@ data:
     \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
     \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
     \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n\n\n#line 1 \"datastructure/segmenttree/segtree.cpp\"\
-    \ntemplate <class M>\nstruct SegmentTree{\n    using T = typename M::T;\n    int\
-    \ sz, n, height{};\n    vector<T> seg;\n    explicit SegmentTree(int n) : n(n)\
-    \ {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        seg.assign(2*sz,\
-    \ M::e());\n    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n \
-    \   void build(){\n        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[2*i],\
-    \ seg[2*i+1]);\n    }\n\n    void update(int k, const T &x){\n        k += sz;\n\
-    \        seg[k] = x;\n        while (k >>= 1) seg[k] = M::f(seg[2*k], seg[2*k+1]);\n\
-    \    }\n\n    T query(int a, int b){\n        T l = M::e(), r = M::e();\n    \
-    \    for(a += sz, b += sz; a < b; a >>=1, b>>=1){\n            if(a & 1) l = M::f(l,\
-    \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
-    \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
-    \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
-    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
-    \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
-    \                    if (cond(M::f(val, seg[l]))){\n                        val\
-    \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
-    \                }\n                return l - sz;\n            }\n          \
-    \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
-    \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
-    \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
-    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
-    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
-    \ val))){\n                        val = M::f(seg[r], val);\n                \
-    \        r--;\n                    }\n                }\n                return\
-    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
-    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
-    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
-    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
-    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
-    \ */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid\
-    \ {\n    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
-    \    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x :\
-    \ a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v\
-    \ < n; ++v) {\n        int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n\
-    \    }\n    hld.build();\n\n    SegmentTree<SumMonoid> seg(n);\n    for (int v\
-    \ = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n        if\
-    \ (t == 0) {\n            ll x;\n            sc.read(x);\n            int p =\
-    \ hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else {\n     \
-    \       pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
-    \ r); }));\n        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
-    \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\
-    \n#include \"../datastructure/segmenttree/segtree.cpp\"\n\nstruct SumMonoid {\n\
-    \    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
-    \n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v < n; ++v) {\n   \
-    \     int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n    }\n    hld.build();\n\
-    \n    SegmentTree<SumMonoid> seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v],\
-    \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
-    \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
-    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query(v,\
-    \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    \u89E3(HL Decomposition)\n */\n\n\n#line 3 \"graph/vertex_failure_connectivity.cpp\"\
+    \n\nclass VertexFailureConnectivity {\n    BlockCutTree bct;\n    HeavyLightDecomposition\
+    \ hld;\n\npublic:\n    explicit VertexFailureConnectivity(int n) : bct(n), hld(0)\
+    \ {}\n\n    void add_edge(int u, int v) {\n        bct.add_edge(u, v);\n    }\n\
+    \n    void build() {\n        int n = bct.build();\n        hld = HeavyLightDecomposition(bct.tree);\n\
+    \        vector<char> seen(n);\n        vector<int> roots, stack;\n        for\
+    \ (int v = 0; v < n; ++v) {\n            if (seen[v]) continue;\n            roots.push_back(v);\n\
+    \            seen[v] = 1;\n            stack.push_back(v);\n            while\
+    \ (!stack.empty()) {\n                int x = stack.back();\n                stack.pop_back();\n\
+    \                for (int u : bct.tree[x]) {\n                    if (seen[u])\
+    \ continue;\n                    seen[u] = 1;\n                    stack.push_back(u);\n\
+    \                }\n            }\n        }\n        hld.build(roots);\n    }\n\
+    \n    bool connected_without_vertex(int u, int v, int x) {\n        if (u == x\
+    \ || v == x) return false;\n        int a = bct.id[u], b = bct.id[v], c = bct.id[x];\n\
+    \        if (hld.tree_id[a] != hld.tree_id[b]) return false;\n        if (!bct.is_articulation[x]\
+    \ || hld.tree_id[a] != hld.tree_id[c]) return true;\n        return hld.distance(a,\
+    \ b) != hld.distance(a, c) + hld.distance(c, b);\n    }\n};\n\n/**\n * @brief\
+    \ \u9802\u70B9\u9664\u53BB\u5F8C\u306E\u9023\u7D50\u5224\u5B9A\n */\n#line 8 \"\
+    test/yosupo_aplusb_vertex_failure_connectivity.test.cpp\"\n\nvoid check(VertexFailureConnectivity\
+    \ &solver, int n, const vector<pair<int, int>> &edges) {\n    solver.build();\n\
+    \    vector<vector<int>> g(n);\n    for (auto [u, v] : edges) {\n        g[u].push_back(v);\n\
+    \        g[v].push_back(u);\n    }\n    for (int x = 0; x < n; ++x) {\n      \
+    \  for (int u = 0; u < n; ++u) {\n            vector<char> seen(n);\n        \
+    \    vector<int> queue;\n            if (u != x) seen[u] = 1, queue.push_back(u);\n\
+    \            for (int i = 0; i < (int)queue.size(); ++i) {\n                for\
+    \ (int v : g[queue[i]]) {\n                    if (v == x || seen[v]) continue;\n\
+    \                    seen[v] = 1;\n                    queue.push_back(v);\n \
+    \               }\n            }\n            for (int v = 0; v < n; ++v)\n  \
+    \              assert(solver.connected_without_vertex(u, v, x) == (bool)seen[v]);\n\
+    \        }\n    }\n}\n\nvoid check_large(int n, int mode) {\n    VertexFailureConnectivity\
+    \ solver(n);\n    for (int v = 1; v < n; ++v) {\n        if (mode == 3 && v ==\
+    \ n / 2) continue;\n        solver.add_edge(mode == 1 ? 0 : v - 1, v);\n    }\n\
+    \    if (mode == 2) solver.add_edge(n - 1, 0);\n    solver.build();\n    mt19937\
+    \ rng(20261010);\n    for (int i = 0; i < 100000; ++i) {\n        int u = rng()\
+    \ % n, v = rng() % n, x = rng() % n;\n        bool expected = u != x && v != x;\n\
+    \        if (mode == 1) expected &= x != 0 || u == v;\n        else if (mode !=\
+    \ 2) {\n            expected &= !(min(u, v) < x && x < max(u, v));\n         \
+    \   if (mode == 3) expected &= (u < n / 2) == (v < n / 2);\n        }\n      \
+    \  assert(solver.connected_without_vertex(u, v, x) == expected);\n    }\n}\n\n\
+    int main() {\n    for (int n = 0; n <= 6; ++n) {\n        vector<pair<int, int>>\
+    \ possible;\n        for (int u = 0; u < n; ++u)\n            for (int v = u +\
+    \ 1; v < n; ++v) possible.emplace_back(u, v);\n        for (int mask = 0; mask\
+    \ < (1 << possible.size()); ++mask) {\n            VertexFailureConnectivity solver(n);\n\
+    \            vector<pair<int, int>> edges;\n            for (int i = 0; i < (int)possible.size();\
+    \ ++i) {\n                if (!(mask >> i & 1)) continue;\n                auto\
+    \ [u, v] = possible[i];\n                solver.add_edge(u, v);\n            \
+    \    edges.emplace_back(u, v);\n            }\n            check(solver, n, edges);\n\
+    \        }\n    }\n    mt19937 rng(20261010);\n    for (int tc = 0; tc < 500;\
+    \ ++tc) {\n        int n = 1 + rng() % 10;\n        VertexFailureConnectivity\
+    \ solver(n);\n        vector<pair<int, int>> edges;\n        for (int phase =\
+    \ 0; phase < 3; ++phase) {\n            for (int i = rng() % 20; i > 0; --i) {\n\
+    \                int u = rng() % n, v = rng() % n;\n                solver.add_edge(u,\
+    \ v);\n                edges.emplace_back(u, v);\n            }\n            check(solver,\
+    \ n, edges);\n        }\n    }\n    for (int mode = 0; mode < 4; ++mode) check_large(100000,\
+    \ mode);\n    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n\
+    \    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/vertex_failure_connectivity.cpp\"\
+    \n\nvoid check(VertexFailureConnectivity &solver, int n, const vector<pair<int,\
+    \ int>> &edges) {\n    solver.build();\n    vector<vector<int>> g(n);\n    for\
+    \ (auto [u, v] : edges) {\n        g[u].push_back(v);\n        g[v].push_back(u);\n\
+    \    }\n    for (int x = 0; x < n; ++x) {\n        for (int u = 0; u < n; ++u)\
+    \ {\n            vector<char> seen(n);\n            vector<int> queue;\n     \
+    \       if (u != x) seen[u] = 1, queue.push_back(u);\n            for (int i =\
+    \ 0; i < (int)queue.size(); ++i) {\n                for (int v : g[queue[i]])\
+    \ {\n                    if (v == x || seen[v]) continue;\n                  \
+    \  seen[v] = 1;\n                    queue.push_back(v);\n                }\n\
+    \            }\n            for (int v = 0; v < n; ++v)\n                assert(solver.connected_without_vertex(u,\
+    \ v, x) == (bool)seen[v]);\n        }\n    }\n}\n\nvoid check_large(int n, int\
+    \ mode) {\n    VertexFailureConnectivity solver(n);\n    for (int v = 1; v < n;\
+    \ ++v) {\n        if (mode == 3 && v == n / 2) continue;\n        solver.add_edge(mode\
+    \ == 1 ? 0 : v - 1, v);\n    }\n    if (mode == 2) solver.add_edge(n - 1, 0);\n\
+    \    solver.build();\n    mt19937 rng(20261010);\n    for (int i = 0; i < 100000;\
+    \ ++i) {\n        int u = rng() % n, v = rng() % n, x = rng() % n;\n        bool\
+    \ expected = u != x && v != x;\n        if (mode == 1) expected &= x != 0 || u\
+    \ == v;\n        else if (mode != 2) {\n            expected &= !(min(u, v) <\
+    \ x && x < max(u, v));\n            if (mode == 3) expected &= (u < n / 2) ==\
+    \ (v < n / 2);\n        }\n        assert(solver.connected_without_vertex(u, v,\
+    \ x) == expected);\n    }\n}\n\nint main() {\n    for (int n = 0; n <= 6; ++n)\
+    \ {\n        vector<pair<int, int>> possible;\n        for (int u = 0; u < n;\
+    \ ++u)\n            for (int v = u + 1; v < n; ++v) possible.emplace_back(u, v);\n\
+    \        for (int mask = 0; mask < (1 << possible.size()); ++mask) {\n       \
+    \     VertexFailureConnectivity solver(n);\n            vector<pair<int, int>>\
+    \ edges;\n            for (int i = 0; i < (int)possible.size(); ++i) {\n     \
+    \           if (!(mask >> i & 1)) continue;\n                auto [u, v] = possible[i];\n\
+    \                solver.add_edge(u, v);\n                edges.emplace_back(u,\
+    \ v);\n            }\n            check(solver, n, edges);\n        }\n    }\n\
+    \    mt19937 rng(20261010);\n    for (int tc = 0; tc < 500; ++tc) {\n        int\
+    \ n = 1 + rng() % 10;\n        VertexFailureConnectivity solver(n);\n        vector<pair<int,\
+    \ int>> edges;\n        for (int phase = 0; phase < 3; ++phase) {\n          \
+    \  for (int i = rng() % 20; i > 0; --i) {\n                int u = rng() % n,\
+    \ v = rng() % n;\n                solver.add_edge(u, v);\n                edges.emplace_back(u,\
+    \ v);\n            }\n            check(solver, n, edges);\n        }\n    }\n\
+    \    for (int mode = 0; mode < 4; ++mode) check_large(100000, mode);\n    Scanner\
+    \ in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
+  - graph/vertex_failure_connectivity.cpp
+  - graph/block_cut_tree.cpp
+  - graph/biconnected_components.cpp
   - tree/hld.cpp
-  - datastructure/segmenttree/segtree.cpp
   isVerificationFile: true
-  path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  path: test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
   requiredBy: []
   timestamp: '2026-10-10 19:54:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+documentation_of: test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-- /verify/test/yosupo_vertex_add_subtree_sum_hld.test.cpp.html
-title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+- /verify/test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
+- /verify/test/yosupo_aplusb_vertex_failure_connectivity.test.cpp.html
+title: test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
 ---

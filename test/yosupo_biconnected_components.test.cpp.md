@@ -30,28 +30,34 @@ data:
     \ < (int)edges.size(); ++id) {\n                auto &&[u, v] = edges[id];\n \
     \               elist[counter[u]++] = id;\n                elist[counter[v]++]\
     \ = id;\n            }\n        }\n    };\n\n    int n = 0;\n    vector<int> st;\n\
-    \n    int other(int id, int v) const {\n        return edges[id].first ^ edges[id].second\
-    \ ^ v;\n    }\n\n    void dfs(int i, int pe, const CSR &G, int &pos){\n      \
-    \  ord[i] = low[i] = pos++;\n        for (int ei = G.start[i]; ei < G.start[i\
-    \ + 1]; ++ei) {\n            int id = G.elist[ei];\n            if(id == pe) continue;\n\
-    \            int j = other(id, i);\n            if(ord[j] < ord[i]) st.emplace_back(id);\n\
-    \            if(~ord[j]){\n                low[i] = min(low[i], ord[j]);\n   \
-    \             continue;\n            }\n            par[j] = i;\n            dfs(j,\
-    \ id, G, pos);\n            low[i] = min(low[i], low[j]);\n            if(ord[i]\
-    \ <= low[j]){\n                bcc_edges.emplace_back();\n                while(true){\n\
-    \                    int k = st.back();\n                    st.pop_back();\n\
-    \                    bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second),\
-    \ max(edges[k].first, edges[k].second));\n                    if(k == id) break;\n\
-    \                }\n            }\n        }\n    }\npublic:\n    vector<int>\
-    \ ord, low, par;\n    vector<pair<int, int>> edges;\n    vector<vector<pair<int,\
+    \n    struct Frame {\n        int v, parent_edge, next;\n    };\n\n    int other(int\
+    \ id, int v) const {\n        return edges[id].first ^ edges[id].second ^ v;\n\
+    \    }\n\n    void dfs(int i, const CSR &G, int &pos, vector<Frame> &stack){\n\
+    \        ord[i] = low[i] = pos++;\n        stack.push_back({i, -1, G.start[i]});\n\
+    \        while (!stack.empty()) {\n            auto &frame = stack.back();\n \
+    \           int v = frame.v;\n            if (frame.next == G.start[v + 1]) {\n\
+    \                int pe = frame.parent_edge, p = par[v];\n                stack.pop_back();\n\
+    \                if (p == -1) continue;\n                low[p] = min(low[p],\
+    \ low[v]);\n                if (ord[p] <= low[v]) {\n                    bcc_edges.emplace_back();\n\
+    \                    while (true) {\n                        int k = st.back();\n\
+    \                        st.pop_back();\n                        bcc_edges.back().emplace_back(min(edges[k].first,\
+    \ edges[k].second), max(edges[k].first, edges[k].second));\n                 \
+    \       if (k == pe) break;\n                    }\n                }\n      \
+    \          continue;\n            }\n            int id = G.elist[frame.next++];\n\
+    \            if (id == frame.parent_edge) continue;\n            int j = other(id,\
+    \ v);\n            if(ord[j] < ord[v]) st.emplace_back(id);\n            if(~ord[j]){\n\
+    \                low[v] = min(low[v], ord[j]);\n                continue;\n  \
+    \          }\n            par[j] = v;\n            ord[j] = low[j] = pos++;\n\
+    \            stack.push_back({j, id, G.start[j]});\n        }\n    }\npublic:\n\
+    \    vector<int> ord, low, par;\n    vector<pair<int, int>> edges;\n    vector<vector<pair<int,\
     \ int>>> bcc_edges;\n    vector<vector<int>> bcc_vertices;\n    explicit BiconnectedComponents(int\
     \ n): n(n), ord(n, -1), low(n), par(n, -1){}\n\n    void add_edge(int u, int v){\n\
     \        if(u == v) return;\n        edges.emplace_back(u, v);\n    }\n\n    int\
     \ build(){\n        CSR G(n, edges);\n        int pos = 0;\n        fill(ord.begin(),\
     \ ord.end(), -1);\n        fill(par.begin(), par.end(), -1);\n        bcc_edges.clear();\n\
-    \        bcc_vertices.clear();\n        st.clear();\n        for (int i = 0; i\
-    \ < n; ++i) {\n            if(ord[i] < 0) dfs(i, -1, G, pos);\n        }\n   \
-    \     vector<int> seen(n, -1);\n        bcc_vertices.reserve(bcc_edges.size());\n\
+    \        bcc_vertices.clear();\n        st.clear();\n        vector<Frame> stack;\n\
+    \        for (int i = 0; i < n; ++i) {\n            if(ord[i] < 0) dfs(i, G, pos,\
+    \ stack);\n        }\n        vector<int> seen(n, -1);\n        bcc_vertices.reserve(bcc_edges.size());\n\
     \        for (int i = 0; i < (int)bcc_edges.size(); ++i) {\n            vector<int>\
     \ now;\n            for (auto &&e : bcc_edges[i]) {\n                if(seen[e.first]\
     \ != i){\n                    seen[e.first] = i;\n                    now.emplace_back(e.first);\n\
@@ -89,7 +95,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_biconnected_components.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-10 19:54:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_biconnected_components.test.cpp

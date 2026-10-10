@@ -273,30 +273,40 @@ data:
     \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
     \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
     \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"tree/hld.cpp\"\n\n\n\n\
-    class HeavyLightDecomposition {\n    void dfs_sz(int v){\n        int heavy =\
-    \ -1;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
-    \            par[u] = v; dep[u] = dep[v] + 1;\n            dfs_sz(u);\n      \
-    \      sub_size[v] += sub_size[u];\n            if(heavy == -1 || sub_size[u]\
-    \ > sub_size[heavy]) heavy = u;\n        }\n        if (heavy != -1 && G[v][0]\
-    \ != heavy) {\n            for (auto &&u : G[v]) {\n                if (u == heavy)\
-    \ {\n                    swap(u, G[v][0]);\n                    break;\n     \
-    \           }\n            }\n        }\n    }\n    void dfs_hld(int v, int c,\
-    \ int &pos){\n        id[v] = pos++;\n        id_inv[id[v]]= v;\n        tree_id[v]\
-    \ = c;\n        for (auto &&u : G[v]) {\n            if(u == par[v]) continue;\n\
-    \            head[u] = (u == G[v][0] ? head[v] : u);\n            dfs_hld(u, c,\
-    \ pos);\n        }\n    }\npublic:\n    int n;\n    vector<vector<int>> G;\n \
-    \   vector<int> par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int\
+    class HeavyLightDecomposition {\n    void dfs_sz(int root, vector<int> &order){\n\
+    \        order.clear();\n        order.push_back(root);\n        for (int i =\
+    \ 0; i < (int)order.size(); ++i) {\n            int v = order[i];\n          \
+    \  for (int u : G[v]) {\n                if (u == par[v]) continue;\n        \
+    \        par[u] = v;\n                dep[u] = dep[v] + 1;\n                order.push_back(u);\n\
+    \            }\n        }\n        for (int i = (int)order.size() - 1; i >= 0;\
+    \ --i) {\n            int v = order[i], heavy = -1;\n            for (int u :\
+    \ G[v]) {\n                if (u == par[v]) continue;\n                sub_size[v]\
+    \ += sub_size[u];\n                if (heavy == -1 || sub_size[u] > sub_size[heavy])\
+    \ heavy = u;\n            }\n            if (heavy != -1 && G[v][0] != heavy)\
+    \ {\n                for (auto &u : G[v]) {\n                    if (u == heavy)\
+    \ {\n                        swap(u, G[v][0]);\n                        break;\n\
+    \                    }\n                }\n            }\n        }\n    }\n \
+    \   void dfs_hld(int root, int c, int &pos, vector<int> &stack){\n        stack.clear();\n\
+    \        stack.push_back(root);\n        while (!stack.empty()) {\n          \
+    \  int v = stack.back();\n            stack.pop_back();\n            id[v] = pos++;\n\
+    \            id_inv[id[v]] = v;\n            tree_id[v] = c;\n            for\
+    \ (int i = (int)G[v].size() - 1; i >= 0; --i) {\n                int u = G[v][i];\n\
+    \                if (u == par[v]) continue;\n                head[u] = (u == G[v][0]\
+    \ ? head[v] : u);\n                stack.push_back(u);\n            }\n      \
+    \  }\n    }\npublic:\n    int n;\n    vector<vector<int>> G;\n    vector<int>\
+    \ par, dep, sub_size, id, id_inv, tree_id, head;\n    explicit HeavyLightDecomposition(int\
     \ n) : n(n), G(n), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n),\
     \ head(n){}\n    explicit HeavyLightDecomposition(vector<vector<int>> &G) : n(G.size()),\
     \ G(G), par(n), dep(n), sub_size(n, 1), id(n), id_inv(n), tree_id(n), head(n)\
     \ {}\n\n    void add_edge(int u, int v){\n        G[u].emplace_back(v);\n    \
     \    G[v].emplace_back(u);\n    }\n\n    void build(vector<int> roots = {0}){\n\
-    \        fill(par.begin(), par.end(), -1);\n        fill(dep.begin(), dep.end(),\
-    \ 0);\n        fill(sub_size.begin(), sub_size.end(), 1);\n        int c = 0,\
-    \ pos = 0;\n        for (auto &&i : roots) {\n            dfs_sz(i);\n       \
-    \     head[i] = i;\n            dfs_hld(i, c++, pos);\n        }\n    }\n\n  \
-    \  int lca(int u, int v){\n        while(true){\n            if(id[u] > id[v])\
-    \ swap(u, v);\n            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
+    \        if (n == 0) return;\n        fill(par.begin(), par.end(), -1);\n    \
+    \    fill(dep.begin(), dep.end(), 0);\n        fill(sub_size.begin(), sub_size.end(),\
+    \ 1);\n        int c = 0, pos = 0;\n        vector<int> order;\n        for (auto\
+    \ &&i : roots) {\n            dfs_sz(i, order);\n            head[i] = i;\n  \
+    \          dfs_hld(i, c++, pos, order);\n        }\n    }\n\n    int lca(int u,\
+    \ int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n \
+    \           if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
     \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
     \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
     \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
@@ -462,7 +472,7 @@ data:
   isVerificationFile: true
   path: test/yuki650_hld_edge.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-10 19:54:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki650_hld_edge.test.cpp
