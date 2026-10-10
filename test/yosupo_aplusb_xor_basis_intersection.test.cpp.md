@@ -14,19 +14,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://yukicoder.me/problems/no/2672
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://yukicoder.me/problems/no/2672
-  bundledCode: "#line 1 \"test/yuki2672_xor_basis.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\
-    \n\n#include <cassert>\n#include <cstdint>\n#include <random>\n#include <vector>\n\
-    using namespace std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_xor_basis_intersection.test.cpp\"\n#define\
+    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\n\
+    extern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class\
+    \ T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -260,70 +258,98 @@ data:
     \ x) const {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x\
     \ >> i) & 1) == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n  \
     \      }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear\
-    \ Basis)\n */\n#line 18 \"test/yuki2672_xor_basis.test.cpp\"\n\nbool brute(const\
-    \ vector<int> &a) {\n    int n = a.size();\n    for (int mask = 1; mask < (1 <<\
-    \ n) - 1; ++mask) {\n        int xb = 0;\n        int xc = 0;\n        for (int\
-    \ i = 0; i < n; ++i) {\n            if ((mask >> i) & 1) xb ^= a[i];\n       \
-    \     else xc ^= a[i];\n        }\n        if (xb == 0 && xc == 0) return true;\n\
-    \    }\n    return false;\n}\n\nvoid self_check() {\n    {\n        for (int n\
-    \ = 2; n <= 12; ++n) {\n            for (int mask = 0; mask < (1 << n); ++mask)\
-    \ {\n                vector<int> a(n);\n                for (int i = 0; i < n;\
-    \ ++i) a[i] = (mask >> i) & 1;\n                XorBasis<int> xb;\n          \
-    \      int total = 0;\n                for (int x : a) {\n                   \
-    \ xb.add(x);\n                    total ^= x;\n                }\n           \
-    \     bool ok = total == 0 && xb.size() < n - 1;\n                assert(ok ==\
-    \ brute(a));\n            }\n        }\n    }\n    {\n        mt19937 rng(0);\n\
-    \        for (int tc = 0; tc < 1000; ++tc) {\n            int n = rng() % 14 +\
-    \ 2;\n            vector<int> a(n);\n            for (int i = 0; i < n; ++i) a[i]\
-    \ = rng() % 16;\n            XorBasis<int> xb;\n            int total = 0;\n \
-    \           for (int x : a) {\n                xb.add(x);\n                total\
-    \ ^= x;\n            }\n            bool ok = total == 0 && xb.size() < n - 1;\n\
-    \            assert(ok == brute(a));\n        }\n    }\n}\n\nint main() {\n  \
-    \  self_check();\n\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\
-    \    XorBasis<int> xb;\n    int total = 0;\n    for (int i = 0; i < n; ++i) {\n\
-    \        int a;\n        sc.read(a);\n        xb.add(a);\n        total ^= a;\n\
-    \    }\n    pr.println(total == 0 && xb.size() < n - 1 ? \"Yes\" : \"No\");\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\n\n#include <cassert>\n\
-    #include <cstdint>\n#include <random>\n#include <vector>\nusing namespace std;\n\
-    using ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/xor_basis.cpp\"\n\nbool brute(const vector<int> &a) {\n \
-    \   int n = a.size();\n    for (int mask = 1; mask < (1 << n) - 1; ++mask) {\n\
-    \        int xb = 0;\n        int xc = 0;\n        for (int i = 0; i < n; ++i)\
-    \ {\n            if ((mask >> i) & 1) xb ^= a[i];\n            else xc ^= a[i];\n\
-    \        }\n        if (xb == 0 && xc == 0) return true;\n    }\n    return false;\n\
-    }\n\nvoid self_check() {\n    {\n        for (int n = 2; n <= 12; ++n) {\n   \
-    \         for (int mask = 0; mask < (1 << n); ++mask) {\n                vector<int>\
-    \ a(n);\n                for (int i = 0; i < n; ++i) a[i] = (mask >> i) & 1;\n\
-    \                XorBasis<int> xb;\n                int total = 0;\n         \
-    \       for (int x : a) {\n                    xb.add(x);\n                  \
-    \  total ^= x;\n                }\n                bool ok = total == 0 && xb.size()\
-    \ < n - 1;\n                assert(ok == brute(a));\n            }\n        }\n\
-    \    }\n    {\n        mt19937 rng(0);\n        for (int tc = 0; tc < 1000; ++tc)\
-    \ {\n            int n = rng() % 14 + 2;\n            vector<int> a(n);\n    \
-    \        for (int i = 0; i < n; ++i) a[i] = rng() % 16;\n            XorBasis<int>\
-    \ xb;\n            int total = 0;\n            for (int x : a) {\n           \
-    \     xb.add(x);\n                total ^= x;\n            }\n            bool\
-    \ ok = total == 0 && xb.size() < n - 1;\n            assert(ok == brute(a));\n\
-    \        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n \
-    \   Printer pr;\n    int n;\n    sc.read(n);\n    XorBasis<int> xb;\n    int total\
-    \ = 0;\n    for (int i = 0; i < n; ++i) {\n        int a;\n        sc.read(a);\n\
-    \        xb.add(a);\n        total ^= a;\n    }\n    pr.println(total == 0 &&\
-    \ xb.size() < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
+    \ Basis)\n */\n#line 8 \"test/yosupo_aplusb_xor_basis_intersection.test.cpp\"\n\
+    \nvoid exhaustive_check() {\n    vector<uint32_t> spaces{1};\n    set<uint32_t>\
+    \ seen{1};\n    for (int i = 0; i < (int)spaces.size(); ++i) {\n        uint32_t\
+    \ mask = spaces[i];\n        for (int x = 1; x < 32; ++x) {\n            if ((mask\
+    \ >> x) & 1) continue;\n            uint32_t next = mask;\n            for (int\
+    \ y = 0; y < 32; ++y) {\n                if ((mask >> y) & 1) next |= uint32_t(1)\
+    \ << (x ^ y);\n            }\n            if (seen.insert(next).second) spaces.push_back(next);\n\
+    \        }\n    }\n    assert(spaces.size() == 374);\n    vector<XorBasis<unsigned>>\
+    \ bases(spaces.size());\n    for (int i = 0; i < (int)spaces.size(); ++i) {\n\
+    \        for (int x = 0; x < 32; ++x) {\n            if ((spaces[i] >> x) & 1)\
+    \ bases[i].add(x);\n        }\n    }\n    const auto original = bases;\n    for\
+    \ (int i = 0; i < (int)spaces.size(); ++i) {\n        for (int j = 0; j < (int)spaces.size();\
+    \ ++j) {\n            auto common = bases[i].intersection(bases[j]);\n       \
+    \     uint32_t mask = spaces[i] & spaces[j];\n            assert((1 << common.size())\
+    \ == __builtin_popcount(mask));\n            for (int x = 0; x < 32; ++x) assert(common.contains(x)\
+    \ == bool((mask >> x) & 1));\n            assert(common.get_min() == 0);\n   \
+    \         assert(common.get_max() == unsigned(31 - __builtin_clz(mask)));\n  \
+    \          auto merged = common;\n            merged.merge(bases[i]);\n      \
+    \      assert(merged.size() == bases[i].size());\n        }\n        assert(bases[i].basis\
+    \ == original[i].basis && bases[i].size() == original[i].size());\n    }\n}\n\n\
+    template<class T>\nvoid wide_check() {\n    mt19937_64 rng(131);\n    for (int\
+    \ rep = 0; rep < 3000; ++rep) {\n        XorBasis<T> a, b, empty;\n        int\
+    \ n = rng() % 65, m = rng() % 65;\n        for (int i = 0; i < n; ++i) a.add(static_cast<T>(rng()));\n\
+    \        for (int i = 0; i < m; ++i) b.add(static_cast<T>(rng()));\n        a.add(0);\n\
+    \        b.add(0);\n        auto common = a.intersection(b), reversed = b.intersection(a);\n\
+    \        auto merged = a;\n        merged.merge(b);\n        assert(common.size()\
+    \ == a.size() + b.size() - merged.size());\n        assert(common.size() == reversed.size());\n\
+    \        for (auto x : common.basis) {\n            assert(a.contains(static_cast<T>(x))\
+    \ && b.contains(static_cast<T>(x)));\n            assert(reversed.contains(static_cast<T>(x)));\n\
+    \        }\n        auto self = a.intersection(a);\n        assert(self.size()\
+    \ == a.size());\n        for (auto x : a.basis) assert(self.contains(static_cast<T>(x)));\n\
+    \        assert(a.intersection(empty).empty() && empty.intersection(a).empty());\n\
+    \    }\n    XorBasis<T> full, high;\n    for (int i = 0; i < 64; ++i) assert(full.add(static_cast<T>(1ULL\
+    \ << i)));\n    high.add(static_cast<T>(1ULL << 63));\n    auto common = full.intersection(high);\n\
+    \    assert(common.size() == 1 && common.contains(static_cast<T>(1ULL << 63)));\n\
+    \    assert(full.intersection(full).size() == 64);\n    assert(!high.add(static_cast<T>(1ULL\
+    \ << 63)));\n}\n\nint main() {\n    exhaustive_check();\n    wide_check<unsigned\
+    \ long long>();\n    wide_check<long long>();\n    Scanner in;\n    Printer out;\n\
+    \    int a, b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../math/xor_basis.cpp\"\
+    \n\nvoid exhaustive_check() {\n    vector<uint32_t> spaces{1};\n    set<uint32_t>\
+    \ seen{1};\n    for (int i = 0; i < (int)spaces.size(); ++i) {\n        uint32_t\
+    \ mask = spaces[i];\n        for (int x = 1; x < 32; ++x) {\n            if ((mask\
+    \ >> x) & 1) continue;\n            uint32_t next = mask;\n            for (int\
+    \ y = 0; y < 32; ++y) {\n                if ((mask >> y) & 1) next |= uint32_t(1)\
+    \ << (x ^ y);\n            }\n            if (seen.insert(next).second) spaces.push_back(next);\n\
+    \        }\n    }\n    assert(spaces.size() == 374);\n    vector<XorBasis<unsigned>>\
+    \ bases(spaces.size());\n    for (int i = 0; i < (int)spaces.size(); ++i) {\n\
+    \        for (int x = 0; x < 32; ++x) {\n            if ((spaces[i] >> x) & 1)\
+    \ bases[i].add(x);\n        }\n    }\n    const auto original = bases;\n    for\
+    \ (int i = 0; i < (int)spaces.size(); ++i) {\n        for (int j = 0; j < (int)spaces.size();\
+    \ ++j) {\n            auto common = bases[i].intersection(bases[j]);\n       \
+    \     uint32_t mask = spaces[i] & spaces[j];\n            assert((1 << common.size())\
+    \ == __builtin_popcount(mask));\n            for (int x = 0; x < 32; ++x) assert(common.contains(x)\
+    \ == bool((mask >> x) & 1));\n            assert(common.get_min() == 0);\n   \
+    \         assert(common.get_max() == unsigned(31 - __builtin_clz(mask)));\n  \
+    \          auto merged = common;\n            merged.merge(bases[i]);\n      \
+    \      assert(merged.size() == bases[i].size());\n        }\n        assert(bases[i].basis\
+    \ == original[i].basis && bases[i].size() == original[i].size());\n    }\n}\n\n\
+    template<class T>\nvoid wide_check() {\n    mt19937_64 rng(131);\n    for (int\
+    \ rep = 0; rep < 3000; ++rep) {\n        XorBasis<T> a, b, empty;\n        int\
+    \ n = rng() % 65, m = rng() % 65;\n        for (int i = 0; i < n; ++i) a.add(static_cast<T>(rng()));\n\
+    \        for (int i = 0; i < m; ++i) b.add(static_cast<T>(rng()));\n        a.add(0);\n\
+    \        b.add(0);\n        auto common = a.intersection(b), reversed = b.intersection(a);\n\
+    \        auto merged = a;\n        merged.merge(b);\n        assert(common.size()\
+    \ == a.size() + b.size() - merged.size());\n        assert(common.size() == reversed.size());\n\
+    \        for (auto x : common.basis) {\n            assert(a.contains(static_cast<T>(x))\
+    \ && b.contains(static_cast<T>(x)));\n            assert(reversed.contains(static_cast<T>(x)));\n\
+    \        }\n        auto self = a.intersection(a);\n        assert(self.size()\
+    \ == a.size());\n        for (auto x : a.basis) assert(self.contains(static_cast<T>(x)));\n\
+    \        assert(a.intersection(empty).empty() && empty.intersection(a).empty());\n\
+    \    }\n    XorBasis<T> full, high;\n    for (int i = 0; i < 64; ++i) assert(full.add(static_cast<T>(1ULL\
+    \ << i)));\n    high.add(static_cast<T>(1ULL << 63));\n    auto common = full.intersection(high);\n\
+    \    assert(common.size() == 1 && common.contains(static_cast<T>(1ULL << 63)));\n\
+    \    assert(full.intersection(full).size() == 64);\n    assert(!high.add(static_cast<T>(1ULL\
+    \ << 63)));\n}\n\nint main() {\n    exhaustive_check();\n    wide_check<unsigned\
+    \ long long>();\n    wide_check<long long>();\n    Scanner in;\n    Printer out;\n\
+    \    int a, b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/xor_basis.cpp
   isVerificationFile: true
-  path: test/yuki2672_xor_basis.test.cpp
+  path: test/yosupo_aplusb_xor_basis_intersection.test.cpp
   requiredBy: []
   timestamp: '2026-10-10 12:24:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yuki2672_xor_basis.test.cpp
+documentation_of: test/yosupo_aplusb_xor_basis_intersection.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yuki2672_xor_basis.test.cpp
-- /verify/test/yuki2672_xor_basis.test.cpp.html
-title: test/yuki2672_xor_basis.test.cpp
+- /verify/test/yosupo_aplusb_xor_basis_intersection.test.cpp
+- /verify/test/yosupo_aplusb_xor_basis_intersection.test.cpp.html
+title: test/yosupo_aplusb_xor_basis_intersection.test.cpp
 ---

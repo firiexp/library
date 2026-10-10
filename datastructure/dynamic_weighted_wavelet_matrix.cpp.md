@@ -13,6 +13,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_frequency.test.cpp
     title: test/yosupo_point_set_range_frequency.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
+    title: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -411,13 +414,29 @@ data:
     \ {\n                Cursor(this, next_depth, l0, r0, prefix, low),\n        \
     \        Cursor(this, next_depth,\n                       mid[cur.depth_] + l1,\
     \ mid[cur.depth_] + r1,\n                       prefix | 1, high)\n        };\n\
-    \    }\n\n    U sum_k_smallest(int l, int r, int k) const {\n        assert(built\
-    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k <= r - l);\n   \
-    \     if (k == 0) return U();\n        if (k == r - l) {\n            return fenwick_range(base_sum_fenwick,\
-    \ 0, l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n   \
-    \     U res = U();\n        const auto *bit_data = bit.data();\n        const\
-    \ int *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n    \
-    \        int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
+    \    }\n\n    T kth_smallest(int l, int r, int k) const {\n        assert(built\
+    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k < r - l);\n    \
+    \    l = offset[l];\n        r = offset[r];\n        int xi = 0;\n        const\
+    \ auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
+    \        for (int d = 0; d < lg; ++d) {\n            int l1, r1;\n           \
+    \ rank1_pair(bit_data, pref_data, l, r, l1, r1);\n            int l0 = l - l1,\
+    \ r0 = r - r1;\n            int zero_count = fixed_values ? r0 - l0 :\n      \
+    \              fenwick_range(zero_count_fenwick, row_offset[d], l0, r0);\n   \
+    \         xi <<= 1;\n            if (k < zero_count) {\n                l = l0;\n\
+    \                r = r0;\n            }\n            else {\n                k\
+    \ -= zero_count;\n                l = mid[d] + l1;\n                r = mid[d]\
+    \ + r1;\n                xi |= 1;\n            }\n            bit_data += blocks;\n\
+    \            pref_data += blocks + 1;\n        }\n        return vals[xi];\n \
+    \   }\n\n    T kth_largest(int l, int r, int k) const {\n        assert(built\
+    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k < r - l);\n    \
+    \    return kth_smallest(l, r, r - l - 1 - k);\n    }\n\n    U sum_k_smallest(int\
+    \ l, int r, int k) const {\n        assert(built && 0 <= l && l <= r && r <= n);\n\
+    \        assert(0 <= k && k <= r - l);\n        if (k == 0) return U();\n    \
+    \    if (k == r - l) {\n            return fenwick_range(base_sum_fenwick, 0,\
+    \ l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n      \
+    \  U res = U();\n        const auto *bit_data = bit.data();\n        const int\
+    \ *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n        \
+    \    int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
     \            int l0 = l - l1, r0 = r - r1;\n            int zero_count = fixed_values\
     \ ? r0 - l0 :\n                    fenwick_range(zero_count_fenwick, row_offset[d],\
     \ l0, r0);\n            if (k < zero_count) {\n                l = l0;\n     \
@@ -861,13 +880,29 @@ data:
     \ {\n                Cursor(this, next_depth, l0, r0, prefix, low),\n        \
     \        Cursor(this, next_depth,\n                       mid[cur.depth_] + l1,\
     \ mid[cur.depth_] + r1,\n                       prefix | 1, high)\n        };\n\
-    \    }\n\n    U sum_k_smallest(int l, int r, int k) const {\n        assert(built\
-    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k <= r - l);\n   \
-    \     if (k == 0) return U();\n        if (k == r - l) {\n            return fenwick_range(base_sum_fenwick,\
-    \ 0, l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n   \
-    \     U res = U();\n        const auto *bit_data = bit.data();\n        const\
-    \ int *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n    \
-    \        int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
+    \    }\n\n    T kth_smallest(int l, int r, int k) const {\n        assert(built\
+    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k < r - l);\n    \
+    \    l = offset[l];\n        r = offset[r];\n        int xi = 0;\n        const\
+    \ auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
+    \        for (int d = 0; d < lg; ++d) {\n            int l1, r1;\n           \
+    \ rank1_pair(bit_data, pref_data, l, r, l1, r1);\n            int l0 = l - l1,\
+    \ r0 = r - r1;\n            int zero_count = fixed_values ? r0 - l0 :\n      \
+    \              fenwick_range(zero_count_fenwick, row_offset[d], l0, r0);\n   \
+    \         xi <<= 1;\n            if (k < zero_count) {\n                l = l0;\n\
+    \                r = r0;\n            }\n            else {\n                k\
+    \ -= zero_count;\n                l = mid[d] + l1;\n                r = mid[d]\
+    \ + r1;\n                xi |= 1;\n            }\n            bit_data += blocks;\n\
+    \            pref_data += blocks + 1;\n        }\n        return vals[xi];\n \
+    \   }\n\n    T kth_largest(int l, int r, int k) const {\n        assert(built\
+    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k < r - l);\n    \
+    \    return kth_smallest(l, r, r - l - 1 - k);\n    }\n\n    U sum_k_smallest(int\
+    \ l, int r, int k) const {\n        assert(built && 0 <= l && l <= r && r <= n);\n\
+    \        assert(0 <= k && k <= r - l);\n        if (k == 0) return U();\n    \
+    \    if (k == r - l) {\n            return fenwick_range(base_sum_fenwick, 0,\
+    \ l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n      \
+    \  U res = U();\n        const auto *bit_data = bit.data();\n        const int\
+    \ *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n        \
+    \    int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
     \            int l0 = l - l1, r0 = r - r1;\n            int zero_count = fixed_values\
     \ ? r0 - l0 :\n                    fenwick_range(zero_count_fenwick, row_offset[d],\
     \ l0, r0);\n            if (k < zero_count) {\n                l = l0;\n     \
@@ -924,9 +959,10 @@ data:
   isVerificationFile: false
   path: datastructure/dynamic_weighted_wavelet_matrix.cpp
   requiredBy: []
-  timestamp: '2026-07-26 11:18:19+09:00'
+  timestamp: '2026-10-10 12:25:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
   - test/yosupo_point_set_range_frequency.test.cpp
   - test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
   - test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
@@ -943,40 +979,73 @@ title: "\u52D5\u7684\u91CD\u307F\u4ED8\u304DWavelet Matrix(Dynamic Weighted Wave
 値の更新候補を構築前に登録し、候補ごとの有効状態を動的に管理する。
 
 ## できること
+$N$ は配列長、$M$ は初期値を含む候補の登録数、$\sigma$ は候補値の種類数とする。
+各位置の相異なる候補値が一つだけの場合を「値固定」と呼ぶ。
+
 - `DynamicWeightedWaveletMatrix<T, U> wm(n)`
-  長さ `n` の構築前オブジェクトを作る
+  長さ `n` の構築前オブジェクトを作る。$O(1)$
 - `add_value_candidate(k, x)`
-  位置 `k` に代入する可能性がある値 `x` を登録する。構築後には呼べない
+  位置 `k` に代入する可能性がある値 `x` を登録する。構築後には呼べない。償却 $O(1)$
 - `build(v, w)`
-  初期値 `v` と初期重み `w` から構築する。初期値は候補へ自動で追加される
+  初期値 `v` と初期重み `w` から構築する。初期値は候補へ自動で追加される。時間 $O(M \log M + M \log \sigma)$、領域 $O(M \log \sigma)$
 - `bool set_value(k, x)`
-  位置 `k` の値を `x` に変更する。`x` が位置 `k` の登録候補になければ変更せず `false`
-- `set_weight(k, w)` / `add_weight(k, delta)`
-  位置 `k` の重みを変更、または加算する
+  位置 `k` の値を `x` に変更する。登録候補になければ変更せず `false`。$O(\log \sigma \log M)$
+- `set_weight(k, w)`
+  位置 `k` の重みを `w` に変更する。$O(\log \sigma \log M)$
+- `add_weight(k, delta)`
+  位置 `k` の重みに `delta` を加算する。$O(\log \sigma \log M)$
 - `bool set(k, x, w)`
-  位置 `k` の値と重みを同時に変更する。`x` が登録候補になければ変更せず `false`
-- `get_value(k)` / `get_weight(k)`
-  位置 `k` の現在の値または重みを返す
+  位置 `k` の値と重みを変更する。`x` が登録候補になければ変更せず `false`。$O(\log \sigma \log M)$
+- `get_value(k)`
+  位置 `k` の現在の値を返す。$O(1)$
+- `get_weight(k)`
+  位置 `k` の現在の重みを返す。$O(1)$
 - `range_cursor(l, r)`
-  区間 $[l, r)$ に対応する二分木の根を `Cursor` として返す
+  区間 $[l, r)$ に対応する二分木の根を `Cursor` として返す。$O(\log N)$
 - `split(cur)`
-  葉でない `Cursor` を値の小さい子 `low` と大きい子 `high` に分ける
-- `Cursor::is_leaf()` / `empty()` / `count()` / `sum()` / `info()`
-  葉か、空か、含まれる要素数・重み和を返す
+  葉でない `Cursor` を値の小さい子 `low` と大きい子 `high` に分ける。$O(\log M)$
+- `Cursor::is_leaf()`
+  葉なら `true`。$O(1)$
+- `Cursor::empty()`
+  含まれる要素がなければ `true`。$O(1)$
+- `Cursor::count()`
+  含まれる要素数を返す。$O(1)$
+- `Cursor::sum()`
+  含まれる要素の重み和を返す。$O(1)$
+- `Cursor::info()`
+  要素数と重み和を `CountSum` として返す。$O(1)$
 - `Cursor::value()`
-  空でない葉が表す値を返す。葉でない場合や空の場合は呼べない
-- `count_sum_less(l, r, x)` / `count_sum_less_equal(l, r, x)`
-  区間 $[l, r)$ のうち `x` 未満または以下の要素数と重み和を返す
-- `count_less(l, r, x)` / `sum_less(l, r, x)`
-  区間 $[l, r)$ のうち `x` 未満の要素数または重み和を返す
+  空でない葉が表す値を返す。葉でない場合や空の場合は呼べない。$O(1)$
+- `count_sum_less(l, r, x)`
+  区間 $[l, r)$ のうち `x` 未満の要素数と重み和を返す。$O(\log \sigma \log M)$
+- `count_sum_less_equal(l, r, x)`
+  区間 $[l, r)$ のうち `x` 以下の要素数と重み和を返す。$O(\log \sigma \log M)$
+- `count_less(l, r, x)`
+  区間 $[l, r)$ のうち `x` 未満の要素数を返す。$O(\log \sigma \log M)$、値固定時は $O(\log \sigma)$
+- `count_less_equal(l, r, x)`
+  区間 $[l, r)$ のうち `x` 以下の要素数を返す。$O(\log \sigma \log M)$、値固定時は $O(\log \sigma)$
+- `sum_less(l, r, x)`
+  区間 $[l, r)$ のうち `x` 未満の重み和を返す。$O(\log \sigma \log M)$
+- `sum_less_equal(l, r, x)`
+  区間 $[l, r)$ のうち `x` 以下の重み和を返す。$O(\log \sigma \log M)$
+- `T kth_smallest(l, r, k) const`
+  区間 $[l, r)$ の小さい方から 0-indexed で `k` 番目の値を返す。`0 <= k < r - l`。時間 $O(\log \sigma \log M)$、値固定時は $O(\log \sigma)$。追加領域 $O(1)$
+- `T kth_largest(l, r, k) const`
+  区間 $[l, r)$ の大きい方から 0-indexed で `k` 番目の値を返す。`0 <= k < r - l`。時間 $O(\log \sigma \log M)$、値固定時は $O(\log \sigma)$。追加領域 $O(1)$
 - `sum_k_smallest(l, r, k)`
-  区間 $[l, r)$ の要素を値の昇順に並べたとき、小さい方から `k` 個の重み和を返す。`0 <= k <= r - l` とし、同値の要素は位置が小さい順に扱う
-- `freq(l, r, x)` / `sum_equal(l, r, x)`
-  区間 $[l, r)$ にある値 `x` の個数または重み和を返す
+  区間 $[l, r)$ の小さい方から `k` 個の重み和を返す。`0 <= k <= r - l` とし、同値なら位置が小さい順に扱う。$O(\log \sigma \log M)$
+- `count_sum_equal(l, r, x)`
+  区間 $[l, r)$ にある値 `x` の個数と重み和を返す。$O(\log \sigma + \log M)$
+- `freq(l, r, x)`
+  区間 $[l, r)$ にある値 `x` の個数を返す。$O(\log \sigma + \log M)$、値固定時は $O(\log \sigma)$
+- `sum_equal(l, r, x)`
+  区間 $[l, r)$ にある値 `x` の重み和を返す。$O(\log \sigma + \log M)$
 - `range_count_sum(l, r, lower, upper)`
-  区間 $[l, r)$ かつ $lower \leq a_i < upper$ にある要素数と重み和を返す
-- `range_freq(l, r, lower, upper)` / `range_sum(l, r, lower, upper)`
-  同じ範囲にある要素数または重み和を返す
+  区間 $[l, r)$ かつ $lower \leq a_i < upper$ にある要素数と重み和を返す。$O(\log \sigma \log M)$
+- `range_freq(l, r, lower, upper)`
+  区間 $[l, r)$ かつ $lower \leq a_i < upper$ にある要素数を返す。$O(\log \sigma \log M)$、値固定時は $O(\log \sigma)$
+- `range_sum(l, r, lower, upper)`
+  区間 $[l, r)$ かつ $lower \leq a_i < upper$ にある重み和を返す。$O(\log \sigma \log M)$
 
 ## 使い方
 入力を先読みし、値変更で現れる `(位置, 値)` を `add_value_candidate` で登録してから `build` する。
@@ -1005,10 +1074,5 @@ auto maximum = cur.value();
 ## 実装上の補足
 - 各位置の候補を連続したスロットへ展開し、各位置につき一つのスロットだけを有効にする
 - 値変更は旧スロットの無効化と新スロットの有効化で処理する
-- $M$ を登録後の候補スロット数、$\sigma$ を候補値の種類数とする
-- 構築は $O(M \log M + M \log \sigma)$
-- 更新と `less`・値区間・`sum_k_smallest` クエリは $O(\log \sigma \log M)$
-- `freq` と `sum_equal` は $O(\log \sigma + \log M)$
-- `range_cursor` は $O(\log N)$、`split` は $O(\log M)$。根から葉まで降りると $O(\log \sigma \log M)$
-- メモリ使用量は $O(M \log \sigma)$
+- `kth_smallest` と `kth_largest` は重複を出現個数で数え、重みには依存しない
 - `U` は `U()` を零元として加算と減算ができる型を使う

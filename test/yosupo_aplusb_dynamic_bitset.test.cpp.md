@@ -19,9 +19,9 @@ data:
     - https://judge.yosupo.jp/problem/aplusb
   bundledCode: "#line 1 \"test/yosupo_aplusb_dynamic_bitset.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n#include\
-    \ <cassert>\n#include <random>\n#include <vector>\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ <cassert>\n#include <numeric>\n#include <random>\n#include <vector>\nusing namespace\
+    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
     \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
     struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
@@ -360,10 +360,144 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
-    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
-    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
-    \ */\n#line 17 \"test/yosupo_aplusb_dynamic_bitset.test.cpp\"\n\nvector<int> to_vec(const\
+    \   }\n\n    DynamicBitset &or_shift_left(int s) {\n        if (s <= 0 || s >=\
+    \ n) return *this;\n        int m = (int)a.size();\n        int block = s >> 6;\n\
+    \        int rem = s & 63;\n        if (rem == 0) {\n            for (int i =\
+    \ m - 1; i >= block; --i) a[i] |= a[i - block];\n        } else {\n          \
+    \  for (int i = m - 1; i > block; --i) {\n                a[i] |= (a[i - block]\
+    \ << rem) | (a[i - block - 1] >> (B - rem));\n            }\n            a[block]\
+    \ |= a[0] << rem;\n        }\n        normalize();\n        return *this;\n  \
+    \  }\n\n    DynamicBitset &or_shift_right(int s) {\n        if (s <= 0 || s >=\
+    \ n) return *this;\n        int m = (int)a.size();\n        int block = s >> 6;\n\
+    \        int rem = s & 63;\n        if (rem == 0) {\n            for (int i =\
+    \ 0; i < m - block; ++i) a[i] |= a[i + block];\n        } else {\n           \
+    \ int last = m - block - 1;\n            for (int i = 0; i < last; ++i) {\n  \
+    \              a[i] |= (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n\
+    \            }\n            a[last] |= a[m - 1] >> rem;\n        }\n        return\
+    \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
+    \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
+    \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
+    \ Bitset)\n */\n#line 18 \"test/yosupo_aplusb_dynamic_bitset.test.cpp\"\n\nvector<int>\
+    \ to_vec(const DynamicBitset &bs) {\n    vector<int> res(bs.size());\n    for\
+    \ (int i = 0; i < bs.size(); ++i) res[i] = bs.test(i);\n    return res;\n}\n\n\
+    int brute_find_first(const vector<int> &a) {\n    for (int i = 0; i < (int)a.size();\
+    \ ++i) if (a[i]) return i;\n    return -1;\n}\n\nint brute_find_last(const vector<int>\
+    \ &a) {\n    for (int i = (int)a.size() - 1; i >= 0; --i) if (a[i]) return i;\n\
+    \    return -1;\n}\n\nint brute_find_next(const vector<int> &a, int k) {\n   \
+    \ for (int i = k + 1; i < (int)a.size(); ++i) if (a[i]) return i;\n    return\
+    \ -1;\n}\n\nint brute_find_prev(const vector<int> &a, int k) {\n    for (int i\
+    \ = k - 1; i >= 0; --i) if (a[i]) return i;\n    return -1;\n}\n\nvector<int>\
+    \ shifted_left(const vector<int> &a, int s) {\n    vector<int> res(a.size());\n\
+    \    if (s >= (int)a.size()) return res;\n    for (int i = 0; i + s < (int)a.size();\
+    \ ++i) res[i + s] = a[i];\n    return res;\n}\n\nvector<int> shifted_right(const\
+    \ vector<int> &a, int s) {\n    vector<int> res(a.size());\n    if (s >= (int)a.size())\
+    \ return res;\n    for (int i = s; i < (int)a.size(); ++i) res[i - s] = a[i];\n\
+    \    return res;\n}\n\nvoid verify_state(const DynamicBitset &bs, const vector<int>\
+    \ &a) {\n    assert(bs.size() == (int)a.size());\n    assert(bs.empty() == a.empty());\n\
+    \    assert(to_vec(bs) == a);\n\n    int cnt = 0;\n    for (int x : a) cnt +=\
+    \ x;\n    assert(bs.count() == cnt);\n    assert(bs.any() == (cnt != 0));\n  \
+    \  assert(bs.none() == (cnt == 0));\n    assert(bs.all() == (cnt == (int)a.size()));\n\
+    \    assert(bs.find_first() == brute_find_first(a));\n    assert(bs.find_last()\
+    \ == brute_find_last(a));\n    for (int i = 0; i <= (int)a.size(); ++i) {\n  \
+    \      assert(bs.find_next(i - 1) == brute_find_next(a, i - 1));\n        assert(bs.find_prev(i)\
+    \ == brute_find_prev(a, i));\n    }\n}\n\nvoid deterministic_check() {\n    vector<int>\
+    \ sizes = {0, 1, 2, 63, 64, 65, 127, 128, 129};\n    for (int n : sizes) {\n \
+    \       DynamicBitset zero(n), one(n, true);\n        verify_state(zero, vector<int>(n,\
+    \ 0));\n        verify_state(one, vector<int>(n, 1));\n\n        vector<int> base(n);\n\
+    \        for (int i = 0; i < n; ++i) base[i] = (i % 3) == 1;\n        DynamicBitset\
+    \ bs(n);\n        for (int i = 0; i < n; ++i) if (base[i]) bs.set(i);\n      \
+    \  verify_state(bs, base);\n\n        DynamicBitset flipped = bs;\n        flipped.flip();\n\
+    \        vector<int> flip_base = base;\n        for (int &x : flip_base) x ^=\
+    \ 1;\n        verify_state(flipped, flip_base);\n\n        vector<int> shifts\
+    \ = {0, 1, 2, 31, 32, 63, 64, 65, max(0, n - 1), n, n + 1, n + 7};\n        for\
+    \ (int s : shifts) {\n            DynamicBitset left = bs;\n            left <<=\
+    \ s;\n            verify_state(left, shifted_left(base, s));\n\n            DynamicBitset\
+    \ right = bs;\n            right >>= s;\n            verify_state(right, shifted_right(base,\
+    \ s));\n            verify_state(bs << s, to_vec(left));\n            verify_state(bs\
+    \ >> s, to_vec(right));\n            verify_state(DynamicBitset(bs) << s, to_vec(left));\n\
+    \            verify_state(DynamicBitset(bs) >> s, to_vec(right));\n          \
+    \  verify_state(bs, base);\n        }\n\n        DynamicBitset all(n, true);\n\
+    \        DynamicBitset mix = bs;\n        DynamicBitset x = mix & all;\n     \
+    \   verify_state(x, base);\n\n        DynamicBitset y = mix | all;\n        verify_state(y,\
+    \ vector<int>(n, 1));\n\n        DynamicBitset z = mix ^ all;\n        vector<int>\
+    \ xor_base = base;\n        for (int &v : xor_base) v ^= 1;\n        verify_state(z,\
+    \ xor_base);\n        verify_state(DynamicBitset(bs) & all, base);\n        verify_state(DynamicBitset(bs)\
+    \ | all, vector<int>(n, 1));\n        verify_state(DynamicBitset(bs) ^ all, xor_base);\n\
+    \        verify_state(bs & bs, base);\n        verify_state(bs | bs, base);\n\
+    \        verify_state(bs ^ bs, vector<int>(n, 0));\n        verify_state(bs, base);\n\
+    \        verify_state(mix, base);\n        verify_state(all, vector<int>(n, 1));\n\
+    \    }\n}\n\nvoid random_check() {\n    mt19937 rng(0);\n    for (int tc = 0;\
+    \ tc < 400; ++tc) {\n        int n = rng() % 260;\n        DynamicBitset bs(n),\
+    \ other(n);\n        vector<int> a(n, 0), b(n, 0);\n        for (int step = 0;\
+    \ step < 200; ++step) {\n            int op = rng() % 12;\n            if (op\
+    \ == 0 && n > 0) {\n                int k = rng() % n;\n                bs.set(k);\n\
+    \                a[k] = 1;\n            } else if (op == 1 && n > 0) {\n     \
+    \           int k = rng() % n;\n                bs.reset(k);\n               \
+    \ a[k] = 0;\n            } else if (op == 2 && n > 0) {\n                int k\
+    \ = rng() % n;\n                bs.flip(k);\n                a[k] ^= 1;\n    \
+    \        } else if (op == 3 && n > 0) {\n                int k = rng() % n;\n\
+    \                int x = rng() & 1;\n                bs.assign(k, x);\n      \
+    \          a[k] = x;\n            } else if (op == 4) {\n                bs.reset();\n\
+    \                fill(a.begin(), a.end(), 0);\n            } else if (op == 5)\
+    \ {\n                bs.set();\n                fill(a.begin(), a.end(), 1);\n\
+    \            } else if (op == 6) {\n                bs.flip();\n             \
+    \   for (int &x : a) x ^= 1;\n            } else if (op == 7) {\n            \
+    \    for (int i = 0; i < n; ++i) {\n                    int x = (rng() >> (i &\
+    \ 7)) & 1;\n                    other.assign(i, x);\n                    b[i]\
+    \ = x;\n                }\n            } else if (op == 8) {\n               \
+    \ DynamicBitset cur = bs;\n                cur &= other;\n                vector<int>\
+    \ expect(n);\n                for (int i = 0; i < n; ++i) expect[i] = a[i] & b[i];\n\
+    \                verify_state(cur, expect);\n            } else if (op == 9) {\n\
+    \                DynamicBitset cur = bs;\n                cur |= other;\n    \
+    \            vector<int> expect(n);\n                for (int i = 0; i < n; ++i)\
+    \ expect[i] = a[i] | b[i];\n                verify_state(cur, expect);\n     \
+    \       } else if (op == 10) {\n                DynamicBitset cur = bs;\n    \
+    \            cur ^= other;\n                vector<int> expect(n);\n         \
+    \       for (int i = 0; i < n; ++i) expect[i] = a[i] ^ b[i];\n               \
+    \ verify_state(cur, expect);\n            } else {\n                int s = n\
+    \ == 0 ? 0 : rng() % (n + 8);\n                if (rng() & 1) {\n            \
+    \        bs <<= s;\n                    a = shifted_left(a, s);\n            \
+    \    } else {\n                    bs >>= s;\n                    a = shifted_right(a,\
+    \ s);\n                }\n            }\n            verify_state(bs, a);\n  \
+    \          verify_state(other, b);\n        }\n    }\n}\n\nvoid check_shift_or(DynamicBitset\
+    \ &bs, vector<int> &a, int s, bool left) {\n    DynamicBitset expected = bs;\n\
+    \    if (left) expected |= expected << s;\n    else expected |= expected >> s;\n\
+    \    vector<int> before = a;\n    if (s > 0 && s < (int)a.size()) {\n        for\
+    \ (int i = 0; i + s < (int)a.size(); ++i) {\n            if (left) a[i + s] |=\
+    \ before[i];\n            else a[i] |= before[i + s];\n        }\n    }\n    auto\
+    \ &result = left ? bs.or_shift_left(s) : bs.or_shift_right(s);\n    assert(&result\
+    \ == &bs);\n    assert(to_vec(bs) == a && to_vec(expected) == a);\n    assert(bs.count()\
+    \ == accumulate(a.begin(), a.end(), 0));\n}\n\nvoid shift_or_check() {\n    for\
+    \ (int n = 0; n <= 10; ++n) {\n        for (int mask = 0; mask < (1 << n); ++mask)\
+    \ {\n            for (int s = -1; s <= n + 1; ++s) {\n                for (bool\
+    \ left : {false, true}) {\n                    DynamicBitset bs(n);\n        \
+    \            vector<int> a(n);\n                    for (int i = 0; i < n; ++i)\
+    \ bs.assign(i, a[i] = (mask >> i) & 1);\n                    check_shift_or(bs,\
+    \ a, s, left);\n                }\n            }\n        }\n    }\n    mt19937\
+    \ rng(134);\n    for (int n : {0, 1, 63, 64, 65, 127, 128, 129, 513}) {\n    \
+    \    for (int rep = 0; rep < 100; ++rep) {\n            DynamicBitset bs(n);\n\
+    \            vector<int> a(n);\n            for (int i = 0; i < n; ++i) bs.assign(i,\
+    \ a[i] = (rng() % 7 == 0));\n            for (int s : {-1, 0, 1, 63, 64, 65, n\
+    \ - 1, n, n + 1}) {\n                for (bool left : {false, true}) {\n     \
+    \               auto copy = bs;\n                    auto values = a;\n      \
+    \              check_shift_or(copy, values, s, left);\n                }\n   \
+    \         }\n            for (int step = 0; step < 100; ++step) {\n          \
+    \      if (step % 7 == 0) {\n                    for (int i = 0; i < n; ++i) bs.assign(i,\
+    \ a[i] = (rng() % 17 == 0));\n                }\n                check_shift_or(bs,\
+    \ a, (int)(rng() % (n + 3)) - 1, step & 1);\n            }\n        }\n    }\n\
+    \    for (int rep = 0; rep < 100; ++rep) {\n        DynamicBitset reachable(1001);\n\
+    \        vector<int> dp(1001);\n        reachable.set(0);\n        dp[0] = 1;\n\
+    \        for (int step = 0; step < 100; ++step) {\n            int w = rng() %\
+    \ 130;\n            for (int sum = 1000; sum >= w; --sum) dp[sum] |= dp[sum -\
+    \ w];\n            reachable.or_shift_left(w);\n            assert(to_vec(reachable)\
+    \ == dp);\n        }\n    }\n}\n\nint main() {\n    deterministic_check();\n \
+    \   random_check();\n    shift_or_check();\n\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
+    #include <cassert>\n#include <numeric>\n#include <random>\n#include <vector>\n\
+    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
+    \n#include \"../datastructure/dynamic_bitset.cpp\"\n\nvector<int> to_vec(const\
     \ DynamicBitset &bs) {\n    vector<int> res(bs.size());\n    for (int i = 0; i\
     \ < bs.size(); ++i) res[i] = bs.test(i);\n    return res;\n}\n\nint brute_find_first(const\
     \ vector<int> &a) {\n    for (int i = 0; i < (int)a.size(); ++i) if (a[i]) return\
@@ -445,104 +579,47 @@ data:
     \ s);\n                } else {\n                    bs >>= s;\n             \
     \       a = shifted_right(a, s);\n                }\n            }\n         \
     \   verify_state(bs, a);\n            verify_state(other, b);\n        }\n   \
-    \ }\n}\n\nint main() {\n    deterministic_check();\n    random_check();\n\n  \
-    \  Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <random>\n#include <vector>\nusing namespace std;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/dynamic_bitset.cpp\"\
-    \n\nvector<int> to_vec(const DynamicBitset &bs) {\n    vector<int> res(bs.size());\n\
-    \    for (int i = 0; i < bs.size(); ++i) res[i] = bs.test(i);\n    return res;\n\
-    }\n\nint brute_find_first(const vector<int> &a) {\n    for (int i = 0; i < (int)a.size();\
-    \ ++i) if (a[i]) return i;\n    return -1;\n}\n\nint brute_find_last(const vector<int>\
-    \ &a) {\n    for (int i = (int)a.size() - 1; i >= 0; --i) if (a[i]) return i;\n\
-    \    return -1;\n}\n\nint brute_find_next(const vector<int> &a, int k) {\n   \
-    \ for (int i = k + 1; i < (int)a.size(); ++i) if (a[i]) return i;\n    return\
-    \ -1;\n}\n\nint brute_find_prev(const vector<int> &a, int k) {\n    for (int i\
-    \ = k - 1; i >= 0; --i) if (a[i]) return i;\n    return -1;\n}\n\nvector<int>\
-    \ shifted_left(const vector<int> &a, int s) {\n    vector<int> res(a.size());\n\
-    \    if (s >= (int)a.size()) return res;\n    for (int i = 0; i + s < (int)a.size();\
-    \ ++i) res[i + s] = a[i];\n    return res;\n}\n\nvector<int> shifted_right(const\
-    \ vector<int> &a, int s) {\n    vector<int> res(a.size());\n    if (s >= (int)a.size())\
-    \ return res;\n    for (int i = s; i < (int)a.size(); ++i) res[i - s] = a[i];\n\
-    \    return res;\n}\n\nvoid verify_state(const DynamicBitset &bs, const vector<int>\
-    \ &a) {\n    assert(bs.size() == (int)a.size());\n    assert(bs.empty() == a.empty());\n\
-    \    assert(to_vec(bs) == a);\n\n    int cnt = 0;\n    for (int x : a) cnt +=\
-    \ x;\n    assert(bs.count() == cnt);\n    assert(bs.any() == (cnt != 0));\n  \
-    \  assert(bs.none() == (cnt == 0));\n    assert(bs.all() == (cnt == (int)a.size()));\n\
-    \    assert(bs.find_first() == brute_find_first(a));\n    assert(bs.find_last()\
-    \ == brute_find_last(a));\n    for (int i = 0; i <= (int)a.size(); ++i) {\n  \
-    \      assert(bs.find_next(i - 1) == brute_find_next(a, i - 1));\n        assert(bs.find_prev(i)\
-    \ == brute_find_prev(a, i));\n    }\n}\n\nvoid deterministic_check() {\n    vector<int>\
-    \ sizes = {0, 1, 2, 63, 64, 65, 127, 128, 129};\n    for (int n : sizes) {\n \
-    \       DynamicBitset zero(n), one(n, true);\n        verify_state(zero, vector<int>(n,\
-    \ 0));\n        verify_state(one, vector<int>(n, 1));\n\n        vector<int> base(n);\n\
-    \        for (int i = 0; i < n; ++i) base[i] = (i % 3) == 1;\n        DynamicBitset\
-    \ bs(n);\n        for (int i = 0; i < n; ++i) if (base[i]) bs.set(i);\n      \
-    \  verify_state(bs, base);\n\n        DynamicBitset flipped = bs;\n        flipped.flip();\n\
-    \        vector<int> flip_base = base;\n        for (int &x : flip_base) x ^=\
-    \ 1;\n        verify_state(flipped, flip_base);\n\n        vector<int> shifts\
-    \ = {0, 1, 2, 31, 32, 63, 64, 65, max(0, n - 1), n, n + 1, n + 7};\n        for\
-    \ (int s : shifts) {\n            DynamicBitset left = bs;\n            left <<=\
-    \ s;\n            verify_state(left, shifted_left(base, s));\n\n            DynamicBitset\
-    \ right = bs;\n            right >>= s;\n            verify_state(right, shifted_right(base,\
-    \ s));\n            verify_state(bs << s, to_vec(left));\n            verify_state(bs\
-    \ >> s, to_vec(right));\n            verify_state(DynamicBitset(bs) << s, to_vec(left));\n\
-    \            verify_state(DynamicBitset(bs) >> s, to_vec(right));\n          \
-    \  verify_state(bs, base);\n        }\n\n        DynamicBitset all(n, true);\n\
-    \        DynamicBitset mix = bs;\n        DynamicBitset x = mix & all;\n     \
-    \   verify_state(x, base);\n\n        DynamicBitset y = mix | all;\n        verify_state(y,\
-    \ vector<int>(n, 1));\n\n        DynamicBitset z = mix ^ all;\n        vector<int>\
-    \ xor_base = base;\n        for (int &v : xor_base) v ^= 1;\n        verify_state(z,\
-    \ xor_base);\n        verify_state(DynamicBitset(bs) & all, base);\n        verify_state(DynamicBitset(bs)\
-    \ | all, vector<int>(n, 1));\n        verify_state(DynamicBitset(bs) ^ all, xor_base);\n\
-    \        verify_state(bs & bs, base);\n        verify_state(bs | bs, base);\n\
-    \        verify_state(bs ^ bs, vector<int>(n, 0));\n        verify_state(bs, base);\n\
-    \        verify_state(mix, base);\n        verify_state(all, vector<int>(n, 1));\n\
-    \    }\n}\n\nvoid random_check() {\n    mt19937 rng(0);\n    for (int tc = 0;\
-    \ tc < 400; ++tc) {\n        int n = rng() % 260;\n        DynamicBitset bs(n),\
-    \ other(n);\n        vector<int> a(n, 0), b(n, 0);\n        for (int step = 0;\
-    \ step < 200; ++step) {\n            int op = rng() % 12;\n            if (op\
-    \ == 0 && n > 0) {\n                int k = rng() % n;\n                bs.set(k);\n\
-    \                a[k] = 1;\n            } else if (op == 1 && n > 0) {\n     \
-    \           int k = rng() % n;\n                bs.reset(k);\n               \
-    \ a[k] = 0;\n            } else if (op == 2 && n > 0) {\n                int k\
-    \ = rng() % n;\n                bs.flip(k);\n                a[k] ^= 1;\n    \
-    \        } else if (op == 3 && n > 0) {\n                int k = rng() % n;\n\
-    \                int x = rng() & 1;\n                bs.assign(k, x);\n      \
-    \          a[k] = x;\n            } else if (op == 4) {\n                bs.reset();\n\
-    \                fill(a.begin(), a.end(), 0);\n            } else if (op == 5)\
-    \ {\n                bs.set();\n                fill(a.begin(), a.end(), 1);\n\
-    \            } else if (op == 6) {\n                bs.flip();\n             \
-    \   for (int &x : a) x ^= 1;\n            } else if (op == 7) {\n            \
-    \    for (int i = 0; i < n; ++i) {\n                    int x = (rng() >> (i &\
-    \ 7)) & 1;\n                    other.assign(i, x);\n                    b[i]\
-    \ = x;\n                }\n            } else if (op == 8) {\n               \
-    \ DynamicBitset cur = bs;\n                cur &= other;\n                vector<int>\
-    \ expect(n);\n                for (int i = 0; i < n; ++i) expect[i] = a[i] & b[i];\n\
-    \                verify_state(cur, expect);\n            } else if (op == 9) {\n\
-    \                DynamicBitset cur = bs;\n                cur |= other;\n    \
-    \            vector<int> expect(n);\n                for (int i = 0; i < n; ++i)\
-    \ expect[i] = a[i] | b[i];\n                verify_state(cur, expect);\n     \
-    \       } else if (op == 10) {\n                DynamicBitset cur = bs;\n    \
-    \            cur ^= other;\n                vector<int> expect(n);\n         \
-    \       for (int i = 0; i < n; ++i) expect[i] = a[i] ^ b[i];\n               \
-    \ verify_state(cur, expect);\n            } else {\n                int s = n\
-    \ == 0 ? 0 : rng() % (n + 8);\n                if (rng() & 1) {\n            \
-    \        bs <<= s;\n                    a = shifted_left(a, s);\n            \
-    \    } else {\n                    bs >>= s;\n                    a = shifted_right(a,\
-    \ s);\n                }\n            }\n            verify_state(bs, a);\n  \
-    \          verify_state(other, b);\n        }\n    }\n}\n\nint main() {\n    deterministic_check();\n\
-    \    random_check();\n\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    \ }\n}\n\nvoid check_shift_or(DynamicBitset &bs, vector<int> &a, int s, bool left)\
+    \ {\n    DynamicBitset expected = bs;\n    if (left) expected |= expected << s;\n\
+    \    else expected |= expected >> s;\n    vector<int> before = a;\n    if (s >\
+    \ 0 && s < (int)a.size()) {\n        for (int i = 0; i + s < (int)a.size(); ++i)\
+    \ {\n            if (left) a[i + s] |= before[i];\n            else a[i] |= before[i\
+    \ + s];\n        }\n    }\n    auto &result = left ? bs.or_shift_left(s) : bs.or_shift_right(s);\n\
+    \    assert(&result == &bs);\n    assert(to_vec(bs) == a && to_vec(expected) ==\
+    \ a);\n    assert(bs.count() == accumulate(a.begin(), a.end(), 0));\n}\n\nvoid\
+    \ shift_or_check() {\n    for (int n = 0; n <= 10; ++n) {\n        for (int mask\
+    \ = 0; mask < (1 << n); ++mask) {\n            for (int s = -1; s <= n + 1; ++s)\
+    \ {\n                for (bool left : {false, true}) {\n                    DynamicBitset\
+    \ bs(n);\n                    vector<int> a(n);\n                    for (int\
+    \ i = 0; i < n; ++i) bs.assign(i, a[i] = (mask >> i) & 1);\n                 \
+    \   check_shift_or(bs, a, s, left);\n                }\n            }\n      \
+    \  }\n    }\n    mt19937 rng(134);\n    for (int n : {0, 1, 63, 64, 65, 127, 128,\
+    \ 129, 513}) {\n        for (int rep = 0; rep < 100; ++rep) {\n            DynamicBitset\
+    \ bs(n);\n            vector<int> a(n);\n            for (int i = 0; i < n; ++i)\
+    \ bs.assign(i, a[i] = (rng() % 7 == 0));\n            for (int s : {-1, 0, 1,\
+    \ 63, 64, 65, n - 1, n, n + 1}) {\n                for (bool left : {false, true})\
+    \ {\n                    auto copy = bs;\n                    auto values = a;\n\
+    \                    check_shift_or(copy, values, s, left);\n                }\n\
+    \            }\n            for (int step = 0; step < 100; ++step) {\n       \
+    \         if (step % 7 == 0) {\n                    for (int i = 0; i < n; ++i)\
+    \ bs.assign(i, a[i] = (rng() % 17 == 0));\n                }\n               \
+    \ check_shift_or(bs, a, (int)(rng() % (n + 3)) - 1, step & 1);\n            }\n\
+    \        }\n    }\n    for (int rep = 0; rep < 100; ++rep) {\n        DynamicBitset\
+    \ reachable(1001);\n        vector<int> dp(1001);\n        reachable.set(0);\n\
+    \        dp[0] = 1;\n        for (int step = 0; step < 100; ++step) {\n      \
+    \      int w = rng() % 130;\n            for (int sum = 1000; sum >= w; --sum)\
+    \ dp[sum] |= dp[sum - w];\n            reachable.or_shift_left(w);\n         \
+    \   assert(to_vec(reachable) == dp);\n        }\n    }\n}\n\nint main() {\n  \
+    \  deterministic_check();\n    random_check();\n    shift_or_check();\n\n    Scanner\
+    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
+    \ b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/dynamic_bitset.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-10 12:20:58+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_dynamic_bitset.test.cpp

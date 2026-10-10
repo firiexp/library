@@ -414,13 +414,29 @@ data:
     \ {\n                Cursor(this, next_depth, l0, r0, prefix, low),\n        \
     \        Cursor(this, next_depth,\n                       mid[cur.depth_] + l1,\
     \ mid[cur.depth_] + r1,\n                       prefix | 1, high)\n        };\n\
-    \    }\n\n    U sum_k_smallest(int l, int r, int k) const {\n        assert(built\
-    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k <= r - l);\n   \
-    \     if (k == 0) return U();\n        if (k == r - l) {\n            return fenwick_range(base_sum_fenwick,\
-    \ 0, l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n   \
-    \     U res = U();\n        const auto *bit_data = bit.data();\n        const\
-    \ int *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n    \
-    \        int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
+    \    }\n\n    T kth_smallest(int l, int r, int k) const {\n        assert(built\
+    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k < r - l);\n    \
+    \    l = offset[l];\n        r = offset[r];\n        int xi = 0;\n        const\
+    \ auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
+    \        for (int d = 0; d < lg; ++d) {\n            int l1, r1;\n           \
+    \ rank1_pair(bit_data, pref_data, l, r, l1, r1);\n            int l0 = l - l1,\
+    \ r0 = r - r1;\n            int zero_count = fixed_values ? r0 - l0 :\n      \
+    \              fenwick_range(zero_count_fenwick, row_offset[d], l0, r0);\n   \
+    \         xi <<= 1;\n            if (k < zero_count) {\n                l = l0;\n\
+    \                r = r0;\n            }\n            else {\n                k\
+    \ -= zero_count;\n                l = mid[d] + l1;\n                r = mid[d]\
+    \ + r1;\n                xi |= 1;\n            }\n            bit_data += blocks;\n\
+    \            pref_data += blocks + 1;\n        }\n        return vals[xi];\n \
+    \   }\n\n    T kth_largest(int l, int r, int k) const {\n        assert(built\
+    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k < r - l);\n    \
+    \    return kth_smallest(l, r, r - l - 1 - k);\n    }\n\n    U sum_k_smallest(int\
+    \ l, int r, int k) const {\n        assert(built && 0 <= l && l <= r && r <= n);\n\
+    \        assert(0 <= k && k <= r - l);\n        if (k == 0) return U();\n    \
+    \    if (k == r - l) {\n            return fenwick_range(base_sum_fenwick, 0,\
+    \ l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n      \
+    \  U res = U();\n        const auto *bit_data = bit.data();\n        const int\
+    \ *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n        \
+    \    int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
     \            int l0 = l - l1, r0 = r - r1;\n            int zero_count = fixed_values\
     \ ? r0 - l0 :\n                    fenwick_range(zero_count_fenwick, row_offset[d],\
     \ l0, r0);\n            if (k < zero_count) {\n                l = l0;\n     \
@@ -717,7 +733,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_set_range_frequency.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-10 12:25:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_set_range_frequency.test.cpp

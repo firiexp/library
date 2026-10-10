@@ -270,27 +270,43 @@ data:
     \ = (k - dist_to_cycle[v]) % cycle_len[v];\n            return cyc[(cycle_pos[v]\
     \ + offset) % cycle_len[v]];\n        }\n        for (int i = 0; k; ++i, k >>=\
     \ 1) {\n            if (k & 1) v = up[i][v];\n        }\n        return v;\n \
-    \   }\n\n    bool in_cycle(int v) const {\n        return dist_to_cycle[v] ==\
-    \ 0;\n    }\n\n    int cycle_id(int v) const {\n        return comp_id[v];\n \
-    \   }\n\n    int cycle_size(int v) const {\n        return cycle_len[v];\n   \
-    \ }\n\n    int steps_to_cycle(int v) const {\n        return dist_to_cycle[v];\n\
-    \    }\n\n    int cycle_vertex(int v) const {\n        return cycle_entry[v];\n\
-    \    }\n\n    int cycle_index(int v) const {\n        return cycle_pos[v];\n \
-    \   }\n\n    const vector<int> &cycle(int id) const {\n        return cycles[id];\n\
-    \    }\n};\n\n/**\n * @brief Functional Graph\n */\n#line 20 \"test/yosupo_aplusb_functional_graph.test.cpp\"\
+    \   }\n\n    int distance(int s, int t) const {\n        if (comp_id[s] != comp_id[t])\
+    \ return -1;\n        if (dist_to_cycle[t] == 0) {\n            int offset = cycle_pos[t]\
+    \ - cycle_pos[s];\n            if (offset < 0) offset += cycle_len[s];\n     \
+    \       return dist_to_cycle[s] + offset;\n        }\n        int d = dist_to_cycle[s]\
+    \ - dist_to_cycle[t];\n        return d >= 0 && jump(s, d) == t ? d : -1;\n  \
+    \  }\n\n    bool in_cycle(int v) const {\n        return dist_to_cycle[v] == 0;\n\
+    \    }\n\n    int cycle_id(int v) const {\n        return comp_id[v];\n    }\n\
+    \n    int cycle_size(int v) const {\n        return cycle_len[v];\n    }\n\n \
+    \   int steps_to_cycle(int v) const {\n        return dist_to_cycle[v];\n    }\n\
+    \n    int cycle_vertex(int v) const {\n        return cycle_entry[v];\n    }\n\
+    \n    int cycle_index(int v) const {\n        return cycle_pos[v];\n    }\n\n\
+    \    const vector<int> &cycle(int id) const {\n        return cycles[id];\n  \
+    \  }\n};\n\n/**\n * @brief Functional Graph\n */\n#line 20 \"test/yosupo_aplusb_functional_graph.test.cpp\"\
     \n\ntuple<vector<int>, int, int> walk_info(const vector<int> &to, int start) {\n\
     \    int n = to.size();\n    vector<int> pos(n, -1), ord;\n    int cur = start;\n\
     \    while (pos[cur] == -1) {\n        pos[cur] = ord.size();\n        ord.push_back(cur);\n\
     \        cur = to[cur];\n    }\n    return {ord, pos[cur], (int)ord.size() - pos[cur]};\n\
     }\n\nint brute_jump(const vector<int> &to, int start, long long k) {\n    auto\
     \ [ord, offset, len] = walk_info(to, start);\n    if (k < (int)ord.size()) return\
-    \ ord[k];\n    return ord[offset + (k - offset) % len];\n}\n\nvoid self_check()\
-    \ {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 500; ++tc) {\n        int\
-    \ n = rng() % 30 + 1;\n        vector<int> to(n);\n        for (int v = 0; v <\
-    \ n; ++v) to[v] = rng() % n;\n\n        FunctionalGraph fg(n);\n        for (int\
-    \ v = 0; v < n; ++v) fg.set_edge(v, to[v]);\n        fg.build();\n\n        FunctionalGraph\
-    \ fg2(to);\n        for (int v = 0; v < n; ++v) {\n            assert(fg.jump(v,\
-    \ 0) == v);\n            assert(fg.jump(v, 1) == to[v]);\n            assert(fg.jump(v,\
+    \ ord[k];\n    return ord[offset + (k - offset) % len];\n}\n\nvoid check_distances(const\
+    \ FunctionalGraph &fg, const vector<int> &to) {\n    int n = to.size();\n    for\
+    \ (int s = 0; s < n; ++s) {\n        vector<int> expected(n, -1);\n        int\
+    \ cur = s, d = 0;\n        while (expected[cur] == -1) {\n            expected[cur]\
+    \ = d++;\n            cur = to[cur];\n        }\n        for (int t = 0; t < n;\
+    \ ++t) assert(fg.distance(s, t) == expected[t]);\n    }\n}\n\nvoid exhaustive_distance_check()\
+    \ {\n    for (int n = 1; n <= 6; ++n) {\n        int total = 1;\n        for (int\
+    \ i = 0; i < n; ++i) total *= n;\n        for (int mask = 0; mask < total; ++mask)\
+    \ {\n            vector<int> to(n);\n            int cur = mask;\n           \
+    \ for (int &v : to) {\n                v = cur % n;\n                cur /= n;\n\
+    \            }\n            check_distances(FunctionalGraph(to), to);\n      \
+    \  }\n    }\n}\n\nvoid self_check() {\n    mt19937 rng(0);\n    for (int tc =\
+    \ 0; tc < 500; ++tc) {\n        int n = rng() % 30 + 1;\n        vector<int> to(n);\n\
+    \        for (int v = 0; v < n; ++v) to[v] = rng() % n;\n\n        FunctionalGraph\
+    \ fg(n);\n        for (int v = 0; v < n; ++v) fg.set_edge(v, to[v]);\n       \
+    \ fg.build();\n\n        FunctionalGraph fg2(to);\n        check_distances(fg,\
+    \ to);\n        for (int v = 0; v < n; ++v) {\n            assert(fg.jump(v, 0)\
+    \ == v);\n            assert(fg.jump(v, 1) == to[v]);\n            assert(fg.jump(v,\
     \ 37) == fg2.jump(v, 37));\n\n            auto [ord, offset, len] = walk_info(to,\
     \ v);\n            int entry = ord[offset];\n            assert(fg.steps_to_cycle(v)\
     \ == offset);\n            assert(fg.cycle_vertex(v) == entry);\n            assert(fg.cycle_size(v)\
@@ -315,28 +331,35 @@ data:
     \        }\n\n        // Rebuild all cycle metadata after changing edges.\n  \
     \      for (int v = 0; v < n; ++v) {\n            to[v] = rng() % n;\n       \
     \     fg.set_edge(v, to[v]);\n        }\n        fg.build();\n        FunctionalGraph\
-    \ rebuilt(to);\n        assert(fg.comp_id == rebuilt.comp_id);\n        assert(fg.cycle_pos\
-    \ == rebuilt.cycle_pos);\n        assert(fg.cycle_len == rebuilt.cycle_len);\n\
-    \        assert(fg.dist_to_cycle == rebuilt.dist_to_cycle);\n        assert(fg.cycle_entry\
-    \ == rebuilt.cycle_entry);\n        assert(fg.cycles == rebuilt.cycles);\n   \
-    \     for (int v = 0; v < n; ++v) {\n            assert(fg.jump(v, LLONG_MAX)\
-    \ == brute_jump(to, v, LLONG_MAX));\n        }\n    }\n\n    FunctionalGraph empty(vector<int>{});\n\
-    \    empty.build();\n    assert(empty.cycles.empty());\n    for (int n : {1, 2,\
-    \ 3, 7, 8, 9, 1023, 1024, 1025, 200000}) {\n        vector<int> to(n);\n     \
-    \   for (int v = 0; v < n; ++v) to[v] = min(v + 1, n - 1);\n        FunctionalGraph\
-    \ fg(to);\n        int levels = 1;\n        while ((1LL << levels) < n) ++levels;\n\
-    \        assert((int)fg.up.size() == levels);\n        for (int v : {0, n / 2,\
-    \ n - 1}) {\n            for (long long k : {0LL, 1LL, (long long)n - v - 1,\n\
-    \                                (long long)n - v, LLONG_MAX}) {\n           \
-    \     int expected = k >= n - v - 1 ? n - 1 : v + (int)k;\n                assert(fg.jump(v,\
-    \ k) == expected);\n            }\n            for (int k = 1; k < n - v - 1;\
-    \ k *= 2) {\n                assert(fg.jump(v, k) == v + k);\n            }\n\
-    \        }\n        fg.set_edge(n - 1, 0);\n        fg.build();\n        for (int\
-    \ v : {0, n / 2, n - 1}) {\n            assert(fg.in_cycle(v));\n            for\
-    \ (long long k : {0LL, 1LL, (long long)n, LLONG_MAX}) {\n                assert(fg.jump(v,\
+    \ rebuilt(to);\n        check_distances(fg, to);\n        assert(fg.comp_id ==\
+    \ rebuilt.comp_id);\n        assert(fg.cycle_pos == rebuilt.cycle_pos);\n    \
+    \    assert(fg.cycle_len == rebuilt.cycle_len);\n        assert(fg.dist_to_cycle\
+    \ == rebuilt.dist_to_cycle);\n        assert(fg.cycle_entry == rebuilt.cycle_entry);\n\
+    \        assert(fg.cycles == rebuilt.cycles);\n        for (int v = 0; v < n;\
+    \ ++v) {\n            assert(fg.jump(v, LLONG_MAX) == brute_jump(to, v, LLONG_MAX));\n\
+    \        }\n    }\n\n    FunctionalGraph empty(vector<int>{});\n    empty.build();\n\
+    \    assert(empty.cycles.empty());\n    for (int n : {1, 2, 3, 7, 8, 9, 1023,\
+    \ 1024, 1025, 200000}) {\n        vector<int> to(n);\n        for (int v = 0;\
+    \ v < n; ++v) to[v] = min(v + 1, n - 1);\n        FunctionalGraph fg(to);\n  \
+    \      for (int v = 0; v < n; ++v) {\n            assert(fg.distance(v, n - 1)\
+    \ == n - 1 - v);\n            assert(fg.distance(v, v) == 0);\n            assert(fg.distance(v,\
+    \ 0) == (v == 0 ? 0 : -1));\n            int t = n / 2;\n            assert(fg.distance(v,\
+    \ t) == (v <= t ? t - v : -1));\n        }\n        int levels = 1;\n        while\
+    \ ((1LL << levels) < n) ++levels;\n        assert((int)fg.up.size() == levels);\n\
+    \        for (int v : {0, n / 2, n - 1}) {\n            for (long long k : {0LL,\
+    \ 1LL, (long long)n - v - 1,\n                                (long long)n - v,\
+    \ LLONG_MAX}) {\n                int expected = k >= n - v - 1 ? n - 1 : v + (int)k;\n\
+    \                assert(fg.jump(v, k) == expected);\n            }\n         \
+    \   for (int k = 1; k < n - v - 1; k *= 2) {\n                assert(fg.jump(v,\
+    \ k) == v + k);\n            }\n        }\n        fg.set_edge(n - 1, 0);\n  \
+    \      fg.build();\n        for (int v = 0; v < n; ++v) {\n            assert(fg.distance(v,\
+    \ n / 2) == (n / 2 - v + n) % n);\n        }\n        for (int v : {0, n / 2,\
+    \ n - 1}) {\n            assert(fg.in_cycle(v));\n            for (long long k\
+    \ : {0LL, 1LL, (long long)n, LLONG_MAX}) {\n                assert(fg.jump(v,\
     \ k) == (v + k % n) % n);\n            }\n        }\n    }\n}\n\nint main() {\n\
-    \    self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    \    self_check();\n    exhaustive_distance_check();\n\n    Scanner sc;\n    Printer\
+    \ pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <cassert>\n\
     #include <climits>\n#include <random>\n#include <tuple>\n#include <vector>\nusing\
     \ namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -348,13 +371,24 @@ data:
     \ cur = to[cur];\n    }\n    return {ord, pos[cur], (int)ord.size() - pos[cur]};\n\
     }\n\nint brute_jump(const vector<int> &to, int start, long long k) {\n    auto\
     \ [ord, offset, len] = walk_info(to, start);\n    if (k < (int)ord.size()) return\
-    \ ord[k];\n    return ord[offset + (k - offset) % len];\n}\n\nvoid self_check()\
-    \ {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 500; ++tc) {\n        int\
-    \ n = rng() % 30 + 1;\n        vector<int> to(n);\n        for (int v = 0; v <\
-    \ n; ++v) to[v] = rng() % n;\n\n        FunctionalGraph fg(n);\n        for (int\
-    \ v = 0; v < n; ++v) fg.set_edge(v, to[v]);\n        fg.build();\n\n        FunctionalGraph\
-    \ fg2(to);\n        for (int v = 0; v < n; ++v) {\n            assert(fg.jump(v,\
-    \ 0) == v);\n            assert(fg.jump(v, 1) == to[v]);\n            assert(fg.jump(v,\
+    \ ord[k];\n    return ord[offset + (k - offset) % len];\n}\n\nvoid check_distances(const\
+    \ FunctionalGraph &fg, const vector<int> &to) {\n    int n = to.size();\n    for\
+    \ (int s = 0; s < n; ++s) {\n        vector<int> expected(n, -1);\n        int\
+    \ cur = s, d = 0;\n        while (expected[cur] == -1) {\n            expected[cur]\
+    \ = d++;\n            cur = to[cur];\n        }\n        for (int t = 0; t < n;\
+    \ ++t) assert(fg.distance(s, t) == expected[t]);\n    }\n}\n\nvoid exhaustive_distance_check()\
+    \ {\n    for (int n = 1; n <= 6; ++n) {\n        int total = 1;\n        for (int\
+    \ i = 0; i < n; ++i) total *= n;\n        for (int mask = 0; mask < total; ++mask)\
+    \ {\n            vector<int> to(n);\n            int cur = mask;\n           \
+    \ for (int &v : to) {\n                v = cur % n;\n                cur /= n;\n\
+    \            }\n            check_distances(FunctionalGraph(to), to);\n      \
+    \  }\n    }\n}\n\nvoid self_check() {\n    mt19937 rng(0);\n    for (int tc =\
+    \ 0; tc < 500; ++tc) {\n        int n = rng() % 30 + 1;\n        vector<int> to(n);\n\
+    \        for (int v = 0; v < n; ++v) to[v] = rng() % n;\n\n        FunctionalGraph\
+    \ fg(n);\n        for (int v = 0; v < n; ++v) fg.set_edge(v, to[v]);\n       \
+    \ fg.build();\n\n        FunctionalGraph fg2(to);\n        check_distances(fg,\
+    \ to);\n        for (int v = 0; v < n; ++v) {\n            assert(fg.jump(v, 0)\
+    \ == v);\n            assert(fg.jump(v, 1) == to[v]);\n            assert(fg.jump(v,\
     \ 37) == fg2.jump(v, 37));\n\n            auto [ord, offset, len] = walk_info(to,\
     \ v);\n            int entry = ord[offset];\n            assert(fg.steps_to_cycle(v)\
     \ == offset);\n            assert(fg.cycle_vertex(v) == entry);\n            assert(fg.cycle_size(v)\
@@ -379,35 +413,42 @@ data:
     \        }\n\n        // Rebuild all cycle metadata after changing edges.\n  \
     \      for (int v = 0; v < n; ++v) {\n            to[v] = rng() % n;\n       \
     \     fg.set_edge(v, to[v]);\n        }\n        fg.build();\n        FunctionalGraph\
-    \ rebuilt(to);\n        assert(fg.comp_id == rebuilt.comp_id);\n        assert(fg.cycle_pos\
-    \ == rebuilt.cycle_pos);\n        assert(fg.cycle_len == rebuilt.cycle_len);\n\
-    \        assert(fg.dist_to_cycle == rebuilt.dist_to_cycle);\n        assert(fg.cycle_entry\
-    \ == rebuilt.cycle_entry);\n        assert(fg.cycles == rebuilt.cycles);\n   \
-    \     for (int v = 0; v < n; ++v) {\n            assert(fg.jump(v, LLONG_MAX)\
-    \ == brute_jump(to, v, LLONG_MAX));\n        }\n    }\n\n    FunctionalGraph empty(vector<int>{});\n\
-    \    empty.build();\n    assert(empty.cycles.empty());\n    for (int n : {1, 2,\
-    \ 3, 7, 8, 9, 1023, 1024, 1025, 200000}) {\n        vector<int> to(n);\n     \
-    \   for (int v = 0; v < n; ++v) to[v] = min(v + 1, n - 1);\n        FunctionalGraph\
-    \ fg(to);\n        int levels = 1;\n        while ((1LL << levels) < n) ++levels;\n\
-    \        assert((int)fg.up.size() == levels);\n        for (int v : {0, n / 2,\
-    \ n - 1}) {\n            for (long long k : {0LL, 1LL, (long long)n - v - 1,\n\
-    \                                (long long)n - v, LLONG_MAX}) {\n           \
-    \     int expected = k >= n - v - 1 ? n - 1 : v + (int)k;\n                assert(fg.jump(v,\
-    \ k) == expected);\n            }\n            for (int k = 1; k < n - v - 1;\
-    \ k *= 2) {\n                assert(fg.jump(v, k) == v + k);\n            }\n\
-    \        }\n        fg.set_edge(n - 1, 0);\n        fg.build();\n        for (int\
-    \ v : {0, n / 2, n - 1}) {\n            assert(fg.in_cycle(v));\n            for\
-    \ (long long k : {0LL, 1LL, (long long)n, LLONG_MAX}) {\n                assert(fg.jump(v,\
+    \ rebuilt(to);\n        check_distances(fg, to);\n        assert(fg.comp_id ==\
+    \ rebuilt.comp_id);\n        assert(fg.cycle_pos == rebuilt.cycle_pos);\n    \
+    \    assert(fg.cycle_len == rebuilt.cycle_len);\n        assert(fg.dist_to_cycle\
+    \ == rebuilt.dist_to_cycle);\n        assert(fg.cycle_entry == rebuilt.cycle_entry);\n\
+    \        assert(fg.cycles == rebuilt.cycles);\n        for (int v = 0; v < n;\
+    \ ++v) {\n            assert(fg.jump(v, LLONG_MAX) == brute_jump(to, v, LLONG_MAX));\n\
+    \        }\n    }\n\n    FunctionalGraph empty(vector<int>{});\n    empty.build();\n\
+    \    assert(empty.cycles.empty());\n    for (int n : {1, 2, 3, 7, 8, 9, 1023,\
+    \ 1024, 1025, 200000}) {\n        vector<int> to(n);\n        for (int v = 0;\
+    \ v < n; ++v) to[v] = min(v + 1, n - 1);\n        FunctionalGraph fg(to);\n  \
+    \      for (int v = 0; v < n; ++v) {\n            assert(fg.distance(v, n - 1)\
+    \ == n - 1 - v);\n            assert(fg.distance(v, v) == 0);\n            assert(fg.distance(v,\
+    \ 0) == (v == 0 ? 0 : -1));\n            int t = n / 2;\n            assert(fg.distance(v,\
+    \ t) == (v <= t ? t - v : -1));\n        }\n        int levels = 1;\n        while\
+    \ ((1LL << levels) < n) ++levels;\n        assert((int)fg.up.size() == levels);\n\
+    \        for (int v : {0, n / 2, n - 1}) {\n            for (long long k : {0LL,\
+    \ 1LL, (long long)n - v - 1,\n                                (long long)n - v,\
+    \ LLONG_MAX}) {\n                int expected = k >= n - v - 1 ? n - 1 : v + (int)k;\n\
+    \                assert(fg.jump(v, k) == expected);\n            }\n         \
+    \   for (int k = 1; k < n - v - 1; k *= 2) {\n                assert(fg.jump(v,\
+    \ k) == v + k);\n            }\n        }\n        fg.set_edge(n - 1, 0);\n  \
+    \      fg.build();\n        for (int v = 0; v < n; ++v) {\n            assert(fg.distance(v,\
+    \ n / 2) == (n / 2 - v + n) % n);\n        }\n        for (int v : {0, n / 2,\
+    \ n - 1}) {\n            assert(fg.in_cycle(v));\n            for (long long k\
+    \ : {0LL, 1LL, (long long)n, LLONG_MAX}) {\n                assert(fg.jump(v,\
     \ k) == (v + k % n) % n);\n            }\n        }\n    }\n}\n\nint main() {\n\
-    \    self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    \    self_check();\n    exhaustive_distance_check();\n\n    Scanner sc;\n    Printer\
+    \ pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
   - graph/functional_graph.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_functional_graph.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-10 12:25:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_functional_graph.test.cpp

@@ -14,67 +14,66 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://yukicoder.me/problems/no/2672
+    PROBLEM: https://judge.yosupo.jp/problem/intersection_of_f2_vector_spaces
     links:
-    - https://yukicoder.me/problems/no/2672
-  bundledCode: "#line 1 \"test/yuki2672_xor_basis.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\
-    \n\n#include <cassert>\n#include <cstdint>\n#include <random>\n#include <vector>\n\
-    using namespace std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    - https://judge.yosupo.jp/problem/intersection_of_f2_vector_spaces
+  bundledCode: "#line 1 \"test/yosupo_intersection_of_f2_vector_spaces.test.cpp\"\n\
+    #define PROBLEM \"https://judge.yosupo.jp/problem/intersection_of_f2_vector_spaces\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -260,70 +259,40 @@ data:
     \ x) const {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x\
     \ >> i) & 1) == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n  \
     \      }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear\
-    \ Basis)\n */\n#line 18 \"test/yuki2672_xor_basis.test.cpp\"\n\nbool brute(const\
-    \ vector<int> &a) {\n    int n = a.size();\n    for (int mask = 1; mask < (1 <<\
-    \ n) - 1; ++mask) {\n        int xb = 0;\n        int xc = 0;\n        for (int\
-    \ i = 0; i < n; ++i) {\n            if ((mask >> i) & 1) xb ^= a[i];\n       \
-    \     else xc ^= a[i];\n        }\n        if (xb == 0 && xc == 0) return true;\n\
-    \    }\n    return false;\n}\n\nvoid self_check() {\n    {\n        for (int n\
-    \ = 2; n <= 12; ++n) {\n            for (int mask = 0; mask < (1 << n); ++mask)\
-    \ {\n                vector<int> a(n);\n                for (int i = 0; i < n;\
-    \ ++i) a[i] = (mask >> i) & 1;\n                XorBasis<int> xb;\n          \
-    \      int total = 0;\n                for (int x : a) {\n                   \
-    \ xb.add(x);\n                    total ^= x;\n                }\n           \
-    \     bool ok = total == 0 && xb.size() < n - 1;\n                assert(ok ==\
-    \ brute(a));\n            }\n        }\n    }\n    {\n        mt19937 rng(0);\n\
-    \        for (int tc = 0; tc < 1000; ++tc) {\n            int n = rng() % 14 +\
-    \ 2;\n            vector<int> a(n);\n            for (int i = 0; i < n; ++i) a[i]\
-    \ = rng() % 16;\n            XorBasis<int> xb;\n            int total = 0;\n \
-    \           for (int x : a) {\n                xb.add(x);\n                total\
-    \ ^= x;\n            }\n            bool ok = total == 0 && xb.size() < n - 1;\n\
-    \            assert(ok == brute(a));\n        }\n    }\n}\n\nint main() {\n  \
-    \  self_check();\n\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\
-    \    XorBasis<int> xb;\n    int total = 0;\n    for (int i = 0; i < n; ++i) {\n\
-    \        int a;\n        sc.read(a);\n        xb.add(a);\n        total ^= a;\n\
-    \    }\n    pr.println(total == 0 && xb.size() < n - 1 ? \"Yes\" : \"No\");\n\
-    \    return 0;\n}\n"
-  code: "#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\n\n#include <cassert>\n\
-    #include <cstdint>\n#include <random>\n#include <vector>\nusing namespace std;\n\
-    using ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/xor_basis.cpp\"\n\nbool brute(const vector<int> &a) {\n \
-    \   int n = a.size();\n    for (int mask = 1; mask < (1 << n) - 1; ++mask) {\n\
-    \        int xb = 0;\n        int xc = 0;\n        for (int i = 0; i < n; ++i)\
-    \ {\n            if ((mask >> i) & 1) xb ^= a[i];\n            else xc ^= a[i];\n\
-    \        }\n        if (xb == 0 && xc == 0) return true;\n    }\n    return false;\n\
-    }\n\nvoid self_check() {\n    {\n        for (int n = 2; n <= 12; ++n) {\n   \
-    \         for (int mask = 0; mask < (1 << n); ++mask) {\n                vector<int>\
-    \ a(n);\n                for (int i = 0; i < n; ++i) a[i] = (mask >> i) & 1;\n\
-    \                XorBasis<int> xb;\n                int total = 0;\n         \
-    \       for (int x : a) {\n                    xb.add(x);\n                  \
-    \  total ^= x;\n                }\n                bool ok = total == 0 && xb.size()\
-    \ < n - 1;\n                assert(ok == brute(a));\n            }\n        }\n\
-    \    }\n    {\n        mt19937 rng(0);\n        for (int tc = 0; tc < 1000; ++tc)\
-    \ {\n            int n = rng() % 14 + 2;\n            vector<int> a(n);\n    \
-    \        for (int i = 0; i < n; ++i) a[i] = rng() % 16;\n            XorBasis<int>\
-    \ xb;\n            int total = 0;\n            for (int x : a) {\n           \
-    \     xb.add(x);\n                total ^= x;\n            }\n            bool\
-    \ ok = total == 0 && xb.size() < n - 1;\n            assert(ok == brute(a));\n\
-    \        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n \
-    \   Printer pr;\n    int n;\n    sc.read(n);\n    XorBasis<int> xb;\n    int total\
-    \ = 0;\n    for (int i = 0; i < n; ++i) {\n        int a;\n        sc.read(a);\n\
-    \        xb.add(a);\n        total ^= a;\n    }\n    pr.println(total == 0 &&\
-    \ xb.size() < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
+    \ Basis)\n */\n#line 8 \"test/yosupo_intersection_of_f2_vector_spaces.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int t;\n    in.read(t);\n\
+    \    while (t--) {\n        XorBasis<unsigned> a, b;\n        for (auto *space\
+    \ : {&a, &b}) {\n            int n;\n            in.read(n);\n            for\
+    \ (int i = 0; i < n; ++i) {\n                unsigned x;\n                in.read(x);\n\
+    \                space->add(x);\n            }\n        }\n        auto common\
+    \ = a.intersection(b);\n        out.print(common.size());\n        for (auto x\
+    \ : common.basis) {\n            if (x != 0) {\n                out.print(' ');\n\
+    \                out.print(x);\n            }\n        }\n        out.println();\n\
+    \    }\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/intersection_of_f2_vector_spaces\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../math/xor_basis.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
+    \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        XorBasis<unsigned>\
+    \ a, b;\n        for (auto *space : {&a, &b}) {\n            int n;\n        \
+    \    in.read(n);\n            for (int i = 0; i < n; ++i) {\n                unsigned\
+    \ x;\n                in.read(x);\n                space->add(x);\n          \
+    \  }\n        }\n        auto common = a.intersection(b);\n        out.print(common.size());\n\
+    \        for (auto x : common.basis) {\n            if (x != 0) {\n          \
+    \      out.print(' ');\n                out.print(x);\n            }\n       \
+    \ }\n        out.println();\n    }\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/xor_basis.cpp
   isVerificationFile: true
-  path: test/yuki2672_xor_basis.test.cpp
+  path: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
   requiredBy: []
   timestamp: '2026-10-10 12:24:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yuki2672_xor_basis.test.cpp
+documentation_of: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yuki2672_xor_basis.test.cpp
-- /verify/test/yuki2672_xor_basis.test.cpp.html
-title: test/yuki2672_xor_basis.test.cpp
+- /verify/test/yosupo_intersection_of_f2_vector_spaces.test.cpp
+- /verify/test/yosupo_intersection_of_f2_vector_spaces.test.cpp.html
+title: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
 ---

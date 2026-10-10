@@ -203,6 +203,9 @@ data:
     path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_monotoniccht.test.cpp
+    title: test/yosupo_aplusb_monotoniccht.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_ndvec.test.cpp
     title: test/yosupo_aplusb_ndvec.test.cpp
   - icon: ':heavy_check_mark:'
@@ -295,6 +298,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_xor_basis_intersection.test.cpp
+    title: test/yosupo_aplusb_xor_basis_intersection.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_xorshift.test.cpp
     title: test/yosupo_aplusb_xorshift.test.cpp
@@ -397,6 +403,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_general_matching.test.cpp
     title: test/yosupo_general_matching.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
+    title: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_inverse_matrix.test.cpp
     title: test/yosupo_inverse_matrix.test.cpp
@@ -544,6 +553,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_kth_smallest.test.cpp
     title: test/yosupo_range_kth_smallest.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
+    title: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_rectangle_add_point_get.test.cpp
     title: test/yosupo_rectangle_add_point_get.test.cpp
@@ -1103,6 +1115,7 @@ data:
   - test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   - test/yosupo_aplusb_swag.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
+  - test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/aoj0403.test.cpp
   - test/yuki650_hld_edge.test.cpp
@@ -1112,6 +1125,7 @@ data:
   - test/aoj_grl_1_a_dijkstra.test.cpp
   - test/yosupo_aplusb_palindromic_tree.test.cpp
   - test/yosupo_static_range_inversions_query.test.cpp
+  - test/yosupo_intersection_of_f2_vector_spaces.test.cpp
   - test/aoj0452.test.cpp
   - test/yosupo_static_convex_hull.test.cpp
   - test/yosupo_connected_components_of_complement_graph.test.cpp
@@ -1229,6 +1243,7 @@ data:
   - test/yosupo_unionfind_with_potential.test.cpp
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_aplusb_radixheap.test.cpp
+  - test/yosupo_aplusb_xor_basis_intersection.test.cpp
   - test/yosupo_segment_add_get_min_online.test.cpp
   - test/yosupo_aplusb_furthest_pair.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
@@ -1249,6 +1264,7 @@ data:
   - test/yosupo_inverse_matrix.test.cpp
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   - test/aoj_ntl_1_b_pow.test.cpp
+  - test/yosupo_aplusb_monotoniccht.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/aoj_dsl_2_b.test.cpp

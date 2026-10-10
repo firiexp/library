@@ -361,18 +361,33 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
-    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
-    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
-    \ */\n#line 17 \"test/aoj_alds1_14_b_dynamic_bitset.test.cpp\"\n\nint main() {\n\
-    \    Scanner sc;\n    Printer pr;\n\n    string text, pattern;\n    sc.read(text,\
-    \ pattern);\n\n    int m = pattern.size();\n    if (m == 0) {\n        for (int\
-    \ i = 0; i <= (int)text.size(); ++i) pr.println(i);\n        return 0;\n    }\n\
-    \n    vector<DynamicBitset> mask(256, DynamicBitset(m));\n    for (int i = 0;\
-    \ i < m; ++i) mask[(unsigned char)pattern[i]].set(i);\n\n    DynamicBitset cur(m),\
-    \ head(m);\n    head.set(0);\n    for (int i = 0; i < (int)text.size(); ++i) {\n\
-    \        cur <<= 1;\n        cur |= head;\n        cur &= mask[(unsigned char)text[i]];\n\
-    \        if (cur.test(m - 1)) pr.println(i - m + 1);\n    }\n    return 0;\n}\n"
+    \   }\n\n    DynamicBitset &or_shift_left(int s) {\n        if (s <= 0 || s >=\
+    \ n) return *this;\n        int m = (int)a.size();\n        int block = s >> 6;\n\
+    \        int rem = s & 63;\n        if (rem == 0) {\n            for (int i =\
+    \ m - 1; i >= block; --i) a[i] |= a[i - block];\n        } else {\n          \
+    \  for (int i = m - 1; i > block; --i) {\n                a[i] |= (a[i - block]\
+    \ << rem) | (a[i - block - 1] >> (B - rem));\n            }\n            a[block]\
+    \ |= a[0] << rem;\n        }\n        normalize();\n        return *this;\n  \
+    \  }\n\n    DynamicBitset &or_shift_right(int s) {\n        if (s <= 0 || s >=\
+    \ n) return *this;\n        int m = (int)a.size();\n        int block = s >> 6;\n\
+    \        int rem = s & 63;\n        if (rem == 0) {\n            for (int i =\
+    \ 0; i < m - block; ++i) a[i] |= a[i + block];\n        } else {\n           \
+    \ int last = m - block - 1;\n            for (int i = 0; i < last; ++i) {\n  \
+    \              a[i] |= (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n\
+    \            }\n            a[last] |= a[m - 1] >> rem;\n        }\n        return\
+    \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
+    \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
+    \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
+    \ Bitset)\n */\n#line 17 \"test/aoj_alds1_14_b_dynamic_bitset.test.cpp\"\n\nint\
+    \ main() {\n    Scanner sc;\n    Printer pr;\n\n    string text, pattern;\n  \
+    \  sc.read(text, pattern);\n\n    int m = pattern.size();\n    if (m == 0) {\n\
+    \        for (int i = 0; i <= (int)text.size(); ++i) pr.println(i);\n        return\
+    \ 0;\n    }\n\n    vector<DynamicBitset> mask(256, DynamicBitset(m));\n    for\
+    \ (int i = 0; i < m; ++i) mask[(unsigned char)pattern[i]].set(i);\n\n    DynamicBitset\
+    \ cur(m), head(m);\n    head.set(0);\n    for (int i = 0; i < (int)text.size();\
+    \ ++i) {\n        cur <<= 1;\n        cur |= head;\n        cur &= mask[(unsigned\
+    \ char)text[i]];\n        if (cur.test(m - 1)) pr.println(i - m + 1);\n    }\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B\"\n\
     \n#include <algorithm>\n#include <string>\n#include <vector>\nusing namespace\
     \ std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n\
@@ -393,7 +408,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-10 12:20:58+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_14_b_dynamic_bitset.test.cpp

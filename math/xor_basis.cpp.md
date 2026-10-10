@@ -5,6 +5,12 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_xor_basis_intersection.test.cpp
+    title: test/yosupo_aplusb_xor_basis_intersection.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
+    title: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki2672_xor_basis.test.cpp
     title: test/yuki2672_xor_basis.test.cpp
   _isVerificationFailed: false
@@ -31,11 +37,20 @@ data:
     \            U z = y ^ basis[i];\n            if (z > y) y = z;\n        }\n \
     \       return static_cast<T>(y);\n    }\n\n    void merge(const XorBasis &other)\
     \ {\n        for (int i = 0; i < B; ++i) {\n            if (other.basis[i] !=\
-    \ 0) add(static_cast<T>(other.basis[i]));\n        }\n    }\n\nprivate:\n    U\
-    \ reduce_unsigned(U x) const {\n        for (int i = B - 1; i >= 0; --i) {\n \
-    \           if (((x >> i) & 1) == 0 || basis[i] == 0) continue;\n            x\
-    \ ^= basis[i];\n        }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\
-    \u5E95(Linear Basis)\n */\n"
+    \ 0) add(static_cast<T>(other.basis[i]));\n        }\n    }\n\n    XorBasis intersection(const\
+    \ XorBasis &other) const {\n        U row[B], from_a[B];\n        for (int i =\
+    \ 0; i < B; ++i) row[i] = from_a[i] = basis[i];\n        XorBasis result;\n  \
+    \      for (int i = 0; i < B; ++i) {\n            U x = other.basis[i], y = 0;\n\
+    \            if (x == 0) continue;\n            for (int j = B - 1; j >= 0; --j)\
+    \ {\n                if (((x >> j) & 1) == 0) continue;\n                if (row[j]\
+    \ == 0) {\n                    row[j] = x;\n                    from_a[j] = y;\n\
+    \                    break;\n                }\n                x ^= row[j];\n\
+    \                y ^= from_a[j];\n            }\n            if (x == 0) result.add(static_cast<T>(y));\n\
+    \        }\n        return result;\n    }\n\nprivate:\n    U reduce_unsigned(U\
+    \ x) const {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x\
+    \ >> i) & 1) == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n  \
+    \      }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear\
+    \ Basis)\n */\n"
   code: "template<class T>\nstruct XorBasis {\n    static_assert(is_integral_v<T>,\
     \ \"XorBasis requires integral T\");\n\n    using U = make_unsigned_t<T>;\n  \
     \  static constexpr int B = numeric_limits<U>::digits;\n\n    vector<U> basis;\n\
@@ -54,18 +69,29 @@ data:
     \            U z = y ^ basis[i];\n            if (z > y) y = z;\n        }\n \
     \       return static_cast<T>(y);\n    }\n\n    void merge(const XorBasis &other)\
     \ {\n        for (int i = 0; i < B; ++i) {\n            if (other.basis[i] !=\
-    \ 0) add(static_cast<T>(other.basis[i]));\n        }\n    }\n\nprivate:\n    U\
-    \ reduce_unsigned(U x) const {\n        for (int i = B - 1; i >= 0; --i) {\n \
-    \           if (((x >> i) & 1) == 0 || basis[i] == 0) continue;\n            x\
-    \ ^= basis[i];\n        }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\
-    \u5E95(Linear Basis)\n */\n"
+    \ 0) add(static_cast<T>(other.basis[i]));\n        }\n    }\n\n    XorBasis intersection(const\
+    \ XorBasis &other) const {\n        U row[B], from_a[B];\n        for (int i =\
+    \ 0; i < B; ++i) row[i] = from_a[i] = basis[i];\n        XorBasis result;\n  \
+    \      for (int i = 0; i < B; ++i) {\n            U x = other.basis[i], y = 0;\n\
+    \            if (x == 0) continue;\n            for (int j = B - 1; j >= 0; --j)\
+    \ {\n                if (((x >> j) & 1) == 0) continue;\n                if (row[j]\
+    \ == 0) {\n                    row[j] = x;\n                    from_a[j] = y;\n\
+    \                    break;\n                }\n                x ^= row[j];\n\
+    \                y ^= from_a[j];\n            }\n            if (x == 0) result.add(static_cast<T>(y));\n\
+    \        }\n        return result;\n    }\n\nprivate:\n    U reduce_unsigned(U\
+    \ x) const {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x\
+    \ >> i) & 1) == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n  \
+    \      }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear\
+    \ Basis)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/xor_basis.cpp
   requiredBy: []
-  timestamp: '2026-03-12 16:01:52+09:00'
+  timestamp: '2026-10-10 12:24:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_intersection_of_f2_vector_spaces.test.cpp
+  - test/yosupo_aplusb_xor_basis_intersection.test.cpp
   - test/yuki2672_xor_basis.test.cpp
 date: 2026-03-12
 documentation_of: math/xor_basis.cpp
@@ -95,6 +121,8 @@ title: "XOR\u57FA\u5E95(Linear Basis)"
   `x xor y` を最大にする `y` を基底の生成する空間から選んだ結果を返す
 - `void merge(const XorBasis<T>& other)`
   `other` の基底を併合する
+- `XorBasis<T> intersection(const XorBasis<T>& other) const`
+  両方の生成空間に属する値全体の基底を返す。入力は変更しない。片方が空なら空の基底を返す。bit 幅を $B$ として時間 $O(B^2)$、返却値を含む追加領域 $O(B)$
 
 ## 使い方
 `add` で値を順に入れて使う。
@@ -103,7 +131,8 @@ $$
 \min_{y \in \langle S \rangle} (x \oplus y), \quad \max_{y \in \langle S \rangle} (x \oplus y)
 $$
 を求められる。
+`{1, 2}` と `{3, 4}` が生成する空間の共通部分は `{0, 3}` であり、`intersection` はこれを生成する基底を返す。
 
 ## 実装上の補足
-- `T` は整数型を想定する
+- `T` は `bool` 以外の整数型を使う。値は `make_unsigned_t<T>` の bit 列として扱い、最小・最大も符号なしの大小で比較する
 - 返り値は `x xor y` そのものを返す

@@ -37,7 +37,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/li_chao_tree.cpp
       title: Li Chao Tree
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/monotoniccht.cpp
       title: "Convex-Hull Trick (\u30AF\u30A8\u30EA\u5358\u8ABF)"
     - icon: ':heavy_check_mark:'
@@ -875,6 +875,9 @@ data:
       path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
       title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_monotoniccht.test.cpp
+      title: test/yosupo_aplusb_monotoniccht.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_ndvec.test.cpp
       title: test/yosupo_aplusb_ndvec.test.cpp
     - icon: ':heavy_check_mark:'
@@ -967,6 +970,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_xor_basis_intersection.test.cpp
+      title: test/yosupo_aplusb_xor_basis_intersection.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_xorshift.test.cpp
       title: test/yosupo_aplusb_xorshift.test.cpp
@@ -1084,6 +1090,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_general_matching.test.cpp
       title: test/yosupo_general_matching.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
+      title: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_inverse_matrix.test.cpp
       title: test/yosupo_inverse_matrix.test.cpp
@@ -1255,6 +1264,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_range_kth_smallest.test.cpp
       title: test/yosupo_range_kth_smallest.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
+      title: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_rectangle_add_point_get.test.cpp
       title: test/yosupo_rectangle_add_point_get.test.cpp

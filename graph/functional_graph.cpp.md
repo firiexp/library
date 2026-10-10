@@ -53,7 +53,12 @@ data:
     \ auto &cyc = cycles[comp_id[v]];\n            long long offset = (k - dist_to_cycle[v])\
     \ % cycle_len[v];\n            return cyc[(cycle_pos[v] + offset) % cycle_len[v]];\n\
     \        }\n        for (int i = 0; k; ++i, k >>= 1) {\n            if (k & 1)\
-    \ v = up[i][v];\n        }\n        return v;\n    }\n\n    bool in_cycle(int\
+    \ v = up[i][v];\n        }\n        return v;\n    }\n\n    int distance(int s,\
+    \ int t) const {\n        if (comp_id[s] != comp_id[t]) return -1;\n        if\
+    \ (dist_to_cycle[t] == 0) {\n            int offset = cycle_pos[t] - cycle_pos[s];\n\
+    \            if (offset < 0) offset += cycle_len[s];\n            return dist_to_cycle[s]\
+    \ + offset;\n        }\n        int d = dist_to_cycle[s] - dist_to_cycle[t];\n\
+    \        return d >= 0 && jump(s, d) == t ? d : -1;\n    }\n\n    bool in_cycle(int\
     \ v) const {\n        return dist_to_cycle[v] == 0;\n    }\n\n    int cycle_id(int\
     \ v) const {\n        return comp_id[v];\n    }\n\n    int cycle_size(int v) const\
     \ {\n        return cycle_len[v];\n    }\n\n    int steps_to_cycle(int v) const\
@@ -102,19 +107,24 @@ data:
     \ = (k - dist_to_cycle[v]) % cycle_len[v];\n            return cyc[(cycle_pos[v]\
     \ + offset) % cycle_len[v]];\n        }\n        for (int i = 0; k; ++i, k >>=\
     \ 1) {\n            if (k & 1) v = up[i][v];\n        }\n        return v;\n \
-    \   }\n\n    bool in_cycle(int v) const {\n        return dist_to_cycle[v] ==\
-    \ 0;\n    }\n\n    int cycle_id(int v) const {\n        return comp_id[v];\n \
-    \   }\n\n    int cycle_size(int v) const {\n        return cycle_len[v];\n   \
-    \ }\n\n    int steps_to_cycle(int v) const {\n        return dist_to_cycle[v];\n\
-    \    }\n\n    int cycle_vertex(int v) const {\n        return cycle_entry[v];\n\
-    \    }\n\n    int cycle_index(int v) const {\n        return cycle_pos[v];\n \
-    \   }\n\n    const vector<int> &cycle(int id) const {\n        return cycles[id];\n\
-    \    }\n};\n\n/**\n * @brief Functional Graph\n */\n"
+    \   }\n\n    int distance(int s, int t) const {\n        if (comp_id[s] != comp_id[t])\
+    \ return -1;\n        if (dist_to_cycle[t] == 0) {\n            int offset = cycle_pos[t]\
+    \ - cycle_pos[s];\n            if (offset < 0) offset += cycle_len[s];\n     \
+    \       return dist_to_cycle[s] + offset;\n        }\n        int d = dist_to_cycle[s]\
+    \ - dist_to_cycle[t];\n        return d >= 0 && jump(s, d) == t ? d : -1;\n  \
+    \  }\n\n    bool in_cycle(int v) const {\n        return dist_to_cycle[v] == 0;\n\
+    \    }\n\n    int cycle_id(int v) const {\n        return comp_id[v];\n    }\n\
+    \n    int cycle_size(int v) const {\n        return cycle_len[v];\n    }\n\n \
+    \   int steps_to_cycle(int v) const {\n        return dist_to_cycle[v];\n    }\n\
+    \n    int cycle_vertex(int v) const {\n        return cycle_entry[v];\n    }\n\
+    \n    int cycle_index(int v) const {\n        return cycle_pos[v];\n    }\n\n\
+    \    const vector<int> &cycle(int id) const {\n        return cycles[id];\n  \
+    \  }\n};\n\n/**\n * @brief Functional Graph\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/functional_graph.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:45:55+09:00'
+  timestamp: '2026-10-10 12:25:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_functional_graph.test.cpp
@@ -127,10 +137,10 @@ title: Functional Graph
 
 ## 説明
 各頂点の出次数が 1 の有向グラフを扱う。
-cycle 分解と doubling を前計算し、`k` 個先の頂点と各頂点が属する閉路情報を取る。
+cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の最小遷移回数、各頂点が属する閉路情報を取る。
 
 ## できること
-`jump` 以外の問い合わせは $O(1)$。
+`jump`・`distance` 以外の問い合わせは $O(1)$。
 
 - `FunctionalGraph fg(n)`
   `n` 頂点の関数グラフを作る。$O(N)$
@@ -142,6 +152,8 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点と各頂点が属
   閉路分解と doubling を前計算する。時間・領域 $O(N \log N)$
 - `int jump(int v, long long k)`
   `v` から `k` 回遷移した先を返す。$0 \le k \le 2^{63}-1$。閉路到達前は $O(\log(k+1))$、到達後は $O(1)$
+- `int distance(int s, int t) const`
+  `s` から `t` への最小遷移回数を返す。到達不能なら `-1`、`s == t` なら `0`。$O(\log N)$、`t` が閉路上なら $O(1)$。追加領域 $O(1)$
 - `bool in_cycle(int v)`
   `v` が閉路上なら `true`
 - `int cycle_id(int v)`
@@ -161,6 +173,7 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点と各頂点が属
 各頂点の遷移先を `set_edge` で入れてから `build()` を呼ぶ。
 辺を変更した後は再び `build()` を呼ぶ。
 `jump(v, k)` で `k` 個先を求め、`steps_to_cycle(v)` や `cycle_size(v)` で構造情報を使う。
+`distance(s, t)` は同じ `build()` の結果で使え、追加の前処理は不要。
 
 ```cpp
 FunctionalGraph fg(n);

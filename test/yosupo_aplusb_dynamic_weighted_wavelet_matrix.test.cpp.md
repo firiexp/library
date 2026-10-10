@@ -414,13 +414,29 @@ data:
     \ {\n                Cursor(this, next_depth, l0, r0, prefix, low),\n        \
     \        Cursor(this, next_depth,\n                       mid[cur.depth_] + l1,\
     \ mid[cur.depth_] + r1,\n                       prefix | 1, high)\n        };\n\
-    \    }\n\n    U sum_k_smallest(int l, int r, int k) const {\n        assert(built\
-    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k <= r - l);\n   \
-    \     if (k == 0) return U();\n        if (k == r - l) {\n            return fenwick_range(base_sum_fenwick,\
-    \ 0, l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n   \
-    \     U res = U();\n        const auto *bit_data = bit.data();\n        const\
-    \ int *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n    \
-    \        int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
+    \    }\n\n    T kth_smallest(int l, int r, int k) const {\n        assert(built\
+    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k < r - l);\n    \
+    \    l = offset[l];\n        r = offset[r];\n        int xi = 0;\n        const\
+    \ auto *bit_data = bit.data();\n        const int *pref_data = pref.data();\n\
+    \        for (int d = 0; d < lg; ++d) {\n            int l1, r1;\n           \
+    \ rank1_pair(bit_data, pref_data, l, r, l1, r1);\n            int l0 = l - l1,\
+    \ r0 = r - r1;\n            int zero_count = fixed_values ? r0 - l0 :\n      \
+    \              fenwick_range(zero_count_fenwick, row_offset[d], l0, r0);\n   \
+    \         xi <<= 1;\n            if (k < zero_count) {\n                l = l0;\n\
+    \                r = r0;\n            }\n            else {\n                k\
+    \ -= zero_count;\n                l = mid[d] + l1;\n                r = mid[d]\
+    \ + r1;\n                xi |= 1;\n            }\n            bit_data += blocks;\n\
+    \            pref_data += blocks + 1;\n        }\n        return vals[xi];\n \
+    \   }\n\n    T kth_largest(int l, int r, int k) const {\n        assert(built\
+    \ && 0 <= l && l <= r && r <= n);\n        assert(0 <= k && k < r - l);\n    \
+    \    return kth_smallest(l, r, r - l - 1 - k);\n    }\n\n    U sum_k_smallest(int\
+    \ l, int r, int k) const {\n        assert(built && 0 <= l && l <= r && r <= n);\n\
+    \        assert(0 <= k && k <= r - l);\n        if (k == 0) return U();\n    \
+    \    if (k == r - l) {\n            return fenwick_range(base_sum_fenwick, 0,\
+    \ l, r);\n        }\n\n        l = offset[l];\n        r = offset[r];\n      \
+    \  U res = U();\n        const auto *bit_data = bit.data();\n        const int\
+    \ *pref_data = pref.data();\n        for (int d = 0; d < lg; ++d) {\n        \
+    \    int l1, r1;\n            rank1_pair(bit_data, pref_data, l, r, l1, r1);\n\
     \            int l0 = l - l1, r0 = r - r1;\n            int zero_count = fixed_values\
     \ ? r0 - l0 :\n                    fenwick_range(zero_count_fenwick, row_offset[d],\
     \ l0, r0);\n            if (k < zero_count) {\n                l = l0;\n     \
@@ -738,40 +754,43 @@ data:
     \ == range.sum);\n    assert(wm.range_freq(l, r, lower, upper) == range.count);\n\
     \    assert(wm.range_sum(l, r, lower, upper) == range.sum);\n\n    int k = rng()\
     \ % (r - l + 1);\n    assert(wm.sum_k_smallest(l, r, k) == brute_sum_k_smallest(a,\
-    \ w, l, r, k));\n    check_cursor(wm, a, w, l, r);\n\n    int xi = (int)(rng()\
-    \ % (wm.vals.size() + 3)) - 1;\n    BruteResult index_less{0, 0};\n    if (xi\
-    \ >= (int)wm.vals.size()) {\n        index_less = brute_less(a, w, l, r, 1000000000,\
-    \ false);\n    }\n    else if (xi > 0) {\n        index_less = brute_less(a, w,\
-    \ l, r, wm.vals[xi], false);\n    }\n    auto got_index = wm.count_sum_less_index(l,\
-    \ r, xi);\n    assert(got_index.count == index_less.count && got_index.sum ==\
-    \ index_less.sum);\n}\n\nvoid self_check_random() {\n    mt19937 rng(0);\n   \
-    \ for (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 31;\n        vector<vector<int>>\
-    \ candidates(n);\n        vector<int> a(n);\n        vector<ll> w(n);\n      \
-    \  DynamicWeightedWaveletMatrix<int, ll> wm(n);\n\n        for (int i = 0; i <\
-    \ n; ++i) {\n            int count = rng() % 6 + 1;\n            for (int j =\
-    \ 0; j < count; ++j) candidates[i].push_back((int)(rng() % 17) - 8);\n       \
-    \     sort(candidates[i].begin(), candidates[i].end());\n            candidates[i].erase(unique(candidates[i].begin(),\
-    \ candidates[i].end()), candidates[i].end());\n            a[i] = candidates[i][rng()\
-    \ % candidates[i].size()];\n            w[i] = (int)(rng() % 41) - 20;\n     \
-    \       for (int x : candidates[i]) wm.add_value_candidate(i, x);\n          \
-    \  wm.add_value_candidate(i, a[i]);\n        }\n        wm.build(a, w);\n\n  \
-    \      for (int i = 0; i < n; ++i) {\n            assert(wm.get_value(i) == a[i]);\n\
-    \            assert(wm.get_weight(i) == w[i]);\n        }\n        for (int step\
-    \ = 0; step < 200; ++step) {\n            if (n != 0) {\n                int k\
-    \ = rng() % n;\n                int op = rng() % 6;\n                if (op ==\
-    \ 0) {\n                    int x = candidates[k][rng() % candidates[k].size()];\n\
-    \                    assert(wm.set_value(k, x));\n                    a[k] = x;\n\
-    \                }\n                else if (op == 1) {\n                    ll\
-    \ next = (int)(rng() % 81) - 40;\n                    wm.set_weight(k, next);\n\
-    \                    w[k] = next;\n                }\n                else if\
-    \ (op == 2) {\n                    ll delta = (int)(rng() % 21) - 10;\n      \
-    \              wm.add_weight(k, delta);\n                    w[k] += delta;\n\
-    \                }\n                else if (op == 3) {\n                    int\
-    \ x = candidates[k][rng() % candidates[k].size()];\n                    ll next\
-    \ = (int)(rng() % 81) - 40;\n                    assert(wm.set(k, x, next));\n\
-    \                    a[k] = x;\n                    w[k] = next;\n           \
-    \     }\n                else if (op == 4) {\n                    int old_a =\
-    \ a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set_value(k,\
+    \ w, l, r, k));\n    check_cursor(wm, a, w, l, r);\n    vector<int> sorted(a.begin()\
+    \ + l, a.begin() + r);\n    sort(sorted.begin(), sorted.end());\n    for (int\
+    \ rank = 0; rank < r - l; ++rank) {\n        assert(wm.kth_smallest(l, r, rank)\
+    \ == sorted[rank]);\n        assert(wm.kth_largest(l, r, rank) == sorted[r - l\
+    \ - 1 - rank]);\n    }\n\n    int xi = (int)(rng() % (wm.vals.size() + 3)) - 1;\n\
+    \    BruteResult index_less{0, 0};\n    if (xi >= (int)wm.vals.size()) {\n   \
+    \     index_less = brute_less(a, w, l, r, 1000000000, false);\n    }\n    else\
+    \ if (xi > 0) {\n        index_less = brute_less(a, w, l, r, wm.vals[xi], false);\n\
+    \    }\n    auto got_index = wm.count_sum_less_index(l, r, xi);\n    assert(got_index.count\
+    \ == index_less.count && got_index.sum == index_less.sum);\n}\n\nvoid self_check_random()\
+    \ {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 200; ++tc) {\n        int\
+    \ n = rng() % 31;\n        vector<vector<int>> candidates(n);\n        vector<int>\
+    \ a(n);\n        vector<ll> w(n);\n        DynamicWeightedWaveletMatrix<int, ll>\
+    \ wm(n);\n\n        for (int i = 0; i < n; ++i) {\n            int count = rng()\
+    \ % 6 + 1;\n            for (int j = 0; j < count; ++j) candidates[i].push_back((int)(rng()\
+    \ % 17) - 8);\n            sort(candidates[i].begin(), candidates[i].end());\n\
+    \            candidates[i].erase(unique(candidates[i].begin(), candidates[i].end()),\
+    \ candidates[i].end());\n            a[i] = candidates[i][rng() % candidates[i].size()];\n\
+    \            w[i] = (int)(rng() % 41) - 20;\n            for (int x : candidates[i])\
+    \ wm.add_value_candidate(i, x);\n            wm.add_value_candidate(i, a[i]);\n\
+    \        }\n        wm.build(a, w);\n\n        for (int i = 0; i < n; ++i) {\n\
+    \            assert(wm.get_value(i) == a[i]);\n            assert(wm.get_weight(i)\
+    \ == w[i]);\n        }\n        for (int step = 0; step < 200; ++step) {\n   \
+    \         if (n != 0) {\n                int k = rng() % n;\n                int\
+    \ op = rng() % 6;\n                if (op == 0) {\n                    int x =\
+    \ candidates[k][rng() % candidates[k].size()];\n                    assert(wm.set_value(k,\
+    \ x));\n                    a[k] = x;\n                }\n                else\
+    \ if (op == 1) {\n                    ll next = (int)(rng() % 81) - 40;\n    \
+    \                wm.set_weight(k, next);\n                    w[k] = next;\n \
+    \               }\n                else if (op == 2) {\n                    ll\
+    \ delta = (int)(rng() % 21) - 10;\n                    wm.add_weight(k, delta);\n\
+    \                    w[k] += delta;\n                }\n                else if\
+    \ (op == 3) {\n                    int x = candidates[k][rng() % candidates[k].size()];\n\
+    \                    ll next = (int)(rng() % 81) - 40;\n                    assert(wm.set(k,\
+    \ x, next));\n                    a[k] = x;\n                    w[k] = next;\n\
+    \                }\n                else if (op == 4) {\n                    int\
+    \ old_a = a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set_value(k,\
     \ 1000000 + k));\n                    assert(wm.get_value(k) == old_a && wm.get_weight(k)\
     \ == old_w);\n                }\n                else {\n                    int\
     \ old_a = a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set(k,\
@@ -785,7 +804,8 @@ data:
     \ \"ab\");\n    wm.build(values, weights);\n\n    assert(wm.sum_less(0, 3, string(\"\
     cc\")) == 1);\n    assert(wm.set_value(0, \"dd\"));\n    assert(wm.freq(0, 3,\
     \ string(\"dd\")) == 1);\n    assert(!wm.set_value(2, \"dd\"));\n    assert(wm.get_value(2)\
-    \ == \"cc\");\n\n    auto cur = wm.range_cursor(0, 3);\n    while (!cur.is_leaf())\
+    \ == \"cc\");\n    assert(wm.kth_smallest(0, 3, 1) == \"cc\");\n    assert(wm.kth_largest(0,\
+    \ 3, 0) == \"dd\");\n\n    auto cur = wm.range_cursor(0, 3);\n    while (!cur.is_leaf())\
     \ {\n        auto children = wm.split(cur);\n        cur = children.high.empty()\
     \ ? children.low : children.high;\n    }\n    assert(cur.value() == \"dd\");\n\
     }\n\nvoid self_check_sum_k_smallest() {\n    vector<int> values{2, 1, 1, 3, 1};\n\
@@ -814,10 +834,24 @@ data:
     \ 0, high}));\n    assert(wm.count_less(0, 4, 0) == 2);\n    assert(wm.sum_less_equal(0,\
     \ 4, 0) == 14);\n    assert(wm.set_value(0, low));\n    assert(wm.freq(0, 4, low)\
     \ == 2);\n    assert(wm.set(2, high, -5));\n    assert(wm.sum_equal(0, 4, high)\
-    \ == -5);\n}\n\nint main() {\n    self_check_random();\n    self_check_generic_value();\n\
+    \ == -5);\n    assert(wm.kth_smallest(0, 4, 0) == low);\n    assert(wm.kth_largest(0,\
+    \ 4, 0) == high);\n}\n\nvoid self_check_kth_boundaries() {\n    for (int n : {1,\
+    \ 2, 65}) {\n        vector<int> values(n, -7);\n        vector<ll> weights(n,\
+    \ -100);\n        for (bool dynamic : {false, true}) {\n            DynamicWeightedWaveletMatrix<int,\
+    \ ll> wm(n);\n            if (dynamic) {\n                for (int i = 0; i <\
+    \ n; ++i) {\n                    wm.add_value_candidate(i, -1000);\n         \
+    \           wm.add_value_candidate(i, 1000);\n                }\n            }\n\
+    \            wm.build(values, weights);\n            for (int k = 0; k < n; ++k)\
+    \ {\n                assert(wm.kth_smallest(0, n, k) == -7);\n               \
+    \ assert(wm.kth_largest(0, n, k) == -7);\n                assert(wm.kth_smallest(k,\
+    \ k + 1, 0) == -7);\n            }\n            if (dynamic) {\n             \
+    \   assert(wm.set_value(0, 1000));\n                assert(wm.kth_largest(0, n,\
+    \ 0) == 1000);\n                assert(wm.set_value(0, -1000));\n            \
+    \    assert(wm.kth_smallest(0, n, 0) == -1000);\n            }\n        }\n  \
+    \  }\n}\n\nint main() {\n    self_check_random();\n    self_check_generic_value();\n\
     \    self_check_sum_k_smallest();\n    self_check_fixed_values();\n    self_check_integral_boundaries();\n\
-    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
+    \    self_check_kth_boundaries();\n\n    Scanner sc;\n    Printer pr;\n    ll\
+    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
     #include <cassert>\n#include <limits>\n#include <random>\n#include <string>\n\
     #include <utility>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
@@ -880,40 +914,43 @@ data:
     \ == range.sum);\n    assert(wm.range_freq(l, r, lower, upper) == range.count);\n\
     \    assert(wm.range_sum(l, r, lower, upper) == range.sum);\n\n    int k = rng()\
     \ % (r - l + 1);\n    assert(wm.sum_k_smallest(l, r, k) == brute_sum_k_smallest(a,\
-    \ w, l, r, k));\n    check_cursor(wm, a, w, l, r);\n\n    int xi = (int)(rng()\
-    \ % (wm.vals.size() + 3)) - 1;\n    BruteResult index_less{0, 0};\n    if (xi\
-    \ >= (int)wm.vals.size()) {\n        index_less = brute_less(a, w, l, r, 1000000000,\
-    \ false);\n    }\n    else if (xi > 0) {\n        index_less = brute_less(a, w,\
-    \ l, r, wm.vals[xi], false);\n    }\n    auto got_index = wm.count_sum_less_index(l,\
-    \ r, xi);\n    assert(got_index.count == index_less.count && got_index.sum ==\
-    \ index_less.sum);\n}\n\nvoid self_check_random() {\n    mt19937 rng(0);\n   \
-    \ for (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 31;\n        vector<vector<int>>\
-    \ candidates(n);\n        vector<int> a(n);\n        vector<ll> w(n);\n      \
-    \  DynamicWeightedWaveletMatrix<int, ll> wm(n);\n\n        for (int i = 0; i <\
-    \ n; ++i) {\n            int count = rng() % 6 + 1;\n            for (int j =\
-    \ 0; j < count; ++j) candidates[i].push_back((int)(rng() % 17) - 8);\n       \
-    \     sort(candidates[i].begin(), candidates[i].end());\n            candidates[i].erase(unique(candidates[i].begin(),\
-    \ candidates[i].end()), candidates[i].end());\n            a[i] = candidates[i][rng()\
-    \ % candidates[i].size()];\n            w[i] = (int)(rng() % 41) - 20;\n     \
-    \       for (int x : candidates[i]) wm.add_value_candidate(i, x);\n          \
-    \  wm.add_value_candidate(i, a[i]);\n        }\n        wm.build(a, w);\n\n  \
-    \      for (int i = 0; i < n; ++i) {\n            assert(wm.get_value(i) == a[i]);\n\
-    \            assert(wm.get_weight(i) == w[i]);\n        }\n        for (int step\
-    \ = 0; step < 200; ++step) {\n            if (n != 0) {\n                int k\
-    \ = rng() % n;\n                int op = rng() % 6;\n                if (op ==\
-    \ 0) {\n                    int x = candidates[k][rng() % candidates[k].size()];\n\
-    \                    assert(wm.set_value(k, x));\n                    a[k] = x;\n\
-    \                }\n                else if (op == 1) {\n                    ll\
-    \ next = (int)(rng() % 81) - 40;\n                    wm.set_weight(k, next);\n\
-    \                    w[k] = next;\n                }\n                else if\
-    \ (op == 2) {\n                    ll delta = (int)(rng() % 21) - 10;\n      \
-    \              wm.add_weight(k, delta);\n                    w[k] += delta;\n\
-    \                }\n                else if (op == 3) {\n                    int\
-    \ x = candidates[k][rng() % candidates[k].size()];\n                    ll next\
-    \ = (int)(rng() % 81) - 40;\n                    assert(wm.set(k, x, next));\n\
-    \                    a[k] = x;\n                    w[k] = next;\n           \
-    \     }\n                else if (op == 4) {\n                    int old_a =\
-    \ a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set_value(k,\
+    \ w, l, r, k));\n    check_cursor(wm, a, w, l, r);\n    vector<int> sorted(a.begin()\
+    \ + l, a.begin() + r);\n    sort(sorted.begin(), sorted.end());\n    for (int\
+    \ rank = 0; rank < r - l; ++rank) {\n        assert(wm.kth_smallest(l, r, rank)\
+    \ == sorted[rank]);\n        assert(wm.kth_largest(l, r, rank) == sorted[r - l\
+    \ - 1 - rank]);\n    }\n\n    int xi = (int)(rng() % (wm.vals.size() + 3)) - 1;\n\
+    \    BruteResult index_less{0, 0};\n    if (xi >= (int)wm.vals.size()) {\n   \
+    \     index_less = brute_less(a, w, l, r, 1000000000, false);\n    }\n    else\
+    \ if (xi > 0) {\n        index_less = brute_less(a, w, l, r, wm.vals[xi], false);\n\
+    \    }\n    auto got_index = wm.count_sum_less_index(l, r, xi);\n    assert(got_index.count\
+    \ == index_less.count && got_index.sum == index_less.sum);\n}\n\nvoid self_check_random()\
+    \ {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 200; ++tc) {\n        int\
+    \ n = rng() % 31;\n        vector<vector<int>> candidates(n);\n        vector<int>\
+    \ a(n);\n        vector<ll> w(n);\n        DynamicWeightedWaveletMatrix<int, ll>\
+    \ wm(n);\n\n        for (int i = 0; i < n; ++i) {\n            int count = rng()\
+    \ % 6 + 1;\n            for (int j = 0; j < count; ++j) candidates[i].push_back((int)(rng()\
+    \ % 17) - 8);\n            sort(candidates[i].begin(), candidates[i].end());\n\
+    \            candidates[i].erase(unique(candidates[i].begin(), candidates[i].end()),\
+    \ candidates[i].end());\n            a[i] = candidates[i][rng() % candidates[i].size()];\n\
+    \            w[i] = (int)(rng() % 41) - 20;\n            for (int x : candidates[i])\
+    \ wm.add_value_candidate(i, x);\n            wm.add_value_candidate(i, a[i]);\n\
+    \        }\n        wm.build(a, w);\n\n        for (int i = 0; i < n; ++i) {\n\
+    \            assert(wm.get_value(i) == a[i]);\n            assert(wm.get_weight(i)\
+    \ == w[i]);\n        }\n        for (int step = 0; step < 200; ++step) {\n   \
+    \         if (n != 0) {\n                int k = rng() % n;\n                int\
+    \ op = rng() % 6;\n                if (op == 0) {\n                    int x =\
+    \ candidates[k][rng() % candidates[k].size()];\n                    assert(wm.set_value(k,\
+    \ x));\n                    a[k] = x;\n                }\n                else\
+    \ if (op == 1) {\n                    ll next = (int)(rng() % 81) - 40;\n    \
+    \                wm.set_weight(k, next);\n                    w[k] = next;\n \
+    \               }\n                else if (op == 2) {\n                    ll\
+    \ delta = (int)(rng() % 21) - 10;\n                    wm.add_weight(k, delta);\n\
+    \                    w[k] += delta;\n                }\n                else if\
+    \ (op == 3) {\n                    int x = candidates[k][rng() % candidates[k].size()];\n\
+    \                    ll next = (int)(rng() % 81) - 40;\n                    assert(wm.set(k,\
+    \ x, next));\n                    a[k] = x;\n                    w[k] = next;\n\
+    \                }\n                else if (op == 4) {\n                    int\
+    \ old_a = a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set_value(k,\
     \ 1000000 + k));\n                    assert(wm.get_value(k) == old_a && wm.get_weight(k)\
     \ == old_w);\n                }\n                else {\n                    int\
     \ old_a = a[k];\n                    ll old_w = w[k];\n                    assert(!wm.set(k,\
@@ -927,7 +964,8 @@ data:
     \ \"ab\");\n    wm.build(values, weights);\n\n    assert(wm.sum_less(0, 3, string(\"\
     cc\")) == 1);\n    assert(wm.set_value(0, \"dd\"));\n    assert(wm.freq(0, 3,\
     \ string(\"dd\")) == 1);\n    assert(!wm.set_value(2, \"dd\"));\n    assert(wm.get_value(2)\
-    \ == \"cc\");\n\n    auto cur = wm.range_cursor(0, 3);\n    while (!cur.is_leaf())\
+    \ == \"cc\");\n    assert(wm.kth_smallest(0, 3, 1) == \"cc\");\n    assert(wm.kth_largest(0,\
+    \ 3, 0) == \"dd\");\n\n    auto cur = wm.range_cursor(0, 3);\n    while (!cur.is_leaf())\
     \ {\n        auto children = wm.split(cur);\n        cur = children.high.empty()\
     \ ? children.low : children.high;\n    }\n    assert(cur.value() == \"dd\");\n\
     }\n\nvoid self_check_sum_k_smallest() {\n    vector<int> values{2, 1, 1, 3, 1};\n\
@@ -956,17 +994,31 @@ data:
     \ 0, high}));\n    assert(wm.count_less(0, 4, 0) == 2);\n    assert(wm.sum_less_equal(0,\
     \ 4, 0) == 14);\n    assert(wm.set_value(0, low));\n    assert(wm.freq(0, 4, low)\
     \ == 2);\n    assert(wm.set(2, high, -5));\n    assert(wm.sum_equal(0, 4, high)\
-    \ == -5);\n}\n\nint main() {\n    self_check_random();\n    self_check_generic_value();\n\
+    \ == -5);\n    assert(wm.kth_smallest(0, 4, 0) == low);\n    assert(wm.kth_largest(0,\
+    \ 4, 0) == high);\n}\n\nvoid self_check_kth_boundaries() {\n    for (int n : {1,\
+    \ 2, 65}) {\n        vector<int> values(n, -7);\n        vector<ll> weights(n,\
+    \ -100);\n        for (bool dynamic : {false, true}) {\n            DynamicWeightedWaveletMatrix<int,\
+    \ ll> wm(n);\n            if (dynamic) {\n                for (int i = 0; i <\
+    \ n; ++i) {\n                    wm.add_value_candidate(i, -1000);\n         \
+    \           wm.add_value_candidate(i, 1000);\n                }\n            }\n\
+    \            wm.build(values, weights);\n            for (int k = 0; k < n; ++k)\
+    \ {\n                assert(wm.kth_smallest(0, n, k) == -7);\n               \
+    \ assert(wm.kth_largest(0, n, k) == -7);\n                assert(wm.kth_smallest(k,\
+    \ k + 1, 0) == -7);\n            }\n            if (dynamic) {\n             \
+    \   assert(wm.set_value(0, 1000));\n                assert(wm.kth_largest(0, n,\
+    \ 0) == 1000);\n                assert(wm.set_value(0, -1000));\n            \
+    \    assert(wm.kth_smallest(0, n, 0) == -1000);\n            }\n        }\n  \
+    \  }\n}\n\nint main() {\n    self_check_random();\n    self_check_generic_value();\n\
     \    self_check_sum_k_smallest();\n    self_check_fixed_values();\n    self_check_integral_boundaries();\n\
-    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n    return 0;\n}\n"
+    \    self_check_kth_boundaries();\n\n    Scanner sc;\n    Printer pr;\n    ll\
+    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   dependsOn:
   - datastructure/dynamic_weighted_wavelet_matrix.cpp
   - util/fastio.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-10 12:25:57+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp

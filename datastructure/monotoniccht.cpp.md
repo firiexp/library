@@ -3,10 +3,13 @@ category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_monotoniccht.test.cpp
+    title: test/yosupo_aplusb_monotoniccht.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "#line 1 \"datastructure/monotoniccht.cpp\"\ntemplate<class T, bool\
@@ -72,9 +75,10 @@ data:
   isVerificationFile: false
   path: datastructure/monotoniccht.cpp
   requiredBy: []
-  timestamp: '2026-03-12 19:34:31+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2026-10-10 15:38:35+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_aplusb_monotoniccht.test.cpp
 date: 2018-04-28
 documentation_of: datastructure/monotoniccht.cpp
 layout: document
@@ -104,6 +108,11 @@ title: "Convex-Hull Trick (\u30AF\u30A8\u30EA\u5358\u8ABF)"
 追加する直線の傾きは単調である必要がある。
 クエリだけ単調なら `query_increase` または `query_decrease` を使うと償却 $O(1)$、任意順なら `query` で $O(\log N)$。
 
+整数係数には 64 bit 以下の整数型を使い、傾き・切片は $|a|, |b| \le 2^{62}$ とする。
+直線評価の積 `a*x` と和 `a*x+b` は `T` に収まる必要がある。最大値版では係数と返り値の符号反転も `T` に収まる必要がある。
+これらの条件は呼び出し側で満たし、ライブラリ内では検査しない。
+
 ## 実装上の補足
-不要直線判定は、整数型なら `__int128` の交差積比較で処理する。
+整数の不要直線判定は `__int128` で差の積を比較する。上記の係数制約では差の絶対値が最大 $2^{63}$、積の絶対値が最大 $2^{126}$ となり、符号付き 128 bit に収まる。
 浮動小数点型では `long double` で比較する。
+直線追加は償却 $O(1)$、保持領域は $O(N)$。

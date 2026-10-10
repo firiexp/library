@@ -151,10 +151,24 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
-    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
-    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
-    \ */\n"
+    \   }\n\n    DynamicBitset &or_shift_left(int s) {\n        if (s <= 0 || s >=\
+    \ n) return *this;\n        int m = (int)a.size();\n        int block = s >> 6;\n\
+    \        int rem = s & 63;\n        if (rem == 0) {\n            for (int i =\
+    \ m - 1; i >= block; --i) a[i] |= a[i - block];\n        } else {\n          \
+    \  for (int i = m - 1; i > block; --i) {\n                a[i] |= (a[i - block]\
+    \ << rem) | (a[i - block - 1] >> (B - rem));\n            }\n            a[block]\
+    \ |= a[0] << rem;\n        }\n        normalize();\n        return *this;\n  \
+    \  }\n\n    DynamicBitset &or_shift_right(int s) {\n        if (s <= 0 || s >=\
+    \ n) return *this;\n        int m = (int)a.size();\n        int block = s >> 6;\n\
+    \        int rem = s & 63;\n        if (rem == 0) {\n            for (int i =\
+    \ 0; i < m - block; ++i) a[i] |= a[i + block];\n        } else {\n           \
+    \ int last = m - block - 1;\n            for (int i = 0; i < last; ++i) {\n  \
+    \              a[i] |= (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n\
+    \            }\n            a[last] |= a[m - 1] >> rem;\n        }\n        return\
+    \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
+    \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
+    \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
+    \ Bitset)\n */\n"
   code: "#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace dynamic_bitset_detail {\nusing Word = unsigned\
     \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
@@ -286,15 +300,29 @@ data:
     \     a[i] = (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n      \
     \      }\n            a[last] = a[m - 1] >> rem;\n        }\n        fill(a.begin()\
     \ + (m - block), a.end(), 0);\n        normalize();\n        return *this;\n \
-    \   }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s;\
-    \ return l; }\n    friend DynamicBitset operator>>(DynamicBitset l, int s) { l\
-    \ >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic Bitset)\n\
-    \ */\n"
+    \   }\n\n    DynamicBitset &or_shift_left(int s) {\n        if (s <= 0 || s >=\
+    \ n) return *this;\n        int m = (int)a.size();\n        int block = s >> 6;\n\
+    \        int rem = s & 63;\n        if (rem == 0) {\n            for (int i =\
+    \ m - 1; i >= block; --i) a[i] |= a[i - block];\n        } else {\n          \
+    \  for (int i = m - 1; i > block; --i) {\n                a[i] |= (a[i - block]\
+    \ << rem) | (a[i - block - 1] >> (B - rem));\n            }\n            a[block]\
+    \ |= a[0] << rem;\n        }\n        normalize();\n        return *this;\n  \
+    \  }\n\n    DynamicBitset &or_shift_right(int s) {\n        if (s <= 0 || s >=\
+    \ n) return *this;\n        int m = (int)a.size();\n        int block = s >> 6;\n\
+    \        int rem = s & 63;\n        if (rem == 0) {\n            for (int i =\
+    \ 0; i < m - block; ++i) a[i] |= a[i + block];\n        } else {\n           \
+    \ int last = m - block - 1;\n            for (int i = 0; i < last; ++i) {\n  \
+    \              a[i] |= (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));\n\
+    \            }\n            a[last] |= a[m - 1] >> rem;\n        }\n        return\
+    \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
+    \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
+    \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
+    \ Bitset)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/dynamic_bitset.cpp
   requiredBy: []
-  timestamp: '2026-10-03 16:12:41+09:00'
+  timestamp: '2026-10-10 12:20:58+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
@@ -338,9 +366,16 @@ title: "\u52D5\u7684bitset(Dynamic Bitset)"
   bitset 同士の演算をその場で行う
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`
   shift する
+- `DynamicBitset &or_shift_left(int s)`
+  `bs |= bs << s` と同じ更新を行い、自身への参照を返す。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$（一時配列の動的確保なし）
+- `DynamicBitset &or_shift_right(int s)`
+  `bs |= bs >> s` と同じ更新を行い、自身への参照を返す。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$（一時配列の動的確保なし）
 
 ## 使い方
 長さが同じ bitset 同士で演算する。
 `find_first`, `find_next` を使うと立っている bit だけを前から走査できる。
 `find_last`, `find_prev` を使うと後ろからも走査できる。
+部分和 DP は `reachable.set(0)` で初期化し、各重み `w` に対して `reachable.or_shift_left(w)` で更新できる。
 
+## 実装上の補足
+`or_shift_left` と `or_shift_right` は、`s <= 0`、`s >= size()`、空 bitset の場合は変更しない。
