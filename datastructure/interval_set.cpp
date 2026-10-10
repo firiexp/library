@@ -81,21 +81,27 @@ public:
 
         if (it != st_.begin()) {
             auto pit = prev(it);
-            if (pit->r >= l) {
-                l = min(l, pit->l);
-                r = max(r, pit->r);
-                total_ -= seg_len(*pit);
-                it = st_.erase(pit);
-            }
+            if (pit->r >= l) it = pit;
         }
 
+        if (it != st_.end() && it->l <= l && r <= it->r) return *it;
+        if (it == st_.end() || r < it->l) {
+            total_ += static_cast<SumT>(r) - static_cast<SumT>(l);
+            return *st_.insert(it, {l, r});
+        }
+
+        l = min(l, it->l);
+        r = max(r, it->r);
+        total_ -= seg_len(*it);
+        auto node = st_.extract(it++);
         while (it != st_.end() && it->l <= r) {
             r = max(r, it->r);
             total_ -= seg_len(*it);
             it = st_.erase(it);
         }
 
-        auto new_it = st_.insert(it, {l, r});
+        node.value() = {l, r};
+        auto new_it = st_.insert(it, move(node));
         total_ += static_cast<SumT>(r) - static_cast<SumT>(l);
         return *new_it;
     }
@@ -104,7 +110,6 @@ public:
         if (!(l < r)) return 0;
 
         SumT removed = 0;
-        vector<Interval> add_back;
 
         auto it = st_.lower_bound(l);
         if (it != st_.begin()) --it;
@@ -116,22 +121,26 @@ public:
             }
 
             Interval cur = *it;
-            it = st_.erase(it);
-            total_ -= seg_len(cur);
-
             T a = max(cur.l, l);
             T b = min(cur.r, r);
             removed += static_cast<SumT>(b) - static_cast<SumT>(a);
 
-            if (cur.l < l) add_back.push_back({cur.l, l});
-            if (r < cur.r) add_back.push_back({r, cur.r});
+            if (cur.l < l || r < cur.r) {
+                auto node = st_.extract(it++);
+                if (cur.l < l) {
+                    node.value().r = l;
+                    st_.insert(it, move(node));
+                    if (r < cur.r) st_.insert(it, {r, cur.r});
+                } else {
+                    node.value().l = r;
+                    st_.insert(it, move(node));
+                }
+            } else {
+                it = st_.erase(it);
+            }
         }
 
-        for (const auto& seg : add_back) {
-            st_.insert(seg);
-            total_ += seg_len(seg);
-        }
-
+        total_ -= removed;
         return removed;
     }
 
