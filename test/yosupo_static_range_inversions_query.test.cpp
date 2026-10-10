@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/static_range_inversions_query"
 
 #include <algorithm>
+#include <cmath>
 #include <vector>
 
 #include <cstdio>
@@ -33,13 +34,10 @@ int main() {
         sc.read(l, r);
         qs[i] = Query(l, r, i);
     }
-    Query::bucket_size = 320;
-    sort(qs.begin(), qs.end());
-
     BIT<int> bit((int)xs.size());
     vector<long long> ans(q);
     long long inv = 0;
-    int l = 0, r = 0, len = 0;
+    int len = 0;
 
     auto add_left = [&](int idx) {
         int x = a[idx];
@@ -66,13 +64,8 @@ int main() {
         --len;
     };
 
-    for (auto qu : qs) {
-        while (qu.l < l) add_left(--l);
-        while (r < qu.r) add_right(r++);
-        while (l < qu.l) erase_left(l++);
-        while (qu.r < r) erase_right(--r);
-        ans[qu.no] = inv;
-    }
+    mo_solve(n, qs, add_left, add_right, erase_left, erase_right,
+             [&](int no) { ans[no] = inv; });
     for (auto x : ans) pr.println(x);
     return 0;
 }

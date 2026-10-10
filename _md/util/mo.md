@@ -12,16 +12,29 @@ tags: クエリ
 ## できること
 - `Query(l, r, no)`
   半開区間 `[l, r)` のクエリを作る
+- `mo_solve(n, queries, add_left, add_right, erase_left, erase_right, output, bucket_size = 0)`
+  クエリを並べ替えて左右端を移動し、各回答時に `output(no)` を呼ぶ。各追加・削除 callback には要素の添字を渡す。入力クエリ列と `Query::bucket_size` は変更しない
 - `Query::B`
-  左端を分けるバケット幅。`sort` 前に利用側で設定する
+  手動で `sort` するときのバケット幅。`Query::bucket_size` の別名
 - `sort(qs.begin(), qs.end())`
   左端のブロック順、右端の蛇行順でクエリを並べる
 
 ## 使い方
-クエリを読み込んだら `Query::bucket_size = B;` を設定し、`sort(qs.begin(), qs.end())` で並べ替える。
-あとは区間の左右端を少しずつ動かしながら答えを更新する。
+`mo_solve` に渡すクエリは `0 <= l <= r <= n` を満たすものとし、callback 側の集計は空区間から始める。
+左右の追加・削除を別々に指定できるため、転倒数など順序に依存する集計にも使える。
+回答は元のクエリ ID で保存する。空クエリ列では callback を呼ばず、空区間のクエリにも対応する。
+`bucket_size` が正なら指定値を使い、省略または `0` 以下なら $\max(1, \lfloor N/\sqrt{Q}\rfloor)$ を使う。
+利用側では `<algorithm>`、`<cmath>`、`<vector>` を読み込む。
+
+```cpp
+mo_solve(n, qs, add_left, add_right, erase_left, erase_right,
+         [&](int no) { ans[no] = current_answer; });
+```
+
+比較だけを使いたい場合は、従来どおり `Query::bucket_size` を設定して `sort(qs.begin(), qs.end())` を呼べる。
 
 ## 実装上の補足
+- `mo_solve` のソートは $O(Q\log Q)$、作業領域はクエリ列のコピーに $O(Q)$
 - 典型的な計算量評価は、左端の移動が $O(QB)$、右端の移動が $O(N^2 / B)$ なので、1 回の追加・削除が $O(p(N))$ なら合計は
 $$
 O\left(\left(QB + \frac{N^2}{B}\right) p(N)\right)
