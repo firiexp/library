@@ -1,0 +1,620 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: math/fastkitamasa.cpp
+    title: "\u591A\u9805\u5F0F\u5270\u4F59\u306E\u51AA\u8A08\u7B97(\u9AD8\u901FKitamasa\u6CD5\
+      )"
+  - icon: ':heavy_check_mark:'
+    path: math/ntt.cpp
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+  - icon: ':heavy_check_mark:'
+    path: test/fastkitamasa_self_check.cpp
+    title: test/fastkitamasa_self_check.cpp
+  - icon: ':heavy_check_mark:'
+    path: util/fastio.cpp
+    title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
+  _pathExtension: cpp
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    '*NOT_SPECIAL_COMMENTS*': ''
+    PROBLEM: https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
+    links:
+    - https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence
+  bundledCode: "#line 1 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp\"\
+    \n#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\nusing\
+    \ uint = unsigned;\nusing ull = unsigned long long;\n\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
+    \     if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            return buf[idx++];\n        }\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        return buf[idx++];\n    }\n\n    template<class\
+    \ T, typename enable_if<is_integral<T>::value, int>::type = 0>\n    void read(T\
+    \ &x) {\n        using Base = typename conditional<is_same<T, bool>::value, unsigned,\
+    \ T>::type;\n        using U = typename make_unsigned<Base>::type;\n        //\
+    \ The unsigned magnitude and -(y - 1) - 1 below also cover min(T).\n        if\
+    \ (interactive) {\n            char c = skip();\n            bool neg = false;\n\
+    \            if constexpr (is_signed<T>::value) {\n                if (c == '-')\
+    \ {\n                    neg = true;\n                    ensure_interactive();\n\
+    \                    c = buf[idx++];\n                }\n            }\n     \
+    \       U y = 0;\n            while (c >= '0') {\n                y = y * 10 +\
+    \ (c & 15);\n                ensure_interactive();\n                c = buf[idx++];\n\
+    \            }\n            if constexpr (is_signed<T>::value) {\n           \
+    \     if (neg && y) {\n                    x = -static_cast<T>(y - 1);\n     \
+    \               --x;\n                    return;\n                }\n       \
+    \     }\n            x = static_cast<T>(y);\n            return;\n        }\n\
+    \        char c = skip();\n        bool neg = false;\n        if constexpr (is_signed<T>::value)\
+    \ {\n            if (c == '-') {\n                neg = true;\n              \
+    \  c = buf[idx++];\n            }\n        }\n        U y;\n        if (__builtin_expect(long_tokens,\
+    \ false)) {\n            y = read_long_digits<U>(c);\n        } else {\n     \
+    \       y = 0;\n            while (c >= '0') {\n                y = y * 10 + (c\
+    \ & 15);\n                c = buf[idx++];\n            }\n        }\n        if\
+    \ constexpr (is_signed<T>::value) {\n            if (neg && y) {\n           \
+    \     x = -static_cast<T>(y - 1);\n                --x;\n                return;\n\
+    \            }\n        }\n        x = static_cast<T>(y);\n    }\n\n    void read(double\
+    \ &x) {\n        read(number_token);\n        const char *first = number_token.data();\n\
+    \        const char *last = first + number_token.size();\n        auto result\
+    \ = from_chars(first, last, x);\n        if (result.ec != errc{} || result.ptr\
+    \ != last) __builtin_trap();\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && has_fastio_value<T>::value, int>::type = 0>\n    void read(T &x) {\n    \
+    \    long long v;\n        read(v);\n        x = T(v);\n    }\n\n    template<class\
+    \ T, typename enable_if<!is_integral<T>::value && !is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value && !has_fastio_value<T>::value\
+    \ && has_fastio_assign_string<T>::value, int>::type = 0>\n    void read(T &x)\
+    \ {\n        string s;\n        read(s);\n        bool ok = x.assign(s);\n   \
+    \     if (!ok) __builtin_trap();\n    }\n\n    template<class Head, class Next,\
+    \ class... Tail>\n    void read(Head &head, Next &next, Tail &...tail) {\n   \
+    \     read(head);\n        read(next, tail...);\n    }\n\n    template<class T,\
+    \ class U>\n    void read(pair<T, U> &p) {\n        read(p.first, p.second);\n\
+    \    }\n\n    template<class T, typename enable_if<is_fastio_range<T>::value &&\
+    \ !is_same<typename decay<T>::type, string>::value, int>::type = 0>\n    void\
+    \ read(T &a) {\n        for (auto &x : a) read(x);\n    }\n\n    void read(char\
+    \ &c) {\n        c = skip();\n    }\n\n    void read(string &s) {\n        s.clear();\n\
+    \        if (interactive) {\n            ensure_interactive();\n            while\
+    \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
+    \            }\n            while (true) {\n                int start = idx;\n\
+    \                while (idx < size && buf[idx] > ' ') ++idx;\n               \
+    \ s.append(buf + start, idx - start);\n                if (idx < size) break;\n\
+    \                load();\n                if (size == 0) break;\n            }\n\
+    \            if (idx < size) ++idx;\n            return;\n        }\n        ensure();\n\
+    \        while (buf[idx] && buf[idx] <= ' ') {\n            ++idx;\n         \
+    \   ensure();\n        }\n        while (true) {\n            int start = idx;\n\
+    \            while (idx < size && buf[idx] > ' ') ++idx;\n            s.append(buf\
+    \ + start, idx - start);\n            if (idx < size) break;\n            load();\n\
+    \            if (size == 0) break;\n        }\n        if (idx < size) ++idx;\n\
+    \    }\n};\n\nstruct Printer {\n    static constexpr int BUFSIZE = 1 << 17;\n\
+    \    static constexpr int OFFSET = 64;\n    static constexpr int DEFAULT_DOUBLE_PRECISION\
+    \ = 15;\n    char buf[BUFSIZE];\n    int idx;\n    bool interactive;\n    string\
+    \ number_buf;\n    inline static constexpr FastIoDigitTable table{};\n\n    Printer()\
+    \ : idx(0), interactive(isatty(fileno(stdout))) {}\n    ~Printer() { flush();\
+    \ }\n\n    inline void flush() {\n        if (idx) {\n            fwrite(buf,\
+    \ 1, idx, stdout);\n            idx = 0;\n        }\n    }\n\n    inline void\
+    \ pc(char c) {\n        if (idx > BUFSIZE - OFFSET) flush();\n        buf[idx++]\
+    \ = c;\n        if (interactive && c == '\\n') flush();\n    }\n\n    inline void\
+    \ print_range(const char *s, size_t n) {\n        if (interactive) {\n       \
+    \     for (size_t i = 0; i < n; ++i) pc(s[i]);\n            return;\n        }\n\
+    \        size_t pos = 0;\n        while (pos < n) {\n            if (idx == BUFSIZE)\
+    \ flush();\n            size_t chunk = min(n - pos, (size_t)(BUFSIZE - idx));\n\
+    \            memcpy(buf + idx, s + pos, chunk);\n            idx += (int)chunk;\n\
+    \            pos += chunk;\n        }\n    }\n\n    void print(const char *s)\
+    \ {\n        print_range(s, strlen(s));\n    }\n\n    void print(const string\
+    \ &s) {\n        print_range(s.data(), s.size());\n    }\n\n    void print(char\
+    \ c) {\n        pc(c);\n    }\n\n    void print(bool b) {\n        pc(char('0'\
+    \ + (b ? 1 : 0)));\n    }\n\n    inline char *write_top(char *out, unsigned x)\
+    \ {\n        if (x >= 1000) {\n            memcpy(out, table.num + (x << 2), 4);\n\
+    \            return out + 4;\n        }\n        if (x >= 100) {\n           \
+    \ memcpy(out, table.num + (x << 2) + 1, 3);\n            return out + 3;\n   \
+    \     }\n        if (x >= 10) {\n            unsigned q = (x * 205) >> 11;\n \
+    \           out[0] = char('0' + q);\n            out[1] = char('0' + (x - q *\
+    \ 10));\n            return out + 2;\n        }\n        *out = char('0' + x);\n\
+    \        return out + 1;\n    }\n\n    inline void write_four(char *out, unsigned\
+    \ x) {\n        memcpy(out, table.num + (x << 2), 4);\n    }\n\n    inline void\
+    \ write_eight(char *out, unsigned x) {\n        unsigned hi = x / 10000;\n   \
+    \     unsigned lo = x - hi * 10000;\n        write_four(out, hi);\n        write_four(out\
+    \ + 4, lo);\n    }\n\n    inline char *write_u32(char *out, unsigned x) {\n  \
+    \      if (x >= 100000000) {\n            unsigned hi = x / 100000000;\n     \
+    \       unsigned lo = x - hi * 100000000;\n            out = write_top(out, hi);\n\
+    \            write_eight(out, lo);\n            return out + 8;\n        }\n \
+    \       if (x >= 10000) {\n            unsigned hi = x / 10000;\n            unsigned\
+    \ lo = x - hi * 10000;\n            out = write_top(out, hi);\n            write_four(out,\
+    \ lo);\n            return out + 4;\n        }\n        return write_top(out,\
+    \ x);\n    }\n\n    __attribute__((noinline))\n    inline char *write_u64(char\
+    \ *out, unsigned long long x) {\n        if (x <= 0xffffffffULL) return write_u32(out,\
+    \ (unsigned)x);\n        unsigned long long hi = x / 100000000;\n        unsigned\
+    \ lo = (unsigned)(x - hi * 100000000);\n        if (hi <= 0xffffffffULL) {\n \
+    \           out = write_u32(out, (unsigned)hi);\n            write_eight(out,\
+    \ lo);\n            return out + 8;\n        }\n        unsigned top = (unsigned)(hi\
+    \ / 100000000);\n        unsigned mid = (unsigned)(hi - (unsigned long long)top\
+    \ * 100000000);\n        out = write_u32(out, top);\n        write_eight(out,\
+    \ mid);\n        write_eight(out + 8, lo);\n        return out + 16;\n    }\n\n\
+    \    template<class T, typename enable_if<is_integral<T>::value && !is_same<T,\
+    \ bool>::value, int>::type = 0>\n    void print(T x) {\n        if (idx > BUFSIZE\
+    \ - 100) flush();\n        using U = typename make_unsigned<T>::type;\n      \
+    \  U y;\n        if constexpr (is_signed<T>::value) {\n            if (x < 0)\
+    \ {\n                buf[idx++] = '-';\n                y = U(0) - static_cast<U>(x);\n\
+    \            } else {\n                y = static_cast<U>(x);\n            }\n\
+    \        } else {\n            y = x;\n        }\n        if (y == 0) {\n    \
+    \        buf[idx++] = '0';\n            return;\n        }\n        char *out;\n\
+    \        if constexpr (sizeof(U) <= 4) {\n            out = write_u32(buf + idx,\
+    \ (unsigned)y);\n        } else if constexpr (sizeof(U) <= 8) {\n            out\
+    \ = write_u64(buf + idx, (unsigned long long)y);\n        } else {\n         \
+    \   static constexpr int TMP_SIZE = sizeof(U) * 10 / 4;\n            char tmp[TMP_SIZE];\n\
+    \            int pos = TMP_SIZE;\n            while (y >= 10000) {\n         \
+    \       pos -= 4;\n                memcpy(tmp + pos, table.num + (y % 10000) *\
+    \ 4, 4);\n                y /= 10000;\n            }\n            out = write_top(buf\
+    \ + idx, (unsigned)y);\n            memcpy(out, tmp + pos, TMP_SIZE - pos);\n\
+    \            out += TMP_SIZE - pos;\n        }\n        idx = (int)(out - buf);\n\
+    \    }\n\n    void print_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION)\
+    \ {\n        if (precision < 0) __builtin_trap();\n        size_t required = (size_t)precision\
+    \ + 512;\n        if (number_buf.size() < required) number_buf.resize(required);\n\
+    \        while (true) {\n            char *first = number_buf.data();\n      \
+    \      char *last = first + number_buf.size();\n            auto result = to_chars(first,\
+    \ last, x, chars_format::fixed, precision);\n            if (result.ec == errc{})\
+    \ {\n                print_range(first, result.ptr - first);\n               \
+    \ return;\n            }\n            if (result.ec != errc::value_too_large)\
+    \ __builtin_trap();\n            size_t next_size = number_buf.size() * 2;\n \
+    \           if (next_size <= number_buf.size()) __builtin_trap();\n          \
+    \  number_buf.resize(next_size);\n        }\n    }\n\n    void print(double x)\
+    \ {\n        print_fixed(x);\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && has_fastio_value<T>::value, int>::type = 0>\n    void print(const T &x) {\n\
+    \        print(x.value());\n    }\n\n    template<class T, typename enable_if<!is_integral<T>::value\
+    \ && !is_fastio_range<T>::value && !is_same<typename decay<T>::type, string>::value\
+    \ && !has_fastio_value<T>::value && has_fastio_to_string<T>::value, int>::type\
+    \ = 0>\n    void print(const T &x) {\n        print(x.to_string());\n    }\n\n\
+    \    template<class T, typename enable_if<is_fastio_range<T>::value && !is_same<typename\
+    \ decay<T>::type, string>::value, int>::type = 0>\n    void print(const T &a)\
+    \ {\n        bool first = true;\n        for (auto &&x : a) {\n            if\
+    \ (!first) pc(' ');\n            first = false;\n            print(x);\n     \
+    \   }\n    }\n\n    template<class T>\n    void println(const T &x) {\n      \
+    \  print(x);\n        pc('\\n');\n    }\n\n    template<class Head, class... Tail>\n\
+    \    void println(const Head &head, const Tail &...tail) {\n        print(head);\n\
+    \        ((pc(' '), print(tail)), ...);\n        pc('\\n');\n    }\n\n    void\
+    \ println_fixed(double x, int precision = DEFAULT_DOUBLE_PRECISION) {\n      \
+    \  print_fixed(x, precision);\n        pc('\\n');\n    }\n\n    void println()\
+    \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
+    \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
+    \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"math/ntt.cpp\"\
+    \n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
+    \ constexpr uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class\
+    \ T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val =\
+    \ uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint\
+    \ &value() noexcept { return val; }\n    const uint &value() const noexcept {\
+    \ return val; }\n    modint& operator++() { val++; if (val == Mod) val = 0; return\
+    \ *this; }\n    modint& operator--() { if (val == 0) val = Mod; val--; return\
+    \ *this; }\n    modint operator++(int) { modint result = *this; ++*this; return\
+    \ result; }\n    modint operator--(int) { modint result = *this; --*this; return\
+    \ result; }\n    modint& operator+=(const modint& b) { val += b.val; if (val >=\
+    \ Mod) val -= Mod; return *this; }\n    modint& operator-=(const modint& b) {\
+    \ val -= b.val; if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const\
+    \ modint& b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n\
+    \    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }\n\
+    \    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(Mod - 2); }\n    friend modint operator+(const\
+    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
+    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"math/ntt.cpp\"\
+    \n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
+    #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
+    #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n#ifndef NTT_NAIVE_MUL_SHORT_DIM\n#define\
+    \ NTT_NAIVE_MUL_SHORT_DIM 16\n#endif\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\
+    using mint = modint<ntt_mod>;\n#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\n\
+    static_assert(mint::get_mod() == ntt_mod, \"NTT requires mint with MOD = 998244353\"\
+    );\n#endif\n\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057\
+    \ -> 3\n// 645922817  -> 3;\n\nclass NTT {\n    static constexpr int max_base\
+    \ = 23, maxN = 1 << max_base; // 998244353 supports up to 2^23-th roots\n    mint\
+    \ root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];\npublic:\n\
+    \    NTT() {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n        mint e = mint(ntt_root).pow((ntt_mod-1)\
+    \ >> cnt2), ie = e.inv();\n        for (int i = cnt2; i >= 0; i--){\n        \
+    \    root[i] = e;\n            iroot[i] = ie;\n            e *= e; ie *= ie;\n\
+    \        }\n        mint prod = 1, iprod = 1;\n        for (int i = 0; i <= cnt2\
+    \ - 2; i++) {\n            rate2[i] = root[i + 2] * prod;\n            irate2[i]\
+    \ = iroot[i + 2] * iprod;\n            prod *= iroot[i + 2];\n            iprod\
+    \ *= root[i + 2];\n        }\n        prod = 1, iprod = 1;\n        for (int i\
+    \ = 0; i <= cnt2 - 3; i++) {\n            rate3[i] = root[i + 3] * prod;\n   \
+    \         irate3[i] = iroot[i + 3] * iprod;\n            prod *= iroot[i + 3];\n\
+    \            iprod *= root[i + 3];\n        }\n    }\n\n    mint root_pow2(int\
+    \ k) const { return root[k]; }\n    mint iroot_pow2(int k) const { return iroot[k];\
+    \ }\n\n    void transform(vector<mint> &a, int sign){\n        const int n = a.size();\n\
+    \        assert(n > 0);\n        assert((n & (n - 1)) == 0);\n        assert(n\
+    \ <= maxN);\n        int h = 0;\n        while ((1U << h) < (unsigned int)(n))\
+    \ h++;\n        if(!sign){ // fft\n            int len = 0;\n            while\
+    \ (len < h) {\n                if (h - len == 1) {\n                    int p\
+    \ = 1 << (h - len - 1);\n                    mint rot = 1;\n                 \
+    \   for (int s = 0; s < (1 << len); s++) {\n                        int offset\
+    \ = s << (h - len);\n                        for (int i = 0; i < p; i++) {\n \
+    \                           auto l = a[i + offset];\n                        \
+    \    auto r = a[i + offset + p] * rot;\n                            a[i + offset]\
+    \ = l + r;\n                            a[i + offset + p] = l - r;\n         \
+    \               }\n                        if (s + 1 != (1 << len)) {\n      \
+    \                      rot *= rate2[__builtin_ctz(~(unsigned int)(s))];\n    \
+    \                    }\n                    }\n                    len++;\n  \
+    \              } else {\n                    int p = 1 << (h - len - 2);\n   \
+    \                 mint rot = 1, imag = root[2];\n                    for (int\
+    \ s = 0; s < (1 << len); s++) {\n                        mint rot2 = rot * rot;\n\
+    \                        mint rot3 = rot2 * rot;\n                        int\
+    \ offset = s << (h - len);\n                        for (int i = 0; i < p; i++)\
+    \ {\n                            ull mod2 = 1ULL * ntt_mod * ntt_mod;\n      \
+    \                      ull a0 = a[i + offset].val;\n                         \
+    \   ull a1 = 1ULL * a[i + offset + p].val * rot.val;\n                       \
+    \     ull a2 = 1ULL * a[i + offset + 2 * p].val * rot2.val;\n                \
+    \            ull a3 = 1ULL * a[i + offset + 3 * p].val * rot3.val;\n         \
+    \                   ull a1na3imag = 1ULL * mint(a1 + mod2 - a3).val * imag.val;\n\
+    \                            ull na2 = mod2 - a2;\n                          \
+    \  a[i + offset] = mint(a0 + a2 + a1 + a3);\n                            a[i +\
+    \ offset + p] = mint(a0 + a2 + (2 * mod2 - (a1 + a3)));\n                    \
+    \        a[i + offset + 2 * p] = mint(a0 + na2 + a1na3imag);\n               \
+    \             a[i + offset + 3 * p] = mint(a0 + na2 + (mod2 - a1na3imag));\n \
+    \                       }\n                        if (s + 1 != (1 << len)) {\n\
+    \                            rot *= rate3[__builtin_ctz(~(unsigned int)(s))];\n\
+    \                        }\n                    }\n                    len +=\
+    \ 2;\n                }\n            }\n        }else { // ifft\n            int\
+    \ len = h;\n            while (len) {\n                if (len == 1) {\n     \
+    \               int p = 1 << (h - len);\n                    mint irot = 1;\n\
+    \                    for (int s = 0; s < (1 << (len - 1)); s++) {\n          \
+    \              int offset = s << (h - len + 1);\n                        for (int\
+    \ i = 0; i < p; i++) {\n                            auto l = a[i + offset];\n\
+    \                            auto r = a[i + offset + p];\n                   \
+    \         a[i + offset] = l + r;\n                            a[i + offset + p]\
+    \ = mint(1ULL * (ntt_mod + l.val - r.val) * irot.val);\n                     \
+    \   }\n                        if (s + 1 != (1 << (len - 1))) {\n            \
+    \                irot *= irate2[__builtin_ctz(~(unsigned int)(s))];\n        \
+    \                }\n                    }\n                    len--;\n      \
+    \          } else {\n                    int p = 1 << (h - len);\n           \
+    \         mint irot = 1, iimag = iroot[2];\n                    for (int s = 0;\
+    \ s < (1 << (len - 2)); s++) {\n                        mint irot2 = irot * irot;\n\
+    \                        mint irot3 = irot2 * irot;\n                        int\
+    \ offset = s << (h - len + 2);\n                        for (int i = 0; i < p;\
+    \ i++) {\n                            ull a0 = a[i + offset].val;\n          \
+    \                  ull a1 = a[i + offset + p].val;\n                         \
+    \   ull a2 = a[i + offset + 2 * p].val;\n                            ull a3 =\
+    \ a[i + offset + 3 * p].val;\n                            ull a2na3iimag = 1ULL\
+    \ * mint(1ULL * (ntt_mod + a2 - a3) * iimag.val).val;\n                      \
+    \      a[i + offset] = mint(a0 + a1 + a2 + a3);\n                            a[i\
+    \ + offset + p] = mint(a0 + (ntt_mod - a1) + a2na3iimag) * irot;\n           \
+    \                 a[i + offset + 2 * p] = mint(a0 + a1 + (ntt_mod - a2) + (ntt_mod\
+    \ - a3)) * irot2;\n                            a[i + offset + 3 * p] = mint(a0\
+    \ + (ntt_mod - a1) + (ntt_mod - a2na3iimag)) * irot3;\n                      \
+    \  }\n                        if (s + 1 != (1 << (len - 2))) {\n             \
+    \               irot *= irate3[__builtin_ctz(~(unsigned int)(s))];\n         \
+    \               }\n                    }\n                    len -= 2;\n    \
+    \            }\n            }\n        }\n    }\n};\n\nNTT ntt;\n\nvoid ntt_ifft(vector<mint>&\
+    \ a) {\n    ntt.transform(a, 1);\n    static vector<mint> inv_pow2 = []() {\n\
+    \        vector<mint> t(31, mint(1));\n        mint inv2 = mint(2).inv();\n  \
+    \      for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i - 1] * inv2;\n     \
+    \   return t;\n    }();\n    mint iz = inv_pow2[__builtin_ctz((unsigned)a.size())];\n\
+    \    for (auto& x : a) x *= iz;\n}\n\nmint ntt_inv_size(int n) {\n    static vector<mint>\
+    \ inv_pow2 = []() {\n        vector<mint> t(31, mint(1));\n        mint inv2 =\
+    \ mint(2).inv();\n        for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i -\
+    \ 1] * inv2;\n        return t;\n    }();\n    return inv_pow2[__builtin_ctz((unsigned)n)];\n\
+    }\n\nbool mod_sqrt(mint a, mint &x) {\n    if (a == mint(0)) {\n        x = mint(0);\n\
+    \        return true;\n    }\n    if (a.pow((ntt_mod - 1) >> 1) != mint(1)) return\
+    \ false;\n    if (ntt_mod % 4 == 3) {\n        x = a.pow((ntt_mod + 1) >> 2);\n\
+    \        return true;\n    }\n    int s = 0;\n    int q = ntt_mod - 1;\n    while\
+    \ ((q & 1) == 0) {\n        ++s;\n        q >>= 1;\n    }\n    mint z = 2;\n \
+    \   while (z.pow((ntt_mod - 1) >> 1) == mint(1)) ++z;\n    mint c = z.pow(q);\n\
+    \    mint t = a.pow(q);\n    mint r = a.pow((q + 1) >> 1);\n    int m = s;\n \
+    \   while (t != mint(1)) {\n        int i = 1;\n        mint tt = t * t;\n   \
+    \     while (i < m && tt != mint(1)) {\n            tt *= tt;\n            ++i;\n\
+    \        }\n        mint b = c.pow(1LL << (m - i - 1));\n        r *= b;\n   \
+    \     c = b * b;\n        t *= c;\n        m = i;\n    }\n    x = r;\n    return\
+    \ true;\n}\n\nstruct poly {\n    vector<mint> v;\n    poly() = default;\n    explicit\
+    \ poly(int n) : v(n) {};\n    explicit poly(vector<mint> vv) : v(std::move(vv))\
+    \ {};\n    int size() const {return (int)v.size(); }\n    void shrink() {\n  \
+    \      while (!v.empty() && v.back() == mint(0)) v.pop_back();\n    }\n    poly\
+    \ cut(int len){\n        if (len < (int)v.size()) v.resize(static_cast<unsigned\
+    \ long>(len));\n        return *this;\n    }\n    inline mint& operator[] (int\
+    \ i) {return v[i]; }\n    inline const mint& operator[] (int i) const {return\
+    \ v[i]; }\n    poly& operator+=(const poly &a) {\n        this->v.resize(max(size(),\
+    \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];\n\
+    \        return *this;\n    }\n    poly &operator+=(const mint &r) {\n       \
+    \ if (v.empty()) v.resize(1);\n        v[0] += r;\n        return *this;\n   \
+    \ }\n    poly& operator-=(const poly &a) {\n        this->v.resize(max(size(),\
+    \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];\n\
+    \        return *this;\n    }\n    poly& operator*=(const poly &a) {\n       \
+    \ const int n = size();\n        const int m = a.size();\n        if (n == 0 ||\
+    \ m == 0) {\n            v.clear();\n            return *this;\n        }\n  \
+    \      if (n == 1 || m == 1) {\n            const mint scalar = n == 1 ? v[0]\
+    \ : a.v[0];\n            if (n == 1) v = a.v;\n            for (auto &x : v) x\
+    \ *= scalar;\n            return *this;\n        }\n        if (min(n, m) <= NTT_NAIVE_MUL_SHORT_DIM\
+    \ ||\n            (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM))\
+    \ {\n            vector<mint> res(n + m - 1);\n            for (int i = 0; i <\
+    \ n; ++i) {\n                for (int j = 0; j < m; ++j) {\n                 \
+    \   res[i + j] += v[i] * a.v[j];\n                }\n            }\n         \
+    \   v = std::move(res);\n            return *this;\n        }\n        int N =\
+    \ n + m - 1;\n        int sz = 1;\n        while(sz < N) sz <<= 1;\n        this->v.resize(sz);\n\
+    \        ntt.transform(this->v, 0);\n        if (this == &a) {\n            for\
+    \ (int i = 0; i < sz; ++i) this->v[i] *= this->v[i];\n        } else {\n     \
+    \       static thread_local vector<mint> b;\n            b.assign(a.v.begin(),\
+    \ a.v.end());\n            b.resize(sz);\n            ntt.transform(b, 0);\n \
+    \           for(int i = 0; i < sz; ++i) this->v[i] *= b[i];\n        }\n     \
+    \   ntt.transform(this->v, 1);\n        this->v.resize(N);\n        mint iz =\
+    \ ntt_inv_size(sz);\n        for (int i = 0; i < N; i++) this->v[i] *= iz;\n \
+    \       return *this;\n    }\n    poly& operator/=(const poly &a){ return (*this\
+    \ *= a.inv()); }\n    poly operator+(const poly &a) const {\n        poly ret(*this);\n\
+    \        ret += a;\n        return ret;\n    }\n    poly operator+(const mint\
+    \ &v) const {\n        poly ret(*this);\n        ret += v;\n        return ret;\n\
+    \    }\n    poly operator-(const poly &a) const {\n        poly ret(*this);\n\
+    \        ret -= a;\n        return ret;\n    }\n    poly operator*(const poly\
+    \ &a) const {\n        poly ret(*this);\n        ret *= (this == &a ? ret : a);\n\
+    \        return ret;\n    }\n    poly rev(int deg = -1) const {\n        poly\
+    \ ret(*this);\n        if (deg != -1) ret.v.resize(deg);\n        reverse(ret.v.begin(),\
+    \ ret.v.end());\n        return ret;\n    }\n\n    pair<poly, poly> divmod(const\
+    \ poly &a) const {\n        poly f(*this), g(a);\n        f.shrink();\n      \
+    \  g.shrink();\n        assert(!g.v.empty());\n        if (f.size() < g.size())\
+    \ return {poly(), f};\n        int need = f.size() - g.size() + 1;\n        poly\
+    \ q = (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();\n        poly r\
+    \ = f - g * q;\n        r = r.pre(g.size() - 1);\n        r.shrink();\n      \
+    \  return {q, r};\n    }\n\n    poly mod(const poly &a) const {\n        return\
+    \ divmod(a).second;\n    }\n\n    mint eval(mint x) const {\n        mint y =\
+    \ 0;\n        for (int i = size() - 1; i >= 0; --i) y = y * x + v[i];\n      \
+    \  return y;\n    }\n\n    poly pre(int sz) const {\n        poly ret(sz);\n \
+    \       for (int i = 0; i < min<int>(sz, v.size()); ++i) {\n            ret[i]\
+    \ = v[i];\n        }\n        return ret;\n    }\n\n    poly diff() const {\n\
+    \        const int n = (int)this->size();\n        poly ret(max(0, n - 1));\n\
+    \        mint one(1), coeff(1);\n        for (int i = 1; i < n; i++) {\n     \
+    \       ret[i - 1] = v[i] * coeff;\n            coeff += one;\n        }\n   \
+    \     return ret;\n    }\n\n    poly integral() const {\n        const int n =\
+    \ (int)this->size();\n        poly ret(n + 1);\n        ret[0] = mint(0);\n  \
+    \      static vector<mint> invs = {mint(0), mint(1)};\n        if ((int)invs.size()\
+    \ <= n) {\n            int old = (int)invs.size();\n            invs.resize(n\
+    \ + 1);\n            for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod - ntt_mod\
+    \ / i) * invs[ntt_mod % i];\n        }\n        for (int i = 0; i < n; i++) ret[i\
+    \ + 1] = v[i] * invs[i + 1];\n        return ret;\n    }\n\n    poly inv(int deg\
+    \ = -1) const {\n        assert(!v.empty() && v[0] != mint(0));\n        if (deg\
+    \ == -1) deg = size();\n        if (deg == 0) return poly();\n        poly res(deg);\n\
+    \        res[0] = v[0].inv();\n        for (int d = 1; d < deg; d <<= 1) {\n \
+    \           vector<mint> f(2 * d), g(2 * d);\n            for (int i = 0; i <\
+    \ min(size(), 2 * d); ++i) f[i] = v[i];\n            for (int i = 0; i < d; ++i)\
+    \ g[i] = res[i];\n            ntt.transform(f, 0);\n            ntt.transform(g,\
+    \ 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *= g[i];\n           \
+    \ ntt_ifft(f);\n            fill(f.begin(), f.begin() + d, mint(0));\n       \
+    \     ntt.transform(f, 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *=\
+    \ g[i];\n            ntt_ifft(f);\n            for (int i = d; i < min(2 * d,\
+    \ deg); ++i) res[i] = -f[i];\n        }\n        return res.pre(deg);\n    }\n\
+    \n    poly log(int deg = -1) const {\n        assert(!v.empty() && v[0] == mint(1));\n\
+    \        if (deg == -1) deg = (int)this->size();\n        if (deg == 0) return\
+    \ poly();\n        return (pre(min(size(), deg)).diff() * inv(deg)).pre(deg -\
+    \ 1).integral();\n    }\n\n    poly exp(int deg = -1) const {\n        assert(v.size()\
+    \ == 0 || v[0] == mint(0));\n        if (deg == -1) deg = v.size();\n        static\
+    \ vector<mint> invs = {mint(0), mint(1)};\n        auto ensure_invs = [&](int\
+    \ n) {\n            if ((int)invs.size() <= n) {\n                int old = (int)invs.size();\n\
+    \                invs.resize(n + 1);\n                for (int i = old; i <= n;\
+    \ ++i) invs[i] = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];\n          \
+    \  }\n        };\n        auto inplace_integral = [&](poly& f) {\n           \
+    \ int n = f.size();\n            ensure_invs(n);\n            f.v.insert(f.v.begin(),\
+    \ mint(0));\n            for (int i = 1; i <= n; ++i) f[i] *= invs[i];\n     \
+    \   };\n        poly b(vector<mint>{mint(1), (1 < size() ? v[1] : mint(0))});\n\
+    \        poly c(vector<mint>{mint(1)}), z1, z2(vector<mint>{mint(1), mint(1)});\n\
+    \        for (int m = 2; m < deg; m <<= 1) {\n            poly y = b;\n      \
+    \      y.v.resize(2 * m);\n            ntt.transform(y.v, 0);\n            z1\
+    \ = z2;\n            poly z(m);\n            for (int i = 0; i < m; ++i) z[i]\
+    \ = y[i] * z1[i];\n            ntt_ifft(z.v);\n            fill(z.v.begin(), z.v.begin()\
+    \ + m / 2, mint(0));\n            ntt.transform(z.v, 0);\n            for (int\
+    \ i = 0; i < m; ++i) z[i] *= -z1[i];\n            ntt_ifft(z.v);\n           \
+    \ c.v.insert(c.v.end(), z.v.begin() + m / 2, z.v.end());\n            z2 = c;\n\
+    \            z2.v.resize(2 * m);\n            ntt.transform(z2.v, 0);\n\n    \
+    \        poly x(m);\n            for (int i = 0; i + 1 < m && i + 1 < size();\
+    \ ++i) x[i] = v[i + 1] * mint(i + 1);\n            x[m - 1] = mint(0);\n     \
+    \       ntt.transform(x.v, 0);\n            for (int i = 0; i < m; ++i) x[i] *=\
+    \ y[i];\n            ntt_ifft(x.v);\n            for (int i = 0; i + 1 < m; ++i)\
+    \ x[i] -= b[i + 1] * mint(i + 1);\n            x.v.resize(2 * m);\n          \
+    \  for (int i = 0; i + 1 < m; ++i) {\n                x[m + i] = x[i];\n     \
+    \           x[i] = mint(0);\n            }\n            ntt.transform(x.v, 0);\n\
+    \            for (int i = 0; i < 2 * m; ++i) x[i] *= z2[i];\n            ntt_ifft(x.v);\n\
+    \            x.v.pop_back();\n            inplace_integral(x);\n            for\
+    \ (int i = m; i < min(size(), 2 * m); ++i) x[i] += v[i];\n            fill(x.v.begin(),\
+    \ x.v.begin() + m, mint(0));\n            ntt.transform(x.v, 0);\n           \
+    \ for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n            ntt_ifft(x.v);\n\
+    \            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n        }\n \
+    \       return b.pre(deg);\n    }\n\n    poly pow(long long k, int deg = -1) const\
+    \ {\n        if (deg == -1) deg = size();\n        poly ret(max(0, deg));\n  \
+    \      if (deg <= 0) return ret;\n        if (k == 0) {\n            ret[0] =\
+    \ 1;\n            return ret;\n        }\n        if (0 < k && k <= 64) {\n  \
+    \          poly base = pre(deg);\n            poly ans(1);\n            ans[0]\
+    \ = 1;\n            long long e = k;\n            while (e > 0) {\n          \
+    \      if (e & 1) {\n                    ans *= base;\n                    ans\
+    \ = ans.pre(deg);\n                }\n                e >>= 1;\n             \
+    \   if (e == 0) break;\n                base *= base;\n                base =\
+    \ base.pre(deg);\n            }\n            ans = ans.pre(deg);\n           \
+    \ if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n        }\n\
+    \        int lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n\
+    \        if (lead == size()) return ret;\n        long long shift_ll = 0;\n  \
+    \      if (lead > 0) {\n            if (k > (deg - 1) / lead) return ret;\n  \
+    \          shift_ll = 1LL * lead * k;\n        }\n        poly f(size() - lead);\n\
+    \        mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
+    \ ++i) f[i - lead] = v[i] * inv_lead;\n        int shift = static_cast<int>(shift_ll);\n\
+    \        int rem_deg = deg - shift;\n        poly g = f.log(rem_deg);\n      \
+    \  mint k_mint = mint(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ k_mint;\n        g = g.exp(rem_deg);\n        mint coeff = v[lead].pow(k);\n\
+    \        for (int i = 0; i < g.size(); ++i) g[i] *= coeff;\n        for (int i\
+    \ = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n        return ret;\n    }\n\
+    \n    poly sqrt(int deg = -1) const {\n        if (deg == -1) deg = size();\n\
+    \        poly ret(max(0, deg));\n        if (deg <= 0) return ret;\n        int\
+    \ lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n   \
+    \     if (lead == size()) return ret;\n        if (lead & 1) return poly();\n\
+    \        mint sq0;\n        if (!mod_sqrt(v[lead], sq0)) return poly();\n    \
+    \    int shift = lead >> 1;\n        if (shift >= deg) return ret;\n        int\
+    \ rem_deg = deg - shift;\n        poly f(size() - lead);\n        mint inv_lead\
+    \ = v[lead].inv();\n        for (int i = lead; i < size(); ++i) f[i - lead] =\
+    \ v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n        mint inv2 =\
+    \ mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<= 1) {\n          \
+    \  poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k << 1);\n\
+    \            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n            s\
+    \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
+    \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
+    \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
+    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n#line 1 \"math/fastkitamasa.cpp\"\
+    \nclass Fast_Kitamasa {\n    poly c, ic;\n    int k;\n\npublic:\n    explicit\
+    \ Fast_Kitamasa(const vector<mint> &coefficients)\n        : c(coefficients),\
+    \ k((int)coefficients.size() - 1) {\n        assert(k >= 1 && c[k] != mint(0));\n\
+    \        calc_ic();\n    }\n\n    explicit Fast_Kitamasa(const vector<int> &coefficients,\
+    \ int mod = mint::get_mod())\n        : Fast_Kitamasa(vector<mint>(coefficients.begin(),\
+    \ coefficients.end())) {\n        assert(mod == (int)mint::get_mod());\n     \
+    \   (void)mod;\n    }\n\n    void calc_ic() {\n        if (k == 1) {\n       \
+    \     ic = poly();\n            return;\n        }\n        poly reversed(vector<mint>(c.v.rbegin(),\
+    \ c.v.rend()));\n        reversed.v.resize(k - 1);\n        ic = reversed.inv();\n\
+    \    }\n\n    void multiply_mod(poly &a, const poly &x) const {\n        assert(a.size()\
+    \ <= k && x.size() <= k);\n        poly product = a * x;\n        product.v.resize(2\
+    \ * k - 1);\n        if (k == 1) {\n            a = product;\n            return;\n\
+    \        }\n        poly high(vector<mint>(product.v.rbegin(), product.v.rbegin()\
+    \ + k - 1));\n        poly quotient = high * ic;\n        quotient.v.resize(k\
+    \ - 1);\n        reverse(quotient.v.begin(), quotient.v.end());\n        poly\
+    \ removed = c * quotient;\n        a = poly(k);\n        for (int i = 0; i < k;\
+    \ ++i) a[i] = product[i] - removed[i];\n    }\n\n    poly kitamasa(long long n)\
+    \ const {\n        assert(n >= 0);\n        poly result(k), x(k);\n        result[0]\
+    \ = 1;\n        if (k == 1) x[0] = -c[0] / c[1];\n        else x[1] = 1;\n   \
+    \     while (n != 0) {\n            if (n & 1) multiply_mod(result, x);\n    \
+    \        n >>= 1;\n            if (n != 0) multiply_mod(x, x);\n        }\n  \
+    \      return result;\n    }\n};\n\n/**\n * @brief \u591A\u9805\u5F0F\u5270\u4F59\
+    \u306E\u51AA\u8A08\u7B97(\u9AD8\u901FKitamasa\u6CD5)\n */\n#line 1 \"test/fastkitamasa_self_check.cpp\"\
+    \nnamespace fastkitamasa_test {\n\nvector<mint> multiply(const vector<mint> &a,\
+    \ const vector<mint> &b, const vector<mint> &f) {\n    int n = (int)f.size() -\
+    \ 1;\n    vector<mint> result(2 * n - 1);\n    for (int i = 0; i < (int)a.size();\
+    \ ++i)\n        for (int j = 0; j < (int)b.size(); ++j) result[i + j] += a[i]\
+    \ * b[j];\n    mint inverse = f.back().inv();\n    for (int i = 2 * n - 2; i >=\
+    \ n; --i) {\n        mint q = result[i] * inverse;\n        for (int j = 0; j\
+    \ <= n; ++j) result[i - n + j] -= q * f[j];\n    }\n    result.resize(n);\n  \
+    \  return result;\n}\n\nvector<mint> power(const vector<mint> &f, long long exponent)\
+    \ {\n    int n = (int)f.size() - 1;\n    vector<mint> result(n), x(n);\n    result[0]\
+    \ = 1;\n    if (n == 1) x[0] = -f[0] / f[1];\n    else x[1] = 1;\n    while (exponent)\
+    \ {\n        if (exponent & 1) result = multiply(result, x, f);\n        x = multiply(x,\
+    \ x, f);\n        exponent >>= 1;\n    }\n    return result;\n}\n\nvoid self_check()\
+    \ {\n    vector<int> fibonacci{-1, -1, 1};\n    Fast_Kitamasa legacy(fibonacci,\
+    \ mint::get_mod());\n    assert((legacy.kitamasa(10).v == vector<mint>{34, 55}));\n\
+    \    assert((fibonacci == vector<int>{-1, -1, 1}));\n    mt19937 rng(60);\n  \
+    \  for (int n : {1, 2, 3, 4, 5, 7, 8, 9, 15, 16, 17, 63, 64, 65}) {\n        for\
+    \ (int tc = 0; tc < 8; ++tc) {\n            vector<mint> f(n + 1);\n         \
+    \   for (auto &x : f) x = int(rng() % 21) - 10;\n            f[n] = 1 + rng()\
+    \ % 7;\n            if (tc == 0) fill(f.begin(), f.begin() + n, mint(0));\n  \
+    \          if (tc == 1) f[0] = 0;\n            const Fast_Kitamasa solver(f);\n\
+    \            auto original = f;\n            for (long long exponent : {0LL, 1LL,\
+    \ (long long)n - 1, (long long)n, (long long)n + 1, (long long)(rng() % 1000),\
+    \ LLONG_MAX}) {\n                auto actual = solver.kitamasa(exponent);\n  \
+    \              assert(actual.size() == n && actual.v == power(f, exponent));\n\
+    \                assert(f == original);\n            }\n            vector<mint>\
+    \ a(n), b(n);\n            for (auto &x : a) x = rng();\n            for (auto\
+    \ &x : b) x = rng();\n            poly value(a);\n            solver.multiply_mod(value,\
+    \ poly(b));\n            assert(value.v == multiply(a, b, f));\n            value\
+    \ = poly(a);\n            solver.multiply_mod(value, value);\n            assert(value.v\
+    \ == multiply(a, a, f));\n            value = poly();\n            solver.multiply_mod(value,\
+    \ poly(b));\n            assert(value.v == vector<mint>(n));\n        }\n    }\n\
+    \    for (int n = 1; n <= 12; ++n) {\n        vector<mint> f(n + 1);\n       \
+    \ f[n] = 1;\n        for (int i = 0; i < n; ++i) f[i] = int(rng() % 11) - 5;\n\
+    \        Fast_Kitamasa solver(f);\n        vector<mint> expected(n);\n       \
+    \ expected[0] = 1;\n        for (int exponent = 0; exponent < 100; ++exponent)\
+    \ {\n            assert(solver.kitamasa(exponent).v == expected);\n          \
+    \  mint leading = expected.back();\n            for (int i = n - 1; i > 0; --i)\
+    \ expected[i] = expected[i - 1];\n            expected[0] = 0;\n            for\
+    \ (int i = 0; i < n; ++i) expected[i] -= leading * f[i];\n        }\n    }\n}\n\
+    \n}\n#line 13 \"test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp\"\
+    \n\nint main() {\n    fastkitamasa_test::self_check();\n    Scanner in;\n    Printer\
+    \ out;\n    int d;\n    long long n;\n    in.read(d, n);\n    vector<mint> a(d),\
+    \ f(d + 1);\n    for (auto &x : a) {\n        int value;\n        in.read(value);\n\
+    \        x = value;\n    }\n    for (int i = 0; i < d; ++i) {\n        int value;\n\
+    \        in.read(value);\n        f[d - 1 - i] = -mint(value);\n    }\n    f[d]\
+    \ = 1;\n    auto coefficients = Fast_Kitamasa(f).kitamasa(n);\n    mint answer\
+    \ = 0;\n    for (int i = 0; i < d; ++i) answer += coefficients[i] * a[i];\n  \
+    \  out.println(answer.val);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/kth_term_of_linearly_recurrent_sequence\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\nusing\
+    \ uint = unsigned;\nusing ull = unsigned long long;\n\n#include \"../util/fastio.cpp\"\
+    \n#include \"../math/ntt.cpp\"\n#include \"../math/fastkitamasa.cpp\"\n#include\
+    \ \"fastkitamasa_self_check.cpp\"\n\nint main() {\n    fastkitamasa_test::self_check();\n\
+    \    Scanner in;\n    Printer out;\n    int d;\n    long long n;\n    in.read(d,\
+    \ n);\n    vector<mint> a(d), f(d + 1);\n    for (auto &x : a) {\n        int\
+    \ value;\n        in.read(value);\n        x = value;\n    }\n    for (int i =\
+    \ 0; i < d; ++i) {\n        int value;\n        in.read(value);\n        f[d -\
+    \ 1 - i] = -mint(value);\n    }\n    f[d] = 1;\n    auto coefficients = Fast_Kitamasa(f).kitamasa(n);\n\
+    \    mint answer = 0;\n    for (int i = 0; i < d; ++i) answer += coefficients[i]\
+    \ * a[i];\n    out.println(answer.val);\n}\n"
+  dependsOn:
+  - util/fastio.cpp
+  - math/ntt.cpp
+  - util/modint_base.cpp
+  - math/fastkitamasa.cpp
+  - test/fastkitamasa_self_check.cpp
+  isVerificationFile: true
+  path: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+  requiredBy: []
+  timestamp: '2026-10-10 16:31:42+09:00'
+  verificationStatus: TEST_ACCEPTED
+  verifiedWith: []
+documentation_of: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+layout: document
+redirect_from:
+- /verify/test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+- /verify/test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp.html
+title: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+---

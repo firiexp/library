@@ -74,6 +74,9 @@ data:
     path: test/aoj_grl_1_b_negative_loop.test.cpp
     title: test/aoj_grl_1_b_negative_loop.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_grl_3_a.test.cpp
+    title: test/aoj_grl_3_a.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_5_a_diameter.test.cpp
     title: test/aoj_grl_5_a_diameter.test.cpp
   - icon: ':heavy_check_mark:'
@@ -140,6 +143,9 @@ data:
     path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+    title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
     title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   - icon: ':heavy_check_mark:'
@@ -190,6 +196,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_lis_indices.test.cpp
     title: test/yosupo_aplusb_lis_indices.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_lowlink.test.cpp
+    title: test/yosupo_aplusb_lowlink.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
     title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
@@ -304,6 +313,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
     title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
+    title: test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
     title: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
@@ -427,6 +439,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_root_integer.test.cpp
     title: test/yosupo_kth_root_integer.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+    title: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
@@ -568,6 +583,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
+    title: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_rectangle_add_point_get.test.cpp
     title: test/yosupo_rectangle_add_point_get.test.cpp
@@ -1220,14 +1238,17 @@ data:
   - test/yosupo_min_cost_b_flow.test.cpp
   - test/yosupo_aplusb_matrix_determinant_mod.test.cpp
   - test/yosupo_aplusb_dualgraph.test.cpp
+  - test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
   - test/yosupo_longest_increasing_subsequence.test.cpp
   - test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp
   - test/yosupo_aplusb_top_k_sum.test.cpp
   - test/yosupo_enumerate_primes_get_prime.test.cpp
   - test/yosupo_line_add_get_min.test.cpp
+  - test/aoj_grl_3_a.test.cpp
   - test/yosupo_aplusb_dynamic_bitset.test.cpp
   - test/yosupo_aplusb_comb_table.test.cpp
   - test/yosupo_aplusb_is_palindrome.test.cpp
+  - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
   - test/yosupo_enumerate_palindromes_manacher.test.cpp
   - test/yosupo_aplusb_dynamic_segtree_search.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
@@ -1249,6 +1270,7 @@ data:
   - test/yosupo_range_kth_smallest.test.cpp
   - test/yosupo_eulerian_trail_directed.test.cpp
   - test/yosupo_aplusb_min_cost_b_flow.test.cpp
+  - test/yosupo_aplusb_lowlink.test.cpp
   - test/aoj0377.test.cpp
   - test/yosupo_many_factorials.test.cpp
   - test/yosupo_subset_convolution.test.cpp
@@ -1271,9 +1293,11 @@ data:
   - test/yosupo_min_of_mod_of_linear.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
+  - test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - test/aoj_grl_5_a_rerooting.test.cpp
   - test/aoj_alds1_1_c_get_prime.test.cpp
   - test/yosupo_aplusb_li_chao_tree.test.cpp
+  - test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
   - test/yosupo_static_range_sum_with_upper_bound.test.cpp
   - test/yosupo_binomial_coefficient.test.cpp
   - test/yosupo_inverse_matrix.test.cpp

@@ -41,6 +41,9 @@ data:
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+    title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -203,6 +206,7 @@ data:
   - test/yosupo_point_set_range_composite.test.cpp
   - test/yosupo_subset_convolution.test.cpp
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+  - test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - test/yosupo_inverse_matrix.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp

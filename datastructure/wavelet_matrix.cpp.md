@@ -5,11 +5,17 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
+    title: test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
     title: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_kth_smallest.test.cpp
     title: test/yosupo_range_kth_smallest.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
+    title: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_frequency.test.cpp
     title: test/yosupo_static_range_frequency.test.cpp
@@ -21,8 +27,17 @@ data:
     links: []
   bundledCode: "#line 1 \"datastructure/wavelet_matrix.cpp\"\n#if defined(__GNUC__)\
     \ && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\ntemplate <class T>\n\
-    struct WaveletMatrix {\n    int n, lg, blocks;\n    vector<int> mid;\n    vector<unsigned\
-    \ long long> bit;\n    vector<int> pref;\n    vector<T> vals;\n\n    WaveletMatrix()\
+    struct WaveletMatrix {\n    class Cursor {\n        friend struct WaveletMatrix;\n\
+    \n        const WaveletMatrix *owner_;\n        int depth_, l_, r_, value_index_;\n\
+    \n        Cursor(const WaveletMatrix *owner, int depth, int l, int r, int value_index)\n\
+    \            : owner_(owner), depth_(depth), l_(l), r_(r), value_index_(value_index)\
+    \ {}\n\n    public:\n        int count() const { return r_ - l_; }\n        bool\
+    \ empty() const { return l_ == r_; }\n        bool is_leaf() const { return depth_\
+    \ == owner_->lg; }\n\n        const T &value() const {\n            assert(is_leaf()\
+    \ && !empty());\n            return owner_->vals[value_index_];\n        }\n \
+    \   };\n\n    struct Children {\n        Cursor low;\n        Cursor high;\n \
+    \   };\n\n    int n, lg, blocks;\n    vector<int> mid;\n    vector<unsigned long\
+    \ long> bit;\n    vector<int> pref;\n    vector<T> vals;\n\n    WaveletMatrix()\
     \ : n(0), lg(0), blocks(0) {}\n    explicit WaveletMatrix(const vector<T> &v)\
     \ { build(v); }\n\n    static inline void rank1_pair(const unsigned long long\
     \ *row, const int *row_pref, int l, int r, int &l1, int &r1) {\n        int l_block\
@@ -291,9 +306,18 @@ data:
     \    template <bool Prev>\n    __attribute__((target(\"popcnt,bmi2\")))\n    bool\
     \ neighbor_index_bmi2(int l, int r, int xi, int &res) const {\n        return\
     \ neighbor_index_impl<Prev, true>(l, r, xi, res);\n    }\n#endif\n\npublic:\n\
-    \    int count_less_index(int l, int r, int xi) const {\n        if (xi <= 0 ||\
-    \ l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size()) return r -\
-    \ l;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
+    \    Cursor range_cursor(int l, int r) const {\n        assert(0 <= l && l <=\
+    \ r && r <= n);\n        return Cursor(this, 0, l, r, 0);\n    }\n\n    Children\
+    \ split(const Cursor &cur) const {\n        assert(cur.owner_ == this && !cur.is_leaf());\n\
+    \        const auto *row = bit.data() + cur.depth_ * blocks;\n        const int\
+    \ *row_pref = pref.data() + cur.depth_ * (blocks + 1);\n        int l1, r1;\n\
+    \        rank1_pair(row, row_pref, cur.l_, cur.r_, l1, r1);\n        int depth\
+    \ = cur.depth_ + 1, prefix = cur.value_index_ << 1;\n        return {\n      \
+    \      Cursor(this, depth, cur.l_ - l1, cur.r_ - r1, prefix),\n            Cursor(this,\
+    \ depth, mid[cur.depth_] + l1, mid[cur.depth_] + r1, prefix | 1)\n        };\n\
+    \    }\n\n    int count_less_index(int l, int r, int xi) const {\n        if (xi\
+    \ <= 0 || l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size()) return\
+    \ r - l;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
     popcnt\") && __builtin_cpu_supports(\"bmi2\")) {\n            return count_less_index_bmi2(l,\
     \ r, xi);\n        }\n#endif\n        return count_less_index_fallback(l, r, xi);\n\
     \    }\n\n    int count_less(int l, int r, const T &x) const {\n        int xi\
@@ -381,14 +405,23 @@ data:
     \ r, xi, idx)) return false;\n        res = vals[idx];\n        return true;\n\
     \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n"
   code: "#if defined(__GNUC__) && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\
-    \ntemplate <class T>\nstruct WaveletMatrix {\n    int n, lg, blocks;\n    vector<int>\
-    \ mid;\n    vector<unsigned long long> bit;\n    vector<int> pref;\n    vector<T>\
-    \ vals;\n\n    WaveletMatrix() : n(0), lg(0), blocks(0) {}\n    explicit WaveletMatrix(const\
-    \ vector<T> &v) { build(v); }\n\n    static inline void rank1_pair(const unsigned\
-    \ long long *row, const int *row_pref, int l, int r, int &l1, int &r1) {\n   \
-    \     int l_block = l >> 6;\n        l1 = row_pref[l_block];\n        int l_rem\
-    \ = l & 63;\n        if (l_rem) l1 += __builtin_popcountll(row[l_block] & ((1ULL\
-    \ << l_rem) - 1));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block];\n\
+    \ntemplate <class T>\nstruct WaveletMatrix {\n    class Cursor {\n        friend\
+    \ struct WaveletMatrix;\n\n        const WaveletMatrix *owner_;\n        int depth_,\
+    \ l_, r_, value_index_;\n\n        Cursor(const WaveletMatrix *owner, int depth,\
+    \ int l, int r, int value_index)\n            : owner_(owner), depth_(depth),\
+    \ l_(l), r_(r), value_index_(value_index) {}\n\n    public:\n        int count()\
+    \ const { return r_ - l_; }\n        bool empty() const { return l_ == r_; }\n\
+    \        bool is_leaf() const { return depth_ == owner_->lg; }\n\n        const\
+    \ T &value() const {\n            assert(is_leaf() && !empty());\n           \
+    \ return owner_->vals[value_index_];\n        }\n    };\n\n    struct Children\
+    \ {\n        Cursor low;\n        Cursor high;\n    };\n\n    int n, lg, blocks;\n\
+    \    vector<int> mid;\n    vector<unsigned long long> bit;\n    vector<int> pref;\n\
+    \    vector<T> vals;\n\n    WaveletMatrix() : n(0), lg(0), blocks(0) {}\n    explicit\
+    \ WaveletMatrix(const vector<T> &v) { build(v); }\n\n    static inline void rank1_pair(const\
+    \ unsigned long long *row, const int *row_pref, int l, int r, int &l1, int &r1)\
+    \ {\n        int l_block = l >> 6;\n        l1 = row_pref[l_block];\n        int\
+    \ l_rem = l & 63;\n        if (l_rem) l1 += __builtin_popcountll(row[l_block]\
+    \ & ((1ULL << l_rem) - 1));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block];\n\
     \        int r_rem = r & 63;\n        if (r_rem) r1 += __builtin_popcountll(row[r_block]\
     \ & ((1ULL << r_rem) - 1));\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
     \    __attribute__((target(\"popcnt,bmi2\")))\n    static inline void rank1_pair_bmi2(const\
@@ -651,9 +684,18 @@ data:
     \    template <bool Prev>\n    __attribute__((target(\"popcnt,bmi2\")))\n    bool\
     \ neighbor_index_bmi2(int l, int r, int xi, int &res) const {\n        return\
     \ neighbor_index_impl<Prev, true>(l, r, xi, res);\n    }\n#endif\n\npublic:\n\
-    \    int count_less_index(int l, int r, int xi) const {\n        if (xi <= 0 ||\
-    \ l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size()) return r -\
-    \ l;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
+    \    Cursor range_cursor(int l, int r) const {\n        assert(0 <= l && l <=\
+    \ r && r <= n);\n        return Cursor(this, 0, l, r, 0);\n    }\n\n    Children\
+    \ split(const Cursor &cur) const {\n        assert(cur.owner_ == this && !cur.is_leaf());\n\
+    \        const auto *row = bit.data() + cur.depth_ * blocks;\n        const int\
+    \ *row_pref = pref.data() + cur.depth_ * (blocks + 1);\n        int l1, r1;\n\
+    \        rank1_pair(row, row_pref, cur.l_, cur.r_, l1, r1);\n        int depth\
+    \ = cur.depth_ + 1, prefix = cur.value_index_ << 1;\n        return {\n      \
+    \      Cursor(this, depth, cur.l_ - l1, cur.r_ - r1, prefix),\n            Cursor(this,\
+    \ depth, mid[cur.depth_] + l1, mid[cur.depth_] + r1, prefix | 1)\n        };\n\
+    \    }\n\n    int count_less_index(int l, int r, int xi) const {\n        if (xi\
+    \ <= 0 || l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size()) return\
+    \ r - l;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
     popcnt\") && __builtin_cpu_supports(\"bmi2\")) {\n            return count_less_index_bmi2(l,\
     \ r, xi);\n        }\n#endif\n        return count_less_index_fallback(l, r, xi);\n\
     \    }\n\n    int count_less(int l, int r, const T &x) const {\n        int xi\
@@ -744,12 +786,14 @@ data:
   isVerificationFile: false
   path: datastructure/wavelet_matrix.cpp
   requiredBy: []
-  timestamp: '2026-07-26 12:56:57+09:00'
+  timestamp: '2026-10-10 16:29:27+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   - test/yosupo_static_range_frequency.test.cpp
+  - test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
   - test/yosupo_range_kth_smallest.test.cpp
+  - test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
 date: 2026-07-26
 documentation_of: datastructure/wavelet_matrix.cpp
 layout: document
@@ -764,6 +808,7 @@ title: Wavelet Matrix
 - 構築: $O(N \log \sigma)$
 - `count_less` / `range_freq` / `freq`: $O(\log \sigma)$
 - `kth_smallest` / `kth_largest`: $O(\log \sigma)$
+- cursor の生成・分岐・個数取得: $O(1)$。$k$ 区間を同時に辿る kth は $O(k \log(\sigma + 1))$
 
 $N$ は配列長、$\sigma$ は異なる値の個数。
 
@@ -784,6 +829,33 @@ $N$ は配列長、$\sigma$ は異なる値の個数。
 - `kth_largest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に大きい値を返す
 - `prev_value(l, r, upper, res)` : 区間 $[l, r)$ にある `upper` 未満の最大値を `res` に返す。存在しない場合 `false`
 - `next_value(l, r, lower, res)` : 区間 $[l, r)$ にある `lower` 以上の最小値を `res` に返す。存在しない場合 `false`
+- `range_cursor(l, r)` : 区間 $[l, r)$ の読み取り専用 cursor を返す。空区間も指定できる
+- `split(cur)` : 非葉 cursor を値の小さい側 `low` と大きい側 `high` に分ける
+- `cur.count()` / `cur.empty()` : cursor 内の個数 / 空かを返す
+- `cur.is_leaf()` : 値が確定した葉かを返す
+- `cur.value()` : 空でない葉の値を返す
+
+## 例
+2 区間を多重集合として合わせたときの `k` 番目（0-indexed）は、両方の cursor を同じ側へ進めて求める。重なる位置は2回数える。
+
+```cpp
+auto a = wm.range_cursor(l1, r1);
+auto b = wm.range_cursor(l2, r2);
+assert(0 <= k && k < a.count() + b.count());
+while (!a.is_leaf()) {
+    auto x = wm.split(a), y = wm.split(b);
+    int low = x.low.count() + y.low.count();
+    if (k < low) {
+        a = x.low;
+        b = y.low;
+    } else {
+        k -= low;
+        a = x.high;
+        b = y.high;
+    }
+}
+auto answer = a.empty() ? b.value() : a.value();
+```
 
 ## 実装上の補足
 - 値は内部で座標圧縮して扱う。
@@ -791,3 +863,4 @@ $N$ は配列長、$\sigma$ は異なる値の個数。
 - 整数値の座標圧縮は値域に必要な桁だけ radix sort する。
 - GCC の x86-64 環境では実行時に CPU 機能を判定し、構築に AVX2 / AVX-512、rank に POPCNT / BMI2 を使う。コンパイルオプションの追加は不要で、非対応 CPU では通常実装へ戻る。
 - クエリはすべて静的配列前提。
+- cursor は生成元の `WaveletMatrix` と組み合わせて使う。生成元の再構築・代入・move・破棄で無効になる。公開された内部配列も cursor の生存中は変更しない。

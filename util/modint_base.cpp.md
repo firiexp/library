@@ -73,6 +73,9 @@ data:
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+    title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -138,6 +141,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+    title: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
@@ -325,6 +331,7 @@ data:
   - test/yosupo_aplusb_matrix_determinant_mod.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp
   - test/yosupo_aplusb_comb_table.test.cpp
+  - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
@@ -333,6 +340,7 @@ data:
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
+  - test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - test/yosupo_inverse_matrix.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp

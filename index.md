@@ -328,9 +328,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/factorial.cpp
       title: "\u968E\u4E57\u30FB\u4E8C\u9805\u4FC2\u6570(Factorial)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/fastkitamasa.cpp
-      title: math/fastkitamasa.cpp
+      title: "\u591A\u9805\u5F0F\u5270\u4F59\u306E\u51AA\u8A08\u7B97(\u9AD8\u901F\
+        Kitamasa\u6CD5)"
     - icon: ':heavy_check_mark:'
       path: math/fft.cpp
       title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
@@ -515,6 +516,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/z-algorithm.cpp
       title: Z-Algorithm
+  - name: test
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: test/fastkitamasa_self_check.cpp
+      title: test/fastkitamasa_self_check.cpp
   - name: tree
     pages:
     - icon: ':heavy_check_mark:'
@@ -737,6 +743,9 @@ data:
       path: test/aoj_grl_1_b_negative_loop.test.cpp
       title: test/aoj_grl_1_b_negative_loop.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_3_a.test.cpp
+      title: test/aoj_grl_3_a.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_grl_3_b.test.cpp
       title: test/aoj_grl_3_b.test.cpp
     - icon: ':heavy_check_mark:'
@@ -812,6 +821,9 @@ data:
       path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+      title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
       title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
     - icon: ':heavy_check_mark:'
@@ -862,6 +874,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_lis_indices.test.cpp
       title: test/yosupo_aplusb_lis_indices.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_lowlink.test.cpp
+      title: test/yosupo_aplusb_lowlink.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
       title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
@@ -976,6 +991,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
       title: test/yosupo_aplusb_virtual_tree_helper.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
+      title: test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
       title: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
@@ -1117,6 +1135,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
       title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+      title: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
       title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
@@ -1279,6 +1300,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
+      title: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_rectangle_add_point_get.test.cpp
       title: test/yosupo_rectangle_add_point_get.test.cpp

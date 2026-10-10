@@ -19,20 +19,29 @@ data:
     - https://judge.yosupo.jp/problem/static_range_frequency
   bundledCode: "#line 1 \"test/yosupo_static_range_frequency.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/static_range_frequency\"\n\n#include <algorithm>\n\
-    #include <type_traits>\n#include <vector>\nusing namespace std;\n\n#line 1 \"\
-    datastructure/wavelet_matrix.cpp\"\n#if defined(__GNUC__) && defined(__x86_64__)\n\
-    #include <immintrin.h>\n#endif\n\ntemplate <class T>\nstruct WaveletMatrix {\n\
-    \    int n, lg, blocks;\n    vector<int> mid;\n    vector<unsigned long long>\
-    \ bit;\n    vector<int> pref;\n    vector<T> vals;\n\n    WaveletMatrix() : n(0),\
-    \ lg(0), blocks(0) {}\n    explicit WaveletMatrix(const vector<T> &v) { build(v);\
-    \ }\n\n    static inline void rank1_pair(const unsigned long long *row, const\
-    \ int *row_pref, int l, int r, int &l1, int &r1) {\n        int l_block = l >>\
-    \ 6;\n        l1 = row_pref[l_block];\n        int l_rem = l & 63;\n        if\
-    \ (l_rem) l1 += __builtin_popcountll(row[l_block] & ((1ULL << l_rem) - 1));\n\n\
-    \        int r_block = r >> 6;\n        r1 = row_pref[r_block];\n        int r_rem\
-    \ = r & 63;\n        if (r_rem) r1 += __builtin_popcountll(row[r_block] & ((1ULL\
-    \ << r_rem) - 1));\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n  \
-    \  __attribute__((target(\"popcnt,bmi2\")))\n    static inline void rank1_pair_bmi2(const\
+    #include <cassert>\n#include <type_traits>\n#include <vector>\nusing namespace\
+    \ std;\n\n#line 1 \"datastructure/wavelet_matrix.cpp\"\n#if defined(__GNUC__)\
+    \ && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\ntemplate <class T>\n\
+    struct WaveletMatrix {\n    class Cursor {\n        friend struct WaveletMatrix;\n\
+    \n        const WaveletMatrix *owner_;\n        int depth_, l_, r_, value_index_;\n\
+    \n        Cursor(const WaveletMatrix *owner, int depth, int l, int r, int value_index)\n\
+    \            : owner_(owner), depth_(depth), l_(l), r_(r), value_index_(value_index)\
+    \ {}\n\n    public:\n        int count() const { return r_ - l_; }\n        bool\
+    \ empty() const { return l_ == r_; }\n        bool is_leaf() const { return depth_\
+    \ == owner_->lg; }\n\n        const T &value() const {\n            assert(is_leaf()\
+    \ && !empty());\n            return owner_->vals[value_index_];\n        }\n \
+    \   };\n\n    struct Children {\n        Cursor low;\n        Cursor high;\n \
+    \   };\n\n    int n, lg, blocks;\n    vector<int> mid;\n    vector<unsigned long\
+    \ long> bit;\n    vector<int> pref;\n    vector<T> vals;\n\n    WaveletMatrix()\
+    \ : n(0), lg(0), blocks(0) {}\n    explicit WaveletMatrix(const vector<T> &v)\
+    \ { build(v); }\n\n    static inline void rank1_pair(const unsigned long long\
+    \ *row, const int *row_pref, int l, int r, int &l1, int &r1) {\n        int l_block\
+    \ = l >> 6;\n        l1 = row_pref[l_block];\n        int l_rem = l & 63;\n  \
+    \      if (l_rem) l1 += __builtin_popcountll(row[l_block] & ((1ULL << l_rem) -\
+    \ 1));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block];\n   \
+    \     int r_rem = r & 63;\n        if (r_rem) r1 += __builtin_popcountll(row[r_block]\
+    \ & ((1ULL << r_rem) - 1));\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
+    \    __attribute__((target(\"popcnt,bmi2\")))\n    static inline void rank1_pair_bmi2(const\
     \ unsigned long long *row, const int *row_pref, int l, int r,\n              \
     \                         int &l1, int &r1) {\n        int l_block = l >> 6;\n\
     \        l1 = row_pref[l_block] + __builtin_popcountll(__builtin_ia32_bzhi_di(row[l_block],\
@@ -292,9 +301,18 @@ data:
     \    template <bool Prev>\n    __attribute__((target(\"popcnt,bmi2\")))\n    bool\
     \ neighbor_index_bmi2(int l, int r, int xi, int &res) const {\n        return\
     \ neighbor_index_impl<Prev, true>(l, r, xi, res);\n    }\n#endif\n\npublic:\n\
-    \    int count_less_index(int l, int r, int xi) const {\n        if (xi <= 0 ||\
-    \ l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size()) return r -\
-    \ l;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
+    \    Cursor range_cursor(int l, int r) const {\n        assert(0 <= l && l <=\
+    \ r && r <= n);\n        return Cursor(this, 0, l, r, 0);\n    }\n\n    Children\
+    \ split(const Cursor &cur) const {\n        assert(cur.owner_ == this && !cur.is_leaf());\n\
+    \        const auto *row = bit.data() + cur.depth_ * blocks;\n        const int\
+    \ *row_pref = pref.data() + cur.depth_ * (blocks + 1);\n        int l1, r1;\n\
+    \        rank1_pair(row, row_pref, cur.l_, cur.r_, l1, r1);\n        int depth\
+    \ = cur.depth_ + 1, prefix = cur.value_index_ << 1;\n        return {\n      \
+    \      Cursor(this, depth, cur.l_ - l1, cur.r_ - r1, prefix),\n            Cursor(this,\
+    \ depth, mid[cur.depth_] + l1, mid[cur.depth_] + r1, prefix | 1)\n        };\n\
+    \    }\n\n    int count_less_index(int l, int r, int xi) const {\n        if (xi\
+    \ <= 0 || l >= r || n == 0) return 0;\n        if (xi >= (int)vals.size()) return\
+    \ r - l;\n#if defined(__GNUC__) && defined(__x86_64__)\n        if (__builtin_cpu_supports(\"\
     popcnt\") && __builtin_cpu_supports(\"bmi2\")) {\n            return count_less_index_bmi2(l,\
     \ r, xi);\n        }\n#endif\n        return count_less_index_fallback(l, r, xi);\n\
     \    }\n\n    int count_less(int l, int r, const T &x) const {\n        int xi\
@@ -380,7 +398,7 @@ data:
     \ r, xi, idx)) return false;\n            res = vals[idx];\n            return\
     \ true;\n        }\n#endif\n        int idx;\n        if (!neighbor_index_fallback<false>(l,\
     \ r, xi, idx)) return false;\n        res = vals[idx];\n        return true;\n\
-    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n#line 9 \"test/yosupo_static_range_frequency.test.cpp\"\
+    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n#line 10 \"test/yosupo_static_range_frequency.test.cpp\"\
     \n#include <cstdio>\n#include <cstring>\n#include <string>\n\n#include <charconv>\n\
     #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
     \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
@@ -589,7 +607,7 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 15 \"\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 16 \"\
     test/yosupo_static_range_frequency.test.cpp\"\n\nint main() {\n    Scanner in;\n\
     \    Printer out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n    vector<int>\
     \ a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\n    vector<int> vals\
@@ -602,15 +620,16 @@ data:
     \        if (xi == (int)vals.size() || vals[xi] != x) out.println(0);\n      \
     \  else out.println(wm.count_equal_index(l, r, xi));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_frequency\"\
-    \n\n#include <algorithm>\n#include <type_traits>\n#include <vector>\nusing namespace\
-    \ std;\n\n#include \"../datastructure/wavelet_matrix.cpp\"\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n    in.read(n);\n\
-    \    in.read(q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) in.read(a[i]);\n\
-    \n    vector<int> vals = a;\n    sort(vals.begin(), vals.end());\n    vals.erase(unique(vals.begin(),\
-    \ vals.end()), vals.end());\n    vector<int> idx(n);\n    for (int i = 0; i <\
-    \ n; ++i) idx[i] = (int)(lower_bound(vals.begin(), vals.end(), a[i]) - vals.begin());\n\
-    \n    WaveletMatrix<int> wm;\n    wm.build_from_index(idx, vals);\n    while (q--)\
+    \n\n#include <algorithm>\n#include <cassert>\n#include <type_traits>\n#include\
+    \ <vector>\nusing namespace std;\n\n#include \"../datastructure/wavelet_matrix.cpp\"\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n\n#include <charconv>\n\
+    #include \"../util/fastio.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
+    \ out;\n    int n, q;\n    in.read(n);\n    in.read(q);\n    vector<int> a(n);\n\
+    \    for (int i = 0; i < n; ++i) in.read(a[i]);\n\n    vector<int> vals = a;\n\
+    \    sort(vals.begin(), vals.end());\n    vals.erase(unique(vals.begin(), vals.end()),\
+    \ vals.end());\n    vector<int> idx(n);\n    for (int i = 0; i < n; ++i) idx[i]\
+    \ = (int)(lower_bound(vals.begin(), vals.end(), a[i]) - vals.begin());\n\n   \
+    \ WaveletMatrix<int> wm;\n    wm.build_from_index(idx, vals);\n    while (q--)\
     \ {\n        int l, r, x;\n        in.read(l);\n        in.read(r);\n        in.read(x);\n\
     \        int xi = (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n\
     \        if (xi == (int)vals.size() || vals[xi] != x) out.println(0);\n      \
@@ -621,7 +640,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_frequency.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-10 16:29:27+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_range_frequency.test.cpp

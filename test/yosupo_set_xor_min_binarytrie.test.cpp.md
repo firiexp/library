@@ -241,29 +241,37 @@ data:
     \ --i) {\n            int f = (x >> i) & 1;\n            p = nodes[p].nxt[f];\n\
     \            if (p == -1) return 0;\n        }\n        return nodes[p].cnt;\n\
     \    }\n\n    bool contains(const T &x) const {\n        return count(x) > 0;\n\
-    \    }\n\n    void add(const T &x, int k = 1) {\n        int p = 0;\n        nodes[p].cnt\
-    \ += k;\n        for (int i = int(X) - 1; i >= 0; --i) {\n            int f =\
-    \ (x >> i) & 1;\n            int to = nodes[p].nxt[f];\n            if (to ==\
-    \ -1) {\n                to = (int)nodes.size();\n                nodes[p].nxt[f]\
-    \ = to;\n                nodes.emplace_back();\n            }\n            p =\
-    \ to;\n            nodes[p].cnt += k;\n        }\n    }\n\n    bool erase(const\
-    \ T &x, int k = 1) {\n        array<int, X + 1> path;\n        int p = 0;\n  \
-    \      path[0] = p;\n        for (int i = int(X) - 1, d = 1; i >= 0; --i, ++d)\
-    \ {\n            int f = (x >> i) & 1;\n            p = nodes[p].nxt[f];\n   \
-    \         if (p == -1) return false;\n            path[d] = p;\n        }\n  \
-    \      if (nodes[p].cnt < k) return false;\n        for (int v : path) nodes[v].cnt\
-    \ -= k;\n        return true;\n    }\n\n    T xor_min(const T &x) const {\n  \
-    \      int p = 0;\n        T ret = 0;\n        for (int i = int(X) - 1; i >= 0;\
-    \ --i) {\n            int f = (x >> i) & 1;\n            int to = nodes[p].nxt[f];\n\
-    \            if (to == -1 || nodes[to].cnt == 0) {\n                f ^= 1;\n\
-    \                ret |= T(1) << i;\n            }\n            p = nodes[p].nxt[f];\n\
-    \        }\n        return ret;\n    }\n\n    T min_element(T x = 0) const {\n\
-    \        return xor_min(x) ^ x;\n    }\n\n    T max_element(T x = 0) const {\n\
-    \        T y = x ^ bit_mask();\n        return xor_min(y) ^ y;\n    }\n\nprivate:\n\
-    \    static constexpr T bit_mask() {\n        if constexpr (X == sizeof(T) * 8)\
-    \ return T(-1);\n        else return (T(1) << X) - 1;\n    }\n};\n\n/**\n * @brief\
-    \ Binary Trie\n */\n#line 15 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int q;\n    sc.read(q);\n\
+    \    }\n\n    void add(const T &x, int k = 1) {\n        assert(k >= 0);\n   \
+    \     if (k == 0) return;\n        int p = 0;\n        nodes[p].cnt += k;\n  \
+    \      for (int i = int(X) - 1; i >= 0; --i) {\n            int f = (x >> i) &\
+    \ 1;\n            int to = nodes[p].nxt[f];\n            if (to == -1) {\n   \
+    \             to = make_node();\n                nodes[p].nxt[f] = to;\n     \
+    \       }\n            p = to;\n            nodes[p].cnt += k;\n        }\n  \
+    \  }\n\n    bool erase(const T &x, int k = 1) {\n        assert(k >= 0);\n   \
+    \     if (k == 0) return true;\n        array<int, X + 1> path;\n        int p\
+    \ = 0;\n        path[0] = p;\n        for (int i = int(X) - 1, d = 1; i >= 0;\
+    \ --i, ++d) {\n            int f = (x >> i) & 1;\n            p = nodes[p].nxt[f];\n\
+    \            if (p == -1) return false;\n            path[d] = p;\n        }\n\
+    \        if (nodes[p].cnt < k) return false;\n        for (int v : path) nodes[v].cnt\
+    \ -= k;\n        for (size_t d = X; d > 0; --d) {\n            int v = path[d];\n\
+    \            if (nodes[v].cnt != 0) break;\n            int f = (x >> (X - d))\
+    \ & 1;\n            nodes[path[d - 1]].nxt[f] = -1;\n            nodes[v].nxt[0]\
+    \ = free_head;\n            free_head = v;\n        }\n        return true;\n\
+    \    }\n\n    T xor_min(const T &x) const {\n        int p = 0;\n        T ret\
+    \ = 0;\n        for (int i = int(X) - 1; i >= 0; --i) {\n            int f = (x\
+    \ >> i) & 1;\n            int to = nodes[p].nxt[f];\n            if (to == -1\
+    \ || nodes[to].cnt == 0) {\n                f ^= 1;\n                ret |= T(1)\
+    \ << i;\n            }\n            p = nodes[p].nxt[f];\n        }\n        return\
+    \ ret;\n    }\n\n    T min_element(T x = 0) const {\n        return xor_min(x)\
+    \ ^ x;\n    }\n\n    T max_element(T x = 0) const {\n        T y = x ^ bit_mask();\n\
+    \        return xor_min(y) ^ y;\n    }\n\nprivate:\n    int free_head = -1;\n\n\
+    \    int make_node() {\n        if (free_head == -1) {\n            nodes.emplace_back();\n\
+    \            return (int)nodes.size() - 1;\n        }\n        int v = free_head;\n\
+    \        free_head = nodes[v].nxt[0];\n        nodes[v] = Node();\n        return\
+    \ v;\n    }\n\n    static constexpr T bit_mask() {\n        if constexpr (X ==\
+    \ sizeof(T) * 8) return T(-1);\n        else return (T(1) << X) - 1;\n    }\n\
+    };\n\n/**\n * @brief Binary Trie\n */\n#line 15 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int q;\n    sc.read(q);\n\
     \    Binarytrie<unsigned int, 30> trie;\n    while (q--) {\n        int t;\n \
     \       unsigned int x;\n        sc.read(t, x);\n        if (t == 0) {\n     \
     \       if (!trie.contains(x)) trie.add(x);\n        } else if (t == 1) {\n  \
@@ -285,7 +293,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_set_xor_min_binarytrie.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-10 16:23:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_set_xor_min_binarytrie.test.cpp

@@ -56,6 +56,9 @@ data:
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+    title: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - icon: ':heavy_check_mark:'
@@ -645,6 +648,7 @@ data:
   - test/yosupo_pow_of_formal_power_series.test.cpp
   - test/yosupo_sqrt_of_formal_power_series.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp
+  - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
   - test/yosupo_many_factorials.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
