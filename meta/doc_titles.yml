@@ -66,6 +66,7 @@ geometry/half_plane_intersection.cpp: "半平面共通部分(Half-Plane Intersec
 graph/bridge_tree.cpp: "橋木(Bridge Tree)"
 graph/block_cut_tree.cpp: "ブロックカット木(Block-Cut Tree)"
 graph/SCC.cpp: "強連結成分分解(SCC)"
+graph/offline_reachability.cpp: "有向グラフの一括到達判定"
 graph/bellman_ford.cpp: "Bellman-Ford法"
 graph/bellman_ford_negative_loop.cpp: "Bellman-Ford法(負閉路伝播)"
 graph/bfs01.cpp: "01-BFS"
