@@ -1,16 +1,21 @@
 {
-  "generatedAt": "2026-10-07T00:50:51+09:00",
+  "generatedAt": "2026-10-10T19:43:41+09:00",
   "root": ".",
   "testCount": 189,
   "inventory": {
-    "currentTestCount": 234,
+    "currentTestCount": 279,
     "measuredTestCount": 189,
-    "unmeasuredCount": 45,
+    "unmeasuredCount": 90,
     "unmeasuredPaths": [
+      "test/aoj_alds1_9_c_leftist_heap.test.cpp",
       "test/aoj_cgl_4_b.test.cpp",
+      "test/aoj_grl_3_a.test.cpp",
       "test/aoj_ntl_1_b_pow.test.cpp",
+      "test/yosupo_aplusb_aho_occurrences.test.cpp",
       "test/yosupo_aplusb_bellman_ford.test.cpp",
       "test/yosupo_aplusb_binarytrie.test.cpp",
+      "test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp",
+      "test/yosupo_aplusb_bit_build.test.cpp",
       "test/yosupo_aplusb_comb_table.test.cpp",
       "test/yosupo_aplusb_complement_components.test.cpp",
       "test/yosupo_aplusb_crt.test.cpp",
@@ -19,21 +24,40 @@
       "test/yosupo_aplusb_dualgraph.test.cpp",
       "test/yosupo_aplusb_dynamic_bitset.test.cpp",
       "test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp",
+      "test/yosupo_aplusb_enumerate_triangles.test.cpp",
+      "test/yosupo_aplusb_fast_set.test.cpp",
+      "test/yosupo_aplusb_fastkitamasa_fft.test.cpp",
+      "test/yosupo_aplusb_fenwick_tree_2d.test.cpp",
+      "test/yosupo_aplusb_floor_sum.test.cpp",
       "test/yosupo_aplusb_flow_boundaries.test.cpp",
       "test/yosupo_aplusb_furthest_pair.test.cpp",
       "test/yosupo_aplusb_garner.test.cpp",
+      "test/yosupo_aplusb_geometry_angle.test.cpp",
       "test/yosupo_aplusb_geometry_boundaries.test.cpp",
       "test/yosupo_aplusb_hld_subtree.test.cpp",
+      "test/yosupo_aplusb_implicit_treap.test.cpp",
       "test/yosupo_aplusb_independent_set_boundaries.test.cpp",
+      "test/yosupo_aplusb_interval_set.test.cpp",
       "test/yosupo_aplusb_is_palindrome.test.cpp",
+      "test/yosupo_aplusb_leftist_heap.test.cpp",
       "test/yosupo_aplusb_li_chao_tree.test.cpp",
       "test/yosupo_aplusb_library_composition_reverse.test.cpp",
+      "test/yosupo_aplusb_lis_indices.test.cpp",
+      "test/yosupo_aplusb_lowlink.test.cpp",
+      "test/yosupo_aplusb_matrix_determinant_mod.test.cpp",
       "test/yosupo_aplusb_matrix_semiring.test.cpp",
       "test/yosupo_aplusb_maxflow_lower_bound.test.cpp",
       "test/yosupo_aplusb_min_cost_b_flow.test.cpp",
+      "test/yosupo_aplusb_min_of_mod_of_linear.test.cpp",
       "test/yosupo_aplusb_minimum_vertex_cover.test.cpp",
+      "test/yosupo_aplusb_mo.test.cpp",
+      "test/yosupo_aplusb_monotoniccht.test.cpp",
       "test/yosupo_aplusb_noncommutative_tree.test.cpp",
+      "test/yosupo_aplusb_palindrome_radii.test.cpp",
       "test/yosupo_aplusb_palindromic_tree.test.cpp",
+      "test/yosupo_aplusb_pell_equation.test.cpp",
+      "test/yosupo_aplusb_persistent_queue.test.cpp",
+      "test/yosupo_aplusb_persistent_unionfind.test.cpp",
       "test/yosupo_aplusb_polynomial_interpolation.test.cpp",
       "test/yosupo_aplusb_prime_range.test.cpp",
       "test/yosupo_aplusb_project_selection_pair_profit.test.cpp",
@@ -42,21 +66,42 @@
       "test/yosupo_aplusb_scc.test.cpp",
       "test/yosupo_aplusb_segmenttree_boundaries.test.cpp",
       "test/yosupo_aplusb_sliding_window.test.cpp",
+      "test/yosupo_aplusb_slope_trick.test.cpp",
+      "test/yosupo_aplusb_solve_linear_system.test.cpp",
       "test/yosupo_aplusb_static_bitset.test.cpp",
+      "test/yosupo_aplusb_static_rectangle_sum.test.cpp",
       "test/yosupo_aplusb_string_bytes.test.cpp",
       "test/yosupo_aplusb_subset_convolution.test.cpp",
+      "test/yosupo_aplusb_suffix_automaton_lcs.test.cpp",
       "test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp",
+      "test/yosupo_aplusb_swag.test.cpp",
+      "test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp",
       "test/yosupo_aplusb_virtual_tree_helper.test.cpp",
+      "test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp",
+      "test/yosupo_aplusb_xor_basis_intersection.test.cpp",
       "test/yosupo_aplusb_xorshift.test.cpp",
       "test/yosupo_enumerate_primes_get_prime.test.cpp",
+      "test/yosupo_enumerate_triangles.test.cpp",
       "test/yosupo_furthest_pair.test.cpp",
+      "test/yosupo_intersection_of_f2_vector_spaces.test.cpp",
+      "test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp",
       "test/yosupo_line_add_get_min_online.test.cpp",
-      "test/yosupo_segment_add_get_min_online.test.cpp"
+      "test/yosupo_longest_common_substring.test.cpp",
+      "test/yosupo_longest_increasing_subsequence.test.cpp",
+      "test/yosupo_matrix_det_arbitrary_mod.test.cpp",
+      "test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp",
+      "test/yosupo_min_of_mod_of_linear.test.cpp",
+      "test/yosupo_persistent_queue.test.cpp",
+      "test/yosupo_predecessor_problem_fast_set.test.cpp",
+      "test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp",
+      "test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp",
+      "test/yosupo_segment_add_get_min_online.test.cpp",
+      "test/yosupo_unionfind_with_potential_undoable.test.cpp"
     ],
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "5f8f594812456b6d8e63911a7cfef64274012c4b",
+    "gitRevision": "3b5bae54ca928757a3563f9096d4c53a10f3bec8",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -362,7 +407,7 @@
           "a.out",
           "test/aoj0334.test.cpp"
         ],
-        "wallSec": 0.40152695799997673
+        "wallSec": 0.7574269200013077
       },
       "testcases": {
         "directory": ".verify-helper/cache/4800a16d2cca9436b92032d17c38d521/test",
@@ -373,149 +418,149 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/4800a16d2cca9436b92032d17c38d521/verify-dashboard-83o9pa6a/a.out",
+          "./.verify-helper/cache/4800a16d2cca9436b92032d17c38d521/verify-dashboard-gtl7livc/a.out",
           "-d",
           "./.verify-helper/cache/4800a16d2cca9436b92032d17c38d521/test",
           "--tle",
           "60.0"
         ],
         "returnCode": 0,
-        "wallSec": 0.25364387699983126,
+        "wallSec": 0.38214407700070296,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "00_sample_00.in",
-              "timeSec": 0.003083,
+              "timeSec": 0.004069,
               "status": "AC"
             },
             {
               "name": "00_sample_01.in",
-              "timeSec": 0.003135,
+              "timeSec": 0.00431,
               "status": "AC"
             },
             {
               "name": "00_sample_02.in",
-              "timeSec": 0.002363,
+              "timeSec": 0.003781,
               "status": "AC"
             },
             {
               "name": "01_small_00.in",
-              "timeSec": 0.002322,
+              "timeSec": 0.004925,
               "status": "AC"
             },
             {
               "name": "02_rand_00.in",
-              "timeSec": 0.00249,
+              "timeSec": 0.004233,
               "status": "AC"
             },
             {
               "name": "02_rand_01.in",
-              "timeSec": 0.002357,
+              "timeSec": 0.00433,
               "status": "AC"
             },
             {
               "name": "02_rand_02.in",
-              "timeSec": 0.002455,
+              "timeSec": 0.004358,
               "status": "AC"
             },
             {
               "name": "02_rand_03.in",
-              "timeSec": 0.002439,
+              "timeSec": 0.004173,
               "status": "AC"
             },
             {
               "name": "02_rand_04.in",
-              "timeSec": 0.002882,
+              "timeSec": 0.005671,
               "status": "AC"
             },
             {
               "name": "02_rand_05.in",
-              "timeSec": 0.00257,
+              "timeSec": 0.004474,
               "status": "AC"
             },
             {
               "name": "02_rand_06.in",
-              "timeSec": 0.003151,
+              "timeSec": 0.004742,
               "status": "AC"
             },
             {
               "name": "02_rand_07.in",
-              "timeSec": 0.003107,
+              "timeSec": 0.005736,
               "status": "AC"
             },
             {
               "name": "03_grid_00.in",
-              "timeSec": 0.002267,
+              "timeSec": 0.00416,
               "status": "AC"
             },
             {
               "name": "03_grid_01.in",
-              "timeSec": 0.00232,
+              "timeSec": 0.004431,
               "status": "AC"
             },
             {
               "name": "03_grid_02.in",
-              "timeSec": 0.003475,
+              "timeSec": 0.006478,
               "status": "AC"
             },
             {
               "name": "03_grid_03.in",
-              "timeSec": 0.003444,
+              "timeSec": 0.006807,
               "status": "AC"
             },
             {
               "name": "03_grid_04.in",
-              "timeSec": 0.003422,
+              "timeSec": 0.006326,
               "status": "AC"
             },
             {
               "name": "03_grid_05.in",
-              "timeSec": 0.003693,
+              "timeSec": 0.006772,
               "status": "AC"
             },
             {
               "name": "03_grid_06.in",
-              "timeSec": 0.003442,
+              "timeSec": 0.008061,
               "status": "AC"
             },
             {
               "name": "03_grid_07.in",
-              "timeSec": 0.003417,
+              "timeSec": 0.006766,
               "status": "AC"
             },
             {
               "name": "04_no_00.in",
-              "timeSec": 0.0023,
+              "timeSec": 0.004821,
               "status": "AC"
             },
             {
               "name": "04_no_01.in",
-              "timeSec": 0.00221,
+              "timeSec": 0.004684,
               "status": "AC"
             },
             {
               "name": "08_bf_killer_00.in",
-              "timeSec": 0.004543,
+              "timeSec": 0.006732,
               "status": "AC"
             },
             {
               "name": "09_bf_attack_00.in",
-              "timeSec": 0.002256,
+              "timeSec": 0.004093,
               "status": "AC"
             }
           ],
           "caseCount": 24,
           "timedCaseCount": 24,
           "passedCaseCount": 24,
-          "slowestSec": 0.004543,
-          "slowestCase": "08_bf_killer_00.in",
-          "averageSec": 0.002880958333333333,
-          "maxMemoryMb": 3.84,
-          "maxMemoryCase": "00_sample_00.in",
+          "slowestSec": 0.008061,
+          "slowestCase": "03_grid_06.in",
+          "averageSec": 0.0052055416666666665,
+          "maxMemoryMb": 4.344,
+          "maxMemoryCase": "03_grid_02.in",
           "summary": "test success: 24 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 24 cases found\n\n[INFO] 00_sample_00.in\n[INFO] time: 0.003083 sec\n[SUCCESS] AC\n\n[INFO] 00_sample_01.in\n[INFO] time: 0.003135 sec\n[SUCCESS] AC\n\n[INFO] 00_sample_02.in\n[INFO] time: 0.002363 sec\n[SUCCESS] AC\n\n[INFO] 01_small_00.in\n[INFO] time: 0.002322 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_00.in\n[INFO] time: 0.002490 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_01.in\n[INFO] time: 0.002357 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_02.in\n[INFO] time: 0.002455 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_03.in\n[INFO] time: 0.002439 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_04.in\n[INFO] time: 0.002882 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_05.in\n[INFO] time: 0.002570 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_06.in\n[INFO] time: 0.003151 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_07.in\n[INFO] time: 0.003107 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_00.in\n[INFO] time: 0.002267 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_01.in\n[INFO] time: 0.002320 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_02.in\n[INFO] time: 0.003475 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_03.in\n[INFO] time: 0.003444 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_04.in\n[INFO] time: 0.003422 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_05.in\n[INFO] time: 0.003693 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_06.in\n[INFO] time: 0.003442 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_07.in\n[INFO] time: 0.003417 sec\n[SUCCESS] AC\n\n[INFO] 04_no_00.in\n[INFO] time: 0.002300 sec\n[SUCCESS] AC\n\n[INFO] 04_no_01.in\n[INFO] time: 0.002210 sec\n[SUCCESS] AC\n\n[INFO] 08_bf_killer_00.in\n[INFO] time: 0.004543 sec\n[SUCCESS] AC\n\n[INFO] 09_bf_attack_00.in\n[INFO] time: 0.002256 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.004543 sec  (for 08_bf_killer_00.in)\n[INFO] max memory: 3.840000 MB  (for 00_sample_00.in)\n[SUCCESS] test success: 24 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 24 cases found\n\n[INFO] 00_sample_00.in\n[INFO] time: 0.004069 sec\n[SUCCESS] AC\n\n[INFO] 00_sample_01.in\n[INFO] time: 0.004310 sec\n[SUCCESS] AC\n\n[INFO] 00_sample_02.in\n[INFO] time: 0.003781 sec\n[SUCCESS] AC\n\n[INFO] 01_small_00.in\n[INFO] time: 0.004925 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_00.in\n[INFO] time: 0.004233 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_01.in\n[INFO] time: 0.004330 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_02.in\n[INFO] time: 0.004358 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_03.in\n[INFO] time: 0.004173 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_04.in\n[INFO] time: 0.005671 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_05.in\n[INFO] time: 0.004474 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_06.in\n[INFO] time: 0.004742 sec\n[SUCCESS] AC\n\n[INFO] 02_rand_07.in\n[INFO] time: 0.005736 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_00.in\n[INFO] time: 0.004160 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_01.in\n[INFO] time: 0.004431 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_02.in\n[INFO] time: 0.006478 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_03.in\n[INFO] time: 0.006807 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_04.in\n[INFO] time: 0.006326 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_05.in\n[INFO] time: 0.006772 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_06.in\n[INFO] time: 0.008061 sec\n[SUCCESS] AC\n\n[INFO] 03_grid_07.in\n[INFO] time: 0.006766 sec\n[SUCCESS] AC\n\n[INFO] 04_no_00.in\n[INFO] time: 0.004821 sec\n[SUCCESS] AC\n\n[INFO] 04_no_01.in\n[INFO] time: 0.004684 sec\n[SUCCESS] AC\n\n[INFO] 08_bf_killer_00.in\n[INFO] time: 0.006732 sec\n[SUCCESS] AC\n\n[INFO] 09_bf_attack_00.in\n[INFO] time: 0.004093 sec\n[SUCCESS] AC\n\n[INFO] slowest: 0.008061 sec  (for 03_grid_06.in)\n[INFO] max memory: 4.344000 MB  (for 03_grid_02.in)\n[SUCCESS] test success: 24 cases\n"
       }
     },
     {
