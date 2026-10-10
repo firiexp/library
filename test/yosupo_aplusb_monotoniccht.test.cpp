@@ -15,7 +15,8 @@ void check_products() {
         BigInteger rhs = (BigInteger(v[5]) - v[3]) * (BigInteger(v[0]) - v[2]);
         assert(cht.check({v[0], v[1]}, {v[2], v[3]}, {v[4], v[5]}) == (lhs >= rhs));
     };
-    vector<ll> values{LLONG_MIN, LLONG_MIN + 1, -1, 0, 1, LLONG_MAX - 1, LLONG_MAX};
+    constexpr ll limit = 1LL << 62;
+    vector<ll> values{-limit, -limit + 1, -1, 0, 1, limit - 1, limit};
     for (int mask = 0; mask < 117649; ++mask) {
         array<ll, 6> v;
         int cur = mask;
@@ -26,9 +27,10 @@ void check_products() {
         check(v);
     }
     mt19937_64 rng(130);
+    uniform_int_distribution<ll> coefficient(-limit, limit);
     for (int rep = 0; rep < 200000; ++rep) {
         array<ll, 6> v;
-        for (ll &x : v) x = static_cast<ll>(rng());
+        for (ll &x : v) x = coefficient(rng);
         check(v);
     }
 }
@@ -67,21 +69,28 @@ void check_queries() {
     }
 }
 
+template<bool get_max>
+void check_boundaries() {
+    constexpr ll limit = 1LL << 62;
+    for (bool reverse_order : {false, true}) {
+        vector<pair<ll, ll>> lines{{limit, limit}, {limit - 1, -limit}, {-limit, limit}};
+        if (reverse_order) reverse(lines.begin(), lines.end());
+        CHT<ll, get_max> cht;
+        for (auto [a, b] : lines) cht.add_line(a, b);
+        auto inc = cht, dec = cht;
+        ll expected = get_max ? limit : -limit;
+        assert(cht.query(0) == expected);
+        assert(inc.query_increase(0) == expected);
+        assert(dec.query_decrease(0) == expected);
+    }
+}
+
 int main() {
     check_products();
     check_queries<false>();
     check_queries<true>();
-    for (bool reverse_order : {false, true}) {
-        vector<pair<ll, ll>> lines{{LLONG_MAX, LLONG_MAX},
-                                  {LLONG_MAX - 1, -LLONG_MAX}, {-LLONG_MAX, LLONG_MAX}};
-        if (reverse_order) reverse(lines.begin(), lines.end());
-        CHT<ll, false> cht;
-        for (auto [a, b] : lines) cht.add_line(a, b);
-        auto inc = cht, dec = cht;
-        assert(cht.query(0) == -LLONG_MAX);
-        assert(inc.query_increase(0) == -LLONG_MAX);
-        assert(dec.query_decrease(0) == -LLONG_MAX);
-    }
+    check_boundaries<false>();
+    check_boundaries<true>();
     Scanner in;
     Printer out;
     int a, b;
