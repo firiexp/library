@@ -14,6 +14,7 @@ datastructure/dynamic_weighted_wavelet_matrix.cpp: "動的重み付きWavelet Ma
 datastructure/static_bitset.cpp: "固定長bitset(Static Bitset)"
 datastructure/segmenttree/dynamic_segtree.cpp: "Dynamic Segment Tree"
 datastructure/fenwick_tree_2d.cpp: "2次元Fenwick Tree(2D BIT)"
+datastructure/fast_set.cpp: "整数集合の前後検索(FastSet)"
 datastructure/implicit_treap.cpp: "Implicit Treap"
 datastructure/interval_set.cpp: "区間集合(Interval Set)"
 datastructure/segmenttree/lazysegtree.cpp: "遅延セグメント木(Lazy Segment Tree)"
