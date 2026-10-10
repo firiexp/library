@@ -1,48 +1,62 @@
 class Fast_Kitamasa {
-    poly c, b, ic;
+    poly c, ic;
     int k;
-    int mod;
+
 public:
-    explicit Fast_Kitamasa(vector<int> &c, int mod) : c(c), mod(mod){
-        k = static_cast<int>(c.size() - 1);
+    explicit Fast_Kitamasa(const vector<mint> &coefficients)
+        : c(coefficients), k((int)coefficients.size() - 1) {
+        assert(k >= 1 && c[k] != mint(0));
         calc_ic();
     }
-    void multiply_mod(poly &a, poly x){
-        auto beta = a*x;
-        auto q = beta*ic;
-        q.cut(k-1);
-        auto result = c*q;
-        for (int i = k-1; i <= 2*k-2; ++i) {
-            (result[i] += beta[i]) %= mod;
-        }
-        a = poly(vector<int>(result.v.begin()+k-1, result.v.begin()+2*k-1));
+
+    explicit Fast_Kitamasa(const vector<int> &coefficients, int mod = mint::get_mod())
+        : Fast_Kitamasa(vector<mint>(coefficients.begin(), coefficients.end())) {
+        assert(mod == (int)mint::get_mod());
+        (void)mod;
     }
 
     void calc_ic() {
-        ic = poly(vector<int>(1, 1));
-        int t = 1;
-        while(t <= k){
-            t = min(2*t, k+1);
-            auto cc = poly(vector<int>(c.v.begin(), c.v.begin()+t));
-            auto current = cc*ic;
-            (current[0] += 2) %= mod;
-            ic = ic*current;
+        if (k == 1) {
+            ic = poly();
+            return;
         }
-        ic.cut(t);
+        poly reversed(vector<mint>(c.v.rbegin(), c.v.rend()));
+        reversed.v.resize(k - 1);
+        ic = reversed.inv();
     }
 
-    poly kitamasa(int n){
-        b = poly(vector<int>(k, 0));
-        auto x = poly(vector<int>(k, 0));
-        b[k-1] = 1;
-        x[k-2] = 1;
-        while (n != 0){
-            if ((n & 1) == 1){
-                multiply_mod(b, x);
-            }
-            n /= 2;
-            multiply_mod(x, x);
+    void multiply_mod(poly &a, const poly &x) const {
+        assert(a.size() <= k && x.size() <= k);
+        poly product = a * x;
+        product.v.resize(2 * k - 1);
+        if (k == 1) {
+            a = product;
+            return;
         }
-        return b;
+        poly high(vector<mint>(product.v.rbegin(), product.v.rbegin() + k - 1));
+        poly quotient = high * ic;
+        quotient.v.resize(k - 1);
+        reverse(quotient.v.begin(), quotient.v.end());
+        poly removed = c * quotient;
+        a = poly(k);
+        for (int i = 0; i < k; ++i) a[i] = product[i] - removed[i];
+    }
+
+    poly kitamasa(long long n) const {
+        assert(n >= 0);
+        poly result(k), x(k);
+        result[0] = 1;
+        if (k == 1) x[0] = -c[0] / c[1];
+        else x[1] = 1;
+        while (n != 0) {
+            if (n & 1) multiply_mod(result, x);
+            n >>= 1;
+            if (n != 0) multiply_mod(x, x);
+        }
+        return result;
     }
 };
+
+/**
+ * @brief 多項式剰余の冪計算(高速Kitamasa法)
+ */
