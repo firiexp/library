@@ -46,6 +46,31 @@ class LowLink {
         if(pe == -1 && ch > 1) is_art = true;
         cut[i] = is_art;
     }
+
+    void sort_bridges(CSR &G) {
+        int b = (int)bridge.size();
+        if (b <= 1) return;
+        int lg = 32 - __builtin_clz((unsigned)(b - 1));
+        if (1LL * b * lg <= n) {
+            sort(bridge.begin(), bridge.end());
+            return;
+        }
+        fill(G.start.begin(), G.start.end(), 0);
+        for (auto [u, v] : bridge) ++G.start[v + 1];
+        for (int i = 0; i < n; ++i) G.start[i + 1] += G.start[i];
+        for (auto [u, v] : bridge) {
+            int p = G.start[v]++;
+            G.elist[2 * p] = u;
+            G.elist[2 * p + 1] = v;
+        }
+        fill(G.start.begin(), G.start.end(), 0);
+        for (int i = 0; i < b; ++i) ++G.start[G.elist[2 * i] + 1];
+        for (int i = 0; i < n; ++i) G.start[i + 1] += G.start[i];
+        for (int i = 0; i < b; ++i) {
+            int u = G.elist[2 * i], v = G.elist[2 * i + 1];
+            bridge[G.start[u]++] = {u, v};
+        }
+    }
 public:
     vector<int> ord, low, par, articulation;
     vector<pair<int, int>> bridge;
@@ -73,7 +98,7 @@ public:
         for (int i = 0; i < n; ++i) {
             if(cut[i]) articulation.emplace_back(i);
         }
-        sort(bridge.begin(), bridge.end());
+        sort_bridges(G);
     }
 
     inline bool is_bridge(int i, int j){
