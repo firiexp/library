@@ -20,15 +20,25 @@ documentation_of: //datastructure/undoable_weighted_unionfind.cpp
 
 ## 使い方
 `G` に `using T`、結合演算 `op(a,b)`、逆元 `inv(a)`、単位元 `e()` を定義し、`T` を等値比較できるようにする。
-加法群なら `op(a,b)=a+b`、`inv(a)=-a`、`e()=0` とする。
+整数の差分を扱う場合は、`T = long long` として次のように定義する。
 
 ```cpp
+struct AddGroup {
+    using T = long long;
+    static T op(T a, T b) { return a + b; }
+    static T inv(T a) { return -a; }
+    static T e() { return 0; }
+};
+
+UndoableWeightedUnionFind<AddGroup> uf(3);
 int state = uf.get_state();
-uf.unite(a, b, w);
-bool ok = uf.consistent();
-auto delta = uf.diff(a, b);
+uf.unite(0, 1, 5);
+uf.unite(1, 2, 3);
+auto delta = uf.diff(0, 2);
 uf.rollback(state);
 ```
+
+この例では `delta` は8を保持し、rollbackで2本の制約を取り消す。
 
 整合する冗長制約と矛盾する制約も、それぞれ1操作として履歴に積む。
 別成分が矛盾していても、整合する成分の差分は取得できる。

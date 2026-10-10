@@ -5,11 +5,10 @@ documentation_of: //datastructure/fast_set.cpp
 
 ## 説明
 $[0,N)$ の整数集合を64bit単位の階層bitsetで管理する。
-更新と前後検索は $O(\log_{64}\max(2,N))$、存在判定は $O(1)$。
-領域は $O(1+N/64)$ word、空集合の構築も同じ計算量である。
+更新と前後検索は $O(\log N)$、存在判定は $O(1)$。
 
 ## できること
-- `FastSet s(n)`：空集合を作る。`n = 0` も扱う
+- `FastSet s(n)`：空集合を作る
 - `FastSet s(present)`：`vector<bool>` の真の位置を集合に入れる。構築 $O(N)$
 - `insert(x)` / `erase(x)`：挿入 / 削除する。重複挿入・存在しない要素の削除は何もしない
 - `contains(x)`：存在するかを返す
