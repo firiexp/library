@@ -666,21 +666,21 @@ data:
     \ add_query(int l, int d, int r, int u) {\n        int id = (int)events.size()\
     \ / 2;\n        events.push_back({r, d, u, id, 1});\n        events.push_back({l,\
     \ d, u, id, -1});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\
-    \n    vector<T> solve() {\n        vector<int> ord_y = ys;\n        sort(ord_y.begin(),\
+    \n    vector<T> solve() const {\n        vector<int> ord_y = ys;\n        sort(ord_y.begin(),\
     \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
     \n        auto get_y = [&](int y) {\n            return (int)(lower_bound(ord_y.begin(),\
     \ ord_y.end(), y) - ord_y.begin());\n        };\n\n        vector<Point> ps =\
-    \ points;\n        for (auto& p : ps) p.y = get_y(p.y);\n        for (auto& e\
-    \ : events) {\n            e.d = get_y(e.d);\n            e.u = get_y(e.u);\n\
-    \        }\n\n        sort(ps.begin(), ps.end(), [](const Point& a, const Point&\
-    \ b) {\n            return a.x < b.x;\n        });\n        sort(events.begin(),\
-    \ events.end());\n\n        int q = (int)events.size() / 2;\n        vector<T>\
-    \ ans(q, 0);\n        BIT<T> bit((int)ord_y.size());\n        int i = 0;\n   \
-    \     for (auto e : events) {\n            while (i < (int)ps.size() && ps[i].x\
-    \ < e.x) {\n                bit.add(ps[i].y, ps[i].w);\n                ++i;\n\
-    \            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d)) * e.sign;\n\
-    \        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9759\u7684\u9577\
-    \u65B9\u5F62\u548C(Static Rectangle Sum)\n */\n#line 20 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \ points;\n        vector<Event> es = events;\n        for (auto& p : ps) p.y\
+    \ = get_y(p.y);\n        for (auto& e : es) {\n            e.d = get_y(e.d);\n\
+    \            e.u = get_y(e.u);\n        }\n\n        sort(ps.begin(), ps.end(),\
+    \ [](const Point& a, const Point& b) {\n            return a.x < b.x;\n      \
+    \  });\n        sort(es.begin(), es.end());\n\n        int q = (int)events.size()\
+    \ / 2;\n        vector<T> ans(q, 0);\n        BIT<T> bit((int)ord_y.size());\n\
+    \        int i = 0;\n        for (auto e : es) {\n            while (i < (int)ps.size()\
+    \ && ps[i].x < e.x) {\n                bit.add(ps[i].y, ps[i].w);\n          \
+    \      ++i;\n            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d))\
+    \ * e.sign;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9759\
+    \u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)\n */\n#line 20 \"test/yosupo_aplusb_library_composition.test.cpp\"\
     \n\n#line 1 \"graph/dijkstra_common.cpp\"\n\n\n\n#line 1 \"graph/edge.cpp\"\n\n\
     \n\ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\n \
     \   edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
@@ -1483,7 +1483,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-10 15:44:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

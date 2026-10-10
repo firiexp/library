@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_interval_set.test.cpp
+    title: test/yosupo_aplusb_interval_set.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_predecessor_problem_interval_set.test.cpp
     title: test/yosupo_predecessor_problem_interval_set.test.cpp
   _isVerificationFailed: false
@@ -38,34 +41,39 @@ data:
     \        if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n\n\
     \    Interval insert(T l, T r) {\n        if (!(l < r)) return {l, l};\n\n   \
     \     auto it = st_.lower_bound(l);\n\n        if (it != st_.begin()) {\n    \
-    \        auto pit = prev(it);\n            if (pit->r >= l) {\n              \
-    \  l = min(l, pit->l);\n                r = max(r, pit->r);\n                total_\
-    \ -= seg_len(*pit);\n                it = st_.erase(pit);\n            }\n   \
-    \     }\n\n        while (it != st_.end() && it->l <= r) {\n            r = max(r,\
-    \ it->r);\n            total_ -= seg_len(*it);\n            it = st_.erase(it);\n\
-    \        }\n\n        auto new_it = st_.insert(it, {l, r});\n        total_ +=\
-    \ static_cast<SumT>(r) - static_cast<SumT>(l);\n        return *new_it;\n    }\n\
-    \n    SumT erase(T l, T r) {\n        if (!(l < r)) return 0;\n\n        SumT\
-    \ removed = 0;\n        vector<Interval> add_back;\n\n        auto it = st_.lower_bound(l);\n\
-    \        if (it != st_.begin()) --it;\n\n        while (it != st_.end() && it->l\
-    \ < r) {\n            if (it->r <= l) {\n                ++it;\n             \
-    \   continue;\n            }\n\n            Interval cur = *it;\n            it\
-    \ = st_.erase(it);\n            total_ -= seg_len(cur);\n\n            T a = max(cur.l,\
+    \        auto pit = prev(it);\n            if (pit->r >= l) it = pit;\n      \
+    \  }\n\n        if (it != st_.end() && it->l <= l && r <= it->r) return *it;\n\
+    \        if (it == st_.end() || r < it->l) {\n            total_ += static_cast<SumT>(r)\
+    \ - static_cast<SumT>(l);\n            return *st_.insert(it, {l, r});\n     \
+    \   }\n\n        l = min(l, it->l);\n        r = max(r, it->r);\n        total_\
+    \ -= seg_len(*it);\n        auto node = st_.extract(it++);\n        while (it\
+    \ != st_.end() && it->l <= r) {\n            r = max(r, it->r);\n            total_\
+    \ -= seg_len(*it);\n            it = st_.erase(it);\n        }\n\n        node.value()\
+    \ = {l, r};\n        auto new_it = st_.insert(it, move(node));\n        total_\
+    \ += static_cast<SumT>(r) - static_cast<SumT>(l);\n        return *new_it;\n \
+    \   }\n\n    SumT erase(T l, T r) {\n        if (!(l < r)) return 0;\n\n     \
+    \   SumT removed = 0;\n\n        auto it = st_.lower_bound(l);\n        if (it\
+    \ != st_.begin()) --it;\n\n        while (it != st_.end() && it->l < r) {\n  \
+    \          if (it->r <= l) {\n                ++it;\n                continue;\n\
+    \            }\n\n            Interval cur = *it;\n            T a = max(cur.l,\
     \ l);\n            T b = min(cur.r, r);\n            removed += static_cast<SumT>(b)\
-    \ - static_cast<SumT>(a);\n\n            if (cur.l < l) add_back.push_back({cur.l,\
-    \ l});\n            if (r < cur.r) add_back.push_back({r, cur.r});\n        }\n\
-    \n        for (const auto& seg : add_back) {\n            st_.insert(seg);\n \
-    \           total_ += seg_len(seg);\n        }\n\n        return removed;\n  \
-    \  }\n\n    SumT covered_length(T l, T r) const {\n        if (!(l < r)) return\
-    \ 0;\n\n        SumT res = 0;\n        auto it = st_.lower_bound(l);\n       \
-    \ if (it != st_.begin()) --it;\n\n        while (it != st_.end() && it->l < r)\
-    \ {\n            if (l < it->r) {\n                T a = max(l, it->l);\n    \
-    \            T b = min(r, it->r);\n                if (a < b) {\n            \
-    \        res += static_cast<SumT>(b) - static_cast<SumT>(a);\n               \
-    \ }\n            }\n            ++it;\n        }\n        return res;\n    }\n\
-    \n    T mex(T x) const {\n        auto it = find_interval_it(x);\n        if (it\
-    \ == st_.end()) return x;\n        return it->r;\n    }\n\n    void clear() {\n\
-    \        st_.clear();\n        total_ = 0;\n    }\n\n    Interval prev_interval(T\
+    \ - static_cast<SumT>(a);\n\n            if (cur.l < l || r < cur.r) {\n     \
+    \           auto node = st_.extract(it++);\n                if (cur.l < l) {\n\
+    \                    node.value().r = l;\n                    st_.insert(it, move(node));\n\
+    \                    if (r < cur.r) st_.insert(it, {r, cur.r});\n            \
+    \    } else {\n                    node.value().l = r;\n                    st_.insert(it,\
+    \ move(node));\n                }\n            } else {\n                it =\
+    \ st_.erase(it);\n            }\n        }\n\n        total_ -= removed;\n   \
+    \     return removed;\n    }\n\n    SumT covered_length(T l, T r) const {\n  \
+    \      if (!(l < r)) return 0;\n\n        SumT res = 0;\n        auto it = st_.lower_bound(l);\n\
+    \        if (it != st_.begin()) --it;\n\n        while (it != st_.end() && it->l\
+    \ < r) {\n            if (l < it->r) {\n                T a = max(l, it->l);\n\
+    \                T b = min(r, it->r);\n                if (a < b) {\n        \
+    \            res += static_cast<SumT>(b) - static_cast<SumT>(a);\n           \
+    \     }\n            }\n            ++it;\n        }\n        return res;\n  \
+    \  }\n\n    T mex(T x) const {\n        auto it = find_interval_it(x);\n     \
+    \   if (it == st_.end()) return x;\n        return it->r;\n    }\n\n    void clear()\
+    \ {\n        st_.clear();\n        total_ = 0;\n    }\n\n    Interval prev_interval(T\
     \ x) const {\n        auto it = st_.upper_bound(x);\n        if (it == st_.begin())\
     \ return {-1, -1};\n        --it;\n        return *it;\n    }\n\n    Interval\
     \ next_interval(T x) const {\n        auto fit = find_interval_it(x);\n      \
@@ -97,48 +105,53 @@ data:
     \ if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n\n    Interval\
     \ insert(T l, T r) {\n        if (!(l < r)) return {l, l};\n\n        auto it\
     \ = st_.lower_bound(l);\n\n        if (it != st_.begin()) {\n            auto\
-    \ pit = prev(it);\n            if (pit->r >= l) {\n                l = min(l,\
-    \ pit->l);\n                r = max(r, pit->r);\n                total_ -= seg_len(*pit);\n\
-    \                it = st_.erase(pit);\n            }\n        }\n\n        while\
-    \ (it != st_.end() && it->l <= r) {\n            r = max(r, it->r);\n        \
-    \    total_ -= seg_len(*it);\n            it = st_.erase(it);\n        }\n\n \
-    \       auto new_it = st_.insert(it, {l, r});\n        total_ += static_cast<SumT>(r)\
+    \ pit = prev(it);\n            if (pit->r >= l) it = pit;\n        }\n\n     \
+    \   if (it != st_.end() && it->l <= l && r <= it->r) return *it;\n        if (it\
+    \ == st_.end() || r < it->l) {\n            total_ += static_cast<SumT>(r) - static_cast<SumT>(l);\n\
+    \            return *st_.insert(it, {l, r});\n        }\n\n        l = min(l,\
+    \ it->l);\n        r = max(r, it->r);\n        total_ -= seg_len(*it);\n     \
+    \   auto node = st_.extract(it++);\n        while (it != st_.end() && it->l <=\
+    \ r) {\n            r = max(r, it->r);\n            total_ -= seg_len(*it);\n\
+    \            it = st_.erase(it);\n        }\n\n        node.value() = {l, r};\n\
+    \        auto new_it = st_.insert(it, move(node));\n        total_ += static_cast<SumT>(r)\
     \ - static_cast<SumT>(l);\n        return *new_it;\n    }\n\n    SumT erase(T\
-    \ l, T r) {\n        if (!(l < r)) return 0;\n\n        SumT removed = 0;\n  \
-    \      vector<Interval> add_back;\n\n        auto it = st_.lower_bound(l);\n \
-    \       if (it != st_.begin()) --it;\n\n        while (it != st_.end() && it->l\
-    \ < r) {\n            if (it->r <= l) {\n                ++it;\n             \
-    \   continue;\n            }\n\n            Interval cur = *it;\n            it\
-    \ = st_.erase(it);\n            total_ -= seg_len(cur);\n\n            T a = max(cur.l,\
-    \ l);\n            T b = min(cur.r, r);\n            removed += static_cast<SumT>(b)\
-    \ - static_cast<SumT>(a);\n\n            if (cur.l < l) add_back.push_back({cur.l,\
-    \ l});\n            if (r < cur.r) add_back.push_back({r, cur.r});\n        }\n\
-    \n        for (const auto& seg : add_back) {\n            st_.insert(seg);\n \
-    \           total_ += seg_len(seg);\n        }\n\n        return removed;\n  \
-    \  }\n\n    SumT covered_length(T l, T r) const {\n        if (!(l < r)) return\
-    \ 0;\n\n        SumT res = 0;\n        auto it = st_.lower_bound(l);\n       \
-    \ if (it != st_.begin()) --it;\n\n        while (it != st_.end() && it->l < r)\
-    \ {\n            if (l < it->r) {\n                T a = max(l, it->l);\n    \
-    \            T b = min(r, it->r);\n                if (a < b) {\n            \
-    \        res += static_cast<SumT>(b) - static_cast<SumT>(a);\n               \
-    \ }\n            }\n            ++it;\n        }\n        return res;\n    }\n\
-    \n    T mex(T x) const {\n        auto it = find_interval_it(x);\n        if (it\
-    \ == st_.end()) return x;\n        return it->r;\n    }\n\n    void clear() {\n\
-    \        st_.clear();\n        total_ = 0;\n    }\n\n    Interval prev_interval(T\
-    \ x) const {\n        auto it = st_.upper_bound(x);\n        if (it == st_.begin())\
-    \ return {-1, -1};\n        --it;\n        return *it;\n    }\n\n    Interval\
-    \ next_interval(T x) const {\n        auto fit = find_interval_it(x);\n      \
-    \  if (fit != st_.end()) return *fit;\n\n        auto it = st_.lower_bound(x);\n\
+    \ l, T r) {\n        if (!(l < r)) return 0;\n\n        SumT removed = 0;\n\n\
+    \        auto it = st_.lower_bound(l);\n        if (it != st_.begin()) --it;\n\
+    \n        while (it != st_.end() && it->l < r) {\n            if (it->r <= l)\
+    \ {\n                ++it;\n                continue;\n            }\n\n     \
+    \       Interval cur = *it;\n            T a = max(cur.l, l);\n            T b\
+    \ = min(cur.r, r);\n            removed += static_cast<SumT>(b) - static_cast<SumT>(a);\n\
+    \n            if (cur.l < l || r < cur.r) {\n                auto node = st_.extract(it++);\n\
+    \                if (cur.l < l) {\n                    node.value().r = l;\n \
+    \                   st_.insert(it, move(node));\n                    if (r < cur.r)\
+    \ st_.insert(it, {r, cur.r});\n                } else {\n                    node.value().l\
+    \ = r;\n                    st_.insert(it, move(node));\n                }\n \
+    \           } else {\n                it = st_.erase(it);\n            }\n   \
+    \     }\n\n        total_ -= removed;\n        return removed;\n    }\n\n    SumT\
+    \ covered_length(T l, T r) const {\n        if (!(l < r)) return 0;\n\n      \
+    \  SumT res = 0;\n        auto it = st_.lower_bound(l);\n        if (it != st_.begin())\
+    \ --it;\n\n        while (it != st_.end() && it->l < r) {\n            if (l <\
+    \ it->r) {\n                T a = max(l, it->l);\n                T b = min(r,\
+    \ it->r);\n                if (a < b) {\n                    res += static_cast<SumT>(b)\
+    \ - static_cast<SumT>(a);\n                }\n            }\n            ++it;\n\
+    \        }\n        return res;\n    }\n\n    T mex(T x) const {\n        auto\
+    \ it = find_interval_it(x);\n        if (it == st_.end()) return x;\n        return\
+    \ it->r;\n    }\n\n    void clear() {\n        st_.clear();\n        total_ =\
+    \ 0;\n    }\n\n    Interval prev_interval(T x) const {\n        auto it = st_.upper_bound(x);\n\
+    \        if (it == st_.begin()) return {-1, -1};\n        --it;\n        return\
+    \ *it;\n    }\n\n    Interval next_interval(T x) const {\n        auto fit = find_interval_it(x);\n\
+    \        if (fit != st_.end()) return *fit;\n\n        auto it = st_.lower_bound(x);\n\
     \        if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n};\n\
     \n/**\n * @brief \u533A\u9593\u96C6\u5408(Interval Set)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/interval_set.cpp
   requiredBy: []
-  timestamp: '2026-03-22 12:10:23+09:00'
+  timestamp: '2026-10-10 15:50:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_predecessor_problem_interval_set.test.cpp
+  - test/yosupo_aplusb_interval_set.test.cpp
 date: 2026-03-22
 documentation_of: datastructure/interval_set.cpp
 layout: document
@@ -166,9 +179,9 @@ title: "\u533A\u9593\u96C6\u5408(Interval Set)"
 - `Interval find_interval(T x)`
   `x` を含む区間を返す。無ければ `{-1, -1}`。$O(\log N)$
 - `Interval insert(T l, T r)`
-  `[l, r)` を追加して重なる区間も併合した結果の区間を返す。空区間なら `{l, l}`。触った区間数を $k$ として $O(k \log N)$
+  `[l, r)` を追加して重なる区間も併合した結果の区間を返す。空区間なら `{l, l}`。触った区間数を $k$ として償却 $O(\log(N+1)+k)$
 - `SumT erase(T l, T r)`
-  `[l, r)` を削除し、実際に消えた長さを返す。空区間なら `0`。触った区間数を $k$ として $O(k \log N)$
+  `[l, r)` を削除し、実際に消えた長さを返す。空区間なら `0`。触った区間数を $k$ として償却 $O(\log(N+1)+k)$
 - `SumT covered_length(T l, T r)`
   `[l, r)` と和集合の共通部分の長さを返す。空区間なら `0`。重なる区間数を $k$ として $O(k\log N)$
 - `T mex(T x)`
@@ -196,4 +209,6 @@ auto mx = st.mex(2);           // 3
 ## 実装上の補足
 - 内部では互いに素で左端昇順な区間を `set` で持つ
 - `insert` は重なる区間と隣接区間をまとめて 1 区間にする
+- 完全に被覆済みの `insert` は既存区間をそのまま返す。併合や端の切り詰めには C++17 の node handle で既存ノードを再利用し、削除で 2 分割するときだけ追加の 1 ノードを確保する
+- 更新時の追加作業領域は $O(1)$。更新 1 回の最悪時間を保守的に評価すると $O((k+1)\log(N+1))$ である
 - `prev_interval` と `next_interval` の番兵に `{-1, -1}` を使うので、この 2 つは `T=-1` を表せる型で使う前提と考えるのが安全

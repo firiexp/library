@@ -839,8 +839,14 @@ data:
       path: test/yosupo_aplusb_hld_subtree.test.cpp
       title: test/yosupo_aplusb_hld_subtree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_implicit_treap.test.cpp
+      title: test/yosupo_aplusb_implicit_treap.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_independent_set_boundaries.test.cpp
       title: test/yosupo_aplusb_independent_set_boundaries.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_interval_set.test.cpp
+      title: test/yosupo_aplusb_interval_set.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
@@ -874,6 +880,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
       title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_mo.test.cpp
+      title: test/yosupo_aplusb_mo.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_monotoniccht.test.cpp
       title: test/yosupo_aplusb_monotoniccht.test.cpp
@@ -940,6 +949,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
+      title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_string_bytes.test.cpp
       title: test/yosupo_aplusb_string_bytes.test.cpp

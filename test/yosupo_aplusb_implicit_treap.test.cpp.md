@@ -2,11 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/weightedunionfind.cpp
-    title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
-  - icon: ':heavy_check_mark:'
-    path: tree/rerooting.cpp
-    title: "ReRooting(\u5168\u65B9\u4F4D\u6728DP)"
+    path: datastructure/implicit_treap.cpp
+    title: Implicit Treap
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -20,9 +17,9 @@ data:
     PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
     - https://judge.yosupo.jp/problem/aplusb
-  bundledCode: "#line 1 \"test/yosupo_aplusb_noncommutative_tree.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+  bundledCode: "#line 1 \"test/yosupo_aplusb_implicit_treap.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
     \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
     struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
@@ -229,165 +226,197 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/weightedunionfind.cpp\"\
-    \ntemplate <class G>\nclass WeightedUnionFind {\n    using T = typename G::T;\n\
-    \    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
-    \ n) : uni(n, -1), weights(n, G::e()) {}\n\n    int root(int a) {\n        if\
-    \ (uni[a] < 0) return a;\n        int p = uni[a];\n        int r = root(p);\n\
-    \        weights[a] = G::op(weights[p], weights[a]);\n        return uni[a] =\
-    \ r;\n    }\n\n    T weight(int a) {\n        root(a);\n        return weights[a];\n\
-    \    }\n\n    bool same(int a, int b) {\n        return root(a) == root(b);\n\
-    \    }\n\n    bool unite(int a, int b, T w) {\n        w = G::op(weight(a), G::op(w,\
-    \ G::inv(weight(b))));\n        a = root(a);\n        b = root(b);\n        if\
-    \ (a == b) return false;\n        if (uni[a] > uni[b]) {\n            swap(a,\
-    \ b);\n            w = G::inv(w);\n        }\n        uni[a] += uni[b];\n    \
-    \    uni[b] = a;\n        weights[b] = w;\n        return true;\n    }\n\n   \
-    \ int size(int a) {\n        return -uni[root(a)];\n    }\n\n    T diff(int x,\
-    \ int y) {\n        return G::op(G::inv(weight(x)), weight(y));\n    }\n};\n\n\
-    /*\nstruct Group {\n    using T = long long;\n    static T op(T a, T b) { return\
-    \ a + b; }\n    static T inv(T a) { return -a; }\n    static T e() { return 0;\
-    \ }\n};\n*/\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union\
-    \ Find)\n */\n#line 1 \"tree/rerooting.cpp\"\nusing namespace std;\n\ntemplate\
-    \ <typename M>\nclass ReRooting {\npublic:\n    using T = typename M::T;\n   \
-    \ using U = typename M::U;\n\n    struct Node {\n        int to, rev;\n      \
-    \  U val;\n\n        Node(int to, int rev, U val) : to(to), rev(rev), val(val)\
-    \ {}\n    };\n\n    int n;\n    vector<vector<Node>> G;\n    vector<T> dpl, dpr;\n\
-    \    vector<int> offset, l, r;\n\n    explicit ReRooting(int n) : n(n), G(n),\
-    \ offset(n + 1), l(n), r(n) {}\n\n    void add_edge(int u, int v, const U &x)\
-    \ {\n        G[u].emplace_back(v, (int)G[v].size(), x);\n        G[v].emplace_back(u,\
-    \ (int)G[u].size() - 1, x);\n    }\n\n    void add_edge(int u, int v, const U\
-    \ &x, const U &y) {\n        G[u].emplace_back(v, (int)G[v].size(), x);\n    \
-    \    G[v].emplace_back(u, (int)G[u].size() - 1, y);\n    }\n\n    T dfs(int i,\
-    \ int par) {\n        int base = offset[i];\n        while (l[i] != par && l[i]\
-    \ < (int)G[i].size()) {\n            auto &e = G[i][l[i]];\n            dpl[base\
-    \ + l[i] + 1] = M::f(dpl[base + l[i]], M::g(dfs(e.to, e.rev), e.val));\n     \
-    \       ++l[i];\n        }\n        while (r[i] != par && r[i] >= 0) {\n     \
-    \       auto &e = G[i][r[i]];\n            dpr[base + r[i]] = M::f(M::g(dfs(e.to,\
-    \ e.rev), e.val), dpr[base + r[i] + 1]);\n            --r[i];\n        }\n   \
-    \     if (par < 0) return dpr[base];\n        return M::f(dpl[base + par], dpr[base\
-    \ + par + 1]);\n    }\n\n    vector<T> solve() {\n        for (int i = 0; i <\
-    \ n; ++i) {\n            offset[i + 1] = offset[i] + (int)G[i].size() + 1;\n \
-    \           l[i] = 0;\n            r[i] = (int)G[i].size() - 1;\n        }\n \
-    \       dpl.assign(offset[n], M::e());\n        dpr.assign(offset[n], M::e());\n\
-    \        vector<T> ans(n);\n        for (int i = 0; i < n; ++i) ans[i] = dfs(i,\
-    \ -1);\n        return ans;\n    }\n};\n\n/**\n * @brief ReRooting(\u5168\u65B9\
-    \u4F4D\u6728DP)\n */\n#line 8 \"test/yosupo_aplusb_noncommutative_tree.test.cpp\"\
-    \n\nstruct Permutations {\n    using T = array<int, 4>;\n    static T e() { return\
-    \ {0, 1, 2, 3}; }\n    static T op(T a, T b) {\n        T c;\n        for (int\
-    \ i = 0; i < 4; ++i) c[i] = a[b[i]];\n        return c;\n    }\n    static T inv(T\
-    \ a) {\n        T b;\n        for (int i = 0; i < 4; ++i) b[a[i]] = i;\n     \
-    \   return b;\n    }\n};\n\nvoid unionfind_check() {\n    using G = Permutations;\n\
-    \    WeightedUnionFind<G> minimal(4);\n    G::T b{1, 0, 2, 3}, c{0, 2, 1, 3};\n\
-    \    minimal.unite(0, 1, G::e());\n    minimal.unite(2, 3, b);\n    minimal.unite(0,\
-    \ 2, c);\n    assert(minimal.diff(0, 3) == G::op(c, b));\n    assert(minimal.diff(2,\
-    \ 3) == b);\n    mt19937 rng(28);\n    for (int n = 1; n <= 40; ++n) {\n     \
-    \   vector<G::T> potential(n, G::e());\n        for (auto &p : potential) shuffle(p.begin(),\
-    \ p.end(), rng);\n        vector<int> component(n);\n        iota(component.begin(),\
-    \ component.end(), 0);\n        WeightedUnionFind<G> uf(n);\n        auto difference\
-    \ = [&](int u, int v) {\n            return G::op(G::inv(potential[u]), potential[v]);\n\
-    \        };\n        for (int step = 0; step < 100; ++step) {\n            //\
-    \ Force the single-vertex component to join a larger one.\n            int u =\
-    \ rng() % n, v = rng() % n;\n            if (n >= 3 && step == 0) u = 1, v = 2;\n\
-    \            if (n >= 3 && step == 1) u = 0, v = 1;\n            bool distinct\
-    \ = component[u] != component[v];\n            assert(uf.unite(u, v, difference(u,\
-    \ v)) == distinct);\n            int from = component[v], to = component[u];\n\
-    \            for (int &id : component) if (id == from) id = to;\n            for\
-    \ (int a = 0; a < n; ++a) {\n                assert(uf.size(a) == count(component.begin(),\
-    \ component.end(), component[a]));\n                uf.root(a);\n            \
-    \    uf.root(a);\n                for (int b = 0; b < n; ++b) {\n            \
-    \        assert(uf.same(a, b) == (component[a] == component[b]));\n          \
-    \          if (uf.same(a, b)) assert(uf.diff(a, b) == difference(a, b));\n   \
-    \             }\n            }\n        }\n    }\n}\n\nstruct OrderedTree {\n\
-    \    using T = string;\n    using U = string;\n    static T e() { return \"\"\
-    ; }\n    static T f(const T &a, const T &b) { return a + b; }\n    static T g(const\
-    \ T &a, const U &edge) { return edge + \"(\" + a + \")\"; }\n};\n\nvoid rerooting_check()\
-    \ {\n    ReRooting<OrderedTree> star(4);\n    star.add_edge(0, 1, \"a\");\n  \
-    \  star.add_edge(0, 2, \"b\");\n    star.add_edge(0, 3, \"c\");\n    assert(star.solve()[0]\
-    \ == \"a()b()c()\");\n    assert(star.solve()[2] == \"b(a()c())\");\n    mt19937\
-    \ rng(44);\n    for (int n = 0; n < 40; ++n) {\n        for (int tc = 0; tc <\
-    \ 100; ++tc) {\n            vector<pair<int, int>> edges;\n            for (int\
-    \ v = 1; v < n; ++v) edges.emplace_back(rng() % v, v);\n            shuffle(edges.begin(),\
-    \ edges.end(), rng);\n            ReRooting<OrderedTree> tree(n);\n          \
-    \  vector<vector<pair<int, string>>> adj(n);\n            for (auto [u, v] : edges)\
-    \ {\n                string x = to_string(u) + \":\" + to_string(v);\n       \
-    \         string y = to_string(v) + \":\" + to_string(u);\n                tree.add_edge(u,\
-    \ v, x, y);\n                adj[u].emplace_back(v, x);\n                adj[v].emplace_back(u,\
-    \ y);\n            }\n            auto dfs = [&](auto &&self, int v, int parent)\
-    \ -> string {\n                string result;\n                for (auto [to,\
-    \ label] : adj[v])\n                    if (to != parent) result += label + \"\
-    (\" + self(self, to, v) + \")\";\n                return result;\n           \
-    \ };\n            vector<string> expected;\n            for (int root = 0; root\
-    \ < n; ++root) expected.push_back(dfs(dfs, root, -1));\n            assert(tree.solve()\
-    \ == expected);\n            assert(tree.solve() == expected);\n        }\n  \
-    \  }\n}\n\nint main() {\n    unionfind_check();\n    rerooting_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/implicit_treap.cpp\"\
+    \ntemplate <class M>\nstruct ImplicitTreap {\n    using T = typename M::T;\n \
+    \   using L = typename M::L;\n\n    struct Node {\n        int l, r, sz;\n   \
+    \     unsigned pri;\n        bool rev, has_lazy;\n        T val, sum, rsum;\n\
+    \        L lazy;\n\n        Node(unsigned pri, const T &val)\n            : l(-1),\
+    \ r(-1), sz(1), pri(pri), rev(false), has_lazy(false),\n              val(val),\
+    \ sum(val), rsum(val), lazy(M::l()) {}\n    };\n\n    int root;\n    vector<Node>\
+    \ nodes;\n    vector<int> free_nodes;\n    unsigned long long rng_state;\n\n \
+    \   ImplicitTreap() : root(-1), rng_state(0x123456789abcdef0ull) {}\n\n    explicit\
+    \ ImplicitTreap(const vector<T> &v) : ImplicitTreap() {\n        reserve((int)v.size());\n\
+    \        build_linear(v);\n    }\n\n    int size() const {\n        return root\
+    \ == -1 ? 0 : nodes[root].sz;\n    }\n\n    bool empty() const {\n        return\
+    \ root == -1;\n    }\n\n    void reserve(int capacity) {\n        nodes.reserve(capacity);\n\
+    \        free_nodes.reserve(capacity);\n    }\n\n    T all_fold() const {\n  \
+    \      return root == -1 ? M::e() : nodes[root].sum;\n    }\n\n    void insert(int\
+    \ k, const T &x) {\n        auto [a, b] = split(root, k);\n        root = merge(merge(a,\
+    \ new_node(x)), b);\n    }\n\n    void push_front(const T &x) {\n        insert(0,\
+    \ x);\n    }\n\n    void push_back(const T &x) {\n        insert(size(), x);\n\
+    \    }\n\n    T erase(int k) {\n        auto [a, bc] = split(root, k);\n     \
+    \   auto [b, c] = split(bc, 1);\n        T res = nodes[b].val;\n        recycle_node(b);\n\
+    \        root = merge(a, c);\n        return res;\n    }\n\n    T pop_front()\
+    \ {\n        return erase(0);\n    }\n\n    T pop_back() {\n        return erase(size()\
+    \ - 1);\n    }\n\n    T get(int k) {\n        int v = root;\n        while (true)\
+    \ {\n            push(v);\n            int left_size = nodes[v].l == -1 ? 0 :\
+    \ nodes[nodes[v].l].sz;\n            if (k == left_size) return nodes[v].val;\n\
+    \            if (k < left_size) v = nodes[v].l;\n            else {\n        \
+    \        k -= left_size + 1;\n                v = nodes[v].r;\n            }\n\
+    \        }\n    }\n\n    void set(int k, const T &x) {\n        set_node(root,\
+    \ k, x);\n    }\n\n    void apply(int l, int r, const L &x) {\n        auto [a,\
+    \ b, c] = split3(root, l, r);\n        apply_node(b, x);\n        root = merge(merge(a,\
+    \ b), c);\n    }\n\n    void reverse(int l, int r) {\n        auto [a, b, c] =\
+    \ split3(root, l, r);\n        toggle(b);\n        root = merge(merge(a, b), c);\n\
+    \    }\n\n    T fold(int l, int r) {\n        return fold_node(root, l, r);\n\
+    \    }\n\nprivate:\n    void set_node(int v, int k, const T &x) {\n        push(v);\n\
+    \        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;\n      \
+    \  if (k < left_size) set_node(nodes[v].l, k, x);\n        else if (k == left_size)\
+    \ nodes[v].val = x;\n        else set_node(nodes[v].r, k - left_size - 1, x);\n\
+    \        pull(v);\n    }\n\n    T fold_node(int v, int l, int r) {\n        if\
+    \ (l == r) return M::e();\n        if (l == 0 && r == nodes[v].sz) return nodes[v].sum;\n\
+    \        push(v);\n        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;\n\
+    \        if (r <= left_size) return fold_node(nodes[v].l, l, r);\n        if (left_size\
+    \ < l) return fold_node(nodes[v].r, l - left_size - 1, r - left_size - 1);\n \
+    \       T res = nodes[v].val;\n        if (l < left_size) res = M::f(fold_node(nodes[v].l,\
+    \ l, left_size), res);\n        if (left_size + 1 < r) res = M::f(res, fold_node(nodes[v].r,\
+    \ 0, r - left_size - 1));\n        return res;\n    }\n\n    unsigned next_rand()\
+    \ {\n        rng_state ^= rng_state << 7;\n        rng_state ^= rng_state >> 9;\n\
+    \        return static_cast<unsigned>(rng_state);\n    }\n\n    int new_node(const\
+    \ T &x) {\n        unsigned pri = next_rand();\n        if (!free_nodes.empty())\
+    \ {\n            int idx = free_nodes.back();\n            free_nodes.pop_back();\n\
+    \            nodes[idx] = Node(pri, x);\n            return idx;\n        }\n\
+    \        nodes.emplace_back(pri, x);\n        return (int)nodes.size() - 1;\n\
+    \    }\n\n    void recycle_node(int x) {\n        if (x != -1) free_nodes.push_back(x);\n\
+    \    }\n\n    void build_linear(const vector<T> &v) {\n        if (v.empty())\
+    \ return;\n        vector<int> ids(v.size());\n        for (int i = 0; i < (int)v.size();\
+    \ ++i) ids[i] = new_node(v[i]);\n\n        vector<int> st;\n        st.reserve(v.size());\n\
+    \        for (int cur : ids) {\n            int last = -1;\n            while\
+    \ (!st.empty() && nodes[st.back()].pri > nodes[cur].pri) {\n                last\
+    \ = st.back();\n                st.pop_back();\n            }\n            nodes[cur].l\
+    \ = last;\n            if (!st.empty()) nodes[st.back()].r = cur;\n          \
+    \  st.push_back(cur);\n        }\n        root = st.front();\n\n        vector<int>\
+    \ ord;\n        ord.reserve(v.size());\n        st.assign(1, root);\n        while\
+    \ (!st.empty()) {\n            int x = st.back();\n            st.pop_back();\n\
+    \            ord.push_back(x);\n            if (nodes[x].l != -1) st.push_back(nodes[x].l);\n\
+    \            if (nodes[x].r != -1) st.push_back(nodes[x].r);\n        }\n    \
+    \    for (int i = (int)ord.size() - 1; i >= 0; --i) pull(ord[i]);\n    }\n\n \
+    \   void apply_node(int x, const L &lazy) {\n        if (x == -1) return;\n  \
+    \      Node &node = nodes[x];\n        node.val = M::g(node.val, lazy);\n    \
+    \    node.sum = M::g(node.sum, lazy);\n        node.rsum = M::g(node.rsum, lazy);\n\
+    \        if (node.has_lazy) node.lazy = M::h(node.lazy, lazy);\n        else {\n\
+    \            node.lazy = lazy;\n            node.has_lazy = true;\n        }\n\
+    \    }\n\n    void toggle(int x) {\n        if (x == -1) return;\n        Node\
+    \ &node = nodes[x];\n        swap(node.l, node.r);\n        swap(node.sum, node.rsum);\n\
+    \        node.rev ^= 1;\n    }\n\n    void push(int x) {\n        if (x == -1)\
+    \ return;\n        Node &node = nodes[x];\n        if (node.rev) {\n         \
+    \   toggle(node.l);\n            toggle(node.r);\n            node.rev = false;\n\
+    \        }\n        if (node.has_lazy) {\n            apply_node(node.l, node.lazy);\n\
+    \            apply_node(node.r, node.lazy);\n            node.has_lazy = false;\n\
+    \        }\n    }\n\n    void pull(int x) {\n        Node &node = nodes[x];\n\
+    \        node.sz = 1;\n        node.sum = node.val;\n        node.rsum = node.val;\n\
+    \        if (node.l != -1) {\n            const Node &left = nodes[node.l];\n\
+    \            node.sz += left.sz;\n            node.sum = M::f(left.sum, node.sum);\n\
+    \            node.rsum = M::f(node.rsum, left.rsum);\n        }\n        if (node.r\
+    \ != -1) {\n            const Node &right = nodes[node.r];\n            node.sz\
+    \ += right.sz;\n            node.sum = M::f(node.sum, right.sum);\n          \
+    \  node.rsum = M::f(right.rsum, node.rsum);\n        }\n    }\n\n    int merge(int\
+    \ a, int b) {\n        if (a == -1 || b == -1) return a == -1 ? b : a;\n     \
+    \   if (nodes[a].pri < nodes[b].pri) {\n            push(a);\n            nodes[a].r\
+    \ = merge(nodes[a].r, b);\n            pull(a);\n            return a;\n     \
+    \   }\n        push(b);\n        nodes[b].l = merge(a, nodes[b].l);\n        pull(b);\n\
+    \        return b;\n    }\n\n    pair<int, int> split(int x, int k) {\n      \
+    \  if (x == -1) return {-1, -1};\n        push(x);\n        int left_size = nodes[x].l\
+    \ == -1 ? 0 : nodes[nodes[x].l].sz;\n        if (k <= left_size) {\n         \
+    \   auto [a, b] = split(nodes[x].l, k);\n            nodes[x].l = b;\n       \
+    \     pull(x);\n            return {a, x};\n        }\n        auto [a, b] = split(nodes[x].r,\
+    \ k - left_size - 1);\n        nodes[x].r = a;\n        pull(x);\n        return\
+    \ {x, b};\n    }\n\n    tuple<int, int, int> split3(int x, int l, int r) {\n \
+    \       auto [a, bc] = split(x, l);\n        auto [b, c] = split(bc, r - l);\n\
+    \        return {a, b, c};\n    }\n};\n\n/**\n * @brief Implicit Treap\n */\n\
+    #line 7 \"test/yosupo_aplusb_implicit_treap.test.cpp\"\n\nstruct StringXor {\n\
+    \    using T = string;\n    using L = unsigned char;\n    static T f(const T &a,\
+    \ const T &b) { return a + b; }\n    static T g(T a, L x) {\n        for (char\
+    \ &c : a) c ^= x;\n        return a;\n    }\n    static L h(L a, L b) { return\
+    \ a ^ b; }\n    static T e() { return \"\"; }\n    static L l() { return 0; }\n\
+    };\n\nvoid check() {\n    mt19937 rng(25);\n    for (int tc = 0; tc < 400; ++tc)\
+    \ {\n        string expected(rng() % 50, '\\0');\n        for (char &c : expected)\
+    \ c = rng() % 128;\n        vector<string> init;\n        for (char c : expected)\
+    \ init.emplace_back(1, c);\n        ImplicitTreap<StringXor> tr(init);\n     \
+    \   for (int step = 0; step < 1000; ++step) {\n            int n = expected.size();\n\
+    \            int op = rng() % 7;\n            int l = rng() % (n + 1), r = rng()\
+    \ % (n + 1);\n            if (l > r) swap(l, r);\n            char c = rng() %\
+    \ 128;\n            if (op == 0 && n < 100) {\n                tr.insert(l, string(1,\
+    \ c));\n                expected.insert(expected.begin() + l, c);\n          \
+    \  } else if (op == 1 && n) {\n                int k = rng() % n;\n          \
+    \      assert(tr.erase(k) == expected.substr(k, 1));\n                expected.erase(k,\
+    \ 1);\n            } else if (op == 2 && n) {\n                int k = rng() %\
+    \ n;\n                assert(tr.get(k) == expected.substr(k, 1));\n          \
+    \  } else if (op == 3 && n) {\n                int k = rng() % n;\n          \
+    \      tr.set(k, string(1, c));\n                expected[k] = c;\n          \
+    \  } else if (op == 4) {\n                tr.reverse(l, r);\n                reverse(expected.begin()\
+    \ + l, expected.begin() + r);\n            } else if (op == 5) {\n           \
+    \     tr.apply(l, r, c);\n                for (int i = l; i < r; ++i) expected[i]\
+    \ ^= c;\n            } else {\n                assert(tr.fold(l, r) == expected.substr(l,\
+    \ r - l));\n            }\n            assert(tr.size() == (int)expected.size());\n\
+    \            assert(tr.empty() == expected.empty());\n            assert(tr.all_fold()\
+    \ == expected);\n            assert(tr.fold(0, tr.size()) == expected);\n    \
+    \        assert(tr.fold(tr.size(), tr.size()).empty());\n            if (step\
+    \ % 100 == 0) {\n                tr.reverse(0, tr.size());\n                tr.apply(0,\
+    \ tr.size(), 37);\n                reverse(expected.begin(), expected.end());\n\
+    \                for (char &x : expected) x ^= 37;\n                for (int k\
+    \ = 0; k < tr.size(); ++k) {\n                    assert(tr.get(k) == expected.substr(k,\
+    \ 1));\n                    assert(tr.fold(k, tr.size()) == expected.substr(k));\n\
+    \                }\n            }\n        }\n        while (!expected.empty())\
+    \ {\n            assert(tr.pop_back() == expected.substr(expected.size() - 1));\n\
+    \            expected.pop_back();\n        }\n        assert(tr.fold(0, 0).empty());\n\
+    \        tr.push_front(\"a\");\n        tr.set(0, \"b\");\n        assert(tr.pop_front()\
+    \ == \"b\");\n    }\n}\n\nint main() {\n    check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/weightedunionfind.cpp\"\
-    \n#include \"../tree/rerooting.cpp\"\n\nstruct Permutations {\n    using T = array<int,\
-    \ 4>;\n    static T e() { return {0, 1, 2, 3}; }\n    static T op(T a, T b) {\n\
-    \        T c;\n        for (int i = 0; i < 4; ++i) c[i] = a[b[i]];\n        return\
-    \ c;\n    }\n    static T inv(T a) {\n        T b;\n        for (int i = 0; i\
-    \ < 4; ++i) b[a[i]] = i;\n        return b;\n    }\n};\n\nvoid unionfind_check()\
-    \ {\n    using G = Permutations;\n    WeightedUnionFind<G> minimal(4);\n    G::T\
-    \ b{1, 0, 2, 3}, c{0, 2, 1, 3};\n    minimal.unite(0, 1, G::e());\n    minimal.unite(2,\
-    \ 3, b);\n    minimal.unite(0, 2, c);\n    assert(minimal.diff(0, 3) == G::op(c,\
-    \ b));\n    assert(minimal.diff(2, 3) == b);\n    mt19937 rng(28);\n    for (int\
-    \ n = 1; n <= 40; ++n) {\n        vector<G::T> potential(n, G::e());\n       \
-    \ for (auto &p : potential) shuffle(p.begin(), p.end(), rng);\n        vector<int>\
-    \ component(n);\n        iota(component.begin(), component.end(), 0);\n      \
-    \  WeightedUnionFind<G> uf(n);\n        auto difference = [&](int u, int v) {\n\
-    \            return G::op(G::inv(potential[u]), potential[v]);\n        };\n \
-    \       for (int step = 0; step < 100; ++step) {\n            // Force the single-vertex\
-    \ component to join a larger one.\n            int u = rng() % n, v = rng() %\
-    \ n;\n            if (n >= 3 && step == 0) u = 1, v = 2;\n            if (n >=\
-    \ 3 && step == 1) u = 0, v = 1;\n            bool distinct = component[u] != component[v];\n\
-    \            assert(uf.unite(u, v, difference(u, v)) == distinct);\n         \
-    \   int from = component[v], to = component[u];\n            for (int &id : component)\
-    \ if (id == from) id = to;\n            for (int a = 0; a < n; ++a) {\n      \
-    \          assert(uf.size(a) == count(component.begin(), component.end(), component[a]));\n\
-    \                uf.root(a);\n                uf.root(a);\n                for\
-    \ (int b = 0; b < n; ++b) {\n                    assert(uf.same(a, b) == (component[a]\
-    \ == component[b]));\n                    if (uf.same(a, b)) assert(uf.diff(a,\
-    \ b) == difference(a, b));\n                }\n            }\n        }\n    }\n\
-    }\n\nstruct OrderedTree {\n    using T = string;\n    using U = string;\n    static\
-    \ T e() { return \"\"; }\n    static T f(const T &a, const T &b) { return a +\
-    \ b; }\n    static T g(const T &a, const U &edge) { return edge + \"(\" + a +\
-    \ \")\"; }\n};\n\nvoid rerooting_check() {\n    ReRooting<OrderedTree> star(4);\n\
-    \    star.add_edge(0, 1, \"a\");\n    star.add_edge(0, 2, \"b\");\n    star.add_edge(0,\
-    \ 3, \"c\");\n    assert(star.solve()[0] == \"a()b()c()\");\n    assert(star.solve()[2]\
-    \ == \"b(a()c())\");\n    mt19937 rng(44);\n    for (int n = 0; n < 40; ++n) {\n\
-    \        for (int tc = 0; tc < 100; ++tc) {\n            vector<pair<int, int>>\
-    \ edges;\n            for (int v = 1; v < n; ++v) edges.emplace_back(rng() % v,\
-    \ v);\n            shuffle(edges.begin(), edges.end(), rng);\n            ReRooting<OrderedTree>\
-    \ tree(n);\n            vector<vector<pair<int, string>>> adj(n);\n          \
-    \  for (auto [u, v] : edges) {\n                string x = to_string(u) + \":\"\
-    \ + to_string(v);\n                string y = to_string(v) + \":\" + to_string(u);\n\
-    \                tree.add_edge(u, v, x, y);\n                adj[u].emplace_back(v,\
-    \ x);\n                adj[v].emplace_back(u, y);\n            }\n           \
-    \ auto dfs = [&](auto &&self, int v, int parent) -> string {\n               \
-    \ string result;\n                for (auto [to, label] : adj[v])\n          \
-    \          if (to != parent) result += label + \"(\" + self(self, to, v) + \"\
-    )\";\n                return result;\n            };\n            vector<string>\
-    \ expected;\n            for (int root = 0; root < n; ++root) expected.push_back(dfs(dfs,\
-    \ root, -1));\n            assert(tree.solve() == expected);\n            assert(tree.solve()\
-    \ == expected);\n        }\n    }\n}\n\nint main() {\n    unionfind_check();\n\
-    \    rerooting_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n   \
-    \ sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/implicit_treap.cpp\"\
+    \n\nstruct StringXor {\n    using T = string;\n    using L = unsigned char;\n\
+    \    static T f(const T &a, const T &b) { return a + b; }\n    static T g(T a,\
+    \ L x) {\n        for (char &c : a) c ^= x;\n        return a;\n    }\n    static\
+    \ L h(L a, L b) { return a ^ b; }\n    static T e() { return \"\"; }\n    static\
+    \ L l() { return 0; }\n};\n\nvoid check() {\n    mt19937 rng(25);\n    for (int\
+    \ tc = 0; tc < 400; ++tc) {\n        string expected(rng() % 50, '\\0');\n   \
+    \     for (char &c : expected) c = rng() % 128;\n        vector<string> init;\n\
+    \        for (char c : expected) init.emplace_back(1, c);\n        ImplicitTreap<StringXor>\
+    \ tr(init);\n        for (int step = 0; step < 1000; ++step) {\n            int\
+    \ n = expected.size();\n            int op = rng() % 7;\n            int l = rng()\
+    \ % (n + 1), r = rng() % (n + 1);\n            if (l > r) swap(l, r);\n      \
+    \      char c = rng() % 128;\n            if (op == 0 && n < 100) {\n        \
+    \        tr.insert(l, string(1, c));\n                expected.insert(expected.begin()\
+    \ + l, c);\n            } else if (op == 1 && n) {\n                int k = rng()\
+    \ % n;\n                assert(tr.erase(k) == expected.substr(k, 1));\n      \
+    \          expected.erase(k, 1);\n            } else if (op == 2 && n) {\n   \
+    \             int k = rng() % n;\n                assert(tr.get(k) == expected.substr(k,\
+    \ 1));\n            } else if (op == 3 && n) {\n                int k = rng()\
+    \ % n;\n                tr.set(k, string(1, c));\n                expected[k]\
+    \ = c;\n            } else if (op == 4) {\n                tr.reverse(l, r);\n\
+    \                reverse(expected.begin() + l, expected.begin() + r);\n      \
+    \      } else if (op == 5) {\n                tr.apply(l, r, c);\n           \
+    \     for (int i = l; i < r; ++i) expected[i] ^= c;\n            } else {\n  \
+    \              assert(tr.fold(l, r) == expected.substr(l, r - l));\n         \
+    \   }\n            assert(tr.size() == (int)expected.size());\n            assert(tr.empty()\
+    \ == expected.empty());\n            assert(tr.all_fold() == expected);\n    \
+    \        assert(tr.fold(0, tr.size()) == expected);\n            assert(tr.fold(tr.size(),\
+    \ tr.size()).empty());\n            if (step % 100 == 0) {\n                tr.reverse(0,\
+    \ tr.size());\n                tr.apply(0, tr.size(), 37);\n                reverse(expected.begin(),\
+    \ expected.end());\n                for (char &x : expected) x ^= 37;\n      \
+    \          for (int k = 0; k < tr.size(); ++k) {\n                    assert(tr.get(k)\
+    \ == expected.substr(k, 1));\n                    assert(tr.fold(k, tr.size())\
+    \ == expected.substr(k));\n                }\n            }\n        }\n     \
+    \   while (!expected.empty()) {\n            assert(tr.pop_back() == expected.substr(expected.size()\
+    \ - 1));\n            expected.pop_back();\n        }\n        assert(tr.fold(0,\
+    \ 0).empty());\n        tr.push_front(\"a\");\n        tr.set(0, \"b\");\n   \
+    \     assert(tr.pop_front() == \"b\");\n    }\n}\n\nint main() {\n    check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/weightedunionfind.cpp
-  - tree/rerooting.cpp
+  - datastructure/implicit_treap.cpp
   isVerificationFile: true
-  path: test/yosupo_aplusb_noncommutative_tree.test.cpp
+  path: test/yosupo_aplusb_implicit_treap.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 15:48:50+09:00'
+  timestamp: '2026-10-10 15:46:25+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_aplusb_noncommutative_tree.test.cpp
+documentation_of: test/yosupo_aplusb_implicit_treap.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_aplusb_noncommutative_tree.test.cpp
-- /verify/test/yosupo_aplusb_noncommutative_tree.test.cpp.html
-title: test/yosupo_aplusb_noncommutative_tree.test.cpp
+- /verify/test/yosupo_aplusb_implicit_treap.test.cpp
+- /verify/test/yosupo_aplusb_implicit_treap.test.cpp.html
+title: test/yosupo_aplusb_implicit_treap.test.cpp
 ---

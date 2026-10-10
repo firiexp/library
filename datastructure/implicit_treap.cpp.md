@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_implicit_treap.test.cpp
+    title: test/yosupo_aplusb_implicit_treap.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
     title: test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   _isVerificationFailed: false
@@ -34,21 +37,30 @@ data:
     \ = split(root, k);\n        auto [b, c] = split(bc, 1);\n        T res = nodes[b].val;\n\
     \        recycle_node(b);\n        root = merge(a, c);\n        return res;\n\
     \    }\n\n    T pop_front() {\n        return erase(0);\n    }\n\n    T pop_back()\
-    \ {\n        return erase(size() - 1);\n    }\n\n    T get(int k) {\n        auto\
-    \ [a, bc] = split(root, k);\n        auto [b, c] = split(bc, 1);\n        T res\
-    \ = nodes[b].val;\n        root = merge(merge(a, b), c);\n        return res;\n\
-    \    }\n\n    void set(int k, const T &x) {\n        auto [a, bc] = split(root,\
-    \ k);\n        auto [b, c] = split(bc, 1);\n        Node &node = nodes[b];\n \
-    \       node.val = x;\n        node.sum = x;\n        node.rsum = x;\n       \
-    \ node.rev = false;\n        node.has_lazy = false;\n        pull(b);\n      \
-    \  root = merge(merge(a, b), c);\n    }\n\n    void apply(int l, int r, const\
-    \ L &x) {\n        auto [a, b, c] = split3(root, l, r);\n        apply_node(b,\
-    \ x);\n        root = merge(merge(a, b), c);\n    }\n\n    void reverse(int l,\
-    \ int r) {\n        auto [a, b, c] = split3(root, l, r);\n        toggle(b);\n\
-    \        root = merge(merge(a, b), c);\n    }\n\n    T fold(int l, int r) {\n\
-    \        auto [a, b, c] = split3(root, l, r);\n        T res = b == -1 ? M::e()\
-    \ : nodes[b].sum;\n        root = merge(merge(a, b), c);\n        return res;\n\
-    \    }\n\nprivate:\n    unsigned next_rand() {\n        rng_state ^= rng_state\
+    \ {\n        return erase(size() - 1);\n    }\n\n    T get(int k) {\n        int\
+    \ v = root;\n        while (true) {\n            push(v);\n            int left_size\
+    \ = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;\n            if (k == left_size)\
+    \ return nodes[v].val;\n            if (k < left_size) v = nodes[v].l;\n     \
+    \       else {\n                k -= left_size + 1;\n                v = nodes[v].r;\n\
+    \            }\n        }\n    }\n\n    void set(int k, const T &x) {\n      \
+    \  set_node(root, k, x);\n    }\n\n    void apply(int l, int r, const L &x) {\n\
+    \        auto [a, b, c] = split3(root, l, r);\n        apply_node(b, x);\n   \
+    \     root = merge(merge(a, b), c);\n    }\n\n    void reverse(int l, int r) {\n\
+    \        auto [a, b, c] = split3(root, l, r);\n        toggle(b);\n        root\
+    \ = merge(merge(a, b), c);\n    }\n\n    T fold(int l, int r) {\n        return\
+    \ fold_node(root, l, r);\n    }\n\nprivate:\n    void set_node(int v, int k, const\
+    \ T &x) {\n        push(v);\n        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;\n\
+    \        if (k < left_size) set_node(nodes[v].l, k, x);\n        else if (k ==\
+    \ left_size) nodes[v].val = x;\n        else set_node(nodes[v].r, k - left_size\
+    \ - 1, x);\n        pull(v);\n    }\n\n    T fold_node(int v, int l, int r) {\n\
+    \        if (l == r) return M::e();\n        if (l == 0 && r == nodes[v].sz) return\
+    \ nodes[v].sum;\n        push(v);\n        int left_size = nodes[v].l == -1 ?\
+    \ 0 : nodes[nodes[v].l].sz;\n        if (r <= left_size) return fold_node(nodes[v].l,\
+    \ l, r);\n        if (left_size < l) return fold_node(nodes[v].r, l - left_size\
+    \ - 1, r - left_size - 1);\n        T res = nodes[v].val;\n        if (l < left_size)\
+    \ res = M::f(fold_node(nodes[v].l, l, left_size), res);\n        if (left_size\
+    \ + 1 < r) res = M::f(res, fold_node(nodes[v].r, 0, r - left_size - 1));\n   \
+    \     return res;\n    }\n\n    unsigned next_rand() {\n        rng_state ^= rng_state\
     \ << 7;\n        rng_state ^= rng_state >> 9;\n        return static_cast<unsigned>(rng_state);\n\
     \    }\n\n    int new_node(const T &x) {\n        unsigned pri = next_rand();\n\
     \        if (!free_nodes.empty()) {\n            int idx = free_nodes.back();\n\
@@ -123,21 +135,30 @@ data:
     \   auto [b, c] = split(bc, 1);\n        T res = nodes[b].val;\n        recycle_node(b);\n\
     \        root = merge(a, c);\n        return res;\n    }\n\n    T pop_front()\
     \ {\n        return erase(0);\n    }\n\n    T pop_back() {\n        return erase(size()\
-    \ - 1);\n    }\n\n    T get(int k) {\n        auto [a, bc] = split(root, k);\n\
-    \        auto [b, c] = split(bc, 1);\n        T res = nodes[b].val;\n        root\
-    \ = merge(merge(a, b), c);\n        return res;\n    }\n\n    void set(int k,\
-    \ const T &x) {\n        auto [a, bc] = split(root, k);\n        auto [b, c] =\
-    \ split(bc, 1);\n        Node &node = nodes[b];\n        node.val = x;\n     \
-    \   node.sum = x;\n        node.rsum = x;\n        node.rev = false;\n       \
-    \ node.has_lazy = false;\n        pull(b);\n        root = merge(merge(a, b),\
-    \ c);\n    }\n\n    void apply(int l, int r, const L &x) {\n        auto [a, b,\
-    \ c] = split3(root, l, r);\n        apply_node(b, x);\n        root = merge(merge(a,\
+    \ - 1);\n    }\n\n    T get(int k) {\n        int v = root;\n        while (true)\
+    \ {\n            push(v);\n            int left_size = nodes[v].l == -1 ? 0 :\
+    \ nodes[nodes[v].l].sz;\n            if (k == left_size) return nodes[v].val;\n\
+    \            if (k < left_size) v = nodes[v].l;\n            else {\n        \
+    \        k -= left_size + 1;\n                v = nodes[v].r;\n            }\n\
+    \        }\n    }\n\n    void set(int k, const T &x) {\n        set_node(root,\
+    \ k, x);\n    }\n\n    void apply(int l, int r, const L &x) {\n        auto [a,\
+    \ b, c] = split3(root, l, r);\n        apply_node(b, x);\n        root = merge(merge(a,\
     \ b), c);\n    }\n\n    void reverse(int l, int r) {\n        auto [a, b, c] =\
     \ split3(root, l, r);\n        toggle(b);\n        root = merge(merge(a, b), c);\n\
-    \    }\n\n    T fold(int l, int r) {\n        auto [a, b, c] = split3(root, l,\
-    \ r);\n        T res = b == -1 ? M::e() : nodes[b].sum;\n        root = merge(merge(a,\
-    \ b), c);\n        return res;\n    }\n\nprivate:\n    unsigned next_rand() {\n\
-    \        rng_state ^= rng_state << 7;\n        rng_state ^= rng_state >> 9;\n\
+    \    }\n\n    T fold(int l, int r) {\n        return fold_node(root, l, r);\n\
+    \    }\n\nprivate:\n    void set_node(int v, int k, const T &x) {\n        push(v);\n\
+    \        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;\n      \
+    \  if (k < left_size) set_node(nodes[v].l, k, x);\n        else if (k == left_size)\
+    \ nodes[v].val = x;\n        else set_node(nodes[v].r, k - left_size - 1, x);\n\
+    \        pull(v);\n    }\n\n    T fold_node(int v, int l, int r) {\n        if\
+    \ (l == r) return M::e();\n        if (l == 0 && r == nodes[v].sz) return nodes[v].sum;\n\
+    \        push(v);\n        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;\n\
+    \        if (r <= left_size) return fold_node(nodes[v].l, l, r);\n        if (left_size\
+    \ < l) return fold_node(nodes[v].r, l - left_size - 1, r - left_size - 1);\n \
+    \       T res = nodes[v].val;\n        if (l < left_size) res = M::f(fold_node(nodes[v].l,\
+    \ l, left_size), res);\n        if (left_size + 1 < r) res = M::f(res, fold_node(nodes[v].r,\
+    \ 0, r - left_size - 1));\n        return res;\n    }\n\n    unsigned next_rand()\
+    \ {\n        rng_state ^= rng_state << 7;\n        rng_state ^= rng_state >> 9;\n\
     \        return static_cast<unsigned>(rng_state);\n    }\n\n    int new_node(const\
     \ T &x) {\n        unsigned pri = next_rand();\n        if (!free_nodes.empty())\
     \ {\n            int idx = free_nodes.back();\n            free_nodes.pop_back();\n\
@@ -194,10 +215,11 @@ data:
   isVerificationFile: false
   path: datastructure/implicit_treap.cpp
   requiredBy: []
-  timestamp: '2026-03-13 22:51:48+09:00'
+  timestamp: '2026-10-10 15:46:25+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
+  - test/yosupo_aplusb_implicit_treap.test.cpp
 date: 2026-03-12
 documentation_of: datastructure/implicit_treap.cpp
 layout: document
@@ -265,5 +287,6 @@ $$
 を満たすように `T` を設計する。
 
 ## 実装上の補足
+- `get` / `set` は位置へ直接降り、`fold` は完全に含まれる部分木の集約値を使って境界だけを探索する。いずれも期待 $O(\log N)$
 - 作用素の合成順は `h(古い作用, 新しい作用)` である
 - 範囲和のように長さ依存の更新をしたいときは、`T` に長さを持たせて `g` で処理する

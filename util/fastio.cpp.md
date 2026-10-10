@@ -167,8 +167,14 @@ data:
     path: test/yosupo_aplusb_hld_subtree.test.cpp
     title: test/yosupo_aplusb_hld_subtree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_implicit_treap.test.cpp
+    title: test/yosupo_aplusb_implicit_treap.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_independent_set_boundaries.test.cpp
     title: test/yosupo_aplusb_independent_set_boundaries.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_interval_set.test.cpp
+    title: test/yosupo_aplusb_interval_set.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_is_palindrome.test.cpp
     title: test/yosupo_aplusb_is_palindrome.test.cpp
@@ -202,6 +208,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_mo.test.cpp
+    title: test/yosupo_aplusb_mo.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_monotoniccht.test.cpp
     title: test/yosupo_aplusb_monotoniccht.test.cpp
@@ -268,6 +277,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_bitset.test.cpp
     title: test/yosupo_aplusb_static_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
+    title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_string_bytes.test.cpp
     title: test/yosupo_aplusb_string_bytes.test.cpp
@@ -1166,7 +1178,9 @@ data:
   - test/yosupo_aplusb_ntt_multiply.test.cpp
   - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/yosupo_pow_of_matrix_generic.test.cpp
+  - test/yosupo_aplusb_mo.test.cpp
   - test/aoj_alds1_9_c_binaryheap.test.cpp
+  - test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - test/yosupo_matrix_product.test.cpp
   - test/aoj2945_bfs01.test.cpp
   - test/yosupo_set_xor_min_binarytrie.test.cpp
@@ -1250,6 +1264,7 @@ data:
   - test/yosupo_counting_primes.test.cpp
   - test/yosupo_longest_common_substring.test.cpp
   - test/yuki2672_xor_basis.test.cpp
+  - test/yosupo_aplusb_implicit_treap.test.cpp
   - test/yosupo_stern_brocot_tree.test.cpp
   - test/yosupo_aplusb_directedmst.test.cpp
   - test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
@@ -1290,6 +1305,7 @@ data:
   - test/yosupo_sqrt_mod.test.cpp
   - test/yosupo_aplusb_garner.test.cpp
   - test/yosupo_aplusb_complement_components.test.cpp
+  - test/yosupo_aplusb_interval_set.test.cpp
   - test/yosupo_general_matching.test.cpp
   - test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
   - test/yosupo_assignment_hungarian.test.cpp

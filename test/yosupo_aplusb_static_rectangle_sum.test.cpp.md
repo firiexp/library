@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/weightedunionfind.cpp
-    title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
+    path: datastructure/binaryindexedtree.cpp
+    title: Binary Indexed Tree(BIT)
   - icon: ':heavy_check_mark:'
-    path: tree/rerooting.cpp
-    title: "ReRooting(\u5168\u65B9\u4F4D\u6728DP)"
+    path: datastructure/static_rectangle_sum.cpp
+    title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -20,7 +20,7 @@ data:
     PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
     - https://judge.yosupo.jp/problem/aplusb
-  bundledCode: "#line 1 \"test/yosupo_aplusb_noncommutative_tree.test.cpp\"\n#define\
+  bundledCode: "#line 1 \"test/yosupo_aplusb_static_rectangle_sum.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
@@ -229,165 +229,121 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/weightedunionfind.cpp\"\
-    \ntemplate <class G>\nclass WeightedUnionFind {\n    using T = typename G::T;\n\
-    \    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
-    \ n) : uni(n, -1), weights(n, G::e()) {}\n\n    int root(int a) {\n        if\
-    \ (uni[a] < 0) return a;\n        int p = uni[a];\n        int r = root(p);\n\
-    \        weights[a] = G::op(weights[p], weights[a]);\n        return uni[a] =\
-    \ r;\n    }\n\n    T weight(int a) {\n        root(a);\n        return weights[a];\n\
-    \    }\n\n    bool same(int a, int b) {\n        return root(a) == root(b);\n\
-    \    }\n\n    bool unite(int a, int b, T w) {\n        w = G::op(weight(a), G::op(w,\
-    \ G::inv(weight(b))));\n        a = root(a);\n        b = root(b);\n        if\
-    \ (a == b) return false;\n        if (uni[a] > uni[b]) {\n            swap(a,\
-    \ b);\n            w = G::inv(w);\n        }\n        uni[a] += uni[b];\n    \
-    \    uni[b] = a;\n        weights[b] = w;\n        return true;\n    }\n\n   \
-    \ int size(int a) {\n        return -uni[root(a)];\n    }\n\n    T diff(int x,\
-    \ int y) {\n        return G::op(G::inv(weight(x)), weight(y));\n    }\n};\n\n\
-    /*\nstruct Group {\n    using T = long long;\n    static T op(T a, T b) { return\
-    \ a + b; }\n    static T inv(T a) { return -a; }\n    static T e() { return 0;\
-    \ }\n};\n*/\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union\
-    \ Find)\n */\n#line 1 \"tree/rerooting.cpp\"\nusing namespace std;\n\ntemplate\
-    \ <typename M>\nclass ReRooting {\npublic:\n    using T = typename M::T;\n   \
-    \ using U = typename M::U;\n\n    struct Node {\n        int to, rev;\n      \
-    \  U val;\n\n        Node(int to, int rev, U val) : to(to), rev(rev), val(val)\
-    \ {}\n    };\n\n    int n;\n    vector<vector<Node>> G;\n    vector<T> dpl, dpr;\n\
-    \    vector<int> offset, l, r;\n\n    explicit ReRooting(int n) : n(n), G(n),\
-    \ offset(n + 1), l(n), r(n) {}\n\n    void add_edge(int u, int v, const U &x)\
-    \ {\n        G[u].emplace_back(v, (int)G[v].size(), x);\n        G[v].emplace_back(u,\
-    \ (int)G[u].size() - 1, x);\n    }\n\n    void add_edge(int u, int v, const U\
-    \ &x, const U &y) {\n        G[u].emplace_back(v, (int)G[v].size(), x);\n    \
-    \    G[v].emplace_back(u, (int)G[u].size() - 1, y);\n    }\n\n    T dfs(int i,\
-    \ int par) {\n        int base = offset[i];\n        while (l[i] != par && l[i]\
-    \ < (int)G[i].size()) {\n            auto &e = G[i][l[i]];\n            dpl[base\
-    \ + l[i] + 1] = M::f(dpl[base + l[i]], M::g(dfs(e.to, e.rev), e.val));\n     \
-    \       ++l[i];\n        }\n        while (r[i] != par && r[i] >= 0) {\n     \
-    \       auto &e = G[i][r[i]];\n            dpr[base + r[i]] = M::f(M::g(dfs(e.to,\
-    \ e.rev), e.val), dpr[base + r[i] + 1]);\n            --r[i];\n        }\n   \
-    \     if (par < 0) return dpr[base];\n        return M::f(dpl[base + par], dpr[base\
-    \ + par + 1]);\n    }\n\n    vector<T> solve() {\n        for (int i = 0; i <\
-    \ n; ++i) {\n            offset[i + 1] = offset[i] + (int)G[i].size() + 1;\n \
-    \           l[i] = 0;\n            r[i] = (int)G[i].size() - 1;\n        }\n \
-    \       dpl.assign(offset[n], M::e());\n        dpr.assign(offset[n], M::e());\n\
-    \        vector<T> ans(n);\n        for (int i = 0; i < n; ++i) ans[i] = dfs(i,\
-    \ -1);\n        return ans;\n    }\n};\n\n/**\n * @brief ReRooting(\u5168\u65B9\
-    \u4F4D\u6728DP)\n */\n#line 8 \"test/yosupo_aplusb_noncommutative_tree.test.cpp\"\
-    \n\nstruct Permutations {\n    using T = array<int, 4>;\n    static T e() { return\
-    \ {0, 1, 2, 3}; }\n    static T op(T a, T b) {\n        T c;\n        for (int\
-    \ i = 0; i < 4; ++i) c[i] = a[b[i]];\n        return c;\n    }\n    static T inv(T\
-    \ a) {\n        T b;\n        for (int i = 0; i < 4; ++i) b[a[i]] = i;\n     \
-    \   return b;\n    }\n};\n\nvoid unionfind_check() {\n    using G = Permutations;\n\
-    \    WeightedUnionFind<G> minimal(4);\n    G::T b{1, 0, 2, 3}, c{0, 2, 1, 3};\n\
-    \    minimal.unite(0, 1, G::e());\n    minimal.unite(2, 3, b);\n    minimal.unite(0,\
-    \ 2, c);\n    assert(minimal.diff(0, 3) == G::op(c, b));\n    assert(minimal.diff(2,\
-    \ 3) == b);\n    mt19937 rng(28);\n    for (int n = 1; n <= 40; ++n) {\n     \
-    \   vector<G::T> potential(n, G::e());\n        for (auto &p : potential) shuffle(p.begin(),\
-    \ p.end(), rng);\n        vector<int> component(n);\n        iota(component.begin(),\
-    \ component.end(), 0);\n        WeightedUnionFind<G> uf(n);\n        auto difference\
-    \ = [&](int u, int v) {\n            return G::op(G::inv(potential[u]), potential[v]);\n\
-    \        };\n        for (int step = 0; step < 100; ++step) {\n            //\
-    \ Force the single-vertex component to join a larger one.\n            int u =\
-    \ rng() % n, v = rng() % n;\n            if (n >= 3 && step == 0) u = 1, v = 2;\n\
-    \            if (n >= 3 && step == 1) u = 0, v = 1;\n            bool distinct\
-    \ = component[u] != component[v];\n            assert(uf.unite(u, v, difference(u,\
-    \ v)) == distinct);\n            int from = component[v], to = component[u];\n\
-    \            for (int &id : component) if (id == from) id = to;\n            for\
-    \ (int a = 0; a < n; ++a) {\n                assert(uf.size(a) == count(component.begin(),\
-    \ component.end(), component[a]));\n                uf.root(a);\n            \
-    \    uf.root(a);\n                for (int b = 0; b < n; ++b) {\n            \
-    \        assert(uf.same(a, b) == (component[a] == component[b]));\n          \
-    \          if (uf.same(a, b)) assert(uf.diff(a, b) == difference(a, b));\n   \
-    \             }\n            }\n        }\n    }\n}\n\nstruct OrderedTree {\n\
-    \    using T = string;\n    using U = string;\n    static T e() { return \"\"\
-    ; }\n    static T f(const T &a, const T &b) { return a + b; }\n    static T g(const\
-    \ T &a, const U &edge) { return edge + \"(\" + a + \")\"; }\n};\n\nvoid rerooting_check()\
-    \ {\n    ReRooting<OrderedTree> star(4);\n    star.add_edge(0, 1, \"a\");\n  \
-    \  star.add_edge(0, 2, \"b\");\n    star.add_edge(0, 3, \"c\");\n    assert(star.solve()[0]\
-    \ == \"a()b()c()\");\n    assert(star.solve()[2] == \"b(a()c())\");\n    mt19937\
-    \ rng(44);\n    for (int n = 0; n < 40; ++n) {\n        for (int tc = 0; tc <\
-    \ 100; ++tc) {\n            vector<pair<int, int>> edges;\n            for (int\
-    \ v = 1; v < n; ++v) edges.emplace_back(rng() % v, v);\n            shuffle(edges.begin(),\
-    \ edges.end(), rng);\n            ReRooting<OrderedTree> tree(n);\n          \
-    \  vector<vector<pair<int, string>>> adj(n);\n            for (auto [u, v] : edges)\
-    \ {\n                string x = to_string(u) + \":\" + to_string(v);\n       \
-    \         string y = to_string(v) + \":\" + to_string(u);\n                tree.add_edge(u,\
-    \ v, x, y);\n                adj[u].emplace_back(v, x);\n                adj[v].emplace_back(u,\
-    \ y);\n            }\n            auto dfs = [&](auto &&self, int v, int parent)\
-    \ -> string {\n                string result;\n                for (auto [to,\
-    \ label] : adj[v])\n                    if (to != parent) result += label + \"\
-    (\" + self(self, to, v) + \")\";\n                return result;\n           \
-    \ };\n            vector<string> expected;\n            for (int root = 0; root\
-    \ < n; ++root) expected.push_back(dfs(dfs, root, -1));\n            assert(tree.solve()\
-    \ == expected);\n            assert(tree.solve() == expected);\n        }\n  \
-    \  }\n}\n\nint main() {\n    unionfind_check();\n    rerooting_check();\n    Scanner\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/static_rectangle_sum.cpp\"\
+    \nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\
+    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
+    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
+    \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
+    \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
+    \            int parent = i + (i & -i);\n            if (parent <= n) bit[parent\
+    \ - 1] += bit[i - 1];\n        }\n    }\n\n    T sum(int k){\n        T ret =\
+    \ 0;\n        for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return\
+    \ ret;\n    }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k\
+    \ & -k)) bit[k - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x\
+    \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
+    \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
+    \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
+    \ Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/static_rectangle_sum.cpp\"\
+    \n\ntemplate<class T>\nstruct StaticRectangleSum {\n    struct Point {\n     \
+    \   int x, y;\n        T w;\n    };\n\n    struct Event {\n        int x, d, u,\
+    \ id, sign;\n\n        bool operator<(const Event& other) const {\n          \
+    \  return x < other.x;\n        }\n    };\n\n    vector<Point> points;\n    vector<Event>\
+    \ events;\n    vector<int> ys;\n\n    void add_point(int x, int y, T w) {\n  \
+    \      points.push_back({x, y, w});\n        ys.push_back(y);\n    }\n\n    void\
+    \ add_query(int l, int d, int r, int u) {\n        int id = (int)events.size()\
+    \ / 2;\n        events.push_back({r, d, u, id, 1});\n        events.push_back({l,\
+    \ d, u, id, -1});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\
+    \n    vector<T> solve() const {\n        vector<int> ord_y = ys;\n        sort(ord_y.begin(),\
+    \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
+    \n        auto get_y = [&](int y) {\n            return (int)(lower_bound(ord_y.begin(),\
+    \ ord_y.end(), y) - ord_y.begin());\n        };\n\n        vector<Point> ps =\
+    \ points;\n        vector<Event> es = events;\n        for (auto& p : ps) p.y\
+    \ = get_y(p.y);\n        for (auto& e : es) {\n            e.d = get_y(e.d);\n\
+    \            e.u = get_y(e.u);\n        }\n\n        sort(ps.begin(), ps.end(),\
+    \ [](const Point& a, const Point& b) {\n            return a.x < b.x;\n      \
+    \  });\n        sort(es.begin(), es.end());\n\n        int q = (int)events.size()\
+    \ / 2;\n        vector<T> ans(q, 0);\n        BIT<T> bit((int)ord_y.size());\n\
+    \        int i = 0;\n        for (auto e : es) {\n            while (i < (int)ps.size()\
+    \ && ps[i].x < e.x) {\n                bit.add(ps[i].y, ps[i].w);\n          \
+    \      ++i;\n            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d))\
+    \ * e.sign;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9759\
+    \u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)\n */\n#line 7 \"test/yosupo_aplusb_static_rectangle_sum.test.cpp\"\
+    \n\nvoid check(const StaticRectangleSum<long long>& solver) {\n    auto points\
+    \ = solver.points;\n    auto events = solver.events;\n    auto ys = solver.ys;\n\
+    \    vector<long long> expected(events.size() / 2);\n    for (auto e : events)\
+    \ {\n        for (auto p : points) {\n            if (p.x < e.x && e.d <= p.y\
+    \ && p.y < e.u) {\n                expected[e.id] += p.w * e.sign;\n         \
+    \   }\n        }\n    }\n    for (int repeat = 0; repeat < 3; ++repeat) {\n  \
+    \      assert(solver.solve() == expected);\n        assert(solver.ys == ys);\n\
+    \        assert(solver.points.size() == points.size());\n        assert(solver.events.size()\
+    \ == events.size());\n        for (int i = 0; i < (int)points.size(); ++i) {\n\
+    \            auto a = solver.points[i], b = points[i];\n            assert(tie(a.x,\
+    \ a.y, a.w) == tie(b.x, b.y, b.w));\n        }\n        for (int i = 0; i < (int)events.size();\
+    \ ++i) {\n            auto a = solver.events[i], b = events[i];\n            assert(tie(a.x,\
+    \ a.d, a.u, a.id, a.sign) == tie(b.x, b.d, b.u, b.id, b.sign));\n        }\n \
+    \   }\n}\n\nint main() {\n    StaticRectangleSum<long long> regression;\n    regression.add_point(10,\
+    \ 100, 7);\n    regression.add_query(0, 50, 20, 150);\n    assert(regression.solve()\
+    \ == vector<long long>{7});\n    assert(regression.solve() == vector<long long>{7});\n\
+    \    check(regression);\n\n    mt19937 rng(96);\n    const vector<int> coords\
+    \ = {INT_MIN, -100, -1, 0, 1, 50, 100, 150, INT_MAX};\n    for (int tc = 0; tc\
+    \ < 300; ++tc) {\n        StaticRectangleSum<long long> solver;\n        check(solver);\n\
+    \        auto coord = [&]() { return coords[rng() % coords.size()]; };\n     \
+    \   for (int step = 0; step < 50; ++step) {\n            if (rng() % 2) {\n  \
+    \              int x = coord(), y = coord();\n                long long w = int(rng()\
+    \ % 101) - 50;\n                solver.add_point(x, y, w);\n                if\
+    \ (rng() % 3 == 0) solver.add_point(x, y, w);\n            } else {\n        \
+    \        int l = coord(), r = coord(), d = coord(), u = coord();\n           \
+    \     if (l > r) swap(l, r);\n                if (d > u) swap(d, u);\n       \
+    \         solver.add_query(l, d, r, u);\n            }\n            if (step %\
+    \ 10 == 0) check(solver);\n        }\n        check(solver);\n    }\n    Scanner\
     \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
     \ b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/weightedunionfind.cpp\"\
-    \n#include \"../tree/rerooting.cpp\"\n\nstruct Permutations {\n    using T = array<int,\
-    \ 4>;\n    static T e() { return {0, 1, 2, 3}; }\n    static T op(T a, T b) {\n\
-    \        T c;\n        for (int i = 0; i < 4; ++i) c[i] = a[b[i]];\n        return\
-    \ c;\n    }\n    static T inv(T a) {\n        T b;\n        for (int i = 0; i\
-    \ < 4; ++i) b[a[i]] = i;\n        return b;\n    }\n};\n\nvoid unionfind_check()\
-    \ {\n    using G = Permutations;\n    WeightedUnionFind<G> minimal(4);\n    G::T\
-    \ b{1, 0, 2, 3}, c{0, 2, 1, 3};\n    minimal.unite(0, 1, G::e());\n    minimal.unite(2,\
-    \ 3, b);\n    minimal.unite(0, 2, c);\n    assert(minimal.diff(0, 3) == G::op(c,\
-    \ b));\n    assert(minimal.diff(2, 3) == b);\n    mt19937 rng(28);\n    for (int\
-    \ n = 1; n <= 40; ++n) {\n        vector<G::T> potential(n, G::e());\n       \
-    \ for (auto &p : potential) shuffle(p.begin(), p.end(), rng);\n        vector<int>\
-    \ component(n);\n        iota(component.begin(), component.end(), 0);\n      \
-    \  WeightedUnionFind<G> uf(n);\n        auto difference = [&](int u, int v) {\n\
-    \            return G::op(G::inv(potential[u]), potential[v]);\n        };\n \
-    \       for (int step = 0; step < 100; ++step) {\n            // Force the single-vertex\
-    \ component to join a larger one.\n            int u = rng() % n, v = rng() %\
-    \ n;\n            if (n >= 3 && step == 0) u = 1, v = 2;\n            if (n >=\
-    \ 3 && step == 1) u = 0, v = 1;\n            bool distinct = component[u] != component[v];\n\
-    \            assert(uf.unite(u, v, difference(u, v)) == distinct);\n         \
-    \   int from = component[v], to = component[u];\n            for (int &id : component)\
-    \ if (id == from) id = to;\n            for (int a = 0; a < n; ++a) {\n      \
-    \          assert(uf.size(a) == count(component.begin(), component.end(), component[a]));\n\
-    \                uf.root(a);\n                uf.root(a);\n                for\
-    \ (int b = 0; b < n; ++b) {\n                    assert(uf.same(a, b) == (component[a]\
-    \ == component[b]));\n                    if (uf.same(a, b)) assert(uf.diff(a,\
-    \ b) == difference(a, b));\n                }\n            }\n        }\n    }\n\
-    }\n\nstruct OrderedTree {\n    using T = string;\n    using U = string;\n    static\
-    \ T e() { return \"\"; }\n    static T f(const T &a, const T &b) { return a +\
-    \ b; }\n    static T g(const T &a, const U &edge) { return edge + \"(\" + a +\
-    \ \")\"; }\n};\n\nvoid rerooting_check() {\n    ReRooting<OrderedTree> star(4);\n\
-    \    star.add_edge(0, 1, \"a\");\n    star.add_edge(0, 2, \"b\");\n    star.add_edge(0,\
-    \ 3, \"c\");\n    assert(star.solve()[0] == \"a()b()c()\");\n    assert(star.solve()[2]\
-    \ == \"b(a()c())\");\n    mt19937 rng(44);\n    for (int n = 0; n < 40; ++n) {\n\
-    \        for (int tc = 0; tc < 100; ++tc) {\n            vector<pair<int, int>>\
-    \ edges;\n            for (int v = 1; v < n; ++v) edges.emplace_back(rng() % v,\
-    \ v);\n            shuffle(edges.begin(), edges.end(), rng);\n            ReRooting<OrderedTree>\
-    \ tree(n);\n            vector<vector<pair<int, string>>> adj(n);\n          \
-    \  for (auto [u, v] : edges) {\n                string x = to_string(u) + \":\"\
-    \ + to_string(v);\n                string y = to_string(v) + \":\" + to_string(u);\n\
-    \                tree.add_edge(u, v, x, y);\n                adj[u].emplace_back(v,\
-    \ x);\n                adj[v].emplace_back(u, y);\n            }\n           \
-    \ auto dfs = [&](auto &&self, int v, int parent) -> string {\n               \
-    \ string result;\n                for (auto [to, label] : adj[v])\n          \
-    \          if (to != parent) result += label + \"(\" + self(self, to, v) + \"\
-    )\";\n                return result;\n            };\n            vector<string>\
-    \ expected;\n            for (int root = 0; root < n; ++root) expected.push_back(dfs(dfs,\
-    \ root, -1));\n            assert(tree.solve() == expected);\n            assert(tree.solve()\
-    \ == expected);\n        }\n    }\n}\n\nint main() {\n    unionfind_check();\n\
-    \    rerooting_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n   \
-    \ sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/static_rectangle_sum.cpp\"\
+    \n\nvoid check(const StaticRectangleSum<long long>& solver) {\n    auto points\
+    \ = solver.points;\n    auto events = solver.events;\n    auto ys = solver.ys;\n\
+    \    vector<long long> expected(events.size() / 2);\n    for (auto e : events)\
+    \ {\n        for (auto p : points) {\n            if (p.x < e.x && e.d <= p.y\
+    \ && p.y < e.u) {\n                expected[e.id] += p.w * e.sign;\n         \
+    \   }\n        }\n    }\n    for (int repeat = 0; repeat < 3; ++repeat) {\n  \
+    \      assert(solver.solve() == expected);\n        assert(solver.ys == ys);\n\
+    \        assert(solver.points.size() == points.size());\n        assert(solver.events.size()\
+    \ == events.size());\n        for (int i = 0; i < (int)points.size(); ++i) {\n\
+    \            auto a = solver.points[i], b = points[i];\n            assert(tie(a.x,\
+    \ a.y, a.w) == tie(b.x, b.y, b.w));\n        }\n        for (int i = 0; i < (int)events.size();\
+    \ ++i) {\n            auto a = solver.events[i], b = events[i];\n            assert(tie(a.x,\
+    \ a.d, a.u, a.id, a.sign) == tie(b.x, b.d, b.u, b.id, b.sign));\n        }\n \
+    \   }\n}\n\nint main() {\n    StaticRectangleSum<long long> regression;\n    regression.add_point(10,\
+    \ 100, 7);\n    regression.add_query(0, 50, 20, 150);\n    assert(regression.solve()\
+    \ == vector<long long>{7});\n    assert(regression.solve() == vector<long long>{7});\n\
+    \    check(regression);\n\n    mt19937 rng(96);\n    const vector<int> coords\
+    \ = {INT_MIN, -100, -1, 0, 1, 50, 100, 150, INT_MAX};\n    for (int tc = 0; tc\
+    \ < 300; ++tc) {\n        StaticRectangleSum<long long> solver;\n        check(solver);\n\
+    \        auto coord = [&]() { return coords[rng() % coords.size()]; };\n     \
+    \   for (int step = 0; step < 50; ++step) {\n            if (rng() % 2) {\n  \
+    \              int x = coord(), y = coord();\n                long long w = int(rng()\
+    \ % 101) - 50;\n                solver.add_point(x, y, w);\n                if\
+    \ (rng() % 3 == 0) solver.add_point(x, y, w);\n            } else {\n        \
+    \        int l = coord(), r = coord(), d = coord(), u = coord();\n           \
+    \     if (l > r) swap(l, r);\n                if (d > u) swap(d, u);\n       \
+    \         solver.add_query(l, d, r, u);\n            }\n            if (step %\
+    \ 10 == 0) check(solver);\n        }\n        check(solver);\n    }\n    Scanner\
+    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
+    \ b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/weightedunionfind.cpp
-  - tree/rerooting.cpp
+  - datastructure/static_rectangle_sum.cpp
+  - datastructure/binaryindexedtree.cpp
   isVerificationFile: true
-  path: test/yosupo_aplusb_noncommutative_tree.test.cpp
+  path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 15:48:50+09:00'
+  timestamp: '2026-10-10 15:44:05+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_aplusb_noncommutative_tree.test.cpp
+documentation_of: test/yosupo_aplusb_static_rectangle_sum.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_aplusb_noncommutative_tree.test.cpp
-- /verify/test/yosupo_aplusb_noncommutative_tree.test.cpp.html
-title: test/yosupo_aplusb_noncommutative_tree.test.cpp
+- /verify/test/yosupo_aplusb_static_rectangle_sum.test.cpp
+- /verify/test/yosupo_aplusb_static_rectangle_sum.test.cpp.html
+title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
 ---

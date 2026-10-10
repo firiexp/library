@@ -2,11 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/weightedunionfind.cpp
-    title: "\u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union Find)"
-  - icon: ':heavy_check_mark:'
-    path: tree/rerooting.cpp
-    title: "ReRooting(\u5168\u65B9\u4F4D\u6728DP)"
+    path: datastructure/interval_set.cpp
+    title: "\u533A\u9593\u96C6\u5408(Interval Set)"
   - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -20,9 +17,9 @@ data:
     PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
     - https://judge.yosupo.jp/problem/aplusb
-  bundledCode: "#line 1 \"test/yosupo_aplusb_noncommutative_tree.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+  bundledCode: "#line 1 \"test/yosupo_aplusb_interval_set.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\nusing\
+    \ namespace std;\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
     \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
     struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
@@ -229,165 +226,155 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/weightedunionfind.cpp\"\
-    \ntemplate <class G>\nclass WeightedUnionFind {\n    using T = typename G::T;\n\
-    \    vector<int> uni;\n    vector<T> weights;\n\npublic:\n    explicit WeightedUnionFind(int\
-    \ n) : uni(n, -1), weights(n, G::e()) {}\n\n    int root(int a) {\n        if\
-    \ (uni[a] < 0) return a;\n        int p = uni[a];\n        int r = root(p);\n\
-    \        weights[a] = G::op(weights[p], weights[a]);\n        return uni[a] =\
-    \ r;\n    }\n\n    T weight(int a) {\n        root(a);\n        return weights[a];\n\
-    \    }\n\n    bool same(int a, int b) {\n        return root(a) == root(b);\n\
-    \    }\n\n    bool unite(int a, int b, T w) {\n        w = G::op(weight(a), G::op(w,\
-    \ G::inv(weight(b))));\n        a = root(a);\n        b = root(b);\n        if\
-    \ (a == b) return false;\n        if (uni[a] > uni[b]) {\n            swap(a,\
-    \ b);\n            w = G::inv(w);\n        }\n        uni[a] += uni[b];\n    \
-    \    uni[b] = a;\n        weights[b] = w;\n        return true;\n    }\n\n   \
-    \ int size(int a) {\n        return -uni[root(a)];\n    }\n\n    T diff(int x,\
-    \ int y) {\n        return G::op(G::inv(weight(x)), weight(y));\n    }\n};\n\n\
-    /*\nstruct Group {\n    using T = long long;\n    static T op(T a, T b) { return\
-    \ a + b; }\n    static T inv(T a) { return -a; }\n    static T e() { return 0;\
-    \ }\n};\n*/\n\n/**\n * @brief \u91CD\u307F\u4ED8\u304DUnionFind(Weighted Union\
-    \ Find)\n */\n#line 1 \"tree/rerooting.cpp\"\nusing namespace std;\n\ntemplate\
-    \ <typename M>\nclass ReRooting {\npublic:\n    using T = typename M::T;\n   \
-    \ using U = typename M::U;\n\n    struct Node {\n        int to, rev;\n      \
-    \  U val;\n\n        Node(int to, int rev, U val) : to(to), rev(rev), val(val)\
-    \ {}\n    };\n\n    int n;\n    vector<vector<Node>> G;\n    vector<T> dpl, dpr;\n\
-    \    vector<int> offset, l, r;\n\n    explicit ReRooting(int n) : n(n), G(n),\
-    \ offset(n + 1), l(n), r(n) {}\n\n    void add_edge(int u, int v, const U &x)\
-    \ {\n        G[u].emplace_back(v, (int)G[v].size(), x);\n        G[v].emplace_back(u,\
-    \ (int)G[u].size() - 1, x);\n    }\n\n    void add_edge(int u, int v, const U\
-    \ &x, const U &y) {\n        G[u].emplace_back(v, (int)G[v].size(), x);\n    \
-    \    G[v].emplace_back(u, (int)G[u].size() - 1, y);\n    }\n\n    T dfs(int i,\
-    \ int par) {\n        int base = offset[i];\n        while (l[i] != par && l[i]\
-    \ < (int)G[i].size()) {\n            auto &e = G[i][l[i]];\n            dpl[base\
-    \ + l[i] + 1] = M::f(dpl[base + l[i]], M::g(dfs(e.to, e.rev), e.val));\n     \
-    \       ++l[i];\n        }\n        while (r[i] != par && r[i] >= 0) {\n     \
-    \       auto &e = G[i][r[i]];\n            dpr[base + r[i]] = M::f(M::g(dfs(e.to,\
-    \ e.rev), e.val), dpr[base + r[i] + 1]);\n            --r[i];\n        }\n   \
-    \     if (par < 0) return dpr[base];\n        return M::f(dpl[base + par], dpr[base\
-    \ + par + 1]);\n    }\n\n    vector<T> solve() {\n        for (int i = 0; i <\
-    \ n; ++i) {\n            offset[i + 1] = offset[i] + (int)G[i].size() + 1;\n \
-    \           l[i] = 0;\n            r[i] = (int)G[i].size() - 1;\n        }\n \
-    \       dpl.assign(offset[n], M::e());\n        dpr.assign(offset[n], M::e());\n\
-    \        vector<T> ans(n);\n        for (int i = 0; i < n; ++i) ans[i] = dfs(i,\
-    \ -1);\n        return ans;\n    }\n};\n\n/**\n * @brief ReRooting(\u5168\u65B9\
-    \u4F4D\u6728DP)\n */\n#line 8 \"test/yosupo_aplusb_noncommutative_tree.test.cpp\"\
-    \n\nstruct Permutations {\n    using T = array<int, 4>;\n    static T e() { return\
-    \ {0, 1, 2, 3}; }\n    static T op(T a, T b) {\n        T c;\n        for (int\
-    \ i = 0; i < 4; ++i) c[i] = a[b[i]];\n        return c;\n    }\n    static T inv(T\
-    \ a) {\n        T b;\n        for (int i = 0; i < 4; ++i) b[a[i]] = i;\n     \
-    \   return b;\n    }\n};\n\nvoid unionfind_check() {\n    using G = Permutations;\n\
-    \    WeightedUnionFind<G> minimal(4);\n    G::T b{1, 0, 2, 3}, c{0, 2, 1, 3};\n\
-    \    minimal.unite(0, 1, G::e());\n    minimal.unite(2, 3, b);\n    minimal.unite(0,\
-    \ 2, c);\n    assert(minimal.diff(0, 3) == G::op(c, b));\n    assert(minimal.diff(2,\
-    \ 3) == b);\n    mt19937 rng(28);\n    for (int n = 1; n <= 40; ++n) {\n     \
-    \   vector<G::T> potential(n, G::e());\n        for (auto &p : potential) shuffle(p.begin(),\
-    \ p.end(), rng);\n        vector<int> component(n);\n        iota(component.begin(),\
-    \ component.end(), 0);\n        WeightedUnionFind<G> uf(n);\n        auto difference\
-    \ = [&](int u, int v) {\n            return G::op(G::inv(potential[u]), potential[v]);\n\
-    \        };\n        for (int step = 0; step < 100; ++step) {\n            //\
-    \ Force the single-vertex component to join a larger one.\n            int u =\
-    \ rng() % n, v = rng() % n;\n            if (n >= 3 && step == 0) u = 1, v = 2;\n\
-    \            if (n >= 3 && step == 1) u = 0, v = 1;\n            bool distinct\
-    \ = component[u] != component[v];\n            assert(uf.unite(u, v, difference(u,\
-    \ v)) == distinct);\n            int from = component[v], to = component[u];\n\
-    \            for (int &id : component) if (id == from) id = to;\n            for\
-    \ (int a = 0; a < n; ++a) {\n                assert(uf.size(a) == count(component.begin(),\
-    \ component.end(), component[a]));\n                uf.root(a);\n            \
-    \    uf.root(a);\n                for (int b = 0; b < n; ++b) {\n            \
-    \        assert(uf.same(a, b) == (component[a] == component[b]));\n          \
-    \          if (uf.same(a, b)) assert(uf.diff(a, b) == difference(a, b));\n   \
-    \             }\n            }\n        }\n    }\n}\n\nstruct OrderedTree {\n\
-    \    using T = string;\n    using U = string;\n    static T e() { return \"\"\
-    ; }\n    static T f(const T &a, const T &b) { return a + b; }\n    static T g(const\
-    \ T &a, const U &edge) { return edge + \"(\" + a + \")\"; }\n};\n\nvoid rerooting_check()\
-    \ {\n    ReRooting<OrderedTree> star(4);\n    star.add_edge(0, 1, \"a\");\n  \
-    \  star.add_edge(0, 2, \"b\");\n    star.add_edge(0, 3, \"c\");\n    assert(star.solve()[0]\
-    \ == \"a()b()c()\");\n    assert(star.solve()[2] == \"b(a()c())\");\n    mt19937\
-    \ rng(44);\n    for (int n = 0; n < 40; ++n) {\n        for (int tc = 0; tc <\
-    \ 100; ++tc) {\n            vector<pair<int, int>> edges;\n            for (int\
-    \ v = 1; v < n; ++v) edges.emplace_back(rng() % v, v);\n            shuffle(edges.begin(),\
-    \ edges.end(), rng);\n            ReRooting<OrderedTree> tree(n);\n          \
-    \  vector<vector<pair<int, string>>> adj(n);\n            for (auto [u, v] : edges)\
-    \ {\n                string x = to_string(u) + \":\" + to_string(v);\n       \
-    \         string y = to_string(v) + \":\" + to_string(u);\n                tree.add_edge(u,\
-    \ v, x, y);\n                adj[u].emplace_back(v, x);\n                adj[v].emplace_back(u,\
-    \ y);\n            }\n            auto dfs = [&](auto &&self, int v, int parent)\
-    \ -> string {\n                string result;\n                for (auto [to,\
-    \ label] : adj[v])\n                    if (to != parent) result += label + \"\
-    (\" + self(self, to, v) + \")\";\n                return result;\n           \
-    \ };\n            vector<string> expected;\n            for (int root = 0; root\
-    \ < n; ++root) expected.push_back(dfs(dfs, root, -1));\n            assert(tree.solve()\
-    \ == expected);\n            assert(tree.solve() == expected);\n        }\n  \
-    \  }\n}\n\nint main() {\n    unionfind_check();\n    rerooting_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/interval_set.cpp\"\
+    \ntemplate<class T, class SumT = long long>\nclass IntervalSet {\npublic:\n  \
+    \  struct Interval {\n        T l, r;\n    };\n\nprivate:\n    struct Compare\
+    \ {\n        using is_transparent = void;\n\n        bool operator()(const Interval&\
+    \ a, const Interval& b) const {\n            return a.l < b.l;\n        }\n  \
+    \      bool operator()(const Interval& a, const T& x) const {\n            return\
+    \ a.l < x;\n        }\n        bool operator()(const T& x, const Interval& a)\
+    \ const {\n            return x < a.l;\n        }\n    };\n\n    set<Interval,\
+    \ Compare> st_;\n    SumT total_ = 0;\n\n    static SumT seg_len(const Interval&\
+    \ seg) {\n        return static_cast<SumT>(seg.r) - static_cast<SumT>(seg.l);\n\
+    \    }\n\n    typename set<Interval, Compare>::const_iterator find_interval_it(T\
+    \ x) const {\n        auto it = st_.upper_bound(x);\n        if (it == st_.begin())\
+    \ return st_.end();\n        --it;\n        if (it->l <= x && x < it->r) return\
+    \ it;\n        return st_.end();\n    }\n\npublic:\n    using const_iterator =\
+    \ typename set<Interval, Compare>::const_iterator;\n\n    IntervalSet() = default;\n\
+    \n    bool empty() const {\n        return st_.empty();\n    }\n\n    int size()\
+    \ const {\n        return (int)st_.size();\n    }\n\n    SumT total_length() const\
+    \ {\n        return total_;\n    }\n\n    const_iterator begin() const {\n   \
+    \     return st_.begin();\n    }\n\n    const_iterator end() const {\n       \
+    \ return st_.end();\n    }\n\n    vector<Interval> intervals() const {\n     \
+    \   return vector<Interval>(st_.begin(), st_.end());\n    }\n\n    bool contains(T\
+    \ x) const {\n        return find_interval_it(x) != st_.end();\n    }\n\n    Interval\
+    \ find_interval(T x) const {\n        auto it = find_interval_it(x);\n       \
+    \ if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n\n    Interval\
+    \ insert(T l, T r) {\n        if (!(l < r)) return {l, l};\n\n        auto it\
+    \ = st_.lower_bound(l);\n\n        if (it != st_.begin()) {\n            auto\
+    \ pit = prev(it);\n            if (pit->r >= l) it = pit;\n        }\n\n     \
+    \   if (it != st_.end() && it->l <= l && r <= it->r) return *it;\n        if (it\
+    \ == st_.end() || r < it->l) {\n            total_ += static_cast<SumT>(r) - static_cast<SumT>(l);\n\
+    \            return *st_.insert(it, {l, r});\n        }\n\n        l = min(l,\
+    \ it->l);\n        r = max(r, it->r);\n        total_ -= seg_len(*it);\n     \
+    \   auto node = st_.extract(it++);\n        while (it != st_.end() && it->l <=\
+    \ r) {\n            r = max(r, it->r);\n            total_ -= seg_len(*it);\n\
+    \            it = st_.erase(it);\n        }\n\n        node.value() = {l, r};\n\
+    \        auto new_it = st_.insert(it, move(node));\n        total_ += static_cast<SumT>(r)\
+    \ - static_cast<SumT>(l);\n        return *new_it;\n    }\n\n    SumT erase(T\
+    \ l, T r) {\n        if (!(l < r)) return 0;\n\n        SumT removed = 0;\n\n\
+    \        auto it = st_.lower_bound(l);\n        if (it != st_.begin()) --it;\n\
+    \n        while (it != st_.end() && it->l < r) {\n            if (it->r <= l)\
+    \ {\n                ++it;\n                continue;\n            }\n\n     \
+    \       Interval cur = *it;\n            T a = max(cur.l, l);\n            T b\
+    \ = min(cur.r, r);\n            removed += static_cast<SumT>(b) - static_cast<SumT>(a);\n\
+    \n            if (cur.l < l || r < cur.r) {\n                auto node = st_.extract(it++);\n\
+    \                if (cur.l < l) {\n                    node.value().r = l;\n \
+    \                   st_.insert(it, move(node));\n                    if (r < cur.r)\
+    \ st_.insert(it, {r, cur.r});\n                } else {\n                    node.value().l\
+    \ = r;\n                    st_.insert(it, move(node));\n                }\n \
+    \           } else {\n                it = st_.erase(it);\n            }\n   \
+    \     }\n\n        total_ -= removed;\n        return removed;\n    }\n\n    SumT\
+    \ covered_length(T l, T r) const {\n        if (!(l < r)) return 0;\n\n      \
+    \  SumT res = 0;\n        auto it = st_.lower_bound(l);\n        if (it != st_.begin())\
+    \ --it;\n\n        while (it != st_.end() && it->l < r) {\n            if (l <\
+    \ it->r) {\n                T a = max(l, it->l);\n                T b = min(r,\
+    \ it->r);\n                if (a < b) {\n                    res += static_cast<SumT>(b)\
+    \ - static_cast<SumT>(a);\n                }\n            }\n            ++it;\n\
+    \        }\n        return res;\n    }\n\n    T mex(T x) const {\n        auto\
+    \ it = find_interval_it(x);\n        if (it == st_.end()) return x;\n        return\
+    \ it->r;\n    }\n\n    void clear() {\n        st_.clear();\n        total_ =\
+    \ 0;\n    }\n\n    Interval prev_interval(T x) const {\n        auto it = st_.upper_bound(x);\n\
+    \        if (it == st_.begin()) return {-1, -1};\n        --it;\n        return\
+    \ *it;\n    }\n\n    Interval next_interval(T x) const {\n        auto fit = find_interval_it(x);\n\
+    \        if (fit != st_.end()) return *fit;\n\n        auto it = st_.lower_bound(x);\n\
+    \        if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n};\n\
+    \n/**\n * @brief \u533A\u9593\u96C6\u5408(Interval Set)\n */\n#line 7 \"test/yosupo_aplusb_interval_set.test.cpp\"\
+    \n\nvoid check(const IntervalSet<int>& st, const set<int>& points) {\n    vector<pair<int,\
+    \ int>> expected;\n    for (int x : points) {\n        if (expected.empty() ||\
+    \ expected.back().second != x) expected.emplace_back(x, x + 1);\n        else\
+    \ ++expected.back().second;\n    }\n    vector<pair<int, int>> actual;\n    for\
+    \ (auto seg : st) actual.emplace_back(seg.l, seg.r);\n    assert(actual == expected);\n\
+    \    assert(st.size() == (int)expected.size());\n    assert(st.empty() == points.empty());\n\
+    \    assert(st.total_length() == (long long)points.size());\n    for (int x =\
+    \ -65; x <= 65; ++x) {\n        assert(st.contains(x) == bool(points.count(x)));\n\
+    \        int mex = x;\n        while (points.count(mex)) ++mex;\n        assert(st.mex(x)\
+    \ == mex);\n    }\n}\n\nvoid update(IntervalSet<int>& st, set<int>& points, bool\
+    \ insert, int l, int r) {\n    if (insert) {\n        for (int x = l; x < r; ++x)\
+    \ points.insert(x);\n        auto seg = st.insert(l, r);\n        if (l >= r)\
+    \ assert(seg.l == l && seg.r == l);\n        else {\n            int a = l, b\
+    \ = r;\n            while (points.count(a - 1)) --a;\n            while (points.count(b))\
+    \ ++b;\n            assert(seg.l == a && seg.r == b);\n        }\n    } else {\n\
+    \        int removed = 0;\n        for (int x = l; x < r; ++x) removed += points.erase(x);\n\
+    \        assert(st.erase(l, r) == removed);\n    }\n    int covered = 0;\n   \
+    \ for (int x = l; x < r; ++x) covered += points.count(x);\n    assert(st.covered_length(l,\
+    \ r) == covered);\n    check(st, points);\n}\n\nint main() {\n    IntervalSet<int>\
+    \ st;\n    set<int> points;\n    const vector<tuple<bool, int, int>> fixed = {\n\
+    \        {false, 0, 10}, {true, 0, 0}, {true, 10, 0}, {true, 0, 10},\n       \
+    \ {true, 2, 8}, {true, 0, 10}, {true, 10, 20}, {true, -10, 0},\n        {false,\
+    \ -10, -9}, {false, 19, 20}, {false, -3, 4}, {true, -3, 4},\n        {false, 0,\
+    \ 0}, {false, 10, 0}, {false, -60, 60}, {true, -20, -10},\n        {true, 0, 10},\
+    \ {true, 20, 30}, {false, -15, 25}, {false, -60, 60},\n        {true, 0, 1}\n\
+    \    };\n    for (auto [insert, l, r] : fixed) update(st, points, insert, l, r);\n\
+    \    mt19937 rng(141);\n    for (int step = 0; step < 100000; ++step) {\n    \
+    \    int l = int(rng() % 129) - 64, r = int(rng() % 129) - 64;\n        if (l\
+    \ > r) swap(l, r);\n        update(st, points, rng() % 2, l, r);\n    }\n    IntervalSet<long\
+    \ long, __int128_t> wide;\n    wide.insert(LLONG_MIN, LLONG_MAX);\n    __int128_t\
+    \ length = (__int128_t)LLONG_MAX - LLONG_MIN;\n    assert(wide.total_length()\
+    \ == length);\n    assert(wide.erase(-1, 1) == 2);\n    assert(wide.total_length()\
+    \ == length - 2);\n    wide.insert(-1, 1);\n    assert(wide.total_length() ==\
+    \ length);\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n\
+    \    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/weightedunionfind.cpp\"\
-    \n#include \"../tree/rerooting.cpp\"\n\nstruct Permutations {\n    using T = array<int,\
-    \ 4>;\n    static T e() { return {0, 1, 2, 3}; }\n    static T op(T a, T b) {\n\
-    \        T c;\n        for (int i = 0; i < 4; ++i) c[i] = a[b[i]];\n        return\
-    \ c;\n    }\n    static T inv(T a) {\n        T b;\n        for (int i = 0; i\
-    \ < 4; ++i) b[a[i]] = i;\n        return b;\n    }\n};\n\nvoid unionfind_check()\
-    \ {\n    using G = Permutations;\n    WeightedUnionFind<G> minimal(4);\n    G::T\
-    \ b{1, 0, 2, 3}, c{0, 2, 1, 3};\n    minimal.unite(0, 1, G::e());\n    minimal.unite(2,\
-    \ 3, b);\n    minimal.unite(0, 2, c);\n    assert(minimal.diff(0, 3) == G::op(c,\
-    \ b));\n    assert(minimal.diff(2, 3) == b);\n    mt19937 rng(28);\n    for (int\
-    \ n = 1; n <= 40; ++n) {\n        vector<G::T> potential(n, G::e());\n       \
-    \ for (auto &p : potential) shuffle(p.begin(), p.end(), rng);\n        vector<int>\
-    \ component(n);\n        iota(component.begin(), component.end(), 0);\n      \
-    \  WeightedUnionFind<G> uf(n);\n        auto difference = [&](int u, int v) {\n\
-    \            return G::op(G::inv(potential[u]), potential[v]);\n        };\n \
-    \       for (int step = 0; step < 100; ++step) {\n            // Force the single-vertex\
-    \ component to join a larger one.\n            int u = rng() % n, v = rng() %\
-    \ n;\n            if (n >= 3 && step == 0) u = 1, v = 2;\n            if (n >=\
-    \ 3 && step == 1) u = 0, v = 1;\n            bool distinct = component[u] != component[v];\n\
-    \            assert(uf.unite(u, v, difference(u, v)) == distinct);\n         \
-    \   int from = component[v], to = component[u];\n            for (int &id : component)\
-    \ if (id == from) id = to;\n            for (int a = 0; a < n; ++a) {\n      \
-    \          assert(uf.size(a) == count(component.begin(), component.end(), component[a]));\n\
-    \                uf.root(a);\n                uf.root(a);\n                for\
-    \ (int b = 0; b < n; ++b) {\n                    assert(uf.same(a, b) == (component[a]\
-    \ == component[b]));\n                    if (uf.same(a, b)) assert(uf.diff(a,\
-    \ b) == difference(a, b));\n                }\n            }\n        }\n    }\n\
-    }\n\nstruct OrderedTree {\n    using T = string;\n    using U = string;\n    static\
-    \ T e() { return \"\"; }\n    static T f(const T &a, const T &b) { return a +\
-    \ b; }\n    static T g(const T &a, const U &edge) { return edge + \"(\" + a +\
-    \ \")\"; }\n};\n\nvoid rerooting_check() {\n    ReRooting<OrderedTree> star(4);\n\
-    \    star.add_edge(0, 1, \"a\");\n    star.add_edge(0, 2, \"b\");\n    star.add_edge(0,\
-    \ 3, \"c\");\n    assert(star.solve()[0] == \"a()b()c()\");\n    assert(star.solve()[2]\
-    \ == \"b(a()c())\");\n    mt19937 rng(44);\n    for (int n = 0; n < 40; ++n) {\n\
-    \        for (int tc = 0; tc < 100; ++tc) {\n            vector<pair<int, int>>\
-    \ edges;\n            for (int v = 1; v < n; ++v) edges.emplace_back(rng() % v,\
-    \ v);\n            shuffle(edges.begin(), edges.end(), rng);\n            ReRooting<OrderedTree>\
-    \ tree(n);\n            vector<vector<pair<int, string>>> adj(n);\n          \
-    \  for (auto [u, v] : edges) {\n                string x = to_string(u) + \":\"\
-    \ + to_string(v);\n                string y = to_string(v) + \":\" + to_string(u);\n\
-    \                tree.add_edge(u, v, x, y);\n                adj[u].emplace_back(v,\
-    \ x);\n                adj[v].emplace_back(u, y);\n            }\n           \
-    \ auto dfs = [&](auto &&self, int v, int parent) -> string {\n               \
-    \ string result;\n                for (auto [to, label] : adj[v])\n          \
-    \          if (to != parent) result += label + \"(\" + self(self, to, v) + \"\
-    )\";\n                return result;\n            };\n            vector<string>\
-    \ expected;\n            for (int root = 0; root < n; ++root) expected.push_back(dfs(dfs,\
-    \ root, -1));\n            assert(tree.solve() == expected);\n            assert(tree.solve()\
-    \ == expected);\n        }\n    }\n}\n\nint main() {\n    unionfind_check();\n\
-    \    rerooting_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n   \
-    \ sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/interval_set.cpp\"\
+    \n\nvoid check(const IntervalSet<int>& st, const set<int>& points) {\n    vector<pair<int,\
+    \ int>> expected;\n    for (int x : points) {\n        if (expected.empty() ||\
+    \ expected.back().second != x) expected.emplace_back(x, x + 1);\n        else\
+    \ ++expected.back().second;\n    }\n    vector<pair<int, int>> actual;\n    for\
+    \ (auto seg : st) actual.emplace_back(seg.l, seg.r);\n    assert(actual == expected);\n\
+    \    assert(st.size() == (int)expected.size());\n    assert(st.empty() == points.empty());\n\
+    \    assert(st.total_length() == (long long)points.size());\n    for (int x =\
+    \ -65; x <= 65; ++x) {\n        assert(st.contains(x) == bool(points.count(x)));\n\
+    \        int mex = x;\n        while (points.count(mex)) ++mex;\n        assert(st.mex(x)\
+    \ == mex);\n    }\n}\n\nvoid update(IntervalSet<int>& st, set<int>& points, bool\
+    \ insert, int l, int r) {\n    if (insert) {\n        for (int x = l; x < r; ++x)\
+    \ points.insert(x);\n        auto seg = st.insert(l, r);\n        if (l >= r)\
+    \ assert(seg.l == l && seg.r == l);\n        else {\n            int a = l, b\
+    \ = r;\n            while (points.count(a - 1)) --a;\n            while (points.count(b))\
+    \ ++b;\n            assert(seg.l == a && seg.r == b);\n        }\n    } else {\n\
+    \        int removed = 0;\n        for (int x = l; x < r; ++x) removed += points.erase(x);\n\
+    \        assert(st.erase(l, r) == removed);\n    }\n    int covered = 0;\n   \
+    \ for (int x = l; x < r; ++x) covered += points.count(x);\n    assert(st.covered_length(l,\
+    \ r) == covered);\n    check(st, points);\n}\n\nint main() {\n    IntervalSet<int>\
+    \ st;\n    set<int> points;\n    const vector<tuple<bool, int, int>> fixed = {\n\
+    \        {false, 0, 10}, {true, 0, 0}, {true, 10, 0}, {true, 0, 10},\n       \
+    \ {true, 2, 8}, {true, 0, 10}, {true, 10, 20}, {true, -10, 0},\n        {false,\
+    \ -10, -9}, {false, 19, 20}, {false, -3, 4}, {true, -3, 4},\n        {false, 0,\
+    \ 0}, {false, 10, 0}, {false, -60, 60}, {true, -20, -10},\n        {true, 0, 10},\
+    \ {true, 20, 30}, {false, -15, 25}, {false, -60, 60},\n        {true, 0, 1}\n\
+    \    };\n    for (auto [insert, l, r] : fixed) update(st, points, insert, l, r);\n\
+    \    mt19937 rng(141);\n    for (int step = 0; step < 100000; ++step) {\n    \
+    \    int l = int(rng() % 129) - 64, r = int(rng() % 129) - 64;\n        if (l\
+    \ > r) swap(l, r);\n        update(st, points, rng() % 2, l, r);\n    }\n    IntervalSet<long\
+    \ long, __int128_t> wide;\n    wide.insert(LLONG_MIN, LLONG_MAX);\n    __int128_t\
+    \ length = (__int128_t)LLONG_MAX - LLONG_MIN;\n    assert(wide.total_length()\
+    \ == length);\n    assert(wide.erase(-1, 1) == 2);\n    assert(wide.total_length()\
+    \ == length - 2);\n    wide.insert(-1, 1);\n    assert(wide.total_length() ==\
+    \ length);\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n\
+    \    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/weightedunionfind.cpp
-  - tree/rerooting.cpp
+  - datastructure/interval_set.cpp
   isVerificationFile: true
-  path: test/yosupo_aplusb_noncommutative_tree.test.cpp
+  path: test/yosupo_aplusb_interval_set.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 15:48:50+09:00'
+  timestamp: '2026-10-10 15:50:38+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_aplusb_noncommutative_tree.test.cpp
+documentation_of: test/yosupo_aplusb_interval_set.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_aplusb_noncommutative_tree.test.cpp
-- /verify/test/yosupo_aplusb_noncommutative_tree.test.cpp.html
-title: test/yosupo_aplusb_noncommutative_tree.test.cpp
+- /verify/test/yosupo_aplusb_interval_set.test.cpp
+- /verify/test/yosupo_aplusb_interval_set.test.cpp.html
+title: test/yosupo_aplusb_interval_set.test.cpp
 ---

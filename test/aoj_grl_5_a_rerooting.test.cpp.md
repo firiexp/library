@@ -233,31 +233,32 @@ data:
     \    using T = typename M::T;\n    using U = typename M::U;\n\n    struct Node\
     \ {\n        int to, rev;\n        U val;\n\n        Node(int to, int rev, U val)\
     \ : to(to), rev(rev), val(val) {}\n    };\n\n    int n;\n    vector<vector<Node>>\
-    \ G;\n    vector<vector<T>> dpl, dpr;\n    vector<int> l, r;\n\n    explicit ReRooting(int\
-    \ n) : n(n), G(n), dpl(n), dpr(n), l(n), r(n) {}\n\n    void add_edge(int u, int\
+    \ G;\n    vector<T> dpl, dpr;\n    vector<int> offset, l, r;\n\n    explicit ReRooting(int\
+    \ n) : n(n), G(n), offset(n + 1), l(n), r(n) {}\n\n    void add_edge(int u, int\
     \ v, const U &x) {\n        G[u].emplace_back(v, (int)G[v].size(), x);\n     \
     \   G[v].emplace_back(u, (int)G[u].size() - 1, x);\n    }\n\n    void add_edge(int\
     \ u, int v, const U &x, const U &y) {\n        G[u].emplace_back(v, (int)G[v].size(),\
     \ x);\n        G[v].emplace_back(u, (int)G[u].size() - 1, y);\n    }\n\n    T\
-    \ dfs(int i, int par) {\n        while (l[i] != par && l[i] < (int)G[i].size())\
-    \ {\n            auto &e = G[i][l[i]];\n            dpl[i][l[i] + 1] = M::f(dpl[i][l[i]],\
-    \ M::g(dfs(e.to, e.rev), e.val));\n            ++l[i];\n        }\n        while\
-    \ (r[i] != par && r[i] >= 0) {\n            auto &e = G[i][r[i]];\n          \
-    \  dpr[i][r[i]] = M::f(M::g(dfs(e.to, e.rev), e.val), dpr[i][r[i] + 1]);\n   \
-    \         --r[i];\n        }\n        if (par < 0) return dpr[i].front();\n  \
-    \      return M::f(dpl[i][par], dpr[i][par + 1]);\n    }\n\n    vector<T> solve()\
-    \ {\n        for (int i = 0; i < n; ++i) {\n            dpl[i].assign(G[i].size()\
-    \ + 1, M::e());\n            dpr[i].assign(G[i].size() + 1, M::e());\n       \
-    \     l[i] = 0;\n            r[i] = (int)G[i].size() - 1;\n        }\n       \
-    \ vector<T> ans(n);\n        for (int i = 0; i < n; ++i) ans[i] = dfs(i, -1);\n\
-    \        return ans;\n    }\n};\n\n/**\n * @brief ReRooting(\u5168\u65B9\u4F4D\
-    \u6728DP)\n */\n#line 15 \"test/aoj_grl_5_a_rerooting.test.cpp\"\n\nstruct Monoid\
-    \ {\n    using T = long long;\n    using U = long long;\n\n    static T f(T a,\
-    \ T b) { return max(a, b); }\n    static T g(T a, U b) { return a + b; }\n   \
-    \ static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    sc.read(n);\n    ReRooting<Monoid> rr(n);\n    for (int\
-    \ i = 0; i < n - 1; ++i) {\n        int s, t, w;\n        sc.read(s, t, w);\n\
-    \        rr.add_edge(s, t, (long long)w);\n    }\n\n    auto dp = rr.solve();\n\
+    \ dfs(int i, int par) {\n        int base = offset[i];\n        while (l[i] !=\
+    \ par && l[i] < (int)G[i].size()) {\n            auto &e = G[i][l[i]];\n     \
+    \       dpl[base + l[i] + 1] = M::f(dpl[base + l[i]], M::g(dfs(e.to, e.rev), e.val));\n\
+    \            ++l[i];\n        }\n        while (r[i] != par && r[i] >= 0) {\n\
+    \            auto &e = G[i][r[i]];\n            dpr[base + r[i]] = M::f(M::g(dfs(e.to,\
+    \ e.rev), e.val), dpr[base + r[i] + 1]);\n            --r[i];\n        }\n   \
+    \     if (par < 0) return dpr[base];\n        return M::f(dpl[base + par], dpr[base\
+    \ + par + 1]);\n    }\n\n    vector<T> solve() {\n        for (int i = 0; i <\
+    \ n; ++i) {\n            offset[i + 1] = offset[i] + (int)G[i].size() + 1;\n \
+    \           l[i] = 0;\n            r[i] = (int)G[i].size() - 1;\n        }\n \
+    \       dpl.assign(offset[n], M::e());\n        dpr.assign(offset[n], M::e());\n\
+    \        vector<T> ans(n);\n        for (int i = 0; i < n; ++i) ans[i] = dfs(i,\
+    \ -1);\n        return ans;\n    }\n};\n\n/**\n * @brief ReRooting(\u5168\u65B9\
+    \u4F4D\u6728DP)\n */\n#line 15 \"test/aoj_grl_5_a_rerooting.test.cpp\"\n\nstruct\
+    \ Monoid {\n    using T = long long;\n    using U = long long;\n\n    static T\
+    \ f(T a, T b) { return max(a, b); }\n    static T g(T a, U b) { return a + b;\
+    \ }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n   \
+    \ Printer pr;\n\n    int n;\n    sc.read(n);\n    ReRooting<Monoid> rr(n);\n \
+    \   for (int i = 0; i < n - 1; ++i) {\n        int s, t, w;\n        sc.read(s,\
+    \ t, w);\n        rr.add_edge(s, t, (long long)w);\n    }\n\n    auto dp = rr.solve();\n\
     \    pr.println(*max_element(dp.begin(), dp.end()));\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A\"\n\n\
     #include <algorithm>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
@@ -276,7 +277,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_5_a_rerooting.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-10 15:48:50+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_5_a_rerooting.test.cpp

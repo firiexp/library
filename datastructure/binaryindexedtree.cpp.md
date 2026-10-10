@@ -28,6 +28,9 @@ data:
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
+    title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_range_sum.test.cpp
     title: test/yosupo_point_add_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -93,6 +96,7 @@ data:
   - test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   - test/yosupo_static_range_inversions_query.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - test/yosupo_static_rectangle_sum.test.cpp
   - test/yosupo_point_add_rectangle_sum.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp

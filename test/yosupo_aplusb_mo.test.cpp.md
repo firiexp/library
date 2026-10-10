@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: datastructure/interval_set.cpp
-    title: "\u533A\u9593\u96C6\u5408(Interval Set)"
-  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
+  - icon: ':heavy_check_mark:'
+    path: util/mo.cpp
+    title: Mo's Algorithm
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -14,14 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/predecessor_problem
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/predecessor_problem
-  bundledCode: "#line 1 \"test/yosupo_predecessor_problem_interval_set.test.cpp\"\n\
-    #define PROBLEM \"https://judge.yosupo.jp/problem/predecessor_problem\"\n\n#include\
-    \ <bits/stdc++.h>\n\nusing namespace std;\n\n#line 10 \"test/yosupo_predecessor_problem_interval_set.test.cpp\"\
-    \n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\n\
-    using namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_mo.test.cpp\"\n#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\
+    \n\n#include <bits/stdc++.h>\nusing namespace std;\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
     template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
     \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
@@ -228,109 +226,97 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/interval_set.cpp\"\
-    \ntemplate<class T, class SumT = long long>\nclass IntervalSet {\npublic:\n  \
-    \  struct Interval {\n        T l, r;\n    };\n\nprivate:\n    struct Compare\
-    \ {\n        using is_transparent = void;\n\n        bool operator()(const Interval&\
-    \ a, const Interval& b) const {\n            return a.l < b.l;\n        }\n  \
-    \      bool operator()(const Interval& a, const T& x) const {\n            return\
-    \ a.l < x;\n        }\n        bool operator()(const T& x, const Interval& a)\
-    \ const {\n            return x < a.l;\n        }\n    };\n\n    set<Interval,\
-    \ Compare> st_;\n    SumT total_ = 0;\n\n    static SumT seg_len(const Interval&\
-    \ seg) {\n        return static_cast<SumT>(seg.r) - static_cast<SumT>(seg.l);\n\
-    \    }\n\n    typename set<Interval, Compare>::const_iterator find_interval_it(T\
-    \ x) const {\n        auto it = st_.upper_bound(x);\n        if (it == st_.begin())\
-    \ return st_.end();\n        --it;\n        if (it->l <= x && x < it->r) return\
-    \ it;\n        return st_.end();\n    }\n\npublic:\n    using const_iterator =\
-    \ typename set<Interval, Compare>::const_iterator;\n\n    IntervalSet() = default;\n\
-    \n    bool empty() const {\n        return st_.empty();\n    }\n\n    int size()\
-    \ const {\n        return (int)st_.size();\n    }\n\n    SumT total_length() const\
-    \ {\n        return total_;\n    }\n\n    const_iterator begin() const {\n   \
-    \     return st_.begin();\n    }\n\n    const_iterator end() const {\n       \
-    \ return st_.end();\n    }\n\n    vector<Interval> intervals() const {\n     \
-    \   return vector<Interval>(st_.begin(), st_.end());\n    }\n\n    bool contains(T\
-    \ x) const {\n        return find_interval_it(x) != st_.end();\n    }\n\n    Interval\
-    \ find_interval(T x) const {\n        auto it = find_interval_it(x);\n       \
-    \ if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n\n    Interval\
-    \ insert(T l, T r) {\n        if (!(l < r)) return {l, l};\n\n        auto it\
-    \ = st_.lower_bound(l);\n\n        if (it != st_.begin()) {\n            auto\
-    \ pit = prev(it);\n            if (pit->r >= l) it = pit;\n        }\n\n     \
-    \   if (it != st_.end() && it->l <= l && r <= it->r) return *it;\n        if (it\
-    \ == st_.end() || r < it->l) {\n            total_ += static_cast<SumT>(r) - static_cast<SumT>(l);\n\
-    \            return *st_.insert(it, {l, r});\n        }\n\n        l = min(l,\
-    \ it->l);\n        r = max(r, it->r);\n        total_ -= seg_len(*it);\n     \
-    \   auto node = st_.extract(it++);\n        while (it != st_.end() && it->l <=\
-    \ r) {\n            r = max(r, it->r);\n            total_ -= seg_len(*it);\n\
-    \            it = st_.erase(it);\n        }\n\n        node.value() = {l, r};\n\
-    \        auto new_it = st_.insert(it, move(node));\n        total_ += static_cast<SumT>(r)\
-    \ - static_cast<SumT>(l);\n        return *new_it;\n    }\n\n    SumT erase(T\
-    \ l, T r) {\n        if (!(l < r)) return 0;\n\n        SumT removed = 0;\n\n\
-    \        auto it = st_.lower_bound(l);\n        if (it != st_.begin()) --it;\n\
-    \n        while (it != st_.end() && it->l < r) {\n            if (it->r <= l)\
-    \ {\n                ++it;\n                continue;\n            }\n\n     \
-    \       Interval cur = *it;\n            T a = max(cur.l, l);\n            T b\
-    \ = min(cur.r, r);\n            removed += static_cast<SumT>(b) - static_cast<SumT>(a);\n\
-    \n            if (cur.l < l || r < cur.r) {\n                auto node = st_.extract(it++);\n\
-    \                if (cur.l < l) {\n                    node.value().r = l;\n \
-    \                   st_.insert(it, move(node));\n                    if (r < cur.r)\
-    \ st_.insert(it, {r, cur.r});\n                } else {\n                    node.value().l\
-    \ = r;\n                    st_.insert(it, move(node));\n                }\n \
-    \           } else {\n                it = st_.erase(it);\n            }\n   \
-    \     }\n\n        total_ -= removed;\n        return removed;\n    }\n\n    SumT\
-    \ covered_length(T l, T r) const {\n        if (!(l < r)) return 0;\n\n      \
-    \  SumT res = 0;\n        auto it = st_.lower_bound(l);\n        if (it != st_.begin())\
-    \ --it;\n\n        while (it != st_.end() && it->l < r) {\n            if (l <\
-    \ it->r) {\n                T a = max(l, it->l);\n                T b = min(r,\
-    \ it->r);\n                if (a < b) {\n                    res += static_cast<SumT>(b)\
-    \ - static_cast<SumT>(a);\n                }\n            }\n            ++it;\n\
-    \        }\n        return res;\n    }\n\n    T mex(T x) const {\n        auto\
-    \ it = find_interval_it(x);\n        if (it == st_.end()) return x;\n        return\
-    \ it->r;\n    }\n\n    void clear() {\n        st_.clear();\n        total_ =\
-    \ 0;\n    }\n\n    Interval prev_interval(T x) const {\n        auto it = st_.upper_bound(x);\n\
-    \        if (it == st_.begin()) return {-1, -1};\n        --it;\n        return\
-    \ *it;\n    }\n\n    Interval next_interval(T x) const {\n        auto fit = find_interval_it(x);\n\
-    \        if (fit != st_.end()) return *fit;\n\n        auto it = st_.lower_bound(x);\n\
-    \        if (it == st_.end()) return {-1, -1};\n        return *it;\n    }\n};\n\
-    \n/**\n * @brief \u533A\u9593\u96C6\u5408(Interval Set)\n */\n#line 15 \"test/yosupo_predecessor_problem_interval_set.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    string\
-    \ t;\n    sc.read(n, q, t);\n\n    IntervalSet<int, int> st;\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (t[i] == '1') st.insert(i, i + 1);\n    }\n\n \
-    \   while (q--) {\n        int c, k;\n        sc.read(c, k);\n        if (c ==\
-    \ 0) {\n            st.insert(k, k + 1);\n        } else if (c == 1) {\n     \
-    \       st.erase(k, k + 1);\n        } else if (c == 2) {\n            pr.println(st.contains(k)\
-    \ ? 1 : 0);\n        } else if (c == 3) {\n            auto seg = st.next_interval(k);\n\
-    \            if (seg.l == -1) pr.println(-1);\n            else pr.println(max(k,\
-    \ seg.l));\n        } else {\n            auto seg = st.prev_interval(k);\n  \
-    \          if (seg.l == -1) pr.println(-1);\n            else pr.println(min(k,\
-    \ seg.r - 1));\n        }\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/predecessor_problem\"\n\
-    \n#include <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../datastructure/interval_set.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    string\
-    \ t;\n    sc.read(n, q, t);\n\n    IntervalSet<int, int> st;\n    for (int i =\
-    \ 0; i < n; ++i) {\n        if (t[i] == '1') st.insert(i, i + 1);\n    }\n\n \
-    \   while (q--) {\n        int c, k;\n        sc.read(c, k);\n        if (c ==\
-    \ 0) {\n            st.insert(k, k + 1);\n        } else if (c == 1) {\n     \
-    \       st.erase(k, k + 1);\n        } else if (c == 2) {\n            pr.println(st.contains(k)\
-    \ ? 1 : 0);\n        } else if (c == 3) {\n            auto seg = st.next_interval(k);\n\
-    \            if (seg.l == -1) pr.println(-1);\n            else pr.println(max(k,\
-    \ seg.l));\n        } else {\n            auto seg = st.prev_interval(k);\n  \
-    \          if (seg.l == -1) pr.println(-1);\n            else pr.println(min(k,\
-    \ seg.r - 1));\n        }\n    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/mo.cpp\"\
+    \nstruct Query {\n    static inline int bucket_size = 1;\n    static inline int\
+    \ &B = bucket_size;\n    int l, r, no;\n    Query(int l, int r, int no) : l(l),\
+    \ r(r), no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const\
+    \ Query &a) const {\n        int ablock = this->l / bucket_size, bblock = a.l\
+    \ / bucket_size;\n        if(ablock != bblock) return ablock < bblock;\n     \
+    \   if(ablock & 1) return this->r < a.r;\n        else return this->r > a.r;\n\
+    \    }\n};\n\ntemplate<class AddLeft, class AddRight, class EraseLeft, class EraseRight,\
+    \ class Output>\nvoid mo_solve(int n, const vector<Query>& queries, AddLeft add_left,\
+    \ AddRight add_right,\n              EraseLeft erase_left, EraseRight erase_right,\
+    \ Output output, int bucket_size = 0) {\n    if (queries.empty()) return;\n  \
+    \  if (bucket_size <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n\
+    \    vector<Query> qs = queries;\n    sort(qs.begin(), qs.end(), [&](const Query&\
+    \ a, const Query& b) {\n        int ablock = a.l / bucket_size, bblock = b.l /\
+    \ bucket_size;\n        if (ablock != bblock) return ablock < bblock;\n      \
+    \  return ablock & 1 ? a.r < b.r : a.r > b.r;\n    });\n    int l = 0, r = 0;\n\
+    \    for (const auto& q : qs) {\n        while (q.l < l) add_left(--l);\n    \
+    \    while (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n\
+    \        while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\
+    /**\n * @brief Mo's Algorithm\n */\n#line 7 \"test/yosupo_aplusb_mo.test.cpp\"\
+    \n\nint main() {\n    mt19937 rng(87);\n    for (int tc = 0; tc < 10000; ++tc)\
+    \ {\n        int n = rng() % 31, q = rng() % 41;\n        vector<int> a(n);\n\
+    \        for (int& x : a) x = rng() % 10;\n        vector<Query> qs;\n       \
+    \ vector<int> expected(q), seen(q);\n        for (int i = 0; i < q; ++i) {\n \
+    \           int l = rng() % (n + 1), r = rng() % (n + 1);\n            if (l >\
+    \ r) swap(l, r);\n            qs.emplace_back(l, r, 3 * i + 7);\n            for\
+    \ (int j = l; j < r; ++j)\n                for (int k = j + 1; k < r; ++k) expected[i]\
+    \ += a[j] > a[k];\n        }\n        shuffle(qs.begin(), qs.end(), rng);\n  \
+    \      auto original = qs;\n        Query::bucket_size = 7;\n        int l = 0,\
+    \ r = 0, inv = 0;\n        auto add_left = [&](int i) {\n            assert(i\
+    \ == l - 1);\n            for (int j = l; j < r; ++j) inv += a[i] > a[j];\n  \
+    \          --l;\n        };\n        auto add_right = [&](int i) {\n         \
+    \   assert(i == r);\n            for (int j = l; j < r; ++j) inv += a[j] > a[i];\n\
+    \            ++r;\n        };\n        auto erase_left = [&](int i) {\n      \
+    \      assert(l < r && i == l);\n            ++l;\n            for (int j = l;\
+    \ j < r; ++j) inv -= a[i] > a[j];\n        };\n        auto erase_right = [&](int\
+    \ i) {\n            assert(l < r && i == r - 1);\n            --r;\n         \
+    \   for (int j = l; j < r; ++j) inv -= a[j] > a[i];\n        };\n        auto\
+    \ output = [&](int no) {\n            assert((no - 7) % 3 == 0);\n           \
+    \ int id = (no - 7) / 3;\n            assert(0 <= id && id < q);\n           \
+    \ assert(inv == expected[id]);\n            ++seen[id];\n        };\n        int\
+    \ width = tc % 3 == 0 ? 0 : tc % 3 == 1 ? 1 : n + 2;\n        mo_solve(n, qs,\
+    \ add_left, add_right, erase_left, erase_right, output, width);\n        assert(Query::bucket_size\
+    \ == 7);\n        assert(qs.size() == original.size());\n        for (int i =\
+    \ 0; i < q; ++i) {\n            assert(seen[i] == 1);\n            assert(tie(qs[i].l,\
+    \ qs[i].r, qs[i].no) == tie(original[i].l, original[i].r, original[i].no));\n\
+    \        }\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../util/mo.cpp\"\
+    \n\nint main() {\n    mt19937 rng(87);\n    for (int tc = 0; tc < 10000; ++tc)\
+    \ {\n        int n = rng() % 31, q = rng() % 41;\n        vector<int> a(n);\n\
+    \        for (int& x : a) x = rng() % 10;\n        vector<Query> qs;\n       \
+    \ vector<int> expected(q), seen(q);\n        for (int i = 0; i < q; ++i) {\n \
+    \           int l = rng() % (n + 1), r = rng() % (n + 1);\n            if (l >\
+    \ r) swap(l, r);\n            qs.emplace_back(l, r, 3 * i + 7);\n            for\
+    \ (int j = l; j < r; ++j)\n                for (int k = j + 1; k < r; ++k) expected[i]\
+    \ += a[j] > a[k];\n        }\n        shuffle(qs.begin(), qs.end(), rng);\n  \
+    \      auto original = qs;\n        Query::bucket_size = 7;\n        int l = 0,\
+    \ r = 0, inv = 0;\n        auto add_left = [&](int i) {\n            assert(i\
+    \ == l - 1);\n            for (int j = l; j < r; ++j) inv += a[i] > a[j];\n  \
+    \          --l;\n        };\n        auto add_right = [&](int i) {\n         \
+    \   assert(i == r);\n            for (int j = l; j < r; ++j) inv += a[j] > a[i];\n\
+    \            ++r;\n        };\n        auto erase_left = [&](int i) {\n      \
+    \      assert(l < r && i == l);\n            ++l;\n            for (int j = l;\
+    \ j < r; ++j) inv -= a[i] > a[j];\n        };\n        auto erase_right = [&](int\
+    \ i) {\n            assert(l < r && i == r - 1);\n            --r;\n         \
+    \   for (int j = l; j < r; ++j) inv -= a[j] > a[i];\n        };\n        auto\
+    \ output = [&](int no) {\n            assert((no - 7) % 3 == 0);\n           \
+    \ int id = (no - 7) / 3;\n            assert(0 <= id && id < q);\n           \
+    \ assert(inv == expected[id]);\n            ++seen[id];\n        };\n        int\
+    \ width = tc % 3 == 0 ? 0 : tc % 3 == 1 ? 1 : n + 2;\n        mo_solve(n, qs,\
+    \ add_left, add_right, erase_left, erase_right, output, width);\n        assert(Query::bucket_size\
+    \ == 7);\n        assert(qs.size() == original.size());\n        for (int i =\
+    \ 0; i < q; ++i) {\n            assert(seen[i] == 1);\n            assert(tie(qs[i].l,\
+    \ qs[i].r, qs[i].no) == tie(original[i].l, original[i].r, original[i].no));\n\
+    \        }\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - datastructure/interval_set.cpp
+  - util/mo.cpp
   isVerificationFile: true
-  path: test/yosupo_predecessor_problem_interval_set.test.cpp
+  path: test/yosupo_aplusb_mo.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 15:50:38+09:00'
+  timestamp: '2026-10-10 15:50:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_predecessor_problem_interval_set.test.cpp
+documentation_of: test/yosupo_aplusb_mo.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_predecessor_problem_interval_set.test.cpp
-- /verify/test/yosupo_predecessor_problem_interval_set.test.cpp.html
-title: test/yosupo_predecessor_problem_interval_set.test.cpp
+- /verify/test/yosupo_aplusb_mo.test.cpp
+- /verify/test/yosupo_aplusb_mo.test.cpp.html
+title: test/yosupo_aplusb_mo.test.cpp
 ---
