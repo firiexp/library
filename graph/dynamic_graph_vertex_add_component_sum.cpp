@@ -74,16 +74,12 @@ struct DynamicGraphVertexAddComponentSum {
 
     int n, q, sz;
     vector<Query> queries;
-    vector<vector<EdgeEvent>> seg_edges;
-    vector<vector<AddEvent>> seg_adds;
     vector<long long> initial;
 
     DynamicGraphVertexAddComponentSum(const vector<long long> &a, int q)
         : n((int)a.size()), q(q), initial(a) {
         sz = 1;
         while (sz < q) sz <<= 1;
-        seg_edges.resize(2 * sz);
-        seg_adds.resize(2 * sz);
         queries.reserve(q);
     }
 
@@ -103,15 +99,22 @@ struct DynamicGraphVertexAddComponentSum {
         queries.push_back({3, v, 0, 0});
     }
 
-    template<class T>
-    void add_segment(vector<vector<T>> &seg, int l, int r, const T &event) {
+    template<class F>
+    void for_segment(int l, int r, const F &f) const {
         for (l += sz, r += sz; l < r; l >>= 1, r >>= 1) {
-            if (l & 1) seg[l++].push_back(event);
-            if (r & 1) seg[--r].push_back(event);
+            if (l & 1) f(l++);
+            if (r & 1) f(--r);
         }
     }
 
     vector<long long> solve() {
+        struct Interval {
+            int l, r, u, v;
+        };
+        vector<Interval> intervals;
+        int edge_count = 0;
+        for (auto query : queries) edge_count += query.type == 0;
+        intervals.reserve(edge_count);
         map<pair<int, int>, int> appear;
         for (int t = 0; t < q; ++t) {
             auto query = queries[t];
@@ -119,21 +122,43 @@ struct DynamicGraphVertexAddComponentSum {
                 appear[minmax(query.u, query.v)] = t;
             } else if (query.type == 1) {
                 auto e = minmax(query.u, query.v);
-                add_segment(seg_edges, appear[e], t, {e.first, e.second});
+                intervals.push_back({appear[e], t, e.first, e.second});
                 appear.erase(e);
-            } else if (query.type == 2) {
-                add_segment(seg_adds, t, q, {query.u, query.x});
             }
         }
-        for (auto &&[e, l] : appear) add_segment(seg_edges, l, q, {e.first, e.second});
+        for (auto &&[e, l] : appear) intervals.push_back({l, q, e.first, e.second});
+
+        vector<size_t> edge_offset(2 * sz + 1), add_offset(2 * sz + 1);
+        for (auto e : intervals)
+            for_segment(e.l, e.r, [&](int k) { ++edge_offset[k + 1]; });
+        for (int t = 0; t < q; ++t)
+            if (queries[t].type == 2)
+                for_segment(t, q, [&](int k) { ++add_offset[k + 1]; });
+        for (int k = 0; k < 2 * sz; ++k) {
+            edge_offset[k + 1] += edge_offset[k];
+            add_offset[k + 1] += add_offset[k];
+        }
+        vector<EdgeEvent> seg_edges(edge_offset.back());
+        vector<AddEvent> seg_adds(add_offset.back());
+        auto cursor = edge_offset;
+        for (auto e : intervals)
+            for_segment(e.l, e.r, [&](int k) { seg_edges[cursor[k]++] = {e.u, e.v}; });
+        cursor = add_offset;
+        for (int t = 0; t < q; ++t) {
+            auto query = queries[t];
+            if (query.type == 2)
+                for_segment(t, q, [&](int k) { seg_adds[cursor[k]++] = {query.u, query.x}; });
+        }
 
         RollbackUnionFindComponentSum uf(n, initial);
         vector<long long> ans;
         ans.reserve(q);
         auto dfs = [&](auto &&self, int k) -> void {
             int snap = uf.snapshot();
-            for (auto &&e : seg_edges[k]) uf.unite(e.u, e.v);
-            for (auto &&a : seg_adds[k]) uf.add_value(a.v, a.x);
+            for (size_t i = edge_offset[k]; i < edge_offset[k + 1]; ++i)
+                uf.unite(seg_edges[i].u, seg_edges[i].v);
+            for (size_t i = add_offset[k]; i < add_offset[k + 1]; ++i)
+                uf.add_value(seg_adds[i].v, seg_adds[i].x);
             if (k < sz) {
                 self(self, k << 1);
                 self(self, k << 1 | 1);

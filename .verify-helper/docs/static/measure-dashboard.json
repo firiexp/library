@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-10T19:43:41+09:00",
+  "generatedAt": "2026-10-10T19:47:38+09:00",
   "root": ".",
   "testCount": 189,
   "inventory": {
-    "currentTestCount": 279,
+    "currentTestCount": 281,
     "measuredTestCount": 189,
-    "unmeasuredCount": 90,
+    "unmeasuredCount": 92,
     "unmeasuredPaths": [
       "test/aoj_alds1_9_c_leftist_heap.test.cpp",
       "test/aoj_cgl_4_b.test.cpp",
@@ -23,6 +23,7 @@
       "test/yosupo_aplusb_dsu_on_tree.test.cpp",
       "test/yosupo_aplusb_dualgraph.test.cpp",
       "test/yosupo_aplusb_dynamic_bitset.test.cpp",
+      "test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp",
       "test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp",
       "test/yosupo_aplusb_enumerate_triangles.test.cpp",
       "test/yosupo_aplusb_fast_set.test.cpp",
@@ -53,6 +54,7 @@
       "test/yosupo_aplusb_mo.test.cpp",
       "test/yosupo_aplusb_monotoniccht.test.cpp",
       "test/yosupo_aplusb_noncommutative_tree.test.cpp",
+      "test/yosupo_aplusb_offline_reachability.test.cpp",
       "test/yosupo_aplusb_palindrome_radii.test.cpp",
       "test/yosupo_aplusb_palindromic_tree.test.cpp",
       "test/yosupo_aplusb_pell_equation.test.cpp",
@@ -101,7 +103,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "3b5bae54ca928757a3563f9096d4c53a10f3bec8",
+    "gitRevision": "d745231ded1876a64b251cacd91c1f1a944daf64",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -11698,7 +11700,7 @@
           "a.out",
           "test/yosupo_dynamic_graph_vertex_add_component_sum.test.cpp"
         ],
-        "wallSec": 0.7393234780001876
+        "wallSec": 0.9932300520013086
       },
       "testcases": {
         "directory": ".verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test",
@@ -11709,7 +11711,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/verify-dashboard-98ddunzo/a.out",
+          "./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/verify-dashboard-3mj8pn6b/a.out",
           "-d",
           "./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test",
           "--tle",
@@ -11718,117 +11720,117 @@
           "~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker"
         ],
         "returnCode": 0,
-        "wallSec": 2.4453584689999843,
+        "wallSec": 1.8612046999987797,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "dense_00",
-              "timeSec": 0.231787,
+              "timeSec": 0.15047,
               "status": "AC"
             },
             {
               "name": "dense_01",
-              "timeSec": 0.193953,
+              "timeSec": 0.121302,
               "status": "AC"
             },
             {
               "name": "dense_02",
-              "timeSec": 0.172406,
+              "timeSec": 0.10201,
               "status": "AC"
             },
             {
               "name": "example_00",
-              "timeSec": 0.003734,
+              "timeSec": 0.004464,
               "status": "AC"
             },
             {
               "name": "link_and_cut_00",
-              "timeSec": 0.216525,
+              "timeSec": 0.20294,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.140172,
+              "timeSec": 0.090342,
               "status": "AC"
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.154454,
+              "timeSec": 0.093247,
               "status": "AC"
             },
             {
               "name": "max_random_02",
-              "timeSec": 0.15662,
+              "timeSec": 0.124198,
               "status": "AC"
             },
             {
               "name": "random_00",
-              "timeSec": 0.141336,
+              "timeSec": 0.082259,
               "status": "AC"
             },
             {
               "name": "random_01",
-              "timeSec": 0.083658,
+              "timeSec": 0.056263,
               "status": "AC"
             },
             {
               "name": "random_02",
-              "timeSec": 0.036431,
+              "timeSec": 0.029622,
               "status": "AC"
             },
             {
               "name": "random_03",
-              "timeSec": 0.052538,
+              "timeSec": 0.038628,
               "status": "AC"
             },
             {
               "name": "random_04",
-              "timeSec": 0.048981,
+              "timeSec": 0.046473,
               "status": "AC"
             },
             {
               "name": "small_00",
-              "timeSec": 0.003836,
+              "timeSec": 0.005054,
               "status": "AC"
             },
             {
               "name": "small_01",
-              "timeSec": 0.00345,
+              "timeSec": 0.00459,
               "status": "AC"
             },
             {
               "name": "small_02",
-              "timeSec": 0.003509,
+              "timeSec": 0.004139,
               "status": "AC"
             },
             {
               "name": "uv_swapped_00",
-              "timeSec": 0.153358,
+              "timeSec": 0.10376,
               "status": "AC"
             },
             {
               "name": "uv_swapped_01",
-              "timeSec": 0.159727,
+              "timeSec": 0.093727,
               "status": "AC"
             },
             {
               "name": "uv_swapped_02",
-              "timeSec": 0.135287,
+              "timeSec": 0.087732,
               "status": "AC"
             }
           ],
           "caseCount": 19,
           "timedCaseCount": 19,
           "passedCaseCount": 19,
-          "slowestSec": 0.231787,
-          "slowestCase": "dense_00",
-          "averageSec": 0.11009273684210527,
-          "maxMemoryMb": 107.7,
-          "maxMemoryCase": "max_random_02",
+          "slowestSec": 0.20294,
+          "slowestCase": "link_and_cut_00",
+          "averageSec": 0.07585368421052631,
+          "maxMemoryMb": 75.22,
+          "maxMemoryCase": "link_and_cut_00",
           "summary": "test success: 19 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 19 cases found\n\n[INFO] dense_00\n[INFO] time: 0.231787 sec\n[INFO] memory: 106.592000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_00.in /tmp/tmp2bfh1o_z/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_00.out\nok 60119 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] dense_01\n[INFO] time: 0.193953 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_01.in /tmp/tmpgo9f9v8u/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_01.out\nok 59856 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] dense_02\n[INFO] time: 0.172406 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_02.in /tmp/tmprjbsut8f/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_02.out\nok 59731 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.003734 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/example_00.in /tmp/tmpats1e1y9/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/example_00.out\nok 6 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] link_and_cut_00\n[INFO] time: 0.216525 sec\n[INFO] memory: 102.352000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/link_and_cut_00.in /tmp/tmp9wwfk8ay/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/link_and_cut_00.out\nok 3000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.140172 sec\n[INFO] memory: 105.604000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_00.in /tmp/tmpi6wkxjg3/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_00.out\nok 75252 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.154454 sec\n[INFO] memory: 106.860000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_01.in /tmp/tmpm17rl15r/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_01.out\nok 74714 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.156620 sec\n[INFO] memory: 107.700000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_02.in /tmp/tmp5fvqjdg4/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_02.out\nok 75053 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.141336 sec\n[INFO] memory: 102.184000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_00.in /tmp/tmpo7xe5zp4/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_00.out\nok 68636 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.083658 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_01.in /tmp/tmpgenq4in3/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_01.out\nok 52617 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.036431 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_02.in /tmp/tmptzf6vhm2/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_02.out\nok 23155 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_03\n[INFO] time: 0.052538 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_03.in /tmp/tmp3cp8qshq/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_03.out\nok 32492 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_04\n[INFO] time: 0.048981 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_04.in /tmp/tmpb2xnuf77/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_04.out\nok 24943 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.003836 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_00.in /tmp/tmpb38gssnl/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_00.out\nok 81 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.003450 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_01.in /tmp/tmpkp3ohmyf/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_01.out\nok 58 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.003509 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_02.in /tmp/tmplt4y52g9/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_02.out\nok 100 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] uv_swapped_00\n[INFO] time: 0.153358 sec\n[INFO] memory: 105.208000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_00.in /tmp/tmppkpsn5rg/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_00.out\nok 75090 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] uv_swapped_01\n[INFO] time: 0.159727 sec\n[INFO] memory: 107.432000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_01.in /tmp/tmp3sy483o_/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_01.out\nok 74976 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] uv_swapped_02\n[INFO] time: 0.135287 sec\n[INFO] memory: 106.024000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_02.in /tmp/tmp9fn6o_xe/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_02.out\nok 74656 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.231787 sec  (for dense_00)\n[INFO] max memory: 107.700000 MB  (for max_random_02)\n[SUCCESS] test success: 19 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 19 cases found\n\n[INFO] dense_00\n[INFO] time: 0.150470 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_00.in /tmp/tmpxuz5yg94/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_00.out\nok 60119 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] dense_01\n[INFO] time: 0.121302 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_01.in /tmp/tmppqbneu10/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_01.out\nok 59856 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] dense_02\n[INFO] time: 0.102010 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_02.in /tmp/tmp1r4gq_ir/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/dense_02.out\nok 59731 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.004464 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/example_00.in /tmp/tmp4ymk9nix/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/example_00.out\nok 6 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] link_and_cut_00\n[INFO] time: 0.202940 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/link_and_cut_00.in /tmp/tmpazttpfyi/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/link_and_cut_00.out\nok 3000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.090342 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_00.in /tmp/tmp4v5s9y52/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_00.out\nok 75252 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.093247 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_01.in /tmp/tmp9c1q42ei/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_01.out\nok 74714 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.124198 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_02.in /tmp/tmpjlje2x5f/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/max_random_02.out\nok 75053 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.082259 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_00.in /tmp/tmpvnacaik9/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_00.out\nok 68636 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.056263 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_01.in /tmp/tmp6cp9g5su/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_01.out\nok 52617 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.029622 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_02.in /tmp/tmpe3f0eh_f/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_02.out\nok 23155 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_03\n[INFO] time: 0.038628 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_03.in /tmp/tmpyvrn60gy/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_03.out\nok 32492 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_04\n[INFO] time: 0.046473 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_04.in /tmp/tmpvstexwcq/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/random_04.out\nok 24943 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.005054 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_00.in /tmp/tmpil234226/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_00.out\nok 81 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.004590 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_01.in /tmp/tmp457ggyc9/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_01.out\nok 58 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.004139 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_02.in /tmp/tmpqfjexlns/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/small_02.out\nok 100 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] uv_swapped_00\n[INFO] time: 0.103760 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_00.in /tmp/tmp9b79hhcb/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_00.out\nok 75090 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] uv_swapped_01\n[INFO] time: 0.093727 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_01.in /tmp/tmp1ldqm1sy/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_01.out\nok 74976 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] uv_swapped_02\n[INFO] time: 0.087732 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/dynamic_graph_vertex_add_component_sum/checker ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_02.in /tmp/tmpx98ciu27/actual.out ./.verify-helper/cache/2b6e7d11c688d398c5ee7d377261355c/test/uv_swapped_02.out\nok 74656 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.202940 sec  (for link_and_cut_00)\n[INFO] max memory: 75.220000 MB  (for link_and_cut_00)\n[SUCCESS] test success: 19 cases\n"
       }
     },
     {
