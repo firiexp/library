@@ -27,6 +27,8 @@ tags: 数学
   `x xor y` を最大にする `y` を基底の生成する空間から選んだ結果を返す
 - `void merge(const XorBasis<T>& other)`
   `other` の基底を併合する
+- `XorBasis<T> intersection(const XorBasis<T>& other) const`
+  両方の生成空間に属する値全体の基底を返す。入力は変更しない。片方が空なら空の基底を返す。bit 幅を $B$ として時間 $O(B^2)$、返却値を含む追加領域 $O(B)$
 
 ## 使い方
 `add` で値を順に入れて使う。
@@ -35,7 +37,8 @@ $$
 \min_{y \in \langle S \rangle} (x \oplus y), \quad \max_{y \in \langle S \rangle} (x \oplus y)
 $$
 を求められる。
+`{1, 2}` と `{3, 4}` が生成する空間の共通部分は `{0, 3}` であり、`intersection` はこれを生成する基底を返す。
 
 ## 実装上の補足
-- `T` は整数型を想定する
+- `T` は `bool` 以外の整数型を使う。値は `make_unsigned_t<T>` の bit 列として扱い、最小・最大も符号なしの大小で比較する
 - 返り値は `x xor y` そのものを返す

@@ -59,6 +59,28 @@ struct XorBasis {
         }
     }
 
+    XorBasis intersection(const XorBasis &other) const {
+        U row[B], from_a[B];
+        for (int i = 0; i < B; ++i) row[i] = from_a[i] = basis[i];
+        XorBasis result;
+        for (int i = 0; i < B; ++i) {
+            U x = other.basis[i], y = 0;
+            if (x == 0) continue;
+            for (int j = B - 1; j >= 0; --j) {
+                if (((x >> j) & 1) == 0) continue;
+                if (row[j] == 0) {
+                    row[j] = x;
+                    from_a[j] = y;
+                    break;
+                }
+                x ^= row[j];
+                y ^= from_a[j];
+            }
+            if (x == 0) result.add(static_cast<T>(y));
+        }
+        return result;
+    }
+
 private:
     U reduce_unsigned(U x) const {
         for (int i = B - 1; i >= 0; --i) {
