@@ -21,33 +21,58 @@ struct CentroidDecompositionQueryHelper {
         fill(parent.begin(), parent.end(), -1);
         fill(depth.begin(), depth.end(), 0);
         fill(used.begin(), used.end(), 0);
+        dfs_parent.resize(n);
+        order.reserve(n);
         if (n == 0) return root = -1;
         return root = decompose(start, -1, 0);
     }
 
 private:
+    vector<int> dfs_parent, order;
+
     int dfs_size(int v, int p) {
-        sz[v] = 1;
-        for (auto &&u : G[v]) {
-            if (u == p || used[u]) continue;
-            sz[v] += dfs_size(u, v);
+        order.clear();
+        order.push_back(v);
+        dfs_parent[v] = p;
+        for (int i = 0; i < (int)order.size(); ++i) {
+            int x = order[i];
+            sz[x] = 1;
+            for (int u : G[x]) {
+                if (u == dfs_parent[x] || used[u]) continue;
+                dfs_parent[u] = x;
+                order.push_back(u);
+            }
         }
+        for (int i = (int)order.size() - 1; i > 0; --i)
+            sz[dfs_parent[order[i]]] += sz[order[i]];
         return sz[v];
     }
 
     int find_centroid(int v, int p, int half) {
-        for (auto &&u : G[v]) {
-            if (u == p || used[u]) continue;
-            if (sz[u] > half) return find_centroid(u, v, half);
+        while (true) {
+            int next = -1;
+            for (int u : G[v]) {
+                if (u != p && !used[u] && sz[u] > half) {
+                    next = u;
+                    break;
+                }
+            }
+            if (next == -1) return v;
+            p = v;
+            v = next;
         }
-        return v;
     }
 
     void collect(int v, int p, int d, vector<pair<int, int>> &buf) {
         buf.emplace_back(v, d);
-        for (auto &&u : G[v]) {
-            if (u == p || used[u]) continue;
-            collect(u, v, d + 1, buf);
+        dfs_parent[v] = p;
+        for (int i = 0; i < (int)buf.size(); ++i) {
+            auto [x, distance] = buf[i];
+            for (int u : G[x]) {
+                if (u == dfs_parent[x] || used[u]) continue;
+                dfs_parent[u] = x;
+                buf.emplace_back(u, distance + 1);
+            }
         }
     }
 
