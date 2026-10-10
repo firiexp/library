@@ -15,9 +15,9 @@ documentation_of: //datastructure/binarytrie.cpp
 - `void reserve(int n)`
   今後 `n` 個挿入する想定でノード領域を先に確保する
 - `void add(T x, int k = 1)`
-  `x` を `k` 個追加する
+  `x` を `k` 個追加する。`k >= 0` を前提とし、`k = 0` は何もしない
 - `bool erase(T x, int k = 1)`
-  `x` を `k` 個削除する。個数が足りなければ `false`
+  `x` を `k` 個削除する。個数が足りなければ `false`。`k >= 0` を前提とし、`k = 0` は何もせず `true`
 - `int count(T x)`
   `x` の個数を返す
 - `bool contains(T x)`
@@ -47,3 +47,8 @@ unsigned int ans = trie.min_element(q);
 ## 実装上の補足
 `xor_min(x)` は値そのものではなく最小 `xor` 値を返す。
 この実装は multiset としても使える。
+
+削除で空になった枝は回収し、次の挿入で再利用する。
+同時に保持した相異なる値の最大数を $D_{\max}$ とすると、`nodes.size()` は $O(1 + X D_{\max})$。
+`reserve(n)` と vector コンストラクタの先行確保、過去の vector capacity はこのノード数の上限とは別であり、削除時には縮小しない。
+公開 `nodes` の添字は再利用されるため、要素に対応する恒久的な識別子として保存しない。

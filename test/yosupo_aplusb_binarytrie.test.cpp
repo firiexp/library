@@ -97,6 +97,49 @@ void verify_state(const Binarytrie<unsigned, B> &trie, const vector<int> &freq, 
 
 void self_check() {
     mt19937 rng(0);
+    Binarytrie<unsigned, 30> churn;
+    churn.add(123, 0);
+    assert(churn.erase(456, 0));
+    assert(churn.nodes.size() == 1 && churn.empty());
+    for (int i = 0; i < 500000; ++i) {
+        unsigned x = rng() & ((1u << 30) - 1);
+        churn.add(x, 3);
+        assert(churn.xor_min(x ^ 123) == 123);
+        assert(!churn.erase(x, 4));
+        assert(churn.count(x) == 3);
+        assert(churn.erase(x, 2));
+        assert(churn.count(x) == 1);
+        assert(churn.erase(x));
+        assert(churn.empty() && churn.count(x) == 0);
+        assert(churn.nodes.size() == 31);
+    }
+    Binarytrie<unsigned, 30> window;
+    multiset<unsigned> values;
+    deque<unsigned> order;
+    for (int i = 0; i < 10000; ++i) {
+        unsigned x = rng() & ((1u << 30) - 1);
+        if (i % 3 == 0 && !order.empty()) x = order.back();
+        window.add(x);
+        order.push_back(x);
+        values.insert(x);
+        if (order.size() > 32) {
+            unsigned y = order.front();
+            order.pop_front();
+            assert(window.erase(y));
+            values.erase(values.find(y));
+        }
+        unsigned q = rng() & ((1u << 30) - 1), expected = ~0u;
+        for (unsigned y : values) expected = min(expected, y ^ q);
+        assert(window.xor_min(q) == expected);
+        assert(window.nodes.size() <= 1 + 30 * 33);
+        assert(window.size() == int(values.size()));
+    }
+    auto copied = window;
+    while (!order.empty()) {
+        assert(copied.erase(order.front()));
+        order.pop_front();
+    }
+    assert(copied.empty() && !window.empty());
     for (int tc = 0; tc < 200; ++tc) {
         int n = rng() % 40;
         vector<unsigned> init(n);
@@ -117,7 +160,7 @@ void self_check() {
         for (int step = 0; step < 200; ++step) {
             int op = rng() % 5;
             unsigned x = rng() & MASK;
-            int k = rng() % 3 + 1;
+            int k = rng() % 4;
 
             if (op <= 1) {
                 trie.add(x, k);

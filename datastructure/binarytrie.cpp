@@ -43,15 +43,16 @@ struct Binarytrie {
     }
 
     void add(const T &x, int k = 1) {
+        assert(k >= 0);
+        if (k == 0) return;
         int p = 0;
         nodes[p].cnt += k;
         for (int i = int(X) - 1; i >= 0; --i) {
             int f = (x >> i) & 1;
             int to = nodes[p].nxt[f];
             if (to == -1) {
-                to = (int)nodes.size();
+                to = make_node();
                 nodes[p].nxt[f] = to;
-                nodes.emplace_back();
             }
             p = to;
             nodes[p].cnt += k;
@@ -59,6 +60,8 @@ struct Binarytrie {
     }
 
     bool erase(const T &x, int k = 1) {
+        assert(k >= 0);
+        if (k == 0) return true;
         array<int, X + 1> path;
         int p = 0;
         path[0] = p;
@@ -70,6 +73,14 @@ struct Binarytrie {
         }
         if (nodes[p].cnt < k) return false;
         for (int v : path) nodes[v].cnt -= k;
+        for (size_t d = X; d > 0; --d) {
+            int v = path[d];
+            if (nodes[v].cnt != 0) break;
+            int f = (x >> (X - d)) & 1;
+            nodes[path[d - 1]].nxt[f] = -1;
+            nodes[v].nxt[0] = free_head;
+            free_head = v;
+        }
         return true;
     }
 
@@ -98,6 +109,19 @@ struct Binarytrie {
     }
 
 private:
+    int free_head = -1;
+
+    int make_node() {
+        if (free_head == -1) {
+            nodes.emplace_back();
+            return (int)nodes.size() - 1;
+        }
+        int v = free_head;
+        free_head = nodes[v].nxt[0];
+        nodes[v] = Node();
+        return v;
+    }
+
     static constexpr T bit_mask() {
         if constexpr (X == sizeof(T) * 8) return T(-1);
         else return (T(1) << X) - 1;
