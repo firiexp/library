@@ -333,6 +333,40 @@ public:
         return *this;
     }
 
+    DynamicBitset &or_shift_left(int s) {
+        if (s <= 0 || s >= n) return *this;
+        int m = (int)a.size();
+        int block = s >> 6;
+        int rem = s & 63;
+        if (rem == 0) {
+            for (int i = m - 1; i >= block; --i) a[i] |= a[i - block];
+        } else {
+            for (int i = m - 1; i > block; --i) {
+                a[i] |= (a[i - block] << rem) | (a[i - block - 1] >> (B - rem));
+            }
+            a[block] |= a[0] << rem;
+        }
+        normalize();
+        return *this;
+    }
+
+    DynamicBitset &or_shift_right(int s) {
+        if (s <= 0 || s >= n) return *this;
+        int m = (int)a.size();
+        int block = s >> 6;
+        int rem = s & 63;
+        if (rem == 0) {
+            for (int i = 0; i < m - block; ++i) a[i] |= a[i + block];
+        } else {
+            int last = m - block - 1;
+            for (int i = 0; i < last; ++i) {
+                a[i] |= (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));
+            }
+            a[last] |= a[m - 1] >> rem;
+        }
+        return *this;
+    }
+
     friend DynamicBitset operator<<(DynamicBitset l, int s) { l <<= s; return l; }
     friend DynamicBitset operator>>(DynamicBitset l, int s) { l >>= s; return l; }
 };

@@ -37,9 +37,11 @@ tags: データ構造
   bitset 同士の演算をその場で行う
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`
   shift する
+- `DynamicBitset &or_shift_left(int s)`, `DynamicBitset &or_shift_right(int s)`
+  `bs |= bs << s`、`bs |= bs >> s` と同じ更新を一時配列なしで行い、自身への参照を返す。`s <= 0`、`s >= size()`、空 bitset では変更しない。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$、動的確保なし
 
 ## 使い方
 長さが同じ bitset 同士で演算する。
 `find_first`, `find_next` を使うと立っている bit だけを前から走査できる。
 `find_last`, `find_prev` を使うと後ろからも走査できる。
-
+部分和 DP は `reachable.set(0)` で初期化し、各重み `w` に対して `reachable.or_shift_left(w)` で更新できる。

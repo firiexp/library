@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <numeric>
 #include <random>
 #include <vector>
 using namespace std;
@@ -207,9 +208,75 @@ void random_check() {
     }
 }
 
+void check_shift_or(DynamicBitset &bs, vector<int> &a, int s, bool left) {
+    DynamicBitset expected = bs;
+    if (left) expected |= expected << s;
+    else expected |= expected >> s;
+    vector<int> before = a;
+    if (s > 0 && s < (int)a.size()) {
+        for (int i = 0; i + s < (int)a.size(); ++i) {
+            if (left) a[i + s] |= before[i];
+            else a[i] |= before[i + s];
+        }
+    }
+    auto &result = left ? bs.or_shift_left(s) : bs.or_shift_right(s);
+    assert(&result == &bs);
+    assert(to_vec(bs) == a && to_vec(expected) == a);
+    assert(bs.count() == accumulate(a.begin(), a.end(), 0));
+}
+
+void shift_or_check() {
+    for (int n = 0; n <= 10; ++n) {
+        for (int mask = 0; mask < (1 << n); ++mask) {
+            for (int s = -1; s <= n + 1; ++s) {
+                for (bool left : {false, true}) {
+                    DynamicBitset bs(n);
+                    vector<int> a(n);
+                    for (int i = 0; i < n; ++i) bs.assign(i, a[i] = (mask >> i) & 1);
+                    check_shift_or(bs, a, s, left);
+                }
+            }
+        }
+    }
+    mt19937 rng(134);
+    for (int n : {0, 1, 63, 64, 65, 127, 128, 129, 513}) {
+        for (int rep = 0; rep < 100; ++rep) {
+            DynamicBitset bs(n);
+            vector<int> a(n);
+            for (int i = 0; i < n; ++i) bs.assign(i, a[i] = (rng() % 7 == 0));
+            for (int s : {-1, 0, 1, 63, 64, 65, n - 1, n, n + 1}) {
+                for (bool left : {false, true}) {
+                    auto copy = bs;
+                    auto values = a;
+                    check_shift_or(copy, values, s, left);
+                }
+            }
+            for (int step = 0; step < 100; ++step) {
+                if (step % 7 == 0) {
+                    for (int i = 0; i < n; ++i) bs.assign(i, a[i] = (rng() % 17 == 0));
+                }
+                check_shift_or(bs, a, (int)(rng() % (n + 3)) - 1, step & 1);
+            }
+        }
+    }
+    for (int rep = 0; rep < 100; ++rep) {
+        DynamicBitset reachable(1001);
+        vector<int> dp(1001);
+        reachable.set(0);
+        dp[0] = 1;
+        for (int step = 0; step < 100; ++step) {
+            int w = rng() % 130;
+            for (int sum = 1000; sum >= w; --sum) dp[sum] |= dp[sum - w];
+            reachable.or_shift_left(w);
+            assert(to_vec(reachable) == dp);
+        }
+    }
+}
+
 int main() {
     deterministic_check();
     random_check();
+    shift_or_check();
 
     Scanner sc;
     Printer pr;
