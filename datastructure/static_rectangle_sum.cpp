@@ -34,7 +34,7 @@ struct StaticRectangleSum {
         ys.push_back(u);
     }
 
-    vector<T> solve() {
+    vector<T> solve() const {
         vector<int> ord_y = ys;
         sort(ord_y.begin(), ord_y.end());
         ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());
@@ -44,8 +44,9 @@ struct StaticRectangleSum {
         };
 
         vector<Point> ps = points;
+        vector<Event> es = events;
         for (auto& p : ps) p.y = get_y(p.y);
-        for (auto& e : events) {
+        for (auto& e : es) {
             e.d = get_y(e.d);
             e.u = get_y(e.u);
         }
@@ -53,13 +54,13 @@ struct StaticRectangleSum {
         sort(ps.begin(), ps.end(), [](const Point& a, const Point& b) {
             return a.x < b.x;
         });
-        sort(events.begin(), events.end());
+        sort(es.begin(), es.end());
 
         int q = (int)events.size() / 2;
         vector<T> ans(q, 0);
         BIT<T> bit((int)ord_y.size());
         int i = 0;
-        for (auto e : events) {
+        for (auto e : es) {
             while (i < (int)ps.size() && ps[i].x < e.x) {
                 bit.add(ps[i].y, ps[i].w);
                 ++i;
