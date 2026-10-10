@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/range_kth_smallest"
 
 #include <algorithm>
+#include <cassert>
 #include <type_traits>
 #include <vector>
 using namespace std;

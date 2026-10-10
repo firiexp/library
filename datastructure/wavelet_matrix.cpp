@@ -4,6 +4,31 @@
 
 template <class T>
 struct WaveletMatrix {
+    class Cursor {
+        friend struct WaveletMatrix;
+
+        const WaveletMatrix *owner_;
+        int depth_, l_, r_, value_index_;
+
+        Cursor(const WaveletMatrix *owner, int depth, int l, int r, int value_index)
+            : owner_(owner), depth_(depth), l_(l), r_(r), value_index_(value_index) {}
+
+    public:
+        int count() const { return r_ - l_; }
+        bool empty() const { return l_ == r_; }
+        bool is_leaf() const { return depth_ == owner_->lg; }
+
+        const T &value() const {
+            assert(is_leaf() && !empty());
+            return owner_->vals[value_index_];
+        }
+    };
+
+    struct Children {
+        Cursor low;
+        Cursor high;
+    };
+
     int n, lg, blocks;
     vector<int> mid;
     vector<unsigned long long> bit;
@@ -620,6 +645,24 @@ private:
 #endif
 
 public:
+    Cursor range_cursor(int l, int r) const {
+        assert(0 <= l && l <= r && r <= n);
+        return Cursor(this, 0, l, r, 0);
+    }
+
+    Children split(const Cursor &cur) const {
+        assert(cur.owner_ == this && !cur.is_leaf());
+        const auto *row = bit.data() + cur.depth_ * blocks;
+        const int *row_pref = pref.data() + cur.depth_ * (blocks + 1);
+        int l1, r1;
+        rank1_pair(row, row_pref, cur.l_, cur.r_, l1, r1);
+        int depth = cur.depth_ + 1, prefix = cur.value_index_ << 1;
+        return {
+            Cursor(this, depth, cur.l_ - l1, cur.r_ - r1, prefix),
+            Cursor(this, depth, mid[cur.depth_] + l1, mid[cur.depth_] + r1, prefix | 1)
+        };
+    }
+
     int count_less_index(int l, int r, int xi) const {
         if (xi <= 0 || l >= r || n == 0) return 0;
         if (xi >= (int)vals.size()) return r - l;
