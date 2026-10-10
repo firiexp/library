@@ -5,17 +5,19 @@ documentation_of: //graph/vertex_failure_connectivity.cpp
 
 ## 説明
 無向グラフで、指定した頂点を通らずに2頂点間を移動できるかを求める。
-ブロックカット木と HL 分解を内部で構築する。前処理は $O(N+M)$、問い合わせは $O(\log(N+1))$、領域は $O(N+M)$。
+ブロックカット木と HL 分解を内部で構築する。
 
 ## できること
+頂点数を $V$、辺数を $E$ とする。
+
 - `VertexFailureConnectivity g(n)`
-  `n` 頂点のグラフを作る
+  `n` 頂点のグラフを作る。時間・領域は $O(V)$
 - `void add_edge(int u, int v)`
-  無向辺を追加する。自己ループと平行辺も受け付ける
+  無向辺を追加する。自己ループと平行辺も受け付ける。時間は償却 $O(1)$
 - `void build()`
-  全連結成分を前処理する。辺の追加後は再度呼ぶ
+  全連結成分を前処理する。辺の追加後は再度呼ぶ。時間・領域は $O(V+E)$
 - `bool connected_without_vertex(int u, int v, int x)`
-  頂点 `x` を除いたグラフで `u` と `v` が連結なら `true`。端点が `x` なら `false`
+  頂点 `x` を除いたグラフで `u` と `v` が連結なら `true`。端点が `x` なら `false`。時間は $O(\log(V+1))$
 
 ## 使い方
 元の頂点番号 `0, ..., n-1` で辺を追加し、`build()` 後に問い合わせる。
