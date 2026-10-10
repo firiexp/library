@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-10T19:50:10+09:00",
+  "generatedAt": "2026-10-10T19:53:21+09:00",
   "root": ".",
   "testCount": 190,
   "inventory": {
-    "currentTestCount": 283,
+    "currentTestCount": 284,
     "measuredTestCount": 190,
-    "unmeasuredCount": 93,
+    "unmeasuredCount": 94,
     "unmeasuredPaths": [
       "test/aoj_alds1_9_c_leftist_heap.test.cpp",
       "test/aoj_cgl_4_b.test.cpp",
@@ -79,6 +79,7 @@
       "test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp",
       "test/yosupo_aplusb_swag.test.cpp",
       "test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp",
+      "test/yosupo_aplusb_vertex_failure_connectivity.test.cpp",
       "test/yosupo_aplusb_virtual_tree_helper.test.cpp",
       "test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp",
       "test/yosupo_aplusb_xor_basis_intersection.test.cpp",
@@ -104,7 +105,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "22aa77621901df5df5e12f783e4529aa40998529",
+    "gitRevision": "d621755ea98bd8f6dab41cd97a619e2eb793125b",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -8546,7 +8547,7 @@
           "a.out",
           "test/yosupo_biconnected_components.test.cpp"
         ],
-        "wallSec": 0.8782249010000669
+        "wallSec": 1.0469575989991426
       },
       "testcases": {
         "directory": ".verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test",
@@ -8557,7 +8558,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/verify-dashboard-0t2pv2nd/a.out",
+          "./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/verify-dashboard-vwf7y5if/a.out",
           "-d",
           "./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test",
           "--tle",
@@ -8566,132 +8567,132 @@
           "~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker"
         ],
         "returnCode": 0,
-        "wallSec": 4.440537463000055,
+        "wallSec": 5.291849920002278,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "example_00",
-              "timeSec": 0.003233,
+              "timeSec": 0.004875,
               "status": "AC"
             },
             {
               "name": "example_01",
-              "timeSec": 0.002643,
+              "timeSec": 0.003693,
               "status": "AC"
             },
             {
               "name": "example_02",
-              "timeSec": 0.00242,
+              "timeSec": 0.004003,
               "status": "AC"
             },
             {
               "name": "large_cycle_00",
-              "timeSec": 0.30808,
+              "timeSec": 0.284868,
               "status": "AC"
             },
             {
               "name": "max_line_clique_00",
-              "timeSec": 0.193929,
+              "timeSec": 0.223682,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.315623,
+              "timeSec": 0.348552,
               "status": "AC"
             },
             {
               "name": "max_random_2_00",
-              "timeSec": 0.255526,
+              "timeSec": 0.291276,
               "status": "AC"
             },
             {
               "name": "max_random_2_01",
-              "timeSec": 0.226718,
+              "timeSec": 0.287864,
               "status": "AC"
             },
             {
               "name": "max_random_2_02",
-              "timeSec": 0.221362,
+              "timeSec": 0.292097,
               "status": "AC"
             },
             {
               "name": "max_star_00",
-              "timeSec": 0.315616,
+              "timeSec": 0.377103,
               "status": "AC"
             },
             {
               "name": "max_tree_00",
-              "timeSec": 0.339079,
+              "timeSec": 0.430697,
               "status": "AC"
             },
             {
               "name": "min_00",
-              "timeSec": 0.004452,
+              "timeSec": 0.006818,
               "status": "AC"
             },
             {
               "name": "min_01",
-              "timeSec": 0.003597,
+              "timeSec": 0.006254,
               "status": "AC"
             },
             {
               "name": "min_02",
-              "timeSec": 0.003592,
+              "timeSec": 0.006033,
               "status": "AC"
             },
             {
               "name": "random_1_00",
-              "timeSec": 0.181236,
+              "timeSec": 0.215631,
               "status": "AC"
             },
             {
               "name": "random_2_00",
-              "timeSec": 0.163375,
+              "timeSec": 0.207464,
               "status": "AC"
             },
             {
               "name": "random_2_01",
-              "timeSec": 0.155527,
+              "timeSec": 0.186503,
               "status": "AC"
             },
             {
               "name": "random_2_02",
-              "timeSec": 0.057179,
+              "timeSec": 0.079514,
               "status": "AC"
             },
             {
               "name": "small_random_1_00",
-              "timeSec": 0.004264,
+              "timeSec": 0.00645,
               "status": "AC"
             },
             {
               "name": "small_random_2_00",
-              "timeSec": 0.003311,
+              "timeSec": 0.006397,
               "status": "AC"
             },
             {
               "name": "small_random_2_01",
-              "timeSec": 0.003459,
+              "timeSec": 0.007509,
               "status": "AC"
             },
             {
               "name": "small_random_2_02",
-              "timeSec": 0.004359,
+              "timeSec": 0.007169,
               "status": "AC"
             }
           ],
           "caseCount": 22,
           "timedCaseCount": 22,
           "passedCaseCount": 22,
-          "slowestSec": 0.339079,
+          "slowestSec": 0.430697,
           "slowestCase": "max_tree_00",
-          "averageSec": 0.12584454545454546,
-          "maxMemoryMb": 114.236,
-          "maxMemoryCase": "large_cycle_00",
+          "averageSec": 0.14929327272727272,
+          "maxMemoryMb": 95.536,
+          "maxMemoryCase": "max_tree_00",
           "summary": "test success: 22 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 22 cases found\n\n[INFO] example_00\n[INFO] time: 0.003233 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_00.in /tmp/tmpzanr_if_/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.002643 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_01.in /tmp/tmpabzm4qds/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_02\n[INFO] time: 0.002420 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_02.in /tmp/tmpb2ewwqq2/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] large_cycle_00\n[INFO] time: 0.308080 sec\n[INFO] memory: 114.236000 MB\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/large_cycle_00.in /tmp/tmp05sfd9wu/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/large_cycle_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_line_clique_00\n[INFO] time: 0.193929 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_line_clique_00.in /tmp/tmp42vui5e4/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_line_clique_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.315623 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_00.in /tmp/tmptvjt191s/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_2_00\n[INFO] time: 0.255526 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_00.in /tmp/tmpjf5dxc89/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_2_01\n[INFO] time: 0.226718 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_01.in /tmp/tmp_111mgfs/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_2_02\n[INFO] time: 0.221362 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_02.in /tmp/tmpqtcz580o/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_star_00\n[INFO] time: 0.315616 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_star_00.in /tmp/tmp91izi356/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_star_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_tree_00\n[INFO] time: 0.339079 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_tree_00.in /tmp/tmp1tlhnid5/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_tree_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] min_00\n[INFO] time: 0.004452 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_00.in /tmp/tmpu4opdffq/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] min_01\n[INFO] time: 0.003597 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_01.in /tmp/tmpjfvkynv4/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] min_02\n[INFO] time: 0.003592 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_02.in /tmp/tmpo4dy9jmv/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_1_00\n[INFO] time: 0.181236 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_1_00.in /tmp/tmp3hnea1gd/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_1_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_2_00\n[INFO] time: 0.163375 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_00.in /tmp/tmpqyeely7u/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_2_01\n[INFO] time: 0.155527 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_01.in /tmp/tmphdmayrvb/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_2_02\n[INFO] time: 0.057179 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_02.in /tmp/tmp4o954de0/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_1_00\n[INFO] time: 0.004264 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_1_00.in /tmp/tmpdwvak2ms/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_1_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_2_00\n[INFO] time: 0.003311 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_00.in /tmp/tmpeayx9sxb/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_2_01\n[INFO] time: 0.003459 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_01.in /tmp/tmp989rqard/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_2_02\n[INFO] time: 0.004359 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_02.in /tmp/tmppnlcxs3n/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.339079 sec  (for max_tree_00)\n[INFO] max memory: 114.236000 MB  (for large_cycle_00)\n[SUCCESS] test success: 22 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 22 cases found\n\n[INFO] example_00\n[INFO] time: 0.004875 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_00.in /tmp/tmpr55v_hat/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.003693 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_01.in /tmp/tmps32qbwf1/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_02\n[INFO] time: 0.004003 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_02.in /tmp/tmpusih6hgh/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/example_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] large_cycle_00\n[INFO] time: 0.284868 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/large_cycle_00.in /tmp/tmpjb7lk4k9/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/large_cycle_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_line_clique_00\n[INFO] time: 0.223682 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_line_clique_00.in /tmp/tmpg0c4n1za/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_line_clique_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.348552 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_00.in /tmp/tmp_njcrtxv/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_2_00\n[INFO] time: 0.291276 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_00.in /tmp/tmp1in8_tph/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_2_01\n[INFO] time: 0.287864 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_01.in /tmp/tmpmxthifcb/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_2_02\n[INFO] time: 0.292097 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_02.in /tmp/tmpwcqbzmop/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_random_2_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_star_00\n[INFO] time: 0.377103 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_star_00.in /tmp/tmp08o9_j_a/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_star_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_tree_00\n[INFO] time: 0.430697 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_tree_00.in /tmp/tmpxvqetfp4/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/max_tree_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] min_00\n[INFO] time: 0.006818 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_00.in /tmp/tmpgafenk6l/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] min_01\n[INFO] time: 0.006254 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_01.in /tmp/tmpyixtmh0_/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] min_02\n[INFO] time: 0.006033 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_02.in /tmp/tmp8x9wdbbs/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/min_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_1_00\n[INFO] time: 0.215631 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_1_00.in /tmp/tmp1f2zjmsj/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_1_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_2_00\n[INFO] time: 0.207464 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_00.in /tmp/tmpbgv9iq_t/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_2_01\n[INFO] time: 0.186503 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_01.in /tmp/tmpbdd8iert/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_2_02\n[INFO] time: 0.079514 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_02.in /tmp/tmp176zb5nq/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/random_2_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_1_00\n[INFO] time: 0.006450 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_1_00.in /tmp/tmpzc80wf6v/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_1_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_2_00\n[INFO] time: 0.006397 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_00.in /tmp/tmp7zpkj8gw/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_2_01\n[INFO] time: 0.007509 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_01.in /tmp/tmpgyp_io3u/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_2_02\n[INFO] time: 0.007169 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/graph/biconnected_components/checker ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_02.in /tmp/tmpokke5vmy/actual.out ./.verify-helper/cache/be365e85ea6c04cc28b4746020c1fbc7/test/small_random_2_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.430697 sec  (for max_tree_00)\n[INFO] max memory: 95.536000 MB  (for max_tree_00)\n[SUCCESS] test success: 22 cases\n"
       }
     },
     {
@@ -26339,7 +26340,7 @@
           "a.out",
           "test/yosupo_vertex_set_path_composite_hld_helper.test.cpp"
         ],
-        "wallSec": 0.6667125060002945
+        "wallSec": 0.7618801770004211
       },
       "testcases": {
         "directory": ".verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test",
@@ -26350,7 +26351,7 @@
           "oj",
           "test",
           "-c",
-          "./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/verify-dashboard-j7zcel14/a.out",
+          "./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/verify-dashboard-dv_qb57y/a.out",
           "-d",
           "./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test",
           "--tle",
@@ -26359,122 +26360,122 @@
           "~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker"
         ],
         "returnCode": 0,
-        "wallSec": 1.9811939670003085,
+        "wallSec": 2.417250480000803,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "almost_line_00",
-              "timeSec": 0.120349,
+              "timeSec": 0.154516,
               "status": "AC"
             },
             {
               "name": "almost_line_01",
-              "timeSec": 0.106511,
+              "timeSec": 0.169079,
               "status": "AC"
             },
             {
               "name": "example_00",
-              "timeSec": 0.002741,
+              "timeSec": 0.005516,
               "status": "AC"
             },
             {
               "name": "example_01",
-              "timeSec": 0.002969,
+              "timeSec": 0.004421,
               "status": "AC"
             },
             {
               "name": "line_00",
-              "timeSec": 0.100867,
+              "timeSec": 0.126863,
               "status": "AC"
             },
             {
               "name": "line_01",
-              "timeSec": 0.098089,
+              "timeSec": 0.118979,
               "status": "AC"
             },
             {
               "name": "long-path-decomposition_killer_00",
-              "timeSec": 0.035562,
+              "timeSec": 0.047527,
               "status": "AC"
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.108235,
+              "timeSec": 0.133933,
               "status": "AC"
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.145232,
+              "timeSec": 0.15207,
               "status": "AC"
             },
             {
               "name": "max_random_02",
-              "timeSec": 0.148903,
+              "timeSec": 0.153555,
               "status": "AC"
             },
             {
               "name": "random_00",
-              "timeSec": 0.077031,
+              "timeSec": 0.101164,
               "status": "AC"
             },
             {
               "name": "random_01",
-              "timeSec": 0.085437,
+              "timeSec": 0.109445,
               "status": "AC"
             },
             {
               "name": "random_02",
-              "timeSec": 0.041317,
+              "timeSec": 0.041126,
               "status": "AC"
             },
             {
               "name": "small_00",
-              "timeSec": 0.003549,
+              "timeSec": 0.004835,
               "status": "AC"
             },
             {
               "name": "small_01",
-              "timeSec": 0.003391,
+              "timeSec": 0.005558,
               "status": "AC"
             },
             {
               "name": "small_02",
-              "timeSec": 0.002943,
+              "timeSec": 0.00481,
               "status": "AC"
             },
             {
               "name": "small_03",
-              "timeSec": 0.00335,
+              "timeSec": 0.004812,
               "status": "AC"
             },
             {
               "name": "small_04",
-              "timeSec": 0.002887,
+              "timeSec": 0.005809,
               "status": "AC"
             },
             {
               "name": "worst_for_path_decomposition_00",
-              "timeSec": 0.248138,
+              "timeSec": 0.286429,
               "status": "AC"
             },
             {
               "name": "worst_for_path_decomposition_01",
-              "timeSec": 0.246975,
+              "timeSec": 0.285074,
               "status": "AC"
             }
           ],
           "caseCount": 20,
           "timedCaseCount": 20,
           "passedCaseCount": 20,
-          "slowestSec": 0.248138,
+          "slowestSec": 0.286429,
           "slowestCase": "worst_for_path_decomposition_00",
-          "averageSec": 0.0792238,
-          "maxMemoryMb": 38.4,
-          "maxMemoryCase": "line_01",
+          "averageSec": 0.09577605,
+          "maxMemoryMb": 31.172,
+          "maxMemoryCase": "max_random_02",
           "summary": "test success: 20 cases"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 20 cases found\n\n[INFO] almost_line_00\n[INFO] time: 0.120349 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/almost_line_00.in /tmp/tmp0hn_jnxi/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/almost_line_00.out\nok 100081 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] almost_line_01\n[INFO] time: 0.106511 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/almost_line_01.in /tmp/tmpcu1w98rm/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/almost_line_01.out\nok 99949 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.002741 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/example_00.in /tmp/tmpqz_h0zl9/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/example_00.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.002969 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/example_01.in /tmp/tmp8k_s7_v8/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/example_01.out\nok 6 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_00\n[INFO] time: 0.100867 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/line_00.in /tmp/tmpeemy7y0p/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/line_00.out\nok 99915 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_01\n[INFO] time: 0.098089 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/line_01.in /tmp/tmppak_226s/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/line_01.out\nok 99978 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] long-path-decomposition_killer_00\n[INFO] time: 0.035562 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/long-path-decomposition_killer_00.in /tmp/tmpj0pzq1bw/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/long-path-decomposition_killer_00.out\nok 200000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.108235 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_00.in /tmp/tmp1bnor_kh/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_00.out\nok 99967 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.145232 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_01.in /tmp/tmp7hfej9te/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_01.out\nok 99985 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.148903 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_02.in /tmp/tmphpag105j/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_02.out\nok 100188 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.077031 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_00.in /tmp/tmp0dwvirm0/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_00.out\nok 74580 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.085437 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_01.in /tmp/tmpaoanglbb/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_01.out\nok 74608 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.041317 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_02.in /tmp/tmpxmkuqqle/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_02.out\nok 59835 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.003549 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_00.in /tmp/tmply9n_7rb/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_00.out\nok 653 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.003391 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_01.in /tmp/tmpkdh79wy6/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_01.out\nok 655 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.002943 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_02.in /tmp/tmpzg60cymu/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_02.out\nok 696 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.003350 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_03.in /tmp/tmpre3jfp2f/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_03.out\nok 617 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.002887 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_04.in /tmp/tmpvp61rj5f/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_04.out\nok 432 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] worst_for_path_decomposition_00\n[INFO] time: 0.248138 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/worst_for_path_decomposition_00.in /tmp/tmpb_0wxjyy/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/worst_for_path_decomposition_00.out\nok 190530 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] worst_for_path_decomposition_01\n[INFO] time: 0.246975 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/worst_for_path_decomposition_01.in /tmp/tmp8gg3aby4/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/worst_for_path_decomposition_01.out\nok 190293 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.248138 sec  (for worst_for_path_decomposition_00)\n[INFO] max memory: 38.400000 MB  (for line_01)\n[SUCCESS] test success: 20 cases\n"
+        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 20 cases found\n\n[INFO] almost_line_00\n[INFO] time: 0.154516 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/almost_line_00.in /tmp/tmpicoom_a1/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/almost_line_00.out\nok 100081 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] almost_line_01\n[INFO] time: 0.169079 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/almost_line_01.in /tmp/tmpvs0zqr4m/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/almost_line_01.out\nok 99949 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_00\n[INFO] time: 0.005516 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/example_00.in /tmp/tmp2rfco4y_/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/example_00.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.004421 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/example_01.in /tmp/tmpk3ncwrv8/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/example_01.out\nok 6 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_00\n[INFO] time: 0.126863 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/line_00.in /tmp/tmp_4kts9xv/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/line_00.out\nok 99915 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_01\n[INFO] time: 0.118979 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/line_01.in /tmp/tmpxiv9nwmr/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/line_01.out\nok 99978 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] long-path-decomposition_killer_00\n[INFO] time: 0.047527 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/long-path-decomposition_killer_00.in /tmp/tmp27g9xdcq/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/long-path-decomposition_killer_00.out\nok 200000 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.133933 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_00.in /tmp/tmpetok9_um/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_00.out\nok 99967 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.152070 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_01.in /tmp/tmpw_s0c8qu/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_01.out\nok 99985 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.153555 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_02.in /tmp/tmp5n7njjhe/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/max_random_02.out\nok 100188 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.101164 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_00.in /tmp/tmpjo_duqf9/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_00.out\nok 74580 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.109445 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_01.in /tmp/tmph7qx6g8v/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_01.out\nok 74608 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.041126 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_02.in /tmp/tmpfjbeiytk/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/random_02.out\nok 59835 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.004835 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_00.in /tmp/tmpdqgv3c55/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_00.out\nok 653 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.005558 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_01.in /tmp/tmp2qf23j81/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_01.out\nok 655 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.004810 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_02.in /tmp/tmpxs2zhwm_/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_02.out\nok 696 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_03\n[INFO] time: 0.004812 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_03.in /tmp/tmpfqq02ixc/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_03.out\nok 617 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_04\n[INFO] time: 0.005809 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_04.in /tmp/tmpq4mct9wh/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/small_04.out\nok 432 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] worst_for_path_decomposition_00\n[INFO] time: 0.286429 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/worst_for_path_decomposition_00.in /tmp/tmphhs7y2ob/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/worst_for_path_decomposition_00.out\nok 190530 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] worst_for_path_decomposition_01\n[INFO] time: 0.285074 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/vertex_set_path_composite/checker ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/worst_for_path_decomposition_01.in /tmp/tmp_n7xaiiz/actual.out ./.verify-helper/cache/7a8a26615a05f6feaab92b3d304b1e70/test/worst_for_path_decomposition_01.out\nok 190293 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.286429 sec  (for worst_for_path_decomposition_00)\n[INFO] max memory: 31.172000 MB  (for max_random_02)\n[SUCCESS] test success: 20 cases\n"
       }
     },
     {

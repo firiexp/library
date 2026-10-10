@@ -57,3 +57,4 @@ auto ans = hld.path_query_ordered(a, b, Monoid::e(), ql, qr, Monoid::f, false);
 ## 実装上の補足
 `edge = true` にすると、LCA 側の頂点を除いた辺クエリ区間になる。
 `path_query_ordered` は `u -> v` の向きを保つ。
+前処理は $O(N)$ 時間・領域で、再帰を使わない。森では各連結成分の根を `roots` に1つずつ渡す。

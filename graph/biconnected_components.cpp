@@ -25,33 +25,47 @@ class BiconnectedComponents {
     int n = 0;
     vector<int> st;
 
+    struct Frame {
+        int v, parent_edge, next;
+    };
+
     int other(int id, int v) const {
         return edges[id].first ^ edges[id].second ^ v;
     }
 
-    void dfs(int i, int pe, const CSR &G, int &pos){
+    void dfs(int i, const CSR &G, int &pos, vector<Frame> &stack){
         ord[i] = low[i] = pos++;
-        for (int ei = G.start[i]; ei < G.start[i + 1]; ++ei) {
-            int id = G.elist[ei];
-            if(id == pe) continue;
-            int j = other(id, i);
-            if(ord[j] < ord[i]) st.emplace_back(id);
-            if(~ord[j]){
-                low[i] = min(low[i], ord[j]);
+        stack.push_back({i, -1, G.start[i]});
+        while (!stack.empty()) {
+            auto &frame = stack.back();
+            int v = frame.v;
+            if (frame.next == G.start[v + 1]) {
+                int pe = frame.parent_edge, p = par[v];
+                stack.pop_back();
+                if (p == -1) continue;
+                low[p] = min(low[p], low[v]);
+                if (ord[p] <= low[v]) {
+                    bcc_edges.emplace_back();
+                    while (true) {
+                        int k = st.back();
+                        st.pop_back();
+                        bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second), max(edges[k].first, edges[k].second));
+                        if (k == pe) break;
+                    }
+                }
                 continue;
             }
-            par[j] = i;
-            dfs(j, id, G, pos);
-            low[i] = min(low[i], low[j]);
-            if(ord[i] <= low[j]){
-                bcc_edges.emplace_back();
-                while(true){
-                    int k = st.back();
-                    st.pop_back();
-                    bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second), max(edges[k].first, edges[k].second));
-                    if(k == id) break;
-                }
+            int id = G.elist[frame.next++];
+            if (id == frame.parent_edge) continue;
+            int j = other(id, v);
+            if(ord[j] < ord[v]) st.emplace_back(id);
+            if(~ord[j]){
+                low[v] = min(low[v], ord[j]);
+                continue;
             }
+            par[j] = v;
+            ord[j] = low[j] = pos++;
+            stack.push_back({j, id, G.start[j]});
         }
     }
 public:
@@ -74,8 +88,9 @@ public:
         bcc_edges.clear();
         bcc_vertices.clear();
         st.clear();
+        vector<Frame> stack;
         for (int i = 0; i < n; ++i) {
-            if(ord[i] < 0) dfs(i, -1, G, pos);
+            if(ord[i] < 0) dfs(i, G, pos, stack);
         }
         vector<int> seen(n, -1);
         bcc_vertices.reserve(bcc_edges.size());

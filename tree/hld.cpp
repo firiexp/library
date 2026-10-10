@@ -2,32 +2,50 @@
 #define FIRIEXP_LIBRARY_TREE_HLD_CPP
 
 class HeavyLightDecomposition {
-    void dfs_sz(int v){
-        int heavy = -1;
-        for (auto &&u : G[v]) {
-            if(u == par[v]) continue;
-            par[u] = v; dep[u] = dep[v] + 1;
-            dfs_sz(u);
-            sub_size[v] += sub_size[u];
-            if(heavy == -1 || sub_size[u] > sub_size[heavy]) heavy = u;
+    void dfs_sz(int root, vector<int> &order){
+        order.clear();
+        order.push_back(root);
+        for (int i = 0; i < (int)order.size(); ++i) {
+            int v = order[i];
+            for (int u : G[v]) {
+                if (u == par[v]) continue;
+                par[u] = v;
+                dep[u] = dep[v] + 1;
+                order.push_back(u);
+            }
         }
-        if (heavy != -1 && G[v][0] != heavy) {
-            for (auto &&u : G[v]) {
-                if (u == heavy) {
-                    swap(u, G[v][0]);
-                    break;
+        for (int i = (int)order.size() - 1; i >= 0; --i) {
+            int v = order[i], heavy = -1;
+            for (int u : G[v]) {
+                if (u == par[v]) continue;
+                sub_size[v] += sub_size[u];
+                if (heavy == -1 || sub_size[u] > sub_size[heavy]) heavy = u;
+            }
+            if (heavy != -1 && G[v][0] != heavy) {
+                for (auto &u : G[v]) {
+                    if (u == heavy) {
+                        swap(u, G[v][0]);
+                        break;
+                    }
                 }
             }
         }
     }
-    void dfs_hld(int v, int c, int &pos){
-        id[v] = pos++;
-        id_inv[id[v]]= v;
-        tree_id[v] = c;
-        for (auto &&u : G[v]) {
-            if(u == par[v]) continue;
-            head[u] = (u == G[v][0] ? head[v] : u);
-            dfs_hld(u, c, pos);
+    void dfs_hld(int root, int c, int &pos, vector<int> &stack){
+        stack.clear();
+        stack.push_back(root);
+        while (!stack.empty()) {
+            int v = stack.back();
+            stack.pop_back();
+            id[v] = pos++;
+            id_inv[id[v]] = v;
+            tree_id[v] = c;
+            for (int i = (int)G[v].size() - 1; i >= 0; --i) {
+                int u = G[v][i];
+                if (u == par[v]) continue;
+                head[u] = (u == G[v][0] ? head[v] : u);
+                stack.push_back(u);
+            }
         }
     }
 public:
@@ -43,14 +61,16 @@ public:
     }
 
     void build(vector<int> roots = {0}){
+        if (n == 0) return;
         fill(par.begin(), par.end(), -1);
         fill(dep.begin(), dep.end(), 0);
         fill(sub_size.begin(), sub_size.end(), 1);
         int c = 0, pos = 0;
+        vector<int> order;
         for (auto &&i : roots) {
-            dfs_sz(i);
+            dfs_sz(i, order);
             head[i] = i;
-            dfs_hld(i, c++, pos);
+            dfs_hld(i, c++, pos, order);
         }
     }
 
