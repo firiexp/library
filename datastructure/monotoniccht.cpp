@@ -6,8 +6,17 @@ public:
     CHT() = default;
     bool check(P l1, P l2, P l3){
         if constexpr (is_integral_v<T>) {
-            return (((__int128)l2.second - l1.second) * ((__int128)l2.first - l3.first)
-                 >= ((__int128)l3.second - l2.second) * ((__int128)l1.first - l2.first));
+            static_assert(sizeof(T) <= 8, "CHT requires at most 64-bit integer coefficients");
+            auto product = [](__int128 a, __int128 b) {
+                bool negative = (a < 0) != (b < 0);
+                auto magnitude = static_cast<unsigned __int128>(a < 0 ? -a : a)
+                               * static_cast<unsigned __int128>(b < 0 ? -b : b);
+                return pair<bool, unsigned __int128>(negative && magnitude != 0, magnitude);
+            };
+            auto lhs = product((__int128)l2.second - l1.second, (__int128)l2.first - l3.first);
+            auto rhs = product((__int128)l3.second - l2.second, (__int128)l1.first - l2.first);
+            if (lhs.first != rhs.first) return !lhs.first;
+            return lhs.first ? lhs.second <= rhs.second : lhs.second >= rhs.second;
         } else {
             return ((static_cast<long double>(l2.second) - l1.second) * (static_cast<long double>(l2.first) - l3.first)
                  >= (static_cast<long double>(l3.second) - l2.second) * (static_cast<long double>(l1.first) - l2.first));
