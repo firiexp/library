@@ -75,24 +75,21 @@ struct ImplicitTreap {
     }
 
     T get(int k) {
-        auto [a, bc] = split(root, k);
-        auto [b, c] = split(bc, 1);
-        T res = nodes[b].val;
-        root = merge(merge(a, b), c);
-        return res;
+        int v = root;
+        while (true) {
+            push(v);
+            int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
+            if (k == left_size) return nodes[v].val;
+            if (k < left_size) v = nodes[v].l;
+            else {
+                k -= left_size + 1;
+                v = nodes[v].r;
+            }
+        }
     }
 
     void set(int k, const T &x) {
-        auto [a, bc] = split(root, k);
-        auto [b, c] = split(bc, 1);
-        Node &node = nodes[b];
-        node.val = x;
-        node.sum = x;
-        node.rsum = x;
-        node.rev = false;
-        node.has_lazy = false;
-        pull(b);
-        root = merge(merge(a, b), c);
+        set_node(root, k, x);
     }
 
     void apply(int l, int r, const L &x) {
@@ -108,13 +105,32 @@ struct ImplicitTreap {
     }
 
     T fold(int l, int r) {
-        auto [a, b, c] = split3(root, l, r);
-        T res = b == -1 ? M::e() : nodes[b].sum;
-        root = merge(merge(a, b), c);
-        return res;
+        return fold_node(root, l, r);
     }
 
 private:
+    void set_node(int v, int k, const T &x) {
+        push(v);
+        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
+        if (k < left_size) set_node(nodes[v].l, k, x);
+        else if (k == left_size) nodes[v].val = x;
+        else set_node(nodes[v].r, k - left_size - 1, x);
+        pull(v);
+    }
+
+    T fold_node(int v, int l, int r) {
+        if (l == r) return M::e();
+        if (l == 0 && r == nodes[v].sz) return nodes[v].sum;
+        push(v);
+        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
+        if (r <= left_size) return fold_node(nodes[v].l, l, r);
+        if (left_size < l) return fold_node(nodes[v].r, l - left_size - 1, r - left_size - 1);
+        T res = nodes[v].val;
+        if (l < left_size) res = M::f(fold_node(nodes[v].l, l, left_size), res);
+        if (left_size + 1 < r) res = M::f(res, fold_node(nodes[v].r, 0, r - left_size - 1));
+        return res;
+    }
+
     unsigned next_rand() {
         rng_state ^= rng_state << 7;
         rng_state ^= rng_state >> 9;
