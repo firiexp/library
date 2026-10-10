@@ -5,15 +5,17 @@ documentation_of: //tree/range_contour_sum.cpp
 
 ## 説明
 固定された重みなし木の頂点値を更新し、指定した頂点からの距離が範囲内にある頂点の値を合計する。
-重心分解と距離ごとの BIT を使う。構築は $O(N\log(N+1))$、更新・取得は $O(\log^2(N+1))$、領域は $O(N\log(N+1))$。
+重心分解と距離ごとの BIT を使う。
 
 ## できること
+頂点数を $V$ とする。
+
 - `RangeContourSum(g, values)`
-  無向木の隣接リスト `g` と `vector<long long>` の初期値から構築する
+  無向木の隣接リスト `g` と `vector<long long>` の初期値から構築する。時間・領域は $O(V\log(V+1))$
 - `void add(int v, long long x)`
-  頂点 `v` の値に `x` を加える
+  頂点 `v` の値に `x` を加える。時間は $O(\log^2(V+1))$
 - `long long query(int v, int l, int r)`
-  頂点 `v` からの距離が `[l, r)` の頂点値の和を返す。空区間は `0`
+  頂点 `v` からの距離が `[l, r)` の頂点値の和を返す。空区間は `0`。時間は $O(\log^2(V+1))$
 
 ## 使い方
 `g.size() == values.size()` とし、頂点番号は `0` 以上 `g.size()` 未満とする。
