@@ -18,7 +18,16 @@ using namespace std;
 #include "../math/prime/divisor.cpp"
 
 void self_check() {
-    // Factor using a sieve, then enumerate divisors and apply inclusion-exclusion.
+    assert(divisor(0).empty());
+    assert((divisor(1000000000039LL) == vector<long long>{1, 1000000000039LL}));
+    vector<long long> square_divisors;
+    long long two = 1;
+    for (int i = 0; i <= 12; ++i, two *= 2) {
+        long long five = 1;
+        for (int j = 0; j <= 12; ++j, five *= 5) square_divisors.push_back(two * five);
+    }
+    sort(square_divisors.begin(), square_divisors.end());
+    assert(divisor(1000000000000LL) == square_divisors);
     vector<bool> composite(46341);
     vector<int> primes;
     for (int p = 2; p <= 46340; ++p) {
@@ -29,7 +38,7 @@ void self_check() {
     vector<int> cases;
     for (int n = 1; n <= 10000; ++n) cases.push_back(n);
     for (int n : {46340 * 46340 - 1, 46340 * 46340, 46340 * 46340 + 1,
-                  INT_MAX - 1, INT_MAX}) cases.push_back(n);
+                  1000000007, 1 << 30, INT_MAX - 1, INT_MAX}) cases.push_back(n);
     mt19937 rng(71);
     for (int i = 0; i < 64; ++i) cases.push_back(INT_MAX - int(rng() % 100000));
     for (int n : cases) {

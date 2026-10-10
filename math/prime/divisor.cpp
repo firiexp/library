@@ -1,10 +1,12 @@
 template<class T>
 vector<T> divisor(T n){
     vector<T> ret;
-    for(T i = 1; i <= n / i; i++) {
-        if(n % i == 0) {
+    for(T i = 1; ; i++) {
+        T q = n / i;
+        if(i > q) break;
+        if(n - q * i == 0) {
             ret.push_back(i);
-            if(i * i != n) ret.push_back(n / i);
+            if(i != q) ret.push_back(q);
         }
     }
     sort(begin(ret), end(ret));
