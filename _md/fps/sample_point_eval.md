@@ -11,7 +11,7 @@ tags: FPS
 
 ## できること
 - `Mint sample_point_eval(const vector<Mint>& ys, Mint x)`
-  `ys[i] = f(i)` として `f(x)` を返す。空の値列は `0`、既知点ならその値を返す。時間・作業領域は $O(N)$、既知点への評価は $O(1)$
+  `ys[i] = f(i)` として `f(x)` を返す。時間・作業領域は $O(N)$、既知点への評価は $O(1)$
 
 ## 使い方
 `fps/sample_point_eval.cpp` を読み込み、値列と評価点を同じ `modint<P>` 型で渡す。
