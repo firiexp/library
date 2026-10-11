@@ -82,6 +82,9 @@ data:
       path: datastructure/static_bitset.cpp
       title: "\u56FA\u5B9A\u9577bitset(Static Bitset)"
     - icon: ':heavy_check_mark:'
+      path: datastructure/static_range_distinct.cpp
+      title: "\u9759\u7684\u533A\u9593\u306E\u7A2E\u985E\u6570"
+    - icon: ':heavy_check_mark:'
       path: datastructure/static_rectangle_sum.cpp
       title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
     - icon: ':heavy_check_mark:'
@@ -260,6 +263,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/dijkstra_common.cpp
       title: graph/dijkstra_common.cpp
+    - icon: ':heavy_check_mark:'
+      path: graph/dijkstra_from_distances.cpp
+      title: "\u591A\u59CB\u70B9Dijkstra\u6CD5"
     - icon: ':heavy_check_mark:'
       path: graph/dijkstra_radix_heap.cpp
       title: "Dijkstra\u6CD5(Radix Heap)"
@@ -774,6 +780,9 @@ data:
       path: test/aoj_grl_1_a_dijkstra.test.cpp
       title: test/aoj_grl_1_a_dijkstra.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
+      title: test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_grl_1_b_bellman_ford.test.cpp
       title: test/aoj_grl_1_b_bellman_ford.test.cpp
     - icon: ':heavy_check_mark:'
@@ -843,6 +852,9 @@ data:
       path: test/yosupo_aplusb_crt.test.cpp
       title: test/yosupo_aplusb_crt.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
+      title: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_directedmst.test.cpp
       title: test/yosupo_aplusb_directedmst.test.cpp
     - icon: ':heavy_check_mark:'
@@ -899,6 +911,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_geometry_boundaries.test.cpp
       title: test/yosupo_aplusb_geometry_boundaries.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_hld_rerooted.test.cpp
+      title: test/yosupo_aplusb_hld_rerooted.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_hld_subtree.test.cpp
       title: test/yosupo_aplusb_hld_subtree.test.cpp
@@ -1035,6 +1050,9 @@ data:
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_static_range_distinct.test.cpp
+      title: test/yosupo_aplusb_static_range_distinct.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
       title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1061,6 +1079,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_top_kth.test.cpp
       title: test/yosupo_aplusb_top_kth.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_trie_prefix_intervals.test.cpp
+      title: test/yosupo_aplusb_trie_prefix_intervals.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_twosat_at_most_one.test.cpp
+      title: test/yosupo_aplusb_twosat_at_most_one.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
       title: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
@@ -1434,6 +1458,9 @@ data:
       path: test/yosupo_static_convex_hull.test.cpp
       title: test/yosupo_static_convex_hull.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_static_range_count_distinct.test.cpp
+      title: test/yosupo_static_range_count_distinct.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_static_range_frequency.test.cpp
       title: test/yosupo_static_range_frequency.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1505,6 +1532,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
+      title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_set_path_composite.test.cpp
       title: test/yosupo_vertex_set_path_composite.test.cpp

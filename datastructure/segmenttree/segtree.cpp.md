@@ -14,6 +14,9 @@ data:
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
+    title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -99,6 +102,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki650_hld_edge.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
   - test/yosupo_aplusb_segmenttree_boundaries.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp

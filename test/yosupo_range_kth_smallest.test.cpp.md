@@ -20,7 +20,7 @@ data:
   bundledCode: "#line 1 \"test/yosupo_range_kth_smallest.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/range_kth_smallest\"\n\n#include <algorithm>\n\
     #include <cassert>\n#include <type_traits>\n#include <vector>\nusing namespace\
-    \ std;\n\n#line 1 \"datastructure/wavelet_matrix.cpp\"\n#if defined(__GNUC__)\
+    \ std;\n\n#line 1 \"datastructure/wavelet_matrix.cpp\"\n\n\n\n#if defined(__GNUC__)\
     \ && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\ntemplate <class T>\n\
     struct WaveletMatrix {\n    class Cursor {\n        friend struct WaveletMatrix;\n\
     \n        const WaveletMatrix *owner_;\n        int depth_, l_, r_, value_index_;\n\
@@ -398,7 +398,7 @@ data:
     \ r, xi, idx)) return false;\n            res = vals[idx];\n            return\
     \ true;\n        }\n#endif\n        int idx;\n        if (!neighbor_index_fallback<false>(l,\
     \ r, xi, idx)) return false;\n        res = vals[idx];\n        return true;\n\
-    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n#line 10 \"test/yosupo_range_kth_smallest.test.cpp\"\
+    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n\n\n#line 10 \"test/yosupo_range_kth_smallest.test.cpp\"\
     \n#include <cstdio>\n#include <cstring>\n#include <string>\n\n#include <charconv>\n\
     #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
     \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
@@ -630,7 +630,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_kth_smallest.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 16:29:27+09:00'
+  timestamp: '2026-10-11 15:53:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_kth_smallest.test.cpp

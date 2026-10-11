@@ -246,36 +246,39 @@ data:
     \ q.empty(); }\n\n    void push(T cost, int v) {\n        q.emplace(cost, v);\n\
     \    }\n\n    pair<T, int> pop() {\n        auto res = q.top();\n        q.pop();\n\
     \        return res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\n\
+    void dijkstra_relax(vector<T>& dist, const vector<vector<edge<T>>>& G, Queue&\
+    \ Q, OnRelax on_relax) {\n    while (!Q.empty()) {\n        auto [cost, v] = Q.pop();\n\
+    \        if (dist[v] < cost) continue;\n        for (auto &&e : G[v]) {\n    \
+    \        T nxt = cost + e.cost;\n            if (dist[e.to] <= nxt) continue;\n\
+    \            dist[e.to] = nxt;\n            on_relax(v, e);\n            Q.push(nxt,\
+    \ e.to);\n        }\n    }\n}\n\ntemplate <typename T, class Queue, class OnRelax>\n\
     vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q,\
     \ OnRelax on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n\
-    \    dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
-    \ [cost, v] = Q.pop();\n        if (dist[v] < cost) continue;\n        for (auto\
-    \ &&e : G[v]) {\n            T nxt = cost + e.cost;\n            if (dist[e.to]\
-    \ <= nxt) continue;\n            dist[e.to] = nxt;\n            on_relax(v, e);\n\
-    \            Q.push(nxt, e.to);\n        }\n    }\n    return dist;\n}\n\ntemplate\
-    \ <typename T, class Queue>\nvector<T> dijkstra_internal(int s, const vector<vector<edge<T>>>\
-    \ &G, Queue &Q) {\n    return dijkstra_internal(s, G, Q, [](int, const edge<T>\
-    \ &) {});\n}\n\n\n#line 2 \"graph/dijkstra_restore.cpp\"\n\ntemplate <typename\
-    \ T>\nstruct DijkstraRestoreResult {\n    vector<T> dist;\n    vector<int> parent;\n\
-    };\n\ntemplate <typename T>\nDijkstraRestoreResult<T> dijkstra_restore(int s,\
-    \ const vector<vector<edge<T>>> &G) {\n    vector<int> parent((int)G.size(), -1);\n\
-    \    DijkstraPriorityQueue<T> Q;\n    auto dist = dijkstra_internal(s, G, Q, [&](int\
-    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {std::move(dist),\
-    \ std::move(parent)};\n}\n\nvector<int> restore_path(int s, int t, const vector<int>\
-    \ &parent) {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size())\
-    \ return path;\n    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n\
-    \        if (v == s) {\n            reverse(path.begin(), path.end());\n     \
-    \       return path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n\
-    \    return path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
-    \n */\n#line 23 \"test/yosupo_shortest_path.test.cpp\"\n\nint main() {\n    Scanner\
-    \ in;\n    Printer out;\n\n    int n, m, s, t;\n    in.read(n, m, s, t);\n   \
-    \ vector<vector<edge<ll>>> G(n);\n    for (int i = 0; i < m; ++i) {\n        array<int,\
-    \ 3> e;\n        in.read(e);\n        G[e[0]].emplace_back(e[1], e[2]);\n    }\n\
-    \    auto res = dijkstra_restore(s, G);\n    if (res.dist[t] == INF<ll>) {\n \
-    \       out.println(-1);\n        return 0;\n    }\n    auto path = restore_path(s,\
-    \ t, res.parent);\n    out.println(res.dist[t], (int)path.size() - 1);\n    for\
-    \ (int i = 0; i + 1 < (int)path.size(); ++i) {\n        out.println(array<int,\
-    \ 2>{path[i], path[i + 1]});\n    }\n    return 0;\n}\n"
+    \    dist[s] = 0;\n    Q.push(T(0), s);\n    dijkstra_relax(dist, G, Q, std::move(on_relax));\n\
+    \    return dist;\n}\n\ntemplate <typename T, class Queue>\nvector<T> dijkstra_internal(int\
+    \ s, const vector<vector<edge<T>>> &G, Queue &Q) {\n    return dijkstra_internal(s,\
+    \ G, Q, [](int, const edge<T> &) {});\n}\n\n\n#line 2 \"graph/dijkstra_restore.cpp\"\
+    \n\ntemplate <typename T>\nstruct DijkstraRestoreResult {\n    vector<T> dist;\n\
+    \    vector<int> parent;\n};\n\ntemplate <typename T>\nDijkstraRestoreResult<T>\
+    \ dijkstra_restore(int s, const vector<vector<edge<T>>> &G) {\n    vector<int>\
+    \ parent((int)G.size(), -1);\n    DijkstraPriorityQueue<T> Q;\n    auto dist =\
+    \ dijkstra_internal(s, G, Q, [&](int v, const edge<T> &e) {\n        parent[e.to]\
+    \ = v;\n    });\n    return {std::move(dist), std::move(parent)};\n}\n\nvector<int>\
+    \ restore_path(int s, int t, const vector<int> &parent) {\n    vector<int> path;\n\
+    \    if (t < 0 || t >= (int)parent.size()) return path;\n    int v = t;\n    while\
+    \ (v != -1) {\n        path.push_back(v);\n        if (v == s) {\n           \
+    \ reverse(path.begin(), path.end());\n            return path;\n        }\n  \
+    \      v = parent[v];\n    }\n    path.clear();\n    return path;\n}\n\n/**\n\
+    \ * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\n */\n#line 23 \"\
+    test/yosupo_shortest_path.test.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
+    \ out;\n\n    int n, m, s, t;\n    in.read(n, m, s, t);\n    vector<vector<edge<ll>>>\
+    \ G(n);\n    for (int i = 0; i < m; ++i) {\n        array<int, 3> e;\n       \
+    \ in.read(e);\n        G[e[0]].emplace_back(e[1], e[2]);\n    }\n    auto res\
+    \ = dijkstra_restore(s, G);\n    if (res.dist[t] == INF<ll>) {\n        out.println(-1);\n\
+    \        return 0;\n    }\n    auto path = restore_path(s, t, res.parent);\n \
+    \   out.println(res.dist[t], (int)path.size() - 1);\n    for (int i = 0; i + 1\
+    \ < (int)path.size(); ++i) {\n        out.println(array<int, 2>{path[i], path[i\
+    \ + 1]});\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ <algorithm>\n#include <array>\n#include <limits>\n#include <queue>\n#include\
     \ <tuple>\n#include <vector>\n\nusing ll = long long;\nusing namespace std;\n\n\
@@ -298,7 +301,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path.test.cpp
   requiredBy: []
-  timestamp: '2026-10-06 22:43:23+09:00'
+  timestamp: '2026-10-11 15:50:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path.test.cpp

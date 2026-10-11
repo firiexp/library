@@ -8,6 +8,9 @@ data:
     path: test/aoj0355.test.cpp
     title: test/aoj0355.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hld_rerooted.test.cpp
+    title: test/yosupo_aplusb_hld_rerooted.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
     title: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
@@ -125,6 +128,7 @@ data:
   - test/yosupo_aplusb_segmenttree_boundaries.test.cpp
   - test/aoj0355.test.cpp
   - test/yosupo_range_affine_range_sum.test.cpp
+  - test/yosupo_aplusb_hld_rerooted.test.cpp
 date: 2018-05-01
 documentation_of: datastructure/segmenttree/lazysegtree.cpp
 layout: document

@@ -15,6 +15,9 @@ data:
     path: graph/dijkstra_common.cpp
     title: graph/dijkstra_common.cpp
   - icon: ':heavy_check_mark:'
+    path: graph/dijkstra_from_distances.cpp
+    title: "\u591A\u59CB\u70B9Dijkstra\u6CD5"
+  - icon: ':heavy_check_mark:'
     path: graph/dijkstra_radix_heap.cpp
     title: "Dijkstra\u6CD5(Radix Heap)"
   - icon: ':heavy_check_mark:'
@@ -34,11 +37,17 @@ data:
     path: test/aoj_grl_1_a_dijkstra.test.cpp
     title: test/aoj_grl_1_a_dijkstra.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
+    title: test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_b_bellman_ford.test.cpp
     title: test/aoj_grl_1_b_bellman_ford.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_bellman_ford.test.cpp
     title: test/yosupo_aplusb_bellman_ford.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
+    title: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
@@ -69,6 +78,7 @@ data:
   isVerificationFile: false
   path: graph/edge.cpp
   requiredBy:
+  - graph/dijkstra_from_distances.cpp
   - graph/dijkstra_common.cpp
   - graph/dijkstra_restore.cpp
   - graph/dijkstra.cpp
@@ -87,6 +97,8 @@ data:
   - test/aoj2945_bfs01.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_shortest_path_radix_heap.test.cpp
+  - test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
+  - test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp
 documentation_of: graph/edge.cpp
 layout: document

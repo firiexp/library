@@ -34,29 +34,39 @@ data:
     \   explicit SCC(int n) : n(n), used(n), cmp(n) {}\n\n        void add_edge(int\
     \ a, int b){\n            edges.emplace_back(a, b);\n        }\n\n        int\
     \ build() {\n            CSR G(n, edges, false), G_r(n, edges, true);\n      \
-    \      vs.clear();\n            vs.reserve(n);\n            fill(used.begin(),\
-    \ used.end(), 0);\n            auto dfs = [&](auto &&self, int v) -> void {\n\
-    \                used[v] = 1;\n                for (int ei = G.start[v]; ei <\
-    \ G.start[v + 1]; ++ei) {\n                    int u = G.elist[ei];\n        \
-    \            if(!used[u]) self(self, u);\n                }\n                vs.emplace_back(v);\n\
-    \            };\n            for (int i = 0; i < n; ++i) {\n                if(!used[i])\
-    \ dfs(dfs, i);\n            }\n            fill(used.begin(),used.end(), 0);\n\
-    \            int k = 0;\n            auto dfs_r = [&](auto &&self, int v, int\
-    \ c) -> void {\n                used[v] = 1;\n                cmp[v] = c;\n  \
-    \              for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n  \
-    \                  int u = G_r.elist[ei];\n                    if(!used[u]) self(self,\
-    \ u, c);\n                }\n            };\n            for (int i = n - 1; i\
-    \ >= 0; --i) {\n                if(!used[vs[i]]){\n                    dfs_r(dfs_r,\
+    \      used.resize(n);\n            cmp.resize(n);\n            vs.clear();\n\
+    \            vs.reserve(n);\n            fill(used.begin(), used.end(), 0);\n\
+    \            auto dfs = [&](auto &&self, int v) -> void {\n                used[v]\
+    \ = 1;\n                for (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {\n\
+    \                    int u = G.elist[ei];\n                    if(!used[u]) self(self,\
+    \ u);\n                }\n                vs.emplace_back(v);\n            };\n\
+    \            for (int i = 0; i < n; ++i) {\n                if(!used[i]) dfs(dfs,\
+    \ i);\n            }\n            fill(used.begin(),used.end(), 0);\n        \
+    \    int k = 0;\n            auto dfs_r = [&](auto &&self, int v, int c) -> void\
+    \ {\n                used[v] = 1;\n                cmp[v] = c;\n             \
+    \   for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n             \
+    \       int u = G_r.elist[ei];\n                    if(!used[u]) self(self, u,\
+    \ c);\n                }\n            };\n            for (int i = n - 1; i >=\
+    \ 0; --i) {\n                if(!used[vs[i]]){\n                    dfs_r(dfs_r,\
     \ vs[i], k++);\n                }\n            }\n            return k;\n    \
     \    }\n\n        int operator[](int k) const { return cmp[k]; }\n    };\n\n \
     \   int n;\n    SCC scc;\n    explicit TwoSAT(int n) : n(n), scc(n*2) {};\n  \
-    \  int negate(int v){\n        int ret = n+v;\n        if(ret >= n*2) ret -= n*2;\n\
-    \        return ret;\n    }\n\n    vector<int> build() {\n        scc.build();\n\
+    \  int negate(int v) const {\n        if (v >= 2 * n) return v ^ 1;\n        return\
+    \ v < n ? v + n : v - n;\n    }\n\n    vector<int> build() {\n        scc.build();\n\
     \        vector<int> res(n);\n        for (int i = 0; i < n; ++i) {\n        \
     \    if(scc[i] == scc[n+i]) return {};\n            res[i] = scc[i] > scc[n+i];\n\
-    \        }\n        return res;\n    }\n\n    void add_if(int u, int v){ // u\
-    \ -> v\n        scc.add_edge(u, v);\n        scc.add_edge(negate(v), negate(u));\n\
-    \    }\n\n    void add_or(int u, int v){ // u || v\n        add_if(negate(u),\
+    \        }\n        for (int i = 2 * n; i < scc.n; i += 2) {\n            if (scc[i]\
+    \ == scc[i + 1]) return {};\n        }\n        return res;\n    }\n\n    void\
+    \ at_most_one(const vector<int>& literals) {\n        int k = literals.size();\n\
+    \        if (k < 2) return;\n        if (k == 2) {\n            add_if(literals[0],\
+    \ negate(literals[1]));\n            return;\n        }\n        int prefix =\
+    \ scc.n;\n        scc.n += 2;\n        add_if(literals[0], prefix);\n        for\
+    \ (int i = 1; i + 1 < k; ++i) {\n            int next = scc.n;\n            scc.n\
+    \ += 2;\n            add_if(literals[i], next);\n            add_if(prefix, next);\n\
+    \            add_if(literals[i], negate(prefix));\n            prefix = next;\n\
+    \        }\n        add_if(literals.back(), negate(prefix));\n    }\n\n    void\
+    \ add_if(int u, int v){ // u -> v\n        scc.add_edge(u, v);\n        scc.add_edge(negate(v),\
+    \ negate(u));\n    }\n\n    void add_or(int u, int v){ // u || v\n        add_if(negate(u),\
     \ v);\n    }\n};\n\n/**\n * @brief 2-SAT\n */\n#line 21 \"test/yosupo_twosat.test.cpp\"\
     \n\nint main() {\n    string s, t;\n    int n, m;\n    cin >> s >> t >> n >> m;\n\
     \    TwoSAT G(n);\n    for (int i = 0; i < m; ++i) {\n        int a, b; char x;\n\
@@ -87,7 +97,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_twosat.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-11 15:41:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_twosat.test.cpp

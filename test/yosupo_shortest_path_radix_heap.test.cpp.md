@@ -249,19 +249,21 @@ data:
     \ q.empty(); }\n\n    void push(T cost, int v) {\n        q.emplace(cost, v);\n\
     \    }\n\n    pair<T, int> pop() {\n        auto res = q.top();\n        q.pop();\n\
     \        return res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\n\
+    void dijkstra_relax(vector<T>& dist, const vector<vector<edge<T>>>& G, Queue&\
+    \ Q, OnRelax on_relax) {\n    while (!Q.empty()) {\n        auto [cost, v] = Q.pop();\n\
+    \        if (dist[v] < cost) continue;\n        for (auto &&e : G[v]) {\n    \
+    \        T nxt = cost + e.cost;\n            if (dist[e.to] <= nxt) continue;\n\
+    \            dist[e.to] = nxt;\n            on_relax(v, e);\n            Q.push(nxt,\
+    \ e.to);\n        }\n    }\n}\n\ntemplate <typename T, class Queue, class OnRelax>\n\
     vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q,\
     \ OnRelax on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n\
-    \    dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
-    \ [cost, v] = Q.pop();\n        if (dist[v] < cost) continue;\n        for (auto\
-    \ &&e : G[v]) {\n            T nxt = cost + e.cost;\n            if (dist[e.to]\
-    \ <= nxt) continue;\n            dist[e.to] = nxt;\n            on_relax(v, e);\n\
-    \            Q.push(nxt, e.to);\n        }\n    }\n    return dist;\n}\n\ntemplate\
-    \ <typename T, class Queue>\nvector<T> dijkstra_internal(int s, const vector<vector<edge<T>>>\
-    \ &G, Queue &Q) {\n    return dijkstra_internal(s, G, Q, [](int, const edge<T>\
-    \ &) {});\n}\n\n\n#line 1 \"datastructure/radixheap.cpp\"\ntemplate <class K,\
-    \ class V>\nclass RadixHeap {\n    static constexpr int bit_length = sizeof(K)*8;\n\
-    \    K last;\n    size_t sz, cnt;\n    \n    array<vector<pair<K, V>>, bit_length>\
-    \ v;\n    static inline int bsr(int x){\n        return x ? bit_length-__builtin_clz(x)\
+    \    dist[s] = 0;\n    Q.push(T(0), s);\n    dijkstra_relax(dist, G, Q, std::move(on_relax));\n\
+    \    return dist;\n}\n\ntemplate <typename T, class Queue>\nvector<T> dijkstra_internal(int\
+    \ s, const vector<vector<edge<T>>> &G, Queue &Q) {\n    return dijkstra_internal(s,\
+    \ G, Q, [](int, const edge<T> &) {});\n}\n\n\n#line 1 \"datastructure/radixheap.cpp\"\
+    \ntemplate <class K, class V>\nclass RadixHeap {\n    static constexpr int bit_length\
+    \ = sizeof(K)*8;\n    K last;\n    size_t sz, cnt;\n    \n    array<vector<pair<K,\
+    \ V>>, bit_length> v;\n    static inline int bsr(int x){\n        return x ? bit_length-__builtin_clz(x)\
     \ : 0;\n    }\n    static inline int bsr(ll x){\n        return x ? bit_length-__builtin_clzll(x)\
     \ : 0;\n    }\n\n    void pull() {\n        if(cnt < v[0].size()) return;\n  \
     \      int i = 1;\n        while(v[i].empty()) i++;\n        last = min_element(v[i].begin(),v[i].end())->first;\n\
@@ -326,7 +328,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_shortest_path_radix_heap.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-11 15:50:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_shortest_path_radix_heap.test.cpp

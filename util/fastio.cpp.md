@@ -71,6 +71,9 @@ data:
     path: test/aoj_grl_1_a_dijkstra.test.cpp
     title: test/aoj_grl_1_a_dijkstra.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
+    title: test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_1_b_bellman_ford.test.cpp
     title: test/aoj_grl_1_b_bellman_ford.test.cpp
   - icon: ':heavy_check_mark:'
@@ -131,6 +134,9 @@ data:
     path: test/yosupo_aplusb_crt.test.cpp
     title: test/yosupo_aplusb_crt.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
+    title: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_directedmst.test.cpp
     title: test/yosupo_aplusb_directedmst.test.cpp
   - icon: ':heavy_check_mark:'
@@ -187,6 +193,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_geometry_boundaries.test.cpp
     title: test/yosupo_aplusb_geometry_boundaries.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hld_rerooted.test.cpp
+    title: test/yosupo_aplusb_hld_rerooted.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_hld_subtree.test.cpp
     title: test/yosupo_aplusb_hld_subtree.test.cpp
@@ -323,6 +332,9 @@ data:
     path: test/yosupo_aplusb_static_bitset.test.cpp
     title: test/yosupo_aplusb_static_bitset.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_range_distinct.test.cpp
+    title: test/yosupo_aplusb_static_range_distinct.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
     title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -349,6 +361,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_top_kth.test.cpp
     title: test/yosupo_aplusb_top_kth.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_trie_prefix_intervals.test.cpp
+    title: test/yosupo_aplusb_trie_prefix_intervals.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_twosat_at_most_one.test.cpp
+    title: test/yosupo_aplusb_twosat_at_most_one.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
     title: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
@@ -677,6 +695,9 @@ data:
     path: test/yosupo_static_convex_hull.test.cpp
     title: test/yosupo_static_convex_hull.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_static_range_count_distinct.test.cpp
+    title: test/yosupo_static_range_count_distinct.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_frequency.test.cpp
     title: test/yosupo_static_range_frequency.test.cpp
   - icon: ':heavy_check_mark:'
@@ -739,6 +760,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
+    title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite.test.cpp
     title: test/yosupo_vertex_set_path_composite.test.cpp
@@ -1223,6 +1247,7 @@ data:
   - test/aoj0403.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_aplusb_project_selection_pair_profit.test.cpp
+  - test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
   - test/yosupo_aplusb_palindrome_radii.test.cpp
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   - test/aoj_grl_1_a_dijkstra.test.cpp
@@ -1292,6 +1317,7 @@ data:
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_aplusb_noncommutative_tree.test.cpp
   - test/yosupo_aplusb_string_bytes.test.cpp
+  - test/yosupo_aplusb_static_range_distinct.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_rectangle_add_point_get.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
@@ -1358,6 +1384,7 @@ data:
   - test/aoj0377.test.cpp
   - test/yosupo_many_factorials.test.cpp
   - test/yosupo_subset_convolution.test.cpp
+  - test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
   - test/aoj_ntl_1_d_eulerphi.test.cpp
   - test/yosupo_aplusb_functional_graph.test.cpp
   - test/yosupo_unionfind_with_potential.test.cpp
@@ -1374,6 +1401,7 @@ data:
   - test/yosupo_stern_brocot_tree.test.cpp
   - test/yosupo_aplusb_directedmst.test.cpp
   - test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+  - test/yosupo_static_range_count_distinct.test.cpp
   - test/yosupo_min_of_mod_of_linear.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
@@ -1400,8 +1428,10 @@ data:
   - test/yosupo_aho_corasick.test.cpp
   - test/yosupo_aplusb_scc.test.cpp
   - test/yosupo_ordered_set.test.cpp
+  - test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_xorshift.test.cpp
   - test/yosupo_aplusb_fast_set.test.cpp
+  - test/yosupo_aplusb_hld_rerooted.test.cpp
   - test/yosupo_aplusb_floor_sum.test.cpp
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_aplusb_geometry_boundaries.test.cpp
@@ -1430,6 +1460,8 @@ data:
   - test/yosupo_aplusb_lis_indices.test.cpp
   - test/yosupo_directedmst.test.cpp
   - test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
+  - test/yosupo_aplusb_twosat_at_most_one.test.cpp
+  - test/yosupo_aplusb_trie_prefix_intervals.test.cpp
   - test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
   - test/yosupo_lyndon_factorization.test.cpp
   - test/yosupo_aplusb_polynomial_interpolation.test.cpp

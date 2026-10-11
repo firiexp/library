@@ -244,46 +244,51 @@ data:
     \ -1;\n            cur = v[cur].nxt[k];\n        }\n        return cur;\n    }\n\
     \    int find(int cur, char c) {return v[cur].nxt[f(c)]; }\n    int id(int cur)\
     \ { return cur < 0 ? -1 : v[cur].id;}\n\n    vector<int> idxs(int cur) { return\
-    \ cur < 0 ? vector<int>() : v[cur].idxs; }\n};\n\n/**\n * @brief Trie \u6728\n\
-    \ */\n#line 17 \"test/aoj2907_prefix_suffix_search.test.cpp\"\n\nstruct Fenwick\
-    \ {\n    int n;\n    vector<int> bit;\n    explicit Fenwick(int n) : n(n), bit(n\
-    \ + 1, 0) {}\n    void add(int i, int x) {\n        for (++i; i <= n; i += i &\
-    \ -i) bit[i] += x;\n    }\n    int sum(int r) const {\n        int res = 0;\n\
-    \        for (; r > 0; r -= r & -r) res += bit[r];\n        return res;\n    }\n\
-    };\n\ntemplate<class T>\nvoid build_ranges(const T &trie, vector<int> &word_pos,\
-    \ vector<int> &l, vector<int> &r) {\n    const int n = trie.v.size();\n    l.assign(n,\
-    \ 0);\n    r.assign(n, 0);\n    vector<int> it(n, 0);\n    vector<char> entered(n,\
-    \ 0);\n    int order = 0;\n\n    struct Frame {\n        int v;\n    };\n    vector<Frame>\
-    \ st;\n    st.push_back({0});\n    while (!st.empty()) {\n        int v = st.back().v;\n\
-    \        if (!entered[v]) {\n            entered[v] = 1;\n            l[v] = order;\n\
-    \            for (int id : trie.v[v].idxs) word_pos[id] = order++;\n        }\n\
-    \        while (it[v] < 26 && trie.v[v].nxt[it[v]] == -1) ++it[v];\n        if\
-    \ (it[v] == 26) {\n            r[v] = order;\n            st.pop_back();\n   \
-    \         continue;\n        }\n        st.push_back({trie.v[v].nxt[it[v]++]});\n\
-    \    }\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n\
-    \    sc.read(n, q);\n    vector<string> words(n);\n    auto f = [](char c) { return\
-    \ c - 'a'; };\n    Trie<26, decltype(f)> pref(f), suff(f);\n\n    for (int i =\
-    \ 0; i < n; ++i) {\n        sc.read(words[i]);\n        pref.add(words[i], i);\n\
-    \        reverse(words[i].begin(), words[i].end());\n        suff.add(words[i],\
-    \ i);\n        reverse(words[i].begin(), words[i].end());\n    }\n\n    vector<int>\
-    \ pref_pos(n), suff_pos(n), lp, rp, ls, rs;\n    build_ranges(pref, pref_pos,\
-    \ lp, rp);\n    build_ranges(suff, suff_pos, ls, rs);\n\n    struct Point {\n\
-    \        int x, y;\n    };\n    vector<Point> pts(n);\n    for (int i = 0; i <\
-    \ n; ++i) pts[i] = {pref_pos[i], suff_pos[i]};\n    sort(pts.begin(), pts.end(),\
-    \ [](const Point &a, const Point &b) {\n        if (a.x != b.x) return a.x < b.x;\n\
-    \        return a.y < b.y;\n    });\n\n    struct Event {\n        int x, y, id,\
-    \ sign;\n    };\n    vector<Event> ev;\n    ev.reserve(4 * q);\n    vector<long\
-    \ long> ans(q);\n\n    for (int i = 0; i < q; ++i) {\n        string p, s;\n \
-    \       sc.read(p, s);\n        int pv = pref.find(p);\n        int sv = -1;\n\
-    \        reverse(s.begin(), s.end());\n        sv = suff.find(s);\n        if\
-    \ (pv == -1 || sv == -1) {\n            continue;\n        }\n        ev.push_back({rp[pv],\
-    \ rs[sv], i, +1});\n        ev.push_back({lp[pv], rs[sv], i, -1});\n        ev.push_back({rp[pv],\
-    \ ls[sv], i, -1});\n        ev.push_back({lp[pv], ls[sv], i, +1});\n    }\n\n\
-    \    sort(ev.begin(), ev.end(), [](const Event &a, const Event &b) {\n       \
-    \ return a.x < b.x;\n    });\n\n    Fenwick bit(n);\n    int p = 0;\n    for (const\
-    \ auto &e : ev) {\n        while (p < n && pts[p].x < e.x) {\n            bit.add(pts[p].y,\
-    \ 1);\n            ++p;\n        }\n        ans[e.id] += 1LL * e.sign * bit.sum(e.y);\n\
-    \    }\n\n    for (int i = 0; i < q; ++i) pr.println(ans[i]);\n    return 0;\n\
+    \ cur < 0 ? vector<int>() : v[cur].idxs; }\n\n    struct PrefixIntervals {\n \
+    \       vector<int> order;\n        vector<pair<int, int>> range;\n    };\n\n\
+    \    PrefixIntervals prefix_intervals() const {\n        PrefixIntervals result;\n\
+    \        result.range.resize(v.size());\n        vector<pair<int, int>> stack{{0,\
+    \ 0}};\n        while (!stack.empty()) {\n            int node = stack.back().first;\n\
+    \            int& next = stack.back().second;\n            if (next == 0) {\n\
+    \                result.range[node].first = result.order.size();\n           \
+    \     result.order.insert(result.order.end(), v[node].idxs.begin(), v[node].idxs.end());\n\
+    \            }\n            while (next < W && v[node].nxt[next] == -1) ++next;\n\
+    \            if (next == W) {\n                result.range[node].second = result.order.size();\n\
+    \                stack.pop_back();\n            } else {\n                int\
+    \ child = v[node].nxt[next++];\n                stack.emplace_back(child, 0);\n\
+    \            }\n        }\n        return result;\n    }\n};\n\n/**\n * @brief\
+    \ Trie \u6728\n */\n#line 17 \"test/aoj2907_prefix_suffix_search.test.cpp\"\n\n\
+    struct Fenwick {\n    int n;\n    vector<int> bit;\n    explicit Fenwick(int n)\
+    \ : n(n), bit(n + 1, 0) {}\n    void add(int i, int x) {\n        for (++i; i\
+    \ <= n; i += i & -i) bit[i] += x;\n    }\n    int sum(int r) const {\n       \
+    \ int res = 0;\n        for (; r > 0; r -= r & -r) res += bit[r];\n        return\
+    \ res;\n    }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
+    \ n, q;\n    sc.read(n, q);\n    vector<string> words(n);\n    auto f = [](char\
+    \ c) { return c - 'a'; };\n    Trie<26, decltype(f)> pref(f), suff(f);\n\n   \
+    \ for (int i = 0; i < n; ++i) {\n        sc.read(words[i]);\n        pref.add(words[i],\
+    \ i);\n        reverse(words[i].begin(), words[i].end());\n        suff.add(words[i],\
+    \ i);\n        reverse(words[i].begin(), words[i].end());\n    }\n\n    auto pref_index\
+    \ = pref.prefix_intervals();\n    auto suff_index = suff.prefix_intervals();\n\
+    \    vector<int> pref_pos(n), suff_pos(n);\n    for (int i = 0; i < n; ++i) {\n\
+    \        pref_pos[pref_index.order[i]] = i;\n        suff_pos[suff_index.order[i]]\
+    \ = i;\n    }\n\n    struct Point {\n        int x, y;\n    };\n    vector<Point>\
+    \ pts(n);\n    for (int i = 0; i < n; ++i) pts[i] = {pref_pos[i], suff_pos[i]};\n\
+    \    sort(pts.begin(), pts.end(), [](const Point &a, const Point &b) {\n     \
+    \   if (a.x != b.x) return a.x < b.x;\n        return a.y < b.y;\n    });\n\n\
+    \    struct Event {\n        int x, y, id, sign;\n    };\n    vector<Event> ev;\n\
+    \    ev.reserve(4 * q);\n    vector<long long> ans(q);\n\n    for (int i = 0;\
+    \ i < q; ++i) {\n        string p, s;\n        sc.read(p, s);\n        int pv\
+    \ = pref.find(p);\n        int sv = -1;\n        reverse(s.begin(), s.end());\n\
+    \        sv = suff.find(s);\n        if (pv == -1 || sv == -1) {\n           \
+    \ continue;\n        }\n        auto [lp, rp] = pref_index.range[pv];\n      \
+    \  auto [ls, rs] = suff_index.range[sv];\n        ev.push_back({rp, rs, i, +1});\n\
+    \        ev.push_back({lp, rs, i, -1});\n        ev.push_back({rp, ls, i, -1});\n\
+    \        ev.push_back({lp, ls, i, +1});\n    }\n\n    sort(ev.begin(), ev.end(),\
+    \ [](const Event &a, const Event &b) {\n        return a.x < b.x;\n    });\n\n\
+    \    Fenwick bit(n);\n    int p = 0;\n    for (const auto &e : ev) {\n       \
+    \ while (p < n && pts[p].x < e.x) {\n            bit.add(pts[p].y, 1);\n     \
+    \       ++p;\n        }\n        ans[e.id] += 1LL * e.sign * bit.sum(e.y);\n \
+    \   }\n\n    for (int i = 0; i < q; ++i) pr.println(ans[i]);\n    return 0;\n\
     }\n"
   code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=2907\"\
     \n\n#include <array>\n#include <algorithm>\n#include <string>\n#include <utility>\n\
@@ -293,49 +298,41 @@ data:
     \ vector<int> bit;\n    explicit Fenwick(int n) : n(n), bit(n + 1, 0) {}\n   \
     \ void add(int i, int x) {\n        for (++i; i <= n; i += i & -i) bit[i] += x;\n\
     \    }\n    int sum(int r) const {\n        int res = 0;\n        for (; r > 0;\
-    \ r -= r & -r) res += bit[r];\n        return res;\n    }\n};\n\ntemplate<class\
-    \ T>\nvoid build_ranges(const T &trie, vector<int> &word_pos, vector<int> &l,\
-    \ vector<int> &r) {\n    const int n = trie.v.size();\n    l.assign(n, 0);\n \
-    \   r.assign(n, 0);\n    vector<int> it(n, 0);\n    vector<char> entered(n, 0);\n\
-    \    int order = 0;\n\n    struct Frame {\n        int v;\n    };\n    vector<Frame>\
-    \ st;\n    st.push_back({0});\n    while (!st.empty()) {\n        int v = st.back().v;\n\
-    \        if (!entered[v]) {\n            entered[v] = 1;\n            l[v] = order;\n\
-    \            for (int id : trie.v[v].idxs) word_pos[id] = order++;\n        }\n\
-    \        while (it[v] < 26 && trie.v[v].nxt[it[v]] == -1) ++it[v];\n        if\
-    \ (it[v] == 26) {\n            r[v] = order;\n            st.pop_back();\n   \
-    \         continue;\n        }\n        st.push_back({trie.v[v].nxt[it[v]++]});\n\
-    \    }\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n\
-    \    sc.read(n, q);\n    vector<string> words(n);\n    auto f = [](char c) { return\
-    \ c - 'a'; };\n    Trie<26, decltype(f)> pref(f), suff(f);\n\n    for (int i =\
-    \ 0; i < n; ++i) {\n        sc.read(words[i]);\n        pref.add(words[i], i);\n\
-    \        reverse(words[i].begin(), words[i].end());\n        suff.add(words[i],\
-    \ i);\n        reverse(words[i].begin(), words[i].end());\n    }\n\n    vector<int>\
-    \ pref_pos(n), suff_pos(n), lp, rp, ls, rs;\n    build_ranges(pref, pref_pos,\
-    \ lp, rp);\n    build_ranges(suff, suff_pos, ls, rs);\n\n    struct Point {\n\
-    \        int x, y;\n    };\n    vector<Point> pts(n);\n    for (int i = 0; i <\
-    \ n; ++i) pts[i] = {pref_pos[i], suff_pos[i]};\n    sort(pts.begin(), pts.end(),\
-    \ [](const Point &a, const Point &b) {\n        if (a.x != b.x) return a.x < b.x;\n\
-    \        return a.y < b.y;\n    });\n\n    struct Event {\n        int x, y, id,\
+    \ r -= r & -r) res += bit[r];\n        return res;\n    }\n};\n\nint main() {\n\
+    \    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<string>\
+    \ words(n);\n    auto f = [](char c) { return c - 'a'; };\n    Trie<26, decltype(f)>\
+    \ pref(f), suff(f);\n\n    for (int i = 0; i < n; ++i) {\n        sc.read(words[i]);\n\
+    \        pref.add(words[i], i);\n        reverse(words[i].begin(), words[i].end());\n\
+    \        suff.add(words[i], i);\n        reverse(words[i].begin(), words[i].end());\n\
+    \    }\n\n    auto pref_index = pref.prefix_intervals();\n    auto suff_index\
+    \ = suff.prefix_intervals();\n    vector<int> pref_pos(n), suff_pos(n);\n    for\
+    \ (int i = 0; i < n; ++i) {\n        pref_pos[pref_index.order[i]] = i;\n    \
+    \    suff_pos[suff_index.order[i]] = i;\n    }\n\n    struct Point {\n       \
+    \ int x, y;\n    };\n    vector<Point> pts(n);\n    for (int i = 0; i < n; ++i)\
+    \ pts[i] = {pref_pos[i], suff_pos[i]};\n    sort(pts.begin(), pts.end(), [](const\
+    \ Point &a, const Point &b) {\n        if (a.x != b.x) return a.x < b.x;\n   \
+    \     return a.y < b.y;\n    });\n\n    struct Event {\n        int x, y, id,\
     \ sign;\n    };\n    vector<Event> ev;\n    ev.reserve(4 * q);\n    vector<long\
     \ long> ans(q);\n\n    for (int i = 0; i < q; ++i) {\n        string p, s;\n \
     \       sc.read(p, s);\n        int pv = pref.find(p);\n        int sv = -1;\n\
     \        reverse(s.begin(), s.end());\n        sv = suff.find(s);\n        if\
-    \ (pv == -1 || sv == -1) {\n            continue;\n        }\n        ev.push_back({rp[pv],\
-    \ rs[sv], i, +1});\n        ev.push_back({lp[pv], rs[sv], i, -1});\n        ev.push_back({rp[pv],\
-    \ ls[sv], i, -1});\n        ev.push_back({lp[pv], ls[sv], i, +1});\n    }\n\n\
-    \    sort(ev.begin(), ev.end(), [](const Event &a, const Event &b) {\n       \
-    \ return a.x < b.x;\n    });\n\n    Fenwick bit(n);\n    int p = 0;\n    for (const\
-    \ auto &e : ev) {\n        while (p < n && pts[p].x < e.x) {\n            bit.add(pts[p].y,\
-    \ 1);\n            ++p;\n        }\n        ans[e.id] += 1LL * e.sign * bit.sum(e.y);\n\
-    \    }\n\n    for (int i = 0; i < q; ++i) pr.println(ans[i]);\n    return 0;\n\
-    }\n"
+    \ (pv == -1 || sv == -1) {\n            continue;\n        }\n        auto [lp,\
+    \ rp] = pref_index.range[pv];\n        auto [ls, rs] = suff_index.range[sv];\n\
+    \        ev.push_back({rp, rs, i, +1});\n        ev.push_back({lp, rs, i, -1});\n\
+    \        ev.push_back({rp, ls, i, -1});\n        ev.push_back({lp, ls, i, +1});\n\
+    \    }\n\n    sort(ev.begin(), ev.end(), [](const Event &a, const Event &b) {\n\
+    \        return a.x < b.x;\n    });\n\n    Fenwick bit(n);\n    int p = 0;\n \
+    \   for (const auto &e : ev) {\n        while (p < n && pts[p].x < e.x) {\n  \
+    \          bit.add(pts[p].y, 1);\n            ++p;\n        }\n        ans[e.id]\
+    \ += 1LL * e.sign * bit.sum(e.y);\n    }\n\n    for (int i = 0; i < q; ++i) pr.println(ans[i]);\n\
+    \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/trie.cpp
   isVerificationFile: true
   path: test/aoj2907_prefix_suffix_search.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-11 15:44:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj2907_prefix_suffix_search.test.cpp

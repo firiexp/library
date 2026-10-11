@@ -2,8 +2,17 @@
 category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: datastructure/static_range_distinct.cpp
+    title: "\u9759\u7684\u533A\u9593\u306E\u7A2E\u985E\u6570"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_range_distinct.test.cpp
+    title: test/yosupo_aplusb_static_range_distinct.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_range_distinct.test.cpp
+    title: test/yosupo_aplusb_static_range_distinct.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
     title: test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
@@ -17,6 +26,9 @@ data:
     path: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
     title: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_static_range_count_distinct.test.cpp
+    title: test/yosupo_static_range_count_distinct.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_frequency.test.cpp
     title: test/yosupo_static_range_frequency.test.cpp
   _isVerificationFailed: false
@@ -25,7 +37,7 @@ data:
   attributes:
     document_title: Wavelet Matrix
     links: []
-  bundledCode: "#line 1 \"datastructure/wavelet_matrix.cpp\"\n#if defined(__GNUC__)\
+  bundledCode: "#line 1 \"datastructure/wavelet_matrix.cpp\"\n\n\n\n#if defined(__GNUC__)\
     \ && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\ntemplate <class T>\n\
     struct WaveletMatrix {\n    class Cursor {\n        friend struct WaveletMatrix;\n\
     \n        const WaveletMatrix *owner_;\n        int depth_, l_, r_, value_index_;\n\
@@ -403,8 +415,9 @@ data:
     \ r, xi, idx)) return false;\n            res = vals[idx];\n            return\
     \ true;\n        }\n#endif\n        int idx;\n        if (!neighbor_index_fallback<false>(l,\
     \ r, xi, idx)) return false;\n        res = vals[idx];\n        return true;\n\
-    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n"
-  code: "#if defined(__GNUC__) && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\
+    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_WAVELET_MATRIX_CPP\n#define FIRIEXP_LIBRARY_DATASTRUCTURE_WAVELET_MATRIX_CPP\n\
+    \n#if defined(__GNUC__) && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\
     \ntemplate <class T>\nstruct WaveletMatrix {\n    class Cursor {\n        friend\
     \ struct WaveletMatrix;\n\n        const WaveletMatrix *owner_;\n        int depth_,\
     \ l_, r_, value_index_;\n\n        Cursor(const WaveletMatrix *owner, int depth,\
@@ -781,18 +794,22 @@ data:
     \ r, xi, idx)) return false;\n            res = vals[idx];\n            return\
     \ true;\n        }\n#endif\n        int idx;\n        if (!neighbor_index_fallback<false>(l,\
     \ r, xi, idx)) return false;\n        res = vals[idx];\n        return true;\n\
-    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n"
+    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/wavelet_matrix.cpp
-  requiredBy: []
-  timestamp: '2026-10-10 16:29:27+09:00'
+  requiredBy:
+  - datastructure/static_range_distinct.cpp
+  timestamp: '2026-10-11 15:53:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   - test/yosupo_static_range_frequency.test.cpp
+  - test/yosupo_aplusb_static_range_distinct.test.cpp
+  - test/yosupo_aplusb_static_range_distinct.test.cpp
   - test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp
   - test/yosupo_range_kth_smallest.test.cpp
+  - test/yosupo_static_range_count_distinct.test.cpp
   - test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
 date: 2026-07-26
 documentation_of: datastructure/wavelet_matrix.cpp

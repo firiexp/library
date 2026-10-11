@@ -239,45 +239,48 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/dijkstra_common.cpp\"\
-    \n\n\n\n#line 1 \"graph/edge.cpp\"\n\n\n\ntemplate <typename T>\nstruct edge {\n\
-    \    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1), to(to),\
-    \ cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost)\
-    \ {}\n\n    explicit operator int() const { return to; }\n};\n\n\n#line 5 \"graph/dijkstra_common.cpp\"\
-    \n\ntemplate <typename T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T,\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/dijkstra.cpp\"\
+    \n\n\n\n#line 1 \"graph/dijkstra_common.cpp\"\n\n\n\n#line 1 \"graph/edge.cpp\"\
+    \n\n\n\ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\
+    \n    edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
+    \ int to, T cost) : from(from), to(to), cost(cost) {}\n\n    explicit operator\
+    \ int() const { return to; }\n};\n\n\n#line 5 \"graph/dijkstra_common.cpp\"\n\n\
+    template <typename T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T,\
     \ int>, vector<pair<T, int>>, greater<>> q;\n\n    bool empty() const { return\
     \ q.empty(); }\n\n    void push(T cost, int v) {\n        q.emplace(cost, v);\n\
     \    }\n\n    pair<T, int> pop() {\n        auto res = q.top();\n        q.pop();\n\
     \        return res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\n\
+    void dijkstra_relax(vector<T>& dist, const vector<vector<edge<T>>>& G, Queue&\
+    \ Q, OnRelax on_relax) {\n    while (!Q.empty()) {\n        auto [cost, v] = Q.pop();\n\
+    \        if (dist[v] < cost) continue;\n        for (auto &&e : G[v]) {\n    \
+    \        T nxt = cost + e.cost;\n            if (dist[e.to] <= nxt) continue;\n\
+    \            dist[e.to] = nxt;\n            on_relax(v, e);\n            Q.push(nxt,\
+    \ e.to);\n        }\n    }\n}\n\ntemplate <typename T, class Queue, class OnRelax>\n\
     vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q,\
     \ OnRelax on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n\
-    \    dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
-    \ [cost, v] = Q.pop();\n        if (dist[v] < cost) continue;\n        for (auto\
-    \ &&e : G[v]) {\n            T nxt = cost + e.cost;\n            if (dist[e.to]\
-    \ <= nxt) continue;\n            dist[e.to] = nxt;\n            on_relax(v, e);\n\
-    \            Q.push(nxt, e.to);\n        }\n    }\n    return dist;\n}\n\ntemplate\
-    \ <typename T, class Queue>\nvector<T> dijkstra_internal(int s, const vector<vector<edge<T>>>\
-    \ &G, Queue &Q) {\n    return dijkstra_internal(s, G, Q, [](int, const edge<T>\
-    \ &) {});\n}\n\n\n#line 2 \"graph/dijkstra.cpp\"\n\ntemplate <typename T>\nvector<T>\
-    \ dijkstra(int s, const vector<vector<edge<T>>> &G) {\n    DijkstraPriorityQueue<T>\
-    \ Q;\n    return dijkstra_internal(s, G, Q);\n}\n\n/**\n * @brief Dijkstra\u6CD5\
-    \n */\n#line 1 \"datastructure/dynamic_bitset.cpp\"\n#if defined(__x86_64__) ||\
-    \ defined(_M_X64)\n#include <immintrin.h>\n#endif\n\nusing namespace std;\n\n\
-    namespace dynamic_bitset_detail {\nusing Word = unsigned long long;\nconstexpr\
-    \ int avx2_threshold_words = 8;\n\n#if defined(__x86_64__) || defined(_M_X64)\n\
-    __attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word *dst, const\
-    \ Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i += 4) {\n    \
-    \    __m256i x = _mm256_loadu_si256((const __m256i *)(dst + i));\n        __m256i\
-    \ y = _mm256_loadu_si256((const __m256i *)(src + i));\n        _mm256_storeu_si256((__m256i\
-    \ *)(dst + i), _mm256_and_si256(x, y));\n    }\n    for (; i < m; ++i) dst[i]\
-    \ &= src[i];\n}\n\n__attribute__((target(\"avx2\"))) inline void or_assign_avx2(Word\
+    \    dist[s] = 0;\n    Q.push(T(0), s);\n    dijkstra_relax(dist, G, Q, std::move(on_relax));\n\
+    \    return dist;\n}\n\ntemplate <typename T, class Queue>\nvector<T> dijkstra_internal(int\
+    \ s, const vector<vector<edge<T>>> &G, Queue &Q) {\n    return dijkstra_internal(s,\
+    \ G, Q, [](int, const edge<T> &) {});\n}\n\n\n#line 5 \"graph/dijkstra.cpp\"\n\
+    \ntemplate <typename T>\nvector<T> dijkstra(int s, const vector<vector<edge<T>>>\
+    \ &G) {\n    DijkstraPriorityQueue<T> Q;\n    return dijkstra_internal(s, G, Q);\n\
+    }\n\n\n\n/**\n * @brief Dijkstra\u6CD5\n */\n#line 1 \"datastructure/dynamic_bitset.cpp\"\
+    \n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
+    \nusing namespace std;\n\nnamespace dynamic_bitset_detail {\nusing Word = unsigned\
+    \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
+    \ || defined(_M_X64)\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word\
     \ *dst, const Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i +=\
     \ 4) {\n        __m256i x = _mm256_loadu_si256((const __m256i *)(dst + i));\n\
     \        __m256i y = _mm256_loadu_si256((const __m256i *)(src + i));\n       \
-    \ _mm256_storeu_si256((__m256i *)(dst + i), _mm256_or_si256(x, y));\n    }\n \
-    \   for (; i < m; ++i) dst[i] |= src[i];\n}\n\n__attribute__((target(\"avx2\"\
-    ))) inline void xor_assign_avx2(Word *dst, const Word *src, int m) {\n    int\
-    \ i = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
+    \ _mm256_storeu_si256((__m256i *)(dst + i), _mm256_and_si256(x, y));\n    }\n\
+    \    for (; i < m; ++i) dst[i] &= src[i];\n}\n\n__attribute__((target(\"avx2\"\
+    ))) inline void or_assign_avx2(Word *dst, const Word *src, int m) {\n    int i\
+    \ = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
+    \ __m256i *)(dst + i));\n        __m256i y = _mm256_loadu_si256((const __m256i\
+    \ *)(src + i));\n        _mm256_storeu_si256((__m256i *)(dst + i), _mm256_or_si256(x,\
+    \ y));\n    }\n    for (; i < m; ++i) dst[i] |= src[i];\n}\n\n__attribute__((target(\"\
+    avx2\"))) inline void xor_assign_avx2(Word *dst, const Word *src, int m) {\n \
+    \   int i = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
     \ __m256i *)(dst + i));\n        __m256i y = _mm256_loadu_si256((const __m256i\
     \ *)(src + i));\n        _mm256_storeu_si256((__m256i *)(dst + i), _mm256_xor_si256(x,\
     \ y));\n    }\n    for (; i < m; ++i) dst[i] ^= src[i];\n}\n\n__attribute__((target(\"\
@@ -493,7 +496,7 @@ data:
   isVerificationFile: true
   path: test/aoj0275_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 12:20:58+09:00'
+  timestamp: '2026-10-11 20:32:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0275_dynamic_bitset.test.cpp

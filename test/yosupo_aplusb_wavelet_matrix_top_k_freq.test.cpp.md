@@ -22,41 +22,41 @@ data:
     #include <cassert>\n#include <limits>\n#include <map>\n#include <random>\n#include\
     \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
     #include <cstring>\n#include <string>\n#include <type_traits>\n\n#line 1 \"datastructure/wavelet_matrix.cpp\"\
-    \n#if defined(__GNUC__) && defined(__x86_64__)\n#include <immintrin.h>\n#endif\n\
-    \ntemplate <class T>\nstruct WaveletMatrix {\n    class Cursor {\n        friend\
-    \ struct WaveletMatrix;\n\n        const WaveletMatrix *owner_;\n        int depth_,\
-    \ l_, r_, value_index_;\n\n        Cursor(const WaveletMatrix *owner, int depth,\
-    \ int l, int r, int value_index)\n            : owner_(owner), depth_(depth),\
-    \ l_(l), r_(r), value_index_(value_index) {}\n\n    public:\n        int count()\
-    \ const { return r_ - l_; }\n        bool empty() const { return l_ == r_; }\n\
-    \        bool is_leaf() const { return depth_ == owner_->lg; }\n\n        const\
-    \ T &value() const {\n            assert(is_leaf() && !empty());\n           \
-    \ return owner_->vals[value_index_];\n        }\n    };\n\n    struct Children\
-    \ {\n        Cursor low;\n        Cursor high;\n    };\n\n    int n, lg, blocks;\n\
-    \    vector<int> mid;\n    vector<unsigned long long> bit;\n    vector<int> pref;\n\
-    \    vector<T> vals;\n\n    WaveletMatrix() : n(0), lg(0), blocks(0) {}\n    explicit\
-    \ WaveletMatrix(const vector<T> &v) { build(v); }\n\n    static inline void rank1_pair(const\
-    \ unsigned long long *row, const int *row_pref, int l, int r, int &l1, int &r1)\
-    \ {\n        int l_block = l >> 6;\n        l1 = row_pref[l_block];\n        int\
-    \ l_rem = l & 63;\n        if (l_rem) l1 += __builtin_popcountll(row[l_block]\
-    \ & ((1ULL << l_rem) - 1));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block];\n\
-    \        int r_rem = r & 63;\n        if (r_rem) r1 += __builtin_popcountll(row[r_block]\
-    \ & ((1ULL << r_rem) - 1));\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n\
-    \    __attribute__((target(\"popcnt,bmi2\")))\n    static inline void rank1_pair_bmi2(const\
-    \ unsigned long long *row, const int *row_pref, int l, int r,\n              \
-    \                         int &l1, int &r1) {\n        int l_block = l >> 6;\n\
-    \        l1 = row_pref[l_block] + __builtin_popcountll(__builtin_ia32_bzhi_di(row[l_block],\
-    \ l & 63));\n\n        int r_block = r >> 6;\n        r1 = row_pref[r_block] +\
-    \ __builtin_popcountll(__builtin_ia32_bzhi_di(row[r_block], r & 63));\n    }\n\
-    #endif\n\n    static int build_bit_row(const int *cur, int n, int blocks, int\
-    \ shift,\n                             unsigned long long *row, int *row_pref)\
-    \ {\n        int one_cnt = 0;\n        for (int block = 0; block < blocks; ++block)\
-    \ {\n            int begin = block << 6;\n            int end = min(begin + 64,\
-    \ n);\n            unsigned long long word = 0;\n            for (int i = begin;\
-    \ i < end; ++i) {\n                word |= (unsigned long long)((cur[i] >> shift)\
-    \ & 1) << (i - begin);\n            }\n            row[block] = word;\n      \
-    \      one_cnt += __builtin_popcountll(word);\n            row_pref[block + 1]\
-    \ = one_cnt;\n        }\n        return one_cnt;\n    }\n\n#if defined(__GNUC__)\
+    \n\n\n\n#if defined(__GNUC__) && defined(__x86_64__)\n#include <immintrin.h>\n\
+    #endif\n\ntemplate <class T>\nstruct WaveletMatrix {\n    class Cursor {\n   \
+    \     friend struct WaveletMatrix;\n\n        const WaveletMatrix *owner_;\n \
+    \       int depth_, l_, r_, value_index_;\n\n        Cursor(const WaveletMatrix\
+    \ *owner, int depth, int l, int r, int value_index)\n            : owner_(owner),\
+    \ depth_(depth), l_(l), r_(r), value_index_(value_index) {}\n\n    public:\n \
+    \       int count() const { return r_ - l_; }\n        bool empty() const { return\
+    \ l_ == r_; }\n        bool is_leaf() const { return depth_ == owner_->lg; }\n\
+    \n        const T &value() const {\n            assert(is_leaf() && !empty());\n\
+    \            return owner_->vals[value_index_];\n        }\n    };\n\n    struct\
+    \ Children {\n        Cursor low;\n        Cursor high;\n    };\n\n    int n,\
+    \ lg, blocks;\n    vector<int> mid;\n    vector<unsigned long long> bit;\n   \
+    \ vector<int> pref;\n    vector<T> vals;\n\n    WaveletMatrix() : n(0), lg(0),\
+    \ blocks(0) {}\n    explicit WaveletMatrix(const vector<T> &v) { build(v); }\n\
+    \n    static inline void rank1_pair(const unsigned long long *row, const int *row_pref,\
+    \ int l, int r, int &l1, int &r1) {\n        int l_block = l >> 6;\n        l1\
+    \ = row_pref[l_block];\n        int l_rem = l & 63;\n        if (l_rem) l1 +=\
+    \ __builtin_popcountll(row[l_block] & ((1ULL << l_rem) - 1));\n\n        int r_block\
+    \ = r >> 6;\n        r1 = row_pref[r_block];\n        int r_rem = r & 63;\n  \
+    \      if (r_rem) r1 += __builtin_popcountll(row[r_block] & ((1ULL << r_rem) -\
+    \ 1));\n    }\n\n#if defined(__GNUC__) && defined(__x86_64__)\n    __attribute__((target(\"\
+    popcnt,bmi2\")))\n    static inline void rank1_pair_bmi2(const unsigned long long\
+    \ *row, const int *row_pref, int l, int r,\n                                 \
+    \      int &l1, int &r1) {\n        int l_block = l >> 6;\n        l1 = row_pref[l_block]\
+    \ + __builtin_popcountll(__builtin_ia32_bzhi_di(row[l_block], l & 63));\n\n  \
+    \      int r_block = r >> 6;\n        r1 = row_pref[r_block] + __builtin_popcountll(__builtin_ia32_bzhi_di(row[r_block],\
+    \ r & 63));\n    }\n#endif\n\n    static int build_bit_row(const int *cur, int\
+    \ n, int blocks, int shift,\n                             unsigned long long *row,\
+    \ int *row_pref) {\n        int one_cnt = 0;\n        for (int block = 0; block\
+    \ < blocks; ++block) {\n            int begin = block << 6;\n            int end\
+    \ = min(begin + 64, n);\n            unsigned long long word = 0;\n          \
+    \  for (int i = begin; i < end; ++i) {\n                word |= (unsigned long\
+    \ long)((cur[i] >> shift) & 1) << (i - begin);\n            }\n            row[block]\
+    \ = word;\n            one_cnt += __builtin_popcountll(word);\n            row_pref[block\
+    \ + 1] = one_cnt;\n        }\n        return one_cnt;\n    }\n\n#if defined(__GNUC__)\
     \ && defined(__x86_64__)\n    __attribute__((target(\"avx2,popcnt\")))\n    static\
     \ int build_bit_row_avx2(const int *cur, int n, int blocks, int shift,\n     \
     \                             unsigned long long *row, int *row_pref) {\n    \
@@ -399,7 +399,7 @@ data:
     \ r, xi, idx)) return false;\n            res = vals[idx];\n            return\
     \ true;\n        }\n#endif\n        int idx;\n        if (!neighbor_index_fallback<false>(l,\
     \ r, xi, idx)) return false;\n        res = vals[idx];\n        return true;\n\
-    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n#line 19 \"test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp\"\
+    \    }\n};\n\n/**\n * @brief Wavelet Matrix\n */\n\n\n#line 19 \"test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp\"\
     \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
     \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
@@ -778,7 +778,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 16:29:27+09:00'
+  timestamp: '2026-10-11 15:53:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp

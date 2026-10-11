@@ -7,6 +7,9 @@ data:
     title: "Dijkstra\u6CD5(Radix Heap)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
+    title: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_radixheap.test.cpp
     title: test/yosupo_aplusb_radixheap.test.cpp
   - icon: ':heavy_check_mark:'
@@ -68,6 +71,7 @@ data:
   verifiedWith:
   - test/yosupo_shortest_path_radix_heap.test.cpp
   - test/yosupo_aplusb_radixheap.test.cpp
+  - test/yosupo_aplusb_dijkstra_from_distances.test.cpp
 documentation_of: datastructure/radixheap.cpp
 layout: document
 redirect_from:

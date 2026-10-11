@@ -681,59 +681,61 @@ data:
     \      ++i;\n            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d))\
     \ * e.sign;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9759\
     \u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)\n */\n#line 20 \"test/yosupo_aplusb_library_composition.test.cpp\"\
-    \n\n#line 1 \"graph/dijkstra_common.cpp\"\n\n\n\n#line 1 \"graph/edge.cpp\"\n\n\
-    \n\ntemplate <typename T>\nstruct edge {\n    int from, to;\n    T cost;\n\n \
-    \   edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
-    \ int to, T cost) : from(from), to(to), cost(cost) {}\n\n    explicit operator\
-    \ int() const { return to; }\n};\n\n\n#line 5 \"graph/dijkstra_common.cpp\"\n\n\
-    template <typename T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T,\
+    \n\n#line 1 \"graph/dijkstra.cpp\"\n\n\n\n#line 1 \"graph/dijkstra_common.cpp\"\
+    \n\n\n\n#line 1 \"graph/edge.cpp\"\n\n\n\ntemplate <typename T>\nstruct edge {\n\
+    \    int from, to;\n    T cost;\n\n    edge(int to, T cost) : from(-1), to(to),\
+    \ cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost)\
+    \ {}\n\n    explicit operator int() const { return to; }\n};\n\n\n#line 5 \"graph/dijkstra_common.cpp\"\
+    \n\ntemplate <typename T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T,\
     \ int>, vector<pair<T, int>>, greater<>> q;\n\n    bool empty() const { return\
     \ q.empty(); }\n\n    void push(T cost, int v) {\n        q.emplace(cost, v);\n\
     \    }\n\n    pair<T, int> pop() {\n        auto res = q.top();\n        q.pop();\n\
     \        return res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\n\
+    void dijkstra_relax(vector<T>& dist, const vector<vector<edge<T>>>& G, Queue&\
+    \ Q, OnRelax on_relax) {\n    while (!Q.empty()) {\n        auto [cost, v] = Q.pop();\n\
+    \        if (dist[v] < cost) continue;\n        for (auto &&e : G[v]) {\n    \
+    \        T nxt = cost + e.cost;\n            if (dist[e.to] <= nxt) continue;\n\
+    \            dist[e.to] = nxt;\n            on_relax(v, e);\n            Q.push(nxt,\
+    \ e.to);\n        }\n    }\n}\n\ntemplate <typename T, class Queue, class OnRelax>\n\
     vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q,\
     \ OnRelax on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n\
-    \    dist[s] = 0;\n    Q.push(T(0), s);\n    while (!Q.empty()) {\n        auto\
-    \ [cost, v] = Q.pop();\n        if (dist[v] < cost) continue;\n        for (auto\
-    \ &&e : G[v]) {\n            T nxt = cost + e.cost;\n            if (dist[e.to]\
-    \ <= nxt) continue;\n            dist[e.to] = nxt;\n            on_relax(v, e);\n\
-    \            Q.push(nxt, e.to);\n        }\n    }\n    return dist;\n}\n\ntemplate\
-    \ <typename T, class Queue>\nvector<T> dijkstra_internal(int s, const vector<vector<edge<T>>>\
-    \ &G, Queue &Q) {\n    return dijkstra_internal(s, G, Q, [](int, const edge<T>\
-    \ &) {});\n}\n\n\n#line 2 \"graph/dijkstra.cpp\"\n\ntemplate <typename T>\nvector<T>\
-    \ dijkstra(int s, const vector<vector<edge<T>>> &G) {\n    DijkstraPriorityQueue<T>\
-    \ Q;\n    return dijkstra_internal(s, G, Q);\n}\n\n/**\n * @brief Dijkstra\u6CD5\
-    \n */\n#line 2 \"graph/dijkstra_restore.cpp\"\n\ntemplate <typename T>\nstruct\
-    \ DijkstraRestoreResult {\n    vector<T> dist;\n    vector<int> parent;\n};\n\n\
-    template <typename T>\nDijkstraRestoreResult<T> dijkstra_restore(int s, const\
-    \ vector<vector<edge<T>>> &G) {\n    vector<int> parent((int)G.size(), -1);\n\
-    \    DijkstraPriorityQueue<T> Q;\n    auto dist = dijkstra_internal(s, G, Q, [&](int\
-    \ v, const edge<T> &e) {\n        parent[e.to] = v;\n    });\n    return {std::move(dist),\
-    \ std::move(parent)};\n}\n\nvector<int> restore_path(int s, int t, const vector<int>\
-    \ &parent) {\n    vector<int> path;\n    if (t < 0 || t >= (int)parent.size())\
-    \ return path;\n    int v = t;\n    while (v != -1) {\n        path.push_back(v);\n\
-    \        if (v == s) {\n            reverse(path.begin(), path.end());\n     \
-    \       return path;\n        }\n        v = parent[v];\n    }\n    path.clear();\n\
-    \    return path;\n}\n\n/**\n * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\
-    \n */\n#line 2 \"graph/bfs01.cpp\"\n\ntemplate <typename T>\nvector<T> bfs01(int\
-    \ s, vector<vector<edge<T>>> &G) {\n    int n = G.size();\n    vector<T> d(n,\
-    \ INF<T>);\n    deque<int> q;\n    d[s] = 0;\n    q.push_front(s);\n    while\
-    \ (!q.empty()) {\n        int v = q.front();\n        q.pop_front();\n       \
-    \ for (auto &&e : G[v]) {\n            T nd = d[v] + e.cost;\n            if (d[e.to]\
-    \ <= nd) continue;\n            d[e.to] = nd;\n            if (e.cost == T(0))\
-    \ {\n                q.push_front(e.to);\n            } else {\n             \
-    \   assert(e.cost == T(1));\n                q.push_back(e.to);\n            }\n\
-    \        }\n    }\n    return d;\n}\n\n/**\n * @brief 01-BFS\n */\n#line 2 \"\
-    graph/bellman_ford.cpp\"\n\ntemplate <typename T>\nvector<T> bellman_ford(int\
-    \ s, int V,vector<edge<T> > &G){\n    const T INF = numeric_limits<T>::max();\n\
-    \    vector<T> d(V, INF);\n    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i)\
-    \ {\n        bool updated = false;\n        for (auto &&e : G) {\n           \
-    \ if (d[e.from] == INF) continue;\n            if (d[e.from] + e.cost < d[e.to])\
-    \ {\n                d[e.to] = d[e.from] + e.cost;\n                updated =\
-    \ true;\n            }\n        }\n        if (!updated) return d;\n    }\n  \
-    \  for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n        if(d[e.from]\
-    \ + e.cost < d[e.to]) return vector<T> ();\n    }\n    return d;\n}\n\n/**\n *\
-    \ @brief Bellman-Ford\u6CD5\n */\n#line 25 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \    dist[s] = 0;\n    Q.push(T(0), s);\n    dijkstra_relax(dist, G, Q, std::move(on_relax));\n\
+    \    return dist;\n}\n\ntemplate <typename T, class Queue>\nvector<T> dijkstra_internal(int\
+    \ s, const vector<vector<edge<T>>> &G, Queue &Q) {\n    return dijkstra_internal(s,\
+    \ G, Q, [](int, const edge<T> &) {});\n}\n\n\n#line 5 \"graph/dijkstra.cpp\"\n\
+    \ntemplate <typename T>\nvector<T> dijkstra(int s, const vector<vector<edge<T>>>\
+    \ &G) {\n    DijkstraPriorityQueue<T> Q;\n    return dijkstra_internal(s, G, Q);\n\
+    }\n\n\n\n/**\n * @brief Dijkstra\u6CD5\n */\n#line 2 \"graph/dijkstra_restore.cpp\"\
+    \n\ntemplate <typename T>\nstruct DijkstraRestoreResult {\n    vector<T> dist;\n\
+    \    vector<int> parent;\n};\n\ntemplate <typename T>\nDijkstraRestoreResult<T>\
+    \ dijkstra_restore(int s, const vector<vector<edge<T>>> &G) {\n    vector<int>\
+    \ parent((int)G.size(), -1);\n    DijkstraPriorityQueue<T> Q;\n    auto dist =\
+    \ dijkstra_internal(s, G, Q, [&](int v, const edge<T> &e) {\n        parent[e.to]\
+    \ = v;\n    });\n    return {std::move(dist), std::move(parent)};\n}\n\nvector<int>\
+    \ restore_path(int s, int t, const vector<int> &parent) {\n    vector<int> path;\n\
+    \    if (t < 0 || t >= (int)parent.size()) return path;\n    int v = t;\n    while\
+    \ (v != -1) {\n        path.push_back(v);\n        if (v == s) {\n           \
+    \ reverse(path.begin(), path.end());\n            return path;\n        }\n  \
+    \      v = parent[v];\n    }\n    path.clear();\n    return path;\n}\n\n/**\n\
+    \ * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\n */\n#line 2 \"\
+    graph/bfs01.cpp\"\n\ntemplate <typename T>\nvector<T> bfs01(int s, vector<vector<edge<T>>>\
+    \ &G) {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    deque<int> q;\n\
+    \    d[s] = 0;\n    q.push_front(s);\n    while (!q.empty()) {\n        int v\
+    \ = q.front();\n        q.pop_front();\n        for (auto &&e : G[v]) {\n    \
+    \        T nd = d[v] + e.cost;\n            if (d[e.to] <= nd) continue;\n   \
+    \         d[e.to] = nd;\n            if (e.cost == T(0)) {\n                q.push_front(e.to);\n\
+    \            } else {\n                assert(e.cost == T(1));\n             \
+    \   q.push_back(e.to);\n            }\n        }\n    }\n    return d;\n}\n\n\
+    /**\n * @brief 01-BFS\n */\n#line 2 \"graph/bellman_ford.cpp\"\n\ntemplate <typename\
+    \ T>\nvector<T> bellman_ford(int s, int V,vector<edge<T> > &G){\n    const T INF\
+    \ = numeric_limits<T>::max();\n    vector<T> d(V, INF);\n    d[s] = 0;\n    for\
+    \ (int i = 0; i < V - 1; ++i) {\n        bool updated = false;\n        for (auto\
+    \ &&e : G) {\n            if (d[e.from] == INF) continue;\n            if (d[e.from]\
+    \ + e.cost < d[e.to]) {\n                d[e.to] = d[e.from] + e.cost;\n     \
+    \           updated = true;\n            }\n        }\n        if (!updated) return\
+    \ d;\n    }\n    for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n\
+    \        if(d[e.from] + e.cost < d[e.to]) return vector<T> ();\n    }\n    return\
+    \ d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n */\n#line 25 \"test/yosupo_aplusb_library_composition.test.cpp\"\
     \n\n#line 1 \"graph/SCC.cpp\"\nclass SCC {\n    struct CSR {\n        vector<int>\
     \ start, elist;\n\n        CSR() = default;\n\n        CSR(int n, const vector<pair<int,\
     \ int>> &edges, bool rev) : start(n + 1), elist(edges.size()) {\n            for\
@@ -784,32 +786,41 @@ data:
     \       SCC() = default;\n        explicit SCC(int n) : n(n), used(n), cmp(n)\
     \ {}\n\n        void add_edge(int a, int b){\n            edges.emplace_back(a,\
     \ b);\n        }\n\n        int build() {\n            CSR G(n, edges, false),\
-    \ G_r(n, edges, true);\n            vs.clear();\n            vs.reserve(n);\n\
-    \            fill(used.begin(), used.end(), 0);\n            auto dfs = [&](auto\
-    \ &&self, int v) -> void {\n                used[v] = 1;\n                for\
-    \ (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {\n                    int\
-    \ u = G.elist[ei];\n                    if(!used[u]) self(self, u);\n        \
-    \        }\n                vs.emplace_back(v);\n            };\n            for\
-    \ (int i = 0; i < n; ++i) {\n                if(!used[i]) dfs(dfs, i);\n     \
-    \       }\n            fill(used.begin(),used.end(), 0);\n            int k =\
-    \ 0;\n            auto dfs_r = [&](auto &&self, int v, int c) -> void {\n    \
-    \            used[v] = 1;\n                cmp[v] = c;\n                for (int\
-    \ ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n                    int u\
-    \ = G_r.elist[ei];\n                    if(!used[u]) self(self, u, c);\n     \
-    \           }\n            };\n            for (int i = n - 1; i >= 0; --i) {\n\
-    \                if(!used[vs[i]]){\n                    dfs_r(dfs_r, vs[i], k++);\n\
-    \                }\n            }\n            return k;\n        }\n\n      \
-    \  int operator[](int k) const { return cmp[k]; }\n    };\n\n    int n;\n    SCC\
-    \ scc;\n    explicit TwoSAT(int n) : n(n), scc(n*2) {};\n    int negate(int v){\n\
-    \        int ret = n+v;\n        if(ret >= n*2) ret -= n*2;\n        return ret;\n\
-    \    }\n\n    vector<int> build() {\n        scc.build();\n        vector<int>\
-    \ res(n);\n        for (int i = 0; i < n; ++i) {\n            if(scc[i] == scc[n+i])\
-    \ return {};\n            res[i] = scc[i] > scc[n+i];\n        }\n        return\
-    \ res;\n    }\n\n    void add_if(int u, int v){ // u -> v\n        scc.add_edge(u,\
-    \ v);\n        scc.add_edge(negate(v), negate(u));\n    }\n\n    void add_or(int\
-    \ u, int v){ // u || v\n        add_if(negate(u), v);\n    }\n};\n\n/**\n * @brief\
-    \ 2-SAT\n */\n#line 28 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n\
-    #line 1 \"graph/biconnected_components.cpp\"\n\n\n\nclass BiconnectedComponents\
+    \ G_r(n, edges, true);\n            used.resize(n);\n            cmp.resize(n);\n\
+    \            vs.clear();\n            vs.reserve(n);\n            fill(used.begin(),\
+    \ used.end(), 0);\n            auto dfs = [&](auto &&self, int v) -> void {\n\
+    \                used[v] = 1;\n                for (int ei = G.start[v]; ei <\
+    \ G.start[v + 1]; ++ei) {\n                    int u = G.elist[ei];\n        \
+    \            if(!used[u]) self(self, u);\n                }\n                vs.emplace_back(v);\n\
+    \            };\n            for (int i = 0; i < n; ++i) {\n                if(!used[i])\
+    \ dfs(dfs, i);\n            }\n            fill(used.begin(),used.end(), 0);\n\
+    \            int k = 0;\n            auto dfs_r = [&](auto &&self, int v, int\
+    \ c) -> void {\n                used[v] = 1;\n                cmp[v] = c;\n  \
+    \              for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n  \
+    \                  int u = G_r.elist[ei];\n                    if(!used[u]) self(self,\
+    \ u, c);\n                }\n            };\n            for (int i = n - 1; i\
+    \ >= 0; --i) {\n                if(!used[vs[i]]){\n                    dfs_r(dfs_r,\
+    \ vs[i], k++);\n                }\n            }\n            return k;\n    \
+    \    }\n\n        int operator[](int k) const { return cmp[k]; }\n    };\n\n \
+    \   int n;\n    SCC scc;\n    explicit TwoSAT(int n) : n(n), scc(n*2) {};\n  \
+    \  int negate(int v) const {\n        if (v >= 2 * n) return v ^ 1;\n        return\
+    \ v < n ? v + n : v - n;\n    }\n\n    vector<int> build() {\n        scc.build();\n\
+    \        vector<int> res(n);\n        for (int i = 0; i < n; ++i) {\n        \
+    \    if(scc[i] == scc[n+i]) return {};\n            res[i] = scc[i] > scc[n+i];\n\
+    \        }\n        for (int i = 2 * n; i < scc.n; i += 2) {\n            if (scc[i]\
+    \ == scc[i + 1]) return {};\n        }\n        return res;\n    }\n\n    void\
+    \ at_most_one(const vector<int>& literals) {\n        int k = literals.size();\n\
+    \        if (k < 2) return;\n        if (k == 2) {\n            add_if(literals[0],\
+    \ negate(literals[1]));\n            return;\n        }\n        int prefix =\
+    \ scc.n;\n        scc.n += 2;\n        add_if(literals[0], prefix);\n        for\
+    \ (int i = 1; i + 1 < k; ++i) {\n            int next = scc.n;\n            scc.n\
+    \ += 2;\n            add_if(literals[i], next);\n            add_if(prefix, next);\n\
+    \            add_if(literals[i], negate(prefix));\n            prefix = next;\n\
+    \        }\n        add_if(literals.back(), negate(prefix));\n    }\n\n    void\
+    \ add_if(int u, int v){ // u -> v\n        scc.add_edge(u, v);\n        scc.add_edge(negate(v),\
+    \ negate(u));\n    }\n\n    void add_or(int u, int v){ // u || v\n        add_if(negate(u),\
+    \ v);\n    }\n};\n\n/**\n * @brief 2-SAT\n */\n#line 28 \"test/yosupo_aplusb_library_composition.test.cpp\"\
+    \n\n#line 1 \"graph/biconnected_components.cpp\"\n\n\n\nclass BiconnectedComponents\
     \ {\n    struct CSR {\n        vector<int> start, elist;\n\n        CSR() = default;\n\
     \n        CSR(int n, const vector<pair<int, int>> &edges) : start(n + 1), elist(edges.size()\
     \ * 2) {\n            for (auto &&[u, v] : edges) {\n                ++start[u\
@@ -1329,47 +1340,57 @@ data:
     \ 1);\n        int c = 0, pos = 0;\n        vector<int> order;\n        for (auto\
     \ &&i : roots) {\n            dfs_sz(i, order);\n            head[i] = i;\n  \
     \          dfs_hld(i, c++, pos, order);\n        }\n    }\n\n    int lca(int u,\
-    \ int v){\n        while(true){\n            if(id[u] > id[v]) swap(u, v);\n \
-    \           if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
+    \ int v) const {\n        while(true){\n            if(id[u] > id[v]) swap(u,\
+    \ v);\n            if(head[u] == head[v]) return u;\n            v = par[head[v]];\n\
     \        }\n    }\n\n    int parent(int v) const {\n        return par[v];\n \
-    \   }\n\n    int ancestor(int v, int k) {\n        if(dep[v] < k) return -1;\n\
-    \        while(true) {\n            int u = head[v];\n            if(id[v] - k\
-    \ >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n     \
-    \       v = par[u];\n        }\n    }\n\n    int distance(int u, int v){ return\
+    \   }\n\n    int ancestor(int v, int k) const {\n        if(dep[v] < k) return\
+    \ -1;\n        while(true) {\n            int u = head[v];\n            if(id[v]\
+    \ - k >= id[u]) return id_inv[id[v] - k];\n            k -= id[v]-id[u]+1;\n \
+    \           v = par[u];\n        }\n    }\n\n    int distance(int u, int v){ return\
     \ dep[u] + dep[v] - 2*dep[lca(u, v)]; }\n\n    pair<int, int> subtree(int v, bool\
     \ edge = false) const {\n        return {id[v] + edge, id[v] + sub_size[v]};\n\
-    \    }\n\n    template<typename F>\n    void add(int u, int v, const F &f, bool\
-    \ edge){\n        while (head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
-    \ v);\n            f(id[head[v]], id[v]+1);\n            v = par[head[v]];\n \
-    \       }\n        if(id[u] > id[v]) swap(u, v);\n        f(id[u]+edge, id[v]+1);\n\
-    \    }\n\n    template<typename F>\n    void path(int u, int v, const F &f, bool\
-    \ edge = false){\n        add(u, v, f, edge);\n    }\n\n    template<typename\
-    \ F>\n    void apply_subtree(int v, const F &f, bool edge = false){\n        auto\
-    \ [l, r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename\
-    \ T, typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q,\
-    \ const F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
-    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
-    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
-    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
-    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
-    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
-    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
-    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
-    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
-    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
-    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
-    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
-    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
-    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
-    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
-    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
-    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
-    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
-    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
-    \u89E3(HL Decomposition)\n */\n\n\n#line 2 \"tree/hld_edge.cpp\"\n\nstruct HeavyLightDecompositionEdge\
-    \ {\n    HeavyLightDecomposition hld;\n\n    explicit HeavyLightDecompositionEdge(int\
-    \ n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
+    \    }\n\n    int rerooted_lca(int u, int v, int root) const {\n        int answer\
+    \ = lca(u, v);\n        int a = lca(u, root), b = lca(v, root);\n        if (dep[a]\
+    \ > dep[answer]) answer = a;\n        if (dep[b] > dep[answer]) answer = b;\n\
+    \        return answer;\n    }\n\n    template<typename F>\n    void rerooted_subtree(int\
+    \ v, int root, const F& f) const {\n        auto [l, r] = subtree(v);\n      \
+    \  if (id[root] < l || r <= id[root]) {\n            f(l, r);\n            return;\n\
+    \        }\n        auto [begin, end] = subtree(ancestor(v, dep[v]));\n      \
+    \  if (v == root) {\n            f(begin, end);\n            return;\n       \
+    \ }\n        int child = ancestor(root, dep[root] - dep[v] - 1);\n        auto\
+    \ [cl, cr] = subtree(child);\n        if (begin < cl) f(begin, cl);\n        if\
+    \ (cr < end) f(cr, end);\n    }\n\n    template<typename F>\n    void add(int\
+    \ u, int v, const F &f, bool edge){\n        while (head[u] != head[v]){\n   \
+    \         if(id[u] > id[v]) swap(u, v);\n            f(id[head[v]], id[v]+1);\n\
+    \            v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v);\n\
+    \        f(id[u]+edge, id[v]+1);\n    }\n\n    template<typename F>\n    void\
+    \ path(int u, int v, const F &f, bool edge = false){\n        add(u, v, f, edge);\n\
+    \    }\n\n    template<typename F>\n    void apply_subtree(int v, const F &f,\
+    \ bool edge = false){\n        auto [l, r] = subtree(v, edge);\n        f(l, r);\n\
+    \    }\n\n    template<typename T, typename Q, typename F>\n    T query(int u,\
+    \ int v, const T &e, const Q &q, const F &f, bool edge){\n        T l = e, r =\
+    \ e;\n        while(head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
+    \ v), swap(l, r);\n            l = f(l, q(id[head[v]], id[v]+1));\n          \
+    \  v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v), swap(l,\
+    \ r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n    }\n\n    template<typename\
+    \ T, typename Q, typename F>\n    T path_query(int u, int v, const T &e, const\
+    \ Q &q, const F &f, bool edge = false){\n        return query(u, v, e, q, f, edge);\n\
+    \    }\n\n    template<typename T, typename QL, typename QR, typename F>\n   \
+    \ T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F\
+    \ &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n\
+    \                u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
+    \ id[v]+1), r);\n                v = par[head[v]];\n            }\n        }\n\
+    \        T mid = (id[u] > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n\
+    \        return f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL,\
+    \ typename QR, typename F>\n    T path_query_ordered(int u, int v, const T &e,\
+    \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
+    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n\
+    \    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){\n   \
+    \     auto [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n\
+    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n\n\n#line 2 \"tree/hld_edge.cpp\"\
+    \n\nstruct HeavyLightDecompositionEdge {\n    HeavyLightDecomposition hld;\n\n\
+    \    explicit HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
     \ &g) : hld(g) {}\n\n    void add_edge(int u, int v) {\n        hld.add_edge(u,\
     \ v);\n    }\n\n    void build(vector<int> roots = {0}) {\n        hld.build(roots);\n\
     \    }\n\n    int lca(int u, int v) {\n        return hld.lca(u, v);\n    }\n\n\
@@ -1499,7 +1520,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 19:54:48+09:00'
+  timestamp: '2026-10-11 20:32:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp
