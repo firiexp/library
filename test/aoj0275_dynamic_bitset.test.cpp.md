@@ -265,7 +265,7 @@ data:
     \ntemplate <typename T>\nvector<T> dijkstra(int s, const vector<vector<edge<T>>>\
     \ &G) {\n    DijkstraPriorityQueue<T> Q;\n    return dijkstra_internal(s, G, Q);\n\
     }\n\n\n\n/**\n * @brief Dijkstra\u6CD5\n */\n#line 1 \"datastructure/dynamic_bitset.cpp\"\
-    \n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
+    \n\n\n\n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace dynamic_bitset_detail {\nusing Word = unsigned\
     \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
     \ || defined(_M_X64)\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word\
@@ -413,7 +413,7 @@ data:
     \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
     \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
     \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
-    \ Bitset)\n */\n#line 22 \"test/aoj0275_dynamic_bitset.test.cpp\"\n\nint main()\
+    \ Bitset)\n */\n\n\n#line 22 \"test/aoj0275_dynamic_bitset.test.cpp\"\n\nint main()\
     \ {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n, m);\n\
     \    vector<vector<edge<ll>>> g(n);\n    vector<int> u(m), v(m), c(m);\n    for\
     \ (int i = 0; i < m; ++i) {\n        in.read(u[i], v[i], c[i]);\n        --u[i],\
@@ -496,7 +496,7 @@ data:
   isVerificationFile: true
   path: test/aoj0275_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 20:32:24+09:00'
+  timestamp: '2026-10-12 01:04:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0275_dynamic_bitset.test.cpp

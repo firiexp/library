@@ -2,7 +2,11 @@
 category: "\u30C7\u30FC\u30BF\u69CB\u9020"
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: math/solve_linear_system_mod2.cpp
+    title: "mod 2\u306E\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F(\u57FA\u5E95\u30FB\
+      \u7279\u6B8A\u89E3)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0275_dynamic_bitset.test.cpp
@@ -13,13 +17,22 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dynamic_bitset.test.cpp
     title: test/yosupo_aplusb_dynamic_bitset.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+    title: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+    title: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_system_of_linear_equations_mod_2.test.cpp
+    title: test/yosupo_system_of_linear_equations_mod_2.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u52D5\u7684bitset(Dynamic Bitset)"
     links: []
-  bundledCode: "#line 1 \"datastructure/dynamic_bitset.cpp\"\n#if defined(__x86_64__)\
+  bundledCode: "#line 1 \"datastructure/dynamic_bitset.cpp\"\n\n\n\n#if defined(__x86_64__)\
     \ || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\nusing namespace std;\n\
     \nnamespace dynamic_bitset_detail {\nusing Word = unsigned long long;\nconstexpr\
     \ int avx2_threshold_words = 8;\n\n#if defined(__x86_64__) || defined(_M_X64)\n\
@@ -168,8 +181,9 @@ data:
     \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
     \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
     \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
-    \ Bitset)\n */\n"
-  code: "#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
+    \ Bitset)\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_DYNAMIC_BITSET_CPP\n#define FIRIEXP_LIBRARY_DATASTRUCTURE_DYNAMIC_BITSET_CPP\n\
+    \n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace dynamic_bitset_detail {\nusing Word = unsigned\
     \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
     \ || defined(_M_X64)\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word\
@@ -317,17 +331,21 @@ data:
     \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
     \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
     \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
-    \ Bitset)\n */\n"
+    \ Bitset)\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/dynamic_bitset.cpp
-  requiredBy: []
-  timestamp: '2026-10-10 12:20:58+09:00'
+  requiredBy:
+  - math/solve_linear_system_mod2.cpp
+  timestamp: '2026-10-12 01:04:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
+  - test/yosupo_system_of_linear_equations_mod_2.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_aplusb_dynamic_bitset.test.cpp
+  - test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+  - test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
 date: 2026-03-22
 documentation_of: datastructure/dynamic_bitset.cpp
 layout: document

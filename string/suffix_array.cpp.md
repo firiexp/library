@@ -1,24 +1,40 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: string/suffix_array_query.cpp
+    title: "\u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57\
+      \u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_suffix_array_query.test.cpp
+    title: test/yosupo_aplusb_suffix_array_query.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_suffix_array_query.test.cpp
+    title: test/yosupo_aplusb_suffix_array_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_number_of_substrings.test.cpp
     title: test/yosupo_number_of_substrings.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_suffix_array.test.cpp
     title: test/yosupo_suffix_array.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_suffix_array_query.test.cpp
+    title: test/yosupo_suffix_array_query.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_zalgorithm_suffix_array_query.test.cpp
+    title: test/yosupo_zalgorithm_suffix_array_query.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Suffix Array
     links: []
-  bundledCode: "#line 1 \"string/suffix_array.cpp\"\nvector<int> convert(string const&\
-    \ s){\n    int n = s.size();\n    std::vector<int> s2(n);\n    for (int i = 0;\
-    \ i < n; i++) s2[i] = static_cast<unsigned char>(s[i]);\n    return s2;\n}\n\n\
-    vector<int> suffix_array(const vector<int> &s, int upper){\n    int n = s.size();\n\
+  bundledCode: "#line 1 \"string/suffix_array.cpp\"\n\n\n\nvector<int> convert(string\
+    \ const& s){\n    int n = s.size();\n    std::vector<int> s2(n);\n    for (int\
+    \ i = 0; i < n; i++) s2[i] = static_cast<unsigned char>(s[i]);\n    return s2;\n\
+    }\n\nvector<int> suffix_array(const vector<int> &s, int upper){\n    int n = s.size();\n\
     \    if (n <= 1) return vector<int>(n, 0);\n    if (n == 2) return s[0] < s[1]\
     \ ? vector<int>{0, 1} : vector<int>{1, 0};\n    vector<int> sa(n);\n    vector<bool>\
     \ ls(n);\n    for (int i = n-2; i >= 0; --i) ls[i] = (s[i] == s[i+1]) ? ls[i+1]\
@@ -63,8 +79,9 @@ data:
     \ continue;\n        int j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h <\
     \ n && s[j+h] == s[i+h]) h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return\
     \ lcp;\n}\n\nvector<int> lcp(string const& s, vector<int> const& sa){\n    return\
-    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n"
-  code: "vector<int> convert(string const& s){\n    int n = s.size();\n    std::vector<int>\
+    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_STRING_SUFFIX_ARRAY_CPP\n#define FIRIEXP_LIBRARY_STRING_SUFFIX_ARRAY_CPP\n\
+    \nvector<int> convert(string const& s){\n    int n = s.size();\n    std::vector<int>\
     \ s2(n);\n    for (int i = 0; i < n; i++) s2[i] = static_cast<unsigned char>(s[i]);\n\
     \    return s2;\n}\n\nvector<int> suffix_array(const vector<int> &s, int upper){\n\
     \    int n = s.size();\n    if (n <= 1) return vector<int>(n, 0);\n    if (n ==\
@@ -111,15 +128,20 @@ data:
     \ continue;\n        int j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h <\
     \ n && s[j+h] == s[i+h]) h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return\
     \ lcp;\n}\n\nvector<int> lcp(string const& s, vector<int> const& sa){\n    return\
-    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n"
+    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: string/suffix_array.cpp
-  requiredBy: []
-  timestamp: '2026-10-03 15:07:47+09:00'
+  requiredBy:
+  - string/suffix_array_query.cpp
+  timestamp: '2026-10-12 01:01:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_suffix_array_query.test.cpp
   - test/yosupo_suffix_array.test.cpp
+  - test/yosupo_zalgorithm_suffix_array_query.test.cpp
+  - test/yosupo_aplusb_suffix_array_query.test.cpp
+  - test/yosupo_aplusb_suffix_array_query.test.cpp
   - test/yosupo_number_of_substrings.test.cpp
 documentation_of: string/suffix_array.cpp
 layout: document

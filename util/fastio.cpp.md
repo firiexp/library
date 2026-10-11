@@ -317,6 +317,9 @@ data:
     path: test/yosupo_aplusb_range_contour_sum.test.cpp
     title: test/yosupo_aplusb_range_contour_sum.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
+    title: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
@@ -338,6 +341,9 @@ data:
     path: test/yosupo_aplusb_solve_linear_system.test.cpp
     title: test/yosupo_aplusb_solve_linear_system.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+    title: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_bitset.test.cpp
     title: test/yosupo_aplusb_static_bitset.test.cpp
   - icon: ':heavy_check_mark:'
@@ -358,6 +364,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_subset_sum_counts.test.cpp
     title: test/yosupo_aplusb_subset_sum_counts.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_suffix_array_query.test.cpp
+    title: test/yosupo_aplusb_suffix_array_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
     title: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
@@ -677,6 +686,9 @@ data:
     path: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
     title: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_range_parallel_unionfind.test.cpp
+    title: test/yosupo_range_parallel_unionfind.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_rectangle_add_point_get.test.cpp
     title: test/yosupo_rectangle_add_point_get.test.cpp
   - icon: ':heavy_check_mark:'
@@ -740,11 +752,17 @@ data:
     path: test/yosupo_subset_convolution.test.cpp
     title: test/yosupo_subset_convolution.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_suffix_array_query.test.cpp
+    title: test/yosupo_suffix_array_query.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_sum_of_floor_of_linear.test.cpp
     title: test/yosupo_sum_of_floor_of_linear.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_system_of_linear_equations.test.cpp
     title: test/yosupo_system_of_linear_equations.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_system_of_linear_equations_mod_2.test.cpp
+    title: test/yosupo_system_of_linear_equations_mod_2.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_tetration_mod.test.cpp
     title: test/yosupo_tetration_mod.test.cpp
@@ -790,6 +808,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_zalgorithm.test.cpp
     title: test/yosupo_zalgorithm.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_zalgorithm_suffix_array_query.test.cpp
+    title: test/yosupo_zalgorithm_suffix_array_query.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
@@ -1256,6 +1277,7 @@ data:
   - test/aoj_grl_6_a_costscalingdinic.test.cpp
   - test/aoj0415.test.cpp
   - test/yosupo_factorize.test.cpp
+  - test/yosupo_suffix_array_query.test.cpp
   - test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   - test/yosupo_aplusb_swag.test.cpp
   - test/yosupo_persistent_queue.test.cpp
@@ -1270,6 +1292,7 @@ data:
   - test/yosupo_aplusb_palindrome_radii.test.cpp
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   - test/aoj_grl_1_a_dijkstra.test.cpp
+  - test/yosupo_zalgorithm_suffix_array_query.test.cpp
   - test/yosupo_aplusb_palindromic_tree.test.cpp
   - test/yosupo_characteristic_polynomial.test.cpp
   - test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
@@ -1315,6 +1338,7 @@ data:
   - test/yosupo_unionfind_with_potential_undoable.test.cpp
   - test/yosupo_aplusb_binarytrie.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
+  - test/yosupo_system_of_linear_equations_mod_2.test.cpp
   - test/yosupo_dynamic_graph_vertex_add_component_sum_offlinedynamicconnectivity.test.cpp
   - test/yosupo_aplusb_subset_convolution.test.cpp
   - test/yosupo_furthest_pair.test.cpp
@@ -1328,6 +1352,7 @@ data:
   - test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - test/yosupo_matrix_product.test.cpp
   - test/aoj2945_bfs01.test.cpp
+  - test/yosupo_aplusb_range_parallel_unionfind.test.cpp
   - test/yosupo_set_xor_min_binarytrie.test.cpp
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
@@ -1345,7 +1370,9 @@ data:
   - test/yosupo_topological_sort.test.cpp
   - test/yosupo_area_of_union_of_rectangles.test.cpp
   - test/yuki957.test.cpp
+  - test/yosupo_range_parallel_unionfind.test.cpp
   - test/yosupo_static_rectangle_sum.test.cpp
+  - test/yosupo_aplusb_suffix_array_query.test.cpp
   - test/yosupo_addition_of_hex_big_integers.test.cpp
   - test/yosupo_unionfind.test.cpp
   - test/yosupo_shortest_path_radix_heap.test.cpp
@@ -1485,6 +1512,7 @@ data:
   - test/yosupo_aplusb_trie_prefix_intervals.test.cpp
   - test/aoj_dpl_1_g_bounded_knapsack.test.cpp
   - test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
+  - test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
   - test/yosupo_lyndon_factorization.test.cpp
   - test/yosupo_aplusb_polynomial_interpolation.test.cpp
   - test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp

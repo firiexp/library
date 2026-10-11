@@ -242,19 +242,19 @@ data:
     \        }\n        for (int i = 1; i < m; ++i) {\n            int x = (1<<(i-1));\n\
     \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
     \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
-    \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 2 \"tree/LCA.cpp\"\n\
-    \nstruct LCA_MinDepth {\n    using T = pair<int, int>;\n    static T f(T a, T\
-    \ b) { return min(a, b); }\n    static T e() { return T{INF<int>, -1}; }\n};\n\
-    \nclass LCA {\n    SparseTable<LCA_MinDepth> table;\n\n    void dfs_euler(int\
-    \ v, int p, int d, int &k) {\n        id[v] = k;\n        vs[k] = v;\n       \
-    \ depth[k++] = d;\n        for (auto &&u : G[v]) {\n            if (u == p) continue;\n\
-    \            dfs_euler(u, v, d + 1, k);\n            vs[k] = v;\n            depth[k++]\
-    \ = d;\n        }\n    }\n\npublic:\n    int n;\n    vector<vector<int>> G;\n\
-    \    vector<int> vs, depth, id;\n\n    explicit LCA(int n) : table(), n(n), G(n),\
-    \ vs(2 * n - 1), depth(2 * n - 1), id(n) {}\n\n    void add_edge(int a, int b)\
-    \ {\n        G[a].emplace_back(b);\n        G[b].emplace_back(a);\n    }\n\n \
-    \   void eulertour(int root = 0) {\n        int k = 0;\n        dfs_euler(root,\
+    \ a, int b) const {\n        int l = b-a;\n        return F::f(table[u[l]][a],\
+    \ table[u[l]][b-(1<<u[l])]);\n    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\
+    \n#line 2 \"tree/LCA.cpp\"\n\nstruct LCA_MinDepth {\n    using T = pair<int, int>;\n\
+    \    static T f(T a, T b) { return min(a, b); }\n    static T e() { return T{INF<int>,\
+    \ -1}; }\n};\n\nclass LCA {\n    SparseTable<LCA_MinDepth> table;\n\n    void\
+    \ dfs_euler(int v, int p, int d, int &k) {\n        id[v] = k;\n        vs[k]\
+    \ = v;\n        depth[k++] = d;\n        for (auto &&u : G[v]) {\n           \
+    \ if (u == p) continue;\n            dfs_euler(u, v, d + 1, k);\n            vs[k]\
+    \ = v;\n            depth[k++] = d;\n        }\n    }\n\npublic:\n    int n;\n\
+    \    vector<vector<int>> G;\n    vector<int> vs, depth, id;\n\n    explicit LCA(int\
+    \ n) : table(), n(n), G(n), vs(2 * n - 1), depth(2 * n - 1), id(n) {}\n\n    void\
+    \ add_edge(int a, int b) {\n        G[a].emplace_back(b);\n        G[b].emplace_back(a);\n\
+    \    }\n\n    void eulertour(int root = 0) {\n        int k = 0;\n        dfs_euler(root,\
     \ -1, 0, k);\n    }\n\n    void build(int root = 0) {\n        eulertour(root);\n\
     \        vector<pair<int, int>> v(2 * n - 1);\n        for (int i = 0; i < 2 *\
     \ n - 1; ++i) {\n            v[i] = make_pair(depth[i], i);\n        }\n     \
@@ -283,7 +283,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_lca.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-12 01:01:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_lca.test.cpp

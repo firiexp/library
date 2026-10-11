@@ -229,6 +229,9 @@ data:
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_range_parallel_unionfind.test.cpp
+    title: test/yosupo_range_parallel_unionfind.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_sharp_p_subset_sum.test.cpp
     title: test/yosupo_sharp_p_subset_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -375,6 +378,7 @@ data:
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
+  - test/yosupo_range_parallel_unionfind.test.cpp
   - test/yosupo_pow_of_formal_power_series.test.cpp
   - test/yosupo_sqrt_of_formal_power_series.test.cpp
   - test/yosupo_aplusb_matrix_determinant_mod.test.cpp

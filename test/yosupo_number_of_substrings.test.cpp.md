@@ -21,7 +21,7 @@ data:
     \ int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\nusing\
     \ ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#line 1 \"string/suffix_array.cpp\"\
-    \nvector<int> convert(string const& s){\n    int n = s.size();\n    std::vector<int>\
+    \n\n\n\nvector<int> convert(string const& s){\n    int n = s.size();\n    std::vector<int>\
     \ s2(n);\n    for (int i = 0; i < n; i++) s2[i] = static_cast<unsigned char>(s[i]);\n\
     \    return s2;\n}\n\nvector<int> suffix_array(const vector<int> &s, int upper){\n\
     \    int n = s.size();\n    if (n <= 1) return vector<int>(n, 0);\n    if (n ==\
@@ -68,10 +68,11 @@ data:
     \ continue;\n        int j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h <\
     \ n && s[j+h] == s[i+h]) h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return\
     \ lcp;\n}\n\nvector<int> lcp(string const& s, vector<int> const& sa){\n    return\
-    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n#line 21 \"test/yosupo_number_of_substrings.test.cpp\"\
-    \n\nint main() {\n    string s;\n    cin >> s;\n    auto sa = suffix_array(s);\n\
-    \    auto v = lcp(s, sa);\n    ll n = s.size();\n    ll ans = n*(n+1)/2-accumulate(v.begin(),v.end(),\
-    \ 0LL);\n    cout << ans << \"\\n\";\n    return 0;\n}\n"
+    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n\n\n#line 21 \"\
+    test/yosupo_number_of_substrings.test.cpp\"\n\nint main() {\n    string s;\n \
+    \   cin >> s;\n    auto sa = suffix_array(s);\n    auto v = lcp(s, sa);\n    ll\
+    \ n = s.size();\n    ll ans = n*(n+1)/2-accumulate(v.begin(),v.end(), 0LL);\n\
+    \    cout << ans << \"\\n\";\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/number_of_substrings\"\n\
     #include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n#include\
     \ <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\
@@ -86,7 +87,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_number_of_substrings.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 15:07:47+09:00'
+  timestamp: '2026-10-12 01:01:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_number_of_substrings.test.cpp

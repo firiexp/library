@@ -239,13 +239,14 @@ data:
     \        }\n        for (int i = 1; i < m; ++i) {\n            int x = (1<<(i-1));\n\
     \            for (int j = 0; j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j],\
     \ table[i-1][min(j+x, n-1)]);\n            }\n        }\n    }\n \n    T query(int\
-    \ a, int b){\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
-    \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 15 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\
-    \n\nstruct F {\n    using T = int;\n    static T f(T a, T b) { return min(a, b);\
-    \ }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, q;\n \
-    \   sc.read(n, q);\n    vector<int> a(n);\n    for (auto &&x : a) sc.read(x);\n\
-    \n    SparseTable<F> st(a);\n    while (q--) {\n        int l, r;\n        sc.read(l,\
-    \ r);\n        pr.println(st.query(l, r));\n    }\n    return 0;\n}\n"
+    \ a, int b) const {\n        int l = b-a;\n        return F::f(table[u[l]][a],\
+    \ table[u[l]][b-(1<<u[l])]);\n    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\
+    \n#line 15 \"test/yosupo_staticrmq_sparsetable.test.cpp\"\n\nstruct F {\n    using\
+    \ T = int;\n    static T f(T a, T b) { return min(a, b); }\n};\n\nint main() {\n\
+    \    Scanner sc;\n    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<int>\
+    \ a(n);\n    for (auto &&x : a) sc.read(x);\n\n    SparseTable<F> st(a);\n   \
+    \ while (q--) {\n        int l, r;\n        sc.read(l, r);\n        pr.println(st.query(l,\
+    \ r));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/staticrmq\"\n\n#include\
     \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
@@ -261,7 +262,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_staticrmq_sparsetable.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-12 01:01:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_staticrmq_sparsetable.test.cpp

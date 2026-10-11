@@ -119,6 +119,9 @@ data:
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_range_parallel_unionfind.test.cpp
+    title: test/yosupo_range_parallel_unionfind.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
     title: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -213,6 +216,7 @@ data:
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
+  - test/yosupo_range_parallel_unionfind.test.cpp
   - test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - test/yosupo_aplusb_comb_table.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp

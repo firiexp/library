@@ -66,6 +66,9 @@ data:
       path: datastructure/radixheap.cpp
       title: datastructure/radixheap.cpp
     - icon: ':heavy_check_mark:'
+      path: datastructure/range_parallel_unionfind.cpp
+      title: Range Parallel UnionFind
+    - icon: ':heavy_check_mark:'
       path: datastructure/rectangle_add_point_get.cpp
       title: "\u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point\
         \ Get)"
@@ -449,6 +452,10 @@ data:
       path: math/solve_linear_system.cpp
       title: "\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F\u306E\u89E3\u7A7A\u9593"
     - icon: ':heavy_check_mark:'
+      path: math/solve_linear_system_mod2.cpp
+      title: "mod 2\u306E\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F(\u57FA\u5E95\u30FB\
+        \u7279\u6B8A\u89E3)"
+    - icon: ':heavy_check_mark:'
       path: math/squarematrix.cpp
       title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
     - icon: ':heavy_check_mark:'
@@ -557,6 +564,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/suffix_array.cpp
       title: Suffix Array
+    - icon: ':heavy_check_mark:'
+      path: string/suffix_array_query.cpp
+      title: "\u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57\
+        \u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03"
     - icon: ':heavy_check_mark:'
       path: string/suffix_automaton.cpp
       title: Suffix Automaton
@@ -1045,6 +1056,9 @@ data:
       path: test/yosupo_aplusb_range_contour_sum.test.cpp
       title: test/yosupo_aplusb_range_contour_sum.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
+      title: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
       title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1066,6 +1080,9 @@ data:
       path: test/yosupo_aplusb_solve_linear_system.test.cpp
       title: test/yosupo_aplusb_solve_linear_system.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+      title: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1086,6 +1103,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_subset_sum_counts.test.cpp
       title: test/yosupo_aplusb_subset_sum_counts.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_suffix_array_query.test.cpp
+      title: test/yosupo_aplusb_suffix_array_query.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
       title: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
@@ -1444,6 +1464,9 @@ data:
       path: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
       title: test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_range_parallel_unionfind.test.cpp
+      title: test/yosupo_range_parallel_unionfind.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_rectangle_add_point_get.test.cpp
       title: test/yosupo_rectangle_add_point_get.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1516,6 +1539,9 @@ data:
       path: test/yosupo_suffix_array.test.cpp
       title: test/yosupo_suffix_array.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_suffix_array_query.test.cpp
+      title: test/yosupo_suffix_array_query.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_sum_of_floor_of_linear.test.cpp
       title: test/yosupo_sum_of_floor_of_linear.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1524,6 +1550,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_system_of_linear_equations.test.cpp
       title: test/yosupo_system_of_linear_equations.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_system_of_linear_equations_mod_2.test.cpp
+      title: test/yosupo_system_of_linear_equations_mod_2.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_tetration_mod.test.cpp
       title: test/yosupo_tetration_mod.test.cpp
@@ -1572,6 +1601,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_zalgorithm.test.cpp
       title: test/yosupo_zalgorithm.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_zalgorithm_suffix_array_query.test.cpp
+      title: test/yosupo_zalgorithm_suffix_array_query.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yuki1326_block_cut_tree.test.cpp
       title: test/yuki1326_block_cut_tree.test.cpp

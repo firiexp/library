@@ -230,7 +230,7 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/dynamic_bitset.cpp\"\
-    \n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
+    \n\n\n\n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace dynamic_bitset_detail {\nusing Word = unsigned\
     \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
     \ || defined(_M_X64)\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word\
@@ -378,9 +378,9 @@ data:
     \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
     \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
     \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
-    \ Bitset)\n */\n#line 17 \"test/aoj_alds1_14_b_dynamic_bitset.test.cpp\"\n\nint\
-    \ main() {\n    Scanner sc;\n    Printer pr;\n\n    string text, pattern;\n  \
-    \  sc.read(text, pattern);\n\n    int m = pattern.size();\n    if (m == 0) {\n\
+    \ Bitset)\n */\n\n\n#line 17 \"test/aoj_alds1_14_b_dynamic_bitset.test.cpp\"\n\
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    string text, pattern;\n\
+    \    sc.read(text, pattern);\n\n    int m = pattern.size();\n    if (m == 0) {\n\
     \        for (int i = 0; i <= (int)text.size(); ++i) pr.println(i);\n        return\
     \ 0;\n    }\n\n    vector<DynamicBitset> mask(256, DynamicBitset(m));\n    for\
     \ (int i = 0; i < m; ++i) mask[(unsigned char)pattern[i]].set(i);\n\n    DynamicBitset\
@@ -408,7 +408,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 12:20:58+09:00'
+  timestamp: '2026-10-12 01:04:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_14_b_dynamic_bitset.test.cpp

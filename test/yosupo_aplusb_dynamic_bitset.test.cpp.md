@@ -229,7 +229,7 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/dynamic_bitset.cpp\"\
-    \n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
+    \n\n\n\n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace dynamic_bitset_detail {\nusing Word = unsigned\
     \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
     \ || defined(_M_X64)\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word\
@@ -377,10 +377,10 @@ data:
     \ *this;\n    }\n\n    friend DynamicBitset operator<<(DynamicBitset l, int s)\
     \ { l <<= s; return l; }\n    friend DynamicBitset operator>>(DynamicBitset l,\
     \ int s) { l >>= s; return l; }\n};\n\n/**\n * @brief \u52D5\u7684bitset(Dynamic\
-    \ Bitset)\n */\n#line 18 \"test/yosupo_aplusb_dynamic_bitset.test.cpp\"\n\nvector<int>\
-    \ to_vec(const DynamicBitset &bs) {\n    vector<int> res(bs.size());\n    for\
-    \ (int i = 0; i < bs.size(); ++i) res[i] = bs.test(i);\n    return res;\n}\n\n\
-    int brute_find_first(const vector<int> &a) {\n    for (int i = 0; i < (int)a.size();\
+    \ Bitset)\n */\n\n\n#line 18 \"test/yosupo_aplusb_dynamic_bitset.test.cpp\"\n\n\
+    vector<int> to_vec(const DynamicBitset &bs) {\n    vector<int> res(bs.size());\n\
+    \    for (int i = 0; i < bs.size(); ++i) res[i] = bs.test(i);\n    return res;\n\
+    }\n\nint brute_find_first(const vector<int> &a) {\n    for (int i = 0; i < (int)a.size();\
     \ ++i) if (a[i]) return i;\n    return -1;\n}\n\nint brute_find_last(const vector<int>\
     \ &a) {\n    for (int i = (int)a.size() - 1; i >= 0; --i) if (a[i]) return i;\n\
     \    return -1;\n}\n\nint brute_find_next(const vector<int> &a, int k) {\n   \
@@ -619,7 +619,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_dynamic_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 12:20:58+09:00'
+  timestamp: '2026-10-12 01:04:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_dynamic_bitset.test.cpp

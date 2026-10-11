@@ -21,7 +21,7 @@ data:
     static const int MOD = 1000000007;\nusing ll = long long;\nusing uint = unsigned;\n\
     using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
     \ T INF = ::numeric_limits<T>::max()/32*15+208;\n\n\n#line 1 \"string/suffix_array.cpp\"\
-    \nvector<int> convert(string const& s){\n    int n = s.size();\n    std::vector<int>\
+    \n\n\n\nvector<int> convert(string const& s){\n    int n = s.size();\n    std::vector<int>\
     \ s2(n);\n    for (int i = 0; i < n; i++) s2[i] = static_cast<unsigned char>(s[i]);\n\
     \    return s2;\n}\n\nvector<int> suffix_array(const vector<int> &s, int upper){\n\
     \    int n = s.size();\n    if (n <= 1) return vector<int>(n, 0);\n    if (n ==\
@@ -68,17 +68,17 @@ data:
     \ continue;\n        int j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h <\
     \ n && s[j+h] == s[i+h]) h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return\
     \ lcp;\n}\n\nvector<int> lcp(string const& s, vector<int> const& sa){\n    return\
-    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n#line 24 \"test/yosupo_suffix_array.test.cpp\"\
-    \n\nvoid self_check() {\n    auto check = [](const string &s) {\n        vector<int>\
-    \ bytes;\n        for (unsigned char c : s) bytes.push_back(c);\n        int n\
-    \ = s.size();\n        vector<int> expected(n);\n        iota(expected.begin(),\
-    \ expected.end(), 0);\n        sort(expected.begin(), expected.end(), [&](int\
-    \ a, int b) {\n            return lexicographical_compare(bytes.begin() + a, bytes.end(),\n\
-    \                                           bytes.begin() + b, bytes.end());\n\
-    \        });\n        vector<int> expected_lcp;\n        for (int i = 1; i < n;\
-    \ ++i) {\n            int a = expected[i - 1], b = expected[i], h = 0;\n     \
-    \       while (a + h < n && b + h < n && bytes[a + h] == bytes[b + h]) ++h;\n\
-    \            expected_lcp.push_back(h);\n        }\n        assert(suffix_array(s)\
+    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n\n\n#line 24 \"\
+    test/yosupo_suffix_array.test.cpp\"\n\nvoid self_check() {\n    auto check = [](const\
+    \ string &s) {\n        vector<int> bytes;\n        for (unsigned char c : s)\
+    \ bytes.push_back(c);\n        int n = s.size();\n        vector<int> expected(n);\n\
+    \        iota(expected.begin(), expected.end(), 0);\n        sort(expected.begin(),\
+    \ expected.end(), [&](int a, int b) {\n            return lexicographical_compare(bytes.begin()\
+    \ + a, bytes.end(),\n                                           bytes.begin()\
+    \ + b, bytes.end());\n        });\n        vector<int> expected_lcp;\n       \
+    \ for (int i = 1; i < n; ++i) {\n            int a = expected[i - 1], b = expected[i],\
+    \ h = 0;\n            while (a + h < n && b + h < n && bytes[a + h] == bytes[b\
+    \ + h]) ++h;\n            expected_lcp.push_back(h);\n        }\n        assert(suffix_array(s)\
     \ == expected);\n        assert(suffix_array(bytes) == expected);\n        assert(suffix_array(bytes,\
     \ 255) == expected);\n        assert(lcp(s, expected) == expected_lcp);\n    \
     \    assert(lcp(bytes, expected) == expected_lcp);\n    };\n    check(\"\");\n\
@@ -124,7 +124,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_suffix_array.test.cpp
   requiredBy: []
-  timestamp: '2026-10-03 15:07:47+09:00'
+  timestamp: '2026-10-12 01:01:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_suffix_array.test.cpp
