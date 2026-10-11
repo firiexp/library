@@ -85,6 +85,10 @@ data:
       path: datastructure/static_range_distinct.cpp
       title: "\u9759\u7684\u533A\u9593\u306E\u7A2E\u985E\u6570"
     - icon: ':heavy_check_mark:'
+      path: datastructure/static_rectangle_add_rectangle_sum.cpp
+      title: "\u9759\u7684\u306A\u9577\u65B9\u5F62\u52A0\u7B97\u30FB\u9577\u65B9\u5F62\
+        \u548C"
+    - icon: ':heavy_check_mark:'
       path: datastructure/static_rectangle_sum.cpp
       title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
     - icon: ':heavy_check_mark:'
@@ -349,6 +353,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/binom_mod_prime_power.cpp
       title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
+    - icon: ':heavy_check_mark:'
+      path: math/bounded_knapsack.cpp
+      title: "\u500B\u6570\u5236\u9650\u4ED8\u304D\u30CA\u30C3\u30D7\u30B5\u30C3\u30AF"
+    - icon: ':heavy_check_mark:'
+      path: math/characteristic_polynomial.cpp
+      title: "\u7279\u6027\u591A\u9805\u5F0F"
     - icon: ':heavy_check_mark:'
       path: math/comb_table.cpp
       title: math/comb_table.cpp
@@ -768,6 +778,9 @@ data:
       path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
       title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_dpl_1_g_bounded_knapsack.test.cpp
+      title: test/aoj_dpl_1_g_bounded_knapsack.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_dpl_5_a.test.cpp
       title: test/aoj_dpl_5_a.test.cpp
     - icon: ':heavy_check_mark:'
@@ -842,6 +855,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_bit_build.test.cpp
       title: test/yosupo_aplusb_bit_build.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_bounded_knapsack.test.cpp
+      title: test/yosupo_aplusb_bounded_knapsack.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_characteristic_polynomial.test.cpp
+      title: test/yosupo_aplusb_characteristic_polynomial.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_comb_table.test.cpp
       title: test/yosupo_aplusb_comb_table.test.cpp
@@ -1053,6 +1072,9 @@ data:
       path: test/yosupo_aplusb_static_range_distinct.test.cpp
       title: test/yosupo_aplusb_static_range_distinct.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+      title: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
       title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1136,6 +1158,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_cartesian_tree.test.cpp
       title: test/yosupo_cartesian_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_characteristic_polynomial.test.cpp
+      title: test/yosupo_characteristic_polynomial.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_closest_pair.test.cpp
       title: test/yosupo_closest_pair.test.cpp
@@ -1469,6 +1494,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_static_range_sum_with_upper_bound.test.cpp
       title: test/yosupo_static_range_sum_with_upper_bound.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
+      title: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_static_rectangle_sum.test.cpp
       title: test/yosupo_static_rectangle_sum.test.cpp

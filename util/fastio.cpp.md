@@ -62,6 +62,9 @@ data:
     path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_dpl_1_g_bounded_knapsack.test.cpp
+    title: test/aoj_dpl_1_g_bounded_knapsack.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_dsl_1_b_weightedunionfind.test.cpp
     title: test/aoj_dsl_1_b_weightedunionfind.test.cpp
   - icon: ':heavy_check_mark:'
@@ -124,6 +127,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_bit_build.test.cpp
     title: test/yosupo_aplusb_bit_build.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_bounded_knapsack.test.cpp
+    title: test/yosupo_aplusb_bounded_knapsack.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_characteristic_polynomial.test.cpp
+    title: test/yosupo_aplusb_characteristic_polynomial.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
@@ -335,6 +344,9 @@ data:
     path: test/yosupo_aplusb_static_range_distinct.test.cpp
     title: test/yosupo_aplusb_static_range_distinct.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+    title: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
     title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -415,6 +427,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_cartesian_tree.test.cpp
     title: test/yosupo_cartesian_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_characteristic_polynomial.test.cpp
+    title: test/yosupo_characteristic_polynomial.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
@@ -706,6 +721,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_sum_with_upper_bound.test.cpp
     title: test/yosupo_static_range_sum_with_upper_bound.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
+    title: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_rectangle_sum.test.cpp
     title: test/yosupo_static_rectangle_sum.test.cpp
@@ -1223,6 +1241,7 @@ data:
   - test/yosupo_tetration_mod.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
+  - test/yosupo_aplusb_characteristic_polynomial.test.cpp
   - test/yosupo_matrix_det_arbitrary_mod.test.cpp
   - test/yosupo_aplusb_bit_build.test.cpp
   - test/yosupo_aplusb_flow_boundaries.test.cpp
@@ -1252,6 +1271,7 @@ data:
   - test/aoj_alds1_14_b_dynamic_bitset.test.cpp
   - test/aoj_grl_1_a_dijkstra.test.cpp
   - test/yosupo_aplusb_palindromic_tree.test.cpp
+  - test/yosupo_characteristic_polynomial.test.cpp
   - test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
   - test/yosupo_static_range_inversions_query.test.cpp
   - test/yosupo_intersection_of_f2_vector_spaces.test.cpp
@@ -1261,6 +1281,7 @@ data:
   - test/yosupo_connected_components_of_complement_graph.test.cpp
   - test/yosupo_many_aplusb_modint_interface.test.cpp
   - test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
+  - test/yosupo_aplusb_bounded_knapsack.test.cpp
   - test/yosupo_aplusb_dsu_on_tree.test.cpp
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_aplusb_segmenttree_boundaries.test.cpp
@@ -1462,9 +1483,11 @@ data:
   - test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
   - test/yosupo_aplusb_twosat_at_most_one.test.cpp
   - test/yosupo_aplusb_trie_prefix_intervals.test.cpp
+  - test/aoj_dpl_1_g_bounded_knapsack.test.cpp
   - test/yosupo_persistent_unionfind_persistent_unionfind.test.cpp
   - test/yosupo_lyndon_factorization.test.cpp
   - test/yosupo_aplusb_polynomial_interpolation.test.cpp
+  - test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
   - test/yosupo_multiplication_of_big_integers.test.cpp
   - test/yosupo_discrete_logarithm_mod.test.cpp
   - test/yosupo_aplusb_minimum_vertex_cover.test.cpp
@@ -1475,6 +1498,7 @@ data:
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_aplusb_crt.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
+  - test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
   - test/yosupo_aplusb_ndvec.test.cpp
   - test/yosupo_aplusb_enumerate_triangles.test.cpp
 date: 2026-08-02

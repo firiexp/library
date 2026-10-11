@@ -56,6 +56,9 @@ data:
     path: test/yosupo_aplusb_solve_linear_system.test.cpp
     title: test/yosupo_aplusb_solve_linear_system.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+    title: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_and_convolution.test.cpp
     title: test/yosupo_bitwise_and_convolution.test.cpp
   - icon: ':heavy_check_mark:'
@@ -64,6 +67,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_xor_convolution.test.cpp
     title: test/yosupo_bitwise_xor_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_characteristic_polynomial.test.cpp
+    title: test/yosupo_characteristic_polynomial.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
@@ -112,6 +118,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
+    title: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_subset_convolution.test.cpp
     title: test/yosupo_subset_convolution.test.cpp
@@ -191,6 +200,7 @@ data:
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/aoj0399.test.cpp
+  - test/yosupo_characteristic_polynomial.test.cpp
   - test/yosupo_many_aplusb_modint_interface.test.cpp
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_matrix_det.test.cpp
@@ -219,8 +229,10 @@ data:
   - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_sum_of_totient.test.cpp
+  - test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
+  - test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
 date: 2026-03-14
 documentation_of: util/modint.cpp
 layout: document

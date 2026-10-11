@@ -79,6 +79,9 @@ data:
     path: test/yosupo_aplusb_bit_build.test.cpp
     title: test/yosupo_aplusb_bit_build.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_characteristic_polynomial.test.cpp
+    title: test/yosupo_aplusb_characteristic_polynomial.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
   - icon: ':heavy_check_mark:'
@@ -124,6 +127,9 @@ data:
     path: test/yosupo_aplusb_solve_linear_system.test.cpp
     title: test/yosupo_aplusb_solve_linear_system.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+    title: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_subset_sum_counts.test.cpp
     title: test/yosupo_aplusb_subset_sum_counts.test.cpp
   - icon: ':heavy_check_mark:'
@@ -135,6 +141,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_xor_convolution.test.cpp
     title: test/yosupo_bitwise_xor_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_characteristic_polynomial.test.cpp
+    title: test/yosupo_characteristic_polynomial.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution.test.cpp
     title: test/yosupo_convolution.test.cpp
@@ -228,6 +237,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_sqrt_of_formal_power_series.test.cpp
     title: test/yosupo_sqrt_of_formal_power_series.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
+    title: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_subset_convolution.test.cpp
     title: test/yosupo_subset_convolution.test.cpp
@@ -333,6 +345,7 @@ data:
   verifiedWith:
   - test/yosupo_multipoint_evaluation_on_geometric_sequence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_aplusb_characteristic_polynomial.test.cpp
   - test/yosupo_aplusb_bit_build.test.cpp
   - test/yosupo_aplusb_subset_sum_counts.test.cpp
   - test/yosupo_aplusb_solve_linear_system.test.cpp
@@ -340,6 +353,7 @@ data:
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/aoj0399.test.cpp
+  - test/yosupo_characteristic_polynomial.test.cpp
   - test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
   - test/aoj0452.test.cpp
   - test/yosupo_aplusb_sample_point_eval.test.cpp
@@ -390,8 +404,10 @@ data:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_aplusb_ntt_operators.test.cpp
   - test/yosupo_aplusb_polynomial_interpolation.test.cpp
+  - test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
+  - test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
 documentation_of: util/modint_base.cpp
 layout: document
 redirect_from:

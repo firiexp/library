@@ -9,6 +9,10 @@ data:
     path: datastructure/point_add_rectangle_sum.cpp
     title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
   - icon: ':heavy_check_mark:'
+    path: datastructure/static_rectangle_add_rectangle_sum.cpp
+    title: "\u9759\u7684\u306A\u9577\u65B9\u5F62\u52A0\u7B97\u30FB\u9577\u65B9\u5F62\
+      \u548C"
+  - icon: ':heavy_check_mark:'
     path: datastructure/static_rectangle_sum.cpp
     title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
   - icon: ':heavy_check_mark:'
@@ -34,6 +38,9 @@ data:
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+    title: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
     title: test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -48,6 +55,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_inversions_query.test.cpp
     title: test/yosupo_static_range_inversions_query.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
+    title: test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_rectangle_sum.test.cpp
     title: test/yosupo_static_rectangle_sum.test.cpp
@@ -95,6 +105,7 @@ data:
   isVerificationFile: false
   path: datastructure/binaryindexedtree.cpp
   requiredBy:
+  - datastructure/static_rectangle_add_rectangle_sum.cpp
   - datastructure/fenwick_tree_2d.cpp
   - datastructure/static_rectangle_sum.cpp
   - datastructure/point_add_rectangle_sum.cpp
@@ -116,6 +127,8 @@ data:
   - test/aoj_dsl_2_b.test.cpp
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
+  - test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+  - test/yosupo_static_rectangle_add_rectangle_sum.test.cpp
 documentation_of: datastructure/binaryindexedtree.cpp
 layout: document
 title: Binary Indexed Tree(BIT)
