@@ -1,15 +1,16 @@
 ---
-title: mod 2の連立一次方程式の解空間
+title: mod 2の連立一次方程式(基底・特殊解)
 documentation_of: //math/solve_linear_system_mod2.cpp
 ---
 
 ## 説明
-mod 2 で $Ax=b$ を満たす特解と、同次方程式 $Av=0$ の解空間の基底を求める。
+mod 2 の連立一次方程式について、同次方程式 $Av=0$ の解空間の基底を求める。
+$Ax=b$ の特殊解も1つ求め、基底と合わせてすべての解を表せる。
 係数行を `DynamicBitset` で持ち、64 bit ごとの XOR で消去する。
 
 ## できること
 - `optional<LinearSystemSolutionMod2> solve_linear_system_mod2(vector<DynamicBitset> a, DynamicBitset b, int variables = -1)`
-  特解と基底を返す。解がなければ `nullopt`
+  基底と特殊解を返す。解がなければ `nullopt`
 - `LinearSystemSolutionMod2::rank`
   係数行列の階数
 - `LinearSystemSolutionMod2::particular`
@@ -34,6 +35,5 @@ auto solution = solve_linear_system_mod2(a, b);
 行数が $0$ の場合、変数数は `variables` で指定する。省略時は $0$ とする。行数が正で第3引数を指定する場合は、列数と一致させる。
 
 ## 実装上の補足
-階数を $r$、$W=\lceil M/64\rceil$ とすると、時間は $O(NM+rNW+r(M-r)+(M-r+1)W+N+M)$。
-主な消去は $O(rNW)$、基底の復元は $O(r(M-r))$ で、返却する bit 列の初期化に $O((M-r+1)W)$ かかる。
-入力コピーと返却値を含む領域は $O((N+M-r+1)W+N+M)$。
+$N$ 行 $M$ 列の最悪計算量は、時間 $O(NM\lceil M/64\rceil+M^2+N)$。
+入力コピーと返却値を含む領域は $O((N+M)\lceil M/64\rceil+N+M)$。

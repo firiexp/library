@@ -51,5 +51,5 @@ optional<LinearSystemSolutionMod2> solve_linear_system_mod2(
 #endif
 
 /**
- * @brief mod 2の連立一次方程式の解空間
+ * @brief mod 2の連立一次方程式(基底・特殊解)
  */
