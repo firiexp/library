@@ -31,6 +31,8 @@ struct TwoSAT {
 
         int build() {
             CSR G(n, edges, false), G_r(n, edges, true);
+            used.resize(n);
+            cmp.resize(n);
             vs.clear();
             vs.reserve(n);
             fill(used.begin(), used.end(), 0);
@@ -69,10 +71,9 @@ struct TwoSAT {
     int n;
     SCC scc;
     explicit TwoSAT(int n) : n(n), scc(n*2) {};
-    int negate(int v){
-        int ret = n+v;
-        if(ret >= n*2) ret -= n*2;
-        return ret;
+    int negate(int v) const {
+        if (v >= 2 * n) return v ^ 1;
+        return v < n ? v + n : v - n;
     }
 
     vector<int> build() {
@@ -82,7 +83,31 @@ struct TwoSAT {
             if(scc[i] == scc[n+i]) return {};
             res[i] = scc[i] > scc[n+i];
         }
+        for (int i = 2 * n; i < scc.n; i += 2) {
+            if (scc[i] == scc[i + 1]) return {};
+        }
         return res;
+    }
+
+    void at_most_one(const vector<int>& literals) {
+        int k = literals.size();
+        if (k < 2) return;
+        if (k == 2) {
+            add_if(literals[0], negate(literals[1]));
+            return;
+        }
+        int prefix = scc.n;
+        scc.n += 2;
+        add_if(literals[0], prefix);
+        for (int i = 1; i + 1 < k; ++i) {
+            int next = scc.n;
+            scc.n += 2;
+            add_if(literals[i], next);
+            add_if(prefix, next);
+            add_if(literals[i], negate(prefix));
+            prefix = next;
+        }
+        add_if(literals.back(), negate(prefix));
     }
 
     void add_if(int u, int v){ // u -> v
