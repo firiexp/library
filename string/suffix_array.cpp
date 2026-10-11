@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_STRING_SUFFIX_ARRAY_CPP
+#define FIRIEXP_LIBRARY_STRING_SUFFIX_ARRAY_CPP
+
 vector<int> convert(string const& s){
     int n = s.size();
     std::vector<int> s2(n);
@@ -113,3 +116,5 @@ vector<int> lcp(string const& s, vector<int> const& sa){
 /**
  * @brief Suffix Array
  */
+
+#endif
