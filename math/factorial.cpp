@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_MATH_FACTORIAL_CPP
+#define FIRIEXP_LIBRARY_MATH_FACTORIAL_CPP
+
 #include "../util/modint_base.cpp"
 
 #ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
@@ -83,3 +86,5 @@ public:
 /**
  * @brief 階乗・二項係数(Factorial)
  */
+
+#endif
