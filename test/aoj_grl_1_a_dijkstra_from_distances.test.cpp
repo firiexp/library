@@ -18,7 +18,7 @@ template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/dijkstra.cpp"
+#include "../graph/dijkstra_from_distances.cpp"
 
 int main() {
     Scanner in;
