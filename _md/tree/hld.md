@@ -28,9 +28,9 @@ tags: 木
 - `pair<int, int> subtree(int v, bool edge = false)`
   部分木に対応する半開区間 `[l, r)` を返す
 - `void rerooted_subtree(int v, int root, F f) const`
-  `root` を根とした `v` の部分木に対応する区間へ `f(l, r)` を呼ぶ。空でない半開区間を `id` の昇順で高々2つ渡す。区間の取得は $O(\log N)$ 時間、$O(1)$ 作業領域
+  `root` を根とした場合の `v` の部分木に対応する区間へ `f(l, r)` を呼ぶ。空でない半開区間を `id` の昇順で高々2つ渡す。区間の取得は $O(\log N)$ 時間、$O(1)$ 作業領域
 - `int rerooted_lca(int u, int v, int root) const`
-  `root` を根とした `u, v` の最近共通祖先を $O(\log N)$ 時間、$O(1)$ 作業領域で返す
+  `root` を根とした場合の `u, v` の最近共通祖先を $O(\log N)$ 時間、$O(1)$ 作業領域で返す
 - `void path(int u, int v, F f, bool edge = false)`
   パスを被覆する各区間へ `f(l, r)` を呼ぶ
 - `T path_query(int u, int v, T e, Q q, F f, bool edge = false)`
