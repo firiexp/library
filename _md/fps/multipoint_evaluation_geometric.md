@@ -12,10 +12,10 @@ Chirp Z 変換により1回の畳み込みへ帰着する。
 
 ## できること
 - `vector<mint> multipoint_evaluation_geometric(const poly& f, mint a, mint r, int m)`
-  `f(a * r^i)` を `i = 0..m-1` の順に返す。空多項式は全て `0`、`m = 0` は空列。係数数を $N$ として時間 $O((N+M)\log(N+M))$、領域 $O(N+M)$
+  `f(a * r^i)` を `i = 0..m-1` の順に返す。係数数を $N$ として時間 $O((N+M)\log(N+M))$、領域 $O(N+M)$
 
 ## 使い方
-`fps/multipoint_evaluation_geometric.cpp` を読み込み、法 `998244353` の `poly` と開始点・公比・評価点数を渡す。
+`fps/multipoint_evaluation_geometric.cpp` を読み込み、法 `998244353` の `poly` と初項・公比・評価点数を渡す。
 `m >= 0` を前提とし、入力多項式は変更しない。
 `a = 0`、`r = 0, 1` や評価点の重複も扱う。
 
