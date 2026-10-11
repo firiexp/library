@@ -14,6 +14,9 @@ data:
     title: "\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F\u306E\u89E3\u7A7A\u9593"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
+    title: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_solve_linear_system.test.cpp
     title: test/yosupo_aplusb_solve_linear_system.test.cpp
   - icon: ':heavy_check_mark:'
@@ -65,12 +68,12 @@ data:
     \ pivot = -1;\n        for (int row = rank; row < m; ++row) {\n            if\
     \ (A[row][col].val) {\n                pivot = row;\n                break;\n\
     \            }\n        }\n        if (pivot == -1) continue;\n        swap(A[pivot],\
-    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = 0;\
+    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = col;\
     \ col2 < n; ++col2) A[rank][col2] *= d;\n        for (int row = 0; row < m; ++row)\
     \ {\n            if (row != rank && A[row][col].val) {\n                auto fac\
-    \ = A[row][col];\n                for (int col2 = 0; col2 < n; ++col2) {\n   \
-    \                 A[row][col2] -= A[rank][col2] * fac;\n                }\n  \
-    \          }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
+    \ = A[row][col];\n                for (int col2 = col; col2 < n; ++col2) {\n \
+    \                   A[row][col2] -= A[rank][col2] * fac;\n                }\n\
+    \            }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
     \ * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n"
   code: "#include \"../util/modint.cpp\"\n\nint gauss_jordan(vector<vector<mint>>\
     \ &A, bool is_extended = false) {\n    int m = A.size(), n = A[0].size();\n  \
@@ -79,11 +82,11 @@ data:
     \ row < m; ++row) {\n            if (A[row][col].val) {\n                pivot\
     \ = row;\n                break;\n            }\n        }\n        if (pivot\
     \ == -1) continue;\n        swap(A[pivot], A[rank]);\n        auto d = A[rank][col].inv();\n\
-    \        for (int col2 = 0; col2 < n; ++col2) A[rank][col2] *= d;\n        for\
+    \        for (int col2 = col; col2 < n; ++col2) A[rank][col2] *= d;\n        for\
     \ (int row = 0; row < m; ++row) {\n            if (row != rank && A[row][col].val)\
     \ {\n                auto fac = A[row][col];\n                for (int col2 =\
-    \ 0; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2] *\
-    \ fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
+    \ col; col2 < n; ++col2) {\n                    A[row][col2] -= A[rank][col2]\
+    \ * fac;\n                }\n            }\n        }\n        ++rank;\n    }\n\
     \    return rank;\n}\n\n/**\n * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n"
   dependsOn:
   - util/modint.cpp
@@ -92,11 +95,12 @@ data:
   path: math/gauss_jordan_mint.cpp
   requiredBy:
   - math/solve_linear_system.cpp
-  timestamp: '2026-07-11 20:39:21+09:00'
+  timestamp: '2026-10-11 14:33:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_solve_linear_system.test.cpp
   - test/yosupo_matrix_rank.test.cpp
+  - test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
 date: 2026-03-08
 documentation_of: math/gauss_jordan_mint.cpp

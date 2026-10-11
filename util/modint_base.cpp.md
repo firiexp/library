@@ -9,11 +9,17 @@ data:
     path: fps/multipoint_evaluation.cpp
     title: "\u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)"
   - icon: ':heavy_check_mark:'
+    path: fps/multipoint_evaluation_geometric.cpp
+    title: "\u7B49\u6BD4\u6570\u5217\u4E0A\u306E\u591A\u70B9\u8A55\u4FA1"
+  - icon: ':heavy_check_mark:'
     path: fps/nth_term.cpp
     title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"
   - icon: ':heavy_check_mark:'
     path: fps/polynomial_interpolation.cpp
     title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
+  - icon: ':heavy_check_mark:'
+    path: fps/sample_point_eval.cpp
+    title: "\u9023\u7D9A\u6A19\u672C\u70B9\u304B\u3089\u306E1\u70B9\u8A55\u4FA1"
   - icon: ':heavy_check_mark:'
     path: fps/sample_point_shift.cpp
     title: "\u6A19\u672C\u70B9\u30B7\u30D5\u30C8(Sample Point Shift)"
@@ -51,6 +57,9 @@ data:
     path: math/squarematrix_mint.cpp
     title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\u7528)"
   - icon: ':heavy_check_mark:'
+    path: math/subset_sum_counts.cpp
+    title: "\u548C\u3054\u3068\u306E\u90E8\u5206\u96C6\u5408\u6570"
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedVerifiedWith:
@@ -76,6 +85,9 @@ data:
     path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
+    title: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -87,6 +99,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
+    title: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_ntt_multiply.test.cpp
     title: test/yosupo_aplusb_ntt_multiply.test.cpp
@@ -103,8 +118,14 @@ data:
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_sample_point_eval.test.cpp
+    title: test/yosupo_aplusb_sample_point_eval.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_solve_linear_system.test.cpp
     title: test/yosupo_aplusb_solve_linear_system.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_subset_sum_counts.test.cpp
+    title: test/yosupo_aplusb_subset_sum_counts.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_bitwise_and_convolution.test.cpp
     title: test/yosupo_bitwise_and_convolution.test.cpp
@@ -169,6 +190,9 @@ data:
     path: test/yosupo_multipoint_evaluation.test.cpp
     title: test/yosupo_multipoint_evaluation.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_multipoint_evaluation_on_geometric_sequence.test.cpp
+    title: test/yosupo_multipoint_evaluation_on_geometric_sequence.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
   - icon: ':heavy_check_mark:'
@@ -195,6 +219,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_range_affine_range_sum.test.cpp
     title: test/yosupo_range_affine_range_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_sharp_p_subset_sum.test.cpp
+    title: test/yosupo_sharp_p_subset_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
     title: test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
@@ -282,7 +309,9 @@ data:
   path: util/modint_base.cpp
   requiredBy:
   - fps/nth_term.cpp
+  - fps/multipoint_evaluation_geometric.cpp
   - fps/linear_recurrence.cpp
+  - fps/sample_point_eval.cpp
   - fps/taylor_shift.cpp
   - fps/multipoint_evaluation.cpp
   - fps/sample_point_shift.cpp
@@ -297,18 +326,23 @@ data:
   - math/solve_linear_system.cpp
   - math/many_factorials.cpp
   - math/gauss_jordan_mint.cpp
+  - math/subset_sum_counts.cpp
   - util/modint.cpp
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_multipoint_evaluation_on_geometric_sequence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - test/yosupo_aplusb_bit_build.test.cpp
+  - test/yosupo_aplusb_subset_sum_counts.test.cpp
   - test/yosupo_aplusb_solve_linear_system.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/aoj0399.test.cpp
+  - test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
   - test/aoj0452.test.cpp
+  - test/yosupo_aplusb_sample_point_eval.test.cpp
   - test/yosupo_many_aplusb_modint_interface.test.cpp
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
@@ -319,6 +353,7 @@ data:
   - test/aoj_dpl_5_a.test.cpp
   - test/yosupo_exp_of_formal_power_series.test.cpp
   - test/yosupo_aplusb_ntt_multiply.test.cpp
+  - test/yosupo_sharp_p_subset_sum.test.cpp
   - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/yosupo_pow_of_matrix_generic.test.cpp
   - test/yosupo_matrix_product.test.cpp
@@ -329,6 +364,7 @@ data:
   - test/yosupo_pow_of_formal_power_series.test.cpp
   - test/yosupo_sqrt_of_formal_power_series.test.cpp
   - test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+  - test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp
   - test/yosupo_aplusb_comb_table.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp

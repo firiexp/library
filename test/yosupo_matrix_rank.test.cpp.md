@@ -271,12 +271,12 @@ data:
     \ pivot = -1;\n        for (int row = rank; row < m; ++row) {\n            if\
     \ (A[row][col].val) {\n                pivot = row;\n                break;\n\
     \            }\n        }\n        if (pivot == -1) continue;\n        swap(A[pivot],\
-    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = 0;\
+    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = col;\
     \ col2 < n; ++col2) A[rank][col2] *= d;\n        for (int row = 0; row < m; ++row)\
     \ {\n            if (row != rank && A[row][col].val) {\n                auto fac\
-    \ = A[row][col];\n                for (int col2 = 0; col2 < n; ++col2) {\n   \
-    \                 A[row][col2] -= A[rank][col2] * fac;\n                }\n  \
-    \          }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
+    \ = A[row][col];\n                for (int col2 = col; col2 < n; ++col2) {\n \
+    \                   A[row][col2] -= A[rank][col2] * fac;\n                }\n\
+    \            }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
     \ * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n#line 19 \"test/yosupo_matrix_rank.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
     \ m);\n    if (n == 0 || m == 0) {\n        pr.println(0);\n        return 0;\n\
@@ -303,7 +303,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_matrix_rank.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-11 14:33:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_matrix_rank.test.cpp

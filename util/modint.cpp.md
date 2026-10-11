@@ -44,6 +44,9 @@ data:
     path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
+    title: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -200,6 +203,7 @@ data:
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
+  - test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - test/yosupo_aplusb_comb_table.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp

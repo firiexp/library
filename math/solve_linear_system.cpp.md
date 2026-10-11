@@ -62,12 +62,12 @@ data:
     \ pivot = -1;\n        for (int row = rank; row < m; ++row) {\n            if\
     \ (A[row][col].val) {\n                pivot = row;\n                break;\n\
     \            }\n        }\n        if (pivot == -1) continue;\n        swap(A[pivot],\
-    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = 0;\
+    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = col;\
     \ col2 < n; ++col2) A[rank][col2] *= d;\n        for (int row = 0; row < m; ++row)\
     \ {\n            if (row != rank && A[row][col].val) {\n                auto fac\
-    \ = A[row][col];\n                for (int col2 = 0; col2 < n; ++col2) {\n   \
-    \                 A[row][col2] -= A[rank][col2] * fac;\n                }\n  \
-    \          }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
+    \ = A[row][col];\n                for (int col2 = col; col2 < n; ++col2) {\n \
+    \                   A[row][col2] -= A[rank][col2] * fac;\n                }\n\
+    \            }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
     \ * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n#line 2 \"math/solve_linear_system.cpp\"\
     \n\nstruct LinearSystemSolution {\n    int rank;\n    vector<mint> particular;\n\
     \    vector<vector<mint>> basis;\n};\n\noptional<LinearSystemSolution> solve_linear_system(vector<vector<mint>>\
@@ -115,7 +115,7 @@ data:
   isVerificationFile: false
   path: math/solve_linear_system.cpp
   requiredBy: []
-  timestamp: '2026-10-08 14:20:09+09:00'
+  timestamp: '2026-10-11 14:33:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_solve_linear_system.test.cpp
