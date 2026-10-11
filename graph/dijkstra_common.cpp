@@ -21,11 +21,7 @@ struct DijkstraPriorityQueue {
 };
 
 template <typename T, class Queue, class OnRelax>
-vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q, OnRelax on_relax) {
-    int n = (int)G.size();
-    vector<T> dist(n, INF<T>);
-    dist[s] = 0;
-    Q.push(T(0), s);
+void dijkstra_relax(vector<T>& dist, const vector<vector<edge<T>>>& G, Queue& Q, OnRelax on_relax) {
     while (!Q.empty()) {
         auto [cost, v] = Q.pop();
         if (dist[v] < cost) continue;
@@ -37,6 +33,15 @@ vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q, O
             Q.push(nxt, e.to);
         }
     }
+}
+
+template <typename T, class Queue, class OnRelax>
+vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q, OnRelax on_relax) {
+    int n = (int)G.size();
+    vector<T> dist(n, INF<T>);
+    dist[s] = 0;
+    Q.push(T(0), s);
+    dijkstra_relax(dist, G, Q, std::move(on_relax));
     return dist;
 }
 
