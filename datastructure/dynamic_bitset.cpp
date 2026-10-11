@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_DYNAMIC_BITSET_CPP
+#define FIRIEXP_LIBRARY_DATASTRUCTURE_DYNAMIC_BITSET_CPP
+
 #if defined(__x86_64__) || defined(_M_X64)
 #include <immintrin.h>
 #endif
@@ -374,3 +377,5 @@ public:
 /**
  * @brief 動的bitset(Dynamic Bitset)
  */
+
+#endif
