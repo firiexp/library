@@ -47,5 +47,5 @@ public:
 #endif
 
 /**
- * @brief Suffix ArrayによるLCE・部分文字列比較
+ * @brief 最長共通接頭辞・部分文字列の辞書順比較
  */
