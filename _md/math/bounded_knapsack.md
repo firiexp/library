@@ -11,7 +11,7 @@ documentation_of: //math/bounded_knapsack.cpp
 - `BoundedKnapsackItem { int weight; long long value, count; }`
   品物1個の重さ・価値と、使える個数を指定する
 - `vector<long long> bounded_knapsack(const vector<BoundedKnapsackItem>& items, int capacity)`
-  重さが $0,1,\ldots,\mathrm{capacity}$ になる品物の選び方について、最大価値を返す。作れない重さの値は `LLONG_MIN`
+  重さが $0,1,\ldots,\mathrm{capacity}$ になる品物の選び方について、最大価値を返す。作れない重さの値は `-INF<ll>`
 
 ## 使い方
 重さは正、個数と容量は非負とする。価値には負の値も使える。
@@ -23,7 +23,7 @@ auto dp = bounded_knapsack(items, 7);
 long long best = *max_element(dp.begin(), dp.end());
 ```
 
-有限の DP 値は `LLONG_MIN` より大きいことを前提とする。
+テンプレートの `-INF<ll>` は、各段階の到達可能な DP 値より小さく設定する。
 個数と価値の積や、単調キュー内で使う `dp[r + j * weight] - j * value` を含め、途中の計算も `long long` に収まる必要がある。
 
 ## 実装上の補足

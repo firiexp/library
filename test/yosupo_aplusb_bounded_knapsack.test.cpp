@@ -2,16 +2,18 @@
 
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
+template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../util/fastio.cpp"
 #include "../math/bounded_knapsack.cpp"
 
 void check(const vector<BoundedKnapsackItem>& items, int capacity) {
-    vector<long long> expected(capacity + 1, LLONG_MIN);
+    vector<long long> expected(capacity + 1, -INF<ll>);
     expected[0] = 0;
     for (auto item : items) {
         auto next = expected;
         for (int w = 0; w <= capacity; ++w) {
-            if (expected[w] == LLONG_MIN) continue;
+            if (expected[w] == -INF<ll>) continue;
             int limit = (int)min(item.count, (long long)(capacity - w) / item.weight);
             for (int k = 1; k <= limit; ++k)
                 next[w + k * item.weight] = max(next[w + k * item.weight], expected[w] + k * item.value);
@@ -33,7 +35,10 @@ void self_check() {
     check({{1, 5, 0}, {INT_MAX, 1, LLONG_MAX}}, 30);
     check({{3, -4, LLONG_MAX}, {5, 2, 0}}, 0);
     check({{1, LLONG_MAX, 1}}, 1);
-    check({{1, LLONG_MIN + 1, 1}}, 1);
+    check({{1, -INF<ll> + 1, 1}}, 2);
+    check({{2, -INF<ll> + 1, 1}}, 3);
+    check({{1, -INF<ll> + 1, 1}, {1, INF<ll> - 2, 1}}, 2);
+    check({{1, (-INF<ll> + 1) / 33, 33}}, 34);
     check({{3, 4, 2}, {1, 2, 1}, {2, 1, 4}, {2, 3, 2}}, 8);
     check({{1, 1, 100}, {1, 2, 50}}, 100);
     for (int count : {0, 1, 2, 31, 32, 33, 64, 99, 100, 101}) {

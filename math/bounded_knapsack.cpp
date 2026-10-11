@@ -4,7 +4,7 @@ struct BoundedKnapsackItem {
 };
 
 vector<long long> bounded_knapsack(const vector<BoundedKnapsackItem>& items, int capacity) {
-    const long long unreachable = numeric_limits<long long>::lowest();
+    const long long unreachable = -INF<ll>;
     vector<long long> dp(capacity + 1, unreachable), values;
     vector<int> indices;
     dp[0] = 0;
