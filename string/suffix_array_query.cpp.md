@@ -7,11 +7,20 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/suffix_array.cpp
     title: Suffix Array
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: string/enumerate_runs.cpp
+    title: "\u6587\u5B57\u5217\u306Erun\u5217\u6319"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_enumerate_runs.test.cpp
+    title: test/yosupo_aplusb_enumerate_runs.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_array_query.test.cpp
     title: test/yosupo_aplusb_suffix_array_query.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_runenumerate.test.cpp
+    title: test/yosupo_runenumerate.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_suffix_array_query.test.cpp
     title: test/yosupo_suffix_array_query.test.cpp
@@ -126,12 +135,15 @@ data:
   - datastructure/sparsetable.cpp
   isVerificationFile: false
   path: string/suffix_array_query.cpp
-  requiredBy: []
+  requiredBy:
+  - string/enumerate_runs.cpp
   timestamp: '2026-10-12 01:24:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_suffix_array_query.test.cpp
   - test/yosupo_zalgorithm_suffix_array_query.test.cpp
+  - test/yosupo_aplusb_enumerate_runs.test.cpp
+  - test/yosupo_runenumerate.test.cpp
   - test/yosupo_aplusb_suffix_array_query.test.cpp
 documentation_of: string/suffix_array_query.cpp
 layout: document

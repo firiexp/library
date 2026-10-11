@@ -541,6 +541,9 @@ data:
   - name: string
     pages:
     - icon: ':heavy_check_mark:'
+      path: string/enumerate_runs.cpp
+      title: "\u6587\u5B57\u5217\u306Erun\u5217\u6319"
+    - icon: ':heavy_check_mark:'
       path: string/kmp.cpp
       title: "KMP\u6CD5"
     - icon: ':heavy_check_mark:'
@@ -571,6 +574,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: string/suffix_automaton.cpp
       title: Suffix Automaton
+    - icon: ':heavy_check_mark:'
+      path: string/wildcard_pattern_matching.cpp
+      title: "\u30EF\u30A4\u30EB\u30C9\u30AB\u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC\
+        \u30F3\u7167\u5408"
     - icon: ':heavy_check_mark:'
       path: string/z-algorithm.cpp
       title: Z-Algorithm
@@ -831,6 +838,9 @@ data:
       path: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
       title: test/aoj_grl_6_a_maxflow_lower_bound.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_grl_6_b_slope.test.cpp
+      title: test/aoj_grl_6_b_slope.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_grl_7_a_bipartite_matching.test.cpp
       title: test/aoj_grl_7_a_bipartite_matching.test.cpp
     - icon: ':heavy_check_mark:'
@@ -905,6 +915,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_enumerate_runs.test.cpp
+      title: test/yosupo_aplusb_enumerate_runs.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_enumerate_triangles.test.cpp
       title: test/yosupo_aplusb_enumerate_triangles.test.cpp
@@ -1044,6 +1057,9 @@ data:
       path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
       title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_primaldual_slope.test.cpp
+      title: test/yosupo_aplusb_primaldual_slope.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_prime_range.test.cpp
       title: test/yosupo_aplusb_prime_range.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1145,6 +1161,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
       title: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
+      title: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_xor_basis_intersection.test.cpp
       title: test/yosupo_aplusb_xor_basis_intersection.test.cpp
@@ -1473,6 +1492,9 @@ data:
       path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
       title: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_runenumerate.test.cpp
+      title: test/yosupo_runenumerate.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_scc.test.cpp
       title: test/yosupo_scc.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1598,6 +1620,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
       title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_wildcard_pattern_matching.test.cpp
+      title: test/yosupo_wildcard_pattern_matching.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_zalgorithm.test.cpp
       title: test/yosupo_zalgorithm.test.cpp

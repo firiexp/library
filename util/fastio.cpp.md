@@ -95,6 +95,9 @@ data:
     path: test/aoj_grl_6_a_costscalingdinic.test.cpp
     title: test/aoj_grl_6_a_costscalingdinic.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/aoj_grl_6_b_slope.test.cpp
+    title: test/aoj_grl_6_b_slope.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj_grl_7_a_bipartite_matching.test.cpp
     title: test/aoj_grl_7_a_bipartite_matching.test.cpp
   - icon: ':heavy_check_mark:'
@@ -166,6 +169,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_enumerate_runs.test.cpp
+    title: test/yosupo_aplusb_enumerate_runs.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_enumerate_triangles.test.cpp
     title: test/yosupo_aplusb_enumerate_triangles.test.cpp
@@ -305,6 +311,9 @@ data:
     path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
     title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_primaldual_slope.test.cpp
+    title: test/yosupo_aplusb_primaldual_slope.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_prime_range.test.cpp
     title: test/yosupo_aplusb_prime_range.test.cpp
   - icon: ':heavy_check_mark:'
@@ -406,6 +415,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
     title: test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
+    title: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_xor_basis_intersection.test.cpp
     title: test/yosupo_aplusb_xor_basis_intersection.test.cpp
@@ -695,6 +707,9 @@ data:
     path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
     title: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_runenumerate.test.cpp
+    title: test/yosupo_runenumerate.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_segment_add_get_min.test.cpp
     title: test/yosupo_segment_add_get_min.test.cpp
   - icon: ':heavy_check_mark:'
@@ -805,6 +820,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_wildcard_pattern_matching.test.cpp
+    title: test/yosupo_wildcard_pattern_matching.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_zalgorithm.test.cpp
     title: test/yosupo_zalgorithm.test.cpp
@@ -1256,6 +1274,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shortest_path.test.cpp
+  - test/yosupo_wildcard_pattern_matching.test.cpp
   - test/yosupo_eertree.test.cpp
   - test/yosupo_multipoint_evaluation_on_geometric_sequence.test.cpp
   - test/yosupo_aplusb_leftist_heap.test.cpp
@@ -1348,12 +1367,15 @@ data:
   - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/yosupo_pow_of_matrix_generic.test.cpp
   - test/yosupo_aplusb_mo.test.cpp
+  - test/yosupo_aplusb_enumerate_runs.test.cpp
   - test/aoj_alds1_9_c_binaryheap.test.cpp
   - test/yosupo_aplusb_static_rectangle_sum.test.cpp
   - test/yosupo_matrix_product.test.cpp
   - test/aoj2945_bfs01.test.cpp
   - test/yosupo_aplusb_range_parallel_unionfind.test.cpp
+  - test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
   - test/yosupo_set_xor_min_binarytrie.test.cpp
+  - test/yosupo_runenumerate.test.cpp
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_aplusb_ntt_precision.test.cpp
@@ -1425,6 +1447,7 @@ data:
   - test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
   - test/yosupo_sum_of_floor_of_linear.test.cpp
   - test/yosupo_line_add_get_min_online.test.cpp
+  - test/aoj_grl_6_b_slope.test.cpp
   - test/yosupo_range_kth_smallest.test.cpp
   - test/yosupo_eulerian_trail_directed.test.cpp
   - test/yosupo_aplusb_min_cost_b_flow.test.cpp
@@ -1435,6 +1458,7 @@ data:
   - test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
   - test/aoj_ntl_1_d_eulerphi.test.cpp
   - test/yosupo_aplusb_functional_graph.test.cpp
+  - test/yosupo_aplusb_primaldual_slope.test.cpp
   - test/yosupo_unionfind_with_potential.test.cpp
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_aplusb_radixheap.test.cpp

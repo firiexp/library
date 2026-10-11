@@ -300,33 +300,41 @@ data:
     \ dijkstra(int s){\n\n        priority_queue<P> Q;\n        fill(min_cost.begin(),min_cost.end(),\
     \ INF<C>);\n        min_cost[s] = 0;\n        Q.emplace(0, s);\n        while(!Q.empty()){\n\
     \            P p = Q.top(); Q.pop();\n            int v = p.second;\n        \
-    \    if(min_cost[v] < p.first) continue;\n            for(int i = 0; i < G[v].size();\
+    \    if(min_cost[v] < p.first) continue;\n            for(int i = 0; i < (int)G[v].size();\
     \ ++i){\n                edge &e=G[v][i];\n                if(e.cap==0) continue;\n\
     \                if(min_cost[v]+e.cost+potential[v]-potential[e.to] < min_cost[e.to]){\n\
     \                    min_cost[e.to] = min_cost[v]+e.cost+potential[v]-potential[e.to];\n\
     \                    prevv[e.to] = v;\n                    preve[e.to] = i;\n\
     \                    Q.emplace(min_cost[e.to], e.to);\n                }\n   \
     \         }\n        }\n    }\n\n    C flow(int s, int t, F fl, int &ok){\n  \
-    \      C res = 0;\n        fill(potential.begin(),potential.end(), 0);\n     \
-    \   while(fl > 0){\n            dijkstra(s);\n            if(min_cost[t] == INF<C>){\n\
-    \                ok = 0;\n                return res;\n            }\n       \
-    \     for (int i = 0; i < potential.size(); ++i) {\n                if(min_cost[i]\
-    \ < INF<C>) potential[i] += min_cost[i];\n            }\n\n            F d = fl;\n\
-    \            for(int v = t; v != s; v = prevv[v]){\n                d = min(d,\
-    \ G[prevv[v]][preve[v]].cap);\n            }\n            fl -= d;\n         \
-    \   res += potential[t]*d;\n            for(int v = t; v != s; v = prevv[v]){\n\
-    \                G[prevv[v]][preve[v]].cap -= d;\n                G[v][G[prevv[v]][preve[v]].rev].cap\
-    \ += d;\n            }\n        }\n        ok = 1;\n        return res;\n    }\n\
-    };\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)\n */\n#line 10\
-    \ \"test/yosupo_aplusb_flow_boundaries.test.cpp\"\n\ntemplate<class G>\nvoid check_residual(const\
-    \ G &g, const G &initial) {\n    assert(g.size() == initial.size());\n    for\
-    \ (int v = 0; v < int(g.size()); ++v) {\n        assert(g[v].size() == initial[v].size());\n\
-    \        for (int i = 0; i < int(g[v].size()); ++i) {\n            const auto\
-    \ &e = g[v][i];\n            assert(0 <= e.to && e.to < int(g.size()));\n    \
-    \        assert(0 <= e.rev && e.rev < int(g[e.to].size()));\n            assert(e.to\
-    \ != v || e.rev != i);\n            const auto &r = g[e.to][e.rev];\n        \
-    \    assert(r.to == v && r.rev == i);\n            assert(e.cap >= 0);\n     \
-    \       assert(e.cap + r.cap == initial[v][i].cap + initial[e.to][e.rev].cap);\n\
+    \      auto result = run_flow(s, t, fl, [](F, C, C) {});\n        ok = result.first\
+    \ == fl;\n        return result.second;\n    }\n\n    vector<pair<F, C>> slope(int\
+    \ s, int t, F limit = INF<F>) {\n        vector<pair<F, C>> result{{0, 0}};\n\
+    \        C previous = 0;\n        run_flow(s, t, limit, [&](F amount, C cost,\
+    \ C marginal) {\n            if (result.size() > 1 && marginal == previous) result.pop_back();\n\
+    \            result.emplace_back(amount, cost);\n            previous = marginal;\n\
+    \        });\n        return result;\n    }\n\nprivate:\n    template<class Output>\n\
+    \    pair<F, C> run_flow(int s, int t, F limit, Output output) {\n        F amount\
+    \ = 0;\n        C res = 0;\n        fill(potential.begin(),potential.end(), 0);\n\
+    \        while(amount < limit){\n            dijkstra(s);\n            if(min_cost[t]\
+    \ == INF<C>) break;\n            for (int i = 0; i < (int)potential.size(); ++i)\
+    \ {\n                if(min_cost[i] < INF<C>) potential[i] += min_cost[i];\n \
+    \           }\n\n            F d = limit - amount;\n            for(int v = t;\
+    \ v != s; v = prevv[v]){\n                d = min(d, G[prevv[v]][preve[v]].cap);\n\
+    \            }\n            amount += d;\n            res += potential[t]*d;\n\
+    \            for(int v = t; v != s; v = prevv[v]){\n                G[prevv[v]][preve[v]].cap\
+    \ -= d;\n                G[v][G[prevv[v]][preve[v]].rev].cap += d;\n         \
+    \   }\n            output(amount, res, potential[t]);\n        }\n        return\
+    \ {amount, res};\n    }\n};\n\n/**\n * @brief \u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)\n\
+    \ */\n#line 10 \"test/yosupo_aplusb_flow_boundaries.test.cpp\"\n\ntemplate<class\
+    \ G>\nvoid check_residual(const G &g, const G &initial) {\n    assert(g.size()\
+    \ == initial.size());\n    for (int v = 0; v < int(g.size()); ++v) {\n       \
+    \ assert(g[v].size() == initial[v].size());\n        for (int i = 0; i < int(g[v].size());\
+    \ ++i) {\n            const auto &e = g[v][i];\n            assert(0 <= e.to &&\
+    \ e.to < int(g.size()));\n            assert(0 <= e.rev && e.rev < int(g[e.to].size()));\n\
+    \            assert(e.to != v || e.rev != i);\n            const auto &r = g[e.to][e.rev];\n\
+    \            assert(r.to == v && r.rev == i);\n            assert(e.cap >= 0);\n\
+    \            assert(e.cap + r.cap == initial[v][i].cap + initial[e.to][e.rev].cap);\n\
     \        }\n    }\n}\n\ntemplate<bool Directed>\nvoid maxflow_check(bool wide\
     \ = false) {\n    mt19937_64 rng(65 + Directed + 2 * wide);\n    for (int tc =\
     \ 0; tc < 300; ++tc) {\n        int n = 2 + rng() % 6;\n        vector<tuple<int,\
@@ -472,7 +480,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_flow_boundaries.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:42:19+09:00'
+  timestamp: '2026-10-12 01:36:53+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_flow_boundaries.test.cpp

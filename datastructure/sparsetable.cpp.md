@@ -3,6 +3,9 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: string/enumerate_runs.cpp
+    title: "\u6587\u5B57\u5217\u306Erun\u5217\u6319"
+  - icon: ':heavy_check_mark:'
     path: string/suffix_array_query.cpp
     title: "\u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57\
       \u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03"
@@ -23,6 +26,9 @@ data:
     path: test/aoj0439_virtual_tree_helper.test.cpp
     title: test/aoj0439_virtual_tree_helper.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_enumerate_runs.test.cpp
+    title: test/yosupo_aplusb_enumerate_runs.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -37,6 +43,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_lca.test.cpp
     title: test/yosupo_lca.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_runenumerate.test.cpp
+    title: test/yosupo_runenumerate.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_staticrmq_sparsetable.test.cpp
     title: test/yosupo_staticrmq_sparsetable.test.cpp
@@ -83,6 +92,7 @@ data:
   isVerificationFile: false
   path: datastructure/sparsetable.cpp
   requiredBy:
+  - string/enumerate_runs.cpp
   - string/suffix_array_query.cpp
   - tree/LCA.cpp
   - tree/auxtree.cpp
@@ -93,6 +103,8 @@ data:
   - test/yosupo_suffix_array_query.test.cpp
   - test/yosupo_zalgorithm_suffix_array_query.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_enumerate_runs.test.cpp
+  - test/yosupo_runenumerate.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_aplusb_suffix_array_query.test.cpp
   - test/yosupo_aplusb_virtual_tree_helper.test.cpp

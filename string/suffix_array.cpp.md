@@ -3,10 +3,16 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: string/enumerate_runs.cpp
+    title: "\u6587\u5B57\u5217\u306Erun\u5217\u6319"
+  - icon: ':heavy_check_mark:'
     path: string/suffix_array_query.cpp
     title: "\u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57\
       \u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_enumerate_runs.test.cpp
+    title: test/yosupo_aplusb_enumerate_runs.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_array_query.test.cpp
     title: test/yosupo_aplusb_suffix_array_query.test.cpp
@@ -16,6 +22,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_number_of_substrings.test.cpp
     title: test/yosupo_number_of_substrings.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_runenumerate.test.cpp
+    title: test/yosupo_runenumerate.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_suffix_array.test.cpp
     title: test/yosupo_suffix_array.test.cpp
@@ -133,6 +142,7 @@ data:
   isVerificationFile: false
   path: string/suffix_array.cpp
   requiredBy:
+  - string/enumerate_runs.cpp
   - string/suffix_array_query.cpp
   timestamp: '2026-10-12 01:01:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
@@ -140,6 +150,8 @@ data:
   - test/yosupo_suffix_array_query.test.cpp
   - test/yosupo_suffix_array.test.cpp
   - test/yosupo_zalgorithm_suffix_array_query.test.cpp
+  - test/yosupo_aplusb_enumerate_runs.test.cpp
+  - test/yosupo_runenumerate.test.cpp
   - test/yosupo_aplusb_suffix_array_query.test.cpp
   - test/yosupo_aplusb_suffix_array_query.test.cpp
   - test/yosupo_number_of_substrings.test.cpp

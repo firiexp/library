@@ -7,6 +7,10 @@ data:
     path: math/fft.cpp
     title: "\u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)"
   - icon: ':heavy_check_mark:'
+    path: string/wildcard_pattern_matching.cpp
+    title: "\u30EF\u30A4\u30EB\u30C9\u30AB\u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC\
+      \u30F3\u7167\u5408"
+  - icon: ':heavy_check_mark:'
     path: tree/frequency_table_of_tree_distance.cpp
     title: Frequency Table of Tree Distance
   - icon: ':heavy_check_mark:'
@@ -26,6 +30,9 @@ data:
     path: test/yosupo_aplusb_monotoniccht.test.cpp
     title: test/yosupo_aplusb_monotoniccht.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
+    title: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_convolution_mod_1000000007_fft.test.cpp
     title: test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - icon: ':heavy_check_mark:'
@@ -43,6 +50,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_multiplication_of_hex_big_integers.test.cpp
     title: test/yosupo_multiplication_of_hex_big_integers.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_wildcard_pattern_matching.test.cpp
+    title: test/yosupo_wildcard_pattern_matching.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -490,13 +500,16 @@ data:
   requiredBy:
   - math/fft.cpp
   - util/biginteger.cpp
+  - string/wildcard_pattern_matching.cpp
   - tree/frequency_table_of_tree_distance.cpp
   timestamp: '2026-07-18 15:59:16+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_wildcard_pattern_matching.test.cpp
   - test/yosupo_frequency_table_of_tree_distance.test.cpp
   - test/yosupo_division_of_hex_big_integers.test.cpp
   - test/yosupo_addition_of_big_integers.test.cpp
+  - test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_addition_of_hex_big_integers.test.cpp
   - test/yosupo_division_of_big_integers.test.cpp
