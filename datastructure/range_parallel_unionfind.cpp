@@ -59,5 +59,5 @@ public:
 };
 
 /**
- * @brief 区間の対応点を併合するUnionFind
+ * @brief Range Parallel UnionFind
  */

@@ -1,5 +1,5 @@
 ---
-title: 区間の対応点を併合するUnionFind
+title: Range Parallel UnionFind
 documentation_of: //datastructure/range_parallel_unionfind.cpp
 ---
 
