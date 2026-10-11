@@ -33,7 +33,7 @@ struct PrimalDual {
             P p = Q.top(); Q.pop();
             int v = p.second;
             if(min_cost[v] < p.first) continue;
-            for(int i = 0; i < G[v].size(); ++i){
+            for(int i = 0; i < (int)G[v].size(); ++i){
                 edge &e=G[v][i];
                 if(e.cap==0) continue;
                 if(min_cost[v]+e.cost+potential[v]-potential[e.to] < min_cost[e.to]){
@@ -47,31 +47,48 @@ struct PrimalDual {
     }
 
     C flow(int s, int t, F fl, int &ok){
+        auto result = run_flow(s, t, fl, [](F, C, C) {});
+        ok = result.first == fl;
+        return result.second;
+    }
+
+    vector<pair<F, C>> slope(int s, int t, F limit = INF<F>) {
+        vector<pair<F, C>> result{{0, 0}};
+        C previous = 0;
+        run_flow(s, t, limit, [&](F amount, C cost, C marginal) {
+            if (result.size() > 1 && marginal == previous) result.pop_back();
+            result.emplace_back(amount, cost);
+            previous = marginal;
+        });
+        return result;
+    }
+
+private:
+    template<class Output>
+    pair<F, C> run_flow(int s, int t, F limit, Output output) {
+        F amount = 0;
         C res = 0;
         fill(potential.begin(),potential.end(), 0);
-        while(fl > 0){
+        while(amount < limit){
             dijkstra(s);
-            if(min_cost[t] == INF<C>){
-                ok = 0;
-                return res;
-            }
-            for (int i = 0; i < potential.size(); ++i) {
+            if(min_cost[t] == INF<C>) break;
+            for (int i = 0; i < (int)potential.size(); ++i) {
                 if(min_cost[i] < INF<C>) potential[i] += min_cost[i];
             }
 
-            F d = fl;
+            F d = limit - amount;
             for(int v = t; v != s; v = prevv[v]){
                 d = min(d, G[prevv[v]][preve[v]].cap);
             }
-            fl -= d;
+            amount += d;
             res += potential[t]*d;
             for(int v = t; v != s; v = prevv[v]){
                 G[prevv[v]][preve[v]].cap -= d;
                 G[v][G[prevv[v]][preve[v]].rev].cap += d;
             }
+            output(amount, res, potential[t]);
         }
-        ok = 1;
-        return res;
+        return {amount, res};
     }
 };
 
