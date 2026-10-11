@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_WAVELET_MATRIX_CPP
+#define FIRIEXP_LIBRARY_DATASTRUCTURE_WAVELET_MATRIX_CPP
+
 #if defined(__GNUC__) && defined(__x86_64__)
 #include <immintrin.h>
 #endif
@@ -858,3 +861,5 @@ public:
 /**
  * @brief Wavelet Matrix
  */
+
+#endif
