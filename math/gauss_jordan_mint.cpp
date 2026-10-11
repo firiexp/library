@@ -15,11 +15,11 @@ int gauss_jordan(vector<vector<mint>> &A, bool is_extended = false) {
         if (pivot == -1) continue;
         swap(A[pivot], A[rank]);
         auto d = A[rank][col].inv();
-        for (int col2 = 0; col2 < n; ++col2) A[rank][col2] *= d;
+        for (int col2 = col; col2 < n; ++col2) A[rank][col2] *= d;
         for (int row = 0; row < m; ++row) {
             if (row != rank && A[row][col].val) {
                 auto fac = A[row][col];
-                for (int col2 = 0; col2 < n; ++col2) {
+                for (int col2 = col; col2 < n; ++col2) {
                     A[row][col2] -= A[rank][col2] * fac;
                 }
             }
