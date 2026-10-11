@@ -29,37 +29,6 @@ struct Fenwick {
     }
 };
 
-template<class T>
-void build_ranges(const T &trie, vector<int> &word_pos, vector<int> &l, vector<int> &r) {
-    const int n = trie.v.size();
-    l.assign(n, 0);
-    r.assign(n, 0);
-    vector<int> it(n, 0);
-    vector<char> entered(n, 0);
-    int order = 0;
-
-    struct Frame {
-        int v;
-    };
-    vector<Frame> st;
-    st.push_back({0});
-    while (!st.empty()) {
-        int v = st.back().v;
-        if (!entered[v]) {
-            entered[v] = 1;
-            l[v] = order;
-            for (int id : trie.v[v].idxs) word_pos[id] = order++;
-        }
-        while (it[v] < 26 && trie.v[v].nxt[it[v]] == -1) ++it[v];
-        if (it[v] == 26) {
-            r[v] = order;
-            st.pop_back();
-            continue;
-        }
-        st.push_back({trie.v[v].nxt[it[v]++]});
-    }
-}
-
 int main() {
     Scanner sc;
     Printer pr;
@@ -78,9 +47,13 @@ int main() {
         reverse(words[i].begin(), words[i].end());
     }
 
-    vector<int> pref_pos(n), suff_pos(n), lp, rp, ls, rs;
-    build_ranges(pref, pref_pos, lp, rp);
-    build_ranges(suff, suff_pos, ls, rs);
+    auto pref_index = pref.prefix_intervals();
+    auto suff_index = suff.prefix_intervals();
+    vector<int> pref_pos(n), suff_pos(n);
+    for (int i = 0; i < n; ++i) {
+        pref_pos[pref_index.order[i]] = i;
+        suff_pos[suff_index.order[i]] = i;
+    }
 
     struct Point {
         int x, y;
@@ -109,10 +82,12 @@ int main() {
         if (pv == -1 || sv == -1) {
             continue;
         }
-        ev.push_back({rp[pv], rs[sv], i, +1});
-        ev.push_back({lp[pv], rs[sv], i, -1});
-        ev.push_back({rp[pv], ls[sv], i, -1});
-        ev.push_back({lp[pv], ls[sv], i, +1});
+        auto [lp, rp] = pref_index.range[pv];
+        auto [ls, rs] = suff_index.range[sv];
+        ev.push_back({rp, rs, i, +1});
+        ev.push_back({lp, rs, i, -1});
+        ev.push_back({rp, ls, i, -1});
+        ev.push_back({lp, ls, i, +1});
     }
 
     sort(ev.begin(), ev.end(), [](const Event &a, const Event &b) {

@@ -44,6 +44,34 @@ struct Trie {
     int id(int cur) { return cur < 0 ? -1 : v[cur].id;}
 
     vector<int> idxs(int cur) { return cur < 0 ? vector<int>() : v[cur].idxs; }
+
+    struct PrefixIntervals {
+        vector<int> order;
+        vector<pair<int, int>> range;
+    };
+
+    PrefixIntervals prefix_intervals() const {
+        PrefixIntervals result;
+        result.range.resize(v.size());
+        vector<pair<int, int>> stack{{0, 0}};
+        while (!stack.empty()) {
+            int node = stack.back().first;
+            int& next = stack.back().second;
+            if (next == 0) {
+                result.range[node].first = result.order.size();
+                result.order.insert(result.order.end(), v[node].idxs.begin(), v[node].idxs.end());
+            }
+            while (next < W && v[node].nxt[next] == -1) ++next;
+            if (next == W) {
+                result.range[node].second = result.order.size();
+                stack.pop_back();
+            } else {
+                int child = v[node].nxt[next++];
+                stack.emplace_back(child, 0);
+            }
+        }
+        return result;
+    }
 };
 
 /**

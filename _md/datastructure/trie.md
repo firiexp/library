@@ -23,6 +23,8 @@ tags: 文字列
   ノード `cur` に対応する終端 id を返す。終端でなければ `-1`
 - `idxs(cur)`
   ノード `cur` に対応する id 一覧を返す。無ければ空
+- `PrefixIntervals prefix_intervals() const`
+  単語IDの列 `order` と、各ノードに対応する半開区間 `range` を返す。ノード数を $V$、登録した単語数を $K$ として $O(WV+K)$ 時間、$O(V+K)$ 領域
 
 ## 使い方
 `F` は文字を `0` 以上 `W-1` 以下に写す関数として用意する。
@@ -33,7 +35,14 @@ auto f = [](char c) { return c - 'a'; };
 Trie<26, decltype(f)> trie(f);
 trie.add("apple", 0);
 int node = trie.find("app");
+auto index = trie.prefix_intervals();
+auto [l, r] = index.range[node];
 ```
+
+`index.order[l..r)` は、`"app"` を prefix に持つ登録単語のID列となる。
+`find` が `-1` を返した場合、その prefix を持つ単語はない。
+`order` は文字変換関数 `f` の順に並び、同じ終端のIDは挿入順を保つ。
+空文字や同じIDの複数登録も含まれる。単語を追加した後は `prefix_intervals()` を呼び直す。
 
 ## 実装上の補足
 - 同じ文字列を複数回挿入すると `idxs(cur)` に id が追加される。`id(cur)` は最後に入れた値になる
