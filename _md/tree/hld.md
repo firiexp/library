@@ -27,6 +27,10 @@ tags: 木
   木上距離を返す
 - `pair<int, int> subtree(int v, bool edge = false)`
   部分木に対応する半開区間 `[l, r)` を返す
+- `void rerooted_subtree(int v, int root, F f) const`
+  `root` を根とした `v` の部分木に対応する区間へ `f(l, r)` を呼ぶ。空でない半開区間を `id` の昇順で高々2つ渡す。区間の取得は $O(\log N)$ 時間、$O(1)$ 作業領域
+- `int rerooted_lca(int u, int v, int root) const`
+  `root` を根とした `u, v` の最近共通祖先を $O(\log N)$ 時間、$O(1)$ 作業領域で返す
 - `void path(int u, int v, F f, bool edge = false)`
   パスを被覆する各区間へ `f(l, r)` を呼ぶ
 - `T path_query(int u, int v, T e, Q q, F f, bool edge = false)`
@@ -42,6 +46,10 @@ tags: 木
 `id[v]` を頂点 `v` の 1 次元位置としてセグ木や BIT に載せる。
 部分木は `subtree(v)` の区間 1 本で取れる。
 パスは `path` / `path_query` / `path_query_ordered` を使う。
+
+`rerooted_subtree` と `rerooted_lca` は、問い合わせごとに根を指定できる。
+前処理時の根や `id` は変更されない。引数の頂点は同じ連結成分に属することを前提とする。
+`rerooted_subtree` が扱うのは頂点集合で、森ではその成分内の区間だけを渡す。
 
 ```cpp
 HeavyLightDecomposition hld(n);

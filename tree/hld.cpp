@@ -74,7 +74,7 @@ public:
         }
     }
 
-    int lca(int u, int v){
+    int lca(int u, int v) const {
         while(true){
             if(id[u] > id[v]) swap(u, v);
             if(head[u] == head[v]) return u;
@@ -86,7 +86,7 @@ public:
         return par[v];
     }
 
-    int ancestor(int v, int k) {
+    int ancestor(int v, int k) const {
         if(dep[v] < k) return -1;
         while(true) {
             int u = head[v];
@@ -100,6 +100,32 @@ public:
 
     pair<int, int> subtree(int v, bool edge = false) const {
         return {id[v] + edge, id[v] + sub_size[v]};
+    }
+
+    int rerooted_lca(int u, int v, int root) const {
+        int answer = lca(u, v);
+        int a = lca(u, root), b = lca(v, root);
+        if (dep[a] > dep[answer]) answer = a;
+        if (dep[b] > dep[answer]) answer = b;
+        return answer;
+    }
+
+    template<typename F>
+    void rerooted_subtree(int v, int root, const F& f) const {
+        auto [l, r] = subtree(v);
+        if (id[root] < l || r <= id[root]) {
+            f(l, r);
+            return;
+        }
+        auto [begin, end] = subtree(ancestor(v, dep[v]));
+        if (v == root) {
+            f(begin, end);
+            return;
+        }
+        int child = ancestor(root, dep[root] - dep[v] - 1);
+        auto [cl, cr] = subtree(child);
+        if (begin < cl) f(begin, cl);
+        if (cr < end) f(cr, end);
     }
 
     template<typename F>
