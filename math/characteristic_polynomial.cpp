@@ -28,6 +28,7 @@ vector<T> characteristic_polynomial(vector<vector<T>> a) {
         }
         T product = 1;
         for (int k = i - 1; k >= 0; --k) {
+            if (a[k + 1][k] == T(0)) break;
             product *= a[k + 1][k];
             T factor = product * a[k][i];
             for (int j = 0; j <= k; ++j) p[i + 1][j] -= factor * p[k][j];

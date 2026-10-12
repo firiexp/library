@@ -66,6 +66,12 @@ void check_field() {
             for (auto& row : a) for (auto& x : row) x = rng();
             check(a);
         }
+        for (int split = 1; split < n; ++split) {
+            for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j)
+                a[i][j] = j + 1 >= i ? T(rng()) : T(0);
+            a[split][split - 1] = 0;
+            check(a);
+        }
     }
     vector<vector<T>> triangle(30, vector<T>(30));
     vector<T> expected = {T(1)};
