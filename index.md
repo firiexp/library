@@ -970,6 +970,9 @@ data:
       path: test/yosupo_aplusb_interval_set.test.cpp
       title: test/yosupo_aplusb_interval_set.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_inverse_matrix.test.cpp
+      title: test/yosupo_aplusb_inverse_matrix.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
     - icon: ':heavy_check_mark:'

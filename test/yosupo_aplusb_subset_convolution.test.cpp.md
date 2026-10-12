@@ -238,61 +238,62 @@ data:
     \  fa[base + pc[s]] = a[s];\n        fb[base + pc[s]] = b[s];\n    }\n\n    for\
     \ (int i = 0; i < lg; ++i) {\n        int step = 1 << i;\n        int span = step\
     \ << 1;\n        for (int block = 0; block < n; block += span) {\n           \
-    \ for (int j = 0; j < step; ++j) {\n                int s = block + j;\n     \
-    \           int t = s + step;\n                T *as = fa.data() + s * w;\n  \
-    \              T *at = fa.data() + t * w;\n                T *bs = fb.data() +\
-    \ s * w;\n                T *bt = fb.data() + t * w;\n                for (int\
-    \ k = 0, lim = pc[s]; k <= lim; ++k) {\n                    at[k] += as[k];\n\
-    \                    bt[k] += bs[k];\n                }\n            }\n     \
-    \   }\n    }\n    for (int s = 0; s < n; ++s) {\n        T *as = fa.data() + s\
-    \ * w;\n        const T *bs = fb.data() + s * w;\n        int p = pc[s];\n   \
-    \     int lim = lim2[p];\n        for (int k = lim; k >= 0; --k) {\n         \
-    \   int l = max(0, k - p);\n            int r = min(k, p);\n            T sum\
-    \ = 0;\n            for (int i = l; i <= r; ++i) {\n                sum += as[i]\
-    \ * bs[k - i];\n            }\n            as[k] = sum;\n        }\n    }\n  \
-    \  for (int i = 0; i < lg; ++i) {\n        int step = 1 << i;\n        int span\
-    \ = step << 1;\n        for (int block = 0; block < n; block += span) {\n    \
-    \        for (int j = 0; j < step; ++j) {\n                int s = block + j;\n\
-    \                int t = s + step;\n                T *cs = fa.data() + s * w;\n\
-    \                T *ct = fa.data() + t * w;\n                for (int k = 0, lim\
-    \ = lim2[pc[s]]; k <= lim; ++k) {\n                    ct[k] -= cs[k];\n     \
-    \           }\n            }\n        }\n    }\n\n    vector<T> c(n);\n    for\
-    \ (int s = 0; s < n; ++s) {\n        c[s] = fa[s * w + pc[s]];\n    }\n    return\
-    \ c;\n}\n\n/**\n * @brief \u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset\
-    \ Convolution)\n */\n#line 8 \"test/yosupo_aplusb_subset_convolution.test.cpp\"\
-    \n\nstruct Matrix {\n    array<int, 4> a{};\n    Matrix(int x = 0) : a{x, 0, 0,\
-    \ x} {}\n    Matrix &operator+=(const Matrix &other) {\n        for (int i = 0;\
-    \ i < 4; ++i) a[i] = (a[i] + other.a[i]) % 17;\n        return *this;\n    }\n\
-    \    Matrix &operator-=(const Matrix &other) {\n        for (int i = 0; i < 4;\
-    \ ++i) a[i] = (a[i] + 17 - other.a[i]) % 17;\n        return *this;\n    }\n \
-    \   Matrix operator*(const Matrix &other) const {\n        Matrix result;\n  \
-    \      for (int i = 0; i < 2; ++i) {\n            for (int j = 0; j < 2; ++j)\
-    \ {\n                for (int k = 0; k < 2; ++k) {\n                    result.a[2\
-    \ * i + j] += a[2 * i + k] * other.a[2 * k + j];\n                }\n        \
-    \        result.a[2 * i + j] %= 17;\n            }\n        }\n        return\
-    \ result;\n    }\n    bool operator==(const Matrix &other) const { return a ==\
-    \ other.a; }\n};\n\ntemplate<class T>\nvoid check(const vector<T> &a, const vector<T>\
-    \ &b) {\n    auto original_a = a, original_b = b;\n    int n = 1;\n    while (n\
-    \ < (int)max(a.size(), b.size())) n *= 2;\n    vector<T> expected(n);\n    for\
-    \ (int mask = 0; mask < n; ++mask) {\n        for (int sub = mask;; sub = (sub\
-    \ - 1) & mask) {\n            if (sub < (int)a.size() && (mask ^ sub) < (int)b.size())\
-    \ {\n                expected[mask] += a[sub] * b[mask ^ sub];\n            }\n\
-    \            if (sub == 0) break;\n        }\n    }\n    assert(subset_convolution(a,\
-    \ b) == expected);\n    assert(a == original_a && b == original_b);\n}\n\nvoid\
-    \ self_check() {\n    mt19937 rng(73);\n    for (int n = 0; n <= 20; ++n) {\n\
-    \        for (int m = 0; m <= 20; ++m) {\n            check(vector<ll>(n), vector<ll>(m,\
-    \ 1));\n            check(vector<Matrix>(n), vector<Matrix>(m, 1));\n        }\n\
-    \    }\n    for (int tc = 0; tc < 2000; ++tc) {\n        vector<ll> a(rng() %\
-    \ 129), b(rng() % 129);\n        for (auto &x : a) x = (int)(rng() % 7) - 3;\n\
-    \        for (auto &x : b) x = (int)(rng() % 7) - 3;\n        check(a, b);\n \
-    \       check(a, a);\n    }\n    Matrix x, y;\n    x.a = {0, 1, 0, 0};\n    y.a\
-    \ = {0, 0, 1, 0};\n    assert(!((x * y) == (y * x)));\n    check(vector<Matrix>{x},\
-    \ vector<Matrix>{y});\n    for (int tc = 0; tc < 1000; ++tc) {\n        vector<Matrix>\
-    \ a(rng() % 65), b(rng() % 65);\n        for (auto &mat : a) for (auto &v : mat.a)\
-    \ v = rng() % 17;\n        for (auto &mat : b) for (auto &v : mat.a) v = rng()\
-    \ % 17;\n        check(a, b);\n        check(a, a);\n    }\n}\n\nint main() {\n\
-    \    self_check();\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n}\n"
+    \ int lower = pc[block >> (i + 1)];\n            for (int j = 0; j < step; ++j)\
+    \ {\n                int s = block + j;\n                int t = s + step;\n \
+    \               T *as = fa.data() + s * w;\n                T *at = fa.data()\
+    \ + t * w;\n                T *bs = fb.data() + s * w;\n                T *bt\
+    \ = fb.data() + t * w;\n                for (int k = lower, lim = pc[s]; k <=\
+    \ lim; ++k) {\n                    at[k] += as[k];\n                    bt[k]\
+    \ += bs[k];\n                }\n            }\n        }\n    }\n    for (int\
+    \ s = 0; s < n; ++s) {\n        T *as = fa.data() + s * w;\n        const T *bs\
+    \ = fb.data() + s * w;\n        int p = pc[s];\n        int lim = lim2[p];\n \
+    \       for (int k = lim; k >= p; --k) {\n            int l = max(0, k - p);\n\
+    \            int r = min(k, p);\n            T sum = 0;\n            for (int\
+    \ i = l; i <= r; ++i) {\n                sum += as[i] * bs[k - i];\n         \
+    \   }\n            as[k] = sum;\n        }\n    }\n    for (int i = 0; i < lg;\
+    \ ++i) {\n        int step = 1 << i;\n        int span = step << 1;\n        for\
+    \ (int block = 0; block < n; block += span) {\n            for (int j = 0; j <\
+    \ step; ++j) {\n                int s = block + j;\n                int t = s\
+    \ + step;\n                T *cs = fa.data() + s * w;\n                T *ct =\
+    \ fa.data() + t * w;\n                for (int k = pc[t], lim = lim2[pc[s]]; k\
+    \ <= lim; ++k) {\n                    ct[k] -= cs[k];\n                }\n   \
+    \         }\n        }\n    }\n\n    vector<T> c(n);\n    for (int s = 0; s <\
+    \ n; ++s) {\n        c[s] = fa[s * w + pc[s]];\n    }\n    return c;\n}\n\n/**\n\
+    \ * @brief \u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset Convolution)\n\
+    \ */\n#line 8 \"test/yosupo_aplusb_subset_convolution.test.cpp\"\n\nstruct Matrix\
+    \ {\n    array<int, 4> a{};\n    Matrix(int x = 0) : a{x, 0, 0, x} {}\n    Matrix\
+    \ &operator+=(const Matrix &other) {\n        for (int i = 0; i < 4; ++i) a[i]\
+    \ = (a[i] + other.a[i]) % 17;\n        return *this;\n    }\n    Matrix &operator-=(const\
+    \ Matrix &other) {\n        for (int i = 0; i < 4; ++i) a[i] = (a[i] + 17 - other.a[i])\
+    \ % 17;\n        return *this;\n    }\n    Matrix operator*(const Matrix &other)\
+    \ const {\n        Matrix result;\n        for (int i = 0; i < 2; ++i) {\n   \
+    \         for (int j = 0; j < 2; ++j) {\n                for (int k = 0; k < 2;\
+    \ ++k) {\n                    result.a[2 * i + j] += a[2 * i + k] * other.a[2\
+    \ * k + j];\n                }\n                result.a[2 * i + j] %= 17;\n \
+    \           }\n        }\n        return result;\n    }\n    bool operator==(const\
+    \ Matrix &other) const { return a == other.a; }\n};\n\ntemplate<class T>\nvoid\
+    \ check(const vector<T> &a, const vector<T> &b) {\n    auto original_a = a, original_b\
+    \ = b;\n    int n = 1;\n    while (n < (int)max(a.size(), b.size())) n *= 2;\n\
+    \    vector<T> expected(n);\n    for (int mask = 0; mask < n; ++mask) {\n    \
+    \    for (int sub = mask;; sub = (sub - 1) & mask) {\n            if (sub < (int)a.size()\
+    \ && (mask ^ sub) < (int)b.size()) {\n                expected[mask] += a[sub]\
+    \ * b[mask ^ sub];\n            }\n            if (sub == 0) break;\n        }\n\
+    \    }\n    assert(subset_convolution(a, b) == expected);\n    assert(a == original_a\
+    \ && b == original_b);\n}\n\nvoid self_check() {\n    mt19937 rng(73);\n    for\
+    \ (int n = 0; n <= 20; ++n) {\n        for (int m = 0; m <= 20; ++m) {\n     \
+    \       check(vector<ll>(n), vector<ll>(m, 1));\n            check(vector<Matrix>(n),\
+    \ vector<Matrix>(m, 1));\n        }\n    }\n    for (int tc = 0; tc < 2000; ++tc)\
+    \ {\n        vector<ll> a(rng() % 129), b(rng() % 129);\n        for (auto &x\
+    \ : a) x = (int)(rng() % 7) - 3;\n        for (auto &x : b) x = (int)(rng() %\
+    \ 7) - 3;\n        check(a, b);\n        check(a, a);\n    }\n    Matrix x, y;\n\
+    \    x.a = {0, 1, 0, 0};\n    y.a = {0, 0, 1, 0};\n    assert(!((x * y) == (y\
+    \ * x)));\n    check(vector<Matrix>{x}, vector<Matrix>{y});\n    for (int tc =\
+    \ 0; tc < 1000; ++tc) {\n        vector<Matrix> a(rng() % 65), b(rng() % 65);\n\
+    \        for (auto &mat : a) for (auto &v : mat.a) v = rng() % 17;\n        for\
+    \ (auto &mat : b) for (auto &v : mat.a) v = rng() % 17;\n        check(a, b);\n\
+    \        check(a, a);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
+    \ sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\nusing ll = long long;\n#include \"../util/fastio.cpp\"\n\
     #include \"../math/subset_convolution.cpp\"\n\nstruct Matrix {\n    array<int,\
@@ -335,7 +336,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-12 10:35:19+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_subset_convolution.test.cpp

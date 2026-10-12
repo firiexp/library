@@ -271,10 +271,10 @@ data:
     \ + 1].resize(i + 2);\n        for (int j = 0; j <= i; ++j) {\n            p[i\
     \ + 1][j + 1] += p[i][j];\n            p[i + 1][j] -= a[i][i] * p[i][j];\n   \
     \     }\n        T product = 1;\n        for (int k = i - 1; k >= 0; --k) {\n\
-    \            product *= a[k + 1][k];\n            T factor = product * a[k][i];\n\
-    \            for (int j = 0; j <= k; ++j) p[i + 1][j] -= factor * p[k][j];\n \
-    \       }\n    }\n    return p[n];\n}\n\n/**\n * @brief \u7279\u6027\u591A\u9805\
-    \u5F0F\n */\n#line 11 \"test/yosupo_aplusb_characteristic_polynomial.test.cpp\"\
+    \            if (a[k + 1][k] == T(0)) break;\n            product *= a[k + 1][k];\n\
+    \            T factor = product * a[k][i];\n            for (int j = 0; j <= k;\
+    \ ++j) p[i + 1][j] -= factor * p[k][j];\n        }\n    }\n    return p[n];\n\
+    }\n\n/**\n * @brief \u7279\u6027\u591A\u9805\u5F0F\n */\n#line 11 \"test/yosupo_aplusb_characteristic_polynomial.test.cpp\"\
     \n\ntemplate<class T>\nvector<T> determinant_polynomial(const vector<vector<T>>&\
     \ a) {\n    int n = (int)a.size();\n    vector<int> perm(n);\n    iota(perm.begin(),\
     \ perm.end(), 0);\n    vector<T> result(n + 1);\n    do {\n        int inversions\
@@ -300,9 +300,12 @@ data:
     \ a[i][i] = 1;\n        check(a);\n        for (int i = 0; i + 1 < n; ++i) a[i][i\
     \ + 1] = 1;\n        check(a);\n        for (int tc = 0; tc < 70; ++tc) {\n  \
     \          for (auto& row : a) for (auto& x : row) x = rng();\n            check(a);\n\
-    \        }\n    }\n    vector<vector<T>> triangle(30, vector<T>(30));\n    vector<T>\
-    \ expected = {T(1)};\n    for (int i = 0; i < 30; ++i) {\n        for (int j =\
-    \ i; j < 30; ++j) triangle[i][j] = rng();\n        vector<T> next(expected.size()\
+    \        }\n        for (int split = 1; split < n; ++split) {\n            for\
+    \ (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j)\n                a[i][j]\
+    \ = j + 1 >= i ? T(rng()) : T(0);\n            a[split][split - 1] = 0;\n    \
+    \        check(a);\n        }\n    }\n    vector<vector<T>> triangle(30, vector<T>(30));\n\
+    \    vector<T> expected = {T(1)};\n    for (int i = 0; i < 30; ++i) {\n      \
+    \  for (int j = i; j < 30; ++j) triangle[i][j] = rng();\n        vector<T> next(expected.size()\
     \ + 1);\n        for (int j = 0; j < (int)expected.size(); ++j) {\n          \
     \  next[j + 1] += expected[j];\n            next[j] -= triangle[i][i] * expected[j];\n\
     \        }\n        expected = std::move(next);\n    }\n    assert(characteristic_polynomial(triangle)\
@@ -342,15 +345,18 @@ data:
     \ check(a);\n        for (int i = 0; i < n; ++i) a[i][i] = 1;\n        check(a);\n\
     \        for (int i = 0; i + 1 < n; ++i) a[i][i + 1] = 1;\n        check(a);\n\
     \        for (int tc = 0; tc < 70; ++tc) {\n            for (auto& row : a) for\
-    \ (auto& x : row) x = rng();\n            check(a);\n        }\n    }\n    vector<vector<T>>\
-    \ triangle(30, vector<T>(30));\n    vector<T> expected = {T(1)};\n    for (int\
-    \ i = 0; i < 30; ++i) {\n        for (int j = i; j < 30; ++j) triangle[i][j] =\
-    \ rng();\n        vector<T> next(expected.size() + 1);\n        for (int j = 0;\
-    \ j < (int)expected.size(); ++j) {\n            next[j + 1] += expected[j];\n\
-    \            next[j] -= triangle[i][i] * expected[j];\n        }\n        expected\
-    \ = std::move(next);\n    }\n    assert(characteristic_polynomial(triangle) ==\
-    \ expected);\n    for (int i = 0; i < 30; ++i) for (int j = 0; j < i; ++j)\n \
-    \       swap(triangle[i][j], triangle[j][i]);\n    assert(characteristic_polynomial(triangle)\
+    \ (auto& x : row) x = rng();\n            check(a);\n        }\n        for (int\
+    \ split = 1; split < n; ++split) {\n            for (int i = 0; i < n; ++i) for\
+    \ (int j = 0; j < n; ++j)\n                a[i][j] = j + 1 >= i ? T(rng()) : T(0);\n\
+    \            a[split][split - 1] = 0;\n            check(a);\n        }\n    }\n\
+    \    vector<vector<T>> triangle(30, vector<T>(30));\n    vector<T> expected =\
+    \ {T(1)};\n    for (int i = 0; i < 30; ++i) {\n        for (int j = i; j < 30;\
+    \ ++j) triangle[i][j] = rng();\n        vector<T> next(expected.size() + 1);\n\
+    \        for (int j = 0; j < (int)expected.size(); ++j) {\n            next[j\
+    \ + 1] += expected[j];\n            next[j] -= triangle[i][i] * expected[j];\n\
+    \        }\n        expected = std::move(next);\n    }\n    assert(characteristic_polynomial(triangle)\
+    \ == expected);\n    for (int i = 0; i < 30; ++i) for (int j = 0; j < i; ++j)\n\
+    \        swap(triangle[i][j], triangle[j][i]);\n    assert(characteristic_polynomial(triangle)\
     \ == expected);\n}\n\nint main() {\n    check_field<2>();\n    check_field<3>();\n\
     \    check_field<5>();\n    check_field<998244353>();\n    for (int mask = 0;\
     \ mask < 512; ++mask) {\n        vector<vector<modint<2>>> a(3, vector<modint<2>>(3));\n\
@@ -364,7 +370,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_characteristic_polynomial.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 20:42:10+09:00'
+  timestamp: '2026-10-12 10:35:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_characteristic_polynomial.test.cpp

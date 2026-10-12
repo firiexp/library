@@ -638,11 +638,11 @@ data:
     \               value.pad_inplace((size_t)(scale - other.scale));\n          \
     \      value -= other.value;\n                scale = other.scale;\n         \
     \   }\n            return *this;\n        }\n\n        friend Scaled operator*(Scaled\
-    \ lhs, const Scaled &rhs) { return lhs *= rhs; }\n        friend Scaled operator+(Scaled\
-    \ lhs, const Scaled &rhs) { return lhs += rhs; }\n        friend Scaled operator-(Scaled\
-    \ lhs, const Scaled &rhs) { return lhs -= rhs; }\n\n        BasicBigInteger round()\
-    \ const {\n            if (scale >= 0) return value.pad((size_t)scale);\n    \
-    \        if (-scale > (long long)value.digits.size()) return BasicBigInteger();\n\
+    \ lhs, const Scaled &rhs) { lhs *= rhs; return lhs; }\n        friend Scaled operator+(Scaled\
+    \ lhs, const Scaled &rhs) { lhs += rhs; return lhs; }\n        friend Scaled operator-(Scaled\
+    \ lhs, const Scaled &rhs) { lhs -= rhs; return lhs; }\n\n        BasicBigInteger\
+    \ round() const {\n            if (scale >= 0) return value.pad((size_t)scale);\n\
+    \            if (-scale > (long long)value.digits.size()) return BasicBigInteger();\n\
     \            BasicBigInteger res = value.top(value.digits.size() - (size_t)(-scale));\n\
     \            if (value.digits[(size_t)(-scale - 1)] * 2 >= BASE) res += 1;\n \
     \           return res;\n        }\n\n        Scaled trunc(size_t count) const\
@@ -766,10 +766,10 @@ data:
     \ result = multiply_abs(*this, other);\n        result.negative = result_negative;\n\
     \        *this = std::move(result);\n        return *this;\n    }\n\n    friend\
     \ BasicBigInteger operator+(BasicBigInteger lhs, const BasicBigInteger &rhs) {\
-    \ return lhs += rhs; }\n    friend BasicBigInteger operator-(BasicBigInteger lhs,\
-    \ const BasicBigInteger &rhs) { return lhs -= rhs; }\n    friend BasicBigInteger\
-    \ operator*(BasicBigInteger lhs, const BasicBigInteger &rhs) { return lhs *= rhs;\
-    \ }\n\n    friend bool operator==(const BasicBigInteger &a, const BasicBigInteger\
+    \ lhs += rhs; return lhs; }\n    friend BasicBigInteger operator-(BasicBigInteger\
+    \ lhs, const BasicBigInteger &rhs) { lhs -= rhs; return lhs; }\n    friend BasicBigInteger\
+    \ operator*(BasicBigInteger lhs, const BasicBigInteger &rhs) { lhs *= rhs; return\
+    \ lhs; }\n\n    friend bool operator==(const BasicBigInteger &a, const BasicBigInteger\
     \ &b) { return compare(a, b) == 0; }\n    friend bool operator!=(const BasicBigInteger\
     \ &a, const BasicBigInteger &b) { return compare(a, b) != 0; }\n    friend bool\
     \ operator<(const BasicBigInteger &a, const BasicBigInteger &b) { return compare(a,\
@@ -809,11 +809,11 @@ data:
     \ -= take;\n        }\n        if (was_negative && discarded) {\n            add_small_abs(1);\n\
     \            negative = true;\n        }\n        normalize();\n        return\
     \ *this;\n    }\n\n    friend BasicBigInteger operator/(BasicBigInteger lhs, const\
-    \ BasicBigInteger &rhs) { return lhs /= rhs; }\n    friend BasicBigInteger operator%(BasicBigInteger\
-    \ lhs, const BasicBigInteger &rhs) { return lhs %= rhs; }\n    friend BasicBigInteger\
-    \ operator<<(BasicBigInteger lhs, int bits) { return lhs <<= bits; }\n    friend\
-    \ BasicBigInteger operator>>(BasicBigInteger lhs, int bits) { return lhs >>= bits;\
-    \ }\n};\n\nusing BigInteger = BasicBigInteger<BigIntegerDetail::DecimalRadix>;\n\
+    \ BasicBigInteger &rhs) { lhs /= rhs; return lhs; }\n    friend BasicBigInteger\
+    \ operator%(BasicBigInteger lhs, const BasicBigInteger &rhs) { lhs %= rhs; return\
+    \ lhs; }\n    friend BasicBigInteger operator<<(BasicBigInteger lhs, int bits)\
+    \ { lhs <<= bits; return lhs; }\n    friend BasicBigInteger operator>>(BasicBigInteger\
+    \ lhs, int bits) { lhs >>= bits; return lhs; }\n};\n\nusing BigInteger = BasicBigInteger<BigIntegerDetail::DecimalRadix>;\n\
     using HexBigInteger = BasicBigInteger<BigIntegerDetail::HexRadix>;\n\n\n\n/**\n\
     \ * @brief \u591A\u500D\u9577\u6574\u6570(BigInteger)\n */\n#line 15 \"test/yosupo_multiplication_of_hex_big_integers.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    auto to_upper_hex = [](string\
@@ -839,7 +839,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_multiplication_of_hex_big_integers.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-12 10:35:00+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_multiplication_of_hex_big_integers.test.cpp

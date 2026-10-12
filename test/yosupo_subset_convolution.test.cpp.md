@@ -276,35 +276,36 @@ data:
     \  fa[base + pc[s]] = a[s];\n        fb[base + pc[s]] = b[s];\n    }\n\n    for\
     \ (int i = 0; i < lg; ++i) {\n        int step = 1 << i;\n        int span = step\
     \ << 1;\n        for (int block = 0; block < n; block += span) {\n           \
-    \ for (int j = 0; j < step; ++j) {\n                int s = block + j;\n     \
-    \           int t = s + step;\n                T *as = fa.data() + s * w;\n  \
-    \              T *at = fa.data() + t * w;\n                T *bs = fb.data() +\
-    \ s * w;\n                T *bt = fb.data() + t * w;\n                for (int\
-    \ k = 0, lim = pc[s]; k <= lim; ++k) {\n                    at[k] += as[k];\n\
-    \                    bt[k] += bs[k];\n                }\n            }\n     \
-    \   }\n    }\n    for (int s = 0; s < n; ++s) {\n        T *as = fa.data() + s\
-    \ * w;\n        const T *bs = fb.data() + s * w;\n        int p = pc[s];\n   \
-    \     int lim = lim2[p];\n        for (int k = lim; k >= 0; --k) {\n         \
-    \   int l = max(0, k - p);\n            int r = min(k, p);\n            T sum\
-    \ = 0;\n            for (int i = l; i <= r; ++i) {\n                sum += as[i]\
-    \ * bs[k - i];\n            }\n            as[k] = sum;\n        }\n    }\n  \
-    \  for (int i = 0; i < lg; ++i) {\n        int step = 1 << i;\n        int span\
-    \ = step << 1;\n        for (int block = 0; block < n; block += span) {\n    \
-    \        for (int j = 0; j < step; ++j) {\n                int s = block + j;\n\
-    \                int t = s + step;\n                T *cs = fa.data() + s * w;\n\
-    \                T *ct = fa.data() + t * w;\n                for (int k = 0, lim\
-    \ = lim2[pc[s]]; k <= lim; ++k) {\n                    ct[k] -= cs[k];\n     \
-    \           }\n            }\n        }\n    }\n\n    vector<T> c(n);\n    for\
-    \ (int s = 0; s < n; ++s) {\n        c[s] = fa[s * w + pc[s]];\n    }\n    return\
-    \ c;\n}\n\n/**\n * @brief \u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset\
-    \ Convolution)\n */\n#line 20 \"test/yosupo_subset_convolution.test.cpp\"\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    int m = 1 << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m;\
-    \ ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for\
-    \ (int i = 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i]\
-    \ = x;\n    }\n    auto c = subset_convolution(a, b);\n    for (int i = 0; i <\
-    \ m; ++i) {\n        if (i) pr.print(' ');\n        pr.print(c[i].val);\n    }\n\
-    \    pr.println();\n    return 0;\n}\n"
+    \ int lower = pc[block >> (i + 1)];\n            for (int j = 0; j < step; ++j)\
+    \ {\n                int s = block + j;\n                int t = s + step;\n \
+    \               T *as = fa.data() + s * w;\n                T *at = fa.data()\
+    \ + t * w;\n                T *bs = fb.data() + s * w;\n                T *bt\
+    \ = fb.data() + t * w;\n                for (int k = lower, lim = pc[s]; k <=\
+    \ lim; ++k) {\n                    at[k] += as[k];\n                    bt[k]\
+    \ += bs[k];\n                }\n            }\n        }\n    }\n    for (int\
+    \ s = 0; s < n; ++s) {\n        T *as = fa.data() + s * w;\n        const T *bs\
+    \ = fb.data() + s * w;\n        int p = pc[s];\n        int lim = lim2[p];\n \
+    \       for (int k = lim; k >= p; --k) {\n            int l = max(0, k - p);\n\
+    \            int r = min(k, p);\n            T sum = 0;\n            for (int\
+    \ i = l; i <= r; ++i) {\n                sum += as[i] * bs[k - i];\n         \
+    \   }\n            as[k] = sum;\n        }\n    }\n    for (int i = 0; i < lg;\
+    \ ++i) {\n        int step = 1 << i;\n        int span = step << 1;\n        for\
+    \ (int block = 0; block < n; block += span) {\n            for (int j = 0; j <\
+    \ step; ++j) {\n                int s = block + j;\n                int t = s\
+    \ + step;\n                T *cs = fa.data() + s * w;\n                T *ct =\
+    \ fa.data() + t * w;\n                for (int k = pc[t], lim = lim2[pc[s]]; k\
+    \ <= lim; ++k) {\n                    ct[k] -= cs[k];\n                }\n   \
+    \         }\n        }\n    }\n\n    vector<T> c(n);\n    for (int s = 0; s <\
+    \ n; ++s) {\n        c[s] = fa[s * w + pc[s]];\n    }\n    return c;\n}\n\n/**\n\
+    \ * @brief \u90E8\u5206\u96C6\u5408\u7573\u307F\u8FBC\u307F(Subset Convolution)\n\
+    \ */\n#line 20 \"test/yosupo_subset_convolution.test.cpp\"\n\nint main() {\n \
+    \   Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    int m = 1\
+    \ << n;\n    vector<mint> a(m), b(m);\n    for (int i = 0; i < m; ++i) {\n   \
+    \     int x;\n        sc.read(x);\n        a[i] = x;\n    }\n    for (int i =\
+    \ 0; i < m; ++i) {\n        int x;\n        sc.read(x);\n        b[i] = x;\n \
+    \   }\n    auto c = subset_convolution(a, b);\n    for (int i = 0; i < m; ++i)\
+    \ {\n        if (i) pr.print(' ');\n        pr.print(c[i].val);\n    }\n    pr.println();\n\
+    \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/subset_convolution\"\n\n\
     #include <bits/stdc++.h>\n\nstatic const int MOD = 998244353;\nusing ll = long\
     \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
@@ -325,7 +326,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_subset_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-12 10:35:19+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_subset_convolution.test.cpp

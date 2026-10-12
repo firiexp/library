@@ -47,6 +47,9 @@ data:
     path: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
     title: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_inverse_matrix.test.cpp
+    title: test/yosupo_aplusb_inverse_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -234,6 +237,7 @@ data:
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_sum_of_totient.test.cpp
   - test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+  - test/yosupo_aplusb_inverse_matrix.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
   - test/yosupo_static_rectangle_add_rectangle_sum.test.cpp

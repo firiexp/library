@@ -267,29 +267,27 @@ data:
     \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
     \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/inverse_matrix.cpp\"\
     \n\nvector<vector<mint>> inverse_matrix(const vector<vector<mint>> &A) {\n   \
-    \ int n = A.size();\n    vector<vector<mint>> B(n, vector<mint>(2 * n));\n   \
-    \ for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) B[i][j] =\
-    \ A[i][j];\n        B[i][n + i] = 1;\n    }\n    int rank = 0;\n    for (int col\
-    \ = 0; col < n; ++col) {\n        int pivot = -1;\n        for (int row = rank;\
-    \ row < n; ++row) {\n            if (B[row][col].val) {\n                pivot\
-    \ = row;\n                break;\n            }\n        }\n        if (pivot\
-    \ == -1) return {};\n        swap(B[pivot], B[rank]);\n        mint inv = B[rank][col].inv();\n\
-    \        for (int j = 0; j < 2 * n; ++j) B[rank][j] *= inv;\n        for (int\
-    \ row = 0; row < n; ++row) {\n            if (row != rank && B[row][col].val)\
-    \ {\n                mint coeff = B[row][col];\n                for (int j = 0;\
-    \ j < 2 * n; ++j) {\n                    B[row][j] -= B[rank][j] * coeff;\n  \
-    \              }\n            }\n        }\n        ++rank;\n    }\n    vector<vector<mint>>\
-    \ res(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
-    \ j = 0; j < n; ++j) res[i][j] = B[i][n + j];\n    }\n    return res;\n}\n\n/**\n\
-    \ * @brief \u9006\u884C\u5217(Inverse Matrix)\n */\n#line 19 \"test/yosupo_inverse_matrix.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    vector<vector<mint>> A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i)\
-    \ {\n        for (int j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n\
-    \            A[i][j] = x;\n        }\n    }\n\n    auto B = inverse_matrix(A);\n\
-    \    if (B.empty()) {\n        pr.println(-1);\n        return 0;\n    }\n   \
-    \ for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n     \
-    \       pr.print(B[i][j].val);\n            pr.print(j + 1 == n ? '\\n' : ' ');\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \ int n = A.size();\n    auto B = A;\n    vector<int> pivots(n);\n    for (int\
+    \ col = 0; col < n; ++col) {\n        int pivot = col;\n        while (pivot <\
+    \ n && B[pivot][col].val == 0) ++pivot;\n        if (pivot == n) return {};\n\
+    \        pivots[col] = pivot;\n        swap(B[pivot], B[col]);\n        mint inv\
+    \ = B[col][col].inv();\n        B[col][col] = 1;\n        for (int j = 0; j <\
+    \ n; ++j) B[col][j] *= inv;\n        for (int row = 0; row < n; ++row) {\n   \
+    \         if (row != col && B[row][col].val) {\n                mint coeff = B[row][col];\n\
+    \                B[row][col] = 0;\n                for (int j = 0; j < n; ++j)\
+    \ {\n                    B[row][j] -= B[col][j] * coeff;\n                }\n\
+    \            }\n        }\n    }\n    for (int col = n - 1; col >= 0; --col)\n\
+    \        if (pivots[col] != col)\n            for (auto& row : B) swap(row[col],\
+    \ row[pivots[col]]);\n    return B;\n}\n\n/**\n * @brief \u9006\u884C\u5217(Inverse\
+    \ Matrix)\n */\n#line 19 \"test/yosupo_inverse_matrix.test.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<mint>>\
+    \ A(n, vector<mint>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int\
+    \ j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n        \
+    \    A[i][j] = x;\n        }\n    }\n\n    auto B = inverse_matrix(A);\n    if\
+    \ (B.empty()) {\n        pr.println(-1);\n        return 0;\n    }\n    for (int\
+    \ i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            pr.print(B[i][j].val);\n\
+    \            pr.print(j + 1 == n ? '\\n' : ' ');\n        }\n    }\n    return\
+    \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/inverse_matrix\"\n\n#include\
     \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
     \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
@@ -311,7 +309,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_inverse_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-12 10:35:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_inverse_matrix.test.cpp

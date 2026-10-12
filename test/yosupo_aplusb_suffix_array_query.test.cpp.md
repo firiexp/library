@@ -306,46 +306,53 @@ data:
     \        for (int i = 0; i < n; ++i) rank[sa[i]] = i;\n        rmq.build(lcp(s,\
     \ sa));\n    }\n\npublic:\n    explicit SuffixArrayQuery(const string& s) { initialize(s);\
     \ }\n\n    template<class T>\n    explicit SuffixArrayQuery(const vector<T>& s)\
-    \ { initialize(s); }\n\n    int lce(int i, int j) const {\n        if (i == j)\
-    \ return n - i;\n        if (i == n || j == n) return 0;\n        int a = rank[i],\
-    \ b = rank[j];\n        if (a > b) swap(a, b);\n        return rmq.query(a, b);\n\
-    \    }\n\n    int compare(int l1, int r1, int l2, int r2) const {\n        int\
-    \ len1 = r1 - l1, len2 = r2 - l2;\n        if (lce(l1, l2) >= min(len1, len2))\n\
-    \            return (len1 > len2) - (len1 < len2);\n        return rank[l1] <\
-    \ rank[l2] ? -1 : 1;\n    }\n};\n\n\n\n/**\n * @brief \u6700\u9577\u5171\u901A\
-    \u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57\u5217\u306E\u8F9E\u66F8\u9806\
-    \u6BD4\u8F03\n */\n#line 10 \"test/yosupo_aplusb_suffix_array_query.test.cpp\"\
-    \n\ntemplate<class Sequence>\nvoid check(const Sequence& s, const vector<int>&\
-    \ values) {\n    auto original = s;\n    const SuffixArrayQuery q(s);\n    assert(s\
-    \ == original);\n    int n = (int)s.size();\n    for (int i = 0; i <= n; ++i)\
-    \ for (int j = 0; j <= n; ++j) {\n        int common = 0;\n        while (i +\
-    \ common < n && j + common < n && values[i + common] == values[j + common]) ++common;\n\
-    \        assert(q.lce(i, j) == common);\n    }\n    for (int l1 = 0; l1 <= n;\
-    \ ++l1) for (int r1 = l1; r1 <= n; ++r1)\n        for (int l2 = 0; l2 <= n; ++l2)\
-    \ for (int r2 = l2; r2 <= n; ++r2) {\n            vector<int> a(values.begin()\
-    \ + l1, values.begin() + r1);\n            vector<int> b(values.begin() + l2,\
-    \ values.begin() + r2);\n            assert(q.compare(l1, r1, l2, r2) == (a >\
-    \ b) - (a < b));\n        }\n}\n\nint main() {\n    for (int n = 0, total = 1;\
-    \ n <= 6; ++n, total *= 3) {\n        for (int mask = 0; mask < total; ++mask)\
-    \ {\n            string s;\n            vector<int> values;\n            int code\
-    \ = mask;\n            for (int i = 0; i < n; ++i) {\n                int value\
-    \ = vector<int>{0, 128, 255}[code % 3];\n                code /= 3;\n        \
-    \        s.push_back((char)value);\n                values.push_back(value);\n\
-    \            }\n            check(s, values);\n        }\n    }\n    mt19937 rng(146);\n\
-    \    for (int tc = 0; tc < 250; ++tc) {\n        vector<int> values(rng() % 13);\n\
-    \        for (int& x : values) x = (int)(rng() % 9) - 4;\n        check(values,\
-    \ values);\n    }\n    check(vector<int>{INT_MIN, 0, INT_MAX, INT_MIN}, {INT_MIN,\
-    \ 0, INT_MAX, INT_MIN});\n    Scanner sc;\n    Printer pr;\n    long long a, b;\n\
-    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \ { initialize(s); }\n\n    int suffix_rank(int i) const { return rank[i]; }\n\
+    \n    int lce(int i, int j) const {\n        if (i == j) return n - i;\n     \
+    \   if (i == n || j == n) return 0;\n        int a = rank[i], b = rank[j];\n \
+    \       if (a > b) swap(a, b);\n        return rmq.query(a, b);\n    }\n\n   \
+    \ int compare(int l1, int r1, int l2, int r2) const {\n        int len1 = r1 -\
+    \ l1, len2 = r2 - l2;\n        if (lce(l1, l2) >= min(len1, len2))\n         \
+    \   return (len1 > len2) - (len1 < len2);\n        return rank[l1] < rank[l2]\
+    \ ? -1 : 1;\n    }\n};\n\n\n\n/**\n * @brief \u6700\u9577\u5171\u901A\u63A5\u982D\
+    \u8F9E\u30FB\u90E8\u5206\u6587\u5B57\u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03\
+    \n */\n#line 10 \"test/yosupo_aplusb_suffix_array_query.test.cpp\"\n\ntemplate<class\
+    \ Sequence>\nvoid check(const Sequence& s, const vector<int>& values) {\n    auto\
+    \ original = s;\n    const SuffixArrayQuery q(s);\n    assert(s == original);\n\
+    \    int n = (int)s.size();\n    for (int i = 0; i < n; ++i) {\n        int rank\
+    \ = 0;\n        for (int j = 0; j < n; ++j)\n            rank += lexicographical_compare(values.begin()\
+    \ + j, values.end(), values.begin() + i, values.end());\n        assert(q.suffix_rank(i)\
+    \ == rank);\n    }\n    for (int i = 0; i <= n; ++i) for (int j = 0; j <= n; ++j)\
+    \ {\n        int common = 0;\n        while (i + common < n && j + common < n\
+    \ && values[i + common] == values[j + common]) ++common;\n        assert(q.lce(i,\
+    \ j) == common);\n    }\n    for (int l1 = 0; l1 <= n; ++l1) for (int r1 = l1;\
+    \ r1 <= n; ++r1)\n        for (int l2 = 0; l2 <= n; ++l2) for (int r2 = l2; r2\
+    \ <= n; ++r2) {\n            vector<int> a(values.begin() + l1, values.begin()\
+    \ + r1);\n            vector<int> b(values.begin() + l2, values.begin() + r2);\n\
+    \            assert(q.compare(l1, r1, l2, r2) == (a > b) - (a < b));\n       \
+    \ }\n}\n\nint main() {\n    for (int n = 0, total = 1; n <= 6; ++n, total *= 3)\
+    \ {\n        for (int mask = 0; mask < total; ++mask) {\n            string s;\n\
+    \            vector<int> values;\n            int code = mask;\n            for\
+    \ (int i = 0; i < n; ++i) {\n                int value = vector<int>{0, 128, 255}[code\
+    \ % 3];\n                code /= 3;\n                s.push_back((char)value);\n\
+    \                values.push_back(value);\n            }\n            check(s,\
+    \ values);\n        }\n    }\n    mt19937 rng(146);\n    for (int tc = 0; tc <\
+    \ 250; ++tc) {\n        vector<int> values(rng() % 13);\n        for (int& x :\
+    \ values) x = (int)(rng() % 9) - 4;\n        check(values, values);\n    }\n \
+    \   check(vector<int>{INT_MIN, 0, INT_MAX, INT_MIN}, {INT_MIN, 0, INT_MAX, INT_MIN});\n\
+    \    Scanner sc;\n    Printer pr;\n    long long a, b;\n    sc.read(a, b);\n \
+    \   pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../string/suffix_array.cpp\"\
     \n#include \"../string/suffix_array_query.cpp\"\n#include \"../string/suffix_array.cpp\"\
     \n#include \"../string/suffix_array_query.cpp\"\n\ntemplate<class Sequence>\n\
     void check(const Sequence& s, const vector<int>& values) {\n    auto original\
     \ = s;\n    const SuffixArrayQuery q(s);\n    assert(s == original);\n    int\
-    \ n = (int)s.size();\n    for (int i = 0; i <= n; ++i) for (int j = 0; j <= n;\
-    \ ++j) {\n        int common = 0;\n        while (i + common < n && j + common\
-    \ < n && values[i + common] == values[j + common]) ++common;\n        assert(q.lce(i,\
+    \ n = (int)s.size();\n    for (int i = 0; i < n; ++i) {\n        int rank = 0;\n\
+    \        for (int j = 0; j < n; ++j)\n            rank += lexicographical_compare(values.begin()\
+    \ + j, values.end(), values.begin() + i, values.end());\n        assert(q.suffix_rank(i)\
+    \ == rank);\n    }\n    for (int i = 0; i <= n; ++i) for (int j = 0; j <= n; ++j)\
+    \ {\n        int common = 0;\n        while (i + common < n && j + common < n\
+    \ && values[i + common] == values[j + common]) ++common;\n        assert(q.lce(i,\
     \ j) == common);\n    }\n    for (int l1 = 0; l1 <= n; ++l1) for (int r1 = l1;\
     \ r1 <= n; ++r1)\n        for (int l2 = 0; l2 <= n; ++l2) for (int r2 = l2; r2\
     \ <= n; ++r2) {\n            vector<int> a(values.begin() + l1, values.begin()\
@@ -372,7 +379,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_suffix_array_query.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:24:46+09:00'
+  timestamp: '2026-10-12 10:35:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_suffix_array_query.test.cpp

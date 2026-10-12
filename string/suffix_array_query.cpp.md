@@ -104,14 +104,15 @@ data:
     \ i < n; ++i) rank[sa[i]] = i;\n        rmq.build(lcp(s, sa));\n    }\n\npublic:\n\
     \    explicit SuffixArrayQuery(const string& s) { initialize(s); }\n\n    template<class\
     \ T>\n    explicit SuffixArrayQuery(const vector<T>& s) { initialize(s); }\n\n\
-    \    int lce(int i, int j) const {\n        if (i == j) return n - i;\n      \
-    \  if (i == n || j == n) return 0;\n        int a = rank[i], b = rank[j];\n  \
-    \      if (a > b) swap(a, b);\n        return rmq.query(a, b);\n    }\n\n    int\
-    \ compare(int l1, int r1, int l2, int r2) const {\n        int len1 = r1 - l1,\
-    \ len2 = r2 - l2;\n        if (lce(l1, l2) >= min(len1, len2))\n            return\
-    \ (len1 > len2) - (len1 < len2);\n        return rank[l1] < rank[l2] ? -1 : 1;\n\
-    \    }\n};\n\n\n\n/**\n * @brief \u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\
-    \u90E8\u5206\u6587\u5B57\u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03\n */\n"
+    \    int suffix_rank(int i) const { return rank[i]; }\n\n    int lce(int i, int\
+    \ j) const {\n        if (i == j) return n - i;\n        if (i == n || j == n)\
+    \ return 0;\n        int a = rank[i], b = rank[j];\n        if (a > b) swap(a,\
+    \ b);\n        return rmq.query(a, b);\n    }\n\n    int compare(int l1, int r1,\
+    \ int l2, int r2) const {\n        int len1 = r1 - l1, len2 = r2 - l2;\n     \
+    \   if (lce(l1, l2) >= min(len1, len2))\n            return (len1 > len2) - (len1\
+    \ < len2);\n        return rank[l1] < rank[l2] ? -1 : 1;\n    }\n};\n\n\n\n/**\n\
+    \ * @brief \u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57\
+    \u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03\n */\n"
   code: "#ifndef FIRIEXP_LIBRARY_STRING_SUFFIX_ARRAY_QUERY_CPP\n#define FIRIEXP_LIBRARY_STRING_SUFFIX_ARRAY_QUERY_CPP\n\
     \n#include \"suffix_array.cpp\"\n#include \"../datastructure/sparsetable.cpp\"\
     \n\nclass SuffixArrayQuery {\n    struct Minimum {\n        using T = int;\n \
@@ -122,14 +123,15 @@ data:
     \ i < n; ++i) rank[sa[i]] = i;\n        rmq.build(lcp(s, sa));\n    }\n\npublic:\n\
     \    explicit SuffixArrayQuery(const string& s) { initialize(s); }\n\n    template<class\
     \ T>\n    explicit SuffixArrayQuery(const vector<T>& s) { initialize(s); }\n\n\
-    \    int lce(int i, int j) const {\n        if (i == j) return n - i;\n      \
-    \  if (i == n || j == n) return 0;\n        int a = rank[i], b = rank[j];\n  \
-    \      if (a > b) swap(a, b);\n        return rmq.query(a, b);\n    }\n\n    int\
-    \ compare(int l1, int r1, int l2, int r2) const {\n        int len1 = r1 - l1,\
-    \ len2 = r2 - l2;\n        if (lce(l1, l2) >= min(len1, len2))\n            return\
-    \ (len1 > len2) - (len1 < len2);\n        return rank[l1] < rank[l2] ? -1 : 1;\n\
-    \    }\n};\n\n#endif\n\n/**\n * @brief \u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\
-    \u30FB\u90E8\u5206\u6587\u5B57\u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03\n */\n"
+    \    int suffix_rank(int i) const { return rank[i]; }\n\n    int lce(int i, int\
+    \ j) const {\n        if (i == j) return n - i;\n        if (i == n || j == n)\
+    \ return 0;\n        int a = rank[i], b = rank[j];\n        if (a > b) swap(a,\
+    \ b);\n        return rmq.query(a, b);\n    }\n\n    int compare(int l1, int r1,\
+    \ int l2, int r2) const {\n        int len1 = r1 - l1, len2 = r2 - l2;\n     \
+    \   if (lce(l1, l2) >= min(len1, len2))\n            return (len1 > len2) - (len1\
+    \ < len2);\n        return rank[l1] < rank[l2] ? -1 : 1;\n    }\n};\n\n#endif\n\
+    \n/**\n * @brief \u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\
+    \u5B57\u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03\n */\n"
   dependsOn:
   - string/suffix_array.cpp
   - datastructure/sparsetable.cpp
@@ -137,7 +139,7 @@ data:
   path: string/suffix_array_query.cpp
   requiredBy:
   - string/enumerate_runs.cpp
-  timestamp: '2026-10-12 01:24:46+09:00'
+  timestamp: '2026-10-12 10:35:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_suffix_array_query.test.cpp
@@ -159,13 +161,15 @@ title: "\u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57
 ## できること
 - `SuffixArrayQuery q(s)`
   `string` または `vector<T>` から構築する。入力は変更しない
+- `int suffix_rank(int i) const`
+  `s[i..N)` の辞書順の順位を $0$ 以上 $N$ 未満で返す。$0\le i<N$ が必要
 - `int lce(int i, int j) const`
   `s[i..N)` と `s[j..N)` の最長共通接頭辞の長さを返す
 - `int compare(int l1, int r1, int l2, int r2) const`
   `s[l1..r1)` と `s[l2..r2)` を辞書順で比較し、小さい・等しい・大きい場合にそれぞれ `-1`・`0`・`1` を返す
 
 ## 使い方
-添字は $0$ 以上 $N$ 以下、区間は半開区間で指定する。空区間や末尾 $N$ も指定できる。
+`lce` と `compare` の添字は $0$ 以上 $N$ 以下、区間は半開区間で指定する。空区間や末尾 $N$ も指定できる。
 文字列は符号なし byte 順で比較する。`vector<T>` では `<` と `==`・`!=` が整合することを前提とする。
 
 ```cpp

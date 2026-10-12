@@ -279,15 +279,15 @@ data:
     \ + 1].resize(i + 2);\n        for (int j = 0; j <= i; ++j) {\n            p[i\
     \ + 1][j + 1] += p[i][j];\n            p[i + 1][j] -= a[i][i] * p[i][j];\n   \
     \     }\n        T product = 1;\n        for (int k = i - 1; k >= 0; --k) {\n\
-    \            product *= a[k + 1][k];\n            T factor = product * a[k][i];\n\
-    \            for (int j = 0; j <= k; ++j) p[i + 1][j] -= factor * p[k][j];\n \
-    \       }\n    }\n    return p[n];\n}\n\n/**\n * @brief \u7279\u6027\u591A\u9805\
-    \u5F0F\n */\n#line 12 \"test/yosupo_characteristic_polynomial.test.cpp\"\n\nint\
-    \ main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n  \
-    \  vector<vector<mint>> a(n, vector<mint>(n));\n    for (auto& row : a) for (auto&\
-    \ x : row) {\n        int value;\n        sc.read(value);\n        x = value;\n\
-    \    }\n    auto p = characteristic_polynomial(std::move(a));\n    for (int i\
-    \ = 0; i <= n; ++i) {\n        if (i) pr.print(' ');\n        pr.print(p[i].val);\n\
+    \            if (a[k + 1][k] == T(0)) break;\n            product *= a[k + 1][k];\n\
+    \            T factor = product * a[k][i];\n            for (int j = 0; j <= k;\
+    \ ++j) p[i + 1][j] -= factor * p[k][j];\n        }\n    }\n    return p[n];\n\
+    }\n\n/**\n * @brief \u7279\u6027\u591A\u9805\u5F0F\n */\n#line 12 \"test/yosupo_characteristic_polynomial.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\
+    \    vector<vector<mint>> a(n, vector<mint>(n));\n    for (auto& row : a) for\
+    \ (auto& x : row) {\n        int value;\n        sc.read(value);\n        x =\
+    \ value;\n    }\n    auto p = characteristic_polynomial(std::move(a));\n    for\
+    \ (int i = 0; i <= n; ++i) {\n        if (i) pr.print(' ');\n        pr.print(p[i].val);\n\
     \    }\n    pr.println();\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/characteristic_polynomial\"\
     \n\n#include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\nusing\
@@ -307,7 +307,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_characteristic_polynomial.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 20:42:10+09:00'
+  timestamp: '2026-10-12 10:35:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_characteristic_polynomial.test.cpp

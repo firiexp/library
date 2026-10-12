@@ -304,18 +304,19 @@ data:
     \ i < n; ++i) rank[sa[i]] = i;\n        rmq.build(lcp(s, sa));\n    }\n\npublic:\n\
     \    explicit SuffixArrayQuery(const string& s) { initialize(s); }\n\n    template<class\
     \ T>\n    explicit SuffixArrayQuery(const vector<T>& s) { initialize(s); }\n\n\
-    \    int lce(int i, int j) const {\n        if (i == j) return n - i;\n      \
-    \  if (i == n || j == n) return 0;\n        int a = rank[i], b = rank[j];\n  \
-    \      if (a > b) swap(a, b);\n        return rmq.query(a, b);\n    }\n\n    int\
-    \ compare(int l1, int r1, int l2, int r2) const {\n        int len1 = r1 - l1,\
-    \ len2 = r2 - l2;\n        if (lce(l1, l2) >= min(len1, len2))\n            return\
-    \ (len1 > len2) - (len1 < len2);\n        return rank[l1] < rank[l2] ? -1 : 1;\n\
-    \    }\n};\n\n\n\n/**\n * @brief \u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\
-    \u90E8\u5206\u6587\u5B57\u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03\n */\n#line\
-    \ 7 \"test/yosupo_zalgorithm_suffix_array_query.test.cpp\"\n\nint main() {\n \
-    \   Scanner sc;\n    Printer pr;\n    string s;\n    sc.read(s);\n    const SuffixArrayQuery\
-    \ q(s);\n    for (int i = 0; i < (int)s.size(); ++i) {\n        if (i) pr.print('\
-    \ ');\n        pr.print(q.lce(0, i));\n    }\n    pr.println();\n}\n"
+    \    int suffix_rank(int i) const { return rank[i]; }\n\n    int lce(int i, int\
+    \ j) const {\n        if (i == j) return n - i;\n        if (i == n || j == n)\
+    \ return 0;\n        int a = rank[i], b = rank[j];\n        if (a > b) swap(a,\
+    \ b);\n        return rmq.query(a, b);\n    }\n\n    int compare(int l1, int r1,\
+    \ int l2, int r2) const {\n        int len1 = r1 - l1, len2 = r2 - l2;\n     \
+    \   if (lce(l1, l2) >= min(len1, len2))\n            return (len1 > len2) - (len1\
+    \ < len2);\n        return rank[l1] < rank[l2] ? -1 : 1;\n    }\n};\n\n\n\n/**\n\
+    \ * @brief \u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57\
+    \u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03\n */\n#line 7 \"test/yosupo_zalgorithm_suffix_array_query.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    string s;\n    sc.read(s);\n\
+    \    const SuffixArrayQuery q(s);\n    for (int i = 0; i < (int)s.size(); ++i)\
+    \ {\n        if (i) pr.print(' ');\n        pr.print(q.lce(0, i));\n    }\n  \
+    \  pr.println();\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/zalgorithm\"\n\n#include\
     \ <bits/stdc++.h>\nusing namespace std;\n#include \"../util/fastio.cpp\"\n#include\
     \ \"../string/suffix_array_query.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
@@ -330,7 +331,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_zalgorithm_suffix_array_query.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:24:46+09:00'
+  timestamp: '2026-10-12 10:35:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_zalgorithm_suffix_array_query.test.cpp

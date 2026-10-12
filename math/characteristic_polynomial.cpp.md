@@ -29,10 +29,11 @@ data:
     \  p[0] = {T(1)};\n    for (int i = 0; i < n; ++i) {\n        p[i + 1].resize(i\
     \ + 2);\n        for (int j = 0; j <= i; ++j) {\n            p[i + 1][j + 1] +=\
     \ p[i][j];\n            p[i + 1][j] -= a[i][i] * p[i][j];\n        }\n       \
-    \ T product = 1;\n        for (int k = i - 1; k >= 0; --k) {\n            product\
-    \ *= a[k + 1][k];\n            T factor = product * a[k][i];\n            for\
-    \ (int j = 0; j <= k; ++j) p[i + 1][j] -= factor * p[k][j];\n        }\n    }\n\
-    \    return p[n];\n}\n\n/**\n * @brief \u7279\u6027\u591A\u9805\u5F0F\n */\n"
+    \ T product = 1;\n        for (int k = i - 1; k >= 0; --k) {\n            if (a[k\
+    \ + 1][k] == T(0)) break;\n            product *= a[k + 1][k];\n            T\
+    \ factor = product * a[k][i];\n            for (int j = 0; j <= k; ++j) p[i +\
+    \ 1][j] -= factor * p[k][j];\n        }\n    }\n    return p[n];\n}\n\n/**\n *\
+    \ @brief \u7279\u6027\u591A\u9805\u5F0F\n */\n"
   code: "template<class T>\nvector<T> characteristic_polynomial(vector<vector<T>>\
     \ a) {\n    int n = (int)a.size();\n    for (int k = 0; k + 2 < n; ++k) {\n  \
     \      int pivot = k + 1;\n        while (pivot < n && a[pivot][k] == T(0)) ++pivot;\n\
@@ -47,15 +48,15 @@ data:
     \ + 1].resize(i + 2);\n        for (int j = 0; j <= i; ++j) {\n            p[i\
     \ + 1][j + 1] += p[i][j];\n            p[i + 1][j] -= a[i][i] * p[i][j];\n   \
     \     }\n        T product = 1;\n        for (int k = i - 1; k >= 0; --k) {\n\
-    \            product *= a[k + 1][k];\n            T factor = product * a[k][i];\n\
-    \            for (int j = 0; j <= k; ++j) p[i + 1][j] -= factor * p[k][j];\n \
-    \       }\n    }\n    return p[n];\n}\n\n/**\n * @brief \u7279\u6027\u591A\u9805\
-    \u5F0F\n */\n"
+    \            if (a[k + 1][k] == T(0)) break;\n            product *= a[k + 1][k];\n\
+    \            T factor = product * a[k][i];\n            for (int j = 0; j <= k;\
+    \ ++j) p[i + 1][j] -= factor * p[k][j];\n        }\n    }\n    return p[n];\n\
+    }\n\n/**\n * @brief \u7279\u6027\u591A\u9805\u5F0F\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/characteristic_polynomial.cpp
   requiredBy: []
-  timestamp: '2026-10-11 20:42:10+09:00'
+  timestamp: '2026-10-12 10:35:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_characteristic_polynomial.test.cpp
@@ -87,4 +88,5 @@ auto p = characteristic_polynomial(a);
 
 ## 実装上の補足
 相似変換で上 Hessenberg 形にし、先頭主小行列の特性多項式を順に計算する。
+副対角が零になった位置で、それより前の多項式からの寄与を打ち切る。上三角・対角行列では全体が $O(N^2)$ 時間となる。
 整数 $1,\ldots,N$ による除算は使わず、標数が $N$ 以下の体にも対応する。

@@ -224,6 +224,9 @@ data:
     path: test/yosupo_aplusb_interval_set.test.cpp
     title: test/yosupo_aplusb_interval_set.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_inverse_matrix.test.cpp
+    title: test/yosupo_aplusb_inverse_matrix.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_is_palindrome.test.cpp
     title: test/yosupo_aplusb_is_palindrome.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1547,6 +1550,7 @@ data:
   - test/yosupo_primitive_root.test.cpp
   - test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
   - test/aoj_grl_5_a_diameter.test.cpp
+  - test/yosupo_aplusb_inverse_matrix.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
   - test/yosupo_aplusb_crt.test.cpp
   - test/yosupo_bitwise_or_convolution.test.cpp
