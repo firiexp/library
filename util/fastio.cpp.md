@@ -122,6 +122,9 @@ data:
     path: test/yosupo_aplusb_bellman_ford.test.cpp
     title: test/yosupo_aplusb_bellman_ford.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_biginteger.test.cpp
+    title: test/yosupo_aplusb_biginteger.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_binarytrie.test.cpp
     title: test/yosupo_aplusb_binarytrie.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1351,6 +1354,7 @@ data:
   - test/yosupo_aplusb_sliding_window.test.cpp
   - test/yosupo_segment_add_get_min.test.cpp
   - test/yosupo_aplusb_order_statistic_tree.test.cpp
+  - test/yosupo_aplusb_biginteger.test.cpp
   - test/yosupo_persistent_unionfind_undoableunionfind.test.cpp
   - test/yosupo_addition_of_big_integers.test.cpp
   - test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp

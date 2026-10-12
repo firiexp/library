@@ -868,6 +868,9 @@ data:
       path: test/yosupo_aplusb_bellman_ford.test.cpp
       title: test/yosupo_aplusb_bellman_ford.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_biginteger.test.cpp
+      title: test/yosupo_aplusb_biginteger.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_binarytrie.test.cpp
       title: test/yosupo_aplusb_binarytrie.test.cpp
     - icon: ':heavy_check_mark:'
