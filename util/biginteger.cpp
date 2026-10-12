@@ -428,9 +428,9 @@ class BasicBigInteger {
             return *this;
         }
 
-        friend Scaled operator*(Scaled lhs, const Scaled &rhs) { return lhs *= rhs; }
-        friend Scaled operator+(Scaled lhs, const Scaled &rhs) { return lhs += rhs; }
-        friend Scaled operator-(Scaled lhs, const Scaled &rhs) { return lhs -= rhs; }
+        friend Scaled operator*(Scaled lhs, const Scaled &rhs) { lhs *= rhs; return lhs; }
+        friend Scaled operator+(Scaled lhs, const Scaled &rhs) { lhs += rhs; return lhs; }
+        friend Scaled operator-(Scaled lhs, const Scaled &rhs) { lhs -= rhs; return lhs; }
 
         BasicBigInteger round() const {
             if (scale >= 0) return value.pad((size_t)scale);
@@ -711,9 +711,9 @@ public:
         return *this;
     }
 
-    friend BasicBigInteger operator+(BasicBigInteger lhs, const BasicBigInteger &rhs) { return lhs += rhs; }
-    friend BasicBigInteger operator-(BasicBigInteger lhs, const BasicBigInteger &rhs) { return lhs -= rhs; }
-    friend BasicBigInteger operator*(BasicBigInteger lhs, const BasicBigInteger &rhs) { return lhs *= rhs; }
+    friend BasicBigInteger operator+(BasicBigInteger lhs, const BasicBigInteger &rhs) { lhs += rhs; return lhs; }
+    friend BasicBigInteger operator-(BasicBigInteger lhs, const BasicBigInteger &rhs) { lhs -= rhs; return lhs; }
+    friend BasicBigInteger operator*(BasicBigInteger lhs, const BasicBigInteger &rhs) { lhs *= rhs; return lhs; }
 
     friend bool operator==(const BasicBigInteger &a, const BasicBigInteger &b) { return compare(a, b) == 0; }
     friend bool operator!=(const BasicBigInteger &a, const BasicBigInteger &b) { return compare(a, b) != 0; }
@@ -792,10 +792,10 @@ public:
         return *this;
     }
 
-    friend BasicBigInteger operator/(BasicBigInteger lhs, const BasicBigInteger &rhs) { return lhs /= rhs; }
-    friend BasicBigInteger operator%(BasicBigInteger lhs, const BasicBigInteger &rhs) { return lhs %= rhs; }
-    friend BasicBigInteger operator<<(BasicBigInteger lhs, int bits) { return lhs <<= bits; }
-    friend BasicBigInteger operator>>(BasicBigInteger lhs, int bits) { return lhs >>= bits; }
+    friend BasicBigInteger operator/(BasicBigInteger lhs, const BasicBigInteger &rhs) { lhs /= rhs; return lhs; }
+    friend BasicBigInteger operator%(BasicBigInteger lhs, const BasicBigInteger &rhs) { lhs %= rhs; return lhs; }
+    friend BasicBigInteger operator<<(BasicBigInteger lhs, int bits) { lhs <<= bits; return lhs; }
+    friend BasicBigInteger operator>>(BasicBigInteger lhs, int bits) { lhs >>= bits; return lhs; }
 };
 
 using BigInteger = BasicBigInteger<BigIntegerDetail::DecimalRadix>;
