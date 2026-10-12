@@ -36,7 +36,7 @@ tags: 木
 - `int dist(int u, int v)`
   パス長を返す
 - `int jump(int u, int v, int k)`
-  `u` から `v` へ `k` 辺進んだ頂点を返す。非連結、`k < 0`、パス長を超える場合は `-1`。`k = 0` なら `u`、パス長と等しければ `v`
+  `u` から `v` へ `k` 辺進んだ頂点を返す。非連結の場合、または `k` が負かパス長を超える場合は `-1`
 
 ## 使い方
 `LinkCutTree<M> lct(n);` を作り、`M` に `using T`、`static T f(T, T)`、`static T e()` を定義する。
