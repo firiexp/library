@@ -3,6 +3,7 @@ class HopcroftKarp {
     vector<pair<int, int>> edges;
     vector<int> start, elist;
     vector<int> dist;
+    int terminal_depth;
     bool dirty = true;
 
     void build_graph() {
@@ -34,15 +35,16 @@ public:
             dist[i] = 0;
             q.push(i);
         }
-        bool found = false;
+        terminal_depth = l + 1;
         while (!q.empty()) {
             int v = q.front();
             q.pop();
+            if (dist[v] >= terminal_depth) continue;
             for (int ei = start[v]; ei < start[v + 1]; ++ei) {
                 int to = elist[ei];
                 int u = match_right[to];
                 if (u == -1) {
-                    found = true;
+                    terminal_depth = dist[v] + 1;
                     continue;
                 }
                 if (dist[u] != -1) continue;
@@ -50,13 +52,14 @@ public:
                 q.push(u);
             }
         }
-        return found;
+        return terminal_depth <= l;
     }
 
     bool dfs(int v) {
         for (int ei = start[v]; ei < start[v + 1]; ++ei) {
             int to = elist[ei];
             int u = match_right[to];
+            if (u == -1 && dist[v] + 1 != terminal_depth) continue;
             if (u != -1 && (dist[u] != dist[v] + 1 || !dfs(u))) continue;
             match_left[v] = to;
             match_right[to] = v;

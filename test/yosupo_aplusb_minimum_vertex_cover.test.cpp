@@ -35,6 +35,20 @@ void check(HopcroftKarp &hk, const vector<unsigned> &edges, int r) {
 }
 
 void self_check() {
+    for (int k : {2, 7, 32000}) {
+        HopcroftKarp hk(k + 1, k + 1);
+        hk.add_edge(k, 0);
+        assert(hk.max_matching() == 1);
+        for (int v = 1; v <= k; ++v) hk.add_edge(k, v);
+        for (int u = 0; u < k; ++u) hk.add_edge(u, u);
+        assert(hk.max_matching() == k + 1);
+        assert(hk.max_matching() == k + 1);
+        for (int u = 0; u <= k; ++u) {
+            assert(hk.match_left[u] == u && hk.match_right[u] == u);
+        }
+        auto [left, right] = hk.minimum_vertex_cover();
+        assert(left.size() == (size_t)k + 1 && right.empty());
+    }
     for (unsigned mask = 0; mask < (1U << 16); ++mask) {
         HopcroftKarp hk(4, 4);
         vector<unsigned> edges(4);
