@@ -196,6 +196,27 @@ struct LinkCutTree {
         expose(v);
         return nodes[v].sz - 1;
     }
+
+    int jump(int u, int v, int k) {
+        if (k < 0) return -1;
+        evert(u);
+        if (get_root(v) != u || k >= nodes[u].sz) return -1;
+        int x = u;
+        while (true) {
+            push(x);
+            int left = nodes[x].l == -1 ? 0 : nodes[nodes[x].l].sz;
+            if (k == left) {
+                splay(x);
+                return x;
+            }
+            if (k < left) {
+                x = nodes[x].l;
+            } else {
+                k -= left + 1;
+                x = nodes[x].r;
+            }
+        }
+    }
 };
 
 /**
