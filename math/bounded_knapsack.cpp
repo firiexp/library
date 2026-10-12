@@ -5,8 +5,9 @@ struct BoundedKnapsackItem {
 
 vector<long long> bounded_knapsack(const vector<BoundedKnapsackItem>& items, int capacity) {
     const long long unreachable = -INF<ll>;
-    vector<long long> dp(capacity + 1, unreachable), values;
-    vector<int> indices;
+    vector<long long> dp(capacity + 1, unreachable);
+    unique_ptr<long long[]> values;
+    unique_ptr<int[]> indices;
     dp[0] = 0;
     for (auto [weight, value, count] : items) {
         int limit = capacity / weight;
@@ -29,9 +30,9 @@ vector<long long> bounded_knapsack(const vector<BoundedKnapsackItem>& items, int
                 copies -= take;
             }
         } else {
-            if (indices.empty()) {
-                indices.resize(capacity + 1);
-                values.resize(capacity + 1);
+            if (!indices) {
+                indices.reset(new int[capacity + 1]);
+                values.reset(new long long[capacity + 1]);
             }
             for (int r = 0; r < weight; ++r) {
                 int head = 0, tail = 0;
