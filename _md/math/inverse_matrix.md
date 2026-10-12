@@ -8,7 +8,7 @@ tags: 数学
 
 ## 説明
 `modint` 行列の逆行列を計算する。
-Gauss-Jordan 消去を使い、計算量は $O(N^3)$。
+Gauss-Jordan 消去を使い、時間 $O(N^3)$、補助領域 $O(N^2)$。
 
 ## できること
 - `vector<vector<mint>> inverse_matrix(const vector<vector<mint>>& A)`
@@ -16,4 +16,9 @@ Gauss-Jordan 消去を使い、計算量は $O(N^3)$。
 
 ## 使い方
 `A` を `vector<vector<mint>>` で渡す。
+入力の行列は変更されない。空行列に対しては空行列を返す。
 返り値が空でなければ `A^{-1}` が入っている。
+
+## 実装上の補足
+入力をコピーした $N\times N$ 行列をその場で逆行列に変換する。
+行交換の履歴を $O(N)$ 領域に保持し、最後に逆順の列交換で戻す。
