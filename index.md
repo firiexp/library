@@ -991,6 +991,9 @@ data:
       path: test/yosupo_aplusb_library_composition_reverse.test.cpp
       title: test/yosupo_aplusb_library_composition_reverse.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
+      title: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_lis_indices.test.cpp
       title: test/yosupo_aplusb_lis_indices.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1056,6 +1059,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_persistent_queue.test.cpp
       title: test/yosupo_aplusb_persistent_queue.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_persistent_segtree.test.cpp
+      title: test/yosupo_aplusb_persistent_segtree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_persistent_unionfind.test.cpp
       title: test/yosupo_aplusb_persistent_unionfind.test.cpp
@@ -1305,6 +1311,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_jump_on_tree.test.cpp
       title: test/yosupo_jump_on_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
+      title: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_root_integer.test.cpp
       title: test/yosupo_kth_root_integer.test.cpp

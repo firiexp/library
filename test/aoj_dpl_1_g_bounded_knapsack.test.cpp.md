@@ -232,37 +232,38 @@ data:
     \nstruct BoundedKnapsackItem {\n    int weight;\n    long long value, count;\n\
     };\n\nvector<long long> bounded_knapsack(const vector<BoundedKnapsackItem>& items,\
     \ int capacity) {\n    const long long unreachable = -INF<ll>;\n    vector<long\
-    \ long> dp(capacity + 1, unreachable), values;\n    vector<int> indices;\n   \
-    \ dp[0] = 0;\n    for (auto [weight, value, count] : items) {\n        int limit\
-    \ = capacity / weight;\n        int copies = (int)min(count, (long long)limit);\n\
-    \        if (copies == 0) continue;\n        if (copies == limit) {\n        \
-    \    for (int w = weight; w <= capacity; ++w) {\n                if (dp[w - weight]\
-    \ != unreachable)\n                    dp[w] = max(dp[w], dp[w - weight] + value);\n\
-    \            }\n        } else if (copies <= 32) {\n            for (int step\
-    \ = 1; copies > 0; step <<= 1) {\n                int take = min(step, copies);\n\
-    \                int total_weight = take * weight;\n                long long\
-    \ total_value = take * value;\n                for (int w = capacity; w >= total_weight;\
-    \ --w) {\n                    if (dp[w - total_weight] != unreachable)\n     \
-    \                   dp[w] = max(dp[w], dp[w - total_weight] + total_value);\n\
-    \                }\n                copies -= take;\n            }\n        }\
-    \ else {\n            if (indices.empty()) {\n                indices.resize(capacity\
-    \ + 1);\n                values.resize(capacity + 1);\n            }\n       \
-    \     for (int r = 0; r < weight; ++r) {\n                int head = 0, tail =\
-    \ 0;\n                for (int j = 0; j <= (capacity - r) / weight; ++j) {\n \
-    \                   int w = r + j * weight;\n                    long long offset\
-    \ = j * value;\n                    while (head < tail && indices[head] < j -\
-    \ copies) ++head;\n                    if (dp[w] != unreachable) {\n         \
-    \               long long candidate = dp[w] - offset;\n                      \
-    \  while (head < tail && values[tail - 1] <= candidate) --tail;\n            \
-    \            indices[tail] = j;\n                        values[tail++] = candidate;\n\
-    \                    }\n                    dp[w] = head < tail ? values[head]\
-    \ + offset : unreachable;\n                }\n            }\n        }\n    }\n\
-    \    return dp;\n}\n\n/**\n * @brief \u500B\u6570\u5236\u9650\u4ED8\u304D\u30CA\
-    \u30C3\u30D7\u30B5\u30C3\u30AF\n */\n#line 9 \"test/aoj_dpl_1_g_bounded_knapsack.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, capacity;\n   \
-    \ sc.read(n, capacity);\n    vector<BoundedKnapsackItem> items(n);\n    for (auto&\
-    \ item : items) sc.read(item.value, item.weight, item.count);\n    auto dp = bounded_knapsack(items,\
-    \ capacity);\n    pr.println(*max_element(dp.begin(), dp.end()));\n}\n"
+    \ long> dp(capacity + 1, unreachable);\n    unique_ptr<long long[]> values;\n\
+    \    unique_ptr<int[]> indices;\n    dp[0] = 0;\n    for (auto [weight, value,\
+    \ count] : items) {\n        int limit = capacity / weight;\n        int copies\
+    \ = (int)min(count, (long long)limit);\n        if (copies == 0) continue;\n \
+    \       if (copies == limit) {\n            for (int w = weight; w <= capacity;\
+    \ ++w) {\n                if (dp[w - weight] != unreachable)\n               \
+    \     dp[w] = max(dp[w], dp[w - weight] + value);\n            }\n        } else\
+    \ if (copies <= 32) {\n            for (int step = 1; copies > 0; step <<= 1)\
+    \ {\n                int take = min(step, copies);\n                int total_weight\
+    \ = take * weight;\n                long long total_value = take * value;\n  \
+    \              for (int w = capacity; w >= total_weight; --w) {\n            \
+    \        if (dp[w - total_weight] != unreachable)\n                        dp[w]\
+    \ = max(dp[w], dp[w - total_weight] + total_value);\n                }\n     \
+    \           copies -= take;\n            }\n        } else {\n            if (!indices)\
+    \ {\n                indices.reset(new int[capacity + 1]);\n                values.reset(new\
+    \ long long[capacity + 1]);\n            }\n            for (int r = 0; r < weight;\
+    \ ++r) {\n                int head = 0, tail = 0;\n                for (int j\
+    \ = 0; j <= (capacity - r) / weight; ++j) {\n                    int w = r + j\
+    \ * weight;\n                    long long offset = j * value;\n             \
+    \       while (head < tail && indices[head] < j - copies) ++head;\n          \
+    \          if (dp[w] != unreachable) {\n                        long long candidate\
+    \ = dp[w] - offset;\n                        while (head < tail && values[tail\
+    \ - 1] <= candidate) --tail;\n                        indices[tail] = j;\n   \
+    \                     values[tail++] = candidate;\n                    }\n   \
+    \                 dp[w] = head < tail ? values[head] + offset : unreachable;\n\
+    \                }\n            }\n        }\n    }\n    return dp;\n}\n\n/**\n\
+    \ * @brief \u500B\u6570\u5236\u9650\u4ED8\u304D\u30CA\u30C3\u30D7\u30B5\u30C3\u30AF\
+    \n */\n#line 9 \"test/aoj_dpl_1_g_bounded_knapsack.test.cpp\"\n\nint main() {\n\
+    \    Scanner sc;\n    Printer pr;\n    int n, capacity;\n    sc.read(n, capacity);\n\
+    \    vector<BoundedKnapsackItem> items(n);\n    for (auto& item : items) sc.read(item.value,\
+    \ item.weight, item.count);\n    auto dp = bounded_knapsack(items, capacity);\n\
+    \    pr.println(*max_element(dp.begin(), dp.end()));\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DPL_1_G\"\n\n\
     #include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\ntemplate<class\
     \ T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;\n#include \"\
@@ -277,7 +278,7 @@ data:
   isVerificationFile: true
   path: test/aoj_dpl_1_g_bounded_knapsack.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 00:54:48+09:00'
+  timestamp: '2026-10-12 17:52:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_dpl_1_g_bounded_knapsack.test.cpp

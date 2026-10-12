@@ -245,6 +245,9 @@ data:
     path: test/yosupo_aplusb_library_composition_reverse.test.cpp
     title: test/yosupo_aplusb_library_composition_reverse.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
+    title: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_lis_indices.test.cpp
     title: test/yosupo_aplusb_lis_indices.test.cpp
   - icon: ':heavy_check_mark:'
@@ -310,6 +313,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_persistent_queue.test.cpp
     title: test/yosupo_aplusb_persistent_queue.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_persistent_segtree.test.cpp
+    title: test/yosupo_aplusb_persistent_segtree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_persistent_unionfind.test.cpp
     title: test/yosupo_aplusb_persistent_unionfind.test.cpp
@@ -544,6 +550,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_jump_on_tree.test.cpp
     title: test/yosupo_jump_on_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
+    title: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_root_integer.test.cpp
     title: test/yosupo_kth_root_integer.test.cpp
@@ -1311,6 +1320,7 @@ data:
   - test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/aoj0403.test.cpp
+  - test/yosupo_aplusb_persistent_segtree.test.cpp
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_aplusb_project_selection_pair_profit.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
@@ -1438,6 +1448,7 @@ data:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
   - test/yosupo_enumerate_palindromes_manacher.test.cpp
   - test/yosupo_aplusb_dynamic_segtree_search.test.cpp
+  - test/yosupo_aplusb_link_cut_tree_jump.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
@@ -1551,6 +1562,7 @@ data:
   - test/yosupo_discrete_logarithm_mod.test.cpp
   - test/yosupo_aplusb_minimum_vertex_cover.test.cpp
   - test/yosupo_kth_root_integer.test.cpp
+  - test/yosupo_jump_on_tree_link_cut_tree.test.cpp
   - test/yosupo_primitive_root.test.cpp
   - test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
   - test/aoj_grl_5_a_diameter.test.cpp

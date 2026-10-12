@@ -323,8 +323,15 @@ data:
     \    T get(int x) {\n        expose(x);\n        return nodes[x].val;\n    }\n\
     \n    T fold(int u, int v) {\n        evert(u);\n        expose(v);\n        return\
     \ nodes[v].sum;\n    }\n\n    int dist(int u, int v) {\n        evert(u);\n  \
-    \      expose(v);\n        return nodes[v].sz - 1;\n    }\n};\n\n/**\n * @brief\
-    \ Link-Cut Tree\n */\n#line 14 \"test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp\"\
+    \      expose(v);\n        return nodes[v].sz - 1;\n    }\n\n    int jump(int\
+    \ u, int v, int k) {\n        if (k < 0) return -1;\n        evert(u);\n     \
+    \   if (get_root(v) != u || k >= nodes[u].sz) return -1;\n        int x = u;\n\
+    \        while (true) {\n            push(x);\n            int left = nodes[x].l\
+    \ == -1 ? 0 : nodes[nodes[x].l].sz;\n            if (k == left) {\n          \
+    \      splay(x);\n                return x;\n            }\n            if (k\
+    \ < left) {\n                x = nodes[x].l;\n            } else {\n         \
+    \       k -= left + 1;\n                x = nodes[x].r;\n            }\n     \
+    \   }\n    }\n};\n\n/**\n * @brief Link-Cut Tree\n */\n#line 14 \"test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp\"\
     \n\nstruct Monoid {\n    using T = array<mint, 2>;\n    static T f(T a, T b) {\
     \ return {a[0] * b[0], a[1] * b[0] + b[1]}; }\n    static T e() { return {1, 0};\
     \ }\n};\n\nint main() {\n    Scanner in;\n    Printer out;\n    int n, q;\n  \
@@ -365,7 +372,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-12 17:52:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp

@@ -232,62 +232,67 @@ data:
     \nstruct BoundedKnapsackItem {\n    int weight;\n    long long value, count;\n\
     };\n\nvector<long long> bounded_knapsack(const vector<BoundedKnapsackItem>& items,\
     \ int capacity) {\n    const long long unreachable = -INF<ll>;\n    vector<long\
-    \ long> dp(capacity + 1, unreachable), values;\n    vector<int> indices;\n   \
-    \ dp[0] = 0;\n    for (auto [weight, value, count] : items) {\n        int limit\
-    \ = capacity / weight;\n        int copies = (int)min(count, (long long)limit);\n\
-    \        if (copies == 0) continue;\n        if (copies == limit) {\n        \
-    \    for (int w = weight; w <= capacity; ++w) {\n                if (dp[w - weight]\
-    \ != unreachable)\n                    dp[w] = max(dp[w], dp[w - weight] + value);\n\
-    \            }\n        } else if (copies <= 32) {\n            for (int step\
-    \ = 1; copies > 0; step <<= 1) {\n                int take = min(step, copies);\n\
-    \                int total_weight = take * weight;\n                long long\
-    \ total_value = take * value;\n                for (int w = capacity; w >= total_weight;\
-    \ --w) {\n                    if (dp[w - total_weight] != unreachable)\n     \
-    \                   dp[w] = max(dp[w], dp[w - total_weight] + total_value);\n\
-    \                }\n                copies -= take;\n            }\n        }\
-    \ else {\n            if (indices.empty()) {\n                indices.resize(capacity\
-    \ + 1);\n                values.resize(capacity + 1);\n            }\n       \
-    \     for (int r = 0; r < weight; ++r) {\n                int head = 0, tail =\
-    \ 0;\n                for (int j = 0; j <= (capacity - r) / weight; ++j) {\n \
-    \                   int w = r + j * weight;\n                    long long offset\
-    \ = j * value;\n                    while (head < tail && indices[head] < j -\
-    \ copies) ++head;\n                    if (dp[w] != unreachable) {\n         \
-    \               long long candidate = dp[w] - offset;\n                      \
-    \  while (head < tail && values[tail - 1] <= candidate) --tail;\n            \
-    \            indices[tail] = j;\n                        values[tail++] = candidate;\n\
-    \                    }\n                    dp[w] = head < tail ? values[head]\
-    \ + offset : unreachable;\n                }\n            }\n        }\n    }\n\
-    \    return dp;\n}\n\n/**\n * @brief \u500B\u6570\u5236\u9650\u4ED8\u304D\u30CA\
-    \u30C3\u30D7\u30B5\u30C3\u30AF\n */\n#line 9 \"test/yosupo_aplusb_bounded_knapsack.test.cpp\"\
-    \n\nvoid check(const vector<BoundedKnapsackItem>& items, int capacity) {\n   \
-    \ vector<long long> expected(capacity + 1, -INF<ll>);\n    expected[0] = 0;\n\
-    \    for (auto item : items) {\n        auto next = expected;\n        for (int\
-    \ w = 0; w <= capacity; ++w) {\n            if (expected[w] == -INF<ll>) continue;\n\
-    \            int limit = (int)min(item.count, (long long)(capacity - w) / item.weight);\n\
-    \            for (int k = 1; k <= limit; ++k)\n                next[w + k * item.weight]\
-    \ = max(next[w + k * item.weight], expected[w] + k * item.value);\n        }\n\
-    \        expected = std::move(next);\n    }\n    auto original = items;\n    assert(bounded_knapsack(items,\
-    \ capacity) == expected);\n    for (int i = 0; i < (int)items.size(); ++i) {\n\
-    \        assert(items[i].weight == original[i].weight);\n        assert(items[i].value\
-    \ == original[i].value);\n        assert(items[i].count == original[i].count);\n\
-    \    }\n}\n\nvoid self_check() {\n    check({}, 0);\n    check({}, 20);\n    check({{1,\
-    \ 5, 0}, {INT_MAX, 1, LLONG_MAX}}, 30);\n    check({{3, -4, LLONG_MAX}, {5, 2,\
-    \ 0}}, 0);\n    check({{1, LLONG_MAX, 1}}, 1);\n    check({{1, -INF<ll> + 1, 1}},\
-    \ 2);\n    check({{2, -INF<ll> + 1, 1}}, 3);\n    check({{1, -INF<ll> + 1, 1},\
-    \ {1, INF<ll> - 2, 1}}, 2);\n    check({{1, (-INF<ll> + 1) / 33, 33}}, 34);\n\
-    \    check({{3, 4, 2}, {1, 2, 1}, {2, 1, 4}, {2, 3, 2}}, 8);\n    check({{1, 1,\
-    \ 100}, {1, 2, 50}}, 100);\n    for (int count : {0, 1, 2, 31, 32, 33, 64, 99,\
-    \ 100, 101}) {\n        for (int value : {-7, 0, 11}) {\n            check({{3,\
-    \ value, count}}, 302);\n            check({{1, -3, LLONG_MAX}, {3, value, count},\
-    \ {3, 5, count}}, 302);\n        }\n    }\n    mt19937 rng(160);\n    for (int\
-    \ tc = 0; tc < 4000; ++tc) {\n        int n = rng() % 9, capacity = rng() % 160;\n\
-    \        vector<BoundedKnapsackItem> items;\n        for (int i = 0; i < n; ++i)\
-    \ {\n            int weight = 1 + rng() % 12;\n            long long value = (int)(rng()\
-    \ % 41) - 20;\n            long long count = rng() % 90;\n            if (rng()\
-    \ % 10 == 0) count = LLONG_MAX;\n            items.push_back({weight, value, count});\n\
-    \        }\n        check(items, capacity);\n    }\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    long long a, b;\n    sc.read(a, b);\n \
-    \   pr.println(a + b);\n}\n"
+    \ long> dp(capacity + 1, unreachable);\n    unique_ptr<long long[]> values;\n\
+    \    unique_ptr<int[]> indices;\n    dp[0] = 0;\n    for (auto [weight, value,\
+    \ count] : items) {\n        int limit = capacity / weight;\n        int copies\
+    \ = (int)min(count, (long long)limit);\n        if (copies == 0) continue;\n \
+    \       if (copies == limit) {\n            for (int w = weight; w <= capacity;\
+    \ ++w) {\n                if (dp[w - weight] != unreachable)\n               \
+    \     dp[w] = max(dp[w], dp[w - weight] + value);\n            }\n        } else\
+    \ if (copies <= 32) {\n            for (int step = 1; copies > 0; step <<= 1)\
+    \ {\n                int take = min(step, copies);\n                int total_weight\
+    \ = take * weight;\n                long long total_value = take * value;\n  \
+    \              for (int w = capacity; w >= total_weight; --w) {\n            \
+    \        if (dp[w - total_weight] != unreachable)\n                        dp[w]\
+    \ = max(dp[w], dp[w - total_weight] + total_value);\n                }\n     \
+    \           copies -= take;\n            }\n        } else {\n            if (!indices)\
+    \ {\n                indices.reset(new int[capacity + 1]);\n                values.reset(new\
+    \ long long[capacity + 1]);\n            }\n            for (int r = 0; r < weight;\
+    \ ++r) {\n                int head = 0, tail = 0;\n                for (int j\
+    \ = 0; j <= (capacity - r) / weight; ++j) {\n                    int w = r + j\
+    \ * weight;\n                    long long offset = j * value;\n             \
+    \       while (head < tail && indices[head] < j - copies) ++head;\n          \
+    \          if (dp[w] != unreachable) {\n                        long long candidate\
+    \ = dp[w] - offset;\n                        while (head < tail && values[tail\
+    \ - 1] <= candidate) --tail;\n                        indices[tail] = j;\n   \
+    \                     values[tail++] = candidate;\n                    }\n   \
+    \                 dp[w] = head < tail ? values[head] + offset : unreachable;\n\
+    \                }\n            }\n        }\n    }\n    return dp;\n}\n\n/**\n\
+    \ * @brief \u500B\u6570\u5236\u9650\u4ED8\u304D\u30CA\u30C3\u30D7\u30B5\u30C3\u30AF\
+    \n */\n#line 9 \"test/yosupo_aplusb_bounded_knapsack.test.cpp\"\n\nvoid check(const\
+    \ vector<BoundedKnapsackItem>& items, int capacity) {\n    vector<long long> expected(capacity\
+    \ + 1, -INF<ll>);\n    expected[0] = 0;\n    for (auto item : items) {\n     \
+    \   auto next = expected;\n        for (int w = 0; w <= capacity; ++w) {\n   \
+    \         if (expected[w] == -INF<ll>) continue;\n            int limit = (int)min(item.count,\
+    \ (long long)(capacity - w) / item.weight);\n            for (int k = 1; k <=\
+    \ limit; ++k)\n                next[w + k * item.weight] = max(next[w + k * item.weight],\
+    \ expected[w] + k * item.value);\n        }\n        expected = std::move(next);\n\
+    \    }\n    auto original = items;\n    assert(bounded_knapsack(items, capacity)\
+    \ == expected);\n    for (int i = 0; i < (int)items.size(); ++i) {\n        assert(items[i].weight\
+    \ == original[i].weight);\n        assert(items[i].value == original[i].value);\n\
+    \        assert(items[i].count == original[i].count);\n    }\n}\n\nvoid self_check()\
+    \ {\n    check({}, 0);\n    check({}, 20);\n    check({{1, 5, 0}, {INT_MAX, 1,\
+    \ LLONG_MAX}}, 30);\n    check({{3, -4, LLONG_MAX}, {5, 2, 0}}, 0);\n    check({{1,\
+    \ LLONG_MAX, 1}}, 1);\n    check({{1, -INF<ll> + 1, 1}}, 2);\n    check({{2, -INF<ll>\
+    \ + 1, 1}}, 3);\n    check({{1, -INF<ll> + 1, 1}, {1, INF<ll> - 2, 1}}, 2);\n\
+    \    check({{1, (-INF<ll> + 1) / 33, 33}}, 34);\n    check({{3, 4, 2}, {1, 2,\
+    \ 1}, {2, 1, 4}, {2, 3, 2}}, 8);\n    check({{1, 1, 100}, {1, 2, 50}}, 100);\n\
+    \    check({{7, -3, 40}, {1, 2, 41}, {13, 0, 35}, {3, -4, 50}, {2, 7, 3}, {9,\
+    \ 1, LLONG_MAX}}, 600);\n    check({{1, 7, 40}, {13, -2, 40}, {7, 0, 40}, {1,\
+    \ -1, 33}}, 600);\n    vector<BoundedKnapsackItem> skipped(200000, {65, 1, 10});\n\
+    \    skipped[100000] = {1, -2, 40};\n    check(skipped, 64);\n    for (int count\
+    \ : {0, 1, 2, 31, 32, 33, 64, 99, 100, 101}) {\n        for (int value : {-7,\
+    \ 0, 11}) {\n            check({{3, value, count}}, 302);\n            check({{1,\
+    \ -3, LLONG_MAX}, {3, value, count}, {3, 5, count}}, 302);\n        }\n    }\n\
+    \    mt19937 rng(160);\n    for (int tc = 0; tc < 4000; ++tc) {\n        int n\
+    \ = rng() % 9, capacity = rng() % 160;\n        vector<BoundedKnapsackItem> items;\n\
+    \        for (int i = 0; i < n; ++i) {\n            int weight = 1 + rng() % 12;\n\
+    \            long long value = (int)(rng() % 41) - 20;\n            long long\
+    \ count = rng() % 90;\n            if (rng() % 10 == 0) count = LLONG_MAX;\n \
+    \           items.push_back({weight, value, count});\n        }\n        check(items,\
+    \ capacity);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n \
+    \   Printer pr;\n    long long a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\nusing ll = long long;\ntemplate<class T> constexpr T INF\
     \ = numeric_limits<T>::max() / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\
@@ -309,25 +314,29 @@ data:
     \ + 1, 1}}, 3);\n    check({{1, -INF<ll> + 1, 1}, {1, INF<ll> - 2, 1}}, 2);\n\
     \    check({{1, (-INF<ll> + 1) / 33, 33}}, 34);\n    check({{3, 4, 2}, {1, 2,\
     \ 1}, {2, 1, 4}, {2, 3, 2}}, 8);\n    check({{1, 1, 100}, {1, 2, 50}}, 100);\n\
-    \    for (int count : {0, 1, 2, 31, 32, 33, 64, 99, 100, 101}) {\n        for\
-    \ (int value : {-7, 0, 11}) {\n            check({{3, value, count}}, 302);\n\
-    \            check({{1, -3, LLONG_MAX}, {3, value, count}, {3, 5, count}}, 302);\n\
-    \        }\n    }\n    mt19937 rng(160);\n    for (int tc = 0; tc < 4000; ++tc)\
-    \ {\n        int n = rng() % 9, capacity = rng() % 160;\n        vector<BoundedKnapsackItem>\
-    \ items;\n        for (int i = 0; i < n; ++i) {\n            int weight = 1 +\
-    \ rng() % 12;\n            long long value = (int)(rng() % 41) - 20;\n       \
-    \     long long count = rng() % 90;\n            if (rng() % 10 == 0) count =\
-    \ LLONG_MAX;\n            items.push_back({weight, value, count});\n        }\n\
-    \        check(items, capacity);\n    }\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    long long a, b;\n    sc.read(a, b);\n \
-    \   pr.println(a + b);\n}\n"
+    \    check({{7, -3, 40}, {1, 2, 41}, {13, 0, 35}, {3, -4, 50}, {2, 7, 3}, {9,\
+    \ 1, LLONG_MAX}}, 600);\n    check({{1, 7, 40}, {13, -2, 40}, {7, 0, 40}, {1,\
+    \ -1, 33}}, 600);\n    vector<BoundedKnapsackItem> skipped(200000, {65, 1, 10});\n\
+    \    skipped[100000] = {1, -2, 40};\n    check(skipped, 64);\n    for (int count\
+    \ : {0, 1, 2, 31, 32, 33, 64, 99, 100, 101}) {\n        for (int value : {-7,\
+    \ 0, 11}) {\n            check({{3, value, count}}, 302);\n            check({{1,\
+    \ -3, LLONG_MAX}, {3, value, count}, {3, 5, count}}, 302);\n        }\n    }\n\
+    \    mt19937 rng(160);\n    for (int tc = 0; tc < 4000; ++tc) {\n        int n\
+    \ = rng() % 9, capacity = rng() % 160;\n        vector<BoundedKnapsackItem> items;\n\
+    \        for (int i = 0; i < n; ++i) {\n            int weight = 1 + rng() % 12;\n\
+    \            long long value = (int)(rng() % 41) - 20;\n            long long\
+    \ count = rng() % 90;\n            if (rng() % 10 == 0) count = LLONG_MAX;\n \
+    \           items.push_back({weight, value, count});\n        }\n        check(items,\
+    \ capacity);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n \
+    \   Printer pr;\n    long long a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
   - math/bounded_knapsack.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_bounded_knapsack.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 00:54:48+09:00'
+  timestamp: '2026-10-12 17:52:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_bounded_knapsack.test.cpp

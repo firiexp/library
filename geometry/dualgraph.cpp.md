@@ -198,10 +198,16 @@ data:
     \ m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
     \ }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n\
     \        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n     \
-    \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
-    \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
-    \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
+    \   vector<int> l(m), r(m);\n        vector<double> angles;\n        for (int\
+    \ i = 0; i < n; ++i) {\n            if (G_[i].size() >= 16) {\n              \
+    \  angles.resize(G_[i].size());\n                for (int j = 0; j < (int)G_[i].size();\
+    \ ++j) {\n                    angles[j] = arg(v[G_[i][j].to] - v[i]);\n      \
+    \              G_[i][j].id2 = j;\n                }\n                sort(G_[i].begin(),\
+    \ G_[i].end(), [&](const P &a, const P &b){ return angles[a.id2] < angles[b.id2];\
+    \ });\n            } else {\n                sort(G_[i].begin(), G_[i].end(),\
+    \ [&](const P &a, const P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });\n\
+    \            }\n            for (int j = 0; j < G_[i].size(); ++j) {\n       \
+    \         G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
     \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
     \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
     \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
@@ -228,10 +234,16 @@ data:
     \ v) : v(v), n(v.size()), G_(n), m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P);\
     \ n++; G_.emplace_back(); }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b,\
     \ 0, m, 0);\n        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n\
-    \        vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n    \
-    \        sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
-    \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
+    \        vector<int> l(m), r(m);\n        vector<double> angles;\n        for\
+    \ (int i = 0; i < n; ++i) {\n            if (G_[i].size() >= 16) {\n         \
+    \       angles.resize(G_[i].size());\n                for (int j = 0; j < (int)G_[i].size();\
+    \ ++j) {\n                    angles[j] = arg(v[G_[i][j].to] - v[i]);\n      \
+    \              G_[i][j].id2 = j;\n                }\n                sort(G_[i].begin(),\
+    \ G_[i].end(), [&](const P &a, const P &b){ return angles[a.id2] < angles[b.id2];\
+    \ });\n            } else {\n                sort(G_[i].begin(), G_[i].end(),\
+    \ [&](const P &a, const P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });\n\
+    \            }\n            for (int j = 0; j < G_[i].size(); ++j) {\n       \
+    \         G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
     \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
     \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
     \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
@@ -254,7 +266,7 @@ data:
   isVerificationFile: false
   path: geometry/dualgraph.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-12 17:49:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
@@ -266,3 +278,24 @@ title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
 ---
 ## 説明
 与えられた連結な平面グラフ(頂点が座標で表される)の双対グラフを構築する。
+辺によって平面が区切られた各領域を面と呼ぶ。外側に広がる無限の領域も1つの面として扱う。
+
+## できること
+- `DualGraph dual(points)`
+  座標列から頂点を作る
+- `void add_point(Point p)` / `void add_edge(int u, int v)`
+  頂点 / 無向辺を追加する
+- `void build()`
+  各面を双対グラフの頂点とし、元の辺を挟んで隣り合う面どうしを辺で結ぶ。各面の輪郭を `A`、面どうしの隣接関係を `G` に格納する
+
+## 使い方
+`build()` 後は、共通の面番号 `f`（0-indexed）で `A[f]` と `G[f]` を参照する。
+
+- `A[f]` は、面 `f` を囲む辺を順に辿ったときの頂点座標の列。隣り合う座標どうしと、末尾から先頭を結ぶ線分がその面の輪郭になる。橋がある場合など、同じ頂点や辺を複数回通ることがある
+- `G[f]` は、面 `f` と元の辺を共有する面の番号の列。元の辺1本につき両側の面を結ぶ無向辺を追加するため、同じ隣接先が複数回現れることもある。橋の両側は同じ面なので、双対グラフでは自己ループになる
+
+## 実装上の補足
+頂点数を $V$、辺数を $E$、各頂点の次数を $d_v$、最大次数を $\Delta$ とする。
+構築時間は $O(V+E+\sum_v d_v \log d_v)$。
+次数16以上の頂点では半辺ごとに偏角を1回だけ計算し、ソートで再利用する。偏角計算の総回数は $O(E)$。
+角度の作業配列は必要なときだけ確保し、頂点間で再利用する。従来の $O(V+E)$ の領域に加え、作業配列は $O(\Delta)$。

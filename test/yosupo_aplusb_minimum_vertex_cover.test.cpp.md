@@ -228,48 +228,50 @@ data:
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/hopcroft_karp.cpp\"\
     \nclass HopcroftKarp {\n    int l, r;\n    vector<pair<int, int>> edges;\n   \
-    \ vector<int> start, elist;\n    vector<int> dist;\n    bool dirty = true;\n\n\
-    \    void build_graph() {\n        start.assign(l + 1, 0);\n        elist.assign(edges.size(),\
-    \ 0);\n        for (auto &&[a, b] : edges) ++start[a + 1];\n        for (int i\
-    \ = 0; i < l; ++i) start[i + 1] += start[i];\n        auto counter = start;\n\
-    \        for (auto &&[a, b] : edges) {\n            elist[counter[a]++] = b;\n\
-    \        }\n    }\n\npublic:\n    vector<int> match_left, match_right;\n\n   \
-    \ explicit HopcroftKarp(int l, int r) : l(l), r(r), start(l + 1), dist(l), match_left(l,\
-    \ -1), match_right(r, -1) {}\n\n    void add_edge(int a, int b) {\n        edges.emplace_back(a,\
-    \ b);\n        dirty = true;\n    }\n\n    bool bfs() {\n        queue<int> q;\n\
-    \        fill(dist.begin(), dist.end(), -1);\n        for (int i = 0; i < l; ++i)\
-    \ {\n            if (match_left[i] != -1) continue;\n            dist[i] = 0;\n\
-    \            q.push(i);\n        }\n        bool found = false;\n        while\
-    \ (!q.empty()) {\n            int v = q.front();\n            q.pop();\n     \
-    \       for (int ei = start[v]; ei < start[v + 1]; ++ei) {\n                int\
-    \ to = elist[ei];\n                int u = match_right[to];\n                if\
-    \ (u == -1) {\n                    found = true;\n                    continue;\n\
-    \                }\n                if (dist[u] != -1) continue;\n           \
-    \     dist[u] = dist[v] + 1;\n                q.push(u);\n            }\n    \
-    \    }\n        return found;\n    }\n\n    bool dfs(int v) {\n        for (int\
-    \ ei = start[v]; ei < start[v + 1]; ++ei) {\n            int to = elist[ei];\n\
-    \            int u = match_right[to];\n            if (u != -1 && (dist[u] !=\
-    \ dist[v] + 1 || !dfs(u))) continue;\n            match_left[v] = to;\n      \
-    \      match_right[to] = v;\n            return true;\n        }\n        dist[v]\
-    \ = -1;\n        return false;\n    }\n\n    int max_matching() {\n        int\
-    \ ret = 0;\n        for (int v : match_left) if (v != -1) ++ret;\n        if (!dirty)\
-    \ return ret;\n        build_graph();\n        while (bfs()) {\n            for\
-    \ (int i = 0; i < l; ++i) {\n                if (match_left[i] == -1 && dfs(i))\
-    \ ++ret;\n            }\n        }\n        dirty = false;\n        return ret;\n\
-    \    }\n\n    pair<vector<int>, vector<int>> minimum_vertex_cover() {\n      \
-    \  max_matching();\n        vector<char> seen_left(l), seen_right(r);\n      \
-    \  queue<int> q;\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
-    \ != -1) continue;\n            seen_left[i] = true;\n            q.push(i);\n\
-    \        }\n        while (!q.empty()) {\n            int v = q.front();\n   \
-    \         q.pop();\n            for (int ei = start[v]; ei < start[v + 1]; ++ei)\
-    \ {\n                int to = elist[ei];\n                if (to == match_left[v]\
-    \ || seen_right[to]) continue;\n                seen_right[to] = true;\n     \
-    \           int u = match_right[to];\n                if (u != -1 && !seen_left[u])\
-    \ {\n                    seen_left[u] = true;\n                    q.push(u);\n\
-    \                }\n            }\n        }\n        vector<int> left, right;\n\
-    \        for (int i = 0; i < l; ++i) if (!seen_left[i]) left.push_back(i);\n \
-    \       for (int i = 0; i < r; ++i) if (seen_right[i]) right.push_back(i);\n \
-    \       return {move(left), move(right)};\n    }\n\n    vector<pair<int, int>>\
+    \ vector<int> start, elist;\n    vector<int> dist;\n    int terminal_depth;\n\
+    \    bool dirty = true;\n\n    void build_graph() {\n        start.assign(l +\
+    \ 1, 0);\n        elist.assign(edges.size(), 0);\n        for (auto &&[a, b] :\
+    \ edges) ++start[a + 1];\n        for (int i = 0; i < l; ++i) start[i + 1] +=\
+    \ start[i];\n        auto counter = start;\n        for (auto &&[a, b] : edges)\
+    \ {\n            elist[counter[a]++] = b;\n        }\n    }\n\npublic:\n    vector<int>\
+    \ match_left, match_right;\n\n    explicit HopcroftKarp(int l, int r) : l(l),\
+    \ r(r), start(l + 1), dist(l), match_left(l, -1), match_right(r, -1) {}\n\n  \
+    \  void add_edge(int a, int b) {\n        edges.emplace_back(a, b);\n        dirty\
+    \ = true;\n    }\n\n    bool bfs() {\n        queue<int> q;\n        fill(dist.begin(),\
+    \ dist.end(), -1);\n        for (int i = 0; i < l; ++i) {\n            if (match_left[i]\
+    \ != -1) continue;\n            dist[i] = 0;\n            q.push(i);\n       \
+    \ }\n        terminal_depth = l + 1;\n        while (!q.empty()) {\n         \
+    \   int v = q.front();\n            q.pop();\n            if (dist[v] >= terminal_depth)\
+    \ continue;\n            for (int ei = start[v]; ei < start[v + 1]; ++ei) {\n\
+    \                int to = elist[ei];\n                int u = match_right[to];\n\
+    \                if (u == -1) {\n                    terminal_depth = dist[v]\
+    \ + 1;\n                    continue;\n                }\n                if (dist[u]\
+    \ != -1) continue;\n                dist[u] = dist[v] + 1;\n                q.push(u);\n\
+    \            }\n        }\n        return terminal_depth <= l;\n    }\n\n    bool\
+    \ dfs(int v) {\n        for (int ei = start[v]; ei < start[v + 1]; ++ei) {\n \
+    \           int to = elist[ei];\n            int u = match_right[to];\n      \
+    \      if (u == -1 && dist[v] + 1 != terminal_depth) continue;\n            if\
+    \ (u != -1 && (dist[u] != dist[v] + 1 || !dfs(u))) continue;\n            match_left[v]\
+    \ = to;\n            match_right[to] = v;\n            return true;\n        }\n\
+    \        dist[v] = -1;\n        return false;\n    }\n\n    int max_matching()\
+    \ {\n        int ret = 0;\n        for (int v : match_left) if (v != -1) ++ret;\n\
+    \        if (!dirty) return ret;\n        build_graph();\n        while (bfs())\
+    \ {\n            for (int i = 0; i < l; ++i) {\n                if (match_left[i]\
+    \ == -1 && dfs(i)) ++ret;\n            }\n        }\n        dirty = false;\n\
+    \        return ret;\n    }\n\n    pair<vector<int>, vector<int>> minimum_vertex_cover()\
+    \ {\n        max_matching();\n        vector<char> seen_left(l), seen_right(r);\n\
+    \        queue<int> q;\n        for (int i = 0; i < l; ++i) {\n            if\
+    \ (match_left[i] != -1) continue;\n            seen_left[i] = true;\n        \
+    \    q.push(i);\n        }\n        while (!q.empty()) {\n            int v =\
+    \ q.front();\n            q.pop();\n            for (int ei = start[v]; ei < start[v\
+    \ + 1]; ++ei) {\n                int to = elist[ei];\n                if (to ==\
+    \ match_left[v] || seen_right[to]) continue;\n                seen_right[to] =\
+    \ true;\n                int u = match_right[to];\n                if (u != -1\
+    \ && !seen_left[u]) {\n                    seen_left[u] = true;\n            \
+    \        q.push(u);\n                }\n            }\n        }\n        vector<int>\
+    \ left, right;\n        for (int i = 0; i < l; ++i) if (!seen_left[i]) left.push_back(i);\n\
+    \        for (int i = 0; i < r; ++i) if (seen_right[i]) right.push_back(i);\n\
+    \        return {move(left), move(right)};\n    }\n\n    vector<pair<int, int>>\
     \ get_pairs() const {\n        vector<pair<int, int>> ret;\n        for (int i\
     \ = 0; i < l; ++i) {\n            if (match_left[i] != -1) ret.emplace_back(i,\
     \ match_left[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
@@ -292,20 +294,27 @@ data:
     \ >> v & 1) && !seen_l[u] && !seen_r[v]);\n            seen_l[u] = seen_r[v] =\
     \ true;\n            assert(hk.match_left[u] == v && hk.match_right[v] == u);\n\
     \        }\n        assert(hk.max_matching() == best);\n    }\n}\n\nvoid self_check()\
-    \ {\n    for (unsigned mask = 0; mask < (1U << 16); ++mask) {\n        HopcroftKarp\
-    \ hk(4, 4);\n        vector<unsigned> edges(4);\n        for (int u = 0; u < 4;\
-    \ ++u) for (int v = 0; v < 4; ++v) if (mask >> (4 * u + v) & 1) {\n          \
-    \  hk.add_edge(u, v);\n            edges[u] |= 1U << v;\n        }\n        if\
-    \ (mask & 1) hk.max_matching();\n        check(hk, edges, 4);\n    }\n    mt19937\
-    \ random(56);\n    for (int l = 0; l <= 6; ++l) for (int r = 0; r <= 6; ++r) {\n\
-    \        HopcroftKarp hk(l, r);\n        vector<unsigned> edges(l);\n        check(hk,\
-    \ edges, r);\n        if (!l || !r) continue;\n        for (int step = 0; step\
-    \ < 30; ++step) {\n            int u = random() % l, v = random() % r;\n     \
-    \       hk.add_edge(u, v);\n            if (step % 3 == 0) hk.add_edge(u, v);\n\
-    \            edges[u] |= 1U << v;\n            if (step % 2) hk.max_matching();\n\
-    \            check(hk, edges, r);\n        }\n    }\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n}\n"
+    \ {\n    for (int k : {2, 7, 32000}) {\n        HopcroftKarp hk(k + 1, k + 1);\n\
+    \        hk.add_edge(k, 0);\n        assert(hk.max_matching() == 1);\n       \
+    \ for (int v = 1; v <= k; ++v) hk.add_edge(k, v);\n        for (int u = 0; u <\
+    \ k; ++u) hk.add_edge(u, u);\n        assert(hk.max_matching() == k + 1);\n  \
+    \      assert(hk.max_matching() == k + 1);\n        for (int u = 0; u <= k; ++u)\
+    \ {\n            assert(hk.match_left[u] == u && hk.match_right[u] == u);\n  \
+    \      }\n        auto [left, right] = hk.minimum_vertex_cover();\n        assert(left.size()\
+    \ == (size_t)k + 1 && right.empty());\n    }\n    for (unsigned mask = 0; mask\
+    \ < (1U << 16); ++mask) {\n        HopcroftKarp hk(4, 4);\n        vector<unsigned>\
+    \ edges(4);\n        for (int u = 0; u < 4; ++u) for (int v = 0; v < 4; ++v) if\
+    \ (mask >> (4 * u + v) & 1) {\n            hk.add_edge(u, v);\n            edges[u]\
+    \ |= 1U << v;\n        }\n        if (mask & 1) hk.max_matching();\n        check(hk,\
+    \ edges, 4);\n    }\n    mt19937 random(56);\n    for (int l = 0; l <= 6; ++l)\
+    \ for (int r = 0; r <= 6; ++r) {\n        HopcroftKarp hk(l, r);\n        vector<unsigned>\
+    \ edges(l);\n        check(hk, edges, r);\n        if (!l || !r) continue;\n \
+    \       for (int step = 0; step < 30; ++step) {\n            int u = random()\
+    \ % l, v = random() % r;\n            hk.add_edge(u, v);\n            if (step\
+    \ % 3 == 0) hk.add_edge(u, v);\n            edges[u] |= 1U << v;\n           \
+    \ if (step % 2) hk.max_matching();\n            check(hk, edges, r);\n       \
+    \ }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../graph/hopcroft_karp.cpp\"\
     \n\nvoid check(HopcroftKarp &hk, const vector<unsigned> &edges, int r) {\n   \
@@ -326,27 +335,34 @@ data:
     \ >> v & 1) && !seen_l[u] && !seen_r[v]);\n            seen_l[u] = seen_r[v] =\
     \ true;\n            assert(hk.match_left[u] == v && hk.match_right[v] == u);\n\
     \        }\n        assert(hk.max_matching() == best);\n    }\n}\n\nvoid self_check()\
-    \ {\n    for (unsigned mask = 0; mask < (1U << 16); ++mask) {\n        HopcroftKarp\
-    \ hk(4, 4);\n        vector<unsigned> edges(4);\n        for (int u = 0; u < 4;\
-    \ ++u) for (int v = 0; v < 4; ++v) if (mask >> (4 * u + v) & 1) {\n          \
-    \  hk.add_edge(u, v);\n            edges[u] |= 1U << v;\n        }\n        if\
-    \ (mask & 1) hk.max_matching();\n        check(hk, edges, 4);\n    }\n    mt19937\
-    \ random(56);\n    for (int l = 0; l <= 6; ++l) for (int r = 0; r <= 6; ++r) {\n\
-    \        HopcroftKarp hk(l, r);\n        vector<unsigned> edges(l);\n        check(hk,\
-    \ edges, r);\n        if (!l || !r) continue;\n        for (int step = 0; step\
-    \ < 30; ++step) {\n            int u = random() % l, v = random() % r;\n     \
-    \       hk.add_edge(u, v);\n            if (step % 3 == 0) hk.add_edge(u, v);\n\
-    \            edges[u] |= 1U << v;\n            if (step % 2) hk.max_matching();\n\
-    \            check(hk, edges, r);\n        }\n    }\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n}\n"
+    \ {\n    for (int k : {2, 7, 32000}) {\n        HopcroftKarp hk(k + 1, k + 1);\n\
+    \        hk.add_edge(k, 0);\n        assert(hk.max_matching() == 1);\n       \
+    \ for (int v = 1; v <= k; ++v) hk.add_edge(k, v);\n        for (int u = 0; u <\
+    \ k; ++u) hk.add_edge(u, u);\n        assert(hk.max_matching() == k + 1);\n  \
+    \      assert(hk.max_matching() == k + 1);\n        for (int u = 0; u <= k; ++u)\
+    \ {\n            assert(hk.match_left[u] == u && hk.match_right[u] == u);\n  \
+    \      }\n        auto [left, right] = hk.minimum_vertex_cover();\n        assert(left.size()\
+    \ == (size_t)k + 1 && right.empty());\n    }\n    for (unsigned mask = 0; mask\
+    \ < (1U << 16); ++mask) {\n        HopcroftKarp hk(4, 4);\n        vector<unsigned>\
+    \ edges(4);\n        for (int u = 0; u < 4; ++u) for (int v = 0; v < 4; ++v) if\
+    \ (mask >> (4 * u + v) & 1) {\n            hk.add_edge(u, v);\n            edges[u]\
+    \ |= 1U << v;\n        }\n        if (mask & 1) hk.max_matching();\n        check(hk,\
+    \ edges, 4);\n    }\n    mt19937 random(56);\n    for (int l = 0; l <= 6; ++l)\
+    \ for (int r = 0; r <= 6; ++r) {\n        HopcroftKarp hk(l, r);\n        vector<unsigned>\
+    \ edges(l);\n        check(hk, edges, r);\n        if (!l || !r) continue;\n \
+    \       for (int step = 0; step < 30; ++step) {\n            int u = random()\
+    \ % l, v = random() % r;\n            hk.add_edge(u, v);\n            if (step\
+    \ % 3 == 0) hk.add_edge(u, v);\n            edges[u] |= 1U << v;\n           \
+    \ if (step % 2) hk.max_matching();\n            check(hk, edges, r);\n       \
+    \ }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/hopcroft_karp.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-12 17:43:43+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_minimum_vertex_cover.test.cpp

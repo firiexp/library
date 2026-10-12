@@ -24,12 +24,11 @@ data:
     \ntemplate <class M>\nstruct PersistentSegmentTree{\n    using T = typename M::T;\n\
     \    struct Node{\n        T val;\n        int l, r;\n    };\n\n    int n{};\n\
     \    vector<Node> node;\n    vector<int> root;\n\n    explicit PersistentSegmentTree(int\
-    \ n): n(n){\n        if(n == 0){\n            node.push_back({M::e(), -1, -1});\n\
-    \            root.push_back(0);\n        }else{\n            root.push_back(build(0,\
-    \ n));\n        }\n    }\n    explicit PersistentSegmentTree(const vector<T> &v):\
-    \ n(v.size()){\n        if(n == 0){\n            node.push_back({M::e(), -1, -1});\n\
-    \            root.push_back(0);\n        }else{\n            root.push_back(build(0,\
-    \ n, v));\n        }\n    }\n\n    int latest_version() const { return root.size()-1;\
+    \ n): n(n){\n        node.push_back({M::e(), 0, 0});\n        root.push_back(0);\n\
+    \    }\n    explicit PersistentSegmentTree(const vector<T> &v): n(v.size()){\n\
+    \        if(n == 0){\n            node.push_back({M::e(), -1, -1});\n        \
+    \    root.push_back(0);\n        }else{\n            root.push_back(build(0, n,\
+    \ v));\n        }\n    }\n\n    int latest_version() const { return root.size()-1;\
     \ }\n    int versions() const { return root.size(); }\n\n    int update(int t,\
     \ int k, const T &x){\n        if(n == 0){\n            root.push_back(root[t]);\n\
     \            return latest_version();\n        }\n        root.push_back(update_(root[t],\
@@ -44,10 +43,7 @@ data:
     \ a, b); }\n\n    T get(int t, int k) const { return query(t, k, k+1); }\n   \
     \ T operator[](const int &k) const { return get(latest_version(), k); }\n\nprivate:\n\
     \    int make_node(const T &v, int l, int r){\n        node.push_back({v, l, r});\n\
-    \        return node.size()-1;\n    }\n\n    int build(int l, int r){\n      \
-    \  if(l+1 == r) return make_node(M::e(), -1, -1);\n        int m = (l+r)>>1;\n\
-    \        int ll = build(l, m), rr = build(m, r);\n        return make_node(M::f(node[ll].val,\
-    \ node[rr].val), ll, rr);\n    }\n    int build(int l, int r, const vector<T>\
+    \        return node.size()-1;\n    }\n\n    int build(int l, int r, const vector<T>\
     \ &v){\n        if(l+1 == r) return make_node(v[l], -1, -1);\n        int m =\
     \ (l+r)>>1;\n        int ll = build(l, m, v), rr = build(m, r, v);\n        return\
     \ make_node(M::f(node[ll].val, node[rr].val), ll, rr);\n    }\n\n    int update_(int\
@@ -92,7 +88,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_point_add_range_sum_persistent.test.cpp
   requiredBy: []
-  timestamp: '2026-03-22 19:39:35+09:00'
+  timestamp: '2026-10-12 17:46:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_range_sum_persistent.test.cpp

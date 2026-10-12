@@ -1168,10 +1168,16 @@ data:
     \ m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
     \ }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n\
     \        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n     \
-    \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
-    \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
-    \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
+    \   vector<int> l(m), r(m);\n        vector<double> angles;\n        for (int\
+    \ i = 0; i < n; ++i) {\n            if (G_[i].size() >= 16) {\n              \
+    \  angles.resize(G_[i].size());\n                for (int j = 0; j < (int)G_[i].size();\
+    \ ++j) {\n                    angles[j] = arg(v[G_[i][j].to] - v[i]);\n      \
+    \              G_[i][j].id2 = j;\n                }\n                sort(G_[i].begin(),\
+    \ G_[i].end(), [&](const P &a, const P &b){ return angles[a.id2] < angles[b.id2];\
+    \ });\n            } else {\n                sort(G_[i].begin(), G_[i].end(),\
+    \ [&](const P &a, const P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });\n\
+    \            }\n            for (int j = 0; j < G_[i].size(); ++j) {\n       \
+    \         G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
     \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
     \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
     \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
@@ -1520,7 +1526,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:01:52+09:00'
+  timestamp: '2026-10-12 17:49:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

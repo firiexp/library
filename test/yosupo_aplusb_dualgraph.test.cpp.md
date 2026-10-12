@@ -406,10 +406,16 @@ data:
     \ m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
     \ }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n\
     \        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n     \
-    \   vector<int> l(m), r(m);\n        for (int i = 0; i < n; ++i) {\n         \
-    \   sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i])\
-    \ < arg(v[b.to]-v[i]); });\n            for (int j = 0; j < G_[i].size(); ++j)\
-    \ {\n                G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
+    \   vector<int> l(m), r(m);\n        vector<double> angles;\n        for (int\
+    \ i = 0; i < n; ++i) {\n            if (G_[i].size() >= 16) {\n              \
+    \  angles.resize(G_[i].size());\n                for (int j = 0; j < (int)G_[i].size();\
+    \ ++j) {\n                    angles[j] = arg(v[G_[i][j].to] - v[i]);\n      \
+    \              G_[i][j].id2 = j;\n                }\n                sort(G_[i].begin(),\
+    \ G_[i].end(), [&](const P &a, const P &b){ return angles[a.id2] < angles[b.id2];\
+    \ });\n            } else {\n                sort(G_[i].begin(), G_[i].end(),\
+    \ [&](const P &a, const P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });\n\
+    \            }\n            for (int j = 0; j < G_[i].size(); ++j) {\n       \
+    \         G_[i][j].nxt = (j + 1) % G_[i].size();\n                G_[i][j].id2\
     \ = 0;\n                if(i < G_[i][j].to) l[G_[i][j].id] = j;\n            \
     \    else r[G_[i][j].id] = j;\n            }\n        }\n        for (int i =\
     \ 0; i < n; ++i) {\n            for (auto &&e : G_[i]) {\n                e.rev\
@@ -429,8 +435,15 @@ data:
     \ */\n#line 7 \"test/yosupo_aplusb_dualgraph.test.cpp\"\n\nvoid check(const Polygon\
     \ &points, const vector<pair<int, int>> &edges) {\n    int n = points.size(),\
     \ m = edges.size();\n    DualGraph dual(points);\n    for (auto [u, v] : edges)\
-    \ dual.add_edge(u, v);\n    vector<vector<int>> previous;\n    for (int build\
-    \ = 0; build < 2; ++build) {\n        dual.build();\n        assert((int)dual.A.size()\
+    \ dual.add_edge(u, v);\n    vector<vector<int>> previous;\n    vector<vector<pair<double,\
+    \ double>>> previous_faces;\n    for (int build = 0; build < 2; ++build) {\n \
+    \       dual.build();\n        for (int u = 0; u < n; ++u) {\n            const\
+    \ auto &adj = dual.G_[u];\n            for (int j = 0; j < (int)adj.size(); ++j)\
+    \ {\n                const auto &e = adj[j];\n                assert(e.nxt ==\
+    \ (j + 1) % (int)adj.size());\n                assert(dual.G_[e.to][e.rev].to\
+    \ == u);\n                assert(dual.G_[e.to][e.rev].id == e.id);\n         \
+    \       if (j) assert(arg(points[adj[j - 1].to] - points[u]) <= arg(points[e.to]\
+    \ - points[u]));\n            }\n        }\n        assert((int)dual.A.size()\
     \ == m - n + 2);\n        assert(dual.G.size() == dual.A.size());\n        int\
     \ boundary_size = 0;\n        for (const auto &face : dual.A) boundary_size +=\
     \ face.size();\n        assert(boundary_size == 2 * m);\n        vector<vector<int>>\
@@ -451,14 +464,27 @@ data:
     \   for (int f = 0; f < (int)expected.size(); ++f) {\n            sort(expected[f].begin(),\
     \ expected[f].end());\n            auto actual = dual.G[f];\n            sort(actual.begin(),\
     \ actual.end());\n            assert(actual == expected[f]);\n        }\n    \
-    \    if (build) assert(dual.G == previous);\n        previous = dual.G;\n    }\n\
-    }\n\nvoid self_check() {\n    check({Point(0, 0), Point(1, 0), Point(-1, 0)},\
-    \ {{0, 1}, {0, 2}});\n    check({Point(0, 0), Point(1, 0), Point(-1, 0), Point(0,\
-    \ 1), Point(0, -1)},\n          {{0, 1}, {0, 2}, {0, 3}, {0, 4}});\n    check({Point(0,\
-    \ 0), Point(2, 0), Point(0, 2)}, {{0, 1}, {1, 2}, {2, 0}});\n    check({Point(0,\
-    \ 0), Point(2, 0), Point(0, 2), Point(-1, 0)},\n          {{0, 1}, {1, 2}, {2,\
-    \ 0}, {0, 3}});\n    mt19937 rng(15);\n    for (int h = 1; h <= 6; ++h) for (int\
-    \ w = 1; w <= 6; ++w) {\n        if (h * w < 2) continue;\n        Polygon points;\n\
+    \    if (build) assert(dual.G == previous);\n        previous = dual.G;\n    \
+    \    vector<vector<pair<double, double>>> faces;\n        for (const auto &face\
+    \ : dual.A) {\n            faces.emplace_back();\n            for (Point p : face)\
+    \ faces.back().emplace_back(p.x, p.y);\n        }\n        if (build) assert(faces\
+    \ == previous_faces);\n        previous_faces = faces;\n    }\n}\n\nvoid self_check()\
+    \ {\n    check({Point(0, 0), Point(1, 0), Point(-1, 0)}, {{0, 1}, {0, 2}});\n\
+    \    check({Point(0, 0), Point(1, 0), Point(-1, 0), Point(0, 1), Point(0, -1)},\n\
+    \          {{0, 1}, {0, 2}, {0, 3}, {0, 4}});\n    check({Point(0, 0), Point(2,\
+    \ 0), Point(0, 2)}, {{0, 1}, {1, 2}, {2, 0}});\n    check({Point(0, 0), Point(2,\
+    \ 0), Point(0, 2), Point(-1, 0)},\n          {{0, 1}, {1, 2}, {2, 0}, {0, 3}});\n\
+    \    mt19937 rng(15);\n    for (int degree : {3, 14, 15, 16, 17, 32, 64}) {\n\
+    \        Polygon points{Point(0, 0)};\n        vector<pair<int, int>> spokes,\
+    \ wheel;\n        for (int i = 0; i < degree; ++i) {\n            double angle\
+    \ = 2 * pi * i / degree;\n            points.emplace_back(cos(angle), sin(angle));\n\
+    \            spokes.emplace_back(0, i + 1);\n        }\n        wheel = spokes;\n\
+    \        for (int i = 0; i < degree; ++i) wheel.emplace_back(i + 1, (i + 1) %\
+    \ degree + 1);\n        for (int repeat = 0; repeat < 8; ++repeat) {\n       \
+    \     shuffle(spokes.begin(), spokes.end(), rng);\n            shuffle(wheel.begin(),\
+    \ wheel.end(), rng);\n            check(points, spokes);\n            check(points,\
+    \ wheel);\n        }\n    }\n    for (int h = 1; h <= 6; ++h) for (int w = 1;\
+    \ w <= 6; ++w) {\n        if (h * w < 2) continue;\n        Polygon points;\n\
     \        vector<pair<int, int>> edges;\n        for (int y = 0; y < h; ++y) for\
     \ (int x = 0; x < w; ++x) {\n            int v = y * w + x;\n            points.emplace_back(x,\
     \ y);\n            if (x) edges.emplace_back(v - 1, v);\n            if (y &&\
@@ -471,10 +497,17 @@ data:
     \n\nvoid check(const Polygon &points, const vector<pair<int, int>> &edges) {\n\
     \    int n = points.size(), m = edges.size();\n    DualGraph dual(points);\n \
     \   for (auto [u, v] : edges) dual.add_edge(u, v);\n    vector<vector<int>> previous;\n\
-    \    for (int build = 0; build < 2; ++build) {\n        dual.build();\n      \
-    \  assert((int)dual.A.size() == m - n + 2);\n        assert(dual.G.size() == dual.A.size());\n\
-    \        int boundary_size = 0;\n        for (const auto &face : dual.A) boundary_size\
-    \ += face.size();\n        assert(boundary_size == 2 * m);\n        vector<vector<int>>\
+    \    vector<vector<pair<double, double>>> previous_faces;\n    for (int build\
+    \ = 0; build < 2; ++build) {\n        dual.build();\n        for (int u = 0; u\
+    \ < n; ++u) {\n            const auto &adj = dual.G_[u];\n            for (int\
+    \ j = 0; j < (int)adj.size(); ++j) {\n                const auto &e = adj[j];\n\
+    \                assert(e.nxt == (j + 1) % (int)adj.size());\n               \
+    \ assert(dual.G_[e.to][e.rev].to == u);\n                assert(dual.G_[e.to][e.rev].id\
+    \ == e.id);\n                if (j) assert(arg(points[adj[j - 1].to] - points[u])\
+    \ <= arg(points[e.to] - points[u]));\n            }\n        }\n        assert((int)dual.A.size()\
+    \ == m - n + 2);\n        assert(dual.G.size() == dual.A.size());\n        int\
+    \ boundary_size = 0;\n        for (const auto &face : dual.A) boundary_size +=\
+    \ face.size();\n        assert(boundary_size == 2 * m);\n        vector<vector<int>>\
     \ sides(m);\n        for (const auto &neighbors : dual.G_) for (const auto &e\
     \ : neighbors) {\n            assert(1 <= e.id2 && e.id2 <= (int)dual.A.size());\n\
     \            sides[e.id].push_back(e.id2 - 1);\n        }\n        vector<vector<int>>\
@@ -492,14 +525,27 @@ data:
     \   for (int f = 0; f < (int)expected.size(); ++f) {\n            sort(expected[f].begin(),\
     \ expected[f].end());\n            auto actual = dual.G[f];\n            sort(actual.begin(),\
     \ actual.end());\n            assert(actual == expected[f]);\n        }\n    \
-    \    if (build) assert(dual.G == previous);\n        previous = dual.G;\n    }\n\
-    }\n\nvoid self_check() {\n    check({Point(0, 0), Point(1, 0), Point(-1, 0)},\
-    \ {{0, 1}, {0, 2}});\n    check({Point(0, 0), Point(1, 0), Point(-1, 0), Point(0,\
-    \ 1), Point(0, -1)},\n          {{0, 1}, {0, 2}, {0, 3}, {0, 4}});\n    check({Point(0,\
-    \ 0), Point(2, 0), Point(0, 2)}, {{0, 1}, {1, 2}, {2, 0}});\n    check({Point(0,\
-    \ 0), Point(2, 0), Point(0, 2), Point(-1, 0)},\n          {{0, 1}, {1, 2}, {2,\
-    \ 0}, {0, 3}});\n    mt19937 rng(15);\n    for (int h = 1; h <= 6; ++h) for (int\
-    \ w = 1; w <= 6; ++w) {\n        if (h * w < 2) continue;\n        Polygon points;\n\
+    \    if (build) assert(dual.G == previous);\n        previous = dual.G;\n    \
+    \    vector<vector<pair<double, double>>> faces;\n        for (const auto &face\
+    \ : dual.A) {\n            faces.emplace_back();\n            for (Point p : face)\
+    \ faces.back().emplace_back(p.x, p.y);\n        }\n        if (build) assert(faces\
+    \ == previous_faces);\n        previous_faces = faces;\n    }\n}\n\nvoid self_check()\
+    \ {\n    check({Point(0, 0), Point(1, 0), Point(-1, 0)}, {{0, 1}, {0, 2}});\n\
+    \    check({Point(0, 0), Point(1, 0), Point(-1, 0), Point(0, 1), Point(0, -1)},\n\
+    \          {{0, 1}, {0, 2}, {0, 3}, {0, 4}});\n    check({Point(0, 0), Point(2,\
+    \ 0), Point(0, 2)}, {{0, 1}, {1, 2}, {2, 0}});\n    check({Point(0, 0), Point(2,\
+    \ 0), Point(0, 2), Point(-1, 0)},\n          {{0, 1}, {1, 2}, {2, 0}, {0, 3}});\n\
+    \    mt19937 rng(15);\n    for (int degree : {3, 14, 15, 16, 17, 32, 64}) {\n\
+    \        Polygon points{Point(0, 0)};\n        vector<pair<int, int>> spokes,\
+    \ wheel;\n        for (int i = 0; i < degree; ++i) {\n            double angle\
+    \ = 2 * pi * i / degree;\n            points.emplace_back(cos(angle), sin(angle));\n\
+    \            spokes.emplace_back(0, i + 1);\n        }\n        wheel = spokes;\n\
+    \        for (int i = 0; i < degree; ++i) wheel.emplace_back(i + 1, (i + 1) %\
+    \ degree + 1);\n        for (int repeat = 0; repeat < 8; ++repeat) {\n       \
+    \     shuffle(spokes.begin(), spokes.end(), rng);\n            shuffle(wheel.begin(),\
+    \ wheel.end(), rng);\n            check(points, spokes);\n            check(points,\
+    \ wheel);\n        }\n    }\n    for (int h = 1; h <= 6; ++h) for (int w = 1;\
+    \ w <= 6; ++w) {\n        if (h * w < 2) continue;\n        Polygon points;\n\
     \        vector<pair<int, int>> edges;\n        for (int y = 0; y < h; ++y) for\
     \ (int x = 0; x < w; ++x) {\n            int v = y * w + x;\n            points.emplace_back(x,\
     \ y);\n            if (x) edges.emplace_back(v - 1, v);\n            if (y &&\
@@ -514,7 +560,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_dualgraph.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-12 17:49:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_dualgraph.test.cpp

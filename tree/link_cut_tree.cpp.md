@@ -5,8 +5,14 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
+    title: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
     title: test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
+    title: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -72,7 +78,14 @@ data:
     \ nodes[x].val;\n    }\n\n    T fold(int u, int v) {\n        evert(u);\n    \
     \    expose(v);\n        return nodes[v].sum;\n    }\n\n    int dist(int u, int\
     \ v) {\n        evert(u);\n        expose(v);\n        return nodes[v].sz - 1;\n\
-    \    }\n};\n\n/**\n * @brief Link-Cut Tree\n */\n"
+    \    }\n\n    int jump(int u, int v, int k) {\n        if (k < 0) return -1;\n\
+    \        evert(u);\n        if (get_root(v) != u || k >= nodes[u].sz) return -1;\n\
+    \        int x = u;\n        while (true) {\n            push(x);\n          \
+    \  int left = nodes[x].l == -1 ? 0 : nodes[nodes[x].l].sz;\n            if (k\
+    \ == left) {\n                splay(x);\n                return x;\n         \
+    \   }\n            if (k < left) {\n                x = nodes[x].l;\n        \
+    \    } else {\n                k -= left + 1;\n                x = nodes[x].r;\n\
+    \            }\n        }\n    }\n};\n\n/**\n * @brief Link-Cut Tree\n */\n"
   code: "template <class M>\nstruct LinkCutTree {\n    using T = typename M::T;\n\n\
     \    struct Node {\n        int l, r, p, sz;\n        bool rev;\n        T val,\
     \ sum, rsum;\n        Node() : l(-1), r(-1), p(-1), sz(1), rev(false), val(M::e()),\
@@ -131,16 +144,25 @@ data:
     \    T get(int x) {\n        expose(x);\n        return nodes[x].val;\n    }\n\
     \n    T fold(int u, int v) {\n        evert(u);\n        expose(v);\n        return\
     \ nodes[v].sum;\n    }\n\n    int dist(int u, int v) {\n        evert(u);\n  \
-    \      expose(v);\n        return nodes[v].sz - 1;\n    }\n};\n\n/**\n * @brief\
-    \ Link-Cut Tree\n */\n"
+    \      expose(v);\n        return nodes[v].sz - 1;\n    }\n\n    int jump(int\
+    \ u, int v, int k) {\n        if (k < 0) return -1;\n        evert(u);\n     \
+    \   if (get_root(v) != u || k >= nodes[u].sz) return -1;\n        int x = u;\n\
+    \        while (true) {\n            push(x);\n            int left = nodes[x].l\
+    \ == -1 ? 0 : nodes[nodes[x].l].sz;\n            if (k == left) {\n          \
+    \      splay(x);\n                return x;\n            }\n            if (k\
+    \ < left) {\n                x = nodes[x].l;\n            } else {\n         \
+    \       k -= left + 1;\n                x = nodes[x].r;\n            }\n     \
+    \   }\n    }\n};\n\n/**\n * @brief Link-Cut Tree\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/link_cut_tree.cpp
   requiredBy: []
-  timestamp: '2026-03-13 21:57:37+09:00'
+  timestamp: '2026-10-12 17:52:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_link_cut_tree_jump.test.cpp
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
+  - test/yosupo_jump_on_tree_link_cut_tree.test.cpp
 date: 2026-03-08
 documentation_of: tree/link_cut_tree.cpp
 layout: document
@@ -177,11 +199,15 @@ title: Link-Cut Tree
   パス `u -> v` 上の値を順番通りに集約する
 - `int dist(int u, int v)`
   パス長を返す
+- `int jump(int u, int v, int k)`
+  `u` から `v` へ `k` 辺進んだ頂点を返す。非連結の場合、または `k` が負かパス長を超える場合は `-1`
 
 ## 使い方
 `LinkCutTree<M> lct(n);` を作り、`M` に `using T`、`static T f(T, T)`、`static T e()` を定義する。
 頂点値は `set(v, x)` で更新し、`fold(u, v)` で `u` から `v` への順序付きパス集約を取る。
 辺操作は `link(u, v)`、`cut(u, v)` を使う。
+`jump(u, v, k)` は動的な辺変更の後でも呼べる。頂点番号は有効な範囲とする。
+`k >= 0` のとき、失敗時も含めて `u` の木の根を `u` に変更する。`k < 0` では状態を変更しない。
 
 `M` は次を持てばよい。
 
@@ -194,3 +220,7 @@ struct Monoid {
 ```
 
 `fold(u, v)` は順序を保つので、非可換モノイドでも使える。
+
+## 実装上の補足
+`jump` は補助木の部分木サイズで順位を探し、得た頂点を splay する。
+追加の恒久データは不要で、モノイド演算を $O(1)$ として償却 $O(\log N)$。1回の最悪時間の保証ではない。
