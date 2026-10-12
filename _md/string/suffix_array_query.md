@@ -11,13 +11,15 @@ documentation_of: //string/suffix_array_query.cpp
 ## できること
 - `SuffixArrayQuery q(s)`
   `string` または `vector<T>` から構築する。入力は変更しない
+- `int suffix_rank(int i) const`
+  `s[i..N)` の辞書順の順位を $0$ 以上 $N$ 未満で返す。$0\le i<N$ が必要
 - `int lce(int i, int j) const`
   `s[i..N)` と `s[j..N)` の最長共通接頭辞の長さを返す
 - `int compare(int l1, int r1, int l2, int r2) const`
   `s[l1..r1)` と `s[l2..r2)` を辞書順で比較し、小さい・等しい・大きい場合にそれぞれ `-1`・`0`・`1` を返す
 
 ## 使い方
-添字は $0$ 以上 $N$ 以下、区間は半開区間で指定する。空区間や末尾 $N$ も指定できる。
+`lce` と `compare` の添字は $0$ 以上 $N$ 以下、区間は半開区間で指定する。空区間や末尾 $N$ も指定できる。
 文字列は符号なし byte 順で比較する。`vector<T>` では `<` と `==`・`!=` が整合することを前提とする。
 
 ```cpp

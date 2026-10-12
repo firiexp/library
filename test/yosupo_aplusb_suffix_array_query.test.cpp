@@ -14,6 +14,12 @@ void check(const Sequence& s, const vector<int>& values) {
     const SuffixArrayQuery q(s);
     assert(s == original);
     int n = (int)s.size();
+    for (int i = 0; i < n; ++i) {
+        int rank = 0;
+        for (int j = 0; j < n; ++j)
+            rank += lexicographical_compare(values.begin() + j, values.end(), values.begin() + i, values.end());
+        assert(q.suffix_rank(i) == rank);
+    }
     for (int i = 0; i <= n; ++i) for (int j = 0; j <= n; ++j) {
         int common = 0;
         while (i + common < n && j + common < n && values[i + common] == values[j + common]) ++common;

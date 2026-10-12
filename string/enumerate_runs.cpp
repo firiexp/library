@@ -15,8 +15,12 @@ vector<Run> enumerate_runs(const string& s) {
     vector<int> values = convert(s), rank(n), stack;
     stack.reserve(n);
     for (int order = 0; order < 2; ++order) {
-        auto sa = suffix_array(values, 255);
-        for (int i = 0; i < n; ++i) rank[sa[i]] = i;
+        if (order == 0) {
+            for (int i = 0; i < n; ++i) rank[i] = forward.suffix_rank(i);
+        } else {
+            auto sa = suffix_array(values, 255);
+            for (int i = 0; i < n; ++i) rank[sa[i]] = i;
+        }
         stack.clear();
         for (int i = n - 1; i >= 0; --i) {
             while (!stack.empty() && rank[i] < rank[stack.back()]) stack.pop_back();

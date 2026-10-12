@@ -28,6 +28,8 @@ public:
     template<class T>
     explicit SuffixArrayQuery(const vector<T>& s) { initialize(s); }
 
+    int suffix_rank(int i) const { return rank[i]; }
+
     int lce(int i, int j) const {
         if (i == j) return n - i;
         if (i == n || j == n) return 0;
