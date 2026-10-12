@@ -22,8 +22,18 @@ public:
 
     void build(){
         vector<int> l(m), r(m);
+        vector<double> angles;
         for (int i = 0; i < n; ++i) {
-            sort(G_[i].begin(), G_[i].end(), [&](P &a, P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });
+            if (G_[i].size() >= 16) {
+                angles.resize(G_[i].size());
+                for (int j = 0; j < (int)G_[i].size(); ++j) {
+                    angles[j] = arg(v[G_[i][j].to] - v[i]);
+                    G_[i][j].id2 = j;
+                }
+                sort(G_[i].begin(), G_[i].end(), [&](const P &a, const P &b){ return angles[a.id2] < angles[b.id2]; });
+            } else {
+                sort(G_[i].begin(), G_[i].end(), [&](const P &a, const P &b){ return arg(v[a.to]-v[i]) < arg(v[b.to]-v[i]); });
+            }
             for (int j = 0; j < G_[i].size(); ++j) {
                 G_[i][j].nxt = (j + 1) % G_[i].size();
                 G_[i][j].id2 = 0;

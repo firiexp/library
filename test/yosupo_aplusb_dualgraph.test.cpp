@@ -10,8 +10,19 @@ void check(const Polygon &points, const vector<pair<int, int>> &edges) {
     DualGraph dual(points);
     for (auto [u, v] : edges) dual.add_edge(u, v);
     vector<vector<int>> previous;
+    vector<vector<pair<double, double>>> previous_faces;
     for (int build = 0; build < 2; ++build) {
         dual.build();
+        for (int u = 0; u < n; ++u) {
+            const auto &adj = dual.G_[u];
+            for (int j = 0; j < (int)adj.size(); ++j) {
+                const auto &e = adj[j];
+                assert(e.nxt == (j + 1) % (int)adj.size());
+                assert(dual.G_[e.to][e.rev].to == u);
+                assert(dual.G_[e.to][e.rev].id == e.id);
+                if (j) assert(arg(points[adj[j - 1].to] - points[u]) <= arg(points[e.to] - points[u]));
+            }
+        }
         assert((int)dual.A.size() == m - n + 2);
         assert(dual.G.size() == dual.A.size());
         int boundary_size = 0;
@@ -50,6 +61,13 @@ void check(const Polygon &points, const vector<pair<int, int>> &edges) {
         }
         if (build) assert(dual.G == previous);
         previous = dual.G;
+        vector<vector<pair<double, double>>> faces;
+        for (const auto &face : dual.A) {
+            faces.emplace_back();
+            for (Point p : face) faces.back().emplace_back(p.x, p.y);
+        }
+        if (build) assert(faces == previous_faces);
+        previous_faces = faces;
     }
 }
 
@@ -61,6 +79,23 @@ void self_check() {
     check({Point(0, 0), Point(2, 0), Point(0, 2), Point(-1, 0)},
           {{0, 1}, {1, 2}, {2, 0}, {0, 3}});
     mt19937 rng(15);
+    for (int degree : {3, 14, 15, 16, 17, 32, 64}) {
+        Polygon points{Point(0, 0)};
+        vector<pair<int, int>> spokes, wheel;
+        for (int i = 0; i < degree; ++i) {
+            double angle = 2 * pi * i / degree;
+            points.emplace_back(cos(angle), sin(angle));
+            spokes.emplace_back(0, i + 1);
+        }
+        wheel = spokes;
+        for (int i = 0; i < degree; ++i) wheel.emplace_back(i + 1, (i + 1) % degree + 1);
+        for (int repeat = 0; repeat < 8; ++repeat) {
+            shuffle(spokes.begin(), spokes.end(), rng);
+            shuffle(wheel.begin(), wheel.end(), rng);
+            check(points, spokes);
+            check(points, wheel);
+        }
+    }
     for (int h = 1; h <= 6; ++h) for (int w = 1; w <= 6; ++w) {
         if (h * w < 2) continue;
         Polygon points;
