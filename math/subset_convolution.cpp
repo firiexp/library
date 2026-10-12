@@ -23,6 +23,7 @@ vector<T> subset_convolution(vector<T> a, vector<T> b){
         int step = 1 << i;
         int span = step << 1;
         for (int block = 0; block < n; block += span) {
+            int lower = pc[block >> (i + 1)];
             for (int j = 0; j < step; ++j) {
                 int s = block + j;
                 int t = s + step;
@@ -30,7 +31,7 @@ vector<T> subset_convolution(vector<T> a, vector<T> b){
                 T *at = fa.data() + t * w;
                 T *bs = fb.data() + s * w;
                 T *bt = fb.data() + t * w;
-                for (int k = 0, lim = pc[s]; k <= lim; ++k) {
+                for (int k = lower, lim = pc[s]; k <= lim; ++k) {
                     at[k] += as[k];
                     bt[k] += bs[k];
                 }
@@ -42,7 +43,7 @@ vector<T> subset_convolution(vector<T> a, vector<T> b){
         const T *bs = fb.data() + s * w;
         int p = pc[s];
         int lim = lim2[p];
-        for (int k = lim; k >= 0; --k) {
+        for (int k = lim; k >= p; --k) {
             int l = max(0, k - p);
             int r = min(k, p);
             T sum = 0;
@@ -61,7 +62,7 @@ vector<T> subset_convolution(vector<T> a, vector<T> b){
                 int t = s + step;
                 T *cs = fa.data() + s * w;
                 T *ct = fa.data() + t * w;
-                for (int k = 0, lim = lim2[pc[s]]; k <= lim; ++k) {
+                for (int k = pc[t], lim = lim2[pc[s]]; k <= lim; ++k) {
                     ct[k] -= cs[k];
                 }
             }
