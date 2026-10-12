@@ -11,12 +11,8 @@ struct PersistentSegmentTree{
     vector<int> root;
 
     explicit PersistentSegmentTree(int n): n(n){
-        if(n == 0){
-            node.push_back({M::e(), -1, -1});
-            root.push_back(0);
-        }else{
-            root.push_back(build(0, n));
-        }
+        node.push_back({M::e(), 0, 0});
+        root.push_back(0);
     }
     explicit PersistentSegmentTree(const vector<T> &v): n(v.size()){
         if(n == 0){
@@ -65,12 +61,6 @@ private:
         return node.size()-1;
     }
 
-    int build(int l, int r){
-        if(l+1 == r) return make_node(M::e(), -1, -1);
-        int m = (l+r)>>1;
-        int ll = build(l, m), rr = build(m, r);
-        return make_node(M::f(node[ll].val, node[rr].val), ll, rr);
-    }
     int build(int l, int r, const vector<T> &v){
         if(l+1 == r) return make_node(v[l], -1, -1);
         int m = (l+r)>>1;

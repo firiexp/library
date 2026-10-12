@@ -11,12 +11,8 @@ class PersistentUnionFind {
 
 public:
     explicit PersistentUnionFind(int sz) : n(sz) {
-        if (n == 0) {
-            node.push_back({-1, -1, -1});
-            roots.push_back({0, 0});
-        } else {
-            roots.push_back({build(0, n), n});
-        }
+        node.push_back({-1, 0, 0});
+        roots.push_back({0, n});
     }
 
     int versions() const { return roots.size(); }
@@ -70,12 +66,6 @@ private:
     int make_node(int val, int l, int r) {
         node.push_back({val, l, r});
         return node.size() - 1;
-    }
-
-    int build(int l, int r) {
-        if (l + 1 == r) return make_node(-1, -1, -1);
-        int m = (l + r) >> 1;
-        return make_node(0, build(l, m), build(m, r));
     }
 
     int get(int id, int k, int l, int r) const {

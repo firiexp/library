@@ -16,6 +16,16 @@ void check() {
     assert(empty.copy_version(0) == 1);
     assert(empty.unite(0, 0, 0) == 2);
     assert(empty.count(1) == 0 && empty.count(2) == 0);
+    PersistentUnionFind large(1000000000);
+    int first = large.unite(0, 0, 999999999);
+    int second = large.unite(0, 1, 500000000);
+    int third = large.unite(first, 999999999, 500000000);
+    assert(large.count(0) == 1000000000 && large.size(0, 0) == 1);
+    assert(large.count(first) == 999999999 && large.size(first, 999999999) == 2);
+    assert(large.root(first, 999999999) == 0 && large.root(second, 500000000) == 1);
+    assert(!large.same(second, 0, 999999999) && large.size(second, 500000000) == 2);
+    assert(large.size(third, 0) == 3 && large.count(third) == 999999998);
+    assert(large.root(third, 123456789) == 123456789);
     PersistentUnionFind split(17);
     int a = split.unite(0, 0, 16);
     int b = split.unite(0, 0, 1);
