@@ -3,7 +3,6 @@
 
 template<class Reset, class Apply, class Check>
 vector<int> parallel_binary_search(int m, int q, Reset reset, Apply apply, Check check) {
-    assert(0 <= m && m < INT_MAX && 0 <= q);
     if (q == 0) return {};
     vector<int> lo(q, -1), hi(q, m + 1), head(m + 1), next(q);
     while (true) {

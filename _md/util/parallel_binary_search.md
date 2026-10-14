@@ -34,5 +34,6 @@ auto answer = parallel_binary_search(m, q,
 ```
 
 ## 実装上の補足
-ラウンド数は $R=O(\log(M+2))$。初期化のコストを $C_{reset}$、更新を $A$、判定を $C$ として、時間は $O(R(M+Q+C_{reset}+MA+QC))$、補助領域は $O(M+Q)$。
-UnionFind などが償却保証を持つ場合は、その操作列全体の評価を使う。
+更新数を $M$、クエリ数を $Q$ とする。
+$O(\log M)$ ラウンドの二分探索を行い、各ラウンドで `reset` を1回、`apply` を高々 $M$ 回、`check` を高々 $Q$ 回呼ぶ。
+callback 以外の処理は $O((M+Q)\log M)$ 時間、補助領域は $O(M+Q)$。
