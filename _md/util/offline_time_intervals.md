@@ -1,5 +1,5 @@
 ---
-title: 生存区間のオフライン処理
+title: 追加・削除クエリのオフライン処理
 documentation_of: //util/offline_time_intervals.cpp
 date: 2026-10-14
 category: クエリ
@@ -7,26 +7,28 @@ tags: クエリ
 ---
 
 ## 説明
-イベントの生存区間を時間軸のセグメント木へ載せ、rollback 可能な状態を使って各時刻の問い合わせを処理する。
-イベントの適用順序が変わっても問い合わせの意味が変わらない操作を扱う。一般の時系列代入には使えない。
+辺の追加・削除を含むグラフの連結性判定などを、rollback 可能なデータ構造でオフラインに処理する。
+例えば、クエリ `l` で追加し、クエリ `r` で削除する辺は、区間 `[l,r)` で有効なイベントとして登録する。
+各クエリへの回答時には、その時点で有効なイベントだけが適用された状態になる。
+
+イベントの適用順序が変わってもクエリの答えが変わらない操作を扱う。
 
 ## できること
 - `OfflineTimeIntervals tm(q)`
-  時刻 `0..q-1` を用意する
+  `q` 個のクエリを処理する。追加・削除もクエリ数に含める
 - `tm.add_interval(l, r, event_id)`
   半開区間 `[l,r)` で有効なイベント ID を登録する。空区間は無視し、同じ ID の複数区間も別々に適用する
 - `tm.run(snapshot, apply, rollback, answer)`
-  内部構築と走査を行い、`answer(t)` を時刻順に呼ぶ。終了時には開始時の状態へ戻す。同じ登録内容で再実行できる
+  登録した区間を処理し、`answer(t)` をクエリ番号順に呼ぶ。終了時には開始時の状態へ戻す。同じ登録内容で再実行できる
 
 ## 使い方
-イベント本体は利用側の配列で保持する。`0 <= l <= r <= q` とし、各 callback は次の役割を持つ。
-
-- `snapshot()` は現在の状態を表す値を返す
-- `apply(id)` はイベントを適用する
-- `rollback(state)` は snapshot 時点へ状態を戻す
-- `answer(t)` は時刻 `t` の回答を保存する。状態の意味を変更しない
+イベント本体は利用側の配列で保持する。区間は `0 <= l <= r <= q` とする。
+`tm.run` は区間をセグメント木に分け、各ノードで `snapshot()` により状態を記録してから `apply(id)` でイベントを適用する。
+そのノード内の処理が終わると `rollback(state)` で記録した状態へ戻す。
+葉では `answer(t)` でクエリに答える。`answer` は状態の意味を変更せず、回答が不要なクエリでは何もしなくてよい。
 
 ```cpp
+tm.add_interval(l, r, id);
 tm.run([&] { return uf.get_state(); },
        [&](int id) { uf.unite(edges[id].u, edges[id].v, edges[id].w); },
        [&](int state) { uf.rollback(state); },
@@ -36,7 +38,10 @@ tm.run([&] { return uf.get_state(); },
 `q=0` では callback を呼ばない。登録後に別途 build や reserve を呼ぶ必要はない。
 
 ## 実装上の補足
-区間数を $K$、時刻数を $Q$ とする。登録は vector の拡張を含め償却 $O(1)$、登録内容の保持は $O(K)$。
-run 内の構築は $O(Q+K\log(Q+1))$。イベント列は offset と連続配列で持つ。
-snapshot が $O(1)$、適用が $A$、1イベントの取消が $U$、回答が $F$ なら、run は $O(Q+K\log(Q+1)(A+U)+QF)$、作業領域は $O(Q+K\log(Q+1))$。
-状態側が償却保証ならその区別を引き継ぐ。再帰の深さは $O(\log(Q+1))$。
+登録する区間数を $K$、クエリ数を $Q$ とする。
+
+- `tm.add_interval` は1回あたり償却 $O(1)$。登録内容の保持に $O(K)$ の領域を使う
+- `tm.run` は callback を除いて $O(Q+K\log Q)$ 時間、作業領域も $O(Q+K\log Q)$
+
+`tm.run` は `snapshot` と `rollback` をそれぞれ $O(Q)$ 回、`apply` を $O(K\log Q)$ 回、`answer` を $Q$ 回呼ぶ。
+`rollback` が操作を1つずつ取り消す実装なら、取り消す操作の総数は `apply` の呼び出し回数と同じとなる。
