@@ -328,6 +328,18 @@ struct poly {
         assert(!g.v.empty());
         if (f.size() < g.size()) return {poly(), f};
         int need = f.size() - g.size() + 1;
+        if (min(g.size(), need) <= 16 || 1LL * g.size() * need <= 4096) {
+            poly q(need);
+            mint inv_lead = g.v.back() == mint(1) ? mint(1) : g.v.back().inv();
+            for (int i = need - 1; i >= 0; --i) {
+                mint c = f[i + g.size() - 1] * inv_lead;
+                q[i] = c;
+                for (int j = 0; j + 1 < g.size(); ++j) f[i + j] -= c * g[j];
+            }
+            f.v.resize(g.size() - 1);
+            f.shrink();
+            return {std::move(q), std::move(f)};
+        }
         poly q = (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();
         poly r = f - g * q;
         r = r.pre(g.size() - 1);
