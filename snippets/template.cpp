@@ -1,3 +1,4 @@
+// My library: https://firiexp.github.io/library/
 #include <bits/stdc++.h>
 using namespace std;
 static const int MOD = 998244353;
