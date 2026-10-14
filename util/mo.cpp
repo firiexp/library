@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_UTIL_MO_CPP
+#define FIRIEXP_LIBRARY_UTIL_MO_CPP
+
 struct Query {
     static inline int bucket_size = 1;
     static inline int &B = bucket_size;
@@ -32,6 +35,8 @@ void mo_solve(int n, const vector<Query>& queries, AddLeft add_left, AddRight ad
         output(q.no);
     }
 }
+
+#endif
 
 /**
  * @brief Mo's Algorithm
