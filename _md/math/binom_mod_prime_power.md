@@ -20,7 +20,7 @@ tags: 数学
 
 ## 使い方
 `BinomModPrimePower binom(p, q);` を作り、`binom.C(n, k)` を呼ぶ。
-一般の合成数 mod `m` で使いたいときは、`m` を素因数分解して各 `p^q` ごとに値を出し、CRT で併合する。
+一般の法をまとめて扱う場合は `math/binom_mod.cpp` の `BinomMod(m)` を使う。
 
 ## 実装上の補足
 `n!` の `p` を除いた部分と `p` の指数を再帰的に分けて計算する。
