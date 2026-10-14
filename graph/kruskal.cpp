@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_GRAPH_KRUSKAL_CPP
+#define FIRIEXP_LIBRARY_GRAPH_KRUSKAL_CPP
+
 template <class T>
 struct edge {
     int from, to, idx;
@@ -57,6 +60,8 @@ KruskalResult<T> kruskal(vector<edge<T>> edges, int n) {
     if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};
     return {true, cost, std::move(edge_id)};
 }
+
+#endif
 
 /**
  * @brief 最小全域木(Kruskal法)
