@@ -23,6 +23,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/dijkstra_restore.cpp
     title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
+  - icon: ':heavy_check_mark:'
+    path: graph/range_edge_graph.cpp
+    title: "\u533A\u9593\u3078\u306E\u8FBA\u3092\u5727\u7E2E\u3059\u308B\u30B0\u30E9\
+      \u30D5"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0275_dynamic_bitset.test.cpp
@@ -55,6 +59,9 @@ data:
     path: test/yosupo_aplusb_library_composition_reverse.test.cpp
     title: test/yosupo_aplusb_library_composition_reverse.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_range_edge_graph.test.cpp
+    title: test/yosupo_aplusb_range_edge_graph.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
   - icon: ':heavy_check_mark:'
@@ -82,6 +89,7 @@ data:
   - graph/dijkstra_common.cpp
   - graph/dijkstra_restore.cpp
   - graph/dijkstra.cpp
+  - graph/range_edge_graph.cpp
   - graph/dijkstra_radix_heap.cpp
   - graph/bfs01.cpp
   - graph/bellman_ford.cpp
@@ -97,6 +105,7 @@ data:
   - test/aoj2945_bfs01.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_shortest_path_radix_heap.test.cpp
+  - test/yosupo_aplusb_range_edge_graph.test.cpp
   - test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp

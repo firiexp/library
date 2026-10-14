@@ -4,6 +4,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_offline_time_intervals.test.cpp
+    title: test/yosupo_aplusb_offline_time_intervals.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
     title: test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
   - icon: ':heavy_check_mark:'
@@ -91,6 +94,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_unionfind_with_potential_undoable.test.cpp
+  - test/yosupo_aplusb_offline_time_intervals.test.cpp
   - test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
 documentation_of: datastructure/undoable_weighted_unionfind.cpp
 layout: document

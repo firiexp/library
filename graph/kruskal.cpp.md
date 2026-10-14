@@ -1,8 +1,18 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: graph/mst_sensitivity.cpp
+    title: "\u6700\u5C0F\u5168\u57DF\u6728\u306E\u8FBA\u5225\u5236\u7D04\u30B3\u30B9\
+      \u30C8"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_mst_sensitivity.test.cpp
+    title: test/yosupo_aplusb_mst_sensitivity.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_mst_sensitivity.test.cpp
+    title: test/yosupo_aplusb_mst_sensitivity.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_minimum_spanning_tree.test.cpp
     title: test/yosupo_minimum_spanning_tree.test.cpp
@@ -12,9 +22,9 @@ data:
   attributes:
     document_title: "\u6700\u5C0F\u5168\u57DF\u6728(Kruskal\u6CD5)"
     links: []
-  bundledCode: "#line 1 \"graph/kruskal.cpp\"\ntemplate <class T>\nstruct edge {\n\
-    \    int from, to, idx;\n    T cost;\n\n    edge(int from, int to, T cost, int\
-    \ idx = -1) : from(from), to(to), idx(idx), cost(cost) {}\n};\n\nclass KruskalUnionFind\
+  bundledCode: "#line 1 \"graph/kruskal.cpp\"\n\n\n\ntemplate <class T>\nstruct edge\
+    \ {\n    int from, to, idx;\n    T cost;\n\n    edge(int from, int to, T cost,\
+    \ int idx = -1) : from(from), to(to), idx(idx), cost(cost) {}\n};\n\nclass KruskalUnionFind\
     \ {\n    vector<int> p;\n\npublic:\n    explicit KruskalUnionFind(int n) : p(n,\
     \ -1) {}\n\n    int root(int x) {\n        if (p[x] < 0) return x;\n        return\
     \ p[x] = root(p[x]);\n    }\n\n    bool unite(int a, int b) {\n        a = root(a);\n\
@@ -30,10 +40,11 @@ data:
     \   edge_id.reserve(max(0, n - 1));\n    for (auto &&e : edges) {\n        if\
     \ (!uf.unite(e.from, e.to)) continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n\
     \    }\n    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n\
-    \    return {true, cost, std::move(edge_id)};\n}\n\n/**\n * @brief \u6700\u5C0F\
+    \    return {true, cost, std::move(edge_id)};\n}\n\n\n\n/**\n * @brief \u6700\u5C0F\
     \u5168\u57DF\u6728(Kruskal\u6CD5)\n */\n"
-  code: "template <class T>\nstruct edge {\n    int from, to, idx;\n    T cost;\n\n\
-    \    edge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx),\
+  code: "#ifndef FIRIEXP_LIBRARY_GRAPH_KRUSKAL_CPP\n#define FIRIEXP_LIBRARY_GRAPH_KRUSKAL_CPP\n\
+    \ntemplate <class T>\nstruct edge {\n    int from, to, idx;\n    T cost;\n\n \
+    \   edge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx),\
     \ cost(cost) {}\n};\n\nclass KruskalUnionFind {\n    vector<int> p;\n\npublic:\n\
     \    explicit KruskalUnionFind(int n) : p(n, -1) {}\n\n    int root(int x) {\n\
     \        if (p[x] < 0) return x;\n        return p[x] = root(p[x]);\n    }\n\n\
@@ -50,16 +61,19 @@ data:
     \ n - 1));\n    for (auto &&e : edges) {\n        if (!uf.unite(e.from, e.to))\
     \ continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n    }\n\
     \    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n   \
-    \ return {true, cost, std::move(edge_id)};\n}\n\n/**\n * @brief \u6700\u5C0F\u5168\
-    \u57DF\u6728(Kruskal\u6CD5)\n */\n"
+    \ return {true, cost, std::move(edge_id)};\n}\n\n#endif\n\n/**\n * @brief \u6700\
+    \u5C0F\u5168\u57DF\u6728(Kruskal\u6CD5)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: graph/kruskal.cpp
-  requiredBy: []
-  timestamp: '2026-10-06 22:43:23+09:00'
+  requiredBy:
+  - graph/mst_sensitivity.cpp
+  timestamp: '2026-10-14 23:19:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_minimum_spanning_tree.test.cpp
+  - test/yosupo_aplusb_mst_sensitivity.test.cpp
+  - test/yosupo_aplusb_mst_sensitivity.test.cpp
 documentation_of: graph/kruskal.cpp
 layout: document
 title: "\u6700\u5C0F\u5168\u57DF\u6728(Kruskal\u6CD5)"

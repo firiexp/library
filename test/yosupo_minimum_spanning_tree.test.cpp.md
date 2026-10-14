@@ -229,8 +229,8 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/kruskal.cpp\"\
-    \ntemplate <class T>\nstruct edge {\n    int from, to, idx;\n    T cost;\n\n \
-    \   edge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx),\
+    \n\n\n\ntemplate <class T>\nstruct edge {\n    int from, to, idx;\n    T cost;\n\
+    \n    edge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx),\
     \ cost(cost) {}\n};\n\nclass KruskalUnionFind {\n    vector<int> p;\n\npublic:\n\
     \    explicit KruskalUnionFind(int n) : p(n, -1) {}\n\n    int root(int x) {\n\
     \        if (p[x] < 0) return x;\n        return p[x] = root(p[x]);\n    }\n\n\
@@ -247,8 +247,8 @@ data:
     \ n - 1));\n    for (auto &&e : edges) {\n        if (!uf.unite(e.from, e.to))\
     \ continue;\n        cost += e.cost;\n        edge_id.push_back(e.idx);\n    }\n\
     \    if ((int)edge_id.size() != max(0, n - 1)) return {false, T(0), {}};\n   \
-    \ return {true, cost, std::move(edge_id)};\n}\n\n/**\n * @brief \u6700\u5C0F\u5168\
-    \u57DF\u6728(Kruskal\u6CD5)\n */\n#line 17 \"test/yosupo_minimum_spanning_tree.test.cpp\"\
+    \ return {true, cost, std::move(edge_id)};\n}\n\n\n\n/**\n * @brief \u6700\u5C0F\
+    \u5168\u57DF\u6728(Kruskal\u6CD5)\n */\n#line 17 \"test/yosupo_minimum_spanning_tree.test.cpp\"\
     \n\nint main() {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n,\
     \ m);\n    vector<edge<ll>> edges;\n    edges.reserve(m);\n    for (int i = 0;\
     \ i < m; ++i) {\n        int u, v;\n        ll w;\n        in.read(u, v, w);\n\
@@ -275,7 +275,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_minimum_spanning_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-06 22:43:23+09:00'
+  timestamp: '2026-10-14 23:19:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_minimum_spanning_tree.test.cpp

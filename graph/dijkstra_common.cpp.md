@@ -40,6 +40,9 @@ data:
     path: test/yosupo_aplusb_library_composition_reverse.test.cpp
     title: test/yosupo_aplusb_library_composition_reverse.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_range_edge_graph.test.cpp
+    title: test/yosupo_aplusb_range_edge_graph.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
   - icon: ':heavy_check_mark:'
@@ -109,6 +112,7 @@ data:
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_shortest_path_radix_heap.test.cpp
+  - test/yosupo_aplusb_range_edge_graph.test.cpp
   - test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp

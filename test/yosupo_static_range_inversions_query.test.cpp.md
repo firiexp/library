@@ -244,30 +244,30 @@ data:
     \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
     \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
     \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n\n\n#line 1 \"util/mo.cpp\"\nstruct Query {\n    static\
-    \ inline int bucket_size = 1;\n    static inline int &B = bucket_size;\n    int\
-    \ l, r, no;\n    Query(int l, int r, int no) : l(l), r(r), no(no) {}\n    Query()\
-    \ : l(0), r(0), no(0) {}\n    bool operator<(const Query &a) const {\n       \
-    \ int ablock = this->l / bucket_size, bblock = a.l / bucket_size;\n        if(ablock\
-    \ != bblock) return ablock < bblock;\n        if(ablock & 1) return this->r <\
-    \ a.r;\n        else return this->r > a.r;\n    }\n};\n\ntemplate<class AddLeft,\
-    \ class AddRight, class EraseLeft, class EraseRight, class Output>\nvoid mo_solve(int\
-    \ n, const vector<Query>& queries, AddLeft add_left, AddRight add_right,\n   \
-    \           EraseLeft erase_left, EraseRight erase_right, Output output, int bucket_size\
-    \ = 0) {\n    if (queries.empty()) return;\n    if (bucket_size <= 0) bucket_size\
-    \ = max(1, (int)(n / sqrt((double)queries.size())));\n    vector<Query> qs = queries;\n\
-    \    sort(qs.begin(), qs.end(), [&](const Query& a, const Query& b) {\n      \
-    \  int ablock = a.l / bucket_size, bblock = b.l / bucket_size;\n        if (ablock\
-    \ != bblock) return ablock < bblock;\n        return ablock & 1 ? a.r < b.r :\
-    \ a.r > b.r;\n    });\n    int l = 0, r = 0;\n    for (const auto& q : qs) {\n\
-    \        while (q.l < l) add_left(--l);\n        while (r < q.r) add_right(r++);\n\
-    \        while (l < q.l) erase_left(l++);\n        while (q.r < r) erase_right(--r);\n\
-    \        output(q.no);\n    }\n}\n\n/**\n * @brief Mo's Algorithm\n */\n#line\
-    \ 16 \"test/yosupo_static_range_inversions_query.test.cpp\"\n\nint main() {\n\
-    \    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    vector<int>\
-    \ a(n);\n    for (int i = 0; i < n; ++i) sc.read(a[i]);\n    vector<int> xs =\
-    \ a;\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(), xs.end()),\
-    \ xs.end());\n    for (int i = 0; i < n; ++i) {\n        a[i] = lower_bound(xs.begin(),\
+    \ Indexed Tree(BIT)\n */\n\n\n#line 1 \"util/mo.cpp\"\n\n\n\nstruct Query {\n\
+    \    static inline int bucket_size = 1;\n    static inline int &B = bucket_size;\n\
+    \    int l, r, no;\n    Query(int l, int r, int no) : l(l), r(r), no(no) {}\n\
+    \    Query() : l(0), r(0), no(0) {}\n    bool operator<(const Query &a) const\
+    \ {\n        int ablock = this->l / bucket_size, bblock = a.l / bucket_size;\n\
+    \        if(ablock != bblock) return ablock < bblock;\n        if(ablock & 1)\
+    \ return this->r < a.r;\n        else return this->r > a.r;\n    }\n};\n\ntemplate<class\
+    \ AddLeft, class AddRight, class EraseLeft, class EraseRight, class Output>\n\
+    void mo_solve(int n, const vector<Query>& queries, AddLeft add_left, AddRight\
+    \ add_right,\n              EraseLeft erase_left, EraseRight erase_right, Output\
+    \ output, int bucket_size = 0) {\n    if (queries.empty()) return;\n    if (bucket_size\
+    \ <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n    vector<Query>\
+    \ qs = queries;\n    sort(qs.begin(), qs.end(), [&](const Query& a, const Query&\
+    \ b) {\n        int ablock = a.l / bucket_size, bblock = b.l / bucket_size;\n\
+    \        if (ablock != bblock) return ablock < bblock;\n        return ablock\
+    \ & 1 ? a.r < b.r : a.r > b.r;\n    });\n    int l = 0, r = 0;\n    for (const\
+    \ auto& q : qs) {\n        while (q.l < l) add_left(--l);\n        while (r <\
+    \ q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n        while\
+    \ (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\n\n/**\n *\
+    \ @brief Mo's Algorithm\n */\n#line 16 \"test/yosupo_static_range_inversions_query.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
+    \ q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) sc.read(a[i]);\n\
+    \    vector<int> xs = a;\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(),\
+    \ xs.end()), xs.end());\n    for (int i = 0; i < n; ++i) {\n        a[i] = lower_bound(xs.begin(),\
     \ xs.end(), a[i]) - xs.begin();\n    }\n\n    vector<Query> qs(q);\n    for (int\
     \ i = 0; i < q; ++i) {\n        int l, r;\n        sc.read(l, r);\n        qs[i]\
     \ = Query(l, r, i);\n    }\n    BIT<int> bit((int)xs.size());\n    vector<long\
@@ -311,7 +311,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 15:50:36+09:00'
+  timestamp: '2026-10-14 23:16:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_range_inversions_query.test.cpp

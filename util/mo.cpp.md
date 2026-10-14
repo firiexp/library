@@ -2,11 +2,20 @@
 category: "\u30AF\u30A8\u30EA"
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: tree/tree_mo.cpp
+    title: "\u6728\u4E0A\u30D1\u30B9\u306EMo"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_mo.test.cpp
     title: test/yosupo_aplusb_mo.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_tree_mo.test.cpp
+    title: test/yosupo_aplusb_tree_mo.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_tree_mo.test.cpp
+    title: test/yosupo_aplusb_tree_mo.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_range_inversions_query.test.cpp
     title: test/yosupo_static_range_inversions_query.test.cpp
@@ -16,28 +25,29 @@ data:
   attributes:
     document_title: Mo's Algorithm
     links: []
-  bundledCode: "#line 1 \"util/mo.cpp\"\nstruct Query {\n    static inline int bucket_size\
-    \ = 1;\n    static inline int &B = bucket_size;\n    int l, r, no;\n    Query(int\
-    \ l, int r, int no) : l(l), r(r), no(no) {}\n    Query() : l(0), r(0), no(0) {}\n\
-    \    bool operator<(const Query &a) const {\n        int ablock = this->l / bucket_size,\
-    \ bblock = a.l / bucket_size;\n        if(ablock != bblock) return ablock < bblock;\n\
-    \        if(ablock & 1) return this->r < a.r;\n        else return this->r > a.r;\n\
-    \    }\n};\n\ntemplate<class AddLeft, class AddRight, class EraseLeft, class EraseRight,\
-    \ class Output>\nvoid mo_solve(int n, const vector<Query>& queries, AddLeft add_left,\
-    \ AddRight add_right,\n              EraseLeft erase_left, EraseRight erase_right,\
-    \ Output output, int bucket_size = 0) {\n    if (queries.empty()) return;\n  \
-    \  if (bucket_size <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n\
-    \    vector<Query> qs = queries;\n    sort(qs.begin(), qs.end(), [&](const Query&\
-    \ a, const Query& b) {\n        int ablock = a.l / bucket_size, bblock = b.l /\
-    \ bucket_size;\n        if (ablock != bblock) return ablock < bblock;\n      \
-    \  return ablock & 1 ? a.r < b.r : a.r > b.r;\n    });\n    int l = 0, r = 0;\n\
-    \    for (const auto& q : qs) {\n        while (q.l < l) add_left(--l);\n    \
-    \    while (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n\
-    \        while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\
-    /**\n * @brief Mo's Algorithm\n */\n"
-  code: "struct Query {\n    static inline int bucket_size = 1;\n    static inline\
-    \ int &B = bucket_size;\n    int l, r, no;\n    Query(int l, int r, int no) :\
-    \ l(l), r(r), no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const\
+  bundledCode: "#line 1 \"util/mo.cpp\"\n\n\n\nstruct Query {\n    static inline int\
+    \ bucket_size = 1;\n    static inline int &B = bucket_size;\n    int l, r, no;\n\
+    \    Query(int l, int r, int no) : l(l), r(r), no(no) {}\n    Query() : l(0),\
+    \ r(0), no(0) {}\n    bool operator<(const Query &a) const {\n        int ablock\
+    \ = this->l / bucket_size, bblock = a.l / bucket_size;\n        if(ablock != bblock)\
+    \ return ablock < bblock;\n        if(ablock & 1) return this->r < a.r;\n    \
+    \    else return this->r > a.r;\n    }\n};\n\ntemplate<class AddLeft, class AddRight,\
+    \ class EraseLeft, class EraseRight, class Output>\nvoid mo_solve(int n, const\
+    \ vector<Query>& queries, AddLeft add_left, AddRight add_right,\n            \
+    \  EraseLeft erase_left, EraseRight erase_right, Output output, int bucket_size\
+    \ = 0) {\n    if (queries.empty()) return;\n    if (bucket_size <= 0) bucket_size\
+    \ = max(1, (int)(n / sqrt((double)queries.size())));\n    vector<Query> qs = queries;\n\
+    \    sort(qs.begin(), qs.end(), [&](const Query& a, const Query& b) {\n      \
+    \  int ablock = a.l / bucket_size, bblock = b.l / bucket_size;\n        if (ablock\
+    \ != bblock) return ablock < bblock;\n        return ablock & 1 ? a.r < b.r :\
+    \ a.r > b.r;\n    });\n    int l = 0, r = 0;\n    for (const auto& q : qs) {\n\
+    \        while (q.l < l) add_left(--l);\n        while (r < q.r) add_right(r++);\n\
+    \        while (l < q.l) erase_left(l++);\n        while (q.r < r) erase_right(--r);\n\
+    \        output(q.no);\n    }\n}\n\n\n\n/**\n * @brief Mo's Algorithm\n */\n"
+  code: "#ifndef FIRIEXP_LIBRARY_UTIL_MO_CPP\n#define FIRIEXP_LIBRARY_UTIL_MO_CPP\n\
+    \nstruct Query {\n    static inline int bucket_size = 1;\n    static inline int\
+    \ &B = bucket_size;\n    int l, r, no;\n    Query(int l, int r, int no) : l(l),\
+    \ r(r), no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const\
     \ Query &a) const {\n        int ablock = this->l / bucket_size, bblock = a.l\
     \ / bucket_size;\n        if(ablock != bblock) return ablock < bblock;\n     \
     \   if(ablock & 1) return this->r < a.r;\n        else return this->r > a.r;\n\
@@ -53,16 +63,19 @@ data:
     \    for (const auto& q : qs) {\n        while (q.l < l) add_left(--l);\n    \
     \    while (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n\
     \        while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\
-    /**\n * @brief Mo's Algorithm\n */\n"
+    #endif\n\n/**\n * @brief Mo's Algorithm\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/mo.cpp
-  requiredBy: []
-  timestamp: '2026-10-10 15:50:36+09:00'
+  requiredBy:
+  - tree/tree_mo.cpp
+  timestamp: '2026-10-14 23:16:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_static_range_inversions_query.test.cpp
   - test/yosupo_aplusb_mo.test.cpp
+  - test/yosupo_aplusb_tree_mo.test.cpp
+  - test/yosupo_aplusb_tree_mo.test.cpp
 date: 2026-03-25
 documentation_of: util/mo.cpp
 layout: document

@@ -13,6 +13,9 @@ data:
     path: test/aoj0403.test.cpp
     title: test/aoj0403.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_parallel_binary_search.test.cpp
+    title: test/yosupo_aplusb_parallel_binary_search.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_manhattanmst.test.cpp
     title: test/yosupo_manhattanmst.test.cpp
   - icon: ':heavy_check_mark:'
@@ -55,6 +58,7 @@ data:
   - test/aoj0403.test.cpp
   - test/aoj0342.test.cpp
   - test/yosupo_unionfind.test.cpp
+  - test/yosupo_aplusb_parallel_binary_search.test.cpp
   - test/yosupo_manhattanmst.test.cpp
   - test/aoj0377.test.cpp
 documentation_of: datastructure/unionfind.cpp

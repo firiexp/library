@@ -227,9 +227,9 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"util/mo.cpp\"\
-    \nstruct Query {\n    static inline int bucket_size = 1;\n    static inline int\
-    \ &B = bucket_size;\n    int l, r, no;\n    Query(int l, int r, int no) : l(l),\
-    \ r(r), no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const\
+    \n\n\n\nstruct Query {\n    static inline int bucket_size = 1;\n    static inline\
+    \ int &B = bucket_size;\n    int l, r, no;\n    Query(int l, int r, int no) :\
+    \ l(l), r(r), no(no) {}\n    Query() : l(0), r(0), no(0) {}\n    bool operator<(const\
     \ Query &a) const {\n        int ablock = this->l / bucket_size, bblock = a.l\
     \ / bucket_size;\n        if(ablock != bblock) return ablock < bblock;\n     \
     \   if(ablock & 1) return this->r < a.r;\n        else return this->r > a.r;\n\
@@ -245,7 +245,7 @@ data:
     \    for (const auto& q : qs) {\n        while (q.l < l) add_left(--l);\n    \
     \    while (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n\
     \        while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\
-    /**\n * @brief Mo's Algorithm\n */\n#line 7 \"test/yosupo_aplusb_mo.test.cpp\"\
+    \n\n/**\n * @brief Mo's Algorithm\n */\n#line 7 \"test/yosupo_aplusb_mo.test.cpp\"\
     \n\nint main() {\n    mt19937 rng(87);\n    for (int tc = 0; tc < 10000; ++tc)\
     \ {\n        int n = rng() % 31, q = rng() % 41;\n        vector<int> a(n);\n\
     \        for (int& x : a) x = rng() % 10;\n        vector<Query> qs;\n       \
@@ -310,7 +310,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_mo.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 15:50:36+09:00'
+  timestamp: '2026-10-14 23:16:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_mo.test.cpp

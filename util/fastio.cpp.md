@@ -281,6 +281,9 @@ data:
     path: test/yosupo_aplusb_monotoniccht.test.cpp
     title: test/yosupo_aplusb_monotoniccht.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_mst_sensitivity.test.cpp
+    title: test/yosupo_aplusb_mst_sensitivity.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
     title: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
   - icon: ':heavy_check_mark:'
@@ -305,6 +308,9 @@ data:
     path: test/yosupo_aplusb_offline_reachability.test.cpp
     title: test/yosupo_aplusb_offline_reachability.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_offline_time_intervals.test.cpp
+    title: test/yosupo_aplusb_offline_time_intervals.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_order_statistic_tree.test.cpp
     title: test/yosupo_aplusb_order_statistic_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -313,6 +319,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_palindromic_tree.test.cpp
     title: test/yosupo_aplusb_palindromic_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_parallel_binary_search.test.cpp
+    title: test/yosupo_aplusb_parallel_binary_search.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_pell_equation.test.cpp
     title: test/yosupo_aplusb_pell_equation.test.cpp
@@ -343,6 +352,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_range_contour_sum.test.cpp
     title: test/yosupo_aplusb_range_contour_sum.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_range_edge_graph.test.cpp
+    title: test/yosupo_aplusb_range_edge_graph.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
     title: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
@@ -409,6 +421,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_top_kth.test.cpp
     title: test/yosupo_aplusb_top_kth.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_tree_mo.test.cpp
+    title: test/yosupo_aplusb_tree_mo.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_trie_prefix_intervals.test.cpp
     title: test/yosupo_aplusb_trie_prefix_intervals.test.cpp
@@ -1406,6 +1421,7 @@ data:
   - test/aoj0342.test.cpp
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
+  - test/yosupo_aplusb_offline_time_intervals.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_aplusb_noncommutative_tree.test.cpp
   - test/yosupo_aplusb_string_bytes.test.cpp
@@ -1423,7 +1439,9 @@ data:
   - test/yosupo_unionfind.test.cpp
   - test/yosupo_shortest_path_radix_heap.test.cpp
   - test/aoj_alds1_1_c_get_prime2.test.cpp
+  - test/yosupo_aplusb_parallel_binary_search.test.cpp
   - test/yosupo_aplusb_virtual_tree_helper.test.cpp
+  - test/yosupo_aplusb_range_edge_graph.test.cpp
   - test/aoj0334.test.cpp
   - test/yosupo_unionfind_quickfind.test.cpp
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
@@ -1454,6 +1472,7 @@ data:
   - test/yosupo_aplusb_is_palindrome.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
   - test/yosupo_enumerate_palindromes_manacher.test.cpp
+  - test/yosupo_aplusb_tree_mo.test.cpp
   - test/yosupo_aplusb_dynamic_segtree_search.test.cpp
   - test/yosupo_aplusb_link_cut_tree_jump.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
@@ -1502,6 +1521,7 @@ data:
   - test/yosupo_min_of_mod_of_linear.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
+  - test/yosupo_aplusb_mst_sensitivity.test.cpp
   - test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - test/aoj_grl_5_a_rerooting.test.cpp
   - test/aoj_alds1_1_c_get_prime.test.cpp
