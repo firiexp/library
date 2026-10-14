@@ -3,11 +3,53 @@
 
 #include "../math/integer_convolution.cpp"
 
+namespace wildcard_pattern_matching_detail {
+template<class Transform>
+void filter_matches(const string &text, const string &pattern, char wildcard,
+                    const Transform &transform, vector<int> &result) {
+    using mint = typename Transform::mint;
+    int n = (int)text.size(), m = (int)pattern.size(), size = 1;
+    while (size < n + m - 1) size <<= 1;
+    vector<mint> a(size), b(size), score(size);
+    for (int power = 1; power <= 3; ++power) {
+        fill(a.begin() + n, a.end(), mint(0));
+        fill(b.begin() + m, b.end(), mint(0));
+        for (int i = 0; i < n; ++i) {
+            unsigned int value = text[i] == wildcard ? 0 : (unsigned char)text[i] + 1;
+            unsigned int x = value;
+            for (int k = 1; k < power; ++k) x *= value;
+            a[i] = mint::raw(x);
+        }
+        for (int i = 0; i < m; ++i) {
+            unsigned int value = pattern[i] == wildcard ? 0 : (unsigned char)pattern[i] + 1;
+            unsigned int x = value;
+            for (int k = 1; k < 4 - power; ++k) x *= value;
+            b[m - 1 - i] = mint::raw(x);
+        }
+        transform.ntt(a, false);
+        transform.ntt(b, false);
+        for (int i = 0; i < size; ++i) {
+            mint product = a[i] * b[i];
+            if (power == 2) score[i] -= product + product;
+            else score[i] += product;
+        }
+    }
+    transform.ntt(score, true);
+    for (int i = 0; i <= n - m; ++i) result[i] &= score[i + m - 1].val == 0;
+}
+}
+
 vector<int> wildcard_pattern_matching(const string& text, const string& pattern, char wildcard = '*') {
     int n = (int)text.size(), m = (int)pattern.size();
     if (m > n) return {};
     if (m == 0) return vector<int>(n + 1, 1);
     assert((long long)n + m - 1 <= (1 << 21));
+    if (n + m - 1 >= 128) {
+        vector<int> result(n - m + 1, 1);
+        wildcard_pattern_matching_detail::filter_matches(text, pattern, wildcard, BoundedConvolution::internal::ntt1(), result);
+        wildcard_pattern_matching_detail::filter_matches(text, pattern, wildcard, BoundedConvolution::internal::ntt2(), result);
+        return result;
+    }
     vector<unsigned int> a(n), b(m), ap(n), bp(m);
     for (int i = 0; i < n; ++i)
         a[i] = text[i] == wildcard ? 0 : (unsigned char)text[i] + 1;
