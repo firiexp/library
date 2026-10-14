@@ -1,5 +1,5 @@
 // My library: https://firiexp.github.io/library/
-// template include fastio: https://firiexp.github.io/library/snippets/template.cpp
+// template with fastio: https://firiexp.github.io/library/snippets/template.cpp
 #include <bits/stdc++.h>
 using namespace std;
 static const int MOD = 998244353;
