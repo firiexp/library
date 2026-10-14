@@ -3,14 +3,16 @@
 namespace multipoint_evaluation_detail {
 vector<mint> evaluate(const poly &f, const vector<poly> &prod, int m) {
     int n = (int)prod.size() / 2;
-    vector<poly> rem(2 * n);
-    rem[1] = f.mod(prod[1]);
-    for (int i = 1; i < n; ++i) {
-        rem[i << 1] = rem[i].mod(prod[i << 1]);
-        rem[i << 1 | 1] = rem[i].mod(prod[i << 1 | 1]);
-    }
     vector<mint> ys(m);
-    for (int i = 0; i < m; ++i) ys[i] = rem[n + i].v.empty() ? mint(0) : rem[n + i][0];
+    auto visit = [&](auto &&self, int i, const poly &rem) -> void {
+        if (i >= n) {
+            if (i - n < m) ys[i - n] = rem.v.empty() ? mint(0) : rem[0];
+            return;
+        }
+        self(self, i << 1, rem.mod(prod[i << 1]));
+        self(self, i << 1 | 1, rem.mod(prod[i << 1 | 1]));
+    };
+    visit(visit, 1, f.mod(prod[1]));
     return ys;
 }
 }

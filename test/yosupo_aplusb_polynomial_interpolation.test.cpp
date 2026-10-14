@@ -43,6 +43,20 @@ void self_check() {
         assert(result.multipoint_eval(points) == expected);
         assert(poly().multipoint_eval(points) == vector<mint>(count));
     }
+    for (int n : {0, 1, 17, 257, 1025}) {
+        poly f(n);
+        for (auto &c : f.v) c = random() % ntt_mod;
+        for (int m : {0, 1, 3, 65, 129, 513}) {
+            vector<mint> xs(m), expected(m);
+            for (int i = 0; i < m; ++i) {
+                xs[i] = i % 7;
+                expected[i] = horner(f.v, xs[i]);
+            }
+            auto original_f = f.v, original_xs = xs;
+            assert(f.multipoint_eval(xs) == expected);
+            assert(f.v == original_f && xs == original_xs);
+        }
+    }
 }
 
 int main() {
