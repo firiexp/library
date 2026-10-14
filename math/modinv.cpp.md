@@ -3,9 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: math/binom_mod.cpp
+    title: "\u4E8C\u9805\u4FC2\u6570\uFF08\u5408\u6210\u6570mod\uFF09"
+  - icon: ':heavy_check_mark:'
     path: math/binom_mod_prime_power.cpp
     title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_binom_mod.test.cpp
+    title: test/yosupo_aplusb_binom_mod.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_binomial_coefficient.test.cpp
     title: test/yosupo_binomial_coefficient.test.cpp
@@ -26,10 +32,12 @@ data:
   path: math/modinv.cpp
   requiredBy:
   - math/binom_mod_prime_power.cpp
+  - math/binom_mod.cpp
   timestamp: '2020-04-26 17:42:59+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
+  - test/yosupo_aplusb_binom_mod.test.cpp
 documentation_of: math/modinv.cpp
 layout: document
 redirect_from:

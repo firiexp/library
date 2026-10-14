@@ -448,30 +448,58 @@ data:
     \ < (int)res.size(); ++i) {\n            res[i] = internal::combine_u64(c1[i],\
     \ c2[i]);\n        }\n        return res;\n    }\n}\n\n/**\n * @brief \u6574\u6570\
     \u7573\u307F\u8FBC\u307F(2/3 NTT)\n */\n\n\n#line 5 \"string/wildcard_pattern_matching.cpp\"\
-    \n\nvector<int> wildcard_pattern_matching(const string& text, const string& pattern,\
-    \ char wildcard = '*') {\n    int n = (int)text.size(), m = (int)pattern.size();\n\
+    \n\nnamespace wildcard_pattern_matching_detail {\ntemplate<class Transform>\n\
+    void filter_matches(const string &text, const string &pattern, char wildcard,\n\
+    \                    const Transform &transform, vector<int> &result) {\n    using\
+    \ mint = typename Transform::mint;\n    int n = (int)text.size(), m = (int)pattern.size(),\
+    \ size = 1;\n    while (size < n + m - 1) size <<= 1;\n    vector<mint> a(size),\
+    \ b(size), score(size);\n    for (int power = 1; power <= 3; ++power) {\n    \
+    \    fill(a.begin() + n, a.end(), mint(0));\n        fill(b.begin() + m, b.end(),\
+    \ mint(0));\n        for (int i = 0; i < n; ++i) {\n            unsigned int value\
+    \ = text[i] == wildcard ? 0 : (unsigned char)text[i] + 1;\n            unsigned\
+    \ int x = value;\n            for (int k = 1; k < power; ++k) x *= value;\n  \
+    \          a[i] = mint::raw(x);\n        }\n        for (int i = 0; i < m; ++i)\
+    \ {\n            unsigned int value = pattern[i] == wildcard ? 0 : (unsigned char)pattern[i]\
+    \ + 1;\n            unsigned int x = value;\n            for (int k = 1; k < 4\
+    \ - power; ++k) x *= value;\n            b[m - 1 - i] = mint::raw(x);\n      \
+    \  }\n        transform.ntt(a, false);\n        transform.ntt(b, false);\n   \
+    \     for (int i = 0; i < size; ++i) {\n            mint product = a[i] * b[i];\n\
+    \            if (power == 2) score[i] -= product + product;\n            else\
+    \ score[i] += product;\n        }\n    }\n    transform.ntt(score, true);\n  \
+    \  for (int i = 0; i <= n - m; ++i) result[i] &= score[i + m - 1].val == 0;\n\
+    }\n}\n\nvector<int> wildcard_pattern_matching(const string& text, const string&\
+    \ pattern, char wildcard = '*') {\n    int n = (int)text.size(), m = (int)pattern.size();\n\
     \    if (m > n) return {};\n    if (m == 0) return vector<int>(n + 1, 1);\n  \
-    \  assert((long long)n + m - 1 <= (1 << 21));\n    vector<unsigned int> a(n),\
-    \ b(m), ap(n), bp(m);\n    for (int i = 0; i < n; ++i)\n        a[i] = text[i]\
-    \ == wildcard ? 0 : (unsigned char)text[i] + 1;\n    for (int i = 0; i < m; ++i)\n\
-    \        b[m - 1 - i] = pattern[i] == wildcard ? 0 : (unsigned char)pattern[i]\
-    \ + 1;\n    vector<long long> score(n - m + 1);\n    for (int power = 1; power\
-    \ <= 3; ++power) {\n        for (int i = 0; i < n; ++i) {\n            ap[i] =\
-    \ a[i];\n            for (int k = 1; k < power; ++k) ap[i] *= a[i];\n        }\n\
-    \        for (int i = 0; i < m; ++i) {\n            bp[i] = b[i];\n          \
-    \  for (int k = 1; k < 4 - power; ++k) bp[i] *= b[i];\n        }\n        auto\
-    \ c = BoundedConvolution::convolution_u64(ap, bp);\n        int sign = power ==\
-    \ 2 ? -2 : 1;\n        for (int i = 0; i <= n - m; ++i) score[i] += sign * (long\
-    \ long)c[i + m - 1];\n    }\n    vector<int> result(n - m + 1);\n    for (int\
-    \ i = 0; i <= n - m; ++i) result[i] = score[i] == 0;\n    return result;\n}\n\n\
-    \n\n/**\n * @brief \u30EF\u30A4\u30EB\u30C9\u30AB\u30FC\u30C9\u4ED8\u304D\u30D1\
-    \u30BF\u30FC\u30F3\u7167\u5408\n */\n#line 8 \"test/yosupo_aplusb_wildcard_pattern_matching.test.cpp\"\
-    \n\nvoid check(const string& s, const string& t, char wildcard = '*') {\n    vector<int>\
-    \ expected;\n    for (int i = 0; i + (int)t.size() <= (int)s.size(); ++i) {\n\
-    \        bool ok = true;\n        for (int j = 0; j < (int)t.size(); ++j)\n  \
-    \          ok &= s[i + j] == wildcard || t[j] == wildcard || s[i + j] == t[j];\n\
-    \        expected.push_back(ok);\n    }\n    assert(wildcard_pattern_matching(s,\
-    \ t, wildcard) == expected);\n}\n\nint main() {\n    vector<string> words{string()};\n\
+    \  assert((long long)n + m - 1 <= (1 << 21));\n    if (n + m - 1 >= 128) {\n \
+    \       vector<int> result(n - m + 1, 1);\n        wildcard_pattern_matching_detail::filter_matches(text,\
+    \ pattern, wildcard, BoundedConvolution::internal::ntt1(), result);\n        wildcard_pattern_matching_detail::filter_matches(text,\
+    \ pattern, wildcard, BoundedConvolution::internal::ntt2(), result);\n        return\
+    \ result;\n    }\n    vector<unsigned int> a(n), b(m), ap(n), bp(m);\n    for\
+    \ (int i = 0; i < n; ++i)\n        a[i] = text[i] == wildcard ? 0 : (unsigned\
+    \ char)text[i] + 1;\n    for (int i = 0; i < m; ++i)\n        b[m - 1 - i] = pattern[i]\
+    \ == wildcard ? 0 : (unsigned char)pattern[i] + 1;\n    vector<long long> score(n\
+    \ - m + 1);\n    for (int power = 1; power <= 3; ++power) {\n        for (int\
+    \ i = 0; i < n; ++i) {\n            ap[i] = a[i];\n            for (int k = 1;\
+    \ k < power; ++k) ap[i] *= a[i];\n        }\n        for (int i = 0; i < m; ++i)\
+    \ {\n            bp[i] = b[i];\n            for (int k = 1; k < 4 - power; ++k)\
+    \ bp[i] *= b[i];\n        }\n        auto c = BoundedConvolution::convolution_u64(ap,\
+    \ bp);\n        int sign = power == 2 ? -2 : 1;\n        for (int i = 0; i <=\
+    \ n - m; ++i) score[i] += sign * (long long)c[i + m - 1];\n    }\n    vector<int>\
+    \ result(n - m + 1);\n    for (int i = 0; i <= n - m; ++i) result[i] = score[i]\
+    \ == 0;\n    return result;\n}\n\n\n\n/**\n * @brief \u30EF\u30A4\u30EB\u30C9\u30AB\
+    \u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC\u30F3\u7167\u5408\n */\n#line 8 \"\
+    test/yosupo_aplusb_wildcard_pattern_matching.test.cpp\"\n\nvoid check(const string&\
+    \ s, const string& t, char wildcard = '*') {\n    vector<int> expected;\n    for\
+    \ (int i = 0; i + (int)t.size() <= (int)s.size(); ++i) {\n        bool ok = true;\n\
+    \        for (int j = 0; j < (int)t.size(); ++j)\n            ok &= s[i + j] ==\
+    \ wildcard || t[j] == wildcard || s[i + j] == t[j];\n        expected.push_back(ok);\n\
+    \    }\n    auto original_s = s, original_t = t;\n    assert(wildcard_pattern_matching(s,\
+    \ t, wildcard) == expected);\n    assert(s == original_s && t == original_t);\n\
+    \    if (!t.empty() && t.size() <= s.size() && s.size() < 130) {\n        vector<int>\
+    \ forced(expected.size(), 1);\n        wildcard_pattern_matching_detail::filter_matches(s,\
+    \ t, wildcard, BoundedConvolution::internal::ntt1(), forced);\n        wildcard_pattern_matching_detail::filter_matches(s,\
+    \ t, wildcard, BoundedConvolution::internal::ntt2(), forced);\n        assert(forced\
+    \ == expected);\n    }\n}\n\nint main() {\n    vector<string> words{string()};\n\
     \    for (int n = 1, total = 3; n <= 4; ++n, total *= 3) {\n        for (int mask\
     \ = 0; mask < total; ++mask) {\n            int code = mask;\n            string\
     \ s(n, ' ');\n            for (char& c : s) {\n                c = \"ab*\"[code\
@@ -481,10 +509,15 @@ data:
     \        string s(rng() % 100, '\\0'), t(rng() % 100, '\\0');\n        char wildcard\
     \ = (char)rng();\n        for (char& c : s) c = rng() % 4 ? (char)rng() : wildcard;\n\
     \        for (char& c : t) c = rng() % 4 ? (char)rng() : wildcard;\n        check(s,\
-    \ t, wildcard);\n    }\n    for (int n : {31, 32, 33, 63, 64, 65, 127, 128, 129})\
-    \ {\n        check(string(n, '\\xff'), string(n / 2 + 1, '\\0'));\n        check(string(n,\
-    \ '\\xff'), string(n / 2 + 1, '\\xff'));\n        check(string(n, '*'), string(n\
-    \ / 2 + 1, '\\xff'));\n    }\n    string s = string(179, 'z') + string(60488,\
+    \ t, wildcard);\n    }\n    for (int n : {31, 32, 33, 63, 64, 65, 127, 128, 129,\
+    \ 255, 256, 257, 511, 512, 513}) {\n        check(string(n, '\\xff'), string(n\
+    \ / 2 + 1, '\\0'));\n        check(string(n, '\\xff'), string(n / 2 + 1, '\\xff'));\n\
+    \        check(string(n, '*'), string(n / 2 + 1, '\\xff'));\n        check(string(n,\
+    \ '\\0'), string(1, '\\0'), '\\xff');\n        check(string(n, '*'), string(n,\
+    \ '*'));\n        for (int m : {1, n / 2, n}) {\n            string s(n, '\\0');\n\
+    \            for (char &c : s) c = (char)rng();\n            string t = s.substr(n\
+    \ - m, m);\n            for (char &c : t) if (rng() % 3 == 0) c = '*';\n     \
+    \       check(s, t);\n        }\n    }\n    string s = string(179, 'z') + string(60488,\
     \ 'g');\n    string t = string(179, 'a') + string(60488, 'f');\n    assert((wildcard_pattern_matching(s,\
     \ t) == vector<int>{0}));\n    Scanner sc;\n    Printer pr;\n    long long a,\
     \ b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
@@ -495,22 +528,32 @@ data:
     \ (int i = 0; i + (int)t.size() <= (int)s.size(); ++i) {\n        bool ok = true;\n\
     \        for (int j = 0; j < (int)t.size(); ++j)\n            ok &= s[i + j] ==\
     \ wildcard || t[j] == wildcard || s[i + j] == t[j];\n        expected.push_back(ok);\n\
-    \    }\n    assert(wildcard_pattern_matching(s, t, wildcard) == expected);\n}\n\
-    \nint main() {\n    vector<string> words{string()};\n    for (int n = 1, total\
-    \ = 3; n <= 4; ++n, total *= 3) {\n        for (int mask = 0; mask < total; ++mask)\
-    \ {\n            int code = mask;\n            string s(n, ' ');\n           \
-    \ for (char& c : s) {\n                c = \"ab*\"[code % 3];\n              \
-    \  code /= 3;\n            }\n            words.push_back(s);\n        }\n   \
-    \ }\n    for (const auto& s : words) for (const auto& t : words) check(s, t);\n\
-    \    mt19937 rng(124);\n    for (int tc = 0; tc < 500; ++tc) {\n        string\
-    \ s(rng() % 100, '\\0'), t(rng() % 100, '\\0');\n        char wildcard = (char)rng();\n\
-    \        for (char& c : s) c = rng() % 4 ? (char)rng() : wildcard;\n        for\
-    \ (char& c : t) c = rng() % 4 ? (char)rng() : wildcard;\n        check(s, t, wildcard);\n\
-    \    }\n    for (int n : {31, 32, 33, 63, 64, 65, 127, 128, 129}) {\n        check(string(n,\
-    \ '\\xff'), string(n / 2 + 1, '\\0'));\n        check(string(n, '\\xff'), string(n\
-    \ / 2 + 1, '\\xff'));\n        check(string(n, '*'), string(n / 2 + 1, '\\xff'));\n\
-    \    }\n    string s = string(179, 'z') + string(60488, 'g');\n    string t =\
-    \ string(179, 'a') + string(60488, 'f');\n    assert((wildcard_pattern_matching(s,\
+    \    }\n    auto original_s = s, original_t = t;\n    assert(wildcard_pattern_matching(s,\
+    \ t, wildcard) == expected);\n    assert(s == original_s && t == original_t);\n\
+    \    if (!t.empty() && t.size() <= s.size() && s.size() < 130) {\n        vector<int>\
+    \ forced(expected.size(), 1);\n        wildcard_pattern_matching_detail::filter_matches(s,\
+    \ t, wildcard, BoundedConvolution::internal::ntt1(), forced);\n        wildcard_pattern_matching_detail::filter_matches(s,\
+    \ t, wildcard, BoundedConvolution::internal::ntt2(), forced);\n        assert(forced\
+    \ == expected);\n    }\n}\n\nint main() {\n    vector<string> words{string()};\n\
+    \    for (int n = 1, total = 3; n <= 4; ++n, total *= 3) {\n        for (int mask\
+    \ = 0; mask < total; ++mask) {\n            int code = mask;\n            string\
+    \ s(n, ' ');\n            for (char& c : s) {\n                c = \"ab*\"[code\
+    \ % 3];\n                code /= 3;\n            }\n            words.push_back(s);\n\
+    \        }\n    }\n    for (const auto& s : words) for (const auto& t : words)\
+    \ check(s, t);\n    mt19937 rng(124);\n    for (int tc = 0; tc < 500; ++tc) {\n\
+    \        string s(rng() % 100, '\\0'), t(rng() % 100, '\\0');\n        char wildcard\
+    \ = (char)rng();\n        for (char& c : s) c = rng() % 4 ? (char)rng() : wildcard;\n\
+    \        for (char& c : t) c = rng() % 4 ? (char)rng() : wildcard;\n        check(s,\
+    \ t, wildcard);\n    }\n    for (int n : {31, 32, 33, 63, 64, 65, 127, 128, 129,\
+    \ 255, 256, 257, 511, 512, 513}) {\n        check(string(n, '\\xff'), string(n\
+    \ / 2 + 1, '\\0'));\n        check(string(n, '\\xff'), string(n / 2 + 1, '\\xff'));\n\
+    \        check(string(n, '*'), string(n / 2 + 1, '\\xff'));\n        check(string(n,\
+    \ '\\0'), string(1, '\\0'), '\\xff');\n        check(string(n, '*'), string(n,\
+    \ '*'));\n        for (int m : {1, n / 2, n}) {\n            string s(n, '\\0');\n\
+    \            for (char &c : s) c = (char)rng();\n            string t = s.substr(n\
+    \ - m, m);\n            for (char &c : t) if (rng() % 3 == 0) c = '*';\n     \
+    \       check(s, t);\n        }\n    }\n    string s = string(179, 'z') + string(60488,\
+    \ 'g');\n    string t = string(179, 'a') + string(60488, 'f');\n    assert((wildcard_pattern_matching(s,\
     \ t) == vector<int>{0}));\n    Scanner sc;\n    Printer pr;\n    long long a,\
     \ b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
@@ -520,7 +563,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:36:51+09:00'
+  timestamp: '2026-10-14 20:38:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp

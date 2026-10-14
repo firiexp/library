@@ -44,6 +44,9 @@ data:
     path: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
     title: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_ntt_divmod.test.cpp
+    title: test/yosupo_aplusb_ntt_divmod.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_ntt_multiply.test.cpp
     title: test/yosupo_aplusb_ntt_multiply.test.cpp
   - icon: ':heavy_check_mark:'
@@ -284,109 +287,116 @@ data:
     \ ret.v.end());\n        return ret;\n    }\n\n    pair<poly, poly> divmod(const\
     \ poly &a) const {\n        poly f(*this), g(a);\n        f.shrink();\n      \
     \  g.shrink();\n        assert(!g.v.empty());\n        if (f.size() < g.size())\
-    \ return {poly(), f};\n        int need = f.size() - g.size() + 1;\n        poly\
-    \ q = (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();\n        poly r\
-    \ = f - g * q;\n        r = r.pre(g.size() - 1);\n        r.shrink();\n      \
-    \  return {q, r};\n    }\n\n    poly mod(const poly &a) const {\n        return\
-    \ divmod(a).second;\n    }\n\n    mint eval(mint x) const {\n        mint y =\
-    \ 0;\n        for (int i = size() - 1; i >= 0; --i) y = y * x + v[i];\n      \
-    \  return y;\n    }\n\n    poly pre(int sz) const {\n        poly ret(sz);\n \
-    \       for (int i = 0; i < min<int>(sz, v.size()); ++i) {\n            ret[i]\
-    \ = v[i];\n        }\n        return ret;\n    }\n\n    poly diff() const {\n\
-    \        const int n = (int)this->size();\n        poly ret(max(0, n - 1));\n\
-    \        mint one(1), coeff(1);\n        for (int i = 1; i < n; i++) {\n     \
-    \       ret[i - 1] = v[i] * coeff;\n            coeff += one;\n        }\n   \
-    \     return ret;\n    }\n\n    poly integral() const {\n        const int n =\
-    \ (int)this->size();\n        poly ret(n + 1);\n        ret[0] = mint(0);\n  \
-    \      static vector<mint> invs = {mint(0), mint(1)};\n        if ((int)invs.size()\
-    \ <= n) {\n            int old = (int)invs.size();\n            invs.resize(n\
-    \ + 1);\n            for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod - ntt_mod\
-    \ / i) * invs[ntt_mod % i];\n        }\n        for (int i = 0; i < n; i++) ret[i\
-    \ + 1] = v[i] * invs[i + 1];\n        return ret;\n    }\n\n    poly inv(int deg\
-    \ = -1) const {\n        assert(!v.empty() && v[0] != mint(0));\n        if (deg\
-    \ == -1) deg = size();\n        if (deg == 0) return poly();\n        poly res(deg);\n\
-    \        res[0] = v[0].inv();\n        for (int d = 1; d < deg; d <<= 1) {\n \
-    \           vector<mint> f(2 * d), g(2 * d);\n            for (int i = 0; i <\
-    \ min(size(), 2 * d); ++i) f[i] = v[i];\n            for (int i = 0; i < d; ++i)\
-    \ g[i] = res[i];\n            ntt.transform(f, 0);\n            ntt.transform(g,\
-    \ 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *= g[i];\n           \
-    \ ntt_ifft(f);\n            fill(f.begin(), f.begin() + d, mint(0));\n       \
-    \     ntt.transform(f, 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *=\
-    \ g[i];\n            ntt_ifft(f);\n            for (int i = d; i < min(2 * d,\
-    \ deg); ++i) res[i] = -f[i];\n        }\n        return res.pre(deg);\n    }\n\
-    \n    poly log(int deg = -1) const {\n        assert(!v.empty() && v[0] == mint(1));\n\
-    \        if (deg == -1) deg = (int)this->size();\n        if (deg == 0) return\
-    \ poly();\n        return (pre(min(size(), deg)).diff() * inv(deg)).pre(deg -\
-    \ 1).integral();\n    }\n\n    poly exp(int deg = -1) const {\n        assert(v.size()\
-    \ == 0 || v[0] == mint(0));\n        if (deg == -1) deg = v.size();\n        static\
-    \ vector<mint> invs = {mint(0), mint(1)};\n        auto ensure_invs = [&](int\
-    \ n) {\n            if ((int)invs.size() <= n) {\n                int old = (int)invs.size();\n\
-    \                invs.resize(n + 1);\n                for (int i = old; i <= n;\
-    \ ++i) invs[i] = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];\n          \
-    \  }\n        };\n        auto inplace_integral = [&](poly& f) {\n           \
-    \ int n = f.size();\n            ensure_invs(n);\n            f.v.insert(f.v.begin(),\
-    \ mint(0));\n            for (int i = 1; i <= n; ++i) f[i] *= invs[i];\n     \
-    \   };\n        poly b(vector<mint>{mint(1), (1 < size() ? v[1] : mint(0))});\n\
-    \        poly c(vector<mint>{mint(1)}), z1, z2(vector<mint>{mint(1), mint(1)});\n\
-    \        for (int m = 2; m < deg; m <<= 1) {\n            poly y = b;\n      \
-    \      y.v.resize(2 * m);\n            ntt.transform(y.v, 0);\n            z1\
-    \ = z2;\n            poly z(m);\n            for (int i = 0; i < m; ++i) z[i]\
-    \ = y[i] * z1[i];\n            ntt_ifft(z.v);\n            fill(z.v.begin(), z.v.begin()\
-    \ + m / 2, mint(0));\n            ntt.transform(z.v, 0);\n            for (int\
-    \ i = 0; i < m; ++i) z[i] *= -z1[i];\n            ntt_ifft(z.v);\n           \
-    \ c.v.insert(c.v.end(), z.v.begin() + m / 2, z.v.end());\n            z2 = c;\n\
-    \            z2.v.resize(2 * m);\n            ntt.transform(z2.v, 0);\n\n    \
-    \        poly x(m);\n            for (int i = 0; i + 1 < m && i + 1 < size();\
-    \ ++i) x[i] = v[i + 1] * mint(i + 1);\n            x[m - 1] = mint(0);\n     \
-    \       ntt.transform(x.v, 0);\n            for (int i = 0; i < m; ++i) x[i] *=\
-    \ y[i];\n            ntt_ifft(x.v);\n            for (int i = 0; i + 1 < m; ++i)\
-    \ x[i] -= b[i + 1] * mint(i + 1);\n            x.v.resize(2 * m);\n          \
-    \  for (int i = 0; i + 1 < m; ++i) {\n                x[m + i] = x[i];\n     \
-    \           x[i] = mint(0);\n            }\n            ntt.transform(x.v, 0);\n\
-    \            for (int i = 0; i < 2 * m; ++i) x[i] *= z2[i];\n            ntt_ifft(x.v);\n\
-    \            x.v.pop_back();\n            inplace_integral(x);\n            for\
-    \ (int i = m; i < min(size(), 2 * m); ++i) x[i] += v[i];\n            fill(x.v.begin(),\
-    \ x.v.begin() + m, mint(0));\n            ntt.transform(x.v, 0);\n           \
-    \ for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n            ntt_ifft(x.v);\n\
-    \            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n        }\n \
-    \       return b.pre(deg);\n    }\n\n    poly pow(long long k, int deg = -1) const\
-    \ {\n        if (deg == -1) deg = size();\n        poly ret(max(0, deg));\n  \
-    \      if (deg <= 0) return ret;\n        if (k == 0) {\n            ret[0] =\
-    \ 1;\n            return ret;\n        }\n        if (0 < k && k <= 64) {\n  \
-    \          poly base = pre(deg);\n            poly ans(1);\n            ans[0]\
-    \ = 1;\n            long long e = k;\n            while (e > 0) {\n          \
-    \      if (e & 1) {\n                    ans *= base;\n                    ans\
-    \ = ans.pre(deg);\n                }\n                e >>= 1;\n             \
-    \   if (e == 0) break;\n                base *= base;\n                base =\
-    \ base.pre(deg);\n            }\n            ans = ans.pre(deg);\n           \
-    \ if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n        }\n\
-    \        int lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n\
-    \        if (lead == size()) return ret;\n        long long shift_ll = 0;\n  \
-    \      if (lead > 0) {\n            if (k > (deg - 1) / lead) return ret;\n  \
-    \          shift_ll = 1LL * lead * k;\n        }\n        poly f(size() - lead);\n\
-    \        mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
-    \ ++i) f[i - lead] = v[i] * inv_lead;\n        int shift = static_cast<int>(shift_ll);\n\
-    \        int rem_deg = deg - shift;\n        poly g = f.log(rem_deg);\n      \
-    \  mint k_mint = mint(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
-    \ k_mint;\n        g = g.exp(rem_deg);\n        mint coeff = v[lead].pow(k);\n\
-    \        for (int i = 0; i < g.size(); ++i) g[i] *= coeff;\n        for (int i\
-    \ = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n        return ret;\n    }\n\
-    \n    poly sqrt(int deg = -1) const {\n        if (deg == -1) deg = size();\n\
-    \        poly ret(max(0, deg));\n        if (deg <= 0) return ret;\n        int\
-    \ lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n   \
-    \     if (lead == size()) return ret;\n        if (lead & 1) return poly();\n\
-    \        mint sq0;\n        if (!mod_sqrt(v[lead], sq0)) return poly();\n    \
-    \    int shift = lead >> 1;\n        if (shift >= deg) return ret;\n        int\
-    \ rem_deg = deg - shift;\n        poly f(size() - lead);\n        mint inv_lead\
-    \ = v[lead].inv();\n        for (int i = lead; i < size(); ++i) f[i - lead] =\
-    \ v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n        mint inv2 =\
-    \ mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<= 1) {\n          \
-    \  poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k << 1);\n\
-    \            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n            s\
-    \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
-    \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
-    \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
-    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n"
+    \ return {poly(), f};\n        int need = f.size() - g.size() + 1;\n        if\
+    \ (min(g.size(), need) <= 16 || 1LL * g.size() * need <= 4096) {\n           \
+    \ poly q(need);\n            mint inv_lead = g.v.back() == mint(1) ? mint(1) :\
+    \ g.v.back().inv();\n            for (int i = need - 1; i >= 0; --i) {\n     \
+    \           mint c = f[i + g.size() - 1] * inv_lead;\n                q[i] = c;\n\
+    \                for (int j = 0; j + 1 < g.size(); ++j) f[i + j] -= c * g[j];\n\
+    \            }\n            f.v.resize(g.size() - 1);\n            f.shrink();\n\
+    \            return {std::move(q), std::move(f)};\n        }\n        poly q =\
+    \ (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();\n        poly r = f\
+    \ - g * q;\n        r = r.pre(g.size() - 1);\n        r.shrink();\n        return\
+    \ {q, r};\n    }\n\n    poly mod(const poly &a) const {\n        return divmod(a).second;\n\
+    \    }\n\n    mint eval(mint x) const {\n        mint y = 0;\n        for (int\
+    \ i = size() - 1; i >= 0; --i) y = y * x + v[i];\n        return y;\n    }\n\n\
+    \    poly pre(int sz) const {\n        poly ret(sz);\n        for (int i = 0;\
+    \ i < min<int>(sz, v.size()); ++i) {\n            ret[i] = v[i];\n        }\n\
+    \        return ret;\n    }\n\n    poly diff() const {\n        const int n =\
+    \ (int)this->size();\n        poly ret(max(0, n - 1));\n        mint one(1), coeff(1);\n\
+    \        for (int i = 1; i < n; i++) {\n            ret[i - 1] = v[i] * coeff;\n\
+    \            coeff += one;\n        }\n        return ret;\n    }\n\n    poly\
+    \ integral() const {\n        const int n = (int)this->size();\n        poly ret(n\
+    \ + 1);\n        ret[0] = mint(0);\n        static vector<mint> invs = {mint(0),\
+    \ mint(1)};\n        if ((int)invs.size() <= n) {\n            int old = (int)invs.size();\n\
+    \            invs.resize(n + 1);\n            for (int i = old; i <= n; ++i) invs[i]\
+    \ = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];\n        }\n        for (int\
+    \ i = 0; i < n; i++) ret[i + 1] = v[i] * invs[i + 1];\n        return ret;\n \
+    \   }\n\n    poly inv(int deg = -1) const {\n        assert(!v.empty() && v[0]\
+    \ != mint(0));\n        if (deg == -1) deg = size();\n        if (deg == 0) return\
+    \ poly();\n        poly res(deg);\n        res[0] = v[0].inv();\n        for (int\
+    \ d = 1; d < deg; d <<= 1) {\n            vector<mint> f(2 * d), g(2 * d);\n \
+    \           for (int i = 0; i < min(size(), 2 * d); ++i) f[i] = v[i];\n      \
+    \      for (int i = 0; i < d; ++i) g[i] = res[i];\n            ntt.transform(f,\
+    \ 0);\n            ntt.transform(g, 0);\n            for (int i = 0; i < 2 * d;\
+    \ ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            fill(f.begin(), f.begin()\
+    \ + d, mint(0));\n            ntt.transform(f, 0);\n            for (int i = 0;\
+    \ i < 2 * d; ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            for (int\
+    \ i = d; i < min(2 * d, deg); ++i) res[i] = -f[i];\n        }\n        return\
+    \ res.pre(deg);\n    }\n\n    poly log(int deg = -1) const {\n        assert(!v.empty()\
+    \ && v[0] == mint(1));\n        if (deg == -1) deg = (int)this->size();\n    \
+    \    if (deg == 0) return poly();\n        return (pre(min(size(), deg)).diff()\
+    \ * inv(deg)).pre(deg - 1).integral();\n    }\n\n    poly exp(int deg = -1) const\
+    \ {\n        assert(v.size() == 0 || v[0] == mint(0));\n        if (deg == -1)\
+    \ deg = v.size();\n        static vector<mint> invs = {mint(0), mint(1)};\n  \
+    \      auto ensure_invs = [&](int n) {\n            if ((int)invs.size() <= n)\
+    \ {\n                int old = (int)invs.size();\n                invs.resize(n\
+    \ + 1);\n                for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod\
+    \ - ntt_mod / i) * invs[ntt_mod % i];\n            }\n        };\n        auto\
+    \ inplace_integral = [&](poly& f) {\n            int n = f.size();\n         \
+    \   ensure_invs(n);\n            f.v.insert(f.v.begin(), mint(0));\n         \
+    \   for (int i = 1; i <= n; ++i) f[i] *= invs[i];\n        };\n        poly b(vector<mint>{mint(1),\
+    \ (1 < size() ? v[1] : mint(0))});\n        poly c(vector<mint>{mint(1)}), z1,\
+    \ z2(vector<mint>{mint(1), mint(1)});\n        for (int m = 2; m < deg; m <<=\
+    \ 1) {\n            poly y = b;\n            y.v.resize(2 * m);\n            ntt.transform(y.v,\
+    \ 0);\n            z1 = z2;\n            poly z(m);\n            for (int i =\
+    \ 0; i < m; ++i) z[i] = y[i] * z1[i];\n            ntt_ifft(z.v);\n          \
+    \  fill(z.v.begin(), z.v.begin() + m / 2, mint(0));\n            ntt.transform(z.v,\
+    \ 0);\n            for (int i = 0; i < m; ++i) z[i] *= -z1[i];\n            ntt_ifft(z.v);\n\
+    \            c.v.insert(c.v.end(), z.v.begin() + m / 2, z.v.end());\n        \
+    \    z2 = c;\n            z2.v.resize(2 * m);\n            ntt.transform(z2.v,\
+    \ 0);\n\n            poly x(m);\n            for (int i = 0; i + 1 < m && i +\
+    \ 1 < size(); ++i) x[i] = v[i + 1] * mint(i + 1);\n            x[m - 1] = mint(0);\n\
+    \            ntt.transform(x.v, 0);\n            for (int i = 0; i < m; ++i) x[i]\
+    \ *= y[i];\n            ntt_ifft(x.v);\n            for (int i = 0; i + 1 < m;\
+    \ ++i) x[i] -= b[i + 1] * mint(i + 1);\n            x.v.resize(2 * m);\n     \
+    \       for (int i = 0; i + 1 < m; ++i) {\n                x[m + i] = x[i];\n\
+    \                x[i] = mint(0);\n            }\n            ntt.transform(x.v,\
+    \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= z2[i];\n          \
+    \  ntt_ifft(x.v);\n            x.v.pop_back();\n            inplace_integral(x);\n\
+    \            for (int i = m; i < min(size(), 2 * m); ++i) x[i] += v[i];\n    \
+    \        fill(x.v.begin(), x.v.begin() + m, mint(0));\n            ntt.transform(x.v,\
+    \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n           \
+    \ ntt_ifft(x.v);\n            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n\
+    \        }\n        return b.pre(deg);\n    }\n\n    poly pow(long long k, int\
+    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        poly ret(max(0,\
+    \ deg));\n        if (deg <= 0) return ret;\n        if (k == 0) {\n         \
+    \   ret[0] = 1;\n            return ret;\n        }\n        if (0 < k && k <=\
+    \ 64) {\n            poly base = pre(deg);\n            poly ans(1);\n       \
+    \     ans[0] = 1;\n            long long e = k;\n            while (e > 0) {\n\
+    \                if (e & 1) {\n                    ans *= base;\n            \
+    \        ans = ans.pre(deg);\n                }\n                e >>= 1;\n  \
+    \              if (e == 0) break;\n                base *= base;\n           \
+    \     base = base.pre(deg);\n            }\n            ans = ans.pre(deg);\n\
+    \            if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n\
+    \        }\n        int lead = 0;\n        while (lead < size() && v[lead] ==\
+    \ mint(0)) lead++;\n        if (lead == size()) return ret;\n        long long\
+    \ shift_ll = 0;\n        if (lead > 0) {\n            if (k > (deg - 1) / lead)\
+    \ return ret;\n            shift_ll = 1LL * lead * k;\n        }\n        poly\
+    \ f(size() - lead);\n        mint inv_lead = v[lead].inv();\n        for (int\
+    \ i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;\n        int shift\
+    \ = static_cast<int>(shift_ll);\n        int rem_deg = deg - shift;\n        poly\
+    \ g = f.log(rem_deg);\n        mint k_mint = mint(k);\n        for (int i = 0;\
+    \ i < g.size(); ++i) g[i] *= k_mint;\n        g = g.exp(rem_deg);\n        mint\
+    \ coeff = v[lead].pow(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ coeff;\n        for (int i = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n\
+    \        return ret;\n    }\n\n    poly sqrt(int deg = -1) const {\n        if\
+    \ (deg == -1) deg = size();\n        poly ret(max(0, deg));\n        if (deg <=\
+    \ 0) return ret;\n        int lead = 0;\n        while (lead < size() && v[lead]\
+    \ == mint(0)) lead++;\n        if (lead == size()) return ret;\n        if (lead\
+    \ & 1) return poly();\n        mint sq0;\n        if (!mod_sqrt(v[lead], sq0))\
+    \ return poly();\n        int shift = lead >> 1;\n        if (shift >= deg) return\
+    \ ret;\n        int rem_deg = deg - shift;\n        poly f(size() - lead);\n \
+    \       mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
+    \ ++i) f[i - lead] = v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n\
+    \        mint inv2 = mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<=\
+    \ 1) {\n            poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k\
+    \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
+    \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
+    \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
+    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    \n\n"
   code: "#ifndef FIRIEXP_LIBRARY_MATH_NTT_CPP\n#define FIRIEXP_LIBRARY_MATH_NTT_CPP\n\
     \n#include \"../util/modint_base.cpp\"\n\nconstexpr int ntt_mod = 998244353, ntt_root\
     \ = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n#define NTT_NAIVE_MUL_THRESHOLD 3072\n\
@@ -537,109 +547,116 @@ data:
     \ ret.v.end());\n        return ret;\n    }\n\n    pair<poly, poly> divmod(const\
     \ poly &a) const {\n        poly f(*this), g(a);\n        f.shrink();\n      \
     \  g.shrink();\n        assert(!g.v.empty());\n        if (f.size() < g.size())\
-    \ return {poly(), f};\n        int need = f.size() - g.size() + 1;\n        poly\
-    \ q = (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();\n        poly r\
-    \ = f - g * q;\n        r = r.pre(g.size() - 1);\n        r.shrink();\n      \
-    \  return {q, r};\n    }\n\n    poly mod(const poly &a) const {\n        return\
-    \ divmod(a).second;\n    }\n\n    mint eval(mint x) const {\n        mint y =\
-    \ 0;\n        for (int i = size() - 1; i >= 0; --i) y = y * x + v[i];\n      \
-    \  return y;\n    }\n\n    poly pre(int sz) const {\n        poly ret(sz);\n \
-    \       for (int i = 0; i < min<int>(sz, v.size()); ++i) {\n            ret[i]\
-    \ = v[i];\n        }\n        return ret;\n    }\n\n    poly diff() const {\n\
-    \        const int n = (int)this->size();\n        poly ret(max(0, n - 1));\n\
-    \        mint one(1), coeff(1);\n        for (int i = 1; i < n; i++) {\n     \
-    \       ret[i - 1] = v[i] * coeff;\n            coeff += one;\n        }\n   \
-    \     return ret;\n    }\n\n    poly integral() const {\n        const int n =\
-    \ (int)this->size();\n        poly ret(n + 1);\n        ret[0] = mint(0);\n  \
-    \      static vector<mint> invs = {mint(0), mint(1)};\n        if ((int)invs.size()\
-    \ <= n) {\n            int old = (int)invs.size();\n            invs.resize(n\
-    \ + 1);\n            for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod - ntt_mod\
-    \ / i) * invs[ntt_mod % i];\n        }\n        for (int i = 0; i < n; i++) ret[i\
-    \ + 1] = v[i] * invs[i + 1];\n        return ret;\n    }\n\n    poly inv(int deg\
-    \ = -1) const {\n        assert(!v.empty() && v[0] != mint(0));\n        if (deg\
-    \ == -1) deg = size();\n        if (deg == 0) return poly();\n        poly res(deg);\n\
-    \        res[0] = v[0].inv();\n        for (int d = 1; d < deg; d <<= 1) {\n \
-    \           vector<mint> f(2 * d), g(2 * d);\n            for (int i = 0; i <\
-    \ min(size(), 2 * d); ++i) f[i] = v[i];\n            for (int i = 0; i < d; ++i)\
-    \ g[i] = res[i];\n            ntt.transform(f, 0);\n            ntt.transform(g,\
-    \ 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *= g[i];\n           \
-    \ ntt_ifft(f);\n            fill(f.begin(), f.begin() + d, mint(0));\n       \
-    \     ntt.transform(f, 0);\n            for (int i = 0; i < 2 * d; ++i) f[i] *=\
-    \ g[i];\n            ntt_ifft(f);\n            for (int i = d; i < min(2 * d,\
-    \ deg); ++i) res[i] = -f[i];\n        }\n        return res.pre(deg);\n    }\n\
-    \n    poly log(int deg = -1) const {\n        assert(!v.empty() && v[0] == mint(1));\n\
-    \        if (deg == -1) deg = (int)this->size();\n        if (deg == 0) return\
-    \ poly();\n        return (pre(min(size(), deg)).diff() * inv(deg)).pre(deg -\
-    \ 1).integral();\n    }\n\n    poly exp(int deg = -1) const {\n        assert(v.size()\
-    \ == 0 || v[0] == mint(0));\n        if (deg == -1) deg = v.size();\n        static\
-    \ vector<mint> invs = {mint(0), mint(1)};\n        auto ensure_invs = [&](int\
-    \ n) {\n            if ((int)invs.size() <= n) {\n                int old = (int)invs.size();\n\
-    \                invs.resize(n + 1);\n                for (int i = old; i <= n;\
-    \ ++i) invs[i] = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];\n          \
-    \  }\n        };\n        auto inplace_integral = [&](poly& f) {\n           \
-    \ int n = f.size();\n            ensure_invs(n);\n            f.v.insert(f.v.begin(),\
-    \ mint(0));\n            for (int i = 1; i <= n; ++i) f[i] *= invs[i];\n     \
-    \   };\n        poly b(vector<mint>{mint(1), (1 < size() ? v[1] : mint(0))});\n\
-    \        poly c(vector<mint>{mint(1)}), z1, z2(vector<mint>{mint(1), mint(1)});\n\
-    \        for (int m = 2; m < deg; m <<= 1) {\n            poly y = b;\n      \
-    \      y.v.resize(2 * m);\n            ntt.transform(y.v, 0);\n            z1\
-    \ = z2;\n            poly z(m);\n            for (int i = 0; i < m; ++i) z[i]\
-    \ = y[i] * z1[i];\n            ntt_ifft(z.v);\n            fill(z.v.begin(), z.v.begin()\
-    \ + m / 2, mint(0));\n            ntt.transform(z.v, 0);\n            for (int\
-    \ i = 0; i < m; ++i) z[i] *= -z1[i];\n            ntt_ifft(z.v);\n           \
-    \ c.v.insert(c.v.end(), z.v.begin() + m / 2, z.v.end());\n            z2 = c;\n\
-    \            z2.v.resize(2 * m);\n            ntt.transform(z2.v, 0);\n\n    \
-    \        poly x(m);\n            for (int i = 0; i + 1 < m && i + 1 < size();\
-    \ ++i) x[i] = v[i + 1] * mint(i + 1);\n            x[m - 1] = mint(0);\n     \
-    \       ntt.transform(x.v, 0);\n            for (int i = 0; i < m; ++i) x[i] *=\
-    \ y[i];\n            ntt_ifft(x.v);\n            for (int i = 0; i + 1 < m; ++i)\
-    \ x[i] -= b[i + 1] * mint(i + 1);\n            x.v.resize(2 * m);\n          \
-    \  for (int i = 0; i + 1 < m; ++i) {\n                x[m + i] = x[i];\n     \
-    \           x[i] = mint(0);\n            }\n            ntt.transform(x.v, 0);\n\
-    \            for (int i = 0; i < 2 * m; ++i) x[i] *= z2[i];\n            ntt_ifft(x.v);\n\
-    \            x.v.pop_back();\n            inplace_integral(x);\n            for\
-    \ (int i = m; i < min(size(), 2 * m); ++i) x[i] += v[i];\n            fill(x.v.begin(),\
-    \ x.v.begin() + m, mint(0));\n            ntt.transform(x.v, 0);\n           \
-    \ for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n            ntt_ifft(x.v);\n\
-    \            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n        }\n \
-    \       return b.pre(deg);\n    }\n\n    poly pow(long long k, int deg = -1) const\
-    \ {\n        if (deg == -1) deg = size();\n        poly ret(max(0, deg));\n  \
-    \      if (deg <= 0) return ret;\n        if (k == 0) {\n            ret[0] =\
-    \ 1;\n            return ret;\n        }\n        if (0 < k && k <= 64) {\n  \
-    \          poly base = pre(deg);\n            poly ans(1);\n            ans[0]\
-    \ = 1;\n            long long e = k;\n            while (e > 0) {\n          \
-    \      if (e & 1) {\n                    ans *= base;\n                    ans\
-    \ = ans.pre(deg);\n                }\n                e >>= 1;\n             \
-    \   if (e == 0) break;\n                base *= base;\n                base =\
-    \ base.pre(deg);\n            }\n            ans = ans.pre(deg);\n           \
-    \ if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n        }\n\
-    \        int lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n\
-    \        if (lead == size()) return ret;\n        long long shift_ll = 0;\n  \
-    \      if (lead > 0) {\n            if (k > (deg - 1) / lead) return ret;\n  \
-    \          shift_ll = 1LL * lead * k;\n        }\n        poly f(size() - lead);\n\
-    \        mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
-    \ ++i) f[i - lead] = v[i] * inv_lead;\n        int shift = static_cast<int>(shift_ll);\n\
-    \        int rem_deg = deg - shift;\n        poly g = f.log(rem_deg);\n      \
-    \  mint k_mint = mint(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
-    \ k_mint;\n        g = g.exp(rem_deg);\n        mint coeff = v[lead].pow(k);\n\
-    \        for (int i = 0; i < g.size(); ++i) g[i] *= coeff;\n        for (int i\
-    \ = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n        return ret;\n    }\n\
-    \n    poly sqrt(int deg = -1) const {\n        if (deg == -1) deg = size();\n\
-    \        poly ret(max(0, deg));\n        if (deg <= 0) return ret;\n        int\
-    \ lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n   \
-    \     if (lead == size()) return ret;\n        if (lead & 1) return poly();\n\
-    \        mint sq0;\n        if (!mod_sqrt(v[lead], sq0)) return poly();\n    \
-    \    int shift = lead >> 1;\n        if (shift >= deg) return ret;\n        int\
-    \ rem_deg = deg - shift;\n        poly f(size() - lead);\n        mint inv_lead\
-    \ = v[lead].inv();\n        for (int i = lead; i < size(); ++i) f[i - lead] =\
-    \ v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n        mint inv2 =\
-    \ mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<= 1) {\n          \
-    \  poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k << 1);\n\
-    \            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n            s\
-    \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
-    \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
-    \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
-    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n#endif\n"
+    \ return {poly(), f};\n        int need = f.size() - g.size() + 1;\n        if\
+    \ (min(g.size(), need) <= 16 || 1LL * g.size() * need <= 4096) {\n           \
+    \ poly q(need);\n            mint inv_lead = g.v.back() == mint(1) ? mint(1) :\
+    \ g.v.back().inv();\n            for (int i = need - 1; i >= 0; --i) {\n     \
+    \           mint c = f[i + g.size() - 1] * inv_lead;\n                q[i] = c;\n\
+    \                for (int j = 0; j + 1 < g.size(); ++j) f[i + j] -= c * g[j];\n\
+    \            }\n            f.v.resize(g.size() - 1);\n            f.shrink();\n\
+    \            return {std::move(q), std::move(f)};\n        }\n        poly q =\
+    \ (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();\n        poly r = f\
+    \ - g * q;\n        r = r.pre(g.size() - 1);\n        r.shrink();\n        return\
+    \ {q, r};\n    }\n\n    poly mod(const poly &a) const {\n        return divmod(a).second;\n\
+    \    }\n\n    mint eval(mint x) const {\n        mint y = 0;\n        for (int\
+    \ i = size() - 1; i >= 0; --i) y = y * x + v[i];\n        return y;\n    }\n\n\
+    \    poly pre(int sz) const {\n        poly ret(sz);\n        for (int i = 0;\
+    \ i < min<int>(sz, v.size()); ++i) {\n            ret[i] = v[i];\n        }\n\
+    \        return ret;\n    }\n\n    poly diff() const {\n        const int n =\
+    \ (int)this->size();\n        poly ret(max(0, n - 1));\n        mint one(1), coeff(1);\n\
+    \        for (int i = 1; i < n; i++) {\n            ret[i - 1] = v[i] * coeff;\n\
+    \            coeff += one;\n        }\n        return ret;\n    }\n\n    poly\
+    \ integral() const {\n        const int n = (int)this->size();\n        poly ret(n\
+    \ + 1);\n        ret[0] = mint(0);\n        static vector<mint> invs = {mint(0),\
+    \ mint(1)};\n        if ((int)invs.size() <= n) {\n            int old = (int)invs.size();\n\
+    \            invs.resize(n + 1);\n            for (int i = old; i <= n; ++i) invs[i]\
+    \ = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];\n        }\n        for (int\
+    \ i = 0; i < n; i++) ret[i + 1] = v[i] * invs[i + 1];\n        return ret;\n \
+    \   }\n\n    poly inv(int deg = -1) const {\n        assert(!v.empty() && v[0]\
+    \ != mint(0));\n        if (deg == -1) deg = size();\n        if (deg == 0) return\
+    \ poly();\n        poly res(deg);\n        res[0] = v[0].inv();\n        for (int\
+    \ d = 1; d < deg; d <<= 1) {\n            vector<mint> f(2 * d), g(2 * d);\n \
+    \           for (int i = 0; i < min(size(), 2 * d); ++i) f[i] = v[i];\n      \
+    \      for (int i = 0; i < d; ++i) g[i] = res[i];\n            ntt.transform(f,\
+    \ 0);\n            ntt.transform(g, 0);\n            for (int i = 0; i < 2 * d;\
+    \ ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            fill(f.begin(), f.begin()\
+    \ + d, mint(0));\n            ntt.transform(f, 0);\n            for (int i = 0;\
+    \ i < 2 * d; ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            for (int\
+    \ i = d; i < min(2 * d, deg); ++i) res[i] = -f[i];\n        }\n        return\
+    \ res.pre(deg);\n    }\n\n    poly log(int deg = -1) const {\n        assert(!v.empty()\
+    \ && v[0] == mint(1));\n        if (deg == -1) deg = (int)this->size();\n    \
+    \    if (deg == 0) return poly();\n        return (pre(min(size(), deg)).diff()\
+    \ * inv(deg)).pre(deg - 1).integral();\n    }\n\n    poly exp(int deg = -1) const\
+    \ {\n        assert(v.size() == 0 || v[0] == mint(0));\n        if (deg == -1)\
+    \ deg = v.size();\n        static vector<mint> invs = {mint(0), mint(1)};\n  \
+    \      auto ensure_invs = [&](int n) {\n            if ((int)invs.size() <= n)\
+    \ {\n                int old = (int)invs.size();\n                invs.resize(n\
+    \ + 1);\n                for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod\
+    \ - ntt_mod / i) * invs[ntt_mod % i];\n            }\n        };\n        auto\
+    \ inplace_integral = [&](poly& f) {\n            int n = f.size();\n         \
+    \   ensure_invs(n);\n            f.v.insert(f.v.begin(), mint(0));\n         \
+    \   for (int i = 1; i <= n; ++i) f[i] *= invs[i];\n        };\n        poly b(vector<mint>{mint(1),\
+    \ (1 < size() ? v[1] : mint(0))});\n        poly c(vector<mint>{mint(1)}), z1,\
+    \ z2(vector<mint>{mint(1), mint(1)});\n        for (int m = 2; m < deg; m <<=\
+    \ 1) {\n            poly y = b;\n            y.v.resize(2 * m);\n            ntt.transform(y.v,\
+    \ 0);\n            z1 = z2;\n            poly z(m);\n            for (int i =\
+    \ 0; i < m; ++i) z[i] = y[i] * z1[i];\n            ntt_ifft(z.v);\n          \
+    \  fill(z.v.begin(), z.v.begin() + m / 2, mint(0));\n            ntt.transform(z.v,\
+    \ 0);\n            for (int i = 0; i < m; ++i) z[i] *= -z1[i];\n            ntt_ifft(z.v);\n\
+    \            c.v.insert(c.v.end(), z.v.begin() + m / 2, z.v.end());\n        \
+    \    z2 = c;\n            z2.v.resize(2 * m);\n            ntt.transform(z2.v,\
+    \ 0);\n\n            poly x(m);\n            for (int i = 0; i + 1 < m && i +\
+    \ 1 < size(); ++i) x[i] = v[i + 1] * mint(i + 1);\n            x[m - 1] = mint(0);\n\
+    \            ntt.transform(x.v, 0);\n            for (int i = 0; i < m; ++i) x[i]\
+    \ *= y[i];\n            ntt_ifft(x.v);\n            for (int i = 0; i + 1 < m;\
+    \ ++i) x[i] -= b[i + 1] * mint(i + 1);\n            x.v.resize(2 * m);\n     \
+    \       for (int i = 0; i + 1 < m; ++i) {\n                x[m + i] = x[i];\n\
+    \                x[i] = mint(0);\n            }\n            ntt.transform(x.v,\
+    \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= z2[i];\n          \
+    \  ntt_ifft(x.v);\n            x.v.pop_back();\n            inplace_integral(x);\n\
+    \            for (int i = m; i < min(size(), 2 * m); ++i) x[i] += v[i];\n    \
+    \        fill(x.v.begin(), x.v.begin() + m, mint(0));\n            ntt.transform(x.v,\
+    \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n           \
+    \ ntt_ifft(x.v);\n            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n\
+    \        }\n        return b.pre(deg);\n    }\n\n    poly pow(long long k, int\
+    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        poly ret(max(0,\
+    \ deg));\n        if (deg <= 0) return ret;\n        if (k == 0) {\n         \
+    \   ret[0] = 1;\n            return ret;\n        }\n        if (0 < k && k <=\
+    \ 64) {\n            poly base = pre(deg);\n            poly ans(1);\n       \
+    \     ans[0] = 1;\n            long long e = k;\n            while (e > 0) {\n\
+    \                if (e & 1) {\n                    ans *= base;\n            \
+    \        ans = ans.pre(deg);\n                }\n                e >>= 1;\n  \
+    \              if (e == 0) break;\n                base *= base;\n           \
+    \     base = base.pre(deg);\n            }\n            ans = ans.pre(deg);\n\
+    \            if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n\
+    \        }\n        int lead = 0;\n        while (lead < size() && v[lead] ==\
+    \ mint(0)) lead++;\n        if (lead == size()) return ret;\n        long long\
+    \ shift_ll = 0;\n        if (lead > 0) {\n            if (k > (deg - 1) / lead)\
+    \ return ret;\n            shift_ll = 1LL * lead * k;\n        }\n        poly\
+    \ f(size() - lead);\n        mint inv_lead = v[lead].inv();\n        for (int\
+    \ i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;\n        int shift\
+    \ = static_cast<int>(shift_ll);\n        int rem_deg = deg - shift;\n        poly\
+    \ g = f.log(rem_deg);\n        mint k_mint = mint(k);\n        for (int i = 0;\
+    \ i < g.size(); ++i) g[i] *= k_mint;\n        g = g.exp(rem_deg);\n        mint\
+    \ coeff = v[lead].pow(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ coeff;\n        for (int i = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n\
+    \        return ret;\n    }\n\n    poly sqrt(int deg = -1) const {\n        if\
+    \ (deg == -1) deg = size();\n        poly ret(max(0, deg));\n        if (deg <=\
+    \ 0) return ret;\n        int lead = 0;\n        while (lead < size() && v[lead]\
+    \ == mint(0)) lead++;\n        if (lead == size()) return ret;\n        if (lead\
+    \ & 1) return poly();\n        mint sq0;\n        if (!mod_sqrt(v[lead], sq0))\
+    \ return poly();\n        int shift = lead >> 1;\n        if (shift >= deg) return\
+    \ ret;\n        int rem_deg = deg - shift;\n        poly f(size() - lead);\n \
+    \       mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
+    \ ++i) f[i - lead] = v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n\
+    \        mint inv2 = mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<=\
+    \ 1) {\n            poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k\
+    \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
+    \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
+    \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
+    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    \n#endif\n"
   dependsOn:
   - util/modint_base.cpp
   isVerificationFile: false
@@ -654,11 +671,12 @@ data:
   - fps/polynomial_interpolation.cpp
   - math/many_factorials.cpp
   - math/subset_sum_counts.cpp
-  timestamp: '2026-10-05 21:21:54+09:00'
+  timestamp: '2026-10-14 20:32:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_multipoint_evaluation_on_geometric_sequence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_aplusb_ntt_divmod.test.cpp
   - test/yosupo_aplusb_subset_sum_counts.test.cpp
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
@@ -710,6 +728,8 @@ title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   平方根を `x^deg` 未満で返す。存在しなければ空多項式を返す
 - `mint eval(mint x)`
   1 点での値を返す
+- `pair<poly, poly> divmod(const poly& g) const`, `poly mod(const poly& g) const`
+  商と剰余、または剰余を返す。除数は零多項式であってはならない。入力は変更せず、剰余の末尾の零は除く
 
 ## 使い方
 `#include "../math/ntt.cpp"` を読み込み、`poly` に係数列を入れて使う。
@@ -726,6 +746,9 @@ FPS 演算は必要な次数だけ `deg` を指定して切り詰める。
 定数多項式との積はスカラー倍で計算する。
 短い側が 16 係数以下の積と面積の小さい積は単純積を使い、それ以外は NTT を使う。
 同一オブジェクトの `f * f` と `f *= f` は、NTT 経路で順変換を 1 回にまとめる。
+`divmod` は末尾の零を除いた除数の係数数を $m$、商の係数数を $k$ として、
+$\min(m,k)\le16$ または $mk\le4096$ なら $O(mk)$ の単純除算を使う。
+それ以外は反転多項式の逆数と NTT による除算を使う。
 `log(deg)` は微分前に必要な係数だけを取り出す。
 `inv(deg)` と `log(deg)` は要求精度に対して
 時間 $O(\mathrm{deg}\log(\mathrm{deg}+1))$、追加領域 $O(\mathrm{deg})$ で計算する。

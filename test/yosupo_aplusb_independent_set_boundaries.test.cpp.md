@@ -229,34 +229,52 @@ data:
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"graph/independentset.cpp\"\
     \nclass IndependentSet {\n    int n;\n    vector<ull> G;\n    ull full_mask()\
-    \ const { return n == 64 ? ~0ull : (1ull << n) - 1; }\n    pair<int, ull> dfs(ull\
-    \ R, ull P, ull X) {\n        if (!P && !X) {\n            return {__builtin_popcountll(R),\
-    \ R};\n        }\n        if (!P) return {-1, 0};\n        pair<int, ull> res\
-    \ = {-1, 0};\n        int pivot = -1, max_neighbors = -1;\n        for (ull vertices\
-    \ = P | X; vertices; vertices &= vertices - 1) {\n            int u = __builtin_ctzll(vertices);\n\
-    \            int neighbors = __builtin_popcountll(P & G[u]);\n            if (neighbors\
-    \ > max_neighbors) {\n                pivot = u;\n                max_neighbors\
+    \ const { return n == 64 ? ~0ull : (1ull << n) - 1; }\n    int color_bound(ull\
+    \ vertices) const {\n        int colors = 0;\n        while (vertices) {\n   \
+    \         ++colors;\n            ull available = vertices;\n            while\
+    \ (available) {\n                int v = 63 - __builtin_clzll(available);\n  \
+    \              ull bit = 1ull << v;\n                vertices &= ~bit;\n     \
+    \           available &= ~bit & ~G[v];\n            }\n        }\n        return\
+    \ colors;\n    }\n    void dfs(ull R, ull P, ull X, pair<int, ull> &best) {\n\
+    \        if (!P && !X) {\n            best = max(best, pair<int, ull>{__builtin_popcountll(R),\
+    \ R});\n            return;\n        }\n        if (!P) return;\n        int bound\
+    \ = __builtin_popcountll(R) + color_bound(P);\n        if (bound < best.first\
+    \ || (bound == best.first && (R | P) <= best.second)) return;\n        int pivot\
+    \ = -1, max_neighbors = -1;\n        for (ull vertices = P | X; vertices; vertices\
+    \ &= vertices - 1) {\n            int u = __builtin_ctzll(vertices);\n       \
+    \     int neighbors = __builtin_popcountll(P & G[u]);\n            if (neighbors\
+    \ >= max_neighbors) {\n                pivot = u;\n                max_neighbors\
     \ = neighbors;\n            }\n        }\n        ull z = P & ~G[pivot];\n   \
-    \     while (z) {\n            int i = __builtin_ctzll(z);\n            z &= z\
-    \ - 1;\n            res = max(res, dfs(R | (1ull << i), P & G[i], X & G[i]));\n\
-    \            P ^= 1ull << i;\n            X |= 1ull << i;\n        }\n       \
-    \ return res;\n    }\n\n\npublic:\n    explicit IndependentSet(int n): n(n), G(n)\
-    \ {\n        for (int i = 0; i < n; ++i) {\n            G[i] = full_mask() ^ (1ull\
-    \ << i);\n        }\n    }\n    void add_edge(int u, int v){\n        G[u] &=\
-    \ ~(1ull << v);\n        G[v] &= ~(1ull << u);\n    }\n    pair<int, ull> maximum_independent_set()\
-    \ {\n        return dfs(0, full_mask(), 0);\n    }\n};\n\n/**\n * @brief \u6700\
-    \u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)\n */\n#line 8 \"test/yosupo_aplusb_independent_set_boundaries.test.cpp\"\
-    \n\nint main() {\n    for (int n : {0, 1, 63, 64}) {\n        IndependentSet empty(n),\
+    \     while (z) {\n            int i = 63 - __builtin_clzll(z);\n            z\
+    \ &= ~(1ull << i);\n            dfs(R | (1ull << i), P & G[i], X & G[i], best);\n\
+    \            P ^= 1ull << i;\n            X |= 1ull << i;\n        }\n    }\n\n\
+    \npublic:\n    explicit IndependentSet(int n): n(n), G(n) {\n        for (int\
+    \ i = 0; i < n; ++i) {\n            G[i] = full_mask() ^ (1ull << i);\n      \
+    \  }\n    }\n    void add_edge(int u, int v){\n        G[u] &= ~(1ull << v);\n\
+    \        G[v] &= ~(1ull << u);\n    }\n    pair<int, ull> maximum_independent_set()\
+    \ {\n        pair<int, ull> best = {-1, 0};\n        dfs(0, full_mask(), 0, best);\n\
+    \        return best;\n    }\n};\n\n/**\n * @brief \u6700\u5927\u72EC\u7ACB\u96C6\
+    \u5408(Maximum Independent Set)\n */\n#line 8 \"test/yosupo_aplusb_independent_set_boundaries.test.cpp\"\
+    \n\npair<int, ull> brute(int n, const vector<pair<int, int>> &edges) {\n    vector<ull>\
+    \ adjacent(n);\n    for (auto [u, v] : edges) {\n        adjacent[u] |= 1ull <<\
+    \ v;\n        adjacent[v] |= 1ull << u;\n    }\n    vector<char> independent(1\
+    \ << n);\n    independent[0] = true;\n    pair<int, ull> best = {0, 0};\n    for\
+    \ (ull mask = 1; mask < (1ull << n); ++mask) {\n        int v = __builtin_ctzll(mask);\n\
+    \        ull rest = mask & (mask - 1);\n        independent[mask] = independent[rest]\
+    \ && !(adjacent[v] & rest);\n        if (independent[mask]) best = max(best, pair<int,\
+    \ ull>{__builtin_popcountll(mask), mask});\n    }\n    return best;\n}\n\nint\
+    \ main() {\n    for (int n : {0, 1, 63, 64}) {\n        IndependentSet empty(n),\
     \ complete(n);\n        ull all = n == 64 ? ~0ull : (1ull << n) - 1;\n       \
     \ assert((empty.maximum_independent_set() == pair<int, ull>{n, all}));\n     \
     \   for (int u = 0; u < n; ++u) for (int v = u + 1; v < n; ++v) complete.add_edge(u,\
     \ v);\n        auto [size, mask] = complete.maximum_independent_set();\n     \
     \   assert(size == (n > 0));\n        assert(__builtin_popcountll(mask) == size\
-    \ && (mask & ~all) == 0);\n    }\n    for (int center : {0, 63}) {\n        IndependentSet\
-    \ star(64);\n        for (int v = 0; v < 64; ++v) if (v != center) star.add_edge(center,\
-    \ v);\n        assert((star.maximum_independent_set() == pair<int, ull>{63, ~(1ull\
-    \ << center)}));\n    }\n    IndependentSet bipartite(64);\n    for (int u = 0;\
-    \ u < 32; ++u) for (int v = 32; v < 64; ++v) bipartite.add_edge(u, v);\n    assert((bipartite.maximum_independent_set()\
+    \ && (mask & ~all) == 0);\n        assert(mask == (n ? 1ull << (n - 1) : 0));\n\
+    \    }\n    for (int center : {0, 63}) {\n        IndependentSet star(64);\n \
+    \       for (int v = 0; v < 64; ++v) if (v != center) star.add_edge(center, v);\n\
+    \        assert((star.maximum_independent_set() == pair<int, ull>{63, ~(1ull <<\
+    \ center)}));\n    }\n    IndependentSet bipartite(64);\n    for (int u = 0; u\
+    \ < 32; ++u) for (int v = 32; v < 64; ++v) bipartite.add_edge(u, v);\n    assert((bipartite.maximum_independent_set()\
     \ == pair<int, ull>{32, ~0ull << 32}));\n    mt19937 rng(38);\n    for (int n\
     \ = 0; n <= 12; ++n) for (int tc = 0; tc < 60; ++tc) {\n        IndependentSet\
     \ solver(n);\n        vector<pair<int, int>> edges;\n        for (int u = 0; u\
@@ -264,46 +282,88 @@ data:
     \            solver.add_edge(u, v);\n            edges.emplace_back(u, v);\n \
     \       }\n        auto valid = [&](ull mask) {\n            for (auto [u, v]\
     \ : edges) if ((mask >> u & 1) && (mask >> v & 1)) return false;\n           \
-    \ return true;\n        };\n        int expected = 0;\n        for (ull mask =\
-    \ 0; mask < (1ull << n); ++mask)\n            if (valid(mask)) expected = max(expected,\
-    \ __builtin_popcountll(mask));\n        auto [size, mask] = solver.maximum_independent_set();\n\
-    \        assert(size == expected && __builtin_popcountll(mask) == expected &&\
-    \ valid(mask));\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n}\n"
+    \ return true;\n        };\n        auto expected = brute(n, edges);\n       \
+    \ auto [size, mask] = solver.maximum_independent_set();\n        assert((pair<int,\
+    \ ull>{size, mask} == expected));\n        assert(valid(mask));\n        assert(solver.maximum_independent_set()\
+    \ == expected);\n    }\n    for (int n = 0; n <= 6; ++n) {\n        vector<pair<int,\
+    \ int>> pairs;\n        for (int u = 0; u < n; ++u) for (int v = u + 1; v < n;\
+    \ ++v) pairs.emplace_back(u, v);\n        for (int mask = 0; mask < (1 << pairs.size());\
+    \ ++mask) {\n            IndependentSet solver(n);\n            vector<pair<int,\
+    \ int>> edges;\n            for (int i = 0; i < (int)pairs.size(); ++i) if (mask\
+    \ >> i & 1) {\n                auto [u, v] = pairs[i];\n                solver.add_edge(u,\
+    \ v);\n                edges.emplace_back(u, v);\n            }\n            auto\
+    \ expected = brute(n, edges);\n            assert(solver.maximum_independent_set()\
+    \ == expected);\n            assert(solver.maximum_independent_set() == expected);\n\
+    \        }\n    }\n    for (int tc = 0; tc < 80; ++tc) {\n        int n = 1 +\
+    \ rng() % 16;\n        IndependentSet solver(n);\n        vector<pair<int, int>>\
+    \ edges;\n        for (int step = 0; step < 20; ++step) {\n            int u =\
+    \ rng() % n, v = rng() % n;\n            if (u != v) {\n                solver.add_edge(u,\
+    \ v);\n                edges.emplace_back(u, v);\n            }\n            assert(solver.maximum_independent_set()\
+    \ == brute(n, edges));\n        }\n    }\n    IndependentSet triangles(63);\n\
+    \    ull expected_mask = 0;\n    for (int i = 0; i < 63; i += 3) {\n        triangles.add_edge(i,\
+    \ i + 1);\n        triangles.add_edge(i, i + 2);\n        triangles.add_edge(i\
+    \ + 1, i + 2);\n        expected_mask |= 1ull << (i + 2);\n    }\n    assert((triangles.maximum_independent_set()\
+    \ == pair<int, ull>{21, expected_mask}));\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\nusing ull = unsigned long long;\n#include \"../util/fastio.cpp\"\
-    \n#include \"../graph/independentset.cpp\"\n\nint main() {\n    for (int n : {0,\
-    \ 1, 63, 64}) {\n        IndependentSet empty(n), complete(n);\n        ull all\
-    \ = n == 64 ? ~0ull : (1ull << n) - 1;\n        assert((empty.maximum_independent_set()\
+    \n#include \"../graph/independentset.cpp\"\n\npair<int, ull> brute(int n, const\
+    \ vector<pair<int, int>> &edges) {\n    vector<ull> adjacent(n);\n    for (auto\
+    \ [u, v] : edges) {\n        adjacent[u] |= 1ull << v;\n        adjacent[v] |=\
+    \ 1ull << u;\n    }\n    vector<char> independent(1 << n);\n    independent[0]\
+    \ = true;\n    pair<int, ull> best = {0, 0};\n    for (ull mask = 1; mask < (1ull\
+    \ << n); ++mask) {\n        int v = __builtin_ctzll(mask);\n        ull rest =\
+    \ mask & (mask - 1);\n        independent[mask] = independent[rest] && !(adjacent[v]\
+    \ & rest);\n        if (independent[mask]) best = max(best, pair<int, ull>{__builtin_popcountll(mask),\
+    \ mask});\n    }\n    return best;\n}\n\nint main() {\n    for (int n : {0, 1,\
+    \ 63, 64}) {\n        IndependentSet empty(n), complete(n);\n        ull all =\
+    \ n == 64 ? ~0ull : (1ull << n) - 1;\n        assert((empty.maximum_independent_set()\
     \ == pair<int, ull>{n, all}));\n        for (int u = 0; u < n; ++u) for (int v\
     \ = u + 1; v < n; ++v) complete.add_edge(u, v);\n        auto [size, mask] = complete.maximum_independent_set();\n\
     \        assert(size == (n > 0));\n        assert(__builtin_popcountll(mask) ==\
-    \ size && (mask & ~all) == 0);\n    }\n    for (int center : {0, 63}) {\n    \
-    \    IndependentSet star(64);\n        for (int v = 0; v < 64; ++v) if (v != center)\
-    \ star.add_edge(center, v);\n        assert((star.maximum_independent_set() ==\
-    \ pair<int, ull>{63, ~(1ull << center)}));\n    }\n    IndependentSet bipartite(64);\n\
-    \    for (int u = 0; u < 32; ++u) for (int v = 32; v < 64; ++v) bipartite.add_edge(u,\
-    \ v);\n    assert((bipartite.maximum_independent_set() == pair<int, ull>{32, ~0ull\
-    \ << 32}));\n    mt19937 rng(38);\n    for (int n = 0; n <= 12; ++n) for (int\
-    \ tc = 0; tc < 60; ++tc) {\n        IndependentSet solver(n);\n        vector<pair<int,\
-    \ int>> edges;\n        for (int u = 0; u < n; ++u) for (int v = u + 1; v < n;\
-    \ ++v) if (int(rng() % 10) < tc % 10) {\n            solver.add_edge(u, v);\n\
-    \            edges.emplace_back(u, v);\n        }\n        auto valid = [&](ull\
-    \ mask) {\n            for (auto [u, v] : edges) if ((mask >> u & 1) && (mask\
-    \ >> v & 1)) return false;\n            return true;\n        };\n        int\
-    \ expected = 0;\n        for (ull mask = 0; mask < (1ull << n); ++mask)\n    \
-    \        if (valid(mask)) expected = max(expected, __builtin_popcountll(mask));\n\
-    \        auto [size, mask] = solver.maximum_independent_set();\n        assert(size\
-    \ == expected && __builtin_popcountll(mask) == expected && valid(mask));\n   \
-    \ }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n   \
-    \ pr.println(a + b);\n}\n"
+    \ size && (mask & ~all) == 0);\n        assert(mask == (n ? 1ull << (n - 1) :\
+    \ 0));\n    }\n    for (int center : {0, 63}) {\n        IndependentSet star(64);\n\
+    \        for (int v = 0; v < 64; ++v) if (v != center) star.add_edge(center, v);\n\
+    \        assert((star.maximum_independent_set() == pair<int, ull>{63, ~(1ull <<\
+    \ center)}));\n    }\n    IndependentSet bipartite(64);\n    for (int u = 0; u\
+    \ < 32; ++u) for (int v = 32; v < 64; ++v) bipartite.add_edge(u, v);\n    assert((bipartite.maximum_independent_set()\
+    \ == pair<int, ull>{32, ~0ull << 32}));\n    mt19937 rng(38);\n    for (int n\
+    \ = 0; n <= 12; ++n) for (int tc = 0; tc < 60; ++tc) {\n        IndependentSet\
+    \ solver(n);\n        vector<pair<int, int>> edges;\n        for (int u = 0; u\
+    \ < n; ++u) for (int v = u + 1; v < n; ++v) if (int(rng() % 10) < tc % 10) {\n\
+    \            solver.add_edge(u, v);\n            edges.emplace_back(u, v);\n \
+    \       }\n        auto valid = [&](ull mask) {\n            for (auto [u, v]\
+    \ : edges) if ((mask >> u & 1) && (mask >> v & 1)) return false;\n           \
+    \ return true;\n        };\n        auto expected = brute(n, edges);\n       \
+    \ auto [size, mask] = solver.maximum_independent_set();\n        assert((pair<int,\
+    \ ull>{size, mask} == expected));\n        assert(valid(mask));\n        assert(solver.maximum_independent_set()\
+    \ == expected);\n    }\n    for (int n = 0; n <= 6; ++n) {\n        vector<pair<int,\
+    \ int>> pairs;\n        for (int u = 0; u < n; ++u) for (int v = u + 1; v < n;\
+    \ ++v) pairs.emplace_back(u, v);\n        for (int mask = 0; mask < (1 << pairs.size());\
+    \ ++mask) {\n            IndependentSet solver(n);\n            vector<pair<int,\
+    \ int>> edges;\n            for (int i = 0; i < (int)pairs.size(); ++i) if (mask\
+    \ >> i & 1) {\n                auto [u, v] = pairs[i];\n                solver.add_edge(u,\
+    \ v);\n                edges.emplace_back(u, v);\n            }\n            auto\
+    \ expected = brute(n, edges);\n            assert(solver.maximum_independent_set()\
+    \ == expected);\n            assert(solver.maximum_independent_set() == expected);\n\
+    \        }\n    }\n    for (int tc = 0; tc < 80; ++tc) {\n        int n = 1 +\
+    \ rng() % 16;\n        IndependentSet solver(n);\n        vector<pair<int, int>>\
+    \ edges;\n        for (int step = 0; step < 20; ++step) {\n            int u =\
+    \ rng() % n, v = rng() % n;\n            if (u != v) {\n                solver.add_edge(u,\
+    \ v);\n                edges.emplace_back(u, v);\n            }\n            assert(solver.maximum_independent_set()\
+    \ == brute(n, edges));\n        }\n    }\n    IndependentSet triangles(63);\n\
+    \    ull expected_mask = 0;\n    for (int i = 0; i < 63; i += 3) {\n        triangles.add_edge(i,\
+    \ i + 1);\n        triangles.add_edge(i, i + 2);\n        triangles.add_edge(i\
+    \ + 1, i + 2);\n        expected_mask |= 1ull << (i + 2);\n    }\n    assert((triangles.maximum_independent_set()\
+    \ == pair<int, ull>{21, expected_mask}));\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/independentset.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_independent_set_boundaries.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-14 20:34:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_independent_set_boundaries.test.cpp

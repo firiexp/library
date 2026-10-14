@@ -11,9 +11,6 @@ data:
     path: test/yosupo_aplusb_crt.test.cpp
     title: test/yosupo_aplusb_crt.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_binomial_coefficient.test.cpp
-    title: test/yosupo_binomial_coefficient.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/yuki1358.test.cpp
     title: test/yuki1358.test.cpp
   _isVerificationFailed: false
@@ -42,7 +39,6 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki1358.test.cpp
-  - test/yosupo_binomial_coefficient.test.cpp
   - test/yosupo_aplusb_crt.test.cpp
 date: 2018-04-28
 documentation_of: math/extgcd.cpp

@@ -7,11 +7,15 @@ data:
   _pathExtension: cpp
   _verificationStatusIcon: ':warning:'
   attributes:
-    links: []
-  bundledCode: "#line 1 \"snippets/template.cpp\"\n#include <bits/stdc++.h>\nusing\
-    \ namespace std;\nstatic const int MOD = 998244353;\ntemplate<class T> constexpr\
-    \ T INF=numeric_limits<T>::max()/32*15+208;\nusing ll = long long;\nusing uint\
-    \ = unsigned;\nusing ull = unsigned long long;\nconstexpr int dx[4]={1,0,-1,0},dy[4]={0,1,0,-1},dx8[8]={1,1,0,-1,-1,-1,0,1},dy8[8]={0,1,1,1,0,-1,-1,-1};\n\
+    links:
+    - https://firiexp.github.io/library/
+    - https://firiexp.github.io/library/snippets/template.cpp
+  bundledCode: "#line 1 \"snippets/template.cpp\"\n// My library: https://firiexp.github.io/library/\n\
+    // template with fastio: https://firiexp.github.io/library/snippets/template.cpp\n\
+    #include <bits/stdc++.h>\nusing namespace std;\nstatic const int MOD = 998244353;\n\
+    template<class T> constexpr T INF=numeric_limits<T>::max()/32*15+208;\nusing ll\
+    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nconstexpr\
+    \ int dx[4]={1,0,-1,0},dy[4]={0,1,0,-1},dx8[8]={1,1,0,-1,-1,-1,0,1},dy8[8]={0,1,1,1,0,-1,-1,-1};\n\
     template<class T> T ifloor(T x,T y){return x/y-(x%y?(x<0)^(y<0):0);}\ntemplate<class\
     \ T> T iceil(T x,T y){return x/y+(x%y?(x>=0)^(y<0):0);}\ntemplate<class T> bool\
     \ chmax(T&a,T b){return a<b?(a=b,1):0;}\ntemplate<class T> bool chmin(T&a,T b){return\
@@ -95,10 +99,11 @@ data:
     \ x,int p=P){print_fixed(x,p);pc('\\n');}\n} dout; template<class T> Printer&\
     \ operator<<(Printer&out,const T&x){ out.print(x); return out; }\n\nint main(){\n\
     \    return 0;\n}\n"
-  code: "#include <bits/stdc++.h>\nusing namespace std;\nstatic const int MOD = 998244353;\n\
-    template<class T> constexpr T INF=numeric_limits<T>::max()/32*15+208;\nusing ll\
-    \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nconstexpr\
-    \ int dx[4]={1,0,-1,0},dy[4]={0,1,0,-1},dx8[8]={1,1,0,-1,-1,-1,0,1},dy8[8]={0,1,1,1,0,-1,-1,-1};\n\
+  code: "// My library: https://firiexp.github.io/library/\n// template with fastio:\
+    \ https://firiexp.github.io/library/snippets/template.cpp\n#include <bits/stdc++.h>\n\
+    using namespace std;\nstatic const int MOD = 998244353;\ntemplate<class T> constexpr\
+    \ T INF=numeric_limits<T>::max()/32*15+208;\nusing ll = long long;\nusing uint\
+    \ = unsigned;\nusing ull = unsigned long long;\nconstexpr int dx[4]={1,0,-1,0},dy[4]={0,1,0,-1},dx8[8]={1,1,0,-1,-1,-1,0,1},dy8[8]={0,1,1,1,0,-1,-1,-1};\n\
     template<class T> T ifloor(T x,T y){return x/y-(x%y?(x<0)^(y<0):0);}\ntemplate<class\
     \ T> T iceil(T x,T y){return x/y+(x%y?(x>=0)^(y<0):0);}\ntemplate<class T> bool\
     \ chmax(T&a,T b){return a<b?(a=b,1):0;}\ntemplate<class T> bool chmin(T&a,T b){return\
@@ -186,7 +191,7 @@ data:
   isVerificationFile: false
   path: snippets/template.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-14 23:05:24+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: snippets/template.cpp

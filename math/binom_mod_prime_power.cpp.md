@@ -5,8 +5,14 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/modinv.cpp
     title: math/modinv.cpp
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: math/binom_mod.cpp
+    title: "\u4E8C\u9805\u4FC2\u6570\uFF08\u5408\u6210\u6570mod\uFF09"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_binom_mod.test.cpp
+    title: test/yosupo_aplusb_binom_mod.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_binomial_coefficient.test.cpp
     title: test/yosupo_binomial_coefficient.test.cpp
@@ -60,11 +66,13 @@ data:
   - math/modinv.cpp
   isVerificationFile: false
   path: math/binom_mod_prime_power.cpp
-  requiredBy: []
+  requiredBy:
+  - math/binom_mod.cpp
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_binomial_coefficient.test.cpp
+  - test/yosupo_aplusb_binom_mod.test.cpp
 date: 2026-03-08
 documentation_of: math/binom_mod_prime_power.cpp
 layout: document
@@ -86,7 +94,7 @@ title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
 
 ## 使い方
 `BinomModPrimePower binom(p, q);` を作り、`binom.C(n, k)` を呼ぶ。
-一般の合成数 mod `m` で使いたいときは、`m` を素因数分解して各 `p^q` ごとに値を出し、CRT で併合する。
+一般の法をまとめて扱う場合は `math/binom_mod.cpp` の `BinomMod(m)` を使う。
 
 ## 実装上の補足
 `n!` の `p` を除いた部分と `p` の指数を再帰的に分けて計算する。

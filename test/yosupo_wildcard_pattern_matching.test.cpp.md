@@ -448,27 +448,50 @@ data:
     \ < (int)res.size(); ++i) {\n            res[i] = internal::combine_u64(c1[i],\
     \ c2[i]);\n        }\n        return res;\n    }\n}\n\n/**\n * @brief \u6574\u6570\
     \u7573\u307F\u8FBC\u307F(2/3 NTT)\n */\n\n\n#line 5 \"string/wildcard_pattern_matching.cpp\"\
-    \n\nvector<int> wildcard_pattern_matching(const string& text, const string& pattern,\
-    \ char wildcard = '*') {\n    int n = (int)text.size(), m = (int)pattern.size();\n\
+    \n\nnamespace wildcard_pattern_matching_detail {\ntemplate<class Transform>\n\
+    void filter_matches(const string &text, const string &pattern, char wildcard,\n\
+    \                    const Transform &transform, vector<int> &result) {\n    using\
+    \ mint = typename Transform::mint;\n    int n = (int)text.size(), m = (int)pattern.size(),\
+    \ size = 1;\n    while (size < n + m - 1) size <<= 1;\n    vector<mint> a(size),\
+    \ b(size), score(size);\n    for (int power = 1; power <= 3; ++power) {\n    \
+    \    fill(a.begin() + n, a.end(), mint(0));\n        fill(b.begin() + m, b.end(),\
+    \ mint(0));\n        for (int i = 0; i < n; ++i) {\n            unsigned int value\
+    \ = text[i] == wildcard ? 0 : (unsigned char)text[i] + 1;\n            unsigned\
+    \ int x = value;\n            for (int k = 1; k < power; ++k) x *= value;\n  \
+    \          a[i] = mint::raw(x);\n        }\n        for (int i = 0; i < m; ++i)\
+    \ {\n            unsigned int value = pattern[i] == wildcard ? 0 : (unsigned char)pattern[i]\
+    \ + 1;\n            unsigned int x = value;\n            for (int k = 1; k < 4\
+    \ - power; ++k) x *= value;\n            b[m - 1 - i] = mint::raw(x);\n      \
+    \  }\n        transform.ntt(a, false);\n        transform.ntt(b, false);\n   \
+    \     for (int i = 0; i < size; ++i) {\n            mint product = a[i] * b[i];\n\
+    \            if (power == 2) score[i] -= product + product;\n            else\
+    \ score[i] += product;\n        }\n    }\n    transform.ntt(score, true);\n  \
+    \  for (int i = 0; i <= n - m; ++i) result[i] &= score[i + m - 1].val == 0;\n\
+    }\n}\n\nvector<int> wildcard_pattern_matching(const string& text, const string&\
+    \ pattern, char wildcard = '*') {\n    int n = (int)text.size(), m = (int)pattern.size();\n\
     \    if (m > n) return {};\n    if (m == 0) return vector<int>(n + 1, 1);\n  \
-    \  assert((long long)n + m - 1 <= (1 << 21));\n    vector<unsigned int> a(n),\
-    \ b(m), ap(n), bp(m);\n    for (int i = 0; i < n; ++i)\n        a[i] = text[i]\
-    \ == wildcard ? 0 : (unsigned char)text[i] + 1;\n    for (int i = 0; i < m; ++i)\n\
-    \        b[m - 1 - i] = pattern[i] == wildcard ? 0 : (unsigned char)pattern[i]\
-    \ + 1;\n    vector<long long> score(n - m + 1);\n    for (int power = 1; power\
-    \ <= 3; ++power) {\n        for (int i = 0; i < n; ++i) {\n            ap[i] =\
-    \ a[i];\n            for (int k = 1; k < power; ++k) ap[i] *= a[i];\n        }\n\
-    \        for (int i = 0; i < m; ++i) {\n            bp[i] = b[i];\n          \
-    \  for (int k = 1; k < 4 - power; ++k) bp[i] *= b[i];\n        }\n        auto\
-    \ c = BoundedConvolution::convolution_u64(ap, bp);\n        int sign = power ==\
-    \ 2 ? -2 : 1;\n        for (int i = 0; i <= n - m; ++i) score[i] += sign * (long\
-    \ long)c[i + m - 1];\n    }\n    vector<int> result(n - m + 1);\n    for (int\
-    \ i = 0; i <= n - m; ++i) result[i] = score[i] == 0;\n    return result;\n}\n\n\
-    \n\n/**\n * @brief \u30EF\u30A4\u30EB\u30C9\u30AB\u30FC\u30C9\u4ED8\u304D\u30D1\
-    \u30BF\u30FC\u30F3\u7167\u5408\n */\n#line 7 \"test/yosupo_wildcard_pattern_matching.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    string s, t;\n    sc.read(s,\
-    \ t);\n    for (int matched : wildcard_pattern_matching(s, t)) pr.print((char)('0'\
-    \ + matched));\n    pr.println();\n}\n"
+    \  assert((long long)n + m - 1 <= (1 << 21));\n    if (n + m - 1 >= 128) {\n \
+    \       vector<int> result(n - m + 1, 1);\n        wildcard_pattern_matching_detail::filter_matches(text,\
+    \ pattern, wildcard, BoundedConvolution::internal::ntt1(), result);\n        wildcard_pattern_matching_detail::filter_matches(text,\
+    \ pattern, wildcard, BoundedConvolution::internal::ntt2(), result);\n        return\
+    \ result;\n    }\n    vector<unsigned int> a(n), b(m), ap(n), bp(m);\n    for\
+    \ (int i = 0; i < n; ++i)\n        a[i] = text[i] == wildcard ? 0 : (unsigned\
+    \ char)text[i] + 1;\n    for (int i = 0; i < m; ++i)\n        b[m - 1 - i] = pattern[i]\
+    \ == wildcard ? 0 : (unsigned char)pattern[i] + 1;\n    vector<long long> score(n\
+    \ - m + 1);\n    for (int power = 1; power <= 3; ++power) {\n        for (int\
+    \ i = 0; i < n; ++i) {\n            ap[i] = a[i];\n            for (int k = 1;\
+    \ k < power; ++k) ap[i] *= a[i];\n        }\n        for (int i = 0; i < m; ++i)\
+    \ {\n            bp[i] = b[i];\n            for (int k = 1; k < 4 - power; ++k)\
+    \ bp[i] *= b[i];\n        }\n        auto c = BoundedConvolution::convolution_u64(ap,\
+    \ bp);\n        int sign = power == 2 ? -2 : 1;\n        for (int i = 0; i <=\
+    \ n - m; ++i) score[i] += sign * (long long)c[i + m - 1];\n    }\n    vector<int>\
+    \ result(n - m + 1);\n    for (int i = 0; i <= n - m; ++i) result[i] = score[i]\
+    \ == 0;\n    return result;\n}\n\n\n\n/**\n * @brief \u30EF\u30A4\u30EB\u30C9\u30AB\
+    \u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC\u30F3\u7167\u5408\n */\n#line 7 \"\
+    test/yosupo_wildcard_pattern_matching.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n    string s, t;\n    sc.read(s, t);\n    for (int matched\
+    \ : wildcard_pattern_matching(s, t)) pr.print((char)('0' + matched));\n    pr.println();\n\
+    }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/wildcard_pattern_matching\"\
     \n\n#include <bits/stdc++.h>\nusing namespace std;\n#include \"../util/fastio.cpp\"\
     \n#include \"../string/wildcard_pattern_matching.cpp\"\n\nint main() {\n    Scanner\
@@ -482,7 +505,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_wildcard_pattern_matching.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:36:51+09:00'
+  timestamp: '2026-10-14 20:38:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_wildcard_pattern_matching.test.cpp

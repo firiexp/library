@@ -237,49 +237,94 @@ data:
     \ < (int)res.size(); ++i) {\n            res[i] = internal::combine_u64(c1[i],\
     \ c2[i]);\n        }\n        return res;\n    }\n}\n\n/**\n * @brief \u6574\u6570\
     \u7573\u307F\u8FBC\u307F(2/3 NTT)\n */\n\n\n#line 5 \"string/wildcard_pattern_matching.cpp\"\
-    \n\nvector<int> wildcard_pattern_matching(const string& text, const string& pattern,\
-    \ char wildcard = '*') {\n    int n = (int)text.size(), m = (int)pattern.size();\n\
+    \n\nnamespace wildcard_pattern_matching_detail {\ntemplate<class Transform>\n\
+    void filter_matches(const string &text, const string &pattern, char wildcard,\n\
+    \                    const Transform &transform, vector<int> &result) {\n    using\
+    \ mint = typename Transform::mint;\n    int n = (int)text.size(), m = (int)pattern.size(),\
+    \ size = 1;\n    while (size < n + m - 1) size <<= 1;\n    vector<mint> a(size),\
+    \ b(size), score(size);\n    for (int power = 1; power <= 3; ++power) {\n    \
+    \    fill(a.begin() + n, a.end(), mint(0));\n        fill(b.begin() + m, b.end(),\
+    \ mint(0));\n        for (int i = 0; i < n; ++i) {\n            unsigned int value\
+    \ = text[i] == wildcard ? 0 : (unsigned char)text[i] + 1;\n            unsigned\
+    \ int x = value;\n            for (int k = 1; k < power; ++k) x *= value;\n  \
+    \          a[i] = mint::raw(x);\n        }\n        for (int i = 0; i < m; ++i)\
+    \ {\n            unsigned int value = pattern[i] == wildcard ? 0 : (unsigned char)pattern[i]\
+    \ + 1;\n            unsigned int x = value;\n            for (int k = 1; k < 4\
+    \ - power; ++k) x *= value;\n            b[m - 1 - i] = mint::raw(x);\n      \
+    \  }\n        transform.ntt(a, false);\n        transform.ntt(b, false);\n   \
+    \     for (int i = 0; i < size; ++i) {\n            mint product = a[i] * b[i];\n\
+    \            if (power == 2) score[i] -= product + product;\n            else\
+    \ score[i] += product;\n        }\n    }\n    transform.ntt(score, true);\n  \
+    \  for (int i = 0; i <= n - m; ++i) result[i] &= score[i + m - 1].val == 0;\n\
+    }\n}\n\nvector<int> wildcard_pattern_matching(const string& text, const string&\
+    \ pattern, char wildcard = '*') {\n    int n = (int)text.size(), m = (int)pattern.size();\n\
     \    if (m > n) return {};\n    if (m == 0) return vector<int>(n + 1, 1);\n  \
-    \  assert((long long)n + m - 1 <= (1 << 21));\n    vector<unsigned int> a(n),\
-    \ b(m), ap(n), bp(m);\n    for (int i = 0; i < n; ++i)\n        a[i] = text[i]\
-    \ == wildcard ? 0 : (unsigned char)text[i] + 1;\n    for (int i = 0; i < m; ++i)\n\
-    \        b[m - 1 - i] = pattern[i] == wildcard ? 0 : (unsigned char)pattern[i]\
-    \ + 1;\n    vector<long long> score(n - m + 1);\n    for (int power = 1; power\
-    \ <= 3; ++power) {\n        for (int i = 0; i < n; ++i) {\n            ap[i] =\
-    \ a[i];\n            for (int k = 1; k < power; ++k) ap[i] *= a[i];\n        }\n\
-    \        for (int i = 0; i < m; ++i) {\n            bp[i] = b[i];\n          \
-    \  for (int k = 1; k < 4 - power; ++k) bp[i] *= b[i];\n        }\n        auto\
-    \ c = BoundedConvolution::convolution_u64(ap, bp);\n        int sign = power ==\
-    \ 2 ? -2 : 1;\n        for (int i = 0; i <= n - m; ++i) score[i] += sign * (long\
-    \ long)c[i + m - 1];\n    }\n    vector<int> result(n - m + 1);\n    for (int\
-    \ i = 0; i <= n - m; ++i) result[i] = score[i] == 0;\n    return result;\n}\n\n\
-    \n\n/**\n * @brief \u30EF\u30A4\u30EB\u30C9\u30AB\u30FC\u30C9\u4ED8\u304D\u30D1\
-    \u30BF\u30FC\u30F3\u7167\u5408\n */\n"
+    \  assert((long long)n + m - 1 <= (1 << 21));\n    if (n + m - 1 >= 128) {\n \
+    \       vector<int> result(n - m + 1, 1);\n        wildcard_pattern_matching_detail::filter_matches(text,\
+    \ pattern, wildcard, BoundedConvolution::internal::ntt1(), result);\n        wildcard_pattern_matching_detail::filter_matches(text,\
+    \ pattern, wildcard, BoundedConvolution::internal::ntt2(), result);\n        return\
+    \ result;\n    }\n    vector<unsigned int> a(n), b(m), ap(n), bp(m);\n    for\
+    \ (int i = 0; i < n; ++i)\n        a[i] = text[i] == wildcard ? 0 : (unsigned\
+    \ char)text[i] + 1;\n    for (int i = 0; i < m; ++i)\n        b[m - 1 - i] = pattern[i]\
+    \ == wildcard ? 0 : (unsigned char)pattern[i] + 1;\n    vector<long long> score(n\
+    \ - m + 1);\n    for (int power = 1; power <= 3; ++power) {\n        for (int\
+    \ i = 0; i < n; ++i) {\n            ap[i] = a[i];\n            for (int k = 1;\
+    \ k < power; ++k) ap[i] *= a[i];\n        }\n        for (int i = 0; i < m; ++i)\
+    \ {\n            bp[i] = b[i];\n            for (int k = 1; k < 4 - power; ++k)\
+    \ bp[i] *= b[i];\n        }\n        auto c = BoundedConvolution::convolution_u64(ap,\
+    \ bp);\n        int sign = power == 2 ? -2 : 1;\n        for (int i = 0; i <=\
+    \ n - m; ++i) score[i] += sign * (long long)c[i + m - 1];\n    }\n    vector<int>\
+    \ result(n - m + 1);\n    for (int i = 0; i <= n - m; ++i) result[i] = score[i]\
+    \ == 0;\n    return result;\n}\n\n\n\n/**\n * @brief \u30EF\u30A4\u30EB\u30C9\u30AB\
+    \u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC\u30F3\u7167\u5408\n */\n"
   code: "#ifndef FIRIEXP_LIBRARY_STRING_WILDCARD_PATTERN_MATCHING_CPP\n#define FIRIEXP_LIBRARY_STRING_WILDCARD_PATTERN_MATCHING_CPP\n\
-    \n#include \"../math/integer_convolution.cpp\"\n\nvector<int> wildcard_pattern_matching(const\
+    \n#include \"../math/integer_convolution.cpp\"\n\nnamespace wildcard_pattern_matching_detail\
+    \ {\ntemplate<class Transform>\nvoid filter_matches(const string &text, const\
+    \ string &pattern, char wildcard,\n                    const Transform &transform,\
+    \ vector<int> &result) {\n    using mint = typename Transform::mint;\n    int\
+    \ n = (int)text.size(), m = (int)pattern.size(), size = 1;\n    while (size <\
+    \ n + m - 1) size <<= 1;\n    vector<mint> a(size), b(size), score(size);\n  \
+    \  for (int power = 1; power <= 3; ++power) {\n        fill(a.begin() + n, a.end(),\
+    \ mint(0));\n        fill(b.begin() + m, b.end(), mint(0));\n        for (int\
+    \ i = 0; i < n; ++i) {\n            unsigned int value = text[i] == wildcard ?\
+    \ 0 : (unsigned char)text[i] + 1;\n            unsigned int x = value;\n     \
+    \       for (int k = 1; k < power; ++k) x *= value;\n            a[i] = mint::raw(x);\n\
+    \        }\n        for (int i = 0; i < m; ++i) {\n            unsigned int value\
+    \ = pattern[i] == wildcard ? 0 : (unsigned char)pattern[i] + 1;\n            unsigned\
+    \ int x = value;\n            for (int k = 1; k < 4 - power; ++k) x *= value;\n\
+    \            b[m - 1 - i] = mint::raw(x);\n        }\n        transform.ntt(a,\
+    \ false);\n        transform.ntt(b, false);\n        for (int i = 0; i < size;\
+    \ ++i) {\n            mint product = a[i] * b[i];\n            if (power == 2)\
+    \ score[i] -= product + product;\n            else score[i] += product;\n    \
+    \    }\n    }\n    transform.ntt(score, true);\n    for (int i = 0; i <= n - m;\
+    \ ++i) result[i] &= score[i + m - 1].val == 0;\n}\n}\n\nvector<int> wildcard_pattern_matching(const\
     \ string& text, const string& pattern, char wildcard = '*') {\n    int n = (int)text.size(),\
     \ m = (int)pattern.size();\n    if (m > n) return {};\n    if (m == 0) return\
     \ vector<int>(n + 1, 1);\n    assert((long long)n + m - 1 <= (1 << 21));\n   \
-    \ vector<unsigned int> a(n), b(m), ap(n), bp(m);\n    for (int i = 0; i < n; ++i)\n\
-    \        a[i] = text[i] == wildcard ? 0 : (unsigned char)text[i] + 1;\n    for\
-    \ (int i = 0; i < m; ++i)\n        b[m - 1 - i] = pattern[i] == wildcard ? 0 :\
-    \ (unsigned char)pattern[i] + 1;\n    vector<long long> score(n - m + 1);\n  \
-    \  for (int power = 1; power <= 3; ++power) {\n        for (int i = 0; i < n;\
-    \ ++i) {\n            ap[i] = a[i];\n            for (int k = 1; k < power; ++k)\
-    \ ap[i] *= a[i];\n        }\n        for (int i = 0; i < m; ++i) {\n         \
-    \   bp[i] = b[i];\n            for (int k = 1; k < 4 - power; ++k) bp[i] *= b[i];\n\
-    \        }\n        auto c = BoundedConvolution::convolution_u64(ap, bp);\n  \
-    \      int sign = power == 2 ? -2 : 1;\n        for (int i = 0; i <= n - m; ++i)\
-    \ score[i] += sign * (long long)c[i + m - 1];\n    }\n    vector<int> result(n\
-    \ - m + 1);\n    for (int i = 0; i <= n - m; ++i) result[i] = score[i] == 0;\n\
-    \    return result;\n}\n\n#endif\n\n/**\n * @brief \u30EF\u30A4\u30EB\u30C9\u30AB\
-    \u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC\u30F3\u7167\u5408\n */\n"
+    \ if (n + m - 1 >= 128) {\n        vector<int> result(n - m + 1, 1);\n       \
+    \ wildcard_pattern_matching_detail::filter_matches(text, pattern, wildcard, BoundedConvolution::internal::ntt1(),\
+    \ result);\n        wildcard_pattern_matching_detail::filter_matches(text, pattern,\
+    \ wildcard, BoundedConvolution::internal::ntt2(), result);\n        return result;\n\
+    \    }\n    vector<unsigned int> a(n), b(m), ap(n), bp(m);\n    for (int i = 0;\
+    \ i < n; ++i)\n        a[i] = text[i] == wildcard ? 0 : (unsigned char)text[i]\
+    \ + 1;\n    for (int i = 0; i < m; ++i)\n        b[m - 1 - i] = pattern[i] ==\
+    \ wildcard ? 0 : (unsigned char)pattern[i] + 1;\n    vector<long long> score(n\
+    \ - m + 1);\n    for (int power = 1; power <= 3; ++power) {\n        for (int\
+    \ i = 0; i < n; ++i) {\n            ap[i] = a[i];\n            for (int k = 1;\
+    \ k < power; ++k) ap[i] *= a[i];\n        }\n        for (int i = 0; i < m; ++i)\
+    \ {\n            bp[i] = b[i];\n            for (int k = 1; k < 4 - power; ++k)\
+    \ bp[i] *= b[i];\n        }\n        auto c = BoundedConvolution::convolution_u64(ap,\
+    \ bp);\n        int sign = power == 2 ? -2 : 1;\n        for (int i = 0; i <=\
+    \ n - m; ++i) score[i] += sign * (long long)c[i + m - 1];\n    }\n    vector<int>\
+    \ result(n - m + 1);\n    for (int i = 0; i <= n - m; ++i) result[i] = score[i]\
+    \ == 0;\n    return result;\n}\n\n#endif\n\n/**\n * @brief \u30EF\u30A4\u30EB\u30C9\
+    \u30AB\u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC\u30F3\u7167\u5408\n */\n"
   dependsOn:
   - math/integer_convolution.cpp
   isVerificationFile: false
   path: string/wildcard_pattern_matching.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:36:51+09:00'
+  timestamp: '2026-10-14 20:38:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_wildcard_pattern_matching.test.cpp
@@ -310,5 +355,8 @@ auto matches = wildcard_pattern_matching("ab*aba", "a*");
 
 ## 実装上の補足
 $1\le M\le N$ の場合、$N+M-1\le 2^{21}$ が必要。
-ワイルドカードを $0$、通常文字を byte 値 $+1$ に変換し、不一致の指標 $\sum ab(a-b)^2$ を3回の整数畳み込みで求める。
-2つの法から整数値を復元するため、剰余の衝突による誤一致はない。
+ワイルドカードを $0$、通常文字を byte 値 $+1$ に変換し、不一致の指標 $\sum ab(a-b)^2$ を求める。
+$N+M-1\ge128$ では、各法で3項の積を周波数領域で合計し、逆 NTT を1回だけ行う。NTT は合計14回で、作業配列3本を使い回し、法ごとに順に処理する。
+指標は非負で、$M\le2^{20}$ より $\mathrm{score}\le M\cdot256^4\le2^{52}<998244353\cdot1004535809$。
+この2法でともに零なら整数としても零なので、剰余の衝突による誤一致はない。逆 NTT の長さ倍は各法で可逆なため、零判定には正規化も整数復元も不要。
+短い入力では従来どおり3回の整数畳み込みで計算する。

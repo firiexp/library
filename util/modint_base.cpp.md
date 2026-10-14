@@ -109,6 +109,9 @@ data:
     path: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
     title: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_ntt_divmod.test.cpp
+    title: test/yosupo_aplusb_ntt_divmod.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_ntt_multiply.test.cpp
     title: test/yosupo_aplusb_ntt_multiply.test.cpp
   - icon: ':heavy_check_mark:'
@@ -351,6 +354,7 @@ data:
   verifiedWith:
   - test/yosupo_multipoint_evaluation_on_geometric_sequence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_aplusb_ntt_divmod.test.cpp
   - test/yosupo_aplusb_characteristic_polynomial.test.cpp
   - test/yosupo_aplusb_bit_build.test.cpp
   - test/yosupo_aplusb_subset_sum_counts.test.cpp

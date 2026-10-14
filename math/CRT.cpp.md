@@ -11,9 +11,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_crt.test.cpp
     title: test/yosupo_aplusb_crt.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_binomial_coefficient.test.cpp
-    title: test/yosupo_binomial_coefficient.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -51,7 +48,6 @@ data:
   timestamp: '2026-10-03 15:07:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_binomial_coefficient.test.cpp
   - test/yosupo_aplusb_crt.test.cpp
 date: 2019-08-18
 documentation_of: math/CRT.cpp

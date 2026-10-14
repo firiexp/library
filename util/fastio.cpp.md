@@ -128,6 +128,9 @@ data:
     path: test/yosupo_aplusb_binarytrie.test.cpp
     title: test/yosupo_aplusb_binarytrie.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_binom_mod.test.cpp
+    title: test/yosupo_aplusb_binom_mod.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
     title: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
   - icon: ':heavy_check_mark:'
@@ -286,6 +289,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_noncommutative_tree.test.cpp
     title: test/yosupo_aplusb_noncommutative_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_ntt_divmod.test.cpp
+    title: test/yosupo_aplusb_ntt_divmod.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_ntt_multiply.test.cpp
     title: test/yosupo_aplusb_ntt_multiply.test.cpp
@@ -1296,6 +1302,7 @@ data:
   - test/yosupo_tetration_mod.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
+  - test/yosupo_aplusb_ntt_divmod.test.cpp
   - test/yosupo_aplusb_characteristic_polynomial.test.cpp
   - test/yosupo_matrix_det_arbitrary_mod.test.cpp
   - test/yosupo_aplusb_bit_build.test.cpp
@@ -1558,6 +1565,7 @@ data:
   - test/yosupo_lyndon_factorization.test.cpp
   - test/yosupo_aplusb_polynomial_interpolation.test.cpp
   - test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
+  - test/yosupo_aplusb_binom_mod.test.cpp
   - test/yosupo_multiplication_of_big_integers.test.cpp
   - test/yosupo_discrete_logarithm_mod.test.cpp
   - test/yosupo_aplusb_minimum_vertex_cover.test.cpp

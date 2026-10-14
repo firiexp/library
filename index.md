@@ -354,6 +354,9 @@ data:
       path: math/berlekamp_massey.cpp
       title: "Berlekamp-Massey\u6CD5"
     - icon: ':heavy_check_mark:'
+      path: math/binom_mod.cpp
+      title: "\u4E8C\u9805\u4FC2\u6570\uFF08\u5408\u6210\u6570mod\uFF09"
+    - icon: ':heavy_check_mark:'
       path: math/binom_mod_prime_power.cpp
       title: "\u4E8C\u9805\u4FC2\u6570(mod p^q)"
     - icon: ':heavy_check_mark:'
@@ -515,7 +518,7 @@ data:
     - icon: ':warning:'
       path: math/prime/mobius_mu.cpp
       title: math/prime/mobius_mu.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':warning:'
       path: math/prime/primefactor.cpp
       title: "\u7D20\u56E0\u6570\u5206\u89E3(\u8A66\u3057\u5272\u308A)"
     - icon: ':heavy_check_mark:'
@@ -874,6 +877,9 @@ data:
       path: test/yosupo_aplusb_binarytrie.test.cpp
       title: test/yosupo_aplusb_binarytrie.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_binom_mod.test.cpp
+      title: test/yosupo_aplusb_binom_mod.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
       title: test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1032,6 +1038,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_noncommutative_tree.test.cpp
       title: test/yosupo_aplusb_noncommutative_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_ntt_divmod.test.cpp
+      title: test/yosupo_aplusb_ntt_divmod.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_ntt_multiply.test.cpp
       title: test/yosupo_aplusb_ntt_multiply.test.cpp
