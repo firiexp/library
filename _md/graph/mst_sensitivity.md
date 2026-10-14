@@ -30,8 +30,8 @@ if (result.forced[i]) {
 }
 ```
 
-Kruskal 内の重みの逐次加算と、求める全ての有限コストが `long long` に収まることを前提とする。
-交換式 `cost + added - removed` の中間値だけは `__int128` で計算する。
+重みの加減算は中間値も含めて `long long` に収まる範囲で使う。
+Kruskal 内の逐次加算と、交換式 `cost + added - removed` がこの条件を満たす必要がある。
 条件ごとの木の復元は行わない。別途 LCA 構築や build は不要。
 
 ## 実装上の補足

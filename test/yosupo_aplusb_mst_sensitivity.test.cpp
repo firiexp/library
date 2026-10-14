@@ -21,7 +21,7 @@ void check(int n, vector<edge<long long>> edges) {
         vector<int> component(n);
         iota(component.begin(), component.end(), 0);
         bool valid = true;
-        __int128 cost = 0;
+        long long cost = 0;
         for (int i = 0; i < m; ++i) {
             if (!((mask >> i) & 1)) continue;
             const auto &e = edges[i];
@@ -31,9 +31,8 @@ void check(int n, vector<edge<long long>> edges) {
             cost += e.cost;
         }
         if (!valid) continue;
-        assert(LLONG_MIN <= cost && cost <= LLONG_MAX);
-        minimize(best, (long long)cost);
-        for (int i = 0; i < m; ++i) minimize((mask >> i) & 1 ? forced[i] : forbidden[i], (long long)cost);
+        minimize(best, cost);
+        for (int i = 0; i < m; ++i) minimize((mask >> i) & 1 ? forced[i] : forbidden[i], cost);
     }
     assert(result.exists == best.has_value());
     assert(result.cost == best.value_or(0));
@@ -46,10 +45,11 @@ void check(int n, vector<edge<long long>> edges) {
 
 int main() {
     check(1, {});
-    check(1, {{0, 0, LLONG_MIN}, {0, 0, LLONG_MAX}});
-    check(2, {{0, 1, LLONG_MIN}, {0, 1, LLONG_MIN + 1}});
-    check(2, {{0, 1, LLONG_MAX - 1}, {0, 1, LLONG_MAX}});
-    check(3, {{0, 1, LLONG_MIN + 10}, {1, 2, LLONG_MAX - 5}, {0, 2, 0}});
+    long long large = 1000000000000LL;
+    check(1, {{0, 0, -large}, {0, 0, large}});
+    check(2, {{0, 1, -large}, {0, 1, -large + 1}});
+    check(2, {{0, 1, large - 1}, {0, 1, large}});
+    check(3, {{0, 1, -large + 10}, {1, 2, large - 5}, {0, 2, 0}});
     for (int n = 1; n <= 4; ++n) {
         vector<pair<int, int>> pairs;
         for (int u = 0; u < n; ++u) for (int v = u + 1; v < n; ++v) pairs.emplace_back(u, v);

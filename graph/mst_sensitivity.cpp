@@ -83,7 +83,7 @@ MSTSensitivityResult mst_sensitivity(int n, const vector<edge<long long>> &edges
         int representative = skip.root(v), x = top[representative];
         while (depth[x] > depth[ancestor]) {
             int id = parent_edge[x];
-            result.forbidden[id] = (long long)((__int128)mst.cost + weight - edges[id].cost);
+            result.forbidden[id] = mst.cost + weight - edges[id].cost;
             int highest = top[skip.root(parent[0][x])];
             skip.unite(representative, parent[0][x]);
             representative = skip.root(representative);
@@ -94,7 +94,7 @@ MSTSensitivityResult mst_sensitivity(int n, const vector<edge<long long>> &edges
     for (int id : non_tree) {
         const auto &e = edges[id];
         auto [ancestor, weight] = path(e.from, e.to);
-        result.forced[id] = (long long)((__int128)mst.cost + e.cost - weight);
+        result.forced[id] = mst.cost + e.cost - weight;
         replace(e.from, ancestor, e.cost);
         replace(e.to, ancestor, e.cost);
     }
