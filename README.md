@@ -33,6 +33,8 @@ oj-verify run -j 8 test/yosupo_unionfind.test.cpp
 
 `python3 scripts/verify_changed.py` は working tree の直接・間接依存を調べ、self-check と影響する verify だけを実行する。`oj-verify all` は docs 生成も含むため、共通基盤の変更や統合確認に限定する。
 
+問題用の verify はその問題を解く処理だけを書く。固定ケース・乱択・愚直解との比較などの self-test は、`test/yosupo_aplusb_<component>.test.cpp` に分離する。既に対応する self-test があればそこへ追加する。これにより問題の全ケースで self-test を繰り返さず、既存の CI と変更依存の選別で両方を実行できる。
+
 ## 性能計測
 
 指定したverifyを実行し、measurement dashboardを更新する。

@@ -268,12 +268,13 @@ data:
     \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 1 \"math/or_convolution.cpp\"\
     \ntemplate<class T>\nvoid subset_zeta_transform(vector<T> &v){\n    int n = 1;\n\
     \    while (n < (int)v.size()) n <<= 1;\n    v.resize(n);\n    for (int i = 1;\
-    \ i < n; i <<= 1) {\n        for (int s = 0; s < n; ++s) {\n            if ((s\
-    \ & i) == 0) v[s | i] += v[s];\n        }\n    }\n}\n\ntemplate<class T>\nvoid\
-    \ subset_mobius_transform(vector<T> &v){\n    int n = 1;\n    while (n < (int)v.size())\
-    \ n <<= 1;\n    v.resize(n);\n    for (int i = 1; i < n; i <<= 1) {\n        for\
-    \ (int s = 0; s < n; ++s) {\n            if ((s & i) == 0) v[s | i] -= v[s];\n\
-    \        }\n    }\n}\n\ntemplate<class T>\nvector<T> or_convolution(vector<T>\
+    \ i < n; i <<= 1) {\n        for (int block = 0; block < n; block += 2 * i) {\n\
+    \            for (int j = 0; j < i; ++j) v[block + i + j] += v[block + j];\n \
+    \       }\n    }\n}\n\ntemplate<class T>\nvoid subset_mobius_transform(vector<T>\
+    \ &v){\n    int n = 1;\n    while (n < (int)v.size()) n <<= 1;\n    v.resize(n);\n\
+    \    for (int i = 1; i < n; i <<= 1) {\n        for (int block = 0; block < n;\
+    \ block += 2 * i) {\n            for (int j = 0; j < i; ++j) v[block + i + j]\
+    \ -= v[block + j];\n        }\n    }\n}\n\ntemplate<class T>\nvector<T> or_convolution(vector<T>\
     \ a, vector<T> b){\n    int n = 1;\n    while (n < (int)a.size() || n < (int)b.size())\
     \ n <<= 1;\n    a.resize(n);\n    b.resize(n);\n    subset_zeta_transform(a);\n\
     \    subset_zeta_transform(b);\n    for (int i = 0; i < n; ++i) a[i] *= b[i];\n\
@@ -307,7 +308,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_bitwise_or_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 18:52:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_bitwise_or_convolution.test.cpp

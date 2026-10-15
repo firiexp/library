@@ -256,67 +256,19 @@ data:
     \ if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
     \            }\n            scratch[l + count++] = idx;\n        }\n    };\n \
     \   dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n */\n\
-    #line 15 \"test/yosupo_closest_pair.test.cpp\"\n\nvoid check(const vector<pair<long\
-    \ long, long long>> &points) {\n    auto input = points;\n    auto [a, b] = closest_pair(input);\n\
-    \    assert(input == points);\n    int n = points.size();\n    assert(0 <= a &&\
-    \ a < n && 0 <= b && b < n && a != b);\n    auto distance = [&](int i, int j)\
-    \ {\n        __int128_t dx = (__int128_t)points[i].first - points[j].first;\n\
-    \        __int128_t dy = (__int128_t)points[i].second - points[j].second;\n  \
-    \      return dx * dx + dy * dy;\n    };\n    auto best = distance(0, 1);\n  \
-    \  for (int i = 0; i < n; ++i) for (int j = 0; j < i; ++j) best = min(best, distance(i,\
-    \ j));\n    assert(distance(a, b) == best);\n}\n\nvoid self_check() {\n    check({{0,\
-    \ 0}, {0, 0}});\n    check({{0, 0}, {1, 0}, {0, 1}, {1, 1}});\n    check({{-4000000000000000000LL,\
-    \ -4000000000000000000LL},\n           {4000000000000000000LL, 4000000000000000000LL}});\n\
-    \    for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {\n        check(vector<pair<long\
-    \ long, long long>>(n, {-1, -1}));\n        for (int shape = 0; shape < 3; ++shape)\
-    \ {\n            vector<pair<long long, long long>> points;\n            for (int\
-    \ i = 0; i < n; ++i) {\n                long long t = i - n / 2;\n           \
-    \     points.emplace_back(shape == 0 ? 0 : t, shape == 1 ? 0 : 2 * t);\n     \
-    \       }\n            check(points);\n            reverse(points.begin(), points.end());\n\
-    \            check(points);\n        }\n    }\n    mt19937_64 random(53);\n  \
-    \  for (int tc = 0; tc < 4000; ++tc) {\n        int n = 2 + random() % 63;\n \
-    \       vector<pair<long long, long long>> points(n);\n        long long bound\
-    \ = tc % 2 ? 1000000000 : 5;\n        for (auto &[x, y] : points) {\n        \
-    \    x = (long long)(random() % (2 * bound + 1)) - bound;\n            y = (long\
-    \ long)(random() % (2 * bound + 1)) - bound;\n        }\n        if (tc % 3 ==\
-    \ 0) points.back() = points.front();\n        check(points);\n    }\n}\n\nint\
-    \ main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n\n    int t;\n\
-    \    sc.read(t);\n    while (t--) {\n        int n;\n        sc.read(n);\n   \
-    \     vector<pair<long long, long long>> ps(n);\n        for (int i = 0; i < n;\
-    \ ++i) {\n            sc.read(ps[i].first, ps[i].second);\n        }\n       \
-    \ auto [a, b] = closest_pair(ps);\n        pr.println(a, b);\n    }\n    return\
-    \ 0;\n}\n"
+    #line 15 \"test/yosupo_closest_pair.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    int t;\n    sc.read(t);\n    while (t--) {\n        int\
+    \ n;\n        sc.read(n);\n        vector<pair<long long, long long>> ps(n);\n\
+    \        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first, ps[i].second);\n\
+    \        }\n        auto [a, b] = closest_pair(ps);\n        pr.println(a, b);\n\
+    \    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/closest_pair\"\n\n#include\
     \ <bits/stdc++.h>\n\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
-    ../util/fastio.cpp\"\n#include \"../geometry/closest_pair.cpp\"\n\nvoid check(const\
-    \ vector<pair<long long, long long>> &points) {\n    auto input = points;\n  \
-    \  auto [a, b] = closest_pair(input);\n    assert(input == points);\n    int n\
-    \ = points.size();\n    assert(0 <= a && a < n && 0 <= b && b < n && a != b);\n\
-    \    auto distance = [&](int i, int j) {\n        __int128_t dx = (__int128_t)points[i].first\
-    \ - points[j].first;\n        __int128_t dy = (__int128_t)points[i].second - points[j].second;\n\
-    \        return dx * dx + dy * dy;\n    };\n    auto best = distance(0, 1);\n\
-    \    for (int i = 0; i < n; ++i) for (int j = 0; j < i; ++j) best = min(best,\
-    \ distance(i, j));\n    assert(distance(a, b) == best);\n}\n\nvoid self_check()\
-    \ {\n    check({{0, 0}, {0, 0}});\n    check({{0, 0}, {1, 0}, {0, 1}, {1, 1}});\n\
-    \    check({{-4000000000000000000LL, -4000000000000000000LL},\n           {4000000000000000000LL,\
-    \ 4000000000000000000LL}});\n    for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64})\
-    \ {\n        check(vector<pair<long long, long long>>(n, {-1, -1}));\n       \
-    \ for (int shape = 0; shape < 3; ++shape) {\n            vector<pair<long long,\
-    \ long long>> points;\n            for (int i = 0; i < n; ++i) {\n           \
-    \     long long t = i - n / 2;\n                points.emplace_back(shape == 0\
-    \ ? 0 : t, shape == 1 ? 0 : 2 * t);\n            }\n            check(points);\n\
-    \            reverse(points.begin(), points.end());\n            check(points);\n\
-    \        }\n    }\n    mt19937_64 random(53);\n    for (int tc = 0; tc < 4000;\
-    \ ++tc) {\n        int n = 2 + random() % 63;\n        vector<pair<long long,\
-    \ long long>> points(n);\n        long long bound = tc % 2 ? 1000000000 : 5;\n\
-    \        for (auto &[x, y] : points) {\n            x = (long long)(random() %\
-    \ (2 * bound + 1)) - bound;\n            y = (long long)(random() % (2 * bound\
-    \ + 1)) - bound;\n        }\n        if (tc % 3 == 0) points.back() = points.front();\n\
-    \        check(points);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n\n    int t;\n    sc.read(t);\n    while (t--) {\n   \
-    \     int n;\n        sc.read(n);\n        vector<pair<long long, long long>>\
-    \ ps(n);\n        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first,\
+    ../util/fastio.cpp\"\n#include \"../geometry/closest_pair.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int t;\n    sc.read(t);\n    while\
+    \ (t--) {\n        int n;\n        sc.read(n);\n        vector<pair<long long,\
+    \ long long>> ps(n);\n        for (int i = 0; i < n; ++i) {\n            sc.read(ps[i].first,\
     \ ps[i].second);\n        }\n        auto [a, b] = closest_pair(ps);\n       \
     \ pr.println(a, b);\n    }\n    return 0;\n}\n"
   dependsOn:
@@ -325,7 +277,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_closest_pair.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_closest_pair.test.cpp

@@ -7,8 +7,8 @@ data:
     path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
-    title: test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+    path: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
+    title: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -102,7 +102,7 @@ data:
   timestamp: '2026-10-10 16:31:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+  - test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
   - test/yosupo_aplusb_fastkitamasa_fft.test.cpp
 documentation_of: test/fastkitamasa_self_check.cpp
 layout: document

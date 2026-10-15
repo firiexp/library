@@ -263,11 +263,7 @@ data:
     \ i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            in.read(a[i][j]);\n\
     \        }\n    }\n    auto [ans, match, row, col] = hungarian<long long>(a);\n\
     \    out.println(ans);\n    for (int i = 0; i < n; ++i) {\n        if (i) out.print('\
-    \ ');\n        out.print(match[i]);\n    }\n    out.println();\n\n    long long\
-    \ dual_sum = 0;\n    for (int i = 0; i < n; ++i) dual_sum += row[i];\n    for\
-    \ (int j = 0; j < n; ++j) dual_sum += col[j];\n    assert(dual_sum == ans);\n\
-    \    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n  \
-    \          assert(row[i] + col[j] <= a[i][j]);\n        }\n    }\n    return 0;\n\
+    \ ');\n        out.print(match[i]);\n    }\n    out.println();\n\n    return 0;\n\
     }\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/assignment\"\n\n#include\
     \ <algorithm>\n#include <cassert>\n#include <limits>\n#include <tuple>\n#include\
@@ -279,18 +275,14 @@ data:
     \ ++j) {\n            in.read(a[i][j]);\n        }\n    }\n    auto [ans, match,\
     \ row, col] = hungarian<long long>(a);\n    out.println(ans);\n    for (int i\
     \ = 0; i < n; ++i) {\n        if (i) out.print(' ');\n        out.print(match[i]);\n\
-    \    }\n    out.println();\n\n    long long dual_sum = 0;\n    for (int i = 0;\
-    \ i < n; ++i) dual_sum += row[i];\n    for (int j = 0; j < n; ++j) dual_sum +=\
-    \ col[j];\n    assert(dual_sum == ans);\n    for (int i = 0; i < n; ++i) {\n \
-    \       for (int j = 0; j < n; ++j) {\n            assert(row[i] + col[j] <= a[i][j]);\n\
-    \        }\n    }\n    return 0;\n}\n"
+    \    }\n    out.println();\n\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - flow/hungarian.cpp
   isVerificationFile: true
   path: test/yosupo_assignment_hungarian.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_assignment_hungarian.test.cpp

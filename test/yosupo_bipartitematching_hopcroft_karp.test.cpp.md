@@ -19,63 +19,63 @@ data:
     - https://judge.yosupo.jp/problem/bipartitematching
   bundledCode: "#line 1 \"test/yosupo_bipartitematching_hopcroft_karp.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/bipartitematching\"\n\n#include\
-    \ <queue>\n#include <algorithm>\n#include <cassert>\n#include <random>\n#include\
-    \ <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ <queue>\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include\
+    \ <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -278,66 +278,18 @@ data:
     \ get_pairs() const {\n        vector<pair<int, int>> ret;\n        for (int i\
     \ = 0; i < l; ++i) {\n            if (match_left[i] != -1) ret.emplace_back(i,\
     \ match_left[i]);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
-    \ Hopcroft-Karp\u6CD5\n */\n#line 19 \"test/yosupo_bipartitematching_hopcroft_karp.test.cpp\"\
-    \n\nvoid repeated_matching_check() {\n    mt19937 rng(55);\n    for (int l = 0;\
-    \ l <= 6; ++l) {\n        for (int r = 0; r <= 6; ++r) {\n            HopcroftKarp\
-    \ hk(l, r);\n            vector<vector<bool>> edges(l, vector<bool>(r));\n   \
-    \         for (int step = 0; step < 25; ++step) {\n                if (l && r\
-    \ && step > 0) {\n                    int u = rng() % l, v = rng() % r;\n    \
-    \                hk.add_edge(u, v);\n                    edges[u][v] = true;\n\
-    \                }\n                vector<bool> possible(1 << r);\n         \
-    \       possible[0] = true;\n                for (int u = 0; u < l; ++u) {\n \
-    \                   auto next = possible;\n                    for (int mask =\
-    \ 0; mask < (1 << r); ++mask) {\n                        if (!possible[mask])\
-    \ continue;\n                        for (int v = 0; v < r; ++v)\n           \
-    \                 if (edges[u][v] && !(mask >> v & 1)) next[mask | (1 << v)] =\
-    \ true;\n                    }\n                    possible = next;\n       \
-    \         }\n                int expected = 0;\n                for (int mask\
-    \ = 0; mask < (1 << r); ++mask)\n                    if (possible[mask]) expected\
-    \ = max(expected, __builtin_popcount((unsigned)mask));\n                for (int\
-    \ repeat = 0; repeat < 2; ++repeat) {\n                    assert(hk.max_matching()\
-    \ == expected);\n                    auto pairs = hk.get_pairs();\n          \
-    \          assert(int(pairs.size()) == expected);\n                    vector<bool>\
-    \ used_l(l), used_r(r);\n                    for (auto [u, v] : pairs) {\n   \
-    \                     assert(edges[u][v] && !used_l[u] && !used_r[v]);\n     \
-    \                   used_l[u] = used_r[v] = true;\n                        assert(hk.match_left[u]\
-    \ == v && hk.match_right[v] == u);\n                    }\n                }\n\
-    \            }\n        }\n    }\n}\n\nint main() {\n    repeated_matching_check();\n\
-    \    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l, r, m);\n\
-    \    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n        int a,\
-    \ b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n    int ans =\
-    \ hk.max_matching();\n    out.println(ans);\n    auto pairs = hk.get_pairs();\n\
+    \ Hopcroft-Karp\u6CD5\n */\n#line 18 \"test/yosupo_bipartitematching_hopcroft_karp.test.cpp\"\
+    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l,\
+    \ r, m);\n    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n    \
+    \    int a, b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n  \
+    \  int ans = hk.max_matching();\n    out.println(ans);\n    auto pairs = hk.get_pairs();\n\
     \    for (auto&& [a, b] : pairs) {\n        out.println(a, b);\n    }\n    return\
     \ 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bipartitematching\"\n\n\
-    #include <queue>\n#include <algorithm>\n#include <cassert>\n#include <random>\n\
-    #include <utility>\n#include <vector>\nusing namespace std;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../graph/hopcroft_karp.cpp\"\n\nvoid\
-    \ repeated_matching_check() {\n    mt19937 rng(55);\n    for (int l = 0; l <=\
-    \ 6; ++l) {\n        for (int r = 0; r <= 6; ++r) {\n            HopcroftKarp\
-    \ hk(l, r);\n            vector<vector<bool>> edges(l, vector<bool>(r));\n   \
-    \         for (int step = 0; step < 25; ++step) {\n                if (l && r\
-    \ && step > 0) {\n                    int u = rng() % l, v = rng() % r;\n    \
-    \                hk.add_edge(u, v);\n                    edges[u][v] = true;\n\
-    \                }\n                vector<bool> possible(1 << r);\n         \
-    \       possible[0] = true;\n                for (int u = 0; u < l; ++u) {\n \
-    \                   auto next = possible;\n                    for (int mask =\
-    \ 0; mask < (1 << r); ++mask) {\n                        if (!possible[mask])\
-    \ continue;\n                        for (int v = 0; v < r; ++v)\n           \
-    \                 if (edges[u][v] && !(mask >> v & 1)) next[mask | (1 << v)] =\
-    \ true;\n                    }\n                    possible = next;\n       \
-    \         }\n                int expected = 0;\n                for (int mask\
-    \ = 0; mask < (1 << r); ++mask)\n                    if (possible[mask]) expected\
-    \ = max(expected, __builtin_popcount((unsigned)mask));\n                for (int\
-    \ repeat = 0; repeat < 2; ++repeat) {\n                    assert(hk.max_matching()\
-    \ == expected);\n                    auto pairs = hk.get_pairs();\n          \
-    \          assert(int(pairs.size()) == expected);\n                    vector<bool>\
-    \ used_l(l), used_r(r);\n                    for (auto [u, v] : pairs) {\n   \
-    \                     assert(edges[u][v] && !used_l[u] && !used_r[v]);\n     \
-    \                   used_l[u] = used_r[v] = true;\n                        assert(hk.match_left[u]\
-    \ == v && hk.match_right[v] == u);\n                    }\n                }\n\
-    \            }\n        }\n    }\n}\n\nint main() {\n    repeated_matching_check();\n\
+    #include <queue>\n#include <algorithm>\n#include <cassert>\n#include <utility>\n\
+    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
+    ../util/fastio.cpp\"\n#include \"../graph/hopcroft_karp.cpp\"\n\nint main() {\n\
     \    Scanner in;\n    Printer out;\n    int l, r, m;\n    in.read(l, r, m);\n\
     \    HopcroftKarp hk(l, r);\n    for (int i = 0; i < m; ++i) {\n        int a,\
     \ b;\n        in.read(a, b);\n        hk.add_edge(a, b);\n    }\n    int ans =\
@@ -350,7 +302,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 17:43:43+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_bipartitematching_hopcroft_karp.test.cpp

@@ -11,6 +11,9 @@ data:
     path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_half_plane_intersection.test.cpp
+    title: test/yosupo_aplusb_half_plane_intersection.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   _isVerificationFailed: false
@@ -266,6 +269,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_half_plane_intersection.test.cpp
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
 date: 2026-03-12
 documentation_of: geometry/half_plane_intersection.cpp

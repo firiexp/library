@@ -11,6 +11,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_squarematrix_mint.test.cpp
+    title: test/yosupo_aplusb_squarematrix_mint.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_pow_of_matrix.test.cpp
     title: test/yosupo_pow_of_matrix.test.cpp
   _isVerificationFailed: false
@@ -548,6 +551,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_pow_of_matrix.test.cpp
+  - test/yosupo_aplusb_squarematrix_mint.test.cpp
 date: 2026-03-15
 documentation_of: math/squarematrix_mint.cpp
 layout: document

@@ -239,57 +239,43 @@ data:
     \            f(to, v, f);\n        }\n    };\n\n    dist[0] = T();\n    dfs(0,\
     \ -1, dfs);\n    int s = far;\n    dist[s] = T();\n    dfs(s, -1, dfs);\n    return\
     \ {dist[far], {s, far}};\n}\n\n/**\n * @brief \u6728\u306E\u76F4\u5F84(\u91CD\u307F\
-    \u4ED8\u304D)\n */\n#line 19 \"test/yosupo_tree_diameter.test.cpp\"\n\nvoid zero_weight_check()\
-    \ {\n    vector<vector<pair<int, ll>>> g(4);\n    for (int v = 1; v < 4; ++v)\
-    \ {\n        g[0].push_back({v, 0});\n        g[v].push_back({0, 0});\n    }\n\
-    \    auto [zero, ends] = tree_diameter_weighted(g);\n    assert(zero == 0);\n\
-    \    assert(0 <= ends.first && ends.first < 4 && 0 <= ends.second && ends.second\
-    \ < 4);\n    g[0][1].second = g[2][0].second = 7;\n    auto [dist, mixed] = tree_diameter_weighted(g);\n\
-    \    assert(dist == 7);\n    assert((mixed.first == 2) != (mixed.second == 2));\n\
-    }\n\nint main() {\n    zero_weight_check();\n    Scanner sc;\n    Printer pr;\n\
-    \n    int n;\n    sc.read(n);\n    vector<vector<pair<int, ll>>> g(n);\n    for\
-    \ (int i = 0; i < n - 1; ++i) {\n        int a, b;\n        ll c;\n        sc.read(a,\
-    \ b, c);\n        g[a].push_back({b, c});\n        g[b].push_back({a, c});\n \
-    \   }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n    int s = ends.first;\n\
-    \    int t = ends.second;\n\n    vector<int> parent(n, -1);\n    vector<int> st\
-    \ = {s};\n    parent[s] = s;\n    while (!st.empty()) {\n        int v = st.back();\n\
-    \        st.pop_back();\n        if (v == t) break;\n        for (auto [to, _]\
-    \ : g[v]) {\n            if (parent[to] != -1) continue;\n            parent[to]\
-    \ = v;\n            st.push_back(to);\n        }\n    }\n\n    vector<int> path;\n\
-    \    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n    path.push_back(s);\n\
-    \    reverse(path.begin(), path.end());\n\n    pr.println(dist, (int)path.size());\n\
-    \    pr.println(path);\n    return 0;\n}\n"
+    \u4ED8\u304D)\n */\n#line 19 \"test/yosupo_tree_diameter.test.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int,\
+    \ ll>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int a, b;\n    \
+    \    ll c;\n        sc.read(a, b, c);\n        g[a].push_back({b, c});\n     \
+    \   g[b].push_back({a, c});\n    }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n\
+    \    int s = ends.first;\n    int t = ends.second;\n\n    vector<int> parent(n,\
+    \ -1);\n    vector<int> st = {s};\n    parent[s] = s;\n    while (!st.empty())\
+    \ {\n        int v = st.back();\n        st.pop_back();\n        if (v == t) break;\n\
+    \        for (auto [to, _] : g[v]) {\n            if (parent[to] != -1) continue;\n\
+    \            parent[to] = v;\n            st.push_back(to);\n        }\n    }\n\
+    \n    vector<int> path;\n    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n\
+    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.println(dist,\
+    \ (int)path.size());\n    pr.println(path);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/tree_diameter\"\n\n#include\
     \ <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\nusing\
     \ namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
-    ../util/fastio.cpp\"\n#include \"../tree/diameter_weighted.cpp\"\n\nvoid zero_weight_check()\
-    \ {\n    vector<vector<pair<int, ll>>> g(4);\n    for (int v = 1; v < 4; ++v)\
-    \ {\n        g[0].push_back({v, 0});\n        g[v].push_back({0, 0});\n    }\n\
-    \    auto [zero, ends] = tree_diameter_weighted(g);\n    assert(zero == 0);\n\
-    \    assert(0 <= ends.first && ends.first < 4 && 0 <= ends.second && ends.second\
-    \ < 4);\n    g[0][1].second = g[2][0].second = 7;\n    auto [dist, mixed] = tree_diameter_weighted(g);\n\
-    \    assert(dist == 7);\n    assert((mixed.first == 2) != (mixed.second == 2));\n\
-    }\n\nint main() {\n    zero_weight_check();\n    Scanner sc;\n    Printer pr;\n\
-    \n    int n;\n    sc.read(n);\n    vector<vector<pair<int, ll>>> g(n);\n    for\
-    \ (int i = 0; i < n - 1; ++i) {\n        int a, b;\n        ll c;\n        sc.read(a,\
-    \ b, c);\n        g[a].push_back({b, c});\n        g[b].push_back({a, c});\n \
-    \   }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n    int s = ends.first;\n\
-    \    int t = ends.second;\n\n    vector<int> parent(n, -1);\n    vector<int> st\
-    \ = {s};\n    parent[s] = s;\n    while (!st.empty()) {\n        int v = st.back();\n\
-    \        st.pop_back();\n        if (v == t) break;\n        for (auto [to, _]\
-    \ : g[v]) {\n            if (parent[to] != -1) continue;\n            parent[to]\
-    \ = v;\n            st.push_back(to);\n        }\n    }\n\n    vector<int> path;\n\
-    \    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n    path.push_back(s);\n\
-    \    reverse(path.begin(), path.end());\n\n    pr.println(dist, (int)path.size());\n\
-    \    pr.println(path);\n    return 0;\n}\n"
+    ../util/fastio.cpp\"\n#include \"../tree/diameter_weighted.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    vector<vector<pair<int,\
+    \ ll>>> g(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int a, b;\n    \
+    \    ll c;\n        sc.read(a, b, c);\n        g[a].push_back({b, c});\n     \
+    \   g[b].push_back({a, c});\n    }\n\n    auto [dist, ends] = tree_diameter_weighted(g);\n\
+    \    int s = ends.first;\n    int t = ends.second;\n\n    vector<int> parent(n,\
+    \ -1);\n    vector<int> st = {s};\n    parent[s] = s;\n    while (!st.empty())\
+    \ {\n        int v = st.back();\n        st.pop_back();\n        if (v == t) break;\n\
+    \        for (auto [to, _] : g[v]) {\n            if (parent[to] != -1) continue;\n\
+    \            parent[to] = v;\n            st.push_back(to);\n        }\n    }\n\
+    \n    vector<int> path;\n    for (int v = t; v != s; v = parent[v]) path.push_back(v);\n\
+    \    path.push_back(s);\n    reverse(path.begin(), path.end());\n\n    pr.println(dist,\
+    \ (int)path.size());\n    pr.println(path);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/diameter_weighted.cpp
   isVerificationFile: true
   path: test/yosupo_tree_diameter.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_tree_diameter.test.cpp

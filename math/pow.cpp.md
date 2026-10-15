@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_ntl_1_b_pow.test.cpp
     title: test/aoj_ntl_1_b_pow.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_pow.test.cpp
+    title: test/yosupo_aplusb_pow.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -30,6 +33,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_ntl_1_b_pow.test.cpp
+  - test/yosupo_aplusb_pow.test.cpp
 documentation_of: math/pow.cpp
 layout: document
 redirect_from:

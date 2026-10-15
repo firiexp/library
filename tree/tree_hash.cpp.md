@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_tree_hash.test.cpp
+    title: test/yosupo_aplusb_tree_hash.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
     title: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   _isVerificationFailed: false
@@ -62,6 +65,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
+  - test/yosupo_aplusb_tree_hash.test.cpp
 date: 2026-03-12
 documentation_of: tree/tree_hash.cpp
 layout: document

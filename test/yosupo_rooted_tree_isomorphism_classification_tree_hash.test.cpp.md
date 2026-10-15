@@ -19,10 +19,10 @@ data:
     - https://judge.yosupo.jp/problem/rooted_tree_isomorphism_classification
   bundledCode: "#line 1 \"test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp\"\
     \n#define PROBLEM \"https://judge.yosupo.jp/problem/rooted_tree_isomorphism_classification\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <map>\n#include <random>\n\
-    #include <string>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
-    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#line 18 \"test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp\"\
+    \n\n#include <algorithm>\n#include <cassert>\n#include <map>\n#include <string>\n\
+    #include <vector>\nusing namespace std;\n\nusing ll = long long;\nusing uint =\
+    \ unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n\
+    #line 17 \"test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp\"\
     \n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\n\
     using namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
     \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
@@ -252,82 +252,30 @@ data:
     \        return hash_id;\n    }\n\n    int operator[](int v) const {\n       \
     \ return hash_id[v];\n    }\n\n    int kinds() const {\n        return kind_count;\n\
     \    }\n};\n\n/**\n * @brief \u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)\n */\n\
-    #line 23 \"test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp\"\
-    \n\nstring canonical_dfs(int v, const vector<vector<int>> &ch) {\n    vector<string>\
-    \ subs;\n    subs.reserve(ch[v].size());\n    for (int to : ch[v]) subs.push_back(canonical_dfs(to,\
-    \ ch));\n    sort(subs.begin(), subs.end());\n    string res = \"(\";\n    for\
-    \ (const auto &s : subs) res += s;\n    res += \")\";\n    return res;\n}\n\n\
-    void self_check() {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 300; ++tc)\
-    \ {\n        int n = rng() % 30 + 1;\n        int root = rng() % n;\n        vector<pair<int,\
-    \ int>> edges;\n        vector<vector<int>> g(n);\n        for (int v = 1; v <\
-    \ n; ++v) {\n            int p = rng() % v;\n            edges.push_back({p, v});\n\
-    \            g[p].push_back(v);\n            g[v].push_back(p);\n        }\n\n\
-    \        vector<int> parent(n, -1), order;\n        order.reserve(n);\n      \
-    \  vector<int> st(1, root);\n        parent[root] = root;\n        while (!st.empty())\
-    \ {\n            int v = st.back();\n            st.pop_back();\n            order.push_back(v);\n\
-    \            for (int to : g[v]) {\n                if (to == parent[v]) continue;\n\
-    \                parent[to] = v;\n                st.push_back(to);\n        \
-    \    }\n        }\n\n        vector<vector<int>> ch(n);\n        for (int v =\
-    \ 0; v < n; ++v) {\n            if (v == root) continue;\n            ch[parent[v]].push_back(v);\n\
-    \        }\n\n        vector<string> canon(n);\n        for (int i = n - 1; i\
-    \ >= 0; --i) canon[order[i]] = canonical_dfs(order[i], ch);\n\n        TreeHash\
-    \ th(n);\n        for (auto [u, v] : edges) th.add_edge(u, v);\n        auto id\
-    \ = th.build(root);\n        assert(th.hash_id == id);\n        assert(th.build(root)\
-    \ == id);\n\n        map<string, int> expect;\n        for (int v = 0; v < n;\
-    \ ++v) {\n            if (!expect.count(canon[v])) expect[canon[v]] = expect.size();\n\
-    \        }\n        assert(th.kinds() == (int)expect.size());\n        for (int\
-    \ i = 0; i < n; ++i) {\n            for (int j = 0; j < n; ++j) {\n          \
-    \      assert((id[i] == id[j]) == (canon[i] == canon[j]));\n            }\n  \
-    \      }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n   \
-    \ Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n    for (int\
-    \ v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n        th.add_edge(p,\
-    \ v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n    for\
-    \ (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i + 1\
-    \ == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
+    #line 22 \"test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    TreeHash th(n);\n    for (int v = 1; v < n; ++v) {\n        int p;\n    \
+    \    sc.read(p);\n        th.add_edge(p, v);\n    }\n    auto id = th.build(0);\n\
+    \    pr.println(th.kinds());\n    for (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n\
+    \        pr.print(i + 1 == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/rooted_tree_isomorphism_classification\"\
-    \n\n#include <algorithm>\n#include <cassert>\n#include <map>\n#include <random>\n\
-    #include <string>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
-    \ long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../tree/tree_hash.cpp\"\n\nstring\
-    \ canonical_dfs(int v, const vector<vector<int>> &ch) {\n    vector<string> subs;\n\
-    \    subs.reserve(ch[v].size());\n    for (int to : ch[v]) subs.push_back(canonical_dfs(to,\
-    \ ch));\n    sort(subs.begin(), subs.end());\n    string res = \"(\";\n    for\
-    \ (const auto &s : subs) res += s;\n    res += \")\";\n    return res;\n}\n\n\
-    void self_check() {\n    mt19937 rng(0);\n    for (int tc = 0; tc < 300; ++tc)\
-    \ {\n        int n = rng() % 30 + 1;\n        int root = rng() % n;\n        vector<pair<int,\
-    \ int>> edges;\n        vector<vector<int>> g(n);\n        for (int v = 1; v <\
-    \ n; ++v) {\n            int p = rng() % v;\n            edges.push_back({p, v});\n\
-    \            g[p].push_back(v);\n            g[v].push_back(p);\n        }\n\n\
-    \        vector<int> parent(n, -1), order;\n        order.reserve(n);\n      \
-    \  vector<int> st(1, root);\n        parent[root] = root;\n        while (!st.empty())\
-    \ {\n            int v = st.back();\n            st.pop_back();\n            order.push_back(v);\n\
-    \            for (int to : g[v]) {\n                if (to == parent[v]) continue;\n\
-    \                parent[to] = v;\n                st.push_back(to);\n        \
-    \    }\n        }\n\n        vector<vector<int>> ch(n);\n        for (int v =\
-    \ 0; v < n; ++v) {\n            if (v == root) continue;\n            ch[parent[v]].push_back(v);\n\
-    \        }\n\n        vector<string> canon(n);\n        for (int i = n - 1; i\
-    \ >= 0; --i) canon[order[i]] = canonical_dfs(order[i], ch);\n\n        TreeHash\
-    \ th(n);\n        for (auto [u, v] : edges) th.add_edge(u, v);\n        auto id\
-    \ = th.build(root);\n        assert(th.hash_id == id);\n        assert(th.build(root)\
-    \ == id);\n\n        map<string, int> expect;\n        for (int v = 0; v < n;\
-    \ ++v) {\n            if (!expect.count(canon[v])) expect[canon[v]] = expect.size();\n\
-    \        }\n        assert(th.kinds() == (int)expect.size());\n        for (int\
-    \ i = 0; i < n; ++i) {\n            for (int j = 0; j < n; ++j) {\n          \
-    \      assert((id[i] == id[j]) == (canon[i] == canon[j]));\n            }\n  \
-    \      }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n   \
-    \ Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n    for (int\
-    \ v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n        th.add_edge(p,\
-    \ v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n    for\
-    \ (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i + 1\
-    \ == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
+    \n\n#include <algorithm>\n#include <cassert>\n#include <map>\n#include <string>\n\
+    #include <vector>\nusing namespace std;\n\nusing ll = long long;\nusing uint =\
+    \ unsigned;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
+    ../util/fastio.cpp\"\n#include \"../tree/tree_hash.cpp\"\n\nint main() {\n   \
+    \ Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    TreeHash th(n);\n\
+    \    for (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n    \
+    \    th.add_edge(p, v);\n    }\n    auto id = th.build(0);\n    pr.println(th.kinds());\n\
+    \    for (int i = 0; i < n; ++i) {\n        pr.print(id[i]);\n        pr.print(i\
+    \ + 1 == n ? '\\n' : ' ');\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/tree_hash.cpp
   isVerificationFile: true
   path: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_rooted_tree_isomorphism_classification_tree_hash.test.cpp

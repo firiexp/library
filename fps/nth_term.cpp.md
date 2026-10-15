@@ -13,6 +13,9 @@ data:
     title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_nth_term.test.cpp
+    title: test/yosupo_aplusb_nth_term.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - icon: ':heavy_check_mark:'
@@ -368,6 +371,7 @@ data:
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
+  - test/yosupo_aplusb_nth_term.test.cpp
 documentation_of: fps/nth_term.cpp
 layout: document
 title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"

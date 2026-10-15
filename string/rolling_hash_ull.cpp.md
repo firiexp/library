@@ -39,13 +39,9 @@ data:
     \        for (int i = l; i < p().size(); ++i) {\n            p()[i] = calc_mod(mul(p()[i-1],\
     \ p()[1]));\n        }\n    }\n\n    ull get(int l, int r){\n        return calc_mod(hash[r]\
     \ + POSITIVISER - mul(hash[l], p()[r-l]));\n    }\n\n    static ull val(string\
-    \ &s){\n        if(p().size() <= s.size()){\n            int l = p().size();\n\
-    \            p().resize(s.size()+1);\n            for (int i = l; i < p().size();\
-    \ ++i) {\n                p()[i] = calc_mod(mul(p()[i-1], p()[1]));\n        \
-    \    }\n        }\n        ull ret = 0;\n        for (int i = 0; i < s.size();\
-    \ ++i) {\n            ret = calc_mod(mul(ret, B()) + (unsigned char)s[i]);\n \
-    \       }\n        return ret;\n    }\n};\n\n/**\n * @brief Rolling Hash(mod 2^61-1)\n\
-    \ */\n"
+    \ &s){\n        ull ret = 0;\n        for (int i = 0; i < s.size(); ++i) {\n \
+    \           ret = calc_mod(mul(ret, B()) + (unsigned char)s[i]);\n        }\n\
+    \        return ret;\n    }\n};\n\n/**\n * @brief Rolling Hash(mod 2^61-1)\n */\n"
   code: "constexpr ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER = M * 4; //\
     \ mul returns an unreduced value below 4*M.\nconstexpr ull MASK30 = (1UL << 30)\
     \ - 1;\nconstexpr ull MASK31 = (1UL << 31) - 1;\n\nclass rolling_hash_ull {\n\
@@ -69,18 +65,14 @@ data:
     \        for (int i = l; i < p().size(); ++i) {\n            p()[i] = calc_mod(mul(p()[i-1],\
     \ p()[1]));\n        }\n    }\n\n    ull get(int l, int r){\n        return calc_mod(hash[r]\
     \ + POSITIVISER - mul(hash[l], p()[r-l]));\n    }\n\n    static ull val(string\
-    \ &s){\n        if(p().size() <= s.size()){\n            int l = p().size();\n\
-    \            p().resize(s.size()+1);\n            for (int i = l; i < p().size();\
-    \ ++i) {\n                p()[i] = calc_mod(mul(p()[i-1], p()[1]));\n        \
-    \    }\n        }\n        ull ret = 0;\n        for (int i = 0; i < s.size();\
-    \ ++i) {\n            ret = calc_mod(mul(ret, B()) + (unsigned char)s[i]);\n \
-    \       }\n        return ret;\n    }\n};\n\n/**\n * @brief Rolling Hash(mod 2^61-1)\n\
-    \ */\n"
+    \ &s){\n        ull ret = 0;\n        for (int i = 0; i < s.size(); ++i) {\n \
+    \           ret = calc_mod(mul(ret, B()) + (unsigned char)s[i]);\n        }\n\
+    \        return ret;\n    }\n};\n\n/**\n * @brief Rolling Hash(mod 2^61-1)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: string/rolling_hash_ull.cpp
   requiredBy: []
-  timestamp: '2026-10-03 13:02:41+09:00'
+  timestamp: '2026-10-15 18:52:34+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_string_bytes.test.cpp
@@ -97,15 +89,15 @@ title: Rolling Hash(mod 2^61-1)
 - `rolling_hash_ull rh(s)`
   文字列 `s` の prefix hash を構築する
 - `rolling_hash_ull rh(n)`
-  長さ `n` までのべきだけ前計算する
+  `p[n]` まで前計算する
 - `ull get(int l, int r)`
   `s[l, r)` のハッシュを返す
 - `static ull val(string& s)`
-  文字列全体のハッシュを返す
+  文字列全体のハッシュを $O(|s|)$ 時間・追加領域 $O(1)$ で返す
 - `static ull& B()`
   使用中の base を返す
 - `static vector<ull>& p()`
-  base のべき列を返す
+  base の $i$ 乗を `p[i]` に格納した配列を返す
 
 ## 使い方
 ```cpp
@@ -117,4 +109,5 @@ if (rh.get(l1, r1) == rh.get(l2, r2)) {
 
 ## 実装上の補足
 base は初回利用時に乱択で 1 回だけ決まる。
+`p` を明示的に伸ばす場合は整数コンストラクタを使う。文字列コンストラクタも必要な長さまで伸ばす。
 比較は高確率一致であり、理論上は衝突しうる。

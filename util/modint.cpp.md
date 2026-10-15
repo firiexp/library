@@ -38,6 +38,9 @@ data:
     path: test/aoj_dpl_5_a.test.cpp
     title: test/aoj_dpl_5_a.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_berlekamp_massey.test.cpp
+    title: test/yosupo_aplusb_berlekamp_massey.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
   - icon: ':heavy_check_mark:'
@@ -56,8 +59,14 @@ data:
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_modint_interface.test.cpp
+    title: test/yosupo_aplusb_modint_interface.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_solve_linear_system.test.cpp
     title: test/yosupo_aplusb_solve_linear_system.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_squarematrix_mint.test.cpp
+    title: test/yosupo_aplusb_squarematrix_mint.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
     title: test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
@@ -92,9 +101,6 @@ data:
     path: test/yosupo_inverse_matrix.test.cpp
     title: test/yosupo_inverse_matrix.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_many_aplusb_modint_interface.test.cpp
-    title: test/yosupo_many_aplusb_modint_interface.test.cpp
-  - icon: ':heavy_check_mark:'
     path: test/yosupo_matrix_det.test.cpp
     title: test/yosupo_matrix_det.test.cpp
   - icon: ':heavy_check_mark:'
@@ -112,6 +118,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_pow_of_matrix_generic.test.cpp
     title: test/yosupo_pow_of_matrix_generic.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_pow_of_matrix_squarematrix.test.cpp
+    title: test/yosupo_pow_of_matrix_squarematrix.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_queue_operate_all_composite.test.cpp
     title: test/yosupo_queue_operate_all_composite.test.cpp
@@ -207,10 +216,12 @@ data:
   - test/yuki650_hld_edge.test.cpp
   - test/aoj0399.test.cpp
   - test/yosupo_characteristic_polynomial.test.cpp
-  - test/yosupo_many_aplusb_modint_interface.test.cpp
+  - test/yosupo_aplusb_berlekamp_massey.test.cpp
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_matrix_det.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp
+  - test/yosupo_pow_of_matrix_squarematrix.test.cpp
+  - test/yosupo_aplusb_modint_interface.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj_dpl_5_a.test.cpp
   - test/yosupo_bitwise_xor_convolution.test.cpp
@@ -236,6 +247,7 @@ data:
   - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_sum_of_totient.test.cpp
+  - test/yosupo_aplusb_squarematrix_mint.test.cpp
   - test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp
   - test/yosupo_aplusb_inverse_matrix.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp

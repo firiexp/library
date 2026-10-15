@@ -8,6 +8,9 @@ data:
     title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_berlekamp_massey.test.cpp
+    title: test/yosupo_aplusb_berlekamp_massey.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
   - icon: ':heavy_check_mark:'
@@ -24,32 +27,34 @@ data:
     \    int l = 0, m = 1;\n    T y = T(1);\n    for (int n = 0; n < (int)s.size();\
     \ ++n) {\n        T d = T(0);\n        for (int i = 0; i <= l; ++i) d += c[i]\
     \ * s[n - i];\n        if (d == T(0)) {\n            ++m;\n            continue;\n\
-    \        }\n        auto t = c;\n        T coef = d / y;\n        if ((int)c.size()\
-    \ < (int)b.size() + m) c.resize((int)b.size() + m, T(0));\n        for (int i\
-    \ = 0; i < (int)b.size(); ++i) c[i + m] -= coef * b[i];\n        if (2 * l <=\
-    \ n) {\n            l = n + 1 - l;\n            b = t;\n            y = d;\n \
-    \           m = 1;\n        } else {\n            ++m;\n        }\n    }\n   \
-    \ c.erase(c.begin());\n    for (auto &x : c) x = -x;\n    return c;\n}\n\n/**\n\
-    \ * @brief Berlekamp-Massey\u6CD5\n */\n"
+    \        }\n        vector<T> t;\n        if (2 * l <= n) t = c;\n        T coef\
+    \ = d / y;\n        if ((int)c.size() < (int)b.size() + m) c.resize((int)b.size()\
+    \ + m, T(0));\n        for (int i = 0; i < (int)b.size(); ++i) c[i + m] -= coef\
+    \ * b[i];\n        if (2 * l <= n) {\n            l = n + 1 - l;\n           \
+    \ b = std::move(t);\n            y = d;\n            m = 1;\n        } else {\n\
+    \            ++m;\n        }\n    }\n    c.erase(c.begin());\n    for (auto &x\
+    \ : c) x = -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\u6CD5\n */\n"
   code: "template<class T>\nvector<T> berlekamp_massey(const vector<T> &s) {\n   \
     \ vector<T> c(1, T(1)), b(1, T(1));\n    int l = 0, m = 1;\n    T y = T(1);\n\
     \    for (int n = 0; n < (int)s.size(); ++n) {\n        T d = T(0);\n        for\
     \ (int i = 0; i <= l; ++i) d += c[i] * s[n - i];\n        if (d == T(0)) {\n \
-    \           ++m;\n            continue;\n        }\n        auto t = c;\n    \
-    \    T coef = d / y;\n        if ((int)c.size() < (int)b.size() + m) c.resize((int)b.size()\
-    \ + m, T(0));\n        for (int i = 0; i < (int)b.size(); ++i) c[i + m] -= coef\
-    \ * b[i];\n        if (2 * l <= n) {\n            l = n + 1 - l;\n           \
-    \ b = t;\n            y = d;\n            m = 1;\n        } else {\n         \
-    \   ++m;\n        }\n    }\n    c.erase(c.begin());\n    for (auto &x : c) x =\
-    \ -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\u6CD5\n */\n"
+    \           ++m;\n            continue;\n        }\n        vector<T> t;\n   \
+    \     if (2 * l <= n) t = c;\n        T coef = d / y;\n        if ((int)c.size()\
+    \ < (int)b.size() + m) c.resize((int)b.size() + m, T(0));\n        for (int i\
+    \ = 0; i < (int)b.size(); ++i) c[i + m] -= coef * b[i];\n        if (2 * l <=\
+    \ n) {\n            l = n + 1 - l;\n            b = std::move(t);\n          \
+    \  y = d;\n            m = 1;\n        } else {\n            ++m;\n        }\n\
+    \    }\n    c.erase(c.begin());\n    for (auto &x : c) x = -x;\n    return c;\n\
+    }\n\n/**\n * @brief Berlekamp-Massey\u6CD5\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/berlekamp_massey.cpp
   requiredBy:
   - fps/linear_recurrence.cpp
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-15 18:52:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_berlekamp_massey.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
 date: 2026-03-07

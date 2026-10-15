@@ -232,53 +232,20 @@ data:
     \     T r = x % M;\n            xx = r < 0 ? r + M : r;\n        }\n    }\n  \
     \  while (n > 0){\n        if (n&1) u = u * xx % M;\n        xx = xx * xx % M;\n\
     \        n >>= 1;\n    }\n    return static_cast<T>(u);\n};\n#line 8 \"test/aoj_ntl_1_b_pow.test.cpp\"\
-    \n\ntemplate<class T>\nvoid self_check() {\n    for (T m = 1; m <= 200; ++m) {\n\
-    \        T first = 0;\n        if constexpr (is_signed_v<T>) first = -100;\n \
-    \       for (T a = first; a <= 100; ++a) {\n            T expected = 1 % m;\n\
-    \            for (T n = 0; n <= 30; ++n) {\n                assert(pow_(a, n,\
-    \ m) == expected);\n                expected = expected * a % m;\n           \
-    \     if constexpr (is_signed_v<T>) {\n                    if (expected < 0) expected\
-    \ += m;\n                }\n            }\n        }\n    }\n    vector<T> bases\
-    \ = {0, 1, 2, numeric_limits<T>::max()};\n    if constexpr (is_signed_v<T>) {\n\
-    \        bases.push_back(-1);\n        bases.push_back(-2);\n        bases.push_back(numeric_limits<T>::min());\n\
-    \    }\n    vector<T> moduli = {1, 2, 5, 998244353, numeric_limits<T>::max()};\n\
-    \    for (T a : bases) for (T m : moduli) {\n        T expected = 1 % m;\n   \
-    \     for (T n = 0; n <= 64; ++n) {\n            assert(pow_(a, n, m) == expected);\n\
-    \            if constexpr (is_signed_v<T>) {\n                __int128 next =\
-    \ (__int128)expected * a % m;\n                expected = static_cast<T>(next\
-    \ < 0 ? next + m : next);\n            } else {\n                expected = (unsigned\
-    \ __int128)expected * a % m;\n            }\n        }\n    }\n}\n\nint main()\
-    \ {\n    self_check<long long>();\n    self_check<unsigned long long>();\n   \
-    \ Scanner sc;\n    Printer pr;\n    long long a, n;\n    sc.read(a, n);\n    pr.println(pow_(a,\
-    \ n, 1000000007LL));\n}\n"
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    long long a, n;\n    sc.read(a,\
+    \ n);\n    pr.println(pow_(a, n, 1000000007LL));\n}\n"
   code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=NTL_1_B\"\
     \n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/pow.cpp\"\n\ntemplate<class T>\nvoid self_check() {\n   \
-    \ for (T m = 1; m <= 200; ++m) {\n        T first = 0;\n        if constexpr (is_signed_v<T>)\
-    \ first = -100;\n        for (T a = first; a <= 100; ++a) {\n            T expected\
-    \ = 1 % m;\n            for (T n = 0; n <= 30; ++n) {\n                assert(pow_(a,\
-    \ n, m) == expected);\n                expected = expected * a % m;\n        \
-    \        if constexpr (is_signed_v<T>) {\n                    if (expected < 0)\
-    \ expected += m;\n                }\n            }\n        }\n    }\n    vector<T>\
-    \ bases = {0, 1, 2, numeric_limits<T>::max()};\n    if constexpr (is_signed_v<T>)\
-    \ {\n        bases.push_back(-1);\n        bases.push_back(-2);\n        bases.push_back(numeric_limits<T>::min());\n\
-    \    }\n    vector<T> moduli = {1, 2, 5, 998244353, numeric_limits<T>::max()};\n\
-    \    for (T a : bases) for (T m : moduli) {\n        T expected = 1 % m;\n   \
-    \     for (T n = 0; n <= 64; ++n) {\n            assert(pow_(a, n, m) == expected);\n\
-    \            if constexpr (is_signed_v<T>) {\n                __int128 next =\
-    \ (__int128)expected * a % m;\n                expected = static_cast<T>(next\
-    \ < 0 ? next + m : next);\n            } else {\n                expected = (unsigned\
-    \ __int128)expected * a % m;\n            }\n        }\n    }\n}\n\nint main()\
-    \ {\n    self_check<long long>();\n    self_check<unsigned long long>();\n   \
-    \ Scanner sc;\n    Printer pr;\n    long long a, n;\n    sc.read(a, n);\n    pr.println(pow_(a,\
-    \ n, 1000000007LL));\n}\n"
+    \n#include \"../math/pow.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\
+    \    long long a, n;\n    sc.read(a, n);\n    pr.println(pow_(a, n, 1000000007LL));\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
   - math/pow.cpp
   isVerificationFile: true
   path: test/aoj_ntl_1_b_pow.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 14:29:54+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_ntl_1_b_pow.test.cpp

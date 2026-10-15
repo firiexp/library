@@ -886,8 +886,14 @@ data:
       path: test/yosupo_aplusb_aho_occurrences.test.cpp
       title: test/yosupo_aplusb_aho_occurrences.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_and_or_convolution.test.cpp
+      title: test/yosupo_aplusb_and_or_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_bellman_ford.test.cpp
       title: test/yosupo_aplusb_bellman_ford.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_berlekamp_massey.test.cpp
+      title: test/yosupo_aplusb_berlekamp_massey.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_biginteger.test.cpp
       title: test/yosupo_aplusb_biginteger.test.cpp
@@ -910,11 +916,17 @@ data:
       path: test/yosupo_aplusb_characteristic_polynomial.test.cpp
       title: test/yosupo_aplusb_characteristic_polynomial.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_closest_pair.test.cpp
+      title: test/yosupo_aplusb_closest_pair.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_comb_table.test.cpp
       title: test/yosupo_aplusb_comb_table.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_complement_components.test.cpp
       title: test/yosupo_aplusb_complement_components.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_convex_hull.test.cpp
+      title: test/yosupo_aplusb_convex_hull.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_crt.test.cpp
       title: test/yosupo_aplusb_crt.test.cpp
@@ -924,6 +936,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_directedmst.test.cpp
       title: test/yosupo_aplusb_directedmst.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_disjoint_sparse_table.test.cpp
+      title: test/yosupo_aplusb_disjoint_sparse_table.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dsu_on_tree.test.cpp
       title: test/yosupo_aplusb_dsu_on_tree.test.cpp
@@ -949,11 +964,17 @@ data:
       path: test/yosupo_aplusb_enumerate_triangles.test.cpp
       title: test/yosupo_aplusb_enumerate_triangles.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_eulerphi_divisor.test.cpp
+      title: test/yosupo_aplusb_eulerphi_divisor.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_fast_set.test.cpp
       title: test/yosupo_aplusb_fast_set.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
       title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
+      title: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
       title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
@@ -982,11 +1003,23 @@ data:
       path: test/yosupo_aplusb_geometry_boundaries.test.cpp
       title: test/yosupo_aplusb_geometry_boundaries.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_get_prime.test.cpp
+      title: test/yosupo_aplusb_get_prime.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_half_plane_intersection.test.cpp
+      title: test/yosupo_aplusb_half_plane_intersection.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_hld_rerooted.test.cpp
       title: test/yosupo_aplusb_hld_rerooted.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_hld_subtree.test.cpp
       title: test/yosupo_aplusb_hld_subtree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_hopcroft_karp.test.cpp
+      title: test/yosupo_aplusb_hopcroft_karp.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_hungarian.test.cpp
+      title: test/yosupo_aplusb_hungarian.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_implicit_treap.test.cpp
       title: test/yosupo_aplusb_implicit_treap.test.cpp
@@ -1002,6 +1035,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_lcs_bit.test.cpp
+      title: test/yosupo_aplusb_lcs_bit.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_leftist_heap.test.cpp
       title: test/yosupo_aplusb_leftist_heap.test.cpp
@@ -1039,11 +1075,17 @@ data:
       path: test/yosupo_aplusb_min_of_mod_of_linear.test.cpp
       title: test/yosupo_aplusb_min_of_mod_of_linear.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_min_plus_convolution.test.cpp
+      title: test/yosupo_aplusb_min_plus_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
       title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_mo.test.cpp
       title: test/yosupo_aplusb_mo.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_modint_interface.test.cpp
+      title: test/yosupo_aplusb_modint_interface.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_monotoniccht.test.cpp
       title: test/yosupo_aplusb_monotoniccht.test.cpp
@@ -1059,6 +1101,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_noncommutative_tree.test.cpp
       title: test/yosupo_aplusb_noncommutative_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_nth_term.test.cpp
+      title: test/yosupo_aplusb_nth_term.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_ntt_divmod.test.cpp
       title: test/yosupo_aplusb_ntt_divmod.test.cpp
@@ -1105,6 +1150,9 @@ data:
       path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
       title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_pow.test.cpp
+      title: test/yosupo_aplusb_pow.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_primaldual_slope.test.cpp
       title: test/yosupo_aplusb_primaldual_slope.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1135,6 +1183,9 @@ data:
       path: test/yosupo_aplusb_scc.test.cpp
       title: test/yosupo_aplusb_scc.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_segbeats.test.cpp
+      title: test/yosupo_aplusb_segbeats.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
       title: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1149,6 +1200,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
       title: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_squarematrix_mint.test.cpp
+      title: test/yosupo_aplusb_squarematrix_mint.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_static_bitset.test.cpp
       title: test/yosupo_aplusb_static_bitset.test.cpp
@@ -1171,6 +1225,9 @@ data:
       path: test/yosupo_aplusb_subset_sum_counts.test.cpp
       title: test/yosupo_aplusb_subset_sum_counts.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_suffix_array.test.cpp
+      title: test/yosupo_aplusb_suffix_array.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_suffix_array_query.test.cpp
       title: test/yosupo_aplusb_suffix_array_query.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1188,6 +1245,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_top_kth.test.cpp
       title: test/yosupo_aplusb_top_kth.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_tree_diameter_weighted.test.cpp
+      title: test/yosupo_aplusb_tree_diameter_weighted.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_tree_hash.test.cpp
+      title: test/yosupo_aplusb_tree_hash.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_tree_mo.test.cpp
       title: test/yosupo_aplusb_tree_mo.test.cpp
@@ -1218,6 +1281,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
       title: test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_xor_basis.test.cpp
+      title: test/yosupo_aplusb_xor_basis.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_xor_basis_intersection.test.cpp
       title: test/yosupo_aplusb_xor_basis_intersection.test.cpp
@@ -1396,9 +1462,6 @@ data:
       path: test/yosupo_many_aplusb.test.cpp
       title: test/yosupo_many_aplusb.test.cpp
     - icon: ':heavy_check_mark:'
-      path: test/yosupo_many_aplusb_modint_interface.test.cpp
-      title: test/yosupo_many_aplusb_modint_interface.test.cpp
-    - icon: ':heavy_check_mark:'
       path: test/yosupo_many_factorials.test.cpp
       title: test/yosupo_many_factorials.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1506,6 +1569,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_pow_of_matrix_generic.test.cpp
       title: test/yosupo_pow_of_matrix_generic.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_pow_of_matrix_squarematrix.test.cpp
+      title: test/yosupo_pow_of_matrix_squarematrix.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_predecessor_problem_fast_set.test.cpp
       title: test/yosupo_predecessor_problem_fast_set.test.cpp

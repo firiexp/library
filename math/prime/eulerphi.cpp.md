@@ -7,6 +7,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_ntl_1_d_eulerphi.test.cpp
     title: test/aoj_ntl_1_d_eulerphi.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_eulerphi_divisor.test.cpp
+    title: test/yosupo_aplusb_eulerphi_divisor.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -32,6 +35,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_ntl_1_d_eulerphi.test.cpp
+  - test/yosupo_aplusb_eulerphi_divisor.test.cpp
 date: 2026-03-08
 documentation_of: math/prime/eulerphi.cpp
 layout: document

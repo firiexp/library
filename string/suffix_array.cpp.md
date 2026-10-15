@@ -14,6 +14,9 @@ data:
     path: test/yosupo_aplusb_enumerate_runs.test.cpp
     title: test/yosupo_aplusb_enumerate_runs.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_suffix_array.test.cpp
+    title: test/yosupo_aplusb_suffix_array.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_array_query.test.cpp
     title: test/yosupo_aplusb_suffix_array_query.test.cpp
   - icon: ':heavy_check_mark:'
@@ -150,6 +153,7 @@ data:
   - test/yosupo_suffix_array_query.test.cpp
   - test/yosupo_suffix_array.test.cpp
   - test/yosupo_zalgorithm_suffix_array_query.test.cpp
+  - test/yosupo_aplusb_suffix_array.test.cpp
   - test/yosupo_aplusb_enumerate_runs.test.cpp
   - test/yosupo_runenumerate.test.cpp
   - test/yosupo_aplusb_suffix_array_query.test.cpp

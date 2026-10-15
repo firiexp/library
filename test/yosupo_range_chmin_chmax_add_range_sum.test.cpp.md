@@ -20,15 +20,15 @@ data:
   bundledCode: "#line 1 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\n\
     #define PROBLEM \"https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum\"\
     \n#include <limits>\n#include <vector>\n#include <algorithm>\n#include <cassert>\n\
-    #include <numeric>\n#include <random>\n\nusing ll = long long;\nusing namespace\
-    \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    #include <numeric>\n\nusing ll = long long;\nusing namespace std;\n\ntemplate<class\
+    \ T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -278,84 +278,40 @@ data:
     \        for (int i = 0; i < v.size(); ++i) {\n            seg[i+n].sum = seg[i+n].mx\
     \ = seg[i+n].mn = v[i];\n            seg[i+n].len = 1;\n            seg[i+n].mxc\
     \ = seg[i+n].mnc = 1;\n        }\n        for (int i = n-1; i >= 1; --i) get(i);\n\
-    \    }\n};\n\n/**\n * @brief Segment Tree Beats!\n */\n#line 22 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\
-    \n\nvoid self_check() {\n    mt19937 rng(36);\n    for (int n : {0, 1, 2, 3, 5,\
-    \ 6, 7, 8, 9, 15, 16, 17, 31, 32, 33}) {\n        vector<ll> a(n);\n        for\
-    \ (auto &x : a) x = int(rng() % 101) - 50;\n        SegmentTreeBeats<ll> seg(a);\n\
-    \        for (int i = n; i < seg.n; ++i) {\n            const auto &leaf = seg.seg[seg.n\
-    \ + i];\n            assert(leaf.sum == 0 && leaf.len == 0 && leaf.mnc == 0 &&\
-    \ leaf.mxc == 0);\n            assert(leaf.mn == INF<ll> && leaf.mn2 == INF<ll>);\n\
-    \            assert(leaf.mx == -INF<ll> && leaf.mx2 == -INF<ll> && leaf.add ==\
-    \ 0);\n        }\n        for (int step = 0; step < 500; ++step) {\n         \
-    \   assert(seg.sum(0, n) == accumulate(a.begin(), a.end(), 0LL));\n          \
-    \  assert(seg.seg[1].len == n);\n            int l = rng() % (n + 1), r = rng()\
-    \ % (n + 1);\n            if (l > r) swap(l, r);\n            assert(seg.sum(l,\
-    \ r) == accumulate(a.begin() + l, a.begin() + r, 0LL));\n            ll value\
-    \ = int(rng() % 101) - 50;\n            switch (step % 3) {\n                case\
-    \ 0:\n                    seg.chmin(l, r, value);\n                    for (int\
-    \ i = l; i < r; ++i) a[i] = min(a[i], value);\n                    break;\n  \
-    \              case 1:\n                    seg.chmax(l, r, value);\n        \
-    \            for (int i = l; i < r; ++i) a[i] = max(a[i], value);\n          \
-    \          break;\n                case 2:\n                    seg.add(l, r,\
-    \ value);\n                    for (int i = l; i < r; ++i) a[i] += value;\n  \
-    \          }\n        }\n        for (int l = 0; l <= n; ++l) for (int r = l;\
-    \ r <= n; ++r)\n            assert(seg.sum(l, r) == accumulate(a.begin() + l,\
-    \ a.begin() + r, 0LL));\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    vector<ll> v(n);\n\
-    \    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll> seg(v);\n    while(q--){\n\
-    \        int t;\n        sc.read(t);\n        if(t == 0){\n            int l,\
-    \ r;\n            ll b;\n            sc.read(l, r, b);\n            seg.chmin(l,\
-    \ r, b);\n        }else if(t == 1){\n            int l, r;\n            ll b;\n\
-    \            sc.read(l, r, b);\n            seg.chmax(l, r, b);\n        }else\
-    \ if(t == 2){\n            int l, r;\n            ll b;\n            sc.read(l,\
-    \ r, b);\n            seg.add(l, r, b);\n        }else {\n            int l, r;\n\
-    \            sc.read(l, r);\n            pr.println(seg.sum(l, r));\n        }\n\
-    \    }\n    return 0;\n}\n"
+    \    }\n};\n\n/**\n * @brief Segment Tree Beats!\n */\n#line 21 \"test/yosupo_range_chmin_chmax_add_range_sum.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
+    \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
+    \ seg(v);\n    while(q--){\n        int t;\n        sc.read(t);\n        if(t\
+    \ == 0){\n            int l, r;\n            ll b;\n            sc.read(l, r,\
+    \ b);\n            seg.chmin(l, r, b);\n        }else if(t == 1){\n          \
+    \  int l, r;\n            ll b;\n            sc.read(l, r, b);\n            seg.chmax(l,\
+    \ r, b);\n        }else if(t == 2){\n            int l, r;\n            ll b;\n\
+    \            sc.read(l, r, b);\n            seg.add(l, r, b);\n        }else {\n\
+    \            int l, r;\n            sc.read(l, r);\n            pr.println(seg.sum(l,\
+    \ r));\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum\"\
     \n#include <limits>\n#include <vector>\n#include <algorithm>\n#include <cassert>\n\
-    #include <numeric>\n#include <random>\n\nusing ll = long long;\nusing namespace\
-    \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/segmenttree/segbeats.cpp\"\
-    \n\nvoid self_check() {\n    mt19937 rng(36);\n    for (int n : {0, 1, 2, 3, 5,\
-    \ 6, 7, 8, 9, 15, 16, 17, 31, 32, 33}) {\n        vector<ll> a(n);\n        for\
-    \ (auto &x : a) x = int(rng() % 101) - 50;\n        SegmentTreeBeats<ll> seg(a);\n\
-    \        for (int i = n; i < seg.n; ++i) {\n            const auto &leaf = seg.seg[seg.n\
-    \ + i];\n            assert(leaf.sum == 0 && leaf.len == 0 && leaf.mnc == 0 &&\
-    \ leaf.mxc == 0);\n            assert(leaf.mn == INF<ll> && leaf.mn2 == INF<ll>);\n\
-    \            assert(leaf.mx == -INF<ll> && leaf.mx2 == -INF<ll> && leaf.add ==\
-    \ 0);\n        }\n        for (int step = 0; step < 500; ++step) {\n         \
-    \   assert(seg.sum(0, n) == accumulate(a.begin(), a.end(), 0LL));\n          \
-    \  assert(seg.seg[1].len == n);\n            int l = rng() % (n + 1), r = rng()\
-    \ % (n + 1);\n            if (l > r) swap(l, r);\n            assert(seg.sum(l,\
-    \ r) == accumulate(a.begin() + l, a.begin() + r, 0LL));\n            ll value\
-    \ = int(rng() % 101) - 50;\n            switch (step % 3) {\n                case\
-    \ 0:\n                    seg.chmin(l, r, value);\n                    for (int\
-    \ i = l; i < r; ++i) a[i] = min(a[i], value);\n                    break;\n  \
-    \              case 1:\n                    seg.chmax(l, r, value);\n        \
-    \            for (int i = l; i < r; ++i) a[i] = max(a[i], value);\n          \
-    \          break;\n                case 2:\n                    seg.add(l, r,\
-    \ value);\n                    for (int i = l; i < r; ++i) a[i] += value;\n  \
-    \          }\n        }\n        for (int l = 0; l <= n; ++l) for (int r = l;\
-    \ r <= n; ++r)\n            assert(seg.sum(l, r) == accumulate(a.begin() + l,\
-    \ a.begin() + r, 0LL));\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    vector<ll> v(n);\n\
-    \    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll> seg(v);\n    while(q--){\n\
-    \        int t;\n        sc.read(t);\n        if(t == 0){\n            int l,\
-    \ r;\n            ll b;\n            sc.read(l, r, b);\n            seg.chmin(l,\
-    \ r, b);\n        }else if(t == 1){\n            int l, r;\n            ll b;\n\
-    \            sc.read(l, r, b);\n            seg.chmax(l, r, b);\n        }else\
-    \ if(t == 2){\n            int l, r;\n            ll b;\n            sc.read(l,\
-    \ r, b);\n            seg.add(l, r, b);\n        }else {\n            int l, r;\n\
-    \            sc.read(l, r);\n            pr.println(seg.sum(l, r));\n        }\n\
-    \    }\n    return 0;\n}\n"
+    #include <numeric>\n\nusing ll = long long;\nusing namespace std;\n\ntemplate<class\
+    \ T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #include \"../util/fastio.cpp\"\n#include \"../datastructure/segmenttree/segbeats.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
+    \ q);\n    vector<ll> v(n);\n    for (auto &&i : v) sc.read(i);\n    SegmentTreeBeats<ll>\
+    \ seg(v);\n    while(q--){\n        int t;\n        sc.read(t);\n        if(t\
+    \ == 0){\n            int l, r;\n            ll b;\n            sc.read(l, r,\
+    \ b);\n            seg.chmin(l, r, b);\n        }else if(t == 1){\n          \
+    \  int l, r;\n            ll b;\n            sc.read(l, r, b);\n            seg.chmax(l,\
+    \ r, b);\n        }else if(t == 2){\n            int l, r;\n            ll b;\n\
+    \            sc.read(l, r, b);\n            seg.add(l, r, b);\n        }else {\n\
+    \            int l, r;\n            sc.read(l, r);\n            pr.println(seg.sum(l,\
+    \ r));\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/segmenttree/segbeats.cpp
   isVerificationFile: true
   path: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_chmin_chmax_add_range_sum.test.cpp

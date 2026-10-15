@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hopcroft_karp.test.cpp
+    title: test/yosupo_aplusb_hopcroft_karp.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
   - icon: ':heavy_check_mark:'
@@ -121,6 +124,7 @@ data:
   timestamp: '2026-10-12 17:43:43+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_hopcroft_karp.test.cpp
   - test/yosupo_bipartitematching_hopcroft_karp.test.cpp
   - test/yosupo_aplusb_minimum_vertex_cover.test.cpp
 date: 2026-03-08

@@ -38,11 +38,17 @@ data:
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
+    title: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
     title: test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_nth_term.test.cpp
+    title: test/yosupo_aplusb_nth_term.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_ntt_divmod.test.cpp
     title: test/yosupo_aplusb_ntt_divmod.test.cpp
@@ -682,6 +688,7 @@ data:
   - test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
   - test/aoj0452.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
+  - test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_exp_of_formal_power_series.test.cpp
   - test/yosupo_aplusb_ntt_multiply.test.cpp
@@ -698,6 +705,7 @@ data:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_aplusb_ntt_operators.test.cpp
   - test/yosupo_aplusb_polynomial_interpolation.test.cpp
+  - test/yosupo_aplusb_nth_term.test.cpp
 date: 2026-03-08
 documentation_of: math/ntt.cpp
 layout: document

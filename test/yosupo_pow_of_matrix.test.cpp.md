@@ -511,37 +511,26 @@ data:
     \ operator*(const SquareMatrixMint &B) const { return SquareMatrixMint(*this)\
     \ *= B; }\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(mint\u5C02\
     \u7528)\n */\n#line 22 \"test/yosupo_pow_of_matrix.test.cpp\"\n\nusing mat = SquareMatrixMint<200>;\n\
-    \nstatic_assert(is_same_v<decltype(declval<mat::ar &>() *= declval<const mat &>()),\
-    \ mat::ar &>);\n\n[[maybe_unused]] static void squarematrix_mint_api_smoke_test()\
-    \ {\n    mat A;\n    mat::PreparedMul prepared;\n    mat::MatrixMulScratch matrix_scratch;\n\
-    \    mat::VecMulScratch vec_scratch;\n    mat::ar x{};\n    A.prepare_mul(prepared,\
-    \ 0);\n    A.mul_assign_prepared(prepared, matrix_scratch, 0);\n    A.mul_vec_assign_prepared(x,\
-    \ prepared, vec_scratch, 0);\n}\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    int n;\n    ll k;\n    sc.read(n, k);\n    mat A;\n    for (int i\
-    \ = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            int x;\n\
-    \            sc.read(x);\n            A[i][j] = x;\n        }\n    }\n\n    auto\
-    \ B = A.pow(k, n);\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0;\
-    \ j < n; ++j) {\n            pr.print(B[i][j].val);\n            pr.print(j +\
-    \ 1 == n ? '\\n' : ' ');\n        }\n    }\n    return 0;\n}\n"
+    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    ll k;\n  \
+    \  sc.read(n, k);\n    mat A;\n    for (int i = 0; i < n; ++i) {\n        for\
+    \ (int j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n   \
+    \         A[i][j] = x;\n        }\n    }\n\n    auto B = A.pow(k, n);\n    for\
+    \ (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n         \
+    \   pr.print(B[i][j].val);\n            pr.print(j + 1 == n ? '\\n' : ' ');\n\
+    \        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/pow_of_matrix\"\n\n#include\
     \ <algorithm>\n#include <array>\n#include <vector>\nusing namespace std;\n\nstatic\
     \ const int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\n\
     using ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
     \ <string>\n#include <type_traits>\n#include <utility>\n\n#include <charconv>\n\
     #include \"../util/fastio.cpp\"\n#include \"../math/squarematrix_mint.cpp\"\n\n\
-    using mat = SquareMatrixMint<200>;\n\nstatic_assert(is_same_v<decltype(declval<mat::ar\
-    \ &>() *= declval<const mat &>()), mat::ar &>);\n\n[[maybe_unused]] static void\
-    \ squarematrix_mint_api_smoke_test() {\n    mat A;\n    mat::PreparedMul prepared;\n\
-    \    mat::MatrixMulScratch matrix_scratch;\n    mat::VecMulScratch vec_scratch;\n\
-    \    mat::ar x{};\n    A.prepare_mul(prepared, 0);\n    A.mul_assign_prepared(prepared,\
-    \ matrix_scratch, 0);\n    A.mul_vec_assign_prepared(x, prepared, vec_scratch,\
-    \ 0);\n}\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n   \
-    \ ll k;\n    sc.read(n, k);\n    mat A;\n    for (int i = 0; i < n; ++i) {\n \
-    \       for (int j = 0; j < n; ++j) {\n            int x;\n            sc.read(x);\n\
-    \            A[i][j] = x;\n        }\n    }\n\n    auto B = A.pow(k, n);\n   \
-    \ for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n     \
-    \       pr.print(B[i][j].val);\n            pr.print(j + 1 == n ? '\\n' : ' ');\n\
-    \        }\n    }\n    return 0;\n}\n"
+    using mat = SquareMatrixMint<200>;\n\nint main() {\n    Scanner sc;\n    Printer\
+    \ pr;\n\n    int n;\n    ll k;\n    sc.read(n, k);\n    mat A;\n    for (int i\
+    \ = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            int x;\n\
+    \            sc.read(x);\n            A[i][j] = x;\n        }\n    }\n\n    auto\
+    \ B = A.pow(k, n);\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0;\
+    \ j < n; ++j) {\n            pr.print(B[i][j].val);\n            pr.print(j +\
+    \ 1 == n ? '\\n' : ' ');\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/squarematrix_mint.cpp
@@ -550,7 +539,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_pow_of_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_pow_of_matrix.test.cpp

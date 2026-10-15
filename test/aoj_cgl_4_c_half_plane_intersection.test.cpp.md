@@ -440,27 +440,13 @@ data:
     \ polygon_half_planes(const Polygon &poly) {\n    vector<Line> ls;\n    int n\
     \ = poly.size();\n    ls.reserve(n);\n    for (int i = 0; i < n; ++i) {\n    \
     \    ls.emplace_back(poly[i], poly[(i + 1) % n]);\n    }\n    return ls;\n}\n\n\
-    void self_check() {\n    {\n        Polygon poly = {\n            Point(1, 1),\n\
-    \            Point(4, 1),\n            Point(4, 3),\n            Point(1, 3),\n\
-    \        };\n        auto ls = polygon_half_planes(poly);\n        ls.emplace_back(Point(2,\
-    \ 0), Point(2, 4));\n        Polygon got = half_plane_intersection(ls);\n    \
-    \    assert(fabs(fabs(area(got)) - 2.0) < 1e-9);\n    }\n    {\n        Polygon\
-    \ poly = {\n            Point(1, 1),\n            Point(4, 1),\n            Point(4,\
-    \ 3),\n            Point(1, 3),\n        };\n        auto ls = polygon_half_planes(poly);\n\
-    \        ls.emplace_back(Point(2, 4), Point(2, 0));\n        Polygon got = half_plane_intersection(ls);\n\
-    \        assert(fabs(fabs(area(got)) - 4.0) < 1e-9);\n    }\n    {\n        Polygon\
-    \ poly = {\n            Point(0, 0),\n            Point(4, 0),\n            Point(4,\
-    \ 2),\n            Point(2, 4),\n            Point(0, 4),\n        };\n      \
-    \  auto ls = polygon_half_planes(poly);\n        ls.emplace_back(Point(5, 5),\
-    \ Point(5, 3));\n        Polygon got = half_plane_intersection(ls);\n        assert(got.empty());\n\
-    \    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    int n;\n\
-    \    sc.read(n);\n    Polygon poly(n);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      ll x, y;\n        sc.read(x, y);\n        poly[i] = Point(x, y);\n    }\n\
-    \n    vector<Line> base = polygon_half_planes(poly);\n    int q;\n    sc.read(q);\n\
-    \    while (q--) {\n        ll x1, y1, x2, y2;\n        sc.read(x1, y1, x2, y2);\n\
-    \        vector<Line> ls = base;\n        ls.emplace_back(Point(x1, y1), Point(x2,\
-    \ y2));\n        Polygon ans = half_plane_intersection(ls);\n        printf(\"\
-    %.8f\\n\", fabs(area(ans)));\n    }\n    return 0;\n}\n"
+    int main() {\n    Scanner sc;\n    int n;\n    sc.read(n);\n    Polygon poly(n);\n\
+    \    for (int i = 0; i < n; ++i) {\n        ll x, y;\n        sc.read(x, y);\n\
+    \        poly[i] = Point(x, y);\n    }\n\n    vector<Line> base = polygon_half_planes(poly);\n\
+    \    int q;\n    sc.read(q);\n    while (q--) {\n        ll x1, y1, x2, y2;\n\
+    \        sc.read(x1, y1, x2, y2);\n        vector<Line> ls = base;\n        ls.emplace_back(Point(x1,\
+    \ y1), Point(x2, y2));\n        Polygon ans = half_plane_intersection(ls);\n \
+    \       printf(\"%.8f\\n\", fabs(area(ans)));\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_C\"\
     \n#define ERROR \"1e-8\"\n\n#include <algorithm>\n#include <cassert>\n#include\
     \ <cmath>\n#include <deque>\n#include <iostream>\n#include <vector>\nusing namespace\
@@ -469,23 +455,10 @@ data:
     \n#include \"../geometry/half_plane_intersection.cpp\"\n\nvector<Line> polygon_half_planes(const\
     \ Polygon &poly) {\n    vector<Line> ls;\n    int n = poly.size();\n    ls.reserve(n);\n\
     \    for (int i = 0; i < n; ++i) {\n        ls.emplace_back(poly[i], poly[(i +\
-    \ 1) % n]);\n    }\n    return ls;\n}\n\nvoid self_check() {\n    {\n        Polygon\
-    \ poly = {\n            Point(1, 1),\n            Point(4, 1),\n            Point(4,\
-    \ 3),\n            Point(1, 3),\n        };\n        auto ls = polygon_half_planes(poly);\n\
-    \        ls.emplace_back(Point(2, 0), Point(2, 4));\n        Polygon got = half_plane_intersection(ls);\n\
-    \        assert(fabs(fabs(area(got)) - 2.0) < 1e-9);\n    }\n    {\n        Polygon\
-    \ poly = {\n            Point(1, 1),\n            Point(4, 1),\n            Point(4,\
-    \ 3),\n            Point(1, 3),\n        };\n        auto ls = polygon_half_planes(poly);\n\
-    \        ls.emplace_back(Point(2, 4), Point(2, 0));\n        Polygon got = half_plane_intersection(ls);\n\
-    \        assert(fabs(fabs(area(got)) - 4.0) < 1e-9);\n    }\n    {\n        Polygon\
-    \ poly = {\n            Point(0, 0),\n            Point(4, 0),\n            Point(4,\
-    \ 2),\n            Point(2, 4),\n            Point(0, 4),\n        };\n      \
-    \  auto ls = polygon_half_planes(poly);\n        ls.emplace_back(Point(5, 5),\
-    \ Point(5, 3));\n        Polygon got = half_plane_intersection(ls);\n        assert(got.empty());\n\
-    \    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    int n;\n\
-    \    sc.read(n);\n    Polygon poly(n);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      ll x, y;\n        sc.read(x, y);\n        poly[i] = Point(x, y);\n    }\n\
-    \n    vector<Line> base = polygon_half_planes(poly);\n    int q;\n    sc.read(q);\n\
+    \ 1) % n]);\n    }\n    return ls;\n}\n\nint main() {\n    Scanner sc;\n    int\
+    \ n;\n    sc.read(n);\n    Polygon poly(n);\n    for (int i = 0; i < n; ++i) {\n\
+    \        ll x, y;\n        sc.read(x, y);\n        poly[i] = Point(x, y);\n  \
+    \  }\n\n    vector<Line> base = polygon_half_planes(poly);\n    int q;\n    sc.read(q);\n\
     \    while (q--) {\n        ll x1, y1, x2, y2;\n        sc.read(x1, y1, x2, y2);\n\
     \        vector<Line> ls = base;\n        ls.emplace_back(Point(x1, y1), Point(x2,\
     \ y2));\n        Polygon ans = half_plane_intersection(ls);\n        printf(\"\
@@ -497,7 +470,7 @@ data:
   isVerificationFile: true
   path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_cgl_4_c_half_plane_intersection.test.cpp

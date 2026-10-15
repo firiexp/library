@@ -245,18 +245,16 @@ data:
     \ {};\n    int n = a.size(), m = b.size();\n    return min_plus_convolution_monotone<T>(n,\
     \ m, [&](int k, int i) {\n        return a[i] + b[k - i];\n    });\n}\n\ntemplate<class\
     \ T>\nvector<T> min_plus_convolution_convex_arbitrary(const vector<T> &a, const\
-    \ vector<T> &b) {\n    if (a.empty() || b.empty()) return {};\n    vector<T> ra(a.rbegin(),\
-    \ a.rend());\n    vector<T> rb(b.rbegin(), b.rend());\n    auto res = min_plus_convolution_arbitrary_convex(rb,\
-    \ ra);\n    reverse(res.begin(), res.end());\n    return res;\n}\n\ntemplate<class\
-    \ T>\nvector<T> min_plus_convolution_convex_convex(const vector<T> &a, const vector<T>\
-    \ &b) {\n    if (a.empty() || b.empty()) return {};\n    int n = a.size(), m =\
-    \ b.size();\n    vector<T> res(n + m - 1);\n    int i = 0, j = 0;\n    res[0]\
-    \ = a[0] + b[0];\n    for (int k = 1; k < n + m - 1; ++k) {\n        if (i ==\
-    \ n - 1) {\n            ++j;\n        } else if (j == m - 1) {\n            ++i;\n\
-    \        } else if (a[i + 1] + b[j] < a[i] + b[j + 1]) {\n            ++i;\n \
-    \       } else {\n            ++j;\n        }\n        res[k] = a[i] + b[j];\n\
-    \    }\n    return res;\n}\n\n/**\n * @brief min-plus\u7573\u307F\u8FBC\u307F\
-    (Min-Plus Convolution)\n */\n#line 15 \"test/yosupo_min_plus_convolution_convex_convex.test.cpp\"\
+    \ vector<T> &b) {\n    return min_plus_convolution_arbitrary_convex(b, a);\n}\n\
+    \ntemplate<class T>\nvector<T> min_plus_convolution_convex_convex(const vector<T>\
+    \ &a, const vector<T> &b) {\n    if (a.empty() || b.empty()) return {};\n    int\
+    \ n = a.size(), m = b.size();\n    vector<T> res(n + m - 1);\n    int i = 0, j\
+    \ = 0;\n    res[0] = a[0] + b[0];\n    for (int k = 1; k < n + m - 1; ++k) {\n\
+    \        if (i == n - 1) {\n            ++j;\n        } else if (j == m - 1) {\n\
+    \            ++i;\n        } else if (a[i + 1] + b[j] < a[i] + b[j + 1]) {\n \
+    \           ++i;\n        } else {\n            ++j;\n        }\n        res[k]\
+    \ = a[i] + b[j];\n    }\n    return res;\n}\n\n/**\n * @brief min-plus\u7573\u307F\
+    \u8FBC\u307F(Min-Plus Convolution)\n */\n#line 15 \"test/yosupo_min_plus_convolution_convex_convex.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
     \ m);\n    vector<long long> a(n), b(m);\n    for (auto &x : a) sc.read(x);\n\
     \    for (auto &x : b) sc.read(x);\n\n    auto c = min_plus_convolution_convex_convex(a,\
@@ -279,7 +277,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_min_plus_convolution_convex_convex.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 18:52:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_min_plus_convolution_convex_convex.test.cpp

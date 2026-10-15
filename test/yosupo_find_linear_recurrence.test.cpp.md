@@ -23,10 +23,10 @@ data:
   bundledCode: "#line 1 \"test/yosupo_find_linear_recurrence.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/find_linear_recurrence\"\n\n#include <iostream>\n\
     #include <algorithm>\n#include <map>\n#include <set>\n#include <queue>\n#include\
-    \ <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n\nstatic const\
-    \ int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
-    \ = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr T\
-    \ INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 1 \"util/modint.cpp\"\
+    \ <stack>\n#include <numeric>\n#include <bitset>\n#include <cmath>\n#include <cassert>\n\
+    \nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint = unsigned;\n\
+    using ull = unsigned long long;\nusing namespace std;\n\ntemplate<class T> constexpr\
+    \ T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#line 1 \"util/modint.cpp\"\
     \n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
     \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
     \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
@@ -61,29 +61,29 @@ data:
     \ c(1, T(1)), b(1, T(1));\n    int l = 0, m = 1;\n    T y = T(1);\n    for (int\
     \ n = 0; n < (int)s.size(); ++n) {\n        T d = T(0);\n        for (int i =\
     \ 0; i <= l; ++i) d += c[i] * s[n - i];\n        if (d == T(0)) {\n          \
-    \  ++m;\n            continue;\n        }\n        auto t = c;\n        T coef\
-    \ = d / y;\n        if ((int)c.size() < (int)b.size() + m) c.resize((int)b.size()\
-    \ + m, T(0));\n        for (int i = 0; i < (int)b.size(); ++i) c[i + m] -= coef\
-    \ * b[i];\n        if (2 * l <= n) {\n            l = n + 1 - l;\n           \
-    \ b = t;\n            y = d;\n            m = 1;\n        } else {\n         \
-    \   ++m;\n        }\n    }\n    c.erase(c.begin());\n    for (auto &x : c) x =\
-    \ -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\u6CD5\n */\n#line 23\
-    \ \"test/yosupo_find_linear_recurrence.test.cpp\"\n\nint main() {\n    int n;\n\
-    \    cin >> n;\n    vector<mint> a(n);\n    for (int i = 0; i < n; ++i) {\n  \
-    \      int x;\n        scanf(\"%d\", &x);\n        a[i] = x;\n    }\n    auto\
-    \ c = berlekamp_massey(a);\n    printf(\"%d\\n\", (int)c.size());\n    for (int\
-    \ i = 0; i < (int)c.size(); ++i) {\n        if (i) printf(\" \");\n        printf(\"\
-    %u\", c[i].val);\n    }\n    puts(\"\");\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/find_linear_recurrence\"\
-    \n\n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
-    #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
-    \ <cmath>\n\nstatic const int MOD = 998244353;\nusing ll = long long;\nusing uint\
-    \ = unsigned;\nusing ull = unsigned long long;\nusing namespace std;\n\ntemplate<class\
-    \ T> constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;\n\n#include\
-    \ \"../util/modint.cpp\"\n#include \"../math/berlekamp_massey.cpp\"\n\nint main()\
+    \  ++m;\n            continue;\n        }\n        vector<T> t;\n        if (2\
+    \ * l <= n) t = c;\n        T coef = d / y;\n        if ((int)c.size() < (int)b.size()\
+    \ + m) c.resize((int)b.size() + m, T(0));\n        for (int i = 0; i < (int)b.size();\
+    \ ++i) c[i + m] -= coef * b[i];\n        if (2 * l <= n) {\n            l = n\
+    \ + 1 - l;\n            b = std::move(t);\n            y = d;\n            m =\
+    \ 1;\n        } else {\n            ++m;\n        }\n    }\n    c.erase(c.begin());\n\
+    \    for (auto &x : c) x = -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\u6CD5\
+    \n */\n#line 24 \"test/yosupo_find_linear_recurrence.test.cpp\"\n\nint main()\
     \ {\n    int n;\n    cin >> n;\n    vector<mint> a(n);\n    for (int i = 0; i\
     \ < n; ++i) {\n        int x;\n        scanf(\"%d\", &x);\n        a[i] = x;\n\
     \    }\n    auto c = berlekamp_massey(a);\n    printf(\"%d\\n\", (int)c.size());\n\
+    \    for (int i = 0; i < (int)c.size(); ++i) {\n        if (i) printf(\" \");\n\
+    \        printf(\"%u\", c[i].val);\n    }\n    puts(\"\");\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/find_linear_recurrence\"\
+    \n\n#include <iostream>\n#include <algorithm>\n#include <map>\n#include <set>\n\
+    #include <queue>\n#include <stack>\n#include <numeric>\n#include <bitset>\n#include\
+    \ <cmath>\n#include <cassert>\n\nstatic const int MOD = 998244353;\nusing ll =\
+    \ long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\nusing namespace\
+    \ std;\n\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max() / 32\
+    \ * 15 + 208;\n\n#include \"../util/modint.cpp\"\n#include \"../math/berlekamp_massey.cpp\"\
+    \n\nint main() {\n    int n;\n    cin >> n;\n    vector<mint> a(n);\n    for (int\
+    \ i = 0; i < n; ++i) {\n        int x;\n        scanf(\"%d\", &x);\n        a[i]\
+    \ = x;\n    }\n    auto c = berlekamp_massey(a);\n    printf(\"%d\\n\", (int)c.size());\n\
     \    for (int i = 0; i < (int)c.size(); ++i) {\n        if (i) printf(\" \");\n\
     \        printf(\"%u\", c[i].val);\n    }\n    puts(\"\");\n    return 0;\n}\n"
   dependsOn:
@@ -93,7 +93,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_find_linear_recurrence.test.cpp
   requiredBy: []
-  timestamp: '2026-07-11 20:39:21+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_find_linear_recurrence.test.cpp

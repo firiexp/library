@@ -8,6 +8,9 @@ data:
     title: "\u6700\u9060\u70B9\u5BFE"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_convex_hull.test.cpp
+    title: test/yosupo_aplusb_convex_hull.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_furthest_pair.test.cpp
     title: test/yosupo_aplusb_furthest_pair.test.cpp
   - icon: ':heavy_check_mark:'
@@ -65,6 +68,7 @@ data:
   - test/yosupo_furthest_pair.test.cpp
   - test/yosupo_aplusb_furthest_pair.test.cpp
   - test/yosupo_aplusb_furthest_pair.test.cpp
+  - test/yosupo_aplusb_convex_hull.test.cpp
 date: 2026-03-08
 documentation_of: geometry/convex_hull.cpp
 layout: document

@@ -18,7 +18,7 @@ data:
     links:
     - https://yukicoder.me/problems/no/2672
   bundledCode: "#line 1 \"test/yuki2672_xor_basis.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\
-    \n\n#include <cassert>\n#include <cstdint>\n#include <random>\n#include <vector>\n\
+    \n\n#include <cassert>\n#include <cstdint>\n#include <limits>\n#include <vector>\n\
     using namespace std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
     \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
     #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
@@ -260,64 +260,27 @@ data:
     \ x) const {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x\
     \ >> i) & 1) == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n  \
     \      }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear\
-    \ Basis)\n */\n#line 18 \"test/yuki2672_xor_basis.test.cpp\"\n\nbool brute(const\
-    \ vector<int> &a) {\n    int n = a.size();\n    for (int mask = 1; mask < (1 <<\
-    \ n) - 1; ++mask) {\n        int xb = 0;\n        int xc = 0;\n        for (int\
-    \ i = 0; i < n; ++i) {\n            if ((mask >> i) & 1) xb ^= a[i];\n       \
-    \     else xc ^= a[i];\n        }\n        if (xb == 0 && xc == 0) return true;\n\
-    \    }\n    return false;\n}\n\nvoid self_check() {\n    {\n        for (int n\
-    \ = 2; n <= 12; ++n) {\n            for (int mask = 0; mask < (1 << n); ++mask)\
-    \ {\n                vector<int> a(n);\n                for (int i = 0; i < n;\
-    \ ++i) a[i] = (mask >> i) & 1;\n                XorBasis<int> xb;\n          \
-    \      int total = 0;\n                for (int x : a) {\n                   \
-    \ xb.add(x);\n                    total ^= x;\n                }\n           \
-    \     bool ok = total == 0 && xb.size() < n - 1;\n                assert(ok ==\
-    \ brute(a));\n            }\n        }\n    }\n    {\n        mt19937 rng(0);\n\
-    \        for (int tc = 0; tc < 1000; ++tc) {\n            int n = rng() % 14 +\
-    \ 2;\n            vector<int> a(n);\n            for (int i = 0; i < n; ++i) a[i]\
-    \ = rng() % 16;\n            XorBasis<int> xb;\n            int total = 0;\n \
-    \           for (int x : a) {\n                xb.add(x);\n                total\
-    \ ^= x;\n            }\n            bool ok = total == 0 && xb.size() < n - 1;\n\
-    \            assert(ok == brute(a));\n        }\n    }\n}\n\nint main() {\n  \
-    \  self_check();\n\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n\
-    \    XorBasis<int> xb;\n    int total = 0;\n    for (int i = 0; i < n; ++i) {\n\
-    \        int a;\n        sc.read(a);\n        xb.add(a);\n        total ^= a;\n\
-    \    }\n    pr.println(total == 0 && xb.size() < n - 1 ? \"Yes\" : \"No\");\n\
-    \    return 0;\n}\n"
+    \ Basis)\n */\n#line 18 \"test/yuki2672_xor_basis.test.cpp\"\n\nint main() {\n\
+    \    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n    XorBasis<int>\
+    \ xb;\n    int total = 0;\n    for (int i = 0; i < n; ++i) {\n        int a;\n\
+    \        sc.read(a);\n        xb.add(a);\n        total ^= a;\n    }\n    pr.println(total\
+    \ == 0 && xb.size() < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\n\n#include <cassert>\n\
-    #include <cstdint>\n#include <random>\n#include <vector>\nusing namespace std;\n\
+    #include <cstdint>\n#include <limits>\n#include <vector>\nusing namespace std;\n\
     using ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
     \ <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/xor_basis.cpp\"\n\nbool brute(const vector<int> &a) {\n \
-    \   int n = a.size();\n    for (int mask = 1; mask < (1 << n) - 1; ++mask) {\n\
-    \        int xb = 0;\n        int xc = 0;\n        for (int i = 0; i < n; ++i)\
-    \ {\n            if ((mask >> i) & 1) xb ^= a[i];\n            else xc ^= a[i];\n\
-    \        }\n        if (xb == 0 && xc == 0) return true;\n    }\n    return false;\n\
-    }\n\nvoid self_check() {\n    {\n        for (int n = 2; n <= 12; ++n) {\n   \
-    \         for (int mask = 0; mask < (1 << n); ++mask) {\n                vector<int>\
-    \ a(n);\n                for (int i = 0; i < n; ++i) a[i] = (mask >> i) & 1;\n\
-    \                XorBasis<int> xb;\n                int total = 0;\n         \
-    \       for (int x : a) {\n                    xb.add(x);\n                  \
-    \  total ^= x;\n                }\n                bool ok = total == 0 && xb.size()\
-    \ < n - 1;\n                assert(ok == brute(a));\n            }\n        }\n\
-    \    }\n    {\n        mt19937 rng(0);\n        for (int tc = 0; tc < 1000; ++tc)\
-    \ {\n            int n = rng() % 14 + 2;\n            vector<int> a(n);\n    \
-    \        for (int i = 0; i < n; ++i) a[i] = rng() % 16;\n            XorBasis<int>\
-    \ xb;\n            int total = 0;\n            for (int x : a) {\n           \
-    \     xb.add(x);\n                total ^= x;\n            }\n            bool\
-    \ ok = total == 0 && xb.size() < n - 1;\n            assert(ok == brute(a));\n\
-    \        }\n    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n \
-    \   Printer pr;\n    int n;\n    sc.read(n);\n    XorBasis<int> xb;\n    int total\
-    \ = 0;\n    for (int i = 0; i < n; ++i) {\n        int a;\n        sc.read(a);\n\
-    \        xb.add(a);\n        total ^= a;\n    }\n    pr.println(total == 0 &&\
-    \ xb.size() < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
+    \n#include \"../math/xor_basis.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
+    \ pr;\n    int n;\n    sc.read(n);\n    XorBasis<int> xb;\n    int total = 0;\n\
+    \    for (int i = 0; i < n; ++i) {\n        int a;\n        sc.read(a);\n    \
+    \    xb.add(a);\n        total ^= a;\n    }\n    pr.println(total == 0 && xb.size()\
+    \ < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/xor_basis.cpp
   isVerificationFile: true
   path: test/yuki2672_xor_basis.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 12:24:36+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki2672_xor_basis.test.cpp

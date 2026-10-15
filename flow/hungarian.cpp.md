@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hungarian.test.cpp
+    title: test/yosupo_aplusb_hungarian.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_assignment_hungarian.test.cpp
     title: test/yosupo_assignment_hungarian.test.cpp
   _isVerificationFailed: false
@@ -79,6 +82,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_assignment_hungarian.test.cpp
+  - test/yosupo_aplusb_hungarian.test.cpp
 date: 2026-03-08
 documentation_of: flow/hungarian.cpp
 layout: document

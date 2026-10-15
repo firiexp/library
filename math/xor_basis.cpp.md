@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_xor_basis.test.cpp
+    title: test/yosupo_aplusb_xor_basis.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_xor_basis_intersection.test.cpp
     title: test/yosupo_aplusb_xor_basis_intersection.test.cpp
   - icon: ':heavy_check_mark:'
@@ -91,6 +94,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_intersection_of_f2_vector_spaces.test.cpp
+  - test/yosupo_aplusb_xor_basis.test.cpp
   - test/yosupo_aplusb_xor_basis_intersection.test.cpp
   - test/yuki2672_xor_basis.test.cpp
 date: 2026-03-12

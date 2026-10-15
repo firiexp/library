@@ -6,6 +6,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_alds1_10_c.test.cpp
     title: test/aoj_alds1_10_c.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_lcs_bit.test.cpp
+    title: test/yosupo_aplusb_lcs_bit.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -52,6 +55,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_alds1_10_c.test.cpp
+  - test/yosupo_aplusb_lcs_bit.test.cpp
 documentation_of: string/lcs_bit.cpp
 layout: document
 title: LCS(bitset)

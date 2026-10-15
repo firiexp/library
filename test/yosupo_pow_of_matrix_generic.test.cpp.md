@@ -5,9 +5,6 @@ data:
     path: math/matrix.cpp
     title: "\u884C\u5217"
   - icon: ':heavy_check_mark:'
-    path: math/squarematrix.cpp
-    title: "\u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square Matrix)"
-  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
@@ -310,73 +307,32 @@ data:
     \     }\n        return res;\n    }\n};\n\nstruct SemiRing {\n    using T = mint;\n\
     \    static inline T mul(T x, T y){ return x * y; }\n    static inline void add(T\
     \ &x, T y){ x += y; }\n    static inline T one(){ return 1; }\n    static inline\
-    \ T zero(){ return 0; }\n};\n#line 1 \"math/squarematrix.cpp\"\ntemplate<class\
-    \ H, size_t SIZE>\nstruct SquareMatrix {\n    using T = typename H::T;\n    using\
-    \ ar = array<T, SIZE>;\n    using mat = array<ar, SIZE>;\n    mat A;\n    SquareMatrix()\
-    \ {\n        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j =\
-    \ 0; j < SIZE; ++j) {\n                A[i][j] = H::zero();\n            }\n \
-    \       }\n    }\n    static SquareMatrix I(size_t n = SIZE){\n        SquareMatrix\
-    \ X;\n        for (size_t i = 0; i < n; ++i) {\n            X[i][i] = H::one();\n\
-    \        }\n        return X;\n    }\n\n    friend ar &operator*=(ar &x, const\
-    \ SquareMatrix &Y) {\n        ar ans;\n        fill(begin(ans), end(ans), H::zero());\n\
-    \        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j = 0; j\
-    \ < SIZE; ++j) {\n                H::add(ans[j], H::mul(x[i], Y[i][j]));\n   \
-    \         }\n        }\n        x.swap(ans);\n        return x;\n    }\n    friend\
-    \ ar operator*(ar x, const SquareMatrix &Y) { return x *= Y; }\n\n    inline const\
-    \ ar &operator[](int k) const{ return (A.at(k)); }\n    inline ar &operator[](int\
-    \ k) { return (A.at(k)); }\n    SquareMatrix &operator+= (const SquareMatrix &B){\n\
-    \        for (size_t i = 0; i < SIZE; ++i) {\n            for (size_t j = 0; j\
-    \ < SIZE; ++j) {\n                H::add((*this)[i][j], B[i][j]);\n          \
-    \  }\n        }\n        return (*this);\n    }\n\n    SquareMatrix &operator-=\
-    \ (const SquareMatrix &B){\n        for (size_t i = 0; i < SIZE; ++i) {\n    \
-    \        for (size_t j = 0; j < SIZE; ++j) {\n                H::add((*this)[i][j],\
-    \ -B[i][j]);\n            }\n        }\n        return (*this);\n    }\n\n   \
-    \ SquareMatrix &mul_assign(const SquareMatrix &B, size_t n = SIZE) {\n       \
-    \ SquareMatrix C{};\n        for (size_t i = 0; i < n; ++i) {\n            for\
-    \ (size_t k = 0; k < n; ++k) {\n                for (size_t j = 0; j < n; ++j)\
-    \ {\n                    H::add(C[i][j],  H::mul((*this)[i][k], B[k][j]));\n \
-    \               }\n            }\n        }\n        A.swap(C.A);\n        return\
-    \ (*this);\n    }\n    SquareMatrix &operator*=(const SquareMatrix &B) { return\
-    \ mul_assign(B); }\n\n    SquareMatrix pow(ll n, size_t dim = SIZE) const {\n\
-    \        SquareMatrix a = (*this), res = I(dim);\n\n        while(n > 0){\n  \
-    \          if(n & 1) res.mul_assign(a, dim);\n            n >>= 1;\n         \
-    \   if(n) a.mul_assign(a, dim);\n        }\n        return res;\n    }\n    SquareMatrix\
-    \ operator+(const SquareMatrix &B) const {return SquareMatrix(*this) += B;}\n\
-    \    SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this)\
-    \ -= B;}\n    SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this)\
-    \ *= B;}\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577\u6B63\u65B9\u884C\u5217(Square\
-    \ Matrix)\n */\n#line 13 \"test/yosupo_pow_of_matrix_generic.test.cpp\"\n\nint\
-    \ main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    ll k;\n    sc.read(n,\
-    \ k);\n    matrix<SemiRing> a(n);\n    SquareMatrix<SemiRing, 200> fixed;\n  \
-    \  for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j) {\n        int x;\n\
-    \        sc.read(x);\n        fixed[i][j] = a[i][j] = x;\n    }\n    auto b =\
-    \ a.pow(k);\n    auto fixed_power = fixed.pow(k, n);\n    for (int i = 0; i <\
-    \ n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            assert(b[i][j]\
-    \ == fixed_power[i][j]);\n            pr.print(b[i][j].val);\n            pr.print(j\
-    \ + 1 == n ? '\\n' : ' ');\n        }\n    }\n}\n"
+    \ T zero(){ return 0; }\n};\n#line 12 \"test/yosupo_pow_of_matrix_generic.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    ll k;\n  \
+    \  sc.read(n, k);\n    matrix<SemiRing> a(n);\n    for (int i = 0; i < n; ++i)\
+    \ for (int j = 0; j < n; ++j) {\n        int x;\n        sc.read(x);\n       \
+    \ a[i][j] = x;\n    }\n    auto b = a.pow(k);\n    for (int i = 0; i < n; ++i)\
+    \ {\n        for (int j = 0; j < n; ++j) {\n            pr.print(b[i][j].val);\n\
+    \            pr.print(j + 1 == n ? '\\n' : ' ');\n        }\n    }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/pow_of_matrix\"\n\n#include\
     \ <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\nusing uint = unsigned;\n\
     using ull = unsigned long long;\nstatic const int MOD = 998244353;\n#include \"\
     ../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\n#include \"../math/matrix.cpp\"\
-    \n#include \"../math/squarematrix.cpp\"\n\nint main() {\n    Scanner sc;\n   \
-    \ Printer pr;\n    int n;\n    ll k;\n    sc.read(n, k);\n    matrix<SemiRing>\
-    \ a(n);\n    SquareMatrix<SemiRing, 200> fixed;\n    for (int i = 0; i < n; ++i)\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n;\n    ll k;\n  \
+    \  sc.read(n, k);\n    matrix<SemiRing> a(n);\n    for (int i = 0; i < n; ++i)\
     \ for (int j = 0; j < n; ++j) {\n        int x;\n        sc.read(x);\n       \
-    \ fixed[i][j] = a[i][j] = x;\n    }\n    auto b = a.pow(k);\n    auto fixed_power\
-    \ = fixed.pow(k, n);\n    for (int i = 0; i < n; ++i) {\n        for (int j =\
-    \ 0; j < n; ++j) {\n            assert(b[i][j] == fixed_power[i][j]);\n      \
-    \      pr.print(b[i][j].val);\n            pr.print(j + 1 == n ? '\\n' : ' ');\n\
-    \        }\n    }\n}\n"
+    \ a[i][j] = x;\n    }\n    auto b = a.pow(k);\n    for (int i = 0; i < n; ++i)\
+    \ {\n        for (int j = 0; j < n; ++j) {\n            pr.print(b[i][j].val);\n\
+    \            pr.print(j + 1 == n ? '\\n' : ' ');\n        }\n    }\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
   - util/modint_base.cpp
   - math/matrix.cpp
-  - math/squarematrix.cpp
   isVerificationFile: true
   path: test/yosupo_pow_of_matrix_generic.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:46:56+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_pow_of_matrix_generic.test.cpp

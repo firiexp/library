@@ -2,17 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: geometry/closest_pair.cpp
+    title: Closest Pair
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
-  - icon: ':heavy_check_mark:'
-    path: util/modint.cpp
-    title: "modint(\u56FA\u5B9AMOD)"
-  - icon: ':heavy_check_mark:'
-    path: util/modint_arbitrary.cpp
-    title: "modint(\u4EFB\u610FMOD)"
-  - icon: ':heavy_check_mark:'
-    path: util/modint_base.cpp
-    title: util/modint_base.cpp
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -20,17 +14,16 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/many_aplusb
+    PROBLEM: https://judge.yosupo.jp/problem/aplusb
     links:
-    - https://judge.yosupo.jp/problem/many_aplusb
-  bundledCode: "#line 1 \"test/yosupo_many_aplusb_modint_interface.test.cpp\"\n#define\
-    \ PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include <cassert>\n\
-    #include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \nusing ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
-    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    - https://judge.yosupo.jp/problem/aplusb
+  bundledCode: "#line 1 \"test/yosupo_aplusb_closest_pair.test.cpp\"\n#define PROBLEM\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\nusing\
+    \ namespace std;\n\n#line 10 \"test/yosupo_aplusb_closest_pair.test.cpp\"\n#include\
+    \ <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace\
+    \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
+    template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
+    \ T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
     \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
     \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
@@ -234,121 +227,103 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 15 \"\
-    test/yosupo_many_aplusb_modint_interface.test.cpp\"\n\nnamespace fixed_modint_test\
-    \ {\nstatic constexpr uint MOD = 998244353;\n#line 1 \"util/modint.cpp\"\n\n\n\
-    \n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint {\n\
-    \    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val = v; return\
-    \ x; }\n    static constexpr uint get_mod() { return Mod; }\n    static constexpr\
-    \ uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class T>\n\
-    \    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val = uint(x);\
-    \ }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint &value()\
-    \ noexcept { return val; }\n    const uint &value() const noexcept { return val;\
-    \ }\n    modint& operator++() { val++; if (val == Mod) val = 0; return *this;\
-    \ }\n    modint& operator--() { if (val == 0) val = Mod; val--; return *this;\
-    \ }\n    modint operator++(int) { modint result = *this; ++*this; return result;\
-    \ }\n    modint operator--(int) { modint result = *this; --*this; return result;\
-    \ }\n    modint& operator+=(const modint& b) { val += b.val; if (val >= Mod) val\
-    \ -= Mod; return *this; }\n    modint& operator-=(const modint& b) { val -= b.val;\
-    \ if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const modint&\
-    \ b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n    modint&\
-    \ operator/=(const modint& b) { return *this = *this * b.inv(); }\n    modint\
-    \ operator+() const { return *this; }\n    modint operator-() const { return modint()\
-    \ - *this; }\n    modint pow(long long n) const { modint x = *this, r = 1; while\
-    \ (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n    modint inv() const\
-    \ { return pow(Mod - 2); }\n    friend modint operator+(const modint& a, const\
-    \ modint& b) { return modint(a) += b; }\n    friend modint operator-(const modint&\
-    \ a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
-    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
-    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
-    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"util/modint.cpp\"\
-    \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
-    \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
-    \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
-    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 19 \"test/yosupo_many_aplusb_modint_interface.test.cpp\"\
-    \n}\n\nnamespace dynamic_modint_test {\n#line 1 \"util/modint_arbitrary.cpp\"\n\
-    \n\n\nclass modint {\n    static uint &mod() { static uint mod_ = 0; return mod_;\
-    \ }\npublic:\n    uint val;\n    static modint raw(int v) { modint x; x.val =\
-    \ v; return x; }\n    modint() : val(0) {}\n    template <class T>\n    modint(T\
-    \ v) { ll x = (ll)(v % (ll)(M())); if (x < 0) x += M(); val = uint(x); }\n   \
-    \ modint(bool v) { val = ((unsigned int)(v) % M()); }\n    static uint get_mod()\
-    \ { return M(); }\n    static uint M() { return mod(); }\n    static void set_mod(uint\
-    \ x) { mod() = x; }\n    uint &value() noexcept { return val; }\n    const uint\
-    \ &value() const noexcept { return val; }\n    modint &operator++() { val++; if\
-    \ (val == M()) val = 0; return *this; }\n    modint &operator--() { if (val ==\
-    \ 0) val = M(); val--; return *this; }\n    modint operator++(int) { modint result\
-    \ = *this; ++*this; return result; }\n    modint operator--(int) { modint result\
-    \ = *this; --*this; return result; }\n    modint &operator+=(const modint &b)\
-    \ { val += b.val; if (val >= M()) val -= M(); return *this; }\n    modint &operator-=(const\
-    \ modint &b) { val -= b.val; if (val >= M()) val += M(); return *this; }\n   \
-    \ modint &operator*=(const modint &b) { val = (ull)val * b.val % M(); return *this;\
-    \ }\n    modint &operator/=(const modint &b) { return *this = *this * b.inv();\
-    \ }\n    modint operator+() const { return *this; }\n    modint operator-() const\
-    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
-    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
-    \    modint inv() const { return pow(M() - 2); }\n    friend modint operator+(const\
-    \ modint &a, const modint &b) { return modint(a) += b; }\n    friend modint operator-(const\
-    \ modint &a, const modint &b) { return modint(a) -= b; }\n    friend modint operator*(const\
-    \ modint &a, const modint &b) { return modint(a) *= b; }\n    friend modint operator/(const\
-    \ modint &a, const modint &b) { return modint(a) /= b; }\n    friend bool operator==(const\
-    \ modint &a, const modint &b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint &a, const modint &b) { return a.val != b.val; }\n};\nusing mint = modint;\n\
-    #define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\n/**\n * @brief modint(\u4EFB\u610F\
-    MOD)\n */\n\n\n#line 23 \"test/yosupo_many_aplusb_modint_interface.test.cpp\"\n\
-    }\n\ntemplate <class Mint>\nvoid common_check() {\n    assert(Mint::get_mod()\
-    \ == 998244353);\n    assert(Mint::M() == 998244353);\n\n    Mint zero;\n    assert(zero.value()\
-    \ == 0);\n    assert(zero.val == 0);\n\n    Mint a = -1;\n    Mint b = Mint::raw(5);\n\
-    \    assert(a.value() == 998244352);\n    assert(b.value() == 5);\n\n    assert((+b).value()\
-    \ == 5);\n    assert((-b).value() == 998244348);\n    assert((Mint(true) + Mint(false)).value()\
-    \ == 1);\n    assert((a + b).value() == 4);\n    assert((a - b).value() == 998244347);\n\
-    \    assert((Mint(3) * Mint(7)).value() == 21);\n    assert((Mint(21) / Mint(7)).value()\
-    \ == 3);\n    assert(Mint(3).pow(5).value() == 243);\n    assert((Mint(5) * Mint(5).inv()).value()\
-    \ == 1);\n\n    Mint c = Mint::raw(998244352);\n    assert((++c).value() == 0);\n\
-    \    assert((c++).value() == 0);\n    assert(c.value() == 1);\n    assert((--c).value()\
-    \ == 0);\n    assert((c--).value() == 0);\n    assert(c.value() == 998244352);\n\
-    \n    assert(Mint(42) == Mint(42));\n    assert(Mint(42) != Mint(24));\n}\n\n\
-    int main() {\n    dynamic_modint_test::mint::set_mod(998244353);\n    common_check<fixed_modint_test::mint>();\n\
-    \    common_check<dynamic_modint_test::mint>();\n\n    Scanner in;\n    Printer\
-    \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        ll a, b;\n   \
-    \     in.read(a, b);\n        out.println(a + b);\n    }\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/many_aplusb\"\n\n#include\
-    \ <cassert>\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
-    \ <type_traits>\n\nusing ll = long long;\nusing uint = unsigned;\nusing ull =\
-    \ unsigned long long;\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\n\
-    \nnamespace fixed_modint_test {\nstatic constexpr uint MOD = 998244353;\n#include\
-    \ \"../util/modint.cpp\"\n}\n\nnamespace dynamic_modint_test {\n#include \"../util/modint_arbitrary.cpp\"\
-    \n}\n\ntemplate <class Mint>\nvoid common_check() {\n    assert(Mint::get_mod()\
-    \ == 998244353);\n    assert(Mint::M() == 998244353);\n\n    Mint zero;\n    assert(zero.value()\
-    \ == 0);\n    assert(zero.val == 0);\n\n    Mint a = -1;\n    Mint b = Mint::raw(5);\n\
-    \    assert(a.value() == 998244352);\n    assert(b.value() == 5);\n\n    assert((+b).value()\
-    \ == 5);\n    assert((-b).value() == 998244348);\n    assert((Mint(true) + Mint(false)).value()\
-    \ == 1);\n    assert((a + b).value() == 4);\n    assert((a - b).value() == 998244347);\n\
-    \    assert((Mint(3) * Mint(7)).value() == 21);\n    assert((Mint(21) / Mint(7)).value()\
-    \ == 3);\n    assert(Mint(3).pow(5).value() == 243);\n    assert((Mint(5) * Mint(5).inv()).value()\
-    \ == 1);\n\n    Mint c = Mint::raw(998244352);\n    assert((++c).value() == 0);\n\
-    \    assert((c++).value() == 0);\n    assert(c.value() == 1);\n    assert((--c).value()\
-    \ == 0);\n    assert((c--).value() == 0);\n    assert(c.value() == 998244352);\n\
-    \n    assert(Mint(42) == Mint(42));\n    assert(Mint(42) != Mint(24));\n}\n\n\
-    int main() {\n    dynamic_modint_test::mint::set_mod(998244353);\n    common_check<fixed_modint_test::mint>();\n\
-    \    common_check<dynamic_modint_test::mint>();\n\n    Scanner in;\n    Printer\
-    \ out;\n    int t;\n    in.read(t);\n    while (t--) {\n        ll a, b;\n   \
-    \     in.read(a, b);\n        out.println(a + b);\n    }\n    return 0;\n}\n"
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/closest_pair.cpp\"\
+    \npair<int, int> closest_pair(const vector<pair<long long, long long>> &points)\
+    \ {\n    using Dist = __int128_t;\n    struct P {\n        long long x;\n    \
+    \    long long y;\n        int idx;\n    };\n\n    int n = points.size();\n  \
+    \  assert(n >= 2);\n    vector<P> ps(n);\n    for (int i = 0; i < n; ++i) {\n\
+    \        ps[i] = {points[i].first, points[i].second, i};\n    }\n    sort(ps.begin(),\
+    \ ps.end(), [](const P &a, const P &b) {\n        if (a.x != b.x) return a.x <\
+    \ b.x;\n        if (a.y != b.y) return a.y < b.y;\n        return a.idx < b.idx;\n\
+    \    });\n\n    Dist best = -1;\n    pair<int, int> ans = {-1, -1};\n    auto\
+    \ update = [&](const P &a, const P &b) {\n        Dist dx = Dist(a.x) - Dist(b.x);\n\
+    \        Dist dy = Dist(a.y) - Dist(b.y);\n        Dist d = dx * dx + dy * dy;\n\
+    \        pair<int, int> cand = {a.idx, b.idx};\n        if (best == -1 || d <\
+    \ best) {\n            best = d;\n            ans = cand;\n        }\n    };\n\
+    \    update(ps[0], ps[1]);\n\n    vector<int> ord(n), scratch(n);\n    auto dfs\
+    \ = [&](auto &&self, int l, int r) -> void {\n        if (r - l == 1) {\n    \
+    \        ord[l] = l;\n            return;\n        }\n        int m = (l + r)\
+    \ >> 1;\n        long long mx = ps[m].x;\n        self(self, l, m);\n        self(self,\
+    \ m, r);\n        int i = l, j = m;\n        for (int k = l; k < r; ++k) {\n \
+    \           if (j == r || (i < m && ps[ord[i]].y < ps[ord[j]].y)) {\n        \
+    \        scratch[k] = ord[i++];\n            } else {\n                scratch[k]\
+    \ = ord[j++];\n            }\n        }\n        copy(scratch.begin() + l, scratch.begin()\
+    \ + r, ord.begin() + l);\n        int count = 0;\n        for (int k = l; k <\
+    \ r; ++k) {\n            int idx = ord[k];\n            Dist dx = Dist(ps[idx].x)\
+    \ - Dist(mx);\n            if (dx * dx > best) continue;\n            for (int\
+    \ t = count - 1; t >= 0; --t) {\n                int idy = scratch[l + t];\n \
+    \               Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);\n               \
+    \ if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
+    \            }\n            scratch[l + count++] = idx;\n        }\n    };\n \
+    \   dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n */\n\
+    #line 15 \"test/yosupo_aplusb_closest_pair.test.cpp\"\n\nvoid check(const vector<pair<long\
+    \ long, long long>> &points) {\n    auto input = points;\n    auto [a, b] = closest_pair(input);\n\
+    \    assert(input == points);\n    int n = points.size();\n    assert(0 <= a &&\
+    \ a < n && 0 <= b && b < n && a != b);\n    auto distance = [&](int i, int j)\
+    \ {\n        __int128_t dx = (__int128_t)points[i].first - points[j].first;\n\
+    \        __int128_t dy = (__int128_t)points[i].second - points[j].second;\n  \
+    \      return dx * dx + dy * dy;\n    };\n    auto best = distance(0, 1);\n  \
+    \  for (int i = 0; i < n; ++i) for (int j = 0; j < i; ++j) best = min(best, distance(i,\
+    \ j));\n    assert(distance(a, b) == best);\n}\n\nvoid self_check() {\n    check({{0,\
+    \ 0}, {0, 0}});\n    check({{0, 0}, {1, 0}, {0, 1}, {1, 1}});\n    check({{-4000000000000000000LL,\
+    \ -4000000000000000000LL},\n           {4000000000000000000LL, 4000000000000000000LL}});\n\
+    \    for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {\n        check(vector<pair<long\
+    \ long, long long>>(n, {-1, -1}));\n        for (int shape = 0; shape < 3; ++shape)\
+    \ {\n            vector<pair<long long, long long>> points;\n            for (int\
+    \ i = 0; i < n; ++i) {\n                long long t = i - n / 2;\n           \
+    \     points.emplace_back(shape == 0 ? 0 : t, shape == 1 ? 0 : 2 * t);\n     \
+    \       }\n            check(points);\n            reverse(points.begin(), points.end());\n\
+    \            check(points);\n        }\n    }\n    mt19937_64 random(53);\n  \
+    \  for (int tc = 0; tc < 4000; ++tc) {\n        int n = 2 + random() % 63;\n \
+    \       vector<pair<long long, long long>> points(n);\n        long long bound\
+    \ = tc % 2 ? 1000000000 : 5;\n        for (auto &[x, y] : points) {\n        \
+    \    x = (long long)(random() % (2 * bound + 1)) - bound;\n            y = (long\
+    \ long)(random() % (2 * bound + 1)) - bound;\n        }\n        if (tc % 3 ==\
+    \ 0) points.back() = points.front();\n        check(points);\n    }\n}\n\nint\
+    \ main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
+    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    \nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
+    \n#include \"../geometry/closest_pair.cpp\"\n\nvoid check(const vector<pair<long\
+    \ long, long long>> &points) {\n    auto input = points;\n    auto [a, b] = closest_pair(input);\n\
+    \    assert(input == points);\n    int n = points.size();\n    assert(0 <= a &&\
+    \ a < n && 0 <= b && b < n && a != b);\n    auto distance = [&](int i, int j)\
+    \ {\n        __int128_t dx = (__int128_t)points[i].first - points[j].first;\n\
+    \        __int128_t dy = (__int128_t)points[i].second - points[j].second;\n  \
+    \      return dx * dx + dy * dy;\n    };\n    auto best = distance(0, 1);\n  \
+    \  for (int i = 0; i < n; ++i) for (int j = 0; j < i; ++j) best = min(best, distance(i,\
+    \ j));\n    assert(distance(a, b) == best);\n}\n\nvoid self_check() {\n    check({{0,\
+    \ 0}, {0, 0}});\n    check({{0, 0}, {1, 0}, {0, 1}, {1, 1}});\n    check({{-4000000000000000000LL,\
+    \ -4000000000000000000LL},\n           {4000000000000000000LL, 4000000000000000000LL}});\n\
+    \    for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {\n        check(vector<pair<long\
+    \ long, long long>>(n, {-1, -1}));\n        for (int shape = 0; shape < 3; ++shape)\
+    \ {\n            vector<pair<long long, long long>> points;\n            for (int\
+    \ i = 0; i < n; ++i) {\n                long long t = i - n / 2;\n           \
+    \     points.emplace_back(shape == 0 ? 0 : t, shape == 1 ? 0 : 2 * t);\n     \
+    \       }\n            check(points);\n            reverse(points.begin(), points.end());\n\
+    \            check(points);\n        }\n    }\n    mt19937_64 random(53);\n  \
+    \  for (int tc = 0; tc < 4000; ++tc) {\n        int n = 2 + random() % 63;\n \
+    \       vector<pair<long long, long long>> points(n);\n        long long bound\
+    \ = tc % 2 ? 1000000000 : 5;\n        for (auto &[x, y] : points) {\n        \
+    \    x = (long long)(random() % (2 * bound + 1)) - bound;\n            y = (long\
+    \ long)(random() % (2 * bound + 1)) - bound;\n        }\n        if (tc % 3 ==\
+    \ 0) points.back() = points.front();\n        check(points);\n    }\n}\n\nint\
+    \ main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
+    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - util/modint.cpp
-  - util/modint_base.cpp
-  - util/modint_arbitrary.cpp
+  - geometry/closest_pair.cpp
   isVerificationFile: true
-  path: test/yosupo_many_aplusb_modint_interface.test.cpp
+  path: test/yosupo_aplusb_closest_pair.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 19:16:24+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo_many_aplusb_modint_interface.test.cpp
+documentation_of: test/yosupo_aplusb_closest_pair.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo_many_aplusb_modint_interface.test.cpp
-- /verify/test/yosupo_many_aplusb_modint_interface.test.cpp.html
-title: test/yosupo_many_aplusb_modint_interface.test.cpp
+- /verify/test/yosupo_aplusb_closest_pair.test.cpp
+- /verify/test/yosupo_aplusb_closest_pair.test.cpp.html
+title: test/yosupo_aplusb_closest_pair.test.cpp
 ---

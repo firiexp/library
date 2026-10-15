@@ -11,8 +11,8 @@ data:
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
   - icon: ':heavy_check_mark:'
-    path: test/yosupo_pow_of_matrix_generic.test.cpp
-    title: test/yosupo_pow_of_matrix_generic.test.cpp
+    path: test/yosupo_pow_of_matrix_squarematrix.test.cpp
+    title: test/yosupo_pow_of_matrix_squarematrix.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -98,7 +98,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0399.test.cpp
-  - test/yosupo_pow_of_matrix_generic.test.cpp
+  - test/yosupo_pow_of_matrix_squarematrix.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp
 date: 2026-03-15
 documentation_of: math/squarematrix.cpp

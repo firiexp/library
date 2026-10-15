@@ -11,6 +11,9 @@ data:
     path: test/aoj_alds1_1_c_get_prime.test.cpp
     title: test/aoj_alds1_1_c_get_prime.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_get_prime.test.cpp
+    title: test/yosupo_aplusb_get_prime.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -104,6 +107,7 @@ data:
   timestamp: '2026-10-03 16:51:49+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_get_prime.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_enumerate_primes_get_prime.test.cpp
   - test/aoj_alds1_1_c_get_prime.test.cpp

@@ -7,6 +7,9 @@ data:
     path: test/aoj_grl_5_a_diameter.test.cpp
     title: test/aoj_grl_5_a_diameter.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_tree_diameter_weighted.test.cpp
+    title: test/yosupo_aplusb_tree_diameter_weighted.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_tree_diameter.test.cpp
     title: test/yosupo_tree_diameter.test.cpp
   _isVerificationFailed: false
@@ -43,6 +46,7 @@ data:
   timestamp: '2026-03-08 22:25:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_tree_diameter_weighted.test.cpp
   - test/yosupo_tree_diameter.test.cpp
   - test/aoj_grl_5_a_diameter.test.cpp
 documentation_of: tree/diameter_weighted.cpp

@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_min_plus_convolution.test.cpp
+    title: test/yosupo_aplusb_min_plus_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
     title: test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
   - icon: ':heavy_check_mark:'
@@ -36,18 +39,16 @@ data:
     \ {};\n    int n = a.size(), m = b.size();\n    return min_plus_convolution_monotone<T>(n,\
     \ m, [&](int k, int i) {\n        return a[i] + b[k - i];\n    });\n}\n\ntemplate<class\
     \ T>\nvector<T> min_plus_convolution_convex_arbitrary(const vector<T> &a, const\
-    \ vector<T> &b) {\n    if (a.empty() || b.empty()) return {};\n    vector<T> ra(a.rbegin(),\
-    \ a.rend());\n    vector<T> rb(b.rbegin(), b.rend());\n    auto res = min_plus_convolution_arbitrary_convex(rb,\
-    \ ra);\n    reverse(res.begin(), res.end());\n    return res;\n}\n\ntemplate<class\
-    \ T>\nvector<T> min_plus_convolution_convex_convex(const vector<T> &a, const vector<T>\
-    \ &b) {\n    if (a.empty() || b.empty()) return {};\n    int n = a.size(), m =\
-    \ b.size();\n    vector<T> res(n + m - 1);\n    int i = 0, j = 0;\n    res[0]\
-    \ = a[0] + b[0];\n    for (int k = 1; k < n + m - 1; ++k) {\n        if (i ==\
-    \ n - 1) {\n            ++j;\n        } else if (j == m - 1) {\n            ++i;\n\
-    \        } else if (a[i + 1] + b[j] < a[i] + b[j + 1]) {\n            ++i;\n \
-    \       } else {\n            ++j;\n        }\n        res[k] = a[i] + b[j];\n\
-    \    }\n    return res;\n}\n\n/**\n * @brief min-plus\u7573\u307F\u8FBC\u307F\
-    (Min-Plus Convolution)\n */\n"
+    \ vector<T> &b) {\n    return min_plus_convolution_arbitrary_convex(b, a);\n}\n\
+    \ntemplate<class T>\nvector<T> min_plus_convolution_convex_convex(const vector<T>\
+    \ &a, const vector<T> &b) {\n    if (a.empty() || b.empty()) return {};\n    int\
+    \ n = a.size(), m = b.size();\n    vector<T> res(n + m - 1);\n    int i = 0, j\
+    \ = 0;\n    res[0] = a[0] + b[0];\n    for (int k = 1; k < n + m - 1; ++k) {\n\
+    \        if (i == n - 1) {\n            ++j;\n        } else if (j == m - 1) {\n\
+    \            ++i;\n        } else if (a[i + 1] + b[j] < a[i] + b[j + 1]) {\n \
+    \           ++i;\n        } else {\n            ++j;\n        }\n        res[k]\
+    \ = a[i] + b[j];\n    }\n    return res;\n}\n\n/**\n * @brief min-plus\u7573\u307F\
+    \u8FBC\u307F(Min-Plus Convolution)\n */\n"
   code: "using namespace std;\n\ntemplate<class T, class F>\nvector<T> min_plus_convolution_monotone(int\
     \ n, int m, F f) {\n    vector<T> res(n + m - 1);\n    auto dfs = [&](auto &&self,\
     \ int left, int right, int opt_left, int opt_right) -> void {\n        if (left\
@@ -64,27 +65,26 @@ data:
     \ {};\n    int n = a.size(), m = b.size();\n    return min_plus_convolution_monotone<T>(n,\
     \ m, [&](int k, int i) {\n        return a[i] + b[k - i];\n    });\n}\n\ntemplate<class\
     \ T>\nvector<T> min_plus_convolution_convex_arbitrary(const vector<T> &a, const\
-    \ vector<T> &b) {\n    if (a.empty() || b.empty()) return {};\n    vector<T> ra(a.rbegin(),\
-    \ a.rend());\n    vector<T> rb(b.rbegin(), b.rend());\n    auto res = min_plus_convolution_arbitrary_convex(rb,\
-    \ ra);\n    reverse(res.begin(), res.end());\n    return res;\n}\n\ntemplate<class\
-    \ T>\nvector<T> min_plus_convolution_convex_convex(const vector<T> &a, const vector<T>\
-    \ &b) {\n    if (a.empty() || b.empty()) return {};\n    int n = a.size(), m =\
-    \ b.size();\n    vector<T> res(n + m - 1);\n    int i = 0, j = 0;\n    res[0]\
-    \ = a[0] + b[0];\n    for (int k = 1; k < n + m - 1; ++k) {\n        if (i ==\
-    \ n - 1) {\n            ++j;\n        } else if (j == m - 1) {\n            ++i;\n\
-    \        } else if (a[i + 1] + b[j] < a[i] + b[j + 1]) {\n            ++i;\n \
-    \       } else {\n            ++j;\n        }\n        res[k] = a[i] + b[j];\n\
-    \    }\n    return res;\n}\n\n/**\n * @brief min-plus\u7573\u307F\u8FBC\u307F\
-    (Min-Plus Convolution)\n */\n"
+    \ vector<T> &b) {\n    return min_plus_convolution_arbitrary_convex(b, a);\n}\n\
+    \ntemplate<class T>\nvector<T> min_plus_convolution_convex_convex(const vector<T>\
+    \ &a, const vector<T> &b) {\n    if (a.empty() || b.empty()) return {};\n    int\
+    \ n = a.size(), m = b.size();\n    vector<T> res(n + m - 1);\n    int i = 0, j\
+    \ = 0;\n    res[0] = a[0] + b[0];\n    for (int k = 1; k < n + m - 1; ++k) {\n\
+    \        if (i == n - 1) {\n            ++j;\n        } else if (j == m - 1) {\n\
+    \            ++i;\n        } else if (a[i + 1] + b[j] < a[i] + b[j + 1]) {\n \
+    \           ++i;\n        } else {\n            ++j;\n        }\n        res[k]\
+    \ = a[i] + b[j];\n    }\n    return res;\n}\n\n/**\n * @brief min-plus\u7573\u307F\
+    \u8FBC\u307F(Min-Plus Convolution)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: math/min_plus_convolution.cpp
   requiredBy: []
-  timestamp: '2026-03-12 00:49:33+09:00'
+  timestamp: '2026-10-15 18:52:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_min_plus_convolution_convex_arbitrary.test.cpp
   - test/yosupo_min_plus_convolution_convex_convex.test.cpp
+  - test/yosupo_aplusb_min_plus_convolution.test.cpp
   - test/yosupo_min_plus_convolution_arbitrary_convex.test.cpp
 date: 2026-03-11
 documentation_of: math/min_plus_convolution.cpp

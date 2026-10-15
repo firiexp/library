@@ -336,22 +336,23 @@ data:
     \ vector<T> &s) {\n    vector<T> c(1, T(1)), b(1, T(1));\n    int l = 0, m = 1;\n\
     \    T y = T(1);\n    for (int n = 0; n < (int)s.size(); ++n) {\n        T d =\
     \ T(0);\n        for (int i = 0; i <= l; ++i) d += c[i] * s[n - i];\n        if\
-    \ (d == T(0)) {\n            ++m;\n            continue;\n        }\n        auto\
-    \ t = c;\n        T coef = d / y;\n        if ((int)c.size() < (int)b.size() +\
-    \ m) c.resize((int)b.size() + m, T(0));\n        for (int i = 0; i < (int)b.size();\
-    \ ++i) c[i + m] -= coef * b[i];\n        if (2 * l <= n) {\n            l = n\
-    \ + 1 - l;\n            b = t;\n            y = d;\n            m = 1;\n     \
-    \   } else {\n            ++m;\n        }\n    }\n    c.erase(c.begin());\n  \
-    \  for (auto &x : c) x = -x;\n    return c;\n}\n\n/**\n * @brief Berlekamp-Massey\u6CD5\
-    \n */\n#line 3 \"fps/linear_recurrence.cpp\"\n\nmint linear_recurrence(const vector<mint>\
-    \ &a, const vector<mint> &c, ll n) {\n    if (n < (ll)a.size()) return a[(int)n];\n\
-    \    int k = (int)c.size();\n    if (k == 0) return mint(0);\n    poly q(k + 1);\n\
-    \    q[0] = 1;\n    for (int i = 0; i < k; ++i) q[i + 1] = -c[i];\n    vector<mint>\
-    \ aa(k, mint(0));\n    for (int i = 0; i < min(k, (int)a.size()); ++i) aa[i] =\
-    \ a[i];\n    poly p = (poly(aa) * q).cut(k);\n    return nth_term(p, q, n);\n\
-    }\n\nmint linear_recurrence(const vector<mint> &a, ll n) {\n    return linear_recurrence(a,\
-    \ berlekamp_massey(a), n);\n}\n\n/**\n * @brief \u7DDA\u5F62\u6F38\u5316\u5F0F\
-    (Linear Recurrence)\n */\n"
+    \ (d == T(0)) {\n            ++m;\n            continue;\n        }\n        vector<T>\
+    \ t;\n        if (2 * l <= n) t = c;\n        T coef = d / y;\n        if ((int)c.size()\
+    \ < (int)b.size() + m) c.resize((int)b.size() + m, T(0));\n        for (int i\
+    \ = 0; i < (int)b.size(); ++i) c[i + m] -= coef * b[i];\n        if (2 * l <=\
+    \ n) {\n            l = n + 1 - l;\n            b = std::move(t);\n          \
+    \  y = d;\n            m = 1;\n        } else {\n            ++m;\n        }\n\
+    \    }\n    c.erase(c.begin());\n    for (auto &x : c) x = -x;\n    return c;\n\
+    }\n\n/**\n * @brief Berlekamp-Massey\u6CD5\n */\n#line 3 \"fps/linear_recurrence.cpp\"\
+    \n\nmint linear_recurrence(const vector<mint> &a, const vector<mint> &c, ll n)\
+    \ {\n    if (n < (ll)a.size()) return a[(int)n];\n    int k = (int)c.size();\n\
+    \    if (k == 0) return mint(0);\n    poly q(k + 1);\n    q[0] = 1;\n    for (int\
+    \ i = 0; i < k; ++i) q[i + 1] = -c[i];\n    vector<mint> aa(k, mint(0));\n   \
+    \ for (int i = 0; i < min(k, (int)a.size()); ++i) aa[i] = a[i];\n    poly p =\
+    \ (poly(aa) * q).cut(k);\n    return nth_term(p, q, n);\n}\n\nmint linear_recurrence(const\
+    \ vector<mint> &a, ll n) {\n    return linear_recurrence(a, berlekamp_massey(a),\
+    \ n);\n}\n\n/**\n * @brief \u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)\n\
+    \ */\n"
   code: "#include \"nth_term.cpp\"\n#include \"../math/berlekamp_massey.cpp\"\n\n\
     mint linear_recurrence(const vector<mint> &a, const vector<mint> &c, ll n) {\n\
     \    if (n < (ll)a.size()) return a[(int)n];\n    int k = (int)c.size();\n   \
@@ -370,7 +371,7 @@ data:
   isVerificationFile: false
   path: fps/linear_recurrence.cpp
   requiredBy: []
-  timestamp: '2026-10-14 20:32:46+09:00'
+  timestamp: '2026-10-15 18:52:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp

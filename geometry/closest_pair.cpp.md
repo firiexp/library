@@ -4,6 +4,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_closest_pair.test.cpp
+    title: test/yosupo_aplusb_closest_pair.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
   _isVerificationFailed: false
@@ -76,6 +79,7 @@ data:
   timestamp: '2026-10-03 16:59:05+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_closest_pair.test.cpp
   - test/yosupo_closest_pair.test.cpp
 documentation_of: geometry/closest_pair.cpp
 layout: document

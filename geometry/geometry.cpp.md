@@ -31,6 +31,9 @@ data:
     path: test/yosupo_aplusb_geometry_boundaries.test.cpp
     title: test/yosupo_aplusb_geometry_boundaries.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_half_plane_intersection.test.cpp
+    title: test/yosupo_aplusb_half_plane_intersection.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   _isVerificationFailed: false
@@ -387,6 +390,7 @@ data:
   - test/yosupo_aplusb_geometry_angle.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj0342.test.cpp
+  - test/yosupo_aplusb_half_plane_intersection.test.cpp
   - test/yosupo_aplusb_dualgraph.test.cpp
   - test/aoj_cgl_4_c_half_plane_intersection.test.cpp
   - test/aoj0273.test.cpp
