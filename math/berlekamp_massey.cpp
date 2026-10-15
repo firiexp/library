@@ -10,13 +10,14 @@ vector<T> berlekamp_massey(const vector<T> &s) {
             ++m;
             continue;
         }
-        auto t = c;
+        vector<T> t;
+        if (2 * l <= n) t = c;
         T coef = d / y;
         if ((int)c.size() < (int)b.size() + m) c.resize((int)b.size() + m, T(0));
         for (int i = 0; i < (int)b.size(); ++i) c[i + m] -= coef * b[i];
         if (2 * l <= n) {
             l = n + 1 - l;
-            b = t;
+            b = std::move(t);
             y = d;
             m = 1;
         } else {
