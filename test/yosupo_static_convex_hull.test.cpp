@@ -27,7 +27,7 @@ int main() {
         sc.read(n);
         vector<IntPoint> ps(n);
         for (int i = 0; i < n; ++i) {
-            sc.read(ps[i].first, ps[i].second);
+            sc.read(ps[i].x, ps[i].y);
         }
         auto ch = convex_hull(ps);
         pr.println((int)ch.size());

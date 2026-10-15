@@ -11,21 +11,21 @@ vector<IntPoint> minkowski_sum(const vector<IntPoint> &a, const vector<IntPoint>
         for (int k = 0; k < max(n, m); ++k) {
             const auto &u = a[(p + k) % n];
             const auto &v = b[(q + k) % m];
-            result.emplace_back(u.first + v.first, u.second + v.second);
+            result.emplace_back(u.x + v.x, u.y + v.y);
         }
         return result;
     }
     for (int i = 0, j = 0; i < n || j < m;) {
-        result.emplace_back(a[p].first + b[q].first, a[p].second + b[q].second);
+        result.emplace_back(a[p].x + b[q].x, a[p].y + b[q].y);
         int next_p = (p + 1) % n, next_q = (q + 1) % m;
         int order;
         if (i == n) order = 1;
         else if (j == m) order = -1;
         else {
-            __int128 ax = static_cast<__int128>(a[next_p].first) - a[p].first;
-            __int128 ay = static_cast<__int128>(a[next_p].second) - a[p].second;
-            __int128 bx = static_cast<__int128>(b[next_q].first) - b[q].first;
-            __int128 by = static_cast<__int128>(b[next_q].second) - b[q].second;
+            __int128 ax = static_cast<__int128>(a[next_p].x) - a[p].x;
+            __int128 ay = static_cast<__int128>(a[next_p].y) - a[p].y;
+            __int128 bx = static_cast<__int128>(b[next_q].x) - b[q].x;
+            __int128 by = static_cast<__int128>(b[next_q].y) - b[q].y;
             bool half_a = ax < 0 || (ax == 0 && ay < 0);
             bool half_b = bx < 0 || (bx == 0 && by < 0);
             __int128 turn = ax * by - ay * bx;

@@ -9,10 +9,10 @@ using ll = long long;
 #include "../geometry/furthest_pair.cpp"
 
 __int128 distance_squared(IntPoint a, IntPoint b) {
-    __int128 dx = a.first;
-    __int128 dy = a.second;
-    dx -= b.first;
-    dy -= b.second;
+    __int128 dx = a.x;
+    __int128 dy = a.y;
+    dx -= b.x;
+    dy -= b.y;
     return dx * dx + dy * dy;
 }
 

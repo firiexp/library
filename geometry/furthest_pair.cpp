@@ -1,13 +1,13 @@
 #include "convex_hull.cpp"
 
-pair<int, int> furthest_pair(const vector<pair<long long, long long>> &points) {
+pair<int, int> furthest_pair(const vector<IntPoint> &points) {
     assert(points.size() >= 2);
     auto hull = convex_hull(points);
     int n = hull.size();
     if (n == 1) return {0, 1};
     auto distance_squared = [&](int i, int j) {
-        __int128 dx = static_cast<__int128>(hull[i].first) - hull[j].first;
-        __int128 dy = static_cast<__int128>(hull[i].second) - hull[j].second;
+        __int128 dx = static_cast<__int128>(hull[i].x) - hull[j].x;
+        __int128 dy = static_cast<__int128>(hull[i].y) - hull[j].y;
         return dx * dx + dy * dy;
     };
     pair<int, int> best = {0, 1};

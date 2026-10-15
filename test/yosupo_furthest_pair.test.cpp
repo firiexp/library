@@ -15,7 +15,7 @@ int main() {
     while (t--) {
         int n;
         in.read(n);
-        vector<pair<ll, ll>> points(n);
+        vector<IntPoint> points(n);
         for (auto &[x, y] : points) in.read(x, y);
         auto [i, j] = furthest_pair(points);
         out.println(i, j);

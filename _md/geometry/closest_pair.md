@@ -7,11 +7,11 @@ documentation_of: //geometry/closest_pair.cpp
 分割統治で解き、計算量は $O(N log N)$。
 
 ## できること
-- `pair<int, int> closest_pair(const vector<pair<long long, long long>>& points)`
+- `pair<int, int> closest_pair(const vector<IntPoint>& points)`
   最短距離を持つ 2 点の添字を返す。`points.size() < 2` は想定しない
 
 ## 使い方
-入力順を保ったまま点列を渡すと、返り値はその元の添字になる。
+`vector<IntPoint>` を入力順のまま渡すと、返り値はその元の添字になる。
 同じ座標の点が複数あってもよい。
 
 ## 実装上の補足

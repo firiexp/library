@@ -22,9 +22,9 @@ int main() {
     while (t--) {
         int n;
         sc.read(n);
-        vector<pair<long long, long long>> ps(n);
+        vector<IntPoint> ps(n);
         for (int i = 0; i < n; ++i) {
-            sc.read(ps[i].first, ps[i].second);
+            sc.read(ps[i].x, ps[i].y);
         }
         auto [a, b] = closest_pair(ps);
         pr.println(a, b);

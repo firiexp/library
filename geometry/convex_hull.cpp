@@ -1,13 +1,13 @@
 #ifndef FIRIEXP_LIBRARY_GEOMETRY_CONVEX_HULL_CPP
 #define FIRIEXP_LIBRARY_GEOMETRY_CONVEX_HULL_CPP
 
-using IntPoint = pair<ll, ll>;
+#include "int_point.cpp"
 
 __int128 cross(IntPoint a, IntPoint b, IntPoint c) {
-    __int128 bx = static_cast<__int128>(b.first) - a.first;
-    __int128 by = static_cast<__int128>(b.second) - a.second;
-    __int128 cx = static_cast<__int128>(c.first) - a.first;
-    __int128 cy = static_cast<__int128>(c.second) - a.second;
+    __int128 bx = static_cast<__int128>(b.x) - a.x;
+    __int128 by = static_cast<__int128>(b.y) - a.y;
+    __int128 cx = static_cast<__int128>(c.x) - a.x;
+    __int128 cy = static_cast<__int128>(c.y) - a.y;
     return bx * cy - by * cx;
 }
 

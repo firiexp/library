@@ -13,15 +13,15 @@ using namespace std;
 #include "../util/fastio.cpp"
 #include "../geometry/closest_pair.cpp"
 
-void check(const vector<pair<long long, long long>> &points) {
+void check(const vector<IntPoint> &points) {
     auto input = points;
     auto [a, b] = closest_pair(input);
     assert(input == points);
     int n = points.size();
     assert(0 <= a && a < n && 0 <= b && b < n && a != b);
     auto distance = [&](int i, int j) {
-        __int128_t dx = (__int128_t)points[i].first - points[j].first;
-        __int128_t dy = (__int128_t)points[i].second - points[j].second;
+        __int128_t dx = (__int128_t)points[i].x - points[j].x;
+        __int128_t dy = (__int128_t)points[i].y - points[j].y;
         return dx * dx + dy * dy;
     };
     auto best = distance(0, 1);
@@ -35,9 +35,9 @@ void self_check() {
     check({{-4000000000000000000LL, -4000000000000000000LL},
            {4000000000000000000LL, 4000000000000000000LL}});
     for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {
-        check(vector<pair<long long, long long>>(n, {-1, -1}));
+        check(vector<IntPoint>(n, {-1, -1}));
         for (int shape = 0; shape < 3; ++shape) {
-            vector<pair<long long, long long>> points;
+            vector<IntPoint> points;
             for (int i = 0; i < n; ++i) {
                 long long t = i - n / 2;
                 points.emplace_back(shape == 0 ? 0 : t, shape == 1 ? 0 : 2 * t);
@@ -50,7 +50,7 @@ void self_check() {
     mt19937_64 random(53);
     for (int tc = 0; tc < 4000; ++tc) {
         int n = 2 + random() % 63;
-        vector<pair<long long, long long>> points(n);
+        vector<IntPoint> points(n);
         long long bound = tc % 2 ? 1000000000 : 5;
         for (auto &[x, y] : points) {
             x = (long long)(random() % (2 * bound + 1)) - bound;

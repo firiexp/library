@@ -24,11 +24,11 @@ vector<IntPoint> brute_hull(vector<IntPoint> points) {
     points.erase(unique(points.begin(), points.end()), points.end());
     if (points.size() <= 2) return points;
     auto turn = [](IntPoint a, IntPoint b, IntPoint c) -> Wide {
-        return (Wide(b.first) - a.first) * (Wide(c.second) - a.second) -
-               (Wide(b.second) - a.second) * (Wide(c.first) - a.first);
+        return (Wide(b.x) - a.x) * (Wide(c.y) - a.y) -
+               (Wide(b.y) - a.y) * (Wide(c.x) - a.x);
     };
     auto distance_squared = [](IntPoint a, IntPoint b) -> Wide {
-        Wide x = Wide(b.first) - a.first, y = Wide(b.second) - a.second;
+        Wide x = Wide(b.x) - a.x, y = Wide(b.y) - a.y;
         return x * x + y * y;
     };
     vector<IntPoint> hull;

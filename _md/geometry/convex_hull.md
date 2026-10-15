@@ -11,11 +11,11 @@ tags: 幾何
 計算量は $O(N log N)$。
 
 ## できること
-- `vector<pair<ll, ll>> convex_hull(vector<pair<ll, ll>> ps)`
+- `vector<IntPoint> convex_hull(vector<IntPoint> ps)`
   点集合の凸包の頂点を反時計回り順で返す。辺上の中間点と重複点は除く
 
 ## 使い方
-点列を `vector<pair<ll, ll>>` で渡して使う。
+点列を `vector<IntPoint>` で渡して使う。
 各座標は $|x|, |y| \le 10^{18}$ とする。
 
 ## 実装上の補足

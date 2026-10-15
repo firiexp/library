@@ -1,4 +1,6 @@
-pair<int, int> closest_pair(const vector<pair<long long, long long>> &points) {
+#include "int_point.cpp"
+
+pair<int, int> closest_pair(const vector<IntPoint> &points) {
     using Dist = __int128_t;
     struct P {
         long long x;
@@ -10,7 +12,7 @@ pair<int, int> closest_pair(const vector<pair<long long, long long>> &points) {
     assert(n >= 2);
     vector<P> ps(n);
     for (int i = 0; i < n; ++i) {
-        ps[i] = {points[i].first, points[i].second, i};
+        ps[i] = {points[i].x, points[i].y, i};
     }
     sort(ps.begin(), ps.end(), [](const P &a, const P &b) {
         if (a.x != b.x) return a.x < b.x;

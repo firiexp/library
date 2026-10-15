@@ -8,7 +8,7 @@ documentation_of: //geometry/furthest_pair.cpp
 時間計算量は $O(N\log N)$、追加領域は $O(N)$。
 
 ## できること
-- `pair<int, int> furthest_pair(const vector<pair<long long, long long>>& points)`
+- `pair<int, int> furthest_pair(const vector<IntPoint>& points)`
   最遠点対の異なる2つの添字を返す。`points.size() >= 2` を前提とする。同距離の組が複数ある場合は任意の1組を返す
 
 ## 使い方
@@ -16,7 +16,7 @@ documentation_of: //geometry/furthest_pair.cpp
 重複点や全点が共線の場合も扱う。全点が一致する場合は `{0, 1}` を返す。
 
 ```cpp
-vector<pair<long long, long long>> points = { {1, 2}, {3, 6}, {2, 1}};
+vector<IntPoint> points = { {1, 2}, {3, 6}, {2, 1}};
 auto [i, j] = furthest_pair(points);
 ```
 

@@ -18,8 +18,8 @@ vector<IntPoint> brute_hull(vector<IntPoint> points) {
         result.push_back(p);
         IntPoint q = p == points[0] ? points[1] : points[0];
         for (IntPoint r : points) {
-            __int128 x = (__int128)q.first - p.first, y = (__int128)q.second - p.second;
-            __int128 u = (__int128)r.first - p.first, v = (__int128)r.second - p.second;
+            __int128 x = (__int128)q.x - p.x, y = (__int128)q.y - p.y;
+            __int128 u = (__int128)r.x - p.x, v = (__int128)r.y - p.y;
             __int128 turn = x * v - y * u;
             if (turn < 0 || (turn == 0 && u * u + v * v > x * x + y * y)) q = r;
         }
@@ -31,7 +31,7 @@ vector<IntPoint> brute_hull(vector<IntPoint> points) {
 void check(vector<IntPoint> a, vector<IntPoint> b) {
     auto original_a = a, original_b = b;
     vector<IntPoint> sums;
-    for (auto p : a) for (auto q : b) sums.emplace_back(p.first + q.first, p.second + q.second);
+    for (auto p : a) for (auto q : b) sums.emplace_back(p.x + q.x, p.y + q.y);
     auto expected = brute_hull(sums);
     assert(minkowski_sum(a, b) == expected);
     assert(a == original_a && b == original_b);
