@@ -67,9 +67,36 @@ void shared_powers_check() {
     hash_check(string(80, '\0'));
 }
 
+void standalone_hash_check() {
+    mt19937 rng(179);
+    for (int n : {0, 1, 255, 1024}) {
+        string s(n, '\0');
+        ull expected = 0;
+        for (char &c : s) {
+            c = char(rng() % 256);
+            expected = ((__uint128_t)expected * rolling_hash_ull::B() + (unsigned char)c) % M;
+        }
+        for (int prepared : {1, n + 20}) {
+            rolling_hash_ull::p() = {1, rolling_hash_ull::B()};
+            rolling_hash_ull precompute(prepared);
+            const auto powers = rolling_hash_ull::p();
+            const auto capacity = rolling_hash_ull::p().capacity();
+            assert(rolling_hash_ull::val(s) == expected);
+            assert(rolling_hash_ull::p() == powers);
+            assert(rolling_hash_ull::p().capacity() == capacity);
+            rolling_hash_ull rh(s);
+            assert(rh.get(0, n) == expected);
+            rolling_hash_ull grow(n + 100);
+            assert(rolling_hash_ull::p().size() >= size_t(n + 101));
+            assert(rh.get(0, n) == expected);
+        }
+    }
+}
+
 int main() {
     rolling_hash<MOD>::B() = 127;
     rolling_hash_ull::B() = 127;
+    standalone_hash_check();
     shared_powers_check();
     hash_check(string{char(255), char(127), 1, 1, 1, 1, 1});
     // The unreduced product in get(17, 28) exceeds hash[28] + 3*M.

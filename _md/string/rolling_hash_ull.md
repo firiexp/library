@@ -14,7 +14,7 @@ documentation_of: //string/rolling_hash_ull.cpp
 - `ull get(int l, int r)`
   `s[l, r)` のハッシュを返す
 - `static ull val(string& s)`
-  文字列全体のハッシュを返す
+  文字列全体のハッシュを $O(|s|)$ 時間・追加領域 $O(1)$ で返す。共有のべき列は変更しない
 - `static ull& B()`
   使用中の base を返す
 - `static vector<ull>& p()`
@@ -30,4 +30,5 @@ if (rh.get(l1, r1) == rh.get(l2, r2)) {
 
 ## 実装上の補足
 base は初回利用時に乱択で 1 回だけ決まる。
+べき列を明示的に伸ばす場合は整数コンストラクタを使う。文字列コンストラクタも必要な長さまで伸ばす。
 比較は高確率一致であり、理論上は衝突しうる。

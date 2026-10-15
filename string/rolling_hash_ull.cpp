@@ -62,13 +62,6 @@ public:
     }
 
     static ull val(string &s){
-        if(p().size() <= s.size()){
-            int l = p().size();
-            p().resize(s.size()+1);
-            for (int i = l; i < p().size(); ++i) {
-                p()[i] = calc_mod(mul(p()[i-1], p()[1]));
-            }
-        }
         ull ret = 0;
         for (int i = 0; i < s.size(); ++i) {
             ret = calc_mod(mul(ret, B()) + (unsigned char)s[i]);
