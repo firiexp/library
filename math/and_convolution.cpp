@@ -4,8 +4,8 @@ void superset_zeta_transform(vector<T> &v){
     while (n < (int)v.size()) n <<= 1;
     v.resize(n);
     for (int i = 1; i < n; i <<= 1) {
-        for (int s = 0; s < n; ++s) {
-            if (s & i) v[s ^ i] += v[s];
+        for (int block = 0; block < n; block += 2 * i) {
+            for (int j = 0; j < i; ++j) v[block + j] += v[block + i + j];
         }
     }
 }
@@ -16,8 +16,8 @@ void superset_mobius_transform(vector<T> &v){
     while (n < (int)v.size()) n <<= 1;
     v.resize(n);
     for (int i = 1; i < n; i <<= 1) {
-        for (int s = 0; s < n; ++s) {
-            if (s & i) v[s ^ i] -= v[s];
+        for (int block = 0; block < n; block += 2 * i) {
+            for (int j = 0; j < i; ++j) v[block + j] -= v[block + i + j];
         }
     }
 }
