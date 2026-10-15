@@ -14,7 +14,6 @@ struct DisjointSparseTable {
         table.assign(lg + 1, vector<T>(n));
         if (n == 0) return;
         table[0] = v;
-        for (int k = 1; k <= lg; ++k) table[k] = v;
         for (int k = 0; k < lg; ++k) {
             int len = 1 << k;
             for (int mid = len; mid < n; mid += len << 1) {
