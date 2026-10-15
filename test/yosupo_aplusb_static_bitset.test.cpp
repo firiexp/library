@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <bitset>
 #include <random>
 #include <vector>
 using namespace std;
@@ -215,9 +216,65 @@ void random_check() {
     random_check_size<257>();
 }
 
+void count_kernels_check() {
+#if defined(__x86_64__) || defined(_M_X64)
+    bool avx2 = __builtin_cpu_supports("avx2") && __builtin_cpu_supports("popcnt");
+    bool avx512 = avx2 && __builtin_cpu_supports("avx512f") && __builtin_cpu_supports("avx512vpopcntdq");
+    mt19937_64 rng(164);
+    for (int n = 0; n <= 257; ++n) {
+        for (int offset = 0; offset < 4; ++offset) {
+            vector<unsigned long long> data(n + offset);
+            for (int shape = 0; shape < 4; ++shape) {
+                int expected = 0;
+                for (int i = offset; i < n + offset; ++i) {
+                    data[i] = shape == 0 ? 0 : shape == 1 ? ~0ULL : shape == 2 ? 0x5555555555555555ULL : rng();
+                    for (auto x = data[i]; x; x &= x - 1) ++expected;
+                }
+                const auto *p = n ? data.data() + offset : nullptr;
+                if (avx2) assert(static_bitset_detail::count_avx2(p, n) == expected);
+                if (avx512) assert(static_bitset_detail::count_avx512(p, n) == expected);
+            }
+        }
+    }
+#endif
+}
+
+template<int N>
+void count_check_size() {
+    mt19937 rng(N + 164);
+    for (int shape = 0; shape < 4; ++shape) {
+        StaticBitset<N> actual;
+        bitset<N> expected;
+        for (int i = 0; i < N; ++i) {
+            bool bit = shape == 0 ? false : shape == 1 ? true : shape == 2 ? i % 2 : rng() & 1;
+            actual.assign(i, bit);
+            expected[i] = bit;
+        }
+        assert(actual.count() == (int)expected.count());
+        actual.flip();
+        expected.flip();
+        assert(actual.count() == (int)expected.count());
+        actual <<= 1;
+        expected <<= 1;
+        assert(actual.count() == (int)expected.count());
+        actual >>= 63;
+        expected >>= 63;
+        assert(actual.count() == (int)expected.count());
+    }
+}
+
 int main() {
     deterministic_check();
     random_check();
+    count_kernels_check();
+    count_check_size<8128>();
+    count_check_size<8129>();
+    count_check_size<8191>();
+    count_check_size<8192>();
+    count_check_size<8193>();
+    count_check_size<65536>();
+    count_check_size<65537>();
+    count_check_size<1048577>();
 
     Scanner sc;
     Printer pr;
