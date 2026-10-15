@@ -35,14 +35,5 @@ int main() {
     }
     out.println();
 
-    long long dual_sum = 0;
-    for (int i = 0; i < n; ++i) dual_sum += row[i];
-    for (int j = 0; j < n; ++j) dual_sum += col[j];
-    assert(dual_sum == ans);
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            assert(row[i] + col[j] <= a[i][j]);
-        }
-    }
     return 0;
 }

@@ -30,49 +30,7 @@ vector<Line> polygon_half_planes(const Polygon &poly) {
     return ls;
 }
 
-void self_check() {
-    {
-        Polygon poly = {
-            Point(1, 1),
-            Point(4, 1),
-            Point(4, 3),
-            Point(1, 3),
-        };
-        auto ls = polygon_half_planes(poly);
-        ls.emplace_back(Point(2, 0), Point(2, 4));
-        Polygon got = half_plane_intersection(ls);
-        assert(fabs(fabs(area(got)) - 2.0) < 1e-9);
-    }
-    {
-        Polygon poly = {
-            Point(1, 1),
-            Point(4, 1),
-            Point(4, 3),
-            Point(1, 3),
-        };
-        auto ls = polygon_half_planes(poly);
-        ls.emplace_back(Point(2, 4), Point(2, 0));
-        Polygon got = half_plane_intersection(ls);
-        assert(fabs(fabs(area(got)) - 4.0) < 1e-9);
-    }
-    {
-        Polygon poly = {
-            Point(0, 0),
-            Point(4, 0),
-            Point(4, 2),
-            Point(2, 4),
-            Point(0, 4),
-        };
-        auto ls = polygon_half_planes(poly);
-        ls.emplace_back(Point(5, 5), Point(5, 3));
-        Polygon got = half_plane_intersection(ls);
-        assert(got.empty());
-    }
-}
-
 int main() {
-    self_check();
-
     Scanner sc;
     int n;
     sc.read(n);

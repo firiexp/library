@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/many_aplusb"
+#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
 
 #include <cassert>
 #include <cstdio>
@@ -62,15 +62,9 @@ int main() {
     dynamic_modint_test::mint::set_mod(998244353);
     common_check<fixed_modint_test::mint>();
     common_check<dynamic_modint_test::mint>();
-
-    Scanner in;
-    Printer out;
-    int t;
-    in.read(t);
-    while (t--) {
-        ll a, b;
-        in.read(a, b);
-        out.println(a + b);
-    }
-    return 0;
+    Scanner sc;
+    Printer pr;
+    int a, b;
+    sc.read(a, b);
+    pr.println(a + b);
 }

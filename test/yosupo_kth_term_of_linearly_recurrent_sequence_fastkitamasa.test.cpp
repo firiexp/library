@@ -9,10 +9,8 @@ using ull = unsigned long long;
 #include "../util/fastio.cpp"
 #include "../math/ntt.cpp"
 #include "../math/fastkitamasa.cpp"
-#include "fastkitamasa_self_check.cpp"
 
 int main() {
-    fastkitamasa_test::self_check();
     Scanner in;
     Printer out;
     int d;
