@@ -12,8 +12,7 @@ struct HalfPlane {
         : p(l.a), pq(l.b - l.a), angle(atan2(pq.y, pq.x)) {}
 
     bool operator<(const HalfPlane &other) const {
-        if (fabs(angle - other.angle) > EPS) return angle < other.angle;
-        return cross(pq, other.p - p) < 0;
+        return angle < other.angle;
     }
 
     bool outside(Point r) const {

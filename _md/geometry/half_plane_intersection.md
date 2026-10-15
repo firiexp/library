@@ -32,3 +32,4 @@ Polygon poly = half_plane_intersection(ls);
 ## 実装上の補足
 - 各 `Line(a, b)` は `a -> b` の左側を残す向きで与える
 - 交差判定は `geometry.cpp` の `EPS` を使う
+- 角度のソートには `EPS` を使わず、平行判定と同方向の制約の整理はソート後に行う
