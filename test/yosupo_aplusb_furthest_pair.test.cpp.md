@@ -11,6 +11,9 @@ data:
     path: geometry/furthest_pair.cpp
     title: "\u6700\u9060\u70B9\u5BFE"
   - icon: ':heavy_check_mark:'
+    path: geometry/int_point.cpp
+    title: "\u6574\u6570\u5EA7\u6A19\u70B9"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -234,11 +237,21 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/convex_hull.cpp\"\
-    \n\n\n\nusing IntPoint = pair<ll, ll>;\n\n__int128 cross(IntPoint a, IntPoint\
-    \ b, IntPoint c) {\n    __int128 bx = static_cast<__int128>(b.first) - a.first;\n\
-    \    __int128 by = static_cast<__int128>(b.second) - a.second;\n    __int128 cx\
-    \ = static_cast<__int128>(c.first) - a.first;\n    __int128 cy = static_cast<__int128>(c.second)\
-    \ - a.second;\n    return bx * cy - by * cx;\n}\n\nvector<IntPoint> convex_hull(vector<IntPoint>\
+    \n\n\n\n#line 1 \"geometry/int_point.cpp\"\n\n\n\nstruct IntPoint {\n    long\
+    \ long x = 0, y = 0;\n\n    IntPoint() = default;\n    IntPoint(long long x, long\
+    \ long y) : x(x), y(y) {}\n\n    bool operator<(const IntPoint &p) const { return\
+    \ x < p.x || (!(p.x < x) && y < p.y); }\n    bool operator==(const IntPoint &p)\
+    \ const { return x == p.x && y == p.y; }\n    bool operator!=(const IntPoint &p)\
+    \ const { return !(*this == p); }\n    IntPoint &operator+=(const IntPoint &p)\
+    \ { x += p.x; y += p.y; return *this; }\n    IntPoint &operator-=(const IntPoint\
+    \ &p) { x -= p.x; y -= p.y; return *this; }\n    IntPoint operator+(const IntPoint\
+    \ &p) const { return IntPoint(*this) += p; }\n    IntPoint operator-(const IntPoint\
+    \ &p) const { return IntPoint(*this) -= p; }\n};\n\n\n\n/**\n * @brief \u6574\u6570\
+    \u5EA7\u6A19\u70B9\n */\n#line 5 \"geometry/convex_hull.cpp\"\n\n__int128 cross(IntPoint\
+    \ a, IntPoint b, IntPoint c) {\n    __int128 bx = static_cast<__int128>(b.x) -\
+    \ a.x;\n    __int128 by = static_cast<__int128>(b.y) - a.y;\n    __int128 cx =\
+    \ static_cast<__int128>(c.x) - a.x;\n    __int128 cy = static_cast<__int128>(c.y)\
+    \ - a.y;\n    return bx * cy - by * cx;\n}\n\nvector<IntPoint> convex_hull(vector<IntPoint>\
     \ ps) {\n    sort(ps.begin(), ps.end());\n    ps.erase(unique(ps.begin(), ps.end()),\
     \ ps.end());\n    int n = ps.size();\n    if (n <= 2) return ps;\n\n    vector<IntPoint>\
     \ ch(2 * n);\n    int k = 0;\n    for (int i = 0; i < n; ++i) {\n        while\
@@ -247,35 +260,34 @@ data:
     \ (k >= t && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;\n        ch[k++] =\
     \ ps[i];\n    }\n    ch.resize(k - 1);\n    return ch;\n}\n\n\n\n/**\n * @brief\
     \ \u51F8\u5305(Convex Hull)\n */\n#line 2 \"geometry/furthest_pair.cpp\"\n\npair<int,\
-    \ int> furthest_pair(const vector<pair<long long, long long>> &points) {\n   \
-    \ assert(points.size() >= 2);\n    auto hull = convex_hull(points);\n    int n\
-    \ = hull.size();\n    if (n == 1) return {0, 1};\n    auto distance_squared =\
-    \ [&](int i, int j) {\n        __int128 dx = static_cast<__int128>(hull[i].first)\
-    \ - hull[j].first;\n        __int128 dy = static_cast<__int128>(hull[i].second)\
-    \ - hull[j].second;\n        return dx * dx + dy * dy;\n    };\n    pair<int,\
-    \ int> best = {0, 1};\n    __int128 best_distance = distance_squared(0, 1);\n\
-    \    auto update = [&](int i, int j) {\n        __int128 d = distance_squared(i,\
-    \ j);\n        if (d > best_distance) {\n            best_distance = d;\n    \
-    \        best = {i, j};\n        }\n    };\n    if (n > 2) {\n        int j =\
-    \ 1;\n        for (int i = 0; i < n; ++i) {\n            int next_i = (i + 1)\
-    \ % n;\n            auto height = [&](int v) { return cross(hull[i], hull[next_i],\
-    \ hull[v]); };\n            while (height((j + 1) % n) > height(j)) j = (j + 1)\
-    \ % n;\n            update(i, j);\n            update(next_i, j);\n          \
-    \  int next_j = (j + 1) % n;\n            if (height(next_j) == height(j)) {\n\
-    \                update(i, next_j);\n                update(next_i, next_j);\n\
-    \            }\n        }\n    }\n    pair<int, int> result = {-1, -1};\n    for\
-    \ (int i = 0; i < int(points.size()); ++i) {\n        if (points[i] == hull[best.first])\
-    \ result.first = i;\n        if (points[i] == hull[best.second]) result.second\
-    \ = i;\n        if (result.first != -1 && result.second != -1) break;\n    }\n\
-    \    return result;\n}\n\n/**\n * @brief \u6700\u9060\u70B9\u5BFE\n */\n#line\
-    \ 10 \"test/yosupo_aplusb_furthest_pair.test.cpp\"\n\n__int128 distance_squared(IntPoint\
-    \ a, IntPoint b) {\n    __int128 dx = a.first;\n    __int128 dy = a.second;\n\
-    \    dx -= b.first;\n    dy -= b.second;\n    return dx * dx + dy * dy;\n}\n\n\
-    void check(const vector<IntPoint> &points) {\n    const auto original = points;\n\
-    \    auto [i, j] = furthest_pair(points);\n    int n = points.size();\n    assert(0\
-    \ <= i && i < n && 0 <= j && j < n && i != j);\n    __int128 best = 0;\n    for\
-    \ (int u = 0; u < n; ++u)\n        for (int v = u + 1; v < n; ++v)\n         \
-    \   best = max(best, distance_squared(points[u], points[v]));\n    assert(distance_squared(points[i],\
+    \ int> furthest_pair(const vector<IntPoint> &points) {\n    assert(points.size()\
+    \ >= 2);\n    auto hull = convex_hull(points);\n    int n = hull.size();\n   \
+    \ if (n == 1) return {0, 1};\n    auto distance_squared = [&](int i, int j) {\n\
+    \        __int128 dx = static_cast<__int128>(hull[i].x) - hull[j].x;\n       \
+    \ __int128 dy = static_cast<__int128>(hull[i].y) - hull[j].y;\n        return\
+    \ dx * dx + dy * dy;\n    };\n    pair<int, int> best = {0, 1};\n    __int128\
+    \ best_distance = distance_squared(0, 1);\n    auto update = [&](int i, int j)\
+    \ {\n        __int128 d = distance_squared(i, j);\n        if (d > best_distance)\
+    \ {\n            best_distance = d;\n            best = {i, j};\n        }\n \
+    \   };\n    if (n > 2) {\n        int j = 1;\n        for (int i = 0; i < n; ++i)\
+    \ {\n            int next_i = (i + 1) % n;\n            auto height = [&](int\
+    \ v) { return cross(hull[i], hull[next_i], hull[v]); };\n            while (height((j\
+    \ + 1) % n) > height(j)) j = (j + 1) % n;\n            update(i, j);\n       \
+    \     update(next_i, j);\n            int next_j = (j + 1) % n;\n            if\
+    \ (height(next_j) == height(j)) {\n                update(i, next_j);\n      \
+    \          update(next_i, next_j);\n            }\n        }\n    }\n    pair<int,\
+    \ int> result = {-1, -1};\n    for (int i = 0; i < int(points.size()); ++i) {\n\
+    \        if (points[i] == hull[best.first]) result.first = i;\n        if (points[i]\
+    \ == hull[best.second]) result.second = i;\n        if (result.first != -1 &&\
+    \ result.second != -1) break;\n    }\n    return result;\n}\n\n/**\n * @brief\
+    \ \u6700\u9060\u70B9\u5BFE\n */\n#line 10 \"test/yosupo_aplusb_furthest_pair.test.cpp\"\
+    \n\n__int128 distance_squared(IntPoint a, IntPoint b) {\n    __int128 dx = a.x;\n\
+    \    __int128 dy = a.y;\n    dx -= b.x;\n    dy -= b.y;\n    return dx * dx +\
+    \ dy * dy;\n}\n\nvoid check(const vector<IntPoint> &points) {\n    const auto\
+    \ original = points;\n    auto [i, j] = furthest_pair(points);\n    int n = points.size();\n\
+    \    assert(0 <= i && i < n && 0 <= j && j < n && i != j);\n    __int128 best\
+    \ = 0;\n    for (int u = 0; u < n; ++u)\n        for (int v = u + 1; v < n; ++v)\n\
+    \            best = max(best, distance_squared(points[u], points[v]));\n    assert(distance_squared(points[i],\
     \ points[j]) == best);\n    assert(points == original);\n}\n\nvoid check_furthest_pair()\
     \ {\n    mt19937_64 rng(20261007);\n    for (int mask = 1; mask < (1 << 9); ++mask)\
     \ {\n        vector<IntPoint> points;\n        for (int i = 0; i < 9; ++i)\n \
@@ -304,47 +316,48 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\nusing ll = long long;\n\n#include \"../util/fastio.cpp\"\
     \n#include \"../geometry/convex_hull.cpp\"\n#include \"../geometry/furthest_pair.cpp\"\
-    \n\n__int128 distance_squared(IntPoint a, IntPoint b) {\n    __int128 dx = a.first;\n\
-    \    __int128 dy = a.second;\n    dx -= b.first;\n    dy -= b.second;\n    return\
-    \ dx * dx + dy * dy;\n}\n\nvoid check(const vector<IntPoint> &points) {\n    const\
-    \ auto original = points;\n    auto [i, j] = furthest_pair(points);\n    int n\
-    \ = points.size();\n    assert(0 <= i && i < n && 0 <= j && j < n && i != j);\n\
-    \    __int128 best = 0;\n    for (int u = 0; u < n; ++u)\n        for (int v =\
-    \ u + 1; v < n; ++v)\n            best = max(best, distance_squared(points[u],\
-    \ points[v]));\n    assert(distance_squared(points[i], points[j]) == best);\n\
-    \    assert(points == original);\n}\n\nvoid check_furthest_pair() {\n    mt19937_64\
-    \ rng(20261007);\n    for (int mask = 1; mask < (1 << 9); ++mask) {\n        vector<IntPoint>\
-    \ points;\n        for (int i = 0; i < 9; ++i)\n            if (mask >> i & 1)\
-    \ points.emplace_back(i % 3, i / 3);\n        if (points.size() > 1) check(points);\n\
-    \        points.push_back(points[0]);\n        points.push_back(points[0]);\n\
-    \        shuffle(points.begin(), points.end(), rng);\n        check(points);\n\
-    \    }\n    check({{40, 880}, {350, 80}, {450, 130}, {750, 300},\n           {315,\
-    \ 164}, {940, 770}, {897, 663}, {850, 790}});\n    check({{4, -7}, {4, -2}, {4,\
-    \ 0}, {4, 9}});\n    check({{-7, 4}, {-2, 4}, {0, 4}, {9, 4}});\n    for (int\
-    \ tc = 0; tc < 3000; ++tc) {\n        vector<IntPoint> points(2 + rng() % 40);\n\
-    \        for (auto &[x, y] : points) {\n            x = int(rng() % 101) - 50;\n\
-    \            y = int(rng() % 101) - 50;\n            if (tc % 10 == 0) x = y =\
-    \ 3;\n            if (tc % 10 == 1) y = 3 * x + 7;\n        }\n        check(points);\n\
-    \    }\n    const ll limit = 1000000000000000000LL;\n    check({{-limit, -limit},\
-    \ {limit, -limit}, {limit, limit}, {-limit, limit}});\n    check({{-limit, -limit},\
-    \ {-limit + 1, -limit}, {limit, limit - 1}, {limit, limit}});\n    check({{-limit,\
-    \ -limit}, {0, 0}, {limit, limit}, {limit, limit}});\n    check({{limit, limit},\
-    \ {limit, limit}});\n    const vector<ll> coords{-limit, -limit + 1, -4000000000LL,\
-    \ -1, 0, 1, 4000000000LL, limit - 1, limit};\n    for (int tc = 0; tc < 500; ++tc)\
-    \ {\n        vector<IntPoint> points(2 + rng() % 30);\n        for (auto &[x,\
-    \ y] : points) {\n            x = coords[rng() % coords.size()];\n           \
-    \ y = coords[rng() % coords.size()];\n        }\n        check(points);\n    }\n\
-    }\n\nint main() {\n    check_furthest_pair();\n    Scanner in;\n    Printer out;\n\
-    \    int a, b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
+    \n\n__int128 distance_squared(IntPoint a, IntPoint b) {\n    __int128 dx = a.x;\n\
+    \    __int128 dy = a.y;\n    dx -= b.x;\n    dy -= b.y;\n    return dx * dx +\
+    \ dy * dy;\n}\n\nvoid check(const vector<IntPoint> &points) {\n    const auto\
+    \ original = points;\n    auto [i, j] = furthest_pair(points);\n    int n = points.size();\n\
+    \    assert(0 <= i && i < n && 0 <= j && j < n && i != j);\n    __int128 best\
+    \ = 0;\n    for (int u = 0; u < n; ++u)\n        for (int v = u + 1; v < n; ++v)\n\
+    \            best = max(best, distance_squared(points[u], points[v]));\n    assert(distance_squared(points[i],\
+    \ points[j]) == best);\n    assert(points == original);\n}\n\nvoid check_furthest_pair()\
+    \ {\n    mt19937_64 rng(20261007);\n    for (int mask = 1; mask < (1 << 9); ++mask)\
+    \ {\n        vector<IntPoint> points;\n        for (int i = 0; i < 9; ++i)\n \
+    \           if (mask >> i & 1) points.emplace_back(i % 3, i / 3);\n        if\
+    \ (points.size() > 1) check(points);\n        points.push_back(points[0]);\n \
+    \       points.push_back(points[0]);\n        shuffle(points.begin(), points.end(),\
+    \ rng);\n        check(points);\n    }\n    check({{40, 880}, {350, 80}, {450,\
+    \ 130}, {750, 300},\n           {315, 164}, {940, 770}, {897, 663}, {850, 790}});\n\
+    \    check({{4, -7}, {4, -2}, {4, 0}, {4, 9}});\n    check({{-7, 4}, {-2, 4},\
+    \ {0, 4}, {9, 4}});\n    for (int tc = 0; tc < 3000; ++tc) {\n        vector<IntPoint>\
+    \ points(2 + rng() % 40);\n        for (auto &[x, y] : points) {\n           \
+    \ x = int(rng() % 101) - 50;\n            y = int(rng() % 101) - 50;\n       \
+    \     if (tc % 10 == 0) x = y = 3;\n            if (tc % 10 == 1) y = 3 * x +\
+    \ 7;\n        }\n        check(points);\n    }\n    const ll limit = 1000000000000000000LL;\n\
+    \    check({{-limit, -limit}, {limit, -limit}, {limit, limit}, {-limit, limit}});\n\
+    \    check({{-limit, -limit}, {-limit + 1, -limit}, {limit, limit - 1}, {limit,\
+    \ limit}});\n    check({{-limit, -limit}, {0, 0}, {limit, limit}, {limit, limit}});\n\
+    \    check({{limit, limit}, {limit, limit}});\n    const vector<ll> coords{-limit,\
+    \ -limit + 1, -4000000000LL, -1, 0, 1, 4000000000LL, limit - 1, limit};\n    for\
+    \ (int tc = 0; tc < 500; ++tc) {\n        vector<IntPoint> points(2 + rng() %\
+    \ 30);\n        for (auto &[x, y] : points) {\n            x = coords[rng() %\
+    \ coords.size()];\n            y = coords[rng() % coords.size()];\n        }\n\
+    \        check(points);\n    }\n}\n\nint main() {\n    check_furthest_pair();\n\
+    \    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - geometry/convex_hull.cpp
+  - geometry/int_point.cpp
   - geometry/furthest_pair.cpp
   - geometry/convex_hull.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_furthest_pair.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:22:46+09:00'
+  timestamp: '2026-10-16 00:52:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_furthest_pair.test.cpp

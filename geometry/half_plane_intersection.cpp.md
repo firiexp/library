@@ -193,13 +193,12 @@ data:
     \n\nnamespace internal_half_plane_intersection {\n\nstruct HalfPlane {\n    Point\
     \ p, pq;\n    geometry_real angle;\n\n    HalfPlane() = default;\n\n    explicit\
     \ HalfPlane(const Line &l)\n        : p(l.a), pq(l.b - l.a), angle(atan2(pq.y,\
-    \ pq.x)) {}\n\n    bool operator<(const HalfPlane &other) const {\n        if\
-    \ (fabs(angle - other.angle) > EPS) return angle < other.angle;\n        return\
-    \ cross(pq, other.p - p) < 0;\n    }\n\n    bool outside(Point r) const {\n  \
-    \      return cross(pq, r - p) < -EPS;\n    }\n};\n\nPoint intersection(const\
-    \ HalfPlane &s, const HalfPlane &t) {\n    geometry_real a = cross(t.p - s.p,\
-    \ t.pq) / cross(s.pq, t.pq);\n    return s.p + s.pq * a;\n}\n\nbool same_point(Point\
-    \ a, Point b) {\n    return abs(a - b) < EPS;\n}\n\n}  // namespace internal_half_plane_intersection\n\
+    \ pq.x)) {}\n\n    bool operator<(const HalfPlane &other) const {\n        return\
+    \ angle < other.angle;\n    }\n\n    bool outside(Point r) const {\n        return\
+    \ cross(pq, r - p) < -EPS;\n    }\n};\n\nPoint intersection(const HalfPlane &s,\
+    \ const HalfPlane &t) {\n    geometry_real a = cross(t.p - s.p, t.pq) / cross(s.pq,\
+    \ t.pq);\n    return s.p + s.pq * a;\n}\n\nbool same_point(Point a, Point b) {\n\
+    \    return abs(a - b) < EPS;\n}\n\n}  // namespace internal_half_plane_intersection\n\
     \nPolygon half_plane_intersection(vector<Line> ls) {\n    using namespace internal_half_plane_intersection;\n\
     \n    static constexpr geometry_real INF = 1e9;\n    vector<HalfPlane> hs;\n \
     \   hs.reserve(ls.size() + 4);\n    for (const Line &l : ls) hs.emplace_back(l);\n\
@@ -229,9 +228,8 @@ data:
     \ {\n\nstruct HalfPlane {\n    Point p, pq;\n    geometry_real angle;\n\n    HalfPlane()\
     \ = default;\n\n    explicit HalfPlane(const Line &l)\n        : p(l.a), pq(l.b\
     \ - l.a), angle(atan2(pq.y, pq.x)) {}\n\n    bool operator<(const HalfPlane &other)\
-    \ const {\n        if (fabs(angle - other.angle) > EPS) return angle < other.angle;\n\
-    \        return cross(pq, other.p - p) < 0;\n    }\n\n    bool outside(Point r)\
-    \ const {\n        return cross(pq, r - p) < -EPS;\n    }\n};\n\nPoint intersection(const\
+    \ const {\n        return angle < other.angle;\n    }\n\n    bool outside(Point\
+    \ r) const {\n        return cross(pq, r - p) < -EPS;\n    }\n};\n\nPoint intersection(const\
     \ HalfPlane &s, const HalfPlane &t) {\n    geometry_real a = cross(t.p - s.p,\
     \ t.pq) / cross(s.pq, t.pq);\n    return s.p + s.pq * a;\n}\n\nbool same_point(Point\
     \ a, Point b) {\n    return abs(a - b) < EPS;\n}\n\n}  // namespace internal_half_plane_intersection\n\
@@ -265,7 +263,7 @@ data:
   isVerificationFile: false
   path: geometry/half_plane_intersection.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-16 00:08:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
@@ -304,3 +302,4 @@ Polygon poly = half_plane_intersection(ls);
 ## 実装上の補足
 - 各 `Line(a, b)` は `a -> b` の左側を残す向きで与える
 - 交差判定は `geometry.cpp` の `EPS` を使う
+- 角度のソートには `EPS` を使わず、平行判定と同方向の制約の整理はソート後に行う

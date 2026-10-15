@@ -5,6 +5,9 @@ data:
     path: geometry/convex_hull.cpp
     title: "\u51F8\u5305(Convex Hull)"
   - icon: ':heavy_check_mark:'
+    path: geometry/int_point.cpp
+    title: "\u6574\u6570\u5EA7\u6A19\u70B9"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -230,11 +233,21 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/convex_hull.cpp\"\
-    \n\n\n\nusing IntPoint = pair<ll, ll>;\n\n__int128 cross(IntPoint a, IntPoint\
-    \ b, IntPoint c) {\n    __int128 bx = static_cast<__int128>(b.first) - a.first;\n\
-    \    __int128 by = static_cast<__int128>(b.second) - a.second;\n    __int128 cx\
-    \ = static_cast<__int128>(c.first) - a.first;\n    __int128 cy = static_cast<__int128>(c.second)\
-    \ - a.second;\n    return bx * cy - by * cx;\n}\n\nvector<IntPoint> convex_hull(vector<IntPoint>\
+    \n\n\n\n#line 1 \"geometry/int_point.cpp\"\n\n\n\nstruct IntPoint {\n    long\
+    \ long x = 0, y = 0;\n\n    IntPoint() = default;\n    IntPoint(long long x, long\
+    \ long y) : x(x), y(y) {}\n\n    bool operator<(const IntPoint &p) const { return\
+    \ x < p.x || (!(p.x < x) && y < p.y); }\n    bool operator==(const IntPoint &p)\
+    \ const { return x == p.x && y == p.y; }\n    bool operator!=(const IntPoint &p)\
+    \ const { return !(*this == p); }\n    IntPoint &operator+=(const IntPoint &p)\
+    \ { x += p.x; y += p.y; return *this; }\n    IntPoint &operator-=(const IntPoint\
+    \ &p) { x -= p.x; y -= p.y; return *this; }\n    IntPoint operator+(const IntPoint\
+    \ &p) const { return IntPoint(*this) += p; }\n    IntPoint operator-(const IntPoint\
+    \ &p) const { return IntPoint(*this) -= p; }\n};\n\n\n\n/**\n * @brief \u6574\u6570\
+    \u5EA7\u6A19\u70B9\n */\n#line 5 \"geometry/convex_hull.cpp\"\n\n__int128 cross(IntPoint\
+    \ a, IntPoint b, IntPoint c) {\n    __int128 bx = static_cast<__int128>(b.x) -\
+    \ a.x;\n    __int128 by = static_cast<__int128>(b.y) - a.y;\n    __int128 cx =\
+    \ static_cast<__int128>(c.x) - a.x;\n    __int128 cy = static_cast<__int128>(c.y)\
+    \ - a.y;\n    return bx * cy - by * cx;\n}\n\nvector<IntPoint> convex_hull(vector<IntPoint>\
     \ ps) {\n    sort(ps.begin(), ps.end());\n    ps.erase(unique(ps.begin(), ps.end()),\
     \ ps.end());\n    int n = ps.size();\n    if (n <= 2) return ps;\n\n    vector<IntPoint>\
     \ ch(2 * n);\n    int k = 0;\n    for (int i = 0; i < n; ++i) {\n        while\
@@ -247,14 +260,14 @@ data:
     \    sort(points.begin(), points.end());\n    points.erase(unique(points.begin(),\
     \ points.end()), points.end());\n    if (points.size() <= 2) return points;\n\
     \    auto turn = [](IntPoint a, IntPoint b, IntPoint c) -> Wide {\n        return\
-    \ (Wide(b.first) - a.first) * (Wide(c.second) - a.second) -\n               (Wide(b.second)\
-    \ - a.second) * (Wide(c.first) - a.first);\n    };\n    auto distance_squared\
-    \ = [](IntPoint a, IntPoint b) -> Wide {\n        Wide x = Wide(b.first) - a.first,\
-    \ y = Wide(b.second) - a.second;\n        return x * x + y * y;\n    };\n    vector<IntPoint>\
-    \ hull;\n    IntPoint current = points[0];\n    do {\n        hull.push_back(current);\n\
-    \        IntPoint next = points[0] == current ? points[1] : points[0];\n     \
-    \   for (auto p : points) {\n            Wide cross = turn(current, next, p);\n\
-    \            if (cross < 0 || (cross == 0 && distance_squared(current, p) > distance_squared(current,\
+    \ (Wide(b.x) - a.x) * (Wide(c.y) - a.y) -\n               (Wide(b.y) - a.y) *\
+    \ (Wide(c.x) - a.x);\n    };\n    auto distance_squared = [](IntPoint a, IntPoint\
+    \ b) -> Wide {\n        Wide x = Wide(b.x) - a.x, y = Wide(b.y) - a.y;\n     \
+    \   return x * x + y * y;\n    };\n    vector<IntPoint> hull;\n    IntPoint current\
+    \ = points[0];\n    do {\n        hull.push_back(current);\n        IntPoint next\
+    \ = points[0] == current ? points[1] : points[0];\n        for (auto p : points)\
+    \ {\n            Wide cross = turn(current, next, p);\n            if (cross <\
+    \ 0 || (cross == 0 && distance_squared(current, p) > distance_squared(current,\
     \ next)))\n                next = p;\n        }\n        current = next;\n   \
     \ } while (current != hull[0]);\n    return hull;\n}\n\nvoid self_check() {\n\
     \    auto check = [](const vector<IntPoint> &points) {\n        assert(convex_hull(points)\
@@ -285,14 +298,14 @@ data:
     \    sort(points.begin(), points.end());\n    points.erase(unique(points.begin(),\
     \ points.end()), points.end());\n    if (points.size() <= 2) return points;\n\
     \    auto turn = [](IntPoint a, IntPoint b, IntPoint c) -> Wide {\n        return\
-    \ (Wide(b.first) - a.first) * (Wide(c.second) - a.second) -\n               (Wide(b.second)\
-    \ - a.second) * (Wide(c.first) - a.first);\n    };\n    auto distance_squared\
-    \ = [](IntPoint a, IntPoint b) -> Wide {\n        Wide x = Wide(b.first) - a.first,\
-    \ y = Wide(b.second) - a.second;\n        return x * x + y * y;\n    };\n    vector<IntPoint>\
-    \ hull;\n    IntPoint current = points[0];\n    do {\n        hull.push_back(current);\n\
-    \        IntPoint next = points[0] == current ? points[1] : points[0];\n     \
-    \   for (auto p : points) {\n            Wide cross = turn(current, next, p);\n\
-    \            if (cross < 0 || (cross == 0 && distance_squared(current, p) > distance_squared(current,\
+    \ (Wide(b.x) - a.x) * (Wide(c.y) - a.y) -\n               (Wide(b.y) - a.y) *\
+    \ (Wide(c.x) - a.x);\n    };\n    auto distance_squared = [](IntPoint a, IntPoint\
+    \ b) -> Wide {\n        Wide x = Wide(b.x) - a.x, y = Wide(b.y) - a.y;\n     \
+    \   return x * x + y * y;\n    };\n    vector<IntPoint> hull;\n    IntPoint current\
+    \ = points[0];\n    do {\n        hull.push_back(current);\n        IntPoint next\
+    \ = points[0] == current ? points[1] : points[0];\n        for (auto p : points)\
+    \ {\n            Wide cross = turn(current, next, p);\n            if (cross <\
+    \ 0 || (cross == 0 && distance_squared(current, p) > distance_squared(current,\
     \ next)))\n                next = p;\n        }\n        current = next;\n   \
     \ } while (current != hull[0]);\n    return hull;\n}\n\nvoid self_check() {\n\
     \    auto check = [](const vector<IntPoint> &points) {\n        assert(convex_hull(points)\
@@ -317,10 +330,11 @@ data:
   dependsOn:
   - util/fastio.cpp
   - geometry/convex_hull.cpp
+  - geometry/int_point.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_convex_hull.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 19:16:24+09:00'
+  timestamp: '2026-10-16 00:52:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_convex_hull.test.cpp

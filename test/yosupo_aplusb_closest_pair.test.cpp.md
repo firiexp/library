@@ -5,6 +5,9 @@ data:
     path: geometry/closest_pair.cpp
     title: Closest Pair
   - icon: ':heavy_check_mark:'
+    path: geometry/int_point.cpp
+    title: "\u6574\u6570\u5EA7\u6A19\u70B9"
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -227,97 +230,106 @@ data:
     \ {\n        pc('\\n');\n    }\n};\n\ntemplate<class T>\nScanner &operator>>(Scanner\
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
-    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/closest_pair.cpp\"\
-    \npair<int, int> closest_pair(const vector<pair<long long, long long>> &points)\
-    \ {\n    using Dist = __int128_t;\n    struct P {\n        long long x;\n    \
-    \    long long y;\n        int idx;\n    };\n\n    int n = points.size();\n  \
-    \  assert(n >= 2);\n    vector<P> ps(n);\n    for (int i = 0; i < n; ++i) {\n\
-    \        ps[i] = {points[i].first, points[i].second, i};\n    }\n    sort(ps.begin(),\
-    \ ps.end(), [](const P &a, const P &b) {\n        if (a.x != b.x) return a.x <\
-    \ b.x;\n        if (a.y != b.y) return a.y < b.y;\n        return a.idx < b.idx;\n\
-    \    });\n\n    Dist best = -1;\n    pair<int, int> ans = {-1, -1};\n    auto\
-    \ update = [&](const P &a, const P &b) {\n        Dist dx = Dist(a.x) - Dist(b.x);\n\
-    \        Dist dy = Dist(a.y) - Dist(b.y);\n        Dist d = dx * dx + dy * dy;\n\
-    \        pair<int, int> cand = {a.idx, b.idx};\n        if (best == -1 || d <\
-    \ best) {\n            best = d;\n            ans = cand;\n        }\n    };\n\
-    \    update(ps[0], ps[1]);\n\n    vector<int> ord(n), scratch(n);\n    auto dfs\
-    \ = [&](auto &&self, int l, int r) -> void {\n        if (r - l == 1) {\n    \
-    \        ord[l] = l;\n            return;\n        }\n        int m = (l + r)\
-    \ >> 1;\n        long long mx = ps[m].x;\n        self(self, l, m);\n        self(self,\
-    \ m, r);\n        int i = l, j = m;\n        for (int k = l; k < r; ++k) {\n \
-    \           if (j == r || (i < m && ps[ord[i]].y < ps[ord[j]].y)) {\n        \
-    \        scratch[k] = ord[i++];\n            } else {\n                scratch[k]\
-    \ = ord[j++];\n            }\n        }\n        copy(scratch.begin() + l, scratch.begin()\
-    \ + r, ord.begin() + l);\n        int count = 0;\n        for (int k = l; k <\
-    \ r; ++k) {\n            int idx = ord[k];\n            Dist dx = Dist(ps[idx].x)\
-    \ - Dist(mx);\n            if (dx * dx > best) continue;\n            for (int\
-    \ t = count - 1; t >= 0; --t) {\n                int idy = scratch[l + t];\n \
-    \               Dist dy = Dist(ps[idx].y) - Dist(ps[idy].y);\n               \
-    \ if (best == 0 || dy * dy > best) break;\n                update(ps[idx], ps[idy]);\n\
-    \            }\n            scratch[l + count++] = idx;\n        }\n    };\n \
-    \   dfs(dfs, 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n */\n\
-    #line 15 \"test/yosupo_aplusb_closest_pair.test.cpp\"\n\nvoid check(const vector<pair<long\
-    \ long, long long>> &points) {\n    auto input = points;\n    auto [a, b] = closest_pair(input);\n\
+    }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"geometry/int_point.cpp\"\
+    \n\n\n\nstruct IntPoint {\n    long long x = 0, y = 0;\n\n    IntPoint() = default;\n\
+    \    IntPoint(long long x, long long y) : x(x), y(y) {}\n\n    bool operator<(const\
+    \ IntPoint &p) const { return x < p.x || (!(p.x < x) && y < p.y); }\n    bool\
+    \ operator==(const IntPoint &p) const { return x == p.x && y == p.y; }\n    bool\
+    \ operator!=(const IntPoint &p) const { return !(*this == p); }\n    IntPoint\
+    \ &operator+=(const IntPoint &p) { x += p.x; y += p.y; return *this; }\n    IntPoint\
+    \ &operator-=(const IntPoint &p) { x -= p.x; y -= p.y; return *this; }\n    IntPoint\
+    \ operator+(const IntPoint &p) const { return IntPoint(*this) += p; }\n    IntPoint\
+    \ operator-(const IntPoint &p) const { return IntPoint(*this) -= p; }\n};\n\n\n\
+    \n/**\n * @brief \u6574\u6570\u5EA7\u6A19\u70B9\n */\n#line 2 \"geometry/closest_pair.cpp\"\
+    \n\npair<int, int> closest_pair(const vector<IntPoint> &points) {\n    using Dist\
+    \ = __int128_t;\n    struct P {\n        long long x;\n        long long y;\n\
+    \        int idx;\n    };\n\n    int n = points.size();\n    assert(n >= 2);\n\
+    \    vector<P> ps(n);\n    for (int i = 0; i < n; ++i) {\n        ps[i] = {points[i].x,\
+    \ points[i].y, i};\n    }\n    sort(ps.begin(), ps.end(), [](const P &a, const\
+    \ P &b) {\n        if (a.x != b.x) return a.x < b.x;\n        if (a.y != b.y)\
+    \ return a.y < b.y;\n        return a.idx < b.idx;\n    });\n\n    Dist best =\
+    \ -1;\n    pair<int, int> ans = {-1, -1};\n    auto update = [&](const P &a, const\
+    \ P &b) {\n        Dist dx = Dist(a.x) - Dist(b.x);\n        Dist dy = Dist(a.y)\
+    \ - Dist(b.y);\n        Dist d = dx * dx + dy * dy;\n        pair<int, int> cand\
+    \ = {a.idx, b.idx};\n        if (best == -1 || d < best) {\n            best =\
+    \ d;\n            ans = cand;\n        }\n    };\n    update(ps[0], ps[1]);\n\n\
+    \    vector<int> ord(n), scratch(n);\n    auto dfs = [&](auto &&self, int l, int\
+    \ r) -> void {\n        if (r - l == 1) {\n            ord[l] = l;\n         \
+    \   return;\n        }\n        int m = (l + r) >> 1;\n        long long mx =\
+    \ ps[m].x;\n        self(self, l, m);\n        self(self, m, r);\n        int\
+    \ i = l, j = m;\n        for (int k = l; k < r; ++k) {\n            if (j == r\
+    \ || (i < m && ps[ord[i]].y < ps[ord[j]].y)) {\n                scratch[k] = ord[i++];\n\
+    \            } else {\n                scratch[k] = ord[j++];\n            }\n\
+    \        }\n        copy(scratch.begin() + l, scratch.begin() + r, ord.begin()\
+    \ + l);\n        int count = 0;\n        for (int k = l; k < r; ++k) {\n     \
+    \       int idx = ord[k];\n            Dist dx = Dist(ps[idx].x) - Dist(mx);\n\
+    \            if (dx * dx > best) continue;\n            for (int t = count - 1;\
+    \ t >= 0; --t) {\n                int idy = scratch[l + t];\n                Dist\
+    \ dy = Dist(ps[idx].y) - Dist(ps[idy].y);\n                if (best == 0 || dy\
+    \ * dy > best) break;\n                update(ps[idx], ps[idy]);\n           \
+    \ }\n            scratch[l + count++] = idx;\n        }\n    };\n    dfs(dfs,\
+    \ 0, n);\n    return ans;\n}\n\n/**\n * @brief Closest Pair\n */\n#line 15 \"\
+    test/yosupo_aplusb_closest_pair.test.cpp\"\n\nvoid check(const vector<IntPoint>\
+    \ &points) {\n    auto input = points;\n    auto [a, b] = closest_pair(input);\n\
     \    assert(input == points);\n    int n = points.size();\n    assert(0 <= a &&\
     \ a < n && 0 <= b && b < n && a != b);\n    auto distance = [&](int i, int j)\
-    \ {\n        __int128_t dx = (__int128_t)points[i].first - points[j].first;\n\
-    \        __int128_t dy = (__int128_t)points[i].second - points[j].second;\n  \
-    \      return dx * dx + dy * dy;\n    };\n    auto best = distance(0, 1);\n  \
-    \  for (int i = 0; i < n; ++i) for (int j = 0; j < i; ++j) best = min(best, distance(i,\
-    \ j));\n    assert(distance(a, b) == best);\n}\n\nvoid self_check() {\n    check({{0,\
-    \ 0}, {0, 0}});\n    check({{0, 0}, {1, 0}, {0, 1}, {1, 1}});\n    check({{-4000000000000000000LL,\
-    \ -4000000000000000000LL},\n           {4000000000000000000LL, 4000000000000000000LL}});\n\
-    \    for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {\n        check(vector<pair<long\
-    \ long, long long>>(n, {-1, -1}));\n        for (int shape = 0; shape < 3; ++shape)\
-    \ {\n            vector<pair<long long, long long>> points;\n            for (int\
-    \ i = 0; i < n; ++i) {\n                long long t = i - n / 2;\n           \
-    \     points.emplace_back(shape == 0 ? 0 : t, shape == 1 ? 0 : 2 * t);\n     \
-    \       }\n            check(points);\n            reverse(points.begin(), points.end());\n\
-    \            check(points);\n        }\n    }\n    mt19937_64 random(53);\n  \
-    \  for (int tc = 0; tc < 4000; ++tc) {\n        int n = 2 + random() % 63;\n \
-    \       vector<pair<long long, long long>> points(n);\n        long long bound\
-    \ = tc % 2 ? 1000000000 : 5;\n        for (auto &[x, y] : points) {\n        \
-    \    x = (long long)(random() % (2 * bound + 1)) - bound;\n            y = (long\
-    \ long)(random() % (2 * bound + 1)) - bound;\n        }\n        if (tc % 3 ==\
-    \ 0) points.back() = points.front();\n        check(points);\n    }\n}\n\nint\
-    \ main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
-    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \ {\n        __int128_t dx = (__int128_t)points[i].x - points[j].x;\n        __int128_t\
+    \ dy = (__int128_t)points[i].y - points[j].y;\n        return dx * dx + dy * dy;\n\
+    \    };\n    auto best = distance(0, 1);\n    for (int i = 0; i < n; ++i) for\
+    \ (int j = 0; j < i; ++j) best = min(best, distance(i, j));\n    assert(distance(a,\
+    \ b) == best);\n}\n\nvoid self_check() {\n    check({{0, 0}, {0, 0}});\n    check({{0,\
+    \ 0}, {1, 0}, {0, 1}, {1, 1}});\n    check({{-4000000000000000000LL, -4000000000000000000LL},\n\
+    \           {4000000000000000000LL, 4000000000000000000LL}});\n    for (int n\
+    \ : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {\n        check(vector<IntPoint>(n, {-1,\
+    \ -1}));\n        for (int shape = 0; shape < 3; ++shape) {\n            vector<IntPoint>\
+    \ points;\n            for (int i = 0; i < n; ++i) {\n                long long\
+    \ t = i - n / 2;\n                points.emplace_back(shape == 0 ? 0 : t, shape\
+    \ == 1 ? 0 : 2 * t);\n            }\n            check(points);\n            reverse(points.begin(),\
+    \ points.end());\n            check(points);\n        }\n    }\n    mt19937_64\
+    \ random(53);\n    for (int tc = 0; tc < 4000; ++tc) {\n        int n = 2 + random()\
+    \ % 63;\n        vector<IntPoint> points(n);\n        long long bound = tc % 2\
+    \ ? 1000000000 : 5;\n        for (auto &[x, y] : points) {\n            x = (long\
+    \ long)(random() % (2 * bound + 1)) - bound;\n            y = (long long)(random()\
+    \ % (2 * bound + 1)) - bound;\n        }\n        if (tc % 3 == 0) points.back()\
+    \ = points.front();\n        check(points);\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     \nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../geometry/closest_pair.cpp\"\n\nvoid check(const vector<pair<long\
-    \ long, long long>> &points) {\n    auto input = points;\n    auto [a, b] = closest_pair(input);\n\
+    \n#include \"../geometry/closest_pair.cpp\"\n\nvoid check(const vector<IntPoint>\
+    \ &points) {\n    auto input = points;\n    auto [a, b] = closest_pair(input);\n\
     \    assert(input == points);\n    int n = points.size();\n    assert(0 <= a &&\
     \ a < n && 0 <= b && b < n && a != b);\n    auto distance = [&](int i, int j)\
-    \ {\n        __int128_t dx = (__int128_t)points[i].first - points[j].first;\n\
-    \        __int128_t dy = (__int128_t)points[i].second - points[j].second;\n  \
-    \      return dx * dx + dy * dy;\n    };\n    auto best = distance(0, 1);\n  \
-    \  for (int i = 0; i < n; ++i) for (int j = 0; j < i; ++j) best = min(best, distance(i,\
-    \ j));\n    assert(distance(a, b) == best);\n}\n\nvoid self_check() {\n    check({{0,\
-    \ 0}, {0, 0}});\n    check({{0, 0}, {1, 0}, {0, 1}, {1, 1}});\n    check({{-4000000000000000000LL,\
-    \ -4000000000000000000LL},\n           {4000000000000000000LL, 4000000000000000000LL}});\n\
-    \    for (int n : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {\n        check(vector<pair<long\
-    \ long, long long>>(n, {-1, -1}));\n        for (int shape = 0; shape < 3; ++shape)\
-    \ {\n            vector<pair<long long, long long>> points;\n            for (int\
-    \ i = 0; i < n; ++i) {\n                long long t = i - n / 2;\n           \
-    \     points.emplace_back(shape == 0 ? 0 : t, shape == 1 ? 0 : 2 * t);\n     \
-    \       }\n            check(points);\n            reverse(points.begin(), points.end());\n\
-    \            check(points);\n        }\n    }\n    mt19937_64 random(53);\n  \
-    \  for (int tc = 0; tc < 4000; ++tc) {\n        int n = 2 + random() % 63;\n \
-    \       vector<pair<long long, long long>> points(n);\n        long long bound\
-    \ = tc % 2 ? 1000000000 : 5;\n        for (auto &[x, y] : points) {\n        \
-    \    x = (long long)(random() % (2 * bound + 1)) - bound;\n            y = (long\
-    \ long)(random() % (2 * bound + 1)) - bound;\n        }\n        if (tc % 3 ==\
-    \ 0) points.back() = points.front();\n        check(points);\n    }\n}\n\nint\
-    \ main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
-    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \ {\n        __int128_t dx = (__int128_t)points[i].x - points[j].x;\n        __int128_t\
+    \ dy = (__int128_t)points[i].y - points[j].y;\n        return dx * dx + dy * dy;\n\
+    \    };\n    auto best = distance(0, 1);\n    for (int i = 0; i < n; ++i) for\
+    \ (int j = 0; j < i; ++j) best = min(best, distance(i, j));\n    assert(distance(a,\
+    \ b) == best);\n}\n\nvoid self_check() {\n    check({{0, 0}, {0, 0}});\n    check({{0,\
+    \ 0}, {1, 0}, {0, 1}, {1, 1}});\n    check({{-4000000000000000000LL, -4000000000000000000LL},\n\
+    \           {4000000000000000000LL, 4000000000000000000LL}});\n    for (int n\
+    \ : {2, 3, 7, 8, 9, 31, 32, 33, 64}) {\n        check(vector<IntPoint>(n, {-1,\
+    \ -1}));\n        for (int shape = 0; shape < 3; ++shape) {\n            vector<IntPoint>\
+    \ points;\n            for (int i = 0; i < n; ++i) {\n                long long\
+    \ t = i - n / 2;\n                points.emplace_back(shape == 0 ? 0 : t, shape\
+    \ == 1 ? 0 : 2 * t);\n            }\n            check(points);\n            reverse(points.begin(),\
+    \ points.end());\n            check(points);\n        }\n    }\n    mt19937_64\
+    \ random(53);\n    for (int tc = 0; tc < 4000; ++tc) {\n        int n = 2 + random()\
+    \ % 63;\n        vector<IntPoint> points(n);\n        long long bound = tc % 2\
+    \ ? 1000000000 : 5;\n        for (auto &[x, y] : points) {\n            x = (long\
+    \ long)(random() % (2 * bound + 1)) - bound;\n            y = (long long)(random()\
+    \ % (2 * bound + 1)) - bound;\n        }\n        if (tc % 3 == 0) points.back()\
+    \ = points.front();\n        check(points);\n    }\n}\n\nint main() {\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - geometry/closest_pair.cpp
+  - geometry/int_point.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_closest_pair.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 19:16:24+09:00'
+  timestamp: '2026-10-16 00:52:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_closest_pair.test.cpp

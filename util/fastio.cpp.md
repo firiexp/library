@@ -314,6 +314,9 @@ data:
     path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_minkowski_sum.test.cpp
+    title: test/yosupo_aplusb_minkowski_sum.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_mo.test.cpp
     title: test/yosupo_aplusb_mo.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1638,6 +1641,7 @@ data:
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_aplusb_geometry_boundaries.test.cpp
   - test/yosupo_aplusb_maxflow_lower_bound.test.cpp
+  - test/yosupo_aplusb_minkowski_sum.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_point_add_range_sum.test.cpp
   - test/yosupo_aplusb_persistent_unionfind.test.cpp

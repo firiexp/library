@@ -221,6 +221,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: geometry/half_plane_intersection.cpp
       title: "\u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)"
+    - icon: ':heavy_check_mark:'
+      path: geometry/int_point.cpp
+      title: "\u6574\u6570\u5EA7\u6A19\u70B9"
+    - icon: ':heavy_check_mark:'
+      path: geometry/minkowski_sum.cpp
+      title: "\u6574\u6570\u51F8\u591A\u89D2\u5F62\u306E\u30DF\u30F3\u30B3\u30D5\u30B9\
+        \u30AD\u30FC\u548C"
   - name: graph
     pages:
     - icon: ':heavy_check_mark:'
@@ -1080,6 +1087,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
       title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_minkowski_sum.test.cpp
+      title: test/yosupo_aplusb_minkowski_sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_mo.test.cpp
       title: test/yosupo_aplusb_mo.test.cpp
