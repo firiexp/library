@@ -36,12 +36,7 @@ vector<T> min_plus_convolution_arbitrary_convex(const vector<T> &a, const vector
 
 template<class T>
 vector<T> min_plus_convolution_convex_arbitrary(const vector<T> &a, const vector<T> &b) {
-    if (a.empty() || b.empty()) return {};
-    vector<T> ra(a.rbegin(), a.rend());
-    vector<T> rb(b.rbegin(), b.rend());
-    auto res = min_plus_convolution_arbitrary_convex(rb, ra);
-    reverse(res.begin(), res.end());
-    return res;
+    return min_plus_convolution_arbitrary_convex(b, a);
 }
 
 template<class T>
