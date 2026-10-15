@@ -2,40 +2,35 @@ pair<int, vector<int>> tree_center(const vector<vector<int>> &G) {
     int n = G.size();
     if (n == 0) return {0, {}};
 
-    auto bfs = [&](int s, vector<int> &par) {
-        vector<int> dist(n, -1);
-        queue<int> q;
+    vector<int> dist(n), par(n), q(n);
+    auto bfs = [&](int s, bool record_parent) {
+        fill(dist.begin(), dist.end(), -1);
         dist[s] = 0;
-        par.assign(n, -1);
-        q.push(s);
+        if (record_parent) par[s] = -1;
+        int head = 0, tail = 0;
+        q[tail++] = s;
         int far = s;
-        while (!q.empty()) {
-            int v = q.front();
-            q.pop();
+        while (head < tail) {
+            int v = q[head++];
             if (dist[far] < dist[v]) far = v;
             for (auto &&to : G[v]) {
                 if (dist[to] != -1) continue;
                 dist[to] = dist[v] + 1;
-                par[to] = v;
-                q.push(to);
+                if (record_parent) par[to] = v;
+                q[tail++] = to;
             }
         }
-        return pair<int, vector<int>>(far, dist);
+        return far;
     };
 
-    vector<int> par;
-    int s = bfs(0, par).first;
-    auto [t, dist] = bfs(s, par);
-
-    vector<int> path;
-    for (int v = t; v != -1; v = par[v]) path.push_back(v);
-    reverse(path.begin(), path.end());
+    int s = bfs(0, false);
+    int t = bfs(s, true);
 
     int diam = dist[t];
-    vector<int> centers;
-    centers.push_back(path[diam / 2]);
-    if (diam & 1) centers.push_back(path[diam / 2 + 1]);
-    return {(diam + 1) / 2, centers};
+    int v = t;
+    for (int i = 0; i < diam / 2; ++i) v = par[v];
+    if (diam & 1) return {(diam + 1) / 2, vector<int>{par[v], v}};
+    return {diam / 2, vector<int>{v}};
 }
 
 /**
