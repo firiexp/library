@@ -673,7 +673,8 @@ data:
     \ add_query(int l, int d, int r, int u) {\n        int id = (int)events.size()\
     \ / 2;\n        events.push_back({r, d, u, id, 1});\n        events.push_back({l,\
     \ d, u, id, -1});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\
-    \n    vector<T> solve() const {\n        vector<int> ord_y = ys;\n        sort(ord_y.begin(),\
+    \n    vector<T> solve() const {\n        vector<int> ord_y;\n        ord_y.reserve(points.size());\n\
+    \        for (const auto& p : points) ord_y.push_back(p.y);\n        sort(ord_y.begin(),\
     \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
     \n        auto get_y = [&](int y) {\n            return (int)(lower_bound(ord_y.begin(),\
     \ ord_y.end(), y) - ord_y.begin());\n        };\n\n        vector<Point> ps =\
@@ -1533,7 +1534,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-14 20:32:46+09:00'
+  timestamp: '2026-10-15 21:17:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

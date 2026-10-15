@@ -479,6 +479,9 @@ data:
     path: test/yosupo_aplusb_top_kth.test.cpp
     title: test/yosupo_aplusb_top_kth.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_tree_center.test.cpp
+    title: test/yosupo_aplusb_tree_center.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_tree_diameter_weighted.test.cpp
     title: test/yosupo_aplusb_tree_diameter_weighted.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1498,6 +1501,7 @@ data:
   - test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
   - test/yosupo_aplusb_closest_pair.test.cpp
   - test/yosupo_aplusb_offline_time_intervals.test.cpp
+  - test/yosupo_aplusb_tree_center.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_aplusb_noncommutative_tree.test.cpp
   - test/yosupo_aplusb_string_bytes.test.cpp

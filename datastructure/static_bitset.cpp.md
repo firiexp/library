@@ -19,11 +19,41 @@ data:
   bundledCode: "#line 1 \"datastructure/static_bitset.cpp\"\n#if defined(__x86_64__)\
     \ || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\nusing namespace std;\n\
     \nnamespace static_bitset_detail {\nusing Word = unsigned long long;\nconstexpr\
-    \ int avx2_threshold_words = 8;\n\n#if defined(__x86_64__) || defined(_M_X64)\n\
-    __attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word *dst, const\
-    \ Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i += 4) {\n    \
-    \    __m256i x = _mm256_loadu_si256((const __m256i *)(dst + i));\n        __m256i\
-    \ y = _mm256_loadu_si256((const __m256i *)(src + i));\n        _mm256_storeu_si256((__m256i\
+    \ int avx2_threshold_words = 8;\nconstexpr int count_threshold_words = 128;\n\n\
+    #if defined(__x86_64__) || defined(_M_X64)\n__attribute__((target(\"avx2,popcnt\"\
+    ))) inline int count_avx2(const Word *src, int m) {\n    const __m256i lookup\
+    \ = _mm256_setr_epi8(\n        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,\n\
+    \        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);\n    const __m256i mask\
+    \ = _mm256_set1_epi8(15);\n    const __m256i zero = _mm256_setzero_si256();\n\
+    \    __m256i sum = zero;\n    int i = 0;\n    for (; i + 4 <= m; i += 4) {\n \
+    \       __m256i x = _mm256_loadu_si256((const __m256i *)(src + i));\n        __m256i\
+    \ lo = _mm256_and_si256(x, mask);\n        __m256i hi = _mm256_and_si256(_mm256_srli_epi16(x,\
+    \ 4), mask);\n        __m256i counts = _mm256_add_epi8(_mm256_shuffle_epi8(lookup,\
+    \ lo), _mm256_shuffle_epi8(lookup, hi));\n        sum = _mm256_add_epi64(sum,\
+    \ _mm256_sad_epu8(counts, zero));\n    }\n    alignas(32) Word lanes[4];\n   \
+    \ _mm256_storeu_si256((__m256i *)lanes, sum);\n    int result = lanes[0] + lanes[1]\
+    \ + lanes[2] + lanes[3];\n    for (; i < m; ++i) result += __builtin_popcountll(src[i]);\n\
+    \    return result;\n}\n\n__attribute__((target(\"avx2,popcnt,avx512f,avx512vpopcntdq\"\
+    ))) inline int count_avx512(const Word *src, int m) {\n    __m512i sum0 = _mm512_setzero_si512(),\
+    \ sum1 = sum0, sum2 = sum0, sum3 = sum0;\n    int i = 0;\n    for (; i + 32 <=\
+    \ m; i += 32) {\n        sum0 = _mm512_add_epi64(sum0, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i)));\n        sum1 = _mm512_add_epi64(sum1, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 8)));\n        sum2 = _mm512_add_epi64(sum2, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 16)));\n        sum3 = _mm512_add_epi64(sum3, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 24)));\n    }\n    __m512i sum = _mm512_add_epi64(_mm512_add_epi64(sum0,\
+    \ sum1), _mm512_add_epi64(sum2, sum3));\n    for (; i + 8 <= m; i += 8) {\n  \
+    \      __m512i x = _mm512_loadu_si512(src + i);\n        sum = _mm512_add_epi64(sum,\
+    \ _mm512_popcnt_epi64(x));\n    }\n    alignas(64) Word lanes[8];\n    _mm512_storeu_si512(lanes,\
+    \ sum);\n    int result = 0;\n    for (Word lane : lanes) result += lane;\n  \
+    \  for (; i < m; ++i) result += __builtin_popcountll(src[i]);\n    return result;\n\
+    }\n\ninline int count_backend() {\n    static const int backend = [] {\n     \
+    \   if (!__builtin_cpu_supports(\"avx2\") || !__builtin_cpu_supports(\"popcnt\"\
+    )) return 0;\n        if (__builtin_cpu_supports(\"avx512f\") && __builtin_cpu_supports(\"\
+    avx512vpopcntdq\")) return 2;\n        return 1;\n    }();\n    return backend;\n\
+    }\n\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word *dst,\
+    \ const Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i += 4) {\n\
+    \        __m256i x = _mm256_loadu_si256((const __m256i *)(dst + i));\n       \
+    \ __m256i y = _mm256_loadu_si256((const __m256i *)(src + i));\n        _mm256_storeu_si256((__m256i\
     \ *)(dst + i), _mm256_and_si256(x, y));\n    }\n    for (; i < m; ++i) dst[i]\
     \ &= src[i];\n}\n\n__attribute__((target(\"avx2\"))) inline void or_assign_avx2(Word\
     \ *dst, const Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i +=\
@@ -79,28 +109,33 @@ data:
     \         }\n        }\n#endif\n        for (int i = 0; i + 1 < M; ++i) {\n  \
     \          if (p[i] != ~0ULL) return false;\n        }\n        return p[M - 1]\
     \ == tail_mask();\n    }\n    int count() const {\n        const Word *p = a;\n\
-    \        int res = 0;\n        int i = 0;\n        for (; i + 4 <= M; i += 4)\
-    \ {\n            res += popcount(p[i + 0]) + popcount(p[i + 1]) + popcount(p[i\
-    \ + 2]) + popcount(p[i + 3]);\n        }\n        for (; i < M; ++i) res += popcount(p[i]);\n\
-    \        return res;\n    }\n\n    int find_first() const {\n        const Word\
-    \ *p = a;\n        for (int i = 0; i < M; ++i) {\n            if (p[i]) return\
-    \ (i << 6) + ctz(p[i]);\n        }\n        return -1;\n    }\n    int find_last()\
-    \ const {\n        const Word *p = a;\n        for (int i = M - 1; i >= 0; --i)\
-    \ {\n            if (p[i]) return (i << 6) + (B - 1 - clz(p[i]));\n        }\n\
-    \        return -1;\n    }\n    int find_next(int k) const {\n        ++k;\n \
-    \       if (k >= N) return -1;\n        const Word *p = a;\n        int i = k\
-    \ >> 6;\n        Word x = p[i] & (~0ULL << (k & 63));\n        if (x) return (i\
-    \ << 6) + ctz(x);\n        for (++i; i < M; ++i) {\n            if (p[i]) return\
-    \ (i << 6) + ctz(p[i]);\n        }\n        return -1;\n    }\n    int find_prev(int\
-    \ k) const {\n        --k;\n        if (k < 0) return -1;\n        const Word\
-    \ *p = a;\n        int i = k >> 6;\n        int rem = k & 63;\n        Word mask\
-    \ = rem == B - 1 ? ~0ULL : ((1ULL << (rem + 1)) - 1);\n        Word x = p[i] &\
-    \ mask;\n        if (x) return (i << 6) + (B - 1 - clz(x));\n        for (--i;\
-    \ i >= 0; --i) {\n            if (p[i]) return (i << 6) + (B - 1 - clz(p[i]));\n\
-    \        }\n        return -1;\n    }\n\n    StaticBitset &operator&=(const StaticBitset\
-    \ &r) {\n        Word *p = a;\n        const Word *q = r.a;\n#if defined(__x86_64__)\
-    \ || defined(_M_X64)\n        if constexpr (M >= static_bitset_detail::avx2_threshold_words)\
-    \ {\n            if (static_bitset_detail::has_avx2()) {\n                static_bitset_detail::and_assign_avx2(p,\
+    #if defined(__x86_64__) || defined(_M_X64)\n        if constexpr (M >= static_bitset_detail::count_threshold_words)\
+    \ {\n            int backend = static_bitset_detail::count_backend();\n      \
+    \      if (backend == 2) return static_bitset_detail::count_avx512(p, M);\n  \
+    \          if (backend == 1) return static_bitset_detail::count_avx2(p, M);\n\
+    \        }\n#endif\n        int res = 0;\n        int i = 0;\n        for (; i\
+    \ + 4 <= M; i += 4) {\n            res += popcount(p[i + 0]) + popcount(p[i +\
+    \ 1]) + popcount(p[i + 2]) + popcount(p[i + 3]);\n        }\n        for (; i\
+    \ < M; ++i) res += popcount(p[i]);\n        return res;\n    }\n\n    int find_first()\
+    \ const {\n        const Word *p = a;\n        for (int i = 0; i < M; ++i) {\n\
+    \            if (p[i]) return (i << 6) + ctz(p[i]);\n        }\n        return\
+    \ -1;\n    }\n    int find_last() const {\n        const Word *p = a;\n      \
+    \  for (int i = M - 1; i >= 0; --i) {\n            if (p[i]) return (i << 6) +\
+    \ (B - 1 - clz(p[i]));\n        }\n        return -1;\n    }\n    int find_next(int\
+    \ k) const {\n        ++k;\n        if (k >= N) return -1;\n        const Word\
+    \ *p = a;\n        int i = k >> 6;\n        Word x = p[i] & (~0ULL << (k & 63));\n\
+    \        if (x) return (i << 6) + ctz(x);\n        for (++i; i < M; ++i) {\n \
+    \           if (p[i]) return (i << 6) + ctz(p[i]);\n        }\n        return\
+    \ -1;\n    }\n    int find_prev(int k) const {\n        --k;\n        if (k <\
+    \ 0) return -1;\n        const Word *p = a;\n        int i = k >> 6;\n       \
+    \ int rem = k & 63;\n        Word mask = rem == B - 1 ? ~0ULL : ((1ULL << (rem\
+    \ + 1)) - 1);\n        Word x = p[i] & mask;\n        if (x) return (i << 6) +\
+    \ (B - 1 - clz(x));\n        for (--i; i >= 0; --i) {\n            if (p[i]) return\
+    \ (i << 6) + (B - 1 - clz(p[i]));\n        }\n        return -1;\n    }\n\n  \
+    \  StaticBitset &operator&=(const StaticBitset &r) {\n        Word *p = a;\n \
+    \       const Word *q = r.a;\n#if defined(__x86_64__) || defined(_M_X64)\n   \
+    \     if constexpr (M >= static_bitset_detail::avx2_threshold_words) {\n     \
+    \       if (static_bitset_detail::has_avx2()) {\n                static_bitset_detail::and_assign_avx2(p,\
     \ q, M);\n                return *this;\n            }\n        }\n#endif\n  \
     \      for (int i = 0; i < M; ++i) p[i] &= q[i];\n        return *this;\n    }\n\
     \    StaticBitset &operator|=(const StaticBitset &r) {\n        Word *p = a;\n\
@@ -148,20 +183,50 @@ data:
     \ Bitset)\n */\n"
   code: "#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace static_bitset_detail {\nusing Word = unsigned\
-    \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
-    \ || defined(_M_X64)\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word\
+    \ long long;\nconstexpr int avx2_threshold_words = 8;\nconstexpr int count_threshold_words\
+    \ = 128;\n\n#if defined(__x86_64__) || defined(_M_X64)\n__attribute__((target(\"\
+    avx2,popcnt\"))) inline int count_avx2(const Word *src, int m) {\n    const __m256i\
+    \ lookup = _mm256_setr_epi8(\n        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3,\
+    \ 3, 4,\n        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);\n    const __m256i\
+    \ mask = _mm256_set1_epi8(15);\n    const __m256i zero = _mm256_setzero_si256();\n\
+    \    __m256i sum = zero;\n    int i = 0;\n    for (; i + 4 <= m; i += 4) {\n \
+    \       __m256i x = _mm256_loadu_si256((const __m256i *)(src + i));\n        __m256i\
+    \ lo = _mm256_and_si256(x, mask);\n        __m256i hi = _mm256_and_si256(_mm256_srli_epi16(x,\
+    \ 4), mask);\n        __m256i counts = _mm256_add_epi8(_mm256_shuffle_epi8(lookup,\
+    \ lo), _mm256_shuffle_epi8(lookup, hi));\n        sum = _mm256_add_epi64(sum,\
+    \ _mm256_sad_epu8(counts, zero));\n    }\n    alignas(32) Word lanes[4];\n   \
+    \ _mm256_storeu_si256((__m256i *)lanes, sum);\n    int result = lanes[0] + lanes[1]\
+    \ + lanes[2] + lanes[3];\n    for (; i < m; ++i) result += __builtin_popcountll(src[i]);\n\
+    \    return result;\n}\n\n__attribute__((target(\"avx2,popcnt,avx512f,avx512vpopcntdq\"\
+    ))) inline int count_avx512(const Word *src, int m) {\n    __m512i sum0 = _mm512_setzero_si512(),\
+    \ sum1 = sum0, sum2 = sum0, sum3 = sum0;\n    int i = 0;\n    for (; i + 32 <=\
+    \ m; i += 32) {\n        sum0 = _mm512_add_epi64(sum0, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i)));\n        sum1 = _mm512_add_epi64(sum1, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 8)));\n        sum2 = _mm512_add_epi64(sum2, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 16)));\n        sum3 = _mm512_add_epi64(sum3, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 24)));\n    }\n    __m512i sum = _mm512_add_epi64(_mm512_add_epi64(sum0,\
+    \ sum1), _mm512_add_epi64(sum2, sum3));\n    for (; i + 8 <= m; i += 8) {\n  \
+    \      __m512i x = _mm512_loadu_si512(src + i);\n        sum = _mm512_add_epi64(sum,\
+    \ _mm512_popcnt_epi64(x));\n    }\n    alignas(64) Word lanes[8];\n    _mm512_storeu_si512(lanes,\
+    \ sum);\n    int result = 0;\n    for (Word lane : lanes) result += lane;\n  \
+    \  for (; i < m; ++i) result += __builtin_popcountll(src[i]);\n    return result;\n\
+    }\n\ninline int count_backend() {\n    static const int backend = [] {\n     \
+    \   if (!__builtin_cpu_supports(\"avx2\") || !__builtin_cpu_supports(\"popcnt\"\
+    )) return 0;\n        if (__builtin_cpu_supports(\"avx512f\") && __builtin_cpu_supports(\"\
+    avx512vpopcntdq\")) return 2;\n        return 1;\n    }();\n    return backend;\n\
+    }\n\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word *dst,\
+    \ const Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i += 4) {\n\
+    \        __m256i x = _mm256_loadu_si256((const __m256i *)(dst + i));\n       \
+    \ __m256i y = _mm256_loadu_si256((const __m256i *)(src + i));\n        _mm256_storeu_si256((__m256i\
+    \ *)(dst + i), _mm256_and_si256(x, y));\n    }\n    for (; i < m; ++i) dst[i]\
+    \ &= src[i];\n}\n\n__attribute__((target(\"avx2\"))) inline void or_assign_avx2(Word\
     \ *dst, const Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i +=\
     \ 4) {\n        __m256i x = _mm256_loadu_si256((const __m256i *)(dst + i));\n\
     \        __m256i y = _mm256_loadu_si256((const __m256i *)(src + i));\n       \
-    \ _mm256_storeu_si256((__m256i *)(dst + i), _mm256_and_si256(x, y));\n    }\n\
-    \    for (; i < m; ++i) dst[i] &= src[i];\n}\n\n__attribute__((target(\"avx2\"\
-    ))) inline void or_assign_avx2(Word *dst, const Word *src, int m) {\n    int i\
-    \ = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
-    \ __m256i *)(dst + i));\n        __m256i y = _mm256_loadu_si256((const __m256i\
-    \ *)(src + i));\n        _mm256_storeu_si256((__m256i *)(dst + i), _mm256_or_si256(x,\
-    \ y));\n    }\n    for (; i < m; ++i) dst[i] |= src[i];\n}\n\n__attribute__((target(\"\
-    avx2\"))) inline void xor_assign_avx2(Word *dst, const Word *src, int m) {\n \
-    \   int i = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
+    \ _mm256_storeu_si256((__m256i *)(dst + i), _mm256_or_si256(x, y));\n    }\n \
+    \   for (; i < m; ++i) dst[i] |= src[i];\n}\n\n__attribute__((target(\"avx2\"\
+    ))) inline void xor_assign_avx2(Word *dst, const Word *src, int m) {\n    int\
+    \ i = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
     \ __m256i *)(dst + i));\n        __m256i y = _mm256_loadu_si256((const __m256i\
     \ *)(src + i));\n        _mm256_storeu_si256((__m256i *)(dst + i), _mm256_xor_si256(x,\
     \ y));\n    }\n    for (; i < m; ++i) dst[i] ^= src[i];\n}\n\n__attribute__((target(\"\
@@ -208,28 +273,33 @@ data:
     \         }\n        }\n#endif\n        for (int i = 0; i + 1 < M; ++i) {\n  \
     \          if (p[i] != ~0ULL) return false;\n        }\n        return p[M - 1]\
     \ == tail_mask();\n    }\n    int count() const {\n        const Word *p = a;\n\
-    \        int res = 0;\n        int i = 0;\n        for (; i + 4 <= M; i += 4)\
-    \ {\n            res += popcount(p[i + 0]) + popcount(p[i + 1]) + popcount(p[i\
-    \ + 2]) + popcount(p[i + 3]);\n        }\n        for (; i < M; ++i) res += popcount(p[i]);\n\
-    \        return res;\n    }\n\n    int find_first() const {\n        const Word\
-    \ *p = a;\n        for (int i = 0; i < M; ++i) {\n            if (p[i]) return\
-    \ (i << 6) + ctz(p[i]);\n        }\n        return -1;\n    }\n    int find_last()\
-    \ const {\n        const Word *p = a;\n        for (int i = M - 1; i >= 0; --i)\
-    \ {\n            if (p[i]) return (i << 6) + (B - 1 - clz(p[i]));\n        }\n\
-    \        return -1;\n    }\n    int find_next(int k) const {\n        ++k;\n \
-    \       if (k >= N) return -1;\n        const Word *p = a;\n        int i = k\
-    \ >> 6;\n        Word x = p[i] & (~0ULL << (k & 63));\n        if (x) return (i\
-    \ << 6) + ctz(x);\n        for (++i; i < M; ++i) {\n            if (p[i]) return\
-    \ (i << 6) + ctz(p[i]);\n        }\n        return -1;\n    }\n    int find_prev(int\
-    \ k) const {\n        --k;\n        if (k < 0) return -1;\n        const Word\
-    \ *p = a;\n        int i = k >> 6;\n        int rem = k & 63;\n        Word mask\
-    \ = rem == B - 1 ? ~0ULL : ((1ULL << (rem + 1)) - 1);\n        Word x = p[i] &\
-    \ mask;\n        if (x) return (i << 6) + (B - 1 - clz(x));\n        for (--i;\
-    \ i >= 0; --i) {\n            if (p[i]) return (i << 6) + (B - 1 - clz(p[i]));\n\
-    \        }\n        return -1;\n    }\n\n    StaticBitset &operator&=(const StaticBitset\
-    \ &r) {\n        Word *p = a;\n        const Word *q = r.a;\n#if defined(__x86_64__)\
-    \ || defined(_M_X64)\n        if constexpr (M >= static_bitset_detail::avx2_threshold_words)\
-    \ {\n            if (static_bitset_detail::has_avx2()) {\n                static_bitset_detail::and_assign_avx2(p,\
+    #if defined(__x86_64__) || defined(_M_X64)\n        if constexpr (M >= static_bitset_detail::count_threshold_words)\
+    \ {\n            int backend = static_bitset_detail::count_backend();\n      \
+    \      if (backend == 2) return static_bitset_detail::count_avx512(p, M);\n  \
+    \          if (backend == 1) return static_bitset_detail::count_avx2(p, M);\n\
+    \        }\n#endif\n        int res = 0;\n        int i = 0;\n        for (; i\
+    \ + 4 <= M; i += 4) {\n            res += popcount(p[i + 0]) + popcount(p[i +\
+    \ 1]) + popcount(p[i + 2]) + popcount(p[i + 3]);\n        }\n        for (; i\
+    \ < M; ++i) res += popcount(p[i]);\n        return res;\n    }\n\n    int find_first()\
+    \ const {\n        const Word *p = a;\n        for (int i = 0; i < M; ++i) {\n\
+    \            if (p[i]) return (i << 6) + ctz(p[i]);\n        }\n        return\
+    \ -1;\n    }\n    int find_last() const {\n        const Word *p = a;\n      \
+    \  for (int i = M - 1; i >= 0; --i) {\n            if (p[i]) return (i << 6) +\
+    \ (B - 1 - clz(p[i]));\n        }\n        return -1;\n    }\n    int find_next(int\
+    \ k) const {\n        ++k;\n        if (k >= N) return -1;\n        const Word\
+    \ *p = a;\n        int i = k >> 6;\n        Word x = p[i] & (~0ULL << (k & 63));\n\
+    \        if (x) return (i << 6) + ctz(x);\n        for (++i; i < M; ++i) {\n \
+    \           if (p[i]) return (i << 6) + ctz(p[i]);\n        }\n        return\
+    \ -1;\n    }\n    int find_prev(int k) const {\n        --k;\n        if (k <\
+    \ 0) return -1;\n        const Word *p = a;\n        int i = k >> 6;\n       \
+    \ int rem = k & 63;\n        Word mask = rem == B - 1 ? ~0ULL : ((1ULL << (rem\
+    \ + 1)) - 1);\n        Word x = p[i] & mask;\n        if (x) return (i << 6) +\
+    \ (B - 1 - clz(x));\n        for (--i; i >= 0; --i) {\n            if (p[i]) return\
+    \ (i << 6) + (B - 1 - clz(p[i]));\n        }\n        return -1;\n    }\n\n  \
+    \  StaticBitset &operator&=(const StaticBitset &r) {\n        Word *p = a;\n \
+    \       const Word *q = r.a;\n#if defined(__x86_64__) || defined(_M_X64)\n   \
+    \     if constexpr (M >= static_bitset_detail::avx2_threshold_words) {\n     \
+    \       if (static_bitset_detail::has_avx2()) {\n                static_bitset_detail::and_assign_avx2(p,\
     \ q, M);\n                return *this;\n            }\n        }\n#endif\n  \
     \      for (int i = 0; i < M; ++i) p[i] &= q[i];\n        return *this;\n    }\n\
     \    StaticBitset &operator|=(const StaticBitset &r) {\n        Word *p = a;\n\
@@ -279,7 +349,7 @@ data:
   isVerificationFile: false
   path: datastructure/static_bitset.cpp
   requiredBy: []
-  timestamp: '2026-03-22 13:44:11+09:00'
+  timestamp: '2026-10-15 21:20:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0275_static_bitset.test.cpp

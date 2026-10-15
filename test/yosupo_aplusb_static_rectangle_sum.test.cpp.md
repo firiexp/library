@@ -253,7 +253,8 @@ data:
     \ add_query(int l, int d, int r, int u) {\n        int id = (int)events.size()\
     \ / 2;\n        events.push_back({r, d, u, id, 1});\n        events.push_back({l,\
     \ d, u, id, -1});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\
-    \n    vector<T> solve() const {\n        vector<int> ord_y = ys;\n        sort(ord_y.begin(),\
+    \n    vector<T> solve() const {\n        vector<int> ord_y;\n        ord_y.reserve(points.size());\n\
+    \        for (const auto& p : points) ord_y.push_back(p.y);\n        sort(ord_y.begin(),\
     \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
     \n        auto get_y = [&](int y) {\n            return (int)(lower_bound(ord_y.begin(),\
     \ ord_y.end(), y) - ord_y.begin());\n        };\n\n        vector<Point> ps =\
@@ -281,7 +282,13 @@ data:
     \ a.y, a.w) == tie(b.x, b.y, b.w));\n        }\n        for (int i = 0; i < (int)events.size();\
     \ ++i) {\n            auto a = solver.events[i], b = events[i];\n            assert(tie(a.x,\
     \ a.d, a.u, a.id, a.sign) == tie(b.x, b.d, b.u, b.id, b.sign));\n        }\n \
-    \   }\n}\n\nint main() {\n    StaticRectangleSum<long long> regression;\n    regression.add_point(10,\
+    \   }\n}\n\nint main() {\n    StaticRectangleSum<long long> boundaries;\n    const\
+    \ vector<int> bounds = {INT_MIN, 9, 10, 11, 29, 30, 31, INT_MAX};\n    for (int\
+    \ d : bounds) for (int u : bounds) if (d <= u) boundaries.add_query(0, d, 3, u);\n\
+    \    check(boundaries);\n    boundaries.add_point(1, 10, 7);\n    boundaries.add_point(1,\
+    \ 10, -2);\n    boundaries.add_point(2, 30, -3);\n    check(boundaries);\n   \
+    \ boundaries.add_point(0, 11, 4);\n    boundaries.add_query(1, 10, 2, 11);\n \
+    \   check(boundaries);\n\n    StaticRectangleSum<long long> regression;\n    regression.add_point(10,\
     \ 100, 7);\n    regression.add_query(0, 50, 20, 150);\n    assert(regression.solve()\
     \ == vector<long long>{7});\n    assert(regression.solve() == vector<long long>{7});\n\
     \    check(regression);\n\n    mt19937 rng(96);\n    const vector<int> coords\
@@ -313,7 +320,13 @@ data:
     \ a.y, a.w) == tie(b.x, b.y, b.w));\n        }\n        for (int i = 0; i < (int)events.size();\
     \ ++i) {\n            auto a = solver.events[i], b = events[i];\n            assert(tie(a.x,\
     \ a.d, a.u, a.id, a.sign) == tie(b.x, b.d, b.u, b.id, b.sign));\n        }\n \
-    \   }\n}\n\nint main() {\n    StaticRectangleSum<long long> regression;\n    regression.add_point(10,\
+    \   }\n}\n\nint main() {\n    StaticRectangleSum<long long> boundaries;\n    const\
+    \ vector<int> bounds = {INT_MIN, 9, 10, 11, 29, 30, 31, INT_MAX};\n    for (int\
+    \ d : bounds) for (int u : bounds) if (d <= u) boundaries.add_query(0, d, 3, u);\n\
+    \    check(boundaries);\n    boundaries.add_point(1, 10, 7);\n    boundaries.add_point(1,\
+    \ 10, -2);\n    boundaries.add_point(2, 30, -3);\n    check(boundaries);\n   \
+    \ boundaries.add_point(0, 11, 4);\n    boundaries.add_query(1, 10, 2, 11);\n \
+    \   check(boundaries);\n\n    StaticRectangleSum<long long> regression;\n    regression.add_point(10,\
     \ 100, 7);\n    regression.add_query(0, 50, 20, 150);\n    assert(regression.solve()\
     \ == vector<long long>{7});\n    assert(regression.solve() == vector<long long>{7});\n\
     \    check(regression);\n\n    mt19937 rng(96);\n    const vector<int> coords\
@@ -337,7 +350,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_static_rectangle_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 15:44:05+09:00'
+  timestamp: '2026-10-15 21:17:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_static_rectangle_sum.test.cpp

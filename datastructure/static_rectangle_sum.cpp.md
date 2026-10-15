@@ -46,21 +46,22 @@ data:
     \ int r, int u) {\n        int id = (int)events.size() / 2;\n        events.push_back({r,\
     \ d, u, id, 1});\n        events.push_back({l, d, u, id, -1});\n        ys.push_back(d);\n\
     \        ys.push_back(u);\n    }\n\n    vector<T> solve() const {\n        vector<int>\
-    \ ord_y = ys;\n        sort(ord_y.begin(), ord_y.end());\n        ord_y.erase(unique(ord_y.begin(),\
-    \ ord_y.end()), ord_y.end());\n\n        auto get_y = [&](int y) {\n         \
-    \   return (int)(lower_bound(ord_y.begin(), ord_y.end(), y) - ord_y.begin());\n\
-    \        };\n\n        vector<Point> ps = points;\n        vector<Event> es =\
-    \ events;\n        for (auto& p : ps) p.y = get_y(p.y);\n        for (auto& e\
-    \ : es) {\n            e.d = get_y(e.d);\n            e.u = get_y(e.u);\n    \
-    \    }\n\n        sort(ps.begin(), ps.end(), [](const Point& a, const Point& b)\
-    \ {\n            return a.x < b.x;\n        });\n        sort(es.begin(), es.end());\n\
-    \n        int q = (int)events.size() / 2;\n        vector<T> ans(q, 0);\n    \
-    \    BIT<T> bit((int)ord_y.size());\n        int i = 0;\n        for (auto e :\
-    \ es) {\n            while (i < (int)ps.size() && ps[i].x < e.x) {\n         \
-    \       bit.add(ps[i].y, ps[i].w);\n                ++i;\n            }\n    \
-    \        ans[e.id] += (bit.sum(e.u) - bit.sum(e.d)) * e.sign;\n        }\n   \
-    \     return ans;\n    }\n};\n\n/**\n * @brief \u9759\u7684\u9577\u65B9\u5F62\u548C\
-    (Static Rectangle Sum)\n */\n"
+    \ ord_y;\n        ord_y.reserve(points.size());\n        for (const auto& p :\
+    \ points) ord_y.push_back(p.y);\n        sort(ord_y.begin(), ord_y.end());\n \
+    \       ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\n    \
+    \    auto get_y = [&](int y) {\n            return (int)(lower_bound(ord_y.begin(),\
+    \ ord_y.end(), y) - ord_y.begin());\n        };\n\n        vector<Point> ps =\
+    \ points;\n        vector<Event> es = events;\n        for (auto& p : ps) p.y\
+    \ = get_y(p.y);\n        for (auto& e : es) {\n            e.d = get_y(e.d);\n\
+    \            e.u = get_y(e.u);\n        }\n\n        sort(ps.begin(), ps.end(),\
+    \ [](const Point& a, const Point& b) {\n            return a.x < b.x;\n      \
+    \  });\n        sort(es.begin(), es.end());\n\n        int q = (int)events.size()\
+    \ / 2;\n        vector<T> ans(q, 0);\n        BIT<T> bit((int)ord_y.size());\n\
+    \        int i = 0;\n        for (auto e : es) {\n            while (i < (int)ps.size()\
+    \ && ps[i].x < e.x) {\n                bit.add(ps[i].y, ps[i].w);\n          \
+    \      ++i;\n            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d))\
+    \ * e.sign;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9759\
+    \u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)\n */\n"
   code: "using namespace std;\n\n#include \"binaryindexedtree.cpp\"\n\ntemplate<class\
     \ T>\nstruct StaticRectangleSum {\n    struct Point {\n        int x, y;\n   \
     \     T w;\n    };\n\n    struct Event {\n        int x, d, u, id, sign;\n\n \
@@ -71,27 +72,28 @@ data:
     \ int r, int u) {\n        int id = (int)events.size() / 2;\n        events.push_back({r,\
     \ d, u, id, 1});\n        events.push_back({l, d, u, id, -1});\n        ys.push_back(d);\n\
     \        ys.push_back(u);\n    }\n\n    vector<T> solve() const {\n        vector<int>\
-    \ ord_y = ys;\n        sort(ord_y.begin(), ord_y.end());\n        ord_y.erase(unique(ord_y.begin(),\
-    \ ord_y.end()), ord_y.end());\n\n        auto get_y = [&](int y) {\n         \
-    \   return (int)(lower_bound(ord_y.begin(), ord_y.end(), y) - ord_y.begin());\n\
-    \        };\n\n        vector<Point> ps = points;\n        vector<Event> es =\
-    \ events;\n        for (auto& p : ps) p.y = get_y(p.y);\n        for (auto& e\
-    \ : es) {\n            e.d = get_y(e.d);\n            e.u = get_y(e.u);\n    \
-    \    }\n\n        sort(ps.begin(), ps.end(), [](const Point& a, const Point& b)\
-    \ {\n            return a.x < b.x;\n        });\n        sort(es.begin(), es.end());\n\
-    \n        int q = (int)events.size() / 2;\n        vector<T> ans(q, 0);\n    \
-    \    BIT<T> bit((int)ord_y.size());\n        int i = 0;\n        for (auto e :\
-    \ es) {\n            while (i < (int)ps.size() && ps[i].x < e.x) {\n         \
-    \       bit.add(ps[i].y, ps[i].w);\n                ++i;\n            }\n    \
-    \        ans[e.id] += (bit.sum(e.u) - bit.sum(e.d)) * e.sign;\n        }\n   \
-    \     return ans;\n    }\n};\n\n/**\n * @brief \u9759\u7684\u9577\u65B9\u5F62\u548C\
-    (Static Rectangle Sum)\n */\n"
+    \ ord_y;\n        ord_y.reserve(points.size());\n        for (const auto& p :\
+    \ points) ord_y.push_back(p.y);\n        sort(ord_y.begin(), ord_y.end());\n \
+    \       ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\n    \
+    \    auto get_y = [&](int y) {\n            return (int)(lower_bound(ord_y.begin(),\
+    \ ord_y.end(), y) - ord_y.begin());\n        };\n\n        vector<Point> ps =\
+    \ points;\n        vector<Event> es = events;\n        for (auto& p : ps) p.y\
+    \ = get_y(p.y);\n        for (auto& e : es) {\n            e.d = get_y(e.d);\n\
+    \            e.u = get_y(e.u);\n        }\n\n        sort(ps.begin(), ps.end(),\
+    \ [](const Point& a, const Point& b) {\n            return a.x < b.x;\n      \
+    \  });\n        sort(es.begin(), es.end());\n\n        int q = (int)events.size()\
+    \ / 2;\n        vector<T> ans(q, 0);\n        BIT<T> bit((int)ord_y.size());\n\
+    \        int i = 0;\n        for (auto e : es) {\n            while (i < (int)ps.size()\
+    \ && ps[i].x < e.x) {\n                bit.add(ps[i].y, ps[i].w);\n          \
+    \      ++i;\n            }\n            ans[e.id] += (bit.sum(e.u) - bit.sum(e.d))\
+    \ * e.sign;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u9759\
+    \u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)\n */\n"
   dependsOn:
   - datastructure/binaryindexedtree.cpp
   isVerificationFile: false
   path: datastructure/static_rectangle_sum.cpp
   requiredBy: []
-  timestamp: '2026-10-10 15:44:05+09:00'
+  timestamp: '2026-10-15 21:17:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
@@ -121,6 +123,7 @@ title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
 ## 使い方
 先に点とクエリを全部追加してから `solve()` を呼ぶ。
 `y` 座標は内部で座圧し、各クエリを `x < r` と `x < l` の差に分解して処理する。
+座圧と BIT には点の `y` 座標だけを使い、クエリ境界は `lower_bound` で位置を求める。
 
 ## 実装上の補足
 点数を $N$、クエリ数を $Q$ とすると、時間は $O((N+Q)\log(N+Q))$、作業領域は $O(N+Q)$。

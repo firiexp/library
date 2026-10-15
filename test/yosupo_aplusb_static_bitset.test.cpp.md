@@ -19,9 +19,9 @@ data:
     - https://judge.yosupo.jp/problem/aplusb
   bundledCode: "#line 1 \"test/yosupo_aplusb_static_bitset.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n#include\
-    \ <cassert>\n#include <random>\n#include <vector>\nusing namespace std;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ <cassert>\n#include <bitset>\n#include <random>\n#include <vector>\nusing namespace\
+    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
     \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
     \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
     struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
@@ -231,20 +231,50 @@ data:
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/static_bitset.cpp\"\
     \n#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace static_bitset_detail {\nusing Word = unsigned\
-    \ long long;\nconstexpr int avx2_threshold_words = 8;\n\n#if defined(__x86_64__)\
-    \ || defined(_M_X64)\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word\
+    \ long long;\nconstexpr int avx2_threshold_words = 8;\nconstexpr int count_threshold_words\
+    \ = 128;\n\n#if defined(__x86_64__) || defined(_M_X64)\n__attribute__((target(\"\
+    avx2,popcnt\"))) inline int count_avx2(const Word *src, int m) {\n    const __m256i\
+    \ lookup = _mm256_setr_epi8(\n        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3,\
+    \ 3, 4,\n        0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);\n    const __m256i\
+    \ mask = _mm256_set1_epi8(15);\n    const __m256i zero = _mm256_setzero_si256();\n\
+    \    __m256i sum = zero;\n    int i = 0;\n    for (; i + 4 <= m; i += 4) {\n \
+    \       __m256i x = _mm256_loadu_si256((const __m256i *)(src + i));\n        __m256i\
+    \ lo = _mm256_and_si256(x, mask);\n        __m256i hi = _mm256_and_si256(_mm256_srli_epi16(x,\
+    \ 4), mask);\n        __m256i counts = _mm256_add_epi8(_mm256_shuffle_epi8(lookup,\
+    \ lo), _mm256_shuffle_epi8(lookup, hi));\n        sum = _mm256_add_epi64(sum,\
+    \ _mm256_sad_epu8(counts, zero));\n    }\n    alignas(32) Word lanes[4];\n   \
+    \ _mm256_storeu_si256((__m256i *)lanes, sum);\n    int result = lanes[0] + lanes[1]\
+    \ + lanes[2] + lanes[3];\n    for (; i < m; ++i) result += __builtin_popcountll(src[i]);\n\
+    \    return result;\n}\n\n__attribute__((target(\"avx2,popcnt,avx512f,avx512vpopcntdq\"\
+    ))) inline int count_avx512(const Word *src, int m) {\n    __m512i sum0 = _mm512_setzero_si512(),\
+    \ sum1 = sum0, sum2 = sum0, sum3 = sum0;\n    int i = 0;\n    for (; i + 32 <=\
+    \ m; i += 32) {\n        sum0 = _mm512_add_epi64(sum0, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i)));\n        sum1 = _mm512_add_epi64(sum1, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 8)));\n        sum2 = _mm512_add_epi64(sum2, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 16)));\n        sum3 = _mm512_add_epi64(sum3, _mm512_popcnt_epi64(_mm512_loadu_si512(src\
+    \ + i + 24)));\n    }\n    __m512i sum = _mm512_add_epi64(_mm512_add_epi64(sum0,\
+    \ sum1), _mm512_add_epi64(sum2, sum3));\n    for (; i + 8 <= m; i += 8) {\n  \
+    \      __m512i x = _mm512_loadu_si512(src + i);\n        sum = _mm512_add_epi64(sum,\
+    \ _mm512_popcnt_epi64(x));\n    }\n    alignas(64) Word lanes[8];\n    _mm512_storeu_si512(lanes,\
+    \ sum);\n    int result = 0;\n    for (Word lane : lanes) result += lane;\n  \
+    \  for (; i < m; ++i) result += __builtin_popcountll(src[i]);\n    return result;\n\
+    }\n\ninline int count_backend() {\n    static const int backend = [] {\n     \
+    \   if (!__builtin_cpu_supports(\"avx2\") || !__builtin_cpu_supports(\"popcnt\"\
+    )) return 0;\n        if (__builtin_cpu_supports(\"avx512f\") && __builtin_cpu_supports(\"\
+    avx512vpopcntdq\")) return 2;\n        return 1;\n    }();\n    return backend;\n\
+    }\n\n__attribute__((target(\"avx2\"))) inline void and_assign_avx2(Word *dst,\
+    \ const Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i += 4) {\n\
+    \        __m256i x = _mm256_loadu_si256((const __m256i *)(dst + i));\n       \
+    \ __m256i y = _mm256_loadu_si256((const __m256i *)(src + i));\n        _mm256_storeu_si256((__m256i\
+    \ *)(dst + i), _mm256_and_si256(x, y));\n    }\n    for (; i < m; ++i) dst[i]\
+    \ &= src[i];\n}\n\n__attribute__((target(\"avx2\"))) inline void or_assign_avx2(Word\
     \ *dst, const Word *src, int m) {\n    int i = 0;\n    for (; i + 4 <= m; i +=\
     \ 4) {\n        __m256i x = _mm256_loadu_si256((const __m256i *)(dst + i));\n\
     \        __m256i y = _mm256_loadu_si256((const __m256i *)(src + i));\n       \
-    \ _mm256_storeu_si256((__m256i *)(dst + i), _mm256_and_si256(x, y));\n    }\n\
-    \    for (; i < m; ++i) dst[i] &= src[i];\n}\n\n__attribute__((target(\"avx2\"\
-    ))) inline void or_assign_avx2(Word *dst, const Word *src, int m) {\n    int i\
-    \ = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
-    \ __m256i *)(dst + i));\n        __m256i y = _mm256_loadu_si256((const __m256i\
-    \ *)(src + i));\n        _mm256_storeu_si256((__m256i *)(dst + i), _mm256_or_si256(x,\
-    \ y));\n    }\n    for (; i < m; ++i) dst[i] |= src[i];\n}\n\n__attribute__((target(\"\
-    avx2\"))) inline void xor_assign_avx2(Word *dst, const Word *src, int m) {\n \
-    \   int i = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
+    \ _mm256_storeu_si256((__m256i *)(dst + i), _mm256_or_si256(x, y));\n    }\n \
+    \   for (; i < m; ++i) dst[i] |= src[i];\n}\n\n__attribute__((target(\"avx2\"\
+    ))) inline void xor_assign_avx2(Word *dst, const Word *src, int m) {\n    int\
+    \ i = 0;\n    for (; i + 4 <= m; i += 4) {\n        __m256i x = _mm256_loadu_si256((const\
     \ __m256i *)(dst + i));\n        __m256i y = _mm256_loadu_si256((const __m256i\
     \ *)(src + i));\n        _mm256_storeu_si256((__m256i *)(dst + i), _mm256_xor_si256(x,\
     \ y));\n    }\n    for (; i < m; ++i) dst[i] ^= src[i];\n}\n\n__attribute__((target(\"\
@@ -291,28 +321,33 @@ data:
     \         }\n        }\n#endif\n        for (int i = 0; i + 1 < M; ++i) {\n  \
     \          if (p[i] != ~0ULL) return false;\n        }\n        return p[M - 1]\
     \ == tail_mask();\n    }\n    int count() const {\n        const Word *p = a;\n\
-    \        int res = 0;\n        int i = 0;\n        for (; i + 4 <= M; i += 4)\
-    \ {\n            res += popcount(p[i + 0]) + popcount(p[i + 1]) + popcount(p[i\
-    \ + 2]) + popcount(p[i + 3]);\n        }\n        for (; i < M; ++i) res += popcount(p[i]);\n\
-    \        return res;\n    }\n\n    int find_first() const {\n        const Word\
-    \ *p = a;\n        for (int i = 0; i < M; ++i) {\n            if (p[i]) return\
-    \ (i << 6) + ctz(p[i]);\n        }\n        return -1;\n    }\n    int find_last()\
-    \ const {\n        const Word *p = a;\n        for (int i = M - 1; i >= 0; --i)\
-    \ {\n            if (p[i]) return (i << 6) + (B - 1 - clz(p[i]));\n        }\n\
-    \        return -1;\n    }\n    int find_next(int k) const {\n        ++k;\n \
-    \       if (k >= N) return -1;\n        const Word *p = a;\n        int i = k\
-    \ >> 6;\n        Word x = p[i] & (~0ULL << (k & 63));\n        if (x) return (i\
-    \ << 6) + ctz(x);\n        for (++i; i < M; ++i) {\n            if (p[i]) return\
-    \ (i << 6) + ctz(p[i]);\n        }\n        return -1;\n    }\n    int find_prev(int\
-    \ k) const {\n        --k;\n        if (k < 0) return -1;\n        const Word\
-    \ *p = a;\n        int i = k >> 6;\n        int rem = k & 63;\n        Word mask\
-    \ = rem == B - 1 ? ~0ULL : ((1ULL << (rem + 1)) - 1);\n        Word x = p[i] &\
-    \ mask;\n        if (x) return (i << 6) + (B - 1 - clz(x));\n        for (--i;\
-    \ i >= 0; --i) {\n            if (p[i]) return (i << 6) + (B - 1 - clz(p[i]));\n\
-    \        }\n        return -1;\n    }\n\n    StaticBitset &operator&=(const StaticBitset\
-    \ &r) {\n        Word *p = a;\n        const Word *q = r.a;\n#if defined(__x86_64__)\
-    \ || defined(_M_X64)\n        if constexpr (M >= static_bitset_detail::avx2_threshold_words)\
-    \ {\n            if (static_bitset_detail::has_avx2()) {\n                static_bitset_detail::and_assign_avx2(p,\
+    #if defined(__x86_64__) || defined(_M_X64)\n        if constexpr (M >= static_bitset_detail::count_threshold_words)\
+    \ {\n            int backend = static_bitset_detail::count_backend();\n      \
+    \      if (backend == 2) return static_bitset_detail::count_avx512(p, M);\n  \
+    \          if (backend == 1) return static_bitset_detail::count_avx2(p, M);\n\
+    \        }\n#endif\n        int res = 0;\n        int i = 0;\n        for (; i\
+    \ + 4 <= M; i += 4) {\n            res += popcount(p[i + 0]) + popcount(p[i +\
+    \ 1]) + popcount(p[i + 2]) + popcount(p[i + 3]);\n        }\n        for (; i\
+    \ < M; ++i) res += popcount(p[i]);\n        return res;\n    }\n\n    int find_first()\
+    \ const {\n        const Word *p = a;\n        for (int i = 0; i < M; ++i) {\n\
+    \            if (p[i]) return (i << 6) + ctz(p[i]);\n        }\n        return\
+    \ -1;\n    }\n    int find_last() const {\n        const Word *p = a;\n      \
+    \  for (int i = M - 1; i >= 0; --i) {\n            if (p[i]) return (i << 6) +\
+    \ (B - 1 - clz(p[i]));\n        }\n        return -1;\n    }\n    int find_next(int\
+    \ k) const {\n        ++k;\n        if (k >= N) return -1;\n        const Word\
+    \ *p = a;\n        int i = k >> 6;\n        Word x = p[i] & (~0ULL << (k & 63));\n\
+    \        if (x) return (i << 6) + ctz(x);\n        for (++i; i < M; ++i) {\n \
+    \           if (p[i]) return (i << 6) + ctz(p[i]);\n        }\n        return\
+    \ -1;\n    }\n    int find_prev(int k) const {\n        --k;\n        if (k <\
+    \ 0) return -1;\n        const Word *p = a;\n        int i = k >> 6;\n       \
+    \ int rem = k & 63;\n        Word mask = rem == B - 1 ? ~0ULL : ((1ULL << (rem\
+    \ + 1)) - 1);\n        Word x = p[i] & mask;\n        if (x) return (i << 6) +\
+    \ (B - 1 - clz(x));\n        for (--i; i >= 0; --i) {\n            if (p[i]) return\
+    \ (i << 6) + (B - 1 - clz(p[i]));\n        }\n        return -1;\n    }\n\n  \
+    \  StaticBitset &operator&=(const StaticBitset &r) {\n        Word *p = a;\n \
+    \       const Word *q = r.a;\n#if defined(__x86_64__) || defined(_M_X64)\n   \
+    \     if constexpr (M >= static_bitset_detail::avx2_threshold_words) {\n     \
+    \       if (static_bitset_detail::has_avx2()) {\n                static_bitset_detail::and_assign_avx2(p,\
     \ q, M);\n                return *this;\n            }\n        }\n#endif\n  \
     \      for (int i = 0; i < M; ++i) p[i] &= q[i];\n        return *this;\n    }\n\
     \    StaticBitset &operator|=(const StaticBitset &r) {\n        Word *p = a;\n\
@@ -357,7 +392,7 @@ data:
     \      normalize();\n        return *this;\n    }\n\n    friend StaticBitset operator<<(StaticBitset\
     \ l, int s) { return l <<= s; }\n    friend StaticBitset operator>>(StaticBitset\
     \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static\
-    \ Bitset)\n */\n#line 17 \"test/yosupo_aplusb_static_bitset.test.cpp\"\n\ntemplate<int\
+    \ Bitset)\n */\n#line 18 \"test/yosupo_aplusb_static_bitset.test.cpp\"\n\ntemplate<int\
     \ N>\nvector<int> to_vec(const StaticBitset<N> &bs) {\n    vector<int> res(N);\n\
     \    for (int i = 0; i < N; ++i) res[i] = bs.test(i);\n    return res;\n}\n\n\
     int brute_find_first(const vector<int> &a) {\n    for (int i = 0; i < (int)a.size();\
@@ -436,33 +471,60 @@ data:
     }\n\nvoid random_check() {\n    random_check_size<0>();\n    random_check_size<1>();\n\
     \    random_check_size<2>();\n    random_check_size<63>();\n    random_check_size<64>();\n\
     \    random_check_size<65>();\n    random_check_size<129>();\n    random_check_size<257>();\n\
-    }\n\nint main() {\n    deterministic_check();\n    random_check();\n\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n    return 0;\n}\n"
+    }\n\nvoid count_kernels_check() {\n#if defined(__x86_64__) || defined(_M_X64)\n\
+    \    bool avx2 = __builtin_cpu_supports(\"avx2\") && __builtin_cpu_supports(\"\
+    popcnt\");\n    bool avx512 = avx2 && __builtin_cpu_supports(\"avx512f\") && __builtin_cpu_supports(\"\
+    avx512vpopcntdq\");\n    mt19937_64 rng(164);\n    for (int n = 0; n <= 257; ++n)\
+    \ {\n        for (int offset = 0; offset < 4; ++offset) {\n            vector<unsigned\
+    \ long long> data(n + offset);\n            for (int shape = 0; shape < 4; ++shape)\
+    \ {\n                int expected = 0;\n                for (int i = offset; i\
+    \ < n + offset; ++i) {\n                    data[i] = shape == 0 ? 0 : shape ==\
+    \ 1 ? ~0ULL : shape == 2 ? 0x5555555555555555ULL : rng();\n                  \
+    \  for (auto x = data[i]; x; x &= x - 1) ++expected;\n                }\n    \
+    \            const auto *p = n ? data.data() + offset : nullptr;\n           \
+    \     if (avx2) assert(static_bitset_detail::count_avx2(p, n) == expected);\n\
+    \                if (avx512) assert(static_bitset_detail::count_avx512(p, n) ==\
+    \ expected);\n            }\n        }\n    }\n#endif\n}\n\ntemplate<int N>\n\
+    void count_check_size() {\n    mt19937 rng(N + 164);\n    for (int shape = 0;\
+    \ shape < 4; ++shape) {\n        StaticBitset<N> actual;\n        bitset<N> expected;\n\
+    \        for (int i = 0; i < N; ++i) {\n            bool bit = shape == 0 ? false\
+    \ : shape == 1 ? true : shape == 2 ? i % 2 : rng() & 1;\n            actual.assign(i,\
+    \ bit);\n            expected[i] = bit;\n        }\n        assert(actual.count()\
+    \ == (int)expected.count());\n        actual.flip();\n        expected.flip();\n\
+    \        assert(actual.count() == (int)expected.count());\n        actual <<=\
+    \ 1;\n        expected <<= 1;\n        assert(actual.count() == (int)expected.count());\n\
+    \        actual >>= 63;\n        expected >>= 63;\n        assert(actual.count()\
+    \ == (int)expected.count());\n    }\n}\n\nint main() {\n    deterministic_check();\n\
+    \    random_check();\n    count_kernels_check();\n    count_check_size<8128>();\n\
+    \    count_check_size<8129>();\n    count_check_size<8191>();\n    count_check_size<8192>();\n\
+    \    count_check_size<8193>();\n    count_check_size<65536>();\n    count_check_size<65537>();\n\
+    \    count_check_size<1048577>();\n\n    Scanner sc;\n    Printer pr;\n    int\
+    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <random>\n#include <vector>\nusing namespace std;\n\
-    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/static_bitset.cpp\"\
-    \n\ntemplate<int N>\nvector<int> to_vec(const StaticBitset<N> &bs) {\n    vector<int>\
-    \ res(N);\n    for (int i = 0; i < N; ++i) res[i] = bs.test(i);\n    return res;\n\
-    }\n\nint brute_find_first(const vector<int> &a) {\n    for (int i = 0; i < (int)a.size();\
-    \ ++i) if (a[i]) return i;\n    return -1;\n}\n\nint brute_find_last(const vector<int>\
-    \ &a) {\n    for (int i = (int)a.size() - 1; i >= 0; --i) if (a[i]) return i;\n\
-    \    return -1;\n}\n\nint brute_find_next(const vector<int> &a, int k) {\n   \
-    \ for (int i = k + 1; i < (int)a.size(); ++i) if (a[i]) return i;\n    return\
-    \ -1;\n}\n\nint brute_find_prev(const vector<int> &a, int k) {\n    for (int i\
-    \ = k - 1; i >= 0; --i) if (a[i]) return i;\n    return -1;\n}\n\nvector<int>\
-    \ shifted_left(const vector<int> &a, int s) {\n    vector<int> res(a.size());\n\
-    \    if (s >= (int)a.size()) return res;\n    for (int i = 0; i + s < (int)a.size();\
-    \ ++i) res[i + s] = a[i];\n    return res;\n}\n\nvector<int> shifted_right(const\
-    \ vector<int> &a, int s) {\n    vector<int> res(a.size());\n    if (s >= (int)a.size())\
-    \ return res;\n    for (int i = s; i < (int)a.size(); ++i) res[i - s] = a[i];\n\
-    \    return res;\n}\n\ntemplate<int N>\nvoid verify_state(const StaticBitset<N>\
-    \ &bs, const vector<int> &a) {\n    assert(bs.size() == (int)a.size());\n    assert(bs.empty()\
-    \ == a.empty());\n    assert(to_vec(bs) == a);\n\n    int cnt = 0;\n    for (int\
-    \ x : a) cnt += x;\n    assert(bs.count() == cnt);\n    assert(bs.any() == (cnt\
-    \ != 0));\n    assert(bs.none() == (cnt == 0));\n    assert(bs.all() == (cnt ==\
-    \ (int)a.size()));\n    assert(bs.find_first() == brute_find_first(a));\n    assert(bs.find_last()\
+    #include <cassert>\n#include <bitset>\n#include <random>\n#include <vector>\n\
+    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
+    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
+    \n#include \"../datastructure/static_bitset.cpp\"\n\ntemplate<int N>\nvector<int>\
+    \ to_vec(const StaticBitset<N> &bs) {\n    vector<int> res(N);\n    for (int i\
+    \ = 0; i < N; ++i) res[i] = bs.test(i);\n    return res;\n}\n\nint brute_find_first(const\
+    \ vector<int> &a) {\n    for (int i = 0; i < (int)a.size(); ++i) if (a[i]) return\
+    \ i;\n    return -1;\n}\n\nint brute_find_last(const vector<int> &a) {\n    for\
+    \ (int i = (int)a.size() - 1; i >= 0; --i) if (a[i]) return i;\n    return -1;\n\
+    }\n\nint brute_find_next(const vector<int> &a, int k) {\n    for (int i = k +\
+    \ 1; i < (int)a.size(); ++i) if (a[i]) return i;\n    return -1;\n}\n\nint brute_find_prev(const\
+    \ vector<int> &a, int k) {\n    for (int i = k - 1; i >= 0; --i) if (a[i]) return\
+    \ i;\n    return -1;\n}\n\nvector<int> shifted_left(const vector<int> &a, int\
+    \ s) {\n    vector<int> res(a.size());\n    if (s >= (int)a.size()) return res;\n\
+    \    for (int i = 0; i + s < (int)a.size(); ++i) res[i + s] = a[i];\n    return\
+    \ res;\n}\n\nvector<int> shifted_right(const vector<int> &a, int s) {\n    vector<int>\
+    \ res(a.size());\n    if (s >= (int)a.size()) return res;\n    for (int i = s;\
+    \ i < (int)a.size(); ++i) res[i - s] = a[i];\n    return res;\n}\n\ntemplate<int\
+    \ N>\nvoid verify_state(const StaticBitset<N> &bs, const vector<int> &a) {\n \
+    \   assert(bs.size() == (int)a.size());\n    assert(bs.empty() == a.empty());\n\
+    \    assert(to_vec(bs) == a);\n\n    int cnt = 0;\n    for (int x : a) cnt +=\
+    \ x;\n    assert(bs.count() == cnt);\n    assert(bs.any() == (cnt != 0));\n  \
+    \  assert(bs.none() == (cnt == 0));\n    assert(bs.all() == (cnt == (int)a.size()));\n\
+    \    assert(bs.find_first() == brute_find_first(a));\n    assert(bs.find_last()\
     \ == brute_find_last(a));\n    for (int i = 0; i <= (int)a.size(); ++i) {\n  \
     \      assert(bs.find_next(i - 1) == brute_find_next(a, i - 1));\n        assert(bs.find_prev(i)\
     \ == brute_find_prev(a, i));\n    }\n}\n\ntemplate<int N>\nvoid deterministic_check_size()\
@@ -521,16 +583,42 @@ data:
     }\n\nvoid random_check() {\n    random_check_size<0>();\n    random_check_size<1>();\n\
     \    random_check_size<2>();\n    random_check_size<63>();\n    random_check_size<64>();\n\
     \    random_check_size<65>();\n    random_check_size<129>();\n    random_check_size<257>();\n\
-    }\n\nint main() {\n    deterministic_check();\n    random_check();\n\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n    return 0;\n}\n"
+    }\n\nvoid count_kernels_check() {\n#if defined(__x86_64__) || defined(_M_X64)\n\
+    \    bool avx2 = __builtin_cpu_supports(\"avx2\") && __builtin_cpu_supports(\"\
+    popcnt\");\n    bool avx512 = avx2 && __builtin_cpu_supports(\"avx512f\") && __builtin_cpu_supports(\"\
+    avx512vpopcntdq\");\n    mt19937_64 rng(164);\n    for (int n = 0; n <= 257; ++n)\
+    \ {\n        for (int offset = 0; offset < 4; ++offset) {\n            vector<unsigned\
+    \ long long> data(n + offset);\n            for (int shape = 0; shape < 4; ++shape)\
+    \ {\n                int expected = 0;\n                for (int i = offset; i\
+    \ < n + offset; ++i) {\n                    data[i] = shape == 0 ? 0 : shape ==\
+    \ 1 ? ~0ULL : shape == 2 ? 0x5555555555555555ULL : rng();\n                  \
+    \  for (auto x = data[i]; x; x &= x - 1) ++expected;\n                }\n    \
+    \            const auto *p = n ? data.data() + offset : nullptr;\n           \
+    \     if (avx2) assert(static_bitset_detail::count_avx2(p, n) == expected);\n\
+    \                if (avx512) assert(static_bitset_detail::count_avx512(p, n) ==\
+    \ expected);\n            }\n        }\n    }\n#endif\n}\n\ntemplate<int N>\n\
+    void count_check_size() {\n    mt19937 rng(N + 164);\n    for (int shape = 0;\
+    \ shape < 4; ++shape) {\n        StaticBitset<N> actual;\n        bitset<N> expected;\n\
+    \        for (int i = 0; i < N; ++i) {\n            bool bit = shape == 0 ? false\
+    \ : shape == 1 ? true : shape == 2 ? i % 2 : rng() & 1;\n            actual.assign(i,\
+    \ bit);\n            expected[i] = bit;\n        }\n        assert(actual.count()\
+    \ == (int)expected.count());\n        actual.flip();\n        expected.flip();\n\
+    \        assert(actual.count() == (int)expected.count());\n        actual <<=\
+    \ 1;\n        expected <<= 1;\n        assert(actual.count() == (int)expected.count());\n\
+    \        actual >>= 63;\n        expected >>= 63;\n        assert(actual.count()\
+    \ == (int)expected.count());\n    }\n}\n\nint main() {\n    deterministic_check();\n\
+    \    random_check();\n    count_kernels_check();\n    count_check_size<8128>();\n\
+    \    count_check_size<8129>();\n    count_check_size<8191>();\n    count_check_size<8192>();\n\
+    \    count_check_size<8193>();\n    count_check_size<65536>();\n    count_check_size<65537>();\n\
+    \    count_check_size<1048577>();\n\n    Scanner sc;\n    Printer pr;\n    int\
+    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/static_bitset.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_static_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-15 21:20:01+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_static_bitset.test.cpp

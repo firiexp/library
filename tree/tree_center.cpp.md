@@ -3,52 +3,53 @@ category: "\u6728"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_tree_center.test.cpp
+    title: test/yosupo_aplusb_tree_center.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u6728\u306E\u4E2D\u5FC3(Tree Center)"
     links: []
   bundledCode: "#line 1 \"tree/tree_center.cpp\"\npair<int, vector<int>> tree_center(const\
     \ vector<vector<int>> &G) {\n    int n = G.size();\n    if (n == 0) return {0,\
-    \ {}};\n\n    auto bfs = [&](int s, vector<int> &par) {\n        vector<int> dist(n,\
-    \ -1);\n        queue<int> q;\n        dist[s] = 0;\n        par.assign(n, -1);\n\
-    \        q.push(s);\n        int far = s;\n        while (!q.empty()) {\n    \
-    \        int v = q.front();\n            q.pop();\n            if (dist[far] <\
-    \ dist[v]) far = v;\n            for (auto &&to : G[v]) {\n                if\
-    \ (dist[to] != -1) continue;\n                dist[to] = dist[v] + 1;\n      \
-    \          par[to] = v;\n                q.push(to);\n            }\n        }\n\
-    \        return pair<int, vector<int>>(far, dist);\n    };\n\n    vector<int>\
-    \ par;\n    int s = bfs(0, par).first;\n    auto [t, dist] = bfs(s, par);\n\n\
-    \    vector<int> path;\n    for (int v = t; v != -1; v = par[v]) path.push_back(v);\n\
-    \    reverse(path.begin(), path.end());\n\n    int diam = dist[t];\n    vector<int>\
-    \ centers;\n    centers.push_back(path[diam / 2]);\n    if (diam & 1) centers.push_back(path[diam\
-    \ / 2 + 1]);\n    return {(diam + 1) / 2, centers};\n}\n\n/**\n * @brief \u6728\
-    \u306E\u4E2D\u5FC3(Tree Center)\n */\n"
+    \ {}};\n\n    vector<int> dist(n), par(n), q(n);\n    auto bfs = [&](int s, bool\
+    \ record_parent) {\n        fill(dist.begin(), dist.end(), -1);\n        dist[s]\
+    \ = 0;\n        if (record_parent) par[s] = -1;\n        int head = 0, tail =\
+    \ 0;\n        q[tail++] = s;\n        int far = s;\n        while (head < tail)\
+    \ {\n            int v = q[head++];\n            if (dist[far] < dist[v]) far\
+    \ = v;\n            for (auto &&to : G[v]) {\n                if (dist[to] !=\
+    \ -1) continue;\n                dist[to] = dist[v] + 1;\n                if (record_parent)\
+    \ par[to] = v;\n                q[tail++] = to;\n            }\n        }\n  \
+    \      return far;\n    };\n\n    int s = bfs(0, false);\n    int t = bfs(s, true);\n\
+    \n    int diam = dist[t];\n    int v = t;\n    for (int i = 0; i < diam / 2; ++i)\
+    \ v = par[v];\n    if (diam & 1) return {(diam + 1) / 2, vector<int>{par[v], v}};\n\
+    \    return {diam / 2, vector<int>{v}};\n}\n\n/**\n * @brief \u6728\u306E\u4E2D\
+    \u5FC3(Tree Center)\n */\n"
   code: "pair<int, vector<int>> tree_center(const vector<vector<int>> &G) {\n    int\
-    \ n = G.size();\n    if (n == 0) return {0, {}};\n\n    auto bfs = [&](int s,\
-    \ vector<int> &par) {\n        vector<int> dist(n, -1);\n        queue<int> q;\n\
-    \        dist[s] = 0;\n        par.assign(n, -1);\n        q.push(s);\n      \
-    \  int far = s;\n        while (!q.empty()) {\n            int v = q.front();\n\
-    \            q.pop();\n            if (dist[far] < dist[v]) far = v;\n       \
-    \     for (auto &&to : G[v]) {\n                if (dist[to] != -1) continue;\n\
-    \                dist[to] = dist[v] + 1;\n                par[to] = v;\n     \
-    \           q.push(to);\n            }\n        }\n        return pair<int, vector<int>>(far,\
-    \ dist);\n    };\n\n    vector<int> par;\n    int s = bfs(0, par).first;\n   \
-    \ auto [t, dist] = bfs(s, par);\n\n    vector<int> path;\n    for (int v = t;\
-    \ v != -1; v = par[v]) path.push_back(v);\n    reverse(path.begin(), path.end());\n\
-    \n    int diam = dist[t];\n    vector<int> centers;\n    centers.push_back(path[diam\
-    \ / 2]);\n    if (diam & 1) centers.push_back(path[diam / 2 + 1]);\n    return\
-    \ {(diam + 1) / 2, centers};\n}\n\n/**\n * @brief \u6728\u306E\u4E2D\u5FC3(Tree\
-    \ Center)\n */\n"
+    \ n = G.size();\n    if (n == 0) return {0, {}};\n\n    vector<int> dist(n), par(n),\
+    \ q(n);\n    auto bfs = [&](int s, bool record_parent) {\n        fill(dist.begin(),\
+    \ dist.end(), -1);\n        dist[s] = 0;\n        if (record_parent) par[s] =\
+    \ -1;\n        int head = 0, tail = 0;\n        q[tail++] = s;\n        int far\
+    \ = s;\n        while (head < tail) {\n            int v = q[head++];\n      \
+    \      if (dist[far] < dist[v]) far = v;\n            for (auto &&to : G[v]) {\n\
+    \                if (dist[to] != -1) continue;\n                dist[to] = dist[v]\
+    \ + 1;\n                if (record_parent) par[to] = v;\n                q[tail++]\
+    \ = to;\n            }\n        }\n        return far;\n    };\n\n    int s =\
+    \ bfs(0, false);\n    int t = bfs(s, true);\n\n    int diam = dist[t];\n    int\
+    \ v = t;\n    for (int i = 0; i < diam / 2; ++i) v = par[v];\n    if (diam & 1)\
+    \ return {(diam + 1) / 2, vector<int>{par[v], v}};\n    return {diam / 2, vector<int>{v}};\n\
+    }\n\n/**\n * @brief \u6728\u306E\u4E2D\u5FC3(Tree Center)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: tree/tree_center.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2026-10-15 21:17:09+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_aplusb_tree_center.test.cpp
 date: 2026-03-08
 documentation_of: tree/tree_center.cpp
 layout: document
