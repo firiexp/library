@@ -34,6 +34,18 @@ void check(const StaticRectangleSum<long long>& solver) {
 }
 
 int main() {
+    StaticRectangleSum<long long> boundaries;
+    const vector<int> bounds = {INT_MIN, 9, 10, 11, 29, 30, 31, INT_MAX};
+    for (int d : bounds) for (int u : bounds) if (d <= u) boundaries.add_query(0, d, 3, u);
+    check(boundaries);
+    boundaries.add_point(1, 10, 7);
+    boundaries.add_point(1, 10, -2);
+    boundaries.add_point(2, 30, -3);
+    check(boundaries);
+    boundaries.add_point(0, 11, 4);
+    boundaries.add_query(1, 10, 2, 11);
+    check(boundaries);
+
     StaticRectangleSum<long long> regression;
     regression.add_point(10, 100, 7);
     regression.add_query(0, 50, 20, 150);

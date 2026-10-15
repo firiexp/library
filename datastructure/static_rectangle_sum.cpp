@@ -35,7 +35,9 @@ struct StaticRectangleSum {
     }
 
     vector<T> solve() const {
-        vector<int> ord_y = ys;
+        vector<int> ord_y;
+        ord_y.reserve(points.size());
+        for (const auto& p : points) ord_y.push_back(p.y);
         sort(ord_y.begin(), ord_y.end());
         ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());
 
