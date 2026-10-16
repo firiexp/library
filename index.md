@@ -384,6 +384,14 @@ data:
       path: math/comb_table.cpp
       title: math/comb_table.cpp
     - icon: ':heavy_check_mark:'
+      path: math/digit_dfa.cpp
+      title: "\u6570\u5B57\u5217\u306E\u6761\u4EF6\u3092\u8868\u3059\u6709\u9650\u30AA\
+        \u30FC\u30C8\u30DE\u30C8\u30F3"
+    - icon: ':heavy_check_mark:'
+      path: math/digit_dp.cpp
+      title: "\u4E0A\u4E0B\u9650\u4ED8\u304D\u6841DP\u306E\u500B\u6570\u3068\u7DCF\
+        \u548C"
+    - icon: ':heavy_check_mark:'
       path: math/discrete_logarithm.cpp
       title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
     - icon: ':heavy_check_mark:'
@@ -558,6 +566,21 @@ data:
       title: snippets/uniq.cpp
   - name: string
     pages:
+    - icon: ':heavy_check_mark:'
+      path: string/avoid_patterns.cpp
+      title: "\u7981\u6B62\u90E8\u5206\u6587\u5B57\u5217\u3092\u907F\u3051\u308B\u6709\
+        \u9650\u30AA\u30FC\u30C8\u30DE\u30C8\u30F3"
+    - icon: ':heavy_check_mark:'
+      path: string/count_words.cpp
+      title: "\u6709\u9650\u72B6\u614BDP\u306E\u9577\u3055N\u306E\u6587\u5B57\u5217\
+        \u6570"
+    - icon: ':heavy_check_mark:'
+      path: string/dfa.cpp
+      title: "\u6709\u9650\u30AA\u30FC\u30C8\u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\
+        \u5408\u6210"
+    - icon: ':heavy_check_mark:'
+      path: string/dfa_minimize.cpp
+      title: "\u6709\u9650\u30AA\u30FC\u30C8\u30DE\u30C8\u30F3\u306E\u6700\u5C0F\u5316"
     - icon: ':heavy_check_mark:'
       path: string/enumerate_runs.cpp
       title: "\u6587\u5B57\u5217\u306Erun\u5217\u6319"
@@ -896,6 +919,9 @@ data:
       path: test/yosupo_aplusb_and_or_convolution.test.cpp
       title: test/yosupo_aplusb_and_or_convolution.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_avoid_patterns.test.cpp
+      title: test/yosupo_aplusb_avoid_patterns.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_bellman_ford.test.cpp
       title: test/yosupo_aplusb_bellman_ford.test.cpp
     - icon: ':heavy_check_mark:'
@@ -935,8 +961,20 @@ data:
       path: test/yosupo_aplusb_convex_hull.test.cpp
       title: test/yosupo_aplusb_convex_hull.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_count_words.test.cpp
+      title: test/yosupo_aplusb_count_words.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_crt.test.cpp
       title: test/yosupo_aplusb_crt.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_dfa.test.cpp
+      title: test/yosupo_aplusb_dfa.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_dfa_minimize.test.cpp
+      title: test/yosupo_aplusb_dfa_minimize.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_digit_dp.test.cpp
+      title: test/yosupo_aplusb_digit_dp.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
       title: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
@@ -1774,6 +1812,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yuki2672_xor_basis.test.cpp
       title: test/yuki2672_xor_basis.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yuki2867.test.cpp
+      title: test/yuki2867.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yuki650_hld_edge.test.cpp
       title: test/yuki650_hld_edge.test.cpp

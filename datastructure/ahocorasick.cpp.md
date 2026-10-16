@@ -1,7 +1,11 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: string/avoid_patterns.cpp
+    title: "\u7981\u6B62\u90E8\u5206\u6587\u5B57\u5217\u3092\u907F\u3051\u308B\u6709\
+      \u9650\u30AA\u30FC\u30C8\u30DE\u30C8\u30F3"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj2257.test.cpp
@@ -12,20 +16,38 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_aho_occurrences.test.cpp
     title: test/yosupo_aplusb_aho_occurrences.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_avoid_patterns.test.cpp
+    title: test/yosupo_aplusb_avoid_patterns.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_avoid_patterns.test.cpp
+    title: test/yosupo_aplusb_avoid_patterns.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_count_words.test.cpp
+    title: test/yosupo_aplusb_count_words.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dfa_minimize.test.cpp
+    title: test/yosupo_aplusb_dfa_minimize.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_digit_dp.test.cpp
+    title: test/yosupo_aplusb_digit_dp.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yuki2867.test.cpp
+    title: test/yuki2867.test.cpp
   _isVerificationFailed: false
   _pathExtension: cpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "Aho-Corasick\u6CD5"
     links: []
-  bundledCode: "#line 1 \"datastructure/ahocorasick.cpp\"\ntemplate<int W, int start>\n\
-    class AhoCorasick {\npublic:\n    struct Node {\n        array<int, W> to;\n \
-    \       int fail;\n        int val;\n    };\n    explicit AhoCorasick() : v(1)\
-    \ {}\n    vector<Node> v;\n    vector<int> ord;\n    int add(string &s, int cur\
-    \ = 0){\n        for (auto &&i : s) {\n            if(!v[cur].to[i-start]) v[cur].to[i-start]\
-    \ = v.size(), v.emplace_back();\n            cur = v[cur].to[i-start];\n     \
-    \   }\n        return cur;\n    }\n\n    void build() {\n        v[0].fail = -1;\n\
-    \        int l = 0, r = 1;\n        ord.clear();\n        ord.reserve(v.size());\n\
+  bundledCode: "#line 1 \"datastructure/ahocorasick.cpp\"\n\n\n\ntemplate<int W, int\
+    \ start>\nclass AhoCorasick {\npublic:\n    struct Node {\n        array<int,\
+    \ W> to;\n        int fail;\n        int val;\n    };\n    explicit AhoCorasick()\
+    \ : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n    int add(const string\
+    \ &s, int cur = 0){\n        for (auto &&i : s) {\n            if(!v[cur].to[i-start])\
+    \ v[cur].to[i-start] = v.size(), v.emplace_back();\n            cur = v[cur].to[i-start];\n\
+    \        }\n        return cur;\n    }\n\n    void build() {\n        v[0].fail\
+    \ = -1;\n        int l = 0, r = 1;\n        ord.clear();\n        ord.reserve(v.size());\n\
     \        ord.emplace_back(0);\n        while(l < r){\n            int i = ord[l];\
     \ l++;\n            for (int c = 0; c < W; ++c) {\n                if(!v[i].to[c])\
     \ continue;\n                int to = v[i].to[c];\n                v[to].fail\
@@ -39,13 +61,14 @@ data:
     \ (char c : text) {\n            state = v[state].to[c - start];\n           \
     \ ++counts[state];\n        }\n        for (int i = (int)ord.size() - 1; i > 0;\
     \ --i) {\n            int state = ord[i];\n            counts[v[state].fail] +=\
-    \ counts[state];\n        }\n        return counts;\n    }\n};\n/**\n * @brief\
-    \ Aho-Corasick\u6CD5\n */\n"
-  code: "template<int W, int start>\nclass AhoCorasick {\npublic:\n    struct Node\
-    \ {\n        array<int, W> to;\n        int fail;\n        int val;\n    };\n\
-    \    explicit AhoCorasick() : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n\
-    \    int add(string &s, int cur = 0){\n        for (auto &&i : s) {\n        \
-    \    if(!v[cur].to[i-start]) v[cur].to[i-start] = v.size(), v.emplace_back();\n\
+    \ counts[state];\n        }\n        return counts;\n    }\n};\n\n\n\n/**\n *\
+    \ @brief Aho-Corasick\u6CD5\n */\n"
+  code: "#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_AHOCORASICK_CPP\n#define FIRIEXP_LIBRARY_DATASTRUCTURE_AHOCORASICK_CPP\n\
+    \ntemplate<int W, int start>\nclass AhoCorasick {\npublic:\n    struct Node {\n\
+    \        array<int, W> to;\n        int fail;\n        int val;\n    };\n    explicit\
+    \ AhoCorasick() : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n    int\
+    \ add(const string &s, int cur = 0){\n        for (auto &&i : s) {\n         \
+    \   if(!v[cur].to[i-start]) v[cur].to[i-start] = v.size(), v.emplace_back();\n\
     \            cur = v[cur].to[i-start];\n        }\n        return cur;\n    }\n\
     \n    void build() {\n        v[0].fail = -1;\n        int l = 0, r = 1;\n   \
     \     ord.clear();\n        ord.reserve(v.size());\n        ord.emplace_back(0);\n\
@@ -62,16 +85,23 @@ data:
     \        state = v[state].to[c - start];\n            ++counts[state];\n     \
     \   }\n        for (int i = (int)ord.size() - 1; i > 0; --i) {\n            int\
     \ state = ord[i];\n            counts[v[state].fail] += counts[state];\n     \
-    \   }\n        return counts;\n    }\n};\n/**\n * @brief Aho-Corasick\u6CD5\n\
-    \ */\n"
+    \   }\n        return counts;\n    }\n};\n\n#endif\n\n/**\n * @brief Aho-Corasick\u6CD5\
+    \n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/ahocorasick.cpp
-  requiredBy: []
-  timestamp: '2026-10-07 22:14:50+09:00'
+  requiredBy:
+  - string/avoid_patterns.cpp
+  timestamp: '2026-10-16 22:10:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_digit_dp.test.cpp
   - test/yosupo_aplusb_aho_occurrences.test.cpp
+  - test/yosupo_aplusb_dfa_minimize.test.cpp
+  - test/yuki2867.test.cpp
+  - test/yosupo_aplusb_count_words.test.cpp
+  - test/yosupo_aplusb_avoid_patterns.test.cpp
+  - test/yosupo_aplusb_avoid_patterns.test.cpp
   - test/aoj2257.test.cpp
   - test/yosupo_aho_corasick.test.cpp
 documentation_of: datastructure/ahocorasick.cpp
@@ -85,7 +115,7 @@ Trie 木に対応するパターンマッチングオートマトンを構築す
 ## できること
 ノード数を $V$、文字種数を $W$ とする。
 
-- `add(s, cur)` : Trie 木の位置 `cur` に文字列 `s` を追加し、そのノードを返す
+- `add(const string& s, cur=0)` : Trie 木の位置 `cur` に文字列 `s` を追加し、そのノードを返す
 - `build()` : パターンマッチングオートマトンを $O(WV)$ で構築する
 - `next(x, c)` : 位置 `x` に文字 `c` を与えたときの行き先を返す
 - `occurrence_counts(text)` : ノード順の出現回数を `vector<long long>` で返す。時間 $O(|text|+V)$、追加領域 $O(V)$

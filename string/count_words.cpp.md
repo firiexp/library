@@ -1,0 +1,501 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: fps/linear_recurrence.cpp
+    title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
+  - icon: ':heavy_check_mark:'
+    path: fps/nth_term.cpp
+    title: "\u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE"
+  - icon: ':heavy_check_mark:'
+    path: math/berlekamp_massey.cpp
+    title: "Berlekamp-Massey\u6CD5"
+  - icon: ':heavy_check_mark:'
+    path: math/ntt.cpp
+    title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
+  - icon: ':heavy_check_mark:'
+    path: string/dfa.cpp
+    title: "\u6709\u9650\u30AA\u30FC\u30C8\u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\
+      \u5408\u6210"
+  - icon: ':heavy_check_mark:'
+    path: util/modint_base.cpp
+    title: util/modint_base.cpp
+  _extendedRequiredBy: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_count_words.test.cpp
+    title: test/yosupo_aplusb_count_words.test.cpp
+  _isVerificationFailed: false
+  _pathExtension: cpp
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    document_title: "\u6709\u9650\u72B6\u614BDP\u306E\u9577\u3055N\u306E\u6587\u5B57\
+      \u5217\u6570"
+    links: []
+  bundledCode: "#line 1 \"string/count_words.cpp\"\n\n\n\n#line 1 \"string/dfa.cpp\"\
+    \n\n\n\ntemplate<int W>\nstruct DFA {\n    vector<array<int, W>> next;\n    vector<char>\
+    \ accept;\n    int initial = -1;\n};\n\ntemplate<int W>\nDFA<W> intersect(const\
+    \ DFA<W>& a, const DFA<W>& b) {\n    if (a.initial == -1 || b.initial == -1) return\
+    \ {};\n    size_t width = b.next.size();\n    assert(a.next.size() <= vector<int>().max_size()\
+    \ / width);\n    vector<int> id(a.next.size() * width, -1);\n    vector<pair<int,\
+    \ int>> states;\n    DFA<W> result;\n    auto add = [&](int x, int y) {\n    \
+    \    int& index = id[size_t(x) * width + y];\n        if (index == -1) {\n   \
+    \         index = (int)states.size();\n            states.emplace_back(x, y);\n\
+    \            result.next.emplace_back();\n            result.accept.push_back(a.accept[x]\
+    \ && b.accept[y]);\n        }\n        return index;\n    };\n    result.initial\
+    \ = add(a.initial, b.initial);\n    for (int i = 0; i < (int)states.size(); ++i)\
+    \ {\n        auto [x, y] = states[i];\n        for (int c = 0; c < W; ++c) {\n\
+    \            int nx = a.next[x][c], ny = b.next[y][c];\n            int to = nx\
+    \ == -1 || ny == -1 ? -1 : add(nx, ny);\n            result.next[i][c] = to;\n\
+    \        }\n    }\n    return result;\n}\n\n\n\n/**\n * @brief \u6709\u9650\u30AA\
+    \u30FC\u30C8\u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\u5408\u6210\n */\n#line\
+    \ 1 \"math/ntt.cpp\"\n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint\
+    \ Mod>\nstruct modint {\n    uint val;\npublic:\n    static modint raw(int v)\
+    \ { modint x; x.val = v; return x; }\n    static constexpr uint get_mod() { return\
+    \ Mod; }\n    static constexpr uint M() { return Mod; }\n    modint() : val(0)\
+    \ {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if\
+    \ (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
+    \ % Mod); }\n    uint &value() noexcept { return val; }\n    const uint &value()\
+    \ const noexcept { return val; }\n    modint& operator++() { val++; if (val ==\
+    \ Mod) val = 0; return *this; }\n    modint& operator--() { if (val == 0) val\
+    \ = Mod; val--; return *this; }\n    modint operator++(int) { modint result =\
+    \ *this; ++*this; return result; }\n    modint operator--(int) { modint result\
+    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
+    \ { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n    modint& operator-=(const\
+    \ modint& b) { val -= b.val; if (val >= Mod) val += Mod; return *this; }\n   \
+    \ modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z\
+    \ % Mod); return *this; }\n    modint& operator/=(const modint& b) { return *this\
+    \ = *this * b.inv(); }\n    modint operator+() const { return *this; }\n    modint\
+    \ operator-() const { return modint() - *this; }\n    modint pow(long long n)\
+    \ const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>=\
+    \ 1; } return r; }\n    modint inv() const { return pow(Mod - 2); }\n    friend\
+    \ modint operator+(const modint& a, const modint& b) { return modint(a) += b;\
+    \ }\n    friend modint operator-(const modint& a, const modint& b) { return modint(a)\
+    \ -= b; }\n    friend modint operator*(const modint& a, const modint& b) { return\
+    \ modint(a) *= b; }\n    friend modint operator/(const modint& a, const modint&\
+    \ b) { return modint(a) /= b; }\n    friend bool operator==(const modint& a, const\
+    \ modint& b) { return a.val == b.val; }\n    friend bool operator!=(const modint&\
+    \ a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"math/ntt.cpp\"\
+    \n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
+    #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
+    #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n#ifndef NTT_NAIVE_MUL_SHORT_DIM\n#define\
+    \ NTT_NAIVE_MUL_SHORT_DIM 16\n#endif\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n\
+    using mint = modint<ntt_mod>;\n#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\n\
+    static_assert(mint::get_mod() == ntt_mod, \"NTT requires mint with MOD = 998244353\"\
+    );\n#endif\n\n// 1012924417 -> 5, 924844033 -> 5\n// 998244353  -> 3, 897581057\
+    \ -> 3\n// 645922817  -> 3;\n\nclass NTT {\n    static constexpr int max_base\
+    \ = 23, maxN = 1 << max_base; // 998244353 supports up to 2^23-th roots\n    mint\
+    \ root[30], iroot[30], rate2[30], irate2[30], rate3[30], irate3[30];\npublic:\n\
+    \    NTT() {\n        int cnt2 = __builtin_ctz(ntt_mod-1);\n        mint e = mint(ntt_root).pow((ntt_mod-1)\
+    \ >> cnt2), ie = e.inv();\n        for (int i = cnt2; i >= 0; i--){\n        \
+    \    root[i] = e;\n            iroot[i] = ie;\n            e *= e; ie *= ie;\n\
+    \        }\n        mint prod = 1, iprod = 1;\n        for (int i = 0; i <= cnt2\
+    \ - 2; i++) {\n            rate2[i] = root[i + 2] * prod;\n            irate2[i]\
+    \ = iroot[i + 2] * iprod;\n            prod *= iroot[i + 2];\n            iprod\
+    \ *= root[i + 2];\n        }\n        prod = 1, iprod = 1;\n        for (int i\
+    \ = 0; i <= cnt2 - 3; i++) {\n            rate3[i] = root[i + 3] * prod;\n   \
+    \         irate3[i] = iroot[i + 3] * iprod;\n            prod *= iroot[i + 3];\n\
+    \            iprod *= root[i + 3];\n        }\n    }\n\n    mint root_pow2(int\
+    \ k) const { return root[k]; }\n    mint iroot_pow2(int k) const { return iroot[k];\
+    \ }\n\n    void transform(vector<mint> &a, int sign){\n        const int n = a.size();\n\
+    \        assert(n > 0);\n        assert((n & (n - 1)) == 0);\n        assert(n\
+    \ <= maxN);\n        int h = 0;\n        while ((1U << h) < (unsigned int)(n))\
+    \ h++;\n        if(!sign){ // fft\n            int len = 0;\n            while\
+    \ (len < h) {\n                if (h - len == 1) {\n                    int p\
+    \ = 1 << (h - len - 1);\n                    mint rot = 1;\n                 \
+    \   for (int s = 0; s < (1 << len); s++) {\n                        int offset\
+    \ = s << (h - len);\n                        for (int i = 0; i < p; i++) {\n \
+    \                           auto l = a[i + offset];\n                        \
+    \    auto r = a[i + offset + p] * rot;\n                            a[i + offset]\
+    \ = l + r;\n                            a[i + offset + p] = l - r;\n         \
+    \               }\n                        if (s + 1 != (1 << len)) {\n      \
+    \                      rot *= rate2[__builtin_ctz(~(unsigned int)(s))];\n    \
+    \                    }\n                    }\n                    len++;\n  \
+    \              } else {\n                    int p = 1 << (h - len - 2);\n   \
+    \                 mint rot = 1, imag = root[2];\n                    for (int\
+    \ s = 0; s < (1 << len); s++) {\n                        mint rot2 = rot * rot;\n\
+    \                        mint rot3 = rot2 * rot;\n                        int\
+    \ offset = s << (h - len);\n                        for (int i = 0; i < p; i++)\
+    \ {\n                            ull mod2 = 1ULL * ntt_mod * ntt_mod;\n      \
+    \                      ull a0 = a[i + offset].val;\n                         \
+    \   ull a1 = 1ULL * a[i + offset + p].val * rot.val;\n                       \
+    \     ull a2 = 1ULL * a[i + offset + 2 * p].val * rot2.val;\n                \
+    \            ull a3 = 1ULL * a[i + offset + 3 * p].val * rot3.val;\n         \
+    \                   ull a1na3imag = 1ULL * mint(a1 + mod2 - a3).val * imag.val;\n\
+    \                            ull na2 = mod2 - a2;\n                          \
+    \  a[i + offset] = mint(a0 + a2 + a1 + a3);\n                            a[i +\
+    \ offset + p] = mint(a0 + a2 + (2 * mod2 - (a1 + a3)));\n                    \
+    \        a[i + offset + 2 * p] = mint(a0 + na2 + a1na3imag);\n               \
+    \             a[i + offset + 3 * p] = mint(a0 + na2 + (mod2 - a1na3imag));\n \
+    \                       }\n                        if (s + 1 != (1 << len)) {\n\
+    \                            rot *= rate3[__builtin_ctz(~(unsigned int)(s))];\n\
+    \                        }\n                    }\n                    len +=\
+    \ 2;\n                }\n            }\n        }else { // ifft\n            int\
+    \ len = h;\n            while (len) {\n                if (len == 1) {\n     \
+    \               int p = 1 << (h - len);\n                    mint irot = 1;\n\
+    \                    for (int s = 0; s < (1 << (len - 1)); s++) {\n          \
+    \              int offset = s << (h - len + 1);\n                        for (int\
+    \ i = 0; i < p; i++) {\n                            auto l = a[i + offset];\n\
+    \                            auto r = a[i + offset + p];\n                   \
+    \         a[i + offset] = l + r;\n                            a[i + offset + p]\
+    \ = mint(1ULL * (ntt_mod + l.val - r.val) * irot.val);\n                     \
+    \   }\n                        if (s + 1 != (1 << (len - 1))) {\n            \
+    \                irot *= irate2[__builtin_ctz(~(unsigned int)(s))];\n        \
+    \                }\n                    }\n                    len--;\n      \
+    \          } else {\n                    int p = 1 << (h - len);\n           \
+    \         mint irot = 1, iimag = iroot[2];\n                    for (int s = 0;\
+    \ s < (1 << (len - 2)); s++) {\n                        mint irot2 = irot * irot;\n\
+    \                        mint irot3 = irot2 * irot;\n                        int\
+    \ offset = s << (h - len + 2);\n                        for (int i = 0; i < p;\
+    \ i++) {\n                            ull a0 = a[i + offset].val;\n          \
+    \                  ull a1 = a[i + offset + p].val;\n                         \
+    \   ull a2 = a[i + offset + 2 * p].val;\n                            ull a3 =\
+    \ a[i + offset + 3 * p].val;\n                            ull a2na3iimag = 1ULL\
+    \ * mint(1ULL * (ntt_mod + a2 - a3) * iimag.val).val;\n                      \
+    \      a[i + offset] = mint(a0 + a1 + a2 + a3);\n                            a[i\
+    \ + offset + p] = mint(a0 + (ntt_mod - a1) + a2na3iimag) * irot;\n           \
+    \                 a[i + offset + 2 * p] = mint(a0 + a1 + (ntt_mod - a2) + (ntt_mod\
+    \ - a3)) * irot2;\n                            a[i + offset + 3 * p] = mint(a0\
+    \ + (ntt_mod - a1) + (ntt_mod - a2na3iimag)) * irot3;\n                      \
+    \  }\n                        if (s + 1 != (1 << (len - 2))) {\n             \
+    \               irot *= irate3[__builtin_ctz(~(unsigned int)(s))];\n         \
+    \               }\n                    }\n                    len -= 2;\n    \
+    \            }\n            }\n        }\n    }\n};\n\nNTT ntt;\n\nvoid ntt_ifft(vector<mint>&\
+    \ a) {\n    ntt.transform(a, 1);\n    static vector<mint> inv_pow2 = []() {\n\
+    \        vector<mint> t(31, mint(1));\n        mint inv2 = mint(2).inv();\n  \
+    \      for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i - 1] * inv2;\n     \
+    \   return t;\n    }();\n    mint iz = inv_pow2[__builtin_ctz((unsigned)a.size())];\n\
+    \    for (auto& x : a) x *= iz;\n}\n\nmint ntt_inv_size(int n) {\n    static vector<mint>\
+    \ inv_pow2 = []() {\n        vector<mint> t(31, mint(1));\n        mint inv2 =\
+    \ mint(2).inv();\n        for (int i = 1; i < (int)t.size(); ++i) t[i] = t[i -\
+    \ 1] * inv2;\n        return t;\n    }();\n    return inv_pow2[__builtin_ctz((unsigned)n)];\n\
+    }\n\nbool mod_sqrt(mint a, mint &x) {\n    if (a == mint(0)) {\n        x = mint(0);\n\
+    \        return true;\n    }\n    if (a.pow((ntt_mod - 1) >> 1) != mint(1)) return\
+    \ false;\n    if (ntt_mod % 4 == 3) {\n        x = a.pow((ntt_mod + 1) >> 2);\n\
+    \        return true;\n    }\n    int s = 0;\n    int q = ntt_mod - 1;\n    while\
+    \ ((q & 1) == 0) {\n        ++s;\n        q >>= 1;\n    }\n    mint z = 2;\n \
+    \   while (z.pow((ntt_mod - 1) >> 1) == mint(1)) ++z;\n    mint c = z.pow(q);\n\
+    \    mint t = a.pow(q);\n    mint r = a.pow((q + 1) >> 1);\n    int m = s;\n \
+    \   while (t != mint(1)) {\n        int i = 1;\n        mint tt = t * t;\n   \
+    \     while (i < m && tt != mint(1)) {\n            tt *= tt;\n            ++i;\n\
+    \        }\n        mint b = c.pow(1LL << (m - i - 1));\n        r *= b;\n   \
+    \     c = b * b;\n        t *= c;\n        m = i;\n    }\n    x = r;\n    return\
+    \ true;\n}\n\nstruct poly {\n    vector<mint> v;\n    poly() = default;\n    explicit\
+    \ poly(int n) : v(n) {};\n    explicit poly(vector<mint> vv) : v(std::move(vv))\
+    \ {};\n    int size() const {return (int)v.size(); }\n    void shrink() {\n  \
+    \      while (!v.empty() && v.back() == mint(0)) v.pop_back();\n    }\n    poly\
+    \ cut(int len){\n        if (len < (int)v.size()) v.resize(static_cast<unsigned\
+    \ long>(len));\n        return *this;\n    }\n    inline mint& operator[] (int\
+    \ i) {return v[i]; }\n    inline const mint& operator[] (int i) const {return\
+    \ v[i]; }\n    poly& operator+=(const poly &a) {\n        this->v.resize(max(size(),\
+    \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] += a.v[i];\n\
+    \        return *this;\n    }\n    poly &operator+=(const mint &r) {\n       \
+    \ if (v.empty()) v.resize(1);\n        v[0] += r;\n        return *this;\n   \
+    \ }\n    poly& operator-=(const poly &a) {\n        this->v.resize(max(size(),\
+    \ a.size()));\n        for (int i = 0; i < a.size(); ++i) this->v[i] -= a.v[i];\n\
+    \        return *this;\n    }\n    poly& operator*=(const poly &a) {\n       \
+    \ const int n = size();\n        const int m = a.size();\n        if (n == 0 ||\
+    \ m == 0) {\n            v.clear();\n            return *this;\n        }\n  \
+    \      if (n == 1 || m == 1) {\n            const mint scalar = n == 1 ? v[0]\
+    \ : a.v[0];\n            if (n == 1) v = a.v;\n            for (auto &x : v) x\
+    \ *= scalar;\n            return *this;\n        }\n        if (min(n, m) <= NTT_NAIVE_MUL_SHORT_DIM\
+    \ ||\n            (1LL * n * m <= NTT_NAIVE_MUL_THRESHOLD && min(n, m) <= NTT_NAIVE_MUL_MIN_DIM))\
+    \ {\n            vector<mint> res(n + m - 1);\n            for (int i = 0; i <\
+    \ n; ++i) {\n                for (int j = 0; j < m; ++j) {\n                 \
+    \   res[i + j] += v[i] * a.v[j];\n                }\n            }\n         \
+    \   v = std::move(res);\n            return *this;\n        }\n        int N =\
+    \ n + m - 1;\n        int sz = 1;\n        while(sz < N) sz <<= 1;\n        this->v.resize(sz);\n\
+    \        ntt.transform(this->v, 0);\n        if (this == &a) {\n            for\
+    \ (int i = 0; i < sz; ++i) this->v[i] *= this->v[i];\n        } else {\n     \
+    \       static thread_local vector<mint> b;\n            b.assign(a.v.begin(),\
+    \ a.v.end());\n            b.resize(sz);\n            ntt.transform(b, 0);\n \
+    \           for(int i = 0; i < sz; ++i) this->v[i] *= b[i];\n        }\n     \
+    \   ntt.transform(this->v, 1);\n        this->v.resize(N);\n        mint iz =\
+    \ ntt_inv_size(sz);\n        for (int i = 0; i < N; i++) this->v[i] *= iz;\n \
+    \       return *this;\n    }\n    poly& operator/=(const poly &a){ return (*this\
+    \ *= a.inv()); }\n    poly operator+(const poly &a) const {\n        poly ret(*this);\n\
+    \        ret += a;\n        return ret;\n    }\n    poly operator+(const mint\
+    \ &v) const {\n        poly ret(*this);\n        ret += v;\n        return ret;\n\
+    \    }\n    poly operator-(const poly &a) const {\n        poly ret(*this);\n\
+    \        ret -= a;\n        return ret;\n    }\n    poly operator*(const poly\
+    \ &a) const {\n        poly ret(*this);\n        ret *= (this == &a ? ret : a);\n\
+    \        return ret;\n    }\n    poly rev(int deg = -1) const {\n        poly\
+    \ ret(*this);\n        if (deg != -1) ret.v.resize(deg);\n        reverse(ret.v.begin(),\
+    \ ret.v.end());\n        return ret;\n    }\n\n    pair<poly, poly> divmod(const\
+    \ poly &a) const {\n        poly f(*this), g(a);\n        f.shrink();\n      \
+    \  g.shrink();\n        assert(!g.v.empty());\n        if (f.size() < g.size())\
+    \ return {poly(), f};\n        int need = f.size() - g.size() + 1;\n        if\
+    \ (min(g.size(), need) <= 16 || 1LL * g.size() * need <= 4096) {\n           \
+    \ poly q(need);\n            mint inv_lead = g.v.back() == mint(1) ? mint(1) :\
+    \ g.v.back().inv();\n            for (int i = need - 1; i >= 0; --i) {\n     \
+    \           mint c = f[i + g.size() - 1] * inv_lead;\n                q[i] = c;\n\
+    \                for (int j = 0; j + 1 < g.size(); ++j) f[i + j] -= c * g[j];\n\
+    \            }\n            f.v.resize(g.size() - 1);\n            f.shrink();\n\
+    \            return {std::move(q), std::move(f)};\n        }\n        poly q =\
+    \ (f.rev().pre(need) * g.rev().inv(need)).pre(need).rev();\n        poly r = f\
+    \ - g * q;\n        r = r.pre(g.size() - 1);\n        r.shrink();\n        return\
+    \ {q, r};\n    }\n\n    poly mod(const poly &a) const {\n        return divmod(a).second;\n\
+    \    }\n\n    mint eval(mint x) const {\n        mint y = 0;\n        for (int\
+    \ i = size() - 1; i >= 0; --i) y = y * x + v[i];\n        return y;\n    }\n\n\
+    \    poly pre(int sz) const {\n        poly ret(sz);\n        for (int i = 0;\
+    \ i < min<int>(sz, v.size()); ++i) {\n            ret[i] = v[i];\n        }\n\
+    \        return ret;\n    }\n\n    poly diff() const {\n        const int n =\
+    \ (int)this->size();\n        poly ret(max(0, n - 1));\n        mint one(1), coeff(1);\n\
+    \        for (int i = 1; i < n; i++) {\n            ret[i - 1] = v[i] * coeff;\n\
+    \            coeff += one;\n        }\n        return ret;\n    }\n\n    poly\
+    \ integral() const {\n        const int n = (int)this->size();\n        poly ret(n\
+    \ + 1);\n        ret[0] = mint(0);\n        static vector<mint> invs = {mint(0),\
+    \ mint(1)};\n        if ((int)invs.size() <= n) {\n            int old = (int)invs.size();\n\
+    \            invs.resize(n + 1);\n            for (int i = old; i <= n; ++i) invs[i]\
+    \ = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];\n        }\n        for (int\
+    \ i = 0; i < n; i++) ret[i + 1] = v[i] * invs[i + 1];\n        return ret;\n \
+    \   }\n\n    poly inv(int deg = -1) const {\n        assert(!v.empty() && v[0]\
+    \ != mint(0));\n        if (deg == -1) deg = size();\n        if (deg == 0) return\
+    \ poly();\n        poly res(deg);\n        res[0] = v[0].inv();\n        for (int\
+    \ d = 1; d < deg; d <<= 1) {\n            vector<mint> f(2 * d), g(2 * d);\n \
+    \           for (int i = 0; i < min(size(), 2 * d); ++i) f[i] = v[i];\n      \
+    \      for (int i = 0; i < d; ++i) g[i] = res[i];\n            ntt.transform(f,\
+    \ 0);\n            ntt.transform(g, 0);\n            for (int i = 0; i < 2 * d;\
+    \ ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            fill(f.begin(), f.begin()\
+    \ + d, mint(0));\n            ntt.transform(f, 0);\n            for (int i = 0;\
+    \ i < 2 * d; ++i) f[i] *= g[i];\n            ntt_ifft(f);\n            for (int\
+    \ i = d; i < min(2 * d, deg); ++i) res[i] = -f[i];\n        }\n        return\
+    \ res.pre(deg);\n    }\n\n    poly log(int deg = -1) const {\n        assert(!v.empty()\
+    \ && v[0] == mint(1));\n        if (deg == -1) deg = (int)this->size();\n    \
+    \    if (deg == 0) return poly();\n        return (pre(min(size(), deg)).diff()\
+    \ * inv(deg)).pre(deg - 1).integral();\n    }\n\n    poly exp(int deg = -1) const\
+    \ {\n        assert(v.size() == 0 || v[0] == mint(0));\n        if (deg == -1)\
+    \ deg = v.size();\n        static vector<mint> invs = {mint(0), mint(1)};\n  \
+    \      auto ensure_invs = [&](int n) {\n            if ((int)invs.size() <= n)\
+    \ {\n                int old = (int)invs.size();\n                invs.resize(n\
+    \ + 1);\n                for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod\
+    \ - ntt_mod / i) * invs[ntt_mod % i];\n            }\n        };\n        auto\
+    \ inplace_integral = [&](poly& f) {\n            int n = f.size();\n         \
+    \   ensure_invs(n);\n            f.v.insert(f.v.begin(), mint(0));\n         \
+    \   for (int i = 1; i <= n; ++i) f[i] *= invs[i];\n        };\n        poly b(vector<mint>{mint(1),\
+    \ (1 < size() ? v[1] : mint(0))});\n        poly c(vector<mint>{mint(1)}), z1,\
+    \ z2(vector<mint>{mint(1), mint(1)});\n        for (int m = 2; m < deg; m <<=\
+    \ 1) {\n            poly y = b;\n            y.v.resize(2 * m);\n            ntt.transform(y.v,\
+    \ 0);\n            z1 = z2;\n            poly z(m);\n            for (int i =\
+    \ 0; i < m; ++i) z[i] = y[i] * z1[i];\n            ntt_ifft(z.v);\n          \
+    \  fill(z.v.begin(), z.v.begin() + m / 2, mint(0));\n            ntt.transform(z.v,\
+    \ 0);\n            for (int i = 0; i < m; ++i) z[i] *= -z1[i];\n            ntt_ifft(z.v);\n\
+    \            c.v.insert(c.v.end(), z.v.begin() + m / 2, z.v.end());\n        \
+    \    z2 = c;\n            z2.v.resize(2 * m);\n            ntt.transform(z2.v,\
+    \ 0);\n\n            poly x(m);\n            for (int i = 0; i + 1 < m && i +\
+    \ 1 < size(); ++i) x[i] = v[i + 1] * mint(i + 1);\n            x[m - 1] = mint(0);\n\
+    \            ntt.transform(x.v, 0);\n            for (int i = 0; i < m; ++i) x[i]\
+    \ *= y[i];\n            ntt_ifft(x.v);\n            for (int i = 0; i + 1 < m;\
+    \ ++i) x[i] -= b[i + 1] * mint(i + 1);\n            x.v.resize(2 * m);\n     \
+    \       for (int i = 0; i + 1 < m; ++i) {\n                x[m + i] = x[i];\n\
+    \                x[i] = mint(0);\n            }\n            ntt.transform(x.v,\
+    \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= z2[i];\n          \
+    \  ntt_ifft(x.v);\n            x.v.pop_back();\n            inplace_integral(x);\n\
+    \            for (int i = m; i < min(size(), 2 * m); ++i) x[i] += v[i];\n    \
+    \        fill(x.v.begin(), x.v.begin() + m, mint(0));\n            ntt.transform(x.v,\
+    \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n           \
+    \ ntt_ifft(x.v);\n            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n\
+    \        }\n        return b.pre(deg);\n    }\n\n    poly pow(long long k, int\
+    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        poly ret(max(0,\
+    \ deg));\n        if (deg <= 0) return ret;\n        if (k == 0) {\n         \
+    \   ret[0] = 1;\n            return ret;\n        }\n        if (0 < k && k <=\
+    \ 64) {\n            poly base = pre(deg);\n            poly ans(1);\n       \
+    \     ans[0] = 1;\n            long long e = k;\n            while (e > 0) {\n\
+    \                if (e & 1) {\n                    ans *= base;\n            \
+    \        ans = ans.pre(deg);\n                }\n                e >>= 1;\n  \
+    \              if (e == 0) break;\n                base *= base;\n           \
+    \     base = base.pre(deg);\n            }\n            ans = ans.pre(deg);\n\
+    \            if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n\
+    \        }\n        int lead = 0;\n        while (lead < size() && v[lead] ==\
+    \ mint(0)) lead++;\n        if (lead == size()) return ret;\n        long long\
+    \ shift_ll = 0;\n        if (lead > 0) {\n            if (k > (deg - 1) / lead)\
+    \ return ret;\n            shift_ll = 1LL * lead * k;\n        }\n        poly\
+    \ f(size() - lead);\n        mint inv_lead = v[lead].inv();\n        for (int\
+    \ i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;\n        int shift\
+    \ = static_cast<int>(shift_ll);\n        int rem_deg = deg - shift;\n        poly\
+    \ g = f.log(rem_deg);\n        mint k_mint = mint(k);\n        for (int i = 0;\
+    \ i < g.size(); ++i) g[i] *= k_mint;\n        g = g.exp(rem_deg);\n        mint\
+    \ coeff = v[lead].pow(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ coeff;\n        for (int i = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n\
+    \        return ret;\n    }\n\n    poly sqrt(int deg = -1) const {\n        if\
+    \ (deg == -1) deg = size();\n        poly ret(max(0, deg));\n        if (deg <=\
+    \ 0) return ret;\n        int lead = 0;\n        while (lead < size() && v[lead]\
+    \ == mint(0)) lead++;\n        if (lead == size()) return ret;\n        if (lead\
+    \ & 1) return poly();\n        mint sq0;\n        if (!mod_sqrt(v[lead], sq0))\
+    \ return poly();\n        int shift = lead >> 1;\n        if (shift >= deg) return\
+    \ ret;\n        int rem_deg = deg - shift;\n        poly f(size() - lead);\n \
+    \       mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
+    \ ++i) f[i - lead] = v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n\
+    \        mint inv2 = mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<=\
+    \ 1) {\n            poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k\
+    \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
+    \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
+    \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
+    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
+    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
+    \n\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    assert(n\
+    \ >= 0 && q.size() > 0 && q[0] != mint(0));\n    if(p.size() == 0) return 0;\n\
+    \    if(q.size() == 1) return n < p.size() ? p[n]/q[0] : mint(0);\n    if(!n)\
+    \ return p[0]/q[0];\n    if(q[0] != mint(1)) {\n        mint inv = q[0].inv();\n\
+    \        for(auto &v : p.v) v *= inv;\n        for(auto &v : q.v) v *= inv;\n\
+    \    }\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n    while(sz\
+    \ < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n    mint x = mint(sz>>1).inv();\n\
+    \    vector<mint> y(sz>>1, 0);\n    for (int j = sz>>2, i = h; j; j >>= 1, i--)\
+    \ y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n    for (int i = 2; i < sz>>1; i <<=\
+    \ 1) {\n        for (int j = i+1; j < 2*i; ++j) {\n            y[j] = y[j-i]*y[i];\n\
+    \        }\n    }\n    ntt.transform(p.v, 0);\n    ntt.transform(q.v, 0);\n  \
+    \  poly tmp(sz>>1);\n    auto up = [&](poly &A){\n        for (int i = 0; i <\
+    \ sz>>1; ++i) tmp[i] = A[i];\n        ntt.transform(tmp.v, 1);\n        mint now\
+    \ = x;\n        for (int i = 0; i < sz>>1; ++i) tmp[i] *= now, now *= ntt.root_pow2(h);\n\
+    \        ntt.transform(tmp.v, 0);\n        for (int i = 0; i < sz>>1; ++i) A[i|(sz>>1)]\
+    \ = tmp[i];\n    };\n    int ika = h;\n    while(n){\n        for (int i = 0;\
+    \ i < sz; ++i) p[i] *= q[i^1];\n        if(n&1) for (int i = 0; i < sz>>1; ++i)\
+    \ p[i] = (p[i<<1]-p[(i<<1)|1])*y[i];\n        else for (int i = 0; i < sz>>1;\
+    \ ++i) p[i] = (p[i<<1]+p[(i<<1)|1]);\n        ika++;\n        if(n == 1) break;\n\
+    \        up(p);\n        for (int i = 0; i < sz>>1; ++i) q[i] = q[i<<1]*q[(i<<1)|1];\n\
+    \        up(q);\n        n >>= 1;\n    }\n    for (int i = 0; i < sz>>1; ++i)\
+    \ tmp[i] = p[i];\n    ntt.transform(tmp.v, 1);\n    return mint(2).pow(ntt_mod-ika)*tmp[0];\n\
+    }\n\n/**\n * @brief \u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n\
+    \ */\n#line 1 \"math/berlekamp_massey.cpp\"\ntemplate<class T>\nvector<T> berlekamp_massey(const\
+    \ vector<T> &s) {\n    vector<T> c(1, T(1)), b(1, T(1));\n    int l = 0, m = 1;\n\
+    \    T y = T(1);\n    for (int n = 0; n < (int)s.size(); ++n) {\n        T d =\
+    \ T(0);\n        for (int i = 0; i <= l; ++i) d += c[i] * s[n - i];\n        if\
+    \ (d == T(0)) {\n            ++m;\n            continue;\n        }\n        vector<T>\
+    \ t;\n        if (2 * l <= n) t = c;\n        T coef = d / y;\n        if ((int)c.size()\
+    \ < (int)b.size() + m) c.resize((int)b.size() + m, T(0));\n        for (int i\
+    \ = 0; i < (int)b.size(); ++i) c[i + m] -= coef * b[i];\n        if (2 * l <=\
+    \ n) {\n            l = n + 1 - l;\n            b = std::move(t);\n          \
+    \  y = d;\n            m = 1;\n        } else {\n            ++m;\n        }\n\
+    \    }\n    c.erase(c.begin());\n    for (auto &x : c) x = -x;\n    return c;\n\
+    }\n\n/**\n * @brief Berlekamp-Massey\u6CD5\n */\n#line 3 \"fps/linear_recurrence.cpp\"\
+    \n\nmint linear_recurrence(const vector<mint> &a, const vector<mint> &c, ll n)\
+    \ {\n    if (n < (ll)a.size()) return a[(int)n];\n    int k = (int)c.size();\n\
+    \    if (k == 0) return mint(0);\n    poly q(k + 1);\n    q[0] = 1;\n    for (int\
+    \ i = 0; i < k; ++i) q[i + 1] = -c[i];\n    vector<mint> aa(k, mint(0));\n   \
+    \ for (int i = 0; i < min(k, (int)a.size()); ++i) aa[i] = a[i];\n    poly p =\
+    \ (poly(aa) * q).cut(k);\n    return nth_term(p, q, n);\n}\n\nmint linear_recurrence(const\
+    \ vector<mint> &a, ll n) {\n    return linear_recurrence(a, berlekamp_massey(a),\
+    \ n);\n}\n\n/**\n * @brief \u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)\n\
+    \ */\n#line 6 \"string/count_words.cpp\"\n\ntemplate<int W>\nmint count_words(const\
+    \ DFA<W>& a, ll n) {\n    assert(n >= 0);\n    if (a.initial == -1) return mint(0);\n\
+    \    if (n == 0) return mint(bool(a.accept[a.initial]));\n    if (none_of(a.accept.begin(),\
+    \ a.accept.end(), [](char x) { return x; })) return mint(0);\n    int s = (int)a.next.size();\n\
+    \    if (s == 1) {\n        if (!a.accept[0]) return mint(0);\n        int degree\
+    \ = 0;\n        for (int to : a.next[0]) degree += to != -1;\n        return mint(degree).pow(n);\n\
+    \    }\n    ll terms = min(n, 2LL * s - 1) + 1;\n    vector<unsigned> dp(s);\n\
+    \    vector<unsigned long long> next(s);\n    vector<mint> sequence;\n    vector<int>\
+    \ active{a.initial}, touched;\n    sequence.reserve(terms);\n    dp[a.initial]\
+    \ = 1;\n    unsigned long long total = bool(a.accept[a.initial]);\n    int width\
+    \ = min<unsigned long long>(W, numeric_limits<unsigned long long>::max() / (ntt_mod\
+    \ - 1) / (s + 1ULL));\n    for (ll len = 0; len < terms; ++len) {\n        sequence.push_back(mint::raw(total\
+    \ % ntt_mod));\n        if (len == n) return sequence.back();\n        if (active.empty())\
+    \ return mint(0);\n        if (len + 1 == terms) break;\n        bool sparse =\
+    \ active.size() < size_t(s) / 4 && width == W;\n        touched.clear();\n   \
+    \     if (sparse) {\n            for (int v : active) {\n                for (int\
+    \ to : a.next[v]) if (to != -1) {\n                    if (next[to] == 0) touched.push_back(to);\n\
+    \                    next[to] += dp[v];\n                }\n                dp[v]\
+    \ = 0;\n            }\n        } else if (width == W) {\n            for (int\
+    \ v : active) {\n                for (int to : a.next[v]) if (to != -1) next[to]\
+    \ += dp[v];\n            }\n        } else {\n            for (int first = 0;\
+    \ first < W;) {\n                int last = first + min(width, W - first);\n \
+    \               for (int v : active) {\n                    for (int c = first;\
+    \ c < last; ++c) {\n                        int to = a.next[v][c];\n         \
+    \               if (to != -1) next[to] += dp[v];\n                    }\n    \
+    \            }\n                first = last;\n                if (first != W)\
+    \ for (auto& value : next) value %= ntt_mod;\n            }\n        }\n     \
+    \   active.clear();\n        total = 0;\n        auto finish = [&](int v) {\n\
+    \            dp[v] = next[v] % ntt_mod;\n            next[v] = 0;\n          \
+    \  if (dp[v]) active.push_back(v);\n            if (a.accept[v]) total += dp[v];\n\
+    \        };\n        if (sparse) {\n            for (int v : touched) finish(v);\n\
+    \        } else {\n            for (int v = 0; v < s; ++v) finish(v);\n      \
+    \  }\n    }\n    return linear_recurrence(sequence, n);\n}\n\n\n\n/**\n * @brief\
+    \ \u6709\u9650\u72B6\u614BDP\u306E\u9577\u3055N\u306E\u6587\u5B57\u5217\u6570\n\
+    \ */\n"
+  code: "#ifndef FIRIEXP_LIBRARY_STRING_COUNT_WORDS_CPP\n#define FIRIEXP_LIBRARY_STRING_COUNT_WORDS_CPP\n\
+    \n#include \"dfa.cpp\"\n#include \"../fps/linear_recurrence.cpp\"\n\ntemplate<int\
+    \ W>\nmint count_words(const DFA<W>& a, ll n) {\n    assert(n >= 0);\n    if (a.initial\
+    \ == -1) return mint(0);\n    if (n == 0) return mint(bool(a.accept[a.initial]));\n\
+    \    if (none_of(a.accept.begin(), a.accept.end(), [](char x) { return x; }))\
+    \ return mint(0);\n    int s = (int)a.next.size();\n    if (s == 1) {\n      \
+    \  if (!a.accept[0]) return mint(0);\n        int degree = 0;\n        for (int\
+    \ to : a.next[0]) degree += to != -1;\n        return mint(degree).pow(n);\n \
+    \   }\n    ll terms = min(n, 2LL * s - 1) + 1;\n    vector<unsigned> dp(s);\n\
+    \    vector<unsigned long long> next(s);\n    vector<mint> sequence;\n    vector<int>\
+    \ active{a.initial}, touched;\n    sequence.reserve(terms);\n    dp[a.initial]\
+    \ = 1;\n    unsigned long long total = bool(a.accept[a.initial]);\n    int width\
+    \ = min<unsigned long long>(W, numeric_limits<unsigned long long>::max() / (ntt_mod\
+    \ - 1) / (s + 1ULL));\n    for (ll len = 0; len < terms; ++len) {\n        sequence.push_back(mint::raw(total\
+    \ % ntt_mod));\n        if (len == n) return sequence.back();\n        if (active.empty())\
+    \ return mint(0);\n        if (len + 1 == terms) break;\n        bool sparse =\
+    \ active.size() < size_t(s) / 4 && width == W;\n        touched.clear();\n   \
+    \     if (sparse) {\n            for (int v : active) {\n                for (int\
+    \ to : a.next[v]) if (to != -1) {\n                    if (next[to] == 0) touched.push_back(to);\n\
+    \                    next[to] += dp[v];\n                }\n                dp[v]\
+    \ = 0;\n            }\n        } else if (width == W) {\n            for (int\
+    \ v : active) {\n                for (int to : a.next[v]) if (to != -1) next[to]\
+    \ += dp[v];\n            }\n        } else {\n            for (int first = 0;\
+    \ first < W;) {\n                int last = first + min(width, W - first);\n \
+    \               for (int v : active) {\n                    for (int c = first;\
+    \ c < last; ++c) {\n                        int to = a.next[v][c];\n         \
+    \               if (to != -1) next[to] += dp[v];\n                    }\n    \
+    \            }\n                first = last;\n                if (first != W)\
+    \ for (auto& value : next) value %= ntt_mod;\n            }\n        }\n     \
+    \   active.clear();\n        total = 0;\n        auto finish = [&](int v) {\n\
+    \            dp[v] = next[v] % ntt_mod;\n            next[v] = 0;\n          \
+    \  if (dp[v]) active.push_back(v);\n            if (a.accept[v]) total += dp[v];\n\
+    \        };\n        if (sparse) {\n            for (int v : touched) finish(v);\n\
+    \        } else {\n            for (int v = 0; v < s; ++v) finish(v);\n      \
+    \  }\n    }\n    return linear_recurrence(sequence, n);\n}\n\n#endif\n\n/**\n\
+    \ * @brief \u6709\u9650\u72B6\u614BDP\u306E\u9577\u3055N\u306E\u6587\u5B57\u5217\
+    \u6570\n */\n"
+  dependsOn:
+  - string/dfa.cpp
+  - fps/linear_recurrence.cpp
+  - fps/nth_term.cpp
+  - math/ntt.cpp
+  - util/modint_base.cpp
+  - math/berlekamp_massey.cpp
+  isVerificationFile: false
+  path: string/count_words.cpp
+  requiredBy: []
+  timestamp: '2026-10-16 22:44:08+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo_aplusb_count_words.test.cpp
+documentation_of: string/count_words.cpp
+layout: document
+title: "\u6709\u9650\u72B6\u614BDP\u306E\u9577\u3055N\u306E\u6587\u5B57\u5217\u6570"
+---
+
+## 説明
+`DFA<W>` が受理する長さ $N$ の文字列数を、998244353 を法とする `mint` で求める。
+長い列には Berlekamp-Massey と線形漸化式を使う。
+
+## できること
+- `count_words(a, n)` : 長さ `n` で受理される文字列数を返す。`0 <= n <= LLONG_MAX`
+- `n == 0` は初期状態が受理するかで決まる。全拒否、拒否遷移、受理状態なしにも対応する
+- 同じ行き先を持つ別の文字も、それぞれ別の列として数える
+
+## 使い方
+```cpp
+auto a = avoid_patterns<2, 'a'>({"aa"});
+mint answer = count_words(a, 1000000000000000000LL);
+```
+
+禁止語の例には `string/avoid_patterns.cpp` も include する。
+手書きの遷移表や `intersect` の結果も使え、追加の build は不要。
+固定長文字列なので先頭 0 も一文字として数える。数値の正規表記には `math/digit_dp.cpp` を使う。
+`mint` は既存 FPS と同じ 998244353 専用で、他の法や一般半環には対応しない。
+
+## 実装上の補足
+状態数を $S$ とすると、受理状態への個数の和は Cayley-Hamilton により次数 $S$ 以下の線形漸化式を満たす。
+最初の $2S$ 項を文字別の DP で生成すれば、既存の Berlekamp-Massey で十分であり、確率的な推測ではない。
+短い $N$ は通常 DP で終了する。
+
+長い $N$ の時間は $O(WS^2+S\log S\log N)$、短い $N$ は $O(S+NWS)$。
+DP と漸化式の作業領域は $O(S)$。状態数は `int` に収まる範囲とし、NTT の変換長上限は既存 FPS に従う。
+
+DP の遷移は64 bit整数に加算してから状態ごとに剰余を取る。加算が収まる文字数ごとに区切る。
+非零の状態が少ない場合は、それらからの遷移先だけを更新する。全状態の値が 0 になれば以後も 0。
+1状態の場合は有効な文字数の累乗で計算する。
+`string/dfa_minimize.cpp` の `minimize(a)` を前もって使うと、不要な状態による前計算を減らせる。

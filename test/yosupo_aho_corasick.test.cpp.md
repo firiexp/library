@@ -230,34 +230,35 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/ahocorasick.cpp\"\
-    \ntemplate<int W, int start>\nclass AhoCorasick {\npublic:\n    struct Node {\n\
-    \        array<int, W> to;\n        int fail;\n        int val;\n    };\n    explicit\
-    \ AhoCorasick() : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n    int\
-    \ add(string &s, int cur = 0){\n        for (auto &&i : s) {\n            if(!v[cur].to[i-start])\
-    \ v[cur].to[i-start] = v.size(), v.emplace_back();\n            cur = v[cur].to[i-start];\n\
-    \        }\n        return cur;\n    }\n\n    void build() {\n        v[0].fail\
-    \ = -1;\n        int l = 0, r = 1;\n        ord.clear();\n        ord.reserve(v.size());\n\
-    \        ord.emplace_back(0);\n        while(l < r){\n            int i = ord[l];\
-    \ l++;\n            for (int c = 0; c < W; ++c) {\n                if(!v[i].to[c])\
-    \ continue;\n                int to = v[i].to[c];\n                v[to].fail\
-    \ = (v[i].fail == -1 ? 0 : v[v[i].fail].to[c]);\n                ord.emplace_back(to);\n\
-    \                r++;\n            }\n            if(i != 0){\n              \
-    \  for (int c = 0; c < W; ++c) {\n                    if(!v[i].to[c]) v[i].to[c]\
-    \ = v[v[i].fail].to[c];\n                }\n            }\n        }\n    }\n\
-    \    inline int next(int x, char c){ return v[x].to[c-start]; }\n\n    vector<long\
-    \ long> occurrence_counts(const string &text) const {\n        vector<long long>\
-    \ counts(v.size());\n        counts[0] = 1;\n        int state = 0;\n        for\
-    \ (char c : text) {\n            state = v[state].to[c - start];\n           \
-    \ ++counts[state];\n        }\n        for (int i = (int)ord.size() - 1; i > 0;\
-    \ --i) {\n            int state = ord[i];\n            counts[v[state].fail] +=\
-    \ counts[state];\n        }\n        return counts;\n    }\n};\n/**\n * @brief\
-    \ Aho-Corasick\u6CD5\n */\n#line 20 \"test/yosupo_aho_corasick.test.cpp\"\n\n\
-    int main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    AhoCorasick<26, 'a'> aho;\n    vector<int> parent(1, -1), terminal(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        string s;\n        sc.read(s);\n \
-    \       int cur = 0;\n        for (char c : s) {\n            int to = aho.v[cur].to[c\
-    \ - 'a'];\n            if (!to) {\n                aho.v[cur].to[c - 'a'] = aho.v.size();\n\
-    \                aho.v.emplace_back();\n                parent.push_back(cur);\n\
+    \n\n\n\ntemplate<int W, int start>\nclass AhoCorasick {\npublic:\n    struct Node\
+    \ {\n        array<int, W> to;\n        int fail;\n        int val;\n    };\n\
+    \    explicit AhoCorasick() : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n\
+    \    int add(const string &s, int cur = 0){\n        for (auto &&i : s) {\n  \
+    \          if(!v[cur].to[i-start]) v[cur].to[i-start] = v.size(), v.emplace_back();\n\
+    \            cur = v[cur].to[i-start];\n        }\n        return cur;\n    }\n\
+    \n    void build() {\n        v[0].fail = -1;\n        int l = 0, r = 1;\n   \
+    \     ord.clear();\n        ord.reserve(v.size());\n        ord.emplace_back(0);\n\
+    \        while(l < r){\n            int i = ord[l]; l++;\n            for (int\
+    \ c = 0; c < W; ++c) {\n                if(!v[i].to[c]) continue;\n          \
+    \      int to = v[i].to[c];\n                v[to].fail = (v[i].fail == -1 ? 0\
+    \ : v[v[i].fail].to[c]);\n                ord.emplace_back(to);\n            \
+    \    r++;\n            }\n            if(i != 0){\n                for (int c\
+    \ = 0; c < W; ++c) {\n                    if(!v[i].to[c]) v[i].to[c] = v[v[i].fail].to[c];\n\
+    \                }\n            }\n        }\n    }\n    inline int next(int x,\
+    \ char c){ return v[x].to[c-start]; }\n\n    vector<long long> occurrence_counts(const\
+    \ string &text) const {\n        vector<long long> counts(v.size());\n       \
+    \ counts[0] = 1;\n        int state = 0;\n        for (char c : text) {\n    \
+    \        state = v[state].to[c - start];\n            ++counts[state];\n     \
+    \   }\n        for (int i = (int)ord.size() - 1; i > 0; --i) {\n            int\
+    \ state = ord[i];\n            counts[v[state].fail] += counts[state];\n     \
+    \   }\n        return counts;\n    }\n};\n\n\n\n/**\n * @brief Aho-Corasick\u6CD5\
+    \n */\n#line 20 \"test/yosupo_aho_corasick.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n    AhoCorasick<26, 'a'>\
+    \ aho;\n    vector<int> parent(1, -1), terminal(n);\n    for (int i = 0; i < n;\
+    \ ++i) {\n        string s;\n        sc.read(s);\n        int cur = 0;\n     \
+    \   for (char c : s) {\n            int to = aho.v[cur].to[c - 'a'];\n       \
+    \     if (!to) {\n                aho.v[cur].to[c - 'a'] = aho.v.size();\n   \
+    \             aho.v.emplace_back();\n                parent.push_back(cur);\n\
     \                to = (int)aho.v.size() - 1;\n            }\n            cur =\
     \ to;\n        }\n        terminal[i] = cur;\n    }\n    aho.build();\n\n    pr.println((int)aho.v.size());\n\
     \    for (int v = 1; v < (int)aho.v.size(); ++v) {\n        pr.print(parent[v]);\n\
@@ -288,7 +289,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aho_corasick.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 22:14:50+09:00'
+  timestamp: '2026-10-16 22:10:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aho_corasick.test.cpp

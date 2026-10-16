@@ -11,7 +11,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: fps/linear_recurrence.cpp
     title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
+  - icon: ':heavy_check_mark:'
+    path: string/count_words.cpp
+    title: "\u6709\u9650\u72B6\u614BDP\u306E\u9577\u3055N\u306E\u6587\u5B57\u5217\u6570"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_count_words.test.cpp
+    title: test/yosupo_aplusb_count_words.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_nth_term.test.cpp
     title: test/yosupo_aplusb_nth_term.test.cpp
@@ -366,10 +372,12 @@ data:
   path: fps/nth_term.cpp
   requiredBy:
   - fps/linear_recurrence.cpp
+  - string/count_words.cpp
   timestamp: '2026-10-14 20:32:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
+  - test/yosupo_aplusb_count_words.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   - test/yosupo_aplusb_nth_term.test.cpp
 documentation_of: fps/nth_term.cpp

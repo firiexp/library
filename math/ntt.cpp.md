@@ -33,10 +33,16 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/subset_sum_counts.cpp
     title: "\u548C\u3054\u3068\u306E\u90E8\u5206\u96C6\u5408\u6570"
+  - icon: ':heavy_check_mark:'
+    path: string/count_words.cpp
+    title: "\u6709\u9650\u72B6\u614BDP\u306E\u9577\u3055N\u306E\u6587\u5B57\u5217\u6570"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/aoj0452.test.cpp
     title: test/aoj0452.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_count_words.test.cpp
+    title: test/yosupo_aplusb_count_words.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
@@ -677,6 +683,7 @@ data:
   - fps/polynomial_interpolation.cpp
   - math/many_factorials.cpp
   - math/subset_sum_counts.cpp
+  - string/count_words.cpp
   timestamp: '2026-10-14 20:32:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
@@ -698,6 +705,7 @@ data:
   - test/yosupo_sqrt_of_formal_power_series.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
+  - test/yosupo_aplusb_count_words.test.cpp
   - test/yosupo_many_factorials.test.cpp
   - test/yosupo_shift_of_sampling_points_of_polynomial.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp

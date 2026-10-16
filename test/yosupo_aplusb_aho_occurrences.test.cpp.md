@@ -227,36 +227,37 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/ahocorasick.cpp\"\
-    \ntemplate<int W, int start>\nclass AhoCorasick {\npublic:\n    struct Node {\n\
-    \        array<int, W> to;\n        int fail;\n        int val;\n    };\n    explicit\
-    \ AhoCorasick() : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n    int\
-    \ add(string &s, int cur = 0){\n        for (auto &&i : s) {\n            if(!v[cur].to[i-start])\
-    \ v[cur].to[i-start] = v.size(), v.emplace_back();\n            cur = v[cur].to[i-start];\n\
-    \        }\n        return cur;\n    }\n\n    void build() {\n        v[0].fail\
-    \ = -1;\n        int l = 0, r = 1;\n        ord.clear();\n        ord.reserve(v.size());\n\
-    \        ord.emplace_back(0);\n        while(l < r){\n            int i = ord[l];\
-    \ l++;\n            for (int c = 0; c < W; ++c) {\n                if(!v[i].to[c])\
-    \ continue;\n                int to = v[i].to[c];\n                v[to].fail\
-    \ = (v[i].fail == -1 ? 0 : v[v[i].fail].to[c]);\n                ord.emplace_back(to);\n\
-    \                r++;\n            }\n            if(i != 0){\n              \
-    \  for (int c = 0; c < W; ++c) {\n                    if(!v[i].to[c]) v[i].to[c]\
-    \ = v[v[i].fail].to[c];\n                }\n            }\n        }\n    }\n\
-    \    inline int next(int x, char c){ return v[x].to[c-start]; }\n\n    vector<long\
-    \ long> occurrence_counts(const string &text) const {\n        vector<long long>\
-    \ counts(v.size());\n        counts[0] = 1;\n        int state = 0;\n        for\
-    \ (char c : text) {\n            state = v[state].to[c - start];\n           \
-    \ ++counts[state];\n        }\n        for (int i = (int)ord.size() - 1; i > 0;\
-    \ --i) {\n            int state = ord[i];\n            counts[v[state].fail] +=\
-    \ counts[state];\n        }\n        return counts;\n    }\n};\n/**\n * @brief\
-    \ Aho-Corasick\u6CD5\n */\n#line 7 \"test/yosupo_aplusb_aho_occurrences.test.cpp\"\
-    \n\nvector<string> words(int max_length) {\n    vector<string> result;\n    for\
-    \ (int n = 0, count = 1; n <= max_length; ++n, count *= 3) {\n        for (int\
-    \ mask = 0; mask < count; ++mask) {\n            string s(n, 'a');\n         \
-    \   int x = mask;\n            for (char &c : s) c += x % 3, x /= 3;\n       \
-    \     result.push_back(s);\n        }\n    }\n    return result;\n}\n\nvoid check(vector<string>\
-    \ patterns, const vector<string> &texts) {\n    AhoCorasick<3, 'a'> aho;\n   \
-    \ vector<int> terminal;\n    for (auto &s : patterns) terminal.push_back(aho.add(s));\n\
-    \    aho.build();\n    auto before = aho.v;\n    auto order = aho.ord;\n    const\
+    \n\n\n\ntemplate<int W, int start>\nclass AhoCorasick {\npublic:\n    struct Node\
+    \ {\n        array<int, W> to;\n        int fail;\n        int val;\n    };\n\
+    \    explicit AhoCorasick() : v(1) {}\n    vector<Node> v;\n    vector<int> ord;\n\
+    \    int add(const string &s, int cur = 0){\n        for (auto &&i : s) {\n  \
+    \          if(!v[cur].to[i-start]) v[cur].to[i-start] = v.size(), v.emplace_back();\n\
+    \            cur = v[cur].to[i-start];\n        }\n        return cur;\n    }\n\
+    \n    void build() {\n        v[0].fail = -1;\n        int l = 0, r = 1;\n   \
+    \     ord.clear();\n        ord.reserve(v.size());\n        ord.emplace_back(0);\n\
+    \        while(l < r){\n            int i = ord[l]; l++;\n            for (int\
+    \ c = 0; c < W; ++c) {\n                if(!v[i].to[c]) continue;\n          \
+    \      int to = v[i].to[c];\n                v[to].fail = (v[i].fail == -1 ? 0\
+    \ : v[v[i].fail].to[c]);\n                ord.emplace_back(to);\n            \
+    \    r++;\n            }\n            if(i != 0){\n                for (int c\
+    \ = 0; c < W; ++c) {\n                    if(!v[i].to[c]) v[i].to[c] = v[v[i].fail].to[c];\n\
+    \                }\n            }\n        }\n    }\n    inline int next(int x,\
+    \ char c){ return v[x].to[c-start]; }\n\n    vector<long long> occurrence_counts(const\
+    \ string &text) const {\n        vector<long long> counts(v.size());\n       \
+    \ counts[0] = 1;\n        int state = 0;\n        for (char c : text) {\n    \
+    \        state = v[state].to[c - start];\n            ++counts[state];\n     \
+    \   }\n        for (int i = (int)ord.size() - 1; i > 0; --i) {\n            int\
+    \ state = ord[i];\n            counts[v[state].fail] += counts[state];\n     \
+    \   }\n        return counts;\n    }\n};\n\n\n\n/**\n * @brief Aho-Corasick\u6CD5\
+    \n */\n#line 7 \"test/yosupo_aplusb_aho_occurrences.test.cpp\"\n\nvector<string>\
+    \ words(int max_length) {\n    vector<string> result;\n    for (int n = 0, count\
+    \ = 1; n <= max_length; ++n, count *= 3) {\n        for (int mask = 0; mask <\
+    \ count; ++mask) {\n            string s(n, 'a');\n            int x = mask;\n\
+    \            for (char &c : s) c += x % 3, x /= 3;\n            result.push_back(s);\n\
+    \        }\n    }\n    return result;\n}\n\nvoid check(vector<string> patterns,\
+    \ const vector<string> &texts) {\n    AhoCorasick<3, 'a'> aho;\n    vector<int>\
+    \ terminal;\n    for (auto &s : patterns) terminal.push_back(aho.add(s));\n  \
+    \  aho.build();\n    auto before = aho.v;\n    auto order = aho.ord;\n    const\
     \ auto &automaton = aho;\n    for (const auto &text : texts) {\n        auto counts\
     \ = automaton.occurrence_counts(text);\n        assert(counts.size() == before.size());\n\
     \        assert(counts[0] == (long long)text.size() + 1);\n        for (int i\
@@ -309,7 +310,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_aho_occurrences.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 22:14:50+09:00'
+  timestamp: '2026-10-16 22:10:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_aho_occurrences.test.cpp

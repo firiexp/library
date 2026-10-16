@@ -60,6 +60,9 @@ data:
     path: math/subset_sum_counts.cpp
     title: "\u548C\u3054\u3068\u306E\u90E8\u5206\u96C6\u5408\u6570"
   - icon: ':heavy_check_mark:'
+    path: string/count_words.cpp
+    title: "\u6709\u9650\u72B6\u614BDP\u306E\u9577\u3055N\u306E\u6587\u5B57\u5217\u6570"
+  - icon: ':heavy_check_mark:'
     path: util/modint.cpp
     title: "modint(\u56FA\u5B9AMOD)"
   _extendedVerifiedWith:
@@ -87,6 +90,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_comb_table.test.cpp
     title: test/yosupo_aplusb_comb_table.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_count_words.test.cpp
+    title: test/yosupo_aplusb_count_words.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_digit_dp.test.cpp
+    title: test/yosupo_aplusb_digit_dp.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
@@ -280,6 +289,9 @@ data:
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yuki2867.test.cpp
+    title: test/yuki2867.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
   _isVerificationFailed: false
@@ -364,6 +376,7 @@ data:
   - math/gauss_jordan_mint.cpp
   - math/subset_sum_counts.cpp
   - util/modint.cpp
+  - string/count_words.cpp
   timestamp: '2026-07-11 20:39:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
@@ -377,6 +390,7 @@ data:
   - test/yosupo_polynomial_interpolation.test.cpp
   - test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   - test/yuki650_hld_edge.test.cpp
+  - test/yosupo_aplusb_digit_dp.test.cpp
   - test/aoj0399.test.cpp
   - test/yosupo_characteristic_polynomial.test.cpp
   - test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp
@@ -409,11 +423,13 @@ data:
   - test/yosupo_aplusb_matrix_determinant_mod.test.cpp
   - test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - test/yosupo_log_of_formal_power_series.test.cpp
+  - test/yuki2867.test.cpp
   - test/yosupo_aplusb_comb_table.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yosupo_point_set_range_composite.test.cpp
+  - test/yosupo_aplusb_count_words.test.cpp
   - test/yosupo_many_factorials.test.cpp
   - test/yosupo_subset_convolution.test.cpp
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
