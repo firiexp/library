@@ -284,6 +284,9 @@ data:
     path: test/yosupo_aplusb_is_palindrome.test.cpp
     title: test/yosupo_aplusb_is_palindrome.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_k_shortest_walk.test.cpp
+    title: test/yosupo_aplusb_k_shortest_walk.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_lcs_bit.test.cpp
     title: test/yosupo_aplusb_lcs_bit.test.cpp
   - icon: ':heavy_check_mark:'
@@ -325,6 +328,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_min_plus_convolution.test.cpp
     title: test/yosupo_aplusb_min_plus_convolution.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_minimum_steiner_tree.test.cpp
+    title: test/yosupo_aplusb_minimum_steiner_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
     title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
@@ -662,6 +668,9 @@ data:
     path: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
     title: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_k_shortest_walk.test.cpp
+    title: test/yosupo_k_shortest_walk.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_root_integer.test.cpp
     title: test/yosupo_kth_root_integer.test.cpp
   - icon: ':heavy_check_mark:'
@@ -730,6 +739,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_minimum_spanning_tree.test.cpp
     title: test/yosupo_minimum_spanning_tree.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_minimum_steiner_tree.test.cpp
+    title: test/yosupo_minimum_steiner_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_multiplication_of_big_integers.test.cpp
     title: test/yosupo_multiplication_of_big_integers.test.cpp
@@ -1493,6 +1505,7 @@ data:
   - test/yosupo_aplusb_aho_occurrences.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_unionfind_with_potential_undoable.test.cpp
+  - test/yosupo_aplusb_k_shortest_walk.test.cpp
   - test/yosupo_aplusb_binarytrie.test.cpp
   - test/yosupo_cartesian_tree.test.cpp
   - test/yosupo_system_of_linear_equations_mod_2.test.cpp
@@ -1531,6 +1544,7 @@ data:
   - test/yosupo_aplusb_string_bytes.test.cpp
   - test/yosupo_aplusb_static_range_distinct.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
+  - test/yosupo_minimum_steiner_tree.test.cpp
   - test/yosupo_rectangle_add_point_get.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_topological_sort.test.cpp
@@ -1584,6 +1598,7 @@ data:
   - test/yosupo_aplusb_link_cut_tree_jump.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp
+  - test/yosupo_k_shortest_walk.test.cpp
   - test/yosupo_staticrmq_sparsetable.test.cpp
   - test/yosupo_dynamic_sequence_range_affine_range_sum.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
@@ -1611,6 +1626,7 @@ data:
   - test/aoj_ntl_1_d_eulerphi.test.cpp
   - test/yosupo_aplusb_functional_graph.test.cpp
   - test/yosupo_aplusb_primaldual_slope.test.cpp
+  - test/yosupo_aplusb_minimum_steiner_tree.test.cpp
   - test/yosupo_unionfind_with_potential.test.cpp
   - test/yosupo_dynamic_tree_vertex_set_path_composite.test.cpp
   - test/yosupo_aplusb_radixheap.test.cpp

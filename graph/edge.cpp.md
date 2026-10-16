@@ -24,6 +24,9 @@ data:
     path: graph/dijkstra_restore.cpp
     title: "\u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5"
   - icon: ':heavy_check_mark:'
+    path: graph/k_shortest_walk.cpp
+    title: "K\u756A\u76EE\u306E\u6700\u77ED\u30A6\u30A9\u30FC\u30AF"
+  - icon: ':heavy_check_mark:'
     path: graph/range_edge_graph.cpp
     title: "\u533A\u9593\u3078\u306E\u8FBA\u3092\u5727\u7E2E\u3059\u308B\u30B0\u30E9\
       \u30D5"
@@ -53,6 +56,9 @@ data:
     path: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
     title: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_k_shortest_walk.test.cpp
+    title: test/yosupo_aplusb_k_shortest_walk.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -61,6 +67,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_range_edge_graph.test.cpp
     title: test/yosupo_aplusb_range_edge_graph.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_k_shortest_walk.test.cpp
+    title: test/yosupo_k_shortest_walk.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_shortest_path.test.cpp
     title: test/yosupo_shortest_path.test.cpp
@@ -92,6 +101,7 @@ data:
   - graph/range_edge_graph.cpp
   - graph/dijkstra_radix_heap.cpp
   - graph/bfs01.cpp
+  - graph/k_shortest_walk.cpp
   - graph/bellman_ford.cpp
   timestamp: '2026-10-05 23:03:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
@@ -102,10 +112,12 @@ data:
   - test/yosupo_aplusb_bellman_ford.test.cpp
   - test/aoj0275_static_bitset.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_k_shortest_walk.test.cpp
   - test/aoj2945_bfs01.test.cpp
   - test/aoj0275_dynamic_bitset.test.cpp
   - test/yosupo_shortest_path_radix_heap.test.cpp
   - test/yosupo_aplusb_range_edge_graph.test.cpp
+  - test/yosupo_k_shortest_walk.test.cpp
   - test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp

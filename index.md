@@ -315,6 +315,9 @@ data:
       path: graph/independentset.cpp
       title: "\u6700\u5927\u72EC\u7ACB\u96C6\u5408(Maximum Independent Set)"
     - icon: ':heavy_check_mark:'
+      path: graph/k_shortest_walk.cpp
+      title: "K\u756A\u76EE\u306E\u6700\u77ED\u30A6\u30A9\u30FC\u30AF"
+    - icon: ':heavy_check_mark:'
       path: graph/kruskal.cpp
       title: "\u6700\u5C0F\u5168\u57DF\u6728(Kruskal\u6CD5)"
     - icon: ':heavy_check_mark:'
@@ -330,6 +333,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/minimum_cost_b_flow.cpp
       title: "\u6700\u5C0F\u8CBB\u7528b-flow(Min-Cost b-Flow)"
+    - icon: ':heavy_check_mark:'
+      path: graph/minimum_steiner_tree.cpp
+      title: "\u6700\u5C0F\u30B7\u30E5\u30BF\u30A4\u30CA\u30FC\u6728"
     - icon: ':heavy_check_mark:'
       path: graph/mst_sensitivity.cpp
       title: "\u6700\u5C0F\u5168\u57DF\u6728\u306E\u8FBA\u5225\u5236\u7D04\u30B3\u30B9\
@@ -1081,6 +1087,9 @@ data:
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_k_shortest_walk.test.cpp
+      title: test/yosupo_aplusb_k_shortest_walk.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_lcs_bit.test.cpp
       title: test/yosupo_aplusb_lcs_bit.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1122,6 +1131,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_min_plus_convolution.test.cpp
       title: test/yosupo_aplusb_min_plus_convolution.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_minimum_steiner_tree.test.cpp
+      title: test/yosupo_aplusb_minimum_steiner_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
       title: test/yosupo_aplusb_minimum_vertex_cover.test.cpp
@@ -1474,6 +1486,9 @@ data:
       path: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
       title: test/yosupo_jump_on_tree_link_cut_tree.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_k_shortest_walk.test.cpp
+      title: test/yosupo_k_shortest_walk.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_kth_root_integer.test.cpp
       title: test/yosupo_kth_root_integer.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1551,6 +1566,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_minimum_spanning_tree.test.cpp
       title: test/yosupo_minimum_spanning_tree.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_minimum_steiner_tree.test.cpp
+      title: test/yosupo_minimum_steiner_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_multiplication_of_big_integers.test.cpp
       title: test/yosupo_multiplication_of_big_integers.test.cpp
