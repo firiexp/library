@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_AHOCORASICK_CPP
+#define FIRIEXP_LIBRARY_DATASTRUCTURE_AHOCORASICK_CPP
+
 template<int W, int start>
 class AhoCorasick {
 public:
@@ -9,7 +12,7 @@ public:
     explicit AhoCorasick() : v(1) {}
     vector<Node> v;
     vector<int> ord;
-    int add(string &s, int cur = 0){
+    int add(const string &s, int cur = 0){
         for (auto &&i : s) {
             if(!v[cur].to[i-start]) v[cur].to[i-start] = v.size(), v.emplace_back();
             cur = v[cur].to[i-start];
@@ -56,6 +59,9 @@ public:
         return counts;
     }
 };
+
+#endif
+
 /**
  * @brief Aho-Corasick法
  */
