@@ -4,6 +4,7 @@
 # value must be a JSON string literal so the file stays easy to parse without extra dependencies
 string/dfa.cpp: "有限オートマトンと条件の合成"
 string/avoid_patterns.cpp: "禁止部分文字列を避ける有限オートマトン"
+string/count_words.cpp: "有限状態DPの長さNの文字列数"
 math/digit_dfa.cpp: "数字列の条件を表す有限オートマトン"
 math/digit_dp.cpp: "上下限付き桁DPの個数と総和"
 util/lis.cpp: "最長増加部分列の復元"
