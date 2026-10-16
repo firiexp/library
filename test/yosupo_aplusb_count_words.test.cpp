@@ -8,6 +8,7 @@ using ull = unsigned long long;
 #include "../string/count_words.cpp"
 #include "../string/avoid_patterns.cpp"
 #include "../math/digit_dfa.cpp"
+#include "../string/dfa_minimize.cpp"
 #include "../util/fastio.cpp"
 
 template<int W>
@@ -93,6 +94,26 @@ void self_check() {
     auto reject = required_digits(0);
     reject.accept[0] = false;
     assert(count_words(reject, largest) == mint(0));
+    for (int tc = 0; tc < 100; ++tc) {
+        int s = 20 + rng() % 80;
+        DFA<32> a{vector<array<int, 32>>(s), vector<char>(s), int(rng() % s)};
+        for (int v = 0; v < s; ++v) {
+            a.accept[v] = rng() % 2;
+            for (int& to : a.next[v]) to = rng() % 5 == 0 ? -1 : int(rng() % s);
+        }
+        auto expected = direct(a, 2 * s + 10);
+        for (int n : {1, 2, s, 2 * s + 10}) assert(count_words(a, n) == expected[n]);
+    }
+    DFA<2> wide{vector<array<int, 2>>(511), vector<char>(511, true), 0};
+    for (int v = 0; v < 511; ++v) {
+        wide.next[v] = {v < 255 ? 2 * v + 1 : 0, v < 255 ? 2 * v + 2 : 0};
+    }
+    for (int n : {7, 8, 9, 15, 16, 17, 1022, 1023}) assert(count_words(wide, n) == mint(2).pow(n));
+    auto compact = minimize(digit_value_mod(100));
+    for (ll n : {1LL, 2LL, 3LL, 100LL, largest}) {
+        mint expected = n < 2 ? mint(1) : mint(10).pow(n - 2);
+        assert(count_words(compact, n) == expected);
+    }
     auto combined = intersect(no_equal_adjacent(), digit_value_mod(7));
     auto expected = direct(combined, 200);
     for (int n : {0, 1, 2, 19, 200}) assert(count_words(combined, n) == expected[n]);
