@@ -10,6 +10,7 @@ using ull = unsigned long long;
 #include "../math/digit_dp.cpp"
 #include "../math/digit_dfa.cpp"
 #include "../string/avoid_patterns.cpp"
+#include "../string/dfa_minimize.cpp"
 
 struct AddOnly {
     long long value;
@@ -54,6 +55,8 @@ void self_check() {
     mt19937 rng(148);
     check(DFA<10>{}, rng);
     check(no_equal_adjacent(), rng);
+    check(minimize(digit_value_mod(100)), rng);
+    check(minimize(intersect(digit_sum_exact(12), digit_value_mod(12))), rng);
     for (int mask : {0, 1, 2, 3, 6, 17, 513, 1023}) check(required_digits(mask), rng);
     for (int m = 1; m <= 12; ++m) {
         check(digit_value_mod(m, m - 1), rng);
@@ -86,6 +89,14 @@ void self_check() {
     string limit = to_string(numeric_limits<long long>::max());
     assert(digit_count<long long>("1", limit, all) == numeric_limits<long long>::max());
     assert(digit_count_sum<long long>(limit, limit, all).second == numeric_limits<long long>::max());
+    for (int x : {0, 1, 9, 10, 99, 100, 1000}) {
+        string bound = string(500, '0') + to_string(x);
+        assert(digit_count<AddOnly>(bound, bound, all).value == 1);
+        assert(digit_count_sum<long long>(bound, bound, all) == make_pair(1LL, (long long)x));
+    }
+    auto rejecting = all;
+    rejecting.accept[0] = false;
+    assert(digit_count_sum<long long>("0", string(1000, '9'), rejecting) == make_pair(0LL, 0LL));
     using Mint = modint<998244353>;
     string upper(1000, '9');
     auto answer = digit_count_sum<Mint>("0", upper, all);
