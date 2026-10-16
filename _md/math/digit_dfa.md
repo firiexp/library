@@ -7,11 +7,13 @@ documentation_of: //math/digit_dfa.cpp
 数字 `0` から `9` の列に対する条件を、構築済みの `DFA<10>` で返す。
 
 ## できること
-- `digit_value_mod(m, r=0)` : 整数値の剰余が `r`。$m$ 状態、構築 $O(10m)$
-- `digit_sum_mod(m, r=0)` : 桁和の剰余が `r`。$m$ 状態、構築 $O(10m)$
-- `digit_sum_exact(k)` : 桁和が `k`。超過は拒否。$k+1$ 状態、構築 $O(10(k+1))$
+文字種数を $W$ とする。本実装は $W=10$。
+
+- `digit_value_mod(m, r=0)` : 整数値の剰余が `r`。$m$ 状態、構築 $O(Wm)$
+- `digit_sum_mod(m, r=0)` : 桁和の剰余が `r`。$m$ 状態、構築 $O(Wm)$
+- `digit_sum_exact(k)` : 桁和が `k`。超過は拒否。$k+1$ 状態、構築 $O(W(k+1))$
 - `no_equal_adjacent()` : 同じ数字が隣接しない。11 状態
-- `required_digits(mask)` : bit が立つ数字をすべて含む。指定数字数を $k$ として $2^k$ 状態、構築 $O(10\cdot 2^k)$
+- `required_digits(mask)` : bit が立つ数字をすべて含む。指定数字数を $k$ として $2^k$ 状態、構築 $O(W2^k)$
 
 ## 使い方
 `m > 0`、`0 <= r < m`、`0 <= k < INT_MAX`、`0 <= mask < 1024` とする。

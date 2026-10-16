@@ -8,7 +8,7 @@ documentation_of: //string/avoid_patterns.cpp
 Aho-Corasick の failure 先から禁止判定を伝播し、禁止状態を通らず到達できる状態だけを返す。
 
 ## できること
-- `avoid_patterns<W, start>(patterns)` : `const vector<string>&` から構築済みの遷移表を返す。入力は変更しない
+- `avoid_patterns<W, start>(patterns)` : `const vector<string>&` から構築済みの遷移表を返す
 - 空のパターン群は全列を受理する。空パターンを含むと空列も含めて全拒否となり、`initial == -1` を返す
 - 重複パターンや、一方が他方を含むパターン群も扱う
 
