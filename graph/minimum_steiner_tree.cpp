@@ -17,7 +17,6 @@ public:
     }
 
     int add_edge(int u, int v, T weight) {
-        assert(dp.empty());
         assert(0 <= u && u < n && 0 <= v && v < n && weight >= 0);
         int id = (int)edges.size();
         edges.push_back({u, v, weight});
@@ -28,7 +27,6 @@ public:
 
     void build(const vector<int> &terminals) {
         int k = (int)terminals.size();
-        assert(0 < k && k < 31);
         vector<char> used(n);
         for (int v : terminals) {
             assert(0 <= v && v < n && !used[v]);
@@ -74,7 +72,6 @@ public:
     }
 
     T cost(int v) const {
-        assert(!dp.empty() && 0 <= v && v < n);
         return dp.back()[v];
     }
 
