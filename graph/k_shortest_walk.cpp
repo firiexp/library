@@ -95,5 +95,5 @@ vector<T> k_shortest_walk(int s, int t, int k, const vector<vector<edge<T>>> &g)
 #endif
 
 /**
- * @brief K本の最短ウォーク
+ * @brief K番目の最短ウォーク
  */
