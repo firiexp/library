@@ -3,6 +3,7 @@
 # keep titles short; prefer Japanese with English in parentheses when helpful
 # value must be a JSON string literal so the file stays easy to parse without extra dependencies
 string/dfa.cpp: "有限オートマトンと条件の合成"
+string/dfa_minimize.cpp: "有限オートマトンの最小化"
 string/avoid_patterns.cpp: "禁止部分文字列を避ける有限オートマトン"
 string/count_words.cpp: "有限状態DPの長さNの文字列数"
 math/digit_dfa.cpp: "数字列の条件を表す有限オートマトン"

@@ -27,4 +27,5 @@ auto a = intersect(digit_sum_exact(12), digit_value_mod(12));
 ## 実装上の補足
 入力状態数を $S_1,S_2$、到達状態対数を $R$ とすると、合成は最悪 $O(S_1S_2+WR)$ 時間。
 状態対の ID 配列に $O(S_1S_2)$、返却表に $O(WR)$ の領域を使う。
-状態数の積が確保可能で、返却状態数が `int` に収まる範囲で使う。DFA の最小化は行わない。
+状態数の積が確保可能で、返却状態数が `int` に収まる範囲で使う。
+`intersect` は最小化を行わない。必要なら `string/dfa_minimize.cpp` の `minimize(a)` を使う。
