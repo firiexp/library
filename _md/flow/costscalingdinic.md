@@ -11,9 +11,9 @@ capacity scaling を入れた Dinic 法による最大流である。
 - `CostScalingDinic<T, directed> mf(n)`
   頂点数 `n` のフローグラフを作る
 - `int add_edge(int from, int to, T cap)`
-  容量 `cap` の辺を追加し、0からの追加順の ID を返す。容量0・自己ループ・多重辺も別々の ID を持つ。`directed=false` なら無向辺。償却 $O(1)$
+  容量 `cap` の辺を追加し、0からの追加順の ID を返す。`directed=false` なら無向辺。償却 $O(1)$
 - `T flow(int s, int t, T lim = INF<T>)`
-  現在の残余グラフで `s` から `t` へ最大 `lim` だけ流し、今回追加した流量を返す。`lim=0` なら何もしない
+  現在の残余グラフで `s` から `t` へ最大 `lim` だけ流し、今回追加した流量を返す
 - `Edge get_edge(int id) const`
   `from, to, capacity, flow` を返す。`capacity` は登録時の容量、`flow` は登録方向への正味流量。$O(1)$
 - `vector<Edge> edges() const`

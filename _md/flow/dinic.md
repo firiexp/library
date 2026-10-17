@@ -13,8 +13,8 @@ Dinic による最大流。
 
 ## できること
 - `Dinic<T, directed> mf(n)` : 頂点数 `n` のグラフを作る。`directed=false` なら無向辺
-- `int add_edge(int from, int to, T cap)` : 容量 `cap` の辺を追加し、0からの追加順の ID を返す。容量0・自己ループ・多重辺も別々の ID を持つ。償却 $O(1)$
-- `T flow(int s, int t, T lim = INF<T>)` : 現在の残余グラフで最大 `lim` だけ流し、今回追加した流量を返す。`lim=0` なら何もしない
+- `int add_edge(int from, int to, T cap)` : 容量 `cap` の辺を追加し、0からの追加順の ID を返す。償却 $O(1)$
+- `T flow(int s, int t, T lim = INF<T>)` : 現在の残余グラフで最大 `lim` だけ流し、今回追加した流量を返す
 - `Edge get_edge(int id) const` : `from, to, capacity, flow` を返す。`capacity` は登録時の容量、`flow` は登録方向への正味流量。$O(1)$
 - `vector<Edge> edges() const` : 追加順で全辺の情報を返す。逆辺は含めない。時間・返却領域 $O(E)$
 - `vector<char> min_cut(int s) const` : 現在の残余グラフで `s` から到達できる頂点を `true` で返す。時間 $O(V+E)$、追加領域 $O(V)$
