@@ -12,7 +12,6 @@ struct edge {
 template <typename T>
 vector<T> bellman_ford(int s, int N,vector<edge<T> > &G){
     vector<T> dist(N, INF<T>);
-    vector<bool> negative(N);
     dist[s] = 0;
     for (int i = 0; i < N - 1; ++ i) {
         bool updated = false;
@@ -26,14 +25,23 @@ vector<T> bellman_ford(int s, int N,vector<edge<T> > &G){
         if (!updated) return dist;
     }
  
-    for (int i = 0; i < N ; ++i) {
-        for (auto &&e : G) {
-            if(dist[e.from] == INF<T>) continue;
-            if(dist[e.to] > dist[e.from] + e.cost){
-                dist[e.to] = dist[e.from] + e.cost;
-                negative[e.to] = true;
-            }
-            if(negative[e.from]) negative[e.to] = true;
+    vector<char> negative(N);
+    vector<int> q;
+    for (auto &&e : G) {
+        if (dist[e.from] == INF<T> || negative[e.to]) continue;
+        if (dist[e.to] > dist[e.from] + e.cost) {
+            negative[e.to] = true;
+            q.push_back(e.to);
+        }
+    }
+    if (q.empty()) return dist;
+    vector<vector<int>> next(N);
+    for (auto &&e : G) next[e.from].push_back(e.to);
+    for (size_t i = 0; i < q.size(); ++i) {
+        for (int to : next[q[i]]) {
+            if (negative[to]) continue;
+            negative[to] = true;
+            q.push_back(to);
         }
     }
     for (int i = 0; i < N; ++i) {

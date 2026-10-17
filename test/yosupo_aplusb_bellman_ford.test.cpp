@@ -50,6 +50,15 @@ void self_check() {
     check(1, {{0, 0, -1}});
     check(1, {{0, 0, 1}});
     check(4, {{0, 1, -2}, {0, 1, 3}, {2, 3, -1}, {3, 2, 0}});
+    check(7, {{5, 6, 1}, {4, 5, 1}, {3, 4, 1}, {2, 3, 1},
+              {2, 2, -1}, {1, 2, 1}, {0, 1, 1}, {0, 6, 20}});
+    check(8, {{0, 1, 3}, {1, 2, 2}, {3, 4, -2}, {4, 3, 1},
+              {4, 5, 1}, {6, 3, 0}, {6, 7, 2}});
+    vector<tuple<int, int, ll>> path;
+    for (int v = 63; v > 0; --v) path.emplace_back(v - 1, v, 1);
+    check(64, path);
+    path.emplace_back(32, 32, -1);
+    check(64, path);
     mt19937 rng(62);
     for (int tc = 0; tc < 1200; ++tc) {
         int n = 1 + rng() % 8;
