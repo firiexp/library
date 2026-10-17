@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cstdint>
 #include <limits>
+#include <optional>
 #include <vector>
 using namespace std;
 using ull = unsigned long long;

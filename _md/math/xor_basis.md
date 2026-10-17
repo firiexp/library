@@ -8,7 +8,7 @@ tags: 数学
 
 ## 説明
 整数列から xor 基底を構築する。
-基底の本数を $k$ とすると、表現できる値の個数は $2^k$。
+基底の本数を $k$ とすると、表現できる相異なる値の個数は $2^k$。
 
 ## できること
 - `XorBasis<T> xb`
@@ -25,6 +25,10 @@ tags: 数学
   `x xor y` を最小にする `y` を基底の生成する空間から選んだ結果を返す
 - `T get_max(T x = 0)`
   `x xor y` を最大にする `y` を基底の生成する空間から選んだ結果を返す
+- `optional<T> kth(U k) const`
+  表現できる相異なる値のうち、小さい順で `k` 番目を返す。0-indexed で、範囲外なら `nullopt`
+- `U order_of_key(T x) const`
+  表現できる相異なる値のうち、`x` 未満の個数を返す。`U = make_unsigned_t<T>` とし、`kth` とともに時間 $O(B)$、追加領域 $O(1)$。$B$ は `T` の bit 幅
 - `void merge(const XorBasis<T>& other)`
   `other` の基底を併合する
 - `XorBasis<T> intersection(const XorBasis<T>& other) const`
@@ -32,6 +36,7 @@ tags: 数学
 
 ## 使い方
 `add` で値を順に入れて使う。
+空の基底が表す集合は `{0}` であり、`kth(0)` は `0` を返す。
 `contains(x)` で表現可能性を判定でき、`get_min(x)` と `get_max(x)` で
 $$
 \min_{y \in \langle S \rangle} (x \oplus y), \quad \max_{y \in \langle S \rangle} (x \oplus y)
@@ -40,5 +45,5 @@ $$
 `{1, 2}` と `{3, 4}` が生成する空間の共通部分は `{0, 3}` であり、`intersection` はこれを生成する基底を返す。
 
 ## 実装上の補足
-- `T` は `bool` 以外の整数型を使う。値は `make_unsigned_t<T>` の bit 列として扱い、最小・最大も符号なしの大小で比較する
-- 返り値は `x xor y` そのものを返す
+- `T` は `bool` 以外の整数型を使う。値は `make_unsigned_t<T>` の bit 列として扱い、大小は符号なしで比較する
+- `get_min` と `get_max` は `x xor y` そのものを返す

@@ -53,6 +53,35 @@ struct XorBasis {
         return static_cast<T>(y);
     }
 
+    optional<T> kth(U k) const {
+        if (rank < B && k >= (U(1) << rank)) return nullopt;
+        U value = 0;
+        for (int i = 0; i < B; ++i) {
+            if (basis[i] == 0) continue;
+            if (k & 1) value ^= basis[i];
+            k >>= 1;
+        }
+        return static_cast<T>(value);
+    }
+
+    U order_of_key(T x) const {
+        U target = static_cast<U>(x), value = 0, result = 0;
+        int remaining = rank;
+        for (int i = B - 1; i >= 0; --i) {
+            if (basis[i] != 0) {
+                --remaining;
+                if ((target >> i) & 1) {
+                    result += U(1) << remaining;
+                    value ^= basis[i];
+                }
+            } else if (((value ^ target) >> i) & 1) {
+                if ((target >> i) & 1) result += U(1) << remaining;
+                break;
+            }
+        }
+        return result;
+    }
+
     void merge(const XorBasis &other) {
         for (int i = 0; i < B; ++i) {
             if (other.basis[i] != 0) add(static_cast<T>(other.basis[i]));
