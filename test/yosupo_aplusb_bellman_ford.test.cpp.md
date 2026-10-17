@@ -253,16 +253,19 @@ data:
     \ to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from, int to, T\
     \ cost) : from(from), to(to), cost(cost) {}\n \n    explicit operator int() const\
     \ {return to;}\n};\n \ntemplate <typename T>\nvector<T> bellman_ford(int s, int\
-    \ N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    vector<bool> negative(N);\n\
-    \    dist[s] = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n        bool updated\
-    \ = false;\n        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>)\
-    \ continue;\n            if(dist[e.to] > dist[e.from]+ e.cost){\n            \
-    \    dist[e.to] = dist[e.from]+ e.cost;\n                updated = true;\n   \
-    \         }\n        }\n        if (!updated) return dist;\n    }\n \n    for\
-    \ (int i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n            if(dist[e.from]\
-    \ == INF<T>) continue;\n            if(dist[e.to] > dist[e.from] + e.cost){\n\
-    \                dist[e.to] = dist[e.from] + e.cost;\n                negative[e.to]\
-    \ = true;\n            }\n            if(negative[e.from]) negative[e.to] = true;\n\
+    \ N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    dist[s] = 0;\n\
+    \    for (int i = 0; i < N - 1; ++ i) {\n        bool updated = false;\n     \
+    \   for (auto &&e : G) {\n            if(dist[e.from] == INF<T>) continue;\n \
+    \           if(dist[e.to] > dist[e.from]+ e.cost){\n                dist[e.to]\
+    \ = dist[e.from]+ e.cost;\n                updated = true;\n            }\n  \
+    \      }\n        if (!updated) return dist;\n    }\n \n    vector<char> negative(N);\n\
+    \    vector<int> q;\n    for (auto &&e : G) {\n        if (dist[e.from] == INF<T>\
+    \ || negative[e.to]) continue;\n        if (dist[e.to] > dist[e.from] + e.cost)\
+    \ {\n            negative[e.to] = true;\n            q.push_back(e.to);\n    \
+    \    }\n    }\n    if (q.empty()) return dist;\n    vector<vector<int>> next(N);\n\
+    \    for (auto &&e : G) next[e.from].push_back(e.to);\n    for (size_t i = 0;\
+    \ i < q.size(); ++i) {\n        for (int to : next[q[i]]) {\n            if (negative[to])\
+    \ continue;\n            negative[to] = true;\n            q.push_back(to);\n\
     \        }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i])\
     \ dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
     (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 14 \"test/yosupo_aplusb_bellman_ford.test.cpp\"\
@@ -285,14 +288,19 @@ data:
     \ == unreachable ? LLONG_MAX : d[s][v]));\n        }\n        assert(result.empty()\
     \ == any_negative);\n    }\n}\n\nvoid self_check() {\n    check(1, {});\n    check(1,\
     \ {{0, 0, -1}});\n    check(1, {{0, 0, 1}});\n    check(4, {{0, 1, -2}, {0, 1,\
-    \ 3}, {2, 3, -1}, {3, 2, 0}});\n    mt19937 rng(62);\n    for (int tc = 0; tc\
-    \ < 1200; ++tc) {\n        int n = 1 + rng() % 8;\n        vector<tuple<int, int,\
-    \ ll>> edges;\n        for (int i = rng() % (n * n + 1); i--; ) {\n          \
-    \  int u = rng() % n, v = rng() % n;\n            if (tc % 3 == 0 && u >= v) continue;\n\
-    \            edges.emplace_back(u, v, int(rng() % 15) - 5);\n        }\n     \
-    \   check(n, edges);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n}\n"
+    \ 3}, {2, 3, -1}, {3, 2, 0}});\n    check(7, {{5, 6, 1}, {4, 5, 1}, {3, 4, 1},\
+    \ {2, 3, 1},\n              {2, 2, -1}, {1, 2, 1}, {0, 1, 1}, {0, 6, 20}});\n\
+    \    check(8, {{0, 1, 3}, {1, 2, 2}, {3, 4, -2}, {4, 3, 1},\n              {4,\
+    \ 5, 1}, {6, 3, 0}, {6, 7, 2}});\n    vector<tuple<int, int, ll>> path;\n    for\
+    \ (int v = 63; v > 0; --v) path.emplace_back(v - 1, v, 1);\n    check(64, path);\n\
+    \    path.emplace_back(32, 32, -1);\n    check(64, path);\n    mt19937 rng(62);\n\
+    \    for (int tc = 0; tc < 1200; ++tc) {\n        int n = 1 + rng() % 8;\n   \
+    \     vector<tuple<int, int, ll>> edges;\n        for (int i = rng() % (n * n\
+    \ + 1); i--; ) {\n            int u = rng() % n, v = rng() % n;\n            if\
+    \ (tc % 3 == 0 && u >= v) continue;\n            edges.emplace_back(u, v, int(rng()\
+    \ % 15) - 5);\n        }\n        check(n, edges);\n    }\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\nusing ll = long long;\ntemplate<class T> constexpr T INF\
     \ = numeric_limits<T>::max() / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\
@@ -317,14 +325,19 @@ data:
     \ == unreachable ? LLONG_MAX : d[s][v]));\n        }\n        assert(result.empty()\
     \ == any_negative);\n    }\n}\n\nvoid self_check() {\n    check(1, {});\n    check(1,\
     \ {{0, 0, -1}});\n    check(1, {{0, 0, 1}});\n    check(4, {{0, 1, -2}, {0, 1,\
-    \ 3}, {2, 3, -1}, {3, 2, 0}});\n    mt19937 rng(62);\n    for (int tc = 0; tc\
-    \ < 1200; ++tc) {\n        int n = 1 + rng() % 8;\n        vector<tuple<int, int,\
-    \ ll>> edges;\n        for (int i = rng() % (n * n + 1); i--; ) {\n          \
-    \  int u = rng() % n, v = rng() % n;\n            if (tc % 3 == 0 && u >= v) continue;\n\
-    \            edges.emplace_back(u, v, int(rng() % 15) - 5);\n        }\n     \
-    \   check(n, edges);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n}\n"
+    \ 3}, {2, 3, -1}, {3, 2, 0}});\n    check(7, {{5, 6, 1}, {4, 5, 1}, {3, 4, 1},\
+    \ {2, 3, 1},\n              {2, 2, -1}, {1, 2, 1}, {0, 1, 1}, {0, 6, 20}});\n\
+    \    check(8, {{0, 1, 3}, {1, 2, 2}, {3, 4, -2}, {4, 3, 1},\n              {4,\
+    \ 5, 1}, {6, 3, 0}, {6, 7, 2}});\n    vector<tuple<int, int, ll>> path;\n    for\
+    \ (int v = 63; v > 0; --v) path.emplace_back(v - 1, v, 1);\n    check(64, path);\n\
+    \    path.emplace_back(32, 32, -1);\n    check(64, path);\n    mt19937 rng(62);\n\
+    \    for (int tc = 0; tc < 1200; ++tc) {\n        int n = 1 + rng() % 8;\n   \
+    \     vector<tuple<int, int, ll>> edges;\n        for (int i = rng() % (n * n\
+    \ + 1); i--; ) {\n            int u = rng() % n, v = rng() % n;\n            if\
+    \ (tc % 3 == 0 && u >= v) continue;\n            edges.emplace_back(u, v, int(rng()\
+    \ % 15) - 5);\n        }\n        check(n, edges);\n    }\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - graph/bellman_ford.cpp
@@ -333,7 +346,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_bellman_ford.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-17 20:27:44+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_bellman_ford.test.cpp

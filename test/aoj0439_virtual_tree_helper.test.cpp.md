@@ -292,13 +292,14 @@ data:
     \        aux.buildLCA(root);\n    }\n\n    int lca(int u, int v) {\n        return\
     \ aux.LCA(u, v);\n    }\n\n    int distance(int u, int v) {\n        return aux.distance(u,\
     \ v);\n    }\n\n    VirtualTree make(vector<int> vertices) {\n        if (vertices.empty())\
-    \ return {-1, {}, {}};\n        aux.make(vertices);\n        sort(vertices.begin(),\
-    \ vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n    \
-    \    vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());\n\
-    \n        VirtualTree res;\n        res.root = vertices.front();\n        ++stamp;\n\
-    \        vector<int> st = {res.root};\n        mark[res.root] = stamp;\n     \
-    \   parent_buf[res.root] = -1;\n\n        while (!st.empty()) {\n            int\
-    \ v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
+    \ return {-1, {}, {}};\n        aux.make(vertices);\n\n        VirtualTree res;\n\
+    \        auto less = [&](int a, int b) { return aux.fi[a] < aux.fi[b]; };\n  \
+    \      if (vertices.size() <= 8) {\n            sort(vertices.begin(), vertices.end(),\
+    \ less);\n            res.root = vertices.front();\n        } else {\n       \
+    \     res.root = *min_element(vertices.begin(), vertices.end(), less);\n     \
+    \   }\n        ++stamp;\n        vector<int> st = {res.root};\n        mark[res.root]\
+    \ = stamp;\n        parent_buf[res.root] = -1;\n\n        while (!st.empty())\
+    \ {\n            int v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
     \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
     \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
     \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
@@ -374,7 +375,7 @@ data:
   isVerificationFile: true
   path: test/aoj0439_virtual_tree_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:01:52+09:00'
+  timestamp: '2026-10-17 20:38:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0439_virtual_tree_helper.test.cpp

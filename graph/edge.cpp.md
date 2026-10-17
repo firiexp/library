@@ -53,6 +53,9 @@ data:
     path: test/yosupo_aplusb_bellman_ford.test.cpp
     title: test/yosupo_aplusb_bellman_ford.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_bfs01.test.cpp
+    title: test/yosupo_aplusb_bfs01.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
     title: test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - icon: ':heavy_check_mark:'
@@ -119,6 +122,7 @@ data:
   - test/yosupo_aplusb_range_edge_graph.test.cpp
   - test/yosupo_k_shortest_walk.test.cpp
   - test/aoj_grl_1_a_dijkstra_from_distances.test.cpp
+  - test/yosupo_aplusb_bfs01.test.cpp
   - test/yosupo_aplusb_dijkstra_from_distances.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp
 documentation_of: graph/edge.cpp

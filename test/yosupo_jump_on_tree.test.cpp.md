@@ -233,8 +233,7 @@ data:
     \    vector<vector<int>> G;\n    vector<int> depth;\n\n    explicit JumpOnTree(int\
     \ n) : logn(0), n(n), G(n), depth(n, -1) {}\n\n    void add_edge(int u, int v)\
     \ {\n        G[u].emplace_back(v);\n        G[v].emplace_back(u);\n    }\n\n \
-    \   void build(int root = 0) {\n        logn = 1;\n        while ((1 << logn)\
-    \ <= n) ++logn;\n        up.assign(logn * n, -1);\n        fill(depth.begin(),\
+    \   void build(int root = 0) {\n        up.assign(n, -1);\n        fill(depth.begin(),\
     \ depth.end(), -1);\n        vector<int> offset(n + 1);\n        for (int v =\
     \ 0; v < n; ++v) offset[v + 1] = offset[v] + (int)G[v].size();\n        vector<int>\
     \ to(offset[n]);\n        for (int v = 0; v < n; ++v) {\n            int ptr =\
@@ -245,27 +244,29 @@ data:
     \ i = offset[v]; i < offset[v + 1]; ++i) {\n                int u = to[i];\n \
     \               if (u == pv) continue;\n                up[u] = v;\n         \
     \       depth[u] = depth[v] + 1;\n                st.push_back(u);\n         \
-    \   }\n        }\n        for (int k = 0; k + 1 < logn; ++k) {\n            const\
-    \ int *cur = up.data() + k * n;\n            int *nxt = up.data() + (k + 1) *\
-    \ n;\n            for (int v = 0; v < n; ++v) {\n                int p = cur[v];\n\
-    \                nxt[v] = (p == -1 ? -1 : cur[p]);\n            }\n        }\n\
-    \    }\n\n    int ancestor(int v, int k) const {\n        if (k > depth[v]) return\
-    \ -1;\n        const int *row = up.data();\n        while (k) {\n            if\
-    \ (k & 1) v = row[v];\n            row += n;\n            k >>= 1;\n        }\n\
-    \        return v;\n    }\n\n    int lca(int u, int v) const {\n        if (depth[u]\
-    \ < depth[v]) swap(u, v);\n        u = ancestor(u, depth[u] - depth[v]);\n   \
-    \     if (u == v) return u;\n        const int *row = up.data() + (logn - 1) *\
-    \ n;\n        for (int k = logn - 1; k >= 0; --k, row -= n) {\n            if\
-    \ (row[u] == row[v]) continue;\n            u = row[u];\n            v = row[v];\n\
-    \        }\n        return up[u];\n    }\n\n    int dist(int u, int v) const {\n\
-    \        int w = lca(u, v);\n        return depth[u] + depth[v] - 2 * depth[w];\n\
-    \    }\n\n    int jump(int s, int t, int k) const {\n        int w = lca(s, t);\n\
-    \        int a = depth[s] - depth[w];\n        int b = depth[t] - depth[w];\n\
-    \        if (k > a + b) return -1;\n        if (k <= a) return ancestor(s, k);\n\
-    \        return ancestor(t, a + b - k);\n    }\n};\n\n/**\n * @brief Jump on Tree\n\
-    \ */\n#line 17 \"test/yosupo_jump_on_tree.test.cpp\"\n\nint main() {\n    Scanner\
-    \ sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    JumpOnTree jt(n);\n\
-    \    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        sc.read(u,\
+    \   }\n        }\n        int max_depth = *max_element(depth.begin(), depth.end());\n\
+    \        logn = 1;\n        while ((1LL << logn) <= max_depth) ++logn;\n     \
+    \   up.resize((size_t)logn * n, -1);\n        for (int k = 0; k + 1 < logn; ++k)\
+    \ {\n            const int *cur = up.data() + k * n;\n            int *nxt = up.data()\
+    \ + (k + 1) * n;\n            for (int v = 0; v < n; ++v) {\n                int\
+    \ p = cur[v];\n                nxt[v] = (p == -1 ? -1 : cur[p]);\n           \
+    \ }\n        }\n    }\n\n    int ancestor(int v, int k) const {\n        if (k\
+    \ > depth[v]) return -1;\n        const int *row = up.data();\n        while (k)\
+    \ {\n            if (k & 1) v = row[v];\n            row += n;\n            k\
+    \ >>= 1;\n        }\n        return v;\n    }\n\n    int lca(int u, int v) const\
+    \ {\n        if (depth[u] < depth[v]) swap(u, v);\n        u = ancestor(u, depth[u]\
+    \ - depth[v]);\n        if (u == v) return u;\n        const int *row = up.data()\
+    \ + (logn - 1) * n;\n        for (int k = logn - 1; k >= 0; --k, row -= n) {\n\
+    \            if (row[u] == row[v]) continue;\n            u = row[u];\n      \
+    \      v = row[v];\n        }\n        return up[u];\n    }\n\n    int dist(int\
+    \ u, int v) const {\n        int w = lca(u, v);\n        return depth[u] + depth[v]\
+    \ - 2 * depth[w];\n    }\n\n    int jump(int s, int t, int k) const {\n      \
+    \  int w = lca(s, t);\n        int a = depth[s] - depth[w];\n        int b = depth[t]\
+    \ - depth[w];\n        if (k > a + b) return -1;\n        if (k <= a) return ancestor(s,\
+    \ k);\n        return ancestor(t, a + b - k);\n    }\n};\n\n/**\n * @brief Jump\
+    \ on Tree\n */\n#line 17 \"test/yosupo_jump_on_tree.test.cpp\"\n\nint main() {\n\
+    \    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n, q);\n    JumpOnTree\
+    \ jt(n);\n    for (int i = 0; i < n - 1; ++i) {\n        int u, v;\n        sc.read(u,\
     \ v);\n        jt.add_edge(u, v);\n    }\n    jt.build(0);\n    while (q--) {\n\
     \        int s, t, k;\n        sc.read(s, t, k);\n        pr.println(jt.jump(s,\
     \ t, k));\n    }\n    return 0;\n}\n"
@@ -284,7 +285,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_jump_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-17 20:35:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_jump_on_tree.test.cpp

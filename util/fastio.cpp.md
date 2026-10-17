@@ -131,6 +131,9 @@ data:
     path: test/yosupo_aplusb_berlekamp_massey.test.cpp
     title: test/yosupo_aplusb_berlekamp_massey.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_bfs01.test.cpp
+    title: test/yosupo_aplusb_bfs01.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_biginteger.test.cpp
     title: test/yosupo_aplusb_biginteger.test.cpp
   - icon: ':heavy_check_mark:'
@@ -283,6 +286,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_is_palindrome.test.cpp
     title: test/yosupo_aplusb_is_palindrome.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_jump_on_tree.test.cpp
+    title: test/yosupo_aplusb_jump_on_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_k_shortest_walk.test.cpp
     title: test/yosupo_aplusb_k_shortest_walk.test.cpp
@@ -1470,6 +1476,7 @@ data:
   - test/yosupo_intersection_of_f2_vector_spaces.test.cpp
   - test/aoj0452.test.cpp
   - test/yosupo_static_convex_hull.test.cpp
+  - test/yosupo_aplusb_jump_on_tree.test.cpp
   - test/yosupo_aplusb_sample_point_eval.test.cpp
   - test/yosupo_connected_components_of_complement_graph.test.cpp
   - test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp
@@ -1653,6 +1660,7 @@ data:
   - test/yosupo_static_range_count_distinct.test.cpp
   - test/yosupo_min_of_mod_of_linear.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld.test.cpp
+  - test/yosupo_aplusb_bfs01.test.cpp
   - test/yosupo_polynomial_taylor_shift.test.cpp
   - test/yosupo_aplusb_avoid_patterns.test.cpp
   - test/yosupo_aplusb_mst_sensitivity.test.cpp

@@ -244,12 +244,14 @@ data:
     \ tree.assign(n, {});\n        path.assign(n, {});\n        dist.assign(n, {});\n\
     \        fill(parent.begin(), parent.end(), -1);\n        fill(depth.begin(),\
     \ depth.end(), 0);\n        fill(used.begin(), used.end(), 0);\n        dfs_parent.resize(n);\n\
-    \        order.reserve(n);\n        if (n == 0) return root = -1;\n        return\
-    \ root = decompose(start, -1, 0);\n    }\n\nprivate:\n    vector<int> dfs_parent,\
-    \ order;\n\n    int dfs_size(int v, int p) {\n        order.clear();\n       \
-    \ order.push_back(v);\n        dfs_parent[v] = p;\n        for (int i = 0; i <\
-    \ (int)order.size(); ++i) {\n            int x = order[i];\n            sz[x]\
-    \ = 1;\n            for (int u : G[x]) {\n                if (u == dfs_parent[x]\
+    \        order.reserve(n);\n        if (n == 0) return root = -1;\n        int\
+    \ levels = 0;\n        for (int size = n; size > 0; size /= 2) ++levels;\n   \
+    \     buffers.resize(levels);\n        return root = decompose(start, -1, 0);\n\
+    \    }\n\nprivate:\n    vector<int> dfs_parent, order;\n    vector<vector<pair<int,\
+    \ int>>> buffers;\n\n    int dfs_size(int v, int p) {\n        order.clear();\n\
+    \        order.push_back(v);\n        dfs_parent[v] = p;\n        for (int i =\
+    \ 0; i < (int)order.size(); ++i) {\n            int x = order[i];\n          \
+    \  sz[x] = 1;\n            for (int u : G[x]) {\n                if (u == dfs_parent[x]\
     \ || used[u]) continue;\n                dfs_parent[u] = x;\n                order.push_back(u);\n\
     \            }\n        }\n        for (int i = (int)order.size() - 1; i > 0;\
     \ --i)\n            sz[dfs_parent[order[i]]] += sz[order[i]];\n        return\
@@ -268,10 +270,10 @@ data:
     \ -1) / 2);\n        used[centroid] = 1;\n        parent[centroid] = p;\n    \
     \    depth[centroid] = dep;\n        path[centroid].push_back(centroid);\n   \
     \     dist[centroid].push_back(0);\n        for (auto &&u : G[centroid]) {\n \
-    \           if (used[u]) continue;\n            vector<pair<int, int>> buf;\n\
-    \            collect(u, centroid, 1, buf);\n            int child = decompose(u,\
-    \ centroid, dep + 1);\n            tree[centroid].push_back(child);\n        \
-    \    for (auto &&[v, d] : buf) {\n                path[v].push_back(centroid);\n\
+    \           if (used[u]) continue;\n            auto &buf = buffers[dep];\n  \
+    \          buf.clear();\n            collect(u, centroid, 1, buf);\n         \
+    \   int child = decompose(u, centroid, dep + 1);\n            tree[centroid].push_back(child);\n\
+    \            for (auto &&[v, d] : buf) {\n                path[v].push_back(centroid);\n\
     \                dist[v].push_back(d);\n            }\n        }\n        return\
     \ centroid;\n    }\n};\n\n/**\n * @brief \u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\
     \u88DC\u52A9(Centroid Query Helper)\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
@@ -347,7 +349,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 19:50:28+09:00'
+  timestamp: '2026-10-17 20:39:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp

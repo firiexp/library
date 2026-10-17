@@ -30,8 +30,10 @@ data:
     \ {});\n        path.assign(n, {});\n        dist.assign(n, {});\n        fill(parent.begin(),\
     \ parent.end(), -1);\n        fill(depth.begin(), depth.end(), 0);\n        fill(used.begin(),\
     \ used.end(), 0);\n        dfs_parent.resize(n);\n        order.reserve(n);\n\
-    \        if (n == 0) return root = -1;\n        return root = decompose(start,\
-    \ -1, 0);\n    }\n\nprivate:\n    vector<int> dfs_parent, order;\n\n    int dfs_size(int\
+    \        if (n == 0) return root = -1;\n        int levels = 0;\n        for (int\
+    \ size = n; size > 0; size /= 2) ++levels;\n        buffers.resize(levels);\n\
+    \        return root = decompose(start, -1, 0);\n    }\n\nprivate:\n    vector<int>\
+    \ dfs_parent, order;\n    vector<vector<pair<int, int>>> buffers;\n\n    int dfs_size(int\
     \ v, int p) {\n        order.clear();\n        order.push_back(v);\n        dfs_parent[v]\
     \ = p;\n        for (int i = 0; i < (int)order.size(); ++i) {\n            int\
     \ x = order[i];\n            sz[x] = 1;\n            for (int u : G[x]) {\n  \
@@ -54,13 +56,13 @@ data:
     \        used[centroid] = 1;\n        parent[centroid] = p;\n        depth[centroid]\
     \ = dep;\n        path[centroid].push_back(centroid);\n        dist[centroid].push_back(0);\n\
     \        for (auto &&u : G[centroid]) {\n            if (used[u]) continue;\n\
-    \            vector<pair<int, int>> buf;\n            collect(u, centroid, 1,\
-    \ buf);\n            int child = decompose(u, centroid, dep + 1);\n          \
-    \  tree[centroid].push_back(child);\n            for (auto &&[v, d] : buf) {\n\
-    \                path[v].push_back(centroid);\n                dist[v].push_back(d);\n\
-    \            }\n        }\n        return centroid;\n    }\n};\n\n/**\n * @brief\
-    \ \u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\u88DC\u52A9(Centroid Query Helper)\n\
-    \ */\n"
+    \            auto &buf = buffers[dep];\n            buf.clear();\n           \
+    \ collect(u, centroid, 1, buf);\n            int child = decompose(u, centroid,\
+    \ dep + 1);\n            tree[centroid].push_back(child);\n            for (auto\
+    \ &&[v, d] : buf) {\n                path[v].push_back(centroid);\n          \
+    \      dist[v].push_back(d);\n            }\n        }\n        return centroid;\n\
+    \    }\n};\n\n/**\n * @brief \u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\u88DC\u52A9\
+    (Centroid Query Helper)\n */\n"
   code: "using namespace std;\n\nstruct CentroidDecompositionQueryHelper {\n    int\
     \ n, root;\n    vector<vector<int>> G, tree, path, dist;\n    vector<int> sz,\
     \ parent, depth;\n    vector<char> used;\n\n    explicit CentroidDecompositionQueryHelper(int\
@@ -70,12 +72,14 @@ data:
     \ tree.assign(n, {});\n        path.assign(n, {});\n        dist.assign(n, {});\n\
     \        fill(parent.begin(), parent.end(), -1);\n        fill(depth.begin(),\
     \ depth.end(), 0);\n        fill(used.begin(), used.end(), 0);\n        dfs_parent.resize(n);\n\
-    \        order.reserve(n);\n        if (n == 0) return root = -1;\n        return\
-    \ root = decompose(start, -1, 0);\n    }\n\nprivate:\n    vector<int> dfs_parent,\
-    \ order;\n\n    int dfs_size(int v, int p) {\n        order.clear();\n       \
-    \ order.push_back(v);\n        dfs_parent[v] = p;\n        for (int i = 0; i <\
-    \ (int)order.size(); ++i) {\n            int x = order[i];\n            sz[x]\
-    \ = 1;\n            for (int u : G[x]) {\n                if (u == dfs_parent[x]\
+    \        order.reserve(n);\n        if (n == 0) return root = -1;\n        int\
+    \ levels = 0;\n        for (int size = n; size > 0; size /= 2) ++levels;\n   \
+    \     buffers.resize(levels);\n        return root = decompose(start, -1, 0);\n\
+    \    }\n\nprivate:\n    vector<int> dfs_parent, order;\n    vector<vector<pair<int,\
+    \ int>>> buffers;\n\n    int dfs_size(int v, int p) {\n        order.clear();\n\
+    \        order.push_back(v);\n        dfs_parent[v] = p;\n        for (int i =\
+    \ 0; i < (int)order.size(); ++i) {\n            int x = order[i];\n          \
+    \  sz[x] = 1;\n            for (int u : G[x]) {\n                if (u == dfs_parent[x]\
     \ || used[u]) continue;\n                dfs_parent[u] = x;\n                order.push_back(u);\n\
     \            }\n        }\n        for (int i = (int)order.size() - 1; i > 0;\
     \ --i)\n            sz[dfs_parent[order[i]]] += sz[order[i]];\n        return\
@@ -94,10 +98,10 @@ data:
     \ -1) / 2);\n        used[centroid] = 1;\n        parent[centroid] = p;\n    \
     \    depth[centroid] = dep;\n        path[centroid].push_back(centroid);\n   \
     \     dist[centroid].push_back(0);\n        for (auto &&u : G[centroid]) {\n \
-    \           if (used[u]) continue;\n            vector<pair<int, int>> buf;\n\
-    \            collect(u, centroid, 1, buf);\n            int child = decompose(u,\
-    \ centroid, dep + 1);\n            tree[centroid].push_back(child);\n        \
-    \    for (auto &&[v, d] : buf) {\n                path[v].push_back(centroid);\n\
+    \           if (used[u]) continue;\n            auto &buf = buffers[dep];\n  \
+    \          buf.clear();\n            collect(u, centroid, 1, buf);\n         \
+    \   int child = decompose(u, centroid, dep + 1);\n            tree[centroid].push_back(child);\n\
+    \            for (auto &&[v, d] : buf) {\n                path[v].push_back(centroid);\n\
     \                dist[v].push_back(d);\n            }\n        }\n        return\
     \ centroid;\n    }\n};\n\n/**\n * @brief \u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\
     \u88DC\u52A9(Centroid Query Helper)\n */\n"
@@ -106,7 +110,7 @@ data:
   path: tree/centroid_decomposition_query_helper.cpp
   requiredBy:
   - tree/range_contour_sum.cpp
-  timestamp: '2026-10-10 19:50:28+09:00'
+  timestamp: '2026-10-17 20:39:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_vertex_add_range_contour_sum_on_tree.test.cpp
@@ -140,7 +144,7 @@ title: "\u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\u88DC\u52A9(Centroid Query He
 - `depth[c]`
   重心木での深さ
 - `path[v][i]`
-  頂点 `v` から見た `i` 番目の重心祖先。近い順に入る
+  頂点 `v` から見た `i` 番目の重心祖先。頂点自身から重心木の親をたどる順に入る
 - `dist[v][i]`
   頂点 `v` から `path[v][i]` までの距離
 
@@ -168,3 +172,8 @@ auto query = [&](int v) {
     return ans;
 };
 ```
+
+## 実装上の補足
+距離を収集する作業配列は重心分解の深さごとに用意し、兄弟の枝や再構築で容量を再利用する。
+親の距離列は子の再帰中も保持し、再帰から戻った後に `path`・`dist` へ追加する。
+各深さの成分サイズは半分以下になるため、収集用の作業配列の総領域は $O(N)$。利用側で作業領域を用意する必要はない。

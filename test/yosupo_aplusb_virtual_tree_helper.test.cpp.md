@@ -289,56 +289,31 @@ data:
     \        aux.buildLCA(root);\n    }\n\n    int lca(int u, int v) {\n        return\
     \ aux.LCA(u, v);\n    }\n\n    int distance(int u, int v) {\n        return aux.distance(u,\
     \ v);\n    }\n\n    VirtualTree make(vector<int> vertices) {\n        if (vertices.empty())\
-    \ return {-1, {}, {}};\n        aux.make(vertices);\n        sort(vertices.begin(),\
-    \ vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n    \
-    \    vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());\n\
-    \n        VirtualTree res;\n        res.root = vertices.front();\n        ++stamp;\n\
-    \        vector<int> st = {res.root};\n        mark[res.root] = stamp;\n     \
-    \   parent_buf[res.root] = -1;\n\n        while (!st.empty()) {\n            int\
-    \ v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
+    \ return {-1, {}, {}};\n        aux.make(vertices);\n\n        VirtualTree res;\n\
+    \        auto less = [&](int a, int b) { return aux.fi[a] < aux.fi[b]; };\n  \
+    \      if (vertices.size() <= 8) {\n            sort(vertices.begin(), vertices.end(),\
+    \ less);\n            res.root = vertices.front();\n        } else {\n       \
+    \     res.root = *min_element(vertices.begin(), vertices.end(), less);\n     \
+    \   }\n        ++stamp;\n        vector<int> st = {res.root};\n        mark[res.root]\
+    \ = stamp;\n        parent_buf[res.root] = -1;\n\n        while (!st.empty())\
+    \ {\n            int v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
     \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
     \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
     \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
     \ st.emplace_back(u);\n            }\n        }\n\n        aux.clear(vertices);\n\
     \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n */\n#line\
     \ 8 \"test/yosupo_aplusb_virtual_tree_helper.test.cpp\"\n\nvoid self_check() {\n\
-    \    mt19937 rng(5);\n    for (int tc = 0; tc < 200; ++tc) {\n        int n =\
-    \ 1 + rng() % 30, root = rng() % n;\n        VirtualTreeHelper vt(n);\n      \
-    \  vector<vector<int>> g(n);\n        for (int v = 1; v < n; ++v) {\n        \
-    \    int p = tc % 3 == 0 ? 0 : tc % 3 == 1 ? v - 1 : rng() % v;\n            vt.add_edge(p,\
-    \ v);\n            g[p].push_back(v);\n            g[v].push_back(p);\n      \
-    \  }\n        vt.build(root);\n        vector<int> parent(n, -1), depth(n), order{root};\n\
-    \        for (int i = 0; i < n; ++i) for (int u : g[order[i]]) if (u != parent[order[i]])\
-    \ {\n            parent[u] = order[i];\n            depth[u] = depth[order[i]]\
-    \ + 1;\n            order.push_back(u);\n        }\n        auto lca = [&](int\
-    \ u, int v) {\n            while (u != v) {\n                if (depth[u] < depth[v])\
-    \ swap(u, v);\n                u = parent[u];\n            }\n            return\
-    \ u;\n        };\n        for (int query = 0; query < 30; ++query) {\n       \
-    \     vector<int> input(query % 10);\n            for (int &v : input) v = rng()\
-    \ % n;\n            if (query % 3 == 0) fill(input.begin(), input.end(), root);\n\
-    \            set<int> expected(input.begin(), input.end());\n            for (int\
-    \ u : input) for (int v : input) expected.insert(lca(u, v));\n            auto\
-    \ tr = vt.make(input);\n            assert(tr.vertices.size() == expected.size());\n\
-    \            assert(tr.parent.size() == expected.size());\n            assert(set<int>(tr.vertices.begin(),\
-    \ tr.vertices.end()) == expected);\n            if (expected.empty()) {\n    \
-    \            assert(tr.root == -1);\n                continue;\n            }\n\
-    \            assert(tr.root == tr.vertices.front());\n            set<int> visited;\n\
-    \            for (int i = 0; i < (int)tr.vertices.size(); ++i) {\n           \
-    \     int v = tr.vertices[i], p = parent[v];\n                while (p != -1 &&\
-    \ !expected.count(p)) p = parent[p];\n                assert(tr.parent[i] == p);\n\
-    \                assert(p == -1 ? v == tr.root : visited.count(p));\n        \
-    \        visited.insert(v);\n            }\n            auto repeated = vt.make(input);\n\
-    \            assert(tr.root == repeated.root && tr.vertices == repeated.vertices\
-    \ && tr.parent == repeated.parent);\n        }\n    }\n    AuxTree aux(1);\n \
-    \   aux.buildLCA();\n    vector<int> empty;\n    aux.make(empty);\n    aux.clear(empty);\n\
-    \    assert(empty.empty() && aux.out[0].empty());\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
-    \ / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\n#include \"../tree/virtual_tree_helper.cpp\"\
-    \n\nvoid self_check() {\n    mt19937 rng(5);\n    for (int tc = 0; tc < 200; ++tc)\
-    \ {\n        int n = 1 + rng() % 30, root = rng() % n;\n        VirtualTreeHelper\
+    \    VirtualTreeHelper fixed(7);\n    for (int v = 1; v < 7; ++v) fixed.add_edge((v\
+    \ - 1) / 2, v);\n    fixed.build();\n    auto check_fixed = [&](const vector<int>\
+    \ &input, int root, const vector<int> &vertices, const vector<int> &parent) {\n\
+    \        auto tr = fixed.make(input);\n        assert(tr.root == root && tr.vertices\
+    \ == vertices && tr.parent == parent);\n    };\n    for (int repeat = 0; repeat\
+    \ < 3; ++repeat) {\n        check_fixed({6, 3, 5, 4, 3}, 0, {0, 2, 6, 5, 1, 4,\
+    \ 3}, {-1, 0, 2, 2, 0, 1, 1});\n        check_fixed({}, -1, {}, {});\n       \
+    \ check_fixed(vector<int>(10000, 4), 4, {4}, {-1});\n        check_fixed({4, 3},\
+    \ 1, {1, 4, 3}, {-1, 1, 1});\n        check_fixed({0, 4, 6}, 0, {0, 6, 4}, {-1,\
+    \ 0, 0});\n    }\n    mt19937 rng(5);\n    for (int tc = 0; tc < 200; ++tc) {\n\
+    \        int n = 1 + rng() % 30, root = rng() % n;\n        VirtualTreeHelper\
     \ vt(n);\n        vector<vector<int>> g(n);\n        for (int v = 1; v < n; ++v)\
     \ {\n            int p = tc % 3 == 0 ? 0 : tc % 3 == 1 ? v - 1 : rng() % v;\n\
     \            vt.add_edge(p, v);\n            g[p].push_back(v);\n            g[v].push_back(p);\n\
@@ -369,6 +344,50 @@ data:
     \    aux.clear(empty);\n    assert(empty.empty() && aux.out[0].empty());\n}\n\n\
     int main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a,\
     \ b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\ntemplate<class T> constexpr T INF = numeric_limits<T>::max()\
+    \ / 32 * 15 + 208;\n#include \"../util/fastio.cpp\"\n#include \"../tree/virtual_tree_helper.cpp\"\
+    \n\nvoid self_check() {\n    VirtualTreeHelper fixed(7);\n    for (int v = 1;\
+    \ v < 7; ++v) fixed.add_edge((v - 1) / 2, v);\n    fixed.build();\n    auto check_fixed\
+    \ = [&](const vector<int> &input, int root, const vector<int> &vertices, const\
+    \ vector<int> &parent) {\n        auto tr = fixed.make(input);\n        assert(tr.root\
+    \ == root && tr.vertices == vertices && tr.parent == parent);\n    };\n    for\
+    \ (int repeat = 0; repeat < 3; ++repeat) {\n        check_fixed({6, 3, 5, 4, 3},\
+    \ 0, {0, 2, 6, 5, 1, 4, 3}, {-1, 0, 2, 2, 0, 1, 1});\n        check_fixed({},\
+    \ -1, {}, {});\n        check_fixed(vector<int>(10000, 4), 4, {4}, {-1});\n  \
+    \      check_fixed({4, 3}, 1, {1, 4, 3}, {-1, 1, 1});\n        check_fixed({0,\
+    \ 4, 6}, 0, {0, 6, 4}, {-1, 0, 0});\n    }\n    mt19937 rng(5);\n    for (int\
+    \ tc = 0; tc < 200; ++tc) {\n        int n = 1 + rng() % 30, root = rng() % n;\n\
+    \        VirtualTreeHelper vt(n);\n        vector<vector<int>> g(n);\n       \
+    \ for (int v = 1; v < n; ++v) {\n            int p = tc % 3 == 0 ? 0 : tc % 3\
+    \ == 1 ? v - 1 : rng() % v;\n            vt.add_edge(p, v);\n            g[p].push_back(v);\n\
+    \            g[v].push_back(p);\n        }\n        vt.build(root);\n        vector<int>\
+    \ parent(n, -1), depth(n), order{root};\n        for (int i = 0; i < n; ++i) for\
+    \ (int u : g[order[i]]) if (u != parent[order[i]]) {\n            parent[u] =\
+    \ order[i];\n            depth[u] = depth[order[i]] + 1;\n            order.push_back(u);\n\
+    \        }\n        auto lca = [&](int u, int v) {\n            while (u != v)\
+    \ {\n                if (depth[u] < depth[v]) swap(u, v);\n                u =\
+    \ parent[u];\n            }\n            return u;\n        };\n        for (int\
+    \ query = 0; query < 30; ++query) {\n            vector<int> input(query % 10);\n\
+    \            for (int &v : input) v = rng() % n;\n            if (query % 3 ==\
+    \ 0) fill(input.begin(), input.end(), root);\n            set<int> expected(input.begin(),\
+    \ input.end());\n            for (int u : input) for (int v : input) expected.insert(lca(u,\
+    \ v));\n            auto tr = vt.make(input);\n            assert(tr.vertices.size()\
+    \ == expected.size());\n            assert(tr.parent.size() == expected.size());\n\
+    \            assert(set<int>(tr.vertices.begin(), tr.vertices.end()) == expected);\n\
+    \            if (expected.empty()) {\n                assert(tr.root == -1);\n\
+    \                continue;\n            }\n            assert(tr.root == tr.vertices.front());\n\
+    \            set<int> visited;\n            for (int i = 0; i < (int)tr.vertices.size();\
+    \ ++i) {\n                int v = tr.vertices[i], p = parent[v];\n           \
+    \     while (p != -1 && !expected.count(p)) p = parent[p];\n                assert(tr.parent[i]\
+    \ == p);\n                assert(p == -1 ? v == tr.root : visited.count(p));\n\
+    \                visited.insert(v);\n            }\n            auto repeated\
+    \ = vt.make(input);\n            assert(tr.root == repeated.root && tr.vertices\
+    \ == repeated.vertices && tr.parent == repeated.parent);\n        }\n    }\n \
+    \   AuxTree aux(1);\n    aux.buildLCA();\n    vector<int> empty;\n    aux.make(empty);\n\
+    \    aux.clear(empty);\n    assert(empty.empty() && aux.out[0].empty());\n}\n\n\
+    int main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a,\
+    \ b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/virtual_tree_helper.cpp
@@ -377,7 +396,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_virtual_tree_helper.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:01:52+09:00'
+  timestamp: '2026-10-17 20:38:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_virtual_tree_helper.test.cpp

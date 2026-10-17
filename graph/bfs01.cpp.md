@@ -11,6 +11,9 @@ data:
     path: test/aoj2945_bfs01.test.cpp
     title: test/aoj2945_bfs01.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_bfs01.test.cpp
+    title: test/yosupo_aplusb_bfs01.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
@@ -27,33 +30,36 @@ data:
     \ cost(cost) {}\n    edge(int from, int to, T cost) : from(from), to(to), cost(cost)\
     \ {}\n\n    explicit operator int() const { return to; }\n};\n\n\n#line 2 \"graph/bfs01.cpp\"\
     \n\ntemplate <typename T>\nvector<T> bfs01(int s, vector<vector<edge<T>>> &G)\
-    \ {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    deque<int> q;\n \
-    \   d[s] = 0;\n    q.push_front(s);\n    while (!q.empty()) {\n        int v =\
-    \ q.front();\n        q.pop_front();\n        for (auto &&e : G[v]) {\n      \
-    \      T nd = d[v] + e.cost;\n            if (d[e.to] <= nd) continue;\n     \
-    \       d[e.to] = nd;\n            if (e.cost == T(0)) {\n                q.push_front(e.to);\n\
+    \ {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    vector<char> settled(n);\n\
+    \    deque<int> q;\n    d[s] = 0;\n    q.push_front(s);\n    while (!q.empty())\
+    \ {\n        int v = q.front();\n        q.pop_front();\n        if (settled[v])\
+    \ continue;\n        settled[v] = true;\n        for (auto &&e : G[v]) {\n   \
+    \         T nd = d[v] + e.cost;\n            if (d[e.to] <= nd) continue;\n  \
+    \          d[e.to] = nd;\n            if (e.cost == T(0)) {\n                q.push_front(e.to);\n\
     \            } else {\n                assert(e.cost == T(1));\n             \
     \   q.push_back(e.to);\n            }\n        }\n    }\n    return d;\n}\n\n\
     /**\n * @brief 01-BFS\n */\n"
   code: "#include \"edge.cpp\"\n\ntemplate <typename T>\nvector<T> bfs01(int s, vector<vector<edge<T>>>\
-    \ &G) {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    deque<int> q;\n\
-    \    d[s] = 0;\n    q.push_front(s);\n    while (!q.empty()) {\n        int v\
-    \ = q.front();\n        q.pop_front();\n        for (auto &&e : G[v]) {\n    \
-    \        T nd = d[v] + e.cost;\n            if (d[e.to] <= nd) continue;\n   \
-    \         d[e.to] = nd;\n            if (e.cost == T(0)) {\n                q.push_front(e.to);\n\
-    \            } else {\n                assert(e.cost == T(1));\n             \
-    \   q.push_back(e.to);\n            }\n        }\n    }\n    return d;\n}\n\n\
-    /**\n * @brief 01-BFS\n */\n"
+    \ &G) {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    vector<char>\
+    \ settled(n);\n    deque<int> q;\n    d[s] = 0;\n    q.push_front(s);\n    while\
+    \ (!q.empty()) {\n        int v = q.front();\n        q.pop_front();\n       \
+    \ if (settled[v]) continue;\n        settled[v] = true;\n        for (auto &&e\
+    \ : G[v]) {\n            T nd = d[v] + e.cost;\n            if (d[e.to] <= nd)\
+    \ continue;\n            d[e.to] = nd;\n            if (e.cost == T(0)) {\n  \
+    \              q.push_front(e.to);\n            } else {\n                assert(e.cost\
+    \ == T(1));\n                q.push_back(e.to);\n            }\n        }\n  \
+    \  }\n    return d;\n}\n\n/**\n * @brief 01-BFS\n */\n"
   dependsOn:
   - graph/edge.cpp
   isVerificationFile: false
   path: graph/bfs01.cpp
   requiredBy: []
-  timestamp: '2026-10-05 23:03:38+09:00'
+  timestamp: '2026-10-17 20:28:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj2945_bfs01.test.cpp
+  - test/yosupo_aplusb_bfs01.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2026-03-08
 documentation_of: graph/bfs01.cpp
@@ -64,7 +70,7 @@ title: 01-BFS
 
 ## 説明
 辺重みが `0` または `1` のグラフで単一始点最短路を求める。
-計算量は $O(V + E)$。
+時間計算量は $O(V + E)$、追加領域は $O(V)$。
 
 ## できること
 - `vector<T> bfs01(int s, vector<vector<edge<T>>>& G)`
@@ -85,3 +91,4 @@ auto dist = bfs01(0, G);
 
 ## 実装上の補足
 重み `0` の遷移は deque の前、重み `1` の遷移は後ろへ積む。
+頂点を最初に取り出したときに距離を確定する。同じ頂点の古い要素は捨て、各頂点の隣接辺は1回だけ走査する。

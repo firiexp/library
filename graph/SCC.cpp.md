@@ -43,32 +43,32 @@ data:
     \npublic:\n    vector<vector<int>> G_out;\n    vector<int> vs, used, cmp, sz;\n\
     \    SCC() = default;\n    explicit SCC(int n) : n(n), used(n), cmp(n), sz(n)\
     \ {}\n\n    void add_edge(int a, int b){\n        edges.emplace_back(a, b);\n\
-    \    }\n\n    int build() {\n        CSR G(n, edges, false), G_r(n, edges, true);\n\
-    \        vs.clear();\n        vs.reserve(n);\n        fill(used.begin(), used.end(),\
-    \ 0);\n        auto dfs = [&](auto &&self, int v) -> void {\n            used[v]\
-    \ = 1;\n            for (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {\n \
-    \               int u = G.elist[ei];\n                if(!used[u]) self(self,\
-    \ u);\n            }\n            vs.emplace_back(v);\n        };\n        for\
-    \ (int i = 0; i < n; ++i) {\n            if(!used[i]) dfs(dfs, i);\n        }\n\
-    \        fill(used.begin(), used.end(), 0);\n        sz.resize(n);\n        fill(sz.begin(),\
-    \ sz.end(), 0);\n        int k = 0;\n        auto dfs_r = [&](auto &&self, int\
-    \ v, int c) -> void {\n            used[v] = 1;\n            cmp[v] = c;\n   \
-    \         sz[c]++;\n            for (int ei = G_r.start[v]; ei < G_r.start[v +\
-    \ 1]; ++ei) {\n                int u = G_r.elist[ei];\n                if(!used[u])\
-    \ self(self, u, c);\n            }\n        };\n        for (int i = n - 1; i\
-    \ >= 0; --i) {\n            if(!used[vs[i]]){\n                dfs_r(dfs_r, vs[i],\
-    \ k++);\n            }\n        }\n        G_out.assign(k, {});\n        sz.resize(k);\n\
-    \        if (k <= 1) return k;\n        vector<int> head(k, -1), next(n), seen(k,\
-    \ -1);\n        for (int v = 0; v < n; ++v) {\n            next[v] = head[cmp[v]];\n\
-    \            head[cmp[v]] = v;\n        }\n        for (int to = 0; to < k; ++to)\
-    \ {\n            for (int v = head[to]; v != -1; v = next[v]) {\n            \
-    \    for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n            \
-    \        int from = cmp[G_r.elist[ei]];\n                    if (from == to ||\
-    \ seen[from] == to) continue;\n                    seen[from] = to;\n        \
-    \            G_out[from].push_back(to);\n                }\n            }\n  \
-    \      }\n        return k;\n    }\n\n    int operator[](int k) const { return\
-    \ cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)\n\
-    \ */\n"
+    \    }\n\n    int build(bool build_dag = true) {\n        CSR G(n, edges, false),\
+    \ G_r(n, edges, true);\n        vs.clear();\n        vs.reserve(n);\n        fill(used.begin(),\
+    \ used.end(), 0);\n        auto dfs = [&](auto &&self, int v) -> void {\n    \
+    \        used[v] = 1;\n            for (int ei = G.start[v]; ei < G.start[v +\
+    \ 1]; ++ei) {\n                int u = G.elist[ei];\n                if(!used[u])\
+    \ self(self, u);\n            }\n            vs.emplace_back(v);\n        };\n\
+    \        for (int i = 0; i < n; ++i) {\n            if(!used[i]) dfs(dfs, i);\n\
+    \        }\n        fill(used.begin(), used.end(), 0);\n        sz.resize(n);\n\
+    \        fill(sz.begin(), sz.end(), 0);\n        int k = 0;\n        auto dfs_r\
+    \ = [&](auto &&self, int v, int c) -> void {\n            used[v] = 1;\n     \
+    \       cmp[v] = c;\n            sz[c]++;\n            for (int ei = G_r.start[v];\
+    \ ei < G_r.start[v + 1]; ++ei) {\n                int u = G_r.elist[ei];\n   \
+    \             if(!used[u]) self(self, u, c);\n            }\n        };\n    \
+    \    for (int i = n - 1; i >= 0; --i) {\n            if(!used[vs[i]]){\n     \
+    \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(build_dag\
+    \ ? k : 0, {});\n        sz.resize(k);\n        if (!build_dag || k <= 1) return\
+    \ k;\n        vector<int> head(k, -1), next(n), seen(k, -1);\n        for (int\
+    \ v = 0; v < n; ++v) {\n            next[v] = head[cmp[v]];\n            head[cmp[v]]\
+    \ = v;\n        }\n        for (int to = 0; to < k; ++to) {\n            for (int\
+    \ v = head[to]; v != -1; v = next[v]) {\n                for (int ei = G_r.start[v];\
+    \ ei < G_r.start[v + 1]; ++ei) {\n                    int from = cmp[G_r.elist[ei]];\n\
+    \                    if (from == to || seen[from] == to) continue;\n         \
+    \           seen[from] = to;\n                    G_out[from].push_back(to);\n\
+    \                }\n            }\n        }\n        return k;\n    }\n\n   \
+    \ int operator[](int k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\
+    \u7D50\u6210\u5206\u5206\u89E3(SCC)\n */\n"
   code: "class SCC {\n    struct CSR {\n        vector<int> start, elist;\n\n    \
     \    CSR() = default;\n\n        CSR(int n, const vector<pair<int, int>> &edges,\
     \ bool rev) : start(n + 1), elist(edges.size()) {\n            for (auto &&[a,\
@@ -80,22 +80,23 @@ data:
     \n    int n = 0;\n    vector<pair<int, int>> edges;\n\npublic:\n    vector<vector<int>>\
     \ G_out;\n    vector<int> vs, used, cmp, sz;\n    SCC() = default;\n    explicit\
     \ SCC(int n) : n(n), used(n), cmp(n), sz(n) {}\n\n    void add_edge(int a, int\
-    \ b){\n        edges.emplace_back(a, b);\n    }\n\n    int build() {\n       \
-    \ CSR G(n, edges, false), G_r(n, edges, true);\n        vs.clear();\n        vs.reserve(n);\n\
-    \        fill(used.begin(), used.end(), 0);\n        auto dfs = [&](auto &&self,\
-    \ int v) -> void {\n            used[v] = 1;\n            for (int ei = G.start[v];\
-    \ ei < G.start[v + 1]; ++ei) {\n                int u = G.elist[ei];\n       \
-    \         if(!used[u]) self(self, u);\n            }\n            vs.emplace_back(v);\n\
-    \        };\n        for (int i = 0; i < n; ++i) {\n            if(!used[i]) dfs(dfs,\
-    \ i);\n        }\n        fill(used.begin(), used.end(), 0);\n        sz.resize(n);\n\
-    \        fill(sz.begin(), sz.end(), 0);\n        int k = 0;\n        auto dfs_r\
-    \ = [&](auto &&self, int v, int c) -> void {\n            used[v] = 1;\n     \
-    \       cmp[v] = c;\n            sz[c]++;\n            for (int ei = G_r.start[v];\
-    \ ei < G_r.start[v + 1]; ++ei) {\n                int u = G_r.elist[ei];\n   \
-    \             if(!used[u]) self(self, u, c);\n            }\n        };\n    \
-    \    for (int i = n - 1; i >= 0; --i) {\n            if(!used[vs[i]]){\n     \
-    \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(k,\
-    \ {});\n        sz.resize(k);\n        if (k <= 1) return k;\n        vector<int>\
+    \ b){\n        edges.emplace_back(a, b);\n    }\n\n    int build(bool build_dag\
+    \ = true) {\n        CSR G(n, edges, false), G_r(n, edges, true);\n        vs.clear();\n\
+    \        vs.reserve(n);\n        fill(used.begin(), used.end(), 0);\n        auto\
+    \ dfs = [&](auto &&self, int v) -> void {\n            used[v] = 1;\n        \
+    \    for (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {\n                int\
+    \ u = G.elist[ei];\n                if(!used[u]) self(self, u);\n            }\n\
+    \            vs.emplace_back(v);\n        };\n        for (int i = 0; i < n; ++i)\
+    \ {\n            if(!used[i]) dfs(dfs, i);\n        }\n        fill(used.begin(),\
+    \ used.end(), 0);\n        sz.resize(n);\n        fill(sz.begin(), sz.end(), 0);\n\
+    \        int k = 0;\n        auto dfs_r = [&](auto &&self, int v, int c) -> void\
+    \ {\n            used[v] = 1;\n            cmp[v] = c;\n            sz[c]++;\n\
+    \            for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n    \
+    \            int u = G_r.elist[ei];\n                if(!used[u]) self(self, u,\
+    \ c);\n            }\n        };\n        for (int i = n - 1; i >= 0; --i) {\n\
+    \            if(!used[vs[i]]){\n                dfs_r(dfs_r, vs[i], k++);\n  \
+    \          }\n        }\n        G_out.assign(build_dag ? k : 0, {});\n      \
+    \  sz.resize(k);\n        if (!build_dag || k <= 1) return k;\n        vector<int>\
     \ head(k, -1), next(n), seen(k, -1);\n        for (int v = 0; v < n; ++v) {\n\
     \            next[v] = head[cmp[v]];\n            head[cmp[v]] = v;\n        }\n\
     \        for (int to = 0; to < k; ++to) {\n            for (int v = head[to];\
@@ -111,7 +112,7 @@ data:
   path: graph/SCC.cpp
   requiredBy:
   - graph/offline_reachability.cpp
-  timestamp: '2026-10-06 23:06:10+09:00'
+  timestamp: '2026-10-17 20:30:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0349.test.cpp
@@ -129,15 +130,15 @@ title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
 
 ## 説明
 有向グラフを強連結成分分解する。
-Kosaraju 法で成分番号と縮約 DAG を作る。計算量は $O(N + M)$。
+Kosaraju 法で成分番号を求め、必要なら縮約 DAG も作る。どちらの場合も時間・領域は $O(N + M)$。
 
 ## できること
 - `SCC scc(n)`
   頂点数 `n` のグラフを作る
 - `void add_edge(int u, int v)`
   辺 `u -> v` を張る
-- `int build()`
-  強連結成分分解を実行して成分数を返す
+- `int build(bool build_dag = true)`
+  強連結成分分解を実行して成分数を返す。`false` なら縮約 DAG を作らず、`G_out` を空にする
 - `int operator[](int v)`
   頂点 `v` の属する成分番号を返す
 - `vector<int> cmp`
@@ -150,7 +151,9 @@ Kosaraju 法で成分番号と縮約 DAG を作る。計算量は $O(N + M)$。
 ## 使い方
 辺を張ってから `build()` を呼ぶ。
 以後は `cmp[v]` や `scc[v]` で成分番号を見て、`G_out` を縮約 DAG として使う。
+成分番号と頂点数だけが必要なら `build(false)` を呼ぶ。`cmp`・`sz`・返り値は `build()` と同じで、以前作った `G_out` は残らない。
 
 ## 実装上の補足
 成分番号はトポロジカル順で、小さい番号から大きい番号へ辺が向かう。
 縮約辺は到着先の成分番号順に逆辺を走査して列挙する。既存の逆辺 CSR と $O(N)$ の作業領域を使う。
+`build(false)` は縮約辺の列挙を省き、その作業配列や成分ごとの隣接リストを確保しない。

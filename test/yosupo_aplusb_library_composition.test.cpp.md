@@ -727,50 +727,53 @@ data:
     \      v = parent[v];\n    }\n    path.clear();\n    return path;\n}\n\n/**\n\
     \ * @brief \u7D4C\u8DEF\u5FA9\u5143\u4ED8\u304DDijkstra\u6CD5\n */\n#line 2 \"\
     graph/bfs01.cpp\"\n\ntemplate <typename T>\nvector<T> bfs01(int s, vector<vector<edge<T>>>\
-    \ &G) {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    deque<int> q;\n\
-    \    d[s] = 0;\n    q.push_front(s);\n    while (!q.empty()) {\n        int v\
-    \ = q.front();\n        q.pop_front();\n        for (auto &&e : G[v]) {\n    \
-    \        T nd = d[v] + e.cost;\n            if (d[e.to] <= nd) continue;\n   \
-    \         d[e.to] = nd;\n            if (e.cost == T(0)) {\n                q.push_front(e.to);\n\
-    \            } else {\n                assert(e.cost == T(1));\n             \
-    \   q.push_back(e.to);\n            }\n        }\n    }\n    return d;\n}\n\n\
-    /**\n * @brief 01-BFS\n */\n#line 2 \"graph/bellman_ford.cpp\"\n\ntemplate <typename\
-    \ T>\nvector<T> bellman_ford(int s, int V,vector<edge<T> > &G){\n    const T INF\
-    \ = numeric_limits<T>::max();\n    vector<T> d(V, INF);\n    d[s] = 0;\n    for\
-    \ (int i = 0; i < V - 1; ++i) {\n        bool updated = false;\n        for (auto\
-    \ &&e : G) {\n            if (d[e.from] == INF) continue;\n            if (d[e.from]\
-    \ + e.cost < d[e.to]) {\n                d[e.to] = d[e.from] + e.cost;\n     \
-    \           updated = true;\n            }\n        }\n        if (!updated) return\
-    \ d;\n    }\n    for (auto &&e : G) {\n        if(d[e.from] == INF) continue;\n\
-    \        if(d[e.from] + e.cost < d[e.to]) return vector<T> ();\n    }\n    return\
-    \ d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n */\n#line 25 \"test/yosupo_aplusb_library_composition.test.cpp\"\
-    \n\n#line 1 \"graph/SCC.cpp\"\nclass SCC {\n    struct CSR {\n        vector<int>\
-    \ start, elist;\n\n        CSR() = default;\n\n        CSR(int n, const vector<pair<int,\
-    \ int>> &edges, bool rev) : start(n + 1), elist(edges.size()) {\n            for\
-    \ (auto &&[a, b] : edges) {\n                ++start[(rev ? b : a) + 1];\n   \
-    \         }\n            for (int i = 0; i < n; ++i) start[i + 1] += start[i];\n\
-    \            auto counter = start;\n            for (auto &&[a, b] : edges) {\n\
-    \                int from = rev ? b : a;\n                int to = rev ? a : b;\n\
-    \                elist[counter[from]++] = to;\n            }\n        }\n    };\n\
+    \ &G) {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    vector<char>\
+    \ settled(n);\n    deque<int> q;\n    d[s] = 0;\n    q.push_front(s);\n    while\
+    \ (!q.empty()) {\n        int v = q.front();\n        q.pop_front();\n       \
+    \ if (settled[v]) continue;\n        settled[v] = true;\n        for (auto &&e\
+    \ : G[v]) {\n            T nd = d[v] + e.cost;\n            if (d[e.to] <= nd)\
+    \ continue;\n            d[e.to] = nd;\n            if (e.cost == T(0)) {\n  \
+    \              q.push_front(e.to);\n            } else {\n                assert(e.cost\
+    \ == T(1));\n                q.push_back(e.to);\n            }\n        }\n  \
+    \  }\n    return d;\n}\n\n/**\n * @brief 01-BFS\n */\n#line 2 \"graph/bellman_ford.cpp\"\
+    \n\ntemplate <typename T>\nvector<T> bellman_ford(int s, int V,vector<edge<T>\
+    \ > &G){\n    const T INF = numeric_limits<T>::max();\n    vector<T> d(V, INF);\n\
+    \    d[s] = 0;\n    for (int i = 0; i < V - 1; ++i) {\n        bool updated =\
+    \ false;\n        for (auto &&e : G) {\n            if (d[e.from] == INF) continue;\n\
+    \            if (d[e.from] + e.cost < d[e.to]) {\n                d[e.to] = d[e.from]\
+    \ + e.cost;\n                updated = true;\n            }\n        }\n     \
+    \   if (!updated) return d;\n    }\n    for (auto &&e : G) {\n        if(d[e.from]\
+    \ == INF) continue;\n        if(d[e.from] + e.cost < d[e.to]) return vector<T>\
+    \ ();\n    }\n    return d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n */\n#line\
+    \ 25 \"test/yosupo_aplusb_library_composition.test.cpp\"\n\n#line 1 \"graph/SCC.cpp\"\
+    \nclass SCC {\n    struct CSR {\n        vector<int> start, elist;\n\n       \
+    \ CSR() = default;\n\n        CSR(int n, const vector<pair<int, int>> &edges,\
+    \ bool rev) : start(n + 1), elist(edges.size()) {\n            for (auto &&[a,\
+    \ b] : edges) {\n                ++start[(rev ? b : a) + 1];\n            }\n\
+    \            for (int i = 0; i < n; ++i) start[i + 1] += start[i];\n         \
+    \   auto counter = start;\n            for (auto &&[a, b] : edges) {\n       \
+    \         int from = rev ? b : a;\n                int to = rev ? a : b;\n   \
+    \             elist[counter[from]++] = to;\n            }\n        }\n    };\n\
     \n    int n = 0;\n    vector<pair<int, int>> edges;\n\npublic:\n    vector<vector<int>>\
     \ G_out;\n    vector<int> vs, used, cmp, sz;\n    SCC() = default;\n    explicit\
     \ SCC(int n) : n(n), used(n), cmp(n), sz(n) {}\n\n    void add_edge(int a, int\
-    \ b){\n        edges.emplace_back(a, b);\n    }\n\n    int build() {\n       \
-    \ CSR G(n, edges, false), G_r(n, edges, true);\n        vs.clear();\n        vs.reserve(n);\n\
-    \        fill(used.begin(), used.end(), 0);\n        auto dfs = [&](auto &&self,\
-    \ int v) -> void {\n            used[v] = 1;\n            for (int ei = G.start[v];\
-    \ ei < G.start[v + 1]; ++ei) {\n                int u = G.elist[ei];\n       \
-    \         if(!used[u]) self(self, u);\n            }\n            vs.emplace_back(v);\n\
-    \        };\n        for (int i = 0; i < n; ++i) {\n            if(!used[i]) dfs(dfs,\
-    \ i);\n        }\n        fill(used.begin(), used.end(), 0);\n        sz.resize(n);\n\
-    \        fill(sz.begin(), sz.end(), 0);\n        int k = 0;\n        auto dfs_r\
-    \ = [&](auto &&self, int v, int c) -> void {\n            used[v] = 1;\n     \
-    \       cmp[v] = c;\n            sz[c]++;\n            for (int ei = G_r.start[v];\
-    \ ei < G_r.start[v + 1]; ++ei) {\n                int u = G_r.elist[ei];\n   \
-    \             if(!used[u]) self(self, u, c);\n            }\n        };\n    \
-    \    for (int i = n - 1; i >= 0; --i) {\n            if(!used[vs[i]]){\n     \
-    \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(k,\
-    \ {});\n        sz.resize(k);\n        if (k <= 1) return k;\n        vector<int>\
+    \ b){\n        edges.emplace_back(a, b);\n    }\n\n    int build(bool build_dag\
+    \ = true) {\n        CSR G(n, edges, false), G_r(n, edges, true);\n        vs.clear();\n\
+    \        vs.reserve(n);\n        fill(used.begin(), used.end(), 0);\n        auto\
+    \ dfs = [&](auto &&self, int v) -> void {\n            used[v] = 1;\n        \
+    \    for (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {\n                int\
+    \ u = G.elist[ei];\n                if(!used[u]) self(self, u);\n            }\n\
+    \            vs.emplace_back(v);\n        };\n        for (int i = 0; i < n; ++i)\
+    \ {\n            if(!used[i]) dfs(dfs, i);\n        }\n        fill(used.begin(),\
+    \ used.end(), 0);\n        sz.resize(n);\n        fill(sz.begin(), sz.end(), 0);\n\
+    \        int k = 0;\n        auto dfs_r = [&](auto &&self, int v, int c) -> void\
+    \ {\n            used[v] = 1;\n            cmp[v] = c;\n            sz[c]++;\n\
+    \            for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n    \
+    \            int u = G_r.elist[ei];\n                if(!used[u]) self(self, u,\
+    \ c);\n            }\n        };\n        for (int i = n - 1; i >= 0; --i) {\n\
+    \            if(!used[vs[i]]){\n                dfs_r(dfs_r, vs[i], k++);\n  \
+    \          }\n        }\n        G_out.assign(build_dag ? k : 0, {});\n      \
+    \  sz.resize(k);\n        if (!build_dag || k <= 1) return k;\n        vector<int>\
     \ head(k, -1), next(n), seen(k, -1);\n        for (int v = 0; v < n; ++v) {\n\
     \            next[v] = head[cmp[v]];\n            head[cmp[v]] = v;\n        }\n\
     \        for (int to = 0; to < k; ++to) {\n            for (int v = head[to];\
@@ -1309,13 +1312,14 @@ data:
     \        aux.buildLCA(root);\n    }\n\n    int lca(int u, int v) {\n        return\
     \ aux.LCA(u, v);\n    }\n\n    int distance(int u, int v) {\n        return aux.distance(u,\
     \ v);\n    }\n\n    VirtualTree make(vector<int> vertices) {\n        if (vertices.empty())\
-    \ return {-1, {}, {}};\n        aux.make(vertices);\n        sort(vertices.begin(),\
-    \ vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n    \
-    \    vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());\n\
-    \n        VirtualTree res;\n        res.root = vertices.front();\n        ++stamp;\n\
-    \        vector<int> st = {res.root};\n        mark[res.root] = stamp;\n     \
-    \   parent_buf[res.root] = -1;\n\n        while (!st.empty()) {\n            int\
-    \ v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
+    \ return {-1, {}, {}};\n        aux.make(vertices);\n\n        VirtualTree res;\n\
+    \        auto less = [&](int a, int b) { return aux.fi[a] < aux.fi[b]; };\n  \
+    \      if (vertices.size() <= 8) {\n            sort(vertices.begin(), vertices.end(),\
+    \ less);\n            res.root = vertices.front();\n        } else {\n       \
+    \     res.root = *min_element(vertices.begin(), vertices.end(), less);\n     \
+    \   }\n        ++stamp;\n        vector<int> st = {res.root};\n        mark[res.root]\
+    \ = stamp;\n        parent_buf[res.root] = -1;\n\n        while (!st.empty())\
+    \ {\n            int v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
     \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
     \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
     \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
@@ -1533,7 +1537,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-16 00:08:02+09:00'
+  timestamp: '2026-10-17 20:38:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

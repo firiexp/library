@@ -234,28 +234,30 @@ data:
     \  edge(int to, T cost) : from(-1), to(to), cost(cost) {}\n    edge(int from,\
     \ int to, T cost) : from(from), to(to), cost(cost) {}\n \n    explicit operator\
     \ int() const {return to;}\n};\n \ntemplate <typename T>\nvector<T> bellman_ford(int\
-    \ s, int N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    vector<bool>\
-    \ negative(N);\n    dist[s] = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n   \
-    \     bool updated = false;\n        for (auto &&e : G) {\n            if(dist[e.from]\
-    \ == INF<T>) continue;\n            if(dist[e.to] > dist[e.from]+ e.cost){\n \
-    \               dist[e.to] = dist[e.from]+ e.cost;\n                updated =\
-    \ true;\n            }\n        }\n        if (!updated) return dist;\n    }\n\
-    \ \n    for (int i = 0; i < N ; ++i) {\n        for (auto &&e : G) {\n       \
-    \     if(dist[e.from] == INF<T>) continue;\n            if(dist[e.to] > dist[e.from]\
-    \ + e.cost){\n                dist[e.to] = dist[e.from] + e.cost;\n          \
-    \      negative[e.to] = true;\n            }\n            if(negative[e.from])\
-    \ negative[e.to] = true;\n        }\n    }\n    for (int i = 0; i < N; ++i) {\n\
-    \        if(negative[i]) dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n\
-    \ * @brief Bellman-Ford\u6CD5(\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 18 \"\
-    test/aoj_grl_1_b_negative_loop.test.cpp\"\n\nint main() {\n    Scanner sc;\n \
-    \   Printer pr;\n\n    int n, m, s;\n    sc.read(n, m, s);\n    vector<edge<ll>>\
-    \ es;\n    es.reserve(m);\n    for (int i = 0; i < m; ++i) {\n        int a, b,\
-    \ c;\n        sc.read(a, b, c);\n        es.emplace_back(a, b, c);\n    }\n\n\
-    \    auto dist = bellman_ford(s, n, es);\n    for (int i = 0; i < n; ++i) {\n\
-    \        if (dist[i] == -INF<ll>) {\n            pr.println(\"NEGATIVE CYCLE\"\
-    );\n            return 0;\n        }\n    }\n    for (int i = 0; i < n; ++i) {\n\
-    \        if (dist[i] == INF<ll>) pr.println(\"INF\");\n        else pr.println(dist[i]);\n\
-    \    }\n    return 0;\n}\n"
+    \ s, int N,vector<edge<T> > &G){\n    vector<T> dist(N, INF<T>);\n    dist[s]\
+    \ = 0;\n    for (int i = 0; i < N - 1; ++ i) {\n        bool updated = false;\n\
+    \        for (auto &&e : G) {\n            if(dist[e.from] == INF<T>) continue;\n\
+    \            if(dist[e.to] > dist[e.from]+ e.cost){\n                dist[e.to]\
+    \ = dist[e.from]+ e.cost;\n                updated = true;\n            }\n  \
+    \      }\n        if (!updated) return dist;\n    }\n \n    vector<char> negative(N);\n\
+    \    vector<int> q;\n    for (auto &&e : G) {\n        if (dist[e.from] == INF<T>\
+    \ || negative[e.to]) continue;\n        if (dist[e.to] > dist[e.from] + e.cost)\
+    \ {\n            negative[e.to] = true;\n            q.push_back(e.to);\n    \
+    \    }\n    }\n    if (q.empty()) return dist;\n    vector<vector<int>> next(N);\n\
+    \    for (auto &&e : G) next[e.from].push_back(e.to);\n    for (size_t i = 0;\
+    \ i < q.size(); ++i) {\n        for (int to : next[q[i]]) {\n            if (negative[to])\
+    \ continue;\n            negative[to] = true;\n            q.push_back(to);\n\
+    \        }\n    }\n    for (int i = 0; i < N; ++i) {\n        if(negative[i])\
+    \ dist[i] = -INF<T>;\n    }\n    return dist;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\
+    (\u8CA0\u9589\u8DEF\u4F1D\u64AD)\n */\n#line 18 \"test/aoj_grl_1_b_negative_loop.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m, s;\n    sc.read(n,\
+    \ m, s);\n    vector<edge<ll>> es;\n    es.reserve(m);\n    for (int i = 0; i\
+    \ < m; ++i) {\n        int a, b, c;\n        sc.read(a, b, c);\n        es.emplace_back(a,\
+    \ b, c);\n    }\n\n    auto dist = bellman_ford(s, n, es);\n    for (int i = 0;\
+    \ i < n; ++i) {\n        if (dist[i] == -INF<ll>) {\n            pr.println(\"\
+    NEGATIVE CYCLE\");\n            return 0;\n        }\n    }\n    for (int i =\
+    \ 0; i < n; ++i) {\n        if (dist[i] == INF<ll>) pr.println(\"INF\");\n   \
+    \     else pr.println(dist[i]);\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B\"\n\n\
     #include <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
     \ long;\ntemplate<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 *\
@@ -276,7 +278,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_1_b_negative_loop.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-17 20:27:44+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_1_b_negative_loop.test.cpp

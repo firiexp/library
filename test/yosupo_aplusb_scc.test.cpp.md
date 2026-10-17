@@ -238,22 +238,23 @@ data:
     \n    int n = 0;\n    vector<pair<int, int>> edges;\n\npublic:\n    vector<vector<int>>\
     \ G_out;\n    vector<int> vs, used, cmp, sz;\n    SCC() = default;\n    explicit\
     \ SCC(int n) : n(n), used(n), cmp(n), sz(n) {}\n\n    void add_edge(int a, int\
-    \ b){\n        edges.emplace_back(a, b);\n    }\n\n    int build() {\n       \
-    \ CSR G(n, edges, false), G_r(n, edges, true);\n        vs.clear();\n        vs.reserve(n);\n\
-    \        fill(used.begin(), used.end(), 0);\n        auto dfs = [&](auto &&self,\
-    \ int v) -> void {\n            used[v] = 1;\n            for (int ei = G.start[v];\
-    \ ei < G.start[v + 1]; ++ei) {\n                int u = G.elist[ei];\n       \
-    \         if(!used[u]) self(self, u);\n            }\n            vs.emplace_back(v);\n\
-    \        };\n        for (int i = 0; i < n; ++i) {\n            if(!used[i]) dfs(dfs,\
-    \ i);\n        }\n        fill(used.begin(), used.end(), 0);\n        sz.resize(n);\n\
-    \        fill(sz.begin(), sz.end(), 0);\n        int k = 0;\n        auto dfs_r\
-    \ = [&](auto &&self, int v, int c) -> void {\n            used[v] = 1;\n     \
-    \       cmp[v] = c;\n            sz[c]++;\n            for (int ei = G_r.start[v];\
-    \ ei < G_r.start[v + 1]; ++ei) {\n                int u = G_r.elist[ei];\n   \
-    \             if(!used[u]) self(self, u, c);\n            }\n        };\n    \
-    \    for (int i = n - 1; i >= 0; --i) {\n            if(!used[vs[i]]){\n     \
-    \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(k,\
-    \ {});\n        sz.resize(k);\n        if (k <= 1) return k;\n        vector<int>\
+    \ b){\n        edges.emplace_back(a, b);\n    }\n\n    int build(bool build_dag\
+    \ = true) {\n        CSR G(n, edges, false), G_r(n, edges, true);\n        vs.clear();\n\
+    \        vs.reserve(n);\n        fill(used.begin(), used.end(), 0);\n        auto\
+    \ dfs = [&](auto &&self, int v) -> void {\n            used[v] = 1;\n        \
+    \    for (int ei = G.start[v]; ei < G.start[v + 1]; ++ei) {\n                int\
+    \ u = G.elist[ei];\n                if(!used[u]) self(self, u);\n            }\n\
+    \            vs.emplace_back(v);\n        };\n        for (int i = 0; i < n; ++i)\
+    \ {\n            if(!used[i]) dfs(dfs, i);\n        }\n        fill(used.begin(),\
+    \ used.end(), 0);\n        sz.resize(n);\n        fill(sz.begin(), sz.end(), 0);\n\
+    \        int k = 0;\n        auto dfs_r = [&](auto &&self, int v, int c) -> void\
+    \ {\n            used[v] = 1;\n            cmp[v] = c;\n            sz[c]++;\n\
+    \            for (int ei = G_r.start[v]; ei < G_r.start[v + 1]; ++ei) {\n    \
+    \            int u = G_r.elist[ei];\n                if(!used[u]) self(self, u,\
+    \ c);\n            }\n        };\n        for (int i = n - 1; i >= 0; --i) {\n\
+    \            if(!used[vs[i]]){\n                dfs_r(dfs_r, vs[i], k++);\n  \
+    \          }\n        }\n        G_out.assign(build_dag ? k : 0, {});\n      \
+    \  sz.resize(k);\n        if (!build_dag || k <= 1) return k;\n        vector<int>\
     \ head(k, -1), next(n), seen(k, -1);\n        for (int v = 0; v < n; ++v) {\n\
     \            next[v] = head[cmp[v]];\n            head[cmp[v]] = v;\n        }\n\
     \        for (int to = 0; to < k; ++to) {\n            for (int v = head[to];\
@@ -264,46 +265,11 @@ data:
     \         }\n            }\n        }\n        return k;\n    }\n\n    int operator[](int\
     \ k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\
     \u5206\u89E3(SCC)\n */\n#line 8 \"test/yosupo_aplusb_scc.test.cpp\"\n\nvoid check(SCC\
-    \ &g, int n, const vector<pair<int, int>> &edges) {\n    int k = g.build();\n\
-    \    assert(int(g.cmp.size()) == n && int(g.sz.size()) == k);\n    assert(int(g.G_out.size())\
-    \ == k);\n    vector<vector<bool>> reachable(n, vector<bool>(n));\n    for (int\
-    \ v = 0; v < n; ++v) reachable[v][v] = true;\n    for (auto [u, v] : edges) reachable[u][v]\
-    \ = true;\n    for (int w = 0; w < n; ++w)\n        for (int u = 0; u < n; ++u)\n\
-    \            for (int v = 0; v < n; ++v)\n                reachable[u][v] = reachable[u][v]\
-    \ || (reachable[u][w] && reachable[w][v]);\n    vector<int> sizes(k);\n    for\
-    \ (int u = 0; u < n; ++u) {\n        assert(0 <= g[u] && g[u] < k);\n        ++sizes[g[u]];\n\
-    \        for (int v = 0; v < n; ++v)\n            assert((g[u] == g[v]) == (reachable[u][v]\
-    \ && reachable[v][u]));\n    }\n    assert(g.sz == sizes);\n    for (int size\
-    \ : sizes) assert(size > 0);\n    vector<set<int>> dag(k);\n    for (auto [u,\
-    \ v] : edges) {\n        if (g[u] == g[v]) continue;\n        assert(g[u] < g[v]);\n\
-    \        dag[g[u]].insert(g[v]);\n    }\n    for (int c = 0; c < k; ++c)\n   \
-    \     assert(g.G_out[c] == vector<int>(dag[c].begin(), dag[c].end()));\n    auto\
-    \ cmp = g.cmp;\n    auto out = g.G_out;\n    assert(g.build() == k);\n    assert(g.cmp\
-    \ == cmp && g.sz == sizes && g.G_out == out);\n}\n\nvoid check_scc() {\n    SCC\
-    \ empty;\n    check(empty, 0, {});\n    mt19937 rng(20261006);\n    for (int tc\
-    \ = 0; tc < 1000; ++tc) {\n        int n = rng() % 13;\n        SCC g(n);\n  \
-    \      vector<pair<int, int>> edges;\n        check(g, n, edges);\n        if\
-    \ (n == 0) continue;\n        for (int phase = 0; phase < 3; ++phase) {\n    \
-    \        int m = rng() % (n * n + 1);\n            for (int i = 0; i < m; ++i)\
-    \ {\n                int u = rng() % n, v = rng() % n;\n                g.add_edge(u,\
-    \ v);\n                edges.emplace_back(u, v);\n                if (i % 3 ==\
-    \ 0) {\n                    g.add_edge(u, v);\n                    edges.emplace_back(u,\
-    \ v);\n                }\n            }\n            check(g, n, edges);\n   \
-    \     }\n    }\n    int n = 20000;\n    SCC fanout(n), single(n);\n    for (int\
-    \ v = 0; v < n; ++v) {\n        single.add_edge(0, v);\n        single.add_edge(v,\
-    \ 0);\n        for (int repeat = 0; repeat < 10; ++repeat) fanout.add_edge(0,\
-    \ v);\n    }\n    assert(fanout.build() == n);\n    vector<int> expected(n - 1);\n\
-    \    iota(expected.begin(), expected.end(), 1);\n    assert(fanout[0] == 0 &&\
-    \ fanout.G_out[0] == expected);\n    for (int c = 1; c < n; ++c) assert(fanout.G_out[c].empty());\n\
-    \    assert(single.build() == 1 && single.sz == vector<int>{n});\n    assert(single.G_out\
-    \ == vector<vector<int>>(1));\n}\n\nint main() {\n    check_scc();\n    Scanner\
-    \ in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a\
-    \ + b);\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/SCC.cpp\"\
-    \n\nvoid check(SCC &g, int n, const vector<pair<int, int>> &edges) {\n    int\
-    \ k = g.build();\n    assert(int(g.cmp.size()) == n && int(g.sz.size()) == k);\n\
-    \    assert(int(g.G_out.size()) == k);\n    vector<vector<bool>> reachable(n,\
+    \ &g, int n, const vector<pair<int, int>> &edges) {\n    int components = g.build(false);\n\
+    \    auto initial_cmp = g.cmp, initial_sz = g.sz;\n    assert(g.G_out.empty());\n\
+    \    int k = g.build();\n    assert(k == components && g.cmp == initial_cmp &&\
+    \ g.sz == initial_sz);\n    assert(int(g.cmp.size()) == n && int(g.sz.size())\
+    \ == k);\n    assert(int(g.G_out.size()) == k);\n    vector<vector<bool>> reachable(n,\
     \ vector<bool>(n));\n    for (int v = 0; v < n; ++v) reachable[v][v] = true;\n\
     \    for (auto [u, v] : edges) reachable[u][v] = true;\n    for (int w = 0; w\
     \ < n; ++w)\n        for (int u = 0; u < n; ++u)\n            for (int v = 0;\
@@ -316,8 +282,10 @@ data:
     \ v] : edges) {\n        if (g[u] == g[v]) continue;\n        assert(g[u] < g[v]);\n\
     \        dag[g[u]].insert(g[v]);\n    }\n    for (int c = 0; c < k; ++c)\n   \
     \     assert(g.G_out[c] == vector<int>(dag[c].begin(), dag[c].end()));\n    auto\
-    \ cmp = g.cmp;\n    auto out = g.G_out;\n    assert(g.build() == k);\n    assert(g.cmp\
-    \ == cmp && g.sz == sizes && g.G_out == out);\n}\n\nvoid check_scc() {\n    SCC\
+    \ cmp = g.cmp;\n    auto out = g.G_out;\n    for (bool build_dag : {false, false,\
+    \ true, true, false}) {\n        assert(g.build(build_dag) == k);\n        assert(g.cmp\
+    \ == cmp && g.sz == sizes);\n        if (build_dag) assert(g.G_out == out);\n\
+    \        else assert(g.G_out.empty());\n    }\n}\n\nvoid check_scc() {\n    SCC\
     \ empty;\n    check(empty, 0, {});\n    mt19937 rng(20261006);\n    for (int tc\
     \ = 0; tc < 1000; ++tc) {\n        int n = rng() % 13;\n        SCC g(n);\n  \
     \      vector<pair<int, int>> edges;\n        check(g, n, edges);\n        if\
@@ -334,6 +302,58 @@ data:
     \    iota(expected.begin(), expected.end(), 1);\n    assert(fanout[0] == 0 &&\
     \ fanout.G_out[0] == expected);\n    for (int c = 1; c < n; ++c) assert(fanout.G_out[c].empty());\n\
     \    assert(single.build() == 1 && single.sz == vector<int>{n});\n    assert(single.G_out\
+    \ == vector<vector<int>>(1));\n    auto cmp = fanout.cmp, sizes = fanout.sz;\n\
+    \    assert(fanout.build(false) == n);\n    assert(fanout.cmp == cmp && fanout.sz\
+    \ == sizes && fanout.G_out.empty());\n    assert(fanout.build() == n && fanout.G_out[0]\
+    \ == expected);\n    assert(single.build(false) == 1 && single.sz == vector<int>{n});\n\
+    \    assert(single.G_out.empty());\n    assert(single.build() == 1 && single.G_out\
+    \ == vector<vector<int>>(1));\n}\n\nint main() {\n    check_scc();\n    Scanner\
+    \ in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../graph/SCC.cpp\"\
+    \n\nvoid check(SCC &g, int n, const vector<pair<int, int>> &edges) {\n    int\
+    \ components = g.build(false);\n    auto initial_cmp = g.cmp, initial_sz = g.sz;\n\
+    \    assert(g.G_out.empty());\n    int k = g.build();\n    assert(k == components\
+    \ && g.cmp == initial_cmp && g.sz == initial_sz);\n    assert(int(g.cmp.size())\
+    \ == n && int(g.sz.size()) == k);\n    assert(int(g.G_out.size()) == k);\n   \
+    \ vector<vector<bool>> reachable(n, vector<bool>(n));\n    for (int v = 0; v <\
+    \ n; ++v) reachable[v][v] = true;\n    for (auto [u, v] : edges) reachable[u][v]\
+    \ = true;\n    for (int w = 0; w < n; ++w)\n        for (int u = 0; u < n; ++u)\n\
+    \            for (int v = 0; v < n; ++v)\n                reachable[u][v] = reachable[u][v]\
+    \ || (reachable[u][w] && reachable[w][v]);\n    vector<int> sizes(k);\n    for\
+    \ (int u = 0; u < n; ++u) {\n        assert(0 <= g[u] && g[u] < k);\n        ++sizes[g[u]];\n\
+    \        for (int v = 0; v < n; ++v)\n            assert((g[u] == g[v]) == (reachable[u][v]\
+    \ && reachable[v][u]));\n    }\n    assert(g.sz == sizes);\n    for (int size\
+    \ : sizes) assert(size > 0);\n    vector<set<int>> dag(k);\n    for (auto [u,\
+    \ v] : edges) {\n        if (g[u] == g[v]) continue;\n        assert(g[u] < g[v]);\n\
+    \        dag[g[u]].insert(g[v]);\n    }\n    for (int c = 0; c < k; ++c)\n   \
+    \     assert(g.G_out[c] == vector<int>(dag[c].begin(), dag[c].end()));\n    auto\
+    \ cmp = g.cmp;\n    auto out = g.G_out;\n    for (bool build_dag : {false, false,\
+    \ true, true, false}) {\n        assert(g.build(build_dag) == k);\n        assert(g.cmp\
+    \ == cmp && g.sz == sizes);\n        if (build_dag) assert(g.G_out == out);\n\
+    \        else assert(g.G_out.empty());\n    }\n}\n\nvoid check_scc() {\n    SCC\
+    \ empty;\n    check(empty, 0, {});\n    mt19937 rng(20261006);\n    for (int tc\
+    \ = 0; tc < 1000; ++tc) {\n        int n = rng() % 13;\n        SCC g(n);\n  \
+    \      vector<pair<int, int>> edges;\n        check(g, n, edges);\n        if\
+    \ (n == 0) continue;\n        for (int phase = 0; phase < 3; ++phase) {\n    \
+    \        int m = rng() % (n * n + 1);\n            for (int i = 0; i < m; ++i)\
+    \ {\n                int u = rng() % n, v = rng() % n;\n                g.add_edge(u,\
+    \ v);\n                edges.emplace_back(u, v);\n                if (i % 3 ==\
+    \ 0) {\n                    g.add_edge(u, v);\n                    edges.emplace_back(u,\
+    \ v);\n                }\n            }\n            check(g, n, edges);\n   \
+    \     }\n    }\n    int n = 20000;\n    SCC fanout(n), single(n);\n    for (int\
+    \ v = 0; v < n; ++v) {\n        single.add_edge(0, v);\n        single.add_edge(v,\
+    \ 0);\n        for (int repeat = 0; repeat < 10; ++repeat) fanout.add_edge(0,\
+    \ v);\n    }\n    assert(fanout.build() == n);\n    vector<int> expected(n - 1);\n\
+    \    iota(expected.begin(), expected.end(), 1);\n    assert(fanout[0] == 0 &&\
+    \ fanout.G_out[0] == expected);\n    for (int c = 1; c < n; ++c) assert(fanout.G_out[c].empty());\n\
+    \    assert(single.build() == 1 && single.sz == vector<int>{n});\n    assert(single.G_out\
+    \ == vector<vector<int>>(1));\n    auto cmp = fanout.cmp, sizes = fanout.sz;\n\
+    \    assert(fanout.build(false) == n);\n    assert(fanout.cmp == cmp && fanout.sz\
+    \ == sizes && fanout.G_out.empty());\n    assert(fanout.build() == n && fanout.G_out[0]\
+    \ == expected);\n    assert(single.build(false) == 1 && single.sz == vector<int>{n});\n\
+    \    assert(single.G_out.empty());\n    assert(single.build() == 1 && single.G_out\
     \ == vector<vector<int>>(1));\n}\n\nint main() {\n    check_scc();\n    Scanner\
     \ in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a\
     \ + b);\n}\n"
@@ -343,7 +363,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_scc.test.cpp
   requiredBy: []
-  timestamp: '2026-10-06 23:06:10+09:00'
+  timestamp: '2026-10-17 20:30:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_scc.test.cpp

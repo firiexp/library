@@ -243,12 +243,14 @@ data:
     \ tree.assign(n, {});\n        path.assign(n, {});\n        dist.assign(n, {});\n\
     \        fill(parent.begin(), parent.end(), -1);\n        fill(depth.begin(),\
     \ depth.end(), 0);\n        fill(used.begin(), used.end(), 0);\n        dfs_parent.resize(n);\n\
-    \        order.reserve(n);\n        if (n == 0) return root = -1;\n        return\
-    \ root = decompose(start, -1, 0);\n    }\n\nprivate:\n    vector<int> dfs_parent,\
-    \ order;\n\n    int dfs_size(int v, int p) {\n        order.clear();\n       \
-    \ order.push_back(v);\n        dfs_parent[v] = p;\n        for (int i = 0; i <\
-    \ (int)order.size(); ++i) {\n            int x = order[i];\n            sz[x]\
-    \ = 1;\n            for (int u : G[x]) {\n                if (u == dfs_parent[x]\
+    \        order.reserve(n);\n        if (n == 0) return root = -1;\n        int\
+    \ levels = 0;\n        for (int size = n; size > 0; size /= 2) ++levels;\n   \
+    \     buffers.resize(levels);\n        return root = decompose(start, -1, 0);\n\
+    \    }\n\nprivate:\n    vector<int> dfs_parent, order;\n    vector<vector<pair<int,\
+    \ int>>> buffers;\n\n    int dfs_size(int v, int p) {\n        order.clear();\n\
+    \        order.push_back(v);\n        dfs_parent[v] = p;\n        for (int i =\
+    \ 0; i < (int)order.size(); ++i) {\n            int x = order[i];\n          \
+    \  sz[x] = 1;\n            for (int u : G[x]) {\n                if (u == dfs_parent[x]\
     \ || used[u]) continue;\n                dfs_parent[u] = x;\n                order.push_back(u);\n\
     \            }\n        }\n        for (int i = (int)order.size() - 1; i > 0;\
     \ --i)\n            sz[dfs_parent[order[i]]] += sz[order[i]];\n        return\
@@ -267,10 +269,10 @@ data:
     \ -1) / 2);\n        used[centroid] = 1;\n        parent[centroid] = p;\n    \
     \    depth[centroid] = dep;\n        path[centroid].push_back(centroid);\n   \
     \     dist[centroid].push_back(0);\n        for (auto &&u : G[centroid]) {\n \
-    \           if (used[u]) continue;\n            vector<pair<int, int>> buf;\n\
-    \            collect(u, centroid, 1, buf);\n            int child = decompose(u,\
-    \ centroid, dep + 1);\n            tree[centroid].push_back(child);\n        \
-    \    for (auto &&[v, d] : buf) {\n                path[v].push_back(centroid);\n\
+    \           if (used[u]) continue;\n            auto &buf = buffers[dep];\n  \
+    \          buf.clear();\n            collect(u, centroid, 1, buf);\n         \
+    \   int child = decompose(u, centroid, dep + 1);\n            tree[centroid].push_back(child);\n\
+    \            for (auto &&[v, d] : buf) {\n                path[v].push_back(centroid);\n\
     \                dist[v].push_back(d);\n            }\n        }\n        return\
     \ centroid;\n    }\n};\n\n/**\n * @brief \u91CD\u5FC3\u5206\u89E3\u30AF\u30A8\u30EA\
     \u88DC\u52A9(Centroid Query Helper)\n */\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
@@ -319,31 +321,42 @@ data:
     \n */\n#line 8 \"test/yosupo_aplusb_range_contour_sum.test.cpp\"\n\nvoid check(int\
     \ n, int mode, mt19937 &rng) {\n    vector<vector<int>> g(n), distance(n, vector<int>(n,\
     \ -1));\n    for (int i = 1; i < n; ++i) {\n        int p = mode == 0 ? i - 1\
-    \ : mode == 1 ? 0 : rng() % i;\n        g[p].push_back(i);\n        g[i].push_back(p);\n\
-    \    }\n    for (int v = 0; v < n; ++v) {\n        vector<int> queue{v};\n   \
-    \     distance[v][v] = 0;\n        for (int i = 0; i < (int)queue.size(); ++i)\
-    \ {\n            int x = queue[i];\n            for (int u : g[x]) {\n       \
-    \         if (distance[v][u] != -1) continue;\n                distance[v][u]\
-    \ = distance[v][x] + 1;\n                queue.push_back(u);\n            }\n\
-    \        }\n    }\n    CentroidDecompositionQueryHelper helper(n);\n    helper.G\
-    \ = g;\n    helper.build();\n    auto path = helper.path, dist = helper.dist;\n\
-    \    helper.build();\n    assert(path == helper.path && dist == helper.dist);\n\
-    \    for (int v = 0; v < n; ++v) {\n        assert(path[v].front() == v && path[v].back()\
-    \ == helper.root);\n        for (int i = 0; i < (int)path[v].size(); ++i) {\n\
-    \            assert(dist[v][i] == distance[v][path[v][i]]);\n            if (i\
-    \ > 0) assert(helper.parent[path[v][i - 1]] == path[v][i]);\n        }\n    }\n\
-    \    vector<long long> values(n);\n    for (auto &x : values) x = (int)(rng()\
-    \ % 21) - 10;\n    RangeContourSum solver(g, values);\n    for (int step = 0;\
-    \ step < 200; ++step) {\n        int v = rng() % n;\n        if (step % 3 == 0)\
-    \ {\n            long long x = (int)(rng() % 21) - 10;\n            solver.add(v,\
-    \ x);\n            values[v] += x;\n        }\n        int l = (int)(rng() % (n\
-    \ + 10)) - 5;\n        int r = (int)(rng() % (n + 10)) - 5;\n        if (step\
-    \ % 20 == 0) l = INT_MIN, r = INT_MAX;\n        long long expected = 0;\n    \
-    \    for (int u = 0; u < n; ++u)\n            if (l <= distance[v][u] && distance[v][u]\
-    \ < r) expected += values[u];\n        assert(solver.query(v, l, r) == expected);\n\
-    \        assert(solver.query(v, 0, 1) == values[v]);\n    }\n}\n\nint main() {\n\
-    \    RangeContourSum empty({}, {});\n    mt19937 rng(20261010);\n    for (int\
-    \ n : {1, 2, 3, 63, 64, 65, 100})\n        for (int mode = 0; mode < 3; ++mode)\
+    \ : mode == 1 ? 0 : mode == 3 ? (i - 1) / 2 : rng() % i;\n        g[p].push_back(i);\n\
+    \        g[i].push_back(p);\n    }\n    for (int v = 0; v < n; ++v) {\n      \
+    \  vector<int> queue{v};\n        distance[v][v] = 0;\n        for (int i = 0;\
+    \ i < (int)queue.size(); ++i) {\n            int x = queue[i];\n            for\
+    \ (int u : g[x]) {\n                if (distance[v][u] != -1) continue;\n    \
+    \            distance[v][u] = distance[v][x] + 1;\n                queue.push_back(u);\n\
+    \            }\n        }\n    }\n    CentroidDecompositionQueryHelper helper(n);\n\
+    \    helper.G = g;\n    for (int start : {0, n - 1, int(rng() % n), 0}) {\n  \
+    \      int root = helper.build(start);\n        auto path = helper.path, dist\
+    \ = helper.dist, tree = helper.tree;\n        auto parent = helper.parent, depth\
+    \ = helper.depth;\n        assert(helper.build(start) == root);\n        assert(path\
+    \ == helper.path && dist == helper.dist && tree == helper.tree);\n        assert(parent\
+    \ == helper.parent && depth == helper.depth);\n        assert(helper.parent[root]\
+    \ == -1 && helper.depth[root] == 0);\n        int edge_count = 0;\n        for\
+    \ (int v = 0; v < n; ++v) {\n            assert(path[v].front() == v && path[v].back()\
+    \ == root);\n            assert(path[v].size() == dist[v].size());\n         \
+    \   assert(int(path[v].size()) == helper.depth[v] + 1);\n            for (int\
+    \ i = 0; i < (int)path[v].size(); ++i) {\n                assert(dist[v][i] ==\
+    \ distance[v][path[v][i]]);\n                if (i > 0) assert(helper.parent[path[v][i\
+    \ - 1]] == path[v][i]);\n            }\n            for (int child : tree[v])\
+    \ {\n                assert(helper.parent[child] == v && helper.depth[child] ==\
+    \ helper.depth[v] + 1);\n                ++edge_count;\n            }\n      \
+    \  }\n        assert(edge_count == n - 1);\n    }\n    vector<long long> values(n);\n\
+    \    for (auto &x : values) x = (int)(rng() % 21) - 10;\n    RangeContourSum solver(g,\
+    \ values);\n    for (int step = 0; step < 200; ++step) {\n        int v = rng()\
+    \ % n;\n        if (step % 3 == 0) {\n            long long x = (int)(rng() %\
+    \ 21) - 10;\n            solver.add(v, x);\n            values[v] += x;\n    \
+    \    }\n        int l = (int)(rng() % (n + 10)) - 5;\n        int r = (int)(rng()\
+    \ % (n + 10)) - 5;\n        if (step % 20 == 0) l = INT_MIN, r = INT_MAX;\n  \
+    \      long long expected = 0;\n        for (int u = 0; u < n; ++u)\n        \
+    \    if (l <= distance[v][u] && distance[v][u] < r) expected += values[u];\n \
+    \       assert(solver.query(v, l, r) == expected);\n        assert(solver.query(v,\
+    \ 0, 1) == values[v]);\n    }\n}\n\nint main() {\n    RangeContourSum empty({},\
+    \ {});\n    CentroidDecompositionQueryHelper empty_helper(0);\n    assert(empty_helper.build()\
+    \ == -1 && empty_helper.build() == -1);\n    mt19937 rng(20261010);\n    for (int\
+    \ n : {1, 2, 3, 63, 64, 65, 100})\n        for (int mode = 0; mode < 4; ++mode)\
     \ check(n, mode, rng);\n    for (int tc = 0; tc < 500; ++tc) check(1 + rng() %\
     \ 50, 2, rng);\n    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a,\
     \ b);\n    out.println(a + b);\n}\n"
@@ -351,31 +364,42 @@ data:
     using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../tree/range_contour_sum.cpp\"\
     \n\nvoid check(int n, int mode, mt19937 &rng) {\n    vector<vector<int>> g(n),\
     \ distance(n, vector<int>(n, -1));\n    for (int i = 1; i < n; ++i) {\n      \
-    \  int p = mode == 0 ? i - 1 : mode == 1 ? 0 : rng() % i;\n        g[p].push_back(i);\n\
-    \        g[i].push_back(p);\n    }\n    for (int v = 0; v < n; ++v) {\n      \
-    \  vector<int> queue{v};\n        distance[v][v] = 0;\n        for (int i = 0;\
-    \ i < (int)queue.size(); ++i) {\n            int x = queue[i];\n            for\
-    \ (int u : g[x]) {\n                if (distance[v][u] != -1) continue;\n    \
-    \            distance[v][u] = distance[v][x] + 1;\n                queue.push_back(u);\n\
-    \            }\n        }\n    }\n    CentroidDecompositionQueryHelper helper(n);\n\
-    \    helper.G = g;\n    helper.build();\n    auto path = helper.path, dist = helper.dist;\n\
-    \    helper.build();\n    assert(path == helper.path && dist == helper.dist);\n\
-    \    for (int v = 0; v < n; ++v) {\n        assert(path[v].front() == v && path[v].back()\
-    \ == helper.root);\n        for (int i = 0; i < (int)path[v].size(); ++i) {\n\
-    \            assert(dist[v][i] == distance[v][path[v][i]]);\n            if (i\
-    \ > 0) assert(helper.parent[path[v][i - 1]] == path[v][i]);\n        }\n    }\n\
-    \    vector<long long> values(n);\n    for (auto &x : values) x = (int)(rng()\
-    \ % 21) - 10;\n    RangeContourSum solver(g, values);\n    for (int step = 0;\
-    \ step < 200; ++step) {\n        int v = rng() % n;\n        if (step % 3 == 0)\
-    \ {\n            long long x = (int)(rng() % 21) - 10;\n            solver.add(v,\
-    \ x);\n            values[v] += x;\n        }\n        int l = (int)(rng() % (n\
-    \ + 10)) - 5;\n        int r = (int)(rng() % (n + 10)) - 5;\n        if (step\
-    \ % 20 == 0) l = INT_MIN, r = INT_MAX;\n        long long expected = 0;\n    \
-    \    for (int u = 0; u < n; ++u)\n            if (l <= distance[v][u] && distance[v][u]\
-    \ < r) expected += values[u];\n        assert(solver.query(v, l, r) == expected);\n\
-    \        assert(solver.query(v, 0, 1) == values[v]);\n    }\n}\n\nint main() {\n\
-    \    RangeContourSum empty({}, {});\n    mt19937 rng(20261010);\n    for (int\
-    \ n : {1, 2, 3, 63, 64, 65, 100})\n        for (int mode = 0; mode < 3; ++mode)\
+    \  int p = mode == 0 ? i - 1 : mode == 1 ? 0 : mode == 3 ? (i - 1) / 2 : rng()\
+    \ % i;\n        g[p].push_back(i);\n        g[i].push_back(p);\n    }\n    for\
+    \ (int v = 0; v < n; ++v) {\n        vector<int> queue{v};\n        distance[v][v]\
+    \ = 0;\n        for (int i = 0; i < (int)queue.size(); ++i) {\n            int\
+    \ x = queue[i];\n            for (int u : g[x]) {\n                if (distance[v][u]\
+    \ != -1) continue;\n                distance[v][u] = distance[v][x] + 1;\n   \
+    \             queue.push_back(u);\n            }\n        }\n    }\n    CentroidDecompositionQueryHelper\
+    \ helper(n);\n    helper.G = g;\n    for (int start : {0, n - 1, int(rng() % n),\
+    \ 0}) {\n        int root = helper.build(start);\n        auto path = helper.path,\
+    \ dist = helper.dist, tree = helper.tree;\n        auto parent = helper.parent,\
+    \ depth = helper.depth;\n        assert(helper.build(start) == root);\n      \
+    \  assert(path == helper.path && dist == helper.dist && tree == helper.tree);\n\
+    \        assert(parent == helper.parent && depth == helper.depth);\n        assert(helper.parent[root]\
+    \ == -1 && helper.depth[root] == 0);\n        int edge_count = 0;\n        for\
+    \ (int v = 0; v < n; ++v) {\n            assert(path[v].front() == v && path[v].back()\
+    \ == root);\n            assert(path[v].size() == dist[v].size());\n         \
+    \   assert(int(path[v].size()) == helper.depth[v] + 1);\n            for (int\
+    \ i = 0; i < (int)path[v].size(); ++i) {\n                assert(dist[v][i] ==\
+    \ distance[v][path[v][i]]);\n                if (i > 0) assert(helper.parent[path[v][i\
+    \ - 1]] == path[v][i]);\n            }\n            for (int child : tree[v])\
+    \ {\n                assert(helper.parent[child] == v && helper.depth[child] ==\
+    \ helper.depth[v] + 1);\n                ++edge_count;\n            }\n      \
+    \  }\n        assert(edge_count == n - 1);\n    }\n    vector<long long> values(n);\n\
+    \    for (auto &x : values) x = (int)(rng() % 21) - 10;\n    RangeContourSum solver(g,\
+    \ values);\n    for (int step = 0; step < 200; ++step) {\n        int v = rng()\
+    \ % n;\n        if (step % 3 == 0) {\n            long long x = (int)(rng() %\
+    \ 21) - 10;\n            solver.add(v, x);\n            values[v] += x;\n    \
+    \    }\n        int l = (int)(rng() % (n + 10)) - 5;\n        int r = (int)(rng()\
+    \ % (n + 10)) - 5;\n        if (step % 20 == 0) l = INT_MIN, r = INT_MAX;\n  \
+    \      long long expected = 0;\n        for (int u = 0; u < n; ++u)\n        \
+    \    if (l <= distance[v][u] && distance[v][u] < r) expected += values[u];\n \
+    \       assert(solver.query(v, l, r) == expected);\n        assert(solver.query(v,\
+    \ 0, 1) == values[v]);\n    }\n}\n\nint main() {\n    RangeContourSum empty({},\
+    \ {});\n    CentroidDecompositionQueryHelper empty_helper(0);\n    assert(empty_helper.build()\
+    \ == -1 && empty_helper.build() == -1);\n    mt19937 rng(20261010);\n    for (int\
+    \ n : {1, 2, 3, 63, 64, 65, 100})\n        for (int mode = 0; mode < 4; ++mode)\
     \ check(n, mode, rng);\n    for (int tc = 0; tc < 500; ++tc) check(1 + rng() %\
     \ 50, 2, rng);\n    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a,\
     \ b);\n    out.println(a + b);\n}\n"
@@ -387,7 +411,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_range_contour_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 19:50:28+09:00'
+  timestamp: '2026-10-17 20:39:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_range_contour_sum.test.cpp

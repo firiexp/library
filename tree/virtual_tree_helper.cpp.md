@@ -83,13 +83,14 @@ data:
     \        aux.buildLCA(root);\n    }\n\n    int lca(int u, int v) {\n        return\
     \ aux.LCA(u, v);\n    }\n\n    int distance(int u, int v) {\n        return aux.distance(u,\
     \ v);\n    }\n\n    VirtualTree make(vector<int> vertices) {\n        if (vertices.empty())\
-    \ return {-1, {}, {}};\n        aux.make(vertices);\n        sort(vertices.begin(),\
-    \ vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n    \
-    \    vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());\n\
-    \n        VirtualTree res;\n        res.root = vertices.front();\n        ++stamp;\n\
-    \        vector<int> st = {res.root};\n        mark[res.root] = stamp;\n     \
-    \   parent_buf[res.root] = -1;\n\n        while (!st.empty()) {\n            int\
-    \ v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
+    \ return {-1, {}, {}};\n        aux.make(vertices);\n\n        VirtualTree res;\n\
+    \        auto less = [&](int a, int b) { return aux.fi[a] < aux.fi[b]; };\n  \
+    \      if (vertices.size() <= 8) {\n            sort(vertices.begin(), vertices.end(),\
+    \ less);\n            res.root = vertices.front();\n        } else {\n       \
+    \     res.root = *min_element(vertices.begin(), vertices.end(), less);\n     \
+    \   }\n        ++stamp;\n        vector<int> st = {res.root};\n        mark[res.root]\
+    \ = stamp;\n        parent_buf[res.root] = -1;\n\n        while (!st.empty())\
+    \ {\n            int v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
     \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
     \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
     \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
@@ -104,24 +105,26 @@ data:
     \ u, int v) {\n        return aux.LCA(u, v);\n    }\n\n    int distance(int u,\
     \ int v) {\n        return aux.distance(u, v);\n    }\n\n    VirtualTree make(vector<int>\
     \ vertices) {\n        if (vertices.empty()) return {-1, {}, {}};\n        aux.make(vertices);\n\
-    \        sort(vertices.begin(), vertices.end(), [&](int a, int b) { return aux.fi[a]\
-    \ < aux.fi[b]; });\n        vertices.erase(unique(vertices.begin(), vertices.end()),\
-    \ vertices.end());\n\n        VirtualTree res;\n        res.root = vertices.front();\n\
-    \        ++stamp;\n        vector<int> st = {res.root};\n        mark[res.root]\
-    \ = stamp;\n        parent_buf[res.root] = -1;\n\n        while (!st.empty())\
-    \ {\n            int v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
-    \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
-    \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
-    \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
-    \ st.emplace_back(u);\n            }\n        }\n\n        aux.clear(vertices);\n\
-    \        return res;\n    }\n};\n\n/**\n * @brief Virtual Tree Helper\n */\n"
+    \n        VirtualTree res;\n        auto less = [&](int a, int b) { return aux.fi[a]\
+    \ < aux.fi[b]; };\n        if (vertices.size() <= 8) {\n            sort(vertices.begin(),\
+    \ vertices.end(), less);\n            res.root = vertices.front();\n        }\
+    \ else {\n            res.root = *min_element(vertices.begin(), vertices.end(),\
+    \ less);\n        }\n        ++stamp;\n        vector<int> st = {res.root};\n\
+    \        mark[res.root] = stamp;\n        parent_buf[res.root] = -1;\n\n     \
+    \   while (!st.empty()) {\n            int v = st.back();\n            st.pop_back();\n\
+    \            res.vertices.emplace_back(v);\n            res.parent.emplace_back(parent_buf[v]);\n\
+    \            for (auto &&u : aux.out[v]) {\n                if (mark[u] == stamp)\
+    \ continue;\n                mark[u] = stamp;\n                parent_buf[u] =\
+    \ v;\n                st.emplace_back(u);\n            }\n        }\n\n      \
+    \  aux.clear(vertices);\n        return res;\n    }\n};\n\n/**\n * @brief Virtual\
+    \ Tree Helper\n */\n"
   dependsOn:
   - tree/auxtree.cpp
   - datastructure/sparsetable.cpp
   isVerificationFile: false
   path: tree/virtual_tree_helper.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:01:52+09:00'
+  timestamp: '2026-10-17 20:38:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
@@ -138,6 +141,7 @@ title: Virtual Tree Helper
 ## 説明
 `AuxTree` の `make / clear / out` 管理を隠して、DP しやすい形で virtual tree を返す補助ラッパ。
 各クエリごとに、必要頂点と補われた LCA 頂点からなる根付き木を作る。
+入力の頂点数を $K$ として、`make` は $O(K\log K)$ 時間、追加領域 $O(K)$。
 
 ## できること
 - `VirtualTreeHelper vt(n)`
@@ -171,4 +175,7 @@ for (int i = (int)tr.vertices.size() - 1; i >= 0; --i) {
 
 ## 実装上の補足
 返り値の頂点列には元の query 頂点に加えて必要な LCA 頂点も入る。
+LCA 補完後は、DFS 訪問順が最小の頂点を根にする。返却順は補助木の DFS で決まり、補完後の列を再ソートする必要はない。
+根の選択は線形探索で行う。ただし補完後8頂点以下では、小さい集合での速度を保つためソートして先頭を取る。
 内部では `AuxTree` を使い、各クエリ後の `clear` は helper 側で処理する。
+補完後の列に同じ頂点が複数あっても、その隣接リストを繰り返し空にするだけなので次のクエリには影響しない。

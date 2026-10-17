@@ -934,6 +934,9 @@ data:
       path: test/yosupo_aplusb_berlekamp_massey.test.cpp
       title: test/yosupo_aplusb_berlekamp_massey.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_bfs01.test.cpp
+      title: test/yosupo_aplusb_bfs01.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_biginteger.test.cpp
       title: test/yosupo_aplusb_biginteger.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1086,6 +1089,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_is_palindrome.test.cpp
       title: test/yosupo_aplusb_is_palindrome.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_jump_on_tree.test.cpp
+      title: test/yosupo_aplusb_jump_on_tree.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_k_shortest_walk.test.cpp
       title: test/yosupo_aplusb_k_shortest_walk.test.cpp

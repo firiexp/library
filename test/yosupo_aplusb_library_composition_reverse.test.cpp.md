@@ -292,33 +292,34 @@ data:
     \ == INF) continue;\n        if(d[e.from] + e.cost < d[e.to]) return vector<T>\
     \ ();\n    }\n    return d;\n}\n\n/**\n * @brief Bellman-Ford\u6CD5\n */\n#line\
     \ 2 \"graph/bfs01.cpp\"\n\ntemplate <typename T>\nvector<T> bfs01(int s, vector<vector<edge<T>>>\
-    \ &G) {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    deque<int> q;\n\
-    \    d[s] = 0;\n    q.push_front(s);\n    while (!q.empty()) {\n        int v\
-    \ = q.front();\n        q.pop_front();\n        for (auto &&e : G[v]) {\n    \
-    \        T nd = d[v] + e.cost;\n            if (d[e.to] <= nd) continue;\n   \
-    \         d[e.to] = nd;\n            if (e.cost == T(0)) {\n                q.push_front(e.to);\n\
-    \            } else {\n                assert(e.cost == T(1));\n             \
-    \   q.push_back(e.to);\n            }\n        }\n    }\n    return d;\n}\n\n\
-    /**\n * @brief 01-BFS\n */\n#line 1 \"graph/dijkstra.cpp\"\n\n\n\n#line 1 \"graph/dijkstra_common.cpp\"\
-    \n\n\n\n#line 5 \"graph/dijkstra_common.cpp\"\n\ntemplate <typename T>\nstruct\
-    \ DijkstraPriorityQueue {\n    priority_queue<pair<T, int>, vector<pair<T, int>>,\
-    \ greater<>> q;\n\n    bool empty() const { return q.empty(); }\n\n    void push(T\
-    \ cost, int v) {\n        q.emplace(cost, v);\n    }\n\n    pair<T, int> pop()\
-    \ {\n        auto res = q.top();\n        q.pop();\n        return res;\n    }\n\
-    };\n\ntemplate <typename T, class Queue, class OnRelax>\nvoid dijkstra_relax(vector<T>&\
-    \ dist, const vector<vector<edge<T>>>& G, Queue& Q, OnRelax on_relax) {\n    while\
-    \ (!Q.empty()) {\n        auto [cost, v] = Q.pop();\n        if (dist[v] < cost)\
-    \ continue;\n        for (auto &&e : G[v]) {\n            T nxt = cost + e.cost;\n\
-    \            if (dist[e.to] <= nxt) continue;\n            dist[e.to] = nxt;\n\
-    \            on_relax(v, e);\n            Q.push(nxt, e.to);\n        }\n    }\n\
-    }\n\ntemplate <typename T, class Queue, class OnRelax>\nvector<T> dijkstra_internal(int\
-    \ s, const vector<vector<edge<T>>> &G, Queue &Q, OnRelax on_relax) {\n    int\
-    \ n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n    dist[s] = 0;\n    Q.push(T(0),\
-    \ s);\n    dijkstra_relax(dist, G, Q, std::move(on_relax));\n    return dist;\n\
-    }\n\ntemplate <typename T, class Queue>\nvector<T> dijkstra_internal(int s, const\
-    \ vector<vector<edge<T>>> &G, Queue &Q) {\n    return dijkstra_internal(s, G,\
-    \ Q, [](int, const edge<T> &) {});\n}\n\n\n#line 5 \"graph/dijkstra.cpp\"\n\n\
-    template <typename T>\nvector<T> dijkstra(int s, const vector<vector<edge<T>>>\
+    \ &G) {\n    int n = G.size();\n    vector<T> d(n, INF<T>);\n    vector<char>\
+    \ settled(n);\n    deque<int> q;\n    d[s] = 0;\n    q.push_front(s);\n    while\
+    \ (!q.empty()) {\n        int v = q.front();\n        q.pop_front();\n       \
+    \ if (settled[v]) continue;\n        settled[v] = true;\n        for (auto &&e\
+    \ : G[v]) {\n            T nd = d[v] + e.cost;\n            if (d[e.to] <= nd)\
+    \ continue;\n            d[e.to] = nd;\n            if (e.cost == T(0)) {\n  \
+    \              q.push_front(e.to);\n            } else {\n                assert(e.cost\
+    \ == T(1));\n                q.push_back(e.to);\n            }\n        }\n  \
+    \  }\n    return d;\n}\n\n/**\n * @brief 01-BFS\n */\n#line 1 \"graph/dijkstra.cpp\"\
+    \n\n\n\n#line 1 \"graph/dijkstra_common.cpp\"\n\n\n\n#line 5 \"graph/dijkstra_common.cpp\"\
+    \n\ntemplate <typename T>\nstruct DijkstraPriorityQueue {\n    priority_queue<pair<T,\
+    \ int>, vector<pair<T, int>>, greater<>> q;\n\n    bool empty() const { return\
+    \ q.empty(); }\n\n    void push(T cost, int v) {\n        q.emplace(cost, v);\n\
+    \    }\n\n    pair<T, int> pop() {\n        auto res = q.top();\n        q.pop();\n\
+    \        return res;\n    }\n};\n\ntemplate <typename T, class Queue, class OnRelax>\n\
+    void dijkstra_relax(vector<T>& dist, const vector<vector<edge<T>>>& G, Queue&\
+    \ Q, OnRelax on_relax) {\n    while (!Q.empty()) {\n        auto [cost, v] = Q.pop();\n\
+    \        if (dist[v] < cost) continue;\n        for (auto &&e : G[v]) {\n    \
+    \        T nxt = cost + e.cost;\n            if (dist[e.to] <= nxt) continue;\n\
+    \            dist[e.to] = nxt;\n            on_relax(v, e);\n            Q.push(nxt,\
+    \ e.to);\n        }\n    }\n}\n\ntemplate <typename T, class Queue, class OnRelax>\n\
+    vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q,\
+    \ OnRelax on_relax) {\n    int n = (int)G.size();\n    vector<T> dist(n, INF<T>);\n\
+    \    dist[s] = 0;\n    Q.push(T(0), s);\n    dijkstra_relax(dist, G, Q, std::move(on_relax));\n\
+    \    return dist;\n}\n\ntemplate <typename T, class Queue>\nvector<T> dijkstra_internal(int\
+    \ s, const vector<vector<edge<T>>> &G, Queue &Q) {\n    return dijkstra_internal(s,\
+    \ G, Q, [](int, const edge<T> &) {});\n}\n\n\n#line 5 \"graph/dijkstra.cpp\"\n\
+    \ntemplate <typename T>\nvector<T> dijkstra(int s, const vector<vector<edge<T>>>\
     \ &G) {\n    DijkstraPriorityQueue<T> Q;\n    return dijkstra_internal(s, G, Q);\n\
     }\n\n\n\n/**\n * @brief Dijkstra\u6CD5\n */\n#line 16 \"test/yosupo_aplusb_library_composition_reverse.test.cpp\"\
     \n\n#line 1 \"graph/twosat.cpp\"\nstruct TwoSAT {\n    struct SCC {\n        struct\
@@ -380,32 +381,32 @@ data:
     \ int>> edges;\n\npublic:\n    vector<vector<int>> G_out;\n    vector<int> vs,\
     \ used, cmp, sz;\n    SCC() = default;\n    explicit SCC(int n) : n(n), used(n),\
     \ cmp(n), sz(n) {}\n\n    void add_edge(int a, int b){\n        edges.emplace_back(a,\
-    \ b);\n    }\n\n    int build() {\n        CSR G(n, edges, false), G_r(n, edges,\
-    \ true);\n        vs.clear();\n        vs.reserve(n);\n        fill(used.begin(),\
-    \ used.end(), 0);\n        auto dfs = [&](auto &&self, int v) -> void {\n    \
-    \        used[v] = 1;\n            for (int ei = G.start[v]; ei < G.start[v +\
-    \ 1]; ++ei) {\n                int u = G.elist[ei];\n                if(!used[u])\
-    \ self(self, u);\n            }\n            vs.emplace_back(v);\n        };\n\
-    \        for (int i = 0; i < n; ++i) {\n            if(!used[i]) dfs(dfs, i);\n\
-    \        }\n        fill(used.begin(), used.end(), 0);\n        sz.resize(n);\n\
+    \ b);\n    }\n\n    int build(bool build_dag = true) {\n        CSR G(n, edges,\
+    \ false), G_r(n, edges, true);\n        vs.clear();\n        vs.reserve(n);\n\
+    \        fill(used.begin(), used.end(), 0);\n        auto dfs = [&](auto &&self,\
+    \ int v) -> void {\n            used[v] = 1;\n            for (int ei = G.start[v];\
+    \ ei < G.start[v + 1]; ++ei) {\n                int u = G.elist[ei];\n       \
+    \         if(!used[u]) self(self, u);\n            }\n            vs.emplace_back(v);\n\
+    \        };\n        for (int i = 0; i < n; ++i) {\n            if(!used[i]) dfs(dfs,\
+    \ i);\n        }\n        fill(used.begin(), used.end(), 0);\n        sz.resize(n);\n\
     \        fill(sz.begin(), sz.end(), 0);\n        int k = 0;\n        auto dfs_r\
     \ = [&](auto &&self, int v, int c) -> void {\n            used[v] = 1;\n     \
     \       cmp[v] = c;\n            sz[c]++;\n            for (int ei = G_r.start[v];\
     \ ei < G_r.start[v + 1]; ++ei) {\n                int u = G_r.elist[ei];\n   \
     \             if(!used[u]) self(self, u, c);\n            }\n        };\n    \
     \    for (int i = n - 1; i >= 0; --i) {\n            if(!used[vs[i]]){\n     \
-    \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(k,\
-    \ {});\n        sz.resize(k);\n        if (k <= 1) return k;\n        vector<int>\
-    \ head(k, -1), next(n), seen(k, -1);\n        for (int v = 0; v < n; ++v) {\n\
-    \            next[v] = head[cmp[v]];\n            head[cmp[v]] = v;\n        }\n\
-    \        for (int to = 0; to < k; ++to) {\n            for (int v = head[to];\
-    \ v != -1; v = next[v]) {\n                for (int ei = G_r.start[v]; ei < G_r.start[v\
-    \ + 1]; ++ei) {\n                    int from = cmp[G_r.elist[ei]];\n        \
-    \            if (from == to || seen[from] == to) continue;\n                 \
-    \   seen[from] = to;\n                    G_out[from].push_back(to);\n       \
-    \         }\n            }\n        }\n        return k;\n    }\n\n    int operator[](int\
-    \ k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\u7D50\u6210\u5206\
-    \u5206\u89E3(SCC)\n */\n#line 19 \"test/yosupo_aplusb_library_composition_reverse.test.cpp\"\
+    \           dfs_r(dfs_r, vs[i], k++);\n            }\n        }\n        G_out.assign(build_dag\
+    \ ? k : 0, {});\n        sz.resize(k);\n        if (!build_dag || k <= 1) return\
+    \ k;\n        vector<int> head(k, -1), next(n), seen(k, -1);\n        for (int\
+    \ v = 0; v < n; ++v) {\n            next[v] = head[cmp[v]];\n            head[cmp[v]]\
+    \ = v;\n        }\n        for (int to = 0; to < k; ++to) {\n            for (int\
+    \ v = head[to]; v != -1; v = next[v]) {\n                for (int ei = G_r.start[v];\
+    \ ei < G_r.start[v + 1]; ++ei) {\n                    int from = cmp[G_r.elist[ei]];\n\
+    \                    if (from == to || seen[from] == to) continue;\n         \
+    \           seen[from] = to;\n                    G_out[from].push_back(to);\n\
+    \                }\n            }\n        }\n        return k;\n    }\n\n   \
+    \ int operator[](int k) const { return cmp[k]; }\n};\n\n/**\n * @brief \u5F37\u9023\
+    \u7D50\u6210\u5206\u5206\u89E3(SCC)\n */\n#line 19 \"test/yosupo_aplusb_library_composition_reverse.test.cpp\"\
     \n\n#line 1 \"graph/block_cut_tree.cpp\"\nusing namespace std;\n\n#line 1 \"graph/biconnected_components.cpp\"\
     \n\n\n\nclass BiconnectedComponents {\n    struct CSR {\n        vector<int> start,\
     \ elist;\n\n        CSR() = default;\n\n        CSR(int n, const vector<pair<int,\
@@ -530,13 +531,14 @@ data:
     \        aux.buildLCA(root);\n    }\n\n    int lca(int u, int v) {\n        return\
     \ aux.LCA(u, v);\n    }\n\n    int distance(int u, int v) {\n        return aux.distance(u,\
     \ v);\n    }\n\n    VirtualTree make(vector<int> vertices) {\n        if (vertices.empty())\
-    \ return {-1, {}, {}};\n        aux.make(vertices);\n        sort(vertices.begin(),\
-    \ vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });\n    \
-    \    vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());\n\
-    \n        VirtualTree res;\n        res.root = vertices.front();\n        ++stamp;\n\
-    \        vector<int> st = {res.root};\n        mark[res.root] = stamp;\n     \
-    \   parent_buf[res.root] = -1;\n\n        while (!st.empty()) {\n            int\
-    \ v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
+    \ return {-1, {}, {}};\n        aux.make(vertices);\n\n        VirtualTree res;\n\
+    \        auto less = [&](int a, int b) { return aux.fi[a] < aux.fi[b]; };\n  \
+    \      if (vertices.size() <= 8) {\n            sort(vertices.begin(), vertices.end(),\
+    \ less);\n            res.root = vertices.front();\n        } else {\n       \
+    \     res.root = *min_element(vertices.begin(), vertices.end(), less);\n     \
+    \   }\n        ++stamp;\n        vector<int> st = {res.root};\n        mark[res.root]\
+    \ = stamp;\n        parent_buf[res.root] = -1;\n\n        while (!st.empty())\
+    \ {\n            int v = st.back();\n            st.pop_back();\n            res.vertices.emplace_back(v);\n\
     \            res.parent.emplace_back(parent_buf[v]);\n            for (auto &&u\
     \ : aux.out[v]) {\n                if (mark[u] == stamp) continue;\n         \
     \       mark[u] = stamp;\n                parent_buf[u] = v;\n               \
@@ -679,7 +681,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition_reverse.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 01:01:52+09:00'
+  timestamp: '2026-10-17 20:38:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition_reverse.test.cpp
