@@ -14,18 +14,25 @@ Knuth-Morris-Pratt 法で、テキスト中のパターンの出現開始位置�
 
 ## できること
 
-- `kmp_table(s)` : 失敗関数テーブルを $O(|s|)$ で返す
-- `kmp_search(text, pattern)` : 一致開始位置を昇順の `vector<int>` で返す。位置は0-indexed。$O(|text| + |pattern|)$
-- `KMPMatcher matcher(pattern)` : パターンをコピーして保持し、テーブルを $O(|pattern|)$ で構築する
-- `matcher.scan(chunk, emit)` : `string_view` の `chunk` を前回の入力の続きとして検索する。一致ごとに `emit(long long pos)` を呼び、連結したテキスト上の0-indexed開始位置を渡す
-- `matcher.reset()` : 照合状態と通算位置を初期化し、次のテキストを検索できる状態に戻す。パターンとテーブルは再利用する。$O(1)$
+### 単発検索
 
-パターン長 $M$、総テキスト長 $N$、`scan` の呼出し回数 $Q$、一致数 $Z$ に対し、逐次照合は合計 $O(N+Q+Z)$、保持領域は $O(M)$。
+- `vector<int> kmp_table(s)` : 失敗関数テーブルを $O(|s|)$ で返す
+- `vector<int> kmp_search(text, pattern)` : 一致開始位置を昇順で返す。位置は0-indexed。$O(|text| + |pattern|)$
+
+### KMPMatcher
+
+- `KMPMatcher matcher(pattern)` : `pattern` からテーブルを構築する。時間・保持領域は $O(|pattern|)$
+- `void scan(chunk, emit)` : `string_view` の `chunk` を前回の入力の続きとして検索する。一致ごとに `emit(long long pos)` を呼び、連結したテキスト上の0-indexed開始位置を渡す。コールバックの処理を除き、償却 $O(|chunk|+1)$
+- `void reset()` : 照合状態と通算位置を初期化し、次のテキストを検索できる状態に戻す。テーブルは再利用する。$O(1)$
+
 通算文字数は `long long`、パターン長は `int` に収まる前提とする。
 
 ## 使い方
 
 単発検索は `auto pos = kmp_search(text, pattern);` でよい。
+
+### KMPMatcher
+
 テキストを分割して渡す場合は、同じ matcher の `scan` を順に呼ぶ。
 
 ```cpp
