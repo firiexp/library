@@ -338,7 +338,7 @@ title: "\u30EF\u30A4\u30EB\u30C9\u30AB\u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC
 ## 説明
 文字列とパターンの両方にワイルドカードを含むパターン照合を行う。
 ワイルドカードは任意の1文字に一致する。
-文字列の長さを $N$、パターンの長さを $M$ として、時間は $O((N+M)\log(N+M+1))$、領域は $O(N+M)$。
+文字列の長さを $N$、パターンの長さを $M$ として、時間は $O((N+M)\log(N+M))$、領域は $O(N+M)$。
 
 ## できること
 - `vector<int> wildcard_pattern_matching(const string& text, const string& pattern, char wildcard = '*')`

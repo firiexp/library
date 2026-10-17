@@ -135,7 +135,7 @@ title: "K\u756A\u76EE\u306E\u6700\u77ED\u30A6\u30A9\u30FC\u30AF"
 
 - `vector<T> k_shortest_walk(int s, int t, int k, const vector<vector<edge<T>>>& g)`
   `s` から `t` へのコストを非減少順で最大 `k` 個返す。足りなければ存在する分だけ返す
-  時間 $O((N+M)\log(N+M+1)+K\log(K+1))$、空間 $O(N+M+N\log(M+1)+K)$
+  時間 $O((N+M)\log(N+M)+K\log(K))$、空間 $O(N+M+N\log(M)+K)$
 - 到達不能または `k == 0` なら空。`s == t` では長さ0の空ウォークも1本に数える
 - `t` を途中で通って再び戻るウォークも数える
 - 辺列の復元機能はない

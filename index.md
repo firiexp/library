@@ -1270,6 +1270,9 @@ data:
       path: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
       title: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_sparsetable.test.cpp
+      title: test/yosupo_aplusb_sparsetable.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_squarematrix_mint.test.cpp
       title: test/yosupo_aplusb_squarematrix_mint.test.cpp
     - icon: ':heavy_check_mark:'

@@ -87,7 +87,7 @@ title: "\u591A\u9805\u5F0F\u5270\u4F59\u306E\u51AA\u8A08\u7B97(\u9AD8\u901FKitam
 
 ## 説明
 多項式 $f(x)$ に対する $x^K \bmod f(x)$ の係数列を求める。
-次数を $N \ge 1$ として、前処理は $O(N \log(N+1))$、冪計算は $O(N \log(N+1)\log(K+2))$、作業領域は $O(N)$。
+次数を $N \ge 1$ として、前処理は $O(N \log(N))$、冪計算は $O(N \log(N)\log(K))$、作業領域は $O(N)$。
 
 ## できること
 - `Fast_Kitamasa solver(coefficients)`

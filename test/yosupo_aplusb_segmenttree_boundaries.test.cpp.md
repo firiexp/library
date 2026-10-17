@@ -245,118 +245,134 @@ data:
     \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
     \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
     \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
-    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
-    \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
-    \                    if (cond(M::f(val, seg[l]))){\n                        val\
-    \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
-    \                }\n                return l - sz;\n            }\n          \
-    \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
-    \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
-    \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
-    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
-    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
-    \ val))){\n                        val = M::f(seg[r], val);\n                \
-    \        r--;\n                    }\n                }\n                return\
-    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
-    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
-    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
-    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
-    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
-    \ */\n#line 1 \"datastructure/segmenttree/lazysegtree.cpp\"\ntemplate <class M>\n\
-    struct LazySegmentTree{\n    using T = typename M::T;\n    using L = typename\
-    \ M::L;\n    int sz, n, height{};\n    vector<T> seg; vector<L> lazy;\n    explicit\
-    \ LazySegmentTree(int n) : n(n) {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n\
-    \        seg.assign(2*sz, M::e());\n        lazy.assign(2*sz, M::l());\n    }\n\
-    \n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n    void build(){\n \
-    \       for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[i<<1], seg[(i<<1)|1]);\n\
-    \    }\n\n    T reflect(int k){ return lazy[k] == M::l() ? seg[k] : M::g(seg[k],\
-    \ lazy[k]); }\n\n    void eval(int k){\n        if(lazy[k] == M::l()) return;\n\
-    \        if(k < sz){\n            lazy[(k<<1)|0] = M::h(lazy[(k<<1)|0], lazy[k]);\n\
-    \            lazy[(k<<1)|1] = M::h(lazy[(k<<1)|1], lazy[k]);\n        }\n    \
-    \    seg[k] = reflect(k);\n        lazy[k] = M::l();\n    }\n    void thrust(int\
-    \ k){ for (int i = height; i; --i) eval(k>>i); }\n    void recalc(int k) { while(k\
-    \ >>= 1) seg[k] = M::f(reflect((k<<1)|0), reflect((k<<1)|1));}\n\n    void update(int\
-    \ a, const T &x){\n        thrust(a += sz);\n        seg[a] = x;\n        lazy[a]\
-    \ = M::l();\n        recalc(a);\n    }\n\n    void update(int a, int b, const\
-    \ L &x){\n        if(a == b) return;\n        thrust(a += sz); thrust(b += sz-1);\n\
-    \        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {\n            if(l&1)\
-    \ lazy[l] = M::h(lazy[l], x), l++;\n            if(r&1) --r, lazy[r] = M::h(lazy[r],\
-    \ x);\n        }\n        recalc(a);\n        recalc(b);\n    }\n\n    T query(int\
-    \ a, int b){ // [l, r)\n        if(a == b) return M::e();\n        thrust(a +=\
-    \ sz);\n        thrust(b += sz-1);\n        T ll = M::e(), rr = M::e();\n    \
-    \    for(int l = a, r = b+1; l < r; l >>=1, r>>=1) {\n            if (l & 1) ll\
-    \ = M::f(ll, reflect(l++));\n            if (r & 1) rr = M::f(reflect(--r), rr);\n\
-    \        }\n        return M::f(ll, rr);\n    }\n\n    template<class F>\n   \
-    \ int search_right(int l, F cond){\n        if(l == n) return n;\n        thrust(l\
+    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            T next\
+    \ = M::f(val, seg[l]);\n            if(!cond(next)){\n                while(l\
+    \ < sz) {\n                    l <<= 1;\n                    next = M::f(val,\
+    \ seg[l]);\n                    if (cond(next)){\n                        val\
+    \ = move(next);\n                        l++;\n                    }\n       \
+    \         }\n                return l - sz;\n            }\n            val =\
+    \ move(next);\n            l++;\n        } while((l & -l) != l);\n        return\
+    \ n;\n    }\n\n    template<class F>\n    int search_left(int r, F cond){\n  \
+    \      if(r == 0) return 0;\n        T val = M::e();\n        r += sz;\n     \
+    \   do {\n            r--;\n            while(r > 1 && (r & 1)) r >>= 1;\n   \
+    \         T next = M::f(seg[r], val);\n            if(!cond(next)){\n        \
+    \        while(r < sz) {\n                    r = ((r << 1)|1);\n            \
+    \        next = M::f(seg[r], val);\n                    if (cond(next)){\n   \
+    \                     val = move(next);\n                        r--;\n      \
+    \              }\n                }\n                return r + 1 - sz;\n    \
+    \        }\n            val = move(next);\n        } while((r & -r) != r);\n \
+    \       return 0;\n    }\n    T operator[](const int &k) const { return seg[k\
+    \ + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static\
+    \ T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return\
+    \ {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line 1 \"datastructure/segmenttree/lazysegtree.cpp\"\
+    \ntemplate <class M>\nstruct LazySegmentTree{\n    using T = typename M::T;\n\
+    \    using L = typename M::L;\n    int sz, n, height{};\n    vector<T> seg; vector<L>\
+    \ lazy;\n    explicit LazySegmentTree(int n) : n(n) {\n        sz = 1; while(sz\
+    \ < n) sz <<= 1, height++;\n        seg.assign(2*sz, M::e());\n        lazy.assign(2*sz,\
+    \ M::l());\n    }\n\n    void set(int k, const T &x){ seg[k + sz] = x; }\n\n \
+    \   void build(){\n        for (int i = sz-1; i > 0; --i) seg[i] = M::f(seg[i<<1],\
+    \ seg[(i<<1)|1]);\n    }\n\n    T reflect(int k){ return lazy[k] == M::l() ? seg[k]\
+    \ : M::g(seg[k], lazy[k]); }\n\n    void eval(int k){\n        if(lazy[k] == M::l())\
+    \ return;\n        if(k < sz){\n            lazy[(k<<1)|0] = M::h(lazy[(k<<1)|0],\
+    \ lazy[k]);\n            lazy[(k<<1)|1] = M::h(lazy[(k<<1)|1], lazy[k]);\n   \
+    \     }\n        seg[k] = reflect(k);\n        lazy[k] = M::l();\n    }\n    void\
+    \ thrust(int k){ for (int i = height; i; --i) eval(k>>i); }\n    void recalc(int\
+    \ k) { while(k >>= 1) seg[k] = M::f(reflect((k<<1)|0), reflect((k<<1)|1));}\n\n\
+    \    void update(int a, const T &x){\n        thrust(a += sz);\n        seg[a]\
+    \ = x;\n        lazy[a] = M::l();\n        recalc(a);\n    }\n\n    void update(int\
+    \ a, int b, const L &x){\n        if(a == b) return;\n        a += sz; b += sz;\n\
+    \        int ha = __builtin_ctz(a), hb = __builtin_ctz(b);\n        for(int i\
+    \ = height; i > ha; --i) eval(a >> i);\n        for(int i = height; i > hb; --i)\
+    \ eval((b-1) >> i);\n        for (int l = a, r = b; l < r; l >>=1, r >>= 1) {\n\
+    \            if(l&1) lazy[l] = M::h(lazy[l], x), l++;\n            if(r&1) --r,\
+    \ lazy[r] = M::h(lazy[r], x);\n        }\n        recalc(a >> ha);\n        recalc((b-1)\
+    \ >> hb);\n    }\n\n    T query(int a, int b){ // [l, r)\n        if(a == b) return\
+    \ M::e();\n        a += sz; b += sz;\n        int ha = __builtin_ctz(a), hb =\
+    \ __builtin_ctz(b);\n        for(int i = height; i > ha; --i) eval(a >> i);\n\
+    \        for(int i = height; i > hb; --i) eval((b-1) >> i);\n        T ll = M::e(),\
+    \ rr = M::e();\n        for(int l = a, r = b; l < r; l >>=1, r>>=1) {\n      \
+    \      if (l & 1) ll = M::f(ll, reflect(l++));\n            if (r & 1) rr = M::f(reflect(--r),\
+    \ rr);\n        }\n        return M::f(ll, rr);\n    }\n\n    template<class F>\n\
+    \    int search_right(int l, F cond){\n        if(l == n) return n;\n        thrust(l\
     \ += sz);\n        T val = M::e();\n        do {\n            while(!(l&1)) l\
-    \ >>= 1;\n            if(!cond(M::f(val, reflect(l)))){\n                while(l\
-    \ < sz) {\n                    eval(l); l <<= 1;\n                    if (cond(M::f(val,\
-    \ reflect(l)))){\n                        val = M::f(val, reflect(l++));\n   \
+    \ >>= 1;\n            T next = M::f(val, reflect(l));\n            if(!cond(next)){\n\
+    \                while(l < sz) {\n                    eval(l); l <<= 1;\n    \
+    \                next = M::f(val, reflect(l));\n                    if (cond(next)){\n\
+    \                        val = move(next);\n                        l++;\n   \
     \                 }\n                }\n                return l - sz;\n     \
-    \       }\n            val = M::f(val, reflect(l++));\n        } while((l & -l)\
-    \ != l);\n        return n;\n    }\n\n    template<class F>\n    int search_left(int\
+    \       }\n            val = move(next);\n            l++;\n        } while((l\
+    \ & -l) != l);\n        return n;\n    }\n\n    template<class F>\n    int search_left(int\
     \ r, F cond){\n        if(r <= 0) return 0;\n        thrust((r += sz)-1);\n  \
     \      T val = M::e();\n        do {\n            r--;\n            while(r >\
-    \ 1 && r&1) r >>= 1;\n            if(!cond(M::f(reflect(r), val))){\n        \
-    \        while(r < sz) {\n                    eval(r);\n                    r\
-    \ = ((r << 1)|1);\n                    if (cond(M::f(reflect(r), val))){\n   \
-    \                     val = M::f(reflect(r--), val);\n                    }\n\
-    \                }\n                return r + 1 - sz;\n            }\n      \
-    \      val = M::f(reflect(r), val);\n        } while((r & -r) != r);\n       \
-    \ return 0;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
-    \    using L = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]+b[0],\
-    \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
-    \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
-    \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
-    \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Lazy Segment Tree)\n */\n#line 1 \"datastructure/segmenttree/dualsegtree.cpp\"\
-    \ntemplate <class M>\nstruct DualSegmentTree{\n    using T = typename M::T;\n\
-    \    int sz, height{};\n    vector<T> lazy;\n    explicit DualSegmentTree(int\
-    \ n) {\n        sz = 1; while(sz < n) sz <<= 1, height++;\n        lazy.assign(2*sz,\
-    \ M::e());\n    }\n\n    void eval(int k){\n        if(lazy[k] == M::e()) return;\n\
-    \        lazy[(k<<1)|0] = M::f(lazy[(k<<1)|0], lazy[k]);\n        lazy[(k<<1)|1]\
-    \ = M::f(lazy[(k<<1)|1], lazy[k]);\n        lazy[k] = M::e();\n    }\n    void\
-    \ thrust(int k){ for (int i = height; i; --i) eval(k>>i); }\n    void update(int\
-    \ a, int b, const T &x){\n        if(a == b) return;\n        thrust(a += sz);\
-    \ thrust(b += sz-1);\n        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1)\
-    \ {\n            if(l&1) lazy[l] = M::f(lazy[l], x), l++;\n            if(r&1)\
-    \ --r, lazy[r] = M::f(lazy[r], x);\n        }\n    }\n\n    T operator[](int k){\n\
-    \        thrust(k += sz);\n        return lazy[k];\n    }\n};\n/*\nstruct Monoid{\n\
-    \    using T = ll;\n    static T f(T a, T b) { return a+b; }\n    static T e()\
-    \ { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Dual Segment Tree)\n */\n#line 9 \"test/yosupo_aplusb_segmenttree_boundaries.test.cpp\"\
-    \n\nstruct Sum {\n    using T = long long;\n    static T e() { return 0; }\n \
-    \   static T f(T a, T b) { return a + b; }\n};\n\nstruct SumAffine {\n    using\
-    \ T = pair<long long, int>;\n    using L = pair<long long, long long>;\n    static\
-    \ T e() { return {0, 0}; }\n    static L l() { return {1, 0}; }\n    static T\
-    \ f(T a, T b) { return {a.first + b.first, a.second + b.second}; }\n    static\
-    \ T g(T a, L b) { return {a.first * b.first + a.second * b.second, a.second};\
-    \ }\n    static L h(L a, L b) { return {a.first * b.first, a.second * b.first\
-    \ + b.second}; }\n};\n\nstruct Affine {\n    using T = SumAffine::L;\n    static\
-    \ T e() { return SumAffine::l(); }\n    static T f(T a, T b) { return SumAffine::h(a,\
-    \ b); }\n};\n\nstruct Concat {\n    using T = string;\n    static T e() { return\
-    \ \"\"; }\n    static T f(const T &a, const T &b) { return a + b; }\n};\n\nvoid\
-    \ minimal_check() {\n    SegmentTree<Sum> plain(1);\n    plain.set(0, 1);\n  \
-    \  plain.build();\n    assert(plain.search_left(1, [](auto x) { return x < 1;\
-    \ }) == 1);\n\n    LazySegmentTree<SumAffine> lazy(1);\n    lazy.set(0, {0, 1});\n\
-    \    lazy.build();\n    lazy.update(0, 1, {1, 5});\n    assert(lazy.search_right(0,\
-    \ [](auto x) { return x.first < 1; }) == 0);\n    lazy.update(0, SumAffine::T{2,\
-    \ 1});\n    assert(lazy.query(0, 1).first == 2);\n    lazy.update(1, 1, {1, 5});\n\
-    \    assert(lazy.query(0, 1).first == 2);\n\n    DualSegmentTree<Sum> dual(2);\n\
-    \    dual.update(0, 1, 7);\n    dual.update(2, 2, 5);\n    assert(dual[0] == 7\
-    \ && dual[1] == 0);\n}\n\nvoid exhaustive_search_check() {\n    // Includes singleton\
-    \ and power-of-two right boundaries.\n    for (int n = 0, count = 1; n <= 7; ++n,\
-    \ count *= 3) {\n        for (int mask = 0; mask < count; ++mask) {\n        \
-    \    vector<int> a(n);\n            SegmentTree<Sum> seg(n);\n            int\
-    \ digits = mask;\n            for (int i = 0; i < n; ++i, digits /= 3) seg.set(i,\
-    \ a[i] = digits % 3);\n            seg.build();\n            for (int end = 0;\
-    \ end <= n; ++end) {\n                for (int limit = 0; limit <= 2 * n + 1;\
-    \ ++limit) {\n                    auto cond = [&](auto x) { return x <= limit;\
-    \ };\n                    int left = end, right = end, sum = 0;\n            \
-    \        while (left > 0 && sum + a[left - 1] <= limit) sum += a[--left];\n  \
-    \                  sum = 0;\n                    while (right < n && sum + a[right]\
-    \ <= limit) sum += a[right++];\n                    assert(seg.search_left(end,\
+    \ 1 && r&1) r >>= 1;\n            T next = M::f(reflect(r), val);\n          \
+    \  if(!cond(next)){\n                while(r < sz) {\n                    eval(r);\n\
+    \                    r = ((r << 1)|1);\n                    next = M::f(reflect(r),\
+    \ val);\n                    if (cond(next)){\n                        val = move(next);\n\
+    \                        r--;\n                    }\n                }\n    \
+    \            return r + 1 - sz;\n            }\n            val = move(next);\n\
+    \        } while((r & -r) != r);\n        return 0;\n    }\n};\n\n/*\nstruct Monoid{\n\
+    \    using T = array<mint, 2>;\n    using L = array<mint, 2>;\n    static T f(T\
+    \ a, T b) { return {a[0]+b[0], a[1]+b[1]}; }\n    static T g(T a, L b) {\n   \
+    \     return {a[0] * b[0] + a[1] * b[1], a[1]};\n    }\n    static L h(L a, L\
+    \ b) {\n        return {a[0]*b[0], a[1]*b[0]+b[1]};\n    }\n    static T e() {\
+    \ return {0, 0}; }\n    static L l() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief\
+    \ \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)\n */\n#line\
+    \ 1 \"datastructure/segmenttree/dualsegtree.cpp\"\ntemplate <class M>\nstruct\
+    \ DualSegmentTree{\n    using T = typename M::T;\n    int sz, height{};\n    vector<T>\
+    \ lazy;\n    explicit DualSegmentTree(int n) {\n        sz = 1; while(sz < n)\
+    \ sz <<= 1, height++;\n        lazy.assign(2*sz, M::e());\n    }\n\n    void eval(int\
+    \ k){\n        if(lazy[k] == M::e()) return;\n        lazy[(k<<1)|0] = M::f(lazy[(k<<1)|0],\
+    \ lazy[k]);\n        lazy[(k<<1)|1] = M::f(lazy[(k<<1)|1], lazy[k]);\n       \
+    \ lazy[k] = M::e();\n    }\n    void thrust(int k){ for (int i = height; i; --i)\
+    \ eval(k>>i); }\n    void update(int a, int b, const T &x){\n        if(a == b)\
+    \ return;\n        a += sz; b += sz;\n        int ha = __builtin_ctz(a), hb =\
+    \ __builtin_ctz(b);\n        for(int i = height; i > ha; --i) eval(a >> i);\n\
+    \        for(int i = height; i > hb; --i) eval((b-1) >> i);\n        for (int\
+    \ l = a, r = b; l < r; l >>=1, r >>= 1) {\n            if(l&1) lazy[l] = M::f(lazy[l],\
+    \ x), l++;\n            if(r&1) --r, lazy[r] = M::f(lazy[r], x);\n        }\n\
+    \    }\n\n    T operator[](int k){\n        thrust(k += sz);\n        return lazy[k];\n\
+    \    }\n};\n/*\nstruct Monoid{\n    using T = ll;\n    static T f(T a, T b) {\
+    \ return a+b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\
+    \u5BFE\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Dual Segment Tree)\n */\n#line 9 \"\
+    test/yosupo_aplusb_segmenttree_boundaries.test.cpp\"\n\nstruct Sum {\n    using\
+    \ T = long long;\n    static T e() { return 0; }\n    static T f(T a, T b) { return\
+    \ a + b; }\n};\n\nstruct SumAffine {\n    using T = pair<long long, int>;\n  \
+    \  using L = pair<long long, long long>;\n    static T e() { return {0, 0}; }\n\
+    \    static L l() { return {1, 0}; }\n    static T f(T a, T b) { return {a.first\
+    \ + b.first, a.second + b.second}; }\n    static T g(T a, L b) { return {a.first\
+    \ * b.first + a.second * b.second, a.second}; }\n    static L h(L a, L b) { return\
+    \ {a.first * b.first, a.second * b.first + b.second}; }\n};\n\nstruct Affine {\n\
+    \    using T = SumAffine::L;\n    static T e() { return SumAffine::l(); }\n  \
+    \  static T f(T a, T b) { return SumAffine::h(a, b); }\n};\n\nstruct Concat {\n\
+    \    using T = string;\n    static T e() { return \"\"; }\n    static T f(const\
+    \ T &a, const T &b) { return a + b; }\n};\n\nstruct ConcatMap : Concat {\n   \
+    \ using L = array<int, 3>;\n    static L l() { return {0, 1, 2}; }\n    static\
+    \ T g(T a, L b) {\n        for(char &c : a) c = 'a' + b[c - 'a'];\n        return\
+    \ a;\n    }\n    static L h(L a, L b) { return {b[a[0]], b[a[1]], b[a[2]]}; }\n\
+    };\n\nstruct CharacterMap {\n    using T = ConcatMap::L;\n    static T e() { return\
+    \ ConcatMap::l(); }\n    static T f(T a, T b) { return ConcatMap::h(a, b); }\n\
+    };\n\nstruct CountedConcatMap : ConcatMap {\n    static inline int products =\
+    \ 0;\n    static T f(const T &a, const T &b) {\n        ++products;\n        return\
+    \ a + b;\n    }\n};\n\nvoid minimal_check() {\n    SegmentTree<Sum> plain(1);\n\
+    \    plain.set(0, 1);\n    plain.build();\n    assert(plain.search_left(1, [](auto\
+    \ x) { return x < 1; }) == 1);\n\n    LazySegmentTree<SumAffine> lazy(1);\n  \
+    \  lazy.set(0, {0, 1});\n    lazy.build();\n    lazy.update(0, 1, {1, 5});\n \
+    \   assert(lazy.search_right(0, [](auto x) { return x.first < 1; }) == 0);\n \
+    \   lazy.update(0, SumAffine::T{2, 1});\n    assert(lazy.query(0, 1).first ==\
+    \ 2);\n    lazy.update(1, 1, {1, 5});\n    assert(lazy.query(0, 1).first == 2);\n\
+    \n    DualSegmentTree<Sum> dual(2);\n    dual.update(0, 1, 7);\n    dual.update(2,\
+    \ 2, 5);\n    assert(dual[0] == 7 && dual[1] == 0);\n}\n\nvoid exhaustive_search_check()\
+    \ {\n    // Includes singleton and power-of-two right boundaries.\n    for (int\
+    \ n = 0, count = 1; n <= 7; ++n, count *= 3) {\n        for (int mask = 0; mask\
+    \ < count; ++mask) {\n            vector<int> a(n);\n            SegmentTree<Sum>\
+    \ seg(n);\n            int digits = mask;\n            for (int i = 0; i < n;\
+    \ ++i, digits /= 3) seg.set(i, a[i] = digits % 3);\n            seg.build();\n\
+    \            for (int end = 0; end <= n; ++end) {\n                for (int limit\
+    \ = 0; limit <= 2 * n + 1; ++limit) {\n                    auto cond = [&](auto\
+    \ x) { return x <= limit; };\n                    int left = end, right = end,\
+    \ sum = 0;\n                    while (left > 0 && sum + a[left - 1] <= limit)\
+    \ sum += a[--left];\n                    sum = 0;\n                    while (right\
+    \ < n && sum + a[right] <= limit) sum += a[right++];\n                    assert(seg.search_left(end,\
     \ cond) == left);\n                    assert(seg.search_right(end, cond) == right);\n\
     \                }\n            }\n        }\n    }\n}\n\nvoid mixed_update_check()\
     \ {\n    mt19937 rng(20261003);\n    for (int n = 0; n <= 65; ++n) {\n       \
@@ -403,10 +419,52 @@ data:
     \     while (right < n && cond(s.substr(end, right - end + 1))) ++right;\n   \
     \             assert(seg.search_left(end, cond) == left);\n                assert(seg.search_right(end,\
     \ cond) == right);\n                assert(seg.query(left, right) == s.substr(left,\
-    \ right - left));\n            }\n        }\n    }\n}\n\nint main() {\n    minimal_check();\n\
-    \    exhaustive_search_check();\n    mixed_update_check();\n    noncommutative_search_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n}\n"
+    \ right - left));\n            }\n        }\n    }\n}\n\nvoid deferred_action_check()\
+    \ {\n    mt19937 rng(197);\n    for(int n = 0; n <= 65; ++n) {\n        LazySegmentTree<ConcatMap>\
+    \ lazy(n);\n        DualSegmentTree<CharacterMap> dual(n);\n        string initial(n,\
+    \ 'a');\n        for(int i = 0; i < n; ++i) {\n            initial[i] += rng()\
+    \ % 3;\n            lazy.set(i, initial.substr(i, 1));\n        }\n        lazy.build();\n\
+    \        string a = initial, b = initial;\n        for(int step = 0; step < 240;\
+    \ ++step) {\n            int l = 0, r = n;\n            if(step % 4 == 1) {\n\
+    \                int len = 1 << (rng() % 7);\n                l = (rng() % (n\
+    \ / len + 1)) * len;\n                r = min(n, l + len);\n            } else\
+    \ if(step % 4 == 2) {\n                l = rng() % (n + 1); r = rng() % (n + 1);\n\
+    \                if(l > r) swap(l, r);\n            } else if(step % 4 == 3) {\n\
+    \                l = rng() % (n + 1); r = min(n, l + 1);\n            }\n    \
+    \        CharacterMap::T op;\n            for(auto &x : op) x = rng() % 3;\n \
+    \           lazy.update(l, r, op);\n            dual.update(l, r, op);\n     \
+    \       for(int i = l; i < r; ++i) {\n                a[i] = 'a' + op[a[i] - 'a'];\n\
+    \                b[i] = 'a' + op[b[i] - 'a'];\n            }\n            if(n\
+    \ && step % 9 == 0) {\n                int k = rng() % n;\n                a[k]\
+    \ = 'a' + rng() % 3;\n                lazy.update(k, a.substr(k, 1));\n      \
+    \      }\n            if(step % 8 != 0) continue;\n            assert(lazy.query(0,\
+    \ n) == a);\n            assert(lazy.query(l, r) == a.substr(l, r - l));\n   \
+    \         int limit = rng() % (n + 1);\n            auto cond = [&](const string\
+    \ &s) {\n                return int(s.size()) <= limit && s.find(\"ab\") == string::npos;\n\
+    \            };\n            for(int end : {0, int(rng() % (n + 1)), n}) {\n \
+    \               int left = end, right = end;\n                while(left && cond(a.substr(left\
+    \ - 1, end - left + 1))) --left;\n                while(right < n && cond(a.substr(end,\
+    \ right - end + 1))) ++right;\n                assert(lazy.search_left(end, cond)\
+    \ == left);\n                assert(lazy.search_right(end, cond) == right);\n\
+    \            }\n            if(n) {\n                int k = rng() % n;\n    \
+    \            assert('a' + dual[k][initial[k] - 'a'] == b[k]);\n            }\n\
+    \        }\n        for(int k = 0; k < n; ++k) {\n            assert(lazy.query(k,\
+    \ k + 1) == a.substr(k, 1));\n            assert('a' + dual[k][initial[k] - 'a']\
+    \ == b[k]);\n        }\n    }\n}\n\ntemplate<template<class> class Tree>\nvoid\
+    \ search_product_check() {\n    for(int n = 0; n <= 33; ++n) {\n        Tree<CountedConcatMap>\
+    \ seg(n);\n        for(int i = 0; i < n; ++i) seg.set(i, \"a\");\n        seg.build();\n\
+    \        for(int end = 0; end <= n; ++end) for(int limit : {0, 1, n / 2, n}) {\n\
+    \            int predicates = 0;\n            auto cond = [&](const string &s)\
+    \ {\n                ++predicates;\n                return int(s.size()) <= limit;\n\
+    \            };\n            CountedConcatMap::products = 0;\n            assert(seg.search_right(end,\
+    \ cond) == min(n, end + limit));\n            assert(CountedConcatMap::products\
+    \ == predicates);\n            predicates = CountedConcatMap::products = 0;\n\
+    \            assert(seg.search_left(end, cond) == max(0, end - limit));\n    \
+    \        assert(CountedConcatMap::products == predicates);\n        }\n    }\n\
+    }\n\nint main() {\n    minimal_check();\n    exhaustive_search_check();\n    mixed_update_check();\n\
+    \    noncommutative_search_check();\n    deferred_action_check();\n    search_product_check<SegmentTree>();\n\
+    \    search_product_check<LazySegmentTree>();\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/segmenttree/segtree.cpp\"\
     \n#include \"../datastructure/segmenttree/lazysegtree.cpp\"\n#include \"../datastructure/segmenttree/dualsegtree.cpp\"\
@@ -420,27 +478,34 @@ data:
     \ + b.second}; }\n};\n\nstruct Affine {\n    using T = SumAffine::L;\n    static\
     \ T e() { return SumAffine::l(); }\n    static T f(T a, T b) { return SumAffine::h(a,\
     \ b); }\n};\n\nstruct Concat {\n    using T = string;\n    static T e() { return\
-    \ \"\"; }\n    static T f(const T &a, const T &b) { return a + b; }\n};\n\nvoid\
-    \ minimal_check() {\n    SegmentTree<Sum> plain(1);\n    plain.set(0, 1);\n  \
-    \  plain.build();\n    assert(plain.search_left(1, [](auto x) { return x < 1;\
-    \ }) == 1);\n\n    LazySegmentTree<SumAffine> lazy(1);\n    lazy.set(0, {0, 1});\n\
-    \    lazy.build();\n    lazy.update(0, 1, {1, 5});\n    assert(lazy.search_right(0,\
-    \ [](auto x) { return x.first < 1; }) == 0);\n    lazy.update(0, SumAffine::T{2,\
-    \ 1});\n    assert(lazy.query(0, 1).first == 2);\n    lazy.update(1, 1, {1, 5});\n\
-    \    assert(lazy.query(0, 1).first == 2);\n\n    DualSegmentTree<Sum> dual(2);\n\
-    \    dual.update(0, 1, 7);\n    dual.update(2, 2, 5);\n    assert(dual[0] == 7\
-    \ && dual[1] == 0);\n}\n\nvoid exhaustive_search_check() {\n    // Includes singleton\
-    \ and power-of-two right boundaries.\n    for (int n = 0, count = 1; n <= 7; ++n,\
-    \ count *= 3) {\n        for (int mask = 0; mask < count; ++mask) {\n        \
-    \    vector<int> a(n);\n            SegmentTree<Sum> seg(n);\n            int\
-    \ digits = mask;\n            for (int i = 0; i < n; ++i, digits /= 3) seg.set(i,\
-    \ a[i] = digits % 3);\n            seg.build();\n            for (int end = 0;\
-    \ end <= n; ++end) {\n                for (int limit = 0; limit <= 2 * n + 1;\
-    \ ++limit) {\n                    auto cond = [&](auto x) { return x <= limit;\
-    \ };\n                    int left = end, right = end, sum = 0;\n            \
-    \        while (left > 0 && sum + a[left - 1] <= limit) sum += a[--left];\n  \
-    \                  sum = 0;\n                    while (right < n && sum + a[right]\
-    \ <= limit) sum += a[right++];\n                    assert(seg.search_left(end,\
+    \ \"\"; }\n    static T f(const T &a, const T &b) { return a + b; }\n};\n\nstruct\
+    \ ConcatMap : Concat {\n    using L = array<int, 3>;\n    static L l() { return\
+    \ {0, 1, 2}; }\n    static T g(T a, L b) {\n        for(char &c : a) c = 'a' +\
+    \ b[c - 'a'];\n        return a;\n    }\n    static L h(L a, L b) { return {b[a[0]],\
+    \ b[a[1]], b[a[2]]}; }\n};\n\nstruct CharacterMap {\n    using T = ConcatMap::L;\n\
+    \    static T e() { return ConcatMap::l(); }\n    static T f(T a, T b) { return\
+    \ ConcatMap::h(a, b); }\n};\n\nstruct CountedConcatMap : ConcatMap {\n    static\
+    \ inline int products = 0;\n    static T f(const T &a, const T &b) {\n       \
+    \ ++products;\n        return a + b;\n    }\n};\n\nvoid minimal_check() {\n  \
+    \  SegmentTree<Sum> plain(1);\n    plain.set(0, 1);\n    plain.build();\n    assert(plain.search_left(1,\
+    \ [](auto x) { return x < 1; }) == 1);\n\n    LazySegmentTree<SumAffine> lazy(1);\n\
+    \    lazy.set(0, {0, 1});\n    lazy.build();\n    lazy.update(0, 1, {1, 5});\n\
+    \    assert(lazy.search_right(0, [](auto x) { return x.first < 1; }) == 0);\n\
+    \    lazy.update(0, SumAffine::T{2, 1});\n    assert(lazy.query(0, 1).first ==\
+    \ 2);\n    lazy.update(1, 1, {1, 5});\n    assert(lazy.query(0, 1).first == 2);\n\
+    \n    DualSegmentTree<Sum> dual(2);\n    dual.update(0, 1, 7);\n    dual.update(2,\
+    \ 2, 5);\n    assert(dual[0] == 7 && dual[1] == 0);\n}\n\nvoid exhaustive_search_check()\
+    \ {\n    // Includes singleton and power-of-two right boundaries.\n    for (int\
+    \ n = 0, count = 1; n <= 7; ++n, count *= 3) {\n        for (int mask = 0; mask\
+    \ < count; ++mask) {\n            vector<int> a(n);\n            SegmentTree<Sum>\
+    \ seg(n);\n            int digits = mask;\n            for (int i = 0; i < n;\
+    \ ++i, digits /= 3) seg.set(i, a[i] = digits % 3);\n            seg.build();\n\
+    \            for (int end = 0; end <= n; ++end) {\n                for (int limit\
+    \ = 0; limit <= 2 * n + 1; ++limit) {\n                    auto cond = [&](auto\
+    \ x) { return x <= limit; };\n                    int left = end, right = end,\
+    \ sum = 0;\n                    while (left > 0 && sum + a[left - 1] <= limit)\
+    \ sum += a[--left];\n                    sum = 0;\n                    while (right\
+    \ < n && sum + a[right] <= limit) sum += a[right++];\n                    assert(seg.search_left(end,\
     \ cond) == left);\n                    assert(seg.search_right(end, cond) == right);\n\
     \                }\n            }\n        }\n    }\n}\n\nvoid mixed_update_check()\
     \ {\n    mt19937 rng(20261003);\n    for (int n = 0; n <= 65; ++n) {\n       \
@@ -487,10 +552,52 @@ data:
     \     while (right < n && cond(s.substr(end, right - end + 1))) ++right;\n   \
     \             assert(seg.search_left(end, cond) == left);\n                assert(seg.search_right(end,\
     \ cond) == right);\n                assert(seg.query(left, right) == s.substr(left,\
-    \ right - left));\n            }\n        }\n    }\n}\n\nint main() {\n    minimal_check();\n\
-    \    exhaustive_search_check();\n    mixed_update_check();\n    noncommutative_search_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n}\n"
+    \ right - left));\n            }\n        }\n    }\n}\n\nvoid deferred_action_check()\
+    \ {\n    mt19937 rng(197);\n    for(int n = 0; n <= 65; ++n) {\n        LazySegmentTree<ConcatMap>\
+    \ lazy(n);\n        DualSegmentTree<CharacterMap> dual(n);\n        string initial(n,\
+    \ 'a');\n        for(int i = 0; i < n; ++i) {\n            initial[i] += rng()\
+    \ % 3;\n            lazy.set(i, initial.substr(i, 1));\n        }\n        lazy.build();\n\
+    \        string a = initial, b = initial;\n        for(int step = 0; step < 240;\
+    \ ++step) {\n            int l = 0, r = n;\n            if(step % 4 == 1) {\n\
+    \                int len = 1 << (rng() % 7);\n                l = (rng() % (n\
+    \ / len + 1)) * len;\n                r = min(n, l + len);\n            } else\
+    \ if(step % 4 == 2) {\n                l = rng() % (n + 1); r = rng() % (n + 1);\n\
+    \                if(l > r) swap(l, r);\n            } else if(step % 4 == 3) {\n\
+    \                l = rng() % (n + 1); r = min(n, l + 1);\n            }\n    \
+    \        CharacterMap::T op;\n            for(auto &x : op) x = rng() % 3;\n \
+    \           lazy.update(l, r, op);\n            dual.update(l, r, op);\n     \
+    \       for(int i = l; i < r; ++i) {\n                a[i] = 'a' + op[a[i] - 'a'];\n\
+    \                b[i] = 'a' + op[b[i] - 'a'];\n            }\n            if(n\
+    \ && step % 9 == 0) {\n                int k = rng() % n;\n                a[k]\
+    \ = 'a' + rng() % 3;\n                lazy.update(k, a.substr(k, 1));\n      \
+    \      }\n            if(step % 8 != 0) continue;\n            assert(lazy.query(0,\
+    \ n) == a);\n            assert(lazy.query(l, r) == a.substr(l, r - l));\n   \
+    \         int limit = rng() % (n + 1);\n            auto cond = [&](const string\
+    \ &s) {\n                return int(s.size()) <= limit && s.find(\"ab\") == string::npos;\n\
+    \            };\n            for(int end : {0, int(rng() % (n + 1)), n}) {\n \
+    \               int left = end, right = end;\n                while(left && cond(a.substr(left\
+    \ - 1, end - left + 1))) --left;\n                while(right < n && cond(a.substr(end,\
+    \ right - end + 1))) ++right;\n                assert(lazy.search_left(end, cond)\
+    \ == left);\n                assert(lazy.search_right(end, cond) == right);\n\
+    \            }\n            if(n) {\n                int k = rng() % n;\n    \
+    \            assert('a' + dual[k][initial[k] - 'a'] == b[k]);\n            }\n\
+    \        }\n        for(int k = 0; k < n; ++k) {\n            assert(lazy.query(k,\
+    \ k + 1) == a.substr(k, 1));\n            assert('a' + dual[k][initial[k] - 'a']\
+    \ == b[k]);\n        }\n    }\n}\n\ntemplate<template<class> class Tree>\nvoid\
+    \ search_product_check() {\n    for(int n = 0; n <= 33; ++n) {\n        Tree<CountedConcatMap>\
+    \ seg(n);\n        for(int i = 0; i < n; ++i) seg.set(i, \"a\");\n        seg.build();\n\
+    \        for(int end = 0; end <= n; ++end) for(int limit : {0, 1, n / 2, n}) {\n\
+    \            int predicates = 0;\n            auto cond = [&](const string &s)\
+    \ {\n                ++predicates;\n                return int(s.size()) <= limit;\n\
+    \            };\n            CountedConcatMap::products = 0;\n            assert(seg.search_right(end,\
+    \ cond) == min(n, end + limit));\n            assert(CountedConcatMap::products\
+    \ == predicates);\n            predicates = CountedConcatMap::products = 0;\n\
+    \            assert(seg.search_left(end, cond) == max(0, end - limit));\n    \
+    \        assert(CountedConcatMap::products == predicates);\n        }\n    }\n\
+    }\n\nint main() {\n    minimal_check();\n    exhaustive_search_check();\n    mixed_update_check();\n\
+    \    noncommutative_search_check();\n    deferred_action_check();\n    search_product_check<SegmentTree>();\n\
+    \    search_product_check<LazySegmentTree>();\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/segmenttree/segtree.cpp
@@ -499,7 +606,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_segmenttree_boundaries.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-18 00:36:46+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_segmenttree_boundaries.test.cpp

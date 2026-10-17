@@ -164,11 +164,11 @@ title: "\u6728\u306E\u9802\u70B9\u52A0\u7B97\u30FB\u8DDD\u96E2\u533A\u9593\u548C
 頂点数を $V$ とする。
 
 - `RangeContourSum(g, values)`
-  無向木の隣接リスト `g` と `vector<long long>` の初期値から構築する。時間・領域は $O(V\log(V+1))$
+  無向木の隣接リスト `g` と `vector<long long>` の初期値から構築する。時間・領域は $O(V\log(V))$
 - `void add(int v, long long x)`
-  頂点 `v` の値に `x` を加える。時間は $O(\log^2(V+1))$
+  頂点 `v` の値に `x` を加える。時間は $O(\log^2(V))$
 - `long long query(int v, int l, int r)`
-  頂点 `v` からの距離が `[l, r)` の頂点値の和を返す。空区間は `0`。時間は $O(\log^2(V+1))$
+  頂点 `v` からの距離が `[l, r)` の頂点値の和を返す。空区間は `0`。時間は $O(\log^2(V))$
 
 ## 使い方
 `g.size() == values.size()` とし、頂点番号は `0` 以上 `g.size()` 未満とする。

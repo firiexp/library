@@ -467,6 +467,9 @@ data:
     path: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
     title: test/yosupo_aplusb_solve_linear_system_mod2.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_sparsetable.test.cpp
+    title: test/yosupo_aplusb_sparsetable.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_squarematrix_mint.test.cpp
     title: test/yosupo_aplusb_squarematrix_mint.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1693,6 +1696,7 @@ data:
   - test/yosupo_aplusb_xorshift.test.cpp
   - test/yosupo_aplusb_fast_set.test.cpp
   - test/yosupo_aplusb_hld_rerooted.test.cpp
+  - test/yosupo_aplusb_sparsetable.test.cpp
   - test/yosupo_aplusb_floor_sum.test.cpp
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_aplusb_geometry_boundaries.test.cpp

@@ -109,6 +109,6 @@ uf.unite_range(a, b, k, [&](int keep, int absorbed) {
 ```
 
 ## 実装上の補足
-構築と保持領域は $O(N\log(N+1))$。$Q$ 回の区間併合の合計は償却 $O((N\log(N+1)+Q)\alpha(N))$ 時間で、callback の実行時間は別途加わる。
+構築と保持領域は $O(N\log(N))$。$Q$ 回の区間併合の合計は償却 $O((N\log(N)+Q)\alpha(N))$ 時間で、callback の実行時間は別途加わる。
 callback の呼出総数は高々 $\max(0,N-1)$ 回。1回の区間併合が常に対数時間で終わるという保証ではない。
 `root`・`same`・`size` は償却 $O(\alpha(N))$、`count` は $O(1)$ 時間。

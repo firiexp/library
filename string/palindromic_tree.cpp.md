@@ -136,7 +136,7 @@ title: "\u56DE\u6587\u6728(Palindromic Tree)"
 - `vector<int> count()` : 各ノードの出現回数を返す。ノード数を $S$ として $O(S)$
 - `Partitions min_partitions()` : 文字列の各接頭辞を非空回文に分割する最少個数 `count` と、分割位置を復元するための `prev` を返す
 
-`min_partitions()` の計算量は時間 $O(N\log(N+1))$、返却値を含む追加領域 $O(N)$。
+`min_partitions()` の計算量は時間 $O(N\log(N))$、返却値を含む追加領域 $O(N)$。
 
 ## 使い方
 

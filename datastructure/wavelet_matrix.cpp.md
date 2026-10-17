@@ -825,7 +825,7 @@ title: Wavelet Matrix
 - 構築: $O(N \log \sigma)$
 - `count_less` / `range_freq` / `freq`: $O(\log \sigma)$
 - `kth_smallest` / `kth_largest`: $O(\log \sigma)$
-- cursor の生成・分岐・個数取得: $O(1)$。$k$ 区間を同時に辿る kth は $O(k \log(\sigma + 1))$
+- cursor の生成・分岐・個数取得: $O(1)$。$k$ 区間を同時に辿る kth は $O(k \log(\sigma))$
 
 $N$ は配列長、$\sigma$ は異なる値の個数。
 

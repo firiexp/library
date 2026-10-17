@@ -112,5 +112,5 @@ auto value = binom.C(10, 3);
 
 ## 実装上の補足
 $m=\prod_i p_i^{q_i}$ として、構築時間は $O(\sqrt m+\sum_i p_i^{q_i})$、保持領域は $O(1+\sum_i p_i^{q_i})$。
-1クエリは $O(1+\sum_i(\log_{p_i}(n+1)+\log(p_i^{q_i})))$。
+1クエリは $O(1+\sum_i(\log_{p_i}(n)+\log(p_i^{q_i})))$。
 CRT 用の配列確保や併合係数の逆数計算はクエリ中に行わない。素数冪ごとの階乗比の逆数計算は必要。

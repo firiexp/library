@@ -196,8 +196,8 @@ title: Dynamic Graph Vertex Add Component Sum
 ## 使い方
 クエリを時系列順に積み、最後に `solve()` を呼ぶ。
 登録数はコンストラクタに渡した `q` と一致させる。存在しない辺だけを追加し、存在する辺だけを削除する。
-時間は $O(N+Q\log(Q+1)\log(N+1))$、領域は $O(N+Q\log(Q+1))$。
-rollback のため経路圧縮は使わず、union-by-size により根探索を $O(\log(N+1))$ に抑える。
+時間は $O(N+Q\log(Q)\log(N))$、領域は $O(N+Q\log(Q))$。
+rollback のため経路圧縮は使わず、union-by-size により根探索を $O(\log(N))$ に抑える。
 
 ## 実装上の補足
 時間木の各ノードには辺と頂点加算の開始位置を持ち、イベント本体はそれぞれ連続配列に格納する。

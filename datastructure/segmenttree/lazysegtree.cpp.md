@@ -39,38 +39,43 @@ data:
     \ >>= 1) seg[k] = M::f(reflect((k<<1)|0), reflect((k<<1)|1));}\n\n    void update(int\
     \ a, const T &x){\n        thrust(a += sz);\n        seg[a] = x;\n        lazy[a]\
     \ = M::l();\n        recalc(a);\n    }\n\n    void update(int a, int b, const\
-    \ L &x){\n        if(a == b) return;\n        thrust(a += sz); thrust(b += sz-1);\n\
-    \        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {\n            if(l&1)\
-    \ lazy[l] = M::h(lazy[l], x), l++;\n            if(r&1) --r, lazy[r] = M::h(lazy[r],\
-    \ x);\n        }\n        recalc(a);\n        recalc(b);\n    }\n\n    T query(int\
-    \ a, int b){ // [l, r)\n        if(a == b) return M::e();\n        thrust(a +=\
-    \ sz);\n        thrust(b += sz-1);\n        T ll = M::e(), rr = M::e();\n    \
-    \    for(int l = a, r = b+1; l < r; l >>=1, r>>=1) {\n            if (l & 1) ll\
-    \ = M::f(ll, reflect(l++));\n            if (r & 1) rr = M::f(reflect(--r), rr);\n\
-    \        }\n        return M::f(ll, rr);\n    }\n\n    template<class F>\n   \
-    \ int search_right(int l, F cond){\n        if(l == n) return n;\n        thrust(l\
+    \ L &x){\n        if(a == b) return;\n        a += sz; b += sz;\n        int ha\
+    \ = __builtin_ctz(a), hb = __builtin_ctz(b);\n        for(int i = height; i >\
+    \ ha; --i) eval(a >> i);\n        for(int i = height; i > hb; --i) eval((b-1)\
+    \ >> i);\n        for (int l = a, r = b; l < r; l >>=1, r >>= 1) {\n         \
+    \   if(l&1) lazy[l] = M::h(lazy[l], x), l++;\n            if(r&1) --r, lazy[r]\
+    \ = M::h(lazy[r], x);\n        }\n        recalc(a >> ha);\n        recalc((b-1)\
+    \ >> hb);\n    }\n\n    T query(int a, int b){ // [l, r)\n        if(a == b) return\
+    \ M::e();\n        a += sz; b += sz;\n        int ha = __builtin_ctz(a), hb =\
+    \ __builtin_ctz(b);\n        for(int i = height; i > ha; --i) eval(a >> i);\n\
+    \        for(int i = height; i > hb; --i) eval((b-1) >> i);\n        T ll = M::e(),\
+    \ rr = M::e();\n        for(int l = a, r = b; l < r; l >>=1, r>>=1) {\n      \
+    \      if (l & 1) ll = M::f(ll, reflect(l++));\n            if (r & 1) rr = M::f(reflect(--r),\
+    \ rr);\n        }\n        return M::f(ll, rr);\n    }\n\n    template<class F>\n\
+    \    int search_right(int l, F cond){\n        if(l == n) return n;\n        thrust(l\
     \ += sz);\n        T val = M::e();\n        do {\n            while(!(l&1)) l\
-    \ >>= 1;\n            if(!cond(M::f(val, reflect(l)))){\n                while(l\
-    \ < sz) {\n                    eval(l); l <<= 1;\n                    if (cond(M::f(val,\
-    \ reflect(l)))){\n                        val = M::f(val, reflect(l++));\n   \
+    \ >>= 1;\n            T next = M::f(val, reflect(l));\n            if(!cond(next)){\n\
+    \                while(l < sz) {\n                    eval(l); l <<= 1;\n    \
+    \                next = M::f(val, reflect(l));\n                    if (cond(next)){\n\
+    \                        val = move(next);\n                        l++;\n   \
     \                 }\n                }\n                return l - sz;\n     \
-    \       }\n            val = M::f(val, reflect(l++));\n        } while((l & -l)\
-    \ != l);\n        return n;\n    }\n\n    template<class F>\n    int search_left(int\
+    \       }\n            val = move(next);\n            l++;\n        } while((l\
+    \ & -l) != l);\n        return n;\n    }\n\n    template<class F>\n    int search_left(int\
     \ r, F cond){\n        if(r <= 0) return 0;\n        thrust((r += sz)-1);\n  \
     \      T val = M::e();\n        do {\n            r--;\n            while(r >\
-    \ 1 && r&1) r >>= 1;\n            if(!cond(M::f(reflect(r), val))){\n        \
-    \        while(r < sz) {\n                    eval(r);\n                    r\
-    \ = ((r << 1)|1);\n                    if (cond(M::f(reflect(r), val))){\n   \
-    \                     val = M::f(reflect(r--), val);\n                    }\n\
-    \                }\n                return r + 1 - sz;\n            }\n      \
-    \      val = M::f(reflect(r), val);\n        } while((r & -r) != r);\n       \
-    \ return 0;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n\
-    \    using L = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]+b[0],\
-    \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
-    \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
-    \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
-    \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Lazy Segment Tree)\n */\n"
+    \ 1 && r&1) r >>= 1;\n            T next = M::f(reflect(r), val);\n          \
+    \  if(!cond(next)){\n                while(r < sz) {\n                    eval(r);\n\
+    \                    r = ((r << 1)|1);\n                    next = M::f(reflect(r),\
+    \ val);\n                    if (cond(next)){\n                        val = move(next);\n\
+    \                        r--;\n                    }\n                }\n    \
+    \            return r + 1 - sz;\n            }\n            val = move(next);\n\
+    \        } while((r & -r) != r);\n        return 0;\n    }\n};\n\n/*\nstruct Monoid{\n\
+    \    using T = array<mint, 2>;\n    using L = array<mint, 2>;\n    static T f(T\
+    \ a, T b) { return {a[0]+b[0], a[1]+b[1]}; }\n    static T g(T a, L b) {\n   \
+    \     return {a[0] * b[0] + a[1] * b[1], a[1]};\n    }\n    static L h(L a, L\
+    \ b) {\n        return {a[0]*b[0], a[1]*b[0]+b[1]};\n    }\n    static T e() {\
+    \ return {0, 0}; }\n    static L l() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief\
+    \ \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)\n */\n"
   code: "template <class M>\nstruct LazySegmentTree{\n    using T = typename M::T;\n\
     \    using L = typename M::L;\n    int sz, n, height{};\n    vector<T> seg; vector<L>\
     \ lazy;\n    explicit LazySegmentTree(int n) : n(n) {\n        sz = 1; while(sz\
@@ -86,43 +91,48 @@ data:
     \ k) { while(k >>= 1) seg[k] = M::f(reflect((k<<1)|0), reflect((k<<1)|1));}\n\n\
     \    void update(int a, const T &x){\n        thrust(a += sz);\n        seg[a]\
     \ = x;\n        lazy[a] = M::l();\n        recalc(a);\n    }\n\n    void update(int\
-    \ a, int b, const L &x){\n        if(a == b) return;\n        thrust(a += sz);\
-    \ thrust(b += sz-1);\n        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1)\
-    \ {\n            if(l&1) lazy[l] = M::h(lazy[l], x), l++;\n            if(r&1)\
-    \ --r, lazy[r] = M::h(lazy[r], x);\n        }\n        recalc(a);\n        recalc(b);\n\
-    \    }\n\n    T query(int a, int b){ // [l, r)\n        if(a == b) return M::e();\n\
-    \        thrust(a += sz);\n        thrust(b += sz-1);\n        T ll = M::e(),\
-    \ rr = M::e();\n        for(int l = a, r = b+1; l < r; l >>=1, r>>=1) {\n    \
-    \        if (l & 1) ll = M::f(ll, reflect(l++));\n            if (r & 1) rr =\
-    \ M::f(reflect(--r), rr);\n        }\n        return M::f(ll, rr);\n    }\n\n\
-    \    template<class F>\n    int search_right(int l, F cond){\n        if(l ==\
-    \ n) return n;\n        thrust(l += sz);\n        T val = M::e();\n        do\
-    \ {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val, reflect(l)))){\n\
+    \ a, int b, const L &x){\n        if(a == b) return;\n        a += sz; b += sz;\n\
+    \        int ha = __builtin_ctz(a), hb = __builtin_ctz(b);\n        for(int i\
+    \ = height; i > ha; --i) eval(a >> i);\n        for(int i = height; i > hb; --i)\
+    \ eval((b-1) >> i);\n        for (int l = a, r = b; l < r; l >>=1, r >>= 1) {\n\
+    \            if(l&1) lazy[l] = M::h(lazy[l], x), l++;\n            if(r&1) --r,\
+    \ lazy[r] = M::h(lazy[r], x);\n        }\n        recalc(a >> ha);\n        recalc((b-1)\
+    \ >> hb);\n    }\n\n    T query(int a, int b){ // [l, r)\n        if(a == b) return\
+    \ M::e();\n        a += sz; b += sz;\n        int ha = __builtin_ctz(a), hb =\
+    \ __builtin_ctz(b);\n        for(int i = height; i > ha; --i) eval(a >> i);\n\
+    \        for(int i = height; i > hb; --i) eval((b-1) >> i);\n        T ll = M::e(),\
+    \ rr = M::e();\n        for(int l = a, r = b; l < r; l >>=1, r>>=1) {\n      \
+    \      if (l & 1) ll = M::f(ll, reflect(l++));\n            if (r & 1) rr = M::f(reflect(--r),\
+    \ rr);\n        }\n        return M::f(ll, rr);\n    }\n\n    template<class F>\n\
+    \    int search_right(int l, F cond){\n        if(l == n) return n;\n        thrust(l\
+    \ += sz);\n        T val = M::e();\n        do {\n            while(!(l&1)) l\
+    \ >>= 1;\n            T next = M::f(val, reflect(l));\n            if(!cond(next)){\n\
     \                while(l < sz) {\n                    eval(l); l <<= 1;\n    \
-    \                if (cond(M::f(val, reflect(l)))){\n                        val\
-    \ = M::f(val, reflect(l++));\n                    }\n                }\n     \
-    \           return l - sz;\n            }\n            val = M::f(val, reflect(l++));\n\
-    \        } while((l & -l) != l);\n        return n;\n    }\n\n    template<class\
-    \ F>\n    int search_left(int r, F cond){\n        if(r <= 0) return 0;\n    \
-    \    thrust((r += sz)-1);\n        T val = M::e();\n        do {\n           \
-    \ r--;\n            while(r > 1 && r&1) r >>= 1;\n            if(!cond(M::f(reflect(r),\
-    \ val))){\n                while(r < sz) {\n                    eval(r);\n   \
-    \                 r = ((r << 1)|1);\n                    if (cond(M::f(reflect(r),\
-    \ val))){\n                        val = M::f(reflect(r--), val);\n          \
-    \          }\n                }\n                return r + 1 - sz;\n        \
-    \    }\n            val = M::f(reflect(r), val);\n        } while((r & -r) !=\
-    \ r);\n        return 0;\n    }\n};\n\n/*\nstruct Monoid{\n    using T = array<mint,\
-    \ 2>;\n    using L = array<mint, 2>;\n    static T f(T a, T b) { return {a[0]+b[0],\
-    \ a[1]+b[1]}; }\n    static T g(T a, L b) {\n        return {a[0] * b[0] + a[1]\
-    \ * b[1], a[1]};\n    }\n    static L h(L a, L b) {\n        return {a[0]*b[0],\
-    \ a[1]*b[0]+b[1]};\n    }\n    static T e() { return {0, 0}; }\n    static L l()\
-    \ { return {1, 0}; }\n};\n*/\n\n/**\n * @brief \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Lazy Segment Tree)\n */\n"
+    \                next = M::f(val, reflect(l));\n                    if (cond(next)){\n\
+    \                        val = move(next);\n                        l++;\n   \
+    \                 }\n                }\n                return l - sz;\n     \
+    \       }\n            val = move(next);\n            l++;\n        } while((l\
+    \ & -l) != l);\n        return n;\n    }\n\n    template<class F>\n    int search_left(int\
+    \ r, F cond){\n        if(r <= 0) return 0;\n        thrust((r += sz)-1);\n  \
+    \      T val = M::e();\n        do {\n            r--;\n            while(r >\
+    \ 1 && r&1) r >>= 1;\n            T next = M::f(reflect(r), val);\n          \
+    \  if(!cond(next)){\n                while(r < sz) {\n                    eval(r);\n\
+    \                    r = ((r << 1)|1);\n                    next = M::f(reflect(r),\
+    \ val);\n                    if (cond(next)){\n                        val = move(next);\n\
+    \                        r--;\n                    }\n                }\n    \
+    \            return r + 1 - sz;\n            }\n            val = move(next);\n\
+    \        } while((r & -r) != r);\n        return 0;\n    }\n};\n\n/*\nstruct Monoid{\n\
+    \    using T = array<mint, 2>;\n    using L = array<mint, 2>;\n    static T f(T\
+    \ a, T b) { return {a[0]+b[0], a[1]+b[1]}; }\n    static T g(T a, L b) {\n   \
+    \     return {a[0] * b[0] + a[1] * b[1], a[1]};\n    }\n    static L h(L a, L\
+    \ b) {\n        return {a[0]*b[0], a[1]*b[0]+b[1]};\n    }\n    static T e() {\
+    \ return {0, 0}; }\n    static L l() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief\
+    \ \u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/segmenttree/lazysegtree.cpp
   requiredBy: []
-  timestamp: '2026-10-03 12:23:55+09:00'
+  timestamp: '2026-10-18 00:36:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_segmenttree_boundaries.test.cpp
@@ -147,8 +157,8 @@ title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)"
 - `update(k, x)` : 位置 `k` の値を `x` に更新する
 - `update(l, r, x)` : 半開区間 $[l, r)$ に作用素 `x` を適用する
 - `query(l, r)` : 半開区間 $[l, r)$ の集約値を返す
-- `search_right(l, cond)` : 左から伸ばして `cond` が壊れる最初の位置を返す。見つからなければ `n`
-- `search_left(r, cond)` : 右から伸ばして `cond` が壊れる最後の位置を返す。見つからなければ `0`
+- `search_right(l, cond)` : `cond(query(l, r))` を満たす最大の `r` を返す
+- `search_left(r, cond)` : `cond(query(l, r))` を満たす最小の `l` を返す
 
 ## 使い方
 モノイド構造体 `M` に次を定義して渡す。
@@ -159,6 +169,8 @@ title: "\u9045\u5EF6\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Lazy Segment Tree)"
 - $f : T \times T \to T$ 要素同士のマージ
 - $g : T \times L \to T$ 要素と作用素のマージ
 - $h : L \times L \to L$ 作用素同士のマージ
+
+境界探索の `cond` は単位元で `true` とし、区間を伸ばすと `true` から `false` への変化が高々1回になるものを使う。
 
 以下にモノイドの例を挙げる。
 
@@ -198,3 +210,7 @@ x & (y = l) \\
 y & (y \ne l)
 \end{cases}
 $$
+
+## 実装上の補足
+
+区間操作では境界をまたぐ祖先だけを伝播・再集約し、区間内に収まる部分木の遅延作用を保つ。

@@ -94,9 +94,9 @@ data:
     \ {\n            u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n;\
     \ ++i) {\n            table[0][i] = v[i];\n        }\n        for (int i = 1;\
     \ i < m; ++i) {\n            int x = (1<<(i-1));\n            for (int j = 0;\
-    \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
-    \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b) const\
-    \ {\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
+    \ j <= n - 2*x; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][j+x]);\n\
+    \            }\n        }\n    }\n \n    T query(int a, int b) const {\n     \
+    \   int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
     \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 6 \"string/suffix_array_query.cpp\"\
     \n\nclass SuffixArrayQuery {\n    struct Minimum {\n        using T = int;\n \
     \       static int f(int a, int b) { return min(a, b); }\n    };\n    int n;\n\
@@ -141,7 +141,7 @@ data:
   path: string/suffix_array_query.cpp
   requiredBy:
   - string/enumerate_runs.cpp
-  timestamp: '2026-10-17 19:14:33+09:00'
+  timestamp: '2026-10-18 00:33:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_suffix_array_query.test.cpp
@@ -158,7 +158,7 @@ title: "\u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57
 ## 説明
 与えられた文字列や配列を前処理し、指定した2つの位置からの最長共通接頭辞の長さを求める。
 部分文字列の辞書順比較にも対応する。
-長さを $N$ として、構築は $O(N\log(N+1))$ 時間・領域、各クエリは $O(1)$ 時間。
+長さを $N$ として、構築は $O(N\log(N))$ 時間・領域、各クエリは $O(1)$ 時間。
 
 ## できること
 - `SuffixArrayQuery q(s)`

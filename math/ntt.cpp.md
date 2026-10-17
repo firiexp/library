@@ -767,4 +767,4 @@ $\min(m,k)\le16$ または $mk\le4096$ なら $O(mk)$ の単純除算を使う�
 それ以外は反転多項式の逆数と NTT による除算を使う。
 `log(deg)` は微分前に必要な係数だけを取り出す。
 `inv(deg)` と `log(deg)` は要求精度に対して
-時間 $O(\mathrm{deg}\log(\mathrm{deg}+1))$、追加領域 $O(\mathrm{deg})$ で計算する。
+時間 $O(\mathrm{deg}\log(\mathrm{deg}))$、追加領域 $O(\mathrm{deg})$ で計算する。

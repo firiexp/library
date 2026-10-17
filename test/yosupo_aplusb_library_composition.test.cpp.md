@@ -1247,8 +1247,8 @@ data:
     \        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i) {\n         \
     \   u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n; ++i) {\n  \
     \          table[0][i] = v[i];\n        }\n        for (int i = 1; i < m; ++i)\
-    \ {\n            int x = (1<<(i-1));\n            for (int j = 0; j < n; ++j)\
-    \ {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x, n-1)]);\n\
+    \ {\n            int x = (1<<(i-1));\n            for (int j = 0; j <= n - 2*x;\
+    \ ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][j+x]);\n\
     \            }\n        }\n    }\n \n    T query(int a, int b) const {\n     \
     \   int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
     \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 2 \"tree/LCA.cpp\"\n\
@@ -1537,7 +1537,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-17 20:38:48+09:00'
+  timestamp: '2026-10-18 00:33:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

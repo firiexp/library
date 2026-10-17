@@ -110,7 +110,7 @@ title: "Dijkstra\u6CD5"
 
 ## できること
 - `vector<T> dijkstra(int s, const vector<vector<edge<T>>>& g)`
-  始点 `s` から各頂点への最短距離を返す。未到達は `INF<T>`。時間 $O((V+E)\log(V+E+1))$、補助領域 $O(V+E)$
+  始点 `s` から各頂点への最短距離を返す。未到達は `INF<T>`。時間 $O((V+E)\log(V+E))$、補助領域 $O(V+E)$
 
 ## 使い方
 `edge<T>` の隣接リストを作って `dijkstra` を呼ぶ。

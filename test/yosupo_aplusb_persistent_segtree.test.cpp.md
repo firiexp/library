@@ -247,107 +247,203 @@ data:
     \ b) const {\n        if(n == 0 || b <= a) return M::e();\n        return query_(root[t],\
     \ a, b, 0, n);\n    }\n    T query(int a, int b) const { return query(latest_version(),\
     \ a, b); }\n\n    T get(int t, int k) const { return query(t, k, k+1); }\n   \
-    \ T operator[](const int &k) const { return get(latest_version(), k); }\n\nprivate:\n\
-    \    int make_node(const T &v, int l, int r){\n        node.push_back({v, l, r});\n\
-    \        return node.size()-1;\n    }\n\n    int build(int l, int r, const vector<T>\
-    \ &v){\n        if(l+1 == r) return make_node(v[l], -1, -1);\n        int m =\
-    \ (l+r)>>1;\n        int ll = build(l, m, v), rr = build(m, r, v);\n        return\
-    \ make_node(M::f(node[ll].val, node[rr].val), ll, rr);\n    }\n\n    int update_(int\
-    \ id, int k, const T &x, int l, int r){\n        if(l+1 == r) return make_node(x,\
-    \ -1, -1);\n        int m = (l+r)>>1;\n        int ll = node[id].l, rr = node[id].r;\n\
-    \        if(k < m) ll = update_(ll, k, x, l, m);\n        else rr = update_(rr,\
-    \ k, x, m, r);\n        return make_node(M::f(node[ll].val, node[rr].val), ll,\
-    \ rr);\n    }\n\n    int add_(int id, int k, const T &x, int l, int r){\n    \
-    \    if(l+1 == r) return make_node(M::f(node[id].val, x), -1, -1);\n        int\
+    \ T operator[](const int &k) const { return get(latest_version(), k); }\n\n  \
+    \  template<class F>\n    int search_right(int t, int l, F cond) const {\n   \
+    \     T acc = M::e();\n        return search_right_(root[t], l, 0, n, acc, cond);\n\
+    \    }\n    template<class F>\n    int search_right(int l, F cond) const {\n \
+    \       return search_right(latest_version(), l, move(cond));\n    }\n\n    template<class\
+    \ F>\n    int search_left(int t, int r, F cond) const {\n        T acc = M::e();\n\
+    \        return search_left_(root[t], r, 0, n, acc, cond);\n    }\n    template<class\
+    \ F>\n    int search_left(int r, F cond) const {\n        return search_left(latest_version(),\
+    \ r, move(cond));\n    }\n\nprivate:\n    template<class F>\n    int search_right_(int\
+    \ id, int a, int l, int r, T &acc, F &cond) const {\n        if(r <= a) return\
+    \ n;\n        if(a <= l){\n            T next = M::f(acc, node[id].val);\n   \
+    \         if(cond(next)){\n                acc = move(next);\n               \
+    \ return n;\n            }\n            if(r-l == 1) return l;\n        }\n  \
+    \      int m = l + ((r-l)>>1);\n        int result = search_right_(node[id].l,\
+    \ a, l, m, acc, cond);\n        if(result != n) return result;\n        return\
+    \ search_right_(node[id].r, a, m, r, acc, cond);\n    }\n\n    template<class\
+    \ F>\n    int search_left_(int id, int a, int l, int r, T &acc, F &cond) const\
+    \ {\n        if(a <= l) return 0;\n        if(r <= a){\n            T next = M::f(node[id].val,\
+    \ acc);\n            if(cond(next)){\n                acc = move(next);\n    \
+    \            return 0;\n            }\n            if(r-l == 1) return r;\n  \
+    \      }\n        int m = l + ((r-l)>>1);\n        int result = search_left_(node[id].r,\
+    \ a, m, r, acc, cond);\n        if(result != 0) return result;\n        return\
+    \ search_left_(node[id].l, a, l, m, acc, cond);\n    }\n\n    int make_node(const\
+    \ T &v, int l, int r){\n        node.push_back({v, l, r});\n        return node.size()-1;\n\
+    \    }\n\n    int build(int l, int r, const vector<T> &v){\n        if(l+1 ==\
+    \ r) return make_node(v[l], -1, -1);\n        int m = (l+r)>>1;\n        int ll\
+    \ = build(l, m, v), rr = build(m, r, v);\n        return make_node(M::f(node[ll].val,\
+    \ node[rr].val), ll, rr);\n    }\n\n    int update_(int id, int k, const T &x,\
+    \ int l, int r){\n        if(l+1 == r) return make_node(x, -1, -1);\n        int\
     \ m = (l+r)>>1;\n        int ll = node[id].l, rr = node[id].r;\n        if(k <\
-    \ m) ll = add_(ll, k, x, l, m);\n        else rr = add_(rr, k, x, m, r);\n   \
-    \     return make_node(M::f(node[ll].val, node[rr].val), ll, rr);\n    }\n\n \
-    \   T query_(int id, int a, int b, int l, int r) const {\n        if(r <= a ||\
-    \ b <= l) return M::e();\n        if(a <= l && r <= b) return node[id].val;\n\
-    \        int m = (l+r)>>1;\n        return M::f(query_(node[id].l, a, b, l, m),\
-    \ query_(node[id].r, a, b, m, r));\n    }\n};\n\n/*\nstruct Monoid{\n    using\
-    \ T = long long;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n*/\n\n/**\n * @brief \u6C38\u7D9A\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728(Persistent Segment Tree)\n */\n#line 7 \"test/yosupo_aplusb_persistent_segtree.test.cpp\"\
-    \n\nstruct Monoid {\n    using T = string;\n    static T f(const T &a, const T\
-    \ &b) { return a + b; }\n    static T e() { return \"\"; }\n};\n\nvoid self_check()\
-    \ {\n    PersistentSegmentTree<Monoid> large(1000000000);\n    assert(large.node.size()\
-    \ == 1);\n    int a = large.update(0, 0, \"a\");\n    int b = large.add(a, 999999999,\
-    \ \"z\");\n    int c = large.update(0, 500000000, \"m\");\n    assert(large.query(0,\
-    \ 0, 1000000000) == \"\");\n    assert(large.query(b, 0, 1000000000) == \"az\"\
-    );\n    assert(large.query(b, 1, 999999999) == \"\");\n    assert(large.query(c,\
-    \ 0, 1000000000) == \"m\");\n    assert(large.get(a, 999999999) == \"\" && large.get(b,\
-    \ 0) == \"a\");\n    assert(large.node.size() <= 94);\n\n    mt19937 rng(166);\n\
-    \    for (int n = 0; n <= 35; ++n) for (bool from_array : {false, true}) {\n \
-    \       vector<string> initial(n);\n        if (from_array) for (auto &s : initial)\
-    \ s = string(1, 'a' + rng() % 26);\n        auto seg = from_array ? PersistentSegmentTree<Monoid>(initial)\
-    \ : PersistentSegmentTree<Monoid>(n);\n        assert(seg.node.size() == (size_t)(from_array\
-    \ && n ? 2 * n - 1 : 1));\n        vector<vector<string>> versions{initial};\n\
-    \        for (int step = 0; step < 180; ++step) {\n            int t = rng() %\
-    \ 2 ? seg.latest_version() : rng() % versions.size();\n            int k = n ?\
-    \ rng() % n : 0;\n            string s(1, 'a' + rng() % 26);\n            auto\
-    \ next = versions[t];\n            int at;\n            if (step % 2) {\n    \
-    \            at = t == seg.latest_version() ? seg.add(k, s) : seg.add(t, k, s);\n\
-    \                if (n) next[k] += s;\n            } else {\n                at\
-    \ = t == seg.latest_version() ? seg.update(k, s) : seg.update(t, k, s);\n    \
-    \            if (n) next[k] = s;\n            }\n            assert(at == (int)versions.size());\n\
-    \            versions.push_back(next);\n            assert(seg.versions() == (int)versions.size()\
-    \ && seg.latest_version() == at);\n            size_t nodes = seg.node.size();\n\
-    \            for (int q = 0; q < 15; ++q) {\n                int v = q == 0 ?\
-    \ t : q == 1 ? at : rng() % versions.size();\n                int l = rng() %\
-    \ (n + 1), r = rng() % (n + 1);\n                if (l > r) swap(l, r);\n    \
-    \            string expected;\n                for (int i = l; i < r; ++i) expected\
-    \ += versions[v][i];\n                assert(seg.query(v, l, r) == expected);\n\
-    \                if (v == at) assert(seg.query(l, r) == expected);\n         \
-    \       if (n) assert(seg.get(v, k) == versions[v][k]);\n            }\n     \
-    \       if (n) assert(seg[k] == next[k]);\n            assert(seg.node.size()\
-    \ == nodes);\n        }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n}\n"
+    \ m) ll = update_(ll, k, x, l, m);\n        else rr = update_(rr, k, x, m, r);\n\
+    \        return make_node(M::f(node[ll].val, node[rr].val), ll, rr);\n    }\n\n\
+    \    int add_(int id, int k, const T &x, int l, int r){\n        if(l+1 == r)\
+    \ return make_node(M::f(node[id].val, x), -1, -1);\n        int m = (l+r)>>1;\n\
+    \        int ll = node[id].l, rr = node[id].r;\n        if(k < m) ll = add_(ll,\
+    \ k, x, l, m);\n        else rr = add_(rr, k, x, m, r);\n        return make_node(M::f(node[ll].val,\
+    \ node[rr].val), ll, rr);\n    }\n\n    T query_(int id, int a, int b, int l,\
+    \ int r) const {\n        if(r <= a || b <= l) return M::e();\n        if(a <=\
+    \ l && r <= b) return node[id].val;\n        int m = (l+r)>>1;\n        return\
+    \ M::f(query_(node[id].l, a, b, l, m), query_(node[id].r, a, b, m, r));\n    }\n\
+    };\n\n/*\nstruct Monoid{\n    using T = long long;\n    static T f(T a, T b) {\
+    \ return a + b; }\n    static T e() { return 0; }\n};\n*/\n\n/**\n * @brief \u6C38\
+    \u7D9A\u30BB\u30B0\u30E1\u30F3\u30C8\u6728(Persistent Segment Tree)\n */\n#line\
+    \ 7 \"test/yosupo_aplusb_persistent_segtree.test.cpp\"\n\nstruct Monoid {\n  \
+    \  using T = string;\n    static T f(const T &a, const T &b) { return a + b; }\n\
+    \    static T e() { return \"\"; }\n};\n\ntemplate<class M, class F>\nvoid check_search(const\
+    \ PersistentSegmentTree<M> &seg, int version,\n                  const vector<typename\
+    \ M::T> &a, int end, F cond) {\n    int left = end, right = end;\n    auto acc\
+    \ = M::e();\n    while(left && cond(M::f(a[left - 1], acc))) acc = M::f(a[--left],\
+    \ acc);\n    acc = M::e();\n    while(right < int(a.size()) && cond(M::f(acc,\
+    \ a[right]))) acc = M::f(acc, a[right++]);\n    size_t nodes = seg.node.size(),\
+    \ roots = seg.root.size();\n    auto before = seg.query(version, 0, seg.n);\n\
+    \    assert(seg.search_left(version, end, cond) == left);\n    assert(seg.search_right(version,\
+    \ end, cond) == right);\n    if(version == seg.latest_version()) {\n        assert(seg.search_left(end,\
+    \ cond) == left);\n        assert(seg.search_right(end, cond) == right);\n   \
+    \ }\n    assert(seg.node.size() == nodes && seg.root.size() == roots);\n    assert(seg.query(version,\
+    \ 0, seg.n) == before);\n}\n\nvoid self_check() {\n    PersistentSegmentTree<Monoid>\
+    \ large(1000000000);\n    assert(large.node.size() == 1);\n    int a = large.update(0,\
+    \ 0, \"a\");\n    int b = large.add(a, 999999999, \"z\");\n    int c = large.update(0,\
+    \ 500000000, \"m\");\n    assert(large.query(0, 0, 1000000000) == \"\");\n   \
+    \ assert(large.query(b, 0, 1000000000) == \"az\");\n    assert(large.query(b,\
+    \ 1, 999999999) == \"\");\n    assert(large.query(c, 0, 1000000000) == \"m\");\n\
+    \    assert(large.get(a, 999999999) == \"\" && large.get(b, 0) == \"a\");\n  \
+    \  auto empty = [](const string &s) { return s.empty(); };\n    for(int end :\
+    \ {0, 500000000, 1000000000}) {\n        assert(large.search_right(0, end, empty)\
+    \ == 1000000000);\n        assert(large.search_left(0, end, empty) == 0);\n  \
+    \  }\n    assert(large.search_right(b, 0, empty) == 0);\n    assert(large.search_right(b,\
+    \ 1, empty) == 999999999);\n    assert(large.search_left(b, 1000000000, empty)\
+    \ == 1000000000);\n    assert(large.search_left(b, 999999999, empty) == 1);\n\
+    \    assert(large.search_right(c, 0, empty) == 500000000);\n    assert(large.search_left(c,\
+    \ 1000000000, empty) == 500000001);\n    assert(large.node.size() <= 94);\n\n\
+    \    mt19937 rng(166);\n    for (int n = 0; n <= 35; ++n) for (bool from_array\
+    \ : {false, true}) {\n        vector<string> initial(n);\n        if (from_array)\
+    \ for (auto &s : initial) s = string(1, 'a' + rng() % 3);\n        auto seg =\
+    \ from_array ? PersistentSegmentTree<Monoid>(initial) : PersistentSegmentTree<Monoid>(n);\n\
+    \        assert(seg.node.size() == (size_t)(from_array && n ? 2 * n - 1 : 1));\n\
+    \        vector<vector<string>> versions{initial};\n        for(int end = 0; end\
+    \ <= n; ++end) check_search(seg, 0, initial, end, empty);\n        for (int step\
+    \ = 0; step < 180; ++step) {\n            int t = rng() % 2 ? seg.latest_version()\
+    \ : rng() % versions.size();\n            int k = n ? rng() % n : 0;\n       \
+    \     string s(1, 'a' + rng() % 3);\n            auto next = versions[t];\n  \
+    \          int at;\n            if (step % 2) {\n                at = t == seg.latest_version()\
+    \ ? seg.add(k, s) : seg.add(t, k, s);\n                if (n) next[k] += s;\n\
+    \            } else {\n                at = t == seg.latest_version() ? seg.update(k,\
+    \ s) : seg.update(t, k, s);\n                if (n) next[k] = s;\n           \
+    \ }\n            assert(at == (int)versions.size());\n            versions.push_back(next);\n\
+    \            assert(seg.versions() == (int)versions.size() && seg.latest_version()\
+    \ == at);\n            size_t nodes = seg.node.size();\n            for (int q\
+    \ = 0; q < 15; ++q) {\n                int v = q == 0 ? t : q == 1 ? at : rng()\
+    \ % versions.size();\n                int l = rng() % (n + 1), r = rng() % (n\
+    \ + 1);\n                if (l > r) swap(l, r);\n                string expected;\n\
+    \                for (int i = l; i < r; ++i) expected += versions[v][i];\n   \
+    \             assert(seg.query(v, l, r) == expected);\n                if (v ==\
+    \ at) assert(seg.query(l, r) == expected);\n                if (n) assert(seg.get(v,\
+    \ k) == versions[v][k]);\n                int limit = rng() % (2 * n + 1);\n \
+    \               auto cond = [&](const string &x) {\n                    return\
+    \ int(x.size()) <= limit && x.find(\"ab\") == string::npos;\n                };\n\
+    \                check_search(seg, v, versions[v], q % 3 == 0 ? 0 : q % 3 == 1\
+    \ ? n : l, cond);\n            }\n            if (n) assert(seg[k] == next[k]);\n\
+    \            assert(seg.node.size() == nodes);\n        }\n    }\n}\n\nstruct\
+    \ Sum {\n    using T = long long;\n    static T e() { return 0; }\n    static\
+    \ T f(T a, T b) { return a + b; }\n};\n\nvoid sum_check() {\n    mt19937 rng(206);\n\
+    \    for(int n : {0, 1, 2, 3, 7, 8, 9, 31, 32, 33, 65}) {\n        PersistentSegmentTree<Sum>\
+    \ seg(n);\n        vector<vector<long long>> versions(1, vector<long long>(n));\n\
+    \        for(int step = 0; step < 200; ++step) {\n            int t = rng() %\
+    \ versions.size(), k = n ? rng() % n : 0;\n            auto a = versions[t];\n\
+    \            long long value = rng() % 20;\n            if(n) a[k] = value;\n\
+    \            int id = seg.update(t, k, value);\n            assert(id == int(versions.size()));\n\
+    \            versions.push_back(a);\n            for(int q = 0; q < 10; ++q) {\n\
+    \                int v = q == 0 ? id : rng() % versions.size();\n            \
+    \    long long limit = q == 0 ? 0 : q == 1 ? 20 * n : rng() % (20 * n + 1);\n\
+    \                auto cond = [&](long long x) { return x <= limit; };\n      \
+    \          check_search(seg, v, versions[v], rng() % (n + 1), cond);\n       \
+    \     }\n        }\n    }\n}\n\nint main() {\n    self_check();\n    sum_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/segmenttree/persistent_segtree.cpp\"\
     \n\nstruct Monoid {\n    using T = string;\n    static T f(const T &a, const T\
-    \ &b) { return a + b; }\n    static T e() { return \"\"; }\n};\n\nvoid self_check()\
-    \ {\n    PersistentSegmentTree<Monoid> large(1000000000);\n    assert(large.node.size()\
-    \ == 1);\n    int a = large.update(0, 0, \"a\");\n    int b = large.add(a, 999999999,\
-    \ \"z\");\n    int c = large.update(0, 500000000, \"m\");\n    assert(large.query(0,\
-    \ 0, 1000000000) == \"\");\n    assert(large.query(b, 0, 1000000000) == \"az\"\
-    );\n    assert(large.query(b, 1, 999999999) == \"\");\n    assert(large.query(c,\
-    \ 0, 1000000000) == \"m\");\n    assert(large.get(a, 999999999) == \"\" && large.get(b,\
-    \ 0) == \"a\");\n    assert(large.node.size() <= 94);\n\n    mt19937 rng(166);\n\
-    \    for (int n = 0; n <= 35; ++n) for (bool from_array : {false, true}) {\n \
-    \       vector<string> initial(n);\n        if (from_array) for (auto &s : initial)\
-    \ s = string(1, 'a' + rng() % 26);\n        auto seg = from_array ? PersistentSegmentTree<Monoid>(initial)\
-    \ : PersistentSegmentTree<Monoid>(n);\n        assert(seg.node.size() == (size_t)(from_array\
-    \ && n ? 2 * n - 1 : 1));\n        vector<vector<string>> versions{initial};\n\
-    \        for (int step = 0; step < 180; ++step) {\n            int t = rng() %\
-    \ 2 ? seg.latest_version() : rng() % versions.size();\n            int k = n ?\
-    \ rng() % n : 0;\n            string s(1, 'a' + rng() % 26);\n            auto\
-    \ next = versions[t];\n            int at;\n            if (step % 2) {\n    \
-    \            at = t == seg.latest_version() ? seg.add(k, s) : seg.add(t, k, s);\n\
-    \                if (n) next[k] += s;\n            } else {\n                at\
-    \ = t == seg.latest_version() ? seg.update(k, s) : seg.update(t, k, s);\n    \
-    \            if (n) next[k] = s;\n            }\n            assert(at == (int)versions.size());\n\
-    \            versions.push_back(next);\n            assert(seg.versions() == (int)versions.size()\
-    \ && seg.latest_version() == at);\n            size_t nodes = seg.node.size();\n\
-    \            for (int q = 0; q < 15; ++q) {\n                int v = q == 0 ?\
-    \ t : q == 1 ? at : rng() % versions.size();\n                int l = rng() %\
-    \ (n + 1), r = rng() % (n + 1);\n                if (l > r) swap(l, r);\n    \
-    \            string expected;\n                for (int i = l; i < r; ++i) expected\
-    \ += versions[v][i];\n                assert(seg.query(v, l, r) == expected);\n\
-    \                if (v == at) assert(seg.query(l, r) == expected);\n         \
-    \       if (n) assert(seg.get(v, k) == versions[v][k]);\n            }\n     \
-    \       if (n) assert(seg[k] == next[k]);\n            assert(seg.node.size()\
-    \ == nodes);\n        }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n}\n"
+    \ &b) { return a + b; }\n    static T e() { return \"\"; }\n};\n\ntemplate<class\
+    \ M, class F>\nvoid check_search(const PersistentSegmentTree<M> &seg, int version,\n\
+    \                  const vector<typename M::T> &a, int end, F cond) {\n    int\
+    \ left = end, right = end;\n    auto acc = M::e();\n    while(left && cond(M::f(a[left\
+    \ - 1], acc))) acc = M::f(a[--left], acc);\n    acc = M::e();\n    while(right\
+    \ < int(a.size()) && cond(M::f(acc, a[right]))) acc = M::f(acc, a[right++]);\n\
+    \    size_t nodes = seg.node.size(), roots = seg.root.size();\n    auto before\
+    \ = seg.query(version, 0, seg.n);\n    assert(seg.search_left(version, end, cond)\
+    \ == left);\n    assert(seg.search_right(version, end, cond) == right);\n    if(version\
+    \ == seg.latest_version()) {\n        assert(seg.search_left(end, cond) == left);\n\
+    \        assert(seg.search_right(end, cond) == right);\n    }\n    assert(seg.node.size()\
+    \ == nodes && seg.root.size() == roots);\n    assert(seg.query(version, 0, seg.n)\
+    \ == before);\n}\n\nvoid self_check() {\n    PersistentSegmentTree<Monoid> large(1000000000);\n\
+    \    assert(large.node.size() == 1);\n    int a = large.update(0, 0, \"a\");\n\
+    \    int b = large.add(a, 999999999, \"z\");\n    int c = large.update(0, 500000000,\
+    \ \"m\");\n    assert(large.query(0, 0, 1000000000) == \"\");\n    assert(large.query(b,\
+    \ 0, 1000000000) == \"az\");\n    assert(large.query(b, 1, 999999999) == \"\"\
+    );\n    assert(large.query(c, 0, 1000000000) == \"m\");\n    assert(large.get(a,\
+    \ 999999999) == \"\" && large.get(b, 0) == \"a\");\n    auto empty = [](const\
+    \ string &s) { return s.empty(); };\n    for(int end : {0, 500000000, 1000000000})\
+    \ {\n        assert(large.search_right(0, end, empty) == 1000000000);\n      \
+    \  assert(large.search_left(0, end, empty) == 0);\n    }\n    assert(large.search_right(b,\
+    \ 0, empty) == 0);\n    assert(large.search_right(b, 1, empty) == 999999999);\n\
+    \    assert(large.search_left(b, 1000000000, empty) == 1000000000);\n    assert(large.search_left(b,\
+    \ 999999999, empty) == 1);\n    assert(large.search_right(c, 0, empty) == 500000000);\n\
+    \    assert(large.search_left(c, 1000000000, empty) == 500000001);\n    assert(large.node.size()\
+    \ <= 94);\n\n    mt19937 rng(166);\n    for (int n = 0; n <= 35; ++n) for (bool\
+    \ from_array : {false, true}) {\n        vector<string> initial(n);\n        if\
+    \ (from_array) for (auto &s : initial) s = string(1, 'a' + rng() % 3);\n     \
+    \   auto seg = from_array ? PersistentSegmentTree<Monoid>(initial) : PersistentSegmentTree<Monoid>(n);\n\
+    \        assert(seg.node.size() == (size_t)(from_array && n ? 2 * n - 1 : 1));\n\
+    \        vector<vector<string>> versions{initial};\n        for(int end = 0; end\
+    \ <= n; ++end) check_search(seg, 0, initial, end, empty);\n        for (int step\
+    \ = 0; step < 180; ++step) {\n            int t = rng() % 2 ? seg.latest_version()\
+    \ : rng() % versions.size();\n            int k = n ? rng() % n : 0;\n       \
+    \     string s(1, 'a' + rng() % 3);\n            auto next = versions[t];\n  \
+    \          int at;\n            if (step % 2) {\n                at = t == seg.latest_version()\
+    \ ? seg.add(k, s) : seg.add(t, k, s);\n                if (n) next[k] += s;\n\
+    \            } else {\n                at = t == seg.latest_version() ? seg.update(k,\
+    \ s) : seg.update(t, k, s);\n                if (n) next[k] = s;\n           \
+    \ }\n            assert(at == (int)versions.size());\n            versions.push_back(next);\n\
+    \            assert(seg.versions() == (int)versions.size() && seg.latest_version()\
+    \ == at);\n            size_t nodes = seg.node.size();\n            for (int q\
+    \ = 0; q < 15; ++q) {\n                int v = q == 0 ? t : q == 1 ? at : rng()\
+    \ % versions.size();\n                int l = rng() % (n + 1), r = rng() % (n\
+    \ + 1);\n                if (l > r) swap(l, r);\n                string expected;\n\
+    \                for (int i = l; i < r; ++i) expected += versions[v][i];\n   \
+    \             assert(seg.query(v, l, r) == expected);\n                if (v ==\
+    \ at) assert(seg.query(l, r) == expected);\n                if (n) assert(seg.get(v,\
+    \ k) == versions[v][k]);\n                int limit = rng() % (2 * n + 1);\n \
+    \               auto cond = [&](const string &x) {\n                    return\
+    \ int(x.size()) <= limit && x.find(\"ab\") == string::npos;\n                };\n\
+    \                check_search(seg, v, versions[v], q % 3 == 0 ? 0 : q % 3 == 1\
+    \ ? n : l, cond);\n            }\n            if (n) assert(seg[k] == next[k]);\n\
+    \            assert(seg.node.size() == nodes);\n        }\n    }\n}\n\nstruct\
+    \ Sum {\n    using T = long long;\n    static T e() { return 0; }\n    static\
+    \ T f(T a, T b) { return a + b; }\n};\n\nvoid sum_check() {\n    mt19937 rng(206);\n\
+    \    for(int n : {0, 1, 2, 3, 7, 8, 9, 31, 32, 33, 65}) {\n        PersistentSegmentTree<Sum>\
+    \ seg(n);\n        vector<vector<long long>> versions(1, vector<long long>(n));\n\
+    \        for(int step = 0; step < 200; ++step) {\n            int t = rng() %\
+    \ versions.size(), k = n ? rng() % n : 0;\n            auto a = versions[t];\n\
+    \            long long value = rng() % 20;\n            if(n) a[k] = value;\n\
+    \            int id = seg.update(t, k, value);\n            assert(id == int(versions.size()));\n\
+    \            versions.push_back(a);\n            for(int q = 0; q < 10; ++q) {\n\
+    \                int v = q == 0 ? id : rng() % versions.size();\n            \
+    \    long long limit = q == 0 ? 0 : q == 1 ? 20 * n : rng() % (20 * n + 1);\n\
+    \                auto cond = [&](long long x) { return x <= limit; };\n      \
+    \          check_search(seg, v, versions[v], rng() % (n + 1), cond);\n       \
+    \     }\n        }\n    }\n}\n\nint main() {\n    self_check();\n    sum_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/segmenttree/persistent_segtree.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_persistent_segtree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 17:46:54+09:00'
+  timestamp: '2026-10-18 00:37:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_persistent_segtree.test.cpp

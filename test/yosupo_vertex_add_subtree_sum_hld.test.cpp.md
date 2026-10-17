@@ -325,36 +325,37 @@ data:
     \ seg[a++]);\n            if(b & 1) r = M::f(seg[--b], r);\n        }\n      \
     \  return M::f(l, r);\n    }\n\n    template<class F>\n    int search_right(int\
     \ l, F cond){\n        if(l == n) return n;\n        T val = M::e();\n       \
-    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            if(!cond(M::f(val,\
-    \ seg[l]))){\n                while(l < sz) {\n                    l <<= 1;\n\
-    \                    if (cond(M::f(val, seg[l]))){\n                        val\
-    \ = M::f(val, seg[l]);\n                        l++;\n                    }\n\
-    \                }\n                return l - sz;\n            }\n          \
-    \  val = M::f(val, seg[l]);\n            l++;\n        } while((l & -l) != l);\n\
-    \        return n;\n    }\n\n    template<class F>\n    int search_left(int r,\
-    \ F cond){\n        if(r == 0) return 0;\n        T val = M::e();\n        r +=\
-    \ sz;\n        do {\n            r--;\n            while(r > 1 && (r & 1)) r >>=\
-    \ 1;\n            if(!cond(M::f(seg[r], val))){\n                while(r < sz)\
-    \ {\n                    r = ((r << 1)|1);\n                    if (cond(M::f(seg[r],\
-    \ val))){\n                        val = M::f(seg[r], val);\n                \
-    \        r--;\n                    }\n                }\n                return\
-    \ r + 1 - sz;\n            }\n            val = M::f(seg[r], val);\n        }\
-    \ while((r & -r) != r);\n        return 0;\n    }\n    T operator[](const int\
-    \ &k) const { return seg[k + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T =\
-    \ array<mint, 2>;\n    static T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]};\
-    \ }\n    static T e() { return {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n\
-    \ */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n\nstruct SumMonoid\
-    \ {\n    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static\
-    \ T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n\
-    \    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x :\
-    \ a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v\
-    \ < n; ++v) {\n        int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n\
-    \    }\n    hld.build();\n\n    SegmentTree<SumMonoid> seg(n);\n    for (int v\
-    \ = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\n    for (int\
-    \ i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n        if\
-    \ (t == 0) {\n            ll x;\n            sc.read(x);\n            int p =\
-    \ hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else {\n     \
-    \       pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
+    \ l += sz;\n        do {\n            while(!(l&1)) l >>= 1;\n            T next\
+    \ = M::f(val, seg[l]);\n            if(!cond(next)){\n                while(l\
+    \ < sz) {\n                    l <<= 1;\n                    next = M::f(val,\
+    \ seg[l]);\n                    if (cond(next)){\n                        val\
+    \ = move(next);\n                        l++;\n                    }\n       \
+    \         }\n                return l - sz;\n            }\n            val =\
+    \ move(next);\n            l++;\n        } while((l & -l) != l);\n        return\
+    \ n;\n    }\n\n    template<class F>\n    int search_left(int r, F cond){\n  \
+    \      if(r == 0) return 0;\n        T val = M::e();\n        r += sz;\n     \
+    \   do {\n            r--;\n            while(r > 1 && (r & 1)) r >>= 1;\n   \
+    \         T next = M::f(seg[r], val);\n            if(!cond(next)){\n        \
+    \        while(r < sz) {\n                    r = ((r << 1)|1);\n            \
+    \        next = M::f(seg[r], val);\n                    if (cond(next)){\n   \
+    \                     val = move(next);\n                        r--;\n      \
+    \              }\n                }\n                return r + 1 - sz;\n    \
+    \        }\n            val = move(next);\n        } while((r & -r) != r);\n \
+    \       return 0;\n    }\n    T operator[](const int &k) const { return seg[k\
+    \ + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static\
+    \ T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return\
+    \ {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\
+    \n\nstruct SumMonoid {\n    using T = ll;\n    static T f(T a, T b) { return a\
+    \ + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
+    \    for (auto &&x : a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n \
+    \   for (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n     \
+    \   hld.add_edge(p, v);\n    }\n    hld.build();\n\n    SegmentTree<SumMonoid>\
+    \ seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\
+    \n    for (int i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n\
+    \        if (t == 0) {\n            ll x;\n            sc.read(x);\n         \
+    \   int p = hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else\
+    \ {\n            pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
     \ r); }));\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
     \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
@@ -380,7 +381,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 15:46:51+09:00'
+  timestamp: '2026-10-18 00:36:46+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp

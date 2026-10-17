@@ -294,9 +294,9 @@ data:
     \ {\n            u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n;\
     \ ++i) {\n            table[0][i] = v[i];\n        }\n        for (int i = 1;\
     \ i < m; ++i) {\n            int x = (1<<(i-1));\n            for (int j = 0;\
-    \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
-    \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b) const\
-    \ {\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
+    \ j <= n - 2*x; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][j+x]);\n\
+    \            }\n        }\n    }\n \n    T query(int a, int b) const {\n     \
+    \   int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
     \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 6 \"string/suffix_array_query.cpp\"\
     \n\nclass SuffixArrayQuery {\n    struct Minimum {\n        using T = int;\n \
     \       static int f(int a, int b) { return min(a, b); }\n    };\n    int n;\n\
@@ -337,7 +337,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_suffix_array_query.test.cpp
   requiredBy: []
-  timestamp: '2026-10-17 19:14:33+09:00'
+  timestamp: '2026-10-18 00:33:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_suffix_array_query.test.cpp

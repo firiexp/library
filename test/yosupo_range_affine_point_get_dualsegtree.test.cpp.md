@@ -273,10 +273,12 @@ data:
     \        lazy[(k<<1)|0] = M::f(lazy[(k<<1)|0], lazy[k]);\n        lazy[(k<<1)|1]\
     \ = M::f(lazy[(k<<1)|1], lazy[k]);\n        lazy[k] = M::e();\n    }\n    void\
     \ thrust(int k){ for (int i = height; i; --i) eval(k>>i); }\n    void update(int\
-    \ a, int b, const T &x){\n        if(a == b) return;\n        thrust(a += sz);\
-    \ thrust(b += sz-1);\n        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1)\
-    \ {\n            if(l&1) lazy[l] = M::f(lazy[l], x), l++;\n            if(r&1)\
-    \ --r, lazy[r] = M::f(lazy[r], x);\n        }\n    }\n\n    T operator[](int k){\n\
+    \ a, int b, const T &x){\n        if(a == b) return;\n        a += sz; b += sz;\n\
+    \        int ha = __builtin_ctz(a), hb = __builtin_ctz(b);\n        for(int i\
+    \ = height; i > ha; --i) eval(a >> i);\n        for(int i = height; i > hb; --i)\
+    \ eval((b-1) >> i);\n        for (int l = a, r = b; l < r; l >>=1, r >>= 1) {\n\
+    \            if(l&1) lazy[l] = M::f(lazy[l], x), l++;\n            if(r&1) --r,\
+    \ lazy[r] = M::f(lazy[r], x);\n        }\n    }\n\n    T operator[](int k){\n\
     \        thrust(k += sz);\n        return lazy[k];\n    }\n};\n/*\nstruct Monoid{\n\
     \    using T = ll;\n    static T f(T a, T b) { return a+b; }\n    static T e()\
     \ { return 0; }\n};\n*/\n\n/**\n * @brief \u53CC\u5BFE\u30BB\u30B0\u30E1\u30F3\
@@ -316,7 +318,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_affine_point_get_dualsegtree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-18 00:33:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_affine_point_get_dualsegtree.test.cpp

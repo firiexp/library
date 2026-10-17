@@ -232,38 +232,58 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"flow/costscalingdinic.cpp\"\
-    \ntemplate<class T, bool directed>\nclass CostScalingDinic {\n    void bfs(int\
-    \ s, T x){\n        fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n\
-    \        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n  \
-    \          int v = Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n \
-    \               if(e.cap >= x && level[e.to] < 0){\n                    level[e.to]\
-    \ = level[v] + 1;\n                    Q.emplace(e.to);\n                }\n \
-    \           }\n        }\n    }\n\n    T dfs(int v, int t, T x, T f){\n      \
-    \  if(v == t) return f;\n        T res = 0;\n        for(int &i = iter[v]; i <\
-    \ G[v].size(); i++){\n            edge &e = G[v][i];\n            if(e.cap >=\
-    \ x && level[v] < level[e.to]){\n                T d = dfs(e.to, t, x, min(f-res,\
-    \  e.cap));\n                if(d == 0) continue;\n                e.cap -= d;\n\
-    \                G[e.to][e.rev].cap += d;\n                res += d;\n       \
-    \         if(f - res < x) break;\n            }\n        }\n        return res;\n\
-    \    }\npublic:\n    struct edge {\n        int to{}; T cap; int rev{};\n    \
-    \    edge() = default;\n        edge(int to, T cap, int rev) : to(to), cap(cap),\
-    \ rev(rev) {}\n    };\n\n    vector<vector<edge>> G;\n    vector<int> level, iter;\n\
-    \    CostScalingDinic() = default;\n    explicit CostScalingDinic(int n) : G(n),\
-    \ level(n), iter(n) {}\n\n    void add_edge(int from, int to, T cap){\n      \
-    \  if(!cap) return;\n        int from_id = G[from].size(), to_id = G[to].size();\n\
-    \        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
-    \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n    }\n\n   \
-    \ T flow(int s, int t, T lim = INF<T>){\n        T ret = 0;\n        T cap = 1;\
-    \ while(cap <= lim / 2) cap <<= 1;\n        while(cap && ret < lim) {\n      \
-    \      bfs(s, cap);\n            if(level[t] < 0){\n                cap >>= 1;\n\
-    \                continue;\n            }\n            fill(iter.begin(),iter.end(),\
-    \ 0);\n            ret += dfs(s, t, cap, lim - ret);\n        }\n        return\
-    \ ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\u30B9\u30B1\u30FC\u30EA\u30F3\
-    \u30B0Dinic(Capacity Scaling Dinic)\n */\n#line 20 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    CostScalingDinic<int, true> mf(n);\n    for (int i = 0; i < m; ++i)\
-    \ {\n        int u, v, c;\n        sc.read(u, v, c);\n        mf.add_edge(u, v,\
-    \ c);\n    }\n    pr.println(mf.flow(0, n - 1));\n    return 0;\n}\n"
+    \ntemplate<class T, bool directed>\nclass CostScalingDinic {\n    static_assert(directed\
+    \ || numeric_limits<T>::is_signed,\n                  \"undirected flow requires\
+    \ a signed capacity type\");\n    struct input_edge {\n        int from, index;\n\
+    \        T capacity;\n    };\n    vector<input_edge> positions;\n\n    void bfs(int\
+    \ s, int t, T x){\n        fill(level.begin(),level.end(), -1);\n        queue<int>\
+    \ Q;\n        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n\
+    \            int v = Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n\
+    \                if(e.cap >= x && level[e.to] < 0){\n                    level[e.to]\
+    \ = level[v] + 1;\n                    if(e.to == t) return;\n               \
+    \     Q.emplace(e.to);\n                }\n            }\n        }\n    }\n\n\
+    \    T dfs(int v, int t, T x, T f){\n        if(v == t) return f;\n        T res\
+    \ = 0;\n        for(int &i = iter[v]; i < G[v].size(); i++){\n            edge\
+    \ &e = G[v][i];\n            if(e.cap >= x && level[v] < level[e.to]){\n     \
+    \           T d = dfs(e.to, t, x, min<T>(f-res, e.cap));\n                if(d\
+    \ == 0) continue;\n                e.cap -= d;\n                G[e.to][e.rev].cap\
+    \ += d;\n                res += d;\n                if(f - res < x) break;\n \
+    \           }\n        }\n        return res;\n    }\npublic:\n    struct Edge\
+    \ {\n        int from, to;\n        T capacity, flow;\n    };\n\n    struct edge\
+    \ {\n        int to{}; T cap; int rev{};\n        edge() = default;\n        edge(int\
+    \ to, T cap, int rev) : to(to), cap(cap), rev(rev) {}\n    };\n\n    vector<vector<edge>>\
+    \ G;\n    vector<int> level, iter;\n    CostScalingDinic() = default;\n    explicit\
+    \ CostScalingDinic(int n) : G(n), level(n), iter(n) {}\n\n    int add_edge(int\
+    \ from, int to, T cap){\n        int from_id = G[from].size(), to_id = G[to].size();\n\
+    \        int id = positions.size();\n        positions.push_back({from, from_id,\
+    \ cap});\n        if(from == to) ++to_id;\n        G[from].emplace_back(to, cap,\
+    \ to_id);\n        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n  \
+    \      return id;\n    }\n\n    Edge get_edge(int id) const {\n        const auto\
+    \ &p = positions[id];\n        const auto &e = G[p.from][p.index];\n        return\
+    \ {p.from, e.to, p.capacity, T(p.capacity - e.cap)};\n    }\n\n    vector<Edge>\
+    \ edges() const {\n        vector<Edge> result;\n        result.reserve(positions.size());\n\
+    \        for(int id = 0; id < int(positions.size()); ++id)\n            result.push_back(get_edge(id));\n\
+    \        return result;\n    }\n\n    vector<char> min_cut(int s) const {\n  \
+    \      vector<char> reachable(G.size(), false);\n        queue<int> q;\n     \
+    \   reachable[s] = true;\n        q.emplace(s);\n        while(!q.empty()) {\n\
+    \            int v = q.front(); q.pop();\n            for(const auto &e : G[v])\
+    \ {\n                if(e.cap <= 0 || reachable[e.to]) continue;\n           \
+    \     reachable[e.to] = true;\n                q.emplace(e.to);\n            }\n\
+    \        }\n        return reachable;\n    }\n\n    T flow(int s, int t, T lim\
+    \ = INF<T>){\n        if(lim == 0) return 0;\n        T upper = 0;\n        for(const\
+    \ auto &adj : G)\n            for(const auto &e : adj) upper = max(upper, e.cap);\n\
+    \        upper = min(upper, lim);\n        if(upper == 0) return 0;\n        T\
+    \ ret = 0;\n        T cap = 1; while(cap <= upper / 2) cap <<= 1;\n        while(cap\
+    \ && ret < lim) {\n            bfs(s, t, cap);\n            if(level[t] < 0){\n\
+    \                cap >>= 1;\n                continue;\n            }\n      \
+    \      fill(iter.begin(),iter.end(), 0);\n            ret += dfs(s, t, cap, lim\
+    \ - ret);\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief \u5BB9\u91CF\
+    \u30B9\u30B1\u30FC\u30EA\u30F3\u30B0Dinic(Capacity Scaling Dinic)\n */\n#line\
+    \ 20 \"test/aoj_grl_6_a_costscalingdinic.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n, m);\n    CostScalingDinic<int,\
+    \ true> mf(n);\n    for (int i = 0; i < m; ++i) {\n        int u, v, c;\n    \
+    \    sc.read(u, v, c);\n        mf.add_edge(u, v, c);\n    }\n    pr.println(mf.flow(0,\
+    \ n - 1));\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A\"\n\n\
     #include <algorithm>\n#include <limits>\n#include <queue>\n#include <vector>\n\
     using namespace std;\n\nusing ll = long long;\ntemplate<class T> constexpr T INF\
@@ -280,7 +300,7 @@ data:
   isVerificationFile: true
   path: test/aoj_grl_6_a_costscalingdinic.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 00:42:19+09:00'
+  timestamp: '2026-10-18 00:20:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_grl_6_a_costscalingdinic.test.cpp

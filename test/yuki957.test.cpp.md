@@ -230,29 +230,47 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"flow/dinic.cpp\"\
-    \ntemplate<class T, bool directed>\nclass Dinic {\n    void bfs(int s){\n    \
-    \    fill(level.begin(),level.end(), -1);\n        queue<int> Q;\n        level[s]\
-    \ = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n            int v =\
-    \ Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n                if(e.cap\
-    \ > 0 && level[e.to] < 0){\n                    level[e.to] = level[v] + 1;\n\
-    \                    Q.emplace(e.to);\n                }\n            }\n    \
-    \    }\n    }\n \n    T dfs(int v, int t, T f){\n        if(v == t) return f;\n\
-    \        for(int &i = iter[v]; i < G[v].size(); i++){\n            edge &e = G[v][i];\n\
-    \            if(e.cap > 0 && level[v] < level[e.to]){\n                T d = dfs(e.to,\
+    \ntemplate<class T, bool directed>\nclass Dinic {\n    static_assert(directed\
+    \ || numeric_limits<T>::is_signed,\n                  \"undirected flow requires\
+    \ a signed capacity type\");\n    struct input_edge {\n        int from, index;\n\
+    \        T capacity;\n    };\n    vector<input_edge> positions;\n\n    void bfs(int\
+    \ s, int t){\n        fill(level.begin(),level.end(), -1);\n        queue<int>\
+    \ Q;\n        level[s] = 0;\n        Q.emplace(s);\n        while(!Q.empty()){\n\
+    \            int v = Q.front(); Q.pop();\n            for (auto &&e : G[v]){\n\
+    \                if(e.cap > 0 && level[e.to] < 0){\n                    level[e.to]\
+    \ = level[v] + 1;\n                    if(e.to == t) return;\n               \
+    \     Q.emplace(e.to);\n                }\n            }\n        }\n    }\n \n\
+    \    T dfs(int v, int t, T f){\n        if(v == t) return f;\n        for(int\
+    \ &i = iter[v]; i < G[v].size(); i++){\n            edge &e = G[v][i];\n     \
+    \       if(e.cap > 0 && level[v] < level[e.to]){\n                T d = dfs(e.to,\
     \ t, min(f,  e.cap));\n                if(d == 0) continue;\n                e.cap\
     \ -= d;\n                G[e.to][e.rev].cap += d;\n                return d;\n\
-    \            }\n        }\n        return 0;\n    }\npublic:\n    struct edge\
+    \            }\n        }\n        return 0;\n    }\npublic:\n    struct Edge\
+    \ {\n        int from, to;\n        T capacity, flow;\n    };\n\n    struct edge\
     \ {\n        int to{}; T cap; int rev{};\n        edge() = default;\n        edge(int\
     \ to, T cap, int rev) : to(to), cap(cap), rev(rev) {}\n    };\n \n    vector<vector<edge>>\
     \ G;\n    vector<int> level, iter;\n    Dinic() = default;\n    explicit Dinic(int\
-    \ n) : G(n), level(n), iter(n) {}\n \n    void add_edge(int from, int to, T cap){\n\
-    \        int from_id = G[from].size(), to_id = G[to].size();\n        if(from\
-    \ == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n        G[to].emplace_back(from,\
-    \ directed ? 0 : cap, from_id);\n    }\n \n \n    T flow(int s, int t, T lim =\
-    \ INF<T>){\n        T ret = 0;\n        while(true) {\n            bfs(s);\n \
-    \           if(level[t] < 0 || lim == 0) break;\n            fill(iter.begin(),iter.end(),\
-    \ 0);\n            while(true){\n                T f = dfs(s, t, lim);\n     \
-    \           if(f == 0) break;\n                ret += f;\n                lim\
+    \ n) : G(n), level(n), iter(n) {}\n \n    int add_edge(int from, int to, T cap){\n\
+    \        int from_id = G[from].size(), to_id = G[to].size();\n        int id =\
+    \ positions.size();\n        positions.push_back({from, from_id, cap});\n    \
+    \    if(from == to) ++to_id;\n        G[from].emplace_back(to, cap, to_id);\n\
+    \        G[to].emplace_back(from, directed ? 0 : cap, from_id);\n        return\
+    \ id;\n    }\n\n    Edge get_edge(int id) const {\n        const auto &p = positions[id];\n\
+    \        const auto &e = G[p.from][p.index];\n        return {p.from, e.to, p.capacity,\
+    \ T(p.capacity - e.cap)};\n    }\n\n    vector<Edge> edges() const {\n       \
+    \ vector<Edge> result;\n        result.reserve(positions.size());\n        for(int\
+    \ id = 0; id < int(positions.size()); ++id)\n            result.push_back(get_edge(id));\n\
+    \        return result;\n    }\n\n    vector<char> min_cut(int s) const {\n  \
+    \      vector<char> reachable(G.size(), false);\n        queue<int> q;\n     \
+    \   reachable[s] = true;\n        q.emplace(s);\n        while(!q.empty()) {\n\
+    \            int v = q.front(); q.pop();\n            for(const auto &e : G[v])\
+    \ {\n                if(e.cap <= 0 || reachable[e.to]) continue;\n           \
+    \     reachable[e.to] = true;\n                q.emplace(e.to);\n            }\n\
+    \        }\n        return reachable;\n    }\n \n \n    T flow(int s, int t, T\
+    \ lim = INF<T>){\n        T ret = 0;\n        while(lim > 0) {\n            bfs(s,\
+    \ t);\n            if(level[t] < 0) break;\n            fill(iter.begin(),iter.end(),\
+    \ 0);\n            while(lim > 0){\n                T f = dfs(s, t, lim);\n  \
+    \              if(f == 0) break;\n                ret += f;\n                lim\
     \ -= f;\n            }\n        }\n        return ret;\n    }\n};\n\n/**\n * @brief\
     \ Dinic\u6CD5(Dinic)\n */\n#line 21 \"test/yuki957.test.cpp\"\n\nint main() {\n\
     \    Scanner in;\n    Printer out;\n    int h, w;\n    in.read(h, w);\n\n    vector<vector<ll>>\
@@ -297,7 +315,7 @@ data:
   isVerificationFile: true
   path: test/yuki957.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-18 00:20:47+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki957.test.cpp
