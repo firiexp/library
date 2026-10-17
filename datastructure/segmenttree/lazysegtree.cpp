@@ -39,21 +39,26 @@ struct LazySegmentTree{
 
     void update(int a, int b, const L &x){
         if(a == b) return;
-        thrust(a += sz); thrust(b += sz-1);
-        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {
+        a += sz; b += sz;
+        int ha = __builtin_ctz(a), hb = __builtin_ctz(b);
+        for(int i = height; i > ha; --i) eval(a >> i);
+        for(int i = height; i > hb; --i) eval((b-1) >> i);
+        for (int l = a, r = b; l < r; l >>=1, r >>= 1) {
             if(l&1) lazy[l] = M::h(lazy[l], x), l++;
             if(r&1) --r, lazy[r] = M::h(lazy[r], x);
         }
-        recalc(a);
-        recalc(b);
+        recalc(a >> ha);
+        recalc((b-1) >> hb);
     }
 
     T query(int a, int b){ // [l, r)
         if(a == b) return M::e();
-        thrust(a += sz);
-        thrust(b += sz-1);
+        a += sz; b += sz;
+        int ha = __builtin_ctz(a), hb = __builtin_ctz(b);
+        for(int i = height; i > ha; --i) eval(a >> i);
+        for(int i = height; i > hb; --i) eval((b-1) >> i);
         T ll = M::e(), rr = M::e();
-        for(int l = a, r = b+1; l < r; l >>=1, r>>=1) {
+        for(int l = a, r = b; l < r; l >>=1, r>>=1) {
             if (l & 1) ll = M::f(ll, reflect(l++));
             if (r & 1) rr = M::f(reflect(--r), rr);
         }

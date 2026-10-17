@@ -17,8 +17,11 @@ struct DualSegmentTree{
     void thrust(int k){ for (int i = height; i; --i) eval(k>>i); }
     void update(int a, int b, const T &x){
         if(a == b) return;
-        thrust(a += sz); thrust(b += sz-1);
-        for (int l = a, r = b+1;l < r; l >>=1, r >>= 1) {
+        a += sz; b += sz;
+        int ha = __builtin_ctz(a), hb = __builtin_ctz(b);
+        for(int i = height; i > ha; --i) eval(a >> i);
+        for(int i = height; i > hb; --i) eval((b-1) >> i);
+        for (int l = a, r = b; l < r; l >>=1, r >>= 1) {
             if(l&1) lazy[l] = M::f(lazy[l], x), l++;
             if(r&1) --r, lazy[r] = M::f(lazy[r], x);
         }

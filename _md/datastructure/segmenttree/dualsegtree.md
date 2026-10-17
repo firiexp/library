@@ -4,7 +4,7 @@ documentation_of: //datastructure/segmenttree/dualsegtree.cpp
 ---
 ## 説明
 区間更新・一点取得を扱う双対セグメント木である。
-演算は結合則を満たせばよく、各操作は $O(log N)$。
+演算は結合則を満たせばよく、各操作は $O(\log N)$。
 
 ## できること
 - `DualSegmentTree<M> seg(n)`
@@ -34,4 +34,5 @@ long long v = seg[p];
 
 ## 実装上の補足
 この実装は `update(l, r, x)` が半開区間である。
+区間更新では境界をまたぐ祖先だけを伝播し、区間内に収まる部分木の作用を保つ。
 `eval` で単位元判定をするため、`T` には `==` が必要である。

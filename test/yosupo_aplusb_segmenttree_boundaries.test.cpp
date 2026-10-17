@@ -35,6 +35,22 @@ struct Concat {
     static T f(const T &a, const T &b) { return a + b; }
 };
 
+struct ConcatMap : Concat {
+    using L = array<int, 3>;
+    static L l() { return {0, 1, 2}; }
+    static T g(T a, L b) {
+        for(char &c : a) c = 'a' + b[c - 'a'];
+        return a;
+    }
+    static L h(L a, L b) { return {b[a[0]], b[a[1]], b[a[2]]}; }
+};
+
+struct CharacterMap {
+    using T = ConcatMap::L;
+    static T e() { return ConcatMap::l(); }
+    static T f(T a, T b) { return ConcatMap::h(a, b); }
+};
+
 void minimal_check() {
     SegmentTree<Sum> plain(1);
     plain.set(0, 1);
@@ -163,11 +179,75 @@ void noncommutative_search_check() {
     }
 }
 
+void deferred_action_check() {
+    mt19937 rng(197);
+    for(int n = 0; n <= 65; ++n) {
+        LazySegmentTree<ConcatMap> lazy(n);
+        DualSegmentTree<CharacterMap> dual(n);
+        string initial(n, 'a');
+        for(int i = 0; i < n; ++i) {
+            initial[i] += rng() % 3;
+            lazy.set(i, initial.substr(i, 1));
+        }
+        lazy.build();
+        string a = initial, b = initial;
+        for(int step = 0; step < 240; ++step) {
+            int l = 0, r = n;
+            if(step % 4 == 1) {
+                int len = 1 << (rng() % 7);
+                l = (rng() % (n / len + 1)) * len;
+                r = min(n, l + len);
+            } else if(step % 4 == 2) {
+                l = rng() % (n + 1); r = rng() % (n + 1);
+                if(l > r) swap(l, r);
+            } else if(step % 4 == 3) {
+                l = rng() % (n + 1); r = min(n, l + 1);
+            }
+            CharacterMap::T op;
+            for(auto &x : op) x = rng() % 3;
+            lazy.update(l, r, op);
+            dual.update(l, r, op);
+            for(int i = l; i < r; ++i) {
+                a[i] = 'a' + op[a[i] - 'a'];
+                b[i] = 'a' + op[b[i] - 'a'];
+            }
+            if(n && step % 9 == 0) {
+                int k = rng() % n;
+                a[k] = 'a' + rng() % 3;
+                lazy.update(k, a.substr(k, 1));
+            }
+            if(step % 8 != 0) continue;
+            assert(lazy.query(0, n) == a);
+            assert(lazy.query(l, r) == a.substr(l, r - l));
+            int limit = rng() % (n + 1);
+            auto cond = [&](const string &s) {
+                return int(s.size()) <= limit && s.find("ab") == string::npos;
+            };
+            for(int end : {0, int(rng() % (n + 1)), n}) {
+                int left = end, right = end;
+                while(left && cond(a.substr(left - 1, end - left + 1))) --left;
+                while(right < n && cond(a.substr(end, right - end + 1))) ++right;
+                assert(lazy.search_left(end, cond) == left);
+                assert(lazy.search_right(end, cond) == right);
+            }
+            if(n) {
+                int k = rng() % n;
+                assert('a' + dual[k][initial[k] - 'a'] == b[k]);
+            }
+        }
+        for(int k = 0; k < n; ++k) {
+            assert(lazy.query(k, k + 1) == a.substr(k, 1));
+            assert('a' + dual[k][initial[k] - 'a'] == b[k]);
+        }
+    }
+}
+
 int main() {
     minimal_check();
     exhaustive_search_check();
     mixed_update_check();
     noncommutative_search_check();
+    deferred_action_check();
     Scanner sc;
     Printer pr;
     int a, b;
