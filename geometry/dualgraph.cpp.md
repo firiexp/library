@@ -1,12 +1,12 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: geometry/geometry.cpp
     title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj0273.test.cpp
     title: test/aoj0273.test.cpp
   - icon: ':heavy_check_mark:'
@@ -15,9 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
     links: []
@@ -178,24 +178,27 @@ data:
     \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
     \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
     \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
-    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
-    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
-    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
-    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
-    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
-    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
-    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
-    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
-    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
-    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 2 \"geometry/dualgraph.cpp\"\
-    \n\nclass DualGraph {\n    struct P {\n        int to, nxt, id, id2, rev;\n  \
-    \      P(int to = 0, int nxt = 0, int id = 0, int rev = 0) : to(to), nxt(nxt),\
-    \ id(id), rev(rev), id2(0) {};\n        bool operator!=(P x){ return to != x.to\
-    \ || nxt != x.nxt || id != x.id || rev != x.rev; }\n    };\npublic:\n    int n,\
-    \ m;\n    Polygon v;\n    vector<vector<P>> G_;\n    vector<vector<int>> G;\n\
-    \    vector<vector<Point>> A;\n    DualGraph(Polygon v) : v(v), n(v.size()), G_(n),\
-    \ m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
+    \   if (r == -1) {\n        r = v.size();\n        sort(v.begin(), v.end());\n\
+    \    }\n    assert(0 <= l && l + 2 <= r && r <= int(v.size()));\n    Polygon scratch(r\
+    \ - l);\n    auto solve = [&](auto &&self, int a, int b) -> geometry_real {\n\
+    \        if (b - a < 2) return numeric_limits<geometry_real>::infinity();\n  \
+    \      int mid = a + (b - a) / 2;\n        geometry_real p = v[mid].x;\n     \
+    \   geometry_real d = min(self(self, a, mid), self(self, mid, b));\n        merge(v.begin()\
+    \ + a, v.begin() + mid, v.begin() + mid, v.begin() + b,\n              scratch.begin(),\
+    \ sorty);\n        copy_n(scratch.begin(), b - a, v.begin() + a);\n        int\
+    \ count = 0;\n        for (int i = a; i < b; ++i) {\n            if (fabs(v[i].x\
+    \ - p) >= d) continue;\n            for (int j = count - 1; j >= 0; --j) {\n \
+    \               if (v[i].y - scratch[j].y >= d) break;\n                d = min(d,\
+    \ abs(v[i] - scratch[j]));\n            }\n            scratch[count++] = v[i];\n\
+    \        }\n        return d;\n    };\n    return solve(solve, l, r);\n}\n\n/**\n\
+    \ * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line\
+    \ 2 \"geometry/dualgraph.cpp\"\n\nclass DualGraph {\n    struct P {\n        int\
+    \ to, nxt, id, id2, rev;\n        P(int to = 0, int nxt = 0, int id = 0, int rev\
+    \ = 0) : to(to), nxt(nxt), id(id), rev(rev), id2(0) {};\n        bool operator!=(P\
+    \ x){ return to != x.to || nxt != x.nxt || id != x.id || rev != x.rev; }\n   \
+    \ };\npublic:\n    int n, m;\n    Polygon v;\n    vector<vector<P>> G_;\n    vector<vector<int>>\
+    \ G;\n    vector<vector<Point>> A;\n    DualGraph(Polygon v) : v(v), n(v.size()),\
+    \ G_(n), m(0) {}\n\n    void add_point(Point P){ v.emplace_back(P); n++; G_.emplace_back();\
     \ }\n    void add_edge(int a, int b){\n        G_[a].emplace_back(b, 0, m, 0);\n\
     \        G_[b].emplace_back(a, 0, m++, 0);\n    }\n\n    void build(){\n     \
     \   vector<int> l(m), r(m);\n        vector<double> angles;\n        for (int\
@@ -266,8 +269,8 @@ data:
   isVerificationFile: false
   path: geometry/dualgraph.cpp
   requiredBy: []
-  timestamp: '2026-10-12 17:49:55+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-10-18 01:36:00+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/yosupo_aplusb_dualgraph.test.cpp

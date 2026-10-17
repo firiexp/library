@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/SCC.cpp
     title: "\u5F37\u9023\u7D50\u6210\u5206\u5206\u89E3(SCC)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

@@ -4,6 +4,9 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: geometry/argsort.cpp
+    title: "\u504F\u89D2\u30BD\u30FC\u30C8(Argument Sort)"
+  - icon: ':heavy_check_mark:'
     path: geometry/closest_pair.cpp
     title: Closest Pair
   - icon: ':heavy_check_mark:'
@@ -16,7 +19,13 @@ data:
     path: geometry/minkowski_sum.cpp
     title: "\u6574\u6570\u51F8\u591A\u89D2\u5F62\u306E\u30DF\u30F3\u30B3\u30D5\u30B9\
       \u30AD\u30FC\u548C"
+  - icon: ':heavy_check_mark:'
+    path: geometry/polygon_integral.cpp
+    title: "\u591A\u89D2\u5F62\u306E\u533A\u9593\u9762\u7A4D\u3068\u91CD\u5FC3"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_argsort.test.cpp
+    title: test/yosupo_aplusb_argsort.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_closest_pair.test.cpp
     title: test/yosupo_aplusb_closest_pair.test.cpp
@@ -30,11 +39,17 @@ data:
     path: test/yosupo_aplusb_minkowski_sum.test.cpp
     title: test/yosupo_aplusb_minkowski_sum.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_polygon_integral.test.cpp
+    title: test/yosupo_aplusb_polygon_integral.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_closest_pair.test.cpp
     title: test/yosupo_closest_pair.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_furthest_pair.test.cpp
     title: test/yosupo_furthest_pair.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_sort_points_by_argument.test.cpp
+    title: test/yosupo_sort_points_by_argument.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_static_convex_hull.test.cpp
     title: test/yosupo_static_convex_hull.test.cpp
@@ -72,18 +87,23 @@ data:
   requiredBy:
   - geometry/minkowski_sum.cpp
   - geometry/closest_pair.cpp
+  - geometry/polygon_integral.cpp
   - geometry/convex_hull.cpp
   - geometry/furthest_pair.cpp
+  - geometry/argsort.cpp
   timestamp: '2026-10-16 00:52:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_static_convex_hull.test.cpp
+  - test/yosupo_sort_points_by_argument.test.cpp
   - test/yosupo_furthest_pair.test.cpp
   - test/yosupo_aplusb_closest_pair.test.cpp
+  - test/yosupo_aplusb_argsort.test.cpp
   - test/yosupo_closest_pair.test.cpp
   - test/yosupo_aplusb_furthest_pair.test.cpp
   - test/yosupo_aplusb_convex_hull.test.cpp
   - test/yosupo_aplusb_minkowski_sum.test.cpp
+  - test/yosupo_aplusb_polygon_integral.test.cpp
 date: 2026-10-16
 documentation_of: geometry/int_point.cpp
 layout: document

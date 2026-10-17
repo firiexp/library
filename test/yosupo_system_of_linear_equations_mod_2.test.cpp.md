@@ -8,7 +8,7 @@ data:
     path: math/solve_linear_system_mod2.cpp
     title: "mod 2\u306E\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F(\u57FA\u5E95\u30FB\
       \u7279\u6B8A\u89E3)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

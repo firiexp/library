@@ -11,7 +11,7 @@ data:
     path: graph/mst_sensitivity.cpp
     title: "\u6700\u5C0F\u5168\u57DF\u6728\u306E\u8FBA\u5225\u5236\u7D04\u30B3\u30B9\
       \u30C8"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/slidingwindow.cpp
     title: "\u30B9\u30E9\u30A4\u30C9\u6700\u5C0F\u5024(\u6700\u5927\u5024)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

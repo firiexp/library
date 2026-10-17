@@ -8,7 +8,7 @@ data:
     path: datastructure/static_rectangle_add_rectangle_sum.cpp
     title: "\u9759\u7684\u306A\u9577\u65B9\u5F62\u52A0\u7B97\u30FB\u9577\u65B9\u5F62\
       \u548C"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'

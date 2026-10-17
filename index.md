@@ -115,7 +115,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/undoableunionfind.cpp
       title: Undoable Union Find
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: datastructure/unionfind.cpp
       title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
     - icon: ':heavy_check_mark:'
@@ -197,7 +197,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: geometry/area_of_union_of_rectangles.cpp
       title: "\u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: geometry/argsort.cpp
       title: "\u504F\u89D2\u30BD\u30FC\u30C8(Argument Sort)"
     - icon: ':heavy_check_mark:'
@@ -206,13 +206,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: geometry/convex_hull.cpp
       title: "\u51F8\u5305(Convex Hull)"
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: geometry/dualgraph.cpp
       title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
     - icon: ':heavy_check_mark:'
       path: geometry/furthest_pair.cpp
       title: "\u6700\u9060\u70B9\u5BFE"
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: geometry/geometry.cpp
       title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     - icon: ':warning:'
@@ -228,6 +228,9 @@ data:
       path: geometry/minkowski_sum.cpp
       title: "\u6574\u6570\u51F8\u591A\u89D2\u5F62\u306E\u30DF\u30F3\u30B3\u30D5\u30B9\
         \u30AD\u30FC\u548C"
+    - icon: ':heavy_check_mark:'
+      path: geometry/polygon_integral.cpp
+      title: "\u591A\u89D2\u5F62\u306E\u533A\u9593\u9762\u7A4D\u3068\u91CD\u5FC3"
   - name: graph
     pages:
     - icon: ':heavy_check_mark:'
@@ -701,7 +704,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: util/fastio.cpp
       title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     - icon: ':heavy_check_mark:'
@@ -753,7 +756,7 @@ data:
   verificationCategories:
   - name: test
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aoj0273.test.cpp
       title: test/aoj0273.test.cpp
     - icon: ':heavy_check_mark:'
@@ -774,7 +777,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0335.test.cpp
       title: test/aoj0335.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/aoj0342.test.cpp
       title: test/aoj0342.test.cpp
     - icon: ':heavy_check_mark:'
@@ -853,6 +856,9 @@ data:
       path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
       title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj_cgl_5_a.test.cpp
+      title: test/aoj_cgl_5_a.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj_dpl_1_g_bounded_knapsack.test.cpp
       title: test/aoj_dpl_1_g_bounded_knapsack.test.cpp
     - icon: ':heavy_check_mark:'
@@ -925,6 +931,9 @@ data:
       path: test/yosupo_aplusb_and_or_convolution.test.cpp
       title: test/yosupo_aplusb_and_or_convolution.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_argsort.test.cpp
+      title: test/yosupo_aplusb_argsort.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_avoid_patterns.test.cpp
       title: test/yosupo_aplusb_avoid_patterns.test.cpp
     - icon: ':heavy_check_mark:'
@@ -960,6 +969,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_closest_pair.test.cpp
       title: test/yosupo_aplusb_closest_pair.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_closest_pair_real.test.cpp
+      title: test/yosupo_aplusb_closest_pair_real.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_comb_table.test.cpp
       title: test/yosupo_aplusb_comb_table.test.cpp
@@ -1218,6 +1230,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_persistent_unionfind.test.cpp
       title: test/yosupo_aplusb_persistent_unionfind.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_polygon_integral.test.cpp
+      title: test/yosupo_aplusb_polygon_integral.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
       title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
@@ -1731,6 +1746,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_shortest_path_radix_heap.test.cpp
       title: test/yosupo_shortest_path_radix_heap.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_sort_points_by_argument.test.cpp
+      title: test/yosupo_sort_points_by_argument.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_sqrt_mod.test.cpp
       title: test/yosupo_sqrt_mod.test.cpp

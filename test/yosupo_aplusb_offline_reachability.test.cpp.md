@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/offline_reachability.cpp
     title: "\u6709\u5411\u30B0\u30E9\u30D5\u306E\u4E00\u62EC\u5230\u9054\u5224\u5B9A"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

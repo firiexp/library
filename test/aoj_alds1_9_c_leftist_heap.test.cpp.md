@@ -5,7 +5,7 @@ data:
     path: datastructure/leftist_heap.cpp
     title: "\u4F75\u5408\u30FB\u4E00\u62EC\u52A0\u7B97\u4ED8\u304D\u30D2\u30FC\u30D7\
       (Leftist Heap)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

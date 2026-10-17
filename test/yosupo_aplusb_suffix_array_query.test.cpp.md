@@ -14,7 +14,7 @@ data:
     path: string/suffix_array_query.cpp
     title: "\u6700\u9577\u5171\u901A\u63A5\u982D\u8F9E\u30FB\u90E8\u5206\u6587\u5B57\
       \u5217\u306E\u8F9E\u66F8\u9806\u6BD4\u8F03"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

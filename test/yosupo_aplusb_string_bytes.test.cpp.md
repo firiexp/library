@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: string/rolling_hash_ull.cpp
     title: Rolling Hash(mod 2^61-1)
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'

@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: geometry/geometry.cpp
     title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -384,20 +384,24 @@ data:
     \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
     \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
     \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
-    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
-    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
-    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
-    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
-    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
-    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
-    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
-    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
-    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
-    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 9 \"test/aoj_cgl_4_b.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
-    \    Polygon polygon(n);\n    for (auto &p : polygon) in.read(p.x, p.y);\n   \
-    \ out.println_fixed(diameter(polygon), 12);\n}\n"
+    \   if (r == -1) {\n        r = v.size();\n        sort(v.begin(), v.end());\n\
+    \    }\n    assert(0 <= l && l + 2 <= r && r <= int(v.size()));\n    Polygon scratch(r\
+    \ - l);\n    auto solve = [&](auto &&self, int a, int b) -> geometry_real {\n\
+    \        if (b - a < 2) return numeric_limits<geometry_real>::infinity();\n  \
+    \      int mid = a + (b - a) / 2;\n        geometry_real p = v[mid].x;\n     \
+    \   geometry_real d = min(self(self, a, mid), self(self, mid, b));\n        merge(v.begin()\
+    \ + a, v.begin() + mid, v.begin() + mid, v.begin() + b,\n              scratch.begin(),\
+    \ sorty);\n        copy_n(scratch.begin(), b - a, v.begin() + a);\n        int\
+    \ count = 0;\n        for (int i = a; i < b; ++i) {\n            if (fabs(v[i].x\
+    \ - p) >= d) continue;\n            for (int j = count - 1; j >= 0; --j) {\n \
+    \               if (v[i].y - scratch[j].y >= d) break;\n                d = min(d,\
+    \ abs(v[i] - scratch[j]));\n            }\n            scratch[count++] = v[i];\n\
+    \        }\n        return d;\n    };\n    return solve(solve, l, r);\n}\n\n/**\n\
+    \ * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line\
+    \ 9 \"test/aoj_cgl_4_b.test.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
+    \ out;\n    int n;\n    in.read(n);\n    Polygon polygon(n);\n    for (auto &p\
+    \ : polygon) in.read(p.x, p.y);\n    out.println_fixed(diameter(polygon), 12);\n\
+    }\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B\"\n#define\
     \ ERROR \"1e-8\"\n\n#include <bits/stdc++.h>\nusing namespace std;\n\n#include\
     \ \"../util/fastio.cpp\"\n#include \"../geometry/geometry.cpp\"\n\nint main()\
@@ -410,7 +414,7 @@ data:
   isVerificationFile: true
   path: test/aoj_cgl_4_b.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-18 01:36:00+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_cgl_4_b.test.cpp

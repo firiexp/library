@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/k_shortest_walk.cpp
     title: "K\u756A\u76EE\u306E\u6700\u77ED\u30A6\u30A9\u30FC\u30AF"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

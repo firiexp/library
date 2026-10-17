@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: flow/dinic.cpp
     title: "Dinic\u6CD5(Dinic)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

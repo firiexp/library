@@ -4,13 +4,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: geometry/area_of_union_of_rectangles.cpp
     title: "\u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: geometry/geometry.cpp
     title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
   - icon: ':heavy_check_mark:'
     path: graph/manhattanmst.cpp
     title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -389,87 +389,91 @@ data:
     \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
     \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
     \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
-    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
-    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
-    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
-    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
-    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
-    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
-    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
-    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
-    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
-    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line 1 \"geometry/area_of_union_of_rectangles.cpp\"\
-    \nusing namespace std;\n\ntemplate<class Coord = long long, class Area = long\
-    \ long>\nstruct AreaOfUnionOfRectangles {\n    struct Rectangle {\n        Coord\
-    \ l, d, r, u;\n    };\n\n    struct Event {\n        Coord x;\n        int yl,\
-    \ yr;\n        int delta;\n\n        bool operator<(const Event &other) const\
-    \ {\n            return x < other.x;\n        }\n    };\n\n    struct SegmentTree\
-    \ {\n        int n, sz;\n        vector<int> cnt;\n        vector<Area> len;\n\
-    \        vector<Area> total;\n\n        explicit SegmentTree(const vector<Coord>\
-    \ &ys) : n((int)ys.size() - 1), sz(1) {\n            while (sz < n) sz <<= 1;\n\
-    \            cnt.assign(sz << 1, 0);\n            len.assign(sz << 1, 0);\n  \
-    \          total.assign(sz << 1, 0);\n            for (int i = 0; i < n; ++i)\
-    \ {\n                total[sz + i] = Area(ys[i + 1]) - Area(ys[i]);\n        \
-    \    }\n            for (int k = sz - 1; k > 0; --k) total[k] = total[k << 1]\
-    \ + total[k << 1 | 1];\n        }\n\n        void apply(int k, int x) {\n    \
-    \        cnt[k] += x;\n            pull(k);\n        }\n\n        void pull(int\
-    \ k) {\n            if (cnt[k] > 0) {\n                len[k] = total[k];\n  \
-    \          } else if (k < sz) {\n                len[k] = len[k << 1] + len[k\
-    \ << 1 | 1];\n            } else {\n                len[k] = 0;\n            }\n\
-    \        }\n\n        void update(int a, int b, int x) {\n            if (a >=\
-    \ b) return;\n            a += sz;\n            b += sz;\n            int left\
-    \ = a;\n            int right = b - 1;\n            for (; a < b; a >>= 1, b >>=\
-    \ 1) {\n                if (a & 1) apply(a++, x);\n                if (b & 1)\
-    \ apply(--b, x);\n            }\n            while (left >>= 1) pull(left);\n\
-    \            while (right >>= 1) pull(right);\n        }\n\n        Area covered_length()\
-    \ const {\n            return len[1];\n        }\n    };\n\n    vector<Rectangle>\
-    \ rects;\n    vector<Coord> ys;\n\n    void add_rectangle(Coord l, Coord d, Coord\
-    \ r, Coord u) {\n        if (l >= r || d >= u) return;\n        rects.push_back({l,\
-    \ d, r, u});\n        ys.push_back(d);\n        ys.push_back(u);\n    }\n\n  \
-    \  Area solve() const {\n        if (rects.empty()) return 0;\n\n        vector<Coord>\
-    \ ord_y = ys;\n        sort(ord_y.begin(), ord_y.end());\n        ord_y.erase(unique(ord_y.begin(),\
-    \ ord_y.end()), ord_y.end());\n        if ((int)ord_y.size() <= 1) return 0;\n\
-    \n        vector<Event> events;\n        events.reserve(rects.size() * 2);\n \
-    \       for (auto &&rect : rects) {\n            int d = (int)(lower_bound(ord_y.begin(),\
-    \ ord_y.end(), rect.d) - ord_y.begin());\n            int u = (int)(lower_bound(ord_y.begin(),\
-    \ ord_y.end(), rect.u) - ord_y.begin());\n            events.push_back({rect.l,\
-    \ d, u, 1});\n            events.push_back({rect.r, d, u, -1});\n        }\n \
-    \       sort(events.begin(), events.end());\n\n        SegmentTree seg(ord_y);\n\
-    \        Area ans = 0;\n        Coord prev_x = events[0].x;\n        int i = 0;\n\
-    \        while (i < (int)events.size()) {\n            Coord x = events[i].x;\n\
-    \            ans += seg.covered_length() * (Area(x) - Area(prev_x));\n       \
-    \     while (i < (int)events.size() && events[i].x == x) {\n                seg.update(events[i].yl,\
-    \ events[i].yr, events[i].delta);\n                ++i;\n            }\n     \
-    \       prev_x = x;\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief\
-    \ \u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)\n\
-    \ */\n#line 1 \"graph/manhattanmst.cpp\"\ntemplate<typename T>\nvector<pair<int,\
-    \ int>> manhattanMST(vector<T> xs, vector<T> ys) {\n    using P = pair<int, int>;\n\
-    \    vector<P> es;\n    vector<int> ord(xs.size());\n    for (int s = 0; s < 4;\
-    \ s++) {\n        iota(ord.begin(), ord.end(), 0);\n        auto cmp = [&](int\
-    \ i, int j) -> bool {\n            if (xs[i]+ys[i] != xs[j]+ys[j]) return xs[i]+ys[i]\
-    \ < xs[j]+ys[j];\n            return (s>>1) ? (i < j) : (i > j);\n        };\n\
-    \        sort(ord.begin(), ord.end(), cmp);\n        map<pair<T, int>, int> idx;\n\
-    \        for (auto &&i : ord) {\n            pair<T, int> p = {-ys[i], (s == 3)?i:-i};\n\
-    \            for (auto it = idx.lower_bound(p); it != idx.end(); it = idx.erase(it))\
-    \ {\n                if (xs[i] - xs[it->second] < ys[i] - ys[it->second]) break;\n\
-    \                es.emplace_back(i, it->second);\n            }\n            idx[p]\
-    \ = i;\n        }\n        swap(xs, ys);\n        if(s&1) for(auto &&i : xs) i\
-    \ = -i;\n    }\n    return es;\n}\n\n/**\n * @brief \u30DE\u30F3\u30CF\u30C3\u30BF\
-    \u30F3MST(Manhattan MST)\n */\n#line 9 \"test/yosupo_aplusb_geometry_boundaries.test.cpp\"\
-    \n\nvoid hull_check() {\n    auto check = [](Polygon input, const Polygon &expected)\
-    \ {\n        auto actual = convex_hull(input);\n        assert(actual.size() ==\
-    \ expected.size());\n        for (int i = 0; i < int(actual.size()); ++i)\n  \
-    \          assert(actual[i].x == expected[i].x && actual[i].y == expected[i].y);\n\
-    \    };\n    check({}, {});\n    check({Point(1, 2)}, {Point(1, 2)});\n    check({Point(2,\
-    \ 3), Point(-1, 0)}, {Point(-1, 0), Point(2, 3)});\n    Polygon triangle{Point(0,\
-    \ 0), Point(2, 0), Point(0, 2)};\n    check({triangle[2], triangle[0], triangle[1]},\
-    \ triangle);\n    Polygon boundary{Point(0, 0), Point(1, 0), Point(2, 0), Point(2,\
-    \ 1),\n                     Point(2, 2), Point(1, 2), Point(0, 2), Point(0, 1)};\n\
-    \    Polygon input = boundary;\n    input.push_back(Point(1, 1));\n    mt19937\
-    \ rng(47);\n    for (int i = 0; i < 20; ++i) {\n        shuffle(input.begin(),\
-    \ input.end(), rng);\n        check(input, boundary);\n    }\n}\n\nvoid diameter_check()\
-    \ {\n    mt19937 rng(111);\n    auto check = [&](Polygon points) {\n        double\
+    \   if (r == -1) {\n        r = v.size();\n        sort(v.begin(), v.end());\n\
+    \    }\n    assert(0 <= l && l + 2 <= r && r <= int(v.size()));\n    Polygon scratch(r\
+    \ - l);\n    auto solve = [&](auto &&self, int a, int b) -> geometry_real {\n\
+    \        if (b - a < 2) return numeric_limits<geometry_real>::infinity();\n  \
+    \      int mid = a + (b - a) / 2;\n        geometry_real p = v[mid].x;\n     \
+    \   geometry_real d = min(self(self, a, mid), self(self, mid, b));\n        merge(v.begin()\
+    \ + a, v.begin() + mid, v.begin() + mid, v.begin() + b,\n              scratch.begin(),\
+    \ sorty);\n        copy_n(scratch.begin(), b - a, v.begin() + a);\n        int\
+    \ count = 0;\n        for (int i = a; i < b; ++i) {\n            if (fabs(v[i].x\
+    \ - p) >= d) continue;\n            for (int j = count - 1; j >= 0; --j) {\n \
+    \               if (v[i].y - scratch[j].y >= d) break;\n                d = min(d,\
+    \ abs(v[i] - scratch[j]));\n            }\n            scratch[count++] = v[i];\n\
+    \        }\n        return d;\n    };\n    return solve(solve, l, r);\n}\n\n/**\n\
+    \ * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n#line\
+    \ 1 \"geometry/area_of_union_of_rectangles.cpp\"\nusing namespace std;\n\ntemplate<class\
+    \ Coord = long long, class Area = long long>\nstruct AreaOfUnionOfRectangles {\n\
+    \    struct Rectangle {\n        Coord l, d, r, u;\n    };\n\n    struct Event\
+    \ {\n        Coord x;\n        int yl, yr;\n        int delta;\n\n        bool\
+    \ operator<(const Event &other) const {\n            return x < other.x;\n   \
+    \     }\n    };\n\n    struct SegmentTree {\n        int n, sz;\n        vector<int>\
+    \ cnt;\n        vector<Area> len;\n        vector<Area> total;\n\n        explicit\
+    \ SegmentTree(const vector<Coord> &ys) : n((int)ys.size() - 1), sz(1) {\n    \
+    \        while (sz < n) sz <<= 1;\n            cnt.assign(sz << 1, 0);\n     \
+    \       len.assign(sz << 1, 0);\n            total.assign(sz << 1, 0);\n     \
+    \       for (int i = 0; i < n; ++i) {\n                total[sz + i] = Area(ys[i\
+    \ + 1]) - Area(ys[i]);\n            }\n            for (int k = sz - 1; k > 0;\
+    \ --k) total[k] = total[k << 1] + total[k << 1 | 1];\n        }\n\n        void\
+    \ apply(int k, int x) {\n            cnt[k] += x;\n            pull(k);\n    \
+    \    }\n\n        void pull(int k) {\n            if (cnt[k] > 0) {\n        \
+    \        len[k] = total[k];\n            } else if (k < sz) {\n              \
+    \  len[k] = len[k << 1] + len[k << 1 | 1];\n            } else {\n           \
+    \     len[k] = 0;\n            }\n        }\n\n        void update(int a, int\
+    \ b, int x) {\n            if (a >= b) return;\n            a += sz;\n       \
+    \     b += sz;\n            int left = a;\n            int right = b - 1;\n  \
+    \          for (; a < b; a >>= 1, b >>= 1) {\n                if (a & 1) apply(a++,\
+    \ x);\n                if (b & 1) apply(--b, x);\n            }\n            while\
+    \ (left >>= 1) pull(left);\n            while (right >>= 1) pull(right);\n   \
+    \     }\n\n        Area covered_length() const {\n            return len[1];\n\
+    \        }\n    };\n\n    vector<Rectangle> rects;\n    vector<Coord> ys;\n\n\
+    \    void add_rectangle(Coord l, Coord d, Coord r, Coord u) {\n        if (l >=\
+    \ r || d >= u) return;\n        rects.push_back({l, d, r, u});\n        ys.push_back(d);\n\
+    \        ys.push_back(u);\n    }\n\n    Area solve() const {\n        if (rects.empty())\
+    \ return 0;\n\n        vector<Coord> ord_y = ys;\n        sort(ord_y.begin(),\
+    \ ord_y.end());\n        ord_y.erase(unique(ord_y.begin(), ord_y.end()), ord_y.end());\n\
+    \        if ((int)ord_y.size() <= 1) return 0;\n\n        vector<Event> events;\n\
+    \        events.reserve(rects.size() * 2);\n        for (auto &&rect : rects)\
+    \ {\n            int d = (int)(lower_bound(ord_y.begin(), ord_y.end(), rect.d)\
+    \ - ord_y.begin());\n            int u = (int)(lower_bound(ord_y.begin(), ord_y.end(),\
+    \ rect.u) - ord_y.begin());\n            events.push_back({rect.l, d, u, 1});\n\
+    \            events.push_back({rect.r, d, u, -1});\n        }\n        sort(events.begin(),\
+    \ events.end());\n\n        SegmentTree seg(ord_y);\n        Area ans = 0;\n \
+    \       Coord prev_x = events[0].x;\n        int i = 0;\n        while (i < (int)events.size())\
+    \ {\n            Coord x = events[i].x;\n            ans += seg.covered_length()\
+    \ * (Area(x) - Area(prev_x));\n            while (i < (int)events.size() && events[i].x\
+    \ == x) {\n                seg.update(events[i].yl, events[i].yr, events[i].delta);\n\
+    \                ++i;\n            }\n            prev_x = x;\n        }\n   \
+    \     return ans;\n    }\n};\n\n/**\n * @brief \u9577\u65B9\u5F62\u548C\u96C6\u5408\
+    \u9762\u7A4D(Area of Union of Rectangles)\n */\n#line 1 \"graph/manhattanmst.cpp\"\
+    \ntemplate<typename T>\nvector<pair<int, int>> manhattanMST(vector<T> xs, vector<T>\
+    \ ys) {\n    using P = pair<int, int>;\n    vector<P> es;\n    vector<int> ord(xs.size());\n\
+    \    for (int s = 0; s < 4; s++) {\n        iota(ord.begin(), ord.end(), 0);\n\
+    \        auto cmp = [&](int i, int j) -> bool {\n            if (xs[i]+ys[i] !=\
+    \ xs[j]+ys[j]) return xs[i]+ys[i] < xs[j]+ys[j];\n            return (s>>1) ?\
+    \ (i < j) : (i > j);\n        };\n        sort(ord.begin(), ord.end(), cmp);\n\
+    \        map<pair<T, int>, int> idx;\n        for (auto &&i : ord) {\n       \
+    \     pair<T, int> p = {-ys[i], (s == 3)?i:-i};\n            for (auto it = idx.lower_bound(p);\
+    \ it != idx.end(); it = idx.erase(it)) {\n                if (xs[i] - xs[it->second]\
+    \ < ys[i] - ys[it->second]) break;\n                es.emplace_back(i, it->second);\n\
+    \            }\n            idx[p] = i;\n        }\n        swap(xs, ys);\n  \
+    \      if(s&1) for(auto &&i : xs) i = -i;\n    }\n    return es;\n}\n\n/**\n *\
+    \ @brief \u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)\n */\n#line 9\
+    \ \"test/yosupo_aplusb_geometry_boundaries.test.cpp\"\n\nvoid hull_check() {\n\
+    \    auto check = [](Polygon input, const Polygon &expected) {\n        auto actual\
+    \ = convex_hull(input);\n        assert(actual.size() == expected.size());\n \
+    \       for (int i = 0; i < int(actual.size()); ++i)\n            assert(actual[i].x\
+    \ == expected[i].x && actual[i].y == expected[i].y);\n    };\n    check({}, {});\n\
+    \    check({Point(1, 2)}, {Point(1, 2)});\n    check({Point(2, 3), Point(-1, 0)},\
+    \ {Point(-1, 0), Point(2, 3)});\n    Polygon triangle{Point(0, 0), Point(2, 0),\
+    \ Point(0, 2)};\n    check({triangle[2], triangle[0], triangle[1]}, triangle);\n\
+    \    Polygon boundary{Point(0, 0), Point(1, 0), Point(2, 0), Point(2, 1),\n  \
+    \                   Point(2, 2), Point(1, 2), Point(0, 2), Point(0, 1)};\n   \
+    \ Polygon input = boundary;\n    input.push_back(Point(1, 1));\n    mt19937 rng(47);\n\
+    \    for (int i = 0; i < 20; ++i) {\n        shuffle(input.begin(), input.end(),\
+    \ rng);\n        check(input, boundary);\n    }\n}\n\nvoid diameter_check() {\n\
+    \    mt19937 rng(111);\n    auto check = [&](Polygon points) {\n        double\
     \ expected = 0;\n        for (auto a : points) for (auto b : points) expected\
     \ = max(expected, abs(a - b));\n        for (int repeat = 0; repeat < 3; ++repeat)\
     \ {\n            shuffle(points.begin(), points.end(), rng);\n            auto\
@@ -680,7 +684,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_geometry_boundaries.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:31:40+09:00'
+  timestamp: '2026-10-18 01:36:00+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_geometry_boundaries.test.cpp

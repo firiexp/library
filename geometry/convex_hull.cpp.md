@@ -30,6 +30,9 @@ data:
     path: test/yosupo_aplusb_minkowski_sum.test.cpp
     title: test/yosupo_aplusb_minkowski_sum.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_polygon_integral.test.cpp
+    title: test/yosupo_aplusb_polygon_integral.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_furthest_pair.test.cpp
     title: test/yosupo_furthest_pair.test.cpp
   - icon: ':heavy_check_mark:'
@@ -95,6 +98,7 @@ data:
   - test/yosupo_aplusb_convex_hull.test.cpp
   - test/yosupo_aplusb_minkowski_sum.test.cpp
   - test/yosupo_aplusb_minkowski_sum.test.cpp
+  - test/yosupo_aplusb_polygon_integral.test.cpp
 date: 2026-03-08
 documentation_of: geometry/convex_hull.cpp
 layout: document

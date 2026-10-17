@@ -2,17 +2,17 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: geometry/dualgraph.cpp
     title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
   - icon: ':heavy_check_mark:'
     path: geometry/half_plane_intersection.cpp
     title: "\u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)"
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj0273.test.cpp
     title: test/aoj0273.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/aoj0342.test.cpp
     title: test/aoj0342.test.cpp
   - icon: ':heavy_check_mark:'
@@ -21,6 +21,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
     title: test/aoj_cgl_4_c_half_plane_intersection.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj_cgl_5_a.test.cpp
+    title: test/aoj_cgl_5_a.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_closest_pair_real.test.cpp
+    title: test/yosupo_aplusb_closest_pair_real.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dualgraph.test.cpp
     title: test/yosupo_aplusb_dualgraph.test.cpp
@@ -36,9 +42,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     links: []
@@ -199,17 +205,20 @@ data:
     \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
     \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
     \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
-    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
-    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
-    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
-    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
-    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
-    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
-    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
-    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
-    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
-    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n"
+    \   if (r == -1) {\n        r = v.size();\n        sort(v.begin(), v.end());\n\
+    \    }\n    assert(0 <= l && l + 2 <= r && r <= int(v.size()));\n    Polygon scratch(r\
+    \ - l);\n    auto solve = [&](auto &&self, int a, int b) -> geometry_real {\n\
+    \        if (b - a < 2) return numeric_limits<geometry_real>::infinity();\n  \
+    \      int mid = a + (b - a) / 2;\n        geometry_real p = v[mid].x;\n     \
+    \   geometry_real d = min(self(self, a, mid), self(self, mid, b));\n        merge(v.begin()\
+    \ + a, v.begin() + mid, v.begin() + mid, v.begin() + b,\n              scratch.begin(),\
+    \ sorty);\n        copy_n(scratch.begin(), b - a, v.begin() + a);\n        int\
+    \ count = 0;\n        for (int i = a; i < b; ++i) {\n            if (fabs(v[i].x\
+    \ - p) >= d) continue;\n            for (int j = count - 1; j >= 0; --j) {\n \
+    \               if (v[i].y - scratch[j].y >= d) break;\n                d = min(d,\
+    \ abs(v[i] - scratch[j]));\n            }\n            scratch[count++] = v[i];\n\
+    \        }\n        return d;\n    };\n    return solve(solve, l, r);\n}\n\n/**\n\
+    \ * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n\n"
   code: "#ifndef FIRIEXP_LIBRARY_GEOMETRY_GEOMETRY_CPP\n#define FIRIEXP_LIBRARY_GEOMETRY_GEOMETRY_CPP\n\
     \n// \u51F8\u5305\u306F\u540C\u3058\u9802\u70B9\u304C\u542B\u307E\u308C\u3066\u3044\
     \u308B\u3068\u30D0\u30B0\u308B\nusing geometry_real = double;\nusing real = geometry_real;\n\
@@ -367,26 +376,31 @@ data:
     \     q.push_back(a);\n        if (ccw(l.a, l.b, a) * ccw(l.a, l.b, b) < 0) {\n\
     \            q.push_back(crossPoint(Line(a, b), l));\n        }\n    }\n    return\
     \ q;\n}\n\ngeometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {\n \
-    \   if (!(~r)) {\n        r = v.size();\n        sort(v.begin(), v.end());\n \
-    \   }\n    if (r - l < 2) {\n        return abs(v.front() - v.back());\n    }\n\
-    \    int mid = (l + r) / 2;\n    geometry_real p = v[mid].x;\n    geometry_real\
-    \ d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));\n    inplace_merge(v.begin()\
-    \ + l, v.begin() + mid, v.begin() + r, sorty);\n    Polygon u;\n    for (int i\
-    \ = l; i < r; ++i) {\n        if (fabs(v[i].x - p) >= d)\n            continue;\n\
-    \        for (int j = 0; j < u.size(); ++j) {\n            geometry_real dy =\
-    \ v[i].y - next(u.rbegin(), j)->y;\n            if (dy >= d)\n               \
-    \ break;\n            d = min(d, abs(v[i] - *next(u.rbegin(), j)));\n        }\n\
-    \        u.emplace_back(v[i]);\n    }\n    return d;\n}\n\n/**\n * @brief \u5E7E\
-    \u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n#endif\n"
+    \   if (r == -1) {\n        r = v.size();\n        sort(v.begin(), v.end());\n\
+    \    }\n    assert(0 <= l && l + 2 <= r && r <= int(v.size()));\n    Polygon scratch(r\
+    \ - l);\n    auto solve = [&](auto &&self, int a, int b) -> geometry_real {\n\
+    \        if (b - a < 2) return numeric_limits<geometry_real>::infinity();\n  \
+    \      int mid = a + (b - a) / 2;\n        geometry_real p = v[mid].x;\n     \
+    \   geometry_real d = min(self(self, a, mid), self(self, mid, b));\n        merge(v.begin()\
+    \ + a, v.begin() + mid, v.begin() + mid, v.begin() + b,\n              scratch.begin(),\
+    \ sorty);\n        copy_n(scratch.begin(), b - a, v.begin() + a);\n        int\
+    \ count = 0;\n        for (int i = a; i < b; ++i) {\n            if (fabs(v[i].x\
+    \ - p) >= d) continue;\n            for (int j = count - 1; j >= 0; --j) {\n \
+    \               if (v[i].y - scratch[j].y >= d) break;\n                d = min(d,\
+    \ abs(v[i] - scratch[j]));\n            }\n            scratch[count++] = v[i];\n\
+    \        }\n        return d;\n    };\n    return solve(solve, l, r);\n}\n\n/**\n\
+    \ * @brief \u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)\n */\n\n#endif\n"
   dependsOn: []
   isVerificationFile: false
   path: geometry/geometry.cpp
   requiredBy:
   - geometry/half_plane_intersection.cpp
   - geometry/dualgraph.cpp
-  timestamp: '2026-10-09 00:31:40+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2026-10-18 01:36:00+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/aoj_cgl_5_a.test.cpp
+  - test/yosupo_aplusb_closest_pair_real.test.cpp
   - test/yosupo_aplusb_geometry_angle.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
   - test/aoj0342.test.cpp
@@ -410,3 +424,17 @@ title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
 - `angle(a, b)` : 非零ベクトルのなす角をラジアンで $[0, \pi]$ に返す。内積・外積を `double` で評価できる範囲を前提とする
 - `convex_hull(v)` : `v` の凸包を返す
 - `diameter(v)` : 反時計回りの凸多角形の直径を $O(N)$ で返す。空・1点では `0`、全点が共線の場合は両端の距離を返す
+- `closest_pair(v, l = 0, r = -1)` : 2点以上の区間 `[l, r)` の最近点間距離を `double` で返す。重複点があれば `0`
+
+## 使い方
+`closest_pair(v)` は全体を $x$ 座標順に並べ替えてから最近点対を求め、終了時は $y$ 座標順になる。
+`r` を指定する場合は、呼び出し側で `[l, r)` を `Point::operator<` 順に並べておく。
+この場合は区間内だけを $y$ 座標順へ並べ替え、区間外は読み書きしない。
+`r == -1` の場合は、従来どおり全体を $x$ 座標順にしてから `[l, v.size())` を処理する。
+座標差・距離の二乗とその和が有限の `double` に収まることを前提とし、比較に `EPS` は加えない。
+
+## 実装上の補足
+最近点対は時間 $O(N \log N)$、追加領域 $O(N)$。
+ここで $N$ は、`r == -1` なら `v.size()`、`r` を指定する場合は `r - l` とする。
+入口で1本の作業配列を確保し、各再帰の $y$ 座標順 merge と境界付近の候補列に共用する。
+再帰内での配列確保はない。
