@@ -9,7 +9,7 @@ tags: 木
 ## 説明
 `AuxTree` の `make / clear / out` 管理を隠して、DP しやすい形で virtual tree を返す補助ラッパ。
 各クエリごとに、必要頂点と補われた LCA 頂点からなる根付き木を作る。
-入力の頂点数を $K$ として、`make` は $O(K\log(K+1))$ 時間、追加領域 $O(K)$。
+入力の頂点数を $K$ として、`make` は $O(K\log K)$ 時間、追加領域 $O(K)$。
 
 ## できること
 - `VirtualTreeHelper vt(n)`
