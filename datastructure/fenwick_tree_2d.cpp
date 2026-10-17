@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_FENWICK_TREE_2D_CPP
+#define FIRIEXP_LIBRARY_DATASTRUCTURE_FENWICK_TREE_2D_CPP
+
 using namespace std;
 
 #include "binaryindexedtree.cpp"
@@ -86,3 +89,5 @@ struct FenwickTree2D {
 /**
  * @brief 2次元Fenwick Tree(2D BIT)
  */
+
+#endif

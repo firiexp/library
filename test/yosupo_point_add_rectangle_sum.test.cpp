@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/point_add_rectangle_sum"
 
 #include <algorithm>
+#include <cassert>
 #include <vector>
 
 #include <cstdio>
