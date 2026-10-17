@@ -55,7 +55,61 @@ struct PersistentSegmentTree{
     T get(int t, int k) const { return query(t, k, k+1); }
     T operator[](const int &k) const { return get(latest_version(), k); }
 
+    template<class F>
+    int search_right(int t, int l, F cond) const {
+        T acc = M::e();
+        return search_right_(root[t], l, 0, n, acc, cond);
+    }
+    template<class F>
+    int search_right(int l, F cond) const {
+        return search_right(latest_version(), l, move(cond));
+    }
+
+    template<class F>
+    int search_left(int t, int r, F cond) const {
+        T acc = M::e();
+        return search_left_(root[t], r, 0, n, acc, cond);
+    }
+    template<class F>
+    int search_left(int r, F cond) const {
+        return search_left(latest_version(), r, move(cond));
+    }
+
 private:
+    template<class F>
+    int search_right_(int id, int a, int l, int r, T &acc, F &cond) const {
+        if(r <= a) return n;
+        if(a <= l){
+            T next = M::f(acc, node[id].val);
+            if(cond(next)){
+                acc = move(next);
+                return n;
+            }
+            if(r-l == 1) return l;
+        }
+        int m = l + ((r-l)>>1);
+        int result = search_right_(node[id].l, a, l, m, acc, cond);
+        if(result != n) return result;
+        return search_right_(node[id].r, a, m, r, acc, cond);
+    }
+
+    template<class F>
+    int search_left_(int id, int a, int l, int r, T &acc, F &cond) const {
+        if(a <= l) return 0;
+        if(r <= a){
+            T next = M::f(node[id].val, acc);
+            if(cond(next)){
+                acc = move(next);
+                return 0;
+            }
+            if(r-l == 1) return r;
+        }
+        int m = l + ((r-l)>>1);
+        int result = search_left_(node[id].r, a, m, r, acc, cond);
+        if(result != 0) return result;
+        return search_left_(node[id].l, a, l, m, acc, cond);
+    }
+
     int make_node(const T &v, int l, int r){
         node.push_back({v, l, r});
         return node.size()-1;
