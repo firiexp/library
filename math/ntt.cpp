@@ -485,44 +485,42 @@ struct poly {
 
     poly pow(long long k, int deg = -1) const {
         if (deg == -1) deg = size();
-        poly ret(max(0, deg));
-        if (deg <= 0) return ret;
+        if (deg <= 0) return poly();
+        if (k == 1) return pre(deg);
+        poly ret(deg);
         if (k == 0) {
             ret[0] = 1;
             return ret;
         }
+        int lead = 0;
+        while (lead < min(size(), deg) && v[lead] == mint(0)) lead++;
+        if (lead == min(size(), deg)) return ret;
+        if (lead > 0 && k > (deg - 1) / lead) return ret;
+        int shift = static_cast<int>(1LL * lead * k);
+        int rem_deg = deg - shift;
         if (0 < k && k <= 64) {
-            poly base = pre(deg);
+            int end = lead + min(size() - lead, rem_deg);
+            while (end > lead && v[end - 1] == mint(0)) end--;
+            poly base(vector<mint>(v.begin() + lead, v.begin() + end));
             poly ans(1);
             ans[0] = 1;
             long long e = k;
             while (e > 0) {
                 if (e & 1) {
                     ans *= base;
-                    ans = ans.pre(deg);
+                    if (ans.size() > rem_deg) ans.v.resize(rem_deg);
                 }
                 e >>= 1;
                 if (e == 0) break;
                 base *= base;
-                base = base.pre(deg);
+                if (base.size() > rem_deg) base.v.resize(rem_deg);
             }
-            ans = ans.pre(deg);
-            if (ans.size() < deg) ans.v.resize(deg);
-            return ans;
+            for (int i = 0; i < ans.size(); ++i) ret[i + shift] = ans[i];
+            return ret;
         }
-        int lead = 0;
-        while (lead < size() && v[lead] == mint(0)) lead++;
-        if (lead == size()) return ret;
-        long long shift_ll = 0;
-        if (lead > 0) {
-            if (k > (deg - 1) / lead) return ret;
-            shift_ll = 1LL * lead * k;
-        }
-        poly f(size() - lead);
+        poly f(min(size() - lead, rem_deg));
         mint inv_lead = v[lead].inv();
-        for (int i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;
-        int shift = static_cast<int>(shift_ll);
-        int rem_deg = deg - shift;
+        for (int i = 0; i < f.size(); ++i) f[i] = v[i + lead] * inv_lead;
         poly g = f.log(rem_deg);
         mint k_mint = mint(k);
         for (int i = 0; i < g.size(); ++i) g[i] *= k_mint;

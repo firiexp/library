@@ -32,7 +32,59 @@ vector<mint> naive_log(const vector<mint> &f, int deg) {
     return g;
 }
 
+vector<mint> naive_power(const vector<mint> &f, int k, int deg) {
+    vector<mint> g(deg);
+    if (deg == 0) return g;
+    g[0] = 1;
+    for (int e = 0; e < k; ++e) {
+        vector<mint> next(deg);
+        for (int i = 0; i < deg; ++i) {
+            for (int j = 0; j < (int)f.size() && i + j < deg; ++j) next[i + j] += g[i] * f[j];
+        }
+        g = std::move(next);
+    }
+    return g;
+}
+
+void check_power() {
+    mt19937 random(212);
+    for (int n : {0, 1, 2, 8, 17, 33, 65}) {
+        for (int form = 0; form < 5; ++form) {
+            poly f(n);
+            for (int i = 0; i < n; ++i) {
+                if (form == 1 && i >= n / 2) continue;
+                if (form == 2 && i < n / 2) continue;
+                if (form == 3 && i != n / 2) continue;
+                if (form == 4) continue;
+                f[i] = 1 + random() % (ntt_mod - 1);
+            }
+            auto original = f.v;
+            for (int k : {0, 1, 2, 8, 64, 65}) {
+                for (int deg : {0, 1, n / 2, n, n + 1, 2 * n + 1}) {
+                    assert(f.pow(k, deg).v == naive_power(f.v, k, deg));
+                }
+                assert(f.pow(k).v == naive_power(f.v, k, n));
+            }
+            assert(f.v == original);
+        }
+    }
+    poly short_input(vector<mint>{1, 2, 3, 4, 5, 6, 7, 8});
+    poly padded = short_input.pre(1 << 18);
+    for (int k : {1, 2, 8, 64, 65}) {
+        auto expected = naive_power(short_input.v, k, 7 * k + 1);
+        expected.resize(1 << 17);
+        assert(short_input.pow(k, 1 << 17).v == expected);
+        assert(padded.pow(k, 1 << 17).v == expected);
+    }
+    poly shifted(1 << 17);
+    shifted[1 << 16] = 3;
+    assert(shifted.pow(2).v == vector<mint>(shifted.size()));
+    assert(shifted.pow(LLONG_MAX).v == vector<mint>(shifted.size()));
+    assert(poly(vector<mint>{0, 3}).pow(LLONG_MAX, 2).v == vector<mint>(2));
+}
+
 void self_check() {
+    check_power();
     mt19937 random(19);
     const int sizes[] = {1, 2, 3, 7, 16, 31, 32, 33, 63, 64, 65, 127, 128, 129};
     for (int n : sizes) {
