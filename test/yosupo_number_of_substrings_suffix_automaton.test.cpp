@@ -8,6 +8,7 @@
 #include <numeric>
 #include <bitset>
 #include <cmath>
+#include <optional>
 
 static const int MOD = 1000000007;
 using ll = long long;

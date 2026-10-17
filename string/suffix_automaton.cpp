@@ -35,6 +35,7 @@ struct SuffixAutomaton {
     }
 
     int add(char c) {
+        ways.clear();
         int k = ord(c);
         int cur = nodes.size();
         nodes.emplace_back(0, nodes[last].len + 1, 1);
@@ -109,6 +110,37 @@ struct SuffixAutomaton {
         return res;
     }
 
+    optional<pair<int, int>> kth_substring(long long k) const {
+        if (k < 0) return nullopt;
+        if (ways.empty()) {
+            auto order = order_by_length();
+            ways.assign(nodes.size(), 1);
+            for (int i = (int)order.size() - 1; i >= 0; --i) {
+                int v = order[i];
+                for (int to : nodes[v].next) if (to != -1) ways[v] += ways[to];
+            }
+        }
+        if (k >= ways[0] - 1) return nullopt;
+        int v = 0, length = 0;
+        while (true) {
+            for (int to : nodes[v].next) {
+                if (to == -1) continue;
+                if (k >= ways[to]) {
+                    k -= ways[to];
+                    continue;
+                }
+                v = to;
+                ++length;
+                if (k == 0) {
+                    int end = nodes[v].first_pos + 1;
+                    return pair<int, int>{end - length, end};
+                }
+                --k;
+                break;
+            }
+        }
+    }
+
     vector<int> order_by_length() const {
         int max_len = 0;
         for (auto &&node : nodes) max_len = max(max_len, node.len);
@@ -132,6 +164,9 @@ struct SuffixAutomaton {
         }
         return cnt;
     }
+
+private:
+    mutable vector<long long> ways;
 };
 /**
  * @brief Suffix Automaton
