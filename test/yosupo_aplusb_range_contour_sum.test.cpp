@@ -9,7 +9,7 @@ using namespace std;
 void check(int n, int mode, mt19937 &rng) {
     vector<vector<int>> g(n), distance(n, vector<int>(n, -1));
     for (int i = 1; i < n; ++i) {
-        int p = mode == 0 ? i - 1 : mode == 1 ? 0 : rng() % i;
+        int p = mode == 0 ? i - 1 : mode == 1 ? 0 : mode == 3 ? (i - 1) / 2 : rng() % i;
         g[p].push_back(i);
         g[i].push_back(p);
     }
@@ -27,16 +27,29 @@ void check(int n, int mode, mt19937 &rng) {
     }
     CentroidDecompositionQueryHelper helper(n);
     helper.G = g;
-    helper.build();
-    auto path = helper.path, dist = helper.dist;
-    helper.build();
-    assert(path == helper.path && dist == helper.dist);
-    for (int v = 0; v < n; ++v) {
-        assert(path[v].front() == v && path[v].back() == helper.root);
-        for (int i = 0; i < (int)path[v].size(); ++i) {
-            assert(dist[v][i] == distance[v][path[v][i]]);
-            if (i > 0) assert(helper.parent[path[v][i - 1]] == path[v][i]);
+    for (int start : {0, n - 1, int(rng() % n), 0}) {
+        int root = helper.build(start);
+        auto path = helper.path, dist = helper.dist, tree = helper.tree;
+        auto parent = helper.parent, depth = helper.depth;
+        assert(helper.build(start) == root);
+        assert(path == helper.path && dist == helper.dist && tree == helper.tree);
+        assert(parent == helper.parent && depth == helper.depth);
+        assert(helper.parent[root] == -1 && helper.depth[root] == 0);
+        int edge_count = 0;
+        for (int v = 0; v < n; ++v) {
+            assert(path[v].front() == v && path[v].back() == root);
+            assert(path[v].size() == dist[v].size());
+            assert(int(path[v].size()) == helper.depth[v] + 1);
+            for (int i = 0; i < (int)path[v].size(); ++i) {
+                assert(dist[v][i] == distance[v][path[v][i]]);
+                if (i > 0) assert(helper.parent[path[v][i - 1]] == path[v][i]);
+            }
+            for (int child : tree[v]) {
+                assert(helper.parent[child] == v && helper.depth[child] == helper.depth[v] + 1);
+                ++edge_count;
+            }
         }
+        assert(edge_count == n - 1);
     }
     vector<long long> values(n);
     for (auto &x : values) x = (int)(rng() % 21) - 10;
@@ -61,9 +74,11 @@ void check(int n, int mode, mt19937 &rng) {
 
 int main() {
     RangeContourSum empty({}, {});
+    CentroidDecompositionQueryHelper empty_helper(0);
+    assert(empty_helper.build() == -1 && empty_helper.build() == -1);
     mt19937 rng(20261010);
     for (int n : {1, 2, 3, 63, 64, 65, 100})
-        for (int mode = 0; mode < 3; ++mode) check(n, mode, rng);
+        for (int mode = 0; mode < 4; ++mode) check(n, mode, rng);
     for (int tc = 0; tc < 500; ++tc) check(1 + rng() % 50, 2, rng);
     Scanner in;
     Printer out;

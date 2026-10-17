@@ -24,11 +24,15 @@ struct CentroidDecompositionQueryHelper {
         dfs_parent.resize(n);
         order.reserve(n);
         if (n == 0) return root = -1;
+        int levels = 0;
+        for (int size = n; size > 0; size /= 2) ++levels;
+        buffers.resize(levels);
         return root = decompose(start, -1, 0);
     }
 
 private:
     vector<int> dfs_parent, order;
+    vector<vector<pair<int, int>>> buffers;
 
     int dfs_size(int v, int p) {
         order.clear();
@@ -85,7 +89,8 @@ private:
         dist[centroid].push_back(0);
         for (auto &&u : G[centroid]) {
             if (used[u]) continue;
-            vector<pair<int, int>> buf;
+            auto &buf = buffers[dep];
+            buf.clear();
             collect(u, centroid, 1, buf);
             int child = decompose(u, centroid, dep + 1);
             tree[centroid].push_back(child);
