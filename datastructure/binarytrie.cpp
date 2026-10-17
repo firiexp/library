@@ -108,6 +108,38 @@ struct Binarytrie {
         return xor_min(y) ^ y;
     }
 
+    T kth_element(int k, T xor_mask = 0) const {
+        assert(0 <= k && k < size());
+        int p = 0;
+        T value = 0;
+        for (int i = int(X) - 1; i >= 0; --i) {
+            int f = (xor_mask >> i) & 1;
+            int to = nodes[p].nxt[f];
+            int count = to == -1 ? 0 : nodes[to].cnt;
+            if (k >= count) {
+                k -= count;
+                f ^= 1;
+            }
+            value |= T(f) << i;
+            p = nodes[p].nxt[f];
+        }
+        return value;
+    }
+
+    int count_less(T bound, T xor_mask = 0) const {
+        int p = 0, result = 0;
+        for (int i = int(X) - 1; i >= 0 && p != -1; --i) {
+            int f = (xor_mask >> i) & 1;
+            if ((bound >> i) & 1) {
+                int to = nodes[p].nxt[f];
+                if (to != -1) result += nodes[to].cnt;
+                f ^= 1;
+            }
+            p = nodes[p].nxt[f];
+        }
+        return result;
+    }
+
 private:
     int free_head = -1;
 
@@ -124,7 +156,7 @@ private:
 
     static constexpr T bit_mask() {
         if constexpr (X == sizeof(T) * 8) return T(-1);
-        else return (T(1) << X) - 1;
+        else return T((make_unsigned_t<T>(1) << X) - 1);
     }
 };
 

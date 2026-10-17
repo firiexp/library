@@ -4,7 +4,7 @@ documentation_of: //datastructure/binarytrie.cpp
 ---
 ## 説明
 非負整数集合に対する binary trie である。
-挿入、削除、存在判定、`xor` をかけたあとの最小値取得を $O(X)$ で扱う。
+挿入、削除、存在判定、`xor` をかけたあとの最小値・順位取得を $O(X)$ で扱う。
 ノードは `vector` でまとめて管理する。
 
 ## できること
@@ -32,8 +32,13 @@ documentation_of: //datastructure/binarytrie.cpp
   `a xor x` が最小となる要素 `a` を返す。`x = 0` なら通常の最小値
 - `T max_element(T x = 0)`
   `a xor x` が最大となる要素 `a` を返す。`x = 0` なら通常の最大値
+- `T kth_element(int k, T xor_mask = 0) const`
+  `a xor xor_mask` が小さい順で `k` 番目の元要素 `a` を返す。重複も数え、`0 <= k < size()` を前提とする
+- `int count_less(T bound, T xor_mask = 0) const`
+  `a xor xor_mask < bound` を満たす要素数を返す。時間 $O(X)$、追加領域 $O(1)$
 
 ## 使い方
+値・xor の引数・`bound` は非負の `X` bit 整数とする。
 集合として使うなら、挿入前に `contains(x)` を見て重複を避ける。
 
 ```cpp
@@ -43,6 +48,9 @@ trie.reserve(q);
 if (!trie.contains(x)) trie.add(x);
 unsigned int ans = trie.min_element(q);
 ```
+
+`{1, 4, 4, 7}` を入れた trie では、`kth_element(1, 3)` は `7`、`count_less(5, 3)` は `2` を返す。
+`kth_element(0, mask)` は `min_element(mask)`、`kth_element(size() - 1, mask)` は `max_element(mask)` に一致する。
 
 ## 実装上の補足
 `xor_min(x)` は値そのものではなく最小 `xor` 値を返す。

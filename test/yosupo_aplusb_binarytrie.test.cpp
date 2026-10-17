@@ -95,6 +95,61 @@ void verify_state(const Binarytrie<unsigned, B> &trie, const vector<int> &freq, 
     }
 }
 
+template<class T, size_t X>
+void verify_order(const Binarytrie<T, X> &trie, vector<T> values, T mask, const vector<T> &bounds) {
+    sort(values.begin(), values.end(), [mask](T a, T b) { return (a ^ mask) < (b ^ mask); });
+    for (int k = 0; k < (int)values.size(); ++k) assert(trie.kth_element(k, mask) == values[k]);
+    if (!values.empty()) {
+        assert(trie.kth_element(0, mask) == trie.min_element(mask));
+        assert(trie.kth_element(trie.size() - 1, mask) == trie.max_element(mask));
+    }
+    for (T bound : bounds) {
+        int expected = count_if(values.begin(), values.end(), [=](T x) { return (x ^ mask) < bound; });
+        assert(trie.count_less(bound, mask) == expected);
+        if (mask == 0) assert(trie.count_less(bound) == expected);
+    }
+    if (mask == 0) {
+        for (int k = 0; k < (int)values.size(); ++k) assert(trie.kth_element(k) == values[k]);
+    }
+}
+
+void order_check() {
+    mt19937 rng(208);
+    Binarytrie<unsigned, B> trie;
+    vector<int> freq(1 << B);
+    vector<unsigned> bounds(1 << B);
+    iota(bounds.begin(), bounds.end(), 0);
+    for (int step = 0; step < 2000; ++step) {
+        if (step % 100 == 0) {
+            for (unsigned x : bounds) assert(trie.erase(x, freq[x]));
+            fill(freq.begin(), freq.end(), 0);
+        } else {
+            unsigned x = rng() & MASK;
+            int k = rng() % 4;
+            if (rng() % 2) {
+                trie.add(x, k);
+                freq[x] += k;
+            } else {
+                bool ok = trie.erase(x, k);
+                assert(ok == (freq[x] >= k));
+                if (ok) freq[x] -= k;
+            }
+        }
+        auto values = expand(freq);
+        for (unsigned mask : {0u, MASK, unsigned(rng()) & MASK}) verify_order(trie, values, mask, bounds);
+    }
+    using U = uint64_t;
+    U high = U(1) << 63;
+    vector<U> values = {0, 0, 1, high - 1, high, high, high + 1, ~U(0)};
+    vector<U> wide_bounds = values;
+    wide_bounds.push_back(2);
+    Binarytrie<U, 64> wide(values);
+    for (U mask : {U(0), U(1), high, ~U(0)}) verify_order(wide, values, mask, wide_bounds);
+    assert(wide.count_less(~U(0)) == (int)values.size() - 1);
+    Binarytrie<int, 31> signed_trie({0, 1, INT_MAX, INT_MAX});
+    verify_order(signed_trie, vector<int>{0, 1, INT_MAX, INT_MAX}, INT_MAX, vector<int>{0, 1, INT_MAX});
+}
+
 void self_check() {
     mt19937 rng(0);
     Binarytrie<unsigned, 30> churn;
@@ -185,6 +240,7 @@ void self_check() {
 }
 
 int main() {
+    order_check();
     self_check();
 
     Scanner sc;
