@@ -17,7 +17,7 @@ documentation_of: //graph/vertex_failure_connectivity.cpp
 - `void build()`
   全連結成分を前処理する。辺の追加後は再度呼ぶ。時間・領域は $O(V+E)$
 - `bool connected_without_vertex(int u, int v, int x)`
-  頂点 `x` を除いたグラフで `u` と `v` が連結なら `true`。端点が `x` なら `false`。時間は $O(\log(V+1))$
+  頂点 `x` を除いたグラフで `u` と `v` が連結なら `true`。端点が `x` なら `false`。時間は $O(\log(V))$
 
 ## 使い方
 元の頂点番号 `0, ..., n-1` で辺を追加し、`build()` 後に問い合わせる。

@@ -15,7 +15,7 @@ documentation_of: //datastructure/static_rectangle_add_rectangle_sum.cpp
 - `void add_query(int l, int d, int r, int u)`
   半開長方形 $[l,r)\times[d,u)$ の総和を求めるクエリを登録する
 - `vector<T> solve() const`
-  登録されたすべての更新を反映し、クエリの登録順に答えを返す。更新数 $N$、クエリ数 $Q$ として時間 $O((N+Q)\log(N+Q+1))$、補助領域 $O(N+Q)$
+  登録されたすべての更新を反映し、クエリの登録順に答えを返す。更新数 $N$、クエリ数 $Q$ として時間 $O((N+Q)\log(N+Q))$、補助領域 $O(N+Q)$
 
 ## 使い方
 `l <= r`、`d <= u` とする。座標と加算する値は負でもよい。

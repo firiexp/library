@@ -17,7 +17,7 @@ documentation_of: //graph/minimum_steiner_tree.cpp
   無向辺を追加し、0から始まる入力順の辺IDを返す。最初の `build` より前に呼ぶ
 - `void build(const vector<int>& terminals)`
   指定頂点集合について前計算する。再呼び出しで以前のDPと復元情報を置き換える
-  時間 $O(3^K N + 2^K (N+M)\log(N+M+1))$、保持領域 $O(2^K N+M)$
+  時間 $O(3^K N + 2^K (N+M)\log(N+M))$、保持領域 $O(2^K N+M)$
 - `T cost(int v) const`
   `terminals` と `v` を連結にする最小コストを返す。連結にできなければ `INF<T>`。時間 $O(1)$
 - `vector<int> restore(int v) const`

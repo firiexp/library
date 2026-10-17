@@ -45,7 +45,7 @@ uf.rollback(state);
 rollback後に捨てた履歴への移動はできず、永続versionのAPIではない。
 
 ## 実装上の補足
-経路圧縮せず、サイズの小さい根を大きい根につなぐ。群演算と要素コピーを $O(1)$ とすると、`root/same/size/diff/consistent(v)` は最悪 $O(\log(N+1))$。
+経路圧縮せず、サイズの小さい根を大きい根につなぐ。群演算と要素コピーを $O(1)$ とすると、`root/same/size/diff/consistent(v)` は最悪 $O(\log(N))$。
 `consistent()/get_state()/undo()` は最悪 $O(1)$、$k$ 操作を戻すrollbackは $O(k)$。
-`unite` の木操作は最悪 $O(\log(N+1))$、履歴配列の幾何拡張を含めると償却で同じ計算量となる。
+`unite` の木操作は最悪 $O(\log(N))$、履歴配列の幾何拡張を含めると償却で同じ計算量となる。
 同時に保持した制約数の最大値を $S_{\max}$ として、領域は $O(N+S_{\max})$。rollbackで履歴のcapacityは縮めない。

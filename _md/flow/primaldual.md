@@ -19,7 +19,7 @@ tags: フロー
 - `vector<pair<F, C>> slope(int s, int t, F limit = INF<F>)`
   流量と最小費用の折れ点を返す。先頭は `(0, 0)`、末尾は `limit` 以下で流せた最大流量とその費用。同じ傾きが続く区間はまとめる
 
-頂点数を $N$、辺数を $M$、流量の上限（`fl` または `limit`）を $f$ として、`flow` / `slope` は最悪 $O(N+f(N+M)\log(N+M+1))$ 時間。
+頂点数を $N$、辺数を $M$、流量の上限（`fl` または `limit`）を $f$ として、`flow` / `slope` は最悪 $O(N+f(N+M)\log(N+M))$ 時間。
 `slope` の返却値は $O(f+1)$ 領域。
 
 ## 使い方

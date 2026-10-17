@@ -5,7 +5,7 @@ documentation_of: //string/enumerate_runs.cpp
 
 ## 説明
 文字列の中で、最小周期の2倍以上の長さを持ち、同じ周期のまま左右へ延長できない区間 (run) を列挙する。
-長さを $N$ として、時間・領域は $O(N\log(N+1))$。
+長さを $N$ として、時間・領域は $O(N\log(N))$。
 
 ## できること
 - `vector<Run> enumerate_runs(const string& s)`

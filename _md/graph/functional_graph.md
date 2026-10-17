@@ -22,7 +22,7 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の
 - `void build()`
   閉路分解と doubling を前計算する。時間・領域 $O(N \log N)$
 - `int jump(int v, long long k)`
-  `v` から `k` 回遷移した先を返す。$0 \le k \le 2^{63}-1$。閉路到達前は $O(\log(k+1))$、到達後は $O(1)$
+  `v` から `k` 回遷移した先を返す。$0 \le k \le 2^{63}-1$。閉路到達前は $O(\log(k))$、到達後は $O(1)$
 - `int distance(int s, int t) const`
   `s` から `t` への最小遷移回数を返す。到達不能なら `-1`、`s == t` なら `0`。$O(\log N)$、`t` が閉路上なら $O(1)$。追加領域 $O(1)$
 - `bool in_cycle(int v)`
