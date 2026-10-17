@@ -18,8 +18,8 @@ tags: データ構造
 - `update(k, x)` : 位置 `k` の値を `x` に更新する
 - `update(l, r, x)` : 半開区間 $[l, r)$ に作用素 `x` を適用する
 - `query(l, r)` : 半開区間 $[l, r)$ の集約値を返す
-- `search_right(l, cond)` : 左から伸ばして `cond` が壊れる最初の位置を返す。見つからなければ `n`
-- `search_left(r, cond)` : 右から伸ばして `cond` が壊れる最後の位置を返す。見つからなければ `0`
+- `search_right(l, cond)` : `cond(query(l, r))` を満たす最大の `r` を返す
+- `search_left(r, cond)` : `cond(query(l, r))` を満たす最小の `l` を返す
 
 ## 使い方
 モノイド構造体 `M` に次を定義して渡す。
@@ -30,6 +30,8 @@ tags: データ構造
 - $f : T \times T \to T$ 要素同士のマージ
 - $g : T \times L \to T$ 要素と作用素のマージ
 - $h : L \times L \to L$ 作用素同士のマージ
+
+境界探索の `cond` は単位元で `true` とし、区間を伸ばすと `true` から `false` への変化が高々1回になるものを使う。
 
 以下にモノイドの例を挙げる。
 

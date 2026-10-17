@@ -51,6 +51,14 @@ struct CharacterMap {
     static T f(T a, T b) { return ConcatMap::h(a, b); }
 };
 
+struct CountedConcatMap : ConcatMap {
+    static inline int products = 0;
+    static T f(const T &a, const T &b) {
+        ++products;
+        return a + b;
+    }
+};
+
 void minimal_check() {
     SegmentTree<Sum> plain(1);
     plain.set(0, 1);
@@ -242,12 +250,36 @@ void deferred_action_check() {
     }
 }
 
+template<template<class> class Tree>
+void search_product_check() {
+    for(int n = 0; n <= 33; ++n) {
+        Tree<CountedConcatMap> seg(n);
+        for(int i = 0; i < n; ++i) seg.set(i, "a");
+        seg.build();
+        for(int end = 0; end <= n; ++end) for(int limit : {0, 1, n / 2, n}) {
+            int predicates = 0;
+            auto cond = [&](const string &s) {
+                ++predicates;
+                return int(s.size()) <= limit;
+            };
+            CountedConcatMap::products = 0;
+            assert(seg.search_right(end, cond) == min(n, end + limit));
+            assert(CountedConcatMap::products == predicates);
+            predicates = CountedConcatMap::products = 0;
+            assert(seg.search_left(end, cond) == max(0, end - limit));
+            assert(CountedConcatMap::products == predicates);
+        }
+    }
+}
+
 int main() {
     minimal_check();
     exhaustive_search_check();
     mixed_update_check();
     noncommutative_search_check();
     deferred_action_check();
+    search_product_check<SegmentTree>();
+    search_product_check<LazySegmentTree>();
     Scanner sc;
     Printer pr;
     int a, b;

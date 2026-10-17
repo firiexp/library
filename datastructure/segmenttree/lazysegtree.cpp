@@ -72,16 +72,20 @@ struct LazySegmentTree{
         T val = M::e();
         do {
             while(!(l&1)) l >>= 1;
-            if(!cond(M::f(val, reflect(l)))){
+            T next = M::f(val, reflect(l));
+            if(!cond(next)){
                 while(l < sz) {
                     eval(l); l <<= 1;
-                    if (cond(M::f(val, reflect(l)))){
-                        val = M::f(val, reflect(l++));
+                    next = M::f(val, reflect(l));
+                    if (cond(next)){
+                        val = move(next);
+                        l++;
                     }
                 }
                 return l - sz;
             }
-            val = M::f(val, reflect(l++));
+            val = move(next);
+            l++;
         } while((l & -l) != l);
         return n;
     }
@@ -94,17 +98,20 @@ struct LazySegmentTree{
         do {
             r--;
             while(r > 1 && r&1) r >>= 1;
-            if(!cond(M::f(reflect(r), val))){
+            T next = M::f(reflect(r), val);
+            if(!cond(next)){
                 while(r < sz) {
                     eval(r);
                     r = ((r << 1)|1);
-                    if (cond(M::f(reflect(r), val))){
-                        val = M::f(reflect(r--), val);
+                    next = M::f(reflect(r), val);
+                    if (cond(next)){
+                        val = move(next);
+                        r--;
                     }
                 }
                 return r + 1 - sz;
             }
-            val = M::f(reflect(r), val);
+            val = move(next);
         } while((r & -r) != r);
         return 0;
     }

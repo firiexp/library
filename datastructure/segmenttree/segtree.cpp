@@ -36,17 +36,19 @@ struct SegmentTree{
         l += sz;
         do {
             while(!(l&1)) l >>= 1;
-            if(!cond(M::f(val, seg[l]))){
+            T next = M::f(val, seg[l]);
+            if(!cond(next)){
                 while(l < sz) {
                     l <<= 1;
-                    if (cond(M::f(val, seg[l]))){
-                        val = M::f(val, seg[l]);
+                    next = M::f(val, seg[l]);
+                    if (cond(next)){
+                        val = move(next);
                         l++;
                     }
                 }
                 return l - sz;
             }
-            val = M::f(val, seg[l]);
+            val = move(next);
             l++;
         } while((l & -l) != l);
         return n;
@@ -60,17 +62,19 @@ struct SegmentTree{
         do {
             r--;
             while(r > 1 && (r & 1)) r >>= 1;
-            if(!cond(M::f(seg[r], val))){
+            T next = M::f(seg[r], val);
+            if(!cond(next)){
                 while(r < sz) {
                     r = ((r << 1)|1);
-                    if (cond(M::f(seg[r], val))){
-                        val = M::f(seg[r], val);
+                    next = M::f(seg[r], val);
+                    if (cond(next)){
+                        val = move(next);
                         r--;
                     }
                 }
                 return r + 1 - sz;
             }
-            val = M::f(seg[r], val);
+            val = move(next);
         } while((r & -r) != r);
         return 0;
     }
