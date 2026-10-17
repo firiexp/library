@@ -66,7 +66,13 @@ vector<int> suffix_array(const vector<int> &s, int upper){
             rec_upper += !same;
             rec_s[lms_map[sorted_lms[i]]] = rec_upper;
         }
-        auto rec_sa = suffix_array(rec_s, rec_upper);
+        vector<int> rec_sa;
+        if (rec_upper + 1 == m) {
+            rec_sa.resize(m);
+            for (int i = 0; i < m; ++i) rec_sa[rec_s[i]] = i;
+        } else {
+            rec_sa = suffix_array(rec_s, rec_upper);
+        }
         for (int i = 0; i < m; ++i) sorted_lms[i] = lms[rec_sa[i]];
         induce(sorted_lms);
     }

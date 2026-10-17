@@ -14,28 +14,33 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
 #include "../util/fastio.cpp"
 
+void check_integers(const vector<int>& s, int upper) {
+    int n = s.size();
+    vector<int> expected(n);
+    iota(expected.begin(), expected.end(), 0);
+    sort(expected.begin(), expected.end(), [&](int a, int b) {
+        return lexicographical_compare(s.begin() + a, s.end(),
+                                       s.begin() + b, s.end());
+    });
+    vector<int> expected_lcp;
+    for (int i = 1; i < n; ++i) {
+        int a = expected[i - 1], b = expected[i], h = 0;
+        while (a + h < n && b + h < n && s[a + h] == s[b + h]) ++h;
+        expected_lcp.push_back(h);
+    }
+    assert(suffix_array(s) == expected);
+    assert(suffix_array(s, upper) == expected);
+    assert(lcp(s, expected) == expected_lcp);
+}
+
 void self_check() {
     auto check = [](const string &s) {
         vector<int> bytes;
         for (unsigned char c : s) bytes.push_back(c);
-        int n = s.size();
-        vector<int> expected(n);
-        iota(expected.begin(), expected.end(), 0);
-        sort(expected.begin(), expected.end(), [&](int a, int b) {
-            return lexicographical_compare(bytes.begin() + a, bytes.end(),
-                                           bytes.begin() + b, bytes.end());
-        });
-        vector<int> expected_lcp;
-        for (int i = 1; i < n; ++i) {
-            int a = expected[i - 1], b = expected[i], h = 0;
-            while (a + h < n && b + h < n && bytes[a + h] == bytes[b + h]) ++h;
-            expected_lcp.push_back(h);
-        }
-        assert(suffix_array(s) == expected);
-        assert(suffix_array(bytes) == expected);
-        assert(suffix_array(bytes, 255) == expected);
-        assert(lcp(s, expected) == expected_lcp);
-        assert(lcp(bytes, expected) == expected_lcp);
+        check_integers(bytes, 255);
+        auto sa = suffix_array(bytes, 255);
+        assert(suffix_array(s) == sa);
+        assert(lcp(s, sa) == lcp(bytes, sa));
     };
     check("");
     check(string{char(128), 'a', 'b'});
@@ -45,6 +50,27 @@ void self_check() {
         check(string(65, char(c)));
     }
     mt19937 rng(13);
+    for (int n = 0; n <= 8; ++n) {
+        for (int mask = 0; mask < (1 << n); ++mask) {
+            vector<int> s(n);
+            for (int i = 0; i < n; ++i) s[i] = mask >> i & 1;
+            check_integers(s, 1);
+        }
+    }
+    for (int n : {3, 4, 7, 32, 129, 512}) {
+        vector<int> s(n);
+        iota(s.begin(), s.end(), 0);
+        for (int rep = 0; rep < 5; ++rep) {
+            shuffle(s.begin(), s.end(), rng);
+            check_integers(s, n - 1);
+        }
+        for (int period : {1, 2, 7}) {
+            for (int i = 0; i < n; ++i) s[i] = i % period;
+            check_integers(s, period - 1);
+        }
+        for (int i = 0; i < n; ++i) s[i] = i % 2 ? 0 : i;
+        check_integers(s, n - 1);
+    }
     for (int tc = 0; tc < 1000; ++tc) {
         string s(rng() % 80, '\0');
         for (char &c : s) c = char(rng() % (tc % 2 ? 256 : 4));
