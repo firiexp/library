@@ -1,6 +1,6 @@
 template<class T, bool directed>
 class CostScalingDinic {
-    void bfs(int s, T x){
+    void bfs(int s, int t, T x){
         fill(level.begin(),level.end(), -1);
         queue<int> Q;
         level[s] = 0;
@@ -10,6 +10,7 @@ class CostScalingDinic {
             for (auto &&e : G[v]){
                 if(e.cap >= x && level[e.to] < 0){
                     level[e.to] = level[v] + 1;
+                    if(e.to == t) return;
                     Q.emplace(e.to);
                 }
             }
@@ -62,7 +63,7 @@ public:
         T ret = 0;
         T cap = 1; while(cap <= upper / 2) cap <<= 1;
         while(cap && ret < lim) {
-            bfs(s, cap);
+            bfs(s, t, cap);
             if(level[t] < 0){
                 cap >>= 1;
                 continue;

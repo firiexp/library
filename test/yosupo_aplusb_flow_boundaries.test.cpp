@@ -161,6 +161,31 @@ void scaling_width_check() {
     assert(largest.flow(0, 1, LLONG_MAX) == LLONG_MAX);
 }
 
+template<class Flow>
+void shortest_layer_check() {
+    Flow g(70);
+    for(int v = 1; v <= 32; ++v) {
+        g.add_edge(0, v, 1);
+        g.add_edge(v, 69, 1);
+        g.add_edge(v, v, 5);
+    }
+    g.add_edge(0, 33, 100);
+    for(int v = 33; v < 68; ++v) g.add_edge(v, v + 1, 100);
+    auto initial = g.G;
+    assert(g.flow(0, 69, 0) == 0);
+    assert(g.flow(0, 69, 7) == 7);
+    assert(g.flow(0, 69, 25) == 25);
+    assert(g.flow(0, 69) == 0);
+    check_residual(g.G, initial);
+    assert(g.flow(69, 0, 32) == 32);
+    assert(g.flow(0, 69, 32) == 32);
+    check_residual(g.G, initial);
+    Flow disconnected(4);
+    disconnected.add_edge(0, 1, 7);
+    disconnected.add_edge(2, 3, 9);
+    assert(disconnected.flow(0, 3) == 0);
+}
+
 int main() {
     maxflow_check<true>();
     maxflow_check<false>();
@@ -168,6 +193,10 @@ int main() {
     maxflow_check<false>(true);
     scaling_width_check<true>();
     scaling_width_check<false>();
+    shortest_layer_check<Dinic<long long, true>>();
+    shortest_layer_check<Dinic<long long, false>>();
+    shortest_layer_check<CostScalingDinic<long long, true>>();
+    shortest_layer_check<CostScalingDinic<long long, false>>();
     mincost_check();
     Scanner sc;
     Printer pr;

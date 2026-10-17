@@ -1,6 +1,6 @@
 template<class T, bool directed>
 class Dinic {
-    void bfs(int s){
+    void bfs(int s, int t){
         fill(level.begin(),level.end(), -1);
         queue<int> Q;
         level[s] = 0;
@@ -10,6 +10,7 @@ class Dinic {
             for (auto &&e : G[v]){
                 if(e.cap > 0 && level[e.to] < 0){
                     level[e.to] = level[v] + 1;
+                    if(e.to == t) return;
                     Q.emplace(e.to);
                 }
             }
@@ -52,11 +53,11 @@ public:
  
     T flow(int s, int t, T lim = INF<T>){
         T ret = 0;
-        while(true) {
-            bfs(s);
-            if(level[t] < 0 || lim == 0) break;
+        while(lim > 0) {
+            bfs(s, t);
+            if(level[t] < 0) break;
             fill(iter.begin(),iter.end(), 0);
-            while(true){
+            while(lim > 0){
                 T f = dfs(s, t, lim);
                 if(f == 0) break;
                 ret += f;
