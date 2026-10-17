@@ -275,59 +275,61 @@ data:
     \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n           \
     \ ntt_ifft(x.v);\n            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n\
     \        }\n        return b.pre(deg);\n    }\n\n    poly pow(long long k, int\
-    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        poly ret(max(0,\
-    \ deg));\n        if (deg <= 0) return ret;\n        if (k == 0) {\n         \
-    \   ret[0] = 1;\n            return ret;\n        }\n        if (0 < k && k <=\
-    \ 64) {\n            poly base = pre(deg);\n            poly ans(1);\n       \
-    \     ans[0] = 1;\n            long long e = k;\n            while (e > 0) {\n\
-    \                if (e & 1) {\n                    ans *= base;\n            \
-    \        ans = ans.pre(deg);\n                }\n                e >>= 1;\n  \
-    \              if (e == 0) break;\n                base *= base;\n           \
-    \     base = base.pre(deg);\n            }\n            ans = ans.pre(deg);\n\
-    \            if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n\
-    \        }\n        int lead = 0;\n        while (lead < size() && v[lead] ==\
-    \ mint(0)) lead++;\n        if (lead == size()) return ret;\n        long long\
-    \ shift_ll = 0;\n        if (lead > 0) {\n            if (k > (deg - 1) / lead)\
-    \ return ret;\n            shift_ll = 1LL * lead * k;\n        }\n        poly\
-    \ f(size() - lead);\n        mint inv_lead = v[lead].inv();\n        for (int\
-    \ i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;\n        int shift\
-    \ = static_cast<int>(shift_ll);\n        int rem_deg = deg - shift;\n        poly\
-    \ g = f.log(rem_deg);\n        mint k_mint = mint(k);\n        for (int i = 0;\
-    \ i < g.size(); ++i) g[i] *= k_mint;\n        g = g.exp(rem_deg);\n        mint\
-    \ coeff = v[lead].pow(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
-    \ coeff;\n        for (int i = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n\
-    \        return ret;\n    }\n\n    poly sqrt(int deg = -1) const {\n        if\
-    \ (deg == -1) deg = size();\n        poly ret(max(0, deg));\n        if (deg <=\
-    \ 0) return ret;\n        int lead = 0;\n        while (lead < size() && v[lead]\
-    \ == mint(0)) lead++;\n        if (lead == size()) return ret;\n        if (lead\
-    \ & 1) return poly();\n        mint sq0;\n        if (!mod_sqrt(v[lead], sq0))\
-    \ return poly();\n        int shift = lead >> 1;\n        if (shift >= deg) return\
-    \ ret;\n        int rem_deg = deg - shift;\n        poly f(size() - lead);\n \
-    \       mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
-    \ ++i) f[i - lead] = v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n\
-    \        mint inv2 = mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<=\
-    \ 1) {\n            poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k\
-    \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
-    \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
-    \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 2 \"fps/multipoint_evaluation.cpp\"\n\nnamespace multipoint_evaluation_detail\
-    \ {\nvector<mint> evaluate(const poly &f, const vector<poly> &prod, int m) {\n\
-    \    int n = (int)prod.size() / 2;\n    vector<mint> ys(m);\n    auto visit =\
-    \ [&](auto &&self, int i, const poly &rem) -> void {\n        if (i >= n) {\n\
-    \            if (i - n < m) ys[i - n] = rem.v.empty() ? mint(0) : rem[0];\n  \
-    \          return;\n        }\n        self(self, i << 1, rem.mod(prod[i << 1]));\n\
-    \        self(self, i << 1 | 1, rem.mod(prod[i << 1 | 1]));\n    };\n    visit(visit,\
-    \ 1, f.mod(prod[1]));\n    return ys;\n}\n}\n\nvector<mint> poly::multipoint_eval(const\
-    \ vector<mint> &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return\
-    \ {};\n    if (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size()\
-    \ * m <= 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m;\
-    \ ++i) ys[i] = eval(xs[i]);\n        return ys;\n    }\n    int n = 1;\n    while\
-    \ (n < m) n <<= 1;\n    vector<poly> prod(2 * n);\n    for (int i = 0; i < m;\
-    \ ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = m;\
-    \ i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});\n    for (int i = n -\
-    \ 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    return multipoint_evaluation_detail::evaluate(*this,\
+    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        if (deg <=\
+    \ 0) return poly();\n        if (k == 1) return pre(deg);\n        poly ret(deg);\n\
+    \        if (k == 0) {\n            ret[0] = 1;\n            return ret;\n   \
+    \     }\n        int lead = 0;\n        while (lead < min(size(), deg) && v[lead]\
+    \ == mint(0)) lead++;\n        if (lead == min(size(), deg)) return ret;\n   \
+    \     if (lead > 0 && k > (deg - 1) / lead) return ret;\n        int shift = static_cast<int>(1LL\
+    \ * lead * k);\n        int rem_deg = deg - shift;\n        if (0 < k && k <=\
+    \ 64) {\n            int end = lead + min(size() - lead, rem_deg);\n         \
+    \   while (end > lead && v[end - 1] == mint(0)) end--;\n            poly base(vector<mint>(v.begin()\
+    \ + lead, v.begin() + end));\n            poly ans(1);\n            ans[0] = 1;\n\
+    \            long long e = k;\n            while (e > 0) {\n                if\
+    \ (e & 1) {\n                    ans *= base;\n                    if (ans.size()\
+    \ > rem_deg) ans.v.resize(rem_deg);\n                }\n                e >>=\
+    \ 1;\n                if (e == 0) break;\n                base *= base;\n    \
+    \            if (base.size() > rem_deg) base.v.resize(rem_deg);\n            }\n\
+    \            for (int i = 0; i < ans.size(); ++i) ret[i + shift] = ans[i];\n \
+    \           return ret;\n        }\n        poly f(min(size() - lead, rem_deg));\n\
+    \        mint inv_lead = v[lead].inv();\n        for (int i = 0; i < f.size();\
+    \ ++i) f[i] = v[i + lead] * inv_lead;\n        poly g = f.log(rem_deg);\n    \
+    \    mint k_mint = mint(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ k_mint;\n        g = g.exp(rem_deg);\n        mint coeff = v[lead].pow(k);\n\
+    \        for (int i = 0; i < g.size(); ++i) g[i] *= coeff;\n        for (int i\
+    \ = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n        return ret;\n    }\n\
+    \n    poly sqrt(int deg = -1) const {\n        if (deg == -1) deg = size();\n\
+    \        poly ret(max(0, deg));\n        if (deg <= 0) return ret;\n        int\
+    \ lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n   \
+    \     if (lead == size()) return ret;\n        if (lead & 1) return poly();\n\
+    \        mint sq0;\n        if (!mod_sqrt(v[lead], sq0)) return poly();\n    \
+    \    int shift = lead >> 1;\n        if (shift >= deg) return ret;\n        int\
+    \ rem_deg = deg - shift;\n        poly f(size() - lead);\n        mint inv_lead\
+    \ = v[lead].inv();\n        for (int i = lead; i < size(); ++i) f[i - lead] =\
+    \ v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n        mint inv2 =\
+    \ mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<= 1) {\n          \
+    \  poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k << 1);\n\
+    \            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n            s\
+    \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
+    \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
+    \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
+    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n#line 2 \"fps/multipoint_evaluation.cpp\"\
+    \n\nnamespace multipoint_evaluation_detail {\nvector<mint> evaluate(const poly\
+    \ &f, const vector<poly> &prod, int m) {\n    int n = (int)prod.size() / 2;\n\
+    \    vector<mint> ys(m);\n    auto visit = [&](auto &&self, int i, const poly\
+    \ &rem) -> void {\n        if (i >= n) {\n            if (i - n < m) ys[i - n]\
+    \ = rem.v.empty() ? mint(0) : rem[0];\n            return;\n        }\n      \
+    \  self(self, i << 1, rem.mod(prod[i << 1]));\n        self(self, i << 1 | 1,\
+    \ rem.mod(prod[i << 1 | 1]));\n    };\n    visit(visit, 1, f.mod(prod[1]));\n\
+    \    return ys;\n}\n}\n\nvector<mint> poly::multipoint_eval(const vector<mint>\
+    \ &xs) const {\n    int m = (int)xs.size();\n    if (m == 0) return {};\n    if\
+    \ (size() == 0) return vector<mint>(m, mint(0));\n    if (1LL * size() * m <=\
+    \ 4096) {\n        vector<mint> ys(m);\n        for (int i = 0; i < m; ++i) ys[i]\
+    \ = eval(xs[i]);\n        return ys;\n    }\n    int n = 1;\n    while (n < m)\
+    \ n <<= 1;\n    vector<poly> prod(2 * n);\n    for (int i = 0; i < m; ++i) prod[n\
+    \ + i] = poly(vector<mint>{-xs[i], mint(1)});\n    for (int i = m; i < n; ++i)\
+    \ prod[n + i] = poly(vector<mint>{mint(1)});\n    for (int i = n - 1; i >= 1;\
+    \ --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    return multipoint_evaluation_detail::evaluate(*this,\
     \ prod, m);\n}\n\n/**\n * @brief \u591A\u70B9\u8A55\u4FA1(Multipoint Evaluation)\n\
     \ */\n"
   code: "#include \"../math/ntt.cpp\"\n\nnamespace multipoint_evaluation_detail {\n\
@@ -355,7 +357,7 @@ data:
   path: fps/multipoint_evaluation.cpp
   requiredBy:
   - fps/polynomial_interpolation.cpp
-  timestamp: '2026-10-14 20:35:27+09:00'
+  timestamp: '2026-10-18 01:13:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_polynomial_interpolation.test.cpp

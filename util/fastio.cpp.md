@@ -311,6 +311,9 @@ data:
     path: test/yosupo_aplusb_library_composition_reverse.test.cpp
     title: test/yosupo_aplusb_library_composition_reverse.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_linear_recurrence.test.cpp
+    title: test/yosupo_aplusb_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
     title: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1558,6 +1561,7 @@ data:
   - test/yosupo_aplusb_dfa_minimize.test.cpp
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_point_add_rectangle_sum_dynamic_weighted_wavelet_matrix.test.cpp
+  - test/yosupo_aplusb_linear_recurrence.test.cpp
   - test/yosupo_aplusb_closest_pair.test.cpp
   - test/yosupo_aplusb_offline_time_intervals.test.cpp
   - test/yosupo_aplusb_tree_center.test.cpp

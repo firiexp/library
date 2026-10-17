@@ -23,6 +23,9 @@ data:
     path: test/yosupo_aplusb_count_words.test.cpp
     title: test/yosupo_aplusb_count_words.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_linear_recurrence.test.cpp
+    title: test/yosupo_aplusb_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
     title: test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
   _isVerificationFailed: false
@@ -278,49 +281,55 @@ data:
     \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n           \
     \ ntt_ifft(x.v);\n            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n\
     \        }\n        return b.pre(deg);\n    }\n\n    poly pow(long long k, int\
-    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        poly ret(max(0,\
-    \ deg));\n        if (deg <= 0) return ret;\n        if (k == 0) {\n         \
-    \   ret[0] = 1;\n            return ret;\n        }\n        if (0 < k && k <=\
-    \ 64) {\n            poly base = pre(deg);\n            poly ans(1);\n       \
-    \     ans[0] = 1;\n            long long e = k;\n            while (e > 0) {\n\
-    \                if (e & 1) {\n                    ans *= base;\n            \
-    \        ans = ans.pre(deg);\n                }\n                e >>= 1;\n  \
-    \              if (e == 0) break;\n                base *= base;\n           \
-    \     base = base.pre(deg);\n            }\n            ans = ans.pre(deg);\n\
-    \            if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n\
-    \        }\n        int lead = 0;\n        while (lead < size() && v[lead] ==\
-    \ mint(0)) lead++;\n        if (lead == size()) return ret;\n        long long\
-    \ shift_ll = 0;\n        if (lead > 0) {\n            if (k > (deg - 1) / lead)\
-    \ return ret;\n            shift_ll = 1LL * lead * k;\n        }\n        poly\
-    \ f(size() - lead);\n        mint inv_lead = v[lead].inv();\n        for (int\
-    \ i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;\n        int shift\
-    \ = static_cast<int>(shift_ll);\n        int rem_deg = deg - shift;\n        poly\
-    \ g = f.log(rem_deg);\n        mint k_mint = mint(k);\n        for (int i = 0;\
-    \ i < g.size(); ++i) g[i] *= k_mint;\n        g = g.exp(rem_deg);\n        mint\
-    \ coeff = v[lead].pow(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
-    \ coeff;\n        for (int i = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n\
-    \        return ret;\n    }\n\n    poly sqrt(int deg = -1) const {\n        if\
-    \ (deg == -1) deg = size();\n        poly ret(max(0, deg));\n        if (deg <=\
-    \ 0) return ret;\n        int lead = 0;\n        while (lead < size() && v[lead]\
-    \ == mint(0)) lead++;\n        if (lead == size()) return ret;\n        if (lead\
-    \ & 1) return poly();\n        mint sq0;\n        if (!mod_sqrt(v[lead], sq0))\
-    \ return poly();\n        int shift = lead >> 1;\n        if (shift >= deg) return\
-    \ ret;\n        int rem_deg = deg - shift;\n        poly f(size() - lead);\n \
-    \       mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
-    \ ++i) f[i - lead] = v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n\
-    \        mint inv2 = mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<=\
-    \ 1) {\n            poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k\
-    \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
-    \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
-    \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    assert(n\
-    \ >= 0 && q.size() > 0 && q[0] != mint(0));\n    if(p.size() == 0) return 0;\n\
-    \    if(q.size() == 1) return n < p.size() ? p[n]/q[0] : mint(0);\n    if(!n)\
-    \ return p[0]/q[0];\n    if(q[0] != mint(1)) {\n        mint inv = q[0].inv();\n\
-    \        for(auto &v : p.v) v *= inv;\n        for(auto &v : q.v) v *= inv;\n\
-    \    }\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n    while(sz\
+    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        if (deg <=\
+    \ 0) return poly();\n        if (k == 1) return pre(deg);\n        poly ret(deg);\n\
+    \        if (k == 0) {\n            ret[0] = 1;\n            return ret;\n   \
+    \     }\n        int lead = 0;\n        while (lead < min(size(), deg) && v[lead]\
+    \ == mint(0)) lead++;\n        if (lead == min(size(), deg)) return ret;\n   \
+    \     if (lead > 0 && k > (deg - 1) / lead) return ret;\n        int shift = static_cast<int>(1LL\
+    \ * lead * k);\n        int rem_deg = deg - shift;\n        if (0 < k && k <=\
+    \ 64) {\n            int end = lead + min(size() - lead, rem_deg);\n         \
+    \   while (end > lead && v[end - 1] == mint(0)) end--;\n            poly base(vector<mint>(v.begin()\
+    \ + lead, v.begin() + end));\n            poly ans(1);\n            ans[0] = 1;\n\
+    \            long long e = k;\n            while (e > 0) {\n                if\
+    \ (e & 1) {\n                    ans *= base;\n                    if (ans.size()\
+    \ > rem_deg) ans.v.resize(rem_deg);\n                }\n                e >>=\
+    \ 1;\n                if (e == 0) break;\n                base *= base;\n    \
+    \            if (base.size() > rem_deg) base.v.resize(rem_deg);\n            }\n\
+    \            for (int i = 0; i < ans.size(); ++i) ret[i + shift] = ans[i];\n \
+    \           return ret;\n        }\n        poly f(min(size() - lead, rem_deg));\n\
+    \        mint inv_lead = v[lead].inv();\n        for (int i = 0; i < f.size();\
+    \ ++i) f[i] = v[i + lead] * inv_lead;\n        poly g = f.log(rem_deg);\n    \
+    \    mint k_mint = mint(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ k_mint;\n        g = g.exp(rem_deg);\n        mint coeff = v[lead].pow(k);\n\
+    \        for (int i = 0; i < g.size(); ++i) g[i] *= coeff;\n        for (int i\
+    \ = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n        return ret;\n    }\n\
+    \n    poly sqrt(int deg = -1) const {\n        if (deg == -1) deg = size();\n\
+    \        poly ret(max(0, deg));\n        if (deg <= 0) return ret;\n        int\
+    \ lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n   \
+    \     if (lead == size()) return ret;\n        if (lead & 1) return poly();\n\
+    \        mint sq0;\n        if (!mod_sqrt(v[lead], sq0)) return poly();\n    \
+    \    int shift = lead >> 1;\n        if (shift >= deg) return ret;\n        int\
+    \ rem_deg = deg - shift;\n        poly f(size() - lead);\n        mint inv_lead\
+    \ = v[lead].inv();\n        for (int i = lead; i < size(); ++i) f[i - lead] =\
+    \ v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n        mint inv2 =\
+    \ mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<= 1) {\n          \
+    \  poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k << 1);\n\
+    \            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n            s\
+    \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
+    \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
+    \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
+    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n#line 2 \"fps/nth_term.cpp\"\
+    \nmint nth_term(const poly &p_input, const poly &q_input, ll n){\n    assert(n\
+    \ >= 0 && q_input.size() > 0 && q_input[0] != mint(0));\n    if(p_input.size()\
+    \ == 0) return 0;\n    if(q_input.size() == 1) return n < p_input.size() ? p_input[n]/q_input[0]\
+    \ : mint(0);\n    if(!n) return p_input[0]/q_input[0];\n    int p_size = n < p_input.size()\
+    \ ? static_cast<int>(n) + 1 : p_input.size();\n    int q_size = n < q_input.size()\
+    \ ? static_cast<int>(n) + 1 : q_input.size();\n    poly p(vector<mint>(p_input.v.begin(),\
+    \ p_input.v.begin() + p_size));\n    poly q(vector<mint>(q_input.v.begin(), q_input.v.begin()\
+    \ + q_size));\n    if(q[0] != mint(1)) {\n        mint inv = q[0].inv();\n   \
+    \     for(auto &v : p.v) v *= inv;\n        for(auto &v : q.v) v *= inv;\n   \
+    \ }\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n    while(sz\
     \ < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n    mint x = mint(sz>>1).inv();\n\
     \    vector<mint> y(sz>>1, 0);\n    for (int j = sz>>2, i = h; j; j >>= 1, i--)\
     \ y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n    for (int i = 2; i < sz>>1; i <<=\
@@ -356,9 +365,9 @@ data:
     \ i = 0; i < k; ++i) q[i + 1] = -c[i];\n    vector<mint> aa(k, mint(0));\n   \
     \ for (int i = 0; i < min(k, (int)a.size()); ++i) aa[i] = a[i];\n    poly p =\
     \ (poly(aa) * q).cut(k);\n    return nth_term(p, q, n);\n}\n\nmint linear_recurrence(const\
-    \ vector<mint> &a, ll n) {\n    return linear_recurrence(a, berlekamp_massey(a),\
-    \ n);\n}\n\n/**\n * @brief \u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)\n\
-    \ */\n"
+    \ vector<mint> &a, ll n) {\n    if (n < (ll)a.size()) return a[(int)n];\n    return\
+    \ linear_recurrence(a, berlekamp_massey(a), n);\n}\n\n/**\n * @brief \u7DDA\u5F62\
+    \u6F38\u5316\u5F0F(Linear Recurrence)\n */\n"
   code: "#include \"nth_term.cpp\"\n#include \"../math/berlekamp_massey.cpp\"\n\n\
     mint linear_recurrence(const vector<mint> &a, const vector<mint> &c, ll n) {\n\
     \    if (n < (ll)a.size()) return a[(int)n];\n    int k = (int)c.size();\n   \
@@ -366,9 +375,9 @@ data:
     \ i = 0; i < k; ++i) q[i + 1] = -c[i];\n    vector<mint> aa(k, mint(0));\n   \
     \ for (int i = 0; i < min(k, (int)a.size()); ++i) aa[i] = a[i];\n    poly p =\
     \ (poly(aa) * q).cut(k);\n    return nth_term(p, q, n);\n}\n\nmint linear_recurrence(const\
-    \ vector<mint> &a, ll n) {\n    return linear_recurrence(a, berlekamp_massey(a),\
-    \ n);\n}\n\n/**\n * @brief \u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)\n\
-    \ */\n"
+    \ vector<mint> &a, ll n) {\n    if (n < (ll)a.size()) return a[(int)n];\n    return\
+    \ linear_recurrence(a, berlekamp_massey(a), n);\n}\n\n/**\n * @brief \u7DDA\u5F62\
+    \u6F38\u5316\u5F0F(Linear Recurrence)\n */\n"
   dependsOn:
   - fps/nth_term.cpp
   - math/ntt.cpp
@@ -378,9 +387,10 @@ data:
   path: fps/linear_recurrence.cpp
   requiredBy:
   - string/count_words.cpp
-  timestamp: '2026-10-15 18:52:36+09:00'
+  timestamp: '2026-10-18 01:13:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_linear_recurrence.test.cpp
   - test/yosupo_aplusb_count_words.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp
 date: 2026-03-07
@@ -390,13 +400,24 @@ tags: "\u6570\u5B66"
 title: "\u7DDA\u5F62\u6F38\u5316\u5F0F(Linear Recurrence)"
 ---
 
-## 概要
+## 説明
 線形漸化式
 
-`a_n = c_0 a_{n-1} + c_1 a_{n-2} + ... + c_{k-1} a_{n-k}`
+$$a_n = c_0 a_{n-1} + c_1 a_{n-2} + \cdots + c_{k-1} a_{n-k}$$
 
-の第 `n` 項を $O(k log k log n)$ で計算する。
+の第 `n` 項を求める。
 
-`linear_recurrence(a, c, n)` は初項 `a` と係数 `c` が与えられたときの第 `n` 項を返す。
+## できること
+- `linear_recurrence(a, c, n)`
+  初項 `a` と係数 `c` から第 `n` 項を返す
+- `linear_recurrence(a, n)`
+  Berlekamp-Massey で `a` の最小線形漸化式を推定し、第 `n` 項を返す
 
-`linear_recurrence(a, n)` は Berlekamp-Massey で `a` の最小線形漸化式を復元して第 `n` 項を返す。
+## 使い方
+`n >= 0` とする。係数を指定する場合は、漸化式の次数 `k` 項分の初項を渡す。
+自動推定には、想定する次数の 2 倍以上の項を渡す。
+
+## 実装上の補足
+`n < a.size()` なら、どちらの関数も推定や第 `n` 項の計算を行わず、時間・追加領域 $O(1)$ で `a[n]` を返す。
+それ以外では第 `n` 項の計算に $O(k\log k\log n)$ 時間を使う。
+自動推定には別途 $O(|a|^2)$ 時間を使う。

@@ -477,64 +477,66 @@ data:
     \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n           \
     \ ntt_ifft(x.v);\n            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n\
     \        }\n        return b.pre(deg);\n    }\n\n    poly pow(long long k, int\
-    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        poly ret(max(0,\
-    \ deg));\n        if (deg <= 0) return ret;\n        if (k == 0) {\n         \
-    \   ret[0] = 1;\n            return ret;\n        }\n        if (0 < k && k <=\
-    \ 64) {\n            poly base = pre(deg);\n            poly ans(1);\n       \
-    \     ans[0] = 1;\n            long long e = k;\n            while (e > 0) {\n\
-    \                if (e & 1) {\n                    ans *= base;\n            \
-    \        ans = ans.pre(deg);\n                }\n                e >>= 1;\n  \
-    \              if (e == 0) break;\n                base *= base;\n           \
-    \     base = base.pre(deg);\n            }\n            ans = ans.pre(deg);\n\
-    \            if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n\
-    \        }\n        int lead = 0;\n        while (lead < size() && v[lead] ==\
-    \ mint(0)) lead++;\n        if (lead == size()) return ret;\n        long long\
-    \ shift_ll = 0;\n        if (lead > 0) {\n            if (k > (deg - 1) / lead)\
-    \ return ret;\n            shift_ll = 1LL * lead * k;\n        }\n        poly\
-    \ f(size() - lead);\n        mint inv_lead = v[lead].inv();\n        for (int\
-    \ i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;\n        int shift\
-    \ = static_cast<int>(shift_ll);\n        int rem_deg = deg - shift;\n        poly\
-    \ g = f.log(rem_deg);\n        mint k_mint = mint(k);\n        for (int i = 0;\
-    \ i < g.size(); ++i) g[i] *= k_mint;\n        g = g.exp(rem_deg);\n        mint\
-    \ coeff = v[lead].pow(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
-    \ coeff;\n        for (int i = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n\
-    \        return ret;\n    }\n\n    poly sqrt(int deg = -1) const {\n        if\
-    \ (deg == -1) deg = size();\n        poly ret(max(0, deg));\n        if (deg <=\
-    \ 0) return ret;\n        int lead = 0;\n        while (lead < size() && v[lead]\
-    \ == mint(0)) lead++;\n        if (lead == size()) return ret;\n        if (lead\
-    \ & 1) return poly();\n        mint sq0;\n        if (!mod_sqrt(v[lead], sq0))\
-    \ return poly();\n        int shift = lead >> 1;\n        if (shift >= deg) return\
-    \ ret;\n        int rem_deg = deg - shift;\n        poly f(size() - lead);\n \
-    \       mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
-    \ ++i) f[i - lead] = v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n\
-    \        mint inv2 = mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<=\
-    \ 1) {\n            poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k\
-    \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
-    \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
-    \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 10 \"test/yosupo_aplusb_ntt_multiply.test.cpp\"\n\nvector<mint> naive_product(const\
-    \ vector<mint> &a, const vector<mint> &b) {\n    if (a.empty() || b.empty()) return\
-    \ {};\n    vector<mint> result(a.size() + b.size() - 1);\n    for (int i = 0;\
-    \ i < (int)a.size(); ++i) {\n        for (int j = 0; j < (int)b.size(); ++j) result[i\
-    \ + j] += a[i] * b[j];\n    }\n    return result;\n}\n\nvoid check_product(const\
-    \ poly &f, const poly &g) {\n    auto original_f = f.v, original_g = g.v;\n  \
-    \  auto expected = naive_product(f.v, g.v);\n    auto left = f, right = g;\n \
-    \   left *= g;\n    right *= f;\n    assert(left.v == expected && right.v == expected);\n\
-    \    assert((f * g).v == expected && (g * f).v == expected);\n    assert(f.v ==\
-    \ original_f && g.v == original_g);\n}\n\nvoid self_check() {\n    mt19937 random(20);\n\
-    \    auto make_poly = [&](int n) {\n        poly f(n);\n        for (auto &x :\
-    \ f.v) x = random() % ntt_mod;\n        return f;\n    };\n    for (int n = 0;\
-    \ n <= 64; ++n) {\n        for (int m = 0; m <= 64; ++m) check_product(make_poly(n),\
-    \ make_poly(m));\n    }\n    // Result lengths on both sides of powers of two,\
-    \ and both naive thresholds.\n    for (int power = 128; power <= 4096; power *=\
-    \ 2) {\n        for (int m : {1, 2, 15, 16, 17, 31, 32, 33, 47, 48, 49, 64, 65})\
-    \ {\n            for (int offset : {-1, 0, 1}) {\n                check_product(make_poly(power\
-    \ - m + 1 + offset), make_poly(m));\n            }\n        }\n    }\n    for\
-    \ (int n : {0, 1, 2, 16, 17, 48, 49, 64, 65, 127, 128, 129, 1024}) {\n       \
-    \ auto f = make_poly(n), original = f;\n        auto expected = naive_product(f.v,\
-    \ f.v);\n        f *= f;\n        assert(f.v == expected);\n        auto same_coefficients\
+    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        if (deg <=\
+    \ 0) return poly();\n        if (k == 1) return pre(deg);\n        poly ret(deg);\n\
+    \        if (k == 0) {\n            ret[0] = 1;\n            return ret;\n   \
+    \     }\n        int lead = 0;\n        while (lead < min(size(), deg) && v[lead]\
+    \ == mint(0)) lead++;\n        if (lead == min(size(), deg)) return ret;\n   \
+    \     if (lead > 0 && k > (deg - 1) / lead) return ret;\n        int shift = static_cast<int>(1LL\
+    \ * lead * k);\n        int rem_deg = deg - shift;\n        if (0 < k && k <=\
+    \ 64) {\n            int end = lead + min(size() - lead, rem_deg);\n         \
+    \   while (end > lead && v[end - 1] == mint(0)) end--;\n            poly base(vector<mint>(v.begin()\
+    \ + lead, v.begin() + end));\n            poly ans(1);\n            ans[0] = 1;\n\
+    \            long long e = k;\n            while (e > 0) {\n                if\
+    \ (e & 1) {\n                    ans *= base;\n                    if (ans.size()\
+    \ > rem_deg) ans.v.resize(rem_deg);\n                }\n                e >>=\
+    \ 1;\n                if (e == 0) break;\n                base *= base;\n    \
+    \            if (base.size() > rem_deg) base.v.resize(rem_deg);\n            }\n\
+    \            for (int i = 0; i < ans.size(); ++i) ret[i + shift] = ans[i];\n \
+    \           return ret;\n        }\n        poly f(min(size() - lead, rem_deg));\n\
+    \        mint inv_lead = v[lead].inv();\n        for (int i = 0; i < f.size();\
+    \ ++i) f[i] = v[i + lead] * inv_lead;\n        poly g = f.log(rem_deg);\n    \
+    \    mint k_mint = mint(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ k_mint;\n        g = g.exp(rem_deg);\n        mint coeff = v[lead].pow(k);\n\
+    \        for (int i = 0; i < g.size(); ++i) g[i] *= coeff;\n        for (int i\
+    \ = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n        return ret;\n    }\n\
+    \n    poly sqrt(int deg = -1) const {\n        if (deg == -1) deg = size();\n\
+    \        poly ret(max(0, deg));\n        if (deg <= 0) return ret;\n        int\
+    \ lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n   \
+    \     if (lead == size()) return ret;\n        if (lead & 1) return poly();\n\
+    \        mint sq0;\n        if (!mod_sqrt(v[lead], sq0)) return poly();\n    \
+    \    int shift = lead >> 1;\n        if (shift >= deg) return ret;\n        int\
+    \ rem_deg = deg - shift;\n        poly f(size() - lead);\n        mint inv_lead\
+    \ = v[lead].inv();\n        for (int i = lead; i < size(); ++i) f[i - lead] =\
+    \ v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n        mint inv2 =\
+    \ mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<= 1) {\n          \
+    \  poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k << 1);\n\
+    \            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n            s\
+    \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
+    \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
+    \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
+    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n#line 10 \"test/yosupo_aplusb_ntt_multiply.test.cpp\"\
+    \n\nvector<mint> naive_product(const vector<mint> &a, const vector<mint> &b) {\n\
+    \    if (a.empty() || b.empty()) return {};\n    vector<mint> result(a.size()\
+    \ + b.size() - 1);\n    for (int i = 0; i < (int)a.size(); ++i) {\n        for\
+    \ (int j = 0; j < (int)b.size(); ++j) result[i + j] += a[i] * b[j];\n    }\n \
+    \   return result;\n}\n\nvoid check_product(const poly &f, const poly &g) {\n\
+    \    auto original_f = f.v, original_g = g.v;\n    auto expected = naive_product(f.v,\
+    \ g.v);\n    auto left = f, right = g;\n    left *= g;\n    right *= f;\n    assert(left.v\
+    \ == expected && right.v == expected);\n    assert((f * g).v == expected && (g\
+    \ * f).v == expected);\n    assert(f.v == original_f && g.v == original_g);\n\
+    }\n\nvoid self_check() {\n    mt19937 random(20);\n    auto make_poly = [&](int\
+    \ n) {\n        poly f(n);\n        for (auto &x : f.v) x = random() % ntt_mod;\n\
+    \        return f;\n    };\n    for (int n = 0; n <= 64; ++n) {\n        for (int\
+    \ m = 0; m <= 64; ++m) check_product(make_poly(n), make_poly(m));\n    }\n   \
+    \ // Result lengths on both sides of powers of two, and both naive thresholds.\n\
+    \    for (int power = 128; power <= 4096; power *= 2) {\n        for (int m :\
+    \ {1, 2, 15, 16, 17, 31, 32, 33, 47, 48, 49, 64, 65}) {\n            for (int\
+    \ offset : {-1, 0, 1}) {\n                check_product(make_poly(power - m +\
+    \ 1 + offset), make_poly(m));\n            }\n        }\n    }\n    for (int n\
+    \ : {0, 1, 2, 16, 17, 48, 49, 64, 65, 127, 128, 129, 1024}) {\n        auto f\
+    \ = make_poly(n), original = f;\n        auto expected = naive_product(f.v, f.v);\n\
+    \        f *= f;\n        assert(f.v == expected);\n        auto same_coefficients\
     \ = original;\n        assert((original * original).v == expected);\n        assert(original.v\
     \ == same_coefficients.v);\n        check_product(original, same_coefficients);\n\
     \        check_product(original, poly(vector<mint>{0}));\n        check_product(original,\
@@ -580,7 +582,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_ntt_multiply.test.cpp
   requiredBy: []
-  timestamp: '2026-10-14 20:32:46+09:00'
+  timestamp: '2026-10-18 01:13:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_ntt_multiply.test.cpp

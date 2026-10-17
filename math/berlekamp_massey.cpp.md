@@ -17,6 +17,9 @@ data:
     path: test/yosupo_aplusb_count_words.test.cpp
     title: test/yosupo_aplusb_count_words.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_linear_recurrence.test.cpp
+    title: test/yosupo_aplusb_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_find_linear_recurrence.test.cpp
     title: test/yosupo_find_linear_recurrence.test.cpp
   - icon: ':heavy_check_mark:'
@@ -62,6 +65,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_berlekamp_massey.test.cpp
+  - test/yosupo_aplusb_linear_recurrence.test.cpp
   - test/yosupo_aplusb_count_words.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence.test.cpp

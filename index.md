@@ -1114,6 +1114,9 @@ data:
       path: test/yosupo_aplusb_library_composition_reverse.test.cpp
       title: test/yosupo_aplusb_library_composition_reverse.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_linear_recurrence.test.cpp
+      title: test/yosupo_aplusb_linear_recurrence.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
       title: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
     - icon: ':heavy_check_mark:'

@@ -115,6 +115,9 @@ data:
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_linear_recurrence.test.cpp
+    title: test/yosupo_aplusb_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
     title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
   - icon: ':heavy_check_mark:'
@@ -419,6 +422,7 @@ data:
   - test/yosupo_aplusb_rectangle_add_point_get.test.cpp
   - test/yosupo_aplusb_ntt_precision.test.cpp
   - test/yosupo_pow_of_matrix.test.cpp
+  - test/yosupo_aplusb_linear_recurrence.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_range_parallel_unionfind.test.cpp

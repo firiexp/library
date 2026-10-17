@@ -483,49 +483,55 @@ data:
     \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n           \
     \ ntt_ifft(x.v);\n            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n\
     \        }\n        return b.pre(deg);\n    }\n\n    poly pow(long long k, int\
-    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        poly ret(max(0,\
-    \ deg));\n        if (deg <= 0) return ret;\n        if (k == 0) {\n         \
-    \   ret[0] = 1;\n            return ret;\n        }\n        if (0 < k && k <=\
-    \ 64) {\n            poly base = pre(deg);\n            poly ans(1);\n       \
-    \     ans[0] = 1;\n            long long e = k;\n            while (e > 0) {\n\
-    \                if (e & 1) {\n                    ans *= base;\n            \
-    \        ans = ans.pre(deg);\n                }\n                e >>= 1;\n  \
-    \              if (e == 0) break;\n                base *= base;\n           \
-    \     base = base.pre(deg);\n            }\n            ans = ans.pre(deg);\n\
-    \            if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n\
-    \        }\n        int lead = 0;\n        while (lead < size() && v[lead] ==\
-    \ mint(0)) lead++;\n        if (lead == size()) return ret;\n        long long\
-    \ shift_ll = 0;\n        if (lead > 0) {\n            if (k > (deg - 1) / lead)\
-    \ return ret;\n            shift_ll = 1LL * lead * k;\n        }\n        poly\
-    \ f(size() - lead);\n        mint inv_lead = v[lead].inv();\n        for (int\
-    \ i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;\n        int shift\
-    \ = static_cast<int>(shift_ll);\n        int rem_deg = deg - shift;\n        poly\
-    \ g = f.log(rem_deg);\n        mint k_mint = mint(k);\n        for (int i = 0;\
-    \ i < g.size(); ++i) g[i] *= k_mint;\n        g = g.exp(rem_deg);\n        mint\
-    \ coeff = v[lead].pow(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
-    \ coeff;\n        for (int i = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n\
-    \        return ret;\n    }\n\n    poly sqrt(int deg = -1) const {\n        if\
-    \ (deg == -1) deg = size();\n        poly ret(max(0, deg));\n        if (deg <=\
-    \ 0) return ret;\n        int lead = 0;\n        while (lead < size() && v[lead]\
-    \ == mint(0)) lead++;\n        if (lead == size()) return ret;\n        if (lead\
-    \ & 1) return poly();\n        mint sq0;\n        if (!mod_sqrt(v[lead], sq0))\
-    \ return poly();\n        int shift = lead >> 1;\n        if (shift >= deg) return\
-    \ ret;\n        int rem_deg = deg - shift;\n        poly f(size() - lead);\n \
-    \       mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
-    \ ++i) f[i - lead] = v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n\
-    \        mint inv2 = mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<=\
-    \ 1) {\n            poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k\
-    \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
-    \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
-    \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 2 \"fps/nth_term.cpp\"\nmint nth_term(poly p, poly q, ll n){\n    assert(n\
-    \ >= 0 && q.size() > 0 && q[0] != mint(0));\n    if(p.size() == 0) return 0;\n\
-    \    if(q.size() == 1) return n < p.size() ? p[n]/q[0] : mint(0);\n    if(!n)\
-    \ return p[0]/q[0];\n    if(q[0] != mint(1)) {\n        mint inv = q[0].inv();\n\
-    \        for(auto &v : p.v) v *= inv;\n        for(auto &v : q.v) v *= inv;\n\
-    \    }\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n    while(sz\
+    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        if (deg <=\
+    \ 0) return poly();\n        if (k == 1) return pre(deg);\n        poly ret(deg);\n\
+    \        if (k == 0) {\n            ret[0] = 1;\n            return ret;\n   \
+    \     }\n        int lead = 0;\n        while (lead < min(size(), deg) && v[lead]\
+    \ == mint(0)) lead++;\n        if (lead == min(size(), deg)) return ret;\n   \
+    \     if (lead > 0 && k > (deg - 1) / lead) return ret;\n        int shift = static_cast<int>(1LL\
+    \ * lead * k);\n        int rem_deg = deg - shift;\n        if (0 < k && k <=\
+    \ 64) {\n            int end = lead + min(size() - lead, rem_deg);\n         \
+    \   while (end > lead && v[end - 1] == mint(0)) end--;\n            poly base(vector<mint>(v.begin()\
+    \ + lead, v.begin() + end));\n            poly ans(1);\n            ans[0] = 1;\n\
+    \            long long e = k;\n            while (e > 0) {\n                if\
+    \ (e & 1) {\n                    ans *= base;\n                    if (ans.size()\
+    \ > rem_deg) ans.v.resize(rem_deg);\n                }\n                e >>=\
+    \ 1;\n                if (e == 0) break;\n                base *= base;\n    \
+    \            if (base.size() > rem_deg) base.v.resize(rem_deg);\n            }\n\
+    \            for (int i = 0; i < ans.size(); ++i) ret[i + shift] = ans[i];\n \
+    \           return ret;\n        }\n        poly f(min(size() - lead, rem_deg));\n\
+    \        mint inv_lead = v[lead].inv();\n        for (int i = 0; i < f.size();\
+    \ ++i) f[i] = v[i + lead] * inv_lead;\n        poly g = f.log(rem_deg);\n    \
+    \    mint k_mint = mint(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ k_mint;\n        g = g.exp(rem_deg);\n        mint coeff = v[lead].pow(k);\n\
+    \        for (int i = 0; i < g.size(); ++i) g[i] *= coeff;\n        for (int i\
+    \ = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n        return ret;\n    }\n\
+    \n    poly sqrt(int deg = -1) const {\n        if (deg == -1) deg = size();\n\
+    \        poly ret(max(0, deg));\n        if (deg <= 0) return ret;\n        int\
+    \ lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n   \
+    \     if (lead == size()) return ret;\n        if (lead & 1) return poly();\n\
+    \        mint sq0;\n        if (!mod_sqrt(v[lead], sq0)) return poly();\n    \
+    \    int shift = lead >> 1;\n        if (shift >= deg) return ret;\n        int\
+    \ rem_deg = deg - shift;\n        poly f(size() - lead);\n        mint inv_lead\
+    \ = v[lead].inv();\n        for (int i = lead; i < size(); ++i) f[i - lead] =\
+    \ v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n        mint inv2 =\
+    \ mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<= 1) {\n          \
+    \  poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k << 1);\n\
+    \            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n            s\
+    \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
+    \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
+    \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
+    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n#line 2 \"fps/nth_term.cpp\"\
+    \nmint nth_term(const poly &p_input, const poly &q_input, ll n){\n    assert(n\
+    \ >= 0 && q_input.size() > 0 && q_input[0] != mint(0));\n    if(p_input.size()\
+    \ == 0) return 0;\n    if(q_input.size() == 1) return n < p_input.size() ? p_input[n]/q_input[0]\
+    \ : mint(0);\n    if(!n) return p_input[0]/q_input[0];\n    int p_size = n < p_input.size()\
+    \ ? static_cast<int>(n) + 1 : p_input.size();\n    int q_size = n < q_input.size()\
+    \ ? static_cast<int>(n) + 1 : q_input.size();\n    poly p(vector<mint>(p_input.v.begin(),\
+    \ p_input.v.begin() + p_size));\n    poly q(vector<mint>(q_input.v.begin(), q_input.v.begin()\
+    \ + q_size));\n    if(q[0] != mint(1)) {\n        mint inv = q[0].inv();\n   \
+    \     for(auto &v : p.v) v *= inv;\n        for(auto &v : q.v) v *= inv;\n   \
+    \ }\n    int sz = 1, h = 0;\n    int k = max(p.size(), q.size());\n    while(sz\
     \ < 2*k-1) sz <<= 1, h++;\n    p.v.resize(sz); q.v.resize(sz);\n    mint x = mint(sz>>1).inv();\n\
     \    vector<mint> y(sz>>1, 0);\n    for (int j = sz>>2, i = h; j; j >>= 1, i--)\
     \ y[j] = ntt.iroot_pow2(i);\n    y[0] = 1;\n    for (int i = 2; i < sz>>1; i <<=\
@@ -545,22 +551,33 @@ data:
     }\n\n/**\n * @brief \u6709\u7406\u578B\u6BCD\u95A2\u6570\u306EN\u9805\u76EE\n\
     \ */\n#line 23 \"test/yosupo_aplusb_nth_term.test.cpp\"\n\nvoid self_check() {\n\
     \    auto check = [](const vector<mint> &p, const vector<mint> &q) {\n       \
-    \ vector<mint> expected(40);\n        for (int n = 0; n < int(expected.size());\
-    \ ++n) {\n            mint value = n < int(p.size()) ? p[n] : mint(0);\n     \
-    \       for (int j = 1; j <= n && j < int(q.size()); ++j)\n                value\
-    \ -= q[j] * expected[n - j];\n            expected[n] = value / q[0];\n      \
-    \      assert(nth_term(poly(p), poly(q), n) == expected[n]);\n        }\n    };\n\
-    \    check({}, {1});\n    check({}, {2, -1});\n    check({1}, {1});\n    check({1},\
-    \ {2, -1});\n    check({2, 4, 6}, {2});\n    check({1, 0, 3, 4, 5}, {3, -1});\n\
-    \    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2}), LLONG_MAX)\
-    \ == mint(0));\n    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2,\
-    \ -2}), LLONG_MAX) == mint(2).inv());\n    mt19937 rng(8);\n    for (int tc =\
-    \ 0; tc < 150; ++tc) {\n        vector<mint> p(rng() % 10), q(1 + rng() % 10);\n\
-    \        for (auto &v : p) v = int(rng() % 21) - 10;\n        for (auto &v : q)\
-    \ v = int(rng() % 21) - 10;\n        q[0] = tc % 3 == 0 ? 1 : 1 + rng() % 100;\n\
-    \        check(p, q);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n}\n"
+    \ vector<mint> expected(40);\n        const poly numerator(p), denominator(q);\n\
+    \        for (int n = 0; n < int(expected.size()); ++n) {\n            mint value\
+    \ = n < int(p.size()) ? p[n] : mint(0);\n            for (int j = 1; j <= n &&\
+    \ j < int(q.size()); ++j)\n                value -= q[j] * expected[n - j];\n\
+    \            expected[n] = value / q[0];\n            assert(nth_term(numerator,\
+    \ denominator, n) == expected[n]);\n        }\n        assert(numerator.v == p\
+    \ && denominator.v == q);\n    };\n    check({}, {1});\n    check({}, {2, -1});\n\
+    \    check({1}, {1});\n    check({1}, {2, -1});\n    check({2, 4, 6}, {2});\n\
+    \    check({1, 0, 3, 4, 5}, {3, -1});\n    assert(nth_term(poly(vector<mint>{1}),\
+    \ poly(vector<mint>{2}), LLONG_MAX) == mint(0));\n    assert(nth_term(poly(vector<mint>{1}),\
+    \ poly(vector<mint>{2, -2}), LLONG_MAX) == mint(2).inv());\n    mt19937 rng(8);\n\
+    \    for (int tc = 0; tc < 150; ++tc) {\n        vector<mint> p(rng() % 10), q(1\
+    \ + rng() % 10);\n        for (auto &v : p) v = int(rng() % 21) - 10;\n      \
+    \  for (auto &v : q) v = int(rng() % 21) - 10;\n        q[0] = tc % 3 == 0 ? 1\
+    \ : 1 + rng() % 100;\n        check(p, q);\n    }\n    poly p(1 << 17), q(1 <<\
+    \ 17);\n    for (auto &v : p.v) v = rng() % ntt_mod;\n    for (auto &v : q.v)\
+    \ v = rng() % ntt_mod;\n    q[0] = 7;\n    const auto original_p = p.v, original_q\
+    \ = q.v;\n    for (int n : {0, 1, 2, 31, 63, 64, 127}) {\n        poly prefix_p\
+    \ = p.pre(n + 1), prefix_q = q.pre(n + 1);\n        vector<mint> coefficients(n\
+    \ + 1);\n        for (int i = 0; i <= n; ++i) {\n            coefficients[i] =\
+    \ prefix_p[i];\n            for (int j = 1; j <= i; ++j) coefficients[i] -= prefix_q[j]\
+    \ * coefficients[i - j];\n            coefficients[i] /= prefix_q[0];\n      \
+    \  }\n        mint expected = coefficients[n];\n        assert(nth_term(p, q,\
+    \ n) == expected);\n        assert(nth_term(prefix_p, prefix_q, n) == expected);\n\
+    \    }\n    assert(p.v == original_p && q.v == original_q);\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
     #include <cassert>\n#include <climits>\n#include <random>\n#include <utility>\n\
     #include <vector>\nusing namespace std;\n\nusing ll = long long;\nusing uint =\
@@ -568,22 +585,33 @@ data:
     #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
     ../util/fastio.cpp\"\n#include \"../fps/nth_term.cpp\"\n\nvoid self_check() {\n\
     \    auto check = [](const vector<mint> &p, const vector<mint> &q) {\n       \
-    \ vector<mint> expected(40);\n        for (int n = 0; n < int(expected.size());\
-    \ ++n) {\n            mint value = n < int(p.size()) ? p[n] : mint(0);\n     \
-    \       for (int j = 1; j <= n && j < int(q.size()); ++j)\n                value\
-    \ -= q[j] * expected[n - j];\n            expected[n] = value / q[0];\n      \
-    \      assert(nth_term(poly(p), poly(q), n) == expected[n]);\n        }\n    };\n\
-    \    check({}, {1});\n    check({}, {2, -1});\n    check({1}, {1});\n    check({1},\
-    \ {2, -1});\n    check({2, 4, 6}, {2});\n    check({1, 0, 3, 4, 5}, {3, -1});\n\
-    \    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2}), LLONG_MAX)\
-    \ == mint(0));\n    assert(nth_term(poly(vector<mint>{1}), poly(vector<mint>{2,\
-    \ -2}), LLONG_MAX) == mint(2).inv());\n    mt19937 rng(8);\n    for (int tc =\
-    \ 0; tc < 150; ++tc) {\n        vector<mint> p(rng() % 10), q(1 + rng() % 10);\n\
-    \        for (auto &v : p) v = int(rng() % 21) - 10;\n        for (auto &v : q)\
-    \ v = int(rng() % 21) - 10;\n        q[0] = tc % 3 == 0 ? 1 : 1 + rng() % 100;\n\
-    \        check(p, q);\n    }\n}\n\nint main() {\n    self_check();\n    Scanner\
-    \ sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a +\
-    \ b);\n}\n"
+    \ vector<mint> expected(40);\n        const poly numerator(p), denominator(q);\n\
+    \        for (int n = 0; n < int(expected.size()); ++n) {\n            mint value\
+    \ = n < int(p.size()) ? p[n] : mint(0);\n            for (int j = 1; j <= n &&\
+    \ j < int(q.size()); ++j)\n                value -= q[j] * expected[n - j];\n\
+    \            expected[n] = value / q[0];\n            assert(nth_term(numerator,\
+    \ denominator, n) == expected[n]);\n        }\n        assert(numerator.v == p\
+    \ && denominator.v == q);\n    };\n    check({}, {1});\n    check({}, {2, -1});\n\
+    \    check({1}, {1});\n    check({1}, {2, -1});\n    check({2, 4, 6}, {2});\n\
+    \    check({1, 0, 3, 4, 5}, {3, -1});\n    assert(nth_term(poly(vector<mint>{1}),\
+    \ poly(vector<mint>{2}), LLONG_MAX) == mint(0));\n    assert(nth_term(poly(vector<mint>{1}),\
+    \ poly(vector<mint>{2, -2}), LLONG_MAX) == mint(2).inv());\n    mt19937 rng(8);\n\
+    \    for (int tc = 0; tc < 150; ++tc) {\n        vector<mint> p(rng() % 10), q(1\
+    \ + rng() % 10);\n        for (auto &v : p) v = int(rng() % 21) - 10;\n      \
+    \  for (auto &v : q) v = int(rng() % 21) - 10;\n        q[0] = tc % 3 == 0 ? 1\
+    \ : 1 + rng() % 100;\n        check(p, q);\n    }\n    poly p(1 << 17), q(1 <<\
+    \ 17);\n    for (auto &v : p.v) v = rng() % ntt_mod;\n    for (auto &v : q.v)\
+    \ v = rng() % ntt_mod;\n    q[0] = 7;\n    const auto original_p = p.v, original_q\
+    \ = q.v;\n    for (int n : {0, 1, 2, 31, 63, 64, 127}) {\n        poly prefix_p\
+    \ = p.pre(n + 1), prefix_q = q.pre(n + 1);\n        vector<mint> coefficients(n\
+    \ + 1);\n        for (int i = 0; i <= n; ++i) {\n            coefficients[i] =\
+    \ prefix_p[i];\n            for (int j = 1; j <= i; ++j) coefficients[i] -= prefix_q[j]\
+    \ * coefficients[i - j];\n            coefficients[i] /= prefix_q[0];\n      \
+    \  }\n        mint expected = coefficients[n];\n        assert(nth_term(p, q,\
+    \ n) == expected);\n        assert(nth_term(prefix_p, prefix_q, n) == expected);\n\
+    \    }\n    assert(p.v == original_p && q.v == original_q);\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - fps/nth_term.cpp
@@ -592,7 +620,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_nth_term.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 19:16:24+09:00'
+  timestamp: '2026-10-18 01:13:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_nth_term.test.cpp

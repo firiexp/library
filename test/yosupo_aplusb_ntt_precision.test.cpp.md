@@ -477,74 +477,99 @@ data:
     \ 0);\n            for (int i = 0; i < 2 * m; ++i) x[i] *= y[i];\n           \
     \ ntt_ifft(x.v);\n            b.v.insert(b.v.end(), x.v.begin() + m, x.v.end());\n\
     \        }\n        return b.pre(deg);\n    }\n\n    poly pow(long long k, int\
-    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        poly ret(max(0,\
-    \ deg));\n        if (deg <= 0) return ret;\n        if (k == 0) {\n         \
-    \   ret[0] = 1;\n            return ret;\n        }\n        if (0 < k && k <=\
-    \ 64) {\n            poly base = pre(deg);\n            poly ans(1);\n       \
-    \     ans[0] = 1;\n            long long e = k;\n            while (e > 0) {\n\
-    \                if (e & 1) {\n                    ans *= base;\n            \
-    \        ans = ans.pre(deg);\n                }\n                e >>= 1;\n  \
-    \              if (e == 0) break;\n                base *= base;\n           \
-    \     base = base.pre(deg);\n            }\n            ans = ans.pre(deg);\n\
-    \            if (ans.size() < deg) ans.v.resize(deg);\n            return ans;\n\
-    \        }\n        int lead = 0;\n        while (lead < size() && v[lead] ==\
-    \ mint(0)) lead++;\n        if (lead == size()) return ret;\n        long long\
-    \ shift_ll = 0;\n        if (lead > 0) {\n            if (k > (deg - 1) / lead)\
-    \ return ret;\n            shift_ll = 1LL * lead * k;\n        }\n        poly\
-    \ f(size() - lead);\n        mint inv_lead = v[lead].inv();\n        for (int\
-    \ i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;\n        int shift\
-    \ = static_cast<int>(shift_ll);\n        int rem_deg = deg - shift;\n        poly\
-    \ g = f.log(rem_deg);\n        mint k_mint = mint(k);\n        for (int i = 0;\
-    \ i < g.size(); ++i) g[i] *= k_mint;\n        g = g.exp(rem_deg);\n        mint\
-    \ coeff = v[lead].pow(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
-    \ coeff;\n        for (int i = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n\
-    \        return ret;\n    }\n\n    poly sqrt(int deg = -1) const {\n        if\
-    \ (deg == -1) deg = size();\n        poly ret(max(0, deg));\n        if (deg <=\
-    \ 0) return ret;\n        int lead = 0;\n        while (lead < size() && v[lead]\
-    \ == mint(0)) lead++;\n        if (lead == size()) return ret;\n        if (lead\
-    \ & 1) return poly();\n        mint sq0;\n        if (!mod_sqrt(v[lead], sq0))\
-    \ return poly();\n        int shift = lead >> 1;\n        if (shift >= deg) return\
-    \ ret;\n        int rem_deg = deg - shift;\n        poly f(size() - lead);\n \
-    \       mint inv_lead = v[lead].inv();\n        for (int i = lead; i < size();\
-    \ ++i) f[i - lead] = v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n\
-    \        mint inv2 = mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<=\
-    \ 1) {\n            poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k\
-    \ << 1);\n            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n   \
-    \         s = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i\
-    \ = 0; i < s.size(); ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n\
-    \    }\n\n    vector<mint> multipoint_eval(const vector<mint> &xs) const;\n};\n\
-    \n/**\n * @brief NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\
-    \n\n#line 10 \"test/yosupo_aplusb_ntt_precision.test.cpp\"\n\nvector<mint> naive_inverse(const\
-    \ vector<mint> &f, int deg) {\n    vector<mint> g(deg);\n    if (deg == 0) return\
-    \ g;\n    g[0] = f[0].inv();\n    for (int i = 1; i < deg; ++i) {\n        for\
-    \ (int j = 1; j <= i && j < (int)f.size(); ++j) g[i] -= f[j] * g[i - j];\n   \
-    \     g[i] *= g[0];\n    }\n    return g;\n}\n\nvector<mint> naive_log(const vector<mint>\
-    \ &f, int deg) {\n    // f * (log f)' = f': solve coefficients without using poly\
-    \ operations.\n    vector<mint> g(deg);\n    for (int i = 1; i < deg; ++i) {\n\
-    \        mint coefficient = i < (int)f.size() ? mint(i) * f[i] : mint(0);\n  \
-    \      for (int j = 1; j < i && j < (int)f.size(); ++j) {\n            coefficient\
-    \ -= f[j] * mint(i - j) * g[i - j];\n        }\n        g[i] = coefficient / mint(i);\n\
-    \    }\n    return g;\n}\n\nvoid self_check() {\n    mt19937 random(19);\n   \
-    \ const int sizes[] = {1, 2, 3, 7, 16, 31, 32, 33, 63, 64, 65, 127, 128, 129};\n\
-    \    for (int n : sizes) {\n        poly f(n);\n        for (auto &x : f.v) x\
-    \ = random() % ntt_mod;\n        f[0] = 1 + random() % (ntt_mod - 1);\n      \
-    \  const vector<int> degrees = {0, 1, 2, n / 2, n, n + 1, 2 * n + 1};\n      \
-    \  auto original = f.v;\n        for (int deg : degrees) assert(f.inv(deg).v ==\
-    \ naive_inverse(f.v, deg));\n        assert(f.inv().v == naive_inverse(f.v, n));\n\
-    \        assert(f.v == original);\n        f[0] = 1;\n        original = f.v;\n\
-    \        for (int deg : degrees) assert(f.log(deg).v == naive_log(f.v, deg));\n\
-    \        assert(f.log().v == naive_log(f.v, n));\n        assert(f.v == original);\n\
-    \    }\n    poly one(vector<mint>{1});\n    for (int deg : {0, 1, 2, 65}) {\n\
-    \        assert(one.inv(deg).v == naive_inverse(one.v, deg));\n        assert(one.log(deg).v\
-    \ == vector<mint>(deg));\n    }\n    poly long_input(1 << 18);\n    for (auto\
-    \ &x : long_input.v) x = random() % ntt_mod;\n    long_input[0] = 1;\n    auto\
-    \ original = long_input.v;\n    for (int deg : {0, 1, 64, 1024}) {\n        auto\
-    \ prefix = long_input.pre(max(1, deg));\n        assert(long_input.inv(deg).v\
-    \ == naive_inverse(prefix.v, deg));\n        assert(long_input.log(deg).v == naive_log(prefix.v,\
-    \ deg));\n        assert(long_input.log(deg).v == prefix.log(deg).v);\n    }\n\
-    \    assert(long_input.v == original);\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
-    \ + b);\n}\n"
+    \ deg = -1) const {\n        if (deg == -1) deg = size();\n        if (deg <=\
+    \ 0) return poly();\n        if (k == 1) return pre(deg);\n        poly ret(deg);\n\
+    \        if (k == 0) {\n            ret[0] = 1;\n            return ret;\n   \
+    \     }\n        int lead = 0;\n        while (lead < min(size(), deg) && v[lead]\
+    \ == mint(0)) lead++;\n        if (lead == min(size(), deg)) return ret;\n   \
+    \     if (lead > 0 && k > (deg - 1) / lead) return ret;\n        int shift = static_cast<int>(1LL\
+    \ * lead * k);\n        int rem_deg = deg - shift;\n        if (0 < k && k <=\
+    \ 64) {\n            int end = lead + min(size() - lead, rem_deg);\n         \
+    \   while (end > lead && v[end - 1] == mint(0)) end--;\n            poly base(vector<mint>(v.begin()\
+    \ + lead, v.begin() + end));\n            poly ans(1);\n            ans[0] = 1;\n\
+    \            long long e = k;\n            while (e > 0) {\n                if\
+    \ (e & 1) {\n                    ans *= base;\n                    if (ans.size()\
+    \ > rem_deg) ans.v.resize(rem_deg);\n                }\n                e >>=\
+    \ 1;\n                if (e == 0) break;\n                base *= base;\n    \
+    \            if (base.size() > rem_deg) base.v.resize(rem_deg);\n            }\n\
+    \            for (int i = 0; i < ans.size(); ++i) ret[i + shift] = ans[i];\n \
+    \           return ret;\n        }\n        poly f(min(size() - lead, rem_deg));\n\
+    \        mint inv_lead = v[lead].inv();\n        for (int i = 0; i < f.size();\
+    \ ++i) f[i] = v[i + lead] * inv_lead;\n        poly g = f.log(rem_deg);\n    \
+    \    mint k_mint = mint(k);\n        for (int i = 0; i < g.size(); ++i) g[i] *=\
+    \ k_mint;\n        g = g.exp(rem_deg);\n        mint coeff = v[lead].pow(k);\n\
+    \        for (int i = 0; i < g.size(); ++i) g[i] *= coeff;\n        for (int i\
+    \ = 0; i < g.size(); ++i) ret[i + shift] = g[i];\n        return ret;\n    }\n\
+    \n    poly sqrt(int deg = -1) const {\n        if (deg == -1) deg = size();\n\
+    \        poly ret(max(0, deg));\n        if (deg <= 0) return ret;\n        int\
+    \ lead = 0;\n        while (lead < size() && v[lead] == mint(0)) lead++;\n   \
+    \     if (lead == size()) return ret;\n        if (lead & 1) return poly();\n\
+    \        mint sq0;\n        if (!mod_sqrt(v[lead], sq0)) return poly();\n    \
+    \    int shift = lead >> 1;\n        if (shift >= deg) return ret;\n        int\
+    \ rem_deg = deg - shift;\n        poly f(size() - lead);\n        mint inv_lead\
+    \ = v[lead].inv();\n        for (int i = lead; i < size(); ++i) f[i - lead] =\
+    \ v[i] * inv_lead;\n        poly s(1);\n        s[0] = 1;\n        mint inv2 =\
+    \ mint(2).inv();\n        for (int k = 1; k < rem_deg; k <<= 1) {\n          \
+    \  poly ns = (s + (f.pre(k << 1) * s.inv(k << 1)).pre(k << 1)).pre(k << 1);\n\
+    \            for (int i = 0; i < ns.size(); ++i) ns[i] *= inv2;\n            s\
+    \ = ns;\n        }\n        s = s.pre(rem_deg);\n        for (int i = 0; i < s.size();\
+    \ ++i) ret[i + shift] = s[i] * sq0;\n        return ret;\n    }\n\n    vector<mint>\
+    \ multipoint_eval(const vector<mint> &xs) const;\n};\n\n/**\n * @brief NTT\u30FB\
+    \u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)\n */\n\n\n#line 10 \"test/yosupo_aplusb_ntt_precision.test.cpp\"\
+    \n\nvector<mint> naive_inverse(const vector<mint> &f, int deg) {\n    vector<mint>\
+    \ g(deg);\n    if (deg == 0) return g;\n    g[0] = f[0].inv();\n    for (int i\
+    \ = 1; i < deg; ++i) {\n        for (int j = 1; j <= i && j < (int)f.size(); ++j)\
+    \ g[i] -= f[j] * g[i - j];\n        g[i] *= g[0];\n    }\n    return g;\n}\n\n\
+    vector<mint> naive_log(const vector<mint> &f, int deg) {\n    // f * (log f)'\
+    \ = f': solve coefficients without using poly operations.\n    vector<mint> g(deg);\n\
+    \    for (int i = 1; i < deg; ++i) {\n        mint coefficient = i < (int)f.size()\
+    \ ? mint(i) * f[i] : mint(0);\n        for (int j = 1; j < i && j < (int)f.size();\
+    \ ++j) {\n            coefficient -= f[j] * mint(i - j) * g[i - j];\n        }\n\
+    \        g[i] = coefficient / mint(i);\n    }\n    return g;\n}\n\nvector<mint>\
+    \ naive_power(const vector<mint> &f, int k, int deg) {\n    vector<mint> g(deg);\n\
+    \    if (deg == 0) return g;\n    g[0] = 1;\n    for (int e = 0; e < k; ++e) {\n\
+    \        vector<mint> next(deg);\n        for (int i = 0; i < deg; ++i) {\n  \
+    \          for (int j = 0; j < (int)f.size() && i + j < deg; ++j) next[i + j]\
+    \ += g[i] * f[j];\n        }\n        g = std::move(next);\n    }\n    return\
+    \ g;\n}\n\nvoid check_power() {\n    mt19937 random(212);\n    for (int n : {0,\
+    \ 1, 2, 8, 17, 33, 65}) {\n        for (int form = 0; form < 5; ++form) {\n  \
+    \          poly f(n);\n            for (int i = 0; i < n; ++i) {\n           \
+    \     if (form == 1 && i >= n / 2) continue;\n                if (form == 2 &&\
+    \ i < n / 2) continue;\n                if (form == 3 && i != n / 2) continue;\n\
+    \                if (form == 4) continue;\n                f[i] = 1 + random()\
+    \ % (ntt_mod - 1);\n            }\n            auto original = f.v;\n        \
+    \    for (int k : {0, 1, 2, 8, 64, 65}) {\n                for (int deg : {0,\
+    \ 1, n / 2, n, n + 1, 2 * n + 1}) {\n                    assert(f.pow(k, deg).v\
+    \ == naive_power(f.v, k, deg));\n                }\n                assert(f.pow(k).v\
+    \ == naive_power(f.v, k, n));\n            }\n            assert(f.v == original);\n\
+    \        }\n    }\n    poly short_input(vector<mint>{1, 2, 3, 4, 5, 6, 7, 8});\n\
+    \    poly padded = short_input.pre(1 << 18);\n    for (int k : {1, 2, 8, 64, 65})\
+    \ {\n        auto expected = naive_power(short_input.v, k, 7 * k + 1);\n     \
+    \   expected.resize(1 << 17);\n        assert(short_input.pow(k, 1 << 17).v ==\
+    \ expected);\n        assert(padded.pow(k, 1 << 17).v == expected);\n    }\n \
+    \   poly shifted(1 << 17);\n    shifted[1 << 16] = 3;\n    assert(shifted.pow(2).v\
+    \ == vector<mint>(shifted.size()));\n    assert(shifted.pow(LLONG_MAX).v == vector<mint>(shifted.size()));\n\
+    \    assert(poly(vector<mint>{0, 3}).pow(LLONG_MAX, 2).v == vector<mint>(2));\n\
+    }\n\nvoid self_check() {\n    check_power();\n    mt19937 random(19);\n    const\
+    \ int sizes[] = {1, 2, 3, 7, 16, 31, 32, 33, 63, 64, 65, 127, 128, 129};\n   \
+    \ for (int n : sizes) {\n        poly f(n);\n        for (auto &x : f.v) x = random()\
+    \ % ntt_mod;\n        f[0] = 1 + random() % (ntt_mod - 1);\n        const vector<int>\
+    \ degrees = {0, 1, 2, n / 2, n, n + 1, 2 * n + 1};\n        auto original = f.v;\n\
+    \        for (int deg : degrees) assert(f.inv(deg).v == naive_inverse(f.v, deg));\n\
+    \        assert(f.inv().v == naive_inverse(f.v, n));\n        assert(f.v == original);\n\
+    \        f[0] = 1;\n        original = f.v;\n        for (int deg : degrees) assert(f.log(deg).v\
+    \ == naive_log(f.v, deg));\n        assert(f.log().v == naive_log(f.v, n));\n\
+    \        assert(f.v == original);\n    }\n    poly one(vector<mint>{1});\n   \
+    \ for (int deg : {0, 1, 2, 65}) {\n        assert(one.inv(deg).v == naive_inverse(one.v,\
+    \ deg));\n        assert(one.log(deg).v == vector<mint>(deg));\n    }\n    poly\
+    \ long_input(1 << 18);\n    for (auto &x : long_input.v) x = random() % ntt_mod;\n\
+    \    long_input[0] = 1;\n    auto original = long_input.v;\n    for (int deg :\
+    \ {0, 1, 64, 1024}) {\n        auto prefix = long_input.pre(max(1, deg));\n  \
+    \      assert(long_input.inv(deg).v == naive_inverse(prefix.v, deg));\n      \
+    \  assert(long_input.log(deg).v == naive_log(prefix.v, deg));\n        assert(long_input.log(deg).v\
+    \ == prefix.log(deg).v);\n    }\n    assert(long_input.v == original);\n}\n\n\
+    int main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int a,\
+    \ b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\n#include \"../util/fastio.cpp\"\n#include \"../math/ntt.cpp\"\
@@ -557,15 +582,39 @@ data:
     \    for (int i = 1; i < deg; ++i) {\n        mint coefficient = i < (int)f.size()\
     \ ? mint(i) * f[i] : mint(0);\n        for (int j = 1; j < i && j < (int)f.size();\
     \ ++j) {\n            coefficient -= f[j] * mint(i - j) * g[i - j];\n        }\n\
-    \        g[i] = coefficient / mint(i);\n    }\n    return g;\n}\n\nvoid self_check()\
-    \ {\n    mt19937 random(19);\n    const int sizes[] = {1, 2, 3, 7, 16, 31, 32,\
-    \ 33, 63, 64, 65, 127, 128, 129};\n    for (int n : sizes) {\n        poly f(n);\n\
-    \        for (auto &x : f.v) x = random() % ntt_mod;\n        f[0] = 1 + random()\
-    \ % (ntt_mod - 1);\n        const vector<int> degrees = {0, 1, 2, n / 2, n, n\
-    \ + 1, 2 * n + 1};\n        auto original = f.v;\n        for (int deg : degrees)\
-    \ assert(f.inv(deg).v == naive_inverse(f.v, deg));\n        assert(f.inv().v ==\
-    \ naive_inverse(f.v, n));\n        assert(f.v == original);\n        f[0] = 1;\n\
-    \        original = f.v;\n        for (int deg : degrees) assert(f.log(deg).v\
+    \        g[i] = coefficient / mint(i);\n    }\n    return g;\n}\n\nvector<mint>\
+    \ naive_power(const vector<mint> &f, int k, int deg) {\n    vector<mint> g(deg);\n\
+    \    if (deg == 0) return g;\n    g[0] = 1;\n    for (int e = 0; e < k; ++e) {\n\
+    \        vector<mint> next(deg);\n        for (int i = 0; i < deg; ++i) {\n  \
+    \          for (int j = 0; j < (int)f.size() && i + j < deg; ++j) next[i + j]\
+    \ += g[i] * f[j];\n        }\n        g = std::move(next);\n    }\n    return\
+    \ g;\n}\n\nvoid check_power() {\n    mt19937 random(212);\n    for (int n : {0,\
+    \ 1, 2, 8, 17, 33, 65}) {\n        for (int form = 0; form < 5; ++form) {\n  \
+    \          poly f(n);\n            for (int i = 0; i < n; ++i) {\n           \
+    \     if (form == 1 && i >= n / 2) continue;\n                if (form == 2 &&\
+    \ i < n / 2) continue;\n                if (form == 3 && i != n / 2) continue;\n\
+    \                if (form == 4) continue;\n                f[i] = 1 + random()\
+    \ % (ntt_mod - 1);\n            }\n            auto original = f.v;\n        \
+    \    for (int k : {0, 1, 2, 8, 64, 65}) {\n                for (int deg : {0,\
+    \ 1, n / 2, n, n + 1, 2 * n + 1}) {\n                    assert(f.pow(k, deg).v\
+    \ == naive_power(f.v, k, deg));\n                }\n                assert(f.pow(k).v\
+    \ == naive_power(f.v, k, n));\n            }\n            assert(f.v == original);\n\
+    \        }\n    }\n    poly short_input(vector<mint>{1, 2, 3, 4, 5, 6, 7, 8});\n\
+    \    poly padded = short_input.pre(1 << 18);\n    for (int k : {1, 2, 8, 64, 65})\
+    \ {\n        auto expected = naive_power(short_input.v, k, 7 * k + 1);\n     \
+    \   expected.resize(1 << 17);\n        assert(short_input.pow(k, 1 << 17).v ==\
+    \ expected);\n        assert(padded.pow(k, 1 << 17).v == expected);\n    }\n \
+    \   poly shifted(1 << 17);\n    shifted[1 << 16] = 3;\n    assert(shifted.pow(2).v\
+    \ == vector<mint>(shifted.size()));\n    assert(shifted.pow(LLONG_MAX).v == vector<mint>(shifted.size()));\n\
+    \    assert(poly(vector<mint>{0, 3}).pow(LLONG_MAX, 2).v == vector<mint>(2));\n\
+    }\n\nvoid self_check() {\n    check_power();\n    mt19937 random(19);\n    const\
+    \ int sizes[] = {1, 2, 3, 7, 16, 31, 32, 33, 63, 64, 65, 127, 128, 129};\n   \
+    \ for (int n : sizes) {\n        poly f(n);\n        for (auto &x : f.v) x = random()\
+    \ % ntt_mod;\n        f[0] = 1 + random() % (ntt_mod - 1);\n        const vector<int>\
+    \ degrees = {0, 1, 2, n / 2, n, n + 1, 2 * n + 1};\n        auto original = f.v;\n\
+    \        for (int deg : degrees) assert(f.inv(deg).v == naive_inverse(f.v, deg));\n\
+    \        assert(f.inv().v == naive_inverse(f.v, n));\n        assert(f.v == original);\n\
+    \        f[0] = 1;\n        original = f.v;\n        for (int deg : degrees) assert(f.log(deg).v\
     \ == naive_log(f.v, deg));\n        assert(f.log().v == naive_log(f.v, n));\n\
     \        assert(f.v == original);\n    }\n    poly one(vector<mint>{1});\n   \
     \ for (int deg : {0, 1, 2, 65}) {\n        assert(one.inv(deg).v == naive_inverse(one.v,\
@@ -585,7 +634,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_ntt_precision.test.cpp
   requiredBy: []
-  timestamp: '2026-10-14 20:32:46+09:00'
+  timestamp: '2026-10-18 01:13:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_ntt_precision.test.cpp
