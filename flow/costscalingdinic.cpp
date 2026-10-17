@@ -53,8 +53,14 @@ public:
     }
 
     T flow(int s, int t, T lim = INF<T>){
+        if(lim == 0) return 0;
+        T upper = 0;
+        for(const auto &adj : G)
+            for(const auto &e : adj) upper = max(upper, e.cap);
+        upper = min(upper, lim);
+        if(upper == 0) return 0;
         T ret = 0;
-        T cap = 1; while(cap <= lim / 2) cap <<= 1;
+        T cap = 1; while(cap <= upper / 2) cap <<= 1;
         while(cap && ret < lim) {
             bfs(s, cap);
             if(level[t] < 0){

@@ -134,11 +134,40 @@ void mincost_check() {
     }
 }
 
+template<bool Directed>
+void scaling_width_check() {
+    CostScalingDinic<long long, Directed> empty(4);
+    assert(empty.flow(0, 3) == 0);
+    empty.add_edge(0, 3, 0);
+    assert(empty.flow(0, 3) == 0);
+    for(long long cap : {1LL, 2LL, 3LL, (1LL << 60) - 1, 1LL << 60}) {
+        CostScalingDinic<long long, Directed> g(4);
+        g.add_edge(0, 0, cap);
+        g.add_edge(0, 1, cap);
+        g.add_edge(1, 3, cap);
+        auto initial = g.G;
+        assert(g.flow(0, 3, 0) == 0);
+        assert(g.flow(0, 3, cap / 2) == cap / 2);
+        assert(g.flow(0, 3) == cap - cap / 2);
+        assert(g.flow(3, 0) == (Directed ? cap : 2 * cap));
+        check_residual(g.G, initial);
+    }
+    CostScalingDinic<long long, Directed> changed(2);
+    changed.add_edge(0, 1, 1);
+    changed.G[0][0].cap = 1LL << 40;
+    assert(changed.flow(0, 1) == (1LL << 40));
+    CostScalingDinic<long long, true> largest(2);
+    largest.add_edge(0, 1, LLONG_MAX);
+    assert(largest.flow(0, 1, LLONG_MAX) == LLONG_MAX);
+}
+
 int main() {
     maxflow_check<true>();
     maxflow_check<false>();
     maxflow_check<true>(true);
     maxflow_check<false>(true);
+    scaling_width_check<true>();
+    scaling_width_check<false>();
     mincost_check();
     Scanner sc;
     Printer pr;
