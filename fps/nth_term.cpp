@@ -1,9 +1,13 @@
 #include "../math/ntt.cpp"
-mint nth_term(poly p, poly q, ll n){
-    assert(n >= 0 && q.size() > 0 && q[0] != mint(0));
-    if(p.size() == 0) return 0;
-    if(q.size() == 1) return n < p.size() ? p[n]/q[0] : mint(0);
-    if(!n) return p[0]/q[0];
+mint nth_term(const poly &p_input, const poly &q_input, ll n){
+    assert(n >= 0 && q_input.size() > 0 && q_input[0] != mint(0));
+    if(p_input.size() == 0) return 0;
+    if(q_input.size() == 1) return n < p_input.size() ? p_input[n]/q_input[0] : mint(0);
+    if(!n) return p_input[0]/q_input[0];
+    int p_size = n < p_input.size() ? static_cast<int>(n) + 1 : p_input.size();
+    int q_size = n < q_input.size() ? static_cast<int>(n) + 1 : q_input.size();
+    poly p(vector<mint>(p_input.v.begin(), p_input.v.begin() + p_size));
+    poly q(vector<mint>(q_input.v.begin(), q_input.v.begin() + q_size));
     if(q[0] != mint(1)) {
         mint inv = q[0].inv();
         for(auto &v : p.v) v *= inv;

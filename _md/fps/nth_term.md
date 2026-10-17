@@ -7,7 +7,7 @@ documentation_of: //fps/nth_term.cpp
 線形漸化式の第 `n` 項計算を Bostan-Mori 法で処理する。
 
 ## できること
-- `mint nth_term(poly p, poly q, ll n)`
+- `mint nth_term(const poly &p, const poly &q, ll n)`
   `P(x) / Q(x)` の `x^n` 係数を返す
 
 ## 使い方
@@ -25,4 +25,5 @@ mint ans = nth_term(p, q, n);
 
 ## 実装上の補足
 NTT を使うので法は `998244353` 固定である。
-`p` と `q` は関数内で破壊的に変更されるため、値渡しになっている。
+入力は変更せず、$x^{n+1}$ 未満の係数だけをコピーして使う。
+$D=\min(\max(|P|,|Q|),n+1)$ とすると、計算量は $O(D\log D \log(n))$、追加領域は $O(D)$。

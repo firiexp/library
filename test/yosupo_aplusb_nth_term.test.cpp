@@ -24,13 +24,15 @@ using ull = unsigned long long;
 void self_check() {
     auto check = [](const vector<mint> &p, const vector<mint> &q) {
         vector<mint> expected(40);
+        const poly numerator(p), denominator(q);
         for (int n = 0; n < int(expected.size()); ++n) {
             mint value = n < int(p.size()) ? p[n] : mint(0);
             for (int j = 1; j <= n && j < int(q.size()); ++j)
                 value -= q[j] * expected[n - j];
             expected[n] = value / q[0];
-            assert(nth_term(poly(p), poly(q), n) == expected[n]);
+            assert(nth_term(numerator, denominator, n) == expected[n]);
         }
+        assert(numerator.v == p && denominator.v == q);
     };
     check({}, {1});
     check({}, {2, -1});
@@ -48,6 +50,24 @@ void self_check() {
         q[0] = tc % 3 == 0 ? 1 : 1 + rng() % 100;
         check(p, q);
     }
+    poly p(1 << 17), q(1 << 17);
+    for (auto &v : p.v) v = rng() % ntt_mod;
+    for (auto &v : q.v) v = rng() % ntt_mod;
+    q[0] = 7;
+    const auto original_p = p.v, original_q = q.v;
+    for (int n : {0, 1, 2, 31, 63, 64, 127}) {
+        poly prefix_p = p.pre(n + 1), prefix_q = q.pre(n + 1);
+        vector<mint> coefficients(n + 1);
+        for (int i = 0; i <= n; ++i) {
+            coefficients[i] = prefix_p[i];
+            for (int j = 1; j <= i; ++j) coefficients[i] -= prefix_q[j] * coefficients[i - j];
+            coefficients[i] /= prefix_q[0];
+        }
+        mint expected = coefficients[n];
+        assert(nth_term(p, q, n) == expected);
+        assert(nth_term(prefix_p, prefix_q, n) == expected);
+    }
+    assert(p.v == original_p && q.v == original_q);
 }
 
 int main() {
