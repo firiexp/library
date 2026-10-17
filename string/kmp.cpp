@@ -30,6 +30,44 @@ vector<int> kmp_search(const string &text, const string &pattern){
     return res;
 }
 
+class KMPMatcher {
+    string pattern;
+    vector<int> table;
+    int matched = 0;
+    long long position = 0;
+    bool announced = false;
+
+public:
+    explicit KMPMatcher(const string &pattern): pattern(pattern), table(kmp_table(pattern)) {}
+
+    void reset() {
+        matched = 0;
+        position = 0;
+        announced = false;
+    }
+
+    template<class Emit>
+    void scan(string_view chunk, Emit &&emit) {
+        if (pattern.empty()) {
+            if (!announced) {
+                announced = true;
+                emit(position);
+            }
+            for (size_t i = 0; i < chunk.size(); ++i) emit(++position);
+            return;
+        }
+        for (char c : chunk) {
+            while (matched >= 0 && c != pattern[matched]) matched = table[matched];
+            ++matched;
+            ++position;
+            if (matched == (int)pattern.size()) {
+                matched = table[matched];
+                emit(position - (long long)pattern.size());
+            }
+        }
+    }
+};
+
 /**
  * @brief KMP法
  */
