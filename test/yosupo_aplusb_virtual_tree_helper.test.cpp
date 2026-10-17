@@ -7,6 +7,20 @@ template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../tree/virtual_tree_helper.cpp"
 
 void self_check() {
+    VirtualTreeHelper fixed(7);
+    for (int v = 1; v < 7; ++v) fixed.add_edge((v - 1) / 2, v);
+    fixed.build();
+    auto check_fixed = [&](const vector<int> &input, int root, const vector<int> &vertices, const vector<int> &parent) {
+        auto tr = fixed.make(input);
+        assert(tr.root == root && tr.vertices == vertices && tr.parent == parent);
+    };
+    for (int repeat = 0; repeat < 3; ++repeat) {
+        check_fixed({6, 3, 5, 4, 3}, 0, {0, 2, 6, 5, 1, 4, 3}, {-1, 0, 2, 2, 0, 1, 1});
+        check_fixed({}, -1, {}, {});
+        check_fixed(vector<int>(10000, 4), 4, {4}, {-1});
+        check_fixed({4, 3}, 1, {1, 4, 3}, {-1, 1, 1});
+        check_fixed({0, 4, 6}, 0, {0, 6, 4}, {-1, 0, 0});
+    }
     mt19937 rng(5);
     for (int tc = 0; tc < 200; ++tc) {
         int n = 1 + rng() % 30, root = rng() % n;

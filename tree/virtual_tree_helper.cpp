@@ -33,11 +33,15 @@ public:
     VirtualTree make(vector<int> vertices) {
         if (vertices.empty()) return {-1, {}, {}};
         aux.make(vertices);
-        sort(vertices.begin(), vertices.end(), [&](int a, int b) { return aux.fi[a] < aux.fi[b]; });
-        vertices.erase(unique(vertices.begin(), vertices.end()), vertices.end());
 
         VirtualTree res;
-        res.root = vertices.front();
+        auto less = [&](int a, int b) { return aux.fi[a] < aux.fi[b]; };
+        if (vertices.size() <= 8) {
+            sort(vertices.begin(), vertices.end(), less);
+            res.root = vertices.front();
+        } else {
+            res.root = *min_element(vertices.begin(), vertices.end(), less);
+        }
         ++stamp;
         vector<int> st = {res.root};
         mark[res.root] = stamp;
