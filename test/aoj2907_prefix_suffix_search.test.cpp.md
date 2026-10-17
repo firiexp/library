@@ -243,25 +243,25 @@ data:
     \ &&i : s) {\n            int k = f(i);\n            if(v[cur].nxt[k] < 0) return\
     \ -1;\n            cur = v[cur].nxt[k];\n        }\n        return cur;\n    }\n\
     \    int find(int cur, char c) {return v[cur].nxt[f(c)]; }\n    int id(int cur)\
-    \ { return cur < 0 ? -1 : v[cur].id;}\n\n    vector<int> idxs(int cur) { return\
-    \ cur < 0 ? vector<int>() : v[cur].idxs; }\n\n    struct PrefixIntervals {\n \
-    \       vector<int> order;\n        vector<pair<int, int>> range;\n    };\n\n\
-    \    PrefixIntervals prefix_intervals() const {\n        PrefixIntervals result;\n\
-    \        result.range.resize(v.size());\n        vector<pair<int, int>> stack{{0,\
-    \ 0}};\n        while (!stack.empty()) {\n            int node = stack.back().first;\n\
-    \            int& next = stack.back().second;\n            if (next == 0) {\n\
-    \                result.range[node].first = result.order.size();\n           \
-    \     result.order.insert(result.order.end(), v[node].idxs.begin(), v[node].idxs.end());\n\
-    \            }\n            while (next < W && v[node].nxt[next] == -1) ++next;\n\
-    \            if (next == W) {\n                result.range[node].second = result.order.size();\n\
-    \                stack.pop_back();\n            } else {\n                int\
-    \ child = v[node].nxt[next++];\n                stack.emplace_back(child, 0);\n\
-    \            }\n        }\n        return result;\n    }\n};\n\n/**\n * @brief\
-    \ Trie \u6728\n */\n#line 17 \"test/aoj2907_prefix_suffix_search.test.cpp\"\n\n\
-    struct Fenwick {\n    int n;\n    vector<int> bit;\n    explicit Fenwick(int n)\
-    \ : n(n), bit(n + 1, 0) {}\n    void add(int i, int x) {\n        for (++i; i\
-    \ <= n; i += i & -i) bit[i] += x;\n    }\n    int sum(int r) const {\n       \
-    \ int res = 0;\n        for (; r > 0; r -= r & -r) res += bit[r];\n        return\
+    \ { return cur < 0 ? -1 : v[cur].id;}\n\n    const vector<int>& idxs(int cur)\
+    \ const {\n        static const vector<int> empty;\n        return cur < 0 ? empty\
+    \ : v[cur].idxs;\n    }\n\n    struct PrefixIntervals {\n        vector<int> order;\n\
+    \        vector<pair<int, int>> range;\n    };\n\n    PrefixIntervals prefix_intervals()\
+    \ const {\n        PrefixIntervals result;\n        result.range.resize(v.size());\n\
+    \        vector<pair<int, int>> stack{{0, 0}};\n        while (!stack.empty())\
+    \ {\n            int node = stack.back().first;\n            int& next = stack.back().second;\n\
+    \            if (next == 0) {\n                result.range[node].first = result.order.size();\n\
+    \                result.order.insert(result.order.end(), v[node].idxs.begin(),\
+    \ v[node].idxs.end());\n            }\n            while (next < W && v[node].nxt[next]\
+    \ == -1) ++next;\n            if (next == W) {\n                result.range[node].second\
+    \ = result.order.size();\n                stack.pop_back();\n            } else\
+    \ {\n                int child = v[node].nxt[next++];\n                stack.emplace_back(child,\
+    \ 0);\n            }\n        }\n        return result;\n    }\n};\n\n/**\n *\
+    \ @brief Trie \u6728\n */\n#line 17 \"test/aoj2907_prefix_suffix_search.test.cpp\"\
+    \n\nstruct Fenwick {\n    int n;\n    vector<int> bit;\n    explicit Fenwick(int\
+    \ n) : n(n), bit(n + 1, 0) {}\n    void add(int i, int x) {\n        for (++i;\
+    \ i <= n; i += i & -i) bit[i] += x;\n    }\n    int sum(int r) const {\n     \
+    \   int res = 0;\n        for (; r > 0; r -= r & -r) res += bit[r];\n        return\
     \ res;\n    }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
     \ n, q;\n    sc.read(n, q);\n    vector<string> words(n);\n    auto f = [](char\
     \ c) { return c - 'a'; };\n    Trie<26, decltype(f)> pref(f), suff(f);\n\n   \
@@ -332,7 +332,7 @@ data:
   isVerificationFile: true
   path: test/aoj2907_prefix_suffix_search.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 15:44:26+09:00'
+  timestamp: '2026-10-17 19:13:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj2907_prefix_suffix_search.test.cpp

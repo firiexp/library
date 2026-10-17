@@ -241,25 +241,26 @@ data:
     \ &&i : s) {\n            int k = f(i);\n            if(v[cur].nxt[k] < 0) return\
     \ -1;\n            cur = v[cur].nxt[k];\n        }\n        return cur;\n    }\n\
     \    int find(int cur, char c) {return v[cur].nxt[f(c)]; }\n    int id(int cur)\
-    \ { return cur < 0 ? -1 : v[cur].id;}\n\n    vector<int> idxs(int cur) { return\
-    \ cur < 0 ? vector<int>() : v[cur].idxs; }\n\n    struct PrefixIntervals {\n \
-    \       vector<int> order;\n        vector<pair<int, int>> range;\n    };\n\n\
-    \    PrefixIntervals prefix_intervals() const {\n        PrefixIntervals result;\n\
-    \        result.range.resize(v.size());\n        vector<pair<int, int>> stack{{0,\
-    \ 0}};\n        while (!stack.empty()) {\n            int node = stack.back().first;\n\
-    \            int& next = stack.back().second;\n            if (next == 0) {\n\
-    \                result.range[node].first = result.order.size();\n           \
-    \     result.order.insert(result.order.end(), v[node].idxs.begin(), v[node].idxs.end());\n\
-    \            }\n            while (next < W && v[node].nxt[next] == -1) ++next;\n\
-    \            if (next == W) {\n                result.range[node].second = result.order.size();\n\
-    \                stack.pop_back();\n            } else {\n                int\
-    \ child = v[node].nxt[next++];\n                stack.emplace_back(child, 0);\n\
-    \            }\n        }\n        return result;\n    }\n};\n\n/**\n * @brief\
-    \ Trie \u6728\n */\n#line 7 \"test/yosupo_aplusb_trie_prefix_intervals.test.cpp\"\
+    \ { return cur < 0 ? -1 : v[cur].id;}\n\n    const vector<int>& idxs(int cur)\
+    \ const {\n        static const vector<int> empty;\n        return cur < 0 ? empty\
+    \ : v[cur].idxs;\n    }\n\n    struct PrefixIntervals {\n        vector<int> order;\n\
+    \        vector<pair<int, int>> range;\n    };\n\n    PrefixIntervals prefix_intervals()\
+    \ const {\n        PrefixIntervals result;\n        result.range.resize(v.size());\n\
+    \        vector<pair<int, int>> stack{{0, 0}};\n        while (!stack.empty())\
+    \ {\n            int node = stack.back().first;\n            int& next = stack.back().second;\n\
+    \            if (next == 0) {\n                result.range[node].first = result.order.size();\n\
+    \                result.order.insert(result.order.end(), v[node].idxs.begin(),\
+    \ v[node].idxs.end());\n            }\n            while (next < W && v[node].nxt[next]\
+    \ == -1) ++next;\n            if (next == W) {\n                result.range[node].second\
+    \ = result.order.size();\n                stack.pop_back();\n            } else\
+    \ {\n                int child = v[node].nxt[next++];\n                stack.emplace_back(child,\
+    \ 0);\n            }\n        }\n        return result;\n    }\n};\n\n/**\n *\
+    \ @brief Trie \u6728\n */\n#line 7 \"test/yosupo_aplusb_trie_prefix_intervals.test.cpp\"\
     \n\ntemplate<int W, class F>\nvoid check(Trie<W, F>& trie, const vector<pair<string,\
-    \ int>>& entries) {\n    const auto& const_trie = trie;\n    auto index = const_trie.prefix_intervals();\n\
-    \    auto sorted = entries;\n    stable_sort(sorted.begin(), sorted.end(), [&](const\
-    \ auto& a, const auto& b) {\n        return lexicographical_compare(a.first.begin(),\
+    \ int>>& entries) {\n    const auto& const_trie = trie;\n    static_assert(is_same_v<decltype(const_trie.idxs(0)),\
+    \ const vector<int>&>);\n    assert(const_trie.idxs(-1).empty());\n    auto index\
+    \ = const_trie.prefix_intervals();\n    auto sorted = entries;\n    stable_sort(sorted.begin(),\
+    \ sorted.end(), [&](const auto& a, const auto& b) {\n        return lexicographical_compare(a.first.begin(),\
     \ a.first.end(), b.first.begin(), b.first.end(),\n            [&](char x, char\
     \ y) { return trie.f(x) < trie.f(y); });\n    });\n    vector<int> order;\n  \
     \  set<string> prefixes{\"\"};\n    for (const auto& [word, id] : sorted) {\n\
@@ -268,16 +269,28 @@ data:
     \ && index.range.size() == trie.v.size());\n    for (const auto& prefix : prefixes)\
     \ {\n        int node = trie.find(prefix);\n        assert(node >= 0);\n     \
     \   auto [l, r] = index.range[node];\n        assert(0 <= l && l <= r && r <=\
-    \ (int)order.size());\n        vector<int> expected;\n        for (const auto&\
-    \ [word, id] : sorted) {\n            if (word.compare(0, prefix.size(), prefix)\
-    \ == 0) expected.push_back(id);\n        }\n        assert(vector<int>(order.begin()\
-    \ + l, order.begin() + r) == expected);\n    }\n}\n\nvoid self_check() {\n   \
-    \ mt19937 rng(147);\n    for (int tc = 0; tc < 800; ++tc) {\n        auto f =\
-    \ [tc](char c) { return tc % 2 ? 'c' - c : c - 'a'; };\n        Trie<3, decltype(f)>\
-    \ trie(f);\n        vector<pair<string, int>> entries;\n        check(trie, entries);\n\
-    \        int n = rng() % 35;\n        for (int i = 0; i < n; ++i) {\n        \
-    \    string word(rng() % 10, 'a');\n            for (auto& c : word) c += rng()\
-    \ % 3;\n            if (i % 4 == 0 && !entries.empty()) word = entries.back().first;\n\
+    \ (int)order.size());\n        vector<int> expected;\n        vector<int> terminal_ids;\n\
+    \        for (const auto& [word, id] : sorted) {\n            if (word.compare(0,\
+    \ prefix.size(), prefix) == 0) expected.push_back(id);\n            if (word ==\
+    \ prefix) terminal_ids.push_back(id);\n        }\n        assert(vector<int>(order.begin()\
+    \ + l, order.begin() + r) == expected);\n        assert(const_trie.idxs(node)\
+    \ == terminal_ids);\n        vector<int> iterated;\n        for (int id : const_trie.idxs(node))\
+    \ iterated.push_back(id);\n        assert(iterated == terminal_ids);\n       \
+    \ auto copied = const_trie.idxs(node);\n        copied.push_back(123);\n     \
+    \   assert(const_trie.idxs(node) == terminal_ids);\n        assert(trie.id(node)\
+    \ == (terminal_ids.empty() ? -1 : terminal_ids.back()));\n    }\n}\n\nvoid self_check()\
+    \ {\n    auto alphabet = [](char c) { return c - 'a'; };\n    Trie<3, decltype(alphabet)>\
+    \ fixed(alphabet);\n    vector<pair<string, int>> fixed_entries{{\"\", 5}, {\"\
+    \", 5}, {\"ab\", 7}, {\"ab\", 2}, {\"ab\", 7}};\n    for (const auto& [word, id]\
+    \ : fixed_entries) fixed.add(word, id);\n    check(fixed, fixed_entries);\n  \
+    \  auto saved = fixed.idxs(fixed.find(\"ab\"));\n    fixed.add(\"ab\", 9);\n \
+    \   fixed.add(string(1000, 'c'), 10);\n    assert((saved == vector<int>{7, 2,\
+    \ 7}));\n    mt19937 rng(147);\n    for (int tc = 0; tc < 800; ++tc) {\n     \
+    \   auto f = [tc](char c) { return tc % 2 ? 'c' - c : c - 'a'; };\n        Trie<3,\
+    \ decltype(f)> trie(f);\n        vector<pair<string, int>> entries;\n        check(trie,\
+    \ entries);\n        int n = rng() % 35;\n        for (int i = 0; i < n; ++i)\
+    \ {\n            string word(rng() % 10, 'a');\n            for (auto& c : word)\
+    \ c += rng() % 3;\n            if (i % 4 == 0 && !entries.empty()) word = entries.back().first;\n\
     \            int id = int(rng() % 9) - 4;\n            entries.emplace_back(word,\
     \ id);\n            trie.add(word, id);\n        }\n        check(trie, entries);\n\
     \        auto snapshot = trie.prefix_intervals();\n        auto old_order = snapshot.order;\n\
@@ -297,9 +310,10 @@ data:
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/trie.cpp\"\
     \n\ntemplate<int W, class F>\nvoid check(Trie<W, F>& trie, const vector<pair<string,\
-    \ int>>& entries) {\n    const auto& const_trie = trie;\n    auto index = const_trie.prefix_intervals();\n\
-    \    auto sorted = entries;\n    stable_sort(sorted.begin(), sorted.end(), [&](const\
-    \ auto& a, const auto& b) {\n        return lexicographical_compare(a.first.begin(),\
+    \ int>>& entries) {\n    const auto& const_trie = trie;\n    static_assert(is_same_v<decltype(const_trie.idxs(0)),\
+    \ const vector<int>&>);\n    assert(const_trie.idxs(-1).empty());\n    auto index\
+    \ = const_trie.prefix_intervals();\n    auto sorted = entries;\n    stable_sort(sorted.begin(),\
+    \ sorted.end(), [&](const auto& a, const auto& b) {\n        return lexicographical_compare(a.first.begin(),\
     \ a.first.end(), b.first.begin(), b.first.end(),\n            [&](char x, char\
     \ y) { return trie.f(x) < trie.f(y); });\n    });\n    vector<int> order;\n  \
     \  set<string> prefixes{\"\"};\n    for (const auto& [word, id] : sorted) {\n\
@@ -308,16 +322,28 @@ data:
     \ && index.range.size() == trie.v.size());\n    for (const auto& prefix : prefixes)\
     \ {\n        int node = trie.find(prefix);\n        assert(node >= 0);\n     \
     \   auto [l, r] = index.range[node];\n        assert(0 <= l && l <= r && r <=\
-    \ (int)order.size());\n        vector<int> expected;\n        for (const auto&\
-    \ [word, id] : sorted) {\n            if (word.compare(0, prefix.size(), prefix)\
-    \ == 0) expected.push_back(id);\n        }\n        assert(vector<int>(order.begin()\
-    \ + l, order.begin() + r) == expected);\n    }\n}\n\nvoid self_check() {\n   \
-    \ mt19937 rng(147);\n    for (int tc = 0; tc < 800; ++tc) {\n        auto f =\
-    \ [tc](char c) { return tc % 2 ? 'c' - c : c - 'a'; };\n        Trie<3, decltype(f)>\
-    \ trie(f);\n        vector<pair<string, int>> entries;\n        check(trie, entries);\n\
-    \        int n = rng() % 35;\n        for (int i = 0; i < n; ++i) {\n        \
-    \    string word(rng() % 10, 'a');\n            for (auto& c : word) c += rng()\
-    \ % 3;\n            if (i % 4 == 0 && !entries.empty()) word = entries.back().first;\n\
+    \ (int)order.size());\n        vector<int> expected;\n        vector<int> terminal_ids;\n\
+    \        for (const auto& [word, id] : sorted) {\n            if (word.compare(0,\
+    \ prefix.size(), prefix) == 0) expected.push_back(id);\n            if (word ==\
+    \ prefix) terminal_ids.push_back(id);\n        }\n        assert(vector<int>(order.begin()\
+    \ + l, order.begin() + r) == expected);\n        assert(const_trie.idxs(node)\
+    \ == terminal_ids);\n        vector<int> iterated;\n        for (int id : const_trie.idxs(node))\
+    \ iterated.push_back(id);\n        assert(iterated == terminal_ids);\n       \
+    \ auto copied = const_trie.idxs(node);\n        copied.push_back(123);\n     \
+    \   assert(const_trie.idxs(node) == terminal_ids);\n        assert(trie.id(node)\
+    \ == (terminal_ids.empty() ? -1 : terminal_ids.back()));\n    }\n}\n\nvoid self_check()\
+    \ {\n    auto alphabet = [](char c) { return c - 'a'; };\n    Trie<3, decltype(alphabet)>\
+    \ fixed(alphabet);\n    vector<pair<string, int>> fixed_entries{{\"\", 5}, {\"\
+    \", 5}, {\"ab\", 7}, {\"ab\", 2}, {\"ab\", 7}};\n    for (const auto& [word, id]\
+    \ : fixed_entries) fixed.add(word, id);\n    check(fixed, fixed_entries);\n  \
+    \  auto saved = fixed.idxs(fixed.find(\"ab\"));\n    fixed.add(\"ab\", 9);\n \
+    \   fixed.add(string(1000, 'c'), 10);\n    assert((saved == vector<int>{7, 2,\
+    \ 7}));\n    mt19937 rng(147);\n    for (int tc = 0; tc < 800; ++tc) {\n     \
+    \   auto f = [tc](char c) { return tc % 2 ? 'c' - c : c - 'a'; };\n        Trie<3,\
+    \ decltype(f)> trie(f);\n        vector<pair<string, int>> entries;\n        check(trie,\
+    \ entries);\n        int n = rng() % 35;\n        for (int i = 0; i < n; ++i)\
+    \ {\n            string word(rng() % 10, 'a');\n            for (auto& c : word)\
+    \ c += rng() % 3;\n            if (i % 4 == 0 && !entries.empty()) word = entries.back().first;\n\
     \            int id = int(rng() % 9) - 4;\n            entries.emplace_back(word,\
     \ id);\n            trie.add(word, id);\n        }\n        check(trie, entries);\n\
     \        auto snapshot = trie.prefix_intervals();\n        auto old_order = snapshot.order;\n\
@@ -340,7 +366,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_trie_prefix_intervals.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 15:44:26+09:00'
+  timestamp: '2026-10-17 19:13:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_trie_prefix_intervals.test.cpp

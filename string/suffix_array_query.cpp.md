@@ -66,35 +66,37 @@ data:
     \            else {\n                while(l < end_l && s[l] == s[r]) l++, r++;\n\
     \                if(l == n || s[l] != s[r]) same = false;\n            }\n   \
     \         rec_upper += !same;\n            rec_s[lms_map[sorted_lms[i]]] = rec_upper;\n\
-    \        }\n        auto rec_sa = suffix_array(rec_s, rec_upper);\n        for\
-    \ (int i = 0; i < m; ++i) sorted_lms[i] = lms[rec_sa[i]];\n        induce(sorted_lms);\n\
-    \    }\n    return sa;\n}\n\ntemplate<class T> vector<int> suffix_array(vector<T>\
-    \ const& s){\n    int n = s.size();\n    vector<int> idx(n);\n    iota(idx.begin(),idx.end(),\
-    \ 0);\n    sort(idx.begin(),idx.end(), [&](int l, int r){ return s[l] < s[r];\
-    \ });\n    vector<int> z(n);\n    int now = 0;\n    for (int i = 0; i < n; ++i)\
-    \ {\n        if(i && s[idx[i-1]] != s[idx[i]]) now++;\n        z[idx[i]] = now;\n\
-    \    }\n    return suffix_array(z, now);\n}\n\nvector<int> suffix_array(const\
-    \ string& s){\n    return suffix_array(convert(s), 255);\n}\n\ntemplate<class\
-    \ T>\nvector<int> lcp(const vector<T> &s, const vector<int> &sa){\n    int n =\
-    \ s.size();\n    if (n <= 1) return {};\n    vector<int> sa_inv(n);\n    for (int\
-    \ i = 0; i < n; ++i) sa_inv[sa[i]] = i;\n    vector<int> lcp(n-1);\n    int h\
-    \ = 0;\n    for (int i = 0; i < n; ++i) {\n        if(h > 0) h--;\n        if(!sa_inv[i])\
-    \ continue;\n        int j = sa[sa_inv[i]-1];\n        while(j+h < n && i+h <\
-    \ n && s[j+h] == s[i+h]) h++;\n        lcp[sa_inv[i]-1] = h;\n    }\n    return\
-    \ lcp;\n}\n\nvector<int> lcp(string const& s, vector<int> const& sa){\n    return\
-    \ lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n\n\n#line 1 \"\
-    datastructure/sparsetable.cpp\"\n\n\n\ntemplate <class F>\nstruct SparseTable\
-    \ {\n    using T = typename F::T;\n    vector<vector<T>> table;\n    vector<int>\
-    \ u;\n    SparseTable() = default;\n    explicit SparseTable(const vector<T> &v){\
-    \ build(v); }\n \n    void build(const vector<T> &v){\n        int n = v.size(),\
-    \ m = 1;\n        while((1<<m) <= n) m++;\n        table.assign(m, vector<T>(n));\n\
-    \        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i) {\n         \
-    \   u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n; ++i) {\n  \
-    \          table[0][i] = v[i];\n        }\n        for (int i = 1; i < m; ++i)\
-    \ {\n            int x = (1<<(i-1));\n            for (int j = 0; j < n; ++j)\
-    \ {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x, n-1)]);\n\
-    \            }\n        }\n    }\n \n    T query(int a, int b) const {\n     \
-    \   int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
+    \        }\n        vector<int> rec_sa;\n        if (rec_upper + 1 == m) {\n \
+    \           rec_sa.resize(m);\n            for (int i = 0; i < m; ++i) rec_sa[rec_s[i]]\
+    \ = i;\n        } else {\n            rec_sa = suffix_array(rec_s, rec_upper);\n\
+    \        }\n        for (int i = 0; i < m; ++i) sorted_lms[i] = lms[rec_sa[i]];\n\
+    \        induce(sorted_lms);\n    }\n    return sa;\n}\n\ntemplate<class T> vector<int>\
+    \ suffix_array(vector<T> const& s){\n    int n = s.size();\n    vector<int> idx(n);\n\
+    \    iota(idx.begin(),idx.end(), 0);\n    sort(idx.begin(),idx.end(), [&](int\
+    \ l, int r){ return s[l] < s[r]; });\n    vector<int> z(n);\n    int now = 0;\n\
+    \    for (int i = 0; i < n; ++i) {\n        if(i && s[idx[i-1]] != s[idx[i]])\
+    \ now++;\n        z[idx[i]] = now;\n    }\n    return suffix_array(z, now);\n\
+    }\n\nvector<int> suffix_array(const string& s){\n    return suffix_array(convert(s),\
+    \ 255);\n}\n\ntemplate<class T>\nvector<int> lcp(const vector<T> &s, const vector<int>\
+    \ &sa){\n    int n = s.size();\n    if (n <= 1) return {};\n    vector<int> sa_inv(n);\n\
+    \    for (int i = 0; i < n; ++i) sa_inv[sa[i]] = i;\n    vector<int> lcp(n-1);\n\
+    \    int h = 0;\n    for (int i = 0; i < n; ++i) {\n        if(h > 0) h--;\n \
+    \       if(!sa_inv[i]) continue;\n        int j = sa[sa_inv[i]-1];\n        while(j+h\
+    \ < n && i+h < n && s[j+h] == s[i+h]) h++;\n        lcp[sa_inv[i]-1] = h;\n  \
+    \  }\n    return lcp;\n}\n\nvector<int> lcp(string const& s, vector<int> const&\
+    \ sa){\n    return lcp(convert(s), sa);\n}\n\n/**\n * @brief Suffix Array\n */\n\
+    \n\n#line 1 \"datastructure/sparsetable.cpp\"\n\n\n\ntemplate <class F>\nstruct\
+    \ SparseTable {\n    using T = typename F::T;\n    vector<vector<T>> table;\n\
+    \    vector<int> u;\n    SparseTable() = default;\n    explicit SparseTable(const\
+    \ vector<T> &v){ build(v); }\n \n    void build(const vector<T> &v){\n       \
+    \ int n = v.size(), m = 1;\n        while((1<<m) <= n) m++;\n        table.assign(m,\
+    \ vector<T>(n));\n        u.assign(n+1, 0);\n        for (int i = 2; i <= n; ++i)\
+    \ {\n            u[i] = u[i>>1] + 1;\n        }\n        for (int i = 0; i < n;\
+    \ ++i) {\n            table[0][i] = v[i];\n        }\n        for (int i = 1;\
+    \ i < m; ++i) {\n            int x = (1<<(i-1));\n            for (int j = 0;\
+    \ j < n; ++j) {\n                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x,\
+    \ n-1)]);\n            }\n        }\n    }\n \n    T query(int a, int b) const\
+    \ {\n        int l = b-a;\n        return F::f(table[u[l]][a], table[u[l]][b-(1<<u[l])]);\n\
     \    }\n};\n\n/**\n * @brief Sparse Table\n */\n\n\n#line 6 \"string/suffix_array_query.cpp\"\
     \n\nclass SuffixArrayQuery {\n    struct Minimum {\n        using T = int;\n \
     \       static int f(int a, int b) { return min(a, b); }\n    };\n    int n;\n\
@@ -139,7 +141,7 @@ data:
   path: string/suffix_array_query.cpp
   requiredBy:
   - string/enumerate_runs.cpp
-  timestamp: '2026-10-12 10:35:08+09:00'
+  timestamp: '2026-10-17 19:14:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_suffix_array_query.test.cpp

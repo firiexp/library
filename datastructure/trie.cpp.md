@@ -31,21 +31,21 @@ data:
     \ &&i : s) {\n            int k = f(i);\n            if(v[cur].nxt[k] < 0) return\
     \ -1;\n            cur = v[cur].nxt[k];\n        }\n        return cur;\n    }\n\
     \    int find(int cur, char c) {return v[cur].nxt[f(c)]; }\n    int id(int cur)\
-    \ { return cur < 0 ? -1 : v[cur].id;}\n\n    vector<int> idxs(int cur) { return\
-    \ cur < 0 ? vector<int>() : v[cur].idxs; }\n\n    struct PrefixIntervals {\n \
-    \       vector<int> order;\n        vector<pair<int, int>> range;\n    };\n\n\
-    \    PrefixIntervals prefix_intervals() const {\n        PrefixIntervals result;\n\
-    \        result.range.resize(v.size());\n        vector<pair<int, int>> stack{{0,\
-    \ 0}};\n        while (!stack.empty()) {\n            int node = stack.back().first;\n\
-    \            int& next = stack.back().second;\n            if (next == 0) {\n\
-    \                result.range[node].first = result.order.size();\n           \
-    \     result.order.insert(result.order.end(), v[node].idxs.begin(), v[node].idxs.end());\n\
-    \            }\n            while (next < W && v[node].nxt[next] == -1) ++next;\n\
-    \            if (next == W) {\n                result.range[node].second = result.order.size();\n\
-    \                stack.pop_back();\n            } else {\n                int\
-    \ child = v[node].nxt[next++];\n                stack.emplace_back(child, 0);\n\
-    \            }\n        }\n        return result;\n    }\n};\n\n/**\n * @brief\
-    \ Trie \u6728\n */\n"
+    \ { return cur < 0 ? -1 : v[cur].id;}\n\n    const vector<int>& idxs(int cur)\
+    \ const {\n        static const vector<int> empty;\n        return cur < 0 ? empty\
+    \ : v[cur].idxs;\n    }\n\n    struct PrefixIntervals {\n        vector<int> order;\n\
+    \        vector<pair<int, int>> range;\n    };\n\n    PrefixIntervals prefix_intervals()\
+    \ const {\n        PrefixIntervals result;\n        result.range.resize(v.size());\n\
+    \        vector<pair<int, int>> stack{{0, 0}};\n        while (!stack.empty())\
+    \ {\n            int node = stack.back().first;\n            int& next = stack.back().second;\n\
+    \            if (next == 0) {\n                result.range[node].first = result.order.size();\n\
+    \                result.order.insert(result.order.end(), v[node].idxs.begin(),\
+    \ v[node].idxs.end());\n            }\n            while (next < W && v[node].nxt[next]\
+    \ == -1) ++next;\n            if (next == W) {\n                result.range[node].second\
+    \ = result.order.size();\n                stack.pop_back();\n            } else\
+    \ {\n                int child = v[node].nxt[next++];\n                stack.emplace_back(child,\
+    \ 0);\n            }\n        }\n        return result;\n    }\n};\n\n/**\n *\
+    \ @brief Trie \u6728\n */\n"
   code: "template<int W, class F> // W -> word size\nstruct Trie {\n    struct Node\
     \ {\n        char c;\n        array<int, W> nxt;\n        vector<int> idxs;\n\
     \        int id;\n        explicit Node(char c): c(c), id(-1){\n            fill(nxt.begin(),nxt.end(),\
@@ -60,26 +60,26 @@ data:
     \ &&i : s) {\n            int k = f(i);\n            if(v[cur].nxt[k] < 0) return\
     \ -1;\n            cur = v[cur].nxt[k];\n        }\n        return cur;\n    }\n\
     \    int find(int cur, char c) {return v[cur].nxt[f(c)]; }\n    int id(int cur)\
-    \ { return cur < 0 ? -1 : v[cur].id;}\n\n    vector<int> idxs(int cur) { return\
-    \ cur < 0 ? vector<int>() : v[cur].idxs; }\n\n    struct PrefixIntervals {\n \
-    \       vector<int> order;\n        vector<pair<int, int>> range;\n    };\n\n\
-    \    PrefixIntervals prefix_intervals() const {\n        PrefixIntervals result;\n\
-    \        result.range.resize(v.size());\n        vector<pair<int, int>> stack{{0,\
-    \ 0}};\n        while (!stack.empty()) {\n            int node = stack.back().first;\n\
-    \            int& next = stack.back().second;\n            if (next == 0) {\n\
-    \                result.range[node].first = result.order.size();\n           \
-    \     result.order.insert(result.order.end(), v[node].idxs.begin(), v[node].idxs.end());\n\
-    \            }\n            while (next < W && v[node].nxt[next] == -1) ++next;\n\
-    \            if (next == W) {\n                result.range[node].second = result.order.size();\n\
-    \                stack.pop_back();\n            } else {\n                int\
-    \ child = v[node].nxt[next++];\n                stack.emplace_back(child, 0);\n\
-    \            }\n        }\n        return result;\n    }\n};\n\n/**\n * @brief\
-    \ Trie \u6728\n */\n"
+    \ { return cur < 0 ? -1 : v[cur].id;}\n\n    const vector<int>& idxs(int cur)\
+    \ const {\n        static const vector<int> empty;\n        return cur < 0 ? empty\
+    \ : v[cur].idxs;\n    }\n\n    struct PrefixIntervals {\n        vector<int> order;\n\
+    \        vector<pair<int, int>> range;\n    };\n\n    PrefixIntervals prefix_intervals()\
+    \ const {\n        PrefixIntervals result;\n        result.range.resize(v.size());\n\
+    \        vector<pair<int, int>> stack{{0, 0}};\n        while (!stack.empty())\
+    \ {\n            int node = stack.back().first;\n            int& next = stack.back().second;\n\
+    \            if (next == 0) {\n                result.range[node].first = result.order.size();\n\
+    \                result.order.insert(result.order.end(), v[node].idxs.begin(),\
+    \ v[node].idxs.end());\n            }\n            while (next < W && v[node].nxt[next]\
+    \ == -1) ++next;\n            if (next == W) {\n                result.range[node].second\
+    \ = result.order.size();\n                stack.pop_back();\n            } else\
+    \ {\n                int child = v[node].nxt[next++];\n                stack.emplace_back(child,\
+    \ 0);\n            }\n        }\n        return result;\n    }\n};\n\n/**\n *\
+    \ @brief Trie \u6728\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/trie.cpp
   requiredBy: []
-  timestamp: '2026-10-11 15:44:26+09:00'
+  timestamp: '2026-10-17 19:13:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj2907_prefix_suffix_search.test.cpp
@@ -106,8 +106,8 @@ title: "Trie \u6728"
   ノード `cur` から文字 `c` で遷移した先を返す。無ければ `-1`
 - `id(cur)`
   ノード `cur` に対応する終端 id を返す。終端でなければ `-1`
-- `idxs(cur)`
-  ノード `cur` に対応する id 一覧を返す。無ければ空
+- `const vector<int>& idxs(int cur) const`
+  ノード `cur` の終端ID一覧を挿入順の読み取り専用参照で返す。未登録の終端や `cur < 0` では空。取得は $O(1)$、列挙はID数に比例する
 - `PrefixIntervals prefix_intervals() const`
   単語IDの列 `order` と、各ノードに対応する半開区間 `range` を返す。ノード数を $V$、登録した単語数を $K$ として $O(WV+K)$ 時間、$O(V+K)$ 領域
 
@@ -129,6 +129,22 @@ auto [l, r] = index.range[node];
 `order` は文字変換関数 `f` の順に並び、同じ終端のIDは挿入順を保つ。
 空文字や同じIDの複数登録も含まれる。単語を追加した後は `prefix_intervals()` を呼び直す。
 
+同じ単語に登録したIDだけを列挙する場合は `idxs` を使う。
+
+```cpp
+trie.add("apple", 1);
+int terminal = trie.find("apple");
+const auto& view = trie;
+for (int id : view.idxs(terminal)) {
+    use(id);
+}
+auto ids = view.idxs(terminal);
+ids.push_back(2);
+```
+
+range-for はID列をコピーしない。`auto ids = ...` は編集できるコピーで、Trie の登録内容には影響しない。
+
 ## 実装上の補足
 - 同じ文字列を複数回挿入すると `idxs(cur)` に id が追加される。`id(cur)` は最後に入れた値になる
+- `idxs` が返す参照や iterator は、`add` や Trie の破棄で無効になることがある。追加後も保持するなら明示的にコピーする。`prefix_intervals()` の返り値は独立した snapshot である
 - `find(cur, c)` は `cur < 0` を自動では防がないので、呼び出し側で確認する

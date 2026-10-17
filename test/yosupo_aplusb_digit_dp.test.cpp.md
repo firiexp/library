@@ -295,8 +295,31 @@ data:
     \        for (int c = 0; c < W; ++c) {\n            int nx = a.next[x][c], ny\
     \ = b.next[y][c];\n            int to = nx == -1 || ny == -1 ? -1 : add(nx, ny);\n\
     \            result.next[i][c] = to;\n        }\n    }\n    return result;\n}\n\
-    \n\n\n/**\n * @brief \u6709\u9650\u30AA\u30FC\u30C8\u30DE\u30C8\u30F3\u3068\u6761\
-    \u4EF6\u306E\u5408\u6210\n */\n#line 5 \"math/digit_dp.cpp\"\n\nnamespace digit_dp_detail\
+    \ntemplate<int W>\nDFA<W> unite(const DFA<W>& a, const DFA<W>& b) {\n    if (a.initial\
+    \ == -1 && b.initial == -1) return {};\n    size_t width = b.next.size() + 1;\n\
+    \    assert(a.next.size() + 1 <= vector<int>().max_size() / width);\n    vector<int>\
+    \ id((a.next.size() + 1) * width, -1);\n    vector<pair<int, int>> states;\n \
+    \   DFA<W> result;\n    auto add = [&](int x, int y) {\n        if (x == -1 &&\
+    \ y == -1) return -1;\n        int& index = id[size_t(x + 1) * width + (y + 1)];\n\
+    \        if (index == -1) {\n            index = (int)states.size();\n       \
+    \     states.emplace_back(x, y);\n            result.next.emplace_back();\n  \
+    \          result.accept.push_back((x != -1 && a.accept[x]) || (y != -1 && b.accept[y]));\n\
+    \        }\n        return index;\n    };\n    result.initial = add(a.initial,\
+    \ b.initial);\n    for (int i = 0; i < (int)states.size(); ++i) {\n        auto\
+    \ [x, y] = states[i];\n        for (int c = 0; c < W; ++c) {\n            int\
+    \ nx = x == -1 ? -1 : a.next[x][c];\n            int ny = y == -1 ? -1 : b.next[y][c];\n\
+    \            int to = add(nx, ny);\n            result.next[i][c] = to;\n    \
+    \    }\n    }\n    return result;\n}\n\ntemplate<int W>\nDFA<W> complement(const\
+    \ DFA<W>& a) {\n    if (a.initial == -1) {\n        DFA<W> result{vector<array<int,\
+    \ W>>(1), {true}, 0};\n        result.next[0].fill(0);\n        return result;\n\
+    \    }\n    DFA<W> result = a;\n    for (auto& accept : result.accept) accept\
+    \ = !accept;\n    int sink = (int)result.next.size();\n    bool needed = false;\n\
+    \    for (auto& row : result.next) {\n        for (int& to : row) if (to == -1)\
+    \ {\n            to = sink;\n            needed = true;\n        }\n    }\n  \
+    \  if (needed) {\n        result.next.emplace_back();\n        result.next.back().fill(sink);\n\
+    \        result.accept.push_back(true);\n    }\n    return result;\n}\n\n\n\n\
+    /**\n * @brief \u6709\u9650\u30AA\u30FC\u30C8\u30DE\u30C8\u30F3\u3068\u6761\u4EF6\
+    \u306E\u5408\u6210\n */\n#line 5 \"math/digit_dp.cpp\"\n\nnamespace digit_dp_detail\
     \ {\n\ntemplate<class T, bool Sum>\nauto run(const string& lower, const string&\
     \ upper, const DFA<10>& a) {\n    using Value = conditional_t<Sum, pair<T, T>,\
     \ T>;\n    const Value zero = []() -> Value {\n        if constexpr (Sum) return\
@@ -491,7 +514,17 @@ data:
     \    }\n}\n\nvoid self_check() {\n    mt19937 rng(148);\n    check(DFA<10>{},\
     \ rng);\n    check(no_equal_adjacent(), rng);\n    check(minimize(digit_value_mod(100)),\
     \ rng);\n    check(minimize(intersect(digit_sum_exact(12), digit_value_mod(12))),\
-    \ rng);\n    for (int mask : {0, 1, 2, 3, 6, 17, 513, 1023}) check(required_digits(mask),\
+    \ rng);\n    auto either = unite(digit_value_mod(3), digit_value_mod(5));\n  \
+    \  check(either, rng);\n    check(complement(either), rng);\n    check(minimize(either),\
+    \ rng);\n    auto repeated = complement(no_equal_adjacent());\n    check(repeated,\
+    \ rng);\n    long long divisible = 0, adjacent = 0;\n    for (int x = 0; x <=\
+    \ 2000; ++x) {\n        divisible += x % 3 == 0 || x % 5 == 0;\n        string\
+    \ s = to_string(x);\n        adjacent += adjacent_find(s.begin(), s.end()) !=\
+    \ s.end();\n        assert(digit_count<long long>(\"0\", s, either) == divisible);\n\
+    \        assert(digit_count<long long>(\"0\", s, complement(either)) == x + 1\
+    \ - divisible);\n        assert(digit_count<long long>(\"0\", s, repeated) ==\
+    \ adjacent);\n    }\n    assert(digit_count<long long>(\"1\", \"100\", either)\
+    \ == 47);\n    for (int mask : {0, 1, 2, 3, 6, 17, 513, 1023}) check(required_digits(mask),\
     \ rng);\n    for (int m = 1; m <= 12; ++m) {\n        check(digit_value_mod(m,\
     \ m - 1), rng);\n        check(digit_sum_mod(m, m - 1), rng);\n    }\n    for\
     \ (int k = 0; k <= 30; ++k) {\n        check(digit_sum_exact(k), rng);\n     \
@@ -554,7 +587,17 @@ data:
     \    }\n}\n\nvoid self_check() {\n    mt19937 rng(148);\n    check(DFA<10>{},\
     \ rng);\n    check(no_equal_adjacent(), rng);\n    check(minimize(digit_value_mod(100)),\
     \ rng);\n    check(minimize(intersect(digit_sum_exact(12), digit_value_mod(12))),\
-    \ rng);\n    for (int mask : {0, 1, 2, 3, 6, 17, 513, 1023}) check(required_digits(mask),\
+    \ rng);\n    auto either = unite(digit_value_mod(3), digit_value_mod(5));\n  \
+    \  check(either, rng);\n    check(complement(either), rng);\n    check(minimize(either),\
+    \ rng);\n    auto repeated = complement(no_equal_adjacent());\n    check(repeated,\
+    \ rng);\n    long long divisible = 0, adjacent = 0;\n    for (int x = 0; x <=\
+    \ 2000; ++x) {\n        divisible += x % 3 == 0 || x % 5 == 0;\n        string\
+    \ s = to_string(x);\n        adjacent += adjacent_find(s.begin(), s.end()) !=\
+    \ s.end();\n        assert(digit_count<long long>(\"0\", s, either) == divisible);\n\
+    \        assert(digit_count<long long>(\"0\", s, complement(either)) == x + 1\
+    \ - divisible);\n        assert(digit_count<long long>(\"0\", s, repeated) ==\
+    \ adjacent);\n    }\n    assert(digit_count<long long>(\"1\", \"100\", either)\
+    \ == 47);\n    for (int mask : {0, 1, 2, 3, 6, 17, 513, 1023}) check(required_digits(mask),\
     \ rng);\n    for (int m = 1; m <= 12; ++m) {\n        check(digit_value_mod(m,\
     \ m - 1), rng);\n        check(digit_sum_mod(m, m - 1), rng);\n    }\n    for\
     \ (int k = 0; k <= 30; ++k) {\n        check(digit_sum_exact(k), rng);\n     \
@@ -601,7 +644,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_digit_dp.test.cpp
   requiredBy: []
-  timestamp: '2026-10-16 22:44:00+09:00'
+  timestamp: '2026-10-17 19:15:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_digit_dp.test.cpp

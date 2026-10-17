@@ -44,17 +44,40 @@ data:
     \ {\n        auto [x, y] = states[i];\n        for (int c = 0; c < W; ++c) {\n\
     \            int nx = a.next[x][c], ny = b.next[y][c];\n            int to = nx\
     \ == -1 || ny == -1 ? -1 : add(nx, ny);\n            result.next[i][c] = to;\n\
-    \        }\n    }\n    return result;\n}\n\n\n\n/**\n * @brief \u6709\u9650\u30AA\
-    \u30FC\u30C8\u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\u5408\u6210\n */\n#line\
-    \ 5 \"math/digit_dfa.cpp\"\n\nDFA<10> digit_value_mod(int m, int r = 0) {\n  \
-    \  assert(m > 0 && 0 <= r && r < m);\n    DFA<10> a{vector<array<int, 10>>(m),\
-    \ vector<char>(m), 0};\n    a.accept[r] = true;\n    for (int v = 0; v < m; ++v)\
-    \ {\n        for (int d = 0; d < 10; ++d) a.next[v][d] = (10LL * v + d) % m;\n\
-    \    }\n    return a;\n}\n\nDFA<10> digit_sum_mod(int m, int r = 0) {\n    assert(m\
-    \ > 0 && 0 <= r && r < m);\n    DFA<10> a{vector<array<int, 10>>(m), vector<char>(m),\
-    \ 0};\n    a.accept[r] = true;\n    for (int v = 0; v < m; ++v) {\n        for\
-    \ (int d = 0; d < 10; ++d) a.next[v][d] = (v + (long long)d) % m;\n    }\n   \
-    \ return a;\n}\n\nDFA<10> digit_sum_exact(int k) {\n    assert(0 <= k && k < numeric_limits<int>::max());\n\
+    \        }\n    }\n    return result;\n}\n\ntemplate<int W>\nDFA<W> unite(const\
+    \ DFA<W>& a, const DFA<W>& b) {\n    if (a.initial == -1 && b.initial == -1) return\
+    \ {};\n    size_t width = b.next.size() + 1;\n    assert(a.next.size() + 1 <=\
+    \ vector<int>().max_size() / width);\n    vector<int> id((a.next.size() + 1) *\
+    \ width, -1);\n    vector<pair<int, int>> states;\n    DFA<W> result;\n    auto\
+    \ add = [&](int x, int y) {\n        if (x == -1 && y == -1) return -1;\n    \
+    \    int& index = id[size_t(x + 1) * width + (y + 1)];\n        if (index == -1)\
+    \ {\n            index = (int)states.size();\n            states.emplace_back(x,\
+    \ y);\n            result.next.emplace_back();\n            result.accept.push_back((x\
+    \ != -1 && a.accept[x]) || (y != -1 && b.accept[y]));\n        }\n        return\
+    \ index;\n    };\n    result.initial = add(a.initial, b.initial);\n    for (int\
+    \ i = 0; i < (int)states.size(); ++i) {\n        auto [x, y] = states[i];\n  \
+    \      for (int c = 0; c < W; ++c) {\n            int nx = x == -1 ? -1 : a.next[x][c];\n\
+    \            int ny = y == -1 ? -1 : b.next[y][c];\n            int to = add(nx,\
+    \ ny);\n            result.next[i][c] = to;\n        }\n    }\n    return result;\n\
+    }\n\ntemplate<int W>\nDFA<W> complement(const DFA<W>& a) {\n    if (a.initial\
+    \ == -1) {\n        DFA<W> result{vector<array<int, W>>(1), {true}, 0};\n    \
+    \    result.next[0].fill(0);\n        return result;\n    }\n    DFA<W> result\
+    \ = a;\n    for (auto& accept : result.accept) accept = !accept;\n    int sink\
+    \ = (int)result.next.size();\n    bool needed = false;\n    for (auto& row : result.next)\
+    \ {\n        for (int& to : row) if (to == -1) {\n            to = sink;\n   \
+    \         needed = true;\n        }\n    }\n    if (needed) {\n        result.next.emplace_back();\n\
+    \        result.next.back().fill(sink);\n        result.accept.push_back(true);\n\
+    \    }\n    return result;\n}\n\n\n\n/**\n * @brief \u6709\u9650\u30AA\u30FC\u30C8\
+    \u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\u5408\u6210\n */\n#line 5 \"math/digit_dfa.cpp\"\
+    \n\nDFA<10> digit_value_mod(int m, int r = 0) {\n    assert(m > 0 && 0 <= r &&\
+    \ r < m);\n    DFA<10> a{vector<array<int, 10>>(m), vector<char>(m), 0};\n   \
+    \ a.accept[r] = true;\n    for (int v = 0; v < m; ++v) {\n        for (int d =\
+    \ 0; d < 10; ++d) a.next[v][d] = (10LL * v + d) % m;\n    }\n    return a;\n}\n\
+    \nDFA<10> digit_sum_mod(int m, int r = 0) {\n    assert(m > 0 && 0 <= r && r <\
+    \ m);\n    DFA<10> a{vector<array<int, 10>>(m), vector<char>(m), 0};\n    a.accept[r]\
+    \ = true;\n    for (int v = 0; v < m; ++v) {\n        for (int d = 0; d < 10;\
+    \ ++d) a.next[v][d] = (v + (long long)d) % m;\n    }\n    return a;\n}\n\nDFA<10>\
+    \ digit_sum_exact(int k) {\n    assert(0 <= k && k < numeric_limits<int>::max());\n\
     \    DFA<10> a{vector<array<int, 10>>(k + 1), vector<char>(k + 1), 0};\n    a.accept[k]\
     \ = true;\n    for (int v = 0; v <= k; ++v) {\n        for (int d = 0; d < 10;\
     \ ++d) a.next[v][d] = d <= k - v ? v + d : -1;\n    }\n    return a;\n}\n\nDFA<10>\
@@ -96,7 +119,7 @@ data:
   isVerificationFile: false
   path: math/digit_dfa.cpp
   requiredBy: []
-  timestamp: '2026-10-16 22:08:32+09:00'
+  timestamp: '2026-10-17 19:15:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_digit_dp.test.cpp

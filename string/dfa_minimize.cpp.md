@@ -11,6 +11,9 @@ data:
     path: test/yosupo_aplusb_count_words.test.cpp
     title: test/yosupo_aplusb_count_words.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dfa.test.cpp
+    title: test/yosupo_aplusb_dfa.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dfa_minimize.test.cpp
     title: test/yosupo_aplusb_dfa_minimize.test.cpp
   - icon: ':heavy_check_mark:'
@@ -38,51 +41,74 @@ data:
     \ {\n        auto [x, y] = states[i];\n        for (int c = 0; c < W; ++c) {\n\
     \            int nx = a.next[x][c], ny = b.next[y][c];\n            int to = nx\
     \ == -1 || ny == -1 ? -1 : add(nx, ny);\n            result.next[i][c] = to;\n\
-    \        }\n    }\n    return result;\n}\n\n\n\n/**\n * @brief \u6709\u9650\u30AA\
-    \u30FC\u30C8\u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\u5408\u6210\n */\n#line\
-    \ 5 \"string/dfa_minimize.cpp\"\n\ntemplate<int W>\nDFA<W> minimize(const DFA<W>&\
-    \ a) {\n    if (a.initial == -1) return {};\n    vector<int> index(a.next.size(),\
-    \ -1), states{a.initial};\n    index[a.initial] = 0;\n    for (size_t i = 0; i\
-    \ < states.size(); ++i) {\n        for (int to : a.next[states[i]]) {\n      \
-    \      if (to != -1 && index[to] == -1) {\n                index[to] = (int)states.size();\n\
-    \                states.push_back(to);\n            }\n        }\n    }\n    int\
-    \ sink = (int)states.size();\n    assert(sink < numeric_limits<int>::max());\n\
-    \    int n = sink + 1;\n    vector<int> order;\n    order.reserve(n);\n    for\
-    \ (int v = 0; v < sink; ++v) if (a.accept[states[v]]) order.push_back(v);\n  \
-    \  int accepted = (int)order.size();\n    if (accepted == 0) return {};\n    for\
-    \ (int v = 0; v < sink; ++v) if (!a.accept[states[v]]) order.push_back(v);\n \
-    \   order.push_back(sink);\n    vector<array<int, W>> head(n), link(n);\n    for\
-    \ (auto& row : head) row.fill(-1);\n    for (int v = 0; v < n; ++v) {\n      \
-    \  for (int c = 0; c < W; ++c) {\n            int to = v == sink ? -1 : a.next[states[v]][c];\n\
-    \            to = to == -1 ? sink : index[to];\n            link[v][c] = head[to][c];\n\
-    \            head[to][c] = v;\n        }\n    }\n    vector<int> group(n), position(n),\
-    \ begin{0, accepted}, end{accepted, n}, marked{0, accepted};\n    for (int i =\
-    \ 0; i < n; ++i) group[order[i]] = i >= accepted, position[order[i]] = i;\n  \
-    \  vector<int> pending{accepted <= n - accepted ? 0 : 1}, splitter, touched;\n\
-    \    while (!pending.empty()) {\n        int block = pending.back();\n       \
-    \ pending.pop_back();\n        splitter.assign(order.begin() + begin[block], order.begin()\
-    \ + end[block]);\n        for (int c = 0; c < W; ++c) {\n            touched.clear();\n\
-    \            for (int to : splitter) {\n                for (int v = head[to][c];\
-    \ v != -1; v = link[v][c]) {\n                    int b = group[v];\n        \
-    \            if (marked[b] == begin[b]) touched.push_back(b);\n              \
-    \      int i = position[v], j = marked[b]++;\n                    swap(order[i],\
-    \ order[j]);\n                    position[order[i]] = i;\n                  \
-    \  position[order[j]] = j;\n                }\n            }\n            for\
-    \ (int b : touched) {\n                int mid = marked[b], l = begin[b], r =\
-    \ end[b];\n                if (mid != r) {\n                    int id = (int)begin.size();\n\
-    \                    if (mid - l <= r - mid) {\n                        begin.push_back(l);\n\
-    \                        end.push_back(mid);\n                        begin[b]\
-    \ = mid;\n                    } else {\n                        begin.push_back(mid);\n\
-    \                        end.push_back(r);\n                        end[b] = mid;\n\
-    \                    }\n                    marked.push_back(begin[id]);\n   \
-    \                 for (int i = begin[id]; i < end[id]; ++i) group[order[i]] =\
-    \ id;\n                    pending.push_back(id);\n                }\n       \
-    \         marked[b] = begin[b];\n            }\n        }\n    }\n    int dead\
-    \ = group[sink];\n    if (group[0] == dead) return {};\n    vector<int> id(begin.size(),\
-    \ -1), queue{group[0]};\n    id[group[0]] = 0;\n    DFA<W> result;\n    result.initial\
-    \ = 0;\n    for (size_t i = 0; i < queue.size(); ++i) {\n        int v = states[order[begin[queue[i]]]];\n\
-    \        array<int, W> row;\n        for (int c = 0; c < W; ++c) {\n         \
-    \   int to = a.next[v][c];\n            int b = to == -1 ? dead : group[index[to]];\n\
+    \        }\n    }\n    return result;\n}\n\ntemplate<int W>\nDFA<W> unite(const\
+    \ DFA<W>& a, const DFA<W>& b) {\n    if (a.initial == -1 && b.initial == -1) return\
+    \ {};\n    size_t width = b.next.size() + 1;\n    assert(a.next.size() + 1 <=\
+    \ vector<int>().max_size() / width);\n    vector<int> id((a.next.size() + 1) *\
+    \ width, -1);\n    vector<pair<int, int>> states;\n    DFA<W> result;\n    auto\
+    \ add = [&](int x, int y) {\n        if (x == -1 && y == -1) return -1;\n    \
+    \    int& index = id[size_t(x + 1) * width + (y + 1)];\n        if (index == -1)\
+    \ {\n            index = (int)states.size();\n            states.emplace_back(x,\
+    \ y);\n            result.next.emplace_back();\n            result.accept.push_back((x\
+    \ != -1 && a.accept[x]) || (y != -1 && b.accept[y]));\n        }\n        return\
+    \ index;\n    };\n    result.initial = add(a.initial, b.initial);\n    for (int\
+    \ i = 0; i < (int)states.size(); ++i) {\n        auto [x, y] = states[i];\n  \
+    \      for (int c = 0; c < W; ++c) {\n            int nx = x == -1 ? -1 : a.next[x][c];\n\
+    \            int ny = y == -1 ? -1 : b.next[y][c];\n            int to = add(nx,\
+    \ ny);\n            result.next[i][c] = to;\n        }\n    }\n    return result;\n\
+    }\n\ntemplate<int W>\nDFA<W> complement(const DFA<W>& a) {\n    if (a.initial\
+    \ == -1) {\n        DFA<W> result{vector<array<int, W>>(1), {true}, 0};\n    \
+    \    result.next[0].fill(0);\n        return result;\n    }\n    DFA<W> result\
+    \ = a;\n    for (auto& accept : result.accept) accept = !accept;\n    int sink\
+    \ = (int)result.next.size();\n    bool needed = false;\n    for (auto& row : result.next)\
+    \ {\n        for (int& to : row) if (to == -1) {\n            to = sink;\n   \
+    \         needed = true;\n        }\n    }\n    if (needed) {\n        result.next.emplace_back();\n\
+    \        result.next.back().fill(sink);\n        result.accept.push_back(true);\n\
+    \    }\n    return result;\n}\n\n\n\n/**\n * @brief \u6709\u9650\u30AA\u30FC\u30C8\
+    \u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\u5408\u6210\n */\n#line 5 \"string/dfa_minimize.cpp\"\
+    \n\ntemplate<int W>\nDFA<W> minimize(const DFA<W>& a) {\n    if (a.initial ==\
+    \ -1) return {};\n    vector<int> index(a.next.size(), -1), states{a.initial};\n\
+    \    index[a.initial] = 0;\n    for (size_t i = 0; i < states.size(); ++i) {\n\
+    \        for (int to : a.next[states[i]]) {\n            if (to != -1 && index[to]\
+    \ == -1) {\n                index[to] = (int)states.size();\n                states.push_back(to);\n\
+    \            }\n        }\n    }\n    int sink = (int)states.size();\n    assert(sink\
+    \ < numeric_limits<int>::max());\n    int n = sink + 1;\n    vector<int> order;\n\
+    \    order.reserve(n);\n    for (int v = 0; v < sink; ++v) if (a.accept[states[v]])\
+    \ order.push_back(v);\n    int accepted = (int)order.size();\n    if (accepted\
+    \ == 0) return {};\n    for (int v = 0; v < sink; ++v) if (!a.accept[states[v]])\
+    \ order.push_back(v);\n    order.push_back(sink);\n    vector<array<int, W>> head(n),\
+    \ link(n);\n    for (auto& row : head) row.fill(-1);\n    for (int v = 0; v <\
+    \ n; ++v) {\n        for (int c = 0; c < W; ++c) {\n            int to = v ==\
+    \ sink ? -1 : a.next[states[v]][c];\n            to = to == -1 ? sink : index[to];\n\
+    \            link[v][c] = head[to][c];\n            head[to][c] = v;\n       \
+    \ }\n    }\n    vector<int> group(n), position(n), begin{0, accepted}, end{accepted,\
+    \ n}, marked{0, accepted};\n    for (int i = 0; i < n; ++i) group[order[i]] =\
+    \ i >= accepted, position[order[i]] = i;\n    vector<int> pending{accepted <=\
+    \ n - accepted ? 0 : 1}, splitter, touched;\n    while (!pending.empty()) {\n\
+    \        int block = pending.back();\n        pending.pop_back();\n        splitter.assign(order.begin()\
+    \ + begin[block], order.begin() + end[block]);\n        for (int c = 0; c < W;\
+    \ ++c) {\n            touched.clear();\n            for (int to : splitter) {\n\
+    \                for (int v = head[to][c]; v != -1; v = link[v][c]) {\n      \
+    \              int b = group[v];\n                    if (marked[b] == begin[b])\
+    \ touched.push_back(b);\n                    int i = position[v], j = marked[b]++;\n\
+    \                    swap(order[i], order[j]);\n                    position[order[i]]\
+    \ = i;\n                    position[order[j]] = j;\n                }\n     \
+    \       }\n            for (int b : touched) {\n                int mid = marked[b],\
+    \ l = begin[b], r = end[b];\n                if (mid != r) {\n               \
+    \     int id = (int)begin.size();\n                    if (mid - l <= r - mid)\
+    \ {\n                        begin.push_back(l);\n                        end.push_back(mid);\n\
+    \                        begin[b] = mid;\n                    } else {\n     \
+    \                   begin.push_back(mid);\n                        end.push_back(r);\n\
+    \                        end[b] = mid;\n                    }\n              \
+    \      marked.push_back(begin[id]);\n                    for (int i = begin[id];\
+    \ i < end[id]; ++i) group[order[i]] = id;\n                    pending.push_back(id);\n\
+    \                }\n                marked[b] = begin[b];\n            }\n   \
+    \     }\n    }\n    int dead = group[sink];\n    if (group[0] == dead) return\
+    \ {};\n    vector<int> id(begin.size(), -1), queue{group[0]};\n    id[group[0]]\
+    \ = 0;\n    DFA<W> result;\n    result.initial = 0;\n    for (size_t i = 0; i\
+    \ < queue.size(); ++i) {\n        int v = states[order[begin[queue[i]]]];\n  \
+    \      array<int, W> row;\n        for (int c = 0; c < W; ++c) {\n           \
+    \ int to = a.next[v][c];\n            int b = to == -1 ? dead : group[index[to]];\n\
     \            if (b == dead) row[c] = -1;\n            else {\n               \
     \ if (id[b] == -1) {\n                    id[b] = (int)queue.size();\n       \
     \             queue.push_back(b);\n                }\n                row[c] =\
@@ -146,10 +172,11 @@ data:
   isVerificationFile: false
   path: string/dfa_minimize.cpp
   requiredBy: []
-  timestamp: '2026-10-16 22:43:53+09:00'
+  timestamp: '2026-10-17 19:15:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_digit_dp.test.cpp
+  - test/yosupo_aplusb_dfa.test.cpp
   - test/yosupo_aplusb_dfa_minimize.test.cpp
   - test/yosupo_aplusb_count_words.test.cpp
 documentation_of: string/dfa_minimize.cpp

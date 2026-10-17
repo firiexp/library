@@ -47,35 +47,57 @@ data:
     \ {\n        auto [x, y] = states[i];\n        for (int c = 0; c < W; ++c) {\n\
     \            int nx = a.next[x][c], ny = b.next[y][c];\n            int to = nx\
     \ == -1 || ny == -1 ? -1 : add(nx, ny);\n            result.next[i][c] = to;\n\
-    \        }\n    }\n    return result;\n}\n\n\n\n/**\n * @brief \u6709\u9650\u30AA\
-    \u30FC\u30C8\u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\u5408\u6210\n */\n#line\
-    \ 1 \"math/ntt.cpp\"\n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint\
-    \ Mod>\nstruct modint {\n    uint val;\npublic:\n    static modint raw(int v)\
-    \ { modint x; x.val = v; return x; }\n    static constexpr uint get_mod() { return\
-    \ Mod; }\n    static constexpr uint M() { return Mod; }\n    modint() : val(0)\
-    \ {}\n    template <class T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if\
-    \ (x < 0) x += Mod; val = uint(x); }\n    modint(bool v) { val = ((unsigned int)(v)\
-    \ % Mod); }\n    uint &value() noexcept { return val; }\n    const uint &value()\
-    \ const noexcept { return val; }\n    modint& operator++() { val++; if (val ==\
-    \ Mod) val = 0; return *this; }\n    modint& operator--() { if (val == 0) val\
-    \ = Mod; val--; return *this; }\n    modint operator++(int) { modint result =\
-    \ *this; ++*this; return result; }\n    modint operator--(int) { modint result\
-    \ = *this; --*this; return result; }\n    modint& operator+=(const modint& b)\
-    \ { val += b.val; if (val >= Mod) val -= Mod; return *this; }\n    modint& operator-=(const\
-    \ modint& b) { val -= b.val; if (val >= Mod) val += Mod; return *this; }\n   \
-    \ modint& operator*=(const modint& b) { ull z = val; z *= b.val; val = (uint)(z\
-    \ % Mod); return *this; }\n    modint& operator/=(const modint& b) { return *this\
-    \ = *this * b.inv(); }\n    modint operator+() const { return *this; }\n    modint\
-    \ operator-() const { return modint() - *this; }\n    modint pow(long long n)\
-    \ const { modint x = *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>=\
-    \ 1; } return r; }\n    modint inv() const { return pow(Mod - 2); }\n    friend\
-    \ modint operator+(const modint& a, const modint& b) { return modint(a) += b;\
-    \ }\n    friend modint operator-(const modint& a, const modint& b) { return modint(a)\
-    \ -= b; }\n    friend modint operator*(const modint& a, const modint& b) { return\
-    \ modint(a) *= b; }\n    friend modint operator/(const modint& a, const modint&\
-    \ b) { return modint(a) /= b; }\n    friend bool operator==(const modint& a, const\
-    \ modint& b) { return a.val == b.val; }\n    friend bool operator!=(const modint&\
-    \ a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"math/ntt.cpp\"\
+    \        }\n    }\n    return result;\n}\n\ntemplate<int W>\nDFA<W> unite(const\
+    \ DFA<W>& a, const DFA<W>& b) {\n    if (a.initial == -1 && b.initial == -1) return\
+    \ {};\n    size_t width = b.next.size() + 1;\n    assert(a.next.size() + 1 <=\
+    \ vector<int>().max_size() / width);\n    vector<int> id((a.next.size() + 1) *\
+    \ width, -1);\n    vector<pair<int, int>> states;\n    DFA<W> result;\n    auto\
+    \ add = [&](int x, int y) {\n        if (x == -1 && y == -1) return -1;\n    \
+    \    int& index = id[size_t(x + 1) * width + (y + 1)];\n        if (index == -1)\
+    \ {\n            index = (int)states.size();\n            states.emplace_back(x,\
+    \ y);\n            result.next.emplace_back();\n            result.accept.push_back((x\
+    \ != -1 && a.accept[x]) || (y != -1 && b.accept[y]));\n        }\n        return\
+    \ index;\n    };\n    result.initial = add(a.initial, b.initial);\n    for (int\
+    \ i = 0; i < (int)states.size(); ++i) {\n        auto [x, y] = states[i];\n  \
+    \      for (int c = 0; c < W; ++c) {\n            int nx = x == -1 ? -1 : a.next[x][c];\n\
+    \            int ny = y == -1 ? -1 : b.next[y][c];\n            int to = add(nx,\
+    \ ny);\n            result.next[i][c] = to;\n        }\n    }\n    return result;\n\
+    }\n\ntemplate<int W>\nDFA<W> complement(const DFA<W>& a) {\n    if (a.initial\
+    \ == -1) {\n        DFA<W> result{vector<array<int, W>>(1), {true}, 0};\n    \
+    \    result.next[0].fill(0);\n        return result;\n    }\n    DFA<W> result\
+    \ = a;\n    for (auto& accept : result.accept) accept = !accept;\n    int sink\
+    \ = (int)result.next.size();\n    bool needed = false;\n    for (auto& row : result.next)\
+    \ {\n        for (int& to : row) if (to == -1) {\n            to = sink;\n   \
+    \         needed = true;\n        }\n    }\n    if (needed) {\n        result.next.emplace_back();\n\
+    \        result.next.back().fill(sink);\n        result.accept.push_back(true);\n\
+    \    }\n    return result;\n}\n\n\n\n/**\n * @brief \u6709\u9650\u30AA\u30FC\u30C8\
+    \u30DE\u30C8\u30F3\u3068\u6761\u4EF6\u306E\u5408\u6210\n */\n#line 1 \"math/ntt.cpp\"\
+    \n\n\n\n#line 1 \"util/modint_base.cpp\"\n\n\n\ntemplate <uint Mod>\nstruct modint\
+    \ {\n    uint val;\npublic:\n    static modint raw(int v) { modint x; x.val =\
+    \ v; return x; }\n    static constexpr uint get_mod() { return Mod; }\n    static\
+    \ constexpr uint M() { return Mod; }\n    modint() : val(0) {}\n    template <class\
+    \ T>\n    modint(T v) { ll x = (ll)(v % (ll)(Mod)); if (x < 0) x += Mod; val =\
+    \ uint(x); }\n    modint(bool v) { val = ((unsigned int)(v) % Mod); }\n    uint\
+    \ &value() noexcept { return val; }\n    const uint &value() const noexcept {\
+    \ return val; }\n    modint& operator++() { val++; if (val == Mod) val = 0; return\
+    \ *this; }\n    modint& operator--() { if (val == 0) val = Mod; val--; return\
+    \ *this; }\n    modint operator++(int) { modint result = *this; ++*this; return\
+    \ result; }\n    modint operator--(int) { modint result = *this; --*this; return\
+    \ result; }\n    modint& operator+=(const modint& b) { val += b.val; if (val >=\
+    \ Mod) val -= Mod; return *this; }\n    modint& operator-=(const modint& b) {\
+    \ val -= b.val; if (val >= Mod) val += Mod; return *this; }\n    modint& operator*=(const\
+    \ modint& b) { ull z = val; z *= b.val; val = (uint)(z % Mod); return *this; }\n\
+    \    modint& operator/=(const modint& b) { return *this = *this * b.inv(); }\n\
+    \    modint operator+() const { return *this; }\n    modint operator-() const\
+    \ { return modint() - *this; }\n    modint pow(long long n) const { modint x =\
+    \ *this, r = 1; while (n) { if (n & 1) r *= x; x *= x; n >>= 1; } return r; }\n\
+    \    modint inv() const { return pow(Mod - 2); }\n    friend modint operator+(const\
+    \ modint& a, const modint& b) { return modint(a) += b; }\n    friend modint operator-(const\
+    \ modint& a, const modint& b) { return modint(a) -= b; }\n    friend modint operator*(const\
+    \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
+    \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
+    \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 5 \"math/ntt.cpp\"\
     \n\nconstexpr int ntt_mod = 998244353, ntt_root = 3;\n#ifndef NTT_NAIVE_MUL_THRESHOLD\n\
     #define NTT_NAIVE_MUL_THRESHOLD 3072\n#endif\n#ifndef NTT_NAIVE_MUL_MIN_DIM\n\
     #define NTT_NAIVE_MUL_MIN_DIM 48\n#endif\n#ifndef NTT_NAIVE_MUL_SHORT_DIM\n#define\
@@ -458,7 +480,7 @@ data:
   isVerificationFile: false
   path: string/count_words.cpp
   requiredBy: []
-  timestamp: '2026-10-16 22:44:08+09:00'
+  timestamp: '2026-10-17 19:15:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_count_words.test.cpp
