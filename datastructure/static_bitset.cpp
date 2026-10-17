@@ -386,6 +386,38 @@ public:
         return *this;
     }
 
+    StaticBitset &or_shift_left(int s) {
+        if (s <= 0 || s >= N) return *this;
+        int block = s >> 6;
+        int rem = s & 63;
+        if (rem == 0) {
+            for (int i = M - 1; i >= block; --i) a[i] |= a[i - block];
+        } else {
+            for (int i = M - 1; i > block; --i) {
+                a[i] |= (a[i - block] << rem) | (a[i - block - 1] >> (B - rem));
+            }
+            a[block] |= a[0] << rem;
+        }
+        normalize();
+        return *this;
+    }
+
+    StaticBitset &or_shift_right(int s) {
+        if (s <= 0 || s >= N) return *this;
+        int block = s >> 6;
+        int rem = s & 63;
+        if (rem == 0) {
+            for (int i = 0; i < M - block; ++i) a[i] |= a[i + block];
+        } else {
+            int last = M - block - 1;
+            for (int i = 0; i < last; ++i) {
+                a[i] |= (a[i + block] >> rem) | (a[i + block + 1] << (B - rem));
+            }
+            a[last] |= a[M - 1] >> rem;
+        }
+        return *this;
+    }
+
     friend StaticBitset operator<<(StaticBitset l, int s) { return l <<= s; }
     friend StaticBitset operator>>(StaticBitset l, int s) { return l >>= s; }
 };

@@ -37,7 +37,10 @@ tags: データ構造
   bitset 同士の演算をその場で行う
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`
   shift する
+- `bs.or_shift_left(s)`, `bs.or_shift_right(s)`
+  `bs |= bs << s` / `bs |= bs >> s` をその場で行い、自身への参照を返す。`s <= 0` または `s >= N` なら変更しない。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$
 
 ## 使い方
 長さが同じ bitset 同士で演算する。
 `StaticBitset<2048> bs;` のように長さをテンプレート引数で指定する。
+部分和 DP では `bs.set(0)` で初期化し、各重み `w` に対して `bs.or_shift_left(w)` で更新する。

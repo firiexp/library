@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 #include <bitset>
+#include <limits>
 #include <random>
 #include <vector>
 using namespace std;
@@ -263,7 +264,66 @@ void count_check_size() {
     }
 }
 
+template<int N>
+void shift_or_check() {
+    mt19937 rng(N + 211);
+    vector<int> shifts = {numeric_limits<int>::min(), -1, 0, 1, 2, 63, 64, 65,
+                         127, 128, 129, N - 1, N, N + 1, numeric_limits<int>::max()};
+    for (int shape = 0; shape < 4; ++shape) {
+        StaticBitset<N> bs;
+        bitset<N> expected;
+        for (int i = 0; i < N; ++i) {
+            bool bit = shape == 0 ? false : shape == 1 ? true : shape == 2 ? i % 67 == 0 : rng() & 1;
+            bs.assign(i, bit);
+            expected[i] = bit;
+        }
+        for (int step = 0; step < 500; ++step) {
+            if constexpr (N > 0) {
+                int k = rng() % N;
+                bs.flip(k);
+                expected.flip(k);
+            }
+            int s = step < (int)shifts.size() * 2 ? shifts[step / 2] : int(rng() % (N + 130)) - 65;
+            bool left = step % 2 == 0;
+            auto reference = bs | (left ? bs << s : bs >> s);
+            if (s > 0 && s < N) expected |= left ? expected << s : expected >> s;
+            auto &result = left ? bs.or_shift_left(s) : bs.or_shift_right(s);
+            assert(&result == &bs);
+            assert(bs.count() == (int)expected.count());
+            for (int i = 0; i < N; ++i) {
+                assert(bs.test(i) == expected[i]);
+                assert(bs.test(i) == reference.test(i));
+            }
+        }
+    }
+}
+
+void subset_sum_check() {
+    constexpr int N = 8193;
+    StaticBitset<N> bs;
+    vector<bool> possible(N);
+    bs.set(0);
+    possible[0] = true;
+    mt19937 rng(211);
+    for (int step = 0; step < 200; ++step) {
+        int w = rng() % 300;
+        bs.or_shift_left(w);
+        for (int i = N - 1; i >= w; --i) possible[i] = possible[i] || possible[i - w];
+        for (int i = 0; i < N; ++i) assert(bs.test(i) == possible[i]);
+    }
+}
+
 int main() {
+    shift_or_check<0>();
+    shift_or_check<1>();
+    shift_or_check<63>();
+    shift_or_check<64>();
+    shift_or_check<65>();
+    shift_or_check<127>();
+    shift_or_check<128>();
+    shift_or_check<129>();
+    shift_or_check<8193>();
+    subset_sum_check();
     deterministic_check();
     random_check();
     count_kernels_check();
