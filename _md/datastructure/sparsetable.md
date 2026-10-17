@@ -4,7 +4,7 @@ documentation_of: //datastructure/sparsetable.cpp
 ---
 ## 説明
 idempotent な演算に対する静的 RMQ/区間クエリを扱う Sparse Table である。
-前処理 $O(N log N)$、クエリ $O(1)$。
+前処理・保持領域 $O(N\log N)$、クエリ $O(1)$。
 
 ## できること
 - `SparseTable<F> st`
@@ -33,3 +33,4 @@ int ans = st.query(l, r);
 ## 実装上の補足
 `query(l, r)` は `l < r` を仮定する。
 `f` が冪等でないと正しい結果にならない。
+`table[i][j]` は長さ $2^i$ の区間が配列内に収まる位置だけを構築する。未使用の末尾セルは既定値で保持し、クエリでは参照しない。

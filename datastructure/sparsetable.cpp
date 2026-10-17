@@ -22,8 +22,8 @@ struct SparseTable {
         }
         for (int i = 1; i < m; ++i) {
             int x = (1<<(i-1));
-            for (int j = 0; j < n; ++j) {
-                table[i][j] = F::f(table[i-1][j], table[i-1][min(j+x, n-1)]);
+            for (int j = 0; j <= n - 2*x; ++j) {
+                table[i][j] = F::f(table[i-1][j], table[i-1][j+x]);
             }
         }
     }
