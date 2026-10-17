@@ -8,6 +8,8 @@ using namespace std;
 template<int W, class F>
 void check(Trie<W, F>& trie, const vector<pair<string, int>>& entries) {
     const auto& const_trie = trie;
+    static_assert(is_same_v<decltype(const_trie.idxs(0)), const vector<int>&>);
+    assert(const_trie.idxs(-1).empty());
     auto index = const_trie.prefix_intervals();
     auto sorted = entries;
     stable_sort(sorted.begin(), sorted.end(), [&](const auto& a, const auto& b) {
@@ -27,14 +29,33 @@ void check(Trie<W, F>& trie, const vector<pair<string, int>>& entries) {
         auto [l, r] = index.range[node];
         assert(0 <= l && l <= r && r <= (int)order.size());
         vector<int> expected;
+        vector<int> terminal_ids;
         for (const auto& [word, id] : sorted) {
             if (word.compare(0, prefix.size(), prefix) == 0) expected.push_back(id);
+            if (word == prefix) terminal_ids.push_back(id);
         }
         assert(vector<int>(order.begin() + l, order.begin() + r) == expected);
+        assert(const_trie.idxs(node) == terminal_ids);
+        vector<int> iterated;
+        for (int id : const_trie.idxs(node)) iterated.push_back(id);
+        assert(iterated == terminal_ids);
+        auto copied = const_trie.idxs(node);
+        copied.push_back(123);
+        assert(const_trie.idxs(node) == terminal_ids);
+        assert(trie.id(node) == (terminal_ids.empty() ? -1 : terminal_ids.back()));
     }
 }
 
 void self_check() {
+    auto alphabet = [](char c) { return c - 'a'; };
+    Trie<3, decltype(alphabet)> fixed(alphabet);
+    vector<pair<string, int>> fixed_entries{{"", 5}, {"", 5}, {"ab", 7}, {"ab", 2}, {"ab", 7}};
+    for (const auto& [word, id] : fixed_entries) fixed.add(word, id);
+    check(fixed, fixed_entries);
+    auto saved = fixed.idxs(fixed.find("ab"));
+    fixed.add("ab", 9);
+    fixed.add(string(1000, 'c'), 10);
+    assert((saved == vector<int>{7, 2, 7}));
     mt19937 rng(147);
     for (int tc = 0; tc < 800; ++tc) {
         auto f = [tc](char c) { return tc % 2 ? 'c' - c : c - 'a'; };

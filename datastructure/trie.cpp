@@ -43,7 +43,10 @@ struct Trie {
     int find(int cur, char c) {return v[cur].nxt[f(c)]; }
     int id(int cur) { return cur < 0 ? -1 : v[cur].id;}
 
-    vector<int> idxs(int cur) { return cur < 0 ? vector<int>() : v[cur].idxs; }
+    const vector<int>& idxs(int cur) const {
+        static const vector<int> empty;
+        return cur < 0 ? empty : v[cur].idxs;
+    }
 
     struct PrefixIntervals {
         vector<int> order;

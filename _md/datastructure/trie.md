@@ -21,8 +21,8 @@ tags: 文字列
   ノード `cur` から文字 `c` で遷移した先を返す。無ければ `-1`
 - `id(cur)`
   ノード `cur` に対応する終端 id を返す。終端でなければ `-1`
-- `idxs(cur)`
-  ノード `cur` に対応する id 一覧を返す。無ければ空
+- `const vector<int>& idxs(int cur) const`
+  ノード `cur` の終端ID一覧を挿入順の読み取り専用参照で返す。未登録の終端や `cur < 0` では空。取得は $O(1)$、列挙はID数に比例する
 - `PrefixIntervals prefix_intervals() const`
   単語IDの列 `order` と、各ノードに対応する半開区間 `range` を返す。ノード数を $V$、登録した単語数を $K$ として $O(WV+K)$ 時間、$O(V+K)$ 領域
 
@@ -44,6 +44,22 @@ auto [l, r] = index.range[node];
 `order` は文字変換関数 `f` の順に並び、同じ終端のIDは挿入順を保つ。
 空文字や同じIDの複数登録も含まれる。単語を追加した後は `prefix_intervals()` を呼び直す。
 
+同じ単語に登録したIDだけを列挙する場合は `idxs` を使う。
+
+```cpp
+trie.add("apple", 1);
+int terminal = trie.find("apple");
+const auto& view = trie;
+for (int id : view.idxs(terminal)) {
+    use(id);
+}
+auto ids = view.idxs(terminal);
+ids.push_back(2);
+```
+
+range-for はID列をコピーしない。`auto ids = ...` は編集できるコピーで、Trie の登録内容には影響しない。
+
 ## 実装上の補足
 - 同じ文字列を複数回挿入すると `idxs(cur)` に id が追加される。`id(cur)` は最後に入れた値になる
+- `idxs` が返す参照や iterator は、`add` や Trie の破棄で無効になることがある。追加後も保持するなら明示的にコピーする。`prefix_intervals()` の返り値は独立した snapshot である
 - `find(cur, c)` は `cur < 0` を自動では防がないので、呼び出し側で確認する
