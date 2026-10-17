@@ -15,9 +15,7 @@ public:
     }
 
     void build(int root = 0) {
-        logn = 1;
-        while ((1 << logn) <= n) ++logn;
-        up.assign(logn * n, -1);
+        up.assign(n, -1);
         fill(depth.begin(), depth.end(), -1);
         vector<int> offset(n + 1);
         for (int v = 0; v < n; ++v) offset[v + 1] = offset[v] + (int)G[v].size();
@@ -42,6 +40,10 @@ public:
                 st.push_back(u);
             }
         }
+        int max_depth = *max_element(depth.begin(), depth.end());
+        logn = 1;
+        while ((1LL << logn) <= max_depth) ++logn;
+        up.resize((size_t)logn * n, -1);
         for (int k = 0; k + 1 < logn; ++k) {
             const int *cur = up.data() + k * n;
             int *nxt = up.data() + (k + 1) * n;
