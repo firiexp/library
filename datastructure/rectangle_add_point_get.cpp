@@ -26,10 +26,6 @@ struct RectangleAddPointGet {
             int start[4];
         };
         vector<int> ord_x = xs;
-        ord_x.reserve(ord_x.size() + ops.size());
-        for (auto &&op : ops) {
-            if (op.type == 1) ord_x.push_back(op.l);
-        }
         sort(ord_x.begin(), ord_x.end());
         ord_x.erase(unique(ord_x.begin(), ord_x.end()), ord_x.end());
 
