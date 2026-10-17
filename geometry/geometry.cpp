@@ -415,30 +415,32 @@ Polygon convexCut(const Polygon &v, Line l) {
 }
 
 geometry_real closest_pair(Polygon &v, int l = 0, int r = -1) {
-    if (!(~r)) {
+    if (r == -1) {
         r = v.size();
         sort(v.begin(), v.end());
     }
-    if (r - l < 2) {
-        return abs(v.front() - v.back());
-    }
-    int mid = (l + r) / 2;
-    geometry_real p = v[mid].x;
-    geometry_real d = min(closest_pair(v, l, mid), closest_pair(v, mid, r));
-    inplace_merge(v.begin() + l, v.begin() + mid, v.begin() + r, sorty);
-    Polygon u;
-    for (int i = l; i < r; ++i) {
-        if (fabs(v[i].x - p) >= d)
-            continue;
-        for (int j = 0; j < u.size(); ++j) {
-            geometry_real dy = v[i].y - next(u.rbegin(), j)->y;
-            if (dy >= d)
-                break;
-            d = min(d, abs(v[i] - *next(u.rbegin(), j)));
+    assert(0 <= l && l + 2 <= r && r <= int(v.size()));
+    Polygon scratch(r - l);
+    auto solve = [&](auto &&self, int a, int b) -> geometry_real {
+        if (b - a < 2) return numeric_limits<geometry_real>::infinity();
+        int mid = a + (b - a) / 2;
+        geometry_real p = v[mid].x;
+        geometry_real d = min(self(self, a, mid), self(self, mid, b));
+        merge(v.begin() + a, v.begin() + mid, v.begin() + mid, v.begin() + b,
+              scratch.begin(), sorty);
+        copy_n(scratch.begin(), b - a, v.begin() + a);
+        int count = 0;
+        for (int i = a; i < b; ++i) {
+            if (fabs(v[i].x - p) >= d) continue;
+            for (int j = count - 1; j >= 0; --j) {
+                if (v[i].y - scratch[j].y >= d) break;
+                d = min(d, abs(v[i] - scratch[j]));
+            }
+            scratch[count++] = v[i];
         }
-        u.emplace_back(v[i]);
-    }
-    return d;
+        return d;
+    };
+    return solve(solve, l, r);
 }
 
 /**
