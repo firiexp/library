@@ -5,6 +5,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_rectangle_add_point_get.test.cpp
+    title: test/yosupo_aplusb_rectangle_add_point_get.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_rectangle_add_point_get.test.cpp
     title: test/yosupo_rectangle_add_point_get.test.cpp
   _isVerificationFailed: false
@@ -22,9 +25,7 @@ data:
     \        xs.push_back(r);\n    }\n\n    void add_query(int x, int y) {\n     \
     \   ops.push_back({1, x, y, 0, 0, 0});\n    }\n\n    vector<T> solve() const {\n\
     \        struct RectInfo {\n            int start[4];\n        };\n        vector<int>\
-    \ ord_x = xs;\n        ord_x.reserve(ord_x.size() + ops.size());\n        for\
-    \ (auto &&op : ops) {\n            if (op.type == 1) ord_x.push_back(op.l);\n\
-    \        }\n        sort(ord_x.begin(), ord_x.end());\n        ord_x.erase(unique(ord_x.begin(),\
+    \ ord_x = xs;\n        sort(ord_x.begin(), ord_x.end());\n        ord_x.erase(unique(ord_x.begin(),\
     \ ord_x.end()), ord_x.end());\n\n        int m = (int)ord_x.size();\n        vector<int>\
     \ x_index_lower(ops.size());\n        vector<int> x_index_upper(ops.size());\n\
     \        for (int idx = 0; idx < (int)ops.size(); ++idx) {\n            x_index_lower[idx]\
@@ -103,9 +104,7 @@ data:
     \        xs.push_back(l);\n        xs.push_back(r);\n    }\n\n    void add_query(int\
     \ x, int y) {\n        ops.push_back({1, x, y, 0, 0, 0});\n    }\n\n    vector<T>\
     \ solve() const {\n        struct RectInfo {\n            int start[4];\n    \
-    \    };\n        vector<int> ord_x = xs;\n        ord_x.reserve(ord_x.size() +\
-    \ ops.size());\n        for (auto &&op : ops) {\n            if (op.type == 1)\
-    \ ord_x.push_back(op.l);\n        }\n        sort(ord_x.begin(), ord_x.end());\n\
+    \    };\n        vector<int> ord_x = xs;\n        sort(ord_x.begin(), ord_x.end());\n\
     \        ord_x.erase(unique(ord_x.begin(), ord_x.end()), ord_x.end());\n\n   \
     \     int m = (int)ord_x.size();\n        vector<int> x_index_lower(ops.size());\n\
     \        vector<int> x_index_upper(ops.size());\n        for (int idx = 0; idx\
@@ -182,9 +181,10 @@ data:
   isVerificationFile: false
   path: datastructure/rectangle_add_point_get.cpp
   requiredBy: []
-  timestamp: '2026-03-13 22:39:26+09:00'
+  timestamp: '2026-10-18 01:02:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo_aplusb_rectangle_add_point_get.test.cpp
   - test/yosupo_rectangle_add_point_get.test.cpp
 date: 2026-03-11
 documentation_of: datastructure/rectangle_add_point_get.cpp
@@ -195,7 +195,7 @@ title: "\u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point Get
 
 ## 説明
 長方形加算と点取得をまとめて処理する。
-`x` 方向に sweep し、`y` 方向の差分を 1 次元 BIT で管理する。
+長方形の端点を座標圧縮した 2 次元 BIT で、操作を登録順に処理する。
 
 ## できること
 - `RectangleAddPointGet<T> solver`
@@ -204,9 +204,12 @@ title: "\u9577\u65B9\u5F62\u52A0\u7B97\u70B9\u53D6\u5F97(Rectangle Add Point Get
   半開長方形 `[l, r) x [d, u)` に重み `w` を加える操作を積む
 - `void add_query(int x, int y)`
   点 `(x, y)` の値を取るクエリを積む
-- `vector<T> solve()`
+- `vector<T> solve() const`
   追加順に各クエリの答えを返す
 
 ## 使い方
 初期長方形も更新も `add_rectangle` で積む。
-`solve()` は全 `y` 座標を座圧して、操作列を offline で処理する。
+`solve()` は登録した操作を保持し、繰り返し呼べる。
+
+## 実装上の補足
+$x$ 座標の圧縮には長方形の左右端だけを使う。長方形数を $R$ とすると、圧縮は $O(R\log R)$、$x$ 方向の BIT の行数は $O(R)$。

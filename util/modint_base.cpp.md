@@ -145,6 +145,9 @@ data:
     path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
     title: test/yosupo_aplusb_polynomial_interpolation.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_rectangle_add_point_get.test.cpp
+    title: test/yosupo_aplusb_rectangle_add_point_get.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
@@ -413,6 +416,7 @@ data:
   - test/yosupo_bitwise_xor_convolution.test.cpp
   - test/yosupo_pow_of_matrix_generic.test.cpp
   - test/yosupo_matrix_product.test.cpp
+  - test/yosupo_aplusb_rectangle_add_point_get.test.cpp
   - test/yosupo_aplusb_ntt_precision.test.cpp
   - test/yosupo_pow_of_matrix.test.cpp
   - test/yosupo_vertex_set_path_composite.test.cpp

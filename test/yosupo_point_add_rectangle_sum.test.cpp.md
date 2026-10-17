@@ -5,6 +5,9 @@ data:
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
   - icon: ':heavy_check_mark:'
+    path: datastructure/fenwick_tree_2d.cpp
+    title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
+  - icon: ':heavy_check_mark:'
     path: datastructure/point_add_rectangle_sum.cpp
     title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
   - icon: ':heavy_check_mark:'
@@ -22,62 +25,62 @@ data:
     - https://judge.yosupo.jp/problem/point_add_rectangle_sum
   bundledCode: "#line 1 \"test/yosupo_point_add_rectangle_sum.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/point_add_rectangle_sum\"\n\n#include\
-    \ <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
-    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
-    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
-    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
-    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
-    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
-    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
-    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
-    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
-    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
-    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
-    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
-    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
-    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
-    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
-    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
-    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
-    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
-    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
-    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
-    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
-    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
-    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
-    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
-    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
-    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
-    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
-    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
-    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
-    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
-    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
-    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
-    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
-    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
-    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
-    \      p += 16;\n            while (*p >= '0') {\n                value = value\
-    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
-    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
-    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
-    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
-    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
-    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
-    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
-    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
-    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
-    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
-    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
-    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
-    \ once per buffer so ordinary short integers avoid the\n            // checks\
-    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
-    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
-    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
-    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ <algorithm>\n#include <cassert>\n#include <vector>\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
+    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
+    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
+    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
+    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
+    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
+    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
+    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
+    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
+    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
+    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
+    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
+    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
+    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
+    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
+    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
+    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
+    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
+    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
+    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
+    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
+    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
+    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
+    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
+    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
+    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
+    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
+    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
+    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
+    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
+    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
+    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
+    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
+    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
+    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
+    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
+    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
+    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
+    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
+    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
+    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
+    \            int separators = 0;\n            int minus_signs = 0;\n         \
+    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
+    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
+    \        // Select once per buffer so ordinary short integers avoid the\n    \
+    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
+    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
+    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
+    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -232,10 +235,11 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/point_add_rectangle_sum.cpp\"\
-    \nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\
-    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
-    \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
-    \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
+    \nusing namespace std;\n\n#line 1 \"datastructure/fenwick_tree_2d.cpp\"\n\n\n\n\
+    using namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\n\
+    template<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n \
+    \   BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n\
+    \    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
     \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
     \            int parent = i + (i & -i);\n            if (parent <= n) bit[parent\
     \ - 1] += bit[i - 1];\n        }\n    }\n\n    T sum(int k){\n        T ret =\
@@ -245,51 +249,66 @@ data:
     \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
     \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
     \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/point_add_rectangle_sum.cpp\"\
-    \n\ntemplate<class T>\nstruct PointAddRectangleSum {\n    struct Operation {\n\
-    \        int type;\n        int x, y, z, u;\n        T w;\n    };\n\n    vector<Operation>\
-    \ ops;\n    vector<int> xs;\n\n    void add_point(int x, int y, T w) {\n     \
-    \   ops.push_back({0, x, y, 0, 0, w});\n        xs.push_back(x);\n    }\n\n  \
-    \  void add_query(int l, int d, int r, int u) {\n        ops.push_back({1, l,\
-    \ d, r, u, T(0)});\n    }\n\n    vector<T> solve() const {\n        vector<int>\
-    \ ord_x = xs;\n        sort(ord_x.begin(), ord_x.end());\n        ord_x.erase(unique(ord_x.begin(),\
-    \ ord_x.end()), ord_x.end());\n\n        int m = (int)ord_x.size();\n        vector<vector<int>>\
-    \ ys(m + 1);\n        for (auto op : ops) {\n            if (op.type != 0) continue;\n\
-    \            int xi = (int)(lower_bound(ord_x.begin(), ord_x.end(), op.x) - ord_x.begin())\
-    \ + 1;\n            for (int x = xi; x <= m; x += x & -x) ys[x].push_back(op.y);\n\
-    \        }\n        for (int i = 1; i <= m; ++i) {\n            sort(ys[i].begin(),\
-    \ ys[i].end());\n            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());\n\
-    \        }\n\n        vector<BIT<T>> bit;\n        bit.reserve(m + 1);\n     \
-    \   bit.emplace_back(0);\n        for (int i = 1; i <= m; ++i) bit.emplace_back((int)ys[i].size());\n\
-    \n        auto add = [&](int x, int y, T w) {\n            int xi = (int)(lower_bound(ord_x.begin(),\
-    \ ord_x.end(), x) - ord_x.begin()) + 1;\n            for (int i = xi; i <= m;\
-    \ i += i & -i) {\n                int yi = (int)(lower_bound(ys[i].begin(), ys[i].end(),\
-    \ y) - ys[i].begin());\n                bit[i].add(yi, w);\n            }\n  \
-    \      };\n        auto sum = [&](int x, int y) {\n            T ret = 0;\n  \
-    \          int xi = (int)(lower_bound(ord_x.begin(), ord_x.end(), x) - ord_x.begin());\n\
-    \            for (int i = xi; i > 0; i -= i & -i) {\n                int yi =\
-    \ (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n       \
-    \         ret += bit[i].sum(yi);\n            }\n            return ret;\n   \
-    \     };\n\n        vector<T> ans;\n        for (auto op : ops) {\n          \
-    \  if (op.type == 0) {\n                add(op.x, op.y, (T)op.w);\n          \
-    \  } else {\n                ans.push_back(sum(op.z, op.u) - sum(op.z, op.y) -\
-    \ sum(op.x, op.u) + sum(op.x, op.y));\n            }\n        }\n        return\
-    \ ans;\n    }\n};\n\n/**\n * @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C\
-    (Point Add Rectangle Sum)\n */\n#line 14 \"test/yosupo_point_add_rectangle_sum.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
-    \ q);\n\n    PointAddRectangleSum<long long> solver;\n    for (int i = 0; i <\
-    \ n; ++i) {\n        int x, y;\n        long long w;\n        sc.read(x, y, w);\n\
-    \        solver.add_point(x, y, w);\n    }\n    for (int i = 0; i < q; ++i) {\n\
-    \        int t;\n        sc.read(t);\n        if (t == 0) {\n            int x,\
-    \ y;\n            long long w;\n            sc.read(x, y, w);\n            solver.add_point(x,\
-    \ y, w);\n        } else {\n            int l, d, r, u;\n            sc.read(l,\
-    \ d, r, u);\n            solver.add_query(l, d, r, u);\n        }\n    }\n\n \
-    \   auto ans = solver.solve();\n    for (auto x : ans) pr.println(x);\n    return\
-    \ 0;\n}\n"
+    \ Indexed Tree(BIT)\n */\n\n\n#line 7 \"datastructure/fenwick_tree_2d.cpp\"\n\n\
+    template<class T>\nstruct FenwickTree2D {\n    vector<pair<int, int>> points;\n\
+    \    vector<int> xs;\n    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n \
+    \   bool built = false;\n\n    void add_point(int x, int y) {\n        assert(!built);\n\
+    \        points.push_back({x, y});\n        xs.push_back(x);\n    }\n\n    void\
+    \ build() {\n        assert(!built);\n        built = true;\n\n        sort(xs.begin(),\
+    \ xs.end());\n        xs.erase(unique(xs.begin(), xs.end()), xs.end());\n\n  \
+    \      vector<pair<int, int>> ord = points;\n        sort(ord.begin(), ord.end());\n\
+    \        ord.erase(unique(ord.begin(), ord.end()), ord.end());\n\n        int\
+    \ m = (int)xs.size();\n        ys.assign(m + 1, {});\n        {\n            vector<int>\
+    \ counts(m + 1);\n            int xi = 1;\n            for (auto &[x, y] : ord)\
+    \ {\n                while (xs[xi - 1] < x) ++xi;\n                x = xi;\n \
+    \               for (int i = xi; i <= m; i += i & -i) ++counts[i];\n         \
+    \   }\n            for (int i = 1; i <= m; ++i) ys[i].reserve(counts[i]);\n  \
+    \      }\n        sort(ord.begin(), ord.end(), [](const auto &a, const auto &b)\
+    \ {\n            return a.second < b.second;\n        });\n        for (auto [xi,\
+    \ y] : ord) {\n            for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);\n\
+    \        }\n        bit.clear();\n        bit.reserve(m + 1);\n        bit.emplace_back(0);\n\
+    \        for (int i = 1; i <= m; ++i) {\n            ys[i].erase(unique(ys[i].begin(),\
+    \ ys[i].end()), ys[i].end());\n            bit.emplace_back((int)ys[i].size());\n\
+    \        }\n    }\n\n    void add(int x, int y, T w) {\n        assert(built);\n\
+    \        int m = (int)xs.size();\n        int xi = (int)(lower_bound(xs.begin(),\
+    \ xs.end(), x) - xs.begin());\n        assert(xi < m && xs[xi] == x);\n      \
+    \  ++xi;\n        for (int i = xi; i <= m; i += i & -i) {\n            int yi\
+    \ = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n     \
+    \       assert(yi < (int)ys[i].size() && ys[i][yi] == y);\n            bit[i].add(yi,\
+    \ w);\n        }\n    }\n\n    T sum(int x, int y) {\n        assert(built);\n\
+    \        T ret = 0;\n        int xi = (int)(lower_bound(xs.begin(), xs.end(),\
+    \ x) - xs.begin());\n        for (int i = xi; i > 0; i -= i & -i) {\n        \
+    \    int yi = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
+    \            ret += bit[i].sum(yi);\n        }\n        return ret;\n    }\n\n\
+    \    T sum(int l, int d, int r, int u) {\n        return sum(r, u) - sum(r, d)\
+    \ - sum(l, u) + sum(l, d);\n    }\n};\n\n/**\n * @brief 2\u6B21\u5143Fenwick Tree(2D\
+    \ BIT)\n */\n\n\n#line 4 \"datastructure/point_add_rectangle_sum.cpp\"\n\ntemplate<class\
+    \ T>\nstruct PointAddRectangleSum {\n    struct Operation {\n        int type;\n\
+    \        int x, y, z, u;\n        T w;\n    };\n\n    vector<Operation> ops;\n\
+    \n    void add_point(int x, int y, T w) {\n        ops.push_back({0, x, y, 0,\
+    \ 0, w});\n    }\n\n    void add_query(int l, int d, int r, int u) {\n       \
+    \ ops.push_back({1, l, d, r, u, T(0)});\n    }\n\n    vector<T> solve() const\
+    \ {\n        FenwickTree2D<T> bit;\n        for (const auto &op : ops) {\n   \
+    \         if (op.type == 0) bit.add_point(op.x, op.y);\n        }\n        bit.build();\n\
+    \n        vector<T> ans;\n        for (const auto &op : ops) {\n            if\
+    \ (op.type == 0) {\n                bit.add(op.x, op.y, op.w);\n            }\
+    \ else {\n                ans.push_back(bit.sum(op.x, op.y, op.z, op.u));\n  \
+    \          }\n        }\n        return ans;\n    }\n};\n\n/**\n * @brief \u70B9\
+    \u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)\n */\n#line 15 \"\
+    test/yosupo_point_add_rectangle_sum.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n    int n, q;\n    sc.read(n, q);\n\n    PointAddRectangleSum<long\
+    \ long> solver;\n    for (int i = 0; i < n; ++i) {\n        int x, y;\n      \
+    \  long long w;\n        sc.read(x, y, w);\n        solver.add_point(x, y, w);\n\
+    \    }\n    for (int i = 0; i < q; ++i) {\n        int t;\n        sc.read(t);\n\
+    \        if (t == 0) {\n            int x, y;\n            long long w;\n    \
+    \        sc.read(x, y, w);\n            solver.add_point(x, y, w);\n        }\
+    \ else {\n            int l, d, r, u;\n            sc.read(l, d, r, u);\n    \
+    \        solver.add_query(l, d, r, u);\n        }\n    }\n\n    auto ans = solver.solve();\n\
+    \    for (auto x : ans) pr.println(x);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_add_rectangle_sum\"\
-    \n\n#include <algorithm>\n#include <vector>\n\n#include <cstdio>\n#include <cstring>\n\
-    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
-    ../util/fastio.cpp\"\n#include \"../datastructure/point_add_rectangle_sum.cpp\"\
+    \n\n#include <algorithm>\n#include <cassert>\n#include <vector>\n\n#include <cstdio>\n\
+    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #include \"../util/fastio.cpp\"\n#include \"../datastructure/point_add_rectangle_sum.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n\n    PointAddRectangleSum<long long> solver;\n    for (int i = 0; i <\
     \ n; ++i) {\n        int x, y;\n        long long w;\n        sc.read(x, y, w);\n\
@@ -303,11 +322,12 @@ data:
   dependsOn:
   - util/fastio.cpp
   - datastructure/point_add_rectangle_sum.cpp
+  - datastructure/fenwick_tree_2d.cpp
   - datastructure/binaryindexedtree.cpp
   isVerificationFile: true
   path: test/yosupo_point_add_rectangle_sum.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 22:11:01+09:00'
+  timestamp: '2026-10-18 01:00:59+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_point_add_rectangle_sum.test.cpp

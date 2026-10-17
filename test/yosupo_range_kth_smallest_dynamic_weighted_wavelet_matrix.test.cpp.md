@@ -349,18 +349,19 @@ data:
     \ vector<V> &fw, int start, int k) {\n        V res = V();\n        for (; k >\
     \ 0; k -= k & -k) res += fw[start + k];\n        return res;\n    }\n\n    template\
     \ <class V>\n    static V fenwick_range(const vector<V> &fw, int start, int l,\
-    \ int r) {\n        return fenwick_prefix(fw, start, r) - fenwick_prefix(fw, start,\
-    \ l);\n    }\n\n    static CountSum fenwick_range_count_sum(\n            const\
-    \ vector<int> &count_fw, const vector<U> &sum_fw,\n            int start, int\
-    \ l, int r) {\n        CountSum res{0, U()};\n        for (; r > 0; r -= r & -r)\
-    \ {\n            res.count += count_fw[start + r];\n            res.sum += sum_fw[start\
-    \ + r];\n        }\n        for (; l > 0; l -= l & -l) {\n            res.count\
-    \ -= count_fw[start + l];\n            res.sum -= sum_fw[start + l];\n       \
-    \ }\n        return res;\n    }\n\n    static void fenwick_add_count_sum(\n  \
-    \          vector<int> &count_fw, vector<U> &sum_fw,\n            int start, int\
-    \ length, int k, int count_delta, const U &sum_delta) {\n        for (++k; k <=\
-    \ length; k += k & -k) {\n            count_fw[start + k] += count_delta;\n  \
-    \          sum_fw[start + k] += sum_delta;\n        }\n    }\n\n    static int\
+    \ int r) {\n        V res = V();\n        for (; r > l; r -= r & -r) res += fw[start\
+    \ + r];\n        for (; l > r; l -= l & -l) res = res - fw[start + l];\n     \
+    \   return res;\n    }\n\n    static CountSum fenwick_range_count_sum(\n     \
+    \       const vector<int> &count_fw, const vector<U> &sum_fw,\n            int\
+    \ start, int l, int r) {\n        CountSum res{0, U()};\n        for (; r > l;\
+    \ r -= r & -r) {\n            res.count += count_fw[start + r];\n            res.sum\
+    \ += sum_fw[start + r];\n        }\n        for (; l > r; l -= l & -l) {\n   \
+    \         res.count -= count_fw[start + l];\n            res.sum -= sum_fw[start\
+    \ + l];\n        }\n        return res;\n    }\n\n    static void fenwick_add_count_sum(\n\
+    \            vector<int> &count_fw, vector<U> &sum_fw,\n            int start,\
+    \ int length, int k, int count_delta, const U &sum_delta) {\n        for (++k;\
+    \ k <= length; k += k & -k) {\n            count_fw[start + k] += count_delta;\n\
+    \            sum_fw[start + k] += sum_delta;\n        }\n    }\n\n    static int\
     \ fenwick_lower_bound(const vector<int> &fw, int start, int length, int target)\
     \ {\n        assert(target > 0);\n        int k = 0;\n        int step = 1;\n\
     \        while ((step << 1) <= length) step <<= 1;\n        for (; step > 0; step\
@@ -714,7 +715,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 12:25:57+09:00'
+  timestamp: '2026-10-18 01:05:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp

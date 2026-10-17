@@ -1243,6 +1243,9 @@ data:
       path: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
       title: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_rectangle_add_point_get.test.cpp
+      title: test/yosupo_aplusb_rectangle_add_point_get.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
       title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     - icon: ':heavy_check_mark:'

@@ -5,6 +5,12 @@ data:
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
   - icon: ':heavy_check_mark:'
+    path: datastructure/fenwick_tree_2d.cpp
+    title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
+  - icon: ':heavy_check_mark:'
+    path: datastructure/fenwick_tree_2d.cpp
+    title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
+  - icon: ':heavy_check_mark:'
     path: datastructure/point_add_rectangle_sum.cpp
     title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
   - icon: ':heavy_check_mark:'
@@ -259,9 +265,9 @@ data:
     \ modint& a, const modint& b) { return modint(a) *= b; }\n    friend modint operator/(const\
     \ modint& a, const modint& b) { return modint(a) /= b; }\n    friend bool operator==(const\
     \ modint& a, const modint& b) { return a.val == b.val; }\n    friend bool operator!=(const\
-    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 1 \"datastructure/point_add_rectangle_sum.cpp\"\
-    \nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\
-    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
+    \ modint& a, const modint& b) { return a.val != b.val; }\n};\n\n\n#line 1 \"datastructure/fenwick_tree_2d.cpp\"\
+    \n\n\n\nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
+    \n\n\n\ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
     \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
     \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
     \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
@@ -273,66 +279,54 @@ data:
     \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
     \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
     \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/point_add_rectangle_sum.cpp\"\
-    \n\ntemplate<class T>\nstruct PointAddRectangleSum {\n    struct Operation {\n\
-    \        int type;\n        int x, y, z, u;\n        T w;\n    };\n\n    vector<Operation>\
-    \ ops;\n    vector<int> xs;\n\n    void add_point(int x, int y, T w) {\n     \
-    \   ops.push_back({0, x, y, 0, 0, w});\n        xs.push_back(x);\n    }\n\n  \
-    \  void add_query(int l, int d, int r, int u) {\n        ops.push_back({1, l,\
-    \ d, r, u, T(0)});\n    }\n\n    vector<T> solve() const {\n        vector<int>\
-    \ ord_x = xs;\n        sort(ord_x.begin(), ord_x.end());\n        ord_x.erase(unique(ord_x.begin(),\
-    \ ord_x.end()), ord_x.end());\n\n        int m = (int)ord_x.size();\n        vector<vector<int>>\
-    \ ys(m + 1);\n        for (auto op : ops) {\n            if (op.type != 0) continue;\n\
-    \            int xi = (int)(lower_bound(ord_x.begin(), ord_x.end(), op.x) - ord_x.begin())\
-    \ + 1;\n            for (int x = xi; x <= m; x += x & -x) ys[x].push_back(op.y);\n\
-    \        }\n        for (int i = 1; i <= m; ++i) {\n            sort(ys[i].begin(),\
-    \ ys[i].end());\n            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());\n\
-    \        }\n\n        vector<BIT<T>> bit;\n        bit.reserve(m + 1);\n     \
-    \   bit.emplace_back(0);\n        for (int i = 1; i <= m; ++i) bit.emplace_back((int)ys[i].size());\n\
-    \n        auto add = [&](int x, int y, T w) {\n            int xi = (int)(lower_bound(ord_x.begin(),\
-    \ ord_x.end(), x) - ord_x.begin()) + 1;\n            for (int i = xi; i <= m;\
-    \ i += i & -i) {\n                int yi = (int)(lower_bound(ys[i].begin(), ys[i].end(),\
-    \ y) - ys[i].begin());\n                bit[i].add(yi, w);\n            }\n  \
-    \      };\n        auto sum = [&](int x, int y) {\n            T ret = 0;\n  \
-    \          int xi = (int)(lower_bound(ord_x.begin(), ord_x.end(), x) - ord_x.begin());\n\
-    \            for (int i = xi; i > 0; i -= i & -i) {\n                int yi =\
-    \ (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n       \
-    \         ret += bit[i].sum(yi);\n            }\n            return ret;\n   \
-    \     };\n\n        vector<T> ans;\n        for (auto op : ops) {\n          \
-    \  if (op.type == 0) {\n                add(op.x, op.y, (T)op.w);\n          \
-    \  } else {\n                ans.push_back(sum(op.z, op.u) - sum(op.z, op.y) -\
-    \ sum(op.x, op.u) + sum(op.x, op.y));\n            }\n        }\n        return\
-    \ ans;\n    }\n};\n\n/**\n * @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C\
-    (Point Add Rectangle Sum)\n */\n#line 11 \"test/yosupo_aplusb_rectangle_sum_weights.test.cpp\"\
-    \n\ntemplate<class T>\nvoid check(bool modular) {\n    const vector<int> coords\
-    \ = {-1000000000, -16777217, -1, 0, 1, 16777215, 16777216, 16777217, 1000000000};\n\
-    \    mt19937 rng(63);\n    for (int tc = 0; tc < 100; ++tc) {\n        PointAddRectangleSum<T>\
-    \ solver;\n        vector<tuple<int, int, ll>> points;\n        vector<T> expected;\n\
-    \        assert(solver.solve().empty());\n        for (int step = 0; step < 100;\
-    \ ++step) {\n            auto coord = [&]() { return coords[rng() % coords.size()];\
-    \ };\n            if (rng() % 2) {\n                int x = coord(), y = coord();\n\
-    \                ll w = int(rng() % 21) - 10;\n                if (modular) w\
-    \ += (int(rng() % 3) - 1LL) * 998244353;\n                solver.add_point(x,\
-    \ y, T(w));\n                points.emplace_back(x, y, w);\n            } else\
-    \ {\n                int l = coord(), r = coord(), d = coord(), u = coord();\n\
-    \                if (l > r) swap(l, r);\n                if (d > u) swap(d, u);\n\
-    \                solver.add_query(l, d, r, u);\n                ll sum = 0;\n\
-    \                for (auto [x, y, w] : points)\n                    if (l <= x\
-    \ && x < r && d <= y && y < u) sum += w;\n                expected.push_back(T(sum));\n\
-    \            }\n            if (step % 25 == 0) assert(solver.solve() == expected);\n\
-    \        }\n        assert(solver.solve() == expected);\n        assert(solver.solve()\
-    \ == expected);\n    }\n}\n\nint main() {\n    PointAddRectangleSum<modint<998244353>>\
-    \ modular;\n    modular.add_point(0, 0, 1);\n    modular.add_query(0, 0, 1, 1);\n\
-    \    assert(modular.solve() == vector<modint<998244353>>{1});\n    PointAddRectangleSum<float>\
-    \ floating;\n    floating.add_point(0, 16777216, 1.0f);\n    floating.add_query(0,\
-    \ 16777216, 1, 16777217);\n    assert(floating.solve() == vector<float>{1.0f});\n\
-    \    check<modint<998244353>>(true);\n    check<float>(false);\n    check<long\
-    \ long>(false);\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
-    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
-    \ = unsigned long long;\n#include \"../util/fastio.cpp\"\n#include \"../util/modint_base.cpp\"\
-    \n#include \"../datastructure/point_add_rectangle_sum.cpp\"\n\ntemplate<class\
+    \ Indexed Tree(BIT)\n */\n\n\n#line 7 \"datastructure/fenwick_tree_2d.cpp\"\n\n\
+    template<class T>\nstruct FenwickTree2D {\n    vector<pair<int, int>> points;\n\
+    \    vector<int> xs;\n    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n \
+    \   bool built = false;\n\n    void add_point(int x, int y) {\n        assert(!built);\n\
+    \        points.push_back({x, y});\n        xs.push_back(x);\n    }\n\n    void\
+    \ build() {\n        assert(!built);\n        built = true;\n\n        sort(xs.begin(),\
+    \ xs.end());\n        xs.erase(unique(xs.begin(), xs.end()), xs.end());\n\n  \
+    \      vector<pair<int, int>> ord = points;\n        sort(ord.begin(), ord.end());\n\
+    \        ord.erase(unique(ord.begin(), ord.end()), ord.end());\n\n        int\
+    \ m = (int)xs.size();\n        ys.assign(m + 1, {});\n        {\n            vector<int>\
+    \ counts(m + 1);\n            int xi = 1;\n            for (auto &[x, y] : ord)\
+    \ {\n                while (xs[xi - 1] < x) ++xi;\n                x = xi;\n \
+    \               for (int i = xi; i <= m; i += i & -i) ++counts[i];\n         \
+    \   }\n            for (int i = 1; i <= m; ++i) ys[i].reserve(counts[i]);\n  \
+    \      }\n        sort(ord.begin(), ord.end(), [](const auto &a, const auto &b)\
+    \ {\n            return a.second < b.second;\n        });\n        for (auto [xi,\
+    \ y] : ord) {\n            for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);\n\
+    \        }\n        bit.clear();\n        bit.reserve(m + 1);\n        bit.emplace_back(0);\n\
+    \        for (int i = 1; i <= m; ++i) {\n            ys[i].erase(unique(ys[i].begin(),\
+    \ ys[i].end()), ys[i].end());\n            bit.emplace_back((int)ys[i].size());\n\
+    \        }\n    }\n\n    void add(int x, int y, T w) {\n        assert(built);\n\
+    \        int m = (int)xs.size();\n        int xi = (int)(lower_bound(xs.begin(),\
+    \ xs.end(), x) - xs.begin());\n        assert(xi < m && xs[xi] == x);\n      \
+    \  ++xi;\n        for (int i = xi; i <= m; i += i & -i) {\n            int yi\
+    \ = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n     \
+    \       assert(yi < (int)ys[i].size() && ys[i][yi] == y);\n            bit[i].add(yi,\
+    \ w);\n        }\n    }\n\n    T sum(int x, int y) {\n        assert(built);\n\
+    \        T ret = 0;\n        int xi = (int)(lower_bound(xs.begin(), xs.end(),\
+    \ x) - xs.begin());\n        for (int i = xi; i > 0; i -= i & -i) {\n        \
+    \    int yi = (int)(lower_bound(ys[i].begin(), ys[i].end(), y) - ys[i].begin());\n\
+    \            ret += bit[i].sum(yi);\n        }\n        return ret;\n    }\n\n\
+    \    T sum(int l, int d, int r, int u) {\n        return sum(r, u) - sum(r, d)\
+    \ - sum(l, u) + sum(l, d);\n    }\n};\n\n/**\n * @brief 2\u6B21\u5143Fenwick Tree(2D\
+    \ BIT)\n */\n\n\n#line 1 \"datastructure/point_add_rectangle_sum.cpp\"\nusing\
+    \ namespace std;\n\n#line 4 \"datastructure/point_add_rectangle_sum.cpp\"\n\n\
+    template<class T>\nstruct PointAddRectangleSum {\n    struct Operation {\n   \
+    \     int type;\n        int x, y, z, u;\n        T w;\n    };\n\n    vector<Operation>\
+    \ ops;\n\n    void add_point(int x, int y, T w) {\n        ops.push_back({0, x,\
+    \ y, 0, 0, w});\n    }\n\n    void add_query(int l, int d, int r, int u) {\n \
+    \       ops.push_back({1, l, d, r, u, T(0)});\n    }\n\n    vector<T> solve()\
+    \ const {\n        FenwickTree2D<T> bit;\n        for (const auto &op : ops) {\n\
+    \            if (op.type == 0) bit.add_point(op.x, op.y);\n        }\n       \
+    \ bit.build();\n\n        vector<T> ans;\n        for (const auto &op : ops) {\n\
+    \            if (op.type == 0) {\n                bit.add(op.x, op.y, op.w);\n\
+    \            } else {\n                ans.push_back(bit.sum(op.x, op.y, op.z,\
+    \ op.u));\n            }\n        }\n        return ans;\n    }\n};\n\n/**\n *\
+    \ @brief \u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)\n\
+    \ */\n#line 13 \"test/yosupo_aplusb_rectangle_sum_weights.test.cpp\"\n\ntemplate<class\
     \ T>\nvoid check(bool modular) {\n    const vector<int> coords = {-1000000000,\
     \ -16777217, -1, 0, 1, 16777215, 16777216, 16777217, 1000000000};\n    mt19937\
     \ rng(63);\n    for (int tc = 0; tc < 100; ++tc) {\n        PointAddRectangleSum<T>\
@@ -340,33 +334,77 @@ data:
     \        assert(solver.solve().empty());\n        for (int step = 0; step < 100;\
     \ ++step) {\n            auto coord = [&]() { return coords[rng() % coords.size()];\
     \ };\n            if (rng() % 2) {\n                int x = coord(), y = coord();\n\
-    \                ll w = int(rng() % 21) - 10;\n                if (modular) w\
-    \ += (int(rng() % 3) - 1LL) * 998244353;\n                solver.add_point(x,\
-    \ y, T(w));\n                points.emplace_back(x, y, w);\n            } else\
-    \ {\n                int l = coord(), r = coord(), d = coord(), u = coord();\n\
-    \                if (l > r) swap(l, r);\n                if (d > u) swap(d, u);\n\
-    \                solver.add_query(l, d, r, u);\n                ll sum = 0;\n\
-    \                for (auto [x, y, w] : points)\n                    if (l <= x\
-    \ && x < r && d <= y && y < u) sum += w;\n                expected.push_back(T(sum));\n\
-    \            }\n            if (step % 25 == 0) assert(solver.solve() == expected);\n\
-    \        }\n        assert(solver.solve() == expected);\n        assert(solver.solve()\
-    \ == expected);\n    }\n}\n\nint main() {\n    PointAddRectangleSum<modint<998244353>>\
-    \ modular;\n    modular.add_point(0, 0, 1);\n    modular.add_query(0, 0, 1, 1);\n\
-    \    assert(modular.solve() == vector<modint<998244353>>{1});\n    PointAddRectangleSum<float>\
-    \ floating;\n    floating.add_point(0, 16777216, 1.0f);\n    floating.add_query(0,\
-    \ 16777216, 1, 16777217);\n    assert(floating.solve() == vector<float>{1.0f});\n\
-    \    check<modint<998244353>>(true);\n    check<float>(false);\n    check<long\
-    \ long>(false);\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n}\n"
+    \                if (tc % 4 == 1 || tc % 4 == 3) x = -1;\n                if (tc\
+    \ % 4 == 2 || tc % 4 == 3) y = 0;\n                ll w = int(rng() % 21) - 10;\n\
+    \                if (modular) w += (int(rng() % 3) - 1LL) * 998244353;\n     \
+    \           solver.add_point(x, y, T(w));\n                points.emplace_back(x,\
+    \ y, w);\n            } else {\n                int l = coord(), r = coord(),\
+    \ d = coord(), u = coord();\n                if (l > r) swap(l, r);\n        \
+    \        if (d > u) swap(d, u);\n                solver.add_query(l, d, r, u);\n\
+    \                ll sum = 0;\n                for (auto [x, y, w] : points)\n\
+    \                    if (l <= x && x < r && d <= y && y < u) sum += w;\n     \
+    \           expected.push_back(T(sum));\n            }\n            if (step %\
+    \ 25 == 0) assert(solver.solve() == expected);\n        }\n        assert(solver.solve()\
+    \ == expected);\n        assert(solver.solve() == expected);\n    }\n}\n\nint\
+    \ main() {\n    PointAddRectangleSum<ll> repeated;\n    repeated.add_query(-2,\
+    \ 3, -1, 4);\n    vector<ll> expected{0};\n    ll total = 0;\n    for (ll w :\
+    \ {3, -5, 0, 9}) {\n        repeated.add_point(-2, 3, w);\n        repeated.add_query(-2,\
+    \ 3, -1, 4);\n        total += w;\n        expected.push_back(total);\n      \
+    \  assert(repeated.solve() == expected);\n    }\n    assert(repeated.solve() ==\
+    \ expected);\n    PointAddRectangleSum<modint<998244353>> modular;\n    modular.add_point(0,\
+    \ 0, 1);\n    modular.add_query(0, 0, 1, 1);\n    assert(modular.solve() == vector<modint<998244353>>{1});\n\
+    \    PointAddRectangleSum<float> floating;\n    floating.add_point(0, 16777216,\
+    \ 1.0f);\n    floating.add_query(0, 16777216, 1, 16777217);\n    assert(floating.solve()\
+    \ == vector<float>{1.0f});\n    check<modint<998244353>>(true);\n    check<float>(false);\n\
+    \    check<long long>(false);\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
+    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
+    using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
+    \ = unsigned long long;\n#include \"../util/fastio.cpp\"\n#include \"../util/modint_base.cpp\"\
+    \n#include \"../datastructure/fenwick_tree_2d.cpp\"\n#include \"../datastructure/point_add_rectangle_sum.cpp\"\
+    \n#include \"../datastructure/fenwick_tree_2d.cpp\"\n\ntemplate<class T>\nvoid\
+    \ check(bool modular) {\n    const vector<int> coords = {-1000000000, -16777217,\
+    \ -1, 0, 1, 16777215, 16777216, 16777217, 1000000000};\n    mt19937 rng(63);\n\
+    \    for (int tc = 0; tc < 100; ++tc) {\n        PointAddRectangleSum<T> solver;\n\
+    \        vector<tuple<int, int, ll>> points;\n        vector<T> expected;\n  \
+    \      assert(solver.solve().empty());\n        for (int step = 0; step < 100;\
+    \ ++step) {\n            auto coord = [&]() { return coords[rng() % coords.size()];\
+    \ };\n            if (rng() % 2) {\n                int x = coord(), y = coord();\n\
+    \                if (tc % 4 == 1 || tc % 4 == 3) x = -1;\n                if (tc\
+    \ % 4 == 2 || tc % 4 == 3) y = 0;\n                ll w = int(rng() % 21) - 10;\n\
+    \                if (modular) w += (int(rng() % 3) - 1LL) * 998244353;\n     \
+    \           solver.add_point(x, y, T(w));\n                points.emplace_back(x,\
+    \ y, w);\n            } else {\n                int l = coord(), r = coord(),\
+    \ d = coord(), u = coord();\n                if (l > r) swap(l, r);\n        \
+    \        if (d > u) swap(d, u);\n                solver.add_query(l, d, r, u);\n\
+    \                ll sum = 0;\n                for (auto [x, y, w] : points)\n\
+    \                    if (l <= x && x < r && d <= y && y < u) sum += w;\n     \
+    \           expected.push_back(T(sum));\n            }\n            if (step %\
+    \ 25 == 0) assert(solver.solve() == expected);\n        }\n        assert(solver.solve()\
+    \ == expected);\n        assert(solver.solve() == expected);\n    }\n}\n\nint\
+    \ main() {\n    PointAddRectangleSum<ll> repeated;\n    repeated.add_query(-2,\
+    \ 3, -1, 4);\n    vector<ll> expected{0};\n    ll total = 0;\n    for (ll w :\
+    \ {3, -5, 0, 9}) {\n        repeated.add_point(-2, 3, w);\n        repeated.add_query(-2,\
+    \ 3, -1, 4);\n        total += w;\n        expected.push_back(total);\n      \
+    \  assert(repeated.solve() == expected);\n    }\n    assert(repeated.solve() ==\
+    \ expected);\n    PointAddRectangleSum<modint<998244353>> modular;\n    modular.add_point(0,\
+    \ 0, 1);\n    modular.add_query(0, 0, 1, 1);\n    assert(modular.solve() == vector<modint<998244353>>{1});\n\
+    \    PointAddRectangleSum<float> floating;\n    floating.add_point(0, 16777216,\
+    \ 1.0f);\n    floating.add_query(0, 16777216, 1, 16777217);\n    assert(floating.solve()\
+    \ == vector<float>{1.0f});\n    check<modint<998244353>>(true);\n    check<float>(false);\n\
+    \    check<long long>(false);\n    Scanner sc;\n    Printer pr;\n    int a, b;\n\
+    \    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint_base.cpp
-  - datastructure/point_add_rectangle_sum.cpp
+  - datastructure/fenwick_tree_2d.cpp
   - datastructure/binaryindexedtree.cpp
+  - datastructure/point_add_rectangle_sum.cpp
+  - datastructure/fenwick_tree_2d.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   requiredBy: []
-  timestamp: '2026-10-07 22:11:01+09:00'
+  timestamp: '2026-10-18 01:00:59+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_rectangle_sum_weights.test.cpp

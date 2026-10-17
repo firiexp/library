@@ -5,11 +5,26 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/binaryindexedtree.cpp
     title: Binary Indexed Tree(BIT)
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: datastructure/point_add_rectangle_sum.cpp
+    title: "\u70B9\u52A0\u7B97\u9577\u65B9\u5F62\u548C(Point Add Rectangle Sum)"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
     title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_library_composition.test.cpp
+    title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+    title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+    title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_point_add_rectangle_sum.test.cpp
+    title: test/yosupo_point_add_rectangle_sum.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
     title: test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
@@ -19,25 +34,25 @@ data:
   attributes:
     document_title: "2\u6B21\u5143Fenwick Tree(2D BIT)"
     links: []
-  bundledCode: "#line 1 \"datastructure/fenwick_tree_2d.cpp\"\nusing namespace std;\n\
-    \n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class T>\nclass\
-    \ BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n): bit(n), m(1),\
-    \ n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    explicit BIT(const vector<T>\
-    \ &values): bit(values), m(1), n(values.size()) {\n        while (m < n) m <<=\
-    \ 1;\n        for (int i = 1; i <= n; ++i) {\n            int parent = i + (i\
-    \ & -i);\n            if (parent <= n) bit[parent - 1] += bit[i - 1];\n      \
-    \  }\n    }\n\n    T sum(int k){\n        T ret = 0;\n        for (; k > 0; k\
-    \ -= (k & -k)) ret += bit[k - 1];\n        return ret;\n    }\n\n    void add(int\
-    \ k, T x){\n        for (k++; k <= n; k += (k & -k)) bit[k - 1] += x;\n    }\n\
-    \n    int lower_bound(T x) {\n        if (x <= 0) return 0;\n        int i = 0;\n\
-    \        for (int j = m; j; j >>= 1) {\n            if (i + j <= n && bit[i +\
-    \ j - 1] < x) x -= bit[i + j - 1], i += j;\n        }\n        return min(i +\
-    \ 1, n);\n    }\n};\n\n/**\n * @brief Binary Indexed Tree(BIT)\n */\n\n\n#line\
-    \ 4 \"datastructure/fenwick_tree_2d.cpp\"\n\ntemplate<class T>\nstruct FenwickTree2D\
-    \ {\n    vector<pair<int, int>> points;\n    vector<int> xs;\n    vector<vector<int>>\
-    \ ys;\n    vector<BIT<T>> bit;\n    bool built = false;\n\n    void add_point(int\
-    \ x, int y) {\n        assert(!built);\n        points.push_back({x, y});\n  \
-    \      xs.push_back(x);\n    }\n\n    void build() {\n        assert(!built);\n\
+  bundledCode: "#line 1 \"datastructure/fenwick_tree_2d.cpp\"\n\n\n\nusing namespace\
+    \ std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\ntemplate<class\
+    \ T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n    BIT(int n):\
+    \ bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\n    explicit\
+    \ BIT(const vector<T> &values): bit(values), m(1), n(values.size()) {\n      \
+    \  while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n          \
+    \  int parent = i + (i & -i);\n            if (parent <= n) bit[parent - 1] +=\
+    \ bit[i - 1];\n        }\n    }\n\n    T sum(int k){\n        T ret = 0;\n   \
+    \     for (; k > 0; k -= (k & -k)) ret += bit[k - 1];\n        return ret;\n \
+    \   }\n\n    void add(int k, T x){\n        for (k++; k <= n; k += (k & -k)) bit[k\
+    \ - 1] += x;\n    }\n\n    int lower_bound(T x) {\n        if (x <= 0) return\
+    \ 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n            if\
+    \ (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n        }\n\
+    \        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary Indexed Tree(BIT)\n\
+    \ */\n\n\n#line 7 \"datastructure/fenwick_tree_2d.cpp\"\n\ntemplate<class T>\n\
+    struct FenwickTree2D {\n    vector<pair<int, int>> points;\n    vector<int> xs;\n\
+    \    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n    bool built = false;\n\
+    \n    void add_point(int x, int y) {\n        assert(!built);\n        points.push_back({x,\
+    \ y});\n        xs.push_back(x);\n    }\n\n    void build() {\n        assert(!built);\n\
     \        built = true;\n\n        sort(xs.begin(), xs.end());\n        xs.erase(unique(xs.begin(),\
     \ xs.end()), xs.end());\n\n        vector<pair<int, int>> ord = points;\n    \
     \    sort(ord.begin(), ord.end());\n        ord.erase(unique(ord.begin(), ord.end()),\
@@ -65,8 +80,9 @@ data:
     \ ys[i].end(), y) - ys[i].begin());\n            ret += bit[i].sum(yi);\n    \
     \    }\n        return ret;\n    }\n\n    T sum(int l, int d, int r, int u) {\n\
     \        return sum(r, u) - sum(r, d) - sum(l, u) + sum(l, d);\n    }\n};\n\n\
-    /**\n * @brief 2\u6B21\u5143Fenwick Tree(2D BIT)\n */\n"
-  code: "using namespace std;\n\n#include \"binaryindexedtree.cpp\"\n\ntemplate<class\
+    /**\n * @brief 2\u6B21\u5143Fenwick Tree(2D BIT)\n */\n\n\n"
+  code: "#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_FENWICK_TREE_2D_CPP\n#define FIRIEXP_LIBRARY_DATASTRUCTURE_FENWICK_TREE_2D_CPP\n\
+    \nusing namespace std;\n\n#include \"binaryindexedtree.cpp\"\n\ntemplate<class\
     \ T>\nstruct FenwickTree2D {\n    vector<pair<int, int>> points;\n    vector<int>\
     \ xs;\n    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n    bool built =\
     \ false;\n\n    void add_point(int x, int y) {\n        assert(!built);\n    \
@@ -99,17 +115,22 @@ data:
     \            ret += bit[i].sum(yi);\n        }\n        return ret;\n    }\n\n\
     \    T sum(int l, int d, int r, int u) {\n        return sum(r, u) - sum(r, d)\
     \ - sum(l, u) + sum(l, d);\n    }\n};\n\n/**\n * @brief 2\u6B21\u5143Fenwick Tree(2D\
-    \ BIT)\n */\n"
+    \ BIT)\n */\n\n#endif\n"
   dependsOn:
   - datastructure/binaryindexedtree.cpp
   isVerificationFile: false
   path: datastructure/fenwick_tree_2d.cpp
-  requiredBy: []
-  timestamp: '2026-10-09 00:46:26+09:00'
+  requiredBy:
+  - datastructure/point_add_rectangle_sum.cpp
+  timestamp: '2026-10-18 01:00:59+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_fenwick_tree_2d.test.cpp
+  - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_point_add_rectangle_sum.test.cpp
   - test/yosupo_point_add_rectangle_sum_fenwick_tree_2d.test.cpp
+  - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
+  - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
 date: 2026-03-11
 documentation_of: datastructure/fenwick_tree_2d.cpp
 layout: document

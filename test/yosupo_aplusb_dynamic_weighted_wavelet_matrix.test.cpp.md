@@ -143,18 +143,19 @@ data:
     \ vector<V> &fw, int start, int k) {\n        V res = V();\n        for (; k >\
     \ 0; k -= k & -k) res += fw[start + k];\n        return res;\n    }\n\n    template\
     \ <class V>\n    static V fenwick_range(const vector<V> &fw, int start, int l,\
-    \ int r) {\n        return fenwick_prefix(fw, start, r) - fenwick_prefix(fw, start,\
-    \ l);\n    }\n\n    static CountSum fenwick_range_count_sum(\n            const\
-    \ vector<int> &count_fw, const vector<U> &sum_fw,\n            int start, int\
-    \ l, int r) {\n        CountSum res{0, U()};\n        for (; r > 0; r -= r & -r)\
-    \ {\n            res.count += count_fw[start + r];\n            res.sum += sum_fw[start\
-    \ + r];\n        }\n        for (; l > 0; l -= l & -l) {\n            res.count\
-    \ -= count_fw[start + l];\n            res.sum -= sum_fw[start + l];\n       \
-    \ }\n        return res;\n    }\n\n    static void fenwick_add_count_sum(\n  \
-    \          vector<int> &count_fw, vector<U> &sum_fw,\n            int start, int\
-    \ length, int k, int count_delta, const U &sum_delta) {\n        for (++k; k <=\
-    \ length; k += k & -k) {\n            count_fw[start + k] += count_delta;\n  \
-    \          sum_fw[start + k] += sum_delta;\n        }\n    }\n\n    static int\
+    \ int r) {\n        V res = V();\n        for (; r > l; r -= r & -r) res += fw[start\
+    \ + r];\n        for (; l > r; l -= l & -l) res = res - fw[start + l];\n     \
+    \   return res;\n    }\n\n    static CountSum fenwick_range_count_sum(\n     \
+    \       const vector<int> &count_fw, const vector<U> &sum_fw,\n            int\
+    \ start, int l, int r) {\n        CountSum res{0, U()};\n        for (; r > l;\
+    \ r -= r & -r) {\n            res.count += count_fw[start + r];\n            res.sum\
+    \ += sum_fw[start + r];\n        }\n        for (; l > r; l -= l & -l) {\n   \
+    \         res.count -= count_fw[start + l];\n            res.sum -= sum_fw[start\
+    \ + l];\n        }\n        return res;\n    }\n\n    static void fenwick_add_count_sum(\n\
+    \            vector<int> &count_fw, vector<U> &sum_fw,\n            int start,\
+    \ int length, int k, int count_delta, const U &sum_delta) {\n        for (++k;\
+    \ k <= length; k += k & -k) {\n            count_fw[start + k] += count_delta;\n\
+    \            sum_fw[start + k] += sum_delta;\n        }\n    }\n\n    static int\
     \ fenwick_lower_bound(const vector<int> &fw, int start, int length, int target)\
     \ {\n        assert(target > 0);\n        int k = 0;\n        int step = 1;\n\
     \        while ((step << 1) <= length) step <<= 1;\n        for (; step > 0; step\
@@ -848,10 +849,40 @@ data:
     \   assert(wm.set_value(0, 1000));\n                assert(wm.kth_largest(0, n,\
     \ 0) == 1000);\n                assert(wm.set_value(0, -1000));\n            \
     \    assert(wm.kth_smallest(0, n, 0) == -1000);\n            }\n        }\n  \
-    \  }\n}\n\nint main() {\n    self_check_random();\n    self_check_generic_value();\n\
-    \    self_check_sum_k_smallest();\n    self_check_fixed_values();\n    self_check_integral_boundaries();\n\
-    \    self_check_kth_boundaries();\n\n    Scanner sc;\n    Printer pr;\n    ll\
-    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    \  }\n}\n\nvoid self_check_range_boundaries() {\n    const vector<int> candidates{-3,\
+    \ -1, 0, 2, 5, 7, 9, 12};\n    for (int n : {0, 1, 2, 7, 8, 9, 31, 32, 33, 63,\
+    \ 64, 65}) {\n        for (bool dynamic : {false, true}) {\n            vector<int>\
+    \ values(n);\n            vector<ll> weights(n);\n            DynamicWeightedWaveletMatrix<int,\
+    \ ll> wm(n);\n            for (int i = 0; i < n; ++i) {\n                values[i]\
+    \ = candidates[i * 5 % candidates.size()];\n                weights[i] = i % 11\
+    \ - 5;\n                if (dynamic) for (int x : candidates) wm.add_value_candidate(i,\
+    \ x);\n            }\n            wm.build(values, weights);\n            for\
+    \ (int phase = 0; phase < 2; ++phase) {\n                if (phase) {\n      \
+    \              for (int i = 0; i < n; ++i) {\n                        weights[i]\
+    \ = i % 17 - 8;\n                        wm.set_weight(i, weights[i]);\n     \
+    \                   if (dynamic) {\n                            values[i] = candidates[i\
+    \ % candidates.size()];\n                            assert(wm.set_value(i, values[i]));\n\
+    \                        }\n                    }\n                }\n       \
+    \         for (int l = 0; l <= n; ++l) for (int r = l; r <= n; ++r) {\n      \
+    \              for (int x : {-4, -3, -1, 0, 1, 2, 5, 7, 9, 12, 13}) {\n      \
+    \                  auto less = brute_less(values, weights, l, r, x, false);\n\
+    \                        auto actual = wm.count_sum_less(l, r, x);\n         \
+    \               assert(actual.count == less.count && actual.sum == less.sum);\n\
+    \                        assert(wm.count_less(l, r, x) == less.count);\n     \
+    \                   assert(wm.sum_less(l, r, x) == less.sum);\n              \
+    \          auto equal = brute_equal(values, weights, l, r, x);\n             \
+    \           actual = wm.count_sum_equal(l, r, x);\n                        assert(actual.count\
+    \ == equal.count && actual.sum == equal.sum);\n                        assert(wm.freq(l,\
+    \ r, x) == equal.count);\n                        assert(wm.sum_equal(l, r, x)\
+    \ == equal.sum);\n                    }\n                    for (int k : {0,\
+    \ (r - l) / 2, r - l}) {\n                        assert(wm.sum_k_smallest(l,\
+    \ r, k) == brute_sum_k_smallest(values, weights, l, r, k));\n                \
+    \    }\n                    check_cursor(wm, values, weights, l, r);\n       \
+    \         }\n            }\n        }\n    }\n}\n\nint main() {\n    self_check_range_boundaries();\n\
+    \    self_check_random();\n    self_check_generic_value();\n    self_check_sum_k_smallest();\n\
+    \    self_check_fixed_values();\n    self_check_integral_boundaries();\n    self_check_kth_boundaries();\n\
+    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
     #include <cassert>\n#include <limits>\n#include <random>\n#include <string>\n\
     #include <utility>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
@@ -1008,17 +1039,47 @@ data:
     \   assert(wm.set_value(0, 1000));\n                assert(wm.kth_largest(0, n,\
     \ 0) == 1000);\n                assert(wm.set_value(0, -1000));\n            \
     \    assert(wm.kth_smallest(0, n, 0) == -1000);\n            }\n        }\n  \
-    \  }\n}\n\nint main() {\n    self_check_random();\n    self_check_generic_value();\n\
-    \    self_check_sum_k_smallest();\n    self_check_fixed_values();\n    self_check_integral_boundaries();\n\
-    \    self_check_kth_boundaries();\n\n    Scanner sc;\n    Printer pr;\n    ll\
-    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    \  }\n}\n\nvoid self_check_range_boundaries() {\n    const vector<int> candidates{-3,\
+    \ -1, 0, 2, 5, 7, 9, 12};\n    for (int n : {0, 1, 2, 7, 8, 9, 31, 32, 33, 63,\
+    \ 64, 65}) {\n        for (bool dynamic : {false, true}) {\n            vector<int>\
+    \ values(n);\n            vector<ll> weights(n);\n            DynamicWeightedWaveletMatrix<int,\
+    \ ll> wm(n);\n            for (int i = 0; i < n; ++i) {\n                values[i]\
+    \ = candidates[i * 5 % candidates.size()];\n                weights[i] = i % 11\
+    \ - 5;\n                if (dynamic) for (int x : candidates) wm.add_value_candidate(i,\
+    \ x);\n            }\n            wm.build(values, weights);\n            for\
+    \ (int phase = 0; phase < 2; ++phase) {\n                if (phase) {\n      \
+    \              for (int i = 0; i < n; ++i) {\n                        weights[i]\
+    \ = i % 17 - 8;\n                        wm.set_weight(i, weights[i]);\n     \
+    \                   if (dynamic) {\n                            values[i] = candidates[i\
+    \ % candidates.size()];\n                            assert(wm.set_value(i, values[i]));\n\
+    \                        }\n                    }\n                }\n       \
+    \         for (int l = 0; l <= n; ++l) for (int r = l; r <= n; ++r) {\n      \
+    \              for (int x : {-4, -3, -1, 0, 1, 2, 5, 7, 9, 12, 13}) {\n      \
+    \                  auto less = brute_less(values, weights, l, r, x, false);\n\
+    \                        auto actual = wm.count_sum_less(l, r, x);\n         \
+    \               assert(actual.count == less.count && actual.sum == less.sum);\n\
+    \                        assert(wm.count_less(l, r, x) == less.count);\n     \
+    \                   assert(wm.sum_less(l, r, x) == less.sum);\n              \
+    \          auto equal = brute_equal(values, weights, l, r, x);\n             \
+    \           actual = wm.count_sum_equal(l, r, x);\n                        assert(actual.count\
+    \ == equal.count && actual.sum == equal.sum);\n                        assert(wm.freq(l,\
+    \ r, x) == equal.count);\n                        assert(wm.sum_equal(l, r, x)\
+    \ == equal.sum);\n                    }\n                    for (int k : {0,\
+    \ (r - l) / 2, r - l}) {\n                        assert(wm.sum_k_smallest(l,\
+    \ r, k) == brute_sum_k_smallest(values, weights, l, r, k));\n                \
+    \    }\n                    check_cursor(wm, values, weights, l, r);\n       \
+    \         }\n            }\n        }\n    }\n}\n\nint main() {\n    self_check_range_boundaries();\n\
+    \    self_check_random();\n    self_check_generic_value();\n    self_check_sum_k_smallest();\n\
+    \    self_check_fixed_values();\n    self_check_integral_boundaries();\n    self_check_kth_boundaries();\n\
+    \n    Scanner sc;\n    Printer pr;\n    ll a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n    return 0;\n}\n"
   dependsOn:
   - datastructure/dynamic_weighted_wavelet_matrix.cpp
   - util/fastio.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 12:25:57+09:00'
+  timestamp: '2026-10-18 01:05:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp

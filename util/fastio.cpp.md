@@ -440,6 +440,9 @@ data:
     path: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
     title: test/yosupo_aplusb_range_parallel_unionfind.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_rectangle_add_point_get.test.cpp
+    title: test/yosupo_aplusb_rectangle_add_point_get.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
     title: test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1547,6 +1550,7 @@ data:
   - test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
   - test/yosupo_set_xor_min_binarytrie.test.cpp
   - test/yosupo_runenumerate.test.cpp
+  - test/yosupo_aplusb_rectangle_add_point_get.test.cpp
   - test/yosupo_staticrmq_disjoint_sparse_table.test.cpp
   - test/aoj0439_virtual_tree_helper.test.cpp
   - test/yosupo_aplusb_ntt_precision.test.cpp

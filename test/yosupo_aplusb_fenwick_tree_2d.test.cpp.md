@@ -230,8 +230,8 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/fenwick_tree_2d.cpp\"\
-    \nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\n\n\n\
-    \ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
+    \n\n\n\nusing namespace std;\n\n#line 1 \"datastructure/binaryindexedtree.cpp\"\
+    \n\n\n\ntemplate<class T>\nclass BIT {\n    vector<T> bit;\n    int m, n;\npublic:\n\
     \    BIT(int n): bit(n), m(1), n(n) {\n        while (m < n) m <<= 1;\n    }\n\
     \n    explicit BIT(const vector<T> &values): bit(values), m(1), n(values.size())\
     \ {\n        while (m < n) m <<= 1;\n        for (int i = 1; i <= n; ++i) {\n\
@@ -243,7 +243,7 @@ data:
     \ <= 0) return 0;\n        int i = 0;\n        for (int j = m; j; j >>= 1) {\n\
     \            if (i + j <= n && bit[i + j - 1] < x) x -= bit[i + j - 1], i += j;\n\
     \        }\n        return min(i + 1, n);\n    }\n};\n\n/**\n * @brief Binary\
-    \ Indexed Tree(BIT)\n */\n\n\n#line 4 \"datastructure/fenwick_tree_2d.cpp\"\n\n\
+    \ Indexed Tree(BIT)\n */\n\n\n#line 7 \"datastructure/fenwick_tree_2d.cpp\"\n\n\
     template<class T>\nstruct FenwickTree2D {\n    vector<pair<int, int>> points;\n\
     \    vector<int> xs;\n    vector<vector<int>> ys;\n    vector<BIT<T>> bit;\n \
     \   bool built = false;\n\n    void add_point(int x, int y) {\n        assert(!built);\n\
@@ -276,17 +276,17 @@ data:
     \            ret += bit[i].sum(yi);\n        }\n        return ret;\n    }\n\n\
     \    T sum(int l, int d, int r, int u) {\n        return sum(r, u) - sum(r, d)\
     \ - sum(l, u) + sum(l, d);\n    }\n};\n\n/**\n * @brief 2\u6B21\u5143Fenwick Tree(2D\
-    \ BIT)\n */\n#line 7 \"test/yosupo_aplusb_fenwick_tree_2d.test.cpp\"\n\nvoid check(vector<pair<int,\
-    \ int>> points, mt19937 &rng) {\n    FenwickTree2D<long long> fw;\n    map<pair<int,\
-    \ int>, long long> values;\n    for (auto [x, y] : points) {\n        fw.add_point(x,\
-    \ y);\n        values[{x, y}] = 0;\n    }\n    fw.build();\n    assert(fw.points\
-    \ == points);\n    assert(fw.sum(INT_MAX, INT_MAX) == 0);\n    for (int step =\
-    \ 0; step < 100; ++step) {\n        if (!points.empty()) {\n            auto [x,\
-    \ y] = points[rng() % points.size()];\n            long long w = int(rng() % 201)\
-    \ - 100;\n            fw.add(x, y, w);\n            values[{x, y}] += w;\n   \
-    \     }\n        const vector<int> coords{INT_MIN, -1000000000, -7, -1, 0, 1,\
-    \ 7, 1000000000, INT_MAX};\n        int l = coords[rng() % coords.size()], r =\
-    \ coords[rng() % coords.size()];\n        int d = coords[rng() % coords.size()],\
+    \ BIT)\n */\n\n\n#line 7 \"test/yosupo_aplusb_fenwick_tree_2d.test.cpp\"\n\nvoid\
+    \ check(vector<pair<int, int>> points, mt19937 &rng) {\n    FenwickTree2D<long\
+    \ long> fw;\n    map<pair<int, int>, long long> values;\n    for (auto [x, y]\
+    \ : points) {\n        fw.add_point(x, y);\n        values[{x, y}] = 0;\n    }\n\
+    \    fw.build();\n    assert(fw.points == points);\n    assert(fw.sum(INT_MAX,\
+    \ INT_MAX) == 0);\n    for (int step = 0; step < 100; ++step) {\n        if (!points.empty())\
+    \ {\n            auto [x, y] = points[rng() % points.size()];\n            long\
+    \ long w = int(rng() % 201) - 100;\n            fw.add(x, y, w);\n           \
+    \ values[{x, y}] += w;\n        }\n        const vector<int> coords{INT_MIN, -1000000000,\
+    \ -7, -1, 0, 1, 7, 1000000000, INT_MAX};\n        int l = coords[rng() % coords.size()],\
+    \ r = coords[rng() % coords.size()];\n        int d = coords[rng() % coords.size()],\
     \ u = coords[rng() % coords.size()];\n        if (l > r) swap(l, r);\n       \
     \ if (d > u) swap(d, u);\n        long long expected = 0, prefix = 0;\n      \
     \  for (auto [point, w] : values) {\n            auto [x, y] = point;\n      \
@@ -340,7 +340,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   requiredBy: []
-  timestamp: '2026-10-09 00:46:26+09:00'
+  timestamp: '2026-10-18 01:00:59+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_fenwick_tree_2d.test.cpp

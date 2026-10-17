@@ -236,9 +236,7 @@ data:
     \        xs.push_back(l);\n        xs.push_back(r);\n    }\n\n    void add_query(int\
     \ x, int y) {\n        ops.push_back({1, x, y, 0, 0, 0});\n    }\n\n    vector<T>\
     \ solve() const {\n        struct RectInfo {\n            int start[4];\n    \
-    \    };\n        vector<int> ord_x = xs;\n        ord_x.reserve(ord_x.size() +\
-    \ ops.size());\n        for (auto &&op : ops) {\n            if (op.type == 1)\
-    \ ord_x.push_back(op.l);\n        }\n        sort(ord_x.begin(), ord_x.end());\n\
+    \    };\n        vector<int> ord_x = xs;\n        sort(ord_x.begin(), ord_x.end());\n\
     \        ord_x.erase(unique(ord_x.begin(), ord_x.end()), ord_x.end());\n\n   \
     \     int m = (int)ord_x.size();\n        vector<int> x_index_lower(ops.size());\n\
     \        vector<int> x_index_upper(ops.size());\n        for (int idx = 0; idx\
@@ -341,7 +339,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_rectangle_add_point_get.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-18 01:02:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_rectangle_add_point_get.test.cpp
