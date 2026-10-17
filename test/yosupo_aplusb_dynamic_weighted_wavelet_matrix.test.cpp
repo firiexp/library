@@ -351,7 +351,55 @@ void self_check_kth_boundaries() {
     }
 }
 
+void self_check_range_boundaries() {
+    const vector<int> candidates{-3, -1, 0, 2, 5, 7, 9, 12};
+    for (int n : {0, 1, 2, 7, 8, 9, 31, 32, 33, 63, 64, 65}) {
+        for (bool dynamic : {false, true}) {
+            vector<int> values(n);
+            vector<ll> weights(n);
+            DynamicWeightedWaveletMatrix<int, ll> wm(n);
+            for (int i = 0; i < n; ++i) {
+                values[i] = candidates[i * 5 % candidates.size()];
+                weights[i] = i % 11 - 5;
+                if (dynamic) for (int x : candidates) wm.add_value_candidate(i, x);
+            }
+            wm.build(values, weights);
+            for (int phase = 0; phase < 2; ++phase) {
+                if (phase) {
+                    for (int i = 0; i < n; ++i) {
+                        weights[i] = i % 17 - 8;
+                        wm.set_weight(i, weights[i]);
+                        if (dynamic) {
+                            values[i] = candidates[i % candidates.size()];
+                            assert(wm.set_value(i, values[i]));
+                        }
+                    }
+                }
+                for (int l = 0; l <= n; ++l) for (int r = l; r <= n; ++r) {
+                    for (int x : {-4, -3, -1, 0, 1, 2, 5, 7, 9, 12, 13}) {
+                        auto less = brute_less(values, weights, l, r, x, false);
+                        auto actual = wm.count_sum_less(l, r, x);
+                        assert(actual.count == less.count && actual.sum == less.sum);
+                        assert(wm.count_less(l, r, x) == less.count);
+                        assert(wm.sum_less(l, r, x) == less.sum);
+                        auto equal = brute_equal(values, weights, l, r, x);
+                        actual = wm.count_sum_equal(l, r, x);
+                        assert(actual.count == equal.count && actual.sum == equal.sum);
+                        assert(wm.freq(l, r, x) == equal.count);
+                        assert(wm.sum_equal(l, r, x) == equal.sum);
+                    }
+                    for (int k : {0, (r - l) / 2, r - l}) {
+                        assert(wm.sum_k_smallest(l, r, k) == brute_sum_k_smallest(values, weights, l, r, k));
+                    }
+                    check_cursor(wm, values, weights, l, r);
+                }
+            }
+        }
+    }
+}
+
 int main() {
+    self_check_range_boundaries();
     self_check_random();
     self_check_generic_value();
     self_check_sum_k_smallest();

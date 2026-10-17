@@ -288,18 +288,21 @@ struct DynamicWeightedWaveletMatrix {
 
     template <class V>
     static V fenwick_range(const vector<V> &fw, int start, int l, int r) {
-        return fenwick_prefix(fw, start, r) - fenwick_prefix(fw, start, l);
+        V res = V();
+        for (; r > l; r -= r & -r) res += fw[start + r];
+        for (; l > r; l -= l & -l) res = res - fw[start + l];
+        return res;
     }
 
     static CountSum fenwick_range_count_sum(
             const vector<int> &count_fw, const vector<U> &sum_fw,
             int start, int l, int r) {
         CountSum res{0, U()};
-        for (; r > 0; r -= r & -r) {
+        for (; r > l; r -= r & -r) {
             res.count += count_fw[start + r];
             res.sum += sum_fw[start + r];
         }
-        for (; l > 0; l -= l & -l) {
+        for (; l > r; l -= l & -l) {
             res.count -= count_fw[start + l];
             res.sum -= sum_fw[start + l];
         }
