@@ -15,6 +15,7 @@ mint linear_recurrence(const vector<mint> &a, const vector<mint> &c, ll n) {
 }
 
 mint linear_recurrence(const vector<mint> &a, ll n) {
+    if (n < (ll)a.size()) return a[(int)n];
     return linear_recurrence(a, berlekamp_massey(a), n);
 }
 
