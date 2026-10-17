@@ -1090,6 +1090,9 @@ data:
       path: test/yosupo_aplusb_k_shortest_walk.test.cpp
       title: test/yosupo_aplusb_k_shortest_walk.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_kmp.test.cpp
+      title: test/yosupo_aplusb_kmp.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_lcs_bit.test.cpp
       title: test/yosupo_aplusb_lcs_bit.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1290,6 +1293,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_suffix_array_query.test.cpp
       title: test/yosupo_aplusb_suffix_array_query.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_suffix_automaton_kth.test.cpp
+      title: test/yosupo_aplusb_suffix_automaton_kth.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
       title: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp

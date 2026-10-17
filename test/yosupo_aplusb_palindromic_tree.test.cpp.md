@@ -232,8 +232,9 @@ data:
     \ occ;\n        int next[W];\n\n        Node(int link = 0, int len = 0, int first_pos\
     \ = -1)\n            : link(link), len(len), first_pos(first_pos), occ(0) {\n\
     \            fill(next, next + W, -1);\n        }\n    };\n\n    vector<Node>\
-    \ nodes;\n    vector<int> path;\n    string s;\n    int last;\n\n    PalindromicTree():\
-    \ nodes(), path(), s(), last(1) {\n        nodes.reserve(2);\n        nodes.emplace_back(0,\
+    \ nodes;\n    vector<int> path;\n    string s;\n    int last;\n\n    struct Partitions\
+    \ {\n        vector<int> count, prev;\n    };\n\n    PalindromicTree(): nodes(),\
+    \ path(), s(), last(1) {\n        nodes.reserve(2);\n        nodes.emplace_back(0,\
     \ -1, -1);\n        nodes.emplace_back(0, 0, -1);\n    }\n\n    explicit PalindromicTree(const\
     \ string &t): PalindromicTree() {\n        reserve(t.size());\n        build(t);\n\
     \    }\n\n    void reserve(int n) {\n        nodes.reserve(n + 2);\n        path.reserve(n);\n\
@@ -255,8 +256,22 @@ data:
     \ res(nodes.size());\n        for (int i = 0; i < (int)nodes.size(); ++i) res[i]\
     \ = nodes[i].occ;\n        for (int v = (int)nodes.size() - 1; v >= 2; --v) {\n\
     \            res[nodes[v].link] += res[v];\n        }\n        return res;\n \
-    \   }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n#line 8\
-    \ \"test/yosupo_aplusb_palindromic_tree.test.cpp\"\n\nvoid verify_count(const\
+    \   }\n\n    Partitions min_partitions() const {\n        int n = s.size(), size\
+    \ = nodes.size();\n        vector<int> diff(size), series(size);\n        for\
+    \ (int v = 2; v < size; ++v) {\n            int link = nodes[v].link;\n      \
+    \      diff[v] = nodes[v].len - nodes[link].len;\n            series[v] = diff[v]\
+    \ == diff[link] ? series[link] : link;\n        }\n        Partitions result{vector<int>(n\
+    \ + 1, n + 1), vector<int>(n + 1, -1)};\n        result.count[0] = 0;\n      \
+    \  vector<pair<int, int>> best(size, {n + 1, -1});\n        for (int i = 1; i\
+    \ <= n; ++i) {\n            for (int v = path[i - 1]; nodes[v].len > 0; v = series[v])\
+    \ {\n                int from = i - nodes[series[v]].len - diff[v];\n        \
+    \        best[v] = {result.count[from], from};\n                int link = nodes[v].link;\n\
+    \                if (diff[v] == diff[link]) best[v] = min(best[v], best[link]);\n\
+    \                if (best[v].first + 1 < result.count[i]) {\n                \
+    \    result.count[i] = best[v].first + 1;\n                    result.prev[i]\
+    \ = best[v].second;\n                }\n            }\n        }\n        return\
+    \ result;\n    }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n\
+    \ */\n#line 8 \"test/yosupo_aplusb_palindromic_tree.test.cpp\"\n\nvoid verify_count(const\
     \ PalindromicTree<2>& pt) {\n    vector<int> expected(pt.nodes.size());\n    vector<int>\
     \ occ;\n    for (const auto& node : pt.nodes) occ.push_back(node.occ);\n    expected[1]\
     \ = pt.s.size();\n    for (int v = 2; v < (int)pt.nodes.size(); ++v) {\n     \
@@ -280,9 +295,39 @@ data:
     \ == 0 && counts[1] == n + step);\n        for (int v = 2; v < (int)pt.nodes.size();\
     \ ++v) {\n            assert(pt.nodes[v].link < v);\n            assert(counts[v]\
     \ == n + step - pt.nodes[v].len + 1);\n        }\n        assert(pt.count() ==\
-    \ counts);\n        if (step == 0) pt.add('a');\n    }\n}\n\nint main() {\n  \
-    \  self_check();\n\n    Scanner sc;\n    Printer pr;\n    long long a, b;\n  \
-    \  sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    \ counts);\n        if (step == 0) pt.add('a');\n    }\n}\n\ntemplate<int W>\n\
+    void verify_partitions(const PalindromicTree<W> &pt) {\n    const string &s =\
+    \ pt.s;\n    int n = s.size();\n    vector<vector<bool>> palindrome(n, vector<bool>(n));\n\
+    \    for (int l = n - 1; l >= 0; --l) for (int r = l; r < n; ++r) {\n        palindrome[l][r]\
+    \ = s[l] == s[r] && (r - l < 2 || palindrome[l + 1][r - 1]);\n    }\n    vector<int>\
+    \ expected(n + 1, n + 1);\n    expected[0] = 0;\n    for (int r = 1; r <= n; ++r)\
+    \ for (int l = 0; l < r; ++l) {\n        if (palindrome[l][r - 1]) expected[r]\
+    \ = min(expected[r], expected[l] + 1);\n    }\n    auto counts = pt.count();\n\
+    \    auto dp = pt.min_partitions();\n    assert(dp.count == expected);\n    assert(dp.prev.size()\
+    \ == (size_t)n + 1 && dp.prev[0] == -1);\n    for (int prefix = 1; prefix <= n;\
+    \ ++prefix) {\n        int parts = 0;\n        for (int r = prefix; r > 0; r =\
+    \ dp.prev[r]) {\n            int l = dp.prev[r];\n            assert(0 <= l &&\
+    \ l < r);\n            assert(palindrome[l][r - 1]);\n            assert(dp.count[r]\
+    \ == dp.count[l] + 1);\n            ++parts;\n        }\n        assert(parts\
+    \ == expected[prefix]);\n    }\n    auto again = pt.min_partitions();\n    assert(again.count\
+    \ == dp.count && again.prev == dp.prev);\n    assert(pt.count() == counts);\n\
+    }\n\nvoid partition_check() {\n    for (int n = 0; n <= 13; ++n) for (int mask\
+    \ = 0; mask < (1 << n); ++mask) {\n        string s(n, 'a');\n        for (int\
+    \ i = 0; i < n; ++i) s[i] += (mask >> i) & 1;\n        verify_partitions(PalindromicTree<2>(s));\n\
+    \    }\n    mt19937 rng(234);\n    for (int tc = 0; tc < 1000; ++tc) {\n     \
+    \   string s(1 + rng() % 100, 'a');\n        for (char &c : s) c += rng() % 3;\n\
+    \        PalindromicTree<3> pt(s.substr(0, s.size() / 2));\n        verify_partitions(pt);\n\
+    \        pt.build(s.substr(s.size() / 2));\n        verify_partitions(pt);\n \
+    \   }\n    for (const string &s : {string(100, 'a'), string(\"abababababababab\"\
+    ), string(\"abacdcababcbab\")}) {\n        PalindromicTree<4> pt;\n        verify_partitions(pt);\n\
+    \        for (char c : s) {\n            pt.add(c);\n            verify_partitions(pt);\n\
+    \        }\n    }\n    string zimin;\n    for (char c = 'a'; c <= 'h'; ++c) zimin\
+    \ = zimin + c + zimin;\n    verify_partitions(PalindromicTree<8>(zimin));\n  \
+    \  PalindromicTree<2> uniform(string(300000, 'a'));\n    auto dp = uniform.min_partitions();\n\
+    \    for (int i = 1; i <= 300000; ++i) assert(dp.count[i] == 1 && dp.prev[i] ==\
+    \ 0);\n}\n\nint main() {\n    self_check();\n    partition_check();\n\n    Scanner\
+    \ sc;\n    Printer pr;\n    long long a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../string/palindromic_tree.cpp\"\
     \n\nvoid verify_count(const PalindromicTree<2>& pt) {\n    vector<int> expected(pt.nodes.size());\n\
@@ -309,16 +354,46 @@ data:
     \ 2; v < (int)pt.nodes.size(); ++v) {\n            assert(pt.nodes[v].link < v);\n\
     \            assert(counts[v] == n + step - pt.nodes[v].len + 1);\n        }\n\
     \        assert(pt.count() == counts);\n        if (step == 0) pt.add('a');\n\
-    \    }\n}\n\nint main() {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n\
-    \    long long a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n\
-    }\n"
+    \    }\n}\n\ntemplate<int W>\nvoid verify_partitions(const PalindromicTree<W>\
+    \ &pt) {\n    const string &s = pt.s;\n    int n = s.size();\n    vector<vector<bool>>\
+    \ palindrome(n, vector<bool>(n));\n    for (int l = n - 1; l >= 0; --l) for (int\
+    \ r = l; r < n; ++r) {\n        palindrome[l][r] = s[l] == s[r] && (r - l < 2\
+    \ || palindrome[l + 1][r - 1]);\n    }\n    vector<int> expected(n + 1, n + 1);\n\
+    \    expected[0] = 0;\n    for (int r = 1; r <= n; ++r) for (int l = 0; l < r;\
+    \ ++l) {\n        if (palindrome[l][r - 1]) expected[r] = min(expected[r], expected[l]\
+    \ + 1);\n    }\n    auto counts = pt.count();\n    auto dp = pt.min_partitions();\n\
+    \    assert(dp.count == expected);\n    assert(dp.prev.size() == (size_t)n + 1\
+    \ && dp.prev[0] == -1);\n    for (int prefix = 1; prefix <= n; ++prefix) {\n \
+    \       int parts = 0;\n        for (int r = prefix; r > 0; r = dp.prev[r]) {\n\
+    \            int l = dp.prev[r];\n            assert(0 <= l && l < r);\n     \
+    \       assert(palindrome[l][r - 1]);\n            assert(dp.count[r] == dp.count[l]\
+    \ + 1);\n            ++parts;\n        }\n        assert(parts == expected[prefix]);\n\
+    \    }\n    auto again = pt.min_partitions();\n    assert(again.count == dp.count\
+    \ && again.prev == dp.prev);\n    assert(pt.count() == counts);\n}\n\nvoid partition_check()\
+    \ {\n    for (int n = 0; n <= 13; ++n) for (int mask = 0; mask < (1 << n); ++mask)\
+    \ {\n        string s(n, 'a');\n        for (int i = 0; i < n; ++i) s[i] += (mask\
+    \ >> i) & 1;\n        verify_partitions(PalindromicTree<2>(s));\n    }\n    mt19937\
+    \ rng(234);\n    for (int tc = 0; tc < 1000; ++tc) {\n        string s(1 + rng()\
+    \ % 100, 'a');\n        for (char &c : s) c += rng() % 3;\n        PalindromicTree<3>\
+    \ pt(s.substr(0, s.size() / 2));\n        verify_partitions(pt);\n        pt.build(s.substr(s.size()\
+    \ / 2));\n        verify_partitions(pt);\n    }\n    for (const string &s : {string(100,\
+    \ 'a'), string(\"abababababababab\"), string(\"abacdcababcbab\")}) {\n       \
+    \ PalindromicTree<4> pt;\n        verify_partitions(pt);\n        for (char c\
+    \ : s) {\n            pt.add(c);\n            verify_partitions(pt);\n       \
+    \ }\n    }\n    string zimin;\n    for (char c = 'a'; c <= 'h'; ++c) zimin = zimin\
+    \ + c + zimin;\n    verify_partitions(PalindromicTree<8>(zimin));\n    PalindromicTree<2>\
+    \ uniform(string(300000, 'a'));\n    auto dp = uniform.min_partitions();\n   \
+    \ for (int i = 1; i <= 300000; ++i) assert(dp.count[i] == 1 && dp.prev[i] == 0);\n\
+    }\n\nint main() {\n    self_check();\n    partition_check();\n\n    Scanner sc;\n\
+    \    Printer pr;\n    long long a, b;\n    sc.read(a, b);\n    pr.println(a +\
+    \ b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - string/palindromic_tree.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_palindromic_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-17 18:46:42+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_palindromic_tree.test.cpp

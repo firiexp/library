@@ -233,8 +233,9 @@ data:
     \ occ;\n        int next[W];\n\n        Node(int link = 0, int len = 0, int first_pos\
     \ = -1)\n            : link(link), len(len), first_pos(first_pos), occ(0) {\n\
     \            fill(next, next + W, -1);\n        }\n    };\n\n    vector<Node>\
-    \ nodes;\n    vector<int> path;\n    string s;\n    int last;\n\n    PalindromicTree():\
-    \ nodes(), path(), s(), last(1) {\n        nodes.reserve(2);\n        nodes.emplace_back(0,\
+    \ nodes;\n    vector<int> path;\n    string s;\n    int last;\n\n    struct Partitions\
+    \ {\n        vector<int> count, prev;\n    };\n\n    PalindromicTree(): nodes(),\
+    \ path(), s(), last(1) {\n        nodes.reserve(2);\n        nodes.emplace_back(0,\
     \ -1, -1);\n        nodes.emplace_back(0, 0, -1);\n    }\n\n    explicit PalindromicTree(const\
     \ string &t): PalindromicTree() {\n        reserve(t.size());\n        build(t);\n\
     \    }\n\n    void reserve(int n) {\n        nodes.reserve(n + 2);\n        path.reserve(n);\n\
@@ -256,18 +257,32 @@ data:
     \ res(nodes.size());\n        for (int i = 0; i < (int)nodes.size(); ++i) res[i]\
     \ = nodes[i].occ;\n        for (int v = (int)nodes.size() - 1; v >= 2; --v) {\n\
     \            res[nodes[v].link] += res[v];\n        }\n        return res;\n \
-    \   }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n */\n#line 15\
-    \ \"test/yosupo_eertree.test.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n\n    string s;\n    char c = sc.skip();\n    while (true) {\n        s.push_back(c);\n\
-    \        sc.ensure();\n        if (sc.buf[sc.idx] <= ' ') break;\n        c =\
-    \ sc.buf[sc.idx++];\n    }\n\n    PalindromicTree<26> pt(s);\n    int n = pt.nodes.size();\n\
-    \    vector<int> parent(n, -1);\n    for (int v = 0; v < n; ++v) {\n        for\
-    \ (int c = 0; c < 26; ++c) {\n            int u = pt.nodes[v].next[c];\n     \
-    \       if (u != -1) parent[u] = v;\n        }\n    }\n\n    pr.println(n - 2);\n\
-    \    for (int v = 2; v < n; ++v) {\n        pr.println(parent[v] - 1, pt.nodes[v].link\
-    \ - 1);\n    }\n    for (int i = 0; i < (int)pt.path.size(); ++i) {\n        if\
-    \ (i) pr.print(' ');\n        pr.print(pt.path[i] - 1);\n    }\n    pr.println();\n\
-    \    return 0;\n}\n"
+    \   }\n\n    Partitions min_partitions() const {\n        int n = s.size(), size\
+    \ = nodes.size();\n        vector<int> diff(size), series(size);\n        for\
+    \ (int v = 2; v < size; ++v) {\n            int link = nodes[v].link;\n      \
+    \      diff[v] = nodes[v].len - nodes[link].len;\n            series[v] = diff[v]\
+    \ == diff[link] ? series[link] : link;\n        }\n        Partitions result{vector<int>(n\
+    \ + 1, n + 1), vector<int>(n + 1, -1)};\n        result.count[0] = 0;\n      \
+    \  vector<pair<int, int>> best(size, {n + 1, -1});\n        for (int i = 1; i\
+    \ <= n; ++i) {\n            for (int v = path[i - 1]; nodes[v].len > 0; v = series[v])\
+    \ {\n                int from = i - nodes[series[v]].len - diff[v];\n        \
+    \        best[v] = {result.count[from], from};\n                int link = nodes[v].link;\n\
+    \                if (diff[v] == diff[link]) best[v] = min(best[v], best[link]);\n\
+    \                if (best[v].first + 1 < result.count[i]) {\n                \
+    \    result.count[i] = best[v].first + 1;\n                    result.prev[i]\
+    \ = best[v].second;\n                }\n            }\n        }\n        return\
+    \ result;\n    }\n};\n\n/**\n * @brief \u56DE\u6587\u6728(Palindromic Tree)\n\
+    \ */\n#line 15 \"test/yosupo_eertree.test.cpp\"\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    string s;\n    char c = sc.skip();\n    while (true) {\n\
+    \        s.push_back(c);\n        sc.ensure();\n        if (sc.buf[sc.idx] <=\
+    \ ' ') break;\n        c = sc.buf[sc.idx++];\n    }\n\n    PalindromicTree<26>\
+    \ pt(s);\n    int n = pt.nodes.size();\n    vector<int> parent(n, -1);\n    for\
+    \ (int v = 0; v < n; ++v) {\n        for (int c = 0; c < 26; ++c) {\n        \
+    \    int u = pt.nodes[v].next[c];\n            if (u != -1) parent[u] = v;\n \
+    \       }\n    }\n\n    pr.println(n - 2);\n    for (int v = 2; v < n; ++v) {\n\
+    \        pr.println(parent[v] - 1, pt.nodes[v].link - 1);\n    }\n    for (int\
+    \ i = 0; i < (int)pt.path.size(); ++i) {\n        if (i) pr.print(' ');\n    \
+    \    pr.print(pt.path[i] - 1);\n    }\n    pr.println();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/eertree\"\n\n#include <bits/stdc++.h>\n\
     \nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
     #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
@@ -288,7 +303,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_eertree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-17 18:46:42+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_eertree.test.cpp

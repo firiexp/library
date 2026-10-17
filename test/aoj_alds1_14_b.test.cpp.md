@@ -30,9 +30,22 @@ data:
     \ res;\n    }\n    auto table = kmp_table(pattern);\n    for (int i = 0, j = 0;\
     \ i < n;) {\n        while(j >= 0 && text[i] != pattern[j]) j = table[j];\n  \
     \      i++, j++;\n        if(j == m){\n            res.emplace_back(i - j);\n\
-    \            j = table[j];\n        }\n    }\n    return res;\n}\n\n/**\n * @brief\
-    \ KMP\u6CD5\n */\n#line 21 \"test/aoj_alds1_14_b.test.cpp\"\n\nint main() {\n\
-    \    string text, pattern;\n    cin >> text >> pattern;\n    auto res = kmp_search(text,\
+    \            j = table[j];\n        }\n    }\n    return res;\n}\n\nclass KMPMatcher\
+    \ {\n    string pattern;\n    vector<int> table;\n    int matched = 0;\n    long\
+    \ long position = 0;\n    bool announced = false;\n\npublic:\n    explicit KMPMatcher(const\
+    \ string &pattern): pattern(pattern), table(kmp_table(pattern)) {}\n\n    void\
+    \ reset() {\n        matched = 0;\n        position = 0;\n        announced =\
+    \ false;\n    }\n\n    template<class Emit>\n    void scan(string_view chunk,\
+    \ Emit &&emit) {\n        if (pattern.empty()) {\n            if (!announced)\
+    \ {\n                announced = true;\n                emit(position);\n    \
+    \        }\n            for (size_t i = 0; i < chunk.size(); ++i) emit(++position);\n\
+    \            return;\n        }\n        for (char c : chunk) {\n            while\
+    \ (matched >= 0 && c != pattern[matched]) matched = table[matched];\n        \
+    \    ++matched;\n            ++position;\n            if (matched == (int)pattern.size())\
+    \ {\n                matched = table[matched];\n                emit(position\
+    \ - (long long)pattern.size());\n            }\n        }\n    }\n};\n\n/**\n\
+    \ * @brief KMP\u6CD5\n */\n#line 21 \"test/aoj_alds1_14_b.test.cpp\"\n\nint main()\
+    \ {\n    string text, pattern;\n    cin >> text >> pattern;\n    auto res = kmp_search(text,\
     \ pattern);\n    for (auto &&i : res) {\n        cout << i << \"\\n\";\n    }\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B\"\n\
@@ -49,7 +62,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_14_b.test.cpp
   requiredBy: []
-  timestamp: '2026-03-08 22:25:54+09:00'
+  timestamp: '2026-10-17 18:43:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_14_b.test.cpp

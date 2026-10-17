@@ -287,6 +287,9 @@ data:
     path: test/yosupo_aplusb_k_shortest_walk.test.cpp
     title: test/yosupo_aplusb_k_shortest_walk.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_kmp.test.cpp
+    title: test/yosupo_aplusb_kmp.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_lcs_bit.test.cpp
     title: test/yosupo_aplusb_lcs_bit.test.cpp
   - icon: ':heavy_check_mark:'
@@ -487,6 +490,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_array_query.test.cpp
     title: test/yosupo_aplusb_suffix_array_query.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_suffix_automaton_kth.test.cpp
+    title: test/yosupo_aplusb_suffix_automaton_kth.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
     title: test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
@@ -1415,10 +1421,12 @@ data:
   - test/yosupo_wildcard_pattern_matching.test.cpp
   - test/yosupo_eertree.test.cpp
   - test/yosupo_multipoint_evaluation_on_geometric_sequence.test.cpp
+  - test/yosupo_aplusb_suffix_automaton_kth.test.cpp
   - test/yosupo_aplusb_leftist_heap.test.cpp
   - test/yosupo_tetration_mod.test.cpp
   - test/yosupo_kth_term_of_linearly_recurrent_sequence_nth_term.test.cpp
   - test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp
+  - test/yosupo_aplusb_kmp.test.cpp
   - test/yosupo_aplusb_tree_diameter_weighted.test.cpp
   - test/yosupo_aplusb_ntt_divmod.test.cpp
   - test/yosupo_aplusb_characteristic_polynomial.test.cpp
