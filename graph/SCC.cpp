@@ -31,7 +31,7 @@ public:
         edges.emplace_back(a, b);
     }
 
-    int build() {
+    int build(bool build_dag = true) {
         CSR G(n, edges, false), G_r(n, edges, true);
         vs.clear();
         vs.reserve(n);
@@ -65,9 +65,9 @@ public:
                 dfs_r(dfs_r, vs[i], k++);
             }
         }
-        G_out.assign(k, {});
+        G_out.assign(build_dag ? k : 0, {});
         sz.resize(k);
-        if (k <= 1) return k;
+        if (!build_dag || k <= 1) return k;
         vector<int> head(k, -1), next(n), seen(k, -1);
         for (int v = 0; v < n; ++v) {
             next[v] = head[cmp[v]];

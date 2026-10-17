@@ -7,7 +7,11 @@ using namespace std;
 #include "../graph/SCC.cpp"
 
 void check(SCC &g, int n, const vector<pair<int, int>> &edges) {
+    int components = g.build(false);
+    auto initial_cmp = g.cmp, initial_sz = g.sz;
+    assert(g.G_out.empty());
     int k = g.build();
+    assert(k == components && g.cmp == initial_cmp && g.sz == initial_sz);
     assert(int(g.cmp.size()) == n && int(g.sz.size()) == k);
     assert(int(g.G_out.size()) == k);
     vector<vector<bool>> reachable(n, vector<bool>(n));
@@ -36,8 +40,12 @@ void check(SCC &g, int n, const vector<pair<int, int>> &edges) {
         assert(g.G_out[c] == vector<int>(dag[c].begin(), dag[c].end()));
     auto cmp = g.cmp;
     auto out = g.G_out;
-    assert(g.build() == k);
-    assert(g.cmp == cmp && g.sz == sizes && g.G_out == out);
+    for (bool build_dag : {false, false, true, true, false}) {
+        assert(g.build(build_dag) == k);
+        assert(g.cmp == cmp && g.sz == sizes);
+        if (build_dag) assert(g.G_out == out);
+        else assert(g.G_out.empty());
+    }
 }
 
 void check_scc() {
@@ -78,6 +86,13 @@ void check_scc() {
     for (int c = 1; c < n; ++c) assert(fanout.G_out[c].empty());
     assert(single.build() == 1 && single.sz == vector<int>{n});
     assert(single.G_out == vector<vector<int>>(1));
+    auto cmp = fanout.cmp, sizes = fanout.sz;
+    assert(fanout.build(false) == n);
+    assert(fanout.cmp == cmp && fanout.sz == sizes && fanout.G_out.empty());
+    assert(fanout.build() == n && fanout.G_out[0] == expected);
+    assert(single.build(false) == 1 && single.sz == vector<int>{n});
+    assert(single.G_out.empty());
+    assert(single.build() == 1 && single.G_out == vector<vector<int>>(1));
 }
 
 int main() {

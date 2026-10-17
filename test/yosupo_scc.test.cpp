@@ -28,7 +28,7 @@ int main() {
         scanf("%d %d", &a, &b);
         G.add_edge(a, b);
     }
-    printf("%d\n", G.build());
+    printf("%d\n", G.build(false));
     vector<vector<int>> res(G.sz.size());
     for (int i = 0; i < n; ++i) {
         res[G[i]].emplace_back(i);
