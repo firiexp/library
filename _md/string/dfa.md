@@ -4,11 +4,13 @@ documentation_of: //string/dfa.cpp
 ---
 
 ## 説明
-文字を `0` から `W-1` で表す決定性有限オートマトン。条件を AND 合成できる。
+文字を `0` から `W-1` で表す決定性有限オートマトン。条件を AND・OR・NOT で合成できる。
 
 ## できること
 - `DFA<W>{next, accept, initial}` : 遷移表、受理フラグ、初期状態から直接作る
 - `intersect(a, b)` : 両方が受理する列を受理する DFA を返す。初期状態対から到達できる状態だけを持つ
+- `unite(a, b)` : 少なくとも片方が受理する列を受理する DFA を返す。片方が拒否遷移に入っても他方の遷移を続ける
+- `complement(a)` : `0..W-1` 上の有限列全体に対する補集合を返す。空列を含め、元の DFA が拒否する列だけを受理する
 
 ## 使い方
 `next` は `vector<array<int, W>>`、`accept` は状態数と同じ長さの `vector<char>`。
@@ -19,13 +21,26 @@ documentation_of: //string/dfa.cpp
 
 ```cpp
 auto a = intersect(digit_sum_exact(12), digit_value_mod(12));
+auto b = unite(digit_value_mod(3), digit_value_mod(5));
+auto c = complement(b);
 ```
 
+`b` は十進表記の値が3または5で割り切れる列、`c` はどちらでも割り切れない列を受理する。
 数字の条件には `math/digit_dfa.cpp` を include する。表は固定長の文字列 DP にも使える。
 先頭 0 や数値の上下限はこの表では扱わない。
 
+```cpp
+long long count = digit_count<long long>("1", "100", b);
+```
+
+`math/digit_dp.cpp` を include すれば、1以上100以下で3または5で割り切れる整数の個数 `47` が得られる。
+
 ## 実装上の補足
-入力状態数を $S_1,S_2$、到達状態対数を $R$ とすると、合成は最悪 $O(S_1S_2+WR)$ 時間。
-状態対の ID 配列に $O(S_1S_2)$、返却表に $O(WR)$ の領域を使う。
-状態数の積が確保可能で、返却状態数が `int` に収まる範囲で使う。
-`intersect` は最小化を行わない。必要なら `string/dfa_minimize.cpp` の `minimize(a)` を使う。
+入力状態数を $S_1,S_2$、到達状態対数を $R$ とする。
+
+- `intersect` は $O(S_1S_2+WR)$ 時間、$O(S_1S_2+WR)$ 領域
+- `unite` は拒否状態も状態対に含め、$O((S_1+1)(S_2+1)+WR)$ 時間・領域。到達できる状態対だけを返し、両方が拒否した遷移は `-1` にする
+- `complement` は入力状態数を $S$ として $O(W(S+1))$ 時間・領域。拒否遷移があれば、以後の全列を受理する状態を1つ足す。`initial == -1` の補集合は全列を受理する1状態となる
+
+AND・OR の状態対の ID 配列は、未到達の組も含めて確保する。この配列が確保可能で、返却状態数が `int` に収まる範囲で使う。
+最小化は行わない。必要なら `string/dfa_minimize.cpp` の `minimize(a)` を使う。

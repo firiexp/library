@@ -61,6 +61,17 @@ mint dense(const DFA<W>& a, ll n) {
 void self_check() {
     mt19937 rng(151);
     const ll largest = numeric_limits<ll>::max();
+    DFA<2> only_a{{{0, -1}}, {true}, 0};
+    DFA<2> only_b{{{-1, 0}}, {true}, 0};
+    auto either = unite(only_a, only_b);
+    auto neither = complement(either);
+    for (ll n : {0LL, 1LL, 2LL, 8LL, 97LL, 1000000000000000000LL, largest}) {
+        mint expected = n == 0 ? mint(1) : mint(2);
+        assert(count_words(either, n) == expected);
+        assert(count_words(neither, n) == mint(2).pow(n) - expected);
+        assert(count_words(minimize(either), n) == expected);
+        assert(count_words(minimize(neither), n) == mint(2).pow(n) - expected);
+    }
     for (int tc = 0; tc < 500; ++tc) {
         int s = 1 + rng() % 12;
         DFA<3> a{vector<array<int, 3>>(s), vector<char>(s), int(rng() % (s + 1)) - 1};

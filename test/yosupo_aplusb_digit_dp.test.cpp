@@ -57,6 +57,22 @@ void self_check() {
     check(no_equal_adjacent(), rng);
     check(minimize(digit_value_mod(100)), rng);
     check(minimize(intersect(digit_sum_exact(12), digit_value_mod(12))), rng);
+    auto either = unite(digit_value_mod(3), digit_value_mod(5));
+    check(either, rng);
+    check(complement(either), rng);
+    check(minimize(either), rng);
+    auto repeated = complement(no_equal_adjacent());
+    check(repeated, rng);
+    long long divisible = 0, adjacent = 0;
+    for (int x = 0; x <= 2000; ++x) {
+        divisible += x % 3 == 0 || x % 5 == 0;
+        string s = to_string(x);
+        adjacent += adjacent_find(s.begin(), s.end()) != s.end();
+        assert(digit_count<long long>("0", s, either) == divisible);
+        assert(digit_count<long long>("0", s, complement(either)) == x + 1 - divisible);
+        assert(digit_count<long long>("0", s, repeated) == adjacent);
+    }
+    assert(digit_count<long long>("1", "100", either) == 47);
     for (int mask : {0, 1, 2, 3, 6, 17, 513, 1023}) check(required_digits(mask), rng);
     for (int m = 1; m <= 12; ++m) {
         check(digit_value_mod(m, m - 1), rng);

@@ -3,6 +3,7 @@
 using namespace std;
 
 #include "../math/digit_dfa.cpp"
+#include "../string/dfa_minimize.cpp"
 #include "../util/fastio.cpp"
 
 template<int W>
@@ -34,11 +35,47 @@ void check_reachable(const DFA<W>& a) {
     assert(q.size() == a.next.size());
 }
 
+void check_boolean(const DFA<2>& a, const DFA<2>& b) {
+    auto both = intersect(a, b), either = unite(a, b);
+    auto negated = complement(a), twice = complement(negated);
+    auto same = unite(a, a), reversed = unite(b, a);
+    auto compact = minimize(either), compact_not = minimize(negated);
+    auto neither = complement(either);
+    check_reachable(both);
+    check_reachable(either);
+    for (int n = 0; n <= 8; ++n) {
+        for (int mask = 0; mask < (1 << n); ++mask) {
+            string s(n, 'a');
+            for (int i = 0; i < n; ++i) s[i] += mask >> i & 1;
+            bool x = accepts(a, s, 'a'), y = accepts(b, s, 'a');
+            assert(accepts(both, s, 'a') == (x && y));
+            assert(accepts(either, s, 'a') == (x || y));
+            assert(accepts(negated, s, 'a') == !x);
+            assert(accepts(twice, s, 'a') == x);
+            assert(accepts(same, s, 'a') == x);
+            assert(accepts(reversed, s, 'a') == (x || y));
+            assert(accepts(compact, s, 'a') == (x || y));
+            assert(accepts(compact_not, s, 'a') == !x);
+            assert(accepts(neither, s, 'a') == (!x && !y));
+        }
+    }
+}
+
 void self_check() {
+    DFA<2> empty_only{vector<array<int, 2>>(1), {true}, 0};
+    empty_only.next[0].fill(-1);
+    DFA<2> recover{{{1, -1}, {1, 2}, {2, 2}}, {false, true, false}, 0};
+    DFA<2> universal{{{0, 0}}, {true}, 0};
+    for (const auto& a : vector<DFA<2>>{{}, empty_only, recover, universal}) {
+        for (const auto& b : vector<DFA<2>>{{}, empty_only, recover, universal}) check_boolean(a, b);
+    }
+    assert(complement(DFA<2>{}).next.size() == 1);
+    assert(complement(universal).next.size() == 1);
+    assert(complement(empty_only).next.size() == 2);
     mt19937 rng(149);
     for (int tc = 0; tc < 300; ++tc) {
         auto random_dfa = [&]() {
-            int n = 1 + rng() % 8;
+            int n = rng() % 7;
             DFA<2> a{vector<array<int, 2>>(n), vector<char>(n), int(rng() % (n + 1)) - 1};
             for (int v = 0; v < n; ++v) {
                 a.accept[v] = rng() % 2;
@@ -47,15 +84,7 @@ void self_check() {
             return a;
         };
         auto a = random_dfa(), b = random_dfa();
-        auto c = intersect(a, b);
-        check_reachable(c);
-        for (int n = 0; n <= 8; ++n) {
-            for (int mask = 0; mask < (1 << n); ++mask) {
-                string s(n, 'a');
-                for (int i = 0; i < n; ++i) s[i] += mask >> i & 1;
-                assert(accepts(c, s, 'a') == (accepts(a, s, 'a') && accepts(b, s, 'a')));
-            }
-        }
+        check_boolean(a, b);
     }
     assert(intersect(digit_value_mod(2), digit_value_mod(4)).next.size() == 4);
     assert(intersect(DFA<10>{}, digit_value_mod(1)).initial == -1);
