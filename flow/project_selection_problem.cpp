@@ -79,20 +79,7 @@ public:
         }
         T cut = mf.flow(s, t);
 
-        fill(selected.begin(), selected.end(), 0);
-        queue<int> q;
-        q.emplace(s);
-        vector<int> vis(n + 2, 0);
-        vis[s] = 1;
-        while (!q.empty()) {
-            int v = q.front();
-            q.pop();
-            for (auto&& e : mf.G[v]) {
-                if (e.cap <= 0 || vis[e.to]) continue;
-                vis[e.to] = 1;
-                q.emplace(e.to);
-            }
-        }
+        auto vis = mf.min_cut(s);
         for (int v = 0; v < n; ++v) {
             selected[v] = vis[v];
         }
