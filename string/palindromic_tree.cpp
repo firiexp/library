@@ -18,6 +18,10 @@ struct PalindromicTree {
     string s;
     int last;
 
+    struct Partitions {
+        vector<int> count, prev;
+    };
+
     PalindromicTree(): nodes(), path(), s(), last(1) {
         nodes.reserve(2);
         nodes.emplace_back(0, -1, -1);
@@ -86,6 +90,32 @@ struct PalindromicTree {
             res[nodes[v].link] += res[v];
         }
         return res;
+    }
+
+    Partitions min_partitions() const {
+        int n = s.size(), size = nodes.size();
+        vector<int> diff(size), series(size);
+        for (int v = 2; v < size; ++v) {
+            int link = nodes[v].link;
+            diff[v] = nodes[v].len - nodes[link].len;
+            series[v] = diff[v] == diff[link] ? series[link] : link;
+        }
+        Partitions result{vector<int>(n + 1, n + 1), vector<int>(n + 1, -1)};
+        result.count[0] = 0;
+        vector<pair<int, int>> best(size, {n + 1, -1});
+        for (int i = 1; i <= n; ++i) {
+            for (int v = path[i - 1]; nodes[v].len > 0; v = series[v]) {
+                int from = i - nodes[series[v]].len - diff[v];
+                best[v] = {result.count[from], from};
+                int link = nodes[v].link;
+                if (diff[v] == diff[link]) best[v] = min(best[v], best[link]);
+                if (best[v].first + 1 < result.count[i]) {
+                    result.count[i] = best[v].first + 1;
+                    result.prev[i] = best[v].second;
+                }
+            }
+        }
+        return result;
     }
 };
 
