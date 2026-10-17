@@ -7,8 +7,8 @@ using namespace std;
 #include "../geometry/polygon_integral.cpp"
 #include "../geometry/convex_hull.cpp"
 
-void close(long double a, long double b) {
-    assert(fabsl(a - b) <= 1e-15L * max({1.L, fabsl(a), fabsl(b)}));
+void same(PolygonIntegral::RationalPoint a, PolygonIntegral::RationalPoint b) {
+    assert(a.x_num == b.x_num && a.y_num == b.y_num && a.den == b.den);
 }
 
 void check_result(const PolygonIntegral::Result &actual, const vector<IntPoint> &polygon) {
@@ -23,16 +23,14 @@ void check_result(const PolygonIntegral::Result &actual, const vector<IntPoint> 
         x += ((__int128)a.x + b.x + c.x) * area2;
         y += ((__int128)a.y + b.y + c.y) * area2;
     }
-    assert(actual.area2 == d);
-    assert(actual.moment_x == x);
-    assert(actual.moment_y == y);
-    close(actual.area(), (long double)d / 2);
+    assert(actual.area2() == d);
     auto centroid = actual.centroid();
     assert(centroid.has_value() == (d != 0));
     if (centroid) {
-        long double denominator = 3 * (long double)d;
-        close(centroid->first, (long double)x / denominator);
-        close(centroid->second, (long double)y / denominator);
+        assert(centroid->den > 0);
+        assert(centroid->den == 3 * (d < 0 ? -d : d));
+        assert(centroid->x_num == (d < 0 ? -x : x));
+        assert(centroid->y_num == (d < 0 ? -y : y));
     }
 }
 
@@ -55,18 +53,14 @@ void check(const vector<IntPoint> &points) {
         auto result = index.query(u, v);
         check_result(result, cut);
         auto backward = reverse_index.query(n - 1 - v, n - 1 - u);
-        assert(backward.area2 == -result.area2);
-        assert(backward.moment_x == -result.moment_x);
-        assert(backward.moment_y == -result.moment_y);
+        assert(backward.area2() == -result.area2());
+        assert(backward.centroid().has_value() == result.centroid().has_value());
         if (result.centroid()) {
-            close(result.centroid()->first, backward.centroid()->first);
-            close(result.centroid()->second, backward.centroid()->second);
+            same(*result.centroid(), *backward.centroid());
         }
         if (u != v) {
             auto complement = index.query(v, u);
-            assert(result.area2 + complement.area2 == index.whole().area2);
-            assert(result.moment_x + complement.moment_x == index.whole().moment_x);
-            assert(result.moment_y + complement.moment_y == index.whole().moment_y);
+            assert(result.area2() + complement.area2() == index.whole().area2());
         }
     }
 }
@@ -79,10 +73,11 @@ void transform_check(const vector<IntPoint> &points) {
     int n = points.size();
     for (int u = 0; u < n; ++u) for (int v = 0; v < n; ++v) {
         auto a = original.query(u, v), b = moved.query(u, v);
-        assert(b.area2 == 9 * a.area2);
+        assert(b.area2() == 9 * a.area2());
         if (a.centroid()) {
-            close(b.centroid()->first, -3 * a.centroid()->first + 7);
-            close(b.centroid()->second, -3 * a.centroid()->second - 11);
+            auto p = *a.centroid(), q = *b.centroid();
+            assert(q.x_num * p.den == (-3 * p.x_num + 7 * p.den) * q.den);
+            assert(q.y_num * p.den == (-3 * p.y_num - 11 * p.den) * q.den);
         } else assert(!b.centroid());
     }
     check(transformed);
@@ -97,22 +92,23 @@ void self_check() {
     vector<IntPoint> triangle{{0, 0}, {1, 0}, {0, 1}};
     check(triangle);
     auto small = PolygonIntegral(triangle).whole();
-    assert(small.area() == 0.5L);
-    close(small.centroid()->first, 1.L / 3);
-    close(small.centroid()->second, 1.L / 3);
+    assert(small.area2() == 1);
+    same(*small.centroid(), {1, 1, 3});
     vector<IntPoint> rectangle{{0, 0}, {4, 0}, {4, 2}, {0, 2}};
     check(rectangle);
     const PolygonIntegral index(rectangle);
-    assert(index.whole().area() == 8);
-    close(index.whole().centroid()->first, 2);
-    close(index.whole().centroid()->second, 1);
-    close(index.query(0, 2).centroid()->first, 8.L / 3);
-    close(index.query(0, 2).centroid()->second, 2.L / 3);
-    close(index.query(2, 0).centroid()->first, 4.L / 3);
-    close(index.query(2, 0).centroid()->second, 4.L / 3);
+    assert(index.whole().area2() == 16);
+    same(*index.whole().centroid(), {96, 48, 48});
+    same(*index.query(0, 2).centroid(), {64, 16, 24});
+    same(*index.query(2, 0).centroid(), {32, 32, 24});
+    auto center = *index.whole().centroid();
+    assert(center.x_num == 2 * center.den);
+    assert(center.x_num % center.den == 0);
     for (long long k : {LLONG_MAX - 4, LLONG_MIN + 4}) {
         check({{k, 0}, {k + 1, 0}, {k + 1, 1}});
         check({{0, k}, {0, k + 1}, {1, k + 1}});
+        auto wide = PolygonIntegral({{k, 0}, {k + 1, 0}, {k + 1, 1}}).whole();
+        same(*wide.centroid(), {(__int128)3 * k + 2, 1, 3});
     }
     check({{-1000000000, -1000000000}, {1000000000, -1000000000},
            {1000000000, 1000000000}, {-1000000000, 1000000000}});

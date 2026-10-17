@@ -5,15 +5,31 @@
 
 class PolygonIntegral {
 public:
-    struct Result {
-        __int128 area2 = 0, moment_x = 0, moment_y = 0;
+    struct RationalPoint {
+        __int128 x_num, y_num, den;
+    };
 
-        long double area() const { return (long double)area2 / 2; }
+    class Result {
+        friend class PolygonIntegral;
 
-        optional<pair<long double, long double>> centroid() const {
-            if (area2 == 0) return nullopt;
-            long double denominator = 3 * (long double)area2;
-            return pair<long double, long double>{moment_x / denominator, moment_y / denominator};
+        __int128 area2_ = 0, x_sum = 0, y_sum = 0;
+
+        Result(__int128 area2, __int128 x, __int128 y) : area2_(area2), x_sum(x), y_sum(y) {}
+
+    public:
+        Result() = default;
+
+        __int128 area2() const { return area2_; }
+
+        optional<RationalPoint> centroid() const {
+            if (area2_ == 0) return nullopt;
+            __int128 x = x_sum, y = y_sum, d = area2_;
+            if (d < 0) {
+                x = -x;
+                y = -y;
+                d = -d;
+            }
+            return RationalPoint{x, y, 3 * d};
         }
     };
 
@@ -27,9 +43,9 @@ private:
     }
 
     static Result add(Result a, const Result &b) {
-        a.area2 += b.area2;
-        a.moment_x += b.moment_x;
-        a.moment_y += b.moment_y;
+        a.area2_ += b.area2_;
+        a.x_sum += b.x_sum;
+        a.y_sum += b.y_sum;
         return a;
     }
 
@@ -46,9 +62,9 @@ public:
         int n = points.size();
         assert(0 <= u && u < n && 0 <= v && v < n);
         if (u == v) return {};
-        Result result{prefix[v].area2 - prefix[u].area2,
-                      prefix[v].moment_x - prefix[u].moment_x,
-                      prefix[v].moment_y - prefix[u].moment_y};
+        Result result{prefix[v].area2_ - prefix[u].area2_,
+                      prefix[v].x_sum - prefix[u].x_sum,
+                      prefix[v].y_sum - prefix[u].y_sum};
         if (u > v) result = add(result, prefix.back());
         return add(result, edge(points[v], points[u]));
     }
