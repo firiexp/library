@@ -264,13 +264,26 @@ data:
     \ << i;\n            }\n            p = nodes[p].nxt[f];\n        }\n        return\
     \ ret;\n    }\n\n    T min_element(T x = 0) const {\n        return xor_min(x)\
     \ ^ x;\n    }\n\n    T max_element(T x = 0) const {\n        T y = x ^ bit_mask();\n\
-    \        return xor_min(y) ^ y;\n    }\n\nprivate:\n    int free_head = -1;\n\n\
-    \    int make_node() {\n        if (free_head == -1) {\n            nodes.emplace_back();\n\
-    \            return (int)nodes.size() - 1;\n        }\n        int v = free_head;\n\
-    \        free_head = nodes[v].nxt[0];\n        nodes[v] = Node();\n        return\
-    \ v;\n    }\n\n    static constexpr T bit_mask() {\n        if constexpr (X ==\
-    \ sizeof(T) * 8) return T(-1);\n        else return (T(1) << X) - 1;\n    }\n\
-    };\n\n/**\n * @brief Binary Trie\n */\n#line 15 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\
+    \        return xor_min(y) ^ y;\n    }\n\n    T kth_element(int k, T xor_mask\
+    \ = 0) const {\n        assert(0 <= k && k < size());\n        int p = 0;\n  \
+    \      T value = 0;\n        for (int i = int(X) - 1; i >= 0; --i) {\n       \
+    \     int f = (xor_mask >> i) & 1;\n            int to = nodes[p].nxt[f];\n  \
+    \          int count = to == -1 ? 0 : nodes[to].cnt;\n            if (k >= count)\
+    \ {\n                k -= count;\n                f ^= 1;\n            }\n   \
+    \         value |= T(f) << i;\n            p = nodes[p].nxt[f];\n        }\n \
+    \       return value;\n    }\n\n    int count_less(T bound, T xor_mask = 0) const\
+    \ {\n        int p = 0, result = 0;\n        for (int i = int(X) - 1; i >= 0 &&\
+    \ p != -1; --i) {\n            int f = (xor_mask >> i) & 1;\n            if ((bound\
+    \ >> i) & 1) {\n                int to = nodes[p].nxt[f];\n                if\
+    \ (to != -1) result += nodes[to].cnt;\n                f ^= 1;\n            }\n\
+    \            p = nodes[p].nxt[f];\n        }\n        return result;\n    }\n\n\
+    private:\n    int free_head = -1;\n\n    int make_node() {\n        if (free_head\
+    \ == -1) {\n            nodes.emplace_back();\n            return (int)nodes.size()\
+    \ - 1;\n        }\n        int v = free_head;\n        free_head = nodes[v].nxt[0];\n\
+    \        nodes[v] = Node();\n        return v;\n    }\n\n    static constexpr\
+    \ T bit_mask() {\n        if constexpr (X == sizeof(T) * 8) return T(-1);\n  \
+    \      else return T((make_unsigned_t<T>(1) << X) - 1);\n    }\n};\n\n/**\n *\
+    \ @brief Binary Trie\n */\n#line 15 \"test/yosupo_set_xor_min_binarytrie.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int q;\n    sc.read(q);\n\
     \    Binarytrie<unsigned int, 30> trie;\n    while (q--) {\n        int t;\n \
     \       unsigned int x;\n        sc.read(t, x);\n        if (t == 0) {\n     \
@@ -293,7 +306,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_set_xor_min_binarytrie.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 16:23:40+09:00'
+  timestamp: '2026-10-18 00:52:11+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_set_xor_min_binarytrie.test.cpp

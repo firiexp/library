@@ -244,24 +244,36 @@ data:
     \    }\n\n    T get_max(T x = 0) const {\n        U y = static_cast<U>(x);\n \
     \       for (int i = B - 1; i >= 0; --i) {\n            if (basis[i] == 0) continue;\n\
     \            U z = y ^ basis[i];\n            if (z > y) y = z;\n        }\n \
-    \       return static_cast<T>(y);\n    }\n\n    void merge(const XorBasis &other)\
-    \ {\n        for (int i = 0; i < B; ++i) {\n            if (other.basis[i] !=\
-    \ 0) add(static_cast<T>(other.basis[i]));\n        }\n    }\n\n    XorBasis intersection(const\
-    \ XorBasis &other) const {\n        U row[B], from_a[B];\n        for (int i =\
-    \ 0; i < B; ++i) row[i] = from_a[i] = basis[i];\n        XorBasis result;\n  \
-    \      for (int i = 0; i < B; ++i) {\n            U x = other.basis[i], y = 0;\n\
-    \            if (x == 0) continue;\n            for (int j = B - 1; j >= 0; --j)\
-    \ {\n                if (((x >> j) & 1) == 0) continue;\n                if (row[j]\
-    \ == 0) {\n                    row[j] = x;\n                    from_a[j] = y;\n\
-    \                    break;\n                }\n                x ^= row[j];\n\
-    \                y ^= from_a[j];\n            }\n            if (x == 0) result.add(static_cast<T>(y));\n\
-    \        }\n        return result;\n    }\n\nprivate:\n    U reduce_unsigned(U\
-    \ x) const {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x\
-    \ >> i) & 1) == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n  \
-    \      }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear\
-    \ Basis)\n */\n#line 8 \"test/yosupo_intersection_of_f2_vector_spaces.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int t;\n    in.read(t);\n\
-    \    while (t--) {\n        XorBasis<unsigned> a, b;\n        for (auto *space\
+    \       return static_cast<T>(y);\n    }\n\n    optional<T> kth(U k) const {\n\
+    \        if (rank < B && k >= (U(1) << rank)) return nullopt;\n        U value\
+    \ = 0;\n        for (int i = 0; i < B; ++i) {\n            if (basis[i] == 0)\
+    \ continue;\n            if (k & 1) value ^= basis[i];\n            k >>= 1;\n\
+    \        }\n        return static_cast<T>(value);\n    }\n\n    U order_of_key(T\
+    \ x) const {\n        U target = static_cast<U>(x), value = 0, result = 0;\n \
+    \       int remaining = rank;\n        for (int i = B - 1; i >= 0; --i) {\n  \
+    \          if (basis[i] != 0) {\n                --remaining;\n              \
+    \  if ((target >> i) & 1) {\n                    result += U(1) << remaining;\n\
+    \                    value ^= basis[i];\n                }\n            } else\
+    \ if (((value ^ target) >> i) & 1) {\n                if ((target >> i) & 1) result\
+    \ += U(1) << remaining;\n                break;\n            }\n        }\n  \
+    \      return result;\n    }\n\n    void merge(const XorBasis &other) {\n    \
+    \    for (int i = 0; i < B; ++i) {\n            if (other.basis[i] != 0) add(static_cast<T>(other.basis[i]));\n\
+    \        }\n    }\n\n    XorBasis intersection(const XorBasis &other) const {\n\
+    \        U row[B], from_a[B];\n        for (int i = 0; i < B; ++i) row[i] = from_a[i]\
+    \ = basis[i];\n        XorBasis result;\n        for (int i = 0; i < B; ++i) {\n\
+    \            U x = other.basis[i], y = 0;\n            if (x == 0) continue;\n\
+    \            for (int j = B - 1; j >= 0; --j) {\n                if (((x >> j)\
+    \ & 1) == 0) continue;\n                if (row[j] == 0) {\n                 \
+    \   row[j] = x;\n                    from_a[j] = y;\n                    break;\n\
+    \                }\n                x ^= row[j];\n                y ^= from_a[j];\n\
+    \            }\n            if (x == 0) result.add(static_cast<T>(y));\n     \
+    \   }\n        return result;\n    }\n\nprivate:\n    U reduce_unsigned(U x) const\
+    \ {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x >> i) & 1)\
+    \ == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n        }\n  \
+    \      return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear Basis)\n\
+    \ */\n#line 8 \"test/yosupo_intersection_of_f2_vector_spaces.test.cpp\"\n\nint\
+    \ main() {\n    Scanner in;\n    Printer out;\n    int t;\n    in.read(t);\n \
+    \   while (t--) {\n        XorBasis<unsigned> a, b;\n        for (auto *space\
     \ : {&a, &b}) {\n            int n;\n            in.read(n);\n            for\
     \ (int i = 0; i < n; ++i) {\n                unsigned x;\n                in.read(x);\n\
     \                space->add(x);\n            }\n        }\n        auto common\
@@ -286,7 +298,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_intersection_of_f2_vector_spaces.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 12:24:36+09:00'
+  timestamp: '2026-10-18 00:53:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_intersection_of_f2_vector_spaces.test.cpp

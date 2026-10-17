@@ -18,9 +18,10 @@ data:
     links:
     - https://judge.yosupo.jp/problem/aplusb
   bundledCode: "#line 1 \"test/yosupo_aplusb_xor_basis.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <cassert>\n#include <cstdint>\n\
-    #include <random>\n#include <vector>\nusing namespace std;\nusing ull = unsigned\
-    \ long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
+    \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n#include\
+    \ <cassert>\n#include <cstdint>\n#include <limits>\n#include <optional>\n#include\
+    \ <random>\n#include <vector>\nusing namespace std;\nusing ull = unsigned long\
+    \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
     \ <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace\
     \ std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\n\
     template<class T, class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class\
@@ -245,47 +246,79 @@ data:
     \    }\n\n    T get_max(T x = 0) const {\n        U y = static_cast<U>(x);\n \
     \       for (int i = B - 1; i >= 0; --i) {\n            if (basis[i] == 0) continue;\n\
     \            U z = y ^ basis[i];\n            if (z > y) y = z;\n        }\n \
-    \       return static_cast<T>(y);\n    }\n\n    void merge(const XorBasis &other)\
-    \ {\n        for (int i = 0; i < B; ++i) {\n            if (other.basis[i] !=\
-    \ 0) add(static_cast<T>(other.basis[i]));\n        }\n    }\n\n    XorBasis intersection(const\
-    \ XorBasis &other) const {\n        U row[B], from_a[B];\n        for (int i =\
-    \ 0; i < B; ++i) row[i] = from_a[i] = basis[i];\n        XorBasis result;\n  \
-    \      for (int i = 0; i < B; ++i) {\n            U x = other.basis[i], y = 0;\n\
-    \            if (x == 0) continue;\n            for (int j = B - 1; j >= 0; --j)\
-    \ {\n                if (((x >> j) & 1) == 0) continue;\n                if (row[j]\
-    \ == 0) {\n                    row[j] = x;\n                    from_a[j] = y;\n\
-    \                    break;\n                }\n                x ^= row[j];\n\
-    \                y ^= from_a[j];\n            }\n            if (x == 0) result.add(static_cast<T>(y));\n\
-    \        }\n        return result;\n    }\n\nprivate:\n    U reduce_unsigned(U\
-    \ x) const {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x\
-    \ >> i) & 1) == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n  \
-    \      }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear\
-    \ Basis)\n */\n#line 18 \"test/yosupo_aplusb_xor_basis.test.cpp\"\n\nbool brute(const\
-    \ vector<int> &a) {\n    int n = a.size();\n    for (int mask = 1; mask < (1 <<\
-    \ n) - 1; ++mask) {\n        int xb = 0;\n        int xc = 0;\n        for (int\
-    \ i = 0; i < n; ++i) {\n            if ((mask >> i) & 1) xb ^= a[i];\n       \
-    \     else xc ^= a[i];\n        }\n        if (xb == 0 && xc == 0) return true;\n\
-    \    }\n    return false;\n}\n\nvoid self_check() {\n    {\n        for (int n\
-    \ = 2; n <= 12; ++n) {\n            for (int mask = 0; mask < (1 << n); ++mask)\
-    \ {\n                vector<int> a(n);\n                for (int i = 0; i < n;\
-    \ ++i) a[i] = (mask >> i) & 1;\n                XorBasis<int> xb;\n          \
-    \      int total = 0;\n                for (int x : a) {\n                   \
-    \ xb.add(x);\n                    total ^= x;\n                }\n           \
-    \     bool ok = total == 0 && xb.size() < n - 1;\n                assert(ok ==\
-    \ brute(a));\n            }\n        }\n    }\n    {\n        mt19937 rng(0);\n\
-    \        for (int tc = 0; tc < 1000; ++tc) {\n            int n = rng() % 14 +\
-    \ 2;\n            vector<int> a(n);\n            for (int i = 0; i < n; ++i) a[i]\
-    \ = rng() % 16;\n            XorBasis<int> xb;\n            int total = 0;\n \
-    \           for (int x : a) {\n                xb.add(x);\n                total\
-    \ ^= x;\n            }\n            bool ok = total == 0 && xb.size() < n - 1;\n\
-    \            assert(ok == brute(a));\n        }\n    }\n}\n\nint main() {\n  \
-    \  self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <cassert>\n\
-    #include <cstdint>\n#include <random>\n#include <vector>\nusing namespace std;\n\
-    using ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/xor_basis.cpp\"\n\nbool brute(const vector<int> &a) {\n \
+    \       return static_cast<T>(y);\n    }\n\n    optional<T> kth(U k) const {\n\
+    \        if (rank < B && k >= (U(1) << rank)) return nullopt;\n        U value\
+    \ = 0;\n        for (int i = 0; i < B; ++i) {\n            if (basis[i] == 0)\
+    \ continue;\n            if (k & 1) value ^= basis[i];\n            k >>= 1;\n\
+    \        }\n        return static_cast<T>(value);\n    }\n\n    U order_of_key(T\
+    \ x) const {\n        U target = static_cast<U>(x), value = 0, result = 0;\n \
+    \       int remaining = rank;\n        for (int i = B - 1; i >= 0; --i) {\n  \
+    \          if (basis[i] != 0) {\n                --remaining;\n              \
+    \  if ((target >> i) & 1) {\n                    result += U(1) << remaining;\n\
+    \                    value ^= basis[i];\n                }\n            } else\
+    \ if (((value ^ target) >> i) & 1) {\n                if ((target >> i) & 1) result\
+    \ += U(1) << remaining;\n                break;\n            }\n        }\n  \
+    \      return result;\n    }\n\n    void merge(const XorBasis &other) {\n    \
+    \    for (int i = 0; i < B; ++i) {\n            if (other.basis[i] != 0) add(static_cast<T>(other.basis[i]));\n\
+    \        }\n    }\n\n    XorBasis intersection(const XorBasis &other) const {\n\
+    \        U row[B], from_a[B];\n        for (int i = 0; i < B; ++i) row[i] = from_a[i]\
+    \ = basis[i];\n        XorBasis result;\n        for (int i = 0; i < B; ++i) {\n\
+    \            U x = other.basis[i], y = 0;\n            if (x == 0) continue;\n\
+    \            for (int j = B - 1; j >= 0; --j) {\n                if (((x >> j)\
+    \ & 1) == 0) continue;\n                if (row[j] == 0) {\n                 \
+    \   row[j] = x;\n                    from_a[j] = y;\n                    break;\n\
+    \                }\n                x ^= row[j];\n                y ^= from_a[j];\n\
+    \            }\n            if (x == 0) result.add(static_cast<T>(y));\n     \
+    \   }\n        return result;\n    }\n\nprivate:\n    U reduce_unsigned(U x) const\
+    \ {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x >> i) & 1)\
+    \ == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n        }\n  \
+    \      return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear Basis)\n\
+    \ */\n#line 21 \"test/yosupo_aplusb_xor_basis.test.cpp\"\n\nvector<uint16_t> enumerate(const\
+    \ vector<uint16_t> &values) {\n    vector<uint16_t> result{0};\n    for (uint16_t\
+    \ x : values) {\n        int n = result.size();\n        for (int i = 0; i < n;\
+    \ ++i) result.push_back(result[i] ^ x);\n        sort(result.begin(), result.end());\n\
+    \        result.erase(unique(result.begin(), result.end()), result.end());\n \
+    \   }\n    return result;\n}\n\nvoid check_order(const XorBasis<uint16_t> &basis,\
+    \ const vector<uint16_t> &values) {\n    for (int k = 0; k < (int)values.size();\
+    \ ++k) assert(basis.kth(k) == values[k]);\n    assert(!basis.kth(values.size()));\n\
+    \    assert(!basis.kth(numeric_limits<uint16_t>::max()));\n    for (int x = 0;\
+    \ x <= 256; ++x) {\n        auto count = lower_bound(values.begin(), values.end(),\
+    \ x) - values.begin();\n        assert(basis.order_of_key(x) == count);\n    }\n\
+    }\n\ntemplate<class T>\nvoid wide_order_check() {\n    using U = make_unsigned_t<T>;\n\
+    \    constexpr int B = numeric_limits<U>::digits;\n    const U high = U(1) <<\
+    \ (B - 1), maximum = numeric_limits<U>::max();\n    XorBasis<T> basis;\n    assert(basis.kth(0)\
+    \ == T(0));\n    assert(!basis.kth(1));\n    assert(basis.order_of_key(0) == 0);\n\
+    \    assert(basis.order_of_key(static_cast<T>(maximum)) == 1);\n    basis.add(static_cast<T>(maximum));\n\
+    \    assert(basis.kth(1) == static_cast<T>(maximum));\n    assert(!basis.kth(2));\n\
+    \    assert(basis.order_of_key(static_cast<T>(high)) == 1);\n    assert(basis.order_of_key(static_cast<T>(maximum))\
+    \ == 1);\n    for (int i = B - 1; i >= 0; --i) basis.add(static_cast<T>(U(1) <<\
+    \ i));\n    assert(basis.size() == B);\n    for (U x : {U(0), U(1), U(high - 1),\
+    \ high, U(maximum - 1), maximum}) {\n        assert(basis.kth(x) == static_cast<T>(x));\n\
+    \        assert(basis.order_of_key(static_cast<T>(x)) == x);\n    }\n    mt19937_64\
+    \ rng(220);\n    for (int i = 0; i < 1000; ++i) {\n        U x = static_cast<U>(rng());\n\
+    \        assert(basis.kth(x) == static_cast<T>(x));\n        assert(basis.order_of_key(static_cast<T>(x))\
+    \ == x);\n    }\n    XorBasis<T> even;\n    for (int i = 1; i < B; ++i) even.add(static_cast<T>((U(1)\
+    \ << i) | 1));\n    assert(even.size() == B - 1);\n    assert(!even.kth(high));\n\
+    \    assert(!even.kth(maximum));\n    for (int i = 0; i < 1000; ++i) {\n     \
+    \   U x = i == 0 ? maximum : static_cast<U>(rng());\n        U k = x >> 1;\n \
+    \       int parity = __builtin_popcountll(k) & 1;\n        U value = (k << 1)\
+    \ | parity;\n        assert(even.kth(k) == static_cast<T>(value));\n        assert(even.order_of_key(static_cast<T>(x))\
+    \ == k + ((x & 1) && !parity));\n    }\n}\n\nvoid order_check() {\n    XorBasis<uint16_t>\
+    \ example;\n    example.add(3);\n    check_order(example, {0, 3});\n    mt19937\
+    \ rng(220);\n    for (int tc = 0; tc < 500; ++tc) {\n        vector<uint16_t>\
+    \ a(rng() % 9), b(rng() % 9);\n        XorBasis<uint16_t> left, right;\n     \
+    \   for (auto &x : a) {\n            x = rng() % 256;\n            left.add(x);\n\
+    \            assert(!left.add(x));\n        }\n        for (auto &x : b) {\n \
+    \           x = rng() % 256;\n            right.add(x);\n        }\n        assert(!left.add(0));\n\
+    \        auto va = enumerate(a), vb = enumerate(b);\n        check_order(left,\
+    \ va);\n        check_order(right, vb);\n        vector<uint16_t> common;\n  \
+    \      for (uint16_t x : va) if (binary_search(vb.begin(), vb.end(), x)) common.push_back(x);\n\
+    \        check_order(left.intersection(right), common);\n        auto merged =\
+    \ left;\n        merged.merge(right);\n        a.insert(a.end(), b.begin(), b.end());\n\
+    \        check_order(merged, enumerate(a));\n        check_order(left, va);\n\
+    \    }\n    wide_order_check<uint8_t>();\n    wide_order_check<int8_t>();\n  \
+    \  wide_order_check<uint32_t>();\n    wide_order_check<int32_t>();\n    wide_order_check<uint64_t>();\n\
+    \    wide_order_check<int64_t>();\n}\n\nbool brute(const vector<int> &a) {\n \
     \   int n = a.size();\n    for (int mask = 1; mask < (1 << n) - 1; ++mask) {\n\
     \        int xb = 0;\n        int xc = 0;\n        for (int i = 0; i < n; ++i)\
     \ {\n            if ((mask >> i) & 1) xb ^= a[i];\n            else xc ^= a[i];\n\
@@ -303,15 +336,86 @@ data:
     \ xb;\n            int total = 0;\n            for (int x : a) {\n           \
     \     xb.add(x);\n                total ^= x;\n            }\n            bool\
     \ ok = total == 0 && xb.size() < n - 1;\n            assert(ok == brute(a));\n\
-    \        }\n    }\n}\n\nint main() {\n    self_check();\n    Scanner sc;\n   \
-    \ Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \        }\n    }\n}\n\nint main() {\n    order_check();\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
+    #include <cassert>\n#include <cstdint>\n#include <limits>\n#include <optional>\n\
+    #include <random>\n#include <vector>\nusing namespace std;\nusing ull = unsigned\
+    \ long long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
+    \ <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include\
+    \ \"../math/xor_basis.cpp\"\n\nvector<uint16_t> enumerate(const vector<uint16_t>\
+    \ &values) {\n    vector<uint16_t> result{0};\n    for (uint16_t x : values) {\n\
+    \        int n = result.size();\n        for (int i = 0; i < n; ++i) result.push_back(result[i]\
+    \ ^ x);\n        sort(result.begin(), result.end());\n        result.erase(unique(result.begin(),\
+    \ result.end()), result.end());\n    }\n    return result;\n}\n\nvoid check_order(const\
+    \ XorBasis<uint16_t> &basis, const vector<uint16_t> &values) {\n    for (int k\
+    \ = 0; k < (int)values.size(); ++k) assert(basis.kth(k) == values[k]);\n    assert(!basis.kth(values.size()));\n\
+    \    assert(!basis.kth(numeric_limits<uint16_t>::max()));\n    for (int x = 0;\
+    \ x <= 256; ++x) {\n        auto count = lower_bound(values.begin(), values.end(),\
+    \ x) - values.begin();\n        assert(basis.order_of_key(x) == count);\n    }\n\
+    }\n\ntemplate<class T>\nvoid wide_order_check() {\n    using U = make_unsigned_t<T>;\n\
+    \    constexpr int B = numeric_limits<U>::digits;\n    const U high = U(1) <<\
+    \ (B - 1), maximum = numeric_limits<U>::max();\n    XorBasis<T> basis;\n    assert(basis.kth(0)\
+    \ == T(0));\n    assert(!basis.kth(1));\n    assert(basis.order_of_key(0) == 0);\n\
+    \    assert(basis.order_of_key(static_cast<T>(maximum)) == 1);\n    basis.add(static_cast<T>(maximum));\n\
+    \    assert(basis.kth(1) == static_cast<T>(maximum));\n    assert(!basis.kth(2));\n\
+    \    assert(basis.order_of_key(static_cast<T>(high)) == 1);\n    assert(basis.order_of_key(static_cast<T>(maximum))\
+    \ == 1);\n    for (int i = B - 1; i >= 0; --i) basis.add(static_cast<T>(U(1) <<\
+    \ i));\n    assert(basis.size() == B);\n    for (U x : {U(0), U(1), U(high - 1),\
+    \ high, U(maximum - 1), maximum}) {\n        assert(basis.kth(x) == static_cast<T>(x));\n\
+    \        assert(basis.order_of_key(static_cast<T>(x)) == x);\n    }\n    mt19937_64\
+    \ rng(220);\n    for (int i = 0; i < 1000; ++i) {\n        U x = static_cast<U>(rng());\n\
+    \        assert(basis.kth(x) == static_cast<T>(x));\n        assert(basis.order_of_key(static_cast<T>(x))\
+    \ == x);\n    }\n    XorBasis<T> even;\n    for (int i = 1; i < B; ++i) even.add(static_cast<T>((U(1)\
+    \ << i) | 1));\n    assert(even.size() == B - 1);\n    assert(!even.kth(high));\n\
+    \    assert(!even.kth(maximum));\n    for (int i = 0; i < 1000; ++i) {\n     \
+    \   U x = i == 0 ? maximum : static_cast<U>(rng());\n        U k = x >> 1;\n \
+    \       int parity = __builtin_popcountll(k) & 1;\n        U value = (k << 1)\
+    \ | parity;\n        assert(even.kth(k) == static_cast<T>(value));\n        assert(even.order_of_key(static_cast<T>(x))\
+    \ == k + ((x & 1) && !parity));\n    }\n}\n\nvoid order_check() {\n    XorBasis<uint16_t>\
+    \ example;\n    example.add(3);\n    check_order(example, {0, 3});\n    mt19937\
+    \ rng(220);\n    for (int tc = 0; tc < 500; ++tc) {\n        vector<uint16_t>\
+    \ a(rng() % 9), b(rng() % 9);\n        XorBasis<uint16_t> left, right;\n     \
+    \   for (auto &x : a) {\n            x = rng() % 256;\n            left.add(x);\n\
+    \            assert(!left.add(x));\n        }\n        for (auto &x : b) {\n \
+    \           x = rng() % 256;\n            right.add(x);\n        }\n        assert(!left.add(0));\n\
+    \        auto va = enumerate(a), vb = enumerate(b);\n        check_order(left,\
+    \ va);\n        check_order(right, vb);\n        vector<uint16_t> common;\n  \
+    \      for (uint16_t x : va) if (binary_search(vb.begin(), vb.end(), x)) common.push_back(x);\n\
+    \        check_order(left.intersection(right), common);\n        auto merged =\
+    \ left;\n        merged.merge(right);\n        a.insert(a.end(), b.begin(), b.end());\n\
+    \        check_order(merged, enumerate(a));\n        check_order(left, va);\n\
+    \    }\n    wide_order_check<uint8_t>();\n    wide_order_check<int8_t>();\n  \
+    \  wide_order_check<uint32_t>();\n    wide_order_check<int32_t>();\n    wide_order_check<uint64_t>();\n\
+    \    wide_order_check<int64_t>();\n}\n\nbool brute(const vector<int> &a) {\n \
+    \   int n = a.size();\n    for (int mask = 1; mask < (1 << n) - 1; ++mask) {\n\
+    \        int xb = 0;\n        int xc = 0;\n        for (int i = 0; i < n; ++i)\
+    \ {\n            if ((mask >> i) & 1) xb ^= a[i];\n            else xc ^= a[i];\n\
+    \        }\n        if (xb == 0 && xc == 0) return true;\n    }\n    return false;\n\
+    }\n\nvoid self_check() {\n    {\n        for (int n = 2; n <= 12; ++n) {\n   \
+    \         for (int mask = 0; mask < (1 << n); ++mask) {\n                vector<int>\
+    \ a(n);\n                for (int i = 0; i < n; ++i) a[i] = (mask >> i) & 1;\n\
+    \                XorBasis<int> xb;\n                int total = 0;\n         \
+    \       for (int x : a) {\n                    xb.add(x);\n                  \
+    \  total ^= x;\n                }\n                bool ok = total == 0 && xb.size()\
+    \ < n - 1;\n                assert(ok == brute(a));\n            }\n        }\n\
+    \    }\n    {\n        mt19937 rng(0);\n        for (int tc = 0; tc < 1000; ++tc)\
+    \ {\n            int n = rng() % 14 + 2;\n            vector<int> a(n);\n    \
+    \        for (int i = 0; i < n; ++i) a[i] = rng() % 16;\n            XorBasis<int>\
+    \ xb;\n            int total = 0;\n            for (int x : a) {\n           \
+    \     xb.add(x);\n                total ^= x;\n            }\n            bool\
+    \ ok = total == 0 && xb.size() < n - 1;\n            assert(ok == brute(a));\n\
+    \        }\n    }\n}\n\nint main() {\n    order_check();\n    self_check();\n\
+    \    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a\
+    \ + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/xor_basis.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_xor_basis.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 19:16:24+09:00'
+  timestamp: '2026-10-18 00:53:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_xor_basis.test.cpp

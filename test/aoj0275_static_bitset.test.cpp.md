@@ -425,19 +425,33 @@ data:
     \           for (int i = 0; i < last; ++i) {\n                a[i] = (a[i + block]\
     \ >> rem) | (a[i + block + 1] << (B - rem));\n            }\n            a[last]\
     \ = a[M - 1] >> rem;\n        }\n        fill(a + (M - block), a + M, 0);\n  \
-    \      normalize();\n        return *this;\n    }\n\n    friend StaticBitset operator<<(StaticBitset\
-    \ l, int s) { return l <<= s; }\n    friend StaticBitset operator>>(StaticBitset\
-    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static\
-    \ Bitset)\n */\n#line 22 \"test/aoj0275_static_bitset.test.cpp\"\n\nint main()\
-    \ {\n    Scanner in;\n    Printer out;\n\n    int n, m;\n    in.read(n, m);\n\
-    \    vector<vector<edge<ll>>> g(n);\n    vector<int> u(m), v(m), c(m);\n    for\
-    \ (int i = 0; i < m; ++i) {\n        in.read(u[i], v[i], c[i]);\n        --u[i],\
-    \ --v[i];\n        g[u[i]].emplace_back(v[i], c[i]);\n        g[v[i]].emplace_back(u[i],\
-    \ c[i]);\n    }\n\n    int s, t, q;\n    in.read(s, t, q);\n    --s, --t;\n\n\
-    \    auto ds = dijkstra(s, g);\n    auto dt = dijkstra(t, g);\n    ll best = ds[t];\n\
-    \n    vector<int> active_id(n, -1);\n    vector<int> active_vertices;\n    active_vertices.reserve(n);\n\
-    \    for (int i = 0; i < n; ++i) {\n        if (ds[i] != INF<ll> && dt[i] != INF<ll>\
-    \ && ds[i] + dt[i] == best) {\n            active_id[i] = (int)active_vertices.size();\n\
+    \      normalize();\n        return *this;\n    }\n\n    StaticBitset &or_shift_left(int\
+    \ s) {\n        if (s <= 0 || s >= N) return *this;\n        int block = s >>\
+    \ 6;\n        int rem = s & 63;\n        if (rem == 0) {\n            for (int\
+    \ i = M - 1; i >= block; --i) a[i] |= a[i - block];\n        } else {\n      \
+    \      for (int i = M - 1; i > block; --i) {\n                a[i] |= (a[i - block]\
+    \ << rem) | (a[i - block - 1] >> (B - rem));\n            }\n            a[block]\
+    \ |= a[0] << rem;\n        }\n        normalize();\n        return *this;\n  \
+    \  }\n\n    StaticBitset &or_shift_right(int s) {\n        if (s <= 0 || s >=\
+    \ N) return *this;\n        int block = s >> 6;\n        int rem = s & 63;\n \
+    \       if (rem == 0) {\n            for (int i = 0; i < M - block; ++i) a[i]\
+    \ |= a[i + block];\n        } else {\n            int last = M - block - 1;\n\
+    \            for (int i = 0; i < last; ++i) {\n                a[i] |= (a[i +\
+    \ block] >> rem) | (a[i + block + 1] << (B - rem));\n            }\n         \
+    \   a[last] |= a[M - 1] >> rem;\n        }\n        return *this;\n    }\n\n \
+    \   friend StaticBitset operator<<(StaticBitset l, int s) { return l <<= s; }\n\
+    \    friend StaticBitset operator>>(StaticBitset l, int s) { return l >>= s; }\n\
+    };\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static Bitset)\n */\n#line 22 \"\
+    test/aoj0275_static_bitset.test.cpp\"\n\nint main() {\n    Scanner in;\n    Printer\
+    \ out;\n\n    int n, m;\n    in.read(n, m);\n    vector<vector<edge<ll>>> g(n);\n\
+    \    vector<int> u(m), v(m), c(m);\n    for (int i = 0; i < m; ++i) {\n      \
+    \  in.read(u[i], v[i], c[i]);\n        --u[i], --v[i];\n        g[u[i]].emplace_back(v[i],\
+    \ c[i]);\n        g[v[i]].emplace_back(u[i], c[i]);\n    }\n\n    int s, t, q;\n\
+    \    in.read(s, t, q);\n    --s, --t;\n\n    auto ds = dijkstra(s, g);\n    auto\
+    \ dt = dijkstra(t, g);\n    ll best = ds[t];\n\n    vector<int> active_id(n, -1);\n\
+    \    vector<int> active_vertices;\n    active_vertices.reserve(n);\n    for (int\
+    \ i = 0; i < n; ++i) {\n        if (ds[i] != INF<ll> && dt[i] != INF<ll> && ds[i]\
+    \ + dt[i] == best) {\n            active_id[i] = (int)active_vertices.size();\n\
     \            active_vertices.push_back(i);\n        }\n    }\n\n    int k = active_vertices.size();\n\
     \    vector<vector<int>> dag(k);\n    vector<int> indeg(k, 0);\n    for (int i\
     \ = 0; i < m; ++i) {\n        int a = active_id[u[i]];\n        int b = active_id[v[i]];\n\
@@ -511,7 +525,7 @@ data:
   isVerificationFile: true
   path: test/aoj0275_static_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 21:20:01+09:00'
+  timestamp: '2026-10-18 00:50:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj0275_static_bitset.test.cpp

@@ -177,10 +177,23 @@ data:
     \           for (int i = 0; i < last; ++i) {\n                a[i] = (a[i + block]\
     \ >> rem) | (a[i + block + 1] << (B - rem));\n            }\n            a[last]\
     \ = a[M - 1] >> rem;\n        }\n        fill(a + (M - block), a + M, 0);\n  \
-    \      normalize();\n        return *this;\n    }\n\n    friend StaticBitset operator<<(StaticBitset\
-    \ l, int s) { return l <<= s; }\n    friend StaticBitset operator>>(StaticBitset\
-    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static\
-    \ Bitset)\n */\n"
+    \      normalize();\n        return *this;\n    }\n\n    StaticBitset &or_shift_left(int\
+    \ s) {\n        if (s <= 0 || s >= N) return *this;\n        int block = s >>\
+    \ 6;\n        int rem = s & 63;\n        if (rem == 0) {\n            for (int\
+    \ i = M - 1; i >= block; --i) a[i] |= a[i - block];\n        } else {\n      \
+    \      for (int i = M - 1; i > block; --i) {\n                a[i] |= (a[i - block]\
+    \ << rem) | (a[i - block - 1] >> (B - rem));\n            }\n            a[block]\
+    \ |= a[0] << rem;\n        }\n        normalize();\n        return *this;\n  \
+    \  }\n\n    StaticBitset &or_shift_right(int s) {\n        if (s <= 0 || s >=\
+    \ N) return *this;\n        int block = s >> 6;\n        int rem = s & 63;\n \
+    \       if (rem == 0) {\n            for (int i = 0; i < M - block; ++i) a[i]\
+    \ |= a[i + block];\n        } else {\n            int last = M - block - 1;\n\
+    \            for (int i = 0; i < last; ++i) {\n                a[i] |= (a[i +\
+    \ block] >> rem) | (a[i + block + 1] << (B - rem));\n            }\n         \
+    \   a[last] |= a[M - 1] >> rem;\n        }\n        return *this;\n    }\n\n \
+    \   friend StaticBitset operator<<(StaticBitset l, int s) { return l <<= s; }\n\
+    \    friend StaticBitset operator>>(StaticBitset l, int s) { return l >>= s; }\n\
+    };\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static Bitset)\n */\n"
   code: "#if defined(__x86_64__) || defined(_M_X64)\n#include <immintrin.h>\n#endif\n\
     \nusing namespace std;\n\nnamespace static_bitset_detail {\nusing Word = unsigned\
     \ long long;\nconstexpr int avx2_threshold_words = 8;\nconstexpr int count_threshold_words\
@@ -341,15 +354,28 @@ data:
     \           for (int i = 0; i < last; ++i) {\n                a[i] = (a[i + block]\
     \ >> rem) | (a[i + block + 1] << (B - rem));\n            }\n            a[last]\
     \ = a[M - 1] >> rem;\n        }\n        fill(a + (M - block), a + M, 0);\n  \
-    \      normalize();\n        return *this;\n    }\n\n    friend StaticBitset operator<<(StaticBitset\
-    \ l, int s) { return l <<= s; }\n    friend StaticBitset operator>>(StaticBitset\
-    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static\
-    \ Bitset)\n */\n"
+    \      normalize();\n        return *this;\n    }\n\n    StaticBitset &or_shift_left(int\
+    \ s) {\n        if (s <= 0 || s >= N) return *this;\n        int block = s >>\
+    \ 6;\n        int rem = s & 63;\n        if (rem == 0) {\n            for (int\
+    \ i = M - 1; i >= block; --i) a[i] |= a[i - block];\n        } else {\n      \
+    \      for (int i = M - 1; i > block; --i) {\n                a[i] |= (a[i - block]\
+    \ << rem) | (a[i - block - 1] >> (B - rem));\n            }\n            a[block]\
+    \ |= a[0] << rem;\n        }\n        normalize();\n        return *this;\n  \
+    \  }\n\n    StaticBitset &or_shift_right(int s) {\n        if (s <= 0 || s >=\
+    \ N) return *this;\n        int block = s >> 6;\n        int rem = s & 63;\n \
+    \       if (rem == 0) {\n            for (int i = 0; i < M - block; ++i) a[i]\
+    \ |= a[i + block];\n        } else {\n            int last = M - block - 1;\n\
+    \            for (int i = 0; i < last; ++i) {\n                a[i] |= (a[i +\
+    \ block] >> rem) | (a[i + block + 1] << (B - rem));\n            }\n         \
+    \   a[last] |= a[M - 1] >> rem;\n        }\n        return *this;\n    }\n\n \
+    \   friend StaticBitset operator<<(StaticBitset l, int s) { return l <<= s; }\n\
+    \    friend StaticBitset operator>>(StaticBitset l, int s) { return l >>= s; }\n\
+    };\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static Bitset)\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/static_bitset.cpp
   requiredBy: []
-  timestamp: '2026-10-15 21:20:01+09:00'
+  timestamp: '2026-10-18 00:50:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj0275_static_bitset.test.cpp
@@ -392,7 +418,10 @@ title: "\u56FA\u5B9A\u9577bitset(Static Bitset)"
   bitset 同士の演算をその場で行う
 - `bs << s`, `bs >> s`, `bs <<= s`, `bs >>= s`
   shift する
+- `bs.or_shift_left(s)`, `bs.or_shift_right(s)`
+  `bs |= bs << s` / `bs |= bs >> s` をその場で行い、自身への参照を返す。`s <= 0` または `s >= N` なら変更しない。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$
 
 ## 使い方
 長さが同じ bitset 同士で演算する。
 `StaticBitset<2048> bs;` のように長さをテンプレート引数で指定する。
+部分和 DP では `bs.set(0)` で初期化し、各重み `w` に対して `bs.or_shift_left(w)` で更新する。

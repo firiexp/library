@@ -18,15 +18,15 @@ data:
     links:
     - https://yukicoder.me/problems/no/2672
   bundledCode: "#line 1 \"test/yuki2672_xor_basis.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\
-    \n\n#include <cassert>\n#include <cstdint>\n#include <limits>\n#include <vector>\n\
-    using namespace std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
-    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \n\n#include <cassert>\n#include <cstdint>\n#include <limits>\n#include <optional>\n\
+    #include <vector>\nusing namespace std;\nusing ull = unsigned long long;\n\n#include\
+    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
+    #include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -245,42 +245,54 @@ data:
     \    }\n\n    T get_max(T x = 0) const {\n        U y = static_cast<U>(x);\n \
     \       for (int i = B - 1; i >= 0; --i) {\n            if (basis[i] == 0) continue;\n\
     \            U z = y ^ basis[i];\n            if (z > y) y = z;\n        }\n \
-    \       return static_cast<T>(y);\n    }\n\n    void merge(const XorBasis &other)\
-    \ {\n        for (int i = 0; i < B; ++i) {\n            if (other.basis[i] !=\
-    \ 0) add(static_cast<T>(other.basis[i]));\n        }\n    }\n\n    XorBasis intersection(const\
-    \ XorBasis &other) const {\n        U row[B], from_a[B];\n        for (int i =\
-    \ 0; i < B; ++i) row[i] = from_a[i] = basis[i];\n        XorBasis result;\n  \
-    \      for (int i = 0; i < B; ++i) {\n            U x = other.basis[i], y = 0;\n\
-    \            if (x == 0) continue;\n            for (int j = B - 1; j >= 0; --j)\
-    \ {\n                if (((x >> j) & 1) == 0) continue;\n                if (row[j]\
-    \ == 0) {\n                    row[j] = x;\n                    from_a[j] = y;\n\
-    \                    break;\n                }\n                x ^= row[j];\n\
-    \                y ^= from_a[j];\n            }\n            if (x == 0) result.add(static_cast<T>(y));\n\
-    \        }\n        return result;\n    }\n\nprivate:\n    U reduce_unsigned(U\
-    \ x) const {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x\
-    \ >> i) & 1) == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n  \
-    \      }\n        return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear\
-    \ Basis)\n */\n#line 18 \"test/yuki2672_xor_basis.test.cpp\"\n\nint main() {\n\
-    \    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n    XorBasis<int>\
+    \       return static_cast<T>(y);\n    }\n\n    optional<T> kth(U k) const {\n\
+    \        if (rank < B && k >= (U(1) << rank)) return nullopt;\n        U value\
+    \ = 0;\n        for (int i = 0; i < B; ++i) {\n            if (basis[i] == 0)\
+    \ continue;\n            if (k & 1) value ^= basis[i];\n            k >>= 1;\n\
+    \        }\n        return static_cast<T>(value);\n    }\n\n    U order_of_key(T\
+    \ x) const {\n        U target = static_cast<U>(x), value = 0, result = 0;\n \
+    \       int remaining = rank;\n        for (int i = B - 1; i >= 0; --i) {\n  \
+    \          if (basis[i] != 0) {\n                --remaining;\n              \
+    \  if ((target >> i) & 1) {\n                    result += U(1) << remaining;\n\
+    \                    value ^= basis[i];\n                }\n            } else\
+    \ if (((value ^ target) >> i) & 1) {\n                if ((target >> i) & 1) result\
+    \ += U(1) << remaining;\n                break;\n            }\n        }\n  \
+    \      return result;\n    }\n\n    void merge(const XorBasis &other) {\n    \
+    \    for (int i = 0; i < B; ++i) {\n            if (other.basis[i] != 0) add(static_cast<T>(other.basis[i]));\n\
+    \        }\n    }\n\n    XorBasis intersection(const XorBasis &other) const {\n\
+    \        U row[B], from_a[B];\n        for (int i = 0; i < B; ++i) row[i] = from_a[i]\
+    \ = basis[i];\n        XorBasis result;\n        for (int i = 0; i < B; ++i) {\n\
+    \            U x = other.basis[i], y = 0;\n            if (x == 0) continue;\n\
+    \            for (int j = B - 1; j >= 0; --j) {\n                if (((x >> j)\
+    \ & 1) == 0) continue;\n                if (row[j] == 0) {\n                 \
+    \   row[j] = x;\n                    from_a[j] = y;\n                    break;\n\
+    \                }\n                x ^= row[j];\n                y ^= from_a[j];\n\
+    \            }\n            if (x == 0) result.add(static_cast<T>(y));\n     \
+    \   }\n        return result;\n    }\n\nprivate:\n    U reduce_unsigned(U x) const\
+    \ {\n        for (int i = B - 1; i >= 0; --i) {\n            if (((x >> i) & 1)\
+    \ == 0 || basis[i] == 0) continue;\n            x ^= basis[i];\n        }\n  \
+    \      return x;\n    }\n};\n\n/**\n * @brief XOR\u57FA\u5E95(Linear Basis)\n\
+    \ */\n#line 19 \"test/yuki2672_xor_basis.test.cpp\"\n\nint main() {\n    Scanner\
+    \ sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n    XorBasis<int> xb;\n \
+    \   int total = 0;\n    for (int i = 0; i < n; ++i) {\n        int a;\n      \
+    \  sc.read(a);\n        xb.add(a);\n        total ^= a;\n    }\n    pr.println(total\
+    \ == 0 && xb.size() < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\n\n#include <cassert>\n\
+    #include <cstdint>\n#include <limits>\n#include <optional>\n#include <vector>\n\
+    using namespace std;\nusing ull = unsigned long long;\n\n#include <cstdio>\n#include\
+    \ <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
+    #include \"../util/fastio.cpp\"\n#include \"../math/xor_basis.cpp\"\n\nint main()\
+    \ {\n    Scanner sc;\n    Printer pr;\n    int n;\n    sc.read(n);\n    XorBasis<int>\
     \ xb;\n    int total = 0;\n    for (int i = 0; i < n; ++i) {\n        int a;\n\
     \        sc.read(a);\n        xb.add(a);\n        total ^= a;\n    }\n    pr.println(total\
     \ == 0 && xb.size() < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://yukicoder.me/problems/no/2672\"\n\n#include <cassert>\n\
-    #include <cstdint>\n#include <limits>\n#include <vector>\nusing namespace std;\n\
-    using ull = unsigned long long;\n\n#include <cstdio>\n#include <cstring>\n#include\
-    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../math/xor_basis.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
-    \ pr;\n    int n;\n    sc.read(n);\n    XorBasis<int> xb;\n    int total = 0;\n\
-    \    for (int i = 0; i < n; ++i) {\n        int a;\n        sc.read(a);\n    \
-    \    xb.add(a);\n        total ^= a;\n    }\n    pr.println(total == 0 && xb.size()\
-    \ < n - 1 ? \"Yes\" : \"No\");\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - math/xor_basis.cpp
   isVerificationFile: true
   path: test/yuki2672_xor_basis.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 19:16:24+09:00'
+  timestamp: '2026-10-18 00:53:41+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yuki2672_xor_basis.test.cpp

@@ -19,62 +19,63 @@ data:
     - https://judge.yosupo.jp/problem/aplusb
   bundledCode: "#line 1 \"test/yosupo_aplusb_static_bitset.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n#include\
-    \ <cassert>\n#include <bitset>\n#include <random>\n#include <vector>\nusing namespace\
-    \ std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
-    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
-    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
-    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
-    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
-    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
-    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
-    \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
-    \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
-    \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
-    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_to_string : false_type\
-    \ {};\n\ntemplate<class T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const\
-    \ T &>().to_string())>> : true_type {};\n\nstruct FastIoDigitTable {\n    char\
-    \ num[40000];\n\n    constexpr FastIoDigitTable() : num() {\n        for (int\
-    \ i = 0; i < 10000; ++i) {\n            int x = i;\n            for (int j = 3;\
-    \ j >= 0; --j) {\n                num[i * 4 + j] = char('0' + x % 10);\n     \
-    \           x /= 10;\n            }\n        }\n    }\n};\n\nstruct Scanner {\n\
-    \    static constexpr int BUFSIZE = 1 << 17;\n    static constexpr int OFFSET\
-    \ = 64;\n    static constexpr int LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr\
-    \ int LONG_TOKEN_MIN_DIGITS = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n\
-    \    bool interactive, long_tokens;\n    string number_token;\n\n    Scanner()\
-    \ : idx(0), size(0), interactive(isatty(fileno(stdin))), long_tokens(false) {}\n\
-    \n    __attribute__((always_inline))\n    static inline unsigned parse_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    #if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__\n      \
-    \  value = __builtin_bswap64(value);\n#endif\n        value -= 0x3030303030303030ULL;\n\
-    \        value = (value * 10 + (value >> 8)) & 0x00ff00ff00ff00ffULL;\n      \
-    \  value = (value * 100 + (value >> 16)) & 0x0000ffff0000ffffULL;\n        value\
-    \ = (value * 10000 + (value >> 32)) & 0x00000000ffffffffULL;\n        return (unsigned)value;\n\
-    \    }\n\n    __attribute__((always_inline))\n    static inline bool are_eight_digits(const\
-    \ char *p) {\n        unsigned long long value;\n        memcpy(&value, p, 8);\n\
-    \        return (((value + 0x4646464646464646ULL) | (value - 0x3030303030303030ULL))\
-    \ & 0x8080808080808080ULL) == 0;\n    }\n\n    template<class U>\n    __attribute__((noinline))\n\
-    \    U read_long_digits(char c) {\n        const char *p = buf + idx - 1;\n  \
-    \      const char *end = buf + size;\n        U value = 0;\n        if (c >= '0'\
-    \ && end - p >= 16 && p[15] >= '0' && are_eight_digits(p) && are_eight_digits(p\
-    \ + 8)) {\n            value = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p\
-    \ + 8);\n            p += 16;\n            while (*p >= '0') {\n             \
-    \   value = value * 10 + (*p & 15);\n                ++p;\n            }\n   \
-    \         idx = (int)(p - buf) + 1;\n            return value;\n        }\n  \
-    \      while (c >= '0') {\n            value = value * 10 + (c & 15);\n      \
-    \      c = buf[idx++];\n        }\n        return value;\n    }\n\n    inline\
-    \ void load() {\n        int len = size - idx;\n        memmove(buf, buf + idx,\
-    \ len);\n        if (interactive) {\n            if (fgets(buf + len, BUFSIZE\
-    \ + 1 - len, stdin)) size = len + (int)strlen(buf + len);\n            else size\
-    \ = len;\n        } else {\n            size = len + (int)fread(buf + len, 1,\
-    \ BUFSIZE - len, stdin);\n            int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n\
-    \            int separators = 0;\n            int minus_signs = 0;\n         \
-    \   for (int i = 0; i < sample_size; ++i) {\n                separators += buf[i]\
-    \ <= ' ';\n                minus_signs += buf[i] == '-';\n            }\n    \
-    \        // Select once per buffer so ordinary short integers avoid the\n    \
-    \        // checks and call overhead of the 16-digit SWAR path.\n            long_tokens\
-    \ = separators * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n\
-    \        idx = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n\
-    \        if (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
+    \ <cassert>\n#include <bitset>\n#include <limits>\n#include <random>\n#include\
+    \ <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include\
+    \ <string>\n#include <type_traits>\n\n#include <charconv>\n#line 1 \"util/fastio.cpp\"\
+    \nusing namespace std;\n\nextern \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\
+    \ntemplate<class T, class = void>\nstruct is_fastio_range : false_type {};\n\n\
+    template<class T>\nstruct is_fastio_range<T, void_t<decltype(declval<T &>().begin()),\
+    \ decltype(declval<T &>().end())>> : true_type {};\n\ntemplate<class T, class\
+    \ = void>\nstruct has_fastio_value : false_type {};\n\ntemplate<class T>\nstruct\
+    \ has_fastio_value<T, void_t<decltype(declval<const T &>().value())>> : true_type\
+    \ {};\n\ntemplate<class T, class = void>\nstruct has_fastio_assign_string : false_type\
+    \ {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T, void_t<decltype(declval<T\
+    \ &>().assign(declval<const string &>()))>> : true_type {};\n\ntemplate<class\
+    \ T, class = void>\nstruct has_fastio_to_string : false_type {};\n\ntemplate<class\
+    \ T>\nstruct has_fastio_to_string<T, void_t<decltype(declval<const T &>().to_string())>>\
+    \ : true_type {};\n\nstruct FastIoDigitTable {\n    char num[40000];\n\n    constexpr\
+    \ FastIoDigitTable() : num() {\n        for (int i = 0; i < 10000; ++i) {\n  \
+    \          int x = i;\n            for (int j = 3; j >= 0; --j) {\n          \
+    \      num[i * 4 + j] = char('0' + x % 10);\n                x /= 10;\n      \
+    \      }\n        }\n    }\n};\n\nstruct Scanner {\n    static constexpr int BUFSIZE\
+    \ = 1 << 17;\n    static constexpr int OFFSET = 64;\n    static constexpr int\
+    \ LONG_TOKEN_SAMPLE_SIZE = 1024;\n    static constexpr int LONG_TOKEN_MIN_DIGITS\
+    \ = 16;\n    char buf[BUFSIZE + 1];\n    int idx, size;\n    bool interactive,\
+    \ long_tokens;\n    string number_token;\n\n    Scanner() : idx(0), size(0), interactive(isatty(fileno(stdin))),\
+    \ long_tokens(false) {}\n\n    __attribute__((always_inline))\n    static inline\
+    \ unsigned parse_eight_digits(const char *p) {\n        unsigned long long value;\n\
+    \        memcpy(&value, p, 8);\n#if defined(__BYTE_ORDER__) && __BYTE_ORDER__\
+    \ == __ORDER_BIG_ENDIAN__\n        value = __builtin_bswap64(value);\n#endif\n\
+    \        value -= 0x3030303030303030ULL;\n        value = (value * 10 + (value\
+    \ >> 8)) & 0x00ff00ff00ff00ffULL;\n        value = (value * 100 + (value >> 16))\
+    \ & 0x0000ffff0000ffffULL;\n        value = (value * 10000 + (value >> 32)) &\
+    \ 0x00000000ffffffffULL;\n        return (unsigned)value;\n    }\n\n    __attribute__((always_inline))\n\
+    \    static inline bool are_eight_digits(const char *p) {\n        unsigned long\
+    \ long value;\n        memcpy(&value, p, 8);\n        return (((value + 0x4646464646464646ULL)\
+    \ | (value - 0x3030303030303030ULL)) & 0x8080808080808080ULL) == 0;\n    }\n\n\
+    \    template<class U>\n    __attribute__((noinline))\n    U read_long_digits(char\
+    \ c) {\n        const char *p = buf + idx - 1;\n        const char *end = buf\
+    \ + size;\n        U value = 0;\n        if (c >= '0' && end - p >= 16 && p[15]\
+    \ >= '0' && are_eight_digits(p) && are_eight_digits(p + 8)) {\n            value\
+    \ = (U)parse_eight_digits(p) * 100000000 + parse_eight_digits(p + 8);\n      \
+    \      p += 16;\n            while (*p >= '0') {\n                value = value\
+    \ * 10 + (*p & 15);\n                ++p;\n            }\n            idx = (int)(p\
+    \ - buf) + 1;\n            return value;\n        }\n        while (c >= '0')\
+    \ {\n            value = value * 10 + (c & 15);\n            c = buf[idx++];\n\
+    \        }\n        return value;\n    }\n\n    inline void load() {\n       \
+    \ int len = size - idx;\n        memmove(buf, buf + idx, len);\n        if (interactive)\
+    \ {\n            if (fgets(buf + len, BUFSIZE + 1 - len, stdin)) size = len +\
+    \ (int)strlen(buf + len);\n            else size = len;\n        } else {\n  \
+    \          size = len + (int)fread(buf + len, 1, BUFSIZE - len, stdin);\n    \
+    \        int sample_size = min(size, LONG_TOKEN_SAMPLE_SIZE);\n            int\
+    \ separators = 0;\n            int minus_signs = 0;\n            for (int i =\
+    \ 0; i < sample_size; ++i) {\n                separators += buf[i] <= ' ';\n \
+    \               minus_signs += buf[i] == '-';\n            }\n            // Select\
+    \ once per buffer so ordinary short integers avoid the\n            // checks\
+    \ and call overhead of the 16-digit SWAR path.\n            long_tokens = separators\
+    \ * LONG_TOKEN_MIN_DIGITS < sample_size - minus_signs;\n        }\n        idx\
+    \ = 0;\n        buf[size] = 0;\n    }\n\n    inline void ensure() {\n        if\
+    \ (idx + OFFSET > size) load();\n    }\n\n    inline void ensure_interactive()\
     \ {\n        if (idx == size) load();\n    }\n\n    inline char skip() {\n   \
     \     if (interactive) {\n            ensure_interactive();\n            while\
     \ (buf[idx] && buf[idx] <= ' ') {\n                ++idx;\n                ensure_interactive();\n\
@@ -389,10 +390,163 @@ data:
     \           for (int i = 0; i < last; ++i) {\n                a[i] = (a[i + block]\
     \ >> rem) | (a[i + block + 1] << (B - rem));\n            }\n            a[last]\
     \ = a[M - 1] >> rem;\n        }\n        fill(a + (M - block), a + M, 0);\n  \
-    \      normalize();\n        return *this;\n    }\n\n    friend StaticBitset operator<<(StaticBitset\
-    \ l, int s) { return l <<= s; }\n    friend StaticBitset operator>>(StaticBitset\
-    \ l, int s) { return l >>= s; }\n};\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static\
-    \ Bitset)\n */\n#line 18 \"test/yosupo_aplusb_static_bitset.test.cpp\"\n\ntemplate<int\
+    \      normalize();\n        return *this;\n    }\n\n    StaticBitset &or_shift_left(int\
+    \ s) {\n        if (s <= 0 || s >= N) return *this;\n        int block = s >>\
+    \ 6;\n        int rem = s & 63;\n        if (rem == 0) {\n            for (int\
+    \ i = M - 1; i >= block; --i) a[i] |= a[i - block];\n        } else {\n      \
+    \      for (int i = M - 1; i > block; --i) {\n                a[i] |= (a[i - block]\
+    \ << rem) | (a[i - block - 1] >> (B - rem));\n            }\n            a[block]\
+    \ |= a[0] << rem;\n        }\n        normalize();\n        return *this;\n  \
+    \  }\n\n    StaticBitset &or_shift_right(int s) {\n        if (s <= 0 || s >=\
+    \ N) return *this;\n        int block = s >> 6;\n        int rem = s & 63;\n \
+    \       if (rem == 0) {\n            for (int i = 0; i < M - block; ++i) a[i]\
+    \ |= a[i + block];\n        } else {\n            int last = M - block - 1;\n\
+    \            for (int i = 0; i < last; ++i) {\n                a[i] |= (a[i +\
+    \ block] >> rem) | (a[i + block + 1] << (B - rem));\n            }\n         \
+    \   a[last] |= a[M - 1] >> rem;\n        }\n        return *this;\n    }\n\n \
+    \   friend StaticBitset operator<<(StaticBitset l, int s) { return l <<= s; }\n\
+    \    friend StaticBitset operator>>(StaticBitset l, int s) { return l >>= s; }\n\
+    };\n\n/**\n * @brief \u56FA\u5B9A\u9577bitset(Static Bitset)\n */\n#line 19 \"\
+    test/yosupo_aplusb_static_bitset.test.cpp\"\n\ntemplate<int N>\nvector<int> to_vec(const\
+    \ StaticBitset<N> &bs) {\n    vector<int> res(N);\n    for (int i = 0; i < N;\
+    \ ++i) res[i] = bs.test(i);\n    return res;\n}\n\nint brute_find_first(const\
+    \ vector<int> &a) {\n    for (int i = 0; i < (int)a.size(); ++i) if (a[i]) return\
+    \ i;\n    return -1;\n}\n\nint brute_find_last(const vector<int> &a) {\n    for\
+    \ (int i = (int)a.size() - 1; i >= 0; --i) if (a[i]) return i;\n    return -1;\n\
+    }\n\nint brute_find_next(const vector<int> &a, int k) {\n    for (int i = k +\
+    \ 1; i < (int)a.size(); ++i) if (a[i]) return i;\n    return -1;\n}\n\nint brute_find_prev(const\
+    \ vector<int> &a, int k) {\n    for (int i = k - 1; i >= 0; --i) if (a[i]) return\
+    \ i;\n    return -1;\n}\n\nvector<int> shifted_left(const vector<int> &a, int\
+    \ s) {\n    vector<int> res(a.size());\n    if (s >= (int)a.size()) return res;\n\
+    \    for (int i = 0; i + s < (int)a.size(); ++i) res[i + s] = a[i];\n    return\
+    \ res;\n}\n\nvector<int> shifted_right(const vector<int> &a, int s) {\n    vector<int>\
+    \ res(a.size());\n    if (s >= (int)a.size()) return res;\n    for (int i = s;\
+    \ i < (int)a.size(); ++i) res[i - s] = a[i];\n    return res;\n}\n\ntemplate<int\
+    \ N>\nvoid verify_state(const StaticBitset<N> &bs, const vector<int> &a) {\n \
+    \   assert(bs.size() == (int)a.size());\n    assert(bs.empty() == a.empty());\n\
+    \    assert(to_vec(bs) == a);\n\n    int cnt = 0;\n    for (int x : a) cnt +=\
+    \ x;\n    assert(bs.count() == cnt);\n    assert(bs.any() == (cnt != 0));\n  \
+    \  assert(bs.none() == (cnt == 0));\n    assert(bs.all() == (cnt == (int)a.size()));\n\
+    \    assert(bs.find_first() == brute_find_first(a));\n    assert(bs.find_last()\
+    \ == brute_find_last(a));\n    for (int i = 0; i <= (int)a.size(); ++i) {\n  \
+    \      assert(bs.find_next(i - 1) == brute_find_next(a, i - 1));\n        assert(bs.find_prev(i)\
+    \ == brute_find_prev(a, i));\n    }\n}\n\ntemplate<int N>\nvoid deterministic_check_size()\
+    \ {\n    StaticBitset<N> zero, one(true);\n    verify_state(zero, vector<int>(N,\
+    \ 0));\n    verify_state(one, vector<int>(N, 1));\n\n    vector<int> base(N);\n\
+    \    for (int i = 0; i < N; ++i) base[i] = (i % 3) == 1;\n    StaticBitset<N>\
+    \ bs;\n    for (int i = 0; i < N; ++i) if (base[i]) bs.set(i);\n    verify_state(bs,\
+    \ base);\n\n    StaticBitset<N> flipped = bs;\n    flipped.flip();\n    vector<int>\
+    \ flip_base = base;\n    for (int &x : flip_base) x ^= 1;\n    verify_state(flipped,\
+    \ flip_base);\n\n    vector<int> shifts = {0, 1, 2, 31, 32, 63, 64, 65, max(0,\
+    \ N - 1), N, N + 7};\n    for (int s : shifts) {\n        StaticBitset<N> left\
+    \ = bs;\n        left <<= s;\n        verify_state(left, shifted_left(base, s));\n\
+    \n        StaticBitset<N> right = bs;\n        right >>= s;\n        verify_state(right,\
+    \ shifted_right(base, s));\n    }\n\n    StaticBitset<N> all(true);\n    StaticBitset<N>\
+    \ x = bs & all;\n    verify_state(x, base);\n\n    StaticBitset<N> y = bs | all;\n\
+    \    verify_state(y, vector<int>(N, 1));\n\n    StaticBitset<N> z = bs ^ all;\n\
+    \    vector<int> xor_base = base;\n    for (int &v : xor_base) v ^= 1;\n    verify_state(z,\
+    \ xor_base);\n}\n\ntemplate<int N>\nvoid random_check_size() {\n    mt19937 rng(N\
+    \ + 17);\n    for (int tc = 0; tc < 60; ++tc) {\n        StaticBitset<N> bs, other;\n\
+    \        vector<int> a(N, 0), b(N, 0);\n        for (int step = 0; step < 120;\
+    \ ++step) {\n            int op = rng() % 12;\n            if (op == 0 && N >\
+    \ 0) {\n                int k = rng() % N;\n                bs.set(k);\n     \
+    \           a[k] = 1;\n            } else if (op == 1 && N > 0) {\n          \
+    \      int k = rng() % N;\n                bs.reset(k);\n                a[k]\
+    \ = 0;\n            } else if (op == 2 && N > 0) {\n                int k = rng()\
+    \ % N;\n                bs.flip(k);\n                a[k] ^= 1;\n            }\
+    \ else if (op == 3 && N > 0) {\n                int k = rng() % N;\n         \
+    \       int x = rng() & 1;\n                bs.assign(k, x);\n               \
+    \ a[k] = x;\n            } else if (op == 4) {\n                bs.reset();\n\
+    \                fill(a.begin(), a.end(), 0);\n            } else if (op == 5)\
+    \ {\n                bs.set();\n                fill(a.begin(), a.end(), 1);\n\
+    \            } else if (op == 6) {\n                bs.flip();\n             \
+    \   for (int &x : a) x ^= 1;\n            } else if (op == 7) {\n            \
+    \    for (int i = 0; i < N; ++i) {\n                    int x = (rng() >> (i &\
+    \ 7)) & 1;\n                    other.assign(i, x);\n                    b[i]\
+    \ = x;\n                }\n            } else if (op == 8) {\n               \
+    \ StaticBitset<N> cur = bs;\n                cur &= other;\n                vector<int>\
+    \ expect(N);\n                for (int i = 0; i < N; ++i) expect[i] = a[i] & b[i];\n\
+    \                verify_state(cur, expect);\n            } else if (op == 9) {\n\
+    \                StaticBitset<N> cur = bs;\n                cur |= other;\n  \
+    \              vector<int> expect(N);\n                for (int i = 0; i < N;\
+    \ ++i) expect[i] = a[i] | b[i];\n                verify_state(cur, expect);\n\
+    \            } else if (op == 10) {\n                StaticBitset<N> cur = bs;\n\
+    \                cur ^= other;\n                vector<int> expect(N);\n     \
+    \           for (int i = 0; i < N; ++i) expect[i] = a[i] ^ b[i];\n           \
+    \     verify_state(cur, expect);\n            } else {\n                int s\
+    \ = N == 0 ? 0 : rng() % (N + 8);\n                if (rng() & 1) {\n        \
+    \            bs <<= s;\n                    a = shifted_left(a, s);\n        \
+    \        } else {\n                    bs >>= s;\n                    a = shifted_right(a,\
+    \ s);\n                }\n            }\n            verify_state(bs, a);\n  \
+    \          verify_state(other, b);\n        }\n    }\n}\n\nvoid deterministic_check()\
+    \ {\n    deterministic_check_size<0>();\n    deterministic_check_size<1>();\n\
+    \    deterministic_check_size<2>();\n    deterministic_check_size<63>();\n   \
+    \ deterministic_check_size<64>();\n    deterministic_check_size<65>();\n    deterministic_check_size<127>();\n\
+    \    deterministic_check_size<128>();\n    deterministic_check_size<129>();\n\
+    }\n\nvoid random_check() {\n    random_check_size<0>();\n    random_check_size<1>();\n\
+    \    random_check_size<2>();\n    random_check_size<63>();\n    random_check_size<64>();\n\
+    \    random_check_size<65>();\n    random_check_size<129>();\n    random_check_size<257>();\n\
+    }\n\nvoid count_kernels_check() {\n#if defined(__x86_64__) || defined(_M_X64)\n\
+    \    bool avx2 = __builtin_cpu_supports(\"avx2\") && __builtin_cpu_supports(\"\
+    popcnt\");\n    bool avx512 = avx2 && __builtin_cpu_supports(\"avx512f\") && __builtin_cpu_supports(\"\
+    avx512vpopcntdq\");\n    mt19937_64 rng(164);\n    for (int n = 0; n <= 257; ++n)\
+    \ {\n        for (int offset = 0; offset < 4; ++offset) {\n            vector<unsigned\
+    \ long long> data(n + offset);\n            for (int shape = 0; shape < 4; ++shape)\
+    \ {\n                int expected = 0;\n                for (int i = offset; i\
+    \ < n + offset; ++i) {\n                    data[i] = shape == 0 ? 0 : shape ==\
+    \ 1 ? ~0ULL : shape == 2 ? 0x5555555555555555ULL : rng();\n                  \
+    \  for (auto x = data[i]; x; x &= x - 1) ++expected;\n                }\n    \
+    \            const auto *p = n ? data.data() + offset : nullptr;\n           \
+    \     if (avx2) assert(static_bitset_detail::count_avx2(p, n) == expected);\n\
+    \                if (avx512) assert(static_bitset_detail::count_avx512(p, n) ==\
+    \ expected);\n            }\n        }\n    }\n#endif\n}\n\ntemplate<int N>\n\
+    void count_check_size() {\n    mt19937 rng(N + 164);\n    for (int shape = 0;\
+    \ shape < 4; ++shape) {\n        StaticBitset<N> actual;\n        bitset<N> expected;\n\
+    \        for (int i = 0; i < N; ++i) {\n            bool bit = shape == 0 ? false\
+    \ : shape == 1 ? true : shape == 2 ? i % 2 : rng() & 1;\n            actual.assign(i,\
+    \ bit);\n            expected[i] = bit;\n        }\n        assert(actual.count()\
+    \ == (int)expected.count());\n        actual.flip();\n        expected.flip();\n\
+    \        assert(actual.count() == (int)expected.count());\n        actual <<=\
+    \ 1;\n        expected <<= 1;\n        assert(actual.count() == (int)expected.count());\n\
+    \        actual >>= 63;\n        expected >>= 63;\n        assert(actual.count()\
+    \ == (int)expected.count());\n    }\n}\n\ntemplate<int N>\nvoid shift_or_check()\
+    \ {\n    mt19937 rng(N + 211);\n    vector<int> shifts = {numeric_limits<int>::min(),\
+    \ -1, 0, 1, 2, 63, 64, 65,\n                         127, 128, 129, N - 1, N,\
+    \ N + 1, numeric_limits<int>::max()};\n    for (int shape = 0; shape < 4; ++shape)\
+    \ {\n        StaticBitset<N> bs;\n        bitset<N> expected;\n        for (int\
+    \ i = 0; i < N; ++i) {\n            bool bit = shape == 0 ? false : shape == 1\
+    \ ? true : shape == 2 ? i % 67 == 0 : rng() & 1;\n            bs.assign(i, bit);\n\
+    \            expected[i] = bit;\n        }\n        for (int step = 0; step <\
+    \ 500; ++step) {\n            if constexpr (N > 0) {\n                int k =\
+    \ rng() % N;\n                bs.flip(k);\n                expected.flip(k);\n\
+    \            }\n            int s = step < (int)shifts.size() * 2 ? shifts[step\
+    \ / 2] : int(rng() % (N + 130)) - 65;\n            bool left = step % 2 == 0;\n\
+    \            auto reference = bs | (left ? bs << s : bs >> s);\n            if\
+    \ (s > 0 && s < N) expected |= left ? expected << s : expected >> s;\n       \
+    \     auto &result = left ? bs.or_shift_left(s) : bs.or_shift_right(s);\n    \
+    \        assert(&result == &bs);\n            assert(bs.count() == (int)expected.count());\n\
+    \            for (int i = 0; i < N; ++i) {\n                assert(bs.test(i)\
+    \ == expected[i]);\n                assert(bs.test(i) == reference.test(i));\n\
+    \            }\n        }\n    }\n}\n\nvoid subset_sum_check() {\n    constexpr\
+    \ int N = 8193;\n    StaticBitset<N> bs;\n    vector<bool> possible(N);\n    bs.set(0);\n\
+    \    possible[0] = true;\n    mt19937 rng(211);\n    for (int step = 0; step <\
+    \ 200; ++step) {\n        int w = rng() % 300;\n        bs.or_shift_left(w);\n\
+    \        for (int i = N - 1; i >= w; --i) possible[i] = possible[i] || possible[i\
+    \ - w];\n        for (int i = 0; i < N; ++i) assert(bs.test(i) == possible[i]);\n\
+    \    }\n}\n\nint main() {\n    shift_or_check<0>();\n    shift_or_check<1>();\n\
+    \    shift_or_check<63>();\n    shift_or_check<64>();\n    shift_or_check<65>();\n\
+    \    shift_or_check<127>();\n    shift_or_check<128>();\n    shift_or_check<129>();\n\
+    \    shift_or_check<8193>();\n    subset_sum_check();\n    deterministic_check();\n\
+    \    random_check();\n    count_kernels_check();\n    count_check_size<8128>();\n\
+    \    count_check_size<8129>();\n    count_check_size<8191>();\n    count_check_size<8192>();\n\
+    \    count_check_size<8193>();\n    count_check_size<65536>();\n    count_check_size<65537>();\n\
+    \    count_check_size<1048577>();\n\n    Scanner sc;\n    Printer pr;\n    int\
+    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
+    #include <cassert>\n#include <bitset>\n#include <limits>\n#include <random>\n\
+    #include <vector>\nusing namespace std;\n\n#include <cstdio>\n#include <cstring>\n\
+    #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
+    ../util/fastio.cpp\"\n#include \"../datastructure/static_bitset.cpp\"\n\ntemplate<int\
     \ N>\nvector<int> to_vec(const StaticBitset<N> &bs) {\n    vector<int> res(N);\n\
     \    for (int i = 0; i < N; ++i) res[i] = bs.test(i);\n    return res;\n}\n\n\
     int brute_find_first(const vector<int> &a) {\n    for (int i = 0; i < (int)a.size();\
@@ -494,119 +648,34 @@ data:
     \        assert(actual.count() == (int)expected.count());\n        actual <<=\
     \ 1;\n        expected <<= 1;\n        assert(actual.count() == (int)expected.count());\n\
     \        actual >>= 63;\n        expected >>= 63;\n        assert(actual.count()\
-    \ == (int)expected.count());\n    }\n}\n\nint main() {\n    deterministic_check();\n\
-    \    random_check();\n    count_kernels_check();\n    count_check_size<8128>();\n\
-    \    count_check_size<8129>();\n    count_check_size<8191>();\n    count_check_size<8192>();\n\
-    \    count_check_size<8193>();\n    count_check_size<65536>();\n    count_check_size<65537>();\n\
-    \    count_check_size<1048577>();\n\n    Scanner sc;\n    Printer pr;\n    int\
-    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <algorithm>\n\
-    #include <cassert>\n#include <bitset>\n#include <random>\n#include <vector>\n\
-    using namespace std;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n\
-    #include <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\
-    \n#include \"../datastructure/static_bitset.cpp\"\n\ntemplate<int N>\nvector<int>\
-    \ to_vec(const StaticBitset<N> &bs) {\n    vector<int> res(N);\n    for (int i\
-    \ = 0; i < N; ++i) res[i] = bs.test(i);\n    return res;\n}\n\nint brute_find_first(const\
-    \ vector<int> &a) {\n    for (int i = 0; i < (int)a.size(); ++i) if (a[i]) return\
-    \ i;\n    return -1;\n}\n\nint brute_find_last(const vector<int> &a) {\n    for\
-    \ (int i = (int)a.size() - 1; i >= 0; --i) if (a[i]) return i;\n    return -1;\n\
-    }\n\nint brute_find_next(const vector<int> &a, int k) {\n    for (int i = k +\
-    \ 1; i < (int)a.size(); ++i) if (a[i]) return i;\n    return -1;\n}\n\nint brute_find_prev(const\
-    \ vector<int> &a, int k) {\n    for (int i = k - 1; i >= 0; --i) if (a[i]) return\
-    \ i;\n    return -1;\n}\n\nvector<int> shifted_left(const vector<int> &a, int\
-    \ s) {\n    vector<int> res(a.size());\n    if (s >= (int)a.size()) return res;\n\
-    \    for (int i = 0; i + s < (int)a.size(); ++i) res[i + s] = a[i];\n    return\
-    \ res;\n}\n\nvector<int> shifted_right(const vector<int> &a, int s) {\n    vector<int>\
-    \ res(a.size());\n    if (s >= (int)a.size()) return res;\n    for (int i = s;\
-    \ i < (int)a.size(); ++i) res[i - s] = a[i];\n    return res;\n}\n\ntemplate<int\
-    \ N>\nvoid verify_state(const StaticBitset<N> &bs, const vector<int> &a) {\n \
-    \   assert(bs.size() == (int)a.size());\n    assert(bs.empty() == a.empty());\n\
-    \    assert(to_vec(bs) == a);\n\n    int cnt = 0;\n    for (int x : a) cnt +=\
-    \ x;\n    assert(bs.count() == cnt);\n    assert(bs.any() == (cnt != 0));\n  \
-    \  assert(bs.none() == (cnt == 0));\n    assert(bs.all() == (cnt == (int)a.size()));\n\
-    \    assert(bs.find_first() == brute_find_first(a));\n    assert(bs.find_last()\
-    \ == brute_find_last(a));\n    for (int i = 0; i <= (int)a.size(); ++i) {\n  \
-    \      assert(bs.find_next(i - 1) == brute_find_next(a, i - 1));\n        assert(bs.find_prev(i)\
-    \ == brute_find_prev(a, i));\n    }\n}\n\ntemplate<int N>\nvoid deterministic_check_size()\
-    \ {\n    StaticBitset<N> zero, one(true);\n    verify_state(zero, vector<int>(N,\
-    \ 0));\n    verify_state(one, vector<int>(N, 1));\n\n    vector<int> base(N);\n\
-    \    for (int i = 0; i < N; ++i) base[i] = (i % 3) == 1;\n    StaticBitset<N>\
-    \ bs;\n    for (int i = 0; i < N; ++i) if (base[i]) bs.set(i);\n    verify_state(bs,\
-    \ base);\n\n    StaticBitset<N> flipped = bs;\n    flipped.flip();\n    vector<int>\
-    \ flip_base = base;\n    for (int &x : flip_base) x ^= 1;\n    verify_state(flipped,\
-    \ flip_base);\n\n    vector<int> shifts = {0, 1, 2, 31, 32, 63, 64, 65, max(0,\
-    \ N - 1), N, N + 7};\n    for (int s : shifts) {\n        StaticBitset<N> left\
-    \ = bs;\n        left <<= s;\n        verify_state(left, shifted_left(base, s));\n\
-    \n        StaticBitset<N> right = bs;\n        right >>= s;\n        verify_state(right,\
-    \ shifted_right(base, s));\n    }\n\n    StaticBitset<N> all(true);\n    StaticBitset<N>\
-    \ x = bs & all;\n    verify_state(x, base);\n\n    StaticBitset<N> y = bs | all;\n\
-    \    verify_state(y, vector<int>(N, 1));\n\n    StaticBitset<N> z = bs ^ all;\n\
-    \    vector<int> xor_base = base;\n    for (int &v : xor_base) v ^= 1;\n    verify_state(z,\
-    \ xor_base);\n}\n\ntemplate<int N>\nvoid random_check_size() {\n    mt19937 rng(N\
-    \ + 17);\n    for (int tc = 0; tc < 60; ++tc) {\n        StaticBitset<N> bs, other;\n\
-    \        vector<int> a(N, 0), b(N, 0);\n        for (int step = 0; step < 120;\
-    \ ++step) {\n            int op = rng() % 12;\n            if (op == 0 && N >\
-    \ 0) {\n                int k = rng() % N;\n                bs.set(k);\n     \
-    \           a[k] = 1;\n            } else if (op == 1 && N > 0) {\n          \
-    \      int k = rng() % N;\n                bs.reset(k);\n                a[k]\
-    \ = 0;\n            } else if (op == 2 && N > 0) {\n                int k = rng()\
-    \ % N;\n                bs.flip(k);\n                a[k] ^= 1;\n            }\
-    \ else if (op == 3 && N > 0) {\n                int k = rng() % N;\n         \
-    \       int x = rng() & 1;\n                bs.assign(k, x);\n               \
-    \ a[k] = x;\n            } else if (op == 4) {\n                bs.reset();\n\
-    \                fill(a.begin(), a.end(), 0);\n            } else if (op == 5)\
-    \ {\n                bs.set();\n                fill(a.begin(), a.end(), 1);\n\
-    \            } else if (op == 6) {\n                bs.flip();\n             \
-    \   for (int &x : a) x ^= 1;\n            } else if (op == 7) {\n            \
-    \    for (int i = 0; i < N; ++i) {\n                    int x = (rng() >> (i &\
-    \ 7)) & 1;\n                    other.assign(i, x);\n                    b[i]\
-    \ = x;\n                }\n            } else if (op == 8) {\n               \
-    \ StaticBitset<N> cur = bs;\n                cur &= other;\n                vector<int>\
-    \ expect(N);\n                for (int i = 0; i < N; ++i) expect[i] = a[i] & b[i];\n\
-    \                verify_state(cur, expect);\n            } else if (op == 9) {\n\
-    \                StaticBitset<N> cur = bs;\n                cur |= other;\n  \
-    \              vector<int> expect(N);\n                for (int i = 0; i < N;\
-    \ ++i) expect[i] = a[i] | b[i];\n                verify_state(cur, expect);\n\
-    \            } else if (op == 10) {\n                StaticBitset<N> cur = bs;\n\
-    \                cur ^= other;\n                vector<int> expect(N);\n     \
-    \           for (int i = 0; i < N; ++i) expect[i] = a[i] ^ b[i];\n           \
-    \     verify_state(cur, expect);\n            } else {\n                int s\
-    \ = N == 0 ? 0 : rng() % (N + 8);\n                if (rng() & 1) {\n        \
-    \            bs <<= s;\n                    a = shifted_left(a, s);\n        \
-    \        } else {\n                    bs >>= s;\n                    a = shifted_right(a,\
-    \ s);\n                }\n            }\n            verify_state(bs, a);\n  \
-    \          verify_state(other, b);\n        }\n    }\n}\n\nvoid deterministic_check()\
-    \ {\n    deterministic_check_size<0>();\n    deterministic_check_size<1>();\n\
-    \    deterministic_check_size<2>();\n    deterministic_check_size<63>();\n   \
-    \ deterministic_check_size<64>();\n    deterministic_check_size<65>();\n    deterministic_check_size<127>();\n\
-    \    deterministic_check_size<128>();\n    deterministic_check_size<129>();\n\
-    }\n\nvoid random_check() {\n    random_check_size<0>();\n    random_check_size<1>();\n\
-    \    random_check_size<2>();\n    random_check_size<63>();\n    random_check_size<64>();\n\
-    \    random_check_size<65>();\n    random_check_size<129>();\n    random_check_size<257>();\n\
-    }\n\nvoid count_kernels_check() {\n#if defined(__x86_64__) || defined(_M_X64)\n\
-    \    bool avx2 = __builtin_cpu_supports(\"avx2\") && __builtin_cpu_supports(\"\
-    popcnt\");\n    bool avx512 = avx2 && __builtin_cpu_supports(\"avx512f\") && __builtin_cpu_supports(\"\
-    avx512vpopcntdq\");\n    mt19937_64 rng(164);\n    for (int n = 0; n <= 257; ++n)\
-    \ {\n        for (int offset = 0; offset < 4; ++offset) {\n            vector<unsigned\
-    \ long long> data(n + offset);\n            for (int shape = 0; shape < 4; ++shape)\
-    \ {\n                int expected = 0;\n                for (int i = offset; i\
-    \ < n + offset; ++i) {\n                    data[i] = shape == 0 ? 0 : shape ==\
-    \ 1 ? ~0ULL : shape == 2 ? 0x5555555555555555ULL : rng();\n                  \
-    \  for (auto x = data[i]; x; x &= x - 1) ++expected;\n                }\n    \
-    \            const auto *p = n ? data.data() + offset : nullptr;\n           \
-    \     if (avx2) assert(static_bitset_detail::count_avx2(p, n) == expected);\n\
-    \                if (avx512) assert(static_bitset_detail::count_avx512(p, n) ==\
-    \ expected);\n            }\n        }\n    }\n#endif\n}\n\ntemplate<int N>\n\
-    void count_check_size() {\n    mt19937 rng(N + 164);\n    for (int shape = 0;\
-    \ shape < 4; ++shape) {\n        StaticBitset<N> actual;\n        bitset<N> expected;\n\
-    \        for (int i = 0; i < N; ++i) {\n            bool bit = shape == 0 ? false\
-    \ : shape == 1 ? true : shape == 2 ? i % 2 : rng() & 1;\n            actual.assign(i,\
-    \ bit);\n            expected[i] = bit;\n        }\n        assert(actual.count()\
-    \ == (int)expected.count());\n        actual.flip();\n        expected.flip();\n\
-    \        assert(actual.count() == (int)expected.count());\n        actual <<=\
-    \ 1;\n        expected <<= 1;\n        assert(actual.count() == (int)expected.count());\n\
-    \        actual >>= 63;\n        expected >>= 63;\n        assert(actual.count()\
-    \ == (int)expected.count());\n    }\n}\n\nint main() {\n    deterministic_check();\n\
+    \ == (int)expected.count());\n    }\n}\n\ntemplate<int N>\nvoid shift_or_check()\
+    \ {\n    mt19937 rng(N + 211);\n    vector<int> shifts = {numeric_limits<int>::min(),\
+    \ -1, 0, 1, 2, 63, 64, 65,\n                         127, 128, 129, N - 1, N,\
+    \ N + 1, numeric_limits<int>::max()};\n    for (int shape = 0; shape < 4; ++shape)\
+    \ {\n        StaticBitset<N> bs;\n        bitset<N> expected;\n        for (int\
+    \ i = 0; i < N; ++i) {\n            bool bit = shape == 0 ? false : shape == 1\
+    \ ? true : shape == 2 ? i % 67 == 0 : rng() & 1;\n            bs.assign(i, bit);\n\
+    \            expected[i] = bit;\n        }\n        for (int step = 0; step <\
+    \ 500; ++step) {\n            if constexpr (N > 0) {\n                int k =\
+    \ rng() % N;\n                bs.flip(k);\n                expected.flip(k);\n\
+    \            }\n            int s = step < (int)shifts.size() * 2 ? shifts[step\
+    \ / 2] : int(rng() % (N + 130)) - 65;\n            bool left = step % 2 == 0;\n\
+    \            auto reference = bs | (left ? bs << s : bs >> s);\n            if\
+    \ (s > 0 && s < N) expected |= left ? expected << s : expected >> s;\n       \
+    \     auto &result = left ? bs.or_shift_left(s) : bs.or_shift_right(s);\n    \
+    \        assert(&result == &bs);\n            assert(bs.count() == (int)expected.count());\n\
+    \            for (int i = 0; i < N; ++i) {\n                assert(bs.test(i)\
+    \ == expected[i]);\n                assert(bs.test(i) == reference.test(i));\n\
+    \            }\n        }\n    }\n}\n\nvoid subset_sum_check() {\n    constexpr\
+    \ int N = 8193;\n    StaticBitset<N> bs;\n    vector<bool> possible(N);\n    bs.set(0);\n\
+    \    possible[0] = true;\n    mt19937 rng(211);\n    for (int step = 0; step <\
+    \ 200; ++step) {\n        int w = rng() % 300;\n        bs.or_shift_left(w);\n\
+    \        for (int i = N - 1; i >= w; --i) possible[i] = possible[i] || possible[i\
+    \ - w];\n        for (int i = 0; i < N; ++i) assert(bs.test(i) == possible[i]);\n\
+    \    }\n}\n\nint main() {\n    shift_or_check<0>();\n    shift_or_check<1>();\n\
+    \    shift_or_check<63>();\n    shift_or_check<64>();\n    shift_or_check<65>();\n\
+    \    shift_or_check<127>();\n    shift_or_check<128>();\n    shift_or_check<129>();\n\
+    \    shift_or_check<8193>();\n    subset_sum_check();\n    deterministic_check();\n\
     \    random_check();\n    count_kernels_check();\n    count_check_size<8128>();\n\
     \    count_check_size<8129>();\n    count_check_size<8191>();\n    count_check_size<8192>();\n\
     \    count_check_size<8193>();\n    count_check_size<65536>();\n    count_check_size<65537>();\n\
@@ -618,7 +687,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_static_bitset.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 21:20:01+09:00'
+  timestamp: '2026-10-18 00:50:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_static_bitset.test.cpp

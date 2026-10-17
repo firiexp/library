@@ -50,14 +50,26 @@ data:
     \                ret |= T(1) << i;\n            }\n            p = nodes[p].nxt[f];\n\
     \        }\n        return ret;\n    }\n\n    T min_element(T x = 0) const {\n\
     \        return xor_min(x) ^ x;\n    }\n\n    T max_element(T x = 0) const {\n\
-    \        T y = x ^ bit_mask();\n        return xor_min(y) ^ y;\n    }\n\nprivate:\n\
-    \    int free_head = -1;\n\n    int make_node() {\n        if (free_head == -1)\
-    \ {\n            nodes.emplace_back();\n            return (int)nodes.size() -\
-    \ 1;\n        }\n        int v = free_head;\n        free_head = nodes[v].nxt[0];\n\
-    \        nodes[v] = Node();\n        return v;\n    }\n\n    static constexpr\
-    \ T bit_mask() {\n        if constexpr (X == sizeof(T) * 8) return T(-1);\n  \
-    \      else return (T(1) << X) - 1;\n    }\n};\n\n/**\n * @brief Binary Trie\n\
-    \ */\n"
+    \        T y = x ^ bit_mask();\n        return xor_min(y) ^ y;\n    }\n\n    T\
+    \ kth_element(int k, T xor_mask = 0) const {\n        assert(0 <= k && k < size());\n\
+    \        int p = 0;\n        T value = 0;\n        for (int i = int(X) - 1; i\
+    \ >= 0; --i) {\n            int f = (xor_mask >> i) & 1;\n            int to =\
+    \ nodes[p].nxt[f];\n            int count = to == -1 ? 0 : nodes[to].cnt;\n  \
+    \          if (k >= count) {\n                k -= count;\n                f ^=\
+    \ 1;\n            }\n            value |= T(f) << i;\n            p = nodes[p].nxt[f];\n\
+    \        }\n        return value;\n    }\n\n    int count_less(T bound, T xor_mask\
+    \ = 0) const {\n        int p = 0, result = 0;\n        for (int i = int(X) -\
+    \ 1; i >= 0 && p != -1; --i) {\n            int f = (xor_mask >> i) & 1;\n   \
+    \         if ((bound >> i) & 1) {\n                int to = nodes[p].nxt[f];\n\
+    \                if (to != -1) result += nodes[to].cnt;\n                f ^=\
+    \ 1;\n            }\n            p = nodes[p].nxt[f];\n        }\n        return\
+    \ result;\n    }\n\nprivate:\n    int free_head = -1;\n\n    int make_node() {\n\
+    \        if (free_head == -1) {\n            nodes.emplace_back();\n         \
+    \   return (int)nodes.size() - 1;\n        }\n        int v = free_head;\n   \
+    \     free_head = nodes[v].nxt[0];\n        nodes[v] = Node();\n        return\
+    \ v;\n    }\n\n    static constexpr T bit_mask() {\n        if constexpr (X ==\
+    \ sizeof(T) * 8) return T(-1);\n        else return T((make_unsigned_t<T>(1) <<\
+    \ X) - 1);\n    }\n};\n\n/**\n * @brief Binary Trie\n */\n"
   code: "template<class T, size_t X>\nstruct Binarytrie {\n    struct Node {\n   \
     \     int cnt;\n        int nxt[2];\n        Node() : cnt(0), nxt{-1, -1} {}\n\
     \    };\n\n    vector<Node> nodes;\n\n    Binarytrie() : nodes(1) {}\n\n    explicit\
@@ -93,18 +105,31 @@ data:
     \ << i;\n            }\n            p = nodes[p].nxt[f];\n        }\n        return\
     \ ret;\n    }\n\n    T min_element(T x = 0) const {\n        return xor_min(x)\
     \ ^ x;\n    }\n\n    T max_element(T x = 0) const {\n        T y = x ^ bit_mask();\n\
-    \        return xor_min(y) ^ y;\n    }\n\nprivate:\n    int free_head = -1;\n\n\
-    \    int make_node() {\n        if (free_head == -1) {\n            nodes.emplace_back();\n\
-    \            return (int)nodes.size() - 1;\n        }\n        int v = free_head;\n\
-    \        free_head = nodes[v].nxt[0];\n        nodes[v] = Node();\n        return\
-    \ v;\n    }\n\n    static constexpr T bit_mask() {\n        if constexpr (X ==\
-    \ sizeof(T) * 8) return T(-1);\n        else return (T(1) << X) - 1;\n    }\n\
-    };\n\n/**\n * @brief Binary Trie\n */\n"
+    \        return xor_min(y) ^ y;\n    }\n\n    T kth_element(int k, T xor_mask\
+    \ = 0) const {\n        assert(0 <= k && k < size());\n        int p = 0;\n  \
+    \      T value = 0;\n        for (int i = int(X) - 1; i >= 0; --i) {\n       \
+    \     int f = (xor_mask >> i) & 1;\n            int to = nodes[p].nxt[f];\n  \
+    \          int count = to == -1 ? 0 : nodes[to].cnt;\n            if (k >= count)\
+    \ {\n                k -= count;\n                f ^= 1;\n            }\n   \
+    \         value |= T(f) << i;\n            p = nodes[p].nxt[f];\n        }\n \
+    \       return value;\n    }\n\n    int count_less(T bound, T xor_mask = 0) const\
+    \ {\n        int p = 0, result = 0;\n        for (int i = int(X) - 1; i >= 0 &&\
+    \ p != -1; --i) {\n            int f = (xor_mask >> i) & 1;\n            if ((bound\
+    \ >> i) & 1) {\n                int to = nodes[p].nxt[f];\n                if\
+    \ (to != -1) result += nodes[to].cnt;\n                f ^= 1;\n            }\n\
+    \            p = nodes[p].nxt[f];\n        }\n        return result;\n    }\n\n\
+    private:\n    int free_head = -1;\n\n    int make_node() {\n        if (free_head\
+    \ == -1) {\n            nodes.emplace_back();\n            return (int)nodes.size()\
+    \ - 1;\n        }\n        int v = free_head;\n        free_head = nodes[v].nxt[0];\n\
+    \        nodes[v] = Node();\n        return v;\n    }\n\n    static constexpr\
+    \ T bit_mask() {\n        if constexpr (X == sizeof(T) * 8) return T(-1);\n  \
+    \      else return T((make_unsigned_t<T>(1) << X) - 1);\n    }\n};\n\n/**\n *\
+    \ @brief Binary Trie\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: datastructure/binarytrie.cpp
   requiredBy: []
-  timestamp: '2026-10-10 16:23:40+09:00'
+  timestamp: '2026-10-18 00:52:11+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_binarytrie.test.cpp
@@ -115,7 +140,7 @@ title: Binary Trie
 ---
 ## 説明
 非負整数集合に対する binary trie である。
-挿入、削除、存在判定、`xor` をかけたあとの最小値取得を $O(X)$ で扱う。
+挿入、削除、存在判定、`xor` をかけたあとの最小値・順位取得を $O(X)$ で扱う。
 ノードは `vector` でまとめて管理する。
 
 ## できること
@@ -143,8 +168,13 @@ title: Binary Trie
   `a xor x` が最小となる要素 `a` を返す。`x = 0` なら通常の最小値
 - `T max_element(T x = 0)`
   `a xor x` が最大となる要素 `a` を返す。`x = 0` なら通常の最大値
+- `T kth_element(int k, T xor_mask = 0) const`
+  `a xor xor_mask` が小さい順で `k` 番目の元要素 `a` を返す。重複も数え、`0 <= k < size()` を前提とする
+- `int count_less(T bound, T xor_mask = 0) const`
+  `a xor xor_mask < bound` を満たす要素数を返す。時間 $O(X)$、追加領域 $O(1)$
 
 ## 使い方
+値・xor の引数・`bound` は非負の `X` bit 整数とする。
 集合として使うなら、挿入前に `contains(x)` を見て重複を避ける。
 
 ```cpp
@@ -154,6 +184,9 @@ trie.reserve(q);
 if (!trie.contains(x)) trie.add(x);
 unsigned int ans = trie.min_element(q);
 ```
+
+`{1, 4, 4, 7}` を入れた trie では、`kth_element(1, 3)` は `7`、`count_less(5, 3)` は `2` を返す。
+`kth_element(0, mask)` は `min_element(mask)`、`kth_element(size() - 1, mask)` は `max_element(mask)` に一致する。
 
 ## 実装上の補足
 `xor_min(x)` は値そのものではなく最小 `xor` 値を返す。

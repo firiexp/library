@@ -264,13 +264,26 @@ data:
     \ << i;\n            }\n            p = nodes[p].nxt[f];\n        }\n        return\
     \ ret;\n    }\n\n    T min_element(T x = 0) const {\n        return xor_min(x)\
     \ ^ x;\n    }\n\n    T max_element(T x = 0) const {\n        T y = x ^ bit_mask();\n\
-    \        return xor_min(y) ^ y;\n    }\n\nprivate:\n    int free_head = -1;\n\n\
-    \    int make_node() {\n        if (free_head == -1) {\n            nodes.emplace_back();\n\
-    \            return (int)nodes.size() - 1;\n        }\n        int v = free_head;\n\
-    \        free_head = nodes[v].nxt[0];\n        nodes[v] = Node();\n        return\
-    \ v;\n    }\n\n    static constexpr T bit_mask() {\n        if constexpr (X ==\
-    \ sizeof(T) * 8) return T(-1);\n        else return (T(1) << X) - 1;\n    }\n\
-    };\n\n/**\n * @brief Binary Trie\n */\n#line 16 \"test/yosupo_aplusb_binarytrie.test.cpp\"\
+    \        return xor_min(y) ^ y;\n    }\n\n    T kth_element(int k, T xor_mask\
+    \ = 0) const {\n        assert(0 <= k && k < size());\n        int p = 0;\n  \
+    \      T value = 0;\n        for (int i = int(X) - 1; i >= 0; --i) {\n       \
+    \     int f = (xor_mask >> i) & 1;\n            int to = nodes[p].nxt[f];\n  \
+    \          int count = to == -1 ? 0 : nodes[to].cnt;\n            if (k >= count)\
+    \ {\n                k -= count;\n                f ^= 1;\n            }\n   \
+    \         value |= T(f) << i;\n            p = nodes[p].nxt[f];\n        }\n \
+    \       return value;\n    }\n\n    int count_less(T bound, T xor_mask = 0) const\
+    \ {\n        int p = 0, result = 0;\n        for (int i = int(X) - 1; i >= 0 &&\
+    \ p != -1; --i) {\n            int f = (xor_mask >> i) & 1;\n            if ((bound\
+    \ >> i) & 1) {\n                int to = nodes[p].nxt[f];\n                if\
+    \ (to != -1) result += nodes[to].cnt;\n                f ^= 1;\n            }\n\
+    \            p = nodes[p].nxt[f];\n        }\n        return result;\n    }\n\n\
+    private:\n    int free_head = -1;\n\n    int make_node() {\n        if (free_head\
+    \ == -1) {\n            nodes.emplace_back();\n            return (int)nodes.size()\
+    \ - 1;\n        }\n        int v = free_head;\n        free_head = nodes[v].nxt[0];\n\
+    \        nodes[v] = Node();\n        return v;\n    }\n\n    static constexpr\
+    \ T bit_mask() {\n        if constexpr (X == sizeof(T) * 8) return T(-1);\n  \
+    \      else return T((make_unsigned_t<T>(1) << X) - 1);\n    }\n};\n\n/**\n *\
+    \ @brief Binary Trie\n */\n#line 16 \"test/yosupo_aplusb_binarytrie.test.cpp\"\
     \n\nconstexpr int B = 8;\nconstexpr unsigned MASK = (1u << B) - 1;\n\nint total_size(const\
     \ vector<int> &freq) {\n    return accumulate(freq.begin(), freq.end(), 0);\n\
     }\n\nvector<unsigned> expand(const vector<int> &freq) {\n    vector<unsigned>\
@@ -300,25 +313,55 @@ data:
     \ rep < 64; ++rep) {\n        unsigned x = rng() & MASK;\n        assert(trie.xor_min(x)\
     \ == brute_xor_min(freq, x));\n        assert(trie.min_element(x) == brute_min_element(freq,\
     \ x));\n        assert(trie.max_element(x) == brute_max_element(freq, x));\n \
-    \   }\n}\n\nvoid self_check() {\n    mt19937 rng(0);\n    Binarytrie<unsigned,\
-    \ 30> churn;\n    churn.add(123, 0);\n    assert(churn.erase(456, 0));\n    assert(churn.nodes.size()\
-    \ == 1 && churn.empty());\n    for (int i = 0; i < 500000; ++i) {\n        unsigned\
-    \ x = rng() & ((1u << 30) - 1);\n        churn.add(x, 3);\n        assert(churn.xor_min(x\
-    \ ^ 123) == 123);\n        assert(!churn.erase(x, 4));\n        assert(churn.count(x)\
-    \ == 3);\n        assert(churn.erase(x, 2));\n        assert(churn.count(x) ==\
-    \ 1);\n        assert(churn.erase(x));\n        assert(churn.empty() && churn.count(x)\
-    \ == 0);\n        assert(churn.nodes.size() == 31);\n    }\n    Binarytrie<unsigned,\
-    \ 30> window;\n    multiset<unsigned> values;\n    deque<unsigned> order;\n  \
-    \  for (int i = 0; i < 10000; ++i) {\n        unsigned x = rng() & ((1u << 30)\
-    \ - 1);\n        if (i % 3 == 0 && !order.empty()) x = order.back();\n       \
-    \ window.add(x);\n        order.push_back(x);\n        values.insert(x);\n   \
-    \     if (order.size() > 32) {\n            unsigned y = order.front();\n    \
-    \        order.pop_front();\n            assert(window.erase(y));\n          \
-    \  values.erase(values.find(y));\n        }\n        unsigned q = rng() & ((1u\
-    \ << 30) - 1), expected = ~0u;\n        for (unsigned y : values) expected = min(expected,\
-    \ y ^ q);\n        assert(window.xor_min(q) == expected);\n        assert(window.nodes.size()\
-    \ <= 1 + 30 * 33);\n        assert(window.size() == int(values.size()));\n   \
-    \ }\n    auto copied = window;\n    while (!order.empty()) {\n        assert(copied.erase(order.front()));\n\
+    \   }\n}\n\ntemplate<class T, size_t X>\nvoid verify_order(const Binarytrie<T,\
+    \ X> &trie, vector<T> values, T mask, const vector<T> &bounds) {\n    sort(values.begin(),\
+    \ values.end(), [mask](T a, T b) { return (a ^ mask) < (b ^ mask); });\n    for\
+    \ (int k = 0; k < (int)values.size(); ++k) assert(trie.kth_element(k, mask) ==\
+    \ values[k]);\n    if (!values.empty()) {\n        assert(trie.kth_element(0,\
+    \ mask) == trie.min_element(mask));\n        assert(trie.kth_element(trie.size()\
+    \ - 1, mask) == trie.max_element(mask));\n    }\n    for (T bound : bounds) {\n\
+    \        int expected = count_if(values.begin(), values.end(), [=](T x) { return\
+    \ (x ^ mask) < bound; });\n        assert(trie.count_less(bound, mask) == expected);\n\
+    \        if (mask == 0) assert(trie.count_less(bound) == expected);\n    }\n \
+    \   if (mask == 0) {\n        for (int k = 0; k < (int)values.size(); ++k) assert(trie.kth_element(k)\
+    \ == values[k]);\n    }\n}\n\nvoid order_check() {\n    mt19937 rng(208);\n  \
+    \  Binarytrie<unsigned, B> trie;\n    vector<int> freq(1 << B);\n    vector<unsigned>\
+    \ bounds(1 << B);\n    iota(bounds.begin(), bounds.end(), 0);\n    for (int step\
+    \ = 0; step < 2000; ++step) {\n        if (step % 100 == 0) {\n            for\
+    \ (unsigned x : bounds) assert(trie.erase(x, freq[x]));\n            fill(freq.begin(),\
+    \ freq.end(), 0);\n        } else {\n            unsigned x = rng() & MASK;\n\
+    \            int k = rng() % 4;\n            if (rng() % 2) {\n              \
+    \  trie.add(x, k);\n                freq[x] += k;\n            } else {\n    \
+    \            bool ok = trie.erase(x, k);\n                assert(ok == (freq[x]\
+    \ >= k));\n                if (ok) freq[x] -= k;\n            }\n        }\n \
+    \       auto values = expand(freq);\n        for (unsigned mask : {0u, MASK, unsigned(rng())\
+    \ & MASK}) verify_order(trie, values, mask, bounds);\n    }\n    using U = uint64_t;\n\
+    \    U high = U(1) << 63;\n    vector<U> values = {0, 0, 1, high - 1, high, high,\
+    \ high + 1, ~U(0)};\n    vector<U> wide_bounds = values;\n    wide_bounds.push_back(2);\n\
+    \    Binarytrie<U, 64> wide(values);\n    for (U mask : {U(0), U(1), high, ~U(0)})\
+    \ verify_order(wide, values, mask, wide_bounds);\n    assert(wide.count_less(~U(0))\
+    \ == (int)values.size() - 1);\n    Binarytrie<int, 31> signed_trie({0, 1, INT_MAX,\
+    \ INT_MAX});\n    verify_order(signed_trie, vector<int>{0, 1, INT_MAX, INT_MAX},\
+    \ INT_MAX, vector<int>{0, 1, INT_MAX});\n}\n\nvoid self_check() {\n    mt19937\
+    \ rng(0);\n    Binarytrie<unsigned, 30> churn;\n    churn.add(123, 0);\n    assert(churn.erase(456,\
+    \ 0));\n    assert(churn.nodes.size() == 1 && churn.empty());\n    for (int i\
+    \ = 0; i < 500000; ++i) {\n        unsigned x = rng() & ((1u << 30) - 1);\n  \
+    \      churn.add(x, 3);\n        assert(churn.xor_min(x ^ 123) == 123);\n    \
+    \    assert(!churn.erase(x, 4));\n        assert(churn.count(x) == 3);\n     \
+    \   assert(churn.erase(x, 2));\n        assert(churn.count(x) == 1);\n       \
+    \ assert(churn.erase(x));\n        assert(churn.empty() && churn.count(x) == 0);\n\
+    \        assert(churn.nodes.size() == 31);\n    }\n    Binarytrie<unsigned, 30>\
+    \ window;\n    multiset<unsigned> values;\n    deque<unsigned> order;\n    for\
+    \ (int i = 0; i < 10000; ++i) {\n        unsigned x = rng() & ((1u << 30) - 1);\n\
+    \        if (i % 3 == 0 && !order.empty()) x = order.back();\n        window.add(x);\n\
+    \        order.push_back(x);\n        values.insert(x);\n        if (order.size()\
+    \ > 32) {\n            unsigned y = order.front();\n            order.pop_front();\n\
+    \            assert(window.erase(y));\n            values.erase(values.find(y));\n\
+    \        }\n        unsigned q = rng() & ((1u << 30) - 1), expected = ~0u;\n \
+    \       for (unsigned y : values) expected = min(expected, y ^ q);\n        assert(window.xor_min(q)\
+    \ == expected);\n        assert(window.nodes.size() <= 1 + 30 * 33);\n       \
+    \ assert(window.size() == int(values.size()));\n    }\n    auto copied = window;\n\
+    \    while (!order.empty()) {\n        assert(copied.erase(order.front()));\n\
     \        order.pop_front();\n    }\n    assert(copied.empty() && !window.empty());\n\
     \    for (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 40;\n       \
     \ vector<unsigned> init(n);\n        vector<int> freq(1 << B, 0);\n        for\
@@ -337,8 +380,8 @@ data:
     \ freq, rng);\n            } else {\n                assert(trie.count(x) == freq[x]);\n\
     \                assert(trie.contains(x) == (freq[x] > 0));\n            }\n\n\
     \            verify_state(trie, freq, rng);\n        }\n    }\n}\n\nint main()\
-    \ {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n   \
-    \ sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    \ {\n    order_check();\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n\
+    \    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n#include <cstring>\n\
     #include <string>\n#include <type_traits>\n\n#include <charconv>\n#include \"\
@@ -372,25 +415,55 @@ data:
     \ rep < 64; ++rep) {\n        unsigned x = rng() & MASK;\n        assert(trie.xor_min(x)\
     \ == brute_xor_min(freq, x));\n        assert(trie.min_element(x) == brute_min_element(freq,\
     \ x));\n        assert(trie.max_element(x) == brute_max_element(freq, x));\n \
-    \   }\n}\n\nvoid self_check() {\n    mt19937 rng(0);\n    Binarytrie<unsigned,\
-    \ 30> churn;\n    churn.add(123, 0);\n    assert(churn.erase(456, 0));\n    assert(churn.nodes.size()\
-    \ == 1 && churn.empty());\n    for (int i = 0; i < 500000; ++i) {\n        unsigned\
-    \ x = rng() & ((1u << 30) - 1);\n        churn.add(x, 3);\n        assert(churn.xor_min(x\
-    \ ^ 123) == 123);\n        assert(!churn.erase(x, 4));\n        assert(churn.count(x)\
-    \ == 3);\n        assert(churn.erase(x, 2));\n        assert(churn.count(x) ==\
-    \ 1);\n        assert(churn.erase(x));\n        assert(churn.empty() && churn.count(x)\
-    \ == 0);\n        assert(churn.nodes.size() == 31);\n    }\n    Binarytrie<unsigned,\
-    \ 30> window;\n    multiset<unsigned> values;\n    deque<unsigned> order;\n  \
-    \  for (int i = 0; i < 10000; ++i) {\n        unsigned x = rng() & ((1u << 30)\
-    \ - 1);\n        if (i % 3 == 0 && !order.empty()) x = order.back();\n       \
-    \ window.add(x);\n        order.push_back(x);\n        values.insert(x);\n   \
-    \     if (order.size() > 32) {\n            unsigned y = order.front();\n    \
-    \        order.pop_front();\n            assert(window.erase(y));\n          \
-    \  values.erase(values.find(y));\n        }\n        unsigned q = rng() & ((1u\
-    \ << 30) - 1), expected = ~0u;\n        for (unsigned y : values) expected = min(expected,\
-    \ y ^ q);\n        assert(window.xor_min(q) == expected);\n        assert(window.nodes.size()\
-    \ <= 1 + 30 * 33);\n        assert(window.size() == int(values.size()));\n   \
-    \ }\n    auto copied = window;\n    while (!order.empty()) {\n        assert(copied.erase(order.front()));\n\
+    \   }\n}\n\ntemplate<class T, size_t X>\nvoid verify_order(const Binarytrie<T,\
+    \ X> &trie, vector<T> values, T mask, const vector<T> &bounds) {\n    sort(values.begin(),\
+    \ values.end(), [mask](T a, T b) { return (a ^ mask) < (b ^ mask); });\n    for\
+    \ (int k = 0; k < (int)values.size(); ++k) assert(trie.kth_element(k, mask) ==\
+    \ values[k]);\n    if (!values.empty()) {\n        assert(trie.kth_element(0,\
+    \ mask) == trie.min_element(mask));\n        assert(trie.kth_element(trie.size()\
+    \ - 1, mask) == trie.max_element(mask));\n    }\n    for (T bound : bounds) {\n\
+    \        int expected = count_if(values.begin(), values.end(), [=](T x) { return\
+    \ (x ^ mask) < bound; });\n        assert(trie.count_less(bound, mask) == expected);\n\
+    \        if (mask == 0) assert(trie.count_less(bound) == expected);\n    }\n \
+    \   if (mask == 0) {\n        for (int k = 0; k < (int)values.size(); ++k) assert(trie.kth_element(k)\
+    \ == values[k]);\n    }\n}\n\nvoid order_check() {\n    mt19937 rng(208);\n  \
+    \  Binarytrie<unsigned, B> trie;\n    vector<int> freq(1 << B);\n    vector<unsigned>\
+    \ bounds(1 << B);\n    iota(bounds.begin(), bounds.end(), 0);\n    for (int step\
+    \ = 0; step < 2000; ++step) {\n        if (step % 100 == 0) {\n            for\
+    \ (unsigned x : bounds) assert(trie.erase(x, freq[x]));\n            fill(freq.begin(),\
+    \ freq.end(), 0);\n        } else {\n            unsigned x = rng() & MASK;\n\
+    \            int k = rng() % 4;\n            if (rng() % 2) {\n              \
+    \  trie.add(x, k);\n                freq[x] += k;\n            } else {\n    \
+    \            bool ok = trie.erase(x, k);\n                assert(ok == (freq[x]\
+    \ >= k));\n                if (ok) freq[x] -= k;\n            }\n        }\n \
+    \       auto values = expand(freq);\n        for (unsigned mask : {0u, MASK, unsigned(rng())\
+    \ & MASK}) verify_order(trie, values, mask, bounds);\n    }\n    using U = uint64_t;\n\
+    \    U high = U(1) << 63;\n    vector<U> values = {0, 0, 1, high - 1, high, high,\
+    \ high + 1, ~U(0)};\n    vector<U> wide_bounds = values;\n    wide_bounds.push_back(2);\n\
+    \    Binarytrie<U, 64> wide(values);\n    for (U mask : {U(0), U(1), high, ~U(0)})\
+    \ verify_order(wide, values, mask, wide_bounds);\n    assert(wide.count_less(~U(0))\
+    \ == (int)values.size() - 1);\n    Binarytrie<int, 31> signed_trie({0, 1, INT_MAX,\
+    \ INT_MAX});\n    verify_order(signed_trie, vector<int>{0, 1, INT_MAX, INT_MAX},\
+    \ INT_MAX, vector<int>{0, 1, INT_MAX});\n}\n\nvoid self_check() {\n    mt19937\
+    \ rng(0);\n    Binarytrie<unsigned, 30> churn;\n    churn.add(123, 0);\n    assert(churn.erase(456,\
+    \ 0));\n    assert(churn.nodes.size() == 1 && churn.empty());\n    for (int i\
+    \ = 0; i < 500000; ++i) {\n        unsigned x = rng() & ((1u << 30) - 1);\n  \
+    \      churn.add(x, 3);\n        assert(churn.xor_min(x ^ 123) == 123);\n    \
+    \    assert(!churn.erase(x, 4));\n        assert(churn.count(x) == 3);\n     \
+    \   assert(churn.erase(x, 2));\n        assert(churn.count(x) == 1);\n       \
+    \ assert(churn.erase(x));\n        assert(churn.empty() && churn.count(x) == 0);\n\
+    \        assert(churn.nodes.size() == 31);\n    }\n    Binarytrie<unsigned, 30>\
+    \ window;\n    multiset<unsigned> values;\n    deque<unsigned> order;\n    for\
+    \ (int i = 0; i < 10000; ++i) {\n        unsigned x = rng() & ((1u << 30) - 1);\n\
+    \        if (i % 3 == 0 && !order.empty()) x = order.back();\n        window.add(x);\n\
+    \        order.push_back(x);\n        values.insert(x);\n        if (order.size()\
+    \ > 32) {\n            unsigned y = order.front();\n            order.pop_front();\n\
+    \            assert(window.erase(y));\n            values.erase(values.find(y));\n\
+    \        }\n        unsigned q = rng() & ((1u << 30) - 1), expected = ~0u;\n \
+    \       for (unsigned y : values) expected = min(expected, y ^ q);\n        assert(window.xor_min(q)\
+    \ == expected);\n        assert(window.nodes.size() <= 1 + 30 * 33);\n       \
+    \ assert(window.size() == int(values.size()));\n    }\n    auto copied = window;\n\
+    \    while (!order.empty()) {\n        assert(copied.erase(order.front()));\n\
     \        order.pop_front();\n    }\n    assert(copied.empty() && !window.empty());\n\
     \    for (int tc = 0; tc < 200; ++tc) {\n        int n = rng() % 40;\n       \
     \ vector<unsigned> init(n);\n        vector<int> freq(1 << B, 0);\n        for\
@@ -409,15 +482,15 @@ data:
     \ freq, rng);\n            } else {\n                assert(trie.count(x) == freq[x]);\n\
     \                assert(trie.contains(x) == (freq[x] > 0));\n            }\n\n\
     \            verify_state(trie, freq, rng);\n        }\n    }\n}\n\nint main()\
-    \ {\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n    ll a, b;\n   \
-    \ sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
+    \ {\n    order_check();\n    self_check();\n\n    Scanner sc;\n    Printer pr;\n\
+    \    ll a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/binarytrie.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_binarytrie.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 16:23:40+09:00'
+  timestamp: '2026-10-18 00:52:11+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_binarytrie.test.cpp
