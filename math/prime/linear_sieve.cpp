@@ -28,23 +28,21 @@ struct LinearSieve {
             mobius[0] = 0;
             if (this->n >= 1) mobius[1] = 1;
         }
-        for (int i = 2; i <= this->n; ++i) {
-            bool prime = min_factor.empty() ? prime_table[i] : min_factor[i] == 0;
-            if (prime) {
-                if (!min_factor.empty()) min_factor[i] = i;
-                if (!phi.empty()) phi[i] = i - 1;
-                if (!mobius.empty()) mobius[i] = -1;
-                primes.emplace_back(i);
+        if (need_min_factor) {
+            if (need_phi) {
+                if (need_mobius) build<true, true, true>();
+                else build<true, true, false>();
+            } else {
+                if (need_mobius) build<true, false, true>();
+                else build<true, false, false>();
             }
-            for (auto &&p : primes) {
-                long long x = 1LL * i * p;
-                if (x > this->n) break;
-                if (!prime_table.empty()) prime_table[x] = false;
-                if (!min_factor.empty()) min_factor[x] = p;
-                bool same = i % p == 0;
-                if (!phi.empty()) phi[x] = same ? phi[i] * p : phi[i] * (p - 1);
-                if (!mobius.empty()) mobius[x] = same ? 0 : -mobius[i];
-                if (same) break;
+        } else {
+            if (need_phi) {
+                if (need_mobius) build<false, true, true>();
+                else build<false, true, false>();
+            } else {
+                if (need_mobius) build<false, false, true>();
+                else build<false, false, false>();
             }
         }
     }
@@ -53,6 +51,30 @@ struct LinearSieve {
         if (x < 2 || x > n) return false;
         if (!min_factor.empty()) return min_factor[x] == x;
         return prime_table[x];
+    }
+
+private:
+    template<bool NeedMinFactor, bool NeedPhi, bool NeedMobius>
+    void build() {
+        for (int i = 2; i <= n; ++i) {
+            bool prime = NeedMinFactor ? min_factor[i] == 0 : prime_table[i];
+            if (prime) {
+                if constexpr (NeedMinFactor) min_factor[i] = i;
+                if constexpr (NeedPhi) phi[i] = i - 1;
+                if constexpr (NeedMobius) mobius[i] = -1;
+                primes.emplace_back(i);
+            }
+            for (auto &&p : primes) {
+                long long x = 1LL * i * p;
+                if (x > n) break;
+                if constexpr (NeedMinFactor) min_factor[x] = p;
+                else prime_table[x] = false;
+                bool same = NeedMinFactor ? p == min_factor[i] : i % p == 0;
+                if constexpr (NeedPhi) phi[x] = same ? phi[i] * p : phi[i] * (p - 1);
+                if constexpr (NeedMobius) mobius[x] = same ? 0 : -mobius[i];
+                if (same) break;
+            }
+        }
     }
 };
 
