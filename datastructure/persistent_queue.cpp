@@ -2,7 +2,6 @@ template<class T>
 class PersistentQueue {
     struct Node {
         T value;
-        int depth;
         size_t offset;
     };
     struct Version {
@@ -17,16 +16,16 @@ public:
     int push(int version, const T &value) {
         assert(0 <= version && version < (int)versions.size());
         auto state = versions[version];
-        int depth = state.tail == -1 ? 1 : nodes[state.tail].depth + 1;
+        int length = state.length + 1;
         size_t offset = ancestors.size();
         ancestors.push_back(state.tail);
-        for (int bit = 1; (1LL << bit) < depth; ++bit) {
+        for (int bit = 1; (1LL << bit) < length; ++bit) {
             int half = ancestors[offset + bit - 1];
             ancestors.push_back(ancestors[nodes[half].offset + bit - 1]);
         }
         int id = (int)nodes.size();
-        nodes.push_back({value, depth, offset});
-        versions.push_back({id, state.length + 1});
+        nodes.push_back({value, offset});
+        versions.push_back({id, length});
         return (int)versions.size() - 1;
     }
 

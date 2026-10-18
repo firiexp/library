@@ -6,6 +6,46 @@ using namespace std;
 #include "../util/fastio.cpp"
 #include "../datastructure/persistent_queue.cpp"
 
+void check_sliding_branches() {
+    for (int width : {1, 64, 1024}) {
+        PersistentQueue<int> q;
+        int version = 0;
+        vector<pair<int, int>> snapshots;
+        for (int i = 0; i < 30000; ++i) {
+            version = q.push(version, i);
+            if (q.size(version) > width) version = q.pop(version);
+            assert(q.size(version) == min(i + 1, width));
+            assert(q.front(version) == max(0, i + 1 - width));
+            if (i % 997 == 0) snapshots.emplace_back(version, i);
+        }
+        for (auto [original, last] : snapshots) {
+            deque<int> expected;
+            for (int i = max(0, last + 1 - width); i <= last; ++i) expected.push_back(i);
+            int branch = original;
+            while (expected.size() > 1) {
+                branch = q.pop(branch);
+                expected.pop_front();
+                assert(q.front(branch) == expected.front());
+            }
+            for (int i = 0; i < 2 * width + 65; ++i) {
+                branch = q.push(branch, -i - 1);
+                expected.push_back(-i - 1);
+                assert(q.size(branch) == int(expected.size()));
+                assert(q.front(branch) == expected.front());
+            }
+            while (!expected.empty()) {
+                assert(q.front(branch) == expected.front());
+                branch = q.pop(branch);
+                expected.pop_front();
+            }
+            assert(q.empty(branch));
+            assert(q.front(q.push(branch, 42)) == 42);
+            assert(q.size(original) == min(last + 1, width));
+            assert(q.front(original) == max(0, last + 1 - width));
+        }
+    }
+}
+
 void self_check() {
     mt19937 rng(103);
     for (int trial = 0; trial < 100; ++trial) {
@@ -62,6 +102,7 @@ void self_check() {
 
 int main() {
     self_check();
+    check_sliding_branches();
     Scanner in;
     Printer out;
     int a, b;
