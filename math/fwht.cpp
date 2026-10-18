@@ -13,8 +13,16 @@ void fwht(vector<T> &v){
     }
 }
 
+namespace fwht_detail {
 template<class T>
-void ifwht(vector<T> &v){
+auto inverse(vector<T> &v, int) -> decltype(T(1).inv(), void()) {
+    fwht(v);
+    T inverse_size = T(v.size()).inv();
+    for (auto &x : v) x *= inverse_size;
+}
+
+template<class T>
+void inverse(vector<T> &v, long) {
     int sz = 1;
     while(sz < v.size()) sz <<= 1;
     v.resize(sz);
@@ -26,6 +34,25 @@ void ifwht(vector<T> &v){
             }
         }
     }
+}
+}
+
+template<class T>
+void ifwht(vector<T> &v) {
+    fwht_detail::inverse(v, 0);
+}
+
+template<class T>
+vector<T> xor_convolution(vector<T> a, vector<T> b) {
+    int n = 1;
+    while (n < (int)a.size() || n < (int)b.size()) n <<= 1;
+    a.resize(n);
+    b.resize(n);
+    fwht(a);
+    fwht(b);
+    for (int i = 0; i < n; ++i) a[i] *= b[i];
+    ifwht(a);
+    return a;
 }
 
 /**
