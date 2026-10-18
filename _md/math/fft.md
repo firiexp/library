@@ -8,7 +8,7 @@ tags: 数学
 
 ## 説明
 3 つの NTT 友好素数で畳み込み、Garner で任意 MOD に復元する。
-複素 FFT を使わないので誤差がない。短い入力は `MOD` 上で直接積を計算する。
+複素 FFT を使わないので誤差がない。
 
 ## できること
 - `vector<unsigned int> ArbitraryConvolution::convolution_mod(const vector<unsigned int>& a, const vector<unsigned int>& b)`
@@ -24,6 +24,8 @@ tags: 数学
 整数値を保った畳み込みは `math/integer_convolution.cpp` を使う。
 
 ## 実装上の補足
-係数数を $n,m$ とすると、定数との積は $O(n+m)$、短い入力の直接積は $O(nm)$、それ以外は $O((n+m)\log(n+m))$ 時間。
+入力する2つの係数配列の長さを $n,m$ とする。
+片方が1要素なら $O(n+m)$、短い方が128要素以下なら $O(nm)$ で直接積を計算する。
+それ以外は $O((n+m)\log(n+m))$ 時間。
 3 素数は `167772161`, `469762049`, `1224736769` を使う。
 Library Checker の `convolution_mod_1000000007` は verify 済み。
