@@ -26,6 +26,7 @@ tags: 木
 辺をすべて追加してから `build(root)` を呼ぶ。
 返る id は同じ `build` の中でのみ意味を持ち、`id[v] == id[u]` のときに限って
 `v` と `u` の部分木は同型である。
+別々の木の比較や頂点対応の復元には `tree/tree_isomorphism.cpp` の `tree_isomorphism` / `rooted_tree_isomorphism` を使う。
 
 ```cpp
 TreeHash th(n);

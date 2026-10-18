@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_TREE_TREE_CENTER_CPP
+#define FIRIEXP_LIBRARY_TREE_TREE_CENTER_CPP
+
 pair<int, vector<int>> tree_center(const vector<vector<int>> &G) {
     int n = G.size();
     if (n == 0) return {0, {}};
@@ -36,3 +39,5 @@ pair<int, vector<int>> tree_center(const vector<vector<int>> &G) {
 /**
  * @brief 木の中心(Tree Center)
  */
+
+#endif
