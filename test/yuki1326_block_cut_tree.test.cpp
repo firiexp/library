@@ -1,6 +1,7 @@
 #define PROBLEM "https://yukicoder.me/problems/no/1326"
 
 #include <algorithm>
+#include <limits>
 #include <vector>
 
 #include <cstdio>

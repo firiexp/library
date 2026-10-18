@@ -1,5 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/vertex_add_subtree_sum"
 
+#include <limits>
 #include <vector>
 using namespace std;
 
