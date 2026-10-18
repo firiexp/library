@@ -15,7 +15,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/gauss_jordan_mint.cpp"
+#include "../math/matrix_rank.cpp"
 
 int main() {
     Scanner sc;
@@ -23,10 +23,6 @@ int main() {
 
     int n, m;
     sc.read(n, m);
-    if (n == 0 || m == 0) {
-        pr.println(0);
-        return 0;
-    }
     vector<vector<mint>> A(n, vector<mint>(m));
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < m; ++j) {
@@ -35,6 +31,6 @@ int main() {
             A[i][j] = x;
         }
     }
-    pr.println(gauss_jordan(A));
+    pr.println(matrix_rank(std::move(A)));
     return 0;
 }
