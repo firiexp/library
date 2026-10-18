@@ -93,9 +93,7 @@ struct ImplicitTreap {
     }
 
     void apply(int l, int r, const L &x) {
-        auto [a, b, c] = split3(root, l, r);
-        apply_node(b, x);
-        root = merge(merge(a, b), c);
+        apply_range(root, l, r, x);
     }
 
     void reverse(int l, int r) {
@@ -109,6 +107,22 @@ struct ImplicitTreap {
     }
 
 private:
+    void apply_range(int v, int l, int r, const L &x) {
+        if (l == r) return;
+        if (l == 0 && r == nodes[v].sz) {
+            apply_node(v, x);
+            return;
+        }
+        push(v);
+        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
+        if (l < left_size) apply_range(nodes[v].l, l, min(r, left_size), x);
+        if (l <= left_size && left_size < r) nodes[v].val = M::g(nodes[v].val, x);
+        if (left_size + 1 < r) {
+            apply_range(nodes[v].r, max(0, l - left_size - 1), r - left_size - 1, x);
+        }
+        pull(v);
+    }
+
     void set_node(int v, int k, const T &x) {
         push(v);
         int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
