@@ -45,6 +45,11 @@ struct HeavyLightDecompositionEdge {
     }
 
     template<typename F>
+    void path_ordered(int u, int v, const F &f) const {
+        hld.path_ordered(u, v, f, true);
+    }
+
+    template<typename F>
     void apply_subtree(int v, const F &f) {
         hld.apply_subtree(v, f, true);
     }

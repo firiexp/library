@@ -145,6 +145,31 @@ public:
     }
 
     template<typename F>
+    void path_ordered(int u, int v, const F &f, bool edge = false) const {
+        struct Interval { int l, r; };
+        Interval pending[numeric_limits<unsigned>::digits];
+        int size = 0;
+        while (head[u] != head[v]) {
+            if (id[u] > id[v]) {
+                f(id[head[u]], id[u] + 1, true);
+                u = par[head[u]];
+            } else {
+                pending[size++] = {id[head[v]], id[v] + 1};
+                v = par[head[v]];
+            }
+        }
+        if (id[u] <= id[v]) {
+            if (id[u] + edge <= id[v]) f(id[u] + edge, id[v] + 1, false);
+        } else {
+            f(id[v] + edge, id[u] + 1, true);
+        }
+        while (size) {
+            auto [l, r] = pending[--size];
+            f(l, r, false);
+        }
+    }
+
+    template<typename F>
     void apply_subtree(int v, const F &f, bool edge = false){
         auto [l, r] = subtree(v, edge);
         f(l, r);

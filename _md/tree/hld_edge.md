@@ -24,6 +24,8 @@ tags: 木
   部分木の辺集合に対応する半開区間 `[l, r)` を返す
 - `void path(int u, int v, F f)`
   `u - v` パス上の辺を被覆する各区間へ `f(l, r)` を呼ぶ
+- `void path_ordered(int u, int v, F f) const`
+  `u -> v` の順に `f(l, r, reversed)` を呼ぶ。空でない半開区間を渡し、`reversed` は区間内を降順に進むことを表す。`u = v` では呼ばない
 - `T path_query(int u, int v, T e, Q q, F f)`
   可換向け辺パスクエリ
 - `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f)`
@@ -36,7 +38,8 @@ tags: 木
 ## 使い方
 各辺の値は子頂点側に置く。
 `parent(v) - v` の辺を更新したいときは `edge_index(v)` を使う。
-パス順序が必要なときは `path_query_ordered` を使う。
+パス順序付きの集約には `path_query_ordered`、区間ごとの処理には `path_ordered` を使う。
+両端点は同じ連結成分に属することを前提とする。
 
 ```cpp
 HeavyLightDecompositionEdge hld(n);
@@ -52,3 +55,5 @@ auto ans = hld.path_query_ordered(a, b, Monoid::e(), ql, qr, Monoid::f);
 ## 実装上の補足
 内部では頂点版 HLD の `edge = true` を使っている。
 `subtree(v)` は `v` 自身へ入る辺を含まないので、根の部分木では木全体の辺区間になる。
+`path_ordered` は LCA の位置を除き、辺を子頂点の位置で渡す。
+callback を除く時間と作業領域は $O(\log N)$ で、heap 確保は行わない。
