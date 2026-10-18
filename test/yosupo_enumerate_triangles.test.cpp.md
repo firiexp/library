@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/enumerate_triangles.cpp
     title: "\u7121\u5411\u30B0\u30E9\u30D5\u306E\u4E09\u89D2\u5F62\u5217\u6319"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

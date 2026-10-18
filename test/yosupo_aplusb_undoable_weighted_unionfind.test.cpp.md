@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/undoable_weighted_unionfind.cpp
     title: "\u5DEE\u5206\u30FB\u77DB\u76FE\u5224\u5B9A\u4ED8\u304Drollback UnionFind"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

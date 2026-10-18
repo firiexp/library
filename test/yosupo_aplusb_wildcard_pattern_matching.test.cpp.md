@@ -8,7 +8,7 @@ data:
     path: string/wildcard_pattern_matching.cpp
     title: "\u30EF\u30A4\u30EB\u30C9\u30AB\u30FC\u30C9\u4ED8\u304D\u30D1\u30BF\u30FC\
       \u30F3\u7167\u5408"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

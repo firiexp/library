@@ -50,6 +50,9 @@ data:
     path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fft.test.cpp
+    title: test/yosupo_aplusb_fft.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
     title: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - icon: ':heavy_check_mark:'
@@ -245,6 +248,7 @@ data:
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_range_parallel_unionfind.test.cpp
+  - test/yosupo_aplusb_fft.test.cpp
   - test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - test/yuki2867.test.cpp
   - test/yosupo_aplusb_comb_table.test.cpp

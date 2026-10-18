@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: graph/biconnected_components.cpp
     title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: graph/block_cut_tree.cpp
     title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
   _extendedRequiredBy: []

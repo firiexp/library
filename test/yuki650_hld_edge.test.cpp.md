@@ -1,16 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/segmenttree/segtree.cpp
     title: Segment Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
   - icon: ':heavy_check_mark:'
     path: tree/hld_edge.cpp
     title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'

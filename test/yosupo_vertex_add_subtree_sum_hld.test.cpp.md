@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: datastructure/segmenttree/segtree.cpp
     title: Segment Tree
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
@@ -22,14 +22,14 @@ data:
     - https://judge.yosupo.jp/problem/vertex_add_subtree_sum
   bundledCode: "#line 1 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\n\n#include\
-    \ <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    \ <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -355,7 +355,7 @@ data:
     \       return 0;\n    }\n    T operator[](const int &k) const { return seg[k\
     \ + sz]; }\n};\n\n\n/*\nstruct Monoid{\n    using T = array<mint, 2>;\n    static\
     \ T f(T a, T b) { return {a[0]*b[0], a[1]*b[0]+b[1]}; }\n    static T e() { return\
-    \ {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line 17 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\
+    \ {1, 0}; }\n};\n*/\n\n/**\n * @brief Segment Tree\n */\n#line 18 \"test/yosupo_vertex_add_subtree_sum_hld.test.cpp\"\
     \n\nstruct SumMonoid {\n    using T = ll;\n    static T f(T a, T b) { return a\
     \ + b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
     \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
@@ -369,22 +369,22 @@ data:
     \ {\n            pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
     \ r); }));\n        }\n    }\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/vertex_add_subtree_sum\"\
-    \n\n#include <vector>\nusing namespace std;\n\nusing ll = long long;\n\n#include\
-    \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../tree/hld.cpp\"\
-    \n#include \"../datastructure/segmenttree/segtree.cpp\"\n\nstruct SumMonoid {\n\
-    \    using T = ll;\n    static T f(T a, T b) { return a + b; }\n    static T e()\
-    \ { return 0; }\n};\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int\
-    \ n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n    for (auto &&x : a) sc.read(x);\n\
-    \n    HeavyLightDecomposition hld(n);\n    for (int v = 1; v < n; ++v) {\n   \
-    \     int p;\n        sc.read(p);\n        hld.add_edge(p, v);\n    }\n    hld.build();\n\
-    \n    SegmentTree<SumMonoid> seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v],\
-    \ a[v]);\n    seg.build();\n\n    for (int i = 0; i < q; ++i) {\n        int t,\
-    \ v;\n        sc.read(t, v);\n        if (t == 0) {\n            ll x;\n     \
-    \       sc.read(x);\n            int p = hld.id[v];\n            seg.update(p,\
-    \ seg[p] + x);\n        } else {\n            pr.println(hld.subtree_query(v,\
-    \ [&](int l, int r) { return seg.query(l, r); }));\n        }\n    }\n    return\
-    \ 0;\n}\n"
+    \n\n#include <limits>\n#include <vector>\nusing namespace std;\n\nusing ll = long\
+    \ long;\n\n#include <cstdio>\n#include <cstring>\n#include <string>\n#include\
+    \ <type_traits>\n\n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include\
+    \ \"../tree/hld.cpp\"\n#include \"../datastructure/segmenttree/segtree.cpp\"\n\
+    \nstruct SumMonoid {\n    using T = ll;\n    static T f(T a, T b) { return a +\
+    \ b; }\n    static T e() { return 0; }\n};\n\nint main() {\n    Scanner sc;\n\
+    \    Printer pr;\n\n    int n, q;\n    sc.read(n, q);\n    vector<ll> a(n);\n\
+    \    for (auto &&x : a) sc.read(x);\n\n    HeavyLightDecomposition hld(n);\n \
+    \   for (int v = 1; v < n; ++v) {\n        int p;\n        sc.read(p);\n     \
+    \   hld.add_edge(p, v);\n    }\n    hld.build();\n\n    SegmentTree<SumMonoid>\
+    \ seg(n);\n    for (int v = 0; v < n; ++v) seg.set(hld.id[v], a[v]);\n    seg.build();\n\
+    \n    for (int i = 0; i < q; ++i) {\n        int t, v;\n        sc.read(t, v);\n\
+    \        if (t == 0) {\n            ll x;\n            sc.read(x);\n         \
+    \   int p = hld.id[v];\n            seg.update(p, seg[p] + x);\n        } else\
+    \ {\n            pr.println(hld.subtree_query(v, [&](int l, int r) { return seg.query(l,\
+    \ r); }));\n        }\n    }\n    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
   - tree/hld.cpp
@@ -392,8 +392,8 @@ data:
   isVerificationFile: true
   path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
   requiredBy: []
-  timestamp: '2026-10-18 09:37:05+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2026-10-18 10:34:29+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
 layout: document

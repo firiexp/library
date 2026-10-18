@@ -106,6 +106,9 @@ data:
     path: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fft.test.cpp
+    title: test/yosupo_aplusb_fft.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_fwht.test.cpp
     title: test/yosupo_aplusb_fwht.test.cpp
   - icon: ':heavy_check_mark:'
@@ -442,6 +445,7 @@ data:
   - test/yosupo_range_parallel_unionfind.test.cpp
   - test/yosupo_aplusb_fwht.test.cpp
   - test/yosupo_pow_of_formal_power_series.test.cpp
+  - test/yosupo_aplusb_fft.test.cpp
   - test/yosupo_sqrt_of_formal_power_series.test.cpp
   - test/yosupo_aplusb_matrix_determinant_mod.test.cpp
   - test/yosupo_aplusb_gauss_jordan_mint.test.cpp

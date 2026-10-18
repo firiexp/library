@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/prime/linear_sieve.cpp
     title: "\u7DDA\u5F62\u7BE9(Linear Sieve)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -243,20 +243,30 @@ data:
     \ = false;\n        }\n        if (!min_factor.empty() && this->n >= 1) min_factor[1]\
     \ = 1;\n        if (!phi.empty()) {\n            phi[0] = 0;\n            if (this->n\
     \ >= 1) phi[1] = 1;\n        }\n        if (!mobius.empty()) {\n            mobius[0]\
-    \ = 0;\n            if (this->n >= 1) mobius[1] = 1;\n        }\n        for (int\
-    \ i = 2; i <= this->n; ++i) {\n            bool prime = min_factor.empty() ? prime_table[i]\
-    \ : min_factor[i] == 0;\n            if (prime) {\n                if (!min_factor.empty())\
-    \ min_factor[i] = i;\n                if (!phi.empty()) phi[i] = i - 1;\n    \
-    \            if (!mobius.empty()) mobius[i] = -1;\n                primes.emplace_back(i);\n\
+    \ = 0;\n            if (this->n >= 1) mobius[1] = 1;\n        }\n        if (need_min_factor)\
+    \ {\n            if (need_phi) {\n                if (need_mobius) build<true,\
+    \ true, true>();\n                else build<true, true, false>();\n         \
+    \   } else {\n                if (need_mobius) build<true, false, true>();\n \
+    \               else build<true, false, false>();\n            }\n        } else\
+    \ {\n            if (need_phi) {\n                if (need_mobius) build<false,\
+    \ true, true>();\n                else build<false, true, false>();\n        \
+    \    } else {\n                if (need_mobius) build<false, false, true>();\n\
+    \                else build<false, false, false>();\n            }\n        }\n\
+    \    }\n\n    bool is_prime(int x) const {\n        if (x < 2 || x > n) return\
+    \ false;\n        if (!min_factor.empty()) return min_factor[x] == x;\n      \
+    \  return prime_table[x];\n    }\n\nprivate:\n    template<bool NeedMinFactor,\
+    \ bool NeedPhi, bool NeedMobius>\n    void build() {\n        for (int i = 2;\
+    \ i <= n; ++i) {\n            bool prime = NeedMinFactor ? min_factor[i] == 0\
+    \ : prime_table[i];\n            if (prime) {\n                if constexpr (NeedMinFactor)\
+    \ min_factor[i] = i;\n                if constexpr (NeedPhi) phi[i] = i - 1;\n\
+    \                if constexpr (NeedMobius) mobius[i] = -1;\n                primes.emplace_back(i);\n\
     \            }\n            for (auto &&p : primes) {\n                long long\
-    \ x = 1LL * i * p;\n                if (x > this->n) break;\n                if\
-    \ (!prime_table.empty()) prime_table[x] = false;\n                if (!min_factor.empty())\
-    \ min_factor[x] = p;\n                bool same = i % p == 0;\n              \
-    \  if (!phi.empty()) phi[x] = same ? phi[i] * p : phi[i] * (p - 1);\n        \
-    \        if (!mobius.empty()) mobius[x] = same ? 0 : -mobius[i];\n           \
-    \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
-    \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
-    \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
+    \ x = 1LL * i * p;\n                if (x > n) break;\n                if constexpr\
+    \ (NeedMinFactor) min_factor[x] = p;\n                else prime_table[x] = false;\n\
+    \                bool same = NeedMinFactor ? p == min_factor[i] : i % p == 0;\n\
+    \                if constexpr (NeedPhi) phi[x] = same ? phi[i] * p : phi[i] *\
+    \ (p - 1);\n                if constexpr (NeedMobius) mobius[x] = same ? 0 : -mobius[i];\n\
+    \                if (same) break;\n            }\n        }\n    }\n};\n\n/**\n\
     \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_prime2.cpp\"\
     \n\ntemplate<typename T>\nstruct ExactDiv {\n    T t, i, val;\n    ExactDiv()\
     \ {}\n    ExactDiv(T n) : t(T(-1) / n), i(mul_inv(n)) , val(n) {};\n    T mul_inv(T\
@@ -294,7 +304,7 @@ data:
   isVerificationFile: true
   path: test/aoj_alds1_1_c_get_prime2.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-18 10:17:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj_alds1_1_c_get_prime2.test.cpp

@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/tree_mo.cpp
     title: "\u6728\u4E0A\u30D1\u30B9\u306EMo"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'

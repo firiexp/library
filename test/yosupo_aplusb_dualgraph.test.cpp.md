@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: geometry/dualgraph.cpp
     title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: geometry/geometry.cpp
     title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

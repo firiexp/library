@@ -10,7 +10,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: geometry/polygon_integral.cpp
     title: "\u591A\u89D2\u5F62\u306E\u533A\u9593\u9762\u7A4D\u3068\u91CD\u5FC3"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

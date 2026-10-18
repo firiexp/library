@@ -10,10 +10,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_point_set_range_composite.test.cpp
     title: test/yosupo_point_set_range_composite.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
   - icon: ':heavy_check_mark:'
@@ -28,9 +28,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: Segment Tree
     links: []
@@ -104,7 +104,7 @@ data:
   path: datastructure/segmenttree/segtree.cpp
   requiredBy: []
   timestamp: '2026-10-18 00:36:46+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp

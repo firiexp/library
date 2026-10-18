@@ -13,7 +13,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj0334.test.cpp
     title: test/aoj0334.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0342.test.cpp
     title: test/aoj0342.test.cpp
   - icon: ':heavy_check_mark:'
@@ -242,6 +242,9 @@ data:
     path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
     title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fft.test.cpp
+    title: test/yosupo_aplusb_fft.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_floor_sum.test.cpp
     title: test/yosupo_aplusb_floor_sum.test.cpp
   - icon: ':heavy_check_mark:'
@@ -331,6 +334,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_linear_recurrence.test.cpp
     title: test/yosupo_aplusb_linear_recurrence.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_linear_sieve.test.cpp
+    title: test/yosupo_aplusb_linear_sieve.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
     title: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
@@ -994,10 +1000,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1018,7 +1024,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_zalgorithm_suffix_array_query.test.cpp
     title: test/yosupo_zalgorithm_suffix_array_query.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1036,9 +1042,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yuki957_project_selection_problem.test.cpp
     title: test/yuki957_project_selection_problem.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     links: []
@@ -1463,7 +1469,7 @@ data:
   path: util/fastio.cpp
   requiredBy: []
   timestamp: '2026-10-05 22:58:12+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_shortest_path.test.cpp
   - test/yosupo_wildcard_pattern_matching.test.cpp
@@ -1620,11 +1626,13 @@ data:
   - test/yosupo_addition_of_hex_big_integers.test.cpp
   - test/yosupo_unionfind.test.cpp
   - test/yosupo_shortest_path_radix_heap.test.cpp
+  - test/yosupo_aplusb_linear_sieve.test.cpp
   - test/aoj_alds1_1_c_get_prime2.test.cpp
   - test/yosupo_aplusb_parallel_binary_search.test.cpp
   - test/yosupo_aplusb_virtual_tree_helper.test.cpp
   - test/yosupo_aplusb_range_edge_graph.test.cpp
   - test/aoj0334.test.cpp
+  - test/yosupo_aplusb_fft.test.cpp
   - test/yosupo_unionfind_quickfind.test.cpp
   - test/yosupo_point_add_range_sum_dynamic_segtree.test.cpp
   - test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp

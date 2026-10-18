@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/solve_linear_system.cpp
     title: "\u9023\u7ACB\u4E00\u6B21\u65B9\u7A0B\u5F0F\u306E\u89E3\u7A7A\u9593"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'

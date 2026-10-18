@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/persistent_queue.cpp
     title: "\u6C38\u7D9A\u30AD\u30E5\u30FC"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -228,18 +228,17 @@ data:
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/persistent_queue.cpp\"\
     \ntemplate<class T>\nclass PersistentQueue {\n    struct Node {\n        T value;\n\
-    \        int depth;\n        size_t offset;\n    };\n    struct Version {\n  \
-    \      int tail, length;\n    };\n\n    vector<Node> nodes;\n    vector<int> ancestors;\n\
-    \    vector<Version> versions{{-1, 0}};\n\npublic:\n    int push(int version,\
-    \ const T &value) {\n        assert(0 <= version && version < (int)versions.size());\n\
-    \        auto state = versions[version];\n        int depth = state.tail == -1\
-    \ ? 1 : nodes[state.tail].depth + 1;\n        size_t offset = ancestors.size();\n\
-    \        ancestors.push_back(state.tail);\n        for (int bit = 1; (1LL << bit)\
-    \ < depth; ++bit) {\n            int half = ancestors[offset + bit - 1];\n   \
-    \         ancestors.push_back(ancestors[nodes[half].offset + bit - 1]);\n    \
-    \    }\n        int id = (int)nodes.size();\n        nodes.push_back({value, depth,\
-    \ offset});\n        versions.push_back({id, state.length + 1});\n        return\
-    \ (int)versions.size() - 1;\n    }\n\n    int pop(int version) {\n        assert(!empty(version));\n\
+    \        size_t offset;\n    };\n    struct Version {\n        int tail, length;\n\
+    \    };\n\n    vector<Node> nodes;\n    vector<int> ancestors;\n    vector<Version>\
+    \ versions{{-1, 0}};\n\npublic:\n    int push(int version, const T &value) {\n\
+    \        assert(0 <= version && version < (int)versions.size());\n        auto\
+    \ state = versions[version];\n        int length = state.length + 1;\n       \
+    \ size_t offset = ancestors.size();\n        ancestors.push_back(state.tail);\n\
+    \        for (int bit = 1; (1LL << bit) < length; ++bit) {\n            int half\
+    \ = ancestors[offset + bit - 1];\n            ancestors.push_back(ancestors[nodes[half].offset\
+    \ + bit - 1]);\n        }\n        int id = (int)nodes.size();\n        nodes.push_back({value,\
+    \ offset});\n        versions.push_back({id, length});\n        return (int)versions.size()\
+    \ - 1;\n    }\n\n    int pop(int version) {\n        assert(!empty(version));\n\
     \        auto state = versions[version];\n        if (--state.length == 0) state.tail\
     \ = -1;\n        versions.push_back(state);\n        return (int)versions.size()\
     \ - 1;\n    }\n\n    T front(int version) const {\n        assert(!empty(version));\n\
@@ -250,16 +249,37 @@ data:
     \ <= version && version < (int)versions.size());\n        return versions[version].length;\n\
     \    }\n\n    bool empty(int version) const { return size(version) == 0; }\n};\n\
     \n/**\n * @brief \u6C38\u7D9A\u30AD\u30E5\u30FC\n */\n#line 8 \"test/yosupo_aplusb_persistent_queue.test.cpp\"\
-    \n\nvoid self_check() {\n    mt19937 rng(103);\n    for (int trial = 0; trial\
-    \ < 100; ++trial) {\n        PersistentQueue<int> q;\n        vector<deque<int>>\
-    \ states(1);\n        assert(q.empty(0) && q.size(0) == 0);\n        for (int\
-    \ step = 0; step < 1000; ++step) {\n            int version = rng() % states.size();\n\
-    \            auto expected = states[version];\n            int next;\n       \
-    \     if (expected.empty() || rng() % 3) {\n                int x = int(rng()\
-    \ % 101) - 50;\n                next = q.push(version, x);\n                expected.push_back(x);\n\
-    \            } else {\n                assert(q.front(version) == expected.front());\n\
-    \                next = q.pop(version);\n                expected.pop_front();\n\
-    \            }\n            assert(next == (int)states.size());\n            states.push_back(expected);\n\
+    \n\nvoid check_sliding_branches() {\n    for (int width : {1, 64, 1024}) {\n \
+    \       PersistentQueue<int> q;\n        int version = 0;\n        vector<pair<int,\
+    \ int>> snapshots;\n        for (int i = 0; i < 30000; ++i) {\n            version\
+    \ = q.push(version, i);\n            if (q.size(version) > width) version = q.pop(version);\n\
+    \            assert(q.size(version) == min(i + 1, width));\n            assert(q.front(version)\
+    \ == max(0, i + 1 - width));\n            if (i % 997 == 0) snapshots.emplace_back(version,\
+    \ i);\n        }\n        for (auto [original, last] : snapshots) {\n        \
+    \    deque<int> expected;\n            for (int i = max(0, last + 1 - width);\
+    \ i <= last; ++i) expected.push_back(i);\n            int branch = original;\n\
+    \            while (expected.size() > 1) {\n                branch = q.pop(branch);\n\
+    \                expected.pop_front();\n                assert(q.front(branch)\
+    \ == expected.front());\n            }\n            for (int i = 0; i < 2 * width\
+    \ + 65; ++i) {\n                branch = q.push(branch, -i - 1);\n           \
+    \     expected.push_back(-i - 1);\n                assert(q.size(branch) == int(expected.size()));\n\
+    \                assert(q.front(branch) == expected.front());\n            }\n\
+    \            while (!expected.empty()) {\n                assert(q.front(branch)\
+    \ == expected.front());\n                branch = q.pop(branch);\n           \
+    \     expected.pop_front();\n            }\n            assert(q.empty(branch));\n\
+    \            assert(q.front(q.push(branch, 42)) == 42);\n            assert(q.size(original)\
+    \ == min(last + 1, width));\n            assert(q.front(original) == max(0, last\
+    \ + 1 - width));\n        }\n    }\n}\n\nvoid self_check() {\n    mt19937 rng(103);\n\
+    \    for (int trial = 0; trial < 100; ++trial) {\n        PersistentQueue<int>\
+    \ q;\n        vector<deque<int>> states(1);\n        assert(q.empty(0) && q.size(0)\
+    \ == 0);\n        for (int step = 0; step < 1000; ++step) {\n            int version\
+    \ = rng() % states.size();\n            auto expected = states[version];\n   \
+    \         int next;\n            if (expected.empty() || rng() % 3) {\n      \
+    \          int x = int(rng() % 101) - 50;\n                next = q.push(version,\
+    \ x);\n                expected.push_back(x);\n            } else {\n        \
+    \        assert(q.front(version) == expected.front());\n                next =\
+    \ q.pop(version);\n                expected.pop_front();\n            }\n    \
+    \        assert(next == (int)states.size());\n            states.push_back(expected);\n\
     \            for (int t : {version, next, int(rng() % states.size())}) {\n   \
     \             assert(q.size(t) == (int)states[t].size());\n                assert(q.empty(t)\
     \ == states[t].empty());\n                if (!q.empty(t)) assert(q.front(t) ==\
@@ -275,20 +295,41 @@ data:
     \    int a = strings.push(0, \"a\"), b = strings.push(a, \"b\");\n    assert(strings.front(b)\
     \ == \"a\");\n    auto copy = strings;\n    assert(copy.front(copy.pop(b)) ==\
     \ \"b\");\n    assert(strings.front(b) == \"a\");\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a\
-    \ + b);\n}\n"
+    \    check_sliding_branches();\n    Scanner in;\n    Printer out;\n    int a,\
+    \ b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/persistent_queue.cpp\"\
-    \n\nvoid self_check() {\n    mt19937 rng(103);\n    for (int trial = 0; trial\
-    \ < 100; ++trial) {\n        PersistentQueue<int> q;\n        vector<deque<int>>\
-    \ states(1);\n        assert(q.empty(0) && q.size(0) == 0);\n        for (int\
-    \ step = 0; step < 1000; ++step) {\n            int version = rng() % states.size();\n\
-    \            auto expected = states[version];\n            int next;\n       \
-    \     if (expected.empty() || rng() % 3) {\n                int x = int(rng()\
-    \ % 101) - 50;\n                next = q.push(version, x);\n                expected.push_back(x);\n\
-    \            } else {\n                assert(q.front(version) == expected.front());\n\
-    \                next = q.pop(version);\n                expected.pop_front();\n\
-    \            }\n            assert(next == (int)states.size());\n            states.push_back(expected);\n\
+    \n\nvoid check_sliding_branches() {\n    for (int width : {1, 64, 1024}) {\n \
+    \       PersistentQueue<int> q;\n        int version = 0;\n        vector<pair<int,\
+    \ int>> snapshots;\n        for (int i = 0; i < 30000; ++i) {\n            version\
+    \ = q.push(version, i);\n            if (q.size(version) > width) version = q.pop(version);\n\
+    \            assert(q.size(version) == min(i + 1, width));\n            assert(q.front(version)\
+    \ == max(0, i + 1 - width));\n            if (i % 997 == 0) snapshots.emplace_back(version,\
+    \ i);\n        }\n        for (auto [original, last] : snapshots) {\n        \
+    \    deque<int> expected;\n            for (int i = max(0, last + 1 - width);\
+    \ i <= last; ++i) expected.push_back(i);\n            int branch = original;\n\
+    \            while (expected.size() > 1) {\n                branch = q.pop(branch);\n\
+    \                expected.pop_front();\n                assert(q.front(branch)\
+    \ == expected.front());\n            }\n            for (int i = 0; i < 2 * width\
+    \ + 65; ++i) {\n                branch = q.push(branch, -i - 1);\n           \
+    \     expected.push_back(-i - 1);\n                assert(q.size(branch) == int(expected.size()));\n\
+    \                assert(q.front(branch) == expected.front());\n            }\n\
+    \            while (!expected.empty()) {\n                assert(q.front(branch)\
+    \ == expected.front());\n                branch = q.pop(branch);\n           \
+    \     expected.pop_front();\n            }\n            assert(q.empty(branch));\n\
+    \            assert(q.front(q.push(branch, 42)) == 42);\n            assert(q.size(original)\
+    \ == min(last + 1, width));\n            assert(q.front(original) == max(0, last\
+    \ + 1 - width));\n        }\n    }\n}\n\nvoid self_check() {\n    mt19937 rng(103);\n\
+    \    for (int trial = 0; trial < 100; ++trial) {\n        PersistentQueue<int>\
+    \ q;\n        vector<deque<int>> states(1);\n        assert(q.empty(0) && q.size(0)\
+    \ == 0);\n        for (int step = 0; step < 1000; ++step) {\n            int version\
+    \ = rng() % states.size();\n            auto expected = states[version];\n   \
+    \         int next;\n            if (expected.empty() || rng() % 3) {\n      \
+    \          int x = int(rng() % 101) - 50;\n                next = q.push(version,\
+    \ x);\n                expected.push_back(x);\n            } else {\n        \
+    \        assert(q.front(version) == expected.front());\n                next =\
+    \ q.pop(version);\n                expected.pop_front();\n            }\n    \
+    \        assert(next == (int)states.size());\n            states.push_back(expected);\n\
     \            for (int t : {version, next, int(rng() % states.size())}) {\n   \
     \             assert(q.size(t) == (int)states[t].size());\n                assert(q.empty(t)\
     \ == states[t].empty());\n                if (!q.empty(t)) assert(q.front(t) ==\
@@ -304,15 +345,15 @@ data:
     \    int a = strings.push(0, \"a\"), b = strings.push(a, \"b\");\n    assert(strings.front(b)\
     \ == \"a\");\n    auto copy = strings;\n    assert(copy.front(copy.pop(b)) ==\
     \ \"b\");\n    assert(strings.front(b) == \"a\");\n}\n\nint main() {\n    self_check();\n\
-    \    Scanner in;\n    Printer out;\n    int a, b;\n    in.read(a, b);\n    out.println(a\
-    \ + b);\n}\n"
+    \    check_sliding_branches();\n    Scanner in;\n    Printer out;\n    int a,\
+    \ b;\n    in.read(a, b);\n    out.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - datastructure/persistent_queue.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_persistent_queue.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 18:53:49+09:00'
+  timestamp: '2026-10-18 10:17:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_persistent_queue.test.cpp

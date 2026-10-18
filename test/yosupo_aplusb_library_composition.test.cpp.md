@@ -16,10 +16,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/static_rectangle_sum.cpp
     title: "\u9759\u7684\u9577\u65B9\u5F62\u548C(Static Rectangle Sum)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: geometry/dualgraph.cpp
     title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: geometry/geometry.cpp
     title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
   - icon: ':heavy_check_mark:'
@@ -34,13 +34,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: graph/bfs01.cpp
     title: 01-BFS
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: graph/biconnected_components.cpp
     title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: graph/biconnected_components.cpp
     title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: graph/block_cut_tree.cpp
     title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
   - icon: ':heavy_check_mark:'
@@ -85,10 +85,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/auxtree.cpp
     title: "\u88DC\u52A9\u6728(Aux Tree)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
   - icon: ':heavy_check_mark:'
@@ -97,7 +97,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: tree/virtual_tree_helper.cpp
     title: Virtual Tree Helper
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
@@ -933,20 +933,30 @@ data:
     \ (!min_factor.empty() && this->n >= 1) min_factor[1] = 1;\n        if (!phi.empty())\
     \ {\n            phi[0] = 0;\n            if (this->n >= 1) phi[1] = 1;\n    \
     \    }\n        if (!mobius.empty()) {\n            mobius[0] = 0;\n         \
-    \   if (this->n >= 1) mobius[1] = 1;\n        }\n        for (int i = 2; i <=\
-    \ this->n; ++i) {\n            bool prime = min_factor.empty() ? prime_table[i]\
-    \ : min_factor[i] == 0;\n            if (prime) {\n                if (!min_factor.empty())\
-    \ min_factor[i] = i;\n                if (!phi.empty()) phi[i] = i - 1;\n    \
-    \            if (!mobius.empty()) mobius[i] = -1;\n                primes.emplace_back(i);\n\
+    \   if (this->n >= 1) mobius[1] = 1;\n        }\n        if (need_min_factor)\
+    \ {\n            if (need_phi) {\n                if (need_mobius) build<true,\
+    \ true, true>();\n                else build<true, true, false>();\n         \
+    \   } else {\n                if (need_mobius) build<true, false, true>();\n \
+    \               else build<true, false, false>();\n            }\n        } else\
+    \ {\n            if (need_phi) {\n                if (need_mobius) build<false,\
+    \ true, true>();\n                else build<false, true, false>();\n        \
+    \    } else {\n                if (need_mobius) build<false, false, true>();\n\
+    \                else build<false, false, false>();\n            }\n        }\n\
+    \    }\n\n    bool is_prime(int x) const {\n        if (x < 2 || x > n) return\
+    \ false;\n        if (!min_factor.empty()) return min_factor[x] == x;\n      \
+    \  return prime_table[x];\n    }\n\nprivate:\n    template<bool NeedMinFactor,\
+    \ bool NeedPhi, bool NeedMobius>\n    void build() {\n        for (int i = 2;\
+    \ i <= n; ++i) {\n            bool prime = NeedMinFactor ? min_factor[i] == 0\
+    \ : prime_table[i];\n            if (prime) {\n                if constexpr (NeedMinFactor)\
+    \ min_factor[i] = i;\n                if constexpr (NeedPhi) phi[i] = i - 1;\n\
+    \                if constexpr (NeedMobius) mobius[i] = -1;\n                primes.emplace_back(i);\n\
     \            }\n            for (auto &&p : primes) {\n                long long\
-    \ x = 1LL * i * p;\n                if (x > this->n) break;\n                if\
-    \ (!prime_table.empty()) prime_table[x] = false;\n                if (!min_factor.empty())\
-    \ min_factor[x] = p;\n                bool same = i % p == 0;\n              \
-    \  if (!phi.empty()) phi[x] = same ? phi[i] * p : phi[i] * (p - 1);\n        \
-    \        if (!mobius.empty()) mobius[x] = same ? 0 : -mobius[i];\n           \
-    \     if (same) break;\n            }\n        }\n    }\n\n    bool is_prime(int\
-    \ x) const {\n        if (x < 2 || x > n) return false;\n        if (!min_factor.empty())\
-    \ return min_factor[x] == x;\n        return prime_table[x];\n    }\n};\n\n/**\n\
+    \ x = 1LL * i * p;\n                if (x > n) break;\n                if constexpr\
+    \ (NeedMinFactor) min_factor[x] = p;\n                else prime_table[x] = false;\n\
+    \                bool same = NeedMinFactor ? p == min_factor[i] : i % p == 0;\n\
+    \                if constexpr (NeedPhi) phi[x] = same ? phi[i] * p : phi[i] *\
+    \ (p - 1);\n                if constexpr (NeedMobius) mobius[x] = same ? 0 : -mobius[i];\n\
+    \                if (same) break;\n            }\n        }\n    }\n};\n\n/**\n\
     \ * @brief \u7DDA\u5F62\u7BE9(Linear Sieve)\n */\n\n\n#line 2 \"math/prime/get_min_factor.cpp\"\
     \n\nvector<int> get_min_factor(int n) {\n    return LinearSieve(n, true).min_factor;\n\
     }\n\n/**\n * @brief \u6700\u5C0F\u7D20\u56E0\u6570\u30C6\u30FC\u30D6\u30EB(Min\
@@ -1574,7 +1584,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_library_composition.test.cpp
   requiredBy: []
-  timestamp: '2026-10-18 09:37:05+09:00'
+  timestamp: '2026-10-18 10:17:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_library_composition.test.cpp

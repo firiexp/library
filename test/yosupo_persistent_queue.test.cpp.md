@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: datastructure/persistent_queue.cpp
     title: "\u6C38\u7D9A\u30AD\u30E5\u30FC"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
@@ -228,18 +228,17 @@ data:
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"datastructure/persistent_queue.cpp\"\
     \ntemplate<class T>\nclass PersistentQueue {\n    struct Node {\n        T value;\n\
-    \        int depth;\n        size_t offset;\n    };\n    struct Version {\n  \
-    \      int tail, length;\n    };\n\n    vector<Node> nodes;\n    vector<int> ancestors;\n\
-    \    vector<Version> versions{{-1, 0}};\n\npublic:\n    int push(int version,\
-    \ const T &value) {\n        assert(0 <= version && version < (int)versions.size());\n\
-    \        auto state = versions[version];\n        int depth = state.tail == -1\
-    \ ? 1 : nodes[state.tail].depth + 1;\n        size_t offset = ancestors.size();\n\
-    \        ancestors.push_back(state.tail);\n        for (int bit = 1; (1LL << bit)\
-    \ < depth; ++bit) {\n            int half = ancestors[offset + bit - 1];\n   \
-    \         ancestors.push_back(ancestors[nodes[half].offset + bit - 1]);\n    \
-    \    }\n        int id = (int)nodes.size();\n        nodes.push_back({value, depth,\
-    \ offset});\n        versions.push_back({id, state.length + 1});\n        return\
-    \ (int)versions.size() - 1;\n    }\n\n    int pop(int version) {\n        assert(!empty(version));\n\
+    \        size_t offset;\n    };\n    struct Version {\n        int tail, length;\n\
+    \    };\n\n    vector<Node> nodes;\n    vector<int> ancestors;\n    vector<Version>\
+    \ versions{{-1, 0}};\n\npublic:\n    int push(int version, const T &value) {\n\
+    \        assert(0 <= version && version < (int)versions.size());\n        auto\
+    \ state = versions[version];\n        int length = state.length + 1;\n       \
+    \ size_t offset = ancestors.size();\n        ancestors.push_back(state.tail);\n\
+    \        for (int bit = 1; (1LL << bit) < length; ++bit) {\n            int half\
+    \ = ancestors[offset + bit - 1];\n            ancestors.push_back(ancestors[nodes[half].offset\
+    \ + bit - 1]);\n        }\n        int id = (int)nodes.size();\n        nodes.push_back({value,\
+    \ offset});\n        versions.push_back({id, length});\n        return (int)versions.size()\
+    \ - 1;\n    }\n\n    int pop(int version) {\n        assert(!empty(version));\n\
     \        auto state = versions[version];\n        if (--state.length == 0) state.tail\
     \ = -1;\n        versions.push_back(state);\n        return (int)versions.size()\
     \ - 1;\n    }\n\n    T front(int version) const {\n        assert(!empty(version));\n\
@@ -271,7 +270,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_persistent_queue.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 18:53:49+09:00'
+  timestamp: '2026-10-18 10:17:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_persistent_queue.test.cpp

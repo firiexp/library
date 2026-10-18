@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/characteristic_polynomial.cpp
     title: "\u7279\u6027\u591A\u9805\u5F0F"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'

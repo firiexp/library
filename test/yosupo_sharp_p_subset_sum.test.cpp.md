@@ -7,7 +7,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/subset_sum_counts.cpp
     title: "\u548C\u3054\u3068\u306E\u90E8\u5206\u96C6\u5408\u6570"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'

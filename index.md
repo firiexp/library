@@ -115,7 +115,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/undoableunionfind.cpp
       title: Undoable Union Find
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/unionfind.cpp
       title: "UnionFind(\u7D20\u96C6\u5408\u30C7\u30FC\u30BF\u69CB\u9020)"
     - icon: ':heavy_check_mark:'
@@ -145,7 +145,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/segmenttree/segbeats.cpp
       title: Segment Tree Beats!
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: datastructure/segmenttree/segtree.cpp
       title: Segment Tree
   - name: flow
@@ -206,13 +206,13 @@ data:
     - icon: ':heavy_check_mark:'
       path: geometry/convex_hull.cpp
       title: "\u51F8\u5305(Convex Hull)"
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: geometry/dualgraph.cpp
       title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
     - icon: ':heavy_check_mark:'
       path: geometry/furthest_pair.cpp
       title: "\u6700\u9060\u70B9\u5BFE"
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: geometry/geometry.cpp
       title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     - icon: ':warning:'
@@ -245,7 +245,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/bfs01.cpp
       title: 01-BFS
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: graph/biconnected_components.cpp
       title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
     - icon: ':heavy_check_mark:'
@@ -256,7 +256,7 @@ data:
       path: graph/bipartite_matching_lexmin.cpp
       title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
         (Lexicographically Minimum Bipartite Matching)"
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: graph/block_cut_tree.cpp
       title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
     - icon: ':heavy_check_mark:'
@@ -525,7 +525,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/prime/eulerphi.cpp
       title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570(Euler Phi)"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/prime/eulerphi_all.cpp
       title: "\u30AA\u30A4\u30E9\u30FC\u306E\u03C6\u95A2\u6570\u30C6\u30FC\u30D6\u30EB"
     - icon: ':heavy_check_mark:'
@@ -546,7 +546,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/prime/miller_rabin.cpp
       title: "Miller-Rabin\u7D20\u6570\u5224\u5B9A"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: math/prime/mobius_all.cpp
       title: "\u30E1\u30D3\u30A6\u30B9\u95A2\u6570\u30C6\u30FC\u30D6\u30EB(Mobius\
         \ Table)"
@@ -669,7 +669,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/frequency_table_of_tree_distance.cpp
       title: Frequency Table of Tree Distance
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: tree/hld.cpp
       title: "HL\u5206\u89E3(HL Decomposition)"
     - icon: ':heavy_check_mark:'
@@ -710,7 +710,7 @@ data:
     - icon: ':warning:'
       path: util/dice.cpp
       title: util/dice.cpp
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: util/fastio.cpp
       title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
     - icon: ':heavy_check_mark:'
@@ -762,7 +762,7 @@ data:
   verificationCategories:
   - name: test
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aoj0273.test.cpp
       title: test/aoj0273.test.cpp
     - icon: ':heavy_check_mark:'
@@ -783,7 +783,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj0335.test.cpp
       title: test/aoj0335.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/aoj0342.test.cpp
       title: test/aoj0342.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1054,6 +1054,9 @@ data:
       path: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
       title: test/yosupo_aplusb_fenwick_tree_2d.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_fft.test.cpp
+      title: test/yosupo_aplusb_fft.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_floor_sum.test.cpp
       title: test/yosupo_aplusb_floor_sum.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1143,6 +1146,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_linear_recurrence.test.cpp
       title: test/yosupo_aplusb_linear_recurrence.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_linear_sieve.test.cpp
+      title: test/yosupo_aplusb_linear_sieve.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
       title: test/yosupo_aplusb_link_cut_tree_jump.test.cpp
@@ -1860,10 +1866,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1884,7 +1890,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_zalgorithm_suffix_array_query.test.cpp
       title: test/yosupo_zalgorithm_suffix_array_query.test.cpp
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: test/yuki1326_block_cut_tree.test.cpp
       title: test/yuki1326_block_cut_tree.test.cpp
     - icon: ':heavy_check_mark:'

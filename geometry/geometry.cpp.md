@@ -2,17 +2,17 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: geometry/dualgraph.cpp
     title: "\u53CC\u5BFE\u30B0\u30E9\u30D5(Dual Graph)"
   - icon: ':heavy_check_mark:'
     path: geometry/half_plane_intersection.cpp
     title: "\u534A\u5E73\u9762\u5171\u901A\u90E8\u5206(Half-Plane Intersection)"
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0273.test.cpp
     title: test/aoj0273.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/aoj0342.test.cpp
     title: test/aoj0342.test.cpp
   - icon: ':heavy_check_mark:'
@@ -42,9 +42,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
     links: []
@@ -397,7 +397,7 @@ data:
   - geometry/half_plane_intersection.cpp
   - geometry/dualgraph.cpp
   timestamp: '2026-10-18 01:36:00+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj_cgl_5_a.test.cpp
   - test/yosupo_aplusb_closest_pair_real.test.cpp

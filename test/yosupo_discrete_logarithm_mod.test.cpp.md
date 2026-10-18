@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/discrete_logarithm.cpp
     title: "\u96E2\u6563\u5BFE\u6570(Discrete Logarithm)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

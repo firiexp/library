@@ -14,7 +14,7 @@ data:
     path: graph/range_edge_graph.cpp
     title: "\u533A\u9593\u3078\u306E\u8FBA\u3092\u5727\u7E2E\u3059\u308B\u30B0\u30E9\
       \u30D5"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

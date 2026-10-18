@@ -16,42 +16,40 @@ data:
     document_title: "\u6C38\u7D9A\u30AD\u30E5\u30FC"
     links: []
   bundledCode: "#line 1 \"datastructure/persistent_queue.cpp\"\ntemplate<class T>\n\
-    class PersistentQueue {\n    struct Node {\n        T value;\n        int depth;\n\
-    \        size_t offset;\n    };\n    struct Version {\n        int tail, length;\n\
-    \    };\n\n    vector<Node> nodes;\n    vector<int> ancestors;\n    vector<Version>\
-    \ versions{{-1, 0}};\n\npublic:\n    int push(int version, const T &value) {\n\
-    \        assert(0 <= version && version < (int)versions.size());\n        auto\
-    \ state = versions[version];\n        int depth = state.tail == -1 ? 1 : nodes[state.tail].depth\
-    \ + 1;\n        size_t offset = ancestors.size();\n        ancestors.push_back(state.tail);\n\
-    \        for (int bit = 1; (1LL << bit) < depth; ++bit) {\n            int half\
+    class PersistentQueue {\n    struct Node {\n        T value;\n        size_t offset;\n\
+    \    };\n    struct Version {\n        int tail, length;\n    };\n\n    vector<Node>\
+    \ nodes;\n    vector<int> ancestors;\n    vector<Version> versions{{-1, 0}};\n\
+    \npublic:\n    int push(int version, const T &value) {\n        assert(0 <= version\
+    \ && version < (int)versions.size());\n        auto state = versions[version];\n\
+    \        int length = state.length + 1;\n        size_t offset = ancestors.size();\n\
+    \        ancestors.push_back(state.tail);\n        for (int bit = 1; (1LL << bit)\
+    \ < length; ++bit) {\n            int half = ancestors[offset + bit - 1];\n  \
+    \          ancestors.push_back(ancestors[nodes[half].offset + bit - 1]);\n   \
+    \     }\n        int id = (int)nodes.size();\n        nodes.push_back({value,\
+    \ offset});\n        versions.push_back({id, length});\n        return (int)versions.size()\
+    \ - 1;\n    }\n\n    int pop(int version) {\n        assert(!empty(version));\n\
+    \        auto state = versions[version];\n        if (--state.length == 0) state.tail\
+    \ = -1;\n        versions.push_back(state);\n        return (int)versions.size()\
+    \ - 1;\n    }\n\n    T front(int version) const {\n        assert(!empty(version));\n\
+    \        int node = versions[version].tail;\n        int distance = versions[version].length\
+    \ - 1;\n        for (int bit = 0; distance; ++bit, distance >>= 1)\n         \
+    \   if (distance & 1) node = ancestors[nodes[node].offset + bit];\n        return\
+    \ nodes[node].value;\n    }\n\n    int size(int version) const {\n        assert(0\
+    \ <= version && version < (int)versions.size());\n        return versions[version].length;\n\
+    \    }\n\n    bool empty(int version) const { return size(version) == 0; }\n};\n\
+    \n/**\n * @brief \u6C38\u7D9A\u30AD\u30E5\u30FC\n */\n"
+  code: "template<class T>\nclass PersistentQueue {\n    struct Node {\n        T\
+    \ value;\n        size_t offset;\n    };\n    struct Version {\n        int tail,\
+    \ length;\n    };\n\n    vector<Node> nodes;\n    vector<int> ancestors;\n   \
+    \ vector<Version> versions{{-1, 0}};\n\npublic:\n    int push(int version, const\
+    \ T &value) {\n        assert(0 <= version && version < (int)versions.size());\n\
+    \        auto state = versions[version];\n        int length = state.length +\
+    \ 1;\n        size_t offset = ancestors.size();\n        ancestors.push_back(state.tail);\n\
+    \        for (int bit = 1; (1LL << bit) < length; ++bit) {\n            int half\
     \ = ancestors[offset + bit - 1];\n            ancestors.push_back(ancestors[nodes[half].offset\
     \ + bit - 1]);\n        }\n        int id = (int)nodes.size();\n        nodes.push_back({value,\
-    \ depth, offset});\n        versions.push_back({id, state.length + 1});\n    \
-    \    return (int)versions.size() - 1;\n    }\n\n    int pop(int version) {\n \
-    \       assert(!empty(version));\n        auto state = versions[version];\n  \
-    \      if (--state.length == 0) state.tail = -1;\n        versions.push_back(state);\n\
-    \        return (int)versions.size() - 1;\n    }\n\n    T front(int version) const\
-    \ {\n        assert(!empty(version));\n        int node = versions[version].tail;\n\
-    \        int distance = versions[version].length - 1;\n        for (int bit =\
-    \ 0; distance; ++bit, distance >>= 1)\n            if (distance & 1) node = ancestors[nodes[node].offset\
-    \ + bit];\n        return nodes[node].value;\n    }\n\n    int size(int version)\
-    \ const {\n        assert(0 <= version && version < (int)versions.size());\n \
-    \       return versions[version].length;\n    }\n\n    bool empty(int version)\
-    \ const { return size(version) == 0; }\n};\n\n/**\n * @brief \u6C38\u7D9A\u30AD\
-    \u30E5\u30FC\n */\n"
-  code: "template<class T>\nclass PersistentQueue {\n    struct Node {\n        T\
-    \ value;\n        int depth;\n        size_t offset;\n    };\n    struct Version\
-    \ {\n        int tail, length;\n    };\n\n    vector<Node> nodes;\n    vector<int>\
-    \ ancestors;\n    vector<Version> versions{{-1, 0}};\n\npublic:\n    int push(int\
-    \ version, const T &value) {\n        assert(0 <= version && version < (int)versions.size());\n\
-    \        auto state = versions[version];\n        int depth = state.tail == -1\
-    \ ? 1 : nodes[state.tail].depth + 1;\n        size_t offset = ancestors.size();\n\
-    \        ancestors.push_back(state.tail);\n        for (int bit = 1; (1LL << bit)\
-    \ < depth; ++bit) {\n            int half = ancestors[offset + bit - 1];\n   \
-    \         ancestors.push_back(ancestors[nodes[half].offset + bit - 1]);\n    \
-    \    }\n        int id = (int)nodes.size();\n        nodes.push_back({value, depth,\
-    \ offset});\n        versions.push_back({id, state.length + 1});\n        return\
-    \ (int)versions.size() - 1;\n    }\n\n    int pop(int version) {\n        assert(!empty(version));\n\
+    \ offset});\n        versions.push_back({id, length});\n        return (int)versions.size()\
+    \ - 1;\n    }\n\n    int pop(int version) {\n        assert(!empty(version));\n\
     \        auto state = versions[version];\n        if (--state.length == 0) state.tail\
     \ = -1;\n        versions.push_back(state);\n        return (int)versions.size()\
     \ - 1;\n    }\n\n    T front(int version) const {\n        assert(!empty(version));\n\
@@ -66,7 +64,7 @@ data:
   isVerificationFile: false
   path: datastructure/persistent_queue.cpp
   requiredBy: []
-  timestamp: '2026-10-10 18:53:49+09:00'
+  timestamp: '2026-10-18 10:17:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_persistent_queue.test.cpp
@@ -105,6 +103,7 @@ int d = q.push(a, 30);
 空になったversionは末尾を切り離し、次のpushを新しい履歴の根にする。
 祖先情報は1本の連続配列に格納し、nodeごとの小さな配列確保を行わない。
 
-これまでの更新数を $Q$、push数を $P$ とし、要素コピーを $O(1)$ とすると、`front` は最悪 $O(\log(P))$、`size/empty` は最悪 $O(1)$。
-`push` は償却 $O(\log(P))$、`pop` は償却 $O(1)$。償却は配列の幾何拡張に由来し、過去versionへの分岐回数によって崩れない。
-総領域は $O(Q+P\log(P))$。
+要素コピーを $O(1)$ とすると、`front(version)` はそのversionのキューの要素数を $L$ として最悪 $O(\log L)$。
+`push(version, value)` は追加後のキューの要素数を $L$ として償却 $O(\log L)$。
+`size/empty` は最悪 $O(1)$、`pop` は償却 $O(1)$。償却は配列の幾何拡張に由来し、過去versionへの分岐回数によって崩れない。
+更新数を $Q$、各 `push` で作るキューの要素数を $L_i$ とすると、総領域は $O(Q+\sum_i\log L_i)$。

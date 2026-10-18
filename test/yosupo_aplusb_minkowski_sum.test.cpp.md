@@ -14,7 +14,7 @@ data:
     path: geometry/minkowski_sum.cpp
     title: "\u6574\u6570\u51F8\u591A\u89D2\u5F62\u306E\u30DF\u30F3\u30B3\u30D5\u30B9\
       \u30AD\u30FC\u548C"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

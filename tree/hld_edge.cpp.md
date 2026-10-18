@@ -2,7 +2,7 @@
 category: "\u6728"
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
   _extendedRequiredBy: []

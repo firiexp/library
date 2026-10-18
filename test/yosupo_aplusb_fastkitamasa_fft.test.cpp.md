@@ -14,7 +14,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/fastkitamasa_self_check.cpp
     title: test/fastkitamasa_self_check.cpp
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   - icon: ':heavy_check_mark:'
@@ -492,13 +492,19 @@ data:
     \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
     \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
     \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 6 \"math/fft.cpp\"\n\nnamespace\
-    \ ArbitraryConvolution {\n    vector<unsigned int> convolution_mod(const vector<unsigned\
-    \ int> &a, const vector<unsigned int> &b) {\n        if (a.empty() || b.empty())\
-    \ return {};\n        static const NTT1 ntt1;\n        static const NTT2 ntt2;\n\
-    \        static const NTT3 ntt3;\n        auto c1 = ntt1.convolution(a, b);\n\
-    \        auto c2 = ntt2.convolution(a, b);\n        auto c3 = ntt3.convolution(a,\
-    \ b);\n        vector<unsigned int> res(c1.size());\n        for (int i = 0; i\
-    \ < (int)res.size(); ++i) {\n            res[i] = internal::combine_mod<MOD>(c1[i],\
+    \ ArbitraryConvolution {\n    constexpr int naive_mod_threshold = 128;\n\n   \
+    \ vector<unsigned int> convolution_mod(const vector<unsigned int> &a, const vector<unsigned\
+    \ int> &b) {\n        if (a.empty() || b.empty()) return {};\n        if (min(a.size(),\
+    \ b.size()) <= naive_mod_threshold) {\n            const auto &x = a.size() <\
+    \ b.size() ? b : a;\n            const auto &y = a.size() < b.size() ? a : b;\n\
+    \            vector<unsigned int> res(x.size() + y.size() - 1);\n            for\
+    \ (size_t i = 0; i < y.size(); ++i)\n                for (size_t j = 0; j < x.size();\
+    \ ++j)\n                    res[i + j] = (1ULL * y[i] * x[j] + res[i + j]) % MOD;\n\
+    \            return res;\n        }\n        static const NTT1 ntt1;\n       \
+    \ static const NTT2 ntt2;\n        static const NTT3 ntt3;\n        auto c1 =\
+    \ ntt1.convolution(a, b);\n        auto c2 = ntt2.convolution(a, b);\n       \
+    \ auto c3 = ntt3.convolution(a, b);\n        vector<unsigned int> res(c1.size());\n\
+    \        for (int i = 0; i < (int)res.size(); ++i) {\n            res[i] = internal::combine_mod<MOD>(c1[i],\
     \ c2[i], c3[i]);\n        }\n        return res;\n    }\n}\n\nstruct poly {\n\
     \    vector<mint> v;\n    poly() = default;\n    explicit poly(int n) : v(n) {}\n\
     \    explicit poly(vector<mint> vv) : v(std::move(vv)) {}\n    int size() const\
@@ -509,29 +515,38 @@ data:
     \        for (int i = 0; i < a.size(); ++i) v[i] += a.v[i];\n        return *this;\n\
     \    }\n    poly& operator-=(const poly &a) {\n        v.resize(max(size(), a.size()));\n\
     \        for (int i = 0; i < a.size(); ++i) v[i] -= a.v[i];\n        return *this;\n\
-    \    }\n    poly& operator*=(const poly &a) {\n        if (size() == 0 || a.size()\
-    \ == 0) {\n            v.clear();\n            return *this;\n        }\n    \
-    \    vector<unsigned int> x(size()), y(a.size());\n        for (int i = 0; i <\
-    \ size(); ++i) x[i] = v[i].val;\n        for (int i = 0; i < a.size(); ++i) y[i]\
-    \ = a.v[i].val;\n        auto z = ArbitraryConvolution::convolution_mod(x, y);\n\
-    \        v.resize(z.size());\n        for (int i = 0; i < (int)z.size(); ++i)\
-    \ v[i] = z[i];\n        return *this;\n    }\n    poly& operator/=(const poly\
-    \ &a) { return (*this) *= a.inv(); }\n    poly operator+(const poly &a) const\
-    \ { return poly(*this) += a; }\n    poly operator-(const poly &a) const { return\
-    \ poly(*this) -= a; }\n    poly operator*(const poly &a) const { return poly(*this)\
-    \ *= a; }\n\n    poly inv() const {\n        int n = size();\n        poly r(1);\n\
-    \        r[0] = v[0].inv();\n        int k = 1;\n        while (k < n) {\n   \
-    \         k <<= 1;\n            poly f(k);\n            for (int i = 0; i < min(k,\
-    \ n); ++i) f[i] = v[i];\n            poly nr = (r * r * f).cut(k);\n         \
-    \   for (int i = 0; i < k / 2; ++i) {\n                nr[i] = r[i] + r[i] - nr[i];\n\
-    \                nr[i + k / 2] = -nr[i + k / 2];\n            }\n            r\
-    \ = nr;\n        }\n        r.v.resize(n);\n        return r;\n    }\n};\n\n/**\n\
-    \ * @brief \u4EFB\u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)\n */\n\n\n\
-    #line 1 \"math/fastkitamasa.cpp\"\nclass Fast_Kitamasa {\n    poly c, ic;\n  \
-    \  int k;\n\npublic:\n    explicit Fast_Kitamasa(const vector<mint> &coefficients)\n\
-    \        : c(coefficients), k((int)coefficients.size() - 1) {\n        assert(k\
-    \ >= 1 && c[k] != mint(0));\n        calc_ic();\n    }\n\n    explicit Fast_Kitamasa(const\
-    \ vector<int> &coefficients, int mod = mint::get_mod())\n        : Fast_Kitamasa(vector<mint>(coefficients.begin(),\
+    \    }\n    poly& operator*=(const poly &a) {\n        int n = size(), m = a.size();\n\
+    \        if (n == 0 || m == 0) {\n            v.clear();\n            return *this;\n\
+    \        }\n        if (n == 1 || m == 1) {\n            mint scalar = m == 1\
+    \ ? a.v[0] : v[0];\n            if (n == 1 && m > 1) v = a.v;\n            for\
+    \ (auto &x : v) x *= scalar;\n            return *this;\n        }\n        if\
+    \ (min(n, m) <= ArbitraryConvolution::naive_mod_threshold) {\n            const\
+    \ auto &x = n < m ? a.v : v;\n            const auto &y = n < m ? v : a.v;\n \
+    \           vector<mint> res(n + m - 1);\n            for (size_t i = 0; i < y.size();\
+    \ ++i)\n                for (size_t j = 0; j < x.size(); ++j)\n              \
+    \      res[i + j].val = (1ULL * y[i].val * x[j].val + res[i + j].val) % MOD;\n\
+    \            v = std::move(res);\n            return *this;\n        }\n     \
+    \   vector<unsigned int> x(n), y(m);\n        for (int i = 0; i < n; ++i) x[i]\
+    \ = v[i].val;\n        for (int i = 0; i < m; ++i) y[i] = a.v[i].val;\n      \
+    \  auto z = ArbitraryConvolution::convolution_mod(x, y);\n        v.resize(z.size());\n\
+    \        for (int i = 0; i < (int)z.size(); ++i) v[i] = z[i];\n        return\
+    \ *this;\n    }\n    poly& operator/=(const poly &a) { return (*this) *= a.inv();\
+    \ }\n    poly operator+(const poly &a) const { return poly(*this) += a; }\n  \
+    \  poly operator-(const poly &a) const { return poly(*this) -= a; }\n    poly\
+    \ operator*(const poly &a) const { return poly(*this) *= a; }\n\n    poly inv()\
+    \ const {\n        int n = size();\n        poly r(1);\n        r[0] = v[0].inv();\n\
+    \        int k = 1;\n        while (k < n) {\n            k <<= 1;\n         \
+    \   poly f(k);\n            for (int i = 0; i < min(k, n); ++i) f[i] = v[i];\n\
+    \            poly nr = (r * r * f).cut(k);\n            for (int i = 0; i < k\
+    \ / 2; ++i) {\n                nr[i] = r[i] + r[i] - nr[i];\n                nr[i\
+    \ + k / 2] = -nr[i + k / 2];\n            }\n            r = nr;\n        }\n\
+    \        r.v.resize(n);\n        return r;\n    }\n};\n\n/**\n * @brief \u4EFB\
+    \u610FMOD\u7573\u307F\u8FBC\u307F(3 NTT + Garner)\n */\n\n\n#line 1 \"math/fastkitamasa.cpp\"\
+    \nclass Fast_Kitamasa {\n    poly c, ic;\n    int k;\n\npublic:\n    explicit\
+    \ Fast_Kitamasa(const vector<mint> &coefficients)\n        : c(coefficients),\
+    \ k((int)coefficients.size() - 1) {\n        assert(k >= 1 && c[k] != mint(0));\n\
+    \        calc_ic();\n    }\n\n    explicit Fast_Kitamasa(const vector<int> &coefficients,\
+    \ int mod = mint::get_mod())\n        : Fast_Kitamasa(vector<mint>(coefficients.begin(),\
     \ coefficients.end())) {\n        assert(mod == (int)mint::get_mod());\n     \
     \   (void)mod;\n    }\n\n    void calc_ic() {\n        if (k == 1) {\n       \
     \     ic = poly();\n            return;\n        }\n        poly reversed(vector<mint>(c.v.rbegin(),\
@@ -610,7 +625,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   requiredBy: []
-  timestamp: '2026-10-10 16:31:42+09:00'
+  timestamp: '2026-10-18 10:17:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_fastkitamasa_fft.test.cpp

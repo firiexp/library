@@ -30,6 +30,9 @@ data:
     path: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fft.test.cpp
+    title: test/yosupo_aplusb_fft.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_monotoniccht.test.cpp
     title: test/yosupo_aplusb_monotoniccht.test.cpp
   - icon: ':heavy_check_mark:'
@@ -516,6 +519,7 @@ data:
   - test/yosupo_aplusb_wildcard_pattern_matching.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_addition_of_hex_big_integers.test.cpp
+  - test/yosupo_aplusb_fft.test.cpp
   - test/yosupo_division_of_big_integers.test.cpp
   - test/yosupo_aplusb_fastkitamasa_fft.test.cpp
   - test/yosupo_aplusb_monotoniccht.test.cpp

@@ -34,10 +34,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
     title: test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
   - icon: ':heavy_check_mark:'
@@ -49,15 +49,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yuki650_hld_edge.test.cpp
     title: test/yuki650_hld_edge.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "HL\u5206\u89E3(HL Decomposition)"
     links: []
@@ -254,7 +254,7 @@ data:
   - graph/vertex_failure_connectivity.cpp
   - tree/hld_edge.cpp
   timestamp: '2026-10-18 09:37:05+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
   - test/yuki650_hld_edge.test.cpp

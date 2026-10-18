@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/min_of_mod_of_linear.cpp
     title: "\u4E00\u6B21\u5F0F\u306E\u5270\u4F59\u306E\u6700\u5C0F\u5024"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

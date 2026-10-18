@@ -11,7 +11,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: flow/primaldual.cpp
     title: "\u6700\u5C0F\u8CBB\u7528\u6D41(Primal-Dual)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []

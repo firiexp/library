@@ -4,13 +4,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: geometry/area_of_union_of_rectangles.cpp
     title: "\u9577\u65B9\u5F62\u548C\u96C6\u5408\u9762\u7A4D(Area of Union of Rectangles)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: geometry/geometry.cpp
     title: "\u5E7E\u4F55\u30E9\u30A4\u30D6\u30E9\u30EA(Geometry)"
   - icon: ':heavy_check_mark:'
     path: graph/manhattanmst.cpp
     title: "\u30DE\u30F3\u30CF\u30C3\u30BF\u30F3MST(Manhattan MST)"
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
