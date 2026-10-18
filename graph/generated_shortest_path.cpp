@@ -110,5 +110,5 @@ GeneratedShortestPathResult<T> bfs01_generated(int n, int source, ForEachEdge fo
 #endif
 
 /**
- * @brief 辺を都度生成する最短路
+ * @brief 陽に辺を持たないグラフの最短路
  */

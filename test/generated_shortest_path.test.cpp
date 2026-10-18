@@ -123,8 +123,12 @@ int main() {
             assert(result.path_to(r, c) == path);
         }
         assert(result.path_to(h, 0).empty());
-        auto single = grid_bfs(h, w, pair<int, int>{0, 0}, passable);
-        assert(single.distance(0, 0) == (passable(0, 0) ? 0 : INF<int>));
+        int sr = rng() % h, sc = rng() % w;
+        auto single = grid_bfs(h, w, sr, sc, passable);
+        fill(initial.begin(), initial.end(), INF<int>);
+        if (passable(sr, sc)) initial[sr * w + sc] = 0;
+        assert(single.paths.dist == dijkstra_from_distances(initial, g));
+        check_paths(single.paths, vector<int>{sr * w + sc}, g);
     }
     auto empty = grid_bfs(0, 5, vector<pair<int, int>>{}, [](int, int) { assert(false); return true; });
     assert(empty.paths.dist.empty() && empty.path_to(0, 0).empty());

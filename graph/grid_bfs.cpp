@@ -39,8 +39,8 @@ GridBFSResult grid_bfs(int h, int w, const vector<pair<int, int>> &sources, Pass
 }
 
 template<class Passable>
-GridBFSResult grid_bfs(int h, int w, pair<int, int> source, Passable passable) {
-    return grid_bfs(h, w, vector<pair<int, int>>{source}, std::move(passable));
+GridBFSResult grid_bfs(int h, int w, int sr, int sc, Passable passable) {
+    return grid_bfs(h, w, vector<pair<int, int>>{{sr, sc}}, std::move(passable));
 }
 
 #endif
