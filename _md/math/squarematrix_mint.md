@@ -26,6 +26,8 @@ tags: データ構造
   $A^k$ を返す
 - `A.pow(k, n)`
   左上 `n × n` だけを使って $A^k$ を返す
+- `A.pow_sum(k, n = SIZE)`
+  非負整数 `k` に対し、左上 `n × n` の $(A^k, I+A+\cdots+A^{k-1})$ を返す。`k = 0` は単位行列と零行列。返り値の未使用領域は0、元の行列は変わらない
 - `x * A`
   長さ `SIZE` の行ベクトルに右から掛ける
 - `A.mul_vec(x, n)`, `A.mul_vec_assign(x, n)`
@@ -44,3 +46,7 @@ tags: データ構造
 同じ行列を右辺に何度も使うなら `PreparedMul` を 1 つ作って `prepare_mul` し、行列積と行ベクトル積の両方で共有すると無駄が少ない。
 
 汎用の半環版が必要なら `SquareMatrix<H, SIZE>` を使う。
+
+## 実装上の補足
+`auto [power, sum] = A.pow_sum(k);` で冪と累積和を同時に求める。逆元は使わず、$A-I$ が特異でもよい。
+`pow_sum` は二分累乗と既存の行列積を組み合わせ、元の行列の転置を再利用する。時間 $O(SIZE^2\log(k)+n^3\log(k))$、作業領域 $O(SIZE^2)$。`pow` の sliding window 法とは別の処理を使う。

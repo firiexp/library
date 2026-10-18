@@ -76,6 +76,25 @@ struct SquareMatrix {
         }
         return res;
     }
+    pair<SquareMatrix, SquareMatrix> pow_sum(ll n, size_t dim = SIZE) const {
+        assert(n >= 0 && dim <= SIZE);
+        if (n == 0) return {I(dim), SquareMatrix()};
+        SquareMatrix power, sum = I(dim);
+        for (size_t i = 0; i < dim; ++i) {
+            for (size_t j = 0; j < dim; ++j) power[i][j] = A[i][j];
+        }
+        for (int bit = 62 - __builtin_clzll(n); bit >= 0; --bit) {
+            SquareMatrix next_sum = power;
+            next_sum.mul_assign(sum, dim);
+            sum += next_sum;
+            power.mul_assign(power, dim);
+            if ((n >> bit) & 1) {
+                sum += power;
+                power.mul_assign(*this, dim);
+            }
+        }
+        return {move(power), move(sum)};
+    }
     SquareMatrix operator+(const SquareMatrix &B) const {return SquareMatrix(*this) += B;}
     SquareMatrix operator-(const SquareMatrix &B) const {return SquareMatrix(*this) -= B;}
     SquareMatrix operator*(const SquareMatrix &B) const {return SquareMatrix(*this) *= B;}

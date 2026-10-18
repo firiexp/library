@@ -60,6 +60,20 @@ struct matrix {
         }
         return res;
     }
+    pair<matrix, matrix> pow_sum(ll n) const {
+        assert(n >= 0 && height() == width());
+        if (n == 0) return {I(height()), matrix(height())};
+        matrix power = *this, sum = I(height());
+        for (int bit = 62 - __builtin_clzll(n); bit >= 0; --bit) {
+            sum += power * sum;
+            power *= power;
+            if ((n >> bit) & 1) {
+                sum += power;
+                power *= *this;
+            }
+        }
+        return {move(power), move(sum)};
+    }
     matrix operator+(const matrix &B) const {return matrix(*this) += B;}
     matrix operator-(const matrix &B) const {return matrix(*this) -= B;}
     matrix operator*(const matrix &B) const {return matrix(*this) *= B;}

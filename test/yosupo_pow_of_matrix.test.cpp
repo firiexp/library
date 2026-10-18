@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/pow_of_matrix"
 
 #include <algorithm>
+#include <cassert>
 #include <array>
 #include <vector>
 using namespace std;

@@ -487,6 +487,29 @@ public:
         }
         return res;
     }
+    pair<SquareMatrixMint, SquareMatrixMint> pow_sum(ll n, size_t dim = SIZE) const {
+        assert(n >= 0 && dim <= SIZE);
+        if (n == 0) return {I(dim), SquareMatrixMint()};
+        SquareMatrixMint power, sum = I(dim);
+        for (size_t i = 0; i < dim; ++i) {
+            for (size_t j = 0; j < dim; ++j) power[i][j] = A[i][j];
+        }
+        if (n == 1) return {move(power), move(sum)};
+        MatrixMulScratch scratch;
+        PreparedMul base;
+        prepare_mul(base, dim);
+        for (int bit = 62 - __builtin_clzll(n); bit >= 0; --bit) {
+            SquareMatrixMint next_sum = power;
+            next_sum.mul_assign(sum, scratch, dim);
+            sum += next_sum;
+            power.mul_assign(power, scratch, dim);
+            if ((n >> bit) & 1) {
+                sum += power;
+                power.mul_assign_prepared(base, scratch, dim);
+            }
+        }
+        return {move(power), move(sum)};
+    }
     SquareMatrixMint operator+(const SquareMatrixMint &B) const { return SquareMatrixMint(*this) += B; }
     SquareMatrixMint operator-(const SquareMatrixMint &B) const { return SquareMatrixMint(*this) -= B; }
     SquareMatrixMint operator*(const SquareMatrixMint &B) const { return SquareMatrixMint(*this) *= B; }

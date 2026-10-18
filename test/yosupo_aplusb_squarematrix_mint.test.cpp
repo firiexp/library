@@ -1,6 +1,7 @@
 #define STANDALONE
 
 #include <algorithm>
+#include <cassert>
 #include <array>
 #include <vector>
 using namespace std;
