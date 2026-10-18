@@ -1,6 +1,8 @@
 #ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_DYNAMIC_BITSET_CPP
 #define FIRIEXP_LIBRARY_DATASTRUCTURE_DYNAMIC_BITSET_CPP
 
+#include "bitset_count.cpp"
+
 #if defined(__x86_64__) || defined(_M_X64)
 #include <immintrin.h>
 #endif
@@ -175,6 +177,12 @@ public:
     int count() const {
         const Word *p = a.data();
         int m = (int)a.size();
+        if (m <= 1) return m ? popcount(p[0]) : 0;
+#if defined(__x86_64__) || defined(_M_X64)
+        if (m >= bitset_count_detail::count_threshold_words) {
+            return bitset_count_detail::count_large(p, m);
+        }
+#endif
         int res = 0;
         int i = 0;
         for (; i + 4 <= m; i += 4) {

@@ -232,8 +232,8 @@ void count_kernels_check() {
                     for (auto x = data[i]; x; x &= x - 1) ++expected;
                 }
                 const auto *p = n ? data.data() + offset : nullptr;
-                if (avx2) assert(static_bitset_detail::count_avx2(p, n) == expected);
-                if (avx512) assert(static_bitset_detail::count_avx512(p, n) == expected);
+                if (avx2) assert(bitset_count_detail::count_avx2(p, n) == expected);
+                if (avx512) assert(bitset_count_detail::count_avx512(p, n) == expected);
             }
         }
     }
