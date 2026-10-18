@@ -25,7 +25,7 @@ tags: 木
 - `void path(int u, int v, F f)`
   `u - v` パス上の辺を被覆する各区間へ `f(l, r)` を呼ぶ
 - `void path_ordered(int u, int v, F f) const`
-  `u -> v` の順に `f(l, r, reversed)` を呼ぶ。空でない半開区間を渡し、`reversed` は区間内を降順に進むことを表す。`u = v` では呼ばない
+  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きを callback `f` に渡す。`u = v` では呼ばない
 - `T path_query(int u, int v, T e, Q q, F f)`
   可換向け辺パスクエリ
 - `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f)`
@@ -40,6 +40,9 @@ tags: 木
 `parent(v) - v` の辺を更新したいときは `edge_index(v)` を使う。
 パス順序付きの集約には `path_query_ordered`、区間ごとの処理には `path_ordered` を使う。
 両端点は同じ連結成分に属することを前提とする。
+
+`path_ordered` の `f` は、`int l, int r, bool reversed` を引数に取る関数として定義する。
+`reversed` は HLD が区間ごとに決めて第3引数に渡す値で、`true` なら `r-1 -> l`、`false` なら `l -> r-1` の順に進む。
 
 ```cpp
 HeavyLightDecompositionEdge hld(n);

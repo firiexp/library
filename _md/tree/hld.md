@@ -34,7 +34,7 @@ tags: 木
 - `void path(int u, int v, F f, bool edge = false)`
   パスを被覆する各区間へ `f(l, r)` を呼ぶ
 - `void path_ordered(int u, int v, F f, bool edge = false) const`
-  `u -> v` の順に `f(l, r, reversed)` を呼ぶ。空でない半開区間を渡し、`reversed = true` なら区間内を `r-1 -> l`、それ以外は `l -> r-1` の順に進む
+  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きを callback `f` に渡す
 - `T path_query(int u, int v, T e, Q q, F f, bool edge = false)`
   可換向けパスクエリ
 - `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f, bool edge = false)`
@@ -50,7 +50,10 @@ tags: 木
 パスは `path` / `path_ordered` / `path_query` / `path_query_ordered` を使う。
 両端点は同じ連結成分に属することを前提とする。
 
-`rerooted_subtree` と `rerooted_lca` は、問い合わせごとに根を指定できる。
+`path_ordered` の `f` は、`int l, int r, bool reversed` を引数に取る関数として定義する。
+`reversed` は HLD が区間ごとに決めて第3引数に渡す値で、`true` なら `r-1 -> l`、`false` なら `l -> r-1` の順に進む。
+
+`rerooted_subtree` と `rerooted_lca` は、クエリごとに根を指定できる。
 前処理時の根や `id` は変更されない。引数の頂点は同じ連結成分に属することを前提とする。
 `rerooted_subtree` が扱うのは頂点集合で、森ではその成分内の区間だけを渡す。
 
