@@ -9,8 +9,8 @@ tags: グラフ
 ## 説明
 辺の追加・削除と、その時点の連結成分に関する問い合わせをオフラインで処理する。
 各辺の生存区間を時間セグメント木に乗せ、DFS 中の状態を rollback 可能なデータ構造で持つ。
-生存区間数を $K$ とすると、時間木の構築・列挙は $O(q+K\log(q+1))$ 時間、領域は $O(n+q+K\log(q+1))$。
-辺の登録には別途 map の操作ごとに $O(\log(K+1))$、`run` には各イベントの unite / undo と callback の費用がかかる。
+生存区間数を $K$ とすると、時間木の構築・列挙は $O(q+K\log q)$ 時間、領域は $O(n+q+K\log q)$。
+辺の登録には別途 map の操作ごとに $O(\log K)$、`run` には各イベントの unite / undo と callback の費用がかかる。
 
 ## できること
 - `OfflineDynamicConnectivity dc(n, q)`
