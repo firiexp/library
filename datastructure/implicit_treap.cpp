@@ -106,7 +106,69 @@ struct ImplicitTreap {
         return fold_node(root, l, r);
     }
 
+    template<class F>
+    int search_right(int l, F cond) {
+        if (l == size()) return l;
+        T val = M::e();
+        return search_right_node(root, l, val, cond);
+    }
+
+    template<class F>
+    int search_left(int r, F cond) {
+        if (r == 0) return 0;
+        T val = M::e();
+        return search_left_node(root, r, val, cond);
+    }
+
 private:
+    template<class F>
+    int search_right_node(int v, int l, T &val, F &cond) {
+        if (v == -1) return 0;
+        if (l == 0) {
+            T next = M::f(val, nodes[v].sum);
+            if (cond(next)) {
+                val = move(next);
+                return nodes[v].sz;
+            }
+        }
+        push(v);
+        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
+        if (l < left_size) {
+            int r = search_right_node(nodes[v].l, l, val, cond);
+            if (r < left_size) return r;
+        }
+        if (l <= left_size) {
+            T next = M::f(val, nodes[v].val);
+            if (!cond(next)) return left_size;
+            val = move(next);
+        }
+        return left_size + 1 + search_right_node(nodes[v].r, max(0, l - left_size - 1), val, cond);
+    }
+
+    template<class F>
+    int search_left_node(int v, int r, T &val, F &cond) {
+        if (v == -1) return 0;
+        if (r == nodes[v].sz) {
+            T next = M::f(nodes[v].sum, val);
+            if (cond(next)) {
+                val = move(next);
+                return 0;
+            }
+        }
+        push(v);
+        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
+        if (left_size + 1 < r) {
+            int l = search_left_node(nodes[v].r, r - left_size - 1, val, cond);
+            if (l > 0) return left_size + 1 + l;
+        }
+        if (left_size < r) {
+            T next = M::f(nodes[v].val, val);
+            if (!cond(next)) return left_size + 1;
+            val = move(next);
+        }
+        return search_left_node(nodes[v].l, min(r, left_size), val, cond);
+    }
+
     void apply_range(int v, int l, int r, const L &x) {
         if (l == r) return;
         if (l == 0 && r == nodes[v].sz) {
