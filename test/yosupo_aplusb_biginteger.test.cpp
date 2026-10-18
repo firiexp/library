@@ -138,7 +138,63 @@ template<class Radix> void check_cyclic() {
     }
 }
 
+void check_power_two_io() {
+    const string alphabet = "0123456789abcdefghijklmnopqrstuv";
+    const vector<int> bases{2, 4, 8, 16, 32};
+    auto check = [&](const string &s, int base) {
+        BigInteger expected(s, base);
+        HexBigInteger actual(s, base);
+        assert(actual.to_string(10) == expected.to_string());
+        assert(actual.is_zero() == expected.is_zero());
+        assert(actual.is_negative() == expected.is_negative());
+        for (int output_base : bases) {
+            string out = actual.to_string(output_base);
+            assert(out == expected.to_string(output_base));
+            assert(HexBigInteger(out, output_base) == actual);
+        }
+    };
+    for (int bits = 0; bits <= 200; ++bits) {
+        BigInteger power = BigInteger(1) << bits;
+        for (int delta : {-1, 0, 1}) {
+            BigInteger value = power + delta;
+            for (int base : bases) {
+                string s = value.to_string(base);
+                check(s, base);
+                check("-000" + s, base);
+            }
+        }
+    }
+    mt19937 rng(228);
+    for (int tc = 0; tc < 2000; ++tc) {
+        int base = bases[rng() % bases.size()];
+        string s(rng() % 200 + 1, '0');
+        for (char &c : s) {
+            c = alphabet[rng() % base];
+            if (c >= 'a' && rng() % 2) c += 'A' - 'a';
+        }
+        s = (tc % 3 == 0 ? "-000" : tc % 3 == 1 ? "+00" : "") + s;
+        check(s, base);
+    }
+    for (int base : bases) {
+        for (string s : {"0", "-000", "+00000"}) check(s, base);
+        vector<string> invalid{"", "+", "-", "--1", " 1", "1 ", "1?0", string(1, char(128))};
+        invalid.push_back(string(1, "0123456789abcdefghijklmnopqrstuvwxyz"[base]));
+        invalid.push_back(string(100, '1') + "?");
+        for (const string &s : invalid) {
+            HexBigInteger value(-42);
+            assert(!value.assign(s, base));
+            assert(value.is_zero() && !value.is_negative());
+        }
+    }
+    for (int base : {-1, 0, 1, 37}) {
+        HexBigInteger value(-42);
+        assert(!value.assign("10", base));
+        assert(value.is_zero() && !value.is_negative());
+    }
+}
+
 int main() {
+    check_power_two_io();
     check_small<BigInteger>(10);
     check_small<HexBigInteger>(16);
     check_large<BigInteger>(10);

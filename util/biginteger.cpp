@@ -631,6 +631,20 @@ public:
                 digits.push_back(block);
                 right = left;
             }
+        } else if (IO_BASE == 16 && (base & (base - 1)) == 0) {
+            int bits = __builtin_ctz(unsigned(base)), filled = 0;
+            digits.reserve(((value.size() - begin) * bits + 31) / 32);
+            u64 buffer = 0;
+            for (size_t i = value.size(); i-- > begin;) {
+                buffer |= u64(digit_value(value[i])) << filled;
+                filled += bits;
+                if (filled >= 32) {
+                    digits.push_back(u32(buffer));
+                    buffer >>= 32;
+                    filled -= 32;
+                }
+            }
+            if (buffer) digits.push_back(u32(buffer));
         } else {
             u32 power = 1;
             int count = 0;
@@ -653,6 +667,21 @@ public:
     string to_string(int base = IO_BASE) const {
         assert(2 <= base && base <= 36);
         if (is_zero()) return "0";
+        if (IO_BASE == 16 && base != IO_BASE && (base & (base - 1)) == 0) {
+            int bits = __builtin_ctz(unsigned(base));
+            size_t length = ((digits.size() - 1) * 32 + 32 - __builtin_clz(digits.back()) + bits - 1) / bits;
+            string out(size_t(negative) + length, '0');
+            if (negative) out[0] = '-';
+            for (size_t i = 0; i < length; ++i) {
+                size_t word = i * bits / 32;
+                int shift = i * bits % 32;
+                u64 value = digits[word] >> shift;
+                if (shift + bits > 32 && word + 1 < digits.size()) value |= u64(digits[word + 1]) << (32 - shift);
+                int digit = value & (base - 1);
+                out[out.size() - 1 - i] = char(digit < 10 ? '0' + digit : 'a' + digit - 10);
+            }
+            return out;
+        }
         string out;
         out.reserve(digits.size() * BLOCK_DIGITS + 1);
         if (negative) out.push_back('-');
