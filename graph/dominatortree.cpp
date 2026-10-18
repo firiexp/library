@@ -20,6 +20,7 @@ class DominatorTree {
 
     int n;
     vector<pair<int, int>> edges;
+    vector<int> tin, tout;
     void unite(int x, int y){
         uf_par[y] = x;
     }
@@ -36,7 +37,7 @@ class DominatorTree {
         return m[x];
     }
 public:
-    DominatorTree(int n) : n(n), semi(n), ord(n), par(n), uf_par(n), m(n), U(n), idom(n), bucket_head(n), bucket_next(n) {}
+    DominatorTree(int n) : n(n), tin(n, -1), tout(n, -1), semi(n), ord(n), par(n), uf_par(n), m(n), U(n), idom(n), bucket_head(n), bucket_next(n) {}
 
     vector<int> semi, ord, par, uf_par, m, U, idom;
     vector<int> bucket_head, bucket_next;
@@ -44,6 +45,19 @@ public:
     void add_edge(int a, int b){
         edges.emplace_back(a, b);
     }
+
+    bool reachable(int v) const {
+        return tin[v] != -1;
+    }
+
+    bool dominates(int u, int v) const {
+        return reachable(u) && reachable(v) && tin[u] <= tin[v] && tin[v] < tout[u];
+    }
+
+    bool reachable_without_vertex(int target, int removed) const {
+        return reachable(target) && !dominates(removed, target);
+    }
+
     void build(int root){
         CSR G(n, edges, false), Grev(n, edges, true);
         for (int i = 0; i < n; ++i) {
@@ -54,6 +68,7 @@ public:
             par[i] = -1;
             bucket_head[i] = -1;
             bucket_next[i] = -1;
+            tin[i] = tout[i] = -1;
         }
         int cur = 0;
         auto dfs = [&](auto &&self, int x) -> void {
@@ -97,6 +112,27 @@ public:
             idom[a] = ord[idom[a]];
         }
         idom[root] = -1;
+        fill(bucket_head.begin(), bucket_head.end(), -1);
+        for (int i = 1; i < cur; ++i) {
+            int v = ord[i];
+            bucket_next[v] = bucket_head[idom[v]];
+            bucket_head[idom[v]] = v;
+        }
+        vector<int> stack;
+        stack.reserve(cur);
+        stack.push_back(root);
+        int timer = 0;
+        while (!stack.empty()) {
+            int v = stack.back();
+            stack.pop_back();
+            if (v < 0) {
+                tout[~v] = timer;
+                continue;
+            }
+            tin[v] = timer++;
+            stack.push_back(~v);
+            for (int to = bucket_head[v]; to != -1; to = bucket_next[to]) stack.push_back(to);
+        }
     }
 
 };
