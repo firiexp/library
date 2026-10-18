@@ -1,5 +1,4 @@
 constexpr ull M = (1UL << 61) - 1;
-constexpr ull POSITIVISER = M * 4; // mul returns an unreduced value below 4*M.
 constexpr ull MASK30 = (1UL << 30) - 1;
 constexpr ull MASK31 = (1UL << 31) - 1;
 
@@ -15,6 +14,11 @@ class rolling_hash_ull {
         val = (val & M) + (val >> 61);
         if(val >= M) val -= M;
         return val;
+    }
+
+    static inline ull mul128(ull x, ull y) {
+        __uint128_t z = (__uint128_t)x * y;
+        return (ull(z) & M) + ull(z >> 61);
     }
 public:
     vector<ull> hash;
@@ -58,13 +62,13 @@ public:
     }
 
     ull get(int l, int r){
-        return calc_mod(hash[r] + POSITIVISER - mul(hash[l], p()[r-l]));
+        return calc_mod(hash[r] + 2 * M - mul128(hash[l], p()[r-l]));
     }
 
     static ull val(string &s){
         ull ret = 0;
         for (int i = 0; i < s.size(); ++i) {
-            ret = calc_mod(mul(ret, B()) + (unsigned char)s[i]);
+            ret = calc_mod(mul128(ret, B()) + (unsigned char)s[i]);
         }
         return ret;
     }

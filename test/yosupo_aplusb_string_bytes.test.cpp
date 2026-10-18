@@ -93,13 +93,36 @@ void standalone_hash_check() {
     }
 }
 
+void large_base_hash_check() {
+    mt19937_64 rng(224);
+    for (ull base : {2ULL, 911382323ULL, M / 2, M - 2, M - 1}) {
+        rolling_hash_ull::B() = base;
+        rolling_hash_ull::p() = {1, base};
+        for (int tc = 0; tc < 100; ++tc) {
+            string s(tc, '\0');
+            for (char &c : s) c = char(rng() % 256);
+            rolling_hash_ull rh(s);
+            for (int l = 0; l <= int(s.size()); ++l) {
+                ull expected = 0;
+                for (int r = l; r <= int(s.size()); ++r) {
+                    if (r > l) expected = ((__uint128_t)expected * base + (unsigned char)s[r - 1]) % M;
+                    assert(rh.get(l, r) == expected);
+                }
+            }
+            assert(rolling_hash_ull::val(s) == rh.get(0, s.size()));
+        }
+    }
+    rolling_hash_ull::B() = 127;
+    rolling_hash_ull::p() = {1, 127};
+}
+
 int main() {
     rolling_hash<MOD>::B() = 127;
     rolling_hash_ull::B() = 127;
+    large_base_hash_check();
     standalone_hash_check();
     shared_powers_check();
     hash_check(string{char(255), char(127), 1, 1, 1, 1, 1});
-    // The unreduced product in get(17, 28) exceeds hash[28] + 3*M.
     string subtraction_case;
     for (int byte : {52, 238, 54, 138, 29, 92, 151, 22, 86, 21, 6, 9, 155, 217, 111, 94,
                     133, 220, 239, 101, 237, 127, 15, 83, 108, 190, 213, 198, 175, 154, 9, 95})
