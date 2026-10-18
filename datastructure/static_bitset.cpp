@@ -187,6 +187,38 @@ public:
         return res;
     }
 
+    int count_and(const StaticBitset &other) const {
+        const Word *p = a, *q = other.a;
+#if defined(__x86_64__) || defined(_M_X64)
+        if constexpr (M >= bitset_count_detail::count_threshold_words) {
+            int backend = bitset_count_detail::count_backend();
+            if (backend == 2) return bitset_count_detail::count_avx512<true>(p, M, q);
+            if (backend == 1) return bitset_count_detail::count_avx2<true>(p, M, q);
+        }
+#endif
+        int res = 0;
+        int i = 0;
+        for (; i + 4 <= M; i += 4) {
+            res += popcount(p[i] & q[i]) + popcount(p[i + 1] & q[i + 1])
+                 + popcount(p[i + 2] & q[i + 2]) + popcount(p[i + 3] & q[i + 3]);
+        }
+        for (; i < M; ++i) res += popcount(p[i] & q[i]);
+        return res;
+    }
+
+    bool intersects(const StaticBitset &other) const {
+        const Word *p = a, *q = other.a;
+#if defined(__x86_64__) || defined(_M_X64)
+        if constexpr (M >= static_bitset_detail::avx2_threshold_words) {
+            if (static_bitset_detail::has_avx2()) return bitset_count_detail::intersects_avx2(p, q, M);
+        }
+#endif
+        for (int i = 0; i < M; ++i) {
+            if (p[i] & q[i]) return true;
+        }
+        return false;
+    }
+
     int find_first() const {
         const Word *p = a;
         for (int i = 0; i < M; ++i) {

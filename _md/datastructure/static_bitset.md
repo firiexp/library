@@ -25,6 +25,10 @@ tags: データ構造
   1 があるか、全て 0 か、全て 1 かを返す
 - `int count() const`
   1 の個数を返す。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$
+- `int count_and(const StaticBitset &other) const`
+  両方で 1 の bit 数を返す。空なら `0`
+- `bool intersects(const StaticBitset &other) const`
+  両方で 1 の bit があれば `true`。なければ空も含めて `false`
 - `int find_first() const`
   最初に立っている bit の位置を返す。なければ `-1`
 - `int find_last() const`
@@ -42,9 +46,12 @@ tags: データ構造
 
 ## 使い方
 長さが同じ bitset 同士で演算する。
+共通要素の個数は `a.count_and(b)`、有無は `a.intersects(b)` で求める。
+両操作は元の bitset を変更せず、同じオブジェクト同士でも使える。
 `StaticBitset<2048> bs;` のように長さをテンプレート引数で指定する。
 部分和 DP では `bs.set(0)` で初期化し、各重み `w` に対して `bs.or_shift_left(w)` で更新する。
 
 ## 実装上の補足
 `count()` は短い配列では scalar、長い配列では対応 CPU に応じた SIMD 集計を使う。
 `DynamicBitset` と集計処理を共有し、両方を同時に include できる。
+`count_and` と `intersects` は最悪時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$。一時配列は不要で、`intersects` は共通 bit を見つけた時点で返る。
