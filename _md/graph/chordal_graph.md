@@ -1,12 +1,12 @@
 ---
-title: 弦グラフ認識と証明書
+title: 弦グラフ判定、完全除去順序・誘導閉路の復元
 documentation_of: //graph/chordal_graph.cpp
 ---
 
 ## 説明
 単純無向グラフが弦グラフかを判定する。
 弦グラフなら完全除去順序（PEO）、そうでなければ長さ4以上の誘導閉路を返す。
-入力から証明書の復元まで、最悪 $O(N+M)$ 時間・領域。
+判定と復元は最悪 $O(N+M)$ 時間・領域。
 
 ## できること
 - `ChordalResult recognize_chordal(n, edges)`

@@ -113,5 +113,5 @@ ChordalResult recognize_chordal(int n, const vector<pair<int, int>> &edges) {
 #endif
 
 /**
- * @brief 弦グラフ認識と証明書
+ * @brief 弦グラフ判定、完全除去順序・誘導閉路の復元
  */
