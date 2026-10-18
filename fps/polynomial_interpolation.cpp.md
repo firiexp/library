@@ -337,14 +337,17 @@ data:
     \ prod[sz + i] = poly(vector<mint>{mint(1)});\n    for (int i = sz - 1; i >= 1;\
     \ --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    poly derivative = prod[1].diff();\n\
     \    vector<mint> w = 1LL * derivative.size() * n <= 4096\n        ? derivative.multipoint_eval(xs)\n\
-    \        : multipoint_evaluation_detail::evaluate(derivative, prod, n);\n    auto\
-    \ interpolate = [&](auto &&self, int i) -> poly {\n        if (i >= sz) return\
-    \ i - sz < n ? poly(vector<mint>{ys[i - sz] / w[i - sz]}) : poly();\n        poly\
-    \ left = self(self, i << 1);\n        poly right = self(self, i << 1 | 1);\n \
-    \       return left * prod[i << 1 | 1] + right * prod[i << 1];\n    };\n    poly\
-    \ result = interpolate(interpolate, 1);\n    result.shrink();\n    if (result.size()\
-    \ < n) result.v.resize(n);\n    return result;\n}\n\n/**\n * @brief \u591A\u9805\
-    \u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n"
+    \        : multipoint_evaluation_detail::evaluate(derivative, prod, n);\n    vector<mint>\
+    \ prefix(n + 1, mint(1));\n    for (int i = 0; i < n; ++i) prefix[i + 1] = prefix[i]\
+    \ * w[i];\n    mint inverse = prefix[n].inv();\n    for (int i = n - 1; i >= 0;\
+    \ --i) {\n        mint next = inverse * w[i];\n        w[i] = ys[i] * prefix[i]\
+    \ * inverse;\n        inverse = next;\n    }\n    auto interpolate = [&](auto\
+    \ &&self, int i) -> poly {\n        if (i >= sz) return i - sz < n ? poly(vector<mint>{w[i\
+    \ - sz]}) : poly();\n        poly left = self(self, i << 1);\n        poly right\
+    \ = self(self, i << 1 | 1);\n        return left * prod[i << 1 | 1] + right *\
+    \ prod[i << 1];\n    };\n    poly result = interpolate(interpolate, 1);\n    result.shrink();\n\
+    \    if (result.size() < n) result.v.resize(n);\n    return result;\n}\n\n/**\n\
+    \ * @brief \u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n"
   code: "#include \"multipoint_evaluation.cpp\"\n\npoly polynomial_interpolation(const\
     \ vector<mint> &xs, const vector<mint> &ys) {\n    int n = (int)xs.size();\n \
     \   assert(n == (int)ys.size());\n    if (n == 0) return poly();\n    if (n ==\
@@ -354,14 +357,17 @@ data:
     \ prod[sz + i] = poly(vector<mint>{mint(1)});\n    for (int i = sz - 1; i >= 1;\
     \ --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    poly derivative = prod[1].diff();\n\
     \    vector<mint> w = 1LL * derivative.size() * n <= 4096\n        ? derivative.multipoint_eval(xs)\n\
-    \        : multipoint_evaluation_detail::evaluate(derivative, prod, n);\n    auto\
-    \ interpolate = [&](auto &&self, int i) -> poly {\n        if (i >= sz) return\
-    \ i - sz < n ? poly(vector<mint>{ys[i - sz] / w[i - sz]}) : poly();\n        poly\
-    \ left = self(self, i << 1);\n        poly right = self(self, i << 1 | 1);\n \
-    \       return left * prod[i << 1 | 1] + right * prod[i << 1];\n    };\n    poly\
-    \ result = interpolate(interpolate, 1);\n    result.shrink();\n    if (result.size()\
-    \ < n) result.v.resize(n);\n    return result;\n}\n\n/**\n * @brief \u591A\u9805\
-    \u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n"
+    \        : multipoint_evaluation_detail::evaluate(derivative, prod, n);\n    vector<mint>\
+    \ prefix(n + 1, mint(1));\n    for (int i = 0; i < n; ++i) prefix[i + 1] = prefix[i]\
+    \ * w[i];\n    mint inverse = prefix[n].inv();\n    for (int i = n - 1; i >= 0;\
+    \ --i) {\n        mint next = inverse * w[i];\n        w[i] = ys[i] * prefix[i]\
+    \ * inverse;\n        inverse = next;\n    }\n    auto interpolate = [&](auto\
+    \ &&self, int i) -> poly {\n        if (i >= sz) return i - sz < n ? poly(vector<mint>{w[i\
+    \ - sz]}) : poly();\n        poly left = self(self, i << 1);\n        poly right\
+    \ = self(self, i << 1 | 1);\n        return left * prod[i << 1 | 1] + right *\
+    \ prod[i << 1];\n    };\n    poly result = interpolate(interpolate, 1);\n    result.shrink();\n\
+    \    if (result.size() < n) result.v.resize(n);\n    return result;\n}\n\n/**\n\
+    \ * @brief \u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n"
   dependsOn:
   - fps/multipoint_evaluation.cpp
   - math/ntt.cpp
@@ -369,7 +375,7 @@ data:
   isVerificationFile: false
   path: fps/polynomial_interpolation.cpp
   requiredBy: []
-  timestamp: '2026-10-18 01:13:29+09:00'
+  timestamp: '2026-10-18 09:28:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_polynomial_interpolation.test.cpp
@@ -387,14 +393,16 @@ title: "\u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)"
 
 ## できること
 - `poly polynomial_interpolation(const vector<mint>& xs, const vector<mint>& ys)`
-  `f(xs[i]) = ys[i]` を満たす多項式を返す
+  `f(xs[i]) = ys[i]` を満たす係数数 `xs.size()` の多項式を返す。空入力には空の多項式を返す
 
 ## 使い方
 `#include "../fps/polynomial_interpolation.cpp"` を読み込む。
-`xs`, `ys` を渡して `polynomial_interpolation(xs, ys)` を呼ぶ。
+同じ長さの `xs`, `ys` を渡して `polynomial_interpolation(xs, ys)` を呼ぶ。入力は変更しない。
 
 ## 実装上の補足
 `multipoint_evaluation.cpp` を内部で使う。
 点 `xs[i]` は相異なることを前提にする。
 積の木を評価と補間で共有し、補間の左右の中間多項式は親を作った後に解放する。
+導関数の評価値の累積積を作り、1回の逆元計算と逆順の走査で全点の重みを求める。
+重み計算は $O(n+\log MOD)$ 時間、追加領域は $O(n)$。重複する点は扱わない。
 積の木は $O(n\log(n))$、補間の中間多項式は同時に $O(n)$ の領域を使う。再帰の深さは $O(\log(n))$。

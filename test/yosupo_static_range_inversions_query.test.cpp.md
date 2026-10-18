@@ -22,14 +22,14 @@ data:
     - https://judge.yosupo.jp/problem/static_range_inversions_query
   bundledCode: "#line 1 \"test/yosupo_static_range_inversions_query.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\n\n\
-    #include <algorithm>\n#include <cmath>\n#include <vector>\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern \"C\" int fileno(FILE\
-    \ *);\nextern \"C\" int isatty(int);\n\ntemplate<class T, class = void>\nstruct\
-    \ is_fastio_range : false_type {};\n\ntemplate<class T>\nstruct is_fastio_range<T,\
-    \ void_t<decltype(declval<T &>().begin()), decltype(declval<T &>().end())>> :\
-    \ true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value :\
-    \ false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
+    #include <algorithm>\n#include <cmath>\n#include <cstdint>\n#include <vector>\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include <charconv>\n#line 1 \"util/fastio.cpp\"\nusing namespace std;\n\nextern\
+    \ \"C\" int fileno(FILE *);\nextern \"C\" int isatty(int);\n\ntemplate<class T,\
+    \ class = void>\nstruct is_fastio_range : false_type {};\n\ntemplate<class T>\n\
+    struct is_fastio_range<T, void_t<decltype(declval<T &>().begin()), decltype(declval<T\
+    \ &>().end())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct has_fastio_value\
+    \ : false_type {};\n\ntemplate<class T>\nstruct has_fastio_value<T, void_t<decltype(declval<const\
     \ T &>().value())>> : true_type {};\n\ntemplate<class T, class = void>\nstruct\
     \ has_fastio_assign_string : false_type {};\n\ntemplate<class T>\nstruct has_fastio_assign_string<T,\
     \ void_t<decltype(declval<T &>().assign(declval<const string &>()))>> : true_type\
@@ -255,15 +255,18 @@ data:
     void mo_solve(int n, const vector<Query>& queries, AddLeft add_left, AddRight\
     \ add_right,\n              EraseLeft erase_left, EraseRight erase_right, Output\
     \ output, int bucket_size = 0) {\n    if (queries.empty()) return;\n    if (bucket_size\
-    \ <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n    vector<Query>\
-    \ qs = queries;\n    sort(qs.begin(), qs.end(), [&](const Query& a, const Query&\
-    \ b) {\n        int ablock = a.l / bucket_size, bblock = b.l / bucket_size;\n\
-    \        if (ablock != bblock) return ablock < bblock;\n        return ablock\
-    \ & 1 ? a.r < b.r : a.r > b.r;\n    });\n    int l = 0, r = 0;\n    for (const\
-    \ auto& q : qs) {\n        while (q.l < l) add_left(--l);\n        while (r <\
-    \ q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n        while\
-    \ (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\n\n/**\n *\
-    \ @brief Mo's Algorithm\n */\n#line 16 \"test/yosupo_static_range_inversions_query.test.cpp\"\
+    \ <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n    struct\
+    \ OrderedQuery {\n        uint64_t key;\n        size_t index;\n    };\n    vector<OrderedQuery>\
+    \ qs;\n    qs.reserve(queries.size());\n    for (size_t i = 0; i < queries.size();\
+    \ ++i) {\n        uint32_t block = queries[i].l / bucket_size;\n        uint32_t\
+    \ right = queries[i].r;\n        if (!(block & 1)) right = ~right;\n        qs.push_back({(uint64_t(block)\
+    \ << 32) | right, i});\n    }\n    sort(qs.begin(), qs.end(), [](const OrderedQuery&\
+    \ a, const OrderedQuery& b) {\n        return a.key < b.key;\n    });\n    int\
+    \ l = 0, r = 0;\n    for (const auto& ordered : qs) {\n        const auto& q =\
+    \ queries[ordered.index];\n        while (q.l < l) add_left(--l);\n        while\
+    \ (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n      \
+    \  while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\n\n\
+    /**\n * @brief Mo's Algorithm\n */\n#line 17 \"test/yosupo_static_range_inversions_query.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, q;\n    sc.read(n,\
     \ q);\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) sc.read(a[i]);\n\
     \    vector<int> xs = a;\n    sort(xs.begin(), xs.end());\n    xs.erase(unique(xs.begin(),\
@@ -283,9 +286,9 @@ data:
     \             [&](int no) { ans[no] = inv; });\n    for (auto x : ans) pr.println(x);\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/static_range_inversions_query\"\
-    \n\n#include <algorithm>\n#include <cmath>\n#include <vector>\n\n#include <cstdio>\n\
-    #include <cstring>\n#include <string>\n#include <type_traits>\n\n#include <charconv>\n\
-    #include \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\
+    \n\n#include <algorithm>\n#include <cmath>\n#include <cstdint>\n#include <vector>\n\
+    \n#include <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\
+    \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../datastructure/binaryindexedtree.cpp\"\
     \n#include \"../util/mo.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer pr;\n\
     \    int n, q;\n    sc.read(n, q);\n    vector<int> a(n);\n    for (int i = 0;\
     \ i < n; ++i) sc.read(a[i]);\n    vector<int> xs = a;\n    sort(xs.begin(), xs.end());\n\
@@ -311,7 +314,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_static_range_inversions_query.test.cpp
   requiredBy: []
-  timestamp: '2026-10-14 23:16:37+09:00'
+  timestamp: '2026-10-18 10:05:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_static_range_inversions_query.test.cpp

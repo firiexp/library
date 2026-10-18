@@ -548,44 +548,52 @@ data:
     \ prod[sz + i] = poly(vector<mint>{mint(1)});\n    for (int i = sz - 1; i >= 1;\
     \ --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    poly derivative = prod[1].diff();\n\
     \    vector<mint> w = 1LL * derivative.size() * n <= 4096\n        ? derivative.multipoint_eval(xs)\n\
-    \        : multipoint_evaluation_detail::evaluate(derivative, prod, n);\n    auto\
-    \ interpolate = [&](auto &&self, int i) -> poly {\n        if (i >= sz) return\
-    \ i - sz < n ? poly(vector<mint>{ys[i - sz] / w[i - sz]}) : poly();\n        poly\
-    \ left = self(self, i << 1);\n        poly right = self(self, i << 1 | 1);\n \
-    \       return left * prod[i << 1 | 1] + right * prod[i << 1];\n    };\n    poly\
-    \ result = interpolate(interpolate, 1);\n    result.shrink();\n    if (result.size()\
-    \ < n) result.v.resize(n);\n    return result;\n}\n\n/**\n * @brief \u591A\u9805\
-    \u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n#line 10 \"test/yosupo_aplusb_polynomial_interpolation.test.cpp\"\
-    \n\nmint horner(const vector<mint> &coefficients, mint x) {\n    mint result =\
-    \ 0;\n    for (int i = (int)coefficients.size() - 1; i >= 0; --i) result = result\
-    \ * x + coefficients[i];\n    return result;\n}\n\nvoid self_check() {\n    assert(polynomial_interpolation({},\
+    \        : multipoint_evaluation_detail::evaluate(derivative, prod, n);\n    vector<mint>\
+    \ prefix(n + 1, mint(1));\n    for (int i = 0; i < n; ++i) prefix[i + 1] = prefix[i]\
+    \ * w[i];\n    mint inverse = prefix[n].inv();\n    for (int i = n - 1; i >= 0;\
+    \ --i) {\n        mint next = inverse * w[i];\n        w[i] = ys[i] * prefix[i]\
+    \ * inverse;\n        inverse = next;\n    }\n    auto interpolate = [&](auto\
+    \ &&self, int i) -> poly {\n        if (i >= sz) return i - sz < n ? poly(vector<mint>{w[i\
+    \ - sz]}) : poly();\n        poly left = self(self, i << 1);\n        poly right\
+    \ = self(self, i << 1 | 1);\n        return left * prod[i << 1 | 1] + right *\
+    \ prod[i << 1];\n    };\n    poly result = interpolate(interpolate, 1);\n    result.shrink();\n\
+    \    if (result.size() < n) result.v.resize(n);\n    return result;\n}\n\n/**\n\
+    \ * @brief \u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n#line\
+    \ 10 \"test/yosupo_aplusb_polynomial_interpolation.test.cpp\"\n\nmint horner(const\
+    \ vector<mint> &coefficients, mint x) {\n    mint result = 0;\n    for (int i\
+    \ = (int)coefficients.size() - 1; i >= 0; --i) result = result * x + coefficients[i];\n\
+    \    return result;\n}\n\nvoid self_check() {\n    assert(polynomial_interpolation({},\
     \ {}).v.empty());\n    mt19937 random(64);\n    const int sizes[] = {1, 2, 3,\
     \ 31, 32, 33, 63, 64, 65, 127, 128, 129, 149};\n    for (int tc = 0; tc < 1000;\
     \ ++tc) {\n        int n = tc < 13 ? sizes[tc] : 1 + random() % 149;\n       \
     \ vector<mint> coefficients(n), xs(n), ys(n);\n        for (auto &c : coefficients)\
     \ c = random() % 998244353;\n        if (tc % 7 == 0) fill(coefficients.begin(),\
     \ coefficients.end(), mint(0));\n        else if (tc % 5 == 0) fill(coefficients.begin()\
-    \ + n / 2, coefficients.end(), mint(0));\n        mint offset = random() % 998244353,\
-    \ step = 1 + random() % 998244352;\n        for (int i = 0; i < n; ++i) xs[i]\
-    \ = offset + step * mint(i);\n        shuffle(xs.begin(), xs.end(), random);\n\
-    \        for (int i = 0; i < n; ++i) ys[i] = horner(coefficients, xs[i]);\n  \
-    \      auto original_xs = xs, original_ys = ys;\n        auto result = polynomial_interpolation(xs,\
-    \ ys);\n        assert(result.v == coefficients);\n        assert(xs == original_xs\
-    \ && ys == original_ys);\n        assert(result.multipoint_eval(xs) == ys);\n\n\
-    \        int count = tc % 9 == 0 ? 0 : random() % 150;\n        vector<mint> points(count),\
-    \ expected(count);\n        for (int i = 0; i < count; ++i) {\n            points[i]\
-    \ = tc % 3 == 0 ? mint(0) : mint(random() % 998244353);\n            expected[i]\
-    \ = horner(coefficients, points[i]);\n        }\n        assert(result.multipoint_eval(points)\
-    \ == expected);\n        assert(poly().multipoint_eval(points) == vector<mint>(count));\n\
-    \    }\n    for (int n : {0, 1, 17, 257, 1025}) {\n        poly f(n);\n      \
-    \  for (auto &c : f.v) c = random() % ntt_mod;\n        for (int m : {0, 1, 3,\
-    \ 65, 129, 513}) {\n            vector<mint> xs(m), expected(m);\n           \
-    \ for (int i = 0; i < m; ++i) {\n                xs[i] = i % 7;\n            \
-    \    expected[i] = horner(f.v, xs[i]);\n            }\n            auto original_f\
-    \ = f.v, original_xs = xs;\n            assert(f.multipoint_eval(xs) == expected);\n\
-    \            assert(f.v == original_f && xs == original_xs);\n        }\n    }\n\
-    }\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int\
-    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \ + n / 2, coefficients.end(), mint(0));\n        if (tc % 2 == 0) {\n       \
+    \     set<uint> used;\n            for (auto &x : xs) {\n                uint\
+    \ value;\n                do { value = random() % 998244353; } while (!used.insert(value).second);\n\
+    \                x = value;\n            }\n        } else {\n            mint\
+    \ offset = random() % 998244353, step = 1 + random() % 998244352;\n          \
+    \  for (int i = 0; i < n; ++i) xs[i] = offset + step * mint(i);\n        }\n \
+    \       shuffle(xs.begin(), xs.end(), random);\n        for (int i = 0; i < n;\
+    \ ++i) ys[i] = horner(coefficients, xs[i]);\n        auto original_xs = xs, original_ys\
+    \ = ys;\n        auto result = polynomial_interpolation(xs, ys);\n        assert(result.v\
+    \ == coefficients);\n        assert(xs == original_xs && ys == original_ys);\n\
+    \        assert(result.multipoint_eval(xs) == ys);\n\n        int count = tc %\
+    \ 9 == 0 ? 0 : random() % 150;\n        vector<mint> points(count), expected(count);\n\
+    \        for (int i = 0; i < count; ++i) {\n            points[i] = tc % 3 ==\
+    \ 0 ? mint(0) : mint(random() % 998244353);\n            expected[i] = horner(coefficients,\
+    \ points[i]);\n        }\n        assert(result.multipoint_eval(points) == expected);\n\
+    \        assert(poly().multipoint_eval(points) == vector<mint>(count));\n    }\n\
+    \    for (int n : {0, 1, 17, 257, 1025}) {\n        poly f(n);\n        for (auto\
+    \ &c : f.v) c = random() % ntt_mod;\n        for (int m : {0, 1, 3, 65, 129, 513})\
+    \ {\n            vector<mint> xs(m), expected(m);\n            for (int i = 0;\
+    \ i < m; ++i) {\n                xs[i] = i % 7;\n                expected[i] =\
+    \ horner(f.v, xs[i]);\n            }\n            auto original_f = f.v, original_xs\
+    \ = xs;\n            assert(f.multipoint_eval(xs) == expected);\n            assert(f.v\
+    \ == original_f && xs == original_xs);\n        }\n    }\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\nusing ll = long long;\nusing uint = unsigned;\nusing ull\
     \ = unsigned long long;\n#include \"../util/fastio.cpp\"\n#include \"../fps/polynomial_interpolation.cpp\"\
@@ -598,27 +606,31 @@ data:
     \ vector<mint> coefficients(n), xs(n), ys(n);\n        for (auto &c : coefficients)\
     \ c = random() % 998244353;\n        if (tc % 7 == 0) fill(coefficients.begin(),\
     \ coefficients.end(), mint(0));\n        else if (tc % 5 == 0) fill(coefficients.begin()\
-    \ + n / 2, coefficients.end(), mint(0));\n        mint offset = random() % 998244353,\
-    \ step = 1 + random() % 998244352;\n        for (int i = 0; i < n; ++i) xs[i]\
-    \ = offset + step * mint(i);\n        shuffle(xs.begin(), xs.end(), random);\n\
-    \        for (int i = 0; i < n; ++i) ys[i] = horner(coefficients, xs[i]);\n  \
-    \      auto original_xs = xs, original_ys = ys;\n        auto result = polynomial_interpolation(xs,\
-    \ ys);\n        assert(result.v == coefficients);\n        assert(xs == original_xs\
-    \ && ys == original_ys);\n        assert(result.multipoint_eval(xs) == ys);\n\n\
-    \        int count = tc % 9 == 0 ? 0 : random() % 150;\n        vector<mint> points(count),\
-    \ expected(count);\n        for (int i = 0; i < count; ++i) {\n            points[i]\
-    \ = tc % 3 == 0 ? mint(0) : mint(random() % 998244353);\n            expected[i]\
-    \ = horner(coefficients, points[i]);\n        }\n        assert(result.multipoint_eval(points)\
-    \ == expected);\n        assert(poly().multipoint_eval(points) == vector<mint>(count));\n\
-    \    }\n    for (int n : {0, 1, 17, 257, 1025}) {\n        poly f(n);\n      \
-    \  for (auto &c : f.v) c = random() % ntt_mod;\n        for (int m : {0, 1, 3,\
-    \ 65, 129, 513}) {\n            vector<mint> xs(m), expected(m);\n           \
-    \ for (int i = 0; i < m; ++i) {\n                xs[i] = i % 7;\n            \
-    \    expected[i] = horner(f.v, xs[i]);\n            }\n            auto original_f\
-    \ = f.v, original_xs = xs;\n            assert(f.multipoint_eval(xs) == expected);\n\
-    \            assert(f.v == original_f && xs == original_xs);\n        }\n    }\n\
-    }\n\nint main() {\n    self_check();\n    Scanner sc;\n    Printer pr;\n    int\
-    \ a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \ + n / 2, coefficients.end(), mint(0));\n        if (tc % 2 == 0) {\n       \
+    \     set<uint> used;\n            for (auto &x : xs) {\n                uint\
+    \ value;\n                do { value = random() % 998244353; } while (!used.insert(value).second);\n\
+    \                x = value;\n            }\n        } else {\n            mint\
+    \ offset = random() % 998244353, step = 1 + random() % 998244352;\n          \
+    \  for (int i = 0; i < n; ++i) xs[i] = offset + step * mint(i);\n        }\n \
+    \       shuffle(xs.begin(), xs.end(), random);\n        for (int i = 0; i < n;\
+    \ ++i) ys[i] = horner(coefficients, xs[i]);\n        auto original_xs = xs, original_ys\
+    \ = ys;\n        auto result = polynomial_interpolation(xs, ys);\n        assert(result.v\
+    \ == coefficients);\n        assert(xs == original_xs && ys == original_ys);\n\
+    \        assert(result.multipoint_eval(xs) == ys);\n\n        int count = tc %\
+    \ 9 == 0 ? 0 : random() % 150;\n        vector<mint> points(count), expected(count);\n\
+    \        for (int i = 0; i < count; ++i) {\n            points[i] = tc % 3 ==\
+    \ 0 ? mint(0) : mint(random() % 998244353);\n            expected[i] = horner(coefficients,\
+    \ points[i]);\n        }\n        assert(result.multipoint_eval(points) == expected);\n\
+    \        assert(poly().multipoint_eval(points) == vector<mint>(count));\n    }\n\
+    \    for (int n : {0, 1, 17, 257, 1025}) {\n        poly f(n);\n        for (auto\
+    \ &c : f.v) c = random() % ntt_mod;\n        for (int m : {0, 1, 3, 65, 129, 513})\
+    \ {\n            vector<mint> xs(m), expected(m);\n            for (int i = 0;\
+    \ i < m; ++i) {\n                xs[i] = i % 7;\n                expected[i] =\
+    \ horner(f.v, xs[i]);\n            }\n            auto original_f = f.v, original_xs\
+    \ = xs;\n            assert(f.multipoint_eval(xs) == expected);\n            assert(f.v\
+    \ == original_f && xs == original_xs);\n        }\n    }\n}\n\nint main() {\n\
+    \    self_check();\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
+    \ b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - fps/polynomial_interpolation.cpp
@@ -628,7 +640,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_polynomial_interpolation.test.cpp
   requiredBy: []
-  timestamp: '2026-10-18 01:13:29+09:00'
+  timestamp: '2026-10-18 09:28:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_polynomial_interpolation.test.cpp

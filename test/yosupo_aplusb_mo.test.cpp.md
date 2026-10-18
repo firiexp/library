@@ -238,79 +238,123 @@ data:
     \ AddRight add_right,\n              EraseLeft erase_left, EraseRight erase_right,\
     \ Output output, int bucket_size = 0) {\n    if (queries.empty()) return;\n  \
     \  if (bucket_size <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n\
-    \    vector<Query> qs = queries;\n    sort(qs.begin(), qs.end(), [&](const Query&\
-    \ a, const Query& b) {\n        int ablock = a.l / bucket_size, bblock = b.l /\
-    \ bucket_size;\n        if (ablock != bblock) return ablock < bblock;\n      \
-    \  return ablock & 1 ? a.r < b.r : a.r > b.r;\n    });\n    int l = 0, r = 0;\n\
-    \    for (const auto& q : qs) {\n        while (q.l < l) add_left(--l);\n    \
-    \    while (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n\
-    \        while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\
-    \n\n/**\n * @brief Mo's Algorithm\n */\n#line 7 \"test/yosupo_aplusb_mo.test.cpp\"\
-    \n\nint main() {\n    mt19937 rng(87);\n    for (int tc = 0; tc < 10000; ++tc)\
-    \ {\n        int n = rng() % 31, q = rng() % 41;\n        vector<int> a(n);\n\
-    \        for (int& x : a) x = rng() % 10;\n        vector<Query> qs;\n       \
-    \ vector<int> expected(q), seen(q);\n        for (int i = 0; i < q; ++i) {\n \
-    \           int l = rng() % (n + 1), r = rng() % (n + 1);\n            if (l >\
-    \ r) swap(l, r);\n            qs.emplace_back(l, r, 3 * i + 7);\n            for\
-    \ (int j = l; j < r; ++j)\n                for (int k = j + 1; k < r; ++k) expected[i]\
-    \ += a[j] > a[k];\n        }\n        shuffle(qs.begin(), qs.end(), rng);\n  \
-    \      auto original = qs;\n        Query::bucket_size = 7;\n        int l = 0,\
-    \ r = 0, inv = 0;\n        auto add_left = [&](int i) {\n            assert(i\
-    \ == l - 1);\n            for (int j = l; j < r; ++j) inv += a[i] > a[j];\n  \
-    \          --l;\n        };\n        auto add_right = [&](int i) {\n         \
-    \   assert(i == r);\n            for (int j = l; j < r; ++j) inv += a[j] > a[i];\n\
-    \            ++r;\n        };\n        auto erase_left = [&](int i) {\n      \
-    \      assert(l < r && i == l);\n            ++l;\n            for (int j = l;\
-    \ j < r; ++j) inv -= a[i] > a[j];\n        };\n        auto erase_right = [&](int\
-    \ i) {\n            assert(l < r && i == r - 1);\n            --r;\n         \
-    \   for (int j = l; j < r; ++j) inv -= a[j] > a[i];\n        };\n        auto\
-    \ output = [&](int no) {\n            assert((no - 7) % 3 == 0);\n           \
-    \ int id = (no - 7) / 3;\n            assert(0 <= id && id < q);\n           \
-    \ assert(inv == expected[id]);\n            ++seen[id];\n        };\n        int\
-    \ width = tc % 3 == 0 ? 0 : tc % 3 == 1 ? 1 : n + 2;\n        mo_solve(n, qs,\
-    \ add_left, add_right, erase_left, erase_right, output, width);\n        assert(Query::bucket_size\
-    \ == 7);\n        assert(qs.size() == original.size());\n        for (int i =\
-    \ 0; i < q; ++i) {\n            assert(seen[i] == 1);\n            assert(tie(qs[i].l,\
-    \ qs[i].r, qs[i].no) == tie(original[i].l, original[i].r, original[i].no));\n\
-    \        }\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n}\n"
+    \    struct OrderedQuery {\n        uint64_t key;\n        size_t index;\n   \
+    \ };\n    vector<OrderedQuery> qs;\n    qs.reserve(queries.size());\n    for (size_t\
+    \ i = 0; i < queries.size(); ++i) {\n        uint32_t block = queries[i].l / bucket_size;\n\
+    \        uint32_t right = queries[i].r;\n        if (!(block & 1)) right = ~right;\n\
+    \        qs.push_back({(uint64_t(block) << 32) | right, i});\n    }\n    sort(qs.begin(),\
+    \ qs.end(), [](const OrderedQuery& a, const OrderedQuery& b) {\n        return\
+    \ a.key < b.key;\n    });\n    int l = 0, r = 0;\n    for (const auto& ordered\
+    \ : qs) {\n        const auto& q = queries[ordered.index];\n        while (q.l\
+    \ < l) add_left(--l);\n        while (r < q.r) add_right(r++);\n        while\
+    \ (l < q.l) erase_left(l++);\n        while (q.r < r) erase_right(--r);\n    \
+    \    output(q.no);\n    }\n}\n\n\n\n/**\n * @brief Mo's Algorithm\n */\n#line\
+    \ 7 \"test/yosupo_aplusb_mo.test.cpp\"\n\nvoid check_sum_and_distinct() {\n  \
+    \  mt19937 rng(227);\n    for (int tc = 0; tc < 300; ++tc) {\n        int n =\
+    \ rng() % 101, count = rng() % 201;\n        vector<int> a(n), freq(16);\n   \
+    \     for (int &value : a) value = rng() % 16;\n        vector<Query> queries;\n\
+    \        vector<pair<int, int>> expected;\n        for (int i = 0; i < count;\
+    \ ++i) {\n            int l = rng() % (n + 1), r = rng() % (n + 1);\n        \
+    \    if (l > r) swap(l, r);\n            if (tc % 4 == 1) l = 0;\n           \
+    \ if (tc % 4 == 2) r = n;\n            if (tc % 4 == 3) l = r = n / 2;\n     \
+    \       queries.emplace_back(l, r, -i - 1);\n            set<int> distinct(a.begin()\
+    \ + l, a.begin() + r);\n            expected.emplace_back(accumulate(a.begin()\
+    \ + l, a.begin() + r, 0), distinct.size());\n        }\n        int width = tc\
+    \ % 3 == 0 ? 1 : tc % 3 == 1 ? 7 : INT_MAX;\n        int sum = 0, distinct = 0,\
+    \ previous = -1;\n        vector<int> seen(count);\n        auto add = [&](int\
+    \ i) {\n            sum += a[i];\n            distinct += freq[a[i]]++ == 0;\n\
+    \        };\n        auto erase = [&](int i) {\n            sum -= a[i];\n   \
+    \         distinct -= --freq[a[i]] == 0;\n        };\n        Query::B = width;\n\
+    \        mo_solve(n, queries, add, add, erase, erase, [&](int no) {\n        \
+    \    int i = -no - 1;\n            assert(make_pair(sum, distinct) == expected[i]);\n\
+    \            if (previous != -1) assert(!(queries[i] < queries[previous]));\n\
+    \            previous = i;\n            ++seen[i];\n        }, width);\n     \
+    \   for (int value : seen) assert(value == 1);\n        assert(Query::bucket_size\
+    \ == width);\n    }\n}\n\nint main() {\n    check_sum_and_distinct();\n    mt19937\
+    \ rng(87);\n    for (int tc = 0; tc < 10000; ++tc) {\n        int n = rng() %\
+    \ 31, q = rng() % 41;\n        vector<int> a(n);\n        for (int& x : a) x =\
+    \ rng() % 10;\n        vector<Query> qs;\n        vector<int> expected(q), seen(q);\n\
+    \        for (int i = 0; i < q; ++i) {\n            int l = rng() % (n + 1), r\
+    \ = rng() % (n + 1);\n            if (l > r) swap(l, r);\n            qs.emplace_back(l,\
+    \ r, 3 * i + 7);\n            for (int j = l; j < r; ++j)\n                for\
+    \ (int k = j + 1; k < r; ++k) expected[i] += a[j] > a[k];\n        }\n       \
+    \ shuffle(qs.begin(), qs.end(), rng);\n        auto original = qs;\n        Query::bucket_size\
+    \ = 7;\n        int l = 0, r = 0, inv = 0;\n        auto add_left = [&](int i)\
+    \ {\n            assert(i == l - 1);\n            for (int j = l; j < r; ++j)\
+    \ inv += a[i] > a[j];\n            --l;\n        };\n        auto add_right =\
+    \ [&](int i) {\n            assert(i == r);\n            for (int j = l; j < r;\
+    \ ++j) inv += a[j] > a[i];\n            ++r;\n        };\n        auto erase_left\
+    \ = [&](int i) {\n            assert(l < r && i == l);\n            ++l;\n   \
+    \         for (int j = l; j < r; ++j) inv -= a[i] > a[j];\n        };\n      \
+    \  auto erase_right = [&](int i) {\n            assert(l < r && i == r - 1);\n\
+    \            --r;\n            for (int j = l; j < r; ++j) inv -= a[j] > a[i];\n\
+    \        };\n        auto output = [&](int no) {\n            assert((no - 7)\
+    \ % 3 == 0);\n            int id = (no - 7) / 3;\n            assert(0 <= id &&\
+    \ id < q);\n            assert(inv == expected[id]);\n            ++seen[id];\n\
+    \        };\n        int width = tc % 3 == 0 ? 0 : tc % 3 == 1 ? 1 : n + 2;\n\
+    \        mo_solve(n, qs, add_left, add_right, erase_left, erase_right, output,\
+    \ width);\n        assert(Query::bucket_size == 7);\n        assert(qs.size()\
+    \ == original.size());\n        for (int i = 0; i < q; ++i) {\n            assert(seen[i]\
+    \ == 1);\n            assert(tie(qs[i].l, qs[i].r, qs[i].no) == tie(original[i].l,\
+    \ original[i].r, original[i].no));\n        }\n    }\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../util/mo.cpp\"\
-    \n\nint main() {\n    mt19937 rng(87);\n    for (int tc = 0; tc < 10000; ++tc)\
-    \ {\n        int n = rng() % 31, q = rng() % 41;\n        vector<int> a(n);\n\
-    \        for (int& x : a) x = rng() % 10;\n        vector<Query> qs;\n       \
-    \ vector<int> expected(q), seen(q);\n        for (int i = 0; i < q; ++i) {\n \
-    \           int l = rng() % (n + 1), r = rng() % (n + 1);\n            if (l >\
-    \ r) swap(l, r);\n            qs.emplace_back(l, r, 3 * i + 7);\n            for\
-    \ (int j = l; j < r; ++j)\n                for (int k = j + 1; k < r; ++k) expected[i]\
-    \ += a[j] > a[k];\n        }\n        shuffle(qs.begin(), qs.end(), rng);\n  \
-    \      auto original = qs;\n        Query::bucket_size = 7;\n        int l = 0,\
-    \ r = 0, inv = 0;\n        auto add_left = [&](int i) {\n            assert(i\
-    \ == l - 1);\n            for (int j = l; j < r; ++j) inv += a[i] > a[j];\n  \
-    \          --l;\n        };\n        auto add_right = [&](int i) {\n         \
-    \   assert(i == r);\n            for (int j = l; j < r; ++j) inv += a[j] > a[i];\n\
-    \            ++r;\n        };\n        auto erase_left = [&](int i) {\n      \
-    \      assert(l < r && i == l);\n            ++l;\n            for (int j = l;\
-    \ j < r; ++j) inv -= a[i] > a[j];\n        };\n        auto erase_right = [&](int\
-    \ i) {\n            assert(l < r && i == r - 1);\n            --r;\n         \
-    \   for (int j = l; j < r; ++j) inv -= a[j] > a[i];\n        };\n        auto\
-    \ output = [&](int no) {\n            assert((no - 7) % 3 == 0);\n           \
-    \ int id = (no - 7) / 3;\n            assert(0 <= id && id < q);\n           \
-    \ assert(inv == expected[id]);\n            ++seen[id];\n        };\n        int\
-    \ width = tc % 3 == 0 ? 0 : tc % 3 == 1 ? 1 : n + 2;\n        mo_solve(n, qs,\
-    \ add_left, add_right, erase_left, erase_right, output, width);\n        assert(Query::bucket_size\
-    \ == 7);\n        assert(qs.size() == original.size());\n        for (int i =\
-    \ 0; i < q; ++i) {\n            assert(seen[i] == 1);\n            assert(tie(qs[i].l,\
-    \ qs[i].r, qs[i].no) == tie(original[i].l, original[i].r, original[i].no));\n\
-    \        }\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n    sc.read(a,\
-    \ b);\n    pr.println(a + b);\n}\n"
+    \n\nvoid check_sum_and_distinct() {\n    mt19937 rng(227);\n    for (int tc =\
+    \ 0; tc < 300; ++tc) {\n        int n = rng() % 101, count = rng() % 201;\n  \
+    \      vector<int> a(n), freq(16);\n        for (int &value : a) value = rng()\
+    \ % 16;\n        vector<Query> queries;\n        vector<pair<int, int>> expected;\n\
+    \        for (int i = 0; i < count; ++i) {\n            int l = rng() % (n + 1),\
+    \ r = rng() % (n + 1);\n            if (l > r) swap(l, r);\n            if (tc\
+    \ % 4 == 1) l = 0;\n            if (tc % 4 == 2) r = n;\n            if (tc %\
+    \ 4 == 3) l = r = n / 2;\n            queries.emplace_back(l, r, -i - 1);\n  \
+    \          set<int> distinct(a.begin() + l, a.begin() + r);\n            expected.emplace_back(accumulate(a.begin()\
+    \ + l, a.begin() + r, 0), distinct.size());\n        }\n        int width = tc\
+    \ % 3 == 0 ? 1 : tc % 3 == 1 ? 7 : INT_MAX;\n        int sum = 0, distinct = 0,\
+    \ previous = -1;\n        vector<int> seen(count);\n        auto add = [&](int\
+    \ i) {\n            sum += a[i];\n            distinct += freq[a[i]]++ == 0;\n\
+    \        };\n        auto erase = [&](int i) {\n            sum -= a[i];\n   \
+    \         distinct -= --freq[a[i]] == 0;\n        };\n        Query::B = width;\n\
+    \        mo_solve(n, queries, add, add, erase, erase, [&](int no) {\n        \
+    \    int i = -no - 1;\n            assert(make_pair(sum, distinct) == expected[i]);\n\
+    \            if (previous != -1) assert(!(queries[i] < queries[previous]));\n\
+    \            previous = i;\n            ++seen[i];\n        }, width);\n     \
+    \   for (int value : seen) assert(value == 1);\n        assert(Query::bucket_size\
+    \ == width);\n    }\n}\n\nint main() {\n    check_sum_and_distinct();\n    mt19937\
+    \ rng(87);\n    for (int tc = 0; tc < 10000; ++tc) {\n        int n = rng() %\
+    \ 31, q = rng() % 41;\n        vector<int> a(n);\n        for (int& x : a) x =\
+    \ rng() % 10;\n        vector<Query> qs;\n        vector<int> expected(q), seen(q);\n\
+    \        for (int i = 0; i < q; ++i) {\n            int l = rng() % (n + 1), r\
+    \ = rng() % (n + 1);\n            if (l > r) swap(l, r);\n            qs.emplace_back(l,\
+    \ r, 3 * i + 7);\n            for (int j = l; j < r; ++j)\n                for\
+    \ (int k = j + 1; k < r; ++k) expected[i] += a[j] > a[k];\n        }\n       \
+    \ shuffle(qs.begin(), qs.end(), rng);\n        auto original = qs;\n        Query::bucket_size\
+    \ = 7;\n        int l = 0, r = 0, inv = 0;\n        auto add_left = [&](int i)\
+    \ {\n            assert(i == l - 1);\n            for (int j = l; j < r; ++j)\
+    \ inv += a[i] > a[j];\n            --l;\n        };\n        auto add_right =\
+    \ [&](int i) {\n            assert(i == r);\n            for (int j = l; j < r;\
+    \ ++j) inv += a[j] > a[i];\n            ++r;\n        };\n        auto erase_left\
+    \ = [&](int i) {\n            assert(l < r && i == l);\n            ++l;\n   \
+    \         for (int j = l; j < r; ++j) inv -= a[i] > a[j];\n        };\n      \
+    \  auto erase_right = [&](int i) {\n            assert(l < r && i == r - 1);\n\
+    \            --r;\n            for (int j = l; j < r; ++j) inv -= a[j] > a[i];\n\
+    \        };\n        auto output = [&](int no) {\n            assert((no - 7)\
+    \ % 3 == 0);\n            int id = (no - 7) / 3;\n            assert(0 <= id &&\
+    \ id < q);\n            assert(inv == expected[id]);\n            ++seen[id];\n\
+    \        };\n        int width = tc % 3 == 0 ? 0 : tc % 3 == 1 ? 1 : n + 2;\n\
+    \        mo_solve(n, qs, add_left, add_right, erase_left, erase_right, output,\
+    \ width);\n        assert(Query::bucket_size == 7);\n        assert(qs.size()\
+    \ == original.size());\n        for (int i = 0; i < q; ++i) {\n            assert(seen[i]\
+    \ == 1);\n            assert(tie(qs[i].l, qs[i].r, qs[i].no) == tie(original[i].l,\
+    \ original[i].r, original[i].no));\n        }\n    }\n    Scanner sc;\n    Printer\
+    \ pr;\n    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   dependsOn:
   - util/fastio.cpp
   - util/mo.cpp
   isVerificationFile: true
   path: test/yosupo_aplusb_mo.test.cpp
   requiredBy: []
-  timestamp: '2026-10-14 23:16:37+09:00'
+  timestamp: '2026-10-18 10:05:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_mo.test.cpp

@@ -258,15 +258,16 @@ data:
     \ char)s[i]) % M;\n        }\n    };\n\n    ll get(int l, int r){\n        ll\
     \ res = hash[r]+M-hash[l]*p()[r-l]%M;\n        return res >= M ? res-M : res;\n\
     \    }\n};\n\n/**\n * @brief Rolling Hash\n */\n#line 1 \"string/rolling_hash_ull.cpp\"\
-    \nconstexpr ull M = (1UL << 61) - 1;\nconstexpr ull POSITIVISER = M * 4; // mul\
-    \ returns an unreduced value below 4*M.\nconstexpr ull MASK30 = (1UL << 30) -\
-    \ 1;\nconstexpr ull MASK31 = (1UL << 31) - 1;\n\nclass rolling_hash_ull {\n  \
-    \  static ull get_base(){\n        ull z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
+    \nconstexpr ull M = (1UL << 61) - 1;\nconstexpr ull MASK30 = (1UL << 30) - 1;\n\
+    constexpr ull MASK31 = (1UL << 31) - 1;\n\nclass rolling_hash_ull {\n    static\
+    \ ull get_base(){\n        ull z = (static_cast<uint64_t>((chrono::system_clock::now().time_since_epoch().count())&((1LL\
     \ << 32)-1)))+0x9e3779b97f4a7c15;\n        z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;\n\
     \        z = (z ^ (z >> 27)) * 0x94d049bb133111eb;\n        return z;\n    }\n\
     \n    static inline ull calc_mod(ull val){\n        val = (val & M) + (val >>\
-    \ 61);\n        if(val >= M) val -= M;\n        return val;\n    }\npublic:\n\
-    \    vector<ull> hash;\n\n    static ull &B() {\n        static ull B_ = (get_base())%(M-2)+2;\n\
+    \ 61);\n        if(val >= M) val -= M;\n        return val;\n    }\n\n    static\
+    \ inline ull mul128(ull x, ull y) {\n        __uint128_t z = (__uint128_t)x *\
+    \ y;\n        return (ull(z) & M) + ull(z >> 61);\n    }\npublic:\n    vector<ull>\
+    \ hash;\n\n    static ull &B() {\n        static ull B_ = (get_base())%(M-2)+2;\n\
     \        return B_;\n    }\n\n    static vector<ull> &p() {\n        static vector<ull>\
     \ p_{1, B()};\n        return p_;\n    }\n\n    static inline ull mul(ull x, ull\
     \ y){\n        ull a = x >> 31, b = x & MASK31, c = y >> 31, d = y & MASK31, e\
@@ -280,10 +281,10 @@ data:
     \ n){\n        int l = p().size();\n        if(n < l) return;\n        p().resize(n+1);\n\
     \        for (int i = l; i < p().size(); ++i) {\n            p()[i] = calc_mod(mul(p()[i-1],\
     \ p()[1]));\n        }\n    }\n\n    ull get(int l, int r){\n        return calc_mod(hash[r]\
-    \ + POSITIVISER - mul(hash[l], p()[r-l]));\n    }\n\n    static ull val(string\
-    \ &s){\n        ull ret = 0;\n        for (int i = 0; i < s.size(); ++i) {\n \
-    \           ret = calc_mod(mul(ret, B()) + (unsigned char)s[i]);\n        }\n\
-    \        return ret;\n    }\n};\n\n/**\n * @brief Rolling Hash(mod 2^61-1)\n */\n\
+    \ + 2 * M - mul128(hash[l], p()[r-l]));\n    }\n\n    static ull val(string &s){\n\
+    \        ull ret = 0;\n        for (int i = 0; i < s.size(); ++i) {\n        \
+    \    ret = calc_mod(mul128(ret, B()) + (unsigned char)s[i]);\n        }\n    \
+    \    return ret;\n    }\n};\n\n/**\n * @brief Rolling Hash(mod 2^61-1)\n */\n\
     #line 1 \"string/lyndon_factorization.cpp\"\nusing namespace std;\n\nvector<pair<int,\
     \ int>> lyndon_factorization(const string &s) {\n    int n = (int)s.size();\n\
     \    vector<pair<int, int>> res;\n    for (int i = 0; i < n;) {\n        int j\
@@ -332,13 +333,23 @@ data:
     \            rolling_hash_ull rh(s);\n            assert(rh.get(0, n) == expected);\n\
     \            rolling_hash_ull grow(n + 100);\n            assert(rolling_hash_ull::p().size()\
     \ >= size_t(n + 101));\n            assert(rh.get(0, n) == expected);\n      \
-    \  }\n    }\n}\n\nint main() {\n    rolling_hash<MOD>::B() = 127;\n    rolling_hash_ull::B()\
-    \ = 127;\n    standalone_hash_check();\n    shared_powers_check();\n    hash_check(string{char(255),\
-    \ char(127), 1, 1, 1, 1, 1});\n    // The unreduced product in get(17, 28) exceeds\
-    \ hash[28] + 3*M.\n    string subtraction_case;\n    for (int byte : {52, 238,\
-    \ 54, 138, 29, 92, 151, 22, 86, 21, 6, 9, 155, 217, 111, 94,\n               \
-    \     133, 220, 239, 101, 237, 127, 15, 83, 108, 190, 213, 198, 175, 154, 9, 95})\n\
-    \        subtraction_case += char(byte);\n    hash_check(subtraction_case);\n\
+    \  }\n    }\n}\n\nvoid large_base_hash_check() {\n    mt19937_64 rng(224);\n \
+    \   for (ull base : {2ULL, 911382323ULL, M / 2, M - 2, M - 1}) {\n        rolling_hash_ull::B()\
+    \ = base;\n        rolling_hash_ull::p() = {1, base};\n        for (int tc = 0;\
+    \ tc < 100; ++tc) {\n            string s(tc, '\\0');\n            for (char &c\
+    \ : s) c = char(rng() % 256);\n            rolling_hash_ull rh(s);\n         \
+    \   for (int l = 0; l <= int(s.size()); ++l) {\n                ull expected =\
+    \ 0;\n                for (int r = l; r <= int(s.size()); ++r) {\n           \
+    \         if (r > l) expected = ((__uint128_t)expected * base + (unsigned char)s[r\
+    \ - 1]) % M;\n                    assert(rh.get(l, r) == expected);\n        \
+    \        }\n            }\n            assert(rolling_hash_ull::val(s) == rh.get(0,\
+    \ s.size()));\n        }\n    }\n    rolling_hash_ull::B() = 127;\n    rolling_hash_ull::p()\
+    \ = {1, 127};\n}\n\nint main() {\n    rolling_hash<MOD>::B() = 127;\n    rolling_hash_ull::B()\
+    \ = 127;\n    large_base_hash_check();\n    standalone_hash_check();\n    shared_powers_check();\n\
+    \    hash_check(string{char(255), char(127), 1, 1, 1, 1, 1});\n    string subtraction_case;\n\
+    \    for (int byte : {52, 238, 54, 138, 29, 92, 151, 22, 86, 21, 6, 9, 155, 217,\
+    \ 111, 94,\n                    133, 220, 239, 101, 237, 127, 15, 83, 108, 190,\
+    \ 213, 198, 175, 154, 9, 95})\n        subtraction_case += char(byte);\n    hash_check(subtraction_case);\n\
     \    const unsigned char alphabet[] = {0, 127, 128, 255};\n    for (int n = 0,\
     \ count = 1; n <= 6; ++n, count *= 4) {\n        for (int mask = 0; mask < count;\
     \ ++mask) {\n            string s(n, '\\0');\n            int digits = mask;\n\
@@ -392,13 +403,23 @@ data:
     \            rolling_hash_ull rh(s);\n            assert(rh.get(0, n) == expected);\n\
     \            rolling_hash_ull grow(n + 100);\n            assert(rolling_hash_ull::p().size()\
     \ >= size_t(n + 101));\n            assert(rh.get(0, n) == expected);\n      \
-    \  }\n    }\n}\n\nint main() {\n    rolling_hash<MOD>::B() = 127;\n    rolling_hash_ull::B()\
-    \ = 127;\n    standalone_hash_check();\n    shared_powers_check();\n    hash_check(string{char(255),\
-    \ char(127), 1, 1, 1, 1, 1});\n    // The unreduced product in get(17, 28) exceeds\
-    \ hash[28] + 3*M.\n    string subtraction_case;\n    for (int byte : {52, 238,\
-    \ 54, 138, 29, 92, 151, 22, 86, 21, 6, 9, 155, 217, 111, 94,\n               \
-    \     133, 220, 239, 101, 237, 127, 15, 83, 108, 190, 213, 198, 175, 154, 9, 95})\n\
-    \        subtraction_case += char(byte);\n    hash_check(subtraction_case);\n\
+    \  }\n    }\n}\n\nvoid large_base_hash_check() {\n    mt19937_64 rng(224);\n \
+    \   for (ull base : {2ULL, 911382323ULL, M / 2, M - 2, M - 1}) {\n        rolling_hash_ull::B()\
+    \ = base;\n        rolling_hash_ull::p() = {1, base};\n        for (int tc = 0;\
+    \ tc < 100; ++tc) {\n            string s(tc, '\\0');\n            for (char &c\
+    \ : s) c = char(rng() % 256);\n            rolling_hash_ull rh(s);\n         \
+    \   for (int l = 0; l <= int(s.size()); ++l) {\n                ull expected =\
+    \ 0;\n                for (int r = l; r <= int(s.size()); ++r) {\n           \
+    \         if (r > l) expected = ((__uint128_t)expected * base + (unsigned char)s[r\
+    \ - 1]) % M;\n                    assert(rh.get(l, r) == expected);\n        \
+    \        }\n            }\n            assert(rolling_hash_ull::val(s) == rh.get(0,\
+    \ s.size()));\n        }\n    }\n    rolling_hash_ull::B() = 127;\n    rolling_hash_ull::p()\
+    \ = {1, 127};\n}\n\nint main() {\n    rolling_hash<MOD>::B() = 127;\n    rolling_hash_ull::B()\
+    \ = 127;\n    large_base_hash_check();\n    standalone_hash_check();\n    shared_powers_check();\n\
+    \    hash_check(string{char(255), char(127), 1, 1, 1, 1, 1});\n    string subtraction_case;\n\
+    \    for (int byte : {52, 238, 54, 138, 29, 92, 151, 22, 86, 21, 6, 9, 155, 217,\
+    \ 111, 94,\n                    133, 220, 239, 101, 237, 127, 15, 83, 108, 190,\
+    \ 213, 198, 175, 154, 9, 95})\n        subtraction_case += char(byte);\n    hash_check(subtraction_case);\n\
     \    const unsigned char alphabet[] = {0, 127, 128, 255};\n    for (int n = 0,\
     \ count = 1; n <= 6; ++n, count *= 4) {\n        for (int mask = 0; mask < count;\
     \ ++mask) {\n            string s(n, '\\0');\n            int digits = mask;\n\
@@ -418,7 +439,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_string_bytes.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 18:52:34+09:00'
+  timestamp: '2026-10-18 10:05:12+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_string_bytes.test.cpp

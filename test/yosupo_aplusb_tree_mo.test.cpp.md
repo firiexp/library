@@ -244,87 +244,90 @@ data:
     \ AddRight add_right,\n              EraseLeft erase_left, EraseRight erase_right,\
     \ Output output, int bucket_size = 0) {\n    if (queries.empty()) return;\n  \
     \  if (bucket_size <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n\
-    \    vector<Query> qs = queries;\n    sort(qs.begin(), qs.end(), [&](const Query&\
-    \ a, const Query& b) {\n        int ablock = a.l / bucket_size, bblock = b.l /\
-    \ bucket_size;\n        if (ablock != bblock) return ablock < bblock;\n      \
-    \  return ablock & 1 ? a.r < b.r : a.r > b.r;\n    });\n    int l = 0, r = 0;\n\
-    \    for (const auto& q : qs) {\n        while (q.l < l) add_left(--l);\n    \
-    \    while (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n\
-    \        while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\
-    \n\n/**\n * @brief Mo's Algorithm\n */\n#line 1 \"tree/tree_mo.cpp\"\n\n\n\n#line\
-    \ 5 \"tree/tree_mo.cpp\"\n\ntemplate<class Add, class Erase, class Output>\nvoid\
-    \ tree_mo_solve(const vector<vector<int>> &g, const vector<pair<int, int>> &paths,\n\
-    \                   Add add, Erase erase, Output output, int root = 0) {\n   \
-    \ if (paths.empty()) return;\n    int n = (int)g.size();\n    assert(0 <= root\
-    \ && root < n);\n    vector<int> tin(n), parent(n, -1), tour, stack{root};\n \
-    \   tour.reserve(2 * n - 1);\n    while (!stack.empty()) {\n        int v = stack.back();\n\
-    \        stack.pop_back();\n        if (v < 0) {\n            if (parent[~v] !=\
-    \ -1) tour.push_back(parent[~v]);\n        } else {\n            tin[v] = (int)tour.size();\n\
-    \            tour.push_back(v);\n            stack.push_back(~v);\n          \
-    \  for (int i = (int)g[v].size() - 1; i >= 0; --i) {\n                int u =\
-    \ g[v][i];\n                if (u != parent[v]) {\n                    parent[u]\
-    \ = v;\n                    stack.push_back(u);\n                }\n         \
-    \   }\n        }\n    }\n    vector<Query> queries;\n    queries.reserve(paths.size());\n\
-    \    for (int i = 0; i < (int)paths.size(); ++i) {\n        auto [u, v] = paths[i];\n\
-    \        assert(0 <= u && u < n && 0 <= v && v < n);\n        if (tin[u] > tin[v])\
-    \ swap(u, v);\n        queries.emplace_back(tin[u], tin[v], i);\n    }\n    vector<char>\
-    \ active(n);\n    auto move = [&](int from, int to) {\n        if (active[to])\
-    \ {\n            erase(from);\n            active[from] = 0;\n        } else {\n\
-    \            add(to);\n            active[to] = 1;\n        }\n    };\n    auto\
-    \ forward = [&](int i) { move(tour[i], tour[i + 1]); };\n    auto backward = [&](int\
-    \ i) { move(tour[i + 1], tour[i]); };\n    add(root);\n    active[root] = 1;\n\
-    \    mo_solve((int)tour.size(), queries, backward, forward, forward, backward,\
-    \ output);\n    for (int v = 0; v < n; ++v) {\n        if (active[v]) erase(v);\n\
-    \    }\n}\n\n\n\n/**\n * @brief \u6728\u4E0A\u30D1\u30B9\u306EMo\n */\n#line 8\
-    \ \"test/yosupo_aplusb_tree_mo.test.cpp\"\n\nint main() {\n    tree_mo_solve({},\
-    \ {}, [](int) { assert(false); }, [](int) { assert(false); },\n              \
-    \    [](int) { assert(false); });\n    mt19937 rng(153);\n    for (int tc = 0;\
-    \ tc < 2000; ++tc) {\n        int n = 1 + rng() % 35, q = rng() % 61;\n      \
-    \  vector<vector<int>> g(n);\n        for (int v = 1; v < n; ++v) {\n        \
-    \    int u = rng() % v;\n            g[u].push_back(v);\n            g[v].push_back(u);\n\
-    \        }\n        vector<pair<int, int>> paths(q);\n        vector<vector<char>>\
-    \ expected(q, vector<char>(n));\n        vector<int> colors(n), distinct(q);\n\
-    \        for (int &c : colors) c = rng() % 8;\n        for (int id = 0; id < q;\
-    \ ++id) {\n            auto &[s, t] = paths[id];\n            s = rng() % n; t\
-    \ = rng() % n;\n            vector<int> parent(n, -1), queue{s};\n           \
-    \ parent[s] = s;\n            for (int i = 0; i < (int)queue.size(); ++i) {\n\
-    \                int v = queue[i];\n                for (int u : g[v]) {\n   \
-    \                 if (parent[u] == -1) parent[u] = v, queue.push_back(u);\n  \
-    \              }\n            }\n            set<int> used;\n            for (int\
-    \ v = t;; v = parent[v]) {\n                expected[id][v] = 1;\n           \
-    \     used.insert(colors[v]);\n                if (v == s) break;\n          \
-    \  }\n            distinct[id] = (int)used.size();\n        }\n        auto original_g\
-    \ = g;\n        auto original_paths = paths;\n        for (int run = 0; run <\
-    \ 2; ++run) {\n            vector<char> active(n);\n            vector<int> seen(q),\
-    \ frequency(8);\n            int current = 0;\n            tree_mo_solve(g, paths,\n\
-    \                [&](int v) {\n                    assert(!active[v]);\n     \
-    \               active[v] = 1;\n                    if (frequency[colors[v]]++\
-    \ == 0) ++current;\n                },\n                [&](int v) {\n       \
-    \             assert(active[v]);\n                    active[v] = 0;\n       \
-    \             if (--frequency[colors[v]] == 0) --current;\n                },\n\
-    \                [&](int id) {\n                    assert(0 <= id && id < q);\n\
-    \                    assert(active == expected[id] && current == distinct[id]);\n\
-    \                    ++seen[id];\n                }, rng() % n);\n           \
-    \ assert(current == 0 && count(active.begin(), active.end(), 0) == n);\n     \
-    \       assert(count(seen.begin(), seen.end(), 1) == q);\n            assert(g\
-    \ == original_g && paths == original_paths);\n        }\n    }\n    for (bool\
-    \ star : {false, true}) {\n        int n = 200000, q = 100000;\n        vector<vector<int>>\
-    \ g(n);\n        for (int v = 1; v < n; ++v) {\n            int u = star ? 0 :\
-    \ v - 1;\n            g[u].push_back(v);\n            g[v].push_back(u);\n   \
-    \     }\n        vector<pair<int, int>> paths(q);\n        for (auto &[u, v] :\
-    \ paths) u = rng() % n, v = rng() % n;\n        vector<char> active(n);\n    \
-    \    long long sum = 0;\n        int count = 0, answers = 0;\n        tree_mo_solve(g,\
-    \ paths,\n            [&](int v) { assert(!active[v]); active[v] = 1; sum += v;\
-    \ ++count; },\n            [&](int v) { assert(active[v]); active[v] = 0; sum\
-    \ -= v; --count; },\n            [&](int id) {\n                ++answers;\n \
-    \               auto [u, v] = paths[id];\n                if (u > v) swap(u, v);\n\
-    \                if (star) {\n                    assert(sum == (u == v ? u :\
-    \ u + v));\n                    assert(count == (u == v ? 1 : u == 0 ? 2 : 3));\n\
-    \                } else {\n                    assert(sum == (long long)(u + v)\
-    \ * (v - u + 1) / 2);\n                    assert(count == v - u + 1);\n     \
-    \           }\n            }, n - 1);\n        assert(sum == 0 && count == 0 &&\
-    \ answers == q);\n    }\n    Scanner sc;\n    Printer pr;\n    int a, b;\n   \
-    \ sc.read(a, b);\n    pr.println(a + b);\n}\n"
+    \    struct OrderedQuery {\n        uint64_t key;\n        size_t index;\n   \
+    \ };\n    vector<OrderedQuery> qs;\n    qs.reserve(queries.size());\n    for (size_t\
+    \ i = 0; i < queries.size(); ++i) {\n        uint32_t block = queries[i].l / bucket_size;\n\
+    \        uint32_t right = queries[i].r;\n        if (!(block & 1)) right = ~right;\n\
+    \        qs.push_back({(uint64_t(block) << 32) | right, i});\n    }\n    sort(qs.begin(),\
+    \ qs.end(), [](const OrderedQuery& a, const OrderedQuery& b) {\n        return\
+    \ a.key < b.key;\n    });\n    int l = 0, r = 0;\n    for (const auto& ordered\
+    \ : qs) {\n        const auto& q = queries[ordered.index];\n        while (q.l\
+    \ < l) add_left(--l);\n        while (r < q.r) add_right(r++);\n        while\
+    \ (l < q.l) erase_left(l++);\n        while (q.r < r) erase_right(--r);\n    \
+    \    output(q.no);\n    }\n}\n\n\n\n/**\n * @brief Mo's Algorithm\n */\n#line\
+    \ 1 \"tree/tree_mo.cpp\"\n\n\n\n#line 5 \"tree/tree_mo.cpp\"\n\ntemplate<class\
+    \ Add, class Erase, class Output>\nvoid tree_mo_solve(const vector<vector<int>>\
+    \ &g, const vector<pair<int, int>> &paths,\n                   Add add, Erase\
+    \ erase, Output output, int root = 0) {\n    if (paths.empty()) return;\n    int\
+    \ n = (int)g.size();\n    assert(0 <= root && root < n);\n    vector<int> tin(n),\
+    \ parent(n, -1), tour, stack{root};\n    tour.reserve(2 * n - 1);\n    while (!stack.empty())\
+    \ {\n        int v = stack.back();\n        stack.pop_back();\n        if (v <\
+    \ 0) {\n            if (parent[~v] != -1) tour.push_back(parent[~v]);\n      \
+    \  } else {\n            tin[v] = (int)tour.size();\n            tour.push_back(v);\n\
+    \            stack.push_back(~v);\n            for (int i = (int)g[v].size() -\
+    \ 1; i >= 0; --i) {\n                int u = g[v][i];\n                if (u !=\
+    \ parent[v]) {\n                    parent[u] = v;\n                    stack.push_back(u);\n\
+    \                }\n            }\n        }\n    }\n    vector<Query> queries;\n\
+    \    queries.reserve(paths.size());\n    for (int i = 0; i < (int)paths.size();\
+    \ ++i) {\n        auto [u, v] = paths[i];\n        assert(0 <= u && u < n && 0\
+    \ <= v && v < n);\n        if (tin[u] > tin[v]) swap(u, v);\n        queries.emplace_back(tin[u],\
+    \ tin[v], i);\n    }\n    vector<char> active(n);\n    auto move = [&](int from,\
+    \ int to) {\n        if (active[to]) {\n            erase(from);\n           \
+    \ active[from] = 0;\n        } else {\n            add(to);\n            active[to]\
+    \ = 1;\n        }\n    };\n    auto forward = [&](int i) { move(tour[i], tour[i\
+    \ + 1]); };\n    auto backward = [&](int i) { move(tour[i + 1], tour[i]); };\n\
+    \    add(root);\n    active[root] = 1;\n    mo_solve((int)tour.size(), queries,\
+    \ backward, forward, forward, backward, output);\n    for (int v = 0; v < n; ++v)\
+    \ {\n        if (active[v]) erase(v);\n    }\n}\n\n\n\n/**\n * @brief \u6728\u4E0A\
+    \u30D1\u30B9\u306EMo\n */\n#line 8 \"test/yosupo_aplusb_tree_mo.test.cpp\"\n\n\
+    int main() {\n    tree_mo_solve({}, {}, [](int) { assert(false); }, [](int) {\
+    \ assert(false); },\n                  [](int) { assert(false); });\n    mt19937\
+    \ rng(153);\n    for (int tc = 0; tc < 2000; ++tc) {\n        int n = 1 + rng()\
+    \ % 35, q = rng() % 61;\n        vector<vector<int>> g(n);\n        for (int v\
+    \ = 1; v < n; ++v) {\n            int u = rng() % v;\n            g[u].push_back(v);\n\
+    \            g[v].push_back(u);\n        }\n        vector<pair<int, int>> paths(q);\n\
+    \        vector<vector<char>> expected(q, vector<char>(n));\n        vector<int>\
+    \ colors(n), distinct(q);\n        for (int &c : colors) c = rng() % 8;\n    \
+    \    for (int id = 0; id < q; ++id) {\n            auto &[s, t] = paths[id];\n\
+    \            s = rng() % n; t = rng() % n;\n            vector<int> parent(n,\
+    \ -1), queue{s};\n            parent[s] = s;\n            for (int i = 0; i <\
+    \ (int)queue.size(); ++i) {\n                int v = queue[i];\n             \
+    \   for (int u : g[v]) {\n                    if (parent[u] == -1) parent[u] =\
+    \ v, queue.push_back(u);\n                }\n            }\n            set<int>\
+    \ used;\n            for (int v = t;; v = parent[v]) {\n                expected[id][v]\
+    \ = 1;\n                used.insert(colors[v]);\n                if (v == s) break;\n\
+    \            }\n            distinct[id] = (int)used.size();\n        }\n    \
+    \    auto original_g = g;\n        auto original_paths = paths;\n        for (int\
+    \ run = 0; run < 2; ++run) {\n            vector<char> active(n);\n          \
+    \  vector<int> seen(q), frequency(8);\n            int current = 0;\n        \
+    \    tree_mo_solve(g, paths,\n                [&](int v) {\n                 \
+    \   assert(!active[v]);\n                    active[v] = 1;\n                \
+    \    if (frequency[colors[v]]++ == 0) ++current;\n                },\n       \
+    \         [&](int v) {\n                    assert(active[v]);\n             \
+    \       active[v] = 0;\n                    if (--frequency[colors[v]] == 0) --current;\n\
+    \                },\n                [&](int id) {\n                    assert(0\
+    \ <= id && id < q);\n                    assert(active == expected[id] && current\
+    \ == distinct[id]);\n                    ++seen[id];\n                }, rng()\
+    \ % n);\n            assert(current == 0 && count(active.begin(), active.end(),\
+    \ 0) == n);\n            assert(count(seen.begin(), seen.end(), 1) == q);\n  \
+    \          assert(g == original_g && paths == original_paths);\n        }\n  \
+    \  }\n    for (bool star : {false, true}) {\n        int n = 200000, q = 100000;\n\
+    \        vector<vector<int>> g(n);\n        for (int v = 1; v < n; ++v) {\n  \
+    \          int u = star ? 0 : v - 1;\n            g[u].push_back(v);\n       \
+    \     g[v].push_back(u);\n        }\n        vector<pair<int, int>> paths(q);\n\
+    \        for (auto &[u, v] : paths) u = rng() % n, v = rng() % n;\n        vector<char>\
+    \ active(n);\n        long long sum = 0;\n        int count = 0, answers = 0;\n\
+    \        tree_mo_solve(g, paths,\n            [&](int v) { assert(!active[v]);\
+    \ active[v] = 1; sum += v; ++count; },\n            [&](int v) { assert(active[v]);\
+    \ active[v] = 0; sum -= v; --count; },\n            [&](int id) {\n          \
+    \      ++answers;\n                auto [u, v] = paths[id];\n                if\
+    \ (u > v) swap(u, v);\n                if (star) {\n                    assert(sum\
+    \ == (u == v ? u : u + v));\n                    assert(count == (u == v ? 1 :\
+    \ u == 0 ? 2 : 3));\n                } else {\n                    assert(sum\
+    \ == (long long)(u + v) * (v - u + 1) / 2);\n                    assert(count\
+    \ == v - u + 1);\n                }\n            }, n - 1);\n        assert(sum\
+    \ == 0 && count == 0 && answers == q);\n    }\n    Scanner sc;\n    Printer pr;\n\
+    \    int a, b;\n    sc.read(a, b);\n    pr.println(a + b);\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/aplusb\"\n\n#include <bits/stdc++.h>\n\
     using namespace std;\n#include \"../util/fastio.cpp\"\n#include \"../util/mo.cpp\"\
     \n#include \"../tree/tree_mo.cpp\"\n\nint main() {\n    tree_mo_solve({}, {},\
@@ -383,7 +386,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_tree_mo.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 00:51:41+09:00'
+  timestamp: '2026-10-18 10:05:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_tree_mo.test.cpp

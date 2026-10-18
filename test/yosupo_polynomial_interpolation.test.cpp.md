@@ -551,21 +551,24 @@ data:
     \ prod[sz + i] = poly(vector<mint>{mint(1)});\n    for (int i = sz - 1; i >= 1;\
     \ --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];\n\n    poly derivative = prod[1].diff();\n\
     \    vector<mint> w = 1LL * derivative.size() * n <= 4096\n        ? derivative.multipoint_eval(xs)\n\
-    \        : multipoint_evaluation_detail::evaluate(derivative, prod, n);\n    auto\
-    \ interpolate = [&](auto &&self, int i) -> poly {\n        if (i >= sz) return\
-    \ i - sz < n ? poly(vector<mint>{ys[i - sz] / w[i - sz]}) : poly();\n        poly\
-    \ left = self(self, i << 1);\n        poly right = self(self, i << 1 | 1);\n \
-    \       return left * prod[i << 1 | 1] + right * prod[i << 1];\n    };\n    poly\
-    \ result = interpolate(interpolate, 1);\n    result.shrink();\n    if (result.size()\
-    \ < n) result.v.resize(n);\n    return result;\n}\n\n/**\n * @brief \u591A\u9805\
-    \u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n#line 20 \"test/yosupo_polynomial_interpolation.test.cpp\"\
-    \n\nint main() {\n    Scanner in;\n    Printer out;\n    int n;\n    in.read(n);\n\
-    \    vector<mint> xs(n), ys(n);\n    for (int i = 0; i < n; ++i) {\n        int\
-    \ x;\n        in.read(x);\n        xs[i] = x;\n    }\n    for (int i = 0; i <\
-    \ n; ++i) {\n        int y;\n        in.read(y);\n        ys[i] = y;\n    }\n\
-    \    poly f = polynomial_interpolation(xs, ys);\n    for (int i = 0; i < n; ++i)\
-    \ {\n        if (i) out.print(' ');\n        out.print(f[i].val);\n    }\n   \
-    \ out.println();\n    return 0;\n}\n"
+    \        : multipoint_evaluation_detail::evaluate(derivative, prod, n);\n    vector<mint>\
+    \ prefix(n + 1, mint(1));\n    for (int i = 0; i < n; ++i) prefix[i + 1] = prefix[i]\
+    \ * w[i];\n    mint inverse = prefix[n].inv();\n    for (int i = n - 1; i >= 0;\
+    \ --i) {\n        mint next = inverse * w[i];\n        w[i] = ys[i] * prefix[i]\
+    \ * inverse;\n        inverse = next;\n    }\n    auto interpolate = [&](auto\
+    \ &&self, int i) -> poly {\n        if (i >= sz) return i - sz < n ? poly(vector<mint>{w[i\
+    \ - sz]}) : poly();\n        poly left = self(self, i << 1);\n        poly right\
+    \ = self(self, i << 1 | 1);\n        return left * prod[i << 1 | 1] + right *\
+    \ prod[i << 1];\n    };\n    poly result = interpolate(interpolate, 1);\n    result.shrink();\n\
+    \    if (result.size() < n) result.v.resize(n);\n    return result;\n}\n\n/**\n\
+    \ * @brief \u591A\u9805\u5F0F\u88DC\u9593(Polynomial Interpolation)\n */\n#line\
+    \ 20 \"test/yosupo_polynomial_interpolation.test.cpp\"\n\nint main() {\n    Scanner\
+    \ in;\n    Printer out;\n    int n;\n    in.read(n);\n    vector<mint> xs(n),\
+    \ ys(n);\n    for (int i = 0; i < n; ++i) {\n        int x;\n        in.read(x);\n\
+    \        xs[i] = x;\n    }\n    for (int i = 0; i < n; ++i) {\n        int y;\n\
+    \        in.read(y);\n        ys[i] = y;\n    }\n    poly f = polynomial_interpolation(xs,\
+    \ ys);\n    for (int i = 0; i < n; ++i) {\n        if (i) out.print(' ');\n  \
+    \      out.print(f[i].val);\n    }\n    out.println();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/polynomial_interpolation\"\
     \n\n#include <algorithm>\n#include <cassert>\n#include <utility>\n#include <vector>\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
@@ -587,7 +590,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_polynomial_interpolation.test.cpp
   requiredBy: []
-  timestamp: '2026-10-18 01:13:29+09:00'
+  timestamp: '2026-10-18 09:28:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_polynomial_interpolation.test.cpp

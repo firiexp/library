@@ -2,11 +2,14 @@
 category: "\u6728"
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hld_path_ordered.test.cpp
+    title: test/yosupo_aplusb_hld_path_ordered.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_hld_subtree.test.cpp
     title: test/yosupo_aplusb_hld_subtree.test.cpp
@@ -83,32 +86,43 @@ data:
     \            v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v);\n\
     \        f(id[u]+edge, id[v]+1);\n    }\n\n    template<typename F>\n    void\
     \ path(int u, int v, const F &f, bool edge = false){\n        add(u, v, f, edge);\n\
-    \    }\n\n    template<typename F>\n    void apply_subtree(int v, const F &f,\
-    \ bool edge = false){\n        auto [l, r] = subtree(v, edge);\n        f(l, r);\n\
-    \    }\n\n    template<typename T, typename Q, typename F>\n    T query(int u,\
-    \ int v, const T &e, const Q &q, const F &f, bool edge){\n        T l = e, r =\
-    \ e;\n        while(head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
-    \ v), swap(l, r);\n            l = f(l, q(id[head[v]], id[v]+1));\n          \
-    \  v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v), swap(l,\
-    \ r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n    }\n\n    template<typename\
-    \ T, typename Q, typename F>\n    T path_query(int u, int v, const T &e, const\
-    \ Q &q, const F &f, bool edge = false){\n        return query(u, v, e, q, f, edge);\n\
-    \    }\n\n    template<typename T, typename QL, typename QR, typename F>\n   \
-    \ T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F\
-    \ &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n\
-    \                u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
-    \ id[v]+1), r);\n                v = par[head[v]];\n            }\n        }\n\
-    \        T mid = (id[u] > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n\
-    \        return f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL,\
-    \ typename QR, typename F>\n    T path_query_ordered(int u, int v, const T &e,\
-    \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
-    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n\
-    \    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){\n   \
-    \     auto [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n\
-    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n\n\n#line 2 \"tree/hld_edge.cpp\"\
-    \n\nstruct HeavyLightDecompositionEdge {\n    HeavyLightDecomposition hld;\n\n\
-    \    explicit HeavyLightDecompositionEdge(int n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
+    \    }\n\n    template<typename F>\n    void path_ordered(int u, int v, const\
+    \ F &f, bool edge = false) const {\n        struct Interval { int l, r; };\n \
+    \       Interval pending[numeric_limits<unsigned>::digits];\n        int size\
+    \ = 0;\n        while (head[u] != head[v]) {\n            if (id[u] > id[v]) {\n\
+    \                f(id[head[u]], id[u] + 1, true);\n                u = par[head[u]];\n\
+    \            } else {\n                pending[size++] = {id[head[v]], id[v] +\
+    \ 1};\n                v = par[head[v]];\n            }\n        }\n        if\
+    \ (id[u] <= id[v]) {\n            if (id[u] + edge <= id[v]) f(id[u] + edge, id[v]\
+    \ + 1, false);\n        } else {\n            f(id[v] + edge, id[u] + 1, true);\n\
+    \        }\n        while (size) {\n            auto [l, r] = pending[--size];\n\
+    \            f(l, r, false);\n        }\n    }\n\n    template<typename F>\n \
+    \   void apply_subtree(int v, const F &f, bool edge = false){\n        auto [l,\
+    \ r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename T,\
+    \ typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q, const\
+    \ F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
+    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
+    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
+    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
+    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
+    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
+    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
+    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
+    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
+    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
+    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
+    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
+    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
+    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
+    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
+    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
+    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
+    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
+    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
+    \u89E3(HL Decomposition)\n */\n\n\n#line 2 \"tree/hld_edge.cpp\"\n\nstruct HeavyLightDecompositionEdge\
+    \ {\n    HeavyLightDecomposition hld;\n\n    explicit HeavyLightDecompositionEdge(int\
+    \ n) : hld(n) {}\n    explicit HeavyLightDecompositionEdge(vector<vector<int>>\
     \ &g) : hld(g) {}\n\n    void add_edge(int u, int v) {\n        hld.add_edge(u,\
     \ v);\n    }\n\n    void build(vector<int> roots = {0}) {\n        hld.build(roots);\n\
     \    }\n\n    int lca(int u, int v) {\n        return hld.lca(u, v);\n    }\n\n\
@@ -119,12 +133,14 @@ data:
     \  return hld.id[v];\n    }\n\n    pair<int, int> subtree(int v) const {\n   \
     \     return hld.subtree(v, true);\n    }\n\n    template<typename F>\n    void\
     \ path(int u, int v, const F &f) {\n        hld.path(u, v, f, true);\n    }\n\n\
-    \    template<typename F>\n    void apply_subtree(int v, const F &f) {\n     \
-    \   hld.apply_subtree(v, f, true);\n    }\n\n    template<typename T, typename\
-    \ Q, typename F>\n    T path_query(int u, int v, const T &e, const Q &q, const\
-    \ F &f) {\n        return hld.path_query(u, v, e, q, f, true);\n    }\n\n    template<typename\
-    \ T, typename QL, typename QR, typename F>\n    T path_query_ordered(int u, int\
-    \ v, const T &e, const QL &ql, const QR &qr, const F &f) {\n        return hld.path_query_ordered(u,\
+    \    template<typename F>\n    void path_ordered(int u, int v, const F &f) const\
+    \ {\n        hld.path_ordered(u, v, f, true);\n    }\n\n    template<typename\
+    \ F>\n    void apply_subtree(int v, const F &f) {\n        hld.apply_subtree(v,\
+    \ f, true);\n    }\n\n    template<typename T, typename Q, typename F>\n    T\
+    \ path_query(int u, int v, const T &e, const Q &q, const F &f) {\n        return\
+    \ hld.path_query(u, v, e, q, f, true);\n    }\n\n    template<typename T, typename\
+    \ QL, typename QR, typename F>\n    T path_query_ordered(int u, int v, const T\
+    \ &e, const QL &ql, const QR &qr, const F &f) {\n        return hld.path_query_ordered(u,\
     \ v, e, ql, qr, f, true);\n    }\n\n    template<typename Q>\n    decltype(auto)\
     \ subtree_query(int v, const Q &q) {\n        return hld.subtree_query(v, q, true);\n\
     \    }\n};\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)\n */\n"
@@ -141,25 +157,28 @@ data:
     \ }\n\n    pair<int, int> subtree(int v) const {\n        return hld.subtree(v,\
     \ true);\n    }\n\n    template<typename F>\n    void path(int u, int v, const\
     \ F &f) {\n        hld.path(u, v, f, true);\n    }\n\n    template<typename F>\n\
-    \    void apply_subtree(int v, const F &f) {\n        hld.apply_subtree(v, f,\
-    \ true);\n    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
-    \ u, int v, const T &e, const Q &q, const F &f) {\n        return hld.path_query(u,\
-    \ v, e, q, f, true);\n    }\n\n    template<typename T, typename QL, typename\
-    \ QR, typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL\
-    \ &ql, const QR &qr, const F &f) {\n        return hld.path_query_ordered(u, v,\
-    \ e, ql, qr, f, true);\n    }\n\n    template<typename Q>\n    decltype(auto)\
-    \ subtree_query(int v, const Q &q) {\n        return hld.subtree_query(v, q, true);\n\
-    \    }\n};\n\n/**\n * @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)\n */\n"
+    \    void path_ordered(int u, int v, const F &f) const {\n        hld.path_ordered(u,\
+    \ v, f, true);\n    }\n\n    template<typename F>\n    void apply_subtree(int\
+    \ v, const F &f) {\n        hld.apply_subtree(v, f, true);\n    }\n\n    template<typename\
+    \ T, typename Q, typename F>\n    T path_query(int u, int v, const T &e, const\
+    \ Q &q, const F &f) {\n        return hld.path_query(u, v, e, q, f, true);\n \
+    \   }\n\n    template<typename T, typename QL, typename QR, typename F>\n    T\
+    \ path_query_ordered(int u, int v, const T &e, const QL &ql, const QR &qr, const\
+    \ F &f) {\n        return hld.path_query_ordered(u, v, e, ql, qr, f, true);\n\
+    \    }\n\n    template<typename Q>\n    decltype(auto) subtree_query(int v, const\
+    \ Q &q) {\n        return hld.subtree_query(v, q, true);\n    }\n};\n\n/**\n *\
+    \ @brief HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)\n */\n"
   dependsOn:
   - tree/hld.cpp
   isVerificationFile: false
   path: tree/hld_edge.cpp
   requiredBy: []
-  timestamp: '2026-10-11 15:46:51+09:00'
+  timestamp: '2026-10-18 09:37:05+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yuki650_hld_edge.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp
+  - test/yosupo_aplusb_hld_path_ordered.test.cpp
   - test/yosupo_aplusb_hld_subtree.test.cpp
   - test/yosupo_aplusb_library_composition_reverse.test.cpp
 date: 2026-03-08
@@ -187,6 +206,8 @@ title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
   部分木の辺集合に対応する半開区間 `[l, r)` を返す
 - `void path(int u, int v, F f)`
   `u - v` パス上の辺を被覆する各区間へ `f(l, r)` を呼ぶ
+- `void path_ordered(int u, int v, F f) const`
+  `u -> v` の順に、空でない半開区間 `[l, r)` とその向きを callback `f` に渡す。`u = v` では呼ばない
 - `T path_query(int u, int v, T e, Q q, F f)`
   可換向け辺パスクエリ
 - `T path_query_ordered(int u, int v, T e, QL ql, QR qr, F f)`
@@ -199,7 +220,11 @@ title: "HL\u5206\u89E3(\u8FBA\u30AF\u30A8\u30EA)"
 ## 使い方
 各辺の値は子頂点側に置く。
 `parent(v) - v` の辺を更新したいときは `edge_index(v)` を使う。
-パス順序が必要なときは `path_query_ordered` を使う。
+パス順序付きの集約には `path_query_ordered`、区間ごとの処理には `path_ordered` を使う。
+両端点は同じ連結成分に属することを前提とする。
+
+`path_ordered` の `f` は、`int l, int r, bool reversed` を引数に取る関数として定義する。
+`reversed` は HLD が区間ごとに決めて第3引数に渡す値で、`true` なら `r-1 -> l`、`false` なら `l -> r-1` の順に進む。
 
 ```cpp
 HeavyLightDecompositionEdge hld(n);
@@ -215,3 +240,5 @@ auto ans = hld.path_query_ordered(a, b, Monoid::e(), ql, qr, Monoid::f);
 ## 実装上の補足
 内部では頂点版 HLD の `edge = true` を使っている。
 `subtree(v)` は `v` 自身へ入る辺を含まないので、根の部分木では木全体の辺区間になる。
+`path_ordered` は LCA の位置を除き、辺を子頂点の位置で渡す。
+callback を除く時間と作業領域は $O(\log N)$ で、heap 確保は行わない。

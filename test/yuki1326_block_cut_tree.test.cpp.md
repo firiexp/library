@@ -1,13 +1,13 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: graph/biconnected_components.cpp
     title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: graph/block_cut_tree.cpp
     title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: tree/hld.cpp
     title: "HL\u5206\u89E3(HL Decomposition)"
   - icon: ':question:'
@@ -15,9 +15,9 @@ data:
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://yukicoder.me/problems/no/1326
@@ -360,30 +360,41 @@ data:
     \            v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v);\n\
     \        f(id[u]+edge, id[v]+1);\n    }\n\n    template<typename F>\n    void\
     \ path(int u, int v, const F &f, bool edge = false){\n        add(u, v, f, edge);\n\
-    \    }\n\n    template<typename F>\n    void apply_subtree(int v, const F &f,\
-    \ bool edge = false){\n        auto [l, r] = subtree(v, edge);\n        f(l, r);\n\
-    \    }\n\n    template<typename T, typename Q, typename F>\n    T query(int u,\
-    \ int v, const T &e, const Q &q, const F &f, bool edge){\n        T l = e, r =\
-    \ e;\n        while(head[u] != head[v]){\n            if(id[u] > id[v]) swap(u,\
-    \ v), swap(l, r);\n            l = f(l, q(id[head[v]], id[v]+1));\n          \
-    \  v = par[head[v]];\n        }\n        if(id[u] > id[v]) swap(u, v), swap(l,\
-    \ r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n    }\n\n    template<typename\
-    \ T, typename Q, typename F>\n    T path_query(int u, int v, const T &e, const\
-    \ Q &q, const F &f, bool edge = false){\n        return query(u, v, e, q, f, edge);\n\
-    \    }\n\n    template<typename T, typename QL, typename QR, typename F>\n   \
-    \ T query_order(int u, int v, const T &e, const QL &ql, const QR &qr, const F\
-    \ &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
-    \            if(id[u] > id[v]) {\n                l = f(l, qr(id[head[u]], id[u]+1));\n\
-    \                u = par[head[u]];\n            }else {\n                r = f(ql(id[head[v]],\
-    \ id[v]+1), r);\n                v = par[head[v]];\n            }\n        }\n\
-    \        T mid = (id[u] > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n\
-    \        return f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL,\
-    \ typename QR, typename F>\n    T path_query_ordered(int u, int v, const T &e,\
-    \ const QL &ql, const QR &qr, const F &f, bool edge = false){\n        return\
-    \ query_order(u, v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n\
-    \    decltype(auto) subtree_query(int v, const Q &q, bool edge = false){\n   \
-    \     auto [l, r] = subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n\
-    /**\n * @brief HL\u5206\u89E3(HL Decomposition)\n */\n\n\n#line 15 \"test/yuki1326_block_cut_tree.test.cpp\"\
+    \    }\n\n    template<typename F>\n    void path_ordered(int u, int v, const\
+    \ F &f, bool edge = false) const {\n        struct Interval { int l, r; };\n \
+    \       Interval pending[numeric_limits<unsigned>::digits];\n        int size\
+    \ = 0;\n        while (head[u] != head[v]) {\n            if (id[u] > id[v]) {\n\
+    \                f(id[head[u]], id[u] + 1, true);\n                u = par[head[u]];\n\
+    \            } else {\n                pending[size++] = {id[head[v]], id[v] +\
+    \ 1};\n                v = par[head[v]];\n            }\n        }\n        if\
+    \ (id[u] <= id[v]) {\n            if (id[u] + edge <= id[v]) f(id[u] + edge, id[v]\
+    \ + 1, false);\n        } else {\n            f(id[v] + edge, id[u] + 1, true);\n\
+    \        }\n        while (size) {\n            auto [l, r] = pending[--size];\n\
+    \            f(l, r, false);\n        }\n    }\n\n    template<typename F>\n \
+    \   void apply_subtree(int v, const F &f, bool edge = false){\n        auto [l,\
+    \ r] = subtree(v, edge);\n        f(l, r);\n    }\n\n    template<typename T,\
+    \ typename Q, typename F>\n    T query(int u, int v, const T &e, const Q &q, const\
+    \ F &f, bool edge){\n        T l = e, r = e;\n        while(head[u] != head[v]){\n\
+    \            if(id[u] > id[v]) swap(u, v), swap(l, r);\n            l = f(l, q(id[head[v]],\
+    \ id[v]+1));\n            v = par[head[v]];\n        }\n        if(id[u] > id[v])\
+    \ swap(u, v), swap(l, r);\n        return f(q(id[u]+edge, id[v]+1), f(l, r));\n\
+    \    }\n\n    template<typename T, typename Q, typename F>\n    T path_query(int\
+    \ u, int v, const T &e, const Q &q, const F &f, bool edge = false){\n        return\
+    \ query(u, v, e, q, f, edge);\n    }\n\n    template<typename T, typename QL,\
+    \ typename QR, typename F>\n    T query_order(int u, int v, const T &e, const\
+    \ QL &ql, const QR &qr, const F &f, bool edge){\n        T l = e, r = e;\n   \
+    \     while(head[u] != head[v]){\n            if(id[u] > id[v]) {\n          \
+    \      l = f(l, qr(id[head[u]], id[u]+1));\n                u = par[head[u]];\n\
+    \            }else {\n                r = f(ql(id[head[v]], id[v]+1), r);\n  \
+    \              v = par[head[v]];\n            }\n        }\n        T mid = (id[u]\
+    \ > id[v] ? qr(id[v]+edge, id[u]+1) : ql(id[u]+edge, id[v]+1));\n        return\
+    \ f(f(l, mid), r);\n    }\n\n    template<typename T, typename QL, typename QR,\
+    \ typename F>\n    T path_query_ordered(int u, int v, const T &e, const QL &ql,\
+    \ const QR &qr, const F &f, bool edge = false){\n        return query_order(u,\
+    \ v, e, ql, qr, f, edge);\n    }\n\n    template<typename Q>\n    decltype(auto)\
+    \ subtree_query(int v, const Q &q, bool edge = false){\n        auto [l, r] =\
+    \ subtree(v, edge);\n        return q(l, r);\n    }\n};\n\n/**\n * @brief HL\u5206\
+    \u89E3(HL Decomposition)\n */\n\n\n#line 15 \"test/yuki1326_block_cut_tree.test.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n    int n, m;\n    sc.read(n,\
     \ m);\n\n    BlockCutTree g(n);\n    for (int i = 0; i < m; ++i) {\n        int\
     \ u, v;\n        sc.read(u, v);\n        --u, --v;\n        g.add_edge(u, v);\n\
@@ -422,8 +433,8 @@ data:
   isVerificationFile: true
   path: test/yuki1326_block_cut_tree.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 15:46:51+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2026-10-18 09:37:05+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/yuki1326_block_cut_tree.test.cpp
 layout: document

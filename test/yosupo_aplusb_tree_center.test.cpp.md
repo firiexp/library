@@ -227,9 +227,9 @@ data:
     \ &in, T &x) {\n    in.read(x);\n    return in;\n}\n\ntemplate<class T>\nPrinter\
     \ &operator<<(Printer &out, const T &x) {\n    out.print(x);\n    return out;\n\
     }\n\n/**\n * @brief \u9AD8\u901F\u5165\u51FA\u529B(Fast IO)\n */\n#line 1 \"tree/tree_center.cpp\"\
-    \npair<int, vector<int>> tree_center(const vector<vector<int>> &G) {\n    int\
-    \ n = G.size();\n    if (n == 0) return {0, {}};\n\n    vector<int> dist(n), par(n),\
-    \ q(n);\n    auto bfs = [&](int s, bool record_parent) {\n        fill(dist.begin(),\
+    \n\n\n\npair<int, vector<int>> tree_center(const vector<vector<int>> &G) {\n \
+    \   int n = G.size();\n    if (n == 0) return {0, {}};\n\n    vector<int> dist(n),\
+    \ par(n), q(n);\n    auto bfs = [&](int s, bool record_parent) {\n        fill(dist.begin(),\
     \ dist.end(), -1);\n        dist[s] = 0;\n        if (record_parent) par[s] =\
     \ -1;\n        int head = 0, tail = 0;\n        q[tail++] = s;\n        int far\
     \ = s;\n        while (head < tail) {\n            int v = q[head++];\n      \
@@ -240,27 +240,28 @@ data:
     \ bfs(0, false);\n    int t = bfs(s, true);\n\n    int diam = dist[t];\n    int\
     \ v = t;\n    for (int i = 0; i < diam / 2; ++i) v = par[v];\n    if (diam & 1)\
     \ return {(diam + 1) / 2, vector<int>{par[v], v}};\n    return {diam / 2, vector<int>{v}};\n\
-    }\n\n/**\n * @brief \u6728\u306E\u4E2D\u5FC3(Tree Center)\n */\n#line 7 \"test/yosupo_aplusb_tree_center.test.cpp\"\
-    \n\nvoid check(const vector<vector<int>> &g) {\n    auto original = g;\n    auto\
-    \ [radius, centers] = tree_center(g);\n    assert(g == original);\n    int n =\
-    \ g.size();\n    if (n == 0) {\n        assert(radius == 0 && centers.empty());\n\
-    \        return;\n    }\n    vector<vector<int>> dist(n, vector<int>(n, -1));\n\
-    \    vector<int> eccentricity(n);\n    for (int s = 0; s < n; ++s) {\n       \
-    \ queue<int> q;\n        dist[s][s] = 0;\n        q.push(s);\n        while (!q.empty())\
-    \ {\n            int v = q.front();\n            q.pop();\n            for (int\
-    \ to : g[v]) if (dist[s][to] == -1) {\n                dist[s][to] = dist[s][v]\
-    \ + 1;\n                q.push(to);\n            }\n        }\n        eccentricity[s]\
-    \ = *max_element(dist[s].begin(), dist[s].end());\n    }\n    int expected_radius\
-    \ = *min_element(eccentricity.begin(), eccentricity.end());\n    vector<int> expected;\n\
-    \    for (int v = 0; v < n; ++v) if (eccentricity[v] == expected_radius) expected.push_back(v);\n\
-    \    sort(expected.begin(), expected.end(), [&](int u, int v) { return dist[0][u]\
-    \ > dist[0][v]; });\n    assert(radius == expected_radius && centers == expected);\n\
-    }\n\nint main() {\n    mt19937 rng(183);\n    for (int n = 0; n <= 80; ++n) {\n\
-    \        vector<int> labels(n);\n        iota(labels.begin(), labels.end(), 0);\n\
-    \        for (int shape = 0; shape < 13; ++shape) {\n            shuffle(labels.begin(),\
-    \ labels.end(), rng);\n            vector<vector<int>> g(n);\n            for\
-    \ (int v = 1; v < n; ++v) {\n                int p = shape == 0 ? v - 1 : shape\
-    \ == 1 ? 0 : shape == 2 ? (v - 1) / 2 : rng() % v;\n                g[labels[v]].push_back(labels[p]);\n\
+    }\n\n/**\n * @brief \u6728\u306E\u4E2D\u5FC3(Tree Center)\n */\n\n\n#line 7 \"\
+    test/yosupo_aplusb_tree_center.test.cpp\"\n\nvoid check(const vector<vector<int>>\
+    \ &g) {\n    auto original = g;\n    auto [radius, centers] = tree_center(g);\n\
+    \    assert(g == original);\n    int n = g.size();\n    if (n == 0) {\n      \
+    \  assert(radius == 0 && centers.empty());\n        return;\n    }\n    vector<vector<int>>\
+    \ dist(n, vector<int>(n, -1));\n    vector<int> eccentricity(n);\n    for (int\
+    \ s = 0; s < n; ++s) {\n        queue<int> q;\n        dist[s][s] = 0;\n     \
+    \   q.push(s);\n        while (!q.empty()) {\n            int v = q.front();\n\
+    \            q.pop();\n            for (int to : g[v]) if (dist[s][to] == -1)\
+    \ {\n                dist[s][to] = dist[s][v] + 1;\n                q.push(to);\n\
+    \            }\n        }\n        eccentricity[s] = *max_element(dist[s].begin(),\
+    \ dist[s].end());\n    }\n    int expected_radius = *min_element(eccentricity.begin(),\
+    \ eccentricity.end());\n    vector<int> expected;\n    for (int v = 0; v < n;\
+    \ ++v) if (eccentricity[v] == expected_radius) expected.push_back(v);\n    sort(expected.begin(),\
+    \ expected.end(), [&](int u, int v) { return dist[0][u] > dist[0][v]; });\n  \
+    \  assert(radius == expected_radius && centers == expected);\n}\n\nint main()\
+    \ {\n    mt19937 rng(183);\n    for (int n = 0; n <= 80; ++n) {\n        vector<int>\
+    \ labels(n);\n        iota(labels.begin(), labels.end(), 0);\n        for (int\
+    \ shape = 0; shape < 13; ++shape) {\n            shuffle(labels.begin(), labels.end(),\
+    \ rng);\n            vector<vector<int>> g(n);\n            for (int v = 1; v\
+    \ < n; ++v) {\n                int p = shape == 0 ? v - 1 : shape == 1 ? 0 : shape\
+    \ == 2 ? (v - 1) / 2 : rng() % v;\n                g[labels[v]].push_back(labels[p]);\n\
     \                g[labels[p]].push_back(labels[v]);\n            }\n         \
     \   check(g);\n            auto expected = tree_center(g);\n            for (auto\
     \ &adj : g) shuffle(adj.begin(), adj.end(), rng);\n            assert(tree_center(g)\
@@ -299,7 +300,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_aplusb_tree_center.test.cpp
   requiredBy: []
-  timestamp: '2026-10-15 21:17:09+09:00'
+  timestamp: '2026-10-18 09:39:49+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_aplusb_tree_center.test.cpp

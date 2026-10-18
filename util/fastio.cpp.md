@@ -200,6 +200,9 @@ data:
     path: test/yosupo_aplusb_disjoint_sparse_table.test.cpp
     title: test/yosupo_aplusb_disjoint_sparse_table.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_dominator_queries.test.cpp
+    title: test/yosupo_aplusb_dominator_queries.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_dsu_on_tree.test.cpp
     title: test/yosupo_aplusb_dsu_on_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -251,6 +254,9 @@ data:
     path: test/yosupo_aplusb_furthest_pair.test.cpp
     title: test/yosupo_aplusb_furthest_pair.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fwht.test.cpp
+    title: test/yosupo_aplusb_fwht.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_garner.test.cpp
     title: test/yosupo_aplusb_garner.test.cpp
   - icon: ':heavy_check_mark:'
@@ -268,6 +274,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_half_plane_intersection.test.cpp
     title: test/yosupo_aplusb_half_plane_intersection.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_hld_path_ordered.test.cpp
+    title: test/yosupo_aplusb_hld_path_ordered.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_hld_rerooted.test.cpp
     title: test/yosupo_aplusb_hld_rerooted.test.cpp
@@ -334,6 +343,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
     title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_matrix_rank.test.cpp
+    title: test/yosupo_aplusb_matrix_rank.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
@@ -544,6 +556,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_tree_hash.test.cpp
     title: test/yosupo_aplusb_tree_hash.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_tree_isomorphism.test.cpp
+    title: test/yosupo_aplusb_tree_isomorphism.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_tree_mo.test.cpp
     title: test/yosupo_aplusb_tree_mo.test.cpp
@@ -979,10 +994,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
     title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
   - icon: ':heavy_check_mark:'
@@ -992,6 +1007,9 @@ data:
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
+    title: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_wildcard_pattern_matching.test.cpp
     title: test/yosupo_wildcard_pattern_matching.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1000,7 +1018,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_zalgorithm_suffix_array_query.test.cpp
     title: test/yosupo_zalgorithm_suffix_array_query.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
   - icon: ':heavy_check_mark:'
@@ -1508,6 +1526,7 @@ data:
   - test/yosupo_aplusb_bounded_knapsack.test.cpp
   - test/yosupo_aplusb_berlekamp_massey.test.cpp
   - test/yosupo_aplusb_dsu_on_tree.test.cpp
+  - test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_aplusb_segmenttree_boundaries.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
@@ -1595,6 +1614,7 @@ data:
   - test/yosupo_area_of_union_of_rectangles.test.cpp
   - test/yuki957.test.cpp
   - test/yosupo_range_parallel_unionfind.test.cpp
+  - test/yosupo_aplusb_fwht.test.cpp
   - test/yosupo_static_rectangle_sum.test.cpp
   - test/yosupo_aplusb_suffix_array_query.test.cpp
   - test/yosupo_addition_of_hex_big_integers.test.cpp
@@ -1641,6 +1661,7 @@ data:
   - test/yosupo_aplusb_tree_mo.test.cpp
   - test/yosupo_aplusb_dynamic_segtree_search.test.cpp
   - test/yosupo_aplusb_link_cut_tree_jump.test.cpp
+  - test/yosupo_aplusb_hld_path_ordered.test.cpp
   - test/aoj_grl_7_a_bipartite_matching.test.cpp
   - test/yosupo_aplusb_matrix_semiring.test.cpp
   - test/yosupo_k_shortest_walk.test.cpp
@@ -1713,6 +1734,7 @@ data:
   - test/yosupo_aplusb_hld_subtree.test.cpp
   - test/yosupo_enumerate_primes_get_prime_wheel.test.cpp
   - test/yosupo_aplusb_convex_hull.test.cpp
+  - test/yosupo_aplusb_matrix_rank.test.cpp
   - test/yosupo_range_chmin_chmax_add_range_sum.test.cpp
   - test/yosupo_lca.test.cpp
   - test/yosupo_multiplication_of_hex_big_integers.test.cpp
@@ -1738,6 +1760,7 @@ data:
   - test/yosupo_aplusb_garner.test.cpp
   - test/yosupo_aplusb_complement_components.test.cpp
   - test/yosupo_aplusb_interval_set.test.cpp
+  - test/yosupo_aplusb_dominator_queries.test.cpp
   - test/yosupo_general_matching.test.cpp
   - test/yosupo_aplusb_suffix_automaton_lcs.test.cpp
   - test/yosupo_assignment_hungarian.test.cpp
@@ -1755,6 +1778,7 @@ data:
   - test/yosupo_directedmst.test.cpp
   - test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp
   - test/yosupo_aplusb_twosat_at_most_one.test.cpp
+  - test/yosupo_aplusb_tree_isomorphism.test.cpp
   - test/yosupo_aplusb_trie_prefix_intervals.test.cpp
   - test/aoj_dpl_1_g_bounded_knapsack.test.cpp
   - test/yosupo_aplusb_squarematrix_mint.test.cpp

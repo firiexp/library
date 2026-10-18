@@ -17,11 +17,11 @@ data:
     path: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
     title: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_matrix_rank.test.cpp
+    title: test/yosupo_aplusb_matrix_rank.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_solve_linear_system.test.cpp
     title: test/yosupo_aplusb_solve_linear_system.test.cpp
-  - icon: ':heavy_check_mark:'
-    path: test/yosupo_matrix_rank.test.cpp
-    title: test/yosupo_matrix_rank.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_system_of_linear_equations.test.cpp
     title: test/yosupo_system_of_linear_equations.test.cpp
@@ -99,8 +99,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_solve_linear_system.test.cpp
-  - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_aplusb_gauss_jordan_mint.test.cpp
+  - test/yosupo_aplusb_matrix_rank.test.cpp
   - test/yosupo_system_of_linear_equations.test.cpp
 date: 2026-03-08
 documentation_of: math/gauss_jordan_mint.cpp

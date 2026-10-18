@@ -270,21 +270,27 @@ data:
     \ 1;\n    v.resize(sz);\n    for (int i = 1; i < sz; i <<= 1) {\n        for (int\
     \ j = 0; j < sz; j += (i<<1)) {\n            for (int k = 0; k < i; ++k) {\n \
     \               T x = v[j+k], y = v[j+k+i];\n                v[j+k] = (x+y), v[j+k+i]\
-    \ = (x-y);\n            }\n        }\n    }\n}\n\ntemplate<class T>\nvoid ifwht(vector<T>\
-    \ &v){\n    int sz = 1;\n    while(sz < v.size()) sz <<= 1;\n    v.resize(sz);\n\
-    \    for (int i = 1; i < sz; i <<= 1) {\n        for (int j = 0; j < sz; j +=\
-    \ (i<<1)) {\n            for (int k = 0; k < i; ++k) {\n                T x =\
-    \ v[j+k], y = v[j+k+i];\n                v[j+k] = (x+y)>>1, v[j+k+i] = (x-y)>>1;\n\
-    \            }\n        }\n    }\n}\n\n/**\n * @brief \u9AD8\u901FWalsh-Hadamard\u5909\
-    \u63DB(FWHT)\n */\n#line 20 \"test/yosupo_bitwise_xor_convolution.test.cpp\"\n\
-    \nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
-    \    int sz = 1 << n;\n    vector<mint> a(sz), b(sz), c(sz);\n    for (int i =\
-    \ 0; i < sz; ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n\
-    \    }\n    for (int i = 0; i < sz; ++i) {\n        int x;\n        sc.read(x);\n\
-    \        b[i] = x;\n    }\n    fwht(a);\n    fwht(b);\n    for (int i = 0; i <\
-    \ sz; ++i) c[i] = a[i] * b[i];\n    fwht(c);\n    mint inv_sz = mint(1) / mint(sz);\n\
-    \    for (int i = 0; i < sz; ++i) {\n        if (i) pr.print(' ');\n        pr.print((c[i]\
-    \ * inv_sz).val);\n    }\n    pr.println();\n    return 0;\n}\n"
+    \ = (x-y);\n            }\n        }\n    }\n}\n\nnamespace fwht_detail {\ntemplate<class\
+    \ T>\nauto inverse(vector<T> &v, int) -> decltype(T(1).inv(), void()) {\n    fwht(v);\n\
+    \    T inverse_size = T(v.size()).inv();\n    for (auto &x : v) x *= inverse_size;\n\
+    }\n\ntemplate<class T>\nvoid inverse(vector<T> &v, long) {\n    int sz = 1;\n\
+    \    while(sz < v.size()) sz <<= 1;\n    v.resize(sz);\n    for (int i = 1; i\
+    \ < sz; i <<= 1) {\n        for (int j = 0; j < sz; j += (i<<1)) {\n         \
+    \   for (int k = 0; k < i; ++k) {\n                T x = v[j+k], y = v[j+k+i];\n\
+    \                v[j+k] = (x+y)>>1, v[j+k+i] = (x-y)>>1;\n            }\n    \
+    \    }\n    }\n}\n}\n\ntemplate<class T>\nvoid ifwht(vector<T> &v) {\n    fwht_detail::inverse(v,\
+    \ 0);\n}\n\ntemplate<class T>\nvector<T> xor_convolution(vector<T> a, vector<T>\
+    \ b) {\n    int n = 1;\n    while (n < (int)a.size() || n < (int)b.size()) n <<=\
+    \ 1;\n    a.resize(n);\n    b.resize(n);\n    fwht(a);\n    fwht(b);\n    for\
+    \ (int i = 0; i < n; ++i) a[i] *= b[i];\n    ifwht(a);\n    return a;\n}\n\n/**\n\
+    \ * @brief \u9AD8\u901FWalsh-Hadamard\u5909\u63DB(FWHT)\n */\n#line 20 \"test/yosupo_bitwise_xor_convolution.test.cpp\"\
+    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n;\n    sc.read(n);\n\
+    \    int sz = 1 << n;\n    vector<mint> a(sz), b(sz);\n    for (int i = 0; i <\
+    \ sz; ++i) {\n        int x;\n        sc.read(x);\n        a[i] = x;\n    }\n\
+    \    for (int i = 0; i < sz; ++i) {\n        int x;\n        sc.read(x);\n   \
+    \     b[i] = x;\n    }\n    auto c = xor_convolution(std::move(a), std::move(b));\n\
+    \    for (int i = 0; i < sz; ++i) {\n        if (i) pr.print(' ');\n        pr.print(c[i].val);\n\
+    \    }\n    pr.println();\n    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/bitwise_xor_convolution\"\
     \n\n#include <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\n\
     using ll = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\
@@ -292,13 +298,12 @@ data:
     \n#include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../util/modint.cpp\"\
     \n#include \"../math/fwht.cpp\"\n\nint main() {\n    Scanner sc;\n    Printer\
     \ pr;\n\n    int n;\n    sc.read(n);\n    int sz = 1 << n;\n    vector<mint> a(sz),\
-    \ b(sz), c(sz);\n    for (int i = 0; i < sz; ++i) {\n        int x;\n        sc.read(x);\n\
+    \ b(sz);\n    for (int i = 0; i < sz; ++i) {\n        int x;\n        sc.read(x);\n\
     \        a[i] = x;\n    }\n    for (int i = 0; i < sz; ++i) {\n        int x;\n\
-    \        sc.read(x);\n        b[i] = x;\n    }\n    fwht(a);\n    fwht(b);\n \
-    \   for (int i = 0; i < sz; ++i) c[i] = a[i] * b[i];\n    fwht(c);\n    mint inv_sz\
-    \ = mint(1) / mint(sz);\n    for (int i = 0; i < sz; ++i) {\n        if (i) pr.print('\
-    \ ');\n        pr.print((c[i] * inv_sz).val);\n    }\n    pr.println();\n    return\
-    \ 0;\n}\n"
+    \        sc.read(x);\n        b[i] = x;\n    }\n    auto c = xor_convolution(std::move(a),\
+    \ std::move(b));\n    for (int i = 0; i < sz; ++i) {\n        if (i) pr.print('\
+    \ ');\n        pr.print(c[i].val);\n    }\n    pr.println();\n    return 0;\n\
+    }\n"
   dependsOn:
   - util/fastio.cpp
   - util/modint.cpp
@@ -307,7 +312,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_bitwise_xor_convolution.test.cpp
   requiredBy: []
-  timestamp: '2026-10-05 22:58:12+09:00'
+  timestamp: '2026-10-18 09:29:23+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_bitwise_xor_convolution.test.cpp

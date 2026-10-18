@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: math/gauss_jordan_mint.cpp
-    title: "Gauss-Jordan\u6D88\u53BB(modint)"
+    path: math/matrix_rank.cpp
+    title: "\u884C\u5217\u306E\u968E\u6570"
   - icon: ':question:'
     path: util/fastio.cpp
     title: "\u9AD8\u901F\u5165\u51FA\u529B(Fast IO)"
@@ -264,46 +264,41 @@ data:
     \n\n#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\nusing mint = modint<MOD>;\n#define\
     \ FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED\n#else\nstatic_assert(mint::get_mod() ==\
     \ MOD, \"mint is already defined with a different modulus\");\n#endif\n\n/**\n\
-    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/gauss_jordan_mint.cpp\"\
-    \n\nint gauss_jordan(vector<vector<mint>> &A, bool is_extended = false) {\n  \
-    \  int m = A.size(), n = A[0].size();\n    int rank = 0;\n    for (int col = 0;\
-    \ col < n; ++col) {\n        if (is_extended && col == n-1) break;\n        int\
-    \ pivot = -1;\n        for (int row = rank; row < m; ++row) {\n            if\
-    \ (A[row][col].val) {\n                pivot = row;\n                break;\n\
-    \            }\n        }\n        if (pivot == -1) continue;\n        swap(A[pivot],\
-    \ A[rank]);\n        auto d = A[rank][col].inv();\n        for (int col2 = col;\
-    \ col2 < n; ++col2) A[rank][col2] *= d;\n        for (int row = 0; row < m; ++row)\
-    \ {\n            if (row != rank && A[row][col].val) {\n                auto fac\
-    \ = A[row][col];\n                for (int col2 = col; col2 < n; ++col2) {\n \
-    \                   A[row][col2] -= A[rank][col2] * fac;\n                }\n\
-    \            }\n        }\n        ++rank;\n    }\n    return rank;\n}\n\n/**\n\
-    \ * @brief Gauss-Jordan\u6D88\u53BB(modint)\n */\n#line 19 \"test/yosupo_matrix_rank.test.cpp\"\
-    \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    if (n == 0 || m == 0) {\n        pr.println(0);\n        return 0;\n\
-    \    }\n    vector<vector<mint>> A(n, vector<mint>(m));\n    for (int i = 0; i\
-    \ < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            int x;\n   \
-    \         sc.read(x);\n            A[i][j] = x;\n        }\n    }\n    pr.println(gauss_jordan(A));\n\
+    \ * @brief modint(\u56FA\u5B9AMOD)\n */\n\n\n#line 2 \"math/matrix_rank.cpp\"\n\
+    \nint matrix_rank(vector<vector<mint>> A) {\n    int h = A.size(), w = h ? A[0].size()\
+    \ : 0;\n    int rank = 0;\n    for (int col = 0; col < w && rank < h; ++col) {\n\
+    \        int pivot = rank;\n        while (pivot < h && A[pivot][col] == mint(0))\
+    \ ++pivot;\n        if (pivot == h) continue;\n        swap(A[pivot], A[rank]);\n\
+    \        mint inv = A[rank][col].inv();\n        for (int row = rank + 1; row\
+    \ < h; ++row) {\n            if (A[row][col] == mint(0)) continue;\n         \
+    \   mint factor = A[row][col] * inv;\n            for (int j = col + 1; j < w;\
+    \ ++j) A[row][j] -= A[rank][j] * factor;\n        }\n        ++rank;\n    }\n\
+    \    return rank;\n}\n\n/**\n * @brief \u884C\u5217\u306E\u968E\u6570\n */\n#line\
+    \ 19 \"test/yosupo_matrix_rank.test.cpp\"\n\nint main() {\n    Scanner sc;\n \
+    \   Printer pr;\n\n    int n, m;\n    sc.read(n, m);\n    vector<vector<mint>>\
+    \ A(n, vector<mint>(m));\n    for (int i = 0; i < n; ++i) {\n        for (int\
+    \ j = 0; j < m; ++j) {\n            int x;\n            sc.read(x);\n        \
+    \    A[i][j] = x;\n        }\n    }\n    pr.println(matrix_rank(std::move(A)));\n\
     \    return 0;\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/matrix_rank\"\n\n#include\
     \ <vector>\nusing namespace std;\n\nstatic const int MOD = 998244353;\nusing ll\
     \ = long long;\nusing uint = unsigned;\nusing ull = unsigned long long;\n\n#include\
     \ <cstdio>\n#include <cstring>\n#include <string>\n#include <type_traits>\n\n\
-    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../math/gauss_jordan_mint.cpp\"\
+    #include <charconv>\n#include \"../util/fastio.cpp\"\n#include \"../math/matrix_rank.cpp\"\
     \n\nint main() {\n    Scanner sc;\n    Printer pr;\n\n    int n, m;\n    sc.read(n,\
-    \ m);\n    if (n == 0 || m == 0) {\n        pr.println(0);\n        return 0;\n\
-    \    }\n    vector<vector<mint>> A(n, vector<mint>(m));\n    for (int i = 0; i\
+    \ m);\n    vector<vector<mint>> A(n, vector<mint>(m));\n    for (int i = 0; i\
     \ < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            int x;\n   \
-    \         sc.read(x);\n            A[i][j] = x;\n        }\n    }\n    pr.println(gauss_jordan(A));\n\
+    \         sc.read(x);\n            A[i][j] = x;\n        }\n    }\n    pr.println(matrix_rank(std::move(A)));\n\
     \    return 0;\n}\n"
   dependsOn:
   - util/fastio.cpp
-  - math/gauss_jordan_mint.cpp
+  - math/matrix_rank.cpp
   - util/modint.cpp
   - util/modint_base.cpp
   isVerificationFile: true
   path: test/yosupo_matrix_rank.test.cpp
   requiredBy: []
-  timestamp: '2026-10-11 14:33:09+09:00'
+  timestamp: '2026-10-18 09:26:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_matrix_rank.test.cpp

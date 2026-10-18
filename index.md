@@ -145,7 +145,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: datastructure/segmenttree/segbeats.cpp
       title: Segment Tree Beats!
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: datastructure/segmenttree/segtree.cpp
       title: Segment Tree
   - name: flow
@@ -245,7 +245,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: graph/bfs01.cpp
       title: 01-BFS
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: graph/biconnected_components.cpp
       title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected Components)"
     - icon: ':heavy_check_mark:'
@@ -256,7 +256,7 @@ data:
       path: graph/bipartite_matching_lexmin.cpp
       title: "\u8F9E\u66F8\u9806\u6700\u5C0F\u4E8C\u90E8\u30DE\u30C3\u30C1\u30F3\u30B0\
         (Lexicographically Minimum Bipartite Matching)"
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: graph/block_cut_tree.cpp
       title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
     - icon: ':heavy_check_mark:'
@@ -456,6 +456,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: math/matrix_determinant_mod.cpp
       title: "\u4EFB\u610F mod \u306E\u884C\u5217\u5F0F"
+    - icon: ':heavy_check_mark:'
+      path: math/matrix_rank.cpp
+      title: "\u884C\u5217\u306E\u968E\u6570"
     - icon: ':heavy_check_mark:'
       path: math/min_of_mod_of_linear.cpp
       title: "\u4E00\u6B21\u5F0F\u306E\u5270\u4F59\u306E\u6700\u5C0F\u5024"
@@ -666,7 +669,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/frequency_table_of_tree_distance.cpp
       title: Frequency Table of Tree Distance
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: tree/hld.cpp
       title: "HL\u5206\u89E3(HL Decomposition)"
     - icon: ':heavy_check_mark:'
@@ -690,6 +693,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: tree/tree_hash.cpp
       title: "\u6728\u30CF\u30C3\u30B7\u30E5(Tree Hash)"
+    - icon: ':heavy_check_mark:'
+      path: tree/tree_isomorphism.cpp
+      title: "\u6728\u306E\u540C\u578B\u5224\u5B9A\u3068\u9802\u70B9\u5BFE\u5FDC"
     - icon: ':heavy_check_mark:'
       path: tree/tree_mo.cpp
       title: "\u6728\u4E0A\u30D1\u30B9\u306EMo"
@@ -1006,6 +1012,9 @@ data:
       path: test/yosupo_aplusb_disjoint_sparse_table.test.cpp
       title: test/yosupo_aplusb_disjoint_sparse_table.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_dominator_queries.test.cpp
+      title: test/yosupo_aplusb_dominator_queries.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_dsu_on_tree.test.cpp
       title: test/yosupo_aplusb_dsu_on_tree.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1057,6 +1066,9 @@ data:
       path: test/yosupo_aplusb_furthest_pair.test.cpp
       title: test/yosupo_aplusb_furthest_pair.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_fwht.test.cpp
+      title: test/yosupo_aplusb_fwht.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_garner.test.cpp
       title: test/yosupo_aplusb_garner.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1074,6 +1086,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_half_plane_intersection.test.cpp
       title: test/yosupo_aplusb_half_plane_intersection.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_hld_path_ordered.test.cpp
+      title: test/yosupo_aplusb_hld_path_ordered.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_hld_rerooted.test.cpp
       title: test/yosupo_aplusb_hld_rerooted.test.cpp
@@ -1140,6 +1155,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
       title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_matrix_rank.test.cpp
+      title: test/yosupo_aplusb_matrix_rank.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_matrix_semiring.test.cpp
       title: test/yosupo_aplusb_matrix_semiring.test.cpp
@@ -1350,6 +1368,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_tree_hash.test.cpp
       title: test/yosupo_aplusb_tree_hash.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo_aplusb_tree_isomorphism.test.cpp
+      title: test/yosupo_aplusb_tree_isomorphism.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo_aplusb_tree_mo.test.cpp
       title: test/yosupo_aplusb_tree_mo.test.cpp
@@ -1839,10 +1860,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_dsu_on_tree.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_hld.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
       title: test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1852,6 +1873,9 @@ data:
       path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
       title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
+      title: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo_wildcard_pattern_matching.test.cpp
       title: test/yosupo_wildcard_pattern_matching.test.cpp
     - icon: ':heavy_check_mark:'
@@ -1860,7 +1884,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo_zalgorithm_suffix_array_query.test.cpp
       title: test/yosupo_zalgorithm_suffix_array_query.test.cpp
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: test/yuki1326_block_cut_tree.test.cpp
       title: test/yuki1326_block_cut_tree.test.cpp
     - icon: ':heavy_check_mark:'

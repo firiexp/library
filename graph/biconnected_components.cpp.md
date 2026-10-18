@@ -3,7 +3,7 @@ category: "\u30B0\u30E9\u30D5"
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: graph/block_cut_tree.cpp
     title: "\u30D6\u30ED\u30C3\u30AF\u30AB\u30C3\u30C8\u6728(Block-Cut Tree)"
   - icon: ':heavy_check_mark:'
@@ -28,12 +28,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_biconnected_components.test.cpp
     title: test/yosupo_biconnected_components.test.cpp
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: test/yuki1326_block_cut_tree.test.cpp
     title: test/yuki1326_block_cut_tree.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: cpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "\u4E8C\u91CD\u9023\u7D50\u6210\u5206\u5206\u89E3(Biconnected\
       \ Components)"
@@ -143,7 +143,7 @@ data:
   - graph/vertex_failure_connectivity.cpp
   - graph/block_cut_tree.cpp
   timestamp: '2026-10-10 19:54:48+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo_aplusb_vertex_failure_connectivity.test.cpp
   - test/yosupo_aplusb_library_composition.test.cpp

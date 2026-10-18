@@ -45,6 +45,9 @@ data:
     path: math/matrix_determinant.cpp
     title: "\u884C\u5217\u5F0F(Matrix Determinant)"
   - icon: ':heavy_check_mark:'
+    path: math/matrix_rank.cpp
+    title: "\u884C\u5217\u306E\u968E\u6570"
+  - icon: ':heavy_check_mark:'
     path: math/ntt.cpp
     title: "NTT\u30FB\u5F62\u5F0F\u7684\u51AA\u7D1A\u6570(NTT/FPS)"
   - icon: ':warning:'
@@ -103,6 +106,9 @@ data:
     path: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
     title: test/yosupo_aplusb_fastkitamasa_ntt.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_fwht.test.cpp
+    title: test/yosupo_aplusb_fwht.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
     title: test/yosupo_aplusb_gauss_jordan_mint.test.cpp
   - icon: ':heavy_check_mark:'
@@ -120,6 +126,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
     title: test/yosupo_aplusb_matrix_determinant_mod.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_matrix_rank.test.cpp
+    title: test/yosupo_aplusb_matrix_rank.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
@@ -295,6 +304,9 @@ data:
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
+    title: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki2867.test.cpp
     title: test/yuki2867.test.cpp
   - icon: ':heavy_check_mark:'
@@ -375,6 +387,7 @@ data:
   - math/squarematrix_mint.cpp
   - math/inverse_matrix.cpp
   - math/matrix_determinant.cpp
+  - math/matrix_rank.cpp
   - math/factorial.cpp
   - math/fft.cpp
   - math/solve_linear_system.cpp
@@ -403,6 +416,7 @@ data:
   - test/aoj0452.test.cpp
   - test/yosupo_aplusb_sample_point_eval.test.cpp
   - test/yosupo_aplusb_berlekamp_massey.test.cpp
+  - test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_multipoint_evaluation.test.cpp
   - test/yosupo_matrix_det.test.cpp
@@ -426,6 +440,7 @@ data:
   - test/yosupo_vertex_set_path_composite.test.cpp
   - test/yosupo_convolution_mod_1000000007_fft.test.cpp
   - test/yosupo_range_parallel_unionfind.test.cpp
+  - test/yosupo_aplusb_fwht.test.cpp
   - test/yosupo_pow_of_formal_power_series.test.cpp
   - test/yosupo_sqrt_of_formal_power_series.test.cpp
   - test/yosupo_aplusb_matrix_determinant_mod.test.cpp
@@ -449,6 +464,7 @@ data:
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yosupo_queue_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
+  - test/yosupo_aplusb_matrix_rank.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_aplusb_rectangle_sum_weights.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp

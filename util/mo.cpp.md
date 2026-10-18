@@ -36,14 +36,18 @@ data:
     \ vector<Query>& queries, AddLeft add_left, AddRight add_right,\n            \
     \  EraseLeft erase_left, EraseRight erase_right, Output output, int bucket_size\
     \ = 0) {\n    if (queries.empty()) return;\n    if (bucket_size <= 0) bucket_size\
-    \ = max(1, (int)(n / sqrt((double)queries.size())));\n    vector<Query> qs = queries;\n\
-    \    sort(qs.begin(), qs.end(), [&](const Query& a, const Query& b) {\n      \
-    \  int ablock = a.l / bucket_size, bblock = b.l / bucket_size;\n        if (ablock\
-    \ != bblock) return ablock < bblock;\n        return ablock & 1 ? a.r < b.r :\
-    \ a.r > b.r;\n    });\n    int l = 0, r = 0;\n    for (const auto& q : qs) {\n\
-    \        while (q.l < l) add_left(--l);\n        while (r < q.r) add_right(r++);\n\
-    \        while (l < q.l) erase_left(l++);\n        while (q.r < r) erase_right(--r);\n\
-    \        output(q.no);\n    }\n}\n\n\n\n/**\n * @brief Mo's Algorithm\n */\n"
+    \ = max(1, (int)(n / sqrt((double)queries.size())));\n    struct OrderedQuery\
+    \ {\n        uint64_t key;\n        size_t index;\n    };\n    vector<OrderedQuery>\
+    \ qs;\n    qs.reserve(queries.size());\n    for (size_t i = 0; i < queries.size();\
+    \ ++i) {\n        uint32_t block = queries[i].l / bucket_size;\n        uint32_t\
+    \ right = queries[i].r;\n        if (!(block & 1)) right = ~right;\n        qs.push_back({(uint64_t(block)\
+    \ << 32) | right, i});\n    }\n    sort(qs.begin(), qs.end(), [](const OrderedQuery&\
+    \ a, const OrderedQuery& b) {\n        return a.key < b.key;\n    });\n    int\
+    \ l = 0, r = 0;\n    for (const auto& ordered : qs) {\n        const auto& q =\
+    \ queries[ordered.index];\n        while (q.l < l) add_left(--l);\n        while\
+    \ (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n      \
+    \  while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\n\n\
+    /**\n * @brief Mo's Algorithm\n */\n"
   code: "#ifndef FIRIEXP_LIBRARY_UTIL_MO_CPP\n#define FIRIEXP_LIBRARY_UTIL_MO_CPP\n\
     \nstruct Query {\n    static inline int bucket_size = 1;\n    static inline int\
     \ &B = bucket_size;\n    int l, r, no;\n    Query(int l, int r, int no) : l(l),\
@@ -56,20 +60,23 @@ data:
     \ AddRight add_right,\n              EraseLeft erase_left, EraseRight erase_right,\
     \ Output output, int bucket_size = 0) {\n    if (queries.empty()) return;\n  \
     \  if (bucket_size <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n\
-    \    vector<Query> qs = queries;\n    sort(qs.begin(), qs.end(), [&](const Query&\
-    \ a, const Query& b) {\n        int ablock = a.l / bucket_size, bblock = b.l /\
-    \ bucket_size;\n        if (ablock != bblock) return ablock < bblock;\n      \
-    \  return ablock & 1 ? a.r < b.r : a.r > b.r;\n    });\n    int l = 0, r = 0;\n\
-    \    for (const auto& q : qs) {\n        while (q.l < l) add_left(--l);\n    \
-    \    while (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n\
-    \        while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\
-    #endif\n\n/**\n * @brief Mo's Algorithm\n */\n"
+    \    struct OrderedQuery {\n        uint64_t key;\n        size_t index;\n   \
+    \ };\n    vector<OrderedQuery> qs;\n    qs.reserve(queries.size());\n    for (size_t\
+    \ i = 0; i < queries.size(); ++i) {\n        uint32_t block = queries[i].l / bucket_size;\n\
+    \        uint32_t right = queries[i].r;\n        if (!(block & 1)) right = ~right;\n\
+    \        qs.push_back({(uint64_t(block) << 32) | right, i});\n    }\n    sort(qs.begin(),\
+    \ qs.end(), [](const OrderedQuery& a, const OrderedQuery& b) {\n        return\
+    \ a.key < b.key;\n    });\n    int l = 0, r = 0;\n    for (const auto& ordered\
+    \ : qs) {\n        const auto& q = queries[ordered.index];\n        while (q.l\
+    \ < l) add_left(--l);\n        while (r < q.r) add_right(r++);\n        while\
+    \ (l < q.l) erase_left(l++);\n        while (q.r < r) erase_right(--r);\n    \
+    \    output(q.no);\n    }\n}\n\n#endif\n\n/**\n * @brief Mo's Algorithm\n */\n"
   dependsOn: []
   isVerificationFile: false
   path: util/mo.cpp
   requiredBy:
   - tree/tree_mo.cpp
-  timestamp: '2026-10-14 23:16:37+09:00'
+  timestamp: '2026-10-18 10:05:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_static_range_inversions_query.test.cpp
@@ -101,7 +108,7 @@ title: Mo's Algorithm
 左右の追加・削除を別々に指定できるため、転倒数など順序に依存する集計にも使える。
 回答は元のクエリ ID で保存する。空クエリ列では callback を呼ばず、空区間のクエリにも対応する。
 `bucket_size` が正なら指定値を使い、省略または `0` 以下なら $\max(1, \lfloor N/\sqrt{Q}\rfloor)$ を使う。
-利用側では `<algorithm>`、`<cmath>`、`<vector>` を読み込む。
+利用側では `<algorithm>`、`<cmath>`、`<cstdint>`、`<vector>` を読み込む。
 
 ```cpp
 mo_solve(n, qs, add_left, add_right, erase_left, erase_right,
@@ -111,7 +118,8 @@ mo_solve(n, qs, add_left, add_right, erase_left, erase_right,
 比較だけを使いたい場合は、従来どおり `Query::bucket_size` を設定して `sort(qs.begin(), qs.end())` を呼べる。
 
 ## 実装上の補足
-- `mo_solve` のソートは $O(Q\log Q)$、作業領域はクエリ列のコピーに $O(Q)$
+- `mo_solve` は左端のブロック番号と右端の蛇行順を $O(Q)$ でキーに変換し、$O(Q\log Q)$ でソートする。整数除算はキーの作成時に各クエリで1回だけ行う
+- 作業領域はキーと入力添字に $O(Q)$。同じブロック・右端を持つクエリの順序は未指定
 - 典型的な計算量評価は、左端の移動が $O(QB)$、右端の移動が $O(N^2 / B)$ なので、1 回の追加・削除が $O(p(N))$ なら合計は
 $$
 O\left(\left(QB + \frac{N^2}{B}\right) p(N)\right)

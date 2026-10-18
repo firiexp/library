@@ -18,6 +18,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: math/matrix_determinant.cpp
     title: "\u884C\u5217\u5F0F(Matrix Determinant)"
+  - icon: ':heavy_check_mark:'
+    path: math/matrix_rank.cpp
+    title: "\u884C\u5217\u306E\u968E\u6570"
   - icon: ':warning:'
     path: math/powk_all.cpp
     title: math/powk_all.cpp
@@ -55,6 +58,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_library_composition.test.cpp
     title: test/yosupo_aplusb_library_composition.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo_aplusb_matrix_rank.test.cpp
+    title: test/yosupo_aplusb_matrix_rank.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo_aplusb_matrix_semiring.test.cpp
     title: test/yosupo_aplusb_matrix_semiring.test.cpp
@@ -152,6 +158,9 @@ data:
     path: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
     title: test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
+    title: test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yuki2867.test.cpp
     title: test/yuki2867.test.cpp
   - icon: ':heavy_check_mark:'
@@ -208,6 +217,7 @@ data:
   - math/squarematrix_mint.cpp
   - math/inverse_matrix.cpp
   - math/matrix_determinant.cpp
+  - math/matrix_rank.cpp
   - math/fft.cpp
   - math/solve_linear_system.cpp
   - math/gauss_jordan_mint.cpp
@@ -220,6 +230,7 @@ data:
   - test/aoj0399.test.cpp
   - test/yosupo_characteristic_polynomial.test.cpp
   - test/yosupo_aplusb_berlekamp_massey.test.cpp
+  - test/yosupo_vertex_set_path_composite_hld_ordered.test.cpp
   - test/yosupo_matrix_rank.test.cpp
   - test/yosupo_matrix_det.test.cpp
   - test/yosupo_bitwise_and_convolution.test.cpp
@@ -248,6 +259,7 @@ data:
   - test/yosupo_vertex_set_path_composite_hld_helper.test.cpp
   - test/yosupo_queue_operate_all_composite.test.cpp
   - test/aoj2257.test.cpp
+  - test/yosupo_aplusb_matrix_rank.test.cpp
   - test/yosupo_find_linear_recurrence.test.cpp
   - test/yosupo_deque_operate_all_composite.test.cpp
   - test/yosupo_sum_of_totient.test.cpp

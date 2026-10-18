@@ -775,38 +775,57 @@ data:
     \ right - begin);\n                u32 block = 0;\n                for (size_t\
     \ i = left; i < right; ++i) block = block * base + digit_value(value[i]);\n  \
     \              digits.push_back(block);\n                right = left;\n     \
-    \       }\n        } else {\n            u32 power = 1;\n            int count\
-    \ = 0;\n            while (power <= (BASE - 1) / base) { power *= base; ++count;\
-    \ }\n            size_t width = (value.size() - begin - 1) % count + 1;\n    \
-    \        for (size_t pos = begin; pos < value.size(); width = count) {\n     \
-    \           u32 block = 0, multiplier = 1;\n                for (size_t i = 0;\
-    \ i < width; ++i) {\n                    block = block * base + digit_value(value[pos++]);\n\
+    \       }\n        } else if (IO_BASE == 16 && (base & (base - 1)) == 0) {\n \
+    \           int bits = __builtin_ctz(unsigned(base)), filled = 0;\n          \
+    \  digits.reserve(((value.size() - begin) * bits + 31) / 32);\n            u64\
+    \ buffer = 0;\n            for (size_t i = value.size(); i-- > begin;) {\n   \
+    \             buffer |= u64(digit_value(value[i])) << filled;\n              \
+    \  filled += bits;\n                if (filled >= 32) {\n                    digits.push_back(u32(buffer));\n\
+    \                    buffer >>= 32;\n                    filled -= 32;\n     \
+    \           }\n            }\n            if (buffer) digits.push_back(u32(buffer));\n\
+    \        } else {\n            u32 power = 1;\n            int count = 0;\n  \
+    \          while (power <= (BASE - 1) / base) { power *= base; ++count; }\n  \
+    \          size_t width = (value.size() - begin - 1) % count + 1;\n          \
+    \  for (size_t pos = begin; pos < value.size(); width = count) {\n           \
+    \     u32 block = 0, multiplier = 1;\n                for (size_t i = 0; i < width;\
+    \ ++i) {\n                    block = block * base + digit_value(value[pos++]);\n\
     \                    multiplier *= base;\n                }\n                Ops::multiply_small(digits,\
     \ multiplier);\n                if (block) Ops::add(digits, Digits{block});\n\
     \            }\n        }\n        negative = value[0] == '-';\n        return\
     \ true;\n    }\n\n    string to_string(int base = IO_BASE) const {\n        assert(2\
-    \ <= base && base <= 36);\n        if (is_zero()) return \"0\";\n        string\
-    \ out;\n        out.reserve(digits.size() * BLOCK_DIGITS + 1);\n        if (negative)\
-    \ out.push_back('-');\n        if (base == IO_BASE) {\n            append_digits(out,\
-    \ digits.back(), base, 0);\n            for (size_t i = digits.size() - 1; i--\
-    \ > 0;) append_digits(out, digits[i], base, BLOCK_DIGITS);\n        } else {\n\
-    \            u32 power = 1;\n            int count = 0;\n            while (power\
-    \ <= (BASE - 1) / base) { power *= base; ++count; }\n            Digits value\
-    \ = digits, parts;\n            while (!value.empty()) parts.push_back(Ops::divide_small(value,\
-    \ power));\n            append_digits(out, parts.back(), base, 0);\n         \
-    \   for (size_t i = parts.size() - 1; i-- > 0;) append_digits(out, parts[i], base,\
-    \ count);\n        }\n        return out;\n    }\n\n    bool is_zero() const {\
-    \ return digits.empty(); }\n    bool is_negative() const { return negative; }\n\
-    \    BasicBigInteger abs() const { return BasicBigInteger(digits, false); }\n\
-    \    BasicBigInteger operator+() const { return *this; }\n    BasicBigInteger\
-    \ operator-() const { return BasicBigInteger(digits, !negative); }\n\n    BasicBigInteger\
-    \ &operator+=(const BasicBigInteger &other) { return add_signed(other, other.negative);\
-    \ }\n    BasicBigInteger &operator-=(const BasicBigInteger &other) { return add_signed(other,\
-    \ !other.negative); }\n    BasicBigInteger &operator*=(const BasicBigInteger &other)\
-    \ {\n        bool sign = negative != other.negative;\n        digits = Ops::multiply(digits,\
-    \ other.digits);\n        negative = sign && !digits.empty();\n        return\
-    \ *this;\n    }\n\n    static pair<BasicBigInteger, BasicBigInteger> divmod(const\
-    \ BasicBigInteger &a, const BasicBigInteger &b) {\n        auto result = Ops::divide(a.digits,\
+    \ <= base && base <= 36);\n        if (is_zero()) return \"0\";\n        if (IO_BASE\
+    \ == 16 && base != IO_BASE && (base & (base - 1)) == 0) {\n            int bits\
+    \ = __builtin_ctz(unsigned(base));\n            size_t length = ((digits.size()\
+    \ - 1) * 32 + 32 - __builtin_clz(digits.back()) + bits - 1) / bits;\n        \
+    \    string out(size_t(negative) + length, '0');\n            if (negative) out[0]\
+    \ = '-';\n            for (size_t i = 0; i < length; ++i) {\n                size_t\
+    \ word = i * bits / 32;\n                int shift = i * bits % 32;\n        \
+    \        u64 value = digits[word] >> shift;\n                if (shift + bits\
+    \ > 32 && word + 1 < digits.size()) value |= u64(digits[word + 1]) << (32 - shift);\n\
+    \                int digit = value & (base - 1);\n                out[out.size()\
+    \ - 1 - i] = char(digit < 10 ? '0' + digit : 'a' + digit - 10);\n            }\n\
+    \            return out;\n        }\n        string out;\n        out.reserve(digits.size()\
+    \ * BLOCK_DIGITS + 1);\n        if (negative) out.push_back('-');\n        if\
+    \ (base == IO_BASE) {\n            append_digits(out, digits.back(), base, 0);\n\
+    \            for (size_t i = digits.size() - 1; i-- > 0;) append_digits(out, digits[i],\
+    \ base, BLOCK_DIGITS);\n        } else {\n            u32 power = 1;\n       \
+    \     int count = 0;\n            while (power <= (BASE - 1) / base) { power *=\
+    \ base; ++count; }\n            Digits value = digits, parts;\n            while\
+    \ (!value.empty()) parts.push_back(Ops::divide_small(value, power));\n       \
+    \     append_digits(out, parts.back(), base, 0);\n            for (size_t i =\
+    \ parts.size() - 1; i-- > 0;) append_digits(out, parts[i], base, count);\n   \
+    \     }\n        return out;\n    }\n\n    bool is_zero() const { return digits.empty();\
+    \ }\n    bool is_negative() const { return negative; }\n    BasicBigInteger abs()\
+    \ const { return BasicBigInteger(digits, false); }\n    BasicBigInteger operator+()\
+    \ const { return *this; }\n    BasicBigInteger operator-() const { return BasicBigInteger(digits,\
+    \ !negative); }\n\n    BasicBigInteger &operator+=(const BasicBigInteger &other)\
+    \ { return add_signed(other, other.negative); }\n    BasicBigInteger &operator-=(const\
+    \ BasicBigInteger &other) { return add_signed(other, !other.negative); }\n   \
+    \ BasicBigInteger &operator*=(const BasicBigInteger &other) {\n        bool sign\
+    \ = negative != other.negative;\n        digits = Ops::multiply(digits, other.digits);\n\
+    \        negative = sign && !digits.empty();\n        return *this;\n    }\n\n\
+    \    static pair<BasicBigInteger, BasicBigInteger> divmod(const BasicBigInteger\
+    \ &a, const BasicBigInteger &b) {\n        auto result = Ops::divide(a.digits,\
     \ b.digits);\n        return {BasicBigInteger(std::move(result.first), a.negative\
     \ != b.negative),\n                BasicBigInteger(std::move(result.second), a.negative)};\n\
     \    }\n\n    static pair<BasicBigInteger, BasicBigInteger> floor_divmod(const\
@@ -891,7 +910,7 @@ data:
   isVerificationFile: true
   path: test/yosupo_multiplication_of_hex_big_integers.test.cpp
   requiredBy: []
-  timestamp: '2026-10-12 11:34:48+09:00'
+  timestamp: '2026-10-18 10:05:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo_multiplication_of_hex_big_integers.test.cpp

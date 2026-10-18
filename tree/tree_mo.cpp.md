@@ -28,38 +28,41 @@ data:
     \ AddRight add_right,\n              EraseLeft erase_left, EraseRight erase_right,\
     \ Output output, int bucket_size = 0) {\n    if (queries.empty()) return;\n  \
     \  if (bucket_size <= 0) bucket_size = max(1, (int)(n / sqrt((double)queries.size())));\n\
-    \    vector<Query> qs = queries;\n    sort(qs.begin(), qs.end(), [&](const Query&\
-    \ a, const Query& b) {\n        int ablock = a.l / bucket_size, bblock = b.l /\
-    \ bucket_size;\n        if (ablock != bblock) return ablock < bblock;\n      \
-    \  return ablock & 1 ? a.r < b.r : a.r > b.r;\n    });\n    int l = 0, r = 0;\n\
-    \    for (const auto& q : qs) {\n        while (q.l < l) add_left(--l);\n    \
-    \    while (r < q.r) add_right(r++);\n        while (l < q.l) erase_left(l++);\n\
-    \        while (q.r < r) erase_right(--r);\n        output(q.no);\n    }\n}\n\n\
-    \n\n/**\n * @brief Mo's Algorithm\n */\n#line 5 \"tree/tree_mo.cpp\"\n\ntemplate<class\
-    \ Add, class Erase, class Output>\nvoid tree_mo_solve(const vector<vector<int>>\
-    \ &g, const vector<pair<int, int>> &paths,\n                   Add add, Erase\
-    \ erase, Output output, int root = 0) {\n    if (paths.empty()) return;\n    int\
-    \ n = (int)g.size();\n    assert(0 <= root && root < n);\n    vector<int> tin(n),\
-    \ parent(n, -1), tour, stack{root};\n    tour.reserve(2 * n - 1);\n    while (!stack.empty())\
-    \ {\n        int v = stack.back();\n        stack.pop_back();\n        if (v <\
-    \ 0) {\n            if (parent[~v] != -1) tour.push_back(parent[~v]);\n      \
-    \  } else {\n            tin[v] = (int)tour.size();\n            tour.push_back(v);\n\
-    \            stack.push_back(~v);\n            for (int i = (int)g[v].size() -\
-    \ 1; i >= 0; --i) {\n                int u = g[v][i];\n                if (u !=\
-    \ parent[v]) {\n                    parent[u] = v;\n                    stack.push_back(u);\n\
-    \                }\n            }\n        }\n    }\n    vector<Query> queries;\n\
-    \    queries.reserve(paths.size());\n    for (int i = 0; i < (int)paths.size();\
-    \ ++i) {\n        auto [u, v] = paths[i];\n        assert(0 <= u && u < n && 0\
-    \ <= v && v < n);\n        if (tin[u] > tin[v]) swap(u, v);\n        queries.emplace_back(tin[u],\
-    \ tin[v], i);\n    }\n    vector<char> active(n);\n    auto move = [&](int from,\
-    \ int to) {\n        if (active[to]) {\n            erase(from);\n           \
-    \ active[from] = 0;\n        } else {\n            add(to);\n            active[to]\
-    \ = 1;\n        }\n    };\n    auto forward = [&](int i) { move(tour[i], tour[i\
-    \ + 1]); };\n    auto backward = [&](int i) { move(tour[i + 1], tour[i]); };\n\
-    \    add(root);\n    active[root] = 1;\n    mo_solve((int)tour.size(), queries,\
-    \ backward, forward, forward, backward, output);\n    for (int v = 0; v < n; ++v)\
-    \ {\n        if (active[v]) erase(v);\n    }\n}\n\n\n\n/**\n * @brief \u6728\u4E0A\
-    \u30D1\u30B9\u306EMo\n */\n"
+    \    struct OrderedQuery {\n        uint64_t key;\n        size_t index;\n   \
+    \ };\n    vector<OrderedQuery> qs;\n    qs.reserve(queries.size());\n    for (size_t\
+    \ i = 0; i < queries.size(); ++i) {\n        uint32_t block = queries[i].l / bucket_size;\n\
+    \        uint32_t right = queries[i].r;\n        if (!(block & 1)) right = ~right;\n\
+    \        qs.push_back({(uint64_t(block) << 32) | right, i});\n    }\n    sort(qs.begin(),\
+    \ qs.end(), [](const OrderedQuery& a, const OrderedQuery& b) {\n        return\
+    \ a.key < b.key;\n    });\n    int l = 0, r = 0;\n    for (const auto& ordered\
+    \ : qs) {\n        const auto& q = queries[ordered.index];\n        while (q.l\
+    \ < l) add_left(--l);\n        while (r < q.r) add_right(r++);\n        while\
+    \ (l < q.l) erase_left(l++);\n        while (q.r < r) erase_right(--r);\n    \
+    \    output(q.no);\n    }\n}\n\n\n\n/**\n * @brief Mo's Algorithm\n */\n#line\
+    \ 5 \"tree/tree_mo.cpp\"\n\ntemplate<class Add, class Erase, class Output>\nvoid\
+    \ tree_mo_solve(const vector<vector<int>> &g, const vector<pair<int, int>> &paths,\n\
+    \                   Add add, Erase erase, Output output, int root = 0) {\n   \
+    \ if (paths.empty()) return;\n    int n = (int)g.size();\n    assert(0 <= root\
+    \ && root < n);\n    vector<int> tin(n), parent(n, -1), tour, stack{root};\n \
+    \   tour.reserve(2 * n - 1);\n    while (!stack.empty()) {\n        int v = stack.back();\n\
+    \        stack.pop_back();\n        if (v < 0) {\n            if (parent[~v] !=\
+    \ -1) tour.push_back(parent[~v]);\n        } else {\n            tin[v] = (int)tour.size();\n\
+    \            tour.push_back(v);\n            stack.push_back(~v);\n          \
+    \  for (int i = (int)g[v].size() - 1; i >= 0; --i) {\n                int u =\
+    \ g[v][i];\n                if (u != parent[v]) {\n                    parent[u]\
+    \ = v;\n                    stack.push_back(u);\n                }\n         \
+    \   }\n        }\n    }\n    vector<Query> queries;\n    queries.reserve(paths.size());\n\
+    \    for (int i = 0; i < (int)paths.size(); ++i) {\n        auto [u, v] = paths[i];\n\
+    \        assert(0 <= u && u < n && 0 <= v && v < n);\n        if (tin[u] > tin[v])\
+    \ swap(u, v);\n        queries.emplace_back(tin[u], tin[v], i);\n    }\n    vector<char>\
+    \ active(n);\n    auto move = [&](int from, int to) {\n        if (active[to])\
+    \ {\n            erase(from);\n            active[from] = 0;\n        } else {\n\
+    \            add(to);\n            active[to] = 1;\n        }\n    };\n    auto\
+    \ forward = [&](int i) { move(tour[i], tour[i + 1]); };\n    auto backward = [&](int\
+    \ i) { move(tour[i + 1], tour[i]); };\n    add(root);\n    active[root] = 1;\n\
+    \    mo_solve((int)tour.size(), queries, backward, forward, forward, backward,\
+    \ output);\n    for (int v = 0; v < n; ++v) {\n        if (active[v]) erase(v);\n\
+    \    }\n}\n\n\n\n/**\n * @brief \u6728\u4E0A\u30D1\u30B9\u306EMo\n */\n"
   code: "#ifndef FIRIEXP_LIBRARY_TREE_TREE_MO_CPP\n#define FIRIEXP_LIBRARY_TREE_TREE_MO_CPP\n\
     \n#include \"../util/mo.cpp\"\n\ntemplate<class Add, class Erase, class Output>\n\
     void tree_mo_solve(const vector<vector<int>> &g, const vector<pair<int, int>>\
@@ -90,7 +93,7 @@ data:
   isVerificationFile: false
   path: tree/tree_mo.cpp
   requiredBy: []
-  timestamp: '2026-10-15 00:51:41+09:00'
+  timestamp: '2026-10-18 10:05:15+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo_aplusb_tree_mo.test.cpp
