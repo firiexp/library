@@ -3,6 +3,7 @@
 
 class modint {
     static uint &mod() { static uint mod_ = 0; return mod_; }
+    static ull &reciprocal() { static ull reciprocal_ = 0; return reciprocal_; }
 public:
     uint val;
     static modint raw(int v) { modint x; x.val = v; return x; }
@@ -12,7 +13,7 @@ public:
     modint(bool v) { val = ((unsigned int)(v) % M()); }
     static uint get_mod() { return M(); }
     static uint M() { return mod(); }
-    static void set_mod(uint x) { mod() = x; }
+    static void set_mod(uint x) { mod() = x; reciprocal() = ~0ULL / x + 1; }
     uint &value() noexcept { return val; }
     const uint &value() const noexcept { return val; }
     modint &operator++() { val++; if (val == M()) val = 0; return *this; }
@@ -21,7 +22,13 @@ public:
     modint operator--(int) { modint result = *this; --*this; return result; }
     modint &operator+=(const modint &b) { val += b.val; if (val >= M()) val -= M(); return *this; }
     modint &operator-=(const modint &b) { val -= b.val; if (val >= M()) val += M(); return *this; }
-    modint &operator*=(const modint &b) { val = (ull)val * b.val % M(); return *this; }
+    modint &operator*=(const modint &b) {
+        ull z = (ull)val * b.val;
+        ull q = (unsigned __int128)z * reciprocal() >> 64;
+        ull y = q * M();
+        val = uint(z - y + (z < y ? M() : 0));
+        return *this;
+    }
     modint &operator/=(const modint &b) { return *this = *this * b.inv(); }
     modint operator+() const { return *this; }
     modint operator-() const { return modint() - *this; }
