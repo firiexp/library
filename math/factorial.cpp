@@ -12,12 +12,45 @@ template <class Mint = mint>
 class Factorial {
     inline static vector<Mint> facts, factinv, invs;
 
+    static bool prime_mod() {
+        static const bool result = [] {
+            uint mod = Mint::get_mod();
+            if (mod < 2 || mod % 2 == 0) return mod == 2;
+            uint d = mod - 1;
+            int s = 0;
+            while (!(d & 1)) { d >>= 1; ++s; }
+            for (uint base : {2U, 7U, 61U}) {
+                if (base % mod == 0) continue;
+                ull x = 1, a = base % mod;
+                for (uint k = d; k; k >>= 1, a = a * a % mod) {
+                    if (k & 1) x = x * a % mod;
+                }
+                if (x == 1 || x == mod - 1) continue;
+                for (int r = 1; r < s && x != mod - 1; ++r) x = x * x % mod;
+                if (x != mod - 1) return false;
+            }
+            return true;
+        }();
+        return result;
+    }
+
     static void init() {
         if (!facts.empty()) return;
         facts.push_back(Mint(1));
         factinv.push_back(Mint(1));
         invs.push_back(Mint(0));
         invs.push_back(Mint(1));
+    }
+
+    __attribute__((noinline)) static bool expand_large(int old, int n, int mod) {
+        if (n >= mod || !prime_mod()) return false;
+        for (int i = old; i <= n; ++i) facts[i] = facts[i - 1] * Mint(i);
+        factinv[n] = facts[n].inv();
+        for (int i = n; i >= old; --i) {
+            invs[i] = facts[i - 1] * factinv[i];
+            if (i > old) factinv[i - 1] = factinv[i] * Mint(i);
+        }
+        return true;
     }
 
     static void expand(int n) {
@@ -28,6 +61,7 @@ class Factorial {
         facts.resize(n + 1);
         factinv.resize(n + 1);
         invs.resize(n + 1);
+        if (n - old + 1 >= 5000000 && expand_large(old, n, mod)) return;
         for (int i = max(2, old); i <= n; ++i) {
             invs[i] = -Mint(mod / i) * invs[mod % i];
         }
