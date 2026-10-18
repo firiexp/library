@@ -5,8 +5,19 @@
 #include "../util/modint.cpp"
 
 namespace ArbitraryConvolution {
+    constexpr int naive_mod_threshold = 128;
+
     vector<unsigned int> convolution_mod(const vector<unsigned int> &a, const vector<unsigned int> &b) {
         if (a.empty() || b.empty()) return {};
+        if (min(a.size(), b.size()) <= naive_mod_threshold) {
+            const auto &x = a.size() < b.size() ? b : a;
+            const auto &y = a.size() < b.size() ? a : b;
+            vector<unsigned int> res(x.size() + y.size() - 1);
+            for (size_t i = 0; i < y.size(); ++i)
+                for (size_t j = 0; j < x.size(); ++j)
+                    res[i + j] = (1ULL * y[i] * x[j] + res[i + j]) % MOD;
+            return res;
+        }
         static const NTT1 ntt1;
         static const NTT2 ntt2;
         static const NTT3 ntt3;
@@ -44,13 +55,30 @@ struct poly {
         return *this;
     }
     poly& operator*=(const poly &a) {
-        if (size() == 0 || a.size() == 0) {
+        int n = size(), m = a.size();
+        if (n == 0 || m == 0) {
             v.clear();
             return *this;
         }
-        vector<unsigned int> x(size()), y(a.size());
-        for (int i = 0; i < size(); ++i) x[i] = v[i].val;
-        for (int i = 0; i < a.size(); ++i) y[i] = a.v[i].val;
+        if (n == 1 || m == 1) {
+            mint scalar = m == 1 ? a.v[0] : v[0];
+            if (n == 1 && m > 1) v = a.v;
+            for (auto &x : v) x *= scalar;
+            return *this;
+        }
+        if (min(n, m) <= ArbitraryConvolution::naive_mod_threshold) {
+            const auto &x = n < m ? a.v : v;
+            const auto &y = n < m ? v : a.v;
+            vector<mint> res(n + m - 1);
+            for (size_t i = 0; i < y.size(); ++i)
+                for (size_t j = 0; j < x.size(); ++j)
+                    res[i + j].val = (1ULL * y[i].val * x[j].val + res[i + j].val) % MOD;
+            v = std::move(res);
+            return *this;
+        }
+        vector<unsigned int> x(n), y(m);
+        for (int i = 0; i < n; ++i) x[i] = v[i].val;
+        for (int i = 0; i < m; ++i) y[i] = a.v[i].val;
         auto z = ArbitraryConvolution::convolution_mod(x, y);
         v.resize(z.size());
         for (int i = 0; i < (int)z.size(); ++i) v[i] = z[i];
