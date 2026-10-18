@@ -118,40 +118,49 @@ def select(resolved, paths):
 def verify(resolved, *, output, jobs=8, previous=None, no_download=False, force=False):
     unlimited_stack()
     STATE.mkdir(exist_ok=True)
+    selected = set(test_paths(resolved))
+    prior = read_json(previous, {'total_seconds': 0, 'files': {}}) if previous else {'total_seconds': 0, 'files': {}}
+    model = VerificationInput.model_validate(resolved)
+    reusable = {}
+    if not force:
+        for path in selected:
+            value = prior['files'].get(path, {})
+            if not value.get('verifications') or any(v['status'] != 'success' for v in value['verifications']):
+                continue
+            current_hash = content_hash(model.transitive_depends_on[pathlib.Path(path)])
+            if current_hash and value.get('content_hash') == current_hash:
+                reusable[path] = value
+    pending = selected - reusable.keys()
+    print(f'verification plan: {len(pending)} to run, {len(reusable)} cached', flush=True)
     with tempfile.TemporaryDirectory(prefix='run-', dir=STATE) as directory:
         directory = pathlib.Path(directory)
         input_path = directory / 'input.json'
-        write_json(input_path, resolved)
-        if not no_download:
+        write_json(input_path, select(resolved, pending))
+        if pending and not no_download:
             downloaded = command(['competitive-verifier', 'download', '--verify-json', str(input_path)])
             if downloaded.returncode:
                 return downloaded.returncode
-        prior = read_json(previous, {"total_seconds": 0, "files": {}}) if previous else {"total_seconds": 0, "files": {}}
-        reusable = {p: v for p, v in prior["files"].items() if not force and p in test_paths(resolved) and v.get("verifications") and all(r["status"] == "success" for r in v["verifications"])}
-        previous_path = directory / "previous.json"
-        write_json(previous_path, {"total_seconds": 0, "files": reusable})
-        count = min(jobs, max(1, len(test_paths(resolved))))
+        count = min(jobs, len(pending))
 
         def run_shard(index):
             result_path = directory / f'result-{index}.json'
             args = ['competitive-verifier', 'verify', '--verify-json', str(input_path), '--output', str(result_path),
                     '--check-error', '--no-download', '--change-detection', 'hash', '--split', str(count), '--split-index', str(index)]
-            if reusable:
-                args.extend(["--prev-result", str(previous_path)])
             completed = subprocess.run(args, cwd=ROOT, stdout=subprocess.DEVNULL, check=False)
             return completed.returncode, read_json(result_path, {'total_seconds': 0, 'files': {}})
 
-        with concurrent.futures.ThreadPoolExecutor(max_workers=count) as executor:
-            results = list(executor.map(run_shard, range(count)))
-        merged = read_json(previous, {'total_seconds': 0, 'files': {}}) if previous else {'total_seconds': 0, 'files': {}}
+        results = []
+        if pending:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=count) as executor:
+                results = list(executor.map(run_shard, range(count)))
+        merged = prior
         for value in merged['files'].values():
             value['newest'] = False
-        selected = set(test_paths(resolved))
-        for path in selected:
+        for path in pending:
             merged['files'].pop(path, None)
         for _, result in results:
             for path, value in result["files"].items():
-                if path in selected:
+                if path in pending:
                     current = merged["files"].get(path)
                     if value.get("newest", True) or current is None or not current.get("newest", True):
                         merged["files"][path] = value

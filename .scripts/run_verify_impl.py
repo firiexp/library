@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import pathlib
 import sys
 
@@ -11,13 +12,17 @@ sys.path.insert(0, str(ROOT / '.scripts'))
 from verification_impl import STATE, resolve, select, test_paths, verify, write_json
 
 
+def shard_paths(paths, split, index):
+    return [path for path in paths if int(hashlib.sha256(path.encode()).hexdigest(), 16) % split == index]
+
+
 def main():
     parser = argparse.ArgumentParser(description='Resolve and run competitive-verifier, including untracked C++ tests.')
     parser.add_argument('paths', nargs='*', help='test paths; omit to verify all tests')
     parser.add_argument('-j', '--jobs', type=int, default=8, help='parallel test processes')
     parser.add_argument('--tle', type=float, default=60)
     parser.add_argument('--no-download', action='store_true', help='require existing testcase caches')
-    parser.add_argument('--force', action='store_true', help='rerun successful unchanged tests')
+    parser.add_argument('--force', action='store_true', help='rerun successful unchanged tests, downloading testdata unless --no-download')
     parser.add_argument('--resolve-only', action='store_true')
     parser.add_argument('--list', action='store_true')
     parser.add_argument('--split', type=int, default=1)
@@ -35,7 +40,7 @@ def main():
         if unknown:
             parser.error(f'unknown test paths: {sorted(unknown)}')
         paths = sorted(requested)
-    paths = paths[args.split_index::args.split]
+    paths = shard_paths(paths, args.split, args.split_index)
     print(f'selected {len(paths)} verification tests', flush=True)
     if args.list:
         print('\n'.join(paths))

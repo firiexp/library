@@ -4,6 +4,11 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+    inputs:
+      force:
+        description: Rerun all tests and refresh judge testdata
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -46,16 +51,29 @@ jobs:
           cache: pip
           cache-dependency-path: requirements-dev.txt
       - run: python3 -m pip install -r requirements-dev.txt
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
+        id: result-cache
         with:
           path: .competitive-verifier/result-${{ matrix.shard }}.json
-          key: verify-result-${{ runner.os }}-${{ matrix.shard }}-${{ github.sha }}
-          restore-keys: verify-result-${{ runner.os }}-${{ matrix.shard }}-
+          key: verify-result-v2-${{ runner.os }}-${{ matrix.shard }}-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: verify-result-v2-${{ runner.os }}-${{ matrix.shard }}-
       - name: Verify shard
+        id: verification
         env:
           YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python3 scripts/run_verify.py -j 2 --split 4 --split-index ${{ matrix.shard }} --result .competitive-verifier/result-${{ matrix.shard }}.json
+          FORCE_VERIFY: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
+        run: |
+          args=()
+          if [ "$FORCE_VERIFY" = true ]; then
+            args+=(--force)
+          fi
+          python3 scripts/run_verify.py -j 2 --split 4 --split-index ${{ matrix.shard }} --result .competitive-verifier/result-${{ matrix.shard }}.json "${args[@]}"
+      - uses: actions/cache/save@v4
+        if: always() && steps.verification.outcome != 'skipped' && hashFiles(format('.competitive-verifier/result-{0}.json', matrix.shard)) != ''
+        with:
+          path: .competitive-verifier/result-${{ matrix.shard }}.json
+          key: ${{ steps.result-cache.outputs.cache-primary-key }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:

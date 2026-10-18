@@ -35,6 +35,10 @@ python3 scripts/run_verify.py -j 8 test/yosupo_unionfind.test.cpp
 
 `python3 scripts/verify_changed.py` は working tree の直接・間接依存を調べ、self-check と影響する verify だけを実行する。全件検証は `python3 scripts/run_verify.py`、docs 生成は `python3 scripts/build_verify_docs.py` で別々に実行する。全件検証は共通基盤の変更や統合確認に限定する。
 
+CI と `run_verify.py` は、テスト本体・間接 include・検証設定・コンパイラのハッシュが前回の成功結果と一致するテストを再利用する。変更・追加・未成功のテストだけ、テストデータの取得と検証を行う。CI の分割先はファイル名で固定し、テストの追加・削除で既存テストのキャッシュが外れないようにする。一部が失敗した場合も、完了した成功結果を次回に引き継ぐ。初回やキャッシュ消失時、検証基盤・コンパイラの変更時は全件を実行する。
+
+変更のないテストでは judge 側のテストデータ更新を確認しない。データを更新して成功済みのテストも再実行する場合は `python3 scripts/run_verify.py --force` を使う。CI では Actions の手動実行で `force` を有効にする。docs は再利用した結果も含め、現在のソースに対する成功を確認してから生成する。
+
 問題用の verify はその問題を解く処理だけを書く。固定ケース・乱択・愚直解との比較などの self-test は、`test/yosupo_aplusb_<component>.test.cpp` に分離する。既に対応する self-test があればそこへ追加する。自己テストには `#define STANDALONE` を指定し、A+B の入出力は書かない。ファイル名の `yosupo_aplusb_` は従来の命名を引き継いでいるが、実行時は judge に接続せず1回だけ実行する。問題用のテストには `#define PROBLEM "<url>"` を指定する。
 
 ## 性能計測
