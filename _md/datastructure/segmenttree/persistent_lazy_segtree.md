@@ -1,0 +1,51 @@
+---
+title: 区間更新・区間コピー付き永続セグメント木
+documentation_of: //datastructure/segmenttree/persistent_lazy_segtree.cpp
+---
+
+## 説明
+過去のバージョンから区間更新した列や、別のバージョンの区間をコピーした列を作る。
+更新前の列を保持し、任意のバージョンの区間積を求められる。
+
+## できること
+- `PersistentLazySegmentTree<M> seg(values)`
+  配列を初期バージョン `0` として構築する
+- `int update(t, l, r, op)`
+  バージョン `t` の区間 `[l, r)` に作用素 `op` を適用した新しいバージョンを作り、その番号を返す
+- `int copy_range(dst, src, l, r)`
+  バージョン `dst` の区間 `[l, r)` を、バージョン `src` の同じ区間の値で置き換えた新しいバージョンを作り、その番号を返す
+- `T query(t, l, r) const`
+  バージョン `t` の区間 `[l, r)` を左から順に集約する。空区間では単位元を返す
+- `int versions() const` / `int latest_version() const`
+  バージョン数 / 最新のバージョン番号を返す
+
+## 使い方
+`M` には遅延セグメント木と同じ演算を定義する。
+
+- `T` / `L`：集約値 / 作用素の型
+- `f(a, b)` / `e()`：集約値の結合 / 単位元
+- `g(value, op)`：集約値に作用素を適用する
+- `h(a, b)` / `l()`：作用素 `a` の後に `b` を適用する合成 / 恒等作用素
+
+`f` と `h` は結合的で、作用は `g(f(a, b), op) == f(g(a, op), g(b, op))` を満たすものとする。
+非可換な集約・作用も使える。区間和なら `T` に和と要素数を持たせる。
+バージョン番号は作成済みのもの、区間は `0 <= l <= r <= values.size()` とする。
+空区間への更新・コピーや同じバージョンからのコピーも、新しいバージョン番号を返す。
+空配列も扱う。
+
+```cpp
+PersistentLazySegmentTree<Monoid> seg(values);
+int a = seg.update(0, l, r, op);
+int b = seg.copy_range(a, 0, p, q);
+auto before = seg.query(0, l, r);
+auto after = seg.query(b, l, r);
+```
+
+## 実装上の補足
+要素数を $N$、モノイドの各演算を $O(1)$ とする。
+構築は $O(N)$ 時間・領域、区間積は最悪 $O(\log N)$ 時間。
+更新・コピーは配列の拡張を含めて償却 $O(\log N)$ 時間、追加ノード数は $O(\log N)$。
+各操作の再帰に $O(\log N)$ の作業領域を使う。
+
+変更が必要なノードだけを複製し、残りは過去のバージョンと共有する。
+問い合わせでは遅延作用を引数で引き継ぎ、ノードの変更・追加を行わない。
