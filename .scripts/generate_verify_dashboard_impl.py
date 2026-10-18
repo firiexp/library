@@ -5,14 +5,11 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import functools
-import hashlib
 import html
 import json
 import os
 import pathlib
 import platform
-import resource
-import shlex
 import subprocess
 import sys
 import tempfile
@@ -21,21 +18,17 @@ import time
 from datetime import datetime, timezone
 from typing import Any
 
-import onlinejudge
-import onlinejudge.service.library_checker
-import onlinejudge_verify.languages.list
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-DEFAULT_JSON_PATH = ROOT / ".verify-helper" / "measure-dashboard.json"
-DEFAULT_HTML_PATH = ROOT / ".verify-helper" / "measure-dashboard.html"
-DEFAULT_DOCS_STATIC_DIR = ROOT / ".verify-helper" / "docs" / "static"
+sys.path.insert(0, str(ROOT / ".scripts"))
+from verification_impl import STATE, command, read_json, resolve, select, unlimited_stack, write_json
+DEFAULT_JSON_PATH = ROOT / ".competitive-verifier" / "measure-dashboard.json"
+DEFAULT_HTML_PATH = ROOT / ".competitive-verifier" / "measure-dashboard.html"
+DEFAULT_DOCS_STATIC_DIR = ROOT / ".competitive-verifier" / "docs" / "static"
 DEFAULT_DOCS_STATIC_JSON_PATH = DEFAULT_DOCS_STATIC_DIR / DEFAULT_JSON_PATH.name
 DEFAULT_DOCS_STATIC_HTML_PATH = DEFAULT_DOCS_STATIC_DIR / DEFAULT_HTML_PATH.name
 DASHBOARD_ASSET_DIR = ROOT / "scripts" / "measure_dashboard_assets"
-DEFAULT_WORKERS = max(1, os.cpu_count() or 1)
-_problem_locks_guard = threading.Lock()
-_problem_locks: dict[str, threading.Lock] = {}
-_library_checker_lock = threading.Lock()
+DEFAULT_WORKERS = 1
 SORT_COLUMNS = [
     {"key": "path", "label": "test", "defaultDirection": "asc", "numeric": False},
     {"key": "status", "label": "status", "defaultDirection": "asc", "numeric": False},
@@ -74,7 +67,7 @@ def parse_args() -> argparse.Namespace:
         "--tle",
         type=float,
         default=60.0,
-        help="oj test --tle value",
+        help="testcase time limit",
     )
     parser.add_argument(
         "-j",
@@ -82,12 +75,6 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=DEFAULT_WORKERS,
         help="number of tests to measure in parallel",
-    )
-    parser.add_argument(
-        "--oj-jobs",
-        type=int,
-        default=1,
-        help="oj test -j value for each measured test",
     )
     parser.add_argument(
         "--compile-jobs",
@@ -105,6 +92,7 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="read existing json and regenerate html without running measurements",
     )
+    parser.add_argument("--no-download", action="store_true", help="require existing testcase caches")
     return parser.parse_args()
 
 
@@ -116,105 +104,6 @@ def list_test_paths(paths: list[str]) -> list[pathlib.Path]:
 
 def relative_test_path(path: pathlib.Path) -> str:
     return str(path.resolve().relative_to(ROOT))
-
-
-def run_command(command: list[str], *, cwd: pathlib.Path) -> subprocess.CompletedProcess[str]:
-    def set_unlimited_stack() -> None:
-        soft, hard = resource.getrlimit(resource.RLIMIT_STACK)
-        target = hard if hard != resource.RLIM_INFINITY else resource.RLIM_INFINITY
-        if soft != target:
-            resource.setrlimit(resource.RLIMIT_STACK, (target, hard))
-
-    return subprocess.run(
-        command,
-        cwd=cwd,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        check=False,
-        preexec_fn=set_unlimited_stack,
-    )
-
-
-def parse_oj_test_output(output: str) -> dict[str, Any]:
-    cases: list[dict[str, Any]] = []
-    current_case: dict[str, Any] | None = None
-    slowest_sec = None
-    slowest_case = None
-    max_memory_mb = None
-    max_memory_case = None
-    summary = None
-
-    for raw_line in output.splitlines():
-        line = raw_line.strip()
-        if not line.startswith("["):
-            continue
-
-        if line.startswith("[INFO] time: "):
-            if current_case is not None:
-                value = line[len("[INFO] time: ") :].removesuffix(" sec")
-                current_case["timeSec"] = float(value)
-            continue
-
-        if line.startswith("[INFO] slowest: "):
-            body = line[len("[INFO] slowest: ") :]
-            value, _, rest = body.partition(" sec")
-            slowest_sec = float(value)
-            if "(for " in rest and rest.endswith(")"):
-                slowest_case = rest.split("(for ", 1)[1][:-1]
-            continue
-
-        if line.startswith("[INFO] max memory: "):
-            body = line[len("[INFO] max memory: ") :]
-            value, _, rest = body.partition(" MB")
-            max_memory_mb = float(value)
-            if "(for " in rest and rest.endswith(")"):
-                max_memory_case = rest.split("(for ", 1)[1][:-1]
-            continue
-
-        if line.startswith("[SUCCESS] test success: "):
-            summary = line[len("[SUCCESS] ") :]
-            continue
-
-        if line.startswith("[INFO] ") and ":" not in line and "cases found" not in line and "online-judge-tools" not in line:
-            case_name = line[len("[INFO] ") :]
-            current_case = {"name": case_name}
-            cases.append(current_case)
-            continue
-
-        if current_case is not None and line.startswith("["):
-            prefix, _, body = line.partition("] ")
-            status = body.strip()
-            if prefix in ("[SUCCESS", "[FAILURE", "[ERROR"):
-                current_case["status"] = status
-
-    timed_cases = [case["timeSec"] for case in cases if "timeSec" in case]
-    return {
-        "cases": cases,
-        "caseCount": len(cases),
-        "timedCaseCount": len(timed_cases),
-        "passedCaseCount": sum(case.get("status") == "AC" for case in cases),
-        "slowestSec": slowest_sec,
-        "slowestCase": slowest_case,
-        "averageSec": (sum(timed_cases) / len(timed_cases)) if timed_cases else None,
-        "maxMemoryMb": max_memory_mb,
-        "maxMemoryCase": max_memory_case,
-        "summary": summary,
-    }
-
-
-def build_cache_dir(problem_url: str) -> pathlib.Path:
-    digest = hashlib.md5(problem_url.encode()).hexdigest()
-    return ROOT / ".verify-helper" / "cache" / digest
-
-
-def get_problem_lock(problem_url: str) -> threading.Lock:
-    with _problem_locks_guard:
-        lock = _problem_locks.get(problem_url)
-        if lock is None:
-            lock = threading.Lock()
-            _problem_locks[problem_url] = lock
-        return lock
 
 
 def make_empty_entry(path: pathlib.Path) -> dict[str, Any]:
@@ -378,115 +267,70 @@ def write_report(report: dict[str, Any], *, json_path: pathlib.Path, html_path: 
 
 
 def print_output_paths(*, json_path: pathlib.Path, html_path: pathlib.Path) -> None:
-    print(f"json: {json_path.relative_to(ROOT)}")
-    print(f"html: {html_path.relative_to(ROOT)}")
+    print(f"json: {json_path}")
+    print(f"html: {html_path}")
     if json_path == DEFAULT_JSON_PATH and html_path == DEFAULT_HTML_PATH:
         print(f"docs json: {DEFAULT_DOCS_STATIC_JSON_PATH.relative_to(ROOT)}")
         print(f"docs html: {DEFAULT_DOCS_STATIC_HTML_PATH.relative_to(ROOT)}")
 
 
-def ensure_testcases(problem_url: str, *, testcase_dir: pathlib.Path) -> None:
-    if testcase_dir.exists() and any(testcase_dir.iterdir()):
-        return
-
-    testcase_dir.mkdir(parents=True, exist_ok=True)
-    command = ["oj", "download", "--system", "-d", str(testcase_dir), "--silent", problem_url]
-    if os.environ.get("DROPBOX_TOKEN"):
-        command += ["--dropbox-token", os.environ["DROPBOX_TOKEN"]]
-    if os.environ.get("YUKICODER_TOKEN"):
-        command += ["--yukicoder-token", os.environ["YUKICODER_TOKEN"]]
-
-    completed = run_command(command, cwd=ROOT)
-    if completed.returncode != 0:
-        raise RuntimeError(f"failed to download testcases: {problem_url}\n{completed.stdout}")
-    if not any(testcase_dir.iterdir()):
-        raise RuntimeError(f"downloaded testcase directory is empty: {testcase_dir}")
-
-
-def run_one_test(path: pathlib.Path, *, tle: float, oj_jobs: int, compile_slots: threading.Semaphore) -> dict[str, Any]:
-    relative_path = pathlib.Path(relative_test_path(path))
-    language = onlinejudge_verify.languages.list.get(relative_path)
-    if language is None:
-        raise RuntimeError(f"unsupported language: {relative_path}")
-
-    attributes = language.list_attributes(relative_path, basedir=ROOT)
-    problem_url = attributes.get("PROBLEM")
-    if not problem_url:
-        raise RuntimeError(f"PROBLEM is not specified: {relative_path}")
-    error_tolerance = attributes.get("ERROR")
-
-    cache_dir = build_cache_dir(problem_url)
-    testcase_dir = cache_dir / "test"
-    cache_dir.mkdir(parents=True, exist_ok=True)
-
-    problem = onlinejudge.dispatch.problem_from_url(problem_url)
-    judge_command = None
-    if isinstance(problem, onlinejudge.service.library_checker.LibraryCheckerProblem):
-        with get_problem_lock(problem_url):
-            ensure_testcases(problem_url, testcase_dir=testcase_dir)
-        checker_path = None
-        try:
-            candidate = problem._get_problem_directory_path() / "checker"
-            if candidate.exists():
-                checker_path = candidate
-        except RuntimeError:
-            checker_path = None
-        if checker_path is None:
-            with _library_checker_lock:
-                checker_path = problem.download_checker_binary()
-        judge_command = str(checker_path)
-    else:
-        with get_problem_lock(problem_url):
-            ensure_testcases(problem_url, testcase_dir=testcase_dir)
-
-    environments = language.list_environments(relative_path, basedir=ROOT)
-    if not environments:
-        raise RuntimeError(f"no compiler environment found: {relative_path}")
-    environment = environments[0]
-
-    with tempfile.TemporaryDirectory(prefix="verify-dashboard-", dir=cache_dir) as tempdir_str:
-        tempdir = pathlib.Path(tempdir_str)
-        with compile_slots:
-            compile_started_at = time.perf_counter()
-            environment.compile(relative_path, basedir=ROOT, tempdir=tempdir)
-            compile_wall_sec = time.perf_counter() - compile_started_at
-
-        execute = environment.get_execute_command(relative_path, basedir=ROOT, tempdir=tempdir)
-        command = ["oj", "test", "-c", shlex.join(execute), "-d", str(testcase_dir), "--tle", str(tle)]
-        if judge_command is not None:
-            command += ["--judge-command", judge_command]
-        if error_tolerance:
-            command += ["-e", str(error_tolerance)]
-        if oj_jobs != 1:
-            command += ["-j", str(oj_jobs)]
-
-        run_started_at = time.perf_counter()
-        completed = run_command(command, cwd=ROOT)
-        run_wall_sec = time.perf_counter() - run_started_at
-
-    parsed = parse_oj_test_output(completed.stdout)
-    testcase_count = len(list(testcase_dir.glob("*.in")))
+def parse_verification_result(result, standalone=None):
+    cases = result.get("testcases") or []
+    if standalone is not None:
+        cases = [{"name": "standalone", "status": "AC" if standalone["returncode"] == 0 else "TLE" if standalone["returncode"] == 124 else "RE",
+                  "elapsed": standalone["elapsed"], "memory": standalone["memory"]}]
+    slowest = max(cases, key=lambda case: case["elapsed"], default=None)
+    with_memory = [case for case in cases if case.get("memory") is not None]
+    heaviest = max(with_memory, key=lambda case: case["memory"], default=None)
     return {
-        "path": str(relative_path),
-        "phase": "done",
-        "problem": problem_url,
-        "compiler": {
-            "command": [str(environment.CXX), *environment.CXXFLAGS, "-I", str(ROOT), "-o", "a.out", str(relative_path)],
-            "wallSec": compile_wall_sec,
-        },
-        "testcases": {
-            "directory": str(testcase_dir.relative_to(ROOT)),
-            "cachedCaseCount": testcase_count,
-        },
-        "run": {
-            "command": command,
-            "returnCode": completed.returncode,
-            "wallSec": run_wall_sec,
-            "ok": completed.returncode == 0,
-            "parsed": parsed,
-            "output": completed.stdout,
-        },
+        "cases": [{"name": case["name"], "status": case["status"], "timeSec": case["elapsed"]} for case in cases],
+        "caseCount": len(cases), "timedCaseCount": len(cases),
+        "passedCaseCount": sum(case["status"] == "AC" for case in cases),
+        "slowestSec": slowest["elapsed"] if slowest else None,
+        "slowestCase": slowest["name"] if slowest else None,
+        "averageSec": sum(case["elapsed"] for case in cases) / len(cases) if cases else None,
+        "maxMemoryMb": heaviest["memory"] if heaviest else None,
+        "maxMemoryCase": heaviest["name"] if heaviest else None,
+        "summary": result["status"],
     }
+
+
+def run_one_test(path: pathlib.Path, *, tle: float, compile_slots: threading.Semaphore) -> dict[str, Any]:
+    relative_path = relative_test_path(path)
+    resolved = select(_resolved, [relative_path])
+    verification = resolved["files"][relative_path]["verification"][0]
+    compile_command = verification.pop("compile")
+    directory = ROOT / compile_command[3]
+    (directory / "run.json").unlink(missing_ok=True)
+    with compile_slots:
+        compiled = command(compile_command, capture=True)
+    compile_info = read_json(directory / "compile.json")
+    entry = make_empty_entry(path)
+    entry["phase"] = "done"
+    entry["problem"] = verification.get("problem")
+    entry["compiler"] = {"command": compile_command[5:], "wallSec": compile_info["elapsed"]}
+    if compiled.returncode:
+        entry["phase"] = "error"
+        entry["run"].update({"returnCode": compiled.returncode, "output": compiled.stdout})
+        return entry
+    with tempfile.TemporaryDirectory(prefix="measure-", dir=STATE) as temporary:
+        temporary = pathlib.Path(temporary)
+        input_path, result_path = temporary / "input.json", temporary / "result.json"
+        write_json(input_path, resolved)
+        args = ["competitive-verifier", "verify", "--verify-json", str(input_path), "--output", str(result_path),
+                "--check-error", "--no-download", "--tle", str(tle)]
+        started = time.perf_counter()
+        completed = command(args, capture=True)
+        elapsed = time.perf_counter() - started
+        results = read_json(result_path, {}).get("files", {}).get(relative_path, {}).get("verifications", [])
+    result = results[0] if results else {"status": "failure"}
+    standalone = read_json(directory / "run.json") if verification["type"] == "command" else None
+    parsed = parse_verification_result(result, standalone)
+    entry["testcases"] = {"directory": None, "cachedCaseCount": parsed["caseCount"]}
+    entry["run"] = {"command": verification["command"], "returnCode": completed.returncode, "wallSec": elapsed,
+                    "ok": completed.returncode == 0 and result["status"] == "success", "parsed": parsed,
+                    "output": compiled.stdout + completed.stdout}
+    return entry
 
 
 def render_sort_key_options() -> str:
@@ -569,7 +413,16 @@ def main() -> int:
         return 0
 
     tests = list_test_paths(args.paths)
-    onlinejudge_verify.languages.list.get(pathlib.Path("dummy.cpp"))
+    global _resolved
+    unlimited_stack()
+    _resolved = resolve(min(8, max(1, os.cpu_count() or 1)), tle=args.tle)
+    if not args.no_download:
+        with tempfile.TemporaryDirectory(prefix="measure-download-", dir=STATE) as temporary:
+            input_path = pathlib.Path(temporary) / "input.json"
+            write_json(input_path, select(_resolved, [relative_test_path(path) for path in tests]))
+            downloaded = command(["competitive-verifier", "download", "--verify-json", str(input_path)])
+            if downloaded.returncode:
+                return downloaded.returncode
     if args.paths:
         report_tests = prune_missing_entries(load_existing_entries(args.json_path))
         index_by_path = {
@@ -592,8 +445,6 @@ def main() -> int:
 
     if args.jobs <= 0:
         raise ValueError("--jobs must be positive")
-    if args.oj_jobs <= 0:
-        raise ValueError("--oj-jobs must be positive")
     if args.compile_jobs <= 0:
         raise ValueError("--compile-jobs must be positive")
     if not tests:
@@ -613,7 +464,6 @@ def main() -> int:
             run_one_test,
             tests[index],
             tle=args.tle,
-            oj_jobs=args.oj_jobs,
             compile_slots=compile_slots,
         )
         futures[future] = index
@@ -621,7 +471,7 @@ def main() -> int:
     try:
         with concurrent.futures.ThreadPoolExecutor(max_workers=worker_count) as executor:
             print(
-                f"parallel tests={worker_count}, compile slots={compile_worker_count}, oj jobs/test={args.oj_jobs}",
+                f"parallel tests={worker_count}, compile slots={compile_worker_count}, sequential cases/test",
                 flush=True,
             )
             while next_index < len(tests) and len(futures) < worker_count:
@@ -665,7 +515,7 @@ def main() -> int:
         raise
 
     print_output_paths(json_path=args.json_path, html_path=args.html_path)
-    return 0
+    return int(any(not entry["run"]["ok"] for entry in report_tests if entry["path"] in {relative_test_path(path) for path in tests}))
 
 
 if __name__ == "__main__":

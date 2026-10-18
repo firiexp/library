@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <algorithm>
 #include <cassert>
@@ -34,9 +34,4 @@ void zero_weight_check() {
 
 int main() {
     zero_weight_check();
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

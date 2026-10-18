@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -72,9 +72,4 @@ int main() {
     assert(uf.unite_range(0, 1, 64) == 64);
     assert(uf.count() == 1 && uf.size(64) == 65);
     for (int k = 0; k <= 64; ++k) assert(uf.unite_range(0, 65 - k, k) == 0);
-    Scanner sc;
-    Printer pr;
-    long long a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

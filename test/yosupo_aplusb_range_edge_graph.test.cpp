@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -73,9 +73,4 @@ int main() {
     assert(dist[0] == 0);
     for (int v = 1; v < n; ++v) assert(dist[v] == 1);
     assert((int)rg.graph().size() == 3 * n - 2 + q / 2);
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

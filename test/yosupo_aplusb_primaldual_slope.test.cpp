@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -88,9 +88,4 @@ int main() {
     PrimalDual<int, long long> unlimited(2);
     unlimited.add_edge(0, 1, 3, 5);
     assert((unlimited.slope(0, 1) == vector<pair<int, long long>>{{0, 0}, {3, 15}}));
-    Scanner sc;
-    Printer pr;
-    long long a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

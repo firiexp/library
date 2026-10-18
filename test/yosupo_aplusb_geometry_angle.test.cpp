@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -39,9 +39,4 @@ int main() {
         Point u(coord(rng), coord(rng)), v(coord(rng), coord(rng));
         if ((u.x != 0 || u.y != 0) && (v.x != 0 || v.y != 0)) check(u, v);
     }
-    Scanner sc;
-    Printer pr;
-    int x, y;
-    sc.read(x, y);
-    pr.println(x + y);
 }

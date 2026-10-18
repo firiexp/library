@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -71,9 +71,4 @@ int main() {
     vector<Rectangle> queries = {{INT_MIN, INT_MIN, INT_MAX, INT_MAX, 0}, {INT_MIN, INT_MIN, INT_MIN + 1, INT_MIN + 1, 0}, {INT_MAX - 1, INT_MAX - 1, INT_MAX, INT_MAX, 0}, {-1, -1, 1, 1, 0}};
     check<__int128>(rects, queries);
     check<mint>(rects, queries);
-    Scanner sc;
-    Printer pr;
-    long long a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

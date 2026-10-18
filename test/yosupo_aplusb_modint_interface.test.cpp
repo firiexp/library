@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <cassert>
 #include <cstdio>
@@ -62,9 +62,4 @@ int main() {
     dynamic_modint_test::mint::set_mod(998244353);
     common_check<fixed_modint_test::mint>();
     common_check<dynamic_modint_test::mint>();
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

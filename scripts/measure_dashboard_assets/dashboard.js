@@ -102,7 +102,7 @@ function describeProblem(problem, { compact = true } = {}) {
     if (!problem) {
         return {
             available: false,
-            label: "problem url is unavailable",
+            label: "単独テスト",
             url: "",
         };
     }

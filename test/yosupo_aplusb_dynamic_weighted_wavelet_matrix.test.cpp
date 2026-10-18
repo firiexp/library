@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <algorithm>
 #include <cassert>
@@ -407,10 +407,4 @@ int main() {
     self_check_integral_boundaries();
     self_check_kth_boundaries();
 
-    Scanner sc;
-    Printer pr;
-    ll a, b;
-    sc.read(a, b);
-    pr.println(a + b);
-    return 0;
 }

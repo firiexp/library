@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -56,9 +56,4 @@ int main() {
         if (tc % 4 == 2) sort(points.begin(), points.end());
         check(points, rng);
     }
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

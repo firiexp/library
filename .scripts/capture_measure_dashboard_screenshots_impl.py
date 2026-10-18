@@ -5,13 +5,15 @@ from __future__ import annotations
 import argparse
 import json
 import subprocess
+import shutil
+import tempfile
 from importlib import util as importlib_util
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_FIXTURE_PATH = ROOT / "scripts" / "measure_dashboard_assets" / "measure-dashboard-regression.json"
-DEFAULT_OUTPUT_DIR = ROOT / ".verify-helper" / "measure-dashboard-regression"
+DEFAULT_OUTPUT_DIR = ROOT / ".competitive-verifier" / "measure-dashboard-regression"
 SCENARIOS = (
     {
         "name": "desktop-top",
@@ -101,7 +103,7 @@ def inject_scenario_helper(html_text: str) -> str:
 
 def prepare_output_dir(output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
-    for path in (ROOT / ".verify-helper").glob("measure-dashboard-*.png"):
+    for path in (ROOT / ".competitive-verifier").glob("measure-dashboard-*.png"):
         path.unlink()
     for path in output_dir.glob("*.png"):
         path.unlink()
@@ -118,7 +120,9 @@ def make_scenario_report(base_report: dict, mode: str) -> dict:
 
 def run_screenshot(url: str, output_path: Path, *, width: int, height: int, virtual_time_budget: int) -> None:
     command = [
-        "chromium-browser",
+        next(shutil.which(name) for name in ("google-chrome", "chromium", "chromium-browser") if shutil.which(name)),
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
         "--headless",
         "--disable-gpu",
         "--hide-scrollbars",
@@ -129,7 +133,9 @@ def run_screenshot(url: str, output_path: Path, *, width: int, height: int, virt
         f"--screenshot={output_path}",
         url,
     ]
-    completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, check=False)
+    with tempfile.TemporaryDirectory(prefix="verify-dashboard-chrome-") as profile:
+        command.insert(1, f"--user-data-dir={profile}")
+        completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, check=False)
     if completed.returncode != 0:
         raise RuntimeError(
             f"chromium failed for {output_path.name}\nstdout:\n{completed.stdout}\nstderr:\n{completed.stderr}"
@@ -140,14 +146,18 @@ def run_screenshot(url: str, output_path: Path, *, width: int, height: int, virt
 
 def run_dump_dom(url: str, *, virtual_time_budget: int) -> str:
     command = [
-        "chromium-browser",
+        next(shutil.which(name) for name in ("google-chrome", "chromium", "chromium-browser") if shutil.which(name)),
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
         "--headless",
         "--disable-gpu",
         f"--virtual-time-budget={virtual_time_budget}",
         "--dump-dom",
         url,
     ]
-    completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, check=False)
+    with tempfile.TemporaryDirectory(prefix="verify-dashboard-chrome-") as profile:
+        command.insert(1, f"--user-data-dir={profile}")
+        completed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, check=False)
     if completed.returncode != 0:
         raise RuntimeError(f"chromium dump-dom failed\nstdout:\n{completed.stdout}\nstderr:\n{completed.stderr}")
     return completed.stdout

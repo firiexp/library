@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <cassert>
 #include <climits>
@@ -187,10 +187,4 @@ int main() {
     self_check();
     exhaustive_distance_check();
 
-    Scanner sc;
-    Printer pr;
-    ll a, b;
-    sc.read(a, b);
-    pr.println(a + b);
-    return 0;
 }

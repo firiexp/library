@@ -24,8 +24,11 @@ CORE_DIRS = {
     "util",
 }
 GLOBAL_VERIFY_INPUTS = {
-    pathlib.Path(".verify-helper/config.toml"),
+    pathlib.Path(".competitive-verifier/config.toml"),
     pathlib.Path("requirements-dev.txt"),
+    pathlib.Path(".scripts/verification_impl.py"),
+    pathlib.Path(".scripts/verify_command_impl.py"),
+    pathlib.Path(".scripts/run_verify_impl.py"),
 }
 INCLUDE_RE = re.compile(r'^\s*#\s*include\s*"([^"]+)"', re.MULTILINE)
 DEFAULT_JOBS = min(8, max(1, os.cpu_count() or 1))
@@ -47,8 +50,9 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--list", action="store_true", help="only list affected tests")
     parser.add_argument("--all", action="store_true", help="select every verification test without generating docs")
-    parser.add_argument("-j", "--jobs", type=int, default=DEFAULT_JOBS, help="oj-verify dependency and oj test jobs")
-    parser.add_argument("--tle", type=float, default=60.0, help="oj test time limit")
+    parser.add_argument("-j", "--jobs", type=int, default=DEFAULT_JOBS, help="parallel verification processes")
+    parser.add_argument("--tle", type=float, default=60.0, help="test time limit")
+    parser.add_argument("--no-download", action="store_true", help="require existing testcase caches")
     parser.add_argument("--skip-self-check", action="store_true", help="skip the fast repository self-check")
     parser.add_argument(
         "--full-self-check",
@@ -211,12 +215,13 @@ def main() -> int:
 
     return run_command(
         [
-            "oj-verify",
-            "run",
+            sys.executable,
+            "scripts/run_verify.py",
             "-j",
             str(args.jobs),
             "--tle",
             str(args.tle),
+            *(["--no-download"] if args.no_download else []),
             *(path.as_posix() for path in selected),
         ]
     )

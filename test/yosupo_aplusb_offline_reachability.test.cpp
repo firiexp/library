@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -65,9 +65,4 @@ int main() {
         for (auto &[u, v] : queries) swap(u, v);
         check(n, edges, queries);
     }
-    Scanner in;
-    Printer out;
-    int a, b;
-    in.read(a, b);
-    out.println(a + b);
 }

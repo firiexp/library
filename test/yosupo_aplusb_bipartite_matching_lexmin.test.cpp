@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -60,9 +60,4 @@ int main() {
         shuffle(edges.begin(), edges.end(), rng);
         check(l, r, edges);
     }
-    Scanner in;
-    Printer out;
-    int a, b;
-    in.read(a, b);
-    out.println(a + b);
 }

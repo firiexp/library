@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <cassert>
 #include <deque>
@@ -91,9 +91,4 @@ int main() {
     q.push(CopyOnly("d"));
     assert(q.fold().value == "d");
     q.pop();
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

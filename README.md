@@ -20,20 +20,22 @@
 検証ツールをインストールする。
 
 ```bash
-pip3 install -r requirements-dev.txt
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements-dev.txt
 ```
 
-ライブラリの正しさは `oj-verify` で確認する。`codex_self_check.py` は docs 同期や repository policy を確認する高速な補助ツールであり、judge verify とは役割が異なる。
+ライブラリの正しさは `competitive-verifier` で確認する。`codex_self_check.py` は docs 同期や repository policy を確認する高速な補助ツールであり、judge verify とは役割が異なる。
 
 ```bash
 python3 scripts/codex_self_check.py
 python3 scripts/verify_changed.py --list
-oj-verify run -j 8 test/yosupo_unionfind.test.cpp
+python3 scripts/run_verify.py -j 8 test/yosupo_unionfind.test.cpp
 ```
 
-`python3 scripts/verify_changed.py` は working tree の直接・間接依存を調べ、self-check と影響する verify だけを実行する。`oj-verify all` は docs 生成も含むため、共通基盤の変更や統合確認に限定する。
+`python3 scripts/verify_changed.py` は working tree の直接・間接依存を調べ、self-check と影響する verify だけを実行する。全件検証は `python3 scripts/run_verify.py`、docs 生成は `python3 scripts/build_verify_docs.py` で別々に実行する。全件検証は共通基盤の変更や統合確認に限定する。
 
-問題用の verify はその問題を解く処理だけを書く。固定ケース・乱択・愚直解との比較などの self-test は、`test/yosupo_aplusb_<component>.test.cpp` に分離する。既に対応する self-test があればそこへ追加する。これにより問題の全ケースで self-test を繰り返さず、既存の CI と変更依存の選別で両方を実行できる。
+問題用の verify はその問題を解く処理だけを書く。固定ケース・乱択・愚直解との比較などの self-test は、`test/yosupo_aplusb_<component>.test.cpp` に分離する。既に対応する self-test があればそこへ追加する。自己テストには `#define STANDALONE` を指定し、A+B の入出力は書かない。ファイル名の `yosupo_aplusb_` は従来の命名を引き継いでいるが、実行時は judge に接続せず1回だけ実行する。問題用のテストには `#define PROBLEM "<url>"` を指定する。
 
 ## 性能計測
 
@@ -41,7 +43,7 @@ oj-verify run -j 8 test/yosupo_unionfind.test.cpp
 
 ```bash
 python3 scripts/measure_verify.py test/yosupo_unionfind.test.cpp
-python3 -m http.server -d .verify-helper 8000
+python3 -m http.server -d .competitive-verifier 8000
 ```
 
 ダッシュボードは現在のテスト数と計測済み件数を分けて表示する。部分計測後に未計測のテストがあっても、過去の結果は保持する。

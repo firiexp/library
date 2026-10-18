@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -91,9 +91,4 @@ int main() {
     check_queries<true>();
     check_boundaries<false>();
     check_boundaries<true>();
-    Scanner in;
-    Printer out;
-    int a, b;
-    in.read(a, b);
-    out.println(a + b);
 }

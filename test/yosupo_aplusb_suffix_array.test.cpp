@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 #include <bits/stdc++.h>
 
 static const int MOD = 1000000007;
@@ -80,9 +80,4 @@ void self_check() {
 
 int main() {
     self_check();
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

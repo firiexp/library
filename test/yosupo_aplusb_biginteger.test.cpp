@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -201,9 +201,4 @@ int main() {
     check_large<HexBigInteger>(16);
     check_cyclic<BigIntegerDetail::DecimalRadix>();
     check_cyclic<BigIntegerDetail::HexRadix>();
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -99,9 +99,4 @@ int main() {
         expected_mask |= 1ull << (i + 2);
     }
     assert((triangles.maximum_independent_set() == pair<int, ull>{21, expected_mask}));
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

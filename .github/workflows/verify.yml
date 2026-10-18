@@ -1,40 +1,114 @@
 name: verify
 
-on: push
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: verify-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python3 -m pip install -r requirements-dev.txt
+      - name: Check repository and verifier integration
+        run: |
+          python3 -m unittest discover -s .scripts -p 'test_*.py'
+          python3 scripts/codex_self_check.py
 
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: '3.10'
+  verify:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python3 -m pip install -r requirements-dev.txt
+      - uses: actions/cache@v4
+        with:
+          path: .competitive-verifier/result-${{ matrix.shard }}.json
+          key: verify-result-${{ runner.os }}-${{ matrix.shard }}-${{ github.sha }}
+          restore-keys: verify-result-${{ runner.os }}-${{ matrix.shard }}-
+      - name: Verify shard
+        env:
+          YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/run_verify.py -j 2 --split 4 --split-index ${{ matrix.shard }} --result .competitive-verifier/result-${{ matrix.shard }}.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-${{ matrix.shard }}
+          path: |
+            .competitive-verifier/result-${{ matrix.shard }}.json
+            .competitive-verifier/runtime.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
 
-    - name: Install dependencies
-      run: pip3 install -r requirements-dev.txt
+  docs:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python3 -m pip install -r requirements-dev.txt
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: verification-*
+          path: .competitive-verifier
+          merge-multiple: true
+      - name: Merge verification results
+        run: competitive-verifier merge-result .competitive-verifier/result-*.json > .competitive-verifier/result.json
+      - name: Generate documentation
+        run: python3 scripts/build_verify_docs.py --require-success
+      - uses: actions/jekyll-build-pages@v1
+        with:
+          source: .competitive-verifier/_jekyll
+          destination: .competitive-verifier/_site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .competitive-verifier/_site
 
-    - name: Fetch gh-pages
-      run: git fetch origin gh-pages:refs/remotes/origin/gh-pages
-
-    - name: Run repository self-check
-      run: |
-        python3 -m unittest discover -s .scripts -p 'test_*.py'
-        python3 scripts/codex_self_check.py
-
-    - name: Run tests
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
-        GH_PAT: ${{ secrets.GH_PAT }}
-      run: oj-verify all -j 4 --timeout 3600
+  deploy:
+    if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    needs: docs
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - uses: actions/deploy-pages@v4
+        id: deployment

@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -80,9 +80,4 @@ int main() {
     for (int n : {1, 2, 3, 63, 64, 65, 100})
         for (int mode = 0; mode < 4; ++mode) check(n, mode, rng);
     for (int tc = 0; tc < 500; ++tc) check(1 + rng() % 50, 2, rng);
-    Scanner in;
-    Printer out;
-    int a, b;
-    in.read(a, b);
-    out.println(a + b);
 }

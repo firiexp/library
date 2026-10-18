@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -111,9 +111,4 @@ int main() {
             assert(sum == 7 + min(t + 1, k) - max(0, t - width + 1));
         });
     assert(sum == 7 && time == q);
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

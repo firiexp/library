@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -51,9 +51,4 @@ void self_check() {
 
 int main() {
     self_check();
-    Scanner sc;
-    Printer pr;
-    long long a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 #include <limits>
 #include <vector>
 #include <algorithm>
@@ -60,9 +60,4 @@ void self_check() {
 
 int main() {
     self_check();
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

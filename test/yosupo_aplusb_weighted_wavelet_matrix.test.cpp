@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <algorithm>
 #include <cassert>
@@ -132,10 +132,4 @@ int main() {
     check_generic_value();
     check_integral_widths();
 
-    Scanner in;
-    Printer out;
-    ll a, b;
-    in.read(a, b);
-    out.println(a + b);
-    return 0;
 }

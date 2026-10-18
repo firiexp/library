@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -70,9 +70,4 @@ int main() {
     path.add_vertex(0, -1000);
     path.add_component_query(999);
     assert(path.solve() == vector<long long>{0});
-    Scanner in;
-    Printer out;
-    int a, b;
-    in.read(a, b);
-    out.println(a + b);
 }

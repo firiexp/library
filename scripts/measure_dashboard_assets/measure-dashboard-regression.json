@@ -34,7 +34,7 @@
                 "wallSec": 0.411
             },
             "testcases": {
-                "directory": ".verify-helper/cache/fixture/point_add_range_sum",
+                "directory": ".competitive-verifier/cache/fixture/point_add_range_sum",
                 "cachedCaseCount": 4
             },
             "run": {
@@ -94,7 +94,7 @@
                 "wallSec": 0.593
             },
             "testcases": {
-                "directory": ".verify-helper/cache/fixture/convolution_mod",
+                "directory": ".competitive-verifier/cache/fixture/convolution_mod",
                 "cachedCaseCount": 3
             },
             "run": {
@@ -149,7 +149,7 @@
                 "wallSec": 0.361
             },
             "testcases": {
-                "directory": ".verify-helper/cache/fixture/dsl_2_a",
+                "directory": ".competitive-verifier/cache/fixture/dsl_2_a",
                 "cachedCaseCount": 3
             },
             "run": {
@@ -204,7 +204,7 @@
                 "wallSec": 0.642
             },
             "testcases": {
-                "directory": ".verify-helper/cache/fixture/yukicoder_1120",
+                "directory": ".competitive-verifier/cache/fixture/yukicoder_1120",
                 "cachedCaseCount": 5
             },
             "run": {
@@ -269,7 +269,7 @@
                 "wallSec": 0.458
             },
             "testcases": {
-                "directory": ".verify-helper/cache/fixture/suffixarray",
+                "directory": ".competitive-verifier/cache/fixture/suffixarray",
                 "cachedCaseCount": 4
             },
             "run": {
@@ -329,7 +329,7 @@
                 "wallSec": 0.887
             },
             "testcases": {
-                "directory": ".verify-helper/cache/fixture/minimum_cost_b_flow",
+                "directory": ".competitive-verifier/cache/fixture/minimum_cost_b_flow",
                 "cachedCaseCount": 6
             },
             "run": {
@@ -368,7 +368,7 @@
                 "wallSec": 0.704
             },
             "testcases": {
-                "directory": ".verify-helper/cache/fixture/link_cut_tree",
+                "directory": ".competitive-verifier/cache/fixture/link_cut_tree",
                 "cachedCaseCount": 4
             },
             "run": {
@@ -428,7 +428,7 @@
                 "wallSec": 0.781
             },
             "testcases": {
-                "directory": ".verify-helper/cache/fixture/dynamic_graph_vertex_add_component_sum",
+                "directory": ".competitive-verifier/cache/fixture/dynamic_graph_vertex_add_component_sum",
                 "cachedCaseCount": 5
             },
             "run": {

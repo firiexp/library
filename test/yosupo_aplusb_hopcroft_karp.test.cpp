@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <queue>
 #include <algorithm>
@@ -61,9 +61,4 @@ void repeated_matching_check() {
 
 int main() {
     repeated_matching_check();
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

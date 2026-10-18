@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -179,9 +179,4 @@ int main() {
     check_group<PermutationGroup>({1, 0, 2}, {0, 2, 1});
     check_intervals<AddGroup>();
     check_intervals<XorGroup>();
-    Scanner in;
-    Printer out;
-    int a, b;
-    in.read(a, b);
-    out.println(a + b);
 }

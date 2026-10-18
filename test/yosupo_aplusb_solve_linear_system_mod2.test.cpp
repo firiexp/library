@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -117,9 +117,4 @@ int main() {
     check(a, b, 129);
     auto moved = solve_linear_system_mod2(std::move(a), std::move(b));
     assert(!moved);
-    Scanner sc;
-    Printer pr;
-    long long x, y;
-    sc.read(x, y);
-    pr.println(x + y);
 }

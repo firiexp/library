@@ -133,11 +133,15 @@ def check_test_files() -> list[str]:
         if not TEST_FILE_NAME_RE.fullmatch(path.name):
             problems.append(f"{relpath}: test file name must use lowercase letters, digits, and underscores")
 
-        matches = PROBLEM_DEFINE_RE.findall(path.read_text())
-        if len(matches) != 1:
-            problems.append(f"{relpath}: expected exactly one #define PROBLEM URL")
+        text = path.read_text()
+        matches = PROBLEM_DEFINE_RE.findall(text)
+        standalone = re.findall(r"^\s*#define\s+STANDALONE\s*$", text, re.MULTILINE)
+        if len(matches) + len(standalone) != 1:
+            problems.append(f"{relpath}: expected exactly one PROBLEM URL or STANDALONE definition")
             continue
 
+        if standalone:
+            continue
         url = matches[0]
         parsed = urlparse(url)
         if parsed.scheme not in {"http", "https"} or parsed.hostname not in ALLOWED_JUDGE_HOSTS:
@@ -152,7 +156,7 @@ def check_script_wrappers() -> list[str]:
         match = SCRIPT_IMPL_RE.search(path.read_text())
         if match is None:
             problems.append(
-                f"{relpath}: keep Python implementation under .scripts to avoid oj-verify docs dependency scans"
+                f"{relpath}: keep Python implementation under .scripts and keep public commands as thin wrappers"
             )
             continue
         impl_path = ROOT / ".scripts" / match.group(1)
@@ -177,7 +181,7 @@ def check_measure_dashboard_html() -> list[str]:
         "summary": {"pending": 0, "running": 0, "done": 1, "error": 0, "ok": 1, "failed": 0},
         "tests": [],
     }
-    html_text = module.render_html(report, json_path=ROOT / ".verify-helper" / "measure-dashboard.json")
+    html_text = module.render_html(report, json_path=ROOT / ".competitive-verifier" / "measure-dashboard.json")
 
     ids = re.findall(r'id="([^"]+)"', html_text)
     duplicates = sorted({element_id for element_id in ids if ids.count(element_id) > 1})
@@ -219,8 +223,8 @@ def check_measure_dashboard_html() -> list[str]:
 
 
 def check_measure_dashboard_screenshots() -> list[str]:
-    if shutil.which("chromium-browser") is None:
-        print("skip: measure dashboard screenshots (chromium-browser not found)")
+    if not any(shutil.which(name) for name in ("google-chrome", "chromium", "chromium-browser")):
+        print("skip: measure dashboard screenshots (Chrome/Chromium not found)")
         return []
 
     command = [sys.executable, str(ROOT / "scripts" / "capture_measure_dashboard_screenshots.py")]
@@ -238,7 +242,7 @@ def check_measure_dashboard_screenshots() -> list[str]:
         suffix = f": {detail}" if detail else ""
         return [f"measure dashboard screenshots: capture failed{suffix}"]
 
-    output_dir = ROOT / ".verify-helper" / "measure-dashboard-regression"
+    output_dir = ROOT / ".competitive-verifier" / "measure-dashboard-regression"
     expected = (
         output_dir / "desktop-top.png",
         output_dir / "desktop-scroll.png",

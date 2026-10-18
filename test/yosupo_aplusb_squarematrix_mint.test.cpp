@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <algorithm>
 #include <array>
@@ -36,9 +36,4 @@ static_assert(is_same_v<decltype(declval<mat::ar &>() *= declval<const mat &>())
 }
 
 int main() {
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

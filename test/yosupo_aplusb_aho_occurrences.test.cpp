@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -58,9 +58,4 @@ int main() {
         vector<string> subset(patterns.begin(), patterns.begin() + rng() % patterns.size());
         check(subset, {"", "aaaaaaa", "abcabc", "bacabca", texts[rng() % texts.size()]});
     }
-    Scanner sc;
-    Printer pr;
-    int a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

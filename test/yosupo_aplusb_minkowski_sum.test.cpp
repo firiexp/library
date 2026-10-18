@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -87,9 +87,4 @@ int main() {
     assert(sum[0] == *min_element(sum.begin(), sum.end()));
     for (int i = 0; i < (int)sum.size(); ++i)
         assert(cross(sum[i], sum[(i + 1) % sum.size()], sum[(i + 2) % sum.size()]) > 0);
-    Scanner in;
-    Printer out;
-    int x, y;
-    in.read(x, y);
-    out.println(x + y);
 }

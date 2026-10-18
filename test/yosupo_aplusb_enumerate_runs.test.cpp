@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -49,9 +49,4 @@ int main() {
         check(s);
     }
     for (const char* s : {"aababaababb", "abababab", "abcabcabc", "mississippi"}) check(s);
-    Scanner sc;
-    Printer pr;
-    long long a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

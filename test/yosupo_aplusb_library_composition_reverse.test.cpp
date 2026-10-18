@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -26,9 +26,4 @@ using ull = unsigned long long;
 #include "../tree/hld.cpp"
 
 int main() {
-    Scanner in;
-    Printer out;
-    ll a, b;
-    in.read(a, b);
-    out.println(a + b);
 }

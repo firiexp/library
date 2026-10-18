@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_CACHE_DIR = ROOT / ".verify-helper" / "cache"
+DEFAULT_CACHE_DIR = ROOT / ".competitive-verifier" / "cache"
 
 
 @dataclass(frozen=True)
@@ -70,7 +70,11 @@ def main() -> int:
         return 0
 
     entries = []
-    for path in DEFAULT_CACHE_DIR.iterdir():
+    candidates = list((DEFAULT_CACHE_DIR / "problems").glob("*"))
+    checker_cache = DEFAULT_CACHE_DIR / "library-checker-problems"
+    if checker_cache.exists():
+        candidates.append(checker_cache)
+    for path in candidates:
         if not path.is_dir():
             continue
         size, modified_at = directory_stats(path)

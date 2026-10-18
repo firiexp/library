@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <algorithm>
 #include <cassert>
@@ -111,10 +111,4 @@ int main() {
     random_check();
     sliding_window_check();
 
-    Scanner sc;
-    Printer pr;
-    ll a, b;
-    sc.read(a, b);
-    pr.println(a + b);
-    return 0;
 }

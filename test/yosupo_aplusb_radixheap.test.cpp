@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -94,9 +94,4 @@ int main() {
     check_slide<NonAssignable>();
     check_random<int>();
     check_random<ll>();
-    Scanner sc;
-    Printer pr;
-    ll a, b;
-    sc.read(a, b);
-    pr.println(a + b);
 }

@@ -1,127 +1,73 @@
-
 ## verify
 
-通常の改善サイクルでは、まず高速な repository check と影響範囲の確認を行う。
+検証基盤は `competitive-verifier==4.2.2` を使う。環境を作る手順は README を参照する。
 
 ```bash
 python3 scripts/codex_self_check.py
 python3 scripts/verify_changed.py --list
-```
-
-`verify_changed.py` は working tree の staged / unstaged / untracked file を集め、quoted include を再帰的にたどって直接・間接に影響する `test/*.test.cpp` を選ぶ。branch 上の commit も含める場合は base を指定する。
-
-```bash
-python3 scripts/verify_changed.py --base origin/main --list
-```
-
-一覧が妥当なら、fast self-check と選択された verify をまとめて実行する。
-
-```bash
 python3 scripts/verify_changed.py
+python3 scripts/verify_changed.py --base origin/master --list
+python3 scripts/run_verify.py -j 8 test/yosupo_unionfind.test.cpp
 ```
 
-個別には以下を使う。
+`verify_changed.py` は staged / unstaged / untracked file と quoted include の直接・間接依存から対象を選び、self-check と検証を実行する。`run_verify.py` は未追跡の C++ テストも含めて依存解析し、competitive-verifier の入力 JSON を生成する。コンパイラ設定、検証スクリプト、依存パッケージの変更時は全件が対象になる。
+
+`-j` は test file の同時実行数で、既定値は8。各 test のケースは逐次実行する。stack size はスクリプト内で上限まで引き上げる。成功済みでソース・依存・設定・コンパイラ・testcase が変わっていない test は hash 判定で再実行を省く。`--force` で強制実行できる。
 
 ```bash
+python3 scripts/run_verify.py --list
+python3 scripts/run_verify.py --no-download test/yosupo_unionfind.test.cpp
+python3 scripts/run_verify.py --force -j 8
+python3 scripts/build_verify_docs.py --require-success
+```
+
+`--no-download` は既存 testcase cache だけを使う。cache がない問題は失敗する。通常実行は testcase を取得するため、yukicoder では `YUKICODER_TOKEN` が必要になる。Library Checker の問題リポジトリも通常実行時に同期する。
+
+全件検証と docs 生成は別コマンドである。`build_verify_docs.py` は Jekyll 用ソースを `.competitive-verifier/_jekyll/` に生成し、既存の `_md/`、タイトル、結合済みソース、コピー機能、計測ダッシュボードを取り込む。`--require-success` は不足・古い・失敗した結果がある場合に停止する。省略時は未検証として表示し、成功扱いにはしない。
+
+GitHub Actions は4分割で検証し、結果を統合して docs を生成する。既定ブランチ（現在は `master`）への push で GitHub Pages に公開する。リポジトリの Settings → Pages → Source は **GitHub Actions** を選ぶ。`GH_PAT` は不要で、`GITHUB_TOKEN` と `YUKICODER_TOKEN` を使う。テストデータは各ジョブで取得し、前回の検証結果だけを cache する。
+
+`.competitive-verifier/result.json` は検証結果、`verify-files.json` は依存・実行定義である。生成物は git 管理しない。docs のソースと公開する計測結果は git 管理する。旧 `.verify-helper/cache/` は自動削除しない。
+
+`scripts/*.py` は公開コマンドの薄い wrapper、本体は `.scripts/*_impl.py` に置く。resolver は固定バージョンの competitive-verifier の C++ 解析・結合処理を利用するため、バージョン更新時は統合テストも実行する。
+
+## repository check
+
+通常は高速な policy / docs 同期 / dashboard HTML 構造検査を使う。dashboard の renderer / asset / screenshot を変更した場合は視覚回帰も実行する。
+
+```bash
+python3 -m unittest discover -s .scripts -p 'test_*.py'
 python3 scripts/codex_self_check.py
-oj-verify run -j 8 test/aoj0273.test.cpp
-```
-
-`-j 8` は全 test file の同時実行数ではなく、verification timestamp の依存解析と各 `oj test` の testcase 並列数に使われる。性能値を取るときは後述の measurement を `--oj-jobs 1` で使う。
-
-`oj-verify all` は judge verify の後に docs 全体も生成する。共通基盤・compiler 設定など影響を限定できない変更、または統合確認でのみ使う。
-
-```bash
-python3 scripts/codex_self_check.py
-oj-verify all -j 8
-```
-
-再帰が深い verify をローカルで回すときは、stack size を上げて実行するとよい。
-
-```bash
-python3 scripts/codex_self_check.py
-scripts/with_unlimited_stack.sh oj-verify run -j 8 test/yosupo_scc.test.cpp
-scripts/with_unlimited_stack.sh oj-verify all -j 8
-```
-
-通常の self-check は dashboard の HTML contract までを含む高速版である。dashboard renderer / asset / screenshot capture を変更したときだけ視覚回帰も実行する。
-
-```bash
 python3 scripts/codex_self_check.py --full
 ```
 
-`_md/**/*.md` では、コードブロック・インラインコード・数式内も含めて Liquid の開始記号を検査する。
-C++ の入れ子の初期化子は `{ {1, 2}, {3, 4}}` のように開き波括弧の間に空白を入れる。
-連続した記号をそのまま表示する必要がある場合は Liquid の `raw` / `endraw` タグで囲む。対応しないタグもエラーになる。
-この lint と回帰テストは CI の repository self-check でも実行する。
+`_md/**/*.md` ではコード・数式内も含めて Liquid の開始記号を検査する。C++ の入れ子の初期化子は `{ {1, 2}, {3, 4}}` のように開き波括弧を離す。連続した記号が必要なら Liquid の `raw` / `endraw` タグで囲む。
 
-`scripts/*.py` は公開 command を保つ薄い wrapper で、本体は `.scripts/*_impl.py` に置く。`oj-verify docs` が可視 Python file の import graph を解析する固定コストを避けるためである。
-
-性能計測と可視化は verify とは分け、以下を使う。
+## 性能計測
 
 ```bash
-python3 scripts/measure_verify.py
-python3 scripts/measure_verify.py test/aoj0273.test.cpp
-python3 scripts/measure_verify.py -j 16 --oj-jobs 1
+python3 scripts/measure_verify.py test/yosupo_unionfind.test.cpp
+python3 scripts/measure_verify.py --no-download test/yosupo_aplusb_binarytrie.test.cpp
+python3 -m http.server -d .competitive-verifier 8000
 ```
 
-計測も同様に wrapper 経由でよい。
+計測は成功済みの test も必ず再実行する。比較用の既定は `-j 1 --compile-jobs 1` で、ケースも逐次実行する。`-j` を増やした計測値は他のテストの負荷を受ける。
+
+ダッシュボードは competitive-verifier の結果 JSON から各ケースの時間・メモリ・成否を読み取る。単独テストは `standalone` 1ケースとして表示し、コンパイル時間と実行時間を分けて記録する。失敗時はコマンドも非ゼロで終了する。
+
+生成先は以下の4ファイルである。
+
+- `.competitive-verifier/measure-dashboard.html`
+- `.competitive-verifier/measure-dashboard.json`
+- `.competitive-verifier/docs/static/measure-dashboard.html`
+- `.competitive-verifier/docs/static/measure-dashboard.json`
+
+部分計測では未選択の過去の結果を保持する。ブラウザで `http://127.0.0.1:8000/measure-dashboard.html` を開くと、計測中は2秒ごとに更新される。最遅・平均時間、メモリ、ケースごとの結果、コンパイル・検証ログを確認できる。
 
 ```bash
-scripts/with_unlimited_stack.sh python3 scripts/measure_verify.py test/yosupo_scc.test.cpp
-```
-
-`python3 scripts/measure_verify.py test/...` は指定した test だけを対象に measurement dashboard を更新する。ローカルでの改善サイクル用。
-
-`-j` は同時に測る test 数で、既定値は論理コア数。`--oj-jobs` は各 `oj test` に渡す `-j` で、既定値は `1`。
-
-`python3 scripts/run_verify.py` は後方互換のため残してあり、内部で `scripts/measure_verify.py` を呼ぶ。
-
-verify testcase cache は自動削除しない。現在の容量と削除候補を確認するには以下を使う。
-
-```bash
+python3 scripts/generate_verify_dashboard.py --render-only
 python3 scripts/prune_verify_cache.py --max-size-gb 5
 python3 scripts/prune_verify_cache.py --max-size-gb 5 --apply
-python3 scripts/prune_verify_cache.py --all --apply
 ```
 
-既定は dry-run。`--apply` を付けたときだけ、最終更新が古い問題のcacheから削除する。
-
-## verify measurement dashboard
-
-measurement dashboard は `oj test` の出力から各 verify テストの実行時間を集計し、JSON を逐次更新しながらブラウザで見られる HTML を生成する。
-
-部分計測では既存結果を保持し、現在存在するtest数と計測済み件数を別々に表示する。未計測が残る場合は `measured` が警告表示になる。
-
-生成先:
-
-- `.verify-helper/measure-dashboard.html`
-- `.verify-helper/measure-dashboard.json`
-- `.verify-helper/docs/static/measure-dashboard.html`
-- `.verify-helper/docs/static/measure-dashboard.json`
-
-既定の `python3 scripts/measure_verify.py` / `python3 scripts/generate_verify_dashboard.py --render-only` は docs デプロイ用の `.verify-helper/docs/static/` にも同じ内容を同期する。トップページの `verify measurement dashboard` リンクから開ける。
-
-ローカルで見る手順:
-
-```bash
-python3 -m http.server -d .verify-helper 8000
-python3 scripts/measure_verify.py
-```
-
-先に `http://127.0.0.1:8000/measure-dashboard.html` を開いておけば、`python3 scripts/measure_verify.py` の実行中に 2 秒ごとに自動更新される。更新中も選択中 test と detail tab は維持する。
-
-単体確認なら次でよい。
-
-```bash
-python3 -m http.server -d .verify-helper 8000
-python3 scripts/measure_verify.py test/aoj0273.test.cpp
-```
-
-画面では以下を見られる。
-
-- テストごとの最遅ケース時間
-- 平均時間
-- メモリ使用量
-- 選択中 test のケースごとの実行時間
-- 選択中 test の `oj test` 生ログ
+cache 整理は既定で dry-run、`--apply` で削除する。AOJ / yukicoder は問題単位、Library Checker は問題リポジトリ全体が1項目になる。削除後は通常実行で再取得する。

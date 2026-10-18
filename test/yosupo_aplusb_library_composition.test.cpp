@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.yosupo.jp/problem/aplusb"
+#define STANDALONE
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -102,10 +102,4 @@ void check_composed_libraries() {
 
 int main() {
     check_composed_libraries();
-    Scanner sc;
-    Printer pr;
-    ll a, b;
-    sc.read(a, b);
-    pr.println(a + b);
-    return 0;
 }
