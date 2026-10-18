@@ -127,12 +127,12 @@ int main() {
     ans.reserve(q);
 
     dc.dfs(
-        [&](int k, const vector<pair<int, int>> &edges) {
+        [&](int k, const auto &edges) {
             snaps.push_back(uf.snapshot());
             for (auto &&[u, v] : edges) uf.unite(u, v);
             for (auto &&event : seg_adds[k]) uf.add_value(event.v, event.x);
         },
-        [&](int, const vector<pair<int, int>> &) {
+        [&](int, const auto &) {
             uf.rollback(snaps.back());
             snaps.pop_back();
         },
