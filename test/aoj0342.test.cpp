@@ -1,6 +1,8 @@
 #define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=0342"
 #include <iostream>
 #include <algorithm>
+#include <cassert>
+#include <limits>
 #include <map>
 #include <set>
 #include <queue>
