@@ -24,7 +24,7 @@ tags: クエリ
 左右の追加・削除を別々に指定できるため、転倒数など順序に依存する集計にも使える。
 回答は元のクエリ ID で保存する。空クエリ列では callback を呼ばず、空区間のクエリにも対応する。
 `bucket_size` が正なら指定値を使い、省略または `0` 以下なら $\max(1, \lfloor N/\sqrt{Q}\rfloor)$ を使う。
-利用側では `<algorithm>`、`<cmath>`、`<vector>` を読み込む。
+利用側では `<algorithm>`、`<cmath>`、`<cstdint>`、`<vector>` を読み込む。
 
 ```cpp
 mo_solve(n, qs, add_left, add_right, erase_left, erase_right,
@@ -34,7 +34,8 @@ mo_solve(n, qs, add_left, add_right, erase_left, erase_right,
 比較だけを使いたい場合は、従来どおり `Query::bucket_size` を設定して `sort(qs.begin(), qs.end())` を呼べる。
 
 ## 実装上の補足
-- `mo_solve` のソートは $O(Q\log Q)$、作業領域はクエリ列のコピーに $O(Q)$
+- `mo_solve` は左端のブロック番号と右端の蛇行順を $O(Q)$ でキーに変換し、$O(Q\log Q)$ でソートする。整数除算はキーの作成時に各クエリで1回だけ行う
+- 作業領域はキーと入力添字に $O(Q)$。64 bit 環境では1クエリあたり16 byteを使う。同じブロック・右端を持つクエリの順序は未指定
 - 典型的な計算量評価は、左端の移動が $O(QB)$、右端の移動が $O(N^2 / B)$ なので、1 回の追加・削除が $O(p(N))$ なら合計は
 $$
 O\left(\left(QB + \frac{N^2}{B}\right) p(N)\right)
