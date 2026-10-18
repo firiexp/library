@@ -97,6 +97,7 @@ graph/biconnected_components.cpp: "二重連結成分分解(Biconnected Componen
 graph/bipartite_matching.cpp: "二部グラフ最大マッチング(Bipartite Matching)"
 graph/bipartite_matching_lexmin.cpp: "辞書順最小二部マッチング(Lexicographically Minimum Bipartite Matching)"
 graph/complement_components.cpp: "補グラフの連結成分"
+graph/chordal_graph.cpp: "弦グラフ認識と証明書"
 graph/chu_liu_edmonds.cpp: "最小全域有向木(Chu-Liu/Edmonds)"
 graph/cycle_detection_directed.cpp: "有向閉路検出(Directed Cycle Detection)"
 graph/cycle_detection_undirected.cpp: "無向閉路検出(Undirected Cycle Detection)"
