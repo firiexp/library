@@ -5,6 +5,37 @@ struct WeightedWaveletMatrix {
         U sum;
     };
 
+    class Cursor {
+        friend struct WeightedWaveletMatrix;
+
+        const WeightedWaveletMatrix *owner_;
+        int depth_, l_, r_, value_index_;
+        size_t sum_offset_;
+        CountSum all_;
+
+        Cursor(const WeightedWaveletMatrix *owner, int depth, int l, int r,
+               int value_index, size_t sum_offset, CountSum all)
+            : owner_(owner), depth_(depth), l_(l), r_(r), value_index_(value_index),
+              sum_offset_(sum_offset), all_(all) {}
+
+    public:
+        int count() const { return all_.count; }
+        const U &sum() const { return all_.sum; }
+        const CountSum &info() const { return all_; }
+        bool empty() const { return all_.count == 0; }
+        bool is_leaf() const { return depth_ == owner_->lg; }
+
+        const T &value() const {
+            assert(is_leaf() && !empty());
+            return owner_->vals[value_index_];
+        }
+    };
+
+    struct Children {
+        Cursor low;
+        Cursor high;
+    };
+
     int n, lg, blocks;
     vector<int> mid;
     vector<unsigned long long> bit;
@@ -284,6 +315,30 @@ private:
 #endif
 
 public:
+    Cursor range_cursor(int l, int r) const {
+        assert(0 <= l && l <= r && r <= n);
+        return Cursor(this, 0, l, r, 0, 0,
+                      {r - l, n ? base_sum[r] - base_sum[l] : U()});
+    }
+
+    Children split(const Cursor &cur) const {
+        assert(cur.owner_ == this && !cur.is_leaf());
+        const auto *row = bit.data() + cur.depth_ * blocks;
+        const int *row_pref = pref.data() + cur.depth_ * (blocks + 1);
+        int l1, r1;
+        rank1_pair(row, row_pref, cur.l_, cur.r_, l1, r1);
+        int l0 = cur.l_ - l1, r0 = cur.r_ - r1;
+        CountSum low{r0 - l0, zero_sum[cur.sum_offset_ + r0] - zero_sum[cur.sum_offset_ + l0]};
+        CountSum high{cur.count() - low.count, cur.sum() - low.sum};
+        int depth = cur.depth_ + 1, prefix = cur.value_index_ << 1;
+        size_t offset = cur.sum_offset_ + mid[cur.depth_] + 1;
+        return {
+            Cursor(this, depth, l0, r0, prefix, offset, low),
+            Cursor(this, depth, mid[cur.depth_] + l1, mid[cur.depth_] + r1,
+                   prefix | 1, offset, high)
+        };
+    }
+
     CountSum count_sum_less_index(int l, int r, int xi) const {
         if (xi <= 0 || l >= r || n == 0) return {0, U()};
         if (xi >= (int)vals.size()) return {r - l, base_sum[r] - base_sum[l]};

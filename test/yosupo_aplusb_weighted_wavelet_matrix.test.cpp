@@ -36,6 +36,61 @@ BruteResult brute_less(const vector<ll> &values, const vector<ll> &weights,
     return res;
 }
 
+template <class T>
+void check_cursor_tree(const WeightedWaveletMatrix<T, ll> &wm,
+                       typename WeightedWaveletMatrix<T, ll>::Cursor cur,
+                       const vector<pair<T, ll>> &items) {
+    ll sum = 0;
+    for (const auto &item : items) sum += item.second;
+    assert(cur.count() == (int)items.size());
+    assert(cur.sum() == sum);
+    assert(cur.info().count == cur.count() && cur.info().sum == sum);
+    assert(cur.empty() == items.empty());
+    if (cur.is_leaf()) {
+        for (const auto &item : items) assert(item.first == cur.value());
+        return;
+    }
+    auto children = wm.split(cur);
+    auto again = wm.split(cur);
+    assert(again.low.count() == children.low.count());
+    assert(again.high.sum() == children.high.sum());
+    int split = children.low.count();
+    check_cursor_tree(wm, children.low, vector<pair<T, ll>>(items.begin(), items.begin() + split));
+    check_cursor_tree(wm, children.high, vector<pair<T, ll>>(items.begin() + split, items.end()));
+    assert(cur.count() == (int)items.size() && cur.sum() == sum);
+}
+
+void check_two_ranges(const WeightedWaveletMatrix<ll, ll> &wm,
+                      const vector<ll> &values, const vector<ll> &weights,
+                      int l1, int r1, int l2, int r2, int k) {
+    vector<ll> sorted;
+    for (auto [l, r] : {pair{l1, r1}, pair{l2, r2}}) {
+        for (int i = l; i < r; ++i) sorted.push_back(values[i]);
+    }
+    sort(sorted.begin(), sorted.end());
+    if (sorted.empty()) return;
+    ll expected = sorted[k];
+    ll expected_sum = brute_less(values, weights, l1, r1, expected, false).sum
+                    + brute_less(values, weights, l2, r2, expected, false).sum;
+    auto a = wm.range_cursor(l1, r1), b = wm.range_cursor(l2, r2);
+    ll sum = 0;
+    while (!a.is_leaf()) {
+        auto x = wm.split(a), y = wm.split(b);
+        int low = x.low.count() + y.low.count();
+        if (k < low) {
+            a = x.low;
+            b = y.low;
+        } else {
+            k -= low;
+            sum += x.low.sum() + y.low.sum();
+            a = x.high;
+            b = y.high;
+        }
+    }
+    assert((a.empty() ? b.value() : a.value()) == expected);
+    assert(sum == expected_sum);
+}
+
 void check_random() {
     mt19937_64 rng(0);
     for (int tc = 0; tc < 1000; ++tc) {
@@ -70,6 +125,12 @@ void check_random() {
         assert(wm.zero_sum.size() == sum_size);
         assert(wm_index.zero_sum.size() == sum_size);
 
+        vector<pair<ll, ll>> items;
+        for (int i = 0; i < n; ++i) items.emplace_back(values[i], weights[i]);
+        sort(items.begin(), items.end());
+        check_cursor_tree(wm, wm.range_cursor(0, n), items);
+        check_cursor_tree(wm_index, wm_index.range_cursor(n, n), {});
+
         for (int step = 0; step < 200; ++step) {
             int l = rng() % (n + 1);
             int r = rng() % (n + 1);
@@ -101,6 +162,14 @@ void check_random() {
             auto got_index = wm_index.count_sum_less_index(l, r, xi);
             assert(got_index.count == index_less.count && got_index.sum == index_less.sum);
             assert(wm_index.count_less_index(l, r, xi) == index_less.count);
+            if (step < 20) {
+                int l2 = rng() % (n + 1), r2 = rng() % (n + 1);
+                if (l2 > r2) swap(l2, r2);
+                int count = r - l + r2 - l2;
+                int k = count ? rng() % count : 0;
+                check_two_ranges(wm, values, weights, l, r, l2, r2, k);
+                check_two_ranges(wm_index, values, weights, l, r, l2, r2, k);
+            }
         }
         wm.build({}, {});
         assert(wm.zero_sum.empty());
@@ -117,6 +186,7 @@ void check_generic_value() {
     WeightedWaveletMatrix<string, ll> wm(values, weights);
     assert(wm.count_less(0, 4, string("bb")) == 2);
     assert(wm.sum_less_equal(1, 4, string("bb")) == 5);
+    check_cursor_tree(wm, wm.range_cursor(1, 4), {{"aa", -2}, {"aa", 7}, {"cc", 5}});
 }
 
 void check_integral_widths() {
@@ -128,6 +198,8 @@ void check_integral_widths() {
 }
 
 int main() {
+    WeightedWaveletMatrix<ll, ll> empty;
+    check_cursor_tree(empty, empty.range_cursor(0, 0), {});
     check_random();
     check_generic_value();
     check_integral_widths();
