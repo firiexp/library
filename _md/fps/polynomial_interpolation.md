@@ -12,14 +12,16 @@ tags: FPS
 
 ## できること
 - `poly polynomial_interpolation(const vector<mint>& xs, const vector<mint>& ys)`
-  `f(xs[i]) = ys[i]` を満たす多項式を返す
+  `f(xs[i]) = ys[i]` を満たす係数数 `xs.size()` の多項式を返す。空入力には空の多項式を返す
 
 ## 使い方
 `#include "../fps/polynomial_interpolation.cpp"` を読み込む。
-`xs`, `ys` を渡して `polynomial_interpolation(xs, ys)` を呼ぶ。
+同じ長さの `xs`, `ys` を渡して `polynomial_interpolation(xs, ys)` を呼ぶ。入力は変更しない。
 
 ## 実装上の補足
 `multipoint_evaluation.cpp` を内部で使う。
 点 `xs[i]` は相異なることを前提にする。
 積の木を評価と補間で共有し、補間の左右の中間多項式は親を作った後に解放する。
+導関数の評価値の累積積を作り、1回の逆元計算と逆順の走査で全点の重みを求める。
+重み計算は $O(n+\log MOD)$ 時間、追加領域は $O(n)$。重複する点は扱わない。
 積の木は $O(n\log(n))$、補間の中間多項式は同時に $O(n)$ の領域を使う。再帰の深さは $O(\log(n))$。

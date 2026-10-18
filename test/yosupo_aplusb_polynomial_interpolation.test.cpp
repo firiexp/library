@@ -24,8 +24,17 @@ void self_check() {
         for (auto &c : coefficients) c = random() % 998244353;
         if (tc % 7 == 0) fill(coefficients.begin(), coefficients.end(), mint(0));
         else if (tc % 5 == 0) fill(coefficients.begin() + n / 2, coefficients.end(), mint(0));
-        mint offset = random() % 998244353, step = 1 + random() % 998244352;
-        for (int i = 0; i < n; ++i) xs[i] = offset + step * mint(i);
+        if (tc % 2 == 0) {
+            set<uint> used;
+            for (auto &x : xs) {
+                uint value;
+                do { value = random() % 998244353; } while (!used.insert(value).second);
+                x = value;
+            }
+        } else {
+            mint offset = random() % 998244353, step = 1 + random() % 998244352;
+            for (int i = 0; i < n; ++i) xs[i] = offset + step * mint(i);
+        }
         shuffle(xs.begin(), xs.end(), random);
         for (int i = 0; i < n; ++i) ys[i] = horner(coefficients, xs[i]);
         auto original_xs = xs, original_ys = ys;

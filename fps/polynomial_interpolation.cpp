@@ -16,8 +16,16 @@ poly polynomial_interpolation(const vector<mint> &xs, const vector<mint> &ys) {
     vector<mint> w = 1LL * derivative.size() * n <= 4096
         ? derivative.multipoint_eval(xs)
         : multipoint_evaluation_detail::evaluate(derivative, prod, n);
+    vector<mint> prefix(n + 1, mint(1));
+    for (int i = 0; i < n; ++i) prefix[i + 1] = prefix[i] * w[i];
+    mint inverse = prefix[n].inv();
+    for (int i = n - 1; i >= 0; --i) {
+        mint next = inverse * w[i];
+        w[i] = ys[i] * prefix[i] * inverse;
+        inverse = next;
+    }
     auto interpolate = [&](auto &&self, int i) -> poly {
-        if (i >= sz) return i - sz < n ? poly(vector<mint>{ys[i - sz] / w[i - sz]}) : poly();
+        if (i >= sz) return i - sz < n ? poly(vector<mint>{w[i - sz]}) : poly();
         poly left = self(self, i << 1);
         poly right = self(self, i << 1 | 1);
         return left * prod[i << 1 | 1] + right * prod[i << 1];
