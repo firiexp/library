@@ -175,13 +175,12 @@ struct LinkCutTree {
     }
 
     void set(int x, const T &val) {
-        expose(x);
+        splay(x);
         nodes[x].val = val;
         pull(x);
     }
 
-    T get(int x) {
-        expose(x);
+    T get(int x) const {
         return nodes[x].val;
     }
 

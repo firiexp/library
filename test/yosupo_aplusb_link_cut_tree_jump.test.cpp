@@ -55,6 +55,58 @@ struct Forest {
     }
 };
 
+void check_get(const LinkCutTree<Monoid> &lct, const Forest &forest) {
+    auto before = lct.nodes;
+    auto stack = lct.push_stack;
+    for (int x = 0; x < forest.n; ++x) assert(lct.get(x) == forest.values[x]);
+    for (int x = 0; x < forest.n; ++x) {
+        auto a = before[x], b = lct.nodes[x];
+        assert(tie(a.l, a.r, a.p, a.sz, a.rev, a.val, a.sum, a.rsum) ==
+               tie(b.l, b.r, b.p, b.sz, b.rev, b.val, b.sum, b.rsum));
+    }
+    assert(lct.push_stack == stack);
+}
+
+void pending_reverse_check() {
+    LinkCutTree<Monoid> lct(9);
+    Forest forest(9);
+    for (int x = 0; x < 9; ++x) {
+        forest.values[x] = string(1, 'a' + x);
+        lct.set(x, forest.values[x]);
+    }
+    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 3}, {3, 4}, {2, 5}, {5, 6}, {5, 7}, {7, 8}})
+        assert(lct.link(u, v) == forest.link(u, v));
+    for (int root : {0, 8, 4, 6}) {
+        lct.evert(root);
+        forest.evert(root);
+        assert(lct.nodes[root].rev);
+        check_get(lct, forest);
+        for (int x : {root, 2, 8, 1, 5}) {
+            forest.values[x] += 'x';
+            lct.set(x, forest.values[x]);
+        }
+        check_get(lct, forest);
+        for (int x = 0; x < 9; ++x) assert(lct.get_root(x) == root);
+        for (int u = 0; u < 9; ++u) for (int v = 0; v < 9; ++v) {
+            string expected;
+            for (int x : forest.path(u, v)) expected += forest.values[x];
+            forest.evert(u);
+            assert(lct.fold(u, v) == expected);
+        }
+        assert(lct.cut(2, 5) == forest.cut(2, 5));
+        for (int x : {2, 5, 6}) {
+            forest.values[x] += 'y';
+            lct.set(x, forest.values[x]);
+        }
+        for (int x = 0; x < 9; ++x) assert(lct.get_root(x) == forest.roots[x]);
+        assert(lct.link(2, 5) == forest.link(2, 5));
+        string expected;
+        for (int x : forest.path(4, 8)) expected += forest.values[x];
+        forest.evert(4);
+        assert(lct.fold(4, 8) == expected);
+    }
+}
+
 void self_check() {
     mt19937 rng(174);
     for (int tc = 0; tc < 180; ++tc) {
@@ -85,8 +137,10 @@ void self_check() {
                 forest.evert(u);
                 lct.evert(u);
             } else if (op == 3) {
-                forest.values[u] = string(1, 'a' + rng() % 26);
-                lct.set(u, forest.values[u]);
+                for (int x : {u, v, int(rng() % n)}) {
+                    forest.values[x] = string(1, 'a' + rng() % 26);
+                    lct.set(x, forest.values[x]);
+                }
             } else if (op == 4) {
                 auto path = forest.path(u, v);
                 if (!path.empty()) {
@@ -112,7 +166,7 @@ void self_check() {
             }
             for (int x = 0; x < n; ++x) assert(lct.get_root(x) == forest.roots[x]);
             assert(lct.connected(u, v) == !path.empty());
-            assert(lct.get(u) == forest.values[u]);
+            check_get(lct, forest);
             auto root_u = forest.path(forest.roots[u], u);
             assert(lct.parent(u) == (root_u.size() == 1 ? -1 : root_u[root_u.size() - 2]));
             int ancestor = -1;
@@ -136,5 +190,6 @@ void self_check() {
 }
 
 int main() {
+    pending_reverse_check();
     self_check();
 }
