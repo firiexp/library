@@ -38,12 +38,21 @@ public:
     }
 
     T front(int version) const {
-        assert(!empty(version));
+        return get(version, 0);
+    }
+
+    T get(int version, int k) const {
+        assert(0 <= k && k < size(version));
         int node = versions[version].tail;
-        int distance = versions[version].length - 1;
+        int distance = versions[version].length - 1 - k;
         for (int bit = 0; distance; ++bit, distance >>= 1)
             if (distance & 1) node = ancestors[nodes[node].offset + bit];
         return nodes[node].value;
+    }
+
+    T back(int version) const {
+        assert(!empty(version));
+        return nodes[versions[version].tail].value;
     }
 
     int size(int version) const {

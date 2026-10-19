@@ -12,6 +12,8 @@ version 0 は空であり、更新は元versionを変更せず新しいversion�
 - `push(version, value)`：末尾に追加した新versionを返す
 - `pop(version)`：先頭を削除した新versionを返す。空でないことが前提
 - `front(version)`：先頭要素のコピーを返す。空でないことが前提
+- `get(version, k)`：先頭を0として `k` 番目の要素のコピーを返す。`0 <= k < size(version)` が前提
+- `back(version)`：末尾要素のコピーを返す。空でないことが前提
 - `size(version)` / `empty(version)`：要素数 / 空かを返す
 
 ## 使い方
@@ -26,13 +28,14 @@ int d = q.push(a, 30);
 ```
 
 `b` は `{10,20}`、`c` は `{20}`、`d` は `{10,30}` を保持する。
+`get(b, 1)` と `back(b)` はどちらも `20` を返す。参照操作はversionやノードを追加しない。
 
 ## 実装上の補足
-末尾nodeと長さをversionごとに保持し、先頭はpush履歴の祖先を倍増法で辿って求める。
+末尾nodeと長さをversionごとに保持し、先頭や途中の要素はpush履歴の祖先を倍増法で辿って求める。
 空になったversionは末尾を切り離し、次のpushを新しい履歴の根にする。
 祖先情報は1本の連続配列に格納し、nodeごとの小さな配列確保を行わない。
 
-要素コピーを $O(1)$ とすると、`front(version)` はそのversionのキューの要素数を $L$ として最悪 $O(\log L)$。
+要素コピーを $O(1)$ とすると、`front(version)` と `get(version, k)` はそのversionのキューの要素数を $L$ として最悪 $O(\log L)$。$L=1$ では定数時間。
 `push(version, value)` は追加後のキューの要素数を $L$ として償却 $O(\log L)$。
-`size/empty` は最悪 $O(1)$、`pop` は償却 $O(1)$。償却は配列の幾何拡張に由来し、過去versionへの分岐回数によって崩れない。
+`back/size/empty` は最悪 $O(1)$、`pop` は償却 $O(1)$。償却は配列の幾何拡張に由来し、過去versionへの分岐回数によって崩れない。
 更新数を $Q$、各 `push` で作るキューの要素数を $L_i$ とすると、総領域は $O(Q+\sum_i\log L_i)$。

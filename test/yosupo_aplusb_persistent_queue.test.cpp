@@ -6,6 +6,15 @@ using namespace std;
 #include "../util/fastio.cpp"
 #include "../datastructure/persistent_queue.cpp"
 
+void check_access(const PersistentQueue<int> &q, int version, const deque<int> &expected) {
+    assert(q.size(version) == (int)expected.size());
+    assert(q.empty(version) == expected.empty());
+    if (expected.empty()) return;
+    assert(q.front(version) == expected.front());
+    assert(q.back(version) == expected.back());
+    for (int k = 0; k < (int)expected.size(); ++k) assert(q.get(version, k) == expected[k]);
+}
+
 void check_sliding_branches() {
     for (int width : {1, 64, 1024}) {
         PersistentQueue<int> q;
@@ -16,23 +25,32 @@ void check_sliding_branches() {
             if (q.size(version) > width) version = q.pop(version);
             assert(q.size(version) == min(i + 1, width));
             assert(q.front(version) == max(0, i + 1 - width));
+            assert(q.back(version) == i);
+            int k = i % q.size(version);
+            assert(q.get(version, k) == max(0, i + 1 - width) + k);
             if (i % 997 == 0) snapshots.emplace_back(version, i);
         }
         for (auto [original, last] : snapshots) {
             deque<int> expected;
             for (int i = max(0, last + 1 - width); i <= last; ++i) expected.push_back(i);
             int branch = original;
+            check_access(q, branch, expected);
             while (expected.size() > 1) {
                 branch = q.pop(branch);
                 expected.pop_front();
                 assert(q.front(branch) == expected.front());
+                assert(q.back(branch) == expected.back());
+                assert(q.get(branch, int(expected.size()) / 2) == expected[expected.size() / 2]);
             }
             for (int i = 0; i < 2 * width + 65; ++i) {
                 branch = q.push(branch, -i - 1);
                 expected.push_back(-i - 1);
                 assert(q.size(branch) == int(expected.size()));
                 assert(q.front(branch) == expected.front());
+                assert(q.back(branch) == expected.back());
+                assert(q.get(branch, int(expected.size()) / 2) == expected[expected.size() / 2]);
             }
+            check_access(q, branch, expected);
             while (!expected.empty()) {
                 assert(q.front(branch) == expected.front());
                 branch = q.pop(branch);
@@ -68,9 +86,7 @@ void self_check() {
             assert(next == (int)states.size());
             states.push_back(expected);
             for (int t : {version, next, int(rng() % states.size())}) {
-                assert(q.size(t) == (int)states[t].size());
-                assert(q.empty(t) == states[t].empty());
-                if (!q.empty(t)) assert(q.front(t) == states[t].front());
+                check_access(q, t, states[t]);
             }
         }
     }
@@ -79,12 +95,15 @@ void self_check() {
     for (int i = 0; i < 65537; ++i) {
         version = q.push(version, i);
         assert(q.front(version) == 0);
+        assert(q.back(version) == i);
+        for (int k : {0, i / 2, i}) assert(q.get(version, k) == k);
     }
     for (int i = 0; i < 65536; ++i) {
         int branch = q.pop(version);
         assert(q.front(branch) == 1 && q.front(version) == 0);
         int tail = q.push(branch, -i);
         assert(q.size(tail) == q.size(version));
+        assert(q.back(tail) == -i && q.get(tail, 0) == 1);
     }
     for (int i = 0; i < 65537; ++i) {
         assert(q.front(version) == i);
@@ -96,6 +115,12 @@ void self_check() {
     int a = strings.push(0, "a"), b = strings.push(a, "b");
     assert(strings.front(b) == "a");
     auto copy = strings;
+    const auto &view = strings;
+    assert(view.get(b, 0) == "a" && view.get(b, 1) == "b" && view.back(b) == "b");
+    string value = view.back(b);
+    value[0] = 'z';
+    int next = strings.push(b, "c");
+    assert(next == b + 1 && view.back(b) == "b" && view.back(next) == "c");
     assert(copy.front(copy.pop(b)) == "b");
     assert(strings.front(b) == "a");
 }
