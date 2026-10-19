@@ -21,9 +21,7 @@ public:
     int count(int t) const { return roots[t].second; }
 
     int root(int t, int a) const {
-        int p = get(roots[t].first, a, 0, n);
-        if (p < 0) return a;
-        return root(t, p);
+        return root_with_size(t, a).first;
     }
     int root(int a) const { return root(latest_version(), a); }
 
@@ -33,7 +31,7 @@ public:
     bool same(int a, int b) const { return same(latest_version(), a, b); }
 
     int size(int t, int a) const {
-        return -get(roots[t].first, root(t, a), 0, n);
+        return -root_with_size(t, a).second;
     }
     int size(int a) const { return size(latest_version(), a); }
 
@@ -47,11 +45,9 @@ public:
             return copy_version(t);
         }
         int rt = roots[t].first;
-        int ra = root(t, a);
-        int rb = root(t, b);
+        auto [ra, sa] = root_with_size(t, a);
+        auto [rb, sb] = root_with_size(t, b);
         if (ra == rb) return copy_version(t);
-        int sa = get(rt, ra, 0, n);
-        int sb = get(rt, rb, 0, n);
         if (sa > sb) {
             swap(ra, rb);
             swap(sa, sb);
@@ -63,6 +59,14 @@ public:
     int unite(int a, int b) { return unite(latest_version(), a, b); }
 
 private:
+    pair<int, int> root_with_size(int t, int a) const {
+        while (true) {
+            int p = get(roots[t].first, a, 0, n);
+            if (p < 0) return {a, p};
+            a = p;
+        }
+    }
+
     int make_node(int val, int l, int r) {
         node.push_back({val, l, r});
         return node.size() - 1;

@@ -33,6 +33,16 @@ void check() {
     assert(split.root(a, 16) == 0 && split.root(c, 2) == 0);
     assert(split.size(a, 0) == 2 && split.size(b, 0) == 2 && split.size(c, 0) == 3);
     assert(!split.same(b, 0, 16) && !split.same(a, 0, 1));
+    int d = split.unite(c, 2, 0);
+    int e = split.copy_version(a);
+    assert(d == c + 1 && e == d + 1);
+    for (int v : {0, 1, 2}) {
+        assert(split.root(d, v) == 0 && split.size(d, v) == 3);
+    }
+    assert(split.count(d) == split.count(c));
+    assert(split.root(e, 16) == 0 && split.size(e, 16) == 2);
+    assert(split.root(e, 2) == 2 && split.size(e, 2) == 1);
+    assert(split.versions() == e + 1);
 
     mt19937 rng(120);
     for (int tc = 0; tc < 1000; ++tc) {
