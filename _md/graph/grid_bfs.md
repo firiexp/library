@@ -11,18 +11,18 @@ documentation_of: //graph/grid_bfs.cpp
 - `grid_bfs(h, w, sr, sc, passable)`
   マス `(sr, sc)` を始点に探索する。行・列は0-indexed
   `passable` にはマス `(r, c)` を通行できるとき true を返す関数を渡す
-- `grid_bfs(h, w, sources, passable)`
-  複数始点から探索する。`sources` は始点の `(行, 列)` を並べた `vector<pair<int, int>>`。`passable` は単一始点の場合と同じ
-- `result.distance(r, c)`
+- `grid_bfs(h, w, src, passable)`
+  複数始点から探索する。`src` は始点の `(行, 列)` を並べた `vector<pair<int, int>>`。`passable` は単一始点の場合と同じ
+- `res.dist(r, c)`
   最寄りの始点からマス `(r, c)` までの歩数。壁・未到達は `INF<int>`。座標は範囲内とする
-- `result.path_to(r, c)`
+- `res.path_to(r, c)`
   始点からマス `(r, c)` までの座標列。未到達・範囲外なら空配列
 - `grid_bfs_to(h, w, sr, sc, tr, tc, passable)`
   単一始点から終点 `(tr, tc)` まで探索し、その距離が確定した時点で止める
-- `grid_bfs_to(h, w, sources, tr, tc, passable)`
+- `grid_bfs_to(h, w, src, tr, tc, passable)`
   複数始点から終点まで探索する。壁上の始点は無視する
-- 終点指定の戻り値 `GridBFSTargetResult`
-  `distance` は終点までの歩数、`path` は座標列。終点が壁・未到達なら `INF<int>` と空配列。通行可能な始点に終点が含まれれば距離0と終点1個の経路
+- 終点指定の戻り値 `GridPath`
+  `dist` は終点までの歩数、`path` は座標列。終点が壁・未到達なら `INF<int>` と空配列。通行可能な始点に終点が含まれれば距離0と終点1個の経路
 
 ## 使い方
 `h,w >= 0`、`h*w <= INT_MAX` とする。始点は範囲内に限り、壁上の始点は無視する。
@@ -31,16 +31,16 @@ documentation_of: //graph/grid_bfs.cpp
 `passable` は範囲内の座標だけで呼ばれる。探索中は判定結果を変えない。
 
 ```cpp
-auto result = grid_bfs(h, w, sr, sc,
+auto res = grid_bfs(h, w, sr, sc,
     [&](int r, int c) { return grid[r][c] != '#'; });
-int distance = result.distance(tr, tc);
-auto path = result.path_to(tr, tc);
+int dist = res.dist(tr, tc);
+auto path = res.path_to(tr, tc);
 ```
 
-終点だけが必要なら `auto result = grid_bfs_to(h, w, sr, sc, tr, tc, passable);` とし、`result.distance` と `result.path` を使う。
+終点だけが必要なら `auto res = grid_bfs_to(h, w, sr, sc, tr, tc, passable);` とし、`res.dist` と `res.path` を使う。
 終点からの隣接マスの探索は行わない。
 
-`result.paths` は頂点 ID を `r*w+c` とした `GeneratedShortestPathResult<int>`。
+`res.paths` は頂点 ID を `r*w+c` とした `ShortestPaths<int>`。
 層・方向を持つ状態や4近傍以外の遷移は、汎用の `bfs_generated` / `bfs01_generated` / `dijkstra_generated` で記述する。
 
 ## 実装上の補足

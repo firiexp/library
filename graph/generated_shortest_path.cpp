@@ -2,7 +2,7 @@
 #define FIRIEXP_LIBRARY_GRAPH_GENERATED_SHORTEST_PATH_CPP
 
 template<class T>
-struct GeneratedShortestPathResult {
+struct ShortestPaths {
     vector<T> dist;
     vector<int> parent;
 
@@ -16,159 +16,130 @@ struct GeneratedShortestPathResult {
 };
 
 template<class T>
-struct GeneratedShortestPathTargetResult {
-    T distance;
+struct ShortestPath {
+    T dist;
     vector<int> path;
 };
 
-namespace generated_shortest_path_detail {
-    template<class T, class Push>
-    GeneratedShortestPathResult<T> initialize(int n, const vector<int> &sources, Push push) {
+namespace gen_sp_detail {
+    template<class T, class S, class Push>
+    ShortestPaths<T> init(int n, const S &src, Push push) {
         assert(n >= 0);
-        GeneratedShortestPathResult<T> result{vector<T>(n, INF<T>), vector<int>(n, -1)};
-        for (int s : sources) {
+        ShortestPaths<T> res{vector<T>(n, INF<T>), vector<int>(n, -1)};
+        auto add = [&](int s) {
             assert(0 <= s && s < n);
-            if (result.dist[s] == T(0)) continue;
-            result.dist[s] = T(0);
+            if (res.dist[s] == T(0)) return;
+            res.dist[s] = T(0);
             push(s);
-        }
-        return result;
+        };
+        if constexpr (is_integral_v<S>) add(src);
+        else for (int s : src) add(s);
+        return res;
     }
 
-    template<bool TargetOnly, class T>
-    auto finish(GeneratedShortestPathResult<T> result, int target) {
-        if constexpr (TargetOnly) return GeneratedShortestPathTargetResult<T>{result.dist[target], result.path_to(target)};
-        else return result;
+    template<bool To, class T>
+    auto finish(ShortestPaths<T> res, int t) {
+        if constexpr (To) return ShortestPath<T>{res.dist[t], res.path_to(t)};
+        else return res;
     }
 
-    template<bool TargetOnly, class T, class ForEachEdge>
-    auto dijkstra(int n, const vector<int> &sources, int target, ForEachEdge for_each_edge) {
-        if constexpr (TargetOnly) assert(0 <= target && target < n);
-        priority_queue<pair<T, int>, vector<pair<T, int>>, greater<>> queue;
-        auto result = generated_shortest_path_detail::initialize<T>(n, sources, [&](int s) { queue.emplace(T(0), s); });
-        while (!queue.empty()) {
-            auto [distance, v] = queue.top();
-            queue.pop();
-            if (distance != result.dist[v]) continue;
-            if constexpr (TargetOnly) if (v == target) break;
-            for_each_edge(v, [&](int to, T cost) {
+    template<bool To, class T, class S, class F>
+    auto dijkstra(int n, const S &src, int t, F adj) {
+        if constexpr (To) assert(0 <= t && t < n);
+        priority_queue<pair<T, int>, vector<pair<T, int>>, greater<>> q;
+        auto res = init<T>(n, src, [&](int s) { q.emplace(T(0), s); });
+        while (!q.empty()) {
+            auto [d, v] = q.top();
+            q.pop();
+            if (d != res.dist[v]) continue;
+            if constexpr (To) if (v == t) break;
+            adj(v, [&](int to, T cost) {
                 assert(0 <= to && to < n && cost >= T(0));
-                if (cost >= INF<T> - distance) return;
-                T next = distance + cost;
-                if (result.dist[to] <= next) return;
-                result.dist[to] = next;
-                result.parent[to] = v;
-                queue.emplace(next, to);
+                if (cost >= INF<T> - d) return;
+                T nd = d + cost;
+                if (res.dist[to] <= nd) return;
+                res.dist[to] = nd;
+                res.parent[to] = v;
+                q.emplace(nd, to);
             });
         }
-        return finish<TargetOnly>(std::move(result), target);
+        return finish<To>(std::move(res), t);
     }
 
-    template<bool TargetOnly, class ForEachEdge>
-    auto bfs(int n, const vector<int> &sources, int target, ForEachEdge for_each_edge) {
-        if constexpr (TargetOnly) assert(0 <= target && target < n);
-        vector<int> queue;
-        queue.reserve(n);
-        auto result = generated_shortest_path_detail::initialize<int>(n, sources, [&](int s) { queue.push_back(s); });
-        for (size_t i = 0; i < queue.size(); ++i) {
-            int v = queue[i];
-            if constexpr (TargetOnly) if (v == target) break;
-            for_each_edge(v, [&](int to) {
+    template<bool To, class S, class F>
+    auto bfs(int n, const S &src, int t, F adj) {
+        if constexpr (To) assert(0 <= t && t < n);
+        vector<int> q;
+        q.reserve(n);
+        auto res = init<int>(n, src, [&](int s) { q.push_back(s); });
+        for (size_t i = 0; i < q.size(); ++i) {
+            int v = q[i];
+            if constexpr (To) if (v == t) break;
+            adj(v, [&](int to) {
                 assert(0 <= to && to < n);
-                if (result.dist[to] != INF<int>) return;
-                result.dist[to] = result.dist[v] + 1;
-                result.parent[to] = v;
-                queue.push_back(to);
+                if (res.dist[to] != INF<int>) return;
+                res.dist[to] = res.dist[v] + 1;
+                res.parent[to] = v;
+                q.push_back(to);
             });
         }
-        return finish<TargetOnly>(std::move(result), target);
+        return finish<To>(std::move(res), t);
     }
 
-    template<bool TargetOnly, class T, class ForEachEdge>
-    auto bfs01(int n, const vector<int> &sources, int target, ForEachEdge for_each_edge) {
-        if constexpr (TargetOnly) assert(0 <= target && target < n);
-        deque<int> queue;
-        auto result = generated_shortest_path_detail::initialize<T>(n, sources, [&](int s) { queue.push_back(s); });
-        vector<char> settled(n);
-        while (!queue.empty()) {
-            int v = queue.front();
-            queue.pop_front();
-            if (settled[v]) continue;
-            settled[v] = true;
-            if constexpr (TargetOnly) if (v == target) break;
-            for_each_edge(v, [&](int to, T cost) {
+    template<bool To, class T, class S, class F>
+    auto bfs01(int n, const S &src, int t, F adj) {
+        if constexpr (To) assert(0 <= t && t < n);
+        deque<int> q;
+        auto res = init<T>(n, src, [&](int s) { q.push_back(s); });
+        vector<char> done(n);
+        while (!q.empty()) {
+            int v = q.front();
+            q.pop_front();
+            if (done[v]) continue;
+            done[v] = true;
+            if constexpr (To) if (v == t) break;
+            adj(v, [&](int to, T cost) {
                 assert(0 <= to && to < n && (cost == T(0) || cost == T(1)));
-                T next = result.dist[v] + cost;
-                if (result.dist[to] <= next) return;
-                result.dist[to] = next;
-                result.parent[to] = v;
-                if (cost == T(0)) queue.push_front(to);
-                else queue.push_back(to);
+                T nd = res.dist[v] + cost;
+                if (res.dist[to] <= nd) return;
+                res.dist[to] = nd;
+                res.parent[to] = v;
+                if (cost == T(0)) q.push_front(to);
+                else q.push_back(to);
             });
         }
-        return finish<TargetOnly>(std::move(result), target);
+        return finish<To>(std::move(res), t);
     }
-
 }
 
-template<class T, class ForEachEdge>
-GeneratedShortestPathResult<T> dijkstra_generated(int n, const vector<int> &sources, ForEachEdge for_each_edge) {
-    return generated_shortest_path_detail::dijkstra<false, T>(n, sources, -1, std::move(for_each_edge));
+template<class T, class S = vector<int>, class F>
+ShortestPaths<T> dijkstra_generated(int n, const S &src, F adj) {
+    return gen_sp_detail::dijkstra<false, T>(n, src, -1, std::move(adj));
 }
 
-template<class T, class ForEachEdge>
-GeneratedShortestPathResult<T> dijkstra_generated(int n, int source, ForEachEdge for_each_edge) {
-    return dijkstra_generated<T>(n, vector<int>{source}, std::move(for_each_edge));
+template<class T, class S = vector<int>, class F>
+ShortestPath<T> dijkstra_generated_to(int n, const S &src, int t, F adj) {
+    return gen_sp_detail::dijkstra<true, T>(n, src, t, std::move(adj));
 }
 
-template<class T, class ForEachEdge>
-GeneratedShortestPathTargetResult<T> dijkstra_generated_to(int n, const vector<int> &sources, int target, ForEachEdge for_each_edge) {
-    return generated_shortest_path_detail::dijkstra<true, T>(n, sources, target, std::move(for_each_edge));
+template<class S = vector<int>, class F>
+ShortestPaths<int> bfs_generated(int n, const S &src, F adj) {
+    return gen_sp_detail::bfs<false>(n, src, -1, std::move(adj));
 }
 
-template<class T, class ForEachEdge>
-GeneratedShortestPathTargetResult<T> dijkstra_generated_to(int n, int source, int target, ForEachEdge for_each_edge) {
-    return dijkstra_generated_to<T>(n, vector<int>{source}, target, std::move(for_each_edge));
+template<class S = vector<int>, class F>
+ShortestPath<int> bfs_generated_to(int n, const S &src, int t, F adj) {
+    return gen_sp_detail::bfs<true>(n, src, t, std::move(adj));
 }
 
-template<class ForEachEdge>
-GeneratedShortestPathResult<int> bfs_generated(int n, const vector<int> &sources, ForEachEdge for_each_edge) {
-    return generated_shortest_path_detail::bfs<false>(n, sources, -1, std::move(for_each_edge));
+template<class T = int, class S = vector<int>, class F>
+ShortestPaths<T> bfs01_generated(int n, const S &src, F adj) {
+    return gen_sp_detail::bfs01<false, T>(n, src, -1, std::move(adj));
 }
 
-template<class ForEachEdge>
-GeneratedShortestPathResult<int> bfs_generated(int n, int source, ForEachEdge for_each_edge) {
-    return bfs_generated(n, vector<int>{source}, std::move(for_each_edge));
-}
-
-template<class ForEachEdge>
-GeneratedShortestPathTargetResult<int> bfs_generated_to(int n, const vector<int> &sources, int target, ForEachEdge for_each_edge) {
-    return generated_shortest_path_detail::bfs<true>(n, sources, target, std::move(for_each_edge));
-}
-
-template<class ForEachEdge>
-GeneratedShortestPathTargetResult<int> bfs_generated_to(int n, int source, int target, ForEachEdge for_each_edge) {
-    return bfs_generated_to(n, vector<int>{source}, target, std::move(for_each_edge));
-}
-
-template<class T = int, class ForEachEdge>
-GeneratedShortestPathResult<T> bfs01_generated(int n, const vector<int> &sources, ForEachEdge for_each_edge) {
-    return generated_shortest_path_detail::bfs01<false, T>(n, sources, -1, std::move(for_each_edge));
-}
-
-template<class T = int, class ForEachEdge>
-GeneratedShortestPathResult<T> bfs01_generated(int n, int source, ForEachEdge for_each_edge) {
-    return bfs01_generated<T>(n, vector<int>{source}, std::move(for_each_edge));
-}
-
-template<class T = int, class ForEachEdge>
-GeneratedShortestPathTargetResult<T> bfs01_generated_to(int n, const vector<int> &sources, int target, ForEachEdge for_each_edge) {
-    return generated_shortest_path_detail::bfs01<true, T>(n, sources, target, std::move(for_each_edge));
-}
-
-template<class T = int, class ForEachEdge>
-GeneratedShortestPathTargetResult<T> bfs01_generated_to(int n, int source, int target, ForEachEdge for_each_edge) {
-    return bfs01_generated_to<T>(n, vector<int>{source}, target, std::move(for_each_edge));
+template<class T = int, class S = vector<int>, class F>
+ShortestPath<T> bfs01_generated_to(int n, const S &src, int t, F adj) {
+    return gen_sp_detail::bfs01<true, T>(n, src, t, std::move(adj));
 }
 
 #endif

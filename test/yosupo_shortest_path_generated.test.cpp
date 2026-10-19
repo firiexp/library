@@ -37,12 +37,12 @@ int main() {
     auto res = dijkstra_generated_to<ll>(n, s, t, [&](int v, auto emit) {
         for (auto [to, cost] : G[v]) emit(to, cost);
     });
-    if (res.distance == INF<ll>) {
+    if (res.dist == INF<ll>) {
         out.println(-1);
         return 0;
     }
     const auto &path = res.path;
-    out.println(res.distance, (int)path.size() - 1);
+    out.println(res.dist, (int)path.size() - 1);
     for (int i = 0; i + 1 < (int)path.size(); ++i) {
         out.println(array<int, 2>{path[i], path[i + 1]});
     }
