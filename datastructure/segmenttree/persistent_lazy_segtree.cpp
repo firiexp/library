@@ -50,7 +50,61 @@ struct PersistentLazySegmentTree {
         return query_node(root[t], l, r, 0, n, M::l(), false);
     }
 
+    template<class F>
+    int search_right(int t, int l, F cond) const {
+        assert(0 <= t && t < versions() && 0 <= l && l <= n);
+        if (l == n) return n;
+        T acc = M::e();
+        return search_right_node(root[t], l, 0, n, acc, cond, M::l(), false);
+    }
+
+    template<class F>
+    int search_left(int t, int r, F cond) const {
+        assert(0 <= t && t < versions() && 0 <= r && r <= n);
+        if (r == 0) return 0;
+        T acc = M::e();
+        return search_left_node(root[t], r, 0, n, acc, cond, M::l(), false);
+    }
+
 private:
+    template<class F>
+    int search_right_node(int id, int a, int l, int r, T &acc, F &cond,
+                          const L &carry, bool has_carry) const {
+        if (r <= a) return n;
+        if (a <= l) {
+            T next = M::f(acc, has_carry ? M::g(node[id].val, carry) : node[id].val);
+            if (cond(next)) {
+                acc = std::move(next);
+                return n;
+            }
+            if (r - l == 1) return l;
+        }
+        auto [next, has_next] = descend(id, carry, has_carry);
+        int mid = l + (r - l) / 2;
+        int result = search_right_node(node[id].left, a, l, mid, acc, cond, next, has_next);
+        if (result != n) return result;
+        return search_right_node(node[id].right, a, mid, r, acc, cond, next, has_next);
+    }
+
+    template<class F>
+    int search_left_node(int id, int a, int l, int r, T &acc, F &cond,
+                         const L &carry, bool has_carry) const {
+        if (a <= l) return 0;
+        if (r <= a) {
+            T next = M::f(has_carry ? M::g(node[id].val, carry) : node[id].val, acc);
+            if (cond(next)) {
+                acc = std::move(next);
+                return 0;
+            }
+            if (r - l == 1) return r;
+        }
+        auto [next, has_next] = descend(id, carry, has_carry);
+        int mid = l + (r - l) / 2;
+        int result = search_left_node(node[id].right, a, mid, r, acc, cond, next, has_next);
+        if (result != 0) return result;
+        return search_left_node(node[id].left, a, l, mid, acc, cond, next, has_next);
+    }
+
     int make_parent(int left, int right) {
         node.push_back({M::f(node[left].val, node[right].val), M::l(), left, right, false});
         return node.size() - 1;

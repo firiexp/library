@@ -16,6 +16,10 @@ documentation_of: //datastructure/segmenttree/persistent_lazy_segtree.cpp
   バージョン `dst` の区間 `[l, r)` を、バージョン `src` の同じ区間の値で置き換えた新しいバージョンを作り、その番号を返す
 - `T query(t, l, r) const`
   バージョン `t` の区間 `[l, r)` を左から順に集約する。空区間では単位元を返す
+- `int search_right(t, l, cond) const`
+  `cond(query(t, l, r))` を満たす最大の `r` を返す。末尾まで成立すれば `n`
+- `int search_left(t, r, cond) const`
+  `cond(query(t, l, r))` を満たす最小の `l` を返す。先頭まで成立すれば `0`
 - `int versions() const` / `int latest_version() const`
   バージョン数 / 最新のバージョン番号を返す
 
@@ -33,6 +37,11 @@ documentation_of: //datastructure/segmenttree/persistent_lazy_segtree.cpp
 空区間への更新・コピーや同じバージョンからのコピーも、新しいバージョン番号を返す。
 空配列も扱う。
 
+境界探索の端点は `0` 以上 `values.size()` 以下とする。
+述語は `cond(M::e()) == true` を満たし、区間を伸ばす方向で `true` から `false` への変化が高々1回であるものを使う。
+負の要素を含む和では、上限との比較は一般にこの条件を満たさない。
+`search_right(t, n, cond)` は `n`、`search_left(t, 0, cond)` は `0` を返す。空配列でも使える。
+
 ```cpp
 PersistentLazySegmentTree<Monoid> seg(values);
 int a = seg.update(0, l, r, op);
@@ -44,6 +53,7 @@ auto after = seg.query(b, l, r);
 ## 実装上の補足
 要素数を $N$、モノイドの各演算を $O(1)$ とする。
 構築は $O(N)$ 時間・領域、区間積は最悪 $O(\log N)$ 時間。
+境界探索も述語を $O(1)$ として最悪 $O(\log N)$ 時間。空配列では定数時間。
 更新・コピーは配列の拡張を含めて償却 $O(\log N)$ 時間、追加ノード数は $O(\log N)$。
 各操作の再帰に $O(\log N)$ の作業領域を使う。
 
@@ -51,3 +61,4 @@ auto after = seg.query(b, l, r);
 コピー元と先のノードが同じで、祖先から引き継ぐ作用が双方になければ、その部分木をそのまま共有する。
 子が変わらず、作用の適用も不要な親は作り直さない。値や作用素の等値比較は要求しない。
 問い合わせでは遅延作用を引数で引き継ぎ、ノードの変更・追加を行わない。
+境界探索も同様に、条件を満たす部分木を飛ばし、最初に満たさない部分木へ降下する。集約の左右の順序を保ち、遅延伝播やノードの複製は行わない。
