@@ -99,7 +99,38 @@ void exercise(vector<typename M::T> initial, Operation operation, mt19937 &rng) 
     }
 }
 
+void shared_copy_check() {
+    vector<AffineSum::T> values(17, {1, 1});
+    PersistentLazySegmentTree<AffineSum> seg(values);
+    int a = seg.update(0, 0, 1, {2, 3});
+    auto unchanged = [&](int dst, int src, int l, int r) {
+        size_t before = seg.node.size();
+        int version = seg.versions();
+        assert(seg.copy_range(dst, src, l, r) == version);
+        assert(seg.versions() == version + 1);
+        assert(seg.node.size() == before && seg.root[version] == seg.root[dst]);
+    };
+    unchanged(0, a, 1, 16);
+    unchanged(a, 0, 1, 16);
+    unchanged(a, 0, 5, 5);
+    unchanged(a, a, 0, 17);
+    int b = seg.update(0, 0, 8, {3, 2});
+    int c = seg.update(b, 16, 17, {0, 10});
+    unchanged(b, c, 2, 6);
+    unchanged(c, b, 2, 6);
+    int d = seg.update(0, 0, 17, {2, 1});
+    int e = seg.update(0, 0, 17, {3, 2});
+    assert(seg.node[seg.root[d]].left == seg.node[seg.root[e]].left);
+    int f = seg.copy_range(d, e, 3, 14);
+    for (int k = 0; k < 17; ++k) {
+        assert(seg.query(d, k, k + 1)[0] == 3);
+        assert(seg.query(e, k, k + 1)[0] == 5);
+        assert(seg.query(f, k, k + 1)[0] == (3 <= k && k < 14 ? 5 : 3));
+    }
+}
+
 int main() {
+    shared_copy_check();
     for (unsigned seed : {39u, 2026u, 998244353u}) {
         mt19937 rng(seed);
         for (int trial = 0; trial < 40; ++trial) {

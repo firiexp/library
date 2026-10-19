@@ -92,6 +92,7 @@ private:
 
     int copy_node(int dst, int src, int a, int b, int l, int r,
                   const L &dst_carry, bool has_dst, const L &src_carry, bool has_src) {
+        if (dst == src && !has_dst && !has_src) return dst;
         if (b <= l || r <= a) return has_dst ? apply_copy(dst, dst_carry) : dst;
         if (a <= l && r <= b) return has_src ? apply_copy(src, src_carry) : src;
         auto [dst_next, dst_has_next] = descend(dst, dst_carry, has_dst);
@@ -100,6 +101,7 @@ private:
         int sl = node[src].left, sr = node[src].right, mid = l + (r - l) / 2;
         int left = copy_node(dl, sl, a, b, l, mid, dst_next, dst_has_next, src_next, src_has_next);
         int right = copy_node(dr, sr, a, b, mid, r, dst_next, dst_has_next, src_next, src_has_next);
+        if (!has_dst && !node[dst].has_lazy && left == dl && right == dr) return dst;
         return make_parent(left, right);
     }
 
