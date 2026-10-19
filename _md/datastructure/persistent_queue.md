@@ -12,12 +12,13 @@ version 0 は空であり、更新は元versionを変更せず新しいversion�
 - `push(version, value)`：末尾に追加した新versionを返す
 - `pop(version)`：先頭を削除した新versionを返す。空でないことが前提
 - `front(version)`：先頭要素のコピーを返す。空でないことが前提
-- `get(version, k)`：先頭を0として `k` 番目の要素のコピーを返す。`0 <= k < size(version)` が前提
+- `get(version, k)`：`version` の `k` 番目の要素を返す
 - `back(version)`：末尾要素のコピーを返す。空でないことが前提
 - `size(version)` / `empty(version)`：要素数 / 空かを返す
 
 ## 使い方
 操作数の先読みやbuildは不要で、以前返されたversion番号をそのまま使う。
+`get` の位置は先頭を0とし、`0 <= k < size(version)` を満たすものとする。
 
 ```cpp
 PersistentQueue<int> q;

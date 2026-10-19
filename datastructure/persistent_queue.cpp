@@ -42,7 +42,6 @@ public:
     }
 
     T get(int version, int k) const {
-        assert(0 <= k && k < size(version));
         int node = versions[version].tail;
         int distance = versions[version].length - 1 - k;
         for (int bit = 0; distance; ++bit, distance >>= 1)
@@ -51,7 +50,6 @@ public:
     }
 
     T back(int version) const {
-        assert(!empty(version));
         return nodes[versions[version].tail].value;
     }
 
