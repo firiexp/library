@@ -7,7 +7,8 @@ using namespace std;
 
 struct Monoid {
     using T = string;
-    static T f(const T &a, const T &b) { return a + b; }
+    static inline int calls = 0;
+    static T f(const T &a, const T &b) { ++calls; return a + b; }
     static T e() { return ""; }
 };
 
@@ -88,14 +89,22 @@ void self_check() {
                 for (int i = l; i < r; ++i) expected += versions[v][i];
                 assert(seg.query(v, l, r) == expected);
                 if (v == at) assert(seg.query(l, r) == expected);
-                if (n) assert(seg.get(v, k) == versions[v][k]);
+                if (n) {
+                    Monoid::calls = 0;
+                    assert(seg.get(v, k) == versions[v][k]);
+                    assert(Monoid::calls == 0);
+                }
                 int limit = rng() % (2 * n + 1);
                 auto cond = [&](const string &x) {
                     return int(x.size()) <= limit && x.find("ab") == string::npos;
                 };
                 check_search(seg, v, versions[v], q % 3 == 0 ? 0 : q % 3 == 1 ? n : l, cond);
             }
-            if (n) assert(seg[k] == next[k]);
+            if (n) {
+                Monoid::calls = 0;
+                assert(seg[k] == next[k]);
+                assert(Monoid::calls == 0);
+            }
             assert(seg.node.size() == nodes);
         }
     }

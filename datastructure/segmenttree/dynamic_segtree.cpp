@@ -31,7 +31,22 @@ struct DynamicSegmentTree{
         return query_(root, a, b, 0, n);
     }
 
-    T get(long long k) const { return query(k, k+1); }
+    T get(long long k) const {
+        if(n == 0) return M::e();
+        int id = root;
+        long long l = 0, r = n;
+        while(id != -1 && r-l > 1){
+            long long m = l + ((r-l)>>1);
+            if(k < m){
+                id = node[id].l;
+                r = m;
+            }else{
+                id = node[id].r;
+                l = m;
+            }
+        }
+        return value(id);
+    }
     T operator[](const long long &k) const { return get(k); }
 
     template<class F>

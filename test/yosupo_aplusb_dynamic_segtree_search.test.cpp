@@ -14,8 +14,9 @@ struct Sum {
 
 struct Concat {
     using T = string;
+    static inline int calls = 0;
     static T e() { return ""; }
-    static T f(const T &a, const T &b) { return a + b; }
+    static T f(const T &a, const T &b) { ++calls; return a + b; }
 };
 
 void sum_check() {
@@ -61,14 +62,26 @@ void noncommutative_check() {
         for (int step = 0; step < 100; ++step) {
             if (n) {
                 int k = rng() % n;
-                a[k] = rng() % 3 ? string(1, 'a' + rng() % 3) : "";
-                seg.update(k, a[k]);
+                string value = rng() % 3 ? string(1, 'a' + rng() % 3) : "";
+                if (step % 2) {
+                    a[k] += value;
+                    seg.add(k, value);
+                } else {
+                    a[k] = value;
+                    seg.update(k, value);
+                }
             }
             int limit = rng() % (n + 1);
             auto cond = [&](const string &x) {
                 return int(x.size()) <= limit && x.find("ab") == string::npos;
             };
             size_t nodes = seg.node.size();
+            const auto &view = seg;
+            for (int k = 0; k < n; ++k) {
+                Concat::calls = 0;
+                assert(view.get(k) == a[k] && view[k] == a[k]);
+                assert(Concat::calls == 0);
+            }
             for (int end = 0; end <= n; ++end) {
                 int left = end, right = end;
                 string acc;
@@ -92,12 +105,17 @@ void sparse_check() {
             assert(seg.search_right(end, zero) == n);
         }
         assert(seg.node.empty());
+        for (ll k : {0LL, n / 2, n - 1}) assert(seg.get(k) == 0);
+        assert(seg.node.empty());
         seg.update(n - 1, 1);
+        assert(seg.get(n - 1) == 1);
+        if (n > 1) assert(seg.get(n / 2) == 0);
         assert(seg.search_right(0, zero) == n - 1);
         assert(seg.search_left(n, zero) == n);
         assert(seg.search_left(n - 1, zero) == 0);
         assert(seg.search_right(n, zero) == n);
         seg.update(0, 1);
+        assert(seg[0] == 1 && seg[n - 1] == 1);
         assert(seg.search_right(0, zero) == 0);
         assert(seg.search_left(n, [](ll x) { return x <= 2; }) == 0);
         assert(seg.search_right(0, [](ll x) { return x <= 2; }) == n);

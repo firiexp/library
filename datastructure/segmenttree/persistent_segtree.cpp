@@ -52,7 +52,21 @@ struct PersistentSegmentTree{
     }
     T query(int a, int b) const { return query(latest_version(), a, b); }
 
-    T get(int t, int k) const { return query(t, k, k+1); }
+    T get(int t, int k) const {
+        if(n == 0) return M::e();
+        int id = root[t], l = 0, r = n;
+        while(r-l > 1){
+            int m = l + ((r-l)>>1);
+            if(k < m){
+                id = node[id].l;
+                r = m;
+            }else{
+                id = node[id].r;
+                l = m;
+            }
+        }
+        return node[id].val;
+    }
     T operator[](const int &k) const { return get(latest_version(), k); }
 
     template<class F>
