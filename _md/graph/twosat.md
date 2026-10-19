@@ -19,6 +19,10 @@ tags: 有向グラフ
   含意 `u -> v` を加える
 - `void add_or(int u, int v)`
   節 `u or v` を加える
+- `void add_clause(int i, bool f, int j, bool g)`
+  節 `(x_i == f) || (x_j == g)` を加える。`i,j` は元の変数番号 `0..n-1`。償却 $O(1)$ 時間・領域
+- `void fix(int i, bool value)`
+  元の変数 `x_i` を `value` に固定する。償却 $O(1)$ 時間・領域
 - `void at_most_one(const vector<int>& literals)`
   与えたリテラルのうち真になるものを高々1つに制限する。候補数を $K$ として追加は償却 $O(K)$ 時間・領域
 - `vector<int> build()`
@@ -27,6 +31,10 @@ tags: 有向グラフ
 ## 使い方
 正リテラルを `0..n-1`、負リテラルを `negate(i)` で表す。
 制約を追加したあと `build()` を呼び、返り値 `res[i]` を変数 `i` の真偽として使う。
+
+`x_i == a` と `x_j == b` が同時に成立してはいけない場合は、`sat.add_clause(i, !a, j, !b);` と書く。
+`sat.fix(i, true);` は `x_i` を真に固定する。bool 引数は成立させたい値を表す。
+これらの入口は補助変数を増やさず、既存の節や排他制約と混在できる。制約追加後に再び `build()` を呼べる。
 
 `sat.at_most_one({0, sat.negate(1), 2});` のように排他制約を追加できる。
 補助変数は内部で確保され、追加前のリテラル番号は変わらない。

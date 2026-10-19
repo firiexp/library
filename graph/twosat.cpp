@@ -118,6 +118,15 @@ struct TwoSAT {
     void add_or(int u, int v){ // u || v
         add_if(negate(u), v);
     }
+
+    void add_clause(int i, bool f, int j, bool g) {
+        assert(0 <= i && i < n && 0 <= j && j < n);
+        add_or(f ? i : negate(i), g ? j : negate(j));
+    }
+
+    void fix(int i, bool value) {
+        add_clause(i, value, i, value);
+    }
 };
 
 /**

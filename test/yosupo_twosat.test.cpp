@@ -1,47 +1,29 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/two_sat"
-#include <iostream>
-#include <algorithm>
-#include <map>
-#include <set>
-#include <queue>
-#include <stack>
-#include <numeric>
-#include <bitset>
-#include <cmath>
 
-static const int MOD = 1000000007;
-using ll = long long;
-using uint = unsigned;
-using ull = unsigned long long;
+#include <bits/stdc++.h>
 using namespace std;
 
-template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
-
+#include "../util/fastio.cpp"
 #include "../graph/twosat.cpp"
 
 int main() {
-    string s, t;
+    Scanner in;
+    Printer out;
+    string p, cnf;
     int n, m;
-    cin >> s >> t >> n >> m;
-    TwoSAT G(n);
+    in >> p >> cnf >> n >> m;
+    TwoSAT sat(n);
     for (int i = 0; i < m; ++i) {
-        int a, b; char x;
-        scanf(" %d %d %c", &a, &b, &x);
-        if(a < 0) a = n-a;
-        if(b < 0) b = n-b;
-        G.add_or(a-1, b-1);
+        int a, b, zero;
+        in >> a >> b >> zero;
+        sat.add_clause(abs(a) - 1, a > 0, abs(b) - 1, b > 0);
     }
-    auto ans = G.build();
-    if(ans.empty()){
-        puts("s UNSATISFIABLE");
-    }else {
-        puts("s SATISFIABLE");
-        printf("v ");
-        for (int i = 0; i < ans.size(); ++i) {
-            if(ans[i]) printf("%d ", i+1);
-            else printf("%d ", -(i+1));
-        }
-        puts("0");
+    auto answer = sat.build();
+    if (answer.empty()) {
+        out << "s UNSATISFIABLE\n";
+    } else {
+        out << "s SATISFIABLE\nv ";
+        for (int i = 0; i < n; ++i) out << (answer[i] ? i + 1 : -(i + 1)) << ' ';
+        out << "0\n";
     }
-    return 0;
 }
