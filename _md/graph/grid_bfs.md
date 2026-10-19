@@ -17,10 +17,17 @@ documentation_of: //graph/grid_bfs.cpp
   最寄りの始点からマス `(r, c)` までの歩数。壁・未到達は `INF<int>`。座標は範囲内とする
 - `result.path_to(r, c)`
   始点からマス `(r, c)` までの座標列。未到達・範囲外なら空配列
+- `grid_bfs_to(h, w, sr, sc, tr, tc, passable)`
+  単一始点から終点 `(tr, tc)` まで探索し、その距離が確定した時点で止める
+- `grid_bfs_to(h, w, sources, tr, tc, passable)`
+  複数始点から終点まで探索する。壁上の始点は無視する
+- 終点指定の戻り値 `GridBFSTargetResult`
+  `distance` は終点までの歩数、`path` は座標列。終点が壁・未到達なら `INF<int>` と空配列。通行可能な始点に終点が含まれれば距離0と終点1個の経路
 
 ## 使い方
 `h,w >= 0`、`h*w <= INT_MAX` とする。始点は範囲内に限り、壁上の始点は無視する。
 空のグリッドでは空の始点 vector を渡す。
+終点指定では `h,w >= 1` とし、終点も範囲内に限る。
 `passable` は範囲内の座標だけで呼ばれる。探索中は判定結果を変えない。
 
 ```cpp
@@ -30,9 +37,13 @@ int distance = result.distance(tr, tc);
 auto path = result.path_to(tr, tc);
 ```
 
+終点だけが必要なら `auto result = grid_bfs_to(h, w, sr, sc, tr, tc, passable);` とし、`result.distance` と `result.path` を使う。
+終点からの隣接マスの探索は行わない。
+
 `result.paths` は頂点 ID を `r*w+c` とした `GeneratedShortestPathResult<int>`。
 層・方向を持つ状態や4近傍以外の遷移は、汎用の `bfs_generated` / `bfs01_generated` / `dijkstra_generated` で記述する。
 
 ## 実装上の補足
-通行判定を $O(1)$ とすると、時間・領域は $O(hw)$。到達領域が狭い場合も全マスの距離初期化は行う。
+通行判定を $O(1)$、始点列の長さを $S$ とすると、時間は $O(hw+S)$、領域は $O(hw+S)$。
+終点指定は確定後の探索を省くが、到達領域が狭い場合も全マスの距離初期化は行う。到達不能なら全探索になる。
 経路復元の時間・追加領域は経路長に比例する。

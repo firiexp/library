@@ -30,9 +30,31 @@ void check_paths(const GeneratedShortestPathResult<T> &result, const vector<int>
     }
 }
 
+template<class T>
+void check_target(const GeneratedShortestPathTargetResult<T> &result, int t,
+                  const GeneratedShortestPathResult<T> &full, const vector<int> &sources,
+                  const vector<vector<edge<T>>> &g) {
+    assert(result.distance == full.dist[t] && result.path == full.path_to(t));
+    if (result.distance == INF<T>) {
+        assert(result.path.empty());
+        return;
+    }
+    assert(!result.path.empty() && result.path.back() == t && result.path.size() <= g.size());
+    assert(find(sources.begin(), sources.end(), result.path.front()) != sources.end());
+    T sum = 0;
+    for (int i = 1; i < (int)result.path.size(); ++i) {
+        int u = result.path[i - 1], v = result.path[i];
+        T cost = INF<T>;
+        for (auto e : g[u]) if (e.to == v) cost = min(cost, e.cost);
+        assert(cost != INF<T>);
+        sum += cost;
+    }
+    assert(sum == result.distance);
+}
+
 int main() {
     mt19937 rng(235);
-    for (int trial = 0; trial < 1200; ++trial) {
+    for (int trial = 0; trial < 1500; ++trial) {
         int n = rng() % 25;
         vector<vector<edge<long long>>> g(n);
         vector<vector<long long>> floyd(n, vector<long long>(n, INF<long long>));
@@ -63,11 +85,21 @@ int main() {
         auto result = dijkstra_generated<long long>(n, sources, edges);
         assert(result.dist == expected);
         check_paths(result, sources, g);
+        for (int t = 0; t < n; ++t) {
+            fill(calls.begin(), calls.end(), 0);
+            check_target(dijkstra_generated_to<long long>(n, sources, t, edges), t, result, sources, g);
+            assert(calls[t] == 0);
+        }
         if (mode <= 1) {
             fill(calls.begin(), calls.end(), 0);
             auto binary = bfs01_generated<long long>(n, sources, edges);
             assert(binary.dist == expected);
             check_paths(binary, sources, g);
+            for (int t = 0; t < n; ++t) {
+                fill(calls.begin(), calls.end(), 0);
+                check_target(bfs01_generated_to<long long>(n, sources, t, edges), t, binary, sources, g);
+                assert(calls[t] == 0);
+            }
         }
         if (mode == 0) {
             fill(calls.begin(), calls.end(), 0);
@@ -81,6 +113,14 @@ int main() {
                 for (auto e : g[v]) unit[v].emplace_back(e.to, 1);
             }
             check_paths(unweighted, sources, unit);
+            for (int t = 0; t < n; ++t) {
+                fill(calls.begin(), calls.end(), 0);
+                auto target = bfs_generated_to(n, sources, t, [&](int v, auto emit) {
+                    assert(++calls[v] == 1 && v != t);
+                    for (auto e : g[v]) emit(e.to);
+                });
+                check_target(target, t, unweighted, sources, unit);
+            }
         }
         if (n) {
             auto emit_edges = [&](int v, auto emit) { for (auto e : g[v]) emit(e.to, e.cost); };
@@ -121,6 +161,8 @@ int main() {
             vector<pair<int, int>> path;
             for (int id : result.paths.path_to(r * w + c)) path.emplace_back(id / w, id % w);
             assert(result.path_to(r, c) == path);
+            auto target = grid_bfs_to(h, w, sources, r, c, passable);
+            assert(target.distance == expected[r * w + c] && target.path == path);
         }
         assert(result.path_to(h, 0).empty());
         int sr = rng() % h, sc = rng() % w;
@@ -129,6 +171,9 @@ int main() {
         if (passable(sr, sc)) initial[sr * w + sc] = 0;
         assert(single.paths.dist == dijkstra_from_distances(initial, g));
         check_paths(single.paths, vector<int>{sr * w + sc}, g);
+        int tr = rng() % h, tc = rng() % w;
+        auto target = grid_bfs_to(h, w, sr, sc, tr, tc, passable);
+        assert(target.distance == single.distance(tr, tc) && target.path == single.path_to(tr, tc));
     }
     auto empty = grid_bfs(0, 5, vector<pair<int, int>>{}, [](int, int) { assert(false); return true; });
     assert(empty.paths.dist.empty() && empty.path_to(0, 0).empty());
@@ -147,4 +192,36 @@ int main() {
     assert(layers.dist[width + 8] == 5 && layers.dist[8] == 0);
     auto single = bfs_generated(1, 0, [](int, auto) {});
     assert(single.path_to(0) == vector<int>{0});
+    auto no_edges = [](int, auto) { assert(false); };
+    assert(bfs_generated_to(1, 0, 0, no_edges).path == vector<int>{0});
+    assert(bfs01_generated_to(1, 0, 0, no_edges).path == vector<int>{0});
+    assert(dijkstra_generated_to<long long>(1, 0, 0, no_edges).path == vector<int>{0});
+    auto shorter = [](int v, auto emit) {
+        assert(v != 1);
+        if (v == 0) { emit(1, 1); emit(2, 0); }
+        if (v == 2) { emit(1, 0); emit(2, 0); }
+    };
+    auto binary_target = bfs01_generated_to(3, 0, 1, shorter);
+    auto weighted_target = dijkstra_generated_to<long long>(3, 0, 1, shorter);
+    assert(binary_target.distance == 0 && binary_target.path == vector<int>({0, 2, 1}));
+    assert(weighted_target.distance == 0 && weighted_target.path == vector<int>({0, 2, 1}));
+    auto unweighted_target = bfs_generated_to(3, vector<int>{0, 0, 1}, 1, [](int v, auto emit) {
+        assert(v == 0);
+        emit(2);
+    });
+    assert(unweighted_target.distance == 0 && unweighted_target.path == vector<int>{1});
+    auto capped = dijkstra_generated_to<long long>(3, 0, 2, [](int v, auto emit) {
+        if (v == 0) emit(1, INF<long long> - 1);
+        if (v == 1) emit(2, LLONG_MAX);
+    });
+    assert(capped.distance == INF<long long> && capped.path.empty());
+    for (auto [h, w] : {pair<int, int>{1, 5}, {5, 1}, {1, 1}}) {
+        auto open = grid_bfs_to(h, w, 0, 0, h - 1, w - 1, [](int, int) { return true; });
+        assert(open.distance == h + w - 2 && (int)open.path.size() == h + w - 1);
+        auto wall = [&](int r, int c) { return r != h - 1 || c != w - 1; };
+        auto blocked = grid_bfs_to(h, w, 0, 0, h - 1, w - 1, wall);
+        assert(blocked.distance == INF<int> && blocked.path.empty());
+        auto blocked_sources = grid_bfs_to(h, w, vector<pair<int, int>>{{h - 1, w - 1}, {h - 1, w - 1}}, 0, 0, wall);
+        assert(blocked_sources.distance == INF<int> && blocked_sources.path.empty());
+    }
 }
