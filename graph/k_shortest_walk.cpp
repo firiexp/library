@@ -8,14 +8,20 @@ vector<T> k_shortest_walk(int s, int t, int k, const vector<vector<edge<T>>> &g)
     int n = (int)g.size();
     assert(0 <= s && s < n && 0 <= t && t < n && k >= 0);
     if (k == 0) return {};
-    vector<vector<pair<int, int>>> reverse_graph(n);
-    size_t m = 0;
+    vector<size_t> reverse_start(n + 1);
     for (int v = 0; v < n; ++v) {
-        m += g[v].size();
-        for (int i = 0; i < (int)g[v].size(); ++i) {
-            const auto &e = g[v][i];
+        for (const auto &e : g[v]) {
             assert(0 <= e.to && e.to < n && e.cost >= 0);
-            reverse_graph[e.to].emplace_back(v, i);
+            ++reverse_start[e.to + 1];
+        }
+    }
+    for (int v = 0; v < n; ++v) reverse_start[v + 1] += reverse_start[v];
+    size_t m = reverse_start[n];
+    vector<pair<int, int>> reverse_edges(m);
+    auto cursor = reverse_start;
+    for (int v = 0; v < n; ++v) {
+        for (int i = 0; i < (int)g[v].size(); ++i) {
+            reverse_edges[cursor[g[v][i].to]++] = {v, i};
         }
     }
     vector<T> dist(n);
@@ -29,7 +35,8 @@ vector<T> k_shortest_walk(int s, int t, int k, const vector<vector<edge<T>>> &g)
         queue.pop();
         if (value != dist[v]) continue;
         order.push_back(v);
-        for (auto [u, i] : reverse_graph[v]) {
+        for (size_t ei = reverse_start[v]; ei < reverse_start[v + 1]; ++ei) {
+            auto [u, i] = reverse_edges[ei];
             T next = value + g[u][i].cost;
             if (reached[u] && dist[u] <= next) continue;
             reached[u] = true;

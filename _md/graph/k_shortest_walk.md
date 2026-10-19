@@ -13,7 +13,7 @@ documentation_of: //graph/k_shortest_walk.cpp
 
 - `vector<T> k_shortest_walk(int s, int t, int k, const vector<vector<edge<T>>>& g)`
   `s` から `t` へのコストを非減少順で最大 `k` 個返す。足りなければ存在する分だけ返す
-  時間 $O((N+M)\log(N+M)+K\log(K))$、空間 $O(N+M+N\log(M)+K)$
+  時間 $O((N+M)\log(N+M+1)+K\log(K+1))$、空間 $O(N+M+N\log(M+1)+K)$
 - 到達不能または `k == 0` なら空。`s == t` では長さ0の空ウォークも1本に数える
 - `t` を途中で通って再び戻るウォークも数える
 - 辺列の復元機能はない
@@ -31,4 +31,6 @@ auto costs = k_shortest_walk(s, t, k, g);
 
 ## 実装上の補足
 逆向きDijkstra法で終点への最短路木を作り、木以外の辺の追加コストをleftist heapで管理する。
+逆辺は到着頂点ごとの区間を持つ連続配列に格納する。構築は $O(N+M)$ 時間・領域で、入力隣接表内の辺の位置と順序を保つ。
 各頂点のheap構築は破壊的に行い、最短路木の親から引き継ぐmeldだけを永続化する。
+`k == 0` は探索前に空配列を返し、`k == 1` は最短距離だけを返して列挙用heapを構築しない。

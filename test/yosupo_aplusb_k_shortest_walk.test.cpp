@@ -39,6 +39,22 @@ void check(const vector<vector<edge<ll>>> &g, int s, int t, int k) {
 }
 
 void self_check() {
+    vector<vector<edge<ll>>> empty(1);
+    assert(k_shortest_walk(0, 0, 0, empty).empty());
+    assert(k_shortest_walk(0, 0, 1, empty) == vector<ll>{0});
+    assert(k_shortest_walk(0, 0, 10, empty) == vector<ll>{0});
+    vector<vector<edge<ll>>> return_to_target(3);
+    return_to_target[0].emplace_back(1, 2);
+    return_to_target[0].emplace_back(1, 2);
+    return_to_target[1].emplace_back(2, 3);
+    return_to_target[2].emplace_back(1, 4);
+    assert(k_shortest_walk(0, 1, 7, return_to_target) == vector<ll>({2, 2, 9, 9, 16, 16, 23}));
+    vector<vector<edge<ll>>> tied(2);
+    tied[0].emplace_back(1, 0);
+    tied[0].emplace_back(1, 0);
+    tied[1].emplace_back(0, 0);
+    tied[1].emplace_back(1, 0);
+    assert(k_shortest_walk(0, 1, 10000, tied) == vector<ll>(10000, 0));
     for (int mask = 0; mask < 81; ++mask) {
         vector<vector<edge<ll>>> g(2);
         int state = mask;
