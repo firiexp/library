@@ -2,6 +2,11 @@
 #define FIRIEXP_LIBRARY_TREE_EULER_TOUR_TREE_CPP
 
 struct EulerTourTree {
+    struct SubtreeInfo {
+        int size;
+        long long sum;
+    };
+
     struct Node {
         int left = -1, right = -1, parent = -1, count = 0;
         long long value = 0, sum = 0, lazy = 0;
@@ -59,11 +64,15 @@ struct EulerTourTree {
         restore(a, middle, b);
     }
 
-    long long subtree_sum(int v, int p) {
+    SubtreeInfo subtree_info(int v, int p) {
         auto [a, middle, b] = isolate(v, p);
-        long long result = nodes[middle].sum;
+        SubtreeInfo result{nodes[middle].count, nodes[middle].sum};
         restore(a, middle, b);
         return result;
+    }
+
+    long long subtree_sum(int v, int p) {
+        return subtree_info(v, p).sum;
     }
 
     void vertex_add(int v, long long delta) {

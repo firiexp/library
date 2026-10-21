@@ -77,7 +77,10 @@ void random_forest(int n, mt19937 &rng) {
     };
     auto check_sum = [&](int v, int p) {
         long long expected = 0;
-        for (int u : component(adj, v, p)) expected += value[u];
+        auto vertices = component(adj, v, p);
+        for (int u : vertices) expected += value[u];
+        auto info = tree.subtree_info(v, p);
+        assert(info.size == (int)vertices.size() && info.sum == expected);
         assert(tree.subtree_sum(v, p) == expected);
     };
     for (int step = 0; step < 1000; ++step) {
@@ -135,6 +138,38 @@ void random_forest(int n, mt19937 &rng) {
     check_storage(tree);
 }
 
+void subtree_info_regression() {
+    EulerTourTree tree(vector<long long>{1, 2, 3, 4, 5});
+    auto check = [&](int v, int p, int size, long long sum) {
+        auto info = tree.subtree_info(v, p);
+        assert(info.size == size && info.sum == sum);
+        assert(tree.subtree_sum(v, p) == sum);
+        check_storage(tree);
+    };
+    check(4, -1, 1, 5);
+    assert(tree.link(0, 1) && tree.link(1, 2) && tree.link(1, 3));
+    check(1, 0, 3, 9);
+    check(0, 1, 1, 1);
+    tree.subtree_add(1, 0, 10);
+    check(1, 0, 3, 39);
+    check(0, -1, 4, 40);
+    size_t storage = tree.nodes.size();
+    assert(tree.cut(2, 1));
+    check(2, -1, 1, 13);
+    assert(tree.link(4, 2));
+    assert(tree.nodes.size() == storage && tree.free_nodes.empty());
+    check(4, -1, 2, 18);
+    tree.subtree_add(2, 4, -3);
+    tree.vertex_add(4, 7);
+    check(2, 4, 1, 10);
+    check(4, 2, 1, 12);
+    assert(tree.get(2) == 10 && tree.get(4) == 12);
+    assert(!tree.connected(0, 2) && tree.connected(2, 4));
+    assert(tree.link(1, 2));
+    check(1, 0, 4, 48);
+    check(4, -1, 5, 49);
+}
+
 void long_path() {
     int n = 200000, k = n / 2;
     EulerTourTree tree(vector<long long>(n, 1));
@@ -153,6 +188,10 @@ void long_path() {
         if (step % 2) assert(tree.cut(k - 1, k));
         else assert(tree.cut(k, k - 1));
         assert(!tree.connected(0, n - 1));
+        auto left_info = tree.subtree_info(0, -1);
+        auto right_info = tree.subtree_info(n - 1, -1);
+        assert(left_info.size == k && left_info.sum == k * left);
+        assert(right_info.size == n - k && right_info.sum == (n - k) * right);
         assert(tree.subtree_sum(0, -1) == k * left);
         assert(tree.subtree_sum(n - 1, -1) == (n - k) * right);
         assert(tree.free_nodes.size() == 2);
@@ -168,6 +207,7 @@ void long_path() {
 int main() {
     EulerTourTree empty(vector<long long>{});
     check_storage(empty);
+    subtree_info_regression();
     for (unsigned seed : {1u, 314159u, 271828u}) {
         mt19937 rng(seed);
         for (int n : {1, 2, 3, 8, 17, 32}) {
