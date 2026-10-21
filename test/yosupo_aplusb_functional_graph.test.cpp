@@ -46,7 +46,16 @@ void check_levels(const FunctionalGraph &fg) {
     for (const auto &row : fg.up) assert((int)row.size() == fg.n);
 }
 
-void check_distances(const FunctionalGraph &fg, const vector<int> &to) {
+int brute_meeting_time(const vector<int> &to, int u, int v) {
+    for (int t = 0; t < (int)to.size(); ++t) {
+        if (u == v) return t;
+        u = to[u];
+        v = to[v];
+    }
+    return -1;
+}
+
+void check_queries(const FunctionalGraph &fg, const vector<int> &to) {
     check_levels(fg);
     int n = to.size();
     for (int s = 0; s < n; ++s) {
@@ -56,11 +65,19 @@ void check_distances(const FunctionalGraph &fg, const vector<int> &to) {
             expected[cur] = d++;
             cur = to[cur];
         }
-        for (int t = 0; t < n; ++t) assert(fg.distance(s, t) == expected[t]);
+        for (int t = 0; t < n; ++t) {
+            assert(fg.distance(s, t) == expected[t]);
+            int meeting = fg.meeting_time(s, t);
+            assert(meeting == brute_meeting_time(to, s, t));
+            if (meeting != -1) {
+                assert(fg.jump(s, meeting) == fg.jump(t, meeting));
+                if (meeting > 0) assert(fg.jump(s, meeting - 1) != fg.jump(t, meeting - 1));
+            }
+        }
     }
 }
 
-void exhaustive_distance_check() {
+void exhaustive_query_check() {
     for (int n = 1; n <= 6; ++n) {
         int total = 1;
         for (int i = 0; i < n; ++i) total *= n;
@@ -71,12 +88,21 @@ void exhaustive_distance_check() {
                 v = cur % n;
                 cur /= n;
             }
-            check_distances(FunctionalGraph(to), to);
+            check_queries(FunctionalGraph(to), to);
         }
     }
 }
 
 void self_check() {
+    FunctionalGraph fixed(vector<int>{1, 2, 0, 0, 3, 3, 1, 7, 0});
+    check_queries(fixed, fixed.to);
+    assert(fixed.meeting_time(0, 1) == -1);
+    assert(fixed.meeting_time(4, 5) == 1);
+    assert(fixed.meeting_time(3, 8) == 1);
+    assert(fixed.meeting_time(3, 6) == -1);
+    assert(fixed.meeting_time(4, 1) == 2);
+    assert(fixed.meeting_time(0, 7) == -1);
+    assert(fixed.meeting_time(7, 7) == 0);
     mt19937 rng(0);
     for (int tc = 0; tc < 500; ++tc) {
         int n = rng() % 30 + 1;
@@ -88,7 +114,7 @@ void self_check() {
         fg.build();
 
         FunctionalGraph fg2(to);
-        check_distances(fg, to);
+        check_queries(fg, to);
         for (int v = 0; v < n; ++v) {
             assert(fg.jump(v, 0) == v);
             assert(fg.jump(v, 1) == to[v]);
@@ -140,7 +166,7 @@ void self_check() {
         }
         fg.build();
         FunctionalGraph rebuilt(to);
-        check_distances(fg, to);
+        check_queries(fg, to);
         assert(fg.comp_id == rebuilt.comp_id);
         assert(fg.cycle_pos == rebuilt.cycle_pos);
         assert(fg.cycle_len == rebuilt.cycle_len);
@@ -162,6 +188,8 @@ void self_check() {
         FunctionalGraph fg(to);
         for (int v = 0; v < n; ++v) {
             assert(fg.distance(v, n - 1) == n - 1 - v);
+            assert(fg.meeting_time(v, n - 1) == n - 1 - v);
+            assert(fg.meeting_time(v, 0) == (v == 0 ? 0 : n - 1));
             assert(fg.distance(v, v) == 0);
             assert(fg.distance(v, 0) == (v == 0 ? 0 : -1));
             int t = n / 2;
@@ -183,6 +211,7 @@ void self_check() {
         assert(fg.up.size() == 1);
         for (int v = 0; v < n; ++v) {
             assert(fg.distance(v, n / 2) == (n / 2 - v + n) % n);
+            assert(fg.meeting_time(v, n / 2) == (v == n / 2 ? 0 : -1));
         }
         for (int v : {0, n / 2, n - 1}) {
             assert(fg.in_cycle(v));
@@ -201,6 +230,7 @@ void self_check() {
                 assert(fg.jump(v, LLONG_MAX) == (shape == 0 ? v : 0));
                 int distance = shape == 0 ? (v == 0 ? 0 : -1) : shape == 1 ? (v != 0) : v;
                 assert(fg.distance(v, 0) == distance);
+                assert(fg.meeting_time(v, 0) == distance);
                 if (shape == 2 && v > 1) {
                     assert(fg.jump(v, v - 1) == 1);
                     assert(fg.distance(v, 1) == v - 1);
@@ -210,8 +240,24 @@ void self_check() {
     }
 }
 
+void deep_meeting_check() {
+    int depth = 100000;
+    vector<int> to(2 * depth + 1);
+    for (int v = 1; v <= depth; ++v) {
+        to[v] = v - 1;
+        to[depth + v] = v == 1 ? 0 : depth + v - 1;
+    }
+    FunctionalGraph fg(to);
+    for (int v = 1; v <= depth; ++v) assert(fg.meeting_time(v, depth + v) == v);
+    fg.set_edge(depth + depth / 2, depth / 2 - 1);
+    fg.build();
+    for (int v = depth / 2; v <= depth; ++v) {
+        assert(fg.meeting_time(v, depth + v) == v - depth / 2 + 1);
+    }
+}
+
 int main() {
     self_check();
-    exhaustive_distance_check();
-
+    exhaustive_query_check();
+    deep_meeting_check();
 }

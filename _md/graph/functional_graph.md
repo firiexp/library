@@ -8,11 +8,11 @@ tags: グラフ
 
 ## 説明
 各頂点の出次数が 1 の有向グラフを扱う。
-cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の最小遷移回数、各頂点が属する閉路情報を取る。
+cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の最小遷移回数、同時に進む二頂点の最初の合流時刻、各頂点が属する閉路情報を取る。
 閉路までの距離の最大値を $D$ とし、空グラフでは $D=0$ とする。
 
 ## できること
-`jump`・`distance` 以外の問い合わせは $O(1)$。
+`jump`・`distance`・`meeting_time` 以外の問い合わせは $O(1)$。
 
 - `FunctionalGraph fg(n)`
   `n` 頂点の関数グラフを作る。$O(N)$
@@ -26,6 +26,8 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の
   `v` から `k` 回遷移した先を返す。$0 \le k \le 2^{63}-1$。閉路到達前は $O(\log(k))$、到達後は $O(1)$
 - `int distance(int s, int t) const`
   `s` から `t` への最小遷移回数を返す。到達不能なら `-1`、`s == t` なら `0`。$O(\log N)$、`t` が閉路上なら $O(1)$。追加領域 $O(1)$
+- `int meeting_time(int u, int v) const`
+  `u, v` から同時に1辺ずつ進み、初めて同じ頂点に到達する時刻を返す。合流しなければ `-1`、`u == v` なら `0`。$O(\log(D+2))$ 時間・追加領域 $O(1)$
 - `bool in_cycle(int v)`
   `v` が閉路上なら `true`
 - `int cycle_id(int v)`
@@ -45,7 +47,8 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の
 各頂点の遷移先を `set_edge` で入れてから `build()` を呼ぶ。
 辺を変更した後は再び `build()` を呼ぶ。
 `jump(v, k)` で `k` 個先を求め、`steps_to_cycle(v)` や `cycle_size(v)` で構造情報を使う。
-`distance(s, t)` は同じ `build()` の結果で使え、追加の前処理は不要。
+`distance(s, t)` と `meeting_time(u, v)` は同じ `build()` の結果で使え、追加の前処理は不要。
+問い合わせの頂点番号は有効な範囲とする。空グラフでは問い合わせできない。
 
 ```cpp
 FunctionalGraph fg(n);
@@ -56,9 +59,14 @@ fg.build();
 
 int x = fg.jump(v, k);
 int len = fg.cycle_size(v);
+int t = fg.meeting_time(u, v);
+if (t != -1) {
+    int meeting_vertex = fg.jump(u, t);
+}
 ```
 
 ## 実装上の補足
 - `up` は閉路到達前の遷移だけに使う。段数は $D=0$ なら1、$D>0$ なら $\lfloor\log_2 D\rfloor+1$。各段は `N` 要素で、再 `build` 時に最大距離に合わせて作り直す
 - `cycle(id)` の先頭は実装依存だが、並び順は常に遷移先方向にそろう
 - `cycle_index(v)` は非閉路頂点でも使え、`cycle_vertex(v)` の位置を返す
+- `meeting_time` は成分、閉路上の位相、閉路までの距離を比較する。別成分・位相不一致・距離不一致なら $O(1)$、同じ深さの流入木では doubling を1回降りる。合流時刻は存在すれば $N-1$ 以下

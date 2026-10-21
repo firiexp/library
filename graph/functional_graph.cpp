@@ -119,6 +119,27 @@ struct FunctionalGraph {
         return d >= 0 && jump(s, d) == t ? d : -1;
     }
 
+    int meeting_time(int u, int v) const {
+        if (u == v) return 0;
+        if (comp_id[u] != comp_id[v]) return -1;
+        auto phase = [&](int x) {
+            int pos = (cycle_pos[x] - dist_to_cycle[x]) % cycle_len[x];
+            return pos < 0 ? pos + cycle_len[x] : pos;
+        };
+        if (phase(u) != phase(v)) return -1;
+        if (dist_to_cycle[u] != dist_to_cycle[v]) {
+            return dist_to_cycle[u] > dist_to_cycle[v] ? dist_to_cycle[u] : dist_to_cycle[v];
+        }
+        int steps = 0;
+        for (int k = (int)up.size() - 1; k >= 0; --k) {
+            if (up[k][u] == up[k][v]) continue;
+            u = up[k][u];
+            v = up[k][v];
+            steps += 1 << k;
+        }
+        return steps + 1;
+    }
+
     bool in_cycle(int v) const {
         return dist_to_cycle[v] == 0;
     }
