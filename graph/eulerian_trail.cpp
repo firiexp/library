@@ -30,18 +30,17 @@ struct EulerianTrail {
             return {true, {0}, {}};
         }
 
-        vector<int> indeg(n), outdeg(n), deg(n);
-        for (auto&& e : edges) {
-            ++outdeg[e.from];
-            ++indeg[e.to];
+        vector<int> deg(n);
+        for (const auto &e : edges) {
             ++deg[e.from];
-            ++deg[e.to];
+            if constexpr (directed) --deg[e.to];
+            else ++deg[e.to];
         }
 
         int start = -1, plus = 0, minus = 0;
         if constexpr (directed) {
             for (int v = 0; v < n; ++v) {
-                int diff = outdeg[v] - indeg[v];
+                int diff = deg[v];
                 if (diff == 1) {
                     start = v;
                     ++plus;
@@ -56,7 +55,7 @@ struct EulerianTrail {
             }
             if (start == -1) {
                 for (int v = 0; v < n; ++v) {
-                    if (outdeg[v] > 0) {
+                    if (!g[v].empty()) {
                         start = v;
                         break;
                     }
@@ -81,12 +80,20 @@ struct EulerianTrail {
             }
         }
 
-        vector<int> ptr(n), used(m);
-        vector<int> st_v{start}, st_e{-1};
-        vector<int> vs, es;
+        vector<int> ptr(n), used;
+        if constexpr (!directed) used.assign(m, 0);
+        vector<int> st_v, st_e, vs, es;
+        st_v.reserve((size_t)m + 1);
+        st_e.reserve((size_t)m + 1);
+        vs.reserve((size_t)m + 1);
+        es.reserve(m);
+        st_v.push_back(start);
+        st_e.push_back(-1);
         while (!st_v.empty()) {
             int v = st_v.back();
-            while (ptr[v] < (int)g[v].size() && used[g[v][ptr[v]].second]) ++ptr[v];
+            if constexpr (!directed) {
+                while (ptr[v] < (int)g[v].size() && used[g[v][ptr[v]].second]) ++ptr[v];
+            }
             if (ptr[v] == (int)g[v].size()) {
                 vs.push_back(v);
                 st_v.pop_back();
@@ -96,8 +103,7 @@ struct EulerianTrail {
                 continue;
             }
             auto [to, id] = g[v][ptr[v]++];
-            if (used[id]) continue;
-            used[id] = 1;
+            if constexpr (!directed) used[id] = 1;
             st_v.push_back(to);
             st_e.push_back(id);
         }
@@ -105,7 +111,7 @@ struct EulerianTrail {
         if ((int)es.size() != m) return {false, {}, {}};
         reverse(vs.begin(), vs.end());
         reverse(es.begin(), es.end());
-        return {true, vs, es};
+        return {true, move(vs), move(es)};
     }
 };
 
