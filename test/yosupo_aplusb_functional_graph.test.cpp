@@ -1,5 +1,6 @@
 #define STANDALONE
 
+#include <algorithm>
 #include <cassert>
 #include <climits>
 #include <random>
@@ -36,7 +37,17 @@ int brute_jump(const vector<int> &to, int start, long long k) {
     return ord[offset + (k - offset) % len];
 }
 
+void check_levels(const FunctionalGraph &fg) {
+    int depth = 0;
+    for (int d : fg.dist_to_cycle) depth = max(depth, d);
+    int levels = 1;
+    while ((1LL << levels) <= depth) ++levels;
+    assert((int)fg.up.size() == levels);
+    for (const auto &row : fg.up) assert((int)row.size() == fg.n);
+}
+
 void check_distances(const FunctionalGraph &fg, const vector<int> &to) {
+    check_levels(fg);
     int n = to.size();
     for (int s = 0; s < n; ++s) {
         vector<int> expected(n, -1);
@@ -123,7 +134,6 @@ void self_check() {
             assert(seen_cycle[cid] == (int)fg.cycle(cid).size());
         }
 
-        // Rebuild all cycle metadata after changing edges.
         for (int v = 0; v < n; ++v) {
             to[v] = rng() % n;
             fg.set_edge(v, to[v]);
@@ -145,6 +155,7 @@ void self_check() {
     FunctionalGraph empty(vector<int>{});
     empty.build();
     assert(empty.cycles.empty());
+    check_levels(empty);
     for (int n : {1, 2, 3, 7, 8, 9, 1023, 1024, 1025, 200000}) {
         vector<int> to(n);
         for (int v = 0; v < n; ++v) to[v] = min(v + 1, n - 1);
@@ -156,9 +167,7 @@ void self_check() {
             int t = n / 2;
             assert(fg.distance(v, t) == (v <= t ? t - v : -1));
         }
-        int levels = 1;
-        while ((1LL << levels) < n) ++levels;
-        assert((int)fg.up.size() == levels);
+        check_levels(fg);
         for (int v : {0, n / 2, n - 1}) {
             for (long long k : {0LL, 1LL, (long long)n - v - 1,
                                 (long long)n - v, LLONG_MAX}) {
@@ -171,6 +180,7 @@ void self_check() {
         }
         fg.set_edge(n - 1, 0);
         fg.build();
+        assert(fg.up.size() == 1);
         for (int v = 0; v < n; ++v) {
             assert(fg.distance(v, n / 2) == (n / 2 - v + n) % n);
         }
@@ -178,6 +188,23 @@ void self_check() {
             assert(fg.in_cycle(v));
             for (long long k : {0LL, 1LL, (long long)n, LLONG_MAX}) {
                 assert(fg.jump(v, k) == (v + k % n) % n);
+            }
+        }
+        for (int shape = 0; shape < 3; ++shape) {
+            for (int v = 0; v < n; ++v) {
+                fg.set_edge(v, shape == 0 ? v : shape == 1 ? 0 : max(v - 1, 0));
+            }
+            fg.build();
+            check_levels(fg);
+            for (int v = 0; v < n; ++v) {
+                assert(fg.jump(v, 0) == v);
+                assert(fg.jump(v, LLONG_MAX) == (shape == 0 ? v : 0));
+                int distance = shape == 0 ? (v == 0 ? 0 : -1) : shape == 1 ? (v != 0) : v;
+                assert(fg.distance(v, 0) == distance);
+                if (shape == 2 && v > 1) {
+                    assert(fg.jump(v, v - 1) == 1);
+                    assert(fg.distance(v, 1) == v - 1);
+                }
             }
         }
     }

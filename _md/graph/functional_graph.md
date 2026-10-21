@@ -9,6 +9,7 @@ tags: グラフ
 ## 説明
 各頂点の出次数が 1 の有向グラフを扱う。
 cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の最小遷移回数、各頂点が属する閉路情報を取る。
+閉路までの距離の最大値を $D$ とし、空グラフでは $D=0$ とする。
 
 ## できること
 `jump`・`distance` 以外の問い合わせは $O(1)$。
@@ -16,11 +17,11 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の
 - `FunctionalGraph fg(n)`
   `n` 頂点の関数グラフを作る。$O(N)$
 - `FunctionalGraph fg(to)`
-  遷移先配列 `to` から作ってそのまま `build` する。$O(N \log N)$
+  遷移先配列 `to` から作ってそのまま `build` する。$O(N \log(D+2))$
 - `void set_edge(int v, int nxt)`
   `v -> nxt` を設定する
 - `void build()`
-  閉路分解と doubling を前計算する。時間・領域 $O(N \log N)$
+  閉路分解と doubling を前計算する。時間・領域 $O(N \log(D+2))$。$D \le 1$ なら $O(N)$、最悪 $O(N \log N)$
 - `int jump(int v, long long k)`
   `v` から `k` 回遷移した先を返す。$0 \le k \le 2^{63}-1$。閉路到達前は $O(\log(k))$、到達後は $O(1)$
 - `int distance(int s, int t) const`
@@ -58,6 +59,6 @@ int len = fg.cycle_size(v);
 ```
 
 ## 実装上の補足
-- `up` は閉路到達前の遷移だけに使う。段数は `max(1, ceil(log2(N)))`
+- `up` は閉路到達前の遷移だけに使う。段数は $D=0$ なら1、$D>0$ なら $\lfloor\log_2 D\rfloor+1$。各段は `N` 要素で、再 `build` 時に最大距離に合わせて作り直す
 - `cycle(id)` の先頭は実装依存だが、並び順は常に遷移先方向にそろう
 - `cycle_index(v)` は非閉路頂点でも使え、`cycle_vertex(v)` の位置を返す

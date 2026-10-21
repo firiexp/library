@@ -31,16 +31,6 @@ struct FunctionalGraph {
     }
 
     void build() {
-        int levels = 1;
-        while ((1LL << levels) < n) ++levels;
-        up.assign(levels, vector<int>(n, -1));
-        for (int v = 0; v < n; ++v) up[0][v] = to[v];
-        for (int k = 0; k + 1 < levels; ++k) {
-            for (int v = 0; v < n; ++v) {
-                up[k + 1][v] = up[k][up[k][v]];
-            }
-        }
-
         vector<int> indeg(n);
         for (int v = 0; v < n; ++v) ++indeg[to[v]];
 
@@ -83,6 +73,7 @@ struct FunctionalGraph {
             cycles.push_back(cyc);
         }
 
+        int max_depth = 0;
         for (int i = (int)order.size() - 1; i >= 0; --i) {
             int v = order[i];
             int nxt = to[v];
@@ -90,7 +81,18 @@ struct FunctionalGraph {
             cycle_pos[v] = cycle_pos[nxt];
             cycle_len[v] = cycle_len[nxt];
             dist_to_cycle[v] = dist_to_cycle[nxt] + 1;
+            if (max_depth < dist_to_cycle[v]) max_depth = dist_to_cycle[v];
             cycle_entry[v] = cycle_entry[nxt];
+        }
+
+        int levels = 1;
+        while ((1LL << levels) <= max_depth) ++levels;
+        up.assign(levels, vector<int>(n, -1));
+        up[0] = to;
+        for (int k = 0; k + 1 < levels; ++k) {
+            for (int v = 0; v < n; ++v) {
+                up[k + 1][v] = up[k][up[k][v]];
+            }
         }
     }
 
