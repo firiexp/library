@@ -17,17 +17,17 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の
 - `FunctionalGraph fg(n)`
   `n` 頂点の関数グラフを作る。$O(N)$
 - `FunctionalGraph fg(to)`
-  遷移先配列 `to` から作ってそのまま `build` する。$O(N \log(D+2))$
+  遷移先配列 `to` から作ってそのまま `build` する。$O(N \log D)$
 - `void set_edge(int v, int nxt)`
   `v -> nxt` を設定する
 - `void build()`
-  閉路分解と doubling を前計算する。時間・領域 $O(N \log(D+2))$。$D \le 1$ なら $O(N)$、最悪 $O(N \log N)$
+  閉路分解と doubling を前計算する。時間・領域 $O(N \log D)$。$D \le 1$ なら $O(N)$、最悪 $O(N \log N)$
 - `int jump(int v, long long k)`
   `v` から `k` 回遷移した先を返す。$0 \le k \le 2^{63}-1$。閉路到達前は $O(\log(k))$、到達後は $O(1)$
 - `int distance(int s, int t) const`
   `s` から `t` への最小遷移回数を返す。到達不能なら `-1`、`s == t` なら `0`。$O(\log N)$、`t` が閉路上なら $O(1)$。追加領域 $O(1)$
 - `int meeting_time(int u, int v) const`
-  `u, v` から同時に1辺ずつ進み、初めて同じ頂点に到達する時刻を返す。合流しなければ `-1`、`u == v` なら `0`。$O(\log(D+2))$ 時間・追加領域 $O(1)$
+  `u, v` から同時に1辺ずつ進み、初めて同じ頂点に到達する時刻を返す。合流しなければ `-1`、`u == v` なら `0`。$O(\log D)$ 時間・追加領域 $O(1)$
 - `bool in_cycle(int v)`
   `v` が閉路上なら `true`
 - `int cycle_id(int v)`
@@ -48,7 +48,6 @@ cycle 分解と doubling を前計算し、`k` 個先の頂点、二頂点間の
 辺を変更した後は再び `build()` を呼ぶ。
 `jump(v, k)` で `k` 個先を求め、`steps_to_cycle(v)` や `cycle_size(v)` で構造情報を使う。
 `distance(s, t)` と `meeting_time(u, v)` は同じ `build()` の結果で使え、追加の前処理は不要。
-問い合わせの頂点番号は有効な範囲とする。空グラフでは問い合わせできない。
 
 ```cpp
 FunctionalGraph fg(n);

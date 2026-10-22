@@ -19,7 +19,7 @@ documentation_of: //tree/euler_tour_tree.cpp
 - `long long subtree_sum(v, p)`
   `p` を親とした `v` の部分木の頂点値の和を返す
 - `SubtreeInfo subtree_info(v, p)`
-  同じ部分木の頂点数 `int size` と頂点値の和 `long long sum` をまとめて返す。辺は数えず、孤立点の `size` は1
+  同じ部分木の頂点数 `int size` と頂点値の和 `long long sum` をまとめて返す。孤立点の `size` は1
 - `void vertex_add(v, x)` / `long long get(v)`
   頂点 `v` に `x` を足す / 頂点 `v` の値を返す
 - `bool connected(u, v)`
