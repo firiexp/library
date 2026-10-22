@@ -13,7 +13,6 @@ struct Tracked {
     Tracked(const Tracked &other) : id(other.id) { ++live; }
     Tracked &operator=(const Tracked &) = default;
     ~Tracked() { --live; }
-    bool operator<(const Tracked &other) const { return id < other.id; }
 };
 
 struct NonAssignable {
@@ -21,9 +20,80 @@ struct NonAssignable {
     const int id;
     explicit NonAssignable(int id) : id(id) { ++live; }
     NonAssignable(const NonAssignable &other) : id(other.id) { ++live; }
+    NonAssignable(NonAssignable &&) = delete;
     ~NonAssignable() { --live; }
-    bool operator<(const NonAssignable &other) const { return id < other.id; }
 };
+
+template<bool NoexceptMove>
+struct Payload {
+    inline static int live = 0, copies = 0, moves = 0;
+    int id;
+    vector<int> data;
+    explicit Payload(int id) : id(id), data(64, id) { ++live; }
+    Payload(const Payload &other) : id(other.id), data(other.data) { ++live; ++copies; }
+    Payload(Payload &&other) noexcept(NoexceptMove) : id(other.id), data(move(other.data)) {
+        other.id = -1;
+        ++live;
+        ++moves;
+    }
+    Payload &operator=(const Payload &) = default;
+    Payload &operator=(Payload &&) = default;
+    ~Payload() { --live; }
+};
+
+template<bool NoexceptMove>
+void check_payload() {
+    using V = Payload<NoexceptMove>;
+    {
+        RadixHeap<int, V> q;
+        for (int i = 0; i < 512; ++i) q.emplace(7, V(i));
+        V::copies = V::moves = 0;
+        {
+            auto first = q.top();
+            assert(first.first == 7 && first.second.id == 0);
+            if constexpr (NoexceptMove) {
+                assert(V::copies == 1 && V::moves >= 512);
+            } else {
+                assert(V::copies >= 513 && V::moves == 0);
+            }
+        }
+        for (int i = 0; i < 512; ++i) {
+            auto value = q.top();
+            assert(value.second.id == i && value.second.data == vector<int>(64, i));
+            q.pop();
+        }
+        assert(q.empty() && V::live == 0);
+    }
+    {
+        RadixHeap<int, V> q;
+        map<int, deque<int>> expected;
+        mt19937 rng(253);
+        int last = 0, next_id = 0;
+        auto pop = [&] {
+            auto value = q.top();
+            auto it = expected.begin();
+            int id = it->second.front();
+            assert(value.first == it->first && value.second.id == id);
+            assert(value.second.data == vector<int>(64, id));
+            assert(q.top().second.id == id);
+            last = value.first;
+            it->second.pop_front();
+            if (it->second.empty()) expected.erase(it);
+            q.pop();
+        };
+        for (int step = 0; step < 10000; ++step) {
+            if (expected.empty() || rng() % 2) {
+                int key = last + (rng() % 3 ? rng() % 1000 : 0);
+                q.emplace(key, V(next_id));
+                expected[key].push_back(next_id++);
+            } else {
+                pop();
+            }
+        }
+        while (!q.empty()) pop();
+        assert(expected.empty() && V::live == 0);
+    }
+}
 
 template<class V>
 void check_slide() {
@@ -90,6 +160,10 @@ void check_random() {
 }
 
 int main() {
+    static_assert(!is_move_constructible_v<NonAssignable>);
+    static_assert(!is_copy_assignable_v<NonAssignable>);
+    check_payload<true>();
+    check_payload<false>();
     check_slide<Tracked>();
     check_slide<NonAssignable>();
     check_random<int>();

@@ -16,8 +16,10 @@ class RadixHeap {
         if(cnt < v[0].size()) return;
         int i = 1;
         while(v[i].empty()) i++;
-        last = min_element(v[i].begin(),v[i].end())->first;
-        for (auto &&x : v[i]) v[bsr(x.first ^ last)].push_back(x);
+        K next = v[i].front().first;
+        for (const auto &x : v[i]) next = min(next, x.first);
+        last = next;
+        for (auto &&x : v[i]) v[bsr(x.first ^ last)].push_back(move_if_noexcept(x));
         v[i].clear();
     }
 public:
