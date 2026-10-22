@@ -7,8 +7,11 @@ tags: 数学
 ---
 
 ## 説明
-素数冪 `p^q` を法とする二項係数 `C(n, k)` を扱う。
-前計算は $O(p^q)$。各クエリは $q>1$ なら $O(\log_p n)$、$q=1$ なら $t=\min(k,n-k)$ として $O(1+\log_p(t+1))$。
+素数冪 $mod=p^q$ を法とする二項係数 `C(n, k)` を扱う。
+前計算は $O(mod)$。1クエリの計算量は次のとおり。
+
+- $q=1$（素数 mod）: $t=\min(k,n-k)$ として $O(\log t)$
+- $q>1$（素数冪 mod）: 逆元計算を含めて $O(\log n+\log mod)$
 
 ## できること
 - `BinomModPrimePower(ll p, int q)`
