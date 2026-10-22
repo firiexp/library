@@ -29,14 +29,15 @@ long long discrete_logarithm(long long x, long long y, long long mod) {
     baby.reserve((size_t)n * 2 + 1);
 
     long long giant = 1;
-    for (long long i = 0; i < n; ++i) {
-        giant = discrete_logarithm_mul(giant, x, mod);
+    for (long long base = x, e = n; e; e >>= 1) {
+        if (e & 1) giant = discrete_logarithm_mul(giant, base, mod);
+        base = discrete_logarithm_mul(base, base, mod);
     }
 
     long long cur = k;
     for (long long p = 1; p <= n; ++p) {
         cur = discrete_logarithm_mul(cur, giant, mod);
-        if (!baby.count(cur)) baby[cur] = p;
+        baby.try_emplace(cur, p);
     }
 
     long long ans = std::numeric_limits<long long>::max();
