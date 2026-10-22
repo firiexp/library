@@ -5,6 +5,47 @@ using namespace std;
 #include "../util/fastio.cpp"
 #include "../datastructure/fenwick_tree_2d.cpp"
 
+struct Weight {
+    long long value;
+    Weight(long long value = 0) : value(value) {}
+    Weight &operator+=(Weight other) {
+        value += other.value;
+        return *this;
+    }
+    Weight operator-(Weight other) const { return Weight(value - other.value); }
+};
+
+void boundary_check() {
+    for (int n : {0, 1, 2, 3, 7, 8, 9, 15, 16, 17, 31, 32, 33, 63, 64, 65}) {
+        for (int mode = 0; mode < 3; ++mode) {
+            FenwickTree2D<Weight> fw;
+            vector<tuple<int, int, long long>> points;
+            for (int i = 0; i < n; ++i) {
+                int x = mode == 1 ? 0 : 2 * i - n;
+                int y = mode == 2 ? 0 : 2 * ((i * 17) % n) - n;
+                fw.add_point(x, y);
+                points.emplace_back(x, y, i % 7 - 3);
+            }
+            fw.build();
+            for (auto [x, y, w] : points) fw.add(x, y, Weight(w));
+            auto check_rectangle = [&](int l, int d, int r, int u) {
+                long long expected = 0;
+                for (auto [x, y, w] : points) {
+                    if (l <= x && x < r && d <= y && y < u) expected += w;
+                }
+                assert(fw.sum(l, d, r, u).value == expected);
+            };
+            for (int l = -n - 1; l <= n + 1; ++l) {
+                for (int r = l; r <= n + 1; ++r) {
+                    check_rectangle(l, -n - 1, r, n + 1);
+                    check_rectangle(-n - 1, l, n + 1, r);
+                    check_rectangle(l, l, r, r);
+                }
+            }
+        }
+    }
+}
+
 void check(vector<pair<int, int>> points, mt19937 &rng) {
     FenwickTree2D<long long> fw;
     map<pair<int, int>, long long> values;
@@ -41,6 +82,7 @@ void check(vector<pair<int, int>> points, mt19937 &rng) {
 }
 
 int main() {
+    boundary_check();
     mt19937 rng(112);
     check({}, rng);
     check({{INT_MIN, INT_MIN}, {INT_MAX, INT_MAX}, {0, 0}, {0, 0}}, rng);

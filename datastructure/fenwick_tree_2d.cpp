@@ -82,7 +82,19 @@ struct FenwickTree2D {
     }
 
     T sum(int l, int d, int r, int u) {
-        return sum(r, u) - sum(r, d) - sum(l, u) + sum(l, d);
+        assert(built && l <= r && d <= u);
+        if (l == r || d == u) return T(0);
+        int li = lower_bound(xs.begin(), xs.end(), l) - xs.begin();
+        int ri = lower_bound(xs.begin(), xs.end(), r) - xs.begin();
+        auto row_sum = [&](int i) {
+            int di = lower_bound(ys[i].begin(), ys[i].end(), d) - ys[i].begin();
+            int ui = lower_bound(ys[i].begin(), ys[i].end(), u) - ys[i].begin();
+            return bit[i].sum(di, ui);
+        };
+        T positive = 0, negative = 0;
+        for (; ri > li; ri -= ri & -ri) positive += row_sum(ri);
+        for (; li > ri; li -= li & -li) negative += row_sum(li);
+        return positive - negative;
     }
 };
 

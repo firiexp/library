@@ -14,6 +14,7 @@ documentation_of: //datastructure/binaryindexedtree.cpp
 - `BIT<T>(values)` : 配列をコピーして $O(N)$ で構築する。空配列も扱える
 - `add(k, x)` : `k` 番目の要素に `x` を加算する
 - `sum(k)` : 半開区間 $[0, k)$ の和を求める
+- `sum(l, r)` : 半開区間 $[l, r)$ の和を求める。`0 <= l <= r <= N` で使い、空区間は単位元を返す。`T` の減算を使う
 - `lower_bound(x)` : `sum(k)` が `x` 以上になる最小の `k` を求める。存在しなければ `N` を返す
 
 ## 使い方

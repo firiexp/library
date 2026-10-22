@@ -24,6 +24,13 @@ public:
         return ret;
     }
 
+    T sum(int l, int r) {
+        T positive = 0, negative = 0;
+        for (; r > l; r -= r & -r) positive += bit[r - 1];
+        for (; l > r; l -= l & -l) negative += bit[l - 1];
+        return positive - negative;
+    }
+
     void add(int k, T x){
         for (k++; k <= n; k += (k & -k)) bit[k - 1] += x;
     }

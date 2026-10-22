@@ -17,6 +17,11 @@ void check(const vector<T> &a) {
     for (int i = 0; i <= (int)a.size(); ++i) {
         assert(bit.sum(i) == sum);
         assert(bit.sum(i) == reference.sum(i));
+        T range_sum = 0;
+        for (int j = i; j <= (int)a.size(); ++j) {
+            assert(bit.sum(i, j) == range_sum);
+            if (j < (int)a.size()) range_sum += a[j];
+        }
         if (i < (int)a.size()) sum += a[i];
     }
     assert(a == before);
@@ -52,6 +57,9 @@ int main() {
             int i = rng() % n, delta = int(rng() % 201) - 100;
             a[i] += delta;
             bit.add(i, delta);
+            int l = rng() % (n + 1), r = rng() % (n + 1);
+            if (l > r) swap(l, r);
+            assert(bit.sum(l, r) == accumulate(a.begin() + l, a.begin() + r, 0LL));
             long long sum = 0;
             for (int k = 0; k <= n; ++k) {
                 assert(bit.sum(k) == sum);
