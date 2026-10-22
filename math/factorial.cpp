@@ -104,6 +104,16 @@ public:
         expand(n);
         return facts[n] * factinv[k] * factinv[n - k];
     }
+    Mint C_large(long long n, long long k) const {
+        if (n < 0 || k < 0 || n < k) return 0;
+        long long t = min(k, n - k);
+        assert(t < Mint::get_mod() && t < numeric_limits<int>::max());
+        long long r = n % Mint::get_mod();
+        if (r < t) return 0;
+        Mint result = inv_fact(static_cast<int>(t));
+        for (long long i = 0; i < t; ++i) result *= Mint(r - i);
+        return result;
+    }
     Mint P(int n, int k) const {
         if (n < 0 || k < 0 || n < k) return 0;
         expand(n);
