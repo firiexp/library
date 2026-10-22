@@ -24,6 +24,50 @@ void verify(const SlopeTrick<T> &st, T x) {
 }
 
 template<class T>
+void verify_add_abs(SlopeTrick<T> &st, T a) {
+    verify(st, a);
+    auto reference = st;
+    reference.add_a_minus_x(a);
+    reference.add_x_minus_a(a);
+    st.add_abs(a);
+    assert(!st.eval_cache_valid);
+    auto actual = st.query(), expected = reference.query();
+    assert(actual.lx == expected.lx && actual.rx == expected.rx && actual.min_f == expected.min_f);
+    assert(st.L.size() == reference.L.size() && st.R.size() == reference.R.size());
+    for (int dx : {-20, -1, 0, 1, 20}) {
+        T x = a + T(dx);
+        assert(st.eval(x) == reference.eval(x));
+        verify(st, x);
+    }
+}
+
+template<class T>
+void abs_check() {
+    for (int mode = 0; mode < 8; ++mode) {
+        SlopeTrick<T> st;
+        if (mode != 0) {
+            st.add_a_minus_x(T(-4));
+            st.add_x_minus_a(T(7));
+        }
+        if (mode == 2) st.clear_left();
+        if (mode == 3) st.clear_right();
+        if (mode == 4) st.shift(T(-8), T(12));
+        if (mode == 5) {
+            SlopeTrick<T> other;
+            other.add_a_minus_x(T(-10));
+            other.add_x_minus_a(T(13));
+            other.shift(T(-2), T(3));
+            verify(other, T(0));
+            st.merge(other);
+        }
+        if (mode == 6) st.clear_left(), st.clear_right();
+        if (mode == 7) st.shift(T(-1000000), T(1000000));
+        st.add_all(T(-17));
+        for (T a : {T(0), T(-30), T(30), T(-4), T(7), T(7), T(0.5)}) verify_add_abs(st, a);
+    }
+}
+
+template<class T>
 void random_check() {
     mt19937 rng(117);
     for (int tc = 0; tc < 1000; ++tc) {
@@ -32,7 +76,7 @@ void random_check() {
         for (int step = 0; step < 200; ++step) {
             T a = T((int(rng() % 101) - 50) * 0.5);
             switch (rng() % 10) {
-                case 0: st.add_abs(a); break;
+                case 0: verify_add_abs(st, a); break;
                 case 1: st.add_a_minus_x(a); break;
                 case 2: st.add_x_minus_a(a); break;
                 case 3: st.add_all(a); break;
@@ -79,7 +123,7 @@ void cache_check() {
         for (int n = 1; n <= 4; ++n) {
             SlopeTrick<long long> huge;
             huge.shift(offset);
-            for (int i = 0; i < n; ++i) huge.add_abs(0);
+            for (int i = 0; i < n; ++i) verify_add_abs(huge, 0LL);
             verify(huge, 0LL);
             verify(huge, -1000000000000000000LL);
             verify(huge, 1000000000000000000LL);
@@ -92,6 +136,9 @@ void cache_check() {
 }
 
 int main() {
+    abs_check<long long>();
+    abs_check<int>();
+    abs_check<double>();
     random_check<long long>();
     random_check<int>();
     random_check<double>();

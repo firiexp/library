@@ -93,8 +93,21 @@ public:
     }
 
     void add_abs(T a) {
-        add_a_minus_x(a);
-        add_x_minus_a(a);
+        invalidate_eval_cache();
+        if (!L.empty() && a < top_L()) {
+            min_f += top_L() - a;
+            push_L(a);
+            push_L(a);
+            push_R(pop_L());
+        } else if (!R.empty() && top_R() < a) {
+            min_f += a - top_R();
+            push_R(a);
+            push_R(a);
+            push_L(pop_R());
+        } else {
+            push_L(a);
+            push_R(a);
+        }
     }
 
     void clear_right() {
