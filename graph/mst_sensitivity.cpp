@@ -12,9 +12,29 @@ struct MSTSensitivityResult {
 MSTSensitivityResult mst_sensitivity(int n, const vector<edge<long long>> &edges) {
     assert(n >= 1);
     int m = (int)edges.size();
-    auto indexed = edges;
-    for (int i = 0; i < m; ++i) indexed[i].idx = i;
-    auto mst = kruskal(std::move(indexed), n);
+    KruskalResult<long long> mst{false, 0, {}};
+    mst.edge_id.reserve(n - 1);
+    vector<int> non_tree;
+    non_tree.reserve(max(0, m - n + 1));
+    {
+        auto indexed = edges;
+        for (int i = 0; i < m; ++i) indexed[i].idx = i;
+        sort(indexed.begin(), indexed.end(), [](const auto &a, const auto &b) {
+            if (a.cost != b.cost) return a.cost < b.cost;
+            return a.idx < b.idx;
+        });
+        KruskalUnionFind uf(n);
+        for (const auto &e : indexed) {
+            if (uf.unite(e.from, e.to)) {
+                mst.cost += e.cost;
+                mst.edge_id.push_back(e.idx);
+            } else if (e.from != e.to) {
+                non_tree.push_back(e.idx);
+            }
+        }
+    }
+    mst.exists = (int)mst.edge_id.size() == n - 1;
+    if (!mst.exists) mst.cost = 0;
     MSTSensitivityResult result{mst.exists, mst.cost,
                                 vector<optional<long long>>(m), vector<optional<long long>>(m)};
     if (!mst.exists) return result;
@@ -69,13 +89,10 @@ MSTSensitivityResult mst_sensitivity(int n, const vector<edge<long long>> &edges
         }
         return make_pair(parent[0][u], max({weight, maximum[0][u], maximum[0][v]}));
     };
-    vector<int> non_tree;
     for (int i = 0; i < m; ++i) {
         if (in_tree[i]) continue;
         result.forbidden[i] = mst.cost;
-        if (edges[i].from != edges[i].to) non_tree.push_back(i);
     }
-    sort(non_tree.begin(), non_tree.end(), [&](int a, int b) { return edges[a].cost < edges[b].cost; });
     KruskalUnionFind skip(n);
     vector<int> top(n);
     iota(top.begin(), top.end(), 0);

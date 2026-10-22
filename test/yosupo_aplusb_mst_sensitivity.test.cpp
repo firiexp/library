@@ -50,6 +50,14 @@ int main() {
     check(2, {{0, 1, -large}, {0, 1, -large + 1}});
     check(2, {{0, 1, large - 1}, {0, 1, large}});
     check(3, {{0, 1, -large + 10}, {1, 2, large - 5}, {0, 2, 0}});
+    check(3, {{2, 0, 4}, {0, 2, -2}, {1, 2, -2}, {0, 1, -2}, {1, 1, -100}, {0, 2, -2}});
+    check(5, {{0, 1, -3}, {1, 2, -3}, {2, 0, -3}, {3, 4, 2}, {0, 0, -100}});
+    vector<edge<long long>> equal_edges;
+    for (int u = 0; u < 5; ++u)
+        for (int v = u + 1; v < 5; ++v) equal_edges.emplace_back(u, v, -7);
+    check(5, equal_edges);
+    reverse(equal_edges.begin(), equal_edges.end());
+    check(5, equal_edges);
     for (int n = 1; n <= 4; ++n) {
         vector<pair<int, int>> pairs;
         for (int u = 0; u < n; ++u) for (int v = u + 1; v < n; ++v) pairs.emplace_back(u, v);
