@@ -14,13 +14,13 @@ template <uint P>
 void check() {
     using Mint = modint<P>;
     const Factorial<Mint> factorial;
-    assert(factorial.C_large(-1, 0) == Mint(0));
-    assert(factorial.C_large(5, -1) == Mint(0));
-    assert(factorial.C_large(5, 6) == Mint(0));
-    assert(factorial.C_large(LLONG_MIN, LLONG_MIN) == Mint(0));
-    assert(factorial.C_large(LLONG_MAX, LLONG_MIN) == Mint(0));
+    assert(factorial.large_C(-1, 0) == Mint(0));
+    assert(factorial.large_C(5, -1) == Mint(0));
+    assert(factorial.large_C(5, 6) == Mint(0));
+    assert(factorial.large_C(LLONG_MIN, LLONG_MIN) == Mint(0));
+    assert(factorial.large_C(LLONG_MAX, LLONG_MIN) == Mint(0));
     assert(factorial.max_n() == 0);
-    assert(factorial.C_large(2LL * P, 1) == Mint(0));
+    assert(factorial.large_C(2LL * P, 1) == Mint(0));
     assert(factorial.max_n() == 0);
     mt19937_64 random(270);
     vector<ll> values = {0, 1, P - 1, P, P + 1LL, 2LL * P - 1, 2LL * P,
@@ -33,8 +33,8 @@ void check() {
         for (int k = 0; k <= min<ll>(n, limit); ++k) {
             if (k) value = value * (n - k + 1) / k;
             Mint expected(stoll((value % P).to_string()));
-            assert(factorial.C_large(n, k) == expected);
-            assert(factorial.C_large(n, n - k) == expected);
+            assert(factorial.large_C(n, k) == expected);
+            assert(factorial.large_C(n, n - k) == expected);
             assert(factorial.max_n() <= limit);
         }
     }
@@ -44,7 +44,7 @@ void check() {
     int small_limit = min(150U, P - 1);
     for (int n = 0; n <= small_limit; ++n) {
         for (int k = 0; k <= n; ++k) {
-            assert(factorial.C_large(n, k) == factorial.C(n, k));
+            assert(factorial.large_C(n, k) == factorial.C(n, k));
         }
     }
     assert(shared.max_n() == max(before, small_limit));

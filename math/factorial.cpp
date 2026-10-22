@@ -104,7 +104,7 @@ public:
         expand(n);
         return facts[n] * factinv[k] * factinv[n - k];
     }
-    Mint C_large(long long n, long long k) const {
+    Mint large_C(long long n, long long k) const {
         if (n < 0 || k < 0 || n < k) return 0;
         long long t = min(k, n - k);
         assert(t < Mint::get_mod() && t < numeric_limits<int>::max());
