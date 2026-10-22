@@ -17,7 +17,7 @@ documentation_of: //graph/vertex_failure_connectivity.cpp
 - `void build()`
   全連結成分を前処理する。辺の追加後は再度呼ぶ。時間・領域は $O(V+E)$
 - `bool connected_without_vertex(int u, int v, int x)`
-  頂点 `x` を除いたグラフで `u` と `v` が連結なら `true`。端点が `x` なら `false`。時間は $O(\log(V))$
+  頂点 `x` を除いたグラフで `u` と `v` が連結なら `true`。端点が `x` なら `false`。時間は $O(\log V)$
 
 ## 使い方
 元の頂点番号 `0, ..., n-1` で辺を追加し、`build()` 後に問い合わせる。
@@ -27,5 +27,5 @@ documentation_of: //graph/vertex_failure_connectivity.cpp
 ## 実装上の補足
 除去頂点が関節点の場合だけ、ブロックカット木の端点間パスに含まれるかを調べる。
 その部分木に片方の端点だけが含まれれば非連結、どちらも含まれなければ連結のままとなる。
-両方が含まれる場合だけ LCA を1回求める。部分木の包含判定は $O(1)$、問い合わせの最悪時間は $O(\log(V))$。
+両方が含まれる場合だけ LCA を1回求める。部分木の包含判定は $O(1)$、問い合わせの最悪時間は $O(\log V)$。
 森の根は内部で選ぶ。前処理は再帰を使わず、長い道でもスタック設定の変更は不要。
