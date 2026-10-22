@@ -52,7 +52,16 @@ void check_large(int n, int mode) {
     }
 }
 
+void check_fixed(int n, const vector<pair<int, int>> &edges) {
+    VertexFailureConnectivity solver(n);
+    for (auto [u, v] : edges) solver.add_edge(u, v);
+    check(solver, n, edges);
+}
+
 int main() {
+    check_fixed(12, {{0, 1}, {1, 2}, {2, 0}, {2, 3}, {3, 4}, {4, 5}, {5, 3},
+                     {4, 6}, {6, 7}, {4, 8}, {8, 9}, {10, 11}, {3, 3}, {6, 7}});
+    check_fixed(10, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {3, 5}, {1, 6}, {6, 7}, {6, 8}});
     for (int n = 0; n <= 6; ++n) {
         vector<pair<int, int>> possible;
         for (int u = 0; u < n; ++u)
