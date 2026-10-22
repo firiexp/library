@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <map>
 #include <numeric>
 #include <random>
 #include <set>
@@ -124,8 +125,55 @@ void self_check_pbds_like_unique_keys() {
     }
 }
 
+template<bool Reverse>
+struct GroupCompare {
+    map<pair<int, int>, int> *calls;
+    bool operator()(const pair<int, int> &a, const pair<int, int> &b) const {
+        ++(*calls)[{a.first, b.first}];
+        return Reverse ? a.first > b.first : a.first < b.first;
+    }
+};
+
+template<bool Reverse>
+void self_check_comparisons() {
+    map<pair<int, int>, int> calls;
+    OrderStatisticTree<pair<int, int>, GroupCompare<Reverse>> st(251, {&calls});
+    vector<int> values;
+    mt19937 rng(251);
+    auto check_calls = [&] {
+        for (auto [args, count] : calls) assert(count <= (args.first == args.second ? 2 : 1));
+    };
+    for (int step = 0; step < 2000; ++step) {
+        int x = int(rng() % 61) - 30;
+        calls.clear();
+        if (rng() % 3) {
+            st.insert({x, step});
+            check_calls();
+            values.push_back(x);
+        } else {
+            auto it = find(values.begin(), values.end(), x);
+            bool exists = it != values.end();
+            assert(st.erase_one({x, -step - 1}) == exists);
+            if (exists) values.erase(it);
+        }
+        calls.clear();
+        assert(st.count({x, -step - 1}) == count(values.begin(), values.end(), x));
+        check_calls();
+        assert(st.size() == int(values.size()));
+        int rank = count_if(values.begin(), values.end(), [&](int y) { return Reverse ? y > x : y < x; });
+        assert(st.order_of_key({x, -1}) == rank);
+        if (step % 17 == 0) {
+            auto sorted = values;
+            sort(sorted.begin(), sorted.end());
+            if (Reverse) reverse(sorted.begin(), sorted.end());
+            for (int i = 0; i < int(sorted.size()); ++i) assert(st.find_by_order(i).first == sorted[i]);
+        }
+    }
+}
+
 int main() {
     self_check_multiset();
     self_check_pbds_like_unique_keys();
-
+    self_check_comparisons<false>();
+    self_check_comparisons<true>();
 }

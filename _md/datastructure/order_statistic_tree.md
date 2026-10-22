@@ -9,7 +9,7 @@ tags: データ構造
 ## 説明
 Treap で順序付き multiset を管理する。
 `find_by_order` と `order_of_key` を使って、順位から値、値から順位を求める。
-各操作は期待 $O(\log N)$。
+探索は期待 $O(\log N)$、退化時は $O(N)$。挿入は領域の拡張を含め期待償却 $O(\log N)$。
 
 ## できること
 - `OrderStatisticTree<T, Compare> st(seed = 2463534242u, comp = Compare())`
@@ -35,7 +35,7 @@ Treap で順序付き multiset を管理する。
 
 ## 使い方
 `insert` / `erase_one` で集合を更新し、`find_by_order(k)` と `order_of_key(x)` で順位クエリを処理する。
-同じ値を複数個入れると multiset として扱う。
+`Compare` は狭義弱順序を定めるものを使う。互いに前に来ない値を同値とし、重複数をまとめて持つ。
 
 ```cpp
 OrderStatisticTree<long long> st;

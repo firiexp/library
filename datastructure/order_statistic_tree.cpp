@@ -23,10 +23,6 @@ private:
         return t == -1 ? 0 : nodes_[t].sz;
     }
 
-    bool equal_key(const T& a, const T& b) const {
-        return !comp_(a, b) && !comp_(b, a);
-    }
-
     void pull(int t) {
         if (t == -1) return;
         Node& node = nodes_[t];
@@ -82,13 +78,14 @@ private:
             return;
         }
 
-        if (equal_key(x, nodes_[t].key)) {
+        bool left = comp_(x, nodes_[t].key);
+        if (!left && !comp_(nodes_[t].key, x)) {
             ++nodes_[t].cnt;
             pull(t);
             return;
         }
 
-        if (comp_(x, nodes_[t].key)) {
+        if (left) {
             int child = nodes_[t].l;
             insert(child, x);
             nodes_[t].l = child;
@@ -176,8 +173,9 @@ public:
         int t = root_;
         while (t != -1) {
             const Node& node = nodes_[t];
-            if (equal_key(x, node.key)) return node.cnt;
-            t = comp_(x, node.key) ? node.l : node.r;
+            bool left = comp_(x, node.key);
+            if (!left && !comp_(node.key, x)) return node.cnt;
+            t = left ? node.l : node.r;
         }
         return 0;
     }
