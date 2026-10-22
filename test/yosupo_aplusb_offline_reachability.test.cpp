@@ -31,6 +31,8 @@ void check(int n, const vector<pair<int, int>> &edges, const vector<pair<int, in
 
 int main() {
     check(0, {}, {});
+    check(5, {{0, 1}, {1, 0}, {1, 2}, {2, 3}}, {});
+    check(5, {{0, 1}, {1, 0}, {1, 2}, {2, 3}}, {{0, 1}, {1, 0}, {3, 0}, {4, 4}, {4, 0}});
     for (int n = 1; n <= 4; ++n) {
         vector<pair<int, int>> queries;
         for (int u = 0; u < n; ++u)
@@ -52,7 +54,7 @@ int main() {
             queries.emplace_back(rng() % n, rng() % n);
         check(n, edges, queries);
     }
-    for (int k : {1, 63, 64, 65, 127, 128, 129, 130}) {
+    for (int k : {1, 63, 64, 65, 127, 128, 129, 130, 258}) {
         int n = 2 * k + 2;
         vector<pair<int, int>> edges, queries;
         for (int i = 0; i + 1 < n; ++i) edges.emplace_back(i, i + 1);
@@ -60,9 +62,41 @@ int main() {
             queries.emplace_back(i, k + i);
             queries.emplace_back(i, n - 1);
         }
+        shuffle(queries.begin(), queries.end(), rng);
         check(n, edges, queries);
         for (auto &[u, v] : edges) swap(u, v);
         for (auto &[u, v] : queries) swap(u, v);
+        check(n, edges, queries);
+    }
+    int n = 780;
+    vector<pair<int, int>> edges, queries;
+    for (int v = 0; v + 2 < n; ++v) edges.emplace_back(v, v + 2);
+    for (int v = 0; v < 516; ++v) {
+        queries.emplace_back(v, v + 2);
+        queries.emplace_back(v, v + 3);
+        if ((v / 64) % 2 == 0) queries.emplace_back(v, n - 2 + v % 2);
+        queries.emplace_back(v, v);
+        queries.emplace_back(v + 2, v);
+    }
+    shuffle(queries.begin(), queries.end(), rng);
+    check(n, edges, queries);
+    for (auto &[u, v] : edges) swap(u, v);
+    for (auto &[u, v] : queries) swap(u, v);
+    check(n, edges, queries);
+    for (int tc = 0; tc < 40; ++tc) {
+        int n = 200 + rng() % 100;
+        vector<pair<int, int>> edges, queries;
+        for (int u = 0; u < n; ++u) {
+            for (int v = u + 1; v < n; ++v) {
+                if (rng() % 100 == 0) edges.emplace_back(u, v);
+                queries.emplace_back(u, v);
+            }
+        }
+        shuffle(queries.begin(), queries.end(), rng);
+        check(n, edges, queries);
+        queries.erase(remove_if(queries.begin(), queries.end(), [](auto query) {
+            return query.second % 2 != 0;
+        }), queries.end());
         check(n, edges, queries);
     }
 }
