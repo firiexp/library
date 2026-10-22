@@ -135,6 +135,43 @@ void cache_check() {
     }
 }
 
+template<class Q>
+vector<typename Q::value_type> heap_values(Q q) {
+    vector<typename Q::value_type> values;
+    while (!q.empty()) {
+        values.push_back(q.top());
+        q.pop();
+    }
+    return values;
+}
+
+template<class T>
+void cache_rebuild_check() {
+    SlopeTrick<T> st;
+    static_assert(is_same_v<decltype(st.L), priority_queue<T>>);
+    static_assert(is_same_v<decltype(st.R), priority_queue<T, vector<T>, greater<T>>>);
+    for (int step = 0; step < 20; ++step) {
+        for (int i = 0; i < 32; ++i) st.add_abs(T(i % 9 - 4) / T(2));
+        st.shift(T(-0.5), T(1.5));
+        auto l = heap_values(st.L), r = heap_values(st.R);
+        for (int x = -10; x <= 10; ++x) verify(st, T(x));
+        assert(heap_values(st.L) == l && heap_values(st.R) == r);
+        assert(st.eval_cache_valid);
+        assert(st.eval_l.size() == st.L.size() && st.eval_r.size() == st.R.size());
+        st.L.push(T(-100) - st.add_l);
+        st.R.push(T(100) - st.add_r);
+        st.eval_cache_valid = false;
+        verify(st, T(-200));
+        verify(st, T(200));
+        st.clear_left();
+        verify(st, T(-10));
+        assert(st.eval_l.empty());
+        st.clear_right();
+        verify(st, T(10));
+        assert(st.eval_r.empty());
+    }
+}
+
 int main() {
     abs_check<long long>();
     abs_check<int>();
@@ -143,4 +180,6 @@ int main() {
     random_check<int>();
     random_check<double>();
     cache_check();
+    cache_rebuild_check<long long>();
+    cache_rebuild_check<double>();
 }

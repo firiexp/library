@@ -37,25 +37,18 @@ private:
     void invalidate_eval_cache() {
         eval_cache_valid = false;
     }
+    template<class Q>
+    struct HeapAccess : Q {
+        static const vector<T> &values(const Q &q) { return q.*&HeapAccess::c; }
+    };
     void build_eval_cache() const {
-        if (eval_cache_valid) return;
-
-        auto lq = L;
-        auto rq = R;
-        eval_l.clear();
-        eval_r.clear();
-        eval_l.reserve(lq.size());
-        eval_r.reserve(rq.size());
-        while (!lq.empty()) {
-            if constexpr (raw_eval_cache) eval_l.emplace_back(lq.top());
-            else eval_l.emplace_back(lq.top() + add_l);
-            lq.pop();
-        }
-        reverse(eval_l.begin(), eval_l.end());
-        while (!rq.empty()) {
-            if constexpr (raw_eval_cache) eval_r.emplace_back(rq.top());
-            else eval_r.emplace_back(rq.top() + add_r);
-            rq.pop();
+        eval_l = HeapAccess<decltype(L)>::values(L);
+        eval_r = HeapAccess<decltype(R)>::values(R);
+        sort(eval_l.begin(), eval_l.end());
+        sort(eval_r.begin(), eval_r.end());
+        if constexpr (!raw_eval_cache) {
+            for (T &x : eval_l) x += add_l;
+            for (T &x : eval_r) x += add_r;
         }
 
         eval_l_sum.assign(eval_l.size() + 1, 0);
@@ -132,7 +125,7 @@ public:
     }
 
     T eval(T x) const {
-        build_eval_cache();
+        if (!eval_cache_valid) build_eval_cache();
         EvalSum lx = x, rx = x;
         if constexpr (raw_eval_cache) {
             lx -= static_cast<EvalSum>(add_l);
