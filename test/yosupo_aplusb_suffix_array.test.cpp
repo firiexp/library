@@ -33,6 +33,20 @@ void check_integers(const vector<int>& s, int upper) {
     assert(lcp(s, expected) == expected_lcp);
 }
 
+template<class T>
+void check_sequence(const vector<T>& s) {
+    auto original = s;
+    auto sa = suffix_array(s);
+    vector<int> expected;
+    for (int i = 1; i < (int)sa.size(); ++i) {
+        int a = sa[i - 1], b = sa[i], h = 0;
+        while (a + h < (int)s.size() && b + h < (int)s.size() && s[a + h] == s[b + h]) ++h;
+        expected.push_back(h);
+    }
+    assert(lcp(s, sa) == expected);
+    assert(s == original);
+}
+
 void self_check() {
     auto check = [](const string &s) {
         vector<int> bytes;
@@ -49,6 +63,15 @@ void self_check() {
         check(string(1, char(c)));
         check(string(65, char(c)));
     }
+    for (int n = 0; n <= 11; ++n) {
+        for (int mask = 0; mask < (1 << n); ++mask) {
+            string s(n, '\0');
+            for (int i = 0; i < n; ++i) s[i] = mask >> i & 1 ? char(255) : char(0);
+            check(s);
+        }
+    }
+    check_sequence(vector<int>{INT_MIN, -2, -2, INT_MAX, INT_MIN, -2});
+    check_sequence(vector<string>{"ab", "", "ab", "", "z", "ab"});
     mt19937 rng(13);
     for (int n = 0; n <= 8; ++n) {
         for (int mask = 0; mask < (1 << n); ++mask) {

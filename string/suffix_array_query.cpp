@@ -19,7 +19,7 @@ class SuffixArrayQuery {
         auto sa = suffix_array(s);
         rank.resize(n);
         for (int i = 0; i < n; ++i) rank[sa[i]] = i;
-        rmq.build(lcp(s, sa));
+        rmq.build(suffix_array_detail::lcp_with_rank(s, sa, rank));
     }
 
 public:

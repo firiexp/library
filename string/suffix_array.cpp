@@ -97,26 +97,42 @@ vector<int> suffix_array(const string& s){
     return suffix_array(convert(s), 255);
 }
 
-template<class T>
-vector<int> lcp(const vector<T> &s, const vector<int> &sa){
+namespace suffix_array_detail {
+
+template<class Sequence>
+vector<int> lcp_with_rank(const Sequence& s, const vector<int>& sa, const vector<int>& rank) {
     int n = s.size();
     if (n <= 1) return {};
-    vector<int> sa_inv(n);
-    for (int i = 0; i < n; ++i) sa_inv[sa[i]] = i;
     vector<int> lcp(n-1);
     int h = 0;
     for (int i = 0; i < n; ++i) {
         if(h > 0) h--;
-        if(!sa_inv[i]) continue;
-        int j = sa[sa_inv[i]-1];
+        if(!rank[i]) continue;
+        int j = sa[rank[i]-1];
         while(j+h < n && i+h < n && s[j+h] == s[i+h]) h++;
-        lcp[sa_inv[i]-1] = h;
+        lcp[rank[i]-1] = h;
     }
     return lcp;
 }
 
+template<class Sequence>
+vector<int> build_lcp(const Sequence& s, const vector<int>& sa) {
+    int n = s.size();
+    if (n <= 1) return {};
+    vector<int> rank(n);
+    for (int i = 0; i < n; ++i) rank[sa[i]] = i;
+    return lcp_with_rank(s, sa, rank);
+}
+
+}
+
+template<class T>
+vector<int> lcp(const vector<T>& s, const vector<int>& sa) {
+    return suffix_array_detail::build_lcp(s, sa);
+}
+
 vector<int> lcp(string const& s, vector<int> const& sa){
-    return lcp(convert(s), sa);
+    return suffix_array_detail::build_lcp(s, sa);
 }
 
 /**
