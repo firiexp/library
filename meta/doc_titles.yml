@@ -8,7 +8,7 @@ string/avoid_patterns.cpp: "禁止部分文字列を避ける有限オートマ�
 string/count_words.cpp: "有限状態DPの長さNの文字列数"
 math/digit_dfa.cpp: "数字列の条件を表す有限オートマトン"
 math/digit_dp.cpp: "上下限付き桁DPの個数と総和"
-util/lis.cpp: "最長増加部分列の復元"
+util/lis.cpp: "最長増加部分列"
 util/parallel_binary_search.cpp: "並列二分探索"
 util/offline_time_intervals.cpp: "追加・削除クエリのオフライン処理"
 graph/range_edge_graph.cpp: "区間への辺を圧縮するグラフ"

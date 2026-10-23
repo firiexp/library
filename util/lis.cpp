@@ -1,4 +1,16 @@
 template<class T>
+int lis_length(const vector<T>& a, bool strict = true) {
+    vector<T> tails;
+    for (const T& value : a) {
+        auto it = strict ? lower_bound(tails.begin(), tails.end(), value)
+                         : upper_bound(tails.begin(), tails.end(), value);
+        if (it == tails.end()) tails.push_back(value);
+        else *it = value;
+    }
+    return (int)tails.size();
+}
+
+template<class T>
 vector<int> lis_indices(const vector<T> &a, bool strict = true) {
     vector<int> tails, previous(a.size(), -1);
     for (int i = 0; i < (int)a.size(); ++i) {
@@ -22,5 +34,5 @@ vector<int> lis_indices(const vector<T> &a, bool strict = true) {
 }
 
 /**
- * @brief 最長増加部分列の復元
+ * @brief 最長増加部分列
  */
