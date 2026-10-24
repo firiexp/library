@@ -7,21 +7,32 @@ struct ChordalResult {
     vector<int> induced_cycle;
 };
 
-ChordalResult recognize_chordal(int n, const vector<pair<int, int>> &edges) {
-    assert(n >= 0);
-    vector<int> offset(n + 1);
-    for (auto [u, v] : edges) {
-        assert(0 <= u && u < n && 0 <= v && v < n && u != v);
-        ++offset[u + 1];
-        ++offset[v + 1];
-    }
-    for (int v = 0; v < n; ++v) offset[v + 1] += offset[v];
-    vector<int> adjacent(offset.back()), cursor = offset;
-    for (auto [u, v] : edges) {
-        adjacent[cursor[u]++] = v;
-        adjacent[cursor[v]++] = u;
-    }
+namespace chordal_graph_detail {
+struct Graph {
+    vector<int> offset, adjacent;
 
+    Graph(int n, const vector<pair<int, int>> &edges) {
+        assert(n >= 0);
+        offset.resize(n + 1);
+        for (auto [u, v] : edges) {
+            assert(0 <= u && u < n && 0 <= v && v < n && u != v);
+            ++offset[u + 1];
+            ++offset[v + 1];
+        }
+        for (int v = 0; v < n; ++v) offset[v + 1] += offset[v];
+        adjacent.resize(offset.back());
+        vector<int> cursor = offset;
+        for (auto [u, v] : edges) {
+            adjacent[cursor[u]++] = v;
+            adjacent[cursor[v]++] = u;
+        }
+    }
+};
+
+ChordalResult recognize(const Graph &graph) {
+    const auto &offset = graph.offset;
+    const auto &adjacent = graph.adjacent;
+    int n = (int)offset.size() - 1;
     vector<int> head(n + 1, -1), next(n), prev(n), weight(n), index(n, -1), order;
     order.reserve(n);
     for (int v = 0; v < n; ++v) {
@@ -108,6 +119,54 @@ ChordalResult recognize_chordal(int n, const vector<pair<int, int>> &edges) {
     for (int v = right; v != left; v = prev[v]) cycle.push_back(v);
     cycle.push_back(left);
     return {false, {}, std::move(cycle)};
+}
+
+}
+
+ChordalResult recognize_chordal(int n, const vector<pair<int, int>> &edges) {
+    return chordal_graph_detail::recognize(chordal_graph_detail::Graph(n, edges));
+}
+
+struct ChordalColoringResult {
+    bool chordal;
+    int color_count;
+    vector<int> color, max_clique, induced_cycle;
+};
+
+ChordalColoringResult chordal_coloring(int n, const vector<pair<int, int>> &edges) {
+    chordal_graph_detail::Graph graph(n, edges);
+    auto result = chordal_graph_detail::recognize(graph);
+    if (!result.chordal) return {false, 0, {}, {}, std::move(result.induced_cycle)};
+    vector<int> color(n, -1), marker(n, -1), position(n);
+    for (int i = 0; i < n; ++i) position[result.peo[i]] = i;
+    int color_count = 0, clique_size = 0, best = -1;
+    for (int i = n - 1; i >= 0; --i) {
+        int v = result.peo[i], degree = 1;
+        for (int j = graph.offset[v]; j < graph.offset[v + 1]; ++j) {
+            int u = graph.adjacent[j];
+            if (color[u] == -1) continue;
+            marker[color[u]] = v;
+            ++degree;
+        }
+        int c = 0;
+        while (marker[c] == v) ++c;
+        color[v] = c;
+        color_count = max(color_count, c + 1);
+        if (degree > clique_size) {
+            clique_size = degree;
+            best = v;
+        }
+    }
+    vector<int> clique;
+    if (best != -1) {
+        clique.reserve(clique_size);
+        clique.push_back(best);
+        for (int j = graph.offset[best]; j < graph.offset[best + 1]; ++j) {
+            int u = graph.adjacent[j];
+            if (position[u] > position[best]) clique.push_back(u);
+        }
+    }
+    return {true, color_count, std::move(color), std::move(clique), {}};
 }
 
 #endif
