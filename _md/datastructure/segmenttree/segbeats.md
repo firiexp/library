@@ -32,6 +32,7 @@ long long ans = seg.sum(l, r);
 
 ## 実装上の補足
 最小値・次小値・最大値・次大値とその個数を持つ典型的な Segment Tree Beats 実装である。
+区間端をまたぐ祖先だけ遅延を伝播し、区間に完全に含まれる部分木の遅延は保持する。`chmin`・`chmax` で必要な場合は、その部分木の内部へ降りる。
 `INF<T>` を使うので、利用側で `template<class T> constexpr T INF = ...;` を定義しておく必要がある。
 
 計算量の分析は[原著資料](https://ruogu-alter.github.io/2020/04/07/segment-tree-beats/segment_tree_beats.pdf)と[著者による補足](https://jiry-2.blog.uoj.ac/blog/1404)を参照。

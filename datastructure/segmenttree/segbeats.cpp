@@ -46,7 +46,7 @@ class SegmentTreeBeats {
         }
         now.add = 0;
     }
-    void thrust(int k){ for (int i = height-1; i >= 1; --i) eval(k>>i); }
+    void thrust(int k){ for (int i = height-1, stop = __builtin_ctz(k); i > stop; --i) eval(k>>i); }
     void recalc(int k) { k = k >> __builtin_ctz(k); while(k >>= 1) get(k);}
 
     void in_chmin(int x, T val) {
