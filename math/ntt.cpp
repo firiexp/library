@@ -395,6 +395,26 @@ struct poly {
         if (deg == 0) return poly();
         poly res(deg);
         res[0] = v[0].inv();
+        pair<int, mint> terms[16];
+        int count = 0;
+        for (int i = 1; i < min(size(), deg); ++i) if (v[i] != mint(0)) {
+            if (count == 16) {
+                ++count;
+                break;
+            }
+            terms[count++] = {i, -v[i] * res[0]};
+        }
+        if (count <= 16) {
+            if (count == 0) return res;
+            for (int i = 1; i < deg; ++i) {
+                unsigned long long sum = 0;
+                for (int j = 0; j < count && terms[j].first <= i; ++j) {
+                    sum += (unsigned long long)terms[j].second.val * res[i - terms[j].first].val;
+                }
+                res[i] = mint::raw(sum % ntt_mod);
+            }
+            return res;
+        }
         for (int d = 1; d < deg; d <<= 1) {
             vector<mint> f(2 * d), g(2 * d);
             for (int i = 0; i < min(size(), 2 * d); ++i) f[i] = v[i];
@@ -422,6 +442,7 @@ struct poly {
     poly exp(int deg = -1) const {
         assert(v.size() == 0 || v[0] == mint(0));
         if (deg == -1) deg = v.size();
+        if (deg == 0) return poly();
         static vector<mint> invs = {mint(0), mint(1)};
         auto ensure_invs = [&](int n) {
             if ((int)invs.size() <= n) {
@@ -430,6 +451,32 @@ struct poly {
                 for (int i = old; i <= n; ++i) invs[i] = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];
             }
         };
+        pair<int, mint> terms[32];
+        int count = 0;
+        for (int i = 1; i < min(size(), deg); ++i) if (v[i] != mint(0)) {
+            if (count == 32) {
+                ++count;
+                break;
+            }
+            terms[count++] = {i, mint(i) * v[i]};
+        }
+        if (count <= 32) {
+            poly res(deg);
+            res[0] = 1;
+            if (count == 0) return res;
+            ensure_invs(deg - 1);
+            for (int i = 1; i < deg; ++i) {
+                unsigned long long sum = 0;
+                for (int first = 0; first < count && terms[first].first <= i; first += 16) {
+                    for (int j = first; j < min(first + 16, count) && terms[j].first <= i; ++j) {
+                        sum += (unsigned long long)terms[j].second.val * res[i - terms[j].first].val;
+                    }
+                    sum %= ntt_mod;
+                }
+                res[i] = mint::raw(sum) * invs[i];
+            }
+            return res;
+        }
         auto inplace_integral = [&](poly& f) {
             int n = f.size();
             ensure_invs(n);
