@@ -4,20 +4,22 @@ documentation_of: //datastructure/persistent_queue.cpp
 ---
 
 ## 説明
-過去の任意versionから末尾追加・先頭削除を分岐できるキュー。
-version 0 は空であり、更新は元versionを変更せず新しいversion番号を返す。
+過去の任意のバージョンから末尾追加・先頭削除を分岐できるキュー。
+バージョン 0 は空であり、更新は元のバージョンを変更せず新しいバージョン番号を返す。
 
 ## できること
-- `PersistentQueue<T> q`：空のversion 0を作る
-- `push(version, value)`：末尾に追加した新versionを返す
-- `pop(version)`：先頭を削除した新versionを返す。空でないことが前提
-- `front(version)`：先頭要素のコピーを返す。空でないことが前提
-- `get(version, k)`：`version` の `k` 番目の要素を返す
-- `back(version)`：末尾要素のコピーを返す。空でないことが前提
-- `size(version)` / `empty(version)`：要素数 / 空かを返す
+対象バージョンの要素数を $L$ とし、要素コピーを $O(1)$ とする。
+
+- `PersistentQueue<T> q`：空のバージョン0を作る。$O(1)$
+- `push(version, value)`：末尾に追加した新しいバージョンを返す。追加後の要素数を $L$ として償却 $O(\log L)$
+- `pop(version)`：先頭を削除した新しいバージョンを返す。空でないことが前提。償却 $O(1)$
+- `front(version)`：先頭要素のコピーを返す。空でないことが前提。$O(\log L)$
+- `get(version, k)`：`version` の `k` 番目の要素を返す。$O(\log L)$
+- `back(version)`：末尾要素のコピーを返す。空でないことが前提。$O(1)$
+- `size(version)` / `empty(version)`：要素数 / 空かを返す。$O(1)$
 
 ## 使い方
-操作数の先読みやbuildは不要で、以前返されたversion番号をそのまま使う。
+以前返されたバージョン番号を更新・取得操作に渡す。
 `get` の位置は先頭を0とし、`0 <= k < size(version)` を満たすものとする。
 
 ```cpp
@@ -29,14 +31,11 @@ int d = q.push(a, 30);
 ```
 
 `b` は `{10,20}`、`c` は `{20}`、`d` は `{10,30}` を保持する。
-`get(b, 1)` と `back(b)` はどちらも `20` を返す。参照操作はversionやノードを追加しない。
+`get(b, 1)` と `back(b)` はどちらも `20` を返す。
 
 ## 実装上の補足
-末尾nodeと長さをversionごとに保持し、先頭や途中の要素はpush履歴の祖先を倍増法で辿って求める。
-空になったversionは末尾を切り離し、次のpushを新しい履歴の根にする。
+末尾nodeと長さをバージョンごとに保持し、先頭や途中の要素はpush履歴の祖先を倍増法で辿って求める。
+空になったバージョンは末尾を切り離し、次のpushを新しい履歴の根にする。
 祖先情報は1本の連続配列に格納し、nodeごとの小さな配列確保を行わない。
 
-要素コピーを $O(1)$ とすると、`front(version)` と `get(version, k)` はそのversionのキューの要素数を $L$ として最悪 $O(\log L)$。$L=1$ では定数時間。
-`push(version, value)` は追加後のキューの要素数を $L$ として償却 $O(\log L)$。
-`back/size/empty` は最悪 $O(1)$、`pop` は償却 $O(1)$。償却は配列の幾何拡張に由来し、過去versionへの分岐回数によって崩れない。
 更新数を $Q$、各 `push` で作るキューの要素数を $L_i$ とすると、総領域は $O(Q+\sum_i\log L_i)$。

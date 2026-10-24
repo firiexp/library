@@ -11,12 +11,14 @@ tags: グラフ
 成分ノードと関節点ノードの二部森になる。
 
 ## できること
+元グラフの頂点数を $V$、辺数を $E$ とする。
+
 - `BlockCutTree g(n)`
-  頂点数 `n` の graph builder を作る
+  頂点数 `n` のグラフを作る。$O(V)$
 - `void add_edge(int u, int v)`
-  無向辺を追加する。自己ループは内部で無視される
+  無向辺を追加する。自己ループは内部で無視される。償却 $O(1)$
 - `int build()`
-  block-cut tree を構築し、ノード数を返す
+  block-cut tree を構築し、ノード数を返す。時間・領域 $O(V+E)$
 
 ## 使い方
 `build()` 後は `tree`、`nodes`、`id`、`rev`、`is_articulation` を参照する。

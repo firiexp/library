@@ -8,11 +8,11 @@ tags: 数学
 
 ## 説明
 $0 \le x < n$ における $(ax+b) \bmod m$ の最小値を求める。
-Euclid 型の縮約を使い、時間は $O(\log m)$、追加領域は $O(1)$。
+Euclid 型の縮約を使う。
 
 ## できること
 - `ll min_of_mod_of_linear(ll n, ll m, ll a, ll b)`
-  $0 \le x < n$ における $(ax+b) \bmod m$ の最小値を返す。`a = 0` または `n = 1` なら `b`
+  $0 \le x < n$ における $(ax+b) \bmod m$ の最小値を返す。時間 $O(\log m)$、追加領域 $O(1)$
 
 ## 使い方
 $1 \le n,m \le \mathrm{LLONG\_MAX}$、$0 \le a,b < m$ を満たす値を渡す。

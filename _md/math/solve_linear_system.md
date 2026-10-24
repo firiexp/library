@@ -8,12 +8,10 @@ tags: 数学
 
 ## 説明
 素数 mod の `mint` 上で、$Ax=b$ を満たす解を1つと、そこからすべての解を表すためのベクトル列を求める。
-$N$ 行 $M$ 列の消去に $O(NM\min(N,M))$、基底の出力に $O(M(M-\mathrm{rank}))$ かかる。
-入力のコピーと拡大係数列の作成に $O(NM)$、解ベクトルの確保に $O(M)$ を使う。
 
 ## できること
 - `optional<LinearSystemSolution> solve_linear_system(A, b, int variables = -1)`
-  入力 `A`, `b` を保持し、$Ax=b$ の解を1つと、すべての解を表すためのベクトル列を返す。解がなければ `nullopt`
+  $Ax=b$ の解を1つと、すべての解を表すためのベクトル列を返す。解がなければ `nullopt`。$N$ 行 $M$ 列に対し、時間 $O(NM\min(N,M)+M^2+N)$、領域 $O(NM+M^2+N)$
 - `LinearSystemSolution::rank`
   係数行列 `A` の階数
 - `LinearSystemSolution::particular`

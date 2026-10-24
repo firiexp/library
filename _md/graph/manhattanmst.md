@@ -3,12 +3,14 @@ title: マンハッタンMST(Manhattan MST)
 documentation_of: //graph/manhattanmst.cpp
 ---
 ## 説明
-マンハッタン距離に対する最小全域木の候補辺集合を $O(N log N)$ で列挙する。
+マンハッタン距離に対する最小全域木の候補辺集合を列挙する。
 返る辺だけに Kruskal をかければ、元の完全グラフの最小全域木が求まる。
 
 ## できること
+点数を $N$ とする。
+
 - `vector<pair<int, int>> manhattanMST(vector<T> xs, vector<T> ys)`
-  点列 `(xs[i], ys[i])` に対する候補辺集合を返す
+  点列 `(xs[i], ys[i])` に対する候補辺集合を返す。$O(N\log N)$
 
 ## 使い方
 返り値は頂点番号の組 `(u, v)` の列で、辺重みは自分でマンハッタン距離を計算して使う。

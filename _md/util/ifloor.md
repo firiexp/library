@@ -12,9 +12,9 @@ C++ の `/` は 0 方向丸めなので、その差を吸収する。
 
 ## できること
 - `T ifloor(T x, T y)`
-  `floor(x / y)` を返す
+  $\lfloor x/y\rfloor$ を返す。$O(1)$
 - `T iceil(T x, T y)`
-  `ceil(x / y)` を返す
+  $\lceil x/y\rceil$ を返す。$O(1)$
 
 ## 使い方
 `y != 0` を仮定する。

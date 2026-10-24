@@ -11,8 +11,14 @@ tags: クエリ
 各条件は更新数 $t=0,\ldots,M$ に対して false から true へ単調に変わるものとする。
 
 ## できること
+更新数を $M$、クエリ数を $Q$ とする。
+
 - `parallel_binary_search(m, q, reset, apply, check)`
-  各クエリの最初の成立時刻を `vector<int>` で返す。初期状態で成立すれば `0`、最後まで不成立なら `m+1`
+  各クエリの最初の成立時刻を `vector<int>` で返す。初期状態で成立すれば `0`、最後まで不成立なら `m+1`。callback を除いて時間 $O((M+Q)\log M)$、補助領域 $O(M+Q)$
+
+## 使い方
+状態を扱う3つの callback を渡す。
+
 - `reset()`
   更新を適用していない初期状態を作る
 - `apply(i)`
@@ -20,10 +26,8 @@ tags: クエリ
 - `check(id)`
   現在の状態でクエリ `id` が成立するかを返す
 
-## 使い方
-状態を扱う3つの callback を渡す。`check` は更新 prefix の意味を変えてはならないが、UnionFind の経路圧縮など内部表現の変更はよい。
-`0 <= m < INT_MAX`、`q >= 0` とし、補助配列を確保できる範囲で使う。
-`q=0` では callback を呼ばない。`m=0` では1回だけ初期化し、各条件を初期状態で判定する。
+`check` は更新 prefix の意味を変えてはならないが、UnionFind の経路圧縮など内部表現の変更はよい。
+`0 <= m < INT_MAX`、`q >= 0` とする。
 終了後の状態は最後に判定した prefix のままとなる。
 
 ```cpp
@@ -34,6 +38,5 @@ auto answer = parallel_binary_search(m, q,
 ```
 
 ## 実装上の補足
-更新数を $M$、クエリ数を $Q$ とする。
 $O(\log M)$ ラウンドの二分探索を行い、各ラウンドで `reset` を1回、`apply` を高々 $M$ 回、`check` を高々 $Q$ 回呼ぶ。
-callback 以外の処理は $O((M+Q)\log M)$ 時間、補助領域は $O(M+Q)$。
+`q=0` では callback を呼ばない。`m=0` では1回だけ初期化し、各条件を初期状態で判定する。

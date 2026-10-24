@@ -8,15 +8,15 @@ tags: FPS
 
 ## 説明
 相異なる点列 `(x_i, y_i)` を通る次数 `n - 1` 以下の多項式を復元する。
-`998244353` 上の `poly` を前提にし、計算量は $O(n log^2 n)$。
+`998244353` 上の `poly` を使う。
 
 ## できること
 - `poly polynomial_interpolation(const vector<mint>& xs, const vector<mint>& ys)`
-  `f(xs[i]) = ys[i]` を満たす係数数 `xs.size()` の多項式を返す。空入力には空の多項式を返す
+  `f(xs[i]) = ys[i]` を満たす係数数 `xs.size()` の多項式を返す。空入力には空の多項式を返す。点数を $N$ として $O(N\log^2 N)$
 
 ## 使い方
 `#include "../fps/polynomial_interpolation.cpp"` を読み込む。
-同じ長さの `xs`, `ys` を渡して `polynomial_interpolation(xs, ys)` を呼ぶ。入力は変更しない。
+同じ長さの `xs`, `ys` を渡して `polynomial_interpolation(xs, ys)` を呼ぶ。
 
 ## 実装上の補足
 `multipoint_evaluation.cpp` を内部で使う。

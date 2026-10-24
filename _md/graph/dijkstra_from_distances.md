@@ -8,8 +8,10 @@ Dijkstra 法を応用して、初期費用を持つ複数始点から各頂点�
 辺重みは非負とする。初期費用には負の値も使える。
 
 ## できること
+頂点数を $V$、辺数を $E$ とする。$\mathrm{dist}(s,v)$ は `s` から `v` への最短距離を表す。
+
 - `vector<T> dijkstra_from_distances(vector<T> initial, const vector<vector<edge<T>>>& g)`
-  各頂点 $v$ への最小費用 $\min_s(\mathrm{initial}[s]+\mathrm{dist}(s,v))$ を返す。`initial[s] == INF<T>` の頂点は始点候補から除く。未到達は `INF<T>`。有限の初期値の個数を $S$ として $O(V+(E+S)\log(V+E))$ 時間、$O(V+E)$ 補助領域
+  各頂点 $v$ への最小費用 $\min_s(\mathrm{initial}[s]+\mathrm{dist}(s,v))$ を返す。`initial[s] == INF<T>` の頂点は始点候補から除く。未到達は `INF<T>`。$O((V+E)\log(V+E))$ 時間、$O(V+E)$ 補助領域
 
 ## 使い方
 `initial` の長さは頂点数に合わせ、始点候補の初期費用を設定する。

@@ -9,13 +9,14 @@ tags: グラフ
 ## 説明
 単一始点最短路と最短路木の親を求める。
 辺重みが非負のときに使う。
-計算量は $O((V + E) log V)$。
 
 ## できること
+頂点数を $V$、辺数を $E$ とする。
+
 - `DijkstraRestoreResult<T> dijkstra_restore(int s, const vector<vector<edge<T>>>& g)`
-  始点 `s` からの最短距離と親配列を返す。未到達頂点の距離は `INF<T>`、親は `-1`
+  始点 `s` からの最短距離と親配列を返す。未到達頂点の距離は `INF<T>`、親は `-1`。$O((V+E)\log(V+E))$
 - `vector<int> restore_path(int s, int t, const vector<int>& parent)`
-  親配列から `s -> t` の頂点列を復元して返す。復元できなければ空配列
+  親配列から `s -> t` の頂点列を復元して返す。復元できなければ空配列。$O(V)$
 
 ## 使い方
 `edge<T>` の隣接リストを作って `dijkstra_restore` を呼ぶ。

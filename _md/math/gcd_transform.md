@@ -8,13 +8,14 @@ tags: 数学
 ## 説明
 添字を約数半順序とみなした zeta 変換と mobius 反転を行う。
 `v[i]` に対して、変換後は `sum_{k>=1} v[i*k]` になる。
-素数の列挙を含め、時間は $O(n\log\log n)$、追加領域は $O(n/\log n)$ 個の整数と篩の領域。
 
 ## できること
+$n$ を配列の長さから1を引いた値とする。計算量には素数の列挙を含む。
+
 - `void gcd_transform(vector<T>& v)`
-  倍数側への総和を取る。`v[0]` は触らない
+  倍数側への総和を取る。`v[0]` は触らない。$O(n\log\log n)$
 - `void gcd_itransform(vector<T>& v)`
-  `gcd_transform` の逆変換を行う。`v[0]` は触らない
+  `gcd_transform` の逆変換を行う。`v[0]` は触らない。$O(n\log\log n)$
 
 ## 使い方
 長さ `n + 1` の配列を渡し、`1..n` を使う。

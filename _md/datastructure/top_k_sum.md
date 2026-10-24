@@ -9,34 +9,35 @@ tags: データ構造
 ## 説明
 重複あり multiset を 2 分割して管理し、順序に従う先頭 `K` 個の総和を扱う。
 `Largest = true` なら大きい順、`Largest = false` なら小さい順になる。
-`sum_topk()` は $O(1)$、`insert` / `erase_one` は $O(\log N)$。
 
 ## できること
+要素数を $N$ とする。
+
 - `TopKSum<T, SumT, Largest> ds(K = 0)`
-  順序付き先頭 `K` 個を基準にする空 multiset を作る
+  順序付き先頭 `K` 個を基準にする空 multiset を作る。`K >= 0` とする。$O(1)$
 - `int k() const`
-  現在の基準 `K` を返す
+  現在の基準 `K` を返す。$O(1)$
 - `void set_k(int new_k)`
-  基準 `K` を `new_k` に変える。計算量は $O(|new\_k-K| \log N)$
+  基準 `K` を `new_k` に変える。`new_k >= 0` とする。計算量は $O(|new\_k-K| \log N)$
 - `int size() const`
-  要素数を返す。重複分も数える
+  要素数を返す。重複分も数える。$O(1)$
 - `bool empty() const`
-  空なら `true`
+  空なら `true`。$O(1)$
 - `SumT total_sum() const`
-  全要素の総和を返す
+  全要素の総和を返す。$O(1)$
 - `void insert(const T& x)`
-  `x` を 1 個追加する
+  `x` を 1 個追加する。$O(\log N)$
 - `bool erase_one(const T& x)`
-  `x` を 1 個削除する。存在しなければ `false`
+  `x` を 1 個削除する。存在しなければ `false`。$O(\log N)$
 - `bool has_kth() const`
-  事前に設定した `K` 番目の要素が存在するなら `true`
+  事前に設定した `K` 番目の要素が存在するなら `true`。$O(1)$
 - `T kth() const`
-  順序に従う `K` 番目の値を返す。`has_kth()` が `true` のときに使う
+  順序に従う `K` 番目の値を返す。`has_kth()` が `true` のときに使う。$O(1)$
 - `SumT sum_topk() const`
-  順序に従う先頭 `K` 個の総和を返す
+  順序に従う先頭 `min(K, size())` 個の総和を返す。$O(1)$
 
 ## 使い方
-`selected` に先頭 `K` 個、`other` に残りを入れる 2 分割を保って使う。
+先頭 `K` 個と残りの要素への分割は内部で管理する。
 値の追加・削除をしながら `sum_topk()` を高頻度に読みたい用途に向く。
 
 `TopKSum<long long, long long, false>` とすると小さい方から `K` 個の和、`TopKSum<long long, long long, true>` とすると大きい方から `K` 個の和を扱う。

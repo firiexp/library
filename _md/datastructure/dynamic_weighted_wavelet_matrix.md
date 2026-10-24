@@ -73,13 +73,15 @@ $N$ は配列長、$M$ は初期値を含む候補の登録数、$\sigma$ は候
 - `sum_equal(l, r, x)`
   区間 $[l, r)$ にある値 `x` の重み和を返す。$O(\log \sigma + \log M)$
 - `range_count_sum(l, r, lower, upper)`
-  区間 $[l, r)$ かつ $lower \leq a_i < upper$ にある要素数と重み和を返す。$O(\log \sigma \log M)$
+  位置が区間 $[l, r)$ にあり、値が $lower \leq a_i < upper$ を満たす要素数と重み和を返す。$O(\log \sigma \log M)$
 - `range_freq(l, r, lower, upper)`
-  区間 $[l, r)$ かつ $lower \leq a_i < upper$ にある要素数を返す。$O(\log \sigma \log M)$、値固定時は $O(\log \sigma)$
+  位置が区間 $[l, r)$ にあり、値が $lower \leq a_i < upper$ を満たす要素数を返す。$O(\log \sigma \log M)$、値固定時は $O(\log \sigma)$
 - `range_sum(l, r, lower, upper)`
-  区間 $[l, r)$ かつ $lower \leq a_i < upper$ にある重み和を返す。$O(\log \sigma \log M)$
+  位置が区間 $[l, r)$ にあり、値が $lower \leq a_i < upper$ を満たす重み和を返す。$O(\log \sigma \log M)$
 
 ## 使い方
+要素数と重み和を返す `CountSum` は、個数 `count` と重み和 `sum` を持つ。
+`T` は値の型、`U` は重みとその総和の型とする。`U()` が加算の単位元となり、加減算できる型を使う。
 入力を先読みし、値変更で現れる `(位置, 値)` を `add_value_candidate` で登録してから `build` する。
 クエリにだけ現れる境界値は登録不要。
 
@@ -108,4 +110,3 @@ auto maximum = cur.value();
 - 各位置の候補を連続したスロットへ展開し、各位置につき一つのスロットだけを有効にする
 - 値変更は旧スロットの無効化と新スロットの有効化で処理する
 - `kth_smallest` と `kth_largest` は重複を出現個数で数え、重みには依存しない
-- `U` は `U()` を零元として加算と減算ができる型を使う

@@ -6,11 +6,12 @@ documentation_of: //graph/chordal_graph.cpp
 ## 説明
 単純無向グラフが弦グラフかを判定する。
 弦グラフなら完全除去順序（PEO）、そうでなければ長さ4以上の誘導閉路を返す。
-判定と復元は最悪 $O(N+M)$ 時間・領域。
 
 ## できること
+頂点数を $N$、辺数を $M$ とする。
+
 - `ChordalResult recognize_chordal(n, edges)`
-  頂点数 `n` と辺の pair 列を受け取り、入力を変更せず判定する
+  頂点数 `n` と辺の `pair<int, int>` 列を受け取り、弦グラフかを判定する。最悪 $O(N+M)$ 時間・領域
 - `result.chordal == true`
   `peo` は全頂点の順列。各頂点の、自分より後にある隣接頂点がクリークをなす。`induced_cycle` は空
 - `result.chordal == false`

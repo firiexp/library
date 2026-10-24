@@ -10,17 +10,15 @@ tags: データ構造
 直線集合に対して、1点での最小値(または最大値)クエリを処理する。
 最適な直線の ID も取得できる。同じ評価値なら、先に追加した直線を選ぶ。
 
-登録座標数を $N$、オンライン版の整数区間長を $C$ とする。
-直線追加・クエリはオフライン版で $O(\log N)$、オンライン版で $O(\log C)$。
-区間直線追加はそれぞれ $O(\log^2 N)$、$O(\log^2 C)$。
-
 ## できること
-- `LiChaoTree<T, false>(xs)` : オフライン版（`xs` に含まれる座標でのみクエリ可能）
-- `OnlineLiChaoTree<T, false>(low, high)` : オンライン版（区間 `[low, high)`）
-- `int add_line(a, b)` : 直線 `y = ax + b` を追加し、その ID を返す
-- `int add_segment(a, b, l, r)` : 区間 `[l, r)` のみ有効な直線 `y = ax + b` を追加し、その ID を返す
-- `query(x)` : 座標 `x` での最小値を返す。有効な直線がない場合は `numeric_limits<T>::max() / 4`、最大値版ではその符号を反転した値を返す
-- `optional<pair<T, int>> query_with_id(x)` : 最適な「評価値, ID」を返す。有効な直線がない場合は `nullopt`。同値なら小さい ID を返す
+登録座標数を $N$、オンライン版の整数区間長を $C$ とする。
+
+- `LiChaoTree<T, false>(xs)` : オフライン版（`xs` に含まれる座標でのみクエリ可能）。$O(N\log N)$
+- `OnlineLiChaoTree<T, false>(low, high)` : オンライン版（区間 `[low, high)`）。$O(1)$
+- `int add_line(a, b)` : 直線 `y = ax + b` を追加し、その ID を返す。オフライン版 $O(\log N)$、オンライン版は償却 $O(\log C)$
+- `int add_segment(a, b, l, r)` : 区間 `[l, r)` のみ有効な直線 `y = ax + b` を追加し、その ID を返す。オフライン版 $O(\log^2 N)$、オンライン版は償却 $O(\log^2 C)$
+- `query(x)` : 座標 `x` での最小値を返す。有効な直線がない場合は `numeric_limits<T>::max() / 4`、最大値版ではその符号を反転した値を返す。オフライン版 $O(\log N)$、オンライン版 $O(\log C)$
+- `optional<pair<T, int>> query_with_id(x)` : 最適な「評価値, ID」を返す。有効な直線がない場合は `nullopt`。同値なら小さい ID を返す。オフライン版 $O(\log N)$、オンライン版 $O(\log C)$
 
 `LiChaoTree<T, true>` / `OnlineLiChaoTree<T, true>` を使うと最大値クエリになる。
 ID は両方の追加操作を通して 0 から順に発行する。空区間や登録座標を含まない区間への追加でも ID を発行する。

@@ -14,4 +14,10 @@ ax + by = \gcd(a, b)
 $$
 
 を満たす $x, y$ を計算する。返り値は $\gcd(a, b)$。
-計算量は $O(\log \min(a, b))$。
+
+## できること
+- `T extgcd(T a, T b, T& x, T& y)`
+  $ax+by=\gcd(a,b)$ を満たす係数を `x`, `y` に格納し、最大公約数を返す。$O(\log\min(a,b))$
+
+## 使い方
+`long long x, y;` を用意し、`extgcd(a, b, x, y)` を呼ぶ。

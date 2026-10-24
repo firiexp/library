@@ -5,15 +5,13 @@ documentation_of: //math/characteristic_polynomial.cpp
 
 ## 説明
 正方行列 $A$ の特性多項式 $\det(xI-A)$ を求める。
-$N\times N$ 行列に対して時間 $O(N^3)$、補助領域 $O(N^2)$。
 
 ## できること
 - `vector<T> characteristic_polynomial(vector<vector<T>> a)`
-  特性多項式の係数を定数項から順に返す。返り値は $N+1$ 要素で、最高次の係数は `1`
+  行列の次数を $N$ として、特性多項式の係数を定数項から順に $N+1$ 要素で返す。最高次の係数は `1`。時間 $O(N^3)$、補助領域 $O(N^2)$
 
 ## 使い方
-`T` には、非零要素で除算できる体の型を使う。例えば素数を法とする `modint` を指定できる。
-入力の行列は変更されない。
+`T` には非零要素で除算できる体の型を使う。例えば素数を法とする `modint` を指定できる。
 
 ```cpp
 vector<vector<mint>> a = { {1, 2}, {3, 4} };

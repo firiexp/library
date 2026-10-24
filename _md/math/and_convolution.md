@@ -9,15 +9,16 @@ tags: 数学
 ## 説明
 bitwise AND 畳み込みを計算する。
 `c[S] = Σ_{A & B = S} a[A] b[B]` を返す。
-計算量は $O(N log N)$。
 
 ## できること
+$N$ を2冪に拡張した後の配列長とする。
+
 - `void superset_zeta_transform(vector<T>& v)`
-  superset zeta transform をその場適用する
+  superset zeta transform をその場適用する。$O(N\log N)$
 - `void superset_mobius_transform(vector<T>& v)`
-  superset zeta transform の逆変換をその場適用する
+  superset zeta transform の逆変換をその場適用する。$O(N\log N)$
 - `vector<T> and_convolution(vector<T> a, vector<T> b)`
-  AND 畳み込みを返す。長さは大きい方に合わせて 2 冪へ拡張する
+  AND 畳み込みを返す。長さは大きい方に合わせて 2 冪へ拡張する。$O(N\log N)$
 
 ## 使い方
 `T` には `+`, `-`, `*`, `+=`, `-=`, `*=` が必要。

@@ -9,13 +9,14 @@ tags: 数学
 ## 説明
 合成数を含む任意 mod で正方行列の行列式を求める。
 逆元を使わず、整数商による行の加減算と交換で上三角化する。
-時間は $O(N^3\log m)$、入力コピーを含む領域は $O(N^2)$。
 
 ## できること
+$N$ を行列の次数、$m$ を法とする。
+
 - `ll matrix_determinant_mod(vector<vector<ll>> A, int mod)`
-  入力を保持して行列式を `[0, mod)` に正規化して返す。空行列は `1 % mod`、mod 1 では常に0
+  行列式を `[0, mod)` に正規化して返す。空行列は `1 % mod`、mod 1 では常に0。時間 $O(N^3\log m)$、領域 $O(N^2)$
 - `Mint matrix_determinant_mod(const vector<vector<Mint>>& A)`
-  `modint` 行列の行列式を同じ型で返す。mod は `Mint::get_mod()` から取得し、入力は保持する
+  `modint` 行列の行列式を同じ型で返す。mod は `Mint::get_mod()` から取得する。時間 $O(N^3\log m)$、領域 $O(N^2)$
 
 ## 使い方
 正方行列 `A` と $1 \le \mathrm{mod} \le \mathrm{INT\_MAX}$ を渡す。

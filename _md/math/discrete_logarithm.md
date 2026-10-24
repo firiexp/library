@@ -13,11 +13,10 @@ tags: 数学
 
 ## できること
 - `long long discrete_logarithm(long long x, long long y, long long mod)`
-  `x^k ≡ y (mod mod)` を満たす最小の `k` を返す。存在しなければ `-1`
+  `x^k ≡ y (mod mod)` を満たす最小の `k` を返す。存在しなければ `-1`。ハッシュ表の操作を期待定数時間として、期待時間・領域 $O(\sqrt{\mathrm{mod}})$
 
 ## 使い方
 `mod >= 1` を想定する。負の `x`・`y` を与えても、`mod` で正規化して計算する。
-ハッシュ表の操作に期待定数時間を仮定して、時間・領域ともに $O(\sqrt{mod})$。
 
 ## 実装上の補足
 giant step の幅に対応する冪は二分累乗で求め、途中の積には128 bit整数を使う。

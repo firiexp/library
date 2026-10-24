@@ -10,9 +10,6 @@ tags: 数学
 複数の `n` に対して `n! mod 998244353` をまとめて計算する。
 `n >= 998244353` なら `0` を返す。
 
-同じ値を先に圧縮してから計算する。
-`sample_point_shift` で `B = 512` の block product を前計算し、
-各 query は block 境界から近い側へ高々 `256` 個だけ掛けて求める。
 
 ## できること
 - `vector<mint> many_factorials(const vector<long long>& ns)`
@@ -27,6 +24,6 @@ auto ans = many_factorials(ns);
 ```
 
 ## 実装上の補足
-block prefix product を土台にする。
-余りが前半ならそのまま掛け足し、後半なら次 block から割り戻す。
-共通計算を抑え、distinct な query を短い積で直接処理する。
+同じ値をまとめ、`sample_point_shift` で幅512のブロックごとの積とその累積積を前計算する。
+ブロック内の位置が前半なら左端から掛け足し、後半なら次のブロックの境界から割り戻す。
+各クエリは高々256個の積で求める。

@@ -9,29 +9,30 @@ tags: データ構造
 ## 説明
 Treap で順序付き multiset を管理する。
 `find_by_order` と `order_of_key` を使って、順位から値、値から順位を求める。
-探索は期待 $O(\log N)$、退化時は $O(N)$。挿入は領域の拡張を含め期待償却 $O(\log N)$。
 
 ## できること
+要素数を $N$、比較を $O(1)$ とする。木を辿る操作は退化時に $O(N)$ となる。
+
 - `OrderStatisticTree<T, Compare> st(seed = 2463534242u, comp = Compare())`
-  空の順序統計木を作る。順序は `Compare` に従う
+  空の順序統計木を作る。順序は `Compare` に従う。$O(1)$
 - `void reserve(int capacity)`
-  ノード領域を `capacity` 個ぶん事前確保する
+  ノード領域を `capacity` 個ぶん事前確保する。確保済みノード数に比例する時間
 - `int size() const`
-  要素数を返す。重複分も数える
+  要素数を返す。重複分も数える。$O(1)$
 - `bool empty() const`
-  空なら `true`
+  空なら `true`。$O(1)$
 - `void insert(T x)`
-  `x` を 1 個追加する
+  `x` を 1 個追加する。期待償却 $O(\log N)$
 - `bool erase_one(T x)`
-  `x` を 1 個削除する。存在しなければ `false`
+  `x` を 1 個削除する。存在しなければ `false`。期待償却 $O(\log N)$
 - `int count(T x) const`
-  `x` の個数を返す。存在しなければ `0`
+  `x` の個数を返す。存在しなければ `0`。期待 $O(\log N)$
 - `bool contains(T x) const`
-  `x` を含むなら `true`
+  `x` を含むなら `true`。期待 $O(\log N)$
 - `T find_by_order(int k) const`
-  `0`-indexed で `k` 番目の値を返す。`0 <= k < size()` で使う
+  `0`-indexed で `k` 番目の値を返す。`0 <= k < size()` で使う。期待 $O(\log N)$
 - `int order_of_key(T x) const`
-  `Compare` の順序で `x` より前にある要素数を返す
+  `Compare` の順序で `x` より前にある要素数を返す。期待 $O(\log N)$
 
 ## 使い方
 `insert` / `erase_one` で集合を更新し、`find_by_order(k)` と `order_of_key(x)` で順位クエリを処理する。

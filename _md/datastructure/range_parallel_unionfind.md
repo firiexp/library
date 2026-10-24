@@ -8,16 +8,18 @@ documentation_of: //datastructure/range_parallel_unionfind.cpp
 階層ごとに併合済みの区間を記録し、同じ対応を繰り返し処理する手間を省く。
 
 ## できること
+頂点数を $N$、区間併合の回数を $Q$ とする。
+
 - `RangeParallelUnionFind uf(n)`
-  頂点 $0,1,\ldots,n-1$ を、それぞれ独立した集合として構築する
+  頂点 $0,1,\ldots,n-1$ を、それぞれ独立した集合として構築する。$O(N\log N)$
 - `int unite_range(int a, int b, int k)`
-  $0\leq i<k$ のすべての頂点対 $(a+i,b+i)$ を併合し、新たに成立した成分の併合数を返す
+  $0\leq i<k$ のすべての頂点対 $(a+i,b+i)$ を併合し、新たに成立した成分の併合数を返す。$Q$ 回全体で償却 $O((N\log N+Q)\alpha(N))$
 - `int unite_range(int a, int b, int k, F on_merge)`
-  異なる頂点成分を併合する直前に `on_merge(keep, absorbed)` を呼ぶ。引数は併合前の代表元で、`keep` が併合後の代表元になる
+  異なる頂点成分を併合する直前に `on_merge(keep, absorbed)` を呼ぶ。引数は併合前の代表元で、`keep` が併合後の代表元になる。コールバックを除き、$Q$ 回全体で償却 $O((N\log N+Q)\alpha(N))$
 - `int root(int v)` / `bool same(int a, int b)`
-  代表元の取得と、同じ集合に属するかの判定を行う
+  代表元の取得と、同じ集合に属するかの判定を行う。償却 $O(\alpha(N))$
 - `int size(int v)` / `int count() const`
-  頂点 `v` の成分の頂点数と、全体の成分数を返す
+  頂点 `v` の成分の頂点数と、全体の成分数を返す。`size` は償却 $O(\alpha(N))$、`count` は $O(1)$
 
 ## 使い方
 $0\leq k\leq n$、$0\leq a,b\leq n-k$ とする。区間が重なっていてもよい。
@@ -32,6 +34,5 @@ uf.unite_range(a, b, k, [&](int keep, int absorbed) {
 ```
 
 ## 実装上の補足
-構築と保持領域は $O(N\log(N))$。$Q$ 回の区間併合の合計は償却 $O((N\log(N)+Q)\alpha(N))$ 時間で、callback の実行時間は別途加わる。
-callback の呼出総数は高々 $\max(0,N-1)$ 回。1回の区間併合が常に対数時間で終わるという保証ではない。
-`root`・`same`・`size` は償却 $O(\alpha(N))$、`count` は $O(1)$ 時間。
+保持領域は $O(N\log N)$。
+頂点が1つ以上なら、コールバックの呼出総数は高々 $N-1$ 回。1回の区間併合が常に対数時間で終わるという保証ではない。

@@ -10,10 +10,12 @@ tags: データ構造
 更新のない配列について、指定した区間に含まれる値の種類数を求める。
 
 ## できること
+配列長を $N$ とする。
+
 - `StaticRangeDistinct<T> distinct(const vector<T>& values)`
-  配列から構築する。要素数を $N$ として $O(N\log N)$ 時間
+  配列から構築する。$O(N\log N)$
 - `int count(int l, int r) const`
-  半開区間 `[l, r)` に含まれる値の種類数を $O(\log N)$ 時間で返す
+  半開区間 `[l, r)` に含まれる値の種類数を返す。$O(\log N)$
 
 ## 使い方
 `T` は `<` で比較できる型とし、比較に $O(1)$ 時間かかることを前提とする。

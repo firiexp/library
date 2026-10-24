@@ -7,16 +7,14 @@ tags: 木
 ---
 
 ## 説明
-重みなし木の中心と半径を $O(N)$ で求める。
+重みなし木の中心と半径を求める。
 中心は 1 頂点または隣接する 2 頂点になる。
 
 ## できること
+頂点数を $N$ とする。
+
 - `pair<int, vector<int>> tree_center(const vector<vector<int>>& g)`
-  木の半径と中心頂点列を返す
-- 戻り値の `first`
-  半径
-- 戻り値の `second`
-  中心頂点を 1 個または 2 個持つ
+  `first` に半径、`second` に1個または2個の中心頂点を入れて返す。$O(N)$
 
 ## 使い方
 隣接リストを `vector<vector<int>>` で持って `tree_center(g)` を呼ぶ。

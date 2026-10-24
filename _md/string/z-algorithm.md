@@ -7,16 +7,14 @@ tags: 文字列
 ---
 
 ## 説明
-文字列 `s` の各位置 `i` について、`s` と `s[i, |s|)` の最長共通接頭辞長を $O(|s|)$ で求める。
-`res[i]` は `s[0..)` と `s[i..)` の LCP 長になる。
-別の列 `pattern` と `text` の各 suffix の LCP も、区切り文字や連結なしで求められる。
+文字列の各位置から始まる接尾辞と、文字列全体の最長共通接頭辞長を求める。
+別の列 `pattern` と `text` の各接尾辞の最長共通接頭辞長も求められる。
 
 ## できること
 - `vector<int> Z_algorithm(const string& s)`
-  Z 配列を返す。`res[0] = |s|`。空文字列なら空 vector を返す
+  各位置 `i` の最長共通接頭辞長を `res[i]` に格納して返す。`res[0] = |s|`。時間・領域は $O(|s|)$
 - `vector<int> z_match(pattern, text)`
-  `LCP(pattern, text[i..))` を各位置について返す。引数は `string` 同士、または同じ要素型の `vector<T>` 同士
-- `z_match` の返却長は常に `text.size()`。空の `pattern` なら全要素 `0`、空の `text` なら空列を返す
+  `LCP(pattern, text[i..))` を各位置について返す。引数は `string` 同士、または同じ要素型の `vector<T>` 同士。時間・領域は $O(|pattern|+|text|)$
 
 ## 使い方
 `auto z = Z_algorithm(s);` として使う。
@@ -32,8 +30,6 @@ for (int i = 0; i < (int)text.size(); ++i) {
 ```
 
 ## 実装上の補足
-- 一致判定だけでなく、各 suffix と先頭の一致長をまとめて取りたいときに向く
-- 返る配列は 0-indexed
-- `z_match` は等値比較だけを使い、NUL や `0xff` も通常の要素として扱う。入力は変更しない
-- $M=|\mathrm{pattern}|$, $N=|\mathrm{text}|$ として、時間 $O(M+N)$、返却列を含む追加領域 $O(M+N)$
+- `z_match` は等値比較だけを使い、NUL や `0xff` も通常の要素として扱う
+- `Z_algorithm` は空列に対して空列を返す。`z_match` の返却長は `text.size()` で、空の `pattern` なら全要素が `0` になる
 - 空の `pattern` でも位置 $N$ の要素は返さない。空列の一致位置を列挙する場合の末尾は別に扱う

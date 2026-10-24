@@ -8,11 +8,11 @@ tags: 数学
 
 ## 説明
 `0..M-1` の Euler の totient function をまとめて求める。
-線形篩ベースの wrapper で、計算量は $O(M)$。
+線形篩で前計算する。
 
 ## できること
 - `vector<int> eulerphi_all(int M)`
-  `phi[i] = phi(i)` を満たす長さ `M` の配列を返す
+  `phi[i] = phi(i)` を満たす長さ `M` の配列を返す。$O(M)$
 
 ## 使い方
 `phi[0] = 0`, `phi[1] = 1` になる。

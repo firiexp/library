@@ -11,23 +11,24 @@ tags: グラフ
 時間区間セグメント木と rollback Union-Find を使う。
 
 ## できること
+頂点数を $N$、クエリ数を $Q$ とする。
+
 - `DynamicGraphVertexAddComponentSum(const vector<long long>& a, int q)`
-  初期頂点値 `a` とクエリ数 `q` を受け取って solver を作る
+  初期頂点値 `a` とクエリ数 `q` を受け取って初期化する。$O(N+Q)$
 - `void add_edge(int u, int v)`
-  辺追加クエリを積む
+  辺追加クエリを登録する。償却 $O(1)$
 - `void erase_edge(int u, int v)`
-  辺削除クエリを積む
+  辺削除クエリを登録する。償却 $O(1)$
 - `void add_vertex(int v, long long x)`
-  頂点 `v` に `x` を足すクエリを積む
+  頂点 `v` に `x` を足すクエリを登録する。償却 $O(1)$
 - `void add_component_query(int v)`
-  頂点 `v` が属する連結成分の総和クエリを積む
+  頂点 `v` が属する連結成分の総和クエリを登録する。償却 $O(1)$
 - `vector<long long> solve()`
-  クエリ順に各総和クエリの答えを返す
+  クエリ順に各総和クエリの答えを返す。時間 $O(N+Q\log Q\log N)$、領域 $O(N+Q\log Q)$
 
 ## 使い方
 クエリを時系列順に積み、最後に `solve()` を呼ぶ。
 登録数はコンストラクタに渡した `q` と一致させる。存在しない辺だけを追加し、存在する辺だけを削除する。
-時間は $O(N+Q\log(Q)\log(N))$、領域は $O(N+Q\log(Q))$。
 rollback のため経路圧縮は使わず、union-by-size により根探索を $O(\log(N))$ に抑える。
 
 ## 実装上の補足

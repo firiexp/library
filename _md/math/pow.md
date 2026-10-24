@@ -6,10 +6,10 @@ tags: 数学
 ---
 
 ## 説明
-$a^x \bmod M$ を求める。計算量は $O(\log x)$。
+$a^x \bmod M$ を求める。
 
 ## できること
-- `pow_(a, x, M)` : $a^x \bmod M$ を返す
+- `pow_(a, x, M)` : $a^x \bmod M$ を返す。$O(\log x)$
 
 ## 使い方
 `x` は非負整数、`M` は正の整数を想定する。

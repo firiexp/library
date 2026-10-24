@@ -9,18 +9,18 @@ tags: 数学
 ## 説明
 
 NTT と中国剰余定理で非負整数列を誤差なく畳み込む。
-計算量は $O(N \log N)$。
 
 ## できること
+$N$ を出力の係数数とする。
 
 - `vector<unsigned long long> ArbitraryConvolution::convolution_u64(const vector<unsigned int>& a, const vector<unsigned int>& b)`
-  3 素数で畳み込みを返す。どちらかが空なら空配列
+  3 素数で畳み込みを返す。どちらかが空なら空配列。$O(N\log N)$
 - `vector<unsigned long long> ArbitraryConvolution::square_u64(const vector<unsigned int>& a)`
-  3 素数で自己畳み込みを返す。空なら空配列
+  3 素数で自己畳み込みを返す。空なら空配列。$O(N\log N)$
 - `vector<unsigned long long> BoundedConvolution::convolution_u64(const vector<unsigned int>& a, const vector<unsigned int>& b)`
-  2 素数で畳み込みを返す。どちらかが空なら空配列
+  2 素数で畳み込みを返す。どちらかが空なら空配列。$O(N\log N)$
 - `vector<unsigned long long> BoundedConvolution::square_u64(const vector<unsigned int>& a)`
-  2 素数で自己畳み込みを返す。空なら空配列
+  2 素数で自己畳み込みを返す。空なら空配列。$O(N\log N)$
 
 ## 使い方
 

@@ -7,19 +7,19 @@ documentation_of: //string/palindromic_tree.cpp
 
 文字列に含まれる異なる回文部分文字列と、その出現回数を管理する。
 文字列を非空の回文に分割するときの最少個数と分割位置も求められる。
-1 文字ずつ追加しながら構築でき、文字種数 `W` を定数とすると長さ $N$ の文字列から全体 $O(N)$ で構築する。
+1文字ずつ追加しながら構築できる。
 
 ## できること
 
-- `PalindromicTree<W, start> pt` : 空の回文木を作る
-- `PalindromicTree<W, start> pt(s)` : 文字列 `s` から構築する
-- `void reserve(int n)` : 長さ `n` を見込んで領域を確保する
-- `int add(char c)` : 末尾に文字 `c` を追加し、追加後の最長回文接尾辞のノード番号を返す
-- `void build(const string &t)` : 末尾に文字列 `t` を追加する
-- `vector<int> count()` : 各ノードの出現回数を返す。ノード数を $S$ として $O(S)$
-- `Partitions min_partitions()` : 文字列の各接頭辞を非空回文に分割する最少個数 `count` と、分割位置を復元するための `prev` を返す
+文字列長を $N$ とする。文字種数 `W` は定数として扱う。
 
-`min_partitions()` の計算量は時間 $O(N\log(N))$、返却値を含む追加領域 $O(N)$。
+- `PalindromicTree<W, start> pt` : 空の回文木を作る。$O(1)$
+- `PalindromicTree<W, start> pt(s)` : 文字列 `s` から構築する。$O(N)$
+- `void reserve(int n)` : 長さ `n` を見込んで領域を確保する。$O(N)$
+- `int add(char c)` : 末尾に文字 `c` を追加し、追加後の最長回文接尾辞のノード番号を返す。償却 $O(1)$
+- `void build(const string &t)` : 末尾に文字列 `t` を追加する。償却 $O(|t|)$
+- `vector<int> count()` : 各ノードの出現回数を返す。$O(N)$
+- `Partitions min_partitions()` : 文字列の各接頭辞を非空回文に分割する最少個数 `count` と、分割位置を復元するための `prev` を返す。時間 $O(N\log N)$、返却値を含む追加領域 $O(N)$
 
 ## 使い方
 
@@ -48,7 +48,7 @@ reverse(ranges.begin(), ranges.end());
 
 `dp.count[0]=0`、`dp.prev[0]=-1` とし、`i>0` では `dp.count[i]=dp.count[dp.prev[i]]+1` となる。
 空文字列の場合は `count={0}`、`prev={-1}` を返す。
-`add` / `build` 後は再度 `min_partitions()` を呼べば更新後の結果を取得できる。既に返した結果やノード・出現回数は変更しない。
+`add` / `build` 後は再度 `min_partitions()` を呼べば更新後の結果を取得できる。
 
 ## 実装上の補足
 
@@ -58,7 +58,7 @@ reverse(ranges.begin(), ranges.end());
 `path[i]` は接頭辞 `s[0..i]` の最長回文接尾辞のノード番号を持つ。
 
 通常ノードの suffix link は先に作られたノードを指し、`nodes[v].link < v` が成り立つ。
-`count()` はノード番号の逆順に出現回数を伝播する。文字追加後も再集計できる。
+`count()` はノード番号の逆順に出現回数を伝播する。
 返り値のうち、根 `0` の出現回数は $0$、根 `1` の出現回数は文字列長となる。
 
 `min_partitions()` は `path` を接頭辞の短い順に走査する。

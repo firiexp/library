@@ -12,7 +12,7 @@ tags: 数学
 
 ## できること
 - `bool miller_rabin(T n)`
-  $n < 2^{63}$ の整数 `n` が素数なら `true`、それ以外は `false` を返す
+  $n < 2^{63}$ の整数 `n` が素数なら `true`、それ以外は `false` を返す。$O(\log n)$
 - `T pollard_rho2(T n)`
   $4 \le n < 2^{63}$ の合成数 `n` の非自明因子を 1 つ返す
 - `vector<T> prime_factor(T n)`

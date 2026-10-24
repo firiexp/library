@@ -12,13 +12,13 @@ tags: 有向グラフ
 
 ## できること
 - `TwoSAT sat(n)`
-  変数数 `n` の 2-SAT を作る
+  変数数 `n` の 2-SAT を作る。$O(n)$
 - `int negate(int v)`
-  リテラル `v` の否定を返す
+  リテラル `v` の否定を返す。$O(1)$
 - `void add_if(int u, int v)`
-  含意 `u -> v` を加える
+  含意 `u -> v` を加える。償却 $O(1)$
 - `void add_or(int u, int v)`
-  節 `u or v` を加える
+  節 `u or v` を加える。償却 $O(1)$
 - `void add_clause(int i, bool f, int j, bool g)`
   節 `(x_i == f) || (x_j == g)` を加える。`i,j` は元の変数番号 `0..n-1`。償却 $O(1)$ 時間・領域
 - `void fix(int i, bool value)`
@@ -34,7 +34,7 @@ tags: 有向グラフ
 
 `x_i == a` と `x_j == b` が同時に成立してはいけない場合は、`sat.add_clause(i, !a, j, !b);` と書く。
 `sat.fix(i, true);` は `x_i` を真に固定する。bool 引数は成立させたい値を表す。
-これらの入口は補助変数を増やさず、既存の節や排他制約と混在できる。制約追加後に再び `build()` を呼べる。
+`add_clause` と `fix` は補助変数を増やさず、他の節や排他制約と組み合わせて使える。
 
 `sat.at_most_one({0, sat.negate(1), 2});` のように排他制約を追加できる。
 補助変数は内部で確保され、追加前のリテラル番号は変わらない。

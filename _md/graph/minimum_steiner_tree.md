@@ -12,9 +12,9 @@ documentation_of: //graph/minimum_steiner_tree.cpp
 指定頂点数を $K$、頂点数を $N$、辺数を $M$ とする。
 
 - `MinimumSteinerTree<T> st(n)`
-  `n` 頂点のグラフを作る。`n >= 1`
+  `n` 頂点のグラフを作る。`n >= 1`。$O(N)$
 - `int add_edge(int u, int v, T weight)`
-  無向辺を追加し、0から始まる入力順の辺IDを返す。最初の `build` より前に呼ぶ
+  無向辺を追加し、0から始まる入力順の辺IDを返す。最初の `build` より前に呼ぶ。償却 $O(1)$
 - `void build(const vector<int>& terminals)`
   指定頂点集合について前計算する。再呼び出しで以前のDPと復元情報を置き換える
   時間 $O(3^K N + 2^K (N+M)\log(N+M))$、保持領域 $O(2^K N+M)$

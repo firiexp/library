@@ -9,11 +9,12 @@ tags: グラフ
 ## 説明
 無向グラフから 1 つサイクルを見つける。
 多重辺を含んでもよい。
-計算量は $O(N + M)$。
 
 ## できること
+頂点数を $N$、辺数を $M$ とする。
+
 - `CycleDetectionUndirectedResult cycle_detection_undirected(const vector<pair<int, int>>& edges, int n)`
-  サイクルの頂点列と辺番号列を返す。存在しなければ両方空配列を返す
+  サイクルの頂点列と辺番号列を返す。存在しなければ両方空配列を返す。$O(N+M)$
 
 ## 使い方
 `edges[i] = {u, v}` を渡す。

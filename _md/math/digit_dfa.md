@@ -11,7 +11,7 @@ documentation_of: //math/digit_dfa.cpp
 
 - `digit_value_mod(m, r=0)` : 整数値の剰余が `r`。$m$ 状態、構築 $O(Wm)$
 - `digit_sum_mod(m, r=0)` : 桁和の剰余が `r`。$m$ 状態、構築 $O(Wm)$
-- `digit_sum_exact(k)` : 桁和が `k`。超過は拒否。$k+1$ 状態、構築 $O(W(k+1))$
+- `digit_sum_exact(k)` : 桁和が `k`。超過は拒否。$k+1$ 状態、構築 $O(Wk)$
 - `no_equal_adjacent()` : 同じ数字が隣接しない。11 状態
 - `required_digits(mask)` : bit が立つ数字をすべて含む。指定数字数を $k$ として $2^k$ 状態、構築 $O(W2^k)$
 

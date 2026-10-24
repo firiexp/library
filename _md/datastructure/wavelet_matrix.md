@@ -9,39 +9,34 @@ tags: データ構造
 ## 説明
 静的配列に対して、区間内の順序統計量・値の出現回数・前駆/後継検索を扱うデータ構造。
 
-## 計算量
-- 構築: $O(N \log \sigma)$
-- `count_less` / `range_freq` / `freq`: $O(\log \sigma)$
-- `kth_smallest` / `kth_largest`: $O(\log \sigma)$
-- cursor の生成・分岐・個数取得: $O(1)$。$k$ 区間を同時に辿る kth は $O(k \log(\sigma))$
+## できること
+配列長を $N$、異なる値の個数を $\sigma$ とし、比較を $O(1)$ とする。
 
-$N$ は配列長、$\sigma$ は異なる値の個数。
+- `WaveletMatrix<T> wm(v)` : 配列から構築する。$O(N\log N)$
+- `build_from_index(idx, sorted_vals)` : 圧縮済み index 列 `idx` と昇順の値列 `sorted_vals` から構築する。$O(N\log \sigma)$
+- `count_less(l, r, x)` : 区間 $[l, r)$ のうち `x` 未満の個数を返す。$O(\log \sigma)$
+- `count_less_index(l, r, xi)` : 区間 $[l, r)$ のうち圧縮 index `xi` 未満の個数を返す。$O(\log \sigma)$
+- `range_freq(l, r, lower, upper)` : 区間 $[l, r)$ のうち $lower \le a_i < upper$ の個数を返す。$O(\log \sigma)$
+- `freq(l, r, x)` : 区間 $[l, r)$ における `x` の出現回数を返す。$O(\log \sigma)$
+- `count_equal_index(l, r, xi)` : 区間 $[l, r)$ における圧縮 index `xi` の出現回数を返す。$O(\log \sigma)$
+- `top_k_freq(l, r, k)` : 区間 $[l, r)$ で頻度上位 `k` 個の `(頻度, 値)` を返す。同頻度なら値昇順。最悪 $O(\sigma\log \sigma)$
+- `kth_smallest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に小さい値を返す。`0 <= k < r-l` を前提とする。$O(\log \sigma)$
+- `kth_largest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に大きい値を返す。`0 <= k < r-l` を前提とする。$O(\log \sigma)$
+- `prev_value(l, r, upper, res)` : 区間 $[l, r)$ にある `upper` 未満の最大値を `res` に返す。存在しない場合 `false`。$O(\log \sigma)$
+- `next_value(l, r, lower, res)` : 区間 $[l, r)$ にある `lower` 以上の最小値を `res` に返す。存在しない場合 `false`。$O(\log \sigma)$
+- `range_cursor(l, r)` : 区間 $[l, r)$ の読み取り専用 cursor を返す。空区間も指定できる。$O(1)$
+- `split(cur)` : 非葉 cursor を値の小さい側 `low` と大きい側 `high` に分ける。$O(1)$
+- `cur.count()` / `cur.empty()` : cursor 内の個数 / 空かを返す。$O(1)$
+- `cur.is_leaf()` : 値が確定した葉かを返す。$O(1)$
+- `cur.value()` : 空でない葉の値を返す。$O(1)$
 
 ## 使い方
-1. `WaveletMatrix<T> wm(v);` で配列 `v` から構築する。
-2. 事前に座標圧縮したなら `wm.build_from_index(idx, sorted_vals);` でも構築できる。
-3. 区間 `[l, r)` に対して以下を呼ぶ。
-
-## できること
-- `build_from_index(idx, sorted_vals)` : 圧縮済み index 列 `idx` と昇順の値列 `sorted_vals` から構築する
-- `count_less(l, r, x)` : 区間 $[l, r)$ のうち `x` 未満の個数を返す
-- `count_less_index(l, r, xi)` : 区間 $[l, r)$ のうち圧縮 index `xi` 未満の個数を返す
-- `range_freq(l, r, lower, upper)` : 区間 $[l, r)$ のうち $lower \le a_i < upper$ の個数を返す
-- `freq(l, r, x)` : 区間 $[l, r)$ における `x` の出現回数を返す
-- `count_equal_index(l, r, xi)` : 区間 $[l, r)$ における圧縮 index `xi` の出現回数を返す
-- `top_k_freq(l, r, k)` : 区間 $[l, r)$ で頻度上位 `k` 個の `(頻度, 値)` を返す。同頻度なら値昇順
-- `kth_smallest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に小さい値を返す
-- `kth_largest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に大きい値を返す
-- `prev_value(l, r, upper, res)` : 区間 $[l, r)$ にある `upper` 未満の最大値を `res` に返す。存在しない場合 `false`
-- `next_value(l, r, lower, res)` : 区間 $[l, r)$ にある `lower` 以上の最小値を `res` に返す。存在しない場合 `false`
-- `range_cursor(l, r)` : 区間 $[l, r)$ の読み取り専用 cursor を返す。空区間も指定できる
-- `split(cur)` : 非葉 cursor を値の小さい側 `low` と大きい側 `high` に分ける
-- `cur.count()` / `cur.empty()` : cursor 内の個数 / 空かを返す
-- `cur.is_leaf()` : 値が確定した葉かを返す
-- `cur.value()` : 空でない葉の値を返す
+`WaveletMatrix<T> wm(v);` で配列から構築する。
+圧縮済みなら、`idx` の各要素を `sorted_vals` の添字として `build_from_index(idx, sorted_vals)` に渡す。
+`sorted_vals` は重複のない昇順の値列とし、区間は `0 <= l <= r <= v.size()` とする。
 
 ## 例
-2 区間を多重集合として合わせたときの `k` 番目（0-indexed）は、両方の cursor を同じ側へ進めて求める。重なる位置は2回数える。
+2 区間を多重集合として合わせたときの `k` 番目（0-indexed）は、両方の cursor を同じ側へ進めて求める。重なる位置は2回数える。2区間なら $O(\log \sigma)$、一般に $K$ 区間なら $O(K\log \sigma)$ 時間かかる。
 
 ```cpp
 auto a = wm.range_cursor(l1, r1);

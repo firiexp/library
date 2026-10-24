@@ -8,17 +8,19 @@ tags: 有向グラフ
 
 ## 説明
 有向グラフを強連結成分分解する。
-Kosaraju 法で成分番号を求め、必要なら縮約 DAG も作る。どちらの場合も時間・領域は $O(N + M)$。
+Kosaraju 法で成分番号を求め、必要なら縮約 DAG も作る。
 
 ## できること
+頂点数を $N$、辺数を $M$ とする。
+
 - `SCC scc(n)`
-  頂点数 `n` のグラフを作る
+  頂点数 `n` のグラフを作る。$O(N)$
 - `void add_edge(int u, int v)`
-  辺 `u -> v` を張る
+  辺 `u -> v` を張る。償却 $O(1)$
 - `int build(bool build_dag = true)`
-  強連結成分分解を実行して成分数を返す。`false` なら縮約 DAG を作らず、`G_out` を空にする
+  強連結成分分解を実行して成分数を返す。`false` なら縮約 DAG を作らず、`G_out` を空にする。時間・領域 $O(N+M)$
 - `int operator[](int v)`
-  頂点 `v` の属する成分番号を返す
+  頂点 `v` の属する成分番号を返す。$O(1)$
 - `vector<int> cmp`
   各頂点の成分番号を持つ
 - `vector<int> sz`

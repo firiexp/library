@@ -7,7 +7,7 @@ tags: フロー
 ---
 
 ## 説明
-二値変数 `x_i in {0, 1}` に対する project selection problem を最大流で解く。
+二値変数 $x_i \in \{0, 1\}$ に対する project selection problem を最大流で解く。
 扱えるのは次の形の利益の和の最大化。
 
 - `x_i = 1` のとき得る利益
@@ -17,28 +17,30 @@ tags: フロー
 `x_u = 1 -> x_v = 1` の依存制約もこの特別ケースとして表せる。
 
 ## できること
+補助変数を含む変数数を $N$、登録した罰金・依存制約の数を $M$ とする。
+
 - `ProjectSelectionProblem<T> psp(n)`
-  変数数 `n` で初期化する
+  変数数 `n` で初期化する。$O(N)$
 - `int add_vertex()`
-  補助変数を 1 つ追加して番号を返す
+  補助変数を1つ追加して番号を返す。償却 $O(1)$
 - `void add_true_profit(int v, T x)`
-  `x_v = 1` のとき利益 `x` を足す
+  `x_v = 1` のとき利益 `x` を足す。$O(1)$
 - `void add_false_profit(int v, T x)`
-  `x_v = 0` のとき利益 `x` を足す
+  `x_v = 0` のとき利益 `x` を足す。$O(1)$
 - `void add_penalty(int x, int y, T cost)`
-  `x_x = 1, x_y = 0` のとき罰金 `cost` を足す
+  変数 `x` が1、変数 `y` が0のとき罰金 `cost` を足す。`cost >= 0` とする。償却 $O(1)$
 - `void add_pair_profit(int u, int v, T p00, T p01, T p10, T p11)`
-  `(x_u, x_v) = (0,0), (0,1), (1,0), (1,1)` の利益を順に指定する。`p00 + p11 >= p01 + p10` が必要
+  `(x_u, x_v) = (0,0), (0,1), (1,0), (1,1)` の利益を順に指定する。`p00 + p11 >= p01 + p10` が必要。償却 $O(1)$
 - `void add_if_then(int x, int y)`
-  `x_x = 1 -> x_y = 1` を課す
+  変数 `x` が1なら変数 `y` も1となる制約を加える。償却 $O(1)$
 - `void force_true(int v)`
-  `x_v = 1` を強制する
+  `x_v = 1` を強制する。$O(1)$
 - `void force_false(int v)`
-  `x_v = 0` を強制する
+  `x_v = 0` を強制する。$O(1)$
 - `T solve()`
-  最大利益を返す
+  最大利益を返す。$O(N^2(N+M))$
 - `const vector<int>& get_selected() const`
-  最適解で `x_i = 1` なら `1`、そうでなければ `0`
+  直前の `solve()` の最適解を参照する。要素 `i` は `x_i = 1` なら `1`、そうでなければ `0`。$O(1)$
 
 ## 使い方
 各利益と制約を追加してから `solve()` を呼ぶ。

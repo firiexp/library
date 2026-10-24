@@ -6,30 +6,33 @@ category: グラフ
 tags: グラフ
 ---
 
-## 概要
+## 説明
+無向グラフを二重頂点連結成分に分解する。
+関節点は複数の成分に含まれることがある。孤立頂点は1頂点だけの成分とする。
 
-無向グラフを二重頂点連結成分 (biconnected components) に分解する。
-`build()` 後に、各成分の辺集合 `bcc_edges` と頂点集合 `bcc_vertices` を参照できる。
+## できること
+頂点数を $V$、辺数を $E$ とする。
 
-- `bcc_edges[i]` : `i` 番目の二重頂点連結成分に含まれる辺の一覧。各辺は `(min(u, v), max(u, v))` の形で入る。
-- `bcc_vertices[i]` : `bcc_edges[i]` に含まれる辺の端点として現れる頂点を重複なく集めたもの。
-
-特に、孤立頂点については対応する成分の `bcc_edges[i]` は空で、`bcc_vertices[i] = {v}` となる。
-
-## 計算量
-
-- `build()` : $O(V + E)$
+- `BiconnectedComponents g(n)`
+  `n` 頂点のグラフを作る。$O(V)$
+- `void add_edge(int u, int v)`
+  無向辺を追加する。多重辺を扱い、自己ループは無視する。償却 $O(1)$
+- `int build()`
+  全連結成分を分解し、二重頂点連結成分の数を返す。時間・領域 $O(V+E)$
+- `bcc_edges[i]`
+  成分 `i` に含まれる辺の列。各辺は `(min(u, v), max(u, v))` で表す。孤立頂点の成分では空
+- `bcc_vertices[i]`
+  成分 `i` の頂点を重複なく並べた列
 
 ## 使い方
+辺を追加して `build()` を呼び、`bcc_edges` と `bcc_vertices` を参照する。
 
-1. `BiconnectedComponents g(n);`
-2. `add_edge(u, v)` で無向辺を追加
-3. `build()` を呼ぶ
-4. 結果を `bcc_vertices` / `bcc_edges` から参照
+```cpp
+BiconnectedComponents g(n);
+for (auto [u, v] : edges) g.add_edge(u, v);
+g.build();
+auto components = g.bcc_vertices;
+```
 
 ## 実装上の補足
-
-- 多重辺を考慮している。
-- 自己ループは `add_edge` で無視する。
-- 孤立頂点は 1 頂点のみの成分として `bcc_vertices` に含める。
-- DFS は明示的なスタックで実行し、木の深さに比例する再帰を使わない。
+DFS は明示的なスタックで行い、グラフの深さに比例する再帰を使わない。

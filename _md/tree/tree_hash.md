@@ -11,16 +11,18 @@ tags: 木
 各頂点 `v` について、その部分木の同型類 id を返す。
 
 ## できること
+頂点数を $N$ とする。
+
 - `TreeHash th(n)`
-  `n` 頂点の木を作る
+  `n` 頂点の木を作る。$O(N)$
 - `void add_edge(int u, int v)`
-  無向辺を追加する
+  無向辺を追加する。償却 $O(1)$
 - `vector<int> build(int root = 0)`
-  `root` を根として部分木 id を構築して返す
+  `root` を根として部分木 id を構築して返す。$O(N\log N)$
 - `int th[v]`
-  頂点 `v` の部分木 id を返す
+  頂点 `v` の部分木 id を返す。$O(1)$
 - `int kinds()`
-  異なる部分木の個数を返す
+  異なる同型類の個数を返す。$O(1)$
 
 ## 使い方
 辺をすべて追加してから `build(root)` を呼ぶ。
@@ -36,4 +38,3 @@ auto id = th.build(0);
 
 ## 実装上の補足
 - 子部分木の id をソートして辞書化することで canonical id を付ける
-- 計算量はおおむね $O\left(\sum_v \deg(v)\log \deg(v)\right)$

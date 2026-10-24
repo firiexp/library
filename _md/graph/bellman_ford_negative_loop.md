@@ -4,11 +4,12 @@ documentation_of: //graph/bellman_ford_negative_loop.cpp
 ---
 ## 説明
 負辺を含む単一始点最短路を求め、始点から到達できる負閉路の影響下にある頂点を `-INF` にする。
-時間計算量は $O(VE)$、追加領域は $O(V + E)$。
 
 ## できること
+頂点数を $V$、辺数を $E$ とする。
+
 - `vector<T> bellman_ford(int s, int n, vector<edge<T>>& es)`
-  始点 `s` から各頂点への距離を返す。未到達は `INF<T>`、負閉路の影響下は `-INF<T>`
+  始点 `s` から各頂点への距離を返す。未到達は `INF<T>`、負閉路の影響下は `-INF<T>`。時間 $O(VE)$、追加領域 $O(V+E)$
 
 ## 使い方
 `edge<T>` の列を用意して呼ぶ。

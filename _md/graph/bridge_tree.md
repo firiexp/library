@@ -11,12 +11,14 @@ tags: グラフ
 連結グラフなら木、非連結グラフなら森になる。
 
 ## できること
+元グラフの頂点数を $V$、辺数を $E$ とする。
+
 - `BridgeTree g(n)`
-  頂点数 `n` の graph builder を作る
+  頂点数 `n` のグラフを作る。$O(V)$
 - `void add_edge(int u, int v)`
-  無向辺を追加する。自己ループは内部で無視される
+  無向辺を追加する。自己ループは内部で無視される。償却 $O(1)$
 - `int build()`
-  bridge tree を構築し、成分数を返す
+  bridge tree を構築し、成分数を返す。時間・領域 $O(V+E)$
 
 ## 使い方
 `build()` 後は `tree`、`nodes`、`edges`、`id` を参照する。

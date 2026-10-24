@@ -7,12 +7,14 @@ documentation_of: //tree/centroid_decomposition.cpp
 各部分木を重心で再帰的に分割し、`out` に重心木の子を持つ。
 
 ## できること
+頂点数を $N$ とする。
+
 - `CentroidDecomposition cd(n)`
-  頂点数 `n` の木を作る
+  頂点数 `n` の木を作る。$O(N)$
 - `void add_edge(int u, int v)`
-  木辺を張る
+  木辺を張る。償却 $O(1)$
 - `int get(int root)`
-  `root` を含む連結成分を重心分解し、重心木の根を返す
+  `root` を含む連結成分を重心分解し、重心木の根を返す。$O(N\log N)$
 
 ## 使い方
 木を張ったあと `get(0)` のように呼ぶと、`out` に重心木が構築される。

@@ -5,11 +5,12 @@ documentation_of: //flow/costscalingdinic.cpp
 ## 説明
 capacity scaling を入れた Dinic 法による最大流である。
 大きい容量から順に流すことで、容量が大きいケースで定数倍を改善する。
-辺 ID と登録時の容量の保持を含め、領域は $O(V+E)$。
 
 ## できること
+頂点数を $V$、追加した辺数を $E$ とする。 保持領域は $O(V+E)$。
+
 - `CostScalingDinic<T, directed> mf(n)`
-  頂点数 `n` のフローグラフを作る
+  頂点数 `n` のフローグラフを作る。$O(V)$
 - `int add_edge(int from, int to, T cap)`
   容量 `cap` の辺を追加し、0からの追加順の ID を返す。`directed=false` なら無向辺。償却 $O(1)$
 - `T flow(int s, int t, T lim = INF<T>)`
@@ -33,9 +34,9 @@ auto source_side = mf.min_cut(s);
 ```
 
 ## 実装上の補足
+`G` を直接書き換えた場合、`get_edge` と `edges` の返却値は保証しない。
 容量は非負整数で、流量と計算中の残余容量は `T` に収まる必要がある。
 無向版の `T` は符号付き整数型を使う。流量は `-capacity` から `capacity` の範囲を取り、残余容量は元容量の2倍になる場合がある。
-辺情報の取得は、対象辺の登録容量と残余容量の対応が保たれていることを前提とする。
 `min_cut(s)` は終点が到達不能になったとき最小カットの始点側を表す。流量上限による途中停止では、最小カットとは限らない。
 `s != t`、`lim >= 0` とする。再実行では前回の残余グラフを引き継ぐ。
 `flow` の開始時に全残余辺を $O(V+E)$ 時間で走査し、最大残余容量と `lim` の小さい方以下の最大2冪から scaling を始める。

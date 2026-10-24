@@ -3,13 +3,15 @@ title: 木の直径(Tree Diameter)
 documentation_of: //tree/diameter.cpp
 ---
 ## 説明
-重みなし木の直径長とその両端点を $O(N)$ で求める。
+重みなし木の直径長とその両端点を求める。
 
 ## できること
+頂点数を $N$ とする。
+
 - `pair<int, pair<int, int>> tree_diameter(const vector<vector<int>> &g)`
-  直径を返す。戻り値の `first` は辺数としての直径長、`second.first` と `second.second` は両端点
+  直径を返す。戻り値の `first` は辺数としての直径長、`second.first` と `second.second` は両端点。$O(N)$
 - `int diameter(const vector<vector<int>> &g)`
-  直径長だけを返す
+  直径長だけを返す。$O(N)$
 
 ## 使い方
 隣接リストを `vector<vector<int>>` で持ち、`tree_diameter(g)` を呼ぶ。

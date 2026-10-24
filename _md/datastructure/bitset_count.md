@@ -12,4 +12,4 @@ documentation_of: //datastructure/bitset_count.cpp
 共通 bit の集計は読み込んだ word の AND を数え、一時配列を作らない。
 交差判定は 8 word 以上で AVX2 を使い、共通 bit を見つけた時点で返る。
 短い配列や非対応環境では各 bitset の scalar 経路を使う。
-時間は $O(\lceil N/64 \rceil)$、追加領域は $O(1)$。
+bitset の長さを $N$ とすると、集計時間は $O(\lceil N/64 \rceil)$、追加領域は $O(1)$。

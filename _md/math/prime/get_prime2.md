@@ -9,11 +9,10 @@ tags: 数学
 ## 説明
 線形篩で `n` 以下の素数を列挙する。
 素数は `ExactDiv<uint>` として保持し、除算判定を高速化できる形で返す。
-計算量は $O(n)$。
 
 ## できること
 - `vector<ExactDiv<uint>> get_prime_exact_div(int n)`
-  `n` 以下の素数を返す。`n <= 1` なら空
+  `n` 以下の素数を返す。`n <= 1` なら空。$O(n)$
 - `bool ExactDiv<T>::divide(T x) const`
   `x` がこの素数で割り切れるかを返す
 

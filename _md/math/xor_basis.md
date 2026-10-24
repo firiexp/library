@@ -11,31 +11,34 @@ tags: 数学
 基底の本数を $k$ とすると、表現できる相異なる値の個数は $2^k$。
 
 ## できること
+$B$ を整数型 `T` のビット数、`U` を `make_unsigned_t<T>` とする。
+
 - `XorBasis<T> xb`
-  空の xor 基底を作る
+  空の xor 基底を作る。$O(B)$
 - `int size()`
-  基底の本数を返す
+  基底の本数を返す。$O(1)$
 - `bool empty()`
-  基底が空なら `true`
+  基底が空なら `true`。$O(1)$
 - `bool add(T x)`
-  `x` を基底に追加する。独立なら `true`、追加されなければ `false`
+  `x` を基底に追加する。独立なら `true`、追加されなければ `false`。$O(B)$
 - `bool contains(T x)`
-  `x` を基底で表せるなら `true`、表せなければ `false`
+  `x` を基底で表せるなら `true`、表せなければ `false`。$O(B)$
 - `T get_min(T x = 0)`
-  `x xor y` を最小にする `y` を基底の生成する空間から選んだ結果を返す
+  基底で表せる `y` に対する `x xor y` の最小値を返す。$O(B)$
 - `T get_max(T x = 0)`
-  `x xor y` を最大にする `y` を基底の生成する空間から選んだ結果を返す
+  基底で表せる `y` に対する `x xor y` の最大値を返す。$O(B)$
 - `optional<T> kth(U k) const`
-  表現できる相異なる値のうち、小さい順で `k` 番目を返す。0-indexed で、範囲外なら `nullopt`
+  表現できる相異なる値のうち、小さい順で `k` 番目を返す。0-indexed で、範囲外なら `nullopt`。$O(B)$
 - `U order_of_key(T x) const`
-  表現できる相異なる値のうち、`x` 未満の個数を返す。`U = make_unsigned_t<T>` とし、`kth` とともに時間 $O(B)$、追加領域 $O(1)$。$B$ は `T` の bit 幅
+  表現できる相異なる値のうち、`x` 未満の個数を返す。$O(B)$
 - `void merge(const XorBasis<T>& other)`
-  `other` の基底を併合する
+  `other` の基底を併合する。$O(B^2)$
 - `XorBasis<T> intersection(const XorBasis<T>& other) const`
-  両方の生成空間に属する値全体の基底を返す。入力は変更しない。片方が空なら空の基底を返す。bit 幅を $B$ として時間 $O(B^2)$、返却値を含む追加領域 $O(B)$
+  両方の生成空間に属する値全体の基底を返す。片方が空なら空の基底を返す。時間 $O(B^2)$、返却値を含む追加領域 $O(B)$
 
 ## 使い方
-`add` で値を順に入れて使う。
+`XorBasis<unsigned long long> xb;` を作り、`add` で値を順に入れて使う。
+追加した値の集合を $S$ とし、$\langle S\rangle$ をその値を xor して作れる値全体とする。
 空の基底が表す集合は `{0}` であり、`kth(0)` は `0` を返す。
 `contains(x)` で表現可能性を判定でき、`get_min(x)` と `get_max(x)` で
 $$
@@ -46,4 +49,3 @@ $$
 
 ## 実装上の補足
 - `T` は `bool` 以外の整数型を使う。値は `make_unsigned_t<T>` の bit 列として扱い、大小は符号なしで比較する
-- `get_min` と `get_max` は `x xor y` そのものを返す

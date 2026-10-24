@@ -4,24 +4,25 @@ documentation_of: //datastructure/weightedunionfind.cpp
 ---
 ## 説明
 各頂点にポテンシャルを持たせた Union-Find である。
-併合と差分取得をほぼ償却 $O(alpha(N))$ で扱う。
 ポテンシャルは群 `G` を渡して定義する。群の積は `G::op`、逆元は `G::inv` に対応する。
 
 ## できること
+頂点数を $N$、頂点 `v` のポテンシャルを $f(v)$ とし、群演算を $O(1)$ とする。
+
 - `WeightedUnionFind<G> uf(n)`
-  頂点数 `n` の構造体を作る。
+  頂点数 `n` の Union-Find を作る。$O(N)$
 - `int root(int v)`
-  頂点 `v` の代表元を返す
+  頂点 `v` の代表元を返す。償却 $O(\alpha(N))$
 - `bool same(int u, int v)`
-  `u` と `v` が同じ集合かを返す
+  `u` と `v` が同じ集合かを返す。償却 $O(\alpha(N))$
 - `bool unite(int u, int v, G::T w)`
-  $f(u)^{-1}f(v) = w$（ 例: $f(v) - f(u) = w$ ）となるように併合する。すでに同じ集合なら `false`
+  $f(u)^{-1}f(v) = w$（ 例: $f(v) - f(u) = w$ ）となるように併合する。すでに同じ集合なら `false`。償却 $O(\alpha(N))$
 - `G::T weight(int v)`
-  代表元から見た `v` のポテンシャルを返す
+  代表元から見た `v` のポテンシャルを返す。償却 $O(\alpha(N))$
 - `G::T diff(int u, int v)`
-  $f(u)^{-1}f(v)$（ 例: $f(v) - f(u)$ ）を返す。非連結では使わない
+  $f(u)^{-1}f(v)$（ 例: $f(v) - f(u)$ ）を返す。非連結では使わない。償却 $O(\alpha(N))$
 - `int size(int v)`
-  `v` が属する集合サイズを返す
+  `v` が属する集合サイズを返す。償却 $O(\alpha(N))$
 
 ## 使い方
 下の加法群の例では、制約 $f(y) - f(x) = w$ を追加するときに `unite(x, y, w)` を呼ぶ。

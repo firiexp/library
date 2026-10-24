@@ -5,15 +5,15 @@ documentation_of: //datastructure/static_rectangle_add_rectangle_sum.cpp
 
 ## 説明
 長方形範囲に値を加算した後、指定した長方形内の総和をまとめて求める。
-各更新では、範囲内のすべての単位セルに `w` ずつ加算する。
+各更新では範囲内のすべての単位セルに `w` ずつ加算する。
 
 ## できること
 - `StaticRectangleAddRectangleSum<T> solver`
-  加算する値と結果の型を `T` とする計算器を作る
+  加算する値と結果の型を `T` とする計算器を作る。$O(1)$
 - `void add_rectangle(int l, int d, int r, int u, T w)`
-  半開長方形 $[l,r)\times[d,u)$ 内のすべての単位セルに `w` を加算する
+  半開長方形 $[l,r)\times[d,u)$ 内のすべての単位セルに `w` を加算する。償却 $O(1)$
 - `void add_query(int l, int d, int r, int u)`
-  半開長方形 $[l,r)\times[d,u)$ の総和を求めるクエリを登録する
+  半開長方形 $[l,r)\times[d,u)$ の総和を求めるクエリを登録する。償却 $O(1)$
 - `vector<T> solve() const`
   登録されたすべての更新を反映し、クエリの登録順に答えを返す。更新数 $N$、クエリ数 $Q$ として時間 $O((N+Q)\log(N+Q))$、補助領域 $O(N+Q)$
 

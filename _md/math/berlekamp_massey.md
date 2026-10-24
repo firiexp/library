@@ -6,15 +6,16 @@ category: 数学
 tags: 数学
 ---
 
-## 概要
+## 説明
 列 `s` を満たす最小次数の線形漸化式
 
 `s_n = c_0 s_{n-1} + c_1 s_{n-2} + ... + c_{L-1} s_{n-L}`
 
 の係数列 `c` を求める。
 
-## 計算量
-$O(N^2)$ (`N = s.size()`)
+## できること
+- `vector<T> berlekamp_massey(const vector<T>& s)`
+  列 `s` の最小線形漸化式の係数列を返す。$N=\mathrm{s.size()}$ として $O(N^2)$
 
 ## 使い方
 `vector<T> c = berlekamp_massey(s);`

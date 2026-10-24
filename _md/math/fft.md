@@ -11,12 +11,14 @@ tags: 数学
 複素 FFT を使わないので誤差がない。
 
 ## できること
+$N$ を入力の係数数の最大値とする。
+
 - `vector<unsigned int> ArbitraryConvolution::convolution_mod(const vector<unsigned int>& a, const vector<unsigned int>& b)`
-  `MOD` 上の畳み込みを返す。どちらかが空なら空配列
+  `MOD` 上の畳み込みを返す。どちらかが空なら空配列。$O(N\log N)$
 - `poly operator*(const poly& a, const poly& b)`
-  多項式の積を返す
+  多項式の積を返す。$O(N\log N)$
 - `poly inv() const`
-  定数項が 0 でない多項式の逆数を返す
+  定数項が 0 でない多項式の逆数を返す。$O(N\log N)$
 
 ## 使い方
 `MOD` を先に定義してから読み込む。
@@ -24,8 +26,5 @@ tags: 数学
 整数値を保った畳み込みは `math/integer_convolution.cpp` を使う。
 
 ## 実装上の補足
-入力する2つの係数配列の長さを $n,m$ とする。
-片方が1要素なら $O(n+m)$、短い方が128要素以下なら $O(nm)$ で直接積を計算する。
-それ以外は $O((n+m)\log(n+m))$ 時間。
+片方が1要素ならスカラー倍、短い方が128要素以下なら直接積を計算する。
 3 素数は `167772161`, `469762049`, `1224736769` を使う。
-Library Checker の `convolution_mod_1000000007` は verify 済み。

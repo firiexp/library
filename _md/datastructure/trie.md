@@ -7,20 +7,22 @@ tags: 文字列
 ---
 
 ## 説明
-文字列を prefix ごとにまとめる木。文字列挿入、完全一致検索、prefix からの遷移を $O(|S|)$ で扱う。
+文字列を prefix ごとにまとめ、挿入、完全一致検索、prefix からの遷移を扱う。
 固定文字種 `W` と文字変換関数 `F` を前提にした実装である。
 
 ## できること
+文字種数を $W$、文字変換を $O(1)$ とする。
+
 - `Trie<W, F> trie(f, c = '$')`
-  文字変換関数 `f` を使って Trie を作る。`c` は根ノードの表示用文字
+  文字変換関数 `f` を使って Trie を作る。`c` は根ノードの表示用文字。$O(W)$
 - `add(s, x)`
-  文字列 `s` を id `x` で挿入する。終端ノードに `x` を記録する
+  文字列 `s` を id `x` で挿入する。終端ノードに `x` を記録する。償却 $O(W|s|)$
 - `find(s)`
-  文字列 `s` の終端ノード番号を返す。見つからなければ `-1`
+  文字列 `s` の終端ノード番号を返す。見つからなければ `-1`。$O(|s|)$
 - `find(cur, c)`
-  ノード `cur` から文字 `c` で遷移した先を返す。無ければ `-1`
+  ノード `cur` から文字 `c` で遷移した先を返す。なければ `-1`。$O(1)$
 - `id(cur)`
-  ノード `cur` に対応する終端 id を返す。終端でなければ `-1`
+  ノード `cur` に対応する終端 id を返す。終端でなければ `-1`。$O(1)$
 - `const vector<int>& idxs(int cur) const`
   ノード `cur` の終端ID一覧を挿入順の読み取り専用参照で返す。未登録の終端や `cur < 0` では空。取得は $O(1)$、列挙はID数に比例する
 - `PrefixIntervals prefix_intervals() const`
@@ -49,15 +51,10 @@ auto [l, r] = index.range[node];
 ```cpp
 trie.add("apple", 1);
 int terminal = trie.find("apple");
-const auto& view = trie;
-for (int id : view.idxs(terminal)) {
+for (int id : trie.idxs(terminal)) {
     use(id);
 }
-auto ids = view.idxs(terminal);
-ids.push_back(2);
 ```
-
-range-for はID列をコピーしない。`auto ids = ...` は編集できるコピーで、Trie の登録内容には影響しない。
 
 ## 実装上の補足
 - 同じ文字列を複数回挿入すると `idxs(cur)` に id が追加される。`id(cur)` は最後に入れた値になる

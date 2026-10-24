@@ -8,16 +8,16 @@ tags: 幾何, データ構造
 
 ## 説明
 長方形集合の和集合の面積を求める。
-`x` 方向 sweep と、`y` 区間の被覆数と被覆長を持つ専用セグメント木を使う。
-計算量は $O(N \log N)$。
 
 ## できること
+長方形の個数を $N$ とする。
+
 - `AreaOfUnionOfRectangles<Coord, Area> solver`
-  空の solver を作る
+  長方形が未登録の状態で作る。$O(1)$
 - `void add_rectangle(Coord l, Coord d, Coord r, Coord u)`
-  半開長方形 `[l, r) x [d, u)` を追加する。空長方形は無視する
+  半開長方形 `[l, r) x [d, u)` を追加する。空長方形は無視する。償却 $O(1)$
 - `Area solve()`
-  追加した長方形の和集合面積を返す
+  追加した長方形の和集合面積を返す。$O(N\log N)$
 
 ## 使い方
 長方形を全部 `add_rectangle` してから `solve()` を呼ぶ。

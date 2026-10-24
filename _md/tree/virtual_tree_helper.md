@@ -7,27 +7,27 @@ tags: 木
 ---
 
 ## 説明
-`AuxTree` の `make / clear / out` 管理を隠して、DP しやすい形で virtual tree を返す補助ラッパ。
-各クエリごとに、必要頂点と補われた LCA 頂点からなる根付き木を作る。
-入力の頂点数を $K$ として、`make` は $O(K\log K)$ 時間、追加領域 $O(K)$。
+必要な頂点とその LCA だけを含む virtual tree を構築する。
 
 ## できること
+元の木の頂点数を $N$、`make` に渡す頂点数を $K$ とする。
+
 - `VirtualTreeHelper vt(n)`
-  頂点数 `n` の木を作る
+  頂点数 `n` の木を作る。$O(N)$
 - `void add_edge(int u, int v)`
-  木辺を張る
+  木辺を張る。償却 $O(1)$
 - `void build(int root = 0)`
-  LCA 前処理をする
+  LCA 前処理をする。$O(N\log N)$
 - `int lca(int u, int v)`
-  最近共通祖先を返す
+  最近共通祖先を返す。$O(1)$
 - `int distance(int u, int v)`
-  木上距離を返す
+  木上距離を返す。$O(1)$
 - `VirtualTree make(vector<int> vertices)`
-  virtual tree を返す。空集合には `root=-1` と空の `vertices`, `parent` を返す
+  virtual tree を返す。空集合には `root=-1` と空の `vertices`, `parent` を返す。時間 $O(K\log K)$、追加領域 $O(K)$
 
 ## 使い方
-`make` の返り値は `vertices[i]` とその親 `parent[i]` を持つ。
-`parent[i] = -1` の頂点が根で、`i` は親が子より先に出る。
+返り値の `vertices[i]` は元の木の頂点番号、`parent[i]` はその親の元頂点番号を表す。
+根の頂点番号は `root` に入り、その要素の `parent[i]` は `-1`。`vertices` では親が子より先に現れる。
 部分木 DP は `vertices` を逆順に走査すればよい。
 
 ```cpp
@@ -44,6 +44,4 @@ for (int i = (int)tr.vertices.size() - 1; i >= 0; --i) {
 ## 実装上の補足
 返り値の頂点列には元の query 頂点に加えて必要な LCA 頂点も入る。
 LCA 補完後は、DFS 訪問順が最小の頂点を根にする。返却順は補助木の DFS で決まり、補完後の列を再ソートする必要はない。
-根の選択は線形探索で行う。ただし補完後8頂点以下では、小さい集合での速度を保つためソートして先頭を取る。
 内部では `AuxTree` を使い、各クエリ後の `clear` は helper 側で処理する。
-補完後の列に同じ頂点が複数あっても、その隣接リストを繰り返し空にするだけなので次のクエリには影響しない。

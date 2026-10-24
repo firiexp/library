@@ -8,18 +8,14 @@ tags: 数学
 
 ## 説明
 素数冪 $mod=p^q$ を法とする二項係数 `C(n, k)` を扱う。
-前計算は $O(mod)$。1クエリの計算量は次のとおり。
-
-- $q=1$（素数 mod）: $t=\min(k,n-k)$ として $O(\log t)$
-- $q>1$（素数冪 mod）: 逆元計算を含めて $O(\log n+\log mod)$
 
 ## できること
 - `BinomModPrimePower(ll p, int q)`
-  法 `p^q` 用のテーブルを作る
+  法 `p^q` 用のテーブルを作る。時間・領域 $O(p^q)$
 - `ll C(ll n, ll k)`
-  `C(n, k) mod p^q` を返す。`k < 0` または `k > n` なら `0`
+  `C(n, k) mod p^q` を返す。`k < 0` または `k > n` なら `0`。$t=\min(k,n-k)$ として、$q=1$ なら $O(\log t)$、$q>1$ なら $O(\log n+\log(p^q))$
 - `ll modulus()`
-  法 `p^q` を返す
+  法 `p^q` を返す。$O(1)$
 
 ## 使い方
 `BinomModPrimePower binom(p, q);` を作り、`binom.C(n, k)` を呼ぶ。

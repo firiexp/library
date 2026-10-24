@@ -8,8 +8,10 @@ documentation_of: //math/digit_dp.cpp
 上下限は文字列のまま扱い、`L-1` や機械語整数への変換は不要。
 
 ## できること
-- `digit_count<T>(lower, upper, a)` : 個数を返す。総和用の乗算は行わない
-- `digit_count_sum<T>(lower, upper, a)` : `{count, sum}` を `pair<T,T>` で返す
+上限の桁数を $D$、DFA の状態数を $S$、上下限の入力文字数の合計を $C$ とする。
+
+- `digit_count<T>(lower, upper, a)` : 個数を返す。時間 $O(C+DS)$、作業領域 $O(S)$
+- `digit_count_sum<T>(lower, upper, a)` : `{count, sum}` を `pair<T,T>` で返す。時間 $O(C+DS)$、作業領域 $O(S)$
 - 入力の先頭 0 は無視する。`lower > upper` や全拒否の DFA では 0 件・総和 0
 
 ## 使い方
@@ -30,7 +32,6 @@ auto [number, sum] = digit_count_sum<mint>("1", "104", b);
 整数型では途中結果も型に収め、巨大な上限には modint 等を指定する。
 
 ## 実装上の補足
-上限の正規化後の桁数を $D$、状態数を $S$、文字種数を $W$ とすると、DP は $O(WD(S+1))$ 時間、作業領域 $O(S+1)$。本実装は $W=10$。
 入力の先頭 0 の読み飛ばしには入力長に比例する時間を使うが、上下限のコピーは作らない。
 上下限の内側に入った接頭辞だけを2層の配列で管理する。
 上下限と一致する経路は各1本なので、状態と接頭辞の値を別に持つ。未開始状態もこの経路で扱う。

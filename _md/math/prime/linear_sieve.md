@@ -9,11 +9,10 @@ tags: 数学
 ## 説明
 `0..n` の素数列挙を線形篩で前計算する。
 必要なら最小素因数、`phi`、`mu` も同時に持てる。
-計算量は $O(n)$。
 
 ## できること
 - `LinearSieve sieve(int n, bool need_min_factor = false, bool need_phi = false, bool need_mobius = false)`
-  `0..n` を前計算する
+  `0..n` を前計算する。$O(n)$
 - `vector<int> primes`
   `n` 以下の素数を昇順で持つ
 - `vector<int> min_factor`
@@ -23,7 +22,7 @@ tags: 数学
 - `vector<int> mobius`
   `need_mobius = true` のときだけ埋まる。`mobius[x] = μ(x)` を持つ。`mobius[0] = 0`, `mobius[1] = 1`
 - `bool is_prime(int x)`
-  `x` が素数なら `true`、範囲外または合成数なら `false`
+  `x` が素数なら `true`、範囲外または合成数なら `false`。$O(1)$
 
 ## 使い方
 用途ごとに配列を直接読む。

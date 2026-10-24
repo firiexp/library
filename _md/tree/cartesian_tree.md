@@ -3,12 +3,14 @@ title: Cartesian Tree
 documentation_of: //tree/cartesian_tree.cpp
 ---
 ## 説明
-数列から Cartesian tree を $O(N)$ で構築する。
+数列から Cartesian tree を構築する。
 各区間の最小値の位置を根にした木で、同じ値があるときは左にある添字を優先する。
 
 ## できること
+配列の長さを $N$ とする。
+
 - `auto [g, root] = CartesianTree(a)`
-  配列 `a` から木の子リスト `g` と根 `root` を返す
+  配列 `a` から木の子リスト `g` と根 `root` を返す。$O(N)$
 
 ## 使い方
 `g[v]` には頂点 `v` の子が入る。

@@ -8,20 +8,22 @@ documentation_of: //datastructure/segmenttree/persistent_lazy_segtree.cpp
 更新前の列を保持し、任意のバージョンの区間積を求められる。
 
 ## できること
+要素数を $N$、モノイドの各演算と述語の判定を $O(1)$ とする。
+
 - `PersistentLazySegmentTree<M> seg(values)`
-  配列を初期バージョン `0` として構築する
+  配列を初期バージョン `0` として構築する。時間・領域ともに $O(N)$
 - `int update(t, l, r, op)`
-  バージョン `t` の区間 `[l, r)` に作用素 `op` を適用した新しいバージョンを作り、その番号を返す
+  バージョン `t` の区間 `[l, r)` に作用素 `op` を適用した新しいバージョンを作り、その番号を返す。償却 $O(\log N)$
 - `int copy_range(dst, src, l, r)`
-  バージョン `dst` の区間 `[l, r)` を、バージョン `src` の同じ区間の値で置き換えた新しいバージョンを作り、その番号を返す
+  バージョン `dst` の区間 `[l, r)` を、バージョン `src` の同じ区間の値で置き換えた新しいバージョンを作り、その番号を返す。償却 $O(\log N)$
 - `T query(t, l, r) const`
-  バージョン `t` の区間 `[l, r)` を左から順に集約する。空区間では単位元を返す
+  バージョン `t` の区間 `[l, r)` を左から順に集約する。空区間では単位元を返す。$O(\log N)$
 - `int search_right(t, l, cond) const`
-  `cond(query(t, l, r))` を満たす最大の `r` を返す。末尾まで成立すれば `n`
+  `cond(query(t, l, r))` を満たす最大の `r` を返す。末尾まで成立すれば `n`。$O(\log N)$
 - `int search_left(t, r, cond) const`
-  `cond(query(t, l, r))` を満たす最小の `l` を返す。先頭まで成立すれば `0`
+  `cond(query(t, l, r))` を満たす最小の `l` を返す。先頭まで成立すれば `0`。$O(\log N)$
 - `int versions() const` / `int latest_version() const`
-  バージョン数 / 最新のバージョン番号を返す
+  バージョン数 / 最新のバージョン番号を返す。$O(1)$
 
 ## 使い方
 `M` には遅延セグメント木と同じ演算を定義する。
@@ -42,7 +44,19 @@ documentation_of: //datastructure/segmenttree/persistent_lazy_segtree.cpp
 負の要素を含む和では、上限との比較は一般にこの条件を満たさない。
 `search_right(t, n, cond)` は `n`、`search_left(t, 0, cond)` は `0` を返す。空配列でも使える。
 
+区間加算・区間和なら、次のように定義する。`values` の各要素は `{値, 1}` とする。
+
 ```cpp
+struct Monoid {
+    struct T { long long sum; int len; };
+    using L = long long;
+    static T f(T a, T b) { return {a.sum + b.sum, a.len + b.len}; }
+    static T g(T a, L x) { return {a.sum + x * a.len, a.len}; }
+    static L h(L a, L b) { return a + b; }
+    static T e() { return {0, 0}; }
+    static L l() { return 0; }
+};
+
 PersistentLazySegmentTree<Monoid> seg(values);
 int a = seg.update(0, l, r, op);
 int b = seg.copy_range(a, 0, p, q);
@@ -51,14 +65,11 @@ auto after = seg.query(b, l, r);
 ```
 
 ## 実装上の補足
-要素数を $N$、モノイドの各演算を $O(1)$ とする。
-構築は $O(N)$ 時間・領域、区間積は最悪 $O(\log N)$ 時間。
-境界探索も述語を $O(1)$ として最悪 $O(\log N)$ 時間。空配列では定数時間。
-更新・コピーは配列の拡張を含めて償却 $O(\log N)$ 時間、追加ノード数は $O(\log N)$。
+更新・コピーの追加ノード数は $O(\log N)$。
 各操作の再帰に $O(\log N)$ の作業領域を使う。
 
 変更が必要なノードだけを複製し、残りは過去のバージョンと共有する。
 コピー元と先のノードが同じで、祖先から引き継ぐ作用が双方になければ、その部分木をそのまま共有する。
 子が変わらず、作用の適用も不要な親は作り直さない。値や作用素の等値比較は要求しない。
-問い合わせでは遅延作用を引数で引き継ぎ、ノードの変更・追加を行わない。
+クエリでは遅延作用を引数で引き継ぐ。
 境界探索も同様に、条件を満たす部分木を飛ばし、最初に満たさない部分木へ降下する。集約の左右の順序を保ち、遅延伝播やノードの複製は行わない。
