@@ -65,6 +65,26 @@ struct matrix {
         }
         return res;
     }
+    vector<T> pow_apply(ll n, const vector<T> &v) const {
+        assert(n >= 0 && height() == width() && v.size() == width());
+        if (n == 0) return v;
+        auto apply = [](const matrix &a, const vector<T> &x) {
+            vector<T> result(x.size(), H::zero());
+            for (size_t i = 0; i < x.size(); ++i) {
+                for (size_t j = 0; j < x.size(); ++j) H::add(result[i], H::mul(a[i][j], x[j]));
+            }
+            return result;
+        };
+        if (n == 1) return apply(*this, v);
+        matrix a = *this;
+        vector<T> result = v;
+        while (n > 0) {
+            if (n & 1) result = apply(a, result);
+            n >>= 1;
+            if (n) a *= a;
+        }
+        return result;
+    }
     pair<matrix, matrix> pow_sum(ll n) const {
         assert(n >= 0 && height() == width());
         if (n == 0) return {I(height()), matrix(height())};
