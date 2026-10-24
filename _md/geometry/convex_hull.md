@@ -14,7 +14,7 @@ tags: 幾何
 - `vector<IntPoint> convex_hull(vector<IntPoint> ps)`
   点集合の凸包の頂点を反時計回り順で返す。辺上の中間点と重複点は除く
 - `vector<int> convex_hull_indices(const vector<IntPoint>& points)`
-  凸包の頂点を元の入力添字で返す。座標の順序は `convex_hull(points)` と同じで、重複座標は最小の添字を選ぶ。入力は変更しない。$O(N\log N)$ 時間・$O(N)$ 追加領域
+  凸包の頂点を元の入力添字で返す。座標の順序は `convex_hull(points)` と同じで、重複座標は最小の添字を選ぶ。$O(N\log N)$ 時間・$O(N)$ 追加領域
 - `int contains_convex(const vector<IntPoint>& hull, IntPoint p)`
   凸包の外側なら `0`（OUT）、境界上なら `1`（ON）、内部なら `2`（IN）を返す。頂点数 $H\ge 3$ で $O(\log H)$ 時間・$O(1)$ 追加領域
 
