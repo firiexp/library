@@ -93,6 +93,17 @@ public:
     int max_matching() {
         build_graph();
         int res = 0;
+        for (int v = 0; v < n; ++v) {
+            if (match[v] != -1) continue;
+            for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                int to = elist[ei];
+                if (match[to] != -1) continue;
+                match[v] = to;
+                match[to] = v;
+                ++res;
+                break;
+            }
+        }
         for (int i = 0; i < n; ++i) {
             if (match[i] != -1) continue;
             int v = find_path(i);
