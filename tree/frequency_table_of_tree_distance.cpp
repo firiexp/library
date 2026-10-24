@@ -37,9 +37,9 @@ vector<long long> frequency_table_of_tree_distance(const vector<vector<int>> &g)
     };
 
     auto add_convolution = [&](const vector<unsigned long long> &conv, int sign) {
-        int lim = min(n, (int)conv.size());
+        int lim = min(n - 2, (int)conv.size());
         for (int d = 0; d < lim; ++d) {
-            ordered[d] += sign * (long long)conv[d];
+            ordered[d + 2] += sign * (long long)conv[d];
         }
     };
 
@@ -47,16 +47,17 @@ vector<long long> frequency_table_of_tree_distance(const vector<vector<int>> &g)
         int centroid = find_centroid(find_centroid, start, -1, dfs_size(dfs_size, start, -1) / 2);
         used[centroid] = 1;
 
-        vector<unsigned int> total(1, 1);
+        vector<unsigned int> total;
         for (auto &&to : g[centroid]) {
             if (used[to]) continue;
-            vector<unsigned int> cnt(1, 0);
-            collect(collect, to, centroid, 1, cnt);
+            vector<unsigned int> cnt;
+            collect(collect, to, centroid, 0, cnt);
             add_convolution(square_u64(cnt), -1);
             if (total.size() < cnt.size()) total.resize(cnt.size());
-            for (int d = 1; d < (int)cnt.size(); ++d) total[d] += cnt[d];
+            for (int d = 0; d < (int)cnt.size(); ++d) total[d] += cnt[d];
         }
-        add_convolution(square_u64(total), 1);
+        if (!total.empty()) add_convolution(square_u64(total), 1);
+        for (int d = 0; d < (int)total.size(); ++d) ordered[d + 1] += 2LL * total[d];
 
         for (auto &&to : g[centroid]) {
             if (!used[to]) self(self, to);
@@ -66,7 +67,10 @@ vector<long long> frequency_table_of_tree_distance(const vector<vector<int>> &g)
     solve(solve, 0);
 
     vector<long long> ans(n);
-    for (int d = 1; d < n; ++d) ans[d] = ordered[d] / 2;
+    for (int d = 1; d < n; ++d) {
+        assert(ordered[d] % 2 == 0);
+        ans[d] = ordered[d] / 2;
+    }
     return ans;
 }
 
