@@ -6,6 +6,7 @@
 template<class T>
 class StaticRangeDistinct {
     WaveletMatrix<int> previous;
+    vector<int> boundaries;
 
 public:
     explicit StaticRangeDistinct(const vector<T>& values) {
@@ -17,14 +18,28 @@ public:
             if (values[b] < values[a]) return false;
             return a < b;
         });
+        bool repeated = false;
         for (int i = 1; i < n; ++i) {
-            if (!(values[order[i - 1]] < values[order[i]])) prev[order[i]] = order[i - 1];
+            if (!(values[order[i - 1]] < values[order[i]])) {
+                prev[order[i]] = order[i - 1];
+                repeated = true;
+            }
         }
-        previous.build(prev);
+        if (!repeated) return;
+        boundaries.assign(n + 1, 0);
+        for (int p : prev) if (p >= 0) boundaries[p + 1] = 1;
+        vector<int> vals{-1};
+        for (int l = 0; l <= n; ++l) {
+            if (boundaries[l]) vals.push_back(l - 1);
+            boundaries[l] = vals.size();
+        }
+        for (int &p : prev) p = p < 0 ? 0 : boundaries[p];
+        previous.build_from_index(prev, vals);
     }
 
     int count(int l, int r) const {
-        return previous.count_less(l, r, l);
+        if (boundaries.empty()) return r - l;
+        return previous.count_less_index(l, r, boundaries[l]);
     }
 };
 

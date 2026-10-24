@@ -39,6 +39,16 @@ void self_check() {
     check(vector<ll>{LLONG_MIN, LLONG_MAX, LLONG_MIN, 0, -1, 1LL << 50});
     check(vector<string>{"", "abc", "ab", "abc", "", "a"});
     check(vector<Key>{{1, 0}, {2, 1}, {1, 2}, {3, 3}, {2, 4}});
+    for (int n : {2, 3, 65, 129}) {
+        for (int p : {0, n / 2, n - 2}) {
+            vector<int> a(n);
+            iota(a.begin(), a.end(), -n);
+            a.back() = a[p];
+            check(a);
+            reverse(a.begin(), a.end());
+            check(a);
+        }
+    }
     for (int n : {1, 2, 63, 64, 65, 127, 128, 129}) {
         check(vector<int>(n, 7));
         vector<int> a(n);
