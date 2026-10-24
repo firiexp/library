@@ -188,6 +188,69 @@ void self_check() {
     }
 }
 
+template<int W>
+void check_compression() {
+    mt19937 rng(278 + W);
+    for (int trial = 0; trial < 90; ++trial) {
+        int s = 32 + rng() % 65;
+        DFA<W> a{vector<array<int, W>>(s), vector<char>(s), 0};
+        for (int v = 0; v < s; ++v) {
+            a.accept[v] = rng() % 2;
+            int target = rng() % s;
+            for (int c = 0; c < W; ++c) {
+                if (trial % 3 == 0) a.next[v][c] = c == 0 ? (v + 1) % s : target;
+                if (trial % 3 == 1) a.next[v][c] = c < 2 ? -1 : (v + 1) % s;
+                if (trial % 3 == 2) a.next[v][c] = (v + c + 1) % s;
+            }
+        }
+        if (trial % 17 == 0) a.accept.assign(s, false);
+        if (trial % 19 == 0) a.next[s / 2].fill(-1);
+        auto expected = direct(a, 2 * s + 17);
+        const DFAWordCounter<W> counter(a);
+        for (int n : {0, 1, 17, 31, 32, 33, 55, 2 * s - 1, 2 * s, 2 * s + 17}) {
+            assert(count_words(a, n) == expected[n]);
+            assert(counter.count(n) == expected[n]);
+        }
+    }
+    int s = 128;
+    DFA<W> all{vector<array<int, W>>(s), vector<char>(s, true), 0};
+    for (int v = 0; v < s; ++v) {
+        all.next[v].fill(0);
+        all.next[v][0] = (v + 1) % s;
+    }
+    const DFAWordCounter<W> counter(all);
+    for (ll n : {0LL, 33LL, 128LL, 511LL, LLONG_MAX}) {
+        assert(count_words(all, n) == mint(W).pow(n));
+        assert(counter.count(n) == mint(W).pow(n));
+    }
+    for (auto &row : all.next) row.fill(-1);
+    assert(count_words(all, 33) == mint(0));
+    DFA<W> shrinking{vector<array<int, W>>(W + 40), vector<char>(W + 40), 0};
+    for (auto &row : shrinking.next) row.fill(W + 1);
+    for (int c = 0; c < W; ++c) shrinking.next[0][c] = c + 1;
+    shrinking.accept[W + 1] = true;
+    const DFAWordCounter<W> shrinking_counter(shrinking);
+    for (int n : {0, 1, 2, 33, 200}) {
+        mint expected = n < 2 ? mint(0) : mint(W).pow(n);
+        assert(count_words(shrinking, n) == expected);
+        assert(shrinking_counter.count(n) == expected);
+    }
+    DFA<W> mixed{vector<array<int, W>>(64), vector<char>(64), 1};
+    for (int v = 0; v < 64; ++v) {
+        mixed.accept[v] = v % 3 == 0;
+        for (int c = 0; c < W; ++c) mixed.next[v][c] = v % 4 == 0 ? 0 : (v + c + 1) % 64;
+    }
+    auto expected = direct(mixed, 200);
+    const DFAWordCounter<W> mixed_counter(mixed);
+    for (int n : {33, 127, 128, 200}) {
+        assert(count_words(mixed, n) == expected[n]);
+        assert(mixed_counter.count(n) == expected[n]);
+    }
+}
+
 int main() {
     self_check();
+    check_compression<6>();
+    check_compression<26>();
+    check_compression<64>();
 }

@@ -5,6 +5,50 @@
 #include "../fps/linear_recurrence.cpp"
 
 namespace count_words_detail {
+struct CompressedTransitions {
+    vector<size_t> offset;
+    vector<pair<int, int>> edges;
+};
+
+template<int W>
+CompressedTransitions compress(const DFA<W>& a) {
+    int s = a.next.size(), samples = min(s, 16);
+    vector<int> count(s);
+    size_t sampled_edges = 0, sampled_unique = 0;
+    for (int i = 0; i < samples; ++i) {
+        int v = 1LL * i * s / samples;
+        for (int to : a.next[v]) if (to != -1) {
+            ++sampled_edges;
+            if (count[to] != i + 1) {
+                count[to] = i + 1;
+                ++sampled_unique;
+            }
+        }
+    }
+    if (sampled_edges == 0 || sampled_unique * 4 > sampled_edges * 3) return {};
+    fill(count.begin(), count.end(), 0);
+    CompressedTransitions result;
+    result.offset.reserve(s + 1);
+    result.offset.push_back(0);
+    vector<int> touched;
+    touched.reserve(min(s, W));
+    size_t original_edges = 0;
+    for (const auto& row : a.next) {
+        touched.clear();
+        for (int to : row) if (to != -1) {
+            ++original_edges;
+            if (count[to]++ == 0) touched.push_back(to);
+        }
+        for (int to : touched) {
+            result.edges.emplace_back(to, count[to]);
+            count[to] = 0;
+        }
+        result.offset.push_back(result.edges.size());
+    }
+    if (result.edges.size() * 4 > original_edges * 3) return {};
+    return result;
+}
+
 template<bool SaveSequence, int W>
 auto solve(const DFA<W>& a, ll n) {
     int s = (int)a.next.size();
@@ -17,13 +61,37 @@ auto solve(const DFA<W>& a, ll n) {
     dp[a.initial] = 1;
     unsigned long long total = bool(a.accept[a.initial]);
     int width = min<unsigned long long>(W, numeric_limits<unsigned long long>::max() / (ntt_mod - 1) / (s + 1ULL));
+    bool consider_compression = W > 4 && width == W && terms > 32;
+    CompressedTransitions compressed;
     for (ll len = 0; len < terms; ++len) {
         sequence.push_back(mint::raw(total % ntt_mod));
         if (active.empty()) break;
         if (len + 1 == terms) break;
+        if (consider_compression && active.size() >= size_t(max(8, s / 8))) {
+            consider_compression = false;
+            if (terms - len > 32) compressed = compress(a);
+        }
         bool sparse = active.size() < size_t(s) / 4 && width == W;
         touched.clear();
-        if (sparse) {
+        if (!compressed.offset.empty()) {
+            if (sparse) {
+                for (int v : active) {
+                    for (size_t i = compressed.offset[v]; i < compressed.offset[v + 1]; ++i) {
+                        auto [to, multiplicity] = compressed.edges[i];
+                        if (next[to] == 0) touched.push_back(to);
+                        next[to] += (unsigned long long)dp[v] * multiplicity;
+                    }
+                    dp[v] = 0;
+                }
+            } else {
+                for (int v : active) {
+                    for (size_t i = compressed.offset[v]; i < compressed.offset[v + 1]; ++i) {
+                        auto [to, multiplicity] = compressed.edges[i];
+                        next[to] += (unsigned long long)dp[v] * multiplicity;
+                    }
+                }
+            }
+        } else if (sparse) {
             for (int v : active) {
                 for (int to : a.next[v]) if (to != -1) {
                     if (next[to] == 0) touched.push_back(to);
