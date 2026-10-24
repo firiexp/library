@@ -23,7 +23,7 @@ struct PrimalDual {
         P(C first,int second):first(first),second(second){}
         bool operator<(const P&a) const{return a.first<first;}
     };
-    void dijkstra(int s){
+    void dijkstra(int s, int t = -1){
 
         priority_queue<P> Q;
         fill(min_cost.begin(),min_cost.end(), INF<C>);
@@ -33,6 +33,7 @@ struct PrimalDual {
             P p = Q.top(); Q.pop();
             int v = p.second;
             if(min_cost[v] < p.first) continue;
+            if(v == t) break;
             for(int i = 0; i < (int)G[v].size(); ++i){
                 edge &e=G[v][i];
                 if(e.cap==0) continue;
@@ -70,10 +71,10 @@ private:
         C res = 0;
         fill(potential.begin(),potential.end(), 0);
         while(amount < limit){
-            dijkstra(s);
+            dijkstra(s, t);
             if(min_cost[t] == INF<C>) break;
             for (int i = 0; i < (int)potential.size(); ++i) {
-                if(min_cost[i] < INF<C>) potential[i] += min_cost[i];
+                potential[i] += min(min_cost[i], min_cost[t]);
             }
 
             F d = limit - amount;

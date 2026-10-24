@@ -58,6 +58,7 @@ void check(int n, const vector<array<int, 4>>& edges) {
             auto rev = mf.G[e.to][e.rev];
             assert(rev.to == v && rev.rev == i && e.cap >= 0);
             assert(e.cap + rev.cap == initial[v][i].cap + initial[e.to][e.rev].cap);
+            if (e.cap) assert(e.cost + mf.potential[v] - mf.potential[e.to] >= 0);
         }
     }
 }
@@ -65,6 +66,8 @@ void check(int n, const vector<array<int, 4>>& edges) {
 int main() {
     check(2, {});
     check(2, {{0, 0, 2, 0}, {0, 1, 2, 0}, {0, 1, 2, 0}, {0, 1, 1, 3}});
+    check(5, {{0, 4, 1, 1}, {0, 1, 1, 1}, {1, 2, 1, 0}, {2, 4, 1, 0},
+              {0, 2, 1, 100}, {3, 2, 1, 0}});
     check(6, {{0, 1, 1, 0}, {0, 2, 1, 0}, {1, 3, 1, 1}, {1, 4, 1, 2},
               {2, 3, 1, 2}, {2, 4, 1, 100}, {3, 5, 1, 0}, {4, 5, 1, 0}});
     mt19937 rng(94);
@@ -88,4 +91,20 @@ int main() {
     PrimalDual<int, long long> unlimited(2);
     unlimited.add_edge(0, 1, 3, 5);
     assert((unlimited.slope(0, 1) == vector<pair<int, long long>>{{0, 0}, {3, 15}}));
+    PrimalDual<int, long long> distances(5);
+    distances.add_edge(0, 1, 1, 1);
+    distances.add_edge(0, 2, 1, 100);
+    distances.add_edge(1, 2, 1, 2);
+    distances.add_edge(2, 3, 1, 4);
+    distances.dijkstra(0);
+    assert((distances.min_cost == vector<long long>{0, 1, 3, 7, INF<long long>}));
+    PrimalDual<int, long long> wide(4);
+    long long cost = INF<long long> / 8;
+    wide.add_edge(0, 3, 1, cost);
+    wide.add_edge(0, 1, 1, 2 * cost);
+    wide.add_edge(1, 3, 1, cost);
+    wide.add_edge(2, 1, 1, 0);
+    assert((wide.slope(0, 3) == vector<pair<int, long long>>{{0, 0}, {1, cost}, {2, 4 * cost}}));
+    for (int v = 0; v < 4; ++v) for (auto e : wide.G[v])
+        if (e.cap) assert(e.cost + wide.potential[v] - wide.potential[e.to] >= 0);
 }
