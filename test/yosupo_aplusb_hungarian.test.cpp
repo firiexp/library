@@ -68,7 +68,22 @@ int main() {
     both<long long>({{LLONG_MIN, LLONG_MIN + 1}, {LLONG_MAX, LLONG_MAX - 1}});
     both<int>({{INT_MAX, INT_MAX - 1}, {-INT_MAX, -INT_MAX + 1}});
     both<double>({{0.1, -0.2, 0.3}, {-0.4, 0.5, -0.6}});
+    const long long bound = 2000000000000000000LL;
+    for (int sign : {-1, 1}) {
+        vector<vector<long long>> cost(10, vector<long long>(10));
+        for (int i = 0; i < 10; ++i) {
+            fill(cost[i].begin(), cost[i].end(), (i < 5 ? bound : -bound) * sign);
+        }
+        both(cost, false);
+    }
     mt19937 rng(240);
+    for (int trial = 0; trial < 200; ++trial) {
+        int n = 1 + rng() % 4, m = n + rng() % 3;
+        vector<vector<long long>> cost(n, vector<long long>(m));
+        const long long values[] = {-bound, -bound + 1, 0, bound - 1, bound};
+        for (auto &row : cost) for (auto &x : row) x = values[rng() % 5];
+        both(cost);
+    }
     for (int trial = 0; trial < 100; ++trial) {
         long long scale = LLONG_MAX / 48 + trial % 2;
         vector<vector<long long>> cost(5, vector<long long>(7));
