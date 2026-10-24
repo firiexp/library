@@ -34,6 +34,21 @@ int main() {
     assert(limits.query("aabb") == 0);
     limits.set_weight(2, LLONG_MIN);
     assert(limits.query("aa") == -2);
+    const long long bound = 2000000000000000000LL;
+    ActivePatternMatcher<3, 'a'> wide({"a", "a", "a", "a", "a", "b", "b", "b", "b", "b"});
+    for (int id = 0; id < 10; ++id) wide.set_weight(id, id < 5 ? bound : -bound);
+    assert(wide.query("ab") == 0 && wide.query("ba") == 0);
+    wide.set_weight(0, bound - 1);
+    assert(wide.query("ab") == -1);
+    wide.set_weight(0, -bound);
+    assert(wide.query("ab") == -2 * bound);
+    wide.set_weight(0, bound);
+    assert(wide.query("ab") == 0);
+    ActivePatternMatcher<3, 'a'> accumulated({"a", "b"});
+    accumulated.set_weight(0, bound);
+    accumulated.set_weight(1, -bound);
+    assert(accumulated.query("aaaaabbbbb") == 0);
+    assert(accumulated.query("bbbbbaaaaa") == 0);
     mt19937 rng(285);
     auto random_string = [&](int maximum) {
         string s(rng() % (maximum + 1), 'a');
