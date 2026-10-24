@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-24T20:16:58+09:00",
+  "generatedAt": "2026-10-24T20:22:43+09:00",
   "root": ".",
-  "testCount": 184,
+  "testCount": 186,
   "inventory": {
-    "currentTestCount": 424,
-    "measuredTestCount": 184,
-    "unmeasuredCount": 240,
+    "currentTestCount": 427,
+    "measuredTestCount": 186,
+    "unmeasuredCount": 241,
     "unmeasuredPaths": [
       "test/aoj_alds1_9_c_leftist_heap.test.cpp",
       "test/aoj_cgl_5_a.test.cpp",
@@ -20,6 +20,7 @@
       "test/minimum_enclosing_circle.test.cpp",
       "test/offlinedynamicconnectivity.test.cpp",
       "test/persistent_lazy_segtree.test.cpp",
+      "test/sortable_segtree.test.cpp",
       "test/yosupo_aplusb_active_pattern_matcher.test.cpp",
       "test/yosupo_aplusb_aho_occurrences.test.cpp",
       "test/yosupo_aplusb_and_or_convolution.test.cpp",
@@ -251,7 +252,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "de6c77e37c450c92ddfcd9f171130c0237e94529",
+    "gitRevision": "f2febb6e97a35bfcb5d87f738dd4c4d6328ac83a",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -260,9 +261,9 @@
   "summary": {
     "pending": 0,
     "running": 0,
-    "done": 184,
+    "done": 186,
     "error": 0,
-    "ok": 184,
+    "ok": 186,
     "failed": 0
   },
   "tests": [
@@ -32238,6 +32239,223 @@
           "summary": "success"
         },
         "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-rldeek_0/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_minimum_enclosing_circle.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_minimum_enclosing_circle.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok \"10011001\"\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.002642 sec, memory: 3.952000 MB\nINFO:competitive_verifier.oj.oj_test:315:large_grid_00: start\nok \"100000000000000000000000000000...0000000000000000000000000000001\"\nINFO:competitive_verifier.oj.oj_test:168:large_grid_00: \u001b[32mAC\u001b[39m, time: 0.006908 sec, memory: 5.440000 MB\nINFO:competitive_verifier.oj.oj_test:315:large_grid_01: start\nok \"100000000000000000000000000100...0001000000000000000000000000001\"\nINFO:competitive_verifier.oj.oj_test:168:large_grid_01: \u001b[32mAC\u001b[39m, time: 0.009238 sec, memory: 5.444000 MB\nINFO:competitive_verifier.oj.oj_test:315:large_grid_02: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:large_grid_02: \u001b[32mAC\u001b[39m, time: 0.011539 sec, memory: 5.612000 MB\nINFO:competitive_verifier.oj.oj_test:315:large_random_00: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:large_random_00: \u001b[32mAC\u001b[39m, time: 0.006122 sec, memory: 5.608000 MB\nINFO:competitive_verifier.oj.oj_test:315:large_random_01: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:large_random_01: \u001b[32mAC\u001b[39m, time: 0.011021 sec, memory: 5.440000 MB\nINFO:competitive_verifier.oj.oj_test:315:large_random_02: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:large_random_02: \u001b[32mAC\u001b[39m, time: 0.012204 sec, memory: 5.612000 MB\nINFO:competitive_verifier.oj.oj_test:315:large_random_03: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:large_random_03: \u001b[32mAC\u001b[39m, time: 0.009713 sec, memory: 5.612000 MB\nINFO:competitive_verifier.oj.oj_test:315:large_random_04: start\nok \"000000000000000000000000000000...0001000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:large_random_04: \u001b[32mAC\u001b[39m, time: 0.017685 sec, memory: 5.612000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_circle_00: start\nok \"100000000000000000000000000000...0000000000000000000000000000001\"\nINFO:competitive_verifier.oj.oj_test:168:max_circle_00: \u001b[32mAC\u001b[39m, time: 0.006971 sec, memory: 5.612000 MB\nINFO:competitive_verifier.oj.oj_test:315:megiddo_worst_00: start\nok \"110000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:megiddo_worst_00: \u001b[32mAC\u001b[39m, time: 0.005740 sec, memory: 5.444000 MB\nINFO:competitive_verifier.oj.oj_test:315:near_circle_00: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:near_circle_00: \u001b[32mAC\u001b[39m, time: 0.005016 sec, memory: 4.652000 MB\nINFO:competitive_verifier.oj.oj_test:315:near_circle_01: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:near_circle_01: \u001b[32mAC\u001b[39m, time: 0.002018 sec, memory: 4.124000 MB\nINFO:competitive_verifier.oj.oj_test:315:near_circle_02: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:near_circle_02: \u001b[32mAC\u001b[39m, time: 0.009749 sec, memory: 4.680000 MB\nINFO:competitive_verifier.oj.oj_test:315:near_colinear_00: start\nok \"100000000000000000000000000000...0000000000000000000000000000001\"\nINFO:competitive_verifier.oj.oj_test:168:near_colinear_00: \u001b[32mAC\u001b[39m, time: 0.001980 sec, memory: 4.136000 MB\nINFO:competitive_verifier.oj.oj_test:315:near_colinear_01: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:near_colinear_01: \u001b[32mAC\u001b[39m, time: 0.001995 sec, memory: 4.092000 MB\nINFO:competitive_verifier.oj.oj_test:315:near_colinear_02: start\nok \"000000000000000000000000000000...0000000000000000000000000000000\"\nINFO:competitive_verifier.oj.oj_test:168:near_colinear_02: \u001b[32mAC\u001b[39m, time: 0.001988 sec, memory: 4.124000 MB\nINFO:competitive_verifier.oj.oj_test:315:near_colinear_03: start\nok \"100000000000000000000000000000...0000000000000000000000000000001\"\nINFO:competitive_verifier.oj.oj_test:168:near_colinear_03: \u001b[32mAC\u001b[39m, time: 0.001939 sec, memory: 4.124000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_00: start\nok \"11\"\nINFO:competitive_verifier.oj.oj_test:168:small_00: \u001b[32mAC\u001b[39m, time: 0.001863 sec, memory: 4.124000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_01: start\nok \"110\"\nINFO:competitive_verifier.oj.oj_test:168:small_01: \u001b[32mAC\u001b[39m, time: 0.002732 sec, memory: 4.100000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_00: start\nok \"010000000011\"\nINFO:competitive_verifier.oj.oj_test:168:small_random_00: \u001b[32mAC\u001b[39m, time: 0.001942 sec, memory: 3.924000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_01: start\nok \"0011100\"\nINFO:competitive_verifier.oj.oj_test:168:small_random_01: \u001b[32mAC\u001b[39m, time: 0.001880 sec, memory: 3.952000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_02: start\nok \"010000010010\"\nINFO:competitive_verifier.oj.oj_test:168:small_random_02: \u001b[32mAC\u001b[39m, time: 0.001879 sec, memory: 4.128000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_03: start\nok \"11\"\nINFO:competitive_verifier.oj.oj_test:168:small_random_03: \u001b[32mAC\u001b[39m, time: 0.002847 sec, memory: 4.120000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_04: start\nok \"00100000010100\"\nINFO:competitive_verifier.oj.oj_test:168:small_random_04: \u001b[32mAC\u001b[39m, time: 0.002628 sec, memory: 4.084000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.017685 sec  (for large_random_04)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 5.612000 MB  (for large_grid_02)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 25 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_minimum_enclosing_circle.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":0.3412419320011395,\"files\":{\"test/yosupo_minimum_enclosing_circle.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":0.14023747501778416,\"slowest\":0.017685426006210037,\"heaviest\":5.612,\"testcases\":[{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.0026422349983477034,\"memory\":3.952},{\"name\":\"large_grid_00\",\"status\":\"AC\",\"elapsed\":0.006907623996085022,\"memory\":5.44},{\"name\":\"large_grid_01\",\"status\":\"AC\",\"elapsed\":0.009238336002454162,\"memory\":5.444},{\"name\":\"large_grid_02\",\"status\":\"AC\",\"elapsed\":0.011538557999301702,\"memory\":5.612},{\"name\":\"large_random_00\",\"status\":\"AC\",\"elapsed\":0.006121501006418839,\"memory\":5.608},{\"name\":\"large_random_01\",\"status\":\"AC\",\"elapsed\":0.011021303005691152,\"memory\":5.44},{\"name\":\"large_random_02\",\"status\":\"AC\",\"elapsed\":0.012203717000375036,\"memory\":5.612},{\"name\":\"large_random_03\",\"status\":\"AC\",\"elapsed\":0.009712623002997134,\"memory\":5.612},{\"name\":\"large_random_04\",\"status\":\"AC\",\"elapsed\":0.017685426006210037,\"memory\":5.612},{\"name\":\"max_circle_00\",\"status\":\"AC\",\"elapsed\":0.00697104400023818,\"memory\":5.612},{\"name\":\"megiddo_worst_00\",\"status\":\"AC\",\"elapsed\":0.00573961600457551,\"memory\":5.444},{\"name\":\"near_circle_00\",\"status\":\"AC\",\"elapsed\":0.005016360002628062,\"memory\":4.652},{\"name\":\"near_circle_01\",\"status\":\"AC\",\"elapsed\":0.0020177730038994923,\"memory\":4.124},{\"name\":\"near_circle_02\",\"status\":\"AC\",\"elapsed\":0.00974889699864434,\"memory\":4.68},{\"name\":\"near_colinear_00\",\"status\":\"AC\",\"elapsed\":0.0019802140013780445,\"memory\":4.136},{\"name\":\"near_colinear_01\",\"status\":\"AC\",\"elapsed\":0.0019950239948229864,\"memory\":4.092},{\"name\":\"near_colinear_02\",\"status\":\"AC\",\"elapsed\":0.0019879380051861517,\"memory\":4.124},{\"name\":\"near_colinear_03\",\"status\":\"AC\",\"elapsed\":0.0019394419941818342,\"memory\":4.124},{\"name\":\"small_00\",\"status\":\"AC\",\"elapsed\":0.0018626200035214424,\"memory\":4.124},{\"name\":\"small_01\",\"status\":\"AC\",\"elapsed\":0.002732237000600435,\"memory\":4.1},{\"name\":\"small_random_00\",\"status\":\"AC\",\"elapsed\":0.001942040995345451,\"memory\":3.924},{\"name\":\"small_random_01\",\"status\":\"AC\",\"elapsed\":0.0018795439973473549,\"memory\":3.952},{\"name\":\"small_random_02\",\"status\":\"AC\",\"elapsed\":0.001878584000223782,\"memory\":4.128},{\"name\":\"small_random_03\",\"status\":\"AC\",\"elapsed\":0.00284711299900664,\"memory\":4.12},{\"name\":\"small_random_04\",\"status\":\"AC\",\"elapsed\":0.0026277049983036704,\"memory\":4.084}],\"last_execution_time\":\"2026-10-24T11:16:58.532879Z\"}],\"content_hash\":\"6ba82378cbb51312c328e015279451a2d563e95fedeb5be07e1184242e9ce19b\",\"testdata_hash\":\"35cde690280a2142cf58095c6f58c1f008e691dcf5d2ab72adc6497df04db3df\",\"newest\":true}}}\n"
+      }
+    },
+    {
+      "path": "test/yosupo_point_set_range_sort_range_composite.test.cpp",
+      "phase": "done",
+      "problem": "https://judge.yosupo.jp/problem/point_set_range_sort_range_composite",
+      "compiler": {
+        "command": [
+          "g++",
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-g",
+          "-I",
+          ".",
+          "-o",
+          ".competitive-verifier/build/399f47baf15c388a035d/a.out",
+          "test/yosupo_point_set_range_sort_range_composite.test.cpp"
+        ],
+        "wallSec": 1.5952378400033922
+      },
+      "testcases": {
+        "directory": null,
+        "cachedCaseCount": 23
+      },
+      "run": {
+        "command": [
+          ".competitive-verifier/build/399f47baf15c388a035d/a.out"
+        ],
+        "returnCode": 0,
+        "wallSec": 8.048238294002658,
+        "ok": true,
+        "parsed": {
+          "cases": [
+            {
+              "name": "example_00",
+              "status": "AC",
+              "timeSec": 0.002972023001348134
+            },
+            {
+              "name": "example_01",
+              "status": "AC",
+              "timeSec": 0.0020663520044763573
+            },
+            {
+              "name": "many_0_query_00",
+              "status": "AC",
+              "timeSec": 0.9670178779997514
+            },
+            {
+              "name": "many_0_query_01",
+              "status": "AC",
+              "timeSec": 0.7530011179987923
+            },
+            {
+              "name": "many_1_query_00",
+              "status": "AC",
+              "timeSec": 0.5901361850046669
+            },
+            {
+              "name": "many_1_query_01",
+              "status": "AC",
+              "timeSec": 0.5596153259975836
+            },
+            {
+              "name": "many_2_query_00",
+              "status": "AC",
+              "timeSec": 0.40278385399869876
+            },
+            {
+              "name": "many_2_query_01",
+              "status": "AC",
+              "timeSec": 0.3719333939952776
+            },
+            {
+              "name": "many_3_query_00",
+              "status": "AC",
+              "timeSec": 0.41202421599882655
+            },
+            {
+              "name": "many_3_query_01",
+              "status": "AC",
+              "timeSec": 0.41733768199628685
+            },
+            {
+              "name": "max_random_00",
+              "status": "AC",
+              "timeSec": 0.5260489650027012
+            },
+            {
+              "name": "max_random_01",
+              "status": "AC",
+              "timeSec": 0.5003944499985664
+            },
+            {
+              "name": "max_random_02",
+              "status": "AC",
+              "timeSec": 0.5125033240037737
+            },
+            {
+              "name": "random_00",
+              "status": "AC",
+              "timeSec": 0.1759598919961718
+            },
+            {
+              "name": "random_01",
+              "status": "AC",
+              "timeSec": 0.1681682290000026
+            },
+            {
+              "name": "random_02",
+              "status": "AC",
+              "timeSec": 0.27071176000026753
+            },
+            {
+              "name": "small_00",
+              "status": "AC",
+              "timeSec": 0.0023526100048911758
+            },
+            {
+              "name": "small_01",
+              "status": "AC",
+              "timeSec": 0.0022957420005695894
+            },
+            {
+              "name": "small_02",
+              "status": "AC",
+              "timeSec": 0.0025560579961165786
+            },
+            {
+              "name": "small_03",
+              "status": "AC",
+              "timeSec": 0.002366540997172706
+            },
+            {
+              "name": "small_04",
+              "status": "AC",
+              "timeSec": 0.002480706993083004
+            },
+            {
+              "name": "sort_only_short_00",
+              "status": "AC",
+              "timeSec": 0.33814564399654046
+            },
+            {
+              "name": "sort_only_short_01",
+              "status": "AC",
+              "timeSec": 0.29235782899922924
+            }
+          ],
+          "caseCount": 23,
+          "timedCaseCount": 23,
+          "passedCaseCount": 23,
+          "slowestSec": 0.9670178779997514,
+          "slowestCase": "many_0_query_00",
+          "averageSec": 0.3163143382167302,
+          "maxMemoryMb": 104.104,
+          "maxMemoryCase": "many_3_query_00",
+          "summary": "success"
+        },
+        "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-8ual872m/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_point_set_range_sort_range_composite.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_point_set_range_sort_range_composite.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok 5 tokens\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.002972 sec, memory: 3.972000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_01: start\nok 4 tokens\nINFO:competitive_verifier.oj.oj_test:168:example_01: \u001b[32mAC\u001b[39m, time: 0.002066 sec, memory: 4.072000 MB\nINFO:competitive_verifier.oj.oj_test:315:many_0_query_00: start\nok 103 tokens\nINFO:competitive_verifier.oj.oj_test:168:many_0_query_00: \u001b[32mAC\u001b[39m, time: 0.967018 sec, memory: 104.096000 MB\nINFO:competitive_verifier.oj.oj_test:315:many_0_query_01: start\nok 98 tokens\nINFO:competitive_verifier.oj.oj_test:168:many_0_query_01: \u001b[32mAC\u001b[39m, time: 0.753001 sec, memory: 103.952000 MB\nINFO:competitive_verifier.oj.oj_test:315:many_1_query_00: start\nok 99660 tokens\nINFO:competitive_verifier.oj.oj_test:168:many_1_query_00: \u001b[32mAC\u001b[39m, time: 0.590136 sec, memory: 104.096000 MB\nINFO:competitive_verifier.oj.oj_test:315:many_1_query_01: start\nok 99709 tokens\nINFO:competitive_verifier.oj.oj_test:168:many_1_query_01: \u001b[32mAC\u001b[39m, time: 0.559615 sec, memory: 103.940000 MB\nINFO:competitive_verifier.oj.oj_test:315:many_2_query_00: start\nok 92 tokens\nINFO:competitive_verifier.oj.oj_test:168:many_2_query_00: \u001b[32mAC\u001b[39m, time: 0.402784 sec, memory: 103.948000 MB\nINFO:competitive_verifier.oj.oj_test:315:many_2_query_01: start\nok 105 tokens\nINFO:competitive_verifier.oj.oj_test:168:many_2_query_01: \u001b[32mAC\u001b[39m, time: 0.371933 sec, memory: 103.960000 MB\nINFO:competitive_verifier.oj.oj_test:315:many_3_query_00: start\nok 92 tokens\nINFO:competitive_verifier.oj.oj_test:168:many_3_query_00: \u001b[32mAC\u001b[39m, time: 0.412024 sec, memory: 104.104000 MB\nINFO:competitive_verifier.oj.oj_test:315:many_3_query_01: start\nok 105 tokens\nINFO:competitive_verifier.oj.oj_test:168:many_3_query_01: \u001b[32mAC\u001b[39m, time: 0.417338 sec, memory: 103.960000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_00: start\nok 24942 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_00: \u001b[32mAC\u001b[39m, time: 0.526049 sec, memory: 104.100000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_01: start\nok 25175 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_01: \u001b[32mAC\u001b[39m, time: 0.500394 sec, memory: 103.704000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_02: start\nok 24972 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_02: \u001b[32mAC\u001b[39m, time: 0.512503 sec, memory: 104.104000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_00: start\nok 19373 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_00: \u001b[32mAC\u001b[39m, time: 0.175960 sec, memory: 21.536000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_01: start\nok 4888 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_01: \u001b[32mAC\u001b[39m, time: 0.168168 sec, memory: 74.436000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_02: start\nok 15191 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_02: \u001b[32mAC\u001b[39m, time: 0.270712 sec, memory: 57.256000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_00: start\nok 242 tokens\nINFO:competitive_verifier.oj.oj_test:168:small_00: \u001b[32mAC\u001b[39m, time: 0.002353 sec, memory: 4.080000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_01: start\nok 238 tokens\nINFO:competitive_verifier.oj.oj_test:168:small_01: \u001b[32mAC\u001b[39m, time: 0.002296 sec, memory: 3.972000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_02: start\nok 246 tokens\nINFO:competitive_verifier.oj.oj_test:168:small_02: \u001b[32mAC\u001b[39m, time: 0.002556 sec, memory: 3.972000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_03: start\nok 251 tokens\nINFO:competitive_verifier.oj.oj_test:168:small_03: \u001b[32mAC\u001b[39m, time: 0.002367 sec, memory: 4.076000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_04: start\nok 253 tokens\nINFO:competitive_verifier.oj.oj_test:168:small_04: \u001b[32mAC\u001b[39m, time: 0.002481 sec, memory: 4.092000 MB\nINFO:competitive_verifier.oj.oj_test:315:sort_only_short_00: start\nok 24922 tokens\nINFO:competitive_verifier.oj.oj_test:168:sort_only_short_00: \u001b[32mAC\u001b[39m, time: 0.338146 sec, memory: 104.092000 MB\nINFO:competitive_verifier.oj.oj_test:315:sort_only_short_01: start\nok 25113 tokens\nINFO:competitive_verifier.oj.oj_test:168:sort_only_short_01: \u001b[32mAC\u001b[39m, time: 0.292358 sec, memory: 103.960000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.967018 sec  (for many_0_query_00)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 104.104000 MB  (for many_3_query_00)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 23 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_point_set_range_sort_range_composite.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":7.5205085429988685,\"files\":{\"test/yosupo_point_set_range_sort_range_composite.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":7.275229778984794,\"slowest\":0.9670178779997514,\"heaviest\":104.104,\"testcases\":[{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.002972023001348134,\"memory\":3.972},{\"name\":\"example_01\",\"status\":\"AC\",\"elapsed\":0.0020663520044763573,\"memory\":4.072},{\"name\":\"many_0_query_00\",\"status\":\"AC\",\"elapsed\":0.9670178779997514,\"memory\":104.096},{\"name\":\"many_0_query_01\",\"status\":\"AC\",\"elapsed\":0.7530011179987923,\"memory\":103.952},{\"name\":\"many_1_query_00\",\"status\":\"AC\",\"elapsed\":0.5901361850046669,\"memory\":104.096},{\"name\":\"many_1_query_01\",\"status\":\"AC\",\"elapsed\":0.5596153259975836,\"memory\":103.94},{\"name\":\"many_2_query_00\",\"status\":\"AC\",\"elapsed\":0.40278385399869876,\"memory\":103.948},{\"name\":\"many_2_query_01\",\"status\":\"AC\",\"elapsed\":0.3719333939952776,\"memory\":103.96},{\"name\":\"many_3_query_00\",\"status\":\"AC\",\"elapsed\":0.41202421599882655,\"memory\":104.104},{\"name\":\"many_3_query_01\",\"status\":\"AC\",\"elapsed\":0.41733768199628685,\"memory\":103.96},{\"name\":\"max_random_00\",\"status\":\"AC\",\"elapsed\":0.5260489650027012,\"memory\":104.1},{\"name\":\"max_random_01\",\"status\":\"AC\",\"elapsed\":0.5003944499985664,\"memory\":103.704},{\"name\":\"max_random_02\",\"status\":\"AC\",\"elapsed\":0.5125033240037737,\"memory\":104.104},{\"name\":\"random_00\",\"status\":\"AC\",\"elapsed\":0.1759598919961718,\"memory\":21.536},{\"name\":\"random_01\",\"status\":\"AC\",\"elapsed\":0.1681682290000026,\"memory\":74.436},{\"name\":\"random_02\",\"status\":\"AC\",\"elapsed\":0.27071176000026753,\"memory\":57.256},{\"name\":\"small_00\",\"status\":\"AC\",\"elapsed\":0.0023526100048911758,\"memory\":4.08},{\"name\":\"small_01\",\"status\":\"AC\",\"elapsed\":0.0022957420005695894,\"memory\":3.972},{\"name\":\"small_02\",\"status\":\"AC\",\"elapsed\":0.0025560579961165786,\"memory\":3.972},{\"name\":\"small_03\",\"status\":\"AC\",\"elapsed\":0.002366540997172706,\"memory\":4.076},{\"name\":\"small_04\",\"status\":\"AC\",\"elapsed\":0.002480706993083004,\"memory\":4.092},{\"name\":\"sort_only_short_00\",\"status\":\"AC\",\"elapsed\":0.33814564399654046,\"memory\":104.092},{\"name\":\"sort_only_short_01\",\"status\":\"AC\",\"elapsed\":0.29235782899922924,\"memory\":103.96}],\"last_execution_time\":\"2026-10-24T11:22:41.459806Z\"}],\"content_hash\":\"7ec650f557eb360b69daba262e1839ec9c178003d833f08d41c7f62d1a0524ee\",\"testdata_hash\":\"d25f75af00fa28c622e82ed59868c31529037b9eeea97c4b4771fefef16fabb6\",\"newest\":true}}}\n"
+      }
+    },
+    {
+      "path": "test/sortable_segtree_stress.test.cpp",
+      "phase": "done",
+      "problem": null,
+      "compiler": {
+        "command": [
+          "g++",
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-g",
+          "-I",
+          ".",
+          "-o",
+          ".competitive-verifier/build/aa658f2fc915e6bc4125/a.out",
+          "test/sortable_segtree_stress.test.cpp"
+        ],
+        "wallSec": 1.4563456940013566
+      },
+      "testcases": {
+        "directory": null,
+        "cachedCaseCount": 1
+      },
+      "run": {
+        "command": [
+          "python3",
+          ".scripts/verify_command_impl.py",
+          "run",
+          ".competitive-verifier/build/aa658f2fc915e6bc4125",
+          "60.0",
+          ".competitive-verifier/build/aa658f2fc915e6bc4125/a.out"
+        ],
+        "returnCode": 0,
+        "wallSec": 0.8020895809968351,
+        "ok": true,
+        "parsed": {
+          "cases": [
+            {
+              "name": "standalone",
+              "status": "AC",
+              "timeSec": 0.2850580300000729
+            }
+          ],
+          "caseCount": 1,
+          "timedCaseCount": 1,
+          "passedCaseCount": 1,
+          "slowestSec": 0.2850580300000729,
+          "slowestCase": "standalone",
+          "averageSec": 0.2850580300000729,
+          "maxMemoryMb": 103.7421875,
+          "maxMemoryCase": "standalone",
+          "summary": "success"
+        },
+        "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-coihbz8s/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/sortable_segtree_stress.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/sortable_segtree_stress.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.exec:75:subprocess.run: ['python3', '.scripts/verify_command_impl.py', 'run', '.competitive-verifier/build/aa658f2fc915e6bc4125', '60.0', '.competitive-verifier/build/aa658f2fc915e6bc4125/a.out']\nallocations=4877169 releases=3354972 live=1522197 peak_live=3200000 slots=3200000\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/sortable_segtree_stress.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":0.31456129000434885,\"files\":{\"test/sortable_segtree_stress.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":0.3073199860009481,\"last_execution_time\":\"2026-10-24T20:22:43.476763+09:00\"}],\"content_hash\":\"db2777eea11af7cc36f91cbf25349aa438285838cd587e03d7b0473c63047ea9\",\"newest\":true}}}\n"
       }
     }
   ]
