@@ -19,3 +19,7 @@ int len = LCS_bit(s, t);
 
 ## 実装上の補足
 文字は byte 単位で扱う。
+短い方の文字列を bitset にし、入力は変更しない。
+GCC 系の x86_64 環境では CPU を実行時に判定し、AVX2 + POPCNT で4 word、さらに AVX512F があれば8 word ずつ更新する。
+利用側の pragma や CPU 指定は不要。短い bitset、非対応 CPU・環境、端数 word は scalar で処理する。
+領域計算量は $O(256\lceil M/64\rceil)$。
