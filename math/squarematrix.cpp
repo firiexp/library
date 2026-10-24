@@ -67,10 +67,19 @@ struct SquareMatrix {
     SquareMatrix &operator*=(const SquareMatrix &B) { return mul_assign(B); }
 
     SquareMatrix pow(ll n, size_t dim = SIZE) const {
-        SquareMatrix a = (*this), res = I(dim);
-
-        while(n > 0){
-            if(n & 1) res.mul_assign(a, dim);
+        if (n == 0) return I(dim);
+        SquareMatrix a = *this, res;
+        bool started = false;
+        while (n > 0) {
+            if (n & 1) {
+                if (started) res.mul_assign(a, dim);
+                else {
+                    for (size_t i = 0; i < dim; ++i) {
+                        for (size_t j = 0; j < dim; ++j) res[i][j] = a[i][j];
+                    }
+                    started = true;
+                }
+            }
             n >>= 1;
             if(n) a.mul_assign(a, dim);
         }

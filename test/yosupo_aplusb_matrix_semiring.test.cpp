@@ -10,6 +10,15 @@ static const int MOD = 998244353;
 #include "../util/modint.cpp"
 #include "../math/matrix.cpp"
 #include "../math/squarematrix.cpp"
+#include "../math/squarematrix_mint.cpp"
+
+struct BooleanRing {
+    using T = int;
+    static T zero() { return 0; }
+    static T one() { return 1; }
+    static T mul(T a, T b) { return a && b; }
+    static void add(T &a, T b) { a = a || b; }
+};
 
 template<bool Maximum>
 struct Tropical {
@@ -82,8 +91,10 @@ void power_check() {
     for (int n = 0; n <= 6; ++n) for (int tc = 0; tc < 20; ++tc) {
         matrix<H> a(n), expected = matrix<H>::I(n);
         SquareMatrix<H, 6> fixed;
+        for (auto &row : fixed.A) for (auto &x : row) x = H::one();
         for (int i = 0; i < n; ++i) for (int j = 0; j < n; ++j)
-            fixed[i][j] = a[i][j] = int(rng() % 15) - 7;
+            fixed[i][j] = a[i][j] = is_same_v<H, BooleanRing> ? int(rng() % 2) : int(rng() % 15) - 7;
+        auto original = fixed.A;
         for (int exponent = 0; exponent <= 33; ++exponent) {
             auto dynamic_power = a.pow(exponent);
             auto fixed_power = fixed.pow(exponent, n);
@@ -92,6 +103,7 @@ void power_check() {
                 assert(fixed_power[i][j] == (i < n && j < n ? expected[i][j] : H::zero()));
             expected *= a;
         }
+        assert(fixed.A == original);
     }
 }
 
@@ -109,7 +121,7 @@ void product_count_check() {
     SquareMatrix<CountedRing, 1> b;
     a[0][0] = b[0][0] = 1;
     for (auto [exponent, count] : vector<pair<ll, int>>{
-             {0, 0}, {1, 1}, {2, 2}, {3, 3}, {7, 5}, {8, 4}, {9, 5}, {1000000000000000000LL, 83}}) {
+             {0, 0}, {1, 0}, {2, 1}, {3, 2}, {7, 4}, {8, 3}, {9, 4}, {1000000000000000000LL, 82}}) {
         CountedRing::products = 0;
         assert(a.pow(exponent)[0][0] == 1);
         assert(CountedRing::products == count);
@@ -120,6 +132,21 @@ void product_count_check() {
     a[0][0] = b[0][0] = LLONG_MAX;
     assert(a.pow(1)[0][0] == LLONG_MAX);
     assert(b.pow(1)[0][0] == LLONG_MAX);
+}
+
+void mint_binary_power_check() {
+    mt19937 rng(268);
+    for (int n = 0; n <= 6; ++n) for (int trial = 0; trial < 20; ++trial) {
+        SquareMatrixMint<6> a;
+        for (auto &row : a.A) for (auto &x : row) x = rng() % MOD;
+        auto original = a.A;
+        auto expected = SquareMatrixMint<6>::I(n);
+        for (int k = 0; k < 8; ++k) {
+            assert(a.pow(k, n).A == expected.A);
+            expected.mul_assign(a, n);
+        }
+        assert(a.A == original);
+    }
 }
 
 mint permutation_determinant(const matrix<SemiRing> &a) {
@@ -166,6 +193,8 @@ int main() {
     power_check<SemiRing>();
     power_check<Tropical<false>>();
     power_check<Tropical<true>>();
+    power_check<BooleanRing>();
+    mint_binary_power_check();
     product_count_check();
     determinant_check();
 }

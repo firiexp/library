@@ -423,15 +423,22 @@ public:
         const ull exp = (ull)n;
         MatrixMulScratch scratch;
         auto binary_pow = [&](ull m) {
-            SquareMatrixMint a = *this, res = I(dim);
-            while (m > 1) {
-                a.prepare_mul(scratch, dim);
-                if (m & 1) res.mul_assign_prepared(scratch, dim, false);
-                a.mul_assign_prepared(scratch, dim, false);
+            SquareMatrixMint a = *this, res;
+            bool started = false;
+            while (m > 0) {
+                if (m > 1 || started) a.prepare_mul(scratch, dim);
+                if (m & 1) {
+                    if (started) res.mul_assign_prepared(scratch, dim, false);
+                    else {
+                        for (size_t i = 0; i < dim; ++i) {
+                            for (size_t j = 0; j < dim; ++j) res[i][j] = a[i][j];
+                        }
+                        started = true;
+                    }
+                }
                 m >>= 1;
+                if (m) a.mul_assign_prepared(scratch, dim, false);
             }
-            a.prepare_mul(scratch, dim);
-            res.mul_assign_prepared(scratch, dim, false);
             return res;
         };
         if (exp < 8) return binary_pow(exp);

@@ -52,9 +52,14 @@ struct matrix {
     }
 
     matrix pow(ll n) const {
-        matrix a = (*this), res = I(height());
-        while(n > 0){
-            if (n & 1) res *= a;
+        if (n == 0) return I(height());
+        matrix a = *this, res;
+        bool started = false;
+        while (n > 0) {
+            if (n & 1) {
+                if (started) res *= a;
+                else res = a, started = true;
+            }
             n >>= 1;
             if (n) a *= a;
         }
