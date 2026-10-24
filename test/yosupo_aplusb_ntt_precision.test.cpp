@@ -83,8 +83,63 @@ void check_power() {
     assert(poly(vector<mint>{0, 3}).pow(LLONG_MAX, 2).v == vector<mint>(2));
 }
 
+void check_sqrt() {
+    mt19937 rng(259);
+    for (int tc = 0; tc < 160; ++tc) {
+        int shift = tc % 10, length = 1 + rng() % 32;
+        vector<mint> root(shift + length);
+        for (int i = shift; i < (int)root.size(); ++i) root[i] = 1 + rng() % (ntt_mod - 1);
+        int n = 2 * root.size() - 1;
+        poly f(naive_power(root, 2, n));
+        auto original = f.v;
+        for (int deg : {0, 1, 2, shift, shift + 1, n / 2, n, n + 1, 2 * n + 1}) {
+            auto g = f.sqrt(deg);
+            assert(g.size() == deg);
+            auto expected = root;
+            expected.resize(deg);
+            if (shift < deg && g[shift] == -root[shift]) {
+                for (auto &x : expected) x = -x;
+            }
+            assert(g.v == expected);
+            assert(naive_power(g.v, 2, deg) == f.pre(deg).v);
+        }
+        assert(f.sqrt().v == f.sqrt(n).v);
+        assert(f.v == original);
+    }
+    for (int n : {0, 1, 2, 65, 4097}) {
+        poly zero(n);
+        for (int deg : {0, 1, n, n + 1}) assert(zero.sqrt(deg).v == vector<mint>(deg));
+    }
+    for (int lead : {0, 1, 2, 63, 64, 65, 4096, 4097}) {
+        poly f(lead + 1);
+        for (int value : {1, 3, 4}) {
+            f[lead] = value;
+            for (int deg : {1, 2, 64}) {
+                auto g = f.sqrt(deg);
+                if ((lead & 1) || value == 3) assert(g.size() == 0);
+                else {
+                    assert(g.size() == deg);
+                    assert(naive_power(g.v, 2, deg) == f.pre(deg).v);
+                }
+            }
+            assert(f.sqrt(0).size() == 0);
+        }
+    }
+    poly long_input(1 << 20);
+    for (auto &x : long_input.v) x = rng() % ntt_mod;
+    long_input[0] = 1;
+    auto original = long_input.v;
+    for (int deg : {1, 2, 63, 64, 65, 129}) {
+        auto g = long_input.sqrt(deg);
+        assert(g.v == long_input.pre(deg).sqrt(deg).v);
+        assert(naive_power(g.v, 2, deg) == long_input.pre(deg).v);
+    }
+    assert(long_input.v == original);
+}
+
 void self_check() {
     check_power();
+    check_sqrt();
     mt19937 random(19);
     const int sizes[] = {1, 2, 3, 7, 16, 31, 32, 33, 63, 64, 65, 127, 128, 129};
     for (int n : sizes) {

@@ -544,9 +544,9 @@ struct poly {
         int shift = lead >> 1;
         if (shift >= deg) return ret;
         int rem_deg = deg - shift;
-        poly f(size() - lead);
+        poly f(min(size() - lead, rem_deg));
         mint inv_lead = v[lead].inv();
-        for (int i = lead; i < size(); ++i) f[i - lead] = v[i] * inv_lead;
+        for (int i = 0; i < f.size(); ++i) f[i] = v[lead + i] * inv_lead;
         poly s(1);
         s[0] = 1;
         mint inv2 = mint(2).inv();
