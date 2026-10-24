@@ -119,6 +119,20 @@ vector<mint> many_factorials(const vector<long long> &ns) {
     vector<mint> ans(q);
     if (q == 0) return ans;
 
+    int maximum = -1;
+    for (long long n : ns) {
+        assert(n >= 0);
+        if (n < ntt_mod) maximum = max(maximum, (int)n);
+    }
+    if (maximum == -1) return ans;
+    if (maximum <= 1000000 || maximum < (int)ManyFactorialsFactorial::fact.size()) {
+        ManyFactorialsFactorial::ensure(maximum + 1);
+        for (int i = 0; i < q; ++i) {
+            if (ns[i] < ntt_mod) ans[i] = ManyFactorialsFactorial::fact[ns[i]];
+        }
+        return ans;
+    }
+
     vector<pair<int, int>> order;
     order.reserve(q);
     for (int i = 0; i < q; ++i) {
