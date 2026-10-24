@@ -19,8 +19,10 @@ void check(const string& s, const string& t, char wildcard = '*') {
     assert(s == original_s && t == original_t);
     if (!t.empty() && t.size() <= s.size() && s.size() < 130) {
         vector<int> forced(expected.size(), 1);
-        wildcard_pattern_matching_detail::filter_matches(s, t, wildcard, BoundedConvolution::internal::ntt1(), forced);
-        wildcard_pattern_matching_detail::filter_matches(s, t, wildcard, BoundedConvolution::internal::ntt2(), forced);
+        bool first = wildcard_pattern_matching_detail::filter_matches(s, t, wildcard, BoundedConvolution::internal::ntt1(), forced);
+        assert(first == any_of(forced.begin(), forced.end(), [](int x) { return x; }));
+        bool second = wildcard_pattern_matching_detail::filter_matches(s, t, wildcard, BoundedConvolution::internal::ntt2(), forced);
+        assert(second == any_of(expected.begin(), expected.end(), [](int x) { return x; }));
         assert(forced == expected);
     }
 }
@@ -83,4 +85,24 @@ int main() {
     string s = string(179, 'z') + string(60488, 'g');
     string t = string(179, 'a') + string(60488, 'f');
     assert((wildcard_pattern_matching(s, t) == vector<int>{0}));
+    s = string(8, 'q') + s + string(8, 'q');
+    vector<int> collision(17, 1);
+    assert(wildcard_pattern_matching_detail::filter_matches(s, t, '*', BoundedConvolution::internal::ntt1(), collision));
+    assert(collision[8] == 1);
+    assert(!wildcard_pattern_matching_detail::filter_matches(s, t, '*', BoundedConvolution::internal::ntt2(), collision));
+    assert(collision == vector<int>(17, 0));
+    assert(wildcard_pattern_matching(s, t) == collision);
+    for (int position : {0, 64, 128}) {
+        string text(256, 'b');
+        text.replace(position, 128, string(128, 'a'));
+        vector<int> expected(129);
+        expected[position] = 1;
+        assert(wildcard_pattern_matching(text, string(128, 'a')) == expected);
+    }
+    check(string(256, 'a'), string(128, 'b'));
+    check(string(256, 'a'), string(128, 'a'));
+    vector<int> removed(129);
+    assert(!wildcard_pattern_matching_detail::filter_matches(string(256, 'a'), string(128, 'a'), '*',
+                                                            BoundedConvolution::internal::ntt1(), removed));
+    assert(removed == vector<int>(129, 0));
 }

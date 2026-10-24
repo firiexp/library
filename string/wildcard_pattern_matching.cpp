@@ -5,7 +5,7 @@
 
 namespace wildcard_pattern_matching_detail {
 template<class Transform>
-void filter_matches(const string &text, const string &pattern, char wildcard,
+bool filter_matches(const string &text, const string &pattern, char wildcard,
                     const Transform &transform, vector<int> &result) {
     using mint = typename Transform::mint;
     int n = (int)text.size(), m = (int)pattern.size(), size = 1;
@@ -35,7 +35,12 @@ void filter_matches(const string &text, const string &pattern, char wildcard,
         }
     }
     transform.ntt(score, true);
-    for (int i = 0; i <= n - m; ++i) result[i] &= score[i + m - 1].val == 0;
+    bool any = false;
+    for (int i = 0; i <= n - m; ++i) {
+        result[i] &= score[i + m - 1].val == 0;
+        any |= result[i] != 0;
+    }
+    return any;
 }
 }
 
@@ -59,7 +64,8 @@ vector<int> wildcard_pattern_matching(const string& text, const string& pattern,
     }
     if (n + m - 1 >= 128) {
         vector<int> result(n - m + 1, 1);
-        wildcard_pattern_matching_detail::filter_matches(text, pattern, wildcard, BoundedConvolution::internal::ntt1(), result);
+        if (!wildcard_pattern_matching_detail::filter_matches(text, pattern, wildcard, BoundedConvolution::internal::ntt1(), result))
+            return result;
         wildcard_pattern_matching_detail::filter_matches(text, pattern, wildcard, BoundedConvolution::internal::ntt2(), result);
         return result;
     }
