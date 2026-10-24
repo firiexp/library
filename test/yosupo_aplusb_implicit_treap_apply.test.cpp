@@ -117,7 +117,66 @@ void whole_and_empty_ranges() {
     }
 }
 
+void insertion_and_erasure() {
+    mt19937 rng(254);
+    for (bool equal_priority : {false, true}) {
+        ImplicitTreap<StringAffine> tr;
+        if (equal_priority) tr.rng_state = 0;
+        string expected;
+        for (int step = 0; step < 800; ++step) {
+            int n = expected.size();
+            if (n) {
+                tr.reverse(0, n);
+                reverse(expected.begin(), expected.end());
+                StringAffine::L x{int(rng() % 128), int(rng() % 128)};
+                tr.apply(0, n, x);
+                expected = StringAffine::g(expected, x);
+            }
+            if (step < 256 || (step < 544 && step % 2 == 0)) {
+                int k = step % 3 == 0 ? 0 : step % 3 == 1 ? n : rng() % (n + 1);
+                char c = rng() % 128;
+                auto allocated = tr.nodes.size();
+                bool reuse = !tr.free_nodes.empty();
+                tr.insert(k, string(1, c));
+                expected.insert(expected.begin() + k, c);
+                assert(tr.nodes.size() == allocated + !reuse);
+            } else if (n) {
+                int k = step % 3 == 0 ? 0 : step % 3 == 1 ? n - 1 : rng() % n;
+                assert(tr.erase(k) == expected.substr(k, 1));
+                expected.erase(k, 1);
+            }
+            assert(tr.all_fold() == expected);
+            assert(tr.size() == (int)expected.size());
+            vector<bool> seen(tr.nodes.size());
+            vector<int> todo;
+            if (!tr.empty()) todo.push_back(tr.root);
+            for (int i = 0; i < (int)todo.size(); ++i) {
+                int v = todo[i];
+                assert(!seen[v]);
+                seen[v] = true;
+                for (int child : {tr.nodes[v].l, tr.nodes[v].r}) {
+                    if (child == -1) continue;
+                    assert(tr.nodes[v].pri <= tr.nodes[child].pri);
+                    todo.push_back(child);
+                }
+            }
+            assert(todo.size() == expected.size());
+            for (int v : tr.free_nodes) {
+                assert(!seen[v]);
+                seen[v] = true;
+            }
+            assert(count(seen.begin(), seen.end(), true) == (int)tr.nodes.size());
+        }
+        assert(tr.empty());
+        tr.push_back("a");
+        tr.push_front("b");
+        assert(tr.pop_back() == "a");
+        assert(tr.pop_front() == "b");
+    }
+}
+
 int main() {
     mixed_operations();
     whole_and_empty_ranges();
+    insertion_and_erasure();
 }

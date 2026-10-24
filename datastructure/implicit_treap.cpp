@@ -45,8 +45,8 @@ struct ImplicitTreap {
     }
 
     void insert(int k, const T &x) {
-        auto [a, b] = split(root, k);
-        root = merge(merge(a, new_node(x)), b);
+        int v = new_node(x);
+        root = insert_node(root, k, v);
     }
 
     void push_front(const T &x) {
@@ -58,12 +58,7 @@ struct ImplicitTreap {
     }
 
     T erase(int k) {
-        auto [a, bc] = split(root, k);
-        auto [b, c] = split(bc, 1);
-        T res = nodes[b].val;
-        recycle_node(b);
-        root = merge(a, c);
-        return res;
+        return erase_node(root, k);
     }
 
     T pop_front() {
@@ -121,6 +116,38 @@ struct ImplicitTreap {
     }
 
 private:
+    int insert_node(int v, int k, int x) {
+        if (v == -1) return x;
+        if (nodes[x].pri < nodes[v].pri) {
+            auto [a, b] = split(v, k);
+            nodes[x].l = a;
+            nodes[x].r = b;
+            pull(x);
+            return x;
+        }
+        push(v);
+        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
+        if (k <= left_size) nodes[v].l = insert_node(nodes[v].l, k, x);
+        else nodes[v].r = insert_node(nodes[v].r, k - left_size - 1, x);
+        pull(v);
+        return v;
+    }
+
+    T erase_node(int &v, int k) {
+        push(v);
+        int left_size = nodes[v].l == -1 ? 0 : nodes[nodes[v].l].sz;
+        if (k == left_size) {
+            int x = v;
+            T res = nodes[x].val;
+            v = merge(nodes[x].l, nodes[x].r);
+            recycle_node(x);
+            return res;
+        }
+        T res = k < left_size ? erase_node(nodes[v].l, k) : erase_node(nodes[v].r, k - left_size - 1);
+        pull(v);
+        return res;
+    }
+
     template<class F>
     int search_right_node(int v, int l, T &val, F &cond) {
         if (v == -1) return 0;
