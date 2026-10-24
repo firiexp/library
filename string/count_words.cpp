@@ -4,19 +4,10 @@
 #include "dfa.cpp"
 #include "../fps/linear_recurrence.cpp"
 
-template<int W>
-mint count_words(const DFA<W>& a, ll n) {
-    assert(n >= 0);
-    if (a.initial == -1) return mint(0);
-    if (n == 0) return mint(bool(a.accept[a.initial]));
-    if (none_of(a.accept.begin(), a.accept.end(), [](char x) { return x; })) return mint(0);
+namespace count_words_detail {
+template<bool SaveSequence, int W>
+auto solve(const DFA<W>& a, ll n) {
     int s = (int)a.next.size();
-    if (s == 1) {
-        if (!a.accept[0]) return mint(0);
-        int degree = 0;
-        for (int to : a.next[0]) degree += to != -1;
-        return mint(degree).pow(n);
-    }
     ll terms = min(n, 2LL * s - 1) + 1;
     vector<unsigned> dp(s);
     vector<unsigned long long> next(s);
@@ -28,8 +19,7 @@ mint count_words(const DFA<W>& a, ll n) {
     int width = min<unsigned long long>(W, numeric_limits<unsigned long long>::max() / (ntt_mod - 1) / (s + 1ULL));
     for (ll len = 0; len < terms; ++len) {
         sequence.push_back(mint::raw(total % ntt_mod));
-        if (len == n) return sequence.back();
-        if (active.empty()) return mint(0);
+        if (active.empty()) break;
         if (len + 1 == terms) break;
         bool sparse = active.size() < size_t(s) / 4 && width == W;
         touched.clear();
@@ -72,8 +62,69 @@ mint count_words(const DFA<W>& a, ll n) {
             for (int v = 0; v < s; ++v) finish(v);
         }
     }
-    return linear_recurrence(sequence, n);
+    if constexpr (SaveSequence) {
+        return sequence;
+    } else {
+        if (n < (ll)sequence.size()) return sequence[n];
+        if ((ll)sequence.size() < terms) return mint(0);
+        return linear_recurrence(sequence, n);
+    }
 }
+}
+
+template<int W>
+mint count_words(const DFA<W>& a, ll n) {
+    assert(n >= 0);
+    if (a.initial == -1) return mint(0);
+    if (n == 0) return mint(bool(a.accept[a.initial]));
+    if (none_of(a.accept.begin(), a.accept.end(), [](char x) { return x; })) return mint(0);
+    int s = (int)a.next.size();
+    if (s == 1) {
+        int degree = 0;
+        for (int to : a.next[0]) degree += to != -1;
+        return mint(degree).pow(n);
+    }
+    return count_words_detail::solve<false>(a, n);
+}
+
+template<int W>
+class DFAWordCounter {
+    vector<mint> initial;
+    poly numerator, denominator;
+
+public:
+    explicit DFAWordCounter(const DFA<W>& a) {
+        if (a.initial == -1) return;
+        if (none_of(a.accept.begin(), a.accept.end(), [](char x) { return x; })) return;
+        int s = (int)a.next.size();
+        if (s == 1) {
+            int degree = 0;
+            for (int to : a.next[0]) degree += to != -1;
+            initial = {mint(1)};
+            denominator = poly(vector<mint>{mint(1), -mint(degree)});
+            return;
+        }
+        initial = count_words_detail::solve<true>(a, 2LL * s - 1);
+        if ((ll)initial.size() < 2LL * s) return;
+        auto coefficients = berlekamp_massey(initial);
+        int k = (int)coefficients.size();
+        if (k == 0) return;
+        denominator = poly(k + 1);
+        denominator[0] = 1;
+        for (int i = 0; i < k; ++i) denominator[i + 1] = -coefficients[i];
+        if (k > 1) {
+            numerator = (poly(vector<mint>(initial.begin(), initial.begin() + k)) * denominator).cut(k);
+        }
+    }
+
+    mint count(ll n) const {
+        assert(n >= 0);
+        if (n < (ll)initial.size()) return initial[n];
+        if (denominator.size() == 0) return mint(0);
+        if (denominator.size() == 2) return initial[0] * (-denominator[1]).pow(n);
+        return nth_term(numerator, denominator, n);
+    }
+};
 
 #endif
 

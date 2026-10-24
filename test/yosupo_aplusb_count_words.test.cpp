@@ -65,10 +65,13 @@ void self_check() {
     DFA<2> only_b{{{-1, 0}}, {true}, 0};
     auto either = unite(only_a, only_b);
     auto neither = complement(either);
+    const DFAWordCounter<2> either_counter(either), neither_counter(neither);
     for (ll n : {0LL, 1LL, 2LL, 8LL, 97LL, 1000000000000000000LL, largest}) {
         mint expected = n == 0 ? mint(1) : mint(2);
         assert(count_words(either, n) == expected);
         assert(count_words(neither, n) == mint(2).pow(n) - expected);
+        assert(either_counter.count(n) == expected);
+        assert(neither_counter.count(n) == mint(2).pow(n) - expected);
         assert(count_words(minimize(either), n) == expected);
         assert(count_words(minimize(neither), n) == mint(2).pow(n) - expected);
     }
@@ -80,31 +83,57 @@ void self_check() {
             for (int& to : a.next[v]) to = int(rng() % (s + 1)) - 1;
         }
         auto expected = direct(a, 97);
-        for (int n : {0, 1, 2 * s - 1, 2 * s, 2 * s + 1, 97}) {
+        const DFAWordCounter<3> counter(a);
+        vector<int> lengths{0, 1, 2 * s - 1, 2 * s, 2 * s + 1, 97};
+        shuffle(lengths.begin(), lengths.end(), rng);
+        for (int n : lengths) {
             assert(count_words(a, n) == expected[n]);
+            assert(counter.count(n) == expected[n]);
         }
         ll n = tc % 7 == 0 ? largest : 1000000000000000000LL - rng();
-        assert(count_words(a, n) == dense(a, n));
+        mint large_expected = dense(a, n);
+        assert(count_words(a, n) == large_expected);
+        assert(counter.count(n) == large_expected);
+        a = DFA<3>{};
+        assert(counter.count(n) == large_expected);
+        for (int length : lengths) assert(counter.count(length) == expected[length]);
     }
     assert(count_words(DFA<2>{}, 0) == mint(0));
     assert(count_words(DFA<2>{}, largest) == mint(0));
+    const DFAWordCounter<2> empty_counter(DFA<2>{});
+    assert(empty_counter.count(0) == mint(0));
+    assert(empty_counter.count(largest) == mint(0));
     DFA<2> empty_only{vector<array<int, 2>>(1), {true}, 0};
     empty_only.next[0].fill(-1);
     assert(count_words(empty_only, 0) == mint(1));
     assert(count_words(empty_only, 1) == mint(0));
     assert(count_words(empty_only, largest) == mint(0));
+    const DFAWordCounter<2> empty_only_counter(empty_only);
+    assert(empty_only_counter.count(0) == mint(1));
+    assert(empty_only_counter.count(1) == mint(0));
+    assert(empty_only_counter.count(largest) == mint(0));
     DFA<2> chain{vector<array<int, 2>>(64), vector<char>(64), 0};
     chain.accept.back() = true;
     for (int v = 0; v < 64; ++v) chain.next[v].fill(v == 63 ? -1 : v + 1);
+    const DFAWordCounter<2> chain_counter(chain);
     for (ll n : {0LL, 62LL, 63LL, 64LL, 127LL, 128LL, largest}) {
         assert(count_words(chain, n) == (n == 63 ? mint(2).pow(63) : mint(0)));
+        assert(chain_counter.count(n) == (n == 63 ? mint(2).pow(63) : mint(0)));
     }
+    const DFAWordCounter<10> all_counter(required_digits(0));
     for (ll n : {0LL, 1LL, 2LL, 97LL, largest}) {
         assert(count_words(required_digits(0), n) == mint(10).pow(n));
+        assert(all_counter.count(n) == mint(10).pow(n));
     }
     auto reject = required_digits(0);
     reject.accept[0] = false;
     assert(count_words(reject, largest) == mint(0));
+    const DFAWordCounter<10> reject_counter(reject);
+    assert(reject_counter.count(0) == mint(0));
+    assert(reject_counter.count(largest) == mint(0));
+    DFA<2> unreachable{{{0, 0}, {1, 1}}, {false, true}, 0};
+    const DFAWordCounter<2> zero_counter(unreachable);
+    for (ll n : {0LL, 1LL, 3LL, 4LL, largest}) assert(zero_counter.count(n) == mint(0));
     for (int tc = 0; tc < 100; ++tc) {
         int s = 20 + rng() % 80;
         DFA<32> a{vector<array<int, 32>>(s), vector<char>(s), int(rng() % s)};
@@ -113,13 +142,21 @@ void self_check() {
             for (int& to : a.next[v]) to = rng() % 5 == 0 ? -1 : int(rng() % s);
         }
         auto expected = direct(a, 2 * s + 10);
-        for (int n : {1, 2, s, 2 * s + 10}) assert(count_words(a, n) == expected[n]);
+        const DFAWordCounter<32> counter(a);
+        for (int n : {1, 2, s, 2 * s + 10}) {
+            assert(count_words(a, n) == expected[n]);
+            assert(counter.count(n) == expected[n]);
+        }
     }
     DFA<2> wide{vector<array<int, 2>>(511), vector<char>(511, true), 0};
     for (int v = 0; v < 511; ++v) {
         wide.next[v] = {v < 255 ? 2 * v + 1 : 0, v < 255 ? 2 * v + 2 : 0};
     }
-    for (int n : {7, 8, 9, 15, 16, 17, 1022, 1023}) assert(count_words(wide, n) == mint(2).pow(n));
+    const DFAWordCounter<2> wide_counter(wide);
+    for (int n : {7, 8, 9, 15, 16, 17, 1022, 1023}) {
+        assert(count_words(wide, n) == mint(2).pow(n));
+        assert(wide_counter.count(n) == mint(2).pow(n));
+    }
     auto compact = minimize(digit_value_mod(100));
     for (ll n : {1LL, 2LL, 3LL, 100LL, largest}) {
         mint expected = n < 2 ? mint(1) : mint(10).pow(n - 2);
