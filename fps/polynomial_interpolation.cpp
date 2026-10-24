@@ -13,9 +13,7 @@ poly polynomial_interpolation(const vector<mint> &xs, const vector<mint> &ys) {
     for (int i = sz - 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];
 
     poly derivative = prod[1].diff();
-    vector<mint> w = 1LL * derivative.size() * n <= 4096
-        ? derivative.multipoint_eval(xs)
-        : multipoint_evaluation_detail::evaluate(derivative, prod, n);
+    vector<mint> w = multipoint_evaluation_detail::evaluate(derivative, prod, xs);
     vector<mint> prefix(n + 1, mint(1));
     for (int i = 0; i < n; ++i) prefix[i + 1] = prefix[i] * w[i];
     mint inverse = prefix[n].inv();

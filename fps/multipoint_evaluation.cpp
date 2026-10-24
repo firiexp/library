@@ -1,18 +1,29 @@
 #include "../math/ntt.cpp"
 
 namespace multipoint_evaluation_detail {
-vector<mint> evaluate(const poly &f, const vector<poly> &prod, int m) {
+bool use_horner(int coefficients, int points) {
+    return coefficients <= 16 || points <= 16 || 1LL * coefficients * points <= 4096;
+}
+
+vector<mint> evaluate(const poly &f, const vector<poly> &prod, const vector<mint> &xs) {
     int n = (int)prod.size() / 2;
+    int m = (int)xs.size();
     vector<mint> ys(m);
-    auto visit = [&](auto &&self, int i, const poly &rem) -> void {
-        if (i >= n) {
-            if (i - n < m) ys[i - n] = rem.v.empty() ? mint(0) : rem[0];
+    if (use_horner(f.size(), m)) {
+        for (int i = 0; i < m; ++i) ys[i] = f.eval(xs[i]);
+        return ys;
+    }
+    auto visit = [&](auto &&self, int i, int l, int r, const poly &rem) -> void {
+        if (l >= m) return;
+        if (rem.size() <= 16 || r - l <= 16) {
+            for (int j = l; j < min(r, m); ++j) ys[j] = rem.eval(xs[j]);
             return;
         }
-        self(self, i << 1, rem.mod(prod[i << 1]));
-        self(self, i << 1 | 1, rem.mod(prod[i << 1 | 1]));
+        int mid = (l + r) / 2;
+        self(self, i << 1, l, mid, rem.mod(prod[i << 1]));
+        if (mid < m) self(self, i << 1 | 1, mid, r, rem.mod(prod[i << 1 | 1]));
     };
-    visit(visit, 1, f.mod(prod[1]));
+    visit(visit, 1, 0, n, f.mod(prod[1]));
     return ys;
 }
 }
@@ -21,7 +32,7 @@ vector<mint> poly::multipoint_eval(const vector<mint> &xs) const {
     int m = (int)xs.size();
     if (m == 0) return {};
     if (size() == 0) return vector<mint>(m, mint(0));
-    if (1LL * size() * m <= 4096) {
+    if (multipoint_evaluation_detail::use_horner(size(), m)) {
         vector<mint> ys(m);
         for (int i = 0; i < m; ++i) ys[i] = eval(xs[i]);
         return ys;
@@ -33,7 +44,7 @@ vector<mint> poly::multipoint_eval(const vector<mint> &xs) const {
     for (int i = m; i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});
     for (int i = n - 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];
 
-    return multipoint_evaluation_detail::evaluate(*this, prod, m);
+    return multipoint_evaluation_detail::evaluate(*this, prod, xs);
 }
 
 /**
