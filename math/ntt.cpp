@@ -190,15 +190,14 @@ bool mod_sqrt(mint a, mint &x) {
         x = a.pow((ntt_mod + 1) >> 2);
         return true;
     }
-    int s = 0;
-    int q = ntt_mod - 1;
-    while ((q & 1) == 0) {
-        ++s;
-        q >>= 1;
-    }
-    mint z = 2;
-    while (z.pow((ntt_mod - 1) >> 1) == mint(1)) ++z;
-    mint c = z.pow(q);
+    constexpr int s = __builtin_ctz(ntt_mod - 1);
+    constexpr int q = (ntt_mod - 1) >> s;
+    static const mint initial_c = []() {
+        mint z = 2;
+        while (z.pow((ntt_mod - 1) >> 1) == mint(1)) ++z;
+        return z.pow(q);
+    }();
+    mint c = initial_c;
     mint t = a.pow(q);
     mint r = a.pow((q + 1) >> 1);
     int m = s;

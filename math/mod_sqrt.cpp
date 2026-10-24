@@ -15,18 +15,26 @@ long long mod_sqrt(long long a, long long p) {
     if (mod_pow(a, (p - 1) >> 1, p) != 1) return -1;
     if (p % 4 == 3) return mod_pow(a, (p + 1) >> 2, p);
 
-    long long q = p - 1;
-    int s = 0;
-    while ((q & 1) == 0) {
-        ++s;
-        q >>= 1;
+    struct Parameters {
+        long long p = 0, q = 0, c = 0;
+        int s = 0;
+    };
+    static thread_local Parameters cache;
+    if (cache.p != p) {
+        long long q = p - 1;
+        int s = 0;
+        while ((q & 1) == 0) {
+            ++s;
+            q >>= 1;
+        }
+        long long z = 2;
+        while (mod_pow(z, (p - 1) >> 1, p) == 1) ++z;
+        cache = {p, q, mod_pow(z, q, p), s};
     }
-    long long z = 2;
-    while (mod_pow(z, (p - 1) >> 1, p) == 1) ++z;
-    long long c = mod_pow(z, q, p);
+    long long q = cache.q, c = cache.c;
     long long t = mod_pow(a, q, p);
     long long r = mod_pow(a, (q + 1) >> 1, p);
-    int m = s;
+    int m = cache.s;
     while (t != 1) {
         int i = 1;
         long long tt = (unsigned long long)t * t % p;
