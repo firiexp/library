@@ -13,10 +13,18 @@ tags: FPS
 ## できること
 - `vector<mint> poly::multipoint_eval(const vector<mint>& xs) const`
   各 `xs[i]` における値を順に返す。多項式の係数数と評価点数の最大値を $N$ として $O(N\log^2 N)$
+- `MultipointEvaluator evaluator(xs)`
+  点列から、積の木を構築する。点数を $M$ として $O(M\log^2 M)$ 時間、保持領域 $O(M\log M)$
+- `vector<mint> evaluator.eval(const poly& f) const`
+  構築時の xs で評価する。時間は単発の評価と同じ
+- `poly evaluator.interpolate(const vector<mint>& ys)`
+  構築時の点列と `ys` から補間する。点は相異なり、`ys.size()` は点数と等しいことが必要。
 
 ## 使い方
 `#include "../fps/multipoint_evaluation.cpp"` を読み込む。
 `poly f` を作り、`f.multipoint_eval(xs)` を呼ぶ。
+同じ点を何度も使う場合は `MultipointEvaluator evaluator(xs)` を1回作り、`evaluator.eval(f)` を繰り返す。
+元の `xs` や多項式を後から変更しても、評価点と以前の返却値は変わらない。
 
 ## 実装上の補足
 内部で subproduct tree と多項式剰余を使う。

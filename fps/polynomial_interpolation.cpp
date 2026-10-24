@@ -1,38 +1,43 @@
+#ifndef FIRIEXP_LIBRARY_FPS_POLYNOMIAL_INTERPOLATION_CPP
+#define FIRIEXP_LIBRARY_FPS_POLYNOMIAL_INTERPOLATION_CPP
+
 #include "multipoint_evaluation.cpp"
 
-poly polynomial_interpolation(const vector<mint> &xs, const vector<mint> &ys) {
-    int n = (int)xs.size();
-    assert(n == (int)ys.size());
-    if (n == 0) return poly();
-    if (n == 1) return poly(vector<mint>{ys[0]});
-    int sz = 1;
-    while (sz < n) sz <<= 1;
-    vector<poly> prod(2 * sz);
-    for (int i = 0; i < n; ++i) prod[sz + i] = poly(vector<mint>{-xs[i], mint(1)});
-    for (int i = n; i < sz; ++i) prod[sz + i] = poly(vector<mint>{mint(1)});
-    for (int i = sz - 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];
-
-    poly derivative = prod[1].diff();
-    vector<mint> w = multipoint_evaluation_detail::evaluate(derivative, prod, xs);
-    vector<mint> prefix(n + 1, mint(1));
-    for (int i = 0; i < n; ++i) prefix[i + 1] = prefix[i] * w[i];
-    mint inverse = prefix[n].inv();
-    for (int i = n - 1; i >= 0; --i) {
-        mint next = inverse * w[i];
-        w[i] = ys[i] * prefix[i] * inverse;
-        inverse = next;
+poly MultipointEvaluator::interpolate(const vector<mint> &ys) {
+    int m = (int)xs.size();
+    assert(m == (int)ys.size());
+    if (m == 0) return poly();
+    if (m == 1) return poly(vector<mint>{ys[0]});
+    if (inverse_weights.empty()) {
+        vector<mint> w = eval(prod[1].diff());
+        vector<mint> prefix(m + 1, mint(1));
+        for (int i = 0; i < m; ++i) prefix[i + 1] = prefix[i] * w[i];
+        assert(prefix[m] != mint(0));
+        mint inverse = prefix[m].inv();
+        inverse_weights.resize(m);
+        for (int i = m - 1; i >= 0; --i) {
+            inverse_weights[i] = prefix[i] * inverse;
+            inverse *= w[i];
+        }
     }
     auto interpolate = [&](auto &&self, int i) -> poly {
-        if (i >= sz) return i - sz < n ? poly(vector<mint>{w[i - sz]}) : poly();
+        if (i >= n) return i - n < m
+            ? poly(vector<mint>{ys[i - n] * inverse_weights[i - n]}) : poly();
         poly left = self(self, i << 1);
         poly right = self(self, i << 1 | 1);
         return left * prod[i << 1 | 1] + right * prod[i << 1];
     };
     poly result = interpolate(interpolate, 1);
     result.shrink();
-    if (result.size() < n) result.v.resize(n);
+    if (result.size() < m) result.v.resize(m);
     return result;
 }
+
+poly polynomial_interpolation(const vector<mint> &xs, const vector<mint> &ys) {
+    return MultipointEvaluator(xs).interpolate(ys);
+}
+
+#endif
 
 /**
  * @brief 多項式補間(Polynomial Interpolation)

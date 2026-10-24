@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_FPS_MULTIPOINT_EVALUATION_CPP
+#define FIRIEXP_LIBRARY_FPS_MULTIPOINT_EVALUATION_CPP
+
 #include "../math/ntt.cpp"
 
 namespace multipoint_evaluation_detail {
@@ -28,6 +31,28 @@ vector<mint> evaluate(const poly &f, const vector<poly> &prod, const vector<mint
 }
 }
 
+class MultipointEvaluator {
+    vector<mint> xs, inverse_weights;
+    vector<poly> prod;
+    int n = 1;
+
+public:
+    explicit MultipointEvaluator(const vector<mint> &points) : xs(points) {
+        int m = (int)xs.size();
+        while (n < m) n <<= 1;
+        prod.resize(2 * n);
+        for (int i = 0; i < m; ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});
+        for (int i = m; i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});
+        for (int i = n - 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];
+    }
+
+    vector<mint> eval(const poly &f) const {
+        return multipoint_evaluation_detail::evaluate(f, prod, xs);
+    }
+
+    poly interpolate(const vector<mint> &ys);
+};
+
 vector<mint> poly::multipoint_eval(const vector<mint> &xs) const {
     int m = (int)xs.size();
     if (m == 0) return {};
@@ -37,15 +62,10 @@ vector<mint> poly::multipoint_eval(const vector<mint> &xs) const {
         for (int i = 0; i < m; ++i) ys[i] = eval(xs[i]);
         return ys;
     }
-    int n = 1;
-    while (n < m) n <<= 1;
-    vector<poly> prod(2 * n);
-    for (int i = 0; i < m; ++i) prod[n + i] = poly(vector<mint>{-xs[i], mint(1)});
-    for (int i = m; i < n; ++i) prod[n + i] = poly(vector<mint>{mint(1)});
-    for (int i = n - 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];
-
-    return multipoint_evaluation_detail::evaluate(*this, prod, xs);
+    return MultipointEvaluator(xs).eval(*this);
 }
+
+#endif
 
 /**
  * @brief 多点評価(Multipoint Evaluation)
