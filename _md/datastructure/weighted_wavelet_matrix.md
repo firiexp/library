@@ -77,6 +77,7 @@ auto kth = a.empty() ? b.value() : a.value();
 
 ## 実装上の補足
 - 値は内部で座標圧縮して扱う。
+- 整数値の座標圧縮は、全同値なら $O(N)$、1024要素以下なら比較ソートで $O(N\log N)$。それ以外は値域に必要な桁だけ radix sort する。圧縮後の構築は $O(N\log\max(2,\sigma))$。空配列にも対応する。
 - 圧縮済みで使うときは `count_sum_less_index` を使うと query 側の二分探索を省ける。
 - 個数だけが必要なときは `count_less` / `count_less_equal` / `count_less_index` を使うと重み和の読み出しを省ける。
 - x86-64 では実行時に対応を確認し、POPCNT / BMI2 を使う。非対応 CPU では通常実装へ切り替わる。

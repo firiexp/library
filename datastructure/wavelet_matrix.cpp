@@ -217,6 +217,13 @@ struct WaveletMatrix {
         }
     }
 
+    void compress_small_integral(const vector<T> &v, vector<int> &cur) {
+        if (all_of(v.begin(), v.end(), [&](T x) { return x == v[0]; })) {
+            vals.assign(1, v[0]);
+            fill(cur.begin(), cur.end(), 0);
+        } else compress_generic(v, cur);
+    }
+
     void compress_integral(const vector<T> &v, vector<int> &cur) {
         using Key = typename make_unsigned<T>::type;
         vector<Key> keys(n);
@@ -248,7 +255,7 @@ struct WaveletMatrix {
             passes = normalized_passes;
         }
 
-        vector<int> cnt(bucket_count);
+        vector<int> cnt(passes ? bucket_count : 0);
         for (int pass = 0; pass < passes; ++pass) {
             fill(cnt.begin(), cnt.end(), 0);
             int shift = pass * B;
@@ -282,7 +289,10 @@ struct WaveletMatrix {
     }
 
     void compress_values(const vector<T> &v, vector<int> &cur) {
-        if constexpr (is_integral<T>::value && sizeof(T) <= 8) compress_integral(v, cur);
+        if constexpr (is_integral<T>::value && sizeof(T) <= 8) {
+            if (n <= 1024) compress_small_integral(v, cur);
+            else compress_integral(v, cur);
+        }
         else compress_generic(v, cur);
     }
 
