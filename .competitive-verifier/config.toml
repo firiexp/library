@@ -3,4 +3,4 @@ read_macros = true
 
 [[languages.cpp.environments]]
 CXX = "g++"
-CXXFLAGS = ["-std=c++17", "-O2", "-Wall", "-g"]
+CXXFLAGS = ["-std=c++17", "-O2", "-Wall", "-g", "-DLOCAL", "-UNDEBUG"]

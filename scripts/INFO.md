@@ -14,6 +14,8 @@ python3 scripts/run_verify.py -j 8 test/yosupo_unionfind.test.cpp
 
 `-j` は test file の同時実行数で、既定値は8。各 test のケースは逐次実行する。stack size はスクリプト内で上限まで引き上げる。成功済みでソース・依存・設定・コンパイラ・testcase が変わっていない test は hash 判定で再実行を省く。`--force` で強制実行できる。
 
+通常の verify と CI は `-DLOCAL -UNDEBUG` を指定し、ライブラリ内・自己テスト内の `assert` を有効にする。提出用テンプレートは `-DLOCAL` があるときだけ `assert` を有効にする。
+
 ```bash
 python3 scripts/run_verify.py --list
 python3 scripts/run_verify.py --no-download test/yosupo_unionfind.test.cpp
@@ -47,13 +49,15 @@ python3 scripts/codex_self_check.py --full
 
 ```bash
 python3 scripts/measure_verify.py test/yosupo_unionfind.test.cpp
-python3 scripts/measure_verify.py --no-download test/yosupo_aplusb_binarytrie.test.cpp
+python3 scripts/measure_verify.py --no-download test/yosupo_predecessor_problem_fast_set.test.cpp
 python3 -m http.server -d .competitive-verifier 8000
 ```
 
 計測は成功済みの test も必ず再実行する。比較用の既定は `-j 1 --compile-jobs 1` で、ケースも逐次実行する。`-j` を増やした計測値は他のテストの負荷を受ける。
 
-ダッシュボードは competitive-verifier の結果 JSON から各ケースの時間・メモリ・成否を読み取る。単独テストは `standalone` 1ケースとして表示し、コンパイル時間と実行時間を分けて記録する。失敗時はコマンドも非ゼロで終了する。
+計測対象は `PROBLEM` を指定したテストで、`-ULOCAL -DNDEBUG` を追加して `assert` を無効にする。デバッグ用 verify とは実行ファイルと実行環境の記録を分ける。自己テスト（`STANDALONE`）は条件式内の処理まで消えることを防ぐため計測から除外し、明示指定した場合も skip を表示する。自己テストの確認には `run_verify.py` を使う。
+
+ダッシュボードは competitive-verifier の結果 JSON から各ケースの時間・メモリ・成否を読み取る。コンパイル時間と実行時間を分けて記録する。失敗時はコマンドも非ゼロで終了する。
 
 生成先は以下の4ファイルである。
 

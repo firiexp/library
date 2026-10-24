@@ -14,7 +14,24 @@ import verification_impl as verifier
 from run_verify_impl import shard_paths
 from competitive_verifier.verify.verifier import content_hash
 from competitive_verifier.models import VerificationInput
+from competitive_verifier.models.problem import TestCaseData
+from competitive_verifier.oj import problem_from_url
+from competitive_verifier.oj.problem import save_testcases
 from generate_verify_dashboard_impl import parse_verification_result
+
+
+class TemplateAssertionTest(unittest.TestCase):
+    def test_local_controls_assertions(self):
+        template = verifier.ROOT / 'snippets/template.cpp'
+        with tempfile.TemporaryDirectory(prefix='library-template-test-') as temporary:
+            source = pathlib.Path(temporary) / 'main.cpp'
+            executable = pathlib.Path(temporary) / 'main'
+            source.write_text(f'#define main template_main\n#include "{template}"\n#undef main\n'
+                              'int main() { int calls = 0; assert(++calls); return calls; }\n')
+            for flags, expected in [([], 0), (['-DLOCAL'], 1), (['-DNDEBUG'], 0), (['-DLOCAL', '-DNDEBUG'], 1)]:
+                with self.subTest(flags=flags):
+                    subprocess.run(['g++', '-std=c++17', '-O2', *flags, str(source), '-o', str(executable)], check=True)
+                    self.assertEqual(subprocess.run([str(executable)]).returncode, expected)
 
 
 class VerifierIntegrationTest(unittest.TestCase):
@@ -167,9 +184,12 @@ class VerifierIntegrationTest(unittest.TestCase):
 
     def test_measurement_exits_nonzero_for_failed_test_and_compilation(self):
         import generate_verify_dashboard_impl as dashboard
+        self.addCleanup(dashboard.get_environment_info.cache_clear)
+        url = 'https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ITP1_1_A'
+        save_testcases([TestCaseData('sample', b'', b'Hello World\n')], directory=problem_from_url(url).test_directory)
         for source, phase in [('int main() { return 1; }', 'done'), ('int main() { invalid; }', 'error')]:
             with self.subTest(phase=phase):
-                (self.root / 'test/a.test.cpp').write_text('#define STANDALONE\n' + source + '\n')
+                (self.root / 'test/a.test.cpp').write_text(f'#define PROBLEM "{url}"\n' + source + '\n')
                 argv = ['measure', '--no-download', '--keep-going', '--json', str(self.state / 'report.json'),
                         '--html', str(self.state / 'report.html'), 'test/a.test.cpp']
                 with patch.object(dashboard, 'ROOT', self.root), patch.object(dashboard, 'STATE', self.state), patch.object(sys, 'argv', argv):
@@ -177,7 +197,56 @@ class VerifierIntegrationTest(unittest.TestCase):
                 report = verifier.read_json(self.state / 'report.json')
                 self.assertEqual(report['tests'][0]['phase'], phase)
                 self.assertFalse(report['tests'][0]['run']['ok'])
-        dashboard.get_environment_info.cache_clear()
+
+    def test_measurement_disables_assertions_and_skips_standalone(self):
+        import generate_verify_dashboard_impl as dashboard
+        self.addCleanup(dashboard.get_environment_info.cache_clear)
+        url = 'https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ITP1_1_A'
+        save_testcases([TestCaseData('sample', b'', b'Hello World\n')], directory=problem_from_url(url).test_directory)
+        (self.root / 'test/a.test.cpp').write_text(
+            f'#define PROBLEM "{url}"\n#include <cassert>\n#include <cstdio>\n'
+            '#ifdef LOCAL\n#error LOCAL must be disabled for measurement\n#endif\n'
+            'int main() { assert(false); puts("Hello World"); }\n')
+        (self.root / 'test/b.test.cpp').write_text('#define STANDALONE\nint main() { invalid; }\n')
+        argv = ['measure', '--no-download', '--json', str(self.state / 'report.json'), '--html', str(self.state / 'report.html'),
+                'test/a.test.cpp', 'test/b.test.cpp']
+        with patch.object(dashboard, 'ROOT', self.root), patch.object(dashboard, 'STATE', self.state), patch.object(sys, 'argv', argv):
+            self.assertEqual(dashboard.main(), 0)
+            self.assertEqual(dashboard.list_test_paths([]), [self.root / 'test/a.test.cpp'])
+        report = verifier.read_json(self.state / 'report.json')
+        self.assertEqual(len(report['tests']), 1)
+        self.assertTrue(report['tests'][0]['run']['ok'])
+        self.assertEqual(report['tests'][0]['run']['parsed']['passedCaseCount'], 1)
+        self.assertEqual(report['inventory']['currentTestCount'], 1)
+
+    def test_release_dependencies_and_debug_cache_remain_separate(self):
+        (self.root / 'test/debug.cpp').write_text('constexpr int expected = 1;\n')
+        (self.root / 'test/release.cpp').write_text('constexpr int expected = 0;\n')
+        (self.root / 'test/a.test.cpp').write_text(
+            '#define STANDALONE\n#include <cassert>\n#ifdef LOCAL\n#include "debug.cpp"\n'
+            '#else\n#include "release.cpp"\n#endif\n'
+            'int main() { int calls = 0; assert(++calls); return calls != expected; }\n')
+        debug = verifier.resolve(jobs=2)
+        output = self.state / 'result.json'
+        self.assertEqual(verifier.verify(debug, output=output, jobs=2, no_download=True), 0)
+        debug_runtime = (self.state / 'runtime.json').read_text()
+        release = verifier.resolve(jobs=2, release=True)
+        self.assertEqual((self.state / 'runtime.json').read_text(), debug_runtime)
+        debug_file = debug['files']['test/a.test.cpp']
+        release_file = release['files']['test/a.test.cpp']
+        self.assertIn('test/debug.cpp', debug_file['dependencies'])
+        self.assertNotIn('test/release.cpp', debug_file['dependencies'])
+        self.assertIn('test/release.cpp', release_file['dependencies'])
+        self.assertNotIn('test/debug.cpp', release_file['dependencies'])
+        self.assertNotEqual(debug_file['verification'][0]['command'], release_file['verification'][0]['command'])
+        release_model = VerificationInput.model_validate(release)
+        self.assertNotEqual(verifier.read_json(output)['files']['test/a.test.cpp']['content_hash'],
+                            content_hash(release_model.transitive_depends_on[pathlib.Path('test/a.test.cpp')]))
+        self.assertEqual(verifier.verify(release, output=self.state / 'release-result.json', jobs=2, no_download=True), 0)
+        with patch.object(verifier, 'command') as download, patch.object(verifier.subprocess, 'run') as run:
+            self.assertEqual(verifier.verify(debug, output=output, previous=output, jobs=2), 0)
+            download.assert_not_called()
+            run.assert_not_called()
 
     def test_standalone_timeout(self):
         completed = subprocess.run(['python3', '.scripts/verify_command_impl.py', 'run', str(self.state / 'timeout'), '0.05',

@@ -1,5 +1,10 @@
 // My library: https://firiexp.github.io/library/
 // template with fastio: https://firiexp.github.io/library/snippets/template.cpp
+#ifdef LOCAL
+#undef NDEBUG
+#elif !defined(NDEBUG)
+#define NDEBUG
+#endif
 #include <bits/stdc++.h>
 using namespace std;
 static const int MOD = 998244353;

@@ -10,6 +10,7 @@ import json
 import os
 import pathlib
 import platform
+import re
 import subprocess
 import sys
 import tempfile
@@ -29,6 +30,7 @@ DEFAULT_DOCS_STATIC_JSON_PATH = DEFAULT_DOCS_STATIC_DIR / DEFAULT_JSON_PATH.name
 DEFAULT_DOCS_STATIC_HTML_PATH = DEFAULT_DOCS_STATIC_DIR / DEFAULT_HTML_PATH.name
 DASHBOARD_ASSET_DIR = ROOT / "scripts" / "measure_dashboard_assets"
 DEFAULT_WORKERS = 1
+PROBLEM_DEFINE_RE = re.compile(r'^\s*#\s*define\s+PROBLEM\b', re.MULTILINE)
 SORT_COLUMNS = [
     {"key": "path", "label": "test", "defaultDirection": "asc", "numeric": False},
     {"key": "status", "label": "status", "defaultDirection": "asc", "numeric": False},
@@ -41,13 +43,13 @@ SORT_COLUMNS = [
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Measure verification tests, update json incrementally, and generate a browser dashboard.",
+        description="Measure PROBLEM tests with assertions disabled and generate a browser dashboard; skip STANDALONE tests.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "paths",
         nargs="*",
-        help="verification test paths; if omitted, scan test/*.test.cpp",
+        help="PROBLEM test paths; if omitted, scan test/*.test.cpp for PROBLEM definitions",
     )
     parser.add_argument(
         "--json",
@@ -99,7 +101,7 @@ def parse_args() -> argparse.Namespace:
 def list_test_paths(paths: list[str]) -> list[pathlib.Path]:
     if paths:
         return [ROOT / pathlib.Path(path) for path in paths]
-    return sorted((ROOT / "test").glob("*.test.cpp"))
+    return sorted(path for path in (ROOT / "test").glob("*.test.cpp") if PROBLEM_DEFINE_RE.search(path.read_text()))
 
 
 def relative_test_path(path: pathlib.Path) -> str:
@@ -415,7 +417,21 @@ def main() -> int:
     tests = list_test_paths(args.paths)
     global _resolved
     unlimited_stack()
-    _resolved = resolve(min(8, max(1, os.cpu_count() or 1)), tle=args.tle)
+    _resolved = resolve(min(8, max(1, os.cpu_count() or 1)), tle=args.tle, release=True)
+    problem_tests = []
+    for path in tests:
+        relative_path = relative_test_path(path)
+        verifications = _resolved["files"].get(relative_path, {}).get("verification", [])
+        if not verifications:
+            raise ValueError(f"unknown test path: {relative_path}")
+        if verifications[0]["type"] == "command":
+            print(f"skip {relative_path}: STANDALONE requires assertions; use scripts/run_verify.py")
+        else:
+            problem_tests.append(path)
+    tests = problem_tests
+    if not tests:
+        print("no PROBLEM tests selected")
+        return 0
     if not args.no_download:
         with tempfile.TemporaryDirectory(prefix="measure-download-", dir=STATE) as temporary:
             input_path = pathlib.Path(temporary) / "input.json"

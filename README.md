@@ -9,6 +9,15 @@
 
 標準ライブラリ、`ll` / `uint` / `ull`、`INF<T>` などの共通定義は利用側で用意する。標準の構成は `snippets/template.cpp` を参照する。
 
+テンプレートは通常、全ヘッダーの前で `NDEBUG` を定義して `assert` を無効にする。手元のデバッグではコンパイル時に `-DLOCAL` を付けると有効になる。`LOCAL` はソースに定義せず、提出前の動作確認・性能計測では付けない。テンプレートを使わない場合は、提出コードの全ヘッダーの前に `#define NDEBUG` を置く。
+
+```bash
+g++ -std=c++17 -O2 -DLOCAL main.cpp -o main-debug
+g++ -std=c++17 -O2 main.cpp -o main
+```
+
+`assert` の条件式は無効時には評価されないため、必要な更新処理を入れない。
+
 ```cpp
 #include "datastructure/unionfind.cpp"
 ```
@@ -27,6 +36,8 @@ python3 -m pip install -r requirements-dev.txt
 
 ライブラリの正しさは `competitive-verifier` で確認する。`codex_self_check.py` は docs 同期や repository policy を確認する高速な補助ツールであり、judge verify とは役割が異なる。
 
+通常の verify と CI は `-DLOCAL -UNDEBUG` でコンパイルし、ライブラリ内と自己テスト内の `assert` を有効にする。
+
 ```bash
 python3 scripts/codex_self_check.py
 python3 scripts/verify_changed.py --list
@@ -43,14 +54,14 @@ CI と `run_verify.py` は、テスト本体・間接 include・検証設定・�
 
 ## 性能計測
 
-指定したverifyを実行し、measurement dashboardを更新する。
+指定した問題用の verify を `assert` 無効で実行し、measurement dashboard を更新する。計測では `-ULOCAL -DNDEBUG` を追加する。自己テスト（`STANDALONE`）は計測対象から除外し、通常の verify で確認する。
 
 ```bash
 python3 scripts/measure_verify.py test/yosupo_unionfind.test.cpp
 python3 -m http.server -d .competitive-verifier 8000
 ```
 
-ダッシュボードは現在のテスト数と計測済み件数を分けて表示する。部分計測後に未計測のテストがあっても、過去の結果は保持する。
+ダッシュボードは現在の問題用テスト数と計測済み件数を分けて表示する。部分計測後に未計測のテストがあっても、過去の結果は保持する。以前の assert 有効時の結果も残るため、比較するテストは再計測する。
 
 ローカルのtestcase cacheは自動削除しない。容量を確認して古い項目を整理するには次を使う。既定はdry-run。
 

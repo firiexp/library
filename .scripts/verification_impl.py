@@ -48,9 +48,15 @@ def unlimited_stack():
     resource.setrlimit(resource.RLIMIT_STACK, (hard, hard))
 
 
-def resolve(jobs=8, *, bundle=False, tle=60.0):
+def resolve(jobs=8, *, bundle=False, tle=60.0, release=False):
     with CONFIG.open('rb') as stream:
-        language = VerificationConfig.load(stream).get_dict()['.cpp']
+        config = VerificationConfig.load(stream)
+    if release:
+        for environment in config.languages.cpp.environments:
+            environment.CXXFLAGS = [*environment.CXXFLAGS, '-ULOCAL', '-DNDEBUG']
+    language = config.get_dict()['.cpp']
+    mode = 'release' if release else 'debug'
+    runtime_path = pathlib.Path('.competitive-verifier') / ('runtime-release.json' if release else 'runtime.json')
     paths = sorted(p.relative_to(ROOT) for directory in SOURCE_DIRS for p in (ROOT / directory).rglob('*.cpp'))
 
     def resolve_one(path):
@@ -62,7 +68,7 @@ def resolve(jobs=8, *, bundle=False, tle=60.0):
                 value = verification.model_dump(mode='json', exclude_none=True)
                 if value['type'] not in ('problem', 'command'):
                     raise ValueError(f"unsupported verification: {path}: {value['type']}")
-                directory = pathlib.Path('.competitive-verifier/build') / hashlib.sha256(f'{path}:{environment.name}'.encode()).hexdigest()[:20]
+                directory = pathlib.Path('.competitive-verifier/build') / hashlib.sha256(f'{path}:{environment.name}:{mode}'.encode()).hexdigest()[:20]
                 compiler = environment.get_compile_command(path, basedir=ROOT, tempdir=directory)
                 execute = environment.get_execute_command(path, basedir=ROOT, tempdir=directory)
                 execute = shlex.split(execute) if isinstance(execute, str) else execute
@@ -78,7 +84,7 @@ def resolve(jobs=8, *, bundle=False, tle=60.0):
             raise ValueError(f'expected one verification for {path}, got {len(verifications)}')
         if verifications:
             dependencies.update(VERIFY_INPUTS)
-            dependencies.add('.competitive-verifier/runtime.json')
+            dependencies.add(str(runtime_path))
         sources = []
         if bundle:
             bundled = language.bundle(path, basedir=ROOT)
@@ -92,10 +98,10 @@ def resolve(jobs=8, *, bundle=False, tle=60.0):
 
     compiler = command(['g++', '--version'], capture=True)
     compiler.check_returncode()
-    write_json(STATE / 'runtime.json', {'compiler': compiler.stdout, 'platform': sys.platform, 'tle': float(tle)})
+    write_json(ROOT / runtime_path, {'compiler': compiler.stdout, 'platform': sys.platform, 'tle': float(tle), 'mode': mode})
     with concurrent.futures.ThreadPoolExecutor(max_workers=jobs) as executor:
         files = dict(executor.map(resolve_one, paths))
-    for name in (*VERIFY_INPUTS, '.competitive-verifier/runtime.json'):
+    for name in (*VERIFY_INPUTS, str(runtime_path)):
         files[name] = {'dependencies': [], 'document_attributes': {'DISPLAY': 'never'}}
     result = {'files': files}
     VerificationInput.model_validate(result)

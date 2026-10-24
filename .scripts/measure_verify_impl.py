@@ -15,10 +15,10 @@ DEFAULT_WORKERS = 1
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run self-check and update the live measurement dashboard.",
+        description="Run self-check and measure PROBLEM tests with assertions disabled; skip STANDALONE tests.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("paths", nargs="*", help="verification test paths; omit to run all")
+    parser.add_argument("paths", nargs="*", help="PROBLEM test paths; omit to measure all PROBLEM tests")
     parser.add_argument("-j", "--jobs", type=int, default=DEFAULT_WORKERS, help="number of tests to measure in parallel")
     parser.add_argument("--compile-jobs", type=int, default=1, help="number of compilations to run in parallel")
     parser.add_argument("--tle", type=float, default=60.0, help="testcase time limit")
