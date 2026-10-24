@@ -64,8 +64,18 @@ int brute_contains(const vector<IntPoint> &hull, IntPoint p) {
 void self_check() {
     mt19937 query_rng(282);
     auto check = [&](const vector<IntPoint> &points) {
+        const auto original = points;
         const auto hull = convex_hull(points);
         assert(hull == brute_hull(points));
+        auto ids = convex_hull_indices(points);
+        assert(points == original && ids.size() == hull.size());
+        set<int> seen;
+        for (size_t i = 0; i < ids.size(); ++i) {
+            int id = ids[i];
+            assert(0 <= id && id < int(points.size()) && seen.insert(id).second);
+            assert(points[id] == hull[i]);
+            assert(find(points.begin(), points.end(), hull[i]) - points.begin() == id);
+        }
         vector<IntPoint> queries = points;
         for (size_t i = 0; i < hull.size(); ++i) {
             auto a = hull[i], b = hull[(i + 1) % hull.size()];
@@ -78,6 +88,10 @@ void self_check() {
     check({});
     check({{0, 0}});
     check({{0, 0}, {0, 0}});
+    check({{5, 7}, {5, 7}, {5, 7}, {5, 7}});
+    check({{1, 1}, {0, 0}, {1, 0}, {0, 0}});
+    check({{0, 0}, {0, 6}, {6, 6}, {6, 0}, {0, 0}, {6, 0}});
+    check({{2, 2}, {3, 3}, {0, 0}, {3, 3}, {1, 1}, {0, 0}});
     check({{0, 0}, {6, 0}, {6, 6}, {0, 6}});
     check({{0, 0}, {2, 0}, {0, 2}});
     const vector<IntPoint> square{{0, 0}, {6, 0}, {6, 6}, {0, 6}};

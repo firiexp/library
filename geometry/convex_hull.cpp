@@ -31,6 +31,31 @@ vector<IntPoint> convex_hull(vector<IntPoint> ps) {
     return ch;
 }
 
+vector<int> convex_hull_indices(const vector<IntPoint> &points) {
+    vector<int> ids(points.size());
+    for (int i = 0; i < int(ids.size()); ++i) ids[i] = i;
+    sort(ids.begin(), ids.end(), [&](int a, int b) {
+        return points[a] != points[b] ? points[a] < points[b] : a < b;
+    });
+    ids.erase(unique(ids.begin(), ids.end(), [&](int a, int b) {
+        return points[a] == points[b];
+    }), ids.end());
+    int n = ids.size();
+    if (n <= 2) return ids;
+    vector<int> hull(2 * n);
+    int k = 0;
+    for (int i = 0; i < n; ++i) {
+        while (k >= 2 && cross(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]) <= 0) --k;
+        hull[k++] = ids[i];
+    }
+    for (int i = n - 2, t = k + 1; i >= 0; --i) {
+        while (k >= t && cross(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]) <= 0) --k;
+        hull[k++] = ids[i];
+    }
+    hull.resize(k - 1);
+    return hull;
+}
+
 int contains_convex(const vector<IntPoint> &hull, IntPoint p) {
     int n = hull.size();
     if (n == 0) return 0;
