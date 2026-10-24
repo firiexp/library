@@ -44,6 +44,19 @@ vector<int> wildcard_pattern_matching(const string& text, const string& pattern,
     if (m > n) return {};
     if (m == 0) return vector<int>(n + 1, 1);
     assert((long long)n + m - 1 <= (1 << 21));
+    if (all_of(pattern.begin(), pattern.end(), [&](char c) { return c == wildcard; }))
+        return vector<int>(n - m + 1, 1);
+    if (min(m, n - m + 1) <= 16) {
+        vector<int> result(n - m + 1, 1);
+        for (int i = 0; i <= n - m; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (text[i + j] == wildcard || pattern[j] == wildcard || text[i + j] == pattern[j]) continue;
+                result[i] = 0;
+                break;
+            }
+        }
+        return result;
+    }
     if (n + m - 1 >= 128) {
         vector<int> result(n - m + 1, 1);
         wildcard_pattern_matching_detail::filter_matches(text, pattern, wildcard, BoundedConvolution::internal::ntt1(), result);

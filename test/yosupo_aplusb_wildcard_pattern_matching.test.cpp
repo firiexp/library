@@ -61,6 +61,25 @@ int main() {
             check(s, t);
         }
     }
+    for (int n : {128, 257, 4096}) {
+        for (int small : {15, 16, 17}) for (int m : {small, n - small + 1}) {
+            check(string(n, 'a'), string(m, 'a'));
+            check(string(n, 'a'), string(m - 1, 'a') + 'b');
+            check(string(n, '\0'), string(m, '\xff'), '\xff');
+            check(string(n, '\xff'), string(m, '\0'), '\xff');
+            string text(n, 'a'), pattern(m, 'a');
+            text[n / 2] = pattern[m / 2] = '?';
+            check(text, pattern, '?');
+        }
+    }
+    for (int tc = 0; tc < 2500; ++tc) {
+        int n = rng() % 513, m = rng() % 513;
+        char wildcard = (char)rng();
+        string text(n, '\0'), pattern(m, '\0');
+        for (char& c : text) c = rng() % 4 ? (char)rng() : wildcard;
+        for (char& c : pattern) c = rng() % 4 ? (char)rng() : wildcard;
+        check(text, pattern, wildcard);
+    }
     string s = string(179, 'z') + string(60488, 'g');
     string t = string(179, 'a') + string(60488, 'f');
     assert((wildcard_pattern_matching(s, t) == vector<int>{0}));
