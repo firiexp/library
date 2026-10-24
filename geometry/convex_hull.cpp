@@ -31,6 +31,31 @@ vector<IntPoint> convex_hull(vector<IntPoint> ps) {
     return ch;
 }
 
+int contains_convex(const vector<IntPoint> &hull, IntPoint p) {
+    int n = hull.size();
+    if (n == 0) return 0;
+    if (n == 1) return hull[0] == p ? 1 : 0;
+    auto on_segment = [&](IntPoint a, IntPoint b) {
+        return cross(a, b, p) == 0 &&
+               min(a.x, b.x) <= p.x && p.x <= max(a.x, b.x) &&
+               min(a.y, b.y) <= p.y && p.y <= max(a.y, b.y);
+    };
+    if (n == 2) return on_segment(hull[0], hull[1]) ? 1 : 0;
+    __int128 left = cross(hull[0], hull[1], p);
+    __int128 right = cross(hull[0], hull[n - 1], p);
+    if (left < 0 || right > 0) return 0;
+    if (left == 0) return on_segment(hull[0], hull[1]) ? 1 : 0;
+    if (right == 0) return on_segment(hull[0], hull[n - 1]) ? 1 : 0;
+    int l = 1, r = n - 1;
+    while (r - l > 1) {
+        int m = l + (r - l) / 2;
+        if (cross(hull[0], hull[m], p) >= 0) l = m;
+        else r = m;
+    }
+    __int128 side = cross(hull[l], hull[r], p);
+    return side < 0 ? 0 : side == 0 ? 1 : 2;
+}
+
 #endif
 
 /**
