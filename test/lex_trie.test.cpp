@@ -5,6 +5,67 @@ using namespace std;
 
 #include "../string/lex_trie.cpp"
 
+size_t allocations = 0;
+
+void *operator new(size_t n) {
+    ++allocations;
+    if (void *p = malloc(n ? n : 1)) return p;
+    throw bad_alloc();
+}
+
+void *operator new[](size_t n) { return ::operator new(n); }
+void operator delete(void *p) noexcept { free(p); }
+void operator delete[](void *p) noexcept { free(p); }
+void operator delete(void *p, size_t) noexcept { free(p); }
+void operator delete[](void *p, size_t) noexcept { free(p); }
+
+void reserve_check() {
+    for (int capacity : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 17, 18, 65, 66, 4096, 4097, 4098}) {
+        for (bool constructor : {false, true}) {
+            LexTrie trie(constructor ? capacity : 0);
+            if (!constructor) trie.reserve(capacity);
+            size_t before = allocations;
+            trie.reserve(0);
+            trie.reserve(capacity / 2);
+            trie.reserve(capacity);
+            for (int i = 1; i <= capacity; ++i) assert(trie.append(0, i) == i);
+            assert(trie.size() == capacity + 1);
+            for (int i = 1; i <= capacity; ++i) assert(trie.append(0, i) == i);
+            assert(allocations == before);
+
+            int size = trie.size();
+            assert(trie.append(0, size) == size);
+            int next_capacity = max(16, capacity * 2 + 1);
+            trie.reserve(next_capacity);
+            before = allocations;
+            trie.reserve(capacity);
+            trie.reserve(next_capacity);
+            for (int i = trie.size(); i <= next_capacity; ++i) assert(trie.append(0, i) == i);
+            for (int i = 1; i <= next_capacity; ++i) {
+                assert(trie.append(0, i) == i);
+                assert(trie.length(i) == 1);
+                assert(trie.jump(i, 1) == 0);
+                if (i < next_capacity) {
+                    assert(trie.less(i, i + 1));
+                    assert(trie.lca(i, i + 1) == 0);
+                }
+            }
+            assert(trie.size() == next_capacity + 1);
+            assert(allocations == before);
+        }
+    }
+
+    LexTrie trie(4096);
+    string a(2048, 'a'), b(2048, 'b');
+    size_t before = allocations;
+    int x = trie.insert(a), y = trie.insert(b);
+    assert(trie.size() == 4097);
+    assert(trie.append(trie.insert("a"), string_view(a).substr(1)) == x);
+    assert(trie.insert(b) == y);
+    assert(trie.less(x, y) && trie.lca(x, y) == 0);
+    assert(allocations == before);
+}
+
 void check_pair(const LexTrie& trie, const vector<vector<int>>& words, int a, int b) {
     const auto& x = words[a];
     const auto& y = words[b];
@@ -155,9 +216,38 @@ void deep_check() {
     assert(trie.insert(string(n, '\0')) == chain[n]);
 }
 
+void branched_path_check() {
+    const int n = 50000;
+    LexTrie trie(4 * n);
+    vector<int> a(n + 1), b(n + 1);
+    for (int i = 1; i <= n; ++i) {
+        trie.append(a[i - 1], -1);
+        a[i] = trie.append(a[i - 1], 0);
+        trie.append(b[i - 1], 1);
+        b[i] = trie.append(b[i - 1], 2);
+    }
+    assert(trie.size() == 4 * n + 1);
+    mt19937 rng(48271);
+    for (int i = 0; i < 20000; ++i) {
+        int x = 1 + rng() % n, y = 1 + rng() % n;
+        assert(trie.lca(a[x], b[y]) == 0);
+        assert(trie.lcp(a[x], b[y]) == 0);
+        assert(trie.less(a[x], b[y]));
+        assert(trie.compare(b[y], a[x]) == 1);
+        assert(trie.lca(a[x], a[y]) == a[min(x, y)]);
+        assert(trie.lca(b[x], b[y]) == b[min(x, y)]);
+        assert(trie.less(a[x], a[y]) == (x < y));
+        int k = rng() % (x + 1);
+        assert(trie.jump(a[x], k) == a[x - k]);
+        assert(trie.jump(b[x], k) == b[x - k]);
+    }
+}
+
 int main() {
+    reserve_check();
     exhaustive_check();
     string_check();
     random_check();
     deep_check();
+    branched_path_check();
 }

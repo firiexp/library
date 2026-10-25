@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-25T11:06:29+09:00",
+  "generatedAt": "2026-10-25T11:29:52+09:00",
   "root": ".",
   "testCount": 187,
   "inventory": {
@@ -58,7 +58,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "e8423d9f2beed199f5a251d2c23c203131778a7a",
+    "gitRevision": "a0640090a52c4e9fb3c503a8780a6ef68e5debe1",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -32285,7 +32285,7 @@
           ".competitive-verifier/build/5bf4843c9837438e3cee/a.out",
           "test/yosupo_lca_lex_trie.test.cpp"
         ],
-        "wallSec": 1.129708083999958
+        "wallSec": 1.197286238000288
       },
       "testcases": {
         "directory": null,
@@ -32296,147 +32296,147 @@
           ".competitive-verifier/build/5bf4843c9837438e3cee/a.out"
         ],
         "returnCode": 0,
-        "wallSec": 3.002531140999963,
+        "wallSec": 3.460145890000149,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "almost_line_00",
               "status": "AC",
-              "timeSec": 0.15239274399982605
+              "timeSec": 0.20715060800011997
             },
             {
               "name": "almost_line_01",
               "status": "AC",
-              "timeSec": 0.16030702400007613
+              "timeSec": 0.16947655400008443
             },
             {
               "name": "binary_00",
               "status": "AC",
-              "timeSec": 0.07090771699995457
+              "timeSec": 0.0676766219999081
             },
             {
               "name": "binary_01",
               "status": "AC",
-              "timeSec": 0.08342517999994925
+              "timeSec": 0.06810720600014974
             },
             {
               "name": "binary_02",
               "status": "AC",
-              "timeSec": 0.07244667899999513
+              "timeSec": 0.10933373199986818
             },
             {
               "name": "example_00",
               "status": "AC",
-              "timeSec": 0.0021603420000246842
+              "timeSec": 0.0023900989999674493
             },
             {
               "name": "line_00",
               "status": "AC",
-              "timeSec": 0.028997374000027776
+              "timeSec": 0.03375987300023553
             },
             {
               "name": "line_01",
               "status": "AC",
-              "timeSec": 0.030673073000116347
+              "timeSec": 0.03608869000026971
             },
             {
               "name": "line_02",
               "status": "AC",
-              "timeSec": 0.012502279000045746
+              "timeSec": 0.012684395000178483
             },
             {
               "name": "line_03",
               "status": "AC",
-              "timeSec": 0.01056209399985164
+              "timeSec": 0.012977060000139318
             },
             {
               "name": "line_04",
               "status": "AC",
-              "timeSec": 0.011686161000170614
+              "timeSec": 0.01745488300002762
             },
             {
               "name": "max_line_00",
               "status": "AC",
-              "timeSec": 0.03615135499990174
+              "timeSec": 0.07184596400020382
             },
             {
               "name": "max_line_01",
               "status": "AC",
-              "timeSec": 0.03336880699998801
+              "timeSec": 0.05615234100014277
             },
             {
               "name": "max_line_02",
               "status": "AC",
-              "timeSec": 0.03819737499998155
+              "timeSec": 0.05355949899967527
             },
             {
               "name": "max_random_00",
               "status": "AC",
-              "timeSec": 0.058852708000131315
+              "timeSec": 0.08606621999979325
             },
             {
               "name": "max_random_01",
               "status": "AC",
-              "timeSec": 0.06645950300003278
+              "timeSec": 0.09277002199996787
             },
             {
               "name": "max_random_02",
               "status": "AC",
-              "timeSec": 0.06937308599981407
+              "timeSec": 0.11934476399983396
             },
             {
               "name": "path_graph_root_centroid_00",
               "status": "AC",
-              "timeSec": 0.2070705190001263
+              "timeSec": 0.24456911500010392
             },
             {
               "name": "path_graph_root_centroid_01",
               "status": "AC",
-              "timeSec": 0.22762747499996294
+              "timeSec": 0.3036282379998738
             },
             {
               "name": "path_graph_root_centroid_02",
               "status": "AC",
-              "timeSec": 0.19577626799991776
+              "timeSec": 0.2296233070001108
             },
             {
               "name": "random_00",
               "status": "AC",
-              "timeSec": 0.052477785000064614
+              "timeSec": 0.059622121000302286
             },
             {
               "name": "random_01",
               "status": "AC",
-              "timeSec": 0.061543573000108154
+              "timeSec": 0.055299423999713326
             },
             {
               "name": "random_02",
               "status": "AC",
-              "timeSec": 0.0276184250001279
+              "timeSec": 0.02586883999993006
             },
             {
               "name": "random_03",
               "status": "AC",
-              "timeSec": 0.024653128999943874
+              "timeSec": 0.01906286600024032
             },
             {
               "name": "random_04",
               "status": "AC",
-              "timeSec": 0.022366644999920027
+              "timeSec": 0.02130505000013727
             }
           ],
           "caseCount": 25,
           "timedCaseCount": 25,
           "passedCaseCount": 25,
-          "slowestSec": 0.22762747499996294,
+          "slowestSec": 0.3036282379998738,
           "slowestCase": "path_graph_root_centroid_01",
-          "averageSec": 0.07030389280000236,
-          "maxMemoryMb": 17.652,
-          "maxMemoryCase": "max_random_01",
+          "averageSec": 0.08703269972003909,
+          "maxMemoryMb": 19.424,
+          "maxMemoryCase": "max_random_02",
           "summary": "success"
         },
-        "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-6zl594gg/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_lca_lex_trie.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_lca_lex_trie.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:almost_line_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:almost_line_00: \u001b[32mAC\u001b[39m, time: 0.152393 sec, memory: 17.584000 MB\nINFO:competitive_verifier.oj.oj_test:315:almost_line_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:almost_line_01: \u001b[32mAC\u001b[39m, time: 0.160307 sec, memory: 17.596000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_00: \u001b[32mAC\u001b[39m, time: 0.070908 sec, memory: 17.480000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_01: \u001b[32mAC\u001b[39m, time: 0.083425 sec, memory: 17.452000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_02: \u001b[32mAC\u001b[39m, time: 0.072447 sec, memory: 17.468000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok 5 tokens\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.002160 sec, memory: 4.096000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_00: start\nok 410923 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_00: \u001b[32mAC\u001b[39m, time: 0.028997 sec, memory: 12.892000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_01: start\nok 412907 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_01: \u001b[32mAC\u001b[39m, time: 0.030673 sec, memory: 14.432000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_02: start\nok 382347 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_02: \u001b[32mAC\u001b[39m, time: 0.012502 sec, memory: 4.828000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_03: start\nok 25839 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_03: \u001b[32mAC\u001b[39m, time: 0.010562 sec, memory: 13.660000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_04: start\nok 99117 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_04: \u001b[32mAC\u001b[39m, time: 0.011686 sec, memory: 10.208000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_00: \u001b[32mAC\u001b[39m, time: 0.036151 sec, memory: 15.392000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_01: \u001b[32mAC\u001b[39m, time: 0.033369 sec, memory: 15.392000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_02: \u001b[32mAC\u001b[39m, time: 0.038197 sec, memory: 15.388000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_00: \u001b[32mAC\u001b[39m, time: 0.058853 sec, memory: 17.508000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_01: \u001b[32mAC\u001b[39m, time: 0.066460 sec, memory: 17.652000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_02: \u001b[32mAC\u001b[39m, time: 0.069373 sec, memory: 17.652000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_00: \u001b[32mAC\u001b[39m, time: 0.207071 sec, memory: 15.392000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_01: \u001b[32mAC\u001b[39m, time: 0.227627 sec, memory: 15.388000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_02: \u001b[32mAC\u001b[39m, time: 0.195776 sec, memory: 15.384000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_00: start\nok 410923 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_00: \u001b[32mAC\u001b[39m, time: 0.052478 sec, memory: 14.960000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_01: start\nok 412907 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_01: \u001b[32mAC\u001b[39m, time: 0.061544 sec, memory: 16.532000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_02: start\nok 382347 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_02: \u001b[32mAC\u001b[39m, time: 0.027618 sec, memory: 5.216000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_03: start\nok 25839 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_03: \u001b[32mAC\u001b[39m, time: 0.024653 sec, memory: 15.824000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_04: start\nok 99117 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_04: \u001b[32mAC\u001b[39m, time: 0.022367 sec, memory: 12.812000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.227627 sec  (for path_graph_root_centroid_01)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 17.652000 MB  (for max_random_01)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 25 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_lca_lex_trie.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":2.5237566949999746,\"files\":{\"test/yosupo_lca_lex_trie.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":1.757597320000059,\"slowest\":0.22762747499996294,\"heaviest\":17.652,\"testcases\":[{\"name\":\"almost_line_00\",\"status\":\"AC\",\"elapsed\":0.15239274399982605,\"memory\":17.584},{\"name\":\"almost_line_01\",\"status\":\"AC\",\"elapsed\":0.16030702400007613,\"memory\":17.596},{\"name\":\"binary_00\",\"status\":\"AC\",\"elapsed\":0.07090771699995457,\"memory\":17.48},{\"name\":\"binary_01\",\"status\":\"AC\",\"elapsed\":0.08342517999994925,\"memory\":17.452},{\"name\":\"binary_02\",\"status\":\"AC\",\"elapsed\":0.07244667899999513,\"memory\":17.468},{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.0021603420000246842,\"memory\":4.096},{\"name\":\"line_00\",\"status\":\"AC\",\"elapsed\":0.028997374000027776,\"memory\":12.892},{\"name\":\"line_01\",\"status\":\"AC\",\"elapsed\":0.030673073000116347,\"memory\":14.432},{\"name\":\"line_02\",\"status\":\"AC\",\"elapsed\":0.012502279000045746,\"memory\":4.828},{\"name\":\"line_03\",\"status\":\"AC\",\"elapsed\":0.01056209399985164,\"memory\":13.66},{\"name\":\"line_04\",\"status\":\"AC\",\"elapsed\":0.011686161000170614,\"memory\":10.208},{\"name\":\"max_line_00\",\"status\":\"AC\",\"elapsed\":0.03615135499990174,\"memory\":15.392},{\"name\":\"max_line_01\",\"status\":\"AC\",\"elapsed\":0.03336880699998801,\"memory\":15.392},{\"name\":\"max_line_02\",\"status\":\"AC\",\"elapsed\":0.03819737499998155,\"memory\":15.388},{\"name\":\"max_random_00\",\"status\":\"AC\",\"elapsed\":0.058852708000131315,\"memory\":17.508},{\"name\":\"max_random_01\",\"status\":\"AC\",\"elapsed\":0.06645950300003278,\"memory\":17.652},{\"name\":\"max_random_02\",\"status\":\"AC\",\"elapsed\":0.06937308599981407,\"memory\":17.652},{\"name\":\"path_graph_root_centroid_00\",\"status\":\"AC\",\"elapsed\":0.2070705190001263,\"memory\":15.392},{\"name\":\"path_graph_root_centroid_01\",\"status\":\"AC\",\"elapsed\":0.22762747499996294,\"memory\":15.388},{\"name\":\"path_graph_root_centroid_02\",\"status\":\"AC\",\"elapsed\":0.19577626799991776,\"memory\":15.384},{\"name\":\"random_00\",\"status\":\"AC\",\"elapsed\":0.052477785000064614,\"memory\":14.96},{\"name\":\"random_01\",\"status\":\"AC\",\"elapsed\":0.061543573000108154,\"memory\":16.532},{\"name\":\"random_02\",\"status\":\"AC\",\"elapsed\":0.0276184250001279,\"memory\":5.216},{\"name\":\"random_03\",\"status\":\"AC\",\"elapsed\":0.024653128999943874,\"memory\":15.824},{\"name\":\"random_04\",\"status\":\"AC\",\"elapsed\":0.022366644999920027,\"memory\":12.812}],\"last_execution_time\":\"2026-10-25T02:06:29.442871Z\"}],\"content_hash\":\"be0464dc60132cb0eb2f4bacef8e93d796f8742506c7a8c0c601be7c9f93ec70\",\"testdata_hash\":\"378044f17ae1cbb7b21e7d1db777363724fa3db2367bd5b3cadf3e768c595e1c\",\"newest\":true}}}\n"
+        "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-9p2wdngq/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_lca_lex_trie.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_lca_lex_trie.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:almost_line_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:almost_line_00: \u001b[32mAC\u001b[39m, time: 0.207151 sec, memory: 19.300000 MB\nINFO:competitive_verifier.oj.oj_test:315:almost_line_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:almost_line_01: \u001b[32mAC\u001b[39m, time: 0.169477 sec, memory: 19.416000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_00: \u001b[32mAC\u001b[39m, time: 0.067677 sec, memory: 19.260000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_01: \u001b[32mAC\u001b[39m, time: 0.068107 sec, memory: 19.304000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_02: \u001b[32mAC\u001b[39m, time: 0.109334 sec, memory: 19.416000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok 5 tokens\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.002390 sec, memory: 3.900000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_00: start\nok 410923 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_00: \u001b[32mAC\u001b[39m, time: 0.033760 sec, memory: 16.920000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_01: start\nok 412907 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_01: \u001b[32mAC\u001b[39m, time: 0.036089 sec, memory: 18.648000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_02: start\nok 382347 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_02: \u001b[32mAC\u001b[39m, time: 0.012684 sec, memory: 5.228000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_03: start\nok 25839 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_03: \u001b[32mAC\u001b[39m, time: 0.012977 sec, memory: 17.888000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_04: start\nok 99117 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_04: \u001b[32mAC\u001b[39m, time: 0.017455 sec, memory: 14.232000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_00: \u001b[32mAC\u001b[39m, time: 0.071846 sec, memory: 19.260000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_01: \u001b[32mAC\u001b[39m, time: 0.056152 sec, memory: 19.416000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_02: \u001b[32mAC\u001b[39m, time: 0.053559 sec, memory: 19.304000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_00: \u001b[32mAC\u001b[39m, time: 0.086066 sec, memory: 19.420000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_01: \u001b[32mAC\u001b[39m, time: 0.092770 sec, memory: 19.420000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_02: \u001b[32mAC\u001b[39m, time: 0.119345 sec, memory: 19.424000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_00: \u001b[32mAC\u001b[39m, time: 0.244569 sec, memory: 19.244000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_01: \u001b[32mAC\u001b[39m, time: 0.303628 sec, memory: 19.424000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_02: \u001b[32mAC\u001b[39m, time: 0.229623 sec, memory: 19.420000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_00: start\nok 410923 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_00: \u001b[32mAC\u001b[39m, time: 0.059622 sec, memory: 16.928000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_01: start\nok 412907 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_01: \u001b[32mAC\u001b[39m, time: 0.055299 sec, memory: 18.656000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_02: start\nok 382347 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_02: \u001b[32mAC\u001b[39m, time: 0.025869 sec, memory: 5.408000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_03: start\nok 25839 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_03: \u001b[32mAC\u001b[39m, time: 0.019063 sec, memory: 17.724000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_04: start\nok 99117 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_04: \u001b[32mAC\u001b[39m, time: 0.021305 sec, memory: 14.072000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.303628 sec  (for path_graph_root_centroid_01)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 19.424000 MB  (for max_random_02)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 25 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_lca_lex_trie.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":2.96122503100014,\"files\":{\"test/yosupo_lca_lex_trie.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":2.1758174930009773,\"slowest\":0.3036282379998738,\"heaviest\":19.424,\"testcases\":[{\"name\":\"almost_line_00\",\"status\":\"AC\",\"elapsed\":0.20715060800011997,\"memory\":19.3},{\"name\":\"almost_line_01\",\"status\":\"AC\",\"elapsed\":0.16947655400008443,\"memory\":19.416},{\"name\":\"binary_00\",\"status\":\"AC\",\"elapsed\":0.0676766219999081,\"memory\":19.26},{\"name\":\"binary_01\",\"status\":\"AC\",\"elapsed\":0.06810720600014974,\"memory\":19.304},{\"name\":\"binary_02\",\"status\":\"AC\",\"elapsed\":0.10933373199986818,\"memory\":19.416},{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.0023900989999674493,\"memory\":3.9},{\"name\":\"line_00\",\"status\":\"AC\",\"elapsed\":0.03375987300023553,\"memory\":16.92},{\"name\":\"line_01\",\"status\":\"AC\",\"elapsed\":0.03608869000026971,\"memory\":18.648},{\"name\":\"line_02\",\"status\":\"AC\",\"elapsed\":0.012684395000178483,\"memory\":5.228},{\"name\":\"line_03\",\"status\":\"AC\",\"elapsed\":0.012977060000139318,\"memory\":17.888},{\"name\":\"line_04\",\"status\":\"AC\",\"elapsed\":0.01745488300002762,\"memory\":14.232},{\"name\":\"max_line_00\",\"status\":\"AC\",\"elapsed\":0.07184596400020382,\"memory\":19.26},{\"name\":\"max_line_01\",\"status\":\"AC\",\"elapsed\":0.05615234100014277,\"memory\":19.416},{\"name\":\"max_line_02\",\"status\":\"AC\",\"elapsed\":0.05355949899967527,\"memory\":19.304},{\"name\":\"max_random_00\",\"status\":\"AC\",\"elapsed\":0.08606621999979325,\"memory\":19.42},{\"name\":\"max_random_01\",\"status\":\"AC\",\"elapsed\":0.09277002199996787,\"memory\":19.42},{\"name\":\"max_random_02\",\"status\":\"AC\",\"elapsed\":0.11934476399983396,\"memory\":19.424},{\"name\":\"path_graph_root_centroid_00\",\"status\":\"AC\",\"elapsed\":0.24456911500010392,\"memory\":19.244},{\"name\":\"path_graph_root_centroid_01\",\"status\":\"AC\",\"elapsed\":0.3036282379998738,\"memory\":19.424},{\"name\":\"path_graph_root_centroid_02\",\"status\":\"AC\",\"elapsed\":0.2296233070001108,\"memory\":19.42},{\"name\":\"random_00\",\"status\":\"AC\",\"elapsed\":0.059622121000302286,\"memory\":16.928},{\"name\":\"random_01\",\"status\":\"AC\",\"elapsed\":0.055299423999713326,\"memory\":18.656},{\"name\":\"random_02\",\"status\":\"AC\",\"elapsed\":0.02586883999993006,\"memory\":5.408},{\"name\":\"random_03\",\"status\":\"AC\",\"elapsed\":0.01906286600024032,\"memory\":17.724},{\"name\":\"random_04\",\"status\":\"AC\",\"elapsed\":0.02130505000013727,\"memory\":14.072}],\"last_execution_time\":\"2026-10-25T02:29:51.955937Z\"}],\"content_hash\":\"2a4111ac40b7a6a397ee35f841ca61ee97d045de25e1800354e3c80247a0eca6\",\"testdata_hash\":\"378044f17ae1cbb7b21e7d1db777363724fa3db2367bd5b3cadf3e768c595e1c\",\"newest\":true}}}\n"
       }
     }
   ]

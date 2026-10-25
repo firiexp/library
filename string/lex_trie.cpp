@@ -26,11 +26,11 @@ class LexTrie {
         return i;
     }
 
-    void rehash(size_t capacity) {
-        vector<int> next(capacity);
+    void rehash(size_t cap) {
+        vector<int> next(cap);
         for (int v : table) if (v) {
-            size_t i = hash(nodes[v].parent, nodes[v].c) & (capacity - 1);
-            while (next[i]) i = (i + 1) & (capacity - 1);
+            size_t i = hash(nodes[v].parent, nodes[v].c) & (cap - 1);
+            while (next[i]) i = (i + 1) & (cap - 1);
             next[i] = v;
         }
         table.swap(next);
@@ -53,41 +53,17 @@ class LexTrie {
         return v;
     }
 
-    void branch(int& a, int& b) const {
-        int x = nodes[a].head, y = nodes[b].head;
-        if (x == y) {
-            if (nodes[a].len > nodes[b].len) a = b;
-            else b = a;
-            return;
-        }
-        if (x && y && nodes[x].parent == nodes[y].parent) {
-            a = x;
-            b = y;
-            return;
-        }
-        if (nodes[a].len > nodes[b].len) a = at_depth(a, nodes[b].len);
-        else if (nodes[b].len > nodes[a].len) b = at_depth(b, nodes[a].len);
-        while (nodes[a].parent != nodes[b].parent) {
-            int x = nodes[a].jump, y = nodes[b].jump;
-            if (x != y) {
-                a = x;
-                b = y;
-            } else {
-                a = nodes[a].parent;
-                b = nodes[b].parent;
-            }
-        }
-    }
-
 public:
-    explicit LexTrie(int capacity = 0) {
-        reserve(capacity);
-        nodes.push_back({0, 0, 0, 0, 0, 0});
+    explicit LexTrie(int cap = 0) {
+        reserve(cap);
+        nodes.push_back({});
     }
 
-    void reserve(int capacity) {
-        assert(capacity >= 0);
-        nodes.reserve(max(1, capacity));
+    void reserve(int cap) {
+        nodes.reserve(size_t(cap) + 1);
+        size_t slots = 8;
+        while (slots < size_t(max(0, cap - 1)) * 2) slots *= 2;
+        if (slots > table.size()) rehash(slots);
     }
 
     int size() const { return nodes.size(); }
@@ -101,7 +77,6 @@ public:
             return v;
         }
         if (nodes[first].c == c) return first;
-        if (table.empty()) rehash(8);
         size_t i = slot(p, c);
         if (table[i]) return table[i];
         if ((used + 1) * 2 > table.size()) {
@@ -129,7 +104,21 @@ public:
     }
 
     int lca(int a, int b) const {
-        branch(a, b);
+        int x = nodes[a].head, y = nodes[b].head;
+        if (x == y) return nodes[a].len < nodes[b].len ? a : b;
+        if (x && y && nodes[x].parent == nodes[y].parent) return nodes[x].parent;
+        if (nodes[a].len > nodes[b].len) a = at_depth(a, nodes[b].len);
+        else if (nodes[b].len > nodes[a].len) b = at_depth(b, nodes[a].len);
+        while (nodes[a].parent != nodes[b].parent) {
+            int x = nodes[a].jump, y = nodes[b].jump;
+            if (x != y) {
+                a = x;
+                b = y;
+            } else {
+                a = nodes[a].parent;
+                b = nodes[b].parent;
+            }
+        }
         return a == b ? a : nodes[a].parent;
     }
 
@@ -137,8 +126,23 @@ public:
 
     int compare(int a, int b) const {
         if (a == b) return 0;
+        int x = nodes[a].head, y = nodes[b].head;
+        if (x == y) return (nodes[a].len > nodes[b].len) - (nodes[a].len < nodes[b].len);
+        if (x && y && nodes[x].parent == nodes[y].parent)
+            return (nodes[x].c > nodes[y].c) - (nodes[x].c < nodes[y].c);
         int order = (nodes[a].len > nodes[b].len) - (nodes[a].len < nodes[b].len);
-        branch(a, b);
+        if (nodes[a].len > nodes[b].len) a = at_depth(a, nodes[b].len);
+        else if (nodes[b].len > nodes[a].len) b = at_depth(b, nodes[a].len);
+        while (nodes[a].parent != nodes[b].parent) {
+            int x = nodes[a].jump, y = nodes[b].jump;
+            if (x != y) {
+                a = x;
+                b = y;
+            } else {
+                a = nodes[a].parent;
+                b = nodes[b].parent;
+            }
+        }
         if (a == b) return order;
         return (nodes[a].c > nodes[b].c) - (nodes[a].c < nodes[b].c);
     }
