@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-24T20:22:43+09:00",
+  "generatedAt": "2026-10-25T11:06:29+09:00",
   "root": ".",
-  "testCount": 186,
+  "testCount": 187,
   "inventory": {
-    "currentTestCount": 427,
-    "measuredTestCount": 186,
-    "unmeasuredCount": 241,
+    "currentTestCount": 231,
+    "measuredTestCount": 184,
+    "unmeasuredCount": 47,
     "unmeasuredPaths": [
       "test/aoj_alds1_9_c_leftist_heap.test.cpp",
       "test/aoj_cgl_5_a.test.cpp",
@@ -14,200 +14,6 @@
       "test/aoj_grl_3_a.test.cpp",
       "test/aoj_grl_6_b_slope.test.cpp",
       "test/aoj_ntl_1_b_pow.test.cpp",
-      "test/chordal_graph.test.cpp",
-      "test/euler_tour_tree.test.cpp",
-      "test/generated_shortest_path.test.cpp",
-      "test/minimum_enclosing_circle.test.cpp",
-      "test/offlinedynamicconnectivity.test.cpp",
-      "test/persistent_lazy_segtree.test.cpp",
-      "test/sortable_segtree.test.cpp",
-      "test/yosupo_aplusb_active_pattern_matcher.test.cpp",
-      "test/yosupo_aplusb_aho_occurrences.test.cpp",
-      "test/yosupo_aplusb_and_or_convolution.test.cpp",
-      "test/yosupo_aplusb_argsort.test.cpp",
-      "test/yosupo_aplusb_avoid_patterns.test.cpp",
-      "test/yosupo_aplusb_bellman_ford.test.cpp",
-      "test/yosupo_aplusb_berlekamp_massey.test.cpp",
-      "test/yosupo_aplusb_bfs01.test.cpp",
-      "test/yosupo_aplusb_biginteger.test.cpp",
-      "test/yosupo_aplusb_binom_mod.test.cpp",
-      "test/yosupo_aplusb_bipartite_matching_lexmin.test.cpp",
-      "test/yosupo_aplusb_bit_build.test.cpp",
-      "test/yosupo_aplusb_bitset_count.test.cpp",
-      "test/yosupo_aplusb_bitset_intersection.test.cpp",
-      "test/yosupo_aplusb_bounded_knapsack.test.cpp",
-      "test/yosupo_aplusb_characteristic_polynomial.test.cpp",
-      "test/yosupo_aplusb_chordal_coloring.test.cpp",
-      "test/yosupo_aplusb_closest_pair.test.cpp",
-      "test/yosupo_aplusb_closest_pair_real.test.cpp",
-      "test/yosupo_aplusb_comb_table.test.cpp",
-      "test/yosupo_aplusb_complement_components.test.cpp",
-      "test/yosupo_aplusb_convex_hull.test.cpp",
-      "test/yosupo_aplusb_count_words.test.cpp",
-      "test/yosupo_aplusb_crt.test.cpp",
-      "test/yosupo_aplusb_dfa.test.cpp",
-      "test/yosupo_aplusb_dfa_minimize.test.cpp",
-      "test/yosupo_aplusb_digit_dp.test.cpp",
-      "test/yosupo_aplusb_dijkstra_from_distances.test.cpp",
-      "test/yosupo_aplusb_directedmst.test.cpp",
-      "test/yosupo_aplusb_discrete_logarithm.test.cpp",
-      "test/yosupo_aplusb_disjoint_sparse_table.test.cpp",
-      "test/yosupo_aplusb_dominator_queries.test.cpp",
-      "test/yosupo_aplusb_dsu_on_tree.test.cpp",
-      "test/yosupo_aplusb_dualgraph.test.cpp",
-      "test/yosupo_aplusb_dynamic_bitset.test.cpp",
-      "test/yosupo_aplusb_dynamic_graph_component_sum.test.cpp",
-      "test/yosupo_aplusb_dynamic_segtree_search.test.cpp",
-      "test/yosupo_aplusb_dynamic_weighted_wavelet_matrix.test.cpp",
-      "test/yosupo_aplusb_enumerate_runs.test.cpp",
-      "test/yosupo_aplusb_enumerate_triangles.test.cpp",
-      "test/yosupo_aplusb_eulerian_trail.test.cpp",
-      "test/yosupo_aplusb_eulerphi_divisor.test.cpp",
-      "test/yosupo_aplusb_factorial.test.cpp",
-      "test/yosupo_aplusb_factorial_large.test.cpp",
-      "test/yosupo_aplusb_fast_set.test.cpp",
-      "test/yosupo_aplusb_fastkitamasa_fft.test.cpp",
-      "test/yosupo_aplusb_fastkitamasa_ntt.test.cpp",
-      "test/yosupo_aplusb_fenwick_tree_2d.test.cpp",
-      "test/yosupo_aplusb_fft.test.cpp",
-      "test/yosupo_aplusb_floor_sum.test.cpp",
-      "test/yosupo_aplusb_flow_boundaries.test.cpp",
-      "test/yosupo_aplusb_functional_graph.test.cpp",
-      "test/yosupo_aplusb_furthest_pair.test.cpp",
-      "test/yosupo_aplusb_fwht.test.cpp",
-      "test/yosupo_aplusb_garner.test.cpp",
-      "test/yosupo_aplusb_gauss_jordan_mint.test.cpp",
-      "test/yosupo_aplusb_gcd_transform.test.cpp",
-      "test/yosupo_aplusb_general_matching.test.cpp",
-      "test/yosupo_aplusb_geometry_angle.test.cpp",
-      "test/yosupo_aplusb_geometry_boundaries.test.cpp",
-      "test/yosupo_aplusb_get_prime.test.cpp",
-      "test/yosupo_aplusb_half_plane_intersection.test.cpp",
-      "test/yosupo_aplusb_hld_path_ordered.test.cpp",
-      "test/yosupo_aplusb_hld_rerooted.test.cpp",
-      "test/yosupo_aplusb_hld_subtree.test.cpp",
-      "test/yosupo_aplusb_hopcroft_karp.test.cpp",
-      "test/yosupo_aplusb_hungarian.test.cpp",
-      "test/yosupo_aplusb_implicit_treap.test.cpp",
-      "test/yosupo_aplusb_implicit_treap_apply.test.cpp",
-      "test/yosupo_aplusb_implicit_treap_search.test.cpp",
-      "test/yosupo_aplusb_independent_set_boundaries.test.cpp",
-      "test/yosupo_aplusb_interval_set.test.cpp",
-      "test/yosupo_aplusb_inverse_matrix.test.cpp",
-      "test/yosupo_aplusb_is_palindrome.test.cpp",
-      "test/yosupo_aplusb_jump_on_tree.test.cpp",
-      "test/yosupo_aplusb_k_shortest_walk.test.cpp",
-      "test/yosupo_aplusb_kmp.test.cpp",
-      "test/yosupo_aplusb_kth_word.test.cpp",
-      "test/yosupo_aplusb_lcs_bit.test.cpp",
-      "test/yosupo_aplusb_leftist_heap.test.cpp",
-      "test/yosupo_aplusb_li_chao_tree.test.cpp",
-      "test/yosupo_aplusb_library_composition.test.cpp",
-      "test/yosupo_aplusb_library_composition_reverse.test.cpp",
-      "test/yosupo_aplusb_linear_recurrence.test.cpp",
-      "test/yosupo_aplusb_linear_sieve.test.cpp",
-      "test/yosupo_aplusb_lis_indices.test.cpp",
-      "test/yosupo_aplusb_lowlink.test.cpp",
-      "test/yosupo_aplusb_many_factorials.test.cpp",
-      "test/yosupo_aplusb_matrix_determinant_mod.test.cpp",
-      "test/yosupo_aplusb_matrix_pow_apply.test.cpp",
-      "test/yosupo_aplusb_matrix_pow_sum.test.cpp",
-      "test/yosupo_aplusb_matrix_rank.test.cpp",
-      "test/yosupo_aplusb_matrix_semiring.test.cpp",
-      "test/yosupo_aplusb_maxflow_lower_bound.test.cpp",
-      "test/yosupo_aplusb_min_cost_b_flow.test.cpp",
-      "test/yosupo_aplusb_min_of_mod_of_linear.test.cpp",
-      "test/yosupo_aplusb_min_plus_convolution.test.cpp",
-      "test/yosupo_aplusb_minimum_rotation.test.cpp",
-      "test/yosupo_aplusb_minimum_steiner_tree.test.cpp",
-      "test/yosupo_aplusb_minimum_vertex_cover.test.cpp",
-      "test/yosupo_aplusb_minkowski_sum.test.cpp",
-      "test/yosupo_aplusb_mo.test.cpp",
-      "test/yosupo_aplusb_mod_sqrt.test.cpp",
-      "test/yosupo_aplusb_modint_arbitrary.test.cpp",
-      "test/yosupo_aplusb_modint_interface.test.cpp",
-      "test/yosupo_aplusb_monotoniccht.test.cpp",
-      "test/yosupo_aplusb_mst_sensitivity.test.cpp",
-      "test/yosupo_aplusb_multipoint_evaluation_geometric.test.cpp",
-      "test/yosupo_aplusb_multipoint_evaluator.test.cpp",
-      "test/yosupo_aplusb_ndvec.test.cpp",
-      "test/yosupo_aplusb_noncommutative_tree.test.cpp",
-      "test/yosupo_aplusb_nth_term.test.cpp",
-      "test/yosupo_aplusb_ntt_divmod.test.cpp",
-      "test/yosupo_aplusb_ntt_multiply.test.cpp",
-      "test/yosupo_aplusb_ntt_operators.test.cpp",
-      "test/yosupo_aplusb_ntt_precision.test.cpp",
-      "test/yosupo_aplusb_offline_reachability.test.cpp",
-      "test/yosupo_aplusb_offline_time_intervals.test.cpp",
-      "test/yosupo_aplusb_order_statistic_tree.test.cpp",
-      "test/yosupo_aplusb_palindrome_radii.test.cpp",
-      "test/yosupo_aplusb_palindromic_tree.test.cpp",
-      "test/yosupo_aplusb_parallel_binary_search.test.cpp",
-      "test/yosupo_aplusb_pell_equation.test.cpp",
-      "test/yosupo_aplusb_persistent_lazy_segtree_search.test.cpp",
-      "test/yosupo_aplusb_persistent_queue.test.cpp",
-      "test/yosupo_aplusb_persistent_segtree.test.cpp",
-      "test/yosupo_aplusb_persistent_unionfind.test.cpp",
-      "test/yosupo_aplusb_polygon_integral.test.cpp",
-      "test/yosupo_aplusb_polynomial_interpolation.test.cpp",
-      "test/yosupo_aplusb_pow.test.cpp",
-      "test/yosupo_aplusb_primaldual_slope.test.cpp",
-      "test/yosupo_aplusb_prime_range.test.cpp",
-      "test/yosupo_aplusb_primefactor_trial.test.cpp",
-      "test/yosupo_aplusb_primitive_root.test.cpp",
-      "test/yosupo_aplusb_project_selection_pair_profit.test.cpp",
-      "test/yosupo_aplusb_radixheap.test.cpp",
-      "test/yosupo_aplusb_range_contour_sum.test.cpp",
-      "test/yosupo_aplusb_range_edge_graph.test.cpp",
-      "test/yosupo_aplusb_range_parallel_unionfind.test.cpp",
-      "test/yosupo_aplusb_rectangle_add_point_get.test.cpp",
-      "test/yosupo_aplusb_rectangle_sum_weights.test.cpp",
-      "test/yosupo_aplusb_sample_point_eval.test.cpp",
-      "test/yosupo_aplusb_scc.test.cpp",
-      "test/yosupo_aplusb_segbeats.test.cpp",
-      "test/yosupo_aplusb_segmenttree_boundaries.test.cpp",
-      "test/yosupo_aplusb_sliding_window.test.cpp",
-      "test/yosupo_aplusb_slope_trick.test.cpp",
-      "test/yosupo_aplusb_solve_linear_system.test.cpp",
-      "test/yosupo_aplusb_solve_linear_system_mod2.test.cpp",
-      "test/yosupo_aplusb_sparse_fps.test.cpp",
-      "test/yosupo_aplusb_sparsetable.test.cpp",
-      "test/yosupo_aplusb_squarematrix_mint.test.cpp",
-      "test/yosupo_aplusb_static_bitset.test.cpp",
-      "test/yosupo_aplusb_static_range_distinct.test.cpp",
-      "test/yosupo_aplusb_static_rectangle_add_rectangle_sum.test.cpp",
-      "test/yosupo_aplusb_static_rectangle_sum.test.cpp",
-      "test/yosupo_aplusb_string_bytes.test.cpp",
-      "test/yosupo_aplusb_subset_convolution.test.cpp",
-      "test/yosupo_aplusb_subset_sum_counts.test.cpp",
-      "test/yosupo_aplusb_suffix_array.test.cpp",
-      "test/yosupo_aplusb_suffix_array_query.test.cpp",
-      "test/yosupo_aplusb_suffix_automaton_kth.test.cpp",
-      "test/yosupo_aplusb_suffix_automaton_lcs.test.cpp",
-      "test/yosupo_aplusb_suffix_automaton_occurrences.test.cpp",
-      "test/yosupo_aplusb_swag.test.cpp",
-      "test/yosupo_aplusb_top_k_sum.test.cpp",
-      "test/yosupo_aplusb_top_kth.test.cpp",
-      "test/yosupo_aplusb_tree_center.test.cpp",
-      "test/yosupo_aplusb_tree_diameter_weighted.test.cpp",
-      "test/yosupo_aplusb_tree_distance_frequency.test.cpp",
-      "test/yosupo_aplusb_tree_hash.test.cpp",
-      "test/yosupo_aplusb_tree_isomorphism.test.cpp",
-      "test/yosupo_aplusb_tree_mo.test.cpp",
-      "test/yosupo_aplusb_trie_prefix_intervals.test.cpp",
-      "test/yosupo_aplusb_twosat_at_most_one.test.cpp",
-      "test/yosupo_aplusb_undoable_weighted_unionfind.test.cpp",
-      "test/yosupo_aplusb_vertex_failure_connectivity.test.cpp",
-      "test/yosupo_aplusb_virtual_tree_helper.test.cpp",
-      "test/yosupo_aplusb_wavelet_matrix_compression.test.cpp",
-      "test/yosupo_aplusb_wavelet_matrix_cursor.test.cpp",
-      "test/yosupo_aplusb_wavelet_matrix_top_k_freq.test.cpp",
-      "test/yosupo_aplusb_weighted_wavelet_matrix.test.cpp",
-      "test/yosupo_aplusb_wildcard_pattern_matching.test.cpp",
-      "test/yosupo_aplusb_xor_basis.test.cpp",
-      "test/yosupo_aplusb_xor_basis_intersection.test.cpp",
-      "test/yosupo_aplusb_xorshift.test.cpp",
-      "test/yosupo_aplusb_z_algorithm.test.cpp",
       "test/yosupo_characteristic_polynomial.test.cpp",
       "test/yosupo_chordal_graph_recognition.test.cpp",
       "test/yosupo_dynamic_tree_subtree_add_subtree_sum.test.cpp",
@@ -252,7 +58,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "f2febb6e97a35bfcb5d87f738dd4c4d6328ac83a",
+    "gitRevision": "e8423d9f2beed199f5a251d2c23c203131778a7a",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -261,9 +67,9 @@
   "summary": {
     "pending": 0,
     "running": 0,
-    "done": 186,
+    "done": 187,
     "error": 0,
-    "ok": 186,
+    "ok": 187,
     "failed": 0
   },
   "tests": [
@@ -32456,6 +32262,181 @@
           "summary": "success"
         },
         "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-coihbz8s/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/sortable_segtree_stress.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/sortable_segtree_stress.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.exec:75:subprocess.run: ['python3', '.scripts/verify_command_impl.py', 'run', '.competitive-verifier/build/aa658f2fc915e6bc4125', '60.0', '.competitive-verifier/build/aa658f2fc915e6bc4125/a.out']\nallocations=4877169 releases=3354972 live=1522197 peak_live=3200000 slots=3200000\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/sortable_segtree_stress.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":0.31456129000434885,\"files\":{\"test/sortable_segtree_stress.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":0.3073199860009481,\"last_execution_time\":\"2026-10-24T20:22:43.476763+09:00\"}],\"content_hash\":\"db2777eea11af7cc36f91cbf25349aa438285838cd587e03d7b0473c63047ea9\",\"newest\":true}}}\n"
+      }
+    },
+    {
+      "path": "test/yosupo_lca_lex_trie.test.cpp",
+      "phase": "done",
+      "problem": "https://judge.yosupo.jp/problem/lca",
+      "compiler": {
+        "command": [
+          "g++",
+          "-std=c++17",
+          "-O2",
+          "-Wall",
+          "-g",
+          "-DLOCAL",
+          "-UNDEBUG",
+          "-ULOCAL",
+          "-DNDEBUG",
+          "-I",
+          ".",
+          "-o",
+          ".competitive-verifier/build/5bf4843c9837438e3cee/a.out",
+          "test/yosupo_lca_lex_trie.test.cpp"
+        ],
+        "wallSec": 1.129708083999958
+      },
+      "testcases": {
+        "directory": null,
+        "cachedCaseCount": 25
+      },
+      "run": {
+        "command": [
+          ".competitive-verifier/build/5bf4843c9837438e3cee/a.out"
+        ],
+        "returnCode": 0,
+        "wallSec": 3.002531140999963,
+        "ok": true,
+        "parsed": {
+          "cases": [
+            {
+              "name": "almost_line_00",
+              "status": "AC",
+              "timeSec": 0.15239274399982605
+            },
+            {
+              "name": "almost_line_01",
+              "status": "AC",
+              "timeSec": 0.16030702400007613
+            },
+            {
+              "name": "binary_00",
+              "status": "AC",
+              "timeSec": 0.07090771699995457
+            },
+            {
+              "name": "binary_01",
+              "status": "AC",
+              "timeSec": 0.08342517999994925
+            },
+            {
+              "name": "binary_02",
+              "status": "AC",
+              "timeSec": 0.07244667899999513
+            },
+            {
+              "name": "example_00",
+              "status": "AC",
+              "timeSec": 0.0021603420000246842
+            },
+            {
+              "name": "line_00",
+              "status": "AC",
+              "timeSec": 0.028997374000027776
+            },
+            {
+              "name": "line_01",
+              "status": "AC",
+              "timeSec": 0.030673073000116347
+            },
+            {
+              "name": "line_02",
+              "status": "AC",
+              "timeSec": 0.012502279000045746
+            },
+            {
+              "name": "line_03",
+              "status": "AC",
+              "timeSec": 0.01056209399985164
+            },
+            {
+              "name": "line_04",
+              "status": "AC",
+              "timeSec": 0.011686161000170614
+            },
+            {
+              "name": "max_line_00",
+              "status": "AC",
+              "timeSec": 0.03615135499990174
+            },
+            {
+              "name": "max_line_01",
+              "status": "AC",
+              "timeSec": 0.03336880699998801
+            },
+            {
+              "name": "max_line_02",
+              "status": "AC",
+              "timeSec": 0.03819737499998155
+            },
+            {
+              "name": "max_random_00",
+              "status": "AC",
+              "timeSec": 0.058852708000131315
+            },
+            {
+              "name": "max_random_01",
+              "status": "AC",
+              "timeSec": 0.06645950300003278
+            },
+            {
+              "name": "max_random_02",
+              "status": "AC",
+              "timeSec": 0.06937308599981407
+            },
+            {
+              "name": "path_graph_root_centroid_00",
+              "status": "AC",
+              "timeSec": 0.2070705190001263
+            },
+            {
+              "name": "path_graph_root_centroid_01",
+              "status": "AC",
+              "timeSec": 0.22762747499996294
+            },
+            {
+              "name": "path_graph_root_centroid_02",
+              "status": "AC",
+              "timeSec": 0.19577626799991776
+            },
+            {
+              "name": "random_00",
+              "status": "AC",
+              "timeSec": 0.052477785000064614
+            },
+            {
+              "name": "random_01",
+              "status": "AC",
+              "timeSec": 0.061543573000108154
+            },
+            {
+              "name": "random_02",
+              "status": "AC",
+              "timeSec": 0.0276184250001279
+            },
+            {
+              "name": "random_03",
+              "status": "AC",
+              "timeSec": 0.024653128999943874
+            },
+            {
+              "name": "random_04",
+              "status": "AC",
+              "timeSec": 0.022366644999920027
+            }
+          ],
+          "caseCount": 25,
+          "timedCaseCount": 25,
+          "passedCaseCount": 25,
+          "slowestSec": 0.22762747499996294,
+          "slowestCase": "path_graph_root_centroid_01",
+          "averageSec": 0.07030389280000236,
+          "maxMemoryMb": 17.652,
+          "maxMemoryCase": "max_random_01",
+          "summary": "success"
+        },
+        "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-6zl594gg/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_lca_lex_trie.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_lca_lex_trie.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:almost_line_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:almost_line_00: \u001b[32mAC\u001b[39m, time: 0.152393 sec, memory: 17.584000 MB\nINFO:competitive_verifier.oj.oj_test:315:almost_line_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:almost_line_01: \u001b[32mAC\u001b[39m, time: 0.160307 sec, memory: 17.596000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_00: \u001b[32mAC\u001b[39m, time: 0.070908 sec, memory: 17.480000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_01: \u001b[32mAC\u001b[39m, time: 0.083425 sec, memory: 17.452000 MB\nINFO:competitive_verifier.oj.oj_test:315:binary_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:binary_02: \u001b[32mAC\u001b[39m, time: 0.072447 sec, memory: 17.468000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok 5 tokens\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.002160 sec, memory: 4.096000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_00: start\nok 410923 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_00: \u001b[32mAC\u001b[39m, time: 0.028997 sec, memory: 12.892000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_01: start\nok 412907 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_01: \u001b[32mAC\u001b[39m, time: 0.030673 sec, memory: 14.432000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_02: start\nok 382347 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_02: \u001b[32mAC\u001b[39m, time: 0.012502 sec, memory: 4.828000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_03: start\nok 25839 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_03: \u001b[32mAC\u001b[39m, time: 0.010562 sec, memory: 13.660000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_04: start\nok 99117 tokens\nINFO:competitive_verifier.oj.oj_test:168:line_04: \u001b[32mAC\u001b[39m, time: 0.011686 sec, memory: 10.208000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_00: \u001b[32mAC\u001b[39m, time: 0.036151 sec, memory: 15.392000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_01: \u001b[32mAC\u001b[39m, time: 0.033369 sec, memory: 15.392000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_line_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_line_02: \u001b[32mAC\u001b[39m, time: 0.038197 sec, memory: 15.388000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_00: \u001b[32mAC\u001b[39m, time: 0.058853 sec, memory: 17.508000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_01: \u001b[32mAC\u001b[39m, time: 0.066460 sec, memory: 17.652000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_02: \u001b[32mAC\u001b[39m, time: 0.069373 sec, memory: 17.652000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_00: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_00: \u001b[32mAC\u001b[39m, time: 0.207071 sec, memory: 15.392000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_01: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_01: \u001b[32mAC\u001b[39m, time: 0.227627 sec, memory: 15.388000 MB\nINFO:competitive_verifier.oj.oj_test:315:path_graph_root_centroid_02: start\nok 500000 tokens\nINFO:competitive_verifier.oj.oj_test:168:path_graph_root_centroid_02: \u001b[32mAC\u001b[39m, time: 0.195776 sec, memory: 15.384000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_00: start\nok 410923 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_00: \u001b[32mAC\u001b[39m, time: 0.052478 sec, memory: 14.960000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_01: start\nok 412907 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_01: \u001b[32mAC\u001b[39m, time: 0.061544 sec, memory: 16.532000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_02: start\nok 382347 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_02: \u001b[32mAC\u001b[39m, time: 0.027618 sec, memory: 5.216000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_03: start\nok 25839 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_03: \u001b[32mAC\u001b[39m, time: 0.024653 sec, memory: 15.824000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_04: start\nok 99117 tokens\nINFO:competitive_verifier.oj.oj_test:168:random_04: \u001b[32mAC\u001b[39m, time: 0.022367 sec, memory: 12.812000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.227627 sec  (for path_graph_root_centroid_01)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 17.652000 MB  (for max_random_01)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 25 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_lca_lex_trie.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":2.5237566949999746,\"files\":{\"test/yosupo_lca_lex_trie.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":1.757597320000059,\"slowest\":0.22762747499996294,\"heaviest\":17.652,\"testcases\":[{\"name\":\"almost_line_00\",\"status\":\"AC\",\"elapsed\":0.15239274399982605,\"memory\":17.584},{\"name\":\"almost_line_01\",\"status\":\"AC\",\"elapsed\":0.16030702400007613,\"memory\":17.596},{\"name\":\"binary_00\",\"status\":\"AC\",\"elapsed\":0.07090771699995457,\"memory\":17.48},{\"name\":\"binary_01\",\"status\":\"AC\",\"elapsed\":0.08342517999994925,\"memory\":17.452},{\"name\":\"binary_02\",\"status\":\"AC\",\"elapsed\":0.07244667899999513,\"memory\":17.468},{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.0021603420000246842,\"memory\":4.096},{\"name\":\"line_00\",\"status\":\"AC\",\"elapsed\":0.028997374000027776,\"memory\":12.892},{\"name\":\"line_01\",\"status\":\"AC\",\"elapsed\":0.030673073000116347,\"memory\":14.432},{\"name\":\"line_02\",\"status\":\"AC\",\"elapsed\":0.012502279000045746,\"memory\":4.828},{\"name\":\"line_03\",\"status\":\"AC\",\"elapsed\":0.01056209399985164,\"memory\":13.66},{\"name\":\"line_04\",\"status\":\"AC\",\"elapsed\":0.011686161000170614,\"memory\":10.208},{\"name\":\"max_line_00\",\"status\":\"AC\",\"elapsed\":0.03615135499990174,\"memory\":15.392},{\"name\":\"max_line_01\",\"status\":\"AC\",\"elapsed\":0.03336880699998801,\"memory\":15.392},{\"name\":\"max_line_02\",\"status\":\"AC\",\"elapsed\":0.03819737499998155,\"memory\":15.388},{\"name\":\"max_random_00\",\"status\":\"AC\",\"elapsed\":0.058852708000131315,\"memory\":17.508},{\"name\":\"max_random_01\",\"status\":\"AC\",\"elapsed\":0.06645950300003278,\"memory\":17.652},{\"name\":\"max_random_02\",\"status\":\"AC\",\"elapsed\":0.06937308599981407,\"memory\":17.652},{\"name\":\"path_graph_root_centroid_00\",\"status\":\"AC\",\"elapsed\":0.2070705190001263,\"memory\":15.392},{\"name\":\"path_graph_root_centroid_01\",\"status\":\"AC\",\"elapsed\":0.22762747499996294,\"memory\":15.388},{\"name\":\"path_graph_root_centroid_02\",\"status\":\"AC\",\"elapsed\":0.19577626799991776,\"memory\":15.384},{\"name\":\"random_00\",\"status\":\"AC\",\"elapsed\":0.052477785000064614,\"memory\":14.96},{\"name\":\"random_01\",\"status\":\"AC\",\"elapsed\":0.061543573000108154,\"memory\":16.532},{\"name\":\"random_02\",\"status\":\"AC\",\"elapsed\":0.0276184250001279,\"memory\":5.216},{\"name\":\"random_03\",\"status\":\"AC\",\"elapsed\":0.024653128999943874,\"memory\":15.824},{\"name\":\"random_04\",\"status\":\"AC\",\"elapsed\":0.022366644999920027,\"memory\":12.812}],\"last_execution_time\":\"2026-10-25T02:06:29.442871Z\"}],\"content_hash\":\"be0464dc60132cb0eb2f4bacef8e93d796f8742506c7a8c0c601be7c9f93ec70\",\"testdata_hash\":\"378044f17ae1cbb7b21e7d1db777363724fa3db2367bd5b3cadf3e768c595e1c\",\"newest\":true}}}\n"
       }
     }
   ]
