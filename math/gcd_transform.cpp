@@ -18,3 +18,17 @@ void gcd_itransform(vector<T> &v){
         for (int j = 1; j <= limit; ++j) v[j] -= v[j * p];
     }
 }
+
+template<class T>
+vector<T> gcd_convolution(vector<T> a, vector<T> b) {
+    int n = max(a.size(), b.size());
+    if (a.size() <= 1 || b.size() <= 1) return vector<T>(n);
+    a.resize(n);
+    b.resize(n);
+    a[0] = b[0] = T(0);
+    gcd_transform(a);
+    gcd_transform(b);
+    for (int i = 1; i < n; ++i) a[i] *= b[i];
+    gcd_itransform(a);
+    return a;
+}

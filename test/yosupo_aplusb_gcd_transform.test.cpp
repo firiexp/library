@@ -10,7 +10,7 @@ static const int MOD = 998244353;
 #include "../math/gcd_transform.cpp"
 
 template<class T>
-void check(const vector<T> &a, const vector<T> &b) {
+void check_transform(const vector<T> &a) {
     int n = a.size();
     auto expected = a, inverse = a;
     for (int i = 1; i < n; ++i) {
@@ -29,24 +29,35 @@ void check(const vector<T> &a, const vector<T> &b) {
     assert(actual == inverse);
     gcd_transform(actual);
     assert(actual == a);
-    auto x = a, y = b;
-    gcd_transform(x);
-    gcd_transform(y);
-    for (int i = 0; i < n; ++i) x[i] *= y[i];
-    gcd_itransform(x);
-    vector<T> convolution(n);
-    if (n) convolution[0] = a[0] * b[0];
-    for (int i = 1; i < n; ++i) {
-        for (int j = 1; j < n; ++j) convolution[gcd(i, j)] += a[i] * b[j];
+}
+
+template<class T>
+void check(const vector<T> &a, const vector<T> &b) {
+    check_transform(a);
+    check_transform(b);
+    auto original_a = a, original_b = b;
+    vector<T> expected(max(a.size(), b.size()));
+    for (int i = 1; i < (int)a.size(); ++i) {
+        for (int j = 1; j < (int)b.size(); ++j) expected[gcd(i, j)] += a[i] * b[j];
     }
-    assert(x == convolution);
+    assert(gcd_convolution(a, b) == expected);
+    assert(a == original_a && b == original_b);
+    assert(gcd_convolution(b, a) == expected);
+    assert(gcd_convolution(move(original_a), move(original_b)) == expected);
 }
 
 int main() {
+    for (int n = 0; n <= 3; ++n) {
+        for (int m = 0; m <= 3; ++m) {
+            check(vector<ll>(n, 7), vector<ll>(m, -3));
+            check(vector<mint>(n, 7), vector<mint>(m, -3));
+        }
+    }
     mt19937 rng(269);
     for (int trial = 0; trial < 600; ++trial) {
         int n = trial < 100 ? trial : rng() % 100;
-        vector<ll> a(n), b(n);
+        int m = trial % 3 == 0 ? n : rng() % 100;
+        vector<ll> a(n), b(m);
         for (auto &x : a) x = int(rng() % 21) - 10;
         for (auto &x : b) x = int(rng() % 21) - 10;
         check(a, b);

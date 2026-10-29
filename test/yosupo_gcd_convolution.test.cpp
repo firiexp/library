@@ -26,12 +26,9 @@ int main() {
         sc.read(x);
         b[i] = x;
     }
-    gcd_transform(a);
-    gcd_transform(b);
-    for (int i = 1; i <= n; ++i) a[i] *= b[i];
-    gcd_itransform(a);
+    auto c = gcd_convolution(move(a), move(b));
     for (int i = 1; i <= n; ++i) {
-        pr.print(a[i].val);
+        pr.print(c[i].val);
         pr.print(i == n ? '\n' : ' ');
     }
 }
