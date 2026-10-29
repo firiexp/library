@@ -1,4 +1,12 @@
-#include "../util/modint.cpp"
+#ifndef FIRIEXP_LIBRARY_MATH_POWK_ALL_CPP
+#define FIRIEXP_LIBRARY_MATH_POWK_ALL_CPP
+
+#include "../util/modint_base.cpp"
+
+#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
+using mint = modint<MOD>;
+#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
+#endif
 
 #include "./prime/get_min_factor.cpp"
 vector<mint> powk_all(int n, ll k) {
@@ -11,3 +19,5 @@ vector<mint> powk_all(int n, ll k) {
     }
     return res;
 }
+
+#endif
