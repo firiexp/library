@@ -83,7 +83,7 @@ inline void run(const string &s, int m, const vector<vector<Word>> &p, vector<Wo
 }
 }
 
-int LCS_bit(string &a, string &b) {
+int LCS_bit(const string &a, const string &b) {
     const string &s = a.size() >= b.size() ? a : b;
     const string &t = a.size() >= b.size() ? b : a;
     const int n = s.size(), m = t.size(), bit_sz = (m+63)>>6;

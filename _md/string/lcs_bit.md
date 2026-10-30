@@ -8,14 +8,16 @@ bitset を使って 2 文字列の LCS 長を求める。
 ## できること
 長い方の文字列長を $N$、短い方を $M$ とする。
 
-- `int LCS_bit(string& s, string& t)`
+- `int LCS_bit(const string& s, const string& t)`
   `s` と `t` の最長共通部分列の長さを返す。$O(N\lceil M/64\rceil)$
 
 ## 使い方
 ```cpp
-string s, t;
+const string s = "abc", t = "ac";
 int len = LCS_bit(s, t);
 ```
+
+この例では `len` は `2` になる。入力は変更せず、一時文字列も渡せる。
 
 ## 実装上の補足
 文字は byte 単位で扱う。

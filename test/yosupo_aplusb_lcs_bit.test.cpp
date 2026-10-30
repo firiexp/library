@@ -14,6 +14,12 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../util/fastio.cpp"
 
 void self_check() {
+    const string a = "abc", b = "ac";
+    assert(LCS_bit(a, b) == 2);
+    assert(LCS_bit(b, a) == 2);
+    assert(LCS_bit(string("abc"), string("ac")) == 2);
+    assert(LCS_bit(a, string()) == 0);
+    assert(a == "abc" && b == "ac");
     mt19937 rng(54);
     const vector<int> sizes{0, 1, 63, 64, 65, 127, 128, 129, 191, 192, 193,
         255, 256, 257, 447, 448, 449, 511, 512, 513, 1023, 1024, 1025};
