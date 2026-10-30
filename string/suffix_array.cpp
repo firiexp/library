@@ -135,6 +135,51 @@ vector<int> lcp(string const& s, vector<int> const& sa){
     return suffix_array_detail::build_lcp(s, sa);
 }
 
+template<class Sequence = string>
+class SuffixArray {
+    Sequence text;
+    vector<int> sa;
+    using Pattern = conditional_t<is_same_v<Sequence, string>, string_view, const Sequence&>;
+
+public:
+    explicit SuffixArray(Sequence s) : text(move(s)), sa(suffix_array(text)) {}
+
+    int size() const { return sa.size(); }
+    int operator[](int i) const { return sa[i]; }
+    const vector<int>& array() const { return sa; }
+    vector<int> lcp() const { return ::lcp(text, sa); }
+
+    pair<int, int> equal_range(Pattern pattern) const {
+        int n = size();
+        if (pattern.empty() || !n) return {0, n};
+        auto less = [](const auto& a, const auto& b) {
+            if constexpr (is_same_v<Sequence, string>) return (unsigned char)a < (unsigned char)b;
+            else return a < b;
+        };
+        auto compare = [&](int pos) {
+            for (size_t j = 0; j < pattern.size(); ++j, ++pos) {
+                if (pos == n || less(text[pos], pattern[j])) return -1;
+                if (less(pattern[j], text[pos])) return 1;
+            }
+            return 0;
+        };
+        auto bound = [&](int l, bool upper) {
+            int r = n;
+            while (l < r) {
+                int m = l + (r - l) / 2;
+                int order = compare(sa[m]);
+                if (order < 0 || (upper && order == 0)) l = m + 1;
+                else r = m;
+            }
+            return l;
+        };
+        int l = bound(0, false);
+        return {l, bound(l, true)};
+    }
+};
+
+SuffixArray(const char*) -> SuffixArray<string>;
+
 /**
  * @brief Suffix Array
  */
