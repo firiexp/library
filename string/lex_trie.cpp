@@ -69,6 +69,25 @@ public:
     int size() const { return nodes.size(); }
     int length(int v) const { return nodes[v].len; }
 
+    vector<int> restore(int v) const {
+        vector<int> result(nodes[v].len);
+        for (int i = (int)result.size() - 1; i >= 0; --i) {
+            result[i] = nodes[v].c;
+            v = nodes[v].parent;
+        }
+        return result;
+    }
+
+    string restore_string(int v) const {
+        string result(nodes[v].len, '\0');
+        for (int i = (int)result.size() - 1; i >= 0; --i) {
+            assert(0 <= nodes[v].c && nodes[v].c <= 255);
+            result[i] = char(nodes[v].c);
+            v = nodes[v].parent;
+        }
+        return result;
+    }
+
     int append(int p, int c) {
         int first = nodes[p].first;
         if (!first) {

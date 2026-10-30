@@ -7,7 +7,7 @@ tags: 文字列
 ---
 
 ## 説明
-文字列をノードで表し、末尾への文字・文字列の追加と、ノード間の辞書順比較を行う。
+文字列や整数列をノードで表し、末尾への追加と、ノード間の辞書順比較を行う。
 ノード `0` は空文字列を表す。同じ文字列を追加すると同じノード番号を返し、追加前のノードも引き続き使える。
 
 ## できること
@@ -21,6 +21,10 @@ tags: 文字列
   根を含むノード数を返す。$O(1)$
 - `int length(int v) const`
   ノード `v` の文字列長を返す。$O(1)$
+- `vector<int> restore(int v) const`
+  ノード `v` の列を整数列として返す。根なら空列。時間・返却領域とも $O(\mathrm{length}(v))$
+- `string restore_string(int v) const`
+  ノード `v` の列を文字列として返す。根なら空文字列。各要素が $0$ 以上 $255$ 以下の列に使う。時間・返却領域とも $O(\mathrm{length}(v))$
 - `int append(int p, int c)`
   `p` の末尾に整数 `c` を1個追加したノードを返す。`c` は `int` の全範囲を使える。期待償却 $O(1)$
 - `int append(int p, char c)`
@@ -56,6 +60,15 @@ int common = trie.lcp(b, c);
 
 この例では `smaller` は `true`、`prefix` は `a`、`common` は `2` になる。
 整数列は `append(p, c)` を繰り返して作り、符号付き整数の大小で比較する。
+
+文字列の出力には `restore_string`、整数列の取得には `restore` を使う。
+
+```cpp
+Printer out;
+out.println(trie.restore_string(b));
+```
+
+この例では `abc` を出力する。
 
 1文字追加を最大 `q` 回行うなら `LexTrie trie(q);` とする。
 指定を省略した場合や予約容量を超えた場合は自動拡張する。

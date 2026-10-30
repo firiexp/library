@@ -69,6 +69,8 @@ void reserve_check() {
 void check_pair(const LexTrie& trie, const vector<vector<int>>& words, int a, int b) {
     const auto& x = words[a];
     const auto& y = words[b];
+    assert(trie.restore(a) == x);
+    assert(trie.restore(b) == y);
     int common = 0;
     while (common < (int)min(x.size(), y.size()) && x[common] == y[common]) ++common;
     int order = (x > y) - (x < y);
@@ -127,12 +129,17 @@ void string_check() {
         int p = 0;
         for (char c : s) p = trie.append(p, c);
         assert(p == v && trie.size() == size);
+        vector<int> values;
+        for (unsigned char c : s) values.push_back(c);
+        assert(trie.restore(v) == values);
+        assert(trie.restore_string(v) == s);
         for (int i = 0; i <= (int)s.size(); ++i) {
             int prefix = trie.insert(string_view(s).substr(0, i));
             assert(trie.append(prefix, string_view(s).substr(i)) == v);
         }
     }
     for (int a = 0; a < (int)words.size(); ++a) {
+        assert(trie.restore_string(ids[a]) == words[a]);
         for (int b = 0; b < (int)words.size(); ++b) {
             int order = (words[a] > words[b]) - (words[a] < words[b]);
             assert(trie.compare(ids[a], ids[b]) == order);
@@ -214,6 +221,8 @@ void deep_check() {
         assert(trie.lca(a, b) == 0);
     }
     assert(trie.insert(string(n, '\0')) == chain[n]);
+    assert(trie.restore(chain[n]) == vector<int>(n, 0));
+    assert(trie.restore_string(chain[n]) == string(n, '\0'));
 }
 
 void branched_path_check() {
