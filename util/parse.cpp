@@ -52,6 +52,13 @@ int expr(state &cur){
     return addsub(cur);
 }
 
+int parse_expression(string_view s) {
+    string input(s);
+    input.push_back('\0');
+    state cur = input.cbegin();
+    return expr(cur);
+}
+
 /**
  * @brief 式パーサ(Parse)
  */
