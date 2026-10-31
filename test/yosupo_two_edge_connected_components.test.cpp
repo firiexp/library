@@ -11,7 +11,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/twoedgeconnectedcomponents.cpp"
+#include "../graph/connectivity/twoedgeconnectedcomponents.cpp"
 
 int main() {
     Scanner sc;

@@ -3,10 +3,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
-#include "../graph/grid_bfs.cpp"
-#include "../graph/generated_shortest_path.cpp"
-#include "../graph/dijkstra_from_distances.cpp"
-#include "../graph/bfs01.cpp"
+#include "../graph/shortest_path/grid_bfs.cpp"
+#include "../graph/shortest_path/generated_shortest_path.cpp"
+#include "../graph/shortest_path/dijkstra_from_distances.cpp"
+#include "../graph/shortest_path/bfs01.cpp"
 
 template<class T>
 void check_paths(const ShortestPaths<T> &result, const vector<int> &sources,

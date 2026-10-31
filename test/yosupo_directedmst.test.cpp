@@ -11,7 +11,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/chu_liu_edmonds.cpp"
+#include "../graph/spanning_tree/chu_liu_edmonds.cpp"
 
 int main() {
     Scanner in;

@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../graph/SCC.cpp"
+#include "../graph/connectivity/SCC.cpp"
 
 void check(SCC &g, int n, const vector<pair<int, int>> &edges) {
     int components = g.build(false);

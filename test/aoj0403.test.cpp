@@ -16,7 +16,7 @@ using ll = long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/manhattanmst.cpp"
+#include "../graph/spanning_tree/manhattanmst.cpp"
 #include "../datastructure/unionfind.cpp"
 
 int main() {

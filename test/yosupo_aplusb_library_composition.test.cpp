@@ -18,16 +18,16 @@ using ull = unsigned long long;
 #include "../datastructure/point_add_rectangle_sum.cpp"
 #include "../datastructure/static_rectangle_sum.cpp"
 
-#include "../graph/dijkstra.cpp"
-#include "../graph/dijkstra_restore.cpp"
-#include "../graph/bfs01.cpp"
-#include "../graph/bellman_ford.cpp"
+#include "../graph/shortest_path/dijkstra.cpp"
+#include "../graph/shortest_path/dijkstra_restore.cpp"
+#include "../graph/shortest_path/bfs01.cpp"
+#include "../graph/shortest_path/bellman_ford.cpp"
 
-#include "../graph/SCC.cpp"
+#include "../graph/connectivity/SCC.cpp"
 #include "../graph/twosat.cpp"
 
-#include "../graph/biconnected_components.cpp"
-#include "../graph/block_cut_tree.cpp"
+#include "../graph/connectivity/biconnected_components.cpp"
+#include "../graph/connectivity/block_cut_tree.cpp"
 
 #include "../math/prime/get_min_factor.cpp"
 #include "../math/prime/get_prime.cpp"

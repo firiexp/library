@@ -1,0 +1,28 @@
+#include "../edge.cpp"
+
+template <typename T>
+vector<T> bellman_ford(int s, int V,vector<edge<T> > &G){
+    const T INF = numeric_limits<T>::max();
+    vector<T> d(V, INF);
+    d[s] = 0;
+    for (int i = 0; i < V - 1; ++i) {
+        bool updated = false;
+        for (auto &&e : G) {
+            if (d[e.from] == INF) continue;
+            if (d[e.from] + e.cost < d[e.to]) {
+                d[e.to] = d[e.from] + e.cost;
+                updated = true;
+            }
+        }
+        if (!updated) return d;
+    }
+    for (auto &&e : G) {
+        if(d[e.from] == INF) continue;
+        if(d[e.from] + e.cost < d[e.to]) return vector<T> ();
+    }
+    return d;
+}
+
+/**
+ * @brief Bellman-Ford法
+ */

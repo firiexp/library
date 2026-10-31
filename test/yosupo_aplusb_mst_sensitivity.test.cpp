@@ -3,8 +3,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../graph/kruskal.cpp"
-#include "../graph/mst_sensitivity.cpp"
+#include "../graph/spanning_tree/kruskal.cpp"
+#include "../graph/spanning_tree/mst_sensitivity.cpp"
 
 void check(int n, vector<edge<long long>> edges) {
     int m = (int)edges.size();

@@ -5,7 +5,7 @@ using namespace std;
 #include "../util/fastio.cpp"
 #include "../geometry/geometry.cpp"
 #include "../geometry/area_of_union_of_rectangles.cpp"
-#include "../graph/manhattanmst.cpp"
+#include "../graph/spanning_tree/manhattanmst.cpp"
 
 void hull_check() {
     auto check = [](Polygon input, const Polygon &expected) {

@@ -2,7 +2,7 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include "../graph/offlinedynamicconnectivity.cpp"
+#include "../graph/connectivity/offlinedynamicconnectivity.cpp"
 
 void check(int n, const vector<vector<int>> &count, UndoableUnionFind &uf) {
     vector<int> component(n, -1);

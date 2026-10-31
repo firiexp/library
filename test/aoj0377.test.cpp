@@ -11,7 +11,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/bridge_tree.cpp"
+#include "../graph/connectivity/bridge_tree.cpp"
 #include "../datastructure/unionfind.cpp"
 
 int main() {

@@ -15,7 +15,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/offlinedynamicconnectivity.cpp"
+#include "../graph/connectivity/offlinedynamicconnectivity.cpp"
 
 struct RollbackUnionFindComponentSum {
     struct History {

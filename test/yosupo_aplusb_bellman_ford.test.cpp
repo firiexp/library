@@ -7,10 +7,10 @@ template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../util/fastio.cpp"
 
 namespace plain {
-#include "../graph/bellman_ford.cpp"
+#include "../graph/shortest_path/bellman_ford.cpp"
 }
 namespace propagated {
-#include "../graph/bellman_ford_negative_loop.cpp"
+#include "../graph/shortest_path/bellman_ford_negative_loop.cpp"
 }
 
 void check(int n, const vector<tuple<int, int, ll>> &edges) {

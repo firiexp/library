@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../graph/lowlink.cpp"
+#include "../graph/connectivity/lowlink.cpp"
 
 int main() {
     Scanner in;

@@ -10,15 +10,15 @@ using ull = unsigned long long;
 
 #include "../util/fastio.cpp"
 
-#include "../graph/bellman_ford.cpp"
-#include "../graph/bfs01.cpp"
-#include "../graph/dijkstra.cpp"
+#include "../graph/shortest_path/bellman_ford.cpp"
+#include "../graph/shortest_path/bfs01.cpp"
+#include "../graph/shortest_path/dijkstra.cpp"
 
 #include "../graph/twosat.cpp"
-#include "../graph/SCC.cpp"
+#include "../graph/connectivity/SCC.cpp"
 
-#include "../graph/block_cut_tree.cpp"
-#include "../graph/biconnected_components.cpp"
+#include "../graph/connectivity/block_cut_tree.cpp"
+#include "../graph/connectivity/biconnected_components.cpp"
 
 #include "../tree/virtual_tree_helper.cpp"
 #include "../tree/auxtree.cpp"

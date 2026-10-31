@@ -20,7 +20,7 @@ template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/generated_shortest_path.cpp"
+#include "../graph/shortest_path/generated_shortest_path.cpp"
 
 int main() {
     Scanner in;

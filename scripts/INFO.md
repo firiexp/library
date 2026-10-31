@@ -27,6 +27,8 @@ python3 scripts/build_verify_docs.py --require-success
 
 全件検証と docs 生成は別コマンドである。`build_verify_docs.py` は Jekyll 用ソースを `.competitive-verifier/_jekyll/` に生成し、既存の `_md/`、タイトル、結合済みソース、コピー機能、計測ダッシュボードを取り込む。`--require-success` は不足・古い・失敗した結果がある場合に停止する。省略時は未検証として表示し、成功扱いにはしない。
 
+ライブラリの目次はディレクトリごとに1階層の折りたたみで表示する。表示名は `.competitive-verifier/docs/_config.yml` の `directory_titles` で管理し、キーには末尾の `/` を含む実ディレクトリを指定する。表示名は短い名詞句とし、使い方は各ファイルの docs に書く。ファイルを移動するときは include、対応する `_md` の配置と `documentation_of`、`meta/doc_titles.yml` のパスも更新する。
+
 GitHub Actions は4分割で検証し、結果を統合して docs を生成する。既定ブランチ（現在は `master`）への push で GitHub Pages に公開する。リポジトリの Settings → Pages → Source は **GitHub Actions** を選ぶ。`GH_PAT` は不要で、`GITHUB_TOKEN` と `YUKICODER_TOKEN` を使う。テストデータは各ジョブで取得し、前回の検証結果だけを cache する。
 
 `.competitive-verifier/result.json` は検証結果、`verify-files.json` は依存・実行定義である。生成物は git 管理しない。docs のソースと公開する計測結果は git 管理する。旧 `.verify-helper/cache/` は自動削除しない。

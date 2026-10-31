@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../graph/dynamic_graph_vertex_add_component_sum.cpp"
+#include "../graph/connectivity/dynamic_graph_vertex_add_component_sum.cpp"
 
 void check(int n, int q, int mode, mt19937 &rng) {
     vector<long long> values(n);

@@ -11,7 +11,7 @@
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/block_cut_tree.cpp"
+#include "../graph/connectivity/block_cut_tree.cpp"
 #include "../tree/hld.cpp"
 
 int main() {

@@ -5,7 +5,7 @@ using namespace std;
 using ll = long long;
 
 #include "../util/fastio.cpp"
-#include "../graph/k_shortest_walk.cpp"
+#include "../graph/shortest_path/k_shortest_walk.cpp"
 
 int main() {
     Scanner in;

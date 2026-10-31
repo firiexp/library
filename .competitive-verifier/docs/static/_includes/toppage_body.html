@@ -1,0 +1,31 @@
+{%- for top in page.data.top -%}
+<h2>{{ top.type }}</h2>
+{%- for category in top.categories -%}
+{%- if top.type == "Library Files" -%}
+{%- assign directory_title = site.directory_titles[category.name] | default: category.name -%}
+<details class="library-directory" id="directory-{{ category.name | slugify }}">
+<summary><span class="directory-label">{{ directory_title | xml_escape }}<small>({{ category.name | xml_escape }})</small></span></summary>
+{%- else -%}
+<h3>{{ category.name }}</h3>
+{%- endif -%}
+<ul>
+    {%- for item in category.pages -%}
+        {%- if site.filename-index -%}
+            {%- assign name = item.filename -%}
+        {%- else -%}
+            {%- assign name = item.path -%}
+        {%- endif -%}
+
+        {%- if item.title -%}
+            {%- capture link_title -%}{{item.title | xml_escape }} <small>({{ name | xml_escape }})</small>{%- endcapture -%}
+        {%- else -%}
+            {%- capture link_title -%}{{name | xml_escape }}{%- endcapture -%}
+        {%- endif -%}
+        <li><a href="{{ item.path | relative_url }}">{{ site.icons[item.icon] }} {{ link_title | xml_escape }}</a></li>
+    {%- endfor -%}
+</ul>
+{%- if top.type == "Library Files" -%}
+</details>
+{%- endif -%}
+{%- endfor -%}
+{%- endfor -%}

@@ -5,7 +5,7 @@ using namespace std;
 using ll = long long;
 template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../util/fastio.cpp"
-#include "../graph/maxflow_lower_bound.cpp"
+#include "../flow/maxflow_lower_bound.cpp"
 
 using Edge = tuple<int, int, ll, ll>;
 

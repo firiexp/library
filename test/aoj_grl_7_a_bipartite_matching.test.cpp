@@ -12,7 +12,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/bipartite_matching.cpp"
+#include "../graph/matching/bipartite_matching.cpp"
 
 int main() {
     Scanner in;

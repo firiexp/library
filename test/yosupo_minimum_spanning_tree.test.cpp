@@ -13,7 +13,7 @@ using ll = long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/kruskal.cpp"
+#include "../graph/spanning_tree/kruskal.cpp"
 
 int main() {
     Scanner in;

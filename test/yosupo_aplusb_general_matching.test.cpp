@@ -2,7 +2,7 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include "../graph/general_matching.cpp"
+#include "../graph/matching/general_matching.cpp"
 
 void check(int n, const vector<pair<int, int>>& edges) {
     vector<int> adj(n);

@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../graph/dominatortree.cpp"
+#include "../graph/connectivity/dominatortree.cpp"
 
 vector<bool> bfs(const vector<vector<int>> &g, int root, int removed) {
     vector<bool> seen(g.size());

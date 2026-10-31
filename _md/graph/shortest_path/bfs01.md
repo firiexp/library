@@ -1,0 +1,31 @@
+---
+title: 01-BFS
+documentation_of: //graph/shortest_path/bfs01.cpp
+date: 2026-03-08
+category: グラフ
+tags: グラフ
+---
+
+## 説明
+辺重みが `0` または `1` のグラフで単一始点最短路を求める。
+
+## できること
+頂点数を $V$、辺数を $E$ とする。
+
+- `vector<T> bfs01(int s, vector<vector<edge<T>>>& G)`
+  始点 `s` から各頂点への最短距離を返す。到達不能な頂点は `INF<T>`。時間 $O(V+E)$、追加領域 $O(V)$
+
+## 使い方
+`#include "../graph/shortest_path/bfs01.cpp"` を読み込む。
+隣接リスト `G` を作り、各辺のコストに `0` か `1` を入れて `bfs01(s, G)` を呼ぶ。
+
+```cpp
+vector<vector<edge<int>>> G(n);
+G[u].emplace_back(v, 0);
+G[v].emplace_back(u, 1);
+auto dist = bfs01(0, G);
+```
+
+## 実装上の補足
+重み `0` の遷移は deque の前、重み `1` の遷移は後ろへ積む。
+頂点を最初に取り出したときに距離を確定する。同じ頂点の古い要素は捨て、各頂点の隣接辺は1回だけ走査する。

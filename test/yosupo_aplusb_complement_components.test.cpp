@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../graph/complement_components.cpp"
+#include "../graph/connectivity/complement_components.cpp"
 
 void check(const vector<vector<int>> &g) {
     int n = g.size();

@@ -10,7 +10,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/bipartite_matching_lexmin.cpp"
+#include "../graph/matching/bipartite_matching_lexmin.cpp"
 
 int main() {
     Scanner sc;

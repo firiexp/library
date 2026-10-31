@@ -9,3 +9,21 @@ exclude:
 repository: firiexp/library
 url: https://firiexp.github.io
 baseurl: /library
+directory_titles:
+  datastructure/: データ構造
+  datastructure/segmenttree/: セグメント木
+  flow/: フロー
+  fps/: 多項式・形式的冪級数
+  geometry/: 幾何
+  graph/: グラフのアルゴリズム・共通部品
+  graph/shortest_path/: 最短路
+  graph/connectivity/: 連結性・到達可能性
+  graph/spanning_tree/: 最小全域木・最小全域有向木
+  graph/matching/: マッチング
+  math/: 数学
+  math/prime/: 素数・数論
+  snippets/: テンプレート・スニペット
+  string/: 文字列
+  test/: 検証用の共通部品
+  tree/: 木
+  util/: 入出力・ユーティリティ

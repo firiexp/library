@@ -13,7 +13,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/dynamic_graph_vertex_add_component_sum.cpp"
+#include "../graph/connectivity/dynamic_graph_vertex_add_component_sum.cpp"
 
 int main() {
     Scanner sc;

@@ -11,7 +11,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/minimum_cost_b_flow.cpp"
+#include "../flow/minimum_cost_b_flow.cpp"
 
 void write_i128(Printer& pr, __int128_t x) {
     if(x == 0) {

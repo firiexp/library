@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../graph/vertex_failure_connectivity.cpp"
+#include "../graph/connectivity/vertex_failure_connectivity.cpp"
 
 void check(VertexFailureConnectivity &solver, int n, const vector<pair<int, int>> &edges) {
     solver.build();

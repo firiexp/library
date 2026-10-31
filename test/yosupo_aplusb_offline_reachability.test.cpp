@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../graph/offline_reachability.cpp"
+#include "../graph/connectivity/offline_reachability.cpp"
 
 void check(int n, const vector<pair<int, int>> &edges, const vector<pair<int, int>> &queries) {
     auto saved_edges = edges, saved_queries = queries;

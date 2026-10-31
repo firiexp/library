@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../graph/lowlink.cpp"
+#include "../graph/connectivity/lowlink.cpp"
 
 int components(int n, const vector<pair<int, int>> &edges, int vertex, int edge) {
     vector<vector<int>> g(n);

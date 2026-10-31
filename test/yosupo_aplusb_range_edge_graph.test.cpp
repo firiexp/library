@@ -5,7 +5,7 @@ using namespace std;
 template<class T> constexpr T INF = numeric_limits<T>::max() / 4;
 #include "../util/fastio.cpp"
 #include "../graph/range_edge_graph.cpp"
-#include "../graph/dijkstra.cpp"
+#include "../graph/shortest_path/dijkstra.cpp"
 
 int main() {
     RangeEdgeGraph<int> empty(0);

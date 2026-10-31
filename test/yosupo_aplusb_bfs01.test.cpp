@@ -5,8 +5,8 @@ using namespace std;
 template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 
 #include "../util/fastio.cpp"
-#include "../graph/bfs01.cpp"
-#include "../graph/dijkstra.cpp"
+#include "../graph/shortest_path/bfs01.cpp"
+#include "../graph/shortest_path/dijkstra.cpp"
 
 template<class T>
 void check(int n, const vector<tuple<int, int, int>> &edges) {

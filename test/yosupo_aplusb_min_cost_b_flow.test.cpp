@@ -4,7 +4,7 @@
 using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
-#include "../graph/minimum_cost_b_flow.cpp"
+#include "../flow/minimum_cost_b_flow.cpp"
 
 struct InputEdge { int from, to, lower, upper, cost; };
 

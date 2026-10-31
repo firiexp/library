@@ -13,7 +13,7 @@ using ll = long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../graph/bellman_ford.cpp"
+#include "../graph/shortest_path/bellman_ford.cpp"
 
 int main() {
     Scanner sc;

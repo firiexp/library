@@ -1,0 +1,37 @@
+.library-directory {
+    margin: 0 0 2px;
+}
+
+.library-directory summary {
+    cursor: pointer;
+    color: #267cb9;
+}
+
+.library-directory .directory-label {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.library-directory summary small {
+    display: block;
+    margin-top: -0.3em;
+    color: #777;
+    font-size: 11px;
+}
+
+.library-directory summary:hover .directory-label {
+    text-decoration: underline;
+}
+
+.library-directory summary:focus-visible {
+    outline: 2px solid #267cb9;
+    outline-offset: 3px;
+}
+
+.library-directory ul {
+    margin: 2px 0;
+}
+
+.library-directory li {
+    overflow-wrap: anywhere;
+}

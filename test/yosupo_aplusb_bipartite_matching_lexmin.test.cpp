@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../graph/bipartite_matching_lexmin.cpp"
+#include "../graph/matching/bipartite_matching_lexmin.cpp"
 
 void check(int l, int r, const vector<pair<int, int>> &edges) {
     Bipartite_Matching_LexMin solver(l, r);
