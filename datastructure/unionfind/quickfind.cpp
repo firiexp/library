@@ -10,11 +10,11 @@ struct QuickFind {
     }
  
     int root(int a){ return roots[a]; }
-    size_t size(int a){ return v[a].size(); }
+    size_t size(int a){ return v[roots[a]].size(); }
     bool unite(int a, int b){
         if(same(a, b)) return false;
         a = roots[a], b = roots[b];
-        if(size(a) < size(b)) swap(a, b);
+        if(v[a].size() < v[b].size()) swap(a, b);
         for (auto &&i : v[b]) {
             v[a].emplace_back(i);
             roots[i] = a;
