@@ -9,7 +9,7 @@
 #include <vector>
 using namespace std;
 
-#include "../datastructure/weighted_wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/weighted_wavelet_matrix.cpp"
 
 #include <cstdio>
 #include <cstring>

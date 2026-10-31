@@ -5,7 +5,7 @@ using namespace std;
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
-#include "../math/stirling_second_row.cpp"
+#include "../math/combinatorics/stirling_second_row.cpp"
 
 int main() {
     const int limit = 180;

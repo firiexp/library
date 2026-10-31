@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 
-#include "../datastructure/wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/wavelet_matrix.cpp"
 #include <cstdio>
 #include <cstring>
 #include <string>

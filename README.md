@@ -19,7 +19,7 @@ g++ -std=c++17 -O2 main.cpp -o main
 `assert` の条件式は無効時には評価されないため、必要な更新処理を入れない。
 
 ```cpp
-#include "datastructure/unionfind.cpp"
+#include "datastructure/unionfind/unionfind.cpp"
 ```
 
 モジュールごとのAPI、前提条件、計算量は [GitHub Pages](https://firiexp.github.io/library/) に掲載する。

@@ -7,7 +7,7 @@ using uint = unsigned;
 using ull = unsigned long long;
 const int MOD = 998244353;
 
-#include "../math/factorial.cpp"
+#include "../math/combinatorics/factorial.cpp"
 
 template <class Mint>
 void check_prime_tables(const Factorial<Mint> &f) {

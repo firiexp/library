@@ -4,7 +4,7 @@
 using namespace std;
 #include "../util/fastio.cpp"
 #include "../util/offline_time_intervals.cpp"
-#include "../datastructure/undoable_weighted_unionfind.cpp"
+#include "../datastructure/unionfind/undoable_weighted_unionfind.cpp"
 
 struct XorGroup {
     using T = int;

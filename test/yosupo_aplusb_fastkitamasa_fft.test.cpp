@@ -8,8 +8,8 @@ using ull = unsigned long long;
 constexpr int MOD = 1000000007;
 
 #include "../util/fastio.cpp"
-#include "../math/fft.cpp"
-#include "../math/fastkitamasa.cpp"
+#include "../fps/fft.cpp"
+#include "../fps/fastkitamasa.cpp"
 #include "fastkitamasa_self_check.cpp"
 
 int main() {

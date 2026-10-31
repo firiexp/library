@@ -11,7 +11,7 @@
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/point_add_rectangle_sum.cpp"
+#include "../datastructure/range_query_2d/point_add_rectangle_sum.cpp"
 
 int main() {
     Scanner sc;

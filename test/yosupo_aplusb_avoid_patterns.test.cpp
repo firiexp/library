@@ -3,7 +3,7 @@
 using namespace std;
 
 #include "../string/avoid_patterns.cpp"
-#include "../datastructure/ahocorasick.cpp"
+#include "../string/ahocorasick.cpp"
 #include "../math/digit_dfa.cpp"
 #include "../util/fastio.cpp"
 

@@ -15,7 +15,7 @@ using ll = long long;
 #include <cstring>
 #include <type_traits>
 
-#include "../datastructure/dynamic_weighted_wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/dynamic_weighted_wavelet_matrix.cpp"
 #include <charconv>
 #include "../util/fastio.cpp"
 

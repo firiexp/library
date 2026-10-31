@@ -5,7 +5,7 @@ using namespace std;
 using ll = long long;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../util/modint_base.cpp"
+#include "../math/modular/modint_base.cpp"
 #include "../datastructure/binaryindexedtree.cpp"
 
 template<class T>

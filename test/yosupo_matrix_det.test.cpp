@@ -15,7 +15,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/matrix_determinant.cpp"
+#include "../math/linear_algebra/matrix_determinant.cpp"
 
 int main() {
     Scanner sc;

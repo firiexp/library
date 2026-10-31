@@ -8,7 +8,7 @@ using ull = unsigned long long;
 constexpr int MOD = 1000000007;
 
 #include "../util/fastio.cpp"
-#include "../math/fft.cpp"
+#include "../fps/fft.cpp"
 
 vector<uint> naive(const vector<uint> &a, const vector<uint> &b) {
     if (a.empty() || b.empty()) return {};

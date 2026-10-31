@@ -3,7 +3,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../tree/euler_tour_tree.cpp"
+#include "../tree/dynamic_tree/euler_tour_tree.cpp"
 
 int main() {
     Scanner in;

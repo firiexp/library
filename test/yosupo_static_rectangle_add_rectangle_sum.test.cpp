@@ -7,8 +7,8 @@ using ull = unsigned long long;
 using uint = unsigned;
 constexpr int MOD = 998244353;
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../datastructure/static_rectangle_add_rectangle_sum.cpp"
+#include "../math/modular/modint.cpp"
+#include "../datastructure/range_query_2d/static_rectangle_add_rectangle_sum.cpp"
 
 int main() {
     Scanner sc;

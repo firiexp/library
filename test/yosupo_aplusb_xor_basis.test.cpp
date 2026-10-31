@@ -17,7 +17,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/xor_basis.cpp"
+#include "../math/linear_algebra/xor_basis.cpp"
 
 vector<uint16_t> enumerate(const vector<uint16_t> &values) {
     vector<uint16_t> result{0};

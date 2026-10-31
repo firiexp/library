@@ -6,7 +6,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../math/subset_sum_counts.cpp"
+#include "../math/combinatorics/subset_sum_counts.cpp"
 
 void check(const vector<int>& weights, int t) {
     auto original = weights;

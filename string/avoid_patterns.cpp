@@ -2,7 +2,7 @@
 #define FIRIEXP_LIBRARY_STRING_AVOID_PATTERNS_CPP
 
 #include "dfa.cpp"
-#include "../datastructure/ahocorasick.cpp"
+#include "ahocorasick.cpp"
 
 template<int W, int start>
 DFA<W> avoid_patterns(const vector<string>& patterns) {

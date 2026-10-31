@@ -12,11 +12,11 @@ using ull = unsigned long long;
 #include <charconv>
 #include "../util/fastio.cpp"
 
-#include "../util/modint.cpp"
-#include "../math/ntt.cpp"
+#include "../math/modular/modint.cpp"
+#include "../fps/ntt.cpp"
 
-#include "../datastructure/point_add_rectangle_sum.cpp"
-#include "../datastructure/static_rectangle_sum.cpp"
+#include "../datastructure/range_query_2d/point_add_rectangle_sum.cpp"
+#include "../datastructure/range_query_2d/static_rectangle_sum.cpp"
 
 #include "../graph/shortest_path/dijkstra.cpp"
 #include "../graph/shortest_path/dijkstra_restore.cpp"

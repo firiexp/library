@@ -17,7 +17,7 @@ using namespace std;
 #include <charconv>
 #include "../util/fastio.cpp"
 #include "../datastructure/segmenttree/lazysegtree.cpp"
-#include "../util/modint.cpp"
+#include "../math/modular/modint.cpp"
 
 struct Monoid{
     using T = array<mint, 2>;

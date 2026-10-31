@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../datastructure/wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/wavelet_matrix.cpp"
 
 template<class T>
 T kth(const WaveletMatrix<T> &wm, const vector<pair<int, int>> &ranges, int k) {

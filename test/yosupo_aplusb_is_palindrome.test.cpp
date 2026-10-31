@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../util/is_palindrome.cpp"
+#include "../string/is_palindrome.cpp"
 
 bool brute_palindrome(string s, char wildcard) {
     auto pos = s.find(wildcard);

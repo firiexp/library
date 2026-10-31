@@ -15,7 +15,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/inverse_matrix.cpp"
+#include "../math/linear_algebra/inverse_matrix.cpp"
 
 int main() {
     Scanner sc;

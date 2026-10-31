@@ -7,8 +7,8 @@ using uint = unsigned;
 using ull = unsigned long long;
 static const int MOD = 998244353;
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../math/squarematrix.cpp"
+#include "../math/modular/modint.cpp"
+#include "../math/linear_algebra/squarematrix.cpp"
 
 struct SemiRing {
     using T = mint;

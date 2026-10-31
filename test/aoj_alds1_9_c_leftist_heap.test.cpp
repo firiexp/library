@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../datastructure/leftist_heap.cpp"
+#include "../datastructure/heap/leftist_heap.cpp"
 
 int main() {
     Scanner in;

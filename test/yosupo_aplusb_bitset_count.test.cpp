@@ -7,10 +7,10 @@
 #include <vector>
 using namespace std;
 
-#include "../datastructure/dynamic_bitset.cpp"
-#include "../datastructure/static_bitset.cpp"
-#include "../datastructure/dynamic_bitset.cpp"
-#include "../datastructure/static_bitset.cpp"
+#include "../datastructure/bitset/dynamic_bitset.cpp"
+#include "../datastructure/bitset/static_bitset.cpp"
+#include "../datastructure/bitset/dynamic_bitset.cpp"
+#include "../datastructure/bitset/static_bitset.cpp"
 
 template<int N>
 void check() {

@@ -10,7 +10,7 @@
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/rectangle_add_point_get.cpp"
+#include "../datastructure/range_query_2d/rectangle_add_point_get.cpp"
 
 int main() {
     Scanner sc;

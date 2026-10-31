@@ -6,7 +6,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../math/stirling_second_row.cpp"
+#include "../math/combinatorics/stirling_second_row.cpp"
 
 int main() {
     Scanner sc;

@@ -7,10 +7,10 @@ using uint = unsigned;
 using ull = unsigned long long;
 const int MOD = 998244353;
 
-#include "../util/modint.cpp"
-#include "../math/matrix.cpp"
-#include "../math/squarematrix.cpp"
-#include "../math/squarematrix_mint.cpp"
+#include "../math/modular/modint.cpp"
+#include "../math/linear_algebra/matrix.cpp"
+#include "../math/linear_algebra/squarematrix.cpp"
+#include "../math/linear_algebra/squarematrix_mint.cpp"
 
 struct MinPlus {
     using T = ll;

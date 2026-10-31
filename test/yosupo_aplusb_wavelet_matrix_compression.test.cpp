@@ -3,8 +3,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#include "../datastructure/wavelet_matrix.cpp"
-#include "../datastructure/weighted_wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/weighted_wavelet_matrix.cpp"
 
 template<class T>
 void check_compression() {

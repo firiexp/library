@@ -5,7 +5,7 @@ using namespace std;
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
-#include "../math/batch_inverse.cpp"
+#include "../math/modular/batch_inverse.cpp"
 
 template<class Mint>
 void check(const vector<Mint>& a) {

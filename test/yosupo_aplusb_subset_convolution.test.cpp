@@ -4,7 +4,7 @@
 using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
-#include "../math/subset_convolution.cpp"
+#include "../math/convolution/subset_convolution.cpp"
 
 struct Matrix {
     array<int, 4> a{};

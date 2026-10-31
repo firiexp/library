@@ -12,7 +12,7 @@
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/discrete_logarithm.cpp"
+#include "../math/modular/discrete_logarithm.cpp"
 
 int main() {
     Scanner sc;

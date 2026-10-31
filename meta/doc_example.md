@@ -9,7 +9,7 @@
 ```md
 ---
 title: XOR基底(Linear Basis)
-documentation_of: //math/xor_basis.cpp
+documentation_of: //math/linear_algebra/xor_basis.cpp
 date: 2026-03-11
 category: 数学
 tags: 数学

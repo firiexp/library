@@ -5,7 +5,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 
-#include "../util/modint_base.cpp"
+#include "../math/modular/modint_base.cpp"
 #include "../util/fastio.cpp"
 #include "../math/digit_dp.cpp"
 #include "../math/digit_dfa.cpp"

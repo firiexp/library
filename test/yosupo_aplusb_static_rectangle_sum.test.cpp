@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../datastructure/static_rectangle_sum.cpp"
+#include "../datastructure/range_query_2d/static_rectangle_sum.cpp"
 
 void check(const StaticRectangleSum<long long>& solver) {
     auto points = solver.points;

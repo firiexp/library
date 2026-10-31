@@ -2,7 +2,7 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include "../tree/frequency_table_of_tree_distance.cpp"
+#include "../tree/centroid/frequency_table_of_tree_distance.cpp"
 
 vector<vector<int>> make_tree(const vector<int>& parent) {
     vector<vector<int>> g(parent.size() + 1);

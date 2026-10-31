@@ -6,8 +6,8 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../util/modint_base.cpp"
-#include "../math/fwht.cpp"
+#include "../math/modular/modint_base.cpp"
+#include "../math/convolution/fwht.cpp"
 
 template<class T>
 vector<T> direct(const vector<T> &a, const vector<T> &b) {

@@ -19,7 +19,7 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
 #include "../util/makev.cpp"
 
-#include "../util/modint_arbitrary.cpp"
+#include "../math/modular/modint_arbitrary.cpp"
 int main() {
     int n, k, m;
     cin >> n >> k >> m;

@@ -7,8 +7,8 @@ using ull = unsigned long long;
 using uint = unsigned;
 constexpr int MOD = 998244353;
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../math/characteristic_polynomial.cpp"
+#include "../math/modular/modint.cpp"
+#include "../math/linear_algebra/characteristic_polynomial.cpp"
 
 int main() {
     Scanner sc;

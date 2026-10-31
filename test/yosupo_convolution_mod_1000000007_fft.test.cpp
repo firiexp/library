@@ -15,7 +15,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/fft.cpp"
+#include "../fps/fft.cpp"
 
 int main() {
     Scanner sc;

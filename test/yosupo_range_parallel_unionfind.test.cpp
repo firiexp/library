@@ -7,8 +7,8 @@ using ull = unsigned long long;
 using uint = unsigned;
 constexpr int MOD = 998244353;
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../datastructure/range_parallel_unionfind.cpp"
+#include "../math/modular/modint.cpp"
+#include "../datastructure/unionfind/range_parallel_unionfind.cpp"
 
 int main() {
     Scanner sc;

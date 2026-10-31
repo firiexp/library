@@ -7,9 +7,9 @@ using uint = unsigned;
 using ull = unsigned long long;
 const int MOD = 1000000007;
 #include "../util/fastio.cpp"
-#include "../math/factorial.cpp"
+#include "../math/combinatorics/factorial.cpp"
 #include "../fps/sample_point_eval.cpp"
-#include "../math/factorial.cpp"
+#include "../math/combinatorics/factorial.cpp"
 
 template <class Mint>
 Mint evaluate(const vector<Mint>& f, Mint x) {

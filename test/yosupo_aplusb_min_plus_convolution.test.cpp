@@ -14,7 +14,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/min_plus_convolution.cpp"
+#include "../math/convolution/min_plus_convolution.cpp"
 
 void self_check() {
     mt19937 rng(181);

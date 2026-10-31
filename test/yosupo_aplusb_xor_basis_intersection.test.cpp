@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../math/xor_basis.cpp"
+#include "../math/linear_algebra/xor_basis.cpp"
 
 void exhaustive_check() {
     vector<uint32_t> spaces{1};

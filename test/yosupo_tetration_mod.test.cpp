@@ -9,7 +9,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/tetration.cpp"
+#include "../math/modular/tetration.cpp"
 
 int main() {
     Scanner sc;

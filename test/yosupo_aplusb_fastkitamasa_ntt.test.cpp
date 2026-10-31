@@ -7,8 +7,8 @@ using uint = unsigned;
 using ull = unsigned long long;
 
 #include "../util/fastio.cpp"
-#include "../math/ntt.cpp"
-#include "../math/fastkitamasa.cpp"
+#include "../fps/ntt.cpp"
+#include "../fps/fastkitamasa.cpp"
 #include "fastkitamasa_self_check.cpp"
 
 int main() {

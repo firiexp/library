@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../datastructure/weightedunionfind.cpp"
+#include "../datastructure/unionfind/weightedunionfind.cpp"
 #include "../tree/rerooting.cpp"
 
 struct Permutations {

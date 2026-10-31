@@ -11,7 +11,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/min_plus_convolution.cpp"
+#include "../math/convolution/min_plus_convolution.cpp"
 
 int main() {
     Scanner sc;

@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../datastructure/wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/wavelet_matrix.cpp"
 
 int main() {
     Scanner in;

@@ -6,8 +6,8 @@ using ll = long long;
 using ull = unsigned long long;
 using uint = unsigned;
 #include "../util/fastio.cpp"
-#include "../util/modint_base.cpp"
-#include "../math/characteristic_polynomial.cpp"
+#include "../math/modular/modint_base.cpp"
+#include "../math/linear_algebra/characteristic_polynomial.cpp"
 
 template<class T>
 vector<T> determinant_polynomial(const vector<vector<T>>& a) {

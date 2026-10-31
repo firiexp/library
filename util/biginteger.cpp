@@ -1,7 +1,7 @@
 #ifndef FIRIEXP_LIBRARY_UTIL_BIGINTEGER_CPP
 #define FIRIEXP_LIBRARY_UTIL_BIGINTEGER_CPP
 
-#include "../math/integer_convolution.cpp"
+#include "../math/convolution/integer_convolution.cpp"
 
 namespace BigIntegerDetail {
     using u32 = unsigned int;

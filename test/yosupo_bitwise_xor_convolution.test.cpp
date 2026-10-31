@@ -15,8 +15,8 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../math/fwht.cpp"
+#include "../math/modular/modint.cpp"
+#include "../math/convolution/fwht.cpp"
 
 int main() {
     Scanner sc;

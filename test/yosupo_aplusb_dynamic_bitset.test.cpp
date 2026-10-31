@@ -14,7 +14,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/dynamic_bitset.cpp"
+#include "../datastructure/bitset/dynamic_bitset.cpp"
 
 vector<int> to_vec(const DynamicBitset &bs) {
     vector<int> res(bs.size());

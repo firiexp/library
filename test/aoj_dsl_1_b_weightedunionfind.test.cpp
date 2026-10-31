@@ -11,7 +11,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/weightedunionfind.cpp"
+#include "../datastructure/unionfind/weightedunionfind.cpp"
 
 struct Group {
     using T = long long;

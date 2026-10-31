@@ -4,7 +4,7 @@
 using namespace std;
 #include "../util/fastio.cpp"
 #include "../util/parallel_binary_search.cpp"
-#include "../datastructure/unionfind.cpp"
+#include "../datastructure/unionfind/unionfind.cpp"
 
 int main() {
     mt19937 rng(154);

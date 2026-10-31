@@ -5,7 +5,7 @@ using namespace std;
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
-#include "../math/partition_numbers.cpp"
+#include "../math/combinatorics/partition_numbers.cpp"
 
 int main() {
     const int limit = 2048;

@@ -6,10 +6,10 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../util/modint_base.cpp"
-#include "../datastructure/fenwick_tree_2d.cpp"
-#include "../datastructure/point_add_rectangle_sum.cpp"
-#include "../datastructure/fenwick_tree_2d.cpp"
+#include "../math/modular/modint_base.cpp"
+#include "../datastructure/range_query_2d/fenwick_tree_2d.cpp"
+#include "../datastructure/range_query_2d/point_add_rectangle_sum.cpp"
+#include "../datastructure/range_query_2d/fenwick_tree_2d.cpp"
 
 template<class T>
 void check(bool modular) {

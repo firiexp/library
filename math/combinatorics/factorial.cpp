@@ -1,0 +1,134 @@
+#ifndef FIRIEXP_LIBRARY_MATH_FACTORIAL_CPP
+#define FIRIEXP_LIBRARY_MATH_FACTORIAL_CPP
+
+#include "../modular/modint_base.cpp"
+
+#ifndef FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
+using mint = modint<MOD>;
+#define FIRIEXP_LIBRARY_MINT_ALIAS_DEFINED
+#endif
+
+template <class Mint = mint>
+class Factorial {
+    inline static vector<Mint> facts, factinv, invs;
+
+    static bool prime_mod() {
+        static const bool result = [] {
+            uint mod = Mint::get_mod();
+            if (mod < 2 || mod % 2 == 0) return mod == 2;
+            uint d = mod - 1;
+            int s = 0;
+            while (!(d & 1)) { d >>= 1; ++s; }
+            for (uint base : {2U, 7U, 61U}) {
+                if (base % mod == 0) continue;
+                ull x = 1, a = base % mod;
+                for (uint k = d; k; k >>= 1, a = a * a % mod) {
+                    if (k & 1) x = x * a % mod;
+                }
+                if (x == 1 || x == mod - 1) continue;
+                for (int r = 1; r < s && x != mod - 1; ++r) x = x * x % mod;
+                if (x != mod - 1) return false;
+            }
+            return true;
+        }();
+        return result;
+    }
+
+    static void init() {
+        if (!facts.empty()) return;
+        facts.push_back(Mint(1));
+        factinv.push_back(Mint(1));
+        invs.push_back(Mint(0));
+        invs.push_back(Mint(1));
+    }
+
+    __attribute__((noinline)) static bool expand_large(int old, int n, int mod) {
+        if (n >= mod || !prime_mod()) return false;
+        for (int i = old; i <= n; ++i) facts[i] = facts[i - 1] * Mint(i);
+        factinv[n] = facts[n].inv();
+        for (int i = n; i >= old; --i) {
+            invs[i] = facts[i - 1] * factinv[i];
+            if (i > old) factinv[i - 1] = factinv[i] * Mint(i);
+        }
+        return true;
+    }
+
+    static void expand(int n) {
+        init();
+        if (n < (int)facts.size()) return;
+        int old = facts.size();
+        int mod = Mint::get_mod();
+        facts.resize(n + 1);
+        factinv.resize(n + 1);
+        invs.resize(n + 1);
+        if (n - old + 1 >= 5000000 && expand_large(old, n, mod)) return;
+        for (int i = max(2, old); i <= n; ++i) {
+            invs[i] = -Mint(mod / i) * invs[mod % i];
+        }
+        for (int i = old; i <= n; ++i) {
+            facts[i] = facts[i - 1] * Mint(i);
+            factinv[i] = factinv[i - 1] * invs[i];
+        }
+    }
+public:
+    explicit Factorial(int n = 0) {
+        expand(n);
+    }
+    void ensure(int n) const {
+        if (n >= 0) expand(n);
+    }
+    int max_n() const {
+        init();
+        return (int)facts.size() - 1;
+    }
+    Mint fact(int k) const {
+        if (k < 0) return inv_fact(-k);
+        expand(k);
+        return facts[k];
+    }
+    Mint inv_fact(int k) const {
+        if (k < 0) return 0;
+        expand(k);
+        return factinv[k];
+    }
+    Mint inv(int k) const {
+        if (k < 0) return 0;
+        expand(k);
+        return invs[k];
+    }
+    Mint operator[](int k) const {
+        return k >= 0 ? fact(k) : inv_fact(-k);
+    }
+    Mint C(int n, int k) const {
+        if (n < 0 || k < 0 || n < k) return 0;
+        expand(n);
+        return facts[n] * factinv[k] * factinv[n - k];
+    }
+    Mint large_C(long long n, long long k) const {
+        if (n < 0 || k < 0 || n < k) return 0;
+        long long t = min(k, n - k);
+        assert(t < Mint::get_mod() && t < numeric_limits<int>::max());
+        long long r = n % Mint::get_mod();
+        if (r < t) return 0;
+        Mint result = inv_fact(static_cast<int>(t));
+        for (long long i = 0; i < t; ++i) result *= Mint(r - i);
+        return result;
+    }
+    Mint P(int n, int k) const {
+        if (n < 0 || k < 0 || n < k) return 0;
+        expand(n);
+        return facts[n] * factinv[n - k];
+    }
+    Mint H(int n, int k) const {
+        if (n < 0 || k < 0) return 0;
+        if (k == 0) return 1;
+        if (n == 0) return 0;
+        return C(n + k - 1, k);
+    }
+};
+
+/**
+ * @brief 階乗・二項係数(Factorial)
+ */
+
+#endif

@@ -6,7 +6,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 
-#include "../math/many_factorials.cpp"
+#include "../math/combinatorics/many_factorials.cpp"
 
 int main() {
     vector<mint> fact(1000004, mint(1));

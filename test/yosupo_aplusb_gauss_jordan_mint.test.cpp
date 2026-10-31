@@ -7,7 +7,7 @@ using uint = unsigned;
 using ull = unsigned long long;
 const int MOD = 3;
 #include "../util/fastio.cpp"
-#include "../math/gauss_jordan_mint.cpp"
+#include "../math/linear_algebra/gauss_jordan_mint.cpp"
 
 set<vector<mint>, bool (*)(const vector<mint>&, const vector<mint>&)> row_space(
         const vector<vector<mint>>& a, int width) {

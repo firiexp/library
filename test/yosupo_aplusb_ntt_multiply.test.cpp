@@ -6,7 +6,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../math/ntt.cpp"
+#include "../fps/ntt.cpp"
 
 vector<mint> naive_product(const vector<mint> &a, const vector<mint> &b) {
     if (a.empty() || b.empty()) return {};

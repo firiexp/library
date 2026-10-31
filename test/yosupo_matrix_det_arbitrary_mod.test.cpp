@@ -4,7 +4,7 @@
 using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
-#include "../math/matrix_determinant_mod.cpp"
+#include "../math/linear_algebra/matrix_determinant_mod.cpp"
 
 int main() {
     Scanner in;

@@ -15,7 +15,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/static_bitset.cpp"
+#include "../datastructure/bitset/static_bitset.cpp"
 
 template<int N>
 vector<int> to_vec(const StaticBitset<N> &bs) {

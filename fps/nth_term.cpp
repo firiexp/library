@@ -1,4 +1,4 @@
-#include "../math/ntt.cpp"
+#include "ntt.cpp"
 mint nth_term(const poly &p_input, const poly &q_input, ll n){
     assert(n >= 0 && q_input.size() > 0 && q_input[0] != mint(0));
     if(p_input.size() == 0) return 0;

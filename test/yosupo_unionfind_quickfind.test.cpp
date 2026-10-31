@@ -6,7 +6,7 @@
 #include <vector>
 using namespace std;
 
-#include "../datastructure/quickfind.cpp"
+#include "../datastructure/unionfind/quickfind.cpp"
 #include <cstdio>
 #include <cstring>
 #include <string>

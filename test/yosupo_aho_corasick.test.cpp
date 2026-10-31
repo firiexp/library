@@ -16,7 +16,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/ahocorasick.cpp"
+#include "../string/ahocorasick.cpp"
 
 int main() {
     Scanner sc;

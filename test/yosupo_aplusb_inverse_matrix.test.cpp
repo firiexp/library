@@ -7,7 +7,7 @@ using ull = unsigned long long;
 using uint = unsigned;
 constexpr int MOD = 998244353;
 #include "../util/fastio.cpp"
-#include "../math/inverse_matrix.cpp"
+#include "../math/linear_algebra/inverse_matrix.cpp"
 
 bool nonsingular(vector<vector<mint>> a) {
     int n = (int)a.size();

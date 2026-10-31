@@ -4,8 +4,8 @@
 using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
-#include "../math/and_convolution.cpp"
-#include "../math/or_convolution.cpp"
+#include "../math/convolution/and_convolution.cpp"
+#include "../math/convolution/or_convolution.cpp"
 
 void check(const vector<ll> &a, const vector<ll> &b) {
     int n = 1;

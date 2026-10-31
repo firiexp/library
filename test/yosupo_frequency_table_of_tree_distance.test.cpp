@@ -11,7 +11,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../tree/frequency_table_of_tree_distance.cpp"
+#include "../tree/centroid/frequency_table_of_tree_distance.cpp"
 
 int main() {
     Scanner sc;

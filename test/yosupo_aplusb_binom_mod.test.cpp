@@ -5,8 +5,8 @@ using namespace std;
 using ll = long long;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../math/binom_mod.cpp"
-#include "../math/binom_mod.cpp"
+#include "../math/combinatorics/binom_mod.cpp"
+#include "../math/combinatorics/binom_mod.cpp"
 #include "../util/biginteger.cpp"
 
 void check_prime_powers() {

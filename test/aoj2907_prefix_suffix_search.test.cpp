@@ -13,7 +13,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/trie.cpp"
+#include "../string/trie.cpp"
 
 struct Fenwick {
     int n;

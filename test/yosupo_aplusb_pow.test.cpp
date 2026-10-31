@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../math/pow.cpp"
+#include "../math/modular/pow.cpp"
 
 template<class T>
 void self_check() {

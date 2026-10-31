@@ -12,7 +12,7 @@ using namespace std;
 #include <charconv>
 #include "../util/fastio.cpp"
 #include "../graph/connectivity/bridge_tree.cpp"
-#include "../datastructure/unionfind.cpp"
+#include "../datastructure/unionfind/unionfind.cpp"
 
 int main() {
     Scanner sc;

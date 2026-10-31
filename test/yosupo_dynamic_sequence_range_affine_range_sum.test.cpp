@@ -17,7 +17,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
+#include "../math/modular/modint.cpp"
 #include "../datastructure/implicit_treap.cpp"
 
 struct AffineSumMonoid {

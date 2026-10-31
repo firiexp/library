@@ -11,9 +11,14 @@ url: https://firiexp.github.io
 baseurl: /library
 directory_titles:
   datastructure/: データ構造
+  datastructure/bitset/: ビット集合
+  datastructure/heap/: ヒープ
+  datastructure/range_query_2d/: 2次元区間クエリ
   datastructure/segmenttree/: セグメント木
+  datastructure/unionfind/: UnionFind
+  datastructure/wavelet_matrix/: Wavelet Matrix・区間統計
   flow/: フロー
-  fps/: 多項式・形式的冪級数
+  fps/: 多項式・形式的冪級数・線形漸化式
   geometry/: 幾何
   graph/: グラフのアルゴリズム・共通部品
   graph/shortest_path/: 最短路
@@ -21,9 +26,15 @@ directory_titles:
   graph/spanning_tree/: 最小全域木・最小全域有向木
   graph/matching/: マッチング
   math/: 数学
+  math/combinatorics/: 組合せ・数え上げ
+  math/convolution/: 畳み込み・変換
+  math/linear_algebra/: 線形代数
+  math/modular/: 剰余演算
   math/prime/: 素数・数論
   snippets/: テンプレート・スニペット
   string/: 文字列
   test/: 検証用の共通部品
   tree/: 木
+  tree/centroid/: 重心分解・距離クエリ
+  tree/dynamic_tree/: 動的木
   util/: 入出力・ユーティリティ

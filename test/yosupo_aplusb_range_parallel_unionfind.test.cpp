@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../datastructure/range_parallel_unionfind.cpp"
+#include "../datastructure/unionfind/range_parallel_unionfind.cpp"
 
 void check(int n, mt19937& rng) {
     RangeParallelUnionFind uf(n), without_callback(n);

@@ -15,11 +15,11 @@ using ull = unsigned long long;
 
 namespace fixed_modint_test {
 static constexpr uint MOD = 998244353;
-#include "../util/modint.cpp"
+#include "../math/modular/modint.cpp"
 }
 
 namespace dynamic_modint_test {
-#include "../util/modint_arbitrary.cpp"
+#include "../math/modular/modint_arbitrary.cpp"
 }
 
 template <class Mint>

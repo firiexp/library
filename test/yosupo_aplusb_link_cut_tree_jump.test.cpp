@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../tree/link_cut_tree.cpp"
+#include "../tree/dynamic_tree/link_cut_tree.cpp"
 
 struct Monoid {
     using T = string;

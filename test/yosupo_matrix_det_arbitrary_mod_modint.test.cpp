@@ -6,8 +6,8 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../util/modint_arbitrary.cpp"
-#include "../math/matrix_determinant_mod.cpp"
+#include "../math/modular/modint_arbitrary.cpp"
+#include "../math/linear_algebra/matrix_determinant_mod.cpp"
 
 int main() {
     Scanner in;

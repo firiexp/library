@@ -9,7 +9,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 
-#include "../util/modint_arbitrary.cpp"
+#include "../math/modular/modint_arbitrary.cpp"
 
 void check_pair(uint a, uint b, uint mod) {
     mint x(a), y(b);

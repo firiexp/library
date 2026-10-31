@@ -10,7 +10,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/weightedunionfind.cpp"
+#include "../datastructure/unionfind/weightedunionfind.cpp"
 
 struct PotentialGroup {
     struct T {

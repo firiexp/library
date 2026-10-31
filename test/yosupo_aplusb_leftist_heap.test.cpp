@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../datastructure/leftist_heap.cpp"
+#include "../datastructure/heap/leftist_heap.cpp"
 
 void self_check() {
     mt19937 rng(133);

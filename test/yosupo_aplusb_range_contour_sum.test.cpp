@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../tree/range_contour_sum.cpp"
+#include "../tree/centroid/range_contour_sum.cpp"
 
 void check(int n, int mode, mt19937 &rng) {
     vector<vector<int>> g(n), distance(n, vector<int>(n, -1));

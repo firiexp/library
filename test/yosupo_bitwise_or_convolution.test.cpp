@@ -15,8 +15,8 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../math/or_convolution.cpp"
+#include "../math/modular/modint.cpp"
+#include "../math/convolution/or_convolution.cpp"
 
 int main() {
     Scanner sc;

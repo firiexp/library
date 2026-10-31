@@ -9,8 +9,8 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../tree/link_cut_tree.cpp"
+#include "../math/modular/modint.cpp"
+#include "../tree/dynamic_tree/link_cut_tree.cpp"
 
 struct Monoid {
     using T = array<mint, 2>;

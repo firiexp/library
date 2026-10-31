@@ -20,10 +20,10 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max() / 32 * 15 + 208;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../tree/centroid_decomposition.cpp"
+#include "../tree/centroid/centroid_decomposition.cpp"
 
-#include "../math/ntt.cpp"
-#include "../math/factorial.cpp"
+#include "../fps/ntt.cpp"
+#include "../math/combinatorics/factorial.cpp"
 
 
 int main() {

@@ -2,7 +2,7 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include "../flow/hungarian.cpp"
+#include "../graph/matching/hungarian.cpp"
 
 template<class T, bool Minimize>
 void check(const vector<vector<T>> &cost, bool brute = true) {

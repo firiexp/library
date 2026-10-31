@@ -7,8 +7,8 @@ using uint = unsigned;
 using ull = unsigned long long;
 
 #include "../util/fastio.cpp"
-#include "../util/modint_base.cpp"
-#include "../datastructure/rectangle_add_point_get.cpp"
+#include "../math/modular/modint_base.cpp"
+#include "../datastructure/range_query_2d/rectangle_add_point_get.cpp"
 
 template<class T>
 void check() {

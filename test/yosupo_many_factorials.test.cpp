@@ -15,7 +15,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/many_factorials.cpp"
+#include "../math/combinatorics/many_factorials.cpp"
 
 int main() {
     Scanner in;

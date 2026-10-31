@@ -7,8 +7,8 @@ using uint = unsigned;
 using ull = unsigned long long;
 static const int MOD = 998244353;
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../math/gcd_transform.cpp"
+#include "../math/modular/modint.cpp"
+#include "../math/convolution/gcd_transform.cpp"
 
 int main() {
     Scanner sc;

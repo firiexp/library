@@ -4,7 +4,7 @@
 using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
-#include "../datastructure/static_range_distinct.cpp"
+#include "../datastructure/wavelet_matrix/static_range_distinct.cpp"
 
 int main() {
     Scanner in;

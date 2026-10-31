@@ -18,7 +18,7 @@ using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
-#include "../util/modint.cpp"
+#include "../math/modular/modint.cpp"
 
 #include "../datastructure/swag.cpp"
 

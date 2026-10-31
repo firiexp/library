@@ -1,7 +1,7 @@
 #ifndef FIRIEXP_LIBRARY_FPS_PRODUCT_POLYNOMIALS_CPP
 #define FIRIEXP_LIBRARY_FPS_PRODUCT_POLYNOMIALS_CPP
 
-#include "../math/ntt.cpp"
+#include "ntt.cpp"
 
 poly product_polynomials(vector<poly> factors) {
     mint constant_product = 1;

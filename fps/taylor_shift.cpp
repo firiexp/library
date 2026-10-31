@@ -1,4 +1,4 @@
-#include "../math/ntt.cpp"
+#include "ntt.cpp"
 
 poly taylor_shift(const poly &f, mint c) {
     int n = f.size();

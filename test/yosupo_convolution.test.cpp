@@ -20,7 +20,7 @@ using namespace std;
 
 template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
-#include "../math/ntt.cpp"
+#include "../fps/ntt.cpp"
 
 int main() {
     int n, m;

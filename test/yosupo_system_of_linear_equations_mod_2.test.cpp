@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../math/solve_linear_system_mod2.cpp"
+#include "../math/linear_algebra/solve_linear_system_mod2.cpp"
 
 int main() {
     Scanner sc;

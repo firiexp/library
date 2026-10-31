@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../tree/range_contour_sum.cpp"
+#include "../tree/centroid/range_contour_sum.cpp"
 
 int main() {
     Scanner in;

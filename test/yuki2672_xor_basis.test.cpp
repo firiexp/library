@@ -15,7 +15,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/xor_basis.cpp"
+#include "../math/linear_algebra/xor_basis.cpp"
 
 int main() {
     Scanner sc;

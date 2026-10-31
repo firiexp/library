@@ -10,7 +10,7 @@
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/static_rectangle_sum.cpp"
+#include "../datastructure/range_query_2d/static_rectangle_sum.cpp"
 
 int main() {
     Scanner sc;

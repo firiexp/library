@@ -7,8 +7,8 @@ using uint = unsigned;
 using ull = unsigned long long;
 const int MOD = 3;
 #include "../util/fastio.cpp"
-#include "../math/matrix_rank.cpp"
-#include "../math/gauss_jordan_mint.cpp"
+#include "../math/linear_algebra/matrix_rank.cpp"
+#include "../math/linear_algebra/gauss_jordan_mint.cpp"
 
 int minor_rank(const vector<vector<mint>> &a) {
     int h = a.size(), w = h ? a[0].size() : 0, rank = 0;

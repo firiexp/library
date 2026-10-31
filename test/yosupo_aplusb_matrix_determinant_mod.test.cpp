@@ -6,11 +6,11 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../util/modint_base.cpp"
-#include "../math/matrix_determinant_mod.cpp"
+#include "../math/modular/modint_base.cpp"
+#include "../math/linear_algebra/matrix_determinant_mod.cpp"
 
 namespace dynamic_modint_test {
-#include "../util/modint_arbitrary.cpp"
+#include "../math/modular/modint_arbitrary.cpp"
 }
 
 ll permutation_determinant(const vector<vector<ll>>& a, int mod) {

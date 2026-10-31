@@ -1,5 +1,5 @@
 #include "nth_term.cpp"
-#include "../math/berlekamp_massey.cpp"
+#include "berlekamp_massey.cpp"
 
 mint linear_recurrence(const vector<mint> &a, const vector<mint> &c, ll n) {
     if (n < (ll)a.size()) return a[(int)n];

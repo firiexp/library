@@ -6,7 +6,7 @@ using uint = unsigned;
 using ull = unsigned long long;
 static const int MOD = 998244353;
 
-#include "../util/modint.cpp"
+#include "../math/modular/modint.cpp"
 #include "../util/fastio.cpp"
 #include "../math/digit_dp.cpp"
 #include "../string/avoid_patterns.cpp"

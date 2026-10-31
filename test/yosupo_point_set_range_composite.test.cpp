@@ -24,7 +24,7 @@ template<class T> constexpr T INF = ::numeric_limits<T>::max()/32*15+208;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
+#include "../math/modular/modint.cpp"
 
 #include "../datastructure/segmenttree/segtree.cpp"
 

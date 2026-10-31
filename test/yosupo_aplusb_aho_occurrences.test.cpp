@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../datastructure/ahocorasick.cpp"
+#include "../string/ahocorasick.cpp"
 
 vector<string> words(int max_length) {
     vector<string> result;

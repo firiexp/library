@@ -6,8 +6,8 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 
-#include "../math/mod_sqrt.cpp"
-#include "../math/ntt.cpp"
+#include "../math/modular/mod_sqrt.cpp"
+#include "../fps/ntt.cpp"
 
 void check(ll a, ll p, bool exists) {
     ll result = mod_sqrt(a, p);

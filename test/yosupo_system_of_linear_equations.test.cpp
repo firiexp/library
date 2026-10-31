@@ -17,7 +17,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/solve_linear_system.cpp"
+#include "../math/linear_algebra/solve_linear_system.cpp"
 
 int main() {
     Scanner in;

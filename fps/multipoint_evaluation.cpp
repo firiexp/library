@@ -1,7 +1,7 @@
 #ifndef FIRIEXP_LIBRARY_FPS_MULTIPOINT_EVALUATION_CPP
 #define FIRIEXP_LIBRARY_FPS_MULTIPOINT_EVALUATION_CPP
 
-#include "../math/ntt.cpp"
+#include "ntt.cpp"
 
 namespace multipoint_evaluation_detail {
 bool use_horner(int coefficients, int points) {

@@ -4,7 +4,7 @@
 using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
-#include "../math/CRT.cpp"
+#include "../math/modular/crt.cpp"
 
 void self_check() {
     auto check = [](vector<pair<ll, ll>> equations) {

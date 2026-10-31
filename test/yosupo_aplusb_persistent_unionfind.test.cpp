@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../datastructure/persistent_unionfind.cpp"
+#include "../datastructure/unionfind/persistent_unionfind.cpp"
 
 int root(const vector<int> &p, int v) {
     while (p[v] >= 0) v = p[v];

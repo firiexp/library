@@ -5,7 +5,7 @@ using namespace std;
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
-#include "../util/modint_base.cpp"
+#include "../math/modular/modint_base.cpp"
 #include "../string/count_distinct_subsequences.cpp"
 #include "../string/count_distinct_subsequences.cpp"
 

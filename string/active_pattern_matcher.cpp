@@ -1,7 +1,7 @@
 #ifndef FIRIEXP_LIBRARY_STRING_ACTIVE_PATTERN_MATCHER_CPP
 #define FIRIEXP_LIBRARY_STRING_ACTIVE_PATTERN_MATCHER_CPP
 
-#include "../datastructure/ahocorasick.cpp"
+#include "ahocorasick.cpp"
 #include "../datastructure/binaryindexedtree.cpp"
 
 template<int W, int start>

@@ -6,7 +6,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../math/partition_numbers.cpp"
+#include "../math/combinatorics/partition_numbers.cpp"
 
 int main() {
     Scanner sc;

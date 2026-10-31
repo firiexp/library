@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../datastructure/fenwick_tree_2d.cpp"
+#include "../datastructure/range_query_2d/fenwick_tree_2d.cpp"
 
 struct Weight {
     long long value;

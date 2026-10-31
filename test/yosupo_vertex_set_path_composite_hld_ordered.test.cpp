@@ -7,7 +7,7 @@ using uint = unsigned;
 using ull = unsigned long long;
 const int MOD = 998244353;
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
+#include "../math/modular/modint.cpp"
 #include "../tree/hld.cpp"
 #include "../datastructure/segmenttree/segtree.cpp"
 

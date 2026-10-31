@@ -4,9 +4,9 @@
 using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
-#include "../datastructure/wavelet_matrix.cpp"
-#include "../datastructure/static_range_distinct.cpp"
-#include "../datastructure/wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/wavelet_matrix.cpp"
+#include "../datastructure/wavelet_matrix/static_range_distinct.cpp"
+#include "../datastructure/wavelet_matrix/wavelet_matrix.cpp"
 
 template<class T>
 void check(const vector<T>& a) {

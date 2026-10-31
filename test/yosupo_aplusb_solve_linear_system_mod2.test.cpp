@@ -3,10 +3,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../datastructure/dynamic_bitset.cpp"
-#include "../math/solve_linear_system_mod2.cpp"
-#include "../datastructure/dynamic_bitset.cpp"
-#include "../math/solve_linear_system_mod2.cpp"
+#include "../datastructure/bitset/dynamic_bitset.cpp"
+#include "../math/linear_algebra/solve_linear_system_mod2.cpp"
+#include "../datastructure/bitset/dynamic_bitset.cpp"
+#include "../math/linear_algebra/solve_linear_system_mod2.cpp"
 
 int scalar_rank(const vector<DynamicBitset>& a, int m) {
     int n = (int)a.size(), rank = 0;

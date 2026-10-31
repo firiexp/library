@@ -8,8 +8,8 @@ using ull = unsigned long long;
 static const int MOD = 998244353;
 
 #include "../util/fastio.cpp"
-#include "../util/modint.cpp"
-#include "../math/comb_table.cpp"
+#include "../math/modular/modint.cpp"
+#include "../math/combinatorics/comb_table.cpp"
 
 int main() {
     // Multiplicative formula, independent of the table's Pascal recurrence.

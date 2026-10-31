@@ -11,7 +11,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/persistent_unionfind.cpp"
+#include "../datastructure/unionfind/persistent_unionfind.cpp"
 
 int main() {
     Scanner sc;

@@ -9,8 +9,8 @@
 #include <vector>
 using namespace std;
 
-#include "../datastructure/static_bitset.cpp"
-#include "../datastructure/dynamic_bitset.cpp"
+#include "../datastructure/bitset/static_bitset.cpp"
+#include "../datastructure/bitset/dynamic_bitset.cpp"
 
 size_t allocations = 0;
 

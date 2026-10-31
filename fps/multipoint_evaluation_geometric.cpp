@@ -1,7 +1,7 @@
 #ifndef FIRIEXP_LIBRARY_FPS_MULTIPOINT_EVALUATION_GEOMETRIC_CPP
 #define FIRIEXP_LIBRARY_FPS_MULTIPOINT_EVALUATION_GEOMETRIC_CPP
 
-#include "../math/ntt.cpp"
+#include "ntt.cpp"
 
 vector<mint> multipoint_evaluation_geometric(const poly& f, mint a, mint r, int m) {
     assert(m >= 0);

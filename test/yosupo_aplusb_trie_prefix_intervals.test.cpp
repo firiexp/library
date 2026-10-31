@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "../util/fastio.cpp"
-#include "../datastructure/trie.cpp"
+#include "../string/trie.cpp"
 
 template<int W, class F>
 void check(Trie<W, F>& trie, const vector<pair<string, int>>& entries) {

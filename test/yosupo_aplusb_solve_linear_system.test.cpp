@@ -7,7 +7,7 @@ using uint = unsigned;
 using ull = unsigned long long;
 const int MOD = 5;
 #include "../util/fastio.cpp"
-#include "../math/solve_linear_system.cpp"
+#include "../math/linear_algebra/solve_linear_system.cpp"
 
 int power5(int n) {
     int result = 1;

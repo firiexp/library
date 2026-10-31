@@ -1,4 +1,4 @@
-#include "../math/ntt.cpp"
+#include "ntt.cpp"
 
 vector<mint> sample_point_shift(const vector<mint> &ys, mint c, int m = -1) {
     int n = ys.size();

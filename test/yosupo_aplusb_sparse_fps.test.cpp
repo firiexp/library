@@ -5,7 +5,7 @@ using namespace std;
 using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
-#include "../math/ntt.cpp"
+#include "../fps/ntt.cpp"
 
 void check(poly f, int deg) {
     auto copy = f.v;

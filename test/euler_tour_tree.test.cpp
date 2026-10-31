@@ -2,8 +2,8 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include "../tree/euler_tour_tree.cpp"
-#include "../tree/euler_tour_tree.cpp"
+#include "../tree/dynamic_tree/euler_tour_tree.cpp"
+#include "../tree/dynamic_tree/euler_tour_tree.cpp"
 
 vector<int> component(const vector<vector<bool>> &adj, int v, int p = -1) {
     vector<bool> seen(adj.size());

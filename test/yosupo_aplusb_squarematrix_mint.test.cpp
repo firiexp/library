@@ -19,7 +19,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/squarematrix_mint.cpp"
+#include "../math/linear_algebra/squarematrix_mint.cpp"
 
 using mat = SquareMatrixMint<200>;
 

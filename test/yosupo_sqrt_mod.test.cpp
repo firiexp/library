@@ -7,7 +7,7 @@
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../math/mod_sqrt.cpp"
+#include "../math/modular/mod_sqrt.cpp"
 
 int main() {
     Scanner sc;

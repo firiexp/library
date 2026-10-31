@@ -1,7 +1,7 @@
 #ifndef FIRIEXP_LIBRARY_FPS_SAMPLE_POINT_EVAL_CPP
 #define FIRIEXP_LIBRARY_FPS_SAMPLE_POINT_EVAL_CPP
 
-#include "../math/factorial.cpp"
+#include "../math/combinatorics/factorial.cpp"
 
 template <class Mint>
 Mint sample_point_eval(const vector<Mint>& ys, Mint x) {

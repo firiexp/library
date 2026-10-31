@@ -6,7 +6,7 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 #include "../util/fastio.cpp"
-#include "../math/ntt.cpp"
+#include "../fps/ntt.cpp"
 
 void check(poly f, poly g) {
     auto original_f = f.v, original_g = g.v;

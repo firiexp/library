@@ -4,7 +4,7 @@
 using namespace std;
 using ll = long long;
 #include "../util/fastio.cpp"
-#include "../math/garner.cpp"
+#include "../math/modular/garner.cpp"
 
 void self_check() {
     auto check = [](vector<pair<ll, ll>> equations, ll mod) {

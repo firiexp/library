@@ -6,8 +6,8 @@ using ll = long long;
 using uint = unsigned;
 using ull = unsigned long long;
 static const int MOD = 998244353;
-#include "../util/modint.cpp"
-#include "../math/matrix.cpp"
+#include "../math/modular/modint.cpp"
+#include "../math/linear_algebra/matrix.cpp"
 
 struct MintRing : SemiRing {
     static T sample(mt19937 &rng) { return rng() % MOD; }

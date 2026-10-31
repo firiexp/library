@@ -4,7 +4,7 @@
 using namespace std;
 using ll = long long;
 
-#include "../math/discrete_logarithm.cpp"
+#include "../math/modular/discrete_logarithm.cpp"
 
 vector<ll> first_exponents(ll x, int mod) {
     vector<ll> first(mod, -1);

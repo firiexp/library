@@ -13,7 +13,7 @@ using ull = unsigned long long;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/dynamic_bitset.cpp"
+#include "../datastructure/bitset/dynamic_bitset.cpp"
 
 int main() {
     Scanner sc;

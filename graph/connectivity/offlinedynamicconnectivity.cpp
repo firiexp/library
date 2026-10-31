@@ -1,6 +1,6 @@
 using namespace std;
 
-#include "../../datastructure/undoableunionfind.cpp"
+#include "../../datastructure/unionfind/undoableunionfind.cpp"
 
 struct OfflineDynamicConnectivity {
     struct EdgeRange {

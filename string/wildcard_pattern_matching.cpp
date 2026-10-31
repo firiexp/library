@@ -1,7 +1,7 @@
 #ifndef FIRIEXP_LIBRARY_STRING_WILDCARD_PATTERN_MATCHING_CPP
 #define FIRIEXP_LIBRARY_STRING_WILDCARD_PATTERN_MATCHING_CPP
 
-#include "../math/integer_convolution.cpp"
+#include "../math/convolution/integer_convolution.cpp"
 
 namespace wildcard_pattern_matching_detail {
 template<class Transform>
