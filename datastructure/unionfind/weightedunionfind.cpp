@@ -5,6 +5,12 @@ class WeightedUnionFind {
     vector<T> weights;
 
 public:
+    struct UniteResult {
+        bool ok, merged;
+
+        explicit operator bool() const { return ok; }
+    };
+
     explicit WeightedUnionFind(int n) : uni(n, -1), weights(n, G::e()) {}
 
     int root(int a) {
@@ -24,11 +30,14 @@ public:
         return root(a) == root(b);
     }
 
-    bool unite(int a, int b, T w) {
-        w = G::op(weight(a), G::op(w, G::inv(weight(b))));
-        a = root(a);
-        b = root(b);
-        if (a == b) return false;
+    UniteResult unite(int a, int b, T w) {
+        int ra = root(a), rb = root(b);
+        if (ra == rb) {
+            return {G::op(G::inv(weights[a]), weights[b]) == w, false};
+        }
+        w = G::op(weights[a], G::op(w, G::inv(weights[b])));
+        a = ra;
+        b = rb;
         if (uni[a] > uni[b]) {
             swap(a, b);
             w = G::inv(w);
@@ -36,7 +45,7 @@ public:
         uni[a] += uni[b];
         uni[b] = a;
         weights[b] = w;
-        return true;
+        return {true, true};
     }
 
     int size(int a) {

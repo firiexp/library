@@ -46,7 +46,8 @@ void unionfind_check() {
             if (n >= 3 && step == 0) u = 1, v = 2;
             if (n >= 3 && step == 1) u = 0, v = 1;
             bool distinct = component[u] != component[v];
-            assert(uf.unite(u, v, difference(u, v)) == distinct);
+            auto result = uf.unite(u, v, difference(u, v));
+            assert(result && result.merged == distinct);
             int from = component[v], to = component[u];
             for (int &id : component) if (id == from) id = to;
             for (int a = 0; a < n; ++a) {
