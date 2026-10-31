@@ -9,7 +9,7 @@ struct MSTSensitivityResult {
     vector<optional<long long>> forced, forbidden;
 };
 
-MSTSensitivityResult mst_sensitivity(int n, const vector<edge<long long>> &edges) {
+MSTSensitivityResult mst_sensitivity(int n, const vector<KruskalEdge<long long>> &edges) {
     assert(n >= 1);
     int m = (int)edges.size();
     KruskalResult<long long> mst{false, 0, {}};

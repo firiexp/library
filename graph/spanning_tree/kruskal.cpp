@@ -2,11 +2,11 @@
 #define FIRIEXP_LIBRARY_GRAPH_KRUSKAL_CPP
 
 template <class T>
-struct edge {
+struct KruskalEdge {
     int from, to, idx;
     T cost;
 
-    edge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx), cost(cost) {}
+    KruskalEdge(int from, int to, T cost, int idx = -1) : from(from), to(to), idx(idx), cost(cost) {}
 };
 
 class KruskalUnionFind {
@@ -39,11 +39,11 @@ struct KruskalResult {
 };
 
 template <class T>
-KruskalResult<T> kruskal(vector<edge<T>> edges, int n) {
+KruskalResult<T> kruskal(vector<KruskalEdge<T>> edges, int n) {
     for (int i = 0; i < (int)edges.size(); ++i) {
         if (edges[i].idx == -1) edges[i].idx = i;
     }
-    sort(edges.begin(), edges.end(), [](const edge<T> &a, const edge<T> &b) {
+    sort(edges.begin(), edges.end(), [](const KruskalEdge<T> &a, const KruskalEdge<T> &b) {
         if (a.cost != b.cost) return a.cost < b.cost;
         return a.idx < b.idx;
     });

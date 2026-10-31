@@ -21,7 +21,7 @@ int main() {
 
     int n, m;
     in.read(n, m);
-    vector<edge<ll>> edges;
+    vector<KruskalEdge<ll>> edges;
     edges.reserve(m);
     for (int i = 0; i < m; ++i) {
         int u, v;

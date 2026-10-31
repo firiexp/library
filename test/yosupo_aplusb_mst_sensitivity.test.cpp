@@ -6,7 +6,7 @@ using namespace std;
 #include "../graph/spanning_tree/kruskal.cpp"
 #include "../graph/spanning_tree/mst_sensitivity.cpp"
 
-void check(int n, vector<edge<long long>> edges) {
+void check(int n, vector<KruskalEdge<long long>> edges) {
     int m = (int)edges.size();
     for (int i = 0; i < m; ++i) edges[i].idx = i % 3 == 0 ? -1 : 1000 - i % 3;
     auto original = edges;
@@ -52,7 +52,7 @@ int main() {
     check(3, {{0, 1, -large + 10}, {1, 2, large - 5}, {0, 2, 0}});
     check(3, {{2, 0, 4}, {0, 2, -2}, {1, 2, -2}, {0, 1, -2}, {1, 1, -100}, {0, 2, -2}});
     check(5, {{0, 1, -3}, {1, 2, -3}, {2, 0, -3}, {3, 4, 2}, {0, 0, -100}});
-    vector<edge<long long>> equal_edges;
+    vector<KruskalEdge<long long>> equal_edges;
     for (int u = 0; u < 5; ++u)
         for (int v = u + 1; v < 5; ++v) equal_edges.emplace_back(u, v, -7);
     check(5, equal_edges);
@@ -64,7 +64,7 @@ int main() {
         int combinations = 1 << (2 * pairs.size());
         for (int state = 0; state < combinations; ++state) {
             int code = state;
-            vector<edge<long long>> edges;
+            vector<KruskalEdge<long long>> edges;
             for (auto [u, v] : pairs) {
                 int choice = code % 4;
                 code /= 4;
@@ -76,13 +76,13 @@ int main() {
     mt19937 rng(139);
     for (int tc = 0; tc < 5000; ++tc) {
         int n = 1 + rng() % 8, m = rng() % 13;
-        vector<edge<long long>> edges;
+        vector<KruskalEdge<long long>> edges;
         for (int i = 0; i < m; ++i) edges.emplace_back(rng() % n, rng() % n, (int)(rng() % 21) - 10);
         check(n, edges);
     }
     int n = 100000;
     for (bool star : {false, true}) {
-        vector<edge<long long>> edges;
+        vector<KruskalEdge<long long>> edges;
         for (int v = 1; v < n; ++v) edges.emplace_back(star ? 0 : v - 1, v, 1);
         auto bridges = mst_sensitivity(n, edges);
         assert(bridges.exists && bridges.cost == n - 1);

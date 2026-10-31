@@ -20,7 +20,7 @@ documentation_of: //graph/spanning_tree/manhattanmst.cpp
 vector<long long> xs(n), ys(n);
 auto es = manhattanMST(xs, ys);
 
-vector<edge<long long>> g;
+vector<KruskalEdge<long long>> g;
 for (auto [u, v] : es) {
     long long w = abs(xs[u] - xs[v]) + abs(ys[u] - ys[v]);
     g.emplace_back(u, v, w);

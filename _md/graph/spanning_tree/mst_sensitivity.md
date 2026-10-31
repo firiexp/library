@@ -14,7 +14,7 @@ tags: グラフ
 頂点数を $N$、辺数を $M$ とする。
 
 - `mst_sensitivity(n, edges)`
-  `MSTSensitivityResult` を返す。`edges` は Kruskal の `vector<edge<long long>>` とする。時間 $O(M\log M+(N+M)\log N)$、入力・出力を含む領域 $O(M+N\log N)$
+  `MSTSensitivityResult` を返す。`edges` は Kruskal の `vector<KruskalEdge<long long>>` とする。時間 $O(M\log M+(N+M)\log N)$、入力・出力を含む領域 $O(M+N\log N)$
 - `result.exists` / `result.cost`
   元グラフの全域木の存在と最小コスト。非連結なら `false` と `0`
 - `result.forced[i]` / `result.forbidden[i]`
