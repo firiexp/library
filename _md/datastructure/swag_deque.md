@@ -11,6 +11,10 @@ documentation_of: //datastructure/swag_deque.cpp
 
 - `TwoStackDeque<G> deq`
   空の deque を作る。$O(1)$
+- `size_t size() const`
+  要素数を返す。$O(1)$
+- `bool empty() const`
+  空なら `true` を返す。$O(1)$
 - `void push_front(const T& v)`
   先頭に `v` を追加する。償却 $O(1)$
 - `void push_back(const T& v)`
@@ -37,6 +41,7 @@ TwoStackDeque<Monoid> deq;
 deq.push_front(3);
 deq.push_back(5);
 long long x = deq.fold();
+while (!deq.empty()) deq.pop_front();
 ```
 
 ## 実装上の補足

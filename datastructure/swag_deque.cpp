@@ -40,6 +40,14 @@ class TwoStackDeque {
 public:
     TwoStackDeque() : l(0), r(0), lsum(1, G::e()), rsum(1, G::e()) {}
 
+    size_t size() const {
+        return l.size() + r.size();
+    }
+
+    bool empty() const {
+        return size() == 0;
+    }
+
     void push_front(const T& v){
         lsum.push_back(G::f(v, lsum.back()));
         l.push_back(v);

@@ -12,6 +12,7 @@
 using namespace std;
 #include "../util/fastio.cpp"
 #include "../datastructure/swag.cpp"
+#include "../datastructure/swag_deque.cpp"
 
 struct Affine {
     using T = pair<long long, long long>;
@@ -49,11 +50,18 @@ void check(Generator generate) {
         SWAG<G> q;
         deque<typename G::T> values;
         auto verify = [&]() {
+            const auto &view = q;
+            assert(view.size() == values.size());
+            assert(view.empty() == values.empty());
             auto expected = G::e();
             for (const auto &v : values) expected = G::f(expected, v);
             assert(q.fold() == expected);
         };
         verify();
+        q.push(G::e());
+        values.push_back(G::e());
+        verify();
+        assert(!q.empty() && q.fold() == G::e());
         for (int i = 0; i < 1000; ++i) {
             if (values.empty() || rng() % 2 == 0) {
                 auto v = generate(rng);
@@ -70,15 +78,71 @@ void check(Generator generate) {
             values.pop_front();
             verify();
         }
-        q.push(generate(rng));
+        auto v = generate(rng);
+        q.push(v);
+        values.push_back(v);
+        verify();
         q.pop();
+        values.pop_front();
+        verify();
         assert(q.fold() == G::e());
+    }
+}
+
+template<class G, class Generator>
+void check_deque(Generator generate) {
+    mt19937 rng(330);
+    TwoStackDeque<G> q;
+    deque<typename G::T> values;
+    auto verify = [&]() {
+        const auto &view = q;
+        assert(view.size() == values.size());
+        assert(view.empty() == values.empty());
+        auto expected = G::e();
+        for (const auto &v : values) expected = G::f(expected, v);
+        assert(q.fold() == expected);
+    };
+    verify();
+    for (int tc = 0; tc < 100; ++tc) {
+        q.push_back(G::e());
+        values.push_back(G::e());
+        verify();
+        assert(!q.empty() && q.fold() == G::e());
+        for (int i = 0; i < 1000; ++i) {
+            int op = i < 64 ? tc % 2 : i < 128 ? 3 - tc % 2 : rng() % 4;
+            if (op == 0) {
+                auto v = generate(rng);
+                q.push_front(v);
+                values.push_front(v);
+            } else if (op == 1) {
+                auto v = generate(rng);
+                q.push_back(v);
+                values.push_back(v);
+            } else if (op == 2) {
+                q.pop_front();
+                if (!values.empty()) values.pop_front();
+            } else {
+                q.pop_back();
+                if (!values.empty()) values.pop_back();
+            }
+            verify();
+        }
+        while (!values.empty()) {
+            if (rng() % 2) q.pop_front(), values.pop_front();
+            else q.pop_back(), values.pop_back();
+            verify();
+        }
+        q.pop_front();
+        q.pop_back();
+        verify();
     }
 }
 
 int main() {
     check<Affine>([](mt19937 &rng) { return Affine::T{rng() % 17, rng() % 19}; });
     check<Concat>([](mt19937 &rng) { return string(1, 'a' + rng() % 26); });
+    check_deque<Affine>([](mt19937 &rng) { return Affine::T{rng() % 17, rng() % 19}; });
+    check_deque<Concat>([](mt19937 &rng) { return string(1, 'a' + rng() % 26); });
     SWAG<CopyOnlyConcat> q;
     q.push(CopyOnly("a"));
     q.push(CopyOnly("b"));

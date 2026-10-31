@@ -8,6 +8,14 @@ class SWAG {
 public:
     SWAG() : outsum(1, G::e()), in_total(G::e()) {}
 
+    size_t size() const {
+        return in.size() + outsum.size() - 1;
+    }
+
+    bool empty() const {
+        return size() == 0;
+    }
+
     void push(const T& v){
         in_total.emplace(G::f(*in_total, v));
         in.push_back(v);
