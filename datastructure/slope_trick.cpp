@@ -73,6 +73,10 @@ public:
 
     void add_a_minus_x(T a) {
         invalidate_eval_cache();
+        if (R.empty()) {
+            push_L(a);
+            return;
+        }
         min_f += max<T>(0, a - top_R());
         push_R(a);
         push_L(pop_R());
@@ -80,6 +84,10 @@ public:
 
     void add_x_minus_a(T a) {
         invalidate_eval_cache();
+        if (L.empty()) {
+            push_R(a);
+            return;
+        }
         min_f += max<T>(0, top_L() - a);
         push_L(a);
         push_R(pop_L());

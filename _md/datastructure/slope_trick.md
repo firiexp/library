@@ -39,6 +39,7 @@ tags: データ構造
 
 ## 使い方
 `INF` は `numeric_limits<T>::max() / 4` を表す。
+無限端を示す返却用の値であり、折れ点の値域を制限しない。有限の折れ点が `±INF` の外にある場合も扱えるが、`query()` の無限端は数値として区間の大小比較に使わない。
 ```cpp
 SlopeTrick<long long> st;
 st.add_abs(5);

@@ -172,7 +172,61 @@ void cache_rebuild_check() {
     }
 }
 
+void large_hinge_check() {
+    using T = long long;
+    const T inf = SlopeTrick<T>::INF;
+    mt19937 rng(301);
+    for (T center : {-inf - 1, -inf, -inf + 1, T(0), inf - 1, inf, inf + 1}) {
+        for (bool left : {false, true}) {
+            SlopeTrick<T> st;
+            if (left) st.add_a_minus_x(center);
+            else st.add_x_minus_a(center);
+            assert(st.query().min_f == 0);
+            assert(st.eval(center) == 0);
+        }
+        for (int mode = 0; mode < 4; ++mode) {
+            SlopeTrick<T> st;
+            vector<pair<T, bool>> hinges;
+            if (mode != 0) {
+                st.add_abs(center);
+                st.eval(center);
+                if (mode == 1) {
+                    st.clear_left();
+                    hinges.emplace_back(center, false);
+                } else if (mode == 2) {
+                    st.clear_right();
+                    hinges.emplace_back(center, true);
+                } else {
+                    st.clear_left();
+                    st.clear_right();
+                }
+            }
+            for (int step = 0; step < 20; ++step) {
+                T shift = T(rng() % 21) - 10;
+                st.shift(shift);
+                for (auto &h : hinges) h.first += shift;
+                T a = center + T(rng() % 21) - 10;
+                bool left = rng() % 2;
+                if (left) st.add_a_minus_x(a);
+                else st.add_x_minus_a(a);
+                hinges.emplace_back(a, left);
+                T minimum = numeric_limits<T>::max();
+                for (T x = center - 250; x <= center + 250; ++x) {
+                    __int128 expected = 0;
+                    for (auto [point, is_left] : hinges) {
+                        expected += max<__int128>(0, is_left ? __int128(point) - x : __int128(x) - point);
+                    }
+                    assert(st.eval(x) == expected);
+                    minimum = min(minimum, T(expected));
+                }
+                assert(st.query().min_f == minimum);
+            }
+        }
+    }
+}
+
 int main() {
+    large_hinge_check();
     abs_check<long long>();
     abs_check<int>();
     abs_check<double>();
