@@ -83,6 +83,25 @@ struct ImplicitTreap {
         }
     }
 
+    vector<T> to_vector() {
+        vector<T> result;
+        result.reserve(size());
+        vector<int> stack;
+        int v = root;
+        while (v != -1 || !stack.empty()) {
+            while (v != -1) {
+                push(v);
+                stack.push_back(v);
+                v = nodes[v].l;
+            }
+            v = stack.back();
+            stack.pop_back();
+            result.push_back(nodes[v].val);
+            v = nodes[v].r;
+        }
+        return result;
+    }
+
     void set(int k, const T &x) {
         set_node(root, k, x);
     }

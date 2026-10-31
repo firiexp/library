@@ -25,6 +25,19 @@ struct StringAffine {
     static L l() { return {1, 0}; }
 };
 
+void check_vector(ImplicitTreap<StringAffine> &tr, const string &expected) {
+    vector<string> oracle;
+    for (char c : expected) oracle.emplace_back(1, c);
+    int root = tr.root;
+    auto count = tr.nodes.size(), capacity = tr.nodes.capacity();
+    assert(tr.to_vector() == oracle);
+    assert(tr.to_vector() == oracle);
+    assert(tr.root == root);
+    assert(tr.nodes.size() == count && tr.nodes.capacity() == capacity);
+    assert(tr.all_fold() == expected);
+    for (int i = 0; i < tr.size(); ++i) assert(tr.get(i) == oracle[i]);
+}
+
 void mixed_operations() {
     mt19937 rng(198);
     for (int initial = 0; initial <= 70; ++initial) {
@@ -33,6 +46,7 @@ void mixed_operations() {
         vector<string> values;
         for (char c : expected) values.emplace_back(1, c);
         ImplicitTreap<StringAffine> tr(values);
+        check_vector(tr, expected);
         for (int step = 0; step < 1000; ++step) {
             int n = expected.size();
             int l = rng() % (n + 1), r = rng() % (n + 1);
@@ -69,6 +83,7 @@ void mixed_operations() {
             }
             assert(tr.size() == (int)expected.size());
             assert(tr.all_fold() == expected);
+            if (step % 17 == 0) check_vector(tr, expected);
             if (step % 7 == 0) {
                 n = expected.size();
                 l = rng() % (n + 1), r = rng() % (n + 1);
@@ -87,6 +102,7 @@ void mixed_operations() {
         }
         tr.apply(0, 0, {0, 42});
         assert(tr.all_fold().empty());
+        check_vector(tr, expected);
     }
 }
 
@@ -147,6 +163,7 @@ void insertion_and_erasure() {
             }
             assert(tr.all_fold() == expected);
             assert(tr.size() == (int)expected.size());
+            if (step % 13 == 0) check_vector(tr, expected);
             vector<bool> seen(tr.nodes.size());
             vector<int> todo;
             if (!tr.empty()) todo.push_back(tr.root);
