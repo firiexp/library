@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_DATASTRUCTURE_WEIGHTED_WAVELET_MATRIX_CPP
+#define FIRIEXP_LIBRARY_DATASTRUCTURE_WEIGHTED_WAVELET_MATRIX_CPP
+
 template <class T, class U>
 struct WeightedWaveletMatrix {
     struct CountSum {
@@ -403,3 +406,5 @@ public:
 /**
  * @brief 重み付きWavelet Matrix(Weighted Wavelet Matrix)
  */
+
+#endif
