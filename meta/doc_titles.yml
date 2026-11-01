@@ -72,7 +72,7 @@ flow/costscalingdinic.cpp: "容量スケーリングDinic(Capacity Scaling Dinic
 flow/dinic.cpp: "Dinic法(Dinic)"
 graph/matching/hungarian.cpp: "ハンガリアン法(Hungarian Algorithm)"
 graph/matching/dag_minimum_path_cover.cpp: "DAGの最小頂点素パス被覆"
-flow/maxflow_lower_bound.cpp: "下限制約付きs-t最大流 (Max Flow with Lower Bounds)"
+flow/maxflow_lower_bound.cpp: "下限制約付きs-t流"
 flow/minimum_cost_b_flow.cpp: "最小費用b-flow(Min-Cost b-Flow)"
 flow/primaldual.cpp: "最小費用流(Primal-Dual)"
 flow/project_selection_problem.cpp: "Project Selection Problem"

@@ -9,42 +9,52 @@ template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 
 using Edge = tuple<int, int, ll, ll>;
 
-void check_result(int n, int s, int t, const vector<Edge> &edges, ll expected) {
+void check_result(int n, int s, int t, const vector<Edge> &edges, ll minimum, ll maximum) {
     MaxFlowLowerBound<ll> g(n);
     for (auto [u, v, lower, upper] : edges) g.add_edge(u, v, lower, upper);
-    auto result = g.max_flow_with_edges(s, t);
-    assert(result.exists == (expected >= 0));
-    assert(result.value == max(0LL, expected));
-    if (result.exists) {
-        assert(result.edge_flow.size() == edges.size());
-        vector<ll> balance(n);
-        for (size_t i = 0; i < edges.size(); ++i) {
-            auto [u, v, lower, upper] = edges[i];
-            ll f = result.edge_flow[i];
-            assert(lower <= f && f <= upper);
-            balance[u] += f;
-            balance[v] -= f;
+    auto validate = [&](const auto &result, ll expected) {
+        assert(result.exists == (expected >= 0));
+        assert(result.value == max(0LL, expected));
+        if (result.exists) {
+            assert(result.edge_flow.size() == edges.size());
+            vector<ll> balance(n);
+            for (size_t i = 0; i < edges.size(); ++i) {
+                auto [u, v, lower, upper] = edges[i];
+                ll f = result.edge_flow[i];
+                assert(lower <= f && f <= upper);
+                balance[u] += f;
+                balance[v] -= f;
+            }
+            for (int v = 0; v < n; ++v)
+                assert(balance[v] == (v == s ? expected : v == t ? -expected : 0));
+        } else {
+            assert(result.edge_flow.empty());
         }
-        for (int v = 0; v < n; ++v)
-            assert(balance[v] == (v == s ? expected : v == t ? -expected : 0));
-    } else {
-        assert(result.edge_flow.empty());
-    }
+    };
+    auto result = g.max_flow_with_edges(s, t);
+    validate(result, maximum);
+    auto min_result = g.min_flow_with_edges(s, t);
+    validate(min_result, minimum);
     auto again = g.max_flow_with_edges(s, t);
     assert(again.exists == result.exists && again.value == result.value);
     assert(again.edge_flow == result.edge_flow);
     assert(g.max_flow(s, t) == make_pair(result.exists, result.value));
+    auto min_again = g.min_flow_with_edges(s, t);
+    validate(min_again, minimum);
+    assert(min_again.edge_flow == min_result.edge_flow);
 }
 
 void check(int n, int s, int t, const vector<Edge> &edges) {
     vector<ll> balance(n);
-    ll expected = -1;
+    ll minimum = INF<ll>, maximum = -1;
     auto enumerate = [&](auto &&self, size_t i) -> void {
         if (i == edges.size()) {
             for (int v = 0; v < n; ++v)
                 if (v != s && v != t && balance[v]) return;
-            if (balance[s] >= 0 && balance[s] == -balance[t])
-                expected = max(expected, balance[s]);
+            if (balance[s] >= 0 && balance[s] == -balance[t]) {
+                minimum = min(minimum, balance[s]);
+                maximum = max(maximum, balance[s]);
+            }
             return;
         }
         auto [u, v, lower, upper] = edges[i];
@@ -57,17 +67,19 @@ void check(int n, int s, int t, const vector<Edge> &edges) {
         }
     };
     enumerate(enumerate, 0);
-    check_result(n, s, t, edges, expected);
+    check_result(n, s, t, edges, maximum < 0 ? -1 : minimum, maximum);
 }
 
 int main() {
     check(2, 0, 1, {});
     check(3, 0, 2, {{0, 1, 1, 1}});
     check(2, 0, 1, {{1, 0, 1, 2}});
+    check(2, 0, 1, {{0, 1, 2, 4}, {1, 0, 0, 3}});
+    check(3, 0, 2, {{0, 1, 2, 3}, {1, 2, 2, 3}, {2, 0, 0, 1}});
     check(3, 0, 2, {{0, 0, 2, 3}, {0, 1, 1, 3}, {0, 1, 2, 2},
                     {1, 2, 3, 6}, {2, 2, 1, 1}, {0, 2, 0, 0}});
     check_result(3, 0, 2, {{0, 1, 1LL << 40, 2LL << 40},
-                          {1, 2, 1LL << 40, 3LL << 40}}, 2LL << 40);
+                          {1, 2, 1LL << 40, 3LL << 40}}, 1LL << 40, 2LL << 40);
     mt19937 rng(106);
     for (int tc = 0; tc < 10000; ++tc) {
         int n = 2 + rng() % 5;

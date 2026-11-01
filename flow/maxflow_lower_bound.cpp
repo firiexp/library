@@ -30,52 +30,51 @@ public:
     }
 
     Result max_flow_with_edges(int s, int t) {
+        return solve(s, t, false);
+    }
+
+    Result min_flow_with_edges(int s, int t) {
+        return solve(s, t, true);
+    }
+
+private:
+    Result solve(int s, int t, bool minimize) {
         int ss = n, tt = n + 1;
         Dinic<T, true> mf(n + 2);
         vector<T> b(n, 0);
-        vector<int> edge_ids;
-        edge_ids.reserve(edges.size());
         for(auto &&e : edges) {
-            edge_ids.push_back(mf.add_edge(e.from, e.to, e.upper - e.lower));
+            mf.add_edge(e.from, e.to, e.upper - e.lower);
             b[e.from] -= e.lower;
             b[e.to] += e.lower;
         }
 
-        int ts_index = mf.G[t].size();
         int ts = mf.add_edge(t, s, INF<T>);
         T req = 0;
-        vector<int> super_edges;
+        int last_auxiliary = ts;
         for(int v = 0; v < n; ++v) {
             if(b[v] > 0) {
                 req += b[v];
-                super_edges.push_back(mf.add_edge(ss, v, b[v]));
+                last_auxiliary = mf.add_edge(ss, v, b[v]);
             } else if(b[v] < 0) {
-                mf.add_edge(v, tt, -b[v]);
+                last_auxiliary = mf.add_edge(v, tt, -b[v]);
             }
         }
 
         if(mf.flow(ss, tt) != req) return {false, 0, {}};
 
-        for(int id : super_edges) {
-            auto e = mf.get_edge(id);
-            if(e.flow != e.capacity) return {false, 0, {}};
-        }
-
         T base = mf.get_edge(ts).flow;
-        auto &aux = mf.G[t][ts_index];
-        mf.G[aux.to][aux.rev].cap = 0;
-        aux.cap = 0;
+        for(int id = ts; id <= last_auxiliary; ++id) mf.change_edge(id, 0, 0);
 
-        T add = mf.flow(s, t);
-        Result result{true, base + add, {}};
+        T value = minimize ? base - mf.flow(t, s, base) : base + mf.flow(s, t);
+        Result result{true, value, {}};
         result.edge_flow.reserve(edges.size());
         for(size_t i = 0; i < edges.size(); ++i) {
-            result.edge_flow.push_back(edges[i].lower + mf.get_edge(edge_ids[i]).flow);
+            result.edge_flow.push_back(edges[i].lower + mf.get_edge(i).flow);
         }
         return result;
     }
 };
 
 /**
- * @brief 下限制約付きs-t最大流 (Max Flow with Lower Bounds)
+ * @brief 下限制約付きs-t流
  */
