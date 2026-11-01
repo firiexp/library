@@ -7,6 +7,10 @@ namespace BigIntegerDetail {
     using u32 = unsigned int;
     using u64 = unsigned long long;
 
+    template<class T>
+    using EnableIntegral = enable_if_t<is_integral_v<T> || is_same_v<T, __int128> ||
+                                       is_same_v<T, unsigned __int128>, int>;
+
     struct DecimalRadix {
         static constexpr u64 BASE = 100000000;
         static constexpr u32 META_BASE = 10000;
@@ -544,6 +548,9 @@ class BasicBigInteger {
     static constexpr int IO_BASE = Radix::IO_BASE;
     static constexpr int BLOCK_DIGITS = Radix::BLOCK_DIGITS;
 
+    template<class T>
+    using UnsignedWide = conditional_t<(sizeof(T) <= sizeof(u64)), u64, unsigned __int128>;
+
     Digits digits;
     bool negative = false;
 
@@ -592,22 +599,48 @@ class BasicBigInteger {
 
 public:
     BasicBigInteger() = default;
-    BasicBigInteger(long long value) { *this = value; }
+    template<class T, BigIntegerDetail::EnableIntegral<T> = 0>
+    BasicBigInteger(T value) { *this = value; }
     BasicBigInteger(const string &value, int base = IO_BASE) {
         bool ok = assign(value, base);
         assert(ok);
         (void)ok;
     }
 
-    BasicBigInteger &operator=(long long value) {
+    template<class T, BigIntegerDetail::EnableIntegral<T> = 0>
+    BasicBigInteger &operator=(T value) {
         digits.clear();
-        negative = value < 0;
-        u64 magnitude = negative ? u64(-(value + 1)) + 1 : u64(value);
+        negative = false;
+        if constexpr (numeric_limits<T>::is_signed) negative = value < 0;
+        using U = UnsignedWide<T>;
+        U magnitude = negative ? U(-(value + 1)) + 1 : U(value);
         while (magnitude) {
             digits.push_back(u32(magnitude % BASE));
             magnitude /= BASE;
         }
         return *this;
+    }
+
+    template<class T, BigIntegerDetail::EnableIntegral<T> = 0>
+    optional<T> to_integral() const {
+        if (negative && !numeric_limits<T>::is_signed) return nullopt;
+        using U = UnsignedWide<T>;
+        U limit = U(numeric_limits<T>::max());
+        if constexpr (numeric_limits<T>::is_signed) {
+            if (negative) limit = U(0) - U(numeric_limits<T>::min());
+        }
+        U quotient = limit / BASE, remainder = limit % BASE, magnitude = 0;
+        for (size_t i = digits.size(); i-- > 0;) {
+            if (magnitude > quotient || (magnitude == quotient && digits[i] > remainder)) return nullopt;
+            magnitude = magnitude * BASE + digits[i];
+        }
+        if constexpr (numeric_limits<T>::is_signed) {
+            if (negative) {
+                if (magnitude == limit) return numeric_limits<T>::min();
+                return -T(magnitude);
+            }
+        }
+        return T(magnitude);
     }
 
     bool assign(const string &value, int base = IO_BASE) {

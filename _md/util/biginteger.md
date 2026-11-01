@@ -12,8 +12,8 @@ tags: 数学
 ## できること
 - `BigInteger()`
   `0` を作る
-- `BigInteger(long long x)`
-  `x` から作る
+- `BigInteger(T value)`, `x = value`
+  組込み整数型 `T` の全範囲から、文字列を介さず構築・代入する
 - `BigInteger(const string& s, int base = 10)`
   `s` から作る。`base` は $2$ 以上 $36$ 以下。不正な文字列なら assertion failure
 - `x.assign(const string& s, int base = 10)`
@@ -24,6 +24,8 @@ tags: 数学
   `x == 0` なら `true`
 - `x.to_string(int base = 10)`
   `base` 表記の文字列にする。英字は小文字で返す
+- `x.to_integral<T>() -> optional<T>`
+  組込み整数型 `T` へ変換する。範囲外なら `nullopt`。負数から符号なし型への変換も失敗する
 - `x += y`, `x -= y`, `x *= y`, `x /= y`, `x %= y`
   四則演算と余りを計算する。`/` は 0 方向に切り捨て、`%` は被除数と同符号の余りを返す。0 除算は assertion failure
 - `x << k`, `x >> k`
@@ -48,10 +50,22 @@ pr.println(q, r);
 10 進中心なら `BigInteger`、16 進中心なら `HexBigInteger` を使う。
 異なる基数の文字列も扱える。`HexBigInteger` は2・4・8・16・32進でも桁数に比例する時間で変換できる。
 
+`BigInteger` と `HexBigInteger` は、標準の整数型および `__int128`、`unsigned __int128` との相互変換に対応する。
+`bool` へ変換できる値は0と1だけ。失敗時も元の多倍長整数は変更しない。
+
+```cpp
+BigInteger value = numeric_limits<unsigned long long>::max();
+auto index = value.to_integral<int>();
+if (index) use_index(*index);
+auto wide = value.to_integral<unsigned long long>();
+```
+
 ## 実装上の補足
 
 `BigInteger` は $10^8$ 基数、`HexBigInteger` は $2^{32}$ 基数の桁配列を持つ。各要素を limb と呼び、下位から順に格納する。
 limb は32 bit、基礎演算の中間値は64 bitで扱う。
+整数からの構築・代入は絶対値を符号なし型で扱うため、符号付き最小値も変換できる。
+`to_integral<T>()` は上位 limb から読み、乗加算の前に上限を検査する。limb 数を $L$ として $O(L)$ 時間、追加領域 $O(1)$。範囲外と分かった時点で打ち切る。
 
 乗算は入力の桁数とその積で筆算、Karatsuba 法、2 素数の exact NTT を切り替える。
 Karatsuba 法は長辺が短辺の 2 倍以下の中規模入力に使う。切り替えは 10 進版と 16 進版で分ける。

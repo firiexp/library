@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
+#include <limits>
+#include <optional>
 #include <string>
 #include <utility>
 #include <type_traits>
