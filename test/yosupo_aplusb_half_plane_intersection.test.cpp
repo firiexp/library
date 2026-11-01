@@ -157,8 +157,33 @@ void parallel_check() {
     }
 }
 
+void large_coordinate_check() {
+    mt19937 rng(300);
+    vector<Polygon> polygons{
+        {Point(0, 0), Point(2e9, 0), Point(2e9, 2e9), Point(0, 2e9)},
+        {Point(3e9, -5e9), Point(5e9, -5e9), Point(5e9, -3e9), Point(3e9, -3e9)},
+        {Point(-2e9, -3e9), Point(2e9, -3e9), Point(2e9, 3e9), Point(-2e9, 3e9)},
+        {Point(-4e9, 2e9), Point(-2e9, 2e9), Point(-3e9, 4e9)},
+        {Point(0, 0), Point(2, 0), Point(2, 2), Point(0, 2)},
+    };
+    for (const Polygon &poly : polygons) {
+        auto lines = polygon_half_planes(poly);
+        lines.push_back(lines[0]);
+        for (int tc = 0; tc < 50; ++tc) {
+            shuffle(lines.begin(), lines.end(), rng);
+            Polygon got = half_plane_intersection(lines);
+            assert(got.size() == poly.size());
+            assert(fabs(area(got) - area(poly)) <= 1e-12 * area(poly));
+            for (Point p : poly) {
+                assert(any_of(got.begin(), got.end(), [&](Point q) { return abs(p - q) < 1e-6; }));
+            }
+        }
+    }
+}
+
 int main() {
     self_check();
     regression_check();
     parallel_check();
+    large_coordinate_check();
 }

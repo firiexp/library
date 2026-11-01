@@ -34,20 +34,9 @@ bool same_point(Point a, Point b) {
 Polygon half_plane_intersection(vector<Line> ls) {
     using namespace internal_half_plane_intersection;
 
-    static constexpr geometry_real INF = 1e9;
     vector<HalfPlane> hs;
-    hs.reserve(ls.size() + 4);
+    hs.reserve(ls.size());
     for (const Line &l : ls) hs.emplace_back(l);
-
-    Polygon box = {
-        Point(-INF, -INF),
-        Point(INF, -INF),
-        Point(INF, INF),
-        Point(-INF, INF),
-    };
-    for (int i = 0; i < 4; ++i) {
-        hs.emplace_back(Line(box[i], box[(i + 1) % 4]));
-    }
 
     sort(hs.begin(), hs.end());
 
