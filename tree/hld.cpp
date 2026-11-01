@@ -96,7 +96,23 @@ public:
         }
     }
 
-    int distance(int u, int v){ return dep[u] + dep[v] - 2*dep[lca(u, v)]; }
+    int distance(int u, int v) const { return dep[u] + dep[v] - 2*dep[lca(u, v)]; }
+
+    pair<int, int> path_intersection(int a, int b, int c, int d) const {
+        if (tree_id[a] != tree_id[b] || tree_id[a] != tree_id[c] ||
+            tree_id[a] != tree_id[d]) return {-1, -1};
+        int ab = lca(a, b);
+        auto project = [&](int v) {
+            int x = lca(a, v), y = lca(b, v), answer = ab;
+            if (dep[x] > dep[answer]) answer = x;
+            if (dep[y] > dep[answer]) answer = y;
+            return answer;
+        };
+        int x = project(c), y = project(d);
+        if (x == y && distance(c, x) + distance(x, d) != distance(c, d)) return {-1, -1};
+        if (distance(a, x) > distance(a, y)) swap(x, y);
+        return {x, y};
+    }
 
     pair<int, int> subtree(int v, bool edge = false) const {
         return {id[v] + edge, id[v] + sub_size[v]};

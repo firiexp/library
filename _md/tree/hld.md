@@ -27,6 +27,8 @@ tags: 木
   `k` 個上の祖先を返す。存在しなければ `-1`。$O(\log N)$
 - `int distance(int u, int v)`
   木上距離を返す。$O(\log N)$
+- `pair<int, int> path_intersection(int a, int b, int c, int d) const`
+  頂点パス `a -> b` と `c -> d` の共通部分を、`a -> b` の順に端点の組で返す。空、または4頂点が同じ木に属さなければ `{-1, -1}`。1頂点だけなら両端点が同じになる。時間 $O(\log N)$、追加領域 $O(1)$
 - `pair<int, int> subtree(int v, bool edge = false)`
   部分木に対応する半開区間 `[l, r)` を返す。$O(1)$
 - `void rerooted_subtree(int v, int root, F f) const`
@@ -91,9 +93,22 @@ hld.path_ordered(u, v, [&](int l, int r, bool reversed) {
 
 文字列結合も同様に、区間を指定された向きに読み、callback の呼び出し順に連結する。
 
+2本のパスの共通部分も既存のパス API に渡せる。
+`build` 済みの森で使い、共通する**頂点集合**を扱う。
+端点だけの接触も1頂点のパスとして返る。
+
+```cpp
+auto [x, y] = hld.path_intersection(a, b, c, d);
+if (x != -1) {
+    hld.path(x, y, [&](int l, int r) { seg.update(l, r, value); });
+}
+```
+
 ## 実装上の補足
 `edge = true` にすると、LCA 側の頂点を除いた辺クエリ区間になる。
 `path_query_ordered` は `u -> v` の向きを保つ。
 後半の区間をスタック領域の固定長配列に保存し、逆順に取り出す。light edge の数は `int` のビット数未満なので、その幅を配列の上限とし、heap 確保は行わない。
 頂点モードの `u = v` は1要素、辺モードは空パスとなり callback を呼ばない。
 前処理は再帰を使わない。
+`path_intersection` は `c`, `d` からパス `a -> b` への最近点を LCA で求める。
+最近点が異なればその間が共通部分となる。同じなら、その頂点がパス `c -> d` にも含まれるかを調べる。
