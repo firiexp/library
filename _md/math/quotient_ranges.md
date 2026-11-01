@@ -8,11 +8,13 @@ tags: 数学
 
 ## 説明
 $\lfloor N/i\rfloor$ が一定になる区間ごとに処理する。
-約数和や、区間和を使った重み付きの床和に使える。
+約数和など、$\sum_i a_i\lfloor N/i\rfloor$ の形の和を求めるときに使う。
 
 ## できること
+`f` は区間ごとの処理を行う関数で、左端 `l`、右端 `r`、商 `q` を引数に取る。
+
 - `void for_each_quotient(long long n, F f, long long first = 1)`
-  `first <= i <= n` を覆う最大の**閉区間** `[l, r]` と商 `q = n / l` を、`l` の昇順に `f(l, r, q)` へ渡す。`n = 0` または `first > n` なら呼ばない。コールバックを除いて時間 $O(\sqrt N)$、作業領域 $O(1)$
+  `first <= i <= n` を覆う最大の**閉区間** `[l, r]` と商 `q = n / l` を、`l` の昇順に `f(l, r, q)` へ渡す。`f` の呼び出しは高々 $2\lfloor\sqrt N\rfloor$ 回、作業領域は $O(1)$
 
 ## 使い方
 `0 <= n <= LLONG_MAX`、`first >= 1` とする。
