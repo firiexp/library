@@ -27,21 +27,22 @@ int main() {
 
     int n, m, s, t;
     in.read(n, m, s, t);
-    vector<vector<edge<ll>>> G(n);
+    vector<edge<ll>> edges;
+    edges.reserve(m);
     for (int i = 0; i < m; ++i) {
         array<int, 3> e;
         in.read(e);
-        G[e[0]].emplace_back(e[1], e[2]);
+        edges.emplace_back(e[0], e[1], e[2]);
     }
-    auto res = dijkstra_restore(s, G);
+    auto res = dijkstra_restore(s, n, edges);
     if (res.dist[t] == INF<ll>) {
         out.println(-1);
         return 0;
     }
-    auto path = restore_path(s, t, res.parent);
-    out.println(res.dist[t], (int)path.size() - 1);
-    for (int i = 0; i + 1 < (int)path.size(); ++i) {
-        out.println(array<int, 2>{path[i], path[i + 1]});
+    auto path = restore_edge_path(s, t, res);
+    out.println(res.dist[t], (int)path.size());
+    for (int id : path) {
+        out.println(array<int, 2>{edges[id].from, edges[id].to});
     }
     return 0;
 }

@@ -40,7 +40,9 @@ void check(const vector<ll>& initial, const vector<vector<edge<ll>>>& g) {
     if (n) {
         int s = n / 2;
         assert(dijkstra(s, g) == dist[s]);
-        assert(dijkstra_restore(s, g).dist == dist[s]);
+        vector<edge<ll>> edges;
+        for (int v = 0; v < n; ++v) for (auto e : g[v]) edges.emplace_back(v, e.to, e.cost);
+        assert(dijkstra_restore(s, n, edges).dist == dist[s]);
         assert(dijkstra_radix_heap(s, g) == dist[s]);
     }
 }

@@ -52,7 +52,7 @@ void check_composed_libraries() {
     vector<edge<ll>> es = {{0, 1, 0}, directed};
     vector<ll> expected = {0, 0, 1};
     assert(dijkstra(0, g) == expected);
-    assert(dijkstra_restore(0, g).dist == expected);
+    assert(dijkstra_restore(0, 3, es).dist == expected);
     assert(bfs01(0, g) == expected);
     assert(bellman_ford(0, 3, es) == expected);
 
