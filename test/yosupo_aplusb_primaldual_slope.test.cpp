@@ -6,6 +6,28 @@ template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../util/fastio.cpp"
 #include "../flow/primaldual.cpp"
 
+void check_edges(const PrimalDual<int, long long> &mf, int n,
+                 const vector<array<int, 4>> &input, int amount, long long cost) {
+    auto edges = mf.edges();
+    assert(edges.size() == input.size());
+    vector<int> balance(n);
+    long long total = 0;
+    for(int id = 0; id < int(input.size()); ++id) {
+        auto [u, v, cap, c] = input[id];
+        auto e = mf.get_edge(id);
+        assert(e.from == u && e.to == v && e.capacity == cap && e.cost == c);
+        assert(edges[id].from == u && edges[id].to == v);
+        assert(edges[id].capacity == cap && edges[id].cost == c && edges[id].flow == e.flow);
+        assert(0 <= e.flow && e.flow <= cap);
+        balance[u] += e.flow;
+        balance[v] -= e.flow;
+        total += e.flow * e.cost;
+    }
+    assert(total == cost);
+    for(int v = 0; v < n; ++v)
+        assert(balance[v] == (v == 0 ? amount : v == n - 1 ? -amount : 0));
+}
+
 void check(int n, const vector<array<int, 4>>& edges) {
     int total = 0;
     for (auto e : edges) total += e[2];
@@ -32,13 +54,18 @@ void check(int n, const vector<array<int, 4>>& edges) {
     while (best[maximum] == INF<long long>) --maximum;
     for (int limit = 0; limit <= maximum + 2; ++limit) {
         PrimalDual<int, long long> mf(n);
-        for (auto [u, v, cap, cost] : edges) mf.add_edge(u, v, cap, cost);
+        for (int id = 0; id < int(edges.size()); ++id) {
+            auto [u, v, cap, cost] = edges[id];
+            assert(mf.add_edge(u, v, cap, cost) == id);
+        }
+        check_edges(mf, n, edges, 0, 0);
         auto legacy = mf;
         auto initial = mf.G;
         auto curve = mf.slope(0, n - 1, limit);
         int amount = min(limit, maximum);
         assert((curve.front() == pair<int, long long>{0, 0}));
         assert((curve.back() == pair<int, long long>{amount, best[amount]}));
+        check_edges(mf, n, edges, amount, best[amount]);
         long long previous = -1;
         for (int i = 1; i < (int)curve.size(); ++i) {
             auto [l, c1] = curve[i - 1];
@@ -53,6 +80,7 @@ void check(int n, const vector<array<int, 4>>& edges) {
         int ok = -1;
         assert(legacy.flow(0, n - 1, limit, ok) == best[amount]);
         assert(ok == (limit <= maximum));
+        check_edges(legacy, n, edges, amount, best[amount]);
         for (int v = 0; v < n; ++v) for (int i = 0; i < (int)mf.G[v].size(); ++i) {
             auto e = mf.G[v][i];
             auto rev = mf.G[e.to][e.rev];
@@ -87,6 +115,13 @@ int main() {
         vector<pair<long long, long long>> expected{{0, 0}};
         if (amount) expected.emplace_back(amount, amount * 7);
         assert(curve == expected);
+        auto edges = mf.edges();
+        assert(edges.size() == 2);
+        assert(edges[0].flow + edges[1].flow == amount);
+        for(auto e : edges) {
+            assert(e.capacity == 1000000000000LL && e.cost == 7);
+            assert(0 <= e.flow && e.flow <= e.capacity);
+        }
     }
     PrimalDual<int, long long> unlimited(2);
     unlimited.add_edge(0, 1, 3, 5);
@@ -107,4 +142,18 @@ int main() {
     assert((wide.slope(0, 3) == vector<pair<int, long long>>{{0, 0}, {1, cost}, {2, 4 * cost}}));
     for (int v = 0; v < 4; ++v) for (auto e : wide.G[v])
         if (e.cap) assert(e.cost + wide.potential[v] - wide.potential[e.to] >= 0);
+
+    PrimalDual<int, long long> assignment(6);
+    assignment.add_edge(0, 1, 1, 0);
+    assignment.add_edge(0, 2, 1, 0);
+    int a = assignment.add_edge(1, 3, 1, 1);
+    int b = assignment.add_edge(1, 4, 1, 2);
+    int c = assignment.add_edge(2, 3, 1, 2);
+    int d = assignment.add_edge(2, 4, 1, 100);
+    assignment.add_edge(3, 5, 1, 0);
+    assignment.add_edge(4, 5, 1, 0);
+    int ok;
+    assert(assignment.flow(0, 5, 2, ok) == 4 && ok);
+    assert(assignment.get_edge(a).flow == 0 && assignment.get_edge(d).flow == 0);
+    assert(assignment.get_edge(b).flow == 1 && assignment.get_edge(c).flow == 1);
 }

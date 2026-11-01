@@ -1,5 +1,12 @@
 template<typename F, typename C>
 struct PrimalDual {
+    struct Edge {
+        int from, to;
+        F capacity;
+        C cost;
+        F flow;
+    };
+
     struct edge {
         int to; F cap; C cost; int rev;
         edge() = default;
@@ -11,11 +18,28 @@ struct PrimalDual {
 
     explicit PrimalDual(int n) : G(n), potential(n), min_cost(n), prevv(n), preve(n) {}
 
-    void add_edge(int u, int v, F cap, C cost){
+    int add_edge(int u, int v, F cap, C cost){
         int from_id = G[u].size(), to_id = G[v].size();
+        int id = positions.size();
+        positions.push_back({u, from_id, cap});
         if(u == v) ++to_id;
         G[u].emplace_back(v, cap, cost, to_id);
         G[v].emplace_back(u, 0, -cost, from_id);
+        return id;
+    }
+
+    Edge get_edge(int id) const {
+        const auto &p = positions[id];
+        const auto &e = G[p.from][p.index];
+        return {p.from, e.to, p.capacity, e.cost, F(p.capacity - e.cap)};
+    }
+
+    vector<Edge> edges() const {
+        vector<Edge> result;
+        result.reserve(positions.size());
+        for(int id = 0; id < int(positions.size()); ++id)
+            result.push_back(get_edge(id));
+        return result;
     }
 
     struct P{
@@ -65,6 +89,12 @@ struct PrimalDual {
     }
 
 private:
+    struct input_edge {
+        int from, index;
+        F capacity;
+    };
+    vector<input_edge> positions;
+
     template<class Output>
     pair<F, C> run_flow(int s, int t, F limit, Output output) {
         F amount = 0;

@@ -10,12 +10,16 @@ tags: フロー
 流量ごとの最小費用を、折れ点の列としてまとめて求めることもできる。
 
 ## できること
-頂点数を $N$、辺数を $M$、流量の上限（`fl` または `limit`）を $f$ とする。
+頂点数を $N$、辺数を $M$、流量の上限（`fl` または `limit`）を $f$ とする。保持領域は $O(N+M)$。
 
 - `PrimalDual<F, C> mf(n)`
   頂点数 `n` のネットワークを作る。$O(N)$
-- `void add_edge(int u, int v, F cap, C cost)`
-  容量 `cap`、費用 `cost` の有向辺を張る。償却 $O(1)$
+- `int add_edge(int u, int v, F cap, C cost)`
+  容量 `cap`、費用 `cost` の有向辺を張り、0からの追加順の辺 ID を返す。償却 $O(1)$
+- `Edge get_edge(int id) const`
+  入力辺の `from, to, capacity, cost, flow` を返す。`capacity` と `cost` は登録時の容量と費用、`flow` は登録方向へ流した量。$O(1)$
+- `vector<Edge> edges() const`
+  追加順で全入力辺の情報を返す。逆辺は含めない。時間・返却領域 $O(M)$
 - `C flow(int s, int t, F fl, int& ok)`
   流せた分の最小費用を返す。`ok` に `fl` を流し切れたかを代入する（流し切れれば `1`、そうでなければ `0`）。最悪 $O(N+f(N+M)\log(N+M))$
 - `vector<pair<F, C>> slope(int s, int t, F limit = INF<F>)`
@@ -34,6 +38,11 @@ auto curve = mf.slope(0, 1);
 
 この例では `{(0, 0), (2, 6), (3, 11)}` を返す。
 折れ点の間の整数流量に対する費用は線形補間で求められる。流せる経路がない場合は `{(0, 0)}` を返す。
+
+二部割当を復元するには、各候補の辺を容量1で追加し、返された ID と候補の組を保存する。
+`flow` または `slope` の実行後、`mf.get_edge(id).flow == 1` となる辺に対応する組を集めれば、採用された割当を得られる。
+実行前の流量は0。要求量を流し切れなかった場合も、`flow` / `slope` が終了した時点の流量を取得できる。
+`slope` の途中の折れ点ごとの割当は保持しない。`G` を直接書き換えた場合、取得する情報は保証しない。
 
 ## 実装上の補足
 各増加路は Dijkstra で求め、終点の距離が確定した時点で探索を打ち切る。
