@@ -23,7 +23,7 @@ pair<int, int> furthest_pair(const vector<IntPoint> &points) {
         int j = 1;
         for (int i = 0; i < n; ++i) {
             int next_i = (i + 1) % n;
-            auto height = [&](int v) { return IntPoint::cross(hull[i], hull[next_i], hull[v]); };
+            auto height = [&](int v) { return cross_i128(hull[i], hull[next_i], hull[v]); };
             while (height((j + 1) % n) > height(j)) j = (j + 1) % n;
             update(i, j);
             update(next_i, j);

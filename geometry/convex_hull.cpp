@@ -10,14 +10,14 @@ vector<IntPoint> convex_hull(vector<IntPoint> ps) {
     int n = ps.size();
     if (n <= 2) return ps;
     if (keep_collinear && all_of(ps.begin() + 1, ps.end(), [&](IntPoint p) {
-        return IntPoint::cross(ps.front(), ps.back(), p) == 0;
+        return cross_i128(ps.front(), ps.back(), p) == 0;
     })) return ps;
 
     vector<IntPoint> ch(2 * n);
     int k = 0;
     for (int i = 0; i < n; ++i) {
         while (k >= 2) {
-            auto turn = IntPoint::cross(ch[k - 2], ch[k - 1], ps[i]);
+            auto turn = cross_i128(ch[k - 2], ch[k - 1], ps[i]);
             if (keep_collinear ? turn >= 0 : turn > 0) break;
             --k;
         }
@@ -25,7 +25,7 @@ vector<IntPoint> convex_hull(vector<IntPoint> ps) {
     }
     for (int i = n - 2, t = k + 1; i >= 0; --i) {
         while (k >= t) {
-            auto turn = IntPoint::cross(ch[k - 2], ch[k - 1], ps[i]);
+            auto turn = cross_i128(ch[k - 2], ch[k - 1], ps[i]);
             if (keep_collinear ? turn >= 0 : turn > 0) break;
             --k;
         }
@@ -48,13 +48,13 @@ vector<int> convex_hull_indices(const vector<IntPoint> &points) {
     int n = ids.size();
     if (n <= 2) return ids;
     if (keep_collinear && all_of(ids.begin() + 1, ids.end(), [&](int i) {
-        return IntPoint::cross(points[ids.front()], points[ids.back()], points[i]) == 0;
+        return cross_i128(points[ids.front()], points[ids.back()], points[i]) == 0;
     })) return ids;
     vector<int> hull(2 * n);
     int k = 0;
     for (int i = 0; i < n; ++i) {
         while (k >= 2) {
-            auto turn = IntPoint::cross(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]);
+            auto turn = cross_i128(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]);
             if (keep_collinear ? turn >= 0 : turn > 0) break;
             --k;
         }
@@ -62,7 +62,7 @@ vector<int> convex_hull_indices(const vector<IntPoint> &points) {
     }
     for (int i = n - 2, t = k + 1; i >= 0; --i) {
         while (k >= t) {
-            auto turn = IntPoint::cross(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]);
+            auto turn = cross_i128(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]);
             if (keep_collinear ? turn >= 0 : turn > 0) break;
             --k;
         }
@@ -77,23 +77,23 @@ int contains_convex(const vector<IntPoint> &hull, IntPoint p) {
     if (n == 0) return 0;
     if (n == 1) return hull[0] == p ? 1 : 0;
     auto on_segment = [&](IntPoint a, IntPoint b) {
-        return IntPoint::cross(a, b, p) == 0 &&
+        return cross_i128(a, b, p) == 0 &&
                min(a.x, b.x) <= p.x && p.x <= max(a.x, b.x) &&
                min(a.y, b.y) <= p.y && p.y <= max(a.y, b.y);
     };
     if (n == 2) return on_segment(hull[0], hull[1]) ? 1 : 0;
-    __int128 left = IntPoint::cross(hull[0], hull[1], p);
-    __int128 right = IntPoint::cross(hull[0], hull[n - 1], p);
+    __int128 left = cross_i128(hull[0], hull[1], p);
+    __int128 right = cross_i128(hull[0], hull[n - 1], p);
     if (left < 0 || right > 0) return 0;
     if (left == 0) return on_segment(hull[0], hull[1]) ? 1 : 0;
     if (right == 0) return on_segment(hull[0], hull[n - 1]) ? 1 : 0;
     int l = 1, r = n - 1;
     while (r - l > 1) {
         int m = l + (r - l) / 2;
-        if (IntPoint::cross(hull[0], hull[m], p) >= 0) l = m;
+        if (cross_i128(hull[0], hull[m], p) >= 0) l = m;
         else r = m;
     }
-    __int128 side = IntPoint::cross(hull[l], hull[r], p);
+    __int128 side = cross_i128(hull[l], hull[r], p);
     return side < 0 ? 0 : side == 0 ? 1 : 2;
 }
 

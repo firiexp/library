@@ -9,8 +9,8 @@ bool segments_intersect(IntPoint a, IntPoint b, IntPoint c, IntPoint d) {
     auto opposite = [](__int128 x, __int128 y) {
         return x == 0 || y == 0 || (x < 0) != (y < 0);
     };
-    return opposite(IntPoint::cross(a, b, c), IntPoint::cross(a, b, d)) &&
-           opposite(IntPoint::cross(c, d, a), IntPoint::cross(c, d, b));
+    return opposite(cross_i128(a, b, c), cross_i128(a, b, d)) &&
+           opposite(cross_i128(c, d, a), cross_i128(c, d, b));
 }
 
 #endif

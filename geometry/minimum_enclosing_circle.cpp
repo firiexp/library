@@ -34,7 +34,7 @@ struct Disk {
 };
 
 inline Disk through_three(IntPoint a, IntPoint b, IntPoint c) {
-    Wide orientation = IntPoint::cross(a, b, c);
+    Wide orientation = cross_i128(a, b, c);
     if (orientation == 0) {
         if (b < a) swap(a, b);
         if (c < a) swap(a, c);

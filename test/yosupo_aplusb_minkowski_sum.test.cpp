@@ -86,5 +86,5 @@ int main() {
     assert(sum.size() == a.size() + b.size());
     assert(sum[0] == *min_element(sum.begin(), sum.end()));
     for (int i = 0; i < (int)sum.size(); ++i)
-        assert(IntPoint::cross(sum[i], sum[(i + 1) % sum.size()], sum[(i + 2) % sum.size()]) > 0);
+        assert(cross_i128(sum[i], sum[(i + 1) % sum.size()], sum[(i + 2) % sum.size()]) > 0);
 }
