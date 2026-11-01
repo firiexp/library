@@ -1,7 +1,7 @@
 using namespace std;
 
-template<class T, class F>
-vector<T> min_plus_convolution_monotone(int n, int m, F f) {
+template<class T, bool WithArgmin = false, class F>
+vector<T> min_plus_convolution_monotone(int n, int m, F f, vector<int> *argmin = nullptr) {
     vector<T> res(n + m - 1);
     auto dfs = [&](auto &&self, int left, int right, int opt_left, int opt_right) -> void {
         if (left > right) return;
@@ -18,6 +18,7 @@ vector<T> min_plus_convolution_monotone(int n, int m, F f) {
             }
         }
         res[mid] = best_value;
+        if constexpr (WithArgmin) (*argmin)[mid] = best;
         self(self, left, mid - 1, opt_left, best);
         self(self, mid + 1, right, best, opt_right);
     };
@@ -39,13 +40,14 @@ vector<T> min_plus_convolution_convex_arbitrary(const vector<T> &a, const vector
     return min_plus_convolution_arbitrary_convex(b, a);
 }
 
-template<class T>
-vector<T> min_plus_convolution_convex_convex(const vector<T> &a, const vector<T> &b) {
+template<class T, bool WithArgmin>
+vector<T> min_plus_convolution_convex_convex_internal(const vector<T> &a, const vector<T> &b, vector<int> *argmin) {
     if (a.empty() || b.empty()) return {};
     int n = a.size(), m = b.size();
     vector<T> res(n + m - 1);
     int i = 0, j = 0;
     res[0] = a[0] + b[0];
+    if constexpr (WithArgmin) (*argmin)[0] = 0;
     for (int k = 1; k < n + m - 1; ++k) {
         if (i == n - 1) {
             ++j;
@@ -57,7 +59,47 @@ vector<T> min_plus_convolution_convex_convex(const vector<T> &a, const vector<T>
             ++j;
         }
         res[k] = a[i] + b[j];
+        if constexpr (WithArgmin) (*argmin)[k] = i;
     }
+    return res;
+}
+
+template<class T>
+vector<T> min_plus_convolution_convex_convex(const vector<T> &a, const vector<T> &b) {
+    return min_plus_convolution_convex_convex_internal<T, false>(a, b, nullptr);
+}
+
+template<class T>
+struct MinPlusConvolutionResult {
+    vector<T> value;
+    vector<int> argmin;
+};
+
+template<class T>
+MinPlusConvolutionResult<T> min_plus_convolution_arbitrary_convex_with_argmin(const vector<T> &a, const vector<T> &b) {
+    if (a.empty() || b.empty()) return {};
+    int n = a.size(), m = b.size();
+    MinPlusConvolutionResult<T> res;
+    res.argmin.resize(n + m - 1);
+    res.value = min_plus_convolution_monotone<T, true>(n, m, [&](int k, int i) {
+        return a[i] + b[k - i];
+    }, &res.argmin);
+    return res;
+}
+
+template<class T>
+MinPlusConvolutionResult<T> min_plus_convolution_convex_arbitrary_with_argmin(const vector<T> &a, const vector<T> &b) {
+    auto res = min_plus_convolution_arbitrary_convex_with_argmin(b, a);
+    for (int k = 0; k < (int)res.argmin.size(); ++k) res.argmin[k] = k - res.argmin[k];
+    return res;
+}
+
+template<class T>
+MinPlusConvolutionResult<T> min_plus_convolution_convex_convex_with_argmin(const vector<T> &a, const vector<T> &b) {
+    if (a.empty() || b.empty()) return {};
+    MinPlusConvolutionResult<T> res;
+    res.argmin.resize(a.size() + b.size() - 1);
+    res.value = min_plus_convolution_convex_convex_internal<T, true>(a, b, &res.argmin);
     return res;
 }
 
