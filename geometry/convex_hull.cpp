@@ -11,26 +11,39 @@ __int128 cross(IntPoint a, IntPoint b, IntPoint c) {
     return bx * cy - by * cx;
 }
 
+template<bool keep_collinear = false>
 vector<IntPoint> convex_hull(vector<IntPoint> ps) {
     sort(ps.begin(), ps.end());
     ps.erase(unique(ps.begin(), ps.end()), ps.end());
     int n = ps.size();
     if (n <= 2) return ps;
+    if (keep_collinear && all_of(ps.begin() + 1, ps.end(), [&](IntPoint p) {
+        return cross(ps.front(), ps.back(), p) == 0;
+    })) return ps;
 
     vector<IntPoint> ch(2 * n);
     int k = 0;
     for (int i = 0; i < n; ++i) {
-        while (k >= 2 && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;
+        while (k >= 2) {
+            auto turn = cross(ch[k - 2], ch[k - 1], ps[i]);
+            if (keep_collinear ? turn >= 0 : turn > 0) break;
+            --k;
+        }
         ch[k++] = ps[i];
     }
     for (int i = n - 2, t = k + 1; i >= 0; --i) {
-        while (k >= t && cross(ch[k - 2], ch[k - 1], ps[i]) <= 0) --k;
+        while (k >= t) {
+            auto turn = cross(ch[k - 2], ch[k - 1], ps[i]);
+            if (keep_collinear ? turn >= 0 : turn > 0) break;
+            --k;
+        }
         ch[k++] = ps[i];
     }
     ch.resize(k - 1);
     return ch;
 }
 
+template<bool keep_collinear = false>
 vector<int> convex_hull_indices(const vector<IntPoint> &points) {
     vector<int> ids(points.size());
     for (int i = 0; i < int(ids.size()); ++i) ids[i] = i;
@@ -42,14 +55,25 @@ vector<int> convex_hull_indices(const vector<IntPoint> &points) {
     }), ids.end());
     int n = ids.size();
     if (n <= 2) return ids;
+    if (keep_collinear && all_of(ids.begin() + 1, ids.end(), [&](int i) {
+        return cross(points[ids.front()], points[ids.back()], points[i]) == 0;
+    })) return ids;
     vector<int> hull(2 * n);
     int k = 0;
     for (int i = 0; i < n; ++i) {
-        while (k >= 2 && cross(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]) <= 0) --k;
+        while (k >= 2) {
+            auto turn = cross(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]);
+            if (keep_collinear ? turn >= 0 : turn > 0) break;
+            --k;
+        }
         hull[k++] = ids[i];
     }
     for (int i = n - 2, t = k + 1; i >= 0; --i) {
-        while (k >= t && cross(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]) <= 0) --k;
+        while (k >= t) {
+            auto turn = cross(points[hull[k - 2]], points[hull[k - 1]], points[ids[i]]);
+            if (keep_collinear ? turn >= 0 : turn > 0) break;
+            --k;
+        }
         hull[k++] = ids[i];
     }
     hull.resize(k - 1);

@@ -61,6 +61,29 @@ int brute_contains(const vector<IntPoint> &hull, IntPoint p) {
     return boundary ? 1 : hull.size() == 2 ? 0 : 2;
 }
 
+vector<IntPoint> brute_boundary(vector<IntPoint> points) {
+    sort(points.begin(), points.end());
+    points.erase(unique(points.begin(), points.end()), points.end());
+    if (points.size() <= 2) return points;
+    vector<IntPoint> boundary;
+    for (auto a : points) {
+        for (auto b : points) if (a != b) {
+            bool positive = false, negative = false;
+            for (auto p : points) {
+                __int128 turn = (__int128(b.x) - a.x) * (__int128(p.y) - a.y) -
+                                (__int128(b.y) - a.y) * (__int128(p.x) - a.x);
+                positive |= turn > 0;
+                negative |= turn < 0;
+            }
+            if (!positive || !negative) {
+                boundary.push_back(a);
+                break;
+            }
+        }
+    }
+    return boundary;
+}
+
 void self_check() {
     mt19937 query_rng(282);
     auto check = [&](const vector<IntPoint> &points) {
@@ -75,6 +98,32 @@ void self_check() {
             assert(0 <= id && id < int(points.size()) && seen.insert(id).second);
             assert(points[id] == hull[i]);
             assert(find(points.begin(), points.end(), hull[i]) - points.begin() == id);
+        }
+        const auto boundary = convex_hull<true>(points);
+        auto sorted_boundary = boundary;
+        sort(sorted_boundary.begin(), sorted_boundary.end());
+        assert(sorted_boundary == brute_boundary(points));
+        auto boundary_ids = convex_hull_indices<true>(points);
+        assert(boundary.size() == boundary_ids.size());
+        for (size_t i = 0; i < boundary.size(); ++i) {
+            assert(points[boundary_ids[i]] == boundary[i]);
+            assert(find(points.begin(), points.end(), boundary[i]) - points.begin() == boundary_ids[i]);
+        }
+        if (hull.size() <= 2) {
+            assert(boundary == sorted_boundary);
+        } else {
+            vector<IntPoint> ordered;
+            for (size_t i = 0; i < hull.size(); ++i) {
+                auto a = hull[i], b = hull[(i + 1) % hull.size()];
+                vector<IntPoint> edge;
+                for (auto p : sorted_boundary)
+                    if (p != b && brute_contains({a, b}, p) == 1) edge.push_back(p);
+                sort(edge.begin(), edge.end(), [&](IntPoint p, IntPoint q) {
+                    return a < b ? p < q : q < p;
+                });
+                ordered.insert(ordered.end(), edge.begin(), edge.end());
+            }
+            assert(boundary == ordered);
         }
         vector<IntPoint> queries = points;
         for (size_t i = 0; i < hull.size(); ++i) {
@@ -94,6 +143,15 @@ void self_check() {
     check({{2, 2}, {3, 3}, {0, 0}, {3, 3}, {1, 1}, {0, 0}});
     check({{0, 0}, {6, 0}, {6, 6}, {0, 6}});
     check({{0, 0}, {2, 0}, {0, 2}});
+    vector<IntPoint> grid;
+    for (int x = -4; x <= 4; ++x)
+        for (int y = -4; y <= 4; ++y) grid.emplace_back(x, y);
+    check(grid);
+    reverse(grid.begin(), grid.end());
+    auto duplicates = vector<IntPoint>(grid.begin(), grid.begin() + 20);
+    grid.insert(grid.end(), duplicates.begin(), duplicates.end());
+    check(grid);
+    check({{0, 3}, {0, -1}, {0, 0}, {0, 3}, {0, 1}});
     const vector<IntPoint> square{{0, 0}, {6, 0}, {6, 6}, {0, 6}};
     for (auto p : vector<IntPoint>{{0, 0}, {3, 0}, {0, 3}, {6, 3}, {3, 6}})
         assert(contains_convex(square, p) == 1);
