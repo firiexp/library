@@ -1,3 +1,5 @@
+#include "../datastructure/segmenttree/binaryindexedtree.cpp"
+
 template<class T>
 int lis_length(const vector<T>& a, bool strict = true) {
     vector<T> tails;
@@ -31,6 +33,38 @@ vector<int> lis_indices(const vector<T> &a, bool strict = true) {
         v = previous[v];
     }
     return result;
+}
+
+template<class Count, class T>
+pair<int, Count> lis_count(const vector<T> &a, bool strict = true) {
+    struct State {
+        int length;
+        Count count;
+        State(int length = 0, Count count = Count(0)): length(length), count(count) {}
+        void operator+=(const State &other) {
+            if (length < other.length) *this = other;
+            else if (length == other.length) count += other.count;
+        }
+    };
+    int n = a.size();
+    if (n == 0) return {0, Count(1)};
+    vector<int> order(n), rank(n);
+    iota(order.begin(), order.end(), 0);
+    sort(order.begin(), order.end(), [&](int i, int j) { return a[i] < a[j]; });
+    int kinds = 1;
+    for (int i = 0; i < n; ++i) {
+        if (i && a[order[i - 1]] < a[order[i]]) ++kinds;
+        rank[order[i]] = kinds - 1;
+    }
+    BIT<State> bit(kinds);
+    for (int k : rank) {
+        auto best = bit.sum(k + !strict);
+        if (best.length == 0) best.count = Count(1);
+        ++best.length;
+        bit.add(k, best);
+    }
+    auto best = bit.sum(kinds);
+    return {best.length, best.count};
 }
 
 /**

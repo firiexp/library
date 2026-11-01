@@ -2,14 +2,17 @@
 
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
+using ull = unsigned long long;
 #include "../util/fastio.cpp"
 #include "../util/lis.cpp"
+#include "../math/modular/modint_base.cpp"
 
 template<class T>
 void check(const vector<T> &a) {
     int n = a.size();
     for (bool strict : {false, true}) {
-        int best = 0;
+        int best = 0, count = 0;
         for (int mask = 0; mask < (1 << n); ++mask) {
             int previous = -1, length = 0;
             bool ok = true;
@@ -19,11 +22,17 @@ void check(const vector<T> &a) {
                 previous = i;
                 ++length;
             }
-            if (ok) best = max(best, length);
+            if (ok) {
+                if (length > best) best = length, count = 0;
+                if (length == best) ++count;
+            }
         }
         auto indices = lis_indices(a, strict);
         assert((int)indices.size() == best);
         assert(lis_length(a, strict) == best);
+        assert(lis_count<long long>(a, strict) == make_pair(best, (long long)count));
+        assert(lis_count<modint<2>>(a, strict) == make_pair(best, modint<2>(count)));
+        assert(lis_count<modint<3>>(a, strict) == make_pair(best, modint<3>(count)));
         for (int i = 0; i < best; ++i) {
             assert(0 <= indices[i] && indices[i] < n);
             if (!i) continue;
@@ -43,15 +52,22 @@ template<class T>
 void check_dp(const vector<T>& a) {
     for (bool strict : {false, true}) {
         vector<int> dp(a.size(), 1);
+        vector<modint<7>> counts(a.size(), 1);
         int best = 0;
+        modint<7> total = a.empty() ? 1 : 0;
         for (int i = 0; i < (int)a.size(); ++i) {
             for (int j = 0; j < i; ++j) {
-                if (strict ? a[j] < a[i] : !(a[i] < a[j])) dp[i] = max(dp[i], dp[j] + 1);
+                if (strict ? a[j] < a[i] : !(a[i] < a[j])) {
+                    if (dp[j] + 1 > dp[i]) dp[i] = dp[j] + 1, counts[i] = 0;
+                    if (dp[j] + 1 == dp[i]) counts[i] += counts[j];
+                }
             }
-            best = max(best, dp[i]);
+            if (dp[i] > best) best = dp[i], total = 0;
+            if (dp[i] == best) total += counts[i];
         }
         assert(lis_length(a, strict) == best);
         assert((int)lis_indices(a, strict).size() == best);
+        assert(lis_count<modint<7>>(a, strict) == make_pair(best, total));
     }
 }
 
@@ -68,6 +84,7 @@ int main() {
     check(vector<string>{"b", "a", "a", "c", "b", "d"});
     check(vector<Value>{Value(2), Value(1), Value(1), Value(3)});
     assert(lis_length(vector<int>{3, 1, 1, 2}) == 2);
+    assert(lis_count<int>(vector<int>{3, 1, 1, 2}) == make_pair(2, 2));
     check_dp(vector<string>{string(4096, 'b'), string(4096, 'a'), string(4096, 'a'), string(4096, 'c')});
     mt19937 rng(275);
     for (int tc = 0; tc < 5000; ++tc) {
