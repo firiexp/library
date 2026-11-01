@@ -8,7 +8,7 @@ using ull = unsigned long long;
 constexpr int MOD = 998244353;
 
 #include "../math/modular/modint.cpp"
-#include "../datastructure/range_add_range_sum_bit.cpp"
+#include "../datastructure/segmenttree/range_add_range_sum_bit.cpp"
 
 template<class T>
 void check_all(RangeAddRangeSumBIT<T> &bit, const vector<T> &a) {

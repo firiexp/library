@@ -1,6 +1,6 @@
 ---
 title: 一次関数加算・区間和BIT
-documentation_of: //datastructure/range_add_range_sum_bit.cpp
+documentation_of: //datastructure/segmenttree/range_add_range_sum_bit.cpp
 ---
 
 ## 説明

@@ -14,7 +14,7 @@ directory_titles:
   datastructure/bitset/: ビット集合
   datastructure/heap/: ヒープ
   datastructure/range_query_2d/: 2次元区間クエリ
-  datastructure/segmenttree/: セグメント木
+  datastructure/segmenttree/: BIT・セグメント木
   datastructure/unionfind/: UnionFind
   datastructure/wavelet_matrix/: Wavelet Matrix・区間統計
   flow/: フロー

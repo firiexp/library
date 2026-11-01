@@ -12,7 +12,7 @@ using namespace std;
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/binaryindexedtree.cpp"
+#include "../datastructure/segmenttree/binaryindexedtree.cpp"
 
 int main() {
     Scanner in;

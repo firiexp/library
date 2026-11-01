@@ -1,4 +1,4 @@
-#include "../binaryindexedtree.cpp"
+#include "../segmenttree/binaryindexedtree.cpp"
 
 template<class T>
 class StaticRectangleAddRectangleSum {

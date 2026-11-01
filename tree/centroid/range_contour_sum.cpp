@@ -1,5 +1,5 @@
 #include "centroid_decomposition_query_helper.cpp"
-#include "../../datastructure/binaryindexedtree.cpp"
+#include "../../datastructure/segmenttree/binaryindexedtree.cpp"
 
 class RangeContourSum {
     CentroidDecompositionQueryHelper cd;

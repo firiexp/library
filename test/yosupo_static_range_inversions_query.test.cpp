@@ -12,7 +12,7 @@
 
 #include <charconv>
 #include "../util/fastio.cpp"
-#include "../datastructure/binaryindexedtree.cpp"
+#include "../datastructure/segmenttree/binaryindexedtree.cpp"
 #include "../util/mo.cpp"
 
 int main() {

@@ -2,7 +2,7 @@
 #define FIRIEXP_LIBRARY_STRING_ACTIVE_PATTERN_MATCHER_CPP
 
 #include "ahocorasick.cpp"
-#include "../datastructure/binaryindexedtree.cpp"
+#include "../datastructure/segmenttree/binaryindexedtree.cpp"
 
 template<int W, int start>
 class ActivePatternMatcher {

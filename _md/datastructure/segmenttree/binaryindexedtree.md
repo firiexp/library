@@ -1,6 +1,6 @@
 ---
 title: Binary Indexed Tree(BIT)
-documentation_of: //datastructure/binaryindexedtree.cpp
+documentation_of: //datastructure/segmenttree/binaryindexedtree.cpp
 ---
 
 ## 説明

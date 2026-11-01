@@ -4,7 +4,7 @@
 using namespace std;
 
 #include "../util/fastio.cpp"
-#include "../datastructure/range_add_range_sum_bit.cpp"
+#include "../datastructure/segmenttree/range_add_range_sum_bit.cpp"
 
 int main() {
     Scanner in;

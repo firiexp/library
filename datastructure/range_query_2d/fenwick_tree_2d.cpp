@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#include "../binaryindexedtree.cpp"
+#include "../segmenttree/binaryindexedtree.cpp"
 
 template<class T>
 struct FenwickTree2D {
