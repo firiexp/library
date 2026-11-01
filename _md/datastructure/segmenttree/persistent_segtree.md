@@ -31,6 +31,14 @@ tags: データ構造
   バージョン `t` で `cond(query(t, l, r))` を満たす最小の `l` を返す。最悪 $O(\log N)$
 - `int latest_version()` / `int versions()`
   最新のバージョン番号 / 保持しているバージョン数を返す。$O(1)$
+- `Cursor root_cursor(int t) const`
+  バージョン `t` の全区間を表す読み取り専用 Cursor を返す。省略時は最新のバージョン。$O(1)$
+- `Children split(const Cursor &cur) const`
+  空でも葉でもない Cursor を、前半 `low` と後半 `high` に分ける。$O(1)$
+- `T cur.fold()` / `pair<int, int> cur.range()`
+  現在区間の積のコピー / 半開区間の両端を返す。$O(1)$
+- `bool cur.empty()` / `bool cur.is_leaf()` / `int cur.index()`
+  区間が空か / 長さ1か / 葉の位置を返す。`index()` は葉でのみ使う。$O(1)$
 
 ## 使い方
 `M` に `T`、二項演算 `f`、単位元 `e` を定義する。非可換モノイドも使える。
@@ -52,9 +60,39 @@ int t = seg.update(0, 1, 5);
 long long sum = seg.query(t, 0, 3);
 ```
 
+## 例
+値域上の頻度列の2つの prefix バージョン `left`、`right` の差から、0-indexed の `k` 番目の値を求める。
+`Monoid` は整数の加算とし、差を取った後の各要素数が非負であること、`0 <= k < b.fold() - a.fold()` を前提とする。
+
+```cpp
+auto a = seg.root_cursor(left), b = seg.root_cursor(right);
+while (!a.is_leaf()) {
+    auto x = seg.split(a), y = seg.split(b);
+    long long count = y.low.fold() - x.low.fold();
+    if (k < count) {
+        a = x.low;
+        b = y.low;
+    } else {
+        k -= count;
+        a = x.high;
+        b = y.high;
+    }
+}
+int value = a.index();
+```
+
+同様に、木パスの両端・LCA・LCAの親に対応する4つのバージョンを同じ方向へ降下できる。
+$K$ 本のバージョンを使う順位探索は $O(K\log N)$ 時間、Cursor の保持領域は $O(K)$。
+積の組み合わせ方は利用側で決め、モノイドそのものに減算は要求しない。
+
 ## 実装上の補足
 サイズ指定の構築では単位元を持つ1ノードを未更新の全区間で共有する。
 更新時だけ経路をコピーし、過去のバージョンと共有ノードは変更しない。
 共有ノードの子は自分自身を指す。`node` と `root` は区間境界と組み合わせる内部表現であり、子リンクだけで辿る通常の木ではない。
 境界探索は部分木の積を使って走査する。再帰の作業領域は $O(\log N)$。
 `get` と `operator[]` は有効な位置 `0 <= k < n` の葉へ直接降下する。作業領域は $O(1)$。
+Cursor はノード番号と区間境界を持つため、初期共有ノードも有限の区間として降下できる。
+要素数0の根は空で、葉ではなく、積は単位元となる。
+Cursor の作成・分割はノードやバージョンを追加しない。
+`update`・`add` に伴う内部配列の再確保後も、過去の Cursor は有効である。
+参照先の木を破棄・move・代入・swap した場合は無効になる。Cursor の寿命内では同じ木オブジェクトを使う。

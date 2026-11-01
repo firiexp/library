@@ -1,6 +1,30 @@
 template <class M>
 struct PersistentSegmentTree{
     using T = typename M::T;
+    class Cursor {
+        friend struct PersistentSegmentTree;
+        const PersistentSegmentTree *owner_;
+        int id_, l_, r_;
+
+        Cursor(const PersistentSegmentTree *owner, int id, int l, int r)
+            : owner_(owner), id_(id), l_(l), r_(r) {}
+
+    public:
+        T fold() const { return owner_->node[id_].val; }
+        pair<int, int> range() const { return {l_, r_}; }
+        bool empty() const { return l_ == r_; }
+        bool is_leaf() const { return r_ - l_ == 1; }
+        int index() const {
+            assert(is_leaf());
+            return l_;
+        }
+    };
+
+    struct Children {
+        Cursor low;
+        Cursor high;
+    };
+
     struct Node{
         T val;
         int l, r;
@@ -25,6 +49,21 @@ struct PersistentSegmentTree{
 
     int latest_version() const { return root.size()-1; }
     int versions() const { return root.size(); }
+
+    Cursor root_cursor(int t) const {
+        assert(0 <= t && t < versions());
+        return Cursor(this, root[t], 0, n);
+    }
+    Cursor root_cursor() const { return root_cursor(latest_version()); }
+
+    Children split(const Cursor &cur) const {
+        assert(cur.owner_ == this && !cur.empty() && !cur.is_leaf());
+        int m = cur.l_ + (cur.r_ - cur.l_) / 2;
+        return {
+            Cursor(this, node[cur.id_].l, cur.l_, m),
+            Cursor(this, node[cur.id_].r, m, cur.r_)
+        };
+    }
 
     int update(int t, int k, const T &x){
         if(n == 0){
