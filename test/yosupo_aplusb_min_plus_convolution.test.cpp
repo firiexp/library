@@ -7,6 +7,7 @@
 #include <vector>
 using namespace std;
 
+#include "../math/convolution/min_plus_convolution_argmin.cpp"
 #include "../math/convolution/min_plus_convolution.cpp"
 using ll = long long;
 
@@ -22,7 +23,7 @@ void check(const vector<ll> &a, const vector<ll> &b) {
     if (!a.empty() && !b.empty()) expected.assign(a.size() + b.size() - 1, numeric_limits<ll>::max());
     for (int i = 0; i < (int)a.size(); ++i) for (int j = 0; j < (int)b.size(); ++j)
         expected[i + j] = min(expected[i + j], a[i] + b[j]);
-    auto check_result = [&](const MinPlusConvolutionResult<ll> &res) {
+    auto check_result = [&](const MinPlusArgmin<ll> &res) {
         assert(res.value == expected && res.argmin.size() == expected.size());
         for (int k = 0; k < (int)expected.size(); ++k) {
             int i = res.argmin[k], j = k - i;
@@ -32,15 +33,15 @@ void check(const vector<ll> &a, const vector<ll> &b) {
     };
     if (convex(b)) {
         assert(min_plus_convolution_arbitrary_convex(a, b) == expected);
-        check_result(min_plus_convolution_arbitrary_convex_with_argmin(a, b));
+        check_result(min_plus_argmin_arbitrary_convex(a, b));
     }
     if (convex(a)) {
         assert(min_plus_convolution_convex_arbitrary(a, b) == expected);
-        check_result(min_plus_convolution_convex_arbitrary_with_argmin(a, b));
+        check_result(min_plus_argmin_convex_arbitrary(a, b));
     }
     if (convex(a) && convex(b)) {
         assert(min_plus_convolution_convex_convex(a, b) == expected);
-        check_result(min_plus_convolution_convex_convex_with_argmin(a, b));
+        check_result(min_plus_argmin_convex_convex(a, b));
     }
     assert(a == original_a && b == original_b);
 }
