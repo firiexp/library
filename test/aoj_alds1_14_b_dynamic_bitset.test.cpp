@@ -1,6 +1,7 @@
 #define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B"
 
 #include <algorithm>
+#include <cassert>
 #include <string>
 #include <vector>
 using namespace std;

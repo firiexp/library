@@ -23,6 +23,8 @@ $N$ は bitset の長さとする。
   `k` bit 目を更新する。$O(1)$
 - `void set()`, `void reset()`, `void flip()`
   全体を更新する。$O(\lceil N/64 \rceil)$
+- `void set(int l, int r)`, `void reset(int l, int r)`, `void flip(int l, int r)`
+  半開区間 `[l, r)` をそれぞれ1、0、反転で更新する。区間外は保ち、空区間は変更しない。時間 $O(1+\lceil(r-l)/64\rceil)$、追加領域 $O(1)$
 - `bool any() const`, `bool none() const`, `bool all() const`
   1 があるか、全て 0 か、全て 1 かを返す。$O(\lceil N/64 \rceil)$
 - `int count() const`
@@ -49,6 +51,8 @@ $N$ は bitset の長さとする。
   `bs |= bs >> s` と同じ更新を行い、自身への参照を返す。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$
 
 ## 使い方
+区間更新は `0 <= l <= r <= size()` を満たす範囲で使う。
+例えば `bs.reset(limit, bs.size())` で `limit` 以上の候補をまとめて消せる。
 長さが同じ bitset 同士で演算する。
 共通要素の個数は `a.count_and(b)`、有無は `a.intersects(b)` で求める。
 `find_first`, `find_next` を使うと立っている bit だけを前から走査できる。

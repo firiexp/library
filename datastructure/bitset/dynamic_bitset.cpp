@@ -104,6 +104,22 @@ class DynamicBitset {
         if (!a.empty()) a.back() &= tail_mask();
     }
 
+    template<class F>
+    void update_range(int l, int r, F apply) {
+        assert(0 <= l && l <= r && r <= size());
+        if (l == r) return;
+        int first = l >> 6, last = (r - 1) >> 6;
+        Word low = ~0ULL << (l & 63);
+        Word high = ~0ULL >> (63 - ((r - 1) & 63));
+        if (first == last) {
+            apply(a[first], low & high);
+            return;
+        }
+        apply(a[first], low);
+        for (int i = first + 1; i < last; ++i) apply(a[i], ~0ULL);
+        apply(a[last], high);
+    }
+
 public:
     DynamicBitset() : n(0) {}
     explicit DynamicBitset(int n, bool x = false) : n(n), a((n + B - 1) >> 6, x ? ~0ULL : 0ULL) {
@@ -142,6 +158,16 @@ public:
     void assign(int k, bool x) {
         if (x) set(k);
         else reset(k);
+    }
+
+    void set(int l, int r) {
+        update_range(l, r, [](Word &x, Word mask) { x |= mask; });
+    }
+    void reset(int l, int r) {
+        update_range(l, r, [](Word &x, Word mask) { x &= ~mask; });
+    }
+    void flip(int l, int r) {
+        update_range(l, r, [](Word &x, Word mask) { x ^= mask; });
     }
 
     bool any() const {
