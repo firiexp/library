@@ -10,6 +10,10 @@ tags: データ構造
 点更新ごとに新しいバージョンを作り、任意の過去のバージョンの区間積を求める。
 更新前のバージョンはそのまま残る。
 
+Cursor はあるバージョンのセグメント木で、現在見ているノードとその区間を表す。
+その区間の積を読み取ったり、左右の子を指す Cursor を取得したりできる。
+複数のバージョンを同時にたどり、区間積の差などを見て探索する用途に使う。
+
 ## できること
 要素数を $N$、モノイドの演算を $O(1)$ とする。
 
@@ -61,29 +65,42 @@ long long sum = seg.query(t, 0, 3);
 ```
 
 ## 例
-値域上の頻度列の2つの prefix バージョン `left`、`right` の差から、0-indexed の `k` 番目の値を求める。
-`Monoid` は整数の加算とし、差を取った後の各要素数が非負であること、`0 <= k < b.fold() - a.fold()` を前提とする。
+配列 `{3, 1, 4, 1, 2}` の区間 `[1, 5)` に含まれる値のうち、3番目に小さい値を求める。
+対象の値を並べると `{1, 1, 2, 4}` なので、答えは `2` となる。同じ値も出現回数だけ数える。
+
+元の配列の値 `x` をセグメント木の添字として使い、その位置に `x` の出現回数を保存する。
+この例の値は0以上5未満なので、長さ5のセグメント木を作る。`Monoid` は上で定義した整数の加算を使う。
+`version[i]` は元の配列の先頭 `i` 要素を数えたバージョンである。
+`version[r]` と `version[l]` の頻度の差を取ると、元の配列の区間 `[l, r)` の各値の出現回数になる。
+
+2つの Cursor を同じ方向へたどり、小さい値側の個数を比べて次に進む子を選ぶ。
+順位 `k` は0始まりとし、`0 <= k < r - l` を満たす値を指定する。
 
 ```cpp
-auto a = seg.root_cursor(left), b = seg.root_cursor(right);
-while (!a.is_leaf()) {
-    auto x = seg.split(a), y = seg.split(b);
-    long long count = y.low.fold() - x.low.fold();
-    if (k < count) {
-        a = x.low;
-        b = y.low;
+vector<int> values = {3, 1, 4, 1, 2};
+PersistentSegmentTree<Monoid> freq(5);
+vector<int> version{0};
+for (int x : values) version.push_back(freq.add(x, 1));
+
+int l = 1, r = 5, k = 2;
+auto left = freq.root_cursor(version[l]);
+auto right = freq.root_cursor(version[r]);
+while (!left.is_leaf()) {
+    auto x = freq.split(left), y = freq.split(right);
+    long long low_count = y.low.fold() - x.low.fold();
+    if (k < low_count) {
+        left = x.low;
+        right = y.low;
     } else {
-        k -= count;
-        a = x.high;
-        b = y.high;
+        k -= low_count;
+        left = x.high;
+        right = y.high;
     }
 }
-int value = a.index();
+int value = left.index();
 ```
 
-同様に、木パスの両端・LCA・LCAの親に対応する4つのバージョンを同じ方向へ降下できる。
-$K$ 本のバージョンを使う順位探索は $O(K\log N)$ 時間、Cursor の保持領域は $O(K)$。
-積の組み合わせ方は利用側で決め、モノイドそのものに減算は要求しない。
+`value` に答えの `2` が入る。各段で候補の値の範囲が半分になるため、セグメント木の長さを $N$ とすると探索は $O(\log N)$ 時間となる。
 
 ## 実装上の補足
 サイズ指定の構築では単位元を持つ1ノードを未更新の全区間で共有する。
@@ -94,5 +111,6 @@ $K$ 本のバージョンを使う順位探索は $O(K\log N)$ 時間、Cursor �
 Cursor はノード番号と区間境界を持つため、初期共有ノードも有限の区間として降下できる。
 要素数0の根は空で、葉ではなく、積は単位元となる。
 Cursor の作成・分割はノードやバージョンを追加しない。
+$K$ 本のバージョンを同時にたどる順位探索は $O(K\log N)$ 時間、Cursor の保持領域は $O(K)$。
 `update`・`add` に伴う内部配列の再確保後も、過去の Cursor は有効である。
 参照先の木を破棄・move・代入・swap した場合は無効になる。Cursor の寿命内では同じ木オブジェクトを使う。
