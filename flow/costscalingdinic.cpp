@@ -74,6 +74,19 @@ public:
         return {p.from, e.to, p.capacity, T(p.capacity - e.cap)};
     }
 
+    void change_edge(int id, T capacity, T flow) {
+        auto &p = positions[id];
+        auto &e = G[p.from][p.index];
+        p.capacity = capacity;
+        e.cap = capacity - flow;
+        G[e.to][e.rev].cap = directed ? flow : capacity + flow;
+    }
+
+    void reset_flow() {
+        for(int id = 0; id < int(positions.size()); ++id)
+            change_edge(id, positions[id].capacity, 0);
+    }
+
     vector<Edge> edges() const {
         vector<Edge> result;
         result.reserve(positions.size());

@@ -16,7 +16,11 @@ capacity scaling を入れた Dinic 法による最大流である。
 - `T flow(int s, int t, T lim = INF<T>)`
   現在の残余グラフで `s` から `t` へ最大 `lim` だけ流し、今回追加した流量を返す
 - `Edge get_edge(int id) const`
-  `from, to, capacity, flow` を返す。`capacity` は登録時の容量、`flow` は登録方向への正味流量。$O(1)$
+  `from, to, capacity, flow` を返す。`capacity` は現在の容量、`flow` は登録方向への正味流量。$O(1)$
+- `void change_edge(int id, T capacity, T flow)`
+  辺 ID を指定して、その辺の容量と流量を変更する。$O(1)$
+- `void reset_flow()`
+  現在の容量を保ったまま全辺の流量を0に戻す。確保済みの領域を再利用する。$O(E)$
 - `vector<Edge> edges() const`
   追加順で全辺の情報を返す。逆辺は含めない。時間・返却領域 $O(E)$
 - `vector<char> min_cut(int s) const`
@@ -35,6 +39,9 @@ auto source_side = mf.min_cut(s);
 
 ## 実装上の補足
 `G` を直接書き換えた場合、`get_edge` と `edges` の返却値は保証しない。
+`change_edge` の流量は、有向版では `0 <= flow <= capacity`、無向版では `-capacity <= flow <= capacity` とする。
+個別の辺変更は頂点の流量保存を修復しない。次の `flow` の前に、同じ始点・終点の実行可能なフローを用意するか、`reset_flow()` を呼ぶ。
+`reset_flow()` 後は始点・終点を変更して解き直せる。開始する scaling 幅は変更後の残余容量から求める。
 容量は非負整数で、流量と計算中の残余容量は `T` に収まる必要がある。
 無向版の `T` は符号付き整数型を使う。流量は `-capacity` から `capacity` の範囲を取り、残余容量は元容量の2倍になる場合がある。
 `min_cut(s)` は終点が到達不能になったとき最小カットの始点側を表す。流量上限による途中停止では、最小カットとは限らない。
