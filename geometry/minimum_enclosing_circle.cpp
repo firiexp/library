@@ -12,11 +12,6 @@ struct MinimumEnclosingCircleResult {
 namespace minimum_enclosing_circle_detail {
 using Wide = __int128_t;
 
-inline Wide cross(const IntPoint &a, const IntPoint &b, const IntPoint &c) {
-    return (Wide(b.x) - a.x) * (Wide(c.y) - a.y)
-        - (Wide(b.y) - a.y) * (Wide(c.x) - a.x);
-}
-
 struct Disk {
     int size = 0;
     IntPoint a, b, c;

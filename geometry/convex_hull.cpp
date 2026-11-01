@@ -3,14 +3,6 @@
 
 #include "int_point.cpp"
 
-__int128 cross(IntPoint a, IntPoint b, IntPoint c) {
-    __int128 bx = static_cast<__int128>(b.x) - a.x;
-    __int128 by = static_cast<__int128>(b.y) - a.y;
-    __int128 cx = static_cast<__int128>(c.x) - a.x;
-    __int128 cy = static_cast<__int128>(c.y) - a.y;
-    return bx * cy - by * cx;
-}
-
 template<bool keep_collinear = false>
 vector<IntPoint> convex_hull(vector<IntPoint> ps) {
     sort(ps.begin(), ps.end());
