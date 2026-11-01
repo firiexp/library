@@ -9,6 +9,7 @@ tags: 数学
 ## 説明
 整数列から xor 基底を構築する。
 基底の本数を $k$ とすると、表現できる相異なる値の個数は $2^k$。
+入力ID集合の復元には `xor_basis_with_ids.cpp` を使う。
 
 ## できること
 $B$ を整数型 `T` のビット数、`U` を `make_unsigned_t<T>` とする。
@@ -49,28 +50,3 @@ $$
 
 ## 実装上の補足
 - `T` は `bool` 以外の整数型を使う。値は `make_unsigned_t<T>` の bit 列として扱い、大小は符号なしで比較する
-
-## 入力ID集合の復元
-
-`XorBasisWithIds<T>` は、指定した値を作る元入力のID集合を返す。
-`T` は `bool` 以外の64bit以下の整数型とし、符号付き型もビット列として扱う。
-
-- `XorBasisWithIds<T> xb`
-  空の基底を作る。時間・保持領域ともに $O(B)$。
-- `bool add(T value, int id)`
-  値と入力IDを追加する。独立なら `true`、従属または0なら `false`。IDは呼び出しごとに異なる `int` を渡す。$O(B)$。
-- `optional<vector<int>> representation(T value) const`
-  xor が `value` になる入力ID列を返す。表せなければ `nullopt`、0なら空列。$O(B)$。
-- `size()` / `empty()`
-  基底の本数 / 空かどうかを返す。$O(1)$。
-
-```cpp
-XorBasisWithIds<unsigned long long> xb;
-for (int i = 0; i < (int)a.size(); ++i) xb.add(a[i], i);
-auto ids = xb.representation(target);
-if (ids) for (int id : *ids) use(a[id]);
-```
-
-独立な元入力を高々 $B$ 個保持し、その組合せを係数マスクで管理する。
-復元結果の個数・辞書順などは最適化しない。併合や共通部分の由来の合成は扱わない。
-値だけを扱う既存の `XorBasis<T>` にはIDや係数マスクの保持費用はかからない。

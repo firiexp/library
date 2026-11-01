@@ -2,7 +2,7 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-#include "../math/linear_algebra/xor_basis.cpp"
+#include "../math/linear_algebra/xor_basis_with_ids.cpp"
 
 template<class T>
 void check_result(const XorBasisWithIds<T> &basis, const map<int, make_unsigned_t<T>> &input, T value, bool expected) {
