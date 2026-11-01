@@ -35,19 +35,19 @@ vector<int> lis_indices(const vector<T> &a, bool strict = true) {
     return result;
 }
 
-template<class Count, class T>
-pair<int, Count> lis_count(const vector<T> &a, bool strict = true) {
+template<class U, class T>
+pair<int, U> lis_count(const vector<T> &a, bool strict = true) {
     struct State {
         int length;
-        Count count;
-        State(int length = 0, Count count = Count(0)): length(length), count(count) {}
+        U count;
+        State(int length = 0, U count = U(0)): length(length), count(count) {}
         void operator+=(const State &other) {
             if (length < other.length) *this = other;
             else if (length == other.length) count += other.count;
         }
     };
     int n = a.size();
-    if (n == 0) return {0, Count(1)};
+    if (n == 0) return {0, U(1)};
     vector<int> order(n), rank(n);
     iota(order.begin(), order.end(), 0);
     sort(order.begin(), order.end(), [&](int i, int j) { return a[i] < a[j]; });
@@ -59,7 +59,7 @@ pair<int, Count> lis_count(const vector<T> &a, bool strict = true) {
     BIT<State> bit(kinds);
     for (int k : rank) {
         auto best = bit.sum(k + !strict);
-        if (best.length == 0) best.count = Count(1);
+        if (best.length == 0) best.count = U(1);
         ++best.length;
         bit.add(k, best);
     }
