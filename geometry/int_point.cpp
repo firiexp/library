@@ -14,15 +14,14 @@ struct IntPoint {
     IntPoint &operator-=(const IntPoint &p) { x -= p.x; y -= p.y; return *this; }
     IntPoint operator+(const IntPoint &p) const { return IntPoint(*this) += p; }
     IntPoint operator-(const IntPoint &p) const { return IntPoint(*this) -= p; }
-};
 
-__int128 cross(IntPoint a, IntPoint b, IntPoint c) {
-    __int128 bx = static_cast<__int128>(b.x) - a.x;
-    __int128 by = static_cast<__int128>(b.y) - a.y;
-    __int128 cx = static_cast<__int128>(c.x) - a.x;
-    __int128 cy = static_cast<__int128>(c.y) - a.y;
-    return bx * cy - by * cx;
-}
+    template<class T = __int128>
+    static T cross(IntPoint a, IntPoint b, IntPoint c) {
+        T bx = T(b.x) - T(a.x), by = T(b.y) - T(a.y);
+        T cx = T(c.x) - T(a.x), cy = T(c.y) - T(a.y);
+        return bx * cy - by * cx;
+    }
+};
 
 #endif
 

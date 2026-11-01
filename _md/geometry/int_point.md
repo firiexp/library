@@ -15,7 +15,7 @@ tags: 幾何
 - `p < q`：`x`, `y` の辞書順で比較する
 - `p == q`, `p != q`：座標の一致・不一致を返す
 - `p + q`, `p - q`, `p += q`, `p -= q`：座標ごとに加減算する。結果の各座標は `long long` に収まるものとする
-- `__int128 cross(IntPoint a, IntPoint b, IntPoint c)`：ベクトル `a -> b` と `a -> c` の外積を返す。差分を取る前に型を広げ、各座標の絶対値 $10^{18}$ 以下で使える
+- `T IntPoint::cross<T = __int128>(IntPoint a, IntPoint b, IntPoint c)`：ベクトル `a -> b` と `a -> c` の外積を、整数型 `T` で計算して返す
 
 ## 使い方
 整数凸包・最近点対・最遠点対・ミンコフスキー和には `vector<IntPoint>` を渡す。
@@ -25,4 +25,12 @@ tags: 幾何
 IntPoint p{1, 2}, q{3, 4};
 IntPoint sum = p + q;
 auto [x, y] = sum;
+```
+
+`cross` の計算型は省略すると `__int128` になり、各座標の絶対値 $10^{18}$ 以下で使える。
+`long long` などを指定する場合は、座標・差分・積・外積がその型に収まるものとする。
+
+```cpp
+IntPoint a{0, 0}, b{3, 0}, c{0, 4};
+long long area2 = IntPoint::cross<long long>(a, b, c);
 ```
