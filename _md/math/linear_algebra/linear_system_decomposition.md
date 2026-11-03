@@ -9,19 +9,18 @@ documentation_of: //math/linear_algebra/linear_system_decomposition.cpp
 1回だけ解く場合は `solve_linear_system` も使える。
 
 ## できること
-行数を $H$、変数数を $W$、階数を $R$ とする。`mint` の法は素数で、オブジェクトの使用中は変更しない。
+$H$ 行 $W$ 列の行列でランクを $R$ とする。`mint` は素数 mod とする。
 
 - `LinearSystemDecomposition(a, variables = -1)`
-  係数行列を分解し、零空間基底を作る。入力は変更しない。変数数は先頭行から推定し、行がなければ0とする。明示する場合は全行の長さと一致させる。時間 $O(HW(R+1)+H+W(W-R))$。
+  係数行列を分解し、零空間基底を作る。時間 $O(HWR+W(W-R))$。
 - `int rank() const`
   係数行列の階数を返す。$O(1)$。
 - `const vector<vector<mint>>& basis() const`
-  零空間の基底 $W-R$ 本を参照で返す。取得は $O(1)$ でコピーを作らない。参照の寿命はオブジェクトに従う。
+  零空間の基底 $W-R$ 本を参照で返す。$O(1)$。
 - `optional<vector<mint>> solve(vector<mint> b) const`
-  長さ $H$ の右辺に対し、自由変数を0にした特解を返す。不整合なら `nullopt`。入力と分解結果は変更しない。時間 $O(HR+H+W)$、追加領域 $O(H+W)$。
+  長さ $H$ の右辺に対し、自由変数を0にした特解を返す。不整合なら `nullopt`。時間 $O(HR+W)$、追加領域 $O(H+W)$。
 
-構築中は係数行列に $O(H(W+1))$、消去記録に $O(R(H+1))$、基底に $O(W(W-R))$ の領域を使う。
-構築後は係数行列を保持せず、消去記録・基底と管理情報に $O(HR+W(W-R)+R)$ を使う。
+構築時は $O(HW+W(W-R))$、構築後は $O(HR+W(W-R))$ の領域を使う。
 
 ## 使い方
 ```cpp

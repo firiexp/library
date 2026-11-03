@@ -11,17 +11,17 @@ documentation_of: //graph/connectivity/edge_failure_connectivity.cpp
 頂点数を $V$、辺数を $E$ とする。保持領域は $O(V+E)$。
 
 - `EdgeFailureConnectivity g(n)`
-  `n` 頂点のグラフを作る。空グラフも構築できる。$O(V)$。
+  `n` 頂点のグラフを作る。$O(V)$。
 - `int add_edge(u, v)`
   無向辺を追加し、0から始まる追加順の辺IDを返す。自己ループにもIDを割り当てる。償却 $O(1)$。
 - `void build()`
-  全連結成分を前処理する。時間・追加領域 $O(V+E)$。再帰を使わず、長い道でもスタックサイズの変更は不要。
+  全連結成分を前処理する。時間・追加領域 $O(V+E)$。
 - `bool connected_without_edge(u, v, edge_id) const`
   その辺1本だけを除いたとき、`u` と `v` が連結なら `true` を返す。最悪 $O(1)$。状態は変更しない。
 
 ## 使い方
 頂点番号は $[0,V)$、辺IDは `add_edge` の返り値を使う。
-問い合わせ前に `build()` を呼ぶ。辺を追加した後は再構築が必要で、既存の辺IDは変わらない。
+問い合わせ前に `build()` を呼ぶ。辺を追加した後は再構築が必要。
 
 ```cpp
 EdgeFailureConnectivity g(3);
@@ -32,7 +32,7 @@ bool connected = g.connected_without_edge(0, 2, e);
 ```
 
 この例の `connected` は `false` となる。
-`u == v` は常に `true`。元から別の連結成分なら `false`。
+`u == v` のときは常に `true`。元から別の連結成分なら `false`。
 別成分の辺や自己ループを除いても結果は変わらず、平行辺は指定した1本だけを除く。
 
 ## 実装上の補足
