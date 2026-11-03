@@ -41,6 +41,19 @@ int main() {
     }
     check(string("\0\1\xff\0", 4), string("\xff\0\1", 3));
     mt19937 rng(316);
+    for (int n : {63, 64, 65, 127, 128, 129, 255, 256, 257, 1024}) {
+        for (int m : {63, 64, 65, 127, 128, 129}) for (int alphabet : {1, 2, 4, 256}) {
+            string a(n, 0), b(m, 0);
+            for (char &c : a) c = rng() % alphabet;
+            for (char &c : b) c = rng() % alphabet;
+            a.front() = 0;
+            b.front() = 1;
+            a.back() = 2;
+            b.back() = 3;
+            check(a, b);
+            check(b, a);
+        }
+    }
     for (int tc = 0; tc < 700; ++tc) {
         string a(rng() % 70, 'a'), b(rng() % 70, 'a');
         for (char &c : a) c += rng() % 5;

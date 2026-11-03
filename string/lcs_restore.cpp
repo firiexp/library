@@ -10,6 +10,29 @@ vector<pair<int, int>> lcs_restore(const string &a, const string &b) {
     vector<int> prefix(m - lead - tail + 1), suffix(m - lead - tail + 1);
     vector<pair<int, int>> result;
     for (int i = 0; i < lead; ++i) result.emplace_back(i, i);
+    auto bit_row = [&](int left, int right, int lo, int hi, bool reverse, vector<int> &row) {
+        int width = hi - lo, words = (width + 63) / 64;
+        vector<uint64_t> mask(size_t(256) * words), dp(words);
+        for (int j = 0; j < width; ++j) {
+            unsigned char c = y[reverse ? hi - 1 - j : lo + j];
+            mask[size_t(c) * words + j / 64] |= uint64_t(1) << (j % 64);
+        }
+        for (int i = 0; i < right - left; ++i) {
+            unsigned char c = x[reverse ? right - 1 - i : left + i];
+            const uint64_t *match = mask.data() + size_t(c) * words;
+            uint64_t shift = 1, borrow = 0;
+            for (int j = 0; j < words; ++j) {
+                uint64_t bits = dp[j] | match[j], shifted = (dp[j] << 1) | shift;
+                shift = dp[j] >> 63;
+                uint64_t difference = bits - shifted;
+                uint64_t next = (bits < shifted) | (difference < borrow);
+                dp[j] = bits & ~(difference - borrow);
+                borrow = next;
+            }
+        }
+        row[0] = 0;
+        for (int j = 0; j < width; ++j) row[j + 1] = row[j] + ((dp[j / 64] >> (j % 64)) & 1);
+    };
     auto solve = [&](auto &&self, int left, int right, int lo, int hi) -> void {
         if (left == right || lo == hi) return;
         if (right - left == 1) {
@@ -21,22 +44,27 @@ vector<pair<int, int>> lcs_restore(const string &a, const string &b) {
             return;
         }
         int mid = left + (right - left) / 2, width = hi - lo;
-        fill(prefix.begin(), prefix.begin() + width + 1, 0);
-        fill(suffix.begin(), suffix.begin() + width + 1, 0);
-        for (int i = left; i < mid; ++i) {
-            int previous = 0;
-            for (int j = 0; j < width; ++j) {
-                int next = prefix[j + 1];
-                prefix[j + 1] = x[i] == y[lo + j] ? previous + 1 : max(prefix[j], next);
-                previous = next;
+        if (width >= 64 && right - left >= 64) {
+            bit_row(left, mid, lo, hi, false, prefix);
+            bit_row(mid, right, lo, hi, true, suffix);
+        } else {
+            fill(prefix.begin(), prefix.begin() + width + 1, 0);
+            fill(suffix.begin(), suffix.begin() + width + 1, 0);
+            for (int i = left; i < mid; ++i) {
+                int previous = 0;
+                for (int j = 0; j < width; ++j) {
+                    int next = prefix[j + 1];
+                    prefix[j + 1] = x[i] == y[lo + j] ? previous + 1 : max(prefix[j], next);
+                    previous = next;
+                }
             }
-        }
-        for (int i = right - 1; i >= mid; --i) {
-            int previous = 0;
-            for (int j = 0; j < width; ++j) {
-                int next = suffix[j + 1];
-                suffix[j + 1] = x[i] == y[hi - 1 - j] ? previous + 1 : max(suffix[j], next);
-                previous = next;
+            for (int i = right - 1; i >= mid; --i) {
+                int previous = 0;
+                for (int j = 0; j < width; ++j) {
+                    int next = suffix[j + 1];
+                    suffix[j + 1] = x[i] == y[hi - 1 - j] ? previous + 1 : max(suffix[j], next);
+                    previous = next;
+                }
             }
         }
         int split = 0;
