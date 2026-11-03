@@ -1,6 +1,22 @@
+# 開発・検証ツール
+
+ライブラリの開発方針と、変更内容に応じた検証範囲は [AGENTS.md](../AGENTS.md) を参照する。
+
+## 環境構築
+
+検証基盤は `competitive-verifier==4.2.2` を使う。検証に必要な Python パッケージは `requirements-dev.txt` からインストールする。
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements-dev.txt
+```
+
+以下のコマンドはリポジトリのルートで実行する。
+
 ## verify
 
-検証基盤は `competitive-verifier==4.2.2` を使う。環境を作る手順は README を参照する。
+ライブラリの正しさは `competitive-verifier` で確認する。`codex_self_check.py` は docs 同期や repository policy を確認する高速な補助ツールであり、judge verify とは役割が異なる。
 
 ```bash
 python3 scripts/codex_self_check.py
@@ -12,7 +28,11 @@ python3 scripts/run_verify.py -j 8 test/yosupo_unionfind.test.cpp
 
 `verify_changed.py` は staged / unstaged / untracked file と quoted include の直接・間接依存から対象を選び、self-check と検証を実行する。`run_verify.py` は未追跡の C++ テストも含めて依存解析し、competitive-verifier の入力 JSON を生成する。コンパイラ設定、検証スクリプト、依存パッケージの変更時は全件が対象になる。
 
-`-j` は test file の同時実行数で、既定値は8。各 test のケースは逐次実行する。stack size はスクリプト内で上限まで引き上げる。成功済みでソース・依存・設定・コンパイラ・testcase が変わっていない test は hash 判定で再実行を省く。`--force` で強制実行できる。
+`-j` は test file の同時実行数で、既定値は8。各 test のケースは逐次実行する。stack size はスクリプト内で上限まで引き上げる。
+
+CI と `run_verify.py` は、テスト本体・間接 include・検証設定・コンパイラ・ローカルの testcase が前回の成功結果と一致するテストをハッシュで判定し、再利用する。変更・追加・未成功のテストだけ、テストデータの取得と検証を行う。一部が失敗した場合も、完了した成功結果を次回に引き継ぐ。初回やキャッシュ消失時、検証基盤・コンパイラの変更時は全件を実行する。
+
+変更のないテストでは judge 側のテストデータ更新を確認しない。データを更新して成功済みのテストも再実行する場合は `python3 scripts/run_verify.py --force` を使う。CI では Actions の手動実行で `force` を有効にする。
 
 通常の verify と CI は `-DLOCAL -UNDEBUG` を指定し、ライブラリ内・自己テスト内の `assert` を有効にする。提出用テンプレートは `-DLOCAL` があるときだけ `assert` を有効にする。
 
@@ -29,7 +49,7 @@ python3 scripts/build_verify_docs.py --require-success
 
 ライブラリの目次はディレクトリごとに1階層の折りたたみで表示する。表示名は `.competitive-verifier/docs/_config.yml` の `directory_titles` で管理し、キーには末尾の `/` を含む実ディレクトリを指定する。表示名は短い名詞句とし、使い方は各ファイルの docs に書く。ファイルを移動するときは include、対応する `_md` の配置と `documentation_of`、`meta/doc_titles.yml` のパスも更新する。
 
-GitHub Actions は4分割で検証し、結果を統合して docs を生成する。既定ブランチ（現在は `master`）への push で GitHub Pages に公開する。リポジトリの Settings → Pages → Source は **GitHub Actions** を選ぶ。`GH_PAT` は不要で、`GITHUB_TOKEN` と `YUKICODER_TOKEN` を使う。テストデータは各ジョブで取得し、前回の検証結果だけを cache する。
+GitHub Actions は4分割で検証し、結果を統合して docs を生成する。分割先はファイル名で固定し、テストの追加・削除で既存テストのキャッシュが外れないようにする。docs は再利用した結果も含め、現在のソースに対する成功を確認してから生成する。既定ブランチ（現在は `master`）への push で GitHub Pages に公開する。リポジトリの Settings → Pages → Source は **GitHub Actions** を選ぶ。`GH_PAT` は不要で、`GITHUB_TOKEN` と `YUKICODER_TOKEN` を使う。テストデータは各ジョブで取得し、前回の検証結果だけを cache する。
 
 `.competitive-verifier/result.json` は検証結果、`verify-files.json` は依存・実行定義である。生成物は git 管理しない。docs のソースと公開する計測結果は git 管理する。旧 `.verify-helper/cache/` は自動削除しない。
 
@@ -68,7 +88,7 @@ python3 -m http.server -d .competitive-verifier 8000
 - `.competitive-verifier/docs/static/measure-dashboard.html`
 - `.competitive-verifier/docs/static/measure-dashboard.json`
 
-部分計測では未選択の過去の結果を保持する。ブラウザで `http://127.0.0.1:8000/measure-dashboard.html` を開くと、計測中は2秒ごとに更新される。最遅・平均時間、メモリ、ケースごとの結果、コンパイル・検証ログを確認できる。
+ダッシュボードは現在の問題用テスト数と計測済み件数を分けて表示する。部分計測では未選択の過去の結果を保持する。以前の assert 有効時の結果も残るため、比較するテストは再計測する。ブラウザで `http://127.0.0.1:8000/measure-dashboard.html` を開くと、計測中は2秒ごとに更新される。最遅・平均時間、メモリ、ケースごとの結果、コンパイル・検証ログを確認できる。
 
 ```bash
 python3 scripts/generate_verify_dashboard.py --render-only
@@ -76,4 +96,4 @@ python3 scripts/prune_verify_cache.py --max-size-gb 5
 python3 scripts/prune_verify_cache.py --max-size-gb 5 --apply
 ```
 
-cache 整理は既定で dry-run、`--apply` で削除する。AOJ / yukicoder は問題単位、Library Checker は問題リポジトリ全体が1項目になる。削除後は通常実行で再取得する。
+ローカルの testcase cache は自動削除しない。cache 整理は既定で dry-run、`--apply` で削除する。AOJ / yukicoder は問題単位、Library Checker は問題リポジトリ全体が1項目になる。削除後は通常実行で再取得する。
