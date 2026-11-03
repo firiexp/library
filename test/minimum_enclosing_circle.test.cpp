@@ -126,6 +126,7 @@ int main() {
         auto disk = minimum_enclosing_circle_detail::through_three(points[0], points[1], points[2]);
         if (disk.size != 3) continue;
         auto a = disk.a, b = disk.b, c = disk.c, p = points[3];
+        assert(disk.side(a) == 0 && disk.side(b) == 0 && disk.side(c) == 0);
         Big ax = Big(a.x) - p.x, ay = Big(a.y) - p.y;
         Big bx = Big(b.x) - p.x, by = Big(b.y) - p.y;
         Big cx = Big(c.x) - p.x, cy = Big(c.y) - p.y;

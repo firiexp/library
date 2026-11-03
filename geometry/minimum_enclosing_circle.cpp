@@ -15,19 +15,28 @@ using Wide = __int128_t;
 struct Disk {
     int size = 0;
     IntPoint a, b, c;
+    Wide quadratic = 1, linear_x = 0, linear_y = 0;
+
+    Disk() = default;
+
+    Disk(int size, IntPoint a, IntPoint b, IntPoint c) : size(size), a(a), b(b), c(c) {
+        if (size != 3) return;
+        Wide ux = Wide(b.x) - a.x, uy = Wide(b.y) - a.y;
+        Wide vx = Wide(c.x) - a.x, vy = Wide(c.y) - a.y;
+        Wide u2 = ux * ux + uy * uy, v2 = vx * vx + vy * vy;
+        quadratic = ux * vy - uy * vx;
+        linear_x = v2 * uy - u2 * vy;
+        linear_y = u2 * vx - v2 * ux;
+    }
 
     int side(const IntPoint &p) const {
         if (!size) return 1;
-        Wide x = Wide(p.x) - a.x, y = Wide(p.y) - a.y;
-        Wide value = x * x + y * y;
+        long long x = p.x - a.x, y = p.y - a.y;
+        Wide value = Wide(x) * x + Wide(y) * y;
         if (size == 2) {
-            value = x * (Wide(p.x) - b.x) + y * (Wide(p.y) - b.y);
+            value = Wide(x) * (p.x - b.x) + Wide(y) * (p.y - b.y);
         } else if (size == 3) {
-            Wide ux = Wide(b.x) - a.x, uy = Wide(b.y) - a.y;
-            Wide vx = Wide(c.x) - a.x, vy = Wide(c.y) - a.y;
-            value = (ux * ux + uy * uy) * (vx * y - vy * x)
-                - (vx * vx + vy * vy) * (ux * y - uy * x)
-                + value * (ux * vy - uy * vx);
+            value = quadratic * value + linear_x * x + linear_y * y;
         }
         return (value > 0) - (value < 0);
     }
@@ -59,11 +68,14 @@ optional<MinimumEnclosingCircleResult> minimum_enclosing_circle(
     for (int i = 0; i < n; ++i) {
         const auto &a = points[order[i]];
         if (disk.side(a) <= 0) continue;
-        disk = {1, a, {}, {}};
+        disk.size = 1;
+        disk.a = a;
         for (int j = 0; j < i; ++j) {
             const auto &b = points[order[j]];
             if (disk.side(b) <= 0) continue;
-            disk = {2, a, b, {}};
+            disk.size = 2;
+            disk.a = a;
+            disk.b = b;
             for (int k = 0; k < j; ++k) {
                 const auto &c = points[order[k]];
                 if (disk.side(c) > 0) disk = through_three(a, b, c);
@@ -75,12 +87,9 @@ optional<MinimumEnclosingCircleResult> minimum_enclosing_circle(
         x = (Wide(disk.b.x) - disk.a.x) / 2.0L;
         y = (Wide(disk.b.y) - disk.a.y) / 2.0L;
     } else if (disk.size == 3) {
-        Wide ux = Wide(disk.b.x) - disk.a.x, uy = Wide(disk.b.y) - disk.a.y;
-        Wide vx = Wide(disk.c.x) - disk.a.x, vy = Wide(disk.c.y) - disk.a.y;
-        Wide u2 = ux * ux + uy * uy, v2 = vx * vx + vy * vy;
-        long double denominator = 2 * (ux * vy - uy * vx);
-        x = (u2 * vy - v2 * uy) / denominator;
-        y = (v2 * ux - u2 * vx) / denominator;
+        long double denominator = 2 * disk.quadratic;
+        x = -disk.linear_x / denominator;
+        y = -disk.linear_y / denominator;
     }
     MinimumEnclosingCircleResult result{{disk.a.x + x, disk.a.y + y}, hypotl(x, y), {}};
     for (int i = 0; i < n; ++i) {
