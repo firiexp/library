@@ -34,13 +34,19 @@ void check(long long n, long long first, bool enumerate) {
 }
 
 int main() {
+    for (long long n = 0; n <= 200; ++n)
+        for (long long first = 1; first <= n + 2; ++first) check(n, first, true);
     for (long long n = 0; n <= 5000; ++n) {
         check(n, 1, true);
         check(n, max(1LL, n / 3), true);
         check(n, n + 1, true);
     }
     for (long long root : {100LL, 1000LL, 100000LL, 1000000LL})
-        for (long long delta : {-1LL, 0LL, 1LL}) check(root * root + delta, 1, false);
+        for (long long delta : {-1LL, 0LL, 1LL}) {
+            long long n = root * root + delta;
+            check(n, 1, false);
+            for (long long first : {root - 1, root, root + 1, n - 1, n}) check(n, first, false);
+        }
     for (long long n : {LLONG_MAX, LLONG_MAX - 1, LLONG_MAX - 100}) {
         check(n, n / 7, false);
         check(n, n / 2 + 1, false);
