@@ -119,6 +119,69 @@ struct PalindromicTree {
     }
 };
 
+template<int W, char start = 'a'>
+class PalindromicPartition {
+    using Partitions = typename PalindromicTree<W, start>::Partitions;
+    PalindromicTree<W, start> tree;
+    Partitions result{{0}, {-1}};
+    vector<int> diff{0, 0}, series{0, 0};
+    vector<pair<int, int>> best = vector<pair<int, int>>(2, {INT_MAX, -1});
+
+public:
+    PalindromicPartition() = default;
+
+    explicit PalindromicPartition(const string &s) {
+        reserve(s.size());
+        build(s);
+    }
+
+    void reserve(int n) {
+        tree.reserve(n);
+        result.count.reserve(n + 1);
+        result.prev.reserve(n + 1);
+        diff.reserve(n + 2);
+        series.reserve(n + 2);
+        best.reserve(n + 2);
+    }
+
+    int add(char c) {
+        int last = tree.add(c);
+        const auto &nodes = tree.nodes;
+        if (diff.size() < nodes.size()) {
+            int v = diff.size(), link = nodes[v].link;
+            diff.push_back(nodes[v].len - nodes[link].len);
+            series.push_back(diff[v] == diff[link] ? series[link] : link);
+            best.emplace_back(INT_MAX, -1);
+        }
+        int i = result.count.size();
+        result.count.push_back(i + 1);
+        result.prev.push_back(-1);
+        for (int v = last; nodes[v].len > 0; v = series[v]) {
+            int from = i - nodes[series[v]].len - diff[v];
+            best[v] = {result.count[from], from};
+            int link = nodes[v].link;
+            if (diff[v] == diff[link]) best[v] = min(best[v], best[link]);
+            if (best[v].first + 1 < result.count[i]) {
+                result.count[i] = best[v].first + 1;
+                result.prev[i] = best[v].second;
+            }
+        }
+        return count();
+    }
+
+    void build(const string &s) {
+        for (char c : s) add(c);
+    }
+
+    int count() const {
+        return result.count.back();
+    }
+
+    const Partitions &partitions() const {
+        return result;
+    }
+};
+
 /**
  * @brief 回文木(Palindromic Tree)
  */

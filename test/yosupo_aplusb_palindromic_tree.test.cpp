@@ -76,6 +76,29 @@ void verify_partitions(const PalindromicTree<W> &pt) {
     auto counts = pt.count();
     auto dp = pt.min_partitions();
     assert(dp.count == expected);
+    PalindromicPartition<W> online;
+    PalindromicTree<W> prefixes;
+    assert(online.count() == 0);
+    assert(online.partitions().count == vector<int>{0});
+    assert(online.partitions().prev == vector<int>{-1});
+    for (int i = 0; i < n; ++i) {
+        int count = online.add(s[i]);
+        prefixes.add(s[i]);
+        assert(count == expected[i + 1]);
+        auto prefix = prefixes.min_partitions();
+        assert(online.partitions().count == prefix.count);
+        assert(online.partitions().prev == prefix.prev);
+    }
+    assert(online.partitions().count == dp.count);
+    assert(online.partitions().prev == dp.prev);
+    PalindromicPartition<W> chunks(s.substr(0, n / 2));
+    auto copy = chunks;
+    copy.reserve(n);
+    copy.build(s.substr(n / 2));
+    copy.build("");
+    assert(chunks.count() == expected[n / 2]);
+    assert(copy.partitions().count == dp.count);
+    assert(copy.partitions().prev == dp.prev);
     assert(dp.prev.size() == (size_t)n + 1 && dp.prev[0] == -1);
     for (int prefix = 1; prefix <= n; ++prefix) {
         int parts = 0;
@@ -122,6 +145,17 @@ void partition_check() {
     PalindromicTree<2> uniform(string(300000, 'a'));
     auto dp = uniform.min_partitions();
     for (int i = 1; i <= 300000; ++i) assert(dp.count[i] == 1 && dp.prev[i] == 0);
+    PalindromicPartition<2> online;
+    online.reserve(300000);
+    for (int i = 0; i < 300000; ++i) {
+        int count = online.add('a');
+        assert(count == 1);
+        assert(online.partitions().prev.back() == 0);
+    }
+    PalindromicPartition<2, '0'> digits("01010");
+    assert(digits.count() == 1);
+    int count = digits.add('1');
+    assert(count == 2);
 }
 
 int main() {
