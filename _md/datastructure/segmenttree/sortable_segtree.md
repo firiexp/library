@@ -4,11 +4,11 @@ documentation_of: //datastructure/segmenttree/sortable_segtree.cpp
 ---
 
 ## 説明
-key と値を一緒に区間ソートし、現在の位置区間の積を求める。
+key と値を一緒に区間ソートし、区間積を求める。
 非可換モノイドに対応し、積は列の左から右へ取る。
 
 ## できること
-要素数を $N$、key の値域の上端を $U$、$W=\lceil\log_2 U\rceil)$ とする。
+要素数を $N$、$W=\lceil\log_2 U\rceil)$ とする。
 
 - `SortableSegmentTree<M> seg(keys, values, key_upper = uint64_t(1) << 31)`
   同じ長さの `vector<int>` と `vector<T>` から構築する。$O(NW)$ 時間、$O(NW)$ 領域。
@@ -20,7 +20,7 @@ key と値を一緒に区間ソートし、現在の位置区間の積を求め�
 - `void sort_descending(int l, int r)`
   `[l,r)` を key の降順にソートする。
 - `T fold(int l, int r)`
-  現在の `[l,r)` の値を順番に合成する。$O(\log N+W)$。
+  現在の key が `[l,r)` の値を順番に合成する。$O(\log N+W)$。
 - `pair<int,T> get(int i) const`
   位置 `i` の key と値を返す。$O(\log N+W)$。
 - `int size() const`
@@ -50,8 +50,10 @@ string value = seg.fold(0, 3);
 
 ## 実装上の補足
 列を昇順・降順のブロックに分け、各ブロックを要素数と正順・逆順の積を持つ値域木で表す。
-操作の端点では順位で木を分割し、sort は範囲内の木を破壊的に併合する。
-外側の SegmentTree に各ブロックの積を置く。`fold` も内部のブロック境界を分割する。
+更新操作の端点では順位で木を分割し、sort は範囲内の木を破壊的に併合する。
+外側の SegmentTree に各ブロックの積を置く。
+`fold` は両端の部分ブロックを要素数による順位でたどり、間の完全なブロックの積を外側の木から取る。
+降順ブロックでは右の子からたどり、逆順の積を使う。問い合わせによるノード生成や後続 sort の併合量の増加はない。
 
 分割が作るノードは各操作 $O(W)$。併合で両側が非空の再帰は必ず片方のノードを回収する。
 ブロック境界の追加も各操作で定数個なので、ノードの生成・回収と外側の木の更新を通算すると上記の償却計算量になる。

@@ -30,6 +30,16 @@ struct Matrix {
 };
 
 template<class M>
+typename M::T read_fold(SortableSegmentTree<M> &seg, int l, int r) {
+    auto before = seg.node_stats();
+    auto value = seg.fold(l, r);
+    auto after = seg.node_stats();
+    assert(before.allocations == after.allocations && before.releases == after.releases);
+    assert(before.live == after.live && before.peak_live == after.peak_live && before.slots == after.slots);
+    return value;
+}
+
+template<class M>
 void check(uint64_t upper, mt19937_64 &rng) {
     using T = typename M::T;
     int n = rng() % (min<uint64_t>(upper, 35) + 1);
@@ -77,14 +87,14 @@ void check(uint64_t upper, mt19937_64 &rng) {
         } else {
             T result = M::e();
             for (int i = l; i < r; ++i) result = M::f(result, expected[i].second);
-            assert(seg.fold(l, r) == result);
+            assert(read_fold(seg, l, r) == result);
         }
         if (step % 31 == 0) {
             for (int i = 0; i < n; ++i) assert(seg.get(i) == expected[i]);
             for (int a = 0; a <= n; ++a) {
                 T result = M::e();
                 for (int b = a; b <= n; ++b) {
-                    assert(seg.fold(a, b) == result);
+                    assert(read_fold(seg, a, b) == result);
                     if (b < n) result = M::f(result, expected[b].second);
                 }
             }

@@ -42,7 +42,11 @@ int main() {
             const auto &prefix = descending ? backward : forward;
             Affine::T expected{uint32_t(power[r - l]),
                 uint32_t((prefix[r] + mod - prefix[l] * power[r - l] % mod) % mod)};
+            auto before = seg.node_stats();
             assert(seg.fold(l, r) == expected);
+            auto after = seg.node_stats();
+            assert(before.allocations == after.allocations && before.releases == after.releases);
+            assert(before.live == after.live && before.slots == after.slots);
         }
     }
     for (int i = 0; i < n; ++i) {
@@ -52,7 +56,7 @@ int main() {
         assert((item.second == Affine::T{2, uint32_t(key % mod)}));
     }
     auto stats = seg.node_stats();
-    assert(stats.allocations > stats.slots);
+    assert(stats.allocations == stats.slots);
     assert(stats.releases > 0 && stats.live == stats.allocations - stats.releases);
     assert(stats.peak_live == size_t(32) * n && stats.slots == stats.peak_live);
     cerr << "allocations=" << stats.allocations << " releases=" << stats.releases

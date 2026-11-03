@@ -103,6 +103,18 @@ private:
         return descending[start] ? node.backward : node.forward;
     }
 
+    T fold_node(int id, int l, int r, bool reverse) const {
+        const auto &node = nodes[id];
+        if (l == 0 && r == node.count) return reverse ? node.backward : node.forward;
+        int first = node.left, second = node.right;
+        if (reverse) swap(first, second);
+        int count = nodes[first].count;
+        if (r <= count) return fold_node(first, l, r, reverse);
+        if (l >= count) return fold_node(second, l - count, r - count, reverse);
+        return M::f(fold_node(first, l, count, reverse),
+                    fold_node(second, 0, r - count, reverse));
+    }
+
     std::set<int>::iterator cut(int position) {
         auto next = starts.lower_bound(position);
         if (*next == position) return next;
@@ -196,9 +208,14 @@ public:
     T fold(int l, int r) {
         assert(0 <= l && l <= r && r <= n);
         if (l == r) return M::e();
-        cut(l);
-        cut(r);
-        return outer.query(l, r);
+        auto first = prev(starts.upper_bound(l));
+        int start = *first, end = *next(first);
+        if (r <= end) return fold_node(roots[start], l - start, r - start, descending[start]);
+        int last = *prev(starts.lower_bound(r));
+        T result = l == start ? outer.query(l, last)
+            : M::f(fold_node(roots[start], l - start, end - start, descending[start]),
+                   outer.query(end, last));
+        return M::f(result, fold_node(roots[last], 0, r - last, descending[last]));
     }
 
     NodeStats node_stats() const {
