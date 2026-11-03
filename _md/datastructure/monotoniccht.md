@@ -18,9 +18,9 @@ tags: データ構造
 - `CHT<T, true> cht`
   最大値を取る CHT を作る。$O(1)$
 - `CHT<T, get_max, true> cht`
-  直線IDの保持を有効にする。`get_max` は最小値なら `false`、最大値なら `true`。$O(1)$
+  直線IDを保持する CHT を作る。`get_max` は最小値なら `false`、最大値なら `true`。$O(1)$
 - `void add_line(T a, T b, int id = -1)`
-  直線 `y = ax + b` を追加する。ID保持を有効にした場合は `id` を関連付ける。償却 $O(1)$
+  直線 `y = ax + b` を追加する。第3 template 引数が `true` の場合は `id` を関連付ける。償却 $O(1)$
 - `T query(T x)`
   任意順クエリで最良値を返す。$O(\log N)$
 - `T query_increase(T x)`
@@ -28,9 +28,9 @@ tags: データ構造
 - `T query_decrease(T x)`
   `x` が単調減少するときの最良値を返す。償却 $O(1)$
 - `pair<T, int> query_with_id(T x)`
-  任意順クエリで `{最良値, 直線ID}` を返す。ID保持を有効にして使う。$O(\log N)$
+  任意順クエリで `{最良値, 直線ID}` を返す。第3 template 引数が `true` の CHT で使う。$O(\log N)$
 - `pair<T, int> query_increase_with_id(T x)` / `query_decrease_with_id(T x)`
-  対応する単調順クエリで `{最良値, 直線ID}` を返す。ID保持を有効にして使う。償却 $O(1)$
+  対応する単調順クエリで `{最良値, 直線ID}` を返す。第3 template 引数が `true` の CHT で使う。償却 $O(1)$
 
 ## 使い方
 追加する直線の傾きは単調である必要がある。
@@ -48,4 +48,3 @@ DPの遷移元を復元するときは `cht.add_line(a, b, state)` のように�
 整数の不要直線判定は `__int128` で差の積を比較する。上記の係数制約では差の絶対値が最大 $2^{63}$、積の絶対値が最大 $2^{126}$ となり、符号付き 128 bit に収まる。
 浮動小数点型では `long double` で比較する。
 保持領域は $O(N)$。
-第3 template 引数を省略すると係数だけを保持する。IDを使わない場合の直線要素の大きさを変えず、ID付き要素によるメモリ使用量とアクセス費用の増加を避ける。
