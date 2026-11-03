@@ -1,4 +1,5 @@
 #include "segtree.cpp"
+#include "../fast_set.cpp"
 
 template<class M>
 class SortableSegmentTree {
@@ -18,7 +19,7 @@ private:
     vector<Node> nodes;
     vector<int> roots;
     vector<bool> descending;
-    std::set<int> starts;
+    FastSet starts;
     SegmentTree<M> outer;
     size_t allocations = 0, releases = 0, peak_live = 0;
 
@@ -115,10 +116,9 @@ private:
                     fold_node(second, 0, r - count, reverse));
     }
 
-    std::set<int>::iterator cut(int position) {
-        auto next = starts.lower_bound(position);
-        if (*next == position) return next;
-        int start = *prev(next);
+    void cut(int position) {
+        if (starts.contains(position)) return;
+        int start = starts.prev(position);
         int offset = position - start;
         int count = descending[start] ? nodes[roots[start]].count - offset : offset;
         auto parts = split(roots[start], count);
@@ -128,19 +128,19 @@ private:
         descending[position] = descending[start];
         outer.update(start, product(start));
         outer.update(position, product(position));
-        return starts.insert(next, position);
+        starts.insert(position);
     }
 
     void sort_range(int l, int r, bool reverse) {
         if (l == r) return;
-        auto end = cut(r), begin = cut(l);
+        cut(r);
+        cut(l);
         int root = roots[l];
-        for (auto it = next(begin); it != end;) {
-            int start = *it;
+        for (int start = starts.next(l + 1); start < r; start = starts.next(start + 1)) {
             root = meld(root, roots[start]);
             roots[start] = 0;
             outer.update(start, M::e());
-            it = starts.erase(it);
+            starts.erase(start);
         }
         roots[l] = root;
         descending[l] = reverse;
@@ -150,7 +150,8 @@ private:
 public:
     SortableSegmentTree(const vector<int> &keys, const vector<T> &values,
                         uint64_t key_upper = uint64_t(1) << 31)
-        : n(keys.size()), upper(key_upper), roots(n), descending(n), outer(n) {
+        : n(keys.size()), upper(key_upper), roots(n), descending(n),
+          starts(vector<bool>(n + 1, true)), outer(n) {
         int height = 0;
         for (uint64_t width = 1; width < key_upper; width <<= 1) ++height;
         nodes.reserve(size_t(n) * (height + 1) + 1);
@@ -158,10 +159,8 @@ public:
         for (int i = 0; i < n; ++i) {
             assert(keys[i] >= 0 && uint64_t(keys[i]) < key_upper);
             roots[i] = singleton(keys[i], values[i], 0, upper);
-            starts.insert(starts.end(), i);
             outer.set(i, values[i]);
         }
-        starts.insert(starts.end(), n);
         outer.build();
     }
 
@@ -169,7 +168,7 @@ public:
 
     pair<int, T> get(int position) const {
         assert(0 <= position && position < n);
-        int start = *prev(starts.upper_bound(position));
+        int start = starts.prev(position);
         int id = roots[start], rank = position - start;
         if (descending[start]) rank = nodes[id].count - 1 - rank;
         uint32_t l = 0, r = upper;
@@ -208,10 +207,9 @@ public:
     T fold(int l, int r) {
         assert(0 <= l && l <= r && r <= n);
         if (l == r) return M::e();
-        auto first = prev(starts.upper_bound(l));
-        int start = *first, end = *next(first);
+        int start = starts.prev(l), end = starts.next(start + 1);
         if (r <= end) return fold_node(roots[start], l - start, r - start, descending[start]);
-        int last = *prev(starts.lower_bound(r));
+        int last = starts.prev(r - 1);
         T result = l == start ? outer.query(l, last)
             : M::f(fold_node(roots[start], l - start, end - start, descending[start]),
                    outer.query(end, last));

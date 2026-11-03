@@ -40,9 +40,9 @@ typename M::T read_fold(SortableSegmentTree<M> &seg, int l, int r) {
 }
 
 template<class M>
-void check(uint64_t upper, mt19937_64 &rng) {
+void check(uint64_t upper, mt19937_64 &rng, int n = -1) {
     using T = typename M::T;
-    int n = rng() % (min<uint64_t>(upper, 35) + 1);
+    if (n == -1) n = rng() % (min<uint64_t>(upper, 35) + 1);
     auto value = [&]() {
         T result;
         for (auto &x : result) x = rng() % M::mod;
@@ -114,6 +114,7 @@ int main() {
             check<Matrix>(upper, rng);
         }
     }
+    for (int n : {0, 1, 63, 64, 65, 127, 128, 129}) check<Affine>(1ULL << 31, rng, n);
     SortableSegmentTree<Affine> seg({0, INT_MAX, 1}, {{2, 3}, {5, 7}, {11, 13}});
     seg.sort_descending(0, 3);
     assert(seg.get(0).first == INT_MAX);
