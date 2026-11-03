@@ -46,24 +46,23 @@ struct SuffixAutomaton {
         }
         if (p == -1) {
             nodes[cur].link = 0;
-            last = cur;
-            return cur;
+        } else {
+            int q = nodes[p].next[k];
+            if (nodes[p].len + 1 == nodes[q].len) {
+                nodes[cur].link = q;
+            } else {
+                int clone = nodes.size();
+                nodes.push_back(nodes[q]);
+                nodes[clone].len = nodes[p].len + 1;
+                nodes[clone].occ = 0;
+                while (p != -1 && nodes[p].next[k] == q) {
+                    nodes[p].next[k] = clone;
+                    p = nodes[p].link;
+                }
+                nodes[q].link = nodes[cur].link = clone;
+            }
         }
-        int q = nodes[p].next[k];
-        if (nodes[p].len + 1 == nodes[q].len) {
-            nodes[cur].link = q;
-            last = cur;
-            return cur;
-        }
-        int clone = nodes.size();
-        nodes.push_back(nodes[q]);
-        nodes[clone].len = nodes[p].len + 1;
-        nodes[clone].occ = 0;
-        while (p != -1 && nodes[p].next[k] == q) {
-            nodes[p].next[k] = clone;
-            p = nodes[p].link;
-        }
-        nodes[q].link = nodes[cur].link = clone;
+        distinct += nodes[cur].len - nodes[nodes[cur].link].len;
         last = cur;
         return cur;
     }
@@ -103,11 +102,7 @@ struct SuffixAutomaton {
     }
 
     long long count_distinct_substrings() const {
-        long long res = 0;
-        for (int i = 1; i < (int)nodes.size(); ++i) {
-            res += nodes[i].len - nodes[nodes[i].link].len;
-        }
-        return res;
+        return distinct;
     }
 
     optional<pair<int, int>> kth_substring(long long k) const {
@@ -166,6 +161,7 @@ struct SuffixAutomaton {
     }
 
 private:
+    long long distinct = 0;
     mutable vector<long long> ways;
 };
 /**

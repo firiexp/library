@@ -20,7 +20,7 @@ tags: 文字列
 - `reserve(n)` : 長さ `n` を見込んで状態の領域を確保する。$O(n)$
 - `add(c)` : 末尾に文字 `c` を追加し、追加後の文字列全体に対応する状態番号を返す。償却 $O(1)$
 - `build(t)` : 末尾に文字列 `t` を追加する。償却 $O(|t|)$
-- `count_distinct_substrings()` : 異なる部分文字列数を返す。$O(V)$
+- `count_distinct_substrings()` : 異なる非空部分文字列数を `long long` で返す。空文字列なら `0`。$O(1)$
 - `kth_substring(k)` : 異なる非空部分文字列を辞書順に並べたときの `k` 番目を返す。`k` は0-indexed。返り値は元文字列上の半開区間 `[l,r)` を表す `optional<pair<int,int>>` で、負数または範囲外は `nullopt`。初回の準備に $O(WV)$、各クエリに最悪 $O(WN)$、追加領域 $O(V)$。文字追加後の最初のクエリでは準備をやり直す
 - `substring_occurrences()` : 各状態の出現回数を状態番号順の `vector<int>` で返す。$O(V+N)$
 - `order_by_length()` : 各状態が表す最大長の昇順に状態番号を返す。$O(V+N)$
@@ -56,6 +56,7 @@ if (auto range = sam.kth_substring(2)) {
 - `nodes[v].link` は suffix link。
 - `nodes[v].next` は遷移。
 - `nodes[v].first_pos` は代表となる出現の末尾位置。clone は複製元の位置を引き継ぐ。
+- 異なる部分文字列数は `add` のたびに、新状態と suffix link 先の長さの差だけ増やす。clone は既存状態の寄与を分割するため、総数を変えない。
 - `substring_occurrences()` は状態ごとに出現回数を集計する。クローン状態の出現回数は構築時に `0` とし、集計時に加算する。
 - `kth_substring` に必要な部分文字列数は `long long` で保持する。初回クエリで集計して再利用し、`add` / `build` で文字を追加したら次のクエリで再計算する。クエリを呼ばない用途ではこの集計を行わない。
 - `nodes` / `last` は参照用とし、直接の書き換えには対応しない。
