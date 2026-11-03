@@ -190,6 +190,34 @@ struct LinkCutTree {
         return nodes[v].sum;
     }
 
+    template<class F>
+    int find_first_false(int u, int v, F pred) {
+        assert(pred(M::e()));
+        evert(u);
+        expose(v);
+        if (pred(nodes[v].sum)) return -1;
+        T prefix = M::e();
+        int x = v;
+        while (true) {
+            push(x);
+            int left = nodes[x].l;
+            if (left != -1) {
+                T next = M::f(prefix, nodes[left].sum);
+                if (!pred(next)) {
+                    x = left;
+                    continue;
+                }
+                prefix = move(next);
+            }
+            prefix = M::f(prefix, nodes[x].val);
+            if (!pred(prefix)) {
+                splay(x);
+                return x;
+            }
+            x = nodes[x].r;
+        }
+    }
+
     int dist(int u, int v) {
         evert(u);
         expose(v);
