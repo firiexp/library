@@ -61,4 +61,17 @@ void repeated_matching_check() {
 
 int main() {
     repeated_matching_check();
+    int n = 2000;
+    HopcroftKarp hk(n, n);
+    for (int i = 0; i + 1 < n; ++i) {
+        hk.add_edge(i, i);
+        hk.add_edge(i, i + 1);
+        hk.add_edge(i, i);
+    }
+    hk.add_edge(n - 1, 0);
+    assert(hk.max_matching() == n);
+    for (int i = 0; i < n; ++i) assert(hk.match_left[i] == (i + 1) % n);
+    assert(hk.max_matching() == n);
+    auto [left, right] = hk.minimum_vertex_cover();
+    assert(int(left.size() + right.size()) == n);
 }

@@ -74,6 +74,18 @@ public:
         for (int v : match_left) if (v != -1) ++ret;
         if (!dirty) return ret;
         build_graph();
+        if (ret == 0) {
+            for (int v = 0; v < l; ++v) {
+                for (int ei = start[v]; ei < start[v + 1]; ++ei) {
+                    int to = elist[ei];
+                    if (match_right[to] != -1) continue;
+                    match_left[v] = to;
+                    match_right[to] = v;
+                    ++ret;
+                    break;
+                }
+            }
+        }
         while (bfs()) {
             for (int i = 0; i < l; ++i) {
                 if (match_left[i] == -1 && dfs(i)) ++ret;
