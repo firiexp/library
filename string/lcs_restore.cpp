@@ -4,8 +4,12 @@ vector<pair<int, int>> lcs_restore(const string &a, const string &b) {
     const string &x = swapped ? b : a;
     const string &y = swapped ? a : b;
     int n = x.size(), m = y.size();
-    vector<int> prefix(m + 1), suffix(m + 1);
+    int lead = 0, tail = 0;
+    while (lead < m && x[lead] == y[lead]) ++lead;
+    while (tail < m - lead && x[n - 1 - tail] == y[m - 1 - tail]) ++tail;
+    vector<int> prefix(m - lead - tail + 1), suffix(m - lead - tail + 1);
     vector<pair<int, int>> result;
+    for (int i = 0; i < lead; ++i) result.emplace_back(i, i);
     auto solve = [&](auto &&self, int left, int right, int lo, int hi) -> void {
         if (left == right || lo == hi) return;
         if (right - left == 1) {
@@ -41,7 +45,11 @@ vector<pair<int, int>> lcs_restore(const string &a, const string &b) {
         self(self, left, mid, lo, lo + split);
         self(self, mid, right, lo + split, hi);
     };
-    solve(solve, 0, n, 0, m);
+    solve(solve, lead, n - tail, lead, m - tail);
+    for (int i = tail; i > 0; --i) {
+        if (swapped) result.emplace_back(m - i, n - i);
+        else result.emplace_back(n - i, m - i);
+    }
     return result;
 }
 

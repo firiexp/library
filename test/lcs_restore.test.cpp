@@ -33,6 +33,12 @@ int main() {
     check(string(200, 'a'), string(300, 'a'));
     check(string(200, 'a'), string(300, 'b'));
     check("abcbdab", "bdcaba");
+    for (auto [a, b] : vector<pair<string, string>>{
+        {"abc", "abcabc"}, {"abca", "abcbca"}, {"aabaaa", "aaaaa"},
+        {"prefixAsuffix", "prefixBsuffix"}, {"abc", "xabc"}, {"ab", "acb"}}) {
+        check(a, b);
+        check(b, a);
+    }
     check(string("\0\1\xff\0", 4), string("\xff\0\1", 3));
     mt19937 rng(316);
     for (int tc = 0; tc < 700; ++tc) {
@@ -49,4 +55,18 @@ int main() {
     check("bacca", a);
     assert(lcs_restore(string(100000, 'a'), "").empty());
     assert(lcs_restore("", string(100000, 'a')).empty());
+    string same(20000, 'a');
+    auto identical = lcs_restore(same, same);
+    assert(identical.size() == same.size());
+    for (int i = 0; i < (int)same.size(); ++i) assert(identical[i] == make_pair(i, i));
+    string longer = same.substr(0, 10000) + "b" + same.substr(10000);
+    for (bool swapped : {false, true}) {
+        auto result = swapped ? lcs_restore(longer, same) : lcs_restore(same, longer);
+        assert(result.size() == same.size());
+        for (int i = 0; i < (int)same.size(); ++i) {
+            auto expected = make_pair(i, i + (i >= 10000));
+            if (swapped) swap(expected.first, expected.second);
+            assert(result[i] == expected);
+        }
+    }
 }
