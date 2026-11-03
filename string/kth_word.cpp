@@ -18,7 +18,11 @@ optional<vector<int>> kth_word(const DFA<W>& a, int n, unsigned long long k) {
         for (size_t v = 0; v < s; ++v) {
             Count count = 0;
             for (int to : a.next[v]) if (to != -1) {
-                count = min(cap, count + dp[previous + to]);
+                count += dp[previous + to];
+                if (count >= cap) {
+                    count = cap;
+                    break;
+                }
             }
             dp[current + v] = count;
         }

@@ -67,6 +67,21 @@ int main() {
     DFA<2> only_b{{{-1, 0}}, {true}, 0};
     assert(kth_word(only_b, 1024, 0) == optional<vector<int>>(vector<int>(1024, 1)));
     assert(!kth_word(only_b, 1024, 1));
+    DFA<256> bytes{vector<array<int, 256>>(1), {true}, 0};
+    for (int n : {0, 1, 7, 8, 9, 128}) {
+        assert(kth_word(bytes, n, 0) == optional<vector<int>>(vector<int>(n, 0)));
+        if (n < 8) assert(!kth_word(bytes, n, ULLONG_MAX));
+        else {
+            vector<int> expected(n);
+            fill(expected.end() - 8, expected.end(), 255);
+            assert(kth_word(bytes, n, ULLONG_MAX) == optional<vector<int>>(expected));
+        }
+    }
+    bytes.next[0].fill(-1);
+    bytes.next[0][255] = 0;
+    check(bytes, 1);
+    assert(kth_word(bytes, 128, 0) == optional<vector<int>>(vector<int>(128, 255)));
+    assert(!kth_word(bytes, 128, 1));
     auto avoid = avoid_patterns<2, 'a'>({"aa", "aa", "bab"});
     check(avoid);
     check(avoid_patterns<2, 'a'>({""}));
