@@ -11,9 +11,9 @@ documentation_of: //datastructure/wavelet_matrix/static_range_distinct_sum.cpp
 列の長さを $N$ とし、比較・重み取得・加減算を $O(1)$ とする。
 
 - `StaticRangeDistinctSum<T, U> distinct(values, weight)`
-  値の列 `values` と、値を受け取って重みを返す関数 `weight` から構築する。時間・保持領域は $O(N\log N)$。
+  値の列 `values` と、値を受け取って重みを返す関数 `weight` から構築する。時間・保持領域は $O(N\log N)$。全要素が異なる場合の保持領域は $O(N)$。
 - `U sum(int l, int r) const`
-  半開区間 `[l, r)` に現れる異なる値の重み和を返す。空区間は `U()`。時間 $O(\log N)$、追加領域 $O(1)$。
+  半開区間 `[l, r)` に現れる異なる値の重み和を返す。空区間は `U()`。時間 $O(\log N)$、追加領域 $O(1)$。全要素が異なる場合は累積和から $O(1)$ で返す。
 
 ## 使い方
 値の型 `T` は `<` で比較できる必要がある。
@@ -34,5 +34,7 @@ long long total = distinct.sum(0, 3);
 `U` は `U()` による零初期化と、`+`、`-`、`+=` に対応する必要がある。
 整数型を使う場合、重複を含む重みの累積値と問い合わせの途中値も、その型で表せる範囲に収まる必要がある。
 
-前出現位置 `prev[i]` と重みから Weighted Wavelet Matrix を構築する。
+前出現位置 `prev[i]` を線形時間で圧縮し、重みとともに Weighted Wavelet Matrix を構築する。
 `[l, r)` で `prev[i] < l` となるのは各種類の最初の1出現なので、その重みだけを集計する。
+各左端 `l` に対応する圧縮後の境界を前計算し、問い合わせ時の二分探索を省く。
+全要素が異なる場合は Wavelet Matrix を構築せず、重みの累積和だけを保持する。

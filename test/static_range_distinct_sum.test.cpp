@@ -52,6 +52,10 @@ int main() {
         for (int i = 0; i < n; ++i) a[i] = i % 5 - 2;
         check<ll>(a, weight);
         check<modint<7>>(a, weight);
+        iota(a.begin(), a.end(), -n / 2);
+        if (n > 1) a.back() = a.front();
+        check<ll>(a, weight);
+        check<modint<7>>(a, weight);
     }
     mt19937 rng(324);
     for (int tc = 0; tc < 600; ++tc) {
