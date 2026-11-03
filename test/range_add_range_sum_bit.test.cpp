@@ -72,7 +72,8 @@ void run() {
     }
     int n = 200000;
     vector<T> a(n);
-    RangeAddRangeSumBIT<T> bit(n);
+    for (int i = 0; i < n; ++i) a[i] = T(i % 2001 - 1000);
+    RangeAddRangeSumBIT<T> bit(a);
     for (auto [l, r, slope, intercept] : vector<array<int, 4>>{
              {0, n, 17, -9}, {70000, 190000, -1000000, 123456789},
              {n - 1, n, 5, -3}, {n, n, 2, 1}}) {
