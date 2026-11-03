@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_GRAPH_TWO_EDGE_CONNECTED_COMPONENTS_CPP
+#define FIRIEXP_LIBRARY_GRAPH_TWO_EDGE_CONNECTED_COMPONENTS_CPP
+
 class TwoEdgeConnectedComponents {
     struct CSR {
         vector<int> start, elist;
@@ -25,34 +28,6 @@ class TwoEdgeConnectedComponents {
         return edges[id].first ^ edges[id].second ^ v;
     }
 
-    void dfs(int i, int pe, const CSR &G, int &pos){
-        ord[i] = low[i] = pos++;
-        for (int ei = G.start[i]; ei < G.start[i + 1]; ++ei) {
-            int id = G.elist[ei];
-            if(id == pe) continue;
-            int j = other(id, i);
-            if(~ord[j]){
-                low[i] = min(low[i], ord[j]);
-                continue;
-            }
-            par[j] = i;
-            dfs(j, id, G, pos);
-            size[i] += size[j];
-            low[i] = min(low[i], low[j]);
-        }
-    }
-
-    void dfs2(int i, int c, const CSR &G){
-        bridge[i] = c;
-        out[c].emplace_back(i);
-        for (int ei = G.start[i]; ei < G.start[i + 1]; ++ei) {
-            int id = G.elist[ei];
-            if(is_bridge_edge(id)) continue;
-            int j = other(id, i);
-            if(~bridge[j]) continue;
-            dfs2(j, c, G);
-        }
-    }
 public:
     vector<int> ord, low, par, bridge, size;
     vector<pair<int, int>> edges;
@@ -77,26 +52,62 @@ public:
 
     int build(){
         CSR G(n, edges);
-        int pos = 0;
         fill(ord.begin(), ord.end(), -1);
         fill(par.begin(), par.end(), -1);
-        fill(bridge.begin(), bridge.end(), -1);
         fill(size.begin(), size.end(), 1);
         out.clear();
-        for (int i = 0; i < n; ++i) {
-            if(ord[i] < 0) dfs(i, -1, G, pos);
-        }
-        int k = 0;
-        for (int i = 0; i < n; ++i) {
-            if(!~bridge[i]){
-                out.emplace_back();
-                dfs2(i, k++, G);
+        struct Frame {
+            int vertex, parent_edge, next;
+        };
+        vector<Frame> stack;
+        vector<int> order;
+        stack.reserve(n);
+        order.reserve(n);
+        for (int root = 0; root < n; ++root) {
+            if (ord[root] >= 0) continue;
+            ord[root] = low[root] = order.size();
+            order.push_back(root);
+            stack.push_back({root, -1, G.start[root]});
+            while (!stack.empty()) {
+                auto &frame = stack.back();
+                int v = frame.vertex;
+                if (frame.next == G.start[v + 1]) {
+                    stack.pop_back();
+                    if (par[v] >= 0) {
+                        size[par[v]] += size[v];
+                        low[par[v]] = min(low[par[v]], low[v]);
+                    }
+                    continue;
+                }
+                int id = G.elist[frame.next++];
+                if (id == frame.parent_edge) continue;
+                int u = other(id, v);
+                if (ord[u] >= 0) {
+                    low[v] = min(low[v], ord[u]);
+                    continue;
+                }
+                par[u] = v;
+                ord[u] = low[u] = order.size();
+                order.push_back(u);
+                if (G.start[u + 1] - G.start[u] == 1) ++size[v];
+                else stack.push_back({u, id, G.start[u]});
             }
         }
-        return k;
+        for (int v : order) {
+            if (par[v] < 0 || ord[par[v]] < low[v]) {
+                bridge[v] = out.size();
+                out.emplace_back();
+            } else {
+                bridge[v] = bridge[par[v]];
+            }
+            out[bridge[v]].push_back(v);
+        }
+        return out.size();
     }
 };
 
 /**
  * @brief 二辺連結成分分解(Two-Edge-Connected Components)
  */
+
+#endif
