@@ -8,6 +8,8 @@ using ull = unsigned long long;
 const int MOD = 5;
 #include "../util/fastio.cpp"
 #include "../math/linear_algebra/solve_linear_system.cpp"
+#include "../math/linear_algebra/linear_system_decomposition.cpp"
+#include "../math/linear_algebra/linear_system_decomposition.cpp"
 
 int power5(int n) {
     int result = 1;
@@ -24,10 +26,26 @@ vector<mint> decode(int code, int m) {
     return result;
 }
 
-void check(const vector<vector<mint>>& a, const vector<mint>& b, int m) {
+void check(const vector<vector<mint>>& a, const vector<mint>& b, int m,
+           const LinearSystemDecomposition *decomposition = nullptr) {
     auto original_a = a;
     auto original_b = b;
     auto result = a.empty() ? solve_linear_system(a, b, m) : solve_linear_system(a, b);
+    optional<LinearSystemDecomposition> local;
+    if (!decomposition) {
+        local.emplace(a, m);
+        decomposition = &*local;
+    }
+    const auto *basis_data = decomposition->basis().data();
+    auto particular = decomposition->solve(b);
+    assert(particular == decomposition->solve(b));
+    assert(basis_data == decomposition->basis().data());
+    assert(bool(particular) == bool(result));
+    if (result) {
+        assert(*particular == result->particular);
+        assert(decomposition->rank() == result->rank);
+        assert(decomposition->basis() == result->basis);
+    }
     assert(a == original_a && b == original_b);
     vector<bool> generated(power5(m));
     if (result) {
@@ -99,6 +117,17 @@ void self_check() {
         }
     }
     mt19937 rng(75);
+    LinearSystemDecomposition empty_decomposition({});
+    assert(empty_decomposition.rank() == 0 && empty_decomposition.basis().empty());
+    assert(empty_decomposition.solve({}) == optional<vector<mint>>(vector<mint>{}));
+    for (int n = 0; n <= 3; ++n) for (int m = 0; m <= 3; ++m) {
+        for (int trial = 0; trial < 20; ++trial) {
+            vector<vector<mint>> a(n, vector<mint>(m));
+            for (auto &row : a) for (auto &value : row) value = trial % 4 ? rng() % 5 : 0;
+            const LinearSystemDecomposition decomposition(a, m);
+            for (int code = 0; code < power5(n); ++code) check(a, decode(code, n), m, &decomposition);
+        }
+    }
     for (int tc = 0; tc < 1000; ++tc) {
         int n = rng() % 5, m = rng() % 6;
         vector<vector<mint>> a(n, vector<mint>(m));
