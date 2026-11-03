@@ -21,24 +21,15 @@ documentation_of: //string/palindromic_tree.cpp
 - `vector<int> count()` : 各ノードの出現回数を返す。$O(N)$
 - `Partitions min_partitions()` : 文字列の各接頭辞を非空回文に分割する最少個数 `count` と、分割位置を復元するための `prev` を返す。時間 $O(N\log N)$、返却値を含む追加領域 $O(N)$
 
-文字追加のたびに最少分割数を求める場合は `PalindromicPartition<W, start>` を使う。内部に回文木と分割 DP を持ち、全体で $O(N)$ 領域を使う。
-
-- `PalindromicPartition<W, start> dp(s)` : 文字列 `s` から構築する。引数なしなら空文字列。時間 $O(N\log N)$
-- `reserve(n)` : 長さ `n` を見込んで領域を確保する
-- `add(c)` : 末尾に文字 `c` を追加し、更新後の最少分割数を返す。償却 $O(\log N)$
-- `build(t)` : 末尾に文字列 `t` を追加する
-- `count()` : 現在の最少分割数を返す。空文字列なら `0`。$O(1)$
-- `partitions()` : 全接頭辞の `count` / `prev` を持つ `Partitions` への const 参照を返す。$O(1)$。内容は以後の追加に合わせて更新される
-
 ## 使い方
 
 `W` に文字種数、`start` に最小文字を指定する。
 小文字英字なら `PalindromicTree<26, 'a'> pt(s);` で構築する。
 空の木を作り、`add(c)` で1文字ずつ追加してもよい。
 
-最少回文分割は `auto dp = pt.min_partitions();` で求める。
+文字列の各接頭辞を、できるだけ少ない個数の非空回文に分けるには `auto dp = pt.min_partitions();` を使う。
 返り値の `count` / `prev` はどちらも長さ $N+1$ で、長さ `i` の接頭辞 `[0,i)` に対する結果を持つ。
-`dp.count[i]` が最少分割数を表す。`i>0` では `[dp.prev[i],i)` が最後の非空回文となる。
+`dp.count[i]` は `[0,i)` を非空の回文に分けるときの最少個数を表す。`i>0` では `[dp.prev[i],i)` が最後の非空回文となる。
 
 ```cpp
 PalindromicTree<26> pt("abacdc");
@@ -58,7 +49,20 @@ reverse(ranges.begin(), ranges.end());
 `dp.count[0]=0`、`dp.prev[0]=-1` とし、`i>0` では `dp.count[i]=dp.count[dp.prev[i]]+1` となる。
 空文字列の場合は `count={0}`、`prev={-1}` を返す。
 回文木の `add` / `build` 後は再度 `min_partitions()` を呼べば更新後の結果を取得できる。
-各文字追加直後の答えが必要なら、次のように分割 DP を保持する。
+
+## PalindromicPartition
+
+文字を追加するたびに、現在の文字列を非空の回文に分けるときの最少個数を求める。
+長さ $N$ までの構築と全ての更新に合計 $O(N\log N)$ 時間、$O(N)$ 領域を使う。
+
+- `PalindromicPartition<W, start> dp(s)` : 文字列 `s` から構築する。引数なしなら空文字列。時間 $O(N\log N)$
+- `reserve(n)` : 長さ `n` を見込んで領域を確保する
+- `add(c)` : 末尾に文字 `c` を追加した文字列について、非空の回文に分けるときの最少個数を返す。償却 $O(\log N)$
+- `build(t)` : 既存の文字列の末尾に文字列 `t` を追加する
+- `count()` : 現在の文字列を非空の回文に分けるときの最少個数を返す。空文字列なら `0`。$O(1)$
+- `partitions()` : 全接頭辞の `count` / `prev` を持つ `Partitions` への const 参照を返す。$O(1)$。内容は以後の追加に合わせて更新される
+
+次の例では `add(c)` を呼び、文字を追加するたびに得られる個数を出力する。
 
 ```cpp
 PalindromicPartition<26> dp;
@@ -69,7 +73,7 @@ for (char c : string("abacdc")) {
 const auto &result = dp.partitions();
 ```
 
-`result.prev` からの復元方法は `min_partitions()` と同じ。`build(t)` も既存の文字列を消さずに追記する。
+`result.count` / `result.prev` の意味と分割位置の復元方法は `min_partitions()` と同じ。
 `partitions()` の配列要素への参照や iterator は、追加や `reserve` によって無効になることがある。
 
 ## 実装上の補足

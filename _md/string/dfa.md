@@ -7,12 +7,31 @@ documentation_of: //string/dfa.cpp
 文字を `0` から `W-1` で表す決定性有限オートマトン。条件を AND・OR・NOT で合成できる。
 
 ## できること
-文字種数を $W$、入力 DFA の状態数を $S$、2つの DFA を合成する場合はそれぞれ $S_1,S_2$ とする。
+
+文字種数を $W$、入力 DFA の状態数を $S$ とする。
 
 - `DFA<W>{next, accept, initial}` : 遷移表、受理フラグ、初期状態から直接作る
-- `DFA<W> intersect(a, b)` : 両方が受理する列を受理する DFA を返す。時間・領域は $O(WS_1S_2)$
-- `DFA<W> unite(a, b)` : 少なくとも片方が受理する列を受理する DFA を返す。時間・領域は $O(WS_1S_2)$
 - `DFA<W> complement(a)` : `0..W-1` 上の有限列全体に対する補集合を返す。空列を含め、元の DFA が拒否する列だけを受理する。時間・領域は $O(WS)$
+
+### 配列を使う密な方式
+
+- `DFA<W> intersect(a, b)` : 両方が受理する列を受理する DFA を返す
+- `DFA<W> unite(a, b)` : 少なくとも片方が受理する列を受理する DFA を返す
+
+2つの DFA の状態を組にして合成し、その組に割り当てる番号を配列で管理する。
+到達しない組の分も領域を確保するため、状態の組の多くが到達可能な場合に向いている。
+
+入力の状態数をそれぞれ $S_1,S_2$、合成後の状態数を $R$ とする。
+構築時間・領域は $O(S_1S_2+WR)$。このうち、返す遷移表と受理フラグの領域は $O(WR)$ となる。
+
+### hash 表を使う疎な方式
+
+- `DFA<W> intersect_sparse(a, b)` : 両方が受理する列を受理する DFA を返す
+- `DFA<W> unite_sparse(a, b)` : 少なくとも片方が受理する列を受理する DFA を返す
+
+実際に到達した状態の組だけを hash 表に登録する。
+入力の状態数の積に比べて合成後の状態数 $R$ が小さい場合や、全ての組の分の配列を確保できない場合に使う。
+構築時間は期待 $O(WR)$、返す表を含む領域は $O(WR)$。hash 表を使うため、構築時間は最悪計算量の保証ではない。
 
 ## 使い方
 `next` は `vector<array<int, W>>`、`accept` は状態数と同じ長さの `vector<char>`。
@@ -25,6 +44,7 @@ documentation_of: //string/dfa.cpp
 auto a = intersect(digit_sum_exact(12), digit_value_mod(12));
 auto b = unite(digit_value_mod(3), digit_value_mod(5));
 auto c = complement(b);
+auto sparse = intersect_sparse(a, b);
 ```
 
 `b` は十進表記の値が3または5で割り切れる列、`c` はどちらでも割り切れない列を受理する。
@@ -38,7 +58,7 @@ long long count = digit_count<long long>("1", "100", b);
 `math/digit_dp.cpp` を include すれば、1以上100以下で3または5で割り切れる整数の個数 `47` が得られる。
 
 ## 実装上の補足
-AND・OR の合成では初期状態対から到達できる状態対だけを返す。状態対の ID 配列は未到達の組も含めて確保する。
+どちらの方式も初期状態から到達できる状態だけを返し、状態番号・遷移表・受理フラグは一致する。返却する状態数は `int` に収まる前提。
 OR では片方が拒否遷移に入っても他方の遷移を続け、両方が拒否した遷移を `-1` にする。
 NOT では拒否遷移がある場合、その行き先として全列を受理する状態を追加する。`initial == -1` の補集合は全列を受理する1状態となる。
 最小化は行わない。必要なら `string/dfa_minimize.cpp` の `minimize(a)` を使う。

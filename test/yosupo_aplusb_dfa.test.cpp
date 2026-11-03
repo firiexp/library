@@ -37,6 +37,10 @@ void check_reachable(const DFA<W>& a) {
 
 void check_boolean(const DFA<2>& a, const DFA<2>& b) {
     auto both = intersect(a, b), either = unite(a, b);
+    auto sparse_both = intersect_sparse(a, b);
+    auto sparse_either = unite_sparse(a, b);
+    assert(sparse_both.initial == both.initial && sparse_both.next == both.next && sparse_both.accept == both.accept);
+    assert(sparse_either.initial == either.initial && sparse_either.next == either.next && sparse_either.accept == either.accept);
     auto negated = complement(a), twice = complement(negated);
     auto same = unite(a, a), reversed = unite(b, a);
     auto compact = minimize(either), compact_not = minimize(negated);
@@ -130,6 +134,19 @@ void self_check() {
     assert(!accepts(adjacent, "00", '0'));
     assert(accepts(digit_sum_exact(0), "", '0'));
     assert(!accepts(digit_sum_exact(1), "", '0'));
+
+    const int n = 50000;
+    DFA<1> cycle{vector<array<int, 1>>(n), vector<char>(n), 0};
+    for (int v = 0; v < n; ++v) cycle.next[v][0] = (v + 1) % n;
+    cycle.accept[0] = true;
+    for (const auto& product : {intersect_sparse(cycle, cycle),
+                                unite_sparse(cycle, cycle),
+                                unite_sparse(DFA<1>{}, cycle)}) {
+        check_reachable(product);
+        assert(product.initial == cycle.initial);
+        assert(product.next == cycle.next);
+        assert(product.accept == cycle.accept);
+    }
 }
 
 int main() {
