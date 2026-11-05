@@ -35,6 +35,18 @@ int main() {
     check({poly(vector<mint>{1, 2, 0, 0})});
     check({poly(vector<mint>{3}), poly(vector<mint>{5}), poly(vector<mint>{7})});
     check({poly(vector<mint>{3}), poly(), poly(vector<mint>{1, 2})});
+    check({poly(vector<mint>{0, 0, 3, 0, 0})});
+    check({poly(vector<mint>{0, 2}), poly(vector<mint>{0, 0, 3}), poly(vector<mint>{5})});
+    check({poly(vector<mint>{0, 2, 3}), poly(vector<mint>{0, 0, 4, 5})});
+    check({poly(vector<mint>{0, 0, 3}), poly(vector<mint>{0, 0})});
+    vector<poly> shifted;
+    for (int degree : {1, 63, 64, 65, 127, 1024}) {
+        vector<mint> coefficients(degree + 3);
+        coefficients[degree] = degree;
+        coefficients[degree + 1] = degree + 1;
+        shifted.emplace_back(move(coefficients));
+    }
+    check(shifted);
     check(vector<poly>(1000, poly(vector<mint>{2})));
     vector<poly> linear(128, poly(vector<mint>{1, 1}));
     check(linear);
@@ -48,6 +60,10 @@ int main() {
             factor.v.resize(trial % 5 ? 1 + rng() % 20 : rng() % 8);
             for (auto& x : factor.v) x = int(rng() % 15) - 7;
             if (!factor.v.empty() && trial % 7 == 0) factor.v.back() = 0;
+            if (!factor.v.empty() && trial % 3 == 0) {
+                int zeros = rng() % (factor.size() + 1);
+                fill(factor.v.begin(), factor.v.begin() + zeros, mint(0));
+            }
         }
         check(factors);
     }

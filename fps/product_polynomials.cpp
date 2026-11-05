@@ -6,22 +6,31 @@
 poly product_polynomials(vector<poly> factors) {
     mint constant_product = 1;
     long long degree = 0;
+    int shift = 0;
     vector<int> heap;
     heap.reserve(factors.size());
     for (int i = 0; i < (int)factors.size(); ++i) {
         auto& factor = factors[i];
         factor.shrink();
         if (factor.size() == 0) return poly();
+        degree += factor.size() - 1;
+        assert(degree < (1 << 23));
+        int first = 0;
+        while (factor[first] == mint(0)) ++first;
+        shift += first;
+        if (first) factor.v.erase(factor.v.begin(), factor.v.begin() + first);
         if (factor.size() == 1) {
             constant_product *= factor[0];
             vector<mint>().swap(factor.v);
         } else {
-            degree += factor.size() - 1;
-            assert(degree < (1 << 23));
             heap.push_back(i);
         }
     }
-    if (heap.empty()) return poly(vector<mint>{constant_product});
+    if (heap.empty()) {
+        poly result(shift + 1);
+        result[shift] = constant_product;
+        return result;
+    }
     auto compare = [&](int i, int j) { return factors[i].size() > factors[j].size(); };
     make_heap(heap.begin(), heap.end(), compare);
     auto pop = [&]() {
@@ -39,6 +48,7 @@ poly product_polynomials(vector<poly> factors) {
     }
     auto& result = factors[heap[0]];
     for (auto& x : result.v) x *= constant_product;
+    if (shift) result.v.insert(result.v.begin(), shift, mint(0));
     return move(result);
 }
 
