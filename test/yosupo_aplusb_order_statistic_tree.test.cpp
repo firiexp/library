@@ -60,11 +60,17 @@ void verify_multiset_state(const OrderStatisticTree<int, Compare>& st, const vec
 void self_check_multiset() {
     mt19937 rng(0);
     for (int tc = 0; tc < 300; ++tc) {
-        OrderStatisticTree<int> asc(rng());
-        OrderStatisticTree<int, greater<int>> desc(rng());
+        vector<int> cur(tc % 70);
+        for (int& x : cur) x = int(rng() % 31) - 15;
+        if (tc % 4 == 0) sort(cur.begin(), cur.end());
+        if (tc % 4 == 1) sort(cur.rbegin(), cur.rend());
+        if (tc % 4 == 2) fill(cur.begin(), cur.end(), 7);
+        OrderStatisticTree<int> asc(cur, rng());
+        OrderStatisticTree<int, greater<int>> desc(cur, rng());
         asc.reserve(256);
         desc.reserve(256);
-        vector<int> cur;
+        verify_multiset_state(asc, cur, less<int>());
+        verify_multiset_state(desc, cur, greater<int>());
 
         for (int step = 0; step < 200; ++step) {
             int op = rng() % 3;
@@ -171,9 +177,53 @@ void self_check_comparisons() {
     }
 }
 
+template<bool Reverse>
+void self_check_bulk_representatives() {
+    using Key = pair<int, int>;
+    map<Key, int> calls;
+    GroupCompare<Reverse> comp{&calls};
+    mt19937 rng(333);
+    for (int tc = 0; tc < 60; ++tc) {
+        vector<Key> values;
+        for (int i = 0; i < tc; ++i) values.emplace_back(int(rng() % 9), i);
+        if (tc % 3 == 0) stable_sort(values.begin(), values.end(), comp);
+        OrderStatisticTree<Key, GroupCompare<Reverse>> bulk(values, tc, comp);
+        OrderStatisticTree<Key, GroupCompare<Reverse>> incremental(tc, comp);
+        for (const auto& x : values) incremental.insert(x);
+        for (int step = 0; step < 150; ++step) {
+            assert(bulk.size() == incremental.size());
+            for (int i = 0; i < bulk.size(); ++i) {
+                assert(bulk.find_by_order(i) == incremental.find_by_order(i));
+            }
+            Key key(int(rng() % 9), tc + step);
+            assert(bulk.count(key) == incremental.count(key));
+            assert(bulk.order_of_key(key) == incremental.order_of_key(key));
+            if (rng() % 3 == 0) {
+                bulk.insert(key);
+                incremental.insert(key);
+            } else {
+                bool a = bulk.erase_one(key);
+                bool b = incremental.erase_one(key);
+                assert(a == b);
+            }
+        }
+        while (!bulk.empty()) {
+            Key key = bulk.find_by_order(0);
+            bool a = bulk.erase_one(key);
+            bool b = incremental.erase_one(key);
+            assert(a && b);
+        }
+        assert(incremental.empty());
+        bulk.insert({10, 20});
+        assert(bulk.find_by_order(0) == Key(10, 20));
+    }
+}
+
 int main() {
     self_check_multiset();
     self_check_pbds_like_unique_keys();
     self_check_comparisons<false>();
     self_check_comparisons<true>();
+    self_check_bulk_representatives<false>();
+    self_check_bulk_representatives<true>();
 }

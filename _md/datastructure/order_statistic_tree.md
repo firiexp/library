@@ -15,6 +15,8 @@ Treap で順序付き multiset を管理する。
 
 - `OrderStatisticTree<T, Compare> st(seed = 2463534242u, comp = Compare())`
   空の順序統計木を作る。順序は `Compare` に従う。$O(1)$
+- `OrderStatisticTree<T, Compare> st(values, seed = 2463534242u, comp = Compare())`
+  `vector<T>` の全要素から構築する。同値な要素は個数をまとめ、元の列で最初の値を代表値にする。$O(N\log N)$、`Compare` 順に整列済みなら $O(N)$。一時領域 $O(N)$
 - `void reserve(int capacity)`
   ノード領域を `capacity` 個ぶん事前確保する。確保済みノード数に比例する時間
 - `int size() const`
@@ -37,6 +39,7 @@ Treap で順序付き multiset を管理する。
 ## 使い方
 `insert` / `erase_one` で集合を更新し、`find_by_order(k)` と `order_of_key(x)` で順位クエリを処理する。
 `Compare` は狭義弱順序を定めるものを使う。互いに前に来ない値を同値とし、重複数をまとめて持つ。
+初期列がある場合は `OrderStatisticTree<int> st(values);` でまとめて構築できる。構築後の操作は空から作った場合と同じである。
 
 ```cpp
 OrderStatisticTree<long long> st;
@@ -52,3 +55,4 @@ int c = st.order_of_key(5);        // 1
 `__gnu_pbds::tree` と違い、`find_by_order` は iterator ではなく値を返す。
 重複を区別したいときは `OrderStatisticTree<pair<T, int>>` のように ID を持たせる。
 `Compare = greater<T>` にすると、大きい順で順位を数える。
+初期列は安定ソートし、乱数優先度による Cartesian tree をスタックで構築する。整列済みならソートを省く。

@@ -1,6 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/ordered_set"
 
 #include <cassert>
+#include <algorithm>
 #include <cstdint>
 #include <vector>
 using namespace std;
@@ -23,13 +24,10 @@ int main() {
     int n, q;
     sc.read(n, q);
 
-    OrderStatisticTree<int> st;
+    vector<int> initial(n);
+    for (int& a : initial) sc.read(a);
+    OrderStatisticTree<int> st(move(initial));
     st.reserve(n + q);
-    for (int i = 0; i < n; ++i) {
-        int a;
-        sc.read(a);
-        st.insert(a);
-    }
 
     for (int i = 0; i < q; ++i) {
         int t, x;

@@ -1,21 +1,23 @@
 {
-  "generatedAt": "2026-10-25T11:29:52+09:00",
+  "generatedAt": "2026-11-05T22:14:27+09:00",
   "root": ".",
   "testCount": 187,
   "inventory": {
-    "currentTestCount": 231,
+    "currentTestCount": 237,
     "measuredTestCount": 184,
-    "unmeasuredCount": 47,
+    "unmeasuredCount": 53,
     "unmeasuredPaths": [
       "test/aoj_alds1_9_c_leftist_heap.test.cpp",
       "test/aoj_cgl_5_a.test.cpp",
       "test/aoj_dpl_1_g_bounded_knapsack.test.cpp",
+      "test/aoj_dsl_2_g_range_add_range_sum_bit.test.cpp",
       "test/aoj_grl_1_a_dijkstra_from_distances.test.cpp",
       "test/aoj_grl_3_a.test.cpp",
       "test/aoj_grl_6_b_slope.test.cpp",
       "test/aoj_ntl_1_b_pow.test.cpp",
       "test/yosupo_characteristic_polynomial.test.cpp",
       "test/yosupo_chordal_graph_recognition.test.cpp",
+      "test/yosupo_counting_spanning_tree_undirected.test.cpp",
       "test/yosupo_dynamic_tree_subtree_add_subtree_sum.test.cpp",
       "test/yosupo_dynamic_tree_vertex_add_subtree_sum.test.cpp",
       "test/yosupo_enumerate_primes_get_prime.test.cpp",
@@ -33,10 +35,12 @@
       "test/yosupo_matrix_det_arbitrary_mod_modint.test.cpp",
       "test/yosupo_min_of_mod_of_linear.test.cpp",
       "test/yosupo_minimum_steiner_tree.test.cpp",
+      "test/yosupo_partition_function.test.cpp",
       "test/yosupo_persistent_queue.test.cpp",
       "test/yosupo_persistent_range_affine_range_sum.test.cpp",
       "test/yosupo_pow_of_matrix_squarematrix.test.cpp",
       "test/yosupo_predecessor_problem_fast_set.test.cpp",
+      "test/yosupo_product_of_polynomial_sequence.test.cpp",
       "test/yosupo_range_kth_smallest_dynamic_weighted_wavelet_matrix.test.cpp",
       "test/yosupo_range_kth_smallest_wavelet_matrix_cursor.test.cpp",
       "test/yosupo_range_parallel_unionfind.test.cpp",
@@ -46,7 +50,9 @@
       "test/yosupo_sort_points_by_argument.test.cpp",
       "test/yosupo_static_convex_hull_indices.test.cpp",
       "test/yosupo_static_rectangle_add_rectangle_sum.test.cpp",
+      "test/yosupo_stirling_number_of_the_second_kind.test.cpp",
       "test/yosupo_suffix_array_query.test.cpp",
+      "test/yosupo_system_of_linear_equations_decomposition.test.cpp",
       "test/yosupo_system_of_linear_equations_mod_2.test.cpp",
       "test/yosupo_unionfind_with_potential_undoable.test.cpp",
       "test/yosupo_vertex_add_subtree_sum_hld_rerooted.test.cpp",
@@ -58,7 +64,7 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "a0640090a52c4e9fb3c503a8780a6ef68e5debe1",
+    "gitRevision": "8e7de7e617c154523a1cde70f88cb5160d019cbf",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
     "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
@@ -29550,237 +29556,232 @@
       "compiler": {
         "command": [
           "g++",
-          "--std=c++17",
+          "-std=c++17",
           "-O2",
           "-Wall",
           "-g",
+          "-DLOCAL",
+          "-UNDEBUG",
+          "-ULOCAL",
+          "-DNDEBUG",
           "-I",
           ".",
           "-o",
-          "a.out",
+          ".competitive-verifier/build/a617b6527c3cce34e31d/a.out",
           "test/yosupo_ordered_set.test.cpp"
         ],
-        "wallSec": 0.5412704629999325
+        "wallSec": 0.7370070819997636
       },
       "testcases": {
-        "directory": ".verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test",
+        "directory": null,
         "cachedCaseCount": 37
       },
       "run": {
         "command": [
-          "oj",
-          "test",
-          "-c",
-          "./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/verify-dashboard-w3wq_19d/a.out",
-          "-d",
-          "./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test",
-          "--tle",
-          "60.0",
-          "--judge-command",
-          "~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker"
+          ".competitive-verifier/build/a617b6527c3cce34e31d/a.out"
         ],
         "returnCode": 0,
-        "wallSec": 7.171273426000084,
+        "wallSec": 5.431184122999184,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "example_00",
-              "timeSec": 0.003826,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.0025047970011655707
             },
             {
               "name": "example_01",
-              "timeSec": 0.00324,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.0019164170007570647
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.05345,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.04549828200106276
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.041959,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.037764057000458706
             },
             {
               "name": "max_random_02",
-              "timeSec": 0.035026,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.02792906399918138
             },
             {
               "name": "max_random_03",
-              "timeSec": 0.019704,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.018137663000743487
             },
             {
               "name": "max_random_04",
-              "timeSec": 0.036837,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.0342195110006287
             },
             {
               "name": "max_random_05",
-              "timeSec": 0.028388,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.02243810500112886
             },
             {
               "name": "max_random_06",
-              "timeSec": 0.035905,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.033061066998925526
             },
             {
               "name": "max_random_07",
-              "timeSec": 0.037847,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.03620896999927936
             },
             {
               "name": "max_random_08",
-              "timeSec": 0.060277,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.05356680799923197
             },
             {
               "name": "max_random_09",
-              "timeSec": 0.054108,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.0472370570005296
             },
             {
               "name": "max_random_10",
-              "timeSec": 0.031015,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.028249794000657857
             },
             {
               "name": "max_random_11",
-              "timeSec": 0.02132,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.017750103001162643
             },
             {
               "name": "max_random_12",
-              "timeSec": 0.038587,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.03444905799915432
             },
             {
               "name": "max_random_13",
-              "timeSec": 0.036698,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.02929918500012718
             },
             {
               "name": "max_random_14",
-              "timeSec": 0.053216,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.04641511799854925
             },
             {
               "name": "max_random_15",
-              "timeSec": 0.061676,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.044625026999710826
             },
             {
               "name": "max_random_16",
-              "timeSec": 0.280411,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.1813866259999486
             },
             {
               "name": "max_random_17",
-              "timeSec": 0.274395,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.16093860299952212
             },
             {
               "name": "max_random_18",
-              "timeSec": 0.330495,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.23061008199874777
             },
             {
               "name": "max_random_19",
-              "timeSec": 0.359653,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.1782655490005709
             },
             {
               "name": "max_random_20",
-              "timeSec": 0.25865,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.1584926590003306
             },
             {
               "name": "max_random_21",
-              "timeSec": 0.190374,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.12631296100153122
             },
             {
               "name": "max_random_22",
-              "timeSec": 0.219567,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.1555158000010124
             },
             {
               "name": "max_random_23",
-              "timeSec": 0.232972,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.14517599699865968
             },
             {
               "name": "max_random_24",
-              "timeSec": 0.336175,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.2083114420001948
             },
             {
               "name": "max_random_25",
-              "timeSec": 0.349884,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.20477353800015408
             },
             {
               "name": "max_random_26",
-              "timeSec": 0.441161,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.23107115399943723
             },
             {
               "name": "max_random_27",
-              "timeSec": 0.333052,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.1844230749993585
             },
             {
               "name": "max_random_28",
-              "timeSec": 0.308604,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.18732948700017005
             },
             {
               "name": "max_random_29",
-              "timeSec": 0.26183,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.14588148099937825
             },
             {
               "name": "max_random_30",
-              "timeSec": 0.348016,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.22765176900065853
             },
             {
               "name": "max_random_31",
-              "timeSec": 0.344191,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.23996960600015882
             },
             {
               "name": "small_00",
-              "timeSec": 0.013932,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.011591493999731028
             },
             {
               "name": "small_01",
-              "timeSec": 0.018578,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.012960080999619095
             },
             {
               "name": "small_02",
-              "timeSec": 0.017476,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.01484767500005546
             }
           ],
           "caseCount": 37,
           "timedCaseCount": 37,
           "passedCaseCount": 37,
-          "slowestSec": 0.441161,
-          "slowestCase": "max_random_26",
-          "averageSec": 0.15060797297297296,
-          "maxMemoryMb": 19.584,
-          "maxMemoryCase": "max_random_26",
-          "summary": "test success: 37 cases"
+          "slowestSec": 0.23996960600015882,
+          "slowestCase": "max_random_31",
+          "averageSec": 0.0963994368108566,
+          "maxMemoryMb": 27.032,
+          "maxMemoryCase": "max_random_22",
+          "summary": "success"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 37 cases found\n\n[INFO] example_00\n[INFO] time: 0.003826 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/example_00.in /tmp/tmpz5m66sl7/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/example_00.out\nok 13 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] example_01\n[INFO] time: 0.003240 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/example_01.in /tmp/tmptookjuso/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/example_01.out\nok 4 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.053450 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_00.in /tmp/tmpop4yoyta/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_00.out\nok 333355 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.041959 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_01.in /tmp/tmpnlm8g8kk/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_01.out\nok 399363 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_02\n[INFO] time: 0.035026 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_02.in /tmp/tmpq824sewv/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_02.out\nok 18969 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_03\n[INFO] time: 0.019704 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_03.in /tmp/tmp6l71eiih/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_03.out\nok 18869 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_04\n[INFO] time: 0.036837 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_04.in /tmp/tmpm4_a2lf8/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_04.out\nok 490672 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_05\n[INFO] time: 0.028388 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_05.in /tmp/tmpp5m9cd76/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_05.out\nok 490523 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_06\n[INFO] time: 0.035905 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_06.in /tmp/tmp2n5yki88/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_06.out\nok 490777 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_07\n[INFO] time: 0.037847 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_07.in /tmp/tmprlso9904/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_07.out\nok 490575 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_08\n[INFO] time: 0.060277 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_08.in /tmp/tmpqrrvgnrl/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_08.out\nok 333262 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_09\n[INFO] time: 0.054108 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_09.in /tmp/tmp1bx40pef/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_09.out\nok 399267 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_10\n[INFO] time: 0.031015 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_10.in /tmp/tmp5qa_y82w/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_10.out\nok 18944 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_11\n[INFO] time: 0.021320 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_11.in /tmp/tmpurou37dg/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_11.out\nok 18805 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_12\n[INFO] time: 0.038587 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_12.in /tmp/tmpa22zybie/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_12.out\nok 490437 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_13\n[INFO] time: 0.036698 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_13.in /tmp/tmpz6ck0r9v/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_13.out\nok 490551 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_14\n[INFO] time: 0.053216 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_14.in /tmp/tmpy9knnqt5/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_14.out\nok 490502 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_15\n[INFO] time: 0.061676 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_15.in /tmp/tmpc_dly16e/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_15.out\nok 490537 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_16\n[INFO] time: 0.280411 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_16.in /tmp/tmphqkl1ryw/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_16.out\nok 333182 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_17\n[INFO] time: 0.274395 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_17.in /tmp/tmpbqr3_aow/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_17.out\nok 399360 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_18\n[INFO] time: 0.330495 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_18.in /tmp/tmpkrmumti5/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_18.out\nok 19015 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_19\n[INFO] time: 0.359653 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_19.in /tmp/tmp2wcsz0fh/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_19.out\nok 18652 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_20\n[INFO] time: 0.258650 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_20.in /tmp/tmpytg5_y55/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_20.out\nok 490570 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_21\n[INFO] time: 0.190374 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_21.in /tmp/tmpn13of2zu/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_21.out\nok 490392 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_22\n[INFO] time: 0.219567 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_22.in /tmp/tmpsnfpxaj2/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_22.out\nok 490667 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_23\n[INFO] time: 0.232972 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_23.in /tmp/tmpx2q0xbm9/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_23.out\nok 490597 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_24\n[INFO] time: 0.336175 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_24.in /tmp/tmpram7jtbe/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_24.out\nok 333221 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_25\n[INFO] time: 0.349884 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_25.in /tmp/tmp7gjcshky/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_25.out\nok 399060 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_26\n[INFO] time: 0.441161 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_26.in /tmp/tmpfrwzh4vg/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_26.out\nok 18998 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_27\n[INFO] time: 0.333052 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_27.in /tmp/tmp947vqyn1/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_27.out\nok 18762 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_28\n[INFO] time: 0.308604 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_28.in /tmp/tmp2x9s9hfp/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_28.out\nok 490511 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_29\n[INFO] time: 0.261830 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_29.in /tmp/tmpm6l0mtck/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_29.out\nok 490535 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_30\n[INFO] time: 0.348016 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_30.in /tmp/tmpt_h6179v/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_30.out\nok 490513 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_31\n[INFO] time: 0.344191 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_31.in /tmp/tmplpiqxlq1/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/max_random_31.out\nok 490545 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_00\n[INFO] time: 0.013932 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/small_00.in /tmp/tmpmiyxdrfn/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/small_00.out\nok 333285 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_01\n[INFO] time: 0.018578 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/small_01.in /tmp/tmpynvtqafd/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/small_01.out\nok 332839 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_02\n[INFO] time: 0.017476 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/data_structure/ordered_set/checker ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/small_02.in /tmp/tmp2wad0l9f/actual.out ./.verify-helper/cache/5daebe70e42e127faee6f9c531b9f65c/test/small_02.out\nok 333441 tokens\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.441161 sec  (for max_random_26)\n[INFO] max memory: 19.584000 MB  (for max_random_26)\n[SUCCESS] test success: 37 cases\n"
+        "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-gkc87p09/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_ordered_set.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_ordered_set.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok 13 tokens\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.002505 sec, memory: 3.924000 MB\nINFO:competitive_verifier.oj.oj_test:315:example_01: start\nok 4 tokens\nINFO:competitive_verifier.oj.oj_test:168:example_01: \u001b[32mAC\u001b[39m, time: 0.001916 sec, memory: 4.144000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_00: start\nok 333355 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_00: \u001b[32mAC\u001b[39m, time: 0.045498 sec, memory: 4.124000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_01: start\nok 399363 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_01: \u001b[32mAC\u001b[39m, time: 0.037764 sec, memory: 3.916000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_02: start\nok 18969 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_02: \u001b[32mAC\u001b[39m, time: 0.027929 sec, memory: 4.136000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_03: start\nok 18869 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_03: \u001b[32mAC\u001b[39m, time: 0.018138 sec, memory: 3.924000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_04: start\nok 490672 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_04: \u001b[32mAC\u001b[39m, time: 0.034220 sec, memory: 4.148000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_05: start\nok 490523 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_05: \u001b[32mAC\u001b[39m, time: 0.022438 sec, memory: 3.936000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_06: start\nok 490777 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_06: \u001b[32mAC\u001b[39m, time: 0.033061 sec, memory: 3.924000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_07: start\nok 490575 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_07: \u001b[32mAC\u001b[39m, time: 0.036209 sec, memory: 4.156000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_08: start\nok 333262 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_08: \u001b[32mAC\u001b[39m, time: 0.053567 sec, memory: 4.136000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_09: start\nok 399267 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_09: \u001b[32mAC\u001b[39m, time: 0.047237 sec, memory: 4.124000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_10: start\nok 18944 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_10: \u001b[32mAC\u001b[39m, time: 0.028250 sec, memory: 4.132000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_11: start\nok 18805 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_11: \u001b[32mAC\u001b[39m, time: 0.017750 sec, memory: 3.944000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_12: start\nok 490437 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_12: \u001b[32mAC\u001b[39m, time: 0.034449 sec, memory: 3.952000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_13: start\nok 490551 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_13: \u001b[32mAC\u001b[39m, time: 0.029299 sec, memory: 4.148000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_14: start\nok 490502 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_14: \u001b[32mAC\u001b[39m, time: 0.046415 sec, memory: 3.884000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_15: start\nok 490537 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_15: \u001b[32mAC\u001b[39m, time: 0.044625 sec, memory: 3.924000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_16: start\nok 333182 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_16: \u001b[32mAC\u001b[39m, time: 0.181387 sec, memory: 26.992000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_17: start\nok 399360 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_17: \u001b[32mAC\u001b[39m, time: 0.160939 sec, memory: 26.984000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_18: start\nok 19015 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_18: \u001b[32mAC\u001b[39m, time: 0.230610 sec, memory: 26.980000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_19: start\nok 18652 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_19: \u001b[32mAC\u001b[39m, time: 0.178266 sec, memory: 26.984000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_20: start\nok 490570 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_20: \u001b[32mAC\u001b[39m, time: 0.158493 sec, memory: 26.992000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_21: start\nok 490392 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_21: \u001b[32mAC\u001b[39m, time: 0.126313 sec, memory: 26.984000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_22: start\nok 490667 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_22: \u001b[32mAC\u001b[39m, time: 0.155516 sec, memory: 27.032000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_23: start\nok 490597 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_23: \u001b[32mAC\u001b[39m, time: 0.145176 sec, memory: 26.984000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_24: start\nok 333221 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_24: \u001b[32mAC\u001b[39m, time: 0.208311 sec, memory: 26.992000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_25: start\nok 399060 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_25: \u001b[32mAC\u001b[39m, time: 0.204774 sec, memory: 26.980000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_26: start\nok 18998 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_26: \u001b[32mAC\u001b[39m, time: 0.231071 sec, memory: 26.992000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_27: start\nok 18762 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_27: \u001b[32mAC\u001b[39m, time: 0.184423 sec, memory: 26.788000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_28: start\nok 490511 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_28: \u001b[32mAC\u001b[39m, time: 0.187329 sec, memory: 26.984000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_29: start\nok 490535 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_29: \u001b[32mAC\u001b[39m, time: 0.145881 sec, memory: 26.792000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_30: start\nok 490513 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_30: \u001b[32mAC\u001b[39m, time: 0.227652 sec, memory: 27.032000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_31: start\nok 490545 tokens\nINFO:competitive_verifier.oj.oj_test:168:max_random_31: \u001b[32mAC\u001b[39m, time: 0.239970 sec, memory: 26.784000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_00: start\nok 333285 tokens\nINFO:competitive_verifier.oj.oj_test:168:small_00: \u001b[32mAC\u001b[39m, time: 0.011591 sec, memory: 4.140000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_01: start\nok 332839 tokens\nINFO:competitive_verifier.oj.oj_test:168:small_01: \u001b[32mAC\u001b[39m, time: 0.012960 sec, memory: 3.864000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_02: start\nok 333441 tokens\nINFO:competitive_verifier.oj.oj_test:168:small_02: \u001b[32mAC\u001b[39m, time: 0.014848 sec, memory: 4.148000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.239970 sec  (for max_random_31)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 27.032000 MB  (for max_random_22)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 37 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_ordered_set.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":4.8651109719994565,\"files\":{\"test/yosupo_ordered_set.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":3.566779162001694,\"slowest\":0.23996960600015882,\"heaviest\":27.032,\"testcases\":[{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.0025047970011655707,\"memory\":3.924},{\"name\":\"example_01\",\"status\":\"AC\",\"elapsed\":0.0019164170007570647,\"memory\":4.144},{\"name\":\"max_random_00\",\"status\":\"AC\",\"elapsed\":0.04549828200106276,\"memory\":4.124},{\"name\":\"max_random_01\",\"status\":\"AC\",\"elapsed\":0.037764057000458706,\"memory\":3.916},{\"name\":\"max_random_02\",\"status\":\"AC\",\"elapsed\":0.02792906399918138,\"memory\":4.136},{\"name\":\"max_random_03\",\"status\":\"AC\",\"elapsed\":0.018137663000743487,\"memory\":3.924},{\"name\":\"max_random_04\",\"status\":\"AC\",\"elapsed\":0.0342195110006287,\"memory\":4.148},{\"name\":\"max_random_05\",\"status\":\"AC\",\"elapsed\":0.02243810500112886,\"memory\":3.936},{\"name\":\"max_random_06\",\"status\":\"AC\",\"elapsed\":0.033061066998925526,\"memory\":3.924},{\"name\":\"max_random_07\",\"status\":\"AC\",\"elapsed\":0.03620896999927936,\"memory\":4.156},{\"name\":\"max_random_08\",\"status\":\"AC\",\"elapsed\":0.05356680799923197,\"memory\":4.136},{\"name\":\"max_random_09\",\"status\":\"AC\",\"elapsed\":0.0472370570005296,\"memory\":4.124},{\"name\":\"max_random_10\",\"status\":\"AC\",\"elapsed\":0.028249794000657857,\"memory\":4.132},{\"name\":\"max_random_11\",\"status\":\"AC\",\"elapsed\":0.017750103001162643,\"memory\":3.944},{\"name\":\"max_random_12\",\"status\":\"AC\",\"elapsed\":0.03444905799915432,\"memory\":3.952},{\"name\":\"max_random_13\",\"status\":\"AC\",\"elapsed\":0.02929918500012718,\"memory\":4.148},{\"name\":\"max_random_14\",\"status\":\"AC\",\"elapsed\":0.04641511799854925,\"memory\":3.884},{\"name\":\"max_random_15\",\"status\":\"AC\",\"elapsed\":0.044625026999710826,\"memory\":3.924},{\"name\":\"max_random_16\",\"status\":\"AC\",\"elapsed\":0.1813866259999486,\"memory\":26.992},{\"name\":\"max_random_17\",\"status\":\"AC\",\"elapsed\":0.16093860299952212,\"memory\":26.984},{\"name\":\"max_random_18\",\"status\":\"AC\",\"elapsed\":0.23061008199874777,\"memory\":26.98},{\"name\":\"max_random_19\",\"status\":\"AC\",\"elapsed\":0.1782655490005709,\"memory\":26.984},{\"name\":\"max_random_20\",\"status\":\"AC\",\"elapsed\":0.1584926590003306,\"memory\":26.992},{\"name\":\"max_random_21\",\"status\":\"AC\",\"elapsed\":0.12631296100153122,\"memory\":26.984},{\"name\":\"max_random_22\",\"status\":\"AC\",\"elapsed\":0.1555158000010124,\"memory\":27.032},{\"name\":\"max_random_23\",\"status\":\"AC\",\"elapsed\":0.14517599699865968,\"memory\":26.984},{\"name\":\"max_random_24\",\"status\":\"AC\",\"elapsed\":0.2083114420001948,\"memory\":26.992},{\"name\":\"max_random_25\",\"status\":\"AC\",\"elapsed\":0.20477353800015408,\"memory\":26.98},{\"name\":\"max_random_26\",\"status\":\"AC\",\"elapsed\":0.23107115399943723,\"memory\":26.992},{\"name\":\"max_random_27\",\"status\":\"AC\",\"elapsed\":0.1844230749993585,\"memory\":26.788},{\"name\":\"max_random_28\",\"status\":\"AC\",\"elapsed\":0.18732948700017005,\"memory\":26.984},{\"name\":\"max_random_29\",\"status\":\"AC\",\"elapsed\":0.14588148099937825,\"memory\":26.792},{\"name\":\"max_random_30\",\"status\":\"AC\",\"elapsed\":0.22765176900065853,\"memory\":27.032},{\"name\":\"max_random_31\",\"status\":\"AC\",\"elapsed\":0.23996960600015882,\"memory\":26.784},{\"name\":\"small_00\",\"status\":\"AC\",\"elapsed\":0.011591493999731028,\"memory\":4.14},{\"name\":\"small_01\",\"status\":\"AC\",\"elapsed\":0.012960080999619095,\"memory\":3.864},{\"name\":\"small_02\",\"status\":\"AC\",\"elapsed\":0.01484767500005546,\"memory\":4.148}],\"last_execution_time\":\"2026-11-05T13:14:27.649075Z\"}],\"content_hash\":\"abe52fd4e7ca797a24c0832ca7ffd4962ce6131c54379cf722d088d79a316756\",\"testdata_hash\":\"4a680a980b3a25b8d70b178f29f438be1ec8eb7427701972e2e04e74036f953f\",\"newest\":true}}}\n"
       }
     },
     {

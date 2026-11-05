@@ -147,6 +147,37 @@ public:
         if (rng_ == 0) rng_ = 2463534242u;
     }
 
+    explicit OrderStatisticTree(vector<T> values, uint32_t seed = 2463534242u, Compare comp = Compare())
+        : OrderStatisticTree(seed, comp) {
+        if (!is_sorted(values.begin(), values.end(), comp_)) {
+            stable_sort(values.begin(), values.end(), comp_);
+        }
+        nodes_.reserve(values.size());
+        vector<int> stack;
+        stack.reserve(values.size());
+        for (const T& x : values) {
+            if (!nodes_.empty() && !comp_(nodes_.back().key, x)) {
+                ++nodes_.back().cnt;
+                continue;
+            }
+            int t = make_node(x);
+            int last = -1;
+            while (!stack.empty() && nodes_[stack.back()].pri < nodes_[t].pri) {
+                last = stack.back();
+                stack.pop_back();
+                pull(last);
+            }
+            nodes_[t].l = last;
+            if (stack.empty()) root_ = t;
+            else nodes_[stack.back()].r = t;
+            stack.push_back(t);
+        }
+        while (!stack.empty()) {
+            pull(stack.back());
+            stack.pop_back();
+        }
+    }
+
     void reserve(int capacity) {
         assert(capacity >= 0);
         nodes_.reserve(capacity);
