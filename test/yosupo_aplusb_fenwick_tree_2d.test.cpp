@@ -50,17 +50,21 @@ void check(vector<pair<int, int>> points, mt19937 &rng) {
     FenwickTree2D<long long> fw;
     map<pair<int, int>, long long> values;
     for (auto [x, y] : points) {
-        fw.add_point(x, y);
+        int id = fw.add_point(x, y);
+        assert(id == int(fw.points.size()) - 1);
         values[{x, y}] = 0;
     }
     fw.build();
     assert(fw.points == points);
     assert(fw.sum(INT_MAX, INT_MAX) == 0);
+    fw.prepare_updates();
     for (int step = 0; step < 100; ++step) {
         if (!points.empty()) {
-            auto [x, y] = points[rng() % points.size()];
+            int id = rng() % points.size();
+            auto [x, y] = points[id];
             long long w = int(rng() % 201) - 100;
-            fw.add(x, y, w);
+            if (step % 2) fw.add(id, w);
+            else fw.add(x, y, w);
             values[{x, y}] += w;
         }
         const vector<int> coords{INT_MIN, -1000000000, -7, -1, 0, 1, 7, 1000000000, INT_MAX};
@@ -107,6 +111,7 @@ void weighted_check() {
         }
         assert(bulk.points == points);
         for (int step = 0; step < 4; ++step) {
+            if (step == 1) bulk.prepare_updates();
             for (int l = -5; l <= 5; ++l) for (int r = l; r <= 5; ++r) {
                 for (int d = -5; d <= 5; ++d) for (int u = d; u <= 5; ++u) {
                     long long expected = 0;
@@ -122,7 +127,8 @@ void weighted_check() {
                 int i = rng() % n;
                 int delta = int(rng() % 21) - 10;
                 weights[i] += delta;
-                bulk.add(points[i].first, points[i].second, Weight(delta));
+                if (step) bulk.add(i, Weight(delta));
+                else bulk.add(points[i].first, points[i].second, Weight(delta));
                 incremental.add(points[i].first, points[i].second, Weight(delta));
             }
         }

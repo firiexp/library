@@ -13,13 +13,17 @@ struct FenwickTree2D {
     vector<BIT<T>> bit;
     bool built = false;
 
-    void add_point(int x, int y) {
+    int add_point(int x, int y) {
         assert(!built);
         points.push_back({x, y});
         xs.push_back(x);
+        return (int)points.size() - 1;
     }
 
 private:
+    vector<int> update_point, update_x, update_offset, update_index;
+    bool updates_prepared = false;
+
     struct WeightedPoint {
         int first, second;
         T weight;
@@ -99,6 +103,60 @@ private:
     }
 
 public:
+    void prepare_updates() {
+        assert(built && !updates_prepared);
+        int n = (int)points.size();
+        int m = (int)xs.size();
+        vector<int> order(n);
+        for (int i = 0; i < n; ++i) order[i] = i;
+        sort(order.begin(), order.end(), [&](int a, int b) { return points[a] < points[b]; });
+        vector<int> unique_points;
+        unique_points.reserve(n);
+        update_point.resize(n);
+        for (int id : order) {
+            if (unique_points.empty() || points[unique_points.back()] != points[id]) {
+                unique_points.push_back(id);
+            }
+            update_point[id] = (int)unique_points.size() - 1;
+        }
+        int p = (int)unique_points.size();
+        update_x.resize(p);
+        update_offset.assign(p + 1, 0);
+        int xi = 1;
+        for (int k = 0; k < p; ++k) {
+            while (xs[xi - 1] < points[unique_points[k]].first) ++xi;
+            update_x[k] = xi;
+            update_offset[k + 1] = update_offset[k];
+            for (int i = xi; i <= m; i += i & -i) ++update_offset[k + 1];
+        }
+        update_index.resize(update_offset.back());
+        order.resize(p);
+        for (int k = 0; k < p; ++k) order[k] = k;
+        sort(order.begin(), order.end(), [&](int a, int b) {
+            return points[unique_points[a]].second < points[unique_points[b]].second;
+        });
+        vector<int> row_index(m + 1, -1);
+        for (int k : order) {
+            int y = points[unique_points[k]].second;
+            int offset = update_offset[k];
+            for (int i = update_x[k]; i <= m; i += i & -i) {
+                if (row_index[i] < 0 || ys[i][row_index[i]] != y) ++row_index[i];
+                assert(row_index[i] < (int)ys[i].size() && ys[i][row_index[i]] == y);
+                update_index[offset++] = row_index[i];
+            }
+        }
+        updates_prepared = true;
+    }
+
+    void add(int id, T w) {
+        assert(updates_prepared && 0 <= id && id < (int)points.size());
+        int k = update_point[id];
+        int row = update_x[k];
+        for (int j = update_offset[k]; j < update_offset[k + 1]; ++j, row += row & -row) {
+            bit[row].add(update_index[j], w);
+        }
+    }
+
     void build() {
         build_impl<false>(points);
     }

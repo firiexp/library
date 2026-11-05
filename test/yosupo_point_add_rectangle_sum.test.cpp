@@ -41,7 +41,7 @@ int main() {
         }
     }
 
-    auto ans = solver.solve();
+    auto ans = solver.solve(true);
     for (auto x : ans) pr.println(x);
     return 0;
 }

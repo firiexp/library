@@ -20,6 +20,7 @@ void check(bool modular) {
         vector<tuple<int, int, ll>> points;
         vector<T> expected;
         assert(solver.solve().empty());
+        assert(solver.solve(true).empty());
         for (int step = 0; step < 100; ++step) {
             auto coord = [&]() { return coords[rng() % coords.size()]; };
             if (rng() % 2) {
@@ -40,9 +41,12 @@ void check(bool modular) {
                     if (l <= x && x < r && d <= y && y < u) sum += w;
                 expected.push_back(T(sum));
             }
-            if (step % 25 == 0) assert(solver.solve() == expected);
+            if (step % 25 == 0) {
+                assert(solver.solve() == expected);
+                assert(solver.solve(true) == expected);
+            }
         }
-        assert(solver.solve() == expected);
+        assert(solver.solve(true) == expected);
         assert(solver.solve() == expected);
     }
 }
@@ -58,16 +62,19 @@ int main() {
         total += w;
         expected.push_back(total);
         assert(repeated.solve() == expected);
+        assert(repeated.solve(true) == expected);
     }
     assert(repeated.solve() == expected);
     PointAddRectangleSum<modint<998244353>> modular;
     modular.add_point(0, 0, 1);
     modular.add_query(0, 0, 1, 1);
     assert(modular.solve() == vector<modint<998244353>>{1});
+    assert(modular.solve(true) == vector<modint<998244353>>{1});
     PointAddRectangleSum<float> floating;
     floating.add_point(0, 16777216, 1.0f);
     floating.add_query(0, 16777216, 1, 16777217);
     assert(floating.solve() == vector<float>{1.0f});
+    assert(floating.solve(true) == vector<float>{1.0f});
     check<modint<998244353>>(true);
     check<float>(false);
     check<long long>(false);
