@@ -64,6 +64,29 @@ void self_check() {
     for (ull n : {1ULL, 2ULL, 3ULL, 4ULL, 9ULL, 25ULL, 561ULL, 3215031751ULL,
                   1ULL << 62, 3037000493ULL * 3037000493ULL,
                   (ull)LLONG_MAX - 24, (ull)LLONG_MAX}) check_factor(n);
+    for (ull root : {3001ULL, 3001ULL * 3011, 50021ULL * 50023,
+                     65521ULL * 32749, 101ULL * 101 * 101 * 101}) {
+        ull n = root * root;
+        check_factor(n);
+        vector<ull> factors{2, 3, 5};
+        prime_factor_impl(n, factors, false);
+        assert((vector<ull>(factors.begin(), factors.begin() + 3) == vector<ull>{2, 3, 5}));
+        vector<ull> expected = prime_factor(root);
+        auto twice = expected;
+        twice.insert(twice.end(), expected.begin(), expected.end());
+        sort(twice.begin(), twice.end());
+        vector<ull> appended(factors.begin() + 3, factors.end());
+        sort(appended.begin(), appended.end());
+        assert(appended == twice);
+    }
+    for (ull p : {3ULL, 13ULL, 101ULL, 3001ULL}) {
+        ull n = 1;
+        for (int exponent = 1; exponent <= 8 && n <= (ull)LLONG_MAX / p; ++exponent) {
+            n *= p;
+            assert(prime_factor(n) == vector<ull>(exponent, p));
+        }
+    }
+    check_factor(6ULL * (3001ULL * 3011) * (3001ULL * 3011));
     mt19937_64 random(9);
     for (int i = 0; i < 1000; ++i) {
         ull n = random() >> 1;

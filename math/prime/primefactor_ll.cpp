@@ -188,8 +188,11 @@ void prime_factor_impl(T n, vector<T> &res, bool trial){
     while ((u128)(root + 1) * (root + 1) <= (ull)n) ++root;
     while ((u128)root * root > (ull)n) --root;
     if ((u128)root * root == (ull)n) {
+        size_t first = res.size();
         prime_factor_impl((T)root, res, false);
-        prime_factor_impl((T)root, res, false);
+        size_t last = res.size();
+        res.reserve(last + last - first);
+        for (size_t i = first; i < last; ++i) res.push_back(res[i]);
         return;
     }
     T x = pollard_rho2(n);
