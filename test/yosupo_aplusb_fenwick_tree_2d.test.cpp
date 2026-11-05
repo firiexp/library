@@ -81,7 +81,56 @@ void check(vector<pair<int, int>> points, mt19937 &rng) {
     }
 }
 
+void weighted_check() {
+    mt19937 rng(328);
+    for (int tc = 0; tc < 240; ++tc) {
+        int n = tc % 60;
+        FenwickTree2D<Weight> bulk, incremental;
+        vector<Weight> initial(tc % 4 == 0 ? 0 : tc % 4 == 1 ? n / 3 : n);
+        vector<pair<int, int>> points;
+        vector<long long> weights(n);
+        for (int i = 0; i < n; ++i) {
+            int x = tc % 5 == 0 ? 0 : int(rng() % 9) - 4;
+            int y = tc % 5 == 1 ? 0 : int(rng() % 9) - 4;
+            points.emplace_back(x, y);
+            bulk.add_point(x, y);
+            incremental.add_point(x, y);
+            if (i < int(initial.size())) {
+                weights[i] = int(rng() % 21) - 10;
+                initial[i] = weights[i];
+            }
+        }
+        bulk.build(initial);
+        incremental.build();
+        for (int i = 0; i < int(initial.size()); ++i) {
+            incremental.add(points[i].first, points[i].second, initial[i]);
+        }
+        assert(bulk.points == points);
+        for (int step = 0; step < 4; ++step) {
+            for (int l = -5; l <= 5; ++l) for (int r = l; r <= 5; ++r) {
+                for (int d = -5; d <= 5; ++d) for (int u = d; u <= 5; ++u) {
+                    long long expected = 0;
+                    for (int i = 0; i < n; ++i) {
+                        auto [x, y] = points[i];
+                        if (l <= x && x < r && d <= y && y < u) expected += weights[i];
+                    }
+                    assert(bulk.sum(l, d, r, u).value == expected);
+                    assert(incremental.sum(l, d, r, u).value == expected);
+                }
+            }
+            if (n) {
+                int i = rng() % n;
+                int delta = int(rng() % 21) - 10;
+                weights[i] += delta;
+                bulk.add(points[i].first, points[i].second, Weight(delta));
+                incremental.add(points[i].first, points[i].second, Weight(delta));
+            }
+        }
+    }
+}
+
 int main() {
+    weighted_check();
     boundary_check();
     mt19937 rng(112);
     check({}, rng);

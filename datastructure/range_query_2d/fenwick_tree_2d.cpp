@@ -19,42 +19,108 @@ struct FenwickTree2D {
         xs.push_back(x);
     }
 
-    void build() {
+private:
+    struct WeightedPoint {
+        int first, second;
+        T weight;
+    };
+
+    template<bool Weighted, class Point>
+    void build_impl(vector<Point> ord) {
         assert(!built);
         built = true;
 
         sort(xs.begin(), xs.end());
         xs.erase(unique(xs.begin(), xs.end()), xs.end());
 
-        vector<pair<int, int>> ord = points;
-        sort(ord.begin(), ord.end());
-        ord.erase(unique(ord.begin(), ord.end()), ord.end());
+        if constexpr (Weighted) {
+            sort(ord.begin(), ord.end(), [](const auto &a, const auto &b) {
+                return pair<int, int>(a.first, a.second) < pair<int, int>(b.first, b.second);
+            });
+            int size = 0;
+            for (const auto &point : ord) {
+                if (size && ord[size - 1].first == point.first && ord[size - 1].second == point.second) {
+                    ord[size - 1].weight += point.weight;
+                } else {
+                    ord[size++] = point;
+                }
+            }
+            ord.resize(size);
+        } else {
+            sort(ord.begin(), ord.end());
+            ord.erase(unique(ord.begin(), ord.end()), ord.end());
+        }
 
         int m = (int)xs.size();
         ys.assign(m + 1, {});
+        vector<vector<T>> values;
+        if constexpr (Weighted) values.resize(m + 1);
         {
             vector<int> counts(m + 1);
             int xi = 1;
-            for (auto &[x, y] : ord) {
-                while (xs[xi - 1] < x) ++xi;
-                x = xi;
+            for (auto &point : ord) {
+                while (xs[xi - 1] < point.first) ++xi;
+                point.first = xi;
                 for (int i = xi; i <= m; i += i & -i) ++counts[i];
             }
-            for (int i = 1; i <= m; ++i) ys[i].reserve(counts[i]);
+            for (int i = 1; i <= m; ++i) {
+                ys[i].reserve(counts[i]);
+                if constexpr (Weighted) values[i].reserve(counts[i]);
+            }
         }
         sort(ord.begin(), ord.end(), [](const auto &a, const auto &b) {
             return a.second < b.second;
         });
-        for (auto [xi, y] : ord) {
-            for (int i = xi; i <= m; i += i & -i) ys[i].push_back(y);
+        for (const auto &point : ord) {
+            for (int i = point.first; i <= m; i += i & -i) {
+                if constexpr (Weighted) {
+                    if (ys[i].empty() || ys[i].back() != point.second) {
+                        ys[i].push_back(point.second);
+                        values[i].push_back(point.weight);
+                    } else {
+                        values[i].back() += point.weight;
+                    }
+                } else {
+                    ys[i].push_back(point.second);
+                }
+            }
         }
         bit.clear();
         bit.reserve(m + 1);
         bit.emplace_back(0);
         for (int i = 1; i <= m; ++i) {
-            ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());
-            bit.emplace_back((int)ys[i].size());
+            if constexpr (Weighted) {
+                bit.emplace_back(values[i]);
+            } else {
+                ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());
+                bit.emplace_back((int)ys[i].size());
+            }
         }
+    }
+
+public:
+    void build() {
+        build_impl<false>(points);
+    }
+
+    void build(const vector<T> &initial_weights) {
+        assert(!built && initial_weights.size() <= points.size());
+        int levels = 1;
+        for (size_t n = points.size(); n > 1; n >>= 1) ++levels;
+        if (initial_weights.size() * levels <= points.size() * 4) {
+            build();
+            for (int i = 0; i < (int)initial_weights.size(); ++i) {
+                add(points[i].first, points[i].second, initial_weights[i]);
+            }
+            return;
+        }
+        vector<WeightedPoint> ord;
+        ord.reserve(points.size());
+        for (int i = 0; i < (int)points.size(); ++i) {
+            ord.push_back({points[i].first, points[i].second,
+                i < (int)initial_weights.size() ? initial_weights[i] : T(0)});
+        }
+        build_impl<true>(move(ord));
     }
 
     void add(int x, int y, T w) {

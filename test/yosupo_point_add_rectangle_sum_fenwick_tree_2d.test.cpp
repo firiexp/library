@@ -29,12 +29,13 @@ int main() {
     vector<Operation> ops;
     ops.reserve(n + q);
     FenwickTree2D<long long> fw;
+    vector<long long> initial_weights(n);
     for (int i = 0; i < n; ++i) {
         int x, y;
         long long w;
         sc.read(x, y, w);
         fw.add_point(x, y);
-        ops.push_back({0, x, y, 0, 0, w});
+        initial_weights[i] = w;
     }
     for (int i = 0; i < q; ++i) {
         int t;
@@ -52,7 +53,7 @@ int main() {
         }
     }
 
-    fw.build();
+    fw.build(initial_weights);
     for (auto op : ops) {
         if (op.type == 0) {
             fw.add(op.x, op.y, op.add);
