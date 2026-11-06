@@ -40,6 +40,21 @@ int main() {
     assert(count_spanning_trees(2, {{0, 1, 3}, {1, 0, -3}}) == mint(0));
     assert(count_spanning_trees(3, {{0, 1}, {1, 2}, {2, 0}}) == mint(3));
     assert(count_spanning_trees(3, {{0, 1, 2}, {1, 2}, {2, 0}}) == mint(5));
+    for (const auto &edges : vector<vector<SpanningTreeEdge>>{
+             {{0, 1, 2}, {1, 2, 3}, {2, 0, 4}, {1, 3, 5}, {3, 4, -2}, {4, 4, 7}},
+             {{0, 1, 3}, {0, 1, -3}, {1, 2, 2}, {2, 3, 5}, {3, 4, 7}},
+             {{0, 1, 2}, {1, 2, 0}, {2, 0, 3}, {1, 3, 0}, {3, 4, 5}},
+             {{0, 1, 2}, {1, 2, 3}, {2, 0, 4}, {3, 4, 5}},
+             {{0, 1, 2}, {1, 2, 3}, {3, 4, 5}}})
+        assert(count_spanning_trees(5, edges) == brute(5, edges));
+    {
+        const int n = 200000;
+        vector<SpanningTreeEdge> edges;
+        for (int v = 1; v < n; ++v) edges.push_back({v - 1, v, 2});
+        assert(count_spanning_trees(n, edges) == mint(2).pow(n - 1));
+        edges.push_back({0, 2, 2});
+        assert(count_spanning_trees(n, edges) == mint(3) * mint(2).pow(n - 1));
+    }
     mt19937 rng(299);
     for (int trial = 0; trial < 3000; ++trial) {
         int n = 1 + rng() % 7, m = rng() % 13;
