@@ -13,12 +13,17 @@ struct RootedTree {
     vector<vector<int>> children;
     vector<int> order, label;
 
-    RootedTree(const vector<vector<int>> &g, int root, map<vector<int>, int> &ids)
+    RootedTree(const vector<vector<int>> &g, int root, map<vector<int>, int> &ids, int other = -1)
         : children(g.size()), label(g.size()) {
         int n = g.size();
         vector<int> parent(n, -1);
         order.reserve(n);
         order.push_back(root);
+        if (other != -1) {
+            parent[root] = other;
+            parent[other] = root;
+            order.push_back(other);
+        }
         for (int i = 0; i < n; ++i) {
             int v = order[i];
             for (int to : g[v]) if (to != parent[v]) {
@@ -38,6 +43,16 @@ struct RootedTree {
         }
     }
 };
+
+TreeIsomorphismResult restore(const RootedTree &a, const RootedTree &b, vector<int> mapping) {
+    for (int v : a.order) {
+        int w = mapping[v];
+        for (int i = 0; i < (int)a.children[v].size(); ++i) {
+            mapping[a.children[v][i]] = b.children[w][i];
+        }
+    }
+    return {true, std::move(mapping)};
+}
 }
 
 TreeIsomorphismResult rooted_tree_isomorphism(const vector<vector<int>> &g,
@@ -49,13 +64,7 @@ TreeIsomorphismResult rooted_tree_isomorphism(const vector<vector<int>> &g,
     if (a.label[root_g] != b.label[root_h]) return {false, {}};
     vector<int> mapping(g.size());
     mapping[root_g] = root_h;
-    for (int v : a.order) {
-        int w = mapping[v];
-        for (int i = 0; i < (int)a.children[v].size(); ++i) {
-            mapping[a.children[v][i]] = b.children[w][i];
-        }
-    }
-    return {true, std::move(mapping)};
+    return tree_isomorphism_detail::restore(a, b, std::move(mapping));
 }
 
 TreeIsomorphismResult tree_isomorphism(const vector<vector<int>> &g,
@@ -65,11 +74,16 @@ TreeIsomorphismResult tree_isomorphism(const vector<vector<int>> &g,
     auto centers_g = tree_center(g).second;
     auto centers_h = tree_center(h).second;
     if (centers_g.size() != centers_h.size()) return {false, {}};
-    for (int root_h : centers_h) {
-        auto result = rooted_tree_isomorphism(g, h, centers_g[0], root_h);
-        if (result.exists) return result;
-    }
-    return {false, {}};
+    if (centers_g.size() == 1) return rooted_tree_isomorphism(g, h, centers_g[0], centers_h[0]);
+    map<vector<int>, int> ids;
+    tree_isomorphism_detail::RootedTree a(g, centers_g[0], ids, centers_g[1]);
+    tree_isomorphism_detail::RootedTree b(h, centers_h[0], ids, centers_h[1]);
+    if (a.label[centers_g[0]] != b.label[centers_h[0]]) swap(centers_h[0], centers_h[1]);
+    if (a.label[centers_g[0]] != b.label[centers_h[0]]
+        || a.label[centers_g[1]] != b.label[centers_h[1]]) return {false, {}};
+    vector<int> mapping(g.size());
+    for (int i = 0; i < 2; ++i) mapping[centers_g[i]] = centers_h[i];
+    return tree_isomorphism_detail::restore(a, b, std::move(mapping));
 }
 
 #endif

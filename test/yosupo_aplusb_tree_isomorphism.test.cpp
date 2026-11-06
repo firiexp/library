@@ -98,6 +98,15 @@ void self_check() {
     check_small(make_tree(6, 0, random), make_tree(6, 1, random));
     Graph double_star{{1, 2, 3}, {0, 4, 5, 6}, {0}, {0}, {1}, {1}, {1}};
     check_small(double_star, relabel(double_star, {1, 0, 2, 3, 4, 5, 6}, random));
+    check_small(double_star, double_star);
+    Graph balanced_star{{1, 2, 3, 4}, {0, 5, 6}, {0}, {0}, {0}, {1}, {1}};
+    check_small(double_star, balanced_star);
+    Graph unequal_halves{{1, 2, 3}, {0, 4}, {0}, {0}, {1, 5, 6}, {4}, {4}};
+    check_small(double_star, unequal_halves);
+    Graph symmetric_double_star{{1, 2, 3, 4}, {0, 5, 6, 7}, {0}, {0}, {0}, {1}, {1}, {1}};
+    Graph asymmetric_double_star{{1, 2, 3}, {0, 4, 5, 6, 7}, {0}, {0}, {1}, {1}, {1}, {1}};
+    check_small(symmetric_double_star, asymmetric_double_star);
+    check_small(symmetric_double_star, relabel(symmetric_double_star, {1, 0, 2, 3, 4, 5, 6, 7}, random));
     for (int tc = 0; tc < 180; ++tc) {
         int n = 1 + random() % 7;
         Graph g = make_tree(n, tc % 4, random), h;
