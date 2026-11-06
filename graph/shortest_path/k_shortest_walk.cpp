@@ -68,14 +68,35 @@ vector<T> k_shortest_walk(int s, int t, int k, const vector<vector<edge<T>>> &g)
         return a;
     };
     vector<int> roots(n);
+    auto build = [&](auto &&self, int l, int r) -> int {
+        if (l == r) return 0;
+        if (l + 1 == r) return l;
+        int mid = l + (r - l) / 2;
+        int left = self(self, l, mid), right = self(self, mid, r);
+        return meld(meld, left, right, false);
+    };
     for (int v : order) {
+        if (g[v].size() == 1 && parent_edge[v] == 0) {
+            roots[v] = roots[g[v][0].to];
+            continue;
+        }
         int heap = 0;
-        for (int i = 0; i < (int)g[v].size(); ++i) {
-            const auto &e = g[v][i];
-            if (i == parent_edge[v] || !reached[e.to]) continue;
-            int id = (int)nodes.size();
-            nodes.push_back({e.cost + dist[e.to] - dist[v], e.to, 0, 0, 1});
-            heap = meld(meld, heap, id, false);
+        if (g[v].size() >= 128) {
+            int first = nodes.size();
+            for (int i = 0; i < (int)g[v].size(); ++i) {
+                const auto &e = g[v][i];
+                if (i == parent_edge[v] || !reached[e.to]) continue;
+                nodes.push_back({e.cost + dist[e.to] - dist[v], e.to, 0, 0, 1});
+            }
+            heap = build(build, first, nodes.size());
+        } else {
+            for (int i = 0; i < (int)g[v].size(); ++i) {
+                const auto &e = g[v][i];
+                if (i == parent_edge[v] || !reached[e.to]) continue;
+                int id = (int)nodes.size();
+                nodes.push_back({e.cost + dist[e.to] - dist[v], e.to, 0, 0, 1});
+                heap = meld(meld, heap, id, false);
+            }
         }
         if (parent_edge[v] != -1) {
             int parent = g[v][parent_edge[v]].to;

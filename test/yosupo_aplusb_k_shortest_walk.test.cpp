@@ -88,6 +88,18 @@ void self_check() {
     large_cost[0].emplace_back(2, LLONG_MAX - 1);
     check(large_cost, 0, 2, 5);
     mt19937 rng(84);
+    for (int degree : {0, 1, 30, 31, 32, 33, 64, 126, 127, 128, 129, 257}) {
+        for (int mode = 0; mode < 4; ++mode) {
+            vector<vector<edge<ll>>> graph(6);
+            for (int v = 0; v < 4; ++v) graph[v].emplace_back(v + 1, 1);
+            for (int i = 0; i < degree; ++i) {
+                int to = mode == 0 ? 4 : mode == 1 ? 5 : rng() % 5;
+                graph[2].emplace_back(to, mode == 2 ? 0 : rng() % 9);
+            }
+            if (mode == 3) graph[4].emplace_back(2, 0);
+            for (int k : {0, 1, 2, 100}) check(graph, 0, 4, k);
+        }
+    }
     for (int tc = 0; tc < 10000; ++tc) {
         int n = 1 + rng() % 8, m = rng() % 25;
         vector<vector<edge<ll>>> graph(n);
