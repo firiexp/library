@@ -12,8 +12,8 @@ struct XorBasisWithIds {
 
     bool add(T value, int id) {
         U x = static_cast<U>(value), mask = 0;
-        for (int i = B - 1; i >= 0; --i) {
-            if (((x >> i) & 1) == 0) continue;
+        while (x != 0) {
+            int i = 63 - __builtin_clzll(x);
             if (basis[i] != 0) {
                 x ^= basis[i];
                 mask ^= masks[i];
@@ -29,14 +29,17 @@ struct XorBasisWithIds {
 
     optional<vector<int>> representation(T value) const {
         U x = static_cast<U>(value), mask = 0;
-        for (int i = B - 1; i >= 0; --i) {
-            if (((x >> i) & 1) == 0) continue;
+        while (x != 0) {
+            int i = 63 - __builtin_clzll(x);
             if (basis[i] == 0) return nullopt;
             x ^= basis[i];
             mask ^= masks[i];
         }
         vector<int> result;
-        for (int i = 0; i < (int)ids.size(); ++i) if ((mask >> i) & 1) result.push_back(ids[i]);
+        while (mask != 0) {
+            result.push_back(ids[__builtin_ctzll(mask)]);
+            mask &= mask - 1;
+        }
         return result;
     }
 

@@ -88,6 +88,17 @@ int main() {
     check_full_rank<unsigned long long>();
     check_full_rank<long long>();
     check_full_rank<unsigned>();
+    check_full_rank<int>();
+    check_full_rank<unsigned short>();
+    check_full_rank<short>();
     check_full_rank<unsigned char>();
     check_full_rank<signed char>();
+    XorBasisWithIds<unsigned long long> sparse;
+    bool high = sparse.add(1ULL << 63, 90);
+    bool low = sparse.add(1, -7);
+    bool dependent = sparse.add((1ULL << 63) | 1, 30);
+    assert(high && low && !dependent);
+    assert(sparse.representation((1ULL << 63) | 1) == optional<vector<int>>({90, -7}));
+    assert(!sparse.representation(1ULL << 32));
+    assert(sparse.representation(0)->empty());
 }
