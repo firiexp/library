@@ -20,20 +20,17 @@ struct PointAddRectangleSum {
         ops.push_back({1, l, d, r, u, T(0)});
     }
 
-    vector<T> solve(bool cache_updates = false) const {
+    vector<T> solve() const {
         FenwickTree2D<T> bit;
         for (const auto &op : ops) {
             if (op.type == 0) bit.add_point(op.x, op.y);
         }
         bit.build();
-        if (cache_updates) bit.prepare_updates();
 
         vector<T> ans;
-        int id = 0;
         for (const auto &op : ops) {
             if (op.type == 0) {
-                if (cache_updates) bit.add(id++, op.w);
-                else bit.add(op.x, op.y, op.w);
+                bit.add(op.x, op.y, op.w);
             } else {
                 ans.push_back(bit.sum(op.x, op.y, op.z, op.u));
             }

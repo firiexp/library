@@ -26,7 +26,7 @@ tags: データ構造
 - `void prepare_updates()`
   構築後に ID ごとの更新先を前計算する。呼び出しは1回に限り、現在の重みは変えない。$O(N\log N)$、追加領域 $O(N+P\log P)$
 - `void add(int id, T w)`
-  `prepare_updates()` 後に、ID が指す点へ `w` を加える。同じ座標の ID は同じ点を更新する。二分探索を省くが内側の BIT 更新は残り、$O(\log^2 P)$
+  `prepare_updates()` 後に、ID が指す点へ `w` を加える。同じ座標の ID は同じ点を更新する。$O(\log^2 P)$
 - `T sum(int x, int y)`
   半開長方形 `(-inf, x) x (-inf, y)` の総和を返す。$O(\log^2 N)$
 - `T sum(int l, int d, int r, int u)`
