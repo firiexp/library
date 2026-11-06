@@ -86,9 +86,12 @@ int first = lct.find_first_false(u, v, [&](long long sum) { return sum <= limit;
 - `jump(u, v, k)` は `k >= 0` のとき、失敗時も含めて `u` を根にする。`k < 0` では状態を変更しない。
 - `link(u, v)` は `u` を根にしてから `v` 側の木につなぐ。同じ木で失敗した場合も `u` が根になる。
 - `get`・`set` は根を変更しない。
+- `connected`・`lca` は根を変更しない。同じ頂点同士では、それぞれ `true`・その頂点を返す。
 
 ## 実装上の補足
 遅延するのは左右の反転だけで、頂点値への遅延作用はない。
+`connected`・`lca` は両端を順に `expose` し、最初の頂点に親が付くかで連結を判定する。
+`lca` は2回目の `expose` の戻り値を使う。`link` も `evert` 後の `expose` を接続判定と辺追加で共有する。
 `set` は対象を補助木の根へ splay して集約を更新する。
 `jump` は補助木の部分木サイズで順位を探し、得た頂点を splay する。
 `find_first_false` は反転を伝搬しながら、左部分木の積・頂点値の順に累積値へ追加して1回降下する。

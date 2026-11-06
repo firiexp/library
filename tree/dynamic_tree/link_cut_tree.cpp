@@ -132,13 +132,16 @@ struct LinkCutTree {
     }
 
     bool connected(int u, int v) {
-        return get_root(u) == get_root(v);
+        if (u == v) return true;
+        expose(u);
+        expose(v);
+        return nodes[u].p != -1;
     }
 
     bool link(int u, int v) {
         evert(u);
-        if (get_root(v) == u) return false;
         expose(v);
+        if (u == v || nodes[u].p != -1) return false;
         nodes[u].p = v;
         nodes[v].r = u;
         pull(v);
@@ -156,9 +159,10 @@ struct LinkCutTree {
     }
 
     int lca(int u, int v) {
-        if (!connected(u, v)) return -1;
+        if (u == v) return u;
         expose(u);
-        return expose(v);
+        int ancestor = expose(v);
+        return nodes[u].p == -1 ? -1 : ancestor;
     }
 
     int parent(int x) {

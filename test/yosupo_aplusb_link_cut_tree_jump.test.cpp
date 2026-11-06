@@ -189,7 +189,35 @@ void self_check() {
     }
 }
 
+void connection_check() {
+    LinkCutTree<Monoid> lct(6);
+    for (auto [u, v] : vector<pair<int, int>>{{1, 0}, {2, 0}, {3, 1}, {5, 4}}) {
+        bool linked = lct.link(u, v);
+        assert(linked);
+    }
+    for (int root : {0, 3, 2, 1}) {
+        lct.evert(root);
+        for (int u = 0; u < 6; ++u) for (int v = 0; v < 6; ++v) {
+            bool same = (u < 4) == (v < 4);
+            assert(lct.connected(u, v) == same);
+            int ancestor = lct.lca(u, v);
+            assert((ancestor != -1) == same);
+            if (u == v) assert(ancestor == u);
+            assert(lct.get_root(u) == (u < 4 ? root : 4));
+        }
+        bool linked = lct.link(root, root);
+        assert(!linked && lct.get_root(0) == root);
+        linked = lct.link(2, 3);
+        assert(!linked && lct.get_root(0) == 2);
+    }
+    bool linked = lct.link(3, 4);
+    assert(linked && lct.get_root(0) == 4);
+    bool cut = lct.cut(3, 4);
+    assert(cut && !lct.connected(0, 4) && lct.lca(0, 4) == -1);
+}
+
 int main() {
+    connection_check();
     pending_reverse_check();
     self_check();
 }
