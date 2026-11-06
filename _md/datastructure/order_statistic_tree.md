@@ -16,7 +16,7 @@ Treap で順序付き multiset を管理する。
 - `OrderStatisticTree<T, Compare> st(seed = 2463534242u, comp = Compare())`
   空の順序統計木を作る。順序は `Compare` に従う。$O(1)$
 - `OrderStatisticTree<T, Compare> st(values, seed = 2463534242u, comp = Compare())`
-  `vector<T>` の全要素から構築する。同値な要素は個数をまとめ、元の列で最初の値を代表値にする。$O(N\log N)$、`Compare` 順に整列済みなら $O(N)$。一時領域 $O(N)$
+  `vector<T>` の全要素から構築する。同値な要素は、最初に現れる値を代表として個数をまとめる。$O(N\log N)$、`Compare` 順に整列済みなら $O(N)$。一時領域 $O(N)$
 - `void reserve(int capacity)`
   ノード領域を `capacity` 個ぶん事前確保する。確保済みノード数に比例する時間
 - `int size() const`
