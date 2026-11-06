@@ -73,6 +73,7 @@ datastructure/wavelet_matrix/weighted_wavelet_matrix.cpp: "重み付きWavelet M
 datastructure/unionfind/weightedunionfind.cpp: "重み付きUnionFind(Weighted Union Find)"
 flow/costscalingdinic.cpp: "容量スケーリングDinic(Capacity Scaling Dinic)"
 flow/dinic.cpp: "Dinic法(Dinic)"
+flow/gomory_hu_tree.cpp: "全頂点対最小カット(Gomory–Hu木)"
 graph/matching/hungarian.cpp: "ハンガリアン法(Hungarian Algorithm)"
 graph/matching/dag_minimum_path_cover.cpp: "DAGの最小頂点素パス被覆"
 flow/maxflow_lower_bound.cpp: "下限制約付きs-t流"
