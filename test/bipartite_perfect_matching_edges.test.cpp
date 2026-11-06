@@ -52,6 +52,21 @@ int main() {
     check(1, {{0, 0}, {0, 0}, {0, 0}});
     check(3, {{0, 0}, {1, 1}, {1, 1}, {2, 2}, {0, 1}});
     check(4, {{0, 0}, {0, 1}, {1, 0}, {1, 1}, {2, 2}, {3, 3}, {2, 3}});
+    for(int n : {2, 10, 1000}) {
+        vector<pair<int, int>> edges;
+        for(int u = 0; u < n; ++u) edges.emplace_back(u, u);
+        for(int u = 0; u + 1 < n; ++u) edges.emplace_back(u, u + 1);
+        auto result = bipartite_perfect_matching_edges(n, edges);
+        for(int id = 0; id < int(edges.size()); ++id) assert(result[id] == (id < n ? 2 : 0));
+        edges.emplace_back(n - 1, 0);
+        result = bipartite_perfect_matching_edges(n, edges);
+        assert(result == vector<int>(edges.size(), 1));
+        edges.pop_back();
+        edges.emplace_back(n / 2, n / 2);
+        result = bipartite_perfect_matching_edges(n, edges);
+        for(int id = 0; id < int(edges.size()); ++id)
+            assert(result[id] == (id == n / 2 || id == int(edges.size()) - 1 ? 1 : id < n ? 2 : 0));
+    }
     mt19937 rng(344);
     for(int tc = 0; tc < 3000; ++tc) {
         int n = 1 + rng() % 6;
