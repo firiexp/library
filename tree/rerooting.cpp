@@ -16,9 +16,9 @@ public:
     int n;
     vector<vector<Node>> G;
     vector<T> dpl, dpr;
-    vector<int> offset, l, r;
+    vector<int> offset;
 
-    explicit ReRooting(int n) : n(n), G(n), offset(n + 1), l(n), r(n) {}
+    explicit ReRooting(int n) : n(n), G(n), offset(n + 1) {}
 
     void add_edge(int u, int v, const U &x) {
         G[u].emplace_back(v, (int)G[v].size(), x);
@@ -30,32 +30,47 @@ public:
         G[v].emplace_back(u, (int)G[u].size() - 1, y);
     }
 
-    T dfs(int i, int par) {
-        int base = offset[i];
-        while (l[i] != par && l[i] < (int)G[i].size()) {
-            auto &e = G[i][l[i]];
-            dpl[base + l[i] + 1] = M::f(dpl[base + l[i]], M::g(dfs(e.to, e.rev), e.val));
-            ++l[i];
-        }
-        while (r[i] != par && r[i] >= 0) {
-            auto &e = G[i][r[i]];
-            dpr[base + r[i]] = M::f(M::g(dfs(e.to, e.rev), e.val), dpr[base + r[i] + 1]);
-            --r[i];
-        }
-        if (par < 0) return dpr[base];
-        return M::f(dpl[base + par], dpr[base + par + 1]);
-    }
-
     vector<T> solve() {
         for (int i = 0; i < n; ++i) {
             offset[i + 1] = offset[i] + (int)G[i].size() + 1;
-            l[i] = 0;
-            r[i] = (int)G[i].size() - 1;
         }
         dpl.assign(offset[n], M::e());
         dpr.assign(offset[n], M::e());
+        vector<int> parent(n, -1), order;
+        order.reserve(n);
+        if (n) order.push_back(0);
+        for (int i = 0; i < (int)order.size(); ++i) {
+            int v = order[i];
+            for (int j = 0; j < (int)G[v].size(); ++j) if (j != parent[v]) {
+                auto &e = G[v][j];
+                parent[e.to] = e.rev;
+                order.push_back(e.to);
+            }
+        }
         vector<T> ans(n);
-        for (int i = 0; i < n; ++i) ans[i] = dfs(i, -1);
+        for (int i = n - 1; i >= 0; --i) {
+            int v = order[i], base = offset[v];
+            T value = M::e();
+            for (int j = 0; j < (int)G[v].size(); ++j) if (j != parent[v]) {
+                auto &e = G[v][j];
+                dpl[base + j + 1] = M::g(ans[e.to], e.val);
+                value = M::f(value, dpl[base + j + 1]);
+            }
+            ans[v] = move(value);
+        }
+        for (int v : order) {
+            int base = offset[v], degree = G[v].size();
+            for (int j = degree - 1; j >= 0; --j)
+                dpr[base + j] = M::f(dpl[base + j + 1], dpr[base + j + 1]);
+            for (int j = 0; j < degree; ++j) {
+                dpl[base + j + 1] = M::f(dpl[base + j], dpl[base + j + 1]);
+                if (j == parent[v]) continue;
+                auto &e = G[v][j];
+                T value = M::f(dpl[base + j], dpr[base + j + 1]);
+                dpl[offset[e.to] + e.rev + 1] = M::g(value, G[e.to][e.rev].val);
+            }
+            ans[v] = dpr[base];
+        }
         return ans;
     }
 };

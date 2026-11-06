@@ -103,11 +103,34 @@ void rerooting_check() {
             for (int root = 0; root < n; ++root) expected.push_back(dfs(dfs, root, -1));
             assert(tree.solve() == expected);
             assert(tree.solve() == expected);
+            for (int v = 0; v < n; ++v) for (int j = 0; j < int(adj[v].size()); ++j) {
+                adj[v][j].second += "x";
+                tree.G[v][j].val += "x";
+            }
+            for (int root = 0; root < n; ++root) expected[root] = dfs(dfs, root, -1);
+            assert(tree.solve() == expected);
         }
     }
+}
+
+struct Farthest {
+    using T = long long;
+    using U = long long;
+    static T e() { return 0; }
+    static T f(T a, T b) { return max(a, b); }
+    static T g(T a, U b) { return a + b; }
+};
+
+void deep_tree_check() {
+    const int n = 300000;
+    ReRooting<Farthest> tree(n);
+    for (int v = 1; v < n; ++v) tree.add_edge(v - 1, v, 1, 2);
+    auto result = tree.solve();
+    for (int v = 0; v < n; ++v) assert(result[v] == max(2LL * v, (long long)n - 1 - v));
 }
 
 int main() {
     unionfind_check();
     rerooting_check();
+    deep_tree_check();
 }
