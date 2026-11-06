@@ -8,6 +8,7 @@ poly MultipointEvaluator::interpolate(const vector<mint> &ys) {
     assert(m == (int)ys.size());
     if (m == 0) return poly();
     if (m == 1) return poly(vector<mint>{ys[0]});
+    build();
     if (inverse_weights.empty()) {
         vector<mint> w = eval(prod[1].diff());
         vector<mint> prefix(m + 1, mint(1));

@@ -61,4 +61,25 @@ int main() {
         return MultipointEvaluator(vector<mint>{2, 3});
     }();
     assert(temporary.interpolate({5, 7}).v == vector<mint>({1, 2}));
+    for (int m : {0, 1, 16, 17, 64, 65, 257}) {
+        vector<mint> xs(m);
+        for (int i = 0; i < m; ++i) xs[i] = i + 1;
+        poly f(m);
+        for (auto &c : f.v) c = rng() % ntt_mod;
+        vector<mint> ys(m);
+        for (int i = 0; i < m; ++i) ys[i] = f.eval(xs[i]);
+        MultipointEvaluator early(xs), late(xs);
+        assert(early.interpolate(ys).v == f.v);
+        for (int k : {0, 1, 16}) {
+            poly low(k);
+            for (auto &c : low.v) c = rng() % ntt_mod;
+            assert(late.eval(low) == early.eval(low));
+        }
+        auto copied = late;
+        assert(late.interpolate(ys).v == f.v);
+        assert(copied.eval(f) == ys);
+        assert(copied.interpolate(ys).v == f.v);
+        assert(late.eval(f) == early.eval(f));
+        assert(late.interpolate(ys).v == f.v);
+    }
 }

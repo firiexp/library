@@ -33,11 +33,11 @@ vector<mint> evaluate(const poly &f, const vector<poly> &prod, const vector<mint
 
 class MultipointEvaluator {
     vector<mint> xs, inverse_weights;
-    vector<poly> prod;
-    int n = 1;
+    mutable vector<poly> prod;
+    mutable int n = 1;
 
-public:
-    explicit MultipointEvaluator(const vector<mint> &points) : xs(points) {
+    void build() const {
+        if (!prod.empty()) return;
         int m = (int)xs.size();
         while (n < m) n <<= 1;
         prod.resize(2 * n);
@@ -46,7 +46,11 @@ public:
         for (int i = n - 1; i >= 1; --i) prod[i] = prod[i << 1] * prod[i << 1 | 1];
     }
 
+public:
+    explicit MultipointEvaluator(const vector<mint> &points) : xs(points) {}
+
     vector<mint> eval(const poly &f) const {
+        if (!multipoint_evaluation_detail::use_horner(f.size(), xs.size())) build();
         return multipoint_evaluation_detail::evaluate(f, prod, xs);
     }
 

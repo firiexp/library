@@ -14,7 +14,7 @@ tags: FPS
 - `vector<mint> poly::multipoint_eval(const vector<mint>& xs) const`
   各 `xs[i]` における値を順に返す。多項式の係数数と評価点数の最大値を $N$ として $O(N\log^2 N)$
 - `MultipointEvaluator evaluator(xs)`
-  点列から、積の木を構築する。点数を $M$ として $O(M\log^2 M)$ 時間、保持領域 $O(M\log M)$
+  点列を保存する。点数を $M$ として $O(M)$ 時間・領域
 - `vector<mint> evaluator.eval(const poly& f) const`
   構築時の xs で評価する。時間は単発の評価と同じ
 - `poly evaluator.interpolate(const vector<mint>& ys)`
@@ -28,6 +28,8 @@ tags: FPS
 
 ## 実装上の補足
 内部で subproduct tree と多項式剰余を使う。
+`MultipointEvaluator` の積の木は、木が必要な評価または2点以上の補間で初めて構築し、その後は再利用する。
+初回の構築は $O(M\log^2 M)$ 時間、構築後の保持領域は $O(M\log M)$。`const` の `eval` でも内部キャッシュを更新する。
 係数数または点数が16以下、または両者の積が4096以下なら、積の木を作らず Horner 法で評価する。
 係数数を $K$、点数を $M$ として、この経路は $O(KM)$ 時間、出力を含めて $O(M)$ の追加領域を使う。
 剰余木の途中でも、剰余の係数数または部分木の点数が16以下なら、その部分木を Horner 法でまとめて評価する。補間の導関数評価にも同じ処理を使う。
