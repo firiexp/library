@@ -564,6 +564,40 @@ struct poly {
             for (int i = 0; i < ans.size(); ++i) ret[i + shift] = ans[i];
             return ret;
         }
+        struct Term { int degree; mint value, weight; };
+        Term terms[16];
+        int count = 0;
+        for (int i = 1; i < min(size() - lead, rem_deg); ++i) if (v[lead + i] != mint(0)) {
+            if (count == 16) {
+                ++count;
+                break;
+            }
+            terms[count++] = {i, v[lead + i], mint(0)};
+        }
+        if (count <= 16) {
+            ret[shift] = v[lead].pow(k);
+            if (count == 0) return ret;
+            mint inverse = v[lead].inv(), exponent(k);
+            for (int j = 0; j < count; ++j) {
+                terms[j].value *= inverse;
+                terms[j].weight = (exponent * mint(terms[j].degree) + mint(1)) * terms[j].value;
+            }
+            static vector<mint> invs = {mint(0), mint(1)};
+            if ((int)invs.size() < rem_deg) {
+                int old = invs.size();
+                invs.resize(rem_deg);
+                for (int i = old; i < rem_deg; ++i) invs[i] = mint(ntt_mod - ntt_mod / i) * invs[ntt_mod % i];
+            }
+            for (int i = 1; i < rem_deg; ++i) {
+                unsigned long long sum = 0;
+                for (int j = 0; j < count && terms[j].degree <= i; ++j) {
+                    terms[j].weight -= terms[j].value;
+                    sum += (unsigned long long)terms[j].weight.val * ret[shift + i - terms[j].degree].val;
+                }
+                ret[shift + i] = mint::raw(sum % ntt_mod) * invs[i];
+            }
+            return ret;
+        }
         poly f(min(size() - lead, rem_deg));
         mint inv_lead = v[lead].inv();
         for (int i = 0; i < f.size(); ++i) f[i] = v[i + lead] * inv_lead;

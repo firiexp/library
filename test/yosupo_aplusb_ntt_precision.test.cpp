@@ -32,17 +32,27 @@ vector<mint> naive_log(const vector<mint> &f, int deg) {
     return g;
 }
 
-vector<mint> naive_power(const vector<mint> &f, int k, int deg) {
+vector<mint> naive_power(const vector<mint> &f, long long k, int deg) {
     vector<mint> g(deg);
     if (deg == 0) return g;
     g[0] = 1;
-    for (int e = 0; e < k; ++e) {
-        vector<mint> next(deg);
-        for (int i = 0; i < deg; ++i) {
-            for (int j = 0; j < (int)f.size() && i + j < deg; ++j) next[i + j] += g[i] * f[j];
+    auto multiply = [&](const vector<mint> &a, const vector<mint> &b) {
+        vector<mint> next(min(deg, (int)a.size() + (int)b.size() - 1));
+        for (int i = 0; i < (int)a.size() && i < deg; ++i) {
+            for (int j = 0; j < (int)b.size() && i + j < deg; ++j) next[i + j] += a[i] * b[j];
         }
-        g = std::move(next);
+        return next;
+    };
+    vector<mint> base = f;
+    base.resize(min((int)base.size(), deg));
+    if (base.empty()) return k == 0 ? g : vector<mint>(deg);
+    g.resize(1);
+    while (k > 0) {
+        if (k & 1) g = multiply(g, base);
+        k >>= 1;
+        if (k) base = multiply(base, base);
     }
+    g.resize(deg);
     return g;
 }
 
@@ -81,6 +91,18 @@ void check_power() {
     assert(shifted.pow(2).v == vector<mint>(shifted.size()));
     assert(shifted.pow(LLONG_MAX).v == vector<mint>(shifted.size()));
     assert(poly(vector<mint>{0, 3}).pow(LLONG_MAX, 2).v == vector<mint>(2));
+    for (int terms : {0, 1, 4, 15, 16, 17, 32}) {
+        for (int lead : {0, 1, 3}) {
+            poly f(lead + 2 * terms + 1);
+            f[lead] = 7;
+            for (int i = 1; i <= terms; ++i) f[lead + 2 * i] = 1 + random() % (ntt_mod - 1);
+            for (long long k : {0LL, 1LL, 2LL, 64LL, 65LL, 67LL, (long long)ntt_mod, LLONG_MAX}) {
+                for (int deg : {0, 1, 17, 65, 97}) {
+                    assert(f.pow(k, deg).v == naive_power(f.v, k, deg));
+                }
+            }
+        }
+    }
 }
 
 void check_sqrt() {
