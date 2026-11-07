@@ -21,11 +21,17 @@ Knuth-Morris-Pratt 法で、テキスト中のパターンの出現開始位置�
 
 ### KMPMatcher
 
-- `KMPMatcher matcher(pattern)` : `pattern` からテーブルを構築する。時間・保持領域は $O(|pattern|)$
-- `void scan(chunk, emit)` : `string_view` の `chunk` を前回の入力の続きとして検索する。一致ごとに `emit(long long pos)` を呼び、連結したテキスト上の0-indexed開始位置を渡す。コールバックの処理を除き、償却 $O(|chunk|)$
-- `void reset()` : 照合状態と通算位置を初期化し、次のテキストを検索できる状態に戻す。テーブルは再利用する。$O(1)$
+同じ matcher に渡した各 chunk を、呼び出し順に連結した列として検索する。
 
-通算文字数は `long long`、パターン長は `int` に収まる前提とする。
+- `KMPMatcher matcher(pattern)` : `pattern` のテーブルを構築する。時間・保持領域は $O(|pattern|)$
+- `void scan(chunk, emit)` : `chunk` を読み、一致するたびに `emit(long long pos)` を呼ぶ。`pos` は連結した列上の0-indexed開始位置
+- `void scan(first, last, emit)` : iterator 区間 `[first,last)` を chunk として渡す
+- `void reset()` : 照合状態と通算位置を初期化する。テーブルは再利用する。$O(1)$
+
+読み込んだ要素数を $N$、一致数を $Z$ として、`scan` 全体で $O(N+Z)$。
+`emit` の呼び出し回数は $Z$ 回。
+
+通算要素数は `long long`、パターン長と単発検索のテキスト長は `int` に収まる前提とする。
 
 ## 使い方
 
@@ -47,13 +53,23 @@ matcher.scan("aba", emit);
 入力の切れ目をまたぐ一致や、互いに重なる一致も列挙する。
 
 別のテキストを検索するときは `matcher.reset()` を呼んでから `scan` に渡す。
-例えば `reset()` 後に `"aba"` を渡すと、新しいテキストの位置 `0` を `emit` に渡す。
-`reset()` が初期化するのは matcher の状態だけなので、保存先の `positions` は必要に応じて呼出し側で空にする。
-コールバック内で一致数だけを数えれば、一致位置を保存する領域は不要。
+
+整数列も同じ手順で検索する。
+
+```cpp
+KMPMatcher matcher(vector<long long>{-1, 1000, -1});
+vector<long long> a = {-1, 1000}, b = {-1, 1000, -1};
+vector<long long> positions;
+auto emit = [&](long long pos) { positions.push_back(pos); };
+matcher.scan(a, emit);
+matcher.scan(b.begin(), b.end(), emit);
+```
+
+位置 `0, 2` が通知される。
 
 ## 実装上の補足
 
 - 空パターンの `kmp_search` は文字間と両端の境界 `0..|text|` をすべて返す。
 - 空パターンの `scan` は初回の位置 `0` と各文字後の境界を1回ずつ `emit` に渡す。空の `chunk` を繰り返しても同じ境界を重複して渡さない。`reset()` 後は位置 `0` から渡し直す。
-- 入力はバイト列として比較し、埋め込まれた NUL も扱う。
+- 文字列はバイト列として比較する。`string` / `string_view` は埋め込まれた NUL も扱う。
 - コールバックから同じ matcher の `scan` / `reset` を呼ばない。
