@@ -22,7 +22,7 @@ tags: データ構造
 - `top_k_freq(l, r, k)` : 区間 $[l, r)$ で頻度上位 `k` 個の `(頻度, 値)` を返す。同頻度なら値昇順。最悪 $O(\sigma\log \sigma)$
 - `kth_smallest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に小さい値を返す。`0 <= k < r-l` を前提とする。$O(\log \sigma)$
 - `kth_largest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に大きい値を返す。`0 <= k < r-l` を前提とする。$O(\log \sigma)$
-- `optional<T> majority(l, r)` : 区間 $[l, r)$ の半数より多く現れる値を返す。空区間や過半数がない場合は `nullopt`。時間 $O(\log \sigma)$、追加領域 $O(1)$
+- `bool majority(l, r, res)` : 区間 $[l, r)$ の半数より多く現れる値を `res` に返す。空区間や過半数がない場合は `res` を変更せず `false`。時間 $O(\log \sigma)$、追加領域 $O(1)$
 - `prev_value(l, r, upper, res)` : 区間 $[l, r)$ にある `upper` 未満の最大値を `res` に返す。存在しない場合 `false`。$O(\log \sigma)$
 - `next_value(l, r, lower, res)` : 区間 $[l, r)$ にある `lower` 以上の最小値を `res` に返す。存在しない場合 `false`。$O(\log \sigma)$
 - `range_cursor(l, r)` : 区間 $[l, r)$ の読み取り専用 cursor を返す。空区間も指定できる。$O(1)$
@@ -39,12 +39,11 @@ tags: データ構造
 ## 例
 ```cpp
 WaveletMatrix<int> wm({2, 1, 2, 3, 2, 1});
-auto a = wm.majority(0, 5);
-auto b = wm.majority(0, 6);
+int value = -1;
+bool found = wm.majority(0, 5, value);
 ```
 
-`a` は `2`、`b` は `nullopt` となる。出現回数が半数ちょうどの値は返さない。
-`majority` は一般の最頻値を返す API ではなく、過半数がないときは最頻値が一意でも `nullopt` となる。
+`found` は `true`、`value` は `2` となる。区間を `[0, 6)` にすると `2` の出現回数は半数ちょうどなので `false` を返す。
 
 2 区間を多重集合として合わせたときの `k` 番目（0-indexed）は、両方の cursor を同じ側へ進めて求める。重なる位置は2回数える。2区間なら $O(\log \sigma)$、一般に $K$ 区間なら $O(K\log \sigma)$ 時間かかる。
 

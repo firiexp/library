@@ -4,7 +4,6 @@
 #include <cassert>
 #include <limits>
 #include <map>
-#include <optional>
 #include <random>
 #include <vector>
 using namespace std;
@@ -50,17 +49,24 @@ template<class T>
 void check_majority(const WaveletMatrix<T> &wm, const vector<T> &a, int l, int r) {
     map<T, int> freq;
     for (int i = l; i < r; ++i) ++freq[a[i]];
-    optional<T> expected;
+    bool expected = false;
+    T expected_value{};
     for (const auto &[value, count] : freq) {
-        if (count > (r - l) / 2) expected = value;
+        if (count > (r - l) / 2) {
+            expected = true;
+            expected_value = value;
+        }
     }
-    auto got = wm.majority(l, r);
+    T value = a.empty() ? T{} : a.front();
+    T before = value;
+    bool got = wm.majority(l, r, value);
     assert(got == expected);
     if (got) {
+        assert(value == expected_value);
         int count = 0;
-        for (int i = l; i < r; ++i) count += a[i] == *got;
+        for (int i = l; i < r; ++i) count += a[i] == value;
         assert(count > (r - l) / 2);
-    }
+    } else assert(value == before);
 }
 
 template<class T>
@@ -73,7 +79,9 @@ void check_majority_ranges(const vector<T> &a) {
 
 void majority_check() {
     WaveletMatrix<int> empty;
-    assert(!empty.majority(0, 0));
+    int value = 123;
+    bool found = empty.majority(0, 0, value);
+    assert(!found && value == 123);
     for (int n = 0, cases = 1; n <= 7; ++n, cases *= 3) {
         for (int code = 0; code < cases; ++code) {
             vector<int> a(n);

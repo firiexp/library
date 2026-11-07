@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cassert>
-#include <optional>
 #include <type_traits>
 #include <vector>
 using namespace std;
