@@ -22,6 +22,7 @@ tags: データ構造
 - `top_k_freq(l, r, k)` : 区間 $[l, r)$ で頻度上位 `k` 個の `(頻度, 値)` を返す。同頻度なら値昇順。最悪 $O(\sigma\log \sigma)$
 - `kth_smallest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に小さい値を返す。`0 <= k < r-l` を前提とする。$O(\log \sigma)$
 - `kth_largest(l, r, k)` : 区間 $[l, r)$ の `k` 番目 (0-indexed) に大きい値を返す。`0 <= k < r-l` を前提とする。$O(\log \sigma)$
+- `optional<T> majority(l, r)` : 区間 $[l, r)$ の半数より多く現れる値を返す。空区間や過半数がない場合は `nullopt`。時間 $O(\log \sigma)$、追加領域 $O(1)$
 - `prev_value(l, r, upper, res)` : 区間 $[l, r)$ にある `upper` 未満の最大値を `res` に返す。存在しない場合 `false`。$O(\log \sigma)$
 - `next_value(l, r, lower, res)` : 区間 $[l, r)$ にある `lower` 以上の最小値を `res` に返す。存在しない場合 `false`。$O(\log \sigma)$
 - `range_cursor(l, r)` : 区間 $[l, r)$ の読み取り専用 cursor を返す。空区間も指定できる。$O(1)$
@@ -36,6 +37,15 @@ tags: データ構造
 `sorted_vals` は重複のない昇順の値列とし、区間は `0 <= l <= r <= v.size()` とする。
 
 ## 例
+```cpp
+WaveletMatrix<int> wm({2, 1, 2, 3, 2, 1});
+auto a = wm.majority(0, 5);
+auto b = wm.majority(0, 6);
+```
+
+`a` は `2`、`b` は `nullopt` となる。出現回数が半数ちょうどの値は返さない。
+`majority` は一般の最頻値を返す API ではなく、過半数がないときは最頻値が一意でも `nullopt` となる。
+
 2 区間を多重集合として合わせたときの `k` 番目（0-indexed）は、両方の cursor を同じ側へ進めて求める。重なる位置は2回数える。2区間なら $O(\log \sigma)$、一般に $K$ 区間なら $O(K\log \sigma)$ 時間かかる。
 
 ```cpp
@@ -63,4 +73,5 @@ auto answer = a.empty() ? b.value() : a.value();
 - 整数値の座標圧縮は、全同値なら $O(N)$、1024要素以下なら比較ソートで $O(N\log N)$。それ以外は値域に必要な桁だけ radix sort する。圧縮後の構築は $O(N\log\max(2,\sigma))$。空配列にも対応する。
 - GCC の x86-64 環境では実行時に CPU 機能を判定し、構築に AVX2 / AVX-512、rank に POPCNT / BMI2 を使う。コンパイルオプションの追加は不要で、非対応 CPU では通常実装へ戻る。
 - クエリはすべて静的配列前提。
+- `majority` は中央順位の値を `kth_smallest` で選び、`freq` で過半数か確認する。
 - cursor は生成元の `WaveletMatrix` と組み合わせて使う。生成元の再構築・代入・move・破棄で無効になる。公開された内部配列も cursor の生存中は変更しない。

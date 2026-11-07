@@ -827,6 +827,14 @@ public:
         return kth_smallest(l, r, r - l - 1 - k);
     }
 
+    optional<T> majority(int l, int r) const {
+        assert(0 <= l && l <= r && r <= n);
+        if (l == r) return nullopt;
+        T value = kth_smallest(l, r, (r - l) / 2);
+        if (freq(l, r, value) > (r - l) / 2) return value;
+        return nullopt;
+    }
+
     bool prev_value(int l, int r, const T &upper, T &res) const {
         if (l >= r || n == 0) return false;
         int xi = (int)(lower_bound(vals.begin(), vals.end(), upper) - vals.begin());

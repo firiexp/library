@@ -4,6 +4,7 @@
 #include <cassert>
 #include <limits>
 #include <map>
+#include <optional>
 #include <random>
 #include <vector>
 using namespace std;
@@ -45,6 +46,55 @@ vector<pair<int, int>> brute_top_k_freq_index(const vector<int> &idx, int l, int
     return res;
 }
 
+template<class T>
+void check_majority(const WaveletMatrix<T> &wm, const vector<T> &a, int l, int r) {
+    map<T, int> freq;
+    for (int i = l; i < r; ++i) ++freq[a[i]];
+    optional<T> expected;
+    for (const auto &[value, count] : freq) {
+        if (count > (r - l) / 2) expected = value;
+    }
+    auto got = wm.majority(l, r);
+    assert(got == expected);
+    if (got) {
+        int count = 0;
+        for (int i = l; i < r; ++i) count += a[i] == *got;
+        assert(count > (r - l) / 2);
+    }
+}
+
+template<class T>
+void check_majority_ranges(const vector<T> &a) {
+    WaveletMatrix<T> wm(a);
+    for (int l = 0; l <= (int)a.size(); ++l) {
+        for (int r = l; r <= (int)a.size(); ++r) check_majority(wm, a, l, r);
+    }
+}
+
+void majority_check() {
+    WaveletMatrix<int> empty;
+    assert(!empty.majority(0, 0));
+    for (int n = 0, cases = 1; n <= 7; ++n, cases *= 3) {
+        for (int code = 0; code < cases; ++code) {
+            vector<int> a(n);
+            int x = code;
+            for (int &value : a) {
+                value = x % 3 - 1;
+                x /= 3;
+            }
+            check_majority_ranges(a);
+        }
+    }
+    for (int n : {63, 64, 65, 127, 128, 129}) {
+        vector<ll> a(n, numeric_limits<ll>::max());
+        for (int i = 0; i < n / 2; ++i) a[i] = numeric_limits<ll>::min();
+        check_majority_ranges(a);
+    }
+    check_majority_ranges(vector<string>{"aa", "bb", "aa", "cc", "aa", "bb"});
+    auto high = numeric_limits<unsigned long long>::max();
+    check_majority_ranges(vector<unsigned long long>{0, high, high});
+}
+
 void self_check() {
     mt19937 rng(0);
     const vector<int> edge_sizes = {1, 7, 8, 15, 16, 63, 64, 65, 127, 128, 129};
@@ -79,6 +129,8 @@ void self_check() {
             if (l > r) swap(l, r);
             int k = rng() % (n + 3);
 
+            check_majority(wm, a, l, r);
+            check_majority(wm_index, a, l, r);
             auto got = wm.top_k_freq(l, r, k);
             auto want = brute_top_k_freq(a, l, r, k);
             assert(got == want);
@@ -144,6 +196,7 @@ void self_check() {
     assert(same_wm.count_less(0, 128, -2) == 128);
     assert(same_wm.freq(0, 128, -3) == 128);
     assert(same_wm.kth_smallest(0, 128, 127) == -3);
+    check_majority_ranges(same);
 
     vector<signed char> bytes = {-128, 127, 0, -1, 0, 127, -128};
     WaveletMatrix<signed char> byte_wm(bytes);
@@ -165,6 +218,7 @@ void self_check() {
 }
 
 int main() {
+    majority_check();
     self_check();
 
 }
