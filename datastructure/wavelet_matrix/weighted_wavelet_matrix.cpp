@@ -10,7 +10,7 @@ struct WeightedWaveletMatrix {
 
     struct KthResult {
         T value;
-        CountSum less;
+        U sum;
     };
 
     class Cursor {
@@ -50,6 +50,7 @@ struct WeightedWaveletMatrix {
     vector<int> pref;
     vector<U> zero_sum;
     vector<U> base_sum;
+    vector<U> leaf_sum;
     vector<T> vals;
 
     WeightedWaveletMatrix() : n(0), lg(0), blocks(0) {}
@@ -194,6 +195,7 @@ struct WeightedWaveletMatrix {
             bit.clear();
             pref.clear();
             zero_sum.clear();
+            leaf_sum.clear();
             return;
         }
 
@@ -244,6 +246,8 @@ struct WeightedWaveletMatrix {
             cur_w.swap(nxt_w);
             row_zero_sum += zero_cnt + 1;
         }
+        leaf_sum.assign(n + 1, U());
+        for (int i = 0; i < n; ++i) leaf_sum[i + 1] = leaf_sum[i] + cur_w[i];
     }
 
     void build(const vector<T> &v, const vector<U> &w) {
@@ -256,6 +260,7 @@ struct WeightedWaveletMatrix {
             bit.clear();
             pref.clear();
             zero_sum.clear();
+            leaf_sum.clear();
             base_sum.assign(1, U());
             return;
         }
@@ -360,19 +365,19 @@ public:
     KthResult kth_smallest(int l, int r, int k) const {
         assert(0 <= k && k < r - l);
         auto cur = range_cursor(l, r);
-        CountSum less{0, U()};
+        U sum{};
         while (!cur.is_leaf()) {
             auto children = split(cur);
             if (k < children.low.count()) {
                 cur = children.low;
             } else {
                 k -= children.low.count();
-                less.count += children.low.count();
-                less.sum += children.low.sum();
+                sum += children.low.sum();
                 cur = children.high;
             }
         }
-        return {cur.value(), less};
+        sum += leaf_sum[cur.l_ + k + 1] - leaf_sum[cur.l_];
+        return {cur.value(), sum};
     }
 
     CountSum count_sum_less_index(int l, int r, int xi) const {

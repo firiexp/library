@@ -40,20 +40,15 @@ template<class T, class U>
 void check_kth(const WeightedWaveletMatrix<T, U> &wm,
                const vector<T> &values, const vector<U> &weights,
                int l, int r, const vector<int> &orders) {
-    vector<T> sorted(values.begin() + l, values.begin() + r);
-    sort(sorted.begin(), sorted.end());
+    vector<int> order;
+    for (int i = l; i < r; ++i) order.push_back(i);
+    stable_sort(order.begin(), order.end(), [&](int a, int b) { return values[a] < values[b]; });
     for (int k : orders) {
         auto got = wm.kth_smallest(l, r, k);
-        int count = 0;
         U sum{};
-        for (int i = l; i < r; ++i) {
-            if (values[i] < sorted[k]) {
-                ++count;
-                sum += weights[i];
-            }
-        }
-        assert(got.value == sorted[k]);
-        assert(got.less.count == count && got.less.sum == sum);
+        for (int i = 0; i <= k; ++i) sum += weights[order[i]];
+        assert(got.value == values[order[k]]);
+        assert(got.sum == sum);
     }
 }
 
@@ -204,6 +199,10 @@ void check_random() {
         assert(wm.zero_sum.size() == sum_size);
         assert(wm.count_sum_less_index(0, n, sorted_values.size()).sum == wm_index.base_sum[n]);
         if (n) check_kth(wm, values, weights, 0, n, {0, n / 2, n - 1});
+        wm_index.build_from_index({}, {}, {});
+        assert(wm_index.count_sum_less(0, 0, 0).sum == 0);
+        wm_index.build_from_index(index, sorted_values, weights);
+        if (n) check_kth(wm_index, values, weights, 0, n, {0, n / 2, n - 1});
     }
 }
 
@@ -237,6 +236,27 @@ void check_kth_all_ranges() {
                 vector<int> orders;
                 for (int k = 0; k < r - l; ++k) orders.push_back(k);
                 check_kth(wm, values, weights, l, r, orders);
+            }
+        }
+    }
+    WeightedWaveletMatrix<int, ll> wm({3, 1, 3, 2}, {10, -2, 7, 5});
+    auto selected = wm.kth_smallest(0, 4, 2);
+    assert(selected.value == 3 && selected.sum == 13);
+    assert(wm.kth_smallest(0, 4, 3).sum == 20);
+    assert(wm.kth_smallest(1, 4, 2).sum == 10);
+    for (int n = 1; n <= 7; ++n) {
+        vector<ll> weights(n);
+        for (int i = 0; i < n; ++i) weights[i] = (1LL << i) * (i % 2 ? -1 : 1);
+        for (int mask = 0; mask < (1 << n); ++mask) {
+            vector<int> values(n);
+            for (int i = 0; i < n; ++i) values[i] = (mask >> i) & 1;
+            WeightedWaveletMatrix<int, ll> small(values, weights);
+            for (int l = 0; l < n; ++l) {
+                for (int r = l + 1; r <= n; ++r) {
+                    vector<int> orders;
+                    for (int k = 0; k < r - l; ++k) orders.push_back(k);
+                    check_kth(small, values, weights, l, r, orders);
+                }
             }
         }
     }
