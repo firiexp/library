@@ -3,9 +3,11 @@
 #include <algorithm>
 #include <cassert>
 #include <climits>
+#include <numeric>
 #include <random>
 #include <vector>
 using namespace std;
+using ull = unsigned long long;
 
 #include <cstdio>
 #include <cstring>
@@ -16,6 +18,33 @@ using namespace std;
 #include "../util/fastio.cpp"
 #include "../math/prime/eulerphi.cpp"
 #include "../math/prime/divisor.cpp"
+#include "../math/prime/primefactor_ll.cpp"
+
+void check_phi_from_factors() {
+    assert(eulerphi_from_factors(vector<int>{}) == 1);
+    for (int n = 1; n <= 2000; ++n) {
+        int expected = 0;
+        for (int x = 1; x <= n; ++x) expected += gcd(x, n) == 1;
+        auto factors = prime_factor(n);
+        assert(eulerphi_from_factors(factors) == expected);
+        assert(eulerphi(n) == expected);
+    }
+    vector<pair<long long, long long>> cases{
+        {1, 1}, {2, 1}, {1000000007, 1000000006},
+        {1000000000000LL, 400000000000LL},
+        {1LL << 62, 1LL << 61},
+        {4052555153018976267LL, 2701703435345984178LL},
+        {1000000007LL * 1000000009LL, 1000000006LL * 1000000008LL},
+        {LLONG_MAX, 7713001620195508224LL}
+    };
+    for (auto [n, expected] : cases) {
+        assert(eulerphi_from_factors(prime_factor(n)) == expected);
+        assert(eulerphi_from_factors(prime_factor(static_cast<ull>(n))) == static_cast<ull>(expected));
+    }
+    assert(eulerphi_from_factors(vector<ull>(63, 2)) == (1ULL << 62));
+    assert(eulerphi_from_factors(vector<ull>{3, 5, 17, 257, 641, 65537, 6700417})
+           == 9208981628670443520ULL);
+}
 
 void self_check() {
     assert(divisor(0).empty());
@@ -56,6 +85,10 @@ void self_check() {
         }
         if (remaining > 1) factors.emplace_back(remaining, 1);
 
+        vector<int> flat_factors;
+        for (auto [p, exponent] : factors) flat_factors.insert(flat_factors.end(), exponent, p);
+        assert(eulerphi_from_factors(flat_factors) == eulerphi(n));
+
         vector<int> expected_divisors{1};
         for (auto [p, exponent] : factors) {
             int size = expected_divisors.size();
@@ -90,4 +123,5 @@ void self_check() {
 
 int main() {
     self_check();
+    check_phi_from_factors();
 }

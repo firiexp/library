@@ -10,6 +10,16 @@ int eulerphi(int x){
     return phi;
 }
 
+template<class T>
+T eulerphi_from_factors(const vector<T> &factors) {
+    T phi = 1, previous = 0;
+    for (T p : factors) {
+        phi *= p == previous ? p : p - 1;
+        previous = p;
+    }
+    return phi;
+}
+
 /**
  * @brief オイラーのφ関数(Euler Phi)
  */
