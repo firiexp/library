@@ -11,7 +11,7 @@ documentation_of: //string/kth_word.cpp
 状態数を $S$、文字列長を $N$、文字種数を $W$ とする。
 
 - `optional<vector<int>> kth_word(const DFA<W>& a, int n, unsigned long long k)`
-  長さ `n` の受理文字列のうち、0-indexed で `k` 番目の文字番号列を返す。範囲外なら `nullopt`。`n >= 0` が必要。時間 $O(NSW)$、領域 $O(NS)$
+  長さ `n` の受理文字列のうち、0-indexed で `k` 番目の文字番号列を返す。範囲外なら `nullopt`。時間 $O(NSW)$、領域 $O(NS)$
 
 ## 使い方
 ```cpp
@@ -24,6 +24,8 @@ if (word) for (int c : *word) text.push_back('a' + c);
 この例では `text` は `"abb"` となる。
 禁止語の例には `string/avoid_patterns.cpp` も include する。
 手書きの遷移表や `intersect` の結果もそのまま渡せる。
+
+同じ DFA で繰り返し復元する場合は、`string/dfa_kth_word.cpp` の `DFAKthWord` で前計算を再利用できる。
 
 ## 実装上の補足
 残り長さと状態ごとの受理個数を前計算し、各位置で文字順に候補の個数を引く。

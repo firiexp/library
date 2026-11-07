@@ -3,14 +3,17 @@
 
 #include "dfa.cpp"
 
+namespace kth_word_detail {
+
+using Count = __uint128_t;
+
 template<int W>
-optional<vector<int>> kth_word(const DFA<W>& a, int n, unsigned long long k) {
+vector<Count> build(const DFA<W>& a, int n, unsigned long long max_rank) {
     assert(n >= 0);
-    if (a.initial == -1) return nullopt;
-    using Count = __uint128_t;
+    if (a.initial == -1) return {};
     size_t s = a.next.size(), layers = (size_t)n + 1;
     assert(s <= vector<Count>().max_size() / layers);
-    Count cap = (Count)k + 1;
+    Count cap = (Count)max_rank + 1;
     vector<Count> dp(layers * s);
     for (size_t v = 0; v < s; ++v) dp[v] = a.accept[v] ? 1 : 0;
     for (int len = 0; len < n; ++len) {
@@ -27,6 +30,13 @@ optional<vector<int>> kth_word(const DFA<W>& a, int n, unsigned long long k) {
             dp[current + v] = count;
         }
     }
+    return dp;
+}
+
+template<int W>
+optional<vector<int>> restore(const DFA<W>& a, const vector<Count>& dp, int n, unsigned long long k) {
+    if (a.initial == -1) return nullopt;
+    size_t s = a.next.size();
     if (dp[(size_t)n * s + a.initial] <= (Count)k) return nullopt;
     vector<int> result;
     result.reserve(n);
@@ -46,6 +56,14 @@ optional<vector<int>> kth_word(const DFA<W>& a, int n, unsigned long long k) {
         }
     }
     return result;
+}
+
+}
+
+template<int W>
+optional<vector<int>> kth_word(const DFA<W>& a, int n, unsigned long long k) {
+    auto dp = kth_word_detail::build(a, n, k);
+    return kth_word_detail::restore(a, dp, n, k);
 }
 
 #endif
