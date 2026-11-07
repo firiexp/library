@@ -26,6 +26,20 @@ public:
     }
 
     template<class Callback>
+    void for_each_interval(long long l, long long r, Callback callback) const {
+        assert(0 <= l && l <= r && r <= n);
+        if (l == r) return;
+        auto it = prev(runs.upper_bound(l));
+        while (l < r) {
+            auto following = next(it);
+            long long end = following == runs.end() ? r : min(r, following->first);
+            callback(l, end, it->second);
+            l = end;
+            it = following;
+        }
+    }
+
+    template<class Callback>
     void assign(long long l, long long r, T value, Callback callback) {
         assert(0 <= l && l <= r && r <= n);
         if (l == r) return;

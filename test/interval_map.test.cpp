@@ -18,6 +18,16 @@ vector<Run> clipped_runs(const vector<int> &a, int l, int r) {
     return result;
 }
 
+void check_intervals(const IntervalMap<int> &intervals, const vector<int> &a, int l, int r) {
+    vector<Run> actual;
+    intervals.for_each_interval(l, r, [&](long long begin, long long end, auto &value) {
+        static_assert(is_same_v<decltype(value), const int &>);
+        actual.emplace_back(begin, end, value);
+        assert(intervals.get(begin) == value && intervals.get(end - 1) == value);
+    });
+    assert(actual == clipped_runs(a, l, r));
+}
+
 void check(int n, const vector<tuple<int, int, int>> &operations) {
     IntervalMap<int> intervals(n, 0);
     vector<int> a(n);
@@ -30,6 +40,10 @@ void check(int n, const vector<tuple<int, int, int>> &operations) {
         pairs += counts[color] * (counts[color] - 1) / 2;
     };
     for (auto [l, r, color] : operations) {
+        check_intervals(intervals, a, 0, n);
+        check_intervals(intervals, a, l, r);
+        check_intervals(intervals, a, l, l);
+        check_intervals(intervals, a, r, r);
         vector<Run> removed;
         intervals.assign(l, r, color, [&](long long begin, long long end, const int &old) {
             removed.emplace_back(begin, end, old);
@@ -47,12 +61,8 @@ void check(int n, const vector<tuple<int, int, int>> &operations) {
         long long expected_pairs = 0;
         for (int i = 0; i < n; ++i) for (int j = i + 1; j < n; ++j) expected_pairs += a[i] == a[j];
         assert(pairs == expected_pairs);
-        auto copy = intervals;
-        vector<Run> whole;
-        copy.assign(0, n, 0, [&](long long begin, long long end, int old) {
-            whole.emplace_back(begin, end, old);
-        });
-        assert(whole == clipped_runs(a, 0, n));
+        check_intervals(intervals, a, 0, n);
+        check_intervals(intervals, a, l, r);
     }
 }
 
@@ -80,6 +90,11 @@ int main() {
     }
     IntervalMap<Value> generic(LLONG_MAX, Value(1));
     generic.assign(1, LLONG_MAX - 1, Value(2));
+    vector<Run> large_runs;
+    as_const(generic).for_each_interval(0, LLONG_MAX, [&](long long l, long long r, const Value &value) {
+        large_runs.emplace_back(l, r, value.value);
+    });
+    assert((large_runs == vector<Run>{{0, 1, 1}, {1, LLONG_MAX - 1, 2}, {LLONG_MAX - 1, LLONG_MAX, 1}}));
     generic.assign(0, 1, generic.get(1));
     generic.assign(LLONG_MAX - 1, LLONG_MAX, Value(2));
     int calls = 0;
