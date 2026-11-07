@@ -106,6 +106,7 @@ geometry/half_plane_intersection.cpp: "半平面共通部分(Half-Plane Intersec
 geometry/int_point.cpp: "整数座標点"
 geometry/polygon_integral.cpp: "多角形の区間面積と重心"
 geometry/polygon_contains.cpp: "整数多角形の包含判定"
+geometry/polygon_lattice_points.cpp: "多角形の格子点数"
 geometry/minkowski_sum.cpp: "整数凸多角形のミンコフスキー和"
 graph/connectivity/bridge_tree.cpp: "橋木(Bridge Tree)"
 graph/connectivity/block_cut_tree.cpp: "ブロックカット木(Block-Cut Tree)"
