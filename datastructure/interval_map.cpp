@@ -20,6 +20,14 @@ public:
         if (n > 0) runs.emplace(0, value);
     }
 
+    explicit IntervalMap(const vector<T> &values) : n(values.size()) {
+        for (long long i = 0; i < n; ++i) {
+            if (i == 0 || !(values[i - 1] == values[i])) {
+                runs.emplace_hint(runs.end(), i, values[i]);
+            }
+        }
+    }
+
     T get(long long position) const {
         assert(0 <= position && position < n);
         return prev(runs.upper_bound(position))->second;
