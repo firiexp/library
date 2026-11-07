@@ -37,7 +37,7 @@ void sum_queries() {
             int n = expected.size();
             int l = rng() % (n + 1), r = rng() % (n + 1);
             if (l > r) swap(l, r);
-            int op = rng() % 6;
+            int op = rng() % 7;
             long long x = rng() % 10;
             if (op == 0 && n < 80) {
                 tr.insert(l, {x, 1});
@@ -53,6 +53,12 @@ void sum_queries() {
             } else if (op == 3) {
                 tr.reverse(l, r);
                 reverse(expected.begin() + l, expected.begin() + r);
+            } else if (op == 6) {
+                int k = rng() % (n - (r - l) + 1);
+                tr.move_range(l, r, k);
+                vector<long long> part(expected.begin() + l, expected.begin() + r);
+                expected.erase(expected.begin() + l, expected.begin() + r);
+                expected.insert(expected.begin() + k, part.begin(), part.end());
             } else {
                 if (op == 5) l = 0, r = n;
                 long long a = rng() % 2;
@@ -112,7 +118,7 @@ void noncommutative_queries() {
             int n = expected.size();
             int l = rng() % (n + 1), r = rng() % (n + 1);
             if (l > r) swap(l, r);
-            int op = rng() % 6;
+            int op = rng() % 7;
             char c = 'a' + rng() % 3;
             if (op == 0 && n < 60) {
                 tr.insert(l, string(1, c));
@@ -128,6 +134,12 @@ void noncommutative_queries() {
             } else if (op == 3) {
                 tr.reverse(l, r);
                 reverse(expected.begin() + l, expected.begin() + r);
+            } else if (op == 6) {
+                int k = rng() % (n - (r - l) + 1);
+                tr.move_range(l, r, k);
+                string part = expected.substr(l, r - l);
+                expected.erase(l, r - l);
+                expected.insert(k, part);
             } else {
                 if (op == 5) l = 0, r = n;
                 StringMap::L map{int(rng() % 3), int(rng() % 3), int(rng() % 3)};

@@ -38,6 +38,50 @@ void check_vector(ImplicitTreap<StringAffine> &tr, const string &expected) {
     for (int i = 0; i < tr.size(); ++i) assert(tr.get(i) == oracle[i]);
 }
 
+void check_move(ImplicitTreap<StringAffine> &tr, string &expected, int l, int r, int k) {
+    auto count = tr.nodes.size(), capacity = tr.nodes.capacity();
+    auto free_nodes = tr.free_nodes;
+    auto rng_state = tr.rng_state;
+    tr.move_range(l, r, k);
+    string part = expected.substr(l, r - l);
+    expected.erase(l, r - l);
+    expected.insert(k, part);
+    assert(tr.nodes.size() == count && tr.nodes.capacity() == capacity);
+    assert(tr.free_nodes == free_nodes && tr.rng_state == rng_state);
+    assert(tr.size() == (int)expected.size() && tr.all_fold() == expected);
+}
+
+void move_boundaries() {
+    for (int n = 0; n <= 8; ++n) {
+        vector<string> values;
+        for (int i = 0; i < n; ++i) values.emplace_back(1, 'a' + i);
+        for (int l = 0; l <= n; ++l) for (int r = l; r <= n; ++r) {
+            for (int k = 0; k <= n - (r - l); ++k) {
+                ImplicitTreap<StringAffine> tr(values);
+                string expected;
+                for (const auto &value : values) expected += value;
+                tr.reverse(0, n);
+                reverse(expected.begin(), expected.end());
+                tr.apply(0, n, {3, 7});
+                expected = StringAffine::g(expected, {3, 7});
+                tr.apply(l, r, {5, 11});
+                expected.replace(l, r - l, StringAffine::g(expected.substr(l, r - l), {5, 11}));
+                tr.reverse(l, r);
+                reverse(expected.begin() + l, expected.begin() + r);
+                string before = expected;
+                check_move(tr, expected, l, r, k);
+                for (int begin = 0; begin <= n; ++begin) for (int end = begin; end <= n; ++end) {
+                    assert(tr.fold(begin, end) == expected.substr(begin, end - begin));
+                }
+                check_vector(tr, expected);
+                check_move(tr, expected, k, k + r - l, l);
+                assert(expected == before);
+                check_vector(tr, expected);
+            }
+        }
+    }
+}
+
 void mixed_operations() {
     mt19937 rng(198);
     for (int initial = 0; initial <= 70; ++initial) {
@@ -52,7 +96,7 @@ void mixed_operations() {
             int l = rng() % (n + 1), r = rng() % (n + 1);
             if (l > r) swap(l, r);
             if (step % 11 == 0) l = 0, r = n;
-            int op = rng() % 6;
+            int op = rng() % 7;
             if (op == 0 && n < 100) {
                 char c = rng() % 128;
                 tr.insert(l, string(1, c));
@@ -69,6 +113,8 @@ void mixed_operations() {
             } else if (op == 3) {
                 tr.reverse(l, r);
                 reverse(expected.begin() + l, expected.begin() + r);
+            } else if (op == 4) {
+                check_move(tr, expected, l, r, rng() % (n - (r - l) + 1));
             } else {
                 for (int repeat = 0; repeat < 2; ++repeat) {
                     StringAffine::L x{int(rng() % 128), int(rng() % 128)};
@@ -193,6 +239,7 @@ void insertion_and_erasure() {
 }
 
 int main() {
+    move_boundaries();
     mixed_operations();
     whole_and_empty_ranges();
     insertion_and_erasure();

@@ -116,6 +116,13 @@ struct ImplicitTreap {
         root = merge(merge(a, b), c);
     }
 
+    void move_range(int l, int r, int k) {
+        if (l == r || k == l) return;
+        auto [a, b, c] = split3(root, l, r);
+        auto [d, e] = split(merge(a, c), k);
+        root = merge(merge(d, b), e);
+    }
+
     T fold(int l, int r) {
         return fold_node(root, l, r);
     }
