@@ -27,6 +27,7 @@ void check(VertexFailureConnectivity &solver, int n, const vector<pair<int, int>
             }
             for (int v = 0; v < n; ++v)
                 assert(solver.connected_without_vertex(u, v, x) == (bool)seen[v]);
+            assert(solver.component_size_without_vertex(u, x) == int(queue.size()));
         }
     }
 }
@@ -38,17 +39,31 @@ void check_large(int n, int mode) {
         solver.add_edge(mode == 1 ? 0 : v - 1, v);
     }
     if (mode == 2) solver.add_edge(n - 1, 0);
+    if (mode == 4) {
+        for (int v = 2; v < n; v += 2) solver.add_edge(v - 2, v);
+    }
     solver.build();
     mt19937 rng(20261010);
     for (int i = 0; i < 100000; ++i) {
         int u = rng() % n, v = rng() % n, x = rng() % n;
         bool expected = u != x && v != x;
         if (mode == 1) expected &= x != 0 || u == v;
-        else if (mode != 2) {
+        else if (mode != 2 && !(mode == 4 && x % 2 == 1)) {
             expected &= !(min(u, v) < x && x < max(u, v));
             if (mode == 3) expected &= (u < n / 2) == (v < n / 2);
         }
         assert(solver.connected_without_vertex(u, v, x) == expected);
+        int size = 0;
+        if (u != x) {
+            if (mode == 1) size = x == 0 ? 1 : n - 1;
+            else if (mode == 2 || (mode == 4 && x % 2 == 1)) size = n - 1;
+            else {
+                int l = mode == 3 && u >= n / 2 ? n / 2 : 0;
+                int r = mode == 3 && u < n / 2 ? n / 2 : n;
+                size = x < l || r <= x ? r - l : u < x ? x - l : r - x - 1;
+            }
+        }
+        assert(solver.component_size_without_vertex(u, x) == size);
     }
 }
 
@@ -92,5 +107,5 @@ int main() {
             check(solver, n, edges);
         }
     }
-    for (int mode = 0; mode < 4; ++mode) check_large(100000, mode);
+    for (int mode = 0; mode < 5; ++mode) check_large(200000, mode);
 }
