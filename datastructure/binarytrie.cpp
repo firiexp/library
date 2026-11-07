@@ -28,10 +28,15 @@ struct Binarytrie {
         return nodes[0].cnt == 0;
     }
 
+    void xor_all(T mask) {
+        lazy_xor ^= mask;
+    }
+
     int count(const T &x) const {
+        T key = x ^ lazy_xor;
         int p = 0;
         for (int i = int(X) - 1; i >= 0; --i) {
-            int f = (x >> i) & 1;
+            int f = (key >> i) & 1;
             p = nodes[p].nxt[f];
             if (p == -1) return 0;
         }
@@ -45,10 +50,11 @@ struct Binarytrie {
     void add(const T &x, int k = 1) {
         assert(k >= 0);
         if (k == 0) return;
+        T key = x ^ lazy_xor;
         int p = 0;
         nodes[p].cnt += k;
         for (int i = int(X) - 1; i >= 0; --i) {
-            int f = (x >> i) & 1;
+            int f = (key >> i) & 1;
             int to = nodes[p].nxt[f];
             if (to == -1) {
                 to = make_node();
@@ -62,11 +68,12 @@ struct Binarytrie {
     bool erase(const T &x, int k = 1) {
         assert(k >= 0);
         if (k == 0) return true;
+        T key = x ^ lazy_xor;
         array<int, X + 1> path;
         int p = 0;
         path[0] = p;
         for (int i = int(X) - 1, d = 1; i >= 0; --i, ++d) {
-            int f = (x >> i) & 1;
+            int f = (key >> i) & 1;
             p = nodes[p].nxt[f];
             if (p == -1) return false;
             path[d] = p;
@@ -76,7 +83,7 @@ struct Binarytrie {
         for (size_t d = X; d > 0; --d) {
             int v = path[d];
             if (nodes[v].cnt != 0) break;
-            int f = (x >> (X - d)) & 1;
+            int f = (key >> (X - d)) & 1;
             nodes[path[d - 1]].nxt[f] = -1;
             nodes[v].nxt[0] = free_head;
             free_head = v;
@@ -85,10 +92,11 @@ struct Binarytrie {
     }
 
     T xor_min(const T &x) const {
+        T key = x ^ lazy_xor;
         int p = 0;
         T ret = 0;
         for (int i = int(X) - 1; i >= 0; --i) {
-            int f = (x >> i) & 1;
+            int f = (key >> i) & 1;
             int to = nodes[p].nxt[f];
             if (to == -1 || nodes[to].cnt == 0) {
                 f ^= 1;
@@ -110,6 +118,7 @@ struct Binarytrie {
 
     T kth_element(int k, T xor_mask = 0) const {
         assert(0 <= k && k < size());
+        xor_mask ^= lazy_xor;
         int p = 0;
         T value = 0;
         for (int i = int(X) - 1; i >= 0; --i) {
@@ -123,10 +132,11 @@ struct Binarytrie {
             value |= T(f) << i;
             p = nodes[p].nxt[f];
         }
-        return value;
+        return value ^ lazy_xor;
     }
 
     int count_less(T bound, T xor_mask = 0) const {
+        xor_mask ^= lazy_xor;
         int p = 0, result = 0;
         for (int i = int(X) - 1; i >= 0 && p != -1; --i) {
             int f = (xor_mask >> i) & 1;
@@ -142,6 +152,7 @@ struct Binarytrie {
 
 private:
     int free_head = -1;
+    T lazy_xor = 0;
 
     int make_node() {
         if (free_head == -1) {

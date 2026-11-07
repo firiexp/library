@@ -5,6 +5,7 @@ documentation_of: //datastructure/binarytrie.cpp
 ## 説明
 非負整数集合に対する binary trie である。
 重複を含めて保持し、`xor` をかけたあとの最小値・順位を求める。
+全要素への `xor` 更新にも対応する。
 
 ## できること
 $X$ は値のビット数、$N$ は構築時の要素数とする。
@@ -27,6 +28,8 @@ $X$ は値のビット数、$N$ は構築時の要素数とする。
   空集合かを返す。$O(1)$
 - `int size()`
   要素数を返す。$O(1)$
+- `void xor_all(T mask)`
+  現在の全要素を `a xor mask` に更新する。時間・追加領域 $O(1)$
 - `T xor_min(T x)`
   集合内の要素との `xor` の最小値を返す。空集合では使わない。$O(X)$
 - `T min_element(T x = 0)`
@@ -40,6 +43,10 @@ $X$ は値のビット数、$N$ は構築時の要素数とする。
 
 ## 使い方
 値・xor の引数・`bound` は非負の `X` bit 整数とする。
+`xor_all(mask)` 後の挿入・削除・検索は、更新後の値をそのまま渡す。
+後から挿入する値には過去の更新を適用しない。空集合にも `xor_all` を呼べる。
+問い合わせ用の `xor_mask` は順序だけを変え、集合は更新しない。
+`min_element`・`max_element`・`kth_element` は更新後の要素の値を返し、`xor_min(x)` はその値と `x` の xor 値を返す。
 集合として使うなら、挿入前に `contains(x)` を見て重複を避ける。
 
 ```cpp
@@ -53,8 +60,19 @@ unsigned int ans = trie.min_element(q);
 `{1, 4, 4, 7}` を入れた trie では、`kth_element(1, 3)` は `7`、`count_less(5, 3)` は `2` を返す。
 `kth_element(0, mask)` は `min_element(mask)`、`kth_element(size() - 1, mask)` は `max_element(mask)` に一致する。
 
+```cpp
+Binarytrie<unsigned, 8> values({1, 4, 4});
+values.xor_all(3);
+values.add(1);
+auto smallest = values.min_element();
+auto count = values.count(7);
+```
+
+更新後の要素は `{2, 7, 7}`、挿入後は `{1, 2, 7, 7}` となる。`smallest` は `1`、`count` は `2`。
+
 ## 実装上の補足
 削除で空になった枝は回収し、次の挿入で再利用する。
 同時に保持した相異なる値の最大数を $D_{\max}$ とすると、`nodes.size()` は $O(X D_{\max})$。
 `reserve(n)` と vector コンストラクタの先行確保、過去の vector capacity はこのノード数の上限とは別であり、削除時には縮小しない。
 公開 `nodes` の添字は再利用されるため、要素に対応する恒久的な識別子として保存しない。
+全体更新は累積 xor を保持し、各操作の入出力で内部の値と変換する。

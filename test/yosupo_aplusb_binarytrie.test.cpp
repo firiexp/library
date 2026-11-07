@@ -30,6 +30,12 @@ vector<unsigned> expand(const vector<int> &freq) {
     return res;
 }
 
+void xor_freq(vector<int> &freq, unsigned mask) {
+    vector<int> next(freq.size());
+    for (unsigned x = 0; x < freq.size(); ++x) next[x ^ mask] = freq[x];
+    freq.swap(next);
+}
+
 unsigned brute_xor_min(const vector<int> &freq, unsigned x) {
     unsigned best = MASK;
     bool found = false;
@@ -126,13 +132,17 @@ void order_check() {
         } else {
             unsigned x = rng() & MASK;
             int k = rng() % 4;
-            if (rng() % 2) {
+            int op = rng() % 3;
+            if (op == 0) {
                 trie.add(x, k);
                 freq[x] += k;
-            } else {
+            } else if (op == 1) {
                 bool ok = trie.erase(x, k);
                 assert(ok == (freq[x] >= k));
                 if (ok) freq[x] -= k;
+            } else {
+                trie.xor_all(x);
+                xor_freq(freq, x);
             }
         }
         auto values = expand(freq);
@@ -144,10 +154,54 @@ void order_check() {
     vector<U> wide_bounds = values;
     wide_bounds.push_back(2);
     Binarytrie<U, 64> wide(values);
-    for (U mask : {U(0), U(1), high, ~U(0)}) verify_order(wide, values, mask, wide_bounds);
+    for (U update : {U(0), high, ~U(0), ~U(0), high}) {
+        wide.xor_all(update);
+        for (U &x : values) x ^= update;
+        for (U x : values) assert(wide.count(x) == count(values.begin(), values.end(), x));
+        for (U mask : {U(0), U(1), high, ~U(0)}) {
+            verify_order(wide, values, mask, wide_bounds);
+            U expected = ~U(0);
+            for (U x : values) expected = min(expected, x ^ mask);
+            assert(wide.xor_min(mask) == expected);
+        }
+    }
     assert(wide.count_less(~U(0)) == (int)values.size() - 1);
     Binarytrie<int, 31> signed_trie({0, 1, INT_MAX, INT_MAX});
     verify_order(signed_trie, vector<int>{0, 1, INT_MAX, INT_MAX}, INT_MAX, vector<int>{0, 1, INT_MAX});
+    signed_trie.xor_all(INT_MAX);
+    verify_order(signed_trie, vector<int>{INT_MAX, INT_MAX - 1, 0, 0}, INT_MAX, vector<int>{0, 1, INT_MAX});
+}
+
+void xor_all_check() {
+    mt19937 rng(404);
+    Binarytrie<unsigned, B> trie;
+    vector<int> freq(1 << B);
+    trie.xor_all(MASK);
+    trie.reserve(10);
+    trie.add(1, 3);
+    freq[1] = 3;
+    verify_state(trie, freq, rng);
+    size_t nodes = trie.nodes.size();
+    for (unsigned mask : {MASK, MASK, 0u, 3u}) {
+        trie.xor_all(mask);
+        xor_freq(freq, mask);
+        assert(trie.nodes.size() == nodes);
+        verify_state(trie, freq, rng);
+    }
+    bool erased = trie.erase(2, 4);
+    assert(!erased && trie.count(2) == 3);
+    auto copied = trie;
+    trie.xor_all(MASK);
+    verify_state(copied, freq, rng);
+    erased = copied.erase(2, 3);
+    assert(erased && copied.empty());
+    copied.xor_all(MASK);
+    copied.add(7, 2);
+    assert(copied.count(7) == 2 && copied.nodes.size() == nodes);
+    Binarytrie<unsigned, B> assigned;
+    assigned = copied;
+    auto moved = move(assigned);
+    assert(moved.count(7) == 2);
 }
 
 void self_check() {
@@ -158,7 +212,11 @@ void self_check() {
     assert(churn.nodes.size() == 1 && churn.empty());
     for (int i = 0; i < 500000; ++i) {
         unsigned x = rng() & ((1u << 30) - 1);
+        churn.xor_all(rng() & ((1u << 30) - 1));
         churn.add(x, 3);
+        unsigned mask = rng() & ((1u << 30) - 1);
+        churn.xor_all(mask);
+        x ^= mask;
         assert(churn.xor_min(x ^ 123) == 123);
         assert(!churn.erase(x, 4));
         assert(churn.count(x) == 3);
@@ -213,7 +271,7 @@ void self_check() {
         verify_state(reserved, freq, rng);
 
         for (int step = 0; step < 200; ++step) {
-            int op = rng() % 5;
+            int op = rng() % 6;
             unsigned x = rng() & MASK;
             int k = rng() % 4;
 
@@ -229,6 +287,9 @@ void self_check() {
                 auto cur = expand(freq);
                 Binarytrie<unsigned, B> rebuilt(cur);
                 verify_state(rebuilt, freq, rng);
+            } else if (op == 4) {
+                trie.xor_all(x);
+                xor_freq(freq, x);
             } else {
                 assert(trie.count(x) == freq[x]);
                 assert(trie.contains(x) == (freq[x] > 0));
@@ -240,6 +301,7 @@ void self_check() {
 }
 
 int main() {
+    xor_all_check();
     order_check();
     self_check();
 
