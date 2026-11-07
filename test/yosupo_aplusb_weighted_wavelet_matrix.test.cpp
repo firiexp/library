@@ -36,6 +36,27 @@ BruteResult brute_less(const vector<ll> &values, const vector<ll> &weights,
     return res;
 }
 
+template<class T, class U>
+void check_kth(const WeightedWaveletMatrix<T, U> &wm,
+               const vector<T> &values, const vector<U> &weights,
+               int l, int r, const vector<int> &orders) {
+    vector<T> sorted(values.begin() + l, values.begin() + r);
+    sort(sorted.begin(), sorted.end());
+    for (int k : orders) {
+        auto got = wm.kth_smallest(l, r, k);
+        int count = 0;
+        U sum{};
+        for (int i = l; i < r; ++i) {
+            if (values[i] < sorted[k]) {
+                ++count;
+                sum += weights[i];
+            }
+        }
+        assert(got.value == sorted[k]);
+        assert(got.less.count == count && got.less.sum == sum);
+    }
+}
+
 template <class T>
 void check_cursor_tree(const WeightedWaveletMatrix<T, ll> &wm,
                        typename WeightedWaveletMatrix<T, ll>::Cursor cur,
@@ -162,6 +183,11 @@ void check_random() {
             auto got_index = wm_index.count_sum_less_index(l, r, xi);
             assert(got_index.count == index_less.count && got_index.sum == index_less.sum);
             assert(wm_index.count_less_index(l, r, xi) == index_less.count);
+            if (l < r) {
+                vector<int> orders{0, r - l - 1, int(rng() % (r - l))};
+                check_kth(wm, values, weights, l, r, orders);
+                check_kth(wm_index, values, weights, l, r, orders);
+            }
             if (step < 20) {
                 int l2 = rng() % (n + 1), r2 = rng() % (n + 1);
                 if (l2 > r2) swap(l2, r2);
@@ -177,6 +203,7 @@ void check_random() {
         wm.build(values, weights);
         assert(wm.zero_sum.size() == sum_size);
         assert(wm.count_sum_less_index(0, n, sorted_values.size()).sum == wm_index.base_sum[n]);
+        if (n) check_kth(wm, values, weights, 0, n, {0, n / 2, n - 1});
     }
 }
 
@@ -187,6 +214,7 @@ void check_generic_value() {
     assert(wm.count_less(0, 4, string("bb")) == 2);
     assert(wm.sum_less_equal(1, 4, string("bb")) == 5);
     check_cursor_tree(wm, wm.range_cursor(1, 4), {{"aa", -2}, {"aa", 7}, {"cc", 5}});
+    check_kth(wm, values, weights, 0, 4, {0, 1, 2, 3});
 }
 
 void check_integral_widths() {
@@ -195,6 +223,23 @@ void check_integral_widths() {
     WeightedWaveletMatrix<signed char, int> wm(values, weights);
     assert(wm.count_less(0, 5, (signed char)1) == 4);
     assert(wm.sum_less_equal(0, 5, (signed char)0) == 29);
+    check_kth(wm, values, weights, 0, 5, {0, 1, 2, 3, 4});
+}
+
+void check_kth_all_ranges() {
+    for (const vector<int> &values : {vector<int>{-2, 3, 3, -2, 0, 3}, vector<int>(5, -7)}) {
+        vector<__int128_t> weights{3, -5, 0, 7, -11, 19};
+        weights.resize(values.size());
+        weights[0] = __int128_t(1) << 80;
+        WeightedWaveletMatrix<int, __int128_t> wm(values, weights);
+        for (int l = 0; l < (int)values.size(); ++l) {
+            for (int r = l + 1; r <= (int)values.size(); ++r) {
+                vector<int> orders;
+                for (int k = 0; k < r - l; ++k) orders.push_back(k);
+                check_kth(wm, values, weights, l, r, orders);
+            }
+        }
+    }
 }
 
 int main() {
@@ -203,5 +248,6 @@ int main() {
     check_random();
     check_generic_value();
     check_integral_widths();
+    check_kth_all_ranges();
 
 }

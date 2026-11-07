@@ -8,6 +8,11 @@ struct WeightedWaveletMatrix {
         U sum;
     };
 
+    struct KthResult {
+        T value;
+        CountSum less;
+    };
+
     class Cursor {
         friend struct WeightedWaveletMatrix;
 
@@ -350,6 +355,24 @@ public:
             Cursor(this, depth, mid[cur.depth_] + l1, mid[cur.depth_] + r1,
                    prefix | 1, offset, high)
         };
+    }
+
+    KthResult kth_smallest(int l, int r, int k) const {
+        assert(0 <= k && k < r - l);
+        auto cur = range_cursor(l, r);
+        CountSum less{0, U()};
+        while (!cur.is_leaf()) {
+            auto children = split(cur);
+            if (k < children.low.count()) {
+                cur = children.low;
+            } else {
+                k -= children.low.count();
+                less.count += children.low.count();
+                less.sum += children.low.sum();
+                cur = children.high;
+            }
+        }
+        return {cur.value(), less};
     }
 
     CountSum count_sum_less_index(int l, int r, int xi) const {

@@ -8,6 +8,7 @@ tags: データ構造
 
 ## 説明
 静的配列に対して、区間内の `x` 未満 / 以下の個数と重みの総和を扱う。
+区間の `k` 番目の値と、その値未満の集計もまとめて求められる。
 
 ## できること
 配列長を $N$、異なる値の個数を $\sigma$ とし、比較と重みの加減算を $O(1)$ とする。
@@ -16,6 +17,8 @@ tags: データ構造
   値配列 `v` と重み配列 `w` から構築する。$O(N\log N)$
 - `build_from_index(idx, sorted_vals, w)`
   圧縮済み index 列 `idx` と昇順の値列 `sorted_vals`、重み列 `w` から構築する。$O(N\log \sigma)$
+- `KthResult kth_smallest(l, r, k)`
+  区間 $[l, r)$ の `k` 番目（0-indexed）に小さい値 `value` と、その値未満の個数・重み和 `less` を返す。`0 <= k < r-l` を前提とする。時間 $O(\log \sigma)$、追加領域 $O(1)$
 - `count_sum_less(l, r, x)`
   区間 $[l, r)$ のうち `x` 未満の要素数と重み和を返す。$O(\log \sigma)$
 - `count_sum_less_equal(l, r, x)`
@@ -45,13 +48,27 @@ tags: データ構造
 
 ## 使い方
 要素数と重み和を返す `CountSum` は、個数 `count` と重み和 `sum` を持つ。
+`KthResult` は値 `value` と、その値未満の集計 `less`（`CountSum`）を持つ。
+同じ値の要素はすべて `less` から除くため、`less.sum` は先頭 `k` 個の重み和とは限らない。
 `WeightedWaveletMatrix<T, U> wm(v, w);` を作る。
 圧縮済みなら `build_from_index(idx, sorted_vals, w);` でも作れる。
 `v` と `w` は同じ長さにし、`T` は値の型、`U` は重みとその総和の型とする。
 `sorted_vals` は重複のない昇順の値列、`idx[i]` は `v[i]` に対応する添字とする。
+区間は `0 <= l <= r <= v.size()` とする。
 値で区間を絞り、その中にある要素数と重み和を同時に求める。
 
 ## 例
+```cpp
+WeightedWaveletMatrix<int, long long> wm({3, 1, 3, 2}, {10, -2, 7, 5});
+auto result = wm.kth_smallest(0, 4, 3);
+auto value = result.value;
+auto less_count = result.less.count;
+auto less_sum = result.less.sum;
+```
+
+`value` は `3`、`less_count` は `2`、`less_sum` は `3` となる。
+値だけが必要なら `wm.kth_smallest(l, r, k).value` で取得する。
+
 2 区間を合わせた `k` 番目（0-indexed）の値と、その値未満の重み和を求める。重なる位置は2回数える。
 
 ```cpp
