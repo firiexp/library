@@ -27,9 +27,30 @@ void check(const vector<IntPoint> &points) {
             best = max(best, distance_squared(points[u], points[v]));
     assert(distance_squared(points[i], points[j]) == best);
     assert(points == original);
+    auto ids = convex_hull_indices(points);
+    vector<IntPoint> hull;
+    for (int id : ids) hull.push_back(points[id]);
+    int h = hull.size();
+    for (int start = 0; start < h; ++start) {
+        const auto original_hull = hull;
+        auto [u, v] = furthest_pair_convex(hull);
+        if (h < 2) {
+            assert(u == -1 && v == -1);
+        } else {
+            assert(0 <= u && u < h && 0 <= v && v < h && u != v);
+            assert(distance_squared(hull[u], hull[v]) == best);
+            assert(distance_squared(points[ids[u]], points[ids[v]]) == best);
+            assert(ids[u] != ids[v]);
+        }
+        assert(hull == original_hull);
+        rotate(hull.begin(), hull.begin() + 1, hull.end());
+        rotate(ids.begin(), ids.begin() + 1, ids.end());
+    }
 }
 
 void check_furthest_pair() {
+    assert(furthest_pair_convex({}) == make_pair(-1, -1));
+    assert(furthest_pair_convex({{3, 4}}) == make_pair(-1, -1));
     mt19937_64 rng(20261007);
     for (int mask = 1; mask < (1 << 9); ++mask) {
         vector<IntPoint> points;
@@ -45,6 +66,8 @@ void check_furthest_pair() {
            {315, 164}, {940, 770}, {897, 663}, {850, 790}});
     check({{4, -7}, {4, -2}, {4, 0}, {4, 9}});
     check({{-7, 4}, {-2, 4}, {0, 4}, {9, 4}});
+    check({{0, -4}, {3, -2}, {3, 2}, {0, 4}, {-3, 2}, {-3, -2}});
+    check({{0, 0}, {6, 0}, {6, 2}, {0, 2}});
     for (int tc = 0; tc < 3000; ++tc) {
         vector<IntPoint> points(2 + rng() % 40);
         for (auto &[x, y] : points) {
