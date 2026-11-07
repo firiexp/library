@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_STRING_SUFFIX_AUTOMATON_CPP
+#define FIRIEXP_LIBRARY_STRING_SUFFIX_AUTOMATON_CPP
+
 template<int W, char start = 'a'>
 struct SuffixAutomaton {
     struct Node {
@@ -211,6 +214,9 @@ private:
         }
     }
 };
+
+#endif
+
 /**
  * @brief Suffix Automaton
  */
