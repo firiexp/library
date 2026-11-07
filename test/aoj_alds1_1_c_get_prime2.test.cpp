@@ -1,5 +1,6 @@
 #define PROBLEM "http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_1_C"
 
+#include <cassert>
 #include <cstdint>
 #include <vector>
 using namespace std;

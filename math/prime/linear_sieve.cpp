@@ -53,6 +53,17 @@ struct LinearSieve {
         return prime_table[x];
     }
 
+    vector<int> prime_factor(int x) const {
+        assert(!min_factor.empty() && 1 <= x && x <= n);
+        vector<int> factors;
+        while (x > 1) {
+            int p = min_factor[x];
+            factors.push_back(p);
+            x /= p;
+        }
+        return factors;
+    }
+
 private:
     template<bool NeedMinFactor, bool NeedPhi, bool NeedMobius>
     void build() {

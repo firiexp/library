@@ -1,14 +1,13 @@
 ---
 title: 線形篩(Linear Sieve)
 documentation_of: //math/prime/linear_sieve.cpp
-date: 2026-03-12
+date: 2026-11-07
 category: 数学
 tags: 数学
 ---
 
 ## 説明
 `0..n` の素数列挙を線形篩で前計算する。
-必要なら最小素因数、`phi`、`mu` も同時に持てる。
 
 ## できること
 - `LinearSieve sieve(int n, bool need_min_factor = false, bool need_phi = false, bool need_mobius = false)`
@@ -16,16 +15,17 @@ tags: 数学
 - `vector<int> primes`
   `n` 以下の素数を昇順で持つ
 - `vector<int> min_factor`
-  `need_min_factor = true` のときだけ埋まる。`min_factor[x]` に `x` の最小素因数を持つ。`min_factor[1] = 1`
+  `min_factor[x]` に `x` の最小素因数を持つ。`need_min_factor = true` のときのみ。 `min_factor[1] = 1`
 - `vector<int> phi`
-  `need_phi = true` のときだけ埋まる。`phi[x] = φ(x)` を持つ。`phi[0] = 0`, `phi[1] = 1`
+  `phi[x] = φ(x)` を持つ。`need_phi = true` のときのみ。
 - `vector<int> mobius`
-  `need_mobius = true` のときだけ埋まる。`mobius[x] = μ(x)` を持つ。`mobius[0] = 0`, `mobius[1] = 1`
+  `mobius[x] = μ(x)` を持つ。`need_mobius = true` のときのみ。
 - `bool is_prime(int x)`
   `x` が素数なら `true`、範囲外または合成数なら `false`。$O(1)$
+- `vector<int> prime_factor(int x) const`
+  `x` の素因数を昇順・重複ありで返す。`x = 1` なら空。 `need_min_factor = true` のときのみ。
 
 ## 使い方
-用途ごとに配列を直接読む。
 
 ```cpp
 LinearSieve sieve(n);
@@ -37,5 +37,17 @@ int phi_x = table.phi[x];
 int mu_x = table.mobius[x];
 ```
 
+同じ上限以下の整数を何度も分解する場合は、最小素因数表を一度作って使い回す。
+分解結果は `divisor.cpp` の `divisor_from_factors` にそのまま渡せる。
+
+```cpp
+LinearSieve sieve(1000000, true);
+for (int x : {360, 997, 1000000}) {
+    auto factors = sieve.prime_factor(x);
+    auto divisors = divisor_from_factors(factors);
+}
+```
+
 ## 実装上の補足
-`get_prime.cpp`, `get_min_factor.cpp`, `eulerphi_all.cpp`, `mobius_all.cpp`, `get_prime2.cpp` はこの前計算の薄い wrapper になっている。
+`get_min_factor.cpp`, `eulerphi_all.cpp`, `mobius_all.cpp`, `get_prime2.cpp` はこの前計算の薄い wrapper になっている。
+`get_prime.cpp` は wheel sieve による素数列挙を使う。
