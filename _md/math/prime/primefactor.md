@@ -1,21 +1,20 @@
 ---
 title: 素因数分解(試し割り)
 documentation_of: //math/prime/primefactor.cpp
-date: 2026-03-08
+date: 2026-11-07
 category: 数学
 tags: 数学
 ---
 
 ## 説明
 前計算した小さい素数列を使って整数を素因数分解する。
-除算判定に `ExactDiv` を使うので、通常の `%` より軽い。
 
 ## できること
-- `vector<T> prime_factor(T n)`
+- `vector<T> prime_factor_trial(T n)`
   `n` の素因数を昇順で列挙して返す。重複も含み、`n = 1` なら空列
 
 ## 使い方
-`n` は $1\le n\le 1024000000$ の整数とする。素数表は読み込み時に一度作る。
+`primefactor_ll.cpp` の `prime_factor(n)` や `get_prime.cpp` の素数列挙と併用できる。
 
 ## 実装上の補足
 `n = 1` は $O(1)$ で返す。試し割りで残余が1になった時点で終了するため、小さい素因数だけで分解できる入力では素数表の残りを走査しない。

@@ -1,7 +1,7 @@
 ---
 title: 素因数分解(Pollard Rho)
 documentation_of: //math/prime/primefactor_ll.cpp
-date: 2026-03-08
+date: 2026-11-07
 category: 数学
 tags: 数学
 ---
@@ -19,8 +19,9 @@ tags: 数学
   $1 \le n < 2^{63}$ の整数 `n` の素因数を昇順で返す。重複も含む。`n = 1` なら空
 
 ## 使い方
-`long long` や `unsigned long long` の整数に使う。
+`long long` の範囲の整数に使う。
 `prime_factor(n)` は内部で再帰分解し、最後にソートして返す。
+
 
 ## 実装上の補足
 Pollard's rho では Montgomery 乗算を使い、値が十分小さい場合は各演算後の正規化を省く。

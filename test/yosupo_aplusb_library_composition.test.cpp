@@ -32,6 +32,10 @@ using ull = unsigned long long;
 #include "../math/prime/get_min_factor.cpp"
 #include "../math/prime/get_prime.cpp"
 #include "../math/prime/get_prime_wheel.cpp"
+#include "../math/prime/get_prime2.cpp"
+#include "../math/convolution/gcd_transform.cpp"
+#include "../math/prime/primefactor.cpp"
+#include "../math/prime/primefactor_ll.cpp"
 
 #include "../geometry/dualgraph.cpp"
 #include "../geometry/half_plane_intersection.cpp"
@@ -43,6 +47,16 @@ using ull = unsigned long long;
 #include "../tree/hld_edge.cpp"
 
 void check_composed_libraries() {
+    assert(get_prime(10) == vector<int>({2, 3, 5, 7}));
+    assert(get_prime_exact_div(10).size() == 4);
+    assert(prime_factor(360) == vector<int>({2, 2, 2, 3, 3, 5}));
+    assert(prime_factor_trial(360) == prime_factor(360));
+    vector<int> multiples{0, 1, 2, 3, 4};
+    gcd_transform(multiples);
+    assert(multiples == vector<int>({0, 10, 6, 3, 4}));
+    gcd_itransform(multiples);
+    assert(multiples == vector<int>({0, 1, 2, 3, 4}));
+
     edge<ll> adjacent(1, 0), directed(1, 2, 1);
     assert(adjacent.from == -1 && adjacent.to == 1 && adjacent.cost == 0);
     assert(directed.from == 1 && int(directed) == 2 && directed.cost == 1);

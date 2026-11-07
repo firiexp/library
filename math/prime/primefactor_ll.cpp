@@ -1,5 +1,7 @@
 #include "miller_rabin.cpp"
 
+namespace primefactor_ll_detail {
+
 template<typename T>
 struct ExactDiv {
     T t, i, val;
@@ -158,16 +160,21 @@ ull pollard_rho_impl(ull nn, bool use_pm1) {
     }
 }
 
+}
+
 template<class T>
 T pollard_rho2(T n) {
     assert(n >= 4 && static_cast<ull>(n) < (1ULL << 63));
     ull nn = n;
     if ((nn & 1) == 0) return 2;
-    if (nn < pollard_lazy_mod_limit) {
-        return (T)pollard_rho_impl<mod64_lazy>(nn, nn >= pollard_pm1_mod_threshold);
+    if (nn < primefactor_ll_detail::pollard_lazy_mod_limit) {
+        return (T)primefactor_ll_detail::pollard_rho_impl<primefactor_ll_detail::mod64_lazy>(
+            nn, nn >= primefactor_ll_detail::pollard_pm1_mod_threshold);
     }
-    return (T)pollard_rho_impl<mod64>(nn, false);
+    return (T)primefactor_ll_detail::pollard_rho_impl<mod64>(nn, false);
 }
+
+namespace primefactor_ll_detail {
 
 template<class T>
 void prime_factor_impl(T n, vector<T> &res, bool trial){
@@ -200,11 +207,13 @@ void prime_factor_impl(T n, vector<T> &res, bool trial){
     prime_factor_impl(n / x, res, false);
 }
 
+}
+
 template<class T>
 vector<T> prime_factor(T n){
     assert(n >= 1 && static_cast<ull>(n) < (1ULL << 63));
     vector<T> res;
-    prime_factor_impl(n, res, true);
+    primefactor_ll_detail::prime_factor_impl(n, res, true);
     sort(res.begin(),res.end());
     return res;
 }

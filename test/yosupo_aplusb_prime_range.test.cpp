@@ -69,7 +69,7 @@ void self_check() {
         ull n = root * root;
         check_factor(n);
         vector<ull> factors{2, 3, 5};
-        prime_factor_impl(n, factors, false);
+        primefactor_ll_detail::prime_factor_impl(n, factors, false);
         assert((vector<ull>(factors.begin(), factors.begin() + 3) == vector<ull>{2, 3, 5}));
         vector<ull> expected = prime_factor(root);
         auto twice = expected;

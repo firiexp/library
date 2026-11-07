@@ -1,3 +1,5 @@
+namespace primefactor_trial_detail {
+
 template<typename T>
 struct ExactDiv {
     T t, i, val;
@@ -31,11 +33,13 @@ vector<ExactDiv<uint>> get_prime(int n){
 }
 const auto primes = get_prime(32000);
 
+}
+
 template<class T>
-vector<T> prime_factor(T n){
+vector<T> prime_factor_trial(T n){
     vector<T> res;
     if (n == 1) return res;
-    for (auto &&i : primes) {
+    for (auto &&i : primefactor_trial_detail::primes) {
         while (i.divide(n)){
             res.emplace_back(i.val);
             n /= i.val;
