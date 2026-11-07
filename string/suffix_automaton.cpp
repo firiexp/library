@@ -36,6 +36,7 @@ struct SuffixAutomaton {
 
     int add(char c) {
         ways.clear();
+        occurrence_begin.clear();
         int k = ord(c);
         int cur = nodes.size();
         nodes.emplace_back(0, nodes[last].len + 1, 1);
@@ -160,9 +161,55 @@ struct SuffixAutomaton {
         return cnt;
     }
 
+    template<class Emit>
+    void for_each_occurrence(string_view pattern, Emit &&emit) const {
+        if (pattern.empty()) {
+            for (int i = 0; i <= nodes[last].len; ++i) emit(i);
+            return;
+        }
+        if (pattern.size() > size_t(nodes[last].len)) return;
+        int v = 0;
+        for (char c : pattern) {
+            int k = ord(c);
+            if (k < 0 || k >= W || nodes[v].next[k] == -1) return;
+            v = nodes[v].next[k];
+        }
+        if (occurrence_begin.empty()) prepare_occurrences();
+        for (int i = occurrence_begin[v]; i < occurrence_end[v]; ++i)
+            emit(occurrence_positions[i] + 1 - int(pattern.size()));
+    }
+
 private:
     long long distinct = 0;
     mutable vector<long long> ways;
+    mutable vector<int> occurrence_begin, occurrence_end, occurrence_positions;
+
+    void prepare_occurrences() const {
+        int n = nodes.size();
+        vector<int> head(n, -1), next(n, -1), stack{0};
+        for (int v = 1; v < n; ++v) {
+            int p = nodes[v].link;
+            next[v] = head[p];
+            head[p] = v;
+        }
+        occurrence_begin.resize(n);
+        occurrence_end.resize(n);
+        occurrence_positions.clear();
+        occurrence_positions.reserve(nodes[last].len);
+        stack.reserve(n);
+        while (!stack.empty()) {
+            int v = stack.back();
+            stack.pop_back();
+            if (v < 0) {
+                occurrence_end[~v] = occurrence_positions.size();
+                continue;
+            }
+            occurrence_begin[v] = occurrence_positions.size();
+            if (nodes[v].occ) occurrence_positions.push_back(nodes[v].first_pos);
+            stack.push_back(~v);
+            for (int u = head[v]; u != -1; u = next[u]) stack.push_back(u);
+        }
+    }
 };
 /**
  * @brief Suffix Automaton

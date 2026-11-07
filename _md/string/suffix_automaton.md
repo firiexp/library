@@ -23,8 +23,13 @@ tags: 文字列
 - `count_distinct_substrings()` : 異なる非空部分文字列数を `long long` で返す。空文字列なら `0`。$O(1)$
 - `kth_substring(k)` : 異なる非空部分文字列を辞書順に並べたときの `k` 番目を返す。`k` は0-indexed。返り値は元文字列上の半開区間 `[l,r)` を表す `optional<pair<int,int>>` で、負数または範囲外は `nullopt`。初回の準備に $O(WV)$、各クエリに最悪 $O(WN)$、追加領域 $O(V)$。文字追加後の最初のクエリでは準備をやり直す
 - `substring_occurrences()` : 各状態の出現回数を状態番号順の `vector<int>` で返す。$O(V+N)$
+- `for_each_occurrence(pattern, emit)` : `string_view` の `pattern` が現れる全開始位置を `emit(int pos)` に1回ずつ渡す。0-indexed、通知順は未規定。空パターンは境界 `0..N` を昇順に通知する
 - `order_by_length()` : 各状態が表す最大長の昇順に状態番号を返す。$O(V+N)$
 - `longest_common_substring(t)` : `s` と `t` の最長共通部分文字列の位置を `SubstringMatch` で返す。時間 $O(|t|)$、返却値以外の追加領域 $O(1)$
+
+`for_each_occurrence` は、非空パターンが一致する最初の照会で $O(V+N)$ 時間・追加領域の索引を作る。
+以後はパターン長 $M$、出現数 $Z$ に対して $O(M+Z)$。コールバック自体の費用は除く。
+`add` / `build` で文字を追加すると索引を無効にし、次の一致する照会で再構築する。
 
 ## 使い方
 
@@ -50,6 +55,18 @@ if (auto range = sam.kth_substring(2)) {
 `[match.s_l, match.s_r)` が `s` 側、`[match.t_l, match.t_r)` が `t` 側の0-indexed半開区間を表す。
 最長の答えが複数ある場合は任意の1組を返す。共通部分が空なら4つとも `0`。
 
+パターンの全出現位置はコールバックで受け取る。
+
+```cpp
+SuffixAutomaton<26> sam(string("ababa"));
+vector<int> positions;
+sam.for_each_occurrence("aba", [&](int pos) { positions.push_back(pos); });
+sort(positions.begin(), positions.end());
+```
+
+`positions` は `{0, 2}` になる。位置順が不要なら sort は省ける。
+コールバックから同じ SAM を変更しない。
+
 ## 実装上の補足
 
 - `nodes[v].len` は状態 `v` が表す文字列の最大長。
@@ -58,5 +75,6 @@ if (auto range = sam.kth_substring(2)) {
 - `nodes[v].first_pos` は代表となる出現の末尾位置。clone は複製元の位置を引き継ぐ。
 - 異なる部分文字列数は `add` のたびに、新状態と suffix link 先の長さの差だけ増やす。clone は既存状態の寄与を分割するため、総数を変えない。
 - `substring_occurrences()` は状態ごとに出現回数を集計する。クローン状態の出現回数は構築時に `0` とし、集計時に加算する。
+- 出現位置の索引は suffix-link 木を非再帰で走査し、通常状態の末尾位置だけを連続配列へ並べる。各状態の部分木を区間として保持し、照会では該当区間だけを読む。clone の代表位置は重複して数えない。
 - `kth_substring` に必要な部分文字列数は `long long` で保持する。初回クエリで集計して再利用し、`add` / `build` で文字を追加したら次のクエリで再計算する。クエリを呼ばない用途ではこの集計を行わない。
 - `nodes` / `last` は参照用とし、直接の書き換えには対応しない。

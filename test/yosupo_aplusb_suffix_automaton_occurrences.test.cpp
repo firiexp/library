@@ -26,6 +26,21 @@ void check(const string &s, const SuffixAutomaton<2> &sam) {
     assert(counts.size() == before.size());
     assert(counts[0] == (int)s.size());
     vector<bool> visited(counts.size());
+    auto check_positions = [&](string_view pattern) {
+        vector<int> expected, result;
+        for (size_t i = 0; i + pattern.size() <= s.size(); ++i)
+            if (string_view(s).substr(i, pattern.size()) == pattern) expected.push_back(i);
+        sam.for_each_occurrence(pattern, [&](int i) { result.push_back(i); });
+        sort(result.begin(), result.end());
+        assert(result == expected);
+        return result.size();
+    };
+    check_positions("");
+    check_positions("c");
+    check_positions("ac");
+    check_positions(string_view("\0", 1));
+    check_positions(string_view("\xff", 1));
+    check_positions(s + 'a');
     for (int l = 0; l < (int)s.size(); ++l) {
         int v = 0;
         for (int r = l; r < (int)s.size(); ++r) {
@@ -35,6 +50,7 @@ void check(const string &s, const SuffixAutomaton<2> &sam) {
             for (int start = 0; start + r - l < (int)s.size(); ++start)
                 expected += s.compare(start, r - l + 1, s, l, r - l + 1) == 0;
             assert(counts[v] == expected);
+            assert(check_positions(string_view(s).substr(l, r - l + 1)) == size_t(counts[v]));
             visited[v] = true;
         }
     }
@@ -60,9 +76,10 @@ void self_check() {
             check_distinct(s.substr(0, i + 1), online);
         }
         SuffixAutomaton<2> chunks(s.substr(0, n / 2));
+        check(s.substr(0, n / 2), chunks);
         chunks.build(s.substr(n / 2));
         chunks.build(string());
-        check_distinct(s, chunks);
+        check(s, chunks);
         for (char c : {'b', 'a', 'b'}) {
             s += c;
             sam.add(c);
@@ -78,6 +95,37 @@ void self_check() {
         total += large.nodes[v].len - large.nodes[large.nodes[v].link].len;
     assert(total > INT_MAX);
     assert(large.count_distinct_substrings() == total);
+    const int n = 300000;
+    string repeated(n, 'a');
+    SuffixAutomaton<2> chain(repeated);
+    vector<int> positions;
+    chain.for_each_occurrence("a", [&](int p) { positions.push_back(p); });
+    sort(positions.begin(), positions.end());
+    assert(positions.size() == n);
+    for (int i = 0; i < n; ++i) assert(positions[i] == i);
+    chain.add('b');
+    for (int i = 0; i < 10000; ++i) {
+        int count = 0;
+        chain.for_each_occurrence("b", [&](int p) { assert(p == n); ++count; });
+        assert(count == 1);
+    }
+    int expected_boundary = 0;
+    chain.for_each_occurrence("", [&](int p) { assert(p == expected_boundary); ++expected_boundary; });
+    assert(expected_boundary == n + 2);
+    auto copied = chain;
+    chain.build(string("ab"));
+    vector<int> old_positions, new_positions;
+    copied.for_each_occurrence("b", [&](int p) { old_positions.push_back(p); });
+    chain.for_each_occurrence("b", [&](int p) { new_positions.push_back(p); });
+    sort(new_positions.begin(), new_positions.end());
+    assert(old_positions == vector<int>({n}));
+    assert(new_positions == vector<int>({n, n + 2}));
+    for (int tc = 0; tc < 300; ++tc) {
+        string text(rng() % 35, 'a');
+        for (char &c : text) c += rng() % 2;
+        SuffixAutomaton<2> sam(text);
+        check(text, sam);
+    }
 }
 
 int main() {
