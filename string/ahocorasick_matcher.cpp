@@ -7,7 +7,10 @@ template<int W, int start>
 class AhoCorasickMatcher {
     AhoCorasick<W, start> aho;
     vector<int> head, next_id, output;
-    vector<size_t> length;
+    vector<long long> length;
+    int state = 0;
+    long long position = 0;
+    bool announced = false;
 
 public:
     explicit AhoCorasickMatcher(const vector<string> &patterns)
@@ -31,21 +34,33 @@ public:
         }
     }
 
+    void reset() {
+        state = 0;
+        position = 0;
+        announced = false;
+    }
+
     template<class Callback>
-    void scan(const string &text, Callback callback) const {
-        auto emit = [&](int state, size_t end) {
+    void scan(string_view chunk, Callback callback) {
+        auto emit = [&](int state, long long end) {
             for (int v = state; v != -1; v = output[v]) {
                 for (int id = head[v]; id != -1; id = next_id[id]) {
                     callback(id, end - length[id]);
                 }
             }
         };
-        int state = 0;
-        emit(0, 0);
-        for (size_t i = 0; i < text.size(); ++i) {
-            state = aho.v[state].to[text[i] - start];
-            emit(state, i + 1);
+        if (!announced) {
+            announced = true;
+            emit(0, 0);
         }
+        int current = state;
+        long long end = position;
+        for (char c : chunk) {
+            current = aho.v[current].to[c - start];
+            emit(current, ++end);
+        }
+        state = current;
+        position = end;
     }
 };
 

@@ -5,7 +5,7 @@ using namespace std;
 #include "../string/ahocorasick_matcher.cpp"
 #include "../string/ahocorasick_matcher.cpp"
 
-using Match = pair<int, size_t>;
+using Match = pair<int, long long>;
 
 vector<Match> oracle(const vector<string> &patterns, const string &text) {
     vector<Match> result;
@@ -24,21 +24,50 @@ vector<Match> oracle(const vector<string> &patterns, const string &text) {
     return result;
 }
 
-void check(const vector<string> &patterns, const vector<string> &texts) {
-    const AhoCorasickMatcher<3, 'a'> matcher(patterns);
+void check(const vector<string> &patterns, const vector<string> &texts, mt19937 &rng) {
+    AhoCorasickMatcher<3, 'a'> matcher(patterns);
     for (const string &text : texts) {
+        auto expected = oracle(patterns, text);
         vector<Match> got;
-        matcher.scan(text, [&](int id, size_t position) { got.emplace_back(id, position); });
-        assert(got == oracle(patterns, text));
+        auto emit = [&](int id, auto position) {
+            static_assert(is_same_v<decltype(position), long long>);
+            got.emplace_back(id, position);
+        };
+        matcher.reset();
+        matcher.scan(text, emit);
+        assert(got == expected);
+        for (size_t cut = 0; cut <= text.size(); ++cut) {
+            matcher.reset();
+            got.clear();
+            matcher.scan(string_view(text).substr(0, cut), emit);
+            matcher.scan("", emit);
+            matcher.scan("", emit);
+            matcher.scan(string_view(text).substr(cut), emit);
+            matcher.scan("", emit);
+            assert(got == expected);
+        }
+        for (int repeat = 0; repeat < 3; ++repeat) {
+            matcher.reset();
+            got.clear();
+            matcher.scan("", emit);
+            for (size_t offset = 0; offset < text.size();) {
+                size_t size = min(text.size() - offset, size_t(1 + rng() % 7));
+                matcher.scan(string_view(text).substr(offset, size), emit);
+                matcher.scan("", emit);
+                offset += size;
+            }
+            assert(got == expected);
+        }
     }
 }
 
 int main() {
-    check({}, {"", "abc", "aaaa"});
-    check({"", ""}, {"", "abc"});
-    check({"aba", "ba", "aba", "a", "", "aa", "aaa"}, {"", "ababa", "aaaaaaa", "cc", "ababa"});
-    check({"aab", "ab", "b", "ba", "bc", "bca", "c", "caa"}, {"abccab", "caabaabc", "bbca"});
     mt19937 rng(312);
+    check({}, {"", "abc", "aaaa"}, rng);
+    check({"", ""}, {"", "abc"}, rng);
+    check({"aba"}, {"ab", "a", "aba"}, rng);
+    check({"aba", "ba", "aba", "a", "", "aa", "aaa"}, {"", "ababa", "aaaaaaa", "cc", "ababa"}, rng);
+    check({"aab", "ab", "b", "ba", "bc", "bca", "c", "caa"}, {"abccab", "caabaabc", "bbca"}, rng);
     auto random_string = [&](int limit) {
         string s(rng() % (limit + 1), 'a');
         for (char &c : s) c += rng() % 3;
@@ -48,22 +77,22 @@ int main() {
         vector<string> patterns(rng() % 20), texts(5);
         for (string &s : patterns) s = random_string(10);
         for (string &s : texts) s = random_string(40);
-        check(patterns, texts);
+        check(patterns, texts, rng);
     }
-    const AhoCorasickMatcher<2, 'a'> deep({string(200000, 'a') + 'b', ""});
-    size_t count = 0;
-    deep.scan(string(300000, 'a'), [&](int id, size_t position) {
+    AhoCorasickMatcher<2, 'a'> deep({string(200000, 'a') + 'b', ""});
+    long long count = 0;
+    deep.scan(string(300000, 'a'), [&](int id, long long position) {
         assert(id == 1 && position == count);
         ++count;
     });
     assert(count == 300001);
     vector<string> nested;
     for (int i = 0; i <= 128; ++i) nested.emplace_back(i, 'a');
-    const AhoCorasickMatcher<1, 'a'> many(nested);
+    AhoCorasickMatcher<1, 'a'> many(nested);
     count = 0;
-    many.scan(string(10000, 'a'), [&](int id, size_t position) {
+    many.scan(string(10000, 'a'), [&](int id, long long position) {
         assert(position + id <= 10000);
         ++count;
     });
-    assert(count == 129ULL * 10001 - 128 * 129 / 2);
+    assert(count == 129LL * 10001 - 128 * 129 / 2);
 }
