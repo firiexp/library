@@ -11,16 +11,17 @@ documentation_of: //math/linear_algebra/linear_system_decomposition.cpp
 ## できること
 $H$ 行 $W$ 列の行列でランクを $R$ とする。`mint` は素数 mod とする。
 
-- `LinearSystemDecomposition(a, variables = -1)`
-  係数行列を分解し、零空間基底を作る。時間 $O(HWR+W(W-R))$。
+- `LinearSystemDecomposition(a, variables = -1, bool build_basis = true)`
+  係数行列を分解する。`build_basis = true` なら零空間基底も作る。時間 $O(HW(R+1)+W(W-R)+H+W)$。
 - `int rank() const`
   係数行列の階数を返す。$O(1)$。
 - `const vector<vector<mint>>& basis() const`
-  零空間の基底 $W-R$ 本を参照で返す。$O(1)$。
+  零空間の基底 $W-R$ 本を参照で返す。`build_basis = false` で構築した場合は空。$O(1)$。
 - `optional<vector<mint>> solve(vector<mint> b) const`
   長さ $H$ の右辺に対し、自由変数を0にした特解を返す。不整合なら `nullopt`。時間 $O(HR+W)$、追加領域 $O(H+W)$。
 
-構築時は $O(HW+W(W-R))$、構築後は $O(HR+W(W-R))$ の領域を使う。
+構築時は $O(HW+W(W-R)+H+W)$、構築後は $O(HR+W(W-R)+1)$ の領域を使う。
+`build_basis = false` なら、構築時間は $O(HW(R+1)+H+W)$、構築時の領域は $O(HW+H+W)$、構築後の領域は $O(HR+1)$ となる。
 
 ## 使い方
 ```cpp
@@ -34,5 +35,7 @@ for (const auto &b : right_hand_sides) {
 ```
 
 すべての解は、特解に基底の任意の線形結合を加えて得られる。
+特解だけを繰り返し求めるなら `LinearSystemDecomposition system(a, -1, false)` とする。
+基底を確保・生成せず、`rank()` と `solve(b)` は通常と同じ結果を返す。
 制約式が0本で変数がある場合は `LinearSystemDecomposition({}, W)` とする。
 変数が0個の場合は、右辺がすべて0なら空の特解を返し、それ以外は `nullopt` となる。

@@ -10,7 +10,7 @@ struct LinearSystemSolutionMod2 {
 };
 
 optional<LinearSystemSolutionMod2> solve_linear_system_mod2(
-    vector<DynamicBitset> a, DynamicBitset b, int variables = -1) {
+    vector<DynamicBitset> a, DynamicBitset b, int variables = -1, bool build_basis = true) {
     int n = (int)a.size();
     assert(variables >= -1 && b.size() == n);
     int m = variables < 0 ? (n ? a[0].size() : 0) : variables;
@@ -37,6 +37,7 @@ optional<LinearSystemSolutionMod2> solve_linear_system_mod2(
 
     LinearSystemSolutionMod2 result{rank, DynamicBitset(m), {}};
     for (int i = 0; i < rank; ++i) result.particular.assign(pivot[i], b.test(i));
+    if (!build_basis) return result;
     result.basis.reserve(m - rank);
     for (int col = 0; col < m; ++col) {
         if (where[col] != -1) continue;

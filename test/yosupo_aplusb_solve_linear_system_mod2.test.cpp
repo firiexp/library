@@ -37,6 +37,13 @@ void check(const vector<DynamicBitset>& a, const DynamicBitset& b, int m) {
     auto original_a = a;
     auto original_b = b;
     auto solution = a.empty() ? solve_linear_system_mod2(a, b, m) : solve_linear_system_mod2(a, b);
+    auto single = solve_linear_system_mod2(a, b, m, false);
+    assert(bool(single) == bool(solution));
+    if (single) {
+        assert(single->rank == solution->rank);
+        assert((single->particular ^ solution->particular).none());
+        assert(single->basis.capacity() == 0);
+    }
     for (int i = 0; i < (int)a.size(); ++i) assert((a[i] ^ original_a[i]).none());
     assert((b ^ original_b).none());
     int rank = scalar_rank(a, m);
@@ -78,6 +85,24 @@ void check(const vector<DynamicBitset>& a, const DynamicBitset& b, int m) {
 int main() {
     auto empty = solve_linear_system_mod2({}, {});
     assert(empty && empty->rank == 0 && empty->particular.empty() && empty->basis.empty());
+    const int width = 200000;
+    for (int n : {0, 2}) {
+        vector<DynamicBitset> a(n, DynamicBitset(width));
+        DynamicBitset b(n, true);
+        if (n) {
+            a[0].set(width - 1);
+            a[1].set(width - 1);
+        }
+        auto single = solve_linear_system_mod2(a, b, width, false);
+        assert(single && single->rank == (n != 0));
+        assert(single->particular.size() == width && single->basis.capacity() == 0);
+        for (int j = 0; j < width; ++j) assert(single->particular.test(j) == (n && j == width - 1));
+        assert(satisfies(a, b, single->particular));
+        if (n) {
+            b.flip(1);
+            assert(!solve_linear_system_mod2(a, b, width, false));
+        }
+    }
     for (int n = 0; n <= 3; ++n) for (int m = 0; m <= 3; ++m) {
         for (int mask = 0; mask < (1 << (n * (m + 1))); ++mask) {
             int bits = mask;

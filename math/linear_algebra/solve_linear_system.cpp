@@ -6,7 +6,8 @@ struct LinearSystemSolution {
     vector<vector<mint>> basis;
 };
 
-optional<LinearSystemSolution> solve_linear_system(vector<vector<mint>> A, const vector<mint>& b, int variables = -1) {
+optional<LinearSystemSolution> solve_linear_system(
+    vector<vector<mint>> A, const vector<mint>& b, int variables = -1, bool build_basis = true) {
     int n = A.size();
     assert(variables >= -1 && (int)b.size() == n);
     int m = variables < 0 ? (n ? (int)A[0].size() : 0) : variables;
@@ -34,6 +35,7 @@ optional<LinearSystemSolution> solve_linear_system(vector<vector<mint>> A, const
     for (int row = 0; row < rank; ++row) {
         result.particular[pivot[row]] = A[row][m];
     }
+    if (!build_basis) return result;
     for (int col = 0; col < m; ++col) {
         if (is_pivot[col]) continue;
         vector<mint> v(m);

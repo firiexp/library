@@ -9,7 +9,7 @@ $Ax=b$ の特殊解も1つ求め、基底と合わせてすべての解を表せ
 係数行を `DynamicBitset` で持ち、64 bit ごとの XOR で消去する。
 
 ## できること
-- `optional<LinearSystemSolutionMod2> solve_linear_system_mod2(vector<DynamicBitset> a, DynamicBitset b, int variables = -1)`
+- `optional<LinearSystemSolutionMod2> solve_linear_system_mod2(vector<DynamicBitset> a, DynamicBitset b, int variables = -1, bool build_basis = true)`
   基底と特殊解を返す。解がなければ `nullopt`。$N$ 行 $M$ 列に対し、時間 $O(NM\lceil M/64\rceil+M^2+N)$、入力コピーと返却値を含む領域 $O((N+M)\lceil M/64\rceil+N+M)$
 - `LinearSystemSolutionMod2::rank`
   係数行列の階数
@@ -21,6 +21,11 @@ $Ax=b$ の特殊解も1つ求め、基底と合わせてすべての解を表せ
 ## 使い方
 `a` は $N$ 行 $M$ 列、`b` は長さ $N$ とする。列 $j$ の値は各行の `test(j)` に対応する。
 すべての解は`particular` と `basis` から任意に選んだベクトルの XOR で表せる。
+
+特解だけが必要なら `solve_linear_system_mod2(a, b, -1, false)` とする。
+`rank` と `particular` は通常と同じで、`basis` は確保・生成せず空にする。この場合、`basis` が空でも一意解とは限らない。
+時間は $O(NM+N\min(N,M)\lceil M/64\rceil+N+M)$、領域は $O(N\lceil M/64\rceil+N+M)$ となる。
+変数数が0でも、右辺が全零なら空の特解で成功し、それ以外は `nullopt` を返す。
 
 ```cpp
 vector<DynamicBitset> a(1, DynamicBitset(2));

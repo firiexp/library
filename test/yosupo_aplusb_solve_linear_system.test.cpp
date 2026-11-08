@@ -31,6 +31,18 @@ void check(const vector<vector<mint>>& a, const vector<mint>& b, int m,
     auto original_a = a;
     auto original_b = b;
     auto result = a.empty() ? solve_linear_system(a, b, m) : solve_linear_system(a, b);
+    auto single = solve_linear_system(a, b, m, false);
+    const LinearSystemDecomposition single_decomposition(a, m, false);
+    auto single_particular = single_decomposition.solve(b);
+    assert(bool(single) == bool(result));
+    assert(bool(single_particular) == bool(result));
+    assert(single_decomposition.basis().capacity() == 0);
+    assert(single_particular == single_decomposition.solve(b));
+    if (single) {
+        assert(single->rank == result->rank && single_decomposition.rank() == result->rank);
+        assert(single->particular == result->particular && *single_particular == result->particular);
+        assert(single->basis.capacity() == 0);
+    }
     optional<LinearSystemDecomposition> local;
     if (!decomposition) {
         local.emplace(a, m);
@@ -93,6 +105,23 @@ void check(const vector<vector<mint>>& a, const vector<mint>& b, int m,
 void self_check() {
     auto empty = solve_linear_system({}, {});
     assert(empty && empty->rank == 0 && empty->particular.empty() && empty->basis.empty());
+    const int width = 200000;
+    for (int n : {0, 2}) {
+        vector<vector<mint>> a(n, vector<mint>(width));
+        vector<mint> b(n, 3);
+        if (n) a[0][width - 1] = a[1][width - 1] = 1;
+        auto single = solve_linear_system(a, b, width, false);
+        const LinearSystemDecomposition decomposition(a, width, false);
+        auto x = decomposition.solve(b);
+        assert(single && x && single->rank == (n != 0));
+        assert(single->particular.size() == width && single->basis.capacity() == 0);
+        assert(decomposition.basis().capacity() == 0 && *x == single->particular);
+        for (int j = 0; j < width; ++j) assert((*x)[j] == mint(n && j == width - 1 ? 3 : 0));
+        if (n) {
+            b[1] = 4;
+            assert(!solve_linear_system(a, b, width, false) && !decomposition.solve(b));
+        }
+    }
     check({}, {}, 5);
     check({{}, {}}, {0, 0}, 0);
     check({{}, {}}, {0, 1}, 0);

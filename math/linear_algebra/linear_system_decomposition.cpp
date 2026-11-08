@@ -14,7 +14,7 @@ class LinearSystemDecomposition {
     vector<vector<mint>> kernel;
 
 public:
-    explicit LinearSystemDecomposition(vector<vector<mint>> a, int variables = -1)
+    explicit LinearSystemDecomposition(vector<vector<mint>> a, int variables = -1, bool build_basis = true)
         : rows(a.size()), columns(variables < 0 ? (rows ? a[0].size() : 0) : variables) {
         assert(variables >= -1);
         for (const auto &row : a) assert((int)row.size() == columns);
@@ -35,6 +35,7 @@ public:
             }
             is_pivot[col] = true;
         }
+        if (!build_basis) return;
         for (int col = 0; col < columns; ++col) {
             if (is_pivot[col]) continue;
             vector<mint> v(columns);

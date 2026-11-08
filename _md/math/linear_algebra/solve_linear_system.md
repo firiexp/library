@@ -10,7 +10,7 @@ tags: 数学
 素数 mod の `mint` 上で、$Ax=b$ を満たす解を1つと、そこからすべての解を表すためのベクトル列を求める。
 
 ## できること
-- `optional<LinearSystemSolution> solve_linear_system(A, b, int variables = -1)`
+- `optional<LinearSystemSolution> solve_linear_system(A, b, int variables = -1, bool build_basis = true)`
   $Ax=b$ の解を1つと、すべての解を表すためのベクトル列を返す。解がなければ `nullopt`。$N$ 行 $M$ 列に対し、時間 $O(NM\min(N,M)+M^2+N)$、領域 $O(NM+M^2+N)$
 - `LinearSystemSolution::rank`
   係数行列 `A` の階数
@@ -24,6 +24,10 @@ tags: 数学
 通常は `auto sol = solve_linear_system(A, b);` とする。
 成功時の全解は `sol->particular` に `sol->basis` の任意の線形結合を加えたものになる。
 一意解では `basis` が空になる。
+
+特解だけが必要なら `solve_linear_system(A, b, -1, false)` とする。
+`rank` と `particular` は通常と同じで、`basis` は確保・生成せず空にする。この場合、`basis` が空でも一意解とは限らない。
+時間は $O(NM\min(N,M)+N+M)$、領域は $O(NM+N+M)$ となる。
 
 行数0では省略時の変数数を0とする。正の変数数が必要なら第3引数に指定する。
 行数が正の場合は列数を自動で推論し、第3引数を渡す場合は列数と一致させる。
