@@ -14,7 +14,7 @@ public:
 private:
     int n, levels;
     vector<Edge> tree_edges;
-    vector<int> depth;
+    vector<int> depth, order;
     vector<vector<int>> up;
     vector<vector<T>> minimum;
 
@@ -56,7 +56,7 @@ public:
         while ((1LL << levels) <= n) ++levels;
         up.assign(levels, vector<int>(n));
         minimum.assign(levels, vector<T>(n, numeric_limits<T>::max()));
-        vector<int> order{0};
+        order.push_back(0);
         order.reserve(n);
         for (int i = 0; i < int(order.size()); ++i) {
             int v = order[i];
@@ -92,6 +92,20 @@ public:
             v = up[k][v];
         }
         return min(result, min(minimum[0][u], minimum[0][v]));
+    }
+
+    vector<bool> min_cut_side(int u, int v) const {
+        assert(0 <= u && u < n && 0 <= v && v < n && u != v);
+        int source = u, removed = -1;
+        while (u != v) {
+            if (depth[u] < depth[v]) swap(u, v);
+            if (removed == -1 || minimum[0][u] < minimum[0][removed]) removed = u;
+            u = up[0][u];
+        }
+        vector<bool> side(n);
+        for (int x : order) side[x] = x == removed || side[up[0][x]];
+        if (!side[source]) side.flip();
+        return side;
     }
 };
 

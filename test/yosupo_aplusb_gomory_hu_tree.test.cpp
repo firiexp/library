@@ -43,6 +43,16 @@ void check(int n, const vector<Edge> &edges) {
             assert(tree.min_cut(s, t) == expected);
             assert(tree.min_cut(t, s) == expected);
             assert(path_min[t] == expected);
+            for (int direction = 0; direction < 2; ++direction) {
+                int source = direction ? t : s, sink = direction ? s : t;
+                auto side = tree.min_cut_side(source, sink);
+                assert(int(side.size()) == n && side[source] && !side[sink]);
+                long long value = 0;
+                for (auto [u, v, capacity] : edges)
+                    if (side[u] != side[v]) value += capacity;
+                assert(value == expected);
+                assert(tree.min_cut(source, sink) == expected);
+            }
         }
     }
     for (auto [s, t, capacity] : tree.edges()) {
@@ -69,6 +79,8 @@ int main() {
     check(5, {});
     check(4, {{0, 1, 0}, {1, 1, 7}, {2, 3, 3}, {2, 3, 4}, {3, 2, 5}});
     check(3, {{0, 1, 3}, {1, 2, 4}, {0, 2, 2}});
+    check(5, {{0, 1, 2}, {1, 2, 2}, {2, 3, 2}, {3, 4, 2}});
+    check(5, {{0, 1, 0}, {1, 2, 0}, {2, 3, 0}, {3, 4, 0}});
     check(3, {{0, 1, LLONG_MAX / 2}, {1, 2, LLONG_MAX / 2}, {2, 0, LLONG_MAX / 2}});
     for (int n = 1; n <= 5; ++n) {
         vector<pair<int, int>> pairs;
@@ -96,4 +108,5 @@ int main() {
     }
     GomoryHuTree<int> narrow(3, {{0, 1, 100}, {1, 2, 70}});
     assert(narrow.min_cut(0, 2) == 70);
+    assert(narrow.min_cut_side(0, 2) == vector<bool>({true, true, false}));
 }

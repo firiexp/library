@@ -19,6 +19,8 @@ documentation_of: //flow/gomory_hu_tree.cpp
   木の $N-1$ 本の辺を返す。`capacity` が木の辺重み。$O(1)$。
 - `T min_cut(int u, int v) const`
   異なる2頂点間の最小カット値を返す。非連結な成分間では0。$O(\log N)$。
+- `vector<bool> min_cut_side(int u, int v) const`
+  異なる2頂点を分ける最小カットで、`u` 側に属する元頂点を `true` とする長さ $N$ の列を返す。`u` は `true`、`v` は `false`。時間・追加領域ともに $O(N)$。
 
 構築後の保持領域は $O(N\log N)$。1頂点の木は構築でき、`edges()` は空になる。
 
@@ -29,13 +31,17 @@ using CutTree = GomoryHuTree<ll>;
 vector<CutTree::Edge> input{ {0, 1, 3}, {1, 2, 4}, {0, 2, 2}};
 CutTree tree(3, input);
 ll value = tree.min_cut(0, 2);
+auto side = tree.min_cut_side(0, 2);
 const auto& weighted_tree = tree.edges();
 ```
 
 この例の `value` は5となる。元のグラフを変更した場合はオブジェクトを作り直す。
+元の辺のうち `side[u] != side[v]` となる辺がカットを構成し、その容量の総和が最小カット値になる。
+最小カットが複数あれば任意の1つを返す。非連結な頂点対や容量0の辺も扱える。
 
 ## 実装上の補足
 各最大流の前に `reset_flow()` で残余容量を初期状態へ戻す。
 最小カットの始点側に従って親を付け替え、親子を反転する場合は既存のカット値も引き継ぐ。
-問い合わせは木上の二分累乗でパスの最小値を求める。カットを構成する元の辺集合を返す API は持たない。
+値のクエリは木上の二分累乗でパスの最小値を求める。
+集合の復元はパスをたどって最小重みの辺を1本選び、親から子の順に走査してその辺を除いた成分を求める。追加の最大流計算は行わない。
 最大流には無向版 `Dinic` を使い、1回あたりの最悪時間は $O(MN^2)$。内部の DFS は再帰なので、大きく深いグラフではスタック容量に注意する。
