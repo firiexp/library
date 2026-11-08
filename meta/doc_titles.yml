@@ -116,6 +116,7 @@ graph/connectivity/offline_reachability.cpp: "有向グラフの一括到達判�
 graph/shortest_path/bellman_ford.cpp: "Bellman-Ford法"
 graph/shortest_path/bellman_ford_negative_loop.cpp: "Bellman-Ford法(負閉路伝播)"
 graph/shortest_path/bfs01.cpp: "01-BFS"
+graph/shortest_path/floyd_warshall.cpp: "全頂点対最短距離(Floyd–Warshall法)"
 graph/shortest_path/generated_shortest_path.cpp: "陽に辺を持たないグラフの最短路"
 graph/shortest_path/grid_bfs.cpp: "グリッドの4近傍最短路"
 graph/connectivity/biconnected_components.cpp: "二重連結成分分解(Biconnected Components)"
