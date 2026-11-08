@@ -14,7 +14,8 @@ void check(int n, const vector<InputEdge> &edges, const vector<vector<int>> &set
     MinimumSteinerTree<ll> st(n);
     for (int i = 0; i < (int)edges.size(); ++i) {
         auto e = edges[i];
-        assert(st.add_edge(e.u, e.v, e.cost) == i);
+        int id = st.add_edge(e.u, e.v, e.cost);
+        assert(id == i);
     }
     for (const auto &terminals : sets) {
         vector<ll> expected(n, INF<ll>);
@@ -37,6 +38,9 @@ void check(int n, const vector<InputEdge> &edges, const vector<vector<int>> &set
             }
         }
         auto input = terminals;
+        st.build(input, false);
+        assert(input == terminals);
+        for (int v = 0; v < n; ++v) assert(st.cost(v) == expected[v]);
         st.build(input);
         assert(input == terminals);
         const auto &built = st;
@@ -65,6 +69,8 @@ void check(int n, const vector<InputEdge> &edges, const vector<vector<int>> &set
             for (int t : terminals) assert(component[t] == component[v]);
             for (int id : ids) assert(component[edges[id].u] == component[v]);
         }
+        st.build(input, false);
+        for (int v = 0; v < n; ++v) assert(st.cost(v) == expected[v]);
     }
 }
 
@@ -93,6 +99,10 @@ void self_check() {
     for (int i = 1; i < 20000; ++i) path.add_edge(i - 1, i, i & 1);
     path.build({0});
     assert(path.cost(19999) == 10000);
+    assert(path.restore(19999).size() == 19999);
+    path.build({19999}, false);
+    assert(path.cost(0) == 10000);
+    path.build({0}, true);
     assert(path.restore(19999).size() == 19999);
 }
 

@@ -25,7 +25,14 @@ public:
         return id;
     }
 
-    void build(const vector<int> &terminals) {
+    void build(const vector<int> &terminals, bool with_restore = true) {
+        if (with_restore) build_impl<true>(terminals);
+        else build_impl<false>(terminals);
+    }
+
+private:
+    template <bool WithRestore>
+    void build_impl(const vector<int> &terminals) {
         int k = (int)terminals.size();
         vector<char> used(n);
         for (int v : terminals) {
@@ -34,7 +41,8 @@ public:
         }
         int states = 1 << k;
         dp.assign(states, vector<T>(n, INF<T>));
-        trace.assign(states, vector<int>(n, -1));
+        if constexpr (WithRestore) trace.assign(states, vector<int>(n, -1));
+        else vector<vector<int>>().swap(trace);
         for (int i = 0; i < k; ++i) dp[1 << i][terminals[i]] = 0;
         for (int mask = 1; mask < states; ++mask) {
             auto &dist = dp[mask];
@@ -46,7 +54,7 @@ public:
                     T next = dp[sub][v] + dp[other][v];
                     if (next >= dist[v]) continue;
                     dist[v] = next;
-                    trace[mask][v] = sub;
+                    if constexpr (WithRestore) trace[mask][v] = sub;
                 }
             }
             priority_queue<pair<T, int>, vector<pair<T, int>>, greater<>> queue;
@@ -64,18 +72,20 @@ public:
                     T next = value + e.cost;
                     if (next >= dist[u]) continue;
                     dist[u] = next;
-                    trace[mask][u] = -id - 2;
+                    if constexpr (WithRestore) trace[mask][u] = -id - 2;
                     queue.emplace(next, u);
                 }
             }
         }
     }
 
+public:
     T cost(int v) const {
         return dp.back()[v];
     }
 
     vector<int> restore(int v) const {
+        assert(!trace.empty());
         if (cost(v) == INF<T>) return {};
         vector<int> result, parent(n, -1);
         auto root = [&](auto &&self, int u) -> int {
