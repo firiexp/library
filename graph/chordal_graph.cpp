@@ -169,6 +169,35 @@ ChordalColoringResult chordal_coloring(int n, const vector<pair<int, int>> &edge
     return {true, color_count, std::move(color), std::move(clique), {}};
 }
 
+struct ChordalIndependentSetResult {
+    bool chordal;
+    vector<int> independent_set;
+    vector<vector<int>> clique_partition;
+    vector<int> induced_cycle;
+};
+
+ChordalIndependentSetResult chordal_independent_set(int n, const vector<pair<int, int>> &edges) {
+    chordal_graph_detail::Graph graph(n, edges);
+    auto result = chordal_graph_detail::recognize(graph);
+    if (!result.chordal) return {false, {}, {}, std::move(result.induced_cycle)};
+    vector<bool> removed(n);
+    vector<int> independent_set;
+    vector<vector<int>> clique_partition;
+    for (int v : result.peo) {
+        if (removed[v]) continue;
+        independent_set.push_back(v);
+        removed[v] = true;
+        clique_partition.push_back({v});
+        for (int j = graph.offset[v]; j < graph.offset[v + 1]; ++j) {
+            int u = graph.adjacent[j];
+            if (removed[u]) continue;
+            removed[u] = true;
+            clique_partition.back().push_back(u);
+        }
+    }
+    return {true, std::move(independent_set), std::move(clique_partition), {}};
+}
+
 #endif
 
 /**

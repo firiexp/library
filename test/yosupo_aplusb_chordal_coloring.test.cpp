@@ -9,10 +9,15 @@ void check(int n, const vector<pair<int, int>> &edges, int expected = -1) {
     auto result = chordal_coloring(n, edges);
     assert(edges == copy);
     auto recognition = recognize_chordal(n, edges);
+    auto independent = chordal_independent_set(n, edges);
+    assert(edges == copy);
+    assert(independent.chordal == recognition.chordal);
     assert(result.chordal == recognition.chordal);
     if (!result.chordal) {
         assert(result.color_count == 0 && result.color.empty() && result.max_clique.empty());
         assert(result.induced_cycle == recognition.induced_cycle);
+        assert(independent.independent_set.empty() && independent.clique_partition.empty());
+        assert(independent.induced_cycle == recognition.induced_cycle);
         return;
     }
     assert(result.induced_cycle.empty());
@@ -31,18 +36,49 @@ void check(int n, const vector<pair<int, int>> &edges, int expected = -1) {
         clique_edges += in_clique[u] && in_clique[v];
     }
     assert(clique_edges == 1LL * result.color_count * (result.color_count - 1) / 2);
+    assert(independent.induced_cycle.empty());
+    int count = independent.independent_set.size();
+    assert((int)independent.clique_partition.size() == count);
+    vector<bool> selected(n);
+    for (int v : independent.independent_set) {
+        assert(0 <= v && v < n && !selected[v]);
+        selected[v] = true;
+    }
+    vector<int> group(n, -1), group_edges(count);
+    for (int i = 0; i < count; ++i) {
+        assert(!independent.clique_partition[i].empty());
+        int selected_count = 0;
+        for (int v : independent.clique_partition[i]) {
+            assert(0 <= v && v < n && group[v] == -1);
+            group[v] = i;
+            selected_count += selected[v];
+        }
+        assert(selected_count == 1);
+    }
+    for (int v = 0; v < n; ++v) assert(group[v] != -1);
+    for (auto [u, v] : edges) {
+        assert(!selected[u] || !selected[v]);
+        if (group[u] == group[v]) ++group_edges[group[u]];
+    }
+    for (int i = 0; i < count; ++i) {
+        long long size = independent.clique_partition[i].size();
+        assert(group_edges[i] == size * (size - 1) / 2);
+    }
     if (n <= 12) {
         vector<int> adjacent(n);
         for (auto [u, v] : edges) adjacent[u] |= 1 << v, adjacent[v] |= 1 << u;
-        int maximum = 0;
+        int maximum = 0, maximum_independent = 0;
         for (int mask = 0; mask < (1 << n); ++mask) {
-            bool clique = true;
+            bool clique = true, is_independent = true;
             for (int v = 0; v < n; ++v) if (mask >> v & 1) {
                 if ((mask & adjacent[v]) != (mask ^ (1 << v))) clique = false;
+                if (mask & adjacent[v]) is_independent = false;
             }
             if (clique) maximum = max(maximum, __builtin_popcount((unsigned)mask));
+            if (is_independent) maximum_independent = max(maximum_independent, __builtin_popcount((unsigned)mask));
         }
         assert(maximum == result.color_count);
+        assert(maximum_independent == count);
     }
 }
 
