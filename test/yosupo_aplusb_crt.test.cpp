@@ -28,6 +28,27 @@ void self_check() {
     check({{1, 2}, {0, 4}});
     check({{LLONG_MIN, 7}, {LLONG_MAX, 5}});
     check({{LLONG_MAX, 1}});
+    auto check_large = [](ll r, ll m, ll s, ll n) {
+        ll count = m / gcd(m, n);
+        __int128 modulus = __int128(count) * n;
+        assert(modulus <= LLONG_MAX);
+        s %= n;
+        if (s < 0) s += n;
+        pair<ll, ll> expected{0, 0};
+        for (ll k = 0; k < count; ++k) {
+            __int128 x = __int128(k) * n + s;
+            if ((x - r) % m == 0) {
+                expected = {(ll)x, (ll)modulus};
+                break;
+            }
+        }
+        assert(CRT({{r, m}, {s, n}}) == expected);
+        assert(CRT({{s, n}, {r, m}}) == expected);
+    };
+    check_large(0, 2, 4000000000000000000LL, 4000000000000000001LL);
+    check_large(LLONG_MIN, 1, LLONG_MIN, LLONG_MAX);
+    check_large(0, 2, 1, LLONG_MAX - 1);
+    check_large(LLONG_MIN, 7, LLONG_MAX, LLONG_MAX);
     mt19937 rng(61);
     for (int tc = 0; tc < 3000; ++tc) {
         vector<pair<ll, ll>> equations(rng() % 5);
@@ -36,6 +57,14 @@ void self_check() {
             m = 1 + rng() % 10;
         }
         check(equations);
+    }
+    mt19937_64 rng64(398);
+    for (int tc = 0; tc < 3000; ++tc) {
+        ll m = 1 + rng64() % 32;
+        ll n = LLONG_MAX / m - rng64() % 1000;
+        ll r = tc % 2 ? LLONG_MIN + tc : LLONG_MAX - tc;
+        ll s = tc % 3 ? LLONG_MIN + tc : LLONG_MAX - tc;
+        check_large(r, m, s, n);
     }
 }
 
