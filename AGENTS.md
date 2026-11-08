@@ -44,6 +44,7 @@
 - コードコメントは書かない。
 - ファイル名は lowercase、空白なし、`.cpp` とする。
 - interface は小さく再利用可能に保ち、問題固有ロジックを library に入れない。
+- 利用側の記述量を重視する。成功が保証される問題では返り値をそのまま使える API を優先し、失敗を空配列や番兵値で自然に表せるならそれを使う。`optional` を一律には採用しない。
 - 入出力は原則 `util/fastio.cpp` の `Scanner` / `Printer` を使う。
 - `assert` の条件式は無効時には評価されないため、必要な更新処理を入れない。
 - test 名は `<judge>_<problem>.test.cpp` または `yosupo_<task>.test.cpp` を基本とする。

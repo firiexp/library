@@ -46,11 +46,11 @@ int main() {
                 a[i].assign(j, mask >> (i * n + j) & 1);
             auto original = a;
             auto inverse = inverse_matrix_mod2(a);
-            assert(bool(inverse) == invertible_by_enumeration(a));
+            assert((n == 0 || !inverse.empty()) == invertible_by_enumeration(a));
             for (int i = 0; i < n; ++i) assert((a[i] ^ original[i]).none());
-            if (inverse) {
-                check_product(a, *inverse);
-                check_product(*inverse, a);
+            if (n == 0 || !inverse.empty()) {
+                check_product(a, inverse);
+                check_product(inverse, a);
             }
         }
     }
@@ -67,21 +67,21 @@ int main() {
             }
             auto original = a;
             auto inverse = inverse_matrix_mod2(std::move(a));
-            assert(inverse && (int)inverse->size() == n);
+            assert((int)inverse.size() == n);
             if (n <= 129) {
-                check_product(original, *inverse);
-                check_product(*inverse, original);
+                check_product(original, inverse);
+                check_product(inverse, original);
             } else {
                 for (int sample = 0; sample < 10; ++sample) {
                     vector<int> x(n);
                     for (auto &value : x) value = rng() % 2;
-                    assert(apply_scalar(original, apply_scalar(*inverse, x)) == x);
-                    assert(apply_scalar(*inverse, apply_scalar(original, x)) == x);
+                    assert(apply_scalar(original, apply_scalar(inverse, x)) == x);
+                    assert(apply_scalar(inverse, apply_scalar(original, x)) == x);
                 }
             }
             if (n > 1) original.back() = original.front();
             else original[0].reset(0);
-            assert(!inverse_matrix_mod2(original));
+            assert(inverse_matrix_mod2(original).empty());
         }
     }
 }
