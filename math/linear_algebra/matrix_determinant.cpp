@@ -1,3 +1,6 @@
+#ifndef FIRIEXP_LIBRARY_MATH_LINEAR_ALGEBRA_MATRIX_DETERMINANT_CPP
+#define FIRIEXP_LIBRARY_MATH_LINEAR_ALGEBRA_MATRIX_DETERMINANT_CPP
+
 #include "../modular/modint.cpp"
 
 mint matrix_determinant(vector<vector<mint>> A) {
@@ -23,6 +26,8 @@ mint matrix_determinant(vector<vector<mint>> A) {
     }
     return det;
 }
+
+#endif
 
 /**
  * @brief 行列式(Matrix Determinant)
