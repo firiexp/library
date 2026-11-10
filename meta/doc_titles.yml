@@ -47,6 +47,7 @@ datastructure/segmenttree/lazysegtree.cpp: "遅延セグメント木(Lazy Segmen
 datastructure/li_chao_tree.cpp: "Li Chao Tree"
 datastructure/heap/leftist_heap.cpp: "併合・一括加算付きヒープ(Leftist Heap)"
 datastructure/order_statistic_tree.cpp: "順序木(Order Statistic Tree)"
+datastructure/point_set_range_frequency.cpp: "点更新・区間頻度"
 datastructure/segmenttree/persistent_segtree.cpp: "永続セグメント木(Persistent Segment Tree)"
 datastructure/segmenttree/persistent_lazy_segtree.cpp: "区間更新・区間コピー付き永続セグメント木"
 datastructure/unionfind/persistent_unionfind.cpp: "完全永続UnionFind(Fully Persistent Union Find)"
