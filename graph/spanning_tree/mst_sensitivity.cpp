@@ -2,6 +2,7 @@
 #define FIRIEXP_LIBRARY_GRAPH_MST_SENSITIVITY_CPP
 
 #include "kruskal.cpp"
+#include "../../datastructure/unionfind/unionfind.cpp"
 
 struct MSTSensitivityResult {
     bool exists;
@@ -93,7 +94,7 @@ MSTSensitivityResult mst_sensitivity(int n, const vector<KruskalEdge<long long>>
         if (in_tree[i]) continue;
         result.forbidden[i] = mst.cost;
     }
-    KruskalUnionFind skip(n);
+    UnionFind skip(n);
     vector<int> top(n);
     iota(top.begin(), top.end(), 0);
     auto replace = [&](int v, int ancestor, long long weight) {
@@ -102,8 +103,8 @@ MSTSensitivityResult mst_sensitivity(int n, const vector<KruskalEdge<long long>>
             int id = parent_edge[x];
             result.forbidden[id] = mst.cost + weight - edges[id].cost;
             int highest = top[skip.root(parent[0][x])];
-            skip.unite(representative, parent[0][x]);
-            representative = skip.root(representative);
+            auto merged = skip.unite(representative, parent[0][x]);
+            representative = merged.keep;
             top[representative] = highest;
             x = highest;
         }
