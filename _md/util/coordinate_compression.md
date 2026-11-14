@@ -44,8 +44,6 @@ tags: util
 ## 使い方
 
 `CoordinateCompression<long long> cc(values);` のように構築する。
-`T` は `bool` 以外で、`<` が狭義弱順序を満たす型を使う。浮動小数点数では NaN を含めない。
-入力の要素数は `int` に収まる必要がある。
 
 構築後は登録値を追加できない。点更新先になり得る値は構築用の配列にすべて含める必要がある。
 重複する値の個数や重みは、同じ圧縮添字へ利用側で集約する。
@@ -68,19 +66,16 @@ SegmentTree<Sum> seg(cc.size());
 for (int i = 0; i < cc.size(); ++i) seg.set(i, count[i]);
 seg.build();
 
-auto [l, r] = cc.range_closed(15, 40);
-long long answer = seg.query(l, r);
-int i = cc.index(20);
-long long x = cc.value(i);
+auto [l, r] = cc.range_closed(15, 40); // [1, 3)
+long long answer = seg.query(l, r); // 3
+int i = cc.index(20); // 1
+long long x = cc.value(i); // 20
+int missing = cc.index(15); // -1
+auto [l2, r2] = cc.range(15, 40); // [1, 2)
+long long answer2 = seg.query(l2, r2); // 2
 ```
 
-圧縮後の値の並びは `{10, 20, 40, 100}` で、`[l, r)` は `[1, 3)`、`answer` は `3` となる。
-`i` は `1`、`x` は `20`。`range(15, 40)` なら `40` を除いた `[1, 2)` となり、個数は `2`。
-`index(15)` は `-1` だが、`15` は区間の端点として使える。
 `lower_bound` と `upper_bound` が返す `M` は区間の端として使えるが、`value(M)` は呼べない。
-
-圧縮後の添字の差は元の座標間の距離を表さない。
-`value(i)` で復元できるのは登録値であり、クエリの元の端点 `L, R` は圧縮区間だけからは復元できない。
 
 ## 実装上の補足
 
