@@ -75,10 +75,54 @@ void check(const vector<T>& input, const vector<T>& probes) {
     }
 }
 
-struct Key {
-    int key;
-    bool operator<(const Key& other) const { return key < other.key; }
-};
+template<class T>
+void check_radix() {
+    mt19937_64 rng(481);
+    for (int n : {8191, 8192, 8193, 65535, 65536, 65537, 100000}) {
+        for (int mode = 0; mode < 7; ++mode) {
+            vector<T> input(n);
+            for (T& x : input) {
+                if (mode == 1) x = T(3);
+                else if (mode == 2) x = T(rng() % 17);
+                else if (mode == 3) x = T(numeric_limits<T>::max() - T(rng() % 16));
+                else if (mode == 4) x = T(numeric_limits<T>::lowest() + T(rng() % 16));
+                else x = T(rng());
+            }
+            if (mode == 0) {
+                input[0] = numeric_limits<T>::lowest();
+                input[1] = numeric_limits<T>::max();
+            }
+            if (mode == 5) sort(input.begin(), input.end());
+            if (mode == 6) sort(input.rbegin(), input.rend());
+            vector<T> expected = input;
+            sort(expected.begin(), expected.end());
+            expected.erase(unique(expected.begin(), expected.end()), expected.end());
+            const CoordinateCompression<T> cc(move(input));
+            assert(cc.size() == (int)expected.size());
+            for (int i = 0; i < cc.size(); ++i) assert(cc.value(i) == expected[i]);
+            vector<T> probes{numeric_limits<T>::lowest(), numeric_limits<T>::max(), T(0), T(1)};
+            for (int i = 0; i < 8; ++i) {
+                probes.push_back(T(rng()));
+                probes.push_back(expected[rng() % expected.size()]);
+            }
+            for (T low : probes) {
+                int l = lower_bound(expected.begin(), expected.end(), low) - expected.begin();
+                int u = upper_bound(expected.begin(), expected.end(), low) - expected.begin();
+                assert(cc.lower_bound(low) == l);
+                assert(cc.upper_bound(low) == u);
+                assert(cc.index(low) == (l < u ? l : -1));
+                for (T high : probes) {
+                    int r = lower_bound(expected.begin(), expected.end(), high) - expected.begin();
+                    int v = upper_bound(expected.begin(), expected.end(), high) - expected.begin();
+                    assert(cc.range(low, high) == make_pair(l, max(l, r)));
+                    assert(cc.range_closed(low, high) == make_pair(l, max(l, v)));
+                    assert(cc.range_open(low, high) == make_pair(u, max(u, r)));
+                    assert(cc.range_open_closed(low, high) == make_pair(u, max(u, v)));
+                }
+            }
+        }
+    }
+}
 
 int main() {
     vector<int> probes{-5, -3, -2, -1, 0, 1, 2, 3, 4, 5, 7};
@@ -100,8 +144,14 @@ int main() {
     check<long long>({LLONG_MIN, LLONG_MAX, 0, LLONG_MIN},
                      {LLONG_MIN, LLONG_MIN + 1, -1, 0, 1, LLONG_MAX - 1, LLONG_MAX});
     check<unsigned long long>({0, ULLONG_MAX, 1, ULLONG_MAX}, {0, 1, 2, ULLONG_MAX - 1, ULLONG_MAX});
-    check<double>({0.5, -1.5, 3.25, 0.5}, {-2, -1.5, -1, 0, 0.5, 1, 3.25, 4});
-    check<Key>({ {2}, {1}, {2}, {0}}, { {-1}, {0}, {1}, {2}, {3}});
+    check_radix<signed char>();
+    check_radix<unsigned char>();
+    check_radix<short>();
+    check_radix<unsigned short>();
+    check_radix<int>();
+    check_radix<unsigned>();
+    check_radix<long long>();
+    check_radix<unsigned long long>();
 
     mt19937 rng(825);
     for (int tc = 0; tc < 100; ++tc) {

@@ -3,8 +3,42 @@
 
 template<class T>
 class CoordinateCompression {
-    static_assert(!is_same<T, bool>::value);
+    static_assert(is_integral<T>::value && !is_same<T, bool>::value && sizeof(T) <= 8);
     vector<T> values_;
+
+    static uint64_t key(T x) {
+        uint64_t result = static_cast<uint64_t>(x);
+        if constexpr (is_signed<T>::value) result ^= uint64_t(1) << 63;
+        return result;
+    }
+
+    void sort_values() {
+        if (values_.size() < 8192) {
+            sort(values_.begin(), values_.end());
+            return;
+        }
+        if (is_sorted(values_.begin(), values_.end())) return;
+        auto [lo, hi] = minmax_element(values_.begin(), values_.end());
+        uint64_t minimum = key(*lo), span = key(*hi) - minimum;
+        int bucket_count = span < 65536 ? (int)span + 1 : 65536;
+        vector<T> buffer(values_.size());
+        vector<int> count(bucket_count);
+        for (int shift = 0; span; shift += 16, span >>= 16) {
+            fill(count.begin(), count.end(), 0);
+            auto digit = [&](T x) {
+                return ((key(x) - minimum) >> shift) & 65535;
+            };
+            for (T x : values_) ++count[digit(x)];
+            int offset = 0;
+            for (int& c : count) {
+                int frequency = c;
+                c = offset;
+                offset += frequency;
+            }
+            for (T x : values_) buffer[count[digit(x)]++] = x;
+            values_.swap(buffer);
+        }
+    }
 
     static pair<int, int> make_range(int l, int r) {
         return {l, max(l, r)};
@@ -12,18 +46,15 @@ class CoordinateCompression {
 
 public:
     explicit CoordinateCompression(vector<T> values) : values_(move(values)) {
-        assert(values_.size() <= (size_t)numeric_limits<int>::max());
-        sort(values_.begin(), values_.end());
-        values_.erase(unique(values_.begin(), values_.end(), [](const T& a, const T& b) {
-            return !(a < b) && !(b < a);
-        }), values_.end());
+        sort_values();
+        values_.erase(unique(values_.begin(), values_.end()), values_.end());
     }
 
     int size() const { return (int)values_.size(); }
 
     int index(const T& x) const {
         int i = lower_bound(x);
-        return i < size() && !(x < values_[i]) ? i : -1;
+        return i < size() && values_[i] == x ? i : -1;
     }
 
     const T& value(int i) const {
