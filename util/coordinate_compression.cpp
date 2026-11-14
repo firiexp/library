@@ -45,7 +45,7 @@ class CoordinateCompression {
     }
 
 public:
-    explicit CoordinateCompression(vector<T> values) : values_(move(values)) {
+    explicit CoordinateCompression(vector<T> values) : values_(std::move(values)) {
         sort_values();
         values_.erase(unique(values_.begin(), values_.end()), values_.end());
     }

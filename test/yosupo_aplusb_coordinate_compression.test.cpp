@@ -97,7 +97,7 @@ void check_radix() {
             vector<T> expected = input;
             sort(expected.begin(), expected.end());
             expected.erase(unique(expected.begin(), expected.end()), expected.end());
-            const CoordinateCompression<T> cc(move(input));
+            const CoordinateCompression<T> cc(std::move(input));
             assert(cc.size() == (int)expected.size());
             for (int i = 0; i < cc.size(); ++i) assert(cc.value(i) == expected[i]);
             vector<T> probes{numeric_limits<T>::lowest(), numeric_limits<T>::max(), T(0), T(1)};
