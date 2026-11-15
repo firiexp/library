@@ -1,5 +1,5 @@
 ---
-title: 凸多角形の最大内積
+title: 凸多角形の指定方向との内積が最大の頂点
 documentation_of: //geometry/convex_hull_support.cpp
 ---
 
@@ -10,10 +10,10 @@ documentation_of: //geometry/convex_hull_support.cpp
 ## できること
 凸包の頂点数を $H$ とする。
 入力は反時計回りの凸包とし、重複点と辺上の中間点を除く。開始頂点は任意で、末尾に先頭頂点を重ねない。
-各座標と方向の各成分は絶対値 $10^{18}$ 以下とする。
+各座標と方向の各成分は絶対値 $10^9$ 以下とする。
 
 - `ConvexHullSupport support(vector<IntPoint> hull)`：凸包を保持し、辺方向の二分探索に必要な前処理を行う。時間・領域ともに $O(H)$
-- `optional<pair<__int128, int>> max_dot(IntPoint direction) const`：`{最大内積, 頂点の添字}` を返す。添字は構築時に渡した凸包内の位置で、空の凸包では `nullopt`。$O(\log H)$
+- `pair<long long, int> max_dot(IntPoint direction) const`：`{最大内積, 頂点の添字}` を返す。添字は構築時に渡した凸包内の位置で、空の凸包では `{0, -1}`。$O(\log H)$
 
 最大値を取る頂点が複数ある場合は任意の1点を返す。零方向では内積0と任意の頂点を返す。
 1〜2頂点は直接比較する。
@@ -25,7 +25,7 @@ documentation_of: //geometry/convex_hull_support.cpp
 vector<IntPoint> points = { {0, 0}, {3, 0}, {3, 2}, {0, 2}};
 auto hull = convex_hull(points);
 ConvexHullSupport support(hull);
-auto [value, index] = *support.max_dot({2, 1}); // 最大内積8、頂点(3, 2)
+auto [value, index] = support.max_dot({2, 1}); // 最大内積8、頂点(3, 2)
 IntPoint vertex = hull[index];
 ```
 
@@ -37,4 +37,3 @@ IntPoint vertex = hull[index];
 ## 実装上の補足
 反時計回りの辺方向は偏角順に循環している。構築時に偏角が最小の辺を見つけ、クエリでは方向を90度反時計回りに回した角度を二分探索する。
 内積が増加から減少へ切り替わる辺の始点が最大値を取る。
-座標差を取る前に `__int128` へ広げ、外積・内積も同じ型で計算する。

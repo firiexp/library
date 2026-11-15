@@ -13,11 +13,10 @@ __int128 dot(IntPoint p, IntPoint d) {
 void check(const vector<IntPoint> &hull, const ConvexHullSupport &support, IntPoint d) {
     auto result = support.max_dot(d);
     if (hull.empty()) {
-        assert(!result);
+        assert(result == make_pair(0LL, -1));
         return;
     }
-    assert(result);
-    auto [value, index] = *result;
+    auto [value, index] = result;
     assert(0 <= index && index < (int)hull.size());
     assert(value == dot(hull[index], d));
     for (auto point : hull) assert(value >= dot(point, d));
@@ -36,8 +35,10 @@ void check_rotations(vector<IntPoint> hull, const vector<IntPoint> &directions) 
             long long dx = b.x - a.x, dy = b.y - a.y;
             long long scale = gcd(abs(dx), abs(dy));
             if (scale) dx /= scale, dy /= scale;
-            check(hull, support, {dy, -dx});
-            check(hull, support, {-dy, dx});
+            if (max(abs(dx), abs(dy)) <= 1000000000LL) {
+                check(hull, support, {dy, -dx});
+                check(hull, support, {-dy, dx});
+            }
         }
         if (!hull.empty()) rotate(hull.begin(), hull.begin() + 1, hull.end());
     }
@@ -55,7 +56,7 @@ int main() {
         for (int i = 0; i < 9; ++i) if ((mask >> i) & 1) points.push_back(grid[i]);
         check_rotations(convex_hull(points), directions);
     }
-    const long long limit = 1000000000000000000LL;
+    const long long limit = 1000000000LL;
     for (long long x : {-limit, 0LL, limit})
         for (long long y : {-limit, 0LL, limit}) directions.push_back({x, y});
     check_rotations({{-limit, -limit}, {limit, -limit}, {limit, limit}, {-limit, limit}}, directions);
@@ -84,8 +85,8 @@ int main() {
     for (int i = 0; i < 1000; ++i) {
         long long x = (long long)(rng() % 20001) - 10000;
         auto result = support.max_dot({2 * x, -1});
-        assert(result && result->first == x * x && hull[result->second] == IntPoint(x, x * x));
+        assert(result.second >= 0 && result.first == x * x && hull[result.second] == IntPoint(x, x * x));
     }
     auto owned = ConvexHullSupport(convex_hull(vector<IntPoint>{ {0, 0}, {1, 0}, {0, 1}}));
-    assert(owned.max_dot({1, 0})->first == 1);
+    assert(owned.max_dot({1, 0}).first == 1);
 }
