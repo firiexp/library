@@ -73,6 +73,60 @@ void self_check() {
     }
 }
 
+void check_ids() {
+    mt19937 rng(410);
+    LeftistHeap<long long> heap(12);
+    vector<multiset<pair<long long, int>>> expected(12);
+    for (int step = 0; step < 30000; ++step) {
+        int i = rng() % 12, j = rng() % 12, type = rng() % 5;
+        long long value = int(rng() % 11) - 5;
+        if (type <= 1) {
+            int id = int(rng() % 201) - 100;
+            heap.push(i, value, id);
+            expected[i].insert({value, id});
+        } else if (type == 2 && !expected[i].empty()) {
+            heap.pop(i);
+            expected[i].erase(expected[i].begin());
+        } else if (type == 3) {
+            heap.meld(i, j);
+            if (i != j) expected[i].merge(expected[j]);
+        } else {
+            heap.add_all(i, value);
+            multiset<pair<long long, int>> next;
+            for (auto [x, id] : expected[i]) next.insert({x + value, id});
+            expected[i].swap(next);
+        }
+        for (int k = 0; k < 12; ++k) {
+            assert(heap.size(k) == (int)expected[k].size());
+            assert(heap.empty(k) == expected[k].empty());
+            if (!heap.empty(k)) {
+                assert(heap.top_with_id(k) == *expected[k].begin());
+                assert(heap.top(k) == expected[k].begin()->first);
+            }
+        }
+    }
+    auto copy = heap;
+    for (int i = 0; i < 12; ++i) {
+        for (auto value : expected[i]) {
+            assert(copy.top_with_id(i) == value);
+            copy.pop(i);
+        }
+        assert(copy.empty(i));
+    }
+    LeftistHeap<long long> recycled(2);
+    recycled.push(0, 5, 9000);
+    for (int id = 1000; id >= 0; --id) {
+        recycled.push(1, 5, id);
+        recycled.meld(0, 1);
+        recycled.add_all(0, -7);
+        assert(recycled.top_with_id(0) == make_pair(-2LL, id));
+        recycled.pop(0);
+        assert(recycled.top_with_id(0) == make_pair(-2LL, 9000));
+        recycled.add_all(0, 7);
+    }
+}
+
 int main() {
     self_check();
+    check_ids();
 }

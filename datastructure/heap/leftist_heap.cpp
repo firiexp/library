@@ -2,7 +2,7 @@ template<class T>
 class LeftistHeap {
     struct Node {
         T value, lazy;
-        int left, right, rank;
+        int left, right, rank, id;
     };
 
     vector<Node> nodes;
@@ -26,7 +26,8 @@ class LeftistHeap {
     int merge(int a, int b) {
         if (a == -1) return b;
         if (b == -1) return a;
-        if (nodes[b].value < nodes[a].value) swap(a, b);
+        if (nodes[b].value < nodes[a].value ||
+            (!(nodes[a].value < nodes[b].value) && nodes[b].id < nodes[a].id)) swap(a, b);
         push_lazy(a);
         nodes[a].right = merge(nodes[a].right, b);
         if (rank(nodes[a].left) < rank(nodes[a].right)) swap(nodes[a].left, nodes[a].right);
@@ -45,15 +46,21 @@ public:
         return nodes[roots[i]].value;
     }
 
-    void push(int i, const T &value) {
+    pair<T, int> top_with_id(int i) const {
+        assert(!empty(i));
+        const auto &node = nodes[roots[i]];
+        return {node.value, node.id};
+    }
+
+    void push(int i, const T &value, int id = -1) {
         int v;
         if (free_head == -1) {
             v = (int)nodes.size();
-            nodes.push_back({value, T{}, -1, -1, 1});
+            nodes.push_back({value, T{}, -1, -1, 1, id});
         } else {
             v = free_head;
             free_head = nodes[v].left;
-            nodes[v] = {value, T{}, -1, -1, 1};
+            nodes[v] = {value, T{}, -1, -1, 1, id};
         }
         roots[i] = merge(roots[i], v);
         ++counts[i];
