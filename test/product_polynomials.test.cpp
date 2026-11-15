@@ -28,7 +28,41 @@ void check(const vector<poly>& factors) {
     assert(product_polynomials(move(original)).v == expected);
 }
 
+void check_truncated(const vector<poly>& factors, int limit) {
+    vector<mint> expected(limit);
+    if (limit) expected[0] = 1;
+    for (const auto& factor : factors) {
+        vector<mint> next(limit);
+        for (int i = 0; i < limit; ++i) {
+            for (int j = 0; j < factor.size() && i + j < limit; ++j) {
+                next[i + j] += expected[i] * factor[j];
+            }
+        }
+        expected = move(next);
+    }
+    while (!expected.empty() && expected.back() == mint(0)) expected.pop_back();
+    auto original = factors;
+    assert(product_polynomials(factors, limit).v == expected);
+    for (int i = 0; i < (int)factors.size(); ++i) assert(factors[i].v == original[i].v);
+    reverse(original.begin(), original.end());
+    assert(product_polynomials(move(original), limit).v == expected);
+}
+
 int main() {
+    for (int limit : {0, 1, 2, 3, 4, 5, 16, 63, 64, 65, 127, 128, 129}) {
+        check_truncated({}, limit);
+        check_truncated({poly()}, limit);
+        check_truncated({poly(vector<mint>{0, 0, 0})}, limit);
+        check_truncated({poly(vector<mint>{2}), poly(vector<mint>{3})}, limit);
+        check_truncated({poly(vector<mint>{0, 2}), poly(vector<mint>{0, 0, 3})}, limit);
+        check_truncated({poly(vector<mint>{1, 1}), poly(vector<mint>{1, -1})}, limit);
+        check_truncated(vector<poly>(128, poly(vector<mint>{1, 2, 3})), limit);
+        check_truncated({poly(vector<mint>(1025, mint(3))), poly(vector<mint>{0, 0, 4, 5})}, limit);
+    }
+    vector<mint> high_degree((1 << 23) + 1);
+    high_degree[0] = 2;
+    high_degree.back() = 3;
+    assert(product_polynomials({poly(move(high_degree))}, 2).v == vector<mint>{2});
     check({});
     check({poly()});
     check({poly(vector<mint>{0, 0, 0})});
@@ -66,5 +100,6 @@ int main() {
             }
         }
         check(factors);
+        check_truncated(factors, rng() % 80);
     }
 }
