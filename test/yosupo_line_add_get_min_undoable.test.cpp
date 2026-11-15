@@ -25,6 +25,6 @@ int main() {
     for (auto [a, b] : initial) tree.add_line(a, b, id++);
     for (auto [type, a, b] : queries) {
         if (type == 0) tree.add_line(a, b, id++);
-        else out.println(tree.query_with_id(a)->first);
+        else out.println(tree.query_with_id(a).first);
     }
 }

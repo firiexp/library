@@ -12,7 +12,7 @@ documentation_of: //datastructure/undoable_li_chao_tree.cpp
 
 - `UndoableLiChaoTree<T> tree(vector<T> xs)`：クエリを行う座標を登録する。順序は任意で、重複は内部で除く。$O(K\log K)$
 - `void add_line(T a, T b, int id)`：直線 $y=ax+b$ を追加する。`id` は非負とし、同じ値なら小さいIDを選ぶ。償却 $O(\log K)$
-- `optional<pair<T, int>> query_with_id(T x) const`：`{最小値, ID}` を返す。直線がない場合や未登録の座標では `nullopt`。$O(\log K)$
+- `pair<T, int> query_with_id(T x) const`：`{最小値, ID}` を返す。直線がない場合や未登録の座標では `{T{}, -1}`。$O(\log K)$
 - `Snapshot snapshot() const`：現在の履歴位置を返す。`Snapshot` は `size_t`。$O(1)$
 - `void rollback(Snapshot state)`：`snapshot()` で保存した状態に戻す。戻す変更数に比例する時間。
 

@@ -62,16 +62,16 @@ public:
         }
     }
 
-    optional<pair<T, int>> query_with_id(T x) const {
+    pair<T, int> query_with_id(T x) const {
         int n = (int)xs.size();
         int i = lower_bound(xs.begin(), xs.end(), x) - xs.begin();
-        if (i == n || xs[i] != x) return nullopt;
-        optional<pair<T, int>> result;
+        if (i == n || xs[i] != x) return {T{}, -1};
+        pair<T, int> result{T{}, -1};
         int k = 1, l = 0, r = n;
         while (l < r) {
             if (seg[k].id == -1) break;
             auto value = make_pair(seg[k].get(x), seg[k].id);
-            if (!result || value < *result) result = value;
+            if (result.second == -1 || value < result) result = value;
             if (r - l == 1) break;
             int m = l + (r - l) / 2;
             if (i < m) {

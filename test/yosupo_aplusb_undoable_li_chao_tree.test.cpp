@@ -24,7 +24,10 @@ void check(const UndoableLiChaoTree<long long> &tree, const vector<long long> &x
            const vector<TestLine> &lines) {
     for (long long x = -22; x <= 22; ++x) {
         bool registered = find(xs.begin(), xs.end(), x) != xs.end();
-        assert(tree.query_with_id(x) == (registered ? naive(lines, x) : nullopt));
+        auto expected = registered ? naive(lines, x) : nullopt;
+        auto result = tree.query_with_id(x);
+        if (expected) assert(result == *expected);
+        else assert(result == make_pair(0LL, -1));
     }
 }
 
@@ -119,7 +122,10 @@ int main() {
     single.rollback(state);
     assert(single.query_with_id(3) == make_pair(3LL, INT_MAX));
     single.rollback(0);
-    assert(!single.query_with_id(3));
+    assert(single.query_with_id(3) == make_pair(0LL, -1));
+    single.add_line(0, 0, 0);
+    assert(single.query_with_id(3) == make_pair(0LL, 0));
+    assert(single.query_with_id(4) == make_pair(0LL, -1));
     const __int128 large = 1000000000000000000LL;
     UndoableLiChaoTree<__int128> wide({-large, 0, large});
     wide.add_line(large, large, 17);
