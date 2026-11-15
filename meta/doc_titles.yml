@@ -155,6 +155,7 @@ graph/connectivity/twoedgeconnectedcomponents.cpp: "二辺連結成分分解(Two
 graph/connectivity/edge_failure_connectivity.cpp: "辺除去後の連結判定"
 graph/twosat.cpp: "2-SAT"
 math/modular/crt.cpp: "中国剰余定理(Chinese Remainder Theorem)"
+math/convolution/lcm_transform.cpp: "約数の総和変換とLCM畳み込み"
 math/convolution/and_convolution.cpp: "AND畳み込み(Bitwise AND Convolution)"
 fps/berlekamp_massey.cpp: "Berlekamp-Massey法"
 math/combinatorics/binom_mod.cpp: "二項係数（合成数mod）"
