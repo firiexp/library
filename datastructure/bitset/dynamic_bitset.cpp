@@ -224,7 +224,7 @@ public:
         if (m <= 1) return m ? popcount(p[0] & q[0]) : 0;
 #if defined(__x86_64__) || defined(_M_X64)
         if (m >= bitset_count_detail::count_threshold_words) {
-            return bitset_count_detail::count_large<true>(p, m, q);
+            return bitset_count_detail::count_large<bitset_count_detail::Operation::And>(p, m, q);
         }
 #endif
         int res = 0;
@@ -234,6 +234,26 @@ public:
                  + popcount(p[i + 2] & q[i + 2]) + popcount(p[i + 3] & q[i + 3]);
         }
         for (; i < m; ++i) res += popcount(p[i] & q[i]);
+        return res;
+    }
+
+    int count_xor(const DynamicBitset &other) const {
+        if (this == &other) return 0;
+        const Word *p = a.data(), *q = other.a.data();
+        int m = (int)a.size();
+        if (m <= 1) return m ? popcount(p[0] ^ q[0]) : 0;
+#if defined(__x86_64__) || defined(_M_X64)
+        if (m >= bitset_count_detail::count_threshold_words) {
+            return bitset_count_detail::count_large<bitset_count_detail::Operation::Xor>(p, m, q);
+        }
+#endif
+        int res = 0;
+        int i = 0;
+        for (; i + 4 <= m; i += 4) {
+            res += popcount(p[i] ^ q[i]) + popcount(p[i + 1] ^ q[i + 1])
+                 + popcount(p[i + 2] ^ q[i + 2]) + popcount(p[i + 3] ^ q[i + 3]);
+        }
+        for (; i < m; ++i) res += popcount(p[i] ^ q[i]);
         return res;
     }
 

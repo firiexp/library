@@ -28,10 +28,11 @@ void operator delete[](void *p, size_t) noexcept { free(p); }
 
 template<class T>
 void check_pair(const T &a, const T &b, const vector<bool> &va, const vector<bool> &vb) {
-    int expected = 0, count_a = 0;
+    int expected = 0, count_a = 0, distance = 0;
     for (int i = 0; i < a.size(); ++i) {
         expected += va[i] && vb[i];
         count_a += va[i];
+        distance += va[i] != vb[i];
     }
     size_t before = allocations;
     assert(a.count_and(b) == expected);
@@ -40,7 +41,11 @@ void check_pair(const T &a, const T &b, const vector<bool> &va, const vector<boo
     assert(b.intersects(a) == (expected != 0));
     assert(a.count_and(a) == count_a);
     assert(a.intersects(a) == (count_a != 0));
+    assert(a.count_xor(b) == distance);
+    assert(b.count_xor(a) == distance);
+    assert(a.count_xor(a) == 0);
     assert(allocations == before);
+    assert(a.count_xor(b) == (a ^ b).count());
     assert(a.count_and(b) == (a & b).count());
     assert(a.intersects(b) == (a & b).any());
     for (int i = 0; i < a.size(); ++i) {
@@ -52,7 +57,7 @@ void check_pair(const T &a, const T &b, const vector<bool> &va, const vector<boo
 template<int N>
 void check_size() {
     mt19937 rng(N + 205);
-    for (int shape = 0; shape < 8; ++shape) {
+    for (int shape = 0; shape < 9; ++shape) {
         DynamicBitset a(N), b(N);
         StaticBitset<N> sa, sb;
         vector<bool> va(N), vb(N);
@@ -64,6 +69,7 @@ void check_size() {
                 y = i == (shape == 4 ? 0 : N - 1);
             }
             if (shape == 7) y = x;
+            if (shape == 8) y = i == N - 1 ? !x : x;
             a.assign(i, x);
             sa.assign(i, x);
             va[i] = x;
@@ -108,7 +114,7 @@ void check_kernels() {
         for (int offset = 0; offset < 4; ++offset) {
             vector<unsigned long long> a(n + offset), b(n + offset);
             for (int shape = 0; shape < 4; ++shape) {
-                int expected = 0;
+                int expected = 0, distance = 0, count = 0;
                 for (int i = offset; i < n + offset; ++i) {
                     a[i] = rng();
                     b[i] = ~a[i];
@@ -116,12 +122,20 @@ void check_kernels() {
                     if (shape == 2 && i == n + offset - 1) b[i] = ~0ULL;
                     if (shape == 3) b[i] = rng();
                     for (auto x = a[i] & b[i]; x; x &= x - 1) ++expected;
+                    for (auto x = a[i] ^ b[i]; x; x &= x - 1) ++distance;
+                    for (auto x = a[i]; x; x &= x - 1) ++count;
                 }
                 const auto *p = n ? a.data() + offset : nullptr;
                 const auto *q = n ? b.data() + offset : nullptr;
+                using Op = bitset_count_detail::Operation;
+                assert(bitset_count_detail::count_scalar(p, n) == count);
+                assert(bitset_count_detail::count_scalar<Op::And>(p, n, q) == expected);
+                assert(bitset_count_detail::count_scalar<Op::Xor>(p, n, q) == distance);
+                if (avx2 && popcnt) assert(bitset_count_detail::count_avx2<Op::Xor>(p, n, q) == distance);
+                if (avx512) assert(bitset_count_detail::count_avx512<Op::Xor>(p, n, q) == distance);
                 if (avx2) assert(bitset_count_detail::intersects_avx2(p, q, n) == (expected != 0));
-                if (avx2 && popcnt) assert(bitset_count_detail::count_avx2<true>(p, n, q) == expected);
-                if (avx512) assert(bitset_count_detail::count_avx512<true>(p, n, q) == expected);
+                if (avx2 && popcnt) assert(bitset_count_detail::count_avx2<bitset_count_detail::Operation::And>(p, n, q) == expected);
+                if (avx512) assert(bitset_count_detail::count_avx512<bitset_count_detail::Operation::And>(p, n, q) == expected);
             }
         }
     }

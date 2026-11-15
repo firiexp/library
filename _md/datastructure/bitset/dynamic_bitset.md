@@ -31,6 +31,8 @@ $N$ は bitset の長さとする。
   1 の個数を返す。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$
 - `int count_and(const DynamicBitset &other) const`
   両方で 1 の bit 数を返す。空なら `0`。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$
+- `int count_xor(const DynamicBitset &other) const`
+  bit が異なる位置の数（Hamming 距離）を返す。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$
 - `bool intersects(const DynamicBitset &other) const`
   両方で 1 の bit があれば `true`。なければ空も含めて `false`。時間 $O(\lceil N/64 \rceil)$、追加領域 $O(1)$
 - `int find_first() const`
@@ -53,13 +55,12 @@ $N$ は bitset の長さとする。
 ## 使い方
 例えば `bs.reset(limit, bs.size())` で `limit` 以上の候補をまとめて消せる。
 長さが同じ bitset 同士で演算する。
-共通要素の個数は `a.count_and(b)`、有無は `a.intersects(b)` で求める。
 `find_first`, `find_next` を使うと立っている bit だけを前から走査できる。
 `find_last`, `find_prev` を使うと後ろからも走査できる。
 部分和 DP は `reachable.set(0)` で初期化し、各重み `w` に対して `reachable.or_shift_left(w)` で更新できる。
 
 ## 実装上の補足
-`count()` は短い配列では scalar、長い配列では対応 CPU に応じた SIMD 集計を使う。
+`count()`、`count_and()`、`count_xor()` は短い配列では scalar、長い配列では対応 CPU に応じた SIMD 集計を使う。
 `StaticBitset` と集計処理を共有し、両方を同時に include できる。
 `intersects` は共通 bit を見つけた時点で返る。
 `or_shift_left` と `or_shift_right` は、`s <= 0`、`s >= size()`、空 bitset の場合は変更しない。
