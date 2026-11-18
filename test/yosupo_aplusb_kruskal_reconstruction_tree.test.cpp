@@ -2,6 +2,7 @@
 
 #include <bits/stdc++.h>
 using namespace std;
+template<class T> constexpr T INF = numeric_limits<T>::max() / 32 * 15 + 208;
 #include "../graph/spanning_tree/kruskal_reconstruction_tree.cpp"
 
 using Edge = KruskalEdge<long long>;
@@ -33,7 +34,8 @@ void check(int n, const vector<Edge> &edges) {
     }
     for (int u = 0; u < n; ++u) {
         for (int v = 0; v < n; ++v) if (u != v) {
-            assert(tree.connection_threshold(u, v) == expected[u][v]);
+            long long weight = tree.connection_threshold(u, v);
+            assert(weight == expected[u][v].value_or(INF<long long>));
         }
     }
 }

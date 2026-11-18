@@ -20,6 +20,7 @@ public:
         iota(top.begin(), top.end(), 0);
         for (const auto &e : edges) {
             assert(0 <= e.from && e.from < n && 0 <= e.to && e.to < n);
+            assert(e.cost < INF<T> || INF<T> < e.cost);
             auto merge = uf.unite(e.from, e.to);
             if (!merge) continue;
             int v = parent.size();
@@ -39,9 +40,9 @@ public:
         forest.build(std::move(roots));
     }
 
-    optional<T> connection_threshold(int u, int v) const {
+    T connection_threshold(int u, int v) const {
         assert(0 <= u && u < n && 0 <= v && v < n && u != v);
-        if (forest.tree_id[u] != forest.tree_id[v]) return nullopt;
+        if (forest.tree_id[u] != forest.tree_id[v]) return INF<T>;
         return merge_weight[forest.lca(u, v) - n];
     }
 };

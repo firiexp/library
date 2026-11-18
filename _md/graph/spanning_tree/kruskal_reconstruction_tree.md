@@ -10,17 +10,18 @@ documentation_of: //graph/spanning_tree/kruskal_reconstruction_tree.cpp
 頂点数を $N$、辺数を $M$ とする。辺の重みは負でもよい。
 
 - `KruskalReconstructionTree<T> tree(n, edges)`
-  頂点番号を $0$ から $N-1$ とし、`vector<KruskalEdge<T>>` の各辺から再構成木を作る。構築時間は $O(N+M\log(M+1))$、構築中の領域は $O(N+M)$、構築後の領域は $O(N)$。
-- `optional<T> connection_threshold(int u, int v) const`
-  異なる2頂点 `u`、`v` が初めて連結になる辺重みを返す。元のグラフで非連結なら `nullopt` を返す。時間は $O(\log N)$。
+  頂点番号を $0$ から $N-1$ とし、`vector<KruskalEdge<T>>` の各辺から再構成木を作る。構築時間は $O(N+M\log M)$、構築中の領域は $O(N+M)$、構築後の領域は $O(N)$。
+- `T connection_threshold(int u, int v) const`
+  異なる2頂点 `u`、`v` が初めて連結になる辺重みを返す。元のグラフで非連結なら `INF<T>` を返す。時間は $O(\log N)$。
 
 ## 使い方
+ライブラリをインクルードする前に、辺重みと異なる値を `INF<T>` として定義する。
 
 ```cpp
 vector<KruskalEdge<int>> edges = { {0, 1, -4}, {1, 2, -2}, {0, 2, 5} };
 KruskalReconstructionTree<int> tree(4, edges);
-auto w = tree.connection_threshold(0, 2);  // -2
-auto x = tree.connection_threshold(0, 3);  // nullopt
+int w = tree.connection_threshold(0, 2);  // -2
+int x = tree.connection_threshold(0, 3);  // INF<int>
 ```
 
 ## 実装上の補足
