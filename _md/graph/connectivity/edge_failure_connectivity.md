@@ -4,7 +4,7 @@ documentation_of: //graph/connectivity/edge_failure_connectivity.cpp
 ---
 
 ## 説明
-静的な無向グラフで、指定した辺1本を除いた後の2頂点の連結性を問い合わせる。
+静的な無向グラフで、指定した辺1本を除いた後の2頂点の連結性と、指定頂点から到達できる頂点数を調べる。
 頂点番号と入力順の辺IDで指定でき、平行辺・自己ループ・非連結グラフも扱う。
 
 ## できること
@@ -17,21 +17,23 @@ documentation_of: //graph/connectivity/edge_failure_connectivity.cpp
 - `void build()`
   全連結成分を前処理する。時間・追加領域 $O(V+E)$。
 - `bool connected_without_edge(u, v, edge_id) const`
-  その辺1本だけを除いたとき、`u` と `v` が連結なら `true` を返す。最悪 $O(1)$。状態は変更しない。
+  指定した辺を除いたとき、`u` と `v` が連結なら `true` を返す。最悪 $O(1)$。
+- `int component_size_without_edge(u, edge_id) const`
+  指定した辺を除いたとき、`u` から到達できる頂点数を `u` 自身も含めて返す。最悪 $O(1)$。
 
 ## 使い方
 頂点番号は $[0,V)$、辺IDは `add_edge` の返り値を使う。
-問い合わせ前に `build()` を呼ぶ。辺を追加した後は再構築が必要。
+クエリの前に `build()` を呼ぶ。辺を追加した後は再構築が必要。
 
 ```cpp
 EdgeFailureConnectivity g(3);
 int e = g.add_edge(0, 1);
 g.add_edge(1, 2);
 g.build();
-bool connected = g.connected_without_edge(0, 2, e);
+bool connected = g.connected_without_edge(0, 2, e);  // false
+int size = g.component_size_without_edge(2, e);       // 2
 ```
 
-この例の `connected` は `false` となる。
 `u == v` のときは常に `true`。元から別の連結成分なら `false`。
 別成分の辺や自己ループを除いても結果は変わらず、平行辺は指定した1本だけを除く。
 

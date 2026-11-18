@@ -36,6 +36,7 @@ void check(int n, const vector<pair<int, int>> &edges) {
                         q.push(u);
                     }
                 }
+                assert(view.component_size_without_edge(start, removed) == count(seen.begin(), seen.end(), true));
                 for (int v = 0; v < n; ++v) {
                     assert(view.connected_without_edge(start, v, removed) == bool(seen[v]));
                 }
@@ -95,12 +96,17 @@ int main() {
     int first = rebuilt.add_edge(0, 1);
     rebuilt.build();
     assert(!rebuilt.connected_without_edge(0, 2, first));
+    assert(rebuilt.component_size_without_edge(2, first) == 1);
     int second = rebuilt.add_edge(1, 2);
     rebuilt.build();
     assert(first == 0 && second == 1);
     assert(!rebuilt.connected_without_edge(0, 2, first));
+    assert(rebuilt.component_size_without_edge(2, first) == 2);
     int third = rebuilt.add_edge(2, 0);
     rebuilt.build();
-    for (int id : {first, second, third}) assert(rebuilt.connected_without_edge(0, 2, id));
+    for (int id : {first, second, third}) {
+        assert(rebuilt.connected_without_edge(0, 2, id));
+        assert(rebuilt.component_size_without_edge(2, id) == 3);
+    }
     for (int shape = 0; shape < 4; ++shape) large(shape);
 }

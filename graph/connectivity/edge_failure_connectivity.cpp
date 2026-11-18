@@ -8,6 +8,10 @@ class EdgeFailureConnectivity {
     vector<int> edge_ids, child, component;
     bool built = false;
 
+    bool in_subtree(int root, int v) const {
+        return tecc.ord[root] <= tecc.ord[v] && tecc.ord[v] < tecc.ord[root] + tecc.size[root];
+    }
+
 public:
     explicit EdgeFailureConnectivity(int n) : tecc(n), component(n) {}
 
@@ -44,10 +48,16 @@ public:
         if (component[u] != component[v]) return false;
         int c = child[edge_id];
         if (c < 0) return true;
-        auto inside = [&](int x) {
-            return tecc.ord[c] <= tecc.ord[x] && tecc.ord[x] < tecc.ord[c] + tecc.size[c];
-        };
-        return inside(u) == inside(v);
+        return in_subtree(c, u) == in_subtree(c, v);
+    }
+
+    int component_size_without_edge(int u, int edge_id) const {
+        assert(built);
+        assert(0 <= u && u < (int)component.size());
+        assert(0 <= edge_id && edge_id < (int)edge_ids.size());
+        int root = component[u], c = child[edge_id];
+        if (c < 0 || component[c] != root) return tecc.size[root];
+        return in_subtree(c, u) ? tecc.size[c] : tecc.size[root] - tecc.size[c];
     }
 };
 
