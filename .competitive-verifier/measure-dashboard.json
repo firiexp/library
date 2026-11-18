@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-11-08T11:37:47+09:00",
+  "generatedAt": "2026-11-19T00:26:42+09:00",
   "root": ".",
   "testCount": 188,
   "inventory": {
-    "currentTestCount": 239,
+    "currentTestCount": 241,
     "measuredTestCount": 185,
-    "unmeasuredCount": 54,
+    "unmeasuredCount": 56,
     "unmeasuredPaths": [
       "test/aoj_alds1_9_c_leftist_heap.test.cpp",
       "test/aoj_cgl_5_a.test.cpp",
@@ -30,6 +30,7 @@
       "test/yosupo_k_shortest_walk.test.cpp",
       "test/yosupo_kth_term_of_linearly_recurrent_sequence_fastkitamasa.test.cpp",
       "test/yosupo_line_add_get_min_online.test.cpp",
+      "test/yosupo_line_add_get_min_undoable.test.cpp",
       "test/yosupo_longest_common_substring.test.cpp",
       "test/yosupo_longest_increasing_subsequence.test.cpp",
       "test/yosupo_matrix_det_arbitrary_mod.test.cpp",
@@ -39,6 +40,7 @@
       "test/yosupo_partition_function.test.cpp",
       "test/yosupo_persistent_queue.test.cpp",
       "test/yosupo_persistent_range_affine_range_sum.test.cpp",
+      "test/yosupo_point_set_range_frequency_order_statistic_tree.test.cpp",
       "test/yosupo_pow_of_matrix_squarematrix.test.cpp",
       "test/yosupo_predecessor_problem_fast_set.test.cpp",
       "test/yosupo_product_of_polynomial_sequence.test.cpp",
@@ -65,9 +67,9 @@
     "stale": true
   },
   "generationEnvironment": {
-    "gitRevision": "cd9a5f11732ef0e33856df843a6d69e07764cf8b",
+    "gitRevision": "8308f200e545b17e83cf02c1f7c4d6ed15c5d6a5",
     "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
-    "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
     "processor": "x86_64",
     "logicalCpuCount": 24
   },
@@ -24756,132 +24758,127 @@
       "compiler": {
         "command": [
           "g++",
-          "--std=c++17",
+          "-std=c++17",
           "-O2",
           "-Wall",
           "-g",
+          "-DLOCAL",
+          "-UNDEBUG",
+          "-ULOCAL",
+          "-DNDEBUG",
           "-I",
           ".",
           "-o",
-          "a.out",
+          ".competitive-verifier/build/afeed12f7dce346b321e/a.out",
           "test/yosupo_tree_diameter.test.cpp"
         ],
-        "wallSec": 0.5770977070001209
+        "wallSec": 0.6804936669996096
       },
       "testcases": {
-        "directory": ".verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test",
+        "directory": null,
         "cachedCaseCount": 16
       },
       "run": {
         "command": [
-          "oj",
-          "test",
-          "-c",
-          "./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/verify-dashboard-14wr0ky0/a.out",
-          "-d",
-          "./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test",
-          "--tle",
-          "60.0",
-          "--judge-command",
-          "~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker"
+          ".competitive-verifier/build/afeed12f7dce346b321e/a.out"
         ],
         "returnCode": 0,
-        "wallSec": 6.111109559000397,
+        "wallSec": 7.6796257040005,
         "ok": true,
         "parsed": {
           "cases": [
             {
               "name": "example_00",
-              "timeSec": 0.004349,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.0028269390004425077
             },
             {
               "name": "hack_00",
-              "timeSec": 0.00445,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.002238815000964678
             },
             {
               "name": "line_00",
-              "timeSec": 0.397323,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.27985645399894565
             },
             {
               "name": "max_random_00",
-              "timeSec": 0.343262,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.7210416850011825
             },
             {
               "name": "max_random_01",
-              "timeSec": 0.392758,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.37435474999983853
             },
             {
               "name": "random_00",
-              "timeSec": 0.284199,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.24032773900034954
             },
             {
               "name": "random_01",
-              "timeSec": 0.311671,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.3088761869985319
             },
             {
               "name": "random_02",
-              "timeSec": 0.023456,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.014357441001266125
             },
             {
               "name": "random_03",
-              "timeSec": 0.30871,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.33210677600072813
             },
             {
               "name": "random_04",
-              "timeSec": 0.140149,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.16679800400015665
             },
             {
               "name": "small_random_00",
-              "timeSec": 0.005256,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.0025350420000904705
             },
             {
               "name": "small_random_01",
-              "timeSec": 0.004303,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.002184761000535218
             },
             {
               "name": "small_random_02",
-              "timeSec": 0.004604,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.002475020000929362
             },
             {
               "name": "small_random_03",
-              "timeSec": 0.004283,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.0025529759986966383
             },
             {
               "name": "small_random_04",
-              "timeSec": 0.00436,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.002288184999997611
             },
             {
               "name": "uni_00",
-              "timeSec": 0.163208,
-              "status": "AC"
+              "status": "AC",
+              "timeSec": 0.1648004269991361
             }
           ],
           "caseCount": 16,
           "timedCaseCount": 16,
           "passedCaseCount": 16,
-          "slowestSec": 0.397323,
-          "slowestCase": "line_00",
-          "averageSec": 0.1497713125,
-          "maxMemoryMb": 64.62,
-          "maxMemoryCase": "line_00",
-          "summary": "test success: 16 cases"
+          "slowestSec": 0.7210416850011825,
+          "slowestCase": "max_random_00",
+          "averageSec": 0.16372632506261198,
+          "maxMemoryMb": 52.948,
+          "maxMemoryCase": "uni_00",
+          "summary": "success"
         },
-        "output": "[INFO] online-judge-tools 11.5.1 (+ online-judge-api-client 10.10.1)\n[INFO] 16 cases found\n\n[INFO] example_00\n[INFO] time: 0.004349 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/example_00.in /tmp/tmptczuqjw8/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/example_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] hack_00\n[INFO] time: 0.004450 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/hack_00.in /tmp/tmpeoyjzwht/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/hack_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] line_00\n[INFO] time: 0.397323 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/line_00.in /tmp/tmpzv8e8z_b/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/line_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_00\n[INFO] time: 0.343262 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/max_random_00.in /tmp/tmpqiz7fgel/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/max_random_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] max_random_01\n[INFO] time: 0.392758 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/max_random_01.in /tmp/tmpv4xn5i3_/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/max_random_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_00\n[INFO] time: 0.284199 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_00.in /tmp/tmpgxeasbc0/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_01\n[INFO] time: 0.311671 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_01.in /tmp/tmp4fkvxu9y/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_02\n[INFO] time: 0.023456 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_02.in /tmp/tmpunjivfz3/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_03\n[INFO] time: 0.308710 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_03.in /tmp/tmp06y2_brj/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_03.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] random_04\n[INFO] time: 0.140149 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_04.in /tmp/tmpzvv_9jnc/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/random_04.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_00\n[INFO] time: 0.005256 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_00.in /tmp/tmpp5m7lssn/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_01\n[INFO] time: 0.004303 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_01.in /tmp/tmp4vhxgk3_/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_01.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_02\n[INFO] time: 0.004604 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_02.in /tmp/tmp1wji3srp/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_02.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_03\n[INFO] time: 0.004283 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_03.in /tmp/tmpizty3kxm/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_03.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] small_random_04\n[INFO] time: 0.004360 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_04.in /tmp/tmpvh68xym2/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/small_random_04.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] uni_00\n[INFO] time: 0.163208 sec\n[INFO] $ ~/.cache/online-judge-tools/library-checker-problems/tree/tree_diameter/checker ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/uni_00.in /tmp/tmpff3cwd0j/actual.out ./.verify-helper/cache/11b1c60c5d25d3ade4f8bf5fa59dd3b6/test/uni_00.out\nok OK\njudge's output:\n(empty)\n[SUCCESS] AC\n\n[INFO] slowest: 0.397323 sec  (for line_00)\n[INFO] max memory: 64.620000 MB  (for line_00)\n[SUCCESS] test success: 16 cases\n"
+        "output": "INFO:competitive_verifier.verify.main:168:verify_files_json=./.competitive-verifier/measure-7rb1_qni/input.json\n<------------- \u001b[36m Start group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\nINFO:competitive_verifier.verify.verifier:314:current_verification_files: test/yosupo_tree_diameter.test.cpp\n<------------- \u001b[36mFinish group:\u001b[33mcurrent_verification_files\u001b[0m ------------->\n<------------- \u001b[36m Start group:\u001b[33mVerify: test/yosupo_tree_diameter.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.oj.oj_test:315:example_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:example_00: \u001b[32mAC\u001b[39m, time: 0.002827 sec, memory: 4.096000 MB\nINFO:competitive_verifier.oj.oj_test:315:hack_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:hack_00: \u001b[32mAC\u001b[39m, time: 0.002239 sec, memory: 4.120000 MB\nINFO:competitive_verifier.oj.oj_test:315:line_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:line_00: \u001b[32mAC\u001b[39m, time: 0.279856 sec, memory: 45.472000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_random_00: \u001b[32mAC\u001b[39m, time: 0.721042 sec, memory: 42.876000 MB\nINFO:competitive_verifier.oj.oj_test:315:max_random_01: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:max_random_01: \u001b[32mAC\u001b[39m, time: 0.374355 sec, memory: 42.840000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:random_00: \u001b[32mAC\u001b[39m, time: 0.240328 sec, memory: 34.240000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_01: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:random_01: \u001b[32mAC\u001b[39m, time: 0.308876 sec, memory: 39.992000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_02: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:random_02: \u001b[32mAC\u001b[39m, time: 0.014357 sec, memory: 7.744000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_03: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:random_03: \u001b[32mAC\u001b[39m, time: 0.332107 sec, memory: 37.272000 MB\nINFO:competitive_verifier.oj.oj_test:315:random_04: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:random_04: \u001b[32mAC\u001b[39m, time: 0.166798 sec, memory: 25.176000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_00: \u001b[32mAC\u001b[39m, time: 0.002535 sec, memory: 3.944000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_01: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_01: \u001b[32mAC\u001b[39m, time: 0.002185 sec, memory: 3.920000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_02: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_02: \u001b[32mAC\u001b[39m, time: 0.002475 sec, memory: 3.948000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_03: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_03: \u001b[32mAC\u001b[39m, time: 0.002553 sec, memory: 4.120000 MB\nINFO:competitive_verifier.oj.oj_test:315:small_random_04: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:small_random_04: \u001b[32mAC\u001b[39m, time: 0.002288 sec, memory: 4.156000 MB\nINFO:competitive_verifier.oj.oj_test:315:uni_00: start\nok OK\nINFO:competitive_verifier.oj.oj_test:168:uni_00: \u001b[32mAC\u001b[39m, time: 0.164800 sec, memory: 52.948000 MB\nINFO:competitive_verifier.oj.oj_test:425:slowest: 0.721042 sec  (for max_random_00)\nINFO:competitive_verifier.oj.oj_test:427:max memory: 52.948000 MB  (for uni_00)\nINFO:competitive_verifier.oj.oj_test:432:\u001b[32mSUCCESS\u001b[39m 16 cases\n<------------- \u001b[36mFinish group:\u001b[33mVerify: test/yosupo_tree_diameter.test.cpp\u001b[0m ------------->\nINFO:competitive_verifier.verify.main:188:success!\n{\"total_seconds\":6.856775104999542,\"files\":{\"test/yosupo_tree_diameter.test.cpp\":{\"verifications\":[{\"verification_name\":\"g++\",\"status\":\"success\",\"elapsed\":2.6196212010017916,\"slowest\":0.7210416850011825,\"heaviest\":52.948,\"testcases\":[{\"name\":\"example_00\",\"status\":\"AC\",\"elapsed\":0.0028269390004425077,\"memory\":4.096},{\"name\":\"hack_00\",\"status\":\"AC\",\"elapsed\":0.002238815000964678,\"memory\":4.12},{\"name\":\"line_00\",\"status\":\"AC\",\"elapsed\":0.27985645399894565,\"memory\":45.472},{\"name\":\"max_random_00\",\"status\":\"AC\",\"elapsed\":0.7210416850011825,\"memory\":42.876},{\"name\":\"max_random_01\",\"status\":\"AC\",\"elapsed\":0.37435474999983853,\"memory\":42.84},{\"name\":\"random_00\",\"status\":\"AC\",\"elapsed\":0.24032773900034954,\"memory\":34.24},{\"name\":\"random_01\",\"status\":\"AC\",\"elapsed\":0.3088761869985319,\"memory\":39.992},{\"name\":\"random_02\",\"status\":\"AC\",\"elapsed\":0.014357441001266125,\"memory\":7.744},{\"name\":\"random_03\",\"status\":\"AC\",\"elapsed\":0.33210677600072813,\"memory\":37.272},{\"name\":\"random_04\",\"status\":\"AC\",\"elapsed\":0.16679800400015665,\"memory\":25.176},{\"name\":\"small_random_00\",\"status\":\"AC\",\"elapsed\":0.0025350420000904705,\"memory\":3.944},{\"name\":\"small_random_01\",\"status\":\"AC\",\"elapsed\":0.002184761000535218,\"memory\":3.92},{\"name\":\"small_random_02\",\"status\":\"AC\",\"elapsed\":0.002475020000929362,\"memory\":3.948},{\"name\":\"small_random_03\",\"status\":\"AC\",\"elapsed\":0.0025529759986966383,\"memory\":4.12},{\"name\":\"small_random_04\",\"status\":\"AC\",\"elapsed\":0.002288184999997611,\"memory\":4.156},{\"name\":\"uni_00\",\"status\":\"AC\",\"elapsed\":0.1648004269991361,\"memory\":52.948}],\"last_execution_time\":\"2026-11-18T15:26:41.657631Z\"}],\"content_hash\":\"e1946e7b8b0d58f348e73a47151b71baf264871f042b1336cf1ddd32a2428e09\",\"testdata_hash\":\"bc1f2c617d01f4d71c1e6eca27f987a40c57eb7031b868a4c7bf2ce319008c64\",\"newest\":true}}}\n"
       }
     },
     {

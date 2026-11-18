@@ -32,29 +32,7 @@ int main() {
         g[b].push_back({a, c});
     }
 
-    auto [dist, ends] = tree_diameter_weighted(g);
-    int s = ends.first;
-    int t = ends.second;
-
-    vector<int> parent(n, -1);
-    vector<int> st = {s};
-    parent[s] = s;
-    while (!st.empty()) {
-        int v = st.back();
-        st.pop_back();
-        if (v == t) break;
-        for (auto [to, _] : g[v]) {
-            if (parent[to] != -1) continue;
-            parent[to] = v;
-            st.push_back(to);
-        }
-    }
-
-    vector<int> path;
-    for (int v = t; v != s; v = parent[v]) path.push_back(v);
-    path.push_back(s);
-    reverse(path.begin(), path.end());
-
+    auto [dist, path] = tree_diameter_weighted_path(g);
     pr.println(dist, (int)path.size());
     pr.println(path);
     return 0;

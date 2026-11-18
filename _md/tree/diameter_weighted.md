@@ -3,30 +3,28 @@ title: 木の直径(重み付き)
 documentation_of: //tree/diameter_weighted.cpp
 ---
 ## 説明
-重み付き木の直径長とその両端点を求める。
-辺重みは非負とする。
+辺重みが非負の木で、2頂点間の距離の最大値（直径長）と、その距離を取る経路を求める。距離は経路上の辺重みの和とする。
 
 ## できること
 頂点数を $N$ とする。
 
-- `pair<T, pair<int, int>> tree_diameter_weighted(const vector<vector<pair<int, T>>> &g)`
-  直径を返す。戻り値の `first` は重み和としての直径長、`second.first` と `second.second` は両端点。$O(N)$
+- `pair<T, pair<int, int>> tree_diameter_weighted(g)`
+  直径長と両端点を返す。空の木では長さは0、両端点はともに `-1`。時間・領域は $O(N)$。
+- `pair<T, vector<int>> tree_diameter_weighted_path(g)`
+  直径長と、一方の端点からもう一方まで順に並べた頂点列を返す。最長経路が複数あればそのうち1本を返す。空の木では長さは0で頂点列は空、1頂点の木では頂点列は `{0}`。時間・領域は $O(N)$。
 
 ## 使い方
-隣接リストを `vector<vector<pair<int, T>>>` で持ち、`tree_diameter_weighted(g)` を呼ぶ。
+各無向辺を両方向に登録し、隣接リスト `g` を作る。
 
 ```cpp
 vector<vector<pair<int, long long>>> g(n);
 g[u].push_back({v, w});
 g[v].push_back({u, w});
 
-auto [dist, ends] = tree_diameter_weighted(g);
-int s = ends.first;
-int t = ends.second;
+auto [dist, path] = tree_diameter_weighted_path(g);
 ```
 
 重みなし木には `diameter.cpp` の `tree_diameter` を使う。
 
 ## 実装上の補足
-任意の頂点から最遠点 `s` を取り、さらに `s` から最遠点を取る 2 回 DFS で求める。
-連結で閉路がなく、辺重みが非負のグラフに対して使う。
+任意の頂点から最遠点 `s` を求め、次に `s` から最遠点 `t` を求める。頂点列を返す場合だけ2回目の探索で親を記録し、`t` から親をたどって経路を復元する。
