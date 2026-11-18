@@ -148,6 +148,7 @@ graph/matching/bipartite_maximum_matching_edges.cpp: "二部グラフの最大�
 graph/independentset.cpp: "最大独立集合(Maximum Independent Set)"
 graph/shortest_path/k_shortest_walk.cpp: "K番目の最短ウォーク"
 graph/spanning_tree/kruskal.cpp: "最小全域木(Kruskal法)"
+graph/spanning_tree/kruskal_reconstruction_tree.cpp: "2頂点が初めて連結になる辺重み（Kruskal 再構成木）"
 graph/connectivity/lowlink.cpp: "LowLink"
 graph/spanning_tree/manhattanmst.cpp: "マンハッタンMST(Manhattan MST)"
 graph/minimum_steiner_tree.cpp: "最小シュタイナー木"
