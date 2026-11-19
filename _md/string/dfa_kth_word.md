@@ -5,7 +5,7 @@ documentation_of: //string/dfa_kth_word.cpp
 
 ## 説明
 同じ `DFA<W>` に対して、長さや順位を変えながら辞書順 $k$ 番目の受理文字列を求める。
-照会する長さは `max_length` 以下、0-indexed の順位は `max_rank` 以下として前計算する。
+クエリする長さは `max_length` 以下、0-indexed の順位は `max_rank` 以下として前計算する。
 1回だけ求める場合は `string/kth_word.cpp` の `kth_word` を使う。
 
 ## できること
@@ -27,7 +27,7 @@ auto second = index.kth(3, 1);
 auto longer = index.kth(100, 1000);
 ```
 
-長さ100以下、順位1000以下の照会で同じ表を使う。
+長さ100以下、順位1000以下のクエリで同じ表を使う。
 `first` は `"aba"` に対応する `{0, 1, 0}`、`second` は `"abb"` に対応する `{0, 1, 1}` となる。
 禁止語の例には `string/avoid_patterns.cpp` も include する。
 

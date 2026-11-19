@@ -30,4 +30,4 @@ auto common = longest_common_substring<26>(strings);
 各文字列を走査した後、一致長を suffix link の先へ最大長で切り詰めながら伝播する。
 状態ごとに全入力での最小値を取り、最大のものを代表位置から復元する。
 2文字列の最長解を順に絞ると別の候補を失うため、その方法は使わない。
-固定テキストに対する2文字列の照会を繰り返す場合は、`SuffixAutomaton::longest_common_substring` を使うと構築を再利用できる。
+固定テキストに対する2文字列のクエリを繰り返す場合は、`SuffixAutomaton::longest_common_substring` を使うと構築を再利用できる。

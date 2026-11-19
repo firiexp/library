@@ -21,6 +21,18 @@ documentation_of: //string/palindromic_tree.cpp
 - `vector<int> count()` : 各ノードの出現回数を返す。$O(N)$
 - `Partitions min_partitions()` : 文字列の各接頭辞を非空回文に分割する最少個数 `count` と、分割位置を復元するための `prev` を返す。時間 $O(N\log N)$、返却値を含む追加領域 $O(N)$
 
+### PalindromicPartition
+
+文字を追加するたびに、現在の文字列を非空の回文に分けるときの最少個数を求める。
+長さ $N$ までの構築と全ての更新に合計 $O(N\log N)$ 時間、$O(N)$ 領域を使う。
+
+- `PalindromicPartition<W, start> dp(s)` : 文字列 `s` から構築する。引数なしなら空文字列。$O(N\log N)$
+- `void reserve(int n)` : 長さ `n` を見込んで領域を確保する。$O(N)$
+- `int add(char c)` : 末尾に文字 `c` を追加した文字列について、非空の回文に分けるときの最少個数を返す。償却 $O(\log N)$
+- `void build(const string& t)` : 既存の文字列の末尾に文字列 `t` を追加する。合計 $O(|t|\log N)$
+- `int count()` : 現在の文字列を非空の回文に分けるときの最少個数を返す。空文字列なら `0`。$O(1)$
+- `const Partitions& partitions()` : 全接頭辞の `count` / `prev` を持つ `Partitions` への const 参照を返す。$O(1)$。内容は以後の追加に合わせて更新される
+
 ## 使い方
 
 `W` に文字種数、`start` に最小文字を指定する。
@@ -50,17 +62,7 @@ reverse(ranges.begin(), ranges.end());
 空文字列の場合は `count={0}`、`prev={-1}` を返す。
 回文木の `add` / `build` 後は再度 `min_partitions()` を呼べば更新後の結果を取得できる。
 
-## PalindromicPartition
-
-文字を追加するたびに、現在の文字列を非空の回文に分けるときの最少個数を求める。
-長さ $N$ までの構築と全ての更新に合計 $O(N\log N)$ 時間、$O(N)$ 領域を使う。
-
-- `PalindromicPartition<W, start> dp(s)` : 文字列 `s` から構築する。引数なしなら空文字列。時間 $O(N\log N)$
-- `reserve(n)` : 長さ `n` を見込んで領域を確保する
-- `add(c)` : 末尾に文字 `c` を追加した文字列について、非空の回文に分けるときの最少個数を返す。償却 $O(\log N)$
-- `build(t)` : 既存の文字列の末尾に文字列 `t` を追加する
-- `count()` : 現在の文字列を非空の回文に分けるときの最少個数を返す。空文字列なら `0`。$O(1)$
-- `partitions()` : 全接頭辞の `count` / `prev` を持つ `Partitions` への const 参照を返す。$O(1)$。内容は以後の追加に合わせて更新される
+### PalindromicPartition
 
 次の例では `add(c)` を呼び、文字を追加するたびに得られる個数を出力する。
 

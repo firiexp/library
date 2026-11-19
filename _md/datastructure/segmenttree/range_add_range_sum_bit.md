@@ -29,7 +29,7 @@ documentation_of: //datastructure/segmenttree/range_add_range_sum_bit.cpp
 ## 使い方
 $N \ge 0$、$0 \le l \le r \le N$ とする。
 `T` は零初期化、加減算、`+=`、`long long` との積を扱える型とする。
-整数型では、初期値の差分・係数と添字や添字和との積・BIT 内の累積値・問い合わせの中間値と答えがすべて `T` に収まることを前提とする。
+整数型では、初期値の差分・係数と添字や添字和との積・BIT 内の累積値・クエリの中間値と答えがすべて `T` に収まることを前提とする。
 
 ```cpp
 RangeAddRangeSumBIT<long long> bit(5);

@@ -12,7 +12,7 @@ documentation_of: //math/linear_algebra/linear_system_decomposition.cpp
 $H$ 行 $W$ 列の行列でランクを $R$ とする。`mint` は素数 mod とする。
 
 - `LinearSystemDecomposition(a, variables = -1, bool build_basis = true)`
-  係数行列を分解する。`build_basis = true` なら零空間基底も作る。時間 $O(HW(R+1)+W(W-R))$。
+  係数行列を分解する。`build_basis = true` なら零空間基底も作る。時間 $O(HWR+W(W-R))$（$R = 0$ でも走査に $O(HW)$）。
 - `int rank() const`
   係数行列の階数を返す。$O(1)$。
 - `const vector<vector<mint>>& basis() const`
@@ -21,7 +21,7 @@ $H$ 行 $W$ 列の行列でランクを $R$ とする。`mint` は素数 mod と
   長さ $H$ の右辺に対し、自由変数を0にした特解を返す。不整合なら `nullopt`。時間 $O(HR+W)$、追加領域 $O(H+W)$。
 
 構築時は $O(HW+W(W-R))$、構築後は $O(HR+W(W-R))$ の領域を使う。
-`build_basis = false` なら、構築時間は $O(HW(R+1))$、構築時の領域は $O(HW)$、構築後の領域は $O(HR)$ となる。
+`build_basis = false` なら、構築時間は $O(HWR)$（$R = 0$ は $O(HW)$）、構築時の領域は $O(HW)$、構築後の領域は $O(HR)$ となる。
 
 ## 使い方
 ```cpp

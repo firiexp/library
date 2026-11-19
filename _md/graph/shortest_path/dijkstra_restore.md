@@ -16,9 +16,9 @@ tags: グラフ
 - `dijkstra_restore(s, n, edges)`
   `edge<T>(from, to, cost)` の辺列から、`dist`・`parent`・`parent_edge` を持つ `DijkstraRestoreResult<T>` を返す。始点と未到達頂点の親頂点・親辺は `-1`、未到達距離は `INF<T>`。時間 $O((V+E)\log(V+E))$、作業領域 $O(V+E)$、返却領域 $O(V)$。
 - `restore_path(s, t, result.parent)`
-  `s` から `t` への頂点列を返す。未到達なら空、`s == t` なら `{s}`。$O(L+1)$。
+  `s` から `t` への頂点列を返す。未到達なら空、`s == t` なら `{s}`。$O(L)$。
 - `restore_edge_path(s, t, result)`
-  `s` から `t` への辺ID列を経路順に返す。未到達と `s == t` はともに空で、`result.dist[t]` で区別する。$O(L+1)$。
+  `s` から `t` への辺ID列を経路順に返す。未到達と `s == t` はともに空で、`result.dist[t]` で区別する。$O(L)$。
 
 ## 使い方
 ```cpp

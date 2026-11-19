@@ -16,7 +16,7 @@ documentation_of: //geometry/polygon_contains.cpp
 多角形と判定点の各座標は $|x|,|y|\le 10^{18}$ とする。
 
 空列は常に OUT、1点なら同一点だけ ON、2点なら閉線分上だけ ON を返す。
-分類値は `contains_convex` と共通である。凸包への多数の問い合わせには、$O(\log N)$ で判定する `contains_convex` を使える。
+分類値は `contains_convex` と共通である。凸包への多数のクエリには、$O(\log N)$ で判定する `contains_convex` を使える。
 
 ```cpp
 vector<IntPoint> polygon{ {0, 0}, {4, 0}, {4, 1}, {1, 1}, {1, 4}, {0, 4} };
