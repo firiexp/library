@@ -16,11 +16,21 @@ tags: 木
 
 - `HeavyLightDecompositionEdge hld(n)`
   頂点数 `n` の木を作る。$O(N)$
+- `HeavyLightDecompositionEdge hld(g)`
+  隣接リスト `vector<vector<int>>& g` から木を作る。$O(N)$
 - `void add_edge(int u, int v)`
   木辺を張る。償却 $O(1)$
 - `void build(vector<int> roots = {0})`
   前処理をする。森では各成分の根を `roots` に1つずつ指定する。時間・領域 $O(N)$
-- `int edge_index(int v)`
+- `int lca(int u, int v)`
+  `u` と `v` の最近共通祖先を返す。$O(\log N)$
+- `int parent(int v) const`
+  `v` の親を返す。根なら `-1`。$O(1)$
+- `int ancestor(int v, int k)`
+  `v` から根方向へ `k` 回遡った頂点を返す。存在しなければ `-1`。$O(\log N)$
+- `int distance(int u, int v)`
+  `u` と `v` の間の辺数を返す。$O(\log N)$
+- `int edge_index(int v) const`
   `parent(v) - v` の辺が載る位置を返す。根なら `-1`。$O(1)$
 - `pair<int, int> subtree(int v)`
   部分木の辺集合に対応する半開区間 `[l, r)` を返す。$O(1)$

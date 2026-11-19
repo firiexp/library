@@ -18,7 +18,7 @@ tags: FPS
 - `vector<mint> evaluator.eval(const poly& f) const`
   構築時の xs で評価する。時間は単発の評価と同じ
 - `poly evaluator.interpolate(const vector<mint>& ys)`
-  構築時の点列と `ys` から補間する。点は相異なり、`ys.size()` は点数と等しいことが必要。
+  構築時の点列と `ys` から補間する。点は相異なり、`ys.size()` は点数と等しいことが必要（実装は `fps/polynomial_interpolation.cpp` にある）。$O(M\log^2 M)$
 
 ## 使い方
 `#include "../fps/multipoint_evaluation.cpp"` を読み込む。

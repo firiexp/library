@@ -12,7 +12,7 @@ tags: 数学
 
 ## できること
 - `ull kth_root_integer(ull a, int k)`
-  `floor(a^(1/k))` を返す
+  $\lfloor a^{1/k} \rfloor$ を返す。$O(k + \log^2 a)$
 
 ## 使い方
 `0 <= a < 2^64`, `1 <= k` を想定する。

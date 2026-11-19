@@ -22,6 +22,10 @@ tags: 数学
   16 進文字列から作る
 - `x.is_zero()`
   `x == 0` なら `true`
+- `x.is_negative()`
+  `x < 0` なら `true`
+- `x.abs()`
+  絶対値を返す
 - `x.to_string(int base = 10)`
   `base` 表記の文字列にする。英字は小文字で返す
 - `x.to_integral<T>() -> optional<T>`

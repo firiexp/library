@@ -12,7 +12,7 @@ tags: 数学
 
 ## できること
 - `ull Isqrt(const ull& x)`
-  `floor(sqrt(x))` を返す
+  $\lfloor \sqrt{x} \rfloor$ を返す。$O(1)$
 
 ## 使い方
 `unsigned long long` 範囲で使う。

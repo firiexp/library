@@ -23,7 +23,9 @@ tags: 最小費用流
 - `int add_edge(int from, int to, Flow lower, Flow upper, Cost cost)`
   下限・上限・費用付き有向辺を追加し、辺番号を返す。償却 $O(1)$
 - `pair<bool, __int128_t> solve()`
-  実行可能なら `{true, 最小費用}`、不可能なら `{false, 計算された費用}` を返す。保持している流量・需給・ポテンシャルを更新する
+  実行可能なら `{true, 最小費用}`、不可能なら `{false, 計算された費用}` を返す。保持している流量・需給・ポテンシャルを更新する。総供給量と最大容量の上界を $U$ として、容量スケーリングと最短路反復により最悪 $O(M(M+N\log N)\log U)$
+- `const Edge& get_edge(int i) const`
+  追加順で `i` 番目の辺情報（`from`, `to`, `flow`, `cap`, `cost`）を返す。$O(1)$
 - `vector<Flow> get_flows() const`
   追加順の各辺の流量を返す。$O(M)$
 - `vector<Cost> get_potential() const`

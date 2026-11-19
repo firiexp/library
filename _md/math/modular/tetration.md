@@ -12,11 +12,11 @@ tags: 数学
 
 ## できること
 - `ll totient(ll n)`
-  `n` のオイラー関数 `phi(n)` を返す
+  `n` のオイラー関数 $\varphi(n)$ を返す。$O(\sqrt{n})$
 - `ll tetration(ll a, ll n, ll M)`
-  `a ↑↑ n mod M` を返す。`M = 1` なら `0`
+  $a \uparrow\uparrow n \bmod M$ を返す。`M = 1` なら `0`。$O(\sqrt{M})$
 - `ll tetration(ll a, ll n, ll M, bool& yojo)`
-  内部用。指数の縮約で法をまたいだかを `yojo` に反映しつつ、必要なら `M` を足した値を返す
+  内部用。指数の縮約で法をまたいだかを `yojo` に反映しつつ、必要なら `M` を足した値を返す。$O(\sqrt{M})$
 
 ## 使い方
 `tetration(a, n, M)` を呼ぶだけでよい。

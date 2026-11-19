@@ -8,14 +8,14 @@ documentation_of: //string/active_pattern_matcher.cpp
 異なる位置の一致も数え、空パターンは `text.size()+1` 回とする。
 
 ## できること
-総パターン長を $P$、パターン数を $K$、Aho-Corasick の 状態数を $V$とする。
+総パターン長を $P$、パターン数を $K$、文字種数を $W$、Aho-Corasick の状態数を $V$ とする。
 
 - `ActivePatternMatcher<W, start> matcher(patterns)`
-  `vector<string>` から辞書を構築する。初期重みはすべて0。時間 $O(P+V \sigma +K)$、領域 $O(V \sigma +K)$
+  `vector<string>` から辞書を構築する。初期重みはすべて0。時間 $O(P+VW+K)$、領域 $O(VW+K)$
 - `set_weight(id, value)`
   入力順のパターン `id` の重みを `long long` の `value` に置き換える。負の重みも使える。$O(\log V)$
-- `long long query(S)`
-  各パターンの出現回数と現在の重みの積を合計する。$O((|text|\log V)$
+- `long long query(text)`
+  各パターンの出現回数と現在の重みの積を合計する。$O(|text|\log V)$（空文字列でも $O(\log V)$）
 
 ## 使い方
 パターン・テキストの各文字は `start <= c < start + W` を満たす前提。

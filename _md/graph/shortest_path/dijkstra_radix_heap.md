@@ -7,8 +7,10 @@ Radix Heap を使った Dijkstra 法である。
 非負整数重みの単一始点最短路を高速に求める。
 
 ## できること
+頂点数を $V$、辺数を $E$、到達可能な最短距離の最大値を $D$ とする。
+
 - `vector<long long> dijkstra_radix_heap(int s, const vector<vector<edge<long long>>>& g)`
-  始点 `s` から各頂点への最短距離を返す。未到達は `INF<long long>`
+  始点 `s` から各頂点への最短距離を返す。未到達は `INF<long long>`。$O(V + E \log D)$
 
 ## 使い方
 辺重みは非負整数である必要がある。

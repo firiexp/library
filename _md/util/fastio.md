@@ -28,6 +28,8 @@ interactive 問題のプログラムを端末で直接起動し、手入力で�
   空白を飛ばして 1 文字読む
 - `in.read(string& s)`
   空白区切り文字列を読む
+- `in.read(T& x)` (`x.value()` を持つ型)
+  整数を読み `T(v)` で代入する（`modint` など）
 - `in.read(T& x)` (`x.assign(string)` を持つ型)
   文字列を読んで `assign` する
 - `in >> x`
@@ -39,6 +41,8 @@ interactive 問題のプログラムを端末で直接起動し、手入力で�
   整数、`bool`、`char`、`string`、文字列リテラルを出力する。`double` は小数点以下15桁で出力する
 - `out.print_fixed(double x, int precision = 15)`
   `double` を小数点以下 `precision` 桁で出力する。
+- `out.print(x)` (`x.value()` を持つ型)
+  `x.value()` の値を出力する（`modint` など）
 - `out.print(x)` (`x.to_string()` を持つ型)
   `to_string()` の結果を出力する
 - `out.print(Range const& a)`
@@ -51,6 +55,8 @@ interactive 問題のプログラムを端末で直接起動し、手入力で�
   `out.print_fixed(x, precision)` の後に改行する
 - `out.println()`
   改行だけ出力する
+- `out.flush()`
+  出力バッファを即時 flush する（pipe 接続のインタラクティブ問題で必要）
 - `out << x`
   `out.print(x)` の別名
 

@@ -8,7 +8,7 @@ key と値を一緒に区間ソートし、区間積を求める。
 非可換モノイドに対応し、積は列の左から右へ取る。
 
 ## できること
-要素数を $N$、$W=\lceil\log_2 U\rceil)$ とする。
+要素数を $N$、$W=\lceil\log_2 U\rceil$ とする。
 
 - `SortableSegmentTree<M> seg(keys, values, key_upper = uint64_t(1) << 31)`
   同じ長さの `vector<int>` と `vector<T>` から構築する。$O(NW)$ 時間、$O(NW)$ 領域。
@@ -16,11 +16,11 @@ key と値を一緒に区間ソートし、区間積を求める。
 - `void set(int i, int key, const T& value)`
   位置 `i` の key と値を置き換える。変更後も key は相異なるものとする。$O(\log N+W)$。
 - `void sort_ascending(int l, int r)`
-  `[l,r)` を key の昇順にソートする。
+  `[l,r)` を key の昇順にソートする。$Q$ 回の操作通算で構築と合わせて償却 $O((N+Q)(\log N+W))$。
 - `void sort_descending(int l, int r)`
-  `[l,r)` を key の降順にソートする。
+  `[l,r)` を key の降順にソートする。$Q$ 回の操作通算で構築と合わせて償却 $O((N+Q)(\log N+W))$。
 - `T fold(int l, int r)`
-  現在の key が `[l,r)` の値を順番に合成する。$O(\log N+W)$。
+  現在の配列の半開区間 `[l,r)` の値を左から順に合成する。$O(\log N+W)$。
 - `pair<int,T> get(int i) const`
   位置 `i` の key と値を返す。$O(\log N+W)$。
 - `int size() const`
