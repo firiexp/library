@@ -32,6 +32,9 @@ FORBIDDEN_LIBRARY_PATTERNS = (
 )
 BACKTICK_COMPLEXITY_RE = re.compile(r"`(?:O|Θ)\([^`\n]*\)`")
 FENCED_CODE_RE = re.compile(r"```.*?```", re.DOTALL)
+INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
+MATH_SEGMENT_RE = re.compile(r"\$\$(.*?)\$\$|\$([^$\n]+)\$", re.DOTALL)
+HALF_OPEN_INTERVAL_RE = re.compile(r"\[[^\]]*?,[^\)]*?\)|\([^\)]*?,[^\]]*?\]")
 LIQUID_TOKEN_RE = re.compile(r"{%-?\s*(raw|endraw)\s*-?%}|\{\{|\{%")
 PROBLEM_DEFINE_RE = re.compile(r'^\s*#define\s+PROBLEM\s+"([^"]+)"\s*$', re.MULTILINE)
 TEST_FILE_NAME_RE = re.compile(r"^[a-z0-9_]+\.test\.cpp$")
@@ -85,7 +88,39 @@ def check_library_files() -> list[str]:
 
 
 def strip_fenced_code(text: str) -> str:
-    return FENCED_CODE_RE.sub("", text)
+    return FENCED_CODE_RE.sub(lambda match: "\n" * match.group(0).count("\n"), text)
+
+
+def check_markdown_mathjax(text: str, relpath: str) -> list[str]:
+    problems: list[str] = []
+    no_inline = INLINE_CODE_RE.sub(lambda match: " " * len(match.group(0)), text)
+    for match in MATH_SEGMENT_RE.finditer(no_inline):
+        lineno = line_of(no_inline, match.start())
+        block_expr = match.group(1)
+        expr = block_expr if block_expr is not None else match.group(2)
+        if LIQUID_TOKEN_RE.search(expr):
+            continue
+        if block_expr is not None and "\n" not in block_expr:
+            problems.append(f"{relpath}:{lineno}: display math $$...$$ should span multiple lines")
+        no_escaped = re.sub(r"\\[{}()\[\]]", "", expr)
+        if no_escaped.count("{") != no_escaped.count("}"):
+            problems.append(f"{relpath}:{lineno}: unbalanced braces in MathJax expression")
+        if len(re.findall(r"\\left\b", expr)) != len(re.findall(r"\\right\b", expr)):
+            problems.append(f"{relpath}:{lineno}: unbalanced \\left/\\right in MathJax expression")
+        no_intervals = HALF_OPEN_INTERVAL_RE.sub("", no_escaped)
+        if no_intervals.count("(") != no_intervals.count(")"):
+            problems.append(f"{relpath}:{lineno}: unbalanced parentheses in MathJax expression")
+
+    without_block = re.sub(
+        r"\$\$.*?\$\$",
+        lambda match: "\n" * match.group(0).count("\n"),
+        no_inline,
+        flags=re.DOTALL,
+    )
+    for lineno, line in enumerate(without_block.splitlines(), 1):
+        if line.replace(r"\$", "").count("$") % 2 == 1:
+            problems.append(f"{relpath}:{lineno}: unbalanced '$' delimiter in MathJax")
+    return problems
 
 
 def check_markdown_liquid(text: str, relpath: str) -> list[str]:
@@ -120,6 +155,7 @@ def check_markdown_files() -> list[str]:
         text = path.read_text()
         problems += check_markdown_liquid(text, relpath)
         text = strip_fenced_code(text)
+        problems += check_markdown_mathjax(text, relpath)
         for match in BACKTICK_COMPLEXITY_RE.finditer(text):
             lineno = line_of(text, match.start())
             problems.append(f"{relpath}:{lineno}: complexity should use MathJax, not backticks")

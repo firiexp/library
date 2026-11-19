@@ -4,6 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import codex_self_check_impl as self_check
+import sync_doc_titles_impl as sync_titles
 
 
 class MarkdownLiquidTest(unittest.TestCase):
@@ -68,6 +69,48 @@ class MarkdownLiquidTest(unittest.TestCase):
         self.assertEqual(self.check_document("```cpp\nauto x = { {1, 2}, {3, 4}};\n```\n$O(N)$"), [])
         problems = self.check_document("`O(N)`")
         self.assertEqual(problems, ["_md/geometry/sample.md:1: complexity should use MathJax, not backticks"])
+
+    def test_mathjax_validation(self):
+        self.assertEqual(
+            self.check_document(
+                "半開区間 $[l, r)$ と $(a, b]$、集合 $\\{0, 1\\}$。\n\n$$\nf(x) = x^2\n$$\n"
+            ),
+            [],
+        )
+        self.assertIn(
+            "_md/geometry/sample.md:1: unbalanced parentheses in MathJax expression",
+            self.check_document("$O((N\\log N)$"),
+        )
+        self.assertIn(
+            "_md/geometry/sample.md:1: unbalanced braces in MathJax expression",
+            self.check_document("$O(N^{2)$"),
+        )
+        self.assertIn(
+            "_md/geometry/sample.md:1: display math $$...$$ should span multiple lines",
+            self.check_document("$$a + b = c$$"),
+        )
+        self.assertIn(
+            "_md/geometry/sample.md:1: unbalanced '$' delimiter in MathJax",
+            self.check_document("計算量は $O(N) である。"),
+        )
+
+
+class SyncDocTitlesTest(unittest.TestCase):
+    def test_missing_md_and_missing_title_entry_are_reported(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "math").mkdir(parents=True)
+            (root / "_md" / "math").mkdir(parents=True)
+            (root / "math" / "nodoc.cpp").write_text("int f() { return 0; }\n")
+            (root / "math" / "notitle.cpp").write_text("int g() { return 0; }\n")
+            (root / "_md" / "math" / "notitle.md").write_text(
+                "---\ntitle: sample\ndocumentation_of: //math/notitle.cpp\n---\n"
+            )
+            with patch.object(sync_titles, "ROOT", root):
+                doc_files = sync_titles.collect_doc_files()
+                problems = sync_titles.collect_problems({}, doc_files)
+            self.assertIn("library file without matching md: math/nodoc.cpp", problems)
+            self.assertIn("md-backed file without title entry: math/notitle.cpp", problems)
 
 
 if __name__ == "__main__":
