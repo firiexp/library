@@ -42,13 +42,15 @@ tags: 数学
   商を負の無限大方向に丸め、除数と同符号の余りを返す。0 除算は assertion failure
 
 ## 使い方
-`Scanner` と `Printer` から直接入出力できる。
+`util/fastio.cpp` の `Scanner` と `Printer`（またはテンプレートの `din` / `dout`）から直接入出力できる。
 
 ```cpp
+Scanner in;
+Printer out;
 BigInteger a, b;
-sc.read(a, b);
+in.read(a, b);
 auto [q, r] = divmod(a, b);
-pr.println(q, r);
+out.println(q, r);
 ```
 
 10 進中心なら `BigInteger`、16 進中心なら `HexBigInteger` を使う。

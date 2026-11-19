@@ -19,6 +19,7 @@ documentation_of: //graph/shortest_path/floyd_warshall.cpp
 頂点は0-indexed。多重辺は最小の重みを使い、負の自己ループも負閉路として扱う。
 
 ```cpp
+Printer out;
 vector<edge<long long>> edges{ {0, 1, 3}, {1, 2, -5}, {0, 2, 4}};
 auto dist = floyd_warshall(3, edges);
 if (dist.empty()) {

@@ -17,7 +17,6 @@ tags: FPS
   構築時の点列で補間する。返却値・点の条件は単発 API と同じ。各回 $O(N\log^2 N)$ 時間で、積の木と点ごとの逆重みを再利用する
 
 ## 使い方
-`#include "../fps/polynomial_interpolation.cpp"` を読み込む。
 同じ長さの `xs`, `ys` を渡して `polynomial_interpolation(xs, ys)` を呼ぶ。
 同じ点で値列だけを変える場合は `MultipointEvaluator evaluator(xs)` を作り、`evaluator.interpolate(ys)` を繰り返す。同じオブジェクトで `eval(f)` も使える。
 

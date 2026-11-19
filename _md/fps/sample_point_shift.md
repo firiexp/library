@@ -15,7 +15,6 @@ tags: FPS
   `ys[i] = f(i)` とみなして `f(c + i)` を `i = 0..m-1` について返す。`m = -1` なら `m = ys.size()` とみなす。$N=\mathrm{ys.size()}$ として $O((N+m)\log(N+m))$
 
 ## 使い方
-`#include "../fps/sample_point_shift.cpp"` を読み込む。
 値列 `ys` と開始点 `c`、必要個数 `m` を渡す。
 
 ```cpp

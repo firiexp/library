@@ -13,6 +13,8 @@
 テンプレートには標準ライブラリ、`ll` / `uint` / `ull`、`INF<T>` などの共通定義と、高速入出力の `din` / `dout` が含まれる。
 別のテンプレートを使う場合は、これらの定義が足りずコンパイルエラーになることがある。
 
+テンプレートの `din` / `dout` は `din.read(...)` / `din >> x`、`dout.print(...)` / `dout.puts(...)` / `dout.puts_fixed(x, p)` / `dout << x` を提供する。単体ライブラリの [util/fastio.cpp](util/fastio.cpp) では改行付き出力が `println` / `println_fixed` になる点が異なる。
+
 ### GitHub Pages からコピーする
 
 1. [テンプレートのページ](https://firiexp.github.io/library/snippets/template.cpp) からコードをコピーし、`main.cpp` として保存する。

@@ -21,7 +21,6 @@ tags: FPS
   構築時の点列と `ys` から補間する。点は相異なり、`ys.size()` は点数と等しいことが必要（実装は `fps/polynomial_interpolation.cpp` にある）。$O(M\log^2 M)$
 
 ## 使い方
-`#include "../fps/multipoint_evaluation.cpp"` を読み込む。
 `poly f` を作り、`f.multipoint_eval(xs)` を呼ぶ。
 同じ点を何度も使う場合は `MultipointEvaluator evaluator(xs)` を1回作り、`evaluator.eval(f)` を繰り返す。
 元の `xs` や多項式を後から変更しても、評価点と以前の返却値は変わらない。

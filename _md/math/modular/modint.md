@@ -30,4 +30,4 @@ tags: 数学
   値を比較する。$O(1)$
 
 ## 使い方
-`MOD` を定義してから `#include "../math/modular/modint.cpp"` し、`mint` か `modint<MOD>` を使う。
+事前に `MOD` を定義した上で、`mint` か `modint<MOD>` を使う（テンプレートの `snippets/template.cpp` では `MOD = 998244353` が定義済み）。

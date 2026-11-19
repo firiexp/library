@@ -18,7 +18,7 @@ tags: 数学
   各 `ns[i]` について `ns[i]! mod 998244353` を入力順に返す。`ns[i] >= 0` が必要。`ns[i] >= 998244353` なら `0`。空入力には空の配列を返す。$M \le 10^6$ なら初回 $O(M+Q)$（構築済み範囲は $O(Q)$）、大きい要求では初回ブロック表構築の後に各クエリ $O(1)$（最大 256 回の乗算）
 
 ## 使い方
-`#include "../math/combinatorics/many_factorials.cpp"` を読み込む。
+階乗を求めたい非負整数の配列を `many_factorials(ns)` に渡す。
 
 ```cpp
 vector<long long> ns = {3, 5, 998244352};

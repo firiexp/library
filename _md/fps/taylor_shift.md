@@ -15,8 +15,7 @@ tags: FPS
   `f(x + c)` の係数列を返す。係数数を $N$ として $O(N\log N)$
 
 ## 使い方
-`#include "../fps/taylor_shift.cpp"` を読み込む。
-`taylor_shift(f, c)` を呼ぶ。
+`poly f` とシフト量 `c` を渡して `taylor_shift(f, c)` を呼ぶ。
 
 ## 実装上の補足
 階乗と逆階乗で重み付けして 1 回の畳み込みに帰着する。
