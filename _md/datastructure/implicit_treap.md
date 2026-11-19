@@ -1,9 +1,6 @@
 ---
 title: Implicit Treap
 documentation_of: //datastructure/implicit_treap.cpp
-date: 2026-03-12
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

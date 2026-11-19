@@ -1,9 +1,6 @@
 ---
 title: 等比数列上の多点評価
 documentation_of: //fps/multipoint_evaluation_geometric.cpp
-date: 2026-10-11
-category: FPS
-tags: FPS
 ---
 
 ## 説明

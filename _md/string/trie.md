@@ -1,9 +1,6 @@
 ---
 title: Trie 木
 documentation_of: //string/trie.cpp
-date: 2018-04-28
-category: 文字列
-tags: 文字列
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: 整数畳み込み(2/3 NTT)
 documentation_of: //math/convolution/integer_convolution.cpp
-date: 2026-07-18
-category: 数学
-tags: 数学
 ---
 
 ## 説明

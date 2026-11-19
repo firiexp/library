@@ -1,9 +1,6 @@
 ---
 title: 多次元配列(NdVec)
 documentation_of: //util/ndvec.cpp
-date: 2026-04-11
-category: ユーティリティ
-tags: ユーティリティ
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: 木の同型判定と頂点対応
 documentation_of: //tree/tree_isomorphism.cpp
-date: 2026-10-18
-category: 木
-tags: 木
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: Frequency Table of Tree Distance
 documentation_of: //tree/centroid/frequency_table_of_tree_distance.cpp
-date: 2026-03-15
-category: 木
-tags: 木
 ---
 
 ## 説明

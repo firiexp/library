@@ -1,9 +1,6 @@
 ---
 title: 最小費用流(Primal-Dual)
 documentation_of: //flow/primaldual.cpp
-date: 2026-03-12
-category: フロー
-tags: フロー
 ---
 ## 説明
 `s` から `t` へ指定した流量を流すときの最小費用を求める。

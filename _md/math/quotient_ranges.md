@@ -1,9 +1,6 @@
 ---
 title: 商が一定の区間列挙
 documentation_of: //math/quotient_ranges.cpp
-date: 2026-11-01
-category: 数学
-tags: 数学
 ---
 
 ## 説明

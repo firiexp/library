@@ -1,9 +1,6 @@
 ---
 title: Gauss-Jordan消去(modint)
 documentation_of: //math/linear_algebra/gauss_jordan_mint.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

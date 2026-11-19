@@ -1,9 +1,6 @@
 ---
 title: 下限制約付きs-t流
 documentation_of: //flow/maxflow_lower_bound.cpp
-date: 2026-03-07
-category: フロー
-tags: 最大流
 ---
 
 ## 説明

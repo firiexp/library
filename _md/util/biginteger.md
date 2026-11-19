@@ -1,9 +1,6 @@
 ---
 title: 多倍長整数(BigInteger)
 documentation_of: //util/biginteger.cpp
-date: 2026-03-20
-category: 数学
-tags: 数学
 ---
 
 ## 説明

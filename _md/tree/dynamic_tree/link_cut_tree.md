@@ -1,9 +1,6 @@
 ---
 title: Link-Cut Tree
 documentation_of: //tree/dynamic_tree/link_cut_tree.cpp
-date: 2026-03-08
-category: 木
-tags: 木
 ---
 
 ## 説明

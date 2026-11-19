@@ -1,9 +1,6 @@
 ---
 title: スライド最小値(最大値)
 documentation_of: //datastructure/slidingwindow.cpp
-date: 2018-04-28
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

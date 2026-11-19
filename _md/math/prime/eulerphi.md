@@ -1,9 +1,6 @@
 ---
 title: オイラーのφ関数(Euler Phi)
 documentation_of: //math/prime/eulerphi.cpp
-date: 2026-11-07
-category: 数学
-tags: 数学
 ---
 
 ## 説明

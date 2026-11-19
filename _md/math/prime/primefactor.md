@@ -1,9 +1,6 @@
 ---
 title: 素因数分解(試し割り)
 documentation_of: //math/prime/primefactor.cpp
-date: 2026-11-07
-category: 数学
-tags: 数学
 ---
 
 ## 説明

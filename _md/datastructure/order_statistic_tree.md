@@ -1,9 +1,6 @@
 ---
 title: 順序木(Order Statistic Tree)
 documentation_of: //datastructure/order_statistic_tree.cpp
-date: 2026-05-25
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

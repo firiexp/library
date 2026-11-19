@@ -1,9 +1,6 @@
 ---
 title: min-plus畳み込み(Min-Plus Convolution)
 documentation_of: //math/convolution/min_plus_convolution.cpp
-date: 2026-03-11
-category: 数学
-tags: 数学
 ---
 
 ## 説明

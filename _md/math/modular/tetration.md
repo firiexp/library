@@ -1,9 +1,6 @@
 ---
 title: Tetration Mod
 documentation_of: //math/modular/tetration.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

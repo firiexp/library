@@ -1,9 +1,6 @@
 ---
 title: 多項式剰余の冪計算(高速Kitamasa法)
 documentation_of: //fps/fastkitamasa.cpp
-date: 2018-04-28
-category: 数学
-tags: 数学
 ---
 
 ## 説明

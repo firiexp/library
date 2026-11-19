@@ -1,9 +1,6 @@
 ---
 title: Floor Sum
 documentation_of: //math/floor_sum.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

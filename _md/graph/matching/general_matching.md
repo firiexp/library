@@ -1,9 +1,6 @@
 ---
 title: 一般グラフ最大マッチング(General Matching)
 documentation_of: //graph/matching/general_matching.cpp
-date: 2026-03-08
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

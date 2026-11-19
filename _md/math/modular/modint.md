@@ -1,9 +1,6 @@
 ---
 title: modint(固定MOD)
 documentation_of: //math/modular/modint.cpp
-date: 2026-03-14
-category: 数学
-tags: 数学
 ---
 ## 説明
 テンプレート引数で MOD を固定した剰余整数を扱う。

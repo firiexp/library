@@ -1,9 +1,6 @@
 ---
 title: 並列二分探索
 documentation_of: //util/parallel_binary_search.cpp
-date: 2026-10-14
-category: クエリ
-tags: クエリ
 ---
 
 ## 説明

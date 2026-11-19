@@ -1,9 +1,6 @@
 ---
 title: OR畳み込み(Bitwise OR Convolution)
 documentation_of: //math/convolution/or_convolution.cpp
-date: 2026-03-10
-category: 数学
-tags: 数学
 ---
 
 ## 説明

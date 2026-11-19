@@ -1,9 +1,6 @@
 ---
 title: 第二種Stirling数の列
 documentation_of: //math/combinatorics/stirling_second_row.cpp
-date: 2026-10-30
-category: 数学
-tags: 数学
 ---
 
 ## 説明

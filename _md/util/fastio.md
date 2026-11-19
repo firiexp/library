@@ -1,9 +1,6 @@
 ---
 title: 高速入出力(Fast IO)
 documentation_of: //util/fastio.cpp
-date: 2026-08-02
-category: ユーティリティ
-tags: ユーティリティ
 ---
 
 ## 説明

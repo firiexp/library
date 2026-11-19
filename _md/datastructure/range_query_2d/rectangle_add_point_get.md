@@ -1,9 +1,6 @@
 ---
 title: 長方形加算点取得(Rectangle Add Point Get)
 documentation_of: //datastructure/range_query_2d/rectangle_add_point_get.cpp
-date: 2026-03-11
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

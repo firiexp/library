@@ -1,9 +1,6 @@
 ---
 title: 木ハッシュ(Tree Hash)
 documentation_of: //tree/tree_hash.cpp
-date: 2026-03-12
-category: 木
-tags: 木
 ---
 
 ## 説明

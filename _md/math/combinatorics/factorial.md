@@ -1,9 +1,6 @@
 ---
 title: 階乗・二項係数(Factorial)
 documentation_of: //math/combinatorics/factorial.cpp
-date: 2026-03-11
-category: 数学
-tags: 数学
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
-documentation_of: //math/modular/modinv.cpp
 title: MOD逆元(拡張ユークリッド互除法)
-date: 2018-04-28
-category: 数学
-tags: 整数論
+documentation_of: //math/modular/modinv.cpp
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: 整数座標点
 documentation_of: //geometry/int_point.cpp
-date: 2026-10-16
-category: 幾何
-tags: 幾何
 ---
 
 ## 説明

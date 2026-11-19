@@ -1,9 +1,6 @@
 ---
 title: 任意MOD畳み込み(3 NTT + Garner)
 documentation_of: //fps/fft.cpp
-date: 2026-03-15
-category: 数学
-tags: 数学
 ---
 
 ## 説明

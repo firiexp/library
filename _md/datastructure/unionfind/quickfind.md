@@ -1,9 +1,6 @@
 ---
 title: Quick Find
 documentation_of: //datastructure/unionfind/quickfind.cpp
-date: 2026-03-08
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

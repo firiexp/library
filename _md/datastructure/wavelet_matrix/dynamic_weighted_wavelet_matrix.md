@@ -1,9 +1,6 @@
 ---
 title: 動的重み付きWavelet Matrix(Dynamic Weighted Wavelet Matrix)
 documentation_of: //datastructure/wavelet_matrix/dynamic_weighted_wavelet_matrix.cpp
-date: 2026-07-25
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

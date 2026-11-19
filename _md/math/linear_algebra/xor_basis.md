@@ -1,9 +1,6 @@
 ---
 title: XOR基底(Linear Basis)
 documentation_of: //math/linear_algebra/xor_basis.cpp
-date: 2026-03-12
-category: 数学
-tags: 数学
 ---
 
 ## 説明

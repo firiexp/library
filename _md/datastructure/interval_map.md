@@ -1,8 +1,6 @@
 ---
 title: Interval Map
 documentation_of: //datastructure/interval_map.cpp
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

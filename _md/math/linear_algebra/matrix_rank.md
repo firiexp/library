@@ -1,9 +1,6 @@
 ---
 title: 行列の階数
 documentation_of: //math/linear_algebra/matrix_rank.cpp
-date: 2026-10-18
-category: 数学
-tags: 数学
 ---
 
 ## 説明

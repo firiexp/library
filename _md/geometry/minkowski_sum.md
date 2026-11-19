@@ -1,9 +1,6 @@
 ---
 title: 整数凸多角形のミンコフスキー和
 documentation_of: //geometry/minkowski_sum.cpp
-date: 2026-10-16
-category: 幾何
-tags: 幾何
 ---
 
 ## 説明

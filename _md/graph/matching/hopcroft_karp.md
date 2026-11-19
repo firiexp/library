@@ -1,9 +1,6 @@
 ---
 title: Hopcroft-Karp法
 documentation_of: //graph/matching/hopcroft_karp.cpp
-date: 2026-03-08
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

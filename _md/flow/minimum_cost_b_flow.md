@@ -1,9 +1,6 @@
 ---
 title: 最小費用b-flow(Min-Cost b-Flow)
 documentation_of: //flow/minimum_cost_b_flow.cpp
-date: 2026-03-08
-category: フロー
-tags: 最小費用流
 ---
 
 ## 説明

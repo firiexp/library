@@ -1,9 +1,6 @@
 ---
 title: 線形篩(Linear Sieve)
 documentation_of: //math/prime/linear_sieve.cpp
-date: 2026-11-07
-category: 数学
-tags: 数学
 ---
 
 ## 説明

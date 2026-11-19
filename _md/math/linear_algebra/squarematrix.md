@@ -1,9 +1,6 @@
 ---
 title: 固定長正方行列(Square Matrix)
 documentation_of: //math/linear_algebra/squarematrix.cpp
-date: 2026-03-15
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

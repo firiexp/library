@@ -1,9 +1,6 @@
 ---
 title: Miller-Rabin素数判定
 documentation_of: //math/prime/miller_rabin.cpp
-date: 2018-04-28
-category: 数学
-tags: 数学
 ---
 
 ## 説明

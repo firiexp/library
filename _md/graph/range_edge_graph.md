@@ -1,9 +1,6 @@
 ---
 title: 区間への辺を圧縮するグラフ
 documentation_of: //graph/range_edge_graph.cpp
-date: 2026-10-14
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

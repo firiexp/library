@@ -1,9 +1,6 @@
 ---
-documentation_of: //math/modular/pow.cpp
 title: 繰り返し二乗法
-date: 2018-04-28
-category: 数学
-tags: 数学
+documentation_of: //math/modular/pow.cpp
 ---
 
 ## 説明

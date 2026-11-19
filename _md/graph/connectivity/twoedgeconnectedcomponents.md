@@ -1,9 +1,6 @@
 ---
 title: 二辺連結成分分解(Two-Edge-Connected Components)
 documentation_of: //graph/connectivity/twoedgeconnectedcomponents.cpp
-date: 2020-03-25
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: 追加・削除クエリのオフライン処理
 documentation_of: //util/offline_time_intervals.cpp
-date: 2026-10-14
-category: クエリ
-tags: クエリ
 ---
 
 ## 説明

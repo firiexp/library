@@ -1,9 +1,6 @@
 ---
 title: 区間集合(Interval Set)
 documentation_of: //datastructure/interval_set.cpp
-date: 2026-03-22
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

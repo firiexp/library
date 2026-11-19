@@ -1,9 +1,6 @@
 ---
 title: 最小素因数テーブル(Min Factor Table)
 documentation_of: //math/prime/get_min_factor.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: NTT・形式的冪級数(NTT/FPS)
 documentation_of: //fps/ntt.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

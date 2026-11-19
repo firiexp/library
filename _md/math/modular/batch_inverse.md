@@ -1,9 +1,6 @@
 ---
 title: 配列内の全ての要素の逆元
 documentation_of: //math/modular/batch_inverse.cpp
-date: 2026-10-30
-category: 数学
-tags: 数学
 ---
 
 ## 説明

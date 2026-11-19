@@ -1,9 +1,6 @@
 ---
 title: 無向グラフの全域木数
 documentation_of: //graph/spanning_tree/count_spanning_trees.cpp
-date: 2026-11-01
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

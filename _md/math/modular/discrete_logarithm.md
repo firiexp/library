@@ -1,9 +1,6 @@
 ---
 title: 離散対数(Discrete Logarithm)
 documentation_of: //math/modular/discrete_logarithm.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

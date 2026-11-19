@@ -1,9 +1,6 @@
 ---
 title: 行列(Matrix)
 documentation_of: //math/linear_algebra/matrix.cpp
-date: 2026-03-15
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

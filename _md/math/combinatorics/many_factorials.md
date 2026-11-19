@@ -1,9 +1,6 @@
 ---
 title: Many Factorials
 documentation_of: //math/combinatorics/many_factorials.cpp
-date: 2026-03-15
-category: 数学
-tags: 数学
 ---
 
 ## 説明

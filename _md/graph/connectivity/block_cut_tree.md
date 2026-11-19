@@ -1,9 +1,6 @@
 ---
 title: ブロックカット木(Block-Cut Tree)
 documentation_of: //graph/connectivity/block_cut_tree.cpp
-date: 2026-03-11
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

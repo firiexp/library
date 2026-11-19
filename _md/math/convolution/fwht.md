@@ -1,9 +1,6 @@
 ---
 title: 高速Walsh-Hadamard変換(FWHT)
 documentation_of: //math/convolution/fwht.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

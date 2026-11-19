@@ -1,9 +1,6 @@
 ---
 title: 最小全域有向木(Chu-Liu/Edmonds)
 documentation_of: //graph/spanning_tree/chu_liu_edmonds.cpp
-date: 2026-03-08
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

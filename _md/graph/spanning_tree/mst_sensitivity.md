@@ -1,9 +1,6 @@
 ---
 title: 最小全域木の辺別制約コスト
 documentation_of: //graph/spanning_tree/mst_sensitivity.cpp
-date: 2026-10-14
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

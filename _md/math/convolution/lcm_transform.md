@@ -1,9 +1,6 @@
 ---
 title: 約数の総和変換とLCM畳み込み
 documentation_of: //math/convolution/lcm_transform.cpp
-date: 2026-11-15
-category: 数学
-tags: 数学
 ---
 
 ## 説明

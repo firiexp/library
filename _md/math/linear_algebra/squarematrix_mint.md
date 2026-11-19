@@ -1,9 +1,6 @@
 ---
 title: 固定長正方行列(mint専用)
 documentation_of: //math/linear_algebra/squarematrix_mint.cpp
-date: 2026-03-15
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

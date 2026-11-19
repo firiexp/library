@@ -1,9 +1,6 @@
 ---
 title: 二項係数(mod p^q)
 documentation_of: //math/combinatorics/binom_mod_prime_power.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

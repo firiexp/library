@@ -1,9 +1,6 @@
 ---
 title: 木の中心(Tree Center)
 documentation_of: //tree/tree_center.cpp
-date: 2026-03-08
-category: 木
-tags: 木
 ---
 
 ## 説明

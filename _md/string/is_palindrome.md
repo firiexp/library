@@ -1,9 +1,6 @@
 ---
 title: 回文判定
 documentation_of: //string/is_palindrome.cpp
-date: 2018-04-28
-category: 文字列
-tags: 文字列
 ---
 
 ## 説明

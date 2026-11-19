@@ -1,9 +1,6 @@
 ---
 title: ReRooting(全方位木DP)
 documentation_of: //tree/rerooting.cpp
-date: 2026-03-12
-category: 木
-tags: 木
 ---
 
 ## 説明

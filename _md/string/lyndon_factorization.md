@@ -1,9 +1,6 @@
 ---
 title: Lyndon分解(Lyndon Factorization)
 documentation_of: //string/lyndon_factorization.cpp
-date: 2026-03-11
-category: 文字列
-tags: 文字列
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: 多項式列の積
 documentation_of: //fps/product_polynomials.cpp
-date: 2026-10-30
-category: FPS
-tags: FPS
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: Virtual Tree Helper
 documentation_of: //tree/virtual_tree_helper.cpp
-date: 2026-03-08
-category: 木
-tags: 木
 ---
 
 ## 説明

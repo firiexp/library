@@ -1,9 +1,6 @@
 ---
 title: 重み付きWavelet Matrix(Weighted Wavelet Matrix)
 documentation_of: //datastructure/wavelet_matrix/weighted_wavelet_matrix.cpp
-date: 2026-07-26
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

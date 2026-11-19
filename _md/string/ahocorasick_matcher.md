@@ -1,8 +1,6 @@
 ---
 title: 文字列のパターン一致位置列挙
 documentation_of: //string/ahocorasick_matcher.cpp
-category: 文字列
-tags: 文字列
 ---
 
 ## 説明

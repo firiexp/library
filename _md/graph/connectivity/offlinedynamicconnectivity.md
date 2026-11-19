@@ -1,9 +1,6 @@
 ---
 title: Offline Dynamic Connectivity
 documentation_of: //graph/connectivity/offlinedynamicconnectivity.cpp
-date: 2020-02-26
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

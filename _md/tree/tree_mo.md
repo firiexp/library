@@ -1,9 +1,6 @@
 ---
 title: 木上パスのMo
 documentation_of: //tree/tree_mo.cpp
-date: 2026-10-14
-category: 木
-tags: 木
 ---
 
 ## 説明

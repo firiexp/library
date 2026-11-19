@@ -1,9 +1,6 @@
 ---
 title: 逆行列(Inverse Matrix)
 documentation_of: //math/linear_algebra/inverse_matrix.cpp
-date: 2026-03-11
-category: 数学
-tags: 数学
 ---
 
 ## 説明

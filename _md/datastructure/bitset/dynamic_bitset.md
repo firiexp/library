@@ -1,9 +1,6 @@
 ---
 title: 動的bitset(Dynamic Bitset)
 documentation_of: //datastructure/bitset/dynamic_bitset.cpp
-date: 2026-03-22
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

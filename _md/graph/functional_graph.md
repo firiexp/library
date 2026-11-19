@@ -1,9 +1,6 @@
 ---
 title: Functional Graph
 documentation_of: //graph/functional_graph.cpp
-date: 2026-03-12
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

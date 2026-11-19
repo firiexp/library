@@ -1,9 +1,6 @@
 ---
 title: modと底を固定した離散対数
 documentation_of: //math/modular/discrete_logarithm_table.cpp
-date: 2026-11-05
-category: 数学
-tags: 数学
 ---
 
 ## 説明

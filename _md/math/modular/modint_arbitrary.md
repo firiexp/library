@@ -1,9 +1,6 @@
 ---
 title: modint(任意MOD)
 documentation_of: //math/modular/modint_arbitrary.cpp
-date: 2026-03-14
-category: 数学
-tags: 数学
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: Berlekamp-Massey法
 documentation_of: //fps/berlekamp_massey.cpp
-date: 2026-03-07
-category: 数学
-tags: 数学
 ---
 
 ## 説明

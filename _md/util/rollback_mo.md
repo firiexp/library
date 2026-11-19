@@ -1,8 +1,6 @@
 ---
 title: Rollbackを使うMo
 documentation_of: //util/rollback_mo.cpp
-category: その他
-tags: その他
 ---
 
 ## 説明

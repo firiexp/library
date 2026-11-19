@@ -1,9 +1,6 @@
 ---
 title: 整数の分割数
 documentation_of: //math/combinatorics/partition_numbers.cpp
-date: 2026-10-30
-category: 数学
-tags: 数学
 ---
 
 ## 説明

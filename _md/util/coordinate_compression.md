@@ -1,9 +1,6 @@
 ---
 title: 座標圧縮と区間変換
 documentation_of: //util/coordinate_compression.cpp
-date: 2026-11-15
-category: util
-tags: util
 ---
 
 ## 説明

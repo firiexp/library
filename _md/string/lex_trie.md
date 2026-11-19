@@ -1,9 +1,6 @@
 ---
 title: 辞書順比較付きTrie
 documentation_of: //string/lex_trie.cpp
-date: 2026-10-25
-category: 文字列
-tags: 文字列
 ---
 
 ## 説明

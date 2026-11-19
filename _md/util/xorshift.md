@@ -1,9 +1,6 @@
 ---
 title: Xor-Shift
 documentation_of: //util/xorshift.cpp
-date: 2018-04-28
-category: 乱数
-tags: 乱数
 ---
 
 ## 説明

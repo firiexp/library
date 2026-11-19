@@ -1,9 +1,6 @@
 ---
 title: LowLink
 documentation_of: //graph/connectivity/lowlink.cpp
-date: 2026-03-07
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

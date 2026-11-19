@@ -1,9 +1,6 @@
 ---
 title: Mo's Algorithm
 documentation_of: //util/mo.cpp
-date: 2026-03-25
-category: クエリ
-tags: クエリ
 ---
 
 ## 説明

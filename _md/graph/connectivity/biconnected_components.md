@@ -1,9 +1,6 @@
 ---
 title: 二重連結成分分解(Biconnected Components)
 documentation_of: //graph/connectivity/biconnected_components.cpp
-date: 2026-03-08
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

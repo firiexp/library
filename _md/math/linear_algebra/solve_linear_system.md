@@ -1,9 +1,6 @@
 ---
 title: 連立一次方程式の解空間
 documentation_of: //math/linear_algebra/solve_linear_system.cpp
-date: 2026-10-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

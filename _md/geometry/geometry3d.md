@@ -1,9 +1,6 @@
 ---
 title: 3次元幾何
 documentation_of: //geometry/geometry3d.cpp
-date: 2026-03-12
-category: 幾何
-tags: 幾何
 ---
 
 ## 説明

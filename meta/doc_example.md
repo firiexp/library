@@ -10,15 +10,12 @@
 ---
 title: XOR基底(Linear Basis)
 documentation_of: //math/linear_algebra/xor_basis.cpp
-date: 2026-03-11
-category: 数学
-tags: 数学
 ---
 ```
 
 - `title` は短く保ち、`meta/doc_titles.yml` と揃える
 - `documentation_of` は対応する `.cpp` を指す
-- 日付は更新日に合わせる
+- サイト生成で使わない `date`・`category`・`tags` は付けない
 
 ## 本文テンプレート
 

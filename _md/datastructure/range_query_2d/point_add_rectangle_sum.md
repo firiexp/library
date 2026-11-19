@@ -1,9 +1,6 @@
 ---
 title: 点加算長方形和(Point Add Rectangle Sum)
 documentation_of: //datastructure/range_query_2d/point_add_rectangle_sum.cpp
-date: 2026-03-08
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

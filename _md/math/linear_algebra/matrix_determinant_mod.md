@@ -1,9 +1,6 @@
 ---
 title: 任意 mod の行列式
 documentation_of: //math/linear_algebra/matrix_determinant_mod.cpp
-date: 2026-10-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

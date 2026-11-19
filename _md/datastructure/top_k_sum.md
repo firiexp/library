@@ -1,9 +1,6 @@
 ---
 title: 上位K個の和を管理する
 documentation_of: //datastructure/top_k_sum.cpp
-date: 2026-03-21
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

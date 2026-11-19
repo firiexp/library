@@ -1,9 +1,6 @@
 ---
 title: Dinic法(Dinic)
 documentation_of: //flow/dinic.cpp
-date: 2019-07-31
-category: フロー
-tags: 最大流
 ---
 
 ## 説明

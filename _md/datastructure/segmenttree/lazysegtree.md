@@ -1,9 +1,6 @@
 ---
 title: 遅延セグメント木(Lazy Segment Tree)
 documentation_of: //datastructure/segmenttree/lazysegtree.cpp
-date: 2018-05-01
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

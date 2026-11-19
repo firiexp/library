@@ -1,9 +1,6 @@
 ---
 title: 和ごとの部分集合数
 documentation_of: //math/combinatorics/subset_sum_counts.cpp
-date: 2026-10-11
-category: 数学
-tags: 数学
 ---
 
 ## 説明

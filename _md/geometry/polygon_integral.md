@@ -1,9 +1,6 @@
 ---
 title: 多角形の区間面積と重心
 documentation_of: //geometry/polygon_integral.cpp
-date: 2026-10-18
-category: 幾何
-tags: 幾何
 ---
 
 ## 説明

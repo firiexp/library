@@ -1,9 +1,6 @@
 ---
 title: 長方形和集合面積(Area of Union of Rectangles)
 documentation_of: //geometry/area_of_union_of_rectangles.cpp
-date: 2026-03-14
-category: 幾何
-tags: 幾何, データ構造
 ---
 
 ## 説明

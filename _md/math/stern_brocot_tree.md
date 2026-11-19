@@ -1,9 +1,6 @@
 ---
 title: Stern-Brocot木
 documentation_of: //math/stern_brocot_tree.cpp
-date: 2026-03-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

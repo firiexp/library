@@ -1,9 +1,6 @@
 ---
 title: Li Chao Tree
 documentation_of: //datastructure/li_chao_tree.cpp
-date: 2026-03-07
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

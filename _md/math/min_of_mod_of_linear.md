@@ -1,9 +1,6 @@
 ---
 title: 一次式の剰余の最小値
 documentation_of: //math/min_of_mod_of_linear.cpp
-date: 2026-10-08
-category: 数学
-tags: 数学
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
-documentation_of: //datastructure/heap/radixheap.cpp
 title: Radix Heap
-date: 2019-10-20
-category: データ構造
-tags: データ構造
+documentation_of: //datastructure/heap/radixheap.cpp
 ---
 
 ## 説明

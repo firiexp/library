@@ -1,9 +1,6 @@
 ---
 title: 橋木(Bridge Tree)
 documentation_of: //graph/connectivity/bridge_tree.cpp
-date: 2026-03-11
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

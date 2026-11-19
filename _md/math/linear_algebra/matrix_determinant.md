@@ -1,9 +1,6 @@
 ---
 title: 行列式(Matrix Determinant)
 documentation_of: //math/linear_algebra/matrix_determinant.cpp
-date: 2026-03-11
-category: 数学
-tags: 数学
 ---
 
 ## 説明

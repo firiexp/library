@@ -1,9 +1,6 @@
 ---
 title: 部分集合畳み込み(Subset Convolution)
 documentation_of: //math/convolution/subset_convolution.cpp
-date: 2026-03-10
-category: 数学
-tags: 数学
 ---
 
 ## 説明

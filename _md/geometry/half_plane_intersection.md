@@ -1,9 +1,6 @@
 ---
 title: 半平面共通部分(Half-Plane Intersection)
 documentation_of: //geometry/half_plane_intersection.cpp
-date: 2026-03-12
-category: 幾何
-tags: 幾何
 ---
 
 ## 説明

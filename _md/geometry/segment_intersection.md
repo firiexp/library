@@ -1,9 +1,6 @@
 ---
 title: 整数座標の線分交差判定
 documentation_of: //geometry/segment_intersection.cpp
-date: 2026-11-01
-category: 幾何
-tags: 幾何
 ---
 
 ## 説明

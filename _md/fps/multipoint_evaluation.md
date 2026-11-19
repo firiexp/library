@@ -1,9 +1,6 @@
 ---
 title: 多点評価(Multipoint Evaluation)
 documentation_of: //fps/multipoint_evaluation.cpp
-date: 2026-03-08
-category: FPS
-tags: FPS
 ---
 
 ## 説明

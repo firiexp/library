@@ -1,9 +1,6 @@
 ---
 title: 経路復元付きDijkstra法
 documentation_of: //graph/shortest_path/dijkstra_restore.cpp
-date: 2026-03-08
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

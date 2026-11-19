@@ -1,9 +1,6 @@
 ---
 title: Dynamic Graph Vertex Add Component Sum
 documentation_of: //graph/connectivity/dynamic_graph_vertex_add_component_sum.cpp
-date: 2026-03-11
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: 静的区間の種類数
 documentation_of: //datastructure/wavelet_matrix/static_range_distinct.cpp
-date: 2026-10-11
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

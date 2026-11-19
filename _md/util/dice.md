@@ -1,9 +1,6 @@
 ---
 title: サイコロ
 documentation_of: //util/dice.cpp
-date: 2019-10-15
-category: 謎
-tags: 謎
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: 連続標本点からの1点評価
 documentation_of: //fps/sample_point_eval.cpp
-date: 2026-10-11
-category: FPS
-tags: FPS
 ---
 
 ## 説明

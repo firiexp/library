@@ -1,9 +1,6 @@
 ---
 title: SWAG
 documentation_of: //datastructure/swag.cpp
-date: 2020-02-19
-category: データ構造
-tags: データ構造
 ---
 
 ## 説明

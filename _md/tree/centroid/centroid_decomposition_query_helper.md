@@ -1,9 +1,6 @@
 ---
 title: 重心分解クエリ補助(Centroid Query Helper)
 documentation_of: //tree/centroid/centroid_decomposition_query_helper.cpp
-date: 2026-03-11
-category: 木
-tags: 木
 ---
 
 ## 説明

@@ -1,9 +1,6 @@
 ---
 title: ハンガリアン法(Hungarian Algorithm)
 documentation_of: //graph/matching/hungarian.cpp
-date: 2026-03-08
-category: グラフ
-tags: グラフ
 ---
 
 ## 説明
