@@ -1,5 +1,5 @@
 ---
-title: 動的な木の部分木加算・部分木和（Euler Tour Tree）
+title: 動的な木の部分木加算・部分木和(Euler Tour Tree)
 documentation_of: //tree/dynamic_tree/euler_tour_tree.cpp
 ---
 

@@ -56,3 +56,7 @@ public:
     size_t size() const { return sz; }
     bool empty() const { return !sz; }
 };
+
+/**
+ * @brief Radix Heap
+ */

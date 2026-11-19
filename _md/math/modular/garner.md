@@ -1,6 +1,6 @@
 ---
 documentation_of: //math/modular/garner.cpp
-title: Garner's algorithm
+title: Garnerのアルゴリズム
 date: 2019-08-18
 category: 数学
 tags: 数学

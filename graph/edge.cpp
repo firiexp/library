@@ -13,3 +13,7 @@ struct edge {
 };
 
 #endif
+
+/**
+ * @brief 重み付き辺構造体(edge)
+ */

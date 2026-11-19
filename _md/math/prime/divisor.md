@@ -1,5 +1,6 @@
 ---
-title: divisor(約数列挙)
+title: 約数列挙(Divisor)
+documentation_of: //math/prime/divisor.cpp
 date: 2018-04-28
 category: 数学
 tags: 約数

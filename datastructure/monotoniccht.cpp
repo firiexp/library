@@ -90,3 +90,7 @@ public:
     pair<T, int> query_increase_with_id(T x) { return query_increase_impl<true>(x); }
     pair<T, int> query_decrease_with_id(T x) { return query_decrease_impl<true>(x); }
 };
+
+/**
+ * @brief Convex Hull Trick(クエリ単調)
+ */

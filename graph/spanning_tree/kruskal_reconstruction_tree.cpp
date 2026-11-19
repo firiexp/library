@@ -50,5 +50,5 @@ public:
 #endif
 
 /**
- * @brief 2頂点が初めて連結になる辺重み（Kruskal 再構成木）
+ * @brief 2頂点が初めて連結になる辺重み(Kruskal 再構成木)
  */

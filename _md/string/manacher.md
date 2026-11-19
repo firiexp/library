@@ -1,5 +1,6 @@
 ---
-title: manacher
+title: 最長回文半径(Manacher法)
+documentation_of: //string/manacher.cpp
 date: 2019-12-07
 category: 文字列
 tags: 文字列

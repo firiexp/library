@@ -32,3 +32,7 @@ pair<ll, ll> pell_equation(ll d) {
     assert(p <= LLONG_MAX && q <= LLONG_MAX);
     return {(ll)p, (ll)q};
 }
+
+/**
+ * @brief ペル方程式(Pell Equation)
+ */

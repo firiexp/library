@@ -31,3 +31,7 @@ public:
         return v[Q.front()];
     }
 };
+
+/**
+ * @brief スライド最小値(最大値)
+ */

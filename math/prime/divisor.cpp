@@ -28,3 +28,7 @@ vector<T> divisor_from_factors(const vector<T> &factors) {
     sort(ret.begin(), ret.end());
     return ret;
 }
+
+/**
+ * @brief 約数列挙(Divisor)
+ */

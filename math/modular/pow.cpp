@@ -14,3 +14,7 @@ T pow_ (T x, T n, T M){
     }
     return static_cast<T>(u);
 };
+
+/**
+ * @brief 繰り返し二乗法
+ */

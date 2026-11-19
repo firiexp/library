@@ -1,6 +1,6 @@
 ---
 documentation_of: //math/modular/powk_all.cpp
-title: powk_all
+title: k乗テーブル(1からnまでのi^k)
 date: 2026-03-08
 category: 数学
 tags: 数学

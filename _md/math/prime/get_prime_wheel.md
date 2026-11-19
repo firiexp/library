@@ -1,5 +1,5 @@
 ---
-title: get_prime_wheel
+title: 素数列挙(mod 30 Wheel Sieve)
 documentation_of: //math/prime/get_prime_wheel.cpp
 date: 2026-03-22
 category: 数学

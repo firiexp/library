@@ -1,5 +1,5 @@
 ---
-title: 平方根 (mod p)
+title: 平方根(mod p)
 documentation_of: //math/modular/mod_sqrt.cpp
 date: 2026-03-08
 category: 数学

@@ -44,3 +44,7 @@ ll Garner(vector<pair<ll, ll>> a, ll mod){
     }
     return B.back();
 }
+
+/**
+ * @brief Garnerのアルゴリズム
+ */

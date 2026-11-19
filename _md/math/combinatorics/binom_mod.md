@@ -1,5 +1,5 @@
 ---
-title: 二項係数（合成数mod）
+title: 二項係数(合成数mod)
 documentation_of: //math/combinatorics/binom_mod.cpp
 ---
 

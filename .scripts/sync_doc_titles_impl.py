@@ -50,13 +50,20 @@ def load_titles(path: Path) -> dict[str, str]:
     return titles
 
 
-def collect_doc_files() -> set[str]:
+def collect_core_cpp_files() -> set[str]:
     files: set[str] = set()
     for root in CORE_DIRS:
         for path in (ROOT / root).rglob("*.cpp"):
-            if (ROOT / expected_docs_path(path.relative_to(ROOT).as_posix())).exists():
-                files.add(path.relative_to(ROOT).as_posix())
+            files.add(path.relative_to(ROOT).as_posix())
     return files
+
+
+def collect_doc_files() -> set[str]:
+    return {
+        relpath
+        for relpath in collect_core_cpp_files()
+        if (ROOT / expected_docs_path(relpath)).exists()
+    }
 
 
 def expected_docs_path(relpath: str) -> str:
@@ -199,13 +206,15 @@ def check_file(relpath: str, title: str) -> list[str]:
 
 def collect_problems(titles: dict[str, str], doc_files: set[str]) -> list[str]:
     problems: list[str] = []
+    core_files = collect_core_cpp_files()
+    for relpath in sorted(core_files - doc_files):
+        problems.append(f"library file without matching md: {relpath}")
     for relpath in sorted(titles):
         if relpath not in doc_files:
             problems.append(f"title entry without matching md-backed file: {relpath}")
     for relpath in sorted(doc_files):
-        text = (ROOT / relpath).read_text()
-        if "@docs" in text and relpath not in titles:
-            problems.append(f"file has @docs but no title entry: {relpath}")
+        if relpath not in titles:
+            problems.append(f"md-backed file without title entry: {relpath}")
     for relpath, title in sorted(titles.items()):
         problems.extend(check_file(relpath, title))
     return problems

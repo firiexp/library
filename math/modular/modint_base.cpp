@@ -35,3 +35,7 @@ public:
 };
 
 #endif
+
+/**
+ * @brief modintの共通基底実装
+ */

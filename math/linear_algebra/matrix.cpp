@@ -144,3 +144,7 @@ struct SemiRing {
     static inline T one(){ return 1; }
     static inline T zero(){ return 0; }
 };
+
+/**
+ * @brief 行列(Matrix)
+ */

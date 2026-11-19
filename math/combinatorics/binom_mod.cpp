@@ -42,5 +42,5 @@ public:
 #endif
 
 /**
- * @brief 二項係数（合成数mod）
+ * @brief 二項係数(合成数mod)
  */

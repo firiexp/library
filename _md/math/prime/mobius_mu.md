@@ -1,5 +1,6 @@
 ---
-title: mobius_mu
+title: メビウス関数(単一値)
+documentation_of: //math/prime/mobius_mu.cpp
 date: 2026-03-08
 category: 数学
 tags: 数学

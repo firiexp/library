@@ -32,3 +32,7 @@ vector<T> gcd_convolution(vector<T> a, vector<T> b) {
     gcd_itransform(a);
     return a;
 }
+
+/**
+ * @brief 倍数の総和変換とGCD畳み込み
+ */

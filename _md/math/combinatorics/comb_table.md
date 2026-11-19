@@ -1,6 +1,6 @@
 ---
 documentation_of: //math/combinatorics/comb_table.cpp
-title: comb_table
+title: 二項係数テーブル(Pascalの三角形)
 date: 2026-03-08
 category: 数学
 tags: 数学

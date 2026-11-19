@@ -51,3 +51,7 @@ vector<T> dijkstra_internal(int s, const vector<vector<edge<T>>> &G, Queue &Q) {
 }
 
 #endif
+
+/**
+ * @brief Dijkstra法の共通実装
+ */

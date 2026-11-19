@@ -181,3 +181,7 @@ constexpr int Prime::wheel_sum[30];
 constexpr int Prime::off64[64];
 
 #endif
+
+/**
+ * @brief 素数列挙(mod 30 Wheel Sieve)
+ */

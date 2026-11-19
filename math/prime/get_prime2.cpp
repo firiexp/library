@@ -24,3 +24,7 @@ vector<ExactDiv<uint>> get_prime_exact_div(int n) {
     return res;
 }
 const auto primes = get_prime_exact_div(32000);
+
+/**
+ * @brief 高速素数列挙(ExactDiv)
+ */

@@ -34,3 +34,7 @@ struct PalindromeRadii {
         return length & 1 ? odd[center] >= length / 2 + 1 : even[center] >= length / 2;
     }
 };
+
+/**
+ * @brief 最長回文半径(Manacher法)
+ */

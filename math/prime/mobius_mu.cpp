@@ -7,3 +7,7 @@ int mobius_mu(ll n) {
 	if(n != 1) res++;
 	return res&1 ? -1 : 1;
 }
+
+/**
+ * @brief メビウス関数(単一値)
+ */

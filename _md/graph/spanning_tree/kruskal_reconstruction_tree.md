@@ -1,5 +1,5 @@
 ---
-title: 2頂点が初めて連結になる辺重み（Kruskal 再構成木）
+title: 2頂点が初めて連結になる辺重み(Kruskal 再構成木)
 documentation_of: //graph/spanning_tree/kruskal_reconstruction_tree.cpp
 ---
 

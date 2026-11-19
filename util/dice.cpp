@@ -34,3 +34,7 @@ struct dice {
         while(f != x) spinl();
     }
 };
+
+/**
+ * @brief サイコロ
+ */

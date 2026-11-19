@@ -234,5 +234,5 @@ private:
 #endif
 
 /**
- * @brief 動的な木の部分木加算・部分木和（Euler Tour Tree）
+ * @brief 動的な木の部分木加算・部分木和(Euler Tour Tree)
  */

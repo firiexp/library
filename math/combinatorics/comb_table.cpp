@@ -8,3 +8,7 @@ vector<vector<mint>> comb_table(int n, int m){
     }
     return res;
 }
+
+/**
+ * @brief 二項係数テーブル(Pascalの三角形)
+ */

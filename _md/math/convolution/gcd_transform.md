@@ -1,6 +1,6 @@
 ---
 documentation_of: //math/convolution/gcd_transform.cpp
-title: gcd_transform
+title: 倍数の総和変換とGCD畳み込み
 date: 2026-10-30
 category: 数学
 tags: 数学

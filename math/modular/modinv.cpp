@@ -5,3 +5,7 @@ T mod_inv(T x, T M){
    if(s < 0) s += M;  
    return s;  
 }
+
+/**
+ * @brief MOD逆元(拡張ユークリッド互除法)
+ */

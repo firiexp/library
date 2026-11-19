@@ -8,3 +8,7 @@ vector<int> get_prime(int n) {
 }
 
 #endif
+
+/**
+ * @brief 素数列挙
+ */

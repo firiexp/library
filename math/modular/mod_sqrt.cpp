@@ -52,5 +52,5 @@ long long mod_sqrt(long long a, long long p) {
 }
 
 /**
- * @brief 平方根 (mod p)
+ * @brief 平方根(mod p)
  */

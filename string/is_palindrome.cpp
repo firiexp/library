@@ -6,3 +6,7 @@ bool is_palindrome(const string &s, char c = '?'){
     }
     return true;
 }
+
+/**
+ * @brief 回文判定
+ */

@@ -21,3 +21,7 @@ vector<mint> powk_all(int n, ll k) {
 }
 
 #endif
+
+/**
+ * @brief k乗テーブル(1からnまでのi^k)
+ */

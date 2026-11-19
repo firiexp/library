@@ -25,3 +25,7 @@ public:
         return static_cast<int>(int64_t(a) + int64_t(e % width));
     }
 };
+
+/**
+ * @brief Xor-Shift
+ */
