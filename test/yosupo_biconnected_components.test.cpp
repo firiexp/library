@@ -28,7 +28,7 @@ int main() {
         scanf("%d %d", &a, &b);
         G.add_edge(a, b);
     }
-    G.build();
+    G.build(false);
     auto res = G.bcc_vertices;
     for (auto &&v : res) sort(v.begin(), v.end());
     sort(res.begin(), res.end());

@@ -14,20 +14,18 @@ documentation_of: //graph/connectivity/biconnected_components.cpp
   `n` 頂点のグラフを作る。$O(V)$
 - `void add_edge(int u, int v)`
   無向辺を追加する。多重辺を扱い、自己ループは無視する。償却 $O(1)$
-- `int build()`
-  全連結成分を分解し、二重頂点連結成分の数を返す。時間・領域 $O(V+E)$
+- `int build(bool build_edges = true)`
+  全連結成分を分解し、二重頂点連結成分の数を返す。`build()` は成分ごとの頂点列と辺列を作る。`build(false)` は頂点列だけを作り、`bcc_edges` は空になる。時間・領域 $O(V+E)$
 - `bcc_edges[i]`
   成分 `i` に含まれる辺の列。各辺は `(min(u, v), max(u, v))` で表す。孤立頂点の成分では空
 - `bcc_vertices[i]`
   成分 `i` の頂点を重複なく並べた列
 
 ## 使い方
-辺を追加して `build()` を呼び、`bcc_edges` と `bcc_vertices` を参照する。
-
 ```cpp
 BiconnectedComponents g(n);
 for (auto [u, v] : edges) g.add_edge(u, v);
-g.build();
+g.build(false);
 auto components = g.bcc_vertices;
 ```
 

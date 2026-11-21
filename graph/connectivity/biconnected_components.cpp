@@ -14,58 +14,79 @@ class BiconnectedComponents {
             }
             for (int i = 0; i < n; ++i) start[i + 1] += start[i];
             auto counter = start;
-            for (int id = 0; id < (int)edges.size(); ++id) {
-                auto &&[u, v] = edges[id];
-                elist[counter[u]++] = id;
-                elist[counter[v]++] = id;
+            for (auto [u, v] : edges) {
+                elist[counter[u]++] = v;
+                elist[counter[v]++] = u;
             }
         }
     };
 
     int n = 0;
-    vector<int> st;
 
     struct Frame {
-        int v, parent_edge, next;
+        int v, skip_parent, next, edge_begin;
     };
 
-    int other(int id, int v) const {
-        return edges[id].first ^ edges[id].second ^ v;
+    template<class It>
+    void add_vertices(It first, It last, vector<int> &seen) {
+        auto [u, v] = *first++;
+        int component = bcc_vertices.size();
+        bcc_vertices.push_back({u, v});
+        if (first == last) return;
+        auto &vertices = bcc_vertices.back();
+        seen[u] = seen[v] = component;
+        for (; first != last; ++first) {
+            auto [a, b] = *first;
+            if (seen[a] != component) {
+                seen[a] = component;
+                vertices.push_back(a);
+            }
+            if (seen[b] != component) {
+                seen[b] = component;
+                vertices.push_back(b);
+            }
+        }
     }
 
-    void dfs(int i, const CSR &G, int &pos, vector<Frame> &stack){
-        ord[i] = low[i] = pos++;
-        stack.push_back({i, -1, G.start[i]});
-        while (!stack.empty()) {
-            auto &frame = stack.back();
-            int v = frame.v;
-            if (frame.next == G.start[v + 1]) {
-                int pe = frame.parent_edge, p = par[v];
-                stack.pop_back();
-                if (p == -1) continue;
-                low[p] = min(low[p], low[v]);
-                if (ord[p] <= low[v]) {
-                    bcc_edges.emplace_back();
-                    while (true) {
-                        int k = st.back();
-                        st.pop_back();
-                        bcc_edges.back().emplace_back(min(edges[k].first, edges[k].second), max(edges[k].first, edges[k].second));
-                        if (k == pe) break;
+    void decompose(const CSR &g, bool build_edges) {
+        int pos = 0;
+        vector<int> seen(build_edges ? 0 : n, -1);
+        vector<Frame> stack;
+        vector<pair<int, int>> pending;
+        for (int root = 0; root < n; ++root) {
+            if (ord[root] != -1) continue;
+            ord[root] = low[root] = pos++;
+            stack.push_back({root, -1, g.start[root], 0});
+            while (!stack.empty()) {
+                auto &frame = stack.back();
+                int v = frame.v;
+                if (frame.next == g.start[v + 1]) {
+                    int p = par[v], first = frame.edge_begin;
+                    stack.pop_back();
+                    if (p == -1) continue;
+                    low[p] = min(low[p], low[v]);
+                    if (ord[p] <= low[v]) {
+                        auto begin = pending.rbegin(), end = pending.rend() - first;
+                        if (build_edges) bcc_edges.emplace_back(begin, end);
+                        else add_vertices(begin, end, seen);
+                        pending.resize(first);
                     }
+                    continue;
                 }
-                continue;
+                int u = g.elist[frame.next++];
+                if (u == frame.skip_parent) {
+                    frame.skip_parent = -1;
+                    continue;
+                }
+                if (ord[u] < ord[v]) pending.push_back(minmax(u, v));
+                if (ord[u] != -1) {
+                    low[v] = min(low[v], ord[u]);
+                    continue;
+                }
+                par[u] = v;
+                ord[u] = low[u] = pos++;
+                stack.push_back({u, v, g.start[u], int(pending.size()) - 1});
             }
-            int id = G.elist[frame.next++];
-            if (id == frame.parent_edge) continue;
-            int j = other(id, v);
-            if(ord[j] < ord[v]) st.emplace_back(id);
-            if(~ord[j]){
-                low[v] = min(low[v], ord[j]);
-                continue;
-            }
-            par[j] = v;
-            ord[j] = low[j] = pos++;
-            stack.push_back({j, id, G.start[j]});
         }
     }
 public:
@@ -80,37 +101,21 @@ public:
         edges.emplace_back(u, v);
     }
 
-    int build(){
+    int build(bool build_edges = true) {
         CSR G(n, edges);
-        int pos = 0;
         fill(ord.begin(), ord.end(), -1);
         fill(par.begin(), par.end(), -1);
         bcc_edges.clear();
         bcc_vertices.clear();
-        st.clear();
-        vector<Frame> stack;
-        for (int i = 0; i < n; ++i) {
-            if(ord[i] < 0) dfs(i, G, pos, stack);
-        }
-        vector<int> seen(n, -1);
-        bcc_vertices.reserve(bcc_edges.size());
-        for (int i = 0; i < (int)bcc_edges.size(); ++i) {
-            vector<int> now;
-            for (auto &&e : bcc_edges[i]) {
-                if(seen[e.first] != i){
-                    seen[e.first] = i;
-                    now.emplace_back(e.first);
-                }
-                if(seen[e.second] != i){
-                    seen[e.second] = i;
-                    now.emplace_back(e.second);
-                }
-            }
-            bcc_vertices.emplace_back(std::move(now));
+        decompose(G, build_edges);
+        if (build_edges) {
+            vector<int> seen(n, -1);
+            bcc_vertices.reserve(bcc_edges.size());
+            for (const auto &block : bcc_edges) add_vertices(block.begin(), block.end(), seen);
         }
         for (int i = 0; i < n; ++i) {
             if(G.start[i] == G.start[i + 1]){
-                bcc_edges.emplace_back();
+                if (build_edges) bcc_edges.emplace_back();
                 bcc_vertices.push_back({i});
             }
         }
