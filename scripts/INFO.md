@@ -49,7 +49,7 @@ python3 scripts/build_verify_docs.py --require-success
 
 ライブラリの目次はディレクトリごとに1階層の折りたたみで表示する。表示名は `.competitive-verifier/docs/_config.yml` の `directory_titles` で管理し、キーには末尾の `/` を含む実ディレクトリを指定する。表示名は短い名詞句とし、使い方は各ファイルの docs に書く。ファイルを移動するときは include、対応する `_md` の配置と `documentation_of`、`meta/doc_titles.yml` のパスも更新する。
 
-GitHub Actions は4分割で検証し、結果を統合して docs を生成する。分割先はファイル名で固定し、テストの追加・削除で既存テストのキャッシュが外れないようにする。docs は再利用した結果も含め、現在のソースに対する成功を確認してから生成する。既定ブランチ（現在は `master`）への push で GitHub Pages に公開する。リポジトリの Settings → Pages → Source は **GitHub Actions** を選ぶ。`GH_PAT` は不要で、`GITHUB_TOKEN` と `YUKICODER_TOKEN` を使う。テストデータは各ジョブで取得し、前回の検証結果だけを cache する。
+GitHub Actions は `pull_request` では `check`（単体テストと `codex_self_check.py`）のみを実行し、`master` への `push` および手動実行では4分割で検証して結果を統合し docs を生成する。分割先はファイル名で固定し、テストの追加・削除で既存テストのキャッシュが外れないようにする。docs は再利用した結果も含め、現在のソースに対する成功を確認してから生成する。既定ブランチ（現在は `master`）への push で GitHub Pages に公開する。リポジトリの Settings → Pages → Source は **GitHub Actions** を選ぶ。`GH_PAT` は不要で、`GITHUB_TOKEN` と `YUKICODER_TOKEN` を使う。テストデータは各ジョブで取得し、前回の検証結果だけを cache する。
 
 `.competitive-verifier/result.json` は検証結果、`verify-files.json` は依存・実行定義である。生成物は git 管理しない。docs のソースと公開する計測結果は git 管理する。旧 `.verify-helper/cache/` は自動削除しない。
 

@@ -11,6 +11,7 @@
 - 検証済みの内容を変更していなければ、同じ重いコマンドを繰り返さない。
 - 失敗した検証は原因を切り分ける。ネットワーク、judge、既存変更による失敗を実装不良と混同しない。
 - 改善候補の調査や issue 作成では [issue 作成ガイド](meta/issue_creation_guide.md) を読み、採用基準・調査手順・本文の形式に従う。
+- PR 作成やレビュー指摘への対応では [PR 運用ガイド](meta/pr_workflow_guide.md) を読み、ブランチ管理・PR 本文・コメント回収の手順に従う。
 
 ## Project Structure
 
@@ -125,7 +126,7 @@ PR 前という理由だけでローカル全件を必須にしない。CI が�
 python3 scripts/measure_verify.py test/<name>.test.cpp
 ```
 
-- measurement は dashboard 生成物を更新するため、更新が意図した差分か確認する。
+- measurement は dashboard 生成物を更新するため、更新が意図した差分か確認する。通常の issue PR では明示的な依頼がない限り `.competitive-verifier/docs/static/measure-dashboard.*` をコミットしない。
 - 性能比較では `-j 1` の既定を保つ。`python3 scripts/run_verify.py -j 8` の並列 wall time を性能値として使わない。
 - 最遅ケース 1 秒以下は目標であり、judge や問題特性を無視した絶対条件ではない。既存値からの regression と明らかな定数倍改善を優先する。
 - 計測した test、最遅時間、比較対象を報告する。

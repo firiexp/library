@@ -2,6 +2,8 @@ name: verify
 
 on:
   push:
+    branches:
+      - master
   pull_request:
   workflow_dispatch:
     inputs:
@@ -34,6 +36,7 @@ jobs:
           python3 scripts/codex_self_check.py
 
   verify:
+    if: github.event_name != 'pull_request'
     needs: check
     runs-on: ubuntu-latest
     timeout-minutes: 120
