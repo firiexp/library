@@ -4,7 +4,7 @@ documentation_of: //math/modular/modinv.cpp
 ---
 
 ## 説明
-法 $M$ における整数 $x$ の逆元を求める。$x$ は負でも $M$ 以上でもよい。
+mod $M$ における整数 $x$ の逆元を求める。$x$ は負・$M$ 以上でもよい。
 
 ## できること
 - `T mod_inv(T x, T M)`
