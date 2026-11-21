@@ -127,7 +127,29 @@ void check_ties_and_interleaved() {
     }
 }
 
+void check_clear_and_reuse() {
+    CHT<ll, false, true> cht;
+    const auto &view = cht;
+    assert(view.empty() && view.size() == 0);
+
+    cht.add_line(0, 0, 0);
+    assert(!view.empty() && view.size() == 1);
+    cht.add_line(1, 0, 1);
+    cht.add_line(2, 0, 2);
+    assert(view.size() == 2);
+    ll best = cht.query_increase(1);
+    assert(best == 0 && view.size() == 1);
+
+    cht.clear();
+    assert(view.empty() && view.size() == 0);
+    cht.add_line(-1, 10, 3);
+    cht.add_line(-2, 12, 14);
+    assert(!view.empty() && view.size() == 2);
+    assert((cht.query_with_id(4) == pair<ll, int>{4, 14}));
+}
+
 int main() {
+    check_clear_and_reuse();
     check_products();
     check_queries<false>();
     check_queries<true>();

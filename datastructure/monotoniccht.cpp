@@ -8,6 +8,10 @@ class CHT {
     deque<P> lines;
 public:
     CHT() = default;
+    bool empty() const { return lines.empty(); }
+    size_t size() const { return lines.size(); }
+    void clear() { lines.clear(); }
+
     bool check(P l1, P l2, P l3){
         if constexpr (is_integral_v<T>) {
             return (((__int128)l2.second - l1.second) * ((__int128)l2.first - l3.first)

@@ -8,7 +8,7 @@ documentation_of: //datastructure/monotoniccht.cpp
 最小値版と最大値版をテンプレート引数で切り替える。
 
 ## できること
-追加した直線数を $N$ とする。クエリは1本以上追加してから呼ぶ。
+追加した直線数を $N$ とする。クエリは直線を1本以上追加してから呼ぶ。
 
 - `CHT<T, false> cht`
   最小値を取る CHT を作る。$O(1)$
@@ -18,16 +18,22 @@ documentation_of: //datastructure/monotoniccht.cpp
   直線IDを保持する CHT を作る。`get_max` は最小値なら `false`、最大値なら `true`。$O(1)$
 - `void add_line(T a, T b, int id = -1)`
   直線 `y = ax + b` を追加する。第3テンプレート引数が `true` の場合は `id` を関連付ける。償却 $O(1)$
+- `bool empty() const`
+  直線が1本もなければ `true` を返す。$O(1)$
+- `size_t size() const`
+  現在保持している直線の本数を返す。直線の追加や単調クエリで取り除いた直線は数えない。$O(1)$
+- `void clear()`
+  すべての直線を取り除く。直線数を $k$ として、1回の計算量は $O(k)$、償却 $O(1)$。
 - `T query(T x)`
-  任意順クエリで最良値を返す。$O(\log N)$
+  任意順クエリで最大値or最小値を返す。$O(\log N)$
 - `T query_increase(T x)`
-  `x` が単調増加するときの最良値を返す。償却 $O(1)$
+  `x` が単調増加するときの最大値or最小値を返す。償却 $O(1)$
 - `T query_decrease(T x)`
-  `x` が単調減少するときの最良値を返す。償却 $O(1)$
+  `x` が単調減少するときの最大値or最小値を返す。償却 $O(1)$
 - `pair<T, int> query_with_id(T x)`
-  任意順クエリで `{最良値, 直線ID}` を返す。第3テンプレート引数が `true` の CHT で使う。$O(\log N)$
+  任意順クエリで `{最大値or最小値, 直線ID}` を返す。第3テンプレート引数が `true` の CHT で使う。$O(\log N)$
 - `pair<T, int> query_increase_with_id(T x)` / `query_decrease_with_id(T x)`
-  対応する単調順クエリで `{最良値, 直線ID}` を返す。第3テンプレート引数が `true` の CHT で使う。償却 $O(1)$
+  対応する単調順クエリで `{最大値or最小値, 直線ID}` を返す。第3テンプレート引数が `true` の CHT で使う。償却 $O(1)$
 
 ## 使い方
 追加する直線の傾きは単調である必要がある。
