@@ -14,7 +14,7 @@ documentation_of: //flow/project_selection_problem.cpp
 `x_u = 1 -> x_v = 1` の依存制約もこの特別ケースとして表せる。
 
 ## できること
-補助変数を含む変数数を $N$、登録した罰金・依存制約の数を $M$ とする。
+補助変数を含む変数数を $N$、登録した罰金・依存制約の数を $M$ とする。集合の利益を指定する2つの操作では、`vs` の長さを $K$ とし、`profit` は非負とする。
 
 - `ProjectSelectionProblem<T> psp(n)`
   変数数 `n` で初期化する。$O(N)$
@@ -24,6 +24,10 @@ documentation_of: //flow/project_selection_problem.cpp
   `x_v = 1` のとき利益 `x` を足す。$O(1)$
 - `void add_false_profit(int v, T x)`
   `x_v = 0` のとき利益 `x` を足す。$O(1)$
+- `void add_all_true_profit(const vector<int>& vs, T profit)`
+  `vs` に含まれる変数がすべて1のとき、利益 `profit` を加える。償却 $O(K)$
+- `void add_all_false_profit(const vector<int>& vs, T profit)`
+  `vs` に含まれる変数がすべて0のとき、利益 `profit` を加える。償却 $O(K)$
 - `void add_penalty(int x, int y, T cost)`
   変数 `x` が1、変数 `y` が0のとき罰金 `cost` を足す。`cost >= 0` とする。償却 $O(1)$
 - `void add_pair_profit(int u, int v, T p00, T p01, T p10, T p11)`
@@ -41,9 +45,13 @@ documentation_of: //flow/project_selection_problem.cpp
 
 ## 使い方
 各利益と制約を追加してから `solve()` を呼ぶ。
-行や列、区間などのボーナスを表す補助頂点が必要なら `add_vertex()` で増やす。
+たとえば、変数0、1、2がすべて1なら利益5を得る条件は `psp.add_all_true_profit({0, 1, 2}, 5)` で指定する。
+どちらの操作も `vs` が空なら無条件に利益を加える。同じ頂点番号が複数回現れても、利益は1回だけ加える。`profit == 0` なら何もしない。
 費用表を最小化する場合は、各費用の符号を反転して利益として渡す。
 
 ## 実装上の補足
 正の利益を始点側、負の利益を終点側に張り、`x=1, y=0` の罰金を `x -> y` の辺に乗せる最大重み閉包として解く。
 `get_selected()` は最小カット後に始点側へ残った頂点集合を返す。
+
+集合の利益が正で $K \ge 2$ のときは補助頂点 `a` を1つ追加する。全変数が1の条件では `a` が1なら利益を与え、各 `v` に制約 `a -> v` を加える。全変数が0の条件では `a` が0なら利益を与え、各 `v` に制約 `v -> a` を加える。`size()` は補助頂点も数え、`get_selected()` には補助頂点の値も含まれる。$K = 1$ なら元の頂点に直接利益を加える。
+依存制約を破る罰金には `INF<T>` を使うため、制約を守る最小カットの容量は `INF<T>` 未満に収める必要がある。
