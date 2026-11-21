@@ -4,27 +4,36 @@ documentation_of: //string/rolling_hash.cpp
 ---
 
 ## 説明
-指定した mod の Rolling Hash で部分文字列のハッシュを求める。
+指定した mod で文字列や整数列の区間のハッシュを求める。
 
 ## できること
+テンプレート引数 `M` には 2 より大きい整数を指定する。
+`s` には文字列リテラル、`string`、`string_view`、または 64 ビット以下の整数型を要素とする `vector<T>` を渡せる。
+文字列と `char`、`signed char`、`unsigned char` の配列は符号なしバイト列として扱う。他の整数は mod $M$ の最小非負剰余として扱う。
+結合や比較には同じ mod と base で計算したハッシュを使う。
+
 - `rolling_hash<M> rh(s)`
-  文字列 `s` の prefix hash を構築する。$O(|s|)$
-- `ll get(int l, int r)`
-  `s[l, r)` のハッシュを返す。$O(1)$
+  列 `s` の prefix hash を構築する。$O(|s|)$
+- `ll get(int l, int r) const`
+  半開区間 `s[l, r)` のハッシュを返す。$O(1)$
+- `static ll val(s)`
+  列全体のハッシュを返す。時間 $O(|s|)$、追加領域 $O(1)$
+- `static ll concat(ll h1, ll h2, int len2)`
+  ハッシュ `h1` の列に、長さ `len2`、ハッシュ `h2` の列をつないだときのハッシュを返す。冪テーブルに `len2` 乗まであれば $O(1)$、拡張する場合は $O(\mathrm{len2})$
+- `int lcp(int l1, int r1, const rolling_hash<M>& other, int l2, int r2) const`
+  自分の列の `[l1, r1)` と `other` の列の `[l2, r2)` の最長共通接頭辞長を返す。短い方の区間長を $L$ として $O(\log L)$
 - `static ll& B()`
   使用中の base を返す。$O(1)$
 - `static vector<ll>& p()`
-  base の $i$ 乗を mod $M$ で計算した値を `p[i]` に持つ配列を返す。$O(1)$
+  添字 $i$ に base の $i$ 乗を mod $M$ で格納した冪テーブルを返す。$O(1)$
 
 ## 使い方
-`M` は2より大きい整数とする。
-
 ```cpp
-rolling_hash<1000000007> rh("ababa");
-bool equal = rh.get(0, 3) == rh.get(2, 5);
+using Hash = rolling_hash<1000000007>;
+const Hash a("banana"), b("ananas");
+int length = a.lcp(1, 6, b, 0, 6);  // 5
 ```
 
-ハッシュの一致には衝突の可能性がある。
-
 ## 実装上の補足
-base は mod ごとに初回利用時に乱択で決まり、同じ mod のインスタンスで共有する。
+同じ `M` のインスタンスは初回に乱択した base と冪テーブルを共有する。
+計算済みのハッシュを使う間は base を変えない。ハッシュが衝突すると、異なる区間を等しいと判定することがある。
