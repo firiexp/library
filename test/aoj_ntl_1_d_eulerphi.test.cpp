@@ -19,7 +19,7 @@ int main() {
     Scanner sc;
     Printer pr;
 
-    int n;
+    long long n;
     sc.read(n);
     pr.println(eulerphi(n));
     return 0;
