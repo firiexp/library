@@ -28,6 +28,7 @@ graph/spanning_tree/count_directed_spanning_trees.cpp: "有向グラフの全域
 geometry/segment_intersection.cpp: "整数座標の線分交差判定"
 string/ahocorasick.cpp: "Aho-Corasick法"
 datastructure/heap/binaryheap.cpp: "二分ヒープ(Binary Heap)"
+datastructure/heap/double_ended_priority_queue.cpp: "両端優先度付きキュー"
 datastructure/segmenttree/binaryindexedtree.cpp: "Binary Indexed Tree(BIT)"
 datastructure/segmenttree/range_add_range_sum_bit.cpp: "一次関数加算・区間和BIT"
 datastructure/binarytrie.cpp: "Binary Trie"
