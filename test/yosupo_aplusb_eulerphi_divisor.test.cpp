@@ -20,7 +20,9 @@ using ull = unsigned long long;
 #include "../math/prime/divisor.cpp"
 #include "../math/prime/primefactor_ll.cpp"
 
-void check_phi_from_factors() {
+void check_phi() {
+    static_assert(is_same_v<decltype(eulerphi(1)), int>);
+    static_assert(is_same_v<decltype(eulerphi(1LL)), long long>);
     assert(eulerphi_from_factors(vector<int>{}) == 1);
     for (int n = 1; n <= 2000; ++n) {
         int expected = 0;
@@ -28,7 +30,13 @@ void check_phi_from_factors() {
         auto factors = prime_factor(n);
         assert(eulerphi_from_factors(factors) == expected);
         assert(eulerphi(n) == expected);
+        assert(eulerphi(static_cast<long long>(n)) == expected);
     }
+    assert(eulerphi(1000000000000LL) == 400000000000LL);
+    assert(eulerphi(1000000000039LL) == 1000000000038LL);
+    assert(eulerphi(1000003LL * 1000003) == 1000003LL * 1000002);
+    assert(eulerphi(1LL << 62) == (1LL << 61));
+    assert(eulerphi(LLONG_MAX) == 7713001620195508224LL);
     vector<pair<long long, long long>> cases{
         {1, 1}, {2, 1}, {1000000007, 1000000006},
         {1000000000000LL, 400000000000LL},
@@ -123,5 +131,5 @@ void self_check() {
 
 int main() {
     self_check();
-    check_phi_from_factors();
+    check_phi();
 }

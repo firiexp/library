@@ -1,4 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/tetration_mod"
+#include <vector>
+using std::vector;
 using ll = long long;
 using ull = unsigned long long;
 

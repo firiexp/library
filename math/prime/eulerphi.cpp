@@ -1,12 +1,18 @@
-int eulerphi(int x){
-    int phi = x, xx = x;
-    for (int i = 2; 1LL * i * i <= xx; ++i) {
-        if (xx % i == 0) {
-            phi -= phi / i;
-            while(xx % i == 0) xx /= i;
-        }
+#ifndef FIRIEXP_LIBRARY_MATH_PRIME_EULERPHI_CPP
+#define FIRIEXP_LIBRARY_MATH_PRIME_EULERPHI_CPP
+
+template<class T>
+T eulerphi(T x) {
+    T phi = x;
+    for (T p = 2; ; ++p) {
+        T quotient = x / p;
+        if (p > quotient) break;
+        if (quotient * p != x) continue;
+        phi -= phi / p;
+        x = quotient;
+        while (x % p == 0) x /= p;
     }
-    if(xx > 1) phi -= phi/xx;
+    if (x > 1) phi -= phi / x;
     return phi;
 }
 
@@ -23,3 +29,5 @@ T eulerphi_from_factors(const vector<T> &factors) {
 /**
  * @brief オイラーのφ関数(Euler Phi)
  */
+
+#endif
