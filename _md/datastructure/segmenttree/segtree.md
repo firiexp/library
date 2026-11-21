@@ -7,22 +7,17 @@ documentation_of: //datastructure/segmenttree/segtree.cpp
 点更新・区間積・左右の境界探索を扱う。
 
 ## できること
-配列長を $N$ とし、値のコピー、モノイド演算、述語の判定を $O(1)$ とする。
+配列長を $N$ とし、モノイド演算と述語の判定を $O(1)$ とする。
 
 - `SegmentTree<M> seg(n)` : 要素数 `n`、初期値が単位元の木を作る。$O(N)$
-- `SegmentTree<M> seg(values)`
-  初期配列 `values`（`vector<T>`）から木を構築する。$O(N)$
+- `SegmentTree<M> seg(values)` : 初期配列 `values`（`vector<T>`）から木を構築する。$O(N)$
 - `set(k, x)` : 葉の初期値を `x` に設定する。$O(1)$
 - `build()` : 設定した葉の値から木を構築する。$O(N)$
 - `update(k, x)` : 位置 `k` の値を `x` に置き換える。$O(\log N)$
-- `T all_query() const`
-  配列全体の積を返す。空配列では `M::e()` を返す。$O(1)$
-- `T query(int l, int r) const`
-  半開区間 $[l, r)$ の積を返す。$O(\log N)$
-- `int search_right(int l, F cond) const`
-  `cond(query(l, r))` を満たす最大の `r` を返す。$O(\log N)$
-- `int search_left(int r, F cond) const`
-  `cond(query(l, r))` を満たす最小の `l` を返す。$O(\log N)$
+- `T all_query() const` : 配列全体の積を返す。$O(1)$
+- `T query(int l, int r) const` : 半開区間 $[l, r)$ の積を返す。$O(\log N)$
+- `int search_right(int l, F cond) const` : `cond(query(l, r))` を満たす最大の `r` を返す。$O(\log N)$
+- `int search_left(int r, F cond) const` : `cond(query(l, r))` を満たす最小の `l` を返す。$O(\log N)$
 - `seg[k]` : 位置 `k` の値を返す。$O(1)$
 
 ## 使い方
